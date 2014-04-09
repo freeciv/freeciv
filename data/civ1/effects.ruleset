@@ -560,25 +560,19 @@ reqs	=
 type    = "Veteran_Build"
 value	= 1
 reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks II", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Barracks", "City"
+    { "type", "name", "range", "present"
+      "Building", "Barracks II", "City", TRUE
+      "Building", "Barracks", "City", FALSE
     }
 
 [effect_barracks_iii]
 type    = "Veteran_Build"
 value	= 1
 reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Barracks", "City"
-      "Building", "Barracks II", "City"
+    { "type", "name", "range", "present"
+      "Building", "Barracks III", "City", TRUE
+      "Building", "Barracks", "City", FALSE
+      "Building", "Barracks II", "City", FALSE
     }
 
 [effect_cathedral]
@@ -593,26 +587,20 @@ reqs	=
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
-    { "type", "name", "range"
-      "Building", "City Walls", "City"
-      "UnitClass", "Land", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Great Wall", "Player"
+    { "type", "name", "range", "present"
+      "Building", "City Walls", "City", TRUE
+      "UnitClass", "Land", "Local", TRUE
+      "Building", "Great Wall", "Player", FALSE
     }
 
 [effect_city_walls_1]
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
-    { "type", "name", "range"
-      "Building", "City Walls", "City"
-      "UnitClass", "Sea", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Great Wall", "Player"
+    { "type", "name", "range", "present"
+      "Building", "City Walls", "City", TRUE
+      "UnitClass", "Sea", "Local", TRUE
+      "Building", "Great Wall", "Player", FALSE
     }
 
 [effect_city_walls_2]
@@ -643,39 +631,20 @@ reqs	=
 type    = "Output_Waste_Pct"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Courthouse", "City"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "present"
+      "Building", "Courthouse", "City", TRUE
+      "OutputType", "Trade", "Local", TRUE
+      "Building", "Palace", "City", FALSE
     }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Palace", "City"
-    }
-
-;[effect_courthouse_1]
-;type    = "Output_Waste_Pct"
-;value	= 50
-;reqs	=
-;    { "type", "name", "range"
-;      "Building", "Courthouse", "City"
-;      "OutputType", "shield", "local"
-;    }
-;nreqs	=
-;    { "type", "name", "range"
-;      "Building", "Palace", "City"
-;    }
 
 [effect_factory]
 type    = "Output_Bonus"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Factory", "City"
-      "OutputType", "Shield", "Local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Mfg. Plant", "City"
+    { "type", "name", "range", "present"
+      "Building", "Factory", "City", TRUE
+      "OutputType", "Shield", "Local", TRUE
+      "Building", "Mfg. Plant", "City", FALSE
     }
 
 [effect_granary]
@@ -690,28 +659,22 @@ reqs	=
 type    = "Output_Bonus"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Hydro Plant", "City"
-      "OutputType", "shield", "local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
-      "Building", "Nuclear Plant", "City"
+    { "type", "name", "range", "present"
+      "Building", "Hydro Plant", "City", TRUE
+      "OutputType", "shield", "local", TRUE
+      "Building", "Hoover Dam", "Player", FALSE
+      "Building", "Nuclear Plant", "City", FALSE
     }
 
 [effect_hydro_plant_1]
 type    = "Pollu_Prod_Pct"
 value	= -50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Hydro Plant", "City"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Recycling Center", "City"
-      "Building", "Hoover Dam", "Player"
-      "Building", "Nuclear Plant", "City"
+    { "type", "name", "range", "present"
+      "Building", "Hydro Plant", "City", TRUE
+      "Building", "Recycling Center", "City", FALSE
+      "Building", "Hoover Dam", "Player", FALSE
+      "Building", "Nuclear Plant", "City", FALSE
     }
 
 [effect_library]
@@ -762,26 +725,20 @@ reqs	=
 type    = "Output_Bonus"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Nuclear Plant", "City"
-      "OutputType", "shield", "local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+    { "type", "name", "range", "present"
+      "Building", "Nuclear Plant", "City", TRUE
+      "OutputType", "shield", "local", TRUE
+      "Building", "Hoover Dam", "Player", FALSE
     }
 
 [effect_nuclear_plant_1]
 type    = "Pollu_Prod_Pct"
 value	= -50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Nuclear Plant", "City"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Recycling Center", "City"
-      "Building", "Hoover Dam", "Player"
+    { "type", "name", "range", "present"
+      "Building", "Nuclear Plant", "City", TRUE
+      "Building", "Recycling Center", "City", FALSE
+      "Building", "Hoover Dam", "Player", FALSE
     }
 
 [effect_palace]
@@ -830,15 +787,12 @@ reqs	=
 type    = "Output_Bonus"
 value	= 50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Power Plant", "City"
-      "OutputType", "shield", "local"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
-      "Building", "Nuclear Plant", "City"
-      "Building", "Hydro Plant", "City"
+    { "type", "name", "range", "present"
+      "Building", "Power Plant", "City", TRUE
+      "OutputType", "shield", "local", TRUE
+      "Building", "Hoover Dam", "Player", FALSE
+      "Building", "Nuclear Plant", "City", FALSE
+      "Building", "Hydro Plant", "City", FALSE
     }
 
 [effect_recycling_center]
@@ -1035,12 +989,9 @@ reqs	=
 type    = "Pollu_Prod_Pct"
 value	= -50
 reqs	=
-    { "type", "name", "range"
-      "Building", "Hoover Dam", "Continent"
-    }
-nreqs	=
-    { "type", "name", "range"
-      "Building", "Recycling Center", "City"
+    { "type", "name", "range", "present"
+      "Building", "Hoover Dam", "Continent", TRUE
+      "Building", "Recycling Center", "City", FALSE
     }
 
 [effect_isaac_newtons_college]
@@ -1324,25 +1275,19 @@ reqs    =
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range"
-      "Extra", "Irrigation", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
+    { "type", "name", "range", "present"
+      "Extra", "Irrigation", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 [effect_irrigation_2]
 type    = "Irrigation_Pct"
 value	= 100
 reqs	=
-    { "type", "name", "range"
-      "CityTile", "Center", "Local"
-      "TerrainAlter", "CanIrrigate", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Extra", "Mine", "Local"
+    { "type", "name", "range", "present"
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Extra", "Mine", "Local", FALSE
     }
 
 [effect_irrigate_src_ocean]
