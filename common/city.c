@@ -1871,6 +1871,11 @@ int city_granary_size(int city_size)
   int food_inc = game.info.granary_food_inc;
   int base_value;
 
+  /* If the city has no citizens, there is no granary. */
+  if (city_size == 0) {
+    return 0;
+  }
+
   /* Granary sizes for the first food_inis citizens are given directly.
    * After that we increase the granary size by food_inc per citizen. */
   if (city_size > food_inis) {

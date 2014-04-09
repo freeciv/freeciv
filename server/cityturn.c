@@ -334,7 +334,12 @@ void auto_arrange_workers(struct city *pcity)
     if (city_size_get(pcity) <= game.info.notradesize) {
       cmp.factor[O_FOOD] = 15;
     } else {
-      cmp.factor[O_FOOD] = 10;
+      if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+        /* We don't need more food if the granary is full. */
+        cmp.factor[O_FOOD] = 0;
+      } else {
+        cmp.factor[O_FOOD] = 10;
+      }
     }
   } else {
     /* Growing to size 2 is the highest priority. */
@@ -347,7 +352,11 @@ void auto_arrange_workers(struct city *pcity)
   cmp.factor[O_SCIENCE] = 2;
   cmp.happy_factor = 0;
 
-  cmp.minimal_surplus[O_FOOD] = 1;
+  if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+    cmp.minimal_surplus[O_FOOD] = 0;
+  } else {
+    cmp.minimal_surplus[O_FOOD] = 1;
+  }
   cmp.minimal_surplus[O_SHIELD] = 1;
   cmp.minimal_surplus[O_TRADE] = 0;
   cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;

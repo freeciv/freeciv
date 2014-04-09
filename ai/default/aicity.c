@@ -719,7 +719,9 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
 
   TIMING_LOG(AIT_EMERGENCY, TIMER_START);
   city_list_iterate(pplayer->cities, pcity) {
-    if (CITY_EMERGENCY(pcity)) {
+    if (CITY_EMERGENCY(pcity)
+        || city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+      /* Having a full granary isn't an emergency, but we want to rearrange */
       auto_arrange_workers(pcity); /* this usually helps */
     }
     if (CITY_EMERGENCY(pcity)) {
@@ -1374,11 +1376,20 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_SIZE_ADJ:
     if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) <= 0) {
       const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
+      int extra_food = pcity->surplus[O_FOOD];
+
+      if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+        /* The idea being that if we have a full granary, we have an
+         * automatic surplus of our granary excess in addition to anything
+         * collected by city workers. */
+        extra_food += pcity->food_stock - 
+                      city_granary_size(city_size_get(pcity) - 1);
+      }
 
       if (amount > 0 && !city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
-	v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
+	v += extra_food * ai->food_priority * amount;
 	if (city_size_get(pcity) == aqueduct_size) {
-	  v += 30 * pcity->surplus[O_FOOD];
+	  v += 30 * extra_food;
 	}
       }
       v += c * amount * 4 / aqueduct_size;
