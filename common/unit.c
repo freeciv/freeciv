@@ -1706,8 +1706,12 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 **************************************************************************/
 bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
+  struct terrain *pterrain;
+
   square_iterate(ptile0, 1, ptile) {
-    if (terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)) {
+    pterrain = tile_terrain(ptile);
+    if (T_UNKNOWN == pterrain
+        || terrain_has_flag(pterrain, TER_NO_ZOC)) {
       continue;
     }
 
