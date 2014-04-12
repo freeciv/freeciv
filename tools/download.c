@@ -82,11 +82,12 @@ static const char *download_modpack_recursive(const char *URL,
   int filenbr, total_files;
   struct section_file *control;
   const char *control_capstr;
-  const char *baseURL;
+  const char *baseURLpart;
   enum modpack_type type;
   const char *typestr;
   const char *mpname;
   const char *mpver;
+  char baseURL[2048];
   char fileURL[2048];
   const char *src_name;
   bool partial_failure = FALSE;
@@ -170,7 +171,18 @@ static const char *download_modpack_recursive(const char *URL,
                 "%s/" DATASUBDIR, fcmp->inst_prefix);
   }
 
-  baseURL = secfile_lookup_str(control, "info.baseURL");
+  baseURLpart = secfile_lookup_str(control, "info.baseURL");
+
+  if (baseURLpart[0] == '.') {
+    char URLstart[start_idx];
+
+    strncpy(URLstart, URL, start_idx - 2);
+    URLstart[start_idx - 1] = '\0';
+    fc_snprintf(baseURL, sizeof(baseURL), "%s%s",
+                URLstart, baseURLpart + 1);
+  } else {
+    strncpy(baseURL, baseURLpart, sizeof(baseURL));
+  }
 
   dep = 0;
   do {
@@ -296,6 +308,7 @@ static const char *download_modpack_recursive(const char *URL,
       }
 
       fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
+      log_debug("%s", fileURL);
       if (!netfile_download_file(fileURL, local_name, nf_cb, mcb)) {
         if (mcb != NULL) {
           char buf[2048];
