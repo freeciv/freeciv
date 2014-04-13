@@ -1064,6 +1064,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   maybe_make_contact(pcenter, ptaker);
 
   if (city_remains) {
+    struct road_type *upgradet_road;
+    struct base_type *upgradet_base;
+
     if (raze) {
       raze_city(pcity);
     }
@@ -1082,8 +1085,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     /* What wasn't obsolete for the old owner may be so now. */
     remove_obsolete_buildings_city(pcity, TRUE);
 
-    new_roads = upgrade_city_roads(pcity);
-    new_bases = upgrade_city_bases(pcity);
+    new_roads = upgrade_city_roads(pcity, &upgradet_road);
+    new_bases = upgrade_city_bases(pcity, &upgradet_base);
 
     if (new_roads || new_bases) {
       const char *clink = city_link(pcity);
@@ -1093,16 +1096,30 @@ void transfer_city(struct player *ptaker, struct city *pcity,
                       "technological insight!"),
                     clink);
       if (new_roads) {
-        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                      _("Workers spontaneously gather and upgrade "
-                        "%s roads."),
-                      clink);
+        if (upgradet_road != NULL) {
+          notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                        _("Workers spontaneously gather and upgrade "
+                          "%s with %s."),
+                        clink, road_name_translation(upgradet_road));
+        } else {
+          notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                        _("Workers spontaneously gather and upgrade "
+                          "%s roads."),
+                        clink);
+        }
       }
       if (new_bases) {
-        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                      _("Workers spontaneously gather and upgrade "
-                        "%s bases."),
-                      clink);
+        if (upgradet_base != NULL) {
+          notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                        _("Workers spontaneously gather and upgrade "
+                          "%s with %s."),
+                        clink, base_name_translation(upgradet_base));
+        } else {
+          notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                        _("Workers spontaneously gather and upgrade "
+                          "%s bases."),
+                        clink);
+        }
       }
       update_tile_knowledge(pcenter);
     }
@@ -1328,7 +1345,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     }
   } road_type_iterate_end;
   /* Build any roads that the city should have. */
-  upgrade_city_roads(pcity);
+  upgrade_city_roads(pcity, NULL);
 
   /* Destroy any bases that don't belong in the city. */
   base_type_iterate(pbase) {
@@ -1339,7 +1356,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   } base_type_iterate_end;
 
   /* Build any bases that the city should have. */
-  upgrade_city_bases(pcity);
+  upgrade_city_bases(pcity, NULL);
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);

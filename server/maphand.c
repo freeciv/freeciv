@@ -214,8 +214,9 @@ void climate_change(bool warming, int effect)
 /***************************************************************
   Check city for road upgrade. Returns whether anything was
   done.
+  *gained will be set if there's exactly one kind of road added.
 ***************************************************************/
-bool upgrade_city_roads(struct city *pcity)
+bool upgrade_city_roads(struct city *pcity, struct road_type **gained)
 {
   struct tile *ptile = pcity->tile;
   struct player *pplayer = city_owner(pcity);
@@ -227,6 +228,13 @@ bool upgrade_city_roads(struct city *pcity)
           || (road_has_flag(proad, RF_AUTO_ON_CITY_CENTER)
               && player_can_build_road(proad, pplayer, ptile))) {
         tile_add_road(pcity->tile, proad);
+        if (gained != NULL) {
+          if (upgradet) {
+            *gained = NULL;
+          } else {
+            *gained = proad;
+          }
+        }
         upgradet = TRUE;
       }
     }
@@ -244,33 +252,59 @@ squares to new roads.  "discovery" just affects the message: set to
 ***************************************************************/
 void upgrade_all_city_roads(struct player *pplayer, bool discovery)
 {
-  bool roads_upgradet = FALSE;
+  int cities_upgradet = 0;
+  struct road_type *upgradet = NULL;
+  bool multiple_types = FALSE;
+  int percent;
 
   conn_list_do_buffer(pplayer->connections);
 
   city_list_iterate(pplayer->cities, pcity) {
-    if (upgrade_city_roads(pcity)) {
-      update_tile_knowledge(pcity->tile);
-      roads_upgradet = TRUE;
-    }
-  }
-  city_list_iterate_end;
+    struct road_type *new_upgrade;
 
-  if (roads_upgradet) {
+    if (upgrade_city_roads(pcity, &new_upgrade)) {
+      update_tile_knowledge(pcity->tile);
+      cities_upgradet++;
+      if (new_upgrade == NULL) {
+        /* This single city alone had multiple types */
+        multiple_types = TRUE;
+      } else if (upgradet == NULL) {
+        /* First gained */
+        upgradet = new_upgrade;
+      } else if (upgradet != new_upgrade) {
+        /* Different type from what another city got. */
+        multiple_types = TRUE;
+      }
+    }
+  } city_list_iterate_end;
+
+  percent = cities_upgradet * 100 / city_list_size(pplayer->cities);
+
+  if (cities_upgradet > 0) {
     if (discovery) {
+      if (percent >= 75) {
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("New hope sweeps like fire through the country as "
+                        "the discovery of new road building technology "
+                        "is announced."));
+      }
+    } else {
+      if (percent >= 75) {
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("The people are pleased to hear that your "
+                        "scientists finally know about new road building "
+                        "technology."));
+      }
+    }
+    if (multiple_types) {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("New hope sweeps like fire through the country as "
-		      "the discovery of new road building technology "
-		      "is announced."));
+                    _("Workers spontaneously gather and upgrade all "
+                      "possible cities with better roads."));
     } else {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("The people are pleased to hear that your "
-		      "scientists finally know about new road building "
-		      "technology."));
+                    _("Workers spontaneously gather and upgrade all "
+                      "possible cities with %s."), road_name_translation(upgradet));
     }
-    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                  _("Workers spontaneously gather and upgrade all "
-                    "possible cities with better roads."));
   }
 
   conn_list_do_unbuffer(pplayer->connections);
@@ -279,8 +313,9 @@ void upgrade_all_city_roads(struct player *pplayer, bool discovery)
 /***************************************************************
   Check city for base upgrade. Returns whether anything was
   done.
+  *gained will be set if there's exactly one kind of base added.
 ***************************************************************/
-bool upgrade_city_bases(struct city *pcity)
+bool upgrade_city_bases(struct city *pcity, struct base_type **gained)
 {
   struct tile *ptile = pcity->tile;
   struct player *pplayer = city_owner(pcity);
@@ -293,6 +328,13 @@ bool upgrade_city_bases(struct city *pcity)
               && player_can_build_base(pbase, pplayer, ptile)
               && !tile_has_conflicting_base(ptile, pbase))) {
         tile_add_base(pcity->tile, pbase);
+        if (gained != NULL) {
+          if (upgradet) {
+            *gained = NULL;
+          } else {
+            *gained = pbase;
+          }
+        }
         upgradet = TRUE;
       }
     }
@@ -310,33 +352,60 @@ squares to new bases.  "discovery" just affects the message: set to
 ***************************************************************/
 void upgrade_all_city_bases(struct player *pplayer, bool discovery)
 {
-  bool bases_upgradet = FALSE;
+  int cities_upgradet = 0;
+  struct base_type *upgradet = NULL;
+  bool multiple_types = FALSE;
+  int percent;
 
   conn_list_do_buffer(pplayer->connections);
 
   city_list_iterate(pplayer->cities, pcity) {
-    if (upgrade_city_bases(pcity)) {
-      update_tile_knowledge(pcity->tile);
-      bases_upgradet = TRUE;
-    }
-  }
-  city_list_iterate_end;
+    struct base_type *new_upgrade;
 
-  if (bases_upgradet) {
+    if (upgrade_city_bases(pcity, &new_upgrade)) {
+      update_tile_knowledge(pcity->tile);
+      cities_upgradet++;
+      if (new_upgrade == NULL) {
+        /* This single city alone had multiple types */
+        multiple_types = TRUE;
+      } else if (upgradet == NULL) {
+        /* First gained */
+        upgradet = new_upgrade;
+      } else if (upgradet != new_upgrade) {
+        /* Different type from what another city got. */
+        multiple_types = TRUE;
+      }
+    }
+  } city_list_iterate_end;
+
+  percent = cities_upgradet * 100 / city_list_size(pplayer->cities);
+
+  if (cities_upgradet > 0) {
     if (discovery) {
+      if (percent >= 75) {
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("New hope sweeps like fire through the country as "
+                        "the discovery of new base building technology "
+                        "is announced."));
+      }
+    } else {
+      if (percent >= 75) {
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("The people are pleased to hear that your "
+                        "scientists finally know about new base building "
+                        "technology."));
+      }
+    }
+
+    if (multiple_types) {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("New hope sweeps like fire through the country as "
-		      "the discovery of new base building technology "
-		      "is announced."));
+                    _("Workers spontaneously gather and upgrade all "
+                      "possible cities with better bases."));
     } else {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("The people are pleased to hear that your "
-		      "scientists finally know about new base building "
-		      "technology."));
+                    _("Workers spontaneously gather and upgrade all "
+                      "possible cities with %s."), base_name_translation(upgradet));
     }
-    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                  _("Workers spontaneously gather and upgrade all "
-                    "possible cities with better bases."));
   }
 
   conn_list_do_unbuffer(pplayer->connections);
@@ -1708,8 +1777,8 @@ void terrain_changed(struct tile *ptile)
 
   if (pcity != NULL) {
     /* Tile is city center and new terrain may support better roads or bases. */
-    upgrade_city_roads(pcity);
-    upgrade_city_bases(pcity);
+    upgrade_city_roads(pcity, NULL);
+    upgrade_city_bases(pcity, NULL);
   }
 
   bounce_units_on_terrain_change(ptile);
