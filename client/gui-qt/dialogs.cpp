@@ -172,11 +172,7 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   } styles_iterate_end;
 
   header = styles->horizontalHeader();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   header->setSectionResizeMode(QHeaderView::Stretch);
-#else
-  header->setResizeMode(QHeaderView::Stretch);
-#endif
   header->resizeSections(QHeaderView::ResizeToContents);
   header = styles->verticalHeader();
   header->resizeSections(QHeaderView::ResizeToContents);
@@ -418,15 +414,9 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   cw = new close_widget(this);
   cw->put_to_corner();
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   qcaption = QString::fromLatin1(caption);
   qheadline = QString::fromLatin1(headline);
   qlines = QString::fromLatin1(lines);
-#else
-  qcaption = QString::fromAscii(caption);
-  qheadline = QString::fromAscii(headline);
-  qlines = QString::fromAscii(lines);
-#endif
   qlist = qlines.split("\n");
   small_font =::gui()->fc_fonts.get_font("gui_qt_font_notify_label");
   x = 0;
