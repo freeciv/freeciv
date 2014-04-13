@@ -98,6 +98,24 @@ reqs    =
       "UnitClass", "Missile", "Local", FALSE
     }
 
+
+[effect_ai_handicap_science]
+type    = "Output_Bonus"
+value   = -25
+reqs    =
+    { "type", "name", "range"
+      "AI", "Handicapped", "Player"
+      "OutputType", "Science", "Local"
+    }
+
+[effect_ai_handicap_defense]
+type    = "Defend_Bonus"
+value   = -25
+reqs    =
+    { "type", "name", "range"
+      "AI", "Handicapped", "Player"
+    }
+
 [effect_unhappysize]
 type    = "City_Unhappy_Size"
 value   = 4
