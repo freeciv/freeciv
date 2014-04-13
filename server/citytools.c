@@ -1064,6 +1064,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   maybe_make_contact(pcenter, ptaker);
 
   if (city_remains) {
+    struct extra_type *upgradet;
+
     if (raze) {
       raze_city(pcity);
     }
@@ -1082,7 +1084,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     /* What wasn't obsolete for the old owner may be so now. */
     remove_obsolete_buildings_city(pcity, TRUE);
 
-    new_extras = upgrade_city_extras(pcity);
+    new_extras = upgrade_city_extras(pcity, &upgradet);
 
     if (new_extras) {
       const char *clink = city_link(pcity);
@@ -1091,10 +1093,18 @@ void transfer_city(struct player *ptaker, struct city *pcity,
                     _("The people in %s are stunned by your "
                       "technological insight!"),
                     clink);
-      notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                    _("Workers spontaneously gather and upgrade "
-                      "%s infrastructure."),
-                    clink);
+
+      if (upgradet != NULL) {
+        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                      _("Workers spontaneously gather and upgrade "
+                        "%s with %s."),
+                      clink, extra_name_translation(upgradet));
+      } else {
+        notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
+                      _("Workers spontaneously gather and upgrade "
+                        "%s infrastructure."),
+                      clink);
+      }
       update_tile_knowledge(pcenter);
     }
 
@@ -1320,7 +1330,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   } extra_type_iterate_end;
 
   /* Build any extras that the city should have. */
-  upgrade_city_extras(pcity);
+  upgrade_city_extras(pcity, NULL);
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);

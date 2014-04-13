@@ -214,8 +214,9 @@ void climate_change(bool warming, int effect)
 /***************************************************************
   Check city for extra upgrade. Returns whether anything was
   done.
+  *gained will be set if there's exactly one kind of extra added.
 ***************************************************************/
-bool upgrade_city_extras(struct city *pcity)
+bool upgrade_city_extras(struct city *pcity, struct extra_type **gained)
 {
   struct tile *ptile = pcity->tile;
   struct player *pplayer = city_owner(pcity);
@@ -228,6 +229,13 @@ bool upgrade_city_extras(struct city *pcity)
               && player_can_build_extra(pextra, pplayer, ptile)
               && !tile_has_conflicting_extra(ptile, pextra))) {
         tile_add_extra(pcity->tile, pextra);
+        if (gained != NULL) {
+          if (upgradet) {
+            *gained = NULL;
+          } else {
+            *gained = pextra;
+          }
+        }
         upgradet = TRUE;
       }
     }
@@ -245,33 +253,60 @@ squares to new extras.  "discovery" just affects the message: set to
 ***************************************************************/
 void upgrade_all_city_extras(struct player *pplayer, bool discovery)
 {
-  bool extras_upgradet = FALSE;
+  int cities_upgradet = 0;
+  struct extra_type *upgradet = NULL;
+  bool multiple_types = FALSE;
+  int percent;
 
   conn_list_do_buffer(pplayer->connections);
 
   city_list_iterate(pplayer->cities, pcity) {
-    if (upgrade_city_extras(pcity)) {
-      update_tile_knowledge(pcity->tile);
-      extras_upgradet = TRUE;
-    }
-  }
-  city_list_iterate_end;
+    struct extra_type *new_upgrade;
 
-  if (extras_upgradet) {
+    if (upgrade_city_extras(pcity, &new_upgrade)) {
+      update_tile_knowledge(pcity->tile);
+      cities_upgradet++;
+      if (new_upgrade == NULL) {
+        /* This single city alone had multiple types */
+        multiple_types = TRUE;
+      } else if (upgradet == NULL) {
+        /* First gained */
+        upgradet = new_upgrade;
+      } else if (upgradet != new_upgrade) {
+        /* Different type from what another city got. */
+        multiple_types = TRUE;
+      }
+    }
+  } city_list_iterate_end;
+
+  percent = cities_upgradet * 100 / city_list_size(pplayer->cities);
+
+  if (cities_upgradet > 0) {
     if (discovery) {
+      if (percent >= 75) {
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("New hope sweeps like fire through the country as "
+                        "the discovery of new infrastructure building technology "
+                        "is announced."));
+      }
+    } else {
+      if (percent >= 75) {
+        notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                      _("The people are pleased to hear that your "
+                        "scientists finally know about new infrastructure building "
+                        "technology."));
+      }
+    }
+
+    if (multiple_types) {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("New hope sweeps like fire through the country as "
-		      "the discovery of new infrastructure building technology "
-		      "is announced."));
+                    _("Workers spontaneously gather and upgrade all "
+                      "possible cities with better infrastructure."));
     } else {
       notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    _("The people are pleased to hear that your "
-		      "scientists finally know about new infrastructure building "
-		      "technology."));
+                    _("Workers spontaneously gather and upgrade all "
+                      "possible cities with %s."), extra_name_translation(upgradet));
     }
-    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                  _("Workers spontaneously gather and upgrade all "
-                    "possible cities with better infrastructure."));
   }
 
   conn_list_do_unbuffer(pplayer->connections);
@@ -1639,7 +1674,7 @@ void terrain_changed(struct tile *ptile)
 
   if (pcity != NULL) {
     /* Tile is city center and new terrain may support better extras. */
-    upgrade_city_extras(pcity);
+    upgrade_city_extras(pcity, NULL);
   }
 
   bounce_units_on_terrain_change(ptile);

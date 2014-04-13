@@ -46,7 +46,7 @@ struct player_tile {
 void global_warming(int effect);
 void nuclear_winter(int effect);
 void climate_change(bool warming, int effect);
-bool upgrade_city_extras(struct city *pcity);
+bool upgrade_city_extras(struct city *pcity, struct extra_type **gained);
 void upgrade_all_city_extras(struct player *pplayer, bool discovery);
 
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
