@@ -643,7 +643,7 @@ static void dai_military_bodyguard(struct ai_type *ait, struct player *pplayer,
   if (same_pos(unit_tile(punit), ptile)) {
     BODYGUARD_LOG(ait, LOG_DEBUG, punit, "at RV");
   } else {
-    if (goto_is_sane(ait, punit, ptile, TRUE)) {
+    if (goto_is_sane(punit, ptile)) {
       BODYGUARD_LOG(ait, LOG_DEBUG, punit, "meeting charge");
       if (!dai_gothere(ait, pplayer, punit, ptile)) {
         /* We died */

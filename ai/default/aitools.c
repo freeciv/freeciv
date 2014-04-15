@@ -276,7 +276,7 @@ bool dai_gothere(struct ai_type *ait, struct player *pplayer,
   bg_needed = dai_gothere_bodyguard(ait, punit, dest_tile);
 
   if (unit_transported(punit)
-      || !goto_is_sane(ait, punit, dest_tile, TRUE)) {
+      || !goto_is_sane(punit, dest_tile)) {
     /* Must go by boat, call an aiferryboat function */
     if (!aiferry_gobyboat(ait, pplayer, punit, dest_tile,
                           bg_needed)) {
@@ -286,7 +286,7 @@ bool dai_gothere(struct ai_type *ait, struct player *pplayer,
 
   /* Go where we should be going if we can, and are at our destination 
    * if we are on a ferry */
-  if (goto_is_sane(ait, punit, dest_tile, TRUE) && punit->moves_left > 0) {
+  if (goto_is_sane(punit, dest_tile) && punit->moves_left > 0) {
     punit->goto_tile = dest_tile;
     UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)", TILE_XY(dest_tile));
     if (!dai_unit_goto(ait, punit, dest_tile)) {
@@ -412,7 +412,7 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: already there!");
     send_unit_info(NULL, punit);
     return TRUE;
-  } else if (!goto_is_sane(ait, punit, ptile, FALSE)) {
+  } else if (!goto_is_sane(punit, ptile)) {
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: 'insane' goto!");
     punit->activity = ACTIVITY_IDLE;
     send_unit_info(NULL, punit);
@@ -441,94 +441,30 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
 }
 
 /****************************************************************************
-  Basic checks as to whether a GOTO is possible. The target 'ptile' should
-  be on the same continent as punit is, up to embarkation/disembarkation.
+  Use pathfinding to determine whether a GOTO is possible, considering all
+  aspects of the unit being moved and the terrain under consideration.
+  Don't bother with pathfinding if the unit is already there.
 ****************************************************************************/
-bool goto_is_sane(struct ai_type *ait, struct unit *punit,
-                  struct tile *ptile, bool omni)
+bool goto_is_sane(struct unit *punit, struct tile *ptile)
 {
-  struct player *pplayer = unit_owner(punit);
-  struct city *pcity = tile_city(ptile);
-  Continent_id my_cont = tile_continent(unit_tile(punit));
-  Continent_id target_cont = tile_continent(ptile);
+  bool can_get_there = FALSE;
 
   if (same_pos(unit_tile(punit), ptile)) {
-    return TRUE;
-  }
+    can_get_there = TRUE;
+  } else {
+    struct pf_parameter parameter;
+    struct pf_map *pfm;
 
-  if (!(omni || map_is_known_and_seen(ptile, pplayer, V_MAIN))) {
-    /* The destination is in unknown -- assume sane. */
-    return TRUE;
-  }
+    pft_fill_unit_attack_param(&parameter, punit);
+    pfm = pf_map_new(&parameter);
 
-  switch (uclass_move_type(unit_class(punit))) {
-  case UMT_LAND:
-    if (is_ocean_tile(ptile)) {
-      /* Going to a sea tile, the target should be next to our continent
-       * and with a boat */
-      if (unit_class_transporter_capacity(ptile, pplayer,
-                                          unit_class(punit)) > 0) {
-        adjc_iterate(ptile, tmp_tile) {
-          if (tile_continent(tmp_tile) == my_cont) {
-            /* The target is adjacent to our continent! */
-            return TRUE;
-          }
-        } adjc_iterate_end;
-      }
-    } else {
-      /* Going to a land tile: better be our continent */
-      if (my_cont == target_cont) {
-        return TRUE;
-      } else {
-        /* Well, it's not our continent, but maybe we are on a boat
-         * adjacent to the target continent? */
-        adjc_iterate(unit_tile(punit), tmp_tile) {
-          if (tile_continent(tmp_tile) == target_cont) {
-            return TRUE;
-          }
-        } adjc_iterate_end;
-      }
+    if (pf_map_move_cost(pfm, ptile) != PF_IMPOSSIBLE_MC) {
+      can_get_there = TRUE;
     }
-    return FALSE;
-
-  case UMT_SEA:
-    if (!is_ocean_tile(unit_tile(punit))) {
-      /* Oops, we are not in the open waters.  Pick an ocean that we have
-       * access to.  We can assume we are in a city, and any oceans adjacent
-       * are connected, so it does not matter which one we pick. */
-      adjc_iterate(unit_tile(punit), tmp_tile) {
-        if (is_ocean_tile(tmp_tile)) {
-          my_cont = tile_continent(tmp_tile);
-          break;
-        }
-      } adjc_iterate_end;
-    }
-    if (is_ocean_tile(ptile)) {
-      if (dai_channel(ait, pplayer, target_cont, my_cont)) {
-        return TRUE; /* Ocean -> Ocean travel ok. */
-      }
-    } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
-               || can_attack_non_native(unit_type(punit))) {
-      /* Not ocean, but allied city or can bombard, checking if there is
-       * good ocean adjacent */
-      adjc_iterate(ptile, tmp_tile) {
-        if (is_ocean_tile(tmp_tile)
-            && dai_channel(ait, pplayer, my_cont, tile_continent(tmp_tile))) {
-          return TRUE;
-        }
-      } adjc_iterate_end;
-    }
-    return FALSE; /* Not ok. */
-
-  case UMT_BOTH:
-    return TRUE;
+    pf_map_destroy(pfm);
   }
-
-  log_error("%s(): Move type %d not handled!", __FUNCTION__,
-            uclass_move_type(unit_class(punit)));
-  return FALSE;
+  return can_get_there;
 }
-
 
 /*
  * The length of time, in turns, which is long enough to be optimistic

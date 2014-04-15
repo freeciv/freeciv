@@ -834,7 +834,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       /* Grab bodyguard */
       if (bodyguard
           && !same_pos(unit_tile(punit), unit_tile(bodyguard))) {
-        if (!goto_is_sane(ait, bodyguard, unit_tile(punit), TRUE)
+        if (!goto_is_sane(bodyguard, unit_tile(punit))
             || !dai_unit_goto(ait, bodyguard, unit_tile(punit))) {
           /* Bodyguard can't get there or died en route */
           aiguard_request_guard(ait, punit);

@@ -55,8 +55,7 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
                                struct tile *ptile,
                                struct pf_parameter *parameter);
 bool dai_unit_goto(struct ai_type *ait, struct unit *punit, struct tile *ptile);
-bool goto_is_sane(struct ai_type *ait, struct unit *punit,
-                  struct tile *ptile, bool omni);
+bool goto_is_sane(struct unit *punit, struct tile *ptile);
 
 void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
                        enum ai_unit_task task, struct tile *ptile);
