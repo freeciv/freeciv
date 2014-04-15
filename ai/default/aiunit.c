@@ -668,9 +668,6 @@ static void dai_military_bodyguard(struct ai_type *ait, struct player *pplayer,
 **************************************************************************/
 static bool unit_role_defender(const struct unit_type *punittype)
 {
-  if (utype_move_type(punittype) != UMT_LAND) {
-    return FALSE; /* temporary kluge */
-  }
   return (utype_has_role(punittype, L_DEFEND_GOOD));
 }
 
