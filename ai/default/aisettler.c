@@ -827,7 +827,7 @@ static struct cityresult *settler_map_iterate(struct pf_parameter *parameter,
         && best_turn < turns /*+ game.info.min_dist_bw_cities*/) {
       break;
     }
-  } pf_map_positions_iterate_end;
+  } pf_map_move_costs_iterate_end;
 
   pf_map_destroy(pfm);
 

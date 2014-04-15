@@ -227,7 +227,7 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
                   unit_rule_name(punit), TILE_XY(ptile));
       }
     }
-  } pf_map_positions_iterate_end;
+  } pf_map_move_costs_iterate_end;
 
   /* Return the best values. */
   if (pptile) {
