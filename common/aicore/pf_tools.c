@@ -334,8 +334,8 @@ static int igter_move_unit(const struct tile *ptile,
       move_cost = MOVE_COST_IGTER;
     }
   } else {
-    move_cost = (map_move_cost(param->owner, param->uclass, ptile, ptile1) != 0
-                 ? MOVE_COST_IGTER : 0);
+    move_cost = map_move_cost(param->owner, param->uclass, ptile, ptile1);
+    move_cost = MIN(move_cost, MOVE_COST_IGTER);
   }
 
   return move_cost;
