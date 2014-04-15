@@ -389,7 +389,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   init_choice(choice);
 
   /* Find out desire for workers (terrain improvers) */
-  settler_type = best_role_unit(pcity, UTYF_SETTLERS);
+  settler_type = dai_role_utype_for_move_type(pcity, UTYF_SETTLERS, UMT_LAND);
 
   /* The worker want is calculated in settlers.c called from
    * ai_manage_cities.  The expand value is the % that the AI should

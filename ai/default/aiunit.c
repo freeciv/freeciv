@@ -3098,3 +3098,42 @@ void dai_unit_load(struct ai_type *ait, const char *aitstr,
     = secfile_lookup_int_default(file, 0, "%s.%sbodyguard",
                                  unitstr, aitstr);
 }
+
+struct role_unit_cb_data
+{
+  enum unit_move_type mt;
+  struct city *build_city;
+};
+
+/**************************************************************************
+  Filter callback for role unit iteration
+**************************************************************************/
+static bool role_unit_cb(struct unit_type *ptype, void *data)
+{
+  struct role_unit_cb_data *cb_data = (struct role_unit_cb_data *)data;
+  struct unit_class *pclass = utype_class(ptype);
+  enum unit_move_type umt = uclass_move_type(pclass);
+
+  if ((cb_data->mt == UMT_LAND && umt == UMT_SEA)
+      || (cb_data->mt == UMT_SEA && umt == UMT_LAND)) {
+    return FALSE;
+  }
+
+  if (cb_data->build_city == NULL
+      || can_city_build_unit_now(cb_data->build_city, ptype)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Get unit type player can build, suitable to role, with given move type.
+**************************************************************************/
+struct unit_type *dai_role_utype_for_move_type(struct city *pcity, int role,
+                                               enum unit_move_type mt)
+{
+  struct role_unit_cb_data cb_data = { .build_city = pcity, .mt = mt };
+
+  return role_units_iterate_backwards(role, role_unit_cb, &cb_data);
+}

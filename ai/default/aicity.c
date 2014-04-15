@@ -297,7 +297,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
       city_data->choice.type = CT_CIVILIAN;
     } else if (best_role_unit(pcity, UTYF_SETTLERS)) {
       city_data->choice.value.utype
-        = best_role_unit(pcity, UTYF_SETTLERS);
+        = dai_role_utype_for_move_type(pcity, UTYF_SETTLERS, UMT_LAND);
       city_data->choice.type = CT_CIVILIAN;
     } else {
       CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
@@ -660,7 +660,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
   struct adv_data *ai = adv_data_get(pplayer, NULL);
-  struct unit_type *unit_type = best_role_unit(pcity, UTYF_SETTLERS);
+  struct unit_type *unit_type = dai_role_utype_for_move_type(pcity, UTYF_SETTLERS,
+                                                             UMT_LAND);
   Continent_id place = tile_continent(pcenter);
 
   if (unit_type == NULL) {

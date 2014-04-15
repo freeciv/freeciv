@@ -824,6 +824,43 @@ int num_role_units(int role)
 }
 
 /**************************************************************************
+  Iterate over all the role units and feed them to callback.
+  Once callback returns TRUE, no further units are feeded to it and
+  we return the unit that caused callback to return TRUE
+**************************************************************************/
+struct unit_type *role_units_iterate(int role, role_unit_callback cb, void *data)
+{
+  int i;
+
+  for (i = 0; i < n_with_role[role]; i++) {
+    if (cb(with_role[role][i], data)) {
+      return with_role[role][i];
+    }
+  }
+
+  return NULL;
+}
+
+/**************************************************************************
+  Iterate over all the role units and feed them to callback, starting
+  from the last one.
+  Once callback returns TRUE, no further units are feeded to it and
+  we return the unit that caused callback to return TRUE
+**************************************************************************/
+struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, void *data)
+{
+  int i;
+
+  for (i = n_with_role[role] - 1; i >= 0; i--) {
+    if (cb(with_role[role][i], data)) {
+     return with_role[role][i];
+    }
+  }
+
+  return NULL;
+}
+
+/**************************************************************************
 Return index-th unit with specified role/flag.
 Index -1 means (n-1), ie last one.
 **************************************************************************/
