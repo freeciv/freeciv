@@ -484,9 +484,13 @@ bool unit_can_take_over(const struct unit *punit);
 bool utype_can_take_over(const struct unit_type *punittype);
 
 /* Functions to operate on various flag and roles. */
+typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
+
 void role_unit_precalcs(void);
 void role_unit_precalcs_free(void);
 int num_role_units(int role);
+struct unit_type *role_units_iterate(int role, role_unit_callback cb, void *data);
+struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, void *data);
 struct unit_type *get_role_unit(int role, int index);
 struct unit_type *best_role_unit(const struct city *pcity, int role);
 struct unit_type *best_role_unit_for_player(const struct player *pplayer,
