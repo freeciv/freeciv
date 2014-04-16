@@ -224,6 +224,7 @@ void handle_unit_get_actions(struct connection *pc,
 
     dsend_packet_unit_actions(pc, actor_unit_id, target_tile_id,
                               probabilities);
+    return;
   }
 
   target_unit = is_other_players_unit_tile(target_tile, actor_player);
