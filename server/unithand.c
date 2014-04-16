@@ -326,6 +326,7 @@ void handle_unit_diplomat_query(struct connection *pc,
     } else {
       illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
       unit_query_impossible(pc, diplomat_id, target_id);
+      return;
     }
     break;
   case DIPLOMAT_INCITE:
@@ -338,6 +339,7 @@ void handle_unit_diplomat_query(struct connection *pc,
     } else {
       illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
       unit_query_impossible(pc, diplomat_id, target_id);
+      return;
     }
     break;
   case DIPLOMAT_SABOTAGE_TARGET:
@@ -349,11 +351,12 @@ void handle_unit_diplomat_query(struct connection *pc,
       illegal_action(pplayer, pdiplomat,
                      ACTION_SPY_TARGETED_SABOTAGE_CITY);
       unit_query_impossible(pc, diplomat_id, target_id);
+      return;
     }
     break;
   default:
     unit_query_impossible(pc, diplomat_id, target_id);
-    break;
+    return;
   };
 }
 
