@@ -636,35 +636,58 @@ static void action_entry(const enum gen_action act,
   SDL_String16 *pStr;
   action_probability prob;
   const char *ui_name;
+  static struct astring chance = ASTRING_INIT;
 
   prob = action_probabilities[act];
-  ui_name = action_prepare_ui_name(act, "", "");
 
-  /* How to interpret action probabilities like success_propability is
-   * documented in actions.h */
-  /* TODO: Use more of the probability information */
-  if (ACTPROB_IMPOSSIBLE != prob) {
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                            ui_name, callback);
+  /* How to interpret action probabilities like prob is documented in
+   * actions.h */
+  switch (prob) {
+  case ACTPROB_IMPOSSIBLE:
+    /* Don't even show disabled actions. */
+    return;
+  case ACTPROB_NOT_KNOWN:
+    /* Unknown because the player don't have the required knowledge to
+     * determine the probability of success for this action. */
+    /* TRANS: the chance of a diplomat action succeeding is unknown. */
+    astr_set(&chance, _(" (?%%)"));
+    break;
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Unknown because of missing server support. */
+    astr_clear(&chance);
+    break;
+  default:
+    /* Should be in the range 1 (0.5%) to 200 (100%) */
+    fc_assert_msg(prob < 201,
+                  "Diplomat action probability out of range");
 
-    switch(action_get_target_kind(act)) {
-    case ATK_CITY:
-      pBuf->data.city = tgt_city;
-      break;
-    case ATK_UNIT:
-      pBuf->data.unit = tgt_unit;
-      break;
-    case ATK_COUNT:
-      fc_assert_msg(FALSE, "Unsupported target kind");
-    }
-
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    add_to_gui_list(MAX_ID - act_unit->id, pBuf);
-
-    area->w = MAX(area->w, pBuf->size.w);
-    area->h += pBuf->size.h;
+    /* TRANS: the probability that a diplomat action will succeed. */
+    astr_set(&chance, _(" (%.1f%%)"), (double)prob / 2);
+    break;
   }
+
+  ui_name = action_prepare_ui_name(act, "", astr_str(&chance));
+
+  create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                          ui_name, callback);
+
+  switch(action_get_target_kind(act)) {
+  case ATK_CITY:
+    pBuf->data.city = tgt_city;
+    break;
+  case ATK_UNIT:
+    pBuf->data.unit = tgt_unit;
+    break;
+  case ATK_COUNT:
+    fc_assert_msg(FALSE, "Unsupported target kind");
+  }
+
+  set_wstate(pBuf, FC_WS_NORMAL);
+
+  add_to_gui_list(MAX_ID - act_unit->id, pBuf);
+
+  area->w = MAX(area->w, pBuf->size.w);
+  area->h += pBuf->size.h;
 }
 
 /**************************************************************************
