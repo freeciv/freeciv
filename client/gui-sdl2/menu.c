@@ -900,14 +900,14 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_WONDER, pBuf);
-  /* --------- */  
+  /* --------- */
 
   /* Add to City / Build New City */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
   len = strlen(cBuf);
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build City"), "B");
   len = MAX(len, strlen(cBuf));
-      
+
   pBuf = create_themeicon(pTheme->OBuildCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -919,7 +919,7 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_CITY, pBuf);
-  
+
   pOrder_Build_AddTo_City_Button = pBuf;
   /* --------- */  
 
@@ -1098,7 +1098,7 @@ void real_menus_update(void)
        * get an eventual error message from the server if we try. */
 
       if (unit_can_add_or_build_city(pUnit)) {
-	if(pCity) {
+	if (pCity) {
 	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
 	} else {
 	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build City"), "B");

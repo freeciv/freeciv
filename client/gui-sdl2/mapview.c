@@ -110,6 +110,7 @@ void flush_rect(SDL_Rect rect, bool force_flush)
     
     if (correct_rect_region(&rect)) {
       static int i = 0;
+
       dst = rect;
       if (C_S_RUNNING == client_state()) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);

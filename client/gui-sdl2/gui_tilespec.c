@@ -65,9 +65,7 @@ do {								  \
         load_GUI_surface(pSpr, pIcons, pSurf, tag)
 
 #define load_order_theme_surface(pSpr, pSurf, tag)	\
-do {							\
-  load_GUI_surface(pSpr, pTheme, pSurf, tag);		\
-} while(0)
+        load_GUI_surface(pSpr, pTheme, pSurf, tag);
 
 /*******************************************************************************
  * reload small citizens "style" icons.

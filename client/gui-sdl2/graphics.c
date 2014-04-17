@@ -60,7 +60,7 @@ struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface)
   struct gui_layer *result;
     
   result = fc_calloc(1, sizeof(struct gui_layer));
-    
+
   result->dest_rect = (SDL_Rect){x, y, 0, 0};
   result->surface = surface;
 
@@ -108,13 +108,14 @@ struct gui_layer *add_gui_layer(int width, int height)
 
   pBuffer = create_surf_alpha(/*Main.screen->w*/width, /*Main.screen->h*/height, SDL_SWSURFACE);
   gui_layer = gui_layer_new(0, 0, pBuffer);
-  
+
   /* add to buffers array */
   if (Main.guis) {
     int i;
+
     /* find NULL element */
-    for(i = 0; i < Main.guis_count; i++) {
-      if(!Main.guis[i]) {
+    for (i = 0; i < Main.guis_count; i++) {
+      if (!Main.guis[i]) {
         Main.guis[i] = gui_layer;
 	return gui_layer;
       }
@@ -138,15 +139,15 @@ struct gui_layer *add_gui_layer(int width, int height)
 void remove_gui_layer(struct gui_layer *gui_layer)
 {
   int i;
-  
-  for(i = 0; i < Main.guis_count - 1; i++) {
-    if(Main.guis[i] && (Main.guis[i]== gui_layer)) {
+
+  for (i = 0; i < Main.guis_count - 1; i++) {
+    if (Main.guis[i] && (Main.guis[i]== gui_layer)) {
       gui_layer_destroy(&Main.guis[i]);
       Main.guis[i] = Main.guis[i + 1];
       Main.guis[i + 1] = NULL;
     } else {
-      if(!Main.guis[i]) {
-	Main.guis[i] = Main.guis[i + 1];
+      if (!Main.guis[i]) {
+        Main.guis[i] = Main.guis[i + 1];
         Main.guis[i + 1] = NULL;
       }
     }
@@ -708,9 +709,9 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   if (Main.gui) {
     FREESURFACE(Main.gui->surface);
-    Main.gui->surface = create_surf_alpha(main_window_width(), main_window_height(), SDL_SWSURFACE);
+    Main.gui->surface = create_surf_alpha(iWidth, iHeight, SDL_SWSURFACE);
   } else {
-    Main.gui = add_gui_layer(main_window_width(), main_window_width());
+    Main.gui = add_gui_layer(iWidth, iHeight);
   }
 
   clear_surface(Main.gui->surface, NULL);

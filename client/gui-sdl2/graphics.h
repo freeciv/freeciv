@@ -193,7 +193,7 @@ struct main {
   SDL_Renderer *renderer;
   struct canvas map_canvas;
   struct gui_layer *gui;        /* gui buffer */
-  struct gui_layer **guis;      /* gui buffers used by sdlclient widgets window menager */
+  struct gui_layer **guis;      /* gui buffers used by sdl2-client widgets window menager */
   SDL_Event event;		/* main event struct */
 };
 
@@ -209,7 +209,7 @@ struct gui_layer {
 
 struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface);
 void gui_layer_destroy(struct gui_layer **gui_layer);
-  
+
 struct gui_layer *get_gui_layer(SDL_Surface *surface);
   
 struct gui_layer *add_gui_layer(int width, int height);  

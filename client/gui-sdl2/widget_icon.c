@@ -201,8 +201,8 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 /**************************************************************************
   Create ( malloc ) Icon Widget ( flat Button )
 **************************************************************************/
-struct widget * create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDest,
-							  Uint32 flags)
+struct widget *create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDest,
+                                Uint32 flags)
 {
   struct widget *pIcon_Widget = widget_new();
 
@@ -216,7 +216,7 @@ struct widget * create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDe
 
   baseclass_redraw = pIcon_Widget->redraw;
   pIcon_Widget->redraw = redraw_icon;
-  
+
   if (pIcon_theme) {
     pIcon_Widget->size.w = pIcon_theme->w / 4;
     pIcon_Widget->size.h = pIcon_theme->h;
