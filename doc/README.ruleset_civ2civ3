@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 11-Feb-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 5-Apr-2014)
 ==========================================================
 
 
@@ -48,7 +48,7 @@ OPTIONAL RULES:
 - Initial National Border equal to city radius (2 tiles).
 - Restricted the use of infrastructure (Roads/Railroads) for enemy units.
 - Unreachable units do not protect reachable ones.
-- Set Occupy Chance to 100%: Units automatically move to the target tile after a successful attack. Land units can not continue moving after the attack.
+- Set Occupy Chance to 100%: Units automatically move to the target tile if the attack is successful and ZoC rules allow the movement.
 - Disabled Happy Borders: Military Units cause unhappiness if they end the turn outside cities or fortresses, no matter if they are inside national borders.
 
 
@@ -320,7 +320,7 @@ Armor           10   5    3    1    30  *90  *Wheeled
 Catapult        6    1    1    1    10   40  *Wheeled
 Cannon          8    1    1    1    20  *50  *Wheeled
 Artillery       10  *2    1   *1(2) 20  *60  *Wheeled,*CityBuster
-Howitzer        12   2   *1   *1(2) 30   70  *Wheeled,*CityBuster
+Howitzer        12   2   *1   *1(2) 30  *80  *Wheeled,*CityBuster
                          
 Trireme         1    1    3    1    10   40   Cargo 2, Coastal
 Caravel        *1   *2    3    1    10   40   Cargo 3
@@ -451,7 +451,7 @@ Changes:
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
 
 Units:
-- Units automatically move to the target tile after a successful attack, and land units can not continue moving after the attack (OneAttack).
+- Units automatically move to the target tile after a successful attack. Units with remaining movement points can continue moving after the attack.
 - Every unit pays some kind of Upkeep cost. Units lose one veteran level when upgraded.
 - Wheeled units (Big land) can conquer cities again, but do not take advantage of terrain defense bonuses. Wheeled units can move to fortress even if not roaded. Fixed bug that kept them from entering Glacier tiles.
 - Fortresses do not affect national borders, and do not protect against Air units nor Missiles (they do protect against Land and See units, included those with CityBuster). Airbases do protect against Air units (+100% defend bonus).
