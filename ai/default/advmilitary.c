@@ -563,9 +563,9 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         }
       } else {
         unit_class_iterate(punitclass) {
-          if (dai_uclass_move_type(punitclass) == UMT_LAND
+          if (uclass_has_flag(punitclass, UCF_CAN_OCCUPY_CITY)
               && can_unit_type_transport(unit_type(punit), punitclass)) {
-            /* It can transport some land moving units! */
+            /* It can transport some threatening units! */
 
             if (3 >= move_time) {
               urgency++;
