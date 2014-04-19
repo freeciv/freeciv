@@ -3021,11 +3021,10 @@ bool correct_black(SDL_Surface * pSrc)
 /**************************************************************************
   Get visible rectangle from surface.
 **************************************************************************/
-SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
+SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
 {
   SDL_Rect src;
 
-#if 0
   int w, h, x, y;
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
@@ -3036,7 +3035,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
   maxX = 0;
   minY = pSurface->h;
   maxY = 0;
-  colorkey = pSurface->format->colorkey;
+  SDL_GetColorKey(pSurface, &colorkey);
 
   lock_surf(pSurface);
 
@@ -3051,7 +3050,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
       h = pSurface->h;
       while(h--) {
         do {
-	  if(*pixel != colorkey) {
+	  if (*pixel != colorkey) {
 	    if (minY > y) {
 	      minY = y;
 	    }
@@ -3295,8 +3294,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
   src.y = minY;
   src.w = maxX - minX + 1;
   src.h = maxY - minY + 1;
-#endif
-  
+
   return src;
 }
 
