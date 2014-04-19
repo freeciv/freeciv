@@ -77,10 +77,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(punittype) {
-    const int move_type = utype_move_type(punittype);
-
-    if (can_city_build_unit_now(pcity, punittype)
-	&& (move_type == UMT_LAND || move_type == UMT_SEA)) {
+    if (can_city_build_unit_now(pcity, punittype)) {
       int fpatt, fpdef, defense, attack;
       double want, loss, cost = utype_build_shield_cost(punittype);
       struct unit *defender;
