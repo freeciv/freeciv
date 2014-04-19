@@ -1777,7 +1777,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
      * like the others, so the AI will research techs that make it available,
      * for rulesets that do not provide it from the start.
      */
-    v += TRADE_WEIGHTING;
+    v += TRADE_WEIGHTING / 10;
   } else {
     /* Base want is calculated above using a more direct approach. */
     v += base_want(ait, pplayer, pcity, pimprove);
