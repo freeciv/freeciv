@@ -131,6 +131,7 @@ struct base_type *base_type_by_translated_name(const char *name)
 
 /****************************************************************************
   Is there base of the given type cardinally near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_base_card_near(const struct tile *ptile, const struct base_type *pbase)
 {
@@ -145,6 +146,7 @@ bool is_base_card_near(const struct tile *ptile, const struct base_type *pbase)
 
 /****************************************************************************
   Is there base of the given type near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase)
 {

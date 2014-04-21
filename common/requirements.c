@@ -871,9 +871,13 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
     /* The requirement is filled if the tile has the terrain of correct class. */
     return BOOL_TO_TRISTATE(terrain_belongs_to_class(tile_terrain(target_tile), class));
   case REQ_RANGE_CADJACENT:
-    return BOOL_TO_TRISTATE(is_terrain_class_card_near(target_tile, class));
+    return BOOL_TO_TRISTATE(terrain_belongs_to_class(tile_terrain(target_tile),
+                                                     class)
+                            || is_terrain_class_card_near(target_tile, class));
   case REQ_RANGE_ADJACENT:
-    return BOOL_TO_TRISTATE(is_terrain_class_near_tile(target_tile, class));
+    return BOOL_TO_TRISTATE(terrain_belongs_to_class(tile_terrain(target_tile),
+                                                     class)
+                            || is_terrain_class_near_tile(target_tile, class));
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -903,9 +907,11 @@ static enum fc_tristate is_base_type_in_range(const struct tile *target_tile,
     /* The requirement is filled if the tile has base of requested type. */
     return BOOL_TO_TRISTATE(tile_has_base(target_tile, pbase));
   case REQ_RANGE_CADJACENT:
-    return BOOL_TO_TRISTATE(is_base_card_near(target_tile, pbase));
+    return BOOL_TO_TRISTATE(tile_has_base(target_tile, pbase)
+                            || is_base_card_near(target_tile, pbase));
   case REQ_RANGE_ADJACENT:
-    return BOOL_TO_TRISTATE(is_base_near_tile(target_tile, pbase));
+    return BOOL_TO_TRISTATE(tile_has_base(target_tile, pbase)
+                            || is_base_near_tile(target_tile, pbase));
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -1077,6 +1083,9 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
       case REQ_RANGE_LOCAL:
         return BOOL_TO_TRISTATE(is_city_in_tile(target_tile, target_city));
       case REQ_RANGE_CADJACENT:
+        if (is_city_in_tile(target_tile, target_city)) {
+          return TRI_YES;
+        }
         cardinal_adjc_iterate(target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;
@@ -1085,6 +1094,9 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 
         return TRI_NO;
       case REQ_RANGE_ADJACENT:
+        if (is_city_in_tile(target_tile, target_city)) {
+          return TRI_YES;
+        }
         adjc_iterate(target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;

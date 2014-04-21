@@ -378,10 +378,10 @@ extern struct civ_map map;
 
 extern struct terrain_misc terrain_control;
 
-/* This iterates outwards from the starting point. Every tile within max_dist
- * will show up exactly once, in an outward (based on real map distance)
- * order.  The returned values are always real and are normalized.  The
- * starting position must be normal.
+/* This iterates outwards from the starting point.  Every tile within max_dist
+ * (including the starting tile) will show up exactly once, in an outward
+ * (based on real map distance) order.  The returned values are always real
+ * and are normalized.  The starting position must be normal.
  *
  * See also iterate_outward() */
 #define iterate_outward_dxy(start_tile, max_dist, _tile, _x, _y)	    \
@@ -470,8 +470,9 @@ extern struct terrain_misc terrain_control;
   } square_dxy_iterate_end;						    \
 }
 
-/* Iterate through all map positions adjacent to the given center map
- * position, with normalization.  The order of positions is unspecified. */
+/* Iterate itr_tile through all map tiles adjacent to the given center map
+ * position, with normalization.  Does not include the center position.
+ * The order of positions is unspecified. */
 #define adjc_iterate(center_tile, itr_tile)				    \
 {									    \
   /* Written as a wrapper to adjc_dir_iterate since it's the cleanest and   \
@@ -482,12 +483,14 @@ extern struct terrain_misc terrain_control;
   } adjc_dir_iterate_end;                                                   \
 }
 
+/* As adjc_iterate() but also set direction8 iterator variable dir_itr */
 #define adjc_dir_iterate(center_tile, itr_tile, dir_itr)		    \
   adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,			    \
 		       map.valid_dirs, map.num_valid_dirs)
 
 #define adjc_dir_iterate_end adjc_dirlist_iterate_end
 
+/* Only set direction8 dir_itr (not tile) */
 #define adjc_dir_base_iterate(center_tile, dir_itr)                            \
   adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
                             map.valid_dirs, map.num_valid_dirs)
@@ -495,18 +498,23 @@ extern struct terrain_misc terrain_control;
 #define adjc_dir_base_iterate_end                                              \
   adjc_dirlist_base_iterate_end
 
+/* Iterate itr_tile through all map tiles cardinally adjacent to the given
+ * center map position, with normalization.  Does not include the center
+ * position.  The order of positions is unspecified. */
 #define cardinal_adjc_iterate(center_tile, itr_tile)			    \
   adjc_dirlist_iterate(center_tile, itr_tile, _dir_itr,			    \
 		       map.cardinal_dirs, map.num_cardinal_dirs)
 
 #define cardinal_adjc_iterate_end adjc_dirlist_iterate_end
 
+/* As cardinal_adjc_iterate but also set direction8 variable dir_itr */
 #define cardinal_adjc_dir_iterate(center_tile, itr_tile, dir_itr)	    \
   adjc_dirlist_iterate(center_tile, itr_tile, dir_itr,			    \
 		       map.cardinal_dirs, map.num_cardinal_dirs)
 
 #define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
 
+/* Only set direction8 dir_itr (not tile) */
 #define cardinal_adjc_dir_base_iterate(center_tile, dir_itr)                   \
   adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
                             map.cardinal_dirs, map.num_cardinal_dirs)
@@ -516,10 +524,11 @@ extern struct terrain_misc terrain_control;
 
 /* Iterate through all tiles adjacent to a tile using the given list of
  * directions.  _dir is the directional value, (center_x, center_y) is
- * the center tile (which must be normalized).
+ * the center tile (which must be normalized).  The center tile is not
+ * included in the iteration.
  *
- * This macro should not be used directly.  Instead, use adjc_dir_iterate
- * or cartesian_adjacent_iterate. */
+ * This macro should not be used directly.  Instead, use adjc_iterate,
+ * cardinal_adjc_iterate, or related iterators. */
 #define adjc_dirlist_iterate(center_tile, _tile, _dir,			    \
 			     dirlist, dircount)				    \
 {									    \

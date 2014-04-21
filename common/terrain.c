@@ -904,6 +904,7 @@ bool terrain_belongs_to_class(const struct terrain *pterrain,
 
 /****************************************************************************
   Is there terrain of the given class cardinally near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class class)
 {
@@ -927,6 +928,7 @@ bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class cla
 
 /****************************************************************************
   Is there terrain of the given class near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class class)
 {
