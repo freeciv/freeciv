@@ -702,12 +702,18 @@ static void unit_convert(struct unit *punit)
 **************************************************************************/
 static void update_unit_activity(struct unit *punit)
 {
+  const enum unit_activity tile_changing_actions[] =
+    { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
+      ACTIVITY_BASE, ACTIVITY_TRANSFORM, ACTIVITY_POLLUTION,
+      ACTIVITY_FALLOUT, ACTIVITY_LAST };
+
   struct player *pplayer = unit_owner(punit);
   int id = punit->id;
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
   bool check_adjacent_units = FALSE;
+  int i;
   
   switch (activity) {
   case ACTIVITY_IDLE:
@@ -785,7 +791,6 @@ static void update_unit_activity(struct unit *punit)
       update_tile_knowledge(ptile);
       /* Deliberately don't set unit_activity_done -- we already dealt with
        * other units working on the same thing above */
-      check_adjacent_units = TRUE;
 
       call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
 
@@ -876,11 +881,6 @@ static void update_unit_activity(struct unit *punit)
       check_terrain_change(ptile, old);
 
       unit_activity_done = TRUE;
-      if (activity != ACTIVITY_IRRIGATE) {
-        /* May have destroyed irrigation that other activity was
-         * depending on. */
-        check_adjacent_units = TRUE;
-      }
     }
     break;
 
@@ -890,6 +890,13 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_AIRBASE:
     fc_assert(FALSE);
     break;
+  }
+
+  for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
+    if (tile_changing_actions[i] == activity) {
+      check_adjacent_units = TRUE;
+      break;
+    }
   }
 
   if (unit_activity_done) {
@@ -902,7 +909,9 @@ static void update_unit_activity(struct unit *punit)
     } unit_list_iterate_end;
   }
 
-  /* Some units nearby may not be able to continue irrigating */
+  /* Some units nearby may not be able to continue their action,
+   * such as building irrigation if we removed the only source
+   * of water from them. */
   if (check_adjacent_units) {
     adjc_iterate(ptile, ptile2) {
       unit_list_iterate(ptile2->units, punit2) {
