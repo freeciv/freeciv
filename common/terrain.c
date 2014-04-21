@@ -735,7 +735,7 @@ int count_special_near_tile(const struct tile *ptile,
 
 /****************************************************************************
   Returns TRUE iff any cardinally adjacent tile contains terrain with the
-  given flag.
+  given flag (does not check ptile itself).
 ****************************************************************************/
 bool is_terrain_flag_card_near(const struct tile *ptile,
 			       enum terrain_flag_id flag)
@@ -752,7 +752,8 @@ bool is_terrain_flag_card_near(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Returns TRUE iff any adjacent tile contains terrain with the given flag.
+  Returns TRUE iff any adjacent tile contains terrain with the given flag
+  (does not check ptile itself).
 ****************************************************************************/
 bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag)
@@ -769,7 +770,8 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Return the number of adjacent tiles that have terrain with the given flag.
+  Return the number of adjacent tiles that have terrain with the given flag
+  (not including ptile itself).
 ****************************************************************************/
 int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
@@ -918,6 +920,7 @@ enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain)
 
 /****************************************************************************
   Is there terrain of the given class cardinally near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_terrain_class_card_near(const struct tile *ptile,
                                 enum terrain_class tclass)
@@ -937,6 +940,7 @@ bool is_terrain_class_card_near(const struct tile *ptile,
 
 /****************************************************************************
   Is there terrain of the given class near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_terrain_class_near_tile(const struct tile *ptile,
                                 enum terrain_class tclass)
@@ -955,7 +959,8 @@ bool is_terrain_class_near_tile(const struct tile *ptile,
 }
 
 /****************************************************************************
-  Return the number of adjacent tiles that have given terrain class.
+  Return the number of adjacent tiles that have given terrain class
+  (not including ptile itself).
 ****************************************************************************/
 int count_terrain_class_near_tile(const struct tile *ptile,
                                   bool cardinal_only, bool percentage,

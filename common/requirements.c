@@ -1046,19 +1046,23 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_class_card_near(target_tile, pclass));
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass
+                            || is_terrain_class_card_near(target_tile, pclass));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_class_near_tile(target_tile, pclass));
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass
+                            || is_terrain_class_near_tile(target_tile, pclass));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
     }
     city_tile_iterate(city_map_radius_sq_get(target_city),
                       city_tile(target_city), ptile) {
-      if (terrain_type_terrain_class(tile_terrain(ptile)) == pclass) {
+      const struct terrain *pterrain = tile_terrain(ptile);
+      if (pterrain != T_UNKNOWN
+          && terrain_type_terrain_class(pterrain) == pclass) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
@@ -1086,28 +1090,38 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
 {
   switch (range) {
   case REQ_RANGE_LOCAL:
-    /* The requirement is filled if the tile has the terrain with correct flag. */
+    /* The requirement is fulfilled if the tile has a terrain with
+     * correct flag. */
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile), terrflag));
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+                                             terrflag));
   case REQ_RANGE_CADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_flag_card_near(target_tile, terrflag));
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+                                             terrflag)
+                            || is_terrain_flag_card_near(target_tile,
+                                                         terrflag));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_flag_near_tile(target_tile, terrflag));
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+                                             terrflag)
+                            || is_terrain_flag_near_tile(target_tile,
+                                                         terrflag));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
     }
     city_tile_iterate(city_map_radius_sq_get(target_city),
                       city_tile(target_city), ptile) {
-      if (terrain_has_flag(tile_terrain(ptile), terrflag)) {
+      const struct terrain *pterrain = tile_terrain(ptile);
+      if (pterrain != T_UNKNOWN
+          && terrain_has_flag(pterrain, terrflag)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
@@ -1144,12 +1158,14 @@ static enum fc_tristate is_base_type_in_range(const struct tile *target_tile,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_base_card_near(target_tile, pbase));
+    return BOOL_TO_TRISTATE(tile_has_base(target_tile, pbase)
+                            || is_base_card_near(target_tile, pbase));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_base_near_tile(target_tile, pbase));
+    return BOOL_TO_TRISTATE(tile_has_base(target_tile, pbase)
+                            || is_base_near_tile(target_tile, pbase));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
@@ -1230,12 +1246,14 @@ static enum fc_tristate is_road_type_in_range(const struct tile *target_tile,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_road_card_near(target_tile, proad));
+    return BOOL_TO_TRISTATE(tile_has_road(target_tile, proad)
+                            || is_road_card_near(target_tile, proad));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_road_near_tile(target_tile, proad));
+    return BOOL_TO_TRISTATE(tile_has_road(target_tile, proad)
+                            || is_road_near_tile(target_tile, proad));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
@@ -1452,6 +1470,9 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
       case REQ_RANGE_LOCAL:
         return BOOL_TO_TRISTATE(is_city_in_tile(target_tile, target_city));
       case REQ_RANGE_CADJACENT:
+        if (is_city_in_tile(target_tile, target_city)) {
+          return TRI_YES;
+        }
         cardinal_adjc_iterate(target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;
@@ -1460,6 +1481,9 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 
         return TRI_NO;
       case REQ_RANGE_ADJACENT:
+        if (is_city_in_tile(target_tile, target_city)) {
+          return TRI_YES;
+        }
         adjc_iterate(target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;
@@ -1636,10 +1660,10 @@ bool is_req_active(const struct player *target_player,
                                  req->range, req->survives,
                                  req->source.value.base);
     break;
- case VUT_ROAD:
-   eval = is_road_type_in_range(target_tile, target_city,
-                                req->range, req->survives,
-                                req->source.value.road);
+  case VUT_ROAD:
+    eval = is_road_type_in_range(target_tile, target_city,
+                                 req->range, req->survives,
+                                 req->source.value.road);
     break;
   case VUT_MINYEAR:
     eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);

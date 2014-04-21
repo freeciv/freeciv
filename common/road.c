@@ -366,6 +366,7 @@ int count_river_type_near_tile(const struct tile *ptile,
 
 /****************************************************************************
   Is there road of the given type cardinally near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad)
 {
@@ -380,6 +381,7 @@ bool is_road_card_near(const struct tile *ptile, const struct road_type *proad)
 
 /****************************************************************************
   Is there road of the given type near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad)
 {
