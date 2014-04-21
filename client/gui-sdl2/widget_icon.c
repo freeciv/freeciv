@@ -153,10 +153,10 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 {
 #if 0
   SDL_Color bg_color = { 255, 255, 255, 128 };
-  
+
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
-  SDL_Surface *pTheme = create_surf_alpha((src.w + adj_size(4)) * 4, src.h + adj_size(4),
-				    SDL_SWSURFACE);
+  SDL_Surface *pTheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
+                                    SDL_SWSURFACE);
   dest.x = adj_size(2);
   dest.y = (pTheme->h - src.h) / 2;
 

@@ -2035,11 +2035,11 @@ void economy_report_dialog_popup(bool make_modal)
   
   /* ------------------------- */
   pLast = pBuf;
-  if(entries_used > 0) {
-    
+  if (entries_used > 0) {
+
     /* Create Imprv Background Icon */
-    pBackground = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
-    
+    pBackground = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
+
     SDL_FillRect(pBackground, NULL, map_rgba(pBackground->format, bg_color));
 #if 0
     putframe(pBackground,
@@ -2386,10 +2386,10 @@ SDL_Surface * create_select_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   }
 
   pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
-  
+
   /* create label surface */
-  pSurf = create_surf_alpha(w, h, SDL_SWSURFACE);
-  
+  pSurf = create_surf(w, h, SDL_SWSURFACE);
+
   if (tech_id == player_research_get(client.conn.playing)->researching)
   {
     color.a = 180;

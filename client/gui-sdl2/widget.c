@@ -120,7 +120,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
   zoom = ((i != width) ||  (j != height));
 
   /* now allocate memory */
-  pBackground = create_surf_alpha(i, j, SDL_SWSURFACE);
+  pBackground = create_surf(i, j, SDL_SWSURFACE);
 
   /* copy left end */
 
@@ -487,7 +487,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pWidget->info_label->fgcol = color;
 
     info_label = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
-                                       SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG), TRUE);
+                                       SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG));
 
     /* calculate start position */
     if ((pWidget->dst->dest_rect.y + pWidget->size.y) - info_label->h - adj_size(6) < 0) {

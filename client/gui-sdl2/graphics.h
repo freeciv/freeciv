@@ -229,20 +229,20 @@ SDL_Surface *load_surf(const char *pFname);
 SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags);
 
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
-				     int w, int h, Uint32 f);
+                                     int w, int h, Uint32 f);
 
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
-				   SDL_Color *pColor, bool add_alpha);
+                                   SDL_Color *pColor);
 
 SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
-				    SDL_Rect *pRect);
+                                    SDL_Rect *pRect);
 
-SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
+SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y);
 
 SDL_Surface *copy_surface(SDL_Surface *pSrc);
 
-bool correct_black(SDL_Surface * pSrc);
+bool correct_black(SDL_Surface *pSrc);
 
 int blit_entire_src(SDL_Surface *pSrc,
 		    SDL_Surface *pDest, Sint16 iDest_x, Sint16 iDest_y);
@@ -312,8 +312,6 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 
 #define map_rgba(format, color) \
         SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
-
-SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags);
 
 #define crop_rect_from_screen(rect) \
 		crop_rect_from_surface(Main.screen, &rect)

@@ -1145,6 +1145,9 @@ SDL_Surface *create_city_map(struct city *pCity)
   return city_map_canvas->surf;
 }
 
+/**************************************************************************
+  Return surface containing terrain of the tile.
+**************************************************************************/
 SDL_Surface *get_terrain_surface(struct tile *ptile)
 {
   /* tileset dimensions might have changed, so create a new canvas each time */

@@ -817,8 +817,8 @@ void ui_init(void)
 
 #if 0
   /* create label background */
-  pBgd = create_surf_alpha(adj_size(350), adj_size(50), SDL_SWSURFACE);
-  
+  pBgd = create_surf(adj_size(350), adj_size(50), SDL_SWSURFACE);
+
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
   putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, SDL_MapRGB(pBgd->format, 0, 0, 0));
  

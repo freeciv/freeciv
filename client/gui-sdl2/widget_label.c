@@ -258,13 +258,13 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   pLabel->mod = KMOD_NONE;
   baseclass_redraw = pLabel->redraw;
   pLabel->redraw = redraw_label;
-  
+
   remake_label_size(pLabel);
 
   pLabel->size.w = MAX(pLabel->size.w, w);
   pLabel->size.h = MAX(pLabel->size.h, h);
 
-  pBuf = create_surf_alpha(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
+  pBuf = create_surf(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
 
   if (flags & WF_RESTORE_BACKGROUND) {
 #if 0
@@ -327,10 +327,11 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   SDL_Color store = {0, 0, 0, 0};
   SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey, flags = get_wflags(pIconLabel);
-  SDL_Surface *pDest, *pTheme, *pBuf = create_surf_alpha(pIconLabel->size.w,
-				  pIconLabel->size.h * 2, SDL_SWSURFACE);
-  
-  if(flags & WF_RESTORE_BACKGROUND) {
+  SDL_Surface *pDest, *pTheme;
+  SDL_Surface *pBuf = create_surf(pIconLabel->size.w,
+                                  pIconLabel->size.h * 2, SDL_SWSURFACE);
+
+  if (flags & WF_RESTORE_BACKGROUND) {
 #if 0
     pTheme = SDL_DisplayFormatAlpha(pBuf);
 #else

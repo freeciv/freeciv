@@ -621,14 +621,13 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support, int w,
   int free_unhappy;
   int happy_cost;
 
-  struct canvas *destcanvas = canvas_create_with_alpha(
-                                tileset_full_tile_width(tileset),
-                                tileset_full_tile_height(tileset));  
-  
+  struct canvas *destcanvas = canvas_create(tileset_full_tile_width(tileset),
+                                            tileset_full_tile_height(tileset));
+
   put_unit(pUnit, destcanvas, 1.0, 0, 0);
 
   src_rect = get_smaller_surface_rect(destcanvas->surf);
-  pSurf = create_surf_alpha(src_rect.w, src_rect.h, SDL_SWSURFACE);
+  pSurf = create_surf(src_rect.w, src_rect.h, SDL_SWSURFACE);
   alphablit(destcanvas->surf, &src_rect, pSurf, NULL, 255);
 
   canvas_free(destcanvas);
@@ -636,9 +635,8 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support, int w,
   pZoomed = ResizeSurfaceBox(pSurf, w, h, 1, TRUE, TRUE);
   FREESURFACE(pSurf);
   pSurf = pZoomed;
-  
+
   if (support) {
-    
     free_unhappy = get_city_bonus(pCityDlg->pCity, EFT_MAKE_CONTENT_MIL);
     happy_cost = city_unit_unhappiness(pUnit, &free_unhappy);
 

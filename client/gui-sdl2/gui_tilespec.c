@@ -165,15 +165,15 @@ void tilespec_setup_city_icons(void)
   load_city_icon_surface(pSpr, pLuxury, "city.small_lux");
   load_city_icon_surface(pSpr, pCoin, "city.small_coin");		  
   load_city_icon_surface(pSpr, pColb, "city.small_colb");		  
-    
+
   load_city_icon_surface(pSpr, pPollution, "city.pollution");
   /* ================================================================= */
-  
+
   load_city_icon_surface(pSpr, pPolice, "city.police");
   /* ================================================================= */
-  pIcons->pWorklist = create_surf_alpha(9,9, SDL_SWSURFACE);
+  pIcons->pWorklist = create_surf(9,9, SDL_SWSURFACE);
   SDL_FillRect(pIcons->pWorklist, NULL,
-		  SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
+               SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
 #if 0
   putframe(pIcons->pWorklist,
            0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
@@ -486,22 +486,22 @@ void setup_auxiliary_tech_icons(void)
 
   SDL_Surface *pSurf;
   SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
-  
+
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
-    
+
   /* create icons */
-  pSurf = create_surf_alpha(adj_size(50), adj_size(50), SDL_SWSURFACE);
+  pSurf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
   putframe(pSurf,
            0 , 0, pSurf->w - 1, pSurf->h - 1,
            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
   pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
-  pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    
+  pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
   pFuture_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
-  
+
   FREESURFACE(pSurf);
-    
+
   /* None */
   pSurf = create_text_surf_from_str16(pStr);
   blit_entire_src(pSurf, pNone_Tech_Icon ,

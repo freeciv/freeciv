@@ -869,25 +869,25 @@ static void Remake_UnitInfo(int w, int h)
   /* clear area under old map window */
   clear_surface(pWidget->dst->surface, &pWidget->size);
   widget_mark_dirty(pWidget);
-    
+
   pWidget->size.w = w;
   pWidget->size.h = h;
-  
+
   pWidget->size.x = main_window_width() - w;
   pWidget->size.y = main_window_height() - h;
-  
+
   FREESURFACE(pWidget->theme);
-  pWidget->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
-     
+  pWidget->theme = create_surf(w, h, SDL_SWSURFACE);
+
   draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
-  
+
   pSurf = ResizeSurface(pTheme->Block, BLOCKU_W,
     pWidget->size.h - ((pUnits_Info_Window->size.h - pUnits_Info_Window->area.h)), 1);
-  
+
   blit_entire_src(pSurf, pWidget->theme, pUnits_Info_Window->area.x,
-                                         pUnits_Info_Window->area.y);
+                  pUnits_Info_Window->area.y);
   FREESURFACE(pSurf);
-  
+
   area.w = w - BLOCKU_W - (pUnits_Info_Window->size.w - pUnits_Info_Window->area.w);
   area.h = h - (pUnits_Info_Window->size.h - pUnits_Info_Window->area.h);
   SDL_FillRect(pWidget->theme, &area, map_rgba(pWidget->theme->format, bg_color));
@@ -1441,12 +1441,12 @@ void popup_unitinfo_window() {
   add_to_gui_list(ID_REVOLUTION, pWidget);
 
   pRevolution_Button = pWidget;
-  
+
   /* show/hide unit's window button */
 
   /* make UNITS Icon */
-  pIcon_theme = create_surf_alpha(pTheme->MAP_Icon->w,
-			    pTheme->MAP_Icon->h, SDL_SWSURFACE);
+  pIcon_theme = create_surf(pTheme->MAP_Icon->w,
+                            pTheme->MAP_Icon->h, SDL_SWSURFACE);
   alphablit(pTheme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
   alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
@@ -1647,7 +1647,7 @@ void popup_minimap_window() {
 
   add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pWidget);
 
-  #ifdef SMALL_SCREEN
+#ifdef SMALL_SCREEN
   /* options button */
   pOptions_Button = create_themeicon(pTheme->Options_Icon,
                                      pMiniMap_Window->dst,
@@ -1655,18 +1655,17 @@ void popup_minimap_window() {
                                      | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
   pOptions_Button->info_label = create_str16_from_char(buf, adj_font(12));
-  
-  pOptions_Button->action = optiondlg_callback;  
+
+  pOptions_Button->action = optiondlg_callback;
   pOptions_Button->key = SDLK_ESCAPE;
 
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
-  #endif
+#endif
 
   /* show/hide minimap button */
 
   /* make Map Icon */
-  pIcon_theme =
-      create_surf_alpha(pTheme->MAP_Icon->w, pTheme->MAP_Icon->h, SDL_SWSURFACE);
+  pIcon_theme = create_surf(pTheme->MAP_Icon->w, pTheme->MAP_Icon->h, SDL_SWSURFACE);
   alphablit(pTheme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
   alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
@@ -2750,7 +2749,7 @@ void set_turn_done_button_state(bool state)
 void create_line_at_mouse_pos(void)
 {
   int pos_x, pos_y;
-    
+
   SDL_GetMouseState(&pos_x, &pos_y);
   update_line(pos_x, pos_y);
   draw_goto_patrol_lines = TRUE;

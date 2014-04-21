@@ -106,7 +106,7 @@ struct gui_layer *add_gui_layer(int width, int height)
   struct gui_layer *gui_layer = NULL;
   SDL_Surface *pBuffer;
 
-  pBuffer = create_surf_alpha(/*Main.screen->w*/width, /*Main.screen->h*/height, SDL_SWSURFACE);
+  pBuffer = create_surf(width, height, SDL_SWSURFACE);
   gui_layer = gui_layer_new(0, 0, pBuffer);
 
   /* add to buffers array */
@@ -387,51 +387,30 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
 }
 
 /**************************************************************************
-  create a surface with alpha channel
-**************************************************************************/
-SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags) {
-  SDL_Surface *pTmp = create_surf(iWidth, iHeight, iFlags);
-
-#if 0
-  SDL_Surface *pNew = SDL_DisplayFormatAlpha(pTmp);
-  FREESURFACE(pTmp);
-  clear_surface(pNew, NULL);
-  
-  return pNew;
-#endif
-
-  return pTmp;
-}
-
-/**************************************************************************
   create an surface with screen format and fill with color.
   if pColor == NULL surface is filled with transparent white A = 128
-  MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
-				   SDL_Color * pColor, bool add_alpha)
+                                   SDL_Color *pColor)
 {
   SDL_Surface *pNew;
 
-  if (add_alpha) {
-    pNew = create_surf_alpha(w, h, iFlags);
-  } else {
-    pNew = create_surf(w, h, iFlags);
-  }
-  
+  pNew = create_surf(w, h, iFlags);
+
   if (!pNew) {
     return NULL;
   }
 
   if (!pColor) {
     /* pColor->unused == ALPHA */
-    SDL_Color color ={255, 255, 255, 128};
+    SDL_Color color = {255, 255, 255, 128};
+
     pColor = &color;
   }
 
   SDL_FillRect(pNew, NULL,
-	       SDL_MapRGBA(pNew->format, pColor->r, pColor->g, pColor->b,
-			   pColor->a));
+               SDL_MapRGBA(pNew->format, pColor->r, pColor->g, pColor->b,
+                           pColor->a));
 
   if (pColor->a != 255) {
     SDL_SetSurfaceAlphaMod(pNew, pColor->a);
@@ -700,7 +679,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
    * Various things (such as zoomSurfaceRGBA() don't cope well with a
    * zero-sized surface, so we use a transparent 1x1 surface. */
   FREESURFACE(Main.dummy);
-  Main.dummy = create_surf_alpha(1, 1, SDL_SWSURFACE);
+  Main.dummy = create_surf(1, 1, SDL_SWSURFACE);
 
   FREESURFACE(Main.map);
   Main.map = SDL_DisplayFormat(Main.screen);
@@ -709,7 +688,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   if (Main.gui) {
     FREESURFACE(Main.gui->surface);
-    Main.gui->surface = create_surf_alpha(iWidth, iHeight, SDL_SWSURFACE);
+    Main.gui->surface = create_surf(iWidth, iHeight, SDL_SWSURFACE);
   } else {
     Main.gui = add_gui_layer(iWidth, iHeight);
   }
@@ -3360,21 +3339,22 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
                              1.0,
                              smooth);
   }
-  
+
   if (absolute_dimensions) {
     SDL_Rect area = {
       (new_width - tmpSurface->w) / 2,
       (new_height - tmpSurface->h) / 2,
       0, 0
     };
-    result = create_surf_alpha(new_width, new_height, SDL_SWSURFACE);
+
+    result = create_surf(new_width, new_height, SDL_SWSURFACE);
     alphablit(tmpSurface, NULL, result, &area, 255);
     FREESURFACE(tmpSurface);
   } else {
     result = tmpSurface;
   }
 
-  return result;  
+  return result;
 }
 
 /**************************************************************************

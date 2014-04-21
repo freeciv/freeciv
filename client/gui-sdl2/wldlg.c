@@ -1020,7 +1020,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   bool advanced_tech;
   bool can_build, can_eventually_build;
   SDL_Rect area;
-  
+
   if (pEditor) {
     return;
   }
@@ -1049,37 +1049,37 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 
   /* --------------- */
   /* create Target Background Icon */
-  pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
+  pMain = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
   SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
 #if 0
   putframe(pMain,
            0, 0, pMain->w - 1, pMain->h - 1,
            get_theme_color(COLOR_THEME_WLDLG_FRAME));
 #endif
-    
+
   /* ---------------- */
   /* Create Main Window */
   pWindow = create_window_skeleton(NULL, NULL, 0);
   pWindow->action = window_worklist_editor_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_WINDOW, pWindow);
   pEditor->pEndWidgetList = pWindow;
 
   area = pWindow->area;
-  
+
   /* ---------------- */
   if (pCity) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(pGWL));
   }
-    
+
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  
+
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
-  
+
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
 
@@ -1092,30 +1092,29 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   pEditor->pWorkList_Counter = pBuf;
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
-  
+
   /* create production proggres label or rename worklist edit */
-  if(pCity) {
+  if (pCity) {
     /* count == cost */
     /* turns == progress */
     const char *name = city_production_name_translation(pCity);
     count = city_production_build_shield_cost(pCity);
-    
-    if (city_production_has_flag(pCity, IF_GOLD))
-    {
+
+    if (city_production_has_flag(pCity, IF_GOLD)) {
       int gold = MAX(0, pCity->surplus[O_SHIELD]);
+
       fc_snprintf(cBuf, sizeof(cBuf),
                   PL_("%s\n%d gold per turn",
                       "%s\n%d gold per turn", gold),
                   name, gold);
     } else {
-      if(pCity->shield_stock < count) {
+      if (pCity->shield_stock < count) {
         turns = city_production_turns_to_build(pCity, TRUE);
-        if(turns == 999)
-        {
+        if (turns == 999) {
           fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
         } else {
           fc_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
-		    name, turns, PL_("turn", "turns", turns));
+                      name, turns, PL_("turn", "turns", turns));
         }
       } else {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
@@ -1124,19 +1123,19 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
-    
+
     pEditor->pProduction_Name = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
-    
+
     pIcon = get_progress_icon(pCity->shield_stock, count, &turns);
-    
+
     fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , turns);
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    
+
     pBuf = create_iconlabel(pIcon, pWindow->dst, pStr,
-    		(WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
-    
+                            (WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
+
     pIcon = NULL;
     turns = 0;
     pEditor->pProduction_Progres = pBuf;
@@ -1147,32 +1146,32 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
                                   adj_size(120), WF_RESTORE_BACKGROUND);
     pBuf->action = rename_worklist_editor_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
-    
+
     add_to_gui_list(ID_EDIT, pBuf);
   }
-  
+
   /* --------------------------- */
   /* Commit Widget */
   pBuf = create_themeicon(pTheme->OK_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
-  
+
   pBuf->action = ok_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_RETURN;
-    
+
   add_to_gui_list(ID_BUTTON, pBuf);
   /* --------------------------- */
   /* Cancel Widget */
   pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
-				  WF_RESTORE_BACKGROUND);
-  
+                          WF_RESTORE_BACKGROUND);
+
   pBuf->action = popdown_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-    
+
   add_to_gui_list(ID_BUTTON, pBuf);
   /* --------------------------- */
   /* work list */
-  
+
   /*
      pWidget->data filed will contains postion of target in worklist all
      action on worklist (swap/romove/add) must correct this fields
@@ -1180,10 +1179,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
      Production Widget Label in worklist Widget list
      will have this field NULL
   */
-  
+
   pEditor->pWork = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  
   pEditor->pWork->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pEditor->pWork->pScroll->count = 0;
   pEditor->pWork->pScroll->active = MAX_LEN_WORKLIST;
@@ -1194,8 +1192,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 #if 0  
   create_vertical_scrollbar(pEditor->pWork, 1, MAX_LEN_WORKLIST, TRUE, TRUE);
 #endif
-  
-  if(pCity) {
+
+  if (pCity) {
    /* Production Widget Label */ 
     pStr = create_str16_from_char(city_production_name_translation(pCity), adj_font(10));
     turns = city_production_build_shield_cost(pCity);

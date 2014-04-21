@@ -2035,97 +2035,92 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
             _("Look up \"%s\" in the Help Browser"),
             utype_name_translation(pUnitType));
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    cBuf, unit_help_callback);
+                              cBuf, unit_help_callback);
       set_wstate(pBuf , FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - utype_number(pUnitType), pBuf);
-    
+
       area.w = MAX(area.w, pBuf->size.w);
       units_h += pBuf->size.h;
-      /* ---------------- */  
+      /* ---------------- */
       pAdvanced_Terrain_Dlg->pBeginWidgetList = pBuf;
     }
-    
+
   }
   /* ---------- */
-  
+
   area.w += adj_size(2);
   area.h += units_h;
 
-  resize_window(pWindow, NULL, NULL, 
+  resize_window(pWindow, NULL, NULL,
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
 
   area = pWindow->area;
-  
+
   widget_set_position(pWindow, pos_x, pos_y);
 
   w = area.w - adj_size(2);
-  
+
   if (pAdvanced_Terrain_Dlg->pScroll) {
     units_h = n;
   } else {
     units_h = 0;
   }
-  
+
   /* exit button */
   pBuf = pWindow->prev;
-  
+
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + adj_size(2);
-  
+
   /* terrain info */
   pBuf = pBuf->prev;
-  
+
   pBuf->size.x = area.x + 1;
   pBuf->size.y = area.y + 1;
   pBuf->size.w = w;
   h = pBuf->size.h;
-  
+
   area2.x = adj_size(10);
   area2.h = adj_size(2);
-  
+
   pBuf = pBuf->prev;
-  while(pBuf)
-  {
-    
-    if (pBuf == pAdvanced_Terrain_Dlg->pEndActiveWidgetList)
-    {
+  while(pBuf) {
+    if (pBuf == pAdvanced_Terrain_Dlg->pEndActiveWidgetList) {
       w -= units_h;
     }
-    
+
     pBuf->size.w = w;
     pBuf->size.x = pBuf->next->size.x;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-    
-    if (pBuf->ID == ID_SEPARATOR)
-    {
+
+    if (pBuf->ID == ID_SEPARATOR) {
       FREESURFACE(pBuf->theme);
       pBuf->size.h = h;
-      pBuf->theme = create_surf_alpha(w , h , SDL_SWSURFACE);
-    
+      pBuf->theme = create_surf(w , h , SDL_SWSURFACE);
+
       area2.y = pBuf->size.h / 2 - 1;
       area2.w = pBuf->size.w - adj_size(20);
-      
+
       SDL_FillRect(pBuf->theme, &area2, map_rgba(pBuf->theme->format,
-                    *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
+                                      *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
     }
-    
-    if(pBuf == pAdvanced_Terrain_Dlg->pBeginWidgetList || 
-      pBuf == pAdvanced_Terrain_Dlg->pBeginActiveWidgetList) {
+
+    if (pBuf == pAdvanced_Terrain_Dlg->pBeginWidgetList
+        || pBuf == pAdvanced_Terrain_Dlg->pBeginActiveWidgetList) {
       break;
     }
     pBuf = pBuf->prev;
   }
-  
-  if (pAdvanced_Terrain_Dlg->pScroll)
-  {
+
+  if (pAdvanced_Terrain_Dlg->pScroll) {
     setup_vertical_scrollbar_area(pAdvanced_Terrain_Dlg->pScroll,
 	area.x + area.w,
     	pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y,
     	area.y - pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y + area.h,
         TRUE);
   }
-  
+
   /* -------------------- */
   /* redraw */
   redraw_group(pAdvanced_Terrain_Dlg->pBeginWidgetList, pWindow, 0);
@@ -3140,49 +3135,48 @@ void popup_races_dialog(struct player *pplayer)
 
 #define TARGETS_ROW 5
 #define TARGETS_COL 1
-  
+
   if (pNationDlg) {
     return;
   }
-  
+
   races_player = pplayer;
-  
+
   pNationDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
-  
+
   /* create window widget */
   pStr = create_str16_from_char(_("What nation will you be?"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  
+
   pWindow = create_window(NULL, pStr, w, h, WF_FREE_DATA);
   pWindow->action = nations_dialog_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   pSetup = fc_calloc(1, sizeof(struct NAT));
   pWindow->data.ptr = (void *)pSetup;
-    
+
   pNationDlg->pEndWidgetList = pWindow;
   add_to_gui_list(ID_NATION_WIZARD_WINDOW, pWindow);
   /* --------------------------------------------------------- */
   /* create nations list */
 
   /* Create Imprv Background Icon */
-  pMain_Bg = create_surf_alpha(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
-  
+  pMain_Bg = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
+
   SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
 #if 0
   putframe(pMain_Bg,
            0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
            get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
 #endif
-  
+
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   /* fill list */
   pText_Class = NULL;
-    
-  nations_iterate(pNation) {
 
+  nations_iterate(pNation) {
     if (!is_nation_playable(pNation) || !is_nation_pickable(pNation)) {
       continue;
     }
@@ -3190,22 +3184,22 @@ void popup_races_dialog(struct player *pplayer)
     pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pNation));
 
     pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
-          
+
     copy_chars_to_string16(pStr, nation_plural_translation(pNation));
     change_ptsize16(pStr, adj_font(12));
     pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
-    
-#if 0      
+
+#if 0
     if (pNation->legend && *(pNation->legend) != '\0') {
       copy_chars_to_string16(pStr, pNation->legend);
       change_ptsize16(pStr, adj_font(10));
       pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
     }
 #endif /* 0 */
-    
+
     dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
     len = pTmp_Surf_zoomed->h +
-	    adj_size(10) + pText_Name->h + (pText_Class ? pText_Class->h : 0);
+      adj_size(10) + pText_Name->h + (pText_Class ? pText_Class->h : 0);
     dst.y = (pTmp_Surf->h - len) / 2;
     alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst, 255);
     dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
@@ -3222,37 +3216,37 @@ void popup_races_dialog(struct player *pplayer)
     }
 
     pWidget = create_icon2(pTmp_Surf, pWindow->dst,
-    			(WF_RESTORE_BACKGROUND|WF_FREE_THEME));
-    
+                           (WF_RESTORE_BACKGROUND|WF_FREE_THEME));
+
     set_wstate(pWidget, FC_WS_NORMAL);
-    
+
     pWidget->action = nation_button_callback;
 
     w = MAX(w, pWidget->size.w);
     h = MAX(h, pWidget->size.h);
 
     add_to_gui_list(MAX_ID - nation_index(pNation), pWidget);
-    
+
     if (nation_index(pNation) > (TARGETS_ROW * TARGETS_COL - 1)) {
       set_wflag(pWidget, WF_HIDDEN);
     }
-    
+
   } nations_iterate_end;
-  
+
   FREESURFACE(pMain_Bg);
-    
+
   pNationDlg->pEndActiveWidgetList = pWindow->prev;
   pNationDlg->pBeginWidgetList = pWidget;
   pNationDlg->pBeginActiveWidgetList = pNationDlg->pBeginWidgetList;
-    
-  if(get_playable_nation_count() > TARGETS_ROW * TARGETS_COL) {
-      pNationDlg->pActiveWidgetList = pNationDlg->pEndActiveWidgetList;
-      create_vertical_scrollbar(pNationDlg,
-		    		TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
+
+  if (get_playable_nation_count() > TARGETS_ROW * TARGETS_COL) {
+    pNationDlg->pActiveWidgetList = pNationDlg->pEndActiveWidgetList;
+    create_vertical_scrollbar(pNationDlg,
+                              TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
   }
-  
+
   /* ----------------------------------------------------------------- */
-    
+
   /* nation name */
 
   pSetup->nation = fc_rand(get_playable_nation_count());
@@ -3262,49 +3256,49 @@ void popup_races_dialog(struct player *pplayer)
   change_ptsize16(pStr, adj_font(24));
   pStr->render = 2;
   pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_TEXT);
-  
+
   pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(nation_by_number(pSetup->nation)));
-  
+
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
-  			(WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
+                             (WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
   pBuf = pWidget;
   add_to_gui_list(ID_LABEL, pWidget);
-  
+
   /* create leader name edit */
   pWidget = create_edit_from_unichars(NULL, pWindow->dst,
-						  NULL, 0, adj_font(16), adj_size(200), 0);
+                                      NULL, 0, adj_font(16), adj_size(200), 0);
   pWidget->size.h = adj_size(24);
-  
+
   set_wstate(pWidget, FC_WS_NORMAL);
   pWidget->action = leader_name_edit_callback;
   add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pWidget);
   pSetup->pName_Edit = pWidget;
-  
+
   /* create next leader name button */
   pWidget = create_themeicon_button(pTheme->R_ARROW_Icon,
-						  pWindow->dst, NULL, 0);
+                                    pWindow->dst, NULL, 0);
   pWidget->action = next_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pWidget);
   pWidget->size.h = pWidget->next->size.h;
   pSetup->pName_Next = pWidget;
-  
+
   /* create prev leader name button */
   pWidget = create_themeicon_button(pTheme->L_ARROW_Icon,
-  						pWindow->dst, NULL, 0);
+                                    pWindow->dst, NULL, 0);
   pWidget->action = prev_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pWidget);
   pWidget->size.h = pWidget->next->size.h;
   pSetup->pName_Prev = pWidget;
-  
+
   /* change sex button */
-  
+
   pWidget = create_icon_button_from_chars(NULL, pWindow->dst, _("Male"), adj_font(14), 0);
   pWidget->action = change_sex_callback;
   pWidget->size.w = adj_size(100);
   pWidget->size.h = adj_size(22);
   set_wstate(pWidget, FC_WS_NORMAL);
   pSetup->pChange_Sex = pWidget;
-  
+
   /* add to main widget list */
   add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pWidget);
 

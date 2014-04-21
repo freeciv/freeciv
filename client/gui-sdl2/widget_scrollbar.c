@@ -98,13 +98,14 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
   tile_count_midd = (High - tile_len_end * 2) / tile_len_midd;
 
   /* correction */
-  if (tile_len_midd * tile_count_midd + tile_len_end * 2 < High)
+  if (tile_len_midd * tile_count_midd + tile_len_end * 2 < High) {
     tile_count_midd++;
+  }
 
   if (!tile_count_midd) {
-    pVerSurf = create_surf_alpha(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
+    pVerSurf = create_surf(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
   } else {
-    pVerSurf = create_surf_alpha(pVert_theme->w, High, SDL_SWSURFACE);
+    pVerSurf = create_surf(pVert_theme->w, High, SDL_SWSURFACE);
   }
 
   src.x = 0;
@@ -243,9 +244,9 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
   }
 
   if (!tile_count_midd) {
-    pHorSurf = create_surf_alpha(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
+    pHorSurf = create_surf(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
   } else {
-    pHorSurf = create_surf_alpha(Width, pHoriz_theme->h, SDL_SWSURFACE);
+    pHorSurf = create_surf(Width, pHoriz_theme->h, SDL_SWSURFACE);
   }
 
   src.y = 0;

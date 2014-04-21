@@ -21,7 +21,5 @@
 struct canvas {
   SDL_Surface *surf;
 };
-
-struct canvas *canvas_create_with_alpha(int width, int height);
     
 #endif				/* FC__CANVAS_H */

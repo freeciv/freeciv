@@ -1250,15 +1250,15 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   area.y += adj_size(12);
   area.w -= adj_size(12) + adj_size(12);
   area.h -= adj_size(12) + adj_size(12);
-  background->theme = create_surf_alpha(area.w, area.h, SDL_SWSURFACE);
+  background->theme = create_surf(area.w, area.h, SDL_SWSURFACE);
   widget_set_area(background, area);
   widget_set_position(background, area.x, area.y);
   SDL_FillRect(background->theme, NULL,
                map_rgba(background->theme->format, bg_color));
 #if 0
   putframe(background->theme,
-		   0, 0, background->theme->w - 1, background->theme->h - 1,
-		   get_theme_color(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME));
+       	   0, 0, background->theme->w - 1, background->theme->h - 1,
+           get_theme_color(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME));
 #endif
 
   /* Create the Scrollbar. */

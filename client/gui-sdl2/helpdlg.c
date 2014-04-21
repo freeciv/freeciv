@@ -248,7 +248,7 @@ void popup_impr_info(Impr_type_id impr)
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
-    pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
+    pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
 #if 0
     putframe(pBackgroundTmpl,
@@ -665,7 +665,7 @@ void popup_unit_info(Unit_type_id type_id)
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
-    pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
+    pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
 #if 0
     putframe(pBackgroundTmpl,

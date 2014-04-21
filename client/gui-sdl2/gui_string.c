@@ -250,8 +250,8 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
   switch (pString->render) {
   case 0:
     pText = TTF_RenderUNICODE_Shaded(pString->font,
-				     pString->text, pString->fgcol,
-				     pString->bgcol);
+                                     pString->text, pString->fgcol,
+                                     pString->bgcol);
     break;
   case 1:
   {
@@ -268,12 +268,12 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     }
 #endif
     pText = pTmp;
-    
+
   }
   break;
   case 2:
     pText = TTF_RenderUNICODE_Blended(pString->font,
-				      pString->text, pString->fgcol);
+                                      pString->text, pString->fgcol);
     break;
   }
 
@@ -283,7 +283,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
     log_debug("SDL_create_str16_surf: String is %d length", pText->w);
   } else {
     log_debug("SDL_create_str16_surf: pText NULL");
-    pText = create_surf_alpha(0, 0, SDL_SWSURFACE);
+    pText = create_surf(0, 0, SDL_SWSURFACE);
   }
 
   if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {

@@ -252,19 +252,19 @@ int resize_window(struct widget *pWindow,
   if ((new_w != pWindow->size.w) || (new_h != pWindow->size.h)) {
     pWindow->size.w = new_w;
     pWindow->size.h = new_h;
-  
+
     set_client_area(pWindow);
-    
+
     if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
       refresh_widget_background(pWindow);
     }
 
     FREESURFACE(pWindow->dst->surface);
-    pWindow->dst->surface = create_surf_alpha(pWindow->size.w,
-                                              pWindow->size.h,
-                                              SDL_SWSURFACE);
+    pWindow->dst->surface = create_surf(pWindow->size.w,
+                                        pWindow->size.h,
+                                        SDL_SWSURFACE);
   }
-  
+
   if (pBcgd != pWindow->theme) {
     FREESURFACE(pWindow->theme);
   }
@@ -278,15 +278,16 @@ int resize_window(struct widget *pWindow,
       return 0;
     }
   } else {
-    pWindow->theme = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
-    
+    pWindow->theme = create_surf(new_w, new_h, SDL_SWSURFACE);
+
     if (!pColor) {
       SDL_Color color = *get_theme_color(COLOR_THEME_BACKGROUND);
+
       pColor = &color;
     }
-  
+
     SDL_FillRect(pWindow->theme, NULL, map_rgba(pWindow->theme->format, *pColor));
-    
+
     return 1;
   }
 }
