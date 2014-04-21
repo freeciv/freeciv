@@ -1078,6 +1078,9 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     if (!target_tile) {
       return TRI_MAYBE;
     }
+    if (unit_list_size(target_tile->units) <= maxUnits) {
+      return TRI_YES;
+    }
     cardinal_adjc_iterate(target_tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= maxUnits) {
         return TRI_YES;
@@ -1087,6 +1090,9 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
+    }
+    if (unit_list_size(target_tile->units) <= maxUnits) {
+      return TRI_YES;
     }
     adjc_iterate(target_tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= maxUnits) {
@@ -1127,12 +1133,14 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_extra_card_near(target_tile, pextra));
+    return BOOL_TO_TRISTATE(tile_has_extra(target_tile, pextra)
+                            || is_extra_card_near(target_tile, pextra));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_extra_near_tile(target_tile, pextra));
+    return BOOL_TO_TRISTATE(tile_has_extra(target_tile, pextra)
+                            || is_extra_near_tile(target_tile, pextra));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
@@ -1280,19 +1288,23 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_class_card_near(target_tile, pclass));
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass
+                            || is_terrain_class_card_near(target_tile, pclass));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_class_near_tile(target_tile, pclass));
+    return BOOL_TO_TRISTATE(terrain_type_terrain_class(tile_terrain(target_tile)) == pclass
+                            || is_terrain_class_near_tile(target_tile, pclass));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
     }
     city_tile_iterate(city_map_radius_sq_get(target_city),
                       city_tile(target_city), ptile) {
-      if (terrain_type_terrain_class(tile_terrain(ptile)) == pclass) {
+      const struct terrain *pterrain = tile_terrain(ptile);
+      if (pterrain != T_UNKNOWN
+          && terrain_type_terrain_class(pterrain) == pclass) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
@@ -1321,28 +1333,38 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
 {
   switch (range) {
   case REQ_RANGE_LOCAL:
-    /* The requirement is filled if the tile has the terrain with correct flag. */
+    /* The requirement is fulfilled if the tile has a terrain with
+     * correct flag. */
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile), terrflag));
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+                                             terrflag));
   case REQ_RANGE_CADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return is_terrain_flag_card_near(target_tile, terrflag);
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+                                             terrflag)
+                            || is_terrain_flag_card_near(target_tile,
+                                                         terrflag));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_terrain_flag_near_tile(target_tile, terrflag));
+    return BOOL_TO_TRISTATE(terrain_has_flag(tile_terrain(target_tile),
+                                             terrflag)
+                            || is_terrain_flag_near_tile(target_tile,
+                                                         terrflag));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
     }
     city_tile_iterate(city_map_radius_sq_get(target_city),
                       city_tile(target_city), ptile) {
-      if (terrain_has_flag(tile_terrain(ptile), terrflag)) {
+      const struct terrain *pterrain = tile_terrain(ptile);
+      if (pterrain != T_UNKNOWN
+          && terrain_has_flag(pterrain, terrflag)) {
         return TRI_YES;
       }
     } city_tile_iterate_end;
@@ -1380,12 +1402,14 @@ static enum fc_tristate is_baseflag_in_range(const struct tile *target_tile,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_base_flag_card_near(target_tile, baseflag));
+    return BOOL_TO_TRISTATE(tile_has_base_flag(target_tile, baseflag)
+                            || is_base_flag_card_near(target_tile, baseflag));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_base_flag_near_tile(target_tile, baseflag));
+    return BOOL_TO_TRISTATE(tile_has_base_flag(target_tile, baseflag)
+                            || is_base_flag_near_tile(target_tile, baseflag));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
@@ -1430,12 +1454,14 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_road_flag_card_near(target_tile, roadflag));
+    return BOOL_TO_TRISTATE(tile_has_road_flag(target_tile, roadflag)
+                            || is_road_flag_card_near(target_tile, roadflag));
   case REQ_RANGE_ADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(is_road_flag_near_tile(target_tile, roadflag));
+    return BOOL_TO_TRISTATE(tile_has_road_flag(target_tile, roadflag)
+                            || is_road_flag_near_tile(target_tile, roadflag));
   case REQ_RANGE_CITY:
     if (!target_city) {
       return TRI_MAYBE;
@@ -1712,6 +1738,9 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
       case REQ_RANGE_LOCAL:
         return BOOL_TO_TRISTATE(is_city_in_tile(target_tile, target_city));
       case REQ_RANGE_CADJACENT:
+        if (is_city_in_tile(target_tile, target_city)) {
+          return TRI_YES;
+        }
         cardinal_adjc_iterate(target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;
@@ -1720,6 +1749,9 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 
         return TRI_NO;
       case REQ_RANGE_ADJACENT:
+        if (is_city_in_tile(target_tile, target_city)) {
+          return TRI_YES;
+        }
         adjc_iterate(target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;

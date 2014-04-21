@@ -314,6 +314,7 @@ bool is_extra_removed_by(const struct extra_type *pextra,
 
 /****************************************************************************
   Is there extra of the given type cardinally near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra)
 {
@@ -328,6 +329,7 @@ bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextr
 
 /****************************************************************************
   Is there extra of the given type near tile?
+  (Does not check ptile itself.)
 ****************************************************************************/
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra)
 {

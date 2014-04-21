@@ -27,7 +27,13 @@ extern "C" {
 /* Range of requirements.
  * Used in the network protocol.
  * Order is important -- wider ranges should come later -- some code
- * assumes a total order, or tests for e.g. >= REQ_RANGE_PLAYER. */
+ * assumes a total order, or tests for e.g. >= REQ_RANGE_PLAYER.
+ * Ranges of similar types should be supersets, for example:
+ *  - the set of Adjacent tiles contains the set of CAdjacent tiles,
+ *    and both contain the center Local tile (a requirement on the local
+ *    tile is also within Adjacent range);
+ *  - World contains Alliance contains Player (a requirement we ourselves
+ *    have is also within Alliance range). */
 #define SPECENUM_NAME req_range
 #define SPECENUM_VALUE0 REQ_RANGE_LOCAL
 #define SPECENUM_VALUE0NAME "Local"

@@ -38,7 +38,7 @@ bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
 
 /****************************************************************************
   Returns TRUE iff any cardinally adjacent tile contains a base with
-  the given flag
+  the given flag (does not check ptile itself)
 ****************************************************************************/
 bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 {
@@ -55,6 +55,7 @@ bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 
 /****************************************************************************
   Returns TRUE iff any adjacent tile contains a base with the given flag
+  (does not check ptile itself)
 ****************************************************************************/
 bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
 {

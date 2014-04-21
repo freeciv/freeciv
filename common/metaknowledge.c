@@ -130,6 +130,9 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_LOCAL:
       return can_player_see_hypotetic_units_at(pow_player, target_tile);
     case REQ_RANGE_CADJACENT:
+      if (!can_player_see_hypotetic_units_at(pow_player, target_tile)) {
+        return FALSE;
+      }
       cardinal_adjc_iterate(target_tile, adjc_tile) {
         if (!can_player_see_hypotetic_units_at(pow_player, adjc_tile)) {
           return FALSE;
@@ -138,6 +141,9 @@ static bool is_req_knowable(const struct player *pow_player,
 
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      if (!can_player_see_hypotetic_units_at(pow_player, target_tile)) {
+        return FALSE;
+      }
       adjc_iterate(target_tile, adjc_tile) {
         if (!can_player_see_hypotetic_units_at(pow_player, adjc_tile)) {
           return FALSE;
