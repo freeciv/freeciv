@@ -164,7 +164,7 @@ static void notify_goto_response(GtkWidget *w, gint response)
   case 2:
     pcity = tile_city(ptile);
 
-    if (center_when_popup_city) {
+    if (options.center_when_popup_city) {
       center_tile_mapcanvas(ptile);
     }
 
@@ -1502,8 +1502,8 @@ void popdown_all_game_dialogs(void)
 *****************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)
 {
-  if (gui_gtk3_popup_tech_help == GUI_POPUP_TECH_HELP_ENABLED
-      || (gui_gtk3_popup_tech_help == GUI_POPUP_TECH_HELP_RULESET
+  if (options.gui_gtk3_popup_tech_help == GUI_POPUP_TECH_HELP_ENABLED
+      || (options.gui_gtk3_popup_tech_help == GUI_POPUP_TECH_HELP_RULESET
           && game.control.popup_tech_help)) {
     popup_help_dialog_typed(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
   }

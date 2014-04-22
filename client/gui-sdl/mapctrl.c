@@ -532,10 +532,10 @@ static int toggle_msg_window_callback(struct widget *pWidget)
 int resize_minimap(void)
 {
 
-  overview_w = overview.width;
-  overview_h = overview.height;
-  overview_start_x = (overview_w - overview.width)/2;
-  overview_start_y = (overview_h - overview.height)/2;
+  overview_w = options.overview.width;
+  overview_h = options.overview.height;
+  overview_start_x = (overview_w - options.overview.width)/2;
+  overview_start_y = (overview_h - options.overview.height)/2;
 
   if (C_S_RUNNING == client_state()) {
     popdown_minimap_window();

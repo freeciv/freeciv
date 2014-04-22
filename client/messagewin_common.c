@@ -167,7 +167,7 @@ void meswin_popup_city(int message_index)
     struct tile *ptile = messages[message_index].tile;
     struct city *pcity = tile_city(ptile);
 
-    if (center_when_popup_city) {
+    if (options.center_when_popup_city) {
       center_tile_mapcanvas(ptile);
     }
 

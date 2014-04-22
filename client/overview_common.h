@@ -24,34 +24,6 @@ extern "C" {
 
 #include "options.h"
 
-enum overview_layers {
-  OLAYER_BACKGROUND,
-  OLAYER_RELIEF,
-  OLAYER_BORDERS,
-  OLAYER_BORDERS_ON_OCEAN,
-  OLAYER_UNITS,
-  OLAYER_CITIES,
-  OLAYER_COUNT
-};
-
-/* Holds all information about the overview aka minimap. */
-struct overview {
-  /* The following fields are controlled by mapview_common.c. */
-  double map_x0, map_y0; /* Origin of the overview, in natural coords. */
-  int width, height;		/* Size in pixels. */
-
-  /* Holds the map, unwrapped. */
-  struct canvas *map;
-
-  /* A backing store for the window itself, wrapped. */
-  struct canvas *window;
-
-  bool fog;
-  bool layers[OLAYER_COUNT];
-};
-
-extern struct overview overview;
-
 /* The overview tile width and height are defined in terms of the base
  * size.  For iso-maps the width is twice the height since "natural"
  * coordinates are used.  For classical maps the width and height are

@@ -381,7 +381,7 @@ void overview_size_changed(void)
   if (overview_canvas) {
     canvas_free(overview_canvas);
   }      
-  overview_canvas = canvas_create(overview.width, overview.height);
+  overview_canvas = canvas_create(options.overview.width, options.overview.height);
   
   resize_minimap();
 }

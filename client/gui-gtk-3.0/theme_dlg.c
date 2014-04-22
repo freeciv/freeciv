@@ -45,7 +45,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 {
   GtkWidget *dialog, *label;
   char buf[1024];
-  char *current_name = gui_gtk3_default_theme_name;
+  char *current_name = options.gui_gtk3_default_theme_name;
 
   if (current_name == NULL) {
     /* gui_gtk3_default_theme_name is not yet set.

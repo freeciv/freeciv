@@ -169,10 +169,11 @@ static void define_tiles_within_rectangle(bool append)
     }
   }
 
-  if (!(separate_unit_selection && found_any_cities)
+  if (!(options.separate_unit_selection && found_any_cities)
       && unit_list_size(units) > 0) {
     if (!append) {
       struct unit *punit = unit_list_get(units, 0);
+
       unit_focus_set(punit);
       unit_list_remove(units, punit);
     }
@@ -624,7 +625,7 @@ void update_turn_done_button_state(void)
     if (waiting_for_end_turn
         || (NULL != client.conn.playing
             && client.conn.playing->ai_controlled
-            && !ai_manual_turn_done)) {
+            && !options.ai_manual_turn_done)) {
       send_turn_done();
     } else {
       update_turn_done_button(TRUE);

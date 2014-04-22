@@ -136,7 +136,7 @@ void update_info_label(void)
   }
 
   gtk_label_set_text(GTK_LABEL(main_label_info),
-                     get_info_label_text(!gui_gtk2_small_display_layout));
+                     get_info_label_text(!options.gui_gtk2_small_display_layout));
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
@@ -288,7 +288,7 @@ void get_overview_area_dimensions(int *width, int *height)
 void overview_size_changed(void)
 {
   gtk_widget_set_size_request(overview_canvas,
-			      overview.width, overview.height);
+                              options.overview.width, options.overview.height);
   update_map_canvas_scrollbars_size();
 }
 
@@ -670,18 +670,18 @@ void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
     return;
   }
 
-  if (fog && gui_gtk2_better_fog
+  if (fog && options.gui_gtk2_better_fog
       && ((ssprite->pixmap && !ssprite->pixmap_fogged)
 	  || (!ssprite->pixmap && !ssprite->pixbuf_fogged))) {
     fog_sprite(ssprite);
     if ((ssprite->pixmap && !ssprite->pixmap_fogged)
         || (!ssprite->pixmap && !ssprite->pixbuf_fogged)) {
       log_normal(_("Better fog will only work in truecolor. Disabling it"));
-      gui_gtk2_better_fog = FALSE;
+      options.gui_gtk2_better_fog = FALSE;
     }
   }
 
-  if (fog && gui_gtk2_better_fog) {
+  if (fog && options.gui_gtk2_better_fog) {
     if (ssprite->pixmap) {
       if (ssprite->mask) {
 	gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);

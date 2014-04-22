@@ -1373,7 +1373,7 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
   struct city *pcity = city_model_get(model, iter);
 
   if (NULL != pcity) {
-    if (center_when_popup_city) {
+    if (options.center_when_popup_city) {
       center_tile_mapcanvas(pcity->tile);
     }
     popup_city_dialog(pcity);

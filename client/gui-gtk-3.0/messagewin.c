@@ -150,7 +150,7 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
 
     pmsg = meswin_get_message(i);
 
-    if (gui_gtk3_new_messages_go_to_top) {
+    if (options.gui_gtk3_new_messages_go_to_top) {
       gtk_list_store_prepend(store, &iter);
     } else {
       gtk_list_store_append(store, &iter);
@@ -327,7 +327,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
 
   fc_assert_ret(NULL != pdialog);
 
-  if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_SPLIT) {
+  if (options.gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_SPLIT) {
     notebook = right_notebook;
   } else {
     notebook = bottom_notebook;
@@ -361,7 +361,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
                                                  "pixbuf", MESWIN_COL_ICON, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
-  gtk_tree_view_column_set_visible(col, !gui_gtk3_small_display_layout);
+  gtk_tree_view_column_set_visible(col, !options.gui_gtk3_small_display_layout);
 
   renderer = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
@@ -378,7 +378,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
 
   gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-  if (gui_gtk3_show_message_window_buttons) {
+  if (options.gui_gtk3_show_message_window_buttons) {
     cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_ZOOM_IN,
                                      _("I_nspect City"),
                                      MESWIN_RES_POPUP_CITY);

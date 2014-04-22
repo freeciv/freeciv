@@ -424,7 +424,7 @@ static enum tile_behavior get_TB_aggr(const struct tile *ptile,
                                       const struct pf_parameter *param)
 {
   if (known == TILE_UNKNOWN) {
-    if (!goto_into_unknown) {
+    if (!options.goto_into_unknown) {
       return TB_IGNORE;
     }
   } else if (is_non_allied_unit_tile(ptile, param->owner)
@@ -444,7 +444,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
                                          const struct pf_parameter *param)
 {
   if (known == TILE_UNKNOWN) {
-    if (!goto_into_unknown) {
+    if (!options.goto_into_unknown) {
       return TB_IGNORE;
     }
   } else if (is_non_allied_city_tile(ptile, param->owner)) {
@@ -725,7 +725,7 @@ no_fights_or_unknown_goto(const struct tile *ptile,
                           enum known_type known,
                           const struct pf_parameter *p)
 {
-  if (known == TILE_UNKNOWN && goto_into_unknown) {
+  if (known == TILE_UNKNOWN && options.goto_into_unknown) {
     /* Special case allowing goto into the unknown. */
     return TB_NORMAL;
   }

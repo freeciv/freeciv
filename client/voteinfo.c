@@ -136,7 +136,7 @@ void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
   vi->percent_required = percent_required;
   vi->flags = flags;
 
-  if (voteinfo_bar_new_at_front) {
+  if (options.voteinfo_bar_new_at_front) {
     voteinfo_list_prepend(voteinfo_queue, vi);
     voteinfo_queue_current_index = 0;
   } else {
@@ -299,11 +299,11 @@ int voteinfo_queue_size(void)
 bool voteinfo_bar_can_be_shown(void)
 {
   return (NULL != voteinfo_queue
-          && voteinfo_bar_use
-          && (voteinfo_bar_always_show
+          && options.voteinfo_bar_use
+          && (options.voteinfo_bar_always_show
               || (0 < voteinfo_list_size(voteinfo_queue)
                   && NULL != voteinfo_queue_get_current(NULL)))
-          && (!voteinfo_bar_hide_when_not_player
+          && (!options.voteinfo_bar_hide_when_not_player
               || (client_has_player()
                   && !client_is_observer())));
 }

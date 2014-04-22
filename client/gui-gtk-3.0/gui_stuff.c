@@ -278,7 +278,7 @@ static void close_callback(GtkDialog *dialog, gpointer data)
 ***********************************************************************/
 void setup_dialog(GtkWidget *shell, GtkWidget *parent)
 {
-  if (gui_gtk3_dialogs_on_top || fullscreen_mode) {
+  if (options.gui_gtk3_dialogs_on_top || options.fullscreen_mode) {
     gtk_window_set_transient_for(GTK_WINDOW(shell),
                                  GTK_WINDOW(parent));
     gtk_window_set_type_hint(GTK_WINDOW(shell),
@@ -517,7 +517,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   dlg->default_width = 200;
   dlg->default_height = 300;
 
-  if (gui_gtk3_enable_tabs) {
+  if (options.gui_gtk3_enable_tabs) {
     dlg->type = GUI_DIALOG_TAB;
   } else {
     dlg->type = GUI_DIALOG_WINDOW;
@@ -532,9 +532,9 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   action_area = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(action_area), 4);
   gtk_grid_set_column_spacing(GTK_GRID(action_area), 4);
-  if (gui_gtk3_enable_tabs &&
+  if (options.gui_gtk3_enable_tabs &&
       (check_top && notebook != GTK_NOTEBOOK(top_notebook))
-      && !gui_gtk3_small_display_layout) {
+      && !options.gui_gtk3_small_display_layout) {
     /* We expect this to be short (as opposed to tall); maximise usable
      * height by putting buttons down the right hand side */
     gtk_orientable_set_orientation(GTK_ORIENTABLE(action_area),

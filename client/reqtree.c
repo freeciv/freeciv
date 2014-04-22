@@ -176,7 +176,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
     max_icon_height = 0;
     icons_width_sum = 5;
     
-    if (reqtree_show_icons) {
+    if (options.reqtree_show_icons) {
       /* units */
       unit_type_iterate(unit) {
         if (advance_number(unit->require_advance) != node->tech) {
@@ -1080,7 +1080,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 			text);
  	icon_startx = startx + 5;
 	
-	if (reqtree_show_icons) {
+	if (options.reqtree_show_icons) {
  	  unit_type_iterate(unit) {
             if (advance_number(unit->require_advance) != node->tech) {
 	      continue;
@@ -1142,7 +1142,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	endx = dest_node->node_x;
 	endy = dest_node->node_y + dest_node->node_height / 2;
 	
-        if (reqtree_curved_lines) {
+        if (options.reqtree_curved_lines) {
           canvas_put_curved_line(pcanvas, color, LINE_GOTO,
                                  startx, starty, endx - startx,
                                  endy - starty);

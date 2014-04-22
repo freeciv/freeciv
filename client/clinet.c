@@ -315,7 +315,7 @@ void disconnect_from_server(void)
   if (with_ggz) {
     client_exit();
   }
-  if (save_options_on_exit) {
+  if (options.save_options_on_exit) {
     options_save();
   }
 }  

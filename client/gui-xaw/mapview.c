@@ -85,8 +85,8 @@ void overview_size_changed(void)
 {
   Dimension h, w;
 
-  XtVaSetValues(overview_canvas, XtNwidth, overview.width, XtNheight,
-		overview.height, NULL);
+  XtVaSetValues(overview_canvas, XtNwidth, options.overview.width, XtNheight,
+                options.overview.height, NULL);
 
   XtVaGetValues(left_column_form, XtNheight, &h, NULL);
   XtVaSetValues(map_form, XtNheight, h, NULL);

@@ -46,7 +46,7 @@ void start_style_music(void)
     return;
   }
 
-  if (sound_enable_game_music) {
+  if (options.sound_enable_game_music) {
     struct music_style *pms;
 
     stop_style_music();
@@ -89,7 +89,7 @@ void stop_style_music(void)
 ***********************************************************************/
 void start_menu_music(const char *const tag, char *const alt_tag)
 {
-  if (sound_enable_menu_music) {
+  if (options.sound_enable_menu_music) {
     audio_play_music(tag, alt_tag);
   }
 }

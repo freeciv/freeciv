@@ -519,7 +519,7 @@ static const char *cr_entry_building(const struct city *pcity,
   static char buf[128];
   const char *from_worklist =
     worklist_is_empty(&pcity->worklist) ? "" :
-    concise_city_production ? "+" : _("(worklist)");
+    options.concise_city_production ? "+" : _("(worklist)");
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
     fc_snprintf(buf, sizeof(buf), "%s (%d)%s",

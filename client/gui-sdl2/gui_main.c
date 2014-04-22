@@ -193,14 +193,14 @@ static void parse_options(int argc, char **argv)
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen",argv[i])) {
-      gui_sdl2_fullscreen = TRUE;
+      options.gui_sdl2_fullscreen = TRUE;
 #if 0
     } else if (is_option("--eventthread",argv[i])) {
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
 #endif
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
-      sz_strlcpy(gui_sdl2_default_theme_name, option);
+      sz_strlcpy(options.gui_sdl2_default_theme_name, option);
     }
     i++;
   }
@@ -375,7 +375,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   }
 
 #ifndef UNDER_CE
-  if (gui_sdl2_fullscreen) {
+  if (options.gui_sdl2_fullscreen) {
     check_scroll_area(pMotionEvent->x, pMotionEvent->y);
   }
 #endif /* UNDER_CE */
@@ -849,13 +849,14 @@ static void real_resize_window_callback(void *data)
   struct widget *widget;
   Uint32 flags = 0; // Main.mainsurf->flags;
 
-  if (gui_sdl2_fullscreen) {
+  if (options.gui_sdl2_fullscreen) {
     flags |= SDL_WINDOW_FULLSCREEN;
   } else {
     flags &= ~SDL_WINDOW_FULLSCREEN;
   }
 
-  log_normal("Setting size %d, %d", gui_sdl2_screen.width, gui_sdl2_screen.height);
+  log_normal("Setting size %d, %d", options.gui_sdl2_screen.width,
+             options.gui_sdl2_screen.height);
 
   //set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height, flags);
 
@@ -946,7 +947,7 @@ static void migrate_options_from_sdl(void)
 {
   log_normal("Migrating options from sdl to sdl2 client");
 
-#define MIGRATE_OPTION(opt) gui_sdl2_##opt = gui_sdl_##opt;
+#define MIGRATE_OPTION(opt) options.gui_sdl2_##opt = options.gui_sdl_##opt;
 
   /* Default theme name is never migrated */
   MIGRATE_OPTION(fullscreen);
@@ -956,7 +957,7 @@ static void migrate_options_from_sdl(void)
 
 #undef MIGRATE_OPTION
 
-  gui_sdl2_migrated_from_sdl = TRUE;
+  options.gui_sdl2_migrated_from_sdl = TRUE;
 }
 
 /**************************************************************************
@@ -974,7 +975,7 @@ void ui_main(int argc, char *argv[])
 
   parse_options(argc, argv);
 
-  if (!gui_sdl2_migrated_from_sdl) {
+  if (!options.gui_sdl2_migrated_from_sdl) {
     migrate_options_from_sdl();
   }
 

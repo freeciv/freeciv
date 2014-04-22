@@ -65,203 +65,205 @@
 #include "options.h"
 
 
+struct client_options options = {
 /** Defaults for options normally on command line **/
 
-char default_user_name[512] = "\0";
-char default_server_host[512] = "localhost";
-int  default_server_port = DEFAULT_SOCK_PORT;
-char default_metaserver[512] = DEFAULT_METASERVER_OPTION;
-char default_tileset_name[512] = "\0";
-char default_sound_set_name[512] = "stdsounds";
-char default_music_set_name[512] = "stdmusic";
-char default_sound_plugin_name[512] = "\0";
-char default_chat_logfile[512] = GUI_DEFAULT_CHAT_LOGFILE;
+  .default_user_name = "\0",
+  .default_server_host = "localhost",
+  .default_server_port = DEFAULT_SOCK_PORT,
+  .default_metaserver = DEFAULT_METASERVER_OPTION,
+  .default_tileset_name = "\0",
+  .default_sound_set_name = "stdsounds",
+  .default_music_set_name = "stdmusic",
+  .default_sound_plugin_name = "\0",
+  .default_chat_logfile = GUI_DEFAULT_CHAT_LOGFILE,
 
-bool save_options_on_exit = TRUE;
-bool fullscreen_mode = FALSE;
+  .save_options_on_exit = TRUE,
+  .fullscreen_mode = FALSE,
 
 /** Migrations **/
-bool gui_gtk3_migrated_from_gtk2 = FALSE;
-bool gui_sdl2_migrated_from_sdl = FALSE;
+  .gui_gtk3_migrated_from_gtk2 = FALSE,
+  .gui_sdl2_migrated_from_sdl = FALSE,
 
 /** Local Options: **/
 
-bool solid_color_behind_units = FALSE;
-bool sound_bell_at_new_turn = FALSE;
-int smooth_move_unit_msec = 30;
-int smooth_center_slide_msec = 200;
-int smooth_combat_step_msec = 10;
-bool ai_manual_turn_done = TRUE;
-bool auto_center_on_unit = TRUE;
-bool auto_center_on_combat = FALSE;
-bool auto_center_each_turn = TRUE;
-bool wakeup_focus = TRUE;
-bool goto_into_unknown = TRUE;
-bool center_when_popup_city = TRUE;
-bool concise_city_production = FALSE;
-bool auto_turn_done = FALSE;
-bool meta_accelerators = TRUE;
-bool ask_city_name = TRUE;
-bool popup_new_cities = TRUE;
-bool popup_caravan_arrival = TRUE;
-bool keyboardless_goto = TRUE;
-bool enable_cursor_changes = TRUE;
-bool separate_unit_selection = FALSE;
-bool unit_selection_clears_orders = TRUE;
-struct ft_color highlight_our_names = FT_COLOR("#000000", "#FFFF00");
+  .solid_color_behind_units = FALSE,
+  .sound_bell_at_new_turn = FALSE,
+  .smooth_move_unit_msec = 30,
+  .smooth_center_slide_msec = 200,
+  .smooth_combat_step_msec = 10,
+  .ai_manual_turn_done = TRUE,
+  .auto_center_on_unit = TRUE,
+  .auto_center_on_combat = FALSE,
+  .auto_center_each_turn = TRUE,
+  .wakeup_focus = TRUE,
+  .goto_into_unknown = TRUE,
+  .center_when_popup_city = TRUE,
+  .concise_city_production = FALSE,
+  .auto_turn_done = FALSE,
+  .meta_accelerators = TRUE,
+  .ask_city_name = TRUE,
+  .popup_new_cities = TRUE,
+  .popup_caravan_arrival = TRUE,
+  .keyboardless_goto = TRUE,
+  .enable_cursor_changes = TRUE,
+  .separate_unit_selection = FALSE,
+  .unit_selection_clears_orders = TRUE,
+  .highlight_our_names = FT_COLOR("#000000", "#FFFF00"),
 
-bool voteinfo_bar_use = TRUE;
-bool voteinfo_bar_always_show = FALSE;
-bool voteinfo_bar_hide_when_not_player = FALSE;
-bool voteinfo_bar_new_at_front = FALSE;
+  .voteinfo_bar_use = TRUE,
+  .voteinfo_bar_always_show = FALSE,
+  .voteinfo_bar_hide_when_not_player = FALSE,
+  .voteinfo_bar_new_at_front = FALSE,
 
-bool autoaccept_tileset_suggestion = FALSE;
-bool autoaccept_soundset_suggestion = FALSE;
+  .autoaccept_tileset_suggestion = FALSE,
+  .autoaccept_soundset_suggestion = FALSE,
 
-bool sound_enable_effects = TRUE;
-bool sound_enable_menu_music = TRUE;
-bool sound_enable_game_music = TRUE;
+  .sound_enable_effects = TRUE,
+  .sound_enable_menu_music = TRUE,
+  .sound_enable_game_music = TRUE,
 
 /* This option is currently set by the client - not by the user. */
-bool update_city_text_in_refresh_tile = TRUE;
+  .update_city_text_in_refresh_tile = TRUE,
 
-bool draw_city_outlines = TRUE;
-bool draw_city_output = FALSE;
-bool draw_map_grid = FALSE;
-bool draw_city_names = TRUE;
-bool draw_city_growth = TRUE;
-bool draw_city_productions = TRUE;
-bool draw_city_buycost = FALSE;
-bool draw_city_trade_routes = FALSE;
-bool draw_terrain = TRUE;
-bool draw_coastline = FALSE;
-bool draw_roads_rails = TRUE;
-bool draw_irrigation = TRUE;
-bool draw_mines = TRUE;
-bool draw_fortress_airbase = TRUE;
-bool draw_specials = TRUE;
-bool draw_pollution = TRUE;
-bool draw_cities = TRUE;
-bool draw_units = TRUE;
-bool draw_focus_unit = FALSE;
-bool draw_fog_of_war = TRUE;
-bool draw_borders = TRUE;
-bool draw_native = FALSE;
-bool draw_full_citybar = TRUE;
-bool draw_unit_shields = TRUE;
-bool player_dlg_show_dead_players = TRUE;
-bool reqtree_show_icons = TRUE;
-bool reqtree_curved_lines = FALSE;
+  .draw_city_outlines = TRUE,
+  .draw_city_output = FALSE,
+  .draw_map_grid = FALSE,
+  .draw_city_names = TRUE,
+  .draw_city_growth = TRUE,
+  .draw_city_productions = TRUE,
+  .draw_city_buycost = FALSE,
+  .draw_city_trade_routes = FALSE,
+  .draw_terrain = TRUE,
+  .draw_coastline = FALSE,
+  .draw_roads_rails = TRUE,
+  .draw_irrigation = TRUE,
+  .draw_mines = TRUE,
+  .draw_fortress_airbase = TRUE,
+  .draw_specials = TRUE,
+  .draw_pollution = TRUE,
+  .draw_cities = TRUE,
+  .draw_units = TRUE,
+  .draw_focus_unit = FALSE,
+  .draw_fog_of_war = TRUE,
+  .draw_borders = TRUE,
+  .draw_native = FALSE,
+  .draw_full_citybar = TRUE,
+  .draw_unit_shields = TRUE,
+  .player_dlg_show_dead_players = TRUE,
+  .reqtree_show_icons = TRUE,
+  .reqtree_curved_lines = FALSE,
 
 /* options for map images */
-char mapimg_format[64];
-int mapimg_zoom = 2;
+/*  .mapimg_format, */
+  .mapimg_zoom = 2,
 /* See the definition of MAPIMG_LAYER in mapimg.h. */
-bool mapimg_layer[MAPIMG_LAYER_COUNT] = {
-  FALSE, /* a - MAPIMG_LAYER_AREA */
-  TRUE,  /* b - MAPIMG_LAYER_BORDERS */
-  TRUE,  /* c - MAPIMG_LAYER_CITIES */
-  TRUE,  /* f - MAPIMG_LAYER_FOGOFWAR */
-  TRUE,  /* k - MAPIMG_LAYER_KNOWLEDGE */
-  TRUE,  /* t - MAPIMG_LAYER_TERRAIN */
-  TRUE   /* u - MAPIMG_LAYER_UNITS */
-};
-char mapimg_filename[512];
+  .mapimg_layer = {
+    FALSE, /* a - MAPIMG_LAYER_AREA */
+    TRUE,  /* b - MAPIMG_LAYER_BORDERS */
+    TRUE,  /* c - MAPIMG_LAYER_CITIES */
+    TRUE,  /* f - MAPIMG_LAYER_FOGOFWAR */
+    TRUE,  /* k - MAPIMG_LAYER_KNOWLEDGE */
+    TRUE,  /* t - MAPIMG_LAYER_TERRAIN */
+    TRUE   /* u - MAPIMG_LAYER_UNITS */
+  },
+/*  .mapimg_filename, */
 
 /* gui-gtk-2.0 client specific options. */
-char gui_gtk2_default_theme_name[512] = FC_GTK2_DEFAULT_THEME_NAME;
-bool gui_gtk2_map_scrollbars = FALSE;
-bool gui_gtk2_dialogs_on_top = TRUE;
-bool gui_gtk2_show_task_icons = TRUE;
-bool gui_gtk2_enable_tabs = TRUE;
-bool gui_gtk2_better_fog = TRUE;
-bool gui_gtk2_show_chat_message_time = FALSE;
-bool gui_gtk2_new_messages_go_to_top = FALSE;
-bool gui_gtk2_show_message_window_buttons = TRUE;
-bool gui_gtk2_metaserver_tab_first = FALSE;
-bool gui_gtk2_allied_chat_only = FALSE;
-int gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
-bool gui_gtk2_small_display_layout = TRUE;
-bool gui_gtk2_mouse_over_map_focus = FALSE;
-bool gui_gtk2_chatline_autocompletion = TRUE;
-int gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
-int gui_gtk2_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
-int  gui_gtk2_popup_tech_help = GUI_POPUP_TECH_HELP_RULESET;
-char gui_gtk2_font_city_label[512] = "Monospace 8";
-char gui_gtk2_font_notify_label[512] = "Monospace Bold 9";
-char gui_gtk2_font_spaceship_label[512] = "Monospace 8";
-char gui_gtk2_font_help_label[512] = "Sans Bold 10";
-char gui_gtk2_font_help_link[512] = "Sans 9";
-char gui_gtk2_font_help_text[512] = "Monospace 8";
-char gui_gtk2_font_chatline[512] = "Monospace 8";
-char gui_gtk2_font_beta_label[512] = "Sans Italic 10";
-char gui_gtk2_font_small[512] = "Sans 9";
-char gui_gtk2_font_comment_label[512] = "Sans Italic 9";
-char gui_gtk2_font_city_names[512] = "Sans Bold 10";
-char gui_gtk2_font_city_productions[512] = "Serif 10";
-char gui_gtk2_font_reqtree_text[512] = "Serif 10";
+  .gui_gtk2_default_theme_name = FC_GTK2_DEFAULT_THEME_NAME,
+  .gui_gtk2_map_scrollbars = FALSE,
+  .gui_gtk2_dialogs_on_top = TRUE,
+  .gui_gtk2_show_task_icons = TRUE,
+  .gui_gtk2_enable_tabs = TRUE,
+  .gui_gtk2_better_fog = TRUE,
+  .gui_gtk2_show_chat_message_time = FALSE,
+  .gui_gtk2_new_messages_go_to_top = FALSE,
+  .gui_gtk2_show_message_window_buttons = TRUE,
+  .gui_gtk2_metaserver_tab_first = FALSE,
+  .gui_gtk2_allied_chat_only = FALSE,
+  .gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
+  .gui_gtk2_small_display_layout = TRUE,
+  .gui_gtk2_mouse_over_map_focus = FALSE,
+  .gui_gtk2_chatline_autocompletion = TRUE,
+  .gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE,
+  .gui_gtk2_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE,
+  .gui_gtk2_popup_tech_help = GUI_POPUP_TECH_HELP_RULESET,
+  .gui_gtk2_font_city_label = "Monospace 8",
+  .gui_gtk2_font_notify_label = "Monospace Bold 9",
+  .gui_gtk2_font_spaceship_label = "Monospace 8",
+  .gui_gtk2_font_help_label = "Sans Bold 10",
+  .gui_gtk2_font_help_link = "Sans 9",
+  .gui_gtk2_font_help_text = "Monospace 8",
+  .gui_gtk2_font_chatline = "Monospace 8",
+  .gui_gtk2_font_beta_label = "Sans Italic 10",
+  .gui_gtk2_font_small = "Sans 9",
+  .gui_gtk2_font_comment_label = "Sans Italic 9",
+  .gui_gtk2_font_city_names = "Sans Bold 10",
+  .gui_gtk2_font_city_productions = "Serif 10",
+  .gui_gtk2_font_reqtree_text = "Serif 10",
 
 /* gui-gtk-3.0 client specific options. */
-char gui_gtk3_default_theme_name[512] = FC_GTK3_DEFAULT_THEME_NAME;
-bool gui_gtk3_map_scrollbars = FALSE;
-bool gui_gtk3_dialogs_on_top = TRUE;
-bool gui_gtk3_show_task_icons = TRUE;
-bool gui_gtk3_enable_tabs = TRUE;
-bool gui_gtk3_better_fog = TRUE;
-bool gui_gtk3_show_chat_message_time = FALSE;
-bool gui_gtk3_new_messages_go_to_top = FALSE;
-bool gui_gtk3_show_message_window_buttons = TRUE;
-bool gui_gtk3_metaserver_tab_first = FALSE;
-bool gui_gtk3_allied_chat_only = FALSE;
-int gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
-bool gui_gtk3_small_display_layout = TRUE;
-bool gui_gtk3_mouse_over_map_focus = FALSE;
-bool gui_gtk3_chatline_autocompletion = TRUE;
-int gui_gtk3_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE;
-int gui_gtk3_citydlg_ysize = GUI_GTK3_CITYDLG_DEFAULT_YSIZE;
-int  gui_gtk3_popup_tech_help = GUI_POPUP_TECH_HELP_RULESET;
-char gui_gtk3_font_city_label[512] = "Monospace 8";
-char gui_gtk3_font_notify_label[512] = "Monospace Bold 9";
-char gui_gtk3_font_spaceship_label[512] = "Monospace 8";
-char gui_gtk3_font_help_label[512] = "Sans Bold 10";
-char gui_gtk3_font_help_link[512] = "Sans 9";
-char gui_gtk3_font_help_text[512] = "Monospace 8";
-char gui_gtk3_font_chatline[512] = "Monospace 8";
-char gui_gtk3_font_beta_label[512] = "Sans Italic 10";
-char gui_gtk3_font_small[512] = "Sans 9";
-char gui_gtk3_font_comment_label[512] = "Sans Italic 9";
-char gui_gtk3_font_city_names[512] = "Sans Bold 10";
-char gui_gtk3_font_city_productions[512] = "Serif 10";
-char gui_gtk3_font_reqtree_text[512] = "Serif 10";
+  .gui_gtk3_default_theme_name = FC_GTK3_DEFAULT_THEME_NAME,
+  .gui_gtk3_map_scrollbars = FALSE,
+  .gui_gtk3_dialogs_on_top = TRUE,
+  .gui_gtk3_show_task_icons = TRUE,
+  .gui_gtk3_enable_tabs = TRUE,
+  .gui_gtk3_better_fog = TRUE,
+  .gui_gtk3_show_chat_message_time = FALSE,
+  .gui_gtk3_new_messages_go_to_top = FALSE,
+  .gui_gtk3_show_message_window_buttons = TRUE,
+  .gui_gtk3_metaserver_tab_first = FALSE,
+  .gui_gtk3_allied_chat_only = FALSE,
+  .gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
+  .gui_gtk3_small_display_layout = TRUE,
+  .gui_gtk3_mouse_over_map_focus = FALSE,
+  .gui_gtk3_chatline_autocompletion = TRUE,
+  .gui_gtk3_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE,
+  .gui_gtk3_citydlg_ysize = GUI_GTK3_CITYDLG_DEFAULT_YSIZE,
+  .gui_gtk3_popup_tech_help = GUI_POPUP_TECH_HELP_RULESET,
+  .gui_gtk3_font_city_label = "Monospace 8",
+  .gui_gtk3_font_notify_label = "Monospace Bold 9",
+  .gui_gtk3_font_spaceship_label = "Monospace 8",
+  .gui_gtk3_font_help_label = "Sans Bold 10",
+  .gui_gtk3_font_help_link = "Sans 9",
+  .gui_gtk3_font_help_text = "Monospace 8",
+  .gui_gtk3_font_chatline = "Monospace 8",
+  .gui_gtk3_font_beta_label = "Sans Italic 10",
+  .gui_gtk3_font_small = "Sans 9",
+  .gui_gtk3_font_comment_label = "Sans Italic 9",
+  .gui_gtk3_font_city_names = "Sans Bold 10",
+  .gui_gtk3_font_city_productions = "Serif 10",
+  .gui_gtk3_font_reqtree_text = "Serif 10",
 
 /* gui-sdl client specific options. */
-char gui_sdl_default_theme_name[512] = FC_SDL_DEFAULT_THEME_NAME;
-bool gui_sdl_fullscreen = FALSE;
-struct video_mode gui_sdl_screen = VIDEO_MODE(640, 480);
-bool gui_sdl_do_cursor_animation = TRUE;
-bool gui_sdl_use_color_cursors = TRUE;
+  .gui_sdl_default_theme_name = FC_SDL_DEFAULT_THEME_NAME,
+  .gui_sdl_fullscreen = FALSE,
+  .gui_sdl_screen = VIDEO_MODE(640, 480),
+  .gui_sdl_do_cursor_animation = TRUE,
+  .gui_sdl_use_color_cursors = TRUE,
 
 /* gui-sdl2 client specific options. */
-char gui_sdl2_default_theme_name[512] = FC_SDL2_DEFAULT_THEME_NAME;
-bool gui_sdl2_fullscreen = FALSE;
-struct video_mode gui_sdl2_screen = VIDEO_MODE(640, 480);
-bool gui_sdl2_do_cursor_animation = TRUE;
-bool gui_sdl2_use_color_cursors = TRUE;
+  .gui_sdl2_default_theme_name = FC_SDL2_DEFAULT_THEME_NAME,
+  .gui_sdl2_fullscreen = FALSE,
+  .gui_sdl2_screen = VIDEO_MODE(640, 480),
+  .gui_sdl2_do_cursor_animation = TRUE,
+  .gui_sdl2_use_color_cursors = TRUE,
 
 /* gui-qt client specific options. */
-char gui_qt_font_city_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
-char gui_qt_font_notify_label[512] = "Monospace,8,-1,5,75,0,0,0,0,0";
-char gui_qt_font_spaceship_label[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
-char gui_qt_font_help_label[512] = "Sans Serif,10,-1,5,75,0,0,0,0,0";
-char gui_qt_font_help_link[512] = "Sans Serif,9,-1,5,50,0,0,0,0,0";
-char gui_qt_font_help_text[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
-char gui_qt_font_chatline[512] = "Monospace,8,-1,5,50,0,0,0,0,0";
-char gui_qt_font_beta_label[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
-char gui_qt_font_small[512] = "Sans Serif,9,-1,5,50,0,0,0,0,0";
-char gui_qt_font_comment_label[512] = "Sans Serif,9,-1,5,50,1,0,0,0,0";
-char gui_qt_font_city_names[512] = "Sans Serif,10,-1,5,75,0,0,0,0,0";
-char gui_qt_font_city_productions[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
-char gui_qt_font_reqtree_text[512] = "Sans Serif,10,-1,5,50,1,0,0,0,0";
+  .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_notify_label = "Monospace,8,-1,5,75,0,0,0,0,0",
+  .gui_qt_font_spaceship_label = "Monospace,8,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_help_label = "Sans Serif,10,-1,5,75,0,0,0,0,0",
+  .gui_qt_font_help_link = "Sans Serif,9,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_help_text = "Monospace,8,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_chatline = "Monospace,8,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_beta_label = "Sans Serif,10,-1,5,50,1,0,0,0,0",
+  .gui_qt_font_small = "Sans Serif,9,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_comment_label = "Sans Serif,9,-1,5,50,1,0,0,0,0",
+  .gui_qt_font_city_names = "Sans Serif,10,-1,5,75,0,0,0,0,0",
+  .gui_qt_font_city_productions = "Sans Serif,10,-1,5,50,1,0,0,0,0",
+  .gui_qt_font_reqtree_text = "Sans Serif,10,-1,5,50,1,0,0,0,0"
+};
 
 /* Set to TRUE after the first call to options_init(), to avoid the usage
  * of non-initialized datas when calling the changed callback. */
@@ -1366,7 +1368,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .boolean = {                                                            \
-      .pvalue = &oname,                                                     \
+      .pvalue = &options.oname,                                             \
       .def = odef,                                                          \
     }                                                                       \
   },                                                                        \
@@ -1402,7 +1404,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .integer = {                                                            \
-      .pvalue = &oname,                                                     \
+      .pvalue = &options.oname,                                             \
       .def = odef,                                                          \
       .min = omin,                                                          \
       .max = omax                                                           \
@@ -1440,8 +1442,8 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .string = {                                                             \
-      .pvalue = oname,                                                      \
-      .size = sizeof(oname),                                                \
+      .pvalue = options.oname,                                              \
+      .size = sizeof(options.oname),                                        \
       .def = odef,                                                          \
       .val_accessor = NULL                                                  \
     }                                                                       \
@@ -1481,8 +1483,8 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .string = {                                                             \
-      .pvalue = oname,                                                      \
-      .size = sizeof(oname),                                                \
+      .pvalue = options.oname,                                              \
+      .size = sizeof(options.oname),                                        \
       .def = odef,                                                          \
       .val_accessor = oacc                                                  \
     }                                                                       \
@@ -1518,7 +1520,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .enumerator = {                                                         \
-      .pvalue = (int *) &oname,                                             \
+      .pvalue = (int *) &options.oname,                                     \
       .def = odef,                                                          \
       .support_names = NULL, /* Set in options_init(). */                   \
       .pretty_names  = NULL,                                                \
@@ -1557,7 +1559,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .bitwise = {                                                            \
-      .pvalue = &oname,                                                     \
+      .pvalue = &options.oname,                                             \
       .def = odef,                                                          \
       .support_names = NULL, /* Set in options_init(). */                   \
       .pretty_names  = NULL,                                                \
@@ -1597,8 +1599,8 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .font = {                                                               \
-      .pvalue = oname,                                                      \
-      .size = sizeof(oname),                                                \
+      .pvalue = options.oname,                                              \
+      .size = sizeof(options.oname),                                        \
       .def = odef,                                                          \
       .target = otgt,                                                       \
     }                                                                       \
@@ -1634,7 +1636,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .color = {                                                              \
-      .pvalue = &oname,                                                     \
+      .pvalue = &options.oname,                                             \
       .def = FT_COLOR(odef_fg, odef_bg)                                     \
     }                                                                       \
   },                                                                        \
@@ -1670,7 +1672,7 @@ struct client_option {
   .specific = ospec,                                                        \
   {                                                                         \
     .video_mode = {                                                         \
-      .pvalue = &oname,                                                     \
+      .pvalue = &options.oname,                                             \
       .def = VIDEO_MODE(odef_width, odef_height)                            \
     }                                                                       \
   },                                                                        \
@@ -5288,19 +5290,19 @@ void options_load(void)
   sz_strlcpy(password,
              secfile_lookup_str_default(sf, "", "%s.password", prefix));
 
-  save_options_on_exit =
-    secfile_lookup_bool_default(sf, save_options_on_exit,
+  options.save_options_on_exit =
+    secfile_lookup_bool_default(sf, options.save_options_on_exit,
                                 "%s.save_options_on_exit", prefix);
-  fullscreen_mode =
-    secfile_lookup_bool_default(sf, fullscreen_mode,
+  options.fullscreen_mode =
+    secfile_lookup_bool_default(sf, options.fullscreen_mode,
                                 "%s.fullscreen_mode", prefix);
 
   /* Settings migrations */
-  gui_gtk3_migrated_from_gtk2 =
-    secfile_lookup_bool_default(sf, gui_gtk3_migrated_from_gtk2,
+  options.gui_gtk3_migrated_from_gtk2 =
+    secfile_lookup_bool_default(sf, options.gui_gtk3_migrated_from_gtk2,
                                 "%s.migration_gtk3_from_gtk2", prefix);
-  gui_sdl2_migrated_from_sdl =
-    secfile_lookup_bool_default(sf, gui_sdl2_migrated_from_sdl,
+  options.gui_sdl2_migrated_from_sdl =
+    secfile_lookup_bool_default(sf, options.gui_sdl2_migrated_from_sdl,
                                 "%s.migration_sdl2_from_sdl", prefix);
 
   /* Backwards compatibility for removed options replaced by entirely "new"
@@ -5314,13 +5316,13 @@ void options_load(void)
    * migrate_options_from_gtk2() if necessary. */
   if (secfile_lookup_bool_default(sf, FALSE,
                                   "%s.gui_gtk2_merge_notebooks", prefix)) {
-    gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
+    options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
   } else if (secfile_lookup_bool_default(sf, FALSE,
                                          "%s.gui_gtk2_split_bottom_notebook",
                                          prefix)) {
-    gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SPLIT;
+    options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SPLIT;
   } else {
-    gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
+    options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
   }
 
   /* Load all the regular options */
@@ -5335,7 +5337,7 @@ void options_load(void)
   /* Removed in 2.4 */
   if (!secfile_lookup_bool_default(sf, TRUE,
                                    "%s.do_combat_animation", prefix)) {
-    smooth_combat_step_msec = 0;
+    options.smooth_combat_step_msec = 0;
   }
 
   message_options_load(sf, prefix);
@@ -5377,13 +5379,13 @@ void options_save(void)
   sf = secfile_new(TRUE);
   secfile_insert_str(sf, VERSION_STRING, "client.version");
 
-  secfile_insert_bool(sf, save_options_on_exit, "client.save_options_on_exit");
-  secfile_insert_bool(sf, fullscreen_mode, "client.fullscreen_mode");
+  secfile_insert_bool(sf, options.save_options_on_exit, "client.save_options_on_exit");
+  secfile_insert_bool(sf, options.fullscreen_mode, "client.fullscreen_mode");
 
   /* Migrations */
-  secfile_insert_bool(sf, gui_gtk3_migrated_from_gtk2,
+  secfile_insert_bool(sf, options.gui_gtk3_migrated_from_gtk2,
                       "client.migration_gtk3_from_gtk2");
-  secfile_insert_bool(sf, gui_sdl2_migrated_from_sdl,
+  secfile_insert_bool(sf, options.gui_sdl2_migrated_from_sdl,
                       "client.migration_sdl2_from_sdl");
 
   client_options_iterate_all(poption) {
@@ -5471,10 +5473,10 @@ void options_init(void)
       break;
 
     case OT_STRING:
-      if (default_user_name == option_str_get(poption)) {
+      if (options.default_user_name == option_str_get(poption)) {
         /* Hack to get a default value. */
         *((const char **) &(pcoption->string.def)) =
-            fc_strdup(default_user_name);
+            fc_strdup(options.default_user_name);
       }
 
       if (NULL == option_str_def(poption)) {
@@ -5641,7 +5643,7 @@ static void mapimg_changed_callback(struct option *poption)
 static void game_music_enable_callback(struct option *poption)
 {
   if (client_state() == C_S_RUNNING) {
-    if (sound_enable_game_music) {
+    if (options.sound_enable_game_music) {
       start_style_music();
     } else {
       stop_style_music();
@@ -5655,7 +5657,7 @@ static void game_music_enable_callback(struct option *poption)
 static void menu_music_enable_callback(struct option *poption)
 {
   if (client_state() != C_S_RUNNING) {
-    if (sound_enable_menu_music) {
+    if (options.sound_enable_menu_music) {
       start_menu_music("music_start", NULL);
     } else {
       stop_menu_music();

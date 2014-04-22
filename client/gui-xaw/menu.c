@@ -360,9 +360,9 @@ void real_menus_update(void)
     num_government_entries = i;
 
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITY_GROWTH,
-			 draw_city_names);
+                         options.draw_city_names);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_TERRAIN, 1);
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !draw_terrain);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !options.draw_terrain);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_PATHS, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_IRRIGATION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_MINES, 1);
@@ -371,7 +371,7 @@ void real_menus_update(void)
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_POLLUTION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITIES, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_UNITS, 1);
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOCUS_UNIT, !draw_units);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOCUS_UNIT, !options.draw_units);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOG_OF_WAR, 1);
 
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 1);
@@ -693,7 +693,7 @@ static void view_menu_callback(Widget w, XtPointer client_data,
   case MENU_VIEW_SHOW_CITY_NAMES:
     key_city_names_toggle();
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITY_GROWTH,
-			 draw_city_names);
+                         options.draw_city_names);
     break;
   case MENU_VIEW_SHOW_CITY_GROWTH:
     key_city_growth_toggle();
@@ -703,7 +703,7 @@ static void view_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_VIEW_SHOW_TERRAIN:
     key_terrain_toggle();
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !draw_terrain);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !options.draw_terrain);
     break;
   case MENU_VIEW_SHOW_COASTLINE:
     key_coastline_toggle();
@@ -731,7 +731,7 @@ static void view_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_VIEW_SHOW_UNITS:
     key_units_toggle();
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOCUS_UNIT, !draw_units);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOCUS_UNIT, !options.draw_units);
     break;
   case MENU_VIEW_SHOW_FOCUS_UNIT:
     key_focus_unit_toggle();

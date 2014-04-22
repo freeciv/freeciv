@@ -124,7 +124,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Fullsceen"));
   act->setShortcut(QKeySequence(tr("alt+return")));
   act->setCheckable(true);
-  act->setChecked(fullscreen_mode);
+  act->setChecked(options.fullscreen_mode);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullscreen()));
   menu->addSeparator();
   minimap_status = menu->addAction(_("Minimap"));
@@ -137,49 +137,49 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Outlines"));
   act->setShortcut(QKeySequence(tr("Ctrl+y")));
   act->setCheckable(true);
-  act->setChecked(draw_city_outlines);
+  act->setChecked(options.draw_city_outlines);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_outlines()));
   act = menu->addAction(_("City Output"));
   act->setCheckable(true);
-  act->setChecked(draw_city_output);
+  act->setChecked(options.draw_city_output);
   act->setShortcut(QKeySequence(tr("ctrl+w")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_output()));
   act = menu->addAction(_("Map Grid"));
   act->setShortcut(QKeySequence(tr("ctrl+g")));
   act->setCheckable(true);
-  act->setChecked(draw_map_grid);
+  act->setChecked(options.draw_map_grid);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_map_grid()));
   act = menu->addAction(_("National Borders"));
   act->setCheckable(true);
-  act->setChecked(draw_borders);
+  act->setChecked(options.draw_borders);
   act->setShortcut(QKeySequence(tr("ctrl+b")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_borders()));
   act = menu->addAction(_("City Full Bar"));
   act->setCheckable(true);
-  act->setChecked(draw_full_citybar);
+  act->setChecked(options.draw_full_citybar);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullbar()));
   act = menu->addAction(_("City Names"));
   act->setCheckable(true);
-  act->setChecked(draw_city_names);
+  act->setChecked(options.draw_city_names);
   act->setShortcut(QKeySequence(tr("ctrl+n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_names()));
   act = menu->addAction(_("City Growth"));
   act->setCheckable(true);
-  act->setChecked(draw_city_growth);
+  act->setChecked(options.draw_city_growth);
   act->setShortcut(QKeySequence(tr("ctrl+r")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_growth()));
   act = menu->addAction(_("City Production Levels"));
   act->setCheckable(true);
-  act->setChecked(draw_city_productions);
+  act->setChecked(options.draw_city_productions);
   act->setShortcut(QKeySequence(tr("ctrl+p")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_production()));
   act = menu->addAction(_("City Buy Cost"));
   act->setCheckable(true);
-  act->setChecked(draw_city_buycost);
+  act->setChecked(options.draw_city_buycost);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_buycost()));
   act = menu->addAction(_("City Traderoutes"));
   act->setCheckable(true);
-  act->setChecked(draw_city_trade_routes);
+  act->setChecked(options.draw_city_trade_routes);
   act->setShortcut(QKeySequence(tr("ctrl+d")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_city_traderoutes()));
 
@@ -1283,7 +1283,7 @@ void mr_menu::slot_fullscreen()
 {
   /* FIXME - might not work on X11 ( according to qt-assistant -4.8.4 )
    * Fix  should be to show as maximzed and borderless */
-  if (fullscreen_mode) {
+  if (options.fullscreen_mode) {
     gui()->main_window->showFullScreen();
   } else {
     gui()->main_window->showNormal();

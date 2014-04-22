@@ -540,7 +540,7 @@ struct city_dialog *create_city_dialog(struct city *pcity)
 
   if (tileset_tile_height(tileset)<45) dummy_improvement_list[5]=0;
 
-  if (concise_city_production) {
+  if (options.concise_city_production) {
     dummy_improvement_list[0] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
   }
 
@@ -655,7 +655,7 @@ struct city_dialog *create_city_dialog(struct city *pcity)
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->map_canvas,
 			    XtNlabel,
-			    concise_city_production
+			    options.concise_city_production
 				? "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 				: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 			    NULL);

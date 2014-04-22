@@ -609,7 +609,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
      * latest text from other players; MUST NOT make spurious text windows
      * at the bottom of other dialogs.
      */
-    if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
+    if (options.gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
     } else {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
@@ -799,7 +799,7 @@ static void populate_unit_pixmap_table(void)
   width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
                                                : GUI_GTK_OVERVIEW_MIN_XSIZE;
 
-  if (gui_gtk3_small_display_layout) {
+  if (options.gui_gtk3_small_display_layout) {
     /* We want arrow to appear if there is other units in addition
        to active one in tile. Active unit is not counted, so there
        can be 0 other units to not to display arrow. */
@@ -825,7 +825,7 @@ static void populate_unit_pixmap_table(void)
 		   G_CALLBACK(select_unit_pixmap_callback), 
 		   GINT_TO_POINTER(-1));
 
-  if (!gui_gtk3_small_display_layout) {
+  if (!options.gui_gtk3_small_display_layout) {
     /* Bottom row: other units in the same tile. */
     for (i = 0; i < num_units_below; i++) {
       unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
@@ -862,7 +862,7 @@ static void populate_unit_pixmap_table(void)
                    "button_press_event",
                    G_CALLBACK(select_more_arrow_pixmap_callback), NULL);
 
-  if (!gui_gtk3_small_display_layout) {
+  if (!options.gui_gtk3_small_display_layout) {
     /* Display on bottom row. */
     gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_button,
                     MAX_NUM_UNITS_BELOW, 1, 1, 1);
@@ -891,7 +891,7 @@ void reset_unit_table(void)
                          unit_pixmap_button);
     g_object_unref(unit_pixmap);
     g_object_unref(unit_pixmap_button);
-    if (!gui_gtk3_small_display_layout) {
+    if (!options.gui_gtk3_small_display_layout) {
       for (i = 0; i < num_units_below; i++) {
         gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                              unit_below_pixmap_button[i]);
@@ -1025,7 +1025,7 @@ static void setup_widgets(void)
   gtk_grid_set_row_spacing(GTK_GRID(top_vbox), 5);
   hgrid = gtk_grid_new();
 
-  if (gui_gtk3_small_display_layout) {
+  if (options.gui_gtk3_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
     right_vbox = gtk_grid_new();
@@ -1273,9 +1273,9 @@ static void setup_widgets(void)
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
 
   
-  if (gui_gtk3_small_display_layout) {
+  if (options.gui_gtk3_small_display_layout) {
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
-  } else if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
+  } else if (options.gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
     right_vbox = gtk_grid_new();
 
     gtk_container_add(GTK_CONTAINER(right_vbox), top_notebook);
@@ -1363,7 +1363,7 @@ static void setup_widgets(void)
 
   /* *** The message window -- this is a detachable widget *** */
 
-  if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
+  if (options.gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
     bottom_hpaned = hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
@@ -1374,12 +1374,12 @@ static void setup_widgets(void)
     vgrid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
                                    GTK_ORIENTATION_VERTICAL);
-    if (!gui_gtk3_small_display_layout) {
+    if (!options.gui_gtk3_small_display_layout) {
       gtk_container_add(GTK_CONTAINER(vgrid), ingame_votebar);
     }
     gtk_container_add(GTK_CONTAINER(avbox), vgrid);
 
-    if (gui_gtk3_small_display_layout) {
+    if (options.gui_gtk3_small_display_layout) {
       hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
     } else {
       hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
@@ -1399,7 +1399,7 @@ static void setup_widgets(void)
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
     g_signal_connect(right_notebook, "button-release-event",
                      G_CALLBACK(right_notebook_button_release), NULL);
-    if (gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_SPLIT) {
+    if (options.gui_gtk3_message_chat_location == GUI_GTK_MSGCHAT_SPLIT) {
       gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
     }
   }
@@ -1445,7 +1445,7 @@ static void setup_widgets(void)
   button = gtk_check_button_new_with_label(_("Allies Only"));
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               gui_gtk3_allied_chat_only);
+                               options.gui_gtk3_allied_chat_only);
   g_signal_connect(button, "toggled",
                    G_CALLBACK(allied_chat_button_toggled), NULL);
   inputline_toolkit_view_append_button(view, button);
@@ -1460,14 +1460,14 @@ static void setup_widgets(void)
 
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
 
-  if (gui_gtk3_enable_tabs) {
+  if (options.gui_gtk3_enable_tabs) {
     meswin_dialog_popup(FALSE);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
 
-  if (!gui_gtk3_map_scrollbars) {
+  if (!options.gui_gtk3_map_scrollbars) {
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
@@ -1535,9 +1535,9 @@ static void migrate_options_from_gtk2(void)
 {
   log_normal("Migrating options from gtk2 to gtk3 client");
 
-#define MIGRATE_OPTION(opt) gui_gtk3_##opt = gui_gtk2_##opt;
+#define MIGRATE_OPTION(opt) options.gui_gtk3_##opt = options.gui_gtk2_##opt;
 #define MIGRATE_STR_OPTION(opt) \
-  strncpy(gui_gtk3_##opt, gui_gtk2_##opt, sizeof(gui_gtk3_##opt));
+  strncpy(options.gui_gtk3_##opt, options.gui_gtk2_##opt, sizeof(options.gui_gtk3_##opt));
 
   /* Default theme name is never migrated */
   MIGRATE_OPTION(map_scrollbars);
@@ -1574,7 +1574,7 @@ static void migrate_options_from_gtk2(void)
 #undef MIGRATE_OPTION
 #undef MIGRATE_STR_OPTION
 
-  gui_gtk3_migrated_from_gtk2 = TRUE;
+  options.gui_gtk3_migrated_from_gtk2 = TRUE;
 }
 
 /**************************************************************************
@@ -1604,11 +1604,11 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_window(toplevel);
 
-  if (!gui_gtk3_migrated_from_gtk2) {
+  if (!options.gui_gtk3_migrated_from_gtk2) {
     migrate_options_from_gtk2();
   }
 
-  if (fullscreen_mode) {
+  if (options.fullscreen_mode) {
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
   }
   
@@ -2176,7 +2176,7 @@ void refresh_chat_buttons(void)
   } else {
     gtk_widget_show(button);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                                 gui_gtk3_allied_chat_only);
+                                 options.gui_gtk3_allied_chat_only);
   }
 }
 
@@ -2186,7 +2186,7 @@ void refresh_chat_buttons(void)
 static void allied_chat_button_toggled(GtkToggleButton *button,
                                        gpointer user_data)
 {
-  gui_gtk3_allied_chat_only = gtk_toggle_button_get_active(button);
+  options.gui_gtk3_allied_chat_only = gtk_toggle_button_get_active(button);
 }
 
 /**************************************************************************

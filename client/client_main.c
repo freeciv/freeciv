@@ -524,15 +524,15 @@ int client_main(int argc, char *argv[])
 
   /* after log_init: */
 
-  (void)user_username(default_user_name, MAX_LEN_NAME);
-  if (!is_valid_username(default_user_name)) {
-    char buf[sizeof(default_user_name)];
+  (void)user_username(options.default_user_name, MAX_LEN_NAME);
+  if (!is_valid_username(options.default_user_name)) {
+    char buf[sizeof(options.default_user_name)];
 
-    fc_snprintf(buf, sizeof(buf), "_%s", default_user_name);
+    fc_snprintf(buf, sizeof(buf), "_%s", options.default_user_name);
     if (is_valid_username(buf)) {
-      sz_strlcpy(default_user_name, buf);
+      sz_strlcpy(options.default_user_name, buf);
     } else {
-      fc_snprintf(default_user_name, sizeof(default_user_name),
+      fc_snprintf(options.default_user_name, sizeof(options.default_user_name),
                   "player%d", fc_rand(10000));
     }
   }
@@ -560,41 +560,43 @@ int client_main(int argc, char *argv[])
   script_client_init();
 
   if (tileset_name[0] == '\0') {
-    sz_strlcpy(tileset_name, default_tileset_name);
+    sz_strlcpy(tileset_name, options.default_tileset_name);
   }
   if (sound_set_name[0] == '\0') {
-    sz_strlcpy(sound_set_name, default_sound_set_name);
+    sz_strlcpy(sound_set_name, options.default_sound_set_name);
   }
   if (music_set_name[0] == '\0') {
-    sz_strlcpy(music_set_name, default_music_set_name);
+    sz_strlcpy(music_set_name, options.default_music_set_name);
   }
   if (sound_plugin_name[0] == '\0') {
-    sz_strlcpy(sound_plugin_name, default_sound_plugin_name); 
+    sz_strlcpy(sound_plugin_name, options.default_sound_plugin_name); 
   }
   if (server_host[0] == '\0') {
-    sz_strlcpy(server_host, default_server_host); 
+    sz_strlcpy(server_host, options.default_server_host); 
   }
   if (user_name[0] == '\0') {
-    sz_strlcpy(user_name, default_user_name); 
+    sz_strlcpy(user_name, options.default_user_name); 
   }
   if (metaserver[0] == '\0') {
     /* FIXME: Find a cleaner way to achieve this. */
     /* www.cazfi.net/freeciv/metaserver/ was default metaserver
      * over one release when meta.freeciv.org was unavailable. */
     const char *oldaddr = "http://www.cazfi.net/freeciv/metaserver/";
-    if (0 == strcmp(default_metaserver, oldaddr)) {
+    if (0 == strcmp(options.default_metaserver, oldaddr)) {
       log_normal(_("Updating old metaserver address \"%s\"."), oldaddr);
-      sz_strlcpy(default_metaserver, DEFAULT_METASERVER_OPTION);
+      sz_strlcpy(options.default_metaserver, DEFAULT_METASERVER_OPTION);
       log_normal(_("Default metaserver has been set to value \"%s\"."),
                  DEFAULT_METASERVER_OPTION);
     }
-    if (0 == strcmp(default_metaserver, DEFAULT_METASERVER_OPTION)) {
+    if (0 == strcmp(options.default_metaserver, DEFAULT_METASERVER_OPTION)) {
       sz_strlcpy(metaserver, META_URL);
     } else {
-      sz_strlcpy(metaserver, default_metaserver);
+      sz_strlcpy(metaserver, options.default_metaserver);
     }
   }
-  if (server_port == -1) server_port = default_server_port;
+  if (server_port == -1) {
+    server_port = options.default_server_port;
+  }
 
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */
@@ -632,7 +634,7 @@ void client_exit(void)
     client_remove_all_cli_conn();
   }
 
-  if (save_options_on_exit) {
+  if (options.save_options_on_exit) {
     options_save();
   }
   
@@ -849,7 +851,7 @@ void set_client_state(enum client_states newstate)
     unit_focus_update();
     update_unit_info_label(get_units_in_focus());
 
-    if (auto_center_each_turn) {
+    if (options.auto_center_each_turn) {
       center_on_something();
     }
     start_style_music();

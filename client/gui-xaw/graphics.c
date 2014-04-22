@@ -666,12 +666,12 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
 		 tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
 
   /* If we're using flags, put one on the tile */
-  if(!solid_color_behind_units)  {
+  if (!options.solid_color_behind_units) {
     struct sprite *flag = get_nation_flag_sprite(tileset, nation_of_player(client.conn.playing));
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);
-    XCopyArea(display, flag->pixmap, pm, civ_gc, 0,0, 
+    XCopyArea(display, flag->pixmap, pm, civ_gc, 0, 0,
     	      flag->width,flag->height, 0,0);
     XSetClipMask(display, civ_gc, None);
   }

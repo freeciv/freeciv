@@ -323,7 +323,7 @@ void city_widget::city_view()
   pcity = selected_cities[0];
 
   Q_ASSERT(pcity != NULL);
-  if (center_when_popup_city) {
+  if (options.center_when_popup_city) {
     center_tile_mapcanvas(pcity->tile);
   }
   qtg_real_city_dialog_popup(pcity);

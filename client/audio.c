@@ -391,7 +391,7 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  if (sound_enable_effects) {
+  if (options.sound_enable_effects) {
     fc_assert_ret(tag != NULL);
 
     log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);

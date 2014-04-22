@@ -478,10 +478,11 @@ void city_popup_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
 
-  if(ret->list_index!=XAW_LIST_NONE) {
+  if (ret->list_index!=XAW_LIST_NONE) {
     struct city *pcity;
-    if((pcity=cities_in_list[ret->list_index])) {
-      if (center_when_popup_city) {
+
+    if ((pcity = cities_in_list[ret->list_index])) {
+      if (options.center_when_popup_city) {
 	center_tile_mapcanvas(pcity->tile);
       }
       popup_city_dialog(pcity);
