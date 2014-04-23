@@ -124,6 +124,8 @@ bool is_wonder(const struct impr_type *pimprove);
 bool is_improvement(const struct impr_type *pimprove);
 bool is_special_improvement(const struct impr_type *pimprove);
 
+bool can_improvement_go_obsolete(const struct impr_type *pimprove);
+
 bool can_sell_building(struct impr_type *pimprove);
 bool can_city_sell_building(const struct city *pcity,
 			    struct impr_type *pimprove);

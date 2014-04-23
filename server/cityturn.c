@@ -1088,8 +1088,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_SPECIAL:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s special is required.  Postponing..."),
+                            Q_("?special:%s can't build %s from the worklist; "
+                               "%s is required.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             special_name_translation(preq->source.value.special));
@@ -1101,8 +1101,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_TERRAIN:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s terrain is required.  Postponing..."),
+                            Q_("?terrain:%s can't build %s from the worklist; "
+                               "%s terrain is required.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             terrain_name_translation(preq->source.value.terrain));
@@ -1158,8 +1158,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_TERRAINCLASS:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s terrain class is required.  Postponing..."),
+                            Q_("?terrainclass:%s can't build %s from the "
+                               "worklist; %s terrain is required."
+                               "  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             terrain_class_name_translation(preq->source.value.terrainclass));

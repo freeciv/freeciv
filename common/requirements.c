@@ -1550,16 +1550,22 @@ const char *universal_name_translation(const struct universal *psource,
     fc_strlcat(buf, utype_name_translation(psource->value.utype), bufsz);
     return buf;
   case VUT_UTFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" units"),
-		 /* flag names are never translated */
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Unit type flag */
+                 Q_("?utflag:\"%s\" units"),
+                 /* flag names are never translated */
 		 unit_flag_rule_name(psource->value.unitflag));
     return buf;
   case VUT_UCLASS:
-    cat_snprintf(buf, bufsz, _("%s units"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Unit class */
+                 _("%s units"),
 		 uclass_name_translation(psource->value.uclass));
     return buf;
   case VUT_UCFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" units"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Unit class flag */
+                 Q_("?ucflag:\"%s\" units"),
                  /* flag names are never translated */
                  unit_class_flag_id_name(psource->value.unitclassflag));
     return buf;
@@ -1581,14 +1587,12 @@ const char *universal_name_translation(const struct universal *psource,
                  ai_level_name(psource->value.ai_level)); /* FIXME */
     return buf;
   case VUT_TERRAINCLASS:
-    /* TRANS: "Land terrain" */
+    /* TRANS: Terrain class: "Land terrain" */
     cat_snprintf(buf, bufsz, _("%s terrain"),
                  terrain_class_name_translation(psource->value.terrainclass));
     return buf;
   case VUT_BASE:
-    /* TRANS: "Fortress base" */
-    cat_snprintf(buf, bufsz, _("%s base"),
-                 base_name_translation(psource->value.base));
+    fc_strlcat(buf, base_name_translation(psource->value.base), bufsz);
     return buf;
   case VUT_MINYEAR:
     cat_snprintf(buf, bufsz, _("After %s"),
@@ -1600,7 +1604,7 @@ const char *universal_name_translation(const struct universal *psource,
                  terrain_alteration_name_translation(psource->value.terrainalter));
     return buf;
   case VUT_CITYTILE:
-    fc_strlcat(buf, _("City center tile"), bufsz);
+    fc_strlcat(buf, _("City center"), bufsz);
     return buf;
   case VUT_COUNT:
     break;
