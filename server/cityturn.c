@@ -1112,7 +1112,8 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "no tech with flag %s yet available.  Postponing..."),
+                              "no tech with flag \"%s\" yet available.  "
+                              "Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             tech_flag_id_name(preq->source.value.techflag));
@@ -1152,7 +1153,7 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "it needs %s achievement.  Postponing..."),
+                              "it needs \"%s\" achievement.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             achievement_name_translation(preq->source.value.achievement));
@@ -1164,8 +1165,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_EXTRA:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s extra is required.  Postponing..."),
+                            Q_("?extra:%s can't build %s from the worklist; "
+                               "%s is required.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             extra_name_translation(preq->source.value.extra));
@@ -1177,8 +1178,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_TERRAIN:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s terrain is required.  Postponing..."),
+                            Q_("?terrain:%s can't build %s from the worklist; "
+                               "%s terrain is required.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             terrain_name_translation(preq->source.value.terrain));
@@ -1190,8 +1191,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_RESOURCE:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s resource is required.  Postponing..."),
+                            Q_("?resource:%s can't build %s from the worklist; "
+                               "%s is required.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             resource_name_translation(preq->source.value.resource));
@@ -1231,8 +1232,6 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_STRING, "need_style");
 	      break;
 	    case VUT_NATIONALITY:
-	      /* FIXME: we should skip rather than postpone, since we'll
-	       * unlikely to ever be able to meet this req... */
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             /* TRANS: Latter %s is citizen nationality */
@@ -1250,7 +1249,7 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "The diplomatic relationship %s is required."
+                              "the diplomatic relationship %s is required."
                               "  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity,
@@ -1279,9 +1278,13 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      if (preq->present) {
 		notify_player(pplayer, city_tile(pcity),
 			      E_CITY_CANTBUILD, ftc_server,
-			      _("%s can't build %s from the worklist; "
-				"max %d unit(s) may be on the tile."
-				" Postponing..."),
+			      PL_("%s can't build %s from the worklist; "
+                                  "more than %d unit on tile."
+                                  "  Postponing...",
+			          "%s can't build %s from the worklist; "
+                                  "more than %d units on tile."
+                                  "  Postponing...",
+                                  preq->source.value.maxTileUnits),
 			      city_link(pcity),
 			      city_improvement_name_translation(pcity,
 								ptarget),
@@ -1294,13 +1297,17 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      } else {
 		notify_player(pplayer, city_tile(pcity),
 			      E_CITY_CANTBUILD, ftc_server,
-			      _("%s can't build %s from the worklist; "
-				"More than %d unit(s) must be on the tile."
-				" Postponing..."),
+			      PL_("%s can't build %s from the worklist; "
+                                  "fewer than %d unit on tile."
+                                  "  Postponing...",
+			          "%s can't build %s from the worklist; "
+                                  "fewer than %d units on tile."
+                                  "  Postponing...",
+                                  preq->source.value.maxTileUnits+1),
 			      city_link(pcity),
 			      city_improvement_name_translation(pcity,
 								ptarget),
-			      preq->source.value.maxTileUnits);
+			      preq->source.value.maxTileUnits+1);
 		script_server_signal_emit("building_cant_be_built", 3,
 					  API_TYPE_BUILDING_TYPE, ptarget,
 					  API_TYPE_CITY, pcity,
@@ -1326,8 +1333,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_TERRAINCLASS:
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "%s terrain class is required.  Postponing..."),
+                            Q_("?terrainclass:%s can't build %s from the "
+                               "worklist; %s terrain is required."
+                               "  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             terrain_class_name_translation(preq->source.value.terrainclass));
@@ -1340,7 +1348,8 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "%s terrain flag is required.  Postponing..."),
+                              "terrain with \"%s\" flag is required.  "
+                              "Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             terrain_flag_id_name(preq->source.value.terrainflag));
@@ -1353,7 +1362,8 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "%s base flag is required.  Postponing..."),
+                              "base with \"%s\" flag is required.  "
+                              "Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             base_flag_id_name(preq->source.value.baseflag));
@@ -1366,7 +1376,8 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "%s road flag is required.  Postponing..."),
+                              "road with \"%s\" flag is required.  "
+                              "Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             road_flag_id_name(preq->source.value.roadflag));

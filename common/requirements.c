@@ -2332,8 +2332,8 @@ const char *universal_name_translation(const struct universal *psource,
                bufsz);
     return buf;
   case VUT_NATIONALITY:
-    fc_strlcat(buf, nation_adjective_translation(psource->value.nationality),
-               bufsz);
+    cat_snprintf(buf, bufsz, _("%s citizens"),
+                 nation_adjective_translation(psource->value.nationality));
     return buf;
   case VUT_DIPLREL:
     fc_strlcat(buf, diplrel_name_translation(psource->value.diplrel),
@@ -2343,16 +2343,22 @@ const char *universal_name_translation(const struct universal *psource,
     fc_strlcat(buf, utype_name_translation(psource->value.utype), bufsz);
     return buf;
   case VUT_UTFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" units"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Unit type flag */
+                 Q_("?utflag:\"%s\" units"),
                  /* flag names are never translated */
                  unit_type_flag_id_name(psource->value.unitflag));
     return buf;
   case VUT_UCLASS:
-    cat_snprintf(buf, bufsz, _("%s units"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Unit class */
+                 _("%s units"),
 		 uclass_name_translation(psource->value.uclass));
     return buf;
   case VUT_UCFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" units"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Unit class flag */
+                 Q_("?ucflag:\"%s\" units"),
                  /* flag names are never translated */
                  unit_class_flag_id_name(psource->value.unitclassflag));
     return buf;
@@ -2374,25 +2380,33 @@ const char *universal_name_translation(const struct universal *psource,
                  ai_level_translated_name(psource->value.ai_level)); /* FIXME */
     return buf;
   case VUT_MAXTILEUNITS:
-    cat_snprintf(buf, bufsz, _("Max %d unit(s) on the tile"),
+    /* TRANS: here <= means 'less than or equal' */
+    cat_snprintf(buf, bufsz, PL_("<=%d unit",
+                                 "<=%d units", psource->value.maxTileUnits),
                  psource->value.maxTileUnits);
     return buf;
   case VUT_TERRAINCLASS:
-    /* TRANS: "Land terrain" */
+    /* TRANS: Terrain class: "Land terrain" */
     cat_snprintf(buf, bufsz, _("%s terrain"),
                  terrain_class_name_translation(psource->value.terrainclass));
     return buf;
   case VUT_TERRFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" terrain"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Terrain flag */
+                 Q_("?terrflag:\"%s\" terrain"),
                  /* flag names are never translated */
                  terrain_flag_id_name(psource->value.terrainflag));
     return buf;
   case VUT_BASEFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" base"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Base flag */
+                 Q_("?baseflag:\"%s\" base"),
                  /* flag names are never translated */
                  base_flag_id_name(psource->value.baseflag));
   case VUT_ROADFLAG:
-    cat_snprintf(buf, bufsz, _("\"%s\" road"),
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: Road flag */
+                 Q_("?roadflag:\"%s\" road"),
                  /* flag names are never translated */
                  road_flag_id_name(psource->value.roadflag));
   case VUT_MINYEAR:
@@ -2405,7 +2419,7 @@ const char *universal_name_translation(const struct universal *psource,
                  Q_(terrain_alteration_name(psource->value.terrainalter)));
     return buf;
   case VUT_CITYTILE:
-    fc_strlcat(buf, _("City center tile"), bufsz);
+    fc_strlcat(buf, _("City center"), bufsz);
     return buf;
   case VUT_COUNT:
     break;
