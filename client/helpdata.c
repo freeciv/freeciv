@@ -312,7 +312,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 /****************************************************************
   Append text for the requirement.  Something like
 
-    "Requires the Communism technology.\n"
+    "Requires knowledge of the technology Communism.\n"
 
   pplayer may be NULL.  Note that it must be updated everytime
   a new requirement type or range is defined.
@@ -330,12 +330,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_PLAYER:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires you to have researched the %s technology.\n"),
+                     _("Requires knowledge of the technology %s.\n"),
                      advance_name_for_player(pplayer, advance_number
                                              (preq->source.value.advance)));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented if you have researched the %s technology.\n"),
+                     _("Prevented by knowledge of the technology %s.\n"),
                      advance_name_for_player(pplayer, advance_number
                                              (preq->source.value.advance)));
       }
@@ -343,14 +343,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_WORLD:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that any player has researched "
-                       "the %s technology.\n"),
+                     _("Requires that some player knows the technology %s.\n"),
                      advance_name_for_player(pplayer, advance_number
                                              (preq->source.value.advance)));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that no player has yet researched "
-                       "the %s technology.\n"),
+                     _("Requires that no player knows the technology %s.\n"),
                      advance_name_for_player(pplayer, advance_number
                                              (preq->source.value.advance)));
       }
@@ -371,22 +369,26 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_PLAYER:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires you to have researched technology with \%s\" flag.\n"),
+                     _("Requires knowledge of a technology with the "
+                       "\"%s\" flag.\n"),
                      tech_flag_id_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented if you to have researched technology with \%s\" flag.\n"),
+                     _("Prevented by knowledge of any technology with the "
+                       "\"%s\" flag.\n"),
                      tech_flag_id_name(preq->source.value.techflag));
       }
       return TRUE;
     case REQ_RANGE_WORLD:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that any player has researched technology with \"%s\" flag.\n"),
+                     _("Requires that some player knows a technology "
+                       "with the \"%s\" flag.\n"),
                      tech_flag_id_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that no player has researched technology with \"%s\" flag.\n"),
+                     _("Requires that no player knows any technology with "
+                       "the \"%s\" flag.\n"),
                      tech_flag_id_name(preq->source.value.techflag));
       }
       return TRUE;
@@ -402,6 +404,9 @@ static bool insert_requirement(char *buf, size_t bufsz,
     break;
 
   case VUT_GOVERNMENT:
+    if (preq->range != REQ_RANGE_PLAYER) {
+      break;
+    }
     if (!preq->negated) {
       cat_snprintf(buf, bufsz, _("Requires the %s government.\n"),
                    government_name_translation(preq->source.value.govern));
@@ -415,65 +420,222 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_WORLD:
       if (is_great_wonder(preq->source.value.building)) {
-        if (!preq->negated) {
-          cat_snprintf(buf, bufsz,
-                       _("Requires that the %s wonder has been built by "
-                         "any player.\n"),
-                       improvement_name_translation
-                       (preq->source.value.building));
+        if (preq->survives) {
+          if (!preq->negated) {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires that %s was built at some point, "
+                             "and that it has not yet been rendered "
+                             "obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires that %s was built at some point.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          } else {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if %s has ever been built, "
+                             "unless it would be obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if %s has ever been built.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          }
         } else {
-          cat_snprintf(buf, bufsz,
-                       _("Requires that the %s wonder has not yet been built "
-                         "by any player.\n"),
-                       improvement_name_translation
-                       (preq->source.value.building));
+          /* Non-surviving requirement */
+          if (!preq->negated) {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires %s to be owned by any player "
+                             "and not yet obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires %s to be owned by any player.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          } else {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if %s is currently owned by "
+                             "any player, unless it is obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if %s is currently owned by "
+                             "any player.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          }
         }
         return TRUE;
       }
+      /* non-great-wonder world-ranged requirements not supported */
       break;
     case REQ_RANGE_PLAYER:
       if (is_wonder(preq->source.value.building)) {
-        if (!preq->negated) {
-          cat_snprintf(buf, bufsz, _("Requires you to own the %s wonder.\n"),
-                       improvement_name_translation
-                       (preq->source.value.building));
+        if (preq->survives) {
+          if (!preq->negated) {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires you to have built %s at some point, "
+                             "and for it not to have been rendered "
+                             "obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires you to have built %s at some point.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          } else {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if you have ever built %s, "
+                             "unless it would be obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if you have ever built %s.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          }
         } else {
-          cat_snprintf(buf, bufsz, _("Prevented if you own the %s wonder.\n"),
-                       improvement_name_translation
-                       (preq->source.value.building));
+          /* Non-surviving requirement */
+          if (!preq->negated) {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires you to own %s, which must not "
+                             "be obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Requires you to own %s.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          } else {
+            if (can_improvement_go_obsolete(preq->source.value.building)) {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if you own %s, unless it is "
+                             "obsolete.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            } else {
+              cat_snprintf(buf, bufsz,
+                           /* TRANS: %s is a wonder */
+                           _("Prevented if you own %s.\n"),
+                           improvement_name_translation
+                           (preq->source.value.building));
+            }
+          }
         }
         return TRUE;
       }
+      /* non-wonder player-ranged requirements not supported */
       break;
     case REQ_RANGE_CONTINENT:
       if (is_wonder(preq->source.value.building)) {
         if (!preq->negated) {
+          if (can_improvement_go_obsolete(preq->source.value.building)) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is a wonder */
+                         _("Requires %s in one of your cities on the same "
+                           "continent, and not yet obsolete.\n"),
+                         improvement_name_translation
+                         (preq->source.value.building));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is a wonder */
+                         _("Requires %s in one of your cities on the same "
+                           "continent.\n"),
+                         improvement_name_translation
+                         (preq->source.value.building));
+          }
+        } else {
+          if (can_improvement_go_obsolete(preq->source.value.building)) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is a wonder */
+                         _("Prevented if %s is in one of your cities on the "
+                           "same continent, unless it is obsolete.\n"),
+                         improvement_name_translation
+                         (preq->source.value.building));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: %s is a wonder */
+                         _("Prevented if %s is in one of your cities on the "
+                           "same continent.\n"),
+                         improvement_name_translation
+                         (preq->source.value.building));
+          }
+        }
+        return TRUE;
+      }
+      /* surviving or non-wonder continent-ranged requirements not supported */
+      break;
+    case REQ_RANGE_CITY:
+      if (!preq->negated) {
+        if (can_improvement_go_obsolete(preq->source.value.building)) {
+          /* Should only apply to wonders */
           cat_snprintf(buf, bufsz,
-                       _("Requires the %s wonder to be owned by you and on "
-                         "the same continent.\n"),
+                       /* TRANS: %s is a building or wonder */
+                       _("Requires %s in the city (and not yet obsolete).\n"),
                        improvement_name_translation
                        (preq->source.value.building));
         } else {
           cat_snprintf(buf, bufsz,
-                       _("Requires the %s wonder to either not be owned by "
-                         "you or be on a different continent.\n"),
+                       /* TRANS: %s is a building or wonder */
+                       _("Requires %s in the city.\n"),
                        improvement_name_translation
                        (preq->source.value.building));
         }
-        return TRUE;
-      }
-      break;
-    case REQ_RANGE_CITY:
-      if (!preq->negated) {
-        cat_snprintf(buf, bufsz,
-                     _("Requires the %s building in the city.\n"),
-                     improvement_name_translation
-                     (preq->source.value.building));
       } else {
-        cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s building in the city.\n"),
-                     improvement_name_translation
-                     (preq->source.value.building));
+        if (can_improvement_go_obsolete(preq->source.value.building)) {
+          /* Should only apply to wonders */
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is a building or wonder */
+                       _("Prevented by %s in the city (unless it is "
+                         "obsolete).\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is a building or wonder */
+                       _("Prevented by %s in the city.\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        }
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
@@ -502,50 +664,50 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on the tile.\n"),
+                     Q_("?special:Requires %s on the tile.\n"),
                      special_name_translation(preq->source.value.special));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on the tile.\n"),
+                     Q_("?special:Prevented by %s on the tile.\n"),
                      special_name_translation(preq->source.value.special));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on the tile or "
-                       "a cardinally adjacent tile.\n"),
+                     Q_("?special:Requires %s on the tile or a cardinally "
+                        "adjacent tile.\n"),
                      special_name_translation(preq->source.value.special));
         } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on the tile or "
-                       "a cardinally adjacent tile.\n"),
+                     Q_("?special:Prevented by %s on the tile or any "
+                        "cardinally adjacent tile.\n"),
                      special_name_translation(preq->source.value.special));
         }
       return TRUE;
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on the tile or "
-                       "an adjacent tile.\n"),
+                     Q_("?special:Requires %s on the tile or an adjacent "
+                        "tile.\n"),
                      special_name_translation(preq->source.value.special));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on the tile or "
-                       "an adjacent tile.\n"),
+                     Q_("?special:Prevented by %s on the tile or any "
+                        "adjacent tile.\n"),
                      special_name_translation(preq->source.value.special));
       }
       return TRUE;
     case REQ_RANGE_CITY:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain special on a tile within "
-                       "the city radius.\n"),
+                     Q_("?special:Requires %s on a tile within the city "
+                        "radius.\n"),
                      special_name_translation(preq->source.value.special));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain special on a tile within "
-                       "the city radius.\n"),
+                     Q_("?special:Prevented by %s on any tile within the "
+                        "city radius.\n"),
                      special_name_translation(preq->source.value.special));
       }
       return TRUE;
@@ -562,45 +724,49 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires the %s terrain on the tile.\n"),
+        cat_snprintf(buf, bufsz, Q_("?terrain:Requires %s on the tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by the %s terrain on the tile.\n"),
+        cat_snprintf(buf, bufsz, Q_("?terrain:Prevented by %s on the tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz,_("Requires the %s terrain on the tile or "
-                                  "a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?terrain:Requires %s on the tile or a cardinally "
+                        "adjacent tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
-        cat_snprintf(buf, bufsz,_("Prevented by the %s terrain on the tile or "
-                                  "a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?terrain:Prevented by %s on the tile or any "
+                        "cardinally adjacent tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz,_("Requires the %s terrain on the tile or "
-                                  "an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?terrain:Requires %s on the tile or an adjacent "
+                        "tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
-        cat_snprintf(buf, bufsz,_("Prevented by the %s terrain on the tile or "
-                                  "an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?terrain:Prevented by %s on the tile or any "
+                        "adjacent tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
     case REQ_RANGE_CITY:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s terrain on a tile within the city "
-                       "radius.\n"),
+                     Q_("?terrain:Requires %s on a tile within the city "
+                        "radius.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s terrain on a tile within the city "
-                       "radius.\n"),
+                     Q_("?terrain:Prevented by %s on any tile within the city "
+                        "radius.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -617,45 +783,51 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires the %s resource on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Requires %s on the tile.\n"),
                      resource_name_translation(preq->source.value.resource));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by the %s resource on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Prevented by %s on the tile.\n"),
                      resource_name_translation(preq->source.value.resource));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz,_("Requires the %s resource on the tile or "
-                                  "a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Requires %s on the tile or a cardinally "
+                        "adjacent tile.\n"),
                      resource_name_translation(preq->source.value.resource));
       } else {
-        cat_snprintf(buf, bufsz,_("Prevented by the %s resource on the tile or "
-                                  "a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Prevented by %s on the tile or any "
+                        "cardinally adjacent tile.\n"),
                      resource_name_translation(preq->source.value.resource));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz,_("Requires the %s resource on the tile or "
-                                  "an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Requires %s on the tile or an adjacent "
+                        "tile.\n"),
                      resource_name_translation(preq->source.value.resource));
       } else {
-        cat_snprintf(buf, bufsz,_("Prevented by the %s resource on the tile or "
-                                  "an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Prevented by %s on the tile or any "
+                        "adjacent tile.\n"),
                      resource_name_translation(preq->source.value.resource));
       }
       return TRUE;
     case REQ_RANGE_CITY:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s resource on a tile within the city "
-                       "radius.\n"),
+                     Q_("?resource:Requires %s on a tile within the "
+                        "city radius.\n"),
                      resource_name_translation(preq->source.value.resource));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by the %s resource on a tile within the city "
-                       "radius.\n"),
+                     Q_("?resource:Prevented by %s on any tile within the "
+                        "city radius.\n"),
                      resource_name_translation(preq->source.value.resource));
       }
       return TRUE;
@@ -672,20 +844,43 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires that you are playing the %s nation.\n"),
-                     nation_adjective_translation(preq->source.value.nation));
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: "... playing as the Swedes." */
+                     _("Requires that you are playing as the %s.\n"),
+                     nation_plural_translation(preq->source.value.nation));
       } else {
-        cat_snprintf(buf, bufsz, _("Requires that you are not playing the %s nation.\n"),
-                     nation_adjective_translation(preq->source.value.nation));
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: "... playing as the Turks." */
+                     _("Requires that you are not playing as the %s.\n"),
+                     nation_plural_translation(preq->source.value.nation));
       }
       return TRUE;
     case REQ_RANGE_WORLD:
-      if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires the %s nation in the game.\n"),
-                     nation_adjective_translation(preq->source.value.nation));
+      if (preq->survives) {
+        if (!preq->negated) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: "Requires the Apaches to have ..." */
+                       _("Requires the %s to have been in the game.\n"),
+                       nation_plural_translation(preq->source.value.nation));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: "Requires the Celts never to have ..." */
+                       _("Requires the %s never to have been in the "
+                         "game.\n"),
+                       nation_plural_translation(preq->source.value.nation));
+        }
       } else {
-        cat_snprintf(buf, bufsz, _("Requires that the %s nation is not in the game.\n"),
-                     nation_adjective_translation(preq->source.value.nation));
+        if (!preq->negated) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: "Requires the Belgians in the game." */
+                       _("Requires the %s in the game.\n"),
+                       nation_plural_translation(preq->source.value.nation));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: "Requires that the Russians are not ... */
+                       _("Requires that the %s are not in the game.\n"),
+                       nation_plural_translation(preq->source.value.nation));
+        }
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
@@ -703,10 +898,15 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_CITY:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires %s citizen in city.\n"),
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: "Requires at least one Barbarian citizen ..." */
+                     _("Requires at least one %s citizen in the city.\n"),
                      nation_adjective_translation(preq->source.value.nationality));
       } else {
-        cat_snprintf(buf, bufsz, _("Requires no %s citizens in the city.\n"),
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: "... no Pirate citizens ..." */
+                     _("Requires that there are no %s citizens in "
+                       "the city.\n"),
                      nation_adjective_translation(preq->source.value.nationality));
       }
       return TRUE;
@@ -830,7 +1030,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
                        astr_str(&list));
         } else { 
           /* TRANS: %s is a list of unit classes separated by "or". */
-          cat_snprintf(buf, bufsz, Q_("?uclasslist:Does not apply to %s units.\n"),
+          cat_snprintf(buf, bufsz, Q_("?uclasslist:Does not apply to "
+                                      "%s units.\n"),
                        astr_str(&list));
         }
         done = TRUE;
@@ -853,45 +1054,67 @@ static bool insert_requirement(char *buf, size_t bufsz,
     break;
 
   case VUT_OTYPE:
+    if (preq->range != REQ_RANGE_LOCAL) {
+      break;
+    }
     if (!preq->negated) {
-      /* TRANS: Applies only to food. */
+      /* TRANS: "Applies only to Food." */
       cat_snprintf(buf, bufsz, Q_("?output:Applies only to %s.\n"),
                    get_output_name(preq->source.value.outputtype));
     } else {
-      /* TRANS: Does not apply to food. */
+      /* TRANS: "Does not apply to Food." */
       cat_snprintf(buf, bufsz, Q_("?output:Does not apply to %s.\n"),
                    get_output_name(preq->source.value.outputtype));
     }
     return TRUE;
 
   case VUT_SPECIALIST:
+    if (preq->range != REQ_RANGE_LOCAL) {
+      break;
+    }
     if (!preq->negated) {
-      /* TRANS: Applies only to scientist */
+      /* TRANS: "Applies only to Scientists." */
       cat_snprintf(buf, bufsz, Q_("?specialist:Applies only to %s.\n"),
                    specialist_plural_translation(preq->source.value.specialist));
     } else {
-      /* TRANS: Does not apply to scientist */
+      /* TRANS: "Does not apply to Scientists." */
       cat_snprintf(buf, bufsz, Q_("?specialist:Does not apply to %s.\n"),
                    specialist_plural_translation(preq->source.value.specialist));
     }
     return TRUE;
 
   case VUT_MINSIZE:
+    if (preq->range != REQ_RANGE_CITY) {
+      break;
+    }
     if (!preq->negated) {
-      cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n"),
+      cat_snprintf(buf, bufsz,
+                   PL_("Requires a minimum city size of %d.\n",
+                       "Requires a minimum city size of %d.\n",
+                       preq->source.value.minsize),
                    preq->source.value.minsize);
     } else {
-      cat_snprintf(buf, bufsz, _("Requires city size less than %d.\n"),
+      cat_snprintf(buf, bufsz,
+                   PL_("Requires the city size to be less than %d.\n",
+                       "Requires the city size to be less than %d.\n",
+                       preq->source.value.minsize),
                    preq->source.value.minsize);
     }
     return TRUE;
 
   case VUT_AI_LEVEL:
+    if (preq->range != REQ_RANGE_PLAYER) {
+      break;
+    }
     if (!preq->negated) {
-      cat_snprintf(buf, bufsz, _("Requires AI player of level %s.\n"),
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: AI level (e.g., "Easy") */
+                   _("Applies to %s AI players.\n"),
                    ai_level_name(preq->source.value.ai_level));
     } else {
-      cat_snprintf(buf, bufsz, _("Does not apply to AI player of level %s.\n"),
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: AI level (e.g., "Cheating") */
+                   _("Does not apply to %s AI players.\n"),
                    ai_level_name(preq->source.value.ai_level));
     }
     return TRUE;
@@ -900,11 +1123,15 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires %s terrain class on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Requires %s terrain on the tile.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by %s terrain class on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Prevented by %s terrain on the tile.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -912,12 +1139,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires %s terrain class on a cardinally adjacent tile.\n"),
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Requires %s terrain on the tile or a "
+                        "cardinally adjacent tile.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by %s terrain class on a cardinally adjacent tile.\n"),
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Prevented by %s terrain on the tile or "
+                        "any cardinally adjacent tile.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -925,12 +1156,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires %s terrain class on an adjacent tile.\n"),
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Requires %s terrain on the tile or an "
+                        "adjacent tile.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by %s terrain class on an adjacent tile.\n"),
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Prevented by %s terrain on the tile or "
+                        "any adjacent tile.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -938,14 +1173,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires %s terrain class on a tile within the city "
-                       "radius.\n"),
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Requires %s terrain on a tile within "
+                        "the city radius.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by %s terrain class on a tile within the "
-                       "city radius.\n"),
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Prevented by %s terrain on any tile "
+                        "within the city radius.\n"),
                      terrain_class_name_translation
                      (preq->source.value.terrainclass));
       }
@@ -963,45 +1200,52 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires \"%s\" terrain flag on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     _("Requires terrain with the \"%s\" flag on the tile.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by \"%s\" terrain flag on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by terrain with the \"%s\" flag on the "
+                       "tile.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires \"%s\" terrain flag on a cardinally adjacent tile.\n"),
+                     _("Requires terrain with the \"%s\" flag on the "
+                       "tile or a cardinally adjacent tile.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by \"%s\" terrain flag on a cardinally adjacent tile.\n"),
+                     _("Prevented by terrain with the \"%s\" flag on "
+                       "the tile or any cardinally adjacent tile.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires \"%s\" terrain flag on an adjacent tile.\n"),
+                     _("Requires terrain with the \"%s\" flag on the "
+                       "tile or an adjacent tile.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by \"%s\" terrain flag on an adjacent tile.\n"),
+                     _("Prevented by terrain with the \"%s\" flag on "
+                       "the tile or any adjacent tile.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_CITY:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires \"%s\" terrain flag on a tile within the "
-                       "city radius.\n"),
+                     _("Requires terrain with the \"%s\" flag on a tile "
+                       "within the city radius.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by \"%s\" terrain flag on a tile within the "
-                       "city radius.\n"),
+                     _("Prevented by terrain with the \"%s\" flag on any tile "
+                       "within the city radius.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -1018,39 +1262,51 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Requires %s on the tile.\n"),
                      base_name_translation(preq->source.value.base));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Prevented by %s on the tile.\n"),
                      base_name_translation(preq->source.value.base));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Requires %s on the tile or a "
+                        "cardinally adjacent tile.\n"),
                      base_name_translation(preq->source.value.base));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Prevented by %s on the tile or any "
+                       "cardinally adjacent tile.\n"),
                      base_name_translation(preq->source.value.base));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Requires %s on the tile or an "
+                        "adjacent tile.\n"),
                      base_name_translation(preq->source.value.base));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Prevented by %s on the tile or any "
+                        "adjacent tile.\n"),
                      base_name_translation(preq->source.value.base));
       }
       return TRUE;
     case REQ_RANGE_CITY:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
-                                   "radius.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Requires %s on a tile within the city "
+                        "radius.\n"),
                      base_name_translation(preq->source.value.base));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on a tile within the "
-                                   "city radius.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?base:Prevented by %s on any tile within the "
+                        "city radius.\n"),
                      base_name_translation(preq->source.value.base));
       }
       return TRUE;
@@ -1067,39 +1323,51 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Requires %s on the tile.\n"),
                      road_name_translation(preq->source.value.road));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on the tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Prevented by %s on the tile.\n"),
                      road_name_translation(preq->source.value.road));
       }
       return TRUE;
-   case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_CADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Requires %s on the tile or a "
+                        "cardinally adjacent tile.\n"),
                      road_name_translation(preq->source.value.road));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on a cardinally adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Prevented by %s on the tile or any "
+                        "cardinally adjacent tile.\n"),
                      road_name_translation(preq->source.value.road));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Requires %s on the tile or an "
+                        "adjacent tile.\n"),
                      road_name_translation(preq->source.value.road));
       } else {
-        cat_snprintf(buf, bufsz, _("Prevented by a %s on an adjacent tile.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Prevented by %s on the tile or any "
+                        "adjacent tile.\n"),
                      road_name_translation(preq->source.value.road));
       }
       return TRUE;
     case REQ_RANGE_CITY:
       if (!preq->negated) {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
-                                   "radius.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Requires %s on a tile within the city "
+                        "radius.\n"),
                      road_name_translation(preq->source.value.road));
       } else {
-        cat_snprintf(buf, bufsz, _("Requires a %s on a tile within the city "
-                                   "radius.\n"),
+        cat_snprintf(buf, bufsz,
+                     Q_("?road:Prevented by %s on any tile within the "
+                        "city radius.\n"),
                      road_name_translation(preq->source.value.road));
       }
       return TRUE;
@@ -1113,12 +1381,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
     break;
 
   case VUT_MINYEAR:
+    if (preq->range != REQ_RANGE_WORLD) {
+      break;
+    }
     if (!preq->negated) {
-      cat_snprintf(buf, bufsz, _("Requires we reached the year %d.\n"),
-                   preq->source.value.minyear);
+      cat_snprintf(buf, bufsz,
+                   _("Requires the game to have reached the year %s.\n"),
+                   textyear(preq->source.value.minyear));
     } else {
-      cat_snprintf(buf, bufsz, _("Requires we have not yet reached the year %d.\n"),
-                   preq->source.value.minyear);
+      cat_snprintf(buf, bufsz,
+                   _("Requires that the game has not yet reached the "
+                     "year %s.\n"),
+                   textyear(preq->source.value.minyear));
     }
     return TRUE;
 
@@ -1127,12 +1401,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires terrain on which %s can be built on tile.\n"),
+                     _("Requires terrain on which alteration %s is "
+                       "possible.\n"),
                      terrain_alteration_name_translation
                      (preq->source.value.terrainalter));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Prevented by terrain on which %s can be built on tile.\n"),
+                     _("Prevented by terrain on which alteration %s "
+                       "can be made.\n"),
                      terrain_alteration_name_translation
                      (preq->source.value.terrainalter));
       }
@@ -1150,6 +1426,9 @@ static bool insert_requirement(char *buf, size_t bufsz,
     break;
 
   case VUT_CITYTILE:
+    if (preq->range != REQ_RANGE_LOCAL) {
+      break;
+    }
     if (!preq->negated) {
       cat_snprintf(buf, bufsz, _("Applies only to city centers.\n"));
     } else {
@@ -1164,7 +1443,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
   {
     char text[256];
 
-    log_error("Requirement %s in range %d is not supported in helpdata.c.",
+    log_error("%s requirement %s in range %d is not supported in helpdata.c.",
+              preq->negated ? "Absent" : "Present",
               universal_name_translation(&preq->source, text, sizeof(text)),
               preq->range);
   }

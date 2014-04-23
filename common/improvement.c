@@ -302,6 +302,15 @@ bool is_improvement_visible(const struct impr_type *pimprove)
 }
 
 /**************************************************************************
+  Return TRUE if the improvement can ever go obsolete.
+  Can be used for buildings or wonders.
+**************************************************************************/
+bool can_improvement_go_obsolete(const struct impr_type *pimprove)
+{
+  return pimprove->obsolete_by != NULL;
+}
+
+/**************************************************************************
   Returns TRUE if the improvement or wonder is obsolete
 **************************************************************************/
 bool improvement_obsolete(const struct player *pplayer,
