@@ -255,6 +255,7 @@ void upgrade_all_city_roads(struct player *pplayer, bool discovery)
   int cities_upgradet = 0;
   struct road_type *upgradet = NULL;
   bool multiple_types = FALSE;
+  int cities_total = city_list_size(pplayer->cities);
   int percent;
 
   conn_list_do_buffer(pplayer->connections);
@@ -278,7 +279,11 @@ void upgrade_all_city_roads(struct player *pplayer, bool discovery)
     }
   } city_list_iterate_end;
 
-  percent = cities_upgradet * 100 / city_list_size(pplayer->cities);
+  if (cities_total > 0) {
+    percent = cities_upgradet * 100 / cities_total;
+  } else {
+    percent = 0;
+  }
 
   if (cities_upgradet > 0) {
     if (discovery) {
@@ -355,6 +360,7 @@ void upgrade_all_city_bases(struct player *pplayer, bool discovery)
   int cities_upgradet = 0;
   struct base_type *upgradet = NULL;
   bool multiple_types = FALSE;
+  int cities_total = city_list_size(pplayer->cities);
   int percent;
 
   conn_list_do_buffer(pplayer->connections);
@@ -378,7 +384,11 @@ void upgrade_all_city_bases(struct player *pplayer, bool discovery)
     }
   } city_list_iterate_end;
 
-  percent = cities_upgradet * 100 / city_list_size(pplayer->cities);
+  if (cities_total > 0) {
+    percent = cities_upgradet * 100 / cities_total;
+  } else {
+    percent = 0;
+  }
 
   if (cities_upgradet > 0) {
     if (discovery) {
