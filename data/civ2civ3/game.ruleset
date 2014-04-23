@@ -370,18 +370,30 @@ negative_label = _("BCE")
 
 [disaster_earthquake]
 name           = _("Earthquake")
-frequency      = 10
-effects        = "DestroyBuilding", "EmptyProdStock"
+reqs           =
+    { "type", "name", "range"
+      "Terrain", "Hills", "Local"
+    }
+frequency      = 100
+effects        = "EmptyProdStock"
 
 [disaster_flood]
 name           = _("Flood")
-frequency      = 10
-effects        = "ReducePopulation", "EmptyFoodStock"
+reqs           =
+    { "type", "name", "range"
+      "Extra", "River", "Adjacent"
+    }
+frequency      = 100
+effects        = "EmptyFoodStock"
 
 [disaster_fire]
 name           = _("Fire")
-frequency      = 10
-effects        = "DestroyBuilding", "Pollution"
+reqs           =
+    { "type", "name", "range"
+      "MinSize", "8", "City"
+    }
+frequency      = 100
+effects        = "DestroyBuilding"
 
 [disaster_nuclear_accident]
 name           = _("Nuclear Accident")
@@ -389,7 +401,7 @@ reqs           =
     { "type", "name", "range"
       "Building", "Nuclear Plant", "City"
     }
-frequency      = 10
+frequency      = 100
 effects        = "ReducePopulation", "Fallout"
 
 ; /* <-- avoid gettext warnings
