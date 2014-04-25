@@ -568,11 +568,13 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_DIPLREL:
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_PLAYER
+               && req.range != REQ_RANGE_TEAM
                && req.range != REQ_RANGE_ALLIANCE
                && req.range != REQ_RANGE_WORLD);
     break;
   case VUT_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
+               && req.range != REQ_RANGE_TEAM
                && req.range != REQ_RANGE_ALLIANCE
                && req.range != REQ_RANGE_WORLD);
     break;
@@ -734,6 +736,8 @@ static inline bool players_in_same_range(const struct player *pplayer1,
     return TRUE;
   case REQ_RANGE_ALLIANCE:
     return pplayers_allied(pplayer1, pplayer2);
+  case REQ_RANGE_TEAM:
+    return players_on_same_team(pplayer1, pplayer2);
   case REQ_RANGE_PLAYER:
     return pplayer1 == pplayer2;
   case REQ_RANGE_CONTINENT:
@@ -879,6 +883,7 @@ is_building_in_range(const struct player *target_player,
     case REQ_RANGE_WORLD:
       return BOOL_TO_TRISTATE(num_world_buildings_total(source) > 0);
     case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_TEAM:
       if (target_player == NULL) {
         return TRI_MAYBE;
       }
@@ -901,7 +906,7 @@ is_building_in_range(const struct player *target_player,
     case REQ_RANGE_ADJACENT:
       /* There is no sources cache for this. */
       log_error("Surviving requirements are only supported at "
-                "World/Alliance/Player ranges.");
+                "World/Alliance/Team/Player ranges.");
       return TRI_NO;
     case REQ_RANGE_COUNT:
       break;
@@ -914,6 +919,7 @@ is_building_in_range(const struct player *target_player,
     case REQ_RANGE_WORLD:
       return BOOL_TO_TRISTATE(num_world_buildings(source) > 0);
     case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_TEAM:
       if (target_player == NULL) {
         return TRI_MAYBE;
       }
@@ -983,6 +989,7 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
     } else {
       return TRI_MAYBE;
     }
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
    if (NULL == target_player) {
      return TRI_MAYBE;
@@ -1027,6 +1034,7 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
       return TRI_MAYBE;
     }
     break;
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
     if (NULL == target_player) {
       return TRI_MAYBE;
@@ -1103,6 +1111,7 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1155,6 +1164,7 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1206,6 +1216,7 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1258,6 +1269,7 @@ static enum fc_tristate is_resource_in_range(const struct tile *target_tile,
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1312,6 +1324,7 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1372,6 +1385,7 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1424,6 +1438,7 @@ static enum fc_tristate is_baseflag_in_range(const struct tile *target_tile,
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1476,6 +1491,7 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1509,6 +1525,7 @@ static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *ta
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_COUNT:
@@ -1533,6 +1550,7 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(nation_of_player(target_player) == nation);
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
     if (target_player == NULL) {
       return TRI_MAYBE;
@@ -1586,6 +1604,7 @@ static enum fc_tristate is_nationality_in_range(const struct city *target_city,
 
    return TRI_NO;
   case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
   case REQ_RANGE_LOCAL:
@@ -1615,6 +1634,7 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(is_diplrel_to_other(target_player, diplrel));
+  case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
   case REQ_RANGE_WORLD:
     if (target_player == NULL) {
@@ -1762,6 +1782,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
       case REQ_RANGE_CITY:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
       case REQ_RANGE_ALLIANCE:
       case REQ_RANGE_WORLD:
       case REQ_RANGE_COUNT:
@@ -1794,7 +1815,7 @@ is_achievement_in_range(const struct player *target_player,
     return BOOL_TO_TRISTATE(achievement_claimed(achievement));
   } else if (target_player == NULL) {
     return TRI_MAYBE;
-  } else if (range == REQ_RANGE_ALLIANCE) {
+  } else if (range == REQ_RANGE_ALLIANCE || range == REQ_RANGE_TEAM) {
     players_iterate_alive(plr2) {
       if (players_in_same_range(target_player, plr2, range)
           && achievement_player_has(achievement, plr2)) {

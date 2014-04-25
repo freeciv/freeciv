@@ -82,10 +82,12 @@
 
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
+/* FIXME: should this include REQ_RANGE_ALLIANCE/WORLD? Gna bug #21415. */
 #define city_range_iterate(city_here, list, range, city)		\
 {									\
   city_list_iterate(list, city) {					\
     if (range == REQ_RANGE_PLAYER					\
+     || range == REQ_RANGE_TEAM						\
      || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
       && city == city_here)						\
      || (range == REQ_RANGE_CONTINENT					\
@@ -1890,7 +1892,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   /* Find number of cities per range.  */
   cities[REQ_RANGE_PLAYER] = city_list_size(pplayer->cities);
   /* kludge -- Number of *our* cities in these ranges. */
-  cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_ALLIANCE]
+  cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_ALLIANCE] = cities[REQ_RANGE_TEAM]
     = cities[REQ_RANGE_PLAYER];
 
   cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];

@@ -71,6 +71,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_CITY:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
@@ -154,6 +155,7 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_CITY:
     case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
     case REQ_RANGE_ALLIANCE:
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
