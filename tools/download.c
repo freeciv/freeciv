@@ -176,7 +176,7 @@ static const char *download_modpack_recursive(const char *URL,
   if (baseURLpart[0] == '.') {
     char URLstart[start_idx];
 
-    strncpy(URLstart, URL, start_idx - 2);
+    strncpy(URLstart, URL, start_idx - 1);
     URLstart[start_idx - 1] = '\0';
     fc_snprintf(baseURL, sizeof(baseURL), "%s%s",
                 URLstart, baseURLpart + 1);
