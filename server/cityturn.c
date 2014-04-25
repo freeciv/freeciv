@@ -2293,7 +2293,7 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
     if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)) {
       struct extra_type *pextra = rand_extra_for_tile(ptile, cause);
 
-      if (!tile_has_extra(ptile, pextra)) {
+      if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
         tile_add_extra(ptile, pextra);
         update_tile_knowledge(ptile);
 
