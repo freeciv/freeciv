@@ -125,6 +125,11 @@ struct player *create_barbarian_player(enum barbarian_type type)
   server_player_init(barbarians, TRUE, TRUE);
 
   nation = pick_a_nation(NULL, FALSE, FALSE, type);
+
+  /* Ruleset loading time checks should guarantee that there always is
+     suitable nation available */
+  fc_assert(nation != NULL);
+
   player_nation_defaults(barbarians, nation, TRUE);
   if (game_was_started()) {
     /* Find a color for the new player. */
