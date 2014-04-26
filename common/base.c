@@ -61,6 +61,10 @@ bool is_native_base_to_utype(const struct base_type *pbase,
 bool is_native_tile_to_base(const struct base_type *pbase,
                             const struct tile *ptile)
 {
+  if (tile_city(ptile) != NULL && pbase->border_sq >= 0) {
+    return FALSE;
+  }
+
   return are_reqs_active(NULL, NULL, NULL, ptile,
                          NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE);
 }
@@ -174,6 +178,10 @@ static bool base_can_be_built(const struct base_type *pbase,
 
   if (tile_has_base(ptile, pbase)) {
     /* Exist already */
+    return FALSE;
+  }
+
+  if (tile_city(ptile) != NULL && pbase->border_sq >= 0) {
     return FALSE;
   }
 
