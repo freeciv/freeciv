@@ -502,9 +502,13 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
-  if (is_extra_caused_by(pextra, EC_BASE)
-      && pterr->base_time == 0) {
-    return FALSE;
+  if (is_extra_caused_by(pextra, EC_BASE)) {
+    if (pterr->base_time == 0) {
+      return FALSE;
+    }
+    if (tile_city(ptile) != NULL && extra_base_get_const(pextra)->border_sq >= 0) {
+      return FALSE;
+    }
   }
 
   if (is_extra_caused_by(pextra, EC_ROAD)) {

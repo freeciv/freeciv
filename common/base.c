@@ -177,6 +177,10 @@ bool base_can_be_built(const struct base_type *pbase,
     return FALSE;
   }
 
+  if (tile_city(ptile) != NULL && pbase->border_sq >= 0) {
+    return FALSE;
+  }
+
   return TRUE;
 }
 

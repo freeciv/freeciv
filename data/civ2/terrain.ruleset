@@ -1033,7 +1033,7 @@ native_to      = "Land"
 ; gui_type                = How gui should handle this base. Fortress/Airbase/Other
 ; build_time              = How long it takes for a unit to build this base
 ; border_sq               = Base will claim land ownership up to this radius,
-;                           -1 to disable.
+;                           -1 to disable. If enabled, base cannot exist in city tile.
 ; vision_main_sq          = Base will have main layer vision to this radius
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
 ; flags
