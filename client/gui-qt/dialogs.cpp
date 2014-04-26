@@ -712,7 +712,7 @@ void choice_dialog::set_layout()
   Adds new action for choice dialog
 ***************************************************************************/
 void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
-                             QVariant data2, bool warn)
+                             QVariant data2, QString tool_tip = "")
 {
    QPushButton *button = new QPushButton(title);
    connect(button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
@@ -721,10 +721,8 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
    data1_list.append(data1);
    data2_list.append(data2);
 
-   if (warn) {
-     button->setToolTip(QString(_("Starting to do this"
-                                  " may currently be impossible.")));
-     button->setIcon(QIcon::fromTheme("dialog-warning"));
+   if (!tool_tip.isEmpty()) {
+     button->setToolTip(tool_tip);
    }
 
    layout->addWidget(button);
@@ -864,15 +862,15 @@ void popup_caravan_dialog(struct unit *punit,
     func = caravan_establish_trade;
     str = can_establish ? QString(_("Establish _Trade route")) :
           QString(_("Enter Marketplace"));
-    caravan_dialog->add_item(str, func, qv1, qv2, FALSE);
+    caravan_dialog->add_item(str, func, qv1, qv2);
   }
   if (can_wonder) {
     func = caravan_help_build;
-    caravan_dialog->add_item(wonder, func, qv1, qv2, FALSE);
+    caravan_dialog->add_item(wonder, func, qv1, qv2);
   }
   func = caravan_keep_moving;
   caravan_dialog->add_item(QString(_("Keep moving")),
-                           func, qv1, qv2, FALSE);
+                           func, qv1, qv2);
 
   caravan_dialog->set_layout();
   caravan_dialog->show_me();
@@ -1024,15 +1022,15 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
   if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
     if (pcity) {
       func = diplomat_keep_moving_city;
-      cd->add_item(QString(_("Keep moving")), func, qv1, qv2, FALSE);
+      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
     } else {
       func = diplomat_keep_moving_unit;
-      cd->add_item(QString(_("Keep moving")), func, qv1, qv2, FALSE);
+      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
     }
   }
 
   func = keep_moving;
-  cd->add_item(QString(_("Do nothing")), func, qv1, qv2, FALSE);
+  cd->add_item(QString(_("Do nothing")), func, qv1, qv2);
 
   cd->set_layout();
   cd->show_me();
@@ -1052,6 +1050,7 @@ static void action_entry(choice_dialog *cd,
 {
   QString title;
   QString success;
+  double converted;
 
   action_probability success_propability = action_probabilities[act];
 
@@ -1064,13 +1063,14 @@ static void action_entry(choice_dialog *cd,
   case ACTPROB_NOT_KNOWN:
     /* Unknown because the player don't have the required knowledge to
      * determine the probability of success for this action. */
-    title = QString(action_prepare_ui_name(act, "&", ""));
-    cd->add_item(title, func, data1, data2, TRUE);
+    title = QString(action_prepare_ui_name(act, "&", " (?%)"));
+    cd->add_item(title, func, data1, data2,
+        QString(_("Starting to do this may currently be impossible.")));
     break;
   case ACTPROB_NOT_IMPLEMENTED:
     /* Unknown because of missing server support. */
     title = QString(action_prepare_ui_name(act, "&", ""));
-    cd->add_item(title, func, data1, data2, FALSE);
+    cd->add_item(title, func, data1, data2);
     break;
   default:
     /* Should be in the range 1 (0.5%) to 200 (100%) */
@@ -1078,13 +1078,17 @@ static void action_entry(choice_dialog *cd,
                   "Diplomat action probability out of range");
 
     /* TRANS: the probability that a diplomat action will succeed. */
-    success = _(" (%1% chance of success)");
+    success = _(" (%1%)");
 
     /* The unit of success_propability is 0.5% chance of success. */
-    title = QString(action_prepare_ui_name(act, "&",
-        success.arg((double)success_propability / 2).toUtf8()));
+    converted = (double)success_propability / 2;
 
-    cd->add_item(title, func, data1, data2, FALSE);
+    title = QString(action_prepare_ui_name(act, "&",
+        success.arg(converted).toUtf8()));
+
+    cd->add_item(title, func, data1, data2,
+                 QString(_("The probability of success is %1%."))
+                 .arg(converted));
 
     break;
   }
@@ -1158,7 +1162,7 @@ static void spy_steal(QVariant data1, QVariant data2)
            player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN)) {
         func = spy_steal_something;
         str = advance_name_for_player(client.conn.playing, i);
-        cd->add_item(str, func, qv1, i, FALSE);
+        cd->add_item(str, func, qv1, i);
         nr++;
       }
     } advance_index_iterate_end;
@@ -1166,7 +1170,7 @@ static void spy_steal(QVariant data1, QVariant data2)
              unit_name_translation(game_unit_by_number(diplomat_id)));
     func = spy_steal_something;
     str = astr_str(&stra);
-    cd->add_item(str, func, qv1, A_UNSET, FALSE);
+    cd->add_item(str, func, qv1, A_UNSET);
     cd->set_layout();
     cd->show_me();
   }
@@ -1513,13 +1517,13 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
   gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   qv1 = diplomat_id;
   func = spy_sabotage;
-  cd->add_item(QString(_("City Production")), func, qv1, -1, FALSE);
+  cd->add_item(QString(_("City Production")), func, qv1, -1);
   city_built_iterate(pcity, pimprove) {
     if (pimprove->sabotage > 0) {
       func = spy_sabotage;
       str = city_improvement_name_translation(pcity, pimprove);
       qv2 = nr;
-      cd->add_item(str, func, qv1, improvement_number(pimprove), FALSE);
+      cd->add_item(str, func, qv1, improvement_number(pimprove));
       nr++;
     }
   } city_built_iterate_end;
@@ -1527,7 +1531,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
            unit_name_translation(game_unit_by_number(diplomat_id)));
   func = spy_sabotage;
   str = astr_str(&stra);
-  cd->add_item(str, func, qv1, B_LAST, FALSE);
+  cd->add_item(str, func, qv1, B_LAST);
   cd->set_layout();
   cd->show_me();
   astr_free(&stra);
@@ -1564,7 +1568,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
     func = pillage_something;
     str = get_infrastructure_text(what_extras);
     qv1 = what;
-    cd->add_item(str, func, qv1, qv2, FALSE);
+    cd->add_item(str, func, qv1, qv2);
   }
   cd->set_layout();
   cd->show_me();
