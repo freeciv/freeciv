@@ -298,6 +298,7 @@ flag_files =				\
 		lusatia.png		\
 		luwian.png		\
 		luxembourg.png		\
+		lycian.png		\
 		maasai.png		\
 		macedon.png		\
 		macedonia.png		\
@@ -863,6 +864,7 @@ flag_files =				\
 		lusatia-large.png		\
 		luwian-large.png		\
 		luxembourg-large.png		\
+		lycian-large.png		\
 		maasai-large.png		\
 		macedon-large.png		\
 		macedonia-large.png		\
@@ -1430,6 +1432,7 @@ shield_files =					\
 		lusatia-shield.png		\
 		luwian-shield.png		\
 		luxembourg-shield.png		\
+		lycian-shield.png		\
 		maasai-shield.png		\
 		macedon-shield.png		\
 		macedonia-shield.png		\
@@ -1995,6 +1998,7 @@ shield_files =					\
 		lusatia-shield-large.png		\
 		luwian-shield-large.png			\
 		luxembourg-shield-large.png		\
+		lycian-shield-large.png			\
 		maasai-shield-large.png		\
 		macedon-shield-large.png		\
 		macedonia-shield-large.png		\
@@ -2562,6 +2566,7 @@ svg_files = 				\
 		lusatia.svg		\
 		luwian.svg		\
 		luxembourg.svg		\
+		lycian.svg		\
 		maasai.svg		\
 		macedon.svg		\
 		macedonia.svg		\

@@ -305,6 +305,7 @@ artists = "
    Lusatia		J.M. Maalderink
    Luwian		Andrzej G.
    Luxembourg		J.M. Maalderink
+   Lycian		Andrzej G.
    Maasai		James Ots and J.M. Maalderink
    Macedon		Mysid (Wikimedia Commons)
    Macedonia		Sigge Kotliar
@@ -875,6 +876,7 @@ sprites =
 		"f.lusatia", "flags/lusatia"
 		"f.luwian", "flags/luwian"
 		"f.luxembourg", "flags/luxembourg"
+		"f.lycian", "flags/lycian"
 		"f.maasai", "flags/maasai"
 		"f.macedon", "flags/macedon"
 		"f.macedonia", "flags/macedonia"
