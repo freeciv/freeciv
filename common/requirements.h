@@ -143,6 +143,9 @@ const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct universal *target);
 
+bool requirement_fulfilled_by_unit_type(struct unit_type *utype,
+                                        struct requirement_vector *reqs);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

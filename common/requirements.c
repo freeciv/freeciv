@@ -33,6 +33,9 @@
 
 #include "requirements.h"
 
+/* The item contradicts, fulfills or is irrelevant to the requirement */
+enum item_found {ITF_NO, ITF_YES, ITF_NOT_APPLICABLE};
+
 /**************************************************************************
   Parse requirement type (kind) and value strings into a universal
   structure.  Passing in a NULL type is considered VUT_NONE (not an error).
@@ -2472,4 +2475,90 @@ int universal_build_shield_cost(const struct universal *target)
     break;
   }
   return FC_INFINITY;
+}
+
+/*************************************************************************
+  Will the specified universal fulfill the requirements in the list?
+
+  Not being mentioned counts as fulfillment.
+**************************************************************************/
+static bool
+universal_fulfills_requirement(universals_u *univ,
+                               enum item_found (*fulfills)(
+                                 struct requirement *,
+                                 universals_u *),
+                               struct requirement_vector *reqs)
+{
+  fc_assert(univ);
+  fc_assert(fulfills);
+  fc_assert(reqs);
+
+  requirement_vector_iterate(reqs, preq) {
+    switch (fulfills(preq, univ)) {
+    case ITF_NOT_APPLICABLE:
+      continue;
+    case ITF_NO:
+      if (preq->present) {
+        return FALSE;
+      }
+      break;
+    case ITF_YES:
+      if (!preq->present) {
+        return FALSE;
+      }
+      break;
+    }
+  } requirement_vector_iterate_end;
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Find if a unit type fulfills a requirement
+**************************************************************************/
+static enum item_found unit_type_found(struct requirement *preq,
+                                       universals_u *utype)
+{
+  fc_assert(utype);
+  fc_assert(preq);
+
+  switch (preq->source.kind) {
+  case VUT_UTYPE:
+    return utype->utype == preq->source.value.utype ? ITF_YES : ITF_NO;
+  case VUT_UCLASS:
+    return utype_class(utype->utype) == preq->source.value.uclass ? ITF_YES
+                                                                  : ITF_NO;
+  case VUT_UTFLAG:
+    return utype_has_flag(utype->utype,
+                          preq->source.value.unitflag) ? ITF_YES : ITF_NO;
+  case VUT_UCFLAG:
+    return uclass_has_flag(utype_class(utype->utype),
+                           preq->source.value.unitclassflag) ? ITF_YES
+                                                             : ITF_NO;
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  };
+}
+
+/*************************************************************************
+  Will the specified unit type fulfill the requirements in the list?
+**************************************************************************/
+bool requirement_fulfilled_by_unit_type(struct unit_type *utype,
+                                        struct requirement_vector *reqs)
+{
+  universals_u *univ;
+  bool result;
+
+  fc_assert(utype);
+  fc_assert(reqs);
+
+  univ = fc_malloc(sizeof(*univ));
+  univ->utype = utype;
+
+  result = universal_fulfills_requirement(univ, unit_type_found, reqs);
+
+  free(univ);
+
+  return result;
 }

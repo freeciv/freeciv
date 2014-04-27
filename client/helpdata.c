@@ -2586,52 +2586,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   }						\
 }
 
-/****************************************************************************
-  Will the specified unit type fullfill the requirements in the list?
-****************************************************************************/
-static bool
-unit_type_fulfills_requirement(struct unit_type *utype,
-                               struct requirement_vector *reqs)
-{
-  fc_assert(utype);
-  fc_assert(reqs);
-
-  requirement_vector_iterate(reqs, preq) {
-    bool found = FALSE;
-
-    switch (preq->source.kind) {
-    case VUT_UTYPE:
-      found = utype == preq->source.value.utype;
-      break;
-    case VUT_UCLASS:
-      found = utype_class(utype) == preq->source.value.uclass;
-      break;
-    case VUT_UTFLAG:
-      found = utype_has_flag(utype, preq->source.value.unitflag);
-      break;
-    case VUT_UCFLAG:
-      found = uclass_has_flag(utype_class(utype),
-                              preq->source.value.unitclassflag);
-      break;
-    default:
-      /* Not found and not relevant. */
-      continue;
-    };
-
-    if (found) {
-      if (!preq->present) {
-        return FALSE;
-      }
-    } else {
-      if (preq->present) {
-        return FALSE;
-      }
-    }
-  } requirement_vector_iterate_end;
-
-  return TRUE;
-}
-
 /****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
@@ -3003,7 +2957,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (unit_type_fulfills_requirement(utype, &(enabler->actor_reqs))) {
+      if (requirement_fulfilled_by_unit_type(utype,
+                                             &(enabler->actor_reqs))) {
         char *target_kind
             = _(action_target_kind_name(action_get_target_kind(act)));
 
@@ -3031,7 +2986,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     /* Must be immune in all cases */
     vulnerable = FALSE;
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (unit_type_fulfills_requirement(utype, &(enabler->target_reqs))) {
+      if (requirement_fulfilled_by_unit_type(utype,
+                                             &(enabler->target_reqs))) {
         vulnerable = TRUE;
         break;
       }
