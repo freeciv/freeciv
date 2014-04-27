@@ -74,8 +74,7 @@ ruler_female_title = _("Leader %s")
 
 helptext = _("\
 This is the only available form of government in the beginning.\n\n\
-Max tax/science/lux rate is 40%.\n\n\
-Despotism suffers 20% penalty to both trade and production.\
+Max tax/science/lux rate is 40%.\
 ")
 
 ;------------------------------------------------------------------------
@@ -95,7 +94,7 @@ ruler_female_title = _("?female:Comrade %s")
 helptext = _("\
 Government type for military might.\n\n\
 Max tax/science/lux rate is 60%.\n\n\
-Communism suffers 20% penalty to trade.\
+Communism gains 20% bonus to production.\
 ")
 
 ;------------------------------------------------------------------------
@@ -115,7 +114,7 @@ ruler_female_title = _("?female:President %s")
 helptext = _("\
 Government type of freedom.\n\n\
 Max tax/science/lux rate is 70%.\n\n\
-Democracy suffers 20% penalty to production.\
+Democracy gains 20% bonus to trade.\
 ")
 
 ;------------------------------------------------------------------------
@@ -135,7 +134,7 @@ ruler_female_title = _("?female:Comrade %s")
 helptext = _("\
 Government type for military might for both humans and aliens alike.\n\n\
 Max tax/science/lux rate is 80%.\n\n\
-Dual Communism gains 20% production bonus.\
+Dual Communism gains 40% production bonus, and 20% trade bonus.\
 ")
 
 ;------------------------------------------------------------------------
@@ -155,5 +154,5 @@ ruler_female_title = _("?female:President %s")
 helptext = _("\
 Government type of freedom for both humans and aliens alike.\n\n\
 Max tax/science/lux rate is 90%.\n\n\
-Dual Democracy gains 20% trade bonus.\
+Dual Democracy gains 40% trade bonus, and 20% production bonus.\
 ")
