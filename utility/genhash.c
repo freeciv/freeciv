@@ -460,34 +460,33 @@ genhash_bucket_lookup(const struct genhash *pgenhash,
                                             + pgenhash->num_buckets);
 
   do {
-    switch (b->state) {
-    case BUCKET_UNUSED:
-      /* - Variant 1 'deleted' is not NULL: 'deleted' is the best place for
-       * this key. However, due to collision, we weren't sure that the key
-       * we were looking for was not in the following buckets. Now, we are
-       * sure it doesn't, because this bucket hasn't been used at all.
-       * - Variant 2: 'deleted' is NULL: key not found, take the first free
-       * bucket. */
-      return (NULL != deleted ? deleted : b);
-    case BUCKET_USED:
+    if (b->state == BUCKET_USED) {
       if (b->hash_val == hash_val
           && pgenhash->key_comp_func(b->key, key)) {
-        /* This is the key we are looking for. */
         return b;
       }
-      break;
-    case BUCKET_DELETED:
-      /* This bucket is free. But, we need to be sure the key is not
-       * registred in following buckets due to the resolution of former
-       * collisions. We will be sure when we will meet a 'BUCKET_UNUSED'.
-       * See 'Variant 1'. */
-      if (NULL == deleted) {
-        deleted = b;
+    } else {
+      if (deleted == NULL) {
+        if (b->state == BUCKET_UNUSED) {
+          /* key not found, take the first free bucket. */
+          return b;
+        } else {
+          /* BUCKET_DELETED */
+
+          /* This bucket is free. But, we need to be sure the key is not
+           * registred in following buckets due to the resolution of former
+           * collisions. We will be sure when we will meet a 'BUCKET_UNUSED'. */
+          deleted = b;
+        }
+      } else {
+        if (b->state == BUCKET_UNUSED) {
+          /* 'deleted' is the best place for this key. However, due to collision,
+           * we weren't sure that the key we were looking for was not in the
+           * following buckets. Now, we are sure it doesn't, because this bucket
+           * hasn't been used at all. */
+          return deleted;
+        }
       }
-      break;
-    default:
-      log_error("%s(): bad bucket state %d.", __FUNCTION__, (int) b->state);
-      break;
     }
     b++;
     if (b >= end) {
