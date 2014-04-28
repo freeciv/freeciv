@@ -1207,7 +1207,7 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
-native_to      = "Land", "Small Land", "Big Land"
+native_to      = "Land", "Small Land", "Big Land", "Merchant"
 flags          = "RequiresBridge", "NativeTile", "AutoOnCityCenter"
 
 [road_river]
