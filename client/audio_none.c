@@ -48,8 +48,8 @@ static void my_wait(void)
 /**************************************************************************
   Play sound sample
 **************************************************************************/
-static bool my_play(const char *const tag, const char *const fullpath,
-		    bool repeat)
+static bool fc_play(const char *const tag, const char *const fullpath,
+                    bool repeat, audio_finished_callback cb)
 {
   if (strcmp(tag, "e_turn_bell") == 0) {
     sound_bell();
@@ -79,6 +79,6 @@ void audio_none_init(void)
   self.shutdown = my_shutdown;
   self.stop = my_stop;
   self.wait = my_wait;
-  self.play = my_play;
+  self.play = fc_play;
   audio_add_plugin(&self);
 }

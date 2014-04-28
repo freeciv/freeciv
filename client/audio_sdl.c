@@ -68,8 +68,8 @@ static double my_get_volume(void)
 /**************************************************************************
   Play sound
 **************************************************************************/
-static bool my_play(const char *const tag, const char *const fullpath,
-		    bool repeat)
+static bool fc_play(const char *const tag, const char *const fullpath,
+                    bool repeat, audio_finished_callback cb)
 {
   int i, j;
   Mix_Chunk *wave = NULL;
@@ -89,7 +89,12 @@ static bool my_play(const char *const tag, const char *const fullpath,
       log_error("Can't open file \"%s\"", fullpath);
     }
 
-    Mix_PlayMusic(mus, -1);	/* -1 means loop forever */
+    if (cb == NULL) {
+      Mix_PlayMusic(mus, -1);	/* -1 means loop forever */
+    } else {
+      Mix_PlayMusic(mus, 0);
+      Mix_HookMusicFinished(cb);
+    }
     log_verbose("Playing file \"%s\" on music channel", fullpath);
     /* in case we did a my_stop() recently; add volume controls later */
     Mix_VolumeMusic(MIX_MAX_VOLUME);
@@ -253,7 +258,7 @@ void audio_sdl_init(void)
   self.shutdown = my_shutdown;
   self.stop = my_stop;
   self.wait = my_wait;
-  self.play = my_play;
+  self.play = fc_play;
   self.set_volume = my_set_volume;
   self.get_volume = my_get_volume;
   audio_add_plugin(&self);

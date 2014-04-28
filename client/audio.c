@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "rand.h"
 #include "registry.h"
 #include "shared.h"
 #include "string_vector.h"
@@ -50,6 +51,15 @@ static struct section_file *ms_tagfile = NULL;
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
 static int selected_plugin = -1;
+
+static struct mfcb_data
+{
+  struct section_file *sfile;
+  const char *tag;
+} mfcb;
+
+static bool audio_play_tag(struct section_file *sfile,
+                           const char *tag, bool repeat);
 
 /**********************************************************************
   Returns a static string vector of all sound plugins
@@ -341,6 +351,14 @@ void audio_restart(const char *soundset_name, const char *musicset_name)
 }
 
 /**************************************************************************
+  Callback to start new track
+**************************************************************************/
+static void music_finished_callback(void)
+{
+  audio_play_tag(mfcb.sfile, mfcb.tag, TRUE);
+}
+
+/**************************************************************************
   INTERNAL. Returns TRUE for success.
 **************************************************************************/
 static bool audio_play_tag(struct section_file *sfile,
@@ -348,6 +366,7 @@ static bool audio_play_tag(struct section_file *sfile,
 {
   const char *soundfile;
   const char *fullpath = NULL;
+  audio_finished_callback cb = NULL;
 
   if (!tag || strcmp(tag, "-") == 0) {
     return FALSE;
@@ -355,6 +374,26 @@ static bool audio_play_tag(struct section_file *sfile,
 
   if (sfile) {
     soundfile = secfile_lookup_str(sfile, "files.%s", tag);
+    if (soundfile == NULL) {
+      const char *files[MAX_ALT_AUDIO_FILES];
+      int i;
+
+      for (i = 0; i < MAX_ALT_AUDIO_FILES; i++) {
+        files[i] = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
+        if (files[i] == NULL) {
+          break;
+        }
+      }
+
+      if (i > 0) {
+        soundfile = files[fc_rand(i)];
+        if (repeat) {
+          mfcb.sfile = sfile;
+          mfcb.tag = tag;
+          cb = music_finished_callback;
+        }
+      }
+    }
     if (NULL == soundfile) {
       log_verbose("No sound file for tag %s (file %s)", tag, soundfile);
     } else {
@@ -365,7 +404,7 @@ static bool audio_play_tag(struct section_file *sfile,
     }
   }
 
-  return plugins[selected_plugin].play(tag, fullpath, repeat);
+  return plugins[selected_plugin].play(tag, fullpath, repeat, cb);
 }
 
 /**************************************************************************
