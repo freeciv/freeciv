@@ -108,6 +108,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       "Marines"
 ; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
 ;                       There's server setting, as well as effects, to disable this.
+; "Airliftable"       = Unit may be airlifted
 ;
 ; */ <-- avoid gettext warnings
 
@@ -126,7 +127,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen"
+                "TerrainDefense", "KillCitizen", "Airliftable"
 
 [unitclass_land_small]
 ; /* TRANS: Unit class: used adjectivally */
@@ -134,7 +135,7 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "TerrainDefense", "DoesntOccupyTile"
+                "ZOC", "TerrainDefense", "DoesntOccupyTile", "Airliftable"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -142,7 +143,7 @@ name          = _("?unitclass:Big Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
-                "CollectRansom","ZOC", "CanFortify", "KillCitizen"
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable"
 
 [unitclass_merchant]
 ; /* TRANS: Unit class: used adjectivally */
@@ -150,7 +151,7 @@ name          = _("?unitclass:Merchant")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "BuildAnywhere", "DoesntOccupyTile",
-                "TerrainDefense", "TerrainSpeed"
+                "TerrainDefense", "TerrainSpeed", "Airliftable"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */

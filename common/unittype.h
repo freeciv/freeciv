@@ -76,6 +76,9 @@ struct ai_type;
 /* Kills citizens upon successful attack against a city */
 #define SPECENUM_VALUE14 UCF_KILLCITIZEN
 #define SPECENUM_VALUE14NAME "KillCitizen"
+/* Can be airlifted */
+#define SPECENUM_VALUE15 UCF_AIRLIFTABLE
+#define SPECENUM_VALUE15NAME "Airliftable"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #define SPECENUM_BITVECTOR bv_unit_class_flags

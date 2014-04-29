@@ -205,8 +205,7 @@ enum unit_airlift_result
     return AR_NO_MOVES;
   }
 
-  if (!is_ground_unit(punit)) {
-    /* Only land units can be airlifted currently. */
+  if (uclass_has_flag(unit_class(punit), UCF_AIRLIFTABLE)) {
     return AR_WRONG_UNITTYPE;
   }
 

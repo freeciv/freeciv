@@ -88,6 +88,7 @@ veteran_move_bonus = 0, 0
 ;                       "Marines"
 ; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
 ;                       There's server setting, as well as effects, to disable this.
+; "Airliftable"       = Unit may be airlifted
 ;
 ; */ <-- avoid gettext warnings
 
@@ -97,7 +98,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
                 "CollectRansom", "BuildAnywhere", "CanOccupyCity",
-                "CanPillage", "TerrainDefense", "KillCitizen"
+                "CanPillage", "TerrainDefense", "KillCitizen","Airliftable"
 
 [unitclass_native]
 name          = _("?unitclass:Native")
@@ -105,7 +106,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
                 "CollectRansom", "BuildAnywhere", "CanOccupyCity",
-                "CanPillage", "TerrainDefense", "KillCitizen"
+                "CanPillage", "TerrainDefense", "KillCitizen","Airliftable"
 
 [unitclass_sea]
 name          = _("?unitclass:Sea")
@@ -132,7 +133,7 @@ flags         = "Unreachable", "KillCitizen"
 name          = _("?unitclass:Burrowing")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "Unreachable", "DamageSlows", "CanPillage"
+flags         = "Unreachable", "DamageSlows", "CanPillage","Airliftable"
 
 [unitclass_missile]
 name          = _("?unitclass:Missile")
