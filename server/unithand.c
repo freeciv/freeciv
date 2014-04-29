@@ -1465,6 +1465,13 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
                         unit_type(unit_transport_get(punit))));
     break;
 
+  case MR_NON_NATIVE_MOVE:
+    notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
+                  _("%s cannot move here without a native path for %s"),
+                    unit_link(punit),
+                    uclass_name_translation(unit_class(punit)));
+    break;
+
   default:
     /* FIXME: need more explanations someday! */
     break;

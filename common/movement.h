@@ -43,6 +43,7 @@ enum unit_move_result {
   MR_NO_TRANSPORTER_CAPACITY,
   MR_TRIREME,
   MR_CANNOT_DISEMBARK,
+  MR_NON_NATIVE_MOVE,  /* Usually RMM_RELAXED road diagonally without link */
 };
 
 int unit_move_rate(const struct unit *punit);
@@ -71,6 +72,9 @@ bool is_native_terrain(const struct unit_type *punittype,
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
                         bv_extras extras);
+bool is_native_move(const struct unit_class *punitclass,
+                    const struct tile *src_tile,
+                    const struct tile *dst_tile);
 bool is_native_near_tile(const struct unit_class *uclass, const struct tile *ptile);
 bool can_exist_at_tile(const struct unit_type *utype,
                        const struct tile *ptile);

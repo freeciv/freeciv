@@ -40,8 +40,12 @@ static inline int single_move_cost(const struct pf_parameter *param,
                                    const struct tile *dest_tile)
 {
   if (!tile_city(dest_tile)
-      && BV_ISSET(param->unit_flags, UTYF_TRIREME)
-      && !is_safe_ocean(dest_tile)) {
+      && ( (BV_ISSET(param->unit_flags, UTYF_TRIREME)
+            && !is_safe_ocean(dest_tile))
+          || (!is_native_move(param->uclass, src_tile, dest_tile)
+              && 0 < unit_class_transporter_capacity(dest_tile,
+                                                     param->owner,
+                                                     param->uclass)))) {
     return PF_IMPOSSIBLE_MC;
   } else {
     return map_move_cost(param->owner, param->uclass, src_tile, dest_tile,

@@ -344,6 +344,79 @@ bool is_native_to_class(const struct unit_class *punitclass,
   return FALSE;
 }
 
+
+/****************************************************************************
+  Is the move under consideration a native move?
+  Note that this function does not check for possible moves, only native
+  moves, so that callers are responsible for checking for other sources of
+  legal moves (e.g. cities, transports, etc.).
+****************************************************************************/
+bool is_native_move(const struct unit_class *punitclass,
+                    const struct tile *src_tile,
+                    const struct tile *dst_tile)
+{
+    bool native_move = FALSE;
+    bv_extras none;
+
+    BV_CLR_ALL(none);
+    if (is_native_to_class(punitclass, tile_terrain(dst_tile), none)) {
+      /* We aren't using extras to make the destination native. */
+      native_move = TRUE;
+    } else {
+      extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
+        if (tile_has_extra(dst_tile, pextra)) {
+          if (!is_extra_caused_by(pextra, EC_ROAD)) {
+            /* The destination is native because of a non-road extra. */
+            native_move = TRUE;
+            break;
+          } else if (!is_native_tile_to_class(punitclass, src_tile)) {
+            /* Disembarking or leaving port, so ignore road connectivity. */
+            native_move = TRUE;
+            break;
+          } else {
+            const struct road_type *proad = extra_road_get_const(pextra);
+
+            road_type_list_iterate(proad->integrators, iroad) {
+              if (tile_has_road(src_tile, iroad)) {
+                switch (iroad->move_mode) {
+                case RMM_FAST_ALWAYS:
+                case RMM_NO_BONUS:
+                  /* Road connects source and destination, so we're fine. */
+                  native_move = TRUE;
+                case RMM_CARDINAL:
+                  /* Road connects source and destination if cardinal move. */
+                  native_move = is_move_cardinal(src_tile, dst_tile);
+                case RMM_RELAXED:
+                  if (is_move_cardinal(src_tile, dst_tile)) {
+                    /* Cardinal moves have no between tiles, so connected. */
+                    native_move = TRUE;
+                  } else {
+                    cardinal_between_iterate(src_tile, dst_tile, between) {
+                    if (tile_has_road(between, iroad)
+                        || tile_has_road(between, proad)) {
+
+                        /* We have a link for the connection. */
+                        native_move = TRUE;
+                      }
+                    } cardinal_between_iterate_end;
+                  }
+                }
+                if (native_move) {
+                  break;
+                }
+              }
+            } road_type_list_iterate_end;
+            if (native_move) {
+              break;
+            }
+          }
+        }
+      } extra_type_list_iterate_end;
+    }
+
+    return native_move;
+}
+
 /****************************************************************************
   Is there native tile adjacent to given tile
 ****************************************************************************/
@@ -497,6 +570,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
    11) Triremes cannot move out of sight from land.
    12) It is not the territory of a player we are at peace with.
    13) The unit is unable to disembark from current transporter.
+   14) The unit is making a non-native move (e.g. lack of road)
 **************************************************************************/
 enum unit_move_result
 unit_move_to_tile_test(const struct unit *punit,
@@ -601,6 +675,16 @@ unit_move_to_tile_test(const struct unit *punit,
   if (unit_transported(punit)
      && !can_unit_unload(punit, unit_transport_get(punit))) {
     return MR_CANNOT_DISEMBARK;
+  }
+
+  /* 14) */
+  if (!(is_native_move(utype_class(punittype), src_tile, dst_tile)
+        /* Allow non-native moves into cities or boarding transport. */
+        || pcity
+        || 0 < unit_class_transporter_capacity(dst_tile,
+                                               puowner,
+                                               utype_class(punittype)))) {
+    return MR_NON_NATIVE_MOVE;
   }
 
   return MR_OK;
