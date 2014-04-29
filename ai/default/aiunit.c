@@ -985,7 +985,7 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
 {
   if (NULL == tile_city(dest_tile)
       || can_attack_from_non_native(cargo_type)) {
-    /* Unit can directly go to 'ptile'. */
+    /* Unit can directly go to 'dest_tile'. */
     struct tile *best_tile = NULL;
     int best_cost = PF_IMPOSSIBLE_MC, cost;
 
@@ -995,7 +995,8 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
 
     adjc_iterate(dest_tile, ptile) {
       cost = pf_map_move_cost(ferry_map, ptile);
-      if (NULL == best_tile || cost < best_cost) {
+      if (cost != PF_IMPOSSIBLE_MC
+          && (NULL == best_tile || cost < best_cost)) {
         best_tile = ptile;
         best_cost = cost;
       }
@@ -1007,18 +1008,22 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
 
     return (PF_IMPOSSIBLE_MC != best_cost);
   } else {
-    /* We need to find a beach arround 'ptile'. */
+    /* We need to find a beach around 'dest_tile'. */
     struct tile *best_tile = NULL, *best_beach = NULL;
+    struct tile_list *checked_tiles = tile_list_new();
     int best_cost = PF_IMPOSSIBLE_MC, cost;
 
+    tile_list_append(checked_tiles, dest_tile);
     adjc_iterate(dest_tile, beach) {
       if (is_native_tile(cargo_type, beach)) {
         /* Can land there. */
         adjc_iterate(beach, ptile) {
-          if (ptile != dest_tile
+          if (!tile_list_search(checked_tiles, ptile)
               && !is_non_allied_unit_tile(ptile, pplayer)) {
+            tile_list_append(checked_tiles, ptile);
             cost = pf_map_move_cost(ferry_map, ptile);
-            if (NULL == best_tile || cost < best_cost) {
+            if (cost != PF_IMPOSSIBLE_MC
+                && (NULL == best_tile || cost < best_cost)) {
               best_beach = beach;
               best_tile = ptile;
               best_cost = cost;
@@ -1027,6 +1032,8 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
         } adjc_iterate_end;
       }
     } adjc_iterate_end;
+
+    tile_list_destroy(checked_tiles);
 
     if (NULL != beachhead_tile) {
       *beachhead_tile = best_beach;
