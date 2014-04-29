@@ -2699,7 +2699,6 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
                                         struct unit *leader)
 {
   struct tile *leader_tile = unit_tile(leader), *safest_tile;
-  Continent_id leader_cont = tile_continent(leader_tile);
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_reverse_map *pfrm;
@@ -2748,8 +2747,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   body_guards = 0;
   unit_list_iterate(pplayer->units, punit) {
     if (!unit_has_type_role(punit, L_BARBARIAN_LEADER)
-        && is_ground_unit(punit)
-        && tile_continent(unit_tile(punit)) == leader_cont) {
+        && goto_is_sane(punit, leader_tile)) {
       body_guards++;
     }
   } unit_list_iterate_end;
@@ -2764,8 +2762,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == pplayer
             && !unit_has_type_role(punit, L_BARBARIAN_LEADER)
-            && is_ground_unit(punit)
-            && tile_continent(unit_tile(punit)) == leader_cont) {
+            && goto_is_sane(punit, leader_tile)) {
           struct pf_path *path = pf_map_path(pfm, ptile);
 
           adv_follow_path(leader, path, ptile);
@@ -2794,7 +2791,8 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   }
 
   /* Check for units we could fear. */
-  pfrm = pf_reverse_map_new_for_unit(leader, 3, !has_handicap(pplayer, H_MAP));
+  pfrm = pf_reverse_map_new(pplayer, leader_tile, 3,
+                            !has_handicap(pplayer, H_MAP));
   worst_danger = NULL;
   best_move_cost = FC_INFINITY;
 
@@ -2804,11 +2802,6 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
     }
 
     unit_list_iterate(other_player->units, punit) {
-      if (!is_ground_unit(punit)
-          || tile_continent(unit_tile(punit)) != leader_cont) {
-        continue;
-      }
-
       move_cost = pf_reverse_map_unit_move_cost(pfrm, punit);
       if (PF_IMPOSSIBLE_MC != move_cost && move_cost < best_move_cost) {
         best_move_cost = move_cost;

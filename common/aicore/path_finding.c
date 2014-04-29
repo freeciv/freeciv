@@ -3088,17 +3088,6 @@ struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
 }
 
 /****************************************************************************
-  'pf_reverse_map' constructor for unit. If 'max_turns' is positive, then
-  it won't try to iterate the maps beyond this number of turns.
-****************************************************************************/
-struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit,
-                                                   int max_turns, bool omniscient)
-{
-  return pf_reverse_map_new(unit_owner(punit), unit_tile(punit), max_turns,
-                            omniscient);
-}
-
-/****************************************************************************
   'pf_reverse_map' destructor.
 ****************************************************************************/
 void pf_reverse_map_destroy(struct pf_reverse_map *pfrm)

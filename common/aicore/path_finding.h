@@ -457,9 +457,6 @@ struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
                                                    const struct player *attacker,
                                                    int max_turns, bool omniscient)
                        fc__warn_unused_result;
-struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit,
-                                                   int max_turns, bool omniscient)
-                       fc__warn_unused_result;
 void pf_reverse_map_destroy(struct pf_reverse_map *prfm);
 
 int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
