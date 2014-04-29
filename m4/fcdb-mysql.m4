@@ -12,7 +12,6 @@ AC_DEFUN([FC_FCDB_MYSQL],
       FCDB_MYSQL_LIBS="$MYSQL_LDFLAGS"
 
       AC_SUBST(FCDB_MYSQL_CFLAGS)
-      AC_SUBST(FCDB_MYSQL_LIBS)
 
       AC_DEFINE([HAVE_FCDB_MYSQL], [1], [Have MySQL database backend])
       fcdb_mysql=yes

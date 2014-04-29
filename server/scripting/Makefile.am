@@ -46,6 +46,11 @@ BUILT_SOURCES = \
 	tolua_server_gen.c	\
 	tolua_server_gen.h
 
+# LUA_LIBS & co are not LIBADDedded to the library since having them
+# both from shared libfreeciv.so (common/scriptcore) and static library
+# here would break build when libfreeciv.so is shared library. Here we
+# can only rely on them getting included via libfreeciv.so.
+
 tolua_fcdb_gen.c tolua_fcdb_gen.h: tolua_fcdb.pkg
 	$(TOLUA) -n fcdb -o $(srcdir)/tolua_fcdb_gen.c \
 	-H $(srcdir)/tolua_fcdb_gen.h $(srcdir)/tolua_fcdb.pkg

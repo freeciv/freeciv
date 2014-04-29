@@ -65,7 +65,6 @@ freeciv_manual_LDADD = \
  ../client/helpdata.lo \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS)  $(MAPIMG_WAND_LIBS) \
- $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD)
 endif
 

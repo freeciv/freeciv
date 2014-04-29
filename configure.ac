@@ -115,15 +115,15 @@ for db in $(echo $databases | $SED 's/,/ /g') ; do
 done
 
 dnl checks for database mysql
-dnl sets FCDB_MYSQL(conditional), FCDB_MYSQL_CFLAGS, FCDB_MYSQL_LDFLAGS
+dnl sets FCDB_MYSQL(conditional), FCDB_MYSQL_CFLAGS
 FC_FCDB_MYSQL
 
 dnl checks for database postgres
-dnl sets FCDB_POSTGRES(conditional), FCDB_POSTGRES_CFLAGS, FCDB_POSTGRES_LDFLAGS
+dnl sets FCDB_POSTGRES(conditional), FCDB_POSTGRES_CFLAGS
 FC_FCDB_POSTGRES
 
 dnl checks for database sqlite3
-dnl sets FCDB_SQLITE3(conditional), FCDB_SQLITE3_CFLAGS, FCDB_SQLITE3_LDFLAGS
+dnl sets FCDB_SQLITE3(conditional), FCDB_SQLITE3_CFLAGS
 FC_FCDB_SQLITE3
 
 dnl check if a database backend is available
@@ -134,7 +134,7 @@ if test "x$fcdb_mysql" = "xyes" || test "x$fcdb_postgres" = "xyes" \
 else
   enable_fcdb=no
 fi
-AM_CONDITIONAL(FCDB_DB, test "x$enable_fcdb" = "xyes")
+AM_CONDITIONAL([FCDB_DB], [test "x$enable_fcdb" = "xyes"])
 
 dnl  no=do not compile server,  yes=compile server,  *=error
 AC_ARG_ENABLE([server],
@@ -1291,7 +1291,7 @@ AM_CONDITIONAL([SYS_LUA], [test "x$sys_lua" = "xtrue"])
 
 if test x$enable_fcdb = xyes ; then
   LUASQL_CFLAGS="-I\$(top_srcdir)/dependencies/luasql/src"
-  LUASQL_LIBS=""
+  LUASQL_LIBS="\$(top_builddir)/dependencies/luasql/src/libluasql_base.la"
   if test x$fcdb_mysql = xyes ; then
     LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_mysql.la"
   fi
@@ -1302,6 +1302,7 @@ if test x$enable_fcdb = xyes ; then
     LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_sqlite3.la"
   fi
   LUASQL_AS_DEPENDENCY="$LUASQL_LIBS"
+  LUASQL_LIBS="$LUASQL_LIBS $FCDB_MYSQL_LIBS $FCDB_POSTGRES_LIBS $FCDB_SQLITE3_LIBS"
 
   AC_SUBST([LUASQL_CFLAGS])
   AC_SUBST([LUASQL_LIBS])
