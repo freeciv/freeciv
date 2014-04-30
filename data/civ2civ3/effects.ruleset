@@ -88,17 +88,9 @@ reqs    =
 nreqs    =
     { "type", "name", "range"
       "CityTile", "Center", "Local"
-      "Base", "Fortress", "Tile"
+      "Base", "Fortress", "Local"
+      "Base", "Airbase", "Local"
       "TerrainClass", "Oceanic", "Local"
-;      "UnitClass", "Land", "Local"
-;      "UnitClass", "Small Land", "Local"
-;      "UnitClass", "Big Land", "Local"
-;      "UnitClass", "Merchant", "Local"
-;      "UnitClass", "Sea", "Local"
-;      "UnitClass", "Trireme", "Local"
-      "UnitClass", "Helicopter", "Local"
-      "UnitClass", "Air", "Local"
-      "UnitClass", "Missile", "Local"
     }
 
 [effect_unhappysize]
@@ -158,7 +150,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Base", "Fortress", "Local"
       "Tech", "Astronomy", "Player"
     }
 
@@ -168,7 +160,7 @@ type    = "HP_Regen"
 value   = 25
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Base", "Fortress", "Local"
     }
 nreqs   =
     { "type", "name", "range"
@@ -188,7 +180,7 @@ type    = "Defend_Bonus"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Base", "Fortress", "Tile"
+      "Base", "Fortress", "Local"
     }
 nreqs   =
     { "type", "name", "range"
@@ -203,12 +195,33 @@ nreqs   =
       "UnitClass", "Missile", "Local"
     }
 
+; Airbase HP regen (Every Air units)
+[effect_airbase_hp_regen]
+type    = "HP_Regen"
+value   = 25
+reqs    =
+    { "type", "name", "range"
+      "Base", "Airbase", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Land", "Local"
+      "UnitClass", "Small Land", "Local"
+      "UnitClass", "Big Land", "Local"
+      "UnitClass", "Merchant", "Local"
+      "UnitClass", "Sea", "Local"
+      "UnitClass", "Trireme", "Local"
+;      "UnitClass", "Helicopter", "Local"
+;      "UnitClass", "Air", "Local"
+      "UnitClass", "Missile", "Local"
+    }
+
 [effect_airbase_defense]
 type    = "Defend_Bonus"
 value   = 100
 reqs    =
     { "type", "name", "range"
-      "Base", "Airbase", "Tile"
+      "Base", "Airbase", "Local"
     }
 nreqs   =
     { "type", "name", "range"
@@ -247,7 +260,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 4
 reqs    =
     { "type", "name", "range"
-      "Terrain", "Mountains", "Tile"
+      "Terrain", "Mountains", "Local"
     }
 nreqs   =
     { "type", "name", "range"
@@ -268,7 +281,7 @@ type    = "Move_Bonus"
 value   = -1
 reqs    =
     { "type", "name", "range"
-      "Terrain", "Mountains", "Tile"
+      "Terrain", "Mountains", "Local"
     }
 nreqs   =
     { "type", "name", "range"
@@ -2378,7 +2391,7 @@ reqs    =
     { "type", "name", "range"
       "Terrain", "Deep Ocean", "Local"
       "Building", "Offshore Platform", "City"
-      "Base", "Buoy", "Tile"
+      "Base", "Buoy", "Local"
       "OutputType", "Shield", "Local"
     }
 

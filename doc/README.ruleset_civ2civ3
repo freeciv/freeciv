@@ -449,6 +449,7 @@ Changes:
 - Electricity allows Irrigation without adjacent water (as in civ3).
 - Removed effect that prevented extra output from cities where Irrigation and Mine were present at same time (no longer possible).
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
+- Airbases and Fortresses cannot be built on river tiles.
 
 Units:
 - Units automatically move to the target tile after a successful attack. Units with remaining movement points can continue moving after the attack.
