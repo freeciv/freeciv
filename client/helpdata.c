@@ -2963,7 +2963,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (requirement_fulfilled_by_unit_type(utype,
                                              &(enabler->actor_reqs))) {
-        char *target_kind
+        const char *target_kind
             = _(action_target_kind_name(action_get_target_kind(act)));
 
         cat_snprintf(buf, bufsz,
