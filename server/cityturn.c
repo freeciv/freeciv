@@ -1274,6 +1274,19 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 API_TYPE_CITY, pcity,
 				 API_TYPE_STRING, "need_minsize");
 	      break;
+	    case VUT_MINCULTURE:
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            _("%s can't build %s from the worklist; "
+                              "city must have culture of %d.  Postponing..."),
+                            city_link(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            preq->source.value.minculture);
+	      script_server_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, ptarget,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_minculture");
+	      break;
 	    case VUT_MAXTILEUNITS:
 	      if (preq->present) {
 		notify_player(pplayer, city_tile(pcity),

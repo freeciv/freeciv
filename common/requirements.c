@@ -23,6 +23,7 @@
 /* common */
 #include "achievements.h"
 #include "citizens.h"
+#include "culture.h"
 #include "government.h"
 #include "improvement.h"
 #include "player.h"
@@ -176,6 +177,12 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_MINSIZE:
     source.value.minsize = atoi(value);
     if (source.value.minsize > 0) {
+      return source;
+    }
+    break;
+  case VUT_MINCULTURE:
+    source.value.minculture = atoi(value);
+    if (source.value.minculture > 0) {
       return source;
     }
     break;
@@ -349,6 +356,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MINSIZE:
     source.value.minsize = value;
     return source;
+  case VUT_MINCULTURE:
+    source.value.minculture = value;
+    return source;
   case VUT_AI_LEVEL:
     source.value.ai_level = value;
     return source;
@@ -444,6 +454,8 @@ int universal_number(const struct universal *source)
     return specialist_number(source->value.specialist);
   case VUT_MINSIZE:
     return source->value.minsize;
+  case VUT_MINCULTURE:
+    return source->value.minculture;
   case VUT_AI_LEVEL:
     return source->value.ai_level;
   case VUT_MAXTILEUNITS:
@@ -515,6 +527,7 @@ struct requirement req_from_str(const char *type, const char *range,
       req.range = REQ_RANGE_LOCAL;
       break;
     case VUT_MINSIZE:
+    case VUT_MINCULTURE:
     case VUT_NATIONALITY:
       req.range = REQ_RANGE_CITY;
       break;
@@ -567,6 +580,13 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_MINSIZE:
   case VUT_NATIONALITY:
     invalid = (req.range != REQ_RANGE_CITY);
+    break;
+  case VUT_MINCULTURE:
+    invalid = (req.range != REQ_RANGE_CITY
+               && req.range != REQ_RANGE_PLAYER
+               && req.range != REQ_RANGE_TEAM
+               && req.range != REQ_RANGE_ALLIANCE
+               && req.range != REQ_RANGE_WORLD);
     break;
   case VUT_DIPLREL:
     invalid = (req.range != REQ_RANGE_LOCAL
@@ -633,6 +653,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_MINSIZE:
+    case VUT_MINCULTURE:
     case VUT_AI_LEVEL:
     case VUT_TERRAINCLASS:
     case VUT_MINYEAR:
@@ -1061,6 +1082,54 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/****************************************************************************
+  Is city with at least minculture culture in range?
+****************************************************************************/
+static enum fc_tristate is_minculture_in_range(const struct city *target_city,
+                                               const struct player *target_player,
+                                               enum req_range range,
+                                               int minculture)
+{
+  switch (range) {
+  case REQ_RANGE_CITY:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(city_culture(target_city) >= minculture);
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+    if (NULL == target_player) {
+      return TRI_MAYBE;
+    }
+    players_iterate_alive(plr2) {
+      if (players_in_same_range(target_player, plr2, range)) {
+        int total = 0;
+
+        city_list_iterate(plr2->cities, pcity) {
+          total += city_culture(pcity);
+        } city_list_iterate_end;
+
+        if (total >= minculture) {
+          return TRI_YES;
+        }
+      }
+    } players_iterate_alive_end;
+    return TRI_NO;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_COUNT:
     break;
@@ -1984,6 +2053,10 @@ bool is_req_active(const struct player *target_player,
       eval = BOOL_TO_TRISTATE(city_size_get(target_city) >= req->source.value.minsize);
     }
     break;
+  case VUT_MINCULTURE:
+    eval = is_minculture_in_range(target_city, target_player, req->range,
+                                  req->source.value.minculture);
+    break;
   case VUT_AI_LEVEL:
     if (target_player == NULL) {
       eval = TRI_MAYBE;
@@ -2113,6 +2186,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_ACHIEVEMENT:
   case VUT_IMPROVEMENT:
   case VUT_MINSIZE:
+  case VUT_MINCULTURE:
   case VUT_NATIONALITY:
   case VUT_DIPLREL:
   case VUT_MAXTILEUNITS:
@@ -2197,6 +2271,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.specialist == psource2->value.specialist;
   case VUT_MINSIZE:
     return psource1->value.minsize == psource2->value.minsize;
+  case VUT_MINCULTURE:
+    return psource1->value.minculture == psource2->value.minculture;
   case VUT_AI_LEVEL:
     return psource1->value.ai_level == psource2->value.ai_level;
   case VUT_MAXTILEUNITS:
@@ -2282,6 +2358,10 @@ const char *universal_rule_name(const struct universal *psource)
     return specialist_rule_name(psource->value.specialist);
   case VUT_MINSIZE:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minsize);
+
+    return buffer;
+  case VUT_MINCULTURE:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minculture);
 
     return buffer;
   case VUT_AI_LEVEL:
@@ -2397,6 +2477,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),
 		 psource->value.minsize);
+    return buf;
+  case VUT_MINCULTURE:
+    cat_snprintf(buf, bufsz, _("Culture %d"),
+		 psource->value.minculture);
     return buf;
   case VUT_AI_LEVEL:
     /* TRANS: "Hard AI" */

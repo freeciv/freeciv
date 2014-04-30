@@ -68,6 +68,7 @@ OutputType:    Local
 Specialist:    Local
 MinYear:       World
 MinSize:       City
+MinCulture:    World, Alliance, Team, Player, City
 AI:            Player
 MaxUnitsOnTile:Local, Adjacent, CAdjacent
 TerrainClass:  Local, Adjacent, CAdjacent, City

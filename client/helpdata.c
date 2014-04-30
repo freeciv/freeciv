@@ -1517,6 +1517,92 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     return TRUE;
 
+  case VUT_MINCULTURE:
+    switch (preq->range) {
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum culture of %d in a city.\n",
+                         "Requires a minimum culture of %d in a city.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the culture in a city to be less than %d.\n",
+                         "Requires the culture in a city to be less than %d.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_PLAYER:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum culture of %d in the nation.\n",
+                         "Requires a minimum culture of %d in the nation.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the culture in the nation to be less than %d.\n",
+                         "Requires the culture in the nation to be less than %d.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum culture of %d in some allied nation.\n",
+                         "Requires a minimum culture of %d in some allied nation.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the culture in all allied nations to be less than %d.\n",
+                         "Requires the culture in all allied nations to be less than %d.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_TEAM:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum culture of %d in some teamed nation.\n",
+                         "Requires a minimum culture of %d in some teamed nation.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the culture in all teamed nations to be less than %d.\n",
+                         "Requires the culture in all teamed nations to be less than %d.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_WORLD:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum culture of %d in some nation.\n",
+                         "Requires a minimum culture of %d in some nation.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the culture in all nations to be less than %d.\n",
+                         "Requires the culture in all nations to be less than %d.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+    break;
+
   case VUT_MAXTILEUNITS:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:

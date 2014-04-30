@@ -206,6 +206,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_BASEFLAG:
      case VUT_ROADFLAG:
      case VUT_NATIONALITY:
+     case VUT_MINCULTURE:
      case VUT_ACHIEVEMENT:
      case VUT_DIPLREL:
        /* Can have multiple requirements of these types */

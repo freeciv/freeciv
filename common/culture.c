@@ -24,7 +24,7 @@
 /****************************************************************************
   Return current culture score of the city.
 ****************************************************************************/
-int city_culture(struct city *pcity)
+int city_culture(const struct city *pcity)
 {
   return pcity->history + get_city_bonus(pcity, EFT_PERFORMANCE);
 }
@@ -32,7 +32,7 @@ int city_culture(struct city *pcity)
 /****************************************************************************
   How much history city gains this turn.
 ****************************************************************************/
-int city_history_gain(struct city *pcity)
+int city_history_gain(const struct city *pcity)
 {
   return get_city_bonus(pcity, EFT_HISTORY);
 }

@@ -310,6 +310,7 @@ typedef union {
   enum ai_level ai_level;
   enum citytile_type citytile;
   int minsize;
+  int minculture;
   int minyear;
   Output_type_id outputtype;
   int terrainclass;			/* enum terrain_class */
@@ -391,6 +392,8 @@ typedef union {
 #define SPECENUM_VALUE27NAME "MaxUnitsOnTile"
 #define SPECENUM_VALUE28 VUT_STYLE
 #define SPECENUM_VALUE28NAME "Style"
+#define SPECENUM_VALUE29 VUT_MINCULTURE
+#define SPECENUM_VALUE29NAME "MinCulture"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
