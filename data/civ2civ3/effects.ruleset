@@ -85,17 +85,10 @@ reqs    =
     { "type", "name", "range", "present"
       "AI", "Cheating", "Player", TRUE
       "CityTile", "Center", "Local", FALSE
-      "Extra", "Fortress", "Tile", FALSE
+      "Extra", "Fortress", "Local", FALSE
+      "Extra", "Airbase", "Local", FALSE
       "TerrainClass", "Oceanic", "Local"; FALSE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local"; FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
+
     }
 
 
@@ -173,7 +166,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 8
 reqs    =
     { "type", "name", "range"
-      "Extra", "Fortress", "Tile"
+      "Extra", "Fortress", "Local"
       "Tech", "Astronomy", "Player"
     }
 
@@ -183,7 +176,7 @@ type    = "HP_Regen"
 value   = 25
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Fortress", "Tile", TRUE
+      "Extra", "Fortress", "Local", TRUE
 ;      "UnitClass", "Land", "Local", FALSE
 ;      "UnitClass", "Small Land", "Local", FALSE
 ;      "UnitClass", "Big Land", "Local", FALSE
@@ -200,7 +193,7 @@ type    = "Defend_Bonus"
 value   = 100
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Fortress", "Tile", TRUE
+      "Extra", "Fortress", "Local", TRUE
 ;      "UnitClass", "Land", "Local", FALSE
 ;      "UnitClass", "Small Land", "Local", FALSE
 ;      "UnitClass", "Big Land", "Local", FALSE
@@ -212,12 +205,30 @@ reqs    =
       "UnitClass", "Missile", "Local", FALSE
     }
 
+; Airbase HP regen (Every Air units)
+[effect_airbase_hp_regen]
+type    = "HP_Regen"
+value   = 25
+reqs    =
+    { "type", "name", "range", "present"
+      "Extra", "Airbase", "Local", TRUE
+      "UnitClass", "Land", "Local", FALSE
+      "UnitClass", "Small Land", "Local", FALSE
+      "UnitClass", "Big Land", "Local", FALSE
+      "UnitClass", "Merchant", "Local", FALSE
+      "UnitClass", "Sea", "Local", FALSE
+      "UnitClass", "Trireme", "Local", FALSE
+;      "UnitClass", "Helicopter", "Local", FALSE
+;      "UnitClass", "Air", "Local", FALSE
+      "UnitClass", "Missile", "Local", FALSE
+    }
+
 [effect_airbase_defense]
 type    = "Defend_Bonus"
 value   = 100
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Airbase", "Tile", TRUE
+      "Extra", "Airbase", "Local", TRUE
       "UnitClass", "Land", "Local", FALSE
       "UnitClass", "Small Land", "Local", FALSE
       "UnitClass", "Big Land", "Local", FALSE
@@ -253,7 +264,7 @@ type    = "Unit_Vision_Radius_Sq"
 value   = 4
 reqs    =
     { "type", "name", "range", "present"
-      "Terrain", "Mountains", "Tile", TRUE
+      "Terrain", "Mountains", "Local", TRUE
 ;      "UnitClass", "Land", "Local", FALSE
 ;      "UnitClass", "Small Land", "Local", FALSE
 ;      "UnitClass", "Big Land", "Local", FALSE
@@ -271,7 +282,7 @@ type    = "Move_Bonus"
 value   = -1
 reqs    =
     { "type", "name", "range", "present"
-      "Terrain", "Mountains", "Tile", TRUE
+      "Terrain", "Mountains", "Local", TRUE
 ;      "UnitClass", "Land", "Local", FALSE
 ;      "UnitClass", "Small Land", "Local", FALSE
 ;      "UnitClass", "Big Land", "Local", FALSE
@@ -2199,7 +2210,7 @@ reqs    =
     { "type", "name", "range"
       "Terrain", "Deep Ocean", "Local"
       "Building", "Offshore Platform", "City"
-      "Extra", "Buoy", "Tile"
+      "Extra", "Buoy", "Local"
       "OutputType", "Shield", "Local"
     }
 

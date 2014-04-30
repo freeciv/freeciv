@@ -1146,8 +1146,10 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
+      "Extra", "River", "Local", FALSE
     }
 native_to      = "Land", "Small Land", "Big Land"
+conflicts      = "Airbase"
 flags          = "NativeTile"
 
 [extra_airbase]
@@ -1167,8 +1169,10 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
+      "Extra", "River", "Local", FALSE
     }
 native_to      = "Air", "Helicopter", "Missile"
+conflicts      = "Fortress"
 flags          = "Refuel"
 
 [extra_buoy]
@@ -1297,6 +1301,7 @@ flags          = "NativeTile"
 name           = _("Fortress")
 gui_type       = "Fortress"
 build_time     = 3
+border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
@@ -1308,10 +1313,14 @@ a quarter of its hit points.\
 name           = _("Airbase")
 gui_type       = "Airbase"
 build_time     = 3
+border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "ParadropFrom"
 helptext       = _("\
-Airbases allow your air units to land and refuel. Air units in an \
-airbase may be attacked by land units.\
+Airbases allow your air units to land and refuel, and improve the defense \
+against enemy air units. \
+An air unit remaining in an airbase for a whole turn without moving \
+recovers a quarter of its hit points. \
+Air units in an airbase may be attacked by land units.\
 ")
 
 [base_buoy]
