@@ -119,6 +119,7 @@ int extra_number(const struct extra_type *pextra)
   return pextra->id;
 }
 
+#ifndef extra_index
 /**************************************************************************
   Return the extra index.
 **************************************************************************/
@@ -128,6 +129,7 @@ int extra_index(const struct extra_type *pextra)
 
   return pextra - extras;
 }
+#endif /* extra_index */
 
 /****************************************************************************
   Return extras type of given id.

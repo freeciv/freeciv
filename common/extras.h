@@ -110,9 +110,13 @@ void extras_init(void);
 void extras_free(void);
 
 int extra_count(void);
-int extra_index(const struct extra_type *pextra);
 int extra_number(const struct extra_type *pextra);
 struct extra_type *extra_by_number(int id);
+
+/* For optimization purposes (being able to have it as macro instead of function
+ * call) this is now same as extra_number(). extras.c does have sematically correct
+ * implementation too. */
+#define extra_index(_e_) (_e_)->id
 
 struct extra_type *special_extra_get(int spe);
 
