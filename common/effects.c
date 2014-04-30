@@ -529,52 +529,6 @@ static bool is_effect_active(const struct player *target_player,
 }
 
 /**************************************************************************
-  Can the effect from the source building be active at a certain target
-  (player, city or building)?  This doesn't check if the source exists,
-  but tells whether the effect from it would be active if the source did
-  exist.  It is thus useful to the AI in figuring out what sources to
-  try to obtain.
-
-  target gives the type of the target
-  (player,city,building,tile) give the exact target
-  source gives the source type of the effect
-  peffect gives the exact effect value
-**************************************************************************/
-bool is_effect_useful(const struct player *target_player,
-		      const struct player *other_player,
-		      const struct city *target_city,
-		      const struct impr_type *target_building,
-		      const struct tile *target_tile,
-		      const struct unit_type *target_unittype,
-		      const struct output_type *target_output,
-		      const struct specialist *target_specialist,
-		      const struct impr_type *source,
-		      const struct effect *peffect,
-		      const enum   req_problem_type prob_type)
-{
-  /* Reversed prob_type when checking disabling effects */
-  if (is_effect_disabled(target_player, other_player, target_city,
-                         target_building, target_tile, target_unittype,
-                         target_output, target_specialist,
-                         peffect, REVERSED_RPT(prob_type))) {
-    return FALSE;
-  }
-  requirement_list_iterate(peffect->reqs, preq) {
-    if (VUT_IMPROVEMENT == preq->source.kind
-	&& preq->source.value.building == source) {
-      continue;
-    }
-    if (!is_req_active(target_player, other_player, target_city,
-                       target_building, target_tile, target_unittype,
-                       target_output, target_specialist,
-		       preq, prob_type)) {
-      return FALSE;
-    }
-  } requirement_list_iterate_end;
-  return TRUE;
-}
-
-/**************************************************************************
   Returns TRUE if a building is replaced.  To be replaced, all its effects
   must be made redundant by groups that it is in.
   prob_type CERTAIN or POSSIBLE is answer to function name.
@@ -946,19 +900,39 @@ int get_current_construction_bonus(const struct city *pcity,
       .value = {.building = building}
     };
     struct effect_list *plist = get_req_source_effects(&source);
-    int power = 0;
 
     if (plist) {
+      int power = 0;
 
       effect_list_iterate(plist, peffect) {
+        bool present = TRUE;
+        bool useful = TRUE;
+
 	if (peffect->type != effect_type) {
 	  continue;
 	}
-	if (is_effect_useful(city_owner(pcity), NULL, pcity, building,
-			     NULL, NULL, NULL, NULL,
-			     building, peffect, prob_type)) {
-	  power += peffect->value;
-	}
+
+        requirement_list_iterate(peffect->reqs, preq) {
+          if (VUT_IMPROVEMENT == preq->source.kind
+              && preq->source.value.building == building) {
+            present = preq->present;
+            continue;
+          }
+
+          if (!is_req_active(city_owner(pcity), NULL, pcity, building,
+                             NULL, NULL, NULL, NULL, preq, prob_type)) {
+            useful = FALSE;
+            break;
+          } 
+        } requirement_list_iterate_end;
+
+        if (useful) {
+          if (present) {
+            power += peffect->value;
+          } else {
+            power -= peffect->value;
+          }
+        }
       } effect_list_iterate_end;
 
       return power;

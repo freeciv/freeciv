@@ -305,18 +305,6 @@ void send_ruleset_cache(struct conn_list *dest);
 int effect_cumulative_max(enum effect_type type);
 int effect_cumulative_min(enum effect_type type);
 
-bool is_effect_useful(const struct player *target_player,
-		      const struct player *other_player,
-		      const struct city *target_pcity,
-		      const struct impr_type *target_building,
-		      const struct tile *target_tile,
-		      const struct unit_type *target_unittype,
-		      const struct output_type *target_output,
-		      const struct specialist *target_specialist,
-		      const struct impr_type *source,
-		      const struct effect *effect,
-                      const enum   req_problem_type prob_type);
-
 bool is_building_replaced(const struct city *pcity,
 			  struct impr_type *pimprove,
                           const enum req_problem_type prob_type);
