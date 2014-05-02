@@ -74,15 +74,13 @@ struct adv_data {
     /* Counts of specific types of units. */
     struct {
       /* Unit-flag counts. */
-      int triremes, missiles;
+      int triremes, missiles, paratroopers, airliftable;
 
       /* Move-type counts */
       int land, sea, amphibious;
 
       /* Upgradeable units */
       int upgradeable;
-
-      int paratroopers;
     } units;
     int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities we have on continent */

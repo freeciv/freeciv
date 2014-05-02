@@ -1318,7 +1318,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_AIRLIFT:
     /* FIXME: We need some smart algorithm here. The below is 
      * totally braindead. */
-    v += c + MIN(ai->stats.units.land, 13);
+    v += c + MIN(ai->stats.units.airliftable, 13);
     break;
   case EFT_ANY_GOVERNMENT:
     if (!can_change_to_government(pplayer, ai->goal.govt.gov)) {

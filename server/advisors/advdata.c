@@ -219,11 +219,14 @@ static void count_my_units(struct player *pplayer)
     if (unit_has_type_flag(punit, UTYF_TRIREME)) {
       adv->stats.units.triremes++;
     }
-    if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
+    if (uclass_has_flag(pclass, UCF_MISSILE)) {
       adv->stats.units.missiles++;
     }
     if (unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
       adv->stats.units.paratroopers++;
+    }
+    if (uclass_has_flag(pclass, UCF_AIRLIFTABLE)) {
+      adv->stats.units.airliftable++;
     }
     if (can_upgrade_unittype(pplayer, unit_type(punit)) >= 0) {
       adv->stats.units.upgradeable++;
