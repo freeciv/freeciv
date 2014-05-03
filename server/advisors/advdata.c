@@ -107,7 +107,8 @@ static void adv_data_city_impr_calc(struct player *pplayer,
       case EFT_UPKEEP_FREE:
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
-	      && preq->source.value.building == pimprove) {
+	      && preq->source.value.building == pimprove
+              && preq->present) {
             if (adv->impr_calc[improvement_index(pimprove)] != ADV_IMPR_CALCULATE_FULL) {
 	      adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE;
             }
@@ -122,7 +123,8 @@ static void adv_data_city_impr_calc(struct player *pplayer,
       case EFT_OUTPUT_INC_TILE:
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
-	      && preq->source.value.building == pimprove) {
+	      && preq->source.value.building == pimprove
+              && preq->present) {
 	    adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE_FULL;
 	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
 	      adv->impr_range[improvement_index(pimprove)] = preq->range;
