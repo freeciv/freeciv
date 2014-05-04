@@ -262,11 +262,11 @@ msgstr ""
       fi
     fi
 
-    AC_CONFIG_COMMANDS([default-1],[[for domain in $PO_DOMAINS ; do
+    AC_CONFIG_COMMANDS([default-1],[[for domain in $PODOMAINS ; do
       case "$CONFIG_FILES" in *translations/${domain}/Makefile.in*)
         sed -e "/POTFILES =/r translations/${domain}/POTFILES" translations/${domain}/Makefile.in > translations/${domain}/Makefile
       esac
-    done]],[PO_DOMAINS="$PO_DOMAINS"])
+    done]],[PODOMAINS="$PODOMAINS"])
 
     dnl These rules are solely for the distribution goal.  While doing this
     dnl we only have to keep exactly one list of the available catalogs
@@ -357,7 +357,7 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
 
    dnl Generate list of files to be processed by xgettext which will
    dnl be included in translations/<domain>/Makefile.
-   for domain in $PO_DOMAINS ; do
+   for domain in $PODOMAINS ; do
    test -d translations/${domain} || ${MKDIR_P} translations/${domain}
    if test "x$srcdir" != "x."; then
      if test "x`echo $srcdir | sed 's@/.*@@'`" = "x"; then
