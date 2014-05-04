@@ -346,6 +346,7 @@ req2     = "Labor Union"
 flags    = ""
 graphic     = "a.fusion_power"
 graphic_alt = "-"
+helptext = _("Makes it possible for Engineers to transform terrains.")
 cost     = 770
 
 [advance_genetic_engineering]
