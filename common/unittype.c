@@ -1111,6 +1111,8 @@ void unit_classes_free(void)
 
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
     if (unit_classes[i].cache.native_tile_bases != NULL) {
+      base_type_list_destroy(unit_classes[i].cache.refuel_bases);
+      unit_classes[i].cache.refuel_bases = NULL;
       base_type_list_destroy(unit_classes[i].cache.native_tile_bases);
       unit_classes[i].cache.native_tile_bases = NULL;
     }
@@ -1250,11 +1252,14 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
 void set_unit_class_caches(struct unit_class *pclass)
 {
   pclass->cache.native_tile_bases = base_type_list_new();
+  pclass->cache.refuel_bases = base_type_list_new();
 
   base_type_iterate(pbase) {
-    if (is_native_base_to_uclass(pbase, pclass)
-        && base_has_flag(pbase, BF_NATIVE_TILE)) {
+    if (is_native_base_to_uclass(pbase, pclass)) {
+      base_type_list_append(pclass->cache.refuel_bases, pbase);
+      if (base_has_flag(pbase, BF_NATIVE_TILE)) {
         base_type_list_append(pclass->cache.native_tile_bases, pbase);
+      }
     }
   } base_type_iterate_end;
 }

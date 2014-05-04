@@ -98,6 +98,7 @@ struct unit_class {
   } adv;
 
   struct {
+    struct base_type_list *refuel_bases;
     struct base_type_list *native_tile_bases;
   } cache;
 };
