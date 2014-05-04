@@ -43,8 +43,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-21 01:55+0300\n"
-"PO-Revision-Date: 2013-07-19 11:13+0200\n"
+"POT-Creation-Date: 2014-04-28 03:16+0300\n"
+"PO-Revision-Date: 2014-05-04 13:53+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
@@ -1246,24 +1246,26 @@ msgid "Countess %s"
 msgstr "Gräfin %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/centrallithuanian.ruleset:46 data/nation/curonian.ruleset:31
-#: data/nation/florentine.ruleset:41 data/nation/lithuanian.ruleset:29
-#: data/nation/luxembourgish.ruleset:30 data/nation/mecklenburgian.ruleset:32
-#: data/nation/milanese.ruleset:28 data/nation/moravian.ruleset:34
-#: data/nation/occitan.ruleset:29 data/nation/oldenburgian.ruleset:33
-#: data/nation/rhenish.ruleset:39 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:46
+#: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
+#: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
+#: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
+#: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
+#: data/nation/oldenburgian.ruleset:33 data/nation/rhenish.ruleset:39
+#: data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duke %s"
 msgstr "Großherzog %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/centrallithuanian.ruleset:46 data/nation/curonian.ruleset:31
-#: data/nation/florentine.ruleset:41 data/nation/lithuanian.ruleset:29
-#: data/nation/luxembourgish.ruleset:30 data/nation/mecklenburgian.ruleset:32
-#: data/nation/milanese.ruleset:28 data/nation/moravian.ruleset:34
-#: data/nation/occitan.ruleset:29 data/nation/oldenburgian.ruleset:33
-#: data/nation/rhenish.ruleset:39 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:46
+#: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
+#: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
+#: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
+#: data/nation/moravian.ruleset:34 data/nation/occitan.ruleset:29
+#: data/nation/oldenburgian.ruleset:33 data/nation/rhenish.ruleset:39
+#: data/nation/schleswig-holsteinian.ruleset:28
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duchess %s"
@@ -1507,15 +1509,16 @@ msgstr ""
 #: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
-#: data/nation/seleucid.ruleset:28 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:26
+#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "Usurper %s"
 msgstr "Usurpator %s"
@@ -2108,28 +2111,30 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
-#: data/nation/curonian.ruleset:29 data/nation/franconian.ruleset:24
-#: data/nation/hanoverian.ruleset:22 data/nation/langobardic.ruleset:37
-#: data/nation/lorrain.ruleset:30 data/nation/moravian.ruleset:33
-#: data/nation/muscovite.ruleset:23 data/nation/norman.ruleset:24
-#: data/nation/prussian.ruleset:27 data/nation/samogitian.ruleset:21
-#: data/nation/savoyard.ruleset:31 data/nation/saxon.ruleset:21
-#: data/nation/schleswig-holsteinian.ruleset:26 data/nation/serbian.ruleset:34
-#: data/nation/westphalian.ruleset:31 data/nation/wuerttembergian.ruleset:23
+#: data/nation/carantanian.ruleset:29 data/nation/curonian.ruleset:29
+#: data/nation/franconian.ruleset:24 data/nation/hanoverian.ruleset:22
+#: data/nation/langobardic.ruleset:37 data/nation/lorrain.ruleset:30
+#: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
+#: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
+#: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
+#: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:26
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duke %s"
 msgstr "Herzog %s"
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
-#: data/nation/curonian.ruleset:29 data/nation/franconian.ruleset:24
-#: data/nation/hanoverian.ruleset:22 data/nation/langobardic.ruleset:37
-#: data/nation/lorrain.ruleset:30 data/nation/moravian.ruleset:33
-#: data/nation/muscovite.ruleset:23 data/nation/norman.ruleset:24
-#: data/nation/prussian.ruleset:27 data/nation/samogitian.ruleset:21
-#: data/nation/savoyard.ruleset:31 data/nation/saxon.ruleset:21
-#: data/nation/schleswig-holsteinian.ruleset:26 data/nation/serbian.ruleset:34
-#: data/nation/westphalian.ruleset:31 data/nation/wuerttembergian.ruleset:23
+#: data/nation/carantanian.ruleset:29 data/nation/curonian.ruleset:29
+#: data/nation/franconian.ruleset:24 data/nation/hanoverian.ruleset:22
+#: data/nation/langobardic.ruleset:37 data/nation/lorrain.ruleset:30
+#: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
+#: data/nation/norman.ruleset:24 data/nation/prussian.ruleset:27
+#: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
+#: data/nation/saxon.ruleset:21 data/nation/schleswig-holsteinian.ruleset:26
+#: data/nation/serbian.ruleset:34 data/nation/westphalian.ruleset:31
+#: data/nation/wuerttembergian.ruleset:23
 #, c-format
 msgid "Duchess %s"
 msgstr "Herzogin %s"
@@ -2251,16 +2256,18 @@ msgstr "Meisterdruide %s"
 
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
-#: data/nation/kushan.ruleset:42 data/nation/latin.ruleset:40
-#: data/nation/nestorian.ruleset:27 data/nation/urartian.ruleset:38
+#: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
+#: data/nation/latin.ruleset:40 data/nation/nestorian.ruleset:27
+#: data/nation/urartian.ruleset:38
 #, c-format
 msgid "Brother %s"
 msgstr "Bruder %s"
 
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
-#: data/nation/kushan.ruleset:42 data/nation/latin.ruleset:40
-#: data/nation/nestorian.ruleset:27 data/nation/urartian.ruleset:38
+#: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
+#: data/nation/latin.ruleset:40 data/nation/nestorian.ruleset:27
+#: data/nation/urartian.ruleset:38
 #, c-format
 msgid "Sister %s"
 msgstr "Schwester %s"
@@ -2293,9 +2300,10 @@ msgstr "Sprecherin %s"
 
 #: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
-#: data/nation/gepid.ruleset:44 data/nation/liberian.ruleset:30
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:40
+#: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
+#: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:40
 #, c-format
 msgid "Speaker %s"
 msgstr "Sprecher %s"
@@ -2713,6 +2721,8 @@ msgid ""
 "The Bosporan Kingdom was an ancient state in eastern Crimea and the Taman "
 "Peninsula on the shores of the Cimmerian Bosporus."
 msgstr ""
+"Das bosporische Königreich war ein antiker Staat an der östlichen Krim und "
+"auf der tamischen Halbinsel an den Küsten des Kimmerischen Bosporus."
 
 #: data/nation/bosporan.ruleset:34 data/nation/cretan.ruleset:27
 #: data/nation/cypriot.ruleset:23 data/nation/macedon.ruleset:24
@@ -2822,6 +2832,14 @@ msgid ""
 "people speaking French instead. The Dukedom of Brittany itself was formally "
 "annexed to France in 1491."
 msgstr ""
+"Schon den Römern war die Bretagne unter dem Namen „Armorica“ bekannt, die "
+"Einwohner aber sprachen Keltisch schon Jahrhunderte bevor die Bretonen als "
+"Kaufleute, Kolonisten und Flüchtlinge vor dem Chaos in Gaul und der Invasion "
+"Britanniens durch germanische Stämme im fünften Jahrhundert die Halbinsel "
+"erreichten. Im Laufe der Jahrhunderte schrumpfte unter dem Einfluss des "
+"Überhand nehmenden Französisch der Ausbreitungsraum der bretonischen Sprache "
+"auf den Westen der Halbinsel zusammen. Die Grafschaft Bretagne wurde 1491 "
+"formal von Frankreich annektiert."
 
 #: data/nation/british.ruleset:3
 msgid "British"
@@ -3181,6 +3199,16 @@ msgid ""
 "numbers of immigrants to California. In the 20th century the state became a "
 "center of the world's entertainment and technology industries."
 msgstr ""
+"Kalifornien ist an Bevölkerung und Wirtschaft gemessen der größte US-"
+"Bundesstaat. Zunächst war er von amerikanischen Ureinwohnern besiedelt, bis "
+"er im 18. Jahrhundert von spanischen Missionaren kolonisiert und danach mit "
+"dessen Unabhängigkeit ein Teil Mexikos wurde. Während des mexikanisch-"
+"amerikanischen Krieges proklamierten lokale amerikanische Siedler die „Bear "
+"Flag Republic“ (engl. „Bärenflaggen-Republik“), die kurz darauf jedoch in "
+"die Vereinigten Staaten aufgenommen wurde. 1848 brach der Goldrausch aus und "
+"bescherte dem Staat eine massive Anzahl Einwanderer, im 20. Jahrhundert "
+"wurde er ein Zentrum der weltweiten Unterhaltungs- und Technologie-"
+"Industrien."
 
 #: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
 #: data/nation/vermont.ruleset:25
@@ -3270,6 +3298,17 @@ msgid ""
 "fierce resistance. They rebelled during the Incan civil war and sided with "
 "the Spanish during their conquest of the Inca empire."
 msgstr ""
+"Die Cañares waren eine präkolumbianische Zivilisation im heutigen Ecuador, "
+"deren Existenz sich bis ins 6. Jahrhundert hinein zurückverfolgen lässt. Sie "
+"waren eine der wenigen andenfixierten Kulturen, die nicht die Sonne "
+"anbeteten; ihre Sprache war vermutlich ursprünglich verwandt mit dem "
+"peruanischen Mochica, zur Zeit der spanischen Eroberung hatten die Cañares "
+"bereits größtenteils zum Ketschua gewechselt. Ihre Stämme bildeten eine lose "
+"Konföderation, deren politisches Zentrum in Guapdondelig (heute Cuenca, "
+"Hauptstadt der Provinz Azuay) lag. Im 15. Jahrhundert wurden sie von den "
+"Inka unterworfen, leisteten aber beständig starken Widerstand, der später im "
+"inkaischen Bürgerkrieg aufging, in welchem sie sich mit dem Spaniern gegen "
+"die Inka verbündeten."
 
 #: data/nation/cantonese.ruleset:3
 msgid "Cantonese"
@@ -3291,6 +3330,15 @@ msgid ""
 "incorporated into Han Dynasty China. Cantonese is the second most spoken "
 "Chinese language after Mandarin."
 msgstr ""
+"Die Kantonesen sind eine Untergruppe der Chinesen und stammen aus der "
+"Provinz Guangdong im südlichen China. Sie umfassen etwa 70 Millionen "
+"Mitglieder, sind für ihre Musik und ihre Speisen bekannt und stellen ein "
+"wichtiges Element von Chinas transozeanischen Gemeinschaften da. Sie stellen "
+"die Mehrheit der Bevölkerung in den Speziellen Autononomen Regionen Hong-"
+"Kong und Macao. Im zweiten Jahrhunder v.u.Z. beherrschte das kantonesisch "
+"dominierte Königreich Nanyue großte Teile Südchinas und Vietnams, 111 v.u.Z. "
+"wurde Nanyue vom China der Han-Dynastie geschluckt. Kantonesisch ist nach "
+"Mandarin die meistgesprochene chinesische Sprache."
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
@@ -3324,6 +3372,29 @@ msgstr "Admiral %s"
 #, c-format
 msgid "?female:Admiral %s"
 msgstr "Admirälin %s"
+
+#: data/nation/carantanian.ruleset:3
+#, fuzzy
+msgid "Carantanian"
+msgstr "karthagisch"
+
+#: data/nation/carantanian.ruleset:4
+#, fuzzy
+msgid "?plural:Carantanians"
+msgstr "Karthager"
+
+#: data/nation/carantanian.ruleset:6
+msgid ""
+"The Carantanians or Alpine Slavs were an Early Medieval confederation of "
+"South West Slavic tribes who settled in modern-day Austria. The Duchy of "
+"Carantania was one of the earliest Slav states, existing since the seventh "
+"century CE. In the eighth century, it fell into dependence on the Frankish "
+"kingdom, which led to the adoption of Christianity in the Latin rite by duke "
+"Gorazd. In 819 years Carantania joined the revolt of the Croatian duke "
+"Ljudevit Posavski. After its fall in 822 the state was abolished and "
+"incorporated directly into the realm of the Franks. Slovenians are the "
+"modern descendants of the Carantanians."
+msgstr ""
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -3410,6 +3481,11 @@ msgid ""
 "dictatorship in the 70s under Emperor Bokassa I during which it was called "
 "the Central African Empire."
 msgstr ""
+"Die Zentralafrikanische Republik liegt im Herzen Afrikas und war früher als "
+"französisch-afrikanisches Gebiet Ubangi-Shari bekannt. In den 70er Jahren "
+"wurde das Land für eine kurze Zeit als Dikatatur von Kaiser Bokassa I. "
+"regiert, währenddessen es unter dem Namen Zentralafrikanisches Kaiserreich "
+"firmierte."
 
 #: data/nation/centralamerican.ruleset:3
 msgid "Central American"
@@ -3430,6 +3506,14 @@ msgid ""
 "American republics cooperate in the Central American Integration System "
 "(SICA)."
 msgstr ""
+"Während der Kolonialära erklärte die Zentralamerikanische Konföderation 1821 "
+"die Unabhängigkeit von Spanien, trat kurz darauf Mexiko bei und formte dann "
+"eine föderale Republik. Gefechte zwischen Guatemala und anderen Provinzen "
+"sowie zwischen Liberalen und Konservativen führte zum Niedergang der "
+"Konföderation, die 1840 so gut wie nicht mehr existierte. Spätere Versuche "
+"der Vereinigung schlugen fehl, seit 1993 aber arbeiten die "
+"zentralafrikanischen Republiken immerhin im Rahmen des Zentralamerikanischen "
+"Integrationssystems (SICA) zusammen."
 
 #: data/nation/centralamerican.ruleset:29
 #, c-format
@@ -3473,6 +3557,23 @@ msgid ""
 "was then incorporated into Poland. After World War II most of the Lithuanian "
 "Poles were displaced to Poland's new western territories."
 msgstr ""
+"Die größtenteils in der Aukshtota-Region vorzufindende Polnische Minderheit "
+"in Litauen ist ein Überbleibsel des polnisch-litauischen Commonwealth, der "
+"bei Gründung der Union von Lublin eingerichtet wurde. Der Staat einte das "
+"Königreich Polen mit dem Großherzogtum Litauen unter dem Einfluss des "
+"litauischen Großherzogs Jogaila, der später den Königsnamen Władisław "
+"annahm, jedoch reichen die Anfänge der polnischen Ethnie in Litauen zurück "
+"bis in die Zeit des Herzogs Mindaugas von Litauen. Die ersten Polen "
+"erreichten Litauen als Kriegsgefangene aus Raubzügen an den (größtenteils "
+"masowischen) Grenzen und nach der Vereinigung der zwei Staaten ließ sich "
+"eine sehr starke Polonisierung des litauischen Adels beobachten. Später "
+"überlebte die polnischsprachige Gemeinde in Litauen den Zusammenbruch und "
+"die Teilung des polnischen Staats und lebte friedlich mit den "
+"litauischsprachigen Bevölkerungsteilen zusammen, bis 1920 der "
+"Rebellengeneral Żeligowski die Gründung einer Republik Zentrallitauen "
+"ausrief, die anschließend in Polen eingegliedert wurde. Nach dem Zweiten "
+"Weltkrieg wurden große Teile der Polnischen Minderheit in Litauen in die "
+"neuen westlichen Gebiete Polens zwangsumgesiedelt."
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
@@ -3504,6 +3605,10 @@ msgid ""
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
 "Habre led a notoriously brutal dictatorship."
 msgstr ""
+"Der Tschad ist ein Land ohne Küste in Afrika. Er wurde 1900 als Reich von "
+"Kanem-Bornu durch Frankreich kolonisiert und 1960 unabhängig, dennoch blieb "
+"der Tschad bis heute eines der ärmsten Länder der Welt. Zwischen 1982 und "
+"1990 führte Hissène Habré das Land in einer notorisch brutalen Dikatur."
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
@@ -3523,6 +3628,14 @@ msgid ""
 "century. By this time, most of the Cham nobility had converted to Islam. The "
 "majority of Muslims in modern Vietnam are of Cham ethnicity."
 msgstr ""
+"Champa war der Name einiger eng verwandter politischer Gruppen im heutigen "
+"Südvietnam. Schon in den frühesten historischen Quellen werden die Champa-"
+"Könige als Hindus bezeichnet, die insbesondere Shiva verehren. Es war "
+"jahrhundertelang in Konflikte mit dem benachbarten Khmer- und Dai-Viet-"
+"Staaten verwickelt, im späten 15. Jahrhundert wurde es dann von Dai Viet de "
+"facto unterworfen. Zu diesem Zeitpunkt war der Großteil der chamischen "
+"Adelsklasse bereits zum Islam konvertiert; bis heute ist die Mehrheit der "
+"Muslime in Vietnam chamischen Ursprungs."
 
 # MG: Bei den folgenden Texten zu den Kynokephalen liegt meines
 # Erachtens ein Sachfehler vor. Der Begriff „chananean“ hat erstmal
@@ -3550,17 +3663,6 @@ msgstr ""
 msgid "Chananean"
 msgstr "kynokephal"
 
-# MG: Gratulation. „Kynokephale“ ist eines der äußerst seltenen
-# Wörter, die im Deutschen zwei Nominative aufweisen. Als Einzelwort
-# gebraucht, etwa in einer Überschrift, spricht man von „Kynokephale“:
-# „Kynokephale in der Kunst“. In einem Satzzusammenhang hingegen haben
-# wir: „Die Kynokephalen nehmen eine prominente Stelle ein.“ In der
-# Annahme, dass dieses Wort in Freeciv meistens in Sätzen und weniger
-# in Überschriften gebraucht wird, habe ich mich für die letzere Form
-# entschieden.
-#
-# Die Beispiele habe ich dem Wikipedia-Artikel entnommen:
-# http://de.wikipedia.org/wiki/Kynokephale
 #: data/nation/chananean.ruleset:4
 msgid "?plural:Chananeans"
 msgstr "Kynokephalen"
@@ -3614,6 +3716,12 @@ msgid ""
 "war erupted when Chechen separatists proclaimed an independent Chechen "
 "Republic of Ichkeria."
 msgstr ""
+"Tschetschenien ist eine antike Nation des Kaukasus, die heute ein Teil der "
+"Russischen Föderation ist. 1588 unterwarfen sich die Tschetschenen "
+"freiwillig als Vasallen dem moskovitischen Zaren, führten aber "
+"nichtsdestotrotz wiederholt Krieg gegen Russland, bis 1990 nach dem "
+"Aufbrechen der Sowjetunion ein Bürgerkrieg ausbrach, in dem tschetschenische "
+"Separatisten eine unabhängige tschetschenische Republik Itschkeria ausriefen."
 
 #: data/nation/chiapanec.ruleset:3
 msgid "Chiapanec"
@@ -3633,6 +3741,14 @@ msgid ""
 "cities, Mayan peoples and natural wealth have made it one of Mexico's major "
 "tourist destinations."
 msgstr ""
+"Chiapas ist ein Staat in Südmexiko, der während der Kolonialzeit unter der "
+"Herrschaft Guatemalas stand, sich im Jahre 1824 jedoch nach kurzer "
+"Unabhängigkeit zum Anschluss an Mexiko entschloss. Chiapas’ Bevölkerung "
+"besteht zu einem nicht unerheblichen Anteil aus Indigenen (größtenteils "
+"Maya), die in der Vergangenheit häufig in Aufstände gegen die zu großen "
+"Teilen aus Ladinos bestehende Elite verwickelt waren. Die kolonialzeitlichen "
+"Städte, die Maya und sein Naturreichtum haben den Staat zu einem von Mexikos "
+"beliebtesten Tourismuszielen gemacht."
 
 #: data/nation/chickasaw.ruleset:3
 msgid "Chickasaw"
@@ -3649,6 +3765,10 @@ msgid ""
 "of first contact with Europeans. The name \"Mississippi\" itself originates "
 "from a Chickasaw word meaning \"Without Source.\""
 msgstr ""
+"Als einer der sogenannten „Fünf Zivilisierten Stämme“ dominierten die "
+"Chickasaw zur Zeit der ersten europäischen Kontakte den heutigen nördlichen "
+"Teil des U.S.-Staats Mississippi. Der Name „Mississippi“ selbst entstammt "
+"einem Chickasaw-Wort mit der Bedeutung „ohne Quelle“."
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -3666,6 +3786,12 @@ msgid ""
 "century. Often having been more stable and prosperous than its neighbors, "
 "Chile currently is the most developed country of Latin America."
 msgstr ""
+"Chile befindet sich an der Südwestküste Südamerikas. Es erklärte 1810 seine "
+"Unabhängigkeit von Spanien und erweiterte im 19. Jh. auf Kosten von "
+"Bolivien, Peru und der indigenen Mapuche sein Territorium auf mehr als das "
+"Doppelte seiner ursprünglichen Größe. Das oftmals als stabiler und "
+"wohlhabender als seine Nachbarn angesehene Land ist momentan der am "
+"weitesten entwickelte Staat Lateinamerikas."
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
 #: data/nation/yucatecan.ruleset:30
@@ -3697,6 +3823,14 @@ msgid ""
 "manufacture of Inka artistic wares. Until its fall, Chimor controlled "
 "perhaps 2/3 of the population of the northern Andes."
 msgstr ""
+"Chimú begann als Erbe der Moche-Kultur im 12. Jahrhundert seine Erweiterung "
+"vom Moche-Flusstal aus, welches im heutigen Nordperu liegt. Seine Blütezeit "
+"setzte sich bis zur Eroberung durch das Inka-Reich 1470 fort, bei der ihr "
+"letzter Herrscher, Minchancaman, gefangen genommen und in die inkaische "
+"Hauptstadt Qosqo verbracht wurde. Chimúische Handwerker trugen jedoch auch "
+"danach weiterhin große Teile zum inkaischen Kunstwarenangebot bei und bis zu "
+"ihrem Ende stellten die Chimú bis zu 2/3 der Bevölkerung in den nördlichen "
+"Anden."
 
 #: data/nation/chinook.ruleset:3
 msgid "Chinook"
@@ -3716,6 +3850,13 @@ msgid ""
 "Whites throughout Oregon, Washington, British Columbia and all the way to "
 "Alaska."
 msgstr ""
+"Die Chinook-Konföderation war eine Gruppe verschiedener Gemeinden mit "
+"gemeinsamen Gewohnheiten und gemeinsamer Sprache. Es handelte sich um ein "
+"sesshafter Volk, das entlang des Columbia-Flusses im heutigen Oregon/"
+"Washington in den Vereinigten Staaten lebte. Der regionale Einfluss der "
+"Chinook kann daran gemessen werden, dass ihre Zunge die Grundlage für eine "
+"Handelsverkehrssprache zwischen den Uramerikanern und den Weißen in ganz "
+"Oregon, Washington, British Columbia bis hin nach Alaska stellte."
 
 #: data/nation/choctaw.ruleset:3
 msgid "Choctaw"
@@ -3737,6 +3878,16 @@ msgid ""
 "managed to escape removal and stay behind. The word \"Oklahoma\" itself is "
 "derived from a Choctaw language term meaning \"red people\"."
 msgstr ""
+"Als einer der sogenannten „Fünf Zivilisierten Stämme“ besiedelten die "
+"Chactaw von Alters her große Teile der Mitte und des Südens des heutigen U."
+"S.-Staats Mississippi. Sie wurden erstmals im 16. Jh. von spanischen "
+"Kundschaftern entdeckt und entwickelten sich im Laufe der Zeit zu "
+"zuverlässigen Verbündeten Frankreichs, bevor sie sich im Amerikanischen "
+"Bürgerkrieg auf die Seite der Konföderierten schlugen. Heute lebt die "
+"Mehrheit der Choctaw aufgrund der Zwangsumsiedelung unter Präsident Andrew "
+"Jackson im Jahre 1831 in Oklahoma, doch gibt es noch immer eine lebhafte "
+"Gruppe entkommener Choctaw in Mississippi. Das Wort „Oklahoma“ selbst leitet "
+"sich aus einem Choctaw-Wort mit der Bedeutung „Rotes Volk“ ab."
 
 #: data/nation/chola.ruleset:3
 msgid "Chola"
@@ -3756,6 +3907,13 @@ msgid ""
 "Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s as "
 "other southern Indian states rose up."
 msgstr ""
+"Die Cholaner waren eine Tamil-Dynastie aus Südindien, die ungewöhnlich "
+"großen Einfluss auf das nördliche Indien hatte. Ursprünglich begannen sie "
+"als Tributstaat der Pallavas, jedoch stieg ihre Macht im 9. Jh. deutlich an. "
+"Im 11. Jh. führten sie Kriege gegen andere indische Staaten bis hin zum "
+"nördlichen Bengal, darunter die Malediven, Sri Lanka und sogar das "
+"indonesische Königreich Sri Vijaya. In den 1250er Jahren brach das Imperium "
+"unter dem Aufstieg anderer südindischer Staaten zusammen."
 
 #: data/nation/chrobatian.ruleset:3
 msgid "Chrobatian"
@@ -3906,7 +4064,6 @@ msgid "?plural:Colombians"
 msgstr "Kolumbianer"
 
 #: data/nation/colombian.ruleset:6
-#, fuzzy
 msgid ""
 "Colombia is a country in northern South America. The region was an "
 "Amerindian cultural center in pre-European time. The Spanish began settling "
@@ -4084,7 +4241,7 @@ msgid "General-in-Chief %s"
 msgstr "Oberkommandant %s"
 
 #: data/nation/corsican.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:General-in-Chief %s"
 msgstr "Oberkommandantin %s"
 
@@ -4350,6 +4507,27 @@ msgstr "Prophet %s"
 msgid "Prophetess %s"
 msgstr "Prophetin %s"
 
+#: data/nation/dacian.ruleset:3
+#, fuzzy
+msgid "Dacian"
+msgstr "thrakisch"
+
+#: data/nation/dacian.ruleset:4
+#, fuzzy
+msgid "?plural:Dacians"
+msgstr "Thraker"
+
+#: data/nation/dacian.ruleset:6
+msgid ""
+"The Dacians were ancient tribes who lived on the left bank of the Lower "
+"Danube in Dacia in what is now Romania. They were probably related to the "
+"Thracians and other Paleo-Balkanic tribes. The unification of Dacian tribes "
+"occurred during the reign of king Burebista. After the wars with Rome, they "
+"were defeated in 106 CE. Dacia became a Roman province and succumbed to "
+"Roman colonization. The remains of the Dacians mingled with East Germanic "
+"tribes and later with Slavs."
+msgstr ""
+
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
 msgstr "dahomisch"
@@ -4600,7 +4778,7 @@ msgid ""
 "against Rome in Italy, which ended in the famous \"Pyrrhic Victory\"."
 msgstr ""
 
-#: data/nation/epirote.ruleset:30
+#: data/nation/epirote.ruleset:30 data/nation/italiangreek.ruleset:48
 #, c-format
 msgid "Tyrant %s"
 msgstr "Tyrant %s"
@@ -4804,9 +4982,9 @@ msgstr ""
 #: data/nation/tairona.ruleset:26 data/nation/tswana.ruleset:30
 #: data/nation/vanuatuan.ruleset:25 data/nation/venda.ruleset:22
 #: data/nation/xhosa.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Paramount Chief %s"
-msgstr "Großer Häuptling"
+msgstr "Großer Häuptling %s"
 
 #: data/nation/fijian.ruleset:24 data/nation/maasai.ruleset:21
 #: data/nation/maori.ruleset:23 data/nation/marshallese.ruleset:24
@@ -4815,9 +4993,9 @@ msgstr "Großer Häuptling"
 #: data/nation/tairona.ruleset:26 data/nation/tswana.ruleset:30
 #: data/nation/vanuatuan.ruleset:25 data/nation/venda.ruleset:22
 #: data/nation/xhosa.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Paramount Chief %s"
-msgstr "Großer Häuptling"
+msgstr "Großer Häuptling %s"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -4918,7 +5096,8 @@ msgstr "Condottiera %s"
 msgid "Fra %s"
 msgstr "Fra %s"
 
-#: data/nation/florentine.ruleset:42 data/nation/milanese.ruleset:29
+#: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
+#: data/nation/milanese.ruleset:29
 #, c-format
 msgid "Captain %s"
 msgstr "Kapitän %s"
@@ -4927,6 +5106,28 @@ msgstr "Kapitän %s"
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Kapitänin %s"
+
+#: data/nation/formosan.ruleset:3
+msgid "Formosan"
+msgstr ""
+
+#: data/nation/formosan.ruleset:4
+#, fuzzy
+msgid "?plural:Formosans"
+msgstr "Normannen"
+
+#: data/nation/formosan.ruleset:6
+#, c-format
+msgid ""
+"Taiwan is home to fourteen officially recognized and twelve unrecognized "
+"tribes,all of whom are traditionally speakers of a group of Austronesian "
+"languagesknown as Formosan. Historical linguists consider the island to be "
+"the homeof the Austronesian family, as it is host to the most diverse set of "
+"Austronesianlanguages. Many of the tribes are traditionally matrilineal. "
+"Starting in the 17thcentury, European and East Asian colonists vied for "
+"control of the island,encroaching on aboriginal lands. Today, Formosans "
+"constitute around 2%of the population of Taiwan."
+msgstr ""
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
@@ -5187,7 +5388,6 @@ msgid "?plural:Georgians"
 msgstr "Georgier"
 
 #: data/nation/georgian.ruleset:6
-#, fuzzy
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s CE."
@@ -5685,7 +5885,6 @@ msgid "Hanseatic"
 msgstr "hanseatisch"
 
 #: data/nation/hansa.ruleset:4
-#, fuzzy
 msgid "?plural:Hanseatic League"
 msgstr "Hanse"
 
@@ -6178,6 +6377,35 @@ msgstr "Richter %s"
 msgid "?female:Judge %s"
 msgstr "Richterin %s"
 
+#: data/nation/italiangreek.ruleset:3
+#, fuzzy
+msgid "Italian Greek"
+msgstr "italienisch"
+
+#: data/nation/italiangreek.ruleset:4
+#, fuzzy
+msgid "?plural:Italian Greeks"
+msgstr "Italiener"
+
+#: data/nation/italiangreek.ruleset:6
+msgid ""
+"Ancient Magna Graecia was a complex of Greek cities-colonies on the coasts "
+"of Italy and Sicily, founded during the Greek Colonization. They played an "
+"important role in the development of Etruscan and Roman cultures. In the 5th "
+"century BCE Magna Graecia was dominated by the city-state of Syracuse, a "
+"great center of Greek culture. Other major urban centers included Taranto, "
+"Croton, Sybaris and Messana. Magna Graecia was gradually conquered by Rome, "
+"a conquest that was completed by 272 BC.  After the fall of the Western "
+"Roman Empire Southern Italy was temporarily part of the Byzantine Empire as "
+"Catepanate of Italia. A Greek-speaking population has survived in these "
+"areas to modern times."
+msgstr ""
+
+#: data/nation/italiangreek.ruleset:48
+#, fuzzy, c-format
+msgid "Tyranne %s"
+msgstr "Tyrant %s"
+
 #: data/nation/ivoirian.ruleset:3
 msgid "Ivoirian"
 msgstr "ivorisch"
@@ -6494,6 +6722,26 @@ msgstr "Tarkhan %s"
 msgid "?female:Tarkhan %s"
 msgstr "Tarkhan %s"
 
+#: data/nation/khoisan.ruleset:3
+msgid "Khoisan"
+msgstr ""
+
+#: data/nation/khoisan.ruleset:4
+#, fuzzy
+msgid "?plural:Khoisan"
+msgstr "Koreaner"
+
+#: data/nation/khoisan.ruleset:6
+msgid ""
+"Khoisan speakers are typically divided between the Khoikhoi, traditionally "
+"herders, and the San, traditionally hunter gatherers. They are traditionally "
+"among the most egalitarian societies on the planet. San society in "
+"particular is organized around the institutions of family and band. Khoisan "
+"peoples carry some of the most ancient genetic lineages in the world. Today "
+"there are over 300,000 Khoisan people, forming significant minorities in and "
+"around the Kalahari desert in Namibia, Botswana, South Africa, and Angola."
+msgstr ""
+
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
 msgstr "choresmisch"
@@ -6705,7 +6953,6 @@ msgid "Kyrgyz"
 msgstr "kirgisisch"
 
 #: data/nation/kyrgyz.ruleset:4
-#, fuzzy
 msgid "?plural:Kyrgyzs"
 msgstr "Kirgisen"
 
@@ -7127,6 +7374,23 @@ msgid ""
 "One of Europe's smaller countries, Luxembourg was founded as a county in "
 "963. In 1815 it was elevated to a Grand Duchy in a personal union with the "
 "Netherlands, which was severed in 1890."
+msgstr ""
+
+#: data/nation/lycian.ruleset:3
+msgid "Lycian"
+msgstr ""
+
+#: data/nation/lycian.ruleset:4
+#, fuzzy
+msgid "?plural:Lycians"
+msgstr "Luwier"
+
+#: data/nation/lycian.ruleset:6
+msgid ""
+"Lycia was an ancient Southwest Anatolian state which existed from the 15th "
+"to the 6th century BCE. Lycians were allies of Troy during the Trojan War, "
+"when they were led by the legendary heroes Sarpedon and Glaucus. Their state "
+"was subordinated to the Persian Empire in the 6th century BCE."
 msgstr ""
 
 #: data/nation/maasai.ruleset:3
@@ -8210,12 +8474,12 @@ msgid "?plural:Nigerians"
 msgstr "Nigerier"
 
 #: data/nation/nigerian.ruleset:6
-#, fuzzy
 msgid ""
 "Nigeria won full independence from British rule in 1960. It is the most "
 "populous country of Africa."
 msgstr ""
-"Nigeria errang 1960 die volle Unabhängigkeit von britischer Herrschaft."
+"Nigeria errang 1960 die volle Unabhängigkeit von britischer Herrschaft. Es "
+"ist das bevölkerungsreichste Land Afrikas."
 
 # MG: StAGN.
 #: data/nation/nigerien.ruleset:3
@@ -11479,7 +11743,6 @@ msgstr "Venezolaner"
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/venezuelan.ruleset:9
-#, fuzzy
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -11491,7 +11754,11 @@ msgid ""
 msgstr ""
 "Venezuela ist das nördlichste Land Südamerikas. Seit dem 16. Jahrhundert "
 "eine spanische Kolonie, wurde das Land am 5. Juli 1811 unter der "
-"Führerschaft von 'El Libertador' - dem Befreier - Simón Bolívar unabhängig."
+"Führerschaft von „El Libertador“ - dem Befreier - Simón Bolivar unabhängig. "
+"Venezuela verfügt über einige der weltweit größten Öl- und Gasreserven und "
+"war während des Ölbooms in den 1970er Jahren einer der wohlhabendsten "
+"Staaten Lateinamerikas. Das Land ist bekannt für seine wechselhafte "
+"Landschaft und seinen hohen Artenreichtum."
 
 #: data/nation/vermont.ruleset:3
 msgid "Vermont"
@@ -12475,6 +12742,9 @@ msgstr ""
 #~ msgid "%+4d : Used\n"
 #~ msgstr "%+4d : Verbrauch\n"
 
+#~ msgid "%+4d : (unknown)\n"
+#~ msgstr "%+4d: (unbekannt)\n"
+
 #~ msgid "==== : Adds up to\n"
 #~ msgstr "==== : ergibt\n"
 
@@ -12688,8 +12958,8 @@ msgstr ""
 #~ msgid "?number_trade_routes:R"
 #~ msgstr "HaW"
 
-#~ msgid "Number of Trade Routes"
-#~ msgstr "Anzahl der Handelswege"
+#~ msgid "Number (and total value) of trade routes"
+#~ msgstr "Anzahl (und Gesamthandelsvolumen) der Handelswege"
 
 #~ msgid "?pollution [short]:Pol"
 #~ msgstr "UV"
@@ -12975,8 +13245,8 @@ msgstr ""
 #~ "Versuche als '%3$s' bis zu %5$dmal alle %4$f Sekunden eine Verbindung zu "
 #~ "Server '%1$s' an Port %2$d herzustellen..."
 
-#~ msgid "Starting server..."
-#~ msgstr "Starte Server..."
+#~ msgid "Starting local server..."
+#~ msgstr "Starte lokalen Server..."
 
 #~ msgid "Couldn't start the server."
 #~ msgstr "Konnte den Server nicht starten."
@@ -12992,7 +13262,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Established control over the server. You have command access level 'hack'."
-#~ msgstr "Wir kontrollieren den Server (Zugriffsberechtigung 'hack')."
+#~ msgstr "Wir kontrollieren den Server (Zugriffsberechtigung „hack“)."
 
 #~ msgid ""
 #~ "Failed to obtain the required access level to take control of the server. "
@@ -15332,8 +15602,14 @@ msgstr ""
 #~ msgid "?Upgradable unit [short]:U"
 #~ msgstr "veraltet"
 
+#~ msgid "Upgradable"
+#~ msgstr "Veraltet"
+
 #~ msgid "In-Prog"
 #~ msgstr "im Bau"
+
+#~ msgid "In progress"
+#~ msgstr "Im Bau"
 
 #~ msgid "Active"
 #~ msgstr "aktiv"
@@ -15341,8 +15617,17 @@ msgstr ""
 #~ msgid "Shield"
 #~ msgstr "Schild"
 
+#~ msgid "Total shield upkeep"
+#~ msgstr "Gesamte Unterhaltskosten Produktion"
+
 #~ msgid "Food"
 #~ msgstr "Nahrung"
+
+#~ msgid "Total food upkeep"
+#~ msgstr "Gesamte Unterhaltskosten Nahrung"
+
+#~ msgid "Total gold upkeep"
+#~ msgstr "Gesamte Unterhaltskosten Gold"
 
 #~ msgid "Totals:"
 #~ msgstr "Gesamt:"
@@ -15959,8 +16244,15 @@ msgstr ""
 #~ "Sir!, the %s ambassador has arrived\n"
 #~ "What are your wishes?"
 #~ msgstr ""
-#~ "Der %se Botschafter ist angekommen!\n"
-#~ "Welches sind die Befehle?"
+#~ "Herr! Der %se Botschafter ist angekommen!\n"
+#~ "Wie lauten Ihre Befehle?"
+
+#~ msgid ""
+#~ "Ma'am!, the %s ambassador has arrived\n"
+#~ "What are your wishes?"
+#~ msgstr ""
+#~ "Ma’am! Der %se Botschafter ist angekommen!\n"
+#~ "Wie lauten Ihre Befehle?"
 
 #~ msgid "Declare WAR"
 #~ msgstr "Erkläre KRIEG"
@@ -17147,126 +17439,311 @@ msgstr ""
 #~ msgid "This is %s, %s client."
 #~ msgstr "Dies ist %s, %s-Klient."
 
-#~ msgid "Requires you to have researched the %s technology.\n"
+#~ msgid "Requires knowledge of the technology %s.\n"
 #~ msgstr "Erfordert den Fortschritt %s.\n"
 
-#~ msgid "Requires that any player has researched the %s technology.\n"
+#~ msgid "Prevented by knowledge of the technology %s.\n"
+#~ msgstr "Blockiert durch die Entdeckung von %s.\n"
+
+#~ msgid "Requires that some player knows the technology %s.\n"
 #~ msgstr "Erfordert die Entdeckung von %s durch irgendjemanden.\n"
+
+#~ msgid "Requires that no player knows the technology %s.\n"
+#~ msgstr "Erfordert, dass bisher niemand %s erforscht hat.\n"
 
 #~ msgid "Requires the %s government.\n"
 #~ msgstr "Erfordert %s als Regierungsform.\n"
 
-#~ msgid "Requires that the %s wonder has been built by any player.\n"
-#~ msgstr "Erfordert den Bau des Weltwunders %s durch irgendjemanden.\n"
+#~ msgid "Not available under the %s government.\n"
+#~ msgstr "Ist in der Regierungsform %s nicht verfügbar.\n"
 
-#~ msgid "Requires you to own the %s wonder.\n"
-#~ msgstr "Erfordert den Besitz des Weltwunders %s.\n"
+# MG: "den Leuchtturm" muss hier hineinpassen
+#~ msgid ""
+#~ "Requires that %s was built at some point, and that it has not yet been "
+#~ "rendered obsolete.\n"
+#~ msgstr "Erfordert %s (darf noch nicht veraltet sein).\n"
+
+#~ msgid "Requires that %s was built at some point.\n"
+#~ msgstr "Erfordert %s.\n"
+
+#~ msgid "Prevented if %s has ever been built, unless it would be obsolete.\n"
+#~ msgstr "Blockiert durch %s, außer wenn bereits veraltet.\n"
+
+#~ msgid "Prevented if %s has ever been built.\n"
+#~ msgstr "Blockiert durch %s.\n"
+
+#~ msgid "Requires %s to be owned by any player and not yet obsolete.\n"
+#~ msgstr ""
+#~ "Erfordert, dass irgendjemand %s besitzt (darf noch nicht veraltet sein).\n"
+
+#~ msgid "Requires %s to be owned by any player.\n"
+#~ msgstr "Erfordert, dass irgendjemand %s besitzt.\n"
 
 #~ msgid ""
-#~ "Requires the %s wonder to be owned by you and on the same continent.\n"
+#~ "Prevented if %s is currently owned by any player, unless it is obsolete.\n"
 #~ msgstr ""
-#~ "Erfordert den Besitz des Weltwunders %s und die Lage auf demselben "
-#~ "Kontinent.\n"
+#~ "Blockiert, wenn irgendjemand %s besitzt, außer wenn bereits veraltet.\n"
 
-#~ msgid "Requires the %s building in the city.\n"
-#~ msgstr "Erfordert die Stadtverbesserung %s.\n"
+#~ msgid "Prevented if %s is currently owned by any player.\n"
+#~ msgstr "Blockiert, wenn irgendjemand %s besitzt.\n"
+
+#~ msgid ""
+#~ "Requires you to have built %s at some point, and for it not to have been "
+#~ "rendered obsolete.\n"
+#~ msgstr ""
+#~ "Erfordert, dass Sie %s errichtet haben (darf noch nicht veraltet sein).\n"
+
+#~ msgid "Requires you to have built %s at some point.\n"
+#~ msgstr "Erfordert, dass Sie %s errichtet haben.\n"
+
+#~ msgid "Prevented if you have ever built %s, unless it would be obsolete.\n"
+#~ msgstr ""
+#~ "Blockiert, wenn Sie jemals %s errichtet haben, außer wenn bereits "
+#~ "veraltet.\n"
+
+#~ msgid "Prevented if you have ever built %s.\n"
+#~ msgstr "Blockiert, wenn Sie jemals %s errichtet haben.\n"
+
+#~ msgid "Requires you to own %s, which must not be obsolete.\n"
+#~ msgstr "Erfordert, dass Sie %s besitzen (darf noch nicht veraltet sein).\n"
+
+#~ msgid "Requires you to own %s.\n"
+#~ msgstr "Erfordert, dass Sie %s besitzen.\n"
+
+#~ msgid "Prevented if you own %s, unless it is obsolete.\n"
+#~ msgstr "Blockiert, wenn Sie %s besitzen, außer wenn bereits veraltet.\n"
+
+#~ msgid "Prevented if you own %s.\n"
+#~ msgstr "Blockiert, wenn Sie %s besitzen.\n"
+
+#~ msgid ""
+#~ "Requires %s in one of your cities on the same continent, and not yet "
+#~ "obsolete.\n"
+#~ msgstr ""
+#~ "Erfordert %s in einer Ihrer Städte auf demselben Kontinent. Darf noch "
+#~ "nicht veraltet sein.\n"
+
+#~ msgid "Requires %s in one of your cities on the same continent.\n"
+#~ msgstr "Erfordert %s in einer Ihrer Städte auf demselben Kontinent.\n"
+
+#~ msgid ""
+#~ "Prevented if %s is in one of your cities on the same continent, unless it "
+#~ "is obsolete.\n"
+#~ msgstr ""
+#~ "Blockiert, wenn eine Ihrer Städte auf demselben Kontinent %s besitzt, "
+#~ "außer wenn bereits veraltet.\n"
+
+#~ msgid "Prevented if %s is in one of your cities on the same continent.\n"
+#~ msgstr ""
+#~ "Blockiert, wenn eine Ihrer Städte auf demselben Kontinent %s besitzt.\n"
+
+#~ msgid "Requires %s in the city (and not yet obsolete).\n"
+#~ msgstr "Erfordert %s in der Stadt (darf noch nicht veraltet sein).\n"
+
+#~ msgid "Requires %s in the city.\n"
+#~ msgstr "Erfordert %s in der Stadt.\n"
+
+#~ msgid "Prevented by %s in the city (unless it is obsolete).\n"
+#~ msgstr "Blockiert durch %s in der Stadt (außer wenn veraltet).\n"
+
+#~ msgid "Prevented by %s in the city.\n"
+#~ msgstr "Blockiert durch %s in der Stadt.\n"
 
 #~ msgid "Only applies to \"%s\" buildings.\n"
-#~ msgstr "Betrifft nur '%s'-Stadtverbesserungen.\n"
+#~ msgstr "Betrifft nur „%s“-Stadtverbesserungen.\n"
 
-#~ msgid "Requires the %s terrain special on the tile.\n"
-#~ msgstr "Erfordert die Geländeressource %s auf diesem Feld.\n"
+#~ msgid "Does not apply to \"%s\" buildings.\n"
+#~ msgstr "Betrifft keine „%s“-Stadtverbesserungen.\n"
 
-#~ msgid ""
-#~ "Requires the %s terrain special on the tile or a cardinally adjacent "
-#~ "tile.\n"
-#~ msgstr ""
-#~ "Erfordert die Geländeressource %s auf diesem oder einem unmittelbar "
-#~ "angrenzenden Feld.\n"
-
-#~ msgid "Requires the %s terrain special on the tile or an adjacent tile.\n"
-#~ msgstr ""
-#~ "Erfordert die Geländeressource %s auf diesem oder einem angrenzenden "
-#~ "Feld.\n"
-
-# MG: "Erfordert Gelände Sumpf" klingt komisch.
-#~ msgid "Requires the %s terrain on the tile.\n"
+#~ msgid "?special:Requires %s on the tile.\n"
 #~ msgstr "Erfordert %s auf diesem Feld.\n"
 
-# MG: "Erfordert Gelände Sumpf" klingt komisch.
-#~ msgid "Requires the %s terrain on the tile or a cardinally adjacent tile.\n"
+#~ msgid "?special:Prevented by %s on the tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem Feld.\n"
+
+#~ msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
 #~ msgstr "Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
 
-# MG: "Erfordert Gelände Sumpf" klingt komisch.
-#~ msgid "Requires the %s terrain on the tile or an adjacent tile.\n"
+#~ msgid ""
+#~ "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
+#~ msgstr ""
+#~ "Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+
+#~ msgid "?special:Requires %s on the tile or an adjacent tile.\n"
 #~ msgstr "Erfordert %s auf diesem oder einem angrenzenden Feld.\n"
 
-#~ msgid "Requires that you are playing the %s nation.\n"
-#~ msgstr "Erfordert die Nation %s.\n"
+#~ msgid "?special:Prevented by %s on the tile or any adjacent tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem oder einem angrenzenden Feld.\n"
 
-#~ msgid "Requires the %s nation in the game.\n"
-#~ msgstr "Erfordert die Nation %s im Spiel.\n"
+#~ msgid "?terrain:Requires %s on the tile.\n"
+#~ msgstr "Erfordert %s auf diesem Feld.\n"
+
+#~ msgid "?terrain:Prevented by %s on the tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem Feld.\n"
+
+#~ msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
+#~ msgstr "Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+
+#~ msgid ""
+#~ "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
+#~ msgstr ""
+#~ "Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+
+#~ msgid "?terrain:Requires %s on the tile or an adjacent tile.\n"
+#~ msgstr "Erfordert %s auf diesem oder einem angrenzenden Feld.\n"
+
+#~ msgid "?terrain:Prevented by %s on the tile or any adjacent tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem oder einem angrenzenden Feld.\n"
+
+#~ msgid "Requires that you are playing as the %s.\n"
+#~ msgstr "Sie müssen die %s spielen.\n"
+
+#~ msgid "Requires that you are not playing as the %s.\n"
+#~ msgstr "Sie dürfen nicht die %s spielen.\n"
+
+#~ msgid "Requires the %s to have been in the game.\n"
+#~ msgstr "Die %s müssen im Spiel gewesen sein.\n"
+
+#~ msgid "Requires the %s never to have been in the game.\n"
+#~ msgstr "Die %s dürfen niemals im Spiel gewesen sein.\n"
+
+#~ msgid "Requires the %s in the game.\n"
+#~ msgstr "Die %s müssen im Spiel sein.\n"
+
+#~ msgid "Requires that the %s are not in the game.\n"
+#~ msgstr "Die %s dürfen nicht im Spiel sein.\n"
 
 #~ msgid "?unit:Requires %s.\n"
 #~ msgstr "Erfordert %s.\n"
 
+#~ msgid "?unit:Does not apply to %s.\n"
+#~ msgstr "Betrifft keine %s.\n"
+
 #~ msgid "?ulist:Requires %s.\n"
 #~ msgstr "Erfordert %s.\n"
+
+#~ msgid "?ulist:Does not apply to %s.\n"
+#~ msgstr "Betrifft keine %s.\n"
 
 #~ msgid "?uclass:Requires %s units.\n"
 #~ msgstr "Erfordert Einheitentyp %s.\n"
 
+#~ msgid "?uclass:Does not apply to %s units.\n"
+#~ msgstr "Betrifft nicht den Einheitentyp %s.\n"
+
 #~ msgid "?uclasslist:Requires %s units.\n"
 #~ msgstr "Erfordert Einheitentyp %s.\n"
+
+#~ msgid "?uclasslist:Does not apply to %s units.\n"
+#~ msgstr "Betrifft nicht die Einheitentypen %s.\n"
 
 #~ msgid "?output:Applies only to %s.\n"
 #~ msgstr "Betrifft nur %s.\n"
 
+#~ msgid "?output:Does not apply to %s.\n"
+#~ msgstr "Betrifft %s nicht.\n"
+
 #~ msgid "?specialist:Applies only to %s.\n"
 #~ msgstr "Betrifft nur %s.\n"
 
-#~ msgid "Requires a minimum size of %d.\n"
-#~ msgstr "Erfordert mindestens die Größe %d.\n"
+#~ msgid "?specialist:Does not apply to %s.\n"
+#~ msgstr "Betrifft keine %s.\n"
 
-#~ msgid "Requires AI player of level %s.\n"
-#~ msgstr "Erfordert KI-Spieler auf Stufe %s.\n"
+#~ msgid "Requires a minimum city size of %d.\n"
+#~ msgid_plural "Requires a minimum city size of %d.\n"
+#~ msgstr[0] "Erfordert mindestens die Größe %d.\n"
+#~ msgstr[1] "Erfordert mindestens die Größe %d.\n"
 
-#~ msgid "Requires %s terrain class on the tile.\n"
-#~ msgstr "Erfordert die Geländeart %s auf diesem Feld.\n"
+#~ msgid "Requires the city size to be less than %d.\n"
+#~ msgid_plural "Requires the city size to be less than %d.\n"
+#~ msgstr[0] "Erfordert eine Stadtgröße kleiner %d.\n"
+#~ msgstr[1] "Erfordert eine Stadtgröße kleiner %d.\n"
 
-#~ msgid "Requires %s terrain class on a cardinally adjacent tile.\n"
+#~ msgid "Applies to %s AI players.\n"
+#~ msgstr "Betrifft KI-Spieler der Stärke „%s“.\n"
+
+#~ msgid "Does not apply to %s AI players.\n"
+#~ msgstr "Betrifft keine KI-Spieler der Stärke „%s“.\n"
+
+#~ msgid "?terrainclass:Requires %s terrain on the tile.\n"
+#~ msgstr "Erfordert %s auf diesem Feld.\n"
+
+#~ msgid "?terrainclass:Prevented by %s terrain on the tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem Feld.\n"
+
+#~ msgid ""
+#~ "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
+#~ "tile.\n"
+#~ msgstr "Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+
+#~ msgid ""
+#~ "?terrainclass:Prevented by %s terrain on the tile or any cardinally "
+#~ "adjacent tile.\n"
 #~ msgstr ""
-#~ "Erfordert die Geländeart %s auf einem unmittelbar angrenzenden Feld.\n"
+#~ "Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
 
-#~ msgid "Requires %s terrain class on an adjacent tile.\n"
-#~ msgstr "Erfordert die Geländeart %s auf einem angrenzenden Feld.\n"
+#~ msgid "?terrainclass:Requires %s terrain on the tile or an adjacent tile.\n"
+#~ msgstr "Erfordert %s auf diesem oder einem angrenzenden Feld.\n"
 
-#~ msgid "Requires a %s on the tile.\n"
-#~ msgstr "Erfordert ein %s auf diesem Feld.\n"
+#~ msgid ""
+#~ "?terrainclass:Prevented by %s terrain on the tile or any adjacent tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem oder einem angrenzenden Feld.\n"
 
-#~ msgid "Requires a %s on a cardinally adjacent tile.\n"
-#~ msgstr "Erfordert ein %s auf einem unmittelbar angrenzenden Feld.\n"
+#~ msgid "?base:Requires %s on the tile.\n"
+#~ msgstr "Erfordert %s auf diesem Feld.\n"
 
-#~ msgid "Requires a %s on an adjacent tile.\n"
-#~ msgstr "Erfordert ein %s auf einem angrenzenden Feld.\n"
+#~ msgid "?base:Prevented by %s on the tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem Feld.\n"
 
-#~ msgid "Requires we reached the year %d.\n"
-#~ msgstr "Das Jahr %d muss erreicht worden sein.\n"
+#~ msgid "?base:Requires %s on the tile or a cardinally adjacent tile.\n"
+#~ msgstr "Erfordert %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
 
-#~ msgid "Requires terrain on which %s can be built on tile.\n"
-#~ msgstr "Erfordert ein Geländefeld, auf dem %s gebaut werden kann.\n"
+#~ msgid "?base:Prevented by %s on the tile or any cardinally adjacent tile.\n"
+#~ msgstr ""
+#~ "Blockiert durch %s auf diesem oder einem unmittelbar angrenzenden Feld.\n"
+
+#~ msgid "?base:Requires %s on the tile or an adjacent tile.\n"
+#~ msgstr "Erfordert %s auf diesem oder einem angrenzenden Feld.\n"
+
+#~ msgid "?base:Prevented by %s on the tile or any adjacent tile.\n"
+#~ msgstr "Blockiert durch %s auf diesem oder einem angrenzenden Feld.\n"
+
+#~ msgid "Requires the game to have reached the year %s.\n"
+#~ msgstr "Das Jahr %s muss erreicht worden sein.\n"
+
+#~ msgid "Requires that the game has not yet reached the year %s.\n"
+#~ msgstr "Das Jahr %s darf noch nicht erreicht worden sein.\n"
+
+#~ msgid "Requires terrain on which alteration %s is possible.\n"
+#~ msgstr "Erfordert ein Geländefeld, das in %s umgewndelt werden kann.\n"
+
+#~ msgid "Prevented by terrain on which alteration %s can be made.\n"
+#~ msgstr ""
+#~ "Erfordert ein Geländefeld, das nicht in %s umgewandelt werden kann.\n"
 
 #~ msgid "Applies only to city centers.\n"
 #~ msgstr "Betrifft nur Stadtzentren.\n"
 
+#~ msgid "Does not apply to city centers.\n"
+#~ msgstr "Betrifft keine Stadtzentren.\n"
+
 #~ msgid "?clistmore:, %s"
 #~ msgstr ", %s"
+
+#~ msgid "Allows %s (with %s but no %s)."
+#~ msgstr "Ermöglicht %s (mit %s, aber ohne %s)."
+
+#~ msgid "Allows %s (with %s)."
+#~ msgstr "Ermöglicht %s (mit %s)."
+
+#~ msgid "Allows %s (absent %s)."
+#~ msgstr "Ermöglicht %s (Konflikt mit %s)."
 
 #~ msgid "Allows %s."
 #~ msgstr "Ermöglicht %s."
 
-#~ msgid "Allows %s (with %s)."
-#~ msgstr "Ermöglicht %s (mit %s)."
+#~ msgid "Prevents %s."
+#~ msgstr "Verhindert %s."
 
 #~ msgid "%*sRivers"
 #~ msgstr "%*sFlüsse"
@@ -17808,24 +18285,31 @@ msgstr ""
 #~ "• Jede Ihrer Städte vermeidet %d unzufriedene Bürger, eingeschlossen "
 #~ "solche, die aufgrund von Militärpräsenz unzufrieden sind.\n"
 
-#~ msgid "* You pay %d times normal %s upkeep for your units.\n"
-#~ msgstr "• Sie zahlen den %d-fachen %s-Unterhalt für Ihre Einheiten.\n"
-
-#~ msgid "* You pay %d times normal upkeep for your units.\n"
-#~ msgstr "• Sie zahlen den %d-fachen Unterhalt für Ihre Einheiten.\n"
-
 #~ msgid "* You pay no %s upkeep for your units.\n"
 #~ msgstr "• Sie zahlen keinen %s-Unterhalt für Ihre Einheiten.\n"
 
 #~ msgid "* You pay no upkeep for your units.\n"
 #~ msgstr "• Sie zahlen keinen Unterhalt für Ihre Einheiten.\n"
 
+#~ msgid "* You pay %.2g times normal %s upkeep for your units.\n"
+#~ msgstr "• Sie zahlen den %.2g-fachen %s-Unterhalt für Ihre Einheiten.\n"
+
+#~ msgid "* You pay %.2g times normal upkeep for your units.\n"
+#~ msgstr "• Sie zahlen den %.2g-fachen Unterhalt für Ihre Einheiten.\n"
+
 #~ msgid ""
 #~ "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
-#~ msgstr "• Jede Stadt erspart %d %s für den Unterhalt von Einheiten.\n"
+#~ msgid_plural ""
+#~ "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
+#~ msgstr[0] "• Jede Stadt erspart %d %s für den Unterhalt von Einheiten.\n"
+#~ msgstr[1] "• Jede Stadt erspart %d %s für den Unterhalt von Einheiten.\n"
 
 #~ msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
-#~ msgstr ""
+#~ msgid_plural ""
+#~ "* Each of your cities will avoid paying %d upkeep for your units.\n"
+#~ msgstr[0] ""
+#~ "• Jede Stadt erspart %d Goldstück für den Unterhalt von Einheiten.\n"
+#~ msgstr[1] ""
 #~ "• Jede Stadt erspart %d Goldstücke für den Unterhalt von Einheiten.\n"
 
 #~ msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
@@ -17834,16 +18318,28 @@ msgstr ""
 #~ "Bürgerkrieges %d%%.\n"
 
 #~ msgid ""
+#~ "* When you have %d city, the first unhappy citizen will appear in each "
+#~ "city due to civilization size.\n"
+#~ msgid_plural ""
 #~ "* When you have %d cities, the first unhappy citizen will appear in each "
 #~ "city due to civilization size.\n"
-#~ msgstr ""
+#~ msgstr[0] ""
+#~ "• Zusätzliche unzufriedene Bürger aufgrund der Zivilisationsgröße gibt es "
+#~ "ab %d Stadt.\n"
+#~ msgstr[1] ""
 #~ "• Zusätzliche unzufriedene Bürger aufgrund der Zivilisationsgröße gibt es "
 #~ "ab %d Städten.\n"
 
 #~ msgid ""
 #~ "* After the first unhappy citizen due to civilization size, for each %d "
+#~ "additional city another unhappy citizen will appear.\n"
+#~ msgid_plural ""
+#~ "* After the first unhappy citizen due to civilization size, for each %d "
 #~ "additional cities another unhappy citizen will appear.\n"
-#~ msgstr ""
+#~ msgstr[0] ""
+#~ "• Wenn bereits ein Bürger aufgrund der Zivilisationsgröße unzufrieden "
+#~ "ist, wird für je %d zusätzliche Stadt ein weiterer Bürger unzufrieden.\n"
+#~ msgstr[1] ""
 #~ "• Wenn bereits ein Bürger aufgrund der Zivilisationsgröße unzufrieden "
 #~ "ist, wird für je %d zusätzliche Städte ein weiterer Bürger unzufrieden.\n"
 
@@ -17914,16 +18410,28 @@ msgstr ""
 #~ msgid "* Has no unhappy citizens.\n"
 #~ msgstr "• Es gibt keine unzufriedenen Bürger.\n"
 
-#~ msgid "* Veteran %s units.\n"
-#~ msgstr "• %s sind Veteranen.\n"
+#~ msgid "?unitclass:* New %s units will be veteran.\n"
+#~ msgstr "• Neue %s-Einheiten erhalten automatisch den Veteranengrad.\n"
 
-#~ msgid "* Veteran units.\n"
-#~ msgstr "• Veteranen.\n"
+#~ msgid "?unitflag:* New %s units will be veteran.\n"
+#~ msgstr "• Neue %s-Einheiten erhalten automatisch den Veteranengrad.\n"
+
+#~ msgid "?unittype:* New %s units will have the rank of %s.\n"
+#~ msgstr "• Neue %s-Einheiten erhalten automatisch den Rang eines %ss.\n"
+
+#~ msgid "* New units will be veteran.\n"
+#~ msgstr "• Neue Einheiten erhalten automatisch den Veteranengrad.\n"
 
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
 #~ "unless the city working it is celebrating."
-#~ msgstr ""
+#~ msgid_plural ""
+#~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
+#~ "unless the city working it is celebrating."
+#~ msgstr[0] ""
+#~ "• Jedes bearbeitete Feld, das mehr als %d %s liefert, erleidet einen "
+#~ "Verlust von 1, wenn die Stadt nicht feiert."
+#~ msgstr[1] ""
 #~ "• Jedes bearbeitete Feld, das mehr als %d %s liefert, erleidet einen "
 #~ "Verlust von 1, wenn die Stadt nicht feiert."
 
@@ -17933,12 +18441,23 @@ msgstr ""
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it while the "
 #~ "city working it is celebrating."
-#~ msgstr ""
+#~ msgid_plural ""
+#~ "* Each worked tile with at least 1 %s will yield %d more of it while the "
+#~ "city working it is celebrating."
+#~ msgstr[0] ""
+#~ "• Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzlich, wenn "
+#~ "die Stadt feiert."
+#~ msgstr[1] ""
 #~ "• Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzlich, wenn "
 #~ "die Stadt feiert."
 
 #~ msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
-#~ msgstr ""
+#~ msgid_plural ""
+#~ "* Each worked tile with at least 1 %s will yield %d more of it.\n"
+#~ msgstr[0] ""
+#~ "• Jedes bearbeitete Feld mit mindestens 1 %s liefert %d davon "
+#~ "zusätzlich.\n"
+#~ msgstr[1] ""
 #~ "• Jedes bearbeitete Feld mit mindestens 1 %s liefert %d davon "
 #~ "zusätzlich.\n"
 
@@ -19168,8 +19687,14 @@ msgstr ""
 #~ msgid "AI mode is now OFF."
 #~ msgstr "KI-Modus AUSGESCHALTET."
 
+#~ msgid "noconn"
+#~ msgstr "getrennt"
+
 #~ msgid "waiting"
 #~ msgstr "wartet"
+
+#~ msgid "blocking"
+#~ msgstr "blockiert"
 
 #~ msgid "?Player:Name"
 #~ msgstr "Name"
@@ -20488,29 +21013,17 @@ msgstr ""
 #~ msgid "?diplomatic_state:Team"
 #~ msgstr "Team"
 
-#~ msgid "World-ranged requirements are only supported for wonders."
-#~ msgstr "World-ranged requirements are only supported for wonders."
-
-#~ msgid "Player-ranged requirements are only supported for wonders."
-#~ msgstr "Player-ranged requirements are only supported for wonders."
-
-#~ msgid "Island-ranged requirements are only supported for wonders."
-#~ msgstr "Island-ranged requirements are only supported for wonders."
-
-# MG: TECHNICAL
-#~ msgid ""
-#~ "Surviving requirements are only supported at world and player ranges."
-#~ msgstr ""
-#~ "Surviving requirements are only supported at world and player ranges."
-
 #~ msgid "Size %d"
 #~ msgstr "Größe %d"
 
-#~ msgid "\"%s\" units"
-#~ msgstr "»%s« Einheiten"
+#~ msgid "?utflag:\"%s\" units"
+#~ msgstr "„%s“-Einheiten"
 
 #~ msgid "%s units"
 #~ msgstr "%s Einheiten"
+
+#~ msgid "?ucflag:\"%s\" units"
+#~ msgstr "„%s“-Einheiten"
 
 #~ msgid "%s AI"
 #~ msgstr "%s KI"
@@ -20518,17 +21031,14 @@ msgstr ""
 #~ msgid "%s terrain"
 #~ msgstr "Geländetyp %s"
 
-#~ msgid "%s base"
-#~ msgstr "%s-Basis"
-
 #~ msgid "After %s"
 #~ msgstr "Nach %s"
 
 #~ msgid "%s possible"
 #~ msgstr "%s möglich"
 
-#~ msgid "City center tile"
-#~ msgstr "Stadtzentrumsfeld"
+#~ msgid "City center"
+#~ msgstr "Stadtzentrum"
 
 #~ msgid "Road"
 #~ msgstr "Straße"
@@ -21037,7 +21547,6 @@ msgstr ""
 #~ msgid "Temple"
 #~ msgstr "Tempel"
 
-#, fuzzy
 #~ msgid ""
 #~ "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 #~ "effect, as does Oracle wonder.  With both Mysticism and the Oracle, 4 "
@@ -21202,14 +21711,12 @@ msgstr ""
 #~ msgid "Oracle"
 #~ msgstr "das Orakel"
 
-#, fuzzy
 #~ msgid ""
 #~ "Doubles the effect of a Temple in every city. Does not affect citizens "
 #~ "made unhappy by military activity."
 #~ msgstr ""
-#~ "Stellt in jeder Stadt auf dem gleichen Kontinent zwei Unzufriedene "
-#~ "zufrieden, abgesehen von solchen, die wegen militärischer Aktivitäten "
-#~ "unzufrieden sind."
+#~ "Verdoppelt in jeder Stadt die Auswirkungen eines Tempels, hat jedoch "
+#~ "keinen Einfluss auf wegen militärischer Aktivitäten unzufriedene Bürger."
 
 #~ msgid "Pyramids"
 #~ msgstr "die Pyramiden"
@@ -21747,6 +22254,33 @@ msgstr ""
 #~ "Die Zulu sind ein kriegerisches Bantu-Volk, die Anfang des 18. "
 #~ "Jahrhunderts von Westzentralafrika in den Süden einwanderten, wo sie die "
 #~ "Khoisan Völker eroberten und mit europäischen Siedlern zusammenstießen."
+
+#~ msgid "Barbarian"
+#~ msgstr "barbarisch"
+
+#~ msgid "?plural:Barbarians"
+#~ msgstr "?plural:Barbaren"
+
+#~ msgid ""
+#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
+#~ "peoples everywhere."
+#~ msgstr ""
+#~ "Seit der Dämmerung der Zivilisation stellen Barbaren eine Bedrohung für "
+#~ "Kulturvölker auf der ganzen Welt dar."
+
+# MG: Ahem.
+#~ msgid "Pirate"
+#~ msgstr "piratisch"
+
+#~ msgid "?plural:Pirates"
+#~ msgstr "Piraten"
+
+#~ msgid ""
+#~ "As long as honest men have sailed the seas, pirates have been a scourge "
+#~ "of them and of all coastal dwelling peoples."
+#~ msgstr ""
+#~ "Schon so lange, wie ehrliche Leute die Meere besegelt haben, waren "
+#~ "Piraten ihre Geißel und diejenige aller Küstenbewohner."
 
 #~ msgid "Advanced Flight"
 #~ msgstr "Moderne Flugtechnik"
@@ -23109,12 +23643,6 @@ msgstr ""
 #~ "größte Potential für Unzufriedenheit. Es gibt keine Korruption, aber "
 #~ "Bürger werden durch Kriege sehr unruhig."
 
-#~ msgid "Carthaginian"
-#~ msgstr "karthagisch"
-
-#~ msgid "?plural:Carthaginians"
-#~ msgstr "Karthager"
-
 #~ msgid ""
 #~ "The Carthaginians, descendants of Phoenician traders, ran a naval empire "
 #~ "in the Mediterranean from the 5th to 2nd centuries BC. Carthage was "
@@ -23236,33 +23764,6 @@ msgstr ""
 
 #~ msgid "?female:%s Jarl"
 #~ msgstr "%s-Jarl"
-
-#~ msgid "Barbarian"
-#~ msgstr "barbarisch"
-
-#~ msgid "?plural:Barbarians"
-#~ msgstr "?plural:Barbaren"
-
-#~ msgid ""
-#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
-#~ "peoples everywhere."
-#~ msgstr ""
-#~ "Seit der Dämmerung der Zivilisation stellen Barbaren eine Bedrohung für "
-#~ "Kulturvölker auf der ganzen Welt dar."
-
-# MG: Ahem.
-#~ msgid "Pirate"
-#~ msgstr "piratisch"
-
-#~ msgid "?plural:Pirates"
-#~ msgstr "Piraten"
-
-#~ msgid ""
-#~ "As long as honest men have sailed the seas, pirates have been a scourge "
-#~ "of them and of all coastal dwelling peoples."
-#~ msgstr ""
-#~ "Schon so lange, wie ehrliche Leute die Meere besegelt haben, waren "
-#~ "Piraten ihre Geißel und diejenige aller Küstenbewohner."
 
 #~ msgid "Amphibious Warfare"
 #~ msgstr "Amphibische Kriegführung"
@@ -23439,16 +23940,15 @@ msgstr ""
 
 #~ msgid ""
 #~ "Upkeep for Settlers is in food as well as production, and a Settler can "
-#~ "die if its supporting city runs out of food. Settlers in a Republic or "
-#~ "Democracy require twice as much food per turn, and in Communist or "
-#~ "Fundamentalist societies, three times as much."
+#~ "die if its supporting city runs out of food. Settlers require twice as "
+#~ "much food per turn under Republic, Democracy, Communism, or "
+#~ "Fundamentalism."
 #~ msgstr ""
 #~ "Erhaltungskosten für Siedler setzen sich sowohl aus Nahrung wie auch aus "
 #~ "Produktion zusammen, und wenn die den Siedler unterstützende Stadt keine "
 #~ "Nahrung mehr liefert, kann dieser verhungern. Siedler in einer Republik "
-#~ "oder Demokratie benötigen die doppelte Menge an Nahrung pro Runde, in "
-#~ "kommunistischen und fundamentalistischen Gesellschaften sogar die "
-#~ "dreifache Menge."
+#~ "oder Demokratie, in kommunistischen oder fundamentalistischen "
+#~ "Gesellschaften benötigen die doppelte Menge an Nahrung pro Runde."
 
 #~ msgid "Engineers"
 #~ msgstr "Ingenieure"
@@ -24204,14 +24704,12 @@ msgstr ""
 #~ msgid "Lakes are substantial bodies of fresh water."
 #~ msgstr "Seen sind abgeschlossene Bereiche frischen Wassers."
 
-#, fuzzy
 #~ msgid ""
 #~ "Shallow oceans are mostly found near coastlines, and are often rich "
 #~ "sources of food and other resources."
 #~ msgstr ""
 #~ "Seichtes Wasser ist meist in Küstennähe zu finden und reich an Nahrung "
-#~ "sowie anderen Ressourcen. Es kann von Seeeinheiten (einschließlich "
-#~ "Triremen) befahren werden."
+#~ "sowie anderen Ressourcen."
 
 #~ msgid "Deep Ocean"
 #~ msgstr "Tiefsee"
@@ -29343,14 +29841,13 @@ msgstr ""
 #~ msgid "?plural:Hittites"
 #~ msgstr "Hittiter"
 
-#, fuzzy
 #~ msgid ""
 #~ "The Hittite kingdom lasted from about 1680 BCE to about 1180 BCE. They "
 #~ "were the first civilization to discover iron working. At its height, they "
 #~ "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 #~ "Babylon."
 #~ msgstr ""
-#~ "Das hittitische Königreich dauerte von etwa 1680 bis 1180 v. Chr. Es war "
+#~ "Das hittitische Königreich dauerte von etwa 1680 bis 1180 v.u.Z. Es war "
 #~ "die erste Zivilisation, die die Eisenverarbeitung beherrschte. Auf ihrem "
 #~ "Höhepunkt kontrollierten sie Zentralanatolien, Nordwest-Syrien und "
 #~ "Mesopotamien bis hinunter nach Babylon."
@@ -29418,12 +29915,6 @@ msgstr ""
 #~ "fortschrittlichste Nation in Nordamerika bis zum Eintreffen der Europäer "
 #~ "waren."
 
-#~ msgid "Italian"
-#~ msgstr "italienisch"
-
-#~ msgid "?plural:Italians"
-#~ msgstr "Italiener"
-
 #~ msgid ""
 #~ "The Italian nation was unified in 1870 CE after decades of campaigning by "
 #~ "indigenous nationalists. It was a monarchy under the House of Savoy until "
@@ -29469,9 +29960,6 @@ msgstr ""
 
 #~ msgid "Korean"
 #~ msgstr "koreanisch"
-
-#~ msgid "?plural:Koreans"
-#~ msgstr "Koreaner"
 
 #~ msgid ""
 #~ "According to legend, the first Korean kingdom was founded in prehistory "
@@ -29793,9 +30281,8 @@ msgstr ""
 #~ msgid "Earth (classic/large)"
 #~ msgstr "Erde (klassisch, groß)"
 
-#, fuzzy
 #~ msgid "Classic-style 160x90 map of the Earth."
-#~ msgstr "Klassische 160x90-Karte der Britischen Inseln."
+#~ msgstr "Klassische 160x90-Karte der Erde."
 
 #~ msgid "Earth (classic/small)"
 #~ msgstr "Erde (klassisch, klein)"
@@ -29824,40 +30311,37 @@ msgstr ""
 #~ msgid "Iberian Peninsula (classic/large)"
 #~ msgstr "Iberische Halbinsel (klassisch, groß)"
 
-#, fuzzy
 #~ msgid ""
 #~ "Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and "
 #~ "Portugal)."
 #~ msgstr ""
-#~ "Große Karte der Iberischen Halbinsel im klassischen Stil (heutiges "
+#~ "136x100-Karte der Iberischen Halbinsel im klassischen Stil (heutiges "
 #~ "Spanien und Portugal)."
 
-#, fuzzy
 #~ msgid "Italy (classic/medium)"
-#~ msgstr "Erde (klassisch, mittelgroß)"
+#~ msgstr "Italien (klassisch, mittelgroß)"
 
-#, fuzzy
 #~ msgid "Classic-style 100x100 map of Italy."
-#~ msgstr "Klassische 85x80 Karte der Britischen Inseln."
+#~ msgstr "Klassische 100x100-Karte von Italien."
 
-#, fuzzy
 #~ msgid "Japan (classic/medium)"
-#~ msgstr "Erde (klassisch, mittelgroß)"
+#~ msgstr "Japan (klassisch, mittelgroß)"
 
-#, fuzzy
 #~ msgid "Classic-style 88x100 map of Japan."
-#~ msgstr "Klassische 85x80 Karte der Britischen Inseln."
+#~ msgstr "Klassische 88x100-Karte von Japan."
 
-#, fuzzy
 #~ msgid "North America (classic/medium)"
-#~ msgstr "Erde (klassisch, mittelgroß)"
+#~ msgstr "Nordamerika (klassisch, mittelgroß)"
 
-#, fuzzy
 #~ msgid "Classic-style 116x100 map of North America."
-#~ msgstr "Klassische 160x90 Erdkarte."
+#~ msgstr "Klassische 116x100-Karte von Nordamerika."
 
 #~ msgid "Tutorial"
 #~ msgstr "Einführung"
+
+#~ msgid "Play this tutorial scenario to get an introduction to Freeciv."
+#~ msgstr ""
+#~ "Spielen Sie dieses Szenario, um eine Einführung in Freeciv zu erhalten."
 
 #~ msgid ""
 #~ "Welcome to Freeciv.  You lead a civilization.  Your\n"
@@ -29980,7 +30464,6 @@ msgstr ""
 #~ "dauert; dort steht auch, wann sie auf die nächste Größenstufe\n"
 #~ "wachsen wird."
 
-#, fuzzy
 #~ msgid ""
 #~ "As the number of cities in your empire grows, it becomes harder to\n"
 #~ "manage individual cities.  This is where the Cities report becomes\n"
@@ -29991,14 +30474,15 @@ msgstr ""
 #~ "aspect of the cities from this report.  The full power of the Cities\n"
 #~ "report is beyond the scope of this tutorial, however."
 #~ msgstr ""
-#~ "Mit wachsender Zahl von Städten in deinem Reich wird es\n"
-#~ "schwieriger, die Städte zu verwalten. Hierbei hilft der Stadtbericht.\n"
-#~ "Du erhältst ihn mit 'F4'. Der Bericht zeigt eine Liste der Städte\n"
-#~ "mit verschiedenen Statistiken über jede. Probiere dies aus, zurück\n"
-#~ "zur Karte kommst du, wenn du auf den Reiter 'Karte' klickst. Mit etwas\n"
-#~ "Übung kann man beinahe jede Einstellung der Städte von hier vornehmen.\n"
-#~ "Wir können hier jedoch nicht alle Möglichkeiten erklären, die der\n"
-#~ "Stadtbericht bietet."
+#~ "Mit wachsender Zahl von Städten in Ihrem Reich wird es schwieriger,\n"
+#~ "die Städte zu verwalten. Hierbei hilft der Stadtbericht, den Sie mit\n"
+#~ "„F4“ aufrufen können. Der Bericht zeigt eine Liste der Städte mit\n"
+#~ "verschiedenen Statistiken über jede einzelne. Wenn Sie mögen, können\n"
+#~ "Sie ein wenig mit ihm herumspielen (zurück zur Karte gelangen Sie mit\n"
+#~ "„F1“ oder durch Klick auf den Reiter „Karte“). Mit etwas Übung kann\n"
+#~ "man beinahe jede Einstellung der Städte von hier vornehmen. Wir können\n"
+#~ "hier jedoch nicht alle Möglichkeiten erklären, die der Stadtbericht\n"
+#~ "bietet."
 
 #~ msgid ""
 #~ "Your city has grown!  As a city grows, more citizens become\n"
@@ -30021,7 +30505,6 @@ msgstr ""
 #~ "(falls du genug davon hast), um die Produktion augenblicklich\n"
 #~ "fertigzustellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "Your city has grown again!  Now with three citizens you have\n"
 #~ "a fair amount of choice over where the city should focus its\n"
@@ -30039,23 +30522,24 @@ msgstr ""
 #~ "all specialists - right now they are all entertainers which provide\n"
 #~ "only luxuries (which will not be useful until later)."
 #~ msgstr ""
-#~ "Deine Stadt ist erneut gewachsen! Mit drei Bürgern hast du nun\n"
-#~ "gute Wahlmöglichkeiten, worauf die Stadt ihre Ressourcen bündelt.\n"
-#~ "Sie kann nun drei Felder bearbeiten, und zusätzlich das Stadtzentrum.\n"
-#~ "Im Stadtfenster zeigt die Karte, welche Felder bearbeitet werden,\n"
-#~ "und wieviel Nahrung, Produktion und Handel daraus erzielt werden.\n"
-#~ "Mit Nahrung kann die Stadt wachsen, Produktion dient der Erstellung\n"
-#~ "von Stadterweiterungen und Einheiten, und Handel liefert besteuerbares\n"
-#~ "Einkommen, das in Forschung, Gold oder Luxus investiert werden kann.\n"
+#~ "Ihre Stadt ist erneut gewachsen! Mit drei Bürgern haben Sie nun gute\n"
+#~ "Wahlmöglichkeiten im Hinblick auf die Bündelung der Ressourcen der\n"
+#~ "Stadt. Sie kann nun drei Felder bearbeiten, zusätzlich das\n"
+#~ "Stadtzentrum. Im Stadtfenster zeigt die Karte, welche Felder\n"
+#~ "bearbeitet werden, und wieviel Nahrung, Produktion und Handel daraus\n"
+#~ "erzielt werden. Mit Nahrung kann die Stadt wachsen, Produktion dient\n"
+#~ "der Erstellung von Stadterweiterungen und Einheiten, und Handel\n"
+#~ "liefert besteuerbares Einkommen, das in Forschung, Gold oder Luxus\n"
+#~ "investiert werden kann.\n"
 #~ "\n"
-#~ "Klicke auf ein bearbeitetes Feld um den Bürger von dem Feld zu\n"
-#~ "entfernen. Platziere ihn mit einem weiteren Klick auf einem freien\n"
+#~ "Klicken Sie auf ein bearbeitetes Feld, um einen Bürger von seinem Feld "
+#~ "zu\n"
+#~ "entfernen. Platzieren Sie ihn mit einem weiteren Klick auf einem freien\n"
 #~ "Feld. Natürlich können nur drei Bürger eingesetzt werden. Die nicht\n"
 #~ "eingesetzten Bürger sind Spezialisten - im Moment sind dies alles\n"
 #~ "Unterhalter, die nur Luxus produzieren (der in der jetzigen Spielphase\n"
 #~ "nichts nützt)."
 
-#, fuzzy
 #~ msgid ""
 #~ "Now your city has grown to size five.  As cities get larger unrest\n"
 #~ "becomes a problem.  A city of this size will usually have one unhappy\n"
@@ -30072,20 +30556,21 @@ msgstr ""
 #~ "citizen).  Building a marketplace enhances the benefit from this\n"
 #~ "by providing +50%% luxuries to the city."
 #~ msgstr ""
-#~ "Nun ist deine Stadt zur Größe 5 gewachsen. In größeren Städten\n"
-#~ "wird Unzufriedenheit ein Problem. Eine Stadt mit Größe 5 hat\n"
+#~ "Nun ist Ihre Stadt zur Größe 5 gewachsen. In größeren Städten\n"
+#~ "wird Unzufriedenheit zu einem Problem; eine Stadt mit Größe 5 hat\n"
 #~ "meist einen unglücklichen Bürger, wenn keine Maßnahmen zur\n"
 #~ "Befriedung ergriffen werden. Es wird ein Unterhalter\n"
 #~ "benötigt, um die Bürger zufrieden zu machen. Damit wird\n"
 #~ "praktisch ein Bürger verschwendet.\n"
 #~ "\n"
-#~ "Dagegen kannst du verschiedene Dinge unternehmen. Recht einfach\n"
-#~ "kann ein Tempel (oder eine andere kulturelle Stadterweiterung)\n"
-#~ "errichtet werden, der einen Bürger zufrieden macht (in der Hilfe für\n"
-#~ "Stadterweiterungen steht mehr). Hast du weitere große Städte, kann\n"
-#~ "es sich lohnen, die Steuerrate anzupassen, um mehr Luxus zu erhalten\n"
-#~ "(je 2 Luxus stellen einen Bürger zufrieden). Ein Marktplatz in der Stadt\n"
-#~ "erhöht diesen Nutzen, indem der Luxus um 50%% gesteigert wird."
+#~ "Dagegen können Sie verschiedene Dinge unternehmen. Recht einfach kann\n"
+#~ "ein Tempel (oder eine andere kulturelle Stadterweiterung) errichtet\n"
+#~ "werden, der einen Bürger zufrieden macht (in der Hilfe für\n"
+#~ "Stadterweiterungen finden Sie mehr dazu). Besitzen Sie weitere große\n"
+#~ "Städte, kann es sich lohnen, die Steuerrate anzupassen (mithilfe von\n"
+#~ "Strg-T), um mehr Luxus zu erhalten (je 2 Luxus stellen einen Bürger\n"
+#~ "zufrieden). Ein Marktplatz in der Stadt erhöht diesen Nutzen, da der\n"
+#~ "Luxus um 50%% gesteigert wird."
 
 #~ msgid ""
 #~ "Finally you have grown a city to size eight.  A size eight city can\n"
@@ -30113,7 +30598,6 @@ msgstr ""
 #~ "zu lassen, musst du eine Kanalisation errichten. Dazu muss der\n"
 #~ "Fortschritt 'Hygiene' bekannt sein."
 
-#, fuzzy
 #~ msgid ""
 #~ "Congratulations, you have grown a city to size 13.  A city this\n"
 #~ "large can provide a tremendous amount of output if properly upgraded.\n"
@@ -30128,19 +30612,19 @@ msgstr ""
 #~ "provide enough taxable revenue (gold) to allow you to purchase some\n"
 #~ "buildings to accelerate their productions."
 #~ msgstr ""
-#~ "Herzlichen Glückwunsch, du hast eine Stadt der Größe 13. Eine\n"
-#~ "Stadt dieser Größe kann eine enorme Produktion liefern, wenn sie\n"
-#~ "gut verwaltet wird. Stelle sicher, das du genug Steuern und\n"
-#~ "kulturelle Stadterweiterungen hast, damit deine Bürger zufrieden sind.\n"
-#~ "Außerdem solltest du auf Stadterweiterungen achten, die die Produktion\n"
-#~ "erhöhen. Bibliotheken, Marktplätze, Fabriken und Bohrinseln sind\n"
-#~ "Erweiterungen, die sich lohnen. Überlege, wieviel Nutzen ein Gebäude\n"
-#~ "bringt und was es kostet - für sehr große Städte lohnen sich fast alle\n"
-#~ "Stadterweiterungen. Sie liefern sogar soviel besteuerbares Einkommen,\n"
-#~ "daß du einige Erweiterungen kaufen kannst, um schneller Nutzen aus\n"
-#~ "ihnen zu ziehen."
+#~ "Herzlichen Glückwunsch, Sie besitzen nun eine Stadt der Größe 13. Eine\n"
+#~ "Stadt dieser Größe kann eine enorme Produktion liefern, wenn sie gut\n"
+#~ "verwaltet wird. Stellen Sie sicher, das Sie genug Steuern und\n"
+#~ "kulturelle Stadterweiterungen haben, um Ihre Bürger zufrieden stellen\n"
+#~ "zu können. Außerdem sollten Sie auf Stadterweiterungen achten, die die\n"
+#~ "Produktion erhöhen. Bibliotheken, Marktplätze, Fabriken und Bohrinseln\n"
+#~ "sind Erweiterungen, die sich lohnen. Überlegen Sie, wieviel Nutzen ein\n"
+#~ "Gebäude bringt und was es kostet - für sehr große Städte lohnen sich\n"
+#~ "fast alle Stadterweiterungen. Sie liefern sogar soviel besteuerbares\n"
+#~ "Einkommen (Gold), dass Sie einige Erweiterungen kaufen können, um "
+#~ "schneller\n"
+#~ "Nutzen aus ihnen zu ziehen."
 
-#, fuzzy
 #~ msgid ""
 #~ "You have built a settler unit.  Settlers are best used to build \n"
 #~ "new cities, so as to expand your civilization.  Move your settler\n"
@@ -30155,19 +30639,19 @@ msgstr ""
 #~ "of much use to small cities.  See the help on Terrain for more\n"
 #~ "information about terrain specs."
 #~ msgstr ""
-#~ "Du hast Siedler gebaut. Siedler werden am besten genutzt,\n"
-#~ "um neue Städte zu gründen und deine Zivilisation zu\n"
-#~ "erweitern. Ziehe deine Siedler aus dem Gebiet der Städte weg,\n"
-#~ "um einen freien Platz für eine neue Stadt zu finden. Dann\n"
-#~ "drücke 'B' um die Stadt zu bauen.\n"
+#~ "Sie haben einen Siedler gebaut. Siedler werden am besten genutzt, um\n"
+#~ "neue Städte zu gründen und so Ihre Zivilisation zu erweitern. Ziehen\n"
+#~ "Sie Ihren Siedler aus dem Gebiet der Städte weg, um einen freien Platz\n"
+#~ "für eine neue Stadt zu finden. Wenn Sie einen ausgewählt haben, können\n"
+#~ "Sie dort mit „B“ eine Stadt gründen.\n"
 #~ "\n"
-#~ "Nochmals, Städte werden am besten auf offenem Gelände und\n"
-#~ "in der Nähe von Wasser gebaut. Grasland und Ebenen liefern\n"
-#~ "der Stadt Nahrung, Wälder und Hügel liefern die Ressourcen für\n"
-#~ "die Produktion. Flüsse und Meere geben Handelsbonusse, die der\n"
-#~ "ganzen Zivilisation zu gute kommen. Wüsten, Tundra und Berge\n"
-#~ "liefern meist wenig Ressourcen und nutzen kleinen Städten wenig.\n"
-#~ "In der Hilfe zu Geländeformen findest du genauere Informationen."
+#~ "Nochmals: Städte werden am besten auf offenem Gelände und in der Nähe\n"
+#~ "von Wasser gebaut. Grasland und Ebenen liefern der Stadt Nahrung,\n"
+#~ "Wälder und Hügel liefern die Ressourcen für die Produktion. Flüsse und\n"
+#~ "Meere geben Handelsboni, die der ganzen Zivilisation zugute\n"
+#~ "kommen. Wüsten, Tundra und Berge liefern meist wenig Ressourcen und\n"
+#~ "nutzen kleinen Städten wenig.  In der Hilfe zu Geländeformen finden\n"
+#~ "Sie genauere Informationen."
 
 #~ msgid ""
 #~ "Your second Settlers should also be used to build a new city.\n"
@@ -30189,7 +30673,6 @@ msgstr ""
 #~ "dass sich die Städte so wenig wie möglich überlappen. Dann haben\n"
 #~ "die Städte mehr Ressourcen zur Verfügung und können sehr groß werden."
 
-#, fuzzy
 #~ msgid ""
 #~ "You have built a Barracks.  This building will make any military\n"
 #~ "units you build start out as veterans.  Veteran units are stronger\n"
@@ -30202,15 +30685,15 @@ msgstr ""
 #~ "and have a small upkeep as well, so it is not a good idea to let\n"
 #~ "them go to waste."
 #~ msgstr ""
-#~ "Du hast Kasernen gebaut. Durch diese Stadterweiterung beginnen\n"
-#~ "alle gebauten Einheiten als Veteranen. Sie sind stärker als\n"
-#~ "unerfahrene Truppen, und können im Kampf länger überleben. In\n"
-#~ "der Hilfe findest du mehr Informationen über diese und andere\n"
+#~ "Sie haben eine Kaserne errichtet. Durch diese Stadterweiterung\n"
+#~ "beginnen alle gebauten Einheiten als Veteranen. Sie sind stärker als\n"
+#~ "unerfahrene Truppen und können im Kampf länger überleben. In der\n"
+#~ "Hilfe finden Sie mehr Informationen über diese und andere\n"
 #~ "Stadterweiterungen.\n"
 #~ "\n"
 #~ "Es lohnt sich, hier eine militärische Einheit zu bauen. Kasernen\n"
 #~ "sind eine bedeutende Investition und benötigen auch etwas Unterhalt,\n"
-#~ "deshalb solltest du sie nicht ungenutzt lassen."
+#~ "deshalb sollten Sie sie nicht ungenutzt lassen."
 
 #~ msgid ""
 #~ "Your city cannot build a settler.  Settlers take one unit of\n"
@@ -30234,7 +30717,6 @@ msgstr ""
 #~ "achte darauf, das genügend Nahrung zur Verfügung steht - Grasland\n"
 #~ "ist am besten, Ebenen und Hügel sind beinahe so gut."
 
-#, fuzzy
 #~ msgid ""
 #~ "You have built your first military unit!  Military units have two\n"
 #~ "basic purposes: attack and defense.  Each unit has an attack strength\n"
@@ -30249,22 +30731,21 @@ msgstr ""
 #~ "are at war, however, you may wish to move your unit toward an enemy\n"
 #~ "city to attack.  Be careful not to lose it though!"
 #~ msgstr ""
-#~ "Du hast deine erste militärische Einheit gebaut. Sie dient zwei\n"
-#~ "Zwecken: Angriff und Verteidigung. Jede Einheit hat eine Angriffsstärke\n"
-#~ "und eine Verteidigungsstärke. Die Werte von Kriegern sind schwach\n"
-#~ "(1/1), eine Phalanx ist ein viel besserer Verteidiger mit 2\n"
-#~ "Verteidigungspunkten (1/2). Ein Katapult ist eine gute Angriffseinheit\n"
-#~ "mit 6 Angriffspunkten (6/1).\n"
+#~ "Sie haben Ihre erste militärische Einheit gebaut! Militärtruppen\n"
+#~ "dienen zwei Zwecken: Angriff und Verteidigung. Jede Einheit hat eine\n"
+#~ "Angriffs- und eine Verteidigungsstärke. Die Werte von Kriegern sind\n"
+#~ "schwach (1/1), eine Phalanx ist mit 2 Verteidigungspunkten ein viel\n"
+#~ "besserer Verteidiger (1/2). Ein Katapult ist mit 6 Angriffspunkten\n"
+#~ "eine gute Angriffseinheit (6/1).\n"
 #~ "\n"
 #~ "Es ist eine gute Idee, in jeder Stadt ein oder zwei Verteidiger zu\n"
-#~ "haben. Wichtige Städte wie deine Hauptstadt verdienen zusätzlichen\n"
+#~ "haben. Wichtige Städte wie Ihre Hauptstadt verdienen zusätzlichen\n"
 #~ "Schutz. Einheiten, die in einer Stadt gebaut wurden, können zur\n"
-#~ "Verteidigung in eine andere geschickt werden (drücke 'G' und du kannst\n"
-#~ "die Gehe-nach-Funktion dafür nutzen). Während des Krieges kannst du\n"
-#~ "die Einheit zu einer feindlichen Stadt schicken, um anzugreifen. Aber\n"
-#~ "verliere sie nicht!"
+#~ "Verteidigung in eine andere geschickt werden (drücken Sie „G“ und Sie\n"
+#~ "können die „Gehe nach“-Funktion dafür nutzen). Während des Krieges\n"
+#~ "können Sie Einheiten zu einer feindlichen Stadt schicken, um\n"
+#~ "anzugreifen. Aber verlieren Sie sie nicht!"
 
-#, fuzzy
 #~ msgid ""
 #~ "You have researched your first technology!  Technological advances\n"
 #~ "are an integral concept in Freeciv.  As you increase your technology\n"
@@ -30284,24 +30765,25 @@ msgstr ""
 #~ "technology.  When you are done playing around click on the View tab\n"
 #~ "(F1) to return to the map view."
 #~ msgstr ""
-#~ "Du hast deine erste Technologie (Fortschritt) erforscht. Fortschritte\n"
-#~ "sind ein Kernelement von Freeciv. Je mehr du die Wissenschaft\n"
-#~ "voranbringst, werden um so mehr neue Einheiten, Stadterweiterungen,\n"
-#~ "Regierungsformen und verschiedene Bonusse verfügbar.\n"
+#~ "Sie haben Ihre erste Technologie erforscht! Der Fortschritt ist ein\n"
+#~ "Kernelement von Freeciv. Je mehr Sie die Wissenschaft voranbringen,\n"
+#~ "desto mehr neue Einheiten, Stadterweiterungen, Regierungsformen und\n"
+#~ "verschiedene Boni werden verfügbar.\n"
 #~ "\n"
-#~ "Schau dir zunächst den Forschungsbericht an und probiere ihn aus.\n"
-#~ "Mit 'F6' kannst du ihn öffnen. Suche den Fortschritt 'Republik' und\n"
-#~ "klicke darauf. Damit hast du die Republik als Forschungsziel\n"
-#~ "ausgewählt. Die einzelnen Fortschritte, die auf dem Weg dahin erforscht\n"
-#~ "werden müssen, werden automatisch ausgewählt. Im Kopf steht, wieviel\n"
-#~ "Forschungspunkte du jede Runde erzielst - sie ergeben sich aus dem\n"
-#~ "besteuerbaren Handel deiner Städte. Im unteren Teil des Berichts ist\n"
-#~ "der Technologiebaum dargestellt. Ein Linksklick wählt das\n"
-#~ "Forschungsziel, ein Rechtsklick zeigt die Hilfe für die Technologie\n"
-#~ "an. Wenn du mit probieren fertig bist, klicke auf den Reiter 'Karte'\n"
-#~ "und schalte auf die Karte zurück."
+#~ "Sehen Sie sich mit „F6“ (oder durch Klick auf den Reiter „Forschung“\n"
+#~ "im Hauptfenster) den Forschungsbericht an und probieren Sie ihn\n"
+#~ "aus. Suchen Sie den Fortschritt „Republik“ und klicken Sie\n"
+#~ "darauf. Dies wählt die Republik als Forschungsziel aus, d.h. die\n"
+#~ "einzelnen Technologien, die auf dem Weg dorthin erforscht werden\n"
+#~ "müssen, werden automatisch mit ausgewählt. Im oberen Bereich des\n"
+#~ "Fensters können Sie kontrollieren, wie viele Forschungspunkte Sie pro\n"
+#~ "Runde erhalten — sie ergeben sich aus dem besteuerbaren Handel Ihrer\n"
+#~ "Städte. Im unteren Teil des Berichts wird der Technologiebaum\n"
+#~ "dargestellt; ein Linksklick legt ein Forschungsziel fest, wohingegen\n"
+#~ "ein Rechtsklick die Hilfe für den jeweiligen Fortschritt anzeigt. Wenn\n"
+#~ "Sie mit dem Probieren fertig sind, klicken Sie auf den Reiter „Karte“\n"
+#~ "(oder drücken „F1“), um zur Karte umzuschalten."
 
-#, fuzzy
 #~ msgid ""
 #~ "Now you have researched your second technology.  Go back into the\n"
 #~ "Research report (F6) and take a quick look at your progress.  If you\n"
@@ -30317,19 +30799,21 @@ msgstr ""
 #~ "to worry about picking a new research target each time you finish\n"
 #~ "researching a technology."
 #~ msgstr ""
-#~ "Nun hast du den zweiten Fortschritt errungen. Gehe mit 'F6' zum\n"
-#~ "Forschungsbericht und wird einen Blick darauf. Falls du vorher\n"
-#~ "die Republik als Forschungsziel angegeben hast, dann wurde der nächste\n"
-#~ "Schritt automatisch bestimmt. Falls du jedoch kein Ziel gesetzt hast,\n"
-#~ "solltest du jetzt den nächsten Schritt bestimmen.\n"
+#~ "Nun haben Sie den zweiten Fortschritt errungen. Kehren Sie mit „F6“\n"
+#~ "zum Forschungsbericht zurück und werfen Sie einen Blick auf Ihren\n"
+#~ "momentanen Fortschritt. Falls Sie zuvor die Republik als\n"
+#~ "Forschungsziel angegeben haben, sollte der nächste Forschungsschritt\n"
+#~ "automatisch bestimmt worden sein. Andernfalls sollten Sie diesen\n"
+#~ "nächsten Schritt nun festlegen.\n"
 #~ "\n"
-#~ "In der Runde, wo ein neuer Fortschritt errungen wurde, kannst du\n"
-#~ "den nächsten Schritt wählen. Wenn du jedoch während der Erforschung\n"
-#~ "den aktuellen Schritt änderst, geht die bis dahin geleistete Forschung\n"
-#~ "verloren. Wählst du das Forschungsziel sorgfältig aus, dann brauchst\n"
-#~ "du dich um die einzelnen Schritte nicht mehr zu kümmern."
+#~ "In der Runde, in der eine Technologie erforscht wurde, können Sie\n"
+#~ "einen neuen zu erforschenden Fortschritt auswählen. Wenn Sie jedoch\n"
+#~ "während der Forschungsarbeiten an einer Technologie einen neuen\n"
+#~ "Forschungsauftrag erteilen, geht die bis dahin geleistete Forschung\n"
+#~ "vollständig verloren.  Wählen Sie daher Ihr Forschungsziel sorgfältig\n"
+#~ "aus, sodass Sie sich nicht mehr um die einzelnen Zwischenschritte\n"
+#~ "kümmern müssen."
 
-#, fuzzy
 #~ msgid ""
 #~ "You have successfully completed research into The Republic.  This\n"
 #~ "technology is particularly useful because it allows a new form of\n"
@@ -30347,23 +30831,23 @@ msgstr ""
 #~ "However Republic is a substantially better form of government\n"
 #~ "than Despotism so the investment will soon pay off."
 #~ msgstr ""
-#~ "Du hast die Erforschung der Republik beendet. Dieser Fortschritt ist\n"
-#~ "besonders nützlich, da er die Wahl einer neuen Regierungsform\n"
-#~ "erlaubt. Die Regierung, der deine Zivilisation folgt, ist\n"
-#~ "entscheidend für deine Entwicklung. Zu Beginn regierst du im\n"
-#~ "Despotismus, einer sehr ineffizienten Regierungsform. Spätere\n"
-#~ "Regierungsformen ermöglichen es dir, deine Zivilisation als\n"
-#~ "friedliche Handelsnation oder als erobernder Moloch zu führen\n"
-#~ "Beides hat Vorteile.\n"
+#~ "Sie haben die Forschungsarbeiten an der Republik abgeschlossen. Dieser\n"
+#~ "Fortschritt ist besonders nützlich, da er die Wahl einer neuen\n"
+#~ "Regierungsform erlaubt. Die Regierung, die Ihre Zivilisation\n"
+#~ "beherrscht, ist ein für Ihre weitere Entwicklung entscheidendes\n"
+#~ "Merkmal. Zu Beginn regieren Sie als Despot in einer sehr ineffizienten\n"
+#~ "Regierungsform, spätere Staatsformen aber ermöglichen es Ihnen, Ihre\n"
+#~ "Zivilisation zu einer friedlichen Handelsnation zu entwickeln oder sie\n"
+#~ "zu einem erobernden Moloch zu machen. Beides hat seine Vorteile.\n"
 #~ "\n"
-#~ "Jetzt hast du die Gelegenheit, direkt zur Republik zu wechseln.\n"
-#~ "Im Menü 'Regierung' wählst du 'Regierung ändern' und 'Republik'.\n"
-#~ "Ja, du willst eine Revolution! Während des Regierungswechsels gibt\n"
-#~ "es ein paar Runden Anarchie, das mußt du in Kauf nehmen.\n"
-#~ "Die Republik ist eine wesentlich bessere Regierungsform als\n"
-#~ "der Despotismus, es zahlt sich also aus."
+#~ "Sie haben jetzt die Gelegenheit, direkt zur Republik zu wechseln.\n"
+#~ "Wählen Sie im Menü „Zivilisation“ den Punkt „Regierungsformen“ und\n"
+#~ "dort den Unterpunkt „Republik“. Ja, Sie wollen eine Revolution!\n"
+#~ "Während des Wechsels der Staatsform gibt es naturgemäß ein paar Runden\n"
+#~ "Anarchie, die Sie jedoch in Kauf nehmen müssen. Die Republik ist eine\n"
+#~ "wesentlich bessere Regierungsform als der Despotismus, es zahlt sich\n"
+#~ "also aus."
 
-#, fuzzy
 #~ msgid ""
 #~ "Your unit has found a Hut.  These are small villages scattered across\n"
 #~ "the landscape.  When a unit enters one, several things may happen.  The\n"
@@ -30375,21 +30859,21 @@ msgstr ""
 #~ "unit instantly.  On average, it is beneficial to search out and enter\n"
 #~ "any huts you find as soon as possible."
 #~ msgstr ""
-#~ "Deine Einheit hat ein Dorf entdeckt. Diese kleinen Dörfer sind\n"
-#~ "über die Karte verteilt. Wenn eine Einheit ein Dorf erreicht, kann\n"
-#~ "verschiedenes passieren: meistens findest du etwas Gold. In dem\n"
-#~ "Dorf kann jedoch auch ein Fortschritt zu finden sein, oder Söldner.\n"
-#~ "In einigen Dörfern gibt es eingeborene Siedler, die sich mit ihrer\n"
-#~ "Stadt deiner Zivilisation anschließen. Schließlich können dort auch\n"
-#~ "Barbaren hausen, die deine Einheit sofort vernichten. Im\n"
-#~ "Durchschnitt ist es vorteilhaft, Dörfer ausfindig zu machen und\n"
+#~ "Ihre Einheit hat ein Dorf entdeckt. Diese kleinen Dörfer sind über die\n"
+#~ "Karte verteilt und wenn eine Einheit ein Dorf erreicht, kann\n"
+#~ "Verschiedenes passieren: meistens erhalten Sie etwas Gold, in dem Dorf\n"
+#~ "kann jedoch auch ein Fortschritt zu finden sein oder Söldner. In\n"
+#~ "einigen Dörfern gibt es eingeborene Siedler, die sich mit ihrer Stadt\n"
+#~ "Ihrer Zivilisation anschließen. Schließlich können dort aber auch\n"
+#~ "Barbaren hausen, die Ihre Einheit sofort vernichten; im Durchschnitt\n"
+#~ "ist es allerdings meist vorteilhaft, Dörfer ausfindig zu machen und\n"
 #~ "sofort zu betreten."
 
 #~ msgid "Loading tutorial events."
 #~ msgstr "Lade Ereignisse der Einführung."
 
 #~ msgid "Could not write manual file %s."
-#~ msgstr "Konnte die Handbuch-Datei '%s' nicht schreiben."
+#~ msgstr "Konnte die Handbuch-Datei „%s“ nicht schreiben."
 
 #~ msgid ""
 #~ "<h1>Freeciv %s server options</h1>\n"
@@ -30521,8 +31005,23 @@ msgstr ""
 #~ msgid "More info"
 #~ msgstr "Mehr Information"
 
+#~ msgid "no %s"
+#~ msgstr "Konflikt mit %s"
+
+#~ msgid ""
+#~ "<h1>Freeciv %s governments help</h1>\n"
+#~ "\n"
+#~ msgstr ""
+#~ "<h1>Freeciv %s Hilfe zu Regierungsformen</h1>\n"
+#~ "\n"
+
 #~ msgid "Manual file %s successfully written."
 #~ msgstr "Handbuchdatei „%s“ erfolgreich geschrieben."
+
+#~ msgid "Multiple rulesets requested. Only one ruleset at time supported"
+#~ msgstr ""
+#~ "Mehrere Regelsätze angefordert. Nur ein einzelner Regelsatz kann "
+#~ "zeitgleich verwendet werden."
 
 #~ msgid "Use FILE as logfile"
 #~ msgstr "DATEI als Logdatei benutzen"
@@ -30610,6 +31109,9 @@ msgstr ""
 #~ msgid "?license:Unknown"
 #~ msgstr "Unbekannt"
 
+#~ msgid "?modpack:Type"
+#~ msgstr "Typ"
+
 #~ msgid "License"
 #~ msgstr "Lizenz"
 
@@ -30656,7 +31158,6 @@ msgstr ""
 #~ msgstr "Kann KI-Modul %s nicht öffnen (%s)"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#, fuzzy
 #~ msgid "Cannot find capstr function from ai module %s (%s)"
 #~ msgstr "Cannot find capstr function from ai module %s (%s)"
 
@@ -30741,9 +31242,8 @@ msgstr ""
 #~ msgid "%s was rejected: Too many wrong password tries."
 #~ msgstr "%s abgewiesen: zu viele falsche Passworteingaben."
 
-#, fuzzy
 #~ msgid "auth failed"
-#~ msgstr "fehlgeschlagen"
+#~ msgstr "Authentifizierung fehlgeschlagen"
 
 #~ msgid "Your password is incorrect. Try again."
 #~ msgstr "Ihr Passwort ist falsch. Versuchen Sie es nochmals."
@@ -30773,7 +31273,7 @@ msgstr ""
 #~ "vor uns."
 
 #~ msgid "Native unrest near %s led by %s."
-#~ msgstr "Barbarenaufstand bei %s; Anführer ist %s."
+#~ msgstr "Barbarenaufstand bei %s unter Führung von %s."
 
 #~ msgid "Sea raiders seen near %s!"
 #~ msgstr "Piraten in der Nähe von %s entdeckt!"
@@ -30781,7 +31281,6 @@ msgstr ""
 #~ msgid "You have already sold something here this turn."
 #~ msgstr "In dieser Runde wurde hier bereits etwas verkauft."
 
-#, fuzzy
 #~ msgid "You sell %s in %s for %d gold."
 #~ msgid_plural "You sell %s in %s for %d gold."
 #~ msgstr[0] "%s in %s wurde für %d Goldstück verkauft."
@@ -30859,10 +31358,9 @@ msgstr ""
 #~ msgid "You already had a city called %s. The city was renamed to %s."
 #~ msgstr "Es gab bereits eine Stadt namens %s. Sie wurde in %s umbenannt."
 
-#, fuzzy
 #~ msgid "The people in %s are stunned by your technological insight!"
 #~ msgstr ""
-#~ "Die Bevölkerung in %s ist von Ihren technischen Errungenschaften "
+#~ "Die Bevölkerung in %s ist von Ihren technologischen Errungenschaften "
 #~ "begeistert!"
 
 #~ msgid "Workers spontaneously gather and upgrade %s with railroads."
@@ -30883,6 +31381,12 @@ msgstr ""
 #~ "Als %s aufgelöst wurde sind, konnten die %s nicht fliehen und gingen "
 #~ "verloren."
 
+#~ msgid ""
+#~ "When %s was disbanded your %s in %s was trapped, and it was therefore "
+#~ "lost."
+#~ msgstr ""
+#~ "Als %s aufgelöst wurde, konnte %s nicht aus %s fliehen und ging verloren."
+
 #~ msgid "You destroy %s completely."
 #~ msgstr "%s wurde völlig zerstört."
 
@@ -30891,17 +31395,16 @@ msgstr ""
 
 #~ msgid "You conquer %s; your lootings accumulate to %d gold!"
 #~ msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
-#~ msgstr[0] "Du hast %s erobert. Beute im Wert von %d Goldstück gemacht!"
-#~ msgstr[1] "Du hast %s erobert. Beute im Wert von %d Goldstücken gemacht!"
+#~ msgstr[0] "Sie haben %s erobert. Beute im Wert von %d Goldstück gemacht!"
+#~ msgstr[1] "Sie haben %s erobert. Beute im Wert von %d Goldstücken gemacht!"
 
 #~ msgid "%s conquered %s and looted %d gold from the city."
 #~ msgid_plural "%s conquered %s and looted %d gold from the city."
 #~ msgstr[0] "%s hat %s erobert und Beute im Wert von %d Goldstück gemacht."
 #~ msgstr[1] "%s hat %s erobert und Beute im Wert von %d Goldstücken gemacht."
 
-#, fuzzy
 #~ msgid "You conquer %s."
-#~ msgstr "Du eroberst %s."
+#~ msgstr "Sie haben %s erobert."
 
 #~ msgid "%s conquered %s."
 #~ msgstr "%s hat %s erobert."
@@ -30917,7 +31420,7 @@ msgstr ""
 #~ msgstr[1] "%s befreite %s und machte Beute im Wert von %d Goldstücken."
 
 #~ msgid "You have liberated %s!"
-#~ msgstr "Du hast %s befreit!"
+#~ msgstr "Sie haben %s befreit!"
 
 #~ msgid "%s liberated %s."
 #~ msgstr "%s hat %s befreit."
@@ -30946,7 +31449,7 @@ msgstr ""
 #~ msgstr "%s verkauft %s (veraltet) für %d Goldstücke."
 
 #~ msgid "Notice: Wonder %s in %s will be finished next turn."
-#~ msgstr "Hinweis: %s in %s in der nächsten Runde fertig."
+#~ msgstr "Hinweis: %2$s wird %1$s in der nächsten Runde abschließen."
 
 #~ msgid ""
 #~ "Suggest throttling growth in %s to use %s (being built) more effectively."
@@ -31015,18 +31518,18 @@ msgstr ""
 #~ "Regierungsform %s notwendig. Der Auftrag wird zurückgestellt."
 
 #~ msgid ""
-#~ "%s can't build %s from the worklist; %s special is required.  "
+#~ "?special:%s can't build %s from the worklist; %s is required.  "
 #~ "Postponing..."
 #~ msgstr ""
 #~ "%s kann %s aus der Arbeitsliste nicht bauen, da %s benötigt wird. Der "
 #~ "Auftrag wird zurückgestellt."
 
 #~ msgid ""
-#~ "%s can't build %s from the worklist; %s terrain is required.  "
+#~ "?terrain:%s can't build %s from the worklist; %s terrain is required.  "
 #~ "Postponing..."
 #~ msgstr ""
-#~ "%s kann %s aus der Arbeitsliste nicht bauen, die Geländeform %s ist "
-#~ "erforderlich. Der Auftrag wird zurückgestellt."
+#~ "%s kann %s aus der Arbeitsliste nicht bauen, da die Geländeform %s "
+#~ "erforderlich ist. Der Auftrag wird zurückgestellt."
 
 #~ msgid ""
 #~ "%s can't build %s from the worklist; only %s may build this.  "
@@ -31050,8 +31553,8 @@ msgstr ""
 #~ "Schwierigkeitsgrad %s darf dies bauen. Der Auftrag wird zurückgestellt."
 
 #~ msgid ""
-#~ "%s can't build %s from the worklist; %s terrain class is required.  "
-#~ "Postponing..."
+#~ "?terrainclass:%s can't build %s from the worklist; %s terrain is "
+#~ "required.  Postponing..."
 #~ msgstr ""
 #~ "%s kann %s aus der Arbeitsliste nicht bauen, die Geländeform %s ist "
 #~ "erforderlich. Der Auftrag wird zurückgestellt."
@@ -31104,6 +31607,11 @@ msgstr ""
 
 #~ msgid "%s is finished building %s."
 #~ msgstr "%s hat %s fertiggestellt."
+
+#~ msgid "%s cost %d population. %s shrinks to size %d."
+#~ msgid_plural "%s cost %d population. %s shrinks to size %d."
+#~ msgstr[0] "%s kostet %d Bevölkerungspunkt. %s schrumpft auf Größe %d."
+#~ msgstr[1] "%s kostet %d Bevölkerungspunkte. %s schrumpft auf Größe %d."
 
 #~ msgid "Can't afford to maintain %s in %s, building sold!"
 #~ msgstr ""
@@ -31324,8 +31832,8 @@ msgstr ""
 #~ msgid "scenarios DIR"
 #~ msgstr "scenarios VERZ"
 
-#~ msgid "Search for scenarios in directory DIR"
-#~ msgstr "Suche Szenarien im Verzeichnis VERZ"
+#~ msgid "Save scenarios to directory DIR"
+#~ msgstr "Szenarien im Verzeichnis VERZ speichern"
 
 #~ msgid "Serverid ID"
 #~ msgstr "Serverid ID"
@@ -31355,7 +31863,6 @@ msgstr ""
 #~ msgid "Start the game, or restart after loading a savegame."
 #~ msgstr "Spiel beginnen oder nach Laden einer Sicherung neu starten."
 
-#, fuzzy
 #~ msgid ""
 #~ "This command starts the game. When starting a new game, it should be used "
 #~ "after all human players have connected, and AI players have been created "
@@ -31549,7 +32056,6 @@ msgstr ""
 #~ msgid "Cast a vote."
 #~ msgstr "Abstimmung durchführen."
 
-#, fuzzy
 #~ msgid ""
 #~ "A player with basic level access issuing a control level command starts a "
 #~ "new vote for the command. The /vote command followed by \"yes\", \"no\", "
@@ -31560,7 +32066,7 @@ msgstr ""
 #~ "immediately if at least half of the voters who have not abstained vote "
 #~ "against it."
 #~ msgstr ""
-#~ "Ein Spieler mit Zugangsberechtigung Info, der einen Befehl der "
+#~ "Ein Spieler mit Zugangsberechtigung „basic“, der einen Befehl der "
 #~ "Kontrollebene gibt, leitet damit eine Abstimmung ein. Jeder Spieler kann "
 #~ "dann seine Stimme abgeben, indem er „/vote“, gefolgt von „yes“, „no“ oder "
 #~ "„abstain“, wahlweise gefolgt von einer Abstimmungsnummer, eingibt. Ohne "
@@ -31672,17 +32178,15 @@ msgstr ""
 #~ msgid "Control metaserver connection."
 #~ msgstr "Verbindung zum Metaserver."
 
-#, fuzzy
 #~ msgid ""
 #~ "'metaconnection ?' reports on the status of the connection to metaserver. "
 #~ "'metaconnection down' or 'metac d' brings the metaserver connection down. "
 #~ "'metaconnection up' or 'metac u' brings the metaserver connection up."
 #~ msgstr ""
-#~ "'metaconnection ?' zeigt den Verbindungsstatus zum Metaserver an\n"
-#~ "'metaconnection down' oder 'metac d' beendet die Verbindung zum "
-#~ "Metaserver\n"
-#~ "'metaconnection up' oder 'metac u' stellt die Verbindung zum Metaserver "
-#~ "her"
+#~ "„metaconnection ?“ zeigt den Verbindungsstatus zum Metaserver an. "
+#~ "„metaconnection down“ oder „metac d“ beendet die Verbindung zum "
+#~ "Metaserver. „metaconnection up“ oder „metac u“ stellt die Verbindung zum "
+#~ "Metaserver her."
 
 #~ msgid "metaserver <address>"
 #~ msgstr "Metaserver <Adresse>"
@@ -31702,7 +32206,6 @@ msgstr ""
 #~ msgid "Take over a player's place in the game."
 #~ msgstr "Den Platz eines Spielers im Spiel einnehmen."
 
-#, fuzzy
 #~ msgid ""
 #~ "Only the console and connections with cmdlevel 'hack' can force other "
 #~ "connections to take over a player. If you're not one of these, only the "
@@ -31711,12 +32214,13 @@ msgstr ""
 #~ "assigned to the connection. The 'allowtake' option controls which players "
 #~ "may be taken and in what circumstances."
 #~ msgstr ""
-#~ "Nur die Konsole oder Verbindungen mit der Zugriffsberechtigung 'hack' "
-#~ "kann anderen Verbindungen einen Spieler zuweisen. Anderenfalls kannst du "
-#~ "nur für deine eigene Verbindung eine Spieler übernehmen. Dann ist nur das "
-#~ "Argument <Spieler> erlaubt. Wenn für den Spielernamen '-' angegeben wird, "
-#~ "und die Verbindung noch keinen Spieler kontrolliert, wird ein neuer "
-#~ "Spieler erzeugt."
+#~ "Nur die Konsole oder Verbindungen mit der Zugriffsberechtigung „hack“ "
+#~ "können anderen Verbindungen einen Spieler zwangszuweisen. Wenn Sie nicht "
+#~ "hierunter fallen, können Sie lediglich Ihrer eigenen Verbindung einen "
+#~ "Spieler zuweisen und nur das Argument <Spieler> verwenden. Wenn für den "
+#~ "Spielernamen „-“ angegeben wird, und die Verbindung noch keinen Spieler "
+#~ "kontrolliert, wird ein neuer Spieler erzeugt. Die Option „allowtake“ legt "
+#~ "fest, welche Spieler unter welchen Umständen übernommen werden können."
 
 #~ msgid "observe [connection-name] [player-name]"
 #~ msgstr "observe [Verbindungsname] [Spieler]"
@@ -31724,7 +32228,6 @@ msgstr ""
 #~ msgid "Observe a player or the whole game."
 #~ msgstr "Beobachten des Spiels oder eines Spielers."
 
-#, fuzzy
 #~ msgid ""
 #~ "Only the console and connections with cmdlevel 'hack' can force other "
 #~ "connections to observe a player. If you're not one of these, only the "
@@ -31735,14 +32238,15 @@ msgstr ""
 #~ msgstr ""
 #~ "Mit diesem Kommando kann eine Verbindung einen Spieler oder das ganze "
 #~ "Spiel beobachten. Nur auf der Konsole oder mit Zugriffsberechtigung "
-#~ "'hack' kann einer fremden Verbindung der Beobachtungsstatus zugewiesen "
-#~ "werden. Sonst ist nur das Argument <Spieler> erlaubt. Wenn kein "
-#~ "Spielername angegeben wird, beobachtet die Verbindung das Spiel global."
+#~ "„hack“ kann einer fremden Verbindung der Beobachtungsstatus zugewiesen "
+#~ "werden, sonst ist nur das Argument <Spieler> erlaubt. Wenn kein "
+#~ "Spielername angegeben wird, beobachtet die Verbindung das Spiel global. "
+#~ "Die Option „allowtake“ legt fest, welche Spieler unter welchen Umständen "
+#~ "beobachtet werden können."
 
 #~ msgid "detach <connection-name>"
 #~ msgstr "detach <Verbindungsname>"
 
-#, fuzzy
 #~ msgid "Detach from a player."
 #~ msgstr "Verbindung zu Spieler lösen."
 
@@ -31750,22 +32254,43 @@ msgstr ""
 #~ "Only the console and connections with cmdlevel 'hack' can force other "
 #~ "connections to detach from a player."
 #~ msgstr ""
-#~ "Nur auf der Konsole, oder mit Zugriffsberechtigung 'hack', können fremde "
-#~ "Verbindungen von einem Spieler gelöst werden. Sonst ist nur das Argument "
-#~ "<Spieler> erlaubt"
+#~ "Nur auf der Konsole oder mit Zugriffsberechtigung „hack“ können fremde "
+#~ "Verbindungen von einem Spieler gelöst werden."
 
-#, fuzzy
 #~ msgid "create <player-name> [ai type]"
-#~ msgstr "create <Spieler>"
+#~ msgstr "create <Spieler> [KI-Typ]"
 
 #~ msgid "Create an AI player with a given name."
-#~ msgstr "KI-Spieler erzeugen"
+#~ msgstr "KI-Spieler mit einem bestimmten Namen erzeugen."
+
+#~ msgid ""
+#~ "With the 'create' command a new player with the given name is created.\n"
+#~ "The 'ai type' parameter can be used to select which AI module will be "
+#~ "used for the created player. This requires that Freeciv has been compiled "
+#~ "with loadable AI module support and that the respective module has been "
+#~ "loaded.\n"
+#~ "If the game has already started, the new player will have no units or "
+#~ "cities; also, if no free player slots are available, the slot of a dead "
+#~ "player can be reused (removing all record of that player from the running "
+#~ "game)."
+#~ msgstr ""
+#~ "Der „create“-Befehl erstellt einen neuen Spieler mit dem angegebenen "
+#~ "Namen.\n"
+#~ "Der Parameter „KI-Typ“ legt dabei fest, welches KI-Modul für den neu "
+#~ "erstellten Spieler verwendet wird; dies erfordert allerdings, dass "
+#~ "Freeciv mit der Unterstützung für nachladbare KI-Module kompiliert und "
+#~ "das entsprechende Modul auch tatsächlich geladen wurde.\n"
+#~ "Wenn das Spiel bereits gestartet wurde, erhält der Spieler keine "
+#~ "Einheiten oder Städte. Ist in der Spielerliste kein Platz für den neuen "
+#~ "Spieler vorhanden, kann der Listenplatz eines besiegten Spielers "
+#~ "verwendet werden (wodurch sämtliche Informationen zu diesem Spieler aus "
+#~ "dem Spiel entfernt werden)."
 
 #~ msgid "Set yourself in away mode. The AI will watch your back."
-#~ msgstr "Abwesenheitsmodus. Die KI hält dir den Rücken frei."
+#~ msgstr "Abwesenheitsmodus. Die KI hält Ihnen den Rücken frei."
 
 #~ msgid "The AI will govern your nation but do minimal changes."
-#~ msgstr "Die KI regiert deine Nation, ändert aber nur sehr wenig."
+#~ msgstr "Die KI regiert Ihre Nation, ändert aber nur sehr wenig."
 
 #~ msgid ""
 #~ "novice\n"
@@ -31776,16 +32301,15 @@ msgstr ""
 
 #~ msgid "Set one or all AI players to 'novice'."
 #~ msgstr ""
-#~ "Einen oder alle KI-Spieler auf 'sehr leichte' Spielstärke einstellen."
+#~ "Einen oder alle KI-Spieler auf Spielstärke „sehr leicht“ einstellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill level 'novice', and sets "
 #~ "the default level for any new AI players to 'novice'. With an argument, "
 #~ "sets the skill level for that player only."
 #~ msgstr ""
 #~ "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-#~ "'sehr leicht' gestellt. Mit Argument wird nur die Spielstärke für den "
+#~ "„sehr leicht“ gestellt. Mit Argument wird nur die Spielstärke für den "
 #~ "angegeben KI-Spieler eingestellt."
 
 #~ msgid ""
@@ -31796,16 +32320,15 @@ msgstr ""
 #~ "easy <Spieler>"
 
 #~ msgid "Set one or all AI players to 'easy'."
-#~ msgstr "Einen oder alle KI-Spieler auf 'einfache' Spielstärke einstellen."
+#~ msgstr "Einen oder alle KI-Spieler auf Spielstärke „einfach“ einstellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill level 'easy', and sets "
 #~ "the default level for any new AI players to 'easy'. With an argument, "
 #~ "sets the skill level for that player only."
 #~ msgstr ""
 #~ "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-#~ "'einfach' gestellt. Mit Argument wird nur die Spielstärke für den "
+#~ "„einfach“ gestellt. Mit Argument wird nur die Spielstärke für den "
 #~ "angegeben KI-Spieler eingestellt."
 
 #~ msgid ""
@@ -31816,16 +32339,15 @@ msgstr ""
 #~ "normal <Spieler>"
 
 #~ msgid "Set one or all AI players to 'normal'."
-#~ msgstr "Einen oder alle KI-Spieler auf 'normale' Spielstärke einstellen."
+#~ msgstr "Einen oder alle KI-Spieler auf Spielstärke „normal“ einstellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill level 'normal', and sets "
 #~ "the default level for any new AI players to 'normal'. With an argument, "
 #~ "sets the skill level for that player only."
 #~ msgstr ""
 #~ "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-#~ "'normal' gestellt. Mit Argument wird nur die Spielstärke für den "
+#~ "„normal“ gestellt. Mit Argument wird nur die Spielstärke für den "
 #~ "angegeben KI-Spieler eingestellt."
 
 #~ msgid ""
@@ -31838,14 +32360,13 @@ msgstr ""
 #~ msgid "Set one or all AI players to 'hard'."
 #~ msgstr "Einen oder alle KI-Spieler auf 'schwere' Spielstärke einstellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill level 'hard', and sets "
 #~ "the default level for any new AI players to 'hard'. With an argument, "
 #~ "sets the skill level for that player only."
 #~ msgstr ""
 #~ "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-#~ "'schwer' gestellt. Mit Argument wird nur die Spielstärke für den "
+#~ "„schwer“ gestellt. Mit Argument wird nur die Spielstärke für den "
 #~ "angegeben KI-Spieler eingestellt."
 
 #~ msgid ""
@@ -31856,16 +32377,15 @@ msgstr ""
 #~ "cheating <Spieler>"
 
 #~ msgid "Set one or all AI players to 'cheating'."
-#~ msgstr "Einen oder alle KI-Spieler auf Spielstärke 'Mogeln' einstellen."
+#~ msgstr "Einen oder alle KI-Spieler auf Spielstärke „Mogeln“ einstellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill level 'cheating', and "
 #~ "sets the default level for any new AI players to 'cheating'. With an "
 #~ "argument, sets the skill level for that player only."
 #~ msgstr ""
 #~ "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-#~ "'Mogeln' gestellt. Mit Argument wird nur die Spielstärke für den "
+#~ "„Mogeln“ gestellt. Mit Argument wird nur die Spielstärke für den "
 #~ "angegeben KI-Spieler eingestellt."
 
 #~ msgid ""
@@ -31877,9 +32397,8 @@ msgstr ""
 
 #~ msgid "Set one or all AI players to 'experimental'."
 #~ msgstr ""
-#~ "Einen oder alle KI-Spieler auf 'experimentelle' Spielstärke einstellen."
+#~ "Einen oder alle KI-Spieler auf „experimentelle“ Spielstärke einstellen."
 
-#, fuzzy
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill 'experimental', and sets "
 #~ "the default level for any new AI players to this. With an argument, sets "
@@ -31887,7 +32406,7 @@ msgstr ""
 #~ "FEATURES! For ordinary servers, this option has no effect."
 #~ msgstr ""
 #~ "Ohne Argumente werden alle vorhandenen und zukünftigen KI-Spieler auf "
-#~ "'experimentell' gestellt. Mit Argument wird nur die Spielstärke für den "
+#~ "„experimentell“ gestellt. Mit Argument wird nur die Spielstärke für den "
 #~ "angegeben KI-Spieler eingestellt. DIESE OPTION DIENT NUR ZUM TESTEN VON "
 #~ "NEUEM KI-CODE! Auf normalen Servern hat diese Option keine Auswirkungen."
 
@@ -31907,7 +32426,6 @@ msgstr ""
 #~ msgid "Query or set command access level access."
 #~ msgstr "Abfrage bzw. Setzen der Zugriffsberechtigung"
 
-#, fuzzy
 #~ msgid ""
 #~ "The command access level controls which server commands are available to "
 #~ "users via the client chatline. The available levels are:\n"
@@ -31929,26 +32447,27 @@ msgstr ""
 #~ "some untrusted person could reconnect with the same name. Note that this "
 #~ "command now takes connection names, not player names."
 #~ msgstr ""
-#~ "Mit 'cmdlevel' wird die Zugangsberechtigung der Spieler zu den "
-#~ "verschiedenen\n"
-#~ "Serverbefehlen geregelt. Es gibt folgende Berechtigungen:\n"
-#~ "   none - kein Zugriff\n"
-#~ "   info - Befehle zur Informationsabfrage\n"
-#~ "   ctrl - Befehle, die Spiel und Benutzer betreffen\n"
-#~ "   hack - *alle* Befehle (GEFÄHRLICH!)\n"
-#~ "Ohne Argument werden die derzeitigen Zugangsberechtigungen angezeigt.\n"
-#~ "Mit nur einem Argument wird die Zugangsberechtigung für alle bereits\n"
-#~ "vorhandenen und zukünftigen Verbindungen gesetzt. Falls 'new' angegeben\n"
-#~ "wurde, wird die Zugangsberechtigung für neu hinzukommende Verbindungen\n"
-#~ "gesetzt; mit 'first come' werden die Rechte für den ersten Spieler, der\n"
-#~ "sich einloggt, geregelt. Sollten bereits Verbindungen bestehen, erhält\n"
-#~ "der Spieler, der zuerst den 'firstlevel' Befehl eingibt, diese Rechte.\n"
-#~ "Durch die Angabe eines Verbindungsnamens wird die Zugangsberechtigung "
-#~ "nur\n"
-#~ "für die betreffende Verbindung gesetzt.\n"
-#~ "Um Mißbrauch zu verhindern, gelten Zugangsberechtigungen nur bis zum "
-#~ "Ende\n"
-#~ "einer Verbindung."
+#~ "Die Kommandokontrollebenen regeln die Zugangsberechtigung der Spieler zu "
+#~ "den verschiedenen Serverbefehlen in der Chatzeile. Es gibt folgende "
+#~ "Berechtigungen:\n"
+#~ "   none — kein Zugriff\n"
+#~ "   info — Befehle zur Informationsabfrage oder Beobachtung\n"
+#~ "   basic — Befehle für teilnehmende Spieler\n"
+#~ "   ctrl — Befehle, die Spiel und Benutzer betreffen\n"
+#~ "   admin — Befehle, die das Serververhalten beeinflussen\n"
+#~ "   hack — *alle* Befehle (GEFÄHRLICH!)\n"
+#~ "Ohne Argument werden die derzeitigen Zugangsberechtigungen angezeigt. Mit "
+#~ "nur einem Argument wird die Zugangsberechtigung für alle bereits "
+#~ "vorhandenen und zukünftigen Verbindungen gesetzt. Falls „new“ angegeben "
+#~ "wurde, wird die Zugangsberechtigung für neu hinzukommende Verbindungen "
+#~ "gesetzt; mit „first come“ werden die Rechte für den ersten Spieler, der "
+#~ "sich einloggt, geregelt. Sollten bereits Verbindungen bestehen, erhält "
+#~ "der Spieler, der zuerst den Befehl „first“ gibt, diese Rechte. Durch die "
+#~ "Angabe eines Verbindungsnamens wird die Zugangsberechtigung nur für die "
+#~ "betreffende Verbindung gesetzt.\n"
+#~ "Um Missbrauch zu verhindern, gelten Zugangsberechtigungen nur bis zum "
+#~ "Ende einer Verbindung. Beachten Sie, dass dieser Befehl neuerdings "
+#~ "Verbindungs- statt Spielernamen erwartet."
 
 #~ msgid ""
 #~ "If there is none, become the game organizer with increased permissions."
@@ -31958,25 +32477,129 @@ msgstr ""
 #~ msgstr "timeoutincrease <Zug> <Zugzahl> <Wert> <Faktor>"
 
 #~ msgid "See \"help timeoutincrease\"."
-#~ msgstr "siehe 'help timeoutincrease'"
+#~ msgstr "siehe „help timeoutincrease“"
 
-#, fuzzy
 #~ msgid ""
 #~ "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 #~ "<turn> and multiply <value> by <valuemult>. Use this command in concert "
 #~ "with the option \"timeout\". Defaults are 0 0 0 1"
 #~ msgstr ""
-#~ "Der Timeout-Timer wird alle <n1> Runden um <n2> erhöht; danach erhöht "
-#~ "sich <n1> um <n3> und <n2> wird mit <n4> multipliziert. Dieser Befehl "
-#~ "wird von der Option 'timeout' benutzt. Die Standardwerte sind 0 0 0 1."
+#~ "Der Timeout-Timer wird alle <Zug> Runden um <Wert> erhöht; addiere danach "
+#~ "<Zug> und <Zugazhl> und multipliziere <Wert> mit <Faktor>. Dieser Befehl "
+#~ "sollte zusammen mit der Option „timeout“ verwendet werden. Die "
+#~ "Standardwerte sind 0 0 0 1."
 
-#, fuzzy
+#~ msgid ""
+#~ "cancelvote\n"
+#~ "cancelvote <vote number>\n"
+#~ "cancelvote all\n"
+#~ msgstr ""
+#~ "cancelvote\n"
+#~ "cancelvote <Nummer>\n"
+#~ "cancelvote all\n"
+
+#~ msgid "Cancel a running vote.\n"
+#~ msgstr "Bricht eine laufende Abstimmung ab.\n"
+
+#~ msgid ""
+#~ "With no arguments this command removes your own vote. If you have an "
+#~ "admin access level, you can cancel any vote by vote number, or all votes "
+#~ "with the 'all' argument."
+#~ msgstr ""
+#~ "Ohne Argument bricht dieser Befehl Ihre eigene Abstimmung ab. Mit der "
+#~ "Zugriffsberechtigung „admin“ können Sie jede vorhandene Abstimmung über "
+#~ "ihre Identifikationsnummer oder einfach alle Abstimmungen mit dem "
+#~ "Argument „all“ abbrechen."
+
+#~ msgid "ignore [type=]<pattern>"
+#~ msgstr "ignore [Typ=]<Muster>"
+
+#~ msgid "Block all messages from users matching the pattern."
+#~ msgstr "Filtere alle Nachrichten von Nutzern, die auf das Muster passen."
+
+#~ msgid ""
+#~ "The given pattern will be added to your ignore list; you will not receive "
+#~ "any messages from users matching this pattern. The type may be either "
+#~ "\"user\", \"host\", or \"ip\". The default type (if omitted) is to match "
+#~ "against the username. The pattern supports unix glob style wildcards, i."
+#~ "e., * matches zero or more character, ? exactly one character, [abc] "
+#~ "exactly one of 'a' 'b' or 'c', etc. To access your current ignore list, "
+#~ "issue \"/list ignore\"."
+#~ msgstr ""
+#~ "Das angegebene <Muster> wird zu Ihrer Filterliste hinzugefügt, d.h. Sie "
+#~ "erhalten von Nutzern, die dieses Muster erfüllen, keine Nachrichten mehr. "
+#~ "Der <Typ> kann „user“, „host“ oder „ip“ sein, wobei der Standardtyp bei "
+#~ "Auslassung den Nutzernamen erfasst. Das Muster kann UNIX-artige "
+#~ "Jokerzeichen enthalten; so passt * etwa auf null oder mehr Zeichen, ? auf "
+#~ "genau ein Zeichen und [abc] auf eines der Zeichen „a“, „b“ oder „c“. Ihre "
+#~ "aktuelle Filterliste können sie mit „/list ignore“ einsehen."
+
+#~ msgid "unignore <range>"
+#~ msgstr "unignore <Bereich>"
+
 #~ msgid "Remove ignore list entries."
-#~ msgstr "Vorgabe entfernen"
+#~ msgstr "Entfernt Einträge aus Ihrer Filterliste."
 
-#, fuzzy
+#~ msgid ""
+#~ "The ignore list entries in the given range will be removed; you will be "
+#~ "able to receive messages from the respective users. The range argument "
+#~ "may be a single number or a pair of numbers separated by a dash '-'. If "
+#~ "the first number is omitted, it is assumed to be 1; if the last is "
+#~ "omitted, it is assumed to be the last valid ignore list index. To access "
+#~ "your current ignore list, issue \"/list ignore\"."
+#~ msgstr ""
+#~ "Die im angebenen Bereich befindlichen Einträge werden aus Ihrer "
+#~ "Filterliste entfernt, sodass Sie wieder Nachrichten von den jeweiligen "
+#~ "Nutzern erhalten. Der Parameter <Bereich> kann eine einzelne Zahl oder "
+#~ "ein von einer Tileder „~“ getrenntes Zahlenpaar sein; wird die erste Zahl "
+#~ "ausgelassen, wird sie als 1 angenommen, fehlt die zweite, so wird der "
+#~ "letzte gültige Index der Filterliste angenommen. Sie können Ihre "
+#~ "momentane Filterliste mit „/list ignore“ einsehen."
+
+#~ msgid ""
+#~ "playercolor <player-name> <color>\n"
+#~ "playercolor <player-name> reset"
+#~ msgstr ""
+#~ "playercolor <Spielername> <Farbe>\n"
+#~ "playercolor <Spielername> reset"
+
 #~ msgid "Define the color of a player."
-#~ msgstr "Verbindung zu Spieler lösen."
+#~ msgstr "Spielerfarbe festlegen."
+
+#~ msgid ""
+#~ "This command sets the color of a specific player, overriding any color "
+#~ "assigned according to the 'plrcolormode' setting.\n"
+#~ "The color is defined using hexadecimal notation (hex) for the combination "
+#~ "of Red, Green, and Blue color components (RGB), similarly to HTML. For "
+#~ "each component, the lowest (darkest) value is 0 (in hex: 00), and the "
+#~ "highest value is 255 (in hex: FF). The color definition is simply the "
+#~ "three hex values concatenated together (RRGGBB). For example, the "
+#~ "following command sets Caesar to pure red:\n"
+#~ "  playercolor Caesar ff0000\n"
+#~ "Before the game starts, this command can only be used if the "
+#~ "'plrcolormode' setting is set to 'PLR_SET'; a player's color can be unset "
+#~ "again by specifying 'reset'.\n"
+#~ "Once the game has started and colors have been assigned, this command "
+#~ "changes the player color in any mode; 'reset' cannot be used.\n"
+#~ "To list the player colors, use 'list colors'."
+#~ msgstr ""
+#~ "Dieser Befehl legt die Farbe eines bestimmten Spielers fest und "
+#~ "überschreibt dabei jegliche mithilfe der Option „plrcolormode“ "
+#~ "festgelegte Farbeinstellung.\n"
+#~ "Die Farbe wird über eine hexadezimale Angabe (Hexwert) der "
+#~ "Farbkomponenten Rot, Grün und Blau (RGB) festgelegt, ähnlich zu HTML. Für "
+#~ "jede Komponente ist der kleinstmögliche (= dunkelste) Wert 0 (als "
+#~ "Hexwert: 00) und der höchstmögliche Wert 255 (als Hexwert: FF). Die "
+#~ "gesamte Farbdefinition besteht einfach aus einer Aneinanderreihung der "
+#~ "drei einzelnen Hexwerte (RRGGBB). Beispielsweise legt der folgende Befehl "
+#~ "für Cäsar die Farbe Rot fest:\n"
+#~ "  playercolor Cäsar ff0000\n"
+#~ "Vor dem Spielstart kann dieser Befehl nur verwendet werden, wenn die "
+#~ "Option „plrcolormode“ auf „PLR_SET“ gesetzt wurde. Mithilfe von „reset“ "
+#~ "kann eine Spielerfarbe wieder zurückgesetzt werden.\n"
+#~ "Nach Beginn des Spiels und Zuweisung der Farben ändert dieser Befehl die "
+#~ "Farbe unabhängig vom Modus, „reset“ kann nicht verwendet werden.\n"
+#~ "Sie können die Spielerfarben mit „list colors“ einsehen."
 
 #~ msgid "End the game immediately in a draw."
 #~ msgstr "Beendet das Spiel sofort mit einem Unentschieden."
@@ -31989,7 +32612,7 @@ msgstr ""
 #~ "player (or one team) have conceded the game in this way then the game "
 #~ "ends."
 #~ msgstr ""
-#~ "Allen wird mitgeteilt, das du aus dem Spiel ausscheidest, und wenn alle "
+#~ "Allen wird mitgeteilt, dass Sie aus dem Spiel ausscheiden und wenn alle "
 #~ "bis auf einen Spieler (oder ein Team) ausgeschieden sind, endet das Spiel."
 
 #~ msgid "remove <player-name>"
@@ -31998,7 +32621,6 @@ msgstr ""
 #~ msgid "Fully remove player from game."
 #~ msgstr "Spieler vollständig aus dem Spiel entfernen"
 
-#, fuzzy
 #~ msgid ""
 #~ "This *completely* removes a player from the game, including all cities "
 #~ "and units etc. Use with care!"
@@ -32016,7 +32638,6 @@ msgstr ""
 #~ msgid "Save game to file."
 #~ msgstr "Spiel speichern"
 
-#, fuzzy
 #~ msgid ""
 #~ "Save the current game to file <file-name>. If no file-name argument is "
 #~ "given saves to \"<auto-save name prefix><year>m.sav[.gz]\". To reload a "
@@ -32026,12 +32647,12 @@ msgstr ""
 #~ "and use the 'start' command once players have reconnected."
 #~ msgstr ""
 #~ "Speichert das Spiel in der Datei <Dateiname>. Wenn kein Dateiname "
-#~ "angegeben wird, heißt die Datei '<auto-save nameprefix><year>m.sav[."
-#~ "gz]'.\n"
-#~ "Um ein gespeichertes Spiel fortzuführen, ruft man den Server mit dem "
-#~ "Argument\n"
+#~ "angegeben wird, heißt die Datei „<auto-save name prefix><year>m.sav[."
+#~ "gz]“. Um ein gespeichertes Spiel fortzuführen, ruft man den Server mit "
+#~ "dem Argument\n"
 #~ "      --file <Dateiname>\n"
-#~ "auf und gibt nachdem alle Mitspieler bereit sind, 'start' ein."
+#~ "auf und gibt, nachdem alle Mitspieler sich wieder verbunden haben, den "
+#~ "Befehl „start“ ein."
 
 #~ msgid ""
 #~ "load\n"
@@ -32043,13 +32664,12 @@ msgstr ""
 #~ msgid "Load game from file."
 #~ msgstr "Spieldatei laden."
 
-#, fuzzy
 #~ msgid ""
 #~ "Load a game from <file-name>. Any current data including players, "
 #~ "rulesets and server options are lost."
 #~ msgstr ""
 #~ "Spieldatei <Dateiname> laden. Alle derzeitigen Daten (auch über Spieler, "
-#~ "Regelsatz und Serveroptionen) gehen dabei verloren.\n"
+#~ "Regelsatz und Serveroptionen) gehen dabei verloren."
 
 #~ msgid "read <file-name>"
 #~ msgstr "read <Dateiname>"
@@ -32063,17 +32683,147 @@ msgstr ""
 #~ msgid "Write current settings as server commands to file."
 #~ msgstr "Servereinstellungen als Datei speichern"
 
-#, fuzzy
 #~ msgid "Reset all server settings."
-#~ msgstr "Serveroption einstellen."
+#~ msgstr "Alle Servereinstellungen zurücksetzen."
 
-#, fuzzy
+#~ msgid ""
+#~ "Reset all settings if it is possible. The following levels are "
+#~ "supported:\n"
+#~ "  game     - using the values defined at the game start\n"
+#~ "  ruleset  - using the values defined in the ruleset\n"
+#~ "  script   - using default values and rereading the start script\n"
+#~ "  default  - using default values\n"
+#~ msgstr ""
+#~ "Setzt soweit es möglich ist alle Einstellungen zurück. Die folgenden "
+#~ "Stufen werden unterstützt:\n"
+#~ "  game    — Nutze die Werte, die bei Spielbeginn vorlagen\n"
+#~ "  ruleset — Nutze die Werte, die im Regelsatz festgelegt sind\n"
+#~ "  script  — Nutze die Standartwerte und lese das Startskript neu ein\n"
+#~ "  default — Nutze die Standardwerte\n"
+
+#~ msgid ""
+#~ "lua cmd <script line>\n"
+#~ "lua file <script file>\n"
+#~ "lua <script line> (deprecated)"
+#~ msgstr ""
+#~ "lua cmd <Skriptzeile>\n"
+#~ "lua file <Skriptdatei>\n"
+#~ "lua <Skriptzeile> (missbilligt)"
+
+#~ msgid ""
+#~ "Evaluate a line of Freeciv script or a Freeciv script file in the current "
+#~ "game."
+#~ msgstr ""
+#~ "Führt eine Zeile Freeciv-Skript oder eine Freeciv-Skriptdatei im "
+#~ "laufenden Spiel aus."
+
+#~ msgid "kick <user>"
+#~ msgstr "kick <Nutzer>"
+
 #~ msgid "Cut a connection and disallow reconnect."
-#~ msgstr "Die Verbindung zum Metaserver wurde bereits beendet."
+#~ msgstr "Trennt eine bestehende und verbietet die neuerliche Verbindung."
 
-#, fuzzy
+#~ msgid ""
+#~ "The connection given by the 'user' argument will be cut from the server "
+#~ "and not allowed to reconnect. The time the user wouldn't be able to "
+#~ "reconnect is controlled by the 'kicktime' setting."
+#~ msgstr ""
+#~ "Die durch das Argument „Nutzer“ angegebene Verbindung wird vom Server "
+#~ "getrennt und neue Verbindungsversuche werden unterbunden. Der Nutzer kann "
+#~ "sich nicht bis zum Ablauf der in der Einstellung „kicktime“ festgelegten "
+#~ "Zeit wiederverbinden."
+
 #~ msgid "Save game to file using the old format."
-#~ msgstr "Spiel speichern"
+#~ msgstr "Spiel im alten Dateiformat abspeichern."
+
+#~ msgid ""
+#~ "delegate to <username> [player-name]\n"
+#~ "delegate cancel [player-name]\n"
+#~ "delegate take <player-name>\n"
+#~ "delegate restore\n"
+#~ "delegate show <player-name>"
+#~ msgstr ""
+#~ "delegate to <Nutzer> [Spieler]\n"
+#~ "delegate cancel [Spieler]\n"
+#~ "delegate take <Spieler>\n"
+#~ "delegate restore\n"
+#~ "delagate show <Spieler>"
+
+#~ msgid "Delegate control to another user."
+#~ msgstr "Delegiere die Kontrolle zu einem anderen Nutzer."
+
+#~ msgid ""
+#~ "Delegation allows a user to nominate another user who can temporarily "
+#~ "take over control of their player while they are away.\n"
+#~ "'delegate to <username>': allow <username> to 'delegate take' your "
+#~ "player.\n"
+#~ "'delegate cancel': nominated user can no longer take your player.\n"
+#~ "'delegate take <player-name>': take control of a player who has been "
+#~ "delegated to you. (Behaves like 'take', except that the 'allowtake' "
+#~ "restrictions are not enforced.)\n"
+#~ "'delegate restore': relinquish control of a delegated player (opposite of "
+#~ "'delegate take') and restore your previous view, if any. (This also "
+#~ "happens automatically if the player's owner reconnects.)\n"
+#~ "'delegate show': show who control of your player is currently delegated "
+#~ "to, if anyone.\n"
+#~ "The [player-name] argument can only be used by connections with cmdlevel "
+#~ "'admin' or above to force the corresponding change of the delegation "
+#~ "status."
+#~ msgstr ""
+#~ "Mithilfe der Delegation kann ein Nutzer einen anderen benennen, der eine "
+#~ "Zeitlang die Kontrolle über den eigenen Spieler übernehmen soll, während "
+#~ "er selbst abwesend ist.\n"
+#~ "„delegate to <Nutzer>“: Erlaubt es <Nutzer>, mit „delegate take“ Ihren "
+#~ "Spieler zu übernehmen.\n"
+#~ "„delegate cancel“: Der nominierte Nutzer kann Ihren Spieler nicht länger "
+#~ "übernehmen.\n"
+#~ "„delegate take <Spieler>“: Übernimmt die Kontrolle über einen Spieler, "
+#~ "der an Sie delegiert wurde (verhält sich wie „take“, aber ohne die "
+#~ "Beschränkungen von „allowtake“).\n"
+#~ "„delegate restore“: Gibt die Kontrolle über einen delegierten Spieler "
+#~ "frei (Gegenteil von „delegate take“) und stellt ggf. Ihre vorige Sicht "
+#~ "wieder her (dies geschieht auch automatisch, wenn der Eigentümer des "
+#~ "Spielers sich wiederverbindet).\n"
+#~ "„delegate show“: Zeigt, an wen die Kontrolle Ihres Spielers momentan "
+#~ "delegiert wird.\n"
+#~ "Das Argument [Spieler] kann nur von Verbindungen der Kontrollebene "
+#~ "„admin“ oder höher verwendet werden, um eine entsprechende Änderung des "
+#~ "Delegationsstatus zu erreichen."
+
+#~ msgid ""
+#~ "fcdb reload\n"
+#~ "fcdb lua <script>"
+#~ msgstr ""
+#~ "fcdb reload\n"
+#~ "fcdb lua <Skript>"
+
+#~ msgid "Manage the authentication database."
+#~ msgstr "Verwaltet die Authentifizierungsdatenbank."
+
+#~ msgid ""
+#~ "The argument 'reload' causes the database script file to be re-read after "
+#~ "a change, while the argument 'lua' evaluates a line of Lua script in the "
+#~ "context of the Lua instance for the database."
+#~ msgstr ""
+#~ "Das Argument „reload“ veranlasst die Neueinlesung des Datenbankskripts "
+#~ "nach einer Veränderung, das Argument „lua“ führt eine Zeile Lua-Code im "
+#~ "Kontext der Lua-Instanz der Datenbank aus."
+
+#~ msgid ""
+#~ "mapimg define <mapdef>\n"
+#~ "mapimg show <id>|all\n"
+#~ "mapimg create <id>|all\n"
+#~ "mapimg delete <id>|all\n"
+#~ "mapimg colortest"
+#~ msgstr ""
+#~ "maping define <Kartendef.>\n"
+#~ "maping show <ID>|all\n"
+#~ "maping create <ID>|all\n"
+#~ "maping delete <ID>|all\n"
+#~ "maping colortest"
+
+#~ msgid "Create image files of the world/player map."
+#~ msgstr "Erstellt Bilder der Welt-/Spielerkarte."
 
 #~ msgid "Switch server output between 'RFC-style' and normal style."
 #~ msgstr "Serverausgabe ändern: 'RFC-Stl' oder 'Standard-Stil'"
@@ -32093,35 +32843,48 @@ msgstr ""
 #~ msgid "%s has connected from %s."
 #~ msgstr "%s von %s hat Verbindung aufgenommen."
 
+#~ msgid "Your delegate %s was controlling your player '%s'; now detached."
+#~ msgstr ""
+#~ "%s kontrollierte Ihren Spieler „%s“ im Wege der Delegation; seine "
+#~ "Kontrolle wurde beendet."
+
+#~ msgid "%s reconnected, ending your delegated control of player '%s'."
+#~ msgstr ""
+#~ "%s hat sich wieder verbunden, die an Sie delegierte Kontrolle über den "
+#~ "Spieler „%s“ wurde widerrufen."
+
+#~ msgid "Couldn't get control of '%s' from delegation to %s."
+#~ msgstr ""
+#~ "Konnte die Kontrolle über „%s“ nicht aus der Delegation an %s heraus "
+#~ "übernehmen."
+
 #~ msgid "Couldn't attach your connection to new player."
 #~ msgstr "Es steht kein neuer Spieler mehr zur Verfügung."
 
 #~ msgid "You are logged in as '%s' connected to no player."
 #~ msgstr ""
-#~ "Sie sind als '%s' mit dem Spiel verbunden, kontrollieren aber keinen "
+#~ "Sie sind als „%s“ mit dem Spiel verbunden, kontrollieren aber keinen "
 #~ "Spieler."
 
 #~ msgid "You are logged in as '%s' connected to an anonymous player."
 #~ msgstr ""
-#~ "Sie sind als '%s' mit dem Spiel und mit einem Spieler ohne Namen "
+#~ "Sie sind als „%s“ mit dem Spiel und mit einem Spieler ohne Namen "
 #~ "verbunden."
 
 #~ msgid "You are logged in as '%s' connected to %s."
-#~ msgstr "Sie sind als '%s' eingeloggt und mit dem Spieler %s verbunden."
+#~ msgstr "Sie sind als „%s“ eingeloggt und mit dem Spieler %s verbunden."
 
-#, fuzzy
 #~ msgid "%s has connected from %s (player %s)."
-#~ msgstr "%s von %s hat Verbindung aufgenommen."
+#~ msgstr "%s von %s hat Verbindung aufgenommen (Spieler %s)."
 
 #~ msgid "Turn-blocking game play: waiting on %s to finish turn..."
 #~ msgstr "Runden-Sperre aktiv: %s hat die Runde noch nicht beendet..."
 
-#, fuzzy
 #~ msgid " *** Server is in edit mode. *** "
-#~ msgstr " *** Der Server hat den Edit-Modus verlassen. *** "
+#~ msgstr " *** Der Server befindet sich im Bearbeitungsmodus. *** "
 
 #~ msgid "Client rejected: %s."
-#~ msgstr "Spieler %s wurde abgewiesen."
+#~ msgstr "Klient %s wurde abgewiesen."
 
 #~ msgid "Connection request from %s from %s"
 #~ msgstr "%s von %s erbittet Verbindung."
@@ -32151,17 +32914,22 @@ msgstr ""
 #~ "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
 #~ msgid "Invalid username '%s'"
-#~ msgstr "Unzulässiger Name '%s'"
+#~ msgstr "Unzulässiger Name „%s“"
 
 #~ msgid "%s was rejected: Invalid name [%s]."
 #~ msgstr "%s wurde abgewiesen: Name [%s] ungültig."
 
-#, fuzzy
+#~ msgid ""
+#~ "You have been kicked from this server and cannot reconnect for %d seconds."
+#~ msgstr ""
+#~ "Sie wurden vom Server gekickt und können sich für %d Sekunden nicht neu "
+#~ "verbinden."
+
 #~ msgid "%s was rejected: Connection kicked (%d seconds remaining)."
-#~ msgstr "%s wurde abgewiesen: Verbindungszeitablauf bei der Paßworteingabe."
+#~ msgstr "%s wurde abgewiesen: Verbindung gekickt (%d Sekunden verbleibend)."
 
 #~ msgid "'%s' already connected."
-#~ msgstr "Verbindung zu %s besteht schon."
+#~ msgstr "„%s“ ist bereits verbunden."
 
 #~ msgid "%s was rejected: Duplicate login name [%s]."
 #~ msgstr "%s wurde abgewiesen: doppelter Name [%s]."
@@ -32169,7 +32937,6 @@ msgstr ""
 #~ msgid "Lost connection: %s."
 #~ msgstr "Verbindung verloren: %s."
 
-#, fuzzy
 #~ msgid "Detaching from %s."
 #~ msgstr "Löse Verbindung zu %s."
 
@@ -32180,7 +32947,7 @@ msgstr ""
 #~ msgstr "OK. Standard-Stil."
 
 #~ msgid "For introductory help, type 'help'."
-#~ msgstr "'help' gibt Erläuterungen zur Verwendung der Online-Hilfe."
+#~ msgstr "„help“ gibt Erläuterungen zur Verwendung der Online-Hilfe."
 
 #~ msgid "The %s can't accept %s."
 #~ msgstr "Die %s können %s nicht akzeptieren."
@@ -32236,28 +33003,25 @@ msgstr ""
 #~ msgid "The %s have acquired %s from the %s."
 #~ msgstr "Die %s haben %s von den %s übernommen."
 
-#, fuzzy
 #~ msgid "You get %d gold."
 #~ msgid_plural "You get %d gold."
-#~ msgstr[0] "%d Goldstücke erhalten."
+#~ msgstr[0] "%d Goldstück erhalten."
 #~ msgstr[1] "%d Goldstücke erhalten."
 
 #~ msgid "You receive the %s worldmap."
-#~ msgstr "Du hast die %se Weltkarte erhalten."
+#~ msgstr "Sie haben die %se Weltkarte erhalten."
 
 #~ msgid "You receive the %s seamap."
-#~ msgstr "Du hast die %se Seekarte erhalten."
+#~ msgstr "Sie haben die %se Seekarte erhalten."
 
-#, fuzzy
 #~ msgid "You receive the city of %s from %s."
 #~ msgstr "Stadt %s von %s erhalten."
 
-#, fuzzy
 #~ msgid "You give the city of %s to %s."
 #~ msgstr "Stadt %s an %s abgegeben."
 
 #~ msgid "You agree on a cease-fire with %s."
-#~ msgstr "Du stimmst einer Feuerpause mit %s zu."
+#~ msgstr "Sie stimmen einer Feuerpause mit %s zu."
 
 #~ msgid ""
 #~ "You agree on an armistice with the %s. In %d turn, it will become a peace "
@@ -32266,14 +33030,16 @@ msgstr ""
 #~ "You agree on an armistice with the %s. In %d turns, it will become a "
 #~ "peace treaty. Move your units out of %s territory."
 #~ msgstr[0] ""
-#~ "Du hast einem Waffenstillstand mit den %s zugestimmt. In %d Runde wird "
-#~ "daraus ein Friedensvertrag. Entferne deine Einheiten aus dem %sen Gebiet."
+#~ "Sie haben einem Waffenstillstand mit den %s zugestimmt, in %d Runde wird "
+#~ "daraus ein Friedensvertrag. Entfernen Sie Ihre Einheiten aus dem %sen "
+#~ "Gebiet."
 #~ msgstr[1] ""
-#~ "Du hast einem Waffenstillstand mit den %s zugestimmt. In %d Runden wird "
-#~ "daraus ein Friedensvertrag. Entferne deine Einheiten aus dem %sen Gebiet."
+#~ "Sie haben einem Waffenstillstand mit den %s zugestimmt, in %d Runden wird "
+#~ "daraus ein Friedensvertrag. Entfernen Sie Ihre Einheiten aus dem %sen "
+#~ "Gebiet."
 
 #~ msgid "You agree on an alliance with %s."
-#~ msgstr "Du hast einer Allianz mit %s zugestimmt."
+#~ msgstr "Sie haben einer Allianz mit %s zugestimmt."
 
 #~ msgid "You give shared vision to %s."
 #~ msgstr "%s darf unsere Karte einsehen."
@@ -32403,168 +33169,173 @@ msgstr ""
 #~ msgstr "Die %s vernichteten %s in %s."
 
 #~ msgid "An enemy %s has been eliminated by your %s."
-#~ msgstr "Feindlicher %s wurde von Deinem %s getötet."
+#~ msgstr "Ein feindlicher %s wurde von Ihrem %s getötet."
 
 #~ msgid "Your %s has been eliminated defending %s against a %s."
-#~ msgstr "%s wurde während des Dienstes von einem %s in %s getötet."
+#~ msgstr "Ihr %s wurde während des Dienstes in %s von einem %s getötet."
 
-#, fuzzy
 #~ msgid "A %s %s has been eliminated defending %s against a %s."
-#~ msgstr "%s wurde während des Dienstes von einem %s in %s getötet."
+#~ msgstr "Ein %ser %s wurde während des Dienstes in %s von einem %s getötet."
 
-#, fuzzy
 #~ msgid "Your %s has been eliminated defending %s %s against a %s."
-#~ msgstr "%s wurde während des Dienstes von einem %s in %s getötet."
+#~ msgstr ""
+#~ "Ihr %s wurde während des Dienstes in der %sen Stadt %s von einem %s "
+#~ "getötet."
 
 #~ msgid "Your %s has been eliminated defending against a %s."
-#~ msgstr "%s wurde von feindlichem %s getötet."
+#~ msgstr "Ihr %s wurde im Kampf mit einem %s getötet."
 
-#, fuzzy
 #~ msgid "A %s %s has been eliminated defending against a %s."
-#~ msgstr "%s wurde von feindlichem %s getötet."
+#~ msgstr "Ein %ser %s wurde im Kampf mit einem %s getötet."
 
 #~ msgid "Your %s was eliminated by a defending %s."
 #~ msgstr "%s wurde von einem Wächter (%s) getötet."
 
-#, fuzzy
 #~ msgid "Eliminated a %s %s while infiltrating %s."
-#~ msgstr "%ser %s wurde bei dem Versuch %s zu unterwandern getötet."
+#~ msgstr ""
+#~ "Ein %ser %s wurde bei dem Versuch %s zu unterwandern ertappt und getötet."
 
-#, fuzzy
 #~ msgid "A %s %s eliminated a %s %s while infiltrating %s."
-#~ msgstr "%ser %s wurde bei dem Versuch %s zu unterwandern getötet."
+#~ msgstr ""
+#~ "Ein %3$ser %4$s wurde bei dem Versuch, %5$s zu unterwandern, von einem "
+#~ "%1$sen %2$s ertappt und getötet."
 
-#, fuzzy
 #~ msgid "Your %s eliminated a %s %s while infiltrating %s."
-#~ msgstr "%ser %s wurde bei dem Versuch %s zu unterwandern getötet."
+#~ msgstr ""
+#~ "Ihr %s hat einen %sen %s bei dem Versuch, %s zu unterwandern, ertappt und "
+#~ "getötet."
 
-#, fuzzy
 #~ msgid "Eliminated a %s %s while infiltrating our troops."
 #~ msgstr ""
-#~ "%ser %s wurde bei dem Versuch unsere Einheiten zu bestechen getötet."
+#~ "Ein %ser %s wurde bei dem Versuch, unsere Truppen zu unterwandern, "
+#~ "ertappt und getötet."
 
-#, fuzzy
 #~ msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 #~ msgstr ""
-#~ "%ser %s wurde bei dem Versuch unsere Einheiten zu bestechen getötet."
+#~ "Ein %ser %s hat einen %sen %s bei dem Versuch, unsere Truppen zu "
+#~ "unterwandern, ertappt und ihn getötet."
 
-#, fuzzy
 #~ msgid "Your %s eliminated a %s %s while infiltrating our troops."
 #~ msgstr ""
-#~ "%ser %s wurde bei dem Versuch unsere Einheiten zu bestechen getötet."
+#~ "Ihr %s hat einen %sen %s bei dem Versuch, unsere Truppen zu unterwandern, "
+#~ "ertappt und ihn getötet."
 
 #~ msgid ""
 #~ "Your %s has successfully completed the mission and returned unharmed to "
 #~ "%s."
 #~ msgstr ""
-#~ "Dein %s hat seine Mission erfolgreich beendet und ist unverletzt nach %s "
+#~ "Ihr %s hat seine Mission erfolgreich beendet und ist unverletzt nach %s "
 #~ "zurückgekehrt."
 
 #~ msgid "Your %s was captured after completing the mission in %s."
 #~ msgstr ""
-#~ "Dein %s wurde nach Beendigung seiner Mission in %s gefangen genommen."
+#~ "Ihr %s wurde nach Beendigung seiner Mission in %s gefangen genommen."
 
 #~ msgid "Your %s was captured after completing the mission."
-#~ msgstr "%s wurde nach Beendigung seiner Mission gefangen genommen."
+#~ msgstr "Ihr %s wurde nach Beendigung seiner Mission gefangen genommen."
 
 #~ msgid "You have caused an incident while bribing the %s %s."
-#~ msgstr "Die Bestechung der %sen %s hat eine diplomatische Krise verursacht."
+#~ msgstr ""
+#~ "Die Bestechung der %sen %s hat einen diplomatische Eklat verursacht!"
 
 #~ msgid "%s has caused an incident while bribing your %s."
 #~ msgstr ""
-#~ "%s hat mit der Bestechung von %s eine diplomatische Krise verursacht."
+#~ "%s hat mit der Bestechung von %s einen diplomatischen Eklat verursacht!"
 
 #~ msgid "You have caused an incident while attempting to steal tech from %s."
 #~ msgstr ""
-#~ "Du hast durch den Diebstahl eines Forschungsergebnisses von den %s einen "
-#~ "diplomatischen Zwischenfall verursacht."
+#~ "Sie haben durch den Diebstahl der Forschungsergebnisse von %s einen "
+#~ "diplomatischen Eklat verursacht!"
 
 #~ msgid "%s has caused an incident while attempting to steal tech from you."
 #~ msgstr ""
-#~ "Die %s haben durch den Diebstahl eines Forschungsergebnisses von dir "
-#~ "einen diplomatischen Zwischenfall verursacht."
+#~ "%s hat durch den Diebstahl Ihrer Forschungsergebnisse einen "
+#~ "diplomatischen Eklat verursacht!"
 
 #~ msgid "You have caused an incident while inciting a revolt in %s."
 #~ msgstr ""
-#~ "Die Anstiftung zu einer Revolte in %s hat eine diplomatische Krise "
+#~ "Die Anstiftung zu einer Revolte in %s hat einen diplomatischen Eklat "
 #~ "verursacht."
 
-#, fuzzy
 #~ msgid "The %s have caused an incident while inciting a revolt in %s."
 #~ msgstr ""
-#~ "%s hat durch die Anstiftung einer Revolte in %s eine diplomatische Krise "
-#~ "verursacht."
+#~ "Die %s haben mit der Anstiftung einer Revolte in %s einen diplomatischen "
+#~ "Eklat verursacht."
 
-#, fuzzy
 #~ msgid " *** Server set to edit mode by %s! *** "
-#~ msgstr " *** Der Server befindet sich im Edit-Modus! *** "
+#~ msgstr " *** %s hat den Bearbeitungsmodus des Servers aktiviert! *** "
 
-#, fuzzy
+#~ msgid " *** Edit mode canceled by %s. *** "
+#~ msgstr " *** %s hat den Bearbeitungsmodus deaktiviert. *** "
+
 #~ msgid ""
 #~ "Cannot create a unit at %s because the given unit type id %d is invalid."
-#~ msgstr "Kann keine %s auf diesem Gelände erzeugen."
+#~ msgstr ""
+#~ "Kann keine Einheit bei %s erzeugen, da die angegebene Einheitentyp-ID %d "
+#~ "ungültig ist."
 
-#, fuzzy
 #~ msgid ""
 #~ "Cannot create a unit of type %s at %s because the given owner's player id "
 #~ "%d is invalid."
-#~ msgstr "Kann keine %s auf diesem Gelände erzeugen."
+#~ msgstr ""
+#~ "Kann keine Einheit des Typs %s bei %s erzeugen, da die angegebene Spieler-"
+#~ "ID %d ungültig ist."
 
-#, fuzzy
 #~ msgid "Cannot create unit of type %s on enemy tile %s."
-#~ msgstr "Kann keine Einheit auf einem feindlichen Feld erzeugen."
+#~ msgstr ""
+#~ "Kann keine Einheit des Typs %s auf dem feindlichen Feld %s erzeugen."
 
-#, fuzzy
 #~ msgid "Cannot create a unit of type %s on the terrain at %s."
-#~ msgstr "Kann keine %s auf diesem Gelände erzeugen."
+#~ msgstr ""
+#~ "Kann keine Einheit des Typs %s auf dem Gelände des Felds %s erzeugen."
 
-#, fuzzy
+#~ msgid ""
+#~ "Cannot remove units because %d is not a valid tile index on this map!"
+#~ msgstr ""
+#~ "Kann Einheiten nicht entfernen, da %d kein gültiger Feldindex auf dieser "
+#~ "Karte ist!"
+
 #~ msgid "No such unit (ID %d)."
-#~ msgstr "Keine Abstimmung mit der Nummer %d vorhanden."
+#~ msgstr "Einheit nicht gefunden (ID: %d)."
 
-#, fuzzy
 #~ msgid "A city may not be built at %s."
-#~ msgstr "* Kann nicht in Städten gebaut werden.\n"
+#~ msgstr "Auf %s kann keine Stadt gegründet werden."
 
-#, fuzzy
 #~ msgid "Cannot edit city name: %s"
-#~ msgstr "Verbindungsname: %s"
+#~ msgstr "Kann Stadtnamen nicht ändern: %s"
 
-#, fuzzy
 #~ msgid ""
 #~ "No more players can be added because the maximum number of players (%d) "
 #~ "has been reached."
 #~ msgstr ""
-#~ "Du kannst keinen neuen Spieler übernehmen, weil die Höchtszahl von %d "
-#~ "Spieler bereits erreicht ist (Option mayplayers)."
+#~ "Es können keine weiteren Spieler hinzugefügt werden, da die Höchstzahl "
+#~ "von Spielern (%d) bereits erreicht wurde."
 
-#, fuzzy
 #~ msgid "Player cannot be created because random nation selection failed."
-#~ msgstr "Spieler können nach Spielstart nicht mehr entfernt werden."
+#~ msgstr ""
+#~ "Spieler konnte nicht erzeugt werden, da die zufällige Nationenwahl "
+#~ "fehlschlug."
 
-#, fuzzy
 #~ msgid "Player creation failed."
-#~ msgstr "Spieler zerstört"
+#~ msgstr "Spielererzeugung fehlgeschlagen."
 
-#, fuzzy
 #~ msgid "No such player (ID %d)."
-#~ msgstr "Keine Abstimmung mit der Nummer %d vorhanden."
+#~ msgstr "Spieler nicht gefunden (ID: %d)."
 
-#, fuzzy
 #~ msgid "No such city (ID %d)."
-#~ msgstr "Keine Abstimmung mit der Nummer %d vorhanden."
+#~ msgstr "Stadt nicht gefunden (ID: %d)."
 
-#, fuzzy
 #~ msgid "Cannot toggle fog-of-war when it is already disabled."
-#~ msgstr "Spiel kann nicht gestartet werden: es läuft bereits."
+#~ msgstr ""
+#~ "Kann Nebel des Krieges nicht umschalten, wenn dieser bereits deaktiviert "
+#~ "wurde."
 
-#, fuzzy
 #~ msgid "Cannot toggle fog-of-war for invalid player ID %d."
-#~ msgstr "Barbaren können nicht von Menschen gespielt werden."
+#~ msgstr ""
+#~ "Kann Nebel des Krieges nicht für ungültige Spieler-ID %d umschalten."
 
-#, fuzzy
 #~ msgid "fcdb option \"%s\":"
-#~ msgstr "Authentifizierungsoption '%s':"
+#~ msgstr "fcdb option \"%s\":"
 
 #~ msgid " missing from config file (using default)"
 #~ msgstr " nicht in der Konfigurationsdatei (benutze Standard)"
@@ -32578,15 +33349,15 @@ msgstr ""
 #~ msgid " (set)"
 #~ msgstr " (Konsole)"
 
-#, fuzzy
 #~ msgid "Illegal value for fcdb port: \"%s\""
-#~ msgstr "Unzulässiger Wert für den Auth-Port: '%s'"
+#~ msgstr "Unzulässiger Wert für den fcdb-Port: „%s“"
 
-#, fuzzy
 #~ msgid ""
 #~ "Cannot load fcdb config file '%s':\n"
 #~ "%s"
-#~ msgstr "Kann Konfigurationsdatei '%s' für Authentifizierung nicht laden!"
+#~ msgstr ""
+#~ "Kann fcdb-Konfigurationsdatei „%s“ nicht laden:\n"
+#~ "%s"
 
 #~ msgid "Sea moving start units are not yet supported. Nobody gets %s."
 #~ msgstr ""
@@ -32596,7 +33367,6 @@ msgstr ""
 #~ msgid "No units placed for %s!"
 #~ msgstr "%s hat keine Einheiten!"
 
-#, fuzzy
 #~ msgid ""
 #~ "The turn timeout has exceeded its maximum value, fixing at its maximum."
 #~ msgstr ""
@@ -32605,6 +33375,9 @@ msgstr ""
 
 #~ msgid "The turn timeout is smaller than zero, fixing at zero."
 #~ msgstr "Die zulässige Rundenzeit ist negativ, sie wird auf Null gesetzt."
+
+#~ msgid "The server couldn't allocate starting positions."
+#~ msgstr "Der Server konnte die Startpositionen nicht festlegen."
 
 #~ msgid "High landmass - this may take a few seconds."
 #~ msgstr "Große Landfläche - bitte warten..."
@@ -32637,16 +33410,19 @@ msgstr ""
 #~ msgid "%s is an ambiguous connection name-prefix."
 #~ msgstr "%s ist nicht eindeutig."
 
-#, fuzzy
 #~ msgid "%s is an anonymous name. Use connection name."
-#~ msgstr "Der Name %s ist unbekannt. Verwenden Sie den Verbindungsnamen."
+#~ msgstr "%s ist ein anonymer Name. Verwenden Sie den Verbindungsnamen."
+
+#~ msgid "You cannot send messages to %s; you are ignored."
+#~ msgstr ""
+#~ "Ihre Nachrichten an %s werden gefiltert, daher können Sie ihm/ihr keine "
+#~ "Nachricht senden."
 
 #~ msgid "%s to allies: %s"
 #~ msgstr "%s an Verbündete: %s"
 
-#, fuzzy
 #~ msgid "%s to global observers: %s"
-#~ msgstr "%s beobachtet jetzt den Spieler %s"
+#~ msgstr "%s an globale Beobachter: %s"
 
 #~ msgid "You are not attached to a player."
 #~ msgstr "Du bist nicht mit einem Spieler verbunden."
@@ -32679,29 +33455,27 @@ msgstr ""
 #~ "Feuchtgebiete sind ausgetrocknet und große Teile des Graslands sind zu "
 #~ "Tundra geworden."
 
-#, fuzzy
+# MG: Wird nur bei Eigenentdeckung angezeigt
 #~ msgid ""
 #~ "New hope sweeps like fire through the country as the discovery of "
 #~ "railroad is announced."
 #~ msgstr ""
-#~ "Als die Entwicklung der Eisenbahn bekannt gegeben wird, fassen\n"
-#~ "       die Arbeiter neuen Mut. Spontan statten sie alle Städte damit aus."
+#~ "Als die Entwicklung der Eisenbahn bekannt gegeben wird, erleuchtet die "
+#~ "Flamme der Hoffnung das Land."
 
-#, fuzzy
+# MG: Wird nur bei Aquise durch Diplomatie, Eroberung, etc. angezeigt
 #~ msgid ""
 #~ "The people are pleased to hear that your scientists finally know about "
 #~ "railroads."
 #~ msgstr ""
-#~ "Das Volk ist begeistert über die Entwicklung der Eisenbahn durch unsere "
-#~ "Wissenschaftler.\n"
-#~ "       Spontan haben sie alle Städte damit ausgestattet."
+#~ "Das Volk ist begeistert davon, dass nun auch unsere Wissenschaftler die "
+#~ "Eisenbahn verstehen."
 
-#, fuzzy
+# MG: Wird immer angezeigt
 #~ msgid "Workers spontaneously gather and upgrade all cities with railroads."
 #~ msgstr ""
-#~ "Die Bevölkerung in %s ist von deinen technischen Errungenschaften\n"
-#~ "       begeistert! Die Arbeiter haben die Stadt spontan mit einer\n"
-#~ "       Eisenbahn ausgestattet."
+#~ "Die Arbeiter fassen neuen Mut und statten spontan alle Städte mit "
+#~ "Eisenbahnschienen aus."
 
 #~ msgid "Moved your %s due to changing terrain."
 #~ msgstr "Deine %s wurde wegen Veränderung des Geländes verschoben."
@@ -32712,9 +33486,8 @@ msgstr ""
 #~ msgid "Not reporting to the metaserver in this game."
 #~ msgstr "In diesem Spiel werden keine Daten an den Metaserver geschickt."
 
-#, fuzzy
 #~ msgid "Error connecting to metaserver"
-#~ msgstr "Verbindung zum Server verloren!"
+#~ msgstr "Fehler bei der Verbindung zum Metaserver"
 
 #~ msgid "The %s are no more!"
 #~ msgstr "Die %s sind nicht mehr!"
@@ -32745,17 +33518,14 @@ msgstr ""
 #~ msgid "You should choose a new government from the government menu."
 #~ msgstr "Bitte wählen Sie eine neue Regierung im Menü Regierung."
 
-#, fuzzy
 #~ msgid "Tax rate exceeded the max rate; adjusted."
-#~ msgstr "Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
+#~ msgstr "Die Steuerquote übersteigt die Höchstgrenze; angepasst."
 
-#, fuzzy
 #~ msgid "Science rate exceeded the max rate; adjusted."
-#~ msgstr "Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
+#~ msgstr "Die Forschungsquote übersteigt die Höchstgrenze; angepasst."
 
-#, fuzzy
 #~ msgid "Luxury rate exceeded the max rate; adjusted."
-#~ msgstr "Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
+#~ msgstr "Die Luxusquote übersteigt die Höchstgrenze; angepasst."
 
 #~ msgid "%s no longer gives us shared vision!"
 #~ msgstr "%s läßt uns nicht mehr in die Karte sehen!"
@@ -32788,8 +33558,8 @@ msgstr ""
 #~ " %s canceled the diplomatic agreement! The diplomatic state between the "
 #~ "%s and the %s is now %s."
 #~ msgstr ""
-#~ "Die %s haben das Abkommen gekündigt! Zwischen den %s und den %s herrscht "
-#~ "nun %s."
+#~ "%s hat das Abkommen aufgekündigt! Zwischen den %s und den %s herrscht nun "
+#~ "%s."
 
 #~ msgid ""
 #~ "%s has attacked your ally %s! You cancel your alliance to the aggressor."
@@ -32819,35 +33589,34 @@ msgstr ""
 #~ msgid "That nation is already in use."
 #~ msgstr "Diese Nation ist bereits vergeben."
 
-#, fuzzy
 #~ msgid ""
 #~ "Another player already has the name '%s'. Please choose another name."
 #~ msgstr ""
-#~ "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. "
+#~ "Ein anderer Spieler nimmt bereits unter dem Namen „%s“ am Spiel teil. "
 #~ "Bitte wählen Sie einen anderen Namen."
 
 #~ msgid "Please choose a name containing only ASCII characters."
 #~ msgstr "Bitte wählen Sie einen Namen, der nur ASCII-Zeichen enthält."
 
-#, fuzzy
 #~ msgid "Player no. %d"
-#~ msgstr "Spieler %d"
+#~ msgstr "Spieler Nr. %d"
 
-#, fuzzy
 #~ msgid "A poorly-named player"
-#~ msgstr "Eine schlecht benannte Stadt"
+#~ msgstr "Ein schlecht benannter Spieler"
 
 #~ msgid "You have made contact with the %s, ruled by %s."
 #~ msgstr "Die %s entdeckt. Ihr Herrscher ist %s."
 
 #~ msgid "Could not throw %s into civil war - too many players"
-#~ msgstr "Bürgerkrieg der %s ist nicht möglich - zu viele Spieler"
+#~ msgstr "Konnte die %s nicht in den Bürgerkrieg treiben — zu viele Spieler"
 
 #~ msgid "Could not throw %s into civil war - no available nations"
-#~ msgstr "Bürgerkrieg der %s ist nicht möglich - keine Nationen verfügbar"
+#~ msgstr ""
+#~ "Konnte die %s nicht in den Bürgerkrieg treiben — keine Nationen mehr "
+#~ "verfügbar"
 
 #~ msgid "Your nation is thrust into civil war."
-#~ msgstr "Die Nation wird vom Bürgerkrieg gespalten."
+#~ msgstr "In Ihrer Nation ist der Bürgerkrieg ausgebrochen!"
 
 #~ msgid "%s is the rebellious leader of the %s."
 #~ msgstr "%s ist der Anführer der revoltierenden %s."
@@ -32862,9 +33631,13 @@ msgstr ""
 #~ msgstr[1] ""
 #~ "Der Bürgerkrieg spaltet die %s; die %s kontrollieren nun %d Städte."
 
-#, fuzzy
 #~ msgid "Control of player '%s' is delegated to you."
-#~ msgstr "%s auf '%s' gesetzt."
+#~ msgstr "Kontrolle über den Spieler „%s“ an Sie delegiert."
+
+#~ msgid "Use '/delegate take <player>' to take control of a delegated player."
+#~ msgstr ""
+#~ "Verwenden Sie „/delegate take <Spieler>“ um die Kontrolle über einen "
+#~ "delegierten Spieler zu übernehmen."
 
 #~ msgid "%s %s reports on the RICHEST Civilizations in the World."
 #~ msgstr "Im Jahr %s berichtet %s über die REICHSTEN Nationen der Welt."
@@ -32892,7 +33665,7 @@ msgstr ""
 #~ msgstr "Plinius der Ältere"
 
 #~ msgid "Livy"
-#~ msgstr "Livy"
+#~ msgstr "Livius"
 
 #~ msgid "Toynbee"
 #~ msgstr "Toynbee"
@@ -32901,7 +33674,7 @@ msgstr ""
 #~ msgstr "Gibbon"
 
 #~ msgid "Ssu-ma Ch'ien"
-#~ msgstr "Ssu-ma Ch'ien"
+#~ msgstr "Ssu-ma Ch’ien"
 
 #~ msgid "Pan Ku"
 #~ msgstr "Pan Ku"
@@ -32969,9 +33742,8 @@ msgstr ""
 #~ msgid "Historian Publishes!"
 #~ msgstr "Historiker veröffentlicht:"
 
-#, fuzzy
 #~ msgid "%2d: The %s City of %s (%s) of size %d, "
-#~ msgstr "%2d: Die %se Stadt %s der Größe %d "
+#~ msgstr "%2d: Die %se Stadt %s (%s) der Größe %d "
 
 #~ msgid "%2d: The %s City of %s of size %d, "
 #~ msgstr "%2d: Die %se Stadt %s der Größe %d "
@@ -32981,7 +33753,7 @@ msgstr ""
 
 #~ msgid "with %d wonder\n"
 #~ msgid_plural "with %d wonders\n"
-#~ msgstr[0] "mit 1 Weltwunder\n"
+#~ msgstr[0] "mit %d Weltwunder\n"
 #~ msgstr[1] "mit %d Weltwundern\n"
 
 #~ msgid "Traveler's Report:"
@@ -32990,9 +33762,8 @@ msgstr ""
 #~ msgid "The Five Greatest Cities in the World!"
 #~ msgstr "Die fünf großartigsten Städte der Welt!"
 
-#, fuzzy
 #~ msgid "%s in %s (%s, %s)\n"
-#~ msgstr "%s in %s (%s)\n"
+#~ msgstr "%s in %s (%s, %s)\n"
 
 #~ msgid "%s in %s (%s)\n"
 #~ msgstr "%s in %s (%s)\n"
@@ -33000,32 +33771,27 @@ msgstr ""
 #~ msgid "%s has been DESTROYED\n"
 #~ msgstr "%s wurde ZERSTÖRT\n"
 
-#, fuzzy
 #~ msgid "(building %s in %s (%s, %s))\n"
-#~ msgstr "(baut %s in %s (%s))\n"
+#~ msgstr "(baut %s in %s (%s, %s))\n"
 
 #~ msgid "(building %s in %s (%s))\n"
 #~ msgstr "(baut %s in %s (%s))\n"
 
-#, fuzzy
 #~ msgid " sq. mi."
 #~ msgid_plural " sq. mi."
-#~ msgstr[0] " qkm"
-#~ msgstr[1] " qkm"
+#~ msgstr[0] " km²"
+#~ msgstr[1] " km²"
 
-#, fuzzy
 #~ msgid " M tons"
 #~ msgid_plural " M tons"
-#~ msgstr[0] " M t"
-#~ msgstr[1] " M t"
+#~ msgstr[0] " Mt"
+#~ msgstr[1] " Mt"
 
-#, fuzzy
 #~ msgid " M goods"
 #~ msgid_plural " M goods"
-#~ msgstr[0] " M Produkte"
-#~ msgstr[1] " M Produkte"
+#~ msgstr[0] " Mio. Produkte"
+#~ msgstr[1] " Mio. Produkte"
 
-#, fuzzy
 #~ msgid " bulb"
 #~ msgid_plural " bulbs"
 #~ msgstr[0] " Punkte"
@@ -33041,14 +33807,18 @@ msgstr ""
 #~ msgstr[0] " t"
 #~ msgstr[1] " t"
 
+#~ msgid "(ranked %d)"
+#~ msgstr "(%d. Platz)"
+
 #~ msgid "Demographics Report:"
 #~ msgstr "Bericht zur Lage der Nation:"
 
 #~ msgid "Sorry, the Demographics report is unavailable."
 #~ msgstr "Der Bericht zur Lage der Nation ist leider nicht verfügbar."
 
+# MG: Isländische Monarchie (250 u.Z.)
 #~ msgid "%s %s (%s)"
-#~ msgstr "%s  %s (%s)"
+#~ msgstr "%se %s (%s)"
 
 #~ msgid "Population\n"
 #~ msgstr "Bevölkerung\n"
@@ -33114,64 +33884,54 @@ msgstr ""
 #~ msgid "Spaceship\n"
 #~ msgstr "Raumschiff\n"
 
-#, fuzzy
 #~ msgid "Built Units\n"
-#~ msgstr "Einheiten im Bau "
+#~ msgstr "Ausgebildete Einheiten\n"
 
-#, fuzzy
 #~ msgid "Killed Units\n"
-#~ msgstr "Mögliche Einheiten"
+#~ msgstr "Getötete Einheiten\n"
 
-#, fuzzy
 #~ msgid "Unit Losses\n"
-#~ msgstr "Schild"
+#~ msgstr "Einheitenverluste\n"
 
+# MG: TECHNICAL
 #~ msgid "Could not find a readable \"%s.%s\" ruleset file."
 #~ msgstr "Could not find a readable \"%s.%s\" ruleset file."
 
-#, fuzzy
 #~ msgid "Loading rulesets."
-#~ msgstr "Lade Regelsätze"
+#~ msgstr "Lade Regelsätze."
 
-#, fuzzy
 #~ msgid "Reducing aifill because there are not enough playable nations."
 #~ msgstr ""
-#~ "Du kannst keinen neuen Spieler übernehmen, weil es keine freien Plätze "
-#~ "mehr gibt."
+#~ "„aifill“ wird verringert, weil es nicht genügend spielbare Nationen gibt."
 
-#, fuzzy
 #~ msgid ""
 #~ "Saved game contains incomplete map data. This can happen with old saved "
 #~ "games, or it may indicate an invalid saved game file. Proceed at your own "
 #~ "risk."
 #~ msgstr ""
 #~ "Die Karte wurde nicht komplett gespeichert. Das kann entweder daran "
-#~ "liegen, daß es sich um eine ältere Sicherung handelt oder daß die "
+#~ "liegen, dass es sich um eine ältere Sicherung handelt oder dass die "
 #~ "Sicherungsdatei beschädigt ist. Wenn Sie weitermachen wollen: Auf eigene "
 #~ "Gefahr!"
 
-#, fuzzy
 #~ msgid "%s has been added as %s level AI-controlled player (%s)."
-#~ msgstr "%s ist als KI-Spieler mit dem Level '%s' dazu gekommen."
+#~ msgstr ""
+#~ "%s ist als KI-Spieler mit dem Schwierigkeitsgrad „%s“ dazu gekommen (%s)."
 
-#, fuzzy
 #~ msgid "%s has been added as human player."
-#~ msgstr "%s ist als KI-Spieler dazu gekommen."
+#~ msgstr "%s ist als menschlicher Spieler dazu gekommen."
 
 #~ msgid "%s had invalid nation; changing to %s."
 #~ msgstr "%s ist eine ungültige Nation und wird geändert auf %s."
 
-#, fuzzy
 #~ msgid "current version"
-#~ msgstr "(Beta-Version)"
+#~ msgstr "Aktuelle Version"
 
-#, fuzzy
 #~ msgid "freeciv 2.3.0"
-#~ msgstr "Freeciv"
+#~ msgstr "Freeciv 2.3.0"
 
-#, fuzzy
 #~ msgid "freeciv 2.4.0"
-#~ msgstr "Freeciv"
+#~ msgstr "Freeciv 2.4.0"
 
 #~ msgid ""
 #~ "Saved game uses the \"classic\" terrain ruleset, and is no longer "
@@ -33197,11 +33957,20 @@ msgstr ""
 #~ msgid "rejected"
 #~ msgstr "abgewiesen"
 
+#~ msgid "Shutting down for lack of players."
+#~ msgstr "Fahre herunter, da keine Spieler mehr."
+
 #~ msgid "Restarting for lack of players."
-#~ msgstr "Neustart, da keine Spieler mehr"
+#~ msgstr "Neustart, da keine Spieler mehr."
+
+#~ msgid "Shutting down in %d seconds for lack of players."
+#~ msgstr "Fahre in %d Sekunden herunter, da keine Spieler mehr."
+
+#~ msgid "shutting down soon for lack of players"
+#~ msgstr "Baldiges Herunterfahren, da keine Spieler mehr"
 
 #~ msgid "Restarting in %d seconds for lack of players."
-#~ msgstr "Neustart in %d Sekunden, da keine Spieler mehr"
+#~ msgstr "Neustart in %d Sekunden, da keine Spieler mehr."
 
 #~ msgid "restarting soon for lack of players"
 #~ msgstr "Baldiger Neustart, da keine Spieler mehr"
@@ -33407,9 +34176,8 @@ msgstr ""
 #~ "Sie können keinen neuen Generator anfordern, nachdem bereits eine Karte "
 #~ "geladen wurde."
 
-#, fuzzy
 #~ msgid "Invalid score name definition: '%s'."
-#~ msgstr "Unzulässiger Name '%s'"
+#~ msgstr "Unzulässige Highscore-Definition: „%s“"
 
 #~ msgid ""
 #~ "Demography string validation failed at character: '%c'. Try \"help "
@@ -33418,13 +34186,12 @@ msgstr ""
 #~ "Der Optionsstring zur Lage der Nation enthält das ungültige Zeichen »%c«. "
 #~ "Nähere Informationen sind mit »help demography« erhältlich."
 
-#, fuzzy
 #~ msgid ""
 #~ "Allowed take string validation failed at character: '%c'. Try \"help "
 #~ "allowtake\"."
 #~ msgstr ""
-#~ "Der Optionsstring zu zulässigen Verbindungen enthält ungültige Zeichen. "
-#~ "Nähere Informationen sind mit 'help allowconnect' erhältlich."
+#~ "Der Optionsstring zur Übernahme von Spielern enthält das ungültige "
+#~ "Zeichen „%c“. Nähere Informationen sind mit „help allowtake“ erhältlich."
 
 #~ msgid ""
 #~ "Starting units string validation failed at character '%c'. Try \"help "
@@ -33737,7 +34504,6 @@ msgstr ""
 #~ msgid "Average temperature of the planet"
 #~ msgstr "Mittlere Temperatur des Planeten"
 
-#, fuzzy
 #~ msgid ""
 #~ "Small values will give a cold map, while larger values will give a hotter "
 #~ "map.\n"
@@ -33754,15 +34520,11 @@ msgstr ""
 #~ "\n"
 #~ "100 bedeutet einen sehr trockenen und heißen Planeten ohne Polareiszonen, "
 #~ "nur mit tropischen oder Trockenzonen.\n"
-#~ "\n"
-#~ "70 bedeutet einen heißen Planeten mit wenig Polareis.\n"
-#~ "\n"
-#~ "50 bedeutet einen normalwarmen Planeten mit Polar-, kalten, warmen und "
+#~ "  70 bedeutet einen heißen Planeten mit wenig Polareis.\n"
+#~ "  50 bedeutet einen normalwarmen Planeten mit Polar-, kalten, warmen und "
 #~ "tropischen Zonen; eine Wüstenzone überlagert tropische und warme Zonen.\n"
-#~ "\n"
-#~ "30 bedeutet einen kalten Planeten mit kleineren Tropenzonen.\n"
-#~ "\n"
-#~ "0 bedeutet einen sehr kalten Planeten mit ausgedehnten Polarzonen und "
+#~ "  30 bedeutet einen kalten Planeten mit kleineren Tropenzonen.\n"
+#~ "  0 bedeutet einen sehr kalten Planeten mit ausgedehnten Polarzonen und "
 #~ "ohne Tropen."
 
 #~ msgid "Percentage of the map that is land"
@@ -34084,7 +34846,6 @@ msgstr ""
 #~ msgid "Penalty when getting a free tech"
 #~ msgstr "Abzug für »kostenlose« Entwicklungen"
 
-#, fuzzy
 #~ msgid ""
 #~ "For each technology you gain \"for free\" (other than covered by "
 #~ "'diplcost' or 'conquercost': for instance, from huts or from Great "
@@ -34165,7 +34926,6 @@ msgstr ""
 #~ msgid "Minimum distance between cities"
 #~ msgstr "Mindestentfernung zwischen Städten"
 
-#, fuzzy
 #~ msgid ""
 #~ "When a player attempts to found a new city, it is prevented if the "
 #~ "distance from any existing city is less than this setting. For example, "
@@ -34177,7 +34937,8 @@ msgstr ""
 #~ "in der angegebenen Entfernung existiert. Beispiel: Wenn dieser Wert 3 "
 #~ "ist, müssen zwischen zwei Städten mindestens zwei leere Felder in allen "
 #~ "Richtungen liegen. Wenn dieser Wert 0 ist (Standard), wird der Wert durch "
-#~ "den verwendeten Regelsatz bestimmt."
+#~ "den verwendeten Regelsatz bestimmt. Ein Wert von 1 hebt derlei "
+#~ "Beschränkungen vollständig auf."
 
 #~ msgid "Technology trading"
 #~ msgstr "Technologiehandel"
@@ -34392,7 +35153,6 @@ msgstr ""
 #~ msgid "Length in turns of revolution"
 #~ msgstr "Dauer der Revolution in Runden"
 
-#, fuzzy
 #~ msgid ""
 #~ "When changing governments, a period of anarchy lasting this many turns "
 #~ "will occur. Setting this value to 0 will give a random length of 1-5 "
@@ -34400,20 +35160,20 @@ msgstr ""
 #~ msgstr ""
 #~ "Beim Wechsel der Regierungsform gibt es eine Zwischenperiode von der "
 #~ "angegebenen Anzahl Runden. Der Wert Null gibt eine zufällige Dauer von "
-#~ "1-6 Runden."
+#~ "1-5 Runden."
 
 #~ msgid "Whether to enable fog of war"
 #~ msgstr "Nebel des Krieges"
 
-#, fuzzy
 #~ msgid ""
 #~ "If this is enabled, only those units and cities within the vision range "
 #~ "of your own units and cities will be revealed to you. You will not see "
 #~ "new cities or terrain changes in tiles not observed."
 #~ msgstr ""
-#~ "Bei 1 verhindern die 'Nebel des Krieges', daß Einheiten außer Sichtweite "
-#~ "eigener Einheiten angezeigt werden. Auch neue Städte oder "
-#~ "Landschaftsänderungen auf unbeobachteten Feldern bleiben unbemerkt."
+#~ "Wenn dies aktiviert ist, werden nur solche Einheiten und Städte "
+#~ "aufgedeckt, die sich in Sichtweite Ihrer eigenen Einheiten Städte "
+#~ "befinden. Auch neue Städte oder Landschaftsänderungen auf unbeobachteten "
+#~ "Feldern bleiben unbemerkt."
 
 #~ msgid "Whether fog of war applies to border changes"
 #~ msgstr "Nebel des Krieges verdeckt Änderungen von Nationalgrenzen"
@@ -34448,9 +35208,8 @@ msgstr ""
 #~ msgid "Whether to allow space race"
 #~ msgstr "Weltraumrennen erlaubt?"
 
-#, fuzzy
 #~ msgid "If this option is enabled, players can build spaceships."
-#~ msgstr "1 erlaubt den Raumschiffbau."
+#~ msgstr "Diese Option erlaubt den Bau eines Raumschiffs."
 
 #~ msgid "Should the game end if the spaceship arrives?"
 #~ msgstr "Spielende bei Ankunft des Raumschiffes?"
@@ -34513,7 +35272,6 @@ msgstr ""
 #~ msgid "Rebuild palace whenever capital is conquered"
 #~ msgstr "Ewiger Palast"
 
-#, fuzzy
 #~ msgid ""
 #~ "If this is turned on, when the capital is conquered the palace is "
 #~ "automatically rebuilt for free in another randomly chosen city. This is "
@@ -34521,9 +35279,11 @@ msgstr ""
 #~ "be ignored. (In some rulesets, buildings other than the palace are "
 #~ "affected by this setting.)"
 #~ msgstr ""
-#~ "Falls 1, wird beim Verlust der Hauptstadt automatisch in einer zufällig "
-#~ "ausgewählten Stadt kostenfrei ein neuer errichtet, auch wenn die "
-#~ "technologischen Voraussetzungen dafür nicht vorhanden sind."
+#~ "Falls eingeschaltet, wird beim Verlust der Hauptstadt automatisch in "
+#~ "einer zufällig ausgewählten Stadt kostenfrei ein neuer Palast errichtet, "
+#~ "auch wenn die technologischen Voraussetzungen dafür nicht vorhanden sind "
+#~ "(in einigen Regelsätzen sind neben dem Palast noch andere Gebäude von "
+#~ "dieser Einstellung betroffen)."
 
 #~ msgid "Give caught units a homecity"
 #~ msgstr "Weise gefangenen Einheiten eine Heimatstadt zu"
@@ -34580,7 +35340,6 @@ msgstr ""
 #~ msgid "Players that users are allowed to take"
 #~ msgstr "Spieler die frei zu übernehmen sind"
 
-#, fuzzy
 #~ msgid ""
 #~ "This should be a string of characters, each of which specifies a type or "
 #~ "status of a civilization (player).\n"
@@ -34611,49 +35370,49 @@ msgstr ""
 #~ "     4 = No controller allowed, observers allowed"
 #~ msgstr ""
 #~ "Dies ist eine Zeichenkette, in der jeder Buchstabe einen Typ oder Status "
-#~ "einer Zivilisation (Spieler) angibt. Clients dürfen nur Spieler "
-#~ "übernehmen oder beobachten, deren Buchstabe hier aufgeführt ist. Dies "
-#~ "regelt nur zukünftige Anwendungen des 'take'- und des 'observe'-"
-#~ "Kommandos, laufende Verbindungen sind nicht betroffen. Die Buchstaben und "
-#~ "ihre Bedeutung:\n"
+#~ "einer Zivilisation (Spieler) angibt.\n"
+#~ "Clients dürfen nur Spieler übernehmen oder beobachten, deren Buchstabe "
+#~ "hier aufgeführt ist. Dies regelt nur zukünftige Anwendungen der „take“- "
+#~ "und „observe“-Kommandos, laufende Verbindungen sind nicht betroffen. Die "
+#~ "Buchstaben und ihre Bedeutung:\n"
+#~ "\n"
 #~ "    o, O = Globale Beobachter\n"
 #~ "    b    = Barbaren\n"
 #~ "    d    = tote Spieler\n"
 #~ "    a, A = KI-Spieler\n"
 #~ "    h, H = menschliche Spieler\n"
-#~ "Die erste Beschreibung, die auf den Spieler paßt, wird angewendet. 'd' "
-#~ "gilt also nicht für tote Barbaren, und 'a' gilt nicht für tote KI-"
-#~ "Spieler. Großbuchstaben gelten vor Spielbeginn, Kleinbuchstaben während "
-#~ "des Spiels.\n"
 #~ "\n"
+#~ "Die erste Beschreibung, die auf den Spieler passt, wird angewendet. „d“ "
+#~ "gilt also nicht für tote Barbaren, „a“ gilt nicht für tote KI-Spieler, "
+#~ "usw. Großbuchstaben gelten vor Spielbeginn, Kleinbuchstaben während des "
+#~ "Spiels.\n"
 #~ "Auf jeden Buchstaben darf eine der untenstehenden Ziffern folgen um die "
-#~ "Art der Verbindung weiter einzuschränken:\n"
+#~ "Art der Verbindung zu erweitern oder einzuschränken:\n"
 #~ "\n"
-#~ "(keine) - kontrollieren, beobachten, und verdrängen* erlaubt\n"
+#~ "(keine) — Kontrollieren, Beobachten, und Verdrängen¹ erlaubt.\n"
 #~ "\n"
-#~ "   1    - kontrollieren und beobachten erlaubt\n"
+#~ "   1    — Kontrollieren und Beobachten erlaubt. Kein Verdrängen.\n"
 #~ "\n"
-#~ "   2    - kontrollieren und verdrängen erlaubt\n"
+#~ "   2    — Kontrollieren, aber kein Beobachten erlaubt. Verdrängen "
+#~ "erlaubt.\n"
 #~ "\n"
-#~ "   3    - nur kontrollieren erlaubt\n"
+#~ "   3    — Kontrollieren erlaubt. Kein Beobachten und Verdrängen.\n"
 #~ "\n"
-#~ "   4    - nur beobachten erlaubt\n"
+#~ "   4    — Kein Kontrollieren. Beobachten erlaubt.\n"
 #~ "\n"
-#~ "* 'Verdrängen' bedeutet, einen Spieler zu übernehmen, der bereits von "
-#~ "einem anderen Spieler kontrolliert wird.\n"
-#~ "\n"
+#~ "¹ „Verdrängen“ bedeutet, einen Spieler zu übernehmen, der bereits von "
+#~ "einem anderen Spieler kontrolliert wird."
 
 #~ msgid "Whether AI-status toggles with connection"
 #~ msgstr "Automatischer KI-Status"
 
-#, fuzzy
 #~ msgid ""
 #~ "If enabled, AI status is turned off when a player connects, and on when a "
 #~ "player disconnects."
 #~ msgstr ""
-#~ "1 bedeutet, daß bei einem Verbindungsabbruch automatisch der KI-Status "
-#~ "aktiviert und bei Wiederherstellung der Verbindung der KI-Status "
-#~ "automatisch deaktiviert wird."
+#~ "Ist diese Option eingeschaltet, so wird der KI-Modus deaktiviert, wenn "
+#~ "ein Spieler sich verbindet. Trennt der Spieler die Verbindung, wird der "
+#~ "KI-Modus automatisch wieder aktiviert."
 
 #~ msgid "Turn the game ends"
 #~ msgstr "Letzte Spielrunde"
@@ -34667,7 +35426,6 @@ msgstr ""
 #~ msgid "Maximum seconds per turn"
 #~ msgstr "Maximale Rundendauer (in Sekunden)"
 
-#, fuzzy
 #~ msgid ""
 #~ "If all players have not hit \"Turn Done\" before this time is up, then "
 #~ "the turn ends automatically. Zero means there is no timeout. In servers "
@@ -34678,11 +35436,14 @@ msgstr ""
 #~ "controlled by the 'first_timeout' setting."
 #~ msgstr ""
 #~ "Nach Ablauf dieser Zeit endet die Runde unabhängig davon, ob alle Spieler "
-#~ "fertig sind. 0 deaktiviert diese Option. Bei Servern im DEBUG Modus wird "
-#~ "mit -1 ein 'vollautomatisches' Testspiel gestartet. Timeouts von weniger "
-#~ "als 30 Sekunden können nur mit der Zugriffsberechtigung 'hack' "
-#~ "eingestellt werden. In Verbindung mit dem Befehl 'timeoutincrease' kann "
-#~ "der Timer dynamisch benutzt werden."
+#~ "fertig sind; ein Server im Debug-Modus kann mit -1 dazu angewiesen "
+#~ "werden, ein vollautomatisches Testspiel durchzuführen. Eine Ausahme "
+#~ "stellt die erste Runde da, die separat mithilfe der Option "
+#~ "„first_timeout“ eingestellt werden muss.\n"
+#~ "Der Wert 0 deaktiviert diese Option, Werte kleiner als 30 Sekunden können "
+#~ "nur von Personen mit der Zugriffsberechtigung „hack“ eingestellt werden.\n"
+#~ "Sie können diese Option mit dem Befehl „timeoutincrease“ kombinieren, um "
+#~ "einen dynamischen Timer zu erhalten."
 
 #~ msgid "First turn timeout"
 #~ msgstr "Zeitbeschränkung für die erste Runde"
@@ -34718,10 +35479,10 @@ msgstr ""
 
 #~ msgid ""
 #~ "This setting controls whether players may make moves at the same time "
-#~ "during a turn."
+#~ "during a turn. Change in setting takes effect next turn."
 #~ msgstr ""
 #~ "Diese Einstellung legt fest, ob Spieler in einer Runde gleichzeitig "
-#~ "ziehen können."
+#~ "ziehen können. Änderungen werden ab der nächsten Runde wirksam."
 
 #~ msgid "Seconds to let a client's network connection block"
 #~ msgstr "Maximale TCP-Blockierung (Sekunden)"
@@ -34749,13 +35510,12 @@ msgstr ""
 #~ msgid "Seconds between PINGs"
 #~ msgstr "PING-Intervall (Sekunden)"
 
-#, fuzzy
 #~ msgid ""
 #~ "The server will poll the clients with a PING request each time this "
 #~ "period elapses."
 #~ msgstr ""
-#~ "Der Server fordert am Ende dieser Zeitspanne (in Sek.) ein PING von den "
-#~ "Clients."
+#~ "Jedes Mal, wenn diese Zeitspanne endet, sendet der Server den Clients ein "
+#~ "PING, um deren Erreichbarkeit sicherzustellen."
 
 #~ msgid "Time to cut a client"
 #~ msgstr "Inaktiven Client trennen (Sekunden)"
@@ -34770,26 +35530,24 @@ msgstr ""
 #~ msgid "Turn-blocking game play mode"
 #~ msgstr "Rundensperre"
 
-#, fuzzy
 #~ msgid ""
 #~ "If this is turned on, the game turn is not advanced until all players "
 #~ "have finished their turn, including disconnected players."
 #~ msgstr ""
-#~ "Wenn dieser Wert auf 1 gesetzt ist, wird die Spielrunde erst beendet, "
-#~ "wenn alle Spieler ihren Zug beendet haben, einschließlich der Spieler, zu "
-#~ "denen der Server keine Verbindung hat."
+#~ "Wenn diese Option aktiv ist, wird die Spielrunde erst beendet, wenn alle "
+#~ "Spieler ihren Zug beendet haben — einschließlich der Spieler, zu denen "
+#~ "der Server keine Verbindung hat."
 
 #~ msgid "Fixed-length turns play mode"
 #~ msgstr "Spielzüge mit vorgegebener Zeit"
 
-#, fuzzy
 #~ msgid ""
 #~ "If this is turned on the game turn will not advance until the timeout has "
 #~ "expired, even after all players have clicked on \"Turn Done\"."
 #~ msgstr ""
-#~ "Wenn dieser Wert auf 1 gesetzt ist, wird die Spielrunde erst beendet, "
-#~ "wenn die vorgegebene Zeit abgelaufen ist, selbst wenn alle Spieler "
-#~ "bereits auf 'Fertig' gedrückt haben."
+#~ "Wenn diese Option aktiv ist, wird die Spielrunde erst beendet, wenn die "
+#~ "vorgegebene Zeit abgelaufen ist — selbst wenn alle Spieler bereits auf "
+#~ "„Fertig“ gedrückt haben."
 
 #~ msgid "What is in the Demographics report"
 #~ msgstr "Bericht zur Lage der Nation"
@@ -34841,18 +35599,21 @@ msgstr ""
 #~ msgid "Savegame compression level"
 #~ msgstr "Dateikomprimierung"
 
-#, fuzzy
 #~ msgid ""
 #~ "If non-zero, saved games will be compressed depending on the "
 #~ "'compresstype' setting. Larger values will give better compression but "
 #~ "take longer."
 #~ msgstr ""
-#~ "0 heißt keine Komprimierung. Höhere Werte bedeuten bessere (aber "
-#~ "langsamere) Komprimierung. Falls der Maximalwert 0 ist, unterstützt der "
-#~ "Server keine Komprimierung."
+#~ "Andere Werte als Null weisen den Server an, die Spielstanddateien "
+#~ "abhängig von der Einstellung „compresstype“ zu komprimieren. Größere "
+#~ "Werte erzeugen eine bessere Kompression, allerdings dauert der "
+#~ "Speichervorgang dann länger."
 
 #~ msgid "Savegame compression algorithm"
 #~ msgstr "Komprimierungsalgorithmus für gespeicherte Spiele"
+
+#~ msgid "Compression library to use for savegames."
+#~ msgstr "Kompressionsbibliothek für die Spielstände."
 
 #~ msgid "Save using the given savegame version"
 #~ msgstr "Spielstand für spezifische Version erstellen"
@@ -34871,15 +35632,14 @@ msgstr ""
 #~ msgid "Whether to log player statistics"
 #~ msgstr "Spielerstatistiken"
 
-#, fuzzy
 #~ msgid ""
 #~ "If this is turned on, player statistics are appended to the file defined "
 #~ "by the option 'scorefile' every turn. These statistics can be used to "
 #~ "create power graphs after the game."
 #~ msgstr ""
-#~ "Wenn diese Option auf 1 gesetzt wird, werden die Spielerstatistiken jede "
-#~ "Runde in der Datei 'civscore.log' gespeichert. Diese Statistiken können "
-#~ "dazu benutzt werden, nach Spielende Grafiken anzuzeigen."
+#~ "Ist diese Einstellung aktiv, werden jede Runde Statistiken an die mit "
+#~ "„scorefile“ angegebene Datei angefügt. Sie können diese Statistiken nach "
+#~ "dem Spiel zur Erzeugung von Graphiken nutzen."
 
 #~ msgid "Name for the score log file"
 #~ msgstr "Name der Highscore-Logdatei"
@@ -34940,14 +35700,13 @@ msgstr ""
 #~ msgstr "Diese Einstellung ist keine Liste."
 
 #~ msgid "\"%s\""
-#~ msgstr "»%s«"
+#~ msgstr "„%s“"
 
 #~ msgid "empty value"
 #~ msgstr "Leerer Wert"
 
-#, fuzzy
 #~ msgid "This setting is not a bitwise."
-#~ msgstr "Dialogeinstellungen"
+#~ msgstr "Dies ist keine bitbasierte Einstellung."
 
 #~ msgid "Ruleset: '%s' has been set to %s."
 #~ msgstr "Regelsatz: »%s« wurde auf »%s« gesetzt."
@@ -35060,9 +35819,8 @@ msgstr ""
 #~ msgid "Scenario victory to %s."
 #~ msgstr "Szenariensieg für %s."
 
-#, fuzzy
 #~ msgid "Game is over."
-#~ msgstr "Spiel beendet"
+#~ msgstr "Spiel beendet."
 
 #~ msgid "Team victory to %s."
 #~ msgstr "Teamsieg für %s."
@@ -35073,18 +35831,18 @@ msgstr ""
 #~ msgid "Game ended in victory for %s."
 #~ msgstr "Das Spiel endete mit einem Sieg von %s."
 
-#, fuzzy
 #~ msgid "Game ended as the turn limit was exceeded."
-#~ msgstr "Das Spiel endete nach der letzten Runde unentschieden."
+#~ msgstr ""
+#~ "Das Spiel wurde beendet, da die höchstmögliche Rundenanzahl erreicht "
+#~ "wurde."
 
 #~ msgid "The %s spaceship has arrived at Alpha Centauri."
-#~ msgstr "Das %s Raumschiff hat Alpha Centauri erreicht."
+#~ msgstr "Das %se Raumschiff hat Alpha Centauri erreicht."
 
 #~ msgid ""
 #~ "Your %s was disbanded in accordance with your peace treaty with the %s."
 #~ msgstr ""
-#~ "Die %s wurde aufgelöst, in Übereinstimmung mit dem Friedensvertrag mit "
-#~ "den %s."
+#~ "Die %s wurde in Übereinstimmung zum Friedensvertrag mit den %s aufgelöst."
 
 #~ msgid ""
 #~ "Concerned citizens point out that the cease-fire with %s will run out "
@@ -35097,13 +35855,12 @@ msgstr ""
 #~ "Die Feuerpause mit %s ist beendet. Sie und die %s befinden sich jetzt im "
 #~ "Krieg."
 
-#, fuzzy
 #~ msgid ""
 #~ "The cease-fire between %s and %s has run out. They are at war. You cancel "
 #~ "your alliance with both."
 #~ msgstr ""
-#~ "Der Waffenstillstand zwischen den %s und den %s ist ausgelaufen. Sie "
-#~ "befinden sich im Krieg. Sie beenden Ihre Allianz mit beiden."
+#~ "Der Waffenstillstand zwischen den %s und den %s ist ausgelaufen, sie "
+#~ "befinden sich nun im Krieg. Sie beenden Ihre Allianz mit beiden."
 
 # MG: TECHNICAL
 #~ msgid "Unsupported compression type %d."
@@ -35140,9 +35897,8 @@ msgstr ""
 #~ "Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen SieFreeciv "
 #~ "Version 2.2 oder neuer."
 
-#, fuzzy
 #~ msgid "You are not allowed to edit."
-#~ msgstr "Keine Berechtigung zur Änderung dieser Einstellung."
+#~ msgstr "Keine Berechtigung zur Änderung."
 
 #~ msgid "%s nation is not available in this scenario."
 #~ msgstr "Die Nation der %s ist in diesem Szenario nicht verfügbar."
@@ -35159,24 +35915,31 @@ msgstr ""
 #~ msgid "%s rules the %s."
 #~ msgstr "%s beherrscht die %s."
 
-#, fuzzy
 #~ msgid ""
 #~ "This freeciv-server program has player authentication support, but it's "
 #~ "currently not in use."
 #~ msgstr ""
-#~ "Unterstützung für Spieler-Authentifizierung verfügbar, wird aber nicht "
-#~ "verwendet."
+#~ "Unterstützung des Freeciv-Servers für Spieler-Authentifizierung "
+#~ "verfügbar, wird aber nicht verwendet."
 
-#, fuzzy
 #~ msgid "Sending info to metaserver <%s>."
-#~ msgstr "Sende Informationen an den Metaserver [%s]"
+#~ msgstr "Sende Informationen an den Metaserver <%s>."
+
+#~ msgid "Not starting without explicitly requested metaserver connection."
+#~ msgstr ""
+#~ "Starte nicht ohne die explizit angeforderte Verbindung zum Metaserver."
 
 #~ msgid "The game is over..."
 #~ msgstr "Das Spiel ist vorbei..."
 
-#, fuzzy
+#~ msgid "Failed to create suitable map, retrying with another mapseed"
+#~ msgstr ""
+#~ "Konnte keine passende Karte erzeugen, versuche eine andere "
+#~ "Zufallsbasiszahl"
+
 #~ msgid "Cannot create suitable map with given settings."
-#~ msgstr "Kann keine %s auf diesem Gelände erzeugen."
+#~ msgstr ""
+#~ "Kann keine auf die geforderten Einstellungen passende Karte erzeugen."
 
 #~ msgid "Now accepting new client connections."
 #~ msgstr "Warte auf Spieler..."
@@ -35276,68 +36039,61 @@ msgstr ""
 #~ msgid "%s is now under human control."
 #~ msgstr "%s wird jetzt von einem Menschen kontrolliert."
 
-#, fuzzy
 #~ msgid "A living user already exists by that name."
-#~ msgstr "Es gibt schon einen Spieler dieses Namens."
+#~ msgstr "Es gibt schon einen lebenden Benutzer mit diesem Namen."
 
-#, fuzzy
 #~ msgid "A living player already exists by that name."
-#~ msgstr "Es gibt schon einen Spieler dieses Namens."
+#~ msgstr "Es gibt schon einen lebenden Spieler dieses Namens."
 
-#, fuzzy
 #~ msgid "Can't create players, nation %s conflicts with %s."
-#~ msgstr "Kann keine %s auf diesem Gelände erzeugen."
+#~ msgstr ""
+#~ "Kann Spieler nicht erzeugen: die %s können nicht zusammen den %s "
+#~ "verwendet werden."
 
-#, fuzzy
 #~ msgid "Can't create players, no nations available."
-#~ msgstr "Keine neuen Spieler mehr möglich."
+#~ msgstr "Kann Spieler nicht erzeugen: keine Nationen verfügbar."
 
-#, fuzzy
 #~ msgid "%s is replacing dead player %s as an AI-controlled player."
-#~ msgstr "%s ist als KI-Spieler dazu gekommen."
+#~ msgstr ""
+#~ "Der tote Spieler %2$s wird durch den KI-kontrollierten Spieler %1$s "
+#~ "ersetzt."
 
-#, fuzzy
 #~ msgid "Failed to create new player %s."
-#~ msgstr "Fehler bei der Generierung des neuen KI-Spielers: %s."
+#~ msgstr "Konnte den neuen Spieler %s nicht erzeugen."
 
-#, fuzzy
 #~ msgid "New player %s created."
-#~ msgstr "Spieler bereit / nicht bereit"
+#~ msgstr "Neuen Spieler %s erzeugt."
 
-#, fuzzy
 #~ msgid " Nation of the new player: %s."
-#~ msgstr "Fehler bei der Generierung des neuen KI-Spielers: %s."
+#~ msgstr " Nation des neuen Spielers: %s."
 
 #~ msgid "A player already exists by that name."
 #~ msgstr "Es gibt schon einen Spieler dieses Namens."
 
 #~ msgid "A user already exists by that name."
-#~ msgstr "Es gibt schon einen Spieler dieses Namens."
+#~ msgstr "Es gibt schon einen Benutzer dieses Namens."
 
 #~ msgid "Can't add more players, server is full."
-#~ msgstr "Keine neuen Spieler mehr möglich."
+#~ msgstr "Keine neuen Spieler mehr möglich, der Server ist voll."
 
-#, fuzzy
 #~ msgid "Can't add more players, not enough nations."
-#~ msgstr "Keine neuen Spieler mehr möglich."
+#~ msgstr "Keine neuen Spieler mehr möglich, nicht genug Nationen."
 
-#, fuzzy
 #~ msgid "There is no AI type %s."
-#~ msgstr "Kein Spielerplatz mehr frei für %s"
+#~ msgstr "Es gibt keinen KI-Typ %s."
 
-#, fuzzy
 #~ msgid "%s replacing %s as an AI-controlled player."
-#~ msgstr "%s ist als KI-Spieler dazu gekommen."
+#~ msgstr "Der KI-Spieler %s ersetzt den Spieler %s."
 
-#, fuzzy
 #~ msgid "%s has been added as an AI-controlled player (%s)."
-#~ msgstr "%s ist als KI-Spieler dazu gekommen."
+#~ msgstr "%s ist als KI-Spieler dazu gekommen (%s)."
 
-#, fuzzy
 #~ msgid ""
 #~ "Command level '%s' or greater needed to remove a player once the game has "
 #~ "started."
-#~ msgstr "Spieler können nach Spielstart nicht mehr entfernt werden."
+#~ msgstr ""
+#~ "Zugriffsberechtigung „%s“ oder höher erforderlich, um einen Spieler nach "
+#~ "Spielstart zu entfernen."
 
 #~ msgid "Removed player %s from the game."
 #~ msgstr "Spieler %s aus dem Spiel entfernt."
@@ -35348,23 +36104,22 @@ msgstr ""
 #~ msgid "No command script found by the name \"%s\"."
 #~ msgstr "Kein Kommandoskript mit der Bezeichnung '%s' gefunden."
 
-#, fuzzy
 #~ msgid "Loading script file '%s'."
-#~ msgstr "Lade Skriptdatei '%s'"
+#~ msgstr "Lade Skriptdatei „%s“"
 
 #~ msgid "Cannot read command line scriptfile '%s'."
-#~ msgstr "Kann die Skriptdatei '%s' nicht lesen."
+#~ msgstr "Kann die Skriptdatei „%s“ nicht lesen."
 
 #~ msgid "Could not read script file '%s'."
-#~ msgstr "Kann die Skriptdatei '%s' nicht lesen."
+#~ msgstr "Kann die Skriptdatei „%s“ nicht lesen."
 
 #~ msgid "Could not write script file '%s'."
-#~ msgstr "Kann die Skriptdatei '%s' nicht schreiben."
+#~ msgstr "Kann die Skriptdatei „%s“ nicht schreiben."
 
 #~ msgid ""
 #~ "You cannot use the write command on this server for security reasons."
 #~ msgstr ""
-#~ "Auf diesem Server ist das Kommando 'write' aus Sicherheitsgründen nicht "
+#~ "Auf diesem Server ist das Kommando „write“ aus Sicherheitsgründen nicht "
 #~ "verfügbar."
 
 #~ msgid ""
@@ -35392,11 +36147,8 @@ msgstr ""
 #~ msgid "Command access level for first player to take it: %s"
 #~ msgstr "Zugangsberechtigung für den ersten Spieler: %s"
 
-#, fuzzy
 #~ msgid "Command access level must be one of %s."
-#~ msgstr ""
-#~ "Fehler: Es gibt nur die Zugangsberechtigungen\n"
-#~ "        'none', 'info', 'ctrl' und 'hack'."
+#~ msgstr "Die Zugriffserechtigung muss %s sein."
 
 #~ msgid ""
 #~ "Cannot increase command access level to '%s'; you only have '%s' yourself."
@@ -35417,7 +36169,6 @@ msgstr ""
 #~ msgid "You already have command access level '%s' or better."
 #~ msgstr "Sie haben bereits die Zugangsberechtigung '%s' oder besser."
 
-#, fuzzy
 #~ msgid "Someone else is already game organizer."
 #~ msgstr "Jemand anders ist bereits Spielleiter."
 
@@ -35455,9 +36206,8 @@ msgstr ""
 #~ msgid "fixed"
 #~ msgstr "fest"
 
-#, fuzzy
 #~ msgid "Value:"
-#~ msgstr "männlich"
+#~ msgstr "Wert:"
 
 #~ msgid "Explanations are available for the following server options:"
 #~ msgstr "Erläuterungen sind für folgende Serveroptionen verfügbar:"
@@ -35470,6 +36220,9 @@ msgstr ""
 
 #~ msgid "Server Operator: %s"
 #~ msgstr "Server Operator: %s"
+
+#~ msgid "Connectmsg truncated to %u bytes."
+#~ msgstr "Connectmsg auf %u Byte abgeschitten."
 
 #~ msgid "Player '%s' now has AI skill level '%s'."
 #~ msgstr "Der Spieler '%s' hat jetzt die KI-Spielstärke '%s'."
@@ -35516,33 +36269,38 @@ msgstr ""
 #~ msgid "Rarely used options"
 #~ msgstr "Seltene Optionen"
 
-#, fuzzy
+#~ msgid "Options locked by the ruleset"
+#~ msgstr "Vom Regelsatz gesperrte Optionen"
+
+#~ msgid "In the column '##' the status of the option is shown:"
+#~ msgstr "Die Spalte „##“ zeigt den Status der Einstellung an:"
+
 #~ msgid " - a '!' means the option is locked by the ruleset."
-#~ msgstr "= heißt, daß dies die Standardeinstellung ist"
+#~ msgstr "• „!“ heißt, dass diese Option vom Regelsatz gesperrt ist."
 
-#, fuzzy
 #~ msgid " - a '+' means you may change the option."
-#~ msgstr "+ heißt, daß diese Einstellung geändert werden kann"
+#~ msgstr "• „+“ heißt, dass diese Einstellung geändert werden kann."
 
-#, fuzzy
 #~ msgid " - a '=' means the option is on its default value."
-#~ msgstr "= heißt, daß dies die Standardeinstellung ist"
+#~ msgstr "• „=“ heißt, dass dies die Standardeinstellung ist."
 
-#, fuzzy
 #~ msgid "%-*s ## value (min, max)"
-#~ msgstr "%-*s Wert    (min,max)      "
+#~ msgstr "%-*s ## Wert (min,max)"
 
 #~ msgid "Option"
 #~ msgstr "Option"
 
-#, fuzzy
+#~ msgid "A help text for each option is available via 'help <option>'."
+#~ msgstr "Zu jeder Einstellung ist Hilfe über „help <Einstellung>“ verfügbar."
+
 #~ msgid ""
 #~ "Try 'show situational' or 'show rare' to show more options.\n"
 #~ "Try 'show changed' to show settings with non-default values.\n"
 #~ "Try 'show locked' to show settings locked by the ruleset."
 #~ msgstr ""
-#~ "Weitere Optionen mit 'show situational' oder 'show rare'\n"
-#~ "Geänderte Optionen mit 'show changed'."
+#~ "Weitere Optionen mit „show situational“ oder „show rare'“.\n"
+#~ "Geänderte Optionen mit „show changed“.\n"
+#~ "Vom Regelsatz gesperrte Optionen mit „show locked“."
 
 #~ msgid "Cannot change teams once game has begun."
 #~ msgstr "Nach Spielbeginn können Teams nicht mehr geändert werden."
@@ -35565,9 +36323,21 @@ msgstr ""
 #~ msgid "Player %s set to team %s."
 #~ msgstr "Spieler %s gehört zu Team %s."
 
-#, fuzzy
 #~ msgid "Teamvote"
-#~ msgstr "Team"
+#~ msgstr "Teamabstimmung"
+
+#~ msgid "Vote"
+#~ msgstr "Abstimmung"
+
+#~ msgid ""
+#~ "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out "
+#~ "of %d players."
+#~ msgstr ""
+#~ "%s %d „%s“ (benötigt %0.0f%%%s): %d Ja-Stimmen, %d Nein-Stimmen, %d "
+#~ "Enthaltungen (insgesamt %d Spieler)"
+
+#~ msgid " no dissent"
+#~ msgstr " Einstimmigkeit erforderlich"
 
 #~ msgid "There are no votes going on."
 #~ msgstr "Keine laufenden Abstimmungen."
@@ -35575,37 +36345,43 @@ msgstr ""
 #~ msgid "You are not allowed to use this command."
 #~ msgstr "Keine Berechtigung zur Erteilung dieses Befehls."
 
-#, fuzzy
 #~ msgid "The argument \"%s\" is ambiguous."
-#~ msgstr "Argument '%s' des 'help'-Befehls ist mehrdeutig."
+#~ msgstr "Das Argument „%s“ ist mehrdeutig."
 
-#, fuzzy
 #~ msgid "There are no votes running."
 #~ msgstr "Keine laufenden Abstimmungen."
 
-#, fuzzy
 #~ msgid "No legal last vote (%d %s)."
-#~ msgstr "Die letzte Abstimmung war ungültig."
+#~ msgstr "Die letzte Abstimmung war ungültig (%d %s)."
+
+#~ msgid "other vote running"
+#~ msgid_plural "other votes running"
+#~ msgstr[0] " andere Abstimmung läuft"
+#~ msgstr[1] " andere Abstimmungen laufen"
 
 #~ msgid "Value must be an integer."
-#~ msgstr "Wert muß ganzzahlig sein."
+#~ msgstr "Wert muss ganzzahlig sein."
 
 #~ msgid "No such vote (%d)."
 #~ msgstr "Keine Abstimmung mit der Nummer %d vorhanden."
 
-#, fuzzy
 #~ msgid "You are not allowed to vote on that."
-#~ msgstr "Keine Berechtigung zur Änderung dieser Einstellung."
+#~ msgstr "Sie sind nicht dazu berechtigt, hierfür Ihre Stimme abzugeben."
 
 #~ msgid "You voted for \"%s\""
-#~ msgstr "Sie haben für '%s' gestimmt."
+#~ msgstr "Sie haben für „%s“ gestimmt."
 
 #~ msgid "You voted against \"%s\""
-#~ msgstr "Sie haben gegen '%s' gestimmt."
+#~ msgstr "Sie haben gegen „%s“ gestimmt."
 
-#, fuzzy
+#~ msgid "You abstained from voting on \"%s\""
+#~ msgstr "Sie haben sich der Stimme zu „%s“ enthalten."
+
+#~ msgid "Missing argument <vote number> or the string \"all\"."
+#~ msgstr "Fehlendes Argument <Abstimmungsnummer> oder die Zeichenkette „all“."
+
 #~ msgid "You don't have any vote going on."
-#~ msgstr "Hier ist kein Arbeiter."
+#~ msgstr "Bei Ihnen läuft keine Abstimmung."
 
 #~ msgid "There isn't any vote going on."
 #~ msgstr "Keine laufenden Abstimmungen."
@@ -35622,10 +36398,10 @@ msgstr ""
 #~ msgstr "Benutzung: /cancelvote [<nr. d. abstimmung>|all]"
 
 #~ msgid "%s has canceled the vote \"%s\" (number %d)."
-#~ msgstr "%s hat die Abstimmung »%s« (Nr. %d) abgebrochen."
+#~ msgstr "%s hat die Abstimmung zu »%s« (Nr. %d) abgebrochen."
 
 #~ msgid "The vote \"%s\" (number %d) has been canceled."
-#~ msgstr "Die Abstimmung »%s« (Nr. %d) wurde abgebrochen."
+#~ msgstr "Die Abstimmung zu »%s« (Nr. %d) wurde abgebrochen."
 
 #~ msgid "Can only use this command once game has begun."
 #~ msgstr "Befehl kann nur nach Spielbeginn verwendet werden."
@@ -35768,9 +36544,13 @@ msgstr ""
 #~ msgid "%s now observes"
 #~ msgstr "%s beobachtet jetzt"
 
-#, fuzzy
 #~ msgid "You cannot issue \"/take -\" when the game has already started."
-#~ msgstr "Spieler können nach Spielstart nicht mehr entfernt werden."
+#~ msgstr "„/take -“ kann nach Spielstart nicht mehr ausgeführt werden."
+
+#~ msgid "A delegation is active for player '%s'. /take not possible."
+#~ msgstr ""
+#~ "Die Kontrolle über den Spieler „%s“ wurde delegiert. /take ist nicht "
+#~ "möglich."
 
 #~ msgid "%s already controls %s."
 #~ msgstr "%s kontrolliert %s bereits."
@@ -35778,9 +36558,11 @@ msgstr ""
 #~ msgid "There is no free player slot for %s."
 #~ msgstr "Kein Spielerplatz mehr frei für %s"
 
-#, fuzzy
 #~ msgid "Reassigned nation to %s by server console."
-#~ msgstr "Kann nur in der Serverkonsole verwendet werden. "
+#~ msgstr "Serverkonsole weist die Nation %s zu."
+
+#~ msgid "Reassigned nation to %s by %s."
+#~ msgstr "%s weist die Nation %s zu."
 
 #~ msgid "%s now controls %s (%s, %s)."
 #~ msgstr "%s hat den Spieler %s (%s, %s) übernommen."
@@ -35813,10 +36595,17 @@ msgstr ""
 #~ msgstr "Solange ein Spiel läuft, kann kein weiteres geladen werden."
 
 #~ msgid "Cannot find savegame or scenario with the name \"%s\"."
-#~ msgstr "Kann keinen Spielstand oder Szenario mit dem Namen \"%s\" finden."
+#~ msgstr "Kann keinen Spielstand oder Szenario mit dem Namen „%s“ finden."
 
 #~ msgid "Could not load savefile: %s"
-#~ msgstr "Kann Spielstand '%s' nicht laden."
+#~ msgstr "Kann Spielstand „%s“ nicht laden."
+
+#~ msgid ""
+#~ "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
+#~ "current ruleset."
+#~ msgstr ""
+#~ "Sie müssen einen Regelsatz benennen. Verwenden Sie „/show ruleset“, um "
+#~ "den aktuellen Regelsatz anzuzeigen."
 
 #~ msgid "This setting can't be modified after the game has started."
 #~ msgstr "Diese Einstellung kann nach Spielstart nicht mehr geändert werden."
@@ -36011,12 +36800,11 @@ msgstr ""
 #~ msgid "You do not control a player."
 #~ msgstr "Sie kontrollieren keinen Spieler."
 
-#, fuzzy
 #~ msgid ""
 #~ "Can't delegate control of '%s' belonging to %s while they are controlling "
 #~ "another player."
 #~ msgstr ""
-#~ "Die Kontrolle von „%s“ (zu %s gehörig) kann nicht abgegeben werden, "
+#~ "Die Kontrolle von „%s“ (zu %s gehörig) kann nicht delegiert werden, "
 #~ "solange sie einen anderen Spieler kontrollieren."
 
 #~ msgid "Can't change delegation of '%s' while controlled by delegate %s."
@@ -36122,37 +36910,38 @@ msgstr ""
 #~ msgid "Can't use definition: %s."
 #~ msgstr "Kann Definition nicht verwenden: %s."
 
-#, fuzzy
 #~ msgid "Defined as map image definition %d: '%s'."
-#~ msgstr "Unzulässiger Name '%s'"
+#~ msgstr "Als Kartenbilddefinition %d festgelegt: „%s“."
 
-#, fuzzy
 #~ msgid "Missing argument for 'mapimg delete'."
-#~ msgstr "Unvollständige Eingabe ('%s').\n"
+#~ msgstr "Fehlendes Argument für „mapimg delete“."
 
-#, fuzzy
+#~ msgid "All map image definitions deleted."
+#~ msgstr "Alle Kartenbilddefinition gelöscht."
+
 #~ msgid "Couldn't delete definition: %s."
-#~ msgstr "Unzulässiger Name '%s'"
+#~ msgstr "Konnte Definition nicht löschen: %s."
 
-#, fuzzy
+#~ msgid "Map image definition %d deleted."
+#~ msgstr "Kartenbilddefinition %d gelöscht."
+
 #~ msgid "Bad argument for 'mapimg delete': '%s'."
-#~ msgstr "Unvollständige Eingabe ('%s').\n"
+#~ msgstr "Unzulässiges Argument für „mapimg delete“: %s."
 
-#, fuzzy
 #~ msgid "Couldn't show definition: %s."
-#~ msgstr "Unzulässiger Name '%s'"
+#~ msgstr "Konnte Definition nicht anzeigen: %s."
 
-#, fuzzy
 #~ msgid "Bad argument for 'mapimg show': '%s'."
-#~ msgstr "Unvollständige Eingabe ('%s').\n"
+#~ msgstr "Unzulässiges Argument für „mapimg show“: „%s“."
 
-#, fuzzy
+#~ msgid "Map color test images saved."
+#~ msgstr "Kartenbilder zum Farbtest gespeichert."
+
 #~ msgid "Missing argument for 'mapimg create'."
-#~ msgstr "Unvollständige Eingabe ('%s').\n"
+#~ msgstr "Fehlendes Argument für „mapimg create“."
 
-#, fuzzy
 #~ msgid "Error saving map image %d: %s."
-#~ msgstr "Lade Skriptdatei '%s'"
+#~ msgstr "Fehler beim Speichern von Kartenbild %d: %s."
 
 #~ msgid "Bad argument for 'mapimg create': '%s'."
 #~ msgstr "Falscher Parameter für »mapimg create«: »%s«."
@@ -36270,7 +37059,6 @@ msgstr ""
 #~ msgid "List of all delegations:"
 #~ msgstr "Liste aller Kontrollabgaben:"
 
-#, fuzzy
 #~ msgid "%s delegates control over player '%s' to user %s%s."
 #~ msgstr ""
 #~ "%s hat die Kontrolle über den Spieler „%s“ an den Benutzer %s%s abgegeben."
@@ -36333,9 +37121,8 @@ msgstr ""
 #~ msgid "No map image definitions."
 #~ msgstr "Keine Kartendefinitionen."
 
-#, fuzzy
 #~ msgid "List of map image definitions:"
-#~ msgstr "Liste der Einheiten zu Spielbeginn"
+#~ msgstr "Liste der Kartenbilddefinitionen:"
 
 #~ msgid "[%2d] %s"
 #~ msgstr "[%2d] %s"
@@ -36522,7 +37309,7 @@ msgstr ""
 #~ "Der nukleare Angriff auf %s wurde von Ihrer SDI-Verteidigung abgewehrt."
 
 #~ msgid "Your %s survived the pathetic attack from the %s %s."
-#~ msgstr "Deine %s überlebte den Angriff der %sen %s."
+#~ msgstr "Ihr %s überlebte den mutigen Angriff der %sen %s."
 
 #~ msgid "Your attacking %s failed against the %s %s!"
 #~ msgstr "Der Angriff deiner %s gegen die %sen %s ist fehlgeschlagen!"
@@ -36572,8 +37359,19 @@ msgstr ""
 #~ msgid "This unit is being transported, and so cannot bombard."
 #~ msgstr "Diese Einheit wird transportiert und kann daher nicht bombardieren."
 
-#~ msgid "You can't attack there."
-#~ msgstr "Da ist kein Angriff möglich."
+#~ msgid "%s is not an attack unit."
+#~ msgstr "%s ist keine Offensiveinheit."
+
+#~ msgid "You can't attack there since there's an unreachable unit."
+#~ msgstr ""
+#~ "Sie können das nicht angreifen, weil sich dort eine unerreichbare Einheit "
+#~ "aufhält."
+
+#~ msgid "%s can't launch attack from %s."
+#~ msgstr "%s kann keinen Angriff von einem %s-Feld aus starten."
+
+#~ msgid "%s can't attack to %s."
+#~ msgstr "%s kann ein %s-Feld nicht angreifen."
 
 #~ msgid ""
 #~ "A transported unit is not allied to all units or city on target tile."
@@ -36628,6 +37426,12 @@ msgstr ""
 #~ msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 #~ msgstr ""
 #~ "Die %s haben den Handelsweg zwischen %s und Ihrer Stadt %s geschlossen."
+
+# MG: Im Code heißt es nation_plural_for_player() für das
+# Nationsattribut. Das ist wohl falsch.
+#~ msgid "We canceled the trade route from %s to %s city %s."
+#~ msgstr ""
+#~ "Wir haben den Handelsweg zwischen %s und der %sen Stadt %s geschlossen."
 
 #~ msgid "%s was upgraded for free to %s."
 #~ msgstr "%s wurde kostenlos zu %s modernisiert."
@@ -36937,33 +37741,23 @@ msgstr ""
 #~ msgid "\"%s\" is set but empty; trying \"%s\" instead."
 #~ msgstr "»%s« ist leer; stattdessen wird »%s« verwendet."
 
-#, fuzzy
 #~ msgid ""
 #~ "\"%s\" is set but empty; using default \"%s\" data directories instead."
-#~ msgstr "'%s' ist leer; es wird der Standard '%s' verwendet."
+#~ msgstr "„%s“ ist leer; es wird das Standarddatenverzeichnis „%s“ verwendet."
 
-#, fuzzy
 #~ msgid ""
 #~ "\"%s\" is set but empty; using default \"%s\" save directories instead."
-#~ msgstr "'%s' ist leer; es wird der Standard '%s' verwendet."
+#~ msgstr ""
+#~ "„%s“ ist leer; es wird das Standardspeicherverzeichnis „%s“ verwendet."
 
-#, fuzzy
 #~ msgid ""
 #~ "\"%s\" is set but empty; using default \"%s\" scenario directories "
 #~ "instead."
-#~ msgstr "'%s' ist leer; es wird der Standard '%s' verwendet."
+#~ msgstr ""
+#~ "„%s“ ist leer; es wird das Standardszenarioverzeichnis „%s“ verwendet."
 
 #~ msgid "Could not read data directory %s: %s."
-#~ msgstr "Kann das Datenverzeichnis %s: %s nicht lesen."
-
-#~ msgid "The path may be set via the \"%s\" environment variable."
-#~ msgstr "Der Suchpfad kann über die Umgebungsvariable »%s« gesetzt werden."
-
-#~ msgid "Current path is: \"%s\""
-#~ msgstr "Aktueller Suchpfad: »%s«"
-
-#~ msgid "The \"%s\" file is required ... aborting!"
-#~ msgstr "Die Datei »%s« wird benötigt... Abbruch!"
+#~ msgstr "Kann das Datenverzeichnis %s nicht lesen: %s."
 
 #~ msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 #~ msgstr ""
@@ -37017,6 +37811,86 @@ msgstr ""
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #~ msgid "error %d (compiled without strerror)"
 #~ msgstr "error %d (compiled without strerror)"
+
+#~ msgid "Requires you to have researched the %s technology.\n"
+#~ msgstr "Erfordert den Fortschritt %s.\n"
+
+#~ msgid "Requires the %s terrain special on the tile.\n"
+#~ msgstr "Erfordert die Geländeressource %s auf diesem Feld.\n"
+
+#~ msgid ""
+#~ "Requires the %s terrain special on the tile or a cardinally adjacent "
+#~ "tile.\n"
+#~ msgstr ""
+#~ "Erfordert die Geländeressource %s auf diesem oder einem unmittelbar "
+#~ "angrenzenden Feld.\n"
+
+#~ msgid "Requires the %s terrain special on the tile or an adjacent tile.\n"
+#~ msgstr ""
+#~ "Erfordert die Geländeressource %s auf diesem oder einem angrenzenden "
+#~ "Feld.\n"
+
+#~ msgid "Requires AI player of level %s.\n"
+#~ msgstr "Erfordert KI-Spieler auf Stufe %s.\n"
+
+#~ msgid "Requires %s terrain class on the tile.\n"
+#~ msgstr "Erfordert die Geländeart %s auf diesem Feld.\n"
+
+#~ msgid "Requires %s terrain class on a cardinally adjacent tile.\n"
+#~ msgstr ""
+#~ "Erfordert die Geländeart %s auf einem unmittelbar angrenzenden Feld.\n"
+
+#~ msgid "Requires %s terrain class on an adjacent tile.\n"
+#~ msgstr "Erfordert die Geländeart %s auf einem angrenzenden Feld.\n"
+
+#~ msgid "Requires a %s on an adjacent tile.\n"
+#~ msgstr "Erfordert ein %s auf einem angrenzenden Feld.\n"
+
+#~ msgid "* Veteran %s units.\n"
+#~ msgstr "• %s sind Veteranen.\n"
+
+#~ msgid "* Veteran units.\n"
+#~ msgstr "• Veteranen.\n"
+
+#~ msgid "%s base"
+#~ msgstr "%s-Basis"
+
+#~ msgid ""
+#~ "%s can't build %s from the worklist; %s terrain class is required.  "
+#~ "Postponing..."
+#~ msgstr ""
+#~ "%s kann %s aus der Arbeitsliste nicht bauen, die Geländeform %s ist "
+#~ "erforderlich. Der Auftrag wird zurückgestellt."
+
+#~ msgid "Search for scenarios in directory DIR"
+#~ msgstr "Suche Szenarien im Verzeichnis VERZ"
+
+#~ msgid "You can't attack there."
+#~ msgstr "Da ist kein Angriff möglich."
+
+#~ msgid "World-ranged requirements are only supported for wonders."
+#~ msgstr "World-ranged requirements are only supported for wonders."
+
+#~ msgid "Player-ranged requirements are only supported for wonders."
+#~ msgstr "Player-ranged requirements are only supported for wonders."
+
+#~ msgid "Island-ranged requirements are only supported for wonders."
+#~ msgstr "Island-ranged requirements are only supported for wonders."
+
+# MG: TECHNICAL
+#~ msgid ""
+#~ "Surviving requirements are only supported at world and player ranges."
+#~ msgstr ""
+#~ "Surviving requirements are only supported at world and player ranges."
+
+#~ msgid "The path may be set via the \"%s\" environment variable."
+#~ msgstr "Der Suchpfad kann über die Umgebungsvariable »%s« gesetzt werden."
+
+#~ msgid "Current path is: \"%s\""
+#~ msgstr "Aktueller Suchpfad: »%s«"
+
+#~ msgid "The \"%s\" file is required ... aborting!"
+#~ msgstr "Die Datei »%s« wird benötigt... Abbruch!"
 
 #~ msgid ""
 #~ "Oceans cover much of the world, and only sea units (Triremes and other "
@@ -38327,10 +39201,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "?female:%s Taishi"
 #~ msgstr "Taoiseach"
-
-#, fuzzy
-#~ msgid "Nabongo %s"
-#~ msgstr "Nabongo"
 
 #, fuzzy
 #~ msgid "?female:Nabongo %s"
@@ -41173,13 +42043,6 @@ msgstr ""
 #~ "Runden.)"
 
 #~ msgid ""
-#~ "Requires the %s technology.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Erfordert den Fortschritt %s.\n"
-#~ "\n"
-
-#~ msgid ""
 #~ "Requires the %s government.\n"
 #~ "\n"
 #~ msgstr ""
@@ -41216,13 +42079,6 @@ msgstr ""
 
 #~ msgid ""
 #~ "Only applies to %s units.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Betrifft nur %s.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Applies only to %s.\n"
 #~ "\n"
 #~ msgstr ""
 #~ "Betrifft nur %s.\n"
