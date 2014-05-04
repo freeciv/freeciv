@@ -483,7 +483,7 @@ LIBS="$LIBS $LIBICONV"
 dnl I18n support
 ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja 
 ko lt nl nb pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
-PO_DOMAINS="freeciv nations ruledit"
+PODOMAINS="freeciv nations ruledit"
 
 AC_ARG_ENABLE([nls],
   AS_HELP_STRING([--disable-nls], [do not add localization support]),
@@ -1390,7 +1390,7 @@ dnl to xgettext with "--keyword=_" and "--keyword=N_" as arguments.
 dnl To support Q_() and PL_(), the following simply replaces instances of 
 dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_:1,2"
 dnl in the 'translations/<domain>/Makefile' file.
-AC_CONFIG_COMMANDS([fc_default-1],[[for domain in $PO_DOMAINS ; do
+AC_CONFIG_COMMANDS([fc_default-1],[[for domain in $PODOMAINS ; do
    if test -f translations/${domain}/Makefile ; then
      if grep 'keyword=N_ --keyword=Q_ --keyword=PL_:1,2' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been extended
@@ -1402,11 +1402,11 @@ AC_CONFIG_COMMANDS([fc_default-1],[[for domain in $PO_DOMAINS ; do
        rm translations/${domain}/Makefile.tmp
      fi
    fi
- done]],[PO_DOMAINS="$PO_DOMAINS"])
+ done]],[PODOMAINS="$PODOMAINS"])
 
 dnl Vast quantities of meaningless errors from xgettext is also annoying.
 dnl We fix this by forcing xgettext to assume all files are C source files.
-AC_CONFIG_COMMANDS([fc_default-2],[[for domain in $PO_DOMAINS ; do
+AC_CONFIG_COMMANDS([fc_default-2],[[for domain in $PODOMAINS ; do
    if test -f translations/freeciv/Makefile ; then
      if grep 'language=C --files-from=\$(srcdir)/POTFILES.in' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been silenced
@@ -1418,13 +1418,13 @@ AC_CONFIG_COMMANDS([fc_default-2],[[for domain in $PO_DOMAINS ; do
        rm translations/${domain}/Makefile.tmp
      fi
    fi
- done]],[PO_DOMAINS="$PO_DOMAINS"])
+ done]],[PODOMAINS="$PODOMAINS"])
 
 dnl Most of the C comments copied to freeciv.pot are spurious; 
 dnl change to only copy those with prefix "TRANS:"
 dnl Also add --escape to the arguments to convert extended
 dnl characters to escape characters.
-AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PO_DOMAINS ; do
+AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PODOMAINS ; do
    if test -f translations/${domain}/Makefile ; then
      if grep 'add-comments="TRANS:" --escape' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been modified
@@ -1436,7 +1436,7 @@ AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PO_DOMAINS ; do
        rm translations/${domain}/Makefile.tmp
      fi
    fi
- done]],[PO_DOMAINS="$PO_DOMAINS"])
+ done]],[PODOMAINS="$PODOMAINS"])
 
 dnl The BeOS sys/uio.h is broken.  This kludges it out of existence.
 dnl (This still causes lots of spurious changes to fc_config.h on BeOS.)
@@ -1627,7 +1627,7 @@ if test "$USE_NLS" != "yes" ; then
   dnl but it still checks 'if test x$FORCE_DIST = xyes'. We cannot
   dnl do that check in configure when producing config.status.
   AC_CONFIG_COMMANDS([translations/freeciv/Makefile], [
-    for domain in $PO_DOMAINS ; do
+    for domain in $PODOMAINS ; do
     dnl Usually glib-gettext.m4:AM_GLIB_GNU_GETTEXT outputs commands to
     dnl generate translations/${domain}/Makefile.
     dnl If NLS is disabled, we generate one here.
@@ -1651,7 +1651,7 @@ if test "$USE_NLS" != "yes" ; then
     fi
     done
   ], [FORCE_DIST=$FORCE_DIST
-PO_DOMAINS="$PO_DOMAINS"])
+PODOMAINS="$PODOMAINS"])
 fi
 
 AC_OUTPUT
