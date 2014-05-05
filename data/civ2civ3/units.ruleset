@@ -44,8 +44,8 @@ veteran_work_raise_chance = 5, 3, 1, 0
 veteran_power_fact = 100, 150, 175, 200
 
 ; The additional number of movement points granted for different veteran
-; levels.  These are thirds of points, so to increase movement
-; by a whole point 3 must be specified.
+; levels.  These are move point fragments, so to increase movement
+; by a whole point 6 must be specified.
 veteran_move_bonus = 0, 0, 0, 0
 
 ; /* <-- avoid gettext warnings
