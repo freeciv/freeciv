@@ -69,3 +69,14 @@ This list is incomplete
   Elvis     -> Culturists
   Scientist -> Scientists
   Taxman    -> Government Merchants
+
+- Governments production and trade adjustments have been changed to be
+  always positive. Old negative values have turned to 0, and old 0 and
+  positive values have been increased accordingly.
+
+  Gov: prod/trade
+  Despotism:       0  /  0
+  Communism:      20% /  0
+  Democracy:       0  / 20%
+  Dual Communism: 40% / 20%
+  Dual Democracy: 20% / 40%
