@@ -83,7 +83,7 @@ struct tile {
 
 
 /* Tile accessor functions. */
-int tile_index(const struct tile *ptile);
+#define tile_index(_pt_) (_pt_)->index
 
 struct city *tile_city(const struct tile *ptile);
 
