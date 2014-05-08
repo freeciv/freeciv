@@ -2000,8 +2000,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
   /* Can the city be the target of an action? */
   action_iterate (action_id) {
-    bool isPossible;
-    bool willBePossible;
+    bool is_possible;
+    bool will_be_possible = FALSE;
     enum req_range max_range;
     int act_neg_util;
 
@@ -2016,7 +2016,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     /* Is is possible to do the action to the city right now?
      *
      * (DiplRel requirements are ignored since actor_player is NULL) */
-    isPossible = is_action_possible_on_city(action_id, NULL, pcity);
+    is_possible = is_action_possible_on_city(action_id, NULL, pcity);
 
     /* Will it be possible to do the action to the city if the building is
      * built? */
@@ -2047,7 +2047,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       } requirement_vector_iterate_end;
 
       if (active) {
-        willBePossible = TRUE;
+        will_be_possible = TRUE;
 
         /* Store the widest range that enables the action. */
         if (max_range < range) {
@@ -2062,7 +2062,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     /* Will the building significantly change the ability to target
      * the city? */
-    if (isPossible == willBePossible) {
+    if (is_possible == will_be_possible) {
       continue;
     }
 
@@ -2077,7 +2077,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     /* Consider the utility of being a potential target.
      * Remember: act_util is the negative utility of being a target. */
-    if (willBePossible) {
+    if (will_be_possible) {
       v -= act_neg_util;
     } else {
       v += act_neg_util;
