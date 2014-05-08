@@ -578,13 +578,14 @@ static bool is_possible_base_fuel(const struct tile *ptile,
     return TRUE;
   }
 
-  base_type_iterate(pbase) {
-    /* All airbases are considered possible, simply attack enemies. */
-    if (tile_has_base(ptile, pbase)
-        && is_native_base_to_uclass(pbase, param->uclass)) {
-      return TRUE;
-    }
-  } base_type_iterate_end;
+  if (param->uclass->cache.refuel_bases != NULL) {
+    base_type_list_iterate(param->uclass->cache.refuel_bases, pbase) {
+      /* All airbases are considered possible, simply attack enemies. */
+      if (tile_has_base(ptile, pbase)) {
+        return TRUE;
+      }
+    } base_type_list_iterate_end;
+  }
 
   if (tile_known == TILE_KNOWN_UNSEEN) {
     /* Cannot see units */
