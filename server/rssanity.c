@@ -540,7 +540,7 @@ bool sanity_check_ruleset_data(void)
     if (utype_has_flag(putype, UTYF_SPY)
         && !utype_has_flag(putype, UTYF_DIPLOMAT)) {
       ruleset_error(LOG_ERROR,
-                    "The unit type '%s'' has the 'Spy' unit type flag but "
+                    "The unit type '%s' has the 'Spy' unit type flag but "
                     "not the 'Diplomat' unit type flag.",
                     utype_rule_name(putype));
       ok = FALSE;
