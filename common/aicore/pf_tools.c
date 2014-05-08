@@ -465,14 +465,14 @@ static bool is_possible_base_fuel(const struct tile *ptile,
     return TRUE;
   }
 
-  extra_type_iterate(pextra) {
-    /* All airbases are considered possible, simply attack enemies. */
-    if (tile_has_extra(ptile, pextra)
-        && extra_has_flag(pextra, EF_REFUEL)
-        && is_native_extra_to_uclass(pextra, param->uclass)) {
-      return TRUE;
-    }
-  } extra_type_iterate_end;
+  if (param->uclass->cache.refuel_bases != NULL) {
+    extra_type_list_iterate(param->uclass->cache.refuel_bases, pextra) {
+      /* All airbases are considered possible, simply attack enemies. */
+      if (tile_has_extra(ptile, pextra)) {
+        return TRUE;
+      }
+    } extra_type_list_iterate_end;
+  }
 
   if (tile_known == TILE_KNOWN_UNSEEN) {
     /* Cannot see units */
