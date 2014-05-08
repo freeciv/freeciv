@@ -3831,8 +3831,8 @@ static bool load_ruleset_nations(struct section_file *file)
   const char *filename = secfile_name(file);
   struct section_list *sec;
   enum trait tr;
-  const char **allowed_govs, **allowed_terrains, **allowed_cstyles;
-  size_t agcount, atcount, acscount;
+  const char **allowed_govs, **allowed_terrains, **allowed_styles;
+  size_t agcount, atcount, ascount;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
@@ -3852,8 +3852,8 @@ static bool load_ruleset_nations(struct section_file *file)
                                         "compatibility.allowed_govs");
   allowed_terrains = secfile_lookup_str_vec(file, &atcount,
                                             "compatibility.allowed_terrains");
-  allowed_cstyles = secfile_lookup_str_vec(file, &acscount,
-                                           "compatibility.allowed_city_styles");
+  allowed_styles = secfile_lookup_str_vec(file, &ascount,
+                                          "compatibility.allowed_styles");
 
   sval = secfile_lookup_str_default(file, NULL,
                                     "compatibility.default_government");
@@ -4220,8 +4220,8 @@ static bool load_ruleset_nations(struct section_file *file)
       }
       pnation->style = style_by_rule_name(name);
       if (pnation->style == NULL) {
-        if (!allowed_cstyles
-            || !is_on_allowed_list(name, allowed_cstyles, acscount)) {
+        if (!allowed_styles
+            || !is_on_allowed_list(name, allowed_styles, ascount)) {
           ruleset_error(LOG_ERROR, "Nation %s: Illegal style \"%s\"",
                         nation_rule_name(pnation), name);
           ok = FALSE;
@@ -4338,7 +4338,7 @@ static bool load_ruleset_nations(struct section_file *file)
 
   free(allowed_govs);
   free(allowed_terrains);
-  free(allowed_cstyles);
+  free(allowed_styles);
 
   if (ok) {
     secfile_check_unused(file);

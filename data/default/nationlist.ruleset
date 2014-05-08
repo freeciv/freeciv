@@ -98,7 +98,7 @@ allowed_govs =
 allowed_terrains =
   "Lake", "Ocean", "Desert", "Forest", "Grassland", "Hills", "Jungle",
   "Mountains", "Plains", "Swamp", "Tundra", "Glacier", "River"
-allowed_city_styles =
+allowed_styles =
   "European", "Classical", "Tropical", "Asian", "Babylonian", "Celtic"
 
 ; Every nation is a member of the "extended" set (no need to specify in
