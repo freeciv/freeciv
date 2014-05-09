@@ -1003,28 +1003,43 @@ static struct unit_class *affected_unit_class(const struct effect *peffect)
 }
 
 /**************************************************************************
+  Is a unit class affected by an effect?
+  Note that some effects have unit_type restrictions that may cause this
+  test to be inaccurate.
+**************************************************************************/
+static bool is_unit_class_affected_by(const struct unit_class *pclass,
+                                      const struct effect *peffect)
+{
+  requirement_list_iterate(peffect->reqs, preq) {
+    if ( (preq->source.kind == VUT_UCLASS
+          && ((preq->source.value.uclass != pclass && preq->present)
+              || (preq->source.value.uclass == pclass && !preq->present)))
+        || (preq->source.kind == VUT_UCFLAG
+            && ( (uclass_has_flag(pclass, preq->source.value.unitclassflag)
+                  && !preq->present)
+                || (!uclass_has_flag(pclass, preq->source.value.unitclassflag)
+                    && preq->present)))) {
+      return FALSE;
+    }
+  } requirement_list_iterate_end;
+  return TRUE;
+}
+
+/**************************************************************************
   Number of AI stats units affected by effect
 **************************************************************************/
 static int num_affected_units(const struct effect *peffect,
                               const struct adv_data *ai)
 {
-  struct unit_class *uclass;
-  enum unit_move_type move;
+  int unit_count = 0;
 
-  uclass = affected_unit_class(peffect);
-  if (uclass) {
-    move = uclass_move_type(uclass);
-    switch (move) {
-     case UMT_LAND:
-         return ai->stats.units.land;
-     case UMT_SEA:
-       return ai->stats.units.sea;
-     case UMT_BOTH:
-       return ai->stats.units.amphibious;
+  unit_class_iterate(pclass) {
+    if (is_unit_class_affected_by(pclass, peffect)) {
+      unit_count += ai->stats.units.byclass[uclass_index(pclass)];
     }
-  }
-  return ai->stats.units.land + ai->stats.units.sea
-         + ai->stats.units.amphibious;
+  } unit_class_iterate_end;
+
+  return unit_count;
 }
 
 /**************************************************************************

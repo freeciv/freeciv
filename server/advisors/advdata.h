@@ -76,8 +76,7 @@ struct adv_data {
       /* Unit-flag counts. */
       int triremes, missiles, paratroopers, airliftable;
 
-      /* Move-type counts */
-      int land, sea, amphibious;
+      int byclass[UCL_LAST];
 
       /* Upgradeable units */
       int upgradeable;

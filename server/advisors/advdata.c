@@ -206,17 +206,7 @@ static void count_my_units(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     struct unit_class *pclass = unit_class(punit);
 
-    if (pclass->adv.land_move != MOVE_NONE
-        && pclass->adv.sea_move != MOVE_NONE) {
-      /* Can move both land and ocean */
-      adv->stats.units.amphibious++;
-    } else if (pclass->adv.land_move != MOVE_NONE) {
-      /* Can move only at land */
-      adv->stats.units.land++;
-    } else if (pclass->adv.sea_move != MOVE_NONE) {
-      /* Can move only at sea */
-      adv->stats.units.sea++;
-    }
+    adv->stats.units.byclass[uclass_index(pclass)]++;
 
     if (unit_has_type_flag(punit, UTYF_TRIREME)) {
       adv->stats.units.triremes++;
