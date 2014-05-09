@@ -3295,7 +3295,6 @@ static bool load_ruleset_terrain(struct section_file *file)
           BV_SET(proad->integrates, road_index(top));
         }
       }
-      road_integrators_cache_init();
       free(slist);
 
       if (!ok) {
@@ -3328,6 +3327,7 @@ static bool load_ruleset_terrain(struct section_file *file)
       proad->helptext = lookup_strvec(file, section, "helptext");
 
     } road_type_iterate_end;
+    road_integrators_cache_init();
   }
 
   if (ok) {
