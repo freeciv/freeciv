@@ -989,20 +989,6 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
 }
 
 /**************************************************************************
-  Unit class affected by this effect.
-**************************************************************************/
-static struct unit_class *affected_unit_class(const struct effect *peffect)
-{
-  requirement_list_iterate(peffect->reqs, preq) {
-    if (preq->source.kind == VUT_UCLASS && preq->present) {
-      return preq->source.value.uclass;
-    }
-  } requirement_list_iterate_end;
-
-  return NULL;
-}
-
-/**************************************************************************
   Is a unit class affected by an effect?
   Note that some effects have unit_type restrictions that may cause this
   test to be inaccurate.
@@ -1177,8 +1163,8 @@ static int improvement_effect_value(struct player *pplayer,
 				    int v)
 {
   int amount = peffect->value;
-  struct unit_class *uclass;
-  enum unit_move_type move = unit_move_type_invalid();
+  bool affects_sea_capable_units = FALSE;
+  bool affects_land_capable_units = FALSE;
   int num;
   int trait;
 
@@ -1464,13 +1450,22 @@ static int improvement_effect_value(struct player *pplayer,
     if (has_handicap(pplayer, H_DEFENSIVE)) {
       v += amount / 10; /* make AI slow */
     }
-    uclass = affected_unit_class(peffect);
-    if (uclass) {
-      move = uclass_move_type(uclass);
-    }
+    unit_class_iterate(pclass) {
+      if (is_unit_class_affected_by(pclass, peffect)) {
+        if (pclass->adv.sea_move != MOVE_NONE) {
+          affects_sea_capable_units = TRUE;
+        }
+        if (pclass->adv.land_move != MOVE_NONE) {
+          affects_land_capable_units = TRUE;
+        }
+      }
+      if (affects_sea_capable_units && affects_land_capable_units) {
+        /* Don't bother searching more if we already know enough. */
+        break;
+      }
+    } unit_class_iterate_end;
 
-    if (uclass == NULL || move == UMT_SEA) {
-      /* Helps against sea units */
+    if (affects_sea_capable_units) {
       if (is_ocean_tile(pcity->tile)) {
         v += ai->threats.ocean[-tile_continent(pcity->tile)]
           ? amount/5 : amount/20;
@@ -1486,7 +1481,7 @@ static int improvement_effect_value(struct player *pplayer,
       }
     }
     v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
-    if (capital || uclass == NULL || move != UMT_SEA) {
+    if (capital || affects_land_capable_units) {
       if (ai->threats.continent[tile_continent(pcity->tile)]
           || capital
           || (ai->threats.invasions
