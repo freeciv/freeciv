@@ -128,7 +128,6 @@ static bool load_building_names(struct section_file *file);
 static bool load_government_names(struct section_file *file);
 static bool load_terrain_names(struct section_file *file);
 static bool load_style_names(struct section_file *file);
-static bool load_citystyle_names(struct section_file *file);
 static bool load_nation_names(struct section_file *file);
 static bool load_city_name_list(struct section_file *file,
                                 struct nation_type *pnation,
@@ -4438,35 +4437,25 @@ static bool load_style_names(struct section_file *file)
 
   section_list_destroy(sec);
 
-  return ok;
-}
+  if (ok) {
+    /* The citystyle sections: */
+    int i = 0;
 
-/**************************************************************************
-  Load names of city styles so other rulesets can refer to city styles with
-  their name.
-**************************************************************************/
-static bool load_citystyle_names(struct section_file *file)
-{
-  struct section_list *styles;
-  int i = 0;
-  bool ok = TRUE;
+    sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
+    if (NULL != sec) {
+      city_styles_alloc(section_list_size(sec));
+      section_list_iterate(sec, style) {
+        if (!ruleset_load_names(&city_styles[i].name, NULL, file, section_name(style))) {
+          ok = FALSE;
+          break;
+        }
+        i++;
+      } section_list_iterate_end;
 
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-
-  /* The sections: */
-  styles = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
-  if (NULL != styles) {
-    city_styles_alloc(section_list_size(styles));
-    section_list_iterate(styles, style) {
-      if (!ruleset_load_names(&city_styles[i].name, NULL, file, section_name(style))) {
-        ok = FALSE;
-        break;
-      }
-      i++;
-    } section_list_iterate_end;
-    section_list_destroy(styles);
-  } else {
-    city_styles_alloc(0);
+      section_list_destroy(sec);
+    } else {
+      city_styles_alloc(0);
+    }
   }
 
   return ok;
@@ -4479,42 +4468,77 @@ static bool load_ruleset_styles(struct section_file *file)
 {
   const char *filename = secfile_name(file);
   struct section_list *sec;
+  int i;
   bool ok = TRUE;
 
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
     return FALSE;
   }
 
-  sec = secfile_sections_by_name_prefix(file, MUSICSTYLE_SECTION_PREFIX);
+  /* City Styles ... */
 
-  if (sec != NULL) {
-    int i;
+  sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
 
-    game.control.num_music_styles = section_list_size(sec);
-    music_styles_alloc(game.control.num_music_styles);
-    i = 0;
+  /* Get rest: */
+  for (i = 0; i < game.control.styles_count; i++) {
+    struct requirement_vector *reqs;
+    const char *sec_name = section_name(section_list_get(sec, i));
 
-    section_list_iterate(sec, psection) {
-      struct requirement_vector *reqs;
-      struct music_style *pmus = music_style_by_number(i);
-      const char *sec_name = section_name(psection);
+    sz_strlcpy(city_styles[i].graphic, 
+               secfile_lookup_str(file, "%s.graphic", sec_name));
+    sz_strlcpy(city_styles[i].graphic_alt, 
+               secfile_lookup_str(file, "%s.graphic_alt", sec_name));
+    sz_strlcpy(city_styles[i].citizens_graphic,
+               secfile_lookup_str_default(file, "-", 
+                                          "%s.citizens_graphic", sec_name));
+    sz_strlcpy(city_styles[i].citizens_graphic_alt, 
+               secfile_lookup_str_default(file, "generic", 
+                                          "%s.citizens_graphic_alt", sec_name));
 
-      sz_strlcpy(pmus->music_peaceful,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.music_peaceful", sec_name));
-      sz_strlcpy(pmus->music_combat,
-                 secfile_lookup_str_default(file, "-",
-                                            "%s.music_combat", sec_name));
+    reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
+    if (reqs == NULL) {
+      ok = FALSE;
+      break;
+    }
+    requirement_vector_copy(&city_styles[i].reqs, reqs);
+  }
 
-      reqs = lookup_req_list(file, sec_name, "reqs", "Music Style");
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&pmus->reqs, reqs);
+  section_list_destroy(sec);
 
-      i++;
-    } section_list_iterate_end;
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, MUSICSTYLE_SECTION_PREFIX);
+
+    if (sec != NULL) {
+      int i;
+
+      game.control.num_music_styles = section_list_size(sec);
+      music_styles_alloc(game.control.num_music_styles);
+      i = 0;
+
+      section_list_iterate(sec, psection) {
+        struct requirement_vector *reqs;
+        struct music_style *pmus = music_style_by_number(i);
+        const char *sec_name = section_name(psection);
+
+        sz_strlcpy(pmus->music_peaceful,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.music_peaceful", sec_name));
+        sz_strlcpy(pmus->music_combat,
+                   secfile_lookup_str_default(file, "-",
+                                              "%s.music_combat", sec_name));
+
+        reqs = lookup_req_list(file, sec_name, "reqs", "Music Style");
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&pmus->reqs, reqs);
+
+        i++;
+      } section_list_iterate_end;
+    }
+
+    section_list_destroy(sec);
   }
 
   return ok;
@@ -4620,8 +4644,6 @@ static bool load_ruleset_cities(struct section_file *file)
   }
 
   if (ok) {
-    int i;
-
     /* civ1 & 2 didn't reveal tiles */
     game.server.vision_reveal_tiles =
       secfile_lookup_bool_default(file, GAME_DEFAULT_VISION_REVEAL_TILES,
@@ -4639,37 +4661,7 @@ static bool load_ruleset_cities(struct section_file *file)
                                  "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
-
-    /* City Styles ... */
-
-    sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);
-
-    /* Get rest: */
-    for (i = 0; i < game.control.styles_count; i++) {
-      struct requirement_vector *reqs;
-      const char *sec_name = section_name(section_list_get(sec, i));
-
-      sz_strlcpy(city_styles[i].graphic, 
-                 secfile_lookup_str(file, "%s.graphic", sec_name));
-      sz_strlcpy(city_styles[i].graphic_alt, 
-                 secfile_lookup_str(file, "%s.graphic_alt", sec_name));
-      sz_strlcpy(city_styles[i].citizens_graphic,
-                 secfile_lookup_str_default(file, "-", 
-                                            "%s.citizens_graphic", sec_name));
-      sz_strlcpy(city_styles[i].citizens_graphic_alt, 
-                 secfile_lookup_str_default(file, "generic", 
-                                            "%s.citizens_graphic_alt", sec_name));
-
-      reqs = lookup_req_list(file, sec_name, "reqs", city_style_rule_name(i));
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_copy(&city_styles[i].reqs, reqs);
-    }
   }
-
-  section_list_destroy(sec);
 
   if (ok) {
     secfile_check_unused(file);
@@ -6461,7 +6453,6 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
       && load_unit_names(unitfile)
       && load_terrain_names(terrfile)
       && load_style_names(stylefile)
-      && load_citystyle_names(cityfile)
       && load_nation_names(nationfile);
   }
 

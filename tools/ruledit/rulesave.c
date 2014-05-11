@@ -457,6 +457,7 @@ static bool save_styles_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "styles");
   int sect_idx;
+  int i;
 
   if (sfile == NULL) {
     return FALSE;
@@ -470,6 +471,28 @@ static bool save_styles_ruleset(const char *filename, const char *name)
 
     save_name_translation(sfile, &(pstyle->name), path);
   } styles_iterate_end;
+
+  sect_idx = 0;
+  for (i = 0; i < game.control.styles_count; i++) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "citystyle_%d", sect_idx++);
+
+    save_name_translation(sfile, &(city_styles[i].name), path);
+
+    secfile_insert_str(sfile, city_styles[i].graphic, "%s.graphic", path);
+    secfile_insert_str(sfile, city_styles[i].graphic_alt, "%s.graphic_alt", path);
+    if (strcmp(city_styles[i].citizens_graphic, "-")) {
+      secfile_insert_str(sfile, city_styles[i].citizens_graphic,
+                         "%s.citizens_graphic", path);
+    }
+    if (strcmp(city_styles[i].citizens_graphic_alt, "generic")) {
+      secfile_insert_str(sfile, city_styles[i].citizens_graphic_alt,
+                         "%s.citizens_graphic_alt", path);
+    }
+
+    save_reqs_vector(sfile, &(city_styles[i].reqs), path, "reqs");
+  }
 
   sect_idx = 0;
   music_styles_iterate(pmus) {
@@ -493,7 +516,6 @@ static bool save_cities_ruleset(const char *filename, const char *name)
 {
   struct section_file *sfile = create_ruleset_file(name, "cities");
   int sect_idx;
-  int i;
 
   if (sfile == NULL) {
     return FALSE;
@@ -570,28 +592,6 @@ static bool save_cities_ruleset(const char *filename, const char *name)
   if (game.info.citizen_partisans_pct != 0) {
     secfile_insert_int(sfile, game.info.citizen_partisans_pct,
                        "citizen.partisans_pct");
-  }
-
-  sect_idx = 0;
-  for (i = 0; i < game.control.styles_count; i++) {
-    char path[512];
-
-    fc_snprintf(path, sizeof(path), "citystyle_%d", sect_idx++);
-
-    save_name_translation(sfile, &(city_styles[i].name), path);
-
-    secfile_insert_str(sfile, city_styles[i].graphic, "%s.graphic", path);
-    secfile_insert_str(sfile, city_styles[i].graphic_alt, "%s.graphic_alt", path);
-    if (strcmp(city_styles[i].citizens_graphic, "-")) {
-      secfile_insert_str(sfile, city_styles[i].citizens_graphic,
-                         "%s.citizens_graphic", path);
-    }
-    if (strcmp(city_styles[i].citizens_graphic_alt, "generic")) {
-      secfile_insert_str(sfile, city_styles[i].citizens_graphic_alt,
-                         "%s.citizens_graphic_alt", path);
-    }
-
-    save_reqs_vector(sfile, &(city_styles[i].reqs), path, "reqs");
   }
 
   return save_ruleset_file(sfile, filename);
