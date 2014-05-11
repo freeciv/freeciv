@@ -1336,6 +1336,10 @@ They have no effect on gameplay.\
 ; Road types:
 ;
 ; name                    = translatable name as seen by user
+; first_reqs              = additional requirements to build the first part of the road;
+;                           when none of the adjacent tiles have any integrating roads
+;                           (see effects.ruleset and README.effects for help
+;                            on requirements)
 ; move_cost               = how much movement it takes to travel
 ;                           via this road.
 ; move_mode               = how movement costs are applied

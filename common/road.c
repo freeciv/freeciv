@@ -115,6 +115,8 @@ void road_type_init(struct extra_type *pextra, int idx)
 
   pextra->data.road = proad;
 
+  requirement_vector_init(&proad->first_reqs);
+
   proad->id = idx;
   proad->integrators = NULL;
   proad->helptext = NULL;
@@ -147,6 +149,8 @@ void road_integrators_cache_init(void)
 void road_types_free(void)
 {
   road_type_iterate(proad) {
+    requirement_vector_free(&proad->first_reqs);
+
     if (proad->integrators != NULL) {
       road_type_list_destroy(proad->integrators);
       proad->integrators = NULL;
@@ -294,23 +298,58 @@ bool can_build_road_base(const struct road_type *proad,
 }
 
 /****************************************************************************
+  Tells if player and optionally unit have road building requirements
+  fulfilled.
+****************************************************************************/
+static bool are_road_reqs_fulfilled(const struct road_type *proad,
+                                    const struct player *pplayer,
+                                    const struct unit_type *utype,
+                                    const struct tile *ptile)
+{
+  struct extra_type *pextra = road_extra_get(proad);
+
+  if (requirement_vector_size(&proad->first_reqs) > 0) {
+    bool beginning = TRUE;
+
+    road_type_list_iterate(proad->integrators, iroad) {
+      adjc_iterate(ptile, adjc_tile) {
+        if (tile_has_road(adjc_tile, iroad)) {
+          beginning = FALSE;
+          break;
+        }
+      } adjc_iterate_end;
+
+      if (!beginning) {
+        break;
+      }
+    } road_type_list_iterate_end;
+
+    if (beginning) {
+      if (!are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
+                           utype, NULL, NULL, &proad->first_reqs,
+                           RPT_POSSIBLE)) {
+        return FALSE;
+      }
+    }
+  }
+
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
+                         utype, NULL, NULL, &pextra->reqs,
+                         RPT_POSSIBLE);
+}
+
+/****************************************************************************
   Tells if player can build road to tile with suitable unit.
 ****************************************************************************/
 bool player_can_build_road(const struct road_type *proad,
                            const struct player *pplayer,
                            const struct tile *ptile)
 {
-  struct extra_type *pextra;
-
   if (!can_build_road_base(proad, pplayer, ptile)) {
     return FALSE;
   }
 
-  pextra = road_extra_get(proad);
-
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         NULL, NULL, NULL, &pextra->reqs,
-                         RPT_POSSIBLE);
+  return are_road_reqs_fulfilled(proad, pplayer, NULL, ptile);
 }
 
 /****************************************************************************
@@ -320,18 +359,13 @@ bool can_build_road(struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile)
 {
-  struct extra_type *pextra;
   struct player *pplayer = unit_owner(punit);
 
   if (!can_build_road_base(proad, pplayer, ptile)) {
     return FALSE;
   }
 
-  pextra = road_extra_get(proad);
-
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         unit_type(punit), NULL, NULL, &pextra->reqs,
-                         RPT_CERTAIN);
+  return are_road_reqs_fulfilled(proad, pplayer, unit_type(punit), ptile);
 }
 
 /****************************************************************************

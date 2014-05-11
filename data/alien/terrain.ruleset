@@ -922,6 +922,10 @@ flags        = "ParadropFrom", "NoAggressive"
 ; Road types:
 ;
 ; name                    = translatable name as seen by user
+; first_reqs              = additional requirements to build the first part of the road;
+;                           when none of the adjacent tiles have any integrating roads
+;                           (see effects.ruleset and README.effects for help
+;                            on requirements)
 ; move_cost               = how much movement it takes to travel
 ;                           via this road.
 ; move_mode               = how movement costs are applied
@@ -1033,6 +1037,10 @@ Tunnel provides no increase to unit speed, but they give 35% defense bonus.\
 
 [road_burrow_tube]
 name           = _("Burrow Tube")
+first_reqs     =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "CAdjacent"
+    }
 move_cost      = 4
 build_time     = 3
 food_incr      = 0
@@ -1043,7 +1051,10 @@ shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "None"
 helptext       = _("\
-Burrow Tubes provide the only way for burrowing units to cross oceans.\
+Burrow Tubes provide the only way for burrowing units to cross oceans. \
+They can be built on oceanic terrains only, but first part of the tube \
+must be built cardinally adjacent to land and following parts must be \
+built in order.\
 ")
 
 [road_green_river]

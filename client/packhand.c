@@ -3381,9 +3381,15 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 ****************************************************************************/
 void handle_ruleset_road(const struct packet_ruleset_road *p)
 {
+  int i;
   struct road_type *proad = road_by_number(p->id);
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
+
+  for (i = 0; i < p->first_reqs_count; i++) {
+    requirement_vector_append(&proad->first_reqs, p->first_reqs[i]);
+  }
+  fc_assert(proad->first_reqs.size == p->first_reqs_count);
 
   proad->move_cost = p->move_cost;
   proad->move_mode = p->move_mode;

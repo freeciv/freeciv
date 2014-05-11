@@ -67,6 +67,8 @@ struct road_type {
   int tile_bonus[O_LAST];
   enum road_compat compat;
 
+  struct requirement_vector first_reqs;
+
   bv_roads integrates;
   bv_road_flags flags;
 

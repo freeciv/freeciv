@@ -3210,6 +3210,14 @@ static bool load_ruleset_terrain(struct section_file *file)
       const char **slist;
       const char *special;
       const char *modestr;
+      struct requirement_vector *reqs;
+
+      reqs = lookup_req_list(file, section, "first_reqs", road_rule_name(proad));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&proad->first_reqs, reqs);
 
       if (!secfile_lookup_int(file, &proad->move_cost,
                               "%s.move_cost", section)) {
@@ -5928,7 +5936,15 @@ static void send_ruleset_roads(struct conn_list *dest)
   struct packet_ruleset_road packet;
 
   road_type_iterate(r) {
+    int j;
+
     packet.id = road_number(r);
+
+    j = 0;
+    requirement_vector_iterate(&r->first_reqs, preq) {
+      packet.first_reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.first_reqs_count = j;
 
     packet.move_cost = r->move_cost;
     packet.move_mode = r->move_mode;
