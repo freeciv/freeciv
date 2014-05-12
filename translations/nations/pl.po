@@ -5,44 +5,37 @@
 # Tomasz Węgrzanowski <maniek@beer.com> 2000
 # Zbigniew Baniewski <zb@ispid.com.pl> 2002
 # Mateusz Stefek <matusik_s@o2.pl> 2002
-# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2012
-#
+# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2014
 # **************************************************************************
 # KONWENCJE:
 # ----------
-#
 # * 'martial law' tłumaczymy jako 'stan wyjątkowy';
 # * 'happy' tłumaczymy jako 'szczęśliwy, 'content' - 'zadowolony',
-#   'unhappy' - 'niezadowolony', 'angry' - 'wzburzony'
+# 'unhappy' - 'niezadowolony', 'angry' - 'wzburzony'
 # * 'military unit' tłumaczymy jako 'jednostka zbrojna',
-#   'hit point' - 'punkt obrażeń', 'vision' - 'pole widzenia'
+# 'hit point' - 'punkt obrażeń', 'vision' - 'pole widzenia'
 # * 'bulbs' tłumaczymy jako 'punkty odkryć'
 # * 'ruleset' - 'zestaw zasad', 'tileset' - 'zestaw graficzny',
-#   'theme' - 'motyw', 'modpack' - 'dodatek'
+# 'theme' - 'motyw', 'modpack' - 'dodatek'
 # * 'space structural' - 'łącznik rakiety', 'space component' - 'napęd rakiety',
-#   'space module' - 'moduł rakiety', 'spaceship' - 'rakieta (kosmiczna)',
-#   'propulsion' - 'silnik', 'habitation module' - 'moduł mieszkalny',
-#   'solar panel' - 'panel słoneczny', 'fuel component' - 'zbiornik paliwa'
-#
+# 'space module' - 'moduł rakiety', 'spaceship' - 'rakieta (kosmiczna)',
+# 'propulsion' - 'silnik', 'habitation module' - 'moduł mieszkalny',
+# 'solar panel' - 'panel słoneczny', 'fuel component' - 'zbiornik paliwa'
 # * Opisy komend serwera zapisane są w czasie teraźniejszym, osobie trzeciej
-#   (np. 'wyświetla', a nie 'wyświetli', 'wyświetl', 'wyświetlane jest')
-#
+# (np. 'wyświetla', a nie 'wyświetli', 'wyświetl', 'wyświetlane jest')
 # * Nazwy budynków, jednostek, cudów, technologii, ustrojów, stanów dyplomatycznych
-#   oraz wyrażenie 'Rakieta Kosmiczna' piszemy z dużej litery.
-#
+# oraz wyrażenie 'Rakieta Kosmiczna' piszemy z dużej litery.
 # **************************************************************************
-#
 # UWAGA! Powyższe konwencje różnią się znacznie od rozwiązań zastosowanych w
-#        we fragmentach przestarzałych (zakomentowanych na końcu pliku). W
-#        razie wątpliwości należy wziąć pod uwagę rozwiązania opisane w
-#        powyższej sekcji ('KONWENCJE').
-#
+# we fragmentach przestarzałych (zakomentowanych na końcu pliku). W
+# razie wątpliwości należy wziąć pod uwagę rozwiązania opisane w
+# powyższej sekcji ('KONWENCJE').
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-21 01:55+0300\n"
-"PO-Revision-Date: 2013-09-18 02:28+0300\n"
+"PO-Revision-Date: 2014-05-01 20:28+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pl\n"
@@ -51,6 +44,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -6934,7 +6928,7 @@ msgid ""
 "books, and even several fully Kashubianized distributions of Linux operating "
 "system."
 msgstr ""
-"Kaszuby to historyczna kraina północnej Polski. Pierwsze wzmianka o "
+"Kaszuby to historyczna kraina północnej Polski. Pierwsza wzmianka o "
 "Kaszubach (pochodzenie samego słowa pozostaje do dziś niejasne) pojawiła się "
 "w wieku XIII. Kaszubi uznawani są za grupę etniczną narodu polskiego, lecz "
 "ich język i kultura wyróżniają ich na tle innych regionów Polski. Prężna "
