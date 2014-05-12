@@ -322,7 +322,14 @@ void audio_real_init(const char *const soundset_name,
 
   free((void *) ms_filename);
 
-  atexit(audio_shutdown);
+  {
+    static bool atexit_set = FALSE;
+
+    if (!atexit_set) {
+      atexit(audio_shutdown);
+      atexit_set = TRUE;
+    }
+  }
 
   if (prefered_plugin_name[0] != '\0') {
     if (!audio_select_plugin(prefered_plugin_name))
