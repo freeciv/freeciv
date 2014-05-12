@@ -32,249 +32,241 @@
 
 #include "pf_tools.h"
 
-/*************************************************************
+/* ===================== Cost of Specific Moves ====================== */
+
+/****************************************************************************
   Cost of moving one normal step.
-*************************************************************/
+****************************************************************************/
 static inline int single_move_cost(const struct pf_parameter *param,
                                    const struct tile *src_tile,
                                    const struct tile *dest_tile)
 {
-  if (!tile_city(dest_tile)
-      && ( (BV_ISSET(param->unit_flags, UTYF_TRIREME)
-            && !is_safe_ocean(dest_tile))
-          || (!is_native_move(param->uclass, src_tile, dest_tile)
-              && 0 < unit_class_transporter_capacity(dest_tile,
-                                                     param->owner,
-                                                     param->uclass)))) {
-    return PF_IMPOSSIBLE_MC;
+  return map_move_cost(param->owner, param->uclass, src_tile, dest_tile,
+                       BV_ISSET(param->unit_flags, UTYF_IGTER));
+}
+
+/****************************************************************************
+  Cost of an overlap move (move to a non-native tile).
+  This should always be the last tile reached.
+****************************************************************************/
+static inline int overlap_move_cost(const struct pf_parameter *param)
+{
+  return param->move_rate;
+}
+
+/****************************************************************************
+  Cost of performing an attack.
+  This ends the turn for some units.
+****************************************************************************/
+static inline int attack_move_cost(const struct pf_parameter *param)
+{
+  if (uclass_has_flag(param->uclass, UCF_MISSILE)
+      || BV_ISSET(param->unit_flags, UTYF_ONEATTACK)) {
+    /* Can't move any more this turn. */
+    return param->move_rate;
   } else {
-    return map_move_cost(param->owner, param->uclass, src_tile, dest_tile,
-           BV_ISSET(param->unit_flags, UTYF_IGTER));
+    return SINGLE_MOVE;
   }
+}
+
+/* ===================== Capability Functions ======================== */
+
+enum pf_move_tile {
+  PF_MT_NONE = 0,
+  PF_MT_NATIVE = 1 << 0,
+  PF_MT_CITY = 1 << 1,
+  PF_MT_TRANSPORT = 1 << 2
+};
+
+/****************************************************************************
+  Determines if a tile is an acceptable tile for attacking.
+  Should include any potential rationale for a unit to actually attack the
+  target tile from the source tile. Do not use this function as part of a
+  test of whether a unit may move to/from a tile: many tiles that pass this
+  test may be unsuitable for some units to move to/from.
+****************************************************************************/
+static inline bool pf_able_to_attack(const struct tile *target,
+                                     const struct pf_parameter *param,
+                                     const struct tile *position)
+{
+  if (is_non_allied_unit_tile(target, param->owner)
+      && ((uclass_has_flag(param->uclass, UCF_ATTACK_NON_NATIVE)
+           && !BV_ISSET(param->unit_flags, UTYF_ONLY_NATIVE_ATTACK))
+          || is_native_tile_to_class(param->uclass, target))
+      && (uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
+          || BV_ISSET(param->unit_flags, UTYF_MARINES)
+          || is_native_tile_to_class(param->uclass, position))) {
+
+    /* FIXME: Should perform some checks from combat.c:
+     * can_player_attack_tile(): Can we attack? Are we at war?
+     * can_unit_attack_units_at_tile(): reachability
+     * (more?)
+     *
+     * These functions would need refactoring to take class arguments
+     * or reimplementation here, as the current form is unusable or
+     * repetitive. They might also be called by the consumers, so
+     * be duplicative here.
+     */
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Determines if a tile is an acceptable tile for movement.
+  Should include any potential rationale for a unit to actually move to/from
+  the tile. Do not use this function as part of a test of whether a unit may
+  attack a tile: many tiles that pass this test may be unsuitable for some
+  units to attack to/from.
+
+  Does not check if the tile is occupied by non-allied units.
+
+  'src_tile_result' is set to PF_MT_NONE if we are checking the source tile.
+****************************************************************************/
+static inline enum pf_move_tile
+pf_is_ok_move_tile(const struct pf_parameter *param,
+                   const struct tile *ptile,
+                   enum pf_move_tile src_tile_result)
+{
+  enum pf_move_tile result = PF_MT_NONE;
+  struct city *pcity = tile_city(ptile);
+
+  if ((is_native_tile_to_class(param->uclass, ptile)
+       && (!BV_ISSET(param->unit_flags, UTYF_TRIREME)
+           || is_safe_ocean(ptile)))) {
+    result |= PF_MT_NATIVE;
+  }
+
+  if (NULL != pcity
+      && (uclass_has_flag(param->uclass, UCF_CAN_OCCUPY_CITY)
+          || pplayers_allied(param->owner, city_owner(pcity)))
+      && ((src_tile_result & PF_MT_CITY) /* City channel previously tested */
+          || uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
+          || is_native_near_tile(param->uclass, ptile)
+          || (1 == game.info.citymindist
+              && is_city_channel_tile(param->uclass, ptile, NULL)))) {
+    result |= PF_MT_CITY;
+  }
+
+  unit_list_iterate(ptile->units, punit) {
+    if (pplayers_allied(unit_owner(punit), param->owner)
+        && (PF_MT_NONE == src_tile_result || !unit_has_orders(punit))
+        && can_unit_type_transport(unit_type(punit), param->uclass)) {
+      result |= PF_MT_TRANSPORT;
+      break;
+    }
+  } unit_list_iterate_end;
+
+  return result;
+}
+
+/****************************************************************************
+  Here goes move additional checks to determine if a move is possible or
+  not.
+****************************************************************************/
+static inline bool pf_move_check(const struct pf_parameter *param,
+                                 const struct tile *src,
+                                 enum pf_move_tile src_tile_result,
+                                 const struct tile *dst,
+                                 enum pf_move_tile dst_tile_result)
+{
+  if (PF_MT_NATIVE == dst_tile_result
+      && (PF_MT_NATIVE & src_tile_result)
+      && !is_native_move(param->uclass, src, dst)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Determines if the move between two tiles is possible.
+  Do not use this function as part of a test of whether a unit may attack a
+  tile: many tiles that pass this test may be unsuitable for some units to
+  attack to/from.
+
+  Does not check if the tile is occupied by non-allied units.
+****************************************************************************/
+static inline bool pf_able_to_move(const struct pf_parameter *param,
+                                   const struct tile *src,
+                                   const struct tile *dst)
+{
+  enum pf_move_tile src_tile_result, dst_tile_result;
+
+  return ((src_tile_result = pf_is_ok_move_tile(param, src, PF_MT_NONE))
+          && (dst_tile_result = pf_is_ok_move_tile(param, dst,
+                                                   src_tile_result))
+          && pf_move_check(param, src, src_tile_result,
+                           dst, dst_tile_result));
 }
 
 /* ===================== Move Cost Callbacks ========================= */
 
-/*************************************************************
-  A cost function for UMT_SEA.  Allows shore bombardment.
-  Should be used in conjunction with a TB callback which 
-  prohibits going through an enemy city/tile.
-*************************************************************/
-static int seamove(const struct tile *ptile, enum direction8 dir,
-                   const struct tile *ptile1, const struct pf_parameter *param)
+/****************************************************************************
+  A cost function for regular movement. Permits attacks.
+  Use with a TB callback to prevent passing through occupied tiles.
+  Does not permit passing through non-native tiles without transport.
+****************************************************************************/
+static int normal_move(const struct tile *src,
+                       enum direction8 dir,
+                       const struct tile *dst,
+                       const struct pf_parameter *param)
 {
-  if (is_native_tile_to_class(param->uclass, ptile1)) {
-    return single_move_cost(param, ptile, ptile1);
-  } else if (tile_city(ptile1)
-             || is_non_allied_unit_tile(ptile1, param->owner)) {
-    /* Entering port or shore bombardment */
-    return SINGLE_MOVE;
-  } else {
-    return PF_IMPOSSIBLE_MC;
+  if (pf_able_to_attack(dst, param, src)) {
+    return attack_move_cost(param);
+  } else if (pf_able_to_move(param, src, dst)) {
+    return single_move_cost(param, src, dst);
   }
-}
-
-/*************************************************************
-  Cost function for flying and amphibious units
-*************************************************************/
-static int airmove(const struct tile *ptile, enum direction8 dir,
-                   const struct tile *ptile1,
-                   const struct pf_parameter *param)
-{
-  if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    if (tile_city(ptile1)) {
-      /* Entering city */
-      return SINGLE_MOVE;
-    } else {
-      return PF_IMPOSSIBLE_MC;
-    }
-  }
-  return single_move_cost(param, ptile, ptile1);
-}
-
-/**************************************************************************
-  A cost function for UMT_SEA.  Does not allow shore bombardment.
-***************************************************************************/
-static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
-                              const struct tile *ptile1,
-                              const struct pf_parameter *param)
-{
-  if (is_native_tile_to_class(param->uclass, ptile1)) {
-    return single_move_cost(param, ptile, ptile1);
-  } else if (is_allied_city_tile(ptile1, param->owner)) {
-    /* Entering port */
-    return SINGLE_MOVE;
-  } else {
-    return PF_IMPOSSIBLE_MC;
-  }
-}
-
-/***************************************************************************
-  A cost function for a sea unit which allows going one step into the land
-  (for shore bombardment and ferries). Things to remember: we should prevent
-  going from land to anywhere, unless we are leaving a friendly city, in
-  which case we can move into the ocean but not into the land.
-***************************************************************************/
-static int sea_overlap_move(const struct tile *ptile, enum direction8 dir,
-                            const struct tile *ptile1,
-                            const struct pf_parameter *param)
-{
-  if (is_allied_city_tile(ptile, param->owner)
-      && is_native_tile_to_class(param->uclass, ptile1)) {
-    return single_move_cost(param, ptile, ptile1);
-  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
-    return PF_IMPOSSIBLE_MC;
-  } else if (is_native_tile_to_class(param->uclass, ptile1)) {
-    return single_move_cost(param, ptile, ptile1);
-  } else {
-    /* Entering port or bombardment */
-    return SINGLE_MOVE;
-  }
-}
-
-/***************************************************************************
-  Sea attack is the same as overlap (consider bombardment) but we don't want
-  to pass through enemy tiles.
-***************************************************************************/
-static int sea_attack_move(const struct tile *src_tile, enum direction8 dir,
-                           const struct tile *dest_tile,
-                           const struct pf_parameter *param)
-{
-  if (is_native_tile_to_class(param->uclass, src_tile)) {
-    if (is_non_allied_unit_tile(src_tile, param->owner)) {
-      return PF_IMPOSSIBLE_MC;
-    }
-    if (is_native_tile_to_class(param->uclass, dest_tile)) {
-      return single_move_cost(param, src_tile, dest_tile);
-    }
-    return SINGLE_MOVE;
-  } else if (is_allied_city_tile(src_tile, param->owner)
-	     && is_native_tile_to_class(param->uclass, dest_tile)) {
-    return single_move_cost(param, src_tile, dest_tile);
-  }
-
   return PF_IMPOSSIBLE_MC;
 }
 
-/***************************************************************************
-  LAND_MOVE cost function for a unit 
-***************************************************************************/
-static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
-                            const struct tile *ptile1,
-                            const struct pf_parameter *param)
+/****************************************************************************
+  A cost function for overlap movement. Do not consider enemy units and
+  attacks.
+  Permits moves one step into non-native terrain (for ferries, etc.)
+  Use with a TB callback to prevent passing through occupied tiles.
+  Does not permit passing through non-native tiles without transport.
+****************************************************************************/
+static int overlap_move(const struct tile *src,
+                        enum direction8 dir,
+                        const struct tile *dst,
+                        const struct pf_parameter *param)
 {
-  int move_cost;
+  enum pf_move_tile src_tile_result, dst_tile_result;
 
-  if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    if (unit_class_transporter_capacity(ptile1, param->owner, param->uclass) > 0) {
-      move_cost = single_move_cost(param, ptile, ptile1);
-    } else if (tile_city(ptile1)
-               && (uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
-                   || is_native_near_tile(param->uclass, ptile)
-                   || (1 == game.info.citymindist
-                       && is_city_channel_tile(param->uclass, ptile, NULL)))) {
-      move_cost = single_move_cost(param, ptile, ptile1);
+  if ((src_tile_result = pf_is_ok_move_tile(param, src, PF_MT_NONE))) {
+    if ((dst_tile_result = pf_is_ok_move_tile(param, dst, src_tile_result))
+        && pf_move_check(param, src, src_tile_result,
+                         dst, dst_tile_result)) {
+      return single_move_cost(param, src, dst);
     } else {
-      move_cost = PF_IMPOSSIBLE_MC;
+      return overlap_move_cost(param);
     }
-  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
-    if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
-        && !uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
-        && (is_non_allied_unit_tile(ptile1, param->owner) 
-            || is_non_allied_city_tile(ptile1, param->owner))) {
-      move_cost = PF_IMPOSSIBLE_MC;
-    } else {
-      move_cost = single_move_cost(param, ptile, ptile1);
-    }
-  } else {
-    move_cost = single_move_cost(param, ptile, ptile1);
   }
-
-  return move_cost;
+  return PF_IMPOSSIBLE_MC;
 }
 
-/***************************************************************************
-  LAND_MOVE cost function for a unit, but taking into account possibilities
-  of attacking.
-***************************************************************************/
-static int land_attack_move(const struct tile *src_tile,
-                            enum direction8 dir,
-                            const struct tile *tgt_tile,
-                            const struct pf_parameter *param)
+/****************************************************************************
+  A cost function for attack movement. Permits attacks.
+  Does not permit passing through non-allied occupied tiles.
+  Does not permit passing through non-native tiles without transport.
+****************************************************************************/
+static int attack_move(const struct tile *src,
+                       enum direction8 dir,
+                       const struct tile *dst,
+                       const struct pf_parameter *param)
 {
-  int move_cost;
-
-  if (!is_native_tile_to_class(param->uclass, tgt_tile)) {
-
-    /* Any-to-Sea */
-    if (unit_class_transporter_capacity(tgt_tile, param->owner,
-                                        param->uclass) > 0) {
-      move_cost = SINGLE_MOVE;
-    } else {
-      move_cost = PF_IMPOSSIBLE_MC;
-    }
-  } else if (!is_native_tile_to_class(param->uclass, src_tile)) {
-
-    /* Sea-to-Land. */
-    if (!is_non_allied_unit_tile(tgt_tile, param->owner)
-        && !is_non_allied_city_tile(tgt_tile, param->owner)) {
-      move_cost = tile_terrain(tgt_tile)->movement_cost * SINGLE_MOVE;
-    } else if (BV_ISSET(param->unit_flags, UTYF_MARINES)
-               || uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)) {
-      /* Can attack!! */
-      move_cost = single_move_cost(param, src_tile, tgt_tile);
-    } else {
-      move_cost = PF_IMPOSSIBLE_MC;
-    }
-  } else {
-
-    /* Land-to-Land */
-    if (is_non_allied_unit_tile(src_tile, param->owner)) {
-      /* Cannot pass through defended tiles */
-      move_cost = PF_IMPOSSIBLE_MC;
-    } else if (is_non_allied_unit_tile(tgt_tile, param->owner)) {
-
-      /* Attack! */
-      move_cost = SINGLE_MOVE;
-    } else {
-      move_cost = single_move_cost(param, src_tile, tgt_tile);
+  if (!is_non_allied_unit_tile(src, param->owner)) {
+    /* Only keep moving if we haven't just attacked. */
+    if (pf_able_to_attack(dst, param, src)) {
+      return attack_move_cost(param);
+    } else if (pf_able_to_move(param, src, dst)) {
+      return single_move_cost(param, src, dst);
     }
   }
-
-  return move_cost;
-}
-
-
-/************************************************************ 
-  A cost function for a land unit, which allows going into
-  the ocean (with moves costing SINGLE_MOVE).  It is 
-  recommended to use dont_cross_ocean TB callback with this 
-  one, so we don't venture too far into the ocean ;)
-
-  Alternatively, we can change the flow to
-  if (!is_native_tile_to_class(param->uclass, ptile)) {
-    move_cost = PF_IMPOSSIBLE_MC;
-  } else if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    move_cost = SINGLE_MOVE;
-  } else {
-    move_cost = single_move_cost(param, ptile, ptile1);
-  }
-  which will achieve the same without call-back.
-************************************************************/
-static int land_overlap_move(const struct tile *ptile,
-                             enum direction8 dir,
-                             const struct tile *ptile1,
-                             const struct pf_parameter *param)
-{
-  int move_cost;
-
-  if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    move_cost = SINGLE_MOVE;
-  } else {
-    move_cost = single_move_cost(param, ptile, ptile1);
-  }
-
-  return move_cost;
+  return PF_IMPOSSIBLE_MC;
 }
 
 /****************************************************************************
@@ -364,20 +356,6 @@ static int amphibious_extra_cost(const struct tile *ptile,
 
 
 /* ===================== Tile Behaviour Callbacks ==================== */
-
-/*********************************************************************
-  A callback for maps overlapping one square into the non-native
-  terrain.  Insures that we don't continue walking over ocean.
-*********************************************************************/
-static enum tile_behavior dont_cross_ocean(const struct tile *ptile,
-                                           enum known_type known,
-                                           const struct pf_parameter *param)
-{
-  if (!is_native_tile_to_class(param->uclass, ptile)) {
-    return TB_DONT_LEAVE;
-  }
-  return TB_NORMAL;
-}
 
 /********************************************************************** 
   PF callback to prohibit going into the unknown.  Also makes sure we 
@@ -649,24 +627,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 static void pft_fill_parameter(struct pf_parameter *parameter,
                                const struct unit_type *punittype)
 {
-  switch (utype_move_type(punittype)) {
-  case UMT_LAND:
-    parameter->get_MC = normal_move_unit;
-    break;
-  case UMT_SEA:
-    if (can_attack_non_native(punittype)) {
-      parameter->get_MC = seamove;
-    } else {
-      parameter->get_MC = seamove_no_bombard;
-    }
-    break;
-  case UMT_BOTH:
-    parameter->get_MC = airmove;
-    break;
-  default:
-    log_error("pft_fill_parameter() impossible move type!");
-    break;
-  }
+  parameter->get_MC = normal_move;
 
   if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
     /* Unit needs fuel */
@@ -712,21 +673,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 static void pft_fill_overlap_param(struct pf_parameter *parameter,
                                    const struct unit_type *punittype)
 {
-  switch (utype_move_type(punittype)) {
-  case UMT_LAND:
-    parameter->get_MC = land_overlap_move;
-    parameter->get_TB = dont_cross_ocean;
-    break;
-  case UMT_SEA:
-    parameter->get_MC = sea_overlap_move;
-    break;
-  case UMT_BOTH:
-    parameter->get_MC = airmove; /* very crude */
-    break;
-  default:
-    log_error("pft_fill_overlap_param() impossible move type!");
-    break;
-  }
+  parameter->get_MC = overlap_move;
 
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
@@ -769,20 +716,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 static void pft_fill_attack_param(struct pf_parameter *parameter,
                                   const struct unit_type *punittype)
 {
-  switch (utype_move_type(punittype)) {
-  case UMT_LAND:
-    parameter->get_MC = land_attack_move;
-    break;
-  case UMT_SEA:
-    parameter->get_MC = sea_attack_move;
-    break;
-  case UMT_BOTH:
-    parameter->get_MC = airmove; /* very crude */
-    break;
-  default:
-    log_error("pft_fill_attack_param() impossible move type!");
-    break;
-  }
+  parameter->get_MC = attack_move;
 
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
