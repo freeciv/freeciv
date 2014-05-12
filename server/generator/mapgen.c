@@ -1992,7 +1992,7 @@ static void island_terrain_init(void)
   struct terrain_select *ptersel;
 
   /* forest */
-  island_terrain.forest = terrain_select_list_new();
+  island_terrain.forest = terrain_select_list_new_full(tersel_free);
   ptersel = tersel_new(1, MG_FOLIAGE, MG_TROPICAL, MG_DRY,
                        TT_TROPICAL, WC_ALL);
   terrain_select_list_append(island_terrain.forest, ptersel);
@@ -2007,7 +2007,7 @@ static void island_terrain_init(void)
   terrain_select_list_append(island_terrain.forest, ptersel);
 
   /* desert */
-  island_terrain.desert = terrain_select_list_new();
+  island_terrain.desert = terrain_select_list_new_full(tersel_free);
   ptersel = tersel_new(3, MG_DRY, MG_TROPICAL, MG_GREEN,
                        TT_HOT, WC_DRY);
   terrain_select_list_append(island_terrain.desert, ptersel);
@@ -2022,7 +2022,7 @@ static void island_terrain_init(void)
   terrain_select_list_append(island_terrain.desert, ptersel);
 
   /* mountain */
-  island_terrain.mountain = terrain_select_list_new();
+  island_terrain.mountain = terrain_select_list_new_full(tersel_free);
   ptersel = tersel_new(2, MG_MOUNTAINOUS, MG_GREEN, MG_UNUSED,
                        TT_ALL, WC_ALL);
   terrain_select_list_append(island_terrain.mountain, ptersel);
@@ -2031,7 +2031,7 @@ static void island_terrain_init(void)
   terrain_select_list_append(island_terrain.mountain, ptersel);
 
   /* swamp */
-  island_terrain.swamp = terrain_select_list_new();
+  island_terrain.swamp = terrain_select_list_new_full(tersel_free);
   ptersel = tersel_new(1, MG_WET, MG_TROPICAL, MG_FOLIAGE,
                        TT_TROPICAL, WC_NDRY);
   terrain_select_list_append(island_terrain.swamp, ptersel);
@@ -2054,25 +2054,10 @@ static void island_terrain_free(void)
     return;
   }
 
-  terrain_select_list_iterate(island_terrain.forest, ptersel) {
-    terrain_select_list_remove(island_terrain.forest, ptersel);
-    tersel_free(ptersel);
-  } terrain_select_list_iterate_end;
-
-  terrain_select_list_iterate(island_terrain.desert, ptersel) {
-    terrain_select_list_remove(island_terrain.desert, ptersel);
-    tersel_free(ptersel);
-  } terrain_select_list_iterate_end;
-
-  terrain_select_list_iterate(island_terrain.mountain, ptersel) {
-    terrain_select_list_remove(island_terrain.mountain, ptersel);
-    tersel_free(ptersel);
-  } terrain_select_list_iterate_end;
-
-  terrain_select_list_iterate(island_terrain.swamp, ptersel) {
-    terrain_select_list_remove(island_terrain.swamp, ptersel);
-    tersel_free(ptersel);
-  } terrain_select_list_iterate_end;
+  terrain_select_list_destroy(island_terrain.forest);
+  terrain_select_list_destroy(island_terrain.desert);
+  terrain_select_list_destroy(island_terrain.mountain);
+  terrain_select_list_destroy(island_terrain.swamp);
 
   island_terrain.init = FALSE;
 }
