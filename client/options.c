@@ -118,6 +118,7 @@ struct client_options options = {
 
   .autoaccept_tileset_suggestion = FALSE,
   .autoaccept_soundset_suggestion = FALSE,
+  .autoaccept_musicset_suggestion = FALSE,
 
   .sound_enable_effects = TRUE,
   .sound_enable_menu_music = TRUE,
@@ -2126,6 +2127,11 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
                   N_("If this option is enabled, soundset suggested by "
+                     "the ruleset is automatically taken in to use."),
+                  COC_SOUND, GUI_STUB, FALSE, NULL),
+  GEN_BOOL_OPTION(autoaccept_musicset_suggestion,
+                  N_("Autoaccept musicset suggestions"),
+                  N_("If this option is enabled, musicset suggested by "
                      "the ruleset is automatically taken in to use."),
                   COC_SOUND, GUI_STUB, FALSE, NULL),
 

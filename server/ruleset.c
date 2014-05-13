@@ -4843,6 +4843,17 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     game.control.prefered_soundset[0] = '\0';
   }
 
+  /* section: musicset */
+  text = secfile_lookup_str_default(file, "", "musicset.prefered");
+  text = secfile_lookup_str_default(file, text, "musicset.preferred");
+  if (text[0] != '\0') {
+    /* There was musicset suggestion */
+    sz_strlcpy(game.control.prefered_musicset, text);
+  } else {
+    /* No musicset suggestions */
+    game.control.prefered_musicset[0] = '\0';
+  }
+
   /* section: about */
   text = secfile_lookup_str(file, "about.name");
   /* Ruleset/modpack name found */

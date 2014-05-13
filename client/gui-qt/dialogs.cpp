@@ -1633,6 +1633,15 @@ void popup_soundset_suggestion_dialog(void)
   qDebug() << Q_FUNC_INFO << "PORTME";
 }
 
+/****************************************************************
+  Ruleset (modpack) has suggested loading certain musicset. Confirm from
+  user and load.
+*****************************************************************/
+void popup_musicset_suggestion_dialog(void)
+{
+  qDebug() << Q_FUNC_INFO << "PORTME";
+}
+
 /**************************************************************************
   Tileset (modpack) has suggested loading certain theme. Confirm from
   user and load.

@@ -1666,6 +1666,14 @@ void popup_soundset_suggestion_dialog(void)
 {
 }
 
+/****************************************************************
+  Ruleset (modpack) has suggested loading certain musicset. Confirm from
+  user and load.
+*****************************************************************/
+void popup_musicset_suggestion_dialog(void)
+{
+}
+
 /**************************************************************************
   Tileset (modpack) has suggested loading certain theme. Confirm from
   user and load.

@@ -675,6 +675,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
     secfile_insert_str(sfile, game.control.prefered_soundset,
                        "soundset.preferred");
   }
+  if (game.control.prefered_musicset[0] != '\0') {
+    secfile_insert_str(sfile, game.control.prefered_musicset,
+                       "musicset.preferred");
+  }
 
   secfile_insert_str(sfile, game.control.name, "about.name");
 

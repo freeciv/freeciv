@@ -138,6 +138,7 @@ struct client_options
 
   bool autoaccept_tileset_suggestion;
   bool autoaccept_soundset_suggestion;
+  bool autoaccept_musicset_suggestion;
 
   bool sound_enable_effects;
   bool sound_enable_menu_music;

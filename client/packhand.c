@@ -2855,6 +2855,18 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
     }
   }
 
+  if (packet->prefered_musicset[0] != '\0') {
+    /* There is musicset suggestion */
+    if (strcmp(packet->prefered_musicset, music_set_name)) {
+      /* It's not currently in use */
+      if (options.autoaccept_musicset_suggestion) {
+        audio_restart(sound_set_name, game.control.prefered_musicset);
+      } else {
+        popup_musicset_suggestion_dialog();
+      }
+    }
+  }
+
   tileset_ruleset_reset(tileset);
 }
 
