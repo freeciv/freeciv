@@ -8,7 +8,7 @@
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
 # Frederic Rodrigo <f.rodrigo free.fr>, 2005-2007.
 # Pepeto <pepeto69 gmail.com>, 2007-2010
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2012
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2014
 #
 #
 msgid ""
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-21 01:55+0300\n"
-"PO-Revision-Date: 2013-11-02 16:09+0100\n"
+"PO-Revision-Date: 2014-05-06 10:39+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -3007,14 +3007,12 @@ msgid "?female:Chancellor %s"
 msgstr "Chancelière %s"
 
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
-msgstr "Burundais"
+msgstr "Burgonde"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
-msgstr "Bourguignons"
+msgstr "Burgondes"
 
 #: data/nation/burgundic.ruleset:6
 msgid ""
@@ -3028,6 +3026,15 @@ msgid ""
 "Kingdom. The Bugundians gave their name to the later Romance nation and "
 "region of Burgundy."
 msgstr ""
+"Les Burgondes étaient un peuple Est-Germanique qui était probablement issu "
+"de l'île de Bornholm. Après avoir quitté Bornholm, ils vécurent entre l'Oder "
+"et la Vistule. Pendant la Période de la Migration, eux et d'autres peuples "
+"germaniques envahirent l'Empire Romain et, en 472 EC, certains d'entre eux "
+"pillèrent Rome. Leur premier royaume fut fondé à Worms, mais après sa "
+"destruction par les Huns, ils se déplacèrent vers ce qui est actuellement la "
+"Savoie et la Bourgogne, où ils fondèrent leur second royaume. Ils furent "
+"finalement soumis par le Royaume Franc. Les Burgondes donnèrent plus tard "
+"leur nom à la nation romane et à la région de la Bourgogne."
 
 #. TRANS: The last letter in "Burkinabe" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -5577,12 +5584,11 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Gépide"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "Népalais"
+msgstr "Gépides"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5602,6 +5608,21 @@ msgid ""
 "them, breaking up their country. Gepids formed part of the Avar Khaganate, "
 "founded on former Gepid territory."
 msgstr ""
+"Les Gépides étaient un groupe de tribus est-germaniques antiques, proches "
+"des Goths. Ils s'implantèrent à l'origine dans la Péninsule Scandinave. "
+"Quand les Goths s'éveillèrent en Scandinavie, ils migrèrent vers la côte sud "
+"de la Baltique. Selon Jordanes, ils habitaient une terre appelée Specis, "
+"près de l'embouche de la Vistule, probablement située sur les plateaux de "
+"l'Elbląg. Après la migration des Goths sur la Mer Noire, les Gépides "
+"étendirent leurs propriétés en Poméranie. Au IIIème siècle EC, ils migrèrent "
+"en Dacie. Du IVème au Vème siècle, ils furent sous l'autorité des Huns. "
+"Après la mort d'Attila, les Gépides se déplacèrent en Pannonie, où ils "
+"vainquirent les Huns à la Bataille de la Nedao, et gagnèrent un endroit où "
+"vivre, à l'Est de la Tisza. En Pannonie, ils combattirent constamment les "
+"Lombards à l'ouest du Danube. En 567, les Lombards s'allièrent avec les "
+"nomades Avars contre les Gépides et les défirent, ce qui démantela leur "
+"pays. Les Gépides formèrent une partie du Khaganat Avar, fondé sur l'ancien "
+"territoire Gépide."
 
 #: data/nation/gepid.ruleset:40 data/nation/ostrogothic.ruleset:31
 #: data/nation/vandalic.ruleset:28
@@ -7189,12 +7210,11 @@ msgstr ""
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "Komi"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "Boïens"
+msgstr "Komis"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -7203,6 +7223,10 @@ msgid ""
 "dominated by the Republic of Novgorod. In the 15th century, the Komi were "
 "subordinated to Moscow, becoming part of Russia."
 msgstr ""
+"Les Komis sont un peuple finno-ougrien qui vit dans la partie Nord de la "
+"Russie Européenne. Au Moyen-Âge, la zone habitée par le peuple Komi était "
+"dominé par la République de Novgorod. Au XVème siècle, les Komis furent "
+"subordonnés à Moscou, devenant part de la Russie."
 
 #: data/nation/kongo.ruleset:3
 msgid "Kongo"
@@ -7302,14 +7326,12 @@ msgstr ""
 "kurdes dans le monde."
 
 #: data/nation/kushan.ruleset:3
-#, fuzzy
 msgid "Kushan"
-msgstr "Ashanti"
+msgstr "Kouchan"
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "Cunas"
+msgstr "Kouchans"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7322,6 +7344,15 @@ msgid ""
 "the Persian Sassanids and replaced by a Persian vassal kingdom. The last "
 "remnants of the Kushans eventually succumbed to the Hephthalites."
 msgstr ""
+"Les Kouchans étaient un peuple indo-européen antique, peut-être d'origine "
+"tokharienne, qui vivaient à l'origine une existence nomade en Asie Centrale. "
+"Sous la pression des peuples turcs, ils quittèrent leurs anciennes terres et "
+"migrèrent en Inde. En Inde, ils fondèrent un vaste empire dont les "
+"dirigeants se convertirent au bouddhisme. Les Kouchans utilisaient "
+"l'alphabet grec pour écrire leur langue. L'Empire Kouchan entretenait des "
+"relations commerciales avec Rome et la Chine. Ils furent subordonnés aux "
+"Sassanides Perses et remplacés par un royaume vassal des perses. Les "
+"derniers vestiges des Kouchans succombèrent finalement aux Hephthalites."
 
 #: data/nation/kushan.ruleset:43 data/nation/sikh.ruleset:33
 #: data/nation/vedic.ruleset:24
@@ -7373,12 +7404,11 @@ msgstr ""
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "Lombard"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "Savoyards"
+msgstr "Lombards"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -7390,6 +7420,14 @@ msgid ""
 "Italia in 568. They founded a new kingdom with its capital in Pavia. The "
 "modern region of Lombardy derives its name from the Lombards."
 msgstr ""
+"Les Lombards étaient un peuple germanique antique. Ils sont issus de "
+"Scandinavie mais se sont installés dans la zone aval de l'Elbe. En 166 EC, "
+"ils participèrent à l'attaque des provinces romaines de Pannonie et de "
+"Norique. Leur premier état fut établi sur le Danube. Après avoir vaincu les "
+"Gépides en s'alliant avec les Avars, les Lombards, sous le roi Alboïn, "
+"envahirent l'Italie en 568. Ils fondèrent un nouveau royaume dont la "
+"capitale était Pavie. La région moderne de Lombardie doit son nom aux "
+"Lombards."
 
 #: data/nation/langobardic.ruleset:38
 #, c-format
@@ -8223,14 +8261,12 @@ msgid "?female:High Brahmin %s"
 msgstr "Grande Brahmane %s"
 
 #: data/nation/marshallese.ruleset:3
-#, fuzzy
 msgid "Marshallese"
-msgstr "Cingalais"
+msgstr "Marshallais"
 
 #: data/nation/marshallese.ruleset:4
-#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "Maltais"
+msgstr "Marshallais"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -8240,6 +8276,12 @@ msgid ""
 "free association with the United States in 1986. In the mid-20th the United "
 "States carried out numerous nuclear tests on the islands."
 msgstr ""
+"Les Îles Marshall est un pays du Pacifique Occidental juste au nord de "
+"l'Équateur, qui consiste en un grand nombre d'îles et d'atolls. Peuplé "
+"principalement de micronésiens, les îles devinrent une république "
+"indépendante en association libre avec les États-Unis en 1986. Au milieu du "
+"XXème siècle, les États-Unis effectuèrent de nombreux tests nucléaires sur "
+"les îles."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -9341,12 +9383,11 @@ msgstr ""
 
 #: data/nation/novgorodian.ruleset:3
 msgid "Novgorodian"
-msgstr ""
+msgstr "Novgorodien"
 
 #: data/nation/novgorodian.ruleset:4
-#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "Nigérians"
+msgstr "Novgoridiens"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -9354,6 +9395,9 @@ msgid ""
 "from the Baltic Sea to the Ural Mountains. It existed between the 12th and "
 "15th centuries and was centered on the city of Novgorod."
 msgstr ""
+"La République de Novgorod fut un grand état Russe médiéval qui s'étendait de "
+"la Mer Baltique à l'Oural. Elle a existé du XIIème au XIIIème siècle et "
+"étaitn centrée sur la ville de Novgorod."
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
@@ -12891,14 +12935,12 @@ msgid "?female:Secretary-General %s"
 msgstr "Secrétaire Générale %s"
 
 #: data/nation/urartian.ruleset:3
-#, fuzzy
 msgid "Urartian"
-msgstr "Martien"
+msgstr "Urartéen"
 
 #: data/nation/urartian.ruleset:4
-#, fuzzy
 msgid "?plural:Urartians"
-msgstr "Martiens"
+msgstr "Urartéens"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
@@ -12909,6 +12951,12 @@ msgid ""
 "formed the dominant element. Urartu played an important role in shaping the "
 "modern Armenian people."
 msgstr ""
+"L'Urartu est un ancien état hourrite situé autour du lac de Van, dans la "
+"partie orientale de l'Anatolie. La première mention historique de l'Urartu "
+"vient des textes du roi Assyrien Salmanazar Ier datant du XIIIème siècle "
+"AEC. On pense que l'Urartu était un état multiethnique, dans lequel les "
+"tribus hourrites formaient l'élément dominant. L'Urartu a joué un important "
+"rôle dans la formation du peuple arménien moderne."
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
@@ -19696,8 +19744,8 @@ msgstr ""
 
 #~ msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 #~ msgstr ""
-#~ "* Si vous perdez votre capitale, les chances de guerre civile sera de %d"
-#~ "%%.\n"
+#~ "* Si vous perdez votre capitale, les chances de guerre civile sera de %d%"
+#~ "%.\n"
 
 #~ msgid ""
 #~ "* When you have %d cities, the first unhappy citizen will appear in each "
