@@ -355,66 +355,60 @@ bool is_native_move(const struct unit_class *punitclass,
                     const struct tile *src_tile,
                     const struct tile *dst_tile)
 {
-    bool native_move = FALSE;
-    bv_extras none;
+  const struct road_type *proad;
+  bv_extras none;
 
-    BV_CLR_ALL(none);
-    if (is_native_to_class(punitclass, tile_terrain(dst_tile), none)) {
-      /* We aren't using extras to make the destination native. */
-      native_move = TRUE;
-    } else {
-      extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
-        if (tile_has_extra(dst_tile, pextra)) {
-          if (!is_extra_caused_by(pextra, EC_ROAD)) {
-            /* The destination is native because of a non-road extra. */
-            native_move = TRUE;
-            break;
-          } else if (!is_native_tile_to_class(punitclass, src_tile)) {
-            /* Disembarking or leaving port, so ignore road connectivity. */
-            native_move = TRUE;
-            break;
-          } else {
-            const struct road_type *proad = extra_road_get_const(pextra);
+  BV_CLR_ALL(none);
+  if (is_native_to_class(punitclass, tile_terrain(dst_tile), none)) {
+    /* We aren't using extras to make the destination native. */
+    return TRUE;
+  } else if (!is_native_tile_to_class(punitclass, src_tile)) {
+    /* Disembarking or leaving port, so ignore road connectivity. */
+    return TRUE;
+  }
 
-            road_type_list_iterate(proad->integrators, iroad) {
-              if (tile_has_road(src_tile, iroad)) {
-                switch (iroad->move_mode) {
-                case RMM_FAST_ALWAYS:
-                case RMM_NO_BONUS:
-                  /* Road connects source and destination, so we're fine. */
-                  native_move = TRUE;
-                case RMM_CARDINAL:
-                  /* Road connects source and destination if cardinal move. */
-                  native_move = is_move_cardinal(src_tile, dst_tile);
-                case RMM_RELAXED:
-                  if (is_move_cardinal(src_tile, dst_tile)) {
-                    /* Cardinal moves have no between tiles, so connected. */
-                    native_move = TRUE;
-                  } else {
-                    cardinal_between_iterate(src_tile, dst_tile, between) {
-                    if (tile_has_road(between, iroad)
-                        || tile_has_road(between, proad)) {
-
-                        /* We have a link for the connection. */
-                        native_move = TRUE;
-                      }
-                    } cardinal_between_iterate_end;
-                  }
-                }
-                if (native_move) {
-                  break;
-                }
-              }
-            } road_type_list_iterate_end;
-            if (native_move) {
-              break;
-            }
-          }
-        }
-      } extra_type_list_iterate_end;
+  extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
+    if (!tile_has_extra(dst_tile, pextra)) {
+      continue;
+    } else if (!is_extra_caused_by(pextra, EC_ROAD)) {
+      /* The destination is native because of a non-road extra. */
+      return TRUE;
     }
 
-    return native_move;
+    proad = extra_road_get_const(pextra);
+    road_type_list_iterate(proad->integrators, iroad) {
+      if (!tile_has_road(src_tile, iroad)) {
+        continue;
+      }
+      switch (iroad->move_mode) {
+      case RMM_FAST_ALWAYS:
+      case RMM_NO_BONUS:
+        /* Road connects source and destination, so we're fine. */
+        return TRUE;
+      case RMM_CARDINAL:
+        /* Road connects source and destination if cardinal move. */
+        if (is_move_cardinal(src_tile, dst_tile)) {
+          return TRUE;
+        }
+        break;
+      case RMM_RELAXED:
+        if (is_move_cardinal(src_tile, dst_tile)) {
+          /* Cardinal moves have no between tiles, so connected. */
+          return TRUE;
+        }
+        cardinal_between_iterate(src_tile, dst_tile, between) {
+          if (tile_has_road(between, iroad)
+              || tile_has_road(between, proad)) {
+            /* We have a link for the connection. */
+            return TRUE;
+          }
+        } cardinal_between_iterate_end;
+        break;
+      }
+    } road_type_list_iterate_end;
+  } extra_type_list_iterate_end;
+
+  return FALSE;
 }
 
 /****************************************************************************
