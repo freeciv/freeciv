@@ -48,6 +48,25 @@ static inline int single_move_cost(const struct pf_parameter *param,
   }
 }
 
+/***************************************************************************
+  Whether there is potentially a transport that can be used as a waypoint
+  for the planned move.
+***************************************************************************/
+static bool
+pf_potential_unit_class_transport(const struct pf_parameter *param,
+                                  const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit) {
+    if (pplayers_allied(unit_owner(punit), param->owner)
+        && can_unit_type_transport(unit_type(punit), param->uclass)
+        && !unit_has_orders(punit)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
 /* ===================== Move Cost Callbacks ========================= */
 
 /*************************************************************
@@ -161,7 +180,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
   int move_cost;
 
   if (!is_native_tile_to_class(param->uclass, ptile1)) {
-    if (unit_class_transporter_capacity(ptile1, param->owner, param->uclass) > 0) {
+    if (pf_potential_unit_class_transport(param, ptile1)) {
       move_cost = SINGLE_MOVE;
     } else if (tile_city(ptile1)
                && (uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
@@ -202,8 +221,7 @@ static int land_attack_move(const struct tile *src_tile,
   if (!is_native_tile_to_class(param->uclass, tgt_tile)) {
 
     /* Any-to-Sea */
-    if (unit_class_transporter_capacity(tgt_tile, param->owner,
-                                        param->uclass) > 0) {
+    if (pf_potential_unit_class_transport(param, tgt_tile)) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
