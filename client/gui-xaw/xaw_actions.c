@@ -218,7 +218,11 @@ static void xaw_key_move_north_west(Widget w, XEvent *event, String *argv, Cardi
   key_unit_move(DIR8_NORTHWEST);
 }
 
-static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  User pressed city report key
+****************************************************************************/
+static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv,
+                                     Cardinal *argc)
 {
   if (can_client_change_view()
       && is_menu_item_active(MENU_REPORT, MENU_REPORT_CITIES)) {
@@ -226,14 +230,35 @@ static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv, Card
   }
 }
 
-static void xaw_key_open_demographics(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  User pressed demographics report key
+****************************************************************************/
+static void xaw_key_open_demographics(Widget w, XEvent *event, String *argv,
+                                      Cardinal *argc)
 {
-  if (can_client_change_view() &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_DEMOGRAPHIC))
+  if (can_client_change_view()
+      && is_menu_item_active(MENU_REPORT, MENU_REPORT_DEMOGRAPHIC)) {
     send_report_request(REPORT_DEMOGRAPHIC);
+  }
 }
 
-static void xaw_key_open_economy_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  User pressed achievements report key
+****************************************************************************/
+static void xaw_key_open_achievements(Widget w, XEvent *event, String *argv,
+                                      Cardinal *argc)
+{
+  if (can_client_change_view()
+      && is_menu_item_active(MENU_REPORT, MENU_REPORT_ACHIEVEMENTS)) {
+    send_report_request(REPORT_ACHIEVEMENTS);
+  }
+}
+
+/****************************************************************************
+  User pressed economics report key
+****************************************************************************/
+static void xaw_key_open_economy_report(Widget w, XEvent *event, String *argv,
+                                        Cardinal *argc)
 {
   if (can_client_change_view()
       && is_menu_item_active(MENU_REPORT, MENU_REPORT_ECONOMY)) {
@@ -938,6 +963,7 @@ static XtActionsRec Actions[] = {
   { "key-move-north-west", xaw_key_move_north_west },
   { "key-open-city-report", xaw_key_open_city_report },
   { "key-open-demographics", xaw_key_open_demographics },
+  { "key-open-achievements", xaw_key_open_achievements },
   { "key-open-economy-report", xaw_key_open_economy_report },
   { "key-open-find-city", xaw_key_open_find_city },
   { "key-open-goto-airlift", xaw_key_open_goto_airlift },

@@ -1499,6 +1499,9 @@ void handle_report_req(struct connection *pconn, enum report_type type)
   case REPORT_DEMOGRAPHIC:
     report_demographics(pconn);
     return;
+  case REPORT_ACHIEVEMENTS:
+    report_achievements(pconn);
+    return;
   }
 
   notify_conn(dest, NULL, E_BAD_COMMAND, ftc_server,

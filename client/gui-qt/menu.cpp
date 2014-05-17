@@ -398,6 +398,9 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("F11")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_demographics()));
 
+  act = menu->addAction(_("Achievements"));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_achievements()));
+
   /* Help Menu */
   menu = this->addMenu(_("Help"));
   act = menu->addAction(_("Copying"));
@@ -1303,7 +1306,7 @@ void mr_menu::slot_minimap_view()
 }
 
 /****************************************************************
-  Action "SHOW DEMOGRAPGHICS REPORT"
+  Action "SHOW BORDERS"
 *****************************************************************/
 void mr_menu::slot_borders()
 {
@@ -1455,6 +1458,14 @@ void mr_menu::slot_wait()
 void mr_menu::slot_demographics()
 {
   send_report_request(REPORT_DEMOGRAPHIC);
+}
+
+/****************************************************************
+  Action "SHOW ACHIEVEMENTS REPORT"
+*****************************************************************/
+void mr_menu::slot_achievements()
+{
+  send_report_request(REPORT_ACHIEVEMENTS);
 }
 
 /****************************************************************

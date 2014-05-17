@@ -232,6 +232,7 @@ static struct MenuEntry reports_menu_entries[]={
     { { N_("Messages"), 0             },    "F9", MENU_REPORT_MESSAGES, 0 },
     { { N_("Demographics"), 0         },   "F11", MENU_REPORT_DEMOGRAPHIC, 0 },
     { { N_("Spaceship"), 0            },   "F12", MENU_REPORT_SPACESHIP, 0 },
+    { { N_("Achievements"), 0         },      "", MENU_REPORT_ACHIEVEMENTS, 0},
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
 
@@ -909,7 +910,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
-...
+  User has selected item from reports menu
 *****************************************************************/
 static void reports_menu_callback(Widget w, XtPointer client_data,
 				  XtPointer garbage)
@@ -917,34 +918,37 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
   size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
-   case MENU_REPORT_CITIES:
+  case MENU_REPORT_CITIES:
     city_report_dialog_popup(FALSE);
     break;
-   case MENU_REPORT_UNITS:
+  case MENU_REPORT_UNITS:
     units_report_dialog_popup(FALSE);
     break;
   case MENU_REPORT_PLAYERS:
     popup_players_dialog(FALSE);
     break;
-   case MENU_REPORT_ECONOMY:
+  case MENU_REPORT_ECONOMY:
     economy_report_dialog_popup(FALSE);
     break;
-   case MENU_REPORT_SCIENCE:
+  case MENU_REPORT_SCIENCE:
     science_report_dialog_popup(FALSE);
     break;
-   case MENU_REPORT_WOW:
+  case MENU_REPORT_WOW:
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
     break;
-   case MENU_REPORT_TOP_CITIES:
+  case MENU_REPORT_TOP_CITIES:
     send_report_request(REPORT_TOP_5_CITIES);
     break;
   case MENU_REPORT_MESSAGES:
     meswin_dialog_popup(FALSE);
     break;
-   case MENU_REPORT_DEMOGRAPHIC:
+  case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);
     break;
-   case MENU_REPORT_SPACESHIP:
+  case MENU_REPORT_ACHIEVEMENTS:
+    send_report_request(REPORT_ACHIEVEMENTS);
+    break;
+  case MENU_REPORT_SPACESHIP:
     if (NULL != client.conn.playing) {
       popup_spaceship_dialog(client.conn.playing);
     }
@@ -1099,7 +1103,7 @@ int is_menu_item_active(enum MenuIndex menu, enum MenuID id)
 }
 
 /****************************************************************
-...
+  Create one of the main menus
 *****************************************************************/
 void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[], 
 		 void (*menucallback)(Widget, XtPointer, XtPointer),

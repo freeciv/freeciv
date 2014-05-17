@@ -2904,6 +2904,7 @@ Freeciv*mapcanvas.translations:\
    <Key>F10:          key-open-messages()              \n\
    <Key>F11:          key-open-demographics()          \n\
    <Key>F12:          key-open-spaceship()             \n\
+   <Key>asterisk:     key-open-achievements()          \n\
    <Key>KP_8:         key-move-north()                 \n\
    <Key>Up:           key-move-north()                 \n\
    <Key>8:            key-move-north()                 \n\

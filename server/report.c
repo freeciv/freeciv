@@ -28,6 +28,7 @@
 #include "support.h"
 
 /* common */
+#include "achievements.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -1030,6 +1031,36 @@ void report_demographics(struct connection *pconn)
   }
 
   page_conn(pconn->self, _("Demographics Report:"), civbuf, buffer);
+}
+
+/*************************************************************************
+  Send achievements list
+*************************************************************************/
+void report_achievements(struct connection *pconn)
+{
+  char civbuf[1024];
+  char buffer[4096];
+  struct player *pplayer = pconn->playing;
+
+  if (pplayer == NULL) {
+    return;
+  }
+
+  fc_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
+              nation_adjective_for_player(pplayer),
+              government_name_for_player(pplayer),
+              textyear(game.info.year));
+
+  buffer[0] = '\0';
+
+  achievements_iterate(pach) {
+    if (achievement_player_has(pach, pplayer)) {
+      cat_snprintf(buffer, sizeof(buffer), "%s\n",
+                   achievement_name_translation(pach));
+    }
+  } achievements_iterate_end;
+
+  page_conn(pconn->self, _("Achievements List:"), civbuf, buffer);
 }
 
 /**************************************************************************

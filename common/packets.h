@@ -55,7 +55,8 @@ struct data_in;
 enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,
   REPORT_TOP_5_CITIES,
-  REPORT_DEMOGRAPHIC
+  REPORT_DEMOGRAPHIC,
+  REPORT_ACHIEVEMENTS
 };
 
 /* Used in network protocol. */

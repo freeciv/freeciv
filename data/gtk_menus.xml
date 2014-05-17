@@ -159,6 +159,7 @@
       <menuitem action="REPORT_MESSAGES" />
       <menuitem action="REPORT_DEMOGRAPHIC" />
       <menuitem action="REPORT_SPACESHIP" />
+      <menuitem action="REPORT_ACHIEVEMENTS" />
     </menu>
 
     <menu action="MENU_HELP">

@@ -296,6 +296,14 @@ static void report_demographic_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "REPORT_ACHIEVEMENT" callback.
+*****************************************************************/
+static void report_achievements_callback(GtkAction *action, gpointer data)
+{
+  send_report_request(REPORT_ACHIEVEMENTS);
+}
+
+/****************************************************************
   Action "HELP_LANGUAGE" callback.
 *****************************************************************/
 static void help_language_callback(GtkAction *action, gpointer data)
@@ -1413,6 +1421,8 @@ static GtkActionGroup *get_safe_group(void)
        "F9", NULL, G_CALLBACK(report_messages_callback)},
       {"REPORT_DEMOGRAPHIC", NULL, _("_Demographics"),
        "F11", NULL, G_CALLBACK(report_demographic_callback)},
+      {"REPORT_ACHIEVEMENTS", NULL, _("_Achievements"),
+       "asterisk", NULL, G_CALLBACK(report_achievements_callback)},
 
       /* Help menu. */
       /* TRANS: "Overview" topic in built-in help */

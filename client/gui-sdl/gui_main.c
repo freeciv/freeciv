@@ -262,15 +262,19 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
             flush_dirty();
             return ID_ERROR;
 
-	  case SDLK_F11:
-            send_report_request(REPORT_DEMOGRAPHIC);
+        case SDLK_F11:
+          send_report_request(REPORT_DEMOGRAPHIC);
           return ID_ERROR;
 
-	  case SDLK_F12:
-            popup_spaceship_dialog(client.conn.playing);
+        case SDLK_F12:
+          popup_spaceship_dialog(client.conn.playing);
           return ID_ERROR;
 
-	  default:
+        case SDLK_ASTERISK:
+          send_report_request(REPORT_ACHIEVEMENTS);
+          return ID_ERROR;
+
+        default:
 	  return ID_ERROR;
 	}
       }
