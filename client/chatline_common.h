@@ -40,6 +40,11 @@ void output_window_event(const char *plain_text,
 void chat_welcome_message(void);
 void write_chatline_content(const char *txt);
 
+void fc_allocate_ow_mutex(void);
+void fc_release_ow_mutex(void);
+void fc_init_ow_mutex(void);
+void fc_destroy_ow_mutex(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -212,6 +212,7 @@ static void at_exit(void)
   client_kill_server(TRUE);
   fc_shutdown_network();
   update_queue_free();
+  fc_destroy_ow_mutex();
 }
 
 /**************************************************************************
@@ -534,6 +535,8 @@ int client_main(int argc, char *argv[])
   charsets_init();
   fc_init_network();
   update_queue_init();
+
+  fc_init_ow_mutex();
 
   /* register exit handler */ 
   atexit(at_exit);
