@@ -571,14 +571,15 @@ static size_t text_tag_stop_sequence(const struct text_tag *ptag,
   When the sequence looks like [sequence/] then we insert a string instead.
 **************************************************************************/
 static size_t text_tag_replace_text(const struct text_tag *ptag,
-                                    char *buf, size_t len)
+                                    char *buf, size_t len,
+                                    bool replace_link_text)
 {
   if (ptag->type != TTT_LINK) {
     return 0;
   }
 
-  if (!is_server()) {
-    /* The client check if this should be updated or translated. */
+  if (replace_link_text) {
+    /* The client might check if this should be updated or translated. */
     switch (ptag->link.type) {
     case TLT_CITY:
       {
@@ -851,10 +852,17 @@ static size_t extract_sequence_text(const char *featured_text,
 
 /**************************************************************************
   Separate the text from the text features.  'tags' can be NULL.
+
+  When 'replace_link_text' is set, the text used for the signal sequence
+  links will be overwritten. It is used on client side to have updated
+  links in chatline, to communicate when users don't know share the city
+  names, and avoid users making voluntary confusing names when editing
+  links in chatline.
 **************************************************************************/
 size_t featured_text_to_plain_text(const char *featured_text,
                                    char *plain_text, size_t plain_text_len,
-                                   struct text_tag_list **tags)
+                                   struct text_tag_list **tags,
+                                   bool replace_link_text)
 {
   const char *read = featured_text;
   char *write = plain_text;
@@ -924,7 +932,8 @@ size_t featured_text_to_plain_text(const char *featured_text,
               log_featured_text("Couldn't create a text tag with \"%s\".",
                                 buf);
             } else {
-              len = text_tag_replace_text(&tag, write, write_len);
+              len = text_tag_replace_text(&tag, write, write_len,
+                                          replace_link_text);
               write += len;
               write_len -= len;
               if (tags) {
