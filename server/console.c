@@ -198,7 +198,7 @@ void con_write(enum rfc_status rfc_status, const char *message, ...)
   va_end(args);
 
   /* remove all format tags */
-  featured_text_to_plain_text(buf1, buf2, sizeof(buf2), NULL);
+  featured_text_to_plain_text(buf1, buf2, sizeof(buf2), NULL, FALSE);
   con_puts(rfc_status, buf2);
 }
 

@@ -952,7 +952,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   /* Get the original text. */
   featured_text_to_plain_text(featured_text, plain_text,
-                              sizeof(plain_text), &tags);
+                              sizeof(plain_text), &tags, conn_id != -1);
 
   /* Display link marks when an user is pointed us something. */
   if (conn_id != -1) {

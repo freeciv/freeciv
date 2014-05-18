@@ -198,7 +198,8 @@ extern const struct ft_color ftc_luaconsole_debug;
 /* Main functions. */
 size_t featured_text_to_plain_text(const char *featured_text,
                                    char *plain_text, size_t plain_text_len,
-                                   struct text_tag_list **tags);
+                                   struct text_tag_list **tags,
+                                   bool replace_link_text);
 size_t featured_text_apply_tag(const char *text_source,
                                char *featured_text, size_t featured_text_len,
                                enum text_tag_type tag_type,
