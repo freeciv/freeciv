@@ -75,7 +75,7 @@ void output_window_append(const struct ft_color color,
 
   /* Separate the text and the tags. */
   featured_text_to_plain_text(featured_text, plain_text,
-                              sizeof(plain_text), &tags);
+                              sizeof(plain_text), &tags, FALSE);
 
   if (ft_color_requested(color)) {
     /* A color is requested. */
