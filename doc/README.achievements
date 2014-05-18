@@ -17,7 +17,7 @@ Map_Known
 
 Spaceship
     This achievement is granted when player launches spaceship.
-    Value is ignored.
+    <Value> is ignored.
 
 Multicultural
     Achievement is granted when player has citizens of at least
@@ -30,3 +30,7 @@ Cultured_City
 Cultured_Nation
     Achievement is granted when player has at least <value>
     culture points.
+
+Lucky
+    Achievement is granted on turn when random number generator
+    gives value less than <value> out of 10000.
