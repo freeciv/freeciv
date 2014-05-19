@@ -254,6 +254,25 @@ int the_function_starts_here(int value)
       int build = pcity->shield_stock;
     }
 
+- When declaring a pointer, there should be a space before '*' and no space
+  after, except if it is a second '*'.
+
+    struct unit *find_random_unit(struct unit **array, size_t num)
+    {
+      struct unit *const *prand = array + fc_rand(num);
+
+      return *prand;
+    }
+
+  instead of
+
+    struct unit* find_random_unit(struct unit* *array, size_t num)
+    {
+      struct unit * const* prand = array + fc_rand(num);
+
+      return *prand;
+    }
+
 
 ============================================================================
   Bracing
@@ -261,14 +280,14 @@ int the_function_starts_here(int value)
 
 - Function braces begin and end in the first column:
 
-    int foo()
+    int foo(void)
     {
       return 0;
     }
 
   instead of
 
-    int foo() {
+    int foo(void) {
       return 0;
     }
 
@@ -315,7 +334,7 @@ int the_function_starts_here(int value)
 - Avoid storing magic values in external processes. For example, savegames
   shouldn't contain any enumerators as magic numbers. They should be saved
   as strings, to keep compatibility when their definition is changed. For
-  doing this, there are some tools in utility/specenum_gen.h; have a look on
+  doing this, there are some tools in utility/specenum_gen.h; have a look at
   it.
 
 - Avoid the usage of the default case in switch statements, if possible. The
@@ -367,7 +386,7 @@ int the_function_starts_here(int value)
     #include "myfileheader.h"
 
 - For headers within a subdirectory path, the common rule is to set them
-  in a additional group, after the same group (don't forget the location
+  in an additional group, after the same group (don't forget the location
   comment).
 
     /* common */
@@ -377,7 +396,7 @@ int the_function_starts_here(int value)
     #include "pf_tools.h"
 
   However, there is an exception to this. The last group is always the one
-  we are working on it. So, if we are working on the common part, the order
+  we are working on. So, if we are working on the common part, the order
   should be:
 
     /* common/aicore */
@@ -474,8 +493,8 @@ modular, so there are some observations to do:
   Miscellaneous
 ============================================================================
 
-- If an empty block is needed you should put an explanatory comment in an
-  empty block (i.e. {}):
+- If an empty statement is needed, you should put an explanatory comment
+  in an empty block (i.e. {}):
 
     while (*i++) {
       /* Do nothing. */
@@ -496,11 +515,11 @@ modular, so there are some observations to do:
 
 - Try to use static inline functions and const data instead of macros.
 
-- If helper functions internal to freeciv are added use the prefix 'fc_'.
-  Do not use 'my_' because it is also used by MYSQL and could be included
-  in some libs.
+- If helper functions internal to freeciv are added, prefix their names
+  with 'fc_'. Do not use 'my_' because it is also used by MySQL and could
+  be included in some libs.
 
-- Do not use assert(), neither die() but the macros defined within
+- Do not use assert() or die(); instead use the macros defined within
   utility/log.h:
 
     fc_assert(condition)
@@ -517,6 +536,8 @@ modular, so there are some observations to do:
 
   This way error conditions can be handled gracefully while still enforcing
   invariants you expect not to be violated in the code.
+  (By default execution will continue with a warning, but it can be made
+  to halt by specifying the '-F' option to the client or server.)
 
     int foo_get_id(const struct foo *pfoo)
     {
