@@ -193,7 +193,7 @@ static inline void pf_finalize_position(const struct pf_parameter *param,
     pos->moves_left %= move_rate;
   } else {
     /* This unit cannot move by itself. */
-    pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
+    pos->turn = pos->tile == param->start_tile ? 0 : FC_INFINITY;
     pos->fuel_left = 0; /* or 1? */
   }
 }
@@ -388,7 +388,7 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
   /* 1: Count the number of steps to get here.
    * To do it, backtrack until we hit the starting point */
   for (i = 0; ; i++) {
-    if (same_pos(ptile, params->start_tile)) {
+    if (ptile == params->start_tile) {
       /* Ah-ha, reached the starting point! */
       break;
     }
@@ -718,7 +718,7 @@ static int pf_normal_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 {
   struct pf_normal_map *pfnm = PF_NORMAL_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     return 0;
   } else if (pf_normal_map_iterate_until(pfnm, ptile)) {
     return (pfnm->lattice[tile_index(ptile)].cost
@@ -738,7 +738,7 @@ static struct pf_path *pf_normal_map_path(struct pf_map *pfm,
 {
   struct pf_normal_map *pfnm = PF_NORMAL_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     return pf_path_new_to_start_tile(pf_map_parameter(pfm));
   } else if (pf_normal_map_iterate_until(pfnm, ptile)) {
     return pf_normal_map_construct_path(pfnm, ptile);
@@ -757,7 +757,7 @@ static bool pf_normal_map_position(struct pf_map *pfm, struct tile *ptile,
 {
   struct pf_normal_map *pfnm = PF_NORMAL_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     pf_position_fill_start_tile(pos, pf_map_parameter(pfm));
     return TRUE;
   } else if (pf_normal_map_iterate_until(pfnm, ptile)) {
@@ -1058,7 +1058,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
 #endif /* PF_DEBUG */
 
   /* First iterate to find path length. */
-  while (!same_pos(iter_tile, params->start_tile)) {
+  while (iter_tile != params->start_tile) {
     if (!node->is_dangerous && node->waited) {
       length += 2;
     } else {
@@ -1143,7 +1143,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     /* 3: Check if we finished. */
     if (i == 0) {
       /* We should be back at the start now! */
-      fc_assert_ret_val(same_pos(iter_tile, params->start_tile), NULL);
+      fc_assert_ret_val(iter_tile == params->start_tile, NULL);
       return path;
     }
 
@@ -1571,7 +1571,7 @@ static int pf_danger_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 {
   struct pf_danger_map *pfdm = PF_DANGER_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     return 0;
   } else if (pf_danger_map_iterate_until(pfdm, ptile)) {
     return (pfdm->lattice[tile_index(ptile)].cost
@@ -1591,7 +1591,7 @@ static struct pf_path *pf_danger_map_path(struct pf_map *pfm,
 {
   struct pf_danger_map *pfdm = PF_DANGER_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     return pf_path_new_to_start_tile(pf_map_parameter(pfm));
   } else if (pf_danger_map_iterate_until(pfdm, ptile)) {
     return pf_danger_map_construct_path(pfdm, ptile);
@@ -1610,7 +1610,7 @@ static bool pf_danger_map_position(struct pf_map *pfm, struct tile *ptile,
 {
   struct pf_danger_map *pfdm = PF_DANGER_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     pf_position_fill_start_tile(pos, pf_map_parameter(pfm));
     return TRUE;
   } else if (pf_danger_map_iterate_until(pfdm, ptile)) {
@@ -1896,7 +1896,7 @@ pf_fuel_finalize_position_base(const struct pf_parameter *param,
     pos->moves_left = (moves_left - 1) % move_rate + 1;
   } else {
     /* This unit cannot move by itself. */
-    pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
+    pos->turn = pos->tile == param->start_tile ? 0 : FC_INFINITY;
     pos->fuel_left = 0;
     pos->moves_left = 0;
   }
@@ -2064,7 +2064,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
     /* 3: Check if we finished. */
     if (i == 0) {
       /* We should be back at the start now! */
-      fc_assert_ret_val(same_pos(iter_tile, params->start_tile), NULL);
+      fc_assert_ret_val(iter_tile == params->start_tile, NULL);
       return path;
     }
 
@@ -2664,7 +2664,7 @@ static int pf_fuel_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 {
   struct pf_fuel_map *pffm = PF_FUEL_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     return 0;
   } else if (pf_fuel_map_iterate_until(pffm, ptile)) {
     const struct pf_fuel_node *node = pffm->lattice + tile_index(ptile);
@@ -2686,7 +2686,7 @@ static struct pf_path *pf_fuel_map_path(struct pf_map *pfm,
 {
   struct pf_fuel_map *pffm = PF_FUEL_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     return pf_path_new_to_start_tile(pf_map_parameter(pfm));
   } else if (pf_fuel_map_iterate_until(pffm, ptile)) {
     return pf_fuel_map_construct_path(pffm, ptile);
@@ -2705,7 +2705,7 @@ static bool pf_fuel_map_position(struct pf_map *pfm, struct tile *ptile,
 {
   struct pf_fuel_map *pffm = PF_FUEL_MAP(pfm);
 
-  if (same_pos(ptile, pfm->params.start_tile)) {
+  if (ptile == pfm->params.start_tile) {
     pf_position_fill_start_tile(pos, pf_map_parameter(pfm));
     return TRUE;
   } else if (pf_fuel_map_iterate_until(pffm, ptile)) {
