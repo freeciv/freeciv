@@ -2419,3 +2419,18 @@ bool unit_transport_check(const struct unit *pcargo,
 
   return transport_ok;
 }
+
+/****************************************************************************
+  Returns whether 'pcargo' is transported by 'ptrans', either directly
+  or indirectly.
+****************************************************************************/
+bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans)
+{
+  for (pcargo = unit_transport_get(pcargo);
+       pcargo != NULL; pcargo = unit_transport_get(pcargo)) {
+    if (ptrans == pcargo) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
