@@ -3381,7 +3381,9 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
        * have been handled by the fog code, above. */
       if (TILE_KNOWN_SEEN == tile_get_known(tile1, pplayer)) {
         unit_list_iterate(tile1->units, punit2) {
-          if (punit2 != punit && !can_player_see_unit(pplayer, punit2)) {
+          if (punit2 != punit
+              && !can_player_see_unit(pplayer, punit2)
+              && !unit_contained_in(punit2, punit)) {
             unit_goes_out_of_sight(pplayer, punit2);
           }
         } unit_list_iterate_end;
