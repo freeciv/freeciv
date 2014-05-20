@@ -507,22 +507,27 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
     if (priority >= 0) {
       /* We found a better route to 'tile1', record it (the costs are
        * recorded already). Node status step A. to B. */
+      if (NS_NEW == node1->status) {
+        pq_replace(pfnm->queue, index1, -priority);
+      } else {
+        pq_insert(pfnm->queue, index1, -priority);
+      }
       node1->cost = cost1;
       node1->extra_cost = extra_cost1;
       node1->status = NS_NEW;
       node1->dir_to_here = dir;
-      pq_insert(pfnm->queue, index1, -priority);
     }
   } adjc_dir_iterate_end;
 
   /* Get the next node (the index with the highest priority). */
-  do {
-    if (!pq_remove(pfnm->queue, &index)) {
-      /* No more indexes in the priority queue, iteration end. */
-      return FALSE;
-    }
-    /* If the node has already been processed, get the next one. */
-  } while (NS_NEW != pfnm->lattice[index].status);
+  if (!pq_remove(pfnm->queue, &index)) {
+    /* No more indexes in the priority queue, iteration end. */
+    return FALSE;
+  }
+
+#ifdef PF_DEBUG
+  fc_assert(NS_NEW == pfnm->lattice[index].status);
+#endif
 
   /* Change the pf_map iterator. Node status step B. to C. */
   pfm->tile = index_to_tile(index);
@@ -631,30 +636,37 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       /* Update costs. */
       cost_of_path = pf_total_CC(params, cost, extra);
 
-      if (NS_INIT == node1->status
-          || cost_of_path < pf_total_CC(params, node1->cost,
-                                        node1->extra_cost)) {
-        /* We are reaching this node for the first time, or we found a
-         * better route to 'tile1'. Let's register 'index1' to the
-         * priority queue. Node status step B. to C. */
+      if (NS_INIT == node1->status) {
+        /* We are reaching this node for the first time. */
         node1->status = NS_NEW;
         node1->extra_cost = extra;
         node1->cost = cost;
         node1->dir_to_here = dir;
         /* As we prefer lower costs, let's reverse the cost of the path. */
         pq_insert(pfnm->queue, index1, -cost_of_path);
+      } else if (cost_of_path < pf_total_CC(params, node1->cost,
+                                            node1->extra_cost)) {
+        /* We found a better route to 'tile1'. Let's register 'index1' to
+         * the priority queue. Node status step B. to C. */
+        node1->status = NS_NEW;
+        node1->extra_cost = extra;
+        node1->cost = cost;
+        node1->dir_to_here = dir;
+        /* As we prefer lower costs, let's reverse the cost of the path. */
+        pq_replace(pfnm->queue, index1, -cost_of_path);
       }
     } adjc_dir_iterate_end;
   }
 
   /* Get the next node (the index with the highest priority). */
-  do {
-    if (!pq_remove(pfnm->queue, &index)) {
-      /* No more indexes in the priority queue, iteration end. */
-      return FALSE;
-    }
-    /* Discard if this node has already been processed. */
-  } while (NS_NEW != pfnm->lattice[index].status);
+  if (!pq_remove(pfnm->queue, &index)) {
+    /* No more indexes in the priority queue, iteration end. */
+    return FALSE;
+  }
+
+#ifdef PF_DEBUG
+  fc_assert(NS_NEW == pfnm->lattice[index].status);
+#endif
 
   /* Change the pf_map iterator. Node status step C. to D. */
   pfm->tile = index_to_tile(index);
@@ -1405,8 +1417,15 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
               /* Maybe clear previously "waited" status of the node. */
               node1->waited = FALSE;
             }
-            node1->status = NS_NEW;
-            pq_insert(pfdm->queue, index1, -cost_of_path);
+            if (NS_INIT == node1->status) {
+              node1->status = NS_NEW;
+              pq_insert(pfdm->queue, index1, -cost_of_path);
+            } else {
+#ifdef PF_DEBUG
+              fc_assert(NS_NEW == node1->status);
+#endif
+              pq_replace(pfdm->queue, index1, -cost_of_path);
+            }
           }
         } else {
           /* The procedure is slightly different for dangerous nodes.
@@ -1415,12 +1434,8 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
            * 2. we can possibly go further across dangerous area; or
            * 3. we can have lower extra and will not overwrite anything
            * useful. Node status step B. to C. */
-          if (node1->status == NS_INIT
-              || (pf_moves_left(params, cost)
-                  > pf_moves_left(params, node1->cost))
-              || ((pf_total_CC(params, cost, extra)
-                   < pf_total_CC(params, node1->cost, node1->extra_cost))
-                  && node1->status == NS_PROCESSED)) {
+          if (node1->status == NS_INIT) {
+            /* case 1. */
             node1->extra_cost = extra;
             node1->cost = cost;
             node1->dir_to_here = dir;
@@ -1428,6 +1443,20 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
             node1->waited = (node->status == NS_WAITING);
             /* Extra costs of all nodes in danger_queue are equal! */
             pq_insert(pfdm->danger_queue, index1, -cost);
+          } else if ((pf_moves_left(params, cost)
+                      > pf_moves_left(params, node1->cost))
+                     || (node1->status == NS_PROCESSED
+                         && (pf_total_CC(params, cost, extra)
+                             < pf_total_CC(params, node1->cost,
+                                           node1->extra_cost)))) {
+            /* case 2 or 3. */
+            node1->extra_cost = extra;
+            node1->cost = cost;
+            node1->dir_to_here = dir;
+            node1->status = NS_NEW;
+            node1->waited = (node->status == NS_WAITING);
+            /* Extra costs of all nodes in danger_queue are equal! */
+            pq_replace(pfdm->danger_queue, index1, -cost);
           }
         }
       } adjc_dir_iterate_end;
@@ -1460,12 +1489,14 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
       node = pfdm->lattice + index;
     } else {
       /* No dangerous nodes to process, go for a safe one. */
-      do {
-        if (!pq_remove(pfdm->queue, &index)) {
-          /* No more indexes in the priority queue, iteration end. */
-          return FALSE;
-        }
-      } while (pfdm->lattice[index].status == NS_PROCESSED);
+      if (!pq_remove(pfdm->queue, &index)) {
+        /* No more indexes in the priority queue, iteration end. */
+        return FALSE;
+      }
+
+#ifdef PF_DEBUG
+      fc_assert(NS_PROCESSED != pfdm->lattice[index].status);
+#endif
 
       /* Change the pf_map iterator and reset data. */
       tile = index_to_tile(index);
@@ -2482,7 +2513,12 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
             pq_insert(pffm->queue, index1, -cost_of_path);
           } else {
             /* else staying at D. */
-            pq_replace(pffm->queue, index1, -cost_of_path);
+#ifdef PF_DEBUG
+            fc_assert(NS_NEW == node1->status);
+#endif
+            if (cost_of_path < old_cost_of_path) {
+              pq_replace(pffm->queue, index1, -cost_of_path);
+            }
           }
           continue;     /* adjc_dir_iterate() */
         }
@@ -2490,37 +2526,30 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         /* Step 2: We test if this route could open better routes for other
          * tiles, if we waited somewhere. */
 
-        if (0 == node1->moves_left_req) {
-          /* Waiting to cross over a refuel is senseless. */
+        if (0 == node1->moves_left_req || NS_NEW == node1->status) {
+          /* Waiting to cross over a refuel is senseless.
+           * If the node is not */
           continue;     /* adjc_dir_iterate() */
         }
 
-        if (pos) {
-          /* We had a path to this tile. Here, we have to use back the
-           * current values because we could have more moves left if we
-           * waited somewhere. */
-          old_cost_of_path = pf_total_CC(params, pos->cost,
-                                         pos->extra_cost);
-        }
+#ifdef PF_DEBUG
+        fc_assert(NS_PROCESSED == node1->status);
+#endif
 
         if (moves_left > node1->moves_left
-            || cost_of_path < old_cost_of_path) {
+            || (moves_left == node1->moves_left
+                && extra < node1->extra_cost)) {
           /* We will update costs if:
            * 1. we would have more moves left than previously on this node.
            * 2. we can have lower extra and will not overwrite anything
-           *    useful.
-           * Node status step B. to C. or D. to D.*/
+           *    useful. */
           node1->extra_cost = extra;
           node1->cost = cost;
           node1->moves_left = moves_left;
           node1->dir_to_here = dir;
           node1->waited = (NS_WAITING == node->status);
-          if (NS_PROCESSED != node1->status) {
-            /* Node status B. to C. */
-            node1->status = NS_NEW;
-          } /* else staying at D. */
           /* Extra costs of all nodes in out_of_fuel_queue are equal! */
-          pq_insert(pffm->out_of_fuel_queue, index1, -cost);
+          pq_replace(pffm->out_of_fuel_queue, index1, -cost);
         }
       } adjc_dir_iterate_end;
     }
@@ -2551,21 +2580,19 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       tile = index_to_tile(index);
       pfm->tile = tile;
       node = pffm->lattice + index;
-      if (NS_PROCESSED != node->status && !pf_fuel_node_dangerous(node)) {
-        /* Node status step C. and D. */
 #ifdef PF_DEBUG
-        fc_assert(0 < node->moves_left_req);
+      fc_assert(0 < node->moves_left_req);
+      fc_assert(NS_PROCESSED == node->status);
 #endif
-        node->status = NS_PROCESSED;
-        return TRUE;
-      }
     } else {
       /* No nodes to process in out_of_fuel_queue, go for a normal one. */
-      do {
-        if (!pq_remove(pffm->queue, &index)) {
-          return FALSE;
-        }
-      } while (pffm->lattice[index].status == NS_PROCESSED);
+      if (!pq_remove(pffm->queue, &index)) {
+        return FALSE;
+      }
+
+#ifdef PF_DEBUG
+      fc_assert(NS_PROCESSED != pffm->lattice[index].status);
+#endif
 
       /* Change the pf_map iterator and reset data. */
       tile = index_to_tile(index);
