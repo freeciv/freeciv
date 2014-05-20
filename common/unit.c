@@ -2314,7 +2314,7 @@ bool unit_transport_unload(struct unit *pcargo)
     bool success;
 
     /* 'pcargo' and 'ptrans' should be on the same tile. */
-    fc_assert_ret_val(same_pos(unit_tile(pcargo), unit_tile(ptrans)), FALSE);
+    fc_assert(same_pos(unit_tile(pcargo), unit_tile(ptrans)));
     /* It is an error if 'pcargo' can not be removed from the 'ptrans'. */
     success = unit_list_remove(ptrans->transporting, pcargo);
     fc_assert(success);
