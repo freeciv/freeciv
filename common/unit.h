@@ -391,6 +391,7 @@ bool unit_transported(const struct unit *pcargo);
 struct unit_list *unit_transport_cargo(const struct unit *ptrans);
 bool unit_transport_check(const struct unit *pcargo,
                           const struct unit *ptrans);
+bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans);
 
 #ifdef __cplusplus
 }
