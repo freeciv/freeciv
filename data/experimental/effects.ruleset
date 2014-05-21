@@ -1084,6 +1084,14 @@ reqs	=
       "Building", "Colosseum", "City"
     }
 
+[effect_colosseum_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Colosseum", "City"
+    }
+
 [effect_courthouse]
 type    = "Output_Waste_Pct"
 value	= 50
@@ -1232,6 +1240,14 @@ reqs	=
     { "type", "name", "range"
       "Building", "Library", "City"
       "OutputType", "Science", "Local"
+    }
+
+[effect_library_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Library", "City"
     }
 
 [effect_marketplace]
@@ -1386,6 +1402,14 @@ reqs =
       "Gov", "Monarchy", "Player"
       "Building", "Palace", "City"
       "OutputType", "Shield", "Local"
+    }
+
+[effect_palace_culture]
+type    = "History"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
     }
 
 [effect_police_station]
@@ -1802,6 +1826,14 @@ reqs	=
       "Building", "Library", "City"
       "Building", "University", "City"
       "OutputType", "Science", "Local"
+    }
+
+[effect_university_culture]
+type    = "History"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "University", "City"
     }
 
 [effect_apollo_program]

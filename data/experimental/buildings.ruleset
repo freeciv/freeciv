@@ -305,7 +305,8 @@ helptext	= _("\
 Entertains the citizens of a city, making 3 unhappy citizens content. \
  (Four after the discovery of Electricity.)  However, it does not\
  affect citizens made unhappy by military activity.\
-")
+"),
+_("Adds 2 points of culture each turn.")
 ; NOTE:
 ; For Civ2 the "Electricity" condition should be "Electronics"
 
@@ -513,7 +514,8 @@ sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 Increases the science output in a city by 100%.\
-")
+"),
+_("Adds 2 points of culture each turn.")
 
 [building_marketplace]
 name		= _("Marketplace")
@@ -684,7 +686,8 @@ Take good care of your capital, as its loss may result in your\
 _("\
 Under Despotism the city containing the palace gains a +75%\
  production bonus, and under Monarchy a +50% production bonus.\
-")
+"),
+_("Adds 2 points of culture each turn.")
 
 [building_police_station]
 name		= _("Police Station")
@@ -1145,7 +1148,8 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Together with a Library, a University increases the science\
  production of a city by 250%.\
-")
+"),
+_("Adds 1 point of culture each turn.")
 
 [building_apollo_program]
 name		= _("Apollo Program")
