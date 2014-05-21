@@ -265,6 +265,8 @@ struct editor_sprites {
     *military_base;
 };
 
+#define NUM_WALL_TYPES 7
+
 struct sprite *get_spaceship_sprite(const struct tileset *t,
 				    enum spaceship_part part);
 struct sprite *get_citizen_sprite(const struct tileset *t,

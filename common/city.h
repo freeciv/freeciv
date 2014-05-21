@@ -415,7 +415,7 @@ struct city {
     struct {
       /* Only used at the client (the server is omniscient; ./client/). */
       bool occupied;
-      bool walls;
+      int  walls;
       bool happy;
       bool unhappy;
       int  city_image;
@@ -559,7 +559,6 @@ bool city_has_building(const struct city *pcity,
 		       const struct impr_type *pimprove);
 bool is_capital(const struct city *pcity);
 bool is_gov_center(const struct city *pcity);
-bool city_got_citywalls(const struct city *pcity);
 bool city_got_defense_effect(const struct city *pcity,
                              const struct unit_type *attacker);
 

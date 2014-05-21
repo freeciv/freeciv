@@ -1797,6 +1797,16 @@ static bool player_has_trade_route_with_city(struct player *pplayer,
 }
 
 /**************************************************************************
+ Which wall gfx city should display?
+**************************************************************************/
+static int city_got_citywalls(const struct city *pcity)
+{
+  int walls = get_city_bonus(pcity, EFT_VISIBLE_WALLS);
+
+  return walls > 0 ? walls : 0;
+}
+
+/**************************************************************************
   Suppress sending cities during game_load() and end_phase()
 **************************************************************************/
 bool send_city_suppression(bool now)

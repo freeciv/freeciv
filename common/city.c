@@ -1445,14 +1445,6 @@ bool is_gov_center(const struct city *pcity)
 }
 
 /**************************************************************************
- Whether a city should have visible walls
-**************************************************************************/
-bool city_got_citywalls(const struct city *pcity)
-{
-  return (get_city_bonus(pcity, EFT_VISIBLE_WALLS) > 0);
-}
-
-/**************************************************************************
  This can be City Walls, Coastal defense... depending on attacker type.
  If attacker type is not given, just any defense effect will do.
 **************************************************************************/

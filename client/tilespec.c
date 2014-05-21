@@ -296,7 +296,8 @@ struct named_sprites {
       *tile_tradenum[NUM_TILES_DIGITS];
     struct city_sprite
       *tile,
-      *wall,
+      *single_wall,
+      *wall[NUM_WALL_TYPES],
       *occupied;
     struct sprite_vector worked_tile_overlay;
     struct sprite_vector unworked_tile_overlay;
@@ -5075,17 +5076,47 @@ int fill_sprite_array(struct tileset *t,
       /* For iso-view the city.wall graphics include the full city, whereas
        * for non-iso view they are an overlay on top of the base city
        * graphic. */
-      if (t->type == TS_OVERVIEW || !pcity->client.walls) {
+      if (t->type == TS_OVERVIEW || pcity->client.walls <= 0) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.tile, pcity));
       }
-      if (t->type == TS_ISOMETRIC && pcity->client.walls) {
-	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
+      if (t->type == TS_ISOMETRIC && pcity->client.walls > 0) {
+        struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
+        struct sprite *spr = NULL;
+
+        if (cspr != NULL) {
+          spr = get_city_sprite(cspr, pcity);
+        }
+        if (spr == NULL) {
+          cspr = t->sprites.city.single_wall;
+          if (cspr != NULL) {
+            spr = get_city_sprite(cspr, pcity);
+          }
+        }
+
+        if (spr != NULL) {
+          ADD_SPRITE_FULL(spr);
+        }
       }
       if (!options.draw_full_citybar && pcity->client.occupied) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.occupied, pcity));
       }
-      if (t->type == TS_OVERVIEW && pcity->client.walls) {
-	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
+      if (t->type == TS_OVERVIEW && pcity->client.walls > 0) {
+        struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
+        struct sprite *spr = NULL;
+
+        if (cspr != NULL) {
+          spr = get_city_sprite(cspr, pcity);
+        }
+        if (spr == NULL) {
+          cspr = t->sprites.city.single_wall;
+          if (cspr != NULL) {
+            spr = get_city_sprite(cspr, pcity);
+          }
+        }
+
+        if (spr != NULL) {
+          ADD_SPRITE_FULL(spr);
+        }
       }
       if (pcity->client.unhappy) {
 	ADD_SPRITE_FULL(t->sprites.city.disorder);
@@ -5312,23 +5343,35 @@ int fill_sprite_array(struct tileset *t,
 void tileset_setup_city_tiles(struct tileset *t, int style)
 {
   if (style == game.control.styles_count - 1) {
+    int i;
 
     /* Free old sprites */
     free_city_sprite(t->sprites.city.tile);
-    free_city_sprite(t->sprites.city.wall);
+
+    for (i = 0; i < NUM_WALL_TYPES; i++) {
+      free_city_sprite(t->sprites.city.wall[i]);
+      t->sprites.city.wall[i] = NULL;
+    }
+    free_city_sprite(t->sprites.city.single_wall);
+    t->sprites.city.single_wall = NULL;
+
     free_city_sprite(t->sprites.city.occupied);
 
     t->sprites.city.tile = load_city_sprite(t, "city");
-    t->sprites.city.wall = load_city_sprite(t, "wall");
+
+    for (i = 0; i < NUM_WALL_TYPES; i++) {
+      char buffer[256];
+
+      fc_snprintf(buffer, sizeof(buffer), "bldg_%d", i);
+      t->sprites.city.wall[i] = load_city_sprite(t, buffer);
+    }
+    t->sprites.city.single_wall = load_city_sprite(t, "wall");
+
     t->sprites.city.occupied = load_city_sprite(t, "occupied");
 
     for (style = 0; style < game.control.styles_count; style++) {
       if (t->sprites.city.tile->styles[style].land_num_thresholds == 0) {
         tileset_error(LOG_FATAL, _("City style \"%s\": no city graphics."),
-                      city_style_rule_name(style));
-      }
-      if (t->sprites.city.wall->styles[style].land_num_thresholds == 0) {
-        tileset_error(LOG_FATAL, _("City style \"%s\": no wall graphics."),
                       city_style_rule_name(style));
       }
       if (t->sprites.city.occupied->styles[style].land_num_thresholds == 0) {
@@ -5428,14 +5471,22 @@ static void unload_all_sprites(struct tileset *t)
 ***********************************************************************/
 void tileset_free_tiles(struct tileset *t)
 {
+  int i;
+
   log_debug("tileset_free_tiles()");
 
   unload_all_sprites(t);
 
   free_city_sprite(t->sprites.city.tile);
   t->sprites.city.tile = NULL;
-  free_city_sprite(t->sprites.city.wall);
-  t->sprites.city.wall = NULL;
+
+  for (i = 0; i < NUM_WALL_TYPES; i++) {
+    free_city_sprite(t->sprites.city.wall[i]);
+    t->sprites.city.wall[i] = NULL;
+  }
+  free_city_sprite(t->sprites.city.single_wall);
+  t->sprites.city.single_wall = NULL;
+
   free_city_sprite(t->sprites.city.occupied);
   t->sprites.city.occupied = NULL;
 
@@ -5862,9 +5913,16 @@ void tileset_use_prefered_theme(const struct tileset *t)
 ****************************************************************************/
 void tileset_init(struct tileset *t)
 {
+  int i;
+
   /* We currently have no city sprites loaded. */
   t->sprites.city.tile     = NULL;
-  t->sprites.city.wall     = NULL;
+
+  for (i = 0; i < NUM_WALL_TYPES; i++) {
+    t->sprites.city.wall[i] = NULL;
+  }
+  t->sprites.city.single_wall = NULL;
+
   t->sprites.city.occupied = NULL;
 
   t->sprites.background.color = NULL;

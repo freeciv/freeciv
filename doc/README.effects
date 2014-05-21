@@ -385,7 +385,8 @@ Upgrade_Price_Pct
     for units upgraded in certain city.
 
 Visible_Wall
-    Positive amount only instructs clients to use wall graphics for city.
+    Instruct client to show specific buildings version of the city graphics.
+    Zero or below are considered normal city graphics.
 
 Tech_Cost_Factor
     Factor for research costs.

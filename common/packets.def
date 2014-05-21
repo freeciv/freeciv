@@ -617,7 +617,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BOOL did_buy, did_sell, was_happy;
 
   BOOL diplomat_investigate;
-  BOOL walls;
+  UINT8 walls;
   SINT8 city_image;
 
   WORKLIST worklist;
@@ -635,8 +635,8 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
   UINT8 size;
   UINT8 style;
 
-  BOOL occupied;
-  BOOL walls;
+  BOOL  occupied;
+  UINT8 walls;
 
   BOOL happy;
   BOOL unhappy;
