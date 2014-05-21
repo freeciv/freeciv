@@ -235,7 +235,7 @@ bool is_option(const char *option_name,char *option)
   Like strcspn but also handles quotes, i.e. *reject chars are
   ignored if they are inside single or double quotes.
 ***************************************************************/
-static size_t my_strcspn(const char *s, const char *reject)
+static size_t fc_strcspn(const char *s, const char *reject)
 {
   bool in_single_quotes = FALSE, in_double_quotes = FALSE;
   size_t i, len = strlen(s);
@@ -296,7 +296,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
       break;
     }
 
-    len = my_strcspn(str, delimiterset);
+    len = fc_strcspn(str, delimiterset);
 
     if (token >= num_tokens) {
       break;

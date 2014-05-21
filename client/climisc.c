@@ -600,7 +600,7 @@ static int target_get_section(struct universal target)
 /**************************************************************************
  Helper for name_and_sort_items.
 **************************************************************************/
-static int my_cmp(const void *p1, const void *p2)
+static int fc_cmp(const void *p1, const void *p2)
 {
   const struct item *i1 = p1, *i2 = p2;
   int s1 = target_get_section(i1->item);
@@ -661,7 +661,7 @@ void name_and_sort_items(struct universal *targets, int num_targets,
     }
   }
 
-  qsort(items, num_targets, sizeof(struct item), my_cmp);
+  qsort(items, num_targets, sizeof(struct item), fc_cmp);
 }
 
 /**************************************************************************

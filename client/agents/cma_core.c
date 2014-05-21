@@ -92,7 +92,7 @@ static struct {
  Returns TRUE iff the two results are equal. Both results have to be
  results for the given city.
 *****************************************************************************/
-static bool my_results_are_equal(const struct cm_result *result1,
+static bool fc_results_are_equal(const struct cm_result *result1,
                                  const struct cm_result *result2)
 {
 #define T(x) if (result1->x != result2->x) { \
@@ -172,7 +172,7 @@ static bool apply_result_on_server(struct city *pcity,
   fc_assert_ret_val(result->found_a_valid, FALSE);
   cm_result_from_main_map(current_state, pcity);
 
-  if (my_results_are_equal(current_state, result)
+  if (fc_results_are_equal(current_state, result)
       && !ALWAYS_APPLY_AT_SERVER) {
     stats.apply_result_ignored++;
     return TRUE;
@@ -267,7 +267,7 @@ static bool apply_result_on_server(struct city *pcity,
   if (last_request_id == 0 || ALWAYS_APPLY_AT_SERVER) {
       /*
        * If last_request is 0 no change request was send. But it also
-       * means that the results are different or the my_results_are_equal()
+       * means that the results are different or the fc_results_are_equal()
        * test at the start of the function would be true. So this
        * means that the client has other results for the same
        * allocation of citizen than the server. We just send a
@@ -294,7 +294,7 @@ static bool apply_result_on_server(struct city *pcity,
   /* Return. */
   cm_result_from_main_map(current_state, pcity);
 
-  success = my_results_are_equal(current_state, result);
+  success = fc_results_are_equal(current_state, result);
   if (!success) {
     cm_clear_cache(pcity);
 

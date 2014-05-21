@@ -59,7 +59,7 @@ def write_disclaimer(f):
 
 ''')
 
-def my_open(name):
+def fc_open(name):
     verbose("writing %s"%name)
     f=open(name,"w")
     write_disclaimer(f)
@@ -1575,9 +1575,9 @@ def main():
     output_h_name=target_root+"/common/packets_gen.h"
 
     if lazy_overwrite:
-        output_h=my_open(output_h_name+".tmp")
+        output_h=fc_open(output_h_name+".tmp")
     else:
-        output_h=my_open(output_h_name)
+        output_h=fc_open(output_h_name)
 
     output_h.write('''
 #ifdef __cplusplus
@@ -1613,9 +1613,9 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
     ### writing packets_gen.c
     output_c_name=target_root+"/common/packets_gen.c"
     if lazy_overwrite:
-        output_c=my_open(output_c_name+".tmp")
+        output_c=fc_open(output_c_name+".tmp")
     else:
-        output_c=my_open(output_c_name)
+        output_c=fc_open(output_c_name)
 
     output_c.write('''
 #ifdef HAVE_CONFIG_H
@@ -1692,7 +1692,7 @@ static int stats_total_sent;
                 open(i,"w").write(new)
             os.remove(i+".tmp")
 
-    f=my_open(target_root+"/server/hand_gen.h")
+    f=fc_open(target_root+"/server/hand_gen.h")
     f.write('''
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
@@ -1736,7 +1736,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
     f.close()
 
-    f=my_open(target_root+"/client/packhand_gen.h")
+    f=fc_open(target_root+"/client/packhand_gen.h")
     f.write('''
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
@@ -1778,7 +1778,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 ''')
     f.close()
 
-    f=my_open(target_root+"/server/hand_gen.c")
+    f=fc_open(target_root+"/server/hand_gen.c")
     f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -1834,7 +1834,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
     f.close()
 
-    f=my_open(target_root+"/client/packhand_gen.c")
+    f=fc_open(target_root+"/client/packhand_gen.c")
     f.write('''
 
 #ifdef HAVE_CONFIG_H

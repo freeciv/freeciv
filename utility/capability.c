@@ -18,7 +18,7 @@
 #include <string.h>
 
 #include "shared.h"		/* TRUE, FALSE */
-#include "support.h"		/* my_is* */
+#include "support.h"		/* fc_is* */
 
 #include "capability.h"
 
@@ -40,8 +40,8 @@
   in the capability list in capstr.  The capabilities in capstr
   are allowed to start with a "+", but the capability in cap must not.
 ***************************************************************************/
-static bool my_has_capability(const char *cap, const char *capstr,
-			     const size_t cap_len)
+static bool fc_has_capability(const char *cap, const char *capstr,
+                              const size_t cap_len)
 {
   const char *next;
 
@@ -65,11 +65,11 @@ static bool my_has_capability(const char *cap, const char *capstr,
 }
 
 /***************************************************************************
-  Wrapper for my_has_capability() for NUL terminated strings.
+  Wrapper for fc_has_capability() for NULL terminated strings.
 ***************************************************************************/
 bool has_capability(const char *cap, const char *capstr)
 {
-  return my_has_capability(cap, capstr, strlen(cap));
+  return fc_has_capability(cap, capstr, strlen(cap));
 }
 
 /***************************************************************************
@@ -83,7 +83,7 @@ bool has_capabilities(const char *us, const char *them)
   for (;;) {
     GET_TOKEN(us, next);
 
-    if (*us == '+' && !my_has_capability(us+1, them, next-(us+1))) {
+    if (*us == '+' && !fc_has_capability(us+1, them, next-(us+1))) {
       return FALSE;
     }
     if (*next == '\0') {
