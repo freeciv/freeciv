@@ -3535,6 +3535,14 @@ static void game_load_internal(struct section_file *file)
     game.server.revolution_length =
       secfile_lookup_int_default(file, game.server.revolution_length,
                                  "game.revolen");
+    if (game.server.revolution_length == 0) {
+      /* Value 0 meant RANDOM 1-5 */
+      game.server.revolution_length = 5;
+      game.server.revolentype = REVOLEN_RANDOM;
+    } else {
+      game.server.revolentype = REVOLEN_FIXED;
+    }
+
     game.server.occupychance =
       secfile_lookup_int_default(file, game.server.occupychance,
                                  "game.occupychance");

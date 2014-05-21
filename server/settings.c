@@ -373,6 +373,18 @@ static const struct sset_val_name *barbarians_name(int barbarians)
 }
 
 /****************************************************************************
+  Revolution length type setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *revolentype_name(int revolentype)
+{
+  switch (revolentype) {
+  NAME_CASE(REVOLEN_FIXED, "FIXED", N_("Fixed to 'revolen' turns"));
+  NAME_CASE(REVOLEN_RANDOM, "RANDOM", N_("Randomly 1-'revolen' turns"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Revealmap setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *revealmap_name(int bit)
@@ -1848,13 +1860,21 @@ static struct setting settings[] = {
 	  GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, 
 	  GAME_DEFAULT_ONSETBARBARIAN)
 
+  GEN_ENUM("revolentype", game.server.revolentype,
+           SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Way to determine revolution length"),
+           N_("Which method is used in determining how long period of anarchy "
+              "lasts when changing government. The actual value is set with "
+              "'revolen' setting."),
+           NULL, NULL, revolentype_name, GAME_DEFAULT_REVOLENTYPE)
+
   GEN_INT("revolen", game.server.revolution_length,
 	  SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Length in turns of revolution"),
-	  N_("When changing governments, a period of anarchy lasting this "
-	     "many turns will occur. "
-             "Setting this value to 0 will give a random "
-             "length of 1-5 turns."), NULL, NULL,
+	  N_("When changing governments, a period of anarchy will occur. "
+             "Value of this setting, used the way 'revolentype' setting "
+             "dictates, defines the length of the anarchy."),
+          NULL, NULL,
 	  GAME_MIN_REVOLUTION_LENGTH, GAME_MAX_REVOLUTION_LENGTH, 
 	  GAME_DEFAULT_REVOLUTION_LENGTH)
 

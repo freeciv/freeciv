@@ -54,6 +54,11 @@ enum barbarians_rate {
   BARBS_HORDES
 };
 
+enum revolen_type {
+  REVOLEN_FIXED = 0,
+  REVOLEN_RANDOM
+};
+
 enum autosave_type {
   AS_TURN = 0,
   AS_GAME_OVER,
@@ -152,6 +157,7 @@ struct civ_game {
       int ransom_gold;
       int razechance;
       unsigned revealmap;
+      enum revolen_type revolentype;
       int revolution_length;
       int save_compress_level;
       enum fz_method save_compress_type;
@@ -593,9 +599,10 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_PLRCOLORMODE PLRCOL_PLR_ORDER
 
-#define GAME_DEFAULT_REVOLUTION_LENGTH 0
-#define GAME_MIN_REVOLUTION_LENGTH 0
-#define GAME_MAX_REVOLUTION_LENGTH 10
+#define GAME_DEFAULT_REVOLENTYPE        REVOLEN_RANDOM
+#define GAME_DEFAULT_REVOLUTION_LENGTH  5
+#define GAME_MIN_REVOLUTION_LENGTH      1
+#define GAME_MAX_REVOLUTION_LENGTH      20
 
 #define GAME_START_YEAR -4000
 

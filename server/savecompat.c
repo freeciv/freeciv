@@ -483,6 +483,21 @@ static void compat_load_020500(struct loaddata *loading)
 }
 
 /****************************************************************************
+  Return string representation of revolentype
+****************************************************************************/
+static char *revolentype_str(enum revolen_type type)
+{
+  switch (type) {
+  case REVOLEN_FIXED:
+    return "FIXED";
+  case REVOLEN_RANDOM:
+    return "RANDOM";
+  }
+
+  return "";
+}
+
+/****************************************************************************
   Translate savegame secfile data from 2.5.x to 2.6.0 format.
 ****************************************************************************/
 static void compat_load_020600(struct loaddata *loading)
@@ -500,6 +515,8 @@ static void compat_load_020600(struct loaddata *loading)
       char value_buffer[1024] = "";
       char gamestart_buffer[1024] = "";
       int i;
+      enum revolen_type rlt = GAME_DEFAULT_REVOLENTYPE;
+      enum revolen_type gsrlt = GAME_DEFAULT_REVOLENTYPE;
       bool gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
@@ -546,18 +563,45 @@ static void compat_load_020600(struct loaddata *loading)
           if (value_start) {
             sz_strlcat(gamestart_buffer, "|ALLIED");
           }
+        } else if (!fc_strcasecmp("revolen", name)) {
+          int value, value_start;
+
+          (void) secfile_lookup_int(loading->file, &value,
+                                    "settings.set%d.value", i);
+          (void) secfile_lookup_int(loading->file, &value_start,
+                                    "settings.set%d.gamestart", i);
+
+          /* 0 meant RANDOM 1-5 */
+          if (value == 0) {
+            rlt = REVOLEN_RANDOM;
+            secfile_replace_int(loading->file, 5, "settings.set%d.value", i);
+          } else {
+            rlt = REVOLEN_FIXED;
+          }
+          if (value_start == 0) {
+            gsrlt = REVOLEN_RANDOM;
+            secfile_replace_int(loading->file, 5, "settings.set%d.gamestart", i);
+          } else {
+            gsrlt = REVOLEN_FIXED;
+          }
         }
       }
 
-      secfile_replace_int(loading->file, set_count + 1, "settings.set_count");
+      secfile_replace_int(loading->file, set_count + 2, "settings.set_count");
 
       secfile_insert_str(loading->file, "victories", "settings.set%d.name",
                          set_count);
       secfile_insert_str(loading->file, value_buffer, "settings.set%d.value",
                          set_count);
+      secfile_insert_str(loading->file, "revolentype", "settings.set%d.name",
+                         set_count + 1);
+      secfile_insert_str(loading->file, revolentype_str(rlt), "settings.set%d.value",
+                         set_count + 1);
       if (gamestart_valid) {
         secfile_insert_str(loading->file, gamestart_buffer, "settings.set%d.gamestart",
                            set_count);
+        secfile_insert_str(loading->file, revolentype_str(gsrlt), "settings.set%d.gamestart",
+                           set_count + 1);
       }
     }
   }

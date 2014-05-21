@@ -392,10 +392,16 @@ void handle_player_change_government(struct player *pplayer, int government)
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
-  } else if (game.server.revolution_length == 0) {
-    turns = fc_rand(5) + 1;
   } else {
-    turns = game.server.revolution_length;
+    turns = GAME_DEFAULT_REVOLUTION_LENGTH; /* To avoid compiler warning */
+    switch (game.server.revolentype) {
+    case REVOLEN_FIXED:
+      turns = game.server.revolution_length;
+      break;
+    case REVOLEN_RANDOM:
+      turns = fc_rand(game.server.revolution_length) + 1;
+      break;
+    }
   }
 
   pplayer->government = game.government_during_revolution;
