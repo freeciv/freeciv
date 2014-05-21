@@ -89,12 +89,6 @@ struct server_scan {
 
   /* Only used for metaserver */
   struct {
-    enum {
-      META_CONNECTING,
-      META_WAITING,
-      META_DONE
-    } state;
-
     enum server_scan_status status;
 
     fc_thread thr;
@@ -240,7 +234,6 @@ static bool meta_read_response(struct server_scan *scan)
   srvrs = parse_metaserver_data(f);
   scan->srvrs.servers = srvrs;
   fc_release_mutex(&scan->srvrs.mutex);
-  scan->meta.state = META_DONE;
 
   /* 'f' (hence 'meta.fp') was closed in parse_metaserver_data(). */
   scan->meta.fp = NULL;
@@ -296,7 +289,9 @@ static void metaserver_scan(void *arg)
         scan->meta.status = SCAN_STATUS_ERROR;
       } else {
         fc_allocate_mutex(&scan->meta.mutex);
-        scan->meta.status = SCAN_STATUS_DONE;
+        if (scan->meta.status == SCAN_STATUS_WAITING) {
+          scan->meta.status = SCAN_STATUS_DONE;
+        }
       }
     }
 
@@ -579,7 +574,7 @@ get_lan_server_list(struct server_scan *scan)
   char message[1024];
   bool found_new = FALSE;
 
-  while (1) {
+  while (TRUE) {
     struct server *pserver;
     bool duplicate = FALSE;
 
@@ -717,6 +712,7 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
       int thr_ret;
 
       fc_init_mutex(&scan->meta.mutex);
+      scan->meta.status = SCAN_STATUS_WAITING;
       thr_ret = fc_thread_start(&scan->meta.thr, metaserver_scan, scan);
       if (thr_ret) {
         ok = FALSE;
@@ -765,6 +761,7 @@ enum server_scan_type server_scan_get_type(const struct server_scan *scan)
     SCAN_STATUS_DONE    - The scan received all data it expected to receive.
                           Get the servers with server_scan_get_list(), and
                           stop calling this function.
+    SCAN_STATUS_ABORT   - The scan has been aborted
 ****************************************************************************/
 enum server_scan_status server_scan_poll(struct server_scan *scan)
 {
