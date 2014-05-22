@@ -63,9 +63,9 @@ enum pf_node_status {
 };
 
 enum pf_zoc_type {
-  ZOC_NO = 0,           /* No ZoC. */
+  ZOC_MINE = 0,         /* My ZoC. */
   ZOC_ALLIED,           /* Allied ZoC. */
-  ZOC_MINE              /* My ZoC. */
+  ZOC_NO                /* No ZoC. */
 };
 
 /* Abstract base class for pf_normal_map, pf_danger_map, and pf_fuel_map. */
@@ -271,6 +271,7 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
                                 struct tile *ptile)
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfnm));
+  struct terrain *pterrain;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -292,24 +293,19 @@ static void pf_normal_node_init(struct pf_normal_map *pfnm,
     node->behavior = TB_NORMAL;
   }
 
-  if (NULL != params->get_zoc) {
-    struct city *pcity = tile_city(ptile);
-    struct terrain *pterrain = tile_terrain(ptile);
-    bool my_zoc = (NULL != pcity || pterrain == T_UNKNOWN
-                   || terrain_type_terrain_class(pterrain) == TC_OCEAN
-                   || params->get_zoc(params->owner, ptile));
-    /* ZoC rules cannot prevent us from moving into/attacking an occupied
-     * tile. Other rules can, but we don't care about them here. */
-    bool occupied = (0 < unit_list_size(ptile->units) || NULL != pcity);
-
-    /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
-     * can move unrestricted into it, but not necessarily from it. */
-    node->zoc_number = (my_zoc ? ZOC_MINE
-                        : (occupied ? ZOC_ALLIED : ZOC_NO));
+  /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
+   * can move unrestricted into it, but not necessarily from it. */
+  if (NULL != params->get_zoc
+      && NULL == tile_city(ptile)
+      && T_UNKNOWN != (pterrain = tile_terrain(ptile))
+      && !terrain_has_flag(pterrain, TER_NO_ZOC)
+      && !params->get_zoc(params->owner, ptile)) {
+    node->zoc_number = (0 < unit_list_size(ptile->units)
+                        ? ZOC_ALLIED : ZOC_NO);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
-    node->zoc_number = 0;
+    node->zoc_number = ZOC_MINE;
 #endif
   }
 
@@ -597,9 +593,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       }
 
       /* Is the move ZOC-ok? */
-      if (NULL != params->get_zoc
-          && !(node->zoc_number == ZOC_MINE
-               || node1->zoc_number != ZOC_NO)) {
+      if (node->zoc_number != ZOC_MINE && node1->zoc_number == ZOC_NO) {
         continue;
       }
 
@@ -913,6 +907,7 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
                                 struct tile *ptile)
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfdm));
+  struct terrain *pterrain;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -934,24 +929,19 @@ static void pf_danger_node_init(struct pf_danger_map *pfdm,
     node->behavior = TB_NORMAL;
   }
 
-  if (NULL != params->get_zoc) {
-    struct city *pcity = tile_city(ptile);
-    struct terrain *pterrain = tile_terrain(ptile);
-    bool my_zoc = (NULL != pcity || pterrain == T_UNKNOWN
-                   || terrain_type_terrain_class(pterrain) == TC_OCEAN
-                   || params->get_zoc(params->owner, ptile));
-    /* ZoC rules cannot prevent us from moving into/attacking an occupied
-     * tile. Other rules can, but we don't care about them here. */
-    bool occupied = (unit_list_size(ptile->units) > 0 || NULL != pcity);
-
-    /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
-     * can move unrestricted into it, but not necessarily from it. */
-    node->zoc_number = (my_zoc ? ZOC_MINE
-                        : (occupied ? ZOC_ALLIED : ZOC_NO));
+  /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
+   * can move unrestricted into it, but not necessarily from it. */
+  if (NULL != params->get_zoc
+      && NULL == tile_city(ptile)
+      && T_UNKNOWN != (pterrain = tile_terrain(ptile))
+      && !terrain_has_flag(pterrain, TER_NO_ZOC)
+      && !params->get_zoc(params->owner, ptile)) {
+    node->zoc_number = (0 < unit_list_size(ptile->units)
+                        ? ZOC_ALLIED : ZOC_NO);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
-    node->zoc_number = 0;
+    node->zoc_number = ZOC_MINE;
 #endif
   }
 
@@ -1352,9 +1342,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
         }
 
         /* Is the move ZOC-ok? */
-        if (NULL != params->get_zoc
-            && !(node->zoc_number == ZOC_MINE
-                 || node1->zoc_number != ZOC_NO)) {
+        if (node->zoc_number != ZOC_MINE && node1->zoc_number == ZOC_NO) {
           continue;
         }
 
@@ -1786,6 +1774,7 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
                               struct tile *ptile)
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pffm));
+  struct terrain *pterrain;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -1807,24 +1796,19 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
     node->behavior = TB_NORMAL;
   }
 
-  if (NULL != params->get_zoc) {
-    struct city *pcity = tile_city(ptile);
-    struct terrain *pterrain = tile_terrain(ptile);
-    bool my_zoc = (NULL != pcity || pterrain == T_UNKNOWN
-                   || terrain_type_terrain_class(pterrain) == TC_OCEAN
-                   || params->get_zoc(params->owner, ptile));
-    /* ZoC rules cannot prevent us from moving into/attacking an occupied
-     * tile. Other rules can, but we don't care about them here. */
-    bool occupied = (unit_list_size(ptile->units) > 0 || NULL != pcity);
-
-    /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
-     * can move unrestricted into it, but not necessarily from it. */
-    node->zoc_number = (my_zoc ? ZOC_MINE
-                        : (occupied ? ZOC_ALLIED : ZOC_NO));
+  /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
+   * can move unrestricted into it, but not necessarily from it. */
+  if (NULL != params->get_zoc
+      && NULL == tile_city(ptile)
+      && T_UNKNOWN != (pterrain = tile_terrain(ptile))
+      && !terrain_has_flag(pterrain, TER_NO_ZOC)
+      && !params->get_zoc(params->owner, ptile)) {
+    node->zoc_number = (0 < unit_list_size(ptile->units)
+                        ? ZOC_ALLIED : ZOC_NO);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
-    node->zoc_number = 0;
+    node->zoc_number = ZOC_MINE;
 #endif
   }
 
@@ -2409,9 +2393,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         }
 
         /* Is the move ZOC-ok? */
-        if (NULL != params->get_zoc
-            && !(node->zoc_number == ZOC_MINE
-                 || node1->zoc_number != ZOC_NO)) {
+        if (node->zoc_number != ZOC_MINE && node1->zoc_number == ZOC_NO) {
           continue;
         }
 
