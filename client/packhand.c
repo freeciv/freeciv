@@ -1509,25 +1509,26 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         }
 
         if (options.popup_caravan_arrival
-            && client_has_player() 
+            && client_has_player()
+            && client_player() == unit_owner(punit)
             && !client_player()->ai_controlled
             && can_client_issue_orders()
-            && !unit_has_orders(punit)) {
-          if (!unit_transported(punit)
-              && client_player() == unit_owner(punit)
-              && (unit_can_help_build_wonder_here(punit)
-                  || unit_can_est_trade_route_here(punit))) {
-            process_caravan_arrival(punit);
-          }
-          /* Check for transported units. */
-          unit_list_iterate(unit_transport_cargo(punit), pcargo) {
-            if (client_player() == unit_owner(pcargo)
-                && !unit_has_orders(pcargo)
-                && (unit_can_help_build_wonder_here(pcargo)
-                    || unit_can_est_trade_route_here(pcargo))) {
-              process_caravan_arrival(pcargo);
+            && !unit_has_orders(punit)
+            && (unit_can_help_build_wonder_here(punit)
+                || unit_can_est_trade_route_here(punit))) {
+          /* Open caravan dialog only if 'punit' and all its transporters
+           * (recursively) don't have orders. */
+          struct unit *ptrans;
+
+          for (ptrans = unit_transport_get(punit);;
+               ptrans = unit_transport_get(ptrans)) {
+            if (NULL == ptrans) {
+              process_caravan_arrival(punit);
+              break;
+            } else if (unit_has_orders(ptrans)) {
+              break;
             }
-          } unit_list_iterate_end;
+          }
         }
       }
 
