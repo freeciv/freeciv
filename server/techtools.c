@@ -316,7 +316,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   /* Memorize some values before the tech is marked as researched.
    * They will be used to notify a player about a change */
   players_iterate(aplayer) {
-    if (!players_on_same_team(aplayer, plr)) {
+    if (research != player_research_get(aplayer)) {
       continue;
     }
     fill_can_switch_to_government_array(aplayer,
@@ -330,7 +330,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   /* Make proper changes for all players sharing the research */  
   players_iterate(aplayer) {
-    if (!players_on_same_team(aplayer, plr)) {
+    if (research != player_research_get(aplayer)) {
       continue;
     }
     update_player_after_tech_researched(aplayer, tech_found, was_discovery,
@@ -1027,6 +1027,8 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 ****************************************************************************/
 void handle_player_research(struct player *pplayer, int tech)
 {
+  struct player_research *research = player_research_get(pplayer);
+
   if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
     return;
   }
@@ -1037,14 +1039,10 @@ void handle_player_research(struct player *pplayer, int tech)
   }
 
   choose_tech(pplayer, tech);
-  send_player_info_c(pplayer, pplayer->connections);
 
-  /* Notify Team members. 
-   * They share same research struct.
-   */
+  /* Notify players sharing the same research. */
   players_iterate_alive(aplayer) {
-    if (pplayer != aplayer
-        && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM) {
+    if (research == player_research_get(aplayer)) {
       send_player_info_c(aplayer, aplayer->connections);
     }
   } players_iterate_alive_end;
@@ -1056,6 +1054,8 @@ void handle_player_research(struct player *pplayer, int tech)
 ****************************************************************************/
 void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 {
+  struct player_research *research = player_research_get(pplayer);
+
   /* Set the tech goal to a defined state if it is
    * - not a future tech and not a valid goal
    * - not a future tech and not a valid advance
@@ -1070,14 +1070,11 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   }
 
   choose_tech_goal(pplayer, tech_goal);
-  send_player_info_c(pplayer, pplayer->connections);
 
-  /* Notify Team members */
+  /* Notify players sharing the same research. */
   players_iterate_alive(aplayer) {
-    if (pplayer != aplayer
-        && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
-        && player_research_get(aplayer)->tech_goal != tech_goal) {
-      handle_player_tech_goal(aplayer, tech_goal);
+    if (research == player_research_get(aplayer)) {
+      send_player_info_c(aplayer, aplayer->connections);
     }
   } players_iterate_alive_end;
 }
