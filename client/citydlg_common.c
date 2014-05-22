@@ -519,17 +519,43 @@ void get_city_dialog_output_text(const struct city *pcity,
   }
 
   if (pcity->waste[otype] != 0) {
-    char *fmt;
-    switch (otype) {
-      case O_SHIELD:
-      default: /* FIXME other output types? */
-        fmt = _("%+4d : Waste\n");
-        break;
-      case O_TRADE:
-        fmt = _("%+4d : Corruption\n");
-        break;
+    int wastetypes[OLOSS_LAST];
+    bool breakdown_ok;
+    int regular_waste;
+    /* FIXME: this will give the wrong answer in rulesets with waste on
+     * taxed outputs, such as 'science waste', as total includes tax whereas
+     * the equivalent bit in set_city_production() does not */
+    if (city_waste(pcity, otype, total, wastetypes) == pcity->waste[otype]) {
+      /* Our calculation matches the server's, so we trust our breakdown. */
+      if (wastetypes[OLOSS_SIZE] > 0) {
+        cat_snprintf(buf, bufsz,
+                     _("%+4d : Size penalty\n"), -wastetypes[OLOSS_SIZE]);
+      }
+      regular_waste = wastetypes[OLOSS_WASTE];
+      breakdown_ok = TRUE;
+    } else {
+      /* Our calculation doesn't match what the server sent. Account it all
+       * to corruption/waste. */
+      regular_waste = pcity->waste[otype];
+      breakdown_ok = FALSE;
     }
-    cat_snprintf(buf, bufsz, fmt, -pcity->waste[otype]);
+    if (regular_waste > 0) {
+      char *fmt;
+      switch (otype) {
+        case O_SHIELD:
+        default: /* FIXME other output types? */
+          /* TRANS: %s is normally empty, but becomes '?' if client is
+           * uncertain about its accounting (should never happen) */
+          fmt = _("%+4d : Waste%s\n");
+          break;
+        case O_TRADE:
+          /* TRANS: %s is normally empty, but becomes '?' if client is
+           * uncertain about its accounting (should never happen) */
+          fmt = _("%+4d : Corruption%s\n");
+          break;
+      }
+      cat_snprintf(buf, bufsz, fmt, -regular_waste, breakdown_ok ? "" : "?");
+    }
     total -= pcity->waste[otype];
   }
 

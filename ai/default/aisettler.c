@@ -411,13 +411,13 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
     int shield = result->city_center.tdc->shield
                  + result->best_other.tdc->shield;
     result->waste = adv->shield_priority
-                    * city_waste(pcity, O_SHIELD, shield);
+                    * city_waste(pcity, O_SHIELD, shield, NULL);
 
     if (game.info.fulltradesize == 1) {
       int trade = result->city_center.tdc->trade
                   + result->best_other.tdc->trade;
       result->corruption = adv->science_priority
-                           * city_waste(pcity, O_TRADE, trade);
+                           * city_waste(pcity, O_TRADE, trade, NULL);
     } else {
       result->corruption = 0;
     }
@@ -426,10 +426,10 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
      * is possible (with notradesize) that we _gain_ value here. */
     city_size_add(pcity, 1);
     result->corruption = adv->science_priority
-      * (city_waste(pcity, O_TRADE, result->best_other.tdc->trade)
+      * (city_waste(pcity, O_TRADE, result->best_other.tdc->trade, NULL)
          - pcity->waste[O_TRADE]);
     result->waste = adv->shield_priority
-      * (city_waste(pcity, O_SHIELD, result->best_other.tdc->shield)
+      * (city_waste(pcity, O_SHIELD, result->best_other.tdc->shield, NULL)
          - pcity->waste[O_SHIELD]);
     city_size_add(pcity, -1);
   }
