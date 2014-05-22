@@ -263,6 +263,13 @@ enum citizen_feeling {
   FEELING_LAST
 };
 
+/* Ways city output can be lost. Not currently part of network protocol. */
+enum output_loss {
+  OLOSS_WASTE,  /* regular corruption or waste */
+  OLOSS_SIZE,   /* notradesize/fulltradesize */
+  OLOSS_LAST
+};
+
 /* This enumerators are used at client side only (so changing it doesn't
  * break the compability) to mark that the city need specific gui updates
  * (e.g. city dialog, or city report). */
@@ -666,7 +673,8 @@ void city_remove_improvement(struct city *pcity,
 /* city update functions */
 void city_refresh_from_main_map(struct city *pcity, bool *workers_map);
 
-int city_waste(const struct city *pcity, Output_type_id otype, int total);
+int city_waste(const struct city *pcity, Output_type_id otype, int total,
+               int *breakdown);
 Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);
 int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype);
