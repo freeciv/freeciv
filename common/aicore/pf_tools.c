@@ -89,7 +89,8 @@ static inline bool pf_able_to_attack(const struct tile *target,
                                      const struct pf_parameter *param,
                                      const struct tile *position)
 {
-  if (is_non_allied_unit_tile(target, param->owner)
+  if ((is_non_allied_unit_tile(target, param->owner)
+       || is_non_allied_city_tile(target, param->owner))
       && ((uclass_has_flag(param->uclass, UCF_ATTACK_NON_NATIVE)
            && !BV_ISSET(param->unit_flags, UTYF_ONLY_NATIVE_ATTACK))
           || is_native_tile_to_class(param->uclass, target))
