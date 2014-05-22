@@ -1736,7 +1736,7 @@ static int city_want(struct player *pplayer, struct city *acity,
   prod[O_GOLD] += get_city_tithes_bonus(acity);
   output_type_iterate(o) {
     bonus[o] = get_final_city_output_bonus(acity, o);
-    waste[o] = city_waste(acity, o, prod[o] * bonus[o] / 100);
+    waste[o] = city_waste(acity, o, prod[o] * bonus[o] / 100, NULL);
   } output_type_iterate_end;
   add_tax_income(pplayer,
 		 prod[O_TRADE] * bonus[O_TRADE] / 100 - waste[O_TRADE],
