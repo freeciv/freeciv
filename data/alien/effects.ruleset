@@ -355,6 +355,15 @@ reqs    =
       "Building", "Force Walls", "City"
     }
 
+[effect_strong_force_walls_visible]
+type    = "Visible_Walls"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Force Walls", "City"
+      "Tech", "Strong Force", "Player"
+    }
+
 [effect_cyber_factory]
 type    = "Output_Bonus"
 value	= 75
