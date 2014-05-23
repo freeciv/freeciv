@@ -1586,6 +1586,22 @@ dbv_free(&tile_processed);
   game_remove_city(pcity);
   fc_release_mutex(&game.server.mutexes.city_list);
 
+  /* Remove any roads that were only there because the city was there. */
+  road_type_iterate(proad) {
+    if (tile_has_road(pcenter, proad)
+        && !is_native_tile_to_road(proad, pcenter)) {
+      tile_remove_road(pcenter, proad);
+    }
+  } road_type_iterate_end;
+
+  /* Remove any bases that were only there because the city was there. */
+  base_type_iterate(pbase) {
+    if (tile_has_base(pcenter, pbase)
+        && !is_native_tile_to_base(pbase, pcenter)) {
+      tile_remove_base(pcenter, pbase);
+    }
+  } base_type_iterate_end;
+
   players_iterate(other_player) {
     if (map_is_known_and_seen(pcenter, other_player, V_MAIN)) {
       reality_check_city(other_player, pcenter);
