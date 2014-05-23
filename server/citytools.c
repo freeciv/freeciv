@@ -1560,6 +1560,14 @@ dbv_free(&tile_processed);
   game_remove_city(pcity);
   fc_release_mutex(&game.server.mutexes.city_list);
 
+  /* Remove any extras that were only there because the city was there. */
+  extra_type_iterate(pextra) {
+    if (tile_has_extra(pcenter, pextra)
+        && !is_native_tile_to_extra(pextra, pcenter)) {
+      tile_remove_extra(pcenter, pextra);
+    }
+  } extra_type_iterate_end;
+
   players_iterate(other_player) {
     if (map_is_known_and_seen(pcenter, other_player, V_MAIN)) {
       reality_check_city(other_player, pcenter);
