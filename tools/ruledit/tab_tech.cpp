@@ -17,6 +17,7 @@
 
 // Qt
 #include <QGridLayout>
+#include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
 #include <QToolButton>
@@ -54,15 +55,17 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
 
   label = new QLabel(R__("Name"));
   label->setParent(this);
-  name = new QLabel("None");
-  name->setParent(this);
+  name = new QLineEdit(this);
+  name->setText("None");
+  connect(name, SIGNAL(returnPressed()), this, SLOT(name_given()));
   tech_layout->addWidget(label, 0, 0);
   tech_layout->addWidget(name, 0, 1);
 
   label = new QLabel(R__("Rule Name"));
   label->setParent(this);
-  rname = new QLabel("None");
-  rname->setParent(this);
+  rname = new QLineEdit(this);
+  rname->setText("None");
+  connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
   tech_layout->addWidget(label, 1, 0);
   tech_layout->addWidget(rname, 1, 1);
 
@@ -227,6 +230,9 @@ void tab_tech::root_req_jump()
   }
 }
 
+/**************************************************************************
+  User selected tech to be req1
+**************************************************************************/
 void tab_tech::req1_menu(QAction *action)
 {
   struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
@@ -238,6 +244,9 @@ void tab_tech::req1_menu(QAction *action)
   }
 }
 
+/**************************************************************************
+  User selected tech to be req2
+**************************************************************************/
 void tab_tech::req2_menu(QAction *action)
 {
   struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
@@ -249,6 +258,9 @@ void tab_tech::req2_menu(QAction *action)
   }
 }
 
+/**************************************************************************
+  User selected tech to be root_req
+**************************************************************************/
 void tab_tech::root_req_menu(QAction *action)
 {
   struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
@@ -258,4 +270,15 @@ void tab_tech::root_req_menu(QAction *action)
 
     update_tech_info(selected);
   }
+}
+
+/**************************************************************************
+  User entered name for tech
+**************************************************************************/
+void tab_tech::name_given()
+{
+  names_set(&(selected->name), NULL,
+            name->text().toUtf8().data(),
+            rname->text().toUtf8().data());
+  refresh();
 }

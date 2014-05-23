@@ -48,8 +48,8 @@ class tab_tech : public QWidget
     void techs_to_menu(QMenu *fill_menu);
     QMenu *prepare_req_button(QToolButton *button, enum tech_req rn);
 
-    QLabel *name;
-    QLabel *rname;
+    QLineEdit *name;
+    QLineEdit *rname;
     QToolButton *req1_button;
     QToolButton *req2_button;
     QToolButton *root_req_button;
@@ -61,6 +61,7 @@ class tab_tech : public QWidget
     struct advance *selected;
 
   private slots:
+    void name_given();
     void select_tech();
     void req1_jump();
     void req2_jump();
