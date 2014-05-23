@@ -80,8 +80,14 @@ static GtkTreeSelection *meta_selection, *lan_selection;
  * be catch throught a switch() statement. */
 static enum client_pages current_page = -1;
 
-static guint meta_scan_timer, lan_scan_timer;
-static struct server_scan *meta_scan, *lan_scan;
+struct server_scan_timer_data
+{
+  struct server_scan *scan;
+  guint timer;
+};
+
+static struct server_scan_timer_data meta_scan = { NULL, 0 };
+static struct server_scan_timer_data lan_scan = { NULL, 0 };
 
 static GtkWidget *statusbar, *statusbar_frame;
 static GQueue *statusbar_queue;
@@ -668,21 +674,21 @@ static void update_server_list(enum server_scan_type sstype,
 **************************************************************************/
 void destroy_server_scans(void)
 {
-  if (meta_scan) {
-    server_scan_finish(meta_scan);
-    meta_scan = NULL;
+  if (meta_scan.scan) {
+    server_scan_finish(meta_scan.scan);
+    meta_scan.scan = NULL;
   }
-  if (meta_scan_timer != 0) {
-    g_source_remove(meta_scan_timer);
-    meta_scan_timer = 0;
+  if (meta_scan.timer != 0) {
+    g_source_remove(meta_scan.timer);
+    meta_scan.timer = 0;
   }
-  if (lan_scan) {
-    server_scan_finish(lan_scan);
-    lan_scan = NULL;
+  if (lan_scan.scan) {
+    server_scan_finish(lan_scan.scan);
+    lan_scan.scan = NULL;
   }
-  if (lan_scan_timer != 0) {
-    g_source_remove(lan_scan_timer);
-    lan_scan_timer = 0;
+  if (lan_scan.timer != 0) {
+    g_source_remove(lan_scan.timer);
+    lan_scan.timer = 0;
   }
 }
 
@@ -691,7 +697,8 @@ void destroy_server_scans(void)
 **************************************************************************/
 static gboolean check_server_scan(gpointer data)
 {
-  struct server_scan *scan = data;
+  struct server_scan_timer_data *scan_data = data;
+  struct server_scan *scan = scan_data->scan;
   enum server_scan_status stat;
 
   if (!scan) {
@@ -713,6 +720,7 @@ static gboolean check_server_scan(gpointer data)
   }
 
   if (stat == SCAN_STATUS_ERROR || stat == SCAN_STATUS_DONE) {
+    scan_data->timer = 0;
     return FALSE;
   }
   return TRUE;
@@ -738,11 +746,11 @@ static void update_network_lists(void)
 {
   destroy_server_scans();
 
-  meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
-  meta_scan_timer = g_timeout_add(200, check_server_scan, meta_scan);
+  meta_scan.scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+  meta_scan.timer = g_timeout_add(200, check_server_scan, &meta_scan);
 
-  lan_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
-  lan_scan_timer = g_timeout_add(500, check_server_scan, lan_scan);
+  lan_scan.scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+  lan_scan.timer = g_timeout_add(500, check_server_scan, &lan_scan);
 }
 
 /**************************************************************************
@@ -1045,7 +1053,7 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
     GtkTreePath *path;
     struct srv_list *srvrs;
 
-    srvrs = server_scan_get_list(meta_scan);
+    srvrs = server_scan_get_list(meta_scan.scan);
     path = gtk_tree_model_get_path(model, &it);
     if (!holding_srv_list_mutex) {
       /* We are not yet inside mutex protected block */
