@@ -2652,7 +2652,7 @@ static int nations_dialog_callback(struct widget *pWindow)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (select_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
       widget_flush(pWindow);
-    }      
+    }
   }
   return -1;
 }
@@ -2896,15 +2896,15 @@ static int nation_button_callback(struct widget *pNationButton)
   
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-      
+
     if (pSetup->nation == MAX_ID - pNationButton->ID) {
       widget_redraw(pNationButton);
       widget_flush(pNationButton);
       return -1;
     }
-  
+
     pSetup->nation = MAX_ID - pNationButton->ID;
-  
+
     change_nation_label();
 
     enable(MAX_ID - 1000 - pSetup->nation_style);
@@ -2958,18 +2958,18 @@ static int nation_button_callback(struct widget *pNationButton)
     }
 
     area = pWindow->area;
-    
+
     {
       char info[4096];
       helptext_nation(info, sizeof(info), pNation, NULL);
       pStr = create_str16_from_char(info, adj_font(12));
     }
-    
+
     pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_LEGEND);
     pText = create_text_surf_smaller_that_w(pStr, main_window_width() - adj_size(20));
-  
+
     FREESTRING16(pStr);
-    
+
     /* create window background */
     area.w = MAX(area.w, pText->w + adj_size(20));
     area.w = MAX(area.w, pOK_Button->size.w + adj_size(20));
@@ -3035,7 +3035,7 @@ static void change_nation_label(void)
   struct NAT *pSetup = (struct NAT *)(pWindow->data.ptr);  
   struct widget *pLabel = pSetup->pName_Edit->next;
   struct nation_type *pNation = nation_by_number(pSetup->nation);
-    
+
   pTmp_Surf = get_nation_flag_surface(pNation);
   pTmp_Surf_zoomed = zoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);  
 
@@ -3163,6 +3163,7 @@ void popup_races_dialog(struct player *pplayer)
   pMain_Bg = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
 
   SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
+
 #if 0
   putframe(pMain_Bg,
            0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
@@ -3189,13 +3190,11 @@ void popup_races_dialog(struct player *pplayer)
     change_ptsize16(pStr, adj_font(12));
     pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
 
-#if 0
     if (pNation->legend && *(pNation->legend) != '\0') {
       copy_chars_to_string16(pStr, pNation->legend);
       change_ptsize16(pStr, adj_font(10));
       pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
     }
-#endif /* 0 */
 
     dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
     len = pTmp_Surf_zoomed->h +
@@ -3356,58 +3355,58 @@ void popup_races_dialog(struct player *pplayer)
 
   pLast_City_Style = pWidget;
   /* ---------------------------------------------------------- */
-  
+
   /* create Cancel button */
   pWidget = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
-					 _("Cancel"), adj_font(12), 0);
+                                               _("Cancel"), adj_font(12), 0);
   pWidget->action = races_dialog_cancel_callback;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pWidget);
 
   /* create OK button */
   pWidget =
-      create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-				_("OK"), adj_font(12), 0);
+    create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+                                       _("OK"), adj_font(12), 0);
   pWidget->action = races_dialog_ok_callback;
 
   set_wstate(pWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_NATION_WIZARD_START_BUTTON, pWidget);
   pWidget->size.w = MAX(pWidget->size.w, pWidget->next->size.w);
   pWidget->next->size.w = pWidget->size.w;
-  
+
   pNationDlg->pBeginWidgetList = pWidget;
   /* ---------------------------------------------------------- */
-      
+
   pMain_Bg = theme_get_background(theme, BACKGROUND_NATIONDLG);
-  if(resize_window(pWindow, pMain_Bg, NULL, adj_size(640), adj_size(480))) {
+  if (resize_window(pWindow, pMain_Bg, NULL, adj_size(640), adj_size(480))) {
     FREESURFACE(pMain_Bg);
   }
 
   area = pWindow->area;
-  
+
   widget_set_position(pWindow,
                       (main_window_width() - pWindow->size.w) / 2,
                       (main_window_height() - pWindow->size.h) / 2);
-  
+
   /* nations */
-  
+
   h = pNationDlg->pEndActiveWidgetList->size.h * TARGETS_ROW;
   i = (area.h - adj_size(43) - h) / 2;
   setup_vertical_widgets_position(TARGETS_COL,
-	area.x + adj_size(10),
-	area.y + i - adj_size(4),
-	  0, 0, pNationDlg->pBeginActiveWidgetList,
-			  pNationDlg->pEndActiveWidgetList);
-  
-  if(pNationDlg->pScroll) {
+                                  area.x + adj_size(10),
+                                  area.y + i - adj_size(4),
+                                  0, 0, pNationDlg->pBeginActiveWidgetList,
+                                  pNationDlg->pEndActiveWidgetList);
+
+  if (pNationDlg->pScroll) {
     SDL_Rect area2;
-  
-    w = pNationDlg->pEndActiveWidgetList->size.w * TARGETS_COL;    
+
+    w = pNationDlg->pEndActiveWidgetList->size.w * TARGETS_COL;
     setup_vertical_scrollbar_area(pNationDlg->pScroll,
-	area.x + w + adj_size(12),
-    	area.y + i - adj_size(4), h, FALSE);
-    
+                                  area.x + w + adj_size(12),
+                                  area.y + i - adj_size(4), h, FALSE);
+
     area2.x = area.x + w + adj_size(11);
     area2.y = area.y + i - adj_size(4);
     area2.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
@@ -3423,32 +3422,32 @@ void popup_races_dialog(struct player *pplayer)
   /* Selected Nation Name */
   pBuf->size.x = area.x + area.w / 2 + (area.w / 2 - pBuf->size.w) / 2;
   pBuf->size.y = area.y + adj_size(46);
-  
+
   /* Leader Name Edit */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + area.w / 2 + (area.w/2 - pBuf->size.w) / 2;
   pBuf->size.y = area.y + (area.h - pBuf->size.h) / 2 - adj_size(30);
-  
+
   /* Next Leader Name Button */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w;
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* Prev Leader Name Button */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->next->size.x - pBuf->size.w;
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* Change Leader Sex Button */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + area.w / 2 + (area.w/2 - pBuf->size.w) / 2;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
-  
+
   /* First Style Button */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + area.w / 2 + (area.w/2 - len) / 2 - adj_size(20);
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
-  
+
   /* Rest Style Buttons */
   if (pBuf != pLast_City_Style) {
     do {
@@ -3471,18 +3470,18 @@ void popup_races_dialog(struct player *pplayer)
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + adj_size(10);
   pBuf->size.y = area.y + area.h - adj_size(7) - pBuf->size.h;
-  
+
   /* Start Button */
   pBuf = pBuf->prev;
   pBuf->size.x = area.w - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* -------------------------------------------------------------------- */
-  
+
   select_random_leader(pSetup->nation);
-  
+
   redraw_group(pNationDlg->pBeginWidgetList, pWindow, 0);
-  
+
   widget_flush(pWindow);
 }
 

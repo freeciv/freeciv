@@ -754,21 +754,21 @@ static void set_global_worklist(struct widget *pWidget)
     wl_count++;
   }
   /* --------------------------------- */
-  
-  if(!worklist_is_empty(&wl)) {
+
+  if (!worklist_is_empty(&wl)) {
     /* free old widget list */
-    if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
+    if (pBuf != pEditor->pWork->pBeginActiveWidgetList) {
       pBuf = pBuf->prev;
-      if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
+      if (pBuf != pEditor->pWork->pBeginActiveWidgetList) {
         do {
           pBuf = pBuf->prev;
           del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pBuf->next);
-        } while(pBuf != pEditor->pWork->pBeginActiveWidgetList);
+        } while (pBuf != pEditor->pWork->pBeginActiveWidgetList);
       }
       del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pBuf);
-    }  
+    }
     /* --------------------------------- */
-    
+
     worklist_copy(&pEditor->worklist_copy, &wl);
   
     /* --------------------------------- */
@@ -906,26 +906,25 @@ static void refresh_production_label(int stock)
   char cBuf[64];
   SDL_Rect area;
   const char *name = get_production_name(pEditor->pCity,
-    				pEditor->currently_building, &cost);
+                                         pEditor->currently_building, &cost);
 
   if (VUT_IMPROVEMENT == pEditor->currently_building.kind
-     && improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD))
-  {
+     && improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD)) {
     int gold = MAX(0, pEditor->pCity->surplus[O_SHIELD]);
+
     fc_snprintf(cBuf, sizeof(cBuf),
                 PL_("%s\n%d gold per turn",
                     "%s\n%d gold per turn", gold),
                 name, gold);
   } else {
-    if(stock < cost) {
+    if (stock < cost) {
       turns = city_turns_to_build(pEditor->pCity,
-				  pEditor->currently_building, TRUE);
-      if(turns == 999)
-      {
+                                  pEditor->currently_building, TRUE);
+      if (turns == 999) {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
       } else {
         fc_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
-		    name, turns, PL_("turn", "turns", turns));
+                    name, turns, PL_("turn", "turns", turns));
       }
     } else {
       fc_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);

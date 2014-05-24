@@ -72,31 +72,31 @@ static int redraw_icon(struct widget *pIcon)
 **************************************************************************/
 static int redraw_icon2(struct widget *pIcon)
 {
-#if 0
   int ret;
   SDL_Rect dest;
-  Uint32 state;
+  /* Uint32 state; */
 
   ret = (*baseclass_redraw)(pIcon);
   if (ret != 0) {
     return ret;
   }
 
-  if(!pIcon) {
+  if (!pIcon) {
     return -3;
   }
-  
-  if(!pIcon->theme) {
+
+  if (!pIcon->theme) {
     return -4;
   }
-  
-  state = get_wstate(pIcon);
-    
+
+  /*  state = get_wstate(pIcon); */
+
   dest.x = pIcon->size.x;
   dest.y = pIcon->size.y;
   dest.w = pIcon->theme->w;
   dest.h = pIcon->theme->h;
 
+#if 0
   if (state == FC_WS_SELECTED) {
     putframe(pIcon->dst->surface,
              dest.x + 1, dest.y + 1,
@@ -122,13 +122,14 @@ static int redraw_icon2(struct widget *pIcon)
              dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
              get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
   }
+#endif
+
   dest.x += adj_size(2);
   dest.y += adj_size(2);
   ret = alphablit(pIcon->theme, NULL, pIcon->dst->surface, &dest, 255);
   if (ret) {
     return ret;
   }
-#endif /* 0 */
 
   return 0;
 }
@@ -256,8 +257,8 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
   Function return: -3 if pIcon_theme is NULL. 
   std return of alphablit(...) function.
 **************************************************************************/
-int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
-			 struct gui_layer * pDest, Sint16 start_x, Sint16 start_y)
+int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
+                         struct gui_layer *pDest, Sint16 start_x, Sint16 start_y)
 {
   SDL_Rect src, des = {start_x, start_y, 0, 0};
 
@@ -325,9 +326,8 @@ void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
 /**************************************************************************
   Create ( malloc ) Icon2 Widget ( flat Button )
 **************************************************************************/
-struct widget * create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags)
+struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags)
 {
-
   struct widget *pIcon_Widget = widget_new();
 
   pIcon_Widget->theme = pIcon;
@@ -338,9 +338,9 @@ struct widget * create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32
   pIcon_Widget->mod = KMOD_NONE;
   pIcon_Widget->dst = pDest;
 
-  baseclass_redraw = pIcon_Widget->redraw;  
+  baseclass_redraw = pIcon_Widget->redraw;
   pIcon_Widget->redraw = redraw_icon2;
-  
+
   if (pIcon) {
     pIcon_Widget->size.w = pIcon->w + adj_size(4);
     pIcon_Widget->size.h = pIcon->h + adj_size(4);

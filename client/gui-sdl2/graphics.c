@@ -82,14 +82,14 @@ void gui_layer_destroy(struct gui_layer **gui_layer)
 struct gui_layer *get_gui_layer(SDL_Surface *surface)
 {
   int i = 0;
-  
+
   while ((i < Main.guis_count) && Main.guis[i]) {
-    if(Main.guis[i]->surface == surface) {
+    if (Main.guis[i]->surface == surface) {
       return Main.guis[i];
     }
     i++;
   }
-  
+
   return NULL;
 }
 
@@ -128,7 +128,7 @@ struct gui_layer *add_gui_layer(int width, int height)
     Main.guis[0] = gui_layer;
     Main.guis_count = 1;
   }
-  
+
   return gui_layer;
 }
 
@@ -314,7 +314,8 @@ SDL_Surface *load_surf(const char *pFname)
   }
 
 #if 0
-  if (Main.screen) {    SDL_Surface *pNew_sur;
+  if (Main.screen) {
+    SDL_Surface *pNew_sur;
 
     if ((pNew_sur = SDL_ConvertSurfaceFormat(pBuf, SDL_PIXELFORMAT_RGBA4444, 0)) == NULL) {
       log_error(_("load_surf: Unable to convert file %s "
@@ -326,7 +327,7 @@ SDL_Surface *load_surf(const char *pFname)
     }
   }
 #endif
-  
+
   return pBuf;
 }
 
@@ -729,8 +730,8 @@ void update_main_screen(void)
 /**************************************************************************
   Fill rectangle for "555" format surface
 **************************************************************************/
-static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
-			      SDL_Color * pColor)
+static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
+                              SDL_Color *pColor)
 {
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
@@ -738,19 +739,19 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
   Uint8 load[8];
   Uint32 y, end;
   Uint16 *start, *pixel;
-  			
+
   S &= 0xFFFF;
-  
+
   *(Uint64 *)load = pColor->unused;
   movq_m2r(*load, mm0); /* alpha -> mm0 */
   punpcklwd_r2r(mm0, mm0); /* 00000A0A -> mm0 */
   punpckldq_r2r(mm0, mm0); /* 0A0A0A0A -> mm0 */
-  
+
   *(Uint64 *)load = S;
   movq_m2r(*load, mm2); /* src(000000CL) -> mm2 */
   punpcklwd_r2r(mm2, mm2); /* 0000CLCL -> mm2 */
   punpckldq_r2r(mm2, mm2); /* CLCLCLCL -> mm2 */
-  
+
   /* Setup the color channel masks */
   *(Uint64 *)load = 0x7C007C007C007C00;
   movq_m2r(*load, mm1); /* MASKRED -> mm1 */
@@ -758,9 +759,9 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
   movq_m2r(*load, mm4); /* MASKGREEN -> mm4 */
   *(Uint64 *)load = 0x001F001F001F001F;
   movq_m2r(*load, mm7); /* MASKBLUE -> mm7 */
-  
+
   lock_surf(pSurface);
-  
+
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint16 *) pSurface->pixels;
@@ -2838,8 +2839,8 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   Fill rectangle with color with alpha channel.
 **************************************************************************/
-int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
-		      SDL_Color * pColor)
+int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
+		      SDL_Color *pColor)
 {
   if (pRect && ( pRect->x < - pRect->w || pRect->x >= pSurface->w ||
 	         pRect->y < - pRect->h || pRect->y >= pSurface->h ))

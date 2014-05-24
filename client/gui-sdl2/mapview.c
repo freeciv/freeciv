@@ -107,12 +107,12 @@ void flush_rect(SDL_Rect rect, bool force_flush)
     sdl_dirty_rect(rect);
   } else {
     static SDL_Rect src, dst;
-    
+
     if (correct_rect_region(&rect)) {
       static int i = 0;
 
       dst = rect;
-      if (C_S_RUNNING == client_state()) {     
+      if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
       alphablit(Main.map, &rect, Main.mainsurf, &dst, 255);
