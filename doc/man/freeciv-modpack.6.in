@@ -9,13 +9,14 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "December 10th 2011"
+.TH FREECIV 6 "May 24th 2014"
 .SH NAME
-freeciv-modpack \
-\- Custom content installer for the Freeciv game
+freeciv-mp-gtk2, freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
+\- Custom content installers for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-modpack \
 [ \-h|\-\-help ] \
+[ \-i|\-\-install \fIURL\fP ] \
 [ \-L|\-\-List \fIURL\fP ] \
 [ \-p|\-\-prefix \fIdirectory\fP ] \
 [ \-v|\-\-version ] \
@@ -60,6 +61,9 @@ and a complete word); their effects are identical.
 .BI "\-h, \-\-help"
 Prints a short summary of the command line options.
 .TP
+.BI "\-i, \fIURL\fP \-\-install \fIURL\fP"
+Automatically install modpack from a given URL.
+.TP
 .BI "\-L \fIURL\fP, \-\-List \fIURL\fP"
 Gets modpack list from given URL, rather than the standard location on the
 Freeciv team's servers.
@@ -70,7 +74,7 @@ Installs modpacks under given directory hierarchy.
 .BI "\-v, \-\-version"
 Prints the version number and exits.
 .SH FILES
-.B freeciv-modpack
+.B freeciv modpack installer
 installs files to the following subdirectories of the user's home directory
 (or another directory specified with \fI\-\-prefix\fP), as appropriate:
 
@@ -80,8 +84,14 @@ installs files to the following subdirectories of the user's home directory
 \(bu
 .I .freeciv/@DATASUBDIR@/
 
+.B freeciv-mp-cli
+is version of the modpack installer usable from command line. By default
+it lists modpacks from the default list or from list specified with
+\fI\-\-List\fP. One can then run it again by giving appropriate
+URL from the list for \fI\-\-install\fP parameter.
+
 .SH ENVIRONMENT
-.B freeciv-modpack
+.B freeciv modpack installer
 accepts these environment variables:
 .TP
 .BI HOME
