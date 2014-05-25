@@ -104,7 +104,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.unit_alloc = dai_unit_init;
   ai->funcs.unit_free = dai_unit_close;
   ai->funcs.unit_got = NULL;
-  ai->funcs.unit_lost = NULL;
+  ai->funcs.unit_lost = dai_unit_lost;
   ai->funcs.unit_created = dai_ferry_init_ferry;
 
   ai->funcs.unit_turn_end = dai_unit_turn_end;

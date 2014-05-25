@@ -178,6 +178,18 @@ void dai_ferry_init_ferry(struct unit *ferry)
   }
 }
 
+/**************************************************************************
+  Player lost unit. Clear it from ferry system
+**************************************************************************/
+void dai_unit_lost(struct unit *punit)
+{
+  /* Ignore virtual units. */
+  if (punit->id != 0 && is_ai_data_phase_open(unit_owner(punit))) {
+    if (!dai_is_ferry(punit)) {
+      aiferry_clear_boat(punit);
+    }
+  }
+}
 
 /**************************************************************************
   Use on a unit which no longer needs a boat. 

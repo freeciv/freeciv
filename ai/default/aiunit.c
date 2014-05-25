@@ -2696,7 +2696,6 @@ void dai_unit_close(struct unit *punit)
 
   aiguard_clear_charge(punit);
   aiguard_clear_guard(punit);
-  aiferry_clear_boat(punit);
 
   if (unit_data != NULL) {
     unit_set_ai_data(punit, default_ai_get_self(), NULL);
