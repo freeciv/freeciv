@@ -284,10 +284,10 @@ static void twai_ferry_transformed(struct unit *ferry, struct unit_type *old)
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
-static void twai_ferry_close_ferry(struct unit *ferry)
+static void twai_ferry_lost(struct unit *punit)
 {
   TAI_AIT;
-  TAI_DFUNC(dai_ferry_close_ferry, ferry);
+  TAI_DFUNC(dai_ferry_lost, punit);
 }
 
 /**************************************************************************
@@ -542,7 +542,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.unit_free = twai_unit_free;
 
   ai->funcs.unit_got = twai_ferry_init_ferry;
-  ai->funcs.unit_lost = twai_ferry_close_ferry;
+  ai->funcs.unit_lost = twai_ferry_lost;
   ai->funcs.unit_transformed = twai_ferry_transformed;
 
   ai->funcs.unit_turn_end = twai_unit_turn_end;

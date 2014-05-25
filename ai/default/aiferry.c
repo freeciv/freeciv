@@ -219,24 +219,29 @@ void dai_ferry_transformed(struct ai_type *ait, struct unit *ferry,
 /**************************************************************************
   Close ferry when player loses it
 **************************************************************************/
-void dai_ferry_close_ferry(struct ai_type *ait, struct unit *ferry)
+void dai_ferry_lost(struct ai_type *ait, struct unit *punit)
 {
   /* Ignore virtual units. */
-  if (ferry->id != 0 && is_ai_data_phase_open(ait, unit_owner(ferry))) {
-    if (dai_is_ferry(ferry)) {
-      bool close;
-      struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
-      struct player *pplayer = unit_owner(ferry);
-      struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &close);
+  if (punit->id != 0 && is_ai_data_phase_open(ait, unit_owner(punit))) {
+    bool close;
+    struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
+    struct player *pplayer = unit_owner(punit);
+    struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &close);
 
+    if (dai_is_ferry(punit)) {
       ai->stats.boats--;
       if (unit_data->passenger == FERRY_AVAILABLE) {
         ai->stats.available_boats--;
       }
-
-      if (close) {
-        dai_data_phase_finished(ait, pplayer);
+    } else {
+      /* Not a ferry */
+      if (unit_data->ferryboat > 0) {
+        aiferry_clear_boat(ait, punit);
       }
+    }
+
+    if (close) {
+      dai_data_phase_finished(ait, pplayer);
     }
   }
 }
