@@ -47,6 +47,7 @@ class tab_tech : public QWidget
     QString tech_name(struct advance *padv);
     void techs_to_menu(QMenu *fill_menu);
     QMenu *prepare_req_button(QToolButton *button, enum tech_req rn);
+    void initialize_new_tech(struct advance *padv);
 
     QLineEdit *name;
     QLineEdit *rname;
@@ -69,6 +70,8 @@ class tab_tech : public QWidget
     void req1_menu(QAction *action);
     void req2_menu(QAction *action);
     void root_req_menu(QAction *action);
+    void add_now();
+    void delete_now();
 };
 
 

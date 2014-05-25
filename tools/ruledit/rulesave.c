@@ -1094,45 +1094,47 @@ static bool save_techs_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   advance_iterate(A_FIRST, pa) {
-    char path[512];
-    const char *flag_names[TF_COUNT];
-    int set_count;
-    int flagi;
+    if (pa->require[AR_ONE] != A_NEVER) {
+      char path[512];
+      const char *flag_names[TF_COUNT];
+      int set_count;
+      int flagi;
 
-    fc_snprintf(path, sizeof(path), "advance_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "advance_%d", sect_idx++);
 
-    save_name_translation(sfile, &(pa->name), path);
+      save_name_translation(sfile, &(pa->name), path);
 
-    save_tech_ref(sfile, pa->require[AR_ONE], path, "req1");
-    save_tech_ref(sfile, pa->require[AR_TWO], path, "req2");
-    if (pa->require[AR_ROOT] != a_none) {
-      save_tech_ref(sfile, pa->require[AR_ROOT], path, "root_req");
-    }
-
-    secfile_insert_str(sfile, pa->graphic_str, "%s.graphic", path);
-    if (strcmp("-", pa->graphic_alt)) {
-      secfile_insert_str(sfile, pa->graphic_alt, "%s.graphic_alt", path);
-    }
-    if (pa->bonus_message != NULL) {
-      secfile_insert_str(sfile, pa->bonus_message, "%s.bonus_message", path);
-    }
-
-    set_count = 0;
-    for (flagi = 0; flagi < TF_COUNT; flagi++) {
-      if (advance_has_flag(advance_index(pa), flagi)) {
-        flag_names[set_count++] = tech_flag_id_name(flagi);
+      save_tech_ref(sfile, pa->require[AR_ONE], path, "req1");
+      save_tech_ref(sfile, pa->require[AR_TWO], path, "req2");
+      if (pa->require[AR_ROOT] != a_none) {
+        save_tech_ref(sfile, pa->require[AR_ROOT], path, "root_req");
       }
-    }
 
-    if (set_count > 0) {
-      secfile_insert_str_vec(sfile, flag_names, set_count,
-                             "%s.flags", path);
-    }
-    if (pa->preset_cost >= 0) {
-      secfile_insert_int(sfile, pa->preset_cost, "%s.cost", path);
-    }
+      secfile_insert_str(sfile, pa->graphic_str, "%s.graphic", path);
+      if (strcmp("-", pa->graphic_alt)) {
+        secfile_insert_str(sfile, pa->graphic_alt, "%s.graphic_alt", path);
+      }
+      if (pa->bonus_message != NULL) {
+        secfile_insert_str(sfile, pa->bonus_message, "%s.bonus_message", path);
+      }
 
-    save_strvec(sfile, pa->helptext, path, "helptext");
+      set_count = 0;
+      for (flagi = 0; flagi < TF_COUNT; flagi++) {
+        if (advance_has_flag(advance_index(pa), flagi)) {
+          flag_names[set_count++] = tech_flag_id_name(flagi);
+        }
+      }
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, flag_names, set_count,
+                               "%s.flags", path);
+      }
+      if (pa->preset_cost >= 0) {
+        secfile_insert_int(sfile, pa->preset_cost, "%s.cost", path);
+      }
+
+      save_strvec(sfile, pa->helptext, path, "helptext");
+    }
 
   } advance_iterate_end;
 

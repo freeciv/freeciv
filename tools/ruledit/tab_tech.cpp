@@ -20,6 +20,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
+#include <QPushButton>
 #include <QToolButton>
 
 // utility
@@ -27,6 +28,7 @@
 #include "log.h"
 
 // common
+#include "game.h"
 #include "tech.h"
 
 // ruledit
@@ -42,9 +44,11 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *tech_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *add_button;
+  QPushButton *delete_button;
 
   ui = ui_in;
-  selected = NULL;
+  selected = 0;
 
   tech_list = new QListWidget(this);
 
@@ -95,6 +99,14 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   tech_layout->addWidget(label, 4, 0);
   tech_layout->addWidget(root_req_button, 4, 1);
 
+  add_button = new QPushButton(R__("Add tech"), this);
+  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
+  tech_layout->addWidget(add_button, 5, 0);
+
+  delete_button = new QPushButton(R__("Remove this tech"), this);
+  connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
+  tech_layout->addWidget(delete_button, 5, 1);
+
   refresh();
 
   main_layout->addLayout(tech_layout);
@@ -110,9 +122,11 @@ void tab_tech::refresh()
   tech_list->clear();
 
   advance_iterate(A_FIRST, padv) {
-    QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
+    if (padv->require[AR_ONE] != A_NEVER) {
+      QListWidgetItem *item = new QListWidgetItem(advance_rule_name(padv));
 
-    tech_list->insertItem(advance_index(padv), item);
+      tech_list->insertItem(advance_index(padv), item);
+    }
   } advance_iterate_end;
 
   techs_to_menu(req1);
@@ -181,11 +195,19 @@ void tab_tech::update_tech_info(struct advance *adv)
 {
   selected = adv;
 
-  name->setText(untranslated_name(&(adv->name)));
-  rname->setText(rule_name(&(adv->name)));
-  req1_button->setText(tech_name(adv->require[AR_ONE]));
-  req2_button->setText(tech_name(adv->require[AR_TWO]));
-  root_req_button->setText(tech_name(adv->require[AR_ROOT]));
+  if (selected != 0) {
+    name->setText(untranslated_name(&(adv->name)));
+    rname->setText(rule_name(&(adv->name)));
+    req1_button->setText(tech_name(adv->require[AR_ONE]));
+    req2_button->setText(tech_name(adv->require[AR_TWO]));
+    root_req_button->setText(tech_name(adv->require[AR_ROOT]));
+  } else {
+    name->setText("None");
+    rname->setText("None");
+    req1_button->setText("None");
+    req2_button->setText("None");
+    root_req_button->setText("None");
+  }
 }
 
 /**************************************************************************
@@ -205,7 +227,7 @@ void tab_tech::select_tech()
 **************************************************************************/
 void tab_tech::req1_jump()
 {
-  if (selected != NULL && advance_number(selected->require[AR_ONE]) != A_NONE) {
+  if (selected != 0 && advance_number(selected->require[AR_ONE]) != A_NONE) {
     update_tech_info(selected->require[AR_ONE]);
   }
 }
@@ -215,7 +237,7 @@ void tab_tech::req1_jump()
 **************************************************************************/
 void tab_tech::req2_jump()
 {
-  if (selected != NULL && advance_number(selected->require[AR_TWO]) != A_NONE) {
+  if (selected != 0 && advance_number(selected->require[AR_TWO]) != A_NONE) {
     update_tech_info(selected->require[AR_TWO]);
   }
 }
@@ -225,7 +247,7 @@ void tab_tech::req2_jump()
 **************************************************************************/
 void tab_tech::root_req_jump()
 {
-  if (selected != NULL && advance_number(selected->require[AR_ROOT]) != A_NONE) {
+  if (selected != 0 && advance_number(selected->require[AR_ROOT]) != A_NONE) {
     update_tech_info(selected->require[AR_ROOT]);
   }
 }
@@ -237,7 +259,7 @@ void tab_tech::req1_menu(QAction *action)
 {
   struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
 
-  if (padv != NULL) {
+  if (padv != 0 && selected != 0) {
     selected->require[AR_ONE] = padv;
 
     update_tech_info(selected);
@@ -251,7 +273,7 @@ void tab_tech::req2_menu(QAction *action)
 {
   struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
 
-  if (padv != NULL) {
+  if (padv != 0 && selected != 0) {
     selected->require[AR_TWO] = padv;
 
     update_tech_info(selected);
@@ -265,7 +287,7 @@ void tab_tech::root_req_menu(QAction *action)
 {
   struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
 
-  if (padv != NULL) {
+  if (padv != 0 && selected != 0) {
     selected->require[AR_ROOT] = padv;
 
     update_tech_info(selected);
@@ -277,8 +299,60 @@ void tab_tech::root_req_menu(QAction *action)
 **************************************************************************/
 void tab_tech::name_given()
 {
-  names_set(&(selected->name), NULL,
+  names_set(&(selected->name), 0,
             name->text().toUtf8().data(),
             rname->text().toUtf8().data());
+  refresh();
+}
+
+/**************************************************************************
+  User requested tech deletion 
+**************************************************************************/
+void tab_tech::delete_now()
+{
+  selected->require[AR_ONE] = A_NEVER;
+
+  refresh();
+  update_tech_info(0);
+}
+
+/**************************************************************************
+  Initialize new tech for use.
+**************************************************************************/
+void tab_tech::initialize_new_tech(struct advance *padv)
+{
+  struct advance *none = advance_by_number(A_NONE);
+
+  padv->require[AR_ONE] = none;
+  padv->require[AR_TWO] = none;
+  padv->require[AR_ROOT] = none;
+  name_set(&(padv->name), "None", "None");
+}
+
+/**************************************************************************
+  User requested new tech
+**************************************************************************/
+void tab_tech::add_now()
+{
+  struct advance *new_adv;
+
+  /* Try to reuse freed tech slot */
+  advance_iterate(A_FIRST, padv) {
+    if (padv->require[AR_ONE] == A_NEVER) {
+      initialize_new_tech(padv);
+      update_tech_info(padv);
+      refresh();
+      return;
+    }
+  } advance_iterate_end;
+
+  /* Try to add completely new tech */
+  if (game.control.num_tech_types >= A_LAST_REAL) {
+    return;
+  }
+
+  new_adv = advance_by_number(game.control.num_tech_types++);
+  initialize_new_tech(new_adv);
+  update_tech_info(new_adv);
   refresh();
 }
