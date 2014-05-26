@@ -549,7 +549,7 @@ else
 fi
 
 PKG_PROG_PKG_CONFIG
-PKG_CHECK_MODULES([CURL], [libcurl],,
+PKG_CHECK_MODULES([CURL], [libcurl >= 7.9.7],,
     [AC_MSG_ERROR([libcurl development files required])])
 CFLAGS="$CFLAGS $CURL_CFLAGS"
 LIBS="$LIBS $CURL_LIBS"
