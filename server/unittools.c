@@ -1122,6 +1122,7 @@ void bounce_unit(struct unit *punit, bool verbose)
 {
   struct player *pplayer;
   struct tile *punit_tile;
+  struct unit_list *pcargo_units;
   int count = 0;
 
   /* I assume that there are no topologies that have more than
@@ -1165,7 +1166,15 @@ void bounce_unit(struct unit *punit, bool verbose)
     return;
   }
 
-  /* Didn't find a place to bounce the unit, just disband it. */
+  /* Didn't find a place to bounce the unit, going to disband it.
+   * Try to bounce transported units. */
+  if (0 < get_transporter_occupancy(punit)) {
+    pcargo_units = unit_transport_cargo(punit);
+    unit_list_iterate(pcargo_units, pcargo) {
+      bounce_unit(pcargo, verbose);
+    } unit_list_iterate_end;
+  }
+
   if (verbose) {
     notify_player(pplayer, punit_tile, E_UNIT_LOST_MISC, ftc_server,
                   /* TRANS: A unit is disbanded to resolve stack conflicts. */
