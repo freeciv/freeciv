@@ -1227,6 +1227,25 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
   struct tile *ptile;
   struct city *pcity;
   struct unit *ptrans;
+  struct unit_list *pcargo_units;
+
+  /* Unload undesired units from transports, if possible. */
+  unit_list_iterate(pplayer->units, punit) {
+    ptile = unit_tile(punit);
+    pcity = tile_city(ptile);
+    if (NULL != pcity
+        && !pplayers_allied(city_owner(pcity), pplayer)
+        && 0 < get_transporter_occupancy(punit)) {
+      pcargo_units = unit_transport_cargo(punit);
+      unit_list_iterate(pcargo_units, pcargo) {
+        if (!pplayers_allied(unit_owner(pcargo), pplayer)) {
+          if (can_unit_exist_at_tile(pcargo, ptile)) {
+            unit_transport_unload_send(pcargo);
+          }
+        }
+      } unit_list_iterate_end;
+    }
+  } unit_list_iterate_end;
 
   /* Bounce units except transported ones which will be bounced with their
    * transport. */
