@@ -3224,25 +3224,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   vision_clear_sight(old_vision);
   vision_free(old_vision);
 
-  /* Remove hidden units (like submarines) which aren't seen anymore. */
-  /* FIXME: Radius should depend on V_INVIS vision layer. */
-  square_iterate(psrctile, 1, tile1) {
-    players_iterate(pplayer) {
-      /* We're only concerned with known, unfogged tiles which may contain
-       * hidden units that are no longer visible.  These units will not
-       * have been handled by the fog code, above. */
-      if (TILE_KNOWN_SEEN == tile_get_known(tile1, pplayer)) {
-        unit_list_iterate(tile1->units, punit2) {
-          if (punit2 != punit
-              && !can_player_see_unit(pplayer, punit2)
-              && !unit_contained_in(punit2, punit)) {
-            unit_goes_out_of_sight(pplayer, punit2);
-          }
-        } unit_list_iterate_end;
-      }
-    } players_iterate_end;
-  } square_iterate_end;
-
   if (unit_lives) {
     /* Check timeout settings. */
     if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
