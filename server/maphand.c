@@ -969,6 +969,35 @@ void map_change_seen(struct player *pplayer,
   } vision_layer_iterate_end;
 #endif /* DEBUG */
 
+  /* Removes units out of vision. First, check V_INVIS layer because
+   * we must remove all units before fog of war because clients expect
+   * the tile is empty when it is fogged. */
+  if (0 > change[V_INVIS]
+      && plrtile->seen_count[V_INVIS] == -change[V_INVIS]) {
+    log_debug("(%d, %d): hiding invisible units to player %s (nb %d).",
+              TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
+
+    unit_list_iterate(ptile->units, punit) {
+      if (unit_is_visible_on_layer(punit, V_INVIS)
+          && can_player_see_unit(pplayer, punit)) {
+        unit_goes_out_of_sight(pplayer, punit);
+      }
+    } unit_list_iterate_end;
+  }
+
+  if (0 > change[V_MAIN]
+      && plrtile->seen_count[V_MAIN] == -change[V_MAIN]) {
+    log_debug("(%d, %d): hiding visible units to player %s (nb %d).",
+              TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
+
+    unit_list_iterate(ptile->units, punit) {
+      if (unit_is_visible_on_layer(punit, V_MAIN)
+          && can_player_see_unit(pplayer, punit)) {
+        unit_goes_out_of_sight(pplayer, punit);
+      }
+    } unit_list_iterate_end;
+  }
+
   vision_layer_iterate(v) {
     /* Avoid underflow. */
     fc_assert(0 <= change[v] || -change[v] <= plrtile->seen_count[v]);
@@ -996,31 +1025,11 @@ void map_change_seen(struct player *pplayer,
     }
   }
 
-  /* Removes units out of vision. First, check V_INVIS layer because
-   * we must remove all units before fog of war because clients expect
-   * the tile is empty when it is fogged. */
-  if (0 > change[V_INVIS] && 0 == plrtile->seen_count[V_INVIS]) {
-    log_debug("(%d, %d): hiding invisible units to player %s (nb %d).",
-              TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
-
-    unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_INVIS)) {
-        unit_goes_out_of_sight(pplayer, punit);
-      }
-    } unit_list_iterate_end;
-  }
-
+  /* Fog the tile. */
   if (0 > change[V_MAIN] && 0 == plrtile->seen_count[V_MAIN]) {
     log_debug("(%d, %d): fogging tile for player %s (nb %d).",
               TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
 
-    unit_list_iterate(ptile->units, punit) {
-      if (unit_is_visible_on_layer(punit, V_MAIN)) {
-        unit_goes_out_of_sight(pplayer, punit);
-      }
-    } unit_list_iterate_end;
-
-    /* Fog the tile. */
     update_player_tile_last_seen(pplayer, ptile);
     if (game.server.foggedborders) {
       plrtile->owner = tile_owner(ptile);
