@@ -1222,16 +1222,41 @@ void bounce_unit(struct unit *punit, bool verbose)
   If verbose is true, pplayer gets messages about where each units goes.
 **************************************************************************/
 static void throw_units_from_illegal_cities(struct player *pplayer,
-                                           bool verbose)
+                                            bool verbose)
 {
-  unit_list_iterate_safe(pplayer->units, punit) {
-    struct tile *ptile = unit_tile(punit);
-    struct city *pcity = tile_city(ptile);
+  struct tile *ptile;
+  struct city *pcity;
+  struct unit *ptrans;
 
-    if (NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer)) {
-      bounce_unit(punit, verbose);
+  /* Bounce units except transported ones which will be bounced with their
+   * transport. */
+  unit_list_iterate_safe(pplayer->units, punit) {
+    ptile = unit_tile(punit);
+    pcity = tile_city(ptile);
+    if (NULL != pcity
+        && !pplayers_allied(city_owner(pcity), pplayer)) {
+      ptrans = unit_transport_get(punit);
+      if (NULL == ptrans || pplayer != unit_owner(ptrans)) {
+        bounce_unit(punit, verbose);
+      }
     }
-  } unit_list_iterate_safe_end;    
+  } unit_list_iterate_safe_end;
+
+#ifdef DEBUG
+  /* Sanity check. */
+  unit_list_iterate(pplayer->units, punit) {
+    ptile = unit_tile(punit);
+    pcity = tile_city(ptile);
+    fc_assert_msg(NULL == pcity
+                  || pplayers_allied(city_owner(pcity), pplayer),
+                  "Failed to throw %s %d from %s %d (%d, %d)",
+                  unit_rule_name(punit),
+                  punit->id,
+                  city_name(pcity),
+                  pcity->id,
+                  TILE_XY(ptile));
+  } unit_list_iterate_end;
+#endif /* DEBUG */
 }
 
 /**************************************************************************
