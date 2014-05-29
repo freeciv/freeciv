@@ -108,6 +108,9 @@ void popup_find_dialog(void)
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     gtk_container_add(GTK_CONTAINER(sw), find_view);
 
+    gtk_widget_set_hexpand(GTK_WIDGET(find_view), TRUE);
+    gtk_widget_set_vexpand(GTK_WIDGET(find_view), TRUE);
+
     label = g_object_new(GTK_TYPE_LABEL,
 	"use-underline", TRUE,
 	"mnemonic-widget", find_view,
