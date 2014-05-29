@@ -1122,13 +1122,6 @@ int server_open_socket(void)
       continue;
     }
 
-    if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, 
-                   (char *)&on, sizeof(on)) == -1) {
-      log_error("setsockopt SO_REUSEADDR failed: %s",
-                fc_strerror(fc_get_errno()));
-      sockaddr_debug(paddr);
-    }
-
     /* AF_INET6 sockets should use IPv6 only,
      * without stealing IPv4 from AF_INET sockets. */
 #ifdef IPV6_SUPPORT
@@ -1205,11 +1198,6 @@ int server_open_socket(void)
     log_error("socket failed: %s", fc_strerror(fc_get_errno()));
     return 0; /* FIXME: Should this cause hard error as exit(EXIT_FAILURE).
                *        It's failure to do as commandline parameters requested after all */
-  }
-
-  if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
-                 (char *)&on, sizeof(on)) == -1) {
-    log_error("SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
 
   fc_nonblock(socklan);
