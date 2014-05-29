@@ -1670,20 +1670,6 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
   struct city *pcity;
   struct unit *punit;
 
-  if (packet->goes_out_of_sight) {
-    punit = game_unit_by_number(packet->id);
-    if (punit) {
-      /* Unload unit if it is transported. */
-      if (unit_transport_get(punit)) {
-        unit_transport_unload(punit);
-      }
-      punit->client.transported_by = -1;
-
-      client_remove_unit(punit);
-    }
-    return;
-  }
-
   /* Special case for a diplomat/spy investigating a city: The investigator
    * needs to know the supported and present units of a city, whether or not
    * they are fogged. So, we send a list of them all before sending the city

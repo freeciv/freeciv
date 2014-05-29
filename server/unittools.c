@@ -2282,8 +2282,6 @@ void package_short_unit(struct unit *punit,
     packet->transported = TRUE;
     packet->transported_by = unit_transport_get(punit)->id;
   }
-
-  packet->goes_out_of_sight = FALSE;
 }
 
 /**************************************************************************
@@ -2291,20 +2289,7 @@ void package_short_unit(struct unit *punit,
 **************************************************************************/
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
 {
-  if (unit_owner(punit) == pplayer) {
-    /* Unit is either about to die, or to change owner (civil war, bribe) */
-    struct packet_unit_remove packet;
-
-    packet.unit_id = punit->id;
-    lsend_packet_unit_remove(pplayer->connections, &packet);
-  } else {
-    struct packet_unit_short_info packet;
-
-    memset(&packet, 0, sizeof(packet));
-    packet.id = punit->id;
-    packet.goes_out_of_sight = TRUE;
-    lsend_packet_unit_short_info(pplayer->connections, &packet);
-  }
+  dlsend_packet_unit_remove(pplayer->connections, punit->id);
 }
 
 /**************************************************************************

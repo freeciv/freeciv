@@ -866,7 +866,7 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
   UNIT_TYPE type;
 
   UINT8 veteran;
-  BOOL occupied, goes_out_of_sight, transported;
+  BOOL occupied, transported;
 
   UINT8 hp, activity;
   EXTRA activity_tgt;
