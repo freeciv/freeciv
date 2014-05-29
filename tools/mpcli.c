@@ -85,6 +85,9 @@ static void setup_modpack_list(const char *name, const char *URL,
   log_normal(_("Type=\"%s\" / \"%s\""), type_str, subtype);
   log_normal(_("License=\"%s\""), lic_str);
   log_normal(_("URL=\"%s\""), URL);
+  if (notes != NULL) {
+    log_normal(_("Comment=\"%s\""), notes);
+  }
 }
 
 /**************************************************************************
