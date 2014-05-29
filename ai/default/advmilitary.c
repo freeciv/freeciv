@@ -26,6 +26,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "specialist.h"
 #include "unitlist.h"
 
 /* common/aicore */
@@ -1401,6 +1402,8 @@ void military_advisor_choose_build(struct ai_type *ait,
   struct tile *ptile = pcity->tile;
   struct unit *virtualunit;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
+  int martial_value = 0;
+  bool martial_need = FALSE;
 
   init_choice(choice);
 
@@ -1416,8 +1419,30 @@ void military_advisor_choose_build(struct ai_type *ait,
 
   dai_choose_diplomat_defensive(ait, pplayer, pcity, choice, our_def);
 
+  if (pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY]
+      + pcity->feel[CITIZEN_ANGRY][FEELING_NATIONALITY] > 0) {
+    martial_need = TRUE;
+  }
+
+  if (!martial_need) {
+    specialist_type_iterate(sp) {
+      if (pcity->specialists[sp] > 0
+          && get_specialist_output(pcity, sp, O_LUXURY) > 0) {
+        martial_need = TRUE;
+        break;
+      }
+    } specialist_type_iterate_end;
+  }
+
+  if (martial_need
+      && unit_list_size(pcity->tile->units) < get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX)) {
+    martial_value = dai_content_effect_value(pplayer, pcity,
+                                             get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH),
+                                             1, FEELING_FINAL);
+  }
+
   /* Otherwise no need to defend yet */
-  if (city_data->danger != 0) {
+  if (city_data->danger != 0 || martial_value > 0) {
     struct impr_type *pimprove;
     int num_defenders = unit_list_size(ptile->units);
     int wall_id, danger;
@@ -1500,6 +1525,9 @@ void military_advisor_choose_build(struct ai_type *ait,
           } else {
             choice->want = danger;
           }
+
+          choice->want += martial_value;
+
           CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
                    utype_rule_name(choice->value.utype),
                    choice->want);
@@ -1529,7 +1557,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   /* If we are in severe danger, don't consider attackers. This is probably
      too general. In many cases we will want to buy attackers to counterattack.
      -- Per */
-  if (choice->want > 100 && city_data->grave_danger > 0) {
+  if (choice->want - martial_value > 100 && city_data->grave_danger > 0) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "severe danger (want %d), force defender",
              choice->want);
     return;

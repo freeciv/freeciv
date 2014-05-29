@@ -1059,11 +1059,11 @@ static int get_entertainers(const struct city *pcity)
   How desirable particular effect making people content is for a
   particular city?
 **************************************************************************/
-static int content_effect_value(const struct player *pplayer,
-                                const struct city *pcity,
-                                int amount,
-                                int num_cities,
-                                int happiness_step)
+int dai_content_effect_value(const struct player *pplayer,
+                             const struct city *pcity,
+                             int amount,
+                             int num_cities,
+                             int happiness_step)
 {
   int v = 0;
 
@@ -1234,10 +1234,10 @@ static int improvement_effect_value(struct player *pplayer,
     v += (get_entertainers(pcity) + pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]) * 30;
     break;
   case EFT_FORCE_CONTENT:
-    v += content_effect_value(pplayer, pcity, amount, c, FEELING_FINAL);
+    v += dai_content_effect_value(pplayer, pcity, amount, c, FEELING_FINAL);
     break;
   case EFT_MAKE_CONTENT:
-    v += content_effect_value(pplayer, pcity, amount, c, FEELING_EFFECT);
+    v += dai_content_effect_value(pplayer, pcity, amount, c, FEELING_EFFECT);
     break;
   case EFT_MAKE_CONTENT_MIL_PER:
     if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
