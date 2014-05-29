@@ -33,7 +33,14 @@ extern "C" {
 
 struct ai_trait
 {
+  int val;   /* Value assigned in the beginning */
   int mod;   /* This is modification that changes during game. */
+};
+
+struct trait_limits
+{
+  int min;
+  int max;
 };
 
 #ifdef __cplusplus

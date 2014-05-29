@@ -3758,6 +3758,13 @@ static void sg_load_player_main(struct loaddata *loading,
       enum trait tr = trait_by_name(loading->trait.order[i], fc_strcasecmp);
 
       if (trait_is_valid(tr)) {
+        int val = secfile_lookup_int_default(loading->file, -1, "plr%d.trait.val%d",
+                                             plrno, i);
+
+        if (val != -1) {
+          plr->ai_common.traits[tr].val = val;
+        }
+
         secfile_lookup_int(loading->file, &plr->ai_common.traits[tr].mod, 
                            "plr%d.trait.mod%d", plrno, i);
       }
@@ -4042,6 +4049,8 @@ static void sg_save_player_main(struct savedata *saving,
     int j;
 
     for (tr = trait_begin(), j = 0; tr != trait_end(); tr = trait_next(tr), j++) {
+      secfile_insert_int(saving->file, plr->ai_common.traits[tr].val,
+                         "player%d.trait.val%d", plrno, j);
       secfile_insert_int(saving->file, plr->ai_common.traits[tr].mod,
                          "player%d.trait.mod%d", plrno, j);
     }

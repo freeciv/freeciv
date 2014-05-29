@@ -1014,7 +1014,8 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 /**************************************************************************
   Save list of AI traits
 **************************************************************************/
-static bool save_traits(int *traits, int *default_traits,
+static bool save_traits(struct trait_limits *traits,
+                        struct trait_limits *default_traits,
                         struct section_file *sfile,
                         const char *secname, const char *field_prefix)
 {
@@ -1031,9 +1032,14 @@ static bool save_traits(int *traits, int *default_traits,
 
   for (tr = trait_begin(); tr != trait_end() && trait_names[tr] != NULL;
        tr = trait_next(tr)) {
-    if ((default_traits == NULL && traits[tr] != TRAIT_DEFAULT_VALUE)
-        || (default_traits != NULL && traits[tr] != default_traits[tr])) {
-      secfile_insert_int(sfile, traits[tr], "%s.%s%s", secname, field_prefix,
+    if ((default_traits == NULL && traits[tr].min != TRAIT_DEFAULT_VALUE)
+        || (default_traits != NULL && traits[tr].min != default_traits[tr].min)) {
+      secfile_insert_int(sfile, traits[tr].min, "%s.%s%s_min", secname, field_prefix,
+                         trait_names[tr]);
+    }
+    if ((default_traits == NULL && traits[tr].max != TRAIT_DEFAULT_VALUE)
+        || (default_traits != NULL && traits[tr].max != default_traits[tr].max)) {
+      secfile_insert_int(sfile, traits[tr].max, "%s.%s%s_max", secname, field_prefix,
                          trait_names[tr]);
     }
   }

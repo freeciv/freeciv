@@ -141,7 +141,7 @@ struct nation_type {
       /* Nation's associated player color (NULL if none). */
       struct rgbcolor *rgb;
 
-      int *traits;
+      struct trait_limits *traits;
 
       /* This nation has no start position in the current scenario. */
       bool no_startpos;

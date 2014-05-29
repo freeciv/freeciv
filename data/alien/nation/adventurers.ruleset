@@ -26,7 +26,8 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-trait_expansionist = 150
+trait_expansionist_min = 150
+trait_expansionist_max = 150
 
 ; /* <-- avoid gettext warnings
 ;

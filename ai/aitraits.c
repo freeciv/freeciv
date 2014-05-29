@@ -17,6 +17,7 @@
 
 /* utility */
 #include "mem.h"
+#include "rand.h"
 
 /* common */
 #include "player.h"
@@ -35,6 +36,10 @@ void ai_traits_init(struct player *pplayer)
                                          sizeof(struct ai_trait) * TRAIT_COUNT);
 
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
+    int min = pplayer->nation->server.traits[tr].min;
+    int max = pplayer->nation->server.traits[tr].max;
+
+    pplayer->ai_common.traits[tr].val = fc_rand(max + 1 - min) + min;
     pplayer->ai_common.traits[tr].mod = 0;
   }
 }
@@ -54,7 +59,7 @@ void ai_traits_close(struct player *pplayer)
 **************************************************************************/
 int ai_trait_get_value(enum trait tr, struct player *pplayer)
 {
-  int val = pplayer->nation->server.traits[tr] + pplayer->ai_common.traits[tr].mod;
+  int val = pplayer->ai_common.traits[tr].val + pplayer->ai_common.traits[tr].mod;
 
   /* Clip so that vale is at least 1, and maximum is
    * TRAIT_DEFAULT_VALUE as many times as TRAIT_DEFAULT value is

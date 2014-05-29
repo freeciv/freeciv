@@ -1049,7 +1049,8 @@ static bool ruleset_load_names(struct name_translation *pname,
 /**************************************************************************
   Load trait values to array.
 **************************************************************************/
-static void ruleset_load_traits(int *traits, struct section_file *file,
+static void ruleset_load_traits(struct trait_limits *out,
+                                struct section_file *file,
                                 const char *secname, const char *field_prefix)
 {
   enum trait tr;
@@ -1064,7 +1065,11 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
   };
 
   for (tr = trait_begin(); tr != trait_end() && trait_names[tr] != NULL; tr = trait_next(tr)) {
-     traits[tr] = secfile_lookup_int_default(file, -1, "%s.%s%s",
+    out[tr].min = secfile_lookup_int_default(file, -1, "%s.%s%s_min",
+                                             secname,
+                                             field_prefix,
+                                             trait_names[tr]);
+    out[tr].max = secfile_lookup_int_default(file, -1, "%s.%s%s_max",
                                              secname,
                                              field_prefix,
                                              trait_names[tr]);
@@ -3838,7 +3843,9 @@ static bool load_ruleset_nations(struct section_file *file)
   const char *filename = secfile_name(file);
   struct section_list *sec;
   enum trait tr;
-  const char **allowed_govs, **allowed_terrains, **allowed_styles;
+  const char **allowed_govs = NULL;
+  const char **allowed_terrains = NULL;
+  const char **allowed_styles = NULL;
   size_t agcount, atcount, ascount;
   bool ok = TRUE;
 
@@ -3850,54 +3857,65 @@ static bool load_ruleset_nations(struct section_file *file)
 
   ruleset_load_traits(game.server.default_traits, file, "default_traits", "");
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
-    if (game.server.default_traits[tr] < 0) {
-      game.server.default_traits[tr] = TRAIT_DEFAULT_VALUE;
+    if (game.server.default_traits[tr].min < 0) {
+      game.server.default_traits[tr].min = TRAIT_DEFAULT_VALUE;
+    }
+    if (game.server.default_traits[tr].max < 0) {
+      game.server.default_traits[tr].max = TRAIT_DEFAULT_VALUE;
+    }
+    if (game.server.default_traits[tr].max < game.server.default_traits[tr].min) {
+      ruleset_error(LOG_ERROR, "Default values for trait %s not sane.",
+                    trait_name(tr));
+      ok = FALSE;
+      break;
     }
   }
 
-  allowed_govs = secfile_lookup_str_vec(file, &agcount,
-                                        "compatibility.allowed_govs");
-  allowed_terrains = secfile_lookup_str_vec(file, &atcount,
-                                            "compatibility.allowed_terrains");
-  allowed_styles = secfile_lookup_str_vec(file, &ascount,
-                                          "compatibility.allowed_styles");
+  if (ok) {
+    allowed_govs = secfile_lookup_str_vec(file, &agcount,
+                                          "compatibility.allowed_govs");
+    allowed_terrains = secfile_lookup_str_vec(file, &atcount,
+                                              "compatibility.allowed_terrains");
+    allowed_styles = secfile_lookup_str_vec(file, &ascount,
+                                            "compatibility.allowed_styles");
 
-  sval = secfile_lookup_str_default(file, NULL,
-                                    "compatibility.default_government");
-  /* We deliberately don't check this against allowed_govs. It's only
-   * specified once so not vulnerable to typos, and may usefully be set in
-   * a specific ruleset to a gov not explicitly known by the nation set. */
-  if (sval != NULL) {
-    game.server.default_government = government_by_rule_name(sval);
-  }
+    sval = secfile_lookup_str_default(file, NULL,
+                                      "compatibility.default_government");
+    /* We deliberately don't check this against allowed_govs. It's only
+     * specified once so not vulnerable to typos, and may usefully be set in
+     * a specific ruleset to a gov not explicitly known by the nation set. */
+    if (sval != NULL) {
+      game.server.default_government = government_by_rule_name(sval);
+    }
 
-  sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
-  if (sec) {
-    section_list_iterate(sec, psection) {
-      const char *set_name, *set_rule_name, *set_description;
+    sec = secfile_sections_by_name_prefix(file, NATION_SET_SECTION_PREFIX);
+    if (sec) {
+      section_list_iterate(sec, psection) {
+        const char *set_name, *set_rule_name, *set_description;
 
-      set_name = secfile_lookup_str(file, "%s.name", section_name(psection));
-      set_rule_name =
-        secfile_lookup_str(file, "%s.rule_name", section_name(psection));
-      set_description = secfile_lookup_str_default(file, "", "%s.description",
+        set_name = secfile_lookup_str(file, "%s.name", section_name(psection));
+        set_rule_name =
+          secfile_lookup_str(file, "%s.rule_name", section_name(psection));
+        set_description = secfile_lookup_str_default(file, "", "%s.description",
                                                    section_name(psection));
-      if (NULL == set_name || NULL == set_rule_name) {
-        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-        ok = FALSE;
-        break;
-      }
-      if (nation_set_new(set_name, set_rule_name, set_description) == NULL) {
-        ok = FALSE;
-        break;
-      }
-    } section_list_iterate_end;
-    section_list_destroy(sec);
-    sec = NULL;
-  } else {
-    ruleset_error(LOG_ERROR,
-                  "At least one nation set [" NATION_SET_SECTION_PREFIX "_*] "
-                  "must be defined.");
-    ok = FALSE;
+        if (NULL == set_name || NULL == set_rule_name) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        if (nation_set_new(set_name, set_rule_name, set_description) == NULL) {
+          ok = FALSE;
+          break;
+        }
+      } section_list_iterate_end;
+      section_list_destroy(sec);
+      sec = NULL;
+    } else {
+      ruleset_error(LOG_ERROR,
+                    "At least one nation set [" NATION_SET_SECTION_PREFIX "_*] "
+                    "must be defined.");
+      ok = FALSE;
+    }
   }
 
   if (ok) {
@@ -4113,9 +4131,22 @@ static bool load_ruleset_nations(struct section_file *file)
       /* Load nation traits */
       ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
       for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
-        if (pnation->server.traits[tr] < 0) {
-          pnation->server.traits[tr] = game.server.default_traits[tr];
+        if (pnation->server.traits[tr].min < 0) {
+          pnation->server.traits[tr].min = game.server.default_traits[tr].min;
         }
+        if (pnation->server.traits[tr].max < 0) {
+          pnation->server.traits[tr].max = game.server.default_traits[tr].max;
+        }
+        if (pnation->server.traits[tr].max < pnation->server.traits[tr].min) {
+          ruleset_error(LOG_ERROR, "%s values for trait %s not sane.",
+                        nation_rule_name(pnation), trait_name(tr));
+          ok = FALSE;
+          break;
+        }
+      }
+
+      if (!ok) {
+        break;
       }
 
       pnation->is_playable =
@@ -4343,9 +4374,9 @@ static bool load_ruleset_nations(struct section_file *file)
     section_list_destroy(sec);
   }
 
-  free(allowed_govs);
-  free(allowed_terrains);
-  free(allowed_styles);
+  FC_FREE(allowed_govs);
+  FC_FREE(allowed_terrains);
+  FC_FREE(allowed_styles);
 
   if (ok) {
     secfile_check_unused(file);

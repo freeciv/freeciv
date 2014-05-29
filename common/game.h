@@ -244,7 +244,7 @@ struct civ_game {
 
       int first_timeout;
 
-      int default_traits[TRAIT_COUNT];
+      struct trait_limits default_traits[TRAIT_COUNT];
       struct government *default_government;
     } server;
   };

@@ -1304,7 +1304,6 @@ void server_player_init(struct player *pplayer, bool initmap,
   pplayer->server.delegate_to[0] = '\0';
   pplayer->server.orig_username[0] = '\0';
 
-  ai_traits_init(pplayer);
   handicaps_init(pplayer);
 }
 

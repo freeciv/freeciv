@@ -26,8 +26,10 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-trait_expansionist = 250
-trait_trader       = 30
+trait_expansionist_min = 250
+trait_expansionist_max = 250
+trait_trader_min       = 30
+trait_trader_max       = 30
 
 ; /* <-- avoid gettext warnings
 ;

@@ -129,6 +129,9 @@
 #include "advbuilding.h"
 #include "infracache.h"
 
+/* ai */
+#include "aitraits.h"
+
 #include "srv_main.h"
 
 static void end_turn(void);
@@ -2074,6 +2077,8 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
   } else {
     pplayer->is_male = (fc_rand(2) == 1);
   }
+
+  ai_traits_init(pplayer);
 }
 
 /****************************************************************************
