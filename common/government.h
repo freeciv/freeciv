@@ -54,6 +54,7 @@ struct government {
   char graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
   struct ruler_title_hash *ruler_titles;
+  int changed_to_times;
   struct strvec *helptext;
 
   /* AI cached data for this government. */

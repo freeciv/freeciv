@@ -380,6 +380,7 @@ static const struct sset_val_name *revolentype_name(int revolentype)
   switch (revolentype) {
   NAME_CASE(REVOLEN_FIXED, "FIXED", N_("Fixed to 'revolen' turns"));
   NAME_CASE(REVOLEN_RANDOM, "RANDOM", N_("Randomly 1-'revolen' turns"));
+  NAME_CASE(REVOLEN_QUICKENING, "QUICKENING", N_("First time 'revolen', then always quicker"));
   }
   return NULL;
 }
@@ -1860,7 +1861,7 @@ static struct setting settings[] = {
 	  GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, 
 	  GAME_DEFAULT_ONSETBARBARIAN)
 
-  GEN_ENUM("revolentype", game.server.revolentype,
+  GEN_ENUM("revolentype", game.info.revolentype,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Way to determine revolution length"),
            N_("Which method is used in determining how long period of anarchy "

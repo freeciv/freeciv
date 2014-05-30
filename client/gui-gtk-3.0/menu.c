@@ -2107,6 +2107,10 @@ void real_menus_update(void)
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
                                  can_change_to_government(client_player(),
                                                           pgov));
+      } else {
+        /* Revolution without target government */
+        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+                                 game.info.revolentype != REVOLEN_QUICKENING);
       }
     }
     g_list_free(list);

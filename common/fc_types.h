@@ -622,4 +622,10 @@ enum environment_upset_type
   EUT_NUCLEAR_WINTER
 };
 
+enum revolen_type {
+  REVOLEN_FIXED = 0,
+  REVOLEN_RANDOM,
+  REVOLEN_QUICKENING
+};
+
 #endif /* FC__FC_TYPES_H */

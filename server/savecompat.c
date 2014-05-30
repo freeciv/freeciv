@@ -492,6 +492,8 @@ static char *revolentype_str(enum revolen_type type)
     return "FIXED";
   case REVOLEN_RANDOM:
     return "RANDOM";
+  case REVOLEN_QUICKENING:
+    return "QUICKENING";
   }
 
   return "";

@@ -233,6 +233,7 @@ type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 type TRI                = uint8(enum traderoute_illegal_cancelling)
 type MOVE_MODE          = uint8(enum road_move_mode)
 type GEN_ACTION         = uint8(enum gen_action)
+type REVOLENTYPE        = uint8(enum revolen_type)
 
 # typedefs for bit vectors
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
@@ -455,6 +456,7 @@ PACKET_GAME_INFO = 16; sc
   UINT32 globalwarming;
   GOLD gold;
   UINT8 gold_upkeep_style;
+  REVOLENTYPE revolentype;
   GOVERNMENT government_during_revolution_id;
   UINT8 granary_food_inc;
   UINT8 granary_food_ini[MAX_GRANARY_INIS];

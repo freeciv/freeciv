@@ -386,6 +386,9 @@ static void sg_save_savefile_options(struct savedata *saving,
 static void sg_load_game(struct loaddata *loading);
 static void sg_save_game(struct savedata *saving);
 
+static void sg_load_ruledata(struct loaddata *loading);
+static void sg_save_ruledata(struct savedata *saving);
+
 static void sg_load_random(struct loaddata *loading);
 static void sg_save_random(struct savedata *saving);
 
@@ -567,6 +570,8 @@ static void savegame2_load_real(struct section_file *file)
   sg_load_scenario(loading);
   /* [settings] */
   sg_load_settings(loading);
+  /* [ruldata] */
+  sg_load_ruledata(loading);
   /* [players] (basic data) */
   sg_load_players_basic(loading);
   /* [map]; needs width and height loaded by [settings]  */
@@ -619,6 +624,8 @@ static void savegame2_save_real(struct section_file *file,
   sg_save_script(saving);
   /* [settings] */
   sg_save_settings(saving);
+  /* [ruledata] */
+  sg_save_ruledata(saving);
   /* [map] */
   sg_save_map(saving);
   /* [player<i>] */
@@ -1833,6 +1840,27 @@ static void sg_save_savefile_options(struct savedata *saving,
  * ======================================================================= */
 
 /****************************************************************************
+  Load '[ruledata]'.
+****************************************************************************/
+static void sg_load_ruledata(struct loaddata *loading)
+{
+  int i;
+  const char *name;
+
+  for (i = 0;
+       (name = secfile_lookup_str_default(loading->file, NULL,
+                                          "ruledata.government%d.name", i));
+       i++) {
+    struct government *gov = government_by_rule_name(name);
+
+    if (gov != NULL) {
+      gov->changed_to_times = secfile_lookup_int_default(loading->file, 0,
+                                                         "ruledata.government%d.changes", i);
+    }
+  }
+}
+
+/****************************************************************************
   Load '[game]'.
 ****************************************************************************/
 static void sg_load_game(struct loaddata *loading)
@@ -1964,6 +1992,26 @@ static void sg_load_game(struct loaddata *loading)
 
   game.info.is_new_game
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
+}
+
+/****************************************************************************
+  Save '[ruledata]'.
+****************************************************************************/
+static void sg_save_ruledata(struct savedata *saving)
+{
+  int set_count = 0;
+
+  governments_iterate(pgov) {
+     char path[256];
+
+     fc_snprintf(path, sizeof(path),
+                 "ruledata.government%d", set_count++);
+
+     secfile_insert_str(saving->file, government_rule_name(pgov),
+                        "%s.name", path);
+     secfile_insert_int(saving->file, pgov->changed_to_times,
+                        "%s.changes", path);
+  } governments_iterate_end;
 }
 
 /****************************************************************************
@@ -3944,6 +3992,7 @@ static void sg_save_player_main(struct savedata *saving,
   secfile_insert_str(saving->file,
                      government_rule_name(government_of_player(plr)),
                      "player%d.government_name", plrno);
+
   if (plr->target_government) {
     secfile_insert_str(saving->file,
                        government_rule_name(plr->target_government),

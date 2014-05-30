@@ -491,6 +491,7 @@ static inline void government_init(struct government *pgovern)
       ruler_title_hash_new_full(nation_hash_val, nation_hash_comp,
                                 NULL, NULL, NULL, ruler_title_destroy);
   requirement_vector_init(&pgovern->reqs);
+  pgovern->changed_to_times = 0;
 }
 
 /****************************************************************************
