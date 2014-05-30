@@ -167,6 +167,9 @@
 /* server/scripting */
 #include "script_server.h"
 
+/* ai */
+#include "aitraits.h"
+
 #include "savegame2.h"
 
 extern bool sg_success;
@@ -3412,6 +3415,8 @@ static void sg_load_players(struct loaddata *loading)
       log_sg(_("%s had invalid nation; changing to %s."),
              player_name(pplayer), nation_plural_for_player(pplayer));
     }
+
+    ai_traits_init(pplayer);
   } players_iterate_end;
 
   /* Sanity check alliances, prevent allied-with-ally-of-enemy. */

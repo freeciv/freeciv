@@ -81,6 +81,9 @@
 /* server/scripting */
 #include "script_server.h"
 
+/* ai */
+#include "aitraits.h"
+
 #include "savegame.h"
 
 #define TOKEN_SIZE 10
@@ -3963,6 +3966,8 @@ static void game_load_internal(struct section_file *file)
         log_error(_("%s had invalid nation; changing to %s."),
                   player_name(pplayer), nation_plural_for_player(pplayer));
       }
+
+      ai_traits_init(pplayer);
     } players_iterate_end;
 
     /* Sanity check alliances, prevent allied-with-ally-of-enemy */
