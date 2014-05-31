@@ -28,6 +28,9 @@
 #include "registry.h"
 #include "shared.h"
 
+/* common */
+#include "version.h"
+
 /* modinst */
 #include "download.h"
 #include "mpcmdline.h"
@@ -347,13 +350,25 @@ static void select_from_list(GtkTreeSelection *select, gpointer data)
 static void modinst_setup_widgets(GtkWidget *toplevel)
 {
   GtkWidget *mbox, *Ubox;
+  GtkWidget *version_label;
   GtkWidget *install_button, *install_label;
   GtkWidget *URL_label;
   GtkCellRenderer *renderer;
   GtkTreeSelection *selection;
   const char *errmsg;
+  char verbuf[2048];
+  const char *rev_ver = fc_svn_revision();
 
   mbox = gtk_vbox_new(FALSE, 4);
+
+  if (rev_ver == NULL) {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+  } else {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
+                rev_ver);
+  }
+
+  version_label = gtk_label_new(verbuf);
 
   main_list = gtk_tree_view_new();
   renderer = gtk_cell_renderer_text_new();
@@ -423,6 +438,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   statusbar = gtk_label_new(_("Select modpack to install"));
 
+  gtk_box_pack_start(GTK_BOX(mbox), version_label, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), main_list, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), Ubox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), install_button, TRUE, TRUE, 0);
