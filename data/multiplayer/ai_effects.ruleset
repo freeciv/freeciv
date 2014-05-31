@@ -13,6 +13,14 @@
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+[effect_ai_cheat_no_max_rates]
+type    = "Max_Rates"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "AI", "Cheating", "Player"
+    }
+
 [effect_ai_cheat_science]
 type    = "Output_Bonus"
 value   = 40
