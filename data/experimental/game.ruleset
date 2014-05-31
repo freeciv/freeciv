@@ -509,4 +509,5 @@ set =
       "ec_max_size", 100, FALSE
       "ec_chat", TRUE, FALSE
       "ec_info", TRUE, FALSE
+      "techlossforgiveness", 15, FALSE
     }
