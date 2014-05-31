@@ -2358,10 +2358,25 @@ void boot_help_texts(struct player *pplayer)
                         Q_(HELP_RULESET_ITEM));
             pitem->topic = fc_strdup(name);
             if (game.control.description[0] != '\0') {
-              pitem->text = fc_strdup(_(game.control.description));
+              int len = strlen(_(game.control.name))
+                + strlen("\n\n")
+                + strlen(_(game.control.description))
+                + 1;
+
+              pitem->text = fc_malloc(len);
+              fc_snprintf(pitem->text, len, "%s\n\n%s",
+                          _(game.control.name), _(game.control.description));
             } else {
-              pitem->text =
-                  fc_strdup(_("Current ruleset contains no description."));
+              const char *nodesc = _("Current ruleset contains no description.");
+              int len = strlen(_(game.control.name))
+                + strlen("\n\n")
+                + strlen(nodesc)
+                + 1;
+
+              pitem->text = fc_malloc(len);
+              fc_snprintf(pitem->text, len, "%s\n\n%s",
+                          _(game.control.name),
+                          nodesc);
             }
             help_list_append(help_nodes, pitem);
             break;
