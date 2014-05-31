@@ -193,6 +193,13 @@ AC_ARG_WITH([followtag],
 [FOLLOWTAG=${withval}])
 AC_DEFINE_UNQUOTED([FOLLOWTAG], ["${FOLLOWTAG}"], [Version tag to follow])
 
+AC_ARG_WITH([modlist],
+  AS_HELP_STRING([--with-modlist], [default modlist URL]),
+[modlist_url=${withval}])
+if test "x$modlist_url" != "x" ; then
+  AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${modlist_url}"], [Default modpack list URL])
+fi
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no

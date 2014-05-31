@@ -21,10 +21,14 @@ struct fcmp_params
 };
 
 #if IS_DEVEL_VERSION && ! IS_FREEZE_VERSION
+#ifndef MODPACK_LIST_URL
 #define MODPACK_LIST_URL  "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/modpack.list"
+#endif
 #define DEFAULT_URL_START "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/"
 #else  /* IS_DEVEL_VERSION */
+#ifndef MODPACK_LIST_URL
 #define MODPACK_LIST_URL  "http://modpack.freeciv.org/" DATASUBDIR "/modpack.list"
+#endif
 #define DEFAULT_URL_START "http://modpack.freeciv.org/" DATASUBDIR "/"
 #endif /* IS_DEVEL_VERSION */
 
