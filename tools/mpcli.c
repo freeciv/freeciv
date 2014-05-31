@@ -26,6 +26,9 @@
 #include "registry.h"
 #include "shared.h"
 
+/* common */
+#include "version.h"
+
 /* modinst */
 #include "download.h"
 #include "mpcmdline.h"
@@ -110,10 +113,18 @@ int main(int argc, char *argv[])
   ui_options = fcmp_parse_cmdline(argc, argv);
 
   if (ui_options != -1) {
+    char verbuf[2048];
+    const char *rev_ver = fc_svn_revision();
 
     load_install_info_lists(&fcmp);
 
     log_normal(_("Freeciv modpack installer (command line version)"));
+
+    if (rev_ver == NULL) {
+      log_normal("%s%s", word_version(), VERSION_STRING);
+    } else {
+      log_normal("%s%s (%s)", word_version(), VERSION_STRING, rev_ver);
+    }
 
     if (fcmp.autoinstall == NULL) {
       download_modpack_list(&fcmp, setup_modpack_list, msg_callback);

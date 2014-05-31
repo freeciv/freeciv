@@ -33,6 +33,9 @@
 #include "log.h"
 #include "registry.h"
 
+/* common */
+#include "version.h"
+
 // modinst
 #include "download.h"
 #include "mpcmdline.h"
@@ -162,8 +165,23 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   QHBoxLayout *hl = new QHBoxLayout();
   QPushButton *install_button = new QPushButton(_("Install modpack"));
   QStringList headers;
-
   QLabel *URL_label;
+  QLabel *version_label;
+  char verbuf[2048];
+  const char *rev_ver = fc_svn_revision();
+
+  if (rev_ver == NULL) {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+  } else {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
+                rev_ver);
+  }
+
+  version_label = new QLabel(verbuf);
+  version_label->setAlignment(Qt::AlignHCenter);
+  version_label->setParent(central);
+  version_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+  main_layout->addWidget(version_label);
 
   mplist_table = new QTableWidget();
   mplist_table->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
