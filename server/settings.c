@@ -2313,6 +2313,7 @@ static struct setting settings[] = {
                 "    E = include Economics\n"
                 "    M = include Military Service\n"
                 "    O = include Pollution\n"
+                "    C = include Culture\n"
                 "Additionally, the following characters control whether "
                 "or not certain columns are displayed in the report:\n"
                 "    q = display \"quantity\" column\n"

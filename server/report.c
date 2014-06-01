@@ -132,8 +132,8 @@ static int get_literacy(const struct player *pplayer);
 static int get_production(const struct player *pplayer);
 static int get_economics(const struct player *pplayer);
 static int get_pollution(const struct player *pplayer);
-static int get_mil_service(const 
-                           struct player *pplayer);
+static int get_mil_service(const struct player *pplayer);
+static int get_culture(const struct player *pplayer);
 
 static const char *area_to_text(int value);
 static const char *percent_to_text(int value);
@@ -142,6 +142,7 @@ static const char *economics_to_text(int value);
 static const char *science_to_text(int value);
 static const char *mil_service_to_text(int value);
 static const char *pollution_to_text(int value);
+static const char *culture_to_text(int value);
 
 #define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p))
 
@@ -163,7 +164,8 @@ static struct dem_row {
   {'P', N_("Production"),       get_production,  production_to_text,  TRUE },
   {'E', N_("Economics"),        get_economics,   economics_to_text,   TRUE },
   {'M', N_("Military Service"), get_mil_service, mil_service_to_text, FALSE },
-  {'O', N_("Pollution"),        get_pollution,   pollution_to_text,   FALSE }
+  {'O', N_("Pollution"),        get_pollution,   pollution_to_text,   FALSE },
+  {'C', N_("Culture"),          get_culture,     culture_to_text,     TRUE }
 };
 
 /* Demographics columns. */
@@ -856,6 +858,16 @@ static const char *mil_service_to_text(int value)
 static const char *pollution_to_text(int value)
 {
   return value_units(value, PL_(" ton", " tons", value));
+}
+
+/**************************************************************************
+  Construct string containing value followed by unit suitable for
+  culture stats.
+**************************************************************************/
+static const char *culture_to_text(int value)
+{
+  /* TRANS: Unit(s) of culture */
+  return value_units(value, PL_(" act", " acts", value));
 }
 
 /**************************************************************************
