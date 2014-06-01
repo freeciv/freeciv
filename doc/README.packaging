@@ -9,7 +9,7 @@ create Freeciv fork.
 ----------------------------------------------------------------------
 Updating from 2.5 to 2.6
 ------------------------
-* Client uses ~/.freeciv-client-rc-2.6 for storing its options.
+* Client uses ~/.freeciv/freeciv-client-rc-2.6 for storing its options.
   Options are always saved to that file.
   Loading of options first tries to get options from
   ~/.freeciv/freeciv-client-rc-2.6. If that file does not exist it tries to
