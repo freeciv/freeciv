@@ -480,6 +480,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   fc_nonblock(scan->sock);
 
+  if (setsockopt(scan->sock, SOL_SOCKET, SO_REUSEADDR,
+                 (char *)&opt, sizeof(opt)) == -1) {
+    log_error("SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
+  }
+
   memset(&addr, 0, sizeof(addr));
 
 #ifdef IPV6_SUPPORT
