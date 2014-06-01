@@ -31,6 +31,8 @@ extern "C" {
 #define SPECENUM_VALUE4NAME "Pollution"
 #define SPECENUM_VALUE5 DE_FALLOUT
 #define SPECENUM_VALUE5NAME "Fallout"
+#define SPECENUM_VALUE6 DE_REDUCE_DESTROY
+#define SPECENUM_VALUE6NAME "ReducePopDestroy"
 #define SPECENUM_COUNT DE_COUNT
 #define SPECENUM_BITVECTOR bv_disaster_effects
 #include "specenum_gen.h"

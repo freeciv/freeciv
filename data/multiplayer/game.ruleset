@@ -353,7 +353,8 @@ negative_label = _("BCE")
 ; frequency               = how likely disaster is to occur
 ; effects
 ;   - "DestroyBuilding"   = Random building is destroyed
-;   - "ReducePopulation"  = Reduce city size by one
+;   - "ReducePopulation"  = Reduce city size by one unless it's already 1
+;   - "ReducePopDestroy"  = Reduce city size by one, possibly destroying the city
 ;   - "EmptyFoodStock"    = Remove all food from food stock
 ;   - "EmptyProdStock"    = Destroy current production
 ;   - "Pollution"         = One tile surrounding city polluted
