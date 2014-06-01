@@ -20,6 +20,7 @@
 GUI_FUNC_PROTO(void, real_output_window_append, const char *astring,
                const struct text_tag_list *tags,
                int conn_id)
+GUI_FUNC_PROTO(void, version_message, char *vertext)
 GUI_FUNC_PROTO(void, log_output_window, void)
 GUI_FUNC_PROTO(void, clear_output_window, void)
 

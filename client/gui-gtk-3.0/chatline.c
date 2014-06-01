@@ -1438,3 +1438,23 @@ void chatline_init(void)
   gtk_container_add(GTK_CONTAINER(hbox), bbox);
   toolkit.button_box = bbox;
 }
+
+/**************************************************************************
+  Main thread side callback to print version message
+**************************************************************************/
+static gboolean version_message_main_thread(gpointer user_data)
+{
+  const char *vertext = (const char *)user_data;
+
+  output_window_append(ftc_client, vertext);
+
+  return G_SOURCE_REMOVE;
+}
+
+/**************************************************************************
+  Got version message from metaserver thread.
+**************************************************************************/
+void version_message(char *vertext)
+{
+  gdk_threads_add_idle(version_message_main_thread, vertext);
+}

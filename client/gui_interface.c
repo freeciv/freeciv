@@ -68,6 +68,14 @@ void ui_exit(void)
 }
 
 /**************************************************************************
+  Call version_message callback
+**************************************************************************/
+void version_message(char *vertext)
+{
+  funcs.version_message(vertext);
+}
+
+/**************************************************************************
   Call real_output_window_append callback
 **************************************************************************/
 void real_output_window_append(const char *astring,

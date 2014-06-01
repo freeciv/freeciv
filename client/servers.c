@@ -75,6 +75,7 @@
 
 /* client */
 #include "chatline_common.h"
+#include "chatline_g.h"
 #include "client_main.h"
 #include "servers.h"
 
@@ -142,7 +143,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                   FOLLOWTAG);
     }
 
-    output_window_append(ftc_client, vertext);
+    version_message(vertext);
   }
 
   server_list = server_list_new();

@@ -21,6 +21,9 @@
 
 #include "qtg_cxxside.h"
 
+/**************************************************************************
+  Setup the gui callback table.
+**************************************************************************/
 void setup_gui_funcs()
 {
   struct gui_funcs *funcs = get_gui_funcs();
@@ -32,6 +35,7 @@ void setup_gui_funcs()
   funcs->get_gui_type = qtg_get_gui_type;
   funcs->insert_client_build_info = qtg_insert_client_build_info;
 
+  funcs->version_message = qtg_version_message;
   funcs->real_output_window_append = qtg_real_output_window_append;
 
   funcs->isometric_view_supported = qtg_isometric_view_supported;

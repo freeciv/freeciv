@@ -35,7 +35,9 @@
 
 #include "gui_cbsetter.h"
 
-
+/**************************************************************************
+  Setup the gui callback table.
+**************************************************************************/
 void setup_gui_funcs()
 {
   struct gui_funcs *funcs = get_gui_funcs();
@@ -47,6 +49,7 @@ void setup_gui_funcs()
   funcs->get_gui_type = gui_get_gui_type;
   funcs->insert_client_build_info = gui_insert_client_build_info;
 
+  funcs->version_message = gui_version_message;
   funcs->real_output_window_append = gui_real_output_window_append;
 
   funcs->isometric_view_supported = gui_isometric_view_supported;
