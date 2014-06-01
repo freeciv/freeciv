@@ -3493,12 +3493,12 @@ void popdown_races_dialog(void)
 {
   if (pNationDlg) {
     popdown_window_group_dialog(pNationDlg->pBeginWidgetList,
-			  pNationDlg->pEndWidgetList);
+                                pNationDlg->pEndWidgetList);
 
     cancel_help_dlg_callback(NULL);
-    
+
     FC_FREE(pLeaderName);
-    
+
     FC_FREE(pNationDlg->pScroll);
     FC_FREE(pNationDlg);
   }
@@ -3508,9 +3508,11 @@ void popdown_races_dialog(void)
   The server has changed the set of selectable nations.
 **************************************************************************/
 void races_update_pickable(void)
-{ 
-  /* FIXME handle this properly */
-  popdown_races_dialog();
+{
+  if (pNationDlg != NULL) {
+    popdown_races_dialog();
+    popup_races_dialog(client.conn.playing);
+  }
 }
 
 /**************************************************************************
@@ -3523,13 +3525,13 @@ void races_toggles_set_sensitive()
   bool change = FALSE;
   struct widget *pNat;
 
-  if (!pNationDlg)
+  if (!pNationDlg) {
     return;
-  
+  }
+
   pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-  
+
   nations_iterate(nation) {
-  
     if (!is_nation_pickable(nation) || nation->player) {
       log_debug("  [%d]: %d = %s", nation_index(nation),
                 (!is_nation_pickable(nation) || nation->player),
@@ -3537,13 +3539,13 @@ void races_toggles_set_sensitive()
 
       pNat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
       set_wstate(pNat, FC_WS_DISABLED);
-    
+
       if (nation_index(nation) == pSetup->nation) {
         change = TRUE;
       }
     }
   } nations_iterate_end;
-  
+
   if (change) {
     do {
       pSetup->nation = fc_rand(get_playable_nation_count());
