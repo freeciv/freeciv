@@ -15,11 +15,11 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [about]
 ; Ruleset name
-name = _("Default ruleset")
+name = _("Classic ruleset")
 
 ; Description of the ruleset
 description = _("\
-You are playing Freeciv with default ruleset for single player games.\
+You are playing with classic Freeciv rules for single player games.\
 ")
 
 [options]
