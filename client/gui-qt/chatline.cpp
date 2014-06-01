@@ -55,3 +55,11 @@ void clear_output_window(void)
   set_output_window_text(_("Cleared output window."));
 #endif
 }
+
+/**************************************************************************
+  Got version message from metaserver thread.
+**************************************************************************/
+void qtg_version_message(char *vertext)
+{
+  output_window_append(ftc_client, vertext);
+}

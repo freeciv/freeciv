@@ -34,6 +34,7 @@ struct gui_funcs {
 
   enum gui_type (*get_gui_type)(void);
 
+  void (*version_message)(char *vertext);
   void (*real_output_window_append)(const char *astring,
                                     const struct text_tag_list *tags,
                                     int conn_id);

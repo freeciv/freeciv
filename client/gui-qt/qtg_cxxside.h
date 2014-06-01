@@ -29,6 +29,7 @@ void qtg_ui_exit();
 
 enum gui_type qtg_get_gui_type();
 
+void qtg_version_message(char *vertext);
 void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,
                                    int conn_id);
