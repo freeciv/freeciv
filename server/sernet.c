@@ -1200,6 +1200,11 @@ int server_open_socket(void)
                *        It's failure to do as commandline parameters requested after all */
   }
 
+  if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
+                 (char *)&on, sizeof(on)) == -1) {
+    log_error("SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
+  }
+
   fc_nonblock(socklan);
 
   group = get_multicast_group(srvarg.announce == ANNOUNCE_IPV6);
