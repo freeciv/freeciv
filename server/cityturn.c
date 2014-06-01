@@ -2957,10 +2957,10 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     }
   }
 
-  if (disaster_has_effect(pdis, DE_REDUCE_POP)) {
+  if (disaster_has_effect(pdis, DE_REDUCE_POP)
+      && pcity->size > 1) {
     if (!city_reduce_size(pcity, 1, NULL)) {
-      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("City got destroyed completely."));
+      fc_assert(FALSE);
       city_or_null = NULL;
     } else {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
