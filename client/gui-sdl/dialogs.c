@@ -3533,9 +3533,11 @@ void popdown_races_dialog(void)
   The server has changed the set of selectable nations.
 **************************************************************************/
 void races_update_pickable(void)
-{ 
-  /* FIXME handle this properly */
-  popdown_races_dialog();
+{
+  if (pNationDlg != NULL) {
+    popdown_races_dialog();
+    popup_races_dialog(client.conn.playing);
+  }
 }
 
 /**************************************************************************
@@ -3548,9 +3550,10 @@ void races_toggles_set_sensitive()
   bool change = FALSE;
   struct widget *pNat;
 
-  if (!pNationDlg)
+  if (!pNationDlg) {
     return;
-  
+  }
+
   pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
   
   nations_iterate(nation) {
