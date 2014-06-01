@@ -32,6 +32,37 @@ static char *special_names[] =
     "Fallout", NULL
   };
 
+/*
+  For each savefile format after 2.3.0, compatibility functions are defined
+  which translate secfile structures from previous version to that version;
+  all necessary compat functions are called in order to
+  translate between the file and current version. See sg_load_compat().
+
+  The integer version ID should be increased every time the format is changed.
+  If the change is not backwards compatible, please state the changes in the
+  following list and update the compat functions at the end of this file.
+
+  - what was added / removed
+  - when was it added / removed (date and version)
+  - when can additional capability checks be set to mandatory (version)
+  - which compatibility checks are needed and till when (version)
+
+  freeciv | what                                           | date       | id
+  --------+------------------------------------------------+------------+----
+  current | (mapped to current savegame format)            | ----/--/-- |  0
+          | first version (svn17538)                       | 2010/07/05 |  -
+  2.3.0   | 2.3.0 release                                  | 2010/11/?? |  3
+  2.4.0   | 2.4.0 release                                  | 201./../.. | 10
+          | * player ai type                               |            |
+          | * delegation                                   |            |
+          | * citizens                                     |            |
+          | * save player color                            |            |
+          | * "known" info format change                   |            |
+  2.5.0   | 2.5.0 release                                  | 201./../.. | 20
+  2.6.0   | 2.6.0 release (development)                    | 201./../.. | 30
+          |                                                |            |
+*/
+
 static void compat_load_020400(struct loaddata *loading);
 static void compat_load_020500(struct loaddata *loading);
 static void compat_load_020600(struct loaddata *loading);
