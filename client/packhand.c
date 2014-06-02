@@ -379,6 +379,9 @@ void handle_unit_remove(int unit_id)
   bool need_economy_report_update;
 
   if (!punit) {
+    log_error("Server wants us to remove unit id %d, "
+              "but we don't know about this unit!",
+              unit_id);
     return;
   }
 
