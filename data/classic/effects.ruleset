@@ -821,6 +821,8 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_1]
@@ -830,6 +832,11 @@ reqs	=
     { "type", "name", "range"
       "Building", "Barracks", "City"
       "UnitClass", "Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_ii]
@@ -844,7 +851,7 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
-      "Building", "Barracks", "City"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_ii_1]
@@ -854,6 +861,10 @@ reqs	=
     { "type", "name", "range"
       "Building", "Barracks II", "City"
       "UnitClass", "Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_iii]
@@ -868,8 +879,6 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
-      "Building", "Barracks", "City"
-      "Building", "Barracks II", "City"
     }
 
 [effect_barracks_iii_1]

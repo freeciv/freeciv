@@ -571,6 +571,11 @@ reqs	=
     { "type", "name", "range"
       "Building", "Barracks", "City"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
+    }
 
 [effect_barracks_ii]
 type    = "Veteran_Build"
@@ -581,7 +586,7 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Barracks", "City"
+      "Building", "Barracks III", "City"
     }
 
 [effect_barracks_iii]
@@ -590,11 +595,6 @@ value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Barracks III", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Barracks", "City"
-      "Building", "Barracks II", "City"
     }
 
 [effect_cathedral]
