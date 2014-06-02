@@ -327,7 +327,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   QModelIndexList indexes = sl.indexes();
   struct city *pcity;
   const struct player_diplstate *state;
-  struct player_research *research;
+  struct research *research;
   char tbuf[256];
   QString res;
   QString sp = " ";
@@ -356,7 +356,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     return;
   }
   pcity = player_capital(pplayer);
-  research = player_research_get(pplayer);
+  research = research_get(pplayer);
 
   switch (research->researching) {
   case A_UNKNOWN:

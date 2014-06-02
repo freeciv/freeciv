@@ -218,7 +218,7 @@ void science_report::redraw()
 void science_report::update_report()
 {
 
-  struct player_research *research = player_research_get(client_player());
+  struct research *research = research_get(client_player());
   const char *text;
   int total;
   int done = research->bulbs_researched;
