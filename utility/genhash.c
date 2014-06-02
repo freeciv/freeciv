@@ -105,7 +105,7 @@ struct genhash_iter {
   A supplied genhash function appropriate to nul-terminated strings.
   Prefers table sizes that are prime numbers.
 ****************************************************************************/
-genhash_val_t genhash_str_val_func(const void *vkey, size_t num_buckets)
+genhash_val_t genhash_str_val_func(const void *vkey)
 {
   const char *key = (const char *) vkey;
   unsigned long result = 0;
@@ -115,7 +115,7 @@ genhash_val_t genhash_str_val_func(const void *vkey, size_t num_buckets)
     result += *key;
   }
   result &= 0xFFFFFFFF; /* To make results independent of sizeof(long) */
-  return (result % num_buckets);
+  return result;
 }
 
 /****************************************************************************
@@ -150,10 +150,10 @@ void genhash_str_free_func(void *vkey)
   themselves; this way a void* (or, with casting, a long) can be used
   as a key, and also without having allocated space for it.
 ***************************************************************************/
-genhash_val_t genhash_ptr_val_func(const void *vkey, size_t num_buckets)
+genhash_val_t genhash_ptr_val_func(const void *vkey)
 {
   intptr_t result = ((intptr_t) vkey);
-  return (result % num_buckets);
+  return result;
 }
 
 /****************************************************************************
@@ -361,7 +361,7 @@ static void genhash_resize_table(struct genhash *pgenhash,
   end = bucket + pgenhash->num_buckets;
   for (; bucket < end; bucket++) {
     for (iter = *bucket; NULL != iter; iter = next) {
-      slot = new_buckets + key_val_func(iter->key, new_nbuckets);
+      slot = new_buckets + (key_val_func(iter->key) % new_nbuckets);
       next = iter->next;
       iter->next = *slot;
       *slot = iter;
@@ -429,7 +429,7 @@ genhash_slot_lookup(const struct genhash *pgenhash, const void *key)
   struct genhash_entry **slot;
 
   for (slot = (pgenhash->buckets
-               + pgenhash->key_val_func(key, pgenhash->num_buckets));
+               + (pgenhash->key_val_func(key) % pgenhash->num_buckets));
        NULL != *slot; slot = &(*slot)->next) {
     if (pgenhash->key_comp_func((*slot)->key, key)) {
       return slot;

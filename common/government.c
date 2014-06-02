@@ -192,13 +192,9 @@ struct ruler_title {
 /****************************************************************************
   Hash function.
 ****************************************************************************/
-static genhash_val_t nation_hash_val(const struct nation_type *pnation,
-                                     size_t num_buckets)
+static genhash_val_t nation_hash_val(const struct nation_type *pnation)
 {
-  genhash_val_t base = (NULL != pnation ? nation_number(pnation)
-                        : nation_count());
-
-  return base % num_buckets;
+  return NULL != pnation ? nation_number(pnation) : nation_count();
 }
 
 /****************************************************************************
