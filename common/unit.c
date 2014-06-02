@@ -2144,12 +2144,7 @@ struct unit *unit_transport_get(const struct unit *pcargo)
 {
   fc_assert_ret_val(pcargo != NULL, NULL);
 
-  if (pcargo->transporter == NULL) {
-    return NULL;
-  } else {
-    /* Need this as the return value is not 'const'! */
-    return game_unit_by_number(pcargo->transporter->id);
-  }
+  return pcargo->transporter;
 }
 
 /*****************************************************************************
