@@ -84,6 +84,9 @@ struct research {
 /* Common functions. */
 void researches_init(void);
 
+int research_number(const struct research *presearch);
+
+struct research *research_by_number(int number);
 struct research *research_get(const struct player *pplayer);
 
 /* Iterating utilities. */
@@ -96,6 +99,18 @@ struct iterator *research_iter_init(struct research_iter *it);
   generic_iterate(struct research_iter, struct research *,                  \
                   _presearch, research_iter_sizeof, research_iter_init)
 #define researches_iterate_end generic_iterate_end
+
+struct research_player_iter;
+
+size_t research_player_iter_sizeof(void);
+struct iterator *research_player_iter_init(struct research_player_iter *it,
+                                           const struct research *presearch);
+
+#define research_players_iterate(_presearch, _pplayer)                      \
+  generic_iterate(struct research_player_iter, struct player *, _pplayer,   \
+                  research_player_iter_sizeof, research_player_iter_init,   \
+                  _presearch)
+#define research_players_iterate_end generic_iterate_end
 
 #ifdef __cplusplus
 }

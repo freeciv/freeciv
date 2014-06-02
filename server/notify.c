@@ -376,12 +376,10 @@ void notify_research(const struct player *pplayer,
   vpackage_event(&genmsg, NULL, event, color, format, args);
   va_end(args);
 
-  players_iterate(other_player) {
-    if (research_get(other_player) == research) {
-      lsend_packet_chat_msg(other_player->connections, &genmsg);
-      players = event_cache_player_add(players, other_player);
-    }
-  } players_iterate_end;
+  research_players_iterate(research, aplayer) {
+    lsend_packet_chat_msg(aplayer->connections, &genmsg);
+    players = event_cache_player_add(players, aplayer);
+  } research_players_iterate_end;
 
   /* Add to the cache */
   event_cache_add_for_players(&genmsg, players);

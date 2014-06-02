@@ -320,13 +320,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   /* Memorize some values before the tech is marked as researched.
    * They will be used to notify a player about a change */
-  players_iterate(aplayer) {
-    if (research != research_get(aplayer)) {
-      continue;
-    }
+  research_players_iterate(research, aplayer) {
     fill_can_switch_to_government_array(aplayer,
                                         can_switch[player_index(aplayer)]);
-  } players_iterate_end;
+  } research_players_iterate_end;
 
 
   /* Mark the tech as known in the research struct and update
@@ -334,13 +331,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   player_invention_set(plr, tech_found, TECH_KNOWN);
 
   /* Make proper changes for all players sharing the research */  
-  players_iterate(aplayer) {
-    if (research != research_get(aplayer)) {
-      continue;
-    }
+  research_players_iterate(research, aplayer) {
     update_player_after_tech_researched(aplayer, tech_found, was_discovery,
                                         can_switch[player_index(aplayer)]);
-  } players_iterate_end;
+  } research_players_iterate_end;
 
   if (tech_found == research->tech_goal) {
     research->tech_goal = A_UNSET;
@@ -1127,11 +1121,9 @@ void handle_player_research(struct player *pplayer, int tech)
   choose_tech(pplayer, tech);
 
   /* Notify players sharing the same research. */
-  players_iterate_alive(aplayer) {
-    if (research == research_get(aplayer)) {
-      send_player_info_c(aplayer, aplayer->connections);
-    }
-  } players_iterate_alive_end;
+  research_players_iterate(research, aplayer) {
+    send_player_info_c(aplayer, aplayer->connections);
+  } research_players_iterate_end;
 }
 
 /****************************************************************************
@@ -1158,11 +1150,9 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   choose_tech_goal(pplayer, tech_goal);
 
   /* Notify players sharing the same research. */
-  players_iterate_alive(aplayer) {
-    if (research == research_get(aplayer)) {
-      send_player_info_c(aplayer, aplayer->connections);
-    }
-  } players_iterate_alive_end;
+  research_players_iterate(research, aplayer) {
+    send_player_info_c(aplayer, aplayer->connections);
+  } research_players_iterate_end;
 }
 
 /****************************************************************************
