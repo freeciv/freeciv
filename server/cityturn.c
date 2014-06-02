@@ -3051,7 +3051,6 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
   bool had_effect = FALSE;
-  struct city *city_or_null = pcity;
 
   log_debug("%s at %s", disaster_rule_name(pdis), city_name(pcity));
 
@@ -3061,7 +3060,38 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
                 _("%s was hit by %s."), city_name(pcity),
                 disaster_rule_name(pdis));
 
-  if (disaster_has_effect(pdis, DE_DESTROY_BUILDING)) {
+  if (disaster_has_effect(pdis, DE_POLLUTION)) {
+    if (place_pollution(pcity, EC_POLLUTION)) {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Tile polluted"));
+      had_effect = TRUE;
+    }
+  }
+
+  if (disaster_has_effect(pdis, DE_FALLOUT)) {
+    if (place_pollution(pcity, EC_FALLOUT)) {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Fallout contaminated tile."));
+      had_effect = TRUE;
+    }
+  }
+
+  if (disaster_has_effect(pdis, DE_REDUCE_DESTROY)
+      || (disaster_has_effect(pdis, DE_REDUCE_POP)
+          && pcity->size > 1)) {
+    if (!city_reduce_size(pcity, 1, NULL)) {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("City got destroyed completely."));
+      pcity = NULL;
+    } else {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Some population lost."));
+    }
+
+    had_effect = TRUE;
+  }
+
+  if (pcity && disaster_has_effect(pdis, DE_DESTROY_BUILDING)) {
     int total = 0;
     struct impr_type *imprs[B_LAST];
 
@@ -3084,22 +3114,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     }
   }
 
-  if (disaster_has_effect(pdis, DE_REDUCE_DESTROY)
-      || (disaster_has_effect(pdis, DE_REDUCE_POP)
-          && pcity->size > 1)) {
-    if (!city_reduce_size(pcity, 1, NULL)) {
-      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("City got destroyed completely."));
-      city_or_null = NULL;
-    } else {
-      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Some population lost."));
-    }
-
-    had_effect = TRUE;
-  }
-
-  if (disaster_has_effect(pdis, DE_EMPTY_FOODSTOCK)) {
+  if (pcity && disaster_has_effect(pdis, DE_EMPTY_FOODSTOCK)) {
     if (pcity->food_stock > 0) {
       pcity->food_stock = 0;
 
@@ -3110,7 +3125,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     }
   }
 
-  if (disaster_has_effect(pdis, DE_EMPTY_PRODSTOCK)) {
+  if (pcity && disaster_has_effect(pdis, DE_EMPTY_PRODSTOCK)) {
     if (pcity->shield_stock > 0) {
       pcity->shield_stock = 0;
 
@@ -3122,22 +3137,6 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     }
   }
 
-  if (disaster_has_effect(pdis, DE_POLLUTION)) {
-    if (place_pollution(pcity, EC_POLLUTION)) {
-      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Tile polluted"));
-      had_effect = TRUE;
-    }
-  }
-
-  if (disaster_has_effect(pdis, DE_FALLOUT)) {
-    if (place_pollution(pcity, EC_FALLOUT)) {
-      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Fallout contaminated tile."));
-      had_effect = TRUE;
-    }
-  }
-
   if (!had_effect) {
     notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                   _("We survived the disaster without serious damages."));
@@ -3145,7 +3144,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
 
   script_server_signal_emit("disaster", 2,
                             API_TYPE_DISASTER, pdis,
-                            API_TYPE_CITY, city_or_null);
+                            API_TYPE_CITY, pcity);
 }
 
 /**************************************************************************
