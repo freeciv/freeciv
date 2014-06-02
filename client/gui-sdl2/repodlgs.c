@@ -2667,11 +2667,11 @@ void real_science_report_dialog_update(void)
 #endif
   
     if (cost > adj_size(286)) {
-      cost = (adj_size(286)
+      cost = adj_size(286)
               * ((float) research_get(client_player())->bulbs_researched
                  / cost);
     } else {
-      cost = ((float) cost
+      cost = (float) cost
               * ((float) research_get(client_player())->bulbs_researched
                  / cost);
     }
