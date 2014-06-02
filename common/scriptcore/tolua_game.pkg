@@ -338,6 +338,8 @@ module Terrain {
     @ rule_name (lua_State *L, Terrain *self);
   const char *api_methods_terrain_name_translation
     @ name_translation (lua_State *L, Terrain *self);
+  const char *api_methods_terrain_class_name
+    @ class_name (lua_State *L, Terrain *self);
 }
 
 /* Module Disaster. */

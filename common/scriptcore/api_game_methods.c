@@ -409,6 +409,17 @@ const char *api_methods_terrain_name_translation(lua_State *L,
 }
 
 /*****************************************************************************
+  Return name of the terrain's class
+*****************************************************************************/
+const char *api_methods_terrain_class_name(lua_State *L, Terrain *pterrain)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
+
+  return terrain_class_name(terrain_type_terrain_class(pterrain));
+}
+
+/*****************************************************************************
   Return rule name for Disaster
 *****************************************************************************/
 const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis)

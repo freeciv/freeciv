@@ -80,13 +80,12 @@ City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
 
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech);
-const char *api_methods_tech_type_name_translation(lua_State *L,
-                                                   Tech_Type *ptech);
+const char *api_methods_tech_type_name_translation(lua_State *L, Tech_Type *ptech);
 
 /* Terrain */
 const char *api_methods_terrain_rule_name(lua_State *L, Terrain *pterrain);
-const char *api_methods_terrain_name_translation(lua_State *L,
-                                                 Terrain *pterrain);
+const char *api_methods_terrain_name_translation(lua_State *L, Terrain *pterrain);
+const char *api_methods_terrain_class_name(lua_State *L, Terrain *pterrain);
 
 /* Disaster */
 const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis);
