@@ -110,7 +110,7 @@ bool is_border_source(struct tile *ptile)
     return TRUE;
   }
 
-  if (tile_owner(ptile) != NULL) {
+  if (base_owner(ptile) != NULL) {
     base_type_iterate(pbase) {
       if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {
         return TRUE;
