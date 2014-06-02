@@ -209,7 +209,7 @@ void netfile_close_post(struct netfile_post *post)
 ***********************************************************************/
 static size_t dummy_write(void *buffer, size_t size, size_t nmemb, void *userp)
 {
-  return nmemb;
+  return size * nmemb;
 }
 
 /********************************************************************** 
