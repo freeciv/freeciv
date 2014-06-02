@@ -33,13 +33,13 @@ struct research_iter {
 };
 #define RESEARCH_ITER(p) ((struct research_iter *) p)
 
-static struct player_research research_array[MAX_NUM_PLAYER_SLOTS];
+static struct research research_array[MAX_NUM_PLAYER_SLOTS];
 
 
 /****************************************************************************
   Initializes all player research structure.
 ****************************************************************************/
-void player_researches_init(void)
+void researches_init(void)
 {
   int i;
 
@@ -59,7 +59,7 @@ void player_researches_init(void)
 /****************************************************************************
   Returns the research structure associated with the player.
 ****************************************************************************/
-struct player_research *player_research_get(const struct player *pplayer)
+struct research *research_get(const struct player *pplayer)
 {
   fc_assert_ret_val(NULL != pplayer, NULL);
 

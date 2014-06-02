@@ -25,7 +25,7 @@ extern "C" {
 #include "fc_types.h"
 #include "tech.h"
 
-struct player_research {
+struct research {
   /* The number of techs and future techs the player has
    * researched/acquired. */
   int techs_researched, future_tech;
@@ -82,9 +82,9 @@ struct player_research {
 };
 
 /* Common functions. */
-void player_researches_init(void);
+void researches_init(void);
 
-struct player_research *player_research_get(const struct player *pplayer);
+struct research *research_get(const struct player *pplayer);
 
 /* Iterating utilities. */
 struct research_iter;
@@ -92,10 +92,10 @@ struct research_iter;
 size_t research_iter_sizeof(void);
 struct iterator *research_iter_init(struct research_iter *it);
 
-#define player_researches_iterate(presearch)                                \
-  generic_iterate(struct research_iter, struct player_research *,           \
-                  presearch, research_iter_sizeof, research_iter_init)
-#define player_researches_iterate_end generic_iterate_end
+#define researches_iterate(_presearch)                                      \
+  generic_iterate(struct research_iter, struct research *,                  \
+                  _presearch, research_iter_sizeof, research_iter_init)
+#define researches_iterate_end generic_iterate_end
 
 #ifdef __cplusplus
 }

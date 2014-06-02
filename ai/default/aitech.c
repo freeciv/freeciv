@@ -77,14 +77,14 @@ static void dai_select_tech(struct player *pplayer,
 
   /* if we are researching future techs, then simply continue with that. 
    * we don't need to do anything below. */
-  if (is_future_tech(player_research_get(pplayer)->researching)) {
+  if (is_future_tech(research_get(pplayer)->researching)) {
     if (choice) {
-      choice->choice = player_research_get(pplayer)->researching;
+      choice->choice = research_get(pplayer)->researching;
       choice->want = 1;
       choice->current_want = 1;
     }
     if (goal) {
-      goal->choice = player_research_get(pplayer)->tech_goal;
+      goal->choice = research_get(pplayer)->tech_goal;
       goal->want = 1;
       goal->current_want = 1;
     }
@@ -165,14 +165,14 @@ static void dai_select_tech(struct player *pplayer,
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;
     choice->current_want = 
-      values[player_research_get(pplayer)->researching] / num_cities_nonzero;
+      values[research_get(pplayer)->researching] / num_cities_nonzero;
   }
 
   if (goal) {
     goal->choice = newgoal;
     goal->want = goal_values[newgoal] / num_cities_nonzero;
     goal->current_want
-      = (goal_values[player_research_get(pplayer)->tech_goal]
+      = (goal_values[research_get(pplayer)->tech_goal]
          / num_cities_nonzero);
     log_debug("Goal->choice = %s, goal->want = %d, goal_value = %d, "
               "num_cities_nonzero = %d",
@@ -184,7 +184,7 @@ static void dai_select_tech(struct player *pplayer,
   /* we can't have this, which will happen in the circumstance 
    * where all ai.tech_wants are negative */
   if (choice && choice->choice == A_UNSET) {
-    choice->choice = player_research_get(pplayer)->researching;
+    choice->choice = research_get(pplayer)->researching;
   }
 
   return;
@@ -197,7 +197,7 @@ static void dai_select_tech(struct player *pplayer,
 void dai_manage_tech(struct player *pplayer)
 {
   struct ai_tech_choice choice, goal;
-  struct player_research *research = player_research_get(pplayer);
+  struct research *research = research_get(pplayer);
   /* Penalty for switching research */
   int penalty = (research->got_tech ? 0 : research->bulbs_researched);
 

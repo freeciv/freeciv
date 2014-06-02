@@ -60,7 +60,7 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 **************************************************************************/
 void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
 {
-  struct player_research * research = player_research_get(pplayer);
+  struct research * research = research_get(pplayer);
 
   research->bulbs_researched
     -= (base_total_bulbs_required(pplayer, tech, FALSE)
@@ -73,7 +73,7 @@ void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
 **************************************************************************/
 void do_free_cost(struct player *pplayer, Tech_type_id tech)
 {
-  struct player_research * research = player_research_get(pplayer);
+  struct research * research = research_get(pplayer);
 
   research->bulbs_researched
     -= (base_total_bulbs_required(pplayer, tech, FALSE)
@@ -86,7 +86,7 @@ void do_free_cost(struct player *pplayer, Tech_type_id tech)
 **************************************************************************/
 void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 {
-  struct player_research * research = player_research_get(pplayer);  
+  struct research * research = research_get(pplayer);
 
   research->bulbs_researched
     -= (base_total_bulbs_required(pplayer, tech, FALSE)
@@ -99,7 +99,7 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 ****************************************************************************/
 static void tech_researched(struct player *plr)
 {
-  struct player_research *research = player_research_get(plr);
+  struct research *research = research_get(plr);
   /* plr will be notified when new tech is chosen */
 
   if (!is_future_tech(research->researching)) {
@@ -161,11 +161,11 @@ void do_tech_parasite_effect(struct player *pplayer)
           && player_invention_state(pplayer, i) != TECH_KNOWN) {
         int num_research = 0;
 
-        player_researches_iterate(presearch) {
+        researches_iterate(presearch) {
           if (presearch->inventions[i].state == TECH_KNOWN) {
             num_research++;
           }
-        } player_researches_iterate_end;
+        } researches_iterate_end;
         if (num_research >= mod) {
           notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                         _("%s acquired from %s!"),
@@ -271,7 +271,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   int had_embassies[player_slot_count()];
   struct city *pcity;
   bool can_switch[player_slot_count()][government_count()];
-  struct player_research *research = player_research_get(plr);
+  struct research *research = research_get(plr);
   struct advance *vap = valid_advance_by_number(tech_found);
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
@@ -321,7 +321,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   /* Memorize some values before the tech is marked as researched.
    * They will be used to notify a player about a change */
   players_iterate(aplayer) {
-    if (research != player_research_get(aplayer)) {
+    if (research != research_get(aplayer)) {
       continue;
     }
     fill_can_switch_to_government_array(aplayer,
@@ -335,7 +335,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   /* Make proper changes for all players sharing the research */  
   players_iterate(aplayer) {
-    if (research != player_research_get(aplayer)) {
+    if (research != research_get(aplayer)) {
       continue;
     }
     update_player_after_tech_researched(aplayer, tech_found, was_discovery,
@@ -458,14 +458,14 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 ****************************************************************************/
 static bool lose_tech(struct player *plr)
 {
-  struct player_research *research;
+  struct research *research;
 
   if (game.server.techloss_forgiveness < 0) {
     /* Tech loss disabled */
     return FALSE;
   }
 
-  research = player_research_get(plr);
+  research = research_get(plr);
 
   if (research->techs_researched == 0 && research->future_tech == 0) {
     /* No tech to lose */
@@ -492,7 +492,7 @@ static bool lose_tech(struct player *plr)
 ****************************************************************************/
 bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 {
-  struct player_research *research = player_research_get(plr);
+  struct research *research = research_get(plr);
 
   /* count our research contribution this turn */
   plr->bulbs_last_turn += bulbs;
@@ -598,7 +598,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
   bool old_gov[government_count()];
 
   if (tech == A_FUTURE) {
-    player_research_get(plr)->future_tech--;
+    research_get(plr)->future_tech--;
     player_research_update(plr);
 
     return;
@@ -803,7 +803,7 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 ****************************************************************************/
 void choose_random_tech(struct player *plr)
 {
-  struct player_research* research = player_research_get(plr);
+  struct research* research = research_get(plr);
   do {
     choose_tech(plr, pick_random_tech(plr));
   } while (research->researching == A_UNSET);
@@ -819,7 +819,7 @@ void choose_random_tech(struct player *plr)
 ****************************************************************************/
 void choose_tech(struct player *plr, Tech_type_id tech)
 {
-  struct player_research *research = player_research_get(plr);
+  struct research *research = research_get(plr);
 
   if (research->researching == tech) {
     return;
@@ -853,7 +853,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
 ****************************************************************************/
 void choose_tech_goal(struct player *plr, Tech_type_id tech)
 {
-  struct player_research *research = player_research_get(plr);
+  struct research *research = research_get(plr);
 
   if (research && tech != research->tech_goal) {
     /* It's been suggested that if the research target is empty then
@@ -870,7 +870,7 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
 ****************************************************************************/
 void init_tech(struct player *plr, bool update)
 {
-  struct player_research *research = player_research_get(plr);
+  struct research *research = research_get(plr);
 
   player_invention_set(plr, A_NONE, TECH_KNOWN);
 
@@ -1038,8 +1038,8 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
   
     if (j == 0)  {
       /* we've moved on to future tech */
-      if (player_research_get(victim)->future_tech
-        > player_research_get(pplayer)->future_tech) {
+      if (research_get(victim)->future_tech
+        > research_get(pplayer)->future_tech) {
         found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
         stolen_tech = A_FUTURE;
       } else {
@@ -1105,7 +1105,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 }
 
 /****************************************************************************
-  Handle incoming player_research packet. Need to check correctness
+  Handle incoming research packet. Need to check correctness
   Set the player to be researching the given tech.
 
   If there are enough accumulated research points, the tech may be
@@ -1113,7 +1113,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 ****************************************************************************/
 void handle_player_research(struct player *pplayer, int tech)
 {
-  struct player_research *research = player_research_get(pplayer);
+  struct research *research = research_get(pplayer);
 
   if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
     return;
@@ -1128,7 +1128,7 @@ void handle_player_research(struct player *pplayer, int tech)
 
   /* Notify players sharing the same research. */
   players_iterate_alive(aplayer) {
-    if (research == player_research_get(aplayer)) {
+    if (research == research_get(aplayer)) {
       send_player_info_c(aplayer, aplayer->connections);
     }
   } players_iterate_alive_end;
@@ -1140,7 +1140,7 @@ void handle_player_research(struct player *pplayer, int tech)
 ****************************************************************************/
 void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 {
-  struct player_research *research = player_research_get(pplayer);
+  struct research *research = research_get(pplayer);
 
   /* Set the tech goal to a defined state if it is
    * - not a future tech and not a valid goal
@@ -1159,7 +1159,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 
   /* Notify players sharing the same research. */
   players_iterate_alive(aplayer) {
-    if (research == player_research_get(aplayer)) {
+    if (research == research_get(aplayer)) {
       send_player_info_c(aplayer, aplayer->connections);
     }
   } players_iterate_alive_end;
@@ -1188,11 +1188,11 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
 
   if (game.info.free_tech_method == FTM_CHEAPEST) {
     tech = pick_cheapest_tech(pplayer);
-  } else if (player_research_get(pplayer)->researching == A_UNSET
+  } else if (research_get(pplayer)->researching == A_UNSET
       || game.info.free_tech_method == FTM_RANDOM) {
     return give_random_free_tech(pplayer);
   } else {
-    tech = player_research_get(pplayer)->researching;
+    tech = research_get(pplayer)->researching;
   }
   do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE);

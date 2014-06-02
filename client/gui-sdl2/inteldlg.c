@@ -215,7 +215,7 @@ void update_intel_dialog(struct player *p)
   int n = 0, count = 0, col;
   struct city *pCapital;
   SDL_Rect area;
-  struct player_research* research;
+  struct research *research;
       
   if (pdialog) {
 
@@ -294,7 +294,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     
     pCapital = player_capital(p);
-    research = player_research_get(p);
+    research = research_get(p);
     change_ptsize16(pStr, adj_font(10));
     pStr->style &= ~TTF_STYLE_BOLD;
 

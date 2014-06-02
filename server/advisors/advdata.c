@@ -169,7 +169,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
       }
 
       if (TECH_KNOWN == player_invention_state(aplayer, tech)
-          || player_research_get(aplayer)->researching == tech) {
+          || research_get(aplayer)->researching == tech) {
 	players_having++;
 	if (players_having >= players_needed) {
 	  return TRUE;
@@ -464,7 +464,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   adv->pollution_priority = POLLUTION_WEIGHTING;
 
   /* Research want */
-  if (is_future_tech(player_research_get(pplayer)->researching)
+  if (is_future_tech(research_get(pplayer)->researching)
       || player_has_really_useful_tech_parasite(pplayer)) {
     adv->wants_science = FALSE;
   } else {

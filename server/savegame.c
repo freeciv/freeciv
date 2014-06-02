@@ -1641,11 +1641,11 @@ static void player_load_main(struct player *plr, int plrno,
   const char *p;
   const char *name;
   struct government *gov;
-  struct player_research *research;
+  struct research *research;
   struct nation_type *pnation;
   struct nation_style *style;
 
-  research = player_research_get(plr);
+  research = research_get(plr);
 
   plr->ai_common.barbarian_type = secfile_lookup_int_default(file, 0,
                                                     "player%d.ai.is_barbarian",

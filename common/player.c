@@ -1051,7 +1051,7 @@ bool player_in_city_map(const struct player *pplayer,
 int num_known_tech_with_flag(const struct player *pplayer,
                              enum tech_flag_id flag)
 {
-  return player_research_get(pplayer)->num_known_tech_with_flag[flag];
+  return research_get(pplayer)->num_known_tech_with_flag[flag];
 }
 
 /**************************************************************************

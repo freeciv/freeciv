@@ -1013,10 +1013,10 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (A_UNSET == player_research_get(pplayer)->researching) {
+    if (A_UNSET == research_get(pplayer)->researching) {
       Tech_type_id next_tech =
           player_research_step(pplayer,
-                               player_research_get(pplayer)->tech_goal);
+                               research_get(pplayer)->tech_goal);
 
       if (A_UNSET != next_tech) {
         choose_tech(pplayer, next_tech);
@@ -1047,17 +1047,17 @@ static void end_phase(void)
 
   /* Refresh cities */
   phase_players_iterate(pplayer) {
-    player_research_get(pplayer)->got_tech = FALSE;
+    research_get(pplayer)->got_tech = FALSE;
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
-    player_research_get(pplayer)->researching_saved = A_UNKNOWN;
+    research_get(pplayer)->researching_saved = A_UNKNOWN;
     /* reduce the number of bulbs by the amount needed for tech upkeep and
      * check for finished research */
-    update_bulbs(pplayer, -player_research_get(pplayer)->tech_upkeep, TRUE);
+    update_bulbs(pplayer, -research_get(pplayer)->tech_upkeep, TRUE);
     flush_packets();
   } phase_players_iterate_end;
 

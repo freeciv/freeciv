@@ -1036,7 +1036,7 @@ static void package_player_info(struct player *plr,
 {
   enum plr_info_level info_level;
   enum plr_info_level highest_team_level;
-  struct player_research* research = player_research_get(plr);
+  struct research* research = research_get(plr);
   struct government *pgov = NULL;
 
   if (receiver) {
@@ -2361,7 +2361,7 @@ split between both players.
 ***********************************************************************/
 static struct player *split_player(struct player *pplayer)
 {
-  struct player_research *new_research, *old_research;
+  struct research *new_research, *old_research;
   struct player *cplayer;
   struct nation_type *rebel_nation;
 
@@ -2426,8 +2426,8 @@ static struct player *split_player(struct player *pplayer)
   pplayer->economic.gold -= cplayer->economic.gold;
 
   /* Copy the research */
-  new_research = player_research_get(cplayer);
-  old_research = player_research_get(pplayer);
+  new_research = research_get(cplayer);
+  old_research = research_get(pplayer);
 
   new_research->bulbs_researched = 0;
   new_research->techs_researched = old_research->techs_researched;
@@ -2459,7 +2459,7 @@ static struct player *split_player(struct player *pplayer)
     pplayer->government = game.government_during_revolution;
     pplayer->revolution_finishes = game.info.turn + 1;
   }
-  player_research_get(pplayer)->bulbs_researched = 0;
+  research_get(pplayer)->bulbs_researched = 0;
   BV_CLR_ALL(pplayer->real_embassy);   /* all embassies destroyed */
 
   /* give splitted player the embassies to his team mates back, if any */

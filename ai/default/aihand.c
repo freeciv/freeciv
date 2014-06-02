@@ -206,7 +206,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 {
   int maxrate = (has_handicap(pplayer, H_RATES)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
-  struct player_research *research = player_research_get(pplayer);
+  struct research *research = research_get(pplayer);
   enum celebration celebrate = AI_CELEBRATION_UNCHECKED;
   struct adv_data *ai = adv_data_get(pplayer, NULL);
   int can_celebrate = 0, total_cities = 0;

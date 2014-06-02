@@ -1926,7 +1926,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   bool turn_done_changed = FALSE;
   bool new_player = FALSE;
   int i;
-  struct player_research *research;
+  struct research *research;
   struct player *pplayer, *my_player;
   struct nation_type *pnation;
   struct government *pgov, *ptarget_gov;
@@ -2055,7 +2055,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
    * game is running. */
   new_tech = read_player_info_techs(pplayer, pinfo->inventions);
   
-  research = player_research_get(pplayer);
+  research = research_get(pplayer);
 
   poptechup = (research->researching != pinfo->researching
                || research->tech_goal != pinfo->tech_goal);

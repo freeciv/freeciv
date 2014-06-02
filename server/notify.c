@@ -370,14 +370,14 @@ void notify_research(const struct player *pplayer,
   struct packet_chat_msg genmsg;
   struct event_cache_players *players = NULL;
   va_list args;
-  struct player_research *research = player_research_get(pplayer);
+  struct research *research = research_get(pplayer);
 
   va_start(args, format);
   vpackage_event(&genmsg, NULL, event, color, format, args);
   va_end(args);
 
   players_iterate(other_player) {
-    if (player_research_get(other_player) == research) {
+    if (research_get(other_player) == research) {
       lsend_packet_chat_msg(other_player->connections, &genmsg);
       players = event_cache_player_add(players, other_player);
     }

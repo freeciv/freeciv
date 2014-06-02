@@ -393,7 +393,7 @@ void update_intel_dialog(struct player *p)
           break;
         case LABEL_RESEARCHING:
           {
-            struct player_research *research = player_research_get(p);
+            struct research *research = research_get(p);
 
             switch (research->researching) {
             case A_UNKNOWN:

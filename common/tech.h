@@ -108,7 +108,7 @@ typedef int Tech_type_id;
  * be reached) are TECH_UNKNOWN */
 #define SPECENUM_NAME tech_state
 /* TECH_UNKNOWN must be 0 as the code does no special initialisation after
- * memset(0), See player_researches_init(). */
+ * memset(0), See researches_init(). */
 #define SPECENUM_VALUE0 TECH_UNKNOWN
 #define SPECENUM_VALUE1 TECH_PREREQS_KNOWN
 #define SPECENUM_VALUE2 TECH_KNOWN

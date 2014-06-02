@@ -349,9 +349,9 @@ struct sprite *client_research_sprite(void)
   if (NULL != client.conn.playing && can_client_change_view()) {
     int index = 0;
 
-    if (A_UNSET != player_research_get(client.conn.playing)->researching) {
+    if (A_UNSET != research_get(client_player())->researching) {
       index = (NUM_TILES_PROGRESS
-	       * player_research_get(client.conn.playing)->bulbs_researched)
+               * research_get(client_player())->bulbs_researched)
 	/ (total_bulbs_required(client.conn.playing) + 1);
     }
 

@@ -345,18 +345,18 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
                                     _("None"), 0, 0);
-  } else if (A_UNSET != player_research_get(client.conn.playing)->researching) {
+  } else if (A_UNSET != research_get(client_player())->researching) {
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-		advance_name_researching(client.conn.playing),
-		player_research_get(client.conn.playing)->bulbs_researched,
-		total_bulbs_required(client.conn.playing));
+                advance_name_researching(client_player()),
+                research_get(client_player())->bulbs_researched,
+                total_bulbs_required(client_player()));
   } else {
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-		advance_name_researching(client.conn.playing),
-		player_research_get(client.conn.playing)->bulbs_researched,
-		0);
+                advance_name_researching(client_player()),
+                research_get(client_player())->bulbs_researched,
+                0);
   }
 
   copy_chars_to_string16(pBuf->info_label, cBuf);

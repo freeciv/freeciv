@@ -3541,7 +3541,7 @@ static void sg_load_player_main(struct loaddata *loading,
   int i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
-  struct player_research *research;
+  struct research *research;
   const char *level;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -3726,7 +3726,7 @@ static void sg_load_player_main(struct loaddata *loading,
   init_tech(plr, FALSE);
 
   /* Load research related data. */
-  research = player_research_get(plr);
+  research = research_get(plr);
 
   research->tech_goal =
     technology_load(loading->file, "player%d.research.goal", plrno);
@@ -4035,25 +4035,25 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.rates.luxury", plrno);
 
   technology_save(saving->file, "player%d.research.goal",
-                  plrno, player_research_get(plr)->tech_goal);
+                  plrno, research_get(plr)->tech_goal);
   secfile_insert_int(saving->file, plr->bulbs_last_turn,
                      "player%d.research.bulbs_last_turn", plrno);
   secfile_insert_int(saving->file,
-                     player_research_get(plr)->techs_researched,
+                     research_get(plr)->techs_researched,
                      "player%d.research.techs", plrno);
-  secfile_insert_int(saving->file, player_research_get(plr)->future_tech,
+  secfile_insert_int(saving->file, research_get(plr)->future_tech,
                      "player%d.research.futuretech", plrno);
   secfile_insert_int(saving->file,
-                     player_research_get(plr)->bulbs_researching_saved,
+                     research_get(plr)->bulbs_researching_saved,
                      "player%d.research.bulbs_before", plrno);
   technology_save(saving->file, "player%d.research.saved", plrno,
-                  player_research_get(plr)->researching_saved);
+                  research_get(plr)->researching_saved);
   secfile_insert_int(saving->file,
-                     player_research_get(plr)->bulbs_researched,
+                     research_get(plr)->bulbs_researched,
                      "player%d.research.bulbs", plrno);
   technology_save(saving->file, "player%d.research.now", plrno,
-                  player_research_get(plr)->researching);
-  secfile_insert_bool(saving->file, player_research_get(plr)->got_tech,
+                  research_get(plr)->researching);
+  secfile_insert_bool(saving->file, research_get(plr)->got_tech,
                       "player%d.research.got_tech", plrno);
 
   /* Save technology lists as bytevector. Note that technology order is

@@ -1156,7 +1156,7 @@ void handle_edit_player(struct connection *pc,
   struct player *pplayer;
   bool changed = FALSE, update_research = FALSE;
   struct nation_type *pnation;
-  struct player_research *research;
+  struct research *research;
   enum tech_state known;
 
   pplayer = player_by_number(packet->id);
@@ -1167,7 +1167,7 @@ void handle_edit_player(struct connection *pc,
     return;
   }
 
-  research = player_research_get(pplayer);
+  research = research_get(pplayer);
 
 
   /* Handle player name change. */
@@ -1216,7 +1216,7 @@ void handle_edit_player(struct connection *pc,
   }
 
   /* Handle a change in known inventions. */
-  /* FIXME: Modifies struct player_research directly. */
+  /* FIXME: Modifies struct research directly. */
   advance_index_iterate(A_FIRST, tech) {
     known = player_invention_state(pplayer, tech);
     if ((packet->inventions[tech] && known == TECH_KNOWN)
@@ -1258,7 +1258,7 @@ void handle_edit_player(struct connection *pc,
 
     player_research_update(pplayer);
 
-    /* FIXME: Modifies struct player_research directly. */
+    /* FIXME: Modifies struct research directly. */
 
     current = research->researching;
     goal = research->tech_goal;

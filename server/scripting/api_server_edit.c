@@ -267,11 +267,11 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
      * to pass correct reason to emitted signal. */
     if (game.info.free_tech_method == FTM_CHEAPEST) {
       id = pick_cheapest_tech(pplayer);
-    } else if (player_research_get(pplayer)->researching == A_UNSET
+    } else if (research_get(pplayer)->researching == A_UNSET
                || game.info.free_tech_method == FTM_RANDOM) {
       id = pick_random_tech(pplayer);
     } else {
-      id = player_research_get(pplayer)->researching;
+      id = research_get(pplayer)->researching;
     }
   }
 

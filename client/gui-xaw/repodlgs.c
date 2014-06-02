@@ -198,7 +198,7 @@ void create_science_dialog(bool make_modal)
   int num_list, j = 0, flag = 0;
 
   if (NULL != client.conn.playing) {
-    struct player_research *research = player_research_get(client.conn.playing);
+    struct research *research = research_get(client_player());
 
     if (research->researching == A_UNSET) {
       fc_snprintf(current_text, sizeof(current_text),
@@ -469,7 +469,7 @@ void real_science_report_dialog_update(void)
     static const char *tech_list_names_ptrs[A_LAST + 1];
     int j, flag;
     const char *report_title;
-    struct player_research *research = player_research_get(client.conn.playing);
+    struct research *research = research_get(client_player());
     
     /* TRANS: Research report title */
     report_title = get_report_title_plus(_("Research"), science_dialog_text());

@@ -253,18 +253,18 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  XtNlabel, buf,
 			  NULL);
 
-  switch (player_research_get(pdialog->pplayer)->researching) {
+  switch (research_get(pdialog->pplayer)->researching) {
   case A_UNKNOWN:
     fc_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
     break;
   case A_UNSET:
     fc_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
-		player_research_get(pdialog->pplayer)->bulbs_researched);
+                research_get(pdialog->pplayer)->bulbs_researched);
     break;
   default:
     fc_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advance_name_researching(pdialog->pplayer),
-		player_research_get(pdialog->pplayer)->bulbs_researched,
+                research_get(pdialog->pplayer)->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
     break;
   };

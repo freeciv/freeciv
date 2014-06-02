@@ -320,7 +320,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
          * - given AI lots of techs for gold/cities etc.
          * - AI losses tech due to high upkeep. 
          * FIXME: Is there a better way for this? */
-        struct player_research *research = player_research_get(pplayer);
+        struct research *research = research_get(pplayer);
         int limit = MAX(1, research->tech_upkeep
                            / research->techs_researched);
 
@@ -601,10 +601,10 @@ void dai_treaty_evaluate(struct ai_type *ait, struct player *pplayer,
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
             || game.info.tech_cost_style != 0
-            || pclause->value == player_research_get(pplayer)->tech_goal
-            || pclause->value == player_research_get(pplayer)->researching
-            || is_tech_a_req_for_goal(pplayer, pclause->value, 
-				player_research_get(pplayer)->tech_goal))) {
+            || pclause->value == research_get(pplayer)->tech_goal
+            || pclause->value == research_get(pplayer)->researching
+            || is_tech_a_req_for_goal(pplayer, pclause->value,
+                                      research_get(pplayer)->tech_goal))) {
       /* We accept the above list of clauses as gifts, even if we are
        * at war. We do not accept tech or cities since these can be used
        * against us, unless we know that we want this tech anyway, or
@@ -820,8 +820,8 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
   fear += (target->economic.gold / 5000) * city_list_size(target->cities);
 
   /* Tech lead is worrisome. FIXME: Only consider 'military' techs. */
-  fear += MAX(player_research_get(target)->techs_researched
-              - player_research_get(pplayer)->techs_researched, 0) * 100;
+  fear += MAX(research_get(target)->techs_researched
+              - research_get(pplayer)->techs_researched, 0) * 100;
 
   /* Spacerace loss we will not allow! */
   if (ship->state >= SSHIP_STARTED) {

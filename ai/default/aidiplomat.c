@@ -231,8 +231,8 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
       gain_incite *= SHIELD_WEIGHTING; /* WAG cost to take city otherwise */
       gain_incite -= incite_cost * TRADE_WEIGHTING;
     }
-    if ((player_research_get(city_owner(acity))->techs_researched
-	 < player_research_get(pplayer)->techs_researched)
+    if ((research_get(city_owner(acity))->techs_researched
+         < research_get(pplayer)->techs_researched)
 	&& (is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
 				       pplayer, acity)
 	    || is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
@@ -467,8 +467,8 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                        pplayer, acity))
         || (acity->server.steal == 0
             && !dipldef && can_steal
-            && (player_research_get(pplayer)->techs_researched
-                < player_research_get(aplayer)->techs_researched))
+            && (research_get(pplayer)->techs_researched
+                < research_get(aplayer)->techs_researched))
         || (incite_cost < (pplayer->economic.gold - expenses)
             && can_incite && !dipldef)) {
       if (!is_city_surrounded_by_our_spies(pplayer, acity)) {

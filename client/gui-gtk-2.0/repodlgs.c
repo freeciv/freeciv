@@ -327,7 +327,7 @@ static void science_report_redraw(struct science_report *preport)
                          preport->button_show_all)));
 
   if (client_has_player()) {
-    researching = player_research_get(client_player())->researching;
+    researching = research_get(client_player())->researching;
   } else {
     researching = A_UNSET;
   }
@@ -358,7 +358,7 @@ static void science_report_update(struct science_report *preport)
   GtkListStore *store;
   GtkTreeIter iter;
   GList *sorting_list, *item;
-  struct player_research *presearch = player_research_get(client_player());
+  struct research *presearch = research_get(client_player());
   const char *text;
   double pct;
   Tech_type_id tech;
@@ -466,7 +466,7 @@ static void science_report_current_callback(GtkComboBox *combo,
     dsend_packet_player_research(&client.conn, tech);
   }
   /* Revert, or we will be not synchron with the server. */
-  science_report_combo_set_active(combo, player_research_get
+  science_report_combo_set_active(combo, research_get
                                   (client_player())->researching);
 }
 
@@ -499,7 +499,7 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
     dsend_packet_player_tech_goal(&client.conn, tech);
   }
   /* Revert, or we will be not synchron with the server. */
-  science_report_combo_set_active(combo, player_research_get
+  science_report_combo_set_active(combo, research_get
                                   (client_player())->tech_goal);
 }
 
@@ -633,8 +633,8 @@ static void science_report_free(struct science_report *preport)
 ****************************************************************************/
 void science_report_dialog_popup(bool raise)
 {
-  struct player_research *presearch =
-      (client_has_player() ? player_research_get(client_player()) : NULL);
+  struct research *presearch =
+      (client_has_player() ? research_get(client_player()) : NULL);
 
   if (NULL == science_report.shell) {
     science_report_init(&science_report);

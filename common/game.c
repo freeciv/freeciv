@@ -440,7 +440,7 @@ void game_init(void)
   game_ruleset_init();
   idex_init();
   cm_init();
-  player_researches_init();
+  researches_init();
 }
 
 /****************************************************************************
