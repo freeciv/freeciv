@@ -329,7 +329,7 @@ value   = 5
 
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
-value   = 4
+value   = 3
 
 [effect_republic]
 type    = "Make_Content_Mil"
