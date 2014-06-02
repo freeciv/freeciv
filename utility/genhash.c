@@ -75,6 +75,7 @@
 struct genhash_entry {
   void *key;
   void *data;
+  genhash_val_t hash_val;
   struct genhash_entry *next;
 };
 
@@ -351,7 +352,6 @@ static void genhash_resize_table(struct genhash *pgenhash,
 {
   struct genhash_entry **new_buckets, **bucket, **end, **slot;
   struct genhash_entry *iter, *next;
-  genhash_val_fn_t key_val_func = pgenhash->key_val_func;
 
   fc_assert(new_nbuckets >= pgenhash->num_entries);
 
@@ -361,7 +361,7 @@ static void genhash_resize_table(struct genhash *pgenhash,
   end = bucket + pgenhash->num_buckets;
   for (; bucket < end; bucket++) {
     for (iter = *bucket; NULL != iter; iter = next) {
-      slot = new_buckets + (key_val_func(iter->key) % new_nbuckets);
+      slot = new_buckets + (iter->hash_val % new_nbuckets);
       next = iter->next;
       iter->next = *slot;
       *slot = iter;
@@ -424,14 +424,16 @@ static void genhash_maybe_resize(struct genhash *pgenhash, bool expandingp)
   it should go if it is to be a new key.
 ****************************************************************************/
 static inline struct genhash_entry **
-genhash_slot_lookup(const struct genhash *pgenhash, const void *key)
+genhash_slot_lookup(const struct genhash *pgenhash,
+                    const void *key,
+                    genhash_val_t hash_val)
 {
   struct genhash_entry **slot;
 
-  for (slot = (pgenhash->buckets
-               + (pgenhash->key_val_func(key) % pgenhash->num_buckets));
+  for (slot = (pgenhash->buckets + (hash_val % pgenhash->num_buckets));
        NULL != *slot; slot = &(*slot)->next) {
-    if (pgenhash->key_comp_func((*slot)->key, key)) {
+    if (hash_val == (*slot)->hash_val
+        && pgenhash->key_comp_func((*slot)->key, key)) {
       return slot;
     }
   }
@@ -472,12 +474,14 @@ static inline void genhash_slot_get(struct genhash_entry *const *slot,
 ****************************************************************************/
 static inline void genhash_slot_create(struct genhash *pgenhash,
                                        struct genhash_entry **slot,
-                                       const void *key, const void *data)
+                                       const void *key, const void *data,
+                                       genhash_val_t hash_val)
 {
   struct genhash_entry *entry = fc_malloc(sizeof(*entry));
 
   entry->key = pgenhash->key_copy_func(key);
   entry->data = pgenhash->data_copy_func(data);
+  entry->hash_val = hash_val;
   entry->next = *slot;
   *slot = entry;
 }
@@ -572,8 +576,10 @@ struct genhash *genhash_copy(const struct genhash *pgenhash)
 
   for (; src_bucket < end; src_bucket++, dest_bucket++) {
     dest_slot = dest_bucket;
-    for (src_iter = *src_bucket; NULL != src_iter; src_iter = src_iter->next) {
-      genhash_slot_create(new_genhash, dest_slot, src_iter->key, src_iter->data);
+    for (src_iter = *src_bucket; NULL != src_iter;
+         src_iter = src_iter->next) {
+      genhash_slot_create(new_genhash, dest_slot, src_iter->key,
+                          src_iter->data, src_iter->hash_val);
       dest_slot = &(*dest_slot)->next;
     }
   }
@@ -610,15 +616,17 @@ bool genhash_insert(struct genhash *pgenhash, const void *key,
                     const void *data)
 {
   struct genhash_entry **slot;
+  genhash_val_t hash_val;
 
   fc_assert_ret_val(NULL != pgenhash, FALSE);
 
   genhash_maybe_expand(pgenhash);
-  slot = genhash_slot_lookup(pgenhash, key);
+  hash_val = pgenhash->key_val_func(key);
+  slot = genhash_slot_lookup(pgenhash, key, hash_val);
   if (NULL != *slot) {
     return FALSE;
   } else {
-    genhash_slot_create(pgenhash, slot, key, data);
+    genhash_slot_create(pgenhash, slot, key, data, hash_val);
     pgenhash->num_entries++;
     return TRUE;
   }
@@ -649,12 +657,14 @@ bool genhash_replace_full(struct genhash *pgenhash, const void *key,
                           void **old_pdata)
 {
   struct genhash_entry **slot;
+  genhash_val_t hash_val;
 
   fc_assert_action(NULL != pgenhash,
                    genhash_default_get(old_pkey, old_pdata); return FALSE);
 
   genhash_maybe_expand(pgenhash);
-  slot = genhash_slot_lookup(pgenhash, key);
+  hash_val = pgenhash->key_val_func(key);
+  slot = genhash_slot_lookup(pgenhash, key, hash_val);
   if (NULL != *slot) {
     /* Replace. */
     genhash_slot_get(slot, old_pkey, old_pdata);
@@ -663,7 +673,7 @@ bool genhash_replace_full(struct genhash *pgenhash, const void *key,
   } else {
     /* Insert. */
     genhash_default_get(old_pkey, old_pdata);
-    genhash_slot_create(pgenhash, slot, key, data);
+    genhash_slot_create(pgenhash, slot, key, data, hash_val);
     pgenhash->num_entries++;
     return FALSE;
   }
@@ -681,7 +691,7 @@ bool genhash_lookup(const struct genhash *pgenhash, const void *key,
   fc_assert_action(NULL != pgenhash,
                    genhash_default_get(NULL, pdata); return FALSE);
 
-  slot = genhash_slot_lookup(pgenhash, key);
+  slot = genhash_slot_lookup(pgenhash, key, pgenhash->key_val_func(key));
   if (NULL != *slot) {
     genhash_slot_get(slot, NULL, pdata);
     return TRUE;
@@ -716,7 +726,7 @@ bool genhash_remove_full(struct genhash *pgenhash, const void *key,
                    return FALSE);
 
   genhash_maybe_shrink(pgenhash);
-  slot = genhash_slot_lookup(pgenhash, key);
+  slot = genhash_slot_lookup(pgenhash, key, pgenhash->key_val_func(key));
   if (NULL != *slot) {
     genhash_slot_get(slot, deleted_pkey, deleted_pdata);
     genhash_slot_free(pgenhash, slot);
@@ -775,7 +785,7 @@ bool genhashs_are_equal_full(const struct genhash *pgenhash1,
   max1 = bucket1 + pgenhash1->num_buckets;
   for (; bucket1 < max1; bucket1++) {
     for (iter1 = *bucket1; NULL != iter1; iter1 = iter1->next) {
-      slot2 = genhash_slot_lookup(pgenhash2, iter1->key);
+      slot2 = genhash_slot_lookup(pgenhash2, iter1->key, iter1->hash_val);
       if (NULL == *slot2
           || !data_comp_func(iter1->data, (*slot2)->data)) {
         return FALSE;
