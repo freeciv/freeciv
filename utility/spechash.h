@@ -139,10 +139,10 @@ extern "C" {
 
 /* Default functions. */
 #ifndef SPECHASH_KEY_VAL
-#define SPECHASH_KEY_VAL genhash_ptr_val_func
+#define SPECHASH_KEY_VAL NULL
 #endif
 #ifndef SPECHASH_KEY_COMP
-#define SPECHASH_KEY_COMP genhash_ptr_comp_func
+#define SPECHASH_KEY_COMP NULL
 #endif
 #ifndef SPECHASH_KEY_COPY
 #define SPECHASH_KEY_COPY NULL

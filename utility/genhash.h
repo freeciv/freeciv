@@ -46,11 +46,6 @@ bool genhash_str_comp_func(const void *vkey1, const void *vkey2);
 void *genhash_str_copy_func(const void *vkey);
 void genhash_str_free_func(void *vkey);
 
-/* Appropriate for void pointers, integers or casted longs, used as keys
- * directly instead of by reference. */
-genhash_val_t genhash_ptr_val_func(const void *vkey);
-bool genhash_ptr_comp_func(const void *vkey1, const void *vkey2);
-
 
 /* General functions: */
 struct genhash *genhash_new(genhash_val_fn_t key_val_func,
