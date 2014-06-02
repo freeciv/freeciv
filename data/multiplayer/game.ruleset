@@ -17,6 +17,9 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; Ruleset name
 name = _("Multiplayer ruleset")
 
+; There's no separate versioning in rulesets part of main freeciv distribution
+;version = ""
+
 ; Description of the ruleset
 description = _("\
 You are playing Freeciv with rules designed for multiplayer gaming. \

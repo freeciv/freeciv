@@ -20,6 +20,9 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; Ruleset name
 name = _("Experimental ruleset")
 
+; There's no separate versioning in rulesets part of main freeciv distribution
+;version = ""
+
 ; Description of the ruleset
 description = _("\
 You are playing with the experimental ruleset. This showcases new or \

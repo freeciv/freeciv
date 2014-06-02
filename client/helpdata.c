@@ -2358,25 +2358,54 @@ void boot_help_texts(struct player *pplayer)
                         Q_(HELP_RULESET_ITEM));
             pitem->topic = fc_strdup(name);
             if (game.control.description[0] != '\0') {
-              int len = strlen(_(game.control.name))
-                + strlen("\n\n")
-                + strlen(_(game.control.description))
-                + 1;
+              if (game.control.version[0] != '\0') {
+                int len = strlen(_(game.control.name))
+                  + strlen(" ")
+                  + strlen(game.control.version)
+                  + strlen("\n\n")
+                  + strlen(_(game.control.description))
+                  + 1;
 
-              pitem->text = fc_malloc(len);
-              fc_snprintf(pitem->text, len, "%s\n\n%s",
-                          _(game.control.name), _(game.control.description));
+                pitem->text = fc_malloc(len);
+                fc_snprintf(pitem->text, len, "%s %s\n\n%s",
+                            _(game.control.name), game.control.version,
+                            _(game.control.description));
+              } else {
+                int len = strlen(_(game.control.name))
+                  + strlen("\n\n")
+                  + strlen(_(game.control.description))
+                  + 1;
+
+                pitem->text = fc_malloc(len);
+                fc_snprintf(pitem->text, len, "%s\n\n%s",
+                            _(game.control.name), _(game.control.description));
+              }
             } else {
               const char *nodesc = _("Current ruleset contains no description.");
-              int len = strlen(_(game.control.name))
-                + strlen("\n\n")
-                + strlen(nodesc)
-                + 1;
 
-              pitem->text = fc_malloc(len);
-              fc_snprintf(pitem->text, len, "%s\n\n%s",
-                          _(game.control.name),
-                          nodesc);
+              if (game.control.version[0] != '\0') {
+                int len = strlen(_(game.control.name))
+                  + strlen(" ")
+                  + strlen(game.control.version)
+                  + strlen("\n\n")
+                  + strlen(nodesc)
+                  + 1;
+
+                pitem->text = fc_malloc(len);
+                fc_snprintf(pitem->text, len, "%s %s\n\n%s",
+                            _(game.control.name), game.control.version,
+                            nodesc);
+              } else {
+                int len = strlen(_(game.control.name))
+                  + strlen("\n\n")
+                  + strlen(nodesc)
+                  + 1;
+
+                pitem->text = fc_malloc(len);
+                fc_snprintf(pitem->text, len, "%s\n\n%s",
+                            _(game.control.name),
+                            nodesc);
+              }
             }
             help_list_append(help_nodes, pitem);
             break;

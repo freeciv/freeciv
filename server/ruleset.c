@@ -4890,6 +4890,15 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   /* Ruleset/modpack name found */
   sz_strlcpy(game.control.name, text);
 
+  text = secfile_lookup_str_default(file, "", "about.version");
+  if (text[0] != '\0') {
+    /* Ruleset/modpack version found */
+    sz_strlcpy(game.control.version, text);
+  } else {
+    /* No version information */
+    game.control.version[0] = '\0';
+  }
+
   text = secfile_lookup_str_default(file, "", "about.description");
   if (text[0] != '\0') {
     /* Ruleset/modpack description found */

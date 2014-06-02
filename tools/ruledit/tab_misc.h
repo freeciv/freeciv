@@ -35,6 +35,7 @@ class tab_misc : public QWidget
   private:
     ruledit_gui *ui;
     QLineEdit *name;
+    QLineEdit *version;
     QLineEdit *savedir;
 };
 
