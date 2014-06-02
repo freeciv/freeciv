@@ -445,25 +445,39 @@ bool building_has_effect(const struct impr_type *pimprove,
 
 /**************************************************************************
   Return TRUE iff any of the disabling requirements for this effect are
-  active (an effect is active if all of its enabling requirements and
-  none of its disabling ones are active).
+  active, which would prevent it from taking effect.
+  (Assumes that any requirement specified in the ruleset with a negative
+  sense is an impediment.)
 **************************************************************************/
-bool is_effect_disabled(const struct player *target_player,
-			const struct player *other_player,
-		        const struct city *target_city,
-		        const struct impr_type *target_building,
-		        const struct tile *target_tile,
-			const struct unit_type *target_unittype,
-			const struct output_type *target_output,
-			const struct specialist *target_specialist,
-		        const struct effect *peffect,
-                        const enum   req_problem_type prob_type)
+bool is_effect_prevented(const struct player *target_player,
+                         const struct player *other_player,
+                         const struct city *target_city,
+                         const struct impr_type *target_building,
+                         const struct tile *target_tile,
+                         const struct unit_type *target_unittype,
+                         const struct output_type *target_output,
+                         const struct specialist *target_specialist,
+                         const struct effect *peffect,
+                         const enum   req_problem_type prob_type)
 {
+  requirement_list_iterate(peffect->reqs, preq) {
+    /* Only check present=FALSE requirements; these will return _FALSE_
+     * from is_req_active() if met, and need reversed prob_type */
+    if (!preq->present
+        && !is_req_active(target_player, other_player, target_city,
+                          target_building, target_tile, target_unittype,
+                          target_output, target_specialist,
+                          preq, REVERSED_RPT(prob_type))) {
+      return TRUE;
+    }
+  } requirement_list_iterate_end;
   requirement_list_iterate(peffect->nreqs, preq) {
-    if (is_req_active(target_player, other_player, target_city,
-                      target_building, target_tile, target_unittype,
-                      target_output, target_specialist,
-		      preq, prob_type)) {
+    /* Only check present=TRUE nreqs */
+    if (preq->present
+        && is_req_active(target_player, other_player, target_city,
+                         target_building, target_tile, target_unittype,
+                         target_output, target_specialist,
+                         preq, prob_type)) {
       return TRUE;
     }
   } requirement_list_iterate_end;
@@ -471,36 +485,9 @@ bool is_effect_disabled(const struct player *target_player,
 }
 
 /**************************************************************************
-  Return TRUE iff all of the enabling requirements for this effect are
-  active (an effect is active if all of its enabling requirements and
-  none of its disabling ones are active).
-**************************************************************************/
-static bool is_effect_enabled(const struct player *target_player,
-			      const struct player *other_player,
-			      const struct city *target_city,
-			      const struct impr_type *target_building,
-			      const struct tile *target_tile,
-			      const struct unit_type *target_unittype,
-			      const struct output_type *target_output,
-			      const struct specialist *target_specialist,
-			      const struct effect *peffect,
-                              const enum   req_problem_type prob_type)
-{
-  requirement_list_iterate(peffect->reqs, preq) {
-    if (!is_req_active(target_player, other_player, target_city,
-                       target_building, target_tile, target_unittype,
-                       target_output, target_specialist,
-		       preq, prob_type)) {
-      return FALSE;
-    }
-  } requirement_list_iterate_end;
-  return TRUE;
-}
-
-/**************************************************************************
   Is the effect active at a certain target (player, city or building)?
-
-  This checks whether an effect's requirements are met.
+  An effect is active if all of its enabling requirements and none of its
+  disabling ones are met.
 
   target gives the type of the target
   (player,city,building,tile) give the exact target
@@ -517,15 +504,26 @@ static bool is_effect_active(const struct player *target_player,
 			     const struct effect *peffect,
                              const enum   req_problem_type prob_type)
 {
-  /* Reversed prob_type when checking disabling effects */
-  return is_effect_enabled(target_player, other_player, target_city,
-                           target_building, target_tile, target_unittype,
-                           target_output, target_specialist,
-			   peffect, prob_type)
-    && !is_effect_disabled(target_player, other_player, target_city,
-                           target_building, target_tile, target_unittype,
-                           target_output, target_specialist,
-			   peffect, REVERSED_RPT(prob_type));
+  requirement_list_iterate(peffect->reqs, preq) {
+    /* Requirements ANDed together => any unmet requirement disables
+     * effect */
+    if (!is_req_active(target_player, other_player, target_city,
+                       target_building, target_tile, target_unittype,
+                       target_output, target_specialist,
+                       preq, prob_type)) {
+      return FALSE;
+    }
+  } requirement_list_iterate_end;
+  requirement_list_iterate(peffect->nreqs, preq) {
+    /* Reversed prob_type when checking disabling effects */
+    if (is_req_active(target_player, other_player, target_city,
+                      target_building, target_tile, target_unittype,
+                      target_output, target_specialist,
+                      preq, REVERSED_RPT(prob_type))) {
+      return FALSE;
+    }
+  } requirement_list_iterate_end;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -556,10 +554,10 @@ bool is_building_replaced(const struct city *pcity,
      * checked depends on the range of the effect. */
     /* Prob_type is not reversed here. disabled is equal to replaced, not
      * reverse */
-    if (!is_effect_disabled(city_owner(pcity), NULL, pcity,
-			    pimprove,
-			    NULL, NULL, NULL, NULL,
-			    peffect, prob_type)) {
+    if (!is_effect_prevented(city_owner(pcity), NULL, pcity,
+                             pimprove,
+                             NULL, NULL, NULL, NULL,
+                             peffect, prob_type)) {
       return FALSE;
     }
   } effect_list_iterate_end;

@@ -1920,11 +1920,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     bool present = TRUE;
     bool impossible_to_get = FALSE;
 
-    if (is_effect_disabled(pplayer, NULL, pcity, pimprove,
-			   NULL, NULL, NULL, NULL,
-			   peffect, RPT_CERTAIN)) {
-      /* We believe that effect if disabled only if there is no change that it
-       * is not. This should lead AI using wider spectrum of improvements.
+    if (is_effect_prevented(pplayer, NULL, pcity, pimprove,
+                            NULL, NULL, NULL, NULL,
+                            peffect, RPT_CERTAIN)) {
+      /* We believe that effect is disabled only if there is no chance that it
+       * is not. This should lead to AI using wider spectrum of improvements.
        *
        * TODO: Select between RPT_POSSIBLE and RPT_CERTAIN dynamically
        * depending how much AI can take risks. */
