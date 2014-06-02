@@ -133,7 +133,7 @@ srvlibs = \
  $(top_builddir)/server/scripting/libscripting_server.la
 
 libfreeciv_srv_la_LIBADD = \
- $(srvlibs) \
+ $(srvlibs) $(SRV_LIB_LIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
 
 freeciv_server_LDFLAGS = $(GGZDMOD_LDFLAGS)

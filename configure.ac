@@ -953,7 +953,8 @@ if test "x$server" = "xyes"; then
 
     dnl Readline library and header files.
     FC_HAS_READLINE()
-    AC_SUBST(SERVER_LIBS)
+    AC_SUBST([SERVER_LIBS])
+    AC_SUBST([SRV_LIB_LIBS])
 fi
 
 AC_CHECK_LIB(nls,main)

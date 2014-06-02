@@ -124,7 +124,7 @@ make readline library pass the test.)
                FC_CHECK_READLINE_RUNTIME($HAVE_TERMCAP,
                          have_new_readline_lib=1, have_new_readline_lib=0)
                if test "$have_new_readline_lib" = "1"; then
-                   SERVER_LIBS="-lreadline $SERVER_LIBS $HAVE_TERMCAP"
+                   SRV_LIB_LIBS="-lreadline $SRV_LIB_LIBS $HAVE_TERMCAP"
                    AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE, 1, [Readline support])
                    AC_DEFINE_UNQUOTED(HAVE_NEWLIBREADLINE, 1, [Modern readline])
                else
@@ -141,7 +141,7 @@ Configuring server without readline support.)
                    FC_CHECK_READLINE_RUNTIME($HAVE_TERMCAP,
                        have_readline_lib=1, have_readline_lib=0)
                    if test "$have_readline_lib" = "1"; then
-                       SERVER_LIBS="-lreadline $SERVER_LIBS $HAVE_TERMCAP"
+                       SRV_LIB_LIBS="-lreadline $SRV_LIB_LIBS $HAVE_TERMCAP"
                        AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE, 1, [Readline support])
                    else
                        if test "$WITH_READLINE" = "yes"; then
