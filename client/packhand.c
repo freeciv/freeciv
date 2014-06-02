@@ -385,6 +385,9 @@ void handle_unit_remove(int unit_id)
   bool need_economy_report_update;
 
   if (!punit) {
+    log_error("Server wants us to remove unit id %d, "
+              "but we don't know about this unit!",
+              unit_id);
     return;
   }
 
@@ -1674,6 +1677,10 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
       punit->client.transported_by = -1;
 
       client_remove_unit(punit);
+    } else {
+      log_error("Server wants us to move unit id %d out of sight, "
+                "but we don't know about this unit!",
+                packet->id);
     }
     return;
   }
