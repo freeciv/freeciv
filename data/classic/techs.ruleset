@@ -12,7 +12,10 @@ description="Default technology data for Freeciv (as Civ2, minus a few)"
 options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
-; Names for custom tech flags.
+; Names for custom tech flags. There can be up to 7 of these.
+; name          = rule name; not translateable, but may be displayed in
+;                 some circumstances
+; helptxt       = displayed in the help for advances with this flag
 ;flags =
 ;  { "name", "helptxt"
 ;  }
@@ -51,7 +54,8 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; and "Never" (never available).  If only one tech is required, 
 ; it should be listed as req1.
 ;
-; Following flag strings are possible
+; As well as custom flags defined above, the following flag strings are
+; possible:
 ;
 ; "Bonus_Tech" = player gets extra tech if rearched first
 ; "Bridge"   = "Settler" unit types can build bridges over rivers

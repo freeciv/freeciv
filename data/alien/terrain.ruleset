@@ -5,7 +5,10 @@ description="Alien World tile_type data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
-; Names for custom terrain flags.
+; Names for custom terrain flags. There can be up to 7 of these.
+; name          = rule name; not translateable, but may be displayed in
+;                 some circumstances
+; helptxt       = displayed in the help for terrains with this flag
 flags =
   { "name", "helptxt"
     "Radiating", _("Terrain has alien radiation")
@@ -107,7 +110,8 @@ ocean_resources = TRUE
 ; cooler_drier_result  = result of nuclear winter for dry terrains;
 ;                        see warmer_wetter_result
 ; native_to            = List of unit classes that can move here
-; flags                = General flags for this terrain:
+; flags                = General flags for this terrain. List taken from the
+;                        following, and/or any user flags defined above:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - NoPollution      = Pollution and Fallout will not be put on this terrain type.
 ;   - NoCities         = Cities may not be built or found on this terrain.
