@@ -59,8 +59,9 @@ options="+Freeciv-2.5-ruleset"
 ; As well as custom flags defined above, the following flag strings are
 ; possible:
 ;
-; "Bonus_Tech" = player gets extra tech if rearched first
-; "Bridge"   = "Settler" unit types can build bridges over rivers
+; "Bonus_Tech" = player gets extra tech if reached first
+; "Bridge"   = "Settler" unit types can build roads with "RequiresBridge" flag
+;              over roads with "PreventsOtherRoads" flag (rivers)
 ; "Farmland" = "Settler" unit types can build farmland
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              population by one
