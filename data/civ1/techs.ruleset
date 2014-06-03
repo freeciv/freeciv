@@ -40,7 +40,7 @@ options="+Freeciv-2.5-ruleset"
 ; root_req      = advance required before acquiring this one, inherited
 ;                 by all techs that require this tech in turn unless
 ;                 "None" is given explicitly
-; flags         = special flag strings (see default/techs.ruleset)
+; flags         = special flag strings (see classic/techs.ruleset)
 ; graphic       = icon for technology
 ; graphic_alt   = alternate icon
 ; helptext	= optional help text string (set units ruleset for examples)
