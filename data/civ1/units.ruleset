@@ -14,7 +14,10 @@ description="Civ1-style unit_type data for Freeciv"
 options="+Freeciv-2.5-ruleset"
 
 [control]
-; Names for custom unit type flags.
+; Names for custom unit type flags. There can be up to 16 of these.
+; name          = rule name; not translateable, but may be displayed in
+;                 some circumstances
+; helptxt       = displayed in the help for units with this flag
 ; flags =
 ;   { "name", "helptxt" }
 
@@ -70,7 +73,8 @@ veteran_move_bonus = 0, 0
 ;                      non-native terrain (such as ship in harbour)
 ; hut_behavior  = What happens to huts when unit enters tile: "Normal", "Nothing" or
 ;                 "Frighten"
-; flags         = List of unit class flags
+; flags         = List of unit class flags (from the following list; you
+;                 cannot add custom unit class flags)
 ;
 ; ** Unit class Flags **
 ;
@@ -181,7 +185,8 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below
 ; bonuses.value = value of the bonus. Sum of these is used if multiple apply.
-; flags         = special flag strings
+; flags         = special flag strings; list of built-in flags described below
+;                 and/or user flags defined above
 ;
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
