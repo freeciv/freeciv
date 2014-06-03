@@ -7,7 +7,8 @@
 ; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 
-; See data/default/nations.ruleset for more information.
+; See classic/nations.ruleset and default/nationlist.ruleset for more
+; information.
 
 [datafile]
 description="Civ1-equivalent nations data for Freeciv"
