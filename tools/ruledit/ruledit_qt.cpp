@@ -85,6 +85,17 @@ void ruledit_qt_close()
 }
 
 /**************************************************************************
+  Display requirer list.
+**************************************************************************/
+void ruledit_qt_display_requirers(const char *msg)
+{
+  char buffer[2048];
+
+  fc_snprintf(buffer, sizeof(buffer), R__("Needed by %s"), msg);
+  gui->display_msg(buffer);
+}
+
+/**************************************************************************
   Setup GUI object
 **************************************************************************/
 void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)

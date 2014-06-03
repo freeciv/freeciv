@@ -28,7 +28,9 @@ freeciv_ruledit_SOURCES =	\
 		ruledit_qt.cpp	\
 		ruledit_qt.h	\
 		rulesave.c	\
-		rulesave.h
+		rulesave.h	\
+		validity.c	\
+		validity.h
 
 nodist_freeciv_ruledit_SOURCES = $(MOC_FILES)
 

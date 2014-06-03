@@ -17,6 +17,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "name_translation.h"
+#include "requirements.h"
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME disaster_effect_id
 #define SPECENUM_VALUE0 DE_DESTROY_BUILDING

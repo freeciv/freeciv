@@ -33,6 +33,7 @@
 
 // ruledit
 #include "ruledit_qt.h"
+#include "validity.h"
 
 #include "tab_tech.h"
 
@@ -310,6 +311,10 @@ void tab_tech::name_given()
 **************************************************************************/
 void tab_tech::delete_now()
 {
+  if (is_tech_needed(selected, &ruledit_qt_display_requirers)) {
+    return;
+  }
+
   selected->require[AR_ONE] = A_NEVER;
 
   refresh();

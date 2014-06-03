@@ -4,3 +4,4 @@ tools/ruledit/ruledit.cpp
 tools/ruledit/ruledit_qt.cpp
 tools/ruledit/tab_misc.cpp
 tools/ruledit/tab_tech.cpp
+tools/ruledit/validity.c

@@ -26,6 +26,9 @@ extern "C" {
 #include "fcintl.h"
 #include "support.h"
 
+/* common */
+#include "fc_types.h" /* MAX_LEN_NAME */
+
 /* Don't allow other modules to access directly to the fields. */
 #define vernacular _private_vernacular_
 #define rulename   _private_rulename_

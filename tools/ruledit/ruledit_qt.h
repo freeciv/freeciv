@@ -54,5 +54,6 @@ class ruledit_gui : public QObject
 bool ruledit_qt_setup(int argc, char **argv);
 int ruledit_qt_run();
 void ruledit_qt_close();
+void ruledit_qt_display_requirers(const char *msg);
 
 #endif // FC__RULEDIT_QT_H
