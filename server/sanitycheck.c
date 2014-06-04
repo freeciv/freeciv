@@ -402,7 +402,7 @@ static void check_units(const char *file, const char *function, int line)
         /* Make sure the transporter is on the tile. */
         SANITY_CHECK(same_pos(unit_tile(punit), unit_tile(ptrans)));
 
-        /* Can punit be cargo for its transporter? (recursive check!) */
+        /* Can punit be cargo for its transporter? */
         SANITY_CHECK(unit_transport_check(punit, ptrans));
 
         /* Check that the unit is listed as transported. */
@@ -415,7 +415,6 @@ static void check_units(const char *file, const char *function, int line)
 
           SANITY_CHECK(pcargos != NULL);
           SANITY_CHECK(level < GAME_TRANSPORT_MAX_RECURSIVE);
-          SANITY_CHECK(unit_list_search(pcargos, plevel) != NULL);
 
           /* Check for next level. */
           plevel = ptrans;

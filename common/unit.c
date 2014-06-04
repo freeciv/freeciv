@@ -808,14 +808,7 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Only top-level transporters may be loaded or loaded into. */
-  if (unit_transported(pcargo)
-      || unit_transported(ptrans)) {
-    return FALSE;
-  }
-
-  /* Check iff this is a valid transport. */
-  if (unit_transported(pcargo)
-      && !unit_transport_check(pcargo, ptrans)) {
+  if (unit_transported(pcargo)) {
     return FALSE;
   }
 
@@ -839,8 +832,23 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Make sure there's room in the transporter. */
-  return (get_transporter_occupancy(ptrans)
-	  < get_transporter_capacity(ptrans));
+  if (get_transporter_occupancy(ptrans)
+      >= get_transporter_capacity(ptrans)) {
+    return FALSE;
+  }
+
+  /* Check iff this is a valid transport. */
+  if (!unit_transport_check(pcargo, ptrans)) {
+    return FALSE;
+  }
+
+  /* Check transport depth. */
+  if (GAME_TRANSPORT_MAX_RECURSIVE
+      < 1 + unit_transport_depth(ptrans) + unit_cargo_depth(pcargo)) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /****************************************************************************
@@ -2387,55 +2395,35 @@ struct unit_list *unit_transport_cargo(const struct unit *ptrans)
   return ptrans->transporting;
 }
 
-/*****************************************************************************
-  Returns if pcargo in ptrans is a valid transport.
-*****************************************************************************/
+/****************************************************************************
+  Returns whether 'pcargo' in 'ptrans' is a valid transport. Note that
+  'pcargo' can already be (but doesn't need) loaded into 'ptrans'.
+
+  It may fail if the cargo has the same type of one of the transport
+  (recursively).
+****************************************************************************/
 bool unit_transport_check(const struct unit *pcargo,
                           const struct unit *ptrans)
 {
-  struct unit_list *ptrans_recursive = unit_list_new();
-  /* Get !const unit struct for pcargo. */
-  struct unit *plevel = game_unit_by_number(pcargo->id);
-  bool transport_ok = TRUE;
+  const struct unit_type *cargo_utype = unit_type(pcargo);
+  const struct unit *plevel;
 
-  /* Recursive loop over all transporters up to max level. */
-  while (transport_ok && plevel && unit_list_size(ptrans_recursive)
-                                   < GAME_TRANSPORT_MAX_RECURSIVE) {
-    /* Check if the unit can be transported. If the unit can be transported
-     * by any of the previous transporters, fail. THis disallows to carry
-     * units of one type within the same unit type. */
-    unit_list_iterate(ptrans_recursive, pcargo_recursive) {
-      if (can_unit_transport(pcargo_recursive, plevel)) {
-        transport_ok = FALSE;
-        break;
-      }
-    } unit_list_iterate_end;
-
-    if (!transport_ok) {
-#ifdef DEBUG
-      char buf[512] = "";
-      fc_snprintf(buf, sizeof(buf), "%s [Error] ",
-                  unit_name_translation(plevel));
-      unit_list_iterate(ptrans_recursive, pcargo_recursive) {
-        cat_snprintf(buf, sizeof(buf), " in %s",
-                     unit_name_translation(pcargo_recursive));
-      } unit_list_iterate_end;
-      log_error("Invalid transport at level %d (%s).",
-                unit_list_size(ptrans_recursive), buf);
-#endif /* DEBUG */
-      break;
+  /* Check transporters. */
+  for (plevel = ptrans; NULL != plevel;
+       plevel = unit_transport_get(plevel)) {
+    if (unit_type(plevel) == cargo_utype) {
+      return FALSE;
     }
-
-    /* Insert cargo at the beginning of the list. */
-    unit_list_prepend(ptrans_recursive, plevel);
-
-    /* Check for next level. */
-    plevel = unit_transport_get(plevel);
   }
 
-  unit_list_destroy(ptrans_recursive);
+  /* Check cargo units. */
+  unit_list_iterate(unit_transport_cargo(pcargo), pinnercargo) {
+    if (!unit_transport_check(pinnercargo, ptrans)) {
+      return FALSE;
+    }
+  } unit_list_iterate_end;
 
-  return transport_ok;
+  return TRUE;
 }
 
 /****************************************************************************
@@ -2451,4 +2439,36 @@ bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans)
     }
   }
   return FALSE;
+}
+
+/****************************************************************************
+  Returns the number of unit cargo layers within transport 'ptrans'.
+  Recursive function.
+****************************************************************************/
+int unit_cargo_depth(const struct unit *ptrans)
+{
+  int depth = 0, d;
+
+  unit_list_iterate(unit_transport_cargo(ptrans), pcargo) {
+    d = 1 + unit_cargo_depth(pcargo);
+    if (d > depth) {
+      depth = d;
+    }
+  } unit_list_iterate_end;
+  return depth;
+}
+
+/****************************************************************************
+  Returns the number of unit transport layers which carry unit 'pcargo'.
+****************************************************************************/
+int unit_transport_depth(const struct unit *pcargo)
+{
+  const struct unit *plevel = unit_transport_get(pcargo);
+  int level = 0;
+
+  while (NULL != plevel) {
+    level++;
+    plevel = unit_transport_get(plevel);
+  }
+  return level;
 }
