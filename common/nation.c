@@ -601,7 +601,8 @@ static void nation_init(struct nation_type *pnation)
     pnation->server.parent_nations = nation_list_new();
     pnation->server.conflicts_with = nation_list_new();
     /* server.rgb starts out NULL */
-    pnation->server.traits = fc_calloc(TRAIT_COUNT, sizeof(int));
+    pnation->server.traits = fc_calloc(TRAIT_COUNT,
+                                       sizeof(*pnation->server.traits));
   }
 }
 
