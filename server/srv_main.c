@@ -2129,9 +2129,7 @@ static void generate_players(void)
           && client_can_pick_nation(pnation)
           && NULL == pnation->player
           && (pleader = nation_leader_by_name(pnation, name))) {
-        player_set_nation(pplayer, pnation);
-        pplayer->style = style_of_nation(pnation);
-        pplayer->is_male = nation_leader_is_male(pleader);
+        player_set_nation_full(pplayer, pnation);
         break;
       }
     } allowed_nations_iterate_end;
