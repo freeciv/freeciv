@@ -113,7 +113,6 @@ int main(int argc, char *argv[])
   ui_options = fcmp_parse_cmdline(argc, argv);
 
   if (ui_options != -1) {
-    char verbuf[2048];
     const char *rev_ver = fc_svn_revision();
 
     load_install_info_lists(&fcmp);
