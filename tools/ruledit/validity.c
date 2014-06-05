@@ -46,6 +46,46 @@ static bool universal_in_req_vec(const struct universal *uni,
 }
 
 /**************************************************************************
+  Check if universal is mentioned in the requirement list.
+**************************************************************************/
+static bool universal_in_req_list(const struct universal *uni,
+                                  const struct requirement_list *preqs)
+{
+  requirement_list_iterate(preqs, preq) {
+    if (are_universals_equal(uni, &preq->source)) {
+      return TRUE;
+    }
+  } requirement_list_iterate_end;
+
+  return FALSE;
+}
+
+struct effect_list_cb_data
+{
+  bool needed;
+  struct universal *uni;
+  requirers_cb cb;
+};
+
+/**************************************************************************
+  Callback to check if effect needs universal.
+**************************************************************************/
+static bool effect_list_universal_needed_cb(const struct effect *peffect,
+                                            void *data)
+{
+  struct effect_list_cb_data *cbdata = (struct effect_list_cb_data *)data;
+
+  if (universal_in_req_list(cbdata->uni, peffect->reqs)
+      || universal_in_req_list(cbdata->uni, peffect->nreqs)) {
+    cbdata->cb(R__("Effect"));
+    cbdata->needed = TRUE;
+  }
+
+  /* Always continue to next until all effects checked */
+  return TRUE;
+}
+
+/**************************************************************************
   Check if anything in ruleset needs universal
 **************************************************************************/
 static bool is_universal_needed(struct universal *uni, requirers_cb cb)
@@ -53,6 +93,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
   bool needed = FALSE;
   bool needed_by_music_style = FALSE;
   int i;
+  struct effect_list_cb_data cb_data;
 
   disaster_type_iterate(pdis) {
     if (universal_in_req_vec(uni, &pdis->reqs)) {
@@ -111,7 +152,12 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
     needed = TRUE;
   }
 
-  /* TODO: Effect requirement lists */
+  cb_data.needed = FALSE;
+  cb_data.uni = uni;
+  cb_data.cb = cb;
+
+  iterate_effect_cache(effect_list_universal_needed_cb, &cb_data);
+  needed |= cb_data.needed;
 
   return needed;
 }
