@@ -82,7 +82,7 @@ EXTRA_DIST = \
 
 if CLIENT
 CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
- isophex hex2t stdsounds themes wonders
+ isophex hex2t stdsounds stdmusic themes wonders
 else
 CLIENTDATADIRS = 
 endif

@@ -1492,6 +1492,7 @@ AC_CONFIG_FILES([Makefile
 	  data/isophex/Makefile
 	  data/isotrident/Makefile
 	  data/stdsounds/Makefile
+          data/stdmusic/Makefile
 	  data/default/Makefile
 	  data/classic/Makefile
 	  data/multiplayer/Makefile
