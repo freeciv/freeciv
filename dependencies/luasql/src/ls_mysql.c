@@ -282,7 +282,7 @@ static int cur_close (lua_State *L) {
 ** a reference to it on the cursor structure.
 */
 static void _pushtable (lua_State *L, cur_data *cur, size_t off) {
-	int *ref = (int *)((char *)cur + off);
+        int *ref = (int *)(cur + off/sizeof(int));
 
 	/* If colnames or coltypes do not exist, create both. */
 	if (*ref == LUA_NOREF)
