@@ -23,6 +23,8 @@ dy = 20
 tiles = { "row", "column", "tag"
   0,  0, "specialist.elvis_0"
   0,  1, "specialist.elvis_1"
+  0,  0, "specialist.entertainer_0"
+  0,  1, "specialist.entertainer_1"
   0,  2, "specialist.scientist_0"
   0,  3, "specialist.scientist_1"
   0,  4, "specialist.taxman_0"
