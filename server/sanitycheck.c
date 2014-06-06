@@ -459,11 +459,15 @@ static void check_players(const char *file, const char *function, int line)
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {
-      SANITY_CHECK(player_diplstate_get(pplayer, pplayer2)->type
-                   == player_diplstate_get(pplayer2, pplayer)->type);
-      if (player_diplstate_get(pplayer, pplayer2)->type == DS_CEASEFIRE) {
-        SANITY_CHECK(player_diplstate_get(pplayer, pplayer2)->turns_left
-                     == player_diplstate_get(pplayer2, pplayer)->turns_left);
+      struct player_diplstate *state1 = player_diplstate_get(pplayer, pplayer2);
+      struct player_diplstate *state2 = player_diplstate_get(pplayer2, pplayer);
+
+      SANITY_CHECK(state1->type == state2->type);
+      if (state1->type == DS_CEASEFIRE) {
+        SANITY_CHECK(state1->turns_left == state2->turns_left);
+      }
+      if (state1->type == DS_TEAM) {
+        SANITY_CHECK(players_on_same_team(pplayer, pplayer2));
       }
       if (pplayer->is_alive
           && pplayer2->is_alive
