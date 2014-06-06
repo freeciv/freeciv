@@ -107,10 +107,19 @@ static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action);
 
 #endif /* HAVE_LIBLZMA */
 
+struct mem_fzFILE {
+  bool control;
+  char *buffer;
+  int pos;
+  int size;
+};
+
 struct fz_FILE_s {
   enum fz_method method;
   char mode;
+  bool memory;
   union {
+    struct mem_fzFILE mem;
     FILE *plain;		/* FZ_PLAIN */
 #ifdef HAVE_LIBZ
     gzFile zlib;                 /* FZ_ZLIB */
@@ -151,6 +160,26 @@ static inline bool fz_method_is_valid(enum fz_method method)
                       "Unsupported compress method %d, reverting to plain.",\
                       method), FZ_PLAIN))
 
+
+/***************************************************************
+  Open memory buffer for reading as fz_FILE.
+  If control is TRUE, caller gives up control of the buffer
+  so ioz will free it when fz_FILE closed.
+***************************************************************/
+fz_FILE *fz_from_memory(char *buffer, int size, bool control)
+{
+  fz_FILE *fp;
+
+  fp = (fz_FILE *)fc_malloc(sizeof(*fp));
+  fp->memory = TRUE;
+  fp->u.mem.control = control;
+  fp->u.mem.buffer = buffer;
+  fp->u.mem.pos = 0;
+  fp->u.mem.size = size;
+
+  return fp;
+}
+
 /***************************************************************
   Open file for reading/writing, like fopen.
   Parameters compress_method and compress_level only apply
@@ -171,6 +200,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
   }
 
   fp = (fz_FILE *)fc_malloc(sizeof(*fp));
+  fp->memory = FALSE;
   sz_strlcpy(mode, in_mode);
 
   if (mode[0] == 'w') {
@@ -401,6 +431,7 @@ fz_FILE *fz_from_stream(FILE *stream)
 
   fp = fc_malloc(sizeof(*fp));
   fp->method = FZ_PLAIN;
+  fp->memory = FALSE;
   fp->u.plain = stream;
   return fp;
 }
@@ -418,6 +449,15 @@ int fz_fclose(fz_FILE *fp)
   int error = 0;
 
   fc_assert_ret_val(NULL != fp, 1);
+
+  if (fp->memory) {
+    if (fp->u.mem.control) {
+      FC_FREE(fp->u.mem.buffer);
+    }
+    FC_FREE(fp);
+
+    return 0;
+  }
 
   switch (fz_method_validate(fp->method)) {
 #ifdef HAVE_LIBLZMA
@@ -470,6 +510,42 @@ int fz_fclose(fz_FILE *fp)
 char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 {
   fc_assert_ret_val(NULL != fp, NULL);
+
+  if (fp->memory) {
+    int i, j;
+
+    for (i = fp->u.mem.pos, j = 0;
+         i < fp->u.mem.size && j < size - 1 /* Space for '\0' */
+           && fp->u.mem.buffer[i] != '\n'
+           && (fp->u.mem.buffer[i] != '\r'
+               || fp->u.mem.size == i + 1
+               || fp->u.mem.buffer[i + 1] != '\n'); i++) {
+      buffer[j++] = fp->u.mem.buffer[i];
+    }
+
+    if (j < size - 2) {
+      /* Space for both newline and terminating '\0' */
+      if (i + 1 < fp->u.mem.size 
+          && fp->u.mem.buffer[i] == '\r'
+          && fp->u.mem.buffer[i + 1] == '\n') {
+        i += 2;
+        buffer[j++] = '\n';
+      } else if (i < fp->u.mem.size
+                 && fp->u.mem.buffer[i] == '\n') {
+        i++;
+        buffer[j++] = '\n';
+      }
+    }
+
+    if (j == 0) {
+      return NULL;
+    }
+
+    fp->u.mem.pos = i;
+    buffer[j] = '\0';
+
+    return buffer;
+  }
 
   switch (fz_method_validate(fp->method)) {
 #ifdef HAVE_LIBLZMA
@@ -668,6 +744,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
   va_list ap;
 
   fc_assert_ret_val(NULL != fp, 0);
+  fc_assert_ret_val(!fp->memory, 0);
 
   switch (fz_method_validate(fp->method)) {
 #ifdef HAVE_LIBLZMA
@@ -751,6 +828,10 @@ int fz_ferror(fz_FILE *fp)
 {
   fc_assert_ret_val(NULL != fp, 0);
 
+  if (fp->memory) {
+    return 0;
+  }
+
   switch (fz_method_validate(fp->method)) {
 #ifdef HAVE_LIBLZMA
   case FZ_XZ:
@@ -798,6 +879,7 @@ int fz_ferror(fz_FILE *fp)
 const char *fz_strerror(fz_FILE *fp)
 {
   fc_assert_ret_val(NULL != fp, NULL);
+  fc_assert_ret_val(!fp->memory, NULL);
 
   switch (fz_method_validate(fp->method)) {
 #ifdef HAVE_LIBLZMA

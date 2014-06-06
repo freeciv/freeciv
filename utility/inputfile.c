@@ -237,14 +237,14 @@ struct inputfile *inf_from_file(const char *filename,
   Open the stream, and return an allocated, initialized structure.
   Returns NULL if the file could not be opened.
 ***********************************************************************/
-struct inputfile *inf_from_stream(fz_FILE * stream, datafilename_fn_t datafn)
+struct inputfile *inf_from_stream(fz_FILE *stream, datafilename_fn_t datafn)
 {
   struct inputfile *inf;
 
   fc_assert_ret_val(NULL != stream, NULL);
   inf = fc_malloc(sizeof(*inf));
   init_zeros(inf);
-  
+
   inf->filename = NULL;
   inf->fp = stream;
   inf->datafn = datafn;
