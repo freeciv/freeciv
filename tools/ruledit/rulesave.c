@@ -42,8 +42,8 @@ static struct section_file *create_ruleset_file(const char *rsname,
   struct section_file *sfile = secfile_new(TRUE);
   char buf[500];
 
-  if (rsname != NULL) {
-    fc_snprintf(buf, sizeof(buf), "Template %s %s data for Freeciv", rsname, rstype);
+  if (rsname != NULL && rsname[0] != '\0') {
+    fc_snprintf(buf, sizeof(buf), "%s %s data for Freeciv", rsname, rstype);
   } else {
     fc_snprintf(buf, sizeof(buf), "Template %s data for Freeciv", rstype);
   }
