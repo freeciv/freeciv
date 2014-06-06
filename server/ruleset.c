@@ -549,7 +549,7 @@ static bool lookup_building(struct section_file *file,
 /**************************************************************************
  Lookup a prefix.entry string vector in the file and fill in the
  array, which should hold MAX_NUM_UNIT_LIST items. The output array is
- either U_LAST terminated or full (contains MAX_NUM_UNIT_LIST
+ either NULL terminated or full (contains MAX_NUM_UNIT_LIST
  items). If the vector is not found and the required parameter is set,
  we report it as an error, otherwise we just punt.
 **************************************************************************/
