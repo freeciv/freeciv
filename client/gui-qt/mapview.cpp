@@ -22,6 +22,7 @@
 #include "support.h"
 
 // common
+#include "calendar.h"
 #include "game.h"
 
 // client
@@ -31,7 +32,7 @@
 #include "sprite.h"
 #include "text.h"
 
-// qui-qt
+// gui-qt
 #include "qtg_cxxside.h"
 #include "mapview.h"
 

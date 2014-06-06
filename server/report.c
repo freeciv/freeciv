@@ -29,6 +29,7 @@
 
 /* common */
 #include "achievements.h"
+#include "calendar.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"

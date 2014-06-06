@@ -63,13 +63,13 @@
 
 /* common */
 #include "achievements.h"
+#include "calendar.h"
 #include "capstr.h"
 #include "city.h"
 #include "dataio.h"
 #include "effects.h"
 #include "events.h"
 #include "fc_interface.h"
-#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "mapimg.h"
@@ -82,7 +82,7 @@
 #include "version.h"
 #include "victory.h"
 
-/* generator */
+/* server/generator */
 #include "mapgen.h"
 
 /* server/scripting */

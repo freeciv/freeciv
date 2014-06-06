@@ -261,9 +261,6 @@ void game_reset(void);
 void game_ruleset_init(void);
 void game_ruleset_free(void);
 
-int game_next_year(int);
-void game_advance_year(void);
-
 int civ_population(const struct player *pplayer);
 struct city *game_city_by_name(const char *name);
 struct city *game_city_by_number(int id);
@@ -277,8 +274,6 @@ void initialize_globals(void);
 bool is_player_phase(const struct player *pplayer, int phase);
 
 const char *population_to_text(int thousand_citizen);
-
-const char *textyear(int year);
 
 int generate_save_name(const char *format, char *buf, int buflen,
                        const char *reason);

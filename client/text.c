@@ -27,6 +27,7 @@
 #include "support.h"
 
 /* common */
+#include "calendar.h"
 #include "citizens.h"
 #include "clientutils.h"
 #include "combat.h"

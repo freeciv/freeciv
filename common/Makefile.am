@@ -21,6 +21,8 @@ libfreeciv_la_SOURCES = \
 		base.h		\
 		borders.c	\
 		borders.h	\
+		calendar.c	\
+		calendar.h	\
 		capstr.c	\
 		capstr.h	\
 		citizens.c	\

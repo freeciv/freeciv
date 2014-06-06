@@ -30,6 +30,7 @@
 
 /* common */
 #include "ai.h"
+#include "calendar.h"
 #include "events.h"
 #include "game.h"
 #include "improvement.h"

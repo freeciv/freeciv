@@ -32,6 +32,7 @@
 #include "log.h"
 
 /* common */
+#include "calendar.h"
 #include "game.h"
 #include "goto.h"
 #include "government.h"

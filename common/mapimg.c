@@ -33,6 +33,7 @@
 #include "timing.h"
 
 /* common */
+#include "calendar.h"
 #include "connection.h"
 #include "fc_types.h"
 #include "game.h"

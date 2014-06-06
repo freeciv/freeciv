@@ -16,14 +16,15 @@
 
 /* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "support.h"
 
 /* common */
 #include "achievements.h"
+#include "calendar.h"
 #include "citizens.h"
 #include "culture.h"
+#include "game.h"
 #include "government.h"
 #include "improvement.h"
 #include "player.h"

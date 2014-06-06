@@ -577,69 +577,6 @@ void initialize_globals(void)
   } players_iterate_end;
 }
 
-/***************************************************************
-  Returns the next year in the game.
-***************************************************************/
-int game_next_year(int year)
-{
-  int increase = get_world_bonus(EFT_TURN_YEARS);
-  const int slowdown = (victory_enabled(VC_SPACERACE)
-			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
-
-  if (game.info.year_0_hack) {
-    /* hacked it to get rid of year 0 */
-    year = 0;
-    game.info.year_0_hack = FALSE;
-  }
-
-    /* !McFred: 
-       - want year += 1 for spaceship.
-    */
-
-  /* test game with 7 normal AI's, gen 4 map, foodbox 10, foodbase 0: 
-   * Gunpowder about 0 AD
-   * Railroad  about 500 AD
-   * Electricity about 1000 AD
-   * Refining about 1500 AD (212 active units)
-   * about 1750 AD
-   * about 1900 AD
-   */
-
-  /* Note the slowdown operates even if Enable_Space is not active.  See
-   * README.effects for specifics. */
-  if (slowdown >= 3) {
-    if (increase > 1) {
-      increase = 1;
-    }
-  } else if (slowdown >= 2) {
-    if (increase > 2) {
-      increase = 2;
-    }
-  } else if (slowdown >= 1) {
-    if (increase > 5) {
-      increase = 5;
-    }
-  }
-
-  year += increase;
-
-  if (year == 0 && game.info.calendar_skip_0) {
-    year = 1;
-    game.info.year_0_hack = TRUE;
-  }
-
-  return year;
-}
-
-/***************************************************************
-  Advance the game year.
-***************************************************************/
-void game_advance_year(void)
-{
-  game.info.year = game_next_year(game.info.year);
-  game.info.turn++;
-}
-
 /**************************************************************************
   Return TRUE if it is this player's phase.
   NB: The meaning of the 'phase' argument must match its use in the
@@ -682,27 +619,8 @@ const char *population_to_text(int thousand_citizen)
   return big_int_to_text(thousand_citizen, game.info.pop_report_zeroes - 1);
 }
 
-/****************************************************************************
-  Produce a statically allocated textual representation of the given
-  year.
-****************************************************************************/
-const char *textyear(int year)
-{
-  static char y[32];
-  if (year < 0) {
-    /* TRANS: <year> <label> -> "1000 BC" */
-    fc_snprintf(y, sizeof(y), _("%d %s"), -year,
-                game.info.negative_year_label);
-  } else {
-    /* TRANS: <year> <label> -> "1000 AD" */
-    fc_snprintf(y, sizeof(y), _("%d %s"), year,
-                game.info.positive_year_label);
-  }
-  return y;
-}
-
 /**************************************************************************
-  Return a string conaining the save year.
+  Return a string containing the save year.
 **************************************************************************/
 static char *year_suffix(void)
 {
