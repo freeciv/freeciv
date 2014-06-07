@@ -84,8 +84,11 @@ veteran_move_bonus = 0, 0
 ; "CanOccupyCity" = Military units of this class can occupy enemy cities
 ; "Missile"       = Unit is destroyed when it attacks
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
-; "Unreachable"   = Unit can be attacked only by units explicitly listing this class as target
-;                   or on city or airbase
+; "Unreachable"   = Unit can be attacked only by units explicitly listing this
+;                   class in its 'targets', unless on a city or native base.
+;                   For class members which are transports, cargo cannot load/
+;                   unload except in a city or native base, unless that unit
+;                   explicitly lists this class in its 'embarks'/'disembarks'.
 ; "CollectRansom" = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"           = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                   override this
@@ -177,10 +180,12 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ; city_size     = Initial size of the cities Settlers type unit builds
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
-; embarks       = list of unit classes this unit may embark upon even if they
-;                 have Unreachable unit class flag and are not in native base
-; disembarks    = list of unit classes this unit may disembark from even if they
-;                 have Unreachable unit class flag and are not in native base
+; embarks       = list of unit classes this unit may load into while not in
+;                 native base or city even if transporter has Unreachable unit
+;                 class flag
+; disembarks    = list of unit classes this unit may unload from while not in
+;                 native base or city even if transporter has Unreachable unit
+;                 class flag
 ; bonuses       = definitions of combat bonuses against specific other units
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below
