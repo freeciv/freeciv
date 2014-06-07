@@ -15,7 +15,7 @@ description="Civ2 tile_type data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.May.14"
 
 [control]
-; Names for custom terrain flags. There can be up to 7 of these.
+; Names for custom terrain flags. There can be up to 8 of these.
 ; name          = rule name; not translateable, but may be displayed in
 ;                 some circumstances
 ; helptxt       = displayed in the help for terrains with this flag
