@@ -864,8 +864,6 @@ static char activity2char(enum unit_activity activity)
     return 'i';
   case ACTIVITY_FORTIFIED:
     return 'f';
-  case ACTIVITY_FORTRESS:
-    return 't';
   case ACTIVITY_SENTRY:
     return 's';
   case ACTIVITY_OLD_RAILROAD:
@@ -878,8 +876,6 @@ static char activity2char(enum unit_activity activity)
     return 'x';
   case ACTIVITY_TRANSFORM:
     return 'o';
-  case ACTIVITY_AIRBASE:
-    return 'a';
   case ACTIVITY_FORTIFYING:
     return 'y';
   case ACTIVITY_FALLOUT:
@@ -894,6 +890,8 @@ static char activity2char(enum unit_activity activity)
   case ACTIVITY_PATROL_UNUSED:
     return '?';
   case ACTIVITY_LAST:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
     break;
   }
 
@@ -4938,14 +4936,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
     } else if (target == S_OLD_RAILROAD) {
       target = S_LAST;
       proad = road_by_compat_special(ROCO_RAILROAD);
-    }
-
-    if (activity == ACTIVITY_FORTRESS) {
-      activity = ACTIVITY_BASE;
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, unit_tile(punit));
-    } else if (activity == ACTIVITY_AIRBASE) {
-      activity = ACTIVITY_BASE;
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
     }
 
     if (activity == ACTIVITY_OLD_ROAD) {
