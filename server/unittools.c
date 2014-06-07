@@ -3818,9 +3818,7 @@ bool execute_orders(struct unit *punit)
                    || (ACTIVITY_IRRIGATE == activity
                        && (tile_has_special(unit_tile(punit), S_FARMLAND)
                            || tile_has_special(unit_tile(punit),
-                                               S_IRRIGATION)))
-                   || (ACTIVITY_MINE == activity
-                       && tile_has_special(unit_tile(punit), S_MINE))) {
+                                               S_IRRIGATION)))) {
           break; /* Already built, let's continue. */
         }
       }
