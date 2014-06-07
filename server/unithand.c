@@ -1347,11 +1347,11 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 
   case MR_CANNOT_DISEMBARK:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                  _("%s cannot disembark without a native base for "
-                    "%s on the tile."),
-                    unit_link(punit),
-                    utype_name_translation(
-                        unit_type(unit_transport_get(punit))));
+                  _("%s cannot disembark outside of a city or a native base "
+                    "for %s."),
+                  unit_link(punit),
+                  utype_name_translation(
+                      unit_type(unit_transport_get(punit))));
     break;
 
   default:
