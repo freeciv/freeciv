@@ -3853,6 +3853,9 @@ static bool load_ruleset_nations(struct section_file *file)
     return FALSE;
   }
 
+  game.server.ruledit.nationlist = secfile_lookup_str_default(file, NULL,
+                                                              "ruledit.nationlist");
+
   game.server.default_government = NULL;
 
   ruleset_load_traits(game.server.default_traits, file, "default_traits", "");

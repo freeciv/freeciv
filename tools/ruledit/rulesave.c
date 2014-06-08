@@ -327,6 +327,30 @@ static bool save_building_ref(struct section_file *sfile,
 }
 
 /**************************************************************************
+  Save units vector. Input is NULL terminated array of units
+  to save.
+**************************************************************************/
+static bool save_unit_list(struct section_file *sfile, struct unit_type **input,
+                           const char *path, const char *entry)
+{
+  const char *unit_names[MAX_NUM_UNIT_LIST];
+  int set_count;
+  int i;
+
+  set_count = 0;
+  for (i = 0; input[i] != NULL && i < MAX_NUM_UNIT_LIST; i++) {
+    unit_names[set_count++] = utype_rule_name(input[i]);
+  }
+
+  if (set_count > 0) {
+    secfile_insert_str_vec(sfile, unit_names, set_count,
+                           "%s.%s", path, entry);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Save vector of unit class names based on bitvector bits
 **************************************************************************/
 static bool save_uclass_vec(struct section_file *sfile,
@@ -1059,6 +1083,10 @@ static bool save_nations_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  if (game.server.ruledit.nationlist != NULL) {
+    secfile_insert_str(sfile, game.server.ruledit.nationlist, "ruledit.nationlist");
+  }
+
   save_traits(game.server.default_traits, NULL, sfile,
               "default_traits", "");
 
@@ -1069,7 +1097,230 @@ static bool save_nations_ruleset(const char *filename, const char *name)
                        "compatibility.default_government");
   }
 
-  secfile_insert_include(sfile, "default/nationlist.ruleset");
+  if (game.server.ruledit.nationlist != NULL) {
+    secfile_insert_include(sfile, game.server.ruledit.nationlist);
+  } else {
+    int sect_idx = 0;
+
+    nation_sets_iterate(pset) {
+      char path[512];
+
+      fc_snprintf(path, sizeof(path), "nset_%d", sect_idx++);
+
+      /* We don't use save_name_translation() for this as name and rule_name must
+       * always be saved separately */
+      secfile_insert_str(sfile, nation_set_untranslated_name(pset), "%s.name", path);
+      secfile_insert_str(sfile, nation_set_rule_name(pset), "%s.rule_name", path);
+      secfile_insert_str(sfile, nation_set_description(pset), "%s.description", path);
+    } nation_sets_iterate_end;
+
+    sect_idx = 0;
+    nation_groups_iterate(pgroup) {
+      char path[512];
+
+      fc_snprintf(path, sizeof(path), "ngroup_%d", sect_idx++);
+
+      save_name_translation(sfile, &(pgroup->name), path);
+
+      secfile_insert_int(sfile, pgroup->server.match, "%s.match", path);
+    } nation_groups_iterate_end;
+
+    sect_idx = 0;
+    nations_iterate(pnat) {
+      char path[512];
+      int max_items = nation_city_list_size(pnat->server.default_cities);
+      char *city_str[max_items];
+      max_items = MAX(max_items, MAX_NUM_NATION_SETS + MAX_NUM_NATION_GROUPS);
+      max_items = MAX(max_items, game.control.nation_count);
+      const char *list_items[max_items];
+      int set_count;
+      int subsect_idx;
+      char *barb_str = NULL;
+
+      fc_snprintf(path, sizeof(path), "nation_%d", sect_idx++);
+
+      if (pnat->translation_domain == NULL) {
+        secfile_insert_str(sfile, "freeciv", "%s.translation_domain", path);
+      } else {
+        secfile_insert_str(sfile, pnat->translation_domain, "%s.translation_domain", path);
+      }
+
+      save_name_translation(sfile, &(pnat->adjective), path);
+      secfile_insert_str(sfile, untranslated_name(&(pnat->noun_plural)), "%s.plural", path);
+
+      set_count = 0;
+      nation_sets_iterate(pset) {
+        if (nation_is_in_set(pnat, pset)) {
+          list_items[set_count++] = nation_set_rule_name(pset);
+        }
+      } nation_sets_iterate_end;
+      nation_groups_iterate(pgroup) {
+        if (nation_is_in_group(pnat, pgroup)) {
+          list_items[set_count++] = nation_group_rule_name(pgroup);
+        } 
+      } nation_groups_iterate_end;
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, list_items, set_count, "%s.groups", path);
+      }
+
+      set_count = 0;
+      nation_list_iterate(pnat->server.conflicts_with, pconfl) {
+        list_items[set_count++] = nation_rule_name(pconfl);
+      } nation_list_iterate_end;
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, list_items, set_count, "%s.conflicts_with", path);
+      }
+
+      subsect_idx = 0;
+      nation_leader_list_iterate(pnat->leaders, pleader) {
+        secfile_insert_str(sfile, nation_leader_name(pleader), "%s.leaders%d.name",
+                           path, subsect_idx);
+        secfile_insert_str(sfile, nation_leader_is_male(pleader) ? "Male" : "Female",
+                           path, subsect_idx++);
+      } nation_leader_list_iterate_end;
+
+      if (pnat->server.rgb != NULL) {
+        rgbcolor_save(sfile, pnat->server.rgb, "%s.color", path);
+      }
+
+      save_traits(pnat->server.traits, game.server.default_traits,
+                  sfile, path, "trait_");
+
+      if (!pnat->is_playable) {
+        secfile_insert_bool(sfile, pnat->is_playable, "%s.is_playable", path);
+      }
+
+      switch (pnat->barb_type) {
+      case NOT_A_BARBARIAN:
+        barb_str = NULL;
+        break;
+      case LAND_BARBARIAN:
+        barb_str = "Land";
+        break;
+      case SEA_BARBARIAN:
+        barb_str = "Sea";
+        break;
+      case ANIMAL_BARBARIAN:
+        barb_str = "Animal";
+        break;
+      }
+
+      if (barb_str != NULL) {
+        secfile_insert_str(sfile, barb_str, "%s.barbarian_type", path);
+      }
+
+      if (strcmp(pnat->flag_graphic_str, "-")) {
+        secfile_insert_str(sfile, pnat->flag_graphic_str, "%s.flag", path);
+      }
+      if (strcmp(pnat->flag_graphic_alt, "-")) {
+        secfile_insert_str(sfile, pnat->flag_graphic_alt, "%s.flag_alt", path);
+      }
+
+      subsect_idx = 0;
+      governments_iterate(pgov) {
+        struct ruler_title *prtitle;
+
+        if (ruler_title_hash_lookup(pgov->ruler_titles, pnat, &prtitle)) {
+          secfile_insert_str(sfile, government_rule_name(pgov),
+                             "%s.ruler_titles%d.government", path, subsect_idx);
+          secfile_insert_str(sfile, ruler_title_male_untranslated_name(prtitle),
+                             "%s.ruler_titles%d.male_title", path, subsect_idx);
+          secfile_insert_str(sfile, ruler_title_female_untranslated_name(prtitle),
+                             "%s.ruler_titles%d.female_title", path, subsect_idx++);
+        }
+      } governments_iterate_end;
+
+      secfile_insert_str(sfile, style_rule_name(pnat->style), "%s.style", path);
+
+      set_count = 0;
+      nation_list_iterate(pnat->server.civilwar_nations, pconfl) {
+        list_items[set_count++] = nation_rule_name(pconfl);
+      } nation_list_iterate_end;
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, list_items, set_count, "%s.civilwar_nations", path);
+      }
+
+      save_tech_list(sfile, pnat->init_techs, path, "init_techs");
+      save_building_list(sfile, pnat->init_buildings, path, "init_buildings");
+      save_unit_list(sfile, pnat->init_units, path, "init_units");
+
+      if (pnat->init_government != game.server.default_government) {
+        secfile_insert_str(sfile, government_rule_name(pnat->init_government),
+                           "%s.init_government", path);
+      }
+
+      set_count = 0;
+      nation_city_list_iterate(pnat->server.default_cities, pncity) {
+        bool list_started = FALSE;
+
+        city_str[set_count] = fc_malloc(strlen(nation_city_name(pncity)) + strlen(" (!river")
+                                        + strlen(")")
+                                        + MAX_NUM_TERRAINS * (strlen(", ") + MAX_LEN_NAME));
+
+        strcpy(city_str[set_count], nation_city_name(pncity));
+        switch(nation_city_river_preference(pncity)) {
+        case NCP_DISLIKE:
+          strcat(city_str[set_count], " (!river");
+          list_started = TRUE;
+          break;
+        case NCP_LIKE:
+          strcat(city_str[set_count], " (river");
+          list_started = TRUE;
+          break;
+        case NCP_NONE:
+          break;
+        }
+
+        terrain_type_iterate(pterr) {
+          const char *pref = NULL;
+
+          switch(nation_city_terrain_preference(pncity, pterr)) {
+          case NCP_DISLIKE:
+            pref = "!";
+            break;
+          case NCP_LIKE:
+            pref = "";
+            break;
+          case NCP_NONE:
+            pref = NULL;
+            break;
+          }
+
+          if (pref != NULL) {
+            if (list_started) {
+              strcat(city_str[set_count], ", ");
+            } else {
+              strcat(city_str[set_count], " (");
+              list_started = TRUE;
+            }
+            strcat(city_str[set_count], pref);
+            strcat(city_str[set_count], terrain_rule_name(pterr));
+          }
+
+        } terrain_type_iterate_end;
+
+        if (list_started) {
+          strcat(city_str[set_count], ")");
+        }
+
+        list_items[set_count] = city_str[set_count];
+        set_count++;
+      } nation_city_list_iterate_end;
+      if (set_count > 0) {
+        int i;
+
+        secfile_insert_str_vec(sfile, list_items, set_count, "%s.cities", path);
+
+        for (i = 0; i < set_count; i++) {
+          FC_FREE(city_str[i]);
+        }
+      }
+
+      secfile_insert_str(sfile, pnat->legend, "%s.legend", path);
+
+    } nations_iterate_end;
+  }
 
   return save_ruleset_file(sfile, filename);
 }

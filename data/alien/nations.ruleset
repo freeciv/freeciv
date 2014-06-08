@@ -10,6 +10,15 @@
 description="Alien World nations data for Freeciv"
 options="+Freeciv-ruleset-Devel-2013.May.14"
 
+; This section contains meta information for freeciv-ruledit to recreate the ruleset
+; file in a form wanted. These have no in-game effect whatsoever
+[ruledit]
+
+; Nationlist to add include statement for. If this entry is omitted, all the nations
+; will be saved to nations.ruleset itself.
+; There's no nationlist file for alien ruleset
+;nationlist = ""
+
 [compatibility]
 ; Initial government for all the nations that do not
 ; have it explicitly defined

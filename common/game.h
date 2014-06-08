@@ -240,6 +240,10 @@ struct civ_game {
 
       struct trait_limits default_traits[TRAIT_COUNT];
       struct government *default_government;
+
+      struct {
+        const char *nationlist;
+      } ruledit;
     } server;
   };
 

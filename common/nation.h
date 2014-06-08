@@ -162,6 +162,25 @@ struct nation_type {
   };
 };
 
+/* Nation group structure. */
+struct nation_group {
+  struct name_translation name;
+
+  union {
+    struct {
+      /* Only used in the server (./server/). */
+
+      /* How much the AI will try to select a nation in the same group */
+      int match;
+    } server;
+
+    struct {
+      /* Only used at the client. */
+      /* Nothing yet. */
+    } client;
+  };
+};
+
 /* General nation accessor functions. */
 Nation_type_id nation_count(void);
 Nation_type_id nation_index(const struct nation_type *pnation);
