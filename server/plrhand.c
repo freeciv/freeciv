@@ -699,6 +699,11 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   ds_plrplr2->type = ds_plr2plr->type = new_type;
   ds_plrplr2->turns_left = ds_plr2plr->turns_left = 16;
 
+  if (new_type == DS_WAR) {
+    pplayer->last_war_action = game.info.turn;
+    pplayer2->last_war_action = game.info.turn;
+  }
+
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {

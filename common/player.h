@@ -218,6 +218,7 @@ struct player {
   int nturns_idle;
   bool is_alive;
   bool is_winner;
+  int last_war_action;
 
   /* Turn in which the player's revolution is over; see update_revolution. */
   int revolution_finishes;

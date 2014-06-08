@@ -236,10 +236,11 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
 		      bool bombard, int *att_hp, int *def_hp)
 {
-  int attackpower = get_total_attack_power(attacker,defender);
-  int defensepower = get_total_defense_power(attacker,defender);
-
+  int attackpower = get_total_attack_power(attacker, defender);
+  int defensepower = get_total_defense_power(attacker, defender);
   int attack_firepower, defense_firepower;
+  struct player *plr1 = unit_owner(attacker);
+  struct player *plr2 = unit_owner(defender);
 
   *att_hp = attacker->hp;
   *def_hp = defender->hp;
@@ -249,6 +250,9 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   log_verbose("attack:%d, defense:%d, attack firepower:%d, "
               "defense firepower:%d", attackpower, defensepower,
               attack_firepower, defense_firepower);
+
+  plr1->last_war_action = game.info.turn;
+  plr2->last_war_action = game.info.turn;
 
   if (bombard) {
     int i;
@@ -273,7 +277,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
     *def_hp = 0;
   }
   while (*att_hp > 0 && *def_hp > 0) {
-    if (fc_rand(attackpower+defensepower) >= defensepower) {
+    if (fc_rand(attackpower + defensepower) >= defensepower) {
       *def_hp -= attack_firepower;
     } else {
       *att_hp -= defense_firepower;

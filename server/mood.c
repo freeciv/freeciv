@@ -17,9 +17,8 @@
 
 /* common */
 #include "fc_types.h"
+#include "game.h"
 #include "player.h"
-
-/* server */
 
 #include "mood.h"
 
@@ -28,15 +27,17 @@
 **************************************************************************/
 enum mood_type player_mood(struct player *pplayer)
 {
-  players_iterate(other) {
-    struct player_diplstate *state;
+  if (pplayer->last_war_action >= 0 && pplayer->last_war_action + 10 >= game.info.turn) {
+    players_iterate(other) {
+      struct player_diplstate *state;
 
-    state = player_diplstate_get(pplayer, other);
+      state = player_diplstate_get(pplayer, other);
 
-    if (state->type == DS_WAR) {
-      return MOOD_COMBAT;
-    }
-  } players_iterate_end;
+      if (state->type == DS_WAR) {
+        return MOOD_COMBAT;
+      }
+    } players_iterate_end;
+  }
 
   return MOOD_PEACEFUL;
 }

@@ -505,6 +505,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->nturns_idle = 0;
   pplayer->is_alive = TRUE;
   pplayer->is_winner = FALSE;
+  pplayer->last_war_action = -1;
 
   pplayer->revolution_finishes = -1;
 
