@@ -2,4 +2,4 @@
 
 SUBDIRS = freeciv nations ruledit
 
-EXTRA_DIST = Strings.txt
+EXTRA_DIST = Strings.txt stats.sh
