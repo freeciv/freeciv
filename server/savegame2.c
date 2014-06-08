@@ -864,6 +864,8 @@ static char activity2char(enum unit_activity activity)
     return 'i';
   case ACTIVITY_FORTIFIED:
     return 'f';
+  case ACTIVITY_FORTRESS:
+    return 't';
   case ACTIVITY_SENTRY:
     return 's';
   case ACTIVITY_OLD_RAILROAD:
@@ -876,6 +878,8 @@ static char activity2char(enum unit_activity activity)
     return 'x';
   case ACTIVITY_TRANSFORM:
     return 'o';
+  case ACTIVITY_AIRBASE:
+    return 'a';
   case ACTIVITY_FORTIFYING:
     return 'y';
   case ACTIVITY_FALLOUT:
@@ -890,8 +894,6 @@ static char activity2char(enum unit_activity activity)
   case ACTIVITY_PATROL_UNUSED:
     return '?';
   case ACTIVITY_LAST:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
     break;
   }
 
