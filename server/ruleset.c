@@ -4169,7 +4169,7 @@ static bool load_ruleset_nations(struct section_file *file)
       } else {
         ruleset_error(LOG_ERROR,
                       "Nation %s, barbarian_type is \"%s\". Must be "
-                      "\"None\" or \"Land\" or \"Sea\".",
+                      "\"None\" or \"Land\" or \"Sea\" or \"Animal\".",
                       nation_rule_name(pnation), barb_type);
         ok = FALSE;
         break;
