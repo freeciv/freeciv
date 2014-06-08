@@ -644,6 +644,20 @@ bool sanity_check_ruleset_data(void)
     }
   }
 
+  /* Action enablers */
+  action_iterate(act) {
+    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+      if (!sanity_check_req_vec(&(enabler->actor_reqs), TRUE, -1,
+                                "Action Enabler Actor Reqs")
+          || !sanity_check_req_vec(&(enabler->target_reqs), TRUE, -1,
+                                   "Action Enabler Target Reqs")) {
+        ruleset_error(LOG_ERROR,
+                      "Action Enablers have conflicting or invalid requirements!");
+        ok = FALSE;
+      }
+    } action_enabler_list_iterate_end;
+  } action_iterate_end;
+
   /* There must be basic city style for each nation style to start with */
   styles_iterate(pstyle) {
     if (basic_city_style_for_style(pstyle) < 0) {

@@ -134,6 +134,16 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
     }
   } extra_type_iterate_end;
 
+  action_iterate(act) {
+    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+      if (universal_in_req_vec(uni, &(enabler->actor_reqs))
+          || universal_in_req_vec(uni, &(enabler->target_reqs))) {
+        cb("Action Enabler");
+        needed = TRUE;
+      }
+    } action_enabler_list_iterate_end;
+  } action_iterate_end;
+
   for (i = 0; i < game.control.styles_count; i++) {
     if (universal_in_req_vec(uni, &city_styles[i].reqs)) {
       cb(city_style_rule_name(i));
