@@ -1996,7 +1996,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	      " production cost.\n"));
   }
   if (utype_has_flag(utype, F_CITIES)) {
-    CATLSTR(buf, bufsz, _("* Can build new cities.\n"));
+    cat_snprintf(buf, bufsz,
+                 PL_("* Can build new cities (initial population %d).\n",
+                     "* Can build new cities (initial population %d).\n",
+                     utype->city_size),
+                 utype->city_size);
   }
   if (utype_has_flag(utype, F_ADD_TO_CITY)) {
     cat_snprintf(buf, bufsz,
