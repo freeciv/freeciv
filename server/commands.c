@@ -197,7 +197,6 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("debug diplomacy <player>\n"
       "debug ferries\n"
-      "debug player <player>\n"
       "debug tech <player>\n"
       "debug city <x> <y>\n"
       "debug units <x> <y>\n"
