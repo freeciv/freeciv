@@ -3137,6 +3137,7 @@ void popup_races_dialog(struct player *pplayer)
   struct NAT *pSetup;
   SDL_Rect area;
   int i;
+  struct nation_type *pnat;
 
 #define TARGETS_ROW 5
 #define TARGETS_COL 1
@@ -3254,15 +3255,16 @@ void popup_races_dialog(struct player *pplayer)
   /* nation name */
 
   pSetup->nation = fc_rand(get_playable_nation_count());
-  pSetup->nation_style = style_number(style_of_nation(nation_by_number(pSetup->nation)));
+  pnat = nation_by_number(pSetup->nation);
+  pSetup->nation_style = style_number(style_of_nation(pnat));
 
-  copy_chars_to_string16(pStr, nation_plural_translation(nation_by_number(pSetup->nation)));
+  copy_chars_to_string16(pStr, nation_plural_translation(pnat));
   change_ptsize16(pStr, adj_font(24));
   pStr->render = 2;
   pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_TEXT);
-  
-  pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(nation_by_number(pSetup->nation)));
-  
+
+  pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pnat));
+
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
   			(WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
   pBuf = pWidget;
@@ -3310,52 +3312,25 @@ void popup_races_dialog(struct player *pplayer)
   i = 0;
   zoom = DEFAULT_ZOOM * 1.0;
 
+  len = 0;
   styles_iterate(pstyle) {
     i = basic_city_style_for_style(pstyle);
 
-    if (i >= 0) {
-      pTmp_Surf = get_sample_city_surface(i);
+    pTmp_Surf = get_sample_city_surface(i);
 
-      if (pTmp_Surf->w > 48) {
-        zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
-      }
-
-      pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
-
-      pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
-      pWidget->action = style_callback;
-      if (i != pSetup->nation_style) {
-        set_wstate(pWidget, FC_WS_NORMAL);
-      }
-      len = pWidget->size.w;
-      add_to_gui_list(MAX_ID - 1000 - i, pWidget);
-      break;
+    if (pTmp_Surf->w > 48) {
+      zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
     }
-  } styles_iterate_end;
 
-  len += adj_size(3);
-  zoom = DEFAULT_ZOOM * 1.0;
-  
-  styles_iterate(pstyle) {
-    i = basic_city_style_for_style(pstyle);
+    pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
-    if (i >= 0) {
-      pTmp_Surf = get_sample_city_surface(i);
-
-      if (pTmp_Surf->w > 48) {
-        zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
-      }
-
-      pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
-
-      pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
-      pWidget->action = style_callback;
-      if (i != pSetup->nation_style) {
-        set_wstate(pWidget, FC_WS_NORMAL);
-      }
-      len += (pWidget->size.w + adj_size(3));
-      add_to_gui_list(MAX_ID - 1000 - i, pWidget);
+    pWidget = create_icon2(pTmp_Surf_zoomed, pWindow->dst, WF_RESTORE_BACKGROUND);
+    pWidget->action = style_callback;
+    if (i != pSetup->nation_style) {
+      set_wstate(pWidget, FC_WS_NORMAL);
     }
+    len += pWidget->size.w;
+    add_to_gui_list(MAX_ID - 1000 - i, pWidget);
   } styles_iterate_end;
 
   pLast_City_Style = pWidget;
@@ -3452,12 +3427,10 @@ void popup_races_dialog(struct player *pplayer)
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
 
   /* Rest Style Buttons */
-  if (pBuf != pLast_City_Style) {
-    do {
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(3);
-      pBuf->size.y = pBuf->next->size.y;
-    } while (pLast_City_Style != pBuf);
+  while (pBuf != pLast_City_Style) {
+    pBuf = pBuf->prev;
+    pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(3);
+    pBuf->size.y = pBuf->next->size.y;
   }
   
   putline(pWindow->theme,
