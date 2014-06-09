@@ -107,7 +107,8 @@ default_nationset = "all"
 
 ; Below: nations data loaded from ruleset files for
 ; all nations available. If you want to have more
-; nations, just add the path to your ruleset to this list.
+; nations, just add the path to your ruleset to this list or
+; add them to local override/nation.ruleset included in the end.
 ;
 ; See doc/README.nations for information on how to
 ; create nation rulesets, including style guidelines.
@@ -669,3 +670,5 @@ default_nationset = "all"
 *include "nation/zhuang.ruleset"
 *include "nation/zimbabwean.ruleset"
 *include "nation/zulu.ruleset"
+
+*include "override/nation.ruleset"

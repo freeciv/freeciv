@@ -580,3 +580,5 @@ sprites =
 		"f.shield.zimbabwe", "flags/zimbabwe-shield-large"
 		"f.shield.zulu", "flags/zulu-shield-large"
 	}
+
+*include "override/shields-large.spec"
