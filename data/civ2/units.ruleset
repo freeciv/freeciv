@@ -77,8 +77,8 @@ veteran_move_bonus = 0, 0
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or native base
 ; non_native_def_pct = Defense power percentage applying when defending on
 ;                      non-native terrain (such as ship in harbour)
-; hut_behavior  = What happens to huts when unit enters tile: "Normal", "Nothing" or
-;                 "Frighten"
+; hut_behavior  = What happens to huts when unit enters tile:
+;                 "Normal", "Nothing" or "Frighten"
 ; flags         = List of unit class flags (from the following list; you
 ;                 cannot add custom unit class flags)
 ;
@@ -102,14 +102,16 @@ veteran_move_bonus = 0, 0
 ; "CanPillage"    = Unit can pillage tile infrastructure
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
-; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
-;                       "Only_Native_Attack" can override this
-; "AttFromNonNative"  = Unit can launch attach from non-native tile (against native one)
-;                       This applies for both attacking from transport or cities. If only
-;                       some unit types of the class should get this property, use type flag
-;                       "Marines"
-; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
-;                       There's server setting, as well as effects, to disable this.
+; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type
+;                       flag "Only_Native_Attack" can override this
+; "AttFromNonNative"  = Unit can launch attach from non-native tile (against
+;                       native one)
+;                       This applies for both attacking from transport or
+;                       cities. If only some unit types of the class should
+;                       get this property, use type flag "Marines"
+; "KillCitizen"       = Upon successful attack against a city, unit kills one
+;                       citizen. The effect "Unit_No_Lose_Pop" and the server
+;                       setting 'killcitizen' can disable this.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -174,7 +176,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                 present, 'name' is used. Since the name used in savegames
 ;                 must not change, use this when renaming a unit after a
 ;                 ruleset has been released.
-; graphic       = tag specifing preferred graphic
+; graphic       = tag specifying preferred graphic
 ; graphic_alt	= tag for alternate garphic if preferred graphic is not 
 ;		  present; especially if preferred graphic is non-standard, 
 ;		  this should be a standard tag.  Otherwise can use eg "-" 
@@ -182,6 +184,16 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
+; build_cost    = production shields required to build
+; pop_cost      = population removed from city when built; for 'AddToCity'
+;                 units this is also the population added to the destination
+; attack        = base attack strength (0 = cannot attack)
+; defense       = base defense strength (0 = cannot defend)
+; hitpoints     = how much damage unit can withstand
+; firepower     = number of hitpoints removed per round of combat; at least 1
+; move_rate     = base move rate (whole movement points)
+; vision_radius_sq = base vision of unit: unit can see tile up to the square
+;                 root of this value away
 ; convert_to    = can be converted to another type of unit by name
 ; convert_time  = time it takes to convert to another unit type
 ; class         = One of the classes listed above
@@ -190,7 +202,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; cargo         = Unit classes this unit can transport
-; city_size     = Initial size of the cities Settlers type unit builds
+; city_size     = Initial size of the cities built by 'Cities' type units
+;                 (but 'AddToCity' uses pop_cost)
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
 ; embarks       = list of unit classes this unit may load into while not in
@@ -203,8 +216,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below
 ; bonuses.value = value of the bonus. Sum of these is used if multiple apply.
-; flags         = special flag strings; list of built-in flags described below
-;                 and/or user flags defined above
+; flags         = special flag strings; list of built-in flags (see
+;                 classic/units.ruleset) and/or user flags defined above
 ;
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
