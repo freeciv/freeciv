@@ -43,8 +43,8 @@ veteran_power_fact = 100, 150
 veteran_work_raise_chance = 0, 0
 
 ; The additional number of movement points granted for different veteran
-; levels.  These are move point fragments, so to increase movement
-; by a whole point 3 must be specified.
+; levels. These are fractional move points as defined by move_fragments in
+; terrain.ruleset.
 veteran_move_bonus = 0, 0
 
 ; /* <-- avoid gettext warnings
@@ -73,7 +73,7 @@ veteran_move_bonus = 0, 0
 ;                 terrains. You need to set it only if you want to set move
 ;                 type "Both" for unit that has no native Land terrains or
 ;                 for unit that has no native Oceanic terrains.
-; min_speed     = Minimum speed after damage and effects
+; min_speed     = Minimum speed after damage and effects (whole movement points)
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or native base
 ; non_native_def_pct = Defense power percentage applying when defending on
 ;                      non-native terrain (such as ship in harbour)
@@ -86,7 +86,7 @@ veteran_move_bonus = 0, 0
 ;
 ; "TerrainSpeed"   = Units use terrain specific speed
 ; "TerrainDefense" = Units gain defense bonus from terrain
-; "DamageSlows"   = Damages units are slowed down
+; "DamageSlows"   = Damaged units are slowed down
 ; "CanOccupyCity" = Military units of this class can occupy enemy cities
 ; "Missile"       = Unit is destroyed when it attacks
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
@@ -255,8 +255,9 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;  "Paratroopers"
 ;   paratroopers_range = the maximal range the unit can be paradropped to
 ;   paratroopers_mr_req = the move rate which is required at least for
-;                         paradropping
+;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
+;                         (whole movement points)
 ;
 ; */ <-- avoid gettext warnings
 

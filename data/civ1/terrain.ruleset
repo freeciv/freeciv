@@ -45,7 +45,7 @@ min_start_native_area = 0
 ; For example road movement costs are relative to this.
 move_fragments = 3
 
-; How many move fragments IgTer unit movement costs
+; How many move_fragments IgTer unit movement costs
 igter_cost = 1
 
 ; /* <-- avoid gettext warnings
@@ -73,7 +73,8 @@ igter_cost = 1
 ;                        must be unique for each terrain, and changing it will
 ;                        break savegame compatibility.
 ; class                = Terrain class terrain belongs to: "Land" or "Oceanic"
-; movement_cost        = typically 1 to 3
+; movement_cost        = in whole movement points, not move_fragments;
+;                        typically 1 to 3
 ; defense_bonus        = percent added to defense; typically 0% to 200%
 ; food                 = normal food production
 ; shield               = normal shield production
@@ -939,7 +940,8 @@ Fortresses improve defense for land units.\
 ;                           integrating roads (see effects.ruleset and
 ;                           README.effects for help on requirements)
 ; move_cost               = how much movement it takes to travel
-;                           via this road
+;                           via this road (in fractional move points, as
+;                           defined by move_fragments)
 ; move_mode               = how movement costs are applied
 ;   - "NoBonus"    = Road gives no movement bonuses (move_cost ignored)
 ;   - "Cardinal"   = Road cost applies only on cardinal moves
