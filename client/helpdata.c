@@ -2281,9 +2281,143 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype->transport_capacity),
                  utype->transport_capacity, astr_str(&list));
     astr_free(&list);
+    if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
+      /* Document restrictions on when units can load/unload */
+      bool has_restricted_load = FALSE, has_unrestricted_load = FALSE,
+           has_restricted_unload = FALSE, has_unrestricted_unload = FALSE;
+      unit_type_iterate(pcargo) {
+        if (can_unit_type_transport(utype, utype_class(pcargo))) {
+          if (utype_can_freely_load(pcargo, utype)) {
+            has_unrestricted_load = TRUE;
+          } else {
+            has_restricted_load = TRUE;
+          }
+          if (utype_can_freely_unload(pcargo, utype)) {
+            has_unrestricted_unload = TRUE;
+          } else {
+            has_restricted_unload = TRUE;
+          }
+        }
+      } unit_type_iterate_end;
+      if (has_restricted_load) {
+        if (has_unrestricted_load) {
+          /* At least one type of cargo can load onto us freely.
+           * The specific exceptions will be documented in cargo help. */
+          CATLSTR(buf, bufsz,
+                  _("  * Some cargo cannot be loaded except in a city or a "
+                    "base native to this transport.\n"));
+        } else {
+          /* No exceptions */
+          CATLSTR(buf, bufsz,
+                  _("  * Cargo cannot be loaded except in a city or a "
+                    "base native to this transport.\n"));
+        }
+      } /* else, no restricted cargo exists; keep quiet */
+      if (has_restricted_unload) {
+        if (has_unrestricted_unload) {
+          /* At least one type of cargo can unload from us freely. */
+          CATLSTR(buf, bufsz,
+                  _("  * Some cargo cannot be unloaded except in a city or a "
+                    "base native to this transport.\n"));
+        } else {
+          /* No exceptions */
+          CATLSTR(buf, bufsz,
+                  _("  * Cargo cannot be unloaded except in a city or a "
+                    "base native to this transport.\n"));
+        }
+      } /* else, no restricted cargo exists; keep quiet */
+    }
   }
   if (utype_has_flag(utype, UTYF_TRIREME)) {
     CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
+  }
+  {
+    /* Document exceptions to embark/disembark restrictions that we
+     * have as cargo. */
+    bv_unit_classes embarks, disembarks;
+    BV_CLR_ALL(embarks);
+    BV_CLR_ALL(disembarks);
+    /* Determine which of our transport classes have restrictions in the first
+     * place (that is, contain at least one transport which carries at least
+     * one type of cargo which is restricted).
+     * We'll suppress output for classes not in this set, since this cargo
+     * type is not behaving exceptionally in such cases. */
+    unit_type_iterate(utrans) {
+      const Unit_Class_id trans_class = uclass_index(utype_class(utrans));
+      /* Don't waste time repeating checks on classes we've already checked,
+       * or weren't under consideration in the first place */
+      if (!BV_ISSET(embarks, trans_class)
+          && BV_ISSET(utype->embarks, trans_class)) {
+        unit_type_iterate(other_cargo) {
+          if (can_unit_type_transport(utrans, utype_class(other_cargo))
+              && !utype_can_freely_load(other_cargo, utrans)) {
+            /* At least one load restriction in transport class, which
+             * we aren't subject to */
+            BV_SET(embarks, trans_class);
+          }
+        } unit_type_iterate_end; /* cargo */
+      }
+      if (!BV_ISSET(disembarks, trans_class)
+          && BV_ISSET(utype->disembarks, trans_class)) {
+        unit_type_iterate(other_cargo) {
+          if (can_unit_type_transport(utrans, utype_class(other_cargo))
+              && !utype_can_freely_unload(other_cargo, utrans)) {
+            /* At least one load restriction in transport class, which
+             * we aren't subject to */
+            BV_SET(disembarks, trans_class);
+          }
+        } unit_type_iterate_end; /* cargo */
+      }
+    } unit_class_iterate_end; /* transports */
+
+    if (BV_ISSET_ANY(embarks)) {
+      /* Build list of embark exceptions */
+      const char *eclasses[uclass_count()];
+      int i = 0;
+      struct astring elist = ASTRING_INIT;
+
+      unit_class_iterate(uclass) {
+        if (BV_ISSET(embarks, uclass_index(uclass))) {
+          eclasses[i++] = uclass_name_translation(uclass);
+        }
+      } unit_class_iterate_end;
+      astr_build_or_list(&elist, eclasses, i);
+      if (BV_ARE_EQUAL(embarks, disembarks)) {
+        /* A common case: the list of disembark exceptions is identical */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a list of unit classes separated
+                      * by "or". */
+                     _("* May load onto and unload from %s transports even "
+                       "when underway.\n"),
+                     astr_str(&elist));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a list of unit classes separated
+                      * by "or". */
+                     _("* May load onto %s transports even when underway.\n"),
+                     astr_str(&elist));
+      }
+      astr_free(&elist);
+    }
+    if (BV_ISSET_ANY(disembarks) && !BV_ARE_EQUAL(embarks, disembarks)) {
+      /* Build list of disembark exceptions (if different from embarking) */
+      const char *dclasses[uclass_count()];
+      int i = 0;
+      struct astring dlist = ASTRING_INIT;
+
+      unit_class_iterate(uclass) {
+        if (BV_ISSET(disembarks, uclass_index(uclass))) {
+          dclasses[i++] = uclass_name_translation(uclass);
+        }
+      } unit_class_iterate_end;
+      astr_build_or_list(&dlist, dclasses, i);
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a list of unit classes separated
+                    * by "or". */
+                   _("* May unload from %s transports even when underway.\n"),
+                   astr_str(&dlist));
+      astr_free(&dlist);
+    }
   }
   if (utype_has_flag(utype, UTYF_TRADE_ROUTE)) {
     cat_snprintf(buf, bufsz,

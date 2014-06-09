@@ -825,7 +825,7 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Un-embarkable transport must be in city or base to load cargo. */
-  if (!BV_ISSET(unit_type(pcargo)->embarks, uclass_index(unit_class(ptrans)))
+  if (!utype_can_freely_load(unit_type(pcargo), unit_type(ptrans))
       && !tile_city(unit_tile(ptrans))
       && !tile_has_native_base(unit_tile(ptrans), unit_type(ptrans))) {
     return FALSE;
@@ -895,7 +895,7 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Un-disembarkable transport must be in city or base to unload cargo. */
-  if (!BV_ISSET(unit_type(pcargo)->disembarks, uclass_index(unit_class(ptrans)))
+  if (!utype_can_freely_unload(unit_type(pcargo), unit_type(ptrans))
       && !tile_city(unit_tile(ptrans))
       && !tile_has_native_base(unit_tile(ptrans), unit_type(ptrans))) {
     return FALSE;
