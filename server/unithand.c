@@ -1339,6 +1339,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(pdesttile);
+  bool taking_over_city = FALSE;
 
   /*** Phase 1: Basic checks ***/
 
@@ -1568,6 +1569,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         return TRUE;
       }
 
+      taking_over_city = TRUE;
       /* Taking over a city is considered a move, so fall through */
     }
   }
@@ -1580,7 +1582,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     unit_list_iterate(unit_tile(punit)->units, pcargo) {
       if (unit_contained_in(pcargo, punit)
           && (is_non_allied_unit_tile(pdesttile, unit_owner(pcargo))
-              || is_non_allied_city_tile(pdesttile, unit_owner(pcargo)))) {
+              || (!taking_over_city
+                  && is_non_allied_city_tile(pdesttile,
+                                             unit_owner(pcargo))))) {
          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                        _("A transported unit is not allied to all "
                          "units or city on target tile."));
