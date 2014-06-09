@@ -50,12 +50,6 @@ static CURL *netfile_init_handle(void)
   return handle;
 }
 
-struct netfile_write_cb_data
-{
-  char *mem;
-  int size;
-};
-
 /********************************************************************** 
   curl write callback to store received file to memory.
 ***********************************************************************/
@@ -223,7 +217,8 @@ static size_t dummy_write(void *buffer, size_t size, size_t nmemb, void *userp)
   Send HTTP POST
 ***********************************************************************/
 bool netfile_send_post(const char *URL, struct netfile_post *post,
-                       FILE *reply_fp, const char *addr)
+                       FILE *reply_fp, struct netfile_write_cb_data *mem_data,
+                       const char *addr)
 {
   CURLcode curlret;
   long http_resp;
@@ -236,7 +231,12 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 
   curl_easy_setopt(handle, CURLOPT_URL, URL);
   curl_easy_setopt(handle, CURLOPT_HTTPPOST, post->first);
-  if (reply_fp == NULL) {
+  if (mem_data != NULL) {
+    mem_data->mem = NULL;
+    mem_data->size = 0;
+    curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, netfile_memwrite_cb);
+    curl_easy_setopt(handle, CURLOPT_WRITEDATA, mem_data);
+  } else if (reply_fp == NULL) {
     curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, dummy_write);
   } else {
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, reply_fp);

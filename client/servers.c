@@ -96,7 +96,7 @@ struct server_scan {
     fc_mutex mutex;
 
     const char *urlpath;
-    FILE *fp; /* temp file */
+    struct netfile_write_cb_data mem;
   } meta;
 };
 
@@ -220,7 +220,7 @@ static bool meta_read_response(struct server_scan *scan)
   char str[4096];
   struct server_list *srvrs;
 
-  f = fz_from_stream(scan->meta.fp);
+  f = fz_from_memory(scan->meta.mem.mem, scan->meta.mem.size, TRUE);
   if (NULL == f) {
     fc_snprintf(str, sizeof(str),
                 _("Failed to read the metaserver data from %s."),
@@ -236,8 +236,8 @@ static bool meta_read_response(struct server_scan *scan)
   scan->srvrs.servers = srvrs;
   fc_release_mutex(&scan->srvrs.mutex);
 
-  /* 'f' (hence 'meta.fp') was closed in parse_metaserver_data(). */
-  scan->meta.fp = NULL;
+  /* 'f' (hence 'meta.mem.mem') was closed in parse_metaserver_data(). */
+  scan->meta.mem.mem = NULL;
 
   if (NULL == srvrs) {
     fc_snprintf(str, sizeof(str),
@@ -259,45 +259,22 @@ static void metaserver_scan(void *arg)
 {
   struct server_scan *scan = arg;
 
-  if (!scan->meta.fp) {
-#ifdef WIN32_NATIVE
-    char filename[MAX_PATH];
-
-    GetTempPath(sizeof(filename), filename);
-    cat_snprintf(filename, sizeof(filename), "fctmp%d", fc_rand(1000));
-
-    scan->meta.fp = fc_fopen(filename, "w+b");
-#else
-    scan->meta.fp = tmpfile();
-#endif /* WIN32_NATIVE */
-
-    if (!scan->meta.fp) {
-      scan->error_func(scan, _("Could not open temp file."));
-    }
-  }
-
-  if (scan->meta.fp) {
-
-    if (!begin_metaserver_scan(scan)) {
+  if (!begin_metaserver_scan(scan)) {
+    fc_allocate_mutex(&scan->meta.mutex);
+    scan->meta.status = SCAN_STATUS_ERROR;
+  } else {
+    if (!meta_read_response(scan)) {
       fc_allocate_mutex(&scan->meta.mutex);
       scan->meta.status = SCAN_STATUS_ERROR;
     } else {
-
-      rewind(scan->meta.fp);
-
-      if (!meta_read_response(scan)) {
-        fc_allocate_mutex(&scan->meta.mutex);
-        scan->meta.status = SCAN_STATUS_ERROR;
-      } else {
-        fc_allocate_mutex(&scan->meta.mutex);
-        if (scan->meta.status == SCAN_STATUS_WAITING) {
-          scan->meta.status = SCAN_STATUS_DONE;
-        }
+      fc_allocate_mutex(&scan->meta.mutex);
+      if (scan->meta.status == SCAN_STATUS_WAITING) {
+        scan->meta.status = SCAN_STATUS_DONE;
       }
     }
-
-    fc_release_mutex(&scan->meta.mutex);
   }
+
+  fc_release_mutex(&scan->meta.mutex);
 }
 
 /****************************************************************************
@@ -314,7 +291,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
   post = netfile_start_post();
   netfile_add_form_str(post, "client_cap", our_capability);
 
-  if (!netfile_send_post(metaserver, post, scan->meta.fp, NULL)) {
+  if (!netfile_send_post(metaserver, post, NULL, &scan->meta.mem, NULL)) {
     scan->error_func(scan, _("Error connecting to metaserver"));
     retval = FALSE;
   }
@@ -835,9 +812,9 @@ void server_scan_finish(struct server_scan *scan)
       fc_release_mutex(&scan->srvrs.mutex);
     }
 
-    if (scan->meta.fp) {
-      fclose(scan->meta.fp);
-      scan->meta.fp = NULL;
+    if (scan->meta.mem.mem) {
+      FC_FREE(scan->meta.mem.mem);
+      scan->meta.mem.mem = NULL;
     }
   } else {
     if (scan->sock >= 0) {

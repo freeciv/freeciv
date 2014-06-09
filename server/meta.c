@@ -230,7 +230,7 @@ static void send_metaserver_post(void *arg)
     addr = srvarg.bind_addr;
   }
 
-  if (!netfile_send_post(srvarg.metaserver_addr, post, NULL, addr)) {
+  if (!netfile_send_post(srvarg.metaserver_addr, post, NULL, NULL, addr)) {
     con_puts(C_METAERROR, _("Error connecting to metaserver"));
     metaserver_failed();
   }
