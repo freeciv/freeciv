@@ -27,7 +27,7 @@ flags =
   { "name", "helptxt"
     "Airbase", _("Can build Airbases.") 
     "Transform", _("Can transform terrain.")
-    "AirUnit", _("Very bad at attacking AEGIS.")
+    "AirAttacker", _("Very bad at attacking AEGIS.")
     "Submarine", _("Attack value halved when attacking Destroyer")
     "Unbribable", _("May not be bribed.")
   }
@@ -1387,7 +1387,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "AirUnit"
+flags         = "AirAttacker"
 roles         = "DefendOk"
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1419,7 +1419,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "AirUnit", "Bombarder"
+flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1454,7 +1454,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land"
-flags         = "OneAttack", "AirUnit", "Bombarder"
+flags         = "OneAttack", "AirAttacker", "Bombarder"
 roles         = ""
 helptext      = _("\
 The Helicopter can transport one unit of infantry, and it can bombard\
@@ -1490,7 +1490,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "Partial_Invis", "AirUnit"
+flags         = "Partial_Invis", "AirAttacker"
 roles         = "DefendGood"
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1522,7 +1522,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirUnit", "Bombarder"
+flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker", "Bombarder"
 roles         = "DefendOk"
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
@@ -1792,7 +1792,7 @@ uk_food       = 1
 uk_gold       = 1
 bonuses       =
    { "flag", "type", "value"
-     "AirUnit", "DefenseMultiplier", 4
+     "AirAttacker", "DefenseMultiplier", 4
    }
 flags         = "BadCityDefender"
 roles         = "DefendGood"
@@ -1961,7 +1961,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "OneAttack", "AirUnit", "CityBuster"
+flags         = "OneAttack", "AirAttacker", "CityBuster"
 roles         = ""
 helptext      = _("\
 The Cruise Missile is a long-distance missile\
@@ -1996,7 +1996,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "Nuclear", "AirUnit"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "AirAttacker"
 roles         = ""
 helptext      = _("\
 You can start building Nuclear units when you have the required\
@@ -2398,7 +2398,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "AirUnit"
+flags         = ""
 roles         = ""
 helptext      = _("\
 The AWACS (Airborne Warning and Control System) is an airplane with an \
