@@ -509,7 +509,7 @@ flags         = "Cities", "Settlers", "NonMil"
 roles         = "Cities", "Settlers"
 helptext      = _("\
 Amphibious Engineer that can also establish new cities on Ocean.\
-Cities it builds, start at size 2.")
+")
 
 [unit_star_marines]
 name          = _("Star Marines")
