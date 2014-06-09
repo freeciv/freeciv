@@ -1513,21 +1513,25 @@ static struct setting settings[] = {
 
   GEN_INT("techlossforgiveness", game.server.techloss_forgiveness,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Negative bulbs allowed before losing tech"),
-          N_("When your number of bulbs gets negative value lower than "
-             "this percentage of current research cost, you lose one "
-             "tech and number of bulbs is restored to 0. Special value -1 "
-             "disables tech loss completely."),
+	  N_("Research point debt threshold for losing tech"),
+          N_("When you have negative research points, and your shortfall is "
+             "greater than this percentage of the cost of your current "
+             "research, you forget a technology you already knew.\n"
+             "The special value -1 prevents loss of technology regardless of "
+             "research points."),
           NULL, NULL,
 	  GAME_MIN_TECHLOSSFG, GAME_MAX_TECHLOSSFG,
 	  GAME_DEFAULT_TECHLOSSFG)
 
  GEN_INT("techlossrestore", game.server.techloss_restore,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Bulbs restored when one loses a tech"),
-          N_("When you lose a tech, this percentage of its research "
-             "cost gets restored. Special value -1 means that "
-             "bulb count is always restored to zero."),
+	  N_("Research points restored after losing a tech"),
+          N_("When you lose a technology due to a negative research balance "
+             "(see 'techlossforgiveness'), this percentage of its research "
+             "cost is credited to your research balance (this may not be "
+             "sufficient to make it positive).\n"
+             "The special value -1 means that your research balance is always "
+             "restored to zero, regardless of your previous shortfall."),
           NULL, NULL,
 	  GAME_MIN_TECHLOSSREST, GAME_MAX_TECHLOSSREST,
 	  GAME_DEFAULT_TECHLOSSREST)
