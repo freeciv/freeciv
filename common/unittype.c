@@ -235,6 +235,30 @@ bool utype_can_take_over(const struct unit_type *punittype)
 }
 
 /****************************************************************************
+  Return TRUE iff the given cargo type has no restrictions on when it can
+  load onto the given transporter.
+  (Does not check that cargo is valid for transport!)
+****************************************************************************/
+bool utype_can_freely_load(const struct unit_type *pcargotype,
+                           const struct unit_type *ptranstype)
+{
+  return BV_ISSET(pcargotype->embarks,
+                  uclass_index(utype_class(ptranstype)));
+}
+
+/****************************************************************************
+  Return TRUE iff the given cargo type has no restrictions on when it can
+  unload from the given transporter.
+  (Does not check that cargo is valid for transport!)
+****************************************************************************/
+bool utype_can_freely_unload(const struct unit_type *pcargotype,
+                             const struct unit_type *ptranstype)
+{
+  return BV_ISSET(pcargotype->disembarks,
+                  uclass_index(utype_class(ptranstype)));
+}
+
+/****************************************************************************
   Returns the number of shields it takes to build this unit type.
 ****************************************************************************/
 int utype_build_shield_cost(const struct unit_type *punittype)

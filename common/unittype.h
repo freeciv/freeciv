@@ -486,6 +486,11 @@ const char *unit_type_flag_helptxt(enum unit_type_flag_id id);
 bool unit_can_take_over(const struct unit *punit);
 bool utype_can_take_over(const struct unit_type *punittype);
 
+bool utype_can_freely_load(const struct unit_type *pcargotype,
+                           const struct unit_type *ptranstype);
+bool utype_can_freely_unload(const struct unit_type *pcargotype,
+                             const struct unit_type *ptranstype);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 
