@@ -102,7 +102,7 @@ endif
 icondir = $(prefix)/share/pixmaps
 icon_DATA=$(ICONS)
 
-SUBDIRS = icons $(CLIENTDATADIRS) $(SERVERDATADIRS)
+SUBDIRS = icons $(CLIENTDATADIRS) $(SERVERDATADIRS) override
 
 if GGZ_CLIENT
 install-data-local:
