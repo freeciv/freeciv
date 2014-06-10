@@ -481,8 +481,7 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
     return *(Uint8 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch + x);
 
   case 2:
-    return *(Uint16 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch +
-			(x << 1));
+    return *((Uint16 *)pSurface->pixels + y * pSurface->pitch / sizeof(Uint16) + x);
 
   case 3:
     {
@@ -496,8 +495,7 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
       }
     }
   case 4:
-    return *(Uint32 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch +
-			(x << 2));
+    return *((Uint32 *)pSurface->pixels + y * pSurface->pitch / sizeof(Uint32) + x);
 
   default:
     return 0;			/* shouldn't happen, but avoids warnings */
@@ -2139,8 +2137,8 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   ..
 **************************************************************************/
-static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
-			      SDL_Color * pColor)
+static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
+                              SDL_Color *pColor)
 {
   Uint32 y, end;
 
