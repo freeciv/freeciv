@@ -30,13 +30,19 @@ do
     if echo $FSTR | grep translated >/dev/null ; then
       TRANS=$(echo $FSTR | sed 's/ translated.*//')
       FSTR="$(echo $FSTR | sed 's/.* translated messages*[.,]//')"
+    else
+      TRANS=0
     fi
     if echo $FSTR | grep fuzzy >/dev/null ; then
       FUZZY=$(echo $FSTR | sed 's/ fuzzy.*//')
       FSTR="$(echo $FSTR | sed 's/.* fuzzy translations*[.,]//')"
+    else
+      FUZZY=0
     fi
     if echo $FSTR | grep untranslated >/dev/null ; then
       UNTRANS=$(echo $FSTR | sed 's/ untranslated.*//')
+    else
+      UNTRANS=0
     fi
 
     SUM=$TRANS+$FUZZY+$UNTRANS
