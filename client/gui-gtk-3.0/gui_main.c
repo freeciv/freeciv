@@ -958,6 +958,17 @@ static gboolean right_notebook_button_release(GtkWidget *widget,
 }
 
 /**************************************************************************
+  Override background color for canvases
+**************************************************************************/
+static void setup_canvas_color_for_state(GtkStateFlags state)
+{
+  gtk_widget_override_background_color(GTK_WIDGET(overview_canvas), state,
+                                       &get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color);
+  gtk_widget_override_background_color(GTK_WIDGET(map_canvas), state,
+                                       &get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color);
+}
+
+/**************************************************************************
  do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
@@ -1303,15 +1314,14 @@ static void setup_widgets(void)
   gtk_widget_set_size_request(map_canvas, 300, 300);
   gtk_widget_set_can_focus(map_canvas, TRUE);
 
-#if 0
-/* FIXME */
-  for (i = 0; i < 5; i++) {
-    gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
-			 &get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color);
-    gtk_widget_modify_bg(GTK_WIDGET(map_canvas), i,
-			 &get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color);
-  }
-#endif
+  setup_canvas_color_for_state(GTK_STATE_FLAG_NORMAL);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_ACTIVE);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_PRELIGHT);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_SELECTED);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_INSENSITIVE);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_INCONSISTENT);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_FOCUSED);
+  setup_canvas_color_for_state(GTK_STATE_FLAG_BACKDROP);
 
   gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
                                    |GDK_BUTTON_PRESS_MASK
