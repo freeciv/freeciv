@@ -78,8 +78,8 @@ static const char *get_display_encoding(void)
 
   Function return (Uint16 *) pointer to (new) pToUniString.
 **************************************************************************/
-Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
-			      const char *pFromString)
+Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
+                             const char *pFromString)
 {
   /* Start Parametrs */
   const char *pTocode = get_display_encoding();
@@ -88,10 +88,11 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
   
   size_t length = strlen(pFromString) + 1;
 
-  char *pResult = (char *) pToUniString;
+  Uint16 *pResult = pToUniString;
   /* ===== */
 
   iconv_t cd = iconv_open(pTocode, pFromcode);
+
   if (cd == (iconv_t) (-1)) {
     if (errno != EINVAL) {
       return pToUniString;
@@ -111,24 +112,25 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
     const char *pInptr = pStart;
     size_t Insize = length;
 
-    char *pOutptr = pResult;
+    char *pOutptr = (char *)pResult;
     size_t Outsize = ulength;
 
     while (Insize > 0 && Outsize > 0) {
       size_t Res =
-	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
+        iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
-	if (errno == EINVAL) {
-	  break;
+        if (errno == EINVAL) {
+          break;
 	} else {
-	  int saved_errno = errno;
-	  iconv_close(cd);
-	  errno = saved_errno;
-	  if(!pToUniString) {
-	    FC_FREE(pResult);
-	  }
-	  return pToUniString;
-	}
+          int saved_errno = errno;
+
+          iconv_close(cd);
+          errno = saved_errno;
+          if (!pToUniString) {
+            FC_FREE(pResult);
+          }
+          return pToUniString;
+        }
       }
     }
 
@@ -136,15 +138,16 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
       size_t Res = iconv(cd, NULL, NULL, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
 	int saved_errno = errno;
+
 	iconv_close(cd);
 	errno = saved_errno;
-	if(!pToUniString) {
+	if (!pToUniString) {
 	  FC_FREE(pResult);
 	}
 	return pToUniString;
       }
     }
-    
+
   }
 
   iconv_close(cd);
