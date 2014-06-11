@@ -261,7 +261,6 @@ gui_gtk3=no
 gui_sdl=no
 gui_xaw=no
 gui_qt=no
-gui_beos=no
 gui_stub=no
 
 for gui in $(echo $clients | $SED 's/,/ /g') ; do
@@ -822,26 +821,6 @@ if test "x$client" != "xno"; then
   dnl QT-specific overrides
   FC_QT_CLIENT
 
-  dnl BeOS-specific overrides
-  if test "x$gui_beos" = "xyes" || test "x$client" = "xall"
-     test "x$client" = "xauto" ; then
-    AC_MSG_CHECKING([will compile gui-beos])
-    if test x`$UNAME -s` = xBeOS ; then
-      AC_MSG_RESULT([yes])
-      gui_beos=yes
-      if test "x$client" = "xauto" ; then
-        client=yes
-      fi
-      GUI_beos_CFLAGS=
-      GUI_beos_LIBS="-Lgui-beos/lib -lBdhGame -lBdhDialog -lBdh -ltranslation -lbe -lroot"
-    else
-      AC_MSG_RESULT([no])
-      if test "x$gui_beos" = "xyes" ; then
-        AC_MSG_ERROR(The BeOS client is only available on BeOS.)
-      fi
-    fi
-  fi
-
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
     found_client=yes
@@ -859,7 +838,7 @@ if test "x$client" != "xno"; then
 
   dnl If client still "auto", error out since we couldn't guess it
   if test "x$client" = "xauto" ; then
-    AC_MSG_ERROR(could not guess which client to compile)
+    AC_MSG_ERROR([could not guess which client to compile])
   fi
 fi
 
@@ -869,7 +848,6 @@ if test "x$client" = "xall" ; then
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_xaw" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
-     test "x$gui_beos" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
     client=yes
   else
@@ -1067,9 +1045,6 @@ AC_SUBST([GUI_qt_LDFLAGS])
 AC_SUBST([GUI_stub_CFLAGS])
 AC_SUBST([GUI_stub_LIBS])
 AC_SUBST([GUI_stub_LDFLAGS])
-AC_SUBST([GUI_beos_CFLAGS])
-AC_SUBST([GUI_beos_LIBS])
-AC_SUBST([GUI_beos_LDFLAGS])
 AC_SUBST([MP_cli_CFLAGS])
 AC_SUBST([MP_cli_LIBS])
 AC_SUBST([MP_cli_LDFLAGS])
@@ -1094,7 +1069,6 @@ AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_BEOS, test "x$gui_beos" = "xyes")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
 dnl Additional client libraries:
