@@ -1034,11 +1034,12 @@ AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
 AC_ARG_ENABLE([ruledit],
   AS_HELP_STRING([--enable-ruledit], [build freeciv-ruledit (WIP)]),
 [case "${enableval}" in
-  yes) ruledit=yes ;;
-  no)  ruledit=no ;;
+  yes)  ruledit=yes ;;
+  no)   ruledit=no ;;
+  test) ruledit=test ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-ruledit]) ;;
 esac], [ruledit=no])
-if test "x$ruledit" = "xyes" ; then
+if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
   if test "x$cxx_works" = "xyes" ; then
     FC_QT5
 
@@ -1046,12 +1047,17 @@ if test "x$ruledit" = "xyes" ; then
       ruledit_CPPFLAGS=$FC_QT5_CPPFLAGS
       ruledit_CXXFLAGS=$FC_QT5_CXXFLAGS
       ruledit_LIBS=$FC_QT5_LIBS
-    else
+      ruledit=yes
+    elif test "x$ruledit" = "xyes" ; then
       AC_MSG_ERROR([Qt5 not found for building freeciv-ruledit])
     fi
-  else
+  elif test "x$ruledit" = "xyes" ; then
     AC_MSG_ERROR([No working C++ compiler found for building freeciv-ruledit])
   fi
+fi
+if test "x$ruledit" = "xtest" ; then
+  dnl Still not set to 'yes' so failed tests
+  ruledit=no
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
