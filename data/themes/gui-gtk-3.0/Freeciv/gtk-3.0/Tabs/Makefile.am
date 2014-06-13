@@ -4,7 +4,6 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Tabs
 
 pkgdata_DATA =          	\
-	notebook.png		\
 	null.png		\
 	tab-bottom-active.png	\
 	tab-bottom.png		\

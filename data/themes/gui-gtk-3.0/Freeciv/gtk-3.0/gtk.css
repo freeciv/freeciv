@@ -62,13 +62,11 @@
 
 .background {
   background-image: url("bg.png");
-  background-size: cover;
+  background-repeat: round;
 }
 
 .notebook {
-  background-image: url("Tabs/notebook.png");
-  background-size: cover;
-  /* background-repeat: repeat; */
+  background-image: -gtk-gradient (linear, left top, right top, from (#e8ddaa), to (#d1c4a7));
 }
 
 .toolbar {
