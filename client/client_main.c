@@ -731,7 +731,7 @@ void set_client_state(enum client_states newstate)
     return;
   }
 
-  if (oldstate == C_S_RUNNING) {
+  if (oldstate == C_S_RUNNING && newstate != C_S_PREPARING) {
     /* Back to menu */
     audio_play_music("music_start", NULL);
   }
@@ -784,7 +784,7 @@ void set_client_state(enum client_states newstate)
 
     if (get_client_page() != PAGE_SCENARIO
         && get_client_page() != PAGE_LOAD) {
-    set_client_page(PAGE_START);
+      set_client_page(PAGE_START);
     }
     break;
 
