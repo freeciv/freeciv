@@ -1542,7 +1542,7 @@ bool secfile_entry_delete(struct section_file *secfile,
   va_list args;
   struct entry *pentry;
 
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
 
   va_start(args, path);
   fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
@@ -1945,10 +1945,10 @@ bool secfile_lookup_plain_enum_full(const struct section_file *secfile,
   const char *str;
   va_list args;
 
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != penumerator, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != penumerator, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, FALSE);
 
   va_start(args, path);
   fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
@@ -2087,10 +2087,10 @@ bool secfile_lookup_bitwise_enum_full(const struct section_file *secfile,
   int val;
   va_list args;
 
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != penumerator, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != penumerator, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, FALSE);
 
   va_start(args, path);
   fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
@@ -2269,9 +2269,9 @@ bool secfile_lookup_enum_data(const struct section_file *secfile,
   int val;
   va_list args;
 
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != pvalue, NULL);
-  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != pvalue, FALSE);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, FALSE);
 
   va_start(args, path);
   fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
