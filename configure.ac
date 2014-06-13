@@ -282,8 +282,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
          test "x$gui" = "xgtk-3.0" ; then
       gui_gtk3=yes
     elif test "x$gui" = "xgtk" ; then
-      AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since earlier versions])
-      gui_gtk3=yes
+      AC_MSG_WARN([for requested client 'gtk' enabled gtk2-client, but that default changes in the future])
+      gui_gtk2=yes
     else
       if test ! -d "${srcdir}/client/gui-$gui" ; then
         AC_MSG_ERROR(bad value ${gui} for --enable-client)
@@ -806,11 +806,11 @@ if test "x$client" != "xno"; then
     AS_MESSAGE([checking for which clients to compile:...])
   fi
 
-  dnl Gtk-3.0-specific overrides
-  FC_GTK3_CLIENT
-
   dnl Gtk-2.0-specific overrides
   FC_GTK2_CLIENT
+
+  dnl Gtk-3.0-specific overrides
+  FC_GTK3_CLIENT
 
   dnl SDL-specific overrides
   FC_SDL_CLIENT
@@ -924,31 +924,6 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
   fi
 done
 
-if test "x$req_fcmp_gtk3" = "xyes" ||
-   test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  AM_PATH_GTK_3_0([3.0.0],
-[
-  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
-[
-  fcmp_gtk3=yes
-  MP_gtk3_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
-  MP_gtk3_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
-  if test "x$MINGW32" = "xyes"; then
-    dnl Required to compile gtk3 on Windows platform
-    MP_gtk3_CFLAGS="$MP_gtk3_CFLAGS -mms-bitfields"
-    MP_gtk3_LDFLAGS="$MP_gtk3_LDFLAGS -mwindows"
-  fi
-
-  if test "x$modinst" = "xauto" ; then
-    modinst=found
-  fi
-])])
-fi
-
-if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
-  AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
-fi
-
 if test "x$req_fcmp_gtk2" = "xyes" ||
    test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
   AM_PATH_GTK_2_0([2.12.0],
@@ -972,6 +947,31 @@ fi
 
 if test "x$req_fcmp_gtk2" = "xyes" && test "x$fcmp_gtk2" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
+fi
+
+if test "x$req_fcmp_gtk3" = "xyes" ||
+   test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
+  AM_PATH_GTK_3_0([3.0.0],
+[
+  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
+[
+  fcmp_gtk3=yes
+  MP_gtk3_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
+  MP_gtk3_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
+  if test "x$MINGW32" = "xyes"; then
+    dnl Required to compile gtk3 on Windows platform
+    MP_gtk3_CFLAGS="$MP_gtk3_CFLAGS -mms-bitfields"
+    MP_gtk3_LDFLAGS="$MP_gtk3_LDFLAGS -mwindows"
+  fi
+
+  if test "x$modinst" = "xauto" ; then
+    modinst=found
+  fi
+])])
+fi
+
+if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
+  AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
 fi
 
 if test "x$req_fcmp_qt" = "xyes" ||
@@ -1576,8 +1576,8 @@ AC_MSG_NOTICE([
   Build freeciv client:  $client
 
   Maintained client frontends:
-    Gtk-3.0: $gui_gtk3
     Gtk-2.0: $gui_gtk2
+    Gtk-3.0: $gui_gtk3
     SDL:     $gui_sdl
     Xaw:     $gui_xaw
     Stub:    $gui_stub

@@ -13,7 +13,7 @@ Tags are used to give an easy way to change sounds. A specfile is used
 to indicate which tags refer to which sound files. A change of spec
 file, given as an option at startup, will change sounds. For example,
 
-	freeciv-gtk3 --Sound mysounds.spec
+	freeciv-gtk2 --Sound mysounds.spec
 
 will read sound files from "mysounds.spec". You will need to download
 or copy or link those sounds into whichever directory is mentioned in this 
@@ -37,7 +37,7 @@ set of available plugins depend on the libraries found on the host
 system. You can choose the plugin the client should use via the
 command line:
 
-	freeciv-gtk3 --Plugin sdl
+	freeciv-gtk2 --Plugin sdl
 
 You can choose "none" to mute the client. Freeciv currently supports
 the following plugins:
