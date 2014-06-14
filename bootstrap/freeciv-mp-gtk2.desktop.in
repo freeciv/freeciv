@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Freeciv modpack installer
+Name=Freeciv modpack installer (gtk2)
 Comment=Download and install add-ons for Freeciv
-Exec=freeciv-mp-gtk3
+Exec=freeciv-mp-gtk2
 Icon=freeciv-modpack
 StartupNotify=true
 Terminal=false

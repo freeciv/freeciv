@@ -49,12 +49,32 @@ if MINGW32
 MPICON = $(top_builddir)/win32/mpicon.o
 else
 desktopfiledir = $(prefix)/share/applications
-desktopfile_DATA = \
-	freeciv-modpack.desktop
+desktopfile_DATA =
 
 appdatafiledir = $(prefix)/share/appdata
-appdatafile_DATA = \
-	freeciv-modpack.appdata.xml
+appdatafile_DATA =
+
+if MODINST_GTK2
+desktopfile_DATA += \
+	freeciv-mp-gtk2.desktop
+appdatafile_DATA += \
+	freeciv-mp-gtk2.appdata.xml
+endif
+
+if MODINST_GTK3
+desktopfile_DATA += \
+	freeciv-mp-gtk3.desktop
+appdatafile_DATA += \
+	freeciv-mp-gtk3.appdata.xml
+endif
+
+if MODINST_QT
+desktopfile_DATA += \
+	freeciv-mp-qt.desktop
+appdatafile_DATA += \
+	freeciv-mp-qt.appdata.xml
+endif
+
 endif
 
 if FCMANUAL
