@@ -1659,6 +1659,12 @@ static void sg_save_savefile(struct savedata *saving)
    * savefile. */
   secfile_insert_str(saving->file, game.server.rulesetdir, "savefile.rulesetdir");
 
+  if (game.control.version[0] != '\0') {
+    /* Current ruleset has version information, save it.
+     * This is never loaded, but exist in savegame file only for debugging purposes. */
+    secfile_insert_str(saving->file, game.control.version, "savefile.rulesetversion");
+  }
+
   /* Save improvement order in savegame, so we are not dependent on ruleset
    * order. If the game isn't started improvements aren't loaded so we can
    * not save the order. */
