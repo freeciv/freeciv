@@ -42,8 +42,7 @@ struct attr_key {
   int key, id, x, y;
 };
 
-static genhash_val_t attr_key_val(const struct attr_key *pkey,
-                                  size_t num_buckets);
+static genhash_val_t attr_key_val(const struct attr_key *pkey);
 static bool attr_key_comp(const struct attr_key *pkey1,
                           const struct attr_key *pkey2);
 static struct attr_key *attr_key_dup(const struct attr_key *pkey);
@@ -72,11 +71,9 @@ static struct attribute_hash *attribute_hash = NULL;
 /****************************************************************************
   Hash function for attribute_hash.
 ****************************************************************************/
-static genhash_val_t attr_key_val(const struct attr_key *pkey,
-                                  size_t num_buckets)
+static genhash_val_t attr_key_val(const struct attr_key *pkey)
 {
-  return (((genhash_val_t) pkey->id ^ pkey->x ^ pkey->y ^ pkey->key)
-          % num_buckets);
+  return (genhash_val_t) pkey->id ^ pkey->x ^ pkey->y ^ pkey->key;
 }
 
 /****************************************************************************
