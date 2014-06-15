@@ -23,7 +23,8 @@ void choice_dialog_set_hide(GtkWidget *dshell, gboolean setting);
 GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 				       const gchar *text);
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
-                       GCallback handler, gpointer data, bool warn);
+                       GCallback handler, gpointer data,
+                       const gchar *tool_tip);
 void choice_dialog_end(GtkWidget *dshell);
 void choice_dialog_button_set_sensitive(GtkWidget *shl, int button,
 					 gboolean state);

@@ -121,7 +121,8 @@ static void choice_dialog_clicked(GtkWidget *w, gpointer data)
   Add button to choice dialog.
 *****************************************************************/
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
-                       GCallback handler, gpointer data, bool warn)
+                       GCallback handler, gpointer data,
+                       const gchar *tool_tip)
 {
   GtkWidget *button, *bbox;
   char name[512];
@@ -144,26 +145,8 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
   g_signal_connect_after(button, "clicked",
 			 G_CALLBACK(choice_dialog_clicked), dshell);
 
-  if (warn) {
-    /* Add the warning icon if it can be found */
-    GtkIconTheme *theme = gtk_icon_theme_get_default();
-
-    /* TODO: What should be done if no icon is found? */
-    if (gtk_icon_theme_has_icon(theme, "dialog-warning")) {
-      GdkPixbuf *icon;
-      GtkWidget *converted;
-
-      icon = gtk_icon_theme_load_icon(theme, "dialog-warning",
-                                      16, 0, NULL);
-      converted = gtk_image_new_from_pixbuf(icon);
-      gtk_button_set_image(GTK_BUTTON(button), converted);
-      g_object_unref(icon);
-    }
-
-    /* Add a tool tip as well */
-    gtk_widget_set_tooltip_text(button,
-                                _("Starting to do this"
-                                  " may currently be impossible."));
+  if (tool_tip != NULL) {
+    gtk_widget_set_tooltip_text(button, tool_tip);
   }
 }
 
@@ -209,7 +192,7 @@ GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
     handler = va_arg(args, GCallback);
     data = va_arg(args, gpointer);
 
-    choice_dialog_add(dshell, name, handler, data, FALSE);
+    choice_dialog_add(dshell, name, handler, data, NULL);
   }
 
   va_end(args);

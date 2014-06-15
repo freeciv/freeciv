@@ -660,6 +660,7 @@ static void action_entry(GtkWidget *shl,
                          GCallback handler)
 {
   const gchar *label;
+  const gchar *tooltip;
   action_probability success_propability;
   gchar *chance_text;
 
@@ -674,15 +675,16 @@ static void action_entry(GtkWidget *shl,
   case ACTPROB_NOT_KNOWN:
     /* Unknown because the player don't have the required knowledge to
      * determine the probability of success for this action. */
-    label = action_prepare_ui_name(action_id, "_", "");
+    label = action_prepare_ui_name(action_id, "_", _(" (?%)"));
 
-    choice_dialog_add(shl, label, handler, NULL, TRUE);
+    choice_dialog_add(shl, label, handler, NULL,
+        _("Starting to do this may currently be impossible."));
     break;
   case ACTPROB_NOT_IMPLEMENTED:
     /* Unknown because of missing server support. */
     label = action_prepare_ui_name(action_id, "_", "");
 
-    choice_dialog_add(shl, label, handler, NULL, FALSE);
+    choice_dialog_add(shl, label, handler, NULL, NULL);
     break;
   default:
     /* Should be in the range 1 (0.5%) to 200 (100%) */
@@ -690,13 +692,16 @@ static void action_entry(GtkWidget *shl,
                   "Diplomat action probability out of range");
 
     /* TRANS: the probability that a diplomat action will succeed. */
-    chance_text = g_strdup_printf(_(" (%.1f%% chance of success)"),
+    chance_text = g_strdup_printf(_(" (%.1f%%)"),
                                   (double)success_propability / 2);
 
     label = action_prepare_ui_name(action_id, "_", chance_text);
 
+    tooltip = g_strdup_printf(_("The probability of success is %.1f%%."),
+                              (double)success_propability / 2);
+
     /* The unit of success_propability is 0.5% chance of success. */
-    choice_dialog_add(shl, label, handler, NULL, FALSE);
+    choice_dialog_add(shl, label, handler, NULL, tooltip);
 
     free(chance_text);
 
@@ -797,16 +802,16 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
     if (pcity) {
       choice_dialog_add(shl, _("_Keep moving"),
                         (GCallback)diplomat_keep_moving_city_callback,
-                        NULL, FALSE);
+                        NULL, NULL);
     } else {
       choice_dialog_add(shl, _("_Keep moving"),
                         (GCallback)diplomat_keep_moving_unit_callback,
-                        NULL, FALSE);
+                        NULL, NULL);
     }
   }
 
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
-                    (GCallback)diplomat_cancel_callback, NULL, FALSE);
+                    (GCallback)diplomat_cancel_callback, NULL, NULL);
 
   choice_dialog_end(shl);
 
