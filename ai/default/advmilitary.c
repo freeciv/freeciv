@@ -1439,7 +1439,7 @@ void military_advisor_choose_build(struct ai_type *ait,
     CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d urgency=%d danger=%d num_def=%d "
              "our_def=%d", urgency, danger, num_defenders, our_def);
 
-    if (our_def == 0 && urgency > 0) {
+    if (our_def == 0) {
       /* Build defensive unit first! Walls will help nothing if there's
        * nobody behind them. */
       if (process_defender_want(ait, pplayer, pcity, danger, choice)) {
