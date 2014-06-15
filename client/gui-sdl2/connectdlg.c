@@ -228,7 +228,7 @@ void popup_connection_dialog(bool lan_scan)
   SDL_Surface *pLogo;
   SDL_Rect area, area2;
   struct srv_list *srvrs;
-  
+
   queue_flush();
   close_connection_dialog();
   meswin_dialog_popdown();
@@ -236,9 +236,9 @@ void popup_connection_dialog(bool lan_scan)
   /* Text Label */  
   pLabelWindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pLabelWindow);
-  
+
   area = pLabelWindow->area;
-  
+
   fc_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
   pStr = create_str16_from_char(cBuf, adj_font(16));
   pStr->style = TTF_STYLE_BOLD;
@@ -251,11 +251,11 @@ void popup_connection_dialog(bool lan_scan)
                        (pLabelWindow->size.w - pLabelWindow->area.w)));
   area.h += pNewWidget->size.h + (adj_size(30) - 
             (pLabelWindow->size.w - pLabelWindow->area.w));
-  
+
   resize_window(pLabelWindow, NULL, &bg_color,
                 (pLabelWindow->size.w - pLabelWindow->area.w) + area.w,
                 (pLabelWindow->size.h - pLabelWindow->area.h) + area.h);
-  
+
   area = pLabelWindow->area;
 
   widget_set_position(pLabelWindow,
@@ -266,7 +266,7 @@ void popup_connection_dialog(bool lan_scan)
   widget_set_position(pNewWidget,
                       area.x + (area.w - pNewWidget->size.w)/2,
                       area.y + (area.h - pNewWidget->size.h)/2);
-  
+
   redraw_group(pNewWidget, pLabelWindow, TRUE);
   flush_dirty();
 
@@ -286,7 +286,7 @@ void popup_connection_dialog(bool lan_scan)
 
   meswin_dialog_popup(TRUE);
 
-  if(!pServer_list) {
+  if (!pServer_list) {
     if (lan_scan) {
       output_window_append(ftc_client, _("No LAN servers found")); 
     } else {
@@ -295,63 +295,62 @@ void popup_connection_dialog(bool lan_scan)
     set_client_page(PAGE_NETWORK);
     return;
   }
-  
+
   /* Server list window */  
   pMeta_Severs = fc_calloc(1, sizeof(struct ADVANCED_DLG));
-    
+
   pWindow = create_window_skeleton(NULL, NULL, 0);
   pWindow->action = meta_severs_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
-  if (lan_scan)
-  {
+  if (lan_scan) {
     add_to_gui_list(ID_LAN_SERVERS_WINDOW, pWindow);
   } else {
     add_to_gui_list(ID_META_SERVERS_WINDOW, pWindow);
   }
   pMeta_Severs->pEndWidgetList = pWindow;
-  
+
   area = pWindow->area;
-  
+
   /* Cancel button */
   pNewWidget = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
-						     _("Cancel"), adj_font(14), 0);
+                                                  _("Cancel"), adj_font(14), 0);
   pNewWidget->action = exit_meta_severs_dlg_callback;
   set_wstate(pNewWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pNewWidget);
-  
+
   /* servers */
   server_list_iterate(pServer_list, pServer) {
 
     /* TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
      * [server message]" */
     fc_snprintf(cBuf, sizeof(cBuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
-    	pServer->host, pServer->port, pServer->version, _(pServer->state),
-    		_("Players"), pServer->nplayers, pServer->message);
+                pServer->host, pServer->port, pServer->version, _(pServer->state),
+                _("Players"), pServer->nplayers, pServer->message);
 
     pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(10),
-	WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
-    
+                     WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
+
     pNewWidget->string16->style |= SF_CENTER;
     pNewWidget->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
 
     pNewWidget->action = select_meta_servers_callback;
     set_wstate(pNewWidget, FC_WS_NORMAL);
     pNewWidget->data.ptr = (void *)pServer;
-    
+
     add_to_gui_list(ID_BUTTON, pNewWidget);
-    
+
     w = MAX(w, pNewWidget->size.w);
     h = MAX(h, pNewWidget->size.h);
     count++;
-    
-    if(count > 10) {
+
+    if (count > 10) {
       set_wflag(pNewWidget, WF_HIDDEN);
     }
-    
+
   } server_list_iterate_end;
 
-  if(!count) {
+  if (!count) {
     if (lan_scan) {
       output_window_append(ftc_client, _("No LAN servers found")); 
     } else {
@@ -360,24 +359,24 @@ void popup_connection_dialog(bool lan_scan)
     set_client_page(PAGE_NETWORK);
     return;
   }
-  
+
   pMeta_Severs->pBeginWidgetList = pNewWidget;
   pMeta_Severs->pBeginActiveWidgetList = pMeta_Severs->pBeginWidgetList;
   pMeta_Severs->pEndActiveWidgetList = pMeta_Severs->pEndWidgetList->prev->prev;
   pMeta_Severs->pActiveWidgetList = pMeta_Severs->pEndActiveWidgetList;
-    
+
   if (count > 10) {
     meta_h = 10 * h;
-  
+
     count = create_vertical_scrollbar(pMeta_Severs, 1, 10, TRUE, TRUE);
     w += count;
   } else {
     meta_h = count * h;
   }
-  
+
   w += adj_size(20);
   area2.h = meta_h;
-  
+
   meta_h += pMeta_Severs->pEndWidgetList->prev->size.h + adj_size(10) + adj_size(20);
 
   pLogo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
@@ -386,77 +385,79 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   area = pWindow->area;
-  
+
   widget_set_position(pWindow,
                       (main_window_width() - w) / 2,
                       (main_window_height() - meta_h) / 2);
-  
+
   w -= adj_size(20);
-  
+
   area2.w = w + 1;
-  
-  if(pMeta_Severs->pScroll) {
+
+  if (pMeta_Severs->pScroll) {
     w -= count;
   }
-  
+
   /* exit button */
   pNewWidget = pWindow->prev;
   pNewWidget->size.x = area.x + area.w - pNewWidget->size.w - adj_size(10);
   pNewWidget->size.y = area.y + area.h - pNewWidget->size.h - adj_size(10);
-  
+
   /* meta labels */
   pNewWidget = pNewWidget->prev;
-  
+
   pNewWidget->size.x = area.x + adj_size(10);
   pNewWidget->size.y = area.y + adj_size(10);
   pNewWidget->size.w = w;
   pNewWidget->size.h = h;
   pNewWidget = convert_iconlabel_to_themeiconlabel2(pNewWidget);
-  
+
   pNewWidget = pNewWidget->prev;
-  while(pNewWidget)
-  {
-        
+  while (pNewWidget) {
     pNewWidget->size.w = w;
     pNewWidget->size.h = h;
     pNewWidget->size.x = pNewWidget->next->size.x;
     pNewWidget->size.y = pNewWidget->next->size.y + pNewWidget->next->size.h;
     pNewWidget = convert_iconlabel_to_themeiconlabel2(pNewWidget);
-    
+
     if (pNewWidget == pMeta_Severs->pBeginActiveWidgetList) {
       break;
     }
     pNewWidget = pNewWidget->prev;  
   }
-  
-  if(pMeta_Severs->pScroll) {
+
+  if (pMeta_Severs->pScroll) {
     setup_vertical_scrollbar_area(pMeta_Severs->pScroll,
-	area.x + area.w - adj_size(6),
-	pMeta_Severs->pEndActiveWidgetList->size.y,
-	area.h - adj_size(24) - pWindow->prev->size.h, TRUE);
+                                  area.x + area.w - adj_size(6),
+                                  pMeta_Severs->pEndActiveWidgetList->size.y,
+                                  area.h - adj_size(24) - pWindow->prev->size.h, TRUE);
   }
-  
+
   /* -------------------- */
   /* redraw */
-  
+
   widget_redraw(pWindow);
-  
+
   area2.x = pMeta_Severs->pEndActiveWidgetList->size.x;
   area2.y = pMeta_Severs->pEndActiveWidgetList->size.y;
 
-  SDL_FillRectAlpha(pWindow->dst->surface, &area2, &bg_color);
-  
+  fill_rect_alpha(pWindow->dst->surface, &area2, &bg_color);
+
+#if 0
   putframe(pWindow->dst->renderer,
            area2.x - 1, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
            get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
-  
+#endif
+
   redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, 0);
 
+#if 0
   putframe(pWindow->dst->renderer,
            pWindow->size.x, pWindow->size.y,
            area.x + area.w - 1, area.y + area.h - 1,
            get_theme_color(COLOR_THEME_CONNECTDLG_FRAME));
-    
+#endif
+
   widget_flush(pWindow);
 }
 

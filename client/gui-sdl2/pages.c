@@ -95,6 +95,7 @@ static int servers_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
+
     popdown_start_menu();  
     popup_connection_dialog(lan_scan);
   }
@@ -140,7 +141,7 @@ static void show_main_page(void)
   SDL_Rect area;
   char verbuf[200];
   const char *rev_ver = fc_svn_revision();
-    
+
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
 
@@ -159,136 +160,136 @@ static void show_main_page(void)
     fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s (%s)"), VERSION_STRING, rev_ver);
   }
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
-            adj_font(12),
-            (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+                                        adj_font(12),
+                                        (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
+
   add_to_gui_list(ID_LABEL, pWidget);
 
   /* TRANS: gui-sdl2 client */
   fc_snprintf(verbuf, sizeof(verbuf), _("%s client"), client_string);
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
-            adj_font(12),
-            (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+                                        adj_font(12),
+                                        (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
+
   add_to_gui_list(ID_LABEL, pWidget);
-  
+
   /* Start New Game */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Start New Game"),
-            adj_font(14),
-            (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+                                        adj_font(14),
+                                        (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pWidget->action = start_new_game_callback;
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
+
   add_to_gui_list(ID_START_NEW_GAME, pWidget);
-  
-  /* Load Game */  
+
+  /* Load Game */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Load Game"),
-            adj_font(14),
-	    (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
+                                        adj_font(14),
+                                        (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
 
   pWidget->action = load_game_callback;
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_LOAD_GAME, pWidget);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
+
   /* Join Game */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Game"),
-            adj_font(14),
-	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+                                        adj_font(14),
+                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = join_game_callback;
-  pWidget->string16->style |= SF_CENTER;  
+  pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_JOIN_GAME, pWidget);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-    
-  /* Join Pubserver */  
+
+  /* Join Pubserver */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Pubserver"),
-            adj_font(14),
-	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+                                        adj_font(14),
+                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = servers_callback;
-  pWidget->string16->style |= SF_CENTER;  
+  pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_JOIN_META_GAME, pWidget);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
-  /* Join LAN Server */  
+
+  /* Join LAN Server */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join LAN Server"),
-            adj_font(14),
-	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+                                        adj_font(14),
+                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = servers_callback;
-  pWidget->string16->style |= SF_CENTER;  
+  pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_JOIN_GAME, pWidget);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
-  /* Options */  
+
+  /* Options */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Options"),
-            adj_font(14),
-	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+                                        adj_font(14),
+                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = options_callback;
   pWidget->string16->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
-  
+
   add_to_gui_list(ID_CLIENT_OPTIONS_BUTTON, pWidget);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
-  /* Quit */  
+
+  /* Quit */
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Quit"),
-            adj_font(14),
-	    WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
+                                        adj_font(14),
+                                        WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = quit_callback;
   pWidget->string16->style |= SF_CENTER;
   pWidget->key = SDLK_ESCAPE;
   set_wstate(pWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_QUIT, pWidget);
-  
+
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
   count++;
-  
+
   pStartMenu->pBeginWidgetList = pWidget;
 
   /* ------*/
@@ -299,7 +300,7 @@ static void show_main_page(void)
   area.h = MAX(area.h, h * count);
 
   /* ------*/
-  
+
   pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
   if (resize_window(pWindow, pBackground, NULL,
                     (pWindow->size.w - pWindow->area.w) + area.w,
@@ -312,16 +313,16 @@ static void show_main_page(void)
   group_set_area(pWidget, pWindow->prev, area);
 
   setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pWindow->prev);
-  
+
   area.h = h * 2;
-  SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
-  
+  fill_rect_alpha(pWindow->theme, &area, &bg_color);
+
   widget_set_position(pWindow,
                       (main_window_width() - pWindow->size.w) - adj_size(20),
                       (main_window_height() - pWindow->size.h) - adj_size(20));
 
   draw_intro_gfx();
-  
+
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
 
 #if 0
@@ -330,7 +331,7 @@ static void show_main_page(void)
           area.x + area.w - 1, area.y + (h * 2 - 1),
           line_color);
 #endif
-  
+
   set_output_window_text(_("SDL2-client welcomes you..."));
   chat_welcome_message();
 
@@ -339,9 +340,12 @@ static void show_main_page(void)
   flush_all();
 }
 
+/**************************************************************************
+  Close start menu
+**************************************************************************/
 static void popdown_start_menu()
 {
-  if(pStartMenu) {
+  if (pStartMenu) {
     popdown_window_group_dialog(pStartMenu->pBeginWidgetList,
                                 pStartMenu->pEndWidgetList);
     FC_FREE(pStartMenu);
@@ -360,52 +364,52 @@ static void popdown_start_menu()
 void real_set_client_page(enum client_pages page)
 {
   switch (old_page) {
-    case PAGE_MAIN:
-      popdown_start_menu();
-      break;
-    case PAGE_LOAD:
-      popdown_load_game_dialog();
-      break;
-    case PAGE_NETWORK:
-      close_connection_dialog();
-      break;
-    case PAGE_START:
-      popdown_conn_list_dialog();
-      break;
-    case PAGE_GAME:
-      close_game_page();
-      break;
-    default: 
-      break;
+  case PAGE_MAIN:
+    popdown_start_menu();
+    break;
+  case PAGE_LOAD:
+    popdown_load_game_dialog();
+    break;
+  case PAGE_NETWORK:
+    close_connection_dialog();
+    break;
+  case PAGE_START:
+    popdown_conn_list_dialog();
+    break;
+  case PAGE_GAME:
+    close_game_page();
+    break;
+  default:
+    break;
   }
 
   switch (page) {
-    case PAGE_MAIN:
-      show_main_page();
-      break;
-    case PAGE_LOAD:
-      client_start_server();
-      break;
-    case PAGE_NETWORK:
-      popup_join_game_dialog();
-      break;
-    case PAGE_START:
-      conn_list_dialog_update();
-      break;
-    case PAGE_GAME:
-      show_game_page();
-      enable_main_widgets();
-      update_info_label();
-      unit_focus_update();
-      update_unit_info_label(get_units_in_focus());
-      update_turn_done_button_state();
-      refresh_overview();
-      menus_update();
-      break;
-    default:
-      break;
-  }  
-  
+  case PAGE_MAIN:
+    show_main_page();
+    break;
+  case PAGE_LOAD:
+    client_start_server();
+    break;
+  case PAGE_NETWORK:
+    popup_join_game_dialog();
+    break;
+  case PAGE_START:
+    conn_list_dialog_update();
+    break;
+  case PAGE_GAME:
+    show_game_page();
+    enable_main_widgets();
+    update_info_label();
+    unit_focus_update();
+    update_unit_info_label(get_units_in_focus());
+    update_turn_done_button_state();
+    refresh_overview();
+    menus_update();
+    break;
+  default:
+    break;
+  }
+
   old_page = page;
 }
 

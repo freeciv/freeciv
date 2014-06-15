@@ -67,7 +67,7 @@ static int redraw_window(struct widget *pWindow)
     dst = pWindow->area;
     dst.y -= (WINDOW_TITLE_HEIGHT + 1);
     dst.h = WINDOW_TITLE_HEIGHT;
-    SDL_FillRectAlpha(pWindow->dst->surface, &dst, &title_bg_color);
+    fill_rect_alpha(pWindow->dst->surface, &dst, &title_bg_color);
 
     /* Draw Text on Window's TitleBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
@@ -80,19 +80,19 @@ static int redraw_window(struct widget *pWindow)
 
     dst = pWindow->area;    
 
-#if 0    
+#if 0
     putline(pWindow->dst->surface,
             dst.x, dst.y - 1,
             dst.x + dst.w - 1, dst.y - 1,
             get_theme_color(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
 #endif
   }
-  
+
   /* draw frame */
   if (get_wflags(pWindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
     widget_draw_frame(pWindow);
   }
-  
+
   return 0;
 }
 

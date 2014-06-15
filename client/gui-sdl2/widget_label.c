@@ -65,8 +65,8 @@ static int redraw_label(struct widget *pLabel)
   if (ret != 0) {
     return ret;
   }
-  
-  if(get_wtype(pLabel) == WT_T2_LABEL) {
+
+  if (get_wtype(pLabel) == WT_T2_LABEL) {
     return redraw_themelabel2(pLabel);
   }
 
@@ -76,35 +76,35 @@ static int redraw_label(struct widget *pLabel)
       if (pLabel->string16) {
         backup_color = pLabel->string16->fgcol;
         pLabel->string16->fgcol = bar_color;
-	if(pLabel->string16->style & TTF_STYLE_BOLD) {
-	  pLabel->string16->style |= TTF_STYLE_UNDERLINE;
-	} else {
-	  pLabel->string16->style |= TTF_STYLE_BOLD;
-	}
+        if (pLabel->string16->style & TTF_STYLE_BOLD) {
+          pLabel->string16->style |= TTF_STYLE_UNDERLINE;
+        } else {
+          pLabel->string16->style |= TTF_STYLE_BOLD;
+        }
       }
     } else {
-      SDL_FillRectAlpha(pLabel->dst->surface, &area, &bar_color);
+      fill_rect_alpha(pLabel->dst->surface, &area, &bar_color);
     }
   }
 
   /* redraw icon label */
   ret = redraw_iconlabel(pLabel);
-  
+
   if ((get_wstate(pLabel) == FC_WS_SELECTED) && (pLabel->string16)) {
     if (get_wflags(pLabel) & WF_SELECT_WITHOUT_BAR) {
       if (pLabel->string16->style & TTF_STYLE_UNDERLINE) {
-	pLabel->string16->style &= ~TTF_STYLE_UNDERLINE;
+        pLabel->string16->style &= ~TTF_STYLE_UNDERLINE;
       } else {
-	pLabel->string16->style &= ~TTF_STYLE_BOLD;
+        pLabel->string16->style &= ~TTF_STYLE_BOLD;
       }
       pLabel->string16->fgcol = backup_color;
     } else {
-      if(pLabel->string16->render == 3) {
-	pLabel->string16->bgcol = backup_color;
+      if (pLabel->string16->render == 3) {
+        pLabel->string16->bgcol = backup_color;
       }
     } 
   }
-  
+
   return ret;
 }
 
@@ -292,36 +292,37 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   /* selected */
   area.x = 0;
   area.y = pLabel->size.h;
-    
+
   if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
-	      &pText->bgcol.r, &pText->bgcol.g,
-      		&pText->bgcol.b, &pText->bgcol.a);
+                &pText->bgcol.r, &pText->bgcol.g,
+                &pText->bgcol.b, &pText->bgcol.a);
   } else {
-    SDL_FillRectAlpha(pTheme, &area, &bg_color);
+    fill_rect_alpha(pTheme, &area, &bg_color);
   }
-  
+
   pLabel->size.y = pLabel->size.h;
   redraw_iconlabel(pLabel);
-  
-  if(flags & WF_RESTORE_BACKGROUND) {
+
+  if (flags & WF_RESTORE_BACKGROUND) {
     pText->bgcol = store;
   }
-  
+
   pLabel->size.x = 0;
   pLabel->size.y = 0;
-  if(flags & WF_FREE_THEME) {
+  if (flags & WF_FREE_THEME) {
     FREESURFACE(pLabel->theme);
   }
   pLabel->theme = pTheme;
   FC_FREE(pLabel->dst);
   pLabel->dst = pDest;
+
   return pLabel;
 }
 
-struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
+struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
 {
   SDL_Rect start, area;
   SDL_Color store = {0, 0, 0, 0};
@@ -341,58 +342,58 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   } else {
     pTheme = pBuf;
   }
-  
+
   colorkey = SDL_MapRGBA(pTheme->format, pIconLabel->string16->bgcol.r,
-  		pIconLabel->string16->bgcol.g,
-		pIconLabel->string16->bgcol.b,
-		pIconLabel->string16->bgcol.a);
+                         pIconLabel->string16->bgcol.g,
+                         pIconLabel->string16->bgcol.b,
+                         pIconLabel->string16->bgcol.a);
   SDL_FillRect(pTheme, NULL, colorkey);
-  
+
   start = pIconLabel->size;
   pIconLabel->size.x = 0;
   pIconLabel->size.y = 0;
   area = start;
   pDest = pIconLabel->dst->surface;
   pIconLabel->dst->surface = pTheme;
-  
+
   /* normal */
   redraw_iconlabel(pIconLabel);
 
   /* selected */
   area.x = 0;
   area.y = pIconLabel->size.h;
-    
-  if(flags & WF_RESTORE_BACKGROUND) {
+
+  if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pIconLabel->string16->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
-	      &pIconLabel->string16->bgcol.r, &pIconLabel->string16->bgcol.g,
+                &pIconLabel->string16->bgcol.r, &pIconLabel->string16->bgcol.g,
       		&pIconLabel->string16->bgcol.b,
-			&pIconLabel->string16->bgcol.a);
+                &pIconLabel->string16->bgcol.a);
   } else {
-    SDL_FillRectAlpha(pTheme, &area, &bg_color);
+    fill_rect_alpha(pTheme, &area, &bg_color);
   }
-  
+
   pIconLabel->size.y = pIconLabel->size.h;
   redraw_iconlabel(pIconLabel);
-  
-  if(flags & WF_RESTORE_BACKGROUND) {
+
+  if (flags & WF_RESTORE_BACKGROUND) {
     pIconLabel->string16->bgcol = store;
   }
-  
+
   pIconLabel->size = start;
-  if(flags & WF_FREE_THEME) {
+  if (flags & WF_FREE_THEME) {
     FREESURFACE(pIconLabel->theme);
   }
   pIconLabel->theme = pTheme;
-  if(flags & WF_FREE_STRING) {
+  if (flags & WF_FREE_STRING) {
     FREESTRING16(pIconLabel->string16);
   }
   pIconLabel->dst->surface = pDest;
   set_wtype(pIconLabel, WT_T2_LABEL);
-  
+
   pIconLabel->redraw = redraw_label;
-  
+
   return pIconLabel;
 }
 

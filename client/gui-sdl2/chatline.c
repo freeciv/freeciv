@@ -668,7 +668,7 @@ void real_conn_list_dialog_update(void)
 static void popup_conn_list_dialog(void)
 {
   SDL_Color window_bg_color = {255, 255, 255, 96};
- 
+
   struct widget *pWindow = NULL, *pBuf = NULL, *pLabel = NULL;
   struct widget* pBackButton = NULL;
   struct widget *pStartGameButton = NULL;
@@ -679,7 +679,7 @@ static void popup_conn_list_dialog(void)
   int n;
   SDL_Rect area;
   SDL_Surface *pSurf;
-    
+
   if (pConnDlg || !client.conn.established) {
     return;
   }
@@ -692,10 +692,10 @@ static void popup_conn_list_dialog(void)
   pWindow->action = conn_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
-  
+
   pConnDlg->pEndWidgetList = pWindow;
   add_to_gui_list(ID_WINDOW, pWindow);
-  
+
   widget_set_position(pWindow, 0, 0);
 
   /* create window background */
@@ -703,27 +703,27 @@ static void popup_conn_list_dialog(void)
   if (resize_window(pWindow, pSurf, NULL, main_window_width(), main_window_height())) {
     FREESURFACE(pSurf);
   }
-  
+
   pConnDlg->text_width = pWindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);
-  
+
   /* chat area background */
   area.x = adj_size(10);
   area.y = adj_size(14);
   area.w = pConnDlg->text_width + adj_size(20);
   area.h = pWindow->size.h - adj_size(44) - adj_size(40);
-  SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
+  fill_rect_alpha(pWindow->theme, &area, &window_bg_color);
 #if 0
   putframe(pWindow->theme,
            area.x - 1, area.y - 1, area.x + area.w, area.y + area.h,
            get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
 #endif
-  
+
   /* user list background */
   area.x = pWindow->size.w - adj_size(130);
   area.y = adj_size(14);
   area.w = adj_size(120);
   area.h = pWindow->size.h - adj_size(44) - adj_size(40);
-  SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
+  fill_rect_alpha(pWindow->theme, &area, &window_bg_color);
 
 #if 0
   putframe(pWindow->theme,

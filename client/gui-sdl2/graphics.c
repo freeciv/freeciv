@@ -178,29 +178,21 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
               SDL_Surface *dst, SDL_Rect *dstrect,
               unsigned char alpha_mod)
 {
+  int ret;
+
   if (!(src && dst)) {
     return 1;
   }
 
-#if 0
-  /* use for RGBA->RGBA blits only */
-  if (src->format->Amask && dst->format->Amask) {
-    return pygame_AlphaBlit(src, srcrect, dst, dstrect);
-  } else
-#endif
- {
-   int ret;
+  SDL_SetSurfaceAlphaMod(dst, alpha_mod);
 
-   SDL_SetSurfaceAlphaMod(dst, alpha_mod);
+  ret = SDL_BlitSurface(src, srcrect, dst, dstrect);
 
-   ret = SDL_BlitSurface(src, srcrect, dst, dstrect);
-
-   if (ret) {
-     log_error("SDL_BlitSurface() fails: %s", SDL_GetError());
-   }
-
-   return ret;
+  if (ret) {
+    log_error("SDL_BlitSurface() fails: %s", SDL_GetError());
   }
+
+  return ret;
 }
 
 /**************************************************************************
@@ -580,7 +572,7 @@ void init_sdl(int iFlags)
     error = (SDL_Init(iFlags) < 0);
   }
   if (error) {
-    log_fatal(_("Unable to initialize SDL library: %s"), SDL_GetError());
+    log_fatal(_("Unable to initialize SDL2 library: %s"), SDL_GetError());
     exit(EXIT_FAILURE);
   }
 
@@ -588,7 +580,7 @@ void init_sdl(int iFlags)
 
   /* Initialize the TTF library */
   if (TTF_Init() < 0) {
-    log_fatal(_("Unable to initialize SDL_ttf library: %s"), SDL_GetError());
+    log_fatal(_("Unable to initialize SDL2_ttf library: %s"), SDL_GetError());
     exit(EXIT_FAILURE);
   }
 
@@ -2837,23 +2829,20 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   Fill rectangle with color with alpha channel.
 **************************************************************************/
-int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
-		      SDL_Color *pColor)
+int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *pRect,
+                    SDL_Color *pColor)
 {
-  if (pRect && ( pRect->x < - pRect->w || pRect->x >= pSurface->w ||
-	         pRect->y < - pRect->h || pRect->y >= pSurface->h ))
-  {
-     return -2;
+  if (pRect && (pRect->x < - pRect->w || pRect->x >= pSurface->w
+                || pRect->y < - pRect->h || pRect->y >= pSurface->h)) {
+    return -2;
   }
 
-  if (pColor->a == 255 )
-  {
+  if (pColor->a == 255) {
     return SDL_FillRect(pSurface, pRect,
-	SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b));
+                        SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b));
   }
 
-  if (!pColor->a)
-  {
+  if (!pColor->a) {
     return -3;
   }
 

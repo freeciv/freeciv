@@ -3386,7 +3386,7 @@ void popup_races_dialog(struct player *pplayer)
     area2.y = area.y + i - adj_size(4);
     area2.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
     area2.h = h;
-    SDL_FillRectAlpha(pWindow->theme, &area2, &bg_color);
+    fill_rect_alpha(pWindow->theme, &area2, &bg_color);
 #if 0
     putframe(pWindow->theme,
              area2.x, area2.y - 1, area2.x + area2.w, area2.y + area2.h,

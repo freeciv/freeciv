@@ -781,17 +781,17 @@ void update_city_cma_dialog(void)
 
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
-  
+
   /* fill result text background */  
   dst.x = pBuf->area.x + adj_size(7);
   dst.y = pBuf->area.y + adj_size(186);
   dst.w = pText->w + adj_size(10);
   dst.h = pText->h + adj_size(10);
-  SDL_FillRectAlpha(pBuf->dst->surface, &dst, &bg_color);
+  fill_rect_alpha(pBuf->dst->surface, &dst, &bg_color);
   putframe(pBuf->dst->renderer,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
            get_theme_color(COLOR_THEME_CMA_FRAME));
-  
+
   dst.x += adj_size(5);
   dst.y += adj_size(5);
   alphablit(pText, NULL, pBuf->dst->surface, &dst, 255);
@@ -1104,21 +1104,21 @@ void popup_city_cma_dialog(struct city *pCity)
 #ifdef SMALL_SCREEN
   dst.x += 22;  
 #endif
-  
+
   dst.y =  adj_size(75);
-  
+
   x = area.x = dst.x - adj_size(10);
   area.y = dst.y - adj_size(20);
-  w = area.w = adj_size(10) + text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-		pWindow->prev->prev->size.w + adj_size(5 + 55 + 10);
+  w = area.w = adj_size(10) + text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5)
+    + pWindow->prev->prev->size.w + adj_size(5 + 55 + 10);
   area.h = (O_LAST + 1) * (pText[0]->h + adj_size(6)) + adj_size(20);
-  SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pWindow->theme, &area, &bg_color);
 #if 0
   putframe(pWindow->theme,
            area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
            get_theme_color(COLOR_THEME_CMA_FRAME));
 #endif
-  
+
   area.x = dst.x + text_w + adj_size(10);
   alphablit(pMinimal, NULL, pWindow->theme, &area, 255);
   area.x += pMinimal->w + adj_size(10);
@@ -1137,38 +1137,38 @@ void popup_city_cma_dialog(struct city *pCity)
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + dst.x + text_w + adj_size(10);
     pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
-    
+
     /* min sb */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
     pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
-  
+
     area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
     area.y = pBuf->size.y - pWindow->size.y;
     area.w = adj_size(74);
     area.h = pBuf->size.h;
-    SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+    fill_rect_alpha(pWindow->theme, &area, &bg_color);
 #if 0
     putframe(pWindow->theme,
              area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
              get_theme_color(COLOR_THEME_CMA_FRAME));
 #endif
-    
+
     /* factor label */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + adj_size(75);
     pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
-    
+
     /* factor sb */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
     pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
-    
+
     area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
     area.y = pBuf->size.y - pWindow->size.y;
     area.w = adj_size(58);
     area.h = pBuf->size.h;
-    SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+    fill_rect_alpha(pWindow->theme, &area, &bg_color);
 #if 0
     putframe(pWindow->theme,
              area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
@@ -1179,33 +1179,33 @@ void popup_city_cma_dialog(struct city *pCity)
     dst.y += pText[i]->h + adj_size(6);
     FREESURFACE(pText[i]);
   } output_type_iterate_end;
-  
+
   /* happy factor label */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->next->size.x;
   pBuf->size.y = pWindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
-  
+
   /* happy factor sb */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
   pBuf->size.y = pWindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
-  
+
   area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
   area.y = pBuf->size.y - pWindow->size.y;
   area.w = adj_size(58);
   area.h = pBuf->size.h;
-  SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pWindow->theme, &area, &bg_color);
 #if 0
   putframe(pWindow->theme,
            area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
            get_theme_color(COLOR_THEME_CMA_FRAME));
 #endif
-  
+
   /* celebrate cbox */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + dst.x + adj_size(10);
   pBuf->size.y = pWindow->size.y + dst.y;
-  
+
   /* celebrate static text */
   dst.x += (adj_size(10) + pBuf->size.w + adj_size(5));
   dst.y += (pBuf->size.h - pText[O_LAST]->h) / 2;
@@ -1217,43 +1217,43 @@ void popup_city_cma_dialog(struct city *pCity)
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + x + (w - (pBuf->size.w + adj_size(6)) * 6) / 2;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h * 2 - adj_size(10);
-    
+
   area.x = x;
   area.y = pBuf->size.y - pWindow->size.y - adj_size(5);
   area.w = w;
   area.h = pBuf->size.h + adj_size(10);
-  SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pWindow->theme, &area, &bg_color);
 #if 0
   putframe(pWindow->theme,
            area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
            get_theme_color(COLOR_THEME_CMA_FRAME));
 #endif
-  
+
   /* load */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(4);
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* del */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(4);
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* run */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(4);
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* run one time */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(4);
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* del */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(4);
   pBuf->size.y = pBuf->next->size.y;
-  
+
   /* ------------------------ */
   /* check if Citizen Icons style was loaded */
   cs = style_of_city(pCma->pCity);

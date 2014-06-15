@@ -278,16 +278,15 @@ static void popup_goto_airlift_dialog(void)
   /* --------------------------------------------- */
   players_iterate(pPlayer) {
     if (pPlayer != client.conn.playing
-        && DS_NO_CONTACT
-           == player_diplstate_get(client.conn.playing, pPlayer)->type) {
+        && DS_NO_CONTACT == player_diplstate_get(client.conn.playing, pPlayer)->type) {
       continue;
     }
 
     pFlag = ResizeSurfaceBox(get_nation_flag_surface(pPlayer->nation),
                              adj_size(30), adj_size(30), 1, TRUE, FALSE);
-  
+
     pEnabled = create_icon_theme_surf(pFlag);
-    SDL_FillRectAlpha(pFlag, NULL, &bg_color);
+    fill_rect_alpha(pFlag, NULL, &bg_color);
     pDisabled = create_icon_theme_surf(pFlag);
     FREESURFACE(pFlag);
 
@@ -324,7 +323,8 @@ static void popup_goto_airlift_dialog(void)
   col = (col + 15) / 16; /* number of flag columns */
 
   pFlag = ResizeSurface(pTheme->Block,
-    (col * pBuf->size.w + (col - 1) * adj_size(5) + adj_size(10)), area.h, 1);
+                        (col * pBuf->size.w + (col - 1) * adj_size(5) + adj_size(10)),
+                        area.h, 1);
 
   block_x = dst.x = area.x + area.w - pFlag->w;
   dst.y = area.y;

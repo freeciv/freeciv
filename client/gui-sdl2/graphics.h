@@ -219,8 +219,6 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
 
 /* ---------- */
 
-int pygame_AlphaBlit(SDL_Surface *src, SDL_Rect *srcrect, 
-                     SDL_Surface *dst, SDL_Rect *dstrect);
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
               SDL_Surface *dst, SDL_Rect *dstrect,
               unsigned char alpha_mod);
@@ -290,8 +288,8 @@ void update_main_screen(void);
 bool correct_rect_region(SDL_Rect *pRect);
 bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
-int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
-		      SDL_Color *pColor);
+int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *pRect,
+                    SDL_Color *pColor);
 
 int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
 

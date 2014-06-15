@@ -173,7 +173,7 @@ static void redraw_impr_info_dlg(void)
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10);
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
-  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
 #if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
@@ -595,7 +595,7 @@ static void redraw_unit_info_dlg(void)
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10);
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
-  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
 #if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
@@ -1049,7 +1049,7 @@ static void redraw_tech_info_dlg(void)
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10);
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
-  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
 #if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
@@ -1404,7 +1404,7 @@ static void redraw_tech_tree_dlg(void)
   dst.w = pWindow->area.w - (dst.x - pWindow->area.x) - adj_size(10);
   dst.h = pWindow->area.h - (dst.y - pWindow->area.y) - adj_size(10);
 
-  SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
+  fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
 #if 0
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,

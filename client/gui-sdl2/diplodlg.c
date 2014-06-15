@@ -828,7 +828,7 @@ static struct diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
-  
+
   struct player *pPlayer0, *pPlayer1;
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   char cBuf[128];
@@ -836,33 +836,33 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
   SDL_String16 *pStr;
   SDL_Rect dst;
   SDL_Rect area;
-  
-  if(pdialog) {
-    
+
+  if (pdialog) {
+
     /* delete old content */
     if (pdialog->pdialog->pEndWidgetList) {
       popdown_window_group_dialog(pdialog->poffers->pBeginWidgetList,
                                   pdialog->poffers->pEndWidgetList);
       FC_FREE(pdialog->poffers->pScroll);
       FC_FREE(pdialog->poffers);
-      
+
       popdown_window_group_dialog(pdialog->pwants->pBeginWidgetList,
                                   pdialog->pwants->pEndWidgetList);
       FC_FREE(pdialog->pwants->pScroll);
       FC_FREE(pdialog->pwants);
-      
+
       popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
                                             pdialog->pdialog->pEndWidgetList);
     }
-   
+
     pPlayer0 = pdialog->treaty.plr0;
     pPlayer1 = pdialog->treaty.plr1;
 
     pCont->id0 = player_number(pPlayer0);
     pCont->id1 = player_number(pPlayer1);
-    
+
     fc_snprintf(cBuf, sizeof(cBuf), _("Diplomacy meeting"));
-    
+
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
@@ -876,40 +876,38 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     add_to_gui_list(ID_WINDOW, pWindow);
 
     /* ============================================================= */
-  
+
     pStr = create_str16_from_char(nation_adjective_for_player(pPlayer0), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-    
-    pBuf = create_iconlabel(
-    	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
-		pWindow->dst, pStr,
-		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
-						WF_RESTORE_BACKGROUND));
-						
+
+    pBuf = create_iconlabel(create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
+                            pWindow->dst, pStr,
+                            (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
+                             WF_RESTORE_BACKGROUND));
+
     pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
     pBuf->private_data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
-    
+
     add_to_gui_list(ID_ICON, pBuf);
-    
+
     pStr = create_str16_from_char(nation_adjective_for_player(pPlayer1), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-    
-    pBuf = create_iconlabel(
-    	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
-		pWindow->dst, pStr,
-		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
-    						WF_RESTORE_BACKGROUND));
+
+    pBuf = create_iconlabel(create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
+                            pWindow->dst, pStr,
+                            (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
+                             WF_RESTORE_BACKGROUND));
     pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
     pBuf->private_data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
     add_to_gui_list(ID_ICON, pBuf);
     /* ============================================================= */
-    
+
     pBuf = create_themeicon(pTheme->CANCEL_PACT_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
@@ -918,9 +916,9 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pBuf->action = cancel_meeting_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
-    
+
     add_to_gui_list(ID_ICON, pBuf);
-    
+
     pBuf = create_themeicon(pTheme->OK_PACT_Icon, pWindow->dst,
                             WF_FREE_DATA | WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
@@ -929,15 +927,15 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pBuf->action = accept_treaty_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
-    
+
     add_to_gui_list(ID_ICON, pBuf);
     /* ============================================================= */
-    
+
     pdialog->pdialog->pBeginWidgetList = pBuf;
-    
+
     create_vertical_scrollbar(pdialog->pdialog, 1, 7, TRUE, TRUE);
     hide_scrollbar(pdialog->pdialog->pScroll);
-    
+
     /* ============================================================= */
 
     resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -952,48 +950,48 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pBuf = pWindow->prev;
     pBuf->size.x = area.x + adj_size(17);
     pBuf->size.y = area.y + adj_size(6);
-    
+
     dst.y = area.y + adj_size(6) + pBuf->size.h + adj_size(10);
     dst.x = adj_size(10);
     dst.w = area.w - adj_size(14);
-        
+
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(20);
     pBuf->size.y = area.y + adj_size(6);
-    
+
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(40))) / 2;
     pBuf->size.y = area.y + area.h - pBuf->size.w - adj_size(17);
-    
+
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(40);
     pBuf->size.y = area.y + area.h - pBuf->size.w - adj_size(17);
-    
+
     dst.h = area.h - pBuf->size.w - adj_size(3) - dst.y;
     /* ============================================================= */
-    
-    SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
-    
+
+    fill_rect_alpha(pWindow->theme, &dst, &bg_color);
+
     /* ============================================================= */
     setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,
-	area.x + dst.x + dst.w,
-    	dst.y,
-    	dst.h, TRUE);
+                                  area.x + dst.x + dst.w,
+                                  dst.y,
+                                  dst.h, TRUE);
     /* ============================================================= */
     pdialog->poffers = popup_diplomatic_objects(pPlayer0, pPlayer1, pWindow, FALSE);
-    
+
     pdialog->pwants = popup_diplomatic_objects(pPlayer1, pPlayer0, pWindow, TRUE);
     /* ============================================================= */
     /* redraw */
     redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
     widget_mark_dirty(pWindow);
-    
+
     redraw_group(pdialog->poffers->pBeginWidgetList, pdialog->poffers->pEndWidgetList, 0);
     widget_mark_dirty(pdialog->poffers->pEndWidgetList);
-    
+
     redraw_group(pdialog->pwants->pBeginWidgetList, pdialog->pwants->pEndWidgetList, 0);
     widget_mark_dirty(pdialog->pwants->pEndWidgetList);
-    
+
     flush_dirty();
   }
 }

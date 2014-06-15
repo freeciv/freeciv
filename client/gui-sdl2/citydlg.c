@@ -3054,17 +3054,19 @@ static void redraw_city_dialog(struct city *pCity)
     dest.w = 70 + 4;
     dest.h = i + 4;
 
-    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_GRANARY));
+    fill_rect_alpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_GRANARY));
 
+#if 0
     putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
+#endif
 		
     /* draw bcgd stocks*/
     dest.x = pWindow->size.x + adj_size(550);
     dest.y = pWindow->size.y + adj_size(260);
 
-    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_STOCKS));
+    fill_rect_alpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_STOCKS));
 
     putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
@@ -3158,11 +3160,14 @@ static void redraw_city_dialog(struct city *pCity)
     dest.w = adj_size(144);
     dest.h = i + adj_size(4);
 
-    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_FOODSTOCK));
+    fill_rect_alpha(pWindow->dst->surface, &dest,
+                    get_theme_color(COLOR_THEME_CITYDLG_FOODSTOCK));
 
+#if 0
     putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
+#endif
 
     /* draw icons */
     cost = city_granary_size(city_size_get(pCity));
@@ -3298,27 +3303,31 @@ static void redraw_city_dialog(struct city *pCity)
     dest.w = adj_size(144);
     dest.h = i + adj_size(4);
 
-    SDL_FillRectAlpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_SHIELDSTOCK));
+    fill_rect_alpha(pWindow->dst->surface, &dest,
+                    get_theme_color(COLOR_THEME_CITYDLG_SHIELDSTOCK));
+
+#if 0
     putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
-    
+#endif
+
     /* draw production progres text */
     dest.y = pWindow->size.y + adj_size(270) + dest.h + 1;
-    
+
     if (pCity->shield_stock < cost) {
       count = city_production_turns_to_build(pCity, TRUE);
       if (count == 999) {
         fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %s!",
-		  		pCity->shield_stock, cost,  _("blocked"));
+                    pCity->shield_stock, cost,  _("blocked"));
       } else {
         fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %d %s",
-	    pCity->shield_stock, cost, count, PL_("turn", "turns", count));
-     }
-   } else {
-     fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %s!",
-		    		pCity->shield_stock, cost, _("finished"));
-   }
+                    pCity->shield_stock, cost, count, PL_("turn", "turns", count));
+      }
+    } else {
+      fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %s!",
+                  pCity->shield_stock, cost, _("finished"));
+    }
 
     copy_chars_to_string16(pStr, cBuf);
     pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
