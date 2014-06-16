@@ -3097,8 +3097,11 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Allows infinite movement.\n"));
   } else {
     cat_snprintf(buf, bufsz,
-                 _("* Movement cost along this road is %d/%d movement points.\n"),
-                 proad->move_cost, SINGLE_MOVE);
+                 /* TRANS: "MP" = movement points. Second %s may have a
+                  * fractional part. */
+                 _("* Movement cost along %s is %s MP.\n"),
+                 road_name_translation(proad),
+                 move_points_text(proad->move_cost, NULL, NULL, FALSE));
   }
 
   if (!proad->buildable) {

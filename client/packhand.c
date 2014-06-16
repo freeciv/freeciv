@@ -34,6 +34,7 @@
 #include "government.h"
 #include "idex.h"
 #include "map.h"
+#include "movement.h"
 #include "name_translation.h"
 #include "nation.h"
 #include "packets.h"
@@ -3366,6 +3367,8 @@ void handle_ruleset_terrain_control
   /* Since terrain_control is the same as packet_ruleset_terrain_control
    * we can just copy the data directly. */
   terrain_control = *p;
+  /* terrain_control.move_fragments likely changed */
+  init_move_fragments();
 }
 
 /****************************************************************************

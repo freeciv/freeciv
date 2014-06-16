@@ -2597,7 +2597,8 @@ static bool load_ruleset_terrain(struct section_file *file)
   terrain_control.move_fragments
     = secfile_lookup_int_default(file, 3,
                                  "parameters.move_fragments");
- terrain_control.igter_cost
+  init_move_fragments();
+  terrain_control.igter_cost
     = secfile_lookup_int_default(file, 1,
                                  "parameters.igter_cost");
   map.server.ocean_resources

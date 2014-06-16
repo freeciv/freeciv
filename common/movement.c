@@ -618,9 +618,23 @@ int unit_class_transporter_capacity(const struct tile *ptile,
   return availability;
 }
 
+static int move_points_denomlen = 0;
+
 /****************************************************************************
-  Render movement points as text, including fractional movement points,
-  scaled by SINGLE_MOVE. Returns a pointer to a static buffer.
+  Call whenever terrain_control.move_fragments / SINGLE_MOVE changes.
+****************************************************************************/
+void init_move_fragments(void)
+{
+  char denomstr[10];
+  /* String length of maximum denominator for fractional representation of
+   * movement points, for padding of text representation */
+  fc_snprintf(denomstr, sizeof(denomstr), "%d", SINGLE_MOVE);
+  move_points_denomlen = strlen(denomstr);
+}
+
+/****************************************************************************
+  Render positive movement points as text, including fractional movement
+  points, scaled by SINGLE_MOVE. Returns a pointer to a static buffer.
   'prefix' is a string put in front of all numeric output.
   'none' is the string to display in place of the integer part if no
   movement points (or NULL to just say 0).
@@ -632,45 +646,51 @@ const char *move_points_text(int mp, const char *prefix, const char *none,
                              bool align)
 {
   static struct astring str = ASTRING_INIT;
-  static int denomlen = 0;
   int pad1, pad2;
 
-  if (denomlen == 0) {
-    /* String length of denominator for fractional representation of
-     * movement points, for padding */
-    char denomstr[10];
-    fc_snprintf(denomstr, sizeof(denomstr), "%d", SINGLE_MOVE);
-    denomlen = strlen(denomstr);
-  }
-  if (align) {
-    pad1 = denomlen;     /* numerator or denominator */
-    pad2 = denomlen*2+2; /* everything right of integer part */
+  if (align && SINGLE_MOVE > 1) {
+    pad1 = move_points_denomlen;      /* numerator or denominator */
+    pad2 = move_points_denomlen*2+2;  /* everything right of integer part */
   } else {
+    /* If no fractional part, no need for alignment even if requested */
     pad1 = pad2 = 0;
   }
   if (!prefix) {
     prefix = "";
   }
   astr_clear(&str);
-  if ((mp == 0 || SINGLE_MOVE == 0) && none) {
-    /* No movement points, special representation */
-    astr_add(&str, "%s%*s", none, pad2, "");
-  } else if (SINGLE_MOVE == 0) {
-    /* Do not divide by zero. Important for client before ruleset
-     * received. Just add */
-    astr_add(&str, "0/0");
+  if ((mp == 0 && none) || SINGLE_MOVE == 0) {
+    /* No movement points, and we have a special representation to use */
+    /* (Also used when SINGLE_MOVE==0, to avoid dividing by zero, which is
+     * important for client before ruleset has been received. Doesn't much
+     * matter what we print in this case.) */
+    astr_add(&str, "%s%*s", none ? none : "", pad2, "");
   } else if ((mp % SINGLE_MOVE) == 0) {
-    /* Integer move bonus */
+    /* Integer move points */
     astr_add(&str, "%s%d%*s", prefix, mp / SINGLE_MOVE, pad2, "");
-  } else if (mp < SINGLE_MOVE) {
-    /* Fractional move bonus */
-    astr_add(&str, "%s%*d/%*d", prefix,
-             pad1, mp % SINGLE_MOVE, pad1, SINGLE_MOVE);
   } else {
-    /* Integer + fractional move bonus */
-    astr_add(&str,
-             "%s%d %*d/%*d", prefix, mp / SINGLE_MOVE,
-             pad1, mp % SINGLE_MOVE, pad1, SINGLE_MOVE);
+    /* Fractional part; reduce to lowest terms */
+    int gcd = mp;
+    fc_assert(SINGLE_MOVE > 1);
+    {
+      /* Calculate greatest common divisor with Euclid's algorithm */
+      int b = SINGLE_MOVE;
+      while (b != 0) {
+        int t = b;
+        b = gcd % b;
+        gcd = t;
+      }
+    }
+    if (mp < SINGLE_MOVE) {
+      /* Fractional move points */
+      astr_add(&str, "%s%*d/%*d", prefix,
+               pad1, (mp % SINGLE_MOVE) / gcd, pad1, SINGLE_MOVE / gcd);
+    } else {
+      /* Integer + fractional move points */
+      astr_add(&str,
+               "%s%d %*d/%*d", prefix, mp / SINGLE_MOVE,
+               pad1, (mp % SINGLE_MOVE) / gcd, pad1, SINGLE_MOVE / gcd);
+    }
   }
   return astr_str(&str);
 }
