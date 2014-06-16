@@ -1640,7 +1640,7 @@ void request_unit_autosettlers(const struct unit *punit)
 /****************************************************************************
   Send a request to the server that the cargo be loaded into the transporter.
 
-  If ptransporter is NULL a transporter will be picked at random.
+  If ptransporter is NULL a suitable transporter will be chosen.
 ****************************************************************************/
 void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 {
