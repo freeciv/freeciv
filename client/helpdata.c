@@ -2231,7 +2231,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
      * through combat/missions/work. */
     CATLSTR(buf, bufsz, _("* May acquire veteran status.\n"));
     if (utype_veteran_has_power_bonus(utype)) {
-      if (utype->attack_strength > 0
+      if ((!utype_has_flag(utype, F_NUCLEAR) && utype->attack_strength > 0)
           || utype->defense_strength > 0) {
         CATLSTR(buf, bufsz,
                 _("  * Veterans have increased strength in combat.\n"));
