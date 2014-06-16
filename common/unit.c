@@ -797,7 +797,7 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
-  /* Only top-level transporters may be loaded or loaded into. */
+  /* Cannot load if cargo is already loaded onto something else. */
   if (unit_transported(pcargo)) {
     return FALSE;
   }
@@ -874,13 +874,6 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
 
   /* Make sure the unit's transporter exists and is known. */
   if (unit_transport_get(pcargo) != ptrans) {
-    return FALSE;
-  }
-
-  /* Only top-level transporters may be unloaded.  However the unit being
-   * unloaded may be transporting other units (well, at least it's allowed
-   * here: elsewhere this may be disallowed). */
-  if (unit_transport_get(ptrans)) {
     return FALSE;
   }
 
