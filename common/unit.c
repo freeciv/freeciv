@@ -1999,15 +1999,24 @@ int get_transporter_occupancy(const struct unit *ptrans)
 ****************************************************************************/
 struct unit *transporter_for_unit(const struct unit *pcargo)
 {
-  struct tile *ptile = unit_tile(pcargo);
+  struct unit_list *tile_units = unit_tile(pcargo)->units;
+  struct unit *best = NULL;
+  int bestdepth = 0; /* initialiser doesn't matter */
 
-  unit_list_iterate(ptile->units, ptrans) {
+  unit_list_iterate(tile_units, ptrans) {
     if (can_unit_load(pcargo, ptrans)) {
-      return ptrans;
+      int depth = unit_transport_depth(ptrans);
+      if (!best || depth < bestdepth) {
+        best = ptrans;
+        bestdepth = depth;
+      } else if (depth == bestdepth
+                 && ptrans->moves_left > best->moves_left) {
+        best = ptrans;
+      }
     }
   } unit_list_iterate_end;
 
-  return NULL;
+  return best;
 }
 
 /****************************************************************************
