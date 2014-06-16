@@ -50,13 +50,13 @@ static void attr_key_destroy(struct attr_key *pkey);
 
 /* 'struct attribute_hash' and related functions. */
 #define SPECHASH_TAG attribute
-#define SPECHASH_KEY_TYPE struct attr_key *
-#define SPECHASH_DATA_TYPE void *
-#define SPECHASH_KEY_VAL attr_key_val
-#define SPECHASH_KEY_COMP attr_key_comp
-#define SPECHASH_KEY_COPY attr_key_dup
-#define SPECHASH_KEY_FREE attr_key_destroy
-#define SPECHASH_DATA_FREE free
+#define SPECHASH_IKEY_TYPE struct attr_key *
+#define SPECHASH_IDATA_TYPE void *
+#define SPECHASH_IKEY_VAL attr_key_val
+#define SPECHASH_IKEY_COMP attr_key_comp
+#define SPECHASH_IKEY_COPY attr_key_dup
+#define SPECHASH_IKEY_FREE attr_key_destroy
+#define SPECHASH_IDATA_FREE free
 #include "spechash.h"
 #define attribute_hash_values_iterate(hash, pvalue)                         \
   TYPED_HASH_DATA_ITERATE(void *, hash, pvalue)

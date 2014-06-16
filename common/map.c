@@ -51,9 +51,9 @@ static void startpos_destroy(struct startpos *psp);
 
 /* struct startpos_hash and related functions. */
 #define SPECHASH_TAG startpos
-#define SPECHASH_KEY_TYPE struct tile *
-#define SPECHASH_DATA_TYPE struct startpos *
-#define SPECHASH_DATA_FREE startpos_destroy
+#define SPECHASH_IKEY_TYPE struct tile *
+#define SPECHASH_IDATA_TYPE struct startpos *
+#define SPECHASH_IDATA_FREE startpos_destroy
 #include "spechash.h"
 
 /* Srart position iterator. */

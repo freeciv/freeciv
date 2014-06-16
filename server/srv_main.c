@@ -2035,10 +2035,8 @@ void aifill(int amount)
   Tool for generate_players().
 ****************************************************************************/
 #define SPECHASH_TAG startpos
-#define SPECHASH_KEY_TYPE struct startpos *
-#define SPECHASH_DATA_TYPE int
-#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#define SPECHASH_IKEY_TYPE struct startpos *
+#define SPECHASH_INT_DATA_TYPE
 #include "spechash.h"
 #define startpos_hash_iterate(hash, psp, c)                                 \
   TYPED_HASH_ITERATE(struct startpos *, intptr_t, hash, psp, c)

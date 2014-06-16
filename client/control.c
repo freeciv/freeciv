@@ -1391,15 +1391,13 @@ void request_unit_wakeup(struct unit *punit)
   Defines specific hash tables needed for request_unit_select().
 ****************************************************************************/
 #define SPECHASH_TAG unit_type
-#define SPECHASH_KEY_TYPE struct unit_type *
-#define SPECHASH_DATA_TYPE void *
+#define SPECHASH_IKEY_TYPE struct unit_type *
+#define SPECHASH_IDATA_TYPE void *
 #include "spechash.h"
 
 #define SPECHASH_TAG continent
-#define SPECHASH_KEY_TYPE Continent_id
-#define SPECHASH_DATA_TYPE void *
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE void *
 #include "spechash.h"
 
 /****************************************************************************

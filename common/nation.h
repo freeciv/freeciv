@@ -86,8 +86,8 @@ struct nation_type;
 
 /* Nation hash. */
 #define SPECHASH_TAG nation
-#define SPECHASH_KEY_TYPE struct nation_type *
-#define SPECHASH_DATA_TYPE void *
+#define SPECHASH_IKEY_TYPE struct nation_type *
+#define SPECHASH_IDATA_TYPE void *
 #include "spechash.h"
 #define nation_hash_iterate(nationhash, pnation)                            \
   TYPED_HASH_KEYS_ITERATE(struct nation_type *, nationhash, pnation)

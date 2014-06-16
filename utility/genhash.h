@@ -40,11 +40,11 @@ typedef void (*genhash_free_fn_t) (void *);
 
 /* Supplied functions (matching above typedefs) appropriate for
  * keys being normal nul-terminated strings: */
-genhash_val_t genhash_str_val_func(const void *vkey);
-bool genhash_str_comp_func(const void *vkey1, const void *vkey2);
+genhash_val_t genhash_str_val_func(const char *vkey);
+bool genhash_str_comp_func(const char *vkey1, const char *vkey2);
 /* and malloc'ed strings: */
-void *genhash_str_copy_func(const void *vkey);
-void genhash_str_free_func(void *vkey);
+char *genhash_str_copy_func(const char *vkey);
+void genhash_str_free_func(char *vkey);
 
 
 /* General functions: */

@@ -41,13 +41,9 @@ struct luascript_func {
 };
 
 #define SPECHASH_TAG luascript_func
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct luascript_func *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_FREE func_destroy
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct luascript_func *
+#define SPECHASH_IDATA_FREE func_destroy
 #include "spechash.h"
 
 #define luascript_func_hash_keys_iterate(phash, key)                         \

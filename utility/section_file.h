@@ -67,19 +67,13 @@ void secfile_log(const struct section_file *secfile,
   }
 
 #define SPECHASH_TAG section
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct section *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_CSTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct section *
 #include "spechash.h"
 
 #define SPECHASH_TAG entry
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct entry *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct entry *
 #include "spechash.h"
 
 bool entry_from_token(struct section *psection, const char *name,

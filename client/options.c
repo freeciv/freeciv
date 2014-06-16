@@ -4830,14 +4830,8 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
   Desired settable options.
 ****************************************************************************/
 #define SPECHASH_TAG settable_options
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE char *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_COPY genhash_str_copy_func
-#define SPECHASH_DATA_FREE genhash_str_free_func
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_ASTR_DATA_TYPE
 #include "spechash.h"
 #define settable_options_hash_iterate(hash, name, value)                    \
   TYPED_HASH_ITERATE(const char *, const char *, hash, name, value)
@@ -5132,14 +5126,10 @@ static void desired_settable_option_send(struct option *poption)
   City and player report dialog options.
 ****************************************************************************/
 #define SPECHASH_TAG dialog_options
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE bool
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE bool
+#define SPECHASH_UDATA_TO_IDATA FC_INT_TO_PTR
+#define SPECHASH_IDATA_TO_UDATA FC_PTR_TO_INT
 #include "spechash.h"
 #define dialog_options_hash_iterate(hash, column, visible)                  \
   TYPED_HASH_ITERATE(const char *, intptr_t, hash, column, visible)

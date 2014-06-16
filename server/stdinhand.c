@@ -94,16 +94,13 @@ static time_t *time_duplicate(const time_t *t);
 
 /* 'struct kick_hash' and related functions. */
 #define SPECHASH_TAG kick
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE time_t
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_COPY time_duplicate
-#define SPECHASH_DATA_FREE free
-#define SPECHASH_DATA_TO_PTR(t) (&(t))
-#define SPECHASH_PTR_TO_DATA(p) (NULL != p ? *(time_t *) (p) : 0)
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE time_t *
+#define SPECHASH_UDATA_TYPE time_t
+#define SPECHASH_IDATA_COPY time_duplicate
+#define SPECHASH_IDATA_FREE (kick_hash_data_free_fn_t) free
+#define SPECHASH_UDATA_TO_IDATA(t) (&(t))
+#define SPECHASH_IDATA_TO_UDATA(p) (NULL != p ? *p : 0)
 #include "spechash.h"
 
 static struct kick_hash *kick_table_by_addr = NULL;

@@ -135,11 +135,9 @@ static void tile_data_cache_destroy(struct tile_data_cache *ptdc);
 
 /* struct tdcache_hash. */
 #define SPECHASH_TAG tile_data_cache
-#define SPECHASH_KEY_TYPE int
-#define SPECHASH_DATA_TYPE struct tile_data_cache *
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
-#define SPECHASH_DATA_FREE tile_data_cache_destroy
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct tile_data_cache *
+#define SPECHASH_IDATA_FREE tile_data_cache_destroy
 #include "spechash.h"
 
 struct ai_settler {

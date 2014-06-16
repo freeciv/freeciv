@@ -72,8 +72,8 @@ struct tile {
 
 /* 'struct tile_hash' and related functions. */
 #define SPECHASH_TAG tile
-#define SPECHASH_KEY_TYPE struct tile *
-#define SPECHASH_DATA_TYPE void *
+#define SPECHASH_IKEY_TYPE struct tile *
+#define SPECHASH_IDATA_TYPE void *
 #include "spechash.h"
 #define tile_hash_iterate(hash, ptile)                                      \
   TYPED_HASH_KEYS_ITERATE(struct tile *, hash, ptile)

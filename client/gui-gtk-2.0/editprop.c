@@ -82,12 +82,8 @@ static int get_next_unique_tag(void);
 
 /* 'struct stored_tag_hash' and related functions. */
 #define SPECHASH_TAG stored_tag
-#define SPECHASH_KEY_TYPE int
-#define SPECHASH_DATA_TYPE int
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
-#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_INT_DATA_TYPE
 #include "spechash.h"
 
 /* NB: If packet definitions change, be sure to
@@ -256,11 +252,9 @@ static void propstate_set_value(struct propstate *ps,
 static struct propval *propstate_get_value(struct propstate *ps);
 
 #define SPECHASH_TAG propstate
-#define SPECHASH_KEY_TYPE int
-#define SPECHASH_DATA_TYPE struct propstate *
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
-#define SPECHASH_DATA_FREE propstate_destroy
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct propstate *
+#define SPECHASH_IDATA_FREE propstate_destroy
 #include "spechash.h"
 
 
@@ -426,10 +420,8 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
                                                  gpointer userdata);
 
 #define SPECHASH_TAG objprop
-#define SPECHASH_KEY_TYPE int
-#define SPECHASH_DATA_TYPE struct objprop *
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct objprop *
 #include "spechash.h"
 
 
@@ -482,11 +474,9 @@ static void objbind_set_rowref(struct objbind *ob,
 static GtkTreeRowReference *objbind_get_rowref(struct objbind *ob);
 
 #define SPECHASH_TAG objbind
-#define SPECHASH_KEY_TYPE int
-#define SPECHASH_DATA_TYPE struct objbind *
-#define SPECHASH_DATA_FREE objbind_destroy
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct objbind *
+#define SPECHASH_IDATA_FREE objbind_destroy
 #include "spechash.h"
 
 

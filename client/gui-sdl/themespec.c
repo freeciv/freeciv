@@ -117,12 +117,12 @@ struct small_sprite {
 #define small_sprite_list_iterate_end LIST_ITERATE_END
 
 #define SPECHASH_TAG small_sprite
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct small_sprite *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_IKEY_TYPE char *
+#define SPECHASH_IDATA_TYPE struct small_sprite *
+#define SPECHASH_IKEY_VAL genhash_str_val_func
+#define SPECHASH_IKEY_COMP genhash_str_comp_func
+#define SPECHASH_IKEY_COPY genhash_str_copy_func
+#define SPECHASH_IKEY_FREE genhash_str_free_func
 #include "spechash.h"
 #define small_sprite_hash_iterate(hash, tag_name, pitem)                    \
   TYPED_HASH_ITERATE(const char *, struct small_sprite *, hash,             \

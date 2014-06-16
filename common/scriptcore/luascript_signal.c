@@ -86,13 +86,9 @@ struct signal_callback {
   Signal hash table.
 *****************************************************************************/
 #define SPECHASH_TAG luascript_signal
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct signal *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_FREE signal_destroy
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct signal *
+#define SPECHASH_IDATA_FREE signal_destroy
 #include "spechash.h"
 
 #define signal_hash_iterate(phash, key, data)                                \

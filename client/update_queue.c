@@ -51,9 +51,9 @@ static void update_queue_data_destroy(struct update_queue_data *pdata);
 
 /* 'struct update_queue_hash' and related functions. */
 #define SPECHASH_TAG update_queue
-#define SPECHASH_KEY_TYPE uq_callback_t
-#define SPECHASH_DATA_TYPE struct update_queue_data *
-#define SPECHASH_DATA_FREE update_queue_data_destroy
+#define SPECHASH_IKEY_TYPE uq_callback_t
+#define SPECHASH_IDATA_TYPE struct update_queue_data *
+#define SPECHASH_IDATA_FREE update_queue_data_destroy
 #include "spechash.h"
 #define update_queue_hash_iterate(hash, callback, uq_data)                  \
   TYPED_HASH_ITERATE(uq_callback_t, const struct update_queue_data *,       \
@@ -78,11 +78,9 @@ struct waiting_queue_data {
 
 /* 'struct waiting_queue_hash' and related functions. */
 #define SPECHASH_TAG waiting_queue
-#define SPECHASH_KEY_TYPE int
-#define SPECHASH_DATA_TYPE struct waiting_queue_list *
-#define SPECHASH_DATA_FREE waiting_queue_list_destroy
-#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct waiting_queue_list *
+#define SPECHASH_IDATA_FREE waiting_queue_list_destroy
 #include "spechash.h"
 
 static struct update_queue_hash *update_queue = NULL;

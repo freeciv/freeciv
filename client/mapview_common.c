@@ -59,9 +59,9 @@ static inline struct gotoline_counter *gotoline_counter_new(void);
 static void gotoline_counter_destroy(struct gotoline_counter *pglc);
 
 #define SPECHASH_TAG gotoline
-#define SPECHASH_KEY_TYPE struct tile *
-#define SPECHASH_DATA_TYPE struct gotoline_counter *
-#define SPECHASH_DATA_FREE gotoline_counter_destroy
+#define SPECHASH_IKEY_TYPE struct tile *
+#define SPECHASH_IDATA_TYPE struct gotoline_counter *
+#define SPECHASH_IDATA_FREE gotoline_counter_destroy
 #include "spechash.h"
 #define gotoline_hash_iterate(hash, ptile, pglc)                            \
   TYPED_HASH_ITERATE(struct tile *, struct gotoline_counter *,              \

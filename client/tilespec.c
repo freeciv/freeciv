@@ -453,12 +453,8 @@ struct small_sprite {
 
 /* 'struct sprite_hash' and related functions. */
 #define SPECHASH_TAG sprite
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct small_sprite *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct small_sprite *
 #include "spechash.h"
 #define sprite_hash_iterate(hash, tag_name, sprite)                         \
   TYPED_HASH_ITERATE(const char *, struct small_sprite *,                   \
@@ -469,18 +465,14 @@ struct small_sprite {
 static void drawing_data_destroy(struct drawing_data *draw);
 
 #define SPECHASH_TAG drawing
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct drawing_data *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_DATA_FREE drawing_data_destroy
+#define SPECHASH_CSTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct drawing_data *
+#define SPECHASH_IDATA_FREE drawing_data_destroy
 #include "spechash.h"
 
 #define SPECHASH_TAG estyle
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE enum extrastyle_id *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_CSTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE enum extrastyle_id *
 #include "spechash.h"
 
 enum ts_type { TS_OVERVIEW, TS_ISOMETRIC };
