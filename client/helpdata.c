@@ -2553,8 +2553,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		 utype->bombard_rate);
   }
   if (utype_has_flag(utype, UTYF_IGTER)) {
-    CATLSTR(buf, bufsz,
-	    _("* Ignores terrain effects (treats all tiles as roads).\n"));
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: "MP" = movement points. %s may have a 
+                  * fractional part. */
+                 _("* Ignores terrain effects (moving costs at most %s MP "
+                   "per tile).\n"),
+                 move_points_text(terrain_control.igter_cost,
+                                  NULL, NULL, FALSE));
   }
   if (utype_has_flag(utype, UTYF_IGZOC)) {
     CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));

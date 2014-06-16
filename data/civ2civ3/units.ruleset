@@ -296,8 +296,9 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage"
 ;                 "ZOC" flag
 ; "NonMil"	= a non-military unit: no attacks; no martial law; can enter
 ;                 peaceful borders; DoesntOccupyTile
-; "IgTer"       = ignore terrain/road etc, use constant move cost defined in
-;                 igter_cost (terrain.ruleset)
+; "IgTer"       = use constant move cost defined in igter_cost (terrain.ruleset)
+;                 rather than terrain/road etc cost, unless terrain cost is
+;                 less
 ; "OneAttack"	= can only make a single attack, regardless of movement points
 ; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
