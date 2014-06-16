@@ -1943,6 +1943,7 @@ static void player_load_units(struct player *plr, int plrno,
     int nat_x, nat_y;
     const char* type_name;
     struct unit_type *type;
+    int veteran;
     enum tile_special_type target;
     struct base_type *pbase = NULL;
     int base;
@@ -1969,9 +1970,19 @@ static void player_load_units(struct player *plr, int plrno,
                 plrno, i, type_name);
       exit(EXIT_FAILURE);
     }
+
+    veteran
+      = secfile_lookup_int_default(file, 0, "player%d.u%d.veteran", plrno, i);
+    {
+      /* Protect against change in veteran system in ruleset */
+      const int levels = utype_veteran_levels(type);
+      if (veteran >= levels) {
+        fc_assert(levels >= 1);
+        veteran = levels - 1;
+      }
+    }
     
-    punit = unit_virtual_create(plr, NULL, type,
-      secfile_lookup_int_default(file, 0, "player%d.u%d.veteran", plrno, i));
+    punit = unit_virtual_create(plr, NULL, type, veteran);
     fc_assert_exit_msg(secfile_lookup_int(file, &punit->id,
                                           "player%d.u%d.id", plrno, i),
                        "%s", secfile_error());

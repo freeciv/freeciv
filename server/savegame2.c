@@ -4562,6 +4562,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   punit->veteran
     = secfile_lookup_int_default(loading->file, 0, "%s.veteran", unitstr);
+  {
+    /* Protect against change in veteran system in ruleset */
+    const int levels = utype_veteran_levels(unit_type(punit));
+    if (punit->veteran >= levels) {
+      fc_assert(levels >= 1);
+      punit->veteran = levels - 1;
+    }
+  }
   punit->done_moving
     = secfile_lookup_bool_default(loading->file, (punit->moves_left == 0),
                                   "%s.done_moving", unitstr);
