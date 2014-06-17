@@ -1831,7 +1831,7 @@ static int techs_with_flag_string(char *buf, size_t bufsz,
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		    const char *user_text, struct unit_type *utype)
 {
-  bool can_be_veteran;
+  bool has_vet_levels;
 
   fc_assert_ret_val(NULL != buf && 0 < bufsz && NULL != user_text, NULL);
 
@@ -1841,8 +1841,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     return buf;
   }
 
-  can_be_veteran = !utype_has_flag(utype, F_NO_VETERAN)
-    && utype_veteran_levels(utype) > 1;
+  has_vet_levels = utype_veteran_levels(utype) > 1;
 
   buf[0] = '\0';
 
@@ -2212,8 +2211,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       astr_free(&list);
     }
   }
-  if (!can_be_veteran) {
-    /* Only mention this if the game generally has veteran levels. */
+  if (!has_vet_levels) {
+    /* Only mention this if the game generally does have veteran levels. */
     if (game.veteran->levels > 1) {
       CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
     }
@@ -2228,7 +2227,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 #endif
     /* FIXME: if we knew the raise chances on the client, we could be
      * more specific here about whether veteran status can be acquired
-     * through combat/missions/work. */
+     * through combat/missions/work. Should also take into account
+     * F_NO_VETERAN when writing this text. (Gna patch #4794) */
     CATLSTR(buf, bufsz, _("* May acquire veteran status.\n"));
     if (utype_veteran_has_power_bonus(utype)) {
       if ((!utype_has_flag(utype, F_NUCLEAR) && utype->attack_strength > 0)
@@ -2258,7 +2258,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (strlen(buf) > 0) {
     CATLSTR(buf, bufsz, "\n");
   }
-  if (can_be_veteran && utype->veteran) {
+  if (has_vet_levels && utype->veteran) {
     /* The case where the unit has only a single veteran level has already
      * been handled above, so keep quiet here if that happens */
     if (insert_veteran_help(buf, bufsz, utype->veteran,
