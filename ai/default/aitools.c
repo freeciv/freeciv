@@ -493,7 +493,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
                                       * SINGLE_MOVE
                                       / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
-  bool is_ferry = FALSE;
+  bool is_ferry;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
   struct player *pplayer = unit_owner(punit);
 
@@ -501,21 +501,9 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
    * for human players any more. */
   fc_assert(pplayer->ai_controlled);
 
-  if (unit_data->task != AIUNIT_HUNTER
-      && get_transporter_capacity(punit) > 0) {
-    unit_class_iterate(uclass) {
-      enum unit_move_type mt = dai_uclass_move_type(uclass);
-
-      /* FIXME: UMT_BOTH units need ferry only if they use fuel */
-      if (can_unit_type_transport(unit_type(punit), uclass)
-          && (mt == UMT_LAND
-              || (mt == UMT_BOTH
-                  && !uclass_has_flag(uclass, UCF_MISSILE)))) {
-        is_ferry = TRUE;
-        break;
-      }
-    } unit_class_iterate_end;
-  }
+  /* If a unit is hunting, don't expect it to be a ferry. */
+  is_ferry = (unit_data->task != AIUNIT_HUNTER
+              && dai_is_ferry(punit));
 
   if (is_ferry) {
     /* The destination may be a coastal land tile,

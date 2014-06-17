@@ -145,18 +145,32 @@ static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
 
 /**************************************************************************
   Should unit type be considered a ferry?
+
+  Ferries are units that can transport units over an ocean that
+  cannot move there themselves, either because they lack the ability
+  to move through an ocean or because they require fuel to do so.
+
+  The ability to transport Missiles is insufficient for a unit to be
+  considered a ferry: Missile-Carriers are more properly hunters.
 **************************************************************************/
 static bool dai_is_ferry_type(struct unit_type *pferry)
 {
   if (pferry->transport_capacity > 0
-      && dai_uclass_move_type(utype_class(pferry)) != UMT_LAND) {
+      && utype_class(pferry)->adv.sea_move != MOVE_NONE) {
     unit_class_iterate(pclass) {
-      enum unit_move_type mt = dai_uclass_move_type(pclass);
-
-      if (mt == UMT_LAND
+      if (pclass->adv.land_move != MOVE_NONE 
+          && !uclass_has_flag(pclass, UCF_MISSILE)
           && can_unit_type_transport(pferry, pclass)) {
-        /* Can transport some land moving unit. */
-        return TRUE;
+        if (pclass->adv.sea_move != MOVE_FULL) {
+          return TRUE;
+        } else {
+          unit_type_iterate(putype) {
+            if (utype_class(putype) == pclass
+                && 0 != utype_fuel(putype)) {
+              return TRUE;
+            }
+          } unit_type_iterate_end;
+        }
       }
     } unit_class_iterate_end;
   }
