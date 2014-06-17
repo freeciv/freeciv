@@ -726,8 +726,7 @@ void handle_edit_unit(struct connection *pc,
     changed = TRUE;
   }
 
-  if (packet->veteran != punit->veteran
-      && !unit_has_type_flag(punit, F_NO_VETERAN)) {
+  if (packet->veteran != punit->veteran) {
     int v = packet->veteran;
     if (!utype_veteran_level(putype, v)) {
       notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,

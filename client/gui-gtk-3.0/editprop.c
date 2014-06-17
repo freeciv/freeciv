@@ -1866,11 +1866,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
         return TRUE;
       case OPID_UNIT_VETERAN:
         *pmin = 0;
-        if (unit_has_type_flag(punit, F_NO_VETERAN)) {
-          *pmax = 0;
-        } else {
-          *pmax = utype_veteran_levels(putype) - 1;
-        }
+        *pmax = utype_veteran_levels(putype) - 1;
         *pstep = 1;
         *pbig_step = 3;
         return TRUE;
