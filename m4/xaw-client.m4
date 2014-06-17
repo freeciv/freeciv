@@ -88,8 +88,8 @@ You may need to install a libpng "development" package.])
 	  FC_CHECK_X_LIB(Xaw, main, , AC_MSG_ERROR(did not find Xaw library))
 	fi
 
-	GUI_xaw_CFLAGS="$X_CFLAGS"
-	GUI_xaw_LIBS="$X_LIBS $X_EXTRA_LIBS"
+	gui_xaw_cflags="$X_CFLAGS"
+	gui_xaw_libs="$X_LIBS $X_EXTRA_LIBS"
 
 	found_client=yes
       fi

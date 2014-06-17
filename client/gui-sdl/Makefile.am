@@ -4,7 +4,7 @@ noinst_LTLIBRARIES = libgui-sdl.la
 
 AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
         -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents \
-        $(GUI_sdl_CFLAGS)
+        $(gui_sdl_cflags)
 
 libgui_sdl_la_SOURCES = \
 	alphablit.c	\

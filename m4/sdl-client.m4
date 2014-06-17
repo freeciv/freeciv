@@ -16,8 +16,8 @@ AC_DEFUN([FC_SDL_CLIENT],
       AM_PATH_SDL([1.1.4], [sdl_found="yes"], [sdl_found="no"])
     fi
     if test "$sdl_found" = yes; then
-      GUI_sdl_CFLAGS="$SDL_CFLAGS"
-      GUI_sdl_LIBS="$SDL_LIBS"
+      gui_sdl_cflags="$SDL_CFLAGS"
+      gui_sdl_libs="$SDL_LIBS"
       FC_SDL_PROJECT([SDL_image], [IMG_Load], [SDL/SDL_image.h])
       if test "x$sdl_h_found" = "xyes" ; then
         FC_SDL_PROJECT([SDL_gfx], [rotozoomSurface], [SDL/SDL_rotozoom.h])
@@ -32,8 +32,8 @@ AC_DEFUN([FC_SDL_CLIENT],
       if test "x$sdl_h_found" = "xyes" ; then
         AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
         if test "$freetype_found" = yes; then
-	  GUI_sdl_CFLAGS="$GUI_sdl_CFLAGS $FT2_CFLAGS"
-	  GUI_sdl_LIBS="$GUI_sdl_LIBS $FT2_LIBS"
+	  gui_sdl_cflags="$gui_sdl_cflags $FT2_CFLAGS"
+	  gui_sdl_libs="$gui_sdl_libs $FT2_LIBS"
           found_sdl_client=yes
         elif test "x$gui_sdl" = "xyes"; then
           AC_MSG_ERROR([specified client 'sdl' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
@@ -62,12 +62,12 @@ AC_DEFUN([FC_SDL_CLIENT],
       AM_ICONV
       AM_LIBCHARSET
       AM_LANGINFO_CODESET
-      GUI_sdl_LIBS="$LIBICONV $GUI_sdl_LIBS"
+      gui_sdl_libs="$LIBICONV $gui_sdl_libs"
 
       dnl Check for some other libraries - needed under BeOS for instance.
       dnl These should perhaps be checked for in all cases?
-      AC_CHECK_LIB(socket, connect, GUI_sdl_LIBS="-lsocket $GUI_sdl_LIBS")
-      AC_CHECK_LIB(bind, gethostbyaddr, GUI_sdl_LIBS="-lbind $GUI_sdl_LIBS")
+      AC_CHECK_LIB(socket, connect, gui_sdl_libs="-lsocket $gui_sdl_libs")
+      AC_CHECK_LIB(bind, gethostbyaddr, gui_sdl_libs="-lbind $gui_sdl_libs")
 
     elif test "x$gui_sdl" = "xyes"; then
       AC_MSG_ERROR([specified client 'sdl' not configurable (SDL >= 1.1.4 is needed (www.libsdl.org))])
@@ -89,7 +89,7 @@ sdl_h_found="no"])
   if test "x$sdl_lib_found" = "xyes" ; then
     AC_CHECK_HEADER([$3],
                     [sdl_h_found="yes"
-GUI_sdl_LIBS="${GUI_sdl_LIBS} -l$1"], [sdl_h_found="no"])
+gui_sdl_libs="${gui_sdl_libs} -l$1"], [sdl_h_found="no"])
   fi
   CPPFLAGS="$ac_save_CPPFLAGS"
   CFLAGS="$ac_save_CFLAGS"

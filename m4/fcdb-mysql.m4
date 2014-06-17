@@ -8,8 +8,8 @@ AC_DEFUN([FC_FCDB_MYSQL],
 
     FC_CHECK_MYSQL(
     [
-      FCDB_MYSQL_CFLAGS="$MYSQL_CFLAGS"
-      FCDB_MYSQL_LIBS="$MYSQL_LDFLAGS"
+      FCDB_MYSQL_CFLAGS="$mysql_cflags"
+      FCDB_MYSQL_LIBS="$mysql_ldflags"
 
       AC_SUBST(FCDB_MYSQL_CFLAGS)
 

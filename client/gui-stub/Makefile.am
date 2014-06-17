@@ -2,7 +2,7 @@
 
 noinst_LTLIBRARIES = libgui-stub.la
 AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
-        -I$(top_srcdir)/common $(GUI_stub_CFLAGS)
+        -I$(top_srcdir)/common $(gui_stub_cflags)
 
 libgui_stub_la_SOURCES = \
 	canvas.c	\

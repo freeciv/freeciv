@@ -11,8 +11,8 @@ AC_DEFUN([FC_CHECK_SQLITE3],
     AS_HELP_STRING([--with-sqlite3-prefix=PFX], [Prefix where SQLite3 is installed (optional)]),
 [sqlite3_prefix="$withval"], [sqlite3_prefix=""])
 
-  SQLITE3_CFLAGS=""
-  SQLITE3_LDFLAGS=""
+  sqlite3_cflags=""
+  sqlite3_ldflags=""
   SQLITE3_VERSION=""
 
   ac_sqlite3_header="sqlite3.h"
@@ -75,8 +75,8 @@ AC_DEFUN([FC_CHECK_SQLITE3],
   CPPFLAGS="$saved_CPPFLAGS"
 
   if test "$success" = "yes"; then
-    SQLITE3_CFLAGS="$ac_sqlite3_cppflags"
-    SQLITE3_LDFLAGS="$ac_sqlite3_ldflags"
+    sqlite3_cflags="$ac_sqlite3_cppflags"
+    sqlite3_ldflags="$ac_sqlite3_ldflags"
 
     ac_sqlite3_header_path="$sqlite3_prefix/include/$ac_sqlite3_header"
 
@@ -92,8 +92,8 @@ AC_DEFUN([FC_CHECK_SQLITE3],
       fi
     fi
 
-    AC_SUBST(SQLITE3_CFLAGS)
-    AC_SUBST(SQLITE3_LDFLAGS)
+    AC_SUBST(sqlite3_cflags)
+    AC_SUBST(sqlite3_ldflags)
     AC_SUBST(SQLITE3_VERSION)
 
     ifelse([$1], , :, [$1])

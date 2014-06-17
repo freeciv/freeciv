@@ -7,11 +7,11 @@ include $(top_srcdir)/bootstrap/Makerules.mk
 noinst_LTLIBRARIES = libgui-qt.la
 AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
         -I$(top_srcdir)/common -I$(srcdir)/../agents -I$(top_srcdir)/common/aicore \
-        $(GUI_qt_CPPFLAGS) $(SOUND_CFLAGS)
+        $(gui_qt_cppflags) $(SOUND_CFLAGS)
 
-AM_CFLAGS = $(GUI_qt_CFLAGS)
+AM_CFLAGS = $(gui_qt_cflags)
 
-AM_CXXFLAGS = $(GUI_qt_CXXFLAGS)
+AM_CXXFLAGS = $(gui_qt_cxxflags)
 
 MOC_FILES = \
 	meta_fc_client.cpp	\
