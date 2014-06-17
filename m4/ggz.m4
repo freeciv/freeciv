@@ -237,7 +237,7 @@ AC_DEFUN([AC_GGZ_VERSION],
 	save_ldflags=$LDFLAGS
 	save_cppflags=$CPPFLAGS
 	save_ldlibrary_path=$LD_LIBRARY_PATH
-	LDFLAGS=$LIBGGZ_LDFLAGS
+	LDFLAGS=$LIBGGZ_ldflags
 	LIBS=$LIB_GGZ
 	CPPFLAGS=$LIBGGZ_INCLUDES
 	LD_LIBRARY_PATH=$save_ldlibrary_path:$libggz_libraries
@@ -269,7 +269,7 @@ AC_DEFUN([AC_GGZ_VERSION],
 
 dnl ------------------------------------------------------------------------
 dnl Try to find the libggz headers and libraries.
-dnl $(LIBGGZ_LDFLAGS) will be -L ... (if needed)
+dnl $(LIBGGZ_ldflags) will be -L ... (if needed)
 dnl and $(LIBGGZ_INCLUDES) will be -I ... (if needed)
 dnl ------------------------------------------------------------------------
 dnl
@@ -349,10 +349,10 @@ else
   AC_SUBST(libggz_includes)
 
   LIBGGZ_INCLUDES="-I $libggz_includes"
-  LIBGGZ_LDFLAGS="-L$libggz_libraries"
+  LIBGGZ_ldflags="-L$libggz_libraries"
 
   AC_SUBST(LIBGGZ_INCLUDES)
-  AC_SUBST(LIBGGZ_LDFLAGS)
+  AC_SUBST(LIBGGZ_ldflags)
 
   LIB_GGZ='-lggz'
   AC_SUBST(LIB_GGZ)
@@ -581,7 +581,7 @@ fi
 
 dnl ------------------------------------------------------------------------
 dnl Try to find the ggzmod headers and libraries.
-dnl $(GGZMOD_LDFLAGS) will be -L ... (if needed)
+dnl $(GGZMOD_ldflags) will be -L ... (if needed)
 dnl and $(GGZMOD_INCLUDES) will be -I ... (if needed)
 dnl ------------------------------------------------------------------------
 dnl
@@ -661,10 +661,10 @@ else
   AC_SUBST(ggzmod_includes)
 
   GGZMOD_INCLUDES="-I $ggzmod_includes"
-  GGZMOD_LDFLAGS="-L$ggzmod_libraries"
+  GGZMOD_ldflags="-L$ggzmod_libraries"
 
   AC_SUBST(GGZMOD_INCLUDES)
-  AC_SUBST(GGZMOD_LDFLAGS)
+  AC_SUBST(GGZMOD_ldflags)
 
   LIB_GGZMOD='-lggzmod'
   AC_SUBST(LIB_GGZMOD)
@@ -677,7 +677,7 @@ fi
 
 dnl ------------------------------------------------------------------------
 dnl Try to find the ggzdmod headers and libraries.
-dnl $(GGZDMOD_LDFLAGS) will be -L ... (if needed)
+dnl $(GGZDMOD_ldflags) will be -L ... (if needed)
 dnl and $(GGZDMOD_INCLUDES) will be -I ... (if needed)
 dnl ------------------------------------------------------------------------
 dnl
@@ -757,10 +757,10 @@ else
   AC_SUBST(ggzdmod_includes)
 
   GGZDMOD_INCLUDES="-I $ggzdmod_includes"
-  GGZDMOD_LDFLAGS="-L$ggzdmod_libraries"
+  GGZDMOD_ldflags="-L$ggzdmod_libraries"
 
   AC_SUBST(GGZDMOD_INCLUDES)
-  AC_SUBST(GGZDMOD_LDFLAGS)
+  AC_SUBST(GGZDMOD_ldflags)
 
   LIB_GGZDMOD='-lggzdmod'
   AC_SUBST(LIB_GGZDMOD)
@@ -853,10 +853,10 @@ else
   AC_SUBST(ggz_gtk_includes)
 
   GGZ_GTK_INCLUDES="-I $ggz_gtk_includes"
-  GGZ_GTK_LDFLAGS="-L$ggz_gtk_libraries"
+  GGZ_GTK_ldflags="-L$ggz_gtk_libraries"
 
   AC_SUBST(GGZ_GTK_INCLUDES)
-  AC_SUBST(GGZ_GTK_LDFLAGS)
+  AC_SUBST(GGZ_GTK_ldflags)
 
   LIB_GGZ_GTK='-lggz-gtk'
   AC_SUBST(LIB_GGZ_GTK)

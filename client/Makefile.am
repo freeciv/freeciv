@@ -184,14 +184,14 @@ noinst_LTLIBRARIES += libfcgui-gtk2.la
 libfcgui_gtk2_la_SOURCES = $(freeciv_client_src)
 libfcgui_gtk2_la_LIBADD = gui-gtk-2.0/libgui-gtk2.la $(clientlibs)
 freeciv_gtk2_SOURCES = dummy.c
-freeciv_gtk2_LDFLAGS = $(GUI_gtk2_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_gtk2_LDFLAGS = $(gui_gtk2_ldflags) $(GGZMOD_ldflags)
 freeciv_gtk2_LDADD = \
  $(SOUND_LIBS) \
  libfcgui-gtk2.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
- $(GUI_gtk2_LIBS)
+ $(gui_gtk2_libs)
 endif
 
 if CLIENT_GUI_GTK_3_0
@@ -200,14 +200,14 @@ noinst_LTLIBRARIES += libfcgui-gtk3.la
 libfcgui_gtk3_la_SOURCES = $(freeciv_client_src)
 libfcgui_gtk3_la_LIBADD = gui-gtk-3.0/libgui-gtk3.la $(clientlibs)
 freeciv_gtk3_SOURCES = dummy.c
-freeciv_gtk3_LDFLAGS = $(GUI_gtk3_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_gtk3_LDFLAGS = $(gui_gtk3_ldflags) $(GGZMOD_ldflags)
 freeciv_gtk3_LDADD = \
  $(SOUND_LIBS) \
  libfcgui-gtk3.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
- $(GUI_gtk3_LIBS)
+ $(gui_gtk3_libs)
 endif
 
 if CLIENT_GUI_SDL
@@ -216,14 +216,14 @@ noinst_LTLIBRARIES += libfcgui-sdl.la
 libfcgui_sdl_la_SOURCES = $(freeciv_client_src)
 libfcgui_sdl_la_LIBADD = gui-sdl/libgui-sdl.la $(clientlibs)
 freeciv_sdl_SOURCES = dummy.c
-freeciv_sdl_LDFLAGS = $(GUI_sdl_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_sdl_LDFLAGS = $(gui_sdl_ldflags) $(GGZMOD_ldflags)
 freeciv_sdl_LDADD = \
- $(GUI_sdl_LIBS) \
+ $(gui_sdl_libs) \
  libfcgui-sdl.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
- $(GUI_sdl_LIBS)
+ $(gui_sdl_libs)
 endif
 
 if CLIENT_GUI_XAW
@@ -232,13 +232,13 @@ noinst_LTLIBRARIES += libfcgui-xaw.la
 libfcgui_xaw_la_SOURCES = $(freeciv_client_src)
 libfcgui_xaw_la_LIBADD = gui-xaw/libgui-xaw.la $(clientlibs)
 freeciv_xaw_SOURCES = dummy.c
-freeciv_xaw_LDFLAGS = $(GUI_xaw_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_xaw_LDFLAGS = $(gui_xaw_ldflags) $(GGZMOD_ldflags)
 freeciv_xaw_LDADD = \
  libfcgui-xaw.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
- $(GUI_xaw_LIBS)
+ $(gui_xaw_libs)
 endif
 
 if CLIENT_GUI_QT
@@ -247,14 +247,14 @@ noinst_LTLIBRARIES += libfcgui-qt.la
 libfcgui_qt_la_SOURCES = $(freeciv_client_src)
 libfcgui_qt_la_LIBADD = gui-qt/libgui-qt.la $(clientlibs)
 freeciv_qt_SOURCES = dummycxx.cpp $(gui_interface_src)
-freeciv_qt_LDFLAGS = $(GUI_qt_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_qt_LDFLAGS = $(gui_qt_ldflags) $(GGZMOD_ldflags)
 freeciv_qt_LDADD = \
  $(SOUND_LIBS) \
  libfcgui-qt.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
- $(GUI_qt_LIBS)
+ $(gui_qt_libs)
 endif
 
 if CLIENT_GUI_STUB
@@ -263,11 +263,11 @@ noinst_LTLIBRARIES += libfcgui-stub.la
 libfcgui_stub_la_SOURCES = $(freeciv_client_src)
 libfcgui_stub_la_LIBADD = gui-stub/libgui-stub.la $(clientlibs)
 freeciv_stub_SOURCES = $(gui_interface_src) $(gui_cbs_src)
-freeciv_stub_LDFLAGS = $(GUI_stub_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_stub_LDFLAGS = $(gui_stub_ldflags) $(GGZMOD_ldflags)
 freeciv_stub_LDADD = \
  libfcgui-stub.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
- $(GUI_stub_LIBS)
+ $(gui_stub_libs)
 endif

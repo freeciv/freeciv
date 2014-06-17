@@ -830,7 +830,7 @@ if test "x$client" != "xno"; then
       if test "x$client" = "xauto" ; then
         client=yes
       fi
-      GUI_stub_LIBS="-lm"
+      gui_stub_libs="-lm"
     elif test "x$gui_stub" = "xyes"; then
       AC_MSG_ERROR(specified client 'stub' not configurable)
     fi
@@ -859,10 +859,10 @@ dnl Check for GGZ
 if test "x$gui_gtk2" = "xyes" || test "x$gui_gtk3" = "xyes" ; then
   AC_GGZ_CHECK("gtk")
   if test "x$gui_gtk2" = "xyes" ; then
-    GUI_gtk2_LIBS="$GUI_gtk2_LIBS $LIB_GGZ_GTK"
+    gui_gtk2_LIBS="$gui_gtk2_libs $LIB_GGZ_GTK"
   fi
   if test "x$gui_gtk3" = "xyes" ; then
-    GUI_gtk3_LIBS="$GUI_gtk3_LIBS $LIB_GGZ_GTK"
+    gui_gtk3_libs="$gui_gtk3_libs $LIB_GGZ_GTK"
   fi
 else
   AC_GGZ_CHECK
@@ -931,12 +931,12 @@ if test "x$req_fcmp_gtk2" = "xyes" ||
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk2=yes
-  MP_gtk2_CFLAGS="$GTK2_CFLAGS $GTHREAD_CFLAGS"
-  MP_gtk2_LIBS="$GTK2_LIBS $GTHREAD_LIBS"
+  mp_gtk2_cflags="$GTK2_CFLAGS $GTHREAD_CFLAGS"
+  mp_gtk2_libs="$GTK2_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
      dnl Required to compile gtk2 on Windows platform
-     MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -mms-bitfields"
-     MP_gtk2_LDFLAGS="$MP_gtk2_LDFLAGS -mwindows"
+     mp_gtk2_cflags="$MP_gtk2_CFLAGS -mms-bitfields"
+     mp_gtk2_ldflags="$MP_gtk2_LDFLAGS -mwindows"
   fi
 
   if test "x$modinst" = "xauto" ; then
@@ -956,12 +956,12 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk3=yes
-  MP_gtk3_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
-  MP_gtk3_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
+  mp_gtk3_cflags="$GTK3_CFLAGS $GHTREAD_CFLAGS"
+  mp_gtk3_libs="$GTK3_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
-    MP_gtk3_CFLAGS="$MP_gtk3_CFLAGS -mms-bitfields"
-    MP_gtk3_LDFLAGS="$MP_gtk3_LDFLAGS -mwindows"
+    mp_gtk3_cflags="$mp_gtk3_cflags -mms-bitfields"
+    mp_gtk3_ldflags="$mp_gtk3_ldflags -mwindows"
   fi
 
   if test "x$modinst" = "xauto" ; then
@@ -983,9 +983,9 @@ if test "x$req_fcmp_qt" = "xyes" ||
      if test "x$fc_qt5_usable" = "xtrue" ; then
        fcmp_qt=yes
 
-       MP_qt_CPPFLAGS=$FC_QT5_CPPFLAGS
-       MP_qt_CXXFLAGS=$FC_QT5_CXXFLAGS
-       MP_qt_LIBS=$FC_QT5_LIBS
+       mp_qt_cppflags=$FC_QT5_CPPFLAGS
+       mp_qt_cxxflags=$FC_QT5_CXXFLAGS
+       mp_qt_libs=$FC_QT5_LIBS
 
        if test "x$modinst" = "xauto" ; then
          modinst=found
@@ -1015,8 +1015,8 @@ fi
 
 if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
-  MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
-  MP_gtk3_CFLAGS="$MP_gtk3_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+  mp_gtk2_cflags="$mp_gtk2_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+  mp_gtk3_cflags="$mp_gtk3_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
 fi
 
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
@@ -1025,38 +1025,38 @@ AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
 
-AC_SUBST([GUI_gtk2_CFLAGS])
-AC_SUBST([GUI_gtk2_LIBS])
-AC_SUBST([GUI_gtk2_LDFLAGS])
-AC_SUBST([GUI_gtk3_CFLAGS])
-AC_SUBST([GUI_gtk3_LIBS])
-AC_SUBST([GUI_gtk3_LDFLAGS])
-AC_SUBST([GUI_sdl_CFLAGS])
-AC_SUBST([GUI_sdl_LIBS])
-AC_SUBST([GUI_sdl_LDFLAGS])
-AC_SUBST([GUI_xaw_CFLAGS])
-AC_SUBST([GUI_xaw_LIBS])
-AC_SUBST([GUI_xaw_LDFLAGS])
-AC_SUBST([GUI_qt_CPPFLAGS])
-AC_SUBST([GUI_qt_CFLAGS])
-AC_SUBST([GUI_qt_CXXFLAGS])
-AC_SUBST([GUI_qt_LIBS])
-AC_SUBST([GUI_qt_LDFLAGS])
-AC_SUBST([GUI_stub_CFLAGS])
-AC_SUBST([GUI_stub_LIBS])
-AC_SUBST([GUI_stub_LDFLAGS])
-AC_SUBST([MP_cli_CFLAGS])
-AC_SUBST([MP_cli_LIBS])
-AC_SUBST([MP_cli_LDFLAGS])
-AC_SUBST([MP_gtk2_CFLAGS])
-AC_SUBST([MP_gtk2_LIBS])
-AC_SUBST([MP_gtk2_LDFLAGS])
-AC_SUBST([MP_gtk3_CFLAGS])
-AC_SUBST([MP_gtk3_LIBS])
-AC_SUBST([MP_gtk3_LDFLAGS])
-AC_SUBST([MP_qt_CPPFLAGS])
-AC_SUBST([MP_qt_CXXFLAGS])
-AC_SUBST([MP_qt_LIBS])
+AC_SUBST([gui_gtk2_cflags])
+AC_SUBST([gui_gtk2_libs])
+AC_SUBST([gui_gtk2_ldflags])
+AC_SUBST([gui_gtk3_cflags])
+AC_SUBST([gui_gtk3_libs])
+AC_SUBST([gui_gtk3_ldflags])
+AC_SUBST([gui_sdl_cflags])
+AC_SUBST([gui_sdl_libs])
+AC_SUBST([gui_sdl_ldflags])
+AC_SUBST([gui_xaw_cflags])
+AC_SUBST([gui_xaw_libs])
+AC_SUBST([gui_xaw_ldflags])
+AC_SUBST([gui_qt_cppflags])
+AC_SUBST([gui_qt_cflags])
+AC_SUBST([gui_qt_cxxflags])
+AC_SUBST([gui_qt_libs])
+AC_SUBST([gui_qt_ldflags])
+AC_SUBST([gui_stub_cflags])
+AC_SUBST([gui_stub_libs])
+AC_SUBST([gui_stub_ldflags])
+AC_SUBST([mp_cli_cflags])
+AC_SUBST([mp_cli_libs])
+AC_SUBST([mp_cli_ldflags])
+AC_SUBST([mp_gtk2_cflags])
+AC_SUBST([mp_gtk2_libs])
+AC_SUBST([mp_gtk2_ldflags])
+AC_SUBST([mp_gtk3_cflags])
+AC_SUBST([mp_gtk3_libs])
+AC_SUBST([mp_gtk3_ldflags])
+AC_SUBST([mp_qt_cppflags])
+AC_SUBST([mp_qt_cxxflags])
+AC_SUBST([mp_qt_libs])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
@@ -1109,7 +1109,7 @@ fi
 if test "x$gui_xaw" = "xyes" ; then
   dnl Want to get appropriate -I flags:
   fc_save_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS $GUI_xaw_CFLAGS"
+  CPPFLAGS="$CPPFLAGS $gui_xaw_cflags"
   AC_CHECK_HEADER(X11/xpm.h, ,
     AC_MSG_ERROR(need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
   CPPFLAGS="$fc_save_CPPFLAGS"

@@ -10,8 +10,8 @@ AC_DEFUN([FC_CHECK_POSTGRES],
               [  --with-postgres-prefix=PFX Prefix where PostgreSQL is installed (optional)],
               postgres_prefix="$withval", postgres_prefix="")
 
-  POSTGRESQL_CFLAGS=""
-  POSTGRESQL_LDFLAGS=""
+  postgresql_cflags=""
+  postgresql_ldflags=""
   POSTGRESQL_POSTGRESQL=""
 
   dnl
@@ -25,17 +25,12 @@ AC_DEFUN([FC_CHECK_POSTGRES],
   if test "$PG_CONFIG" != "no"; then
     AC_MSG_CHECKING([for PostgreSQL libraries])
 
-    POSTGRESQL_CFLAGS="-I`$PG_CONFIG --includedir`"
-    POSTGRESQL_LDFLAGS="-L`$PG_CONFIG --libdir` -lpq"
+    postgresql_cflags="-I`$PG_CONFIG --includedir`"
+    postgresql_ldflags="-L`$PG_CONFIG --libdir` -lpq"
     POSTGRESQL_VERSION=`$PG_CONFIG --version | sed -e 's#PostgreSQL ##'`
 
     found_postgresql="yes"
     AC_MSG_RESULT([yes])
-
-    dnl AC_MSG_CHECKING([for $PG_CONFIG --includedir])
-    dnl AC_MSG_RESULT([$POSTGRESQL_CFLAGS])
-    dnl AC_MSG_CHECKING([for $PG_CONFIG --libdir])
-    dnl AC_MSG_RESULT([$POSTGRESQL_LDFLAGS])
   fi
 
   dnl
@@ -84,8 +79,8 @@ AC_DEFUN([FC_CHECK_POSTGRES],
   fi
 
   AC_SUBST([POSTGRESQL_VERSION])
-  AC_SUBST([POSTGRESQL_CFLAGS])
-  AC_SUBST([POSTGRESQL_LDFLAGS])
+  AC_SUBST([postgresql_cflags])
+  AC_SUBST([postgresql_ldflags])
 
   if test "x$found_postgresql" = "xyes" ; then
     ifelse([$1], , :, [$1])

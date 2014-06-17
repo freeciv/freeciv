@@ -99,46 +99,46 @@ libfcmp_la_SOURCES = \
 		mpdb.h
 
 if MODINST_CLI
-freeciv_mp_cli_CPPFLAGS = $(common_cppflags) $(MP_cli_CFLAGS)
+freeciv_mp_cli_CPPFLAGS = $(common_cppflags) $(mp_cli_cflags)
 
 freeciv_mp_cli_SOURCES = mpcli.c
 
-freeciv_mp_cli_LDFLAGS = $(MP_cli_LDFLAGS)
+freeciv_mp_cli_LDFLAGS = $(mp_cli_ldflags)
 
 freeciv_mp_cli_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(MAPIMG_WAND_LIBS) \
-		$(MP_cli_LIBS)
+		$(mp_cli_libs)
 endif
 
 if MODINST_GTK2
-freeciv_mp_gtk2_CPPFLAGS = $(common_cppflags) $(MP_gtk2_CFLAGS)
+freeciv_mp_gtk2_CPPFLAGS = $(common_cppflags) $(mp_gtk2_cflags)
 
 freeciv_mp_gtk2_SOURCES = mpgui_gtk2.c
 
-freeciv_mp_gtk2_LDFLAGS = $(MP_gtk2_LDFLAGS)
+freeciv_mp_gtk2_LDFLAGS = $(mp_gtk2_ldflags)
 
 freeciv_mp_gtk2_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(MAPIMG_WAND_LIBS) \
-		$(MP_gtk2_LIBS) \
+		$(mp_gtk2_libs) \
 		$(MPICON)
 endif
 
 if MODINST_GTK3
-freeciv_mp_gtk3_CPPFLAGS = $(common_cppflags) $(MP_gtk3_CFLAGS)
+freeciv_mp_gtk3_CPPFLAGS = $(common_cppflags) $(mp_gtk3_cflags)
 
 freeciv_mp_gtk3_SOURCES = mpgui_gtk3.c
 
-freeciv_mp_gtk3_LDFLAGS = $(MP_gtk3_LDFLAGS)
+freeciv_mp_gtk3_LDFLAGS = $(mp_gtk3_ldflags)
 
 freeciv_mp_gtk3_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(MAPIMG_WAND_LIBS) \
-		$(MP_gtk3_LIBS) \
+		$(mp_gtk3_libs) \
 		$(MPICON)
 endif
 
@@ -148,8 +148,8 @@ MOC_FILES = \
 	meta_mpgui_qt.cpp \
 	meta_mpgui_qt_worker.cpp
 
-freeciv_mp_qt_CPPFLAGS = $(common_cppflags) $(MP_qt_CPPFLAGS)
-freeciv_mp_qt_CXXFLAGS = $(MP_qt_CXXFLAGS)
+freeciv_mp_qt_CPPFLAGS = $(common_cppflags) $(mp_qt_cppflags)
+freeciv_mp_qt_CXXFLAGS = $(mp_qt_cxxflags)
 
 freeciv_mp_qt_SOURCES = \
 	mpgui_qt.cpp	\
@@ -165,6 +165,6 @@ freeciv_mp_qt_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(MAPIMG_WAND_LIBS) \
-		$(MP_qt_LIBS) \
+		$(mp_qt_libs) \
 		$(MPICON)
 endif

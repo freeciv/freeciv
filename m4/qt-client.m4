@@ -19,9 +19,9 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
     FC_QT5
 
     if test x$fc_qt5_usable = xtrue ; then
-      GUI_qt_CPPFLAGS=$FC_QT5_CPPFLAGS
-      GUI_qt_CXXFLAGS=$FC_QT5_CXXFLAGS
-      GUI_qt_LIBS=$FC_QT5_LIBS
+      gui_qt_cppflags=$FC_QT5_CPPFLAGS
+      gui_qt_cxxflags=$FC_QT5_CXXFLAGS
+      gui_qt_libs=$FC_QT5_LIBS
     else
       AC_MSG_RESULT([not found])
     fi
