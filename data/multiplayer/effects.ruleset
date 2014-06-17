@@ -746,6 +746,7 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
+      "UnitFlag", "Nuclear", "Local"
     }
 
 [effect_airport_1]
