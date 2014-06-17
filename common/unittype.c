@@ -1179,8 +1179,7 @@ const struct veteran_level *
 const char *utype_veteran_name_translation(const struct unit_type *punittype,
                                            int level)
 {
-  if (utype_has_flag(punittype, UTYF_NO_VETERAN)
-      || utype_veteran_levels(punittype) <= 1) {
+  if (utype_veteran_levels(punittype) <= 1) {
     return NULL;
   } else {
     const struct veteran_level *vlvl = utype_veteran_level(punittype, level);
