@@ -269,13 +269,13 @@
 
 /* Specifies the way path-finding will treat a tile. */
 enum tile_behavior {
-  TB_IGNORE = 0,        /* This one will be ignored. */
-  TB_DONT_LEAVE,        /* Paths can lead _to_ such tile, but are not
+  TB_NORMAL = 0,        /* Well, normal .*/
+  TB_IGNORE,            /* This one will be ignored. */
+  TB_DONT_LEAVE         /* Paths can lead _to_ such tile, but are not
                          * allowed to go _through_. This move cost is
                          * always evaluated to a constant single move cost,
                          * prefering straight paths because we don't need
                          * moves left to leave this tile. */
-  TB_NORMAL             /* Well, normal .*/
 };
 
 /* Full specification of a position and time to reach it. */
