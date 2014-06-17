@@ -23,7 +23,6 @@ libcivutility_la_SOURCES = \
 		fcintl.h	\
 		fcthread.c	\
 		fcthread.h	\
-		generate_specenum.py	\
 		genhash.c	\
 		genhash.h	\
 		genlist.c	\
@@ -66,6 +65,9 @@ libcivutility_la_SOURCES = \
 		timing.h	\
 		md5.c		\
 		md5.h
+
+EXTRA_DIST = \
+		generate_specenum.py
 
 libcivutility_la_LIBADD = $(UTILITY_LIBS)
 
