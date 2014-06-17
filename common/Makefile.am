@@ -58,7 +58,6 @@ libfreeciv_la_SOURCES = \
 		fc_types.h	\
 		game.c		\
 		game.h		\
-		generate_packets.py \
 		government.c	\
 		government.h	\
 		idex.c		\
@@ -124,7 +123,9 @@ libfreeciv_la_SOURCES = \
 		worklist.c	\
 		worklist.h
 
-EXTRA_DIST = 	packets.def
+EXTRA_DIST = \
+		packets.def	\
+		generate_packets.py
 
 libfreeciv_la_DEPENDENCIES = \
 	$(top_builddir)/utility/libcivutility.la \
