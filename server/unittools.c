@@ -716,7 +716,6 @@ static void update_unit_activity(struct unit *punit)
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
-  bool check_adjacent_units = FALSE;
   int i;
   
   switch (activity) {
@@ -782,19 +781,9 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity(ptile, ACTIVITY_PILLAGE, 
                        punit->activity_target) >= 1) {
       destroy_extra(ptile, punit->activity_target);
+      unit_activity_done = TRUE;
 
       bounce_units_on_terrain_change(ptile);
-
-      unit_list_iterate (ptile->units, punit2) {
-        if ((punit2->activity == ACTIVITY_PILLAGE)
-            && punit->activity_target == punit2->activity_target) {
-	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(NULL, punit2);
-	}
-      } unit_list_iterate_end;
-      update_tile_knowledge(ptile);
-      /* Deliberately don't set unit_activity_done -- we already dealt with
-       * other units working on the same thing above */
 
       call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
 
@@ -836,17 +825,7 @@ static void update_unit_activity(struct unit *punit)
         struct base_type *new_base = extra_base_get(punit->activity_target);
 
         create_base(ptile, new_base, unit_owner(punit));
-        update_tile_knowledge(ptile);
-
-        unit_list_iterate (ptile->units, punit2) {
-          if (punit2->activity == ACTIVITY_BASE
-              && punit->activity_target == punit2->activity_target) {
-            set_unit_activity(punit2, ACTIVITY_IDLE);
-            send_unit_info(NULL, punit2);
-          }
-        } unit_list_iterate_end;
-        /* Deliberately don't set unit_activity_done -- we already dealt with
-         * other units working on the same thing above */
+        unit_activity_done = TRUE;
       }
     }
     break;
@@ -858,17 +837,7 @@ static void update_unit_activity(struct unit *punit)
         struct road_type *new_road = extra_road_get(punit->activity_target);
 
         create_road(ptile, new_road);
-        update_tile_knowledge(ptile);
-
-        unit_list_iterate (ptile->units, punit2) {
-          if (punit2->activity == ACTIVITY_GEN_ROAD
-              && punit->activity_target == punit2->activity_target) {
-            set_unit_activity(punit2, ACTIVITY_IDLE);
-            send_unit_info(NULL, punit2);
-          }
-        } unit_list_iterate_end;
-        /* Deliberately don't set unit_activity_done -- we already dealt with
-         * other units working on the same thing above */
+        unit_activity_done = TRUE;
       }
     }
     break;
@@ -883,7 +852,6 @@ static void update_unit_activity(struct unit *punit)
        * check the terrain (which will also do a sanity check for the tile). */
       tile_apply_activity(ptile, activity, punit->activity_target);
       check_terrain_change(ptile, old);
-
       unit_activity_done = TRUE;
     }
     break;
@@ -896,34 +864,55 @@ static void update_unit_activity(struct unit *punit)
     break;
   }
 
-  for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
-    if (tile_changing_actions[i] == activity) {
-      check_adjacent_units = TRUE;
-      break;
-    }
-  }
-
   if (unit_activity_done) {
     update_tile_knowledge(ptile);
-    unit_list_iterate (ptile->units, punit2) {
-      if (punit2->activity == activity) {
-	set_unit_activity(punit2, ACTIVITY_IDLE);
-	send_unit_info(NULL, punit2);
-      }
-    } unit_list_iterate_end;
-  }
-
-  /* Some units nearby may not be able to continue their action,
-   * such as building irrigation if we removed the only source
-   * of water from them. */
-  if (check_adjacent_units) {
-    adjc_iterate(ptile, ptile2) {
-      unit_list_iterate(ptile2->units, punit2) {
-        if (!can_unit_continue_current_activity(punit2)) {
-          unit_activity_handling(punit2, ACTIVITY_IDLE);
+    if (ACTIVITY_IRRIGATE == activity
+        || ACTIVITY_MINE == activity
+        || ACTIVITY_TRANSFORM == activity) {
+      /* FIXME: As we might probably do the activity again, because of the
+       * terrain change cycles, we need to treat these cases separatly.
+       * Probably ACTIVITY_TRANSFORM should be associated to its terrain
+       * target, whereas ACTIVITY_IRRIGATE and ACTIVITY_MINE should only
+       * used for extras. */
+      unit_list_iterate(ptile->units, punit2) {
+        if (punit2->activity == activity) {
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+          send_unit_info(NULL, punit2);
         }
       } unit_list_iterate_end;
-    } adjc_iterate_end;
+    } else {
+      unit_list_iterate(ptile->units, punit2) {
+        if (!can_unit_continue_current_activity(punit2)) {
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+          send_unit_info(NULL, punit2);
+        }
+      } unit_list_iterate_end;
+    }
+
+    for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
+      if (tile_changing_actions[i] == activity) {
+        /* Some units nearby may not be able to continue their action,
+         * such as building irrigation if we removed the only source
+         * of water from them. */
+        adjc_iterate(ptile, ptile2) {
+          unit_list_iterate(ptile2->units, punit2) {
+            if (!can_unit_continue_current_activity(punit2)) {
+              if (unit_has_orders(punit2)) {
+                notify_player(unit_owner(punit2), unit_tile(punit2),
+                              E_UNIT_ORDERS, ftc_server,
+                              _("Orders for %s aborted because activity "
+                                "is no more available."),
+                              unit_link(punit2));
+                free_unit_orders(punit2);
+              }
+              set_unit_activity(punit2, ACTIVITY_IDLE);
+              send_unit_info(NULL, punit2);
+            }
+          } unit_list_iterate_end;
+        } adjc_iterate_end;
+        break;
+      }
+    }
   }
 
   if (activity == ACTIVITY_FORTIFYING) {
@@ -949,13 +938,6 @@ static void update_unit_activity(struct unit *punit)
   if (game_unit_by_number(id)) {
     send_unit_info(NULL, punit);
   }
-
-  unit_list_iterate(ptile->units, punit2) {
-    if (!can_unit_continue_current_activity(punit2))
-    {
-      unit_activity_handling(punit2, ACTIVITY_IDLE);
-    }
-  } unit_list_iterate_end;
 }
 
 /**************************************************************************
