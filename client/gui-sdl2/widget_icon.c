@@ -46,7 +46,7 @@ static int redraw_icon(struct widget *pIcon)
   if (ret != 0) {
     return ret;
   }
-  
+
   if (!pIcon->theme) {
     return -3;
   }
@@ -150,14 +150,14 @@ void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface * pNew_Theme)
 /**************************************************************************
   Ugly hack to create 4-state icon theme from static icon;
 **************************************************************************/
-SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
+SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
 {
-#if 0
   SDL_Color bg_color = { 255, 255, 255, 128 };
 
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
   SDL_Surface *pTheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
                                     SDL_SWSURFACE);
+
   dest.x = adj_size(2);
   dest.y = (pTheme->h - src.h) / 2;
 
@@ -167,14 +167,17 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   /* selected */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest, 255);
+#if 0
   /* draw selected frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
            get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+#endif
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest, 255);
+#if 0
   /* draw selected frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + src.w, dest.y + src.h,
@@ -184,6 +187,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
            dest.x - adj_size(2), dest.y - adj_size(2),
            dest.x + (src.w + 1), dest.y + (src.h + 1),
            get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
+#endif
 
   /* disabled */
   dest.x += (src.w + adj_size(4));
@@ -191,12 +195,9 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   dest.w = src.w;
   dest.h = src.h;
 
-  SDL_FillRectAlpha(pTheme, &dest, &bg_color);
+  fill_rect_alpha(pTheme, &dest, &bg_color);
 
   return pTheme;
-#endif /* 0 */
-
-  return NULL;
 }
 
 /**************************************************************************
@@ -287,19 +288,19 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
 
   Function return NULL if pIcon_theme is NULL or blit fail. 
 **************************************************************************/
-SDL_Surface * create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
+SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
 {
   SDL_Rect src;
-  
+
   if (!pIcon_theme) {
     return NULL;
   }
-  
-  src.w = pIcon_theme->w / 4;  
+
+  src.w = pIcon_theme->w / 4;
   src.x = src.w * state;
   src.y = 0;
   src.h = pIcon_theme->h;
-  
+
   return crop_rect_from_surface(pIcon_theme, &src);
 }
 
@@ -311,10 +312,10 @@ SDL_Surface * create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
   set new theme and callculate new size.
 **************************************************************************/
 void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
-			  bool free_old_theme)
+                         bool free_old_theme)
 {
   if ((pNew_Theme) && (pIcon_Widget)) {
-    if(free_old_theme) {
+    if (free_old_theme) {
       FREESURFACE(pIcon_Widget->theme);
     }
     pIcon_Widget->theme = pNew_Theme;
