@@ -930,9 +930,19 @@ static void begin_phase(bool is_new_phase)
     /* Unit "end of turn" activities - of course these actually go at
      * the start of the turn! */
     phase_players_iterate(pplayer) {
-      update_unit_activities(pplayer); /* major network traffic */
+      update_unit_activities(pplayer);
       flush_packets();
     } phase_players_iterate_end;
+    /* Execute orders after activities have been completed (roads built,
+     * pillage done, etc.). */
+    phase_players_iterate(pplayer) {
+      execute_unit_orders(pplayer);
+      flush_packets();
+    } phase_players_iterate_end;
+    phase_players_iterate(pplayer) {
+      finalize_unit_phase_beginning(pplayer);
+    } phase_players_iterate_end;
+    flush_packets();
   }
 
   phase_players_iterate(pplayer) {
