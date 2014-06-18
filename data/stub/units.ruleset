@@ -1,0 +1,355 @@
+; This is minimal units ruleset. Replace <modpack> with your module name in
+; description.
+
+[datafile]
+description="<modpack> unit_type data for Freeciv"
+options="+Freeciv-ruleset-Devel-2013.May.14"
+
+[control]
+; Names for custom unit type flags. There can be up to 16 of these.
+; name          = rule name; not translateable, but may be displayed in
+;                 some circumstances
+; helptxt       = displayed in the help for units with this flag
+; flags =
+;   { "name", "helptxt"
+;   }
+
+[veteran_system]
+; What are the names of the levels?
+veteran_names = _("green")
+
+; The percentage chance of increasing level through combat
+veteran_raise_chance = 0
+
+; Power factors are as a percentage.
+; +50% is represented by 150
+veteran_power_fact = 100
+
+; The percentage chance of a settler/engineer increasing level through
+; performing useful work (per turn)
+veteran_work_raise_chance = 0
+
+; The additional number of movement points granted for different veteran
+; levels. These are fractional move points as defined by move_fragments in
+; terrain.ruleset.
+veteran_move_bonus = 0
+
+; Unit classes
+; The number can be variable, up to 32
+; When adding new classes, remember to check effects.ruleset also.
+; Eg. if you divide class 'Land' to two separate classes, you may
+; want add effect giving City Walls defence bonus against new class
+; too.
+;
+; The actual tag used (the * in [unitclass_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; ** Fields **
+;
+; name          = Name as used in other rulesets
+; move_type     = Where unit moves; "Land", "Sea", or "Both".
+;                 This is optional field. If it's not
+;                 given, move type is automatically determined from native
+;                 terrains. You need to set it only if you want to set move
+;                 type "Both" for unit that has no native Land terrains or
+;                 for unit that has no native Oceanic terrains.
+; min_speed     = Minimum speed after damage and effects (whole movement points)
+; hp_loss_pct   = Hitpoints lost each turn if unit not in city or native base
+; non_native_def_pct = Defense power percentage applying when defending on
+;                      non-native terrain (such as ship in harbour)
+; hut_behavior  = What happens to huts when unit enters tile:
+;                 "Normal", "Nothing" or "Frighten"
+; flags         = List of unit class flags (from the following list; you
+;                 cannot add custom unit class flags)
+;
+; ** Unit class Flags **
+;
+; "TerrainSpeed"   = Units use terrain specific speed
+; "TerrainDefense" = Units gain defense bonus from terrain
+; "DamageSlows"   = Damaged units are slowed down
+; "CanOccupyCity"  = Military units of this class can occupy enemy cities
+; "Missile"        = Unit is destroyed when it attacks
+; "BuildAnywhere"  = Unit can be built even in the middle of non-native terrain
+; "Unreachable"   = Unit can be attacked only by units explicitly listing this
+;                   class in its 'targets', unless on a city or native base.
+;                   For class members which are transports, cargo cannot load/
+;                   unload except in a city or native base, unless that unit
+;                   explicitly lists this class in its 'embarks'/'disembarks'.
+; "CollectRansom"  = Unit can collect ransom when killing lone barbarian leader
+; "ZOC"            = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
+;                    override this
+; "CanFortify"     = Unit can fortify at land squares
+; "CanPillage"     = Unit can pillage tile infrastructure
+; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
+;                       still work that tile
+; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type flag
+;                       "Only_Native_Attack" can override this
+; "AttFromNonNative"  = Unit can launch attach from non-native tile (against native one)
+;                       This applies for both attacking from transport or cities. If only
+;                       some unit types of the class should get this property, use type flag
+;                       "Marines"
+; "KillCitizen"       = Upon successful attack against a city unit kills one citizen.
+;                       There's server setting, as well as effects, to disable this.
+; "Airliftable"       = Unit may be airlifted
+;
+; */ <-- avoid gettext warnings 	 ; */ <-- avoid gettext warnings
+
+[unitclass_generic]
+name          = _("Generic")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = ""
+
+[unitclass_ship]
+name          = _("Generic Ship")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = ""
+
+; Below: The individual units, one per section.
+;
+; The number can be variable, up to 200.  
+; However for the "official" rulesets, units should not be removed 
+; because that would break backward compatability with savegames.
+;
+; The order here matters: later units are considered "better" for
+; a given flag or role.  
+;
+; The actual tag used (the * in [unit_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; ** Fields **
+;
+; name          = name as seen by user 
+; graphic       = tag specifying preferred graphic
+; graphic_alt	= tag for alternate garphic if preferred graphic is not 
+;		  present; especially if preferred graphic is non-standard, 
+;		  this should be a standard tag.  Otherwise can use eg "-" 
+;		  for no alternate graphic.
+; tech_req      = required advance, names from techs.ruleset, or special:
+;                 "None" => available from start
+; impr_req	= required city improvement, names from buildings.ruleset
+; gov_req       = required government, names from governments.ruleset
+; obsolete_by   = can be upgraded to and made obsolete by another unit by name
+; build_cost    = production shields required to build
+; pop_cost      = population removed from city when built; for 'AddToCity'
+;                 units this is also the population added to the destination
+; attack        = base attack strength (0 = cannot attack)
+; defense       = base defense strength (0 = cannot defend)
+; hitpoints     = how much damage unit can withstand
+; firepower     = number of hitpoints removed per round of combat; at least 1
+; move_rate     = base move rate (whole movement points)
+; vision_radius_sq = base vision of unit: unit can see tile up to the square
+;                 root of this value away
+; convert_to    = can be converted to another type of unit by name
+; convert_time  = time it takes to convert to another unit type
+; class         = One of the classes listed above
+; transport_cap = Number of units (ground, or air/missiles, depending on flags)
+; fuel          = number of turns air units can fly before they crash. For
+;                 barbarians this is used as lifetime instead. If this is zero,
+;                 the unit has unlimited fuel, despite flying.
+; uk_*          = upkeep costs, these are used as base values in the game
+; cargo         = Unit classes this unit can transport
+; city_size     = Initial size of the cities built by 'Cities' type units
+;                 (but 'AddToCity' uses pop_cost)
+; targets       = list of unit classes this unit can attack against even
+;                 if they have Unreachable unit class flag
+; embarks       = list of unit classes this unit may embark upon even if they
+;                 have Unreachable unit class flag and are not in native base
+; disembarks    = list of unit classes this unit may disembark from even if they
+;                 have Unreachable unit class flag and are not in native base
+; bonuses       = definitions of combat bonuses against specific other units
+; bonuses.flag  = flag of the unit that bonus applies against
+; bonuses.type  = type of the bonus. See below
+; bonuses.value = value of the bonus. Sum of these is used if multiple apply.
+; flags         = special flag strings; list of built-in flags described below
+;                 and/or user flags defined above
+; roles         = special role strings
+; sound_move	= optional sound effect when the unit moves
+; sound_move_alt= optional alternative sound effect if above not
+;		  supported in client
+; sound_fight	= optional sound effect when the unit fights
+; sound_fight_alt= optional alternative sound effect if above not
+;		   supported in client
+; helptext	= optional help text string; should escape all raw newlines 
+;		  so that xgettext parsing works
+;
+;
+; ** Bonuses **
+;
+; "DefenseMultiplier" = Multiply defense value (1 + 'value') times.
+;                       Value of 1 means multiplication by 2, value 2 by 3...
+;                       Bonus is defined in defenders entry.
+; "DefenseDivider"    = Divide defense value with (1 + 'value').
+;                       Bonus is defined in attackers entry.
+; "FirePower1"        = Defender firepower is reduced to value 1 when
+;                       ever this has non-zero value.
+;                       Bonus is defined in attackers entry.
+;
+;
+; ** Flags **
+;
+; "HelpWonder"	= can help build wonders
+; "TradeRoute"	= can establish trade routes
+; "IgZOC"       = ignore Zones of Control (ZOC) even if unit class has
+;                 "ZOC" flag
+; "HasNoZOC"    = unit has no Zone of Control (ZOC), thus any unit can move
+;                 around it freely
+; "NonMil"      = a non-military unit: no attacks; no martial law; can enter
+;                 peaceful borders; DoesntOccupyTile
+; "IgTer"       = ignore terrain/road etc, use constant move cost defined in
+;                 igter_cost (terrain.ruleset)
+; "OneAttack"	= can only make a single attack, regardless of movement points
+; "IgWall"	= ignore effect of city walls
+; "FieldUnit"	= cause unhappiness even when not being aggressive
+; "AttackAny"   = can attack unreachable units
+; "Marines"	= can attack from non-native tile (from transport or city)
+; "Partial_Invis" = visible only to adjancent units; does not hide transported
+;		  units other than missiles
+; "Settlers"	= can irrigate and build roads
+; "Diplomat"	= can do diplomat actions (see diplchance server option)
+; "Spy"		= enhanced diplomat actions. _Must_ be "Diplomat" also
+; "Trireme"	= (sea only) cannot leave shoreline
+; "Nuclear"	= nuke!
+; "Paratroopers"= (land only) can paradrop
+; "Cities"      = can disband to produce a city (initial population city_size)
+; "Only_Native_Attack" = cannot attack targets on non-native tiles even if
+;                 unit class can
+; "AddToCity"   = can disband to add pop_cost population to a city
+;		  (see cities.ruleset for limitation of this ability)
+; "Fanatic"	= can only be built by governments that allow them
+;		  (see civ2/governments.ruleset, Fundamentalism government)
+; "Unique"	= a player can only have one of these units in the game at
+;		  the same time; barbarians cannot use this at present
+; "GameLoss"	= losing one of these units means you lose the game, but it
+;		  is produced without homecity and upkeep
+; "Undisbandable" = this unit cannot be disbanded, will not drown, and will not
+;		  disband due to lack of shields to upkeep it in homecity;
+;		  if not given enough food to upkeep it, homecity will shrink 
+;		  every turn it cannot do so, however
+; "SuperSpy"	= this unit always wins diplomatic contests, that is, unless
+;		  it encounters another SuperSpy, in which case defender wins;
+;		  can also be used on non-diplomat units, in which case it can
+;		  protect cities from diplomats; also 100% spy survival chance
+; "NoHome"	= this unit has no homecity and will be free of all upkeep, and
+;		  therefore will not revolt along with its city of origin should
+;		  it be incited
+; "NoVeteran"   = this unit cannot become veteran
+; "Bombarder"   = this unit cannot kill other units, only damage them, but
+;                 also is not harmed by return fire when attacking; the field
+;                 bombard_rate regulates its number of shots
+; "CityBuster"  = this unit has double firepower against cities
+; "NoBuild"     = this unit cannot be built
+; "BadWallAttacker"	= the firepower of this unit is set to 1 if
+;                 attacking a city
+;		  defended by a city wall (or other city building defense)
+; "BadCityDefender"	= if attacked while in a city, firepower is set to 1
+;		  and firepower of attacker is doubled (the Pearl Harbour
+;                 rule)
+; "BarbarianOnly" = only barbarians can build this unit
+; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
+;
+; Following flag strings require extra fields:
+;  "Paratroopers"
+;   paratroopers_range = the maximal range the unit can be paradropped to
+;   paratroopers_mr_req = the move rate which is required at least for
+;                         paradropping (whole movement points)
+;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
+;                         (whole movement points)
+;  "Bombarder"
+;   bombard_rate = the number of shots fired at enemy units when attacking
+;
+; ** Roles **
+;
+; "FirstBuild"	= first to be built when city founded
+; "Explorer"	= initial explorer unit (only one unit can have this flag)
+; "Hut"		= can be found in a hut
+; "HutTech"	= can be found in a hut, but its techs required
+; "Partisan"	= can be created as a partisan (only one unit can have this 
+;                 flag), see end of this file for its tech requirements option
+; "DefendOk"	= AI hint: ok for defending with
+; "DefendGood"	= AI hint: good for defending with
+; "AttackFast"	= AI hint: quick attacking unit (unused)
+; "AttackStrong"= AI hint: strong attacker (unused)
+; "Ferryboat"	= AI hint: useful for ferrying
+; "Barbarian"	= can be created as barbarian
+; "BarbarianTech" = can be created as barbarian, if someone has
+;		    researched its tech requirements
+; "BarbarianBoat" = can be created as barbarian
+; "BarbarianBuild" = can be built by barbarians
+; "BarbarianBuildTech" = can be built by barbarians if someone has
+;		         researched its tech requirements
+; "BarbarianLeader" = this unit is the barbarian leader (only one)
+; "BarbarianSea" = can be created as a sea barbarian
+; "BarbarianSeaTech" = can be created as a sea barbarian if someone
+;		       has researched its tech requirements
+; "Cities"	= can disband to produce a city
+; "Settlers"	= can irrigate and build roads
+; "GameLoss"	= losing one of these units means you lose the game, but it
+;		  is produced without homecity and upkeep
+; "Diplomat"	= can do diplomat actions (see diplchance server option)
+; "Hunter"      = AI hint: good for hunting other units
+
+[unit_generic]
+name          = _("Generic")
+class         = "Generic"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.warriors"
+graphic_alt   = "-"
+sound_move    = "m_warriors"
+sound_move_alt = "m_generic"
+sound_fight   = "f_warriors"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers"
+roles         = "Explorer", "Firstbuild", "Cities"
+helptext      = _("\
+  This is the only land unit type you can build.\
+")
+
+[unit_ship]
+name          = _("Generic Ship")
+class         = "Generic Ship"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.warriors"
+graphic_alt   = "-"
+sound_move    = "m_warriors"
+sound_move_alt = "m_generic"
+sound_fight   = "f_warriors"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 2
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = ""
+roles         = "Ferryboat", "BarbarianBoat"
+helptext      = _("\
+  This is the only ship type you can build.\
+")

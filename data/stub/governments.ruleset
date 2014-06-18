@@ -1,0 +1,70 @@
+; This is minimal governments ruleset. Replace <modpack> with your module name in
+; description.
+
+[datafile]
+description="<modpack> governments data for Freeciv"
+options="+Freeciv-ruleset-Devel-2013.May.14"
+
+[governments]
+during_revolution = "Anarchy"
+
+; Below: The individual government types, one per section.
+;
+; The actual tag used (the * in [government_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; For the "official" rulesets, the order of these sections should not
+; be changed because that would break backward compatability with 
+; savegames.  (In particular, if Fundamentalism is added to default
+; ruleset, should be added at end.)
+;
+; Notes on fields:
+
+; name        = name of this government form as seen by user 
+; reqs        = requirements for this government (see README.effects)
+; graphic     = tag specifing preferred graphic
+; graphic_alt = alternate graphics tag if preferred is not found;
+;               should be a standard tag if preferred is not;
+;		otherwise may be "-"
+; ai_better   = AI will not consider this government for use if the
+;               government listed here is available
+
+; ruler_titles = ruler titles by nation, "-" is default, and non-matched 
+;	         nations are ignored 
+
+; helptext = optional help text string; should escape all raw newlines 
+;	     so that xgettext parsing works
+
+;------------------------------------------------------------------------
+[government_anarchy]
+
+name        = _("Anarchy")
+; No reqs
+graphic     = "gov.anarchy"
+graphic_alt = "-"
+
+ruler_male_title = _("Usurper %s")
+ruler_female_title = _("?female:Usurper %s")
+
+helptext = _("\
+Anarchy happens between government changes.\
+")
+
+;------------------------------------------------------------------------
+[government_generic]
+
+name        = _("Generic")
+reqs =
+   { "type", "name", "range"
+; No requirements
+   }
+graphic     = "gov.despotism"
+graphic_alt = "-"
+
+ruler_male_title = _("Leader %s")
+ruler_female_title = _("Leader %s")
+
+helptext = _("\
+  This is the only available form of government.\
+")

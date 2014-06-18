@@ -1,0 +1,84 @@
+; This is minimal nations ruleset. Replace <modpack> with your module name in
+; description.
+
+[datafile]
+description="<modpack> nations data for Freeciv"
+options="+Freeciv-ruleset-Devel-2013.May.14"
+
+; This section contains meta information for freeciv-ruledit to recreate the ruleset
+; file in a form wanted. These have no in-game effect whatsoever
+[ruledit]
+
+; Nationlist to add include statement for. If this entry is omitted, all the nations
+; will be saved to nations.ruleset itself.
+;nationlist = ""
+
+[default_traits]
+;expansionist_min = 50
+;expansionist_max = 50
+;trader_min       = 50
+;trader_max       = 50
+;aggressive_min   = 50
+;aggressive_max   = 50
+
+; Descriptions of nation sets
+; These are self-contained subsets of the available nations; one of these
+; can be chosen in pregame with the "nationset" option. No nations
+; outside the selected subset will be used.
+; The first set defined is the one that is used by default. It is mandatory
+; to have at least one, but if there is only one, it will be kept out of
+; the user`s way.
+; name 		= Translatable name of the set presented in the UI.
+; rule_name     = Unique persistent name; this is also visible to users as
+;                 the value of the "nationset" server option, and presented
+;                 in "/list nationsets". It should thus be short, in lower
+;                 case, and not contain spaces or punctuation.
+;                 The same saved "nationset" setting may be used for multiple
+;                 rulesets, so if your custom ruleset has any set which
+;                 contains all of its nations, it is useful to give it a
+;                 rule_name of "all" so that users can specify that they
+;                 always want the choice of all available nations by
+;                 default.
+; description   = Optional short user description of this set.
+
+[nset_full]
+name=_("?nationset:Full")
+rule_name="all"
+
+; Descriptions of nation groups
+; name 		= name of the group
+; match		= How much the AI will try to select a nation in the same
+;                 group
+
+[ngroup_generic]
+name=_("?nationgroup:Generic")
+match=2
+
+[compatibility]
+; Initial government for all the nations that do not
+; have it explicitly defined
+default_government = "Generic"
+
+; Declare which governments etc the nations may refer to.
+; If a referenced game identifier is not on these
+; lists, it will cause an error, to allow typos to be spotted.
+
+allowed_govs =
+  "Anarchy", "Generic"
+allowed_terrains =
+  "Ocean", "Generic"
+allowed_styles =
+  "Generic"
+
+; Below: nations data loaded from ruleset files for
+; all nations available. If you want to have more
+; nations, just add the path to your ruleset to this list.
+;
+; See doc/README.nations for information on how to
+; create nation rulesets, including style guidelines.
+
+*include "stub/nations/generic.ruleset"
+
+; Must have two barbarian nations
+*include "stub/nations/barbarian.ruleset"
+*include "stub/nations/pirate.ruleset"

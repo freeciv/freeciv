@@ -1,0 +1,68 @@
+; This is minimal techs ruleset. Replace <modpack> with your module name in
+; description.
+
+[datafile]
+description="<modpack> technology data for Freeciv"
+options="+Freeciv-ruleset-Devel-2013.May.14"
+
+[control]
+; Names for custom tech flags. There can be up to 8 of these.
+; name          = rule name; not translateable, but may be displayed in
+;                 some circumstances
+; helptxt       = displayed in the help for advances with this flag
+;flags =
+;  { "name", "helptxt"
+;  }
+
+; /* <-- avoid gettext warnings
+;
+; Below: The individual advances, one per section.
+; The number can be variable, up to 196.
+;
+; The actual tag used (the * in [advance_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name          = name as seen by user 
+; req1, req2	= advances required before researching this one
+; root_req      = tech required before acquiring this tech, by any
+;     means, inherited by all techs that require this tech in turn unless
+;     "None" is given here explicitly; and you can make a tech available
+;     only through the init_tech of a nation by making it root_req itself.
+; flags         = special flag strings
+; graphic       = icon for technology
+; graphic_alt   = alternate icon
+; helptext	= optional help text string (set units ruleset for examples)
+; bonus_message = text seen when a player is the first to 
+;                 discover an bonus tech.
+; cost		= if tech_cost_style is set to 3, this field is read for
+;		  information on how much a tech costs
+;
+; Special values for req1 and req2 are "None" (first section below) 
+; and "Never" (never available).  If only one tech is required, 
+; it should be listed as req1.
+;
+; As well as custom flags defined above, the following flag strings are
+; possible:
+;
+; "Bonus_Tech" = player gets extra tech if reached first
+; "Bridge"   = "Settler" unit types can build roads with "RequiresBridge" flag
+;              over roads with "PreventsOtherRoads" flag (rivers)
+; "Population_Pollution_Inc" = Increase the pollution factor created by
+;                              population by one
+; "Build_Airborne" = from now on can build air units (for use by AI)
+; "Claim_Ocean"    = Player claims ocean tiles even if they are not
+;                    adjacent to border source
+;
+; */ <-- avoid gettext warnings
+
+[advance_generic]
+name        = _("Generic Tech");
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.alphabet"
+graphic_alt = "-"
+helptext    = _("This is the only technology you can research.");

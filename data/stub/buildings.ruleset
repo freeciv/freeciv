@@ -1,0 +1,53 @@
+; This is minimal buildings ruleset. Replace <modpack> with your module name in
+; description.
+
+[datafile]
+description="<modpack> buildings data for Freeciv"
+options="+Freeciv-ruleset-Devel-2013.May.14"
+
+; /* <-- avoid gettext warnings
+;
+; Below: The individual buildings, one per section.
+; (Buildings = City Improvements and Wonders)
+;
+; The actual tag used (the * in [building_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name		= name as seen by user 
+; genus	        = genus; one of:
+;                 "GreatWonder", "SmallWonder", "Improvement", "Special".
+; reqs		= requirements to build the building (see effects.ruleset
+;		  and README.effects for help on requirements)
+; graphic	= icon of improvement (used in city dialog)
+; graphic_alt	= alternate icon of improvement
+; obsolete_by	= requirements for the building to become obsolete
+; build_cost	= production shields required to build
+; upkeep	= monetary upkeep value
+; sabotage	= percent chance of diplomat sabotage being successful
+; flags         = special flag strings
+;
+; */ <-- avoid gettext warnings
+
+[building_generic]
+name		= _("Generic")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+; No requirements
+    }
+graphic	= "b.barracks"
+graphic_alt	= "-"
+obsolete_by     =
+    { "type", "name", "range"
+    }
+build_cost	= 100
+upkeep		= 0
+sabotage	= 100
+sound		= "b_barracks"
+sound_alt	= "b_generic"
+helptext	= _("\
+This is the only building you can build.\
+")
