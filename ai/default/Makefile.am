@@ -42,6 +42,9 @@ libdefaultai_la_SOURCES = \
 		aiunit.c	\
 		aiunit.h	\
 		aidiplomat.c	\
-		aidiplomat.h
+		aidiplomat.h	\
+		daieffects.c	\
+		daieffects.h
+
 
 libdefaultai_la_LIBADD = -lm

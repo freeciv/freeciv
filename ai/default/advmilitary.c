@@ -61,6 +61,7 @@
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daieffects.h"
 
 #include "advmilitary.h"
 

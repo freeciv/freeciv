@@ -104,10 +104,4 @@ Impr_type_id dai_find_source_building(struct city *pcity,
                                       struct unit_class *uclass,
                                       enum unit_move_type move);
 
-int dai_content_effect_value(const struct player *pplayer,
-                             const struct city *pcity,
-                             int amount,
-                             int num_cities,
-                             int happiness_step);
-
 #endif  /* FC__AICITY_H */
