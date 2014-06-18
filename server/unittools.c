@@ -85,7 +85,6 @@ static struct tile *autoattack_target;
 static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
-static void unit_remember_current_activity(struct unit *punit);
 static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
                              bool helpless, bool teleporting);
 static void wakeup_neighbor_sentries(struct unit *punit);
@@ -562,19 +561,41 @@ static void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
   punit->done_moving = FALSE;
 }
 
-/**************************************************************************
-  iterate through all units and update them.
-**************************************************************************/
+/****************************************************************************
+  Iterate through all units and update them.
+****************************************************************************/
 void update_unit_activities(struct player *pplayer)
 {
-  unit_list_iterate_safe(pplayer->units, punit)
+  unit_list_iterate_safe(pplayer->units, punit) {
     update_unit_activity(punit);
-  unit_list_iterate_safe_end;
+  } unit_list_iterate_safe_end;
+}
+
+/****************************************************************************
+  Iterate through all units and execute their orders.
+****************************************************************************/
+void execute_unit_orders(struct player *pplayer)
+{
+  unit_list_iterate_safe(pplayer->units, punit) {
+    if (unit_has_orders(punit)) {
+      execute_orders(punit);
+    }
+  } unit_list_iterate_safe_end;
+}
+
+/****************************************************************************
+  Iterate through all units and remember their current activities.
+****************************************************************************/
+void finalize_unit_phase_beginning(struct player *pplayer)
+{
   /* Remember activities only after all knock-on effects of unit activities
    * on other units have been resolved */
-  unit_list_iterate_safe(pplayer->units, punit)
-    unit_remember_current_activity(punit);
-  unit_list_iterate_safe_end;
+  unit_list_iterate(pplayer->units, punit) {
+    punit->changed_from = punit->activity;
+    punit->changed_from_target = punit->activity_target;
+    punit->changed_from_count = punit->activity_count;
+    send_unit_info(NULL, punit);
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************
@@ -745,7 +766,6 @@ static void unit_convert(struct unit *punit)
 static void update_unit_activity(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int id = punit->id;
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
@@ -957,29 +977,6 @@ static void update_unit_activity(struct unit *punit)
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
-
-  if (game_unit_by_number(id) && unit_has_orders(punit)) {
-    if (!execute_orders(punit)) {
-      /* Unit died. */
-      return;
-    }
-  }
-
-  if (game_unit_by_number(id)) {
-    send_unit_info(NULL, punit);
-  }
-}
-
-/**************************************************************************
-  Remember what the unit is currently doing, so that if the player changes
-  activity and then changes back the same turn there is no progress
-  penalty.
-**************************************************************************/
-static void unit_remember_current_activity(struct unit *punit)
-{
-  punit->changed_from        = punit->activity;
-  punit->changed_from_target = punit->activity_target;
-  punit->changed_from_count  = punit->activity_count;
 }
 
 /**************************************************************************

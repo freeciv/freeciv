@@ -89,6 +89,8 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
+void execute_unit_orders(struct player *pplayer);
+void finalize_unit_phase_beginning(struct player *pplayer);
 
 /* various */
 void place_partisans(struct tile *pcenter, struct player *powner,
