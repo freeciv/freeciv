@@ -272,10 +272,6 @@ struct effect {
   /* An effect can have multiple requirements.  The effect will only be
    * active if all of these requirement are met. */
   struct requirement_list *reqs;
-
-  /* An effect can have multiple negated requirements.  The effect will
-   * only be active if none of these requirements are met. */
-  struct requirement_list *nreqs;
 };
 
 /* An effect_list is a list of effects. */
@@ -287,8 +283,7 @@ struct effect {
 #define effect_list_iterate_end LIST_ITERATE_END
 
 struct effect *effect_new(enum effect_type type, int value);
-void effect_req_append(struct effect *peffect, bool neg,
-		       struct requirement *preq);
+void effect_req_append(struct effect *peffect, struct requirement *preq);
 
 void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len);
 

@@ -4763,7 +4763,7 @@ static bool load_ruleset_effects(struct section_file *file)
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
       *preq = *req;
-      effect_req_append(peffect, FALSE, preq);
+      effect_req_append(peffect, preq);
     } requirement_vector_iterate_end;
 
     reqs = lookup_req_list(file, sec_name, "nreqs", type);
@@ -4775,7 +4775,8 @@ static bool load_ruleset_effects(struct section_file *file)
       struct requirement *preq = fc_malloc(sizeof(*preq));
 
       *preq = *req;
-      effect_req_append(peffect, TRUE, preq);
+      preq->present = !preq->present;
+      effect_req_append(peffect, preq);
     } requirement_vector_iterate_end;
   } section_list_iterate_end;
   section_list_destroy(sec);

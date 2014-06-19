@@ -296,41 +296,6 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
 }
 
 /**************************************************************************
-  Check that requirement list and negated requirements list do not have
-  conflicting requirements or other problems.
-
-  Returns TRUE iff everything ok.
-**************************************************************************/
-static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
-                                       const struct requirement_list *pnreqs,
-                                       int one_tile,
-                                       const char *list_for)
-{
-  /* Check internal sanity of requirement list */
-  if (!sanity_check_req_list(preqs, TRUE, one_tile, list_for)) {
-    return FALSE;
-  }
-
-  /* There is no pnreqs in all cases */
-  if (pnreqs != NULL) {
-    sanity_check_req_list(preqs, FALSE, one_tile, list_for);
-    /* Check sanity between reqs and nreqs */
-    requirement_list_iterate(preqs, preq) {
-      requirement_list_iterate(pnreqs, pnreq) {
-        if (are_requirements_equal(preq, pnreq)) {
-          log_error("%s: Identical %s requirement in requirements and "
-                    "negated requirements.", list_for,
-                    universal_type_rule_name(&preq->source));
-          return FALSE;
-        }
-      } requirement_list_iterate_end;
-    } requirement_list_iterate_end;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Sanity check callback for iterating effects cache.
 **************************************************************************/
 static bool effect_list_sanity_cb(const struct effect *peffect, void *data)
@@ -338,8 +303,8 @@ static bool effect_list_sanity_cb(const struct effect *peffect, void *data)
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
 
-  return sanity_check_req_nreq_list(peffect->reqs, peffect->nreqs, one_tile,
-                                    effect_type_name(peffect->type));
+  return sanity_check_req_list(peffect->reqs, TRUE, one_tile,
+                               effect_type_name(peffect->type));
 }
 
 /**************************************************************************

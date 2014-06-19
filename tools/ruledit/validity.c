@@ -75,8 +75,7 @@ static bool effect_list_universal_needed_cb(const struct effect *peffect,
 {
   struct effect_list_cb_data *cbdata = (struct effect_list_cb_data *)data;
 
-  if (universal_in_req_list(cbdata->uni, peffect->reqs)
-      || universal_in_req_list(cbdata->uni, peffect->nreqs)) {
+  if (universal_in_req_list(cbdata->uni, peffect->reqs)) {
     cbdata->cb(R__("Effect"));
     cbdata->needed = TRUE;
   }

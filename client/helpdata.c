@@ -3805,7 +3805,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     /* Grab output type, if there is one */
     requirement_list_iterate(peffect->reqs, preq) {
       /* FIXME: perhaps we should treat any effect with negated requirements
-       * or nreqs as too complex for us to explain here? */
+       * as too complex for us to explain here? */
       if (!preq->present) {
         continue;
       }

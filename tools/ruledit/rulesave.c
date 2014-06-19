@@ -645,7 +645,6 @@ static bool effect_save(const struct effect *peffect, void *data)
   secfile_insert_int(cbdata->sfile, peffect->value, "%s.value", path);
 
   save_reqs_list(cbdata->sfile, peffect->reqs, path, "reqs");
-  save_reqs_list(cbdata->sfile, peffect->nreqs, path, "nreqs");
 
   return TRUE;
 }

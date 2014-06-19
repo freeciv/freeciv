@@ -167,7 +167,6 @@ struct effect *effect_new(enum effect_type type, int value)
   peffect->value = value;
 
   peffect->reqs = requirement_list_new();
-  peffect->nreqs = requirement_list_new();
 
   /* Now add the effect to the ruleset cache. */
   effect_list_append(ruleset_cache.tracker, peffect);
@@ -185,38 +184,20 @@ static void effect_free(struct effect *peffect)
   } requirement_list_iterate_end;
   requirement_list_destroy(peffect->reqs);
 
-  requirement_list_iterate(peffect->nreqs, preq) {
-    free(preq);
-  } requirement_list_iterate_end;
-  requirement_list_destroy(peffect->nreqs);
-
   free(peffect);
 }
 
 /**************************************************************************
   Append requirement to effect.
 **************************************************************************/
-void effect_req_append(struct effect *peffect, bool neg,
-		       struct requirement *preq)
+void effect_req_append(struct effect *peffect, struct requirement *preq)
 {
-  struct requirement_list *req_list;
+  struct effect_list *eff_list = get_req_source_effects(&preq->source);
 
-  if (neg) {
-    req_list = peffect->nreqs;
-  } else {
-    req_list = peffect->reqs;
-  }
+  requirement_list_append(peffect->reqs, preq);
 
-  /* Append requirement to the effect. */
-  requirement_list_append(req_list, preq);
-
-  /* Add effect to the source's effect list. */
-  if (!neg) {
-    struct effect_list *eff_list = get_req_source_effects(&preq->source);
-
-    if (eff_list) {
-      effect_list_append(eff_list, peffect);
-    }
+  if (eff_list) {
+    effect_list_append(eff_list, peffect);
   }
 }
 
@@ -356,7 +337,7 @@ void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet)
     preq = fc_malloc(sizeof(*preq));
     *preq = req;
 
-    effect_req_append(peffect, packet->neg, preq);
+    effect_req_append(peffect, preq);
   }
 }
 
@@ -382,24 +363,6 @@ void send_ruleset_cache(struct conn_list *dest)
 
       req_get_values(preq, &type, &range, &survives, &present, &value);
       packet.effect_id = id;
-      packet.neg = FALSE;
-      packet.source_type = type;
-      packet.source_value = value;
-      packet.range = range;
-      packet.survives = survives;
-      packet.present = present;
-
-      lsend_packet_ruleset_effect_req(dest, &packet);
-    } requirement_list_iterate_end;
-
-    requirement_list_iterate(peffect->nreqs, preq) {
-      struct packet_ruleset_effect_req packet;
-      int type, range, value;
-      bool survives, present;
-
-      req_get_values(preq, &type, &range, &survives, &present, &value);
-      packet.effect_id = id;
-      packet.neg = TRUE;
       packet.source_type = type;
       packet.source_value = value;
       packet.range = range;
@@ -471,16 +434,6 @@ bool is_effect_prevented(const struct player *target_player,
       return TRUE;
     }
   } requirement_list_iterate_end;
-  requirement_list_iterate(peffect->nreqs, preq) {
-    /* Only check present=TRUE nreqs */
-    if (preq->present
-        && is_req_active(target_player, other_player, target_city,
-                         target_building, target_tile, target_unittype,
-                         target_output, target_specialist,
-                         preq, prob_type)) {
-      return TRUE;
-    }
-  } requirement_list_iterate_end;
   return FALSE;
 }
 
@@ -511,15 +464,6 @@ static bool is_effect_active(const struct player *target_player,
                        target_building, target_tile, target_unittype,
                        target_output, target_specialist,
                        preq, prob_type)) {
-      return FALSE;
-    }
-  } requirement_list_iterate_end;
-  requirement_list_iterate(peffect->nreqs, preq) {
-    /* Reversed prob_type when checking disabling effects */
-    if (is_req_active(target_player, other_player, target_city,
-                      target_building, target_tile, target_unittype,
-                      target_output, target_specialist,
-                      preq, REVERSED_RPT(prob_type))) {
       return FALSE;
     }
   } requirement_list_iterate_end;
@@ -947,7 +891,7 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
 {
   buf[0] = '\0';
 
-  /* FIXME: should we do something for nreqs and negated reqs?
+  /* FIXME: should we do something for present==FALSE reqs?
    * Currently we just ignore them. */
   requirement_list_iterate(peffect->reqs, preq) {
     if (!preq->present) {

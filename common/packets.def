@@ -1746,7 +1746,6 @@ end
 
 PACKET_RULESET_EFFECT_REQ = 176; sc, lsend
   UINT32 effect_id;
-  BOOL neg;
 
   REQ_TYPE source_type;
   SINT32 source_value;
