@@ -2618,6 +2618,10 @@ static bool load_ruleset_terrain(struct section_file *file)
   terrain_control.igter_cost
     = secfile_lookup_int_default(file, 1,
                                  "parameters.igter_cost");
+  terrain_control.pythagorean_diagonal
+    = secfile_lookup_bool_default(file, RS_DEFAULT_PYTHAGOREAN_DIAGONAL,
+                                  "parameters.pythagorean_diagonal");
+
   map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");

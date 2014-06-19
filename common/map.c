@@ -782,7 +782,15 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   } road_type_iterate_end;
 
   /* UTYF_IGTER units have a maximum move cost per step. */
-  return (igter ? MIN(cost, MOVE_COST_IGTER) : cost);
+  cost = (igter ? MIN(cost, MOVE_COST_IGTER) : cost);
+
+  if (!cardinal_move
+      && terrain_control.pythagorean_diagonal
+      && !current_topo_has_flag(TF_HEX)) {
+    return (int) (cost * 1.41421356f);
+  } else {
+    return cost;
+  }
 }
 
 /****************************************************************************

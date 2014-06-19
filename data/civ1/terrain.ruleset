@@ -45,6 +45,10 @@ min_start_native_area = 0
 ; For example road movement costs are relative to this.
 move_fragments = 3
 
+; Whether diagonal movement has increased cost 
+; The cost increase is more accurate with larger values for move_fragments
+pythagorean_diagonal = FALSE
+
 ; How many move_fragments IgTer unit movement costs
 igter_cost = 1
 

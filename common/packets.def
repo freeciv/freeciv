@@ -1357,6 +1357,7 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 min_start_native_area;
   UINT8 move_fragments;
   UINT8 igter_cost;
+  BOOL pythagorean_diagonal;
 end
 
 PACKET_RULESETS_READY = 225; sc, lsend

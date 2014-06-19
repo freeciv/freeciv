@@ -1445,6 +1445,10 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, terrain_control.igter_cost,
                        "parameters.igter_cost");
   }
+  if (terrain_control.pythagorean_diagonal) {
+    secfile_insert_bool(sfile, TRUE,
+                        "parameters.pythagorean_diagonal");
+  }
   if (map.server.ocean_resources) {
     secfile_insert_bool(sfile, TRUE,
                        "parameters.ocean_resources");

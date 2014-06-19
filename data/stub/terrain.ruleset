@@ -39,6 +39,10 @@ move_fragments = 1
 ; How many move_fragments IgTer unit movement costs
 igter_cost = 1
 
+; Whether diagonal movement has increased cost
+; The cost increase is more accurate with larger values for move_fragments
+pythagorean_diagonal = FALSE
+
 ; There is no resources in the middle of the oceans, only near coast
 ocean_resources = FALSE
 
