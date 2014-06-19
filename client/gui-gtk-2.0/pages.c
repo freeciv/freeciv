@@ -2959,13 +2959,14 @@ static void update_scenario_page(void)
   /* search for scenario files. */
   files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
   fileinfo_list_iterate(files, pfile) {
-    GtkTreeIter it;
     struct section_file *sf;
 
-    gtk_list_store_append(scenario_store, &it);
-
-    if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))) {
+    if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))
+        && secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
       const char *sname, *sdescription;
+      GtkTreeIter it;
+
+      gtk_list_store_append(scenario_store, &it);
 
       sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
       sdescription = secfile_lookup_str_default(sf, NULL,
@@ -2977,13 +2978,6 @@ static void update_scenario_page(void)
                              ? Q_(sdescription) : ""),
                          -1);
       secfile_destroy(sf);
-    } else {
-      log_error("Error loading '%s':\n%s", pfile->fullname, secfile_error());
-      gtk_list_store_set(scenario_store, &it,
-			 0, pfile->name,
-			 1, pfile->fullname,
-			 2, "",
-			-1);
     }
   } fileinfo_list_iterate_end;
 
