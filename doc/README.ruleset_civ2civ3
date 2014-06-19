@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 5-Apr-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 16-Jun-2014)
 ==========================================================
 
 
@@ -409,7 +409,7 @@ Veteran built, and +50% chance to become veteran, for Military Land units.
 - "Women's Suffrage" 600:
 +1 Military Content. Summed to Police Stations effect. Under Democracy it halves the unhappiness caused by Military units.
 
-- "Marco Polo's Embassy" 200, No obsolete:
+- "Marco Polo's Embassy" 200, , Obsolete by Democracy:
 Embassy with all players.
 - "Eiffel Tower" 300:
 +10 to AI love for the owner. Reduces the pollution caused by the population in all your cities (-25%).
@@ -440,7 +440,7 @@ Changes:
 - If a city supports more Military Units than its population size, each extra unit will waste one Food, no matter the government.
 - Large cities (Pop>=8) no longer get extra units free of upkeep or military unhappiness. The result is 1, 2, or 3 free units per city, depending on the government.
 - Disabled happyborders: Units cause military unhappiness if they end the turn outside cities or fortresses, no matter if they are inside national borders.
-- Readjusted effect of some wonders: Mausoleum of Mausolos, Statue of Liberty, and those related to military unhappiness.
+- Readjusted effect of some wonders: Mausoleum of Mausolos, Statue of Liberty, and those related to military unhappiness. Marco Polo's Embassy obsolete by Democracy.
 - Fixed Aqueducts (same as Barracks) to avoid duplicated bonuses when there are two of them in the same ciy.
 - Swapped Empire Size values for Fundamentalism (now 20) and Monarchy (now 12).
 - Pollution may appear in ocean tiles. Transports can clean it without the need of Workers\Engineers.

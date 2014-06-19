@@ -1606,6 +1606,7 @@ graphic	= "b.marco_polos_embassy"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
+      "Tech", "Democracy", "World"
     }
 build_cost	= 200
 upkeep		= 0
