@@ -1008,15 +1008,53 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (U_NOT_OBSOLETED == pupdate) {
 	/* Nope, we're stuck.  Skip this item from the worklist. */
-        notify_player(pplayer, city_tile(pcity),
-                      E_CITY_CANTBUILD, ftc_server,
-                      _("%s can't build %s from the worklist; "
-                        "tech not yet available.  Postponing..."),
-                      city_link(pcity), utype_name_translation(ptarget));
-        script_server_signal_emit("unit_cant_be_built", 3,
-                                  API_TYPE_UNIT_TYPE, ptarget,
-                                  API_TYPE_CITY, pcity,
-                                  API_TYPE_STRING, "need_tech");
+        if (ptarget->need_government != NULL
+            && ptarget->need_government != government_of_player(pplayer)) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "it needs %s government. Postponing..."),
+                        city_link(pcity), utype_name_translation(ptarget),
+                        government_name_translation(ptarget->need_government));
+          script_server_signal_emit("unit_cant_be_built", 3,
+                                    API_TYPE_BUILDING_TYPE, ptarget,
+                                    API_TYPE_CITY, pcity,
+                                    API_TYPE_STRING, "need_government");
+        } else if (ptarget->need_improvement != NULL
+                   && !city_has_building(pcity, ptarget->need_improvement)) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "need to have %s first. Postponing..."),
+                        city_link(pcity), utype_name_translation(ptarget),
+                        city_improvement_name_translation(pcity,
+                                                  ptarget->need_improvement));
+          script_server_signal_emit("unit_cant_be_built", 3,
+                                    API_TYPE_UNIT_TYPE, ptarget,
+                                    API_TYPE_CITY, pcity,
+                                    API_TYPE_STRING, "need_building");
+        } else if (ptarget->require_advance != NULL
+                   && TECH_KNOWN != player_invention_state(pplayer,
+                                   advance_number(ptarget->require_advance))) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "tech %s not yet available. Postponing..."),
+                        city_link(pcity), utype_name_translation(ptarget),
+                        advance_name_for_player(pplayer,
+                                   advance_number(ptarget->require_advance)));
+          script_server_signal_emit("unit_cant_be_built", 3,
+                                    API_TYPE_UNIT_TYPE, ptarget,
+                                    API_TYPE_CITY, pcity,
+                                    API_TYPE_STRING, "need_tech");
+        } else {
+          /* This shouldn't happen, but in case it does... */
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "reason unknown! Postponing..."),
+                        city_link(pcity), utype_name_translation(ptarget));
+        }
         city_checked = FALSE;
 	break;
       }
@@ -1026,7 +1064,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	 * drop it. */
 	notify_player(pplayer, city_tile(pcity),
                       E_CITY_CANTBUILD, ftc_server,
-                      _("%s can't build %s from the worklist.  Purging..."),
+                      _("%s can't build %s from the worklist. Purging..."),
                       city_link(pcity),
 			 /* Yes, warn about the targets that's actually
 			    in the worklist, not its obsolete-closure
@@ -1062,31 +1100,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 
       /* If the city can never build this improvement, drop it. */
       success = can_city_build_improvement_later(pcity, pupdate);
-      if (!success) {
-	/* Nope, never in a million years. */
-        notify_player(pplayer, city_tile(pcity),
-                      E_CITY_CANTBUILD, ftc_server,
-                      _("%s can't build %s from the worklist.  Purging..."),
-                      city_link(pcity),
-                      city_improvement_name_translation(pcity, ptarget));
-        script_server_signal_emit("building_cant_be_built", 3,
-                                  API_TYPE_BUILDING_TYPE, ptarget,
-                                  API_TYPE_CITY, pcity,
-                                  API_TYPE_STRING, "never");
-        if (city_exist(saved_id)) {
-          city_checked = TRUE;
-          /* Purge this worklist item. */
-          i--;
-          worklist_remove(pwl, i);
-        } else {
-          city_checked = FALSE;
-        }
-	break;
-      }
 
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
-      if (pupdate == ptarget) {
+      if (success && pupdate == ptarget) {
 	bool known = FALSE;
 
 	/* Nope, no use.  *sigh*  */
@@ -1096,197 +1113,345 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    known = TRUE;
 	    switch (preq->source.kind) {
 	    case VUT_ADVANCE:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "tech %s not yet available.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            advance_name_for_player(pplayer,
-                                 advance_number(preq->source.value.advance)));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_tech");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "tech %s not yet available. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              advance_name_for_player(pplayer,
+                                   advance_number(preq->source.value.advance)));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_tech");
+              } else {
+                /* While techs can be unlearned, this isn't useful feedback */
+                success = FALSE;
+              }
 	      break;
             case VUT_TECHFLAG:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "no tech with flag \"%s\" yet available.  "
-                              "Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            tech_flag_id_name(preq->source.value.techflag));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_techflag");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "no tech with flag \"%s\" yet available. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              tech_flag_id_name(preq->source.value.techflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_techflag");
+              } else {
+                /* While techs can be unlearned, this isn't useful feedback */
+                success = FALSE;
+              }
               break;
 	    case VUT_IMPROVEMENT:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "need to have %s first.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            city_improvement_name_translation(pcity,
-						preq->source.value.building));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_building");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "need to have %s first. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              city_improvement_name_translation(pcity,
+						  preq->source.value.building));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_building");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "need to not have %s. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              city_improvement_name_translation(pcity,
+						  preq->source.value.building));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_building");
+              }
 	      break;
 	    case VUT_GOVERNMENT:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "it needs %s government.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            government_name_translation(preq->source.value.govern));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_government");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "it needs %s government. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              government_name_translation(preq->source.value.govern));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_government");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "it cannot have %s government. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              government_name_translation(preq->source.value.govern));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_government");
+              }
 	      break;
 	    case VUT_ACHIEVEMENT:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "it needs \"%s\" achievement.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            achievement_name_translation(preq->source.value.achievement));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_achievement");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "it needs \"%s\" achievement. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              achievement_name_translation(preq->source.value.achievement));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_achievement");
+              } else {
+                /* Can't unachieve things. */
+                success = FALSE;
+              }
 	      break;
 	    case VUT_EXTRA:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            Q_("?extra:%s can't build %s from the worklist; "
-                               "%s is required.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            extra_name_translation(preq->source.value.extra));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_extra");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?extra:%s can't build %s from the worklist; "
+                                 "%s is required. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              extra_name_translation(preq->source.value.extra));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_extra");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?extra:%s can't build %s from the worklist; "
+                                 "%s is prohibited. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              extra_name_translation(preq->source.value.extra));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_extra");
+              }
 	      break;
 	    case VUT_TERRAIN:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            Q_("?terrain:%s can't build %s from the worklist; "
-                               "%s terrain is required.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            terrain_name_translation(preq->source.value.terrain));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_terrain");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?terrain:%s can't build %s from the worklist; "
+                                 "%s terrain is required. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              terrain_name_translation(preq->source.value.terrain));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_terrain");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?terrain:%s can't build %s from the worklist; "
+                                 "%s terrain is prohibited. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              terrain_name_translation(preq->source.value.terrain));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_terrain");
+              }
 	      break;
 	    case VUT_RESOURCE:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            Q_("?resource:%s can't build %s from the worklist; "
-                               "%s is required.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            resource_name_translation(preq->source.value.resource));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_resource");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?resource:%s can't build %s from the worklist; "
+                                 "%s is required. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              resource_name_translation(preq->source.value.resource));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_resource");
+              } else {
+                /* FIXME: Yes, it's possible to destroy a resource, but the
+                 * player probably wanted us to have purged, rather than
+                 * postponed.  Purging should be separate from impossible. */
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?resource:%s can't build %s from the worklist; "
+                                 "%s is prohibited. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              resource_name_translation(preq->source.value.resource));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_resource");
+              }
 	      break;
 	    case VUT_NATION:
-	      /* FIXME: we should skip rather than postpone, since we'll
-	       * never be able to meet this req... */
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "only %s may build this.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            nation_plural_translation(preq->source.value.nation));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_nation");
+              /* Can't change leader nationality. */
+              success = FALSE;
 	      break;
             case VUT_STYLE:
-	      /* FIXME: we should skip rather than postpone, since we'll
-	       * never be able to meet this req... */
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "only %s style nations may build this.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            style_name_translation(preq->source.value.style));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_style");
+              /* FIXME: City styles sometimes change over time, but it isn't
+               * entirely under player control.  Probably better to purge
+               * with useful explanation. */
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "only %s style cities may build this. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              style_name_translation(preq->source.value.style));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_style");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "%s style cities may not build this. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              style_name_translation(preq->source.value.style));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_style");
+              }
 	      break;
 	    case VUT_NATIONALITY:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            /* TRANS: Latter %s is citizen nationality */
-                            _("%s can't build %s from the worklist; "
-                              "only city with %s may build this.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            nation_plural_translation(preq->source.value.nationality));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_nationality");
+              /* FIXME: Changing citizen nationality is hard: purging might be
+               * more useful in this case. */
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: Latter %s is citizen nationality */
+                              _("%s can't build %s from the worklist; "
+                                "only city with %s may build this. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              nation_plural_translation(preq->source.value.nationality));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_nationality");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: Latter %s is citizen nationality */
+                              _("%s can't build %s from the worklist; "
+                                "only city without %s may build this. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              nation_plural_translation(preq->source.value.nationality));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_nationality");
+              }
               break;
             case VUT_DIPLREL:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "the diplomatic relationship %s is required."
-                              "  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity,
-                                                              ptarget),
-                            diplrel_name_translation(
-                              preq->source.value.diplrel));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_diplrel");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "the diplomatic relationship %s is required."
+                                "  Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity,
+                                                                ptarget),
+                              diplrel_name_translation(
+                                preq->source.value.diplrel));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_diplrel");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "the diplomatic relationship %s is prohibited."
+                                "  Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity,
+                                                                ptarget),
+                              diplrel_name_translation(
+                                preq->source.value.diplrel));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_diplrel");
+              }
               break;
 	    case VUT_MINSIZE:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "city must be of size %d.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            preq->source.value.minsize);
-	      script_server_signal_emit("building_cant_be_built", 3,
-				 API_TYPE_BUILDING_TYPE, ptarget,
-				 API_TYPE_CITY, pcity,
-				 API_TYPE_STRING, "need_minsize");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "city must be of size %d or larger. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              preq->source.value.minsize);
+	        script_server_signal_emit("building_cant_be_built", 3,
+				   API_TYPE_BUILDING_TYPE, ptarget,
+				   API_TYPE_CITY, pcity,
+				   API_TYPE_STRING, "need_minsize");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "city must be of size %d or smaller."
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              (preq->source.value.minsize - 1));
+	        script_server_signal_emit("building_cant_be_built", 3,
+				   API_TYPE_BUILDING_TYPE, ptarget,
+				   API_TYPE_CITY, pcity,
+				   API_TYPE_STRING, "need_minsize");
+              }
 	      break;
 	    case VUT_MINCULTURE:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "city must have culture of %d.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            preq->source.value.minculture);
-	      script_server_signal_emit("building_cant_be_built", 3,
-				 API_TYPE_BUILDING_TYPE, ptarget,
-				 API_TYPE_CITY, pcity,
-				 API_TYPE_STRING, "need_minculture");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "city must have culture of %d. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              preq->source.value.minculture);
+	        script_server_signal_emit("building_cant_be_built", 3,
+				   API_TYPE_BUILDING_TYPE, ptarget,
+				   API_TYPE_CITY, pcity,
+				   API_TYPE_STRING, "need_minculture");
+              } else {
+                /* What has been written may not be unwritten. */
+                success = FALSE;
+              }
 	      break;
 	    case VUT_MAXTILEUNITS:
 	      if (preq->present) {
@@ -1307,7 +1472,6 @@ static bool worklist_change_build_target(struct player *pplayer,
 					  API_TYPE_BUILDING_TYPE, ptarget,
 					  API_TYPE_CITY, pcity,
 					  API_TYPE_STRING, "need_tileunits");
-		break;
 	      } else {
 		notify_player(pplayer, city_tile(pcity),
 			      E_CITY_CANTBUILD, ftc_server,
@@ -1326,79 +1490,127 @@ static bool worklist_change_build_target(struct player *pplayer,
 					  API_TYPE_BUILDING_TYPE, ptarget,
 					  API_TYPE_CITY, pcity,
 					  API_TYPE_STRING, "need_tileunits");
-		break;
 	      }
+              break;
             case VUT_AI_LEVEL:
-              /* FIXME: we should skip rather than postpone, since we'll
-               * never be able to meet this req... */
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "only AI of level %s may build this.  "
-                              "Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            ai_level_translated_name(preq->source.value.ai_level));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_ai_level");
+              /* Can't change AI level. */
+              success = FALSE;
 	      break;
 	    case VUT_TERRAINCLASS:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            Q_("?terrainclass:%s can't build %s from the "
-                               "worklist; %s terrain is required."
-                               "  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            terrain_class_name_translation(preq->source.value.terrainclass));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_terrainclass");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?terrainclass:%s can't build %s from the "
+                                 "worklist; %s terrain is required."
+                                 "  Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              terrain_class_name_translation(preq->source.value.terrainclass));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_terrainclass");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?terrainclass:%s can't build %s from the "
+                                 "worklist; %s terrain is prohibited."
+                                 "  Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              terrain_class_name_translation(preq->source.value.terrainclass));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_terrainclass");
+              }
 	      break;
 	    case VUT_TERRFLAG:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "terrain with \"%s\" flag is required.  "
-                              "Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            terrain_flag_id_name(preq->source.value.terrainflag));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_terrainflag");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "terrain with \"%s\" flag is required. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              terrain_flag_id_name(preq->source.value.terrainflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_terrainflag");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "terrain with \"%s\" flag is prohibited. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              terrain_flag_id_name(preq->source.value.terrainflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_terrainflag");
+              }
 	      break;
             case VUT_BASEFLAG:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "base with \"%s\" flag is required.  "
-                              "Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            base_flag_id_name(preq->source.value.baseflag));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_baseflag");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "base with \"%s\" flag is required. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              base_flag_id_name(preq->source.value.baseflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_baseflag");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "base with \"%s\" flag is prohibited. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              base_flag_id_name(preq->source.value.baseflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_baseflag");
+              }
               break;
             case VUT_ROADFLAG:
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "road with \"%s\" flag is required.  "
-                              "Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            road_flag_id_name(preq->source.value.roadflag));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_roadflag");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "road with \"%s\" flag is required. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              road_flag_id_name(preq->source.value.roadflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_roadflag");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "road with \"%s\" flag is prohibited. "
+                                "Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              road_flag_id_name(preq->source.value.roadflag));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_roadflag");
+              }
 	      break;
 	    case VUT_UTYPE:
 	    case VUT_UTFLAG:
@@ -1412,19 +1624,22 @@ static bool worklist_change_build_target(struct player *pplayer,
               log_error("worklist_change_build_target() has bogus preq");
 	      break;
             case VUT_MINYEAR:
-              /* FIXME: if negated: we should skip rather than postpone,
-               * since we'll never be able to meet this req... */
-              notify_player(pplayer, city_tile(pcity),
-                            E_CITY_CANTBUILD, ftc_server,
-                            _("%s can't build %s from the worklist; "
-                              "only available from %s.  Postponing..."),
-                            city_link(pcity),
-                            city_improvement_name_translation(pcity, ptarget),
-                            textyear(preq->source.value.minyear));
-              script_server_signal_emit("building_cant_be_built", 3,
-                                        API_TYPE_BUILDING_TYPE, ptarget,
-                                        API_TYPE_CITY, pcity,
-                                        API_TYPE_STRING, "need_minyear");
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              _("%s can't build %s from the worklist; "
+                                "only available from %s. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              textyear(preq->source.value.minyear));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_minyear");
+              } else {
+                /* Can't go back in time. */
+                success = FALSE;
+              }
               break;
             case VUT_NONE:
             case VUT_COUNT:
@@ -1454,12 +1669,12 @@ static bool worklist_change_build_target(struct player *pplayer,
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         _("%s can't build %s from the worklist; "
-                          "reason unknown!  Postponing..."),
+                          "reason unknown! Postponing..."),
                         city_link(pcity),
                         city_improvement_name_translation(pcity, ptarget));
 	}
-      } else {
-	/* Hey, we can upgrade the improvement!  */
+      } else if (success) {
+	/* Hey, we can upgrade the improvement! */
         notify_player(pplayer, city_tile(pcity), E_WORKLIST, ftc_server,
                       _("Production of %s is upgraded to %s in %s."),
                       city_improvement_name_translation(pcity, ptarget), 
@@ -1467,6 +1682,27 @@ static bool worklist_change_build_target(struct player *pplayer,
                       city_link(pcity));
 	target.value.building = pupdate;
 	success = TRUE;
+      }
+
+      if (!success) {
+	/* Never in a million years. */
+        notify_player(pplayer, city_tile(pcity),
+                      E_CITY_CANTBUILD, ftc_server,
+                      _("%s can't build %s from the worklist. Purging..."),
+                      city_link(pcity),
+                      city_improvement_name_translation(pcity, ptarget));
+        script_server_signal_emit("building_cant_be_built", 3,
+                                  API_TYPE_BUILDING_TYPE, ptarget,
+                                  API_TYPE_CITY, pcity,
+                                  API_TYPE_STRING, "never");
+        if (city_exist(saved_id)) {
+          city_checked = TRUE;
+          /* Purge this worklist item. */
+          i--;
+          worklist_remove(pwl, i);
+        } else {
+          city_checked = FALSE;
+        }
       }
       break;
     }
