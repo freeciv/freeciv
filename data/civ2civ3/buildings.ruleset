@@ -1477,7 +1477,7 @@ reqs	=
     }
 graphic	= "b.marco_polos_embassy"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	= "Democracy"
 build_cost	= 200
 upkeep		= 0
 sabotage	= 0
