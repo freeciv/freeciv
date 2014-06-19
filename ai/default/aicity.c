@@ -1744,16 +1744,10 @@ void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *res
 **************************************************************************/
 Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
-                                      struct unit_class *uclass,
-                                      enum unit_move_type move)
+                                      struct unit_type *utype)
 {
   int greatest_value = 0;
   struct impr_type *best_building = NULL;
-
-  /* There's no point in defining both of these as uclass is more restrictive
-   * than move_type */
-  fc_assert_ret_val(uclass == NULL || move == unit_move_type_invalid(),
-                    B_LAST);
 
   effect_list_iterate(get_effects(effect_type), peffect) {
     if (peffect->value > greatest_value) {
@@ -1769,18 +1763,12 @@ Impr_type_id dai_find_source_building(struct city *pcity,
             building = NULL;
             break;
           }
-        }
-        if (VUT_UCLASS == preq->source.kind) {
-          if (uclass != NULL) {
-            if ((preq->present && preq->source.value.uclass != uclass)
-                || (!preq->present && preq->source.value.uclass == uclass)
-                || (move != unit_move_type_invalid()
-                    && uclass_move_type(preq->source.value.uclass) != move)) {
-              /* Effect requires other kind of unit than what we are interested about */
-              wrong_unit = TRUE;
-              break;
-            }
-          }
+        } else if (utype != NULL
+                   && !is_req_active(city_owner(pcity), NULL, pcity, NULL, city_tile(pcity),
+                                     utype, NULL, NULL, preq, RPT_POSSIBLE)) {
+          /* Effect requires other kind of unit than what we are interested about */
+          wrong_unit = TRUE;
+          break;
         }
       } requirement_list_iterate_end;
       if (!wrong_unit && building != NULL) {

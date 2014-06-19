@@ -101,7 +101,6 @@ void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *res
 
 Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
-                                      struct unit_class *uclass,
-                                      enum unit_move_type move);
+                                      struct unit_type *utype);
 
 #endif  /* FC__AICITY_H */

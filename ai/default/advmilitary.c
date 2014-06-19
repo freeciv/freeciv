@@ -603,15 +603,13 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
       if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
         defender = dai_find_source_building(pcity, EFT_NUKE_PROOF,
-                                            unit_class(punit),
-                                            unit_move_type_invalid());
+                                            unit_type(punit));
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
       } else if (!unit_has_type_flag(punit, UTYF_IGWALL)) {
         defender = dai_find_source_building(pcity, EFT_DEFEND_BONUS,
-                                            unit_class(punit),
-                                            unit_move_type_invalid());
+                                            unit_type(punit));
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
@@ -1379,8 +1377,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
 
   /*  N.B.: have to check that we haven't already built the building --mck */
   if ((id = dai_find_source_building(pcity, EFT_VETERAN_BUILD,
-                                     utype_class(choice->value.utype),
-                                     unit_move_type_invalid())) != B_LAST
+                                     choice->value.utype)) != B_LAST
        && !city_has_building(pcity, improvement_by_number(id))) {
     choice->value.building = improvement_by_number(id);
     choice->type = CT_BUILDING;
@@ -1483,14 +1480,14 @@ void military_advisor_choose_build(struct ai_type *ait,
       }
     }
     if (build_walls) {
-      /* FIXME: 1. Will tend to build walls before coastal irrespectfully what
-       * type of danger we are facing */
+      /* FIXME: 1. Does not consider what kind of future danger is likely, so
+       * may build SAM batteries when enemy has only land units. */
       /* We will build walls if we can and want and (have "enough" defenders or
        * can just buy the walls straight away) */
 
       /* HACK: This needs changing if multiple improvements provide
        * this effect. */
-      wall_id = dai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL, UMT_LAND);
+      wall_id = dai_find_source_building(pcity, EFT_DEFEND_BONUS, NULL);
       pimprove = improvement_by_number(wall_id);
 
       if (wall_id != B_LAST
