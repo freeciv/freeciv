@@ -296,6 +296,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
 {
   struct section_file *secfile;
   struct section *psection = NULL;
+  struct section *single_section = NULL;
   bool table_state = FALSE;     /* TRUE when within tabular format. */
   int table_lineno = 0;         /* Row number in tabular, 0 top data row. */
   const char *tok;
@@ -363,6 +364,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         if (!section || strcmp(tok, section) == 0) {
           psection = secfile_section_new(secfile, tok);
           if (section) {
+            single_section = psection;
             found_my_section = TRUE;
           }
         }
@@ -520,6 +522,24 @@ END:
     astr_free(&columns.p[i]);
   }
   astring_vector_free(&columns);
+
+  if (section != NULL) {
+    if (!found_my_section) {
+      secfile_destroy(secfile);
+      return NULL;
+    }
+
+    /* Build the entry hash table with single section information */
+    secfile->allow_duplicates = allow_duplicates;
+    entry_list_iterate(section_entries(single_section), pentry) {
+      if (!secfile_hash_insert(secfile, pentry)) {
+        secfile_destroy(secfile);
+        return NULL;
+      }
+    } entry_list_iterate_end;
+
+    return secfile;
+  }
 
   if (!error) {
     /* Build the entry hash table. */
