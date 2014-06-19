@@ -16,11 +16,16 @@
 #include "player.h"
 #include "tech.h"
 
+struct research;
+
 void do_free_cost(struct player *pplayer, Tech_type_id tech);
 void do_conquer_cost(struct player *pplayer, Tech_type_id tech);
 void do_dipl_cost(struct player *pplayer, Tech_type_id tech);
-
 void do_tech_parasite_effect(struct player *pplayer);
+
+void send_research_info(const struct research *presearch,
+                        const struct conn_list *dest);
+
 void found_new_tech(struct player *plr, Tech_type_id tech_found,
                     bool was_discovery, bool saving_bulbs);
 bool update_bulbs(struct player *plr, int bulbs, bool check_tech);

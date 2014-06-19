@@ -574,6 +574,9 @@ void send_all_info(struct conn_list *dest)
 
   /* Resend player info because it could have more infos (e.g. embassy). */
   send_player_all_c(NULL, dest);
+  researches_iterate(presearch) {
+    send_research_info(presearch, dest);
+  } researches_iterate_end;
   send_map_info(dest);
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
@@ -1226,6 +1229,11 @@ static void end_turn(void)
 
   log_debug("Sendplayerinfo");
   send_player_all_c(NULL, NULL);
+
+  log_debug("Sendresearchinfo");
+  researches_iterate(presearch) {
+    send_research_info(presearch, NULL);
+  } researches_iterate_end;
 
   log_debug("Sendyeartoclients");
   send_year_to_clients(game.info.year);

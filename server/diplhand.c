@@ -31,6 +31,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "unit.h"
 
 /* common/scriptcore */
@@ -611,6 +612,8 @@ void establish_embassy(struct player *pplayer, struct player *aplayer)
   send_player_all_c(pplayer, aplayer->connections);
   /* INFO_EMBASSY level info */
   send_player_all_c(aplayer, pplayer->connections);
+  /* Send research info */
+  send_research_info(research_get(aplayer), pplayer->connections);
 }
 
 /**************************************************************************

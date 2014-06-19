@@ -1813,35 +1813,6 @@ void handle_game_info(const struct packet_game_info *pinfo)
 }
 
 /**************************************************************************
-  Sets player inventions to values specified in inventions array
-**************************************************************************/
-static bool read_player_info_techs(struct player *pplayer,
-                                   const char *inventions)
-{
-  bool need_effect_update = FALSE;
-
-#ifdef DEBUG
-  log_verbose("Player%d inventions:%s", player_number(pplayer), inventions);
-#endif
-
-  advance_index_iterate(A_NONE, i) {
-    enum tech_state newstate = inventions[i] - '0';
-    enum tech_state oldstate = player_invention_set(pplayer, i, newstate);
-
-    if (newstate != oldstate
-	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
-      need_effect_update = TRUE;
-    }
-  } advance_index_iterate_end;
-
-  if (need_effect_update) {
-    menus_update();
-  }
-  player_research_update(pplayer);
-  return need_effect_update;
-}
-
-/**************************************************************************
   Sets the target government.  This will automatically start a revolution
   if the target government differs from the current one.
 **************************************************************************/
@@ -1921,12 +1892,9 @@ void handle_player_remove(int playerno)
 void handle_player_info(const struct packet_player_info *pinfo)
 {
   bool is_new_nation = FALSE;
-  bool new_tech = FALSE;
-  bool poptechup = FALSE;
   bool turn_done_changed = FALSE;
   bool new_player = FALSE;
   int i;
-  struct research *research;
   struct player *pplayer, *my_player;
   struct nation_type *pnation;
   struct government *pgov, *ptarget_gov;
@@ -2032,7 +2000,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     pplayer->wonders[i] = pinfo->wonders[i];
   }
 
-  /* We need to set ai.control before read_player_info_techs */
+  /* Set AI.control. */
   if (pplayer->ai_controlled != pinfo->ai)  {
     pplayer->ai_controlled = pinfo->ai;
     if (pplayer == my_player)  {
@@ -2045,36 +2013,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
   }
 
   pplayer->ai_common.science_cost = pinfo->science_cost;
-
-  /* If the server sends out player information at the wrong time, it is
-   * likely to give us inconsistent player tech information, causing a
-   * sanity-check failure within this function.  Fixing this at the client
-   * end is very tricky; it's hard to figure out when to read the techs
-   * and when to ignore them.  The current solution is that the server should
-   * only send the player info out at appropriate times - e.g., while the
-   * game is running. */
-  new_tech = read_player_info_techs(pplayer, pinfo->inventions);
-  
-  research = research_get(pplayer);
-
-  poptechup = (research->researching != pinfo->researching
-               || research->tech_goal != pinfo->tech_goal);
   pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
-  research->bulbs_researched = pinfo->bulbs_researched;
-  research->techs_researched = pinfo->techs_researched;
 
-  /* check for bad values, complicated by discontinuous range */
-  if (NULL == advance_by_number(pinfo->researching)
-      && A_UNKNOWN != pinfo->researching
-      && A_FUTURE != pinfo->researching
-      && A_UNSET != pinfo->researching) {
-    research->researching = A_NONE; /* should never happen */
-  } else {
-    research->researching = pinfo->researching;
-  }
-  research->future_tech = pinfo->future_tech;
-  research->tech_goal = pinfo->tech_goal;
-  
   turn_done_changed = (pplayer->phase_done != pinfo->phase_done
                        || pplayer->ai_controlled != pinfo->ai);
   pplayer->phase_done = pinfo->phase_done;
@@ -2106,27 +2046,10 @@ void handle_player_info(const struct packet_player_info *pinfo)
   /* The player information is now fully set. Update the GUI. */
 
   if (pplayer == my_player && can_client_change_view()) {
-    if (poptechup) {
-      if (client_has_player() && !my_player->ai_controlled) {
-        science_report_dialog_popup(FALSE);
-      }
-    }
-    if (new_tech) {
-      /* If we just learned bridge building and focus is on a settler
-         on a river the road menu item will remain disabled unless we
-         do this. (applys in other cases as well.) */
-      if (get_num_units_in_focus() > 0) {
-        menus_update();
-      }
-    }
     if (turn_done_changed) {
       update_turn_done_button_state();
     }
     science_report_dialog_update();
-    if (new_tech) {
-      /* If we got a new tech the tech tree news an update. */
-      science_report_dialog_redraw();
-    }
     economy_report_dialog_update();
     units_report_dialog_update();
     city_report_dialog_update();
@@ -2155,6 +2078,68 @@ void handle_player_info(const struct packet_player_info *pinfo)
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
                                 FALSE);
+}
+
+/****************************************************************************
+  Receive a research info packet.
+****************************************************************************/
+void handle_research_info(const struct packet_research_info *packet)
+{
+  struct research *presearch;
+  bool tech_changed = FALSE;
+  bool poptechup = FALSE;
+  enum tech_state newstate, oldstate;
+
+#ifdef DEBUG
+  log_verbose("Research nb %d inventions: %s",
+              packet->id,
+              packet->inventions);
+#endif
+  presearch = research_by_number(packet->id);
+  fc_assert_ret(NULL != presearch);
+
+  poptechup = (presearch->researching != packet->researching
+               || presearch->tech_goal != packet->tech_goal);
+  presearch->techs_researched = packet->techs_researched;
+  presearch->future_tech = packet->future_tech;
+  presearch->researching = packet->researching;
+  presearch->bulbs_researched = packet->bulbs_researched;
+  presearch->tech_goal = packet->tech_goal;
+
+  /* FIXME: This is a hack because we need a player pointer! */
+  research_players_iterate(presearch, pplayer) {
+    advance_index_iterate(A_NONE, i) {
+      newstate = packet->inventions[i] - '0';
+      oldstate = player_invention_set(pplayer, i, newstate);
+
+      if (newstate != oldstate
+          && (TECH_KNOWN == newstate || TECH_KNOWN == oldstate)) {
+        tech_changed = TRUE;
+      }
+    } advance_index_iterate_end;
+
+    player_research_update(pplayer);
+    break;
+  } research_players_iterate_end;
+
+  if (C_S_RUNNING == client_state()
+      && client_has_player()
+      && presearch == research_get(client_player())) {
+    if (poptechup && !client_player()->ai_controlled) {
+      science_report_dialog_popup(FALSE);
+    }
+    science_report_dialog_update();
+    if (tech_changed) {
+      /* If we just learned bridge building and focus is on a settler
+       * on a river the road menu item will remain disabled unless we
+       * do this. (applies in other cases as well.) */
+      if (0 < get_num_units_in_focus()) {
+        menus_update();
+      }
+      /* If we got a new tech the tech tree news an update. */
+      science_report_dialog_redraw();
+    }
+  }
 }
 
 /****************************************************************************

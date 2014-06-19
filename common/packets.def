@@ -271,6 +271,7 @@ type GOVERNMENT         = UINT8
 type IMPROVEMENT        = uint8(Impr_type_id)
 type NATION             = sint16(Nation_type_id)
 type PLAYER             = UINT8
+type RESEARCH           = UINT8
 type RESOURCE           = uint8(Resource_type_id)
 type SPECIALIST         = uint8(Specialist_type_id)
 type TEAM               = UINT8
@@ -750,20 +751,14 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   PERCENT tax, science,luxury;
 
   SINT32 bulbs_last_turn;
-  UINT32 bulbs_researched;
-  UINT32 techs_researched;
-  UINT8 researching;
   UINT16 science_cost;
 
-  UINT16 future_tech;
-  UINT8 tech_goal;
   BOOL is_connected;
   TURN revolution_finishes;
   BOOL ai;
   UINT8 ai_skill_level;
   UINT8 barbarian_type;
   BV_PLAYER gives_shared_vision;
-  STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYER_SLOTS];
 
   UINT8 color_red;
@@ -785,18 +780,6 @@ PACKET_PLAYER_CHANGE_GOVERNMENT = 54; cs, dsend
   GOVERNMENT government;
 end
 
-PACKET_PLAYER_RESEARCH = 55; cs, dsend
-  TECH tech;
-end
-
-PACKET_PLAYER_TECH_GOAL = 56; cs, dsend
-  TECH tech;
-end
-
-PACKET_TECH_GAINED = 230; sc, dsend
-  TECH tech;
-end
-
 PACKET_PLAYER_ATTRIBUTE_BLOCK = 57; cs
 end
 
@@ -816,6 +799,30 @@ PACKET_PLAYER_DIPLSTATE = 59; sc
   UINT16 turns_left;
   UINT8 has_reason_to_cancel;
   UINT16 contact_turns_left;
+end
+
+/************** Research packets **********************/
+
+PACKET_RESEARCH_INFO = 60; sc, lsend, is-game-info
+  RESEARCH id; key
+  UINT32 techs_researched;
+  UINT16 future_tech;
+  TECH researching;
+  UINT32 bulbs_researched;
+  TECH tech_goal;
+  STRING inventions[A_LAST + 1];
+end
+
+PACKET_PLAYER_RESEARCH = 55; cs, dsend
+  TECH tech;
+end
+
+PACKET_PLAYER_TECH_GOAL = 56; cs, dsend
+  TECH tech;
+end
+
+PACKET_TECH_GAINED = 230; sc, lsend
+  TECH tech;
 end
 
 /************** Unit packets **********************/

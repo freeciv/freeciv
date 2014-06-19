@@ -37,6 +37,7 @@
 /* server */
 #include "citytools.h"
 #include "cityturn.h"
+#include "connecthand.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "notify.h"
@@ -194,42 +195,103 @@ void do_tech_parasite_effect(struct player *pplayer)
 }
 
 /****************************************************************************
-  Update all player specific stuff after the tech_found was discovered.
-  could_switch_to_government holds information about which 
-  government the player could switch to before the tech was reached
+  Fill packet fields. Helper for following functions.
 ****************************************************************************/
-static void update_player_after_tech_researched(struct player* plr,
-                                         Tech_type_id tech_found,
-					 bool was_discovery,
-					 bool* could_switch_to_government)
+static inline void
+package_research_info(struct packet_research_info *packet,
+                      const struct research *presearch)
 {
-  player_research_update(plr);
+  packet->id = research_number(presearch);
+  packet->techs_researched = presearch->techs_researched;
+  packet->future_tech = presearch->future_tech;
+  packet->researching = presearch->researching;
+  packet->bulbs_researched = presearch->bulbs_researched;
+  packet->tech_goal = presearch->tech_goal;
+  advance_index_iterate(A_FIRST, i) {
+    packet->inventions[i] = presearch->inventions[i].state + '0';
+  } advance_index_iterate_end;
+  packet->inventions[A_NONE] = presearch->inventions[A_NONE].state + '0';
+  packet->inventions[advance_count()] = '\0';
+  packet->tech_goal = presearch->tech_goal;
+#ifdef DEBUG
+  log_verbose("Research nb %d inventions: %s",
+              research_number(presearch),
+              packet->inventions);
+#endif
+}
 
-  remove_obsolete_buildings(plr);
+/****************************************************************************
+  Send the research packet info to player sharing the research and global
+  observers.
+****************************************************************************/
+static void send_research_info_to_owners(const struct research *presearch)
+{
+  struct packet_research_info packet;
 
-  /* Give free infrastructure in every city */
-  if (tech_found != A_FUTURE) {
-    upgrade_all_city_extras(plr, was_discovery);  
+  /* Packaging. */
+  package_research_info(&packet, presearch);
+
+  /* Send to players sharing the research. */
+  research_players_iterate(presearch, pplayer) {
+    lsend_packet_research_info(pplayer->connections, &packet);
+  } research_players_iterate_end;
+
+  /* Send to global observers. */
+  conn_list_iterate(game.est_connections, pconn) {
+    if (conn_is_global_observer(pconn)) {
+      send_packet_research_info(pconn, &packet);
+    }
+  } conn_list_iterate_end;
+}
+
+/****************************************************************************
+  Send research info for 'presearch' to 'dest'. 'dest' can be NULL to send
+  to all established connections.
+****************************************************************************/
+void send_research_info(const struct research *presearch,
+                        const struct conn_list *dest)
+{
+  struct packet_research_info full_info, restricted_info;
+  const struct player *pplayer;
+  bool embassy;
+
+  fc_assert_ret(NULL != presearch);
+  if (NULL == dest) {
+    dest = game.est_connections;
   }
 
-  /* Enhance vision of units if a player-ranged effect has changed.  Note
-   * that world-ranged effects will not be updated immediately. */
-  unit_list_refresh_vision(plr->units);
+  /* Packaging */
+  package_research_info(&full_info, presearch);
+  restricted_info = full_info;
+  restricted_info.tech_goal = A_UNSET;
 
-  /* Notify a player about new governments available */
-  governments_iterate(gov) {
-    if (!could_switch_to_government[government_index(gov)]
-        && can_change_to_government(plr, gov)) {
-      notify_player(plr, NULL, E_NEW_GOVERNMENT, ftc_server,
-                    _("Discovery of %s makes the government form %s"
-                      " available. You may want to start a revolution."),
-                    advance_name_for_player(plr, tech_found),
-                    government_name_translation(gov));
+  conn_list_iterate(dest, pconn) {
+    pplayer = conn_get_player(pconn);
+    if (NULL != pplayer) {
+      if (presearch == research_get(pplayer)) {
+        /* Case research owner. */
+        send_packet_research_info(pconn, &full_info);
+      } else {
+        /* 'pconn' may have an embassy for looking to 'presearch'. */
+        embassy = FALSE;
+        player_list_iterate(team_members(pplayer->team), member) {
+          research_players_iterate(presearch, powner) {
+            if (player_has_embassy(member, powner)) {
+              embassy = TRUE;
+              break;
+            }
+          } research_players_iterate_end;
+          if (embassy) {
+            send_packet_research_info(pconn, &restricted_info);
+            break;
+          }
+        } player_list_iterate_end;
+      }
+    } else if (pconn->observer) {
+      /* Case global observer. */
+      send_packet_research_info(pconn, &full_info);
     }
-  } governments_iterate_end;
-
-  /* Inform player about his new tech. */
-  send_player_info_c(plr, plr->connections);
+  } conn_list_iterate_end;
 }
 
 /****************************************************************************
@@ -270,9 +332,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   bool was_first = FALSE;
   int had_embassies[player_slot_count()];
   struct city *pcity;
-  bool can_switch[player_slot_count()][government_count()];
+  bool could_switch[government_count()];
   struct research *research = research_get(plr);
   struct advance *vap = valid_advance_by_number(tech_found);
+  struct packet_tech_gained packet;
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
@@ -320,21 +383,41 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   /* Memorize some values before the tech is marked as researched.
    * They will be used to notify a player about a change */
-  research_players_iterate(research, aplayer) {
-    fill_can_switch_to_government_array(aplayer,
-                                        can_switch[player_index(aplayer)]);
-  } research_players_iterate_end;
-
+  fill_can_switch_to_government_array(plr, could_switch);
 
   /* Mark the tech as known in the research struct and update
    * global_advances array */
   player_invention_set(plr, tech_found, TECH_KNOWN);
+  player_research_update(plr);
 
   /* Make proper changes for all players sharing the research */  
   research_players_iterate(research, aplayer) {
-    update_player_after_tech_researched(aplayer, tech_found, was_discovery,
-                                        can_switch[player_index(aplayer)]);
+    remove_obsolete_buildings(aplayer);
+
+    /* Give free infrastructure in every city */
+    if (tech_found != A_FUTURE) {
+      upgrade_all_city_extras(aplayer, was_discovery);
+    }
+
+    /* Enhance vision of units if a player-ranged effect has changed. Note
+     * that world-ranged effects will not be updated immediately. */
+    unit_list_refresh_vision(aplayer->units);
   } research_players_iterate_end;
+
+  /* Notify a player about new governments available */
+  governments_iterate(gov) {
+    if (!could_switch[government_index(gov)]
+        && can_change_to_government(plr, gov)) {
+      notify_research(plr, E_NEW_GOVERNMENT, ftc_server,
+                      _("Discovery of %s makes the government form %s"
+                        " available. You may want to start a revolution."),
+                      advance_name_for_player(plr, tech_found),
+                      government_name_translation(gov));
+    }
+  } governments_iterate_end;
+
+  /* Inform players about their new tech. */
+  send_research_info(research, NULL);
 
   if (tech_found == research->tech_goal) {
     research->tech_goal = A_UNSET;
@@ -442,9 +525,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     }
   } players_iterate_end;
 
-  conn_list_iterate(plr->connections, pconn) {
-    dsend_packet_tech_gained(pconn, tech_found);
-  } conn_list_iterate_end;
+  packet.tech = tech_found;
+  research_players_iterate(research, aplayer) {
+    lsend_packet_tech_gained(aplayer->connections, &packet);
+  } research_players_iterate_end;
 }
 
 /****************************************************************************
@@ -1121,9 +1205,7 @@ void handle_player_research(struct player *pplayer, int tech)
   choose_tech(pplayer, tech);
 
   /* Notify players sharing the same research. */
-  research_players_iterate(research, aplayer) {
-    send_player_info_c(aplayer, aplayer->connections);
-  } research_players_iterate_end;
+  send_research_info_to_owners(research);
 }
 
 /****************************************************************************
@@ -1150,9 +1232,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   choose_tech_goal(pplayer, tech_goal);
 
   /* Notify players sharing the same research. */
-  research_players_iterate(research, aplayer) {
-    send_player_info_c(aplayer, aplayer->connections);
-  } research_players_iterate_end;
+  send_research_info_to_owners(research);
 }
 
 /****************************************************************************

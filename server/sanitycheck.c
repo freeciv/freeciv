@@ -26,6 +26,7 @@
 #include "map.h"
 #include "movement.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
 #include "terrain.h"
 #include "unit.h"
@@ -545,6 +546,24 @@ static void check_teams(const char *file, const char *function, int line)
   } team_slots_iterate_end;
 }
 
+/****************************************************************************
+  Sanity checks on all players.
+****************************************************************************/
+static void
+check_researches(const char *file, const char *function, int line)
+{
+  researches_iterate(presearch) {
+    SANITY_CHECK(S_S_RUNNING != server_state()
+                 || A_UNSET == presearch->researching
+                 || is_future_tech(presearch->researching)
+                 || (A_NONE != presearch->researching
+                     && valid_advance_by_number(presearch->researching)));
+    SANITY_CHECK(A_UNSET == presearch->tech_goal
+                 || (A_NONE != presearch->tech_goal
+                     && valid_advance_by_number(presearch->tech_goal)));
+  } researches_iterate_end;
+}
+
 /**************************************************************************
   Sanity checking on connections.
 **************************************************************************/
@@ -579,6 +598,7 @@ void real_sanity_check(const char *file, const char *function, int line)
   check_misc(file, function, line);
   check_players(file, function, line);
   check_teams(file, function, line);
+  check_researches(file, function, line);
   check_connections(file, function, line);
 }
 

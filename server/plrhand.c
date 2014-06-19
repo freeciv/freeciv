@@ -1041,7 +1041,6 @@ static void package_player_info(struct player *plr,
 {
   enum plr_info_level info_level;
   enum plr_info_level highest_team_level;
-  struct research* research = research_get(plr);
   struct government *pgov = NULL;
 
   if (receiver) {
@@ -1138,63 +1137,24 @@ static void package_player_info(struct player *plr,
   /* Send most civ info about the player only to players who have an
    * embassy. */
   if (highest_team_level >= INFO_EMBASSY) {
-    advance_index_iterate(A_FIRST, i) {
-      packet->inventions[i] = 
-        research->inventions[i].state + '0';
-    } advance_index_iterate_end;
     packet->tax             = plr->economic.tax;
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
-    packet->bulbs_researched = research->bulbs_researched;
-    packet->techs_researched = research->techs_researched;
-    packet->researching = research->researching;
-    packet->future_tech = research->future_tech;
     packet->revolution_finishes = plr->revolution_finishes;
   } else {
-    advance_index_iterate(A_FIRST, i) {
-      packet->inventions[i] = '0';
-    } advance_index_iterate_end;
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
-    packet->bulbs_researched= 0;
-    packet->techs_researched= 0;
-    packet->researching     = A_UNKNOWN;
-    packet->future_tech     = 0;
     packet->revolution_finishes = -1;
   }
-
-  /* We have to inform the client that the other players also know
-   * A_NONE. */
-  packet->inventions[A_NONE] = research->inventions[A_NONE].state + '0';
-  packet->inventions[advance_count()] = '\0';
-#ifdef DEBUG
-  log_verbose("Player%d inventions:%s",
-              player_number(plr), packet->inventions);
-#endif
 
   if (info_level >= INFO_FULL
       || (receiver
           && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
-    packet->tech_goal       = research->tech_goal;
     packet->mood            = player_mood(plr);
   } else {
-    packet->tech_goal       = A_UNSET;
     packet->mood            = MOOD_COUNT;
   }
-
-  /* 
-   * This may be an odd time to check these values but we can be sure
-   * to have a consistent state here.
-   */
-  fc_assert(S_S_RUNNING != server_state()
-            || A_UNSET == research->researching
-            || is_future_tech(research->researching)
-            || (A_NONE != research->researching
-                && valid_advance_by_number(research->researching)));
-  fc_assert(A_UNSET == research->tech_goal
-            || (A_NONE != research->tech_goal
-                && valid_advance_by_number(research->tech_goal)));
 }
 
 /**************************************************************************
