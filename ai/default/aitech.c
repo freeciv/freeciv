@@ -41,7 +41,7 @@
 struct ai_tech_choice {
   Tech_type_id choice;   /* The id of the most needed tech */
   int want;              /* Want of the most needed tech */
-  int current_want;      /* Want of the tech which currenlty researched 
+  int current_want;      /* Want of the tech which is currently researched 
 			  * or is our current goal */
 };
 
