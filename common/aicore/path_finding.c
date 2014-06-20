@@ -274,6 +274,13 @@ static bool pf_normal_node_init(struct pf_normal_map *pfnm,
 
   node->status = NS_INIT;
 
+  /* Establish the "known" status of node. */
+  if (params->omniscience) {
+    node->node_known_type = TILE_KNOWN_SEEN;
+  } else {
+    node->node_known_type = tile_get_known(ptile, params->owner);
+  }
+
   /* Establish the tile behavior. */
   if (NULL != params->get_TB) {
     node->behavior = params->get_TB(ptile, node->node_known_type, params);
@@ -294,13 +301,6 @@ static bool pf_normal_node_init(struct pf_normal_map *pfnm,
     /* The default. */
     node->behavior = TB_NORMAL;
 #endif
-  }
-
-  /* Establish the "known" status of node. */
-  if (params->omniscience) {
-    node->node_known_type = TILE_KNOWN_SEEN;
-  } else {
-    node->node_known_type = tile_get_known(ptile, params->owner);
   }
 
   /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
@@ -926,6 +926,13 @@ static bool pf_danger_node_init(struct pf_danger_map *pfdm,
 
   node->status = NS_INIT;
 
+  /* Establish the "known" status of node. */
+  if (params->omniscience) {
+    node->node_known_type = TILE_KNOWN_SEEN;
+  } else {
+    node->node_known_type = tile_get_known(ptile, params->owner);
+  }
+
   /* Establish the tile behavior. */
   if (NULL != params->get_TB) {
     node->behavior = params->get_TB(ptile, node->node_known_type, params);
@@ -946,13 +953,6 @@ static bool pf_danger_node_init(struct pf_danger_map *pfdm,
     /* The default. */
     node->behavior = TB_NORMAL;
 #endif
-  }
-
-  /* Establish the "known" status of node. */
-  if (params->omniscience) {
-    node->node_known_type = TILE_KNOWN_SEEN;
-  } else {
-    node->node_known_type = tile_get_known(ptile, params->owner);
   }
 
   /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
@@ -1809,6 +1809,13 @@ static bool pf_fuel_node_init(struct pf_fuel_map *pffm,
 
   node->status = NS_INIT;
 
+  /* Establish the "known" status of node. */
+  if (params->omniscience) {
+    node->node_known_type = TILE_KNOWN_SEEN;
+  } else {
+    node->node_known_type = tile_get_known(ptile, params->owner);
+  }
+
   /* Establish the tile behavior. */
   if (NULL != params->get_TB) {
     node->behavior = params->get_TB(ptile, node->node_known_type, params);
@@ -1851,13 +1858,6 @@ static bool pf_fuel_node_init(struct pf_fuel_map *pffm,
       node->behavior = TB_IGNORE;
       return FALSE;
     }
-  }
-
-  /* Establish the "known" status of node. */
-  if (params->omniscience) {
-    node->node_known_type = TILE_KNOWN_SEEN;
-  } else {
-    node->node_known_type = tile_get_known(ptile, params->owner);
   }
 
   /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
