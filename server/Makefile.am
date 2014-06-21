@@ -28,8 +28,7 @@ SERVERICON=../win32/servericon.o
 endif
 
 exe_sources = \
-		civserver.c	\
-		civserver.h
+		civserver.c
 
 libfreeciv_srv_la_SOURCES = \
 		aiiface.c	\

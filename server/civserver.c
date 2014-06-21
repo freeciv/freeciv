@@ -58,8 +58,6 @@
 #include "sernet.h"
 #include "srv_main.h"
 
-#include "civserver.h"
-
 #ifdef GENERATING_MAC
 static void Mac_options(int argc);  /* don't need argv */
 #endif
