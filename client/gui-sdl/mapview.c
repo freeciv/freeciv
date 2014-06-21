@@ -508,34 +508,35 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     widget_redraw(pInfo_Window);
 
     if (pUnit) {
-
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
       int sy, y, width, height, n;
       bool right;
       char buffer[512];
       struct tile *pTile = unit_tile(pUnit);
+      const char *vetname;
 
       /* get and draw unit name (with veteran status) */
       pStr = create_str16_from_char(unit_name_translation(pUnit), adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
       pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
       pName = create_text_surf_from_str16(pStr);
-      
+
       pStr->style &= ~TTF_STYLE_BOLD;
-      
+
       if (pInfo_Window->size.w > 1.8 * 
-           ((pInfo_Window->size.w - pInfo_Window->area.w) + DEFAULT_UNITS_W)) {
+          ((pInfo_Window->size.w - pInfo_Window->area.w) + DEFAULT_UNITS_W)) {
 	width = pInfo_Window->area.w / 2;
 	right = TRUE;
       } else {
 	width = pInfo_Window->area.w;
 	right = FALSE;
       }
-      
-      if(pUnit->veteran) {
-	copy_chars_to_string16(pStr, _("veteran"));
+
+      vetname = utype_veteran_name_translation(unit_type(pUnit), pUnit->veteran);
+      if (vetname != NULL) {
+        copy_chars_to_string16(pStr, vetname);
         change_ptsize16(pStr, adj_font(10));
-	pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
+        pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
         pVet_Name = create_text_surf_from_str16(pStr);
         pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
       }
@@ -759,26 +760,31 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	pDock = pInfo_Window;
 	n = 0;
         unit_list_iterate(pTile->units, aunit) {
-          if (aunit == pUnit) {
-	    continue;
-	  }
-	    
-	  pUType = unit_type(aunit);
-          pHome_City = game_city_by_number(aunit->homecity);
-          fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%s)%s\n%s\n(%d/%d)\n%s",
-		utype_name_translation(pUType),
-		pUType->attack_strength,
-                pUType->defense_strength,
-                move_points_text(pUType->move_rate, NULL, NULL, FALSE),
-                (aunit->veteran ? _("\nveteran") : ""),
-                unit_activity_text(aunit),
-		aunit->hp, pUType->hp,
-		pHome_City ? city_name(pHome_City) : _("None"));
-      
-	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
-	    				tileset_full_tile_height(tileset), SDL_SWSURFACE);
+          const char *vetname;
 
-          destcanvas = canvas_create(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+          if (aunit == pUnit) {
+            continue;
+	  }
+
+          pUType = unit_type(aunit);
+          vetname = utype_veteran_name_translation(pUType, aunit->veteran);
+          pHome_City = game_city_by_number(aunit->homecity);
+          fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
+                      utype_name_translation(pUType),
+                      pUType->attack_strength,
+                      pUType->defense_strength,
+                      move_points_text(pUType->move_rate, NULL, NULL, FALSE),
+                      (vetname != NULL ? "\n" : ""),
+                      (vetname != NULL ? vetname : ""),
+                      unit_activity_text(aunit),
+                      aunit->hp, pUType->hp,
+                      pHome_City ? city_name(pHome_City) : _("None"));
+
+	  pBuf_Surf = create_surf(tileset_full_tile_width(tileset),
+                                  tileset_full_tile_height(tileset), SDL_SWSURFACE);
+
+          destcanvas = canvas_create(tileset_full_tile_width(tileset),
+                                     tileset_full_tile_height(tileset));
   
           put_unit(aunit, destcanvas, 0, 0);
           

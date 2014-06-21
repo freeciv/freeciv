@@ -716,19 +716,22 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   }
 
   unit_list_iterate(pList, pUnit) {
-        
+    const char *vetname;
+
     pUType = unit_type(pUnit);
+    vetname = utype_veteran_name_translation(pUType, pUnit->veteran);
     pHome_City = game_city_by_number(pUnit->homecity);
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s\n%s\n(%d/%d)\n%s",
-		utype_name_translation(pUType),
-		pUType->attack_strength,
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
+                utype_name_translation(pUType),
+                pUType->attack_strength,
                 pUType->defense_strength,
                 move_points_text(pUType->move_rate, NULL, NULL, FALSE),
-                (pUnit->veteran ? _("\nveteran") : ""),
+                (vetname != NULL ? "\n" : ""),
+                (vetname != NULL ? vetname : ""),
                 unit_activity_text(pUnit),
-		pUnit->hp, pUType->hp,
-		pHome_City ? pHome_City->name : _("None"));
-    
+                pUnit->hp, pUType->hp,
+                pHome_City ? pHome_City->name : _("None"));
+
     if (pCityDlg->page == SUPPORTED_UNITS_PAGE) {
       int pCity_near_dist;
       struct city *pNear_City = get_nearest_city(pUnit, &pCity_near_dist);
