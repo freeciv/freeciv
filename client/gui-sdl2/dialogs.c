@@ -1101,41 +1101,44 @@ void unit_select_dialog_popup(struct tile *ptile)
   add_to_gui_list(ID_UNIT_SELECT_DLG_EXIT_BUTTON, pBuf);
 
   /* ---------- */
- 
-  for(i = 0; i < n; i++) {
+
+  for (i = 0; i < n; i++) {
+    const char *vetname;
+
     pUnit = unit_list_get(ptile->units, i);
     pUnitType = unit_type(pUnit);
-        
+    vetname = utype_veteran_name_translation(pUnitType, pUnit->veteran);
+
     if (unit_owner(pUnit) == client.conn.playing) {
       fc_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%s) %s"),
-            pUnit->veteran ? _("Veteran") : "" ,
-            pUnit->hp, pUnitType->hp,
-            utype_name_translation(pUnitType),
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
-	    unit_activity_text(pUnit));
+                  (vetname != NULL ? vetname : ""),
+                  pUnit->hp, pUnitType->hp,
+                  utype_name_translation(pUnitType),
+                  pUnitType->attack_strength,
+                  pUnitType->defense_strength,
+                  move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                  unit_activity_text(pUnit));
     } else {
       int att_chance, def_chance;
-      
+
       fc_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
-            nation_adjective_for_player(unit_owner(pUnit)),
-            (pUnit->veteran ? _("Veteran") : ""),
-            utype_name_translation(pUnitType),
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
-            pUnitType->firepower,
-	    (pUnit->hp * 100 / pUnitType->hp + 9) / 10);
-      
+                  nation_adjective_for_player(unit_owner(pUnit)),
+                  (vetname != NULL ? vetname : ""),
+                  utype_name_translation(pUnitType),
+                  pUnitType->attack_strength,
+                  pUnitType->defense_strength,
+                  move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                  pUnitType->firepower,
+                  (pUnit->hp * 100 / pUnitType->hp + 9) / 10);
+
       /* calculate chance to win */
       if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus)) {
-          /* TRANS: "CtW" = "Chance to Win" */
-          cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
-               att_chance, def_chance);
+        /* TRANS: "CtW" = "Chance to Win" */
+        cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+                     att_chance, def_chance);
       }
     }
-    
+
     create_active_iconlabel(pBuf, pWindow->dst,
     		pStr, cBuf, unit_select_callback);
             
@@ -1826,71 +1829,73 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   pAdvanced_Terrain_Dlg->pBeginWidgetList = pBuf;
   
   /* ---------- */
-  if (n)
-  {
+  if (n) {
     int i;
     struct unit *pUnit;
     struct unit_type *pUnitType = NULL;
-    units_h = 0;  
+
+    units_h = 0;
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
-    
+
     add_to_gui_list(ID_SEPARATOR, pBuf);
     area.h += pBuf->next->size.h;
     /* ---------- */
-    if (n > 1)
-    {
+    if (n > 1) {
       struct unit *pDefender, *pAttacker;
       struct widget *pLast = pBuf;
       bool reset = FALSE;
       int my_units = 0;
-      
+      const char *vetname;
+
       #define ADV_NUM_SEEN  15
-      
+
       pDefender = (pFocus_Unit ? get_defender(pFocus_Unit, ptile) : NULL);
       pAttacker = (pFocus_Unit ? get_attacker(pFocus_Unit, ptile) : NULL);
-      for(i=0; i<n; i++) {
+      for (i = 0; i < n; i++) {
         pUnit = unit_list_get(ptile->units, i);
-	if (pUnit == pFocus_Unit) {
-	  continue;
-	}
+        if (pUnit == pFocus_Unit) {
+          continue;
+        }
         pUnitType = unit_type(pUnit);
+        vetname = utype_veteran_name_translation(pUnitType, pUnit->veteran);
+
         if (unit_owner(pUnit) == client.conn.playing) {
           fc_snprintf(cBuf, sizeof(cBuf),
-            _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
-            pUnit->veteran ? _("Veteran") : "" ,
-            pUnit->hp, pUnitType->hp,
-            utype_name_translation(pUnitType),
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
-	    unit_activity_text(pUnit));
+                      _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
+                      (vetname != NULL ? vetname : ""),
+                      pUnit->hp, pUnitType->hp,
+                      utype_name_translation(pUnitType),
+                      pUnitType->attack_strength,
+                      pUnitType->defense_strength,
+                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      unit_activity_text(pUnit));
     
-	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	       cBuf, adv_unit_select_callback);
+          create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                                  cBuf, adv_unit_select_callback);
           pBuf->data.unit = pUnit;
           set_wstate(pBuf, FC_WS_NORMAL);
-	  add_to_gui_list(ID_LABEL, pBuf);
-	  my_units++;
-	} else {
-	  int att_chance, def_chance;
-	  
+          add_to_gui_list(ID_LABEL, pBuf);
+          my_units++;
+        } else {
+          int att_chance, def_chance;
+
           fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
-            nation_adjective_for_player(unit_owner(pUnit)),
-            (pUnit->veteran ? _("Veteran") : ""),
-            utype_name_translation(pUnitType),
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
-            pUnitType->firepower,
-	    ((pUnit->hp * 100) / pUnitType->hp));
-    
+                      nation_adjective_for_player(unit_owner(pUnit)),
+                      (vetname != NULL ? vetname : ""),
+                      utype_name_translation(pUnitType),
+                      pUnitType->attack_strength,
+                      pUnitType->defense_strength,
+                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      pUnitType->firepower,
+                      ((pUnit->hp * 100) / pUnitType->hp));
+
           /* calculate chance to win */
           if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
             /* TRANS: "CtW" = "Chance to Win" */
             cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
-               att_chance, def_chance);
-	  }
+                         att_chance, def_chance);
+          }
 
           if (pAttacker && pAttacker == pUnit) {
             pStr->fgcol = *(get_game_color(COLOR_OVERVIEW_ENEMY_UNIT));
@@ -1963,71 +1968,70 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  
       }
       #undef ADV_NUM_SEEN
-    }
-    else
-    { /* n == 1 */
+    } else { /* n == 1 */
       /* one unit - give orders */
       pUnit = unit_list_get(ptile->units, 0);
       pUnitType = unit_type(pUnit);
       if (pUnit != pFocus_Unit) {
+        const char *vetname;
+
+        vetname = utype_veteran_name_translation(pUnitType, pUnit->veteran);
         if ((pCity && city_owner(pCity) == client.conn.playing)
-	 || (unit_owner(pUnit) == client.conn.playing))
-        {
+            || (unit_owner(pUnit) == client.conn.playing)) {
           fc_snprintf(cBuf, sizeof(cBuf),
-            _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
-            pUnit->veteran ? _("Veteran") : "" ,
-            pUnit->hp, pUnitType->hp,
-            utype_name_translation(pUnitType),
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
-	    unit_activity_text(pUnit));
-    
-	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    		cBuf, adv_unit_select_callback);
-	  pBuf->data.unit = pUnit;
+                      _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
+                      (vetname != NULL ? vetname : ""),
+                      pUnit->hp, pUnitType->hp,
+                      utype_name_translation(pUnitType),
+                      pUnitType->attack_strength,
+                      pUnitType->defense_strength,
+                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      unit_activity_text(pUnit));
+
+          create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                                  cBuf, adv_unit_select_callback);
+          pBuf->data.unit = pUnit;
           set_wstate(pBuf, FC_WS_NORMAL);
-	
+
           add_to_gui_list(ID_LABEL, pBuf);
-    
+
           area.w = MAX(area.w, pBuf->size.w);
           units_h += pBuf->size.h;
-	  /* ---------------- */
-	  /* separator */
+          /* ---------------- */
+          /* separator */
           pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
-    
+
           add_to_gui_list(ID_SEPARATOR, pBuf);
           area.h += pBuf->next->size.h;
         } else {
 	  int att_chance, def_chance;
-	
+
           fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
-            nation_adjective_for_player(unit_owner(pUnit)),
-            (pUnit->veteran ? _("Veteran") : ""),
-            utype_name_translation(pUnitType),
-            pUnitType->attack_strength,
-            pUnitType->defense_strength,
-            move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
-            pUnitType->firepower,
-	    ((pUnit->hp * 100) / pUnitType->hp));
-    
-	    /* calculate chance to win */
+                      nation_adjective_for_player(unit_owner(pUnit)),
+                      (vetname != NULL ? vetname : ""),
+                      utype_name_translation(pUnitType),
+                      pUnitType->attack_strength,
+                      pUnitType->defense_strength,
+                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      pUnitType->firepower,
+                      ((pUnit->hp * 100) / pUnitType->hp));
+
+          /* calculate chance to win */
             if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
               cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
-                 att_chance, def_chance);
-	    }
-	    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);          
-	    add_to_gui_list(ID_LABEL, pBuf);
+                           att_chance, def_chance);
+            }
+            create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+            add_to_gui_list(ID_LABEL, pBuf);
             area.w = MAX(area.w, pBuf->size.w);
             units_h += pBuf->size.h;
-	    /* ---------------- */
-	    
-	    /* separator */
+            /* ---------------- */
+
+            /* separator */
             pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
-    
+
             add_to_gui_list(ID_SEPARATOR, pBuf);
             area.h += pBuf->next->size.h;
-	
         }
       }
       /* ---------------- */
