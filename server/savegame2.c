@@ -2301,6 +2301,13 @@ static void sg_load_scenario(struct loaddata *loading)
     return;
   }
 
+  /* Default is that when there's scenario section (which we already checked)
+   * this is a scenario. Only if it explicitly says that it's not, we consider
+   * this regular savegame */
+  if (!secfile_lookup_bool_default(loading->file, TRUE, "scenario.is_scenario")) {
+    return;
+  }
+
   buf = secfile_lookup_str_default(loading->file, "", "scenario.name");
   if (buf[0] != '\0') {
     game.scenario.is_scenario = TRUE;
@@ -2345,9 +2352,11 @@ static void sg_save_scenario(struct savedata *saving)
   sg_check_ret();
 
   if (!saving->scenario || !game.scenario.is_scenario) {
+    secfile_insert_bool(saving->file, FALSE, "scenario.is_scenario");
     return;
   }
 
+  secfile_insert_bool(saving->file, TRUE, "scenario.is_scenario");
   secfile_insert_str(saving->file, game.scenario.name, "scenario.name");
   secfile_insert_str(saving->file, game.scenario.description,
                      "scenario.description");
