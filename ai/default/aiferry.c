@@ -106,7 +106,7 @@ void aiferry_init_stats(struct ai_type *ait, struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-    if (dai_is_ferry(punit)) {
+    if (dai_is_ferry(punit, ait)) {
       ai->stats.boats++;
       if (unit_data->passenger == FERRY_AVAILABLE) {
         ai->stats.available_boats++;
@@ -133,7 +133,7 @@ static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
   log_base(LOGLEVEL_FERRY_STATS, "Registered: %d free out of total %d",
            ai->stats.available_boats, ai->stats.boats);
   unit_list_iterate(pplayer->units, punit) {
-    if (dai_is_ferry(punit)) {
+    if (dai_is_ferry(punit, ait)) {
       log_base(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d", n,
                unit_rule_name(punit), punit->id,
                def_ai_unit_data(punit, ait)->passenger);
@@ -145,45 +145,20 @@ static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
 
 /**************************************************************************
   Should unit type be considered a ferry?
-
-  Ferries are units that can transport units over an ocean that
-  cannot move there themselves, either because they lack the ability
-  to move through an ocean or because they require fuel to do so.
-
-  The ability to transport Missiles is insufficient for a unit to be
-  considered a ferry: Missile-Carriers are more properly hunters.
 **************************************************************************/
-static bool dai_is_ferry_type(struct unit_type *pferry)
+static bool dai_is_ferry_type(struct unit_type *pferry, struct ai_type *ait)
 {
-  if (pferry->transport_capacity > 0
-      && utype_class(pferry)->adv.sea_move != MOVE_NONE) {
-    unit_class_iterate(pclass) {
-      if (pclass->adv.land_move != MOVE_NONE 
-          && !uclass_has_flag(pclass, UCF_MISSILE)
-          && can_unit_type_transport(pferry, pclass)) {
-        if (pclass->adv.sea_move != MOVE_FULL) {
-          return TRUE;
-        } else {
-          unit_type_iterate(putype) {
-            if (utype_class(putype) == pclass
-                && 0 != utype_fuel(putype)) {
-              return TRUE;
-            }
-          } unit_type_iterate_end;
-        }
-      }
-    } unit_class_iterate_end;
-  }
+  struct unit_type_ai *utai = utype_ai_data(pferry, ait);
 
-  return FALSE;
+  return utai->ferry;
 }
 
 /**************************************************************************
   Should unit be considered a ferry?
 **************************************************************************/
-bool dai_is_ferry(struct unit *pferry)
+bool dai_is_ferry(struct unit *pferry, struct ai_type *ait)
 {
-  return dai_is_ferry_type(unit_type(pferry));
+  return dai_is_ferry_type(unit_type(pferry), ait);
 }
 
 /**************************************************************************
@@ -191,7 +166,7 @@ bool dai_is_ferry(struct unit *pferry)
 **************************************************************************/
 void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
 {
-  if (dai_is_ferry(ferry)) {
+  if (dai_is_ferry(ferry, ait)) {
     struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
     struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry), NULL);
 
@@ -207,8 +182,8 @@ void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
 void dai_ferry_transformed(struct ai_type *ait, struct unit *ferry,
                            struct unit_type *old)
 {
-  bool old_f = dai_is_ferry_type(old);
-  bool new_f = dai_is_ferry(ferry);
+  bool old_f = dai_is_ferry_type(old, ait);
+  bool new_f = dai_is_ferry(ferry, ait);
 
   if (old_f && !new_f) {
     struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry), NULL);
@@ -245,7 +220,7 @@ void dai_ferry_lost(struct ai_type *ait, struct unit *punit)
     struct player *pplayer = unit_owner(punit);
     struct ai_plr *ai = dai_plr_data_get(ait, pplayer, &close);
 
-    if (dai_is_ferry(punit)) {
+    if (dai_is_ferry(punit, ait)) {
       ai->stats.boats--;
       if (unit_data->passenger == FERRY_AVAILABLE) {
         ai->stats.available_boats--;
@@ -378,7 +353,7 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
   int boats = 0;
 
   unit_list_iterate(pplayer->units, punit) {
-    if (dai_is_ferry(punit)
+    if (dai_is_ferry(punit, ait)
         && def_ai_unit_data(punit, ait)->passenger == FERRY_AVAILABLE) {
       boats++;
     }

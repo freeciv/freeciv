@@ -2497,7 +2497,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     return;
   }
 
-  is_ferry = dai_is_ferry(punit);
+  is_ferry = dai_is_ferry(punit, ait);
 
   if ((unit_has_type_flag(punit, UTYF_DIPLOMAT))
       || (unit_has_type_flag(punit, UTYF_SPY))) {
@@ -2975,11 +2975,17 @@ void dai_units_ruleset_init(struct ai_type *ait)
     struct unit_type_ai *utai = fc_malloc(sizeof(*utai));
 
     utai->firepower1 = FALSE;
+    utai->ferry = FALSE;
+    utai->missile_platform = FALSE;
+    utai->carries_occupiers = FALSE;
 
     utype_set_ai_data(ptype, ait, utai);
   } unit_type_iterate_end;
 
   unit_type_iterate(punittype) {
+    struct unit_class *pclass = utype_class(punittype);
+
+    /* Confirm firepower */
     combat_bonus_list_iterate(punittype->bonuses, pbonus) {
       if (pbonus->type == CBONUS_FIREPOWER1) {
         unit_type_iterate(penemy) {
@@ -2991,6 +2997,35 @@ void dai_units_ruleset_init(struct ai_type *ait)
         } unit_type_iterate_end;
       }
     } combat_bonus_list_iterate_end;
+
+    /* Consider potential cargo */
+    if (punittype->transport_capacity > 0) {
+      struct unit_type_ai *utai = utype_ai_data(punittype, ait);
+
+      unit_class_iterate(pcargo) {
+        if (can_unit_type_transport(punittype, pcargo)) {
+          if (uclass_has_flag(pcargo, UCF_MISSILE)) {
+            utai->missile_platform = TRUE;
+          } else if (pclass->adv.sea_move != MOVE_NONE
+              && pcargo->adv.land_move != MOVE_NONE) {
+            if (pcargo->adv.sea_move != MOVE_FULL) {
+              utai->ferry = TRUE;
+            } else {
+              unit_type_iterate(pctype) {
+                if (utype_class(pctype) == pcargo
+                    && 0 != utype_fuel(pctype)) {
+                  utai->ferry = TRUE;
+                }
+              } unit_type_iterate_end;
+            }
+          }
+
+          if (uclass_has_flag(pcargo, UCF_CAN_OCCUPY_CITY)) {
+            utai->carries_occupiers = TRUE;
+          }
+        }
+      } unit_class_iterate_end;
+    }
   } unit_type_iterate_end;
 }
 

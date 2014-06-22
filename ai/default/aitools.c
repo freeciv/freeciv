@@ -503,7 +503,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
 
   /* If a unit is hunting, don't expect it to be a ferry. */
   is_ferry = (unit_data->task != AIUNIT_HUNTER
-              && dai_is_ferry(punit));
+              && dai_is_ferry(punit, ait));
 
   if (is_ferry) {
     /* The destination may be a coastal land tile,

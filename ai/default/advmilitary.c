@@ -553,6 +553,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       int move_time;
       unsigned int vulnerability;
       int defbonus = defense_bonuses[utype_index(unit_type(punit))];
+      struct unit_type_ai *utai = utype_ai_data(unit_type(punit), ait);
 
       vulnerability = assess_danger_unit(pcity, pcity_map,
                                          punit, &move_time);
@@ -569,20 +570,16 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
           }
         }
       } else {
-        unit_class_iterate(punitclass) {
-          if (uclass_has_flag(punitclass, UCF_CAN_OCCUPY_CITY)
-              && can_unit_type_transport(unit_type(punit), punitclass)) {
-            /* It can transport some threatening units! */
-
-            if (3 >= move_time) {
-              urgency++;
-              if (1 >= move_time) {
-                city_data->grave_danger++;
-              }
+        if (utai->carries_occupiers) {
+          /* It can transport some threatening units! */
+          if (3 >= move_time) {
+            urgency++;
+            if (1 >= move_time) {
+              city_data->grave_danger++;
             }
-            break;
           }
-        } unit_class_iterate_end;
+          break;
+        }
       }
 
       if (defbonus > 1) {
