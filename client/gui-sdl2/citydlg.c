@@ -732,9 +732,9 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 
       sz_strlcat(cBuf, "\n");
       sz_strlcat(cBuf, get_nearest_city_text(pNear_City, pCity_near_dist));
-      pSurf = adj_surf(create_unit_surface(pUnit, 1, w, h));
+      pSurf = adj_surf(create_unit_surface(pUnit, TRUE, w, h));
     } else {
-      pSurf = adj_surf(create_unit_surface(pUnit, 0, w, h));
+      pSurf = adj_surf(create_unit_surface(pUnit, FALSE, w, h));
     }
 
     pStr = create_str16_from_char(cBuf, adj_font(10));
