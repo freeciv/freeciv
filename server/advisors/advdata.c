@@ -296,18 +296,23 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
+      const struct unit_class *pclass = unit_class(punit);
+
       if (unit_has_type_flag(punit, UTYF_IGWALL)) {
         adv->threats.igwall = TRUE;
       }
 
-      if (is_sailing_unit(punit)) {
+      if (pclass->adv.sea_move != MOVE_NONE) {
         /* If the enemy has not started sailing yet, or we have total
          * control over the seas, don't worry, keep attacking. */
-        if (get_transporter_capacity(punit) > 0) {
-          unit_class_iterate(punitclass) {
-            if (punitclass->move_type == UMT_LAND
-                && can_unit_type_transport(unit_type(punit), punitclass)) {
-              /* Enemy can transport some land units! */
+        if (uclass_has_flag(pclass, UCF_CAN_OCCUPY_CITY)) {
+          /* Enemy represents a cross-continental threat! */
+          adv->threats.invasions = TRUE;
+        } else if (get_transporter_capacity(punit) > 0) {
+          unit_class_iterate(cargoclass) {
+            if (uclass_has_flag(cargoclass, UCF_CAN_OCCUPY_CITY)
+                && can_unit_type_transport(unit_type(punit), cargoclass)) {
+              /* Enemy can transport some threatening units! */
               adv->threats.invasions = TRUE;
               break;
             }
