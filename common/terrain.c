@@ -868,10 +868,9 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
 }
 
 /****************************************************************************
-  Returns the highest-priority (best) infrastructure (man-made special) to
-  be pillaged from the terrain set.  May return S_LAST if nothing
-  better is available.
-  Bases are encoded as numbers beyond S_LAST.
+  Determine the highest-priority (best) infrastructure (man-made special) to
+  be pillaged from the terrain set, which is returned in tgt.
+  Returns FALSE if there is nothing to be pillaged.
 ****************************************************************************/
 bool get_preferred_pillage(struct act_tgt *tgt,
                            bv_special pset,
