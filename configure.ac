@@ -1372,7 +1372,7 @@ LDFLAGS="$EXTRA_DEBUG_LDFLAGS $LDFLAGS"
 dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version"])
 
-dnl Make sure that config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
+dnl Make sure that fc_config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here
 dnl since change in it should not cause recompilation, only relinking.
 dnl Note: Variables are named FC_STORE_* instead of FC_*_STORE in order to
