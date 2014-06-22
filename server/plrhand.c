@@ -2331,7 +2331,7 @@ static struct player *split_player(struct player *pplayer)
   struct nation_type *rebel_nation;
 
   /* make a new player, or not */
-  cplayer = server_create_player(-1, default_ai_type_name(), NULL);
+  cplayer = server_create_player(-1, ai_name(pplayer->ai), NULL);
   if (!cplayer) {
     return NULL;
   }
