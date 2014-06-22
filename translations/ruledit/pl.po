@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 03:47+0300\n"
-"PO-Revision-Date: 2014-05-01 20:29+0100\n"
-"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
+"POT-Creation-Date: 2014-06-22 21:08+0300\n"
+"PO-Revision-Date: 2014-06-09 10:15+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmai.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -32,73 +32,99 @@ msgstr "Nierozpoznana opcja: \"%s\"\n"
 msgid "Freeciv ruleset editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:106
+#: tools/ruledit/ruledit_qt.cpp:94
+#, c-format
+msgid "Needed by %s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:117
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:112
+#: tools/ruledit/ruledit_qt.cpp:123
 msgid "Start editing"
 msgstr "Tryb edycji"
 
-#: tools/ruledit/ruledit_qt.cpp:122
+#: tools/ruledit/ruledit_qt.cpp:133
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:124
+#: tools/ruledit/ruledit_qt.cpp:135
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:133
+#: tools/ruledit/ruledit_qt.cpp:144
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:179
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:173
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/tab_misc.cpp:51
+#: tools/ruledit/tab_misc.cpp:53
 msgid "Ruleset name"
 msgstr "Nazwa zestawu zasad"
 
-#: tools/ruledit/tab_misc.cpp:56
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "Zapisano zestaw zasad"
+
+#: tools/ruledit/tab_misc.cpp:63
 msgid "Save to directory"
 msgstr "Zapisz w katalogu"
 
-#: tools/ruledit/tab_misc.cpp:63
+#: tools/ruledit/tab_misc.cpp:70
 msgid "Save now"
 msgstr "Zapisz teraz"
 
-#: tools/ruledit/tab_misc.cpp:95
+#: tools/ruledit/tab_misc.cpp:106
 msgid "Ruleset saved"
 msgstr "Zapisano zestaw zasad"
 
-#: tools/ruledit/tab_tech.cpp:55
+#: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
 msgstr "Nazwa"
 
-#: tools/ruledit/tab_tech.cpp:62
+#: tools/ruledit/tab_tech.cpp:69
 msgid "Rule Name"
 msgstr "Nazwa zasady"
 
-#: tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_tech.cpp:77
 msgid "Req1"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:78
+#: tools/ruledit/tab_tech.cpp:86
 msgid "Req2"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:94
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:168
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+msgid "Remove this tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:186
 msgid "Never"
 msgstr "Nigdy"
+
+#: tools/ruledit/validity.c:79
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:160
+msgid "Music Style"
+msgstr ""
 
 #~ msgid "source RULESET"
 #~ msgstr "source ZESTAW-ZASAD"
