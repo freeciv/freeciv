@@ -131,6 +131,9 @@ static gboolean show_happiness_popup(GtkWidget *w,
     case BUILDINGS:
       sz_strlcpy(buf, text_happiness_buildings(pdialog->pcity));
       break;
+    case NATIONALITY:
+      sz_strlcpy(buf, text_happiness_nationality(pdialog->pcity));
+      break;
     case UNITS:
       sz_strlcpy(buf, text_happiness_units(pdialog->pcity));
       break;
