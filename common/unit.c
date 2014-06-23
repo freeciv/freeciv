@@ -1513,13 +1513,12 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
       /* Add in two parts as move_points_text() returns ptr to static
        * End result: "Moves: (fuel)moves_left" */
       astr_add_line(astr, "%s: (%s)", _("Moves"),
-                    move_points_text((rate * f) + punit->moves_left,
-                                     NULL, NULL, FALSE));
+                    move_points_text((rate * f) + punit->moves_left, FALSE));
       astr_add(astr, "%s",
-               move_points_text(punit->moves_left, NULL, NULL, FALSE));
+               move_points_text(punit->moves_left, FALSE));
     } else {
       astr_add_line(astr, "%s: %s", _("Moves"),
-                    move_points_text(punit->moves_left, NULL, NULL, FALSE));
+                    move_points_text(punit->moves_left, FALSE));
     }
     return;
   case ACTIVITY_POLLUTION:

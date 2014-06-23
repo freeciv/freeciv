@@ -1522,7 +1522,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 		    _("(%d/%d/%s)\n%d/%d %s\nnever"),
 		    pUnit->attack_strength,
                     pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, NULL, NULL, FALSE),
+                    move_points_text(pUnit->move_rate, TRUE),
 		    pCity->shield_stock, utype_build_shield_cost(un),
 	  	    PL_("shield","shields", utype_build_shield_cost(un)));
         } else {
@@ -1530,7 +1530,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 		    _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
 		    pUnit->attack_strength,
                     pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, NULL, NULL, FALSE),
+                    move_points_text(pUnit->move_rate, TRUE),
 		    pCity->shield_stock, utype_build_shield_cost(un), 
 	  	    PL_("shield","shields", utype_build_shield_cost(un)),
 		    turns, PL_("turn", "turns", turns));
@@ -1540,7 +1540,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 		    _("(%d/%d/%s)\n%d %s"),
 		    pUnit->attack_strength,
                     pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, NULL, NULL, FALSE),
+                    move_points_text(pUnit->move_rate, TRUE),
 		    utype_build_shield_cost(un),
 		    PL_("shield","shields", utype_build_shield_cost(un)));
       }
