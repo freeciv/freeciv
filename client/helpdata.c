@@ -180,7 +180,7 @@ static bool insert_veteran_help(char *outbuf, size_t outlen,
           name, MAX(0, 25 - (int)get_internal_string_length(name)), "",
           level->power_fact,
           /* e.g. "-    ", "+ 1/3", "+ 1    ", "+ 2 2/3" */
-          move_points_text(level->move_bonus, "+ ", "-", TRUE));
+          move_points_text_full(level->move_bonus, TRUE, "+ ", "-", TRUE));
     }
     return TRUE;
   }
@@ -3145,8 +3145,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                   * fractional part. */
                  _("* Ignores terrain effects (moving costs at most %s MP "
                    "per tile).\n"),
-                 move_points_text(terrain_control.igter_cost,
-                                  NULL, NULL, FALSE));
+                 move_points_text(terrain_control.igter_cost, TRUE));
   }
   if (utype_has_flag(utype, UTYF_IGZOC)) {
     CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));
@@ -3661,7 +3660,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                     * fractional part. */
                    _("* Movement cost along %s is %s MP.\n"),
                    road_name_translation(proad),
-                   move_points_text(proad->move_cost, NULL, NULL, FALSE));
+                   move_points_text(proad->move_cost, TRUE));
     }
   }
 

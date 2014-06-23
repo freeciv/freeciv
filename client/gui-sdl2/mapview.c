@@ -792,7 +792,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                       utype_name_translation(pUType),
                       pUType->attack_strength,
                       pUType->defense_strength,
-                      move_points_text(pUType->move_rate, NULL, NULL, FALSE),
+                      move_points_text(pUType->move_rate, FALSE),
                       (vetname != NULL ? "\n" : ""),
                       (vetname != NULL ? vetname : ""),
                       unit_activity_text(aunit),

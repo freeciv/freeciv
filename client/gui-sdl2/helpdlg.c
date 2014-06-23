@@ -833,8 +833,7 @@ void popup_unit_info(Unit_type_id type_id)
     cat_snprintf(buf, sizeof(buf), "\n%s %d %s %d %s %s\n%s %d %s %d %s %d",
               _("Attack:"), pUnitType->attack_strength,
               _("Defense:"), pUnitType->defense_strength,
-              _("Move:"), move_points_text(pUnitType->move_rate,
-                                           NULL, NULL, FALSE),
+              _("Move:"), move_points_text(pUnitType->move_rate, TRUE),
               _("Vision:"), pUnitType->vision_radius_sq,
               _("FirePower:"), pUnitType->firepower,
               _("Hitpoints:"), pUnitType->hp);

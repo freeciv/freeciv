@@ -765,24 +765,28 @@ void init_move_fragments(void)
 /****************************************************************************
   Render positive movement points as text, including fractional movement
   points, scaled by SINGLE_MOVE. Returns a pointer to a static buffer.
+  'reduce' is whether fractional movement points should be reduced to
+    lowest terms (this might be confusing in some cases).
   'prefix' is a string put in front of all numeric output.
   'none' is the string to display in place of the integer part if no
-  movement points (or NULL to just say 0).
+    movement points (or NULL to just say 0).
   'align' controls whether this is for a fixed-width table, in which case
-  padding spaces will be included to make all such strings line up when
-  right-aligned.
+    padding spaces will be included to make all such strings line up when
+    right-aligned.
 ****************************************************************************/
-const char *move_points_text(int mp, const char *prefix, const char *none,
-                             bool align)
+const char *move_points_text_full(int mp, bool reduce, const char *prefix,
+                                  const char *none, bool align)
 {
   static struct astring str = ASTRING_INIT;
   int pad1, pad2;
 
   if (align && SINGLE_MOVE > 1) {
+    /* Align to worst-case denominator even if we might be reducing to
+     * lowest terms, as other entries in a table might not reduce */
     pad1 = move_points_denomlen;      /* numerator or denominator */
     pad2 = move_points_denomlen*2+2;  /* everything right of integer part */
   } else {
-    /* If no fractional part, no need for alignment even if requested */
+    /* If no possible fractional part, alignment unneeded even if requested */
     pad1 = pad2 = 0;
   }
   if (!prefix) {
@@ -799,28 +803,45 @@ const char *move_points_text(int mp, const char *prefix, const char *none,
     /* Integer move points */
     astr_add(&str, "%s%d%*s", prefix, mp / SINGLE_MOVE, pad2, "");
   } else {
-    /* Fractional part; reduce to lowest terms */
-    int gcd = mp;
+    /* Fractional part */
+    int cancel;
+
     fc_assert(SINGLE_MOVE > 1);
-    {
+    if (reduce) {
+      /* Reduce to lowest terms */
+      int gcd = mp;
       /* Calculate greatest common divisor with Euclid's algorithm */
       int b = SINGLE_MOVE;
+
       while (b != 0) {
         int t = b;
         b = gcd % b;
         gcd = t;
       }
+      cancel = gcd;
+    } else {
+      /* No cancellation */
+      cancel = 1;
     }
     if (mp < SINGLE_MOVE) {
       /* Fractional move points */
       astr_add(&str, "%s%*d/%*d", prefix,
-               pad1, (mp % SINGLE_MOVE) / gcd, pad1, SINGLE_MOVE / gcd);
+               pad1, (mp % SINGLE_MOVE) / cancel, pad1, SINGLE_MOVE / cancel);
     } else {
       /* Integer + fractional move points */
       astr_add(&str,
                "%s%d %*d/%*d", prefix, mp / SINGLE_MOVE,
-               pad1, (mp % SINGLE_MOVE) / gcd, pad1, SINGLE_MOVE / gcd);
+               pad1, (mp % SINGLE_MOVE) / cancel, pad1, SINGLE_MOVE / cancel);
     }
   }
   return astr_str(&str);
+}
+
+/****************************************************************************
+  Simple version of move_points_text_full() -- render positive movement
+  points as text without any prefix or alignment.
+****************************************************************************/
+const char *move_points_text(int mp, bool reduce)
+{
+  return move_points_text_full(mp, reduce, NULL, NULL, FALSE);
 }

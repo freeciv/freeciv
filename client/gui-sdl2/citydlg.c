@@ -719,7 +719,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
                 utype_name_translation(pUType),
                 pUType->attack_strength,
                 pUType->defense_strength,
-                move_points_text(pUType->move_rate, NULL, NULL, FALSE),
+                move_points_text(pUType->move_rate, FALSE),
                 (vetname != NULL ? "\n" : ""),
                 (vetname != NULL ? vetname : ""),
                 unit_activity_text(pUnit),

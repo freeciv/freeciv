@@ -1116,7 +1116,7 @@ void unit_select_dialog_popup(struct tile *ptile)
                   utype_name_translation(pUnitType),
                   pUnitType->attack_strength,
                   pUnitType->defense_strength,
-                  move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                  move_points_text(pUnitType->move_rate, FALSE),
                   unit_activity_text(pUnit));
     } else {
       int att_chance, def_chance;
@@ -1127,7 +1127,7 @@ void unit_select_dialog_popup(struct tile *ptile)
                   utype_name_translation(pUnitType),
                   pUnitType->attack_strength,
                   pUnitType->defense_strength,
-                  move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                  move_points_text(pUnitType->move_rate, FALSE),
                   pUnitType->firepower,
                   (pUnit->hp * 100 / pUnitType->hp + 9) / 10);
 
@@ -1869,7 +1869,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       utype_name_translation(pUnitType),
                       pUnitType->attack_strength,
                       pUnitType->defense_strength,
-                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      move_points_text(pUnitType->move_rate, FALSE),
                       unit_activity_text(pUnit));
 
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
@@ -1887,7 +1887,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       utype_name_translation(pUnitType),
                       pUnitType->attack_strength,
                       pUnitType->defense_strength,
-                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      move_points_text(pUnitType->move_rate, FALSE),
                       pUnitType->firepower,
                       ((pUnit->hp * 100) / pUnitType->hp));
 
@@ -1988,7 +1988,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       utype_name_translation(pUnitType),
                       pUnitType->attack_strength,
                       pUnitType->defense_strength,
-                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      move_points_text(pUnitType->move_rate, FALSE),
                       unit_activity_text(pUnit));
 
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
@@ -2015,7 +2015,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       utype_name_translation(pUnitType),
                       pUnitType->attack_strength,
                       pUnitType->defense_strength,
-                      move_points_text(pUnitType->move_rate, NULL, NULL, FALSE),
+                      move_points_text(pUnitType->move_rate, FALSE),
                       pUnitType->firepower,
                       ((pUnit->hp * 100) / pUnitType->hp));
 
