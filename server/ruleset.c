@@ -2597,10 +2597,20 @@ static bool load_ruleset_terrain(struct section_file *file)
   terrain_control.move_fragments
     = secfile_lookup_int_default(file, 3,
                                  "parameters.move_fragments");
+  if (terrain_control.move_fragments < 1) {
+    ruleset_error(LOG_ERROR, "\"%s\": move_fragments must be at least 1",
+                  filename);
+    ok = FALSE;
+  }
   init_move_fragments();
   terrain_control.igter_cost
     = secfile_lookup_int_default(file, 1,
                                  "parameters.igter_cost");
+  if (terrain_control.igter_cost < 1) {
+    ruleset_error(LOG_ERROR, "\"%s\": igter_cost must be at least 1",
+                  filename);
+    ok = FALSE;
+  }
   map.server.ocean_resources
     = secfile_lookup_bool_default(file, FALSE,
                                   "parameters.ocean_resources");
@@ -2616,213 +2626,214 @@ static bool load_ruleset_terrain(struct section_file *file)
 				   get_output_identifier(o));
   } output_type_iterate_end;
 
-  /* terrain details */
+  if (ok) {
+    /* terrain details */
 
-  terrain_type_iterate(pterrain) {
-    const char **slist;
-    const int i = terrain_index(pterrain);
-    const char *tsection = &terrain_sections[i * MAX_SECTION_LABEL];
-    const char *cstr;
+    terrain_type_iterate(pterrain) {
+      const char **slist;
+      const int i = terrain_index(pterrain);
+      const char *tsection = &terrain_sections[i * MAX_SECTION_LABEL];
+      const char *cstr;
 
-    sz_strlcpy(pterrain->graphic_str,
-	       secfile_lookup_str(file,"%s.graphic", tsection));
-    sz_strlcpy(pterrain->graphic_alt,
-	       secfile_lookup_str(file,"%s.graphic_alt", tsection));
+      sz_strlcpy(pterrain->graphic_str,
+                 secfile_lookup_str(file,"%s.graphic", tsection));
+      sz_strlcpy(pterrain->graphic_alt,
+                 secfile_lookup_str(file,"%s.graphic_alt", tsection));
 
-    pterrain->identifier
-      = secfile_lookup_str(file, "%s.identifier", tsection)[0];
-    if ('\0' == pterrain->identifier) {
-      ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
-                    filename, tsection);
-      ok = FALSE;
-      break;
-    }
-    if (TERRAIN_UNKNOWN_IDENTIFIER == pterrain->identifier) {
-      ruleset_error(LOG_ERROR,
-                    "\"%s\" [%s] cannot use '%c' as an identifier;"
-                    " it is reserved for unknown terrain.",
-                    filename, tsection, pterrain->identifier);
-      ok = FALSE;
-      break;
-    }
-    for (j = T_FIRST; j < i; j++) {
-      if (pterrain->identifier == terrain_by_number(j)->identifier) {
+      pterrain->identifier
+        = secfile_lookup_str(file, "%s.identifier", tsection)[0];
+      if ('\0' == pterrain->identifier) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
+                      filename, tsection);
+        ok = FALSE;
+        break;
+      }
+      if (TERRAIN_UNKNOWN_IDENTIFIER == pterrain->identifier) {
         ruleset_error(LOG_ERROR,
-                      "\"%s\" [%s] has the same identifier as [%s].",
-                      filename,
-                      tsection,
-                      &terrain_sections[j * MAX_SECTION_LABEL]);
+                      "\"%s\" [%s] cannot use '%c' as an identifier;"
+                      " it is reserved for unknown terrain.",
+                      filename, tsection, pterrain->identifier);
         ok = FALSE;
         break;
       }
-    }
+      for (j = T_FIRST; j < i; j++) {
+        if (pterrain->identifier == terrain_by_number(j)->identifier) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" [%s] has the same identifier as [%s].",
+                        filename,
+                        tsection,
+                        &terrain_sections[j * MAX_SECTION_LABEL]);
+          ok = FALSE;
+          break;
+        }
+      }
 
-    if (!ok) {
-      break;
-    }
-
-    cstr = secfile_lookup_str(file, "%s.class", tsection);
-    pterrain->tclass = terrain_class_by_name(cstr, fc_strcasecmp);
-    if (!terrain_class_is_valid(pterrain->tclass)) {
-      ruleset_error(LOG_ERROR, "\"%s\": [%s] unknown class \"%s\"",
-                    filename, tsection, cstr);
-      ok = FALSE;
-      break;
-    }
-
-    if (!secfile_lookup_int(file, &pterrain->movement_cost,
-                            "%s.movement_cost", tsection)
-        || !secfile_lookup_int(file, &pterrain->defense_bonus,
-                               "%s.defense_bonus", tsection)) {
-      ruleset_error(LOG_ERROR, "%s", secfile_error());
-      ok = FALSE;
-      break;
-    }
-
-    output_type_iterate(o) {
-      pterrain->output[o]
-	= secfile_lookup_int_default(file, 0, "%s.%s", tsection,
-				     get_output_identifier(o));
-    } output_type_iterate_end;
-
-    res = secfile_lookup_str_vec(file, &nval, "%s.resources", tsection);
-    pterrain->resources = fc_calloc(nval + 1, sizeof(*pterrain->resources));
-    for (j = 0; j < nval; j++) {
-      pterrain->resources[j] = lookup_resource(filename, res[j], tsection);
-    }
-    pterrain->resources[nval] = NULL;
-    free(res);
-    res = NULL;
-
-    output_type_iterate(o) {
-      pterrain->road_output_incr_pct[o] = secfile_lookup_int_default(file, 0,
-                                                                     "%s.road_%s_incr_pct",
-                                                                     tsection,
-                                                                     get_output_identifier(o));
-    } output_type_iterate_end;
-
-    if (!lookup_time(file, &pterrain->base_time, tsection, "base_time",
-                     filename, NULL, &ok)
-        || !lookup_time(file, &pterrain->road_time, tsection, "road_time",
-                        filename, NULL, &ok)) {
-      ruleset_error(LOG_ERROR, "%s", secfile_error());
-      ok = FALSE;
-      break;
-    }
-
-    pterrain->irrigation_result
-      = lookup_terrain(file, "irrigation_result", pterrain);
-    if (!secfile_lookup_int(file, &pterrain->irrigation_food_incr,
-                            "%s.irrigation_food_incr", tsection)
-        || !lookup_time(file, &pterrain->irrigation_time,
-                        tsection, "irrigation_time", filename, NULL, &ok)) {
-      ruleset_error(LOG_ERROR, "%s", secfile_error());
-      ok = FALSE;
-      break;
-    }
-
-    pterrain->mining_result
-      = lookup_terrain(file, "mining_result", pterrain);
-    if (!secfile_lookup_int(file, &pterrain->mining_shield_incr,
-                            "%s.mining_shield_incr", tsection)
-        || !lookup_time(file, &pterrain->mining_time,
-                        tsection, "mining_time", filename, NULL, &ok)) {
-      ruleset_error(LOG_ERROR, "%s", secfile_error());
-      ok = FALSE;
-      break;
-    }
-
-    pterrain->transform_result
-      = lookup_terrain(file, "transform_result", pterrain);
-    if (!lookup_time(file, &pterrain->transform_time,
-                     tsection, "transform_time", filename, NULL, &ok)) {
-      ruleset_error(LOG_ERROR, "%s", secfile_error());
-      ok = FALSE;
-      break;
-    }
-    pterrain->clean_pollution_time = 3; /* default */
-    lookup_time(file, &pterrain->clean_pollution_time,
-                tsection, "clean_pollution_time", filename, NULL, &ok);
-    pterrain->clean_fallout_time = 3; /* default */
-    lookup_time(file, &pterrain->clean_fallout_time,
-                tsection, "clean_fallout_time", filename, NULL, &ok);
-
-    pterrain->warmer_wetter_result
-      = lookup_terrain(file, "warmer_wetter_result", pterrain);
-    pterrain->warmer_drier_result
-      = lookup_terrain(file, "warmer_drier_result", pterrain);
-    pterrain->cooler_wetter_result
-      = lookup_terrain(file, "cooler_wetter_result", pterrain);
-    pterrain->cooler_drier_result
-      = lookup_terrain(file, "cooler_drier_result", pterrain);
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsection);
-    BV_CLR_ALL(pterrain->flags);
-    for (j = 0; j < nval; j++) {
-      const char *sval = slist[j];
-      enum terrain_flag_id flag
-        = terrain_flag_id_by_name(sval, fc_strcasecmp);
-
-      if (!terrain_flag_id_is_valid(flag)) {
-        ruleset_error(LOG_ERROR, "\"%s\" [%s] has unknown flag \"%s\".",
-                      filename, tsection, sval);
-        ok = FALSE;
+      if (!ok) {
         break;
-      } else {
-	BV_SET(pterrain->flags, flag);
       }
-    }
-    free(slist);
 
-    if (!ok) {
-      break;
-    }
-
-    {
-      enum mapgen_terrain_property mtp;
-      for (mtp = mapgen_terrain_property_begin();
-           mtp != mapgen_terrain_property_end();
-           mtp = mapgen_terrain_property_next(mtp)) {
-        pterrain->property[mtp]
-          = secfile_lookup_int_default(file, 0, "%s.property_%s", tsection,
-                                       mapgen_terrain_property_name(mtp));
-      }
-    }
-
-    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsection);
-    BV_CLR_ALL(pterrain->native_to);
-    for (j = 0; j < nval; j++) {
-      struct unit_class *class = unit_class_by_rule_name(slist[j]);
-
-      if (!class) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" [%s] is native to unknown unit class \"%s\".",
-                      filename, tsection, slist[j]);
-        ok = FALSE;
-        break;
-      } else {
-        BV_SET(pterrain->native_to, uclass_index(class));
-      }
-    }
-    free(slist);
-
-    if (!ok) {
-      break;
-    }
-
-    /* get terrain color */
-    {
-      fc_assert_ret_val(pterrain->rgb == NULL, FALSE);
-      if (!rgbcolor_load(file, &pterrain->rgb, "%s.color", tsection)) {
-        ruleset_error(LOG_ERROR, "Missing terrain color definition: %s",
-                      secfile_error());
+      cstr = secfile_lookup_str(file, "%s.class", tsection);
+      pterrain->tclass = terrain_class_by_name(cstr, fc_strcasecmp);
+      if (!terrain_class_is_valid(pterrain->tclass)) {
+        ruleset_error(LOG_ERROR, "\"%s\": [%s] unknown class \"%s\"",
+                      filename, tsection, cstr);
         ok = FALSE;
         break;
       }
-    }
 
-    pterrain->helptext = lookup_strvec(file, tsection, "helptext");
-  } terrain_type_iterate_end;
+      if (!secfile_lookup_int(file, &pterrain->movement_cost,
+                              "%s.movement_cost", tsection)
+          || !secfile_lookup_int(file, &pterrain->defense_bonus,
+                                 "%s.defense_bonus", tsection)) {
+        ruleset_error(LOG_ERROR, "%s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+
+      output_type_iterate(o) {
+        pterrain->output[o]
+          = secfile_lookup_int_default(file, 0, "%s.%s", tsection,
+                                       get_output_identifier(o));
+      } output_type_iterate_end;
+
+      res = secfile_lookup_str_vec(file, &nval, "%s.resources", tsection);
+      pterrain->resources = fc_calloc(nval + 1, sizeof(*pterrain->resources));
+      for (j = 0; j < nval; j++) {
+        pterrain->resources[j] = lookup_resource(filename, res[j], tsection);
+      }
+      pterrain->resources[nval] = NULL;
+      free(res);
+      res = NULL;
+
+      output_type_iterate(o) {
+        pterrain->road_output_incr_pct[o]
+          = secfile_lookup_int_default(file, 0, "%s.road_%s_incr_pct",
+                                       tsection, get_output_identifier(o));
+      } output_type_iterate_end;
+
+      if (!lookup_time(file, &pterrain->base_time, tsection, "base_time",
+                       filename, NULL, &ok)
+          || !lookup_time(file, &pterrain->road_time, tsection, "road_time",
+                          filename, NULL, &ok)) {
+        ruleset_error(LOG_ERROR, "%s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+
+      pterrain->irrigation_result
+        = lookup_terrain(file, "irrigation_result", pterrain);
+      if (!secfile_lookup_int(file, &pterrain->irrigation_food_incr,
+                              "%s.irrigation_food_incr", tsection)
+          || !lookup_time(file, &pterrain->irrigation_time,
+                          tsection, "irrigation_time", filename, NULL, &ok)) {
+        ruleset_error(LOG_ERROR, "%s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+
+      pterrain->mining_result
+        = lookup_terrain(file, "mining_result", pterrain);
+      if (!secfile_lookup_int(file, &pterrain->mining_shield_incr,
+                              "%s.mining_shield_incr", tsection)
+          || !lookup_time(file, &pterrain->mining_time,
+                          tsection, "mining_time", filename, NULL, &ok)) {
+        ruleset_error(LOG_ERROR, "%s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+
+      pterrain->transform_result
+        = lookup_terrain(file, "transform_result", pterrain);
+      if (!lookup_time(file, &pterrain->transform_time,
+                       tsection, "transform_time", filename, NULL, &ok)) {
+        ruleset_error(LOG_ERROR, "%s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      pterrain->clean_pollution_time = 3; /* default */
+      lookup_time(file, &pterrain->clean_pollution_time,
+                  tsection, "clean_pollution_time", filename, NULL, &ok);
+      pterrain->clean_fallout_time = 3; /* default */
+      lookup_time(file, &pterrain->clean_fallout_time,
+                  tsection, "clean_fallout_time", filename, NULL, &ok);
+
+      pterrain->warmer_wetter_result
+        = lookup_terrain(file, "warmer_wetter_result", pterrain);
+      pterrain->warmer_drier_result
+        = lookup_terrain(file, "warmer_drier_result", pterrain);
+      pterrain->cooler_wetter_result
+        = lookup_terrain(file, "cooler_wetter_result", pterrain);
+      pterrain->cooler_drier_result
+        = lookup_terrain(file, "cooler_drier_result", pterrain);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsection);
+      BV_CLR_ALL(pterrain->flags);
+      for (j = 0; j < nval; j++) {
+        const char *sval = slist[j];
+        enum terrain_flag_id flag
+          = terrain_flag_id_by_name(sval, fc_strcasecmp);
+
+        if (!terrain_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_ERROR, "\"%s\" [%s] has unknown flag \"%s\".",
+                        filename, tsection, sval);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pterrain->flags, flag);
+        }
+      }
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
+
+      {
+        enum mapgen_terrain_property mtp;
+        for (mtp = mapgen_terrain_property_begin();
+             mtp != mapgen_terrain_property_end();
+             mtp = mapgen_terrain_property_next(mtp)) {
+          pterrain->property[mtp]
+            = secfile_lookup_int_default(file, 0, "%s.property_%s", tsection,
+                                         mapgen_terrain_property_name(mtp));
+        }
+      }
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsection);
+      BV_CLR_ALL(pterrain->native_to);
+      for (j = 0; j < nval; j++) {
+        struct unit_class *class = unit_class_by_rule_name(slist[j]);
+
+        if (!class) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" [%s] is native to unknown unit class \"%s\".",
+                        filename, tsection, slist[j]);
+          ok = FALSE;
+          break;
+        } else {
+          BV_SET(pterrain->native_to, uclass_index(class));
+        }
+      }
+      free(slist);
+
+      if (!ok) {
+        break;
+      }
+
+      /* get terrain color */
+      {
+        fc_assert_ret_val(pterrain->rgb == NULL, FALSE);
+        if (!rgbcolor_load(file, &pterrain->rgb, "%s.color", tsection)) {
+          ruleset_error(LOG_ERROR, "Missing terrain color definition: %s",
+                        secfile_error());
+          ok = FALSE;
+          break;
+        }
+      }
+
+      pterrain->helptext = lookup_strvec(file, tsection, "helptext");
+    } terrain_type_iterate_end;
+  }
 
   if (ok) {
     /* resource details */
