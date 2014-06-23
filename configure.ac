@@ -472,7 +472,9 @@ AC_CHECK_PROG(UNAME,uname,uname,:)
 AC_CHECK_SIZEOF([int])
 
 dnl Programs already checked by AM_INIT_AUTOMAKE:
-dnl  AC_PROG_MAKE_SET
+dnl
+dnl AC_PROG_MAKE_SET required with automake-ng
+AC_PROG_MAKE_SET
 
 dnl Check for libiconv (which is usually included in glibc, but may be
 dnl distributed separately).  The libcharset check must come after the
