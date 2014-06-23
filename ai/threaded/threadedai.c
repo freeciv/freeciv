@@ -128,10 +128,11 @@ static void twai_control_lost(struct player *pplayer)
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
-static void twai_split_by_civil_war(struct player *pplayer)
+static void twai_split_by_civil_war(struct player *original,
+                                    struct player *created)
 {
   TAI_AIT;
-  TAI_DFUNC(dai_assess_danger_player, pplayer);
+  TAI_DFUNC(dai_assess_danger_player, original);
 }
 
 /**************************************************************************

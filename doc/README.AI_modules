@@ -6,6 +6,7 @@ CONTENTS
 2. Using freeciv built with AI-modules support
 3. Building freeciv with AI-modules support
 4. Coding new AI module
+5. Callback interface ChangeLog
 
 
 1. Default build
@@ -89,3 +90,13 @@ bool fc_ai_<modulename>_setup(struct ai_type *ai)
 
 For "--LoadAI <modulename>" to find the AI module, it must reside in ${libdir}/fcai/
 (/usr/lib/fcai by default) under name fc_ai_<modulename>.so
+
+
+5. Callback interface ChangeLog
+-------------------------------
+
+New in Freeciv 2.6:
+-------------------
+- Added created_by_civil_war, called for AI type of the player who got created from
+  civil war
+- Added "created" player parameter to split_by_civil_war

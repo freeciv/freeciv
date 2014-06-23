@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2014.Feb.25"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2014.Jun.20"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -76,7 +76,10 @@ struct ai_type
     void (*lost_control)(struct player *pplayer);
 
     /* Called for AI type of the player who gets split to two. */
-    void (*split_by_civil_war)(struct player *pplayer);
+    void (*split_by_civil_war)(struct player *original, struct player *created);
+
+   /* Called for AI type of the player who got created from the split. */
+    void (*created_by_civil_war)(struct player *original, struct player *created);
 
     /* Called for player AI type when player phase begins. This is in the
      * beginning of phase setup. See also first_activities. */

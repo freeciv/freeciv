@@ -2448,9 +2448,8 @@ static struct player *split_player(struct player *pplayer)
   adv_data_phase_init(cplayer, TRUE);
   CALL_PLR_AI_FUNC(phase_begin, cplayer, cplayer, TRUE);
   CALL_PLR_AI_FUNC(gained_control, cplayer, cplayer);
-  if (pplayer->ai_controlled) {
-    CALL_PLR_AI_FUNC(split_by_civil_war, pplayer, pplayer);
-  }
+  CALL_PLR_AI_FUNC(split_by_civil_war, pplayer, pplayer, cplayer);
+  CALL_PLR_AI_FUNC(created_by_civil_war, cplayer, pplayer, cplayer);
 
   return cplayer;
 }
