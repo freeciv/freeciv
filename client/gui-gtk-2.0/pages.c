@@ -114,6 +114,7 @@ static void start_new_game_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void start_scenario_callback(GtkWidget *w, gpointer data)
 {
+  output_window_append(ftc_client, _("Compiling scenario list."));
   client_start_server_and_set_page(PAGE_SCENARIO);
 }
 
