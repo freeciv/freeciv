@@ -1956,16 +1956,11 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
       return FALSE;
     }
     /* if we're not at home continent */
-    if (src != src_home_city) {
+    if (tile_continent(src) != tile_continent(src_home_city)) {
       return FALSE;
     }
 
-    required_boat = (tile_continent(src) == 
-                     tile_continent(dest)) ? FALSE : TRUE;
-    if (utype_move_type(unit_type(punit)) != UMT_LAND) {
-      /* Can travel on ocean itself */
-      required_boat = FALSE;
-    }
+    required_boat = goto_is_sane(punit, dest);
 
     if (required_boat) {
       if (unit_transported(punit)) {
