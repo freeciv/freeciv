@@ -125,8 +125,6 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
                                  struct unit *punit,
 				 enum override_bool *result);
 
-enum unit_move_type dai_uclass_move_type(const struct unit_class *pclass);
-
 void dai_units_ruleset_init(struct ai_type *ait);
 void dai_units_ruleset_close(struct ai_type *ait);
 
