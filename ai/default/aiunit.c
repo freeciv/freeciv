@@ -3165,3 +3165,20 @@ struct unit_type *dai_role_utype_for_move_type(struct city *pcity, int role,
 
   return role_units_iterate_backwards(role, role_unit_cb, &cb_data);
 }
+
+bool dai_unit_can_strike_my_unit(const struct unit *attacker,
+                                 const struct unit *defender)
+{
+  bool able_to_strike = FALSE;
+  struct pf_reverse_map *pfrm;
+
+  pfrm  = pf_reverse_map_new(unit_owner(defender), unit_tile(defender), 1,
+                             !has_handicap( unit_owner(defender), H_MAP));
+  if (pf_reverse_map_unit_move_cost(pfrm, attacker) < attacker->moves_left) {
+    able_to_strike = TRUE;
+  }
+
+  pf_reverse_map_destroy(pfrm);
+
+  return able_to_strike;
+}

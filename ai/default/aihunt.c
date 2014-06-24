@@ -314,7 +314,6 @@ static void dai_hunter_try_launch(struct ai_type *ait,
           continue;
         }
         unit_list_iterate(ptile->units, victim) {
-          struct unit_type *ut = unit_type(victim);
           enum diplstate_type ds =
 	    player_diplstate_get(pplayer, unit_owner(victim))->type;
 
@@ -328,11 +327,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
                      move_cost);
             break; /* Our target! Get him!!! */
           }
-          if (ut->move_rate + victim->moves_left > move_cost
-              && ATTACK_POWER(victim) > DEFENCE_POWER(punit)
-              && (utype_move_type(ut) == UMT_SEA
-                  || utype_move_type(ut) == UMT_BOTH)) {
-            /* Threat to our carrier. Kill it. */
+          if (ATTACK_POWER(victim) > DEFENCE_POWER(punit)
+              && dai_unit_can_strike_my_unit(victim, punit)) {
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",
                      victim->id, TILE_XY(unit_tile(victim)));
