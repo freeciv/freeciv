@@ -1285,6 +1285,20 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   pcity = create_city_virtual(pplayer, ptile, name);
 
+  /* Remove units no more seen. Do it before city is really put into the
+   * game. */
+  players_iterate(other_player) {
+    if (can_player_see_units_in_city(other_player, pcity)
+        || !map_is_known_and_seen(ptile, other_player, V_MAIN)) {
+      continue;
+    }
+    unit_list_iterate(ptile->units, punit) {
+      if (can_player_see_unit(other_player, punit)) {
+        unit_goes_out_of_sight(other_player, punit);
+      }
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
   adv_city_alloc(pcity);
 
   tile_set_owner(ptile, pplayer, ptile); /* temporarily */
@@ -1555,6 +1569,22 @@ dbv_free(&tile_processed);
   pcity->server.vision = NULL;
   script_server_remove_exported_object(pcity);
   adv_city_free(pcity);
+
+  /* Remove city from the map. */
+  tile_set_worked(pcenter, NULL);
+
+  /* Reveal units. */
+  players_iterate(other_player) {
+    if (can_player_see_units_in_city(other_player, pcity)
+        || !map_is_known_and_seen(pcenter, other_player, V_MAIN)) {
+      continue;
+    }
+    unit_list_iterate(pcenter->units, punit) {
+      if (can_player_see_unit(other_player, punit)) {
+        send_unit_info(other_player, punit);
+      }
+    } unit_list_iterate_end;
+  } players_iterate_end;
 
   fc_allocate_mutex(&game.server.mutexes.city_list);
   game_remove_city(pcity);

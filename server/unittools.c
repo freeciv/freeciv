@@ -1513,6 +1513,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 **************************************************************************/
 static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
 {
+  struct packet_unit_remove packet;
   struct tile *ptile = unit_tile(punit);
   struct city *pcity = tile_city(ptile);
   struct city *phomecity = game_city_by_number(punit->homecity);
@@ -1538,22 +1539,17 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
      the settler disappear on the way. */
   adv_unit_new_task(punit, AUT_NONE, NULL);
 
+  packet.unit_id = punit->id;
+  /* Send to onlookers. */
+  players_iterate(aplayer) {
+    if (can_player_see_unit(aplayer, punit)) {
+      lsend_packet_unit_remove(aplayer->connections, &packet);
+    }
+  } players_iterate_end;
+  /* Send to global observers. */
   conn_list_iterate(game.est_connections, pconn) {
-    if ((NULL == pconn->playing && pconn->observer)
-	|| (NULL != pconn->playing
-            && map_is_known_and_seen(ptile, pconn->playing, V_MAIN))) {
-      /* FIXME: this sends the remove packet to all players, even those who
-       * can't see the unit.  This potentially allows some limited cheating.
-       * However fixing it requires changes elsewhere since sometimes the
-       * client is informed about unit disappearance only after the unit
-       * disappears.  For instance when building a city the settler unit
-       * is wiped only after the city is built...at which point the settler
-       * is already "hidden" inside the city and can_player_see_unit would
-       * return FALSE.  One possible solution is to have a bv_player for
-       * each unit to record which players (clients) currently know about
-       * the unit; then we could just use a BV_TEST here and not have to
-       * worry about any synchronization problems. */
-      dsend_packet_unit_remove(pconn, punit->id);
+    if (conn_is_global_observer(pconn)) {
+      send_packet_unit_remove(pconn, &packet);
     }
   } conn_list_iterate_end;
 
