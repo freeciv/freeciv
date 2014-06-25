@@ -1620,6 +1620,9 @@ dbv_free(&tile_processed);
   vision_clear_sight(old_vision);
   vision_free(old_vision);
 
+  /* Infrastructures may have changed. */
+  send_tile_info(NULL, pcenter, FALSE);
+
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.server.savepalace) {
