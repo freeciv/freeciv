@@ -1582,6 +1582,12 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
      the settler disappear on the way. */
   adv_unit_new_task(punit, AUT_NONE, NULL);
 
+  /* Clear the vision before sending unit remove. Else, we might duplicate
+   * the PACKET_UNIT_REMOVE if we lose vision of the unit tile. */
+  vision_clear_sight(punit->server.vision);
+  vision_free(punit->server.vision);
+  punit->server.vision = NULL;
+
   packet.unit_id = punit->id;
   /* Send to onlookers. */
   players_iterate(aplayer) {
@@ -1595,10 +1601,6 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
       send_packet_unit_remove(pconn, &packet);
     }
   } conn_list_iterate_end;
-
-  vision_clear_sight(punit->server.vision);
-  vision_free(punit->server.vision);
-  punit->server.vision = NULL;
 
   /* check if this unit had UTYF_GAMELOSS flag */
   if (unit_has_type_flag(punit, UTYF_GAMELOSS) && unit_owner(punit)->is_alive) {
