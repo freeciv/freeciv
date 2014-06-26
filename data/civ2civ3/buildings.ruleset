@@ -1877,7 +1877,9 @@ reqs	=
     }
 graphic	= "b.womens_suffrage"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 600
 upkeep		= 0
 sabotage	= 0
@@ -1902,7 +1904,9 @@ reqs	=
     }
 graphic	= "b.capitalization"
 graphic_alt	= "-"
-obsolete_by	= "None"
+obsolete_by	=
+    { "type", "name", "range"
+    }
 build_cost	= 999
 upkeep		= 0
 sabotage	= 0
