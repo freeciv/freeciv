@@ -240,7 +240,7 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
   }
 
   return draw_icon_from_theme(pIcon->theme, get_wstate(pIcon), pIcon->dst,
-			      pIcon->size.x, pIcon->size.y);
+                              pIcon->size.x, pIcon->size.y);
 }
 
 /**************************************************************************
@@ -249,7 +249,7 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
 
   Graphic is taken from pIcon_theme surface.
 
-  Type of Icon depend of "state" parametr.
+  Type of Icon depend of "state" parameter.
     state = 0 - normal
     state = 1 - selected
     state = 2 - pressed
@@ -266,7 +266,6 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
   if (!pIcon_theme) {
     return -3;
   }
-  /* src.x = 0 + pIcon_theme->w/4 * state */
   src.x = 0 + (pIcon_theme->w / 4) * state;
   src.y = 0;
   src.w = pIcon_theme->w / 4;

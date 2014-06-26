@@ -837,74 +837,68 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           if (!pEnd) {
             pEnd = pBuf;
           }
-    
+
           if (++n > num_w * num_h) {
-             set_wflag(pBuf, WF_HIDDEN);
+            set_wflag(pBuf, WF_HIDDEN);
           }
 
           if (unit_owner(aunit) == client.conn.playing) {
             set_wstate(pBuf, FC_WS_NORMAL);
           }
-    
+
           pBuf->action = fucus_units_info_callback;
-    
-	} unit_list_iterate_end;	  
-	    
-	pDlg->pBeginActiveWidgetList = pBuf;
-	pDlg->pEndActiveWidgetList = pEnd;
-	pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
-	  	  	  
-	if (n > num_w * num_h) {
-    
-	  if (!pDlg->pScroll) {
-            
+
+	} unit_list_iterate_end;
+
+        pDlg->pBeginActiveWidgetList = pBuf;
+        pDlg->pEndActiveWidgetList = pEnd;
+        pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
+
+        if (n > num_w * num_h) {
+          if (!pDlg->pScroll) {
             create_vertical_scrollbar(pDlg, num_w, num_h, FALSE, TRUE);
-          
-	  } else {
-	    pDlg->pScroll->active = num_h;
+          } else {
+            pDlg->pScroll->active = num_h;
             pDlg->pScroll->step = num_w;
             pDlg->pScroll->count = n;
-	    show_scrollbar(pDlg->pScroll);
-	  }
-	    
-	  /* create up button */
+            show_scrollbar(pDlg->pScroll);
+	 }
+
+          /* create up button */
           pBuf = pDlg->pScroll->pUp_Left_Button;
           pBuf->size.x = pInfo_Window->area.x + pInfo_Window->area.w - pBuf->size.w;
           pBuf->size.y = pInfo_Window->area.y + sy +
-                         (pInfo_Window->size.h - sy - num_h * 52) / 2;
+            (pInfo_Window->size.h - sy - num_h * 52) / 2;
           pBuf->size.h = (num_h * 52) / 2;
-        
+
           /* create down button */
           pBuf = pDlg->pScroll->pDown_Right_Button;
           pBuf->size.x = pDlg->pScroll->pUp_Left_Button->size.x;
           pBuf->size.y = pDlg->pScroll->pUp_Left_Button->size.y +
-	      			pDlg->pScroll->pUp_Left_Button->size.h;
+            pDlg->pScroll->pUp_Left_Button->size.h;
           pBuf->size.h = pDlg->pScroll->pUp_Left_Button->size.h;
-	    	    
         } else {
-	  if (pDlg->pScroll) {
-	    hide_scrollbar(pDlg->pScroll);
-	  }
-	  num_h = (n + num_w - 1) / num_w;
-	}
-	  
-	setup_vertical_widgets_position(num_w,
-          pInfo_Window->area.x + BLOCKU_W + adj_size(2),
-			pInfo_Window->size.y + sy +
-	  			(pInfo_Window->size.h - sy - num_h * 52) / 2,
-	  		0, 0, pDlg->pBeginActiveWidgetList,
-			  pDlg->pEndActiveWidgetList);
-	  	  
+          if (pDlg->pScroll) {
+            hide_scrollbar(pDlg->pScroll);
+          }
+          num_h = (n + num_w - 1) / num_w;
+        }
+
+        setup_vertical_widgets_position(num_w,
+                                        pInfo_Window->area.x + BLOCKU_W + adj_size(2),
+                                        pInfo_Window->size.y + sy +
+                                        (pInfo_Window->size.h - sy - num_h * 52) / 2,
+                                        0, 0, pDlg->pBeginActiveWidgetList,
+                                        pDlg->pEndActiveWidgetList);
       } else {
-	if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
-	  del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
-	    		pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
-	}
-	if (pInfo_Window->private_data.adv_dlg->pScroll) {
-	  hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
-	}
+        if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
+          del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
+                    pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
+        }
+        if (pInfo_Window->private_data.adv_dlg->pScroll) {
+          hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
+        }
       }
-    
     } else { /* pUnit */
 
       if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
@@ -917,6 +911,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       if (NULL != client.conn.playing) {
         char buf[256];
+
         fc_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
                     _("End of Turn"), _("Press"), _("Shift+Return"));
         pStr = create_str16_from_char(buf, adj_font(14));
@@ -924,7 +919,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
         buf_surf = create_text_surf_from_str16(pStr);
         area.x = pInfo_Window->size.x + BLOCKU_W +
-                          (pInfo_Window->size.w - BLOCKU_W - buf_surf->w)/2;
+          (pInfo_Window->size.w - BLOCKU_W - buf_surf->w)/2;
         area.y = pInfo_Window->size.y + (pInfo_Window->size.h - buf_surf->h)/2;
         alphablit(buf_surf, NULL, pInfo_Window->dst->surface, &area, 255);
         FREESURFACE(buf_surf);

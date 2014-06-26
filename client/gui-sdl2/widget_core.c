@@ -90,18 +90,17 @@ enum widget_flag get_wflags(const struct widget *pWidget)
 void widget_free(struct widget **pWidget)
 {
   struct widget *pGUI = *pWidget;
-  
-  if ((get_wflags(pGUI) & WF_FREE_STRING) == WF_FREE_STRING) {
+
+  if (get_wflags(pGUI) & WF_FREE_STRING) {
     FREESTRING16(pGUI->string16);
   }
-  if ((get_wflags(pGUI) & WF_WIDGET_HAS_INFO_LABEL)
-      == WF_WIDGET_HAS_INFO_LABEL) {
+  if (get_wflags(pGUI) & WF_WIDGET_HAS_INFO_LABEL) {
     FREESTRING16(pGUI->info_label);
   }
-  if ((get_wflags(pGUI) & WF_FREE_GFX) == WF_FREE_GFX) {
+  if (get_wflags(pGUI) & WF_FREE_GFX) {
     FREESURFACE(pGUI->gfx);
   }
-  if ((get_wflags(pGUI) & WF_FREE_THEME) == WF_FREE_THEME) {
+  if (get_wflags(pGUI) & WF_FREE_THEME) {
     if (get_wtype(pGUI) == WT_CHECKBOX) {
       FREESURFACE(pGUI->private_data.cbox->pTRUE_Theme);
       FREESURFACE(pGUI->private_data.cbox->pFALSE_Theme);
@@ -109,13 +108,13 @@ void widget_free(struct widget **pWidget)
       FREESURFACE(pGUI->theme);
     }
   }
-  if ((get_wflags(pGUI) & WF_FREE_THEME2) == WF_FREE_THEME2) {
+  if (get_wflags(pGUI) & WF_FREE_THEME2) {
     FREESURFACE(pGUI->theme2);
   }
-  if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {
+  if (get_wflags(pGUI) & WF_FREE_DATA) {
     FC_FREE(pGUI->data.ptr);
   }
-  if ((get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) == WF_FREE_PRIVATE_DATA) {
+  if (get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) {
     FC_FREE(pGUI->private_data.ptr);
   }
   if (NULL != pGUI->destroy) {
@@ -139,7 +138,7 @@ static void widget_core_set_area(struct widget *pwidget, SDL_Rect area)
 static void widget_core_set_position(struct widget *pwidget, int x, int y)
 {
   pwidget->size.x = x;
-  pwidget->size.y = y;    
+  pwidget->size.y = y;
 }
 
 /**************************************************************************
@@ -148,7 +147,7 @@ static void widget_core_set_position(struct widget *pwidget, int x, int y)
 static void widget_core_resize(struct widget *pwidget, int w, int h)
 {
   pwidget->size.w = w;
-  pwidget->size.h = h;    
+  pwidget->size.h = h;
 }
 
 /**************************************************************************
@@ -159,15 +158,15 @@ static int widget_core_redraw(struct widget *pwidget)
   if (!pwidget || (get_wflags(pwidget) & WF_HIDDEN)) {
     return -1;
   }
-  
+
   if (pwidget->gfx) {
     widget_undraw(pwidget);
   }
-  
+
   if (!pwidget->gfx && (get_wflags(pwidget) & WF_RESTORE_BACKGROUND)) {
     refresh_widget_background(pwidget);
   }
-  
+
   return 0;
 }
 
@@ -205,7 +204,7 @@ static void widget_core_flush(struct widget *pwidget)
     pwidget->size.w,
     pwidget->size.h
   };
-  
+
   flush_rect(rect, FALSE);
 }
 
@@ -260,6 +259,6 @@ struct widget *widget_new()
   pWidget->undraw = widget_core_undraw;
   pWidget->select = widget_core_select;
   pWidget->unselect = widget_core_unselect;
-  
+
   return pWidget;
 }

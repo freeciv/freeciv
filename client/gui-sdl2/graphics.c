@@ -180,7 +180,7 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
 {
   int ret;
 
-  if (!(src && dst)) {
+  if (src == NULL || dst == NULL) {
     return 1;
   }
 
@@ -3297,7 +3297,7 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
   If 'absolute_dimensions' is TRUE, the function returns a surface with the
   dimensions of the box and the scaled/original surface centered in it. 
 **************************************************************************/
-SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
+SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
                               Uint16 new_width, Uint16 new_height, int smooth,
                               bool scale_up, bool absolute_dimensions)
 {
