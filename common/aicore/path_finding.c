@@ -3094,11 +3094,73 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
  * units needs to reach the start tile. It stores a pf_map for every unit
  * type. */
 
+static genhash_val_t pf_map_hash_val(const struct pf_parameter *parameter);
+static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
+                            const struct pf_parameter *parameter2);
+
+#define SPECHASH_TAG pf_map
+#define SPECHASH_IKEY_TYPE struct pf_parameter *
+#define SPECHASH_IDATA_TYPE struct pf_map *
+#define SPECHASH_IKEY_VAL pf_map_hash_val
+#define SPECHASH_IKEY_COMP pf_map_hash_cmp
+#define SPECHASH_IDATA_FREE pf_map_destroy
+#include "spechash.h"
+
 /* The reverse map structure. */
 struct pf_reverse_map {
   struct pf_parameter param;    /* Keep a parameter ready for usage. */
-  struct pf_map **maps;         /* A vector of pf_map for every unit_type. */
+  struct pf_map_hash *hash;     /* A hash where pf_map are stored. */
 };
+
+/* Here goes all unit type flags which affect the move rules handled by
+ * the reverse map. */
+static const enum unit_type_flag_id signifiant_flags[] = {
+  UTYF_IGTER
+};
+static const size_t signifiant_flags_num = ARRAY_SIZE(signifiant_flags);
+
+/****************************************************************************
+  Hash function for pf_parameter key.
+****************************************************************************/
+static genhash_val_t pf_map_hash_val(const struct pf_parameter *parameter)
+{
+  genhash_val_t result = 0;
+  size_t b, i;
+
+  for (i = 0, b = sizeof(result) * 8 - 1; i < signifiant_flags_num;
+       i++, b--) {
+    if (BV_ISSET(parameter->unit_flags, signifiant_flags[i])) {
+      result |= (1 << b);
+    }
+  }
+
+  return (result
+          + uclass_number(parameter->uclass)
+          + (parameter->move_rate << 6));
+}
+
+/****************************************************************************
+  Comparison function for pf_parameter hash key.
+****************************************************************************/
+static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
+                            const struct pf_parameter *parameter2)
+{
+  size_t i;
+
+  if (parameter1->uclass != parameter2->uclass
+      || parameter1->move_rate != parameter2->move_rate) {
+    return FALSE;
+  }
+
+  for (i = 0; i < signifiant_flags_num; i++) {
+    if (BV_ISSET(parameter1->unit_flags, signifiant_flags[i])
+        != BV_ISSET(parameter2->unit_flags, signifiant_flags[i])) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
 
 /****************************************************************************
   This function estime the cost for unit moves to reach the start tile.
@@ -3155,10 +3217,13 @@ struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
   param->start_tile = start_tile;
   param->owner = pplayer;
   param->omniscience = omniscient;
+  /* We don't deal with re-fuel points. */
+  param->fuel = 1;
+  param->fuel_left_initially = 1;
   param->data = FC_INT_TO_PTR(max_turns);
 
-  /* Initialize the map vector. */
-  pfrm->maps = fc_calloc(utype_count(), sizeof(*pfrm->maps));
+  /* Initialize the map hash. */
+  pfrm->hash = pf_map_hash_new();
 
   return pfrm;
 }
@@ -3179,17 +3244,9 @@ struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
 ****************************************************************************/
 void pf_reverse_map_destroy(struct pf_reverse_map *pfrm)
 {
-  struct pf_map **ppfm;
-  size_t i;
-
   fc_assert_ret(NULL != pfrm);
 
-  for (i = 0, ppfm = pfrm->maps; i < utype_count(); i++, ppfm++) {
-    if (NULL != *ppfm) {
-      pf_map_destroy(*ppfm);
-    }
-  }
-  free(pfrm->maps);
+  pf_map_hash_destroy(pfrm->hash);
   free(pfrm);
 }
 
@@ -3200,32 +3257,28 @@ static inline struct pf_map *
 pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
                          const struct unit_type *punittype)
 {
-  Unit_type_id index = utype_index(punittype);
-  struct pf_map *pfm = pfrm->maps[index];
+  struct pf_map *pfm;
+  struct pf_parameter *param;
+  int max_turns;
 
-  if (NULL == pfm) {
-    struct pf_parameter *param = &pfrm->param;
-    int max_turns = FC_PTR_TO_INT(param->data);
+  param = &pfrm->param;
+  param->uclass = utype_class(punittype);
+  param->unit_flags = punittype->flags;
+  param->move_rate = punittype->move_rate;
+  param->moves_left_initially = punittype->move_rate;
 
-    /* Not created yet. */
-    param->uclass = utype_class(punittype);
-    param->unit_flags = punittype->flags;
-    param->move_rate = punittype->move_rate;
-    param->moves_left_initially = punittype->move_rate;
-    if (utype_fuel(punittype)) {
-      param->fuel = utype_fuel(punittype);
-      param->fuel_left_initially = utype_fuel(punittype);
-    } else {
-      param->fuel = 1;
-      param->fuel_left_initially = 1;
-    }
-    pfm = pf_map_new(param);
-    pfm->params.data =
-        FC_INT_TO_PTR(0 <= max_turns && FC_INFINITY > max_turns
-                      ? max_turns * param->move_rate : FC_INFINITY);
-    pfrm->maps[index] = pfm;
+  if (pf_map_hash_lookup(pfrm->hash, param, &pfm)) {
+    fc_assert(NULL != pfm);
+    return pfm;
   }
 
+  /* Build map. */
+  max_turns = FC_PTR_TO_INT(param->data);
+  pfm = pf_map_new(param);
+  pfm->params.data =
+      FC_INT_TO_PTR(0 <= max_turns && FC_INFINITY > max_turns
+                    ? max_turns * param->move_rate : FC_INFINITY);
+  pf_map_hash_insert(pfrm->hash, &pfm->params, pfm);
   return pfm;
 }
 
