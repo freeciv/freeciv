@@ -75,7 +75,6 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/gtk2-client.m4		\
 		m4/gtk3-client.m4		\
 		m4/iconv.m4			\
-		m4/lcmessage.m4			\
 		m4/lib-ld.m4			\
 		m4/lib-link.m4			\
 		m4/lib-prefix.m4		\
