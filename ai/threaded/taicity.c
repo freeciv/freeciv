@@ -196,8 +196,8 @@ void tai_req_worker_task_rcv(struct tai_req *req)
 
     log_debug("%s storing req for act %d at (%d,%d)",
               pcity->name, data->task.act, TILE_XY(data->task.ptile));
-    pcity->server.task_req.ptile = data->task.ptile;
-    pcity->server.task_req.act   = data->task.act;
-    pcity->server.task_req.tgt   = data->task.tgt;
+    pcity->task_req.ptile = data->task.ptile;
+    pcity->task_req.act   = data->task.act;
+    pcity->task_req.tgt   = data->task.tgt;
   }
 }

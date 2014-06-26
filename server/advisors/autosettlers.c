@@ -635,7 +635,7 @@ static int settler_evaluate_city_requests(struct unit *punit,
 
   /* Have nearby cities requests? */
   city_list_iterate(pplayer->cities, pcity) {
-    struct worker_task *ptask = &pcity->server.task_req;
+    struct worker_task *ptask = &pcity->task_req;
 
     if (ptask->ptile != NULL) {
       bool consider = TRUE;

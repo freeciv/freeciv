@@ -384,6 +384,8 @@ struct city {
 
   int history;                 /* Cumulative culture */
 
+  struct worker_task task_req;
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */
@@ -415,8 +417,6 @@ struct city {
       void *ais[FC_AI_LAST];
 
       struct vision *vision;
-
-      struct worker_task task_req;
     } server;
 
     struct {

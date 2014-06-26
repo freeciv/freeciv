@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 240
+Max id: 241
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -718,6 +718,14 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   UNIT diplomat_id;
   CITY city_id;
   BV_IMPRS improvements;
+end
+
+PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
+  CITY city_id;
+  TILE tile_id;
+  ACTIVITY activity;
+  EXTRA  tgt;
+  UINT16 want;
 end
 
 /************** Player packets **********************/

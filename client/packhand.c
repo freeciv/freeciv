@@ -1066,6 +1066,25 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 }
 
 /**************************************************************************
+  Handle worker task assigned to the city
+**************************************************************************/
+void handle_worker_task(const struct packet_worker_task *packet)
+{
+  struct city *pcity = game_city_by_number(packet->city_id);
+
+  if (pcity == NULL || pcity->owner != client.conn.playing) {
+    return;
+  }
+
+  /* It's ok for the tile to be NULL. That means clearing
+   * existing worker task. */
+  pcity->task_req.ptile = index_to_tile(packet->tile_id);
+  pcity->task_req.act = packet->activity;
+  pcity->task_req.tgt = extra_by_number(packet->tgt);
+  pcity->task_req.want = packet->want;
+}
+
+/**************************************************************************
   Handle turn and year advancement.
 **************************************************************************/
 void handle_new_year(int year, int turn)

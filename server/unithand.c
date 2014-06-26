@@ -2488,3 +2488,25 @@ void handle_unit_orders(struct player *pplayer,
     send_unit_info(NULL, punit);
   }
 }
+
+/**************************************************************************
+  Handle worker task assigned to the city
+**************************************************************************/
+void handle_worker_task(struct player *pplayer,
+                        const struct packet_worker_task *packet)
+{
+  struct city *pcity = game_city_by_number(packet->city_id);
+
+  if (pcity == NULL || pcity->owner != pplayer) {
+    return;
+  }
+
+  /* It's ok for the tile to be NULL. That means clearing
+   * existing worker task. */
+  pcity->task_req.ptile = index_to_tile(packet->tile_id);
+  pcity->task_req.act = packet->activity;
+  pcity->task_req.tgt = extra_by_number(packet->tgt);
+  pcity->task_req.want = packet->want;
+
+  lsend_packet_worker_task(pplayer->connections, packet);
+}
