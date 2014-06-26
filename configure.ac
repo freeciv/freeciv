@@ -614,6 +614,22 @@ PKG_CHECK_MODULES([CURL], [libcurl >= 7.9.7],,
 UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
 UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"
 
+AC_ARG_ENABLE([xml-registry],
+  AS_HELP_STRING([--enable-xml-registry], [build xml-backend for registry (WIP)]),
+[case "${enableval}" in
+  yes) XMLREGISTRY=yes ;;
+  no)  XMLREGISTRY=no  ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-xml-registry]) ;;
+esac], [XMLREGISTRY=no])
+
+if test "x$XMLREGISTRY" = "xyes" ; then
+  PKG_CHECK_MODULES([LIBXML2], [libxml-2.0],,
+      [AC_MSG_ERROR([libxml2 development files required])])
+  UTILITY_CFLAGS="${UTILITY_CFLAGS} ${LIBXML2_CFLAGS}"
+  UTILITY_LIBS="${UTILITY_LIBS} ${LIBXML2_LIBS}"
+  AC_DEFINE([HAVE_XML_REGISTRY], [1], [Build xml-backend for registry])
+fi
+
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
 EXTRA_DEBUG_CXXFLAGS=""
