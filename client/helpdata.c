@@ -3129,9 +3129,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("* Gets double firepower when attacking cities.\n"));
   }
-  if (utype_has_flag(utype, UTYF_IGWALL)) {
-    CATLSTR(buf, bufsz, _("* Ignores the effects of city walls.\n"));
-  }
   if (utype_has_flag(utype, UTYF_BOMBARDER)) {
     cat_snprintf(buf, bufsz,
 		 _("* Does bombard attacks (%d per turn).  These attacks will"

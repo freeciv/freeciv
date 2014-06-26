@@ -25,7 +25,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; helptxt       = displayed in the help for units with this flag
 flags =
   { "name", "helptxt"
-    "Airbase", _("Can build Airbases.") 
+    "Airbase", _("Can build Airbases.")
     "Transform", _("Can transform terrain.")
     "AirAttacker", _("Very bad at attacking AEGIS.")
     "Submarine", _("Attack value halved when attacking Destroyer")
@@ -304,7 +304,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage"
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
 ; "OneAttack"	= can only make a single attack, regardless of movement points
-; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "Marines"	= can attack from non-native tile (from transport or city)
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported

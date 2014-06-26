@@ -519,12 +519,10 @@ static int defense_multiplication(const struct unit_type *att_type,
 
     defensepower *= defense_multiplier;
 
-    if (!utype_has_flag(att_type, UTYF_IGWALL)) {
-      /* This applies even if pcity is NULL. */
-      mod = 100 + get_unittype_bonus(def_player, ptile,
-				     att_type, EFT_DEFEND_BONUS);
-      defensepower = MAX(0, defensepower * mod / 100);
-    }
+    /* This applies even if pcity is NULL. */
+    mod = 100 + get_unittype_bonus(def_player, ptile,
+                                   att_type, EFT_DEFEND_BONUS);
+    defensepower = MAX(0, defensepower * mod / 100);
 
     defense_divider = 1 + combat_bonus_against(att_type->bonuses, def_type,
                                                CBONUS_DEFENSE_DIVIDER);

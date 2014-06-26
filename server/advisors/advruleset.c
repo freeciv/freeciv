@@ -15,8 +15,9 @@
 #include <fc_config.h>
 #endif
 
-/* Common */
+/* common */
 #include "base.h"
+#include "effects.h"
 #include "movement.h"
 #include "unittype.h"
 
@@ -74,4 +75,23 @@ void adv_units_ruleset_init(void)
     }
 
   } unit_class_iterate_end;
+
+  unit_type_iterate(ptype) {
+    ptype->adv.igwall = TRUE;
+
+    effect_list_iterate(get_effects(EFT_DEFEND_BONUS), peffect) {
+      if (peffect->value > 0) {
+        requirement_list_iterate(peffect->reqs, preq) {
+          if (!is_req_active(NULL, NULL, NULL, NULL, NULL, ptype,
+                             NULL, NULL, preq, RPT_POSSIBLE)) {
+            ptype->adv.igwall = FALSE;
+            break;
+          }
+        } requirement_list_iterate_end;
+      }
+      if (!ptype->adv.igwall) {
+        break;
+      }
+    } effect_list_iterate_end;
+  } unit_type_iterate_end;
 }

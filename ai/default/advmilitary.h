@@ -30,6 +30,7 @@ int assess_defense_unit(struct ai_type *ait, struct city *pcity,
 int assess_defense(struct ai_type *ait, struct city *pcity);
 int dai_unit_defence_desirability(struct ai_type *ait,
                                   const struct unit_type *punittype);
-int dai_unit_attack_desirability(const struct unit_type *punittype);
+int dai_unit_attack_desirability(struct ai_type *ait,
+                                 const struct unit_type *punittype);
 
 #endif  /* FC__ADVMILITARY_H */

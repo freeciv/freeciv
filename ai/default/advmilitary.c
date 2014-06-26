@@ -134,7 +134,7 @@ void military_advisor_choose_tech(struct player *pplayer,
   desirability without regard to cost, unless costs are equal. This is
   very wrong. FIXME, use amortize on time to build.
 **************************************************************************/
-static struct unit_type *dai_choose_attacker(struct city *pcity,
+static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *pcity,
                                              enum unit_move_type which)
 {
   struct unit_type *bestid = NULL;
@@ -142,7 +142,7 @@ static struct unit_type *dai_choose_attacker(struct city *pcity,
   int cur;
 
   simple_ai_unit_type_iterate(punittype) {
-    cur = dai_unit_attack_desirability(punittype);
+    cur = dai_unit_attack_desirability(ait, punittype);
     if (which == utype_move_type(punittype)) {
       if (can_city_build_unit_now(pcity, punittype)
           && (cur > best
@@ -463,7 +463,6 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   int i;
   int defender;
   unsigned int urgency = 0;
-  int igwall_threat = 0;
   int defense;
   int total_danger = 0;
   int defense_bonuses[U_LAST];
@@ -602,14 +601,12 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
-      } else if (!unit_has_type_flag(punit, UTYF_IGWALL)) {
+      } else {
         defender = dai_find_source_building(pcity, EFT_DEFEND_BONUS,
                                             unit_type(punit));
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
-      } else {
-        igwall_threat += vulnerability;
       }
 
       total_danger += vulnerability;
@@ -619,11 +616,8 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
 
   } players_iterate_end;
 
-  if (0 == igwall_threat) {
-    city_data->wallvalue = 90;
-  } else if (total_danger) {
-    city_data->wallvalue = ((total_danger * 9 - igwall_threat * 8)
-                            * 10 / total_danger);
+  if (total_danger) {
+    city_data->wallvalue = (total_danger * 90 / total_danger);
   } else {
     /* No danger.
      * This is half of the wallvalue of what danger 1 would produce. */
@@ -705,7 +699,8 @@ int dai_unit_defence_desirability(struct ai_type *ait,
 /************************************************************************** 
   How much we would want that unit to attack with?
 **************************************************************************/
-int dai_unit_attack_desirability(const struct unit_type *punittype)
+int dai_unit_attack_desirability(struct ai_type *ait,
+                                 const struct unit_type *punittype)
 {
   int desire = punittype->hp;
   int attack = punittype->attack_strength;
@@ -727,7 +722,7 @@ int dai_unit_attack_desirability(const struct unit_type *punittype)
   if (can_attack_from_non_native(punittype)) {
     desire += desire / 4;
   }
-  if (utype_has_flag(punittype, UTYF_IGWALL)) {
+  if (punittype->adv.igwall) {
     desire += desire / 4;
   }
   return desire;
@@ -1572,7 +1567,7 @@ void military_advisor_choose_build(struct ai_type *ait,
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
-  punittype = dai_choose_attacker(pcity, UMT_SEA);
+  punittype = dai_choose_attacker(ait, pcity, UMT_SEA);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
@@ -1583,7 +1578,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   /* Consider a land attacker or a ferried land attacker
    * (in which case, we might want a ferry before an attacker)
    */
-  punittype = dai_choose_attacker(pcity, UMT_LAND);
+  punittype = dai_choose_attacker(ait, pcity, UMT_LAND);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
     kill_something_with(ait, pplayer, pcity, virtualunit, choice);

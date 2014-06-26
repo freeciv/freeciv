@@ -138,110 +138,107 @@ struct unit_class {
 #define SPECENUM_VALUE4NAME "IgTer"
 #define SPECENUM_VALUE5 UTYF_ONEATTACK
 #define SPECENUM_VALUE5NAME "OneAttack"
-/* Ignores EFT_DEFEND_BONUS (for example city walls) */
-#define SPECENUM_VALUE6 UTYF_IGWALL
-#define SPECENUM_VALUE6NAME "IgWall"
-#define SPECENUM_VALUE7 UTYF_FIELDUNIT
-#define SPECENUM_VALUE7NAME "FieldUnit"
-#define SPECENUM_VALUE8 UTYF_MARINES
-#define SPECENUM_VALUE8NAME "Marines"
+#define SPECENUM_VALUE6 UTYF_FIELDUNIT
+#define SPECENUM_VALUE6NAME "FieldUnit"
+#define SPECENUM_VALUE7 UTYF_MARINES
+#define SPECENUM_VALUE7NAME "Marines"
 /* Invisibile except when adjacent (Submarine) */
-#define SPECENUM_VALUE9 UTYF_PARTIAL_INVIS
-#define SPECENUM_VALUE9NAME "Partial_Invis"
+#define SPECENUM_VALUE8 UTYF_PARTIAL_INVIS
+#define SPECENUM_VALUE8NAME "Partial_Invis"
 /* Does not include ability to found cities */
-#define SPECENUM_VALUE10 UTYF_SETTLERS
-#define SPECENUM_VALUE10NAME "Settlers"
-#define SPECENUM_VALUE11 UTYF_DIPLOMAT
-#define SPECENUM_VALUE11NAME "Diplomat"
+#define SPECENUM_VALUE9 UTYF_SETTLERS
+#define SPECENUM_VALUE9NAME "Settlers"
+#define SPECENUM_VALUE10 UTYF_DIPLOMAT
+#define SPECENUM_VALUE10NAME "Diplomat"
 /* Trireme sinking effect */
-#define SPECENUM_VALUE12 UTYF_TRIREME
-#define SPECENUM_VALUE12NAME "Trireme"
+#define SPECENUM_VALUE11 UTYF_TRIREME
+#define SPECENUM_VALUE11NAME "Trireme"
 /* Nuclear attack effect */
-#define SPECENUM_VALUE13 UTYF_NUCLEAR
-#define SPECENUM_VALUE13NAME "Nuclear"
+#define SPECENUM_VALUE12 UTYF_NUCLEAR
+#define SPECENUM_VALUE12NAME "Nuclear"
 /* Enhanced spy abilities */
-#define SPECENUM_VALUE14 UTYF_SPY
-#define SPECENUM_VALUE14NAME "Spy"
-#define SPECENUM_VALUE15 UTYF_PARATROOPERS
-#define SPECENUM_VALUE15NAME "Paratroopers"
+#define SPECENUM_VALUE13 UTYF_SPY
+#define SPECENUM_VALUE13NAME "Spy"
+#define SPECENUM_VALUE14 UTYF_PARATROOPERS
+#define SPECENUM_VALUE14NAME "Paratroopers"
 /* Can build cities */
-#define SPECENUM_VALUE16 UTYF_CITIES
-#define SPECENUM_VALUE16NAME "Cities"
+#define SPECENUM_VALUE15 UTYF_CITIES
+#define SPECENUM_VALUE15NAME "Cities"
 /* Cannot attack vs non-native tiles even if class can */
-#define SPECENUM_VALUE17 UTYF_ONLY_NATIVE_ATTACK
-#define SPECENUM_VALUE17NAME "Only_Native_Attack"
+#define SPECENUM_VALUE16 UTYF_ONLY_NATIVE_ATTACK
+#define SPECENUM_VALUE16NAME "Only_Native_Attack"
 /* unit can add to city population */
-#define SPECENUM_VALUE18 UTYF_ADD_TO_CITY
-#define SPECENUM_VALUE18NAME "AddToCity"
+#define SPECENUM_VALUE17 UTYF_ADD_TO_CITY
+#define SPECENUM_VALUE17NAME "AddToCity"
 /* Only Fundamentalist government can build these units */
-#define SPECENUM_VALUE19 UTYF_FANATIC
-#define SPECENUM_VALUE19NAME "Fanatic"
+#define SPECENUM_VALUE18 UTYF_FANATIC
+#define SPECENUM_VALUE18NAME "Fanatic"
 /* Losing this unit means losing the game */
-#define SPECENUM_VALUE20 UTYF_GAMELOSS
-#define SPECENUM_VALUE20NAME "GameLoss"
+#define SPECENUM_VALUE19 UTYF_GAMELOSS
+#define SPECENUM_VALUE19NAME "GameLoss"
 /* A player can only have one unit of this type */
-#define SPECENUM_VALUE21 UTYF_UNIQUE
-#define SPECENUM_VALUE21NAME "Unique"
+#define SPECENUM_VALUE20 UTYF_UNIQUE
+#define SPECENUM_VALUE20NAME "Unique"
 /* Cannot be disbanded, won't easily go away */
-#define SPECENUM_VALUE22 UTYF_UNDISBANDABLE
-#define SPECENUM_VALUE22NAME "Undisbandable"
+#define SPECENUM_VALUE21 UTYF_UNDISBANDABLE
+#define SPECENUM_VALUE21NAME "Undisbandable"
 /* Always wins diplomatic contests */
-#define SPECENUM_VALUE23 UTYF_SUPERSPY
-#define SPECENUM_VALUE23NAME "SuperSpy"
+#define SPECENUM_VALUE22 UTYF_SUPERSPY
+#define SPECENUM_VALUE22NAME "SuperSpy"
 /* Has no homecity */
-#define SPECENUM_VALUE24 UTYF_NOHOME
-#define SPECENUM_VALUE24NAME "NoHome"
+#define SPECENUM_VALUE23 UTYF_NOHOME
+#define SPECENUM_VALUE23NAME "NoHome"
 /* Cannot increase veteran level */
-#define SPECENUM_VALUE25 UTYF_NO_VETERAN
-#define SPECENUM_VALUE25NAME "NoVeteran"
+#define SPECENUM_VALUE24 UTYF_NO_VETERAN
+#define SPECENUM_VALUE24NAME "NoVeteran"
 /* Has the ability to bombard */
-#define SPECENUM_VALUE26 UTYF_BOMBARDER
-#define SPECENUM_VALUE26NAME "Bombarder"
+#define SPECENUM_VALUE25 UTYF_BOMBARDER
+#define SPECENUM_VALUE25NAME "Bombarder"
 /* Gets double firepower against cities */
-#define SPECENUM_VALUE27 UTYF_CITYBUSTER
-#define SPECENUM_VALUE27NAME "CityBuster"
+#define SPECENUM_VALUE26 UTYF_CITYBUSTER
+#define SPECENUM_VALUE26NAME "CityBuster"
 /* Unit cannot be built (barb leader etc) */
-#define SPECENUM_VALUE28 UTYF_NOBUILD
-#define SPECENUM_VALUE28NAME "NoBuild"
+#define SPECENUM_VALUE27 UTYF_NOBUILD
+#define SPECENUM_VALUE27NAME "NoBuild"
 /* Firepower set to 1 when EFT_DEFEND_BONUS applies
  * (for example, land unit attacking city with walls) */
-#define SPECENUM_VALUE29 UTYF_BADWALLATTACKER
-#define SPECENUM_VALUE29NAME "BadWallAttacker"
+#define SPECENUM_VALUE28 UTYF_BADWALLATTACKER
+#define SPECENUM_VALUE28NAME "BadWallAttacker"
 /* Firepower set to 1 and attackers x2 when in city */
-#define SPECENUM_VALUE30 UTYF_BADCITYDEFENDER
-#define SPECENUM_VALUE30NAME "BadCityDefender"
+#define SPECENUM_VALUE29 UTYF_BADCITYDEFENDER
+#define SPECENUM_VALUE29NAME "BadCityDefender"
 /* Only barbarians can build this unit */
-#define SPECENUM_VALUE31 UTYF_BARBARIAN_ONLY
-#define SPECENUM_VALUE31NAME "BarbarianOnly"
+#define SPECENUM_VALUE30 UTYF_BARBARIAN_ONLY
+#define SPECENUM_VALUE30NAME "BarbarianOnly"
 /* upkeep can switch from shield to gold */
-#define SPECENUM_VALUE32 UTYF_SHIELD2GOLD
-#define SPECENUM_VALUE32NAME "Shield2Gold"
+#define SPECENUM_VALUE31 UTYF_SHIELD2GOLD
+#define SPECENUM_VALUE31NAME "Shield2Gold"
 /* Unit can be captured */
-#define SPECENUM_VALUE33 UTYF_CAPTURABLE
-#define SPECENUM_VALUE33NAME "Capturable"
+#define SPECENUM_VALUE32 UTYF_CAPTURABLE
+#define SPECENUM_VALUE32NAME "Capturable"
 /* Unit can capture other */
-#define SPECENUM_VALUE34 UTYF_CAPTURER
-#define SPECENUM_VALUE34NAME "Capturer"
+#define SPECENUM_VALUE33 UTYF_CAPTURER
+#define SPECENUM_VALUE33NAME "Capturer"
 /* Unit has no ZOC */
-#define SPECENUM_VALUE35 UTYF_NOZOC
-#define SPECENUM_VALUE35NAME "HasNoZOC"
+#define SPECENUM_VALUE34 UTYF_NOZOC
+#define SPECENUM_VALUE34NAME "HasNoZOC"
 
-#define SPECENUM_VALUE36 UTYF_USER_FLAG_1
-#define SPECENUM_VALUE37 UTYF_USER_FLAG_2
-#define SPECENUM_VALUE38 UTYF_USER_FLAG_3
-#define SPECENUM_VALUE39 UTYF_USER_FLAG_4
-#define SPECENUM_VALUE40 UTYF_USER_FLAG_5
-#define SPECENUM_VALUE41 UTYF_USER_FLAG_6
-#define SPECENUM_VALUE42 UTYF_USER_FLAG_7
-#define SPECENUM_VALUE43 UTYF_USER_FLAG_8
-#define SPECENUM_VALUE44 UTYF_USER_FLAG_9
-#define SPECENUM_VALUE45 UTYF_USER_FLAG_10
-#define SPECENUM_VALUE46 UTYF_USER_FLAG_11
-#define SPECENUM_VALUE47 UTYF_USER_FLAG_12
-#define SPECENUM_VALUE48 UTYF_USER_FLAG_13
-#define SPECENUM_VALUE49 UTYF_USER_FLAG_14
-#define SPECENUM_VALUE50 UTYF_USER_FLAG_15
-#define SPECENUM_VALUE51 UTYF_USER_FLAG_16
+#define SPECENUM_VALUE35 UTYF_USER_FLAG_1
+#define SPECENUM_VALUE36 UTYF_USER_FLAG_2
+#define SPECENUM_VALUE37 UTYF_USER_FLAG_3
+#define SPECENUM_VALUE38 UTYF_USER_FLAG_4
+#define SPECENUM_VALUE39 UTYF_USER_FLAG_5
+#define SPECENUM_VALUE40 UTYF_USER_FLAG_6
+#define SPECENUM_VALUE41 UTYF_USER_FLAG_7
+#define SPECENUM_VALUE42 UTYF_USER_FLAG_8
+#define SPECENUM_VALUE43 UTYF_USER_FLAG_9
+#define SPECENUM_VALUE44 UTYF_USER_FLAG_10
+#define SPECENUM_VALUE45 UTYF_USER_FLAG_11
+#define SPECENUM_VALUE46 UTYF_USER_FLAG_12
+#define SPECENUM_VALUE47 UTYF_USER_FLAG_13
+#define SPECENUM_VALUE48 UTYF_USER_FLAG_14
+#define SPECENUM_VALUE49 UTYF_USER_FLAG_15
+#define SPECENUM_VALUE50 UTYF_USER_FLAG_16
 /* Note that first role must have value next to last flag */
 
 #define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_16
@@ -267,74 +264,74 @@ struct unit_class {
 
 #define SPECENUM_NAME unit_role_id
 /* is built first when city established */
-#define SPECENUM_VALUE52 L_FIRSTBUILD
-#define SPECENUM_VALUE52NAME "FirstBuild"
+#define SPECENUM_VALUE51 L_FIRSTBUILD
+#define SPECENUM_VALUE51NAME "FirstBuild"
 /* initial explorer unit */
-#define SPECENUM_VALUE53 L_EXPLORER
-#define SPECENUM_VALUE53NAME "Explorer"
+#define SPECENUM_VALUE52 L_EXPLORER
+#define SPECENUM_VALUE52NAME "Explorer"
 /* can be found in hut */
-#define SPECENUM_VALUE54 L_HUT
-#define SPECENUM_VALUE54NAME "Hut"
+#define SPECENUM_VALUE53 L_HUT
+#define SPECENUM_VALUE53NAME "Hut"
 /* can be found in hut, global tech required */
-#define SPECENUM_VALUE55 L_HUT_TECH
-#define SPECENUM_VALUE55NAME "HutTech"
+#define SPECENUM_VALUE54 L_HUT_TECH
+#define SPECENUM_VALUE54NAME "HutTech"
 /* is created in Partisan circumstances */
-#define SPECENUM_VALUE56 L_PARTISAN
-#define SPECENUM_VALUE56NAME "Partisan"
+#define SPECENUM_VALUE55 L_PARTISAN
+#define SPECENUM_VALUE55NAME "Partisan"
 /* ok on defense (AI) */
-#define SPECENUM_VALUE57 L_DEFEND_OK
-#define SPECENUM_VALUE57NAME "DefendOk"
+#define SPECENUM_VALUE56 L_DEFEND_OK
+#define SPECENUM_VALUE56NAME "DefendOk"
 /* primary purpose is defense (AI) */
-#define SPECENUM_VALUE58 L_DEFEND_GOOD
-#define SPECENUM_VALUE58NAME "DefendGood"
+#define SPECENUM_VALUE57 L_DEFEND_GOOD
+#define SPECENUM_VALUE57NAME "DefendGood"
 /* quick attacking unit (Horse..Armor) (unused)*/
-#define SPECENUM_VALUE59 L_ATTACK_FAST
-#define SPECENUM_VALUE59NAME "AttackFast"
+#define SPECENUM_VALUE58 L_ATTACK_FAST
+#define SPECENUM_VALUE58NAME "AttackFast"
 /* powerful attacking unit (Catapult..) (unused) */
-#define SPECENUM_VALUE60 L_ATTACK_STRONG
-#define SPECENUM_VALUE60NAME "AttackStrong"
+#define SPECENUM_VALUE59 L_ATTACK_STRONG
+#define SPECENUM_VALUE59NAME "AttackStrong"
 /* is useful for ferrying (AI) */
-#define SPECENUM_VALUE61 L_FERRYBOAT
-#define SPECENUM_VALUE61NAME "FerryBoat"
+#define SPECENUM_VALUE60 L_FERRYBOAT
+#define SPECENUM_VALUE60NAME "FerryBoat"
 /* barbarians unit, land only */
-#define SPECENUM_VALUE62 L_BARBARIAN
-#define SPECENUM_VALUE62NAME "Barbarian"
+#define SPECENUM_VALUE61 L_BARBARIAN
+#define SPECENUM_VALUE61NAME "Barbarian"
 /* barbarians unit, global tech required */
-#define SPECENUM_VALUE63 L_BARBARIAN_TECH
-#define SPECENUM_VALUE63NAME "BarbarianTech"
+#define SPECENUM_VALUE62 L_BARBARIAN_TECH
+#define SPECENUM_VALUE62NAME "BarbarianTech"
 /* barbarian boat */
-#define SPECENUM_VALUE64 L_BARBARIAN_BOAT
-#define SPECENUM_VALUE64NAME "BarbarianBoat"
+#define SPECENUM_VALUE63 L_BARBARIAN_BOAT
+#define SPECENUM_VALUE63NAME "BarbarianBoat"
 /* what barbarians should build */
-#define SPECENUM_VALUE65 L_BARBARIAN_BUILD
-#define SPECENUM_VALUE65NAME "BarbarianBuild"
+#define SPECENUM_VALUE64 L_BARBARIAN_BUILD
+#define SPECENUM_VALUE64NAME "BarbarianBuild"
 /* barbarians build when global tech */
-#define SPECENUM_VALUE66 L_BARBARIAN_BUILD_TECH
-#define SPECENUM_VALUE66NAME "BarbarianBuildTech"
+#define SPECENUM_VALUE65 L_BARBARIAN_BUILD_TECH
+#define SPECENUM_VALUE65NAME "BarbarianBuildTech"
 /* barbarian leader */
-#define SPECENUM_VALUE67 L_BARBARIAN_LEADER
-#define SPECENUM_VALUE67NAME "BarbarianLeader"
+#define SPECENUM_VALUE66 L_BARBARIAN_LEADER
+#define SPECENUM_VALUE66NAME "BarbarianLeader"
 /* sea raider unit */
-#define SPECENUM_VALUE68 L_BARBARIAN_SEA
-#define SPECENUM_VALUE68NAME "BarbarianSea"
+#define SPECENUM_VALUE67 L_BARBARIAN_SEA
+#define SPECENUM_VALUE67NAME "BarbarianSea"
 /* sea raider unit, global tech required */
-#define SPECENUM_VALUE69 L_BARBARIAN_SEA_TECH
-#define SPECENUM_VALUE69NAME "BarbarianSeaTech"
+#define SPECENUM_VALUE68 L_BARBARIAN_SEA_TECH
+#define SPECENUM_VALUE68NAME "BarbarianSeaTech"
 /* can found cities */
-#define SPECENUM_VALUE70 L_CITIES
-#define SPECENUM_VALUE70NAME "Cities"
+#define SPECENUM_VALUE69 L_CITIES
+#define SPECENUM_VALUE69NAME "Cities"
 /* can improve terrain */
-#define SPECENUM_VALUE71 L_SETTLERS
-#define SPECENUM_VALUE71NAME "Settlers"
+#define SPECENUM_VALUE70 L_SETTLERS
+#define SPECENUM_VALUE70NAME "Settlers"
 /* loss results in loss of game */
-#define SPECENUM_VALUE72 L_GAMELOSS
-#define SPECENUM_VALUE72NAME "GameLoss"
+#define SPECENUM_VALUE71 L_GAMELOSS
+#define SPECENUM_VALUE71NAME "GameLoss"
 /* can do diplomat actions */
-#define SPECENUM_VALUE73 L_DIPLOMAT
-#define SPECENUM_VALUE73NAME "Diplomat"
+#define SPECENUM_VALUE72 L_DIPLOMAT
+#define SPECENUM_VALUE72NAME "Diplomat"
 /* AI hunter type unit */
-#define SPECENUM_VALUE74 L_HUNTER
-#define SPECENUM_VALUE74NAME "Hunter"
+#define SPECENUM_VALUE73 L_HUNTER
+#define SPECENUM_VALUE73NAME "Hunter"
 #define L_LAST (L_HUNTER+1)
 
 #include "specenum_gen.h"
@@ -449,6 +446,10 @@ struct unit_type {
   bv_unit_classes disembarks;
 
   struct strvec *helptext;
+
+  struct {
+    bool igwall;
+  } adv;
 
   void *ais[FC_AI_LAST];
 };

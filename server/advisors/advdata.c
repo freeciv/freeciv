@@ -298,7 +298,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     unit_list_iterate(aplayer->units, punit) {
       const struct unit_class *pclass = unit_class(punit);
 
-      if (unit_has_type_flag(punit, UTYF_IGWALL)) {
+      if (unit_type(punit)->adv.igwall) {
         adv->threats.igwall = TRUE;
       }
 

@@ -270,9 +270,8 @@ Unit_Vision_Radius_Sq
 
 Defend_Bonus
     Increases defensive bonuses of units. Any unit requirements on this effect
-will be applied to the _attacking_ unit. The defensive bonus is ignored by
-attackers with "IgWall" flag. Attackers with "BadWallAttacker" flag will have
-their firepower set to 1.
+    will be applied to the _attacking_ unit. Attackers with "BadWallAttacker" flag
+    will have their firepower set to 1.
 
 Gain_AI_Love
     Gain amount points of "AI love" with AI(s).

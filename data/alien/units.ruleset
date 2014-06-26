@@ -261,7 +261,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
 ; "OneAttack"	= can only make a single attack, regardless of movement points
-; "IgWall"	= ignore effect of city walls
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "AttackAny"   = can attack unreachable units
 ; "Marines"	= can attack from non-native tile (from transport or city)

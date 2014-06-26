@@ -1159,11 +1159,12 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgWall"
+flags         = ""
 roles         = "AttackStrong"
 helptext      = _("\
 Howitzers are upgraded artillery with improved\
  defensive as well as offensive capabilities.\
+ They can shoot over city walls, ignoring their effect.\
 ")
 
 [unit_fighter]

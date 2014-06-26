@@ -18,8 +18,9 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; name          = rule name; not translateable, but may be displayed in
 ;                 some circumstances
 ; helptxt       = displayed in the help for units with this flag
-; flags =
-;   { "name", "helptxt" }
+;flags =
+;  { "name", "helptxt"
+;  }
 
 [veteran_system]
 ; What are the names of the levels?
@@ -711,11 +712,12 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgWall"
+flags         = ""
 roles         = "AttackStrong"
 helptext      = _("\
 The artillery is an upgraded cannon with improved\
  defensive as well as offensive capabilities.\
+ They can shoot over city walls, ignoring their effect.\
 ")
 
 [unit_fighter]
