@@ -1949,7 +1949,7 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
       return FALSE;
     }
     /* if we're not at home continent */
-    if (src != src_home_city) {
+    if (tile_continent(src) != tile_continent(src_home_city)) {
       return FALSE;
     }
 
