@@ -1942,7 +1942,6 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
   struct tile *src = NULL, *dest = NULL, *src_home_city = NULL;
   struct city *phome_city = NULL;
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
-  bool required_boat = FALSE;
   
   if ((unit_data->task != AIUNIT_NONE)) {
     src = unit_tile(punit);
@@ -1960,9 +1959,7 @@ static bool dai_is_unit_tired_waiting_boat(struct ai_type *ait,
       return FALSE;
     }
 
-    required_boat = goto_is_sane(punit, dest);
-
-    if (required_boat) {
+    if (!goto_is_sane(punit, dest)) {
       if (unit_transported(punit)) {
         /* if we're being transported */
         return FALSE;
