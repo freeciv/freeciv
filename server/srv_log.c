@@ -44,39 +44,6 @@ static int recursion[AIT_LAST];
 /* General AI logging functions */
 
 /**************************************************************************
-  Log player tech messages.
-**************************************************************************/
-void real_tech_log(const char *file, const char *function, int line,
-                   enum log_level level, bool notify,
-                   const struct player *pplayer, struct advance *padvance,
-                   const char *msg, ...)
-{
-  char buffer[500];
-  char buffer2[500];
-  va_list ap;
-
-  if (!valid_advance(padvance) || advance_by_number(A_NONE) == padvance) {
-    return;
-  }
-
-  fc_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ",
-              player_name(pplayer),
-              advance_name_by_player(pplayer, advance_number(padvance)),
-              pplayer->ai_common.tech_want[advance_index(padvance)],
-              num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
-
-  va_start(ap, msg);
-  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
-  va_end(ap);
-
-  cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
-  if (notify) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
-  }
-  do_log(file, function, line, FALSE, level, "%s", buffer);
-}
-
-/**************************************************************************
   Log city messages, they will appear like this
     2: Polish Romenna(5,35) [s1 d106 u11 g1] must have Archers ...
 **************************************************************************/

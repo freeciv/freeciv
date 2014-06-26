@@ -48,6 +48,7 @@
 /* ai/default */
 #include "aidata.h"
 #include "aiguard.h"
+#include "ailog.h"
 #include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"

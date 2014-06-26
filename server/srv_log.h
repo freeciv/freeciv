@@ -34,7 +34,6 @@ struct ai_data;
 #define LOGLEVEL_BUILD LOG_DEBUG
 #define LOGLEVEL_HUNT LOG_DEBUG
 #define LOGLEVEL_PLAYER LOG_DEBUG
-#define LOGLEVEL_TECH LOG_DEBUG
 
 #define LOG_AI_TEST LOG_NORMAL
 
@@ -76,22 +75,6 @@ enum ai_timer {
 enum ai_timer_activity  {
   TIMER_START, TIMER_STOP
 };
-
-void real_tech_log(const char *file, const char *function, int line,
-                   enum log_level level, bool notify,
-                   const struct player *pplayer, struct advance *padvance,
-                   const char *msg, ...)
-                   fc__attribute((__format__ (__printf__, 8, 9)));
-#define TECH_LOG(loglevel, pplayer, padvance, msg, ...)                     \
-{                                                                           \
-  bool notify = BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_TECH);         \
-  enum log_level level = (notify ? LOG_AI_TEST                              \
-                          : MIN(loglevel, LOGLEVEL_TECH));                  \
-  if (log_do_output_for_level(level)) {                                     \
-    real_tech_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,       \
-                  pplayer, padvance, msg, ## __VA_ARGS__);                  \
-  }                                                                         \
-}
 
 void real_city_log(const char *file, const char *function, int line,
                    enum log_level level, bool notify,

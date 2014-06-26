@@ -57,6 +57,7 @@
 #include "aidata.h"
 #include "aicity.h"
 #include "aiferry.h"
+#include "ailog.h"
 #include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"

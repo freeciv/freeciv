@@ -57,6 +57,7 @@
 #include "advmilitary.h"
 #include "advspace.h"
 #include "aicity.h"
+#include "ailog.h"
 #include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"

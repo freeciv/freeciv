@@ -56,6 +56,7 @@
 #include "aiferry.h"
 #include "aihand.h"
 #include "aihunt.h"
+#include "ailog.h"
 #include "aiparatrooper.h"
 #include "aiplayer.h"
 #include "aitech.h"

@@ -34,6 +34,7 @@
 
 /* ai */
 #include "advmilitary.h"
+#include "ailog.h"
 #include "aitools.h"
 
 #include "aitech.h"

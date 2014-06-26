@@ -48,6 +48,7 @@
 
 /* ai/default */
 #include "aicity.h"
+#include "ailog.h"
 #include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
