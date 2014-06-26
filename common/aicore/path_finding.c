@@ -2852,6 +2852,9 @@ struct pf_map *pf_map_new(const struct pf_parameter *parameter)
 ****************************************************************************/
 void pf_map_destroy(struct pf_map *pfm)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret(NULL != pfm);
+#endif
   pfm->destroy(pfm);
 }
 
@@ -2862,6 +2865,10 @@ void pf_map_destroy(struct pf_map *pfm)
 ****************************************************************************/
 int pf_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, PF_IMPOSSIBLE_MC);
+  fc_assert_ret_val(NULL != ptile, PF_IMPOSSIBLE_MC);
+#endif
   return pfm->get_move_cost(pfm, ptile);
 }
 
@@ -2874,6 +2881,10 @@ int pf_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 ****************************************************************************/
 struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, NULL);
+  fc_assert_ret_val(NULL != ptile, NULL);
+#endif
   return pfm->get_path(pfm, ptile);
 }
 
@@ -2885,6 +2896,10 @@ struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
 bool pf_map_position(struct pf_map *pfm, struct tile *ptile,
                      struct pf_position *pos)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, FALSE);
+  fc_assert_ret_val(NULL != ptile, FALSE);
+#endif
   return pfm->get_position(pfm, ptile, pos);
 }
 
@@ -2901,6 +2916,10 @@ bool pf_map_position(struct pf_map *pfm, struct tile *ptile,
 ****************************************************************************/
 bool pf_map_iterate(struct pf_map *pfm)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, FALSE);
+#endif
+
   if (NULL == pfm->tile) {
     /* The end of the iteration was already reached. Don't try to iterate
      * again. */
@@ -2927,6 +2946,9 @@ bool pf_map_iterate(struct pf_map *pfm)
 ****************************************************************************/
 struct tile *pf_map_iter(struct pf_map *pfm)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, NULL);
+#endif
   return pfm->tile;
 }
 
@@ -2936,6 +2958,10 @@ struct tile *pf_map_iter(struct pf_map *pfm)
 ****************************************************************************/
 int pf_map_iter_move_cost(struct pf_map *pfm)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, PF_IMPOSSIBLE_MC);
+  fc_assert_ret_val(NULL != pfm->tile, PF_IMPOSSIBLE_MC);
+#endif
   return pfm->get_move_cost(pfm, pfm->tile);
 }
 
@@ -2945,6 +2971,10 @@ int pf_map_iter_move_cost(struct pf_map *pfm)
 ****************************************************************************/
 struct pf_path *pf_map_iter_path(struct pf_map *pfm)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, NULL);
+  fc_assert_ret_val(NULL != pfm->tile, NULL);
+#endif
   return pfm->get_path(pfm, pfm->tile);
 }
 
@@ -2954,6 +2984,10 @@ struct pf_path *pf_map_iter_path(struct pf_map *pfm)
 ****************************************************************************/
 void pf_map_iter_position(struct pf_map *pfm, struct pf_position *pos)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret(NULL != pfm);
+  fc_assert_ret(NULL != pfm->tile);
+#endif
   if (!pfm->get_position(pfm, pfm->tile, pos)) {
     /* Always fails. */
     fc_assert(pfm->get_position(pfm, pfm->tile, pos));
@@ -2965,6 +2999,9 @@ void pf_map_iter_position(struct pf_map *pfm, struct pf_position *pos)
 ****************************************************************************/
 const struct pf_parameter *pf_map_parameter(const struct pf_map *pfm)
 {
+#ifdef PF_DEBUG
+  fc_assert_ret_val(NULL != pfm, NULL);
+#endif
   return &pfm->params;
 }
 

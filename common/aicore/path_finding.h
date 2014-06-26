@@ -488,7 +488,8 @@ bool pf_reverse_map_unit_position(struct pf_reverse_map *pfrm,
  *                   which indicate if the start tile should be iterated or
  *                   not. */
 #define pf_map_tiles_iterate(ARG_pfm, NAME_tile, COND_from_start)           \
-if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
+if (NULL != pf_map_iter(ARG_pfm)                                            \
+    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct tile *NAME_tile;                                                   \
   do {                                                                      \
@@ -509,7 +510,8 @@ if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
  *                   not. */
 #define pf_map_move_costs_iterate(ARG_pfm, NAME_tile, NAME_cost,            \
                                   COND_from_start)                          \
-if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
+if (NULL != pf_map_iter(ARG_pfm)                                            \
+    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct tile *NAME_tile;                                                   \
   int NAME_cost;                                                            \
@@ -530,7 +532,8 @@ if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
  *                   which indicate if the start tile should be iterated or
  *                   not. */
 #define pf_map_positions_iterate(ARG_pfm, NAME_pos, COND_from_start)        \
-if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
+if (NULL != pf_map_iter(ARG_pfm)                                            \
+    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct pf_position NAME_pos;                                              \
   do {                                                                      \
@@ -549,7 +552,8 @@ if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
  *                   which indicate if the start tile should be iterated or
  *                   not. */
 #define pf_map_paths_iterate(ARG_pfm, NAME_path, COND_from_start)           \
-if ((COND_from_start) || pf_map_iterate((ARG_pfm))) {                       \
+if (NULL != pf_map_iter(ARG_pfm)                                            \
+    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct pf_path *NAME_path;\
   do {\
