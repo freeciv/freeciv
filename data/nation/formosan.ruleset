@@ -4,13 +4,13 @@ name=_("Formosan")
 plural=_("?plural:Formosans")
 groups="Asian", "Ancient", "Medieval", "Early Modern"
 legend=_("Taiwan is home to fourteen officially recognized and twelve unrecognized tribes,\
-all of whom are traditionally speakers of a group of Austronesian languages\
-known as Formosan. Historical linguists consider the island to be the home\
-of the Austronesian family, as it is host to the most diverse set of Austronesian\
-languages. Many of the tribes are traditionally matrilineal. Starting in the 17th\
-century, European and East Asian colonists vied for control of the island,\
-encroaching on aboriginal lands. Today, Formosans constitute around 2%\
-of the population of Taiwan.")
+ all of whom are traditionally speakers of a group of Austronesian languages\
+ known as Formosan. Historical linguists consider the island to be the home\
+ of the Austronesian family, as it is host to the most diverse set of Austronesian\
+ languages. Many of the tribes are traditionally matrilineal. Starting in the 17th\
+ century, European and East Asian colonists vied for control of the island,\
+ encroaching on aboriginal lands. Today, Formosans constitute around 2%\
+ of the population of Taiwan.")
 
 leaders = {
 "name", 		"sex"
