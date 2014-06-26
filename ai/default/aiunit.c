@@ -676,10 +676,10 @@ static bool unit_role_defender(const struct unit_type *punittype)
   and building want estimation code. Returns desirability for using this
   unit as a bodyguard or for defending a city.
 
-  We do not consider units with higher movement than us, or units that have
-  different move type than us, as potential charges. Nor do we attempt to
-  bodyguard units with higher defence than us, or military units with higher
-  attack than us.
+  We do not consider units with higher movement than us, or units that are
+  native to terrains or extras not native to us, as potential charges. Nor
+  do we attempt to bodyguard units with higher defence than us, or military
+  units with lower attack than us that are not transports.
 ****************************************************************************/
 int look_for_charge(struct ai_type *ait, struct player *pplayer,
                     struct unit *punit,
@@ -693,6 +693,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
   int def, best_def = -1;
   /* Arbitrary: 3 turns. */
   const int max_move_cost = 3 * unit_move_rate(punit);
+  struct unit_type_ai *utai = utype_ai_data(unit_type(punit), ait);
 
   *aunit = NULL;
   *acity = NULL;
@@ -716,16 +717,24 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
 
     /* Consider unit bodyguard. */
     unit_list_iterate(ptile->units, buddy) {
+      bool acceptable_charge = FALSE;
+
+      unit_type_list_iterate(utai->potential_charges, charge_type) {
+        if (unit_type(punit) == charge_type) {
+          acceptable_charge = TRUE;
+        }
+      } unit_type_list_iterate_end;
+
       /* TODO: allied unit bodyguard? */
-      if (unit_owner(buddy) != pplayer
+      if (!acceptable_charge
+          || unit_owner(buddy) != pplayer
           || !aiguard_wanted(ait, buddy)
           || unit_move_rate(buddy) > unit_move_rate(punit)
           || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
           || (is_military_unit(buddy)
               && 0 == get_transporter_capacity(buddy)
-              && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))
-          || (uclass_move_type(unit_class(buddy))
-              != uclass_move_type(unit_class(punit)))) {
+              && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))) {
+
         continue;
       }
 
@@ -2964,6 +2973,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
     utai->ferry = FALSE;
     utai->missile_platform = FALSE;
     utai->carries_occupiers = FALSE;
+    utai->potential_charges = unit_type_list_new();
 
     utype_set_ai_data(ptype, ait, utai);
   } unit_type_iterate_end;
@@ -3012,6 +3022,29 @@ void dai_units_ruleset_init(struct ai_type *ait)
         }
       } unit_class_iterate_end;
     }
+
+    /* Consider potential charges */
+    unit_type_iterate(pcharge) {
+      bool can_move_like_charge = FALSE;
+
+      if (0 < utype_fuel(punittype)
+          && (0 == utype_fuel(pcharge)
+              || utype_fuel(pcharge) > utype_fuel(punittype))) {
+        continue;
+      }
+
+      unit_class_list_iterate(pclass->cache.subset_movers, chgcls) {
+        if (chgcls == utype_class(pcharge)) {
+          can_move_like_charge = TRUE;
+        }
+      } unit_class_list_iterate_end;
+
+      if (can_move_like_charge) {
+        struct unit_type_ai *utai = utype_ai_data(punittype, ait);
+        unit_type_list_append(utai->potential_charges, pcharge);
+      }
+
+    } unit_type_iterate_end;
   } unit_type_iterate_end;
 }
 

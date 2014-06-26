@@ -1119,6 +1119,7 @@ void unit_classes_init(void)
     unit_classes[i].item_number = i;
     unit_classes[i].cache.refuel_bases = NULL;
     unit_classes[i].cache.native_tile_extras = NULL;
+    unit_classes[i].cache.subset_movers = NULL;
   }
 }
 
@@ -1137,6 +1138,9 @@ void unit_classes_free(void)
     if (unit_classes[i].cache.native_tile_extras != NULL) {
       extra_type_list_destroy(unit_classes[i].cache.native_tile_extras);
       unit_classes[i].cache.native_tile_extras = NULL;
+    }
+    if (unit_classes[i].cache.subset_movers != NULL) {
+      unit_class_list_destroy(unit_classes[i].cache.subset_movers);
     }
   }
 }
@@ -1291,6 +1295,7 @@ void set_unit_class_caches(struct unit_class *pclass)
 {
   pclass->cache.refuel_bases = extra_type_list_new();
   pclass->cache.native_tile_extras = extra_type_list_new();
+  pclass->cache.subset_movers = unit_class_list_new();
 
   extra_type_iterate(pextra) {
     if (is_native_extra_to_uclass(pextra, pclass)) {
@@ -1302,4 +1307,28 @@ void set_unit_class_caches(struct unit_class *pclass)
       }
     }
   } extra_type_iterate_end;
+
+  unit_class_iterate(pcharge) {
+    bool subset_mover = TRUE;
+
+    terrain_type_iterate(pterrain) {
+      if (BV_ISSET(pterrain->native_to, uclass_index(pcharge))
+          && !BV_ISSET(pterrain->native_to, uclass_index(pclass))) {
+        subset_mover = FALSE;
+      }
+    } terrain_type_iterate_end;
+
+    if (subset_mover) {
+      extra_type_iterate(pextra) {
+        if (is_native_extra_to_uclass(pextra, pcharge)
+            && !is_native_extra_to_uclass(pextra, pclass)) {
+          subset_mover = FALSE;
+        }
+      } extra_type_list_iterate_end;
+    }
+
+    if (subset_mover) {
+      unit_class_list_append(pclass->cache.subset_movers, pcharge);
+    }
+  } unit_class_iterate_end;
 }

@@ -92,6 +92,7 @@ enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
 enum move_level { MOVE_NONE, MOVE_PARTIAL, MOVE_FULL };
 
 struct extra_type_list;
+struct unit_class_list;
 
 struct unit_class {
   Unit_Class_id item_number;
@@ -111,6 +112,7 @@ struct unit_class {
   struct {
     struct extra_type_list *refuel_bases;
     struct extra_type_list *native_tile_extras;
+    struct unit_class_list *subset_movers;
   } cache;
 };
 
@@ -618,6 +620,22 @@ const struct unit_class *unit_class_array_last(void);
     }									\
   }									\
 }
+
+#define SPECLIST_TAG unit_class
+#define SPECLIST_TYPE struct unit_class
+#include "speclist.h"
+
+#define unit_class_list_iterate(uclass_list, pclass) \
+  TYPED_LIST_ITERATE(struct unit_class, uclass_list, pclass)
+#define unit_class_list_iterate_end LIST_ITERATE_END
+
+#define SPECLIST_TAG unit_type
+#define SPECLIST_TYPE struct unit_type
+#include "speclist.h"
+
+#define unit_type_list_iterate(utype_list, ptype) \
+  TYPED_LIST_ITERATE(struct unit_type, utype_list, ptype)
+#define unit_type_list_iterate_end LIST_ITERATE_END
 
 #ifdef __cplusplus
 }

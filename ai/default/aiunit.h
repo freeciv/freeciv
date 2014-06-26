@@ -51,6 +51,7 @@ struct unit_type_ai
   bool ferry;
   bool missile_platform;
   bool carries_occupiers;
+  struct unit_type_list *potential_charges;
 };
 
 /* Simple military macros */
