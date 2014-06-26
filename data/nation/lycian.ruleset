@@ -30,7 +30,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="Turkish", "Ottoman", "Byzantine"
-civilwar_nations = "Lydian", "Luwian", "Hittite", "Greek" ;carian
+civilwar_nations = "Luwian", "Hittite", "Greek" ;Lydian, carian
 
 cities =
 "Pttara", ;Patara
