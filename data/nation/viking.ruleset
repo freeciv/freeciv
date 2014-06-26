@@ -45,7 +45,7 @@ civilwar_nations=
 ; Scandinavian nations
  "Danish", "Icelandic", "Norwegian", "Swedish",
 ; Other nations claiming viking heritage
- "Finnish", "Kievan Rus'", "Scottish", "Norman"
+ "Finnish", "Ruthenian", "Scottish", "Norman"
 
 cities =
 ; In Scandinavia

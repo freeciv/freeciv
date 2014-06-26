@@ -48,7 +48,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-conflicts_with="Cossack", "Kievan Rus'"
+conflicts_with="Cossack", "Ruthenian"
 civilwar_nations="Soviet", "Polish", "Russian", "Rusyn",
  "Crimean Tatar"
 

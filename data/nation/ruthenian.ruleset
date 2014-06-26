@@ -2,6 +2,7 @@
 
 name=_("Kievan Rus'")
 plural=_("?plural:Kievan Rus'")
+rule_name="Ruthenian"
 groups="European", "Medieval"
 legend=_("The Kievan Rus' were a Medieval Slavic monarchy. It was\
  centered in Kiev after that city was conquered by Oleg of Novgorod.\

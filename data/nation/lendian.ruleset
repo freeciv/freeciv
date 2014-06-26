@@ -26,7 +26,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 conflicts_with = "ukrainian"
-civilwar_nations = "polish", "kievan rus'", "ukrainian"
+civilwar_nations = "polish", "ruthenian", "ukrainian"
 
 cities =
 "Czerwień",
