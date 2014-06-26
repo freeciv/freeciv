@@ -394,10 +394,10 @@ helptext	= _("\
 Whenever a city with a Granary shrinks or grows, the foodbox keeps\
  10 stored food.  This helps a city to grow faster and more easily\
  withstand famine.\
+"), _("\
+Granary also halves the waste of food caused by distance to Palace. \
+ Together with a Courthouse, it eliminates completely the waste of food.\
 ")
-; NOTE:
-; In Civ2, city size reduction does not generate food like this.
-; Dare I ask where this food comes from?? :-)
 
 [building_harbour]
 name            = _("Harbor")

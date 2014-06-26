@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 16-Jun-2014)
+Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 27-Jun-2014)
 ==========================================================
 
 
@@ -244,6 +244,7 @@ BUILDINGS:
 - Courthouse: Make_Content = 1, and reduces to half any kind of waste (Trade, Shields or Food).
 Added new effect: Food wasted by distance to Palace = -1% Food each 2 tiles.
 For example, cities at distance 20 of the Palace lose -10% Food (-5% with courthouse), so they lose -1 Food when their production reaches 10 Food per turn (20 Food per turn with courthouse), noticeable when city reaches size 5 or so (around city size 10 with courthouse).
+- Granary halves the waste of food caused by distance to Palace. Together with a Courthouse, it eliminates completely the waste of food.
 - Police Station: Make_Content = 2, and reduces unhappiness caused by 1 Military unit.
 - Science bonus by buildings (Library, University and Research Lab) restored to civ2 values (+50%). There are wonders that double the effect later.
 - Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%), so the Power Plants are as important as the Factories. Mfg Plants allows the construction of 2 items per turn. 
@@ -442,6 +443,7 @@ Changes:
 - Disabled happyborders: Units cause military unhappiness if they end the turn outside cities or fortresses, no matter if they are inside national borders.
 - Readjusted effect of some wonders: Mausoleum of Mausolos, Statue of Liberty, and those related to military unhappiness. Marco Polo's Embassy obsolete by Democracy.
 - Fixed Aqueducts (same as Barracks) to avoid duplicated bonuses when there are two of them in the same ciy.
+- Granary halves the waste of food caused by distance to Palace.
 - Swapped Empire Size values for Fundamentalism (now 20) and Monarchy (now 12).
 - Pollution may appear in ocean tiles. Transports can clean it without the need of Workers\Engineers.
 - Enabled random disasters, and readjusted effects. Plague renamed to Flood.

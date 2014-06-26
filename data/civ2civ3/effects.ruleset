@@ -2086,7 +2086,6 @@ reqs    =
       "OutputType", "Shield", "local"
     }
 
-; Total -1% food each 4 tiles
 [effect_courthouse_2]
 type    = "Output_Waste_Pct"
 value   = 25
@@ -2127,6 +2126,15 @@ value   = 100
 reqs    =
     { "type", "name", "range"
       "Building", "Factory", "City"
+    }
+
+[effect_granary]
+type    = "Output_Waste_Pct"
+value   = 25
+reqs    =
+    { "type", "name", "range"
+      "Building", "Granary", "City"
+      "OutputType", "Food", "local"
     }
 
 ; Free Granary effect
