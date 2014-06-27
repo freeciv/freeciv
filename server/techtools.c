@@ -52,7 +52,7 @@
 /* Define this to add information about tech upkeep. */
 #undef TECH_UPKEEP_DEBUGGING
 
-static Tech_type_id pick_random_tech_researched(struct player* plr);
+static Tech_type_id pick_random_tech_to_lose(struct player* plr);
 static void player_tech_lost(struct player* plr, Tech_type_id tech);
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 
@@ -594,7 +594,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
       tech = A_FUTURE;
       research->future_tech--;
     } else {
-      tech = pick_random_tech_researched(plr);
+      tech = pick_random_tech_to_lose(plr);
 
       if (tech != A_NONE) {
         notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
@@ -636,27 +636,33 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 }
 
 /****************************************************************************
-  Returns a random researched tech.
+  Choose a random tech for player to lose.
 ****************************************************************************/
-static Tech_type_id pick_random_tech_researched(struct player* plr)
+static Tech_type_id pick_random_tech_to_lose(struct player* plr)
 {
-  int chosen, researched = 0;
+  bv_techs eligible_techs;
+  int chosen, eligible = 0;
+
+  BV_CLR_ALL(eligible_techs);
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_KNOWN) {
-      researched++;
+    /* Never lose self root_req techs */
+    if (advance_required(i, AR_ROOT) != i
+        && player_invention_state(plr, i) == TECH_KNOWN) {
+      BV_SET(eligible_techs, i);
+      eligible++;
     }
   } advance_index_iterate_end;
 
-  if (researched == 0) {
-    /* no technology at all */
+  if (eligible == 0) {
+    /* no researched technology at all */
     return A_NONE;
   }
 
-  chosen = fc_rand(researched) + 1;
+  chosen = fc_rand(eligible) + 1;
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_KNOWN) {
+    if (BV_ISSET(eligible_techs, i)) {
       chosen--;
       if (chosen == 0) {
         return i;
