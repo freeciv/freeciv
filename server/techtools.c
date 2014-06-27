@@ -560,16 +560,26 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 static Tech_type_id pick_random_tech_to_lose(struct player* plr)
 {
   bv_techs eligible_techs;
-  int chosen, eligible = 0;
+  int chosen, eligible = advance_count();
 
-  BV_CLR_ALL(eligible_techs);
+  BV_SET_ALL(eligible_techs);
 
   advance_index_iterate(A_FIRST, i) {
-    /* Never lose self root_req techs */
-    if (advance_required(i, AR_ROOT) != i
-        && player_invention_state(plr, i) == TECH_KNOWN) {
-      BV_SET(eligible_techs, i);
-      eligible++;
+    if (player_invention_state(plr, i) != TECH_KNOWN) {
+      if (BV_ISSET(eligible_techs, i)) {
+        eligible--;
+        BV_CLR(eligible_techs, i);
+      }
+    } else {
+      /* Never lose techs that are root_req for a currently known tech
+       * (including self root_req) */
+      Tech_type_id root = advance_required(i, AR_ROOT);
+      if (root != A_NONE) {
+        if (BV_ISSET(eligible_techs, root)) {
+          eligible--;
+          BV_CLR(eligible_techs, root);
+        }
+      }
     }
   } advance_index_iterate_end;
 
@@ -1221,8 +1231,20 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
 bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech)
 {
-  if (fc_rand(100) < game.server.techlost_donor) {
-    forget_tech_transfered(plr_donor, tech);
+  if (game.server.techlost_donor > 0) {
+    /* Don't let donor lose tech if it's root_req for some other known
+     * tech */
+    bool donor_can_lose = TRUE;
+    advance_index_iterate(A_FIRST, i) {
+      if (player_invention_state(plr_donor, i) == TECH_KNOWN
+          && advance_required(i, AR_ROOT) == tech) {
+        donor_can_lose = FALSE;
+        break;
+      }
+    } advance_index_iterate_end;
+    if (donor_can_lose && fc_rand(100) < game.server.techlost_donor) {
+      forget_tech_transfered(plr_donor, tech);
+    }
   }
 
   if (fc_rand(100) < game.server.techlost_recv) {
