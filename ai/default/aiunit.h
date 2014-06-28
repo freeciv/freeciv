@@ -99,6 +99,9 @@ struct city *find_nearest_safe_city(struct unit *punit);
 int look_for_charge(struct ai_type *ait, struct player *pplayer,
                     struct unit *punit,
                     struct unit **aunit, struct city **acity);
+bool dai_can_unit_type_follow_unit_type(struct unit_type *follower,
+                                        struct unit_type *followee,
+                                        struct ai_type *ait);
 
 bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
                     struct tile *dest_tile,

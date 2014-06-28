@@ -147,7 +147,7 @@ static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
 /**************************************************************************
   Should unit type be considered a ferry?
 **************************************************************************/
-static bool dai_is_ferry_type(struct unit_type *pferry, struct ai_type *ait)
+bool dai_is_ferry_type(struct unit_type *pferry, struct ai_type *ait)
 {
   struct unit_type_ai *utai = utype_ai_data(pferry, ait);
 

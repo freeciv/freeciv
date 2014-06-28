@@ -693,7 +693,6 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
   int def, best_def = -1;
   /* Arbitrary: 3 turns. */
   const int max_move_cost = 3 * unit_move_rate(punit);
-  struct unit_type_ai *utai = utype_ai_data(unit_type(punit), ait);
 
   *aunit = NULL;
   *acity = NULL;
@@ -717,16 +716,9 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
 
     /* Consider unit bodyguard. */
     unit_list_iterate(ptile->units, buddy) {
-      bool acceptable_charge = FALSE;
-
-      unit_type_list_iterate(utai->potential_charges, charge_type) {
-        if (unit_type(punit) == charge_type) {
-          acceptable_charge = TRUE;
-        }
-      } unit_type_list_iterate_end;
-
       /* TODO: allied unit bodyguard? */
-      if (!acceptable_charge
+      if (!dai_can_unit_type_follow_unit_type(unit_type(punit),
+                                              unit_type(buddy), ait)
           || unit_owner(buddy) != pplayer
           || !aiguard_wanted(ait, buddy)
           || unit_move_rate(buddy) > unit_move_rate(punit)
@@ -801,6 +793,24 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
                index_to_map_pos_y(tile_index(unit_tile(*aunit))) : -1)));
 
   return ((best_def * 100) / toughness);
+}
+
+/********************************************************************** 
+  See if the follower can follow the followee
+***********************************************************************/
+bool dai_can_unit_type_follow_unit_type(struct unit_type *follower,
+                                        struct unit_type *followee,
+                                        struct ai_type *ait)
+{
+  struct unit_type_ai *utai = utype_ai_data(follower, ait);
+
+  unit_type_list_iterate(utai->potential_charges, pcharge) {
+    if (pcharge == followee) {
+      return TRUE;
+    }
+  } unit_type_list_iterate_end;
+
+  return FALSE;
 }
 
 /********************************************************************** 

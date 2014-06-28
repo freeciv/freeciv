@@ -884,7 +884,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
 
   'ptile' is location of the target.
   best_choice is pre-filled with our current choice, we only
-  consider units of the same move_type as best_choice
+  consider units who can move in all the same terrains for best_choice.
 ****************************************************************************/
 static void process_attacker_want(struct ai_type *ait,
                                   struct city *pcity,
@@ -903,8 +903,7 @@ static void process_attacker_want(struct ai_type *ait,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_position pos;
-  bool shore = is_terrain_class_near_tile(pcity->tile, TC_OCEAN);
-  int orig_move_type = utype_move_type(best_choice->value.utype);
+  struct unit_type *orig_utype = best_choice->value.utype;
   int victim_count = 1;
   int needferry = 0;
   bool unhap = dai_assess_military_unhappiness(pcity);
@@ -912,13 +911,12 @@ static void process_attacker_want(struct ai_type *ait,
   /* Has to be initialized to make gcc happy */
   struct ai_city *acity_data = NULL;
 
-  fc_assert(orig_move_type == UMT_SEA || orig_move_type == UMT_LAND);
-
   if (acity != NULL) {
     acity_data = def_ai_city_data(acity, ait);
   }
 
-  if (orig_move_type == UMT_LAND && !boat && boattype) {
+  if (utype_class(orig_utype)->adv.sea_move == MOVE_NONE
+      && !boat && boattype) {
     /* cost of ferry */
     needferry = utype_build_shield_cost(boattype);
   }
@@ -932,13 +930,12 @@ static void process_attacker_want(struct ai_type *ait,
   simple_ai_unit_type_iterate(punittype) {
     Tech_type_id tech_req = advance_number(punittype->require_advance);
     int tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
-    int move_type = utype_move_type(punittype);
 
-    if ((move_type == UMT_LAND || (move_type == UMT_SEA && shore))
+    if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
+        && is_native_near_tile(utype_class(punittype), ptile)
         && (U_NOT_OBSOLETED == punittype->obsoleted_by
             || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
-        && punittype->attack_strength > 0 /* or we'll get SIGFPE */
-        && move_type == orig_move_type) {
+        && punittype->attack_strength > 0 /* or we'll get SIGFPE */) {
       /* Values to be computed */
       int desire, want;
       int move_time;
@@ -1028,7 +1025,9 @@ static void process_attacker_want(struct ai_type *ait,
        * (this is noted elsewhere as terrible bug making warships yoyoing) 
        * as the warships will go to enemy cities hoping that the enemy builds 
        * something for them to kill*/
-      if (move_type != UMT_LAND && vuln == 0) {
+      if (vuln == 0
+          && (utype_class(punittype)->adv.land_move == MOVE_NONE
+              || 0 < utype_fuel(punittype))) {
         desire = 0;
         
       } else {
@@ -1174,12 +1173,6 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     goto cleanup;
   }
 
-  if (!is_ground_unit(myunit) && !is_sailing_unit(myunit)) {
-    log_error("%s(): attempting to deal with non-trivial unit_type.",
-              __FUNCTION__);
-    return;
-  }
-
   best_choice.want = find_something_to_kill(ait, pplayer, myunit, &ptile, NULL,
                                             &ferry_map, &ferryboat,
                                             &boattype, &move_time);
@@ -1272,7 +1265,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
                           &best_choice, NULL, NULL, NULL);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
-    fc_assert_ret(is_ground_unit(myunit));
+    fc_assert_ret(unit_class(myunit)->adv.sea_move != MOVE_FULL);
     best_choice.need_boat = TRUE;
     process_attacker_want(ait, pcity, benefit, def_type, def_owner,
                           def_vet, ptile,
@@ -1291,10 +1284,10 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     if (NULL != ferry_map && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
-      fc_assert_ret(is_ground_unit(myunit));
+      fc_assert_ret(unit_class(myunit)->adv.sea_move != MOVE_FULL);
       dai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
                            L_FERRYBOAT, choice->want, TRUE);
-      if (UMT_SEA == utype_move_type(choice->value.utype)) {
+      if (dai_is_ferry_type(choice->value.utype, ait)) {
 #ifdef DEBUG
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
