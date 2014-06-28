@@ -45,21 +45,6 @@ static bool universal_in_req_vec(const struct universal *uni,
   return FALSE;
 }
 
-/**************************************************************************
-  Check if universal is mentioned in the requirement list.
-**************************************************************************/
-static bool universal_in_req_list(const struct universal *uni,
-                                  const struct requirement_list *preqs)
-{
-  requirement_list_iterate(preqs, preq) {
-    if (are_universals_equal(uni, &preq->source)) {
-      return TRUE;
-    }
-  } requirement_list_iterate_end;
-
-  return FALSE;
-}
-
 struct effect_list_cb_data
 {
   bool needed;
@@ -75,7 +60,7 @@ static bool effect_list_universal_needed_cb(const struct effect *peffect,
 {
   struct effect_list_cb_data *cbdata = (struct effect_list_cb_data *)data;
 
-  if (universal_in_req_list(cbdata->uni, peffect->reqs)) {
+  if (universal_in_req_vec(cbdata->uni, &peffect->reqs)) {
     cbdata->cb(R__("Effect"));
     cbdata->needed = TRUE;
   }

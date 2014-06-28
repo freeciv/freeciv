@@ -2599,6 +2599,29 @@ universal_fulfills_requirement(universals_u *univ,
 }
 
 /*************************************************************************
+  Find if a unit class fulfills a requirement
+**************************************************************************/
+static enum item_found unit_class_found(struct requirement *preq,
+                                        universals_u *uclass)
+{
+  fc_assert(uclass);
+  fc_assert(preq);
+
+  switch (preq->source.kind) {
+  case VUT_UCLASS:
+    return uclass->uclass == preq->source.value.uclass ? ITF_YES : ITF_NO;
+  case VUT_UCFLAG:
+    return uclass_has_flag(uclass->uclass,
+                           preq->source.value.unitclassflag) ? ITF_YES
+                                                             : ITF_NO;
+
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  };
+}
+
+/*************************************************************************
   Find if a unit type fulfills a requirement
 **************************************************************************/
 static enum item_found unit_type_found(struct requirement *preq,
@@ -2624,6 +2647,28 @@ static enum item_found unit_type_found(struct requirement *preq,
     /* Not found and not relevant. */
     return ITF_NOT_APPLICABLE;
   };
+}
+
+/*************************************************************************
+  Will the specified unit class fulfill the requirements in the list?
+**************************************************************************/
+bool requirement_fulfilled_by_unit_class(struct unit_class *uclass,
+                                         struct requirement_vector *reqs)
+{
+  universals_u *univ;
+  bool result;
+
+  fc_assert(uclass);
+  fc_assert(reqs);
+
+  univ = fc_malloc(sizeof(*univ));
+  univ->uclass = uclass;
+
+  result = universal_fulfills_requirement(univ, unit_class_found, reqs);
+
+  free(univ);
+
+  return result;
 }
 
 /*************************************************************************

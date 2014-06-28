@@ -117,7 +117,7 @@ static bool save_name_translation(struct section_file *sfile,
   Save vector of requirements
 **************************************************************************/
 static bool save_reqs_vector(struct section_file *sfile,
-                             struct requirement_vector *reqs,
+                             const struct requirement_vector *reqs,
                              const char *path, const char *entry)
 {
   int i;
@@ -159,56 +159,6 @@ static bool save_reqs_vector(struct section_file *sfile,
 
     i++;
   } requirement_vector_iterate_end;
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Save list of requirements
-**************************************************************************/
-static bool save_reqs_list(struct section_file *sfile,
-                           const struct requirement_list *reqs,
-                           const char *path, const char *entry)
-{
-  int i;
-  bool includes_negated = FALSE;
-  bool includes_surviving = FALSE;
-
-  requirement_list_iterate(reqs, preq) {
-    if (!preq->present) {
-      includes_negated = TRUE;
-    }
-    if (preq->survives) {
-      includes_surviving = TRUE;
-    }
-  } requirement_list_iterate_end;
-
-  i = 0;
-  requirement_list_iterate(reqs, preq) {
-    secfile_insert_str(sfile,
-                       universals_n_name(preq->source.kind),
-                       "%s.%s%d.type", path, entry, i);
-    secfile_insert_str(sfile,
-                       universal_rule_name(&(preq->source)),
-                       "%s.%s%d.name", path, entry, i);
-    secfile_insert_str(sfile,
-                       req_range_name(preq->range),
-                       "%s.%s%d.range", path, entry, i);
-
-    if (includes_surviving) {
-      secfile_insert_bool(sfile,
-                          preq->survives,
-                          "%s.%s%d.survives", path, entry, i);
-    }
-
-    if (includes_negated) {
-      secfile_insert_bool(sfile,
-                          preq->present,
-                          "%s.%s%d.present", path, entry, i);
-    }
-
-    i++;
-  } requirement_list_iterate_end;
 
   return TRUE;
 }
@@ -644,7 +594,7 @@ static bool effect_save(const struct effect *peffect, void *data)
                      "%s.type", path);
   secfile_insert_int(cbdata->sfile, peffect->value, "%s.value", path);
 
-  save_reqs_list(cbdata->sfile, peffect->reqs, path, "reqs");
+  save_reqs_vector(cbdata->sfile, &peffect->reqs, path, "reqs");
 
   return TRUE;
 }

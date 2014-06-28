@@ -69,13 +69,6 @@ struct requirement {
   bool present;	 /* set if the requirement is to be present */
 };
 
-#define SPECLIST_TAG requirement
-#define SPECLIST_TYPE struct requirement
-#include "speclist.h"
-#define requirement_list_iterate(req_list, preq) \
-  TYPED_LIST_ITERATE(struct requirement, req_list, preq)
-#define requirement_list_iterate_end LIST_ITERATE_END
-
 #define SPECVEC_TAG requirement
 #define SPECVEC_TYPE struct requirement
 #include "specvec.h"
@@ -143,6 +136,8 @@ const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct universal *target);
 
+bool requirement_fulfilled_by_unit_class(struct unit_class *uclass,
+                                         struct requirement_vector *reqs);
 bool requirement_fulfilled_by_unit_type(struct unit_type *utype,
                                         struct requirement_vector *reqs);
 

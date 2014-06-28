@@ -22,7 +22,7 @@ extern "C" {
 
 #include "connection.h"
 
-struct requirement;
+#include "requirements.h"
 
 /* Type of effects. Add new values via SPECENUM_VALUE%d and
  * SPECENUM_VALUE%dNAME at the end of the list.
@@ -271,7 +271,7 @@ struct effect {
 
   /* An effect can have multiple requirements.  The effect will only be
    * active if all of these requirement are met. */
-  struct requirement_list *reqs;
+  struct requirement_vector reqs;
 };
 
 /* An effect_list is a list of effects. */

@@ -1375,7 +1375,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     tech_vector_init(&needed_techs);
 
-    requirement_list_iterate(peffect->reqs, preq) {
+    requirement_vector_iterate(&peffect->reqs, preq) {
       /* Check if all the requirements for the currently evaluated effect
        * are met, except for having the building that we are evaluating. */
       if (VUT_IMPROVEMENT == preq->source.kind
@@ -1400,7 +1400,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
           }
 	}
       }
-    } requirement_list_iterate_end;
+    } requirement_vector_iterate_end;
 
     n_needed_techs = tech_vector_size(&needed_techs);
     if ((active || n_needed_techs) && !impossible_to_get) {
@@ -1755,7 +1755,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
       struct impr_type *building = NULL;
       bool wrong_unit = FALSE;
 
-      requirement_list_iterate(peffect->reqs, preq) {
+      requirement_vector_iterate(&peffect->reqs, preq) {
         if (VUT_IMPROVEMENT == preq->source.kind && preq->present) {
           building = preq->source.value.building;
 
@@ -1771,7 +1771,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
           wrong_unit = TRUE;
           break;
         }
-      } requirement_list_iterate_end;
+      } requirement_vector_iterate_end;
       if (!wrong_unit && building != NULL) {
         best_building = building;
 	greatest_value = peffect->value;

@@ -3799,7 +3799,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     bool world_value_valid = TRUE;
 
     /* Grab output type, if there is one */
-    requirement_list_iterate(peffect->reqs, preq) {
+    requirement_vector_iterate(&peffect->reqs, preq) {
       /* FIXME: perhaps we should treat any effect with negated requirements
        * as too complex for us to explain here? */
       if (!preq->present) {
@@ -3848,7 +3848,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
          world_value_valid = FALSE;
          break;
       };
-    } requirement_list_iterate_end;
+    } requirement_vector_iterate_end;
 
     if (!extra_reqs) {
       /* Only list effects that don't have extra requirements too complex

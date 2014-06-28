@@ -106,38 +106,16 @@ int dai_content_effect_value(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Is a unit class affected by an effect?
-  Note that some effects have unit_type restrictions that may cause this
-  test to be inaccurate.
-**************************************************************************/
-static bool is_unit_class_affected_by(const struct unit_class *pclass,
-                                      const struct effect *peffect)
-{
-  requirement_list_iterate(peffect->reqs, preq) {
-    if ( (preq->source.kind == VUT_UCLASS
-          && ((preq->source.value.uclass != pclass && preq->present)
-              || (preq->source.value.uclass == pclass && !preq->present)))
-        || (preq->source.kind == VUT_UCFLAG
-            && ( (uclass_has_flag(pclass, preq->source.value.unitclassflag)
-                  && !preq->present)
-                || (!uclass_has_flag(pclass, preq->source.value.unitclassflag)
-                    && preq->present)))) {
-      return FALSE;
-    }
-  } requirement_list_iterate_end;
-  return TRUE;
-}
-
-/**************************************************************************
   Number of AI stats units affected by effect
 **************************************************************************/
 static int num_affected_units(const struct effect *peffect,
                               const struct adv_data *ai)
 {
   int unit_count = 0;
+  struct requirement_vector reqs = peffect->reqs;
 
   unit_class_iterate(pclass) {
-    if (is_unit_class_affected_by(pclass, peffect)) {
+    if (requirement_fulfilled_by_unit_class(pclass, &reqs)) {
       unit_count += ai->stats.units.byclass[uclass_index(pclass)];
     }
   } unit_class_iterate_end;
@@ -426,7 +404,9 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
       v += amount / 10; /* make AI slow */
     }
     unit_class_iterate(pclass) {
-      if (is_unit_class_affected_by(pclass, peffect)) {
+      struct requirement_vector reqs = peffect->reqs;
+
+      if (requirement_fulfilled_by_unit_class(pclass, &reqs)) {
         if (pclass->adv.sea_move != MOVE_NONE) {
           affects_sea_capable_units = TRUE;
         }

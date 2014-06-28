@@ -226,10 +226,10 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 }
 
 /**************************************************************************
-  Sanity check requirement list, including whether it's free of
+  Sanity check requirement vector, including whether it's free of
   conflicting requirements.
-  'conjunctive' should be TRUE if the list is an AND list (all requirements
-  must be active), FALSE if it's a disjunctive (OR) list.
+  'conjunctive' should be TRUE if the vector is an AND vector (all requirements
+  must be active), FALSE if it's a disjunctive (OR) vector.
   max_tiles is number of tiles that can provide requirement. Value -1
   disables checking based on number of tiles.
 
@@ -240,31 +240,6 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
           limitations for each requirement type
         - This function should check also problems caused by defining
           range to less than hardcoded max for requirement type
-**************************************************************************/
-static bool sanity_check_req_list(const struct requirement_list *preqs,
-                                  bool conjunctive, int max_tiles,
-                                  const char *list_for)
-{
-  int reqs_of_type[VUT_COUNT];
-  int local_reqs_of_type[VUT_COUNT];
-
-  /* Initialize requirement counters */
-  memset(reqs_of_type, 0, sizeof(reqs_of_type));
-  memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
-
-  requirement_list_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq,
-                              conjunctive, max_tiles, list_for)) {
-      return FALSE;
-    }
-  } requirement_list_iterate_end;
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Requirement vector version of requirement sanity checking. See
-  requirement list version for comments.
 **************************************************************************/
 static bool sanity_check_req_vec(const struct requirement_vector *preqs,
                                  bool conjunctive, int max_tiles,
@@ -303,8 +278,8 @@ static bool effect_list_sanity_cb(const struct effect *peffect, void *data)
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
 
-  return sanity_check_req_list(peffect->reqs, TRUE, one_tile,
-                               effect_type_name(peffect->type));
+  return sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
+                              effect_type_name(peffect->type));
 }
 
 /**************************************************************************
