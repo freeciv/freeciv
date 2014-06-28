@@ -81,7 +81,7 @@ static struct unit *dai_hunter_find(struct player *pplayer,
   Guess best hunter unit type.
 **************************************************************************/
 static struct unit_type *dai_hunter_guess_best(struct city *pcity,
-                                               enum unit_move_type umt,
+                                               enum terrain_class tc,
                                                struct ai_type *ait)
 {
   struct unit_type *bestid = NULL;
@@ -91,9 +91,10 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     struct unit_type_ai *utai = utype_ai_data(ut, ait);
     int desire;
 
-    if (utype_move_type(ut) != umt
-     || !can_city_build_unit_now(pcity, ut)
-     || ut->attack_strength < ut->transport_capacity) {
+    if (!can_city_build_unit_now(pcity, ut)
+        || ut->attack_strength < ut->transport_capacity
+        || (tc == TC_OCEAN && utype_class(ut)->adv.sea_move == MOVE_NONE)
+        || (tc == TC_LAND && utype_class(ut)->adv.land_move == MOVE_NONE)) {
       continue;
     }
 
@@ -242,9 +243,9 @@ void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
                        struct city *pcity, struct adv_choice *choice)
 {
   struct unit_type *best_land_hunter
-    = dai_hunter_guess_best(pcity, UMT_LAND, ait);
+    = dai_hunter_guess_best(pcity, TC_LAND, ait);
   struct unit_type *best_sea_hunter
-    = dai_hunter_guess_best(pcity, UMT_SEA, ait);
+    = dai_hunter_guess_best(pcity, TC_OCEAN, ait);
   struct unit *hunter = dai_hunter_find(pplayer, pcity);
 
   if ((!best_land_hunter && !best_sea_hunter)

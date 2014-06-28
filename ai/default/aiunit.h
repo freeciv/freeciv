@@ -153,8 +153,8 @@ void dai_unit_load(struct ai_type *ait, const char *aitstr,
                    const struct section_file *file,
                    struct unit *punit, const char *unitstr);
 
-struct unit_type *dai_role_utype_for_move_type(struct city *pcity, int role,
-                                               enum unit_move_type mt);
+struct unit_type *dai_role_utype_for_terrain_class(struct city *pcity, int role,
+                                                   enum terrain_class tc);
 
 bool dai_unit_can_strike_my_unit(const struct unit *attacker,
                                  const struct unit *defender);

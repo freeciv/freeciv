@@ -136,22 +136,24 @@ void military_advisor_choose_tech(struct player *pplayer,
   very wrong. FIXME, use amortize on time to build.
 **************************************************************************/
 static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *pcity,
-                                             enum unit_move_type which)
+                                             enum terrain_class tc)
 {
   struct unit_type *bestid = NULL;
   int best = -1;
   int cur;
 
-  simple_ai_unit_type_iterate(punittype) {
-    cur = dai_unit_attack_desirability(ait, punittype);
-    if (which == utype_move_type(punittype)) {
-      if (can_city_build_unit_now(pcity, punittype)
+  simple_ai_unit_type_iterate(putype) {
+    cur = dai_unit_attack_desirability(ait, putype);
+    if ((tc == TC_LAND && utype_class(putype)->adv.land_move != MOVE_NONE)
+        || (tc == TC_OCEAN
+            && utype_class(putype)->adv.sea_move != MOVE_NONE)) {
+      if (can_city_build_unit_now(pcity, putype)
           && (cur > best
               || (cur == best
-                  && utype_build_shield_cost(punittype)
+                  && utype_build_shield_cost(putype)
                      <= utype_build_shield_cost(bestid)))) {
         best = cur;
-        bestid = punittype;
+        bestid = putype;
       }
     }
   } simple_ai_unit_type_iterate_end;
@@ -169,34 +171,36 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *p
 **************************************************************************/
 static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
                                               struct city *pcity,
-                                              enum unit_move_type move_type,
+                                              enum terrain_class tc,
                                               enum unit_role_id role)
 {
   struct unit_type *bestid = NULL;
   int best = 0;
 
-  simple_ai_unit_type_iterate(punittype) {
+  simple_ai_unit_type_iterate(putype) {
     /* Only consider units of given role, or any if invalid given */
     if (unit_role_id_is_valid(role)) {
-      if (!utype_has_role(punittype, role)) {
+      if (!utype_has_role(putype, role)) {
         continue;
       }
     }
 
     /* Only consider units of same move type */
-    if (utype_move_type(punittype) != move_type) {
+    if ((tc == TC_LAND && utype_class(putype)->adv.land_move == MOVE_NONE)
+        || (tc == TC_OCEAN
+            && utype_class(putype)->adv.sea_move == MOVE_NONE)) {
       continue;
     }
 
     /* Now find best */
-    if (can_city_build_unit_now(pcity, punittype)) {
-      const int desire = dai_unit_defence_desirability(ait, punittype);
+    if (can_city_build_unit_now(pcity, putype)) {
+      const int desire = dai_unit_defence_desirability(ait, putype);
 
       if (desire > best
-	  || (desire == best && utype_build_shield_cost(punittype) <=
+	  || (desire == best && utype_build_shield_cost(putype) <=
 	      utype_build_shield_cost(bestid))) {
         best = desire;
-        bestid = punittype;
+        bestid = putype;
       }
     }
   } simple_ai_unit_type_iterate_end;
@@ -1530,7 +1534,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   }
 
   /* Consider making a land bodyguard */
-  punittype = dai_choose_bodyguard(ait, pcity, UMT_LAND, L_DEFEND_GOOD);
+  punittype = dai_choose_bodyguard(ait, pcity, TC_LAND, L_DEFEND_GOOD);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
@@ -1548,7 +1552,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   dai_choose_diplomat_offensive(ait, pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
-  punittype = dai_choose_bodyguard(ait, pcity, UMT_SEA, L_DEFEND_GOOD);
+  punittype = dai_choose_bodyguard(ait, pcity, TC_OCEAN, L_DEFEND_GOOD);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
@@ -1561,7 +1565,7 @@ void military_advisor_choose_build(struct ai_type *ait,
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
-  punittype = dai_choose_attacker(ait, pcity, UMT_SEA);
+  punittype = dai_choose_attacker(ait, pcity, TC_LAND);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
@@ -1572,7 +1576,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   /* Consider a land attacker or a ferried land attacker
    * (in which case, we might want a ferry before an attacker)
    */
-  punittype = dai_choose_attacker(ait, pcity, UMT_LAND);
+  punittype = dai_choose_attacker(ait, pcity, TC_LAND);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
     kill_something_with(ait, pplayer, pcity, virtualunit, choice);

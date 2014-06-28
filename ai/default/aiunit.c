@@ -3166,7 +3166,7 @@ void dai_unit_load(struct ai_type *ait, const char *aitstr,
 
 struct role_unit_cb_data
 {
-  enum unit_move_type mt;
+  enum terrain_class tc;
   struct city *build_city;
 };
 
@@ -3177,10 +3177,9 @@ static bool role_unit_cb(struct unit_type *ptype, void *data)
 {
   struct role_unit_cb_data *cb_data = (struct role_unit_cb_data *)data;
   struct unit_class *pclass = utype_class(ptype);
-  enum unit_move_type umt = uclass_move_type(pclass);
 
-  if ((cb_data->mt == UMT_LAND && umt == UMT_SEA)
-      || (cb_data->mt == UMT_SEA && umt == UMT_LAND)) {
+  if ((cb_data->tc == TC_LAND && pclass->adv.land_move == MOVE_NONE)
+      || (cb_data->tc == TC_OCEAN && pclass->adv.sea_move == MOVE_NONE)) {
     return FALSE;
   }
 
@@ -3195,10 +3194,10 @@ static bool role_unit_cb(struct unit_type *ptype, void *data)
 /**************************************************************************
   Get unit type player can build, suitable to role, with given move type.
 **************************************************************************/
-struct unit_type *dai_role_utype_for_move_type(struct city *pcity, int role,
-                                               enum unit_move_type mt)
+struct unit_type *dai_role_utype_for_terrain_class(struct city *pcity, int role,
+                                                   enum terrain_class tc)
 {
-  struct role_unit_cb_data cb_data = { .build_city = pcity, .mt = mt };
+  struct role_unit_cb_data cb_data = { .build_city = pcity, .tc = tc };
 
   return role_units_iterate_backwards(role, role_unit_cb, &cb_data);
 }
