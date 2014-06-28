@@ -33,4 +33,6 @@ init_units=""
 cities =
  "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta",
  "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi", "Omicron",
- "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega"
+ "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega",
+ "Symbol", "Plus", "Minus", "Equal", "Greater", "Lesser", "Dot", "Line",
+ "Triangle", "Square", "Circle", "Cube"

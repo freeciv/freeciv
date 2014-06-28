@@ -36,4 +36,4 @@ trait_expansionist_max = 150
 cities =
   "Lost Temple", "Black Forest", "Dark Alley", "Alien Planet",
   "Hostile Moon", "Strange Nebula", "Broken Ship", "Deadly Encounter",
-  "Jungle", "Icy Peaks"
+  "Jungle", "Icy Peaks", "Crushed Skull", "Laser Crossing", "Monster's Belly"

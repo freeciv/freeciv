@@ -39,4 +39,5 @@ cities =
   "Marketing", "Production", "Development", "Sales", "Support",
   "Recruiting", "Espionage", "Finances", "Taxes", "Bugfixing",
   "Research", "Testing", "Statistics", "Legal", "Blackmailing",
-  "Training", "Documenting", "Combat", "Maintenance"
+  "Training", "Documenting", "Combat", "Maintenance", "Shipping",
+  "Management", "Security", "Lobbying"
