@@ -107,7 +107,6 @@ units.ruleset:
 
     - These flags and roles work only for move_type "Land" units:
       - "IgTer"
-      - "Airbase"
       - "Barbarian"
       - "BarbarianTech"
 
