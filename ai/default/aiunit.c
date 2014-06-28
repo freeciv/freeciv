@@ -1772,9 +1772,11 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
     return;
   }
   pcity = find_nearest_safe_city(punit);
-  if (is_sailing_unit(punit) && pcity) {
-    /* Sail somewhere */
-    UNIT_LOG(LOG_DEBUG, punit, "sailing to nearest safe house.");
+  if (pcity != NULL
+      && (dai_is_ferry(punit, ait)
+          || punit->hp < unit_type(punit)->hp * 0.50)) { /* WAG */
+    /* Go somewhere safe */
+    UNIT_LOG(LOG_DEBUG, punit, "heading to nearest safe house.");
     (void) dai_unit_goto(ait, punit, pcity->tile);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do, so try exploring. */
