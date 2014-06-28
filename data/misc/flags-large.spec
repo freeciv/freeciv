@@ -245,6 +245,7 @@ sprites =
 		"f.iroquois", "flags/iroquois-large"
 		"f.israel", "flags/israel-large"
 		"f.israel_ancient", "flags/israel_ancient-large"
+		"f.italian_greek", "flags/italian_greek-large"
 		"f.italy", "flags/italy-large"
 		"f.ivory_coast", "flags/ivory_coast-large"
 		"f.jaffna", "flags/jaffna-large"

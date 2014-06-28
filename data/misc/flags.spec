@@ -243,6 +243,7 @@ artists = "
    Iroquois		Daniel Markstedt
    Israel		John C Meuser
    Israel (ancient)	Tonyjeff (Wikimedia Commons) and J.M. Maalderink
+   Italian Greek	Andrzej G.
    Italy		Lauris Kaplinski
    Ivory Coast		J.M. Maalderink
    Jaffna		Dysfunctional (Wikimedia Commons)
@@ -812,13 +813,14 @@ sprites =
 		"f.iroquois", "flags/iroquois"
 		"f.israel", "flags/israel"
 		"f.israel_ancient", "flags/israel_ancient"
+		"f.italian_greek", "flags/italian_greek"
 		"f.italy", "flags/italy"
 		"f.ivory_coast", "flags/ivory_coast"
 		"f.jaffna", "flags/jaffna"
 		"f.jamaica", "flags/jamaica"
 		"f.japan", "flags/japan"
 		"f.jbonai", "flags/jbonai"
-		"f.jerusalem", "flags/jerusalem-large"
+		"f.jerusalem", "flags/jerusalem"
 		"f.jolof", "flags/jolof"
 		"f.jordan", "flags/jordan"
 		"f.kalmykia", "flags/kalmykia"
