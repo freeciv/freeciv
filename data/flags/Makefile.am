@@ -92,6 +92,7 @@ flag_files =				\
 		cantonese.png		\
 		cape_verde.png		\
 		car.png			\
+		carantanian.png		\
 		cartago.png		\
 		castile.png		\
 		catalan.png		\
@@ -652,6 +653,7 @@ flag_files =				\
 		cantonese-large.png		\
 		cape_verde-large.png		\
 		car-large.png			\
+		carantanian-large.png		\
 		cartago-large.png		\
 		castile-large.png		\
 		catalan-large.png		\
@@ -1214,6 +1216,7 @@ shield_files =					\
 		cantonese-shield.png		\
 		cape_verde-shield.png		\
 		car-shield.png			\
+		carantanian-shield.png		\
 		cartago-shield.png		\
 		castile-shield.png		\
 		catalan-shield.png		\
@@ -1774,6 +1777,7 @@ shield_files =					\
 		cantonese-shield-large.png		\
 		cape_verde-shield-large.png		\
 		car-shield-large.png			\
+		carantanian-shield-large.png		\
 		cartago-shield-large.png		\
 		castile-shield-large.png		\
 		catalan-shield-large.png		\
@@ -2336,6 +2340,7 @@ svg_files = 				\
 		cantonese.svg		\
 		cape_verde.svg		\
 		car.svg			\
+		carantanian.svg		\
 		cartago.svg		\
 		castile.svg		\
 		catalan.svg		\

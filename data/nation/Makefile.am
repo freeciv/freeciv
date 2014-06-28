@@ -95,6 +95,7 @@ pkgdata_DATA = \
 		canari.ruleset \
 		cantonese.ruleset \
 		capeverdean.ruleset \
+		carantanian.ruleset \
 		carthaginian.ruleset \
 		castilian.ruleset \
 		catalan.ruleset \

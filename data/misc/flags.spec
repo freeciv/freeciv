@@ -100,6 +100,7 @@ artists = "
    Cantonese		Cezary Biele and J.M. Maalderink
    Cape Verde		Open Clip Art
    CAR			Vzb83 (Wikimedia Commons)
+   Carantanian		Andrzej M. Gorzym 
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Celtiberian		J.M. Maalderink
@@ -664,6 +665,7 @@ sprites =
 		"f.cantonese", "flags/cantonese"
 		"f.cape_verde", "flags/cape_verde"
 		"f.car", "flags/car"
+		"f.carantanian", "flags/carantanian"
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
