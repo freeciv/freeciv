@@ -66,9 +66,6 @@ struct ai_plr
   int last_num_continents;
   int last_num_oceans;
 
-  /* Keep track of available ocean channels */
-  bool *channels;
-
   struct {
     int passengers;   /* number of passengers waiting for boats */
     int boats;
@@ -101,9 +98,6 @@ void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer);
 bool is_ai_data_phase_open(struct ai_type *ait, struct player *pplayer);
 
 struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer, bool *close);
-
-bool dai_channel(struct ai_type *ait, struct player *pplayer,
-                 Continent_id c1, Continent_id c2);
 
 struct ai_dip_intel *dai_diplomacy_get(struct ai_type *ait,
                                        const struct player *plr1,
