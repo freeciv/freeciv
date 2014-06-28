@@ -1,51 +1,128 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:38+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-06-28 08:13+0200\n"
+"PO-Revision-Date: 2014-06-28 08:26+0200\n"
+"Last-Translator: Igx <igx31 hotmail.com>\n"
+"Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "Imprimer un résumé des options"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
 msgid "Print the version number"
-msgstr ""
+msgstr "Imprimer le numéro de version"
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Option non reconnue \"%s\"\n"
+
+#: tools/ruledit/ruledit_qt.cpp:58
+msgid "Freeciv ruleset editor"
+msgstr "Éditeur de règles du jeu de Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:94
+#, c-format
+msgid "Needed by %s"
+msgstr "Nécessaire pour %s"
+
+#: tools/ruledit/ruledit_qt.cpp:117
+msgid "Give ruleset to use as starting point."
+msgstr "Donner les règles du jeu à utiliser comme point de départ."
+
+#: tools/ruledit/ruledit_qt.cpp:123
+msgid "Start editing"
+msgstr "Commencer l'édition"
+
+#: tools/ruledit/ruledit_qt.cpp:133
+msgid "Misc"
+msgstr "Divers"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Tech"
+msgstr "Technologies"
+
+#: tools/ruledit/ruledit_qt.cpp:144
+msgid "Welcome to freeciv-ruledit"
+msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:179
+msgid "Ruleset loaded"
+msgstr "Règles du jeu chargées"
+
+#: tools/ruledit/ruledit_qt.cpp:184
+msgid "Ruleset loading failed!"
+msgstr "Impossible de charger les règles du jeu !"
+
+#: tools/ruledit/tab_misc.cpp:53
+msgid "Ruleset name"
+msgstr "Nom des règles du jeu"
+
+#: tools/ruledit/tab_misc.cpp:58
+msgid "Ruleset version"
+msgstr "Version des règles du jeu"
+
+#: tools/ruledit/tab_misc.cpp:63
+msgid "Save to directory"
+msgstr "Sauver dans le répertoire"
+
+#: tools/ruledit/tab_misc.cpp:70
+msgid "Save now"
+msgstr "Sauver maintenant"
+
+#: tools/ruledit/tab_misc.cpp:106
+msgid "Ruleset saved"
+msgstr "Règles du jeu sauvegardées"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Nom"
+
+#: tools/ruledit/tab_tech.cpp:69
+msgid "Rule Name"
+msgstr "Nom de la règle"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr "Prérequis1"
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr "Prérequis2"
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr "Prérequis racine"
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr "Ajouter une technologie"
+
+#: tools/ruledit/tab_tech.cpp:107
+msgid "Remove this tech"
+msgstr "Supprimer cette technologie"
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr "Jamais"
+
+#: tools/ruledit/validity.c:79
+msgid "Effect"
+msgstr "Effet"
+
+#: tools/ruledit/validity.c:160
+msgid "Music Style"
+msgstr "Style de musique"
