@@ -1066,7 +1066,7 @@ build_time     = 3
 border_sq      = -1
 conflicts      = "Fortress"
 native_to      = "Air", "Helicopter", "Missile"
-flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
 helptext       = _("\
 Airbases allow your air units to land and refuel, and improve the defense \
 against enemy air units. \
