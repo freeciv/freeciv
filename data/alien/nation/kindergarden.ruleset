@@ -35,4 +35,5 @@ trait_trader       = 30
 
 cities =
   "Toy", "Hakka", "Spaceship", "Doll", "Lego", "Nailgame", "Puzzle",
-  "Ball", "Book", "Slimerium", "Balloon"
+  "Ball", "Book", "Slimerium", "Balloon", "Cradle", "Riddlematic",
+  "Angel Wings", "Powersuit", "Holobox", "Fake Tail"
