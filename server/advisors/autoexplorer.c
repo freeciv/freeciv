@@ -44,34 +44,36 @@
 
 
 /**************************************************************************
-  Determine if a tile is likely to be water, given information that
-  the player actually has. Return the % certainty that it's water
+  Determine if a tile is likely to be native, given information that
+  the player actually has. Return the % certainty that it's native
   (100 = certain, 50 = no idea, 0 = certainly not).
 **************************************************************************/
-static int likely_ocean(struct tile *ptile, struct player *pplayer)
+static int likely_native(struct tile *ptile,
+                         struct player *pplayer,
+                         struct unit_class *pclass)
 {
-  int ocean = 0;
-  int land = 0;
+  int native = 0;
+  int foreign = 0;
   
   /* We do not check H_MAP here, it should be done by map_is_known() */
   if (map_is_known(ptile, pplayer)) {
     /* we've seen the tile already. */
-    return (is_ocean_tile(ptile) ? 100 : 0);
+    return (is_native_tile_to_class(pclass, ptile) ? 100 : 0);
   }
 
   /* The central tile is likely to be the same as the
    * nearby tiles. */
   adjc_dir_iterate(ptile, ptile1, dir) {
     if (map_is_known(ptile1, pplayer)) {
-      if (is_ocean_tile(ptile1)) {
-        ocean++;
+      if (is_native_tile_to_class(pclass, ptile)) {
+        native++;
       } else {
-        land++;
+        foreign++;
       }
     }
   } adjc_dir_iterate_end;
 
-  return 50 + (50 / map.num_valid_dirs * (ocean - land));
+  return 50 + (50 / map.num_valid_dirs * (native - foreign));
 }
 
 /**************************************************************************
@@ -197,7 +199,6 @@ comment below.
 static int explorer_desirable(struct tile *ptile, struct player *pplayer, 
                               struct unit *punit)
 {
-  int land_score, ocean_score, known_land_score, known_ocean_score;
   int radius_sq = unit_type(punit)->vision_radius_sq;
   int desirable = 0;
   int unknown = 0;
@@ -213,22 +214,8 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
     return 0;
   }
 
-  /* What value we assign to the number of land and water tiles
-   * depends on if we're a land or water unit. */
-  if (is_ground_unit(punit)) {
-    land_score = SAME_TER_SCORE;
-    ocean_score = DIFF_TER_SCORE;
-    known_land_score = KNOWN_SAME_TER_SCORE;
-    known_ocean_score = KNOWN_DIFF_TER_SCORE;
-  } else {
-    land_score = DIFF_TER_SCORE;
-    ocean_score = SAME_TER_SCORE;
-    known_land_score = KNOWN_DIFF_TER_SCORE;
-    known_ocean_score = KNOWN_SAME_TER_SCORE;
-  }
-
   circle_iterate(ptile, radius_sq, ptile1) {
-    int ocean = likely_ocean(ptile1, pplayer);
+    int native = likely_native(ptile1, pplayer, unit_class(punit));
 
     if (!map_is_known(ptile1, pplayer)) {
       unknown++;
@@ -241,13 +228,13 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
        * sometimes needs to be recalculated (actually all changes 
        * only require local recalculation, but that could be unstable). */
 
-      desirable += (ocean * ocean_score + (100 - ocean) * land_score);
+      desirable += (native * SAME_TER_SCORE + (100 - native) * DIFF_TER_SCORE);
     } else {
       if(is_tiles_adjacent(ptile, ptile1)) {
 	/* we don't value staying offshore from land,
 	 * only adjacent. Otherwise destroyers do the wrong thing. */
-	desirable += (ocean * known_ocean_score 
-                      + (100 - ocean) * known_land_score);
+	desirable += (native * KNOWN_SAME_TER_SCORE
+                      + (100 - native) * KNOWN_DIFF_TER_SCORE);
       }
     }
   } circle_iterate_end;
