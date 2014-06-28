@@ -71,9 +71,6 @@ cities =
  "Bi",
  "Yan",
 ; Zhou dynasty
- "Zongzhou",
- "Chengzhou",
- "Henan",
  "Gong",
 ; Qin dynasty
  "Xiquanqiu",
@@ -89,13 +86,10 @@ cities =
  "Xu",
 ; Jin dynasty
  "Jiankang",
-; Sui dynasty 
- "Dongdu",
 ; Song dynasty
  "Dongjing",
  "Lin'an",
 ; Ming dynasty
- "Nanjing",
  "Beijing",
  "Fuzhou",
  "Zhaoqing"
