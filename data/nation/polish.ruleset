@@ -50,8 +50,8 @@ conflicts_with =
  "Silesian",
  "Mazovian",
  "Greater Polish",
- "Slavic"
-; "Gothic",
+ "Slavic",
+ "Gothic"
 ; "Polanian"
 
 civilwar_nations =
@@ -67,10 +67,9 @@ civilwar_nations =
  "Kashubian",
  "Old Prussian",
  "Cuyavian",
- "Central Lithuanian"
-; "Rusyn",
-; "Polanian",
-
+ "Central Lithuanian",
+ "Rusyn"
+; "Polanian"
 
 cities =
 ; Te bedą pierwsze, bo tak pasuje

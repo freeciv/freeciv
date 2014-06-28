@@ -33,7 +33,7 @@ city_style = "European"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="silesian", "czech"
+civilwar_nations="hungarian", "rusyn"
 
 cities =
  "Bratislava",

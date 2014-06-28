@@ -986,6 +986,7 @@ sprites =
 		"f.romania", "flags/romania"
 		"f.rome", "flags/rome"			; Roman republic flag
 		"f.russia", "flags/russia"
+		"f.rusyn", "flags/rusyn"
 		"f.rvn", "flags/rvn"
 		"f.rwanda", "flags/rwanda"
 		"f.ryukyu", "flags/ryukyu"

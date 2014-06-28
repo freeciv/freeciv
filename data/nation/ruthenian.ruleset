@@ -1,7 +1,8 @@
 [nation_ruthenian]
 
-name=_("Ruthenian")
-plural=_("?plural:Ruthenians")
+name=_("Kievan Rus'")
+plural=_("?plural:Kievan Rus'")
+rule_name="Ruthenian"
 groups="European", "Medieval"
 legend=_("The Kievan Rus' were a Medieval Slavic monarchy. It was\
  centered in Kiev after that city was conquered by Oleg of Novgorod.\
@@ -37,8 +38,8 @@ city_style = "celtic"
 init_techs=""
 init_buildings=""
 init_units=""
-conflicts_with = "russian", "ukrainian", "belarusian", "muscovite"
-civilwar_nations = "muscovite", "ukrainian", "belarusian", "novgorodian"
+conflicts_with = "russian", "ukrainian", "belarusian", "muscovite", "rusyn"
+civilwar_nations = "muscovite", "ukrainian", "belarusian", "novgorodian", "rusyn"
 
 cities =
  "Kiev",
