@@ -106,8 +106,6 @@ units.ruleset:
       - "Diplomat" and "Caravan"
 
     - These flags and roles work only for move_type "Land" units:
-      - "IgTer"
-      - "Airbase"
       - "Barbarian"
       - "BarbarianTech"
 
