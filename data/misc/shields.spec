@@ -292,6 +292,7 @@ sprites =
 		"f.shield.libya_old", "flags/libya_old-shield"
 		"f.shield.liechtenstein", "flags/liechtenstein-shield"
 		"f.shield.liguria", "flags/liguria-shield"
+		"f.shield.ligurian", "flags/ligurian-shield"
 		"f.shield.lipkatatar", "flags/lipkatatar-shield"
 		"f.shield.lippe", "flags/lippe-shield"
 		"f.shield.lithuania", "flags/lithuania-shield"
