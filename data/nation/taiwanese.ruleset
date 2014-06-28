@@ -32,7 +32,7 @@ city_style = "Asian"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="chinese"
+civilwar_nations="chinese", "formosan"
 
 ; These names used to be spelled differently (Taipeh instead of Taipei).
 ; The new names are better but may not be canonical.
