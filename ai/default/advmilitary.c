@@ -554,8 +554,19 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
     unit_list_iterate(aplayer->units, punit) {
       int move_time;
       unsigned int vulnerability;
-      int defbonus = defense_bonuses[utype_index(unit_type(punit))];
-      struct unit_type_ai *utai = utype_ai_data(unit_type(punit), ait);
+      int defbonus;
+      struct unit_type *utype = unit_type(punit);
+      struct unit_type_ai *utai = utype_ai_data(utype, ait);
+
+      if (0 >= utype->transport_capacity
+          && !utype_has_flag(utype, UTYF_DIPLOMAT)
+          && (utype_has_flag(utype, UTYF_CIVILIAN)
+              || (0 >= utype->attack_strength
+                  && !uclass_has_flag(utype_class(utype),
+                                      UCF_CAN_OCCUPY_CITY)))) {
+        /* Harmless unit. */
+        continue;
+      }
 
       vulnerability = assess_danger_unit(pcity, pcity_map,
                                          punit, &move_time);
@@ -584,11 +595,12 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         }
       }
 
+      defbonus = defense_bonuses[utype_index(utype)];
       if (defbonus > 1) {
         defbonus = (defbonus + 1) / 2;
       }
       vulnerability /= (defbonus + 1);
-      (void) dai_wants_defender_against(pplayer, pcity, unit_type(punit),
+      (void) dai_wants_defender_against(pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
       if (unit_has_type_flag(punit, UTYF_DIPLOMAT) && 2 >= move_time) {
