@@ -296,6 +296,7 @@ pkgdata_DATA = \
 		lorrain.ruleset \
 		luwian.ruleset \
 		luxembourgish.ruleset \
+		lycian.ruleset \
 		maasai.ruleset \
 		macedon.ruleset \
 		macedonian.ruleset \
