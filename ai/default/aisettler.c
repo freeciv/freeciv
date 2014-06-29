@@ -879,7 +879,6 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
   struct pf_parameter parameter;
   struct player *pplayer = unit_owner(punit);
   struct unit *ferry = NULL;
-  struct unit_class *ferry_class = NULL;
   struct cityresult *cr1 = NULL, *cr2 = NULL;
 
   fc_assert_ret_val(pplayer->ai_controlled, NULL);
@@ -933,9 +932,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
       unit_tile_set(ferry, unit_tile(punit));
     }
 
-    ferry_class = unit_class(ferry);
-
-    fc_assert(ferry_class->adv.sea_move != MOVE_NONE);
+    fc_assert(dai_is_ferry(ferry, ait));
     pft_fill_unit_overlap_param(&parameter, ferry);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);
     parameter.get_TB = no_fights_or_unknown;
