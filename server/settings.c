@@ -731,13 +731,12 @@ static bool startunits_callback(const char *value,
                                 size_t reject_msg_len)
 {
   int len = strlen(value), i;
+  Unit_Class_id  first_role;
+  bool firstnative = FALSE;
 
-  /* We check each character individually to see if it's valid, and
-   * also make sure there is at least one city founder. */
-
+  /* We check each character individually to see if it's valid. */
   for (i = 0; i < len; i++) {
-    /* TODO: add 'f' back in here when we can support ferry units */
-    if (strchr("cwxksdDaA", value[i])) {
+    if (strchr("cwxksfdDaA", value[i])) {
       continue;
     }
 
@@ -749,7 +748,27 @@ static bool startunits_callback(const char *value,
     return FALSE;
   }
 
-  /* All characters were valid. */
+  /* Check the first character to make sure it can use a startpos. */
+  first_role = uclass_index(utype_class(get_role_unit(
+                                            crole_to_role_id(value[0]), 0)));
+  terrain_type_iterate(pterrain) {
+    if (terrain_has_flag(pterrain, TER_STARTER)
+        && BV_ISSET(pterrain->native_to, first_role)) {
+      firstnative = TRUE;
+      break;
+    }
+  } terrain_type_iterate_end;
+
+  if (!firstnative) {
+    /* Loading would cause an infinite loop hunting for a valid startpos. */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The first starting unit must be native to at "
+                        "least one \"Starter\" terrain. "
+                        " Try \"help startunits\"."));
+    return FALSE;
+  }
+
+  /* Everything seems fine. */
   return TRUE;
 }
 
@@ -1426,20 +1445,19 @@ static struct setting settings[] = {
   /* Game initialization parameters (only affect the first start of the game,
    * and not reloads).  Can not be changed after first start of game.
    */
-  /* TODO: Add this line back when we can support Ferry units */
-  /* "    f   = Ferryboat (eg., Trireme)\n" */
   GEN_STRING("startunits", game.server.start_units,
 	     SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
              N_("List of players' initial units"),
              N_("This should be a string of characters, each of which "
-		"specifies a unit role. There must be at least one city "
-		"founder in the string. The characters and their "
+		"specifies a unit role. The first character must be native to "
+                "at least one \"Starter\" terrain. The characters and their "
 		"meanings are:\n"
 		"    c   = City founder (eg., Settlers)\n"
 		"    w   = Terrain worker (eg., Engineers)\n"
 		"    x   = Explorer (eg., Explorer)\n"
 		"    k   = Gameloss (eg., King)\n"
 		"    s   = Diplomat (eg., Diplomat)\n"
+                "    f   = Ferryboat (eg., Trireme)\n"
 		"    d   = Ok defense unit (eg., Warriors)\n"
 		"    D   = Good defense unit (eg., Phalanx)\n"
 		"    a   = Fast attack unit (eg., Horsemen)\n"

@@ -64,45 +64,45 @@
 #define startpos_list_iterate_end LIST_BOTH_ITERATE_END
 
 /****************************************************************************
+  Get role_id for given role character
+****************************************************************************/
+enum unit_role_id crole_to_role_id(char crole)
+{
+  switch(crole) {
+  case 'c':
+    return L_CITIES;
+  case 'w':
+    return L_SETTLERS;
+  case 'x':
+    return L_EXPLORER;
+  case 'k':
+    return L_GAMELOSS;
+  case 's':
+    return L_DIPLOMAT;
+  case 'f':
+    return L_FERRYBOAT;
+  case 'd':
+    return L_DEFEND_OK;
+  case 'D':
+    return L_DEFEND_GOOD;
+  case 'a':
+    return L_ATTACK_FAST;
+  case 'A':
+    return L_ATTACK_STRONG;
+  default: 
+    return 0;
+  }
+}
+
+/****************************************************************************
   Get unit_type for given role character
 ****************************************************************************/
 struct unit_type *crole_to_unit_type(char crole,struct player *pplayer)
 {
   struct unit_type *utype = NULL;
-  enum unit_role_id role;
+  enum unit_role_id role = crole_to_role_id(crole);
 
-  switch(crole) {
-  case 'c':
-    role = L_CITIES;
-    break;
-  case 'w':
-    role = L_SETTLERS;
-    break;
-  case 'x':
-    role = L_EXPLORER;
-    break;
-  case 'k':
-    role = L_GAMELOSS;
-    break;
-  case 's':
-    role = L_DIPLOMAT;
-    break;
-  case 'f':
-    role = L_FERRYBOAT;
-    break;
-  case 'd':
-    role = L_DEFEND_OK;
-    break;
-  case 'D':
-    role = L_DEFEND_GOOD;
-    break;
-  case 'a':
-    role = L_ATTACK_FAST;
-    break;
-  case 'A':
-    role = L_ATTACK_STRONG;
-    break;
-  default: 
+  if (role == 0) {
     fc_assert_ret_val(FALSE, NULL);
     return NULL;
   }
@@ -170,19 +170,6 @@ static struct tile *place_starting_unit(struct tile *starttile,
   map_show_circle(pplayer, ptile, game.server.init_vis_radius_sq);
 
   if (utype != NULL) {
-    /* We cannot currently handle sea units as start units.
-     * TODO: remove this code block when we can. */
-    if (utype_move_type(utype) == UMT_SEA) {
-      log_error("Sea moving start units are not yet supported, "
-                "%s not created.",
-                utype_rule_name(utype));
-      notify_player(pplayer, NULL, E_BAD_COMMAND, ftc_server,
-                    _("Sea moving start units are not yet supported. "
-                      "Nobody gets %s."),
-                    utype_name_translation(utype));
-      return NULL;
-    }
-
     (void) create_unit(pplayer, ptile, utype, FALSE, 0, 0);
     return ptile;
   }
