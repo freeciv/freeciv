@@ -166,41 +166,6 @@ bool can_attack_from_non_native(const struct unit_type *utype)
 }
 
 /****************************************************************************
-  Return TRUE iff the unit is a sailing/naval/sea/water unit.
-****************************************************************************/
-bool is_sailing_unit(const struct unit *punit)
-{
-  return (uclass_move_type(unit_class(punit)) == UMT_SEA);
-}
-
-
-/****************************************************************************
-  Return TRUE iff this unit is a ground/land/normal unit.
-****************************************************************************/
-bool is_ground_unit(const struct unit *punit)
-{
-  return (uclass_move_type(unit_class(punit)) == UMT_LAND);
-}
-
-
-/****************************************************************************
-  Return TRUE iff this unit type is a sailing/naval/sea/water unit type.
-****************************************************************************/
-bool is_sailing_unittype(const struct unit_type *punittype)
-{
-  return (utype_move_type(punittype) == UMT_SEA);
-}
-
-
-/****************************************************************************
-  Return TRUE iff this unit type is a ground/land/normal unit type.
-****************************************************************************/
-bool is_ground_unittype(const struct unit_type *punittype)
-{
-  return (utype_move_type(punittype) == UMT_LAND);
-}
-
-/****************************************************************************
   Check for a city channel.
 ****************************************************************************/
 bool is_city_channel_tile(const struct unit_class *punitclass,

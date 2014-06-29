@@ -473,9 +473,9 @@ static void editor_grab_tool(const struct tile *ptile)
       score = 0;
       if (uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)) {
         score = 5;
-      } else if (is_ground_unit(punit)) {
+      } else if (utype_move_type(unit_type(punit)) == UMT_LAND) {
         score = 4;
-      } else if (is_sailing_unit(punit)) {
+      } else if (utype_move_type(unit_type(punit)) == UMT_SEA) {
         score = 3;
       } else {
         score = 2;

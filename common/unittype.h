@@ -84,6 +84,16 @@ struct ai_type;
 #define SPECENUM_BITVECTOR bv_unit_class_flags
 #include "specenum_gen.h"
 
+/* Used in savegame processing and clients. */
+#define SPECENUM_NAME unit_move_type
+#define SPECENUM_VALUE0 UMT_LAND
+#define SPECENUM_VALUE0NAME "Land"
+#define SPECENUM_VALUE1 UMT_SEA
+#define SPECENUM_VALUE1NAME "Sea"
+#define SPECENUM_VALUE2 UMT_BOTH
+#define SPECENUM_VALUE2NAME "Both"
+#include "specenum_gen.h"
+
 /* Used in the network protocol. */
 BV_DEFINE(bv_unit_classes, UCL_LAST);
 
@@ -557,7 +567,6 @@ int unit_pop_value(const struct unit *punit);
 int utype_pop_value(const struct unit_type *punittype);
 
 enum unit_move_type utype_move_type(const struct unit_type *punittype);
-enum unit_move_type uclass_move_type(const struct unit_class *pclass);
 
 /* player related unit functions */
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,

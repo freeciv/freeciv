@@ -325,19 +325,11 @@ int unit_pop_value(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return move type of the unit class
-**************************************************************************/
-enum unit_move_type uclass_move_type(const struct unit_class *pclass)
-{
-  return pclass->move_type;
-}
-
-/**************************************************************************
   Return move type of the unit type
 **************************************************************************/
 enum unit_move_type utype_move_type(const struct unit_type *punittype)
 {
-  return uclass_move_type(utype_class(punittype));
+  return utype_class(punittype)->move_type;
 }
 
 /**************************************************************************

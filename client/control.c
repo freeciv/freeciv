@@ -2452,7 +2452,7 @@ static struct unit *quickselect(struct tile *ptile,
       }
     }
     /* Any sea, pref. moves left. */
-    else if (is_sailing_unit(punit)) {
+    else if (utype_move_type(unit_type(punit)) == UMT_SEA) {
       if (punit->moves_left > 0) {
         if (!panymovesea) {
           panymovesea = punit;
@@ -2462,7 +2462,7 @@ static struct unit *quickselect(struct tile *ptile,
       }
     }
   } else if (qtype == SELECT_LAND) {
-    if (is_ground_unit(punit))  {
+    if (utype_move_type(unit_type(punit)) == UMT_LAND) {
       if (punit->moves_left > 0) {
         if (is_military_unit(punit)) {
           return punit;
@@ -2473,7 +2473,7 @@ static struct unit *quickselect(struct tile *ptile,
         panyland = punit;
       }
     }
-    else if (is_sailing_unit(punit)) {
+    else if (utype_move_type(unit_type(punit)) == UMT_SEA) {
       if (punit->moves_left > 0) {
         panymovesea = punit;
       } else {
