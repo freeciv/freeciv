@@ -792,105 +792,6 @@ static struct government *lookup_government(struct section_file *file,
   return gov;
 }
 
-/**************************************************************************
-  Lookup entry in the file and return the corresponding move_type index.
-  Returns if success. Note that result can still be unit_move_type_invalid()
-  when the function success - it means move type is not explicitly given.
-  filename is for error message.
-**************************************************************************/
-static bool lookup_move_type(struct section_file *file,
-                             const char *entry,
-                             enum unit_move_type *result,
-                             const char *filename)
-{
-  const char *sval;
-  enum unit_move_type mt;
-  
-  sval = secfile_lookup_str_default(file, NULL, "%s", entry);
-  if (sval == NULL) {
-    *result = unit_move_type_invalid();
-    return TRUE;
-  }
-
-  mt = unit_move_type_by_name(sval, fc_strcasecmp);
-  if (!unit_move_type_is_valid(mt)) {
-    ruleset_error(LOG_ERROR,
-                  "\"%s\" %s: couldn't match \"%s\".",
-                  filename, entry, sval);
-    return FALSE;
-  }
-  *result = mt;
-
-  return TRUE;
-}
-
-/**************************************************************************
-  What move types nativity of this extra will give?
-**************************************************************************/
-static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
-                                                struct unit_class *puc)
-{
-  bool land_allowed = TRUE;
-  bool sea_allowed = TRUE;
-
-  if (!extra_has_flag(pextra, EF_NATIVE_TILE)) {
-    return unit_move_type_invalid();
-  }
-  if (!is_native_extra_to_uclass(pextra, puc)) {
-    return unit_move_type_invalid();
-  }
-
-  if (is_extra_caused_by(pextra, EC_ROAD)
-      && road_has_flag(extra_road_get(pextra), RF_RIVER)) {
-    /* Natural rivers are created to land only */
-    sea_allowed = FALSE;
-  }
-
-  requirement_vector_iterate(&pextra->reqs, preq) {
-    if (preq->source.kind == VUT_TERRAINCLASS) {
-      if (!preq->present) {
-        if (preq->source.value.terrainclass == TC_LAND) {
-          land_allowed = FALSE;
-        } else if (preq->source.value.terrainclass == TC_OCEAN) {
-          sea_allowed = FALSE;
-        }
-      } else {
-        if (preq->source.value.terrainclass == TC_LAND) {
-          sea_allowed = FALSE;
-        } else if (preq->source.value.terrainclass == TC_OCEAN) {
-          land_allowed = FALSE;
-        }
-      }
-    } else if (preq->source.kind == VUT_TERRAIN) {
-     if (!preq->present) {
-        if (preq->source.value.terrain->tclass == TC_LAND) {
-          land_allowed = FALSE;
-        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
-          sea_allowed = FALSE;
-        }
-      } else {
-        if (preq->source.value.terrain->tclass == TC_LAND) {
-          sea_allowed = FALSE;
-        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
-          land_allowed = FALSE;
-        }
-      }
-    }
-  } requirement_vector_iterate_end;
-
-  if (land_allowed && sea_allowed) {
-    return UMT_BOTH;
-  }
-  if (land_allowed && !sea_allowed) {
-    return UMT_LAND;
-  }
-  if (!land_allowed && sea_allowed) {
-    return UMT_SEA;
-  }
-
-  return unit_move_type_invalid();
-}
-
 /****************************************************************************
   Lookup optional string, returning allocated memory or NULL.
 ****************************************************************************/
@@ -1609,7 +1510,6 @@ static bool load_ruleset_units(struct section_file *file)
   if (ok) {
     unit_class_iterate(uc) {
       int i = uclass_index(uc);
-      char tmp[200] = "\0";
       const char *hut_str;
       const char *sec_name = section_name(section_list_get(csec, i));
 
@@ -1680,78 +1580,8 @@ static bool load_ruleset_units(struct section_file *file)
         break;
       }
 
-      fc_strlcat(tmp, sec_name, 200);
-      fc_strlcat(tmp, ".move_type", 200);
-      if (!lookup_move_type(file, tmp, &uc->move_type,
-                            filename)) {
-        ok = FALSE;
-        break;
-      }
-
       set_unit_class_caches(uc);
 
-      if (!unit_move_type_is_valid(uc->move_type)) {
-        /* Not explicitly given, determine automatically */
-        bool land_moving = FALSE;
-        bool sea_moving = FALSE;
-
-        extra_type_iterate(pextra) {
-          enum unit_move_type eut = move_type_from_extra(pextra, uc);
-
-          if (eut == UMT_BOTH) {
-            land_moving = TRUE;
-            sea_moving = TRUE;
-          } else if (eut == UMT_LAND) {
-            land_moving = TRUE;
-          } else if (eut == UMT_SEA) {
-            sea_moving = TRUE;
-          }
-        } extra_type_iterate_end;
-
-        terrain_type_iterate(pterrain) {
-          bv_extras extras;
-
-          BV_CLR_ALL(extras);
-
-          if (is_native_to_class(uc, pterrain, extras)) {
-            if (is_ocean(pterrain)) {
-              sea_moving = TRUE;
-            } else {
-              land_moving = TRUE;
-            }
-          }
-        } terrain_type_iterate_end;
-
-        if (land_moving && sea_moving) {
-          uc->move_type = UMT_BOTH;
-        } else if (sea_moving) {
-          uc->move_type = UMT_SEA;
-        } else {
-          /* If unit has no native terrains, it is considered land moving */
-          uc->move_type = UMT_LAND;
-        }
-      } else if (uc->move_type != UMT_BOTH) {
-        /* Explicitly given move type */
-        extra_type_iterate(pextra) {
-          enum unit_move_type eut = move_type_from_extra(pextra, uc);
-
-          if (eut == UMT_BOTH
-              || (uc->move_type == UMT_LAND && eut == UMT_SEA)
-              || (uc->move_type == UMT_SEA && eut == UMT_LAND)) {
-            ruleset_error(LOG_ERROR,
-                          "\"%s\" unit_class \"%s\": cannot make extra \"%s\" "
-                          "native to unit of current move_type.",
-                          filename, uclass_rule_name(uc),
-                          extra_rule_name(pextra));
-            ok = FALSE;
-            break;
-          }
-        } extra_type_iterate_end;
-      }
-
-      if (!ok) {
-        break;
-      }
     } unit_class_iterate_end;
   }
 
@@ -3243,7 +3073,7 @@ static bool load_ruleset_terrain(struct section_file *file)
                                            section);
       proad->move_mode = road_move_mode_by_name(modestr, fc_strcasecmp);
       if (!road_move_mode_is_valid(proad->move_mode)) {
-        ruleset_error(LOG_ERROR, "Illegal move_type \"%s\" for road \"%s\"",
+        ruleset_error(LOG_ERROR, "Illegal move_mode \"%s\" for road \"%s\"",
                       modestr, road_rule_name(proad));
         ok = FALSE;
         break;
@@ -5529,7 +5359,6 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.id = uclass_number(c);
     sz_strlcpy(packet.name, untranslated_name(&c->name));
     sz_strlcpy(packet.rule_name, rule_name(&c->name));
-    packet.move_type = c->move_type;
     packet.min_speed = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
     packet.hut_behavior = c->hut_behavior;

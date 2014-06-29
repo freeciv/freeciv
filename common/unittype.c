@@ -1324,3 +1324,115 @@ void set_unit_class_caches(struct unit_class *pclass)
     }
   } unit_class_iterate_end;
 }
+
+/**************************************************************************
+  What move types nativity of this extra will give?
+**************************************************************************/
+static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
+                                                struct unit_class *puc)
+{
+  bool land_allowed = TRUE;
+  bool sea_allowed = TRUE;
+
+  if (!extra_has_flag(pextra, EF_NATIVE_TILE)) {
+    return unit_move_type_invalid();
+  }
+  if (!is_native_extra_to_uclass(pextra, puc)) {
+    return unit_move_type_invalid();
+  }
+
+  if (is_extra_caused_by(pextra, EC_ROAD)
+      && road_has_flag(extra_road_get(pextra), RF_RIVER)) {
+    /* Natural rivers are created to land only */
+    sea_allowed = FALSE;
+  }
+
+  requirement_vector_iterate(&pextra->reqs, preq) {
+    if (preq->source.kind == VUT_TERRAINCLASS) {
+      if (!preq->present) {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrainclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrainclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    } else if (preq->source.kind == VUT_TERRAIN) {
+     if (!preq->present) {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          land_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          sea_allowed = FALSE;
+        }
+      } else {
+        if (preq->source.value.terrain->tclass == TC_LAND) {
+          sea_allowed = FALSE;
+        } else if (preq->source.value.terrain->tclass == TC_OCEAN) {
+          land_allowed = FALSE;
+        }
+      }
+    }
+  } requirement_vector_iterate_end;
+
+  if (land_allowed && sea_allowed) {
+    return UMT_BOTH;
+  }
+  if (land_allowed && !sea_allowed) {
+    return UMT_LAND;
+  }
+  if (!land_allowed && sea_allowed) {
+    return UMT_SEA;
+  }
+
+  return unit_move_type_invalid();
+}
+
+/****************************************************************************
+  Set move_type for unit class.
+****************************************************************************/
+void set_unit_move_type(struct unit_class *puclass)
+{
+  bool land_moving = FALSE;
+  bool sea_moving = FALSE;
+
+  extra_type_iterate(pextra) {
+    enum unit_move_type eut = move_type_from_extra(pextra, puclass);
+
+    if (eut == UMT_BOTH) {
+      land_moving = TRUE;
+      sea_moving = TRUE;
+    } else if (eut == UMT_LAND) {
+      land_moving = TRUE;
+    } else if (eut == UMT_SEA) {
+      sea_moving = TRUE;
+    }
+  } extra_type_iterate_end;
+
+  terrain_type_iterate(pterrain) {
+    bv_extras extras;
+
+    BV_CLR_ALL(extras);
+
+    if (is_native_to_class(puclass, pterrain, extras)) {
+      if (is_ocean(pterrain)) {
+        sea_moving = TRUE;
+      } else {
+        land_moving = TRUE;
+      }
+    }
+  } terrain_type_iterate_end;
+
+  if (land_moving && sea_moving) {
+    puclass->move_type = UMT_BOTH;
+  } else if (sea_moving) {
+    puclass->move_type = UMT_SEA;
+  } else {
+    /* If unit has no native terrains, it is considered land moving */
+    puclass->move_type = UMT_LAND;
+  }
+}

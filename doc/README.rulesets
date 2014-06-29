@@ -92,22 +92,18 @@ units.ruleset:
 
     - There must be units for these roles:
       - "Explorer"
-      - "FerryBoat"
-      - "Hut"
-      - "Barbarian"
-      - "BarbarianLeader"
-      - "BarbarianBuild"
-      - "BarbarianBoat"  (move_type must be "Sea")
+      - "FerryBoat"        (Must be able to move at sea)
+      - "Hut"              (Must be able to move on land)
+      - "Barbarian"        (Must be able to move on land)
+      - "BarbarianLeader"  (Must be able to move on land)
+      - "BarbarianBuild"   (Must be able to move on land)
+      - "BarbarianBoat"    (Must be able to move at sea)
       - "BarbarianSea"
 
   Limitations:
 
     - These unit flag combinations won't work:
       - "Diplomat" and "Caravan"
-
-    - These flags and roles work only for move_type "Land" units:
-      - "Barbarian"
-      - "BarbarianTech"
 
 ----------------------------------------------------------------------
 Implementation details:

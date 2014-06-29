@@ -567,6 +567,7 @@ int unit_pop_value(const struct unit *punit);
 int utype_pop_value(const struct unit_type *punittype);
 
 enum unit_move_type utype_move_type(const struct unit_type *punittype);
+void set_unit_move_type(struct unit_class *puclass);
 
 /* player related unit functions */
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,

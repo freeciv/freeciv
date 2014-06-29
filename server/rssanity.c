@@ -644,22 +644,6 @@ bool sanity_check_ruleset_data(void)
   } music_styles_iterate_end;
 
   terrain_type_iterate(pterr) {
-    unit_class_iterate(uc) {
-      if (BV_ISSET(pterr->native_to, uclass_index(uc))) {
-        if (is_ocean(pterr) && uc->move_type == UMT_LAND) {
-          ruleset_error(LOG_ERROR,
-                        "Oceanic %s is native to land units.",
-                        terrain_rule_name(pterr));
-          ok = FALSE;
-        } else if (!is_ocean(pterr) && uc->move_type == UMT_SEA) {
-          ruleset_error(LOG_ERROR,
-                        "Non-oceanic %s is native to sea units.",
-                        terrain_rule_name(pterr));
-          ok = FALSE;
-        }
-      }
-    } unit_class_iterate_end;
-
     if (pterr->animal != NULL) {
       bv_extras no_extras;
 

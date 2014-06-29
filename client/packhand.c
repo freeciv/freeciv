@@ -2884,6 +2884,7 @@ void handle_rulesets_ready(void)
 
   unit_class_iterate(pclass) {
     set_unit_class_caches(pclass);
+    set_unit_move_type(pclass);
   } unit_class_iterate_end;
 
   /* Setup road integrators caches */
@@ -2908,7 +2909,6 @@ void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
   fc_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
 
   names_set(&c->name, NULL, p->name, p->rule_name);
-  c->move_type   = p->move_type;
   c->min_speed   = p->min_speed;
   c->hp_loss_pct = p->hp_loss_pct;
   c->hut_behavior = p->hut_behavior;
