@@ -82,10 +82,11 @@ set={"name","value","gamestart"
 "size",14,4
 "startunits","ccxx","ccwwx"
 "techlevel",3,0
+"topology","WRAPX","WRAPX"
 "xsize",160,64
 "ysize",90,64
 }
-set_count=20
+set_count=21
 gamestart_valid=FALSE
 
 [map]
