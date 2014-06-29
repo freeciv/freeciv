@@ -622,11 +622,21 @@ static void dai_military_bodyguard(struct ai_type *ait, struct player *pplayer,
 
   if (aunit && unit_owner(aunit) == unit_owner(punit)) {
     /* protect a unit */
-    /* FIXME: different behaviour for sailing units is silly;
-     * should choose behaviour based on relative positions and
-     * movement rates */
-    if (is_sailing_unit(aunit)) {
-      ptile = aunit->goto_tile;
+    if (aunit->goto_tile != NULL) {
+      /* Our charge is going somewhere: maybe we should meet them there */
+      /* FIXME: This probably isn't the best algorithm for this. */
+      int me2them = real_map_distance(unit_tile(punit), unit_tile(aunit));
+      int me2goal = real_map_distance(unit_tile(punit), aunit->goto_tile);
+      int them2goal = real_map_distance(unit_tile(aunit), aunit->goto_tile);
+
+      if (me2goal < me2them
+          || (me2goal/unit_move_rate(punit) < them2goal/unit_move_rate(aunit)
+              && me2goal/unit_move_rate(punit) < me2them/unit_move_rate(punit)
+              && unit_move_rate(punit) > unit_move_rate(aunit))) {
+        ptile = aunit->goto_tile;
+      } else {
+        ptile = unit_tile(aunit);
+      }
     } else {
       ptile = unit_tile(aunit);
     }
