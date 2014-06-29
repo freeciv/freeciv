@@ -307,12 +307,18 @@ static bool rs_barbarian_units(void)
     ruleset_error(LOG_ERROR, "No role barbarian ship units");
     return FALSE;
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
-    struct unit_type *u;
-    enum unit_move_type mt;
+    bool sea_capable = FALSE;
+    struct unit_type *u = get_role_unit(L_BARBARIAN_BOAT, 0);
 
-    u = get_role_unit(L_BARBARIAN_BOAT, 0);
-    mt = utype_move_type(u);
-    if (mt != UMT_SEA && mt != UMT_BOTH) {
+    terrain_type_iterate(pterr) {
+      if(is_ocean(pterr)
+         && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
+        sea_capable = TRUE;
+        break;
+      }
+    } terrain_type_iterate_end;
+
+    if (!sea_capable) {
       ruleset_error(LOG_ERROR,
                     "Barbarian boat (%s) needs to be able to move at sea.",
                     utype_rule_name(u));
@@ -373,6 +379,26 @@ static bool rs_common_units(void)
   }
   if (num_role_units(L_FIRSTBUILD) == 0) {
     ruleset_error(LOG_ERROR, "No role Firstbuild units");
+  }
+
+  if (num_role_units(L_FERRYBOAT) > 0) {
+    bool sea_capable = FALSE;
+    struct unit_type *u = get_role_unit(L_FERRYBOAT, 0);
+
+    terrain_type_iterate(pterr) {
+      if(is_ocean(pterr)
+         && BV_ISSET(pterr->native_to, uclass_index(utype_class(u)))) {
+        sea_capable = TRUE;
+        break;
+      }
+    } terrain_type_iterate_end;
+
+    if (!sea_capable) {
+      ruleset_error(LOG_ERROR,
+                    "Ferryboat (%s) needs to be able to move at sea.",
+                    utype_rule_name(u));
+      return FALSE;
+    }
   }
 
   return TRUE;

@@ -2089,13 +2089,6 @@ static bool load_ruleset_units(struct section_file *file)
                         filename, utype_rule_name(u), sval);
           ok = FALSE;
           break;
-        } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)
-                   && u->uclass->move_type == UMT_LAND) {
-          ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": role \"%s\" "
-                        "for land moving unit.",
-                        filename, utype_rule_name(u), sval);
-          ok = FALSE;
-          break;
         } else {
           BV_SET(u->roles, ival - L_FIRST);
         }
