@@ -5,7 +5,7 @@
 
 [effect_mathclub_science]
 type    = "Output_Bonus"
-value   = 35
+value   = 30
 reqs    =
     { "type", "name", "range"
       "Nation", "Math Club", "Player"

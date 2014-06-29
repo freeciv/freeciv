@@ -6,7 +6,7 @@ name = _("Math Club")
 plural = _("?plural:Mathematicians")
 legend = _("Math Club was traveling home from Math Competition when Deneb 7 \
 got their ship.\n\n\
-* 35% bonus to science output")
+* 30% bonus to science output")
 
 leaders = {
  "name", "sex"
