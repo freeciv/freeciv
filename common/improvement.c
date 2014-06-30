@@ -794,3 +794,19 @@ enum test_result test_player_sell_building_now(struct player *pplayer,
 
   return TR_SUCCESS;
 }
+
+
+/****************************************************************************
+  Try to find a sensible replacement building, based on other buildings
+  that may have caused this one to become obsolete.
+****************************************************************************/
+struct impr_type *improvement_replacement(const struct impr_type *pimprove)
+{
+  requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+    if (pobs->source.kind == VUT_IMPROVEMENT && pobs->present) {
+      return pobs->source.value.building;
+    }
+  } requirement_vector_iterate_end;
+
+  return NULL;
+}

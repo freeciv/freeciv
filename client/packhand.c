@@ -3096,7 +3096,6 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
     requirement_vector_append(&b->obsolete_by, p->obs_reqs[i]);
   }
   fc_assert(b->obsolete_by.size == p->obs_count);
-  b->replaced_by = improvement_by_number(p->replaced_by);
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;

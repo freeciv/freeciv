@@ -260,23 +260,6 @@ static bool save_building_list(struct section_file *sfile, int *input,
 }
 
 /**************************************************************************
-  Save building reference
-**************************************************************************/
-static bool save_building_ref(struct section_file *sfile,
-                              const struct impr_type *impr,
-                              const char *path, const char *entry)
-{
-  if (impr == B_NEVER) {
-    secfile_insert_str(sfile, "None", "%s.%s", path, entry);
-  } else {
-    secfile_insert_str(sfile, improvement_rule_name(impr), "%s.%s",
-                       path, entry);
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Save units vector. Input is NULL terminated array of units
   to save.
 **************************************************************************/
@@ -398,8 +381,6 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 
     save_reqs_vector(sfile, &(pb->reqs), path, "reqs");
     save_reqs_vector(sfile, &(pb->obsolete_by), path, "obsolete_by");
-
-    save_building_ref(sfile, pb->replaced_by, path, "replaced_by");
 
     secfile_insert_int(sfile, pb->build_cost, "%s.build_cost", path);
     secfile_insert_int(sfile, pb->upkeep, "%s.upkeep", path);

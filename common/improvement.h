@@ -81,7 +81,6 @@ struct impr_type {
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement_vector reqs;
   struct requirement_vector obsolete_by;
-  struct impr_type *replaced_by;	/* B_NEVER = never replaced */
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
@@ -136,6 +135,8 @@ bool can_city_sell_building(const struct city *pcity,
 enum test_result test_player_sell_building_now(struct player *pplayer,
                                                struct city *pcity,
                                                struct impr_type *pimprove);
+
+struct impr_type *improvement_replacement(const struct impr_type *pimprove);
 
 /* Macros for struct packet_game_info::great_wonder_owners[]. */
 #define WONDER_DESTROYED (MAX_NUM_PLAYER_SLOTS + 1)  /* Used as player id. */

@@ -2101,13 +2101,6 @@ static bool load_ruleset_buildings(struct section_file *file)
         }
       }
 
-      if (!lookup_building(file, sec_name, "replaced_by",
-                           &b->replaced_by, filename,
-                           rule_name(&b->name))) {
-        ok = FALSE;
-        break;
-      }
-
       if (!secfile_lookup_int(file, &b->build_cost,
                               "%s.build_cost", sec_name)
           || !secfile_lookup_int(file, &b->upkeep,
@@ -5600,9 +5593,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
       packet.obs_reqs[j++] = *pobs;
     } requirement_vector_iterate_end;
     packet.obs_count = j;
-    packet.replaced_by = b->replaced_by
-                         ? improvement_number(b->replaced_by)
-                         : improvement_count();
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;

@@ -1775,7 +1775,7 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-  Follow the list of replaced_by buildings until we hit something that
+  Follow the list of replacement buildings until we hit something that
   we can build.  Returns NULL if we can't upgrade at all (including if the
   original building is unbuildable).
 **************************************************************************/
@@ -1788,7 +1788,7 @@ static struct impr_type *building_upgrades_to(struct city *pcity,
   if (!can_city_build_improvement_direct(pcity, check)) {
     return NULL;
   }
-  while (valid_improvement(check = check->replaced_by)) {
+  while (valid_improvement(check = improvement_replacement(check))) {
     if (can_city_build_improvement_direct(pcity, check)) {
       best_upgrade = check;
     }

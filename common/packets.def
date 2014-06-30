@@ -1454,7 +1454,6 @@ PACKET_RULESET_BUILDING = 150; sc, lsend
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   UINT8 obs_count;
   REQUIREMENT obs_reqs[MAX_NUM_REQS:obs_count];
-  IMPROVEMENT replaced_by;
   UINT16 build_cost;
   UINT8 upkeep, sabotage;
   BV_IMPR_FLAGS flags;
