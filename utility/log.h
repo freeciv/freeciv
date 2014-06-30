@@ -31,7 +31,7 @@ enum log_level {
 };
 
 /* If one wants to compare autogames with lots of code changes, the line
- * numbers can cause a lot of noice. In that case set this to a fixed
+ * numbers can cause a lot of noise. In that case set this to a fixed
  * value. */
 #define __FC_LINE__ __LINE__
 
