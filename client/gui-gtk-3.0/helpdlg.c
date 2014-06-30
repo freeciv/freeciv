@@ -38,6 +38,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
+#include "research.h"
 #include "version.h"
 
 /* client */
@@ -228,7 +229,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   }
 
   bg = COLOR_REQTREE_BACKGROUND;
-  switch (player_invention_state(client.conn.playing, tech)) {
+  switch (research_invention_state(research_get(client_player()), tech)) {
   case TECH_UNKNOWN:
     bg = COLOR_REQTREE_UNKNOWN;
     break;

@@ -147,17 +147,20 @@ static void adv_data_city_impr_calc(struct player *pplayer,
 **************************************************************************/
 static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 {
+  struct research *presearch, *aresearch;
   int players_needed = get_player_bonus(pplayer, EFT_TECH_PARASITE);
 
   if (players_needed == 0) {
     return FALSE;
   }
 
+  presearch = research_get(pplayer);
   advance_index_iterate(A_FIRST, tech) {
     int players_having;
 
-    if (!player_invention_gettable(pplayer, tech, game.info.tech_parasite_allow_holes)
-        || TECH_KNOWN == player_invention_state(pplayer, tech)) {
+    if (!research_invention_gettable(presearch, tech,
+                                     game.info.tech_parasite_allow_holes)
+        || TECH_KNOWN == research_invention_state(presearch, tech)) {
       continue;
     }
 
@@ -168,8 +171,9 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
         continue;
       }
 
-      if (TECH_KNOWN == player_invention_state(aplayer, tech)
-          || research_get(aplayer)->researching == tech) {
+      aresearch = research_get(aplayer);
+      if (TECH_KNOWN == research_invention_state(aresearch, tech)
+          || aresearch->researching == tech) {
 	players_having++;
 	if (players_having >= players_needed) {
 	  return TRUE;

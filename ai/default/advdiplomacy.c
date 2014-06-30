@@ -150,10 +150,12 @@ static enum diplstate_type pact_clause_to_diplstate_type(enum clause_type type)
 static int dai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
 {
   int bulbs, tech_want, worth;
-  enum tech_state state = player_invention_state(pplayer, tech);
+  struct research *presearch = research_get(pplayer);
+  enum tech_state state = research_invention_state(presearch, tech);
 
   if (TECH_KNOWN == state
-      || ! player_invention_gettable(pplayer, tech, game.info.tech_trade_allow_holes)) {
+      || !research_invention_gettable(presearch, tech,
+                                      game.info.tech_trade_allow_holes)) {
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
@@ -227,7 +229,8 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
     }
 
     /* Do not bother wanting a tech that we already have. */
-    if (player_invention_state(taker, tech_id) == TECH_KNOWN) {
+    if (research_invention_state(research_get(taker), tech_id)
+        == TECH_KNOWN) {
       return 0;
     }
 
@@ -235,7 +238,8 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
     players_iterate_alive(eplayer) {
       if (eplayer == giver
           || eplayer == taker
-          || player_invention_state(eplayer, tech_id) == TECH_KNOWN) {
+          || research_invention_state(research_get(eplayer),
+                                      tech_id) == TECH_KNOWN) {
         continue;
       }
 
@@ -311,7 +315,8 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       if (is_dangerous) {
         worth = -BIG_NUMBER;
       }
-    } else if (player_invention_state(pplayer, pclause->value) != TECH_KNOWN) {
+    } else if (research_invention_state(research_get(pplayer),
+                                        pclause->value) != TECH_KNOWN) {
       worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
                                        &is_dangerous);
 
@@ -1064,15 +1069,18 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
 static void suggest_tech_exchange(struct player* player1,
                                   struct player* player2)
 {
+  struct research *presearch1 = research_get(player1);
+  struct research *presearch2 = research_get(player2);
   int worth[advance_count()];
   bool is_dangerous;
     
   worth[A_NONE] = 0;
 
   advance_index_iterate(A_FIRST, tech) {
-    if (player_invention_state(player1, tech) == TECH_KNOWN) {
-      if (player_invention_state(player2, tech) != TECH_KNOWN
-          && player_invention_gettable(player2, tech, game.info.tech_trade_allow_holes)) {
+    if (research_invention_state(presearch1, tech)
+        == TECH_KNOWN) {
+      if (research_invention_state(presearch2, tech) != TECH_KNOWN
+          && research_invention_gettable(presearch2, tech, game.info.tech_trade_allow_holes)) {
         worth[tech] = -compute_tech_sell_price(player1, player2, tech,
 	                                       &is_dangerous);
 	if (is_dangerous) {
@@ -1083,8 +1091,9 @@ static void suggest_tech_exchange(struct player* player1,
         worth[tech] = 0;
       }
     } else {
-      if (player_invention_state(player2, tech) == TECH_KNOWN
-          && player_invention_gettable(player1, tech, game.info.tech_trade_allow_holes)) {
+      if (research_invention_state(presearch2, tech) == TECH_KNOWN
+          && research_invention_gettable(presearch1, tech,
+                                         game.info.tech_trade_allow_holes)) {
         worth[tech] = compute_tech_sell_price(player2, player1, tech,
 	                                      &is_dangerous);
 	if (is_dangerous) {
@@ -1130,18 +1139,23 @@ static void suggest_tech_exchange(struct player* player1,
 ***********************************************************************/
 static void dai_share(struct player *pplayer, struct player *aplayer)
 {
+  struct research *presearch = research_get(pplayer);
+  struct research *aresearch = research_get(aplayer);
   bool gives_vision;
 
   /* Only share techs with team mates */
-  if (players_on_same_team(pplayer, aplayer)) {
+  if (presearch != aresearch
+      && players_on_same_team(pplayer, aplayer)) {
     advance_index_iterate(A_FIRST, index) {
-      if ((player_invention_state(pplayer, index) != TECH_KNOWN)
-          && (player_invention_state(aplayer, index) == TECH_KNOWN)
-          && player_invention_gettable(pplayer, index, game.info.tech_trade_allow_holes)) {
+      if (research_invention_state(presearch, index) != TECH_KNOWN
+          && research_invention_state(aresearch, index) == TECH_KNOWN
+          && research_invention_gettable(presearch, index,
+                                         game.info.tech_trade_allow_holes)) {
        dai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
-      } else if ((player_invention_state(pplayer, index) == TECH_KNOWN)
-                 && (player_invention_state(aplayer, index) != TECH_KNOWN)
-                 && player_invention_gettable(aplayer, index, game.info.tech_trade_allow_holes)) {
+      } else if (research_invention_state(presearch, index) == TECH_KNOWN
+                 && research_invention_state(aresearch, index) != TECH_KNOWN
+                 && research_invention_gettable(aresearch, index,
+                        game.info.tech_trade_allow_holes)) {
         dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
       }
     } advance_index_iterate_end;

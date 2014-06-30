@@ -389,6 +389,7 @@ static void calculate_diagram_layout(struct reqtree *tree)
 static struct reqtree *create_dummy_reqtree(struct player *pplayer,
                                             bool show_all)
 {
+  const struct research *presearch = research_get(pplayer);
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   int j;
   struct tree_node *nodes[advance_count()];
@@ -399,7 +400,8 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer,
       nodes[tech] = NULL;
       continue;
     }
-    if (pplayer && !show_all && !player_invention_reachable(pplayer, tech)) {
+    if (pplayer && !show_all
+        && !research_invention_reachable(presearch, tech)) {
       /* Reqtree requested for particular player and this tech is
        * unreachable to him/her. */
       nodes[tech] = NULL;
@@ -880,11 +882,11 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_KNOWN;
     }
 
-    if (!player_invention_reachable(client.conn.playing, node->tech)) {
+    if (!research_invention_reachable(research, node->tech)) {
       return COLOR_REQTREE_UNREACHABLE;
     }
 
-    if (!player_invention_gettable(client.conn.playing, node->tech, TRUE)) {
+    if (!research_invention_gettable(research, node->tech, TRUE)) {
       if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
                                  research->tech_goal)
           || node->tech == research->tech_goal) {
@@ -898,23 +900,23 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_RESEARCHING;
     }
 
-    if (TECH_KNOWN == player_invention_state(client.conn.playing, node->tech)) {
+    if (TECH_KNOWN == research_invention_state(research, node->tech)) {
       return COLOR_REQTREE_KNOWN;
     }
 
     if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
                                research->tech_goal)
 	|| node->tech == research->tech_goal) {
-      if (TECH_PREREQS_KNOWN ==
-            player_invention_state(client.conn.playing, node->tech)) {
+      if (TECH_PREREQS_KNOWN == research_invention_state(research,
+                                                         node->tech)) {
 	return COLOR_REQTREE_GOAL_PREREQS_KNOWN;
       } else {
 	return COLOR_REQTREE_GOAL_UNKNOWN;
       }
     }
 
-    if (TECH_PREREQS_KNOWN ==
-          player_invention_state(client.conn.playing, node->tech)) {
+    if (TECH_PREREQS_KNOWN == research_invention_state(research,
+                                                       node->tech)) {
       return COLOR_REQTREE_PREREQS_KNOWN;
     }
 
@@ -986,8 +988,8 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     return REQTREE_GOAL_EDGE;
   }
 
-  if (TECH_KNOWN == player_invention_state(client.conn.playing, node->tech)) {
-    if (TECH_KNOWN == player_invention_state(client.conn.playing, dest_node->tech)) {
+  if (TECH_KNOWN == research_invention_state(research, node->tech)) {
+    if (TECH_KNOWN == research_invention_state(research, dest_node->tech)) {
       return REQTREE_KNOWN_EDGE;
     } else {
       return REQTREE_READY_EDGE;

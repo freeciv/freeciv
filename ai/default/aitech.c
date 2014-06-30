@@ -64,6 +64,7 @@ static void dai_select_tech(struct player *pplayer,
                             struct ai_tech_choice *choice,
                             struct ai_tech_choice *goal)
 {
+  struct research *presearch = research_get(pplayer);
   Tech_type_id newtech, newgoal;
   int num_cities_nonzero = MAX(1, city_list_size(pplayer->cities));
   int values[A_LAST];
@@ -144,11 +145,11 @@ static void dai_select_tech(struct player *pplayer,
   advance_index_iterate(A_FIRST, i) {
     if (valid_advance_by_number(i)) {
       if (values[i] > values[newtech]
-          && player_invention_gettable(pplayer, i, TRUE)) {
+          && research_invention_gettable(presearch, i, TRUE)) {
         newtech = i;
       }
       if (goal_values[i] > goal_values[newgoal]
-	  && player_invention_reachable(pplayer, i)) {
+          && research_invention_reachable(presearch, i)) {
 	newgoal = i;
       }
     }
@@ -156,7 +157,7 @@ static void dai_select_tech(struct player *pplayer,
 #ifdef REALLY_DEBUG_THIS
   advance_index_iterate(A_FIRST, id) {
     if (values[id] > 0
-        && player_invention_state(pplayer, id) == TECH_PREREQS_KNOWN) {
+        && research_invention_state(presearch, id) == TECH_PREREQS_KNOWN) {
       TECH_LOG(LOG_DEBUG, pplayer, advance_by_number(id),
               "turn end want: %d", values[id]);
     }
@@ -247,6 +248,7 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
                                              struct city *pcity,
                                              struct unit_type *att, int want)
 {
+  struct research *presearch = research_get(pplayer);
   int best_avl_def = 0;
   struct unit_type *best_avl = NULL;
   int best_cost = FC_INFINITY;
@@ -279,7 +281,8 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
       bool impossible_to_get = FALSE;
 
       if (A_NEVER != itech
-          && player_invention_state(pplayer, advance_number(itech)) != TECH_KNOWN) {
+          && research_invention_state(presearch,
+                                      advance_number(itech)) != TECH_KNOWN) {
         /* See if we want to invent this. */
         cost = total_bulbs_required_for_goal(pplayer, advance_number(itech));
       }
@@ -292,7 +295,8 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
             int iimprtech = advance_number(preq->source.value.advance);
 
             if (preq->present) {
-              if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {
+              if (TECH_KNOWN != research_invention_state(presearch,
+                                                         iimprtech)) {
                 int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
 
                 if (imprcost < cost || cost == 0) {
@@ -305,7 +309,8 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
                 cost += imprcost;
               }
             } else {
-              if (TECH_KNOWN == player_invention_state(pplayer, iimprtech)) {
+              if (TECH_KNOWN == research_invention_state(presearch,
+                                                         iimprtech)) {
                 /* We're not going to lose tech */
                 impossible_to_get = TRUE;
               }
@@ -315,7 +320,7 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
       }
 
       if (cost < best_cost && !impossible_to_get
-          && player_invention_reachable(pplayer, advance_number(itech))) {
+          && research_invention_reachable(presearch, advance_number(itech))) {
         best_tech = itech;
         best_cost = cost;
         best_unit = deftype;
@@ -350,6 +355,7 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
                                       struct city *pcity,
                                       int role, int want)
 {
+  struct research *presearch = research_get(pplayer);
   int i, n;
   int best_cost = FC_INFINITY;
   struct advance *best_tech = A_NEVER;
@@ -368,7 +374,8 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
       int cost = 0;
 
       if (A_NEVER != itech
-       && player_invention_state(pplayer, advance_number(itech)) != TECH_KNOWN) {
+       && research_invention_state(presearch,
+                                   advance_number(itech)) != TECH_KNOWN) {
         /* See if we want to invent this. */
         cost = total_bulbs_required_for_goal(pplayer, advance_number(itech));
       }
@@ -380,7 +387,8 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
 	  if (VUT_ADVANCE == preq->source.kind && preq->present) {
 	    int iimprtech = advance_number(preq->source.value.advance);
 
-	    if (TECH_KNOWN != player_invention_state(pplayer, iimprtech)) {
+            if (TECH_KNOWN != research_invention_state(presearch,
+                                                       iimprtech)) {
 	      int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
 
 	      if (imprcost < cost || cost == 0) {
@@ -397,7 +405,7 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
       }
 
       if (cost < best_cost
-       && player_invention_reachable(pplayer, advance_number(itech))) {
+       && research_invention_reachable(presearch, advance_number(itech))) {
         best_tech = itech;
         best_cost = cost;
         best_unit = iunit;

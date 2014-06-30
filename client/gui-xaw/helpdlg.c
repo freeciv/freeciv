@@ -45,6 +45,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
+#include "research.h"
 #include "version.h"
 
 /* client */
@@ -255,8 +256,9 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   int type;
   char *bg="";
   char label[MAX_LEN_NAME+3];
-  
-  type = (tech==A_LAST) ? TECH_UNKNOWN : player_invention_state(client.conn.playing, tech);
+
+  type = (tech == A_LAST ? TECH_UNKNOWN
+          : research_invention_state(research_get(client_player()), tech));
   switch(type) {
     case TECH_UNKNOWN:
       bg=TREE_NODE_UNKNOWN_TECH_BG;

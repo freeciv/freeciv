@@ -700,7 +700,8 @@ static void dai_manage_government(struct player *pplayer)
 
   /* Crank up tech want */
   if (ai->goal.govt.req == A_UNSET
-      || player_invention_state(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
+      || research_invention_state(research_get(pplayer),
+                                  ai->goal.govt.req) == TECH_KNOWN) {
     return; /* already got it! */
   } else if (ai->goal.govt.val > 0) {
     /* We have few cities in the beginning, compensate for this to ensure

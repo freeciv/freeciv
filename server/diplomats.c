@@ -492,6 +492,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
 		       struct city  *pcity, Tech_type_id technology)
 {
+  struct research *presearch, *cresearch;
   struct player *cplayer;
   int count;
   Tech_type_id tech_stolen;
@@ -516,21 +517,23 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
+  presearch = research_get(pplayer);
+  cresearch = research_get(cplayer);
+
   if (technology == A_FUTURE) {
-    if (player_invention_state(pplayer, A_FUTURE) != TECH_PREREQS_KNOWN
-        || (research_get(pplayer)->future_tech
-            >= research_get(cplayer)->future_tech)) {
+    if (research_invention_state(presearch, A_FUTURE) != TECH_PREREQS_KNOWN
+        || (presearch->future_tech >= cresearch->future_tech)) {
       return;
     }
   } else if (technology != A_UNSET) {
-    if (player_invention_state(pplayer, technology) == TECH_KNOWN) {
+    if (research_invention_state(presearch, technology) == TECH_KNOWN) {
       return;
     }
-    if (player_invention_state(cplayer, technology) != TECH_KNOWN) {
+    if (research_invention_state(cresearch, technology) != TECH_KNOWN) {
       return;
     }
-    if (!player_invention_gettable(pplayer, technology,
-                                   game.info.tech_steal_allow_holes)) {
+    if (!research_invention_gettable(presearch, technology,
+                                     game.info.tech_steal_allow_holes)) {
       return;
     }
   }

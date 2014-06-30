@@ -249,6 +249,7 @@ static void get_player_landarea(struct claim_map *pcmap,
 **************************************************************************/
 void calc_civ_score(struct player *pplayer)
 {
+  const struct research *presearch;
   struct city *pcity;
   int landarea = 0, settledarea = 0;
   static struct claim_map cmap;
@@ -308,8 +309,9 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.landarea = landarea;
   pplayer->score.settledarea = settledarea;
 
+  presearch = research_get(pplayer);
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(pplayer, i) == TECH_KNOWN) {
+    if (research_invention_state(presearch, i) == TECH_KNOWN) {
       pplayer->score.techs++;
     }
   } advance_index_iterate_end;

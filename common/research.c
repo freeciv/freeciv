@@ -25,6 +25,7 @@
 #include "game.h"
 #include "player.h"
 #include "team.h"
+#include "tech.h"
 
 #include "research.h"
 
@@ -99,6 +100,137 @@ struct research *research_get(const struct player *pplayer)
     return &research_array[player_number(pplayer)];
   }
 }
+
+
+/****************************************************************************
+  Returns state of the tech for current research.
+  This can be: TECH_KNOWN, TECH_UNKNOWN, or TECH_PREREQS_KNOWN
+  Should be called with existing techs or A_FUTURE
+
+  If 'presearch' is NULL this checks whether any player knows the tech
+  (used by the client).
+****************************************************************************/
+enum tech_state research_invention_state(const struct research *presearch,
+                                         Tech_type_id tech)
+{
+  fc_assert_ret_val(tech == A_FUTURE
+                    || (tech >= 0 && tech < game.control.num_tech_types),
+                    -1);
+
+  if (NULL != presearch) {
+    return presearch->inventions[tech].state;
+  } else if (tech != A_FUTURE && game.info.global_advances[tech]) {
+    return TECH_KNOWN;
+  } else {
+    return TECH_UNKNOWN;
+  }
+}
+
+/****************************************************************************
+  Set research knowledge about tech to given state.
+****************************************************************************/
+enum tech_state research_invention_set(struct research *presearch,
+                                       Tech_type_id tech,
+                                       enum tech_state value)
+{
+  enum tech_state old = presearch->inventions[tech].state;
+
+  if (old == value) {
+    return old;
+  }
+  presearch->inventions[tech].state = value;
+
+  if (value == TECH_KNOWN) {
+    game.info.global_advances[tech] = TRUE;
+  }
+  return old;
+}
+
+/****************************************************************************
+  Returns TRUE iff the given tech is ever reachable by the players sharing
+  the research by checking tech tree limitations.
+
+  'presearch' may be NULL in which case a simplified result is returned
+  (used by the client).
+****************************************************************************/
+bool research_invention_reachable(const struct research *presearch,
+                                  const Tech_type_id tech)
+{
+  Tech_type_id root;
+
+  if (!valid_advance_by_number(tech)) {
+    return FALSE;
+  }
+
+  root = advance_required(tech, AR_ROOT);
+  if (A_NONE != root) {
+    if (root == tech) {
+      /* This tech requires itself; it can only be reached by special means
+       * (init_techs, lua script, ...).
+       * If you already know it, you can "reach" it; if not, not. (This case
+       * is needed for descendants of this tech.) */
+      return TECH_KNOWN == research_invention_state(presearch, tech);
+    } else {
+      /* Recursive check if the player can ever reach this tech (root tech
+       * and both requirements). */
+      return (research_invention_reachable(presearch, root)
+              && research_invention_reachable(presearch,
+                                              advance_required(tech,
+                                                               AR_ONE))
+              && research_invention_reachable(presearch,
+                                              advance_required(tech,
+                                                               AR_TWO)));
+    }
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE iff the given tech can be given to the players sharing the
+  research immediately.
+
+  If reachable_ok is TRUE, any reachable tech is ok. If it's FALSE,
+  getting the tech must not leave holes to the known techs tree.
+****************************************************************************/
+bool research_invention_gettable(const struct research *presearch,
+                                 const Tech_type_id tech,
+                                 bool reachable_ok)
+{
+  Tech_type_id req;
+
+  if (!valid_advance_by_number(tech)) {
+    return FALSE;
+  }
+
+  /* Tech with root req is immediately gettable only if root req is already
+   * known. */
+  req = advance_required(tech, AR_ROOT);
+
+  if (req != A_NONE
+      && research_invention_state(presearch, req) != TECH_KNOWN) {
+    return FALSE;
+  }
+
+  if (reachable_ok) {
+    /* Any recursively reachable tech is ok */
+    return TRUE;
+  }
+
+  req = advance_required(tech, AR_ONE);
+  if (req != A_NONE
+      && research_invention_state(presearch, req) != TECH_KNOWN) {
+    return FALSE;
+  }
+  req = advance_required(tech, AR_TWO);
+  if (req != A_NONE
+      && research_invention_state(presearch, req) != TECH_KNOWN) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 
 /****************************************************************************
   Returns the real size of the player research iterator.

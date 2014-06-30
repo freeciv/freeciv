@@ -29,6 +29,7 @@
 #include "improvement.h"
 #include "player.h"
 #include "map.h"
+#include "research.h"
 #include "road.h"
 #include "specialist.h"
 #include "style.h"
@@ -1010,7 +1011,8 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
   switch (range) {
   case REQ_RANGE_PLAYER:
     if (NULL != target_player) {
-      return BOOL_TO_TRISTATE(TECH_KNOWN == player_invention_state(target_player, tech));
+      return BOOL_TO_TRISTATE(TECH_KNOWN == research_invention_state
+                                (research_get(target_player), tech));
     } else {
       return TRI_MAYBE;
     }
@@ -1021,7 +1023,8 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
    }
    players_iterate_alive(plr2) {
      if (players_in_same_range(target_player, plr2, range)) {
-       if (player_invention_state(plr2, tech) == TECH_KNOWN) {
+       if (research_invention_state(research_get(plr2), tech)
+           == TECH_KNOWN) {
          return TRI_YES;
        }
      }

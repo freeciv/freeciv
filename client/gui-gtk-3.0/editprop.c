@@ -31,6 +31,7 @@
 #include "game.h"
 #include "map.h"
 #include "movement.h"
+#include "research.h"
 #include "tile.h"
 
 /* client */
@@ -1720,6 +1721,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
   case OBJTYPE_PLAYER:
     {
       const struct player *pplayer = objbind_get_object(ob);
+      const struct research *presearch;
 
       if (NULL == pplayer) {
         goto FAILED;
@@ -1739,10 +1741,11 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
 #endif /* DEBUG */
       case OPID_PLAYER_INVENTIONS:
+        presearch = research_get(pplayer);
         pv->data.v_inventions = fc_calloc(A_LAST, sizeof(bool));
         advance_index_iterate(A_FIRST, tech) {
           pv->data.v_inventions[tech]
-              = TECH_KNOWN == player_invention_state(pplayer, tech);
+              = TECH_KNOWN == research_invention_state(presearch, tech);
         } advance_index_iterate_end;
         pv->must_free = TRUE;
         break;
@@ -2240,6 +2243,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       struct packet_edit_player *packet = pd.player;
       const struct player *pplayer = objbind_get_object(ob);
       const struct nation_type *pnation;
+      const struct research *presearch;
 
       if (NULL == pplayer) {
         return;
@@ -2249,9 +2253,10 @@ static void objbind_pack_current_values(struct objbind *ob,
       sz_strlcpy(packet->name, pplayer->name);
       pnation = nation_of_player(pplayer);
       packet->nation = nation_index(pnation);
+      presearch = research_get(pplayer);
       advance_index_iterate(A_FIRST, tech) {
         packet->inventions[tech]
-            = TECH_KNOWN == player_invention_state(pplayer, tech);
+            = TECH_KNOWN == research_invention_state(presearch, tech);
       } advance_index_iterate_end;
       packet->gold = pplayer->economic.gold;
       /* TODO: Set more packet fields. */

@@ -25,6 +25,17 @@ extern "C" {
 #include "fc_types.h"
 #include "tech.h"
 
+/* TECH_KNOWN is self-explanatory, TECH_PREREQS_KNOWN are those for which all
+ * requirements are fulfilled; all others (including those which can never
+ * be reached) are TECH_UNKNOWN. */
+#define SPECENUM_NAME tech_state
+/* TECH_UNKNOWN must be 0 as the code does no special initialisation after
+ * memset(0), See researches_init(). */
+#define SPECENUM_VALUE0 TECH_UNKNOWN
+#define SPECENUM_VALUE1 TECH_PREREQS_KNOWN
+#define SPECENUM_VALUE2 TECH_KNOWN
+#include "specenum_gen.h"
+
 struct research {
   /* The number of techs and future techs the player has
    * researched/acquired. */
@@ -88,6 +99,18 @@ int research_number(const struct research *presearch);
 
 struct research *research_by_number(int number);
 struct research *research_get(const struct player *pplayer);
+
+/* Ancillary routines */
+enum tech_state research_invention_state(const struct research *presearch,
+                                         Tech_type_id tech);
+enum tech_state research_invention_set(struct research *presearch,
+                                       Tech_type_id tech,
+                                       enum tech_state value);
+bool research_invention_reachable(const struct research *presearch,
+                                  const Tech_type_id tech);
+bool research_invention_gettable(const struct research *presearch,
+                                 const Tech_type_id tech,
+                                 bool reachable_ok);
 
 /* Iterating utilities. */
 struct research_iter;

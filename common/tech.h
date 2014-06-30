@@ -103,17 +103,6 @@ typedef int Tech_type_id;
 
 #define MAX_NUM_USER_TECH_FLAGS (TECH_USER_LAST - TECH_USER_1 + 1)
 
-/* TECH_KNOWN is self-explanatory, TECH_PREREQS_KNOWN are those for which all 
- * requirements are fulfilled; all others (including those which can never 
- * be reached) are TECH_UNKNOWN */
-#define SPECENUM_NAME tech_state
-/* TECH_UNKNOWN must be 0 as the code does no special initialisation after
- * memset(0), See researches_init(). */
-#define SPECENUM_VALUE0 TECH_UNKNOWN
-#define SPECENUM_VALUE1 TECH_PREREQS_KNOWN
-#define SPECENUM_VALUE2 TECH_KNOWN
-#include "specenum_gen.h"
-
 enum tech_req {
   AR_ONE = 0,
   AR_TWO = 1,
@@ -185,17 +174,6 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);
 Tech_type_id advance_by_flag(Tech_type_id index, enum tech_flag_id flag);
 
 /* Ancillary routines */
-enum tech_state player_invention_state(const struct player *pplayer,
-				       Tech_type_id tech);
-enum tech_state player_invention_set(struct player *pplayer,
-				     Tech_type_id tech,
-				     enum tech_state value);
-bool player_invention_reachable(const struct player *pplayer,
-                                const Tech_type_id tech);
-bool player_invention_gettable(const struct player *pplayer,
-                               const Tech_type_id tech,
-                               bool reachable_ok);
-
 Tech_type_id player_research_step(const struct player *pplayer,
 				  Tech_type_id goal);
 void player_research_update(struct player *pplayer);

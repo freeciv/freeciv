@@ -204,6 +204,7 @@ void popdown_intel_dialogs() {
 ****************************************************************************/
 void update_intel_dialog(struct player *p)
 {
+  const struct research *mresearch, *presearch;
   struct intel_dialog *pdialog = get_intel_dialog(p);
       
   struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
@@ -341,10 +342,12 @@ void update_intel_dialog(struct player *p)
     FREESURFACE(pTmpSurf);
     n = 0;
     pLast = pBuf;
+    mresearch = research_get(client_player());
+    presearch = research_get(p);
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_KNOWN == player_invention_state(p, i)
-          && player_invention_reachable(client.conn.playing, i)
-          && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
+      if (TECH_KNOWN == research_invention_state(presearch, i)
+          && research_invention_reachable(mresearch, i)
+          && TECH_KNOWN != research_invention_state(mresearch, i)) {
 
         pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
                             WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL

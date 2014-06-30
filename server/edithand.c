@@ -1215,19 +1215,18 @@ void handle_edit_player(struct connection *pc,
   }
 
   /* Handle a change in known inventions. */
-  /* FIXME: Modifies struct research directly. */
   advance_index_iterate(A_FIRST, tech) {
-    known = player_invention_state(pplayer, tech);
+    known = research_invention_state(research, tech);
     if ((packet->inventions[tech] && known == TECH_KNOWN)
         || (!packet->inventions[tech] && known != TECH_KNOWN)) {
       continue;
     }
     if (packet->inventions[tech]) {
       /* FIXME: Side-effect modifies game.info.global_advances. */
-      player_invention_set(pplayer, tech, TECH_KNOWN);
+      research_invention_set(research, tech, TECH_KNOWN);
       research->techs_researched++;
     } else {
-      player_invention_set(pplayer, tech, TECH_UNKNOWN);
+      research_invention_set(research, tech, TECH_UNKNOWN);
       research->techs_researched--;
     }
     changed = TRUE;
@@ -1263,13 +1262,13 @@ void handle_edit_player(struct connection *pc,
     goal = research->tech_goal;
 
     if (current != A_UNSET) {
-      known = player_invention_state(pplayer, current);
+      known = research_invention_state(research, current);
       if (known != TECH_PREREQS_KNOWN) {
         research->researching = A_UNSET;
       }
     }
     if (goal != A_UNSET) {
-      known = player_invention_state(pplayer, goal);
+      known = research_invention_state(research, goal);
       if (known == TECH_KNOWN) {
         research->tech_goal = A_UNSET;
       }

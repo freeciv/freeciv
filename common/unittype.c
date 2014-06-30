@@ -32,7 +32,7 @@
 #include "government.h"
 #include "movement.h"
 #include "player.h"
-#include "tech.h"
+#include "research.h"
 #include "unitlist.h"
 
 #include "unittype.h"
@@ -648,7 +648,9 @@ bool can_player_build_unit_direct(const struct player *p,
       && punittype->need_government != government_of_player(p)) {
     return FALSE;
   }
-  if (player_invention_state(p, advance_number(punittype->require_advance)) != TECH_KNOWN) {
+  if (research_invention_state(research_get(p),
+                               advance_number(punittype->require_advance))
+      != TECH_KNOWN) {
     if (!is_barbarian(p)) {
       /* Normal players can never build units without knowing tech
        * requirements. */

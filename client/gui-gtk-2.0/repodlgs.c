@@ -207,7 +207,8 @@ static gboolean science_diagram_button_release_callback(GtkWidget *widget,
   } else {
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
-      switch (player_invention_state(client_player(), tech)) {
+      switch (research_invention_state(research_get(client_player()),
+                                       tech)) {
        case TECH_PREREQS_KNOWN:
          dsend_packet_player_research(&client.conn, tech);
          break;
@@ -424,7 +425,7 @@ static void science_report_update(struct science_report *preport)
 
   /* Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client_player(), i)
+    if (research_invention_reachable(presearch, i)
         && TECH_KNOWN != presearch->inventions[i].state
         && (i == presearch->tech_goal
             || 10 >= presearch->inventions[i].num_required_techs)) {

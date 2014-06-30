@@ -24,6 +24,7 @@
 /* common */
 #include "actions.h"
 #include "game.h"
+#include "research.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -296,13 +297,16 @@ static void create_advances_list(struct player *pplayer,
 
   /* Now populate the list */
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
+    const struct research *presearch = research_get(pplayer);
+    const struct research *vresearch = research_get(pvictim);
     GtkTreeIter it;
     GValue value = { 0, };
 
     advance_index_iterate(A_FIRST, i) {
-      if(player_invention_state(pvictim, i)==TECH_KNOWN && 
-	 (player_invention_state(pplayer, i)==TECH_UNKNOWN || 
-	  player_invention_state(pplayer, i)==TECH_PREREQS_KNOWN)) {
+      if (research_invention_state(vresearch, i) == TECH_KNOWN
+          && (research_invention_state(presearch, i) == TECH_UNKNOWN
+              || research_invention_state(presearch, i)
+                 == TECH_PREREQS_KNOWN)) {
 	gtk_list_store_append(store, &it);
 
 	g_value_init(&value, G_TYPE_STRING);

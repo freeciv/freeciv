@@ -228,7 +228,7 @@ void create_science_dialog(bool make_modal)
     }
 
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_KNOWN == player_invention_state(client.conn.playing, i)) {
+      if (TECH_KNOWN == research_invention_state(research, i)) {
 	tech_list_names_ptrs[j] = advance_name_translation(advance_by_number(i));
 	j++;
       }
@@ -318,7 +318,7 @@ void create_science_dialog(bool make_modal)
 
     advance_index_iterate(A_FIRST, i) {
       if (TECH_PREREQS_KNOWN ==
-            player_invention_state(client.conn.playing, i)) {
+            research_invention_state(research, i)) {
 	Widget entry =
 	  XtVaCreateManagedWidget(advance_name_translation(advance_by_number(i)),
 				  smeBSBObjectClass,
@@ -336,8 +336,8 @@ void create_science_dialog(bool make_modal)
 
     flag = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_reachable(client.conn.playing, i)
-	  && TECH_KNOWN != player_invention_state(client.conn.playing, i)
+      if (research_invention_reachable(research, i)
+          && TECH_KNOWN != research_invention_state(research, i)
 	  && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	      || i == research->tech_goal)) {
 	Widget entry =
@@ -509,7 +509,7 @@ void real_science_report_dialog_update(void)
 
     j=0;
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_KNOWN == player_invention_state(client.conn.playing, i)) {
+      if (TECH_KNOWN == research_invention_state(research, i)) {
 	tech_list_names_ptrs[j]=advance_name_translation(advance_by_number(i));
 	j++;
       }
@@ -529,7 +529,7 @@ void real_science_report_dialog_update(void)
     flag=0;
     advance_index_iterate(A_FIRST, i) {
       if (TECH_PREREQS_KNOWN ==
-            player_invention_state(client.conn.playing, i)) {
+            research_invention_state(research, i)) {
 	Widget entry=
 	  XtVaCreateManagedWidget(advance_name_translation(advance_by_number(i)),
 				  smeBSBObjectClass,
@@ -552,8 +552,8 @@ void real_science_report_dialog_update(void)
     
     flag=0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_reachable(client.conn.playing, i)
-	  && TECH_KNOWN != player_invention_state(client.conn.playing, i)
+      if (research_invention_reachable(research, i)
+          && TECH_KNOWN != research_invention_state(research, i)
 	  && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	      || i == research->tech_goal)) {
 	Widget entry=

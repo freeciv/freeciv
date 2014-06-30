@@ -1889,7 +1889,8 @@ static void player_load_main(struct player *plr, int plrno,
       if (p[k] == '1') {
         struct advance *padvance = advance_by_rule_name(technology_order[k]);
         if (padvance) {
-          player_invention_set(plr, advance_number(padvance), TECH_KNOWN);
+          research_invention_set(research, advance_number(padvance),
+                                 TECH_KNOWN);
         }
       }
     }

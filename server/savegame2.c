@@ -3788,7 +3788,8 @@ static void sg_load_player_main(struct loaddata *loading,
       struct advance *padvance =
           advance_by_rule_name(loading->technology.order[i]);
       if (padvance) {
-        player_invention_set(plr, advance_number(padvance), TECH_KNOWN);
+        research_invention_set(research, advance_number(padvance),
+                               TECH_KNOWN);
       }
     }
   }
@@ -3951,6 +3952,7 @@ static void sg_load_player_main(struct loaddata *loading,
 static void sg_save_player_main(struct savedata *saving,
                                 struct player *plr)
 {
+  const struct research *presearch = research_get(plr);
   int i, plrno = player_number(plr);
   struct player_spaceship *ship = &plr->spaceship;
 
@@ -4054,25 +4056,22 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.rates.luxury", plrno);
 
   technology_save(saving->file, "player%d.research.goal",
-                  plrno, research_get(plr)->tech_goal);
+                  plrno, presearch->tech_goal);
   secfile_insert_int(saving->file, plr->bulbs_last_turn,
                      "player%d.research.bulbs_last_turn", plrno);
-  secfile_insert_int(saving->file,
-                     research_get(plr)->techs_researched,
+  secfile_insert_int(saving->file, presearch->techs_researched,
                      "player%d.research.techs", plrno);
-  secfile_insert_int(saving->file, research_get(plr)->future_tech,
+  secfile_insert_int(saving->file, presearch->future_tech,
                      "player%d.research.futuretech", plrno);
-  secfile_insert_int(saving->file,
-                     research_get(plr)->bulbs_researching_saved,
+  secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
                      "player%d.research.bulbs_before", plrno);
   technology_save(saving->file, "player%d.research.saved", plrno,
-                  research_get(plr)->researching_saved);
-  secfile_insert_int(saving->file,
-                     research_get(plr)->bulbs_researched,
+                  presearch->researching_saved);
+  secfile_insert_int(saving->file, presearch->bulbs_researched,
                      "player%d.research.bulbs", plrno);
   technology_save(saving->file, "player%d.research.now", plrno,
-                  research_get(plr)->researching);
-  secfile_insert_bool(saving->file, research_get(plr)->got_tech,
+                  presearch->researching);
+  secfile_insert_bool(saving->file, presearch->got_tech,
                       "player%d.research.got_tech", plrno);
 
   /* Save technology lists as bytevector. Note that technology order is
@@ -4080,8 +4079,8 @@ static void sg_save_player_main(struct savedata *saving,
   {
     char invs[A_LAST+1];
     advance_index_iterate(A_NONE, tech_id) {
-      invs[tech_id] = (player_invention_state(plr, tech_id) == TECH_KNOWN)
-                      ? '1' : '0';
+      invs[tech_id] = (research_invention_state(presearch, tech_id)
+                       == TECH_KNOWN ? '1' : '0');
     } advance_index_iterate_end;
     invs[game.control.num_tech_types] = '\0';
     secfile_insert_str(saving->file, invs, "player%d.research.done", plrno);

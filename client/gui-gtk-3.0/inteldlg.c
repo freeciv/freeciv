@@ -302,6 +302,7 @@ void update_intel_dialog(struct player *p)
   struct intel_dialog *pdialog = get_intel_dialog(p);
 
   if (pdialog) {
+    const struct research *mresearch, *presearch;
     GtkTreeIter diplstates[DS_LAST];
     int i;
 
@@ -346,14 +347,17 @@ void update_intel_dialog(struct player *p)
     /* techs tab. */
     gtk_list_store_clear(pdialog->techs);
 
+    mresearch = research_get(client_player());
+    presearch = research_get(p);
     advance_index_iterate(A_FIRST, i) {
-      if(player_invention_state(p, i)==TECH_KNOWN) {
+      if (research_invention_state(presearch, i) == TECH_KNOWN) {
 	GtkTreeIter it;
 
 	gtk_list_store_append(pdialog->techs, &it);
 
 	gtk_list_store_set(pdialog->techs, &it,
-			   0, (TECH_KNOWN != player_invention_state(client.conn.playing, i)),
+                           0, research_invention_state(mresearch, i)
+                           != TECH_KNOWN,
 			   1, advance_name_for_player(p, i),
 			   -1);
       }

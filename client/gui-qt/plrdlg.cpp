@@ -327,7 +327,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   QModelIndexList indexes = sl.indexes();
   struct city *pcity;
   const struct player_diplstate *state;
-  struct research *research;
+  struct research *my_research, *research;
   char tbuf[256];
   QString res;
   QString sp = " ";
@@ -422,6 +422,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     }
   }
   me = client_player();
+  my_research = research_get(me);
   if ((player_has_embassy(me, pplayer) || client_is_global_observer())
       && me != pplayer) {
     a = 0;
@@ -434,15 +435,15 @@ void plr_widget::nation_selected(const QItemSelection &sl,
 
     advance_iterate(A_FIRST, padvance) {
       tech_id = advance_number(padvance);
-      if (player_invention_state(me, tech_id) == TECH_KNOWN
-          && (player_invention_state(pplayer, tech_id) == TECH_UNKNOWN)) {
+      if (research_invention_state(my_research, tech_id) == TECH_KNOWN
+          && (research_invention_state(research, tech_id) == TECH_UNKNOWN)) {
         a++;
         techs_known = techs_known + QString("<i>") 
                       + advance_name_for_player(pplayer, tech_id)
                       + "," + QString("</i>") + sp;
       }
-      if (player_invention_state(me, tech_id) == TECH_UNKNOWN
-          && (player_invention_state(pplayer, tech_id) == TECH_KNOWN)) {
+      if (research_invention_state(my_research, tech_id) == TECH_UNKNOWN
+          && (research_invention_state(research, tech_id) == TECH_KNOWN)) {
         b++;
         techs_unknown = techs_unknown + QString("<i>")
                         + advance_name_for_player(pplayer, tech_id)

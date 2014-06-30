@@ -35,6 +35,7 @@
 #include "improvement.h"
 #include "movement.h"
 #include "nation.h"
+#include "research.h"
 
 // client
 #include "control.h"
@@ -1156,10 +1157,14 @@ static void spy_steal(QVariant data1, QVariant data2)
   qv1 = data1;
   struct player *pplayer = client.conn.playing;
   if (pvictim) {
+    const struct research *presearch = research_get(pplayer);
+    const struct research *vresearch = research_get(pvictim);
+
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_state(pvictim, i) == TECH_KNOWN &&
-          (player_invention_state(pplayer, i) == TECH_UNKNOWN ||
-           player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN)) {
+      if (research_invention_state(vresearch, i) == TECH_KNOWN
+          && (research_invention_state(presearch, i) == TECH_UNKNOWN
+              || research_invention_state(presearch, i)
+                 == TECH_PREREQS_KNOWN)) {
         func = spy_steal_something;
         str = advance_name_for_player(client.conn.playing, i);
         cd->add_item(str, func, qv1, i);

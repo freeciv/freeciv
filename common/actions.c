@@ -23,6 +23,7 @@
 #include "city.h"
 #include "game.h"
 #include "unit.h"
+#include "research.h"
 #include "tile.h"
 
 static struct action *actions[ACTION_COUNT];
@@ -444,21 +445,26 @@ static enum fc_tristate
 tech_can_be_stolen(const struct player *actor_player,
                    const struct player *target_player)
 {
-  if (can_see_techs_of_target(actor_player, target_player)) {
-    advance_iterate(A_FIRST, padvance) {
-      Tech_type_id i = advance_number(padvance);
+  const struct research *actor_research = research_get(actor_player);
+  const struct research *target_research = research_get(target_player);
 
-      if (player_invention_state(target_player, i) == TECH_KNOWN
-          && player_invention_gettable(actor_player, i,
-                                       game.info.tech_steal_allow_holes)
-          && (player_invention_state(actor_player, i) == TECH_UNKNOWN
-              || (player_invention_state(actor_player, i)
-                  == TECH_PREREQS_KNOWN))) {
-        return TRI_YES;
-      }
-    } advance_iterate_end;
-  } else {
-    return TRI_MAYBE;
+  if (actor_research != target_research) {
+    if (can_see_techs_of_target(actor_player, target_player)) {
+      advance_iterate(A_FIRST, padvance) {
+        Tech_type_id i = advance_number(padvance);
+
+        if (research_invention_state(target_research, i) == TECH_KNOWN
+            && research_invention_gettable(actor_research, i,
+                                           game.info.tech_steal_allow_holes)
+            && (research_invention_state(actor_research, i) == TECH_UNKNOWN
+                || (research_invention_state(actor_research, i)
+                    == TECH_PREREQS_KNOWN))) {
+          return TRI_YES;
+        }
+      } advance_iterate_end;
+    } else {
+      return TRI_MAYBE;
+    }
   }
 
   return TRI_NO;

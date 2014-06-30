@@ -2125,18 +2125,18 @@ void handle_research_info(const struct packet_research_info *packet)
   presearch->bulbs_researched = packet->bulbs_researched;
   presearch->tech_goal = packet->tech_goal;
 
+  advance_index_iterate(A_NONE, i) {
+    newstate = packet->inventions[i] - '0';
+    oldstate = research_invention_set(presearch, i, newstate);
+
+    if (newstate != oldstate
+        && (TECH_KNOWN == newstate || TECH_KNOWN == oldstate)) {
+      tech_changed = TRUE;
+    }
+  } advance_index_iterate_end;
+
   /* FIXME: This is a hack because we need a player pointer! */
   research_players_iterate(presearch, pplayer) {
-    advance_index_iterate(A_NONE, i) {
-      newstate = packet->inventions[i] - '0';
-      oldstate = player_invention_set(pplayer, i, newstate);
-
-      if (newstate != oldstate
-          && (TECH_KNOWN == newstate || TECH_KNOWN == oldstate)) {
-        tech_changed = TRUE;
-      }
-    } advance_index_iterate_end;
-
     player_research_update(pplayer);
     break;
   } research_players_iterate_end;

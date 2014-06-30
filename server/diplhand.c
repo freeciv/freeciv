@@ -187,8 +187,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           }
           break;
 	case CLAUSE_ADVANCE:
-          if (!player_invention_gettable(pother, pclause->value,
-                                         game.info.tech_trade_allow_holes)) {
+          if (!research_invention_gettable(research_get(pother),
+                   pclause->value, game.info.tech_trade_allow_holes)) {
 	    /* It is impossible to give a technology to a civilization that
 	     * can not possess it (the client should enforce this). */
             log_error("Treaty: %s can't have tech %s",
@@ -200,7 +200,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			  advance_name_for_player(pplayer, pclause->value));
 	    return;
           }
-	  if (player_invention_state(pplayer, pclause->value) != TECH_KNOWN) {
+          if (research_invention_state(research_get(pplayer), pclause->value)
+              != TECH_KNOWN) {
             log_error("Nation %s try to give unknown tech %s to nation %s.",
                       nation_rule_name(nation_of_player(pplayer)),
                       advance_name_by_player(pplayer, pclause->value),
@@ -414,7 +415,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         /* It is possible that two players open the diplomacy dialog
          * and try to give us the same tech at the same time. This
          * should be handled discreetly instead of giving a core dump. */
-        if (player_invention_state(pdest, pclause->value) == TECH_KNOWN) {
+        if (research_invention_state(research_get(pdest), pclause->value)
+            == TECH_KNOWN) {
           log_verbose("Nation %s already know tech %s, "
                       "that %s want to give them.",
                       nation_rule_name(nation_of_player(pdest)),

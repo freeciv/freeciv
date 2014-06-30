@@ -24,6 +24,7 @@
 /* common */
 #include "diptreaty.h"
 #include "game.h"
+#include "research.h"
 
 /* client */
 #include "client_main.h"
@@ -637,13 +638,17 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
   /* Trading: advances */
   if (game.info.trading_tech) {
+    const struct research *presearch0 = research_get(pPlayer0);
+    const struct research *presearch1 = research_get(pPlayer1);
     int flag = A_NONE;
 
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_state(pPlayer0, i) == TECH_KNOWN
-          && player_invention_gettable(pPlayer1, i, game.info.tech_trade_allow_holes)
-          && (player_invention_state(pPlayer1, i) == TECH_UNKNOWN
-              || player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
+      if (research_invention_state(presearch0, i) == TECH_KNOWN
+          && research_invention_gettable(presearch1, i,
+                                         game.info.tech_trade_allow_holes)
+          && (research_invention_state(presearch1, i) == TECH_UNKNOWN
+              || research_invention_state(presearch1, i)
+                 == TECH_PREREQS_KNOWN)) {
 
 	     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Advances"), adj_font(12), WF_RESTORE_BACKGROUND);
@@ -672,10 +677,12 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 
     if (flag > A_NONE) {
       advance_index_iterate(flag, i) {
-        if (player_invention_state(pPlayer0, i) == TECH_KNOWN
-            && player_invention_gettable(pPlayer1, i, game.info.tech_trade_allow_holes)
-            && (player_invention_state(pPlayer1, i) == TECH_UNKNOWN
-                || player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
+        if (research_invention_state(presearch0, i) == TECH_KNOWN
+            && research_invention_gettable(presearch1, i,
+                                           game.info.tech_trade_allow_holes)
+            && (research_invention_state(presearch1, i) == TECH_UNKNOWN
+                || research_invention_state(presearch1, i)
+                   == TECH_PREREQS_KNOWN)) {
 
 	     fc_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
 

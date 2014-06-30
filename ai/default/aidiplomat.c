@@ -107,11 +107,13 @@ static int count_sabotagable_improvements(struct city *pcity)
 ******************************************************************************/
 static int count_stealable_techs(struct player *pplayer, struct player *tplayer)
 {
+  struct research *presearch = research_get(pplayer);
+  struct research *tresearch = research_get(tplayer);
   int count = 0;
 
   advance_index_iterate(A_FIRST, index) {
-    if ((player_invention_state(pplayer, index) != TECH_KNOWN)
-        && (player_invention_state(tplayer, index) == TECH_KNOWN)) {
+    if (research_invention_state(presearch, index) != TECH_KNOWN
+        && research_invention_state(tresearch, index) == TECH_KNOWN) {
       count++;
     }
   } advance_index_iterate_end;

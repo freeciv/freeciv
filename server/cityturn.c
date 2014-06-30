@@ -43,6 +43,7 @@
 #include "government.h"
 #include "map.h"
 #include "player.h"
+#include "research.h"
 #include "road.h"
 #include "specialist.h"
 #include "tech.h"
@@ -1034,8 +1035,9 @@ static bool worklist_change_build_target(struct player *pplayer,
                                     API_TYPE_CITY, pcity,
                                     API_TYPE_STRING, "need_building");
         } else if (ptarget->require_advance != NULL
-                   && TECH_KNOWN != player_invention_state(pplayer,
-                                   advance_number(ptarget->require_advance))) {
+                   && TECH_KNOWN != research_invention_state
+                          (research_get(pplayer),
+                           advance_number(ptarget->require_advance))) {
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         _("%s can't build %s from the worklist; "

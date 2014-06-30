@@ -45,6 +45,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 
 /* client */
 #include "client_main.h"
@@ -252,6 +253,7 @@ static void popup_diplomacy_dialog(int other_player_id)
 static int fill_diplomacy_tech_menu(Widget popupmenu, 
 				    struct player *plr0, struct player *plr1)
 {
+  const struct research *presearch0, *presearch1;
   int flag = 0;
 
   if (!game.info.trading_tech) {
@@ -259,10 +261,13 @@ static int fill_diplomacy_tech_menu(Widget popupmenu,
     return 0;
   }
 
+  presearch0 = research_get(plr0);
+  presearch1 = research_get(plr1);
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr0, i) == TECH_KNOWN
-        && player_invention_gettable(plr1, i, game.info.tech_trade_allow_holes)
-        && player_invention_state(plr1, i) != TECH_KNOWN) {
+    if (research_invention_state(presearch0, i) == TECH_KNOWN
+        && research_invention_gettable(presearch1, i,
+                                       game.info.tech_trade_allow_holes)
+        && research_invention_state(presearch1, i) != TECH_KNOWN) {
       Widget entry=
 	XtVaCreateManagedWidget(advance_name_translation(advance_by_number(i)),
 				smeBSBObjectClass,

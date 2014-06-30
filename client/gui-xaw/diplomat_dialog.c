@@ -35,6 +35,7 @@
 #include "actions.h"
 #include "game.h"
 #include "improvement.h"
+#include "research.h"
 #include "tech.h"
 #include "unitlist.h"
 
@@ -409,11 +410,14 @@ static int create_advances_list(struct player *pplayer,
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
+    const struct research *presearch = research_get(pplayer);
+    const struct research *vresearch = research_get(pvictim);
+
     advance_index_iterate(A_FIRST, i) {
-      if(player_invention_state(pvictim, i)==TECH_KNOWN && 
-         (player_invention_state(pplayer, i)==TECH_UNKNOWN || 
-          player_invention_state(pplayer, i)==TECH_PREREQS_KNOWN)) {
-      
+      if (research_invention_state(vresearch, i) == TECH_KNOWN
+          && (research_invention_state(presearch, i) == TECH_UNKNOWN
+              || research_invention_state(presearch, i)
+                 == TECH_PREREQS_KNOWN)) {
         advances_can_steal[j] = advance_name_translation(advance_by_number(i));
         advance_type[j++] = i;
       }

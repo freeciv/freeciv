@@ -105,61 +105,6 @@ struct advance *advance_by_number(const Tech_type_id atype)
 }
 
 /**************************************************************************
-  Returns state of the tech for current pplayer.
-  This can be: TECH_KNOWN, TECH_UNKNOWN, or TECH_PREREQS_KNOWN
-  Should be called with existing techs or A_FUTURE
-
-  If pplayer is NULL this checks whether any player knows the tech (used
-  by the client).
-**************************************************************************/
-enum tech_state player_invention_state(const struct player *pplayer,
-				       Tech_type_id tech)
-{
-  fc_assert_ret_val(tech == A_FUTURE
-                    || (tech >= 0 && tech < game.control.num_tech_types),
-                    -1);
-
-  if (!pplayer) {
-    if (tech != A_FUTURE && game.info.global_advances[tech]) {
-      return TECH_KNOWN;
-    } else {
-      return TECH_UNKNOWN;
-    }
-  } else {
-    struct research *research = research_get(pplayer);
-
-    /* Research can be null in client when looking for tech_leakage
-     * from player not yet received. */
-    if (research) {
-      return research->inventions[tech].state;
-    } else {
-      return TECH_UNKNOWN;
-    }
-  }
-}
-
-/**************************************************************************
-  Set player knowledge about tech to given state.
-**************************************************************************/
-enum tech_state player_invention_set(struct player *pplayer,
-				     Tech_type_id tech,
-				     enum tech_state value)
-{
-  struct research *research = research_get(pplayer);
-  enum tech_state old = research->inventions[tech].state;
-
-  if (old == value) {
-    return old;
-  }
-  research->inventions[tech].state = value;
-
-  if (value == TECH_KNOWN) {
-    game.info.global_advances[tech] = TRUE;
-  }
-  return old;
-}
-
-/**************************************************************************
   Returns if the given tech has to be researched to reach the
   goal. The goal itself isn't a requirement of itself.
 
@@ -215,16 +160,18 @@ static void build_required_techs_helper(struct player *pplayer,
 					Tech_type_id tech,
 					Tech_type_id goal)
 {
+  struct research *presearch = research_get(pplayer);
+
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
-  if (!player_invention_reachable(pplayer, tech)
-      || player_invention_state(pplayer, tech) == TECH_KNOWN
+  if (!research_invention_reachable(presearch, tech)
+      || research_invention_state(presearch, tech) == TECH_KNOWN
       || is_tech_a_req_for_goal(pplayer, tech, goal)) {
     return;
   }
 
   /* Mark the tech as required for the goal */
-  BV_SET(research_get(pplayer)->inventions[goal].required_techs, tech);
+  BV_SET(presearch->inventions[goal].required_techs, tech);
 
   if (advance_required(tech, AR_ONE) == goal
       || advance_required(tech, AR_TWO) == goal) {
@@ -248,7 +195,7 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 
   BV_CLR_ALL(research->inventions[goal].required_techs);
   
-  if (player_invention_state(pplayer, goal) == TECH_KNOWN) {
+  if (research_invention_state(research, goal) == TECH_KNOWN) {
     research->inventions[goal].num_required_techs = 0;
     research->inventions[goal].bulbs_required = 0;
     return;
@@ -284,91 +231,12 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 }
 
 /**************************************************************************
-  Returns TRUE iff the given tech is ever reachable by the given player
-  by checking tech tree limitations.
-
-  pplayer may be NULL in which case a simplified result is returned
-  (used by the client).
-**************************************************************************/
-bool player_invention_reachable(const struct player *pplayer,
-                                const Tech_type_id tech)
-{
-  Tech_type_id root;
-
-  if (!valid_advance_by_number(tech)) {
-    return FALSE;
-  }
-
-  root = advance_required(tech, AR_ROOT);
-  if (A_NONE != root) {
-    if (root == tech) {
-      /* This tech requires itself; it can only be reached by special means
-       * (init_techs, lua script, ...).
-       * If you already know it, you can "reach" it; if not, not. (This case
-       * is needed for descendants of this tech.) */
-      return TECH_KNOWN == player_invention_state(pplayer, tech);
-    } else {
-      /* Recursive check if the player can ever reach this tech (root tech
-       * and both requirements). */
-      return (player_invention_reachable(pplayer, root)
-              && player_invention_reachable(pplayer,
-                                            advance_required(tech, AR_ONE))
-              && player_invention_reachable(pplayer,
-                                            advance_required(tech, AR_TWO)));
-    }
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Returns TRUE iff the given tech can be given to player immediately.
-
-  If reachable_ok is TRUE, any reachable tech is ok. If it's FALSE,
-  getting the tech must not leave holes to the known techs tree.
-**************************************************************************/
-bool player_invention_gettable(const struct player *pplayer,
-                               const Tech_type_id tech,
-                               bool reachable_ok)
-{
-  Tech_type_id req;
-
-  if (!valid_advance_by_number(tech)) {
-    return FALSE;
-  }
-
-  /* Tech with root req is immediately gettable only if root req is already
-   * known. */
-  req = advance_required(tech, AR_ROOT);
-
-  if (req != A_NONE && player_invention_state(pplayer, req) != TECH_KNOWN) {
-    return FALSE;
-  }
-
-  if (reachable_ok) {
-    /* Any recursively reachable tech is ok */
-    return TRUE;
-  }
-
-  req = advance_required(tech, AR_ONE);
-  if (req != A_NONE && player_invention_state(pplayer, req) != TECH_KNOWN) {
-    return FALSE;
-  }
-  req = advance_required(tech, AR_TWO);
-  if (req != A_NONE && player_invention_state(pplayer, req) != TECH_KNOWN) {
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
   which has all requirements fullfiled.
   If there is no such a tech mark A_FUTURE as researchable.
   
   Recalculate research->num_known_tech_with_flag
-  Should always be called after player_invention_set()
+  Should always be called after research_invention_set()
 **************************************************************************/
 void player_research_update(struct player *pplayer)
 {
@@ -378,22 +246,22 @@ void player_research_update(struct player *pplayer)
 
   /* This is set when the game starts, but not everybody finds out
    * right away. */
-  player_invention_set(pplayer, A_NONE, TECH_KNOWN);
+  research_invention_set(research, A_NONE, TECH_KNOWN);
 
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_reachable(pplayer, i)) {
-      player_invention_set(pplayer, i, TECH_UNKNOWN);
+    if (!research_invention_reachable(research, i)) {
+      research_invention_set(research, i, TECH_UNKNOWN);
     } else {
-      if (player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
-        player_invention_set(pplayer, i, TECH_UNKNOWN);
+      if (research_invention_state(research, i) == TECH_PREREQS_KNOWN) {
+        research_invention_set(research, i, TECH_UNKNOWN);
       }
 
-      if (player_invention_state(pplayer, i) == TECH_UNKNOWN
-          && player_invention_state(pplayer, advance_required(i, AR_ONE))
+      if (research_invention_state(research, i) == TECH_UNKNOWN
+          && research_invention_state(research, advance_required(i, AR_ONE))
              == TECH_KNOWN
-          && player_invention_state(pplayer, advance_required(i, AR_TWO))
+          && research_invention_state(research, advance_required(i, AR_TWO))
              == TECH_KNOWN) {
-        player_invention_set(pplayer, i, TECH_PREREQS_KNOWN);
+        research_invention_set(research, i, TECH_PREREQS_KNOWN);
         researchable++;
       }
     }
@@ -415,14 +283,14 @@ void player_research_update(struct player *pplayer)
 
     log_debug("%s: [%3d] %-25s => %s", player_name(pplayer), i,
               advance_rule_name(advance_by_number(i)),
-              tech_state_name(player_invention_state(pplayer, i)));
+              tech_state_name(research_invention_state(research, i)));
     log_debug("%s: [%3d] %s", player_name(pplayer), i, buf);
   } advance_index_iterate_end;
 #endif /* DEBUG */
 
   /* No techs we can research? Mark A_FUTURE as researchable */
   if (researchable == 0) {
-    player_invention_set(pplayer, A_FUTURE, TECH_PREREQS_KNOWN);
+    research_invention_set(research, A_FUTURE, TECH_PREREQS_KNOWN);
   }
 
   for (flag = 0; flag <= tech_flag_id_max(); flag++) {
@@ -430,7 +298,7 @@ void player_research_update(struct player *pplayer)
     research->num_known_tech_with_flag[flag] = 0;
 
     advance_index_iterate(A_NONE, i) {
-      if (player_invention_state(pplayer, i) == TECH_KNOWN
+      if (research_invention_state(research, i) == TECH_KNOWN
           && advance_has_flag(i, flag)) {
         research->num_known_tech_with_flag[flag]++;
       }
@@ -474,7 +342,7 @@ static int tech_upkeep_calc(const struct player *pplayer)
   case 1:
   case 3:
     advance_index_iterate(A_NONE, i) {
-      if (player_invention_state(pplayer, i) == TECH_KNOWN) {
+      if (research_invention_state(research, i) == TECH_KNOWN) {
         tech_bulb_sum += techcoststyle1[i];
       }
     } advance_index_iterate_end;
@@ -482,7 +350,7 @@ static int tech_upkeep_calc(const struct player *pplayer)
   case 2:
   case 4:
     advance_index_iterate(A_NONE, i) {
-      if (player_invention_state(pplayer, i) == TECH_KNOWN) {
+      if (research_invention_state(research, i) == TECH_KNOWN) {
         if (advances[i].preset_cost != -1) {
           tech_bulb_sum += advances[i].preset_cost;
         } else {
@@ -529,12 +397,13 @@ static int tech_upkeep_calc(const struct player *pplayer)
 Tech_type_id player_research_step(const struct player *pplayer,
 				  Tech_type_id goal)
 {
+  const struct research *presearch = research_get(pplayer);
   Tech_type_id sub_goal;
 
-  if (!player_invention_reachable(pplayer, goal)) {
+  if (!research_invention_reachable(presearch, goal)) {
     return A_UNSET;
   }
-  switch (player_invention_state(pplayer, goal)) {
+  switch (research_invention_state(presearch, goal)) {
   case TECH_KNOWN:
     return A_UNSET;
   case TECH_PREREQS_KNOWN:
@@ -684,12 +553,13 @@ int total_bulbs_required(const struct player *pplayer)
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech, bool loss_value)
 {
+  const struct research *presearch = research_get(pplayer);
   int tech_cost_style = game.info.tech_cost_style;
   double base_cost;
 
   if (!loss_value && pplayer
       && !is_future_tech(tech)
-      && player_invention_state(pplayer, tech) == TECH_KNOWN) {
+      && research_invention_state(presearch, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */
     return 0;
   }
@@ -745,7 +615,7 @@ int base_total_bulbs_required(const struct player *pplayer,
 
       players_iterate_alive(other) {
 	players++;
-	if (player_invention_state(other, tech) == TECH_KNOWN
+        if (research_invention_state(research_get(other), tech) == TECH_KNOWN
 	    && pplayer && player_has_embassy(pplayer, other)) {
 	  players_with_tech_and_embassy++;
 	}
@@ -762,7 +632,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 
       players_iterate_alive(other) {
 	players++;
-	if (player_invention_state(other, tech) == TECH_KNOWN) {
+        if (research_invention_state(research_get(other), tech)
+            == TECH_KNOWN) {
 	  players_with_tech++;
 	}
       } players_iterate_alive_end;
@@ -781,7 +652,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 	  continue;
 	}
 	players++;
-	if (player_invention_state(other, tech) == TECH_KNOWN) {
+        if (research_invention_state(research_get(other), tech)
+            == TECH_KNOWN) {
 	  players_with_tech++;
 	}
       } players_iterate_alive_end;

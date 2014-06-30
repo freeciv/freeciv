@@ -29,6 +29,9 @@
 #include "fcintl.h"
 #include "log.h"
 
+/* common */
+#include "research.h"
+
 /* client */
 #include "client_main.h"
 
@@ -560,8 +563,10 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
 **************************************************************************/
 SDL_Color *get_tech_color(Tech_type_id tech_id)
 {
-  if (player_invention_gettable(client.conn.playing, tech_id, TRUE)) {
-    switch (player_invention_state(client.conn.playing, tech_id)) {
+  if (research_invention_gettable(research_get(client_player()),
+                                  tech_id, TRUE)) {
+    switch (research_invention_state(research_get(client_player()),
+                                     tech_id)) {
       case TECH_UNKNOWN:
         return get_game_color(COLOR_REQTREE_UNKNOWN);
       case TECH_KNOWN:

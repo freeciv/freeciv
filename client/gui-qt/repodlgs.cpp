@@ -87,7 +87,7 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
   Tech_type_id tech = get_tech_on_reqtree(req, event->x(), event->y());
 
   if (event->button() == Qt::LeftButton && can_client_issue_orders()) {
-    switch (player_invention_state(client_player(), tech)) {
+    switch (research_invention_state(research_get(client_player()), tech)) {
     case TECH_PREREQS_KNOWN:
       dsend_packet_player_research(&client.conn, tech);
       break;
@@ -276,7 +276,7 @@ void science_report::update_report()
 
   /** Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client_player(), i)
+    if (research_invention_reachable(research, i)
         && TECH_KNOWN != research->inventions[i].state
         && (i == research->tech_goal
             || 10 >= research->inventions[i].num_required_techs)) {

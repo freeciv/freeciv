@@ -2851,6 +2851,7 @@ static int change_research_goal_dialog_callback(struct widget *pWindow)
 **************************************************************************/
 static void popup_change_research_dialog(void)
 {
+  const struct research *presearch = research_get(client_player());
   struct widget *pBuf = NULL;
   struct widget *pWindow;
   SDL_String16 *pStr;
@@ -2858,12 +2859,12 @@ static void popup_change_research_dialog(void)
   int max_col, max_row, col, i, count = 0, h;
   SDL_Rect area;
 
-  if (is_future_tech(research_get(client_player())->researching)) {
+  if (is_future_tech(presearch->researching)) {
     return;
   }
     
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_gettable(client.conn.playing, i, TRUE)) {
+    if (!research_invention_gettable(presearch, i, TRUE)) {
       continue;
     }
     count++;
@@ -2931,7 +2932,7 @@ static void popup_change_research_dialog(void)
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_gettable(client.conn.playing, i, TRUE)) {
+    if (!research_invention_gettable(presearch, i, TRUE)) {
       continue;
     }
     
@@ -3036,6 +3037,7 @@ static int change_research_goal_callback(struct widget *pWidget)
 **************************************************************************/
 static void popup_change_research_goal_dialog(void)
 {
+  const struct research *presearch = research_get(client_player());
   struct widget *pBuf = NULL;
   struct widget *pWindow;
   SDL_String16 *pStr;
@@ -3048,10 +3050,10 @@ static void popup_change_research_goal_dialog(void)
    * hist will hold afterwards the techid of the current choice
    */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i)
-        && TECH_KNOWN != player_invention_state(client.conn.playing, i)
+    if (research_invention_reachable(presearch, i)
+        && TECH_KNOWN != research_invention_state(presearch, i)
 	&& (11 > num_unknown_techs_for_goal(client.conn.playing, i)
-	    || i == research_get(client.conn.playing)->tech_goal)) {
+            || i == presearch->tech_goal)) {
       count++;
     }
   } advance_index_iterate_end;
@@ -3122,10 +3124,10 @@ static void popup_change_research_goal_dialog(void)
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i)
-        && TECH_KNOWN != player_invention_state(client.conn.playing, i)
+    if (research_invention_reachable(presearch, i)
+        && TECH_KNOWN != research_invention_state(presearch, i)
         && (11 > (num = num_unknown_techs_for_goal(client_player(), i))
-            || i == research_get(client_player())->tech_goal)) {
+            || i == presearch->tech_goal)) {
 
       count++;
       fc_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
@@ -3261,6 +3263,7 @@ static int popdown_science_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 void science_report_dialog_popup(bool raise)
 {
+  const struct research *presearch;
   struct widget *pWidget, *pWindow;
   struct widget *pChangeResearchButton;
   struct widget *pChangeResearchGoalButton;
@@ -3274,6 +3277,8 @@ void science_report_dialog_popup(bool raise)
   if (pScienceDlg) {
     return;
   }
+
+  presearch = research_get(client_player());
 
   /* disable research button */
   pWidget = get_research_widget();
@@ -3312,14 +3317,14 @@ void science_report_dialog_popup(bool raise)
   /* count number of researchable techs */
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i)
-        && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
+    if (research_invention_reachable(presearch, i)
+        && TECH_KNOWN != research_invention_state(presearch, i)) {
       count++;
     }
   }  advance_index_iterate_end;
 
   /* current research icon */
-  pTechIcon = get_tech_icon(research_get(client_player())->researching);
+  pTechIcon = get_tech_icon(presearch->researching);
   pChangeResearchButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   pChangeResearchButton->action = popup_change_research_dialog_callback;
@@ -3330,7 +3335,7 @@ void science_report_dialog_popup(bool raise)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pChangeResearchButton);
 
   /* current research goal icon */
-  pTechIcon = get_tech_icon(research_get(client_player())->tech_goal);
+  pTechIcon = get_tech_icon(presearch->tech_goal);
   pChangeResearchGoalButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   
   pChangeResearchGoalButton->action = popup_change_research_goal_dialog_callback;

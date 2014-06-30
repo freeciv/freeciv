@@ -140,6 +140,7 @@ static void tech_researched(struct player *plr)
 ****************************************************************************/
 void do_tech_parasite_effect(struct player *pplayer)
 {
+  struct research *presearch = research_get(pplayer);
   int mod;
   struct effect_list *plist = effect_list_new();
 
@@ -158,8 +159,9 @@ void do_tech_parasite_effect(struct player *pplayer)
     } effect_list_iterate_end;
 
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_gettable(pplayer, i, game.info.tech_parasite_allow_holes)
-          && player_invention_state(pplayer, i) != TECH_KNOWN) {
+      if (research_invention_gettable(presearch, i,
+                                      game.info.tech_parasite_allow_holes)
+          && research_invention_state(presearch, i) != TECH_KNOWN) {
         int num_research = 0;
 
         researches_iterate(presearch) {
@@ -341,7 +343,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
    * or may not be the correct thing to do.  For these sanity checks we
    * just special-case it. */
   fc_assert_ret(tech_found == A_FUTURE
-                || (vap && player_invention_state(plr, tech_found)
+                || (vap && research_invention_state(research, tech_found)
                     != TECH_KNOWN));
 
   /* got_tech allows us to change research without applying techpenalty
@@ -387,7 +389,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   /* Mark the tech as known in the research struct and update
    * global_advances array */
-  player_invention_set(plr, tech_found, TECH_KNOWN);
+  research_invention_set(research, tech_found, TECH_KNOWN);
   player_research_update(plr);
 
   /* Make proper changes for all players sharing the research */  
@@ -640,13 +642,14 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 ****************************************************************************/
 static Tech_type_id pick_random_tech_to_lose(struct player* plr)
 {
+  struct research *presearch = research_get(plr);
   bv_techs eligible_techs;
   int chosen, eligible = advance_count();
 
   BV_SET_ALL(eligible_techs);
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) != TECH_KNOWN) {
+    if (research_invention_state(presearch, i) != TECH_KNOWN) {
       if (BV_ISSET(eligible_techs, i)) {
         eligible--;
         BV_CLR(eligible_techs, i);
@@ -689,10 +692,11 @@ static Tech_type_id pick_random_tech_to_lose(struct player* plr)
 ****************************************************************************/
 static void player_tech_lost(struct player* plr, Tech_type_id tech)
 {
+  struct research *presearch = research_get(plr);
   bool old_gov[government_count()];
 
   if (tech == A_FUTURE) {
-    research_get(plr)->future_tech--;
+    presearch->future_tech--;
     player_research_update(plr);
 
     return;
@@ -704,7 +708,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
   fill_can_switch_to_government_array(plr, old_gov);
 
   /* remove technology */
-  player_invention_set(plr, tech, TECH_UNKNOWN);
+  research_invention_set(presearch, tech, TECH_UNKNOWN);
   player_research_update(plr);
   log_debug("%s lost tech id %d (%s)", player_name(plr), tech,
             advance_rule_name(advance_by_number(tech)));
@@ -814,10 +818,11 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 ****************************************************************************/
 Tech_type_id pick_random_tech(struct player* plr) 
 {
+  const struct research *presearch = research_get(plr);
   int chosen, researchable = 0;
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
+    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
       researchable++;
     }
   } advance_index_iterate_end;
@@ -827,7 +832,7 @@ Tech_type_id pick_random_tech(struct player* plr)
   chosen = fc_rand(researchable) + 1;
   
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
+    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
       chosen--;
       if (chosen == 0) {
         return i;
@@ -843,13 +848,14 @@ Tech_type_id pick_random_tech(struct player* plr)
 ****************************************************************************/
 Tech_type_id pick_cheapest_tech(struct player* plr)
 {
+  const struct research *presearch = research_get(plr);
   int cheapest_cost = -1;
   int cheapest_amount = 0;
   Tech_type_id cheapest = A_NONE;
   int chosen;
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
+    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
       int cost = base_total_bulbs_required(plr, i, FALSE);
 
       if (cost < cheapest_cost || cheapest_cost == -1) {
@@ -872,7 +878,7 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
   chosen = fc_rand(cheapest_amount) + 1;
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN
+    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN
         && base_total_bulbs_required(plr, i, FALSE) == cheapest_cost) {
       chosen--;
       if (chosen == 0) {
@@ -918,7 +924,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
   if (research->researching == tech) {
     return;
   }
-  if (player_invention_state(plr, tech) != TECH_PREREQS_KNOWN) {
+  if (research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
     /* can't research this */
     return;
   }
@@ -966,10 +972,10 @@ void init_tech(struct player *plr, bool update)
 {
   struct research *research = research_get(plr);
 
-  player_invention_set(plr, A_NONE, TECH_KNOWN);
+  research_invention_set(research, A_NONE, TECH_KNOWN);
 
   advance_index_iterate(A_FIRST, i) {
-    player_invention_set(plr, i, TECH_UNKNOWN);
+    research_invention_set(research, i, TECH_UNKNOWN);
   } advance_index_iterate_end;
 
 #ifdef TECH_UPKEEP_DEBUGGING
@@ -993,15 +999,16 @@ void init_tech(struct player *plr, bool update)
                 "(now) / %-3s (ever)", player_number(plr),
                 advance_rule_name(advance_by_number(i)), i,
                 base_total_bulbs_required(plr, i, FALSE),
-                player_invention_gettable(plr, i, FALSE) ? "yes" : "no",
-                player_invention_reachable(plr, i) ? "yes" : "no");
+                research_invention_gettable(research, i, FALSE)
+                ? "yes" : "no",
+                research_invention_reachable(research, i) ? "yes" : "no");
     } advance_index_iterate_end;
 
     /* Update step for step each tech as known and print the upkeep. */
     while (tech != A_NONE) {
       tech = A_NONE;
       advance_index_iterate(A_FIRST, i) {
-        if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
+        if (research_invention_state(research, i) == TECH_PREREQS_KNOWN) {
           /* Found a tech which can be researched. */
           tech = i;
           break;
@@ -1024,7 +1031,7 @@ void init_tech(struct player *plr, bool update)
 
     /* Reset the changes done. */
     advance_index_iterate(A_FIRST, i) {
-      player_invention_set(plr, i, TECH_UNKNOWN);
+      research_invention_set(research, i, TECH_UNKNOWN);
       game.info.global_advances[i] = global_state[i];
     } advance_index_iterate_end;
   }
@@ -1053,6 +1060,7 @@ void init_tech(struct player *plr, bool update)
 ****************************************************************************/
 void give_global_initial_techs(struct player *pplayer)
 {
+  struct research *presearch = research_get(pplayer);
   int i;
 
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
@@ -1060,8 +1068,7 @@ void give_global_initial_techs(struct player *pplayer)
       break;
     }
     /* Maybe the player already got this tech by an other way (e.g. team). */
-    if (player_invention_state(pplayer,
-                               game.rgame.global_init_techs[i])
+    if (research_invention_state(presearch, game.rgame.global_init_techs[i])
         != TECH_KNOWN) {
     found_new_tech(pplayer, game.rgame.global_init_techs[i],
                    FALSE, TRUE);
@@ -1075,6 +1082,7 @@ void give_global_initial_techs(struct player *pplayer)
 ****************************************************************************/
 void give_nation_initial_techs(struct player *pplayer)
 {
+  struct research *presearch = research_get(pplayer);
   const struct nation_type *pnation = nation_of_player(pplayer);
   int i;
 
@@ -1083,7 +1091,7 @@ void give_nation_initial_techs(struct player *pplayer)
       break;
     }
     /* Maybe the player already got this tech by an other way (e.g. team). */
-    if (player_invention_state(pplayer, pnation->init_techs[i])
+    if (research_invention_state(presearch, pnation->init_techs[i])
         != TECH_KNOWN) {
       found_new_tech(pplayer, pnation->init_techs[i], FALSE, TRUE);
     }
@@ -1114,26 +1122,30 @@ Tech_type_id give_random_initial_tech(struct player *pplayer)
 Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
                           Tech_type_id preferred)
 {
+  struct research *presearch, *vresearch;
   Tech_type_id stolen_tech = A_NONE;
 
   if (get_player_bonus(victim, EFT_NOT_TECH_SOURCE) > 0) {
     return A_NONE;
   }
 
+  presearch = research_get(pplayer);
+  vresearch = research_get(victim);
+
   if (preferred == A_UNSET) {
     int j = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_gettable(pplayer, i, game.info.tech_steal_allow_holes)
-	  && player_invention_state(pplayer, i) != TECH_KNOWN
-	  && player_invention_state(victim, i) == TECH_KNOWN) {
+      if (research_invention_gettable(presearch, i,
+                                      game.info.tech_steal_allow_holes)
+          && research_invention_state(presearch, i) != TECH_KNOWN
+          && research_invention_state(vresearch, i) == TECH_KNOWN) {
         j++;
       }
     } advance_index_iterate_end;
   
     if (j == 0)  {
       /* we've moved on to future tech */
-      if (research_get(victim)->future_tech
-        > research_get(pplayer)->future_tech) {
+      if (vresearch->future_tech > presearch->future_tech) {
         found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
         stolen_tech = A_FUTURE;
       } else {
@@ -1144,9 +1156,10 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       j = fc_rand(j) + 1;
       stolen_tech = A_NONE; /* avoid compiler warning */
       advance_index_iterate(A_FIRST, i) {
-        if (player_invention_gettable(pplayer, i, game.info.tech_steal_allow_holes)
-	    && player_invention_state(pplayer, i) != TECH_KNOWN
-	    && player_invention_state(victim, i) == TECH_KNOWN) {
+        if (research_invention_gettable(presearch, i,
+                                        game.info.tech_steal_allow_holes)
+            && research_invention_state(presearch, i) != TECH_KNOWN
+            && research_invention_state(vresearch, i) == TECH_KNOWN) {
 	  j--;
         }
         if (j == 0) {
@@ -1158,10 +1171,10 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     }
   } else { /* preferred != A_UNSET */
     fc_assert((preferred == A_FUTURE
-               && (player_invention_state(victim, A_FUTURE)
+               && (research_invention_state(vresearch, A_FUTURE)
                    == TECH_PREREQS_KNOWN))
               || (valid_advance_by_number(preferred)
-                  && (player_invention_state(victim, preferred)
+                  && (research_invention_state(vresearch, preferred)
                       == TECH_KNOWN)));
     stolen_tech = preferred;
   }
@@ -1214,7 +1227,7 @@ void handle_player_research(struct player *pplayer, int tech)
   }
   
   if (tech != A_FUTURE
-      && player_invention_state(pplayer, tech) != TECH_PREREQS_KNOWN) {
+      && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
     return;
   }
 
@@ -1239,9 +1252,9 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
    * - known (i.e. due to EFT_GIVE_IMM_TECH). */
   if ((tech_goal != A_FUTURE
        && (!valid_advance_by_number(tech_goal)
-           || !player_invention_reachable(pplayer, tech_goal)))
+           || !research_invention_reachable(research, tech_goal)))
       || (tech_goal == A_NONE)
-      || (TECH_KNOWN == player_invention_state(pplayer, tech_goal))) {
+      || (TECH_KNOWN == research_invention_state(research, tech_goal))) {
     tech_goal = A_UNSET;
   }
 
@@ -1307,9 +1320,11 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
   if (game.server.techlost_donor > 0) {
     /* Don't let donor lose tech if it's root_req for some other known
      * tech */
+    struct research *donor_research = research_get(plr_donor);
     bool donor_can_lose = TRUE;
+
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_state(plr_donor, i) == TECH_KNOWN
+      if (research_invention_state(donor_research, i) == TECH_KNOWN
           && advance_required(i, AR_ROOT) == tech) {
         donor_can_lose = FALSE;
         break;

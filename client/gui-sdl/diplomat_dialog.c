@@ -23,6 +23,7 @@
 /* common */
 #include "actions.h"
 #include "game.h"
+#include "research.h"
 #include "unitlist.h"
 
 /* client */
@@ -243,6 +244,7 @@ static int spy_steal_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_popup(struct widget *pWidget)
 {
+  const struct research *presearch, *vresearch;
   struct city *pVcity = pWidget->data.city;
   int id = MAX_ID - pWidget->ID;
   struct player *pVictim = NULL;
@@ -269,11 +271,13 @@ static int spy_steal_popup(struct widget *pWidget)
   }
   
   count = 0;
+  presearch = research_get(client_player());
+  vresearch = research_get(pVictim);
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_gettable(client.conn.playing, i,
-                                  game.info.tech_steal_allow_holes)
-        && TECH_KNOWN == player_invention_state(pVictim, i)
-        && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
+    if (research_invention_gettable(presearch, i,
+                                    game.info.tech_steal_allow_holes)
+        && TECH_KNOWN == research_invention_state(vresearch, i)
+        && TECH_KNOWN != research_invention_state(presearch, i)) {
       count++;
     }
   } advance_index_iterate_end;
@@ -357,10 +361,10 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_gettable(client.conn.playing, i,
-                                  game.info.tech_steal_allow_holes)
-        && TECH_KNOWN == player_invention_state(pVictim, i)
-        && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
+    if (research_invention_gettable(presearch, i,
+                                    game.info.tech_steal_allow_holes)
+        && TECH_KNOWN == research_invention_state(vresearch, i)
+        && TECH_KNOWN != research_invention_state(presearch, i)) {
       count++;
 
       copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));

@@ -46,6 +46,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "requirements.h"
+#include "research.h"
 #include "road.h"
 #include "specialist.h"
 #include "unit.h"
@@ -3343,6 +3344,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                       const char *user_text, int i)
 {
+  const struct research *presearch;
   struct astring astr = ASTRING_INIT;
   struct advance *vap = valid_advance_by_number(i);
   struct universal source = {
@@ -3359,13 +3361,14 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     return;
   }
 
-  if (player_invention_state(pplayer, i) != TECH_KNOWN) {
-    if (player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
+  presearch = research_get(pplayer);
+  if (research_invention_state(presearch, i) != TECH_KNOWN) {
+    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
       cat_snprintf(buf, bufsz,
 		   _("Starting now, researching %s would need %d bulbs."),
 		   advance_name_for_player(pplayer, i),
 		   base_total_bulbs_required(pplayer, i, FALSE));
-    } else if (player_invention_reachable(pplayer, i)) {
+    } else if (research_invention_reachable(presearch, i)) {
       cat_snprintf(buf, bufsz,
                    PL_("To reach %s you need to obtain %d other"
                        " technology first. The whole project"
@@ -3382,7 +3385,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 	      _("You cannot research this technology."));
     }
     if (!techs_have_fixed_costs()
-     && player_invention_reachable(pplayer, i)) {
+        && research_invention_reachable(presearch, i)) {
       CATLSTR(buf, bufsz,
 	      _(" This number may vary depending on what "
 		"other players research.\n"));

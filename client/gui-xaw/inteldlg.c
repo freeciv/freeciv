@@ -286,8 +286,10 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  NULL);
 
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_state(pdialog->pplayer, i) == TECH_KNOWN) {
-      if (TECH_KNOWN == player_invention_state(client.conn.playing, i)) {
+    if (research_invention_state(research_get(pdialog->pplayer), i)
+        == TECH_KNOWN) {
+      if (research_invention_state(research_get(client_player()), i)
+          == TECH_KNOWN) {
 	sz_strlcpy(tech_list_names[j], advance_name_translation(advance_by_number(i)));
       } else {
 	fc_snprintf(tech_list_names[j], sizeof(tech_list_names[j]),
