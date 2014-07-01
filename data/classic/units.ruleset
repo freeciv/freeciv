@@ -2113,6 +2113,15 @@ helptext      = _("\
 A Caravan carries goods or material for trading with distant cities\
  and foreign countries, or to help build wonders in your cities.\
 "), _("\
+Caravans can establish trade routes with your own cities or those of other\
+ nations (even enemies) by traveling to them. A route's ongoing revenue\
+ is doubled if the two cities involved are on different continents, and\
+ doubled again if the cities are from different civilizations. This last\
+ condition means the net benefit to your civilization of a trade route\
+ is the same regardless of whether you own both cities or only one of\
+ them; if you only own one city, trade in each city is doubled, but you\
+ only get the benefit from one end of the route.\
+"), _("\
 Every Caravan that is used to build a wonder will add 50 shields\
  towards the production of the wonder.\
 "), _("\

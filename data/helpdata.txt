@@ -605,38 +605,44 @@ ways to make local adjustments, such as assigning citizens as \
 entertainers in the default ruleset). See the section on Happiness \
 for more details on the effect of luxuries.\
 "), _("\
-Besides working terrain gifted with rare commodities, or with access \
-to waterways and roads, you can increase trade by establishing trade \
-routes between cities. In the default ruleset, you accomplish this by \
-producing a Caravan or Freight unit, sending them to another city at \
-least nine tiles away or belonging to a different civilization, and \
-issuing the \"make trade route\" command. (The minimum distance can be \
-changed with the 'trademindist' server option.)\
+Besides working terrain gifted with rare commodities, or logistical \
+benefits such as waterways or roads, you can increase trade by \
+using units to establish permanent trade routes between two cities, \
+if the ruleset allows it.\
+"), _("\
+The ruleset may limit the ability to trade or the yield from doing so \
+depending on whether the two cities are on different continents and/or \
+in different nations; for international trade routes, on the diplomatic \
+status of the two trade partners; and for domestic routes, there must be \
+a minimum distance between the two cities, controlled by the \
+'trademindist' server option (default nine tiles).\
+"), _("\
+A trade route is established when a suitable unit (in the classic \
+ruleset, a Caravan or Freight unit) enters an eligible city. For your \
+own or allied cities, you need to issue the \"Establish Trade Route\" \
+command. This creates a trade route between the unit's home city (which \
+might be different from the city that originally produced it) and the \
+destination.\
 "), _("\
 The origin civilization of the unit gains immediate revenue in gold \
 and science from selling its trade goods at the destination city. The \
 initial revenue depends on the trade already produced by the two \
-cities involved and their distance apart. Some advances make \
-transportation easier and reduce this one-time revenue.\
+cities involved and their distance apart.\
 "), _("\
-Also, an ongoing trade route is established that benefits both its \
-origin and destination equally by generating trade points for each \
-city every turn. The amount of ongoing trade increases with the size \
-of each city and the distance between them; it is doubled if the \
-cities are on different continents, and doubled again if the cities \
-are from different civilizations. This last condition means the net \
-benefit to your civilization of a trade route is the same regardless \
-of whether you own both cities or only one of them; if you only own \
-one city, trade in each city is doubled, but you only get the benefit \
-from one end of the route.\
+The ongoing trade route that is established benefits both its \
+origin and destination cities equally by generating trade points for \
+each city every turn. The amount of ongoing trade increases with the \
+size of each city and the distance between them, and may also depend on \
+the factors mentioned above. If a trade route ever becomes unsustainable \
+-- for instance, if war breaks out in a ruleset where enemies cannot \
+trade -- it may be permanently cancelled.\
 "), _("\
-(If a trade route already exists between two cities, the origin \
-civilization can still gain initial revenue by entering the \
-marketplace and selling trade goods, but it is reduced to a third.)\
-"), _("\
-The number of trade routes per city is limited to four. If you attempt \
-to establish more routes, the trade route with the smallest ongoing \
-revenue is canceled if it would be less than the new route.\
+Each city can only support a limited number of trade routes (the exact \
+limit is set by ruleset and circumstance). If you attempt to establish \
+more, the trade route with the smallest ongoing revenue is canceled if \
+it would be less than the new route. (Otherwise, the origin civilization \
+can still gain initial revenue by entering the marketplace and selling \
+trade goods, but it is reduced to a third.)\
 "), _("\
 Beware: in rulesets where plague is enabled, it can travel \
 along trade routes. See the section on Plague for more details.\
