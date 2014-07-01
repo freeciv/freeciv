@@ -1096,15 +1096,17 @@ generate = " Units"
 
 [help_combat]
 name = _("Combat")
-text = _("Default Combat Rules\n--------------------"),
-_("\
-When one unit attacks another unit, either the attacker will be \
-destroyed, or the defender will be destroyed -- never both (unless \
-the attacker was a missile).  The outcome depends on several \
-factors, including chance.\
+text = _("\
+In standard combat, when one unit attacks another unit, either the \
+attacker will be destroyed, or the defender will be destroyed -- \
+never both (unless the attacker was a missile). (Bombardment, in \
+rulesets which have it, works rather differently: the attacker \
+sustains no damage, and the defender cannot be completely destroyed.)\
 "), _("\
-The description below is for the default ruleset, but the principles \
-are similar for any ruleset.  Notice that many bonuses are possible \
+The outcome of combat depends on several factors, including chance.\
+"), _("\
+The description below is for the classic ruleset, but the principles \
+are similar for any ruleset. Notice that many bonuses are possible \
 for defenders, but few for attackers, aside from veteran status; an \
 attacking unit can mostly expect circumstance to work against it.\
 "), _("\
@@ -1112,6 +1114,10 @@ First, the attacker's strength is modified.\
 "), _("\
  - If the attacker is a veteran, its strength is multiplied by the \
 bonus associated with its veteran level.\
+"), _("\
+ - Some rulesets (but not the classic rules) have 'tired attacks': \
+a unit that attacks with less than a full movement point will have \
+its strength proportionally reduced.\
 "), _("\
 Next, the defender's strength is modified.\
 "), _("\
@@ -1121,38 +1127,40 @@ the bonus associated with its veteran level.\
  - Then the defender's strength is multiplied by the defense factor \
 of the terrain it occupies.\
 "), _("\
- - Next, the defender's strength is doubled if it is a Pikeman unit \
-defending against a mounted unit.\
-"), _("\
- - If the defender is an AEGIS Cruiser defending against airborne \
-units (including missiles and Helicopters), the defense is \
-quintupled.\
-"), _("\
- - The defender's strength is doubled again if it is in a city with \
-a SAM Battery and the attacker is an air unit (other than a \
-Helicopter or a missile).\
-"), _("\
- - An SDI Defense doubles the defender's strength against \
-missile attacks.\
-"), _("\
- - If the attacker is a ship and the defender is in a city with a \
-Coastal Defense, the defender's strength is doubled.\
-"), _("\
- - Against land units (other than Howitzers) and Helicopters, \
-defending units in a city with City Walls have their strength \
-tripled.\
-"), _("\
- - If the defender is in a fortress (and not a city), its strength \
-is doubled.\
-"), _("\
  - If the defender is a land unit, and is either fortified or \
 inside a city, its strength is multiplied by 1.5.\
 "), _("\
- - Finally, if the attacker is a fighter and the defender is a \
+ - Ruleset-specific bonuses are applied:\
+"), _("\
+   - The defender's strength is doubled if it is a Pikeman unit \
+defending against a mounted unit.\
+"), _("\
+   - If the defender is an AEGIS Cruiser defending against airborne \
+units (including missiles and Helicopters), the defense is \
+quintupled.\
+"), _("\
+   - The defender's strength is doubled again if it is in a city with \
+a SAM Battery and the attacker is an air unit (other than a \
+Helicopter or a missile).\
+"), _("\
+   - An SDI Defense doubles the defender's strength against \
+missile attacks.\
+"), _("\
+   - If the attacker is a ship and the defender is in a city with a \
+Coastal Defense, the defender's strength is doubled.\
+"), _("\
+   - Against land units (other than Howitzers) and Helicopters, \
+defending units in a city with City Walls have their strength \
+tripled.\
+"), _("\
+   - If the defender is in a fortress (and not a city), its strength \
+is doubled.\
+"), _("\
+   - Finally, if the attacker is a fighter and the defender is a \
 helicopter, the defender's strength is halved.\
 "), _("\
 If, after these modifications, the attacker has a strength of 0, it \
-automatically loses.  Otherwise, if the defender has a strength of \
+automatically loses. Otherwise, if the defender has a strength of \
 0, the defender loses.\
 "), _("\
 The firepower of the attacker and defender are also modified.\
@@ -1167,11 +1175,11 @@ helicopter is set to 1.\
 is set to 1.\
 "), _("\
 After these preliminaries, combat occurs, as long as both units are \
-still alive (i.e., hit points are greater than 0).  Each round, a \
+still alive (i.e., hit points are greater than 0). Each round, a \
 random number between 1 and the sum of the attacker's and defender's \
-strengths is generated.  If this number is greater than the \
+strengths is generated. If this number is greater than the \
 defender's strength, the defender loses hit points equal to the \
-attacker's firepower.  Otherwise, the attacker loses hit points \
+attacker's firepower. Otherwise, the attacker loses hit points \
 equal to the defender's firepower. The first unit to reach 0 hit \
 points (or negative hit points) loses.\
 "),
@@ -1182,7 +1190,7 @@ points (or negative hit points) loses.\
 ; /* xgettext:no-c-format */
 _("\
 Whichever unit survives the fight has a chance of being promoted \
-a veteran level.  In the default ruleset, if the winner's \
+a veteran level. In the classic ruleset, if the winner's \
 civilization has the Sun Tzu's War Academy (and if it isn't \
 obsolete), the chance is increased by half.\
 "), _("\
@@ -1190,24 +1198,9 @@ If the attacker is a land unit and wins, and the defender is in a \
 city without City Walls, the city is reduced in size by 1.\
 "), _("\
 If the defender loses, and is not inside a city, fortress, or \
-airbase, all other units at the defender's location are destroyed \
-along with the defender.\
-")
-
-[help_combat_modifying]
-; /* TRANS: Preserve the leading space: it controls nesting */
-name = _(" Modifying Combat Rules")
-text = _("Modifying Combat Rules\n----------------------"),
-_("\
-The combat rules described before can be modified by changing the \
-following modifiers in game.ruleset, section combat_rules: \
-"), _("\
- - killstack (default: 1). If set to 0, units on the same tile as a \
-lost defender are not destroyed.\
-"), _("\
- - tired_attack (default: 0). If set to 1, units that attack with \
-only 2/3 or 1/3 moves left will attack with proportionally reduced \
-strength.\
+airbase, all other units at the defender's location may be destroyed \
+along with the defender. (This can be changed with the 'killstack' \
+server option.)\
 ")
 
 [help_combat_example_1]
