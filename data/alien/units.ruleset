@@ -1231,8 +1231,13 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "HelpWonder", "TradeRoute", "IgZOC", "NonMil"
 roles         = ""
-helptext      = _("Earth technology unit that can establish traderoutes and \
-transfer goods to help building wonders in other cities.");
+helptext      = _("\
+Earth technology unit that can establish trade routes and transfer goods \
+to help build wonders in other cities.\
+"), _("\
+Trade routes with other factions provide three times as much ongoing \
+trade as routes within your faction.\
+");
 
 [unit_caravan]
 name          = _("Caravan")
@@ -1261,7 +1266,12 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "HelpWonder", "TradeRoute", "IgZOC", "NonMil"
 roles         = ""
-helptext      = _("Native caravan unit, that can move on all land terrains.")
+helptext      = _("\
+Native caravan unit, that can move on all land terrains.\
+"), _("\
+Trade routes with other factions provide three times as much ongoing \
+trade as routes within your faction.\
+");
 
 [unit_stealth_spy]
 name          = _("Stealth Spy")
