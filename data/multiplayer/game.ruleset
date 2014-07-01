@@ -258,10 +258,10 @@ negative_label = _("BCE")
 [trade]
 settings =
   { "type",       "pct", "cancelling"
-    "National",   100,   "Cancel"
-    "NationalIC", 200,   "Cancel"
-    "IN",         200,   "Cancel"
-    "INIC",       400,   "Cancel"
+    "National",   0,     "Cancel"
+    "NationalIC", 0,     "Cancel"
+    "IN",         0,     "Cancel"
+    "INIC",       0,     "Cancel"
   }
 
 [playercolors]
