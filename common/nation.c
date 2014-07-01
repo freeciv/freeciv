@@ -98,13 +98,13 @@ static inline bool nation_check(const struct nation_type *pnation,
 }
 
 /****************************************************************************
-  Returns the nation that has the given (translated) name.
+  Returns the nation that has the given (translated) plural noun.
   Returns NO_NATION_SELECTED if none match.
 ****************************************************************************/
-struct nation_type *nation_by_translated_name(const char *name)
+struct nation_type *nation_by_translated_plural(const char *name)
 {
   nations_iterate(pnation) {
-    if (0 == strcmp(nation_adjective_translation(pnation), name)) {
+    if (0 == strcmp(nation_plural_translation(pnation), name)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -113,7 +113,7 @@ struct nation_type *nation_by_translated_name(const char *name)
 }
 
 /****************************************************************************
-  Returns the nation that has the given (untranslated) rule name.
+  Returns the nation that has the given (untranslated) rule name (adjective).
   Returns NO_NATION_SELECTED if none match.
 ****************************************************************************/
 struct nation_type *nation_by_rule_name(const char *name)

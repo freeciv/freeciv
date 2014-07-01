@@ -192,7 +192,7 @@ struct nation_type *nation_of_city(const struct city *pcity);
 struct nation_type *nation_of_unit(const struct unit *punit);
 
 struct nation_type *nation_by_rule_name(const char *name);
-struct nation_type *nation_by_translated_name(const char *name);
+struct nation_type *nation_by_translated_plural(const char *name);
 
 const char *nation_rule_name(const struct nation_type *pnation);
 
