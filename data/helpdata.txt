@@ -68,6 +68,12 @@ first civilization whose craft reaches the system wins.\
 end after 5000 turns if no spacecraft have yet been launched. The \
 surviving civilizations are then rated, and the one with the highest \
 score is the winner.\
+"), _("\
+A word of warning: Freeciv is highly customizable, both through \
+run-time configuration and through custom rulesets which can change \
+almost any aspect of the game rules. This help system tries to adapt \
+to different rules, but may not completely cover rulesets which are \
+very different from the classic rules.\
 ")
 
 [help_strategy_and_tactics]
@@ -193,7 +199,7 @@ disorder produce nothing, and are prone to revolt.\
 finds one of their cities (or equally if they find you), a basic \
 contact is established between the two nations.  This provides each \
 with basic intelligence about the other, which can be accessed from \
-the `Nations' report.\
+the 'Nations' report.\
 "), _("\
     This communication will lapse after a set number of turns with \
 no contact.  Establishing an embassy will give a more permanent \
@@ -203,9 +209,9 @@ hosting the embassy receives no benefit - and once established, \
 cannot be revoked.\
 "), _("\
     If you are in contact with another player, then you can arrange \
-a diplomatic meeting.  From the `Nations' report, this is done by \
+a diplomatic meeting.  From the 'Nations' report, this is done by \
 clicking on the nation with whom you wish to meet and selecting \
-`Meet'.  If the entry under the embassy column is not blank and the \
+'Meet'.  If the entry under the embassy column is not blank and the \
 other player is connected (or is a server AI) then a treaty dialog \
 will pop up.\
 "), _("\
@@ -457,11 +463,11 @@ name = _(" Food")
 text = _("\
 Your population needs food to survive. Each citizen requires two food \
 points per turn; in addition, some units (such as Settlers in the \
-default ruleset) may require food points from the city supporting \
+classic ruleset) may require food points from the city supporting \
 them.\
 "), _("\
 Every city has a granary for storing food points (the building called \
-a Granary in the default ruleset only enhances this capability). \
+a Granary in the classic ruleset only enhances this capability). \
 Cities producing more food than they require accumulate the surplus in \
 their granary, while those producing less than they require deplete \
 their granary. When food is needed but none remains, the city \
@@ -500,7 +506,7 @@ improvements and wonders are added to their city's list of structures. \
 Any leftover production points remain available to be applied towards \
 the next project.\
 "), _("\
-In the default ruleset, a city can build at most one product per turn, \
+In the classic ruleset, a city can build at most one product per turn, \
 regardless of its production surplus. However, in some rulesets, \
 factors such as city size and technology may enable a single city to \
 produce more than one unit in a single turn under certain conditions. \
@@ -517,7 +523,7 @@ a unit); the city will work through them in order. When a city has \
 finished all the work you have given it to do, it will try to build \
 the last item again if possible, otherwise it will choose a new target \
 itself. If a city is currently producing gold (building Coinage in the \
-default rules), an activity which never completes, putting an item on \
+classic rules), an activity which never completes, putting an item on \
 its worklist will cause it to stop producing gold and start working on \
 the new item next turn. In rulesets which permit it, a city may take \
 several units of the same type off its worklist in a single turn, but \
@@ -539,7 +545,7 @@ categories. You can spend gold to complete a project in one turn by \
 hitting the Buy button on the city dialog.\
 "), _("\
 Some production points may be lost to waste, although there is no \
-waste in the default rules. Waste can result in your cities not \
+waste in the classic rules. Waste can result in your cities not \
 building anything.\
 "), _("\
 Cities with a large production output generate pollution; see the \
@@ -553,10 +559,11 @@ text = _("\
 Trade points reflect wealth generated in each city by external \
 commerce. Some trade points may be lost to corruption, which varies \
 among forms of government, and tends to increase with distance from \
-your capital city. Each city distributes its remaining trade points \
-among three uses: gold, in the form of taxes, goes into your national \
-treasury; luxury points influence citizen morale; and science points \
-(\"bulbs\") contribute towards the discovery of new technology.\
+your center of government. Each city distributes its remaining trade \
+points among three uses: gold, in the form of taxes, goes into your \
+national treasury; luxury points influence citizen morale; and \
+science points (\"bulbs\") contribute towards the discovery of new \
+technology.\
 "), _("\
 You must choose a single ratio for your civilization by which trade \
 points are distributed among these three uses. Though you may alter \
@@ -571,7 +578,7 @@ unhappy cities to invest all their trade in luxury while others \
 invested in science or taxes instead, you will instead have to \
 compromise among the needs of all your cities (although there may be \
 ways to make local adjustments, such as assigning citizens as \
-entertainers in the default ruleset). See the section on Happiness \
+entertainers in the classic ruleset). See the section on Happiness \
 for more details on the effect of luxuries.\
 "), _("\
 Besides working terrain gifted with rare commodities, or logistical \
@@ -627,14 +634,14 @@ channeling them toward expansion, technological progress, and warfare.\
 "), _("\
 A city is created when Settlers are given the \"build city\" command \
 on suitable terrain, removing the unit from play to provide the city \
-with its first citizen. A city may grow to include dozens of citizens, \
+with its first citizens. A city may grow to include dozens of citizens, \
 some working within the city while others are dispatched as new \
 settlers. Famine, war, and plague kill citizens and reduce population; \
-with the loss of its last citizen a city disappears (in the default \
+with the loss of its last citizen a city disappears (in the classic \
 ruleset, this can leave ruins, although these have no effect on \
 gameplay).\
 "), _("\
-Each city may work the terrain within its reach. In the default ruleset, \
+Each city may work the terrain within its reach. In the classic ruleset, \
 this is a fixed radius of approximately three tiles, giving access to \
 20 tiles on rectangular maps, or 18 tiles on hexagonal ones, in addition \
 to the city center tile. In other rulesets it may be different, and may \
@@ -744,15 +751,15 @@ Migration for details.)\
 Each citizen working the land is either happy, content, unhappy, or \
 angry. The normal state of a working citizen is contentment. However, \
 as your cities grow larger, crowding causes citizens to become \
-unhappy. In the default rules, each citizen in a city after the fourth \
+unhappy. In the classic rules, each citizen in a city after the fourth \
 will be generated unhappy, instead of content.\
 "), _("\
 If the number of unhappy citizens in a city exceeds the number of \
 happy citizens, the city falls into disorder. A city in disorder \
 produces no food or production surplus, science, or taxes; only luxury \
 production remains. Cities which are in disorder are also easier for \
-enemy Diplomats and Spies to incite to revolt. Prolonged disorder \
-under Democracy can lead to a spontaneous national revolution, \
+enemy agents to incite to revolt. Prolonged disorder under certain \
+governments can lead to a spontaneous national revolution, \
 overthrowing your government.\
 "), _("\
 It should be stressed that only citizens working the land vary in \
@@ -770,7 +777,7 @@ benefits.\
 "), _("\
 Cities that are sufficiently large celebrate when at least half their \
 citizens are happy and none remain unhappy. The effects of celebration \
-vary; in the default ruleset, they depend on your government type:\
+vary; in the classic ruleset, they depend on your government type:\
 "), _("\
  - Under Anarchy or Despotism, you will not suffer the normal \
 production penalty for tiles which produce more than 2 points of \
@@ -811,11 +818,11 @@ citizens left, unhappy citizens become content then happy). Each city \
 receives back some of the trade points it produces as luxury points \
 according to your empire's tax rates; see the section on Trade. Luxury \
 points may also be produced by other means, such as entertainer \
-specialists in the default ruleset.\
+specialists in the classic ruleset.\
 "), _("\
 There are several city improvements that will make content those \
 remaining citizens that are unhappy due to crowding, such as Temples \
-and Colosseums in the default rules. Some wonders of the world can \
+and Colosseums in the classic rules. Some wonders of the world can \
 also have this effect. See the appropriate sections for details.\
 "), _("\
 Military units can affect city happiness. Under authoritarian regimes \
@@ -880,7 +887,7 @@ all the more severe when it does occur.\
 ; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Plague")
 text = _("\
-Plague is a ruleset option, and is not enabled in the default \
+Plague is a ruleset option, and is not enabled in the classic \
 ruleset.\
 "), _("\
 When plague strikes a city, its population is reduced by one. Unless \
@@ -906,7 +913,7 @@ name = _(" Migration")
 text = _("\
 Migration is the movement of citizens from one city to another based \
 on the relative attractions of living in each city. Whether migration \
-is enabled is controlled by the server option `migration'; it is \
+is enabled is controlled by the server option 'migration'; it is \
 disabled by default.\
 "), _("\
 When migration is enabled, every few turns, a citizen of each city in \
@@ -943,7 +950,7 @@ capital city.\
 "), _("\
  - Cities that are further away are less desirable. The absolute \
 maximum distance that a citizen is prepared to migrate is controlled \
-by the server option `mgr_dist'.\
+by the server option 'mgr_dist'.\
 "), _("\
  - Trade surplus.\
 "), _("\
@@ -955,11 +962,11 @@ cost.\
  - Depending on the ruleset, a number of other factors such as \
 government type and city improvements may increase or decrease the \
 desirability of cities; these are noted in other sections of the help. \
-(The default ruleset contains no such effects.)\
+(The classic ruleset contains no such effects.)\
 "), _("\
 Citizens will not migrate to cities which cannot increase in size to \
 support them, for instance due to lack of a city improvement such as \
-an Aqueduct. If the server option `mgr_foodneeded' is set, they will \
+an Aqueduct. If the server option 'mgr_foodneeded' is set, they will \
 not migrate to cities which would not have enough food to support them.\
 "), _("\
 Migration can even cause cities to be completely abandoned (ownership \
@@ -968,7 +975,7 @@ However, cities with wonders will never be disbanded (so the wonder \
 will not be destroyed), and the last citizen from your only remaining \
 city will never migrate to another nation.\
 "), _("\
-Several of the details of migration can be changed with the `mgr_*' \
+Several of the details of migration can be changed with the 'mgr_*' \
 server options.\
 ")
 
@@ -1004,7 +1011,7 @@ Wonders are special buildings which can each be completed by \
 only one player each game, and which often enhance their entire \
 civilization. Unlike ordinary city improvements, which must be built \
 with local production points, certain special units built in one city \
-(Caravans and Freight in the default ruleset) can contribute their \
+(Caravans and Freight in the classic ruleset) can contribute their \
 full cost in production points towards the construction of a wonder in \
 another city.\
 "), _("\
@@ -1073,9 +1080,9 @@ gain an extra hit point. A unit which spends a turn in a city \
 regains one third of its base hit points, and city improvements \
 appropriate to the unit type can improve this further. In the field, \
 bases on tiles can improve the recovery rate (for instance, fortresses \
-in the default ruleset have this effect); units must stay on the tile \
+in the classic ruleset have this effect); units must stay on the tile \
 for a whole turn to get this recovery bonus. Wonders can also boost \
-recovery (such as the United Nations in the default ruleset). Damaged \
+recovery (such as the United Nations in the classic ruleset). Damaged \
 units in Sentry mode will wake up when they have regained all of their \
 hit points.\
 "), _("\
@@ -1087,8 +1094,8 @@ of your cities, you can choose to upgrade it to the latest equivalent \
 by spending gold, with the cost increasing with the difference in \
 production point cost between the two types. When a unit is upgraded, \
 its hit points and movement points are preserved as a fraction of \
-the total; however, in some rulesets (but not the default) it will lose \
-some or all of its veteran levels.\
+the total; however, in some rulesets (but not the classic rules) \
+it will lose some or all of its veteran levels.\
 ")
 
 [help_gen_units]
@@ -1345,57 +1352,58 @@ text = _("\
 Your government type influences your cities' productivity and \
 commerce, your citizens' happiness, and many other game factors.\
 "), _("\
-Your civilization starts out under a Despotism.  As your technology \
-improves, you can select other forms of government (listed below). \
-In order to change your form of government, you must start a \
-revolution.  This will cause your civilization to undergo a period \
-of Anarchy (lasting 1-5 turns); at the end of this time, you will be \
-able to choose your new government.\
+In the classic rules, your start out ruling your civilization \
+through Despotism. As your technology improves, you can select other \
+forms of government (listed below). In order to change your form of \
+government, you must start a revolution. This will cause your \
+civilization to undergo a period of Anarchy (lasting 1-5 turns); \
+at the end of this time, you will be able to choose your new \
+government.\
 "), _("\
 TIP 1:  Offensive military campaigns are difficult under Republican \
 and Democratic governments unless you give your citizens \
-lots of luxuries to keep them happy.  When conquering other \
+lots of luxuries to keep them happy. When conquering other \
 civilizations, it may be helpful to switch to one of the more \
 militant styles of government.\
 "), _("\
 TIP 2:  Scientific advancement requires high levels of trade, which \
 are much easier to achieve under Republican and Democratic \
-governments.  Consider switching to the Republic as soon as \
+governments. Consider switching to the Republic as soon as \
 you can; gaining advanced technology early in the game puts \
 you at an advantage.\
 ")
+
+[help_gen_governments]
+generate = " Governments"
 
 [help_civil_war]
 ; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Civil War")
 text = _("\
-Civil war is devastating to any empire, and is triggered by \
-the loss of your capital (palace).  Up to half of your cities \
-will rebel and declare allegiance to a new (AI) leader, who \
-will loot half of your treasury and retain all of your \
+Civil war is devastating to any empire. In rulesets with civil \
+war, it is triggered by the loss of your capital. Up to half of \
+your cities will rebel and declare allegiance to a new (AI) leader, \
+who will loot half of your treasury and retain all of your \
 scientific advances.\
 "), _("\
 Players remain in the civil war state for just one turn, after \
 which the empire enters a state of anarchy.\
 "), _("\
-The capture of your capital does not always lead to civil war.  If \
+The capture of your capital does not always lead to civil war. If \
 you have treated your people with kindness, you are more likely to \
-retain their loyalty.  Each city that is celebrating reduces the \
+retain their loyalty. Each city that is celebrating reduces the \
 chance of civil war, while each city in disorder increases the \
 likelihood.\
 "), _("\
 In addition, the form of government directly contributes to the \
-chance of civil war.  Governments with universal franchise are \
+chance of civil war. Governments with universal franchise are \
 far less likely to revolt than those more despotic in nature.\
 "), _("\
 The number of cities an empire needs before it can erupt into \
-civil war is by default 10.  That is, empires with fewer than 10 \
-cities are immune from civil war.  However, this is a server \
-option, and may vary upwards from a minimum of 6.\
+civil war is by default 10. That is, empires with fewer than 10 \
+cities are immune from civil war. However, this is a server \
+option ('civilwarsize'), and may vary upwards from a minimum of 6.\
 ")
-
-[help_gen_governments]
-generate = " Governments"
 
 [help_diplomacy]
 name = _("Diplomacy")
@@ -1448,26 +1456,26 @@ your civilization to develop new military units and city \
 improvements.\
 "), _("\
 There are a few ways to gain advances from other civilizations: you \
-will sometimes discover enemy technology when you capture a city; you \
-can steal advances with Diplomats and Spies; wonders can provide you \
-with technology; and another player might grant technology in the \
-terms of a pact. But otherwise advances must be discovered through the \
-efforts of your own people.\
+will sometimes discover enemy technology when you capture a city; your \
+agents can steal advances; wonders can provide you with technology; \
+and another player might grant technology in the terms of a pact. But \
+otherwise advances must be discovered through the efforts of your own \
+people.\
 "), _("\
 Most technology progress comes from trade (see the Trade section) and, \
-in the default ruleset, from scientist specialists (see the Specialists \
+in the classic ruleset, from scientist specialists (see the Specialists \
 section). While it is possible to change which advance you are \
 currently researching, by default all progress is lost by doing so.\
 "), _("\
 While the majority of the resulting research output (\"bulbs\") \
 usually goes toward advancing technology, in some rulesets (but not \
-the default), some of it may be diverted to maintain expertise in \
+the classic rules), some of it may be diverted to maintain expertise in \
 existing technologies; the quantity required for technology upkeep \
 increases with the total research cost of all advances known to you. \
 The state of advancement at which you start paying this upkeep may \
 depend on factors such as your government type. If research output \
 drops below that required for upkeep, your civilization will forget \
-a random advance, requiring it to be researched again.\
+an advance, requiring it to be researched again.\
 "), _("\
 Technological advances can render units, city improvements, and \
 wonders obsolete. While obsolete units merely become impossible for \
@@ -1483,26 +1491,25 @@ generate = " Techs"
 name = _("Space Race")
 text = _("\
 The Space Race is a second option to win the game, besides \
-eliminating all other civilizations.  If your spaceship arrives \
+eliminating all other civilizations. If your spaceship arrives \
 first at Alpha Centauri, the game is over and you have won. \
-(However it is possible for this option to be off as a server \
-option.)\
+(However it is possible for this to be disabled on the server.)\
 "), _("\
-Before you can build spaceship parts, the Apollo Program wonder \
-must have been built by any player.  You also need specific \
-technologies to build the different spaceship parts: see the \
-help texts for Space Structural, Space Component, and Space Module, \
-under City Improvements.  (If there are no help texts for these \
-items, it probably means the spacerace server option is off for \
-your game.)\
+In the classic rules, before you can build spaceship parts, the \
+Apollo Program wonder must have been built by any player. You \
+also need specific technologies to build the different spaceship \
+parts: see the help texts for Space Structural, Space Component, \
+and Space Module, under City Improvements. (If there are no help \
+texts for these items, it probably means the 'spacerace' server \
+option is off for your game.)\
 "), _("\
 When you have started building your spaceship, you can see it with \
-the \"Spaceship\" command in the Report menu.  To see spaceships of \
+the \"Spaceship\" command in the Report menu. To see spaceships of \
 other players, select the player in the Nations report and click \
 \"Spaceship\".\
 "), _("\
 If the success probability is below 100%, some fraction of the \
-people on board may not survive the journey.  This reduces the \
+people on board may not survive the journey. This reduces the \
 score bonus from the spaceship, but it still counts as a win.\
 "), _("\
 If the capital of a civilization is captured, a spaceship that has \
@@ -1510,7 +1517,7 @@ been launched will be lost, so defend your capital well!\
 "), _("\
 TIP:  If an enemy civilization has launched a spaceship, try to \
 quickly build a light spaceship with many propulsion units \
-that will arrive earlier.  The only other option is to capture \
+that will arrive earlier. The only other option is to capture \
 their capital.\
 ")
 
@@ -1525,7 +1532,7 @@ modern-day nation state, a historical state or empire, an ethnic group, \
 or even a fictional nation.\
 "), _("\
 Nations are distinguished by their flags, leaders and city names; in \
-the default rules they are identical in all other aspects and play by \
+the classic rules they are identical in all other aspects and play by \
 the same rules, but other rules may have nation-specific behavior.\
 ")
 
