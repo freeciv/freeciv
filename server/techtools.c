@@ -655,13 +655,27 @@ static Tech_type_id pick_random_tech_to_lose(struct player* plr)
         BV_CLR(eligible_techs, i);
       }
     } else {
+      /* Knowing this tech may make others ineligible */
+      Tech_type_id root = advance_required(i, AR_ROOT);
       /* Never lose techs that are root_req for a currently known tech
        * (including self root_req) */
-      Tech_type_id root = advance_required(i, AR_ROOT);
-      if (root != A_NONE) {
-        if (BV_ISSET(eligible_techs, root)) {
+      if (root != A_NONE && BV_ISSET(eligible_techs, root)) {
+        eligible--;
+        BV_CLR(eligible_techs, root);
+      }
+      if (!game.info.tech_loss_allow_holes) {
+        /* Ruleset can prevent this kind of tech loss from opening up
+         * holes in the tech tree */
+        Tech_type_id prereq;
+        prereq = advance_required(i, AR_ONE);
+        if (prereq != A_NONE && BV_ISSET(eligible_techs, prereq)) {
           eligible--;
-          BV_CLR(eligible_techs, root);
+          BV_CLR(eligible_techs, prereq);
+        }
+        prereq = advance_required(i, AR_TWO);
+        if (prereq != A_NONE && BV_ISSET(eligible_techs, prereq)) {
+          eligible--;
+          BV_CLR(eligible_techs, prereq);
         }
       }
     }
@@ -1318,14 +1332,17 @@ bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech)
 {
   if (game.server.techlost_donor > 0) {
-    /* Don't let donor lose tech if it's root_req for some other known
-     * tech */
     struct research *donor_research = research_get(plr_donor);
     bool donor_can_lose = TRUE;
 
     advance_index_iterate(A_FIRST, i) {
+      /* Never let donor lose tech if it's root_req for some other known
+       * tech */
       if (research_invention_state(donor_research, i) == TECH_KNOWN
-          && advance_required(i, AR_ROOT) == tech) {
+          && (advance_required(i, AR_ROOT) == tech
+              || (!game.info.tech_trade_loss_allow_holes
+                  && (advance_required(i, AR_ONE) == tech
+                      || advance_required(i, AR_TWO) == tech)))) {
         donor_can_lose = FALSE;
         break;
       }

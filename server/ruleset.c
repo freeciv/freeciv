@@ -4837,9 +4837,15 @@ static bool load_ruleset_game(struct section_file *file, bool act)
    game.info.tech_trade_allow_holes
       = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_TRADE_HOLES,
                                     "civstyle.tech_trade_allow_holes");
+   game.info.tech_trade_loss_allow_holes
+      = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_TRADE_LOSS_HOLES,
+                                    "civstyle.tech_trade_loss_allow_holes");
    game.info.tech_parasite_allow_holes
       = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_PARASITE_HOLES,
                                     "civstyle.tech_parasite_allow_holes");
+   game.info.tech_loss_allow_holes
+      = secfile_lookup_bool_default(file, RS_DEFAULT_TECH_LOSS_HOLES,
+                                    "civstyle.tech_loss_allow_holes");
 
     /* TODO: move to global_unit_options */
     game.server.upgrade_veteran_loss

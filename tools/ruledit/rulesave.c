@@ -687,15 +687,21 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.pillage_select,
                     RS_DEFAULT_PILLAGE_SELECT,
                     "civstyle.pillage_select", NULL);
-  save_default_bool(sfile, game.info.tech_trade_allow_holes,
-                    RS_DEFAULT_TECH_TRADE_HOLES,
-                    "civstyle.tech_trade_allow_holes", NULL);
-  save_default_bool(sfile, game.info.tech_parasite_allow_holes,
-                    RS_DEFAULT_TECH_PARASITE_HOLES,
-                    "civstyle.tech_parasite_allow_holes", NULL);
   save_default_bool(sfile, game.info.tech_steal_allow_holes,
                     RS_DEFAULT_TECH_STEAL_HOLES,
                     "civstyle.tech_steal_allow_holes", NULL);
+  save_default_bool(sfile, game.info.tech_trade_allow_holes,
+                    RS_DEFAULT_TECH_TRADE_HOLES,
+                    "civstyle.tech_trade_allow_holes", NULL);
+  save_default_bool(sfile, game.info.tech_trade_loss_allow_holes,
+                    RS_DEFAULT_TECH_TRADE_LOSS_HOLES,
+                    "civstyle.tech_trade_loss_allow_holes", NULL);
+  save_default_bool(sfile, game.info.tech_parasite_allow_holes,
+                    RS_DEFAULT_TECH_PARASITE_HOLES,
+                    "civstyle.tech_parasite_allow_holes", NULL);
+  save_default_bool(sfile, game.info.tech_loss_allow_holes,
+                    RS_DEFAULT_TECH_LOSS_HOLES,
+                    "civstyle.tech_loss_allow_holes", NULL);
   save_default_int(sfile, game.server.upgrade_veteran_loss,
                    RS_DEFAULT_UPGRADE_VETERAN_LOSS,
                    "civstyle.upgrade_veteran_loss", NULL);
