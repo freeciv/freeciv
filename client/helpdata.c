@@ -3921,6 +3921,31 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                        net_value);
         } /* else too complicated or silly ruleset */
         break;
+      case EFT_ENEMY_CITIZEN_UNHAPPY_PCT:
+        if (playerwide && net_value != world_value) {
+          if (world_value > 0) {
+            if (net_value > 0) {
+              cat_snprintf(buf, bufsz,
+                           _("* Unhappiness from foreign citizens due to "
+                             "war with their home state is %d%% the usual "
+                             "value.\n"),
+                           (net_value * 100) / world_value);
+            } else {
+              CATLSTR(buf, bufsz,
+                      _("* No unhappiness from foreign citizens even when "
+                        "at war with their home state.\n"));
+            }
+          } else {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: not pluralised as gettext doesn't support
+                          * fractional numbers, which this might be */
+                         _("* Each foreign citizen causes %.2g unhappiness "
+                           "in their city while you are at war with their "
+                           "home state.\n"),
+                         (double)net_value / 100);
+          }
+        }
+        break;
       case EFT_MAKE_CONTENT_MIL:
         if (playerwide) {
           cat_snprintf(buf, bufsz,
@@ -3936,9 +3961,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (playerwide) {
           cat_snprintf(buf, bufsz,
                        PL_("* Each of your cities will avoid %d unhappiness,"
-                           " not including that caused by units.\n",
+                           " not including that caused by aggression.\n",
                            "* Each of your cities will avoid %d unhappiness,"
-                           " not including that caused by units.\n",
+                           " not including that caused by aggression.\n",
                            peffect->value),
                        peffect->value);
         }
@@ -3947,9 +3972,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (playerwide) {
           cat_snprintf(buf, bufsz,
                        PL_("* Each of your cities will avoid %d unhappiness,"
-                           " including unhappiness caused by units.\n",
+                           " including that caused by aggression.\n",
                            "* Each of your cities will avoid %d unhappiness,"
-                           " including unhappiness caused by units.\n",
+                           " including that caused by aggression.\n",
                            peffect->value),
                        peffect->value);
         }
