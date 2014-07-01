@@ -15,6 +15,11 @@
 #include <fc_config.h>
 #endif
 
+/* libxml2 */
+#ifdef HAVE_XML_REGISTRY
+#include <libxml/parser.h>
+#endif /* HAVE_XML_REGISTRY */
+
 #include "registry.h"
 
 /*************************************************************************
@@ -22,6 +27,9 @@
 *************************************************************************/
 void registry_module_init(void)
 {
+#ifdef HAVE_XML_REGISTRY
+  LIBXML_TEST_VERSION;
+#endif /* HAVE_XML_REGISTRY */
 }
 
 /*************************************************************************
@@ -29,6 +37,9 @@ void registry_module_init(void)
 *************************************************************************/
 void registry_module_close(void)
 {
+#ifdef HAVE_XML_REGISTRY
+  xmlCleanupParser();
+#endif /* HAVE_XML_REGISTRY */
 }
 
 /**************************************************************************
@@ -37,5 +48,15 @@ void registry_module_close(void)
 struct section_file *secfile_load(const char *filename,
                                   bool allow_duplicates)
 {
+#ifdef HAVE_XML_REGISTRY
+  xmlDoc *sec_doc;
+
+  sec_doc = xmlReadFile(filename, NULL, XML_PARSE_NOERROR);
+  if (sec_doc != NULL) {
+    log_error("Loading xml-files not yet supported");
+    return NULL;
+  }
+#endif /* HAVE_XML_REGISTRY */
+
   return secfile_load_section(filename, NULL, allow_duplicates);
 }
