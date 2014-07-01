@@ -1307,7 +1307,7 @@ static void help_update_dialog(const struct help_item *pitem)
     help_update_government(pitem, top);
     break;
   case HELP_NATIONS:
-    help_update_nation(pitem, top, nation_by_translated_name(top));
+    help_update_nation(pitem, top, nation_by_translated_plural(top));
     break;
   case HELP_TEXT:
   default:
