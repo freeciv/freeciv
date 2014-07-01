@@ -937,8 +937,8 @@ if test "x$req_fcmp_gtk2" = "xyes" ||
   mp_gtk2_libs="$GTK2_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
      dnl Required to compile gtk2 on Windows platform
-     mp_gtk2_cflags="$MP_gtk2_CFLAGS -mms-bitfields"
-     mp_gtk2_ldflags="$MP_gtk2_LDFLAGS -mwindows"
+     mp_gtk2_cflags="$mp_gtk2_cflags -mms-bitfields"
+     mp_gtk2_ldflags="$mp_gtk2_ldflags -mwindows"
   fi
 
   if test "x$modinst" = "xauto" ; then
