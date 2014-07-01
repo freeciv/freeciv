@@ -680,20 +680,26 @@ just grown and adjust the role in which the new citizen has been \
 placed. You can set different priorities for a city with the Citizen \
 Governor; see its help section.\
 "), _("\
-In the default ruleset, citizens always consider their nationality to \
-be that of their home city. However, in some rulesets, citizens' \
-nationality can differ from that of the state they inhabit. When a \
-city grows due to food surplus, new citizens take the nationality of \
-the city's current owner, but when a city is conquered or otherwise \
-transferred, its citizens retain their original nationality, as do any \
-immigrants. Citizens of another nationality will work in your cities \
-just the same as your own, and behave the same in most respects, but \
-their presence makes it cheaper for agents of their associated state \
-to incite a revolt in your cities, and if migration is enabled, they \
-have an increased tendency to migrate to their state's cities. Over \
-time, citizens may be assimilated into their home city, depending on \
-ruleset settings. If nationality is enabled, you can see the cultural \
-makeup of your cities in the City dialog, on the Happiness tab.\
+Citizens have a nationality distinct from that of the state they \
+inhabit. When a city grows due to food surplus, new citizens take \
+the nationality of the city's current owner, but when a city is \
+conquered or otherwise transferred, its citizens retain their \
+original nationality, as do any immigrants. Units founding or \
+contributing citizens to a city can also bring their own nationality.\
+"), _("\
+Citizens of another nationality will work in your cities just the same \
+as your own, and behave the same in most respects, but they may become \
+unhappy when you are at war with their associated state; their presence \
+makes it cheaper for their state's agents to incite revolt in your \
+cities; and if migration is enabled, they have an increased tendency to \
+migrate to heir state's cities. Over time, citizens may be assimilated \
+into their home city, depending on ruleset settings.\
+"), _("\
+Some rulesets do not have nationality; in this case, citizens always \
+consider their nationality to be that of their home city.\
+If nationality is enabled, you can see the cultural makeup of your \
+cities and any consequent effects on happiness in the City dialog, \
+on the Happiness tab.\
 "), _("\
 Cities may be enhanced with a wide variety of buildings, which can \
 improve their productivity, their military strength, or give them \
@@ -823,11 +829,15 @@ tiles of a friendly city; however, certain units (\"field units\") \
 are inherently aggressive and cause unhappiness regardless of \
 location.\
 "), _("\
-This form of unhappiness is distinct from that caused by overcrowding, \
-and cannot be offset by luxuries, or by most city improvements. In the \
-default ruleset, only certain wonders -- such as J.S. Bach's Cathedral \
--- and one special building -- the Police Station -- can offset this \
-form of unhappiness.\
+If you are at war with a civilization and some of your citizens are \
+of that nationality, those citizens may also become unhappy.\
+"), _("\
+These forms of unhappiness are distinct from that caused by overcrowding, \
+and cannot be offset by luxuries, or by most city improvements. In \
+the classic ruleset, Police Stations and the Women's Suffrage wonder \
+can offset unhappiness caused by units, and only a few wonders -- \
+such as J.S. Bach's Cathedral -- can offset any kind of unhappiness, \
+even that caused by military or diplomatic tensions.\
 "), _("\
 The Happiness tab on the city dialog will give detailed insight into \
 the mood of the citizenry and its causes.\
