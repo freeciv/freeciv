@@ -409,16 +409,16 @@ negative_label = _("BCE")
 [trade]
 settings =
   { "type",       "pct", "cancelling"
-    "National",   100,   "Cancel"
-    "NationalIC", 200,   "Cancel"
-    "IN",         200,   "Cancel"
-    "INIC",       400,   "Cancel"
-    "Ally",       200,   "Cancel"
-    "AllyIC",     400,   "Cancel"
-    "Enemy",      200,   "Cancel"
-    "EnemyIC",    400,   "Cancel"
-    "Team",       200,   "Cancel"
-    "TeamIC",     400,   "Cancel"
+    "National",   0,     "Cancel"
+    "NationalIC", 0,     "Cancel"
+    "IN",         0,     "Cancel"
+    "INIC",       0,     "Cancel"
+    "Ally",       0,     "Cancel"
+    "AllyIC",     0,     "Cancel"
+    "Enemy",      0,     "Cancel"
+    "EnemyIC",    0,     "Cancel"
+    "Team",       0,     "Cancel"
+    "TeamIC",     0,     "Cancel"
   }
 
 [playercolors]
