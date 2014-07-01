@@ -2419,13 +2419,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   if (utype_has_flag(utype, UTYF_TRADE_ROUTE)) {
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: "Manhattan" distance is the distance along
-                  * gridlines, with no diagonals allowed. */
-                 _("* Can establish trade routes (must travel to target"
-                   " city and must be at least %d tiles [in Manhattan"
-                   " distance] from this unit's home city).\n"),
-                 game.info.trademindist);
+    CATLSTR(buf, bufsz,
+            _("* Can establish trade routes (must travel to target city).\n"));
   }
   if (utype_has_flag(utype, UTYF_HELP_WONDER)) {
     cat_snprintf(buf, bufsz,
