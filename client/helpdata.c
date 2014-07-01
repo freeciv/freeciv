@@ -2757,6 +2757,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (!uclass_has_flag(utype_class(utype), UCF_ZOC)) {
     CATLSTR(buf, bufsz, _("  * Not subject to zones of control.\n"));
+  } else if (!utype_has_flag(utype, UTYF_IGZOC)) {
+    CATLSTR(buf, bufsz, _("  * Subject to zones of control.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
     CATLSTR(buf, bufsz, _("  * Slowed down while damaged.\n"));
@@ -3140,13 +3142,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    "per tile).\n"),
                  move_points_text(terrain_control.igter_cost, TRUE));
   }
-  if (utype_has_flag(utype, UTYF_IGZOC)) {
-    CATLSTR(buf, bufsz, _("* Ignores zones of control.\n"));
-  }
   if (utype_has_flag(utype, UTYF_NOZOC)) {
-    CATLSTR(buf, bufsz, _("* This unit imposes no zone of control on its"
-                          " adjacent tiles, thus it will not restrict"
-                          " movement of other units.\n"));
+    CATLSTR(buf, bufsz, _("* Never imposes a zone of control.\n"));
+  } else {
+    CATLSTR(buf, bufsz, _("* May impose a zone of control on its adjacent "
+                          "tiles.\n"));
+  }
+  if (utype_has_flag(utype, UTYF_IGZOC)) {
+    CATLSTR(buf, bufsz, _("* Not subject to zones of control imposed "
+                          "by other units.\n"));
   }
   if (utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,
@@ -3504,6 +3508,15 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
                    astr_build_and_list(&list, classes, i));
       astr_free(&list);
     }
+  }
+  if (terrain_has_flag(pterrain, TER_NO_ZOC)) {
+    CATLSTR(buf, bufsz,
+	    _("* Units on this terrain neither impose zones of control "
+              "nor are restricted by them.\n"));
+  } else {
+    CATLSTR(buf, bufsz,
+	    _("* Units on this terrain may impose a zone of control, or "
+              "be restricted by one.\n"));
   }
   for (flagid = TER_USER_1 ; flagid <= TER_USER_LAST; flagid++) {
     if (terrain_has_flag(pterrain, flagid)) {
