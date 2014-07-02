@@ -917,10 +917,12 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
         boattype = get_role_unit(L_FERRYBOAT, 0);
 
         if (NULL != boattype
-         && A_NEVER != boattype->require_advance) {
-          pplayer->ai_common.tech_want[advance_index(boattype->require_advance)]
+            && A_NEVER != boattype->require_advance) {
+          struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+
+          plr_data->tech_want[advance_index(boattype->require_advance)]
             += FERRY_TECH_WANT;
-          TECH_LOG(LOG_DEBUG, pplayer, boattype->require_advance,
+          TECH_LOG(ait, LOG_DEBUG, pplayer, boattype->require_advance,
                    "+ %d for %s to ferry settler",
                    FERRY_TECH_WANT,
                    utype_rule_name(boattype));

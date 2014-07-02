@@ -75,9 +75,10 @@ void copy_if_better_choice(struct adv_choice *cur, struct adv_choice *best);
 
 bool is_unit_choice_type(enum choice_type type);
 
-bool dai_choose_role_unit(struct player *pplayer, struct city *pcity,
-                          struct adv_choice *choice, enum choice_type type,
-                          int role, int want, bool need_boat);
+bool dai_choose_role_unit(struct ai_type *ait, struct player *pplayer,
+                          struct city *pcity, struct adv_choice *choice,
+                          enum choice_type type, int role, int want,
+                          bool need_boat);
 void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
                             struct adv_choice *choice);
 bool dai_assess_military_unhappiness(struct city *pcity);

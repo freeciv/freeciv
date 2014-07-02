@@ -20,7 +20,7 @@ struct unit;
 
 void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
                             struct unit *punit);
-void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
-                            struct adv_choice *choice);
+void dai_choose_paratrooper(struct ai_type *ait, struct player *pplayer,
+                            struct city *pcity, struct adv_choice *choice);
 
 #endif /* FC__AIPARATROOPER_H */

@@ -102,8 +102,6 @@ struct player_score {
 
 struct player_ai {
   int maxbuycost;
-  /* The units of tech_want seem to be shields */
-  int tech_want[A_LAST+1];
   void *handicaps;
   enum ai_level skill_level;   	/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */

@@ -147,11 +147,13 @@ static enum diplstate_type pact_clause_to_diplstate_type(enum clause_type type)
 /********************************************************************** 
   How much is a tech worth to player measured in gold
 ***********************************************************************/
-static int dai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
+static int dai_goldequiv_tech(struct ai_type *ait,
+                              struct player *pplayer, Tech_type_id tech)
 {
   int bulbs, tech_want, worth;
   struct research *presearch = research_get(pplayer);
   enum tech_state state = research_invention_state(presearch, tech);
+  struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   if (TECH_KNOWN == state
       || !research_invention_gettable(presearch, tech,
@@ -159,7 +161,7 @@ static int dai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
-  tech_want = MAX(pplayer->ai_common.tech_want[tech], 0) / MAX(game.info.turn, 1);
+  tech_want = MAX(plr_data->tech_want[tech], 0) / MAX(game.info.turn, 1);
   worth = bulbs + tech_want;
   if (TECH_PREREQS_KNOWN == state) {
     worth /= 2;
@@ -211,12 +213,13 @@ static bool dai_players_can_agree_on_ceasefire(struct ai_type *ait,
   is_dangerous returns ig the giver is afraid of giving that tech
   (the taker should evaluate it normally, but giver should never give that)
 **********************************************************************/
-static int compute_tech_sell_price(struct player* giver, struct player* taker,
-                                   int tech_id, bool* is_dangerous)
+static int compute_tech_sell_price(struct ai_type *ait,
+                                   struct player *giver, struct player *taker,
+                                   int tech_id, bool *is_dangerous)
 {
     int worth;
     
-    worth = dai_goldequiv_tech(taker, tech_id);
+    worth = dai_goldequiv_tech(ait, taker, tech_id);
     
     *is_dangerous = FALSE;
     
@@ -252,7 +255,7 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
       if (pplayers_allied(taker, eplayer) &&
           !pplayers_allied(giver, eplayer)) {
         /* Taker can enrichen his side with this tech */
-        worth += dai_goldequiv_tech(eplayer, tech_id) / 4;
+        worth += dai_goldequiv_tech(ait, eplayer, tech_id) / 4;
       }
     } players_iterate_alive_end;
     return worth;
@@ -310,14 +313,14 @@ static int dai_goldequiv_clause(struct ai_type *ait,
   switch (pclause->type) {
   case CLAUSE_ADVANCE:
     if (give) {
-      worth -= compute_tech_sell_price(pplayer, aplayer, pclause->value,
+      worth -= compute_tech_sell_price(ait, pplayer, aplayer, pclause->value,
                                        &is_dangerous);
       if (is_dangerous) {
         worth = -BIG_NUMBER;
       }
     } else if (research_invention_state(research_get(pplayer),
                                         pclause->value) != TECH_KNOWN) {
-      worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
+      worth += compute_tech_sell_price(ait, aplayer, pplayer, pclause->value,
                                        &is_dangerous);
 
       if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
@@ -1066,8 +1069,9 @@ void dai_diplomacy_begin_new_phase(struct ai_type *ait, struct player *pplayer)
 /********************************************************************** 
   Find two techs that can be exchanged and suggest that
 ***********************************************************************/
-static void suggest_tech_exchange(struct player* player1,
-                                  struct player* player2)
+static void suggest_tech_exchange(struct ai_type *ait,
+                                  struct player *player1,
+                                  struct player *player2)
 {
   struct research *presearch1 = research_get(player1);
   struct research *presearch2 = research_get(player2);
@@ -1081,7 +1085,7 @@ static void suggest_tech_exchange(struct player* player1,
         == TECH_KNOWN) {
       if (research_invention_state(presearch2, tech) != TECH_KNOWN
           && research_invention_gettable(presearch2, tech, game.info.tech_trade_allow_holes)) {
-        worth[tech] = -compute_tech_sell_price(player1, player2, tech,
+        worth[tech] = -compute_tech_sell_price(ait, player1, player2, tech,
 	                                       &is_dangerous);
 	if (is_dangerous) {
 	  /* don't try to exchange */
@@ -1094,7 +1098,7 @@ static void suggest_tech_exchange(struct player* player1,
       if (research_invention_state(presearch2, tech) == TECH_KNOWN
           && research_invention_gettable(presearch1, tech,
                                          game.info.tech_trade_allow_holes)) {
-        worth[tech] = compute_tech_sell_price(player2, player1, tech,
+        worth[tech] = compute_tech_sell_price(ait, player2, player1, tech,
 	                                      &is_dangerous);
 	if (is_dangerous) {
 	  /* don't try to exchange */
@@ -1137,7 +1141,7 @@ static void suggest_tech_exchange(struct player* player1,
 /********************************************************************** 
   Offer techs and stuff to other player and ask for techs we need.
 ***********************************************************************/
-static void dai_share(struct player *pplayer, struct player *aplayer)
+static void dai_share(struct ai_type *ait, struct player *pplayer, struct player *aplayer)
 {
   struct research *presearch = research_get(pplayer);
   struct research *aresearch = research_get(aplayer);
@@ -1183,7 +1187,7 @@ static void dai_share(struct player *pplayer, struct player *aplayer)
   }
 
   if (!has_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai_controlled) {
-    suggest_tech_exchange(pplayer, aplayer);
+    suggest_tech_exchange(ait, pplayer, aplayer);
   }
 }
 
@@ -1629,7 +1633,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
 
     switch (ds) {
     case DS_TEAM:
-      dai_share(pplayer, aplayer);
+      dai_share(ait, pplayer, aplayer);
       break;
     case DS_ALLIANCE:
       /* See if our allies are diligently declaring war on our enemies... */
@@ -1648,7 +1652,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
       if ((players_on_same_team(pplayer, aplayer)
           || pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE / 2)) {
         /* Share techs only with team mates and allies we really like. */
-        dai_share(pplayer, aplayer);
+        dai_share(ait, pplayer, aplayer);
       }
       if (!target || !target->is_alive) {
         adip->ally_patience = 0;

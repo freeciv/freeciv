@@ -157,9 +157,11 @@ void dai_choose_diplomat_defensive(struct ai_type *ait,
                city_name(pcity));
       ut = get_role_unit(UTYF_DIPLOMAT, 0);
       if (ut) {
-        pplayer->ai_common.tech_want[advance_index(ut->require_advance)]
+        struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+
+        plr_data->tech_want[advance_index(ut->require_advance)]
           += DIPLO_DEFENSE_WANT;
-        TECH_LOG(LOG_DEBUG, pplayer, ut->require_advance,
+        TECH_LOG(ait, LOG_DEBUG, pplayer, ut->require_advance,
                  "ai_choose_diplomat_defensive() + %d for %s",
                  DIPLO_DEFENSE_WANT,
                  utype_rule_name(ut));

@@ -1037,11 +1037,12 @@ bool is_unit_choice_type(enum choice_type type)
   Calls dai_wants_role_unit to choose the best unit with the given role and 
   set tech wants.  Sets choice->value.utype when we can build something.
 **************************************************************************/
-bool dai_choose_role_unit(struct player *pplayer, struct city *pcity,
-                          struct adv_choice *choice, enum choice_type type,
-                          int role, int want, bool need_boat)
+bool dai_choose_role_unit(struct ai_type *ait, struct player *pplayer,
+                          struct city *pcity, struct adv_choice *choice,
+                          enum choice_type type, int role, int want,
+                          bool need_boat)
 {
-  struct unit_type *iunit = dai_wants_role_unit(pplayer, pcity, role, want);
+  struct unit_type *iunit = dai_wants_role_unit(ait, pplayer, pcity, role, want);
 
   if (iunit != NULL) {
     choice->type = type;

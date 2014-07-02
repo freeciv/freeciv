@@ -21,13 +21,15 @@ struct ai_plr;
 
 void dai_player_alloc(struct ai_type *ait, struct player *pplayer);
 void dai_player_free(struct ai_type *ait, struct player *pplayer);
-
 void dai_player_save(struct ai_type *ait, const char *aitstr,
                      struct player *pplayer,
                      struct section_file *file, int plrno);
 void dai_player_load(struct ai_type *ait, const char *aitstr,
                      struct player *pplayer,
                      const struct section_file *file, int plrno);
+
+void dai_player_copy(struct ai_type *ait,
+                     struct player *original, struct player *created);
 
 static inline struct ai_city *def_ai_city_data(const struct city *pcity,
                                                struct ai_type *deftype)

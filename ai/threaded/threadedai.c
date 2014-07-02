@@ -138,6 +138,16 @@ static void twai_split_by_civil_war(struct player *original,
 /**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
+static void twai_created_by_civil_war(struct player *original,
+                                      struct player *created)
+{
+  TAI_AIT;
+  TAI_DFUNC(dai_player_copy, original, created);
+}
+
+/**************************************************************************
+  Call default ai with threaded ai type as parameter.
+**************************************************************************/
 static void twai_phase_begin(struct player *pplayer, bool is_new_phase)
 {
   TAI_AIT;
@@ -532,6 +542,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.gained_control = twai_control_gained;
   ai->funcs.lost_control = twai_control_lost;
   ai->funcs.split_by_civil_war = twai_split_by_civil_war;
+  ai->funcs.created_by_civil_war = twai_created_by_civil_war;
 
   ai->funcs.phase_begin = twai_phase_begin;
   ai->funcs.phase_finished = twai_phase_finished;

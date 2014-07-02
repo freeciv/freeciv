@@ -142,7 +142,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */
-      unit_type = dai_wants_role_unit(pplayer, pcity, UTYF_HELP_WONDER, want);
+      unit_type = dai_wants_role_unit(ait, pplayer, pcity, UTYF_HELP_WONDER, want);
       if (unit_type != NULL) {
         choice->want = want;
         choice->type = CT_CIVILIAN;
@@ -160,7 +160,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   If pplayer is not advanced enough to build caravans, the corresponding
   tech will be stimulated.
 ****************************************************************************/
-static void dai_choose_trade_route(struct city *pcity,
+static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
                                    struct adv_choice *choice,
                                    struct adv_data *ai)
 {
@@ -359,7 +359,7 @@ static void dai_choose_trade_route(struct city *pcity,
   if (want > choice->want) {
     /* This sets our tech want in cases where we cannot actually build
      * the unit. */
-    unit_type = dai_wants_role_unit(pplayer, pcity, UTYF_TRADE_ROUTE, want);
+    unit_type = dai_wants_role_unit(ait, pplayer, pcity, UTYF_TRADE_ROUTE, want);
     if (unit_type != NULL) {
       choice->want = want;
       choice->type = CT_CIVILIAN;
@@ -410,14 +410,14 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     if (settler_want > 0) {
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
                settler_want);
-      dai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
+      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                            UTYF_SETTLERS, settler_want, FALSE);
     }
     /* Terrain improvers don't use boats (yet) */
 
   } else if (!settler_type && settler_want > 0) {
     /* Can't build settlers. Lets stimulate science */
-    dai_wants_role_unit(pplayer, pcity, UTYF_SETTLERS, settler_want);
+    dai_wants_role_unit(ait, pplayer, pcity, UTYF_SETTLERS, settler_want);
   }
 
   /* Find out desire for city founders */
@@ -448,7 +448,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     if (founder_want > choice->want) {
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
                founder_want);
-      dai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
+      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                            UTYF_CITIES, founder_want,
                            city_data->founder_boat);
 
@@ -470,13 +470,13 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
 
       /* Then try to overwrite it with ferryboat information
        * If no ferryboat is found, above founder choice stays. */
-      dai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
+      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
                            L_FERRYBOAT, -founder_want, TRUE);
     }
   } else if (!founder_type
              && (founder_want > choice->want || founder_want < -choice->want)) {
     /* Can't build founders. Lets stimulate science */
-    dai_wants_role_unit(pplayer, pcity, UTYF_CITIES, founder_want);
+    dai_wants_role_unit(ait, pplayer, pcity, UTYF_CITIES, founder_want);
   }
 
   {
@@ -494,7 +494,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
 
     init_choice(&cur);
     /* Consider building caravan-type units for trade route */
-    dai_choose_trade_route(pcity, &cur, ai);
+    dai_choose_trade_route(ait, pcity, &cur, ai);
     copy_if_better_choice(&cur, choice);
   }
 

@@ -60,23 +60,25 @@ void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
 /**************************************************************************
   Log player tech messages.
 **************************************************************************/
-void real_tech_log(const char *file, const char *function, int line,
-                   enum log_level level, bool notify,
+void real_tech_log(struct ai_type *ait, const char *file, const char *function,
+                   int line, enum log_level level, bool notify,
                    const struct player *pplayer, struct advance *padvance,
                    const char *msg, ...)
 {
   char buffer[500];
   char buffer2[500];
   va_list ap;
+  struct ai_plr *plr_data;
 
   if (!valid_advance(padvance) || advance_by_number(A_NONE) == padvance) {
     return;
   }
 
+  plr_data = def_ai_player_data(pplayer, ait);
   fc_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ",
               player_name(pplayer),
               advance_name_by_player(pplayer, advance_number(padvance)),
-              pplayer->ai_common.tech_want[advance_index(padvance)],
+              plr_data->tech_want[advance_index(padvance)],
               num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
 
   va_start(ap, msg);

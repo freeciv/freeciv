@@ -2407,17 +2407,12 @@ static struct player *split_player(struct player *pplayer)
   BV_CLR_ALL(cplayer->real_embassy);   /* all embassies destroyed */
 
   /* Do the ai */
-
   cplayer->ai_controlled = TRUE;
   cplayer->ai_common.maxbuycost = pplayer->ai_common.maxbuycost;
   cplayer->ai_common.warmth = pplayer->ai_common.warmth;
   cplayer->ai_common.frost = pplayer->ai_common.frost;
   set_ai_level_direct(cplayer, game.info.skill_level);
 
-  advance_index_iterate(A_NONE, i) {
-    cplayer->ai_common.tech_want[i] = pplayer->ai_common.tech_want[i];
-  } advance_index_iterate_end;
-  
   /* change the original player */
   if (government_of_player(pplayer) != game.government_during_revolution) {
     pplayer->target_government = pplayer->government;

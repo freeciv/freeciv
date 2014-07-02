@@ -87,6 +87,9 @@ struct ai_plr
 
   /* Cache map for AI settlers; defined in aisettler.c. */
   struct ai_settler *settler;
+
+  /* The units of tech_want seem to be shields */
+  int tech_want[A_LAST+1];
 };
 
 void dai_data_init(struct ai_type *ait, struct player *pplayer);

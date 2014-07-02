@@ -45,6 +45,7 @@
 
 /* ai/default */
 #include "aicity.h"
+#include "aidata.h"
 #include "ailog.h"
 #include "aiplayer.h"
 #include "aiunit.h"
@@ -329,7 +330,8 @@ static int calculate_want_for_paratrooper(struct unit *punit,
 /*******************************************************************
   Chooses to build a paratroopers if necessary
 *******************************************************************/
-void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
+void dai_choose_paratrooper(struct ai_type *ait,
+                            struct player *pplayer, struct city *pcity,
                             struct adv_choice *choice)
 {
   int profit;
@@ -337,6 +339,7 @@ void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   Tech_type_id requirements[A_LAST];
   int num_requirements = 0;
   int i;
+  struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   /* military_advisor_choose_build does something idiotic,
    * this function should not be called if there is danger... */
@@ -393,19 +396,19 @@ void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   /* we raise want if the required tech is not known */
   for (i = 0; i < num_requirements; i++) {
     tech_req = requirements[i];
-    pplayer->ai_common.tech_want[tech_req] += 2;
+    plr_data->tech_want[tech_req] += 2;
     log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
              "stimulating %s with %d (%d) and req",
              city_name(pcity),
              player_name(pplayer),
              advance_name_by_player(pplayer, tech_req),
              2,
-             pplayer->ai_common.tech_want[tech_req]);
+             plr_data->tech_want[tech_req]);
 
     /* now, we raise want for prerequisites */
     advance_index_iterate(A_FIRST, k) {
       if (is_tech_a_req_for_goal(pplayer, k, tech_req)) {
-        pplayer->ai_common.tech_want[k] += 1;
+        plr_data->tech_want[k] += 1;
       }
     } advance_index_iterate_end;
   }

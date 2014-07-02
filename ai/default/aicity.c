@@ -52,6 +52,7 @@
 #include "advdiplomacy.h"
 #include "advdomestic.h"
 #include "advmilitary.h"
+#include "aidata.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aiplayer.h"
@@ -158,7 +159,7 @@ static void want_tech_for_improvement_effect(struct ai_type *ait,
     building_want, tech_want);
 #endif /* 0 */
   if (tech) {
-    pplayer->ai_common.tech_want[advance_index(tech)] += tech_want;
+    def_ai_player_data(pplayer, ait)->tech_want[advance_index(tech)] += tech_want;
   }
 }
 

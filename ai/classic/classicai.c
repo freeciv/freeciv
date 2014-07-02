@@ -135,6 +135,17 @@ static void cai_split_by_civil_war(struct player *original,
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_created_by_civil_war(struct player *original,
+                                     struct player *created)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_player_copy(deftype, original, created);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -544,7 +555,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.gained_control = cai_assess_danger_player;
   /* ai->funcs.lost_control = NULL; */
   ai->funcs.split_by_civil_war = cai_split_by_civil_war;
-  /* ai->funcs.created_by_civil_war = NULL; */
+  ai->funcs.created_by_civil_war = cai_created_by_civil_war;
 
   ai->funcs.phase_begin = cai_data_phase_begin;
   ai->funcs.phase_finished = cai_data_phase_finished;

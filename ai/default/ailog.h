@@ -28,18 +28,18 @@ void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
 void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
                   const struct unit *punit);
 
-void real_tech_log(const char *file, const char *function, int line,
-                   enum log_level level, bool notify,
+void real_tech_log(struct ai_type *ait, const char *file, const char *function,
+                   int line, enum log_level level, bool notify,
                    const struct player *pplayer, struct advance *padvance,
                    const char *msg, ...)
-                   fc__attribute((__format__ (__printf__, 8, 9)));
-#define TECH_LOG(loglevel, pplayer, padvance, msg, ...)                     \
+                   fc__attribute((__format__ (__printf__, 9, 10)));
+#define TECH_LOG(ait, loglevel, pplayer, padvance, msg, ...)                \
 {                                                                           \
   bool notify = BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_TECH);         \
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_TECH));                  \
   if (log_do_output_for_level(level)) {                                     \
-    real_tech_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,       \
+    real_tech_log(ait, __FILE__, __FUNCTION__, __FC_LINE__, level, notify,  \
                   pplayer, padvance, msg, ## __VA_ARGS__);                  \
   }                                                                         \
 }

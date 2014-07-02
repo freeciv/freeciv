@@ -32,9 +32,11 @@
 #include "srv_log.h"
 #include "techtools.h"
 
-/* ai */
+/* ai/default */
 #include "advmilitary.h"
+#include "aidata.h"
 #include "ailog.h"
+#include "aiplayer.h"
 #include "aitools.h"
 
 #include "aitech.h"
@@ -60,7 +62,8 @@ struct ai_tech_choice {
   of cities here.
   4. A tech isn't a requirement of itself.
 **************************************************************************/
-static void dai_select_tech(struct player *pplayer, 
+static void dai_select_tech(struct ai_type *ait,
+                            struct player *pplayer, 
                             struct ai_tech_choice *choice,
                             struct ai_tech_choice *goal)
 {
@@ -69,6 +72,7 @@ static void dai_select_tech(struct player *pplayer,
   int num_cities_nonzero = MAX(1, city_list_size(pplayer->cities));
   int values[A_LAST];
   int goal_values[A_LAST];
+  struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
@@ -91,7 +95,7 @@ static void dai_select_tech(struct player *pplayer,
       goal->current_want = 1;
     }
     return;
-  }  
+  }
 
   /* Fill in values for the techs: want of the tech 
    * + average want of those we will discover en route */
@@ -101,10 +105,10 @@ static void dai_select_tech(struct player *pplayer,
 
       /* We only want it if we haven't got it (so AI is human after all) */
       if (steps > 0) { 
-        values[i] += pplayer->ai_common.tech_want[i];
+        values[i] += plr_data->tech_want[i];
 	advance_index_iterate(A_FIRST, k) {
 	  if (is_tech_a_req_for_goal(pplayer, k, i)) {
-            values[k] += pplayer->ai_common.tech_want[i] / steps;
+            values[k] += plr_data->tech_want[i] / steps;
 	  }
 	} advance_index_iterate_end;
       }
@@ -134,7 +138,7 @@ static void dai_select_tech(struct player *pplayer,
       if (steps < 6) {
         log_debug("%s: want = %d, value = %d, goal_value = %d",
                   advance_name_by_player(pplayer, i),
-                  pplayer->ai_common.tech_want[i],
+                  plr_data->tech_want[i],
                   values[i], goal_values[i]);
       }
     }
@@ -158,7 +162,7 @@ static void dai_select_tech(struct player *pplayer,
   advance_index_iterate(A_FIRST, id) {
     if (values[id] > 0
         && research_invention_state(presearch, id) == TECH_PREREQS_KNOWN) {
-      TECH_LOG(LOG_DEBUG, pplayer, advance_by_number(id),
+      TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(id),
               "turn end want: %d", values[id]);
     }
   } advance_index_iterate_end;
@@ -196,7 +200,7 @@ static void dai_select_tech(struct player *pplayer,
   Key AI research function. Disable if we are in a team with human team
   mates in a research pool.
 **************************************************************************/
-void dai_manage_tech(struct player *pplayer)
+void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_tech_choice choice, goal;
   struct research *research = research_get(pplayer);
@@ -212,13 +216,13 @@ void dai_manage_tech(struct player *pplayer)
     }
   } players_iterate_end;
 
-  dai_select_tech(pplayer, &choice, &goal);
+  dai_select_tech(ait, pplayer, &choice, &goal);
   if (choice.choice != research->researching) {
     /* changing */
     if ((choice.want - choice.current_want) > penalty &&
 	penalty + research->bulbs_researched <=
 	total_bulbs_required(pplayer)) {
-      TECH_LOG(LOG_DEBUG, pplayer, advance_by_number(choice.choice), 
+      TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(choice.choice), 
                "new research, was %s, penalty was %d", 
                advance_name_by_player(pplayer, research->researching),
                penalty);
@@ -244,7 +248,8 @@ void dai_manage_tech(struct player *pplayer)
   Assigns tech wants for techs to get better units, but only for the
   cheapest to research.
 **************************************************************************/
-struct unit_type *dai_wants_defender_against(struct player *pplayer,
+struct unit_type *dai_wants_defender_against(struct ai_type *ait,
+                                             struct player *pplayer,
                                              struct city *pcity,
                                              struct unit_type *att, int want)
 {
@@ -329,14 +334,17 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
   } unit_type_iterate_end;
 
   if (A_NEVER != best_tech) {
+    struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+
     /* Crank up chosen tech want */
     if (best_avl != NULL
         && def_values[utype_index(best_unit)] <= 1.5 * best_avl_def) {
       /* We already have almost as good unit suitable for defending against this attacker */
       want /= 2;
     }
-    pplayer->ai_common.tech_want[advance_index(best_tech)] += want;
-    TECH_LOG(LOG_DEBUG, pplayer, best_tech,
+
+    plr_data->tech_want[advance_index(best_tech)] += want;
+    TECH_LOG(ait, LOG_DEBUG, pplayer, best_tech,
              "+ %d for %s by role",
              want,
              utype_rule_name(best_unit));
@@ -351,9 +359,8 @@ struct unit_type *dai_wants_defender_against(struct player *pplayer,
   wants for techs to get better units with given role, but only for the
   cheapest to research "next" unit up the "chain".
 **************************************************************************/
-struct unit_type *dai_wants_role_unit(struct player *pplayer,
-                                      struct city *pcity,
-                                      int role, int want)
+struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplayer,
+                                      struct city *pcity, int role, int want)
 {
   struct research *presearch = research_get(pplayer);
   int i, n;
@@ -414,13 +421,15 @@ struct unit_type *dai_wants_role_unit(struct player *pplayer,
   }
 
   if (A_NEVER != best_tech) {
+    struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+
     /* Crank up chosen tech want */
     if (build_unit != NULL) {
       /* We already have a role unit of this kind */
       want /= 2;
     }
-    pplayer->ai_common.tech_want[advance_index(best_tech)] += want;
-    TECH_LOG(LOG_DEBUG, pplayer, best_tech,
+    plr_data->tech_want[advance_index(best_tech)] += want;
+    TECH_LOG(ait, LOG_DEBUG, pplayer, best_tech,
              "+ %d for %s by role",
              want,
              utype_rule_name(best_unit));

@@ -600,7 +600,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         defbonus = (defbonus + 1) / 2;
       }
       vulnerability /= (defbonus + 1);
-      (void) dai_wants_defender_against(pplayer, pcity, utype,
+      (void) dai_wants_defender_against(ait, pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
       if (unit_has_type_flag(punit, UTYF_DIPLOMAT) && 2 >= move_time) {
@@ -766,6 +766,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
   struct unit_type *best_unit_type = NULL;
   int best_unit_cost = 1;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
+  struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   memset(tech_desire, 0, sizeof(tech_desire));
 
@@ -865,9 +866,9 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
        * it is written this way, and the results seem strange to me. - Per */
       int desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
 
-      pplayer->ai_common.tech_want[advance_index(punittype->require_advance)]
+      plr_data->tech_want[advance_index(punittype->require_advance)]
         += desire;
-      TECH_LOG(LOG_DEBUG, pplayer, punittype->require_advance,
+      TECH_LOG(ait, LOG_DEBUG, pplayer, punittype->require_advance,
                "+ %d for %s to defend %s",
                desire,
                utype_rule_name(punittype),
@@ -923,6 +924,7 @@ static void process_attacker_want(struct ai_type *ait,
   int victim_count = 1;
   int needferry = 0;
   bool unhap = dai_assess_military_unhappiness(pcity);
+  struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   /* Has to be initialized to make gcc happy */
   struct ai_city *acity_data = NULL;
@@ -1090,9 +1092,9 @@ static void process_attacker_want(struct ai_type *ait,
       if (want > 0) {
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
-          pplayer->ai_common.tech_want[advance_index(punittype->require_advance)]
+          plr_data->tech_want[advance_index(punittype->require_advance)]
             += want;
-          TECH_LOG(LOG_DEBUG, pplayer, punittype->require_advance,
+          TECH_LOG(ait, LOG_DEBUG, pplayer, punittype->require_advance,
                    "+ %d for %s vs %s(%d,%d)",
                    want,
                    utype_rule_name(punittype),
@@ -1301,7 +1303,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
       fc_assert_ret(unit_class(myunit)->adv.sea_move != MOVE_FULL);
-      dai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
+      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_ATTACKER,
                            L_FERRYBOAT, choice->want, TRUE);
       if (dai_is_ferry_type(choice->value.utype, ait)) {
 #ifdef DEBUG
@@ -1573,7 +1575,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   (void) dai_choose_attacker_air(ait, pplayer, pcity, choice);
 
   /* Consider making a paratrooper */
-  dai_choose_paratrooper(pplayer, pcity, choice);
+  dai_choose_paratrooper(ait, pplayer, pcity, choice);
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
