@@ -601,7 +601,8 @@ enum road_compat { ROCO_ROAD, ROCO_RAILROAD, ROCO_RIVER, ROCO_NONE };
 enum victory_condition_type
 {
   VC_SPACERACE = 0,
-  VC_ALLIED
+  VC_ALLIED,
+  VC_CULTURE
 };
 
 enum environment_upset_type

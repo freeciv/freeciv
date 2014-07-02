@@ -273,6 +273,7 @@ static const struct sset_val_name *victory_conditions_name(int condition_bit)
   switch (condition_bit) {
   NAME_CASE(VC_SPACERACE, "SPACERACE", N_("Spacerace"));
   NAME_CASE(VC_ALLIED, "ALLIED", N_("Allied victory"));
+  NAME_CASE(VC_CULTURE, "CULTURE", N_("Culture victory"));
   };
 
   return NULL;
@@ -1964,7 +1965,9 @@ static struct setting settings[] = {
                  "- \"Spacerace\" (SPACERACE): Spaceship is built and travels to "
                  "Alpha Centauri.\n"
                  "- \"Allied\" (ALLIED): After defeating enemies, all remaining "
-                 "players are allied."),
+                 "players are allied.\n"
+                 "- \"Culture\" (CULTURE): Player has at least 1000 points of culture, "
+                 "and thrice that of next one"),
               NULL, NULL, victory_conditions_name, GAME_DEFAULT_VICTORY_CONDITIONS)
 
   GEN_BOOL("endspaceship", game.server.endspaceship, SSET_RULES_FLEXIBLE,

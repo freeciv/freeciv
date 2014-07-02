@@ -486,12 +486,44 @@ bool check_for_game_over(void)
 
       if (found) {
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                    _("Game ended in victory for %s."), player_name(victor));
+                    _("Game ended in conquest victory for %s."), player_name(victor));
         victor->is_winner = TRUE;
         ggz_report_victor(victor);
         ggz_report_victory();
         return TRUE;
       }
+    }
+  }
+
+  /* Check for culture victory */
+  if (victory_enabled(VC_CULTURE)) {
+    struct player *best = NULL;
+    int best_value = -1;
+    int second_value = -1;
+
+    players_iterate(pplayer) {
+      if (is_barbarian(pplayer) || !pplayer->is_alive) {
+        continue;
+      }
+
+      if (pplayer->score.culture > best_value) {
+        best = pplayer;
+        second_value = best_value;
+        best_value = pplayer->score.culture;
+      } else if (pplayer->score.culture > second_value) {
+        second_value = pplayer->score.culture;
+      }
+    } players_iterate_end;
+
+    if (best != NULL && best_value >= 1000 && best_value > second_value * 3) {
+      notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                  _("Game ended in cultural domination victory for %s."),
+                  player_name(best));
+      best->is_winner = TRUE;
+      ggz_report_victor(best);
+      ggz_report_victory();
+
+      return TRUE;
     }
   }
 
