@@ -10,6 +10,12 @@ AC_DEFUN([FC_QT5],
     AS_HELP_STRING([--with-qt5-includes], [path to Qt5 includes]),
               [FC_QT5_COMPILETEST([$withval])],
 [POTENTIAL_PATHS="/usr/include /usr/include/qt5"
+
+# search multiarch paths too (if the multiarch tuple can be found)
+FC_MULTIARCH_TUPLE()
+AS_IF(test "x$MULTIARCH_TUPLE" != "x",
+  POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/include/$MULTIARCH_TUPLE/qt5")
+
 dnl First test without any additional include paths to see if it works already
 FC_QT5_COMPILETEST
 for TEST_PATH in $POTENTIAL_PATHS
@@ -27,6 +33,12 @@ done])
       AS_HELP_STRING([--with-qt5-libs], [path to Qt5 libraries]),
                 [FC_QT5_LINKTEST([$withval])],
 [POTENTIAL_PATHS="/usr/lib/qt5"
+
+# search multiarch paths too (if the multiarch tuple can be found)
+FC_MULTIARCH_TUPLE()
+AS_IF(test "x$MULTIARCH_TUPLE" != "x",
+  POTENTIAL_PATHS="$POTENTIAL_PATHS /usr/lib/$MULTIARCH_TUPLE/qt5")
+
 dnl First test without any additional library paths to see if it works already
 FC_QT5_LINKTEST
 for TEST_PATH in $POTENTIAL_PATHS
@@ -129,3 +141,14 @@ AC_DEFUN([FC_QT5_VALIDATE_MOC], [
   AS_IF([test "x$MOCCMD" = "x"],
     [AC_MSG_RESULT([not found]); $2],
     [AC_MSG_RESULT([$MOCCMD]); $1])])
+
+dnl Put the multiarch tuple of the host architecture in $MULTIARCH_TUPLE if it
+dnl can be found.
+AC_DEFUN([FC_MULTIARCH_TUPLE], [
+  # GCC has the --print-multiarch option
+  AS_IF(test "x$GCC" = "xyes", [
+    # unless it is an old version
+    AS_IF(($CC --print-multiarch >/dev/null 2>/dev/null),
+      [MULTIARCH_TUPLE=`$CC --print-multiarch`],
+      [MULTIARCH_TUPLE="$host_cpu-$host_os"])],
+    [MULTIARCH_TUPLE="$host_cpu-$host_os"])])
