@@ -7,12 +7,12 @@ include $(top_srcdir)/bootstrap/Makerules.mk
 bin_PROGRAMS = freeciv-ruledit
 
 AM_CPPFLAGS = \
-	$(ruledit_CPPFLAGS) \
+	$(ruledit_cppflags) \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/server
 
-freeciv_ruledit_CXXFLAGS = $(ruledit_CXXFLAGS)
+freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
 MOC_FILES = meta_ruledit_qt.cpp \
             meta_tab_misc.cpp	\
@@ -35,7 +35,7 @@ freeciv_ruledit_SOURCES =	\
 nodist_freeciv_ruledit_SOURCES = $(MOC_FILES)
 
 freeciv_ruledit_LDADD = \
- $(ruledit_LIBS) \
+ $(ruledit_libs) \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
  $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)

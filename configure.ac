@@ -1062,9 +1062,9 @@ if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
     FC_QT5
 
     if test "x$fc_qt5_usable" = "xtrue" ; then
-      ruledit_CPPFLAGS=$FC_QT5_CPPFLAGS
-      ruledit_CXXFLAGS=$FC_QT5_CXXFLAGS
-      ruledit_LIBS=$FC_QT5_LIBS
+      ruledit_cppflags=$FC_QT5_CPPFLAGS
+      ruledit_cxxflags=$FC_QT5_CXXFLAGS
+      ruledit_libs=$FC_QT5_LIBS
       ruledit=yes
     elif test "x$ruledit" = "xyes" ; then
       AC_MSG_ERROR([Qt5 not found for building freeciv-ruledit])
@@ -1114,9 +1114,9 @@ AC_SUBST([mp_gtk3_ldflags])
 AC_SUBST([mp_qt_cppflags])
 AC_SUBST([mp_qt_cxxflags])
 AC_SUBST([mp_qt_libs])
-AC_SUBST([ruledit_CPPFLAGS])
-AC_SUBST([ruledit_CXXFLAGS])
-AC_SUBST([ruledit_LIBS])
+AC_SUBST([ruledit_cppflags])
+AC_SUBST([ruledit_cxxflags])
+AC_SUBST([ruledit_libs])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
