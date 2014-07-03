@@ -838,9 +838,9 @@ if test "x$client" != "xno"; then
     fi
   fi
 
-  dnl If client still "auto", error out since we couldn't guess it
+  dnl If client still "auto", error out since we couldn't select any of them
   if test "x$client" = "xauto" ; then
-    AC_MSG_ERROR([could not guess which client to compile])
+    AC_MSG_ERROR([can not build any of the clients])
   fi
 fi
 
