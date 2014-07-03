@@ -304,29 +304,18 @@ int effect_cumulative_min(enum effect_type type)
 ****************************************************************************/
 void recv_ruleset_effect(const struct packet_ruleset_effect *packet)
 {
-  effect_new(packet->effect_type, packet->effect_value);
-}
+  struct effect *peffect;
+  int i;
+  struct requirement *preq;
 
-/****************************************************************************
-  Receives a new effect *requirement*.  This is called by the client when
-  the packet arrives.
-****************************************************************************/
-void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet)
-{
-  if (packet->effect_id != effect_list_size(ruleset_cache.tracker) - 1) {
-    log_error("Bug in recv_ruleset_effect_req.");
-  } else {
-    struct effect *peffect = effect_list_get(ruleset_cache.tracker, -1);
-    struct requirement req, *preq;
+  peffect = effect_new(packet->effect_type, packet->effect_value);
 
-    req = req_from_values(packet->source_type, packet->range, packet->survives,
-	packet->present, packet->source_value);
-
+  for (i = 0; i < packet->reqs_count; i++) {
     preq = fc_malloc(sizeof(*preq));
-    *preq = req;
-
+    *preq = packet->reqs[i];
     effect_req_append(peffect, preq);
   }
+  fc_assert(peffect->reqs.size == packet->reqs_count);
 }
 
 /**************************************************************************
@@ -334,33 +323,20 @@ void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet)
 **************************************************************************/
 void send_ruleset_cache(struct conn_list *dest)
 {
-  unsigned id = 0;
-
   effect_list_iterate(ruleset_cache.tracker, peffect) {
     struct packet_ruleset_effect effect_packet;
+    int counter;
 
     effect_packet.effect_type = peffect->type;
     effect_packet.effect_value = peffect->value;
 
-    lsend_packet_ruleset_effect(dest, &effect_packet);
-
-    requirement_vector_iterate(&peffect->reqs, preq) {
-      struct packet_ruleset_effect_req packet;
-      int type, range, value;
-      bool survives, present;
-
-      req_get_values(preq, &type, &range, &survives, &present, &value);
-      packet.effect_id = id;
-      packet.source_type = type;
-      packet.source_value = value;
-      packet.range = range;
-      packet.survives = survives;
-      packet.present = present;
-
-      lsend_packet_ruleset_effect_req(dest, &packet);
+    counter = 0;
+    requirement_vector_iterate(&(peffect->reqs), req) {
+      effect_packet.reqs[counter++] = *req;
     } requirement_vector_iterate_end;
+    effect_packet.reqs_count = counter;
 
-    id++;
+    lsend_packet_ruleset_effect(dest, &effect_packet);
   } effect_list_iterate_end;
 }
 

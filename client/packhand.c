@@ -4072,15 +4072,6 @@ void handle_ruleset_effect(const struct packet_ruleset_effect *packet)
   recv_ruleset_effect(packet);
 }
 
-/****************************************************************************
-  Add effect requirement data to ruleset cache.
-****************************************************************************/
-void handle_ruleset_effect_req
-    (const struct packet_ruleset_effect_req *packet)
-{
-  recv_ruleset_effect_req(packet);
-}
-
 /**************************************************************************
   Handle a notification from the server that an object was successfully
   created. The 'tag' was previously sent to the server when the client

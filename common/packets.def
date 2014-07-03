@@ -1751,17 +1751,9 @@ end
 PACKET_RULESET_EFFECT = 175; sc, lsend
   EFFECT_TYPE effect_type;
   SINT32 effect_value;
-end
 
-PACKET_RULESET_EFFECT_REQ = 176; sc, lsend
-  UINT32 effect_id;
-
-  REQ_TYPE source_type;
-  SINT32 source_value;
-
-  REQ_RANGE range;
-  BOOL survives;
-  BOOL present;
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 end
 
 PACKET_RULESET_RESOURCE = 177; sc, lsend

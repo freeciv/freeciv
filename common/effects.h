@@ -289,12 +289,10 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len);
 
 /* ruleset cache creation and communication functions */
 struct packet_ruleset_effect;
-struct packet_ruleset_effect_req;
 
 void ruleset_cache_init(void);
 void ruleset_cache_free(void);
 void recv_ruleset_effect(const struct packet_ruleset_effect *packet);
-void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
 int effect_cumulative_max(enum effect_type type);
