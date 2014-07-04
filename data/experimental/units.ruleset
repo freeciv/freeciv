@@ -33,7 +33,6 @@ flags =
     "AirAttacker", _("Very bad at attacking AEGIS.")
     "Horse", _("Attack value halved when attacking Pikemen.")
     "Helicopter", _("Defends very badly against Fighters.")
-    "Unbribable", _("May not be bribed.")
   }
 
 [veteran_system]
@@ -2244,7 +2243,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil", "NoBuild", "NoHome", "SuperSpy", 
-                "Undisbandable", "Unbribable", "GameLoss", "Unique"
+                "Undisbandable", "GameLoss", "Unique"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -2281,7 +2280,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "Unbribable",
+flags         = "IgZOC", "NonMil",
                 "Undisbandable", "SuperSpy", "NoHome", "NoBuild"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")

@@ -303,7 +303,8 @@ actor_reqs    =
     }
 target_reqs    =
     { "type",   "name", "range", "present"
-      "UnitFlag", "Unbribable", "Local", FALSE
+      "UnitType", "Leader", "Local", FALSE
+      "UnitType", "Barbarian Leader", "Local", FALSE
       "CityTile", "Center", "Local", FALSE
       "Gov", "Democracy", "Player", FALSE
     }
