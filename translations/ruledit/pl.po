@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-22 21:08+0300\n"
-"PO-Revision-Date: 2014-06-09 10:15+0100\n"
+"POT-Creation-Date: 2014-07-01 21:03+0300\n"
+"PO-Revision-Date: 2014-06-29 19:33+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmai.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -35,11 +35,11 @@ msgstr "Edytor zestawu zasad Freeciv"
 #: tools/ruledit/ruledit_qt.cpp:94
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "Wymagane przez %s"
 
 #: tools/ruledit/ruledit_qt.cpp:117
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Podaj zestaw zasad będący punktem wyjścia"
 
 #: tools/ruledit/ruledit_qt.cpp:123
 msgid "Start editing"
@@ -70,9 +70,8 @@ msgid "Ruleset name"
 msgstr "Nazwa zestawu zasad"
 
 #: tools/ruledit/tab_misc.cpp:58
-#, fuzzy
 msgid "Ruleset version"
-msgstr "Zapisano zestaw zasad"
+msgstr "Wersja zestawu zasad"
 
 #: tools/ruledit/tab_misc.cpp:63
 msgid "Save to directory"
@@ -108,23 +107,23 @@ msgstr ""
 
 #: tools/ruledit/tab_tech.cpp:103
 msgid "Add tech"
-msgstr ""
+msgstr "Dodaj technologię"
 
 #: tools/ruledit/tab_tech.cpp:107
 msgid "Remove this tech"
-msgstr ""
+msgstr "Usuń tą technologię"
 
 #: tools/ruledit/tab_tech.cpp:186
 msgid "Never"
 msgstr "Nigdy"
 
-#: tools/ruledit/validity.c:79
+#: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "Efekt"
 
-#: tools/ruledit/validity.c:160
+#: tools/ruledit/validity.c:145
 msgid "Music Style"
-msgstr ""
+msgstr "Styl muzyki"
 
 #~ msgid "source RULESET"
 #~ msgstr "source ZESTAW-ZASAD"
