@@ -328,7 +328,7 @@ bool improvement_obsolete(const struct player *pplayer,
 
   requirement_vector_iterate(&pimprove->obsolete_by, preq) {
     if (is_req_active(pplayer, NULL, pcity, pimprove, ptile, NULL, NULL,
-                      NULL, preq, RPT_CERTAIN)) {
+                      NULL, NULL, preq, RPT_CERTAIN)) {
       return TRUE;
     }
   } requirement_vector_iterate_end;
@@ -407,7 +407,7 @@ bool can_player_build_improvement_direct(const struct player *p,
   requirement_vector_iterate(&pimprove->reqs, preq) {
     if (preq->range >= REQ_RANGE_PLAYER
         && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                          preq, RPT_CERTAIN)) {
+                          NULL, preq, RPT_CERTAIN)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
@@ -485,7 +485,7 @@ bool can_player_build_improvement_later(const struct player *p,
     if (preq->range >= REQ_RANGE_PLAYER
 	&& is_req_unchanging(preq)
 	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-			  preq, RPT_POSSIBLE)) {
+                          NULL, preq, RPT_POSSIBLE)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;

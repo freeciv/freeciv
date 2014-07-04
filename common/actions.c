@@ -38,6 +38,7 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct city *actor_city,
 			      const struct impr_type *actor_building,
 			      const struct tile *actor_tile,
+                              const struct unit *actor_unit,
 			      const struct unit_type *actor_unittype,
 			      const struct output_type *actor_output,
 			      const struct specialist *actor_specialist,
@@ -45,6 +46,7 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct city *target_city,
 			      const struct impr_type *target_building,
 			      const struct tile *target_tile,
+                              const struct unit *target_unit,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist);
@@ -254,6 +256,7 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct city *actor_city,
 			      const struct impr_type *actor_building,
 			      const struct tile *actor_tile,
+                              const struct unit *actor_unit,
 			      const struct unit_type *actor_unittype,
 			      const struct output_type *actor_output,
 			      const struct specialist *actor_specialist,
@@ -261,16 +264,19 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct city *target_city,
 			      const struct impr_type *target_building,
 			      const struct tile *target_tile,
+                              const struct unit *target_unit,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist)
 {
   return are_reqs_active(actor_player, target_player, actor_city,
-                         actor_building, actor_tile, actor_unittype,
+                         actor_building, actor_tile,
+                         actor_unit, actor_unittype,
                          actor_output, actor_specialist,
                          &enabler->actor_reqs, RPT_CERTAIN)
       && are_reqs_active(target_player, actor_player, target_city,
-                         target_building, target_tile, target_unittype,
+                         target_building, target_tile,
+                         target_unit, target_unittype,
                          target_output, target_specialist,
                          &enabler->target_reqs, RPT_CERTAIN);
 }
@@ -289,6 +295,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct city *actor_city,
 			      const struct impr_type *actor_building,
 			      const struct tile *actor_tile,
+                              const struct unit *actor_unit,
 			      const struct unit_type *actor_unittype,
 			      const struct output_type *actor_output,
 			      const struct specialist *actor_specialist,
@@ -296,6 +303,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct city *target_city,
 			      const struct impr_type *target_building,
 			      const struct tile *target_tile,
+                              const struct unit *target_unit,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist)
@@ -303,10 +311,12 @@ static bool is_action_enabled(const enum gen_action wanted_action,
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
     if (is_enabler_active(enabler, actor_player, actor_city,
-                          actor_building, actor_tile, actor_unittype,
+                          actor_building, actor_tile,
+                          actor_unit, actor_unittype,
                           actor_output, actor_specialist,
                           target_player, target_city,
-                          target_building, target_tile, target_unittype,
+                          target_building, target_tile,
+                          target_unit, target_unittype,
                           target_output, target_specialist)) {
       return TRUE;
     }
@@ -339,10 +349,11 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
 
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit), unit_type(actor_unit),
+                           unit_tile(actor_unit),
+                           actor_unit, unit_type(actor_unit),
                            NULL, NULL,
                            city_owner(target_city), target_city, NULL,
-                           city_tile(target_city), NULL, NULL, NULL);
+                           city_tile(target_city), NULL, NULL, NULL, NULL);
 }
 
 /**************************************************************************
@@ -369,11 +380,13 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
 
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
-                           unit_tile(actor_unit), unit_type(actor_unit),
+                           unit_tile(actor_unit),
+                           actor_unit, unit_type(actor_unit),
                            NULL, NULL,
                            unit_owner(target_unit),
                            tile_city(unit_tile(target_unit)), NULL,
-                           unit_tile(target_unit), unit_type(target_unit),
+                           unit_tile(target_unit),
+                           target_unit, unit_type(target_unit),
                            NULL, NULL);
 }
 
@@ -740,6 +753,7 @@ static bool is_target_possible(const enum gen_action wanted_action,
 			       const struct city *target_city,
 			       const struct impr_type *target_building,
 			       const struct tile *target_tile,
+                               const struct unit *target_unit,
 			       const struct unit_type *target_unittype,
 			       const struct output_type *target_output,
 			       const struct specialist *target_specialist)
@@ -747,7 +761,8 @@ static bool is_target_possible(const enum gen_action wanted_action,
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
     if (are_reqs_active(target_player, actor_player, target_city,
-                        target_building, target_tile, target_unittype,
+                        target_building, target_tile,
+                        target_unit, target_unittype,
                         target_output, target_specialist,
                         &enabler->target_reqs, RPT_POSSIBLE)) {
       return TRUE;
@@ -772,5 +787,6 @@ bool is_action_possible_on_city(const enum gen_action action_id,
 
   return is_target_possible(action_id, actor_player,
                             city_owner(target_city), target_city, NULL,
-                            city_tile(target_city), NULL, NULL, NULL);
+                            city_tile(target_city), NULL, NULL,
+                            NULL, NULL);
 }

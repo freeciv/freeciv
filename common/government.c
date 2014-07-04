@@ -175,8 +175,8 @@ bool can_change_to_government(struct player *pplayer,
     return TRUE;
   }
 
-  return are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-			 &gov->reqs, RPT_CERTAIN);
+  return are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL,
+                         NULL, NULL, &gov->reqs, RPT_CERTAIN);
 }
 
 

@@ -961,7 +961,7 @@ static void process_attacker_want(struct ai_type *ait,
       int veteran_level = get_target_bonus_effects(NULL,
                                                    pplayer, NULL, pcity,
                                                    NULL, city_tile(pcity),
-                                                   punittype, NULL,
+                                                   NULL, punittype, NULL,
                                                    NULL,
                                                    EFT_VETERAN_BUILD);
       /* Cost (shield equivalent) of gaining these techs. */

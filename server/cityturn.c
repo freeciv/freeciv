@@ -1111,7 +1111,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	/* Nope, no use.  *sigh*  */
 	requirement_vector_iterate(&ptarget->reqs, preq) {
 	  if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
-			     NULL, preq, RPT_POSSIBLE)) {
+                             NULL, NULL, preq, RPT_POSSIBLE)) {
 	    known = TRUE;
 	    switch (preq->source.kind) {
 	    case VUT_ADVANCE:

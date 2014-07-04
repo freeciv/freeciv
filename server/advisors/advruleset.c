@@ -82,7 +82,7 @@ void adv_units_ruleset_init(void)
     effect_list_iterate(get_effects(EFT_DEFEND_BONUS), peffect) {
       if (peffect->value > 0) {
         requirement_vector_iterate(&peffect->reqs, preq) {
-          if (!is_req_active(NULL, NULL, NULL, NULL, NULL, ptype,
+          if (!is_req_active(NULL, NULL, NULL, NULL, NULL, NULL, ptype,
                              NULL, NULL, preq, RPT_POSSIBLE)) {
             ptype->adv.igwall = FALSE;
             break;

@@ -303,10 +303,17 @@ bool can_build_road_base(const struct road_type *proad,
 ****************************************************************************/
 static bool are_road_reqs_fulfilled(const struct road_type *proad,
                                     const struct player *pplayer,
-                                    const struct unit_type *utype,
+                                    const struct unit *punit,
                                     const struct tile *ptile)
 {
   struct extra_type *pextra = road_extra_get(proad);
+  const struct unit_type *utype;
+
+  if (punit == NULL) {
+    utype = NULL;
+  } else {
+    utype = unit_type(punit);
+  }
 
   if (requirement_vector_size(&proad->first_reqs) > 0) {
     bool beginning = TRUE;
@@ -326,15 +333,15 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
 
     if (beginning) {
       if (!are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                           utype, NULL, NULL, &proad->first_reqs,
-                           RPT_POSSIBLE)) {
+                           punit, utype, NULL, NULL,
+                           &proad->first_reqs, RPT_POSSIBLE)) {
         return FALSE;
       }
     }
   }
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         utype, NULL, NULL, &pextra->reqs,
+                         punit, utype, NULL, NULL, &pextra->reqs,
                          RPT_POSSIBLE);
 }
 
@@ -365,7 +372,7 @@ bool can_build_road(struct road_type *proad,
     return FALSE;
   }
 
-  return are_road_reqs_fulfilled(proad, pplayer, unit_type(punit), ptile);
+  return are_road_reqs_fulfilled(proad, pplayer, punit, ptile);
 }
 
 /****************************************************************************
@@ -521,7 +528,8 @@ bool is_native_tile_to_road(const struct road_type *proad,
   pextra = road_extra_get(proad);
 
   return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, &pextra->reqs, RPT_POSSIBLE);
+                         NULL, NULL, NULL, NULL,
+                         &pextra->reqs, RPT_POSSIBLE);
 }
 
 /****************************************************************************
