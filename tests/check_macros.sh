@@ -1,6 +1,6 @@
 #!/bin/sh
 
-files=`find $1 -name "*.c" -o -name "*.h" | sort`
+files=`find $1 -name "*.c" -o -name "*.cpp" -o -name "*.h" | sort`
 
 echo "# check for __LINE__ (should be replaced by __FC_LINE__):"
 for file in $files; do
