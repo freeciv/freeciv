@@ -60,7 +60,7 @@ AC_DEFUN([FC_SDL_CLIENT],
       dnl Check for libiconv (which is usually included in glibc, but may
       dnl be distributed separately).
       AM_ICONV
-      AM_LIBCHARSET
+      FC_LIBCHARSET
       AM_LANGINFO_CODESET
       gui_sdl_libs="$LIBICONV $gui_sdl_libs"
 
