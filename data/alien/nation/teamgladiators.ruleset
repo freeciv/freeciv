@@ -6,7 +6,7 @@ name = _("Team Gladiators")
 plural = _("?plural:Athletes")
 legend = _("Spaceball is sport of massive teams. Team Gladiators ship contained \
 enough players to start entire planetary faction.\n\n\
-* Builds veteran units\n\
+* Builds elite units, superb units in cities with Training Facility\n\
 * Each city receives free unit upkeep worth one shield")
 
 leaders = {
