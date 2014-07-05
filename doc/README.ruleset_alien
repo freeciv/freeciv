@@ -1,6 +1,6 @@
 
 =======================================================
-Alien World ruleset for Freeciv (Updated 18-Jan-2014)
+Alien World ruleset for Freeciv (Updated 04-Jul-2014)
 =======================================================
 
 Design Philosophy:
@@ -82,3 +82,6 @@ This list is incomplete
   Dual Democracy: 20% / 40%
 
 - Math Club gets only 30% bonus to science
+
+- There's third veterancy level, "Superb", that is available only for
+  units built by Team Gladiators in a city with Training Facility

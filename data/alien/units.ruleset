@@ -14,23 +14,23 @@ options="+Freeciv-2.5-ruleset"
 
 [veteran_system]
 ; What are the names of the levels?
-veteran_names = _("Regular"), _("Elite")
+veteran_names = _("Regular"), _("Elite"), _("Superb")
 
 ; The percentage chance of increasing level through combat
-veteran_raise_chance = 10, 0
+veteran_raise_chance = 10, 0, 0
 
 ; The percentage chance of a settler/engineer increasing level through
 ; performing useful work (per turn)
-veteran_work_raise_chance = 0, 0
+veteran_work_raise_chance = 0, 0, 0
 
 ; Power factors are as a percentage.
 ; +50% is represented by 150
-veteran_power_fact = 100, 200
+veteran_power_fact = 100, 200, 350
 
 ; The additional number of movement points granted for different veteran
 ; levels. These are fractional move points as defined by move_fragments in
 ; terrain.ruleset.
-veteran_move_bonus = 0, 0
+veteran_move_bonus = 0, 0, 0
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1299,11 +1299,11 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Partial_Invis"
-veteran_names = _("Regular"), _("Elite")
-veteran_raise_chance = 10, 0
-veteran_work_raise_chance = 0, 0
-veteran_power_fact = 100, 110
-veteran_move_bonus = 0, 0
+veteran_names = _("Regular"), _("Elite"), _("Superb")
+veteran_raise_chance = 10, 0, 0
+veteran_work_raise_chance = 0, 0, 0
+veteran_power_fact = 100, 110, 125
+veteran_move_bonus = 0, 0, 0
 roles         = "Diplomat"
 helptext      = _("\
 Stealth Spy can make diplomatic actions, and is invisible until \
