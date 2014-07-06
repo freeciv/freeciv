@@ -3044,7 +3044,7 @@ static void popup_change_research_goal_dialog(void)
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_reachable(presearch, i)
         && TECH_KNOWN != research_invention_state(presearch, i)
-	&& (11 > num_unknown_techs_for_goal(client.conn.playing, i)
+        && (11 > research_goal_unknown_techs(presearch, i)
             || i == presearch->tech_goal)) {
       count++;
     }
@@ -3118,7 +3118,7 @@ static void popup_change_research_goal_dialog(void)
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_reachable(presearch, i)
         && TECH_KNOWN != research_invention_state(presearch, i)
-        && (11 > (num = num_unknown_techs_for_goal(client_player(), i))
+        && (11 > (num = research_goal_unknown_techs(presearch, i))
             || i == presearch->tech_goal)) {
 
       count++;

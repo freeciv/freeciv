@@ -180,13 +180,6 @@ int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech, bool loss_value);
 bool techs_have_fixed_costs(void);
 
-int num_unknown_techs_for_goal(const struct player *pplayer,
-			       Tech_type_id goal);
-int total_bulbs_required_for_goal(const struct player *pplayer,
-				  Tech_type_id goal);
-bool is_tech_a_req_for_goal(const struct player *pplayer,
-			    Tech_type_id tech,
-			    Tech_type_id goal);
 bool is_future_tech(Tech_type_id tech);
 
 /* Initialization */

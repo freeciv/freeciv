@@ -3365,10 +3365,10 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                          "To reach %s you need to obtain %d other"
                          " technologies first. The whole project"
                          " will require %d bulbs to complete.",
-                         num_unknown_techs_for_goal(pplayer, i) - 1),
+                         research_goal_unknown_techs(presearch, i) - 1),
                      advance_name_translation(vap),
-                     num_unknown_techs_for_goal(pplayer, i) - 1,
-                     total_bulbs_required_for_goal(pplayer, i));
+                     research_goal_unknown_techs(presearch, i) - 1,
+                     research_goal_bulbs_required(presearch, i));
       } else {
         CATLSTR(buf, bufsz,
                 _("You cannot research this technology."));

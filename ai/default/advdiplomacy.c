@@ -160,7 +160,7 @@ static int dai_goldequiv_tech(struct ai_type *ait,
                                       game.info.tech_trade_allow_holes)) {
     return 0;
   }
-  bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
+  bulbs = research_goal_bulbs_required(presearch, tech) * 3;
   tech_want = MAX(plr_data->tech_want[tech], 0) / MAX(game.info.turn, 1);
   worth = bulbs + tech_want;
   if (TECH_PREREQS_KNOWN == state) {
@@ -602,6 +602,8 @@ void dai_treaty_evaluate(struct ai_type *ait, struct player *pplayer,
   
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
+    const struct research *presearch = research_get(pplayer);
+
     total_balance +=
       dai_goldequiv_clause(ait, pplayer, aplayer, pclause, TRUE, ds_after);
 
@@ -611,8 +613,8 @@ void dai_treaty_evaluate(struct ai_type *ait, struct player *pplayer,
             || game.info.tech_cost_style != 0
             || pclause->value == research_get(pplayer)->tech_goal
             || pclause->value == research_get(pplayer)->researching
-            || is_tech_a_req_for_goal(pplayer, pclause->value,
-                                      research_get(pplayer)->tech_goal))) {
+            || research_goal_tech_req(presearch, presearch->tech_goal,
+                                      pclause->value))) {
       /* We accept the above list of clauses as gifts, even if we are
        * at war. We do not accept tech or cities since these can be used
        * against us, unless we know that we want this tech anyway, or

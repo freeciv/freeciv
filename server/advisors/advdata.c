@@ -804,6 +804,8 @@ void adv_best_government(struct player *pplayer)
   }
 
   if (adv->govt_reeval == 0) {
+    const struct research *presearch = research_get(pplayer);
+
     governments_iterate(gov) {
       int val = 0;
       int bonus = 0; /* in percentage */
@@ -854,8 +856,8 @@ void adv_best_government(struct player *pplayer)
       dist = 0;
       requirement_vector_iterate(&gov->reqs, preq) {
 	if (VUT_ADVANCE == preq->source.kind) {
-	  dist += MAX(1, num_unknown_techs_for_goal(pplayer,
-						    advance_number(preq->source.value.advance)));
+          dist += MAX(1, research_goal_unknown_techs(presearch,
+                             advance_number(preq->source.value.advance)));
 	}
       } requirement_vector_iterate_end;
       val = amortize(val, dist);

@@ -19,6 +19,7 @@
 
 /* common */
 #include "player.h"
+#include "research.h"
 
 /* server */
 #include "notify.h"
@@ -79,7 +80,8 @@ void real_tech_log(struct ai_type *ait, const char *file, const char *function,
               player_name(pplayer),
               advance_rule_name(padvance),
               plr_data->tech_want[advance_index(padvance)],
-              num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
+              research_goal_unknown_techs(research_get(pplayer),
+                                          advance_number(padvance)));
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);

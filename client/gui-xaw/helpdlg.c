@@ -252,13 +252,14 @@ static void create_help_dialog(void)
 **************************************************************************/
 static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
 {
+  const struct research *presearch = research_get(client_player());
   Widget l;
   int type;
   char *bg="";
   char label[MAX_LEN_NAME+3];
 
   type = (tech == A_LAST ? TECH_UNKNOWN
-          : research_invention_state(research_get(client_player()), tech));
+          : research_invention_state(presearch, tech));
   switch(type) {
     case TECH_UNKNOWN:
       bg=TREE_NODE_UNKNOWN_TECH_BG;
@@ -287,7 +288,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   
   fc_snprintf(label, sizeof(label),
 	      "%s:%d", advance_name_translation(advance_by_number(tech)),
-	      num_unknown_techs_for_goal(client.conn.playing, tech));
+              research_goal_unknown_techs(presearch, tech));
 
   if(parent) {
     l=XtVaCreateManagedWidget("treenode", 

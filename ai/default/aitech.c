@@ -54,7 +54,7 @@ struct ai_tech_choice {
 
   TODO: Write a transparent formula.
 
-  Notes: 1. num_unknown_techs_for_goal returns 0 for known techs, 1 if tech 
+  Notes: 1. research_goal_unknown_techs returns 0 for known techs, 1 if tech
   is immediately available etc.
   2. A tech is reachable means we can research it now; tech is available 
   means it's on our tech tree (different nations can have different techs).
@@ -83,14 +83,14 @@ static void dai_select_tech(struct ai_type *ait,
 
   /* if we are researching future techs, then simply continue with that. 
    * we don't need to do anything below. */
-  if (is_future_tech(research_get(pplayer)->researching)) {
+  if (is_future_tech(presearch->researching)) {
     if (choice) {
-      choice->choice = research_get(pplayer)->researching;
+      choice->choice = presearch->researching;
       choice->want = 1;
       choice->current_want = 1;
     }
     if (goal) {
-      goal->choice = research_get(pplayer)->tech_goal;
+      goal->choice = presearch->tech_goal;
       goal->want = 1;
       goal->current_want = 1;
     }
@@ -101,13 +101,13 @@ static void dai_select_tech(struct ai_type *ait,
    * + average want of those we will discover en route */
   advance_index_iterate(A_FIRST, i) {
     if (valid_advance_by_number(i)) {
-      int steps = num_unknown_techs_for_goal(pplayer, i);
+      int steps = research_goal_unknown_techs(presearch, i);
 
       /* We only want it if we haven't got it (so AI is human after all) */
       if (steps > 0) { 
         values[i] += plr_data->tech_want[i];
 	advance_index_iterate(A_FIRST, k) {
-	  if (is_tech_a_req_for_goal(pplayer, k, i)) {
+          if (research_goal_tech_req(presearch, i, k)) {
             values[k] += plr_data->tech_want[i] / steps;
 	  }
 	} advance_index_iterate_end;
@@ -118,7 +118,7 @@ static void dai_select_tech(struct ai_type *ait,
   /* Fill in the values for the tech goals */
   advance_index_iterate(A_FIRST, i) {
     if (valid_advance_by_number(i)) {
-      int steps = num_unknown_techs_for_goal(pplayer, i);
+      int steps = research_goal_unknown_techs(presearch, i);
 
       if (steps == 0) {
 	continue;
@@ -126,7 +126,7 @@ static void dai_select_tech(struct ai_type *ait,
 
       goal_values[i] = values[i];      
       advance_index_iterate(A_FIRST, k) {
-	if (is_tech_a_req_for_goal(pplayer, k, i)) {
+        if (research_goal_tech_req(presearch, i, k)) {
 	  goal_values[i] += values[k];
 	}
       } advance_index_iterate_end;
@@ -170,16 +170,15 @@ static void dai_select_tech(struct ai_type *ait,
   if (choice) {
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;
-    choice->current_want = 
-      values[research_get(pplayer)->researching] / num_cities_nonzero;
+    choice->current_want = (values[presearch->researching]
+                            / num_cities_nonzero);
   }
 
   if (goal) {
     goal->choice = newgoal;
     goal->want = goal_values[newgoal] / num_cities_nonzero;
-    goal->current_want
-      = (goal_values[research_get(pplayer)->tech_goal]
-         / num_cities_nonzero);
+    goal->current_want = (goal_values[presearch->tech_goal]
+                          / num_cities_nonzero);
     log_debug("Goal->choice = %s, goal->want = %d, goal_value = %d, "
               "num_cities_nonzero = %d",
               research_advance_rule_name(presearch, goal->choice),
@@ -191,7 +190,7 @@ static void dai_select_tech(struct ai_type *ait,
   /* we can't have this, which will happen in the circumstance 
    * where all ai.tech_wants are negative */
   if (choice && choice->choice == A_UNSET) {
-    choice->choice = research_get(pplayer)->researching;
+    choice->choice = presearch->researching;
   }
 
   return;
@@ -290,7 +289,8 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
           && research_invention_state(presearch,
                                       advance_number(itech)) != TECH_KNOWN) {
         /* See if we want to invent this. */
-        cost = total_bulbs_required_for_goal(pplayer, advance_number(itech));
+        cost = research_goal_bulbs_required(presearch,
+                                            advance_number(itech));
       }
       if (deftype->need_improvement 
           && !can_player_build_improvement_direct(pplayer, deftype->need_improvement)) {
@@ -303,7 +303,8 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
             if (preq->present) {
               if (TECH_KNOWN != research_invention_state(presearch,
                                                          iimprtech)) {
-                int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+                int imprcost = research_goal_bulbs_required(presearch,
+                                                            iimprtech);
 
                 if (imprcost < cost || cost == 0) {
                   /* If we already have the primary tech (cost == 0),
@@ -385,7 +386,8 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
        && research_invention_state(presearch,
                                    advance_number(itech)) != TECH_KNOWN) {
         /* See if we want to invent this. */
-        cost = total_bulbs_required_for_goal(pplayer, advance_number(itech));
+        cost = research_goal_bulbs_required(presearch,
+                                            advance_number(itech));
       }
       if (iunit->need_improvement 
           && !can_player_build_improvement_direct(pplayer, iunit->need_improvement)) {
@@ -397,7 +399,8 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
 
             if (TECH_KNOWN != research_invention_state(presearch,
                                                        iimprtech)) {
-	      int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+              int imprcost = research_goal_bulbs_required(presearch,
+                                                          iimprtech);
 
 	      if (imprcost < cost || cost == 0) {
 	        /* If we already have the primary tech (cost==0),

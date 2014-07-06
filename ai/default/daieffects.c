@@ -21,6 +21,7 @@
 #include "game.h"
 #include "government.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
 #include "traderoutes.h"
 #include "victory.h"
@@ -277,7 +278,8 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_ANY_GOVERNMENT:
     if (!can_change_to_government(pplayer, ai->goal.govt.gov)) {
       v += MIN(MIN(ai->goal.govt.val, 65),
-	       num_unknown_techs_for_goal(pplayer, ai->goal.govt.req) * 10);
+               research_goal_unknown_techs(research_get(pplayer),
+                                           ai->goal.govt.req) * 10);
     }
     break;
   case EFT_ENABLE_NUKE:

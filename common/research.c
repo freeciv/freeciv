@@ -336,6 +336,85 @@ bool research_invention_gettable(const struct research *presearch,
   return TRUE;
 }
 
+/****************************************************************************
+  Returns the number of technologies the player need to research to get
+  the goal technology. This includes the goal technology. Technologies
+  are only counted once.
+
+  'presearch' may be NULL in which case it will returns the total number
+  of technologies needed for reaching the goal.
+****************************************************************************/
+int research_goal_unknown_techs(const struct research *presearch,
+                                Tech_type_id goal)
+{
+  const struct advance *pgoal = valid_advance_by_number(goal);
+
+  if (NULL == pgoal) {
+    return 0;
+  } else if (NULL != presearch) {
+    return presearch->inventions[goal].num_required_techs;
+  } else {
+    return pgoal->num_reqs;
+  }
+}
+
+/****************************************************************************
+  Function to determine cost (in bulbs) of reaching goal technology.
+  These costs _include_ the cost for researching the goal technology
+  itself.
+
+  'presearch' may be NULL in which case it will returns the total number
+  of bulbs needed for reaching the goal.
+****************************************************************************/
+int research_goal_bulbs_required(const struct research *presearch,
+                                 Tech_type_id goal)
+{
+  const struct advance *pgoal = valid_advance_by_number(goal);
+
+  if (NULL == pgoal) {
+    return 0;
+  } else if (NULL != presearch) {
+    return presearch->inventions[goal].bulbs_required;
+  } else if (0 == game.info.tech_cost_style) {
+     return game.info.base_tech_cost * pgoal->num_reqs
+            * (pgoal->num_reqs + 1) / 2;
+  } else {
+    int bulbs_required = 0;
+
+    advance_req_iterate(pgoal, preq) {
+      bulbs_required += preq->cost;
+    } advance_req_iterate_end;
+    return bulbs_required;
+  }
+}
+
+/****************************************************************************
+  Returns if the given tech has to be researched to reach the goal. The
+  goal itself isn't a requirement of itself.
+
+  'presearch' may be NULL.
+****************************************************************************/
+bool research_goal_tech_req(const struct research *presearch,
+                            Tech_type_id goal, Tech_type_id tech)
+{
+  const struct advance *pgoal, *ptech;
+
+  if (tech == goal
+      || NULL == (pgoal = valid_advance_by_number(goal))
+      || NULL == (ptech = valid_advance_by_number(tech))) {
+    return FALSE;
+  } else if (NULL != presearch) {
+    return BV_ISSET(presearch->inventions[goal].required_techs, tech);
+  } else {
+    advance_req_iterate(pgoal, preq) {
+      if (preq == ptech) {
+        return TRUE;
+      }
+    } advance_req_iterate_end;
+    return FALSE;
+  }
+}
+
 
 /****************************************************************************
   Returns the real size of the player research iterator.

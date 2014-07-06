@@ -888,8 +888,7 @@ static enum color_std node_color(struct tree_node *node)
     }
 
     if (!research_invention_gettable(research, node->tech, TRUE)) {
-      if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
-                                 research->tech_goal)
+      if (research_goal_tech_req(research, research->tech_goal, node->tech)
           || node->tech == research->tech_goal) {
         return COLOR_REQTREE_GOAL_NOT_GETTABLE;
       } else {
@@ -905,8 +904,7 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_KNOWN;
     }
 
-    if (is_tech_a_req_for_goal(client.conn.playing, node->tech,
-                               research->tech_goal)
+    if (research_goal_tech_req(research, research->tech_goal, node->tech)
 	|| node->tech == research->tech_goal) {
       if (TECH_PREREQS_KNOWN == research_invention_state(research,
                                                          node->tech)) {
@@ -983,8 +981,7 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     return REQTREE_ACTIVE_EDGE;
   }
 
-  if (is_tech_a_req_for_goal(client.conn.playing, dest_node->tech,
-                             research->tech_goal)
+  if (research_goal_tech_req(research, research->tech_goal, dest_node->tech)
       || dest_node->tech == research->tech_goal) {
     return REQTREE_GOAL_EDGE;
   }

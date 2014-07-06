@@ -243,7 +243,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
     bg = COLOR_REQTREE_PREREQS_KNOWN;
     break;
   }
-  turns_to_tech = num_unknown_techs_for_goal(client.conn.playing, tech);
+  turns_to_tech = research_goal_unknown_techs(presearch, tech);
 
   /* l is the original in the tree. */
   original = !help_advances[tech];

@@ -110,30 +110,6 @@ struct advance *advance_by_number(const Tech_type_id atype)
 }
 
 /**************************************************************************
-  Returns if the given tech has to be researched to reach the
-  goal. The goal itself isn't a requirement of itself.
-
-  pplayer may be NULL; however the function will always return FALSE in
-  that case.
-**************************************************************************/
-bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
-			    Tech_type_id goal)
-{
-  if (tech == goal
-      || NULL == valid_advance_by_number(tech)
-      || NULL == valid_advance_by_number(goal)) {
-    return FALSE;
-  } else if (!pplayer) {
-    /* FIXME: We need a proper implementation here! */
-    return FALSE;
-  } else {
-    return
-      BV_ISSET(research_get(pplayer)->inventions[goal].required_techs,
-               tech);
-  }
-}
-
-/**************************************************************************
   Accessor for requirements.
 **************************************************************************/
 Tech_type_id advance_required(const Tech_type_id tech,
@@ -169,11 +145,11 @@ static void build_required_techs_helper(struct player *pplayer,
 {
   struct research *presearch = research_get(pplayer);
 
-  /* The is_tech_a_req_for_goal condition is true if the tech is
+  /* The research_goal_tech_req condition is true if the tech is
    * already marked */
   if (!research_invention_reachable(presearch, tech)
       || research_invention_state(presearch, tech) == TECH_KNOWN
-      || is_tech_a_req_for_goal(pplayer, tech, goal)) {
+      || research_goal_tech_req(presearch, goal, tech)) {
     return;
   }
 
@@ -217,7 +193,7 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 
   counter = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (!is_tech_a_req_for_goal(pplayer, i, goal)) {
+    if (!research_goal_tech_req(research, goal, i)) {
       continue;
     }
 
@@ -657,44 +633,6 @@ int base_total_bulbs_required(const struct player *pplayer,
   base_cost *= (double)game.info.sciencebox / 100.0;
 
   return MAX(base_cost, 1);
-}
-
-/**************************************************************************
- Returns the number of technologies the player need to research to get
- the goal technology. This includes the goal technology. Technologies
- are only counted once.
-
-  pplayer may be NULL; however the wrong value will be return in this case.
-**************************************************************************/
-int num_unknown_techs_for_goal(const struct player *pplayer,
-			       Tech_type_id goal)
-{
-  if (!pplayer) {
-    /* FIXME: need an implementation for this! */
-    return 0;
-  } else if (NULL == valid_advance_by_number(goal)) {
-    return 0;
-  }
-  return research_get(pplayer)->inventions[goal].num_required_techs;
-}
-
-/**************************************************************************
- Function to determine cost (in bulbs) of reaching goal
- technology. These costs _include_ the cost for researching the goal
- technology itself.
-
-  pplayer may be NULL; however the wrong value will be return in this case.
-**************************************************************************/
-int total_bulbs_required_for_goal(const struct player *pplayer,
-				  Tech_type_id goal)
-{
-  if (!pplayer) {
-    /* FIXME: need an implementation for this! */
-    return 0;
-  } if (NULL == valid_advance_by_number(goal)) {
-    return 0;
-  }
-  return research_get(pplayer)->inventions[goal].bulbs_required;
 }
 
 /****************************************************************************

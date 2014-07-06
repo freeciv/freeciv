@@ -783,11 +783,11 @@ const char *get_science_target_text(double *percent)
 ****************************************************************************/
 const char *get_science_goal_text(Tech_type_id goal)
 {
-  int steps = num_unknown_techs_for_goal(client.conn.playing, goal);
-  int bulbs_needed = total_bulbs_required_for_goal(client.conn.playing, goal);
+  const struct research *research = research_get(client_player());
+  int steps = research_goal_unknown_techs(research, goal);
+  int bulbs_needed = research_goal_bulbs_required(research, goal);
   int turns;
   int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-  struct research *research = research_get(client_player());
   static struct astring str = ASTRING_INIT;
   struct astring buf1 = ASTRING_INIT,
                  buf2 = ASTRING_INIT,
@@ -799,8 +799,7 @@ const char *get_science_goal_text(Tech_type_id goal)
 
   astr_clear(&str);
 
-  if (is_tech_a_req_for_goal(client.conn.playing,
-			     research->researching, goal)
+  if (research_goal_tech_req(research, goal, research->researching)
       || research->researching == goal) {
     bulbs_needed -= research->bulbs_researched;
   }

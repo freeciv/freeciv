@@ -26,6 +26,7 @@
 #include "actions.h"
 #include "game.h"
 #include "government.h"
+#include "research.h"
 #include "specialist.h"
 
 /* server */
@@ -1347,8 +1348,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
         if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
           turns = MIN(turns,
-                      total_bulbs_required_for_goal(aplayer,
-                                                    advance_number(pobs->source.value.advance))
+                      research_goal_bulbs_required(research_get(aplayer),
+                          advance_number(pobs->source.value.advance))
                       / (potential + 1));
         }
       } requirement_vector_iterate_end;
@@ -1553,6 +1554,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
      * if we have some stock in a building already. */
     pcity->server.adv->building_want[improvement_index(pimprove)] += v;
   } else if (!already && can_build) {
+    const struct research *presearch = research_get(pplayer);
+
     /* Convert the base 'want' into a building want
      * by applying various adjustments */
 
@@ -1569,8 +1572,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     /* Reduce want if building gets obsoleted soon */
     requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
       if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
-        v -= v / MAX(1, num_unknown_techs_for_goal(pplayer,
-                                                   advance_number(pobs->source.value.advance)));
+        v -= v / MAX(1, research_goal_unknown_techs(presearch,
+                            advance_number(pobs->source.value.advance)));
       }
     } requirement_vector_iterate_end;
 

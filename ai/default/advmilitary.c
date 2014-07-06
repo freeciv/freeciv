@@ -26,6 +26,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "research.h"
 #include "specialist.h"
 #include "unitlist.h"
 
@@ -754,6 +755,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
                                   struct city *pcity, unsigned int danger,
                                   struct adv_choice *choice)
 {
+  const struct research *presearch = research_get(pplayer);
   /* FIXME: We check if the city has *some* defensive structure,
    * but not whether the city has a defensive structure against
    * any specific attacker.  The actual danger may not be mitigated
@@ -824,9 +826,9 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in
        * big danger. */
-      int tech_cost = total_bulbs_required_for_goal(pplayer,
-			advance_number(punittype->require_advance)) / 4
-		      / city_list_size(pplayer->cities);
+      int tech_cost = research_goal_bulbs_required(presearch,
+                          advance_number(punittype->require_advance)) / 4
+                          / city_list_size(pplayer->cities);
 
       /* Contrary to the above, we don't care if walls are actually built 
        * - we're looking into the future now. */
@@ -915,6 +917,7 @@ static void process_attacker_want(struct ai_type *ait,
                                   struct unit_type *boattype)
 {
   struct player *pplayer = city_owner(pcity);
+  const struct research *presearch = research_get(pplayer);
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = tile_city(ptile);
   struct pf_parameter parameter;
@@ -947,7 +950,7 @@ static void process_attacker_want(struct ai_type *ait,
 
   simple_ai_unit_type_iterate(punittype) {
     Tech_type_id tech_req = advance_number(punittype->require_advance);
-    int tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
+    int tech_dist = research_goal_unknown_techs(presearch, tech_req);
 
     if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
         && is_native_near_tile(utype_class(punittype), ptile)
@@ -967,7 +970,7 @@ static void process_attacker_want(struct ai_type *ait,
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
-      int tech_cost = total_bulbs_required_for_goal(pplayer, tech_req) / 4
+      int tech_cost = research_goal_bulbs_required(presearch, tech_req) / 4
                       / city_list_size(pplayer->cities);
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */

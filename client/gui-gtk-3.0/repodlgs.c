@@ -142,7 +142,7 @@ static inline void science_report_store_set(GtkListStore *store,
                      SRD_COL_NAME,
                      research_advance_name_translation(presearch, tech),
                      SRD_COL_STEPS,
-                     num_unknown_techs_for_goal(client_player(), tech),
+                     research_goal_unknown_techs(presearch, tech),
                      SRD_COL_ID, tech,
                      -1);
 }

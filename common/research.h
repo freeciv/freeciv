@@ -118,6 +118,13 @@ bool research_invention_gettable(const struct research *presearch,
                                  const Tech_type_id tech,
                                  bool reachable_ok);
 
+int research_goal_unknown_techs(const struct research *presearch,
+                                Tech_type_id goal);
+int research_goal_bulbs_required(const struct research *presearch,
+                                 Tech_type_id goal);
+bool research_goal_tech_req(const struct research *presearch,
+                            Tech_type_id goal, Tech_type_id tech);
+
 /* Iterating utilities. */
 struct research_iter;
 
