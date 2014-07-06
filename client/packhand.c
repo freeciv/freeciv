@@ -2141,22 +2141,29 @@ void handle_research_info(const struct packet_research_info *packet)
     break;
   } research_players_iterate_end;
 
-  if (C_S_RUNNING == client_state()
-      && client_has_player()
-      && presearch == research_get(client_player())) {
-    if (poptechup && !client_player()->ai_controlled) {
-      science_report_dialog_popup(FALSE);
-    }
-    science_report_dialog_update();
-    if (tech_changed) {
-      /* If we just learned bridge building and focus is on a settler
-       * on a river the road menu item will remain disabled unless we
-       * do this. (applies in other cases as well.) */
-      if (0 < get_num_units_in_focus()) {
-        menus_update();
+  if (C_S_RUNNING == client_state()) {
+    if (presearch == research_get(client_player())) {
+      if (poptechup && !client_player()->ai_controlled) {
+        science_report_dialog_popup(FALSE);
       }
-      /* If we got a new tech the tech tree news an update. */
-      science_report_dialog_redraw();
+      science_report_dialog_update();
+      if (tech_changed) {
+        /* If we just learned bridge building and focus is on a settler
+         * on a river the road menu item will remain disabled unless we
+         * do this. (applies in other cases as well.) */
+        if (0 < get_num_units_in_focus()) {
+          menus_update();
+        }
+        /* If we got a new tech the tech tree news an update. */
+        science_report_dialog_redraw();
+      }
+    }
+    if (editor_is_active()) {
+      editgui_refresh();
+      research_players_iterate(presearch, pplayer) {
+        editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
+                                      FALSE);
+      } research_players_iterate_end;
     }
   }
 }

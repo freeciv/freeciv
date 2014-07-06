@@ -1277,6 +1277,7 @@ void handle_edit_player(struct connection *pc,
 
     /* Inform everybody about global advances */
     send_game_info(NULL);
+    send_research_info(research, NULL);
   }
 
   if (changed) {
