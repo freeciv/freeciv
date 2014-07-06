@@ -581,7 +581,7 @@ void tileset_error(enum log_level level, const char *format, ...)
 
   log_base(level, "%s", buf);
 
-  if (level <= LOG_ERROR) {
+  if (level <= LOG_NORMAL) {
     show_tileset_error(buf);
   }
 
@@ -1172,7 +1172,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
   }
 
   if (!tileset_map_topo_compatible(map.topology_id, tileset)) {
-    tileset_error(LOG_ERROR, _("Map topology and tileset incompatible."));
+    tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 
   terrain_type_iterate(pterrain) {
