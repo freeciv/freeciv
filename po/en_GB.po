@@ -66,7 +66,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-04 22:22+0100\n"
-"PO-Revision-Date: 2014-07-05 00:36+0100\n"
+"PO-Revision-Date: 2014-07-06 16:22+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -24968,7 +24968,7 @@ msgstr "?plural:Arabs"
 #. TRANS: Legend for nation in "core" set
 #: data/nation/arab.ruleset:7
 msgid "The Arab/Islamic civilization of 622 to 1495 CE."
-msgstr "The Arab/Islamic civilization of 622 to 1495 CE."
+msgstr "The Arab/Islamic civilisation of 622 to 1495 CE."
 
 #: data/nation/aragonese.ruleset:3
 msgid "Aragonese"
