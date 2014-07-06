@@ -150,7 +150,7 @@ install-env-default-fcmp: install-env-common
 	mkdir -p install-$(GUI)/lib/gtk-3.0/
 	cp -R /lib/gtk-3.0/3.0.0 install-$(GUI)/lib/gtk-3.0/
 	cp -R /share/locale install-$(GUI)/share/
-	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -delete
+	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
 install-env-gtk3: install-env-default-fcmp
 
@@ -167,7 +167,7 @@ install-env-gtk2: install-env-common
 	mkdir -p install-$(GUI)/lib/gtk-2.0/
 	cp -R /lib/gtk-2.0/2.10.0 install-$(GUI)/lib/gtk-2.0/
 	cp -R /share/locale install-$(GUI)/share/
-	find install-$(GUI)/share/locale -type f -not -name freeciv.mo -and -not -name gtk30.mo -and -not -name gtk20.mo -delete
+	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
 
 SDL_DLLS := \
 	libpng12-0.dll \
