@@ -246,7 +246,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_ADVANCE:
     fc_snprintf(buf, bufsiz, _("The %s give %s"),
                 nation_plural_for_player(pclause->from),
-                advance_name_for_player(client.conn.playing, pclause->value));
+                advance_name_translation(advance_by_number(pclause->value)));
     break;
   case CLAUSE_CITY:
     pcity = game_city_by_number(pclause->value);

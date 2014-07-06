@@ -202,6 +202,7 @@ discovered: red >2 turns, yellow 1 turn, green 0 turns (discovered).
 **************************************************************************/
 static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
 {
+  const struct research *presearch;
   int	        bg;
   int           turns_to_tech;
   bool          original;
@@ -228,8 +229,10 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
     return;
   }
 
+  presearch = research_get(client_player());
+
   bg = COLOR_REQTREE_BACKGROUND;
-  switch (research_invention_state(research_get(client_player()), tech)) {
+  switch (research_invention_state(presearch, tech)) {
   case TECH_UNKNOWN:
     bg = COLOR_REQTREE_UNKNOWN;
     break;
@@ -249,7 +252,9 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   help_advances[tech] = TRUE;
 
   g_value_init(&value, G_TYPE_STRING);
-  g_value_set_static_string(&value, advance_name_for_player(client.conn.playing, tech));
+  g_value_set_static_string(&value,
+                            research_advance_name_translation(presearch,
+                                                              tech));
   gtk_tree_store_set_value(tstore, &l, 0, &value);
   g_value_unset(&value);
 
@@ -285,7 +290,8 @@ static void help_tech_tree_activated_callback(GtkTreeView *view,
 
   gtk_tree_model_get_iter(GTK_TREE_MODEL(tstore), &it, path);
   gtk_tree_model_get(GTK_TREE_MODEL(tstore), &it, 2, &tech, -1);
-  select_help_item_string(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
+  select_help_item_string(advance_name_translation(advance_by_number(tech)),
+                          HELP_TECH);
 }
 
 /**************************************************************************
@@ -822,7 +828,8 @@ static void help_update_wonder(const struct help_item *pitem,
     requirement_vector_iterate(&imp->obsolete_by, pobs) {
       if (pobs->source.kind == VUT_ADVANCE) {
         gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
-                           advance_name_for_player(client.conn.playing, advance_number(pobs->source.value.advance)));
+                           advance_name_translation
+                               (pobs->source.value.advance));
         break;
       }
     } requirement_vector_iterate_end;
@@ -874,8 +881,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
-			 advance_name_for_player(client.conn.playing,
-				       advance_number(utype->require_advance)));
+                         advance_name_translation(utype->require_advance));
     }
 /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
     if (U_NOT_OBSOLETED == utype->obsoleted_by) {

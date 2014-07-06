@@ -163,13 +163,14 @@ static void node_rectangle_minimum_size(struct tree_node *node,
   int icons_width_sum; /* sum of icons width plus space between them */
   struct sprite* sprite;
   int swidth, sheight;
-  
+
   if (node->is_dummy) {
     /* Dummy node is a straight line */
     *width = *height = 1;
   } else {
     get_text_size(width, height, FONT_REQTREE_TEXT,
-		  advance_name_for_player(client.conn.playing, node->tech));
+                  research_advance_name_translation
+                      (research_get(client_player()), node->tech));
     *width += 2;
     *height += 8;
     
@@ -1055,10 +1056,11 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 		        LINE_GOTO,
 		        startx, starty, width, 0);
       } else {
-	const char *text = advance_name_for_player(client.conn.playing, node->tech);
+        const char *text = research_advance_name_translation
+                               (research_get(client_player()), node->tech);
 	int text_w, text_h;
 	int icon_startx;
-	
+
         canvas_put_rectangle(pcanvas,
                              get_color(tileset, COLOR_REQTREE_BACKGROUND),
                              startx, starty, width, height);

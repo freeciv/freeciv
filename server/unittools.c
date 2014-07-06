@@ -40,6 +40,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "terrain.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -1905,7 +1906,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
         break;
       } else {
         log_debug("Pressed tech %s from captured enemy",
-                  advance_name_for_player(pvictor, ttid));
+                  research_advance_rule_name(research_get(pvictor), ttid));
         if (!fc_rand(3)) {
           break; /* out of luck */
         }

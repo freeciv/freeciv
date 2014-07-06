@@ -1064,9 +1064,9 @@ static bool load_tech_names(struct section_file *file)
       ok = FALSE;
     } else {
       log_verbose("%d advances (including possibly unused)", num_techs);
-      if (num_techs + A_FIRST > A_LAST_REAL) {
+      if (num_techs + A_FIRST > A_LAST) {
         ruleset_error(LOG_ERROR, "\"%s\": Too many advances (%d, max %d)",
-                      filename, num_techs, A_LAST_REAL-A_FIRST);
+                      filename, num_techs, A_LAST - A_FIRST);
         ok = FALSE;
       }
     }

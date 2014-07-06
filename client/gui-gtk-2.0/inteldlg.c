@@ -366,7 +366,8 @@ void update_intel_dialog(struct player *p)
 	gtk_list_store_set(pdialog->techs, &it,
                            0, research_invention_state(mresearch, i)
                            != TECH_KNOWN,
-			   1, advance_name_for_player(p, i),
+                           1, research_advance_name_translation(presearch,
+                                                                i),
 			   -1);
       }
     } advance_index_iterate_end;
@@ -418,7 +419,8 @@ void update_intel_dialog(struct player *p)
               break;
             default:
               buf = g_strdup_printf("%s(%d/%d)",
-				    advance_name_researching(p),
+                                    research_advance_name_translation
+                                        (research, research->researching),
 				    research->bulbs_researched,
 				    total_bulbs_required(p));
               break;

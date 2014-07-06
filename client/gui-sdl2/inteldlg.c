@@ -326,7 +326,9 @@ void update_intel_dialog(struct player *p)
                   /* TRANS: "unknown" location */
                   NULL != pCapital ? city_name(pCapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax, p->economic.science,
-                  p->economic.luxury, advance_name_researching(p),
+                  p->economic.luxury,
+                  research_advance_name_translation(research,
+                                                    research->researching),
                   research->bulbs_researched, total_bulbs_required(p));
       break;
     };

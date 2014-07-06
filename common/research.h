@@ -100,6 +100,12 @@ int research_number(const struct research *presearch);
 struct research *research_by_number(int number);
 struct research *research_get(const struct player *pplayer);
 
+const char *research_advance_rule_name(const struct research *presearch,
+                                       Tech_type_id tech);
+const char *
+research_advance_name_translation(const struct research *presearch,
+                                  Tech_type_id tech);
+
 /* Ancillary routines */
 enum tech_state research_invention_state(const struct research *presearch,
                                          Tech_type_id tech);

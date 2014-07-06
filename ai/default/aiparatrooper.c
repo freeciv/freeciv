@@ -401,7 +401,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
              "stimulating %s with %d (%d) and req",
              city_name(pcity),
              player_name(pplayer),
-             advance_name_by_player(pplayer, tech_req),
+             advance_rule_name(advance_by_number(tech_req)),
              2,
              plr_data->tech_want[tech_req]);
 

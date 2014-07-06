@@ -42,10 +42,9 @@ typedef int Tech_type_id;
 #define A_NONE 0
 #define A_FIRST 1
 #define A_LAST MAX_NUM_ITEMS /* Used in the network protocol. */
-#define A_UNSET (A_LAST-1)
-#define A_FUTURE (A_LAST-2)
-#define A_UNKNOWN (A_LAST-3)
-#define A_LAST_REAL A_UNKNOWN
+#define A_UNSET (A_LAST + 1)
+#define A_FUTURE (A_LAST + 2)
+#define A_UNKNOWN (A_LAST + 3)
 
 #define A_NEVER (NULL)
 
@@ -152,12 +151,6 @@ struct advance *valid_advance_by_number(const Tech_type_id atype);
 
 struct advance *advance_by_rule_name(const char *name);
 struct advance *advance_by_translated_name(const char *name);
-
-const char *advance_name_by_player(const struct player *pplayer,
-				   Tech_type_id tech);
-const char *advance_name_for_player(const struct player *pplayer,
-				    Tech_type_id tech);
-const char *advance_name_researching(const struct player *pplayer);
 
 const char *advance_rule_name(const struct advance *padvance);
 const char *advance_name_translation(const struct advance *padvance);

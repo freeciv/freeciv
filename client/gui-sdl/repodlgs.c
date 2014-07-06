@@ -2533,6 +2533,7 @@ void real_science_report_dialog_update(void)
   SDL_Color bg_color = {255, 255, 255, 136};
 
   if (pScienceDlg) {
+    const struct research *presearch = research_get(client_player());
     char cBuf[128];
     SDL_String16 *pStr;
     SDL_Surface *pSurf;
@@ -2551,7 +2552,7 @@ void real_science_report_dialog_update(void)
     pChangeResearchButton = pWindow->prev;
     pChangeResearchGoalButton = pWindow->prev->prev;
     
-    if (A_UNSET != research_get(client_player())->researching) {
+    if (A_UNSET != presearch->researching) {
       cost = total_bulbs_required(client.conn.playing);
     } else {
       cost = 0;
@@ -2559,11 +2560,9 @@ void real_science_report_dialog_update(void)
     
     /* update current research icons */
     FREESURFACE(pChangeResearchButton->theme);
-    pChangeResearchButton->theme =
-        get_tech_icon(research_get(client_player())->researching);
+    pChangeResearchButton->theme = get_tech_icon(presearch->researching);
     FREESURFACE(pChangeResearchGoalButton->theme);
-    pChangeResearchGoalButton->theme =
-        get_tech_icon(research_get(client_player())->tech_goal);
+    pChangeResearchGoalButton->theme = get_tech_icon(presearch->tech_goal);
     
     /* redraw Window */
     widget_redraw(pWindow);
@@ -2598,8 +2597,9 @@ void real_science_report_dialog_update(void)
     
     /* current research text */
     fc_snprintf(cBuf, sizeof(cBuf), "%s: %s",
-      advance_name_researching(client.conn.playing),
-      get_science_target_text(NULL));
+                research_advance_name_translation(presearch,
+                                                  presearch->researching),
+                get_science_target_text(NULL));
 
     copy_chars_to_string16(pStr, cBuf);
     
@@ -2633,13 +2633,9 @@ void real_science_report_dialog_update(void)
              get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
   
     if (cost > adj_size(286)) {
-      cost = adj_size(286)
-              * ((float) research_get(client_player())->bulbs_researched
-                 / cost);
+      cost = adj_size(286) * ((float) presearch->bulbs_researched / cost);
     } else {
-      cost = (float) cost
-              * ((float) research_get(client_player())->bulbs_researched
-                 / cost);
+      cost = (float) cost * ((float) presearch->bulbs_researched / cost);
     }
   
     dest.y += adj_size(2);
@@ -2658,7 +2654,7 @@ void real_science_report_dialog_update(void)
       requirement_vector_iterate(&pImprove->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
             && (advance_number(preq->source.value.advance)
-                == research_get(client_player())->researching)) {
+                == presearch->researching)) {
           pSurf = adj_surf(get_building_surface(pImprove));
           alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
           dest.x += pSurf->w + 1;
@@ -2672,7 +2668,7 @@ void real_science_report_dialog_update(void)
     unit_type_iterate(un) {
       pUnit = un;
       if (advance_number(pUnit->require_advance)
-          == research_get(client_player())->researching) {
+          == presearch->researching) {
         SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
         int w = surf->w;
 
@@ -2708,13 +2704,10 @@ void real_science_report_dialog_update(void)
     /* -------------------------------- */
     
     /* Goals */
-    if (A_UNSET != research_get(client_player())->tech_goal) {
+    if (A_UNSET != presearch->tech_goal) {
       /* current goal text */
-      fc_snprintf(cBuf, sizeof(cBuf), "%s",
-                  advance_name_for_player(client_player(),
-                      research_get(client_player())->tech_goal));
-      
-      copy_chars_to_string16(pStr, cBuf);
+      copy_chars_to_string16(pStr, research_advance_name_translation
+                                       (presearch, presearch->tech_goal));
       pSurf = create_text_surf_from_str16(pStr);
       
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
@@ -2725,7 +2718,7 @@ void real_science_report_dialog_update(void)
       FREESURFACE(pSurf);
       
       copy_chars_to_string16(pStr, get_science_goal_text
-                             (research_get(client_player())->tech_goal));
+                             (presearch->tech_goal));
       pSurf = create_text_surf_from_str16(pStr);
       
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
@@ -2740,7 +2733,7 @@ void real_science_report_dialog_update(void)
 	requirement_vector_iterate(&pImprove->reqs, preq) {  
           if (VUT_ADVANCE == preq->source.kind
               && (advance_number(preq->source.value.advance)
-                  == research_get(client_player())->tech_goal)) {
+                  == presearch->tech_goal)) {
             pSurf = adj_surf(get_building_surface(pImprove));
             alphablit(pSurf, NULL, pWindow->dst->surface, &dest);
             dest.x += pSurf->w + 1;
@@ -2753,8 +2746,7 @@ void real_science_report_dialog_update(void)
       /* units */
       unit_type_iterate(un) {
         pUnit = un;
-        if (advance_number(pUnit->require_advance)
-            == research_get(client_player())->tech_goal) {
+        if (advance_number(pUnit->require_advance) == presearch->tech_goal) {
           SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
           int w = surf->w;
 

@@ -1166,7 +1166,7 @@ static void spy_steal(QVariant data1, QVariant data2)
               || research_invention_state(presearch, i)
                  == TECH_PREREQS_KNOWN)) {
         func = spy_steal_something;
-        str = advance_name_for_player(client.conn.playing, i);
+        str = research_advance_name_translation(presearch, i);
         cd->add_item(str, func, qv1, i);
         nr++;
       }

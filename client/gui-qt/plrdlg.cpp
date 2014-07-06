@@ -366,7 +366,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     res = _("(none)");
     break;
   default:
-    res = QString(advance_name_researching(pplayer))
+    res = QString(research_advance_name_translation(research,
+                                                    research->researching))
           + sp + "(" + QString::number(research->bulbs_researched) + "/"
           + QString::number(total_bulbs_required(pplayer)) + ")";
     break;
@@ -439,14 +440,15 @@ void plr_widget::nation_selected(const QItemSelection &sl,
           && (research_invention_state(research, tech_id) == TECH_UNKNOWN)) {
         a++;
         techs_known = techs_known + QString("<i>") 
-                      + advance_name_for_player(pplayer, tech_id)
+                      + research_advance_name_translation(research, tech_id)
                       + "," + QString("</i>") + sp;
       }
       if (research_invention_state(my_research, tech_id) == TECH_UNKNOWN
           && (research_invention_state(research, tech_id) == TECH_KNOWN)) {
         b++;
         techs_unknown = techs_unknown + QString("<i>")
-                        + advance_name_for_player(pplayer, tech_id)
+                        + research_advance_name_translation(research,
+                                                            tech_id)
                         + "," + QString("</i>") + sp;
       }
     } advance_iterate_end;

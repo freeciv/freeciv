@@ -1043,8 +1043,7 @@ static bool worklist_change_build_target(struct player *pplayer,
                         _("%s can't build %s from the worklist; "
                           "tech %s not yet available. Postponing..."),
                         city_link(pcity), utype_name_translation(ptarget),
-                        advance_name_for_player(pplayer,
-                                   advance_number(ptarget->require_advance)));
+                        advance_name_translation(ptarget->require_advance));
           script_server_signal_emit("unit_cant_be_built", 3,
                                     API_TYPE_UNIT_TYPE, ptarget,
                                     API_TYPE_CITY, pcity,
@@ -1122,8 +1121,8 @@ static bool worklist_change_build_target(struct player *pplayer,
                                 "tech %s not yet available. Postponing..."),
                               city_link(pcity),
                               city_improvement_name_translation(pcity, ptarget),
-                              advance_name_for_player(pplayer,
-                                   advance_number(preq->source.value.advance)));
+                              advance_name_translation
+                                  (preq->source.value.advance));
                 script_server_signal_emit("building_cant_be_built", 3,
                                           API_TYPE_BUILDING_TYPE, ptarget,
                                           API_TYPE_CITY, pcity,
@@ -2007,21 +2006,26 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH,
                                               RPT_CERTAIN))) {
+      struct research *presearch = research_get(pplayer);
       int i;
 
-      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-		    PL_("%s boosts research; you gain %d immediate advance.",
-			"%s boosts research; you gain %d immediate advances.",
-			mod),
-		    improvement_name_translation(pimprove), mod);
+      notify_research(pplayer, E_TECH_GAIN, ftc_server,
+                      PL_("%s boosts research; you gain %d immediate "
+                          "advance.",
+                          "%s boosts research; you gain %d immediate "
+                          "advances.",
+                          mod),
+                      improvement_name_translation(pimprove), mod);
 
       for (i = 0; i < mod; i++) {
 	Tech_type_id tech = give_immediate_free_tech(pplayer);
 
+        /* FIXME: We should notify all embassies with all players sharing
+         * the research. */
         notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN, ftc_server,
                          _("The %s have acquired %s from %s."),
                          nation_plural_for_player(pplayer),
-                         advance_name_for_player(pplayer, tech),
+                         research_advance_name_translation(presearch, tech),
                          improvement_name_translation(pimprove));
       }
     }

@@ -193,22 +193,24 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	     * can not possess it (the client should enforce this). */
             log_error("Treaty: %s can't have tech %s",
                       nation_rule_name(nation_of_player(pother)),
-                      advance_name_by_player(pplayer, pclause->value));
+                      advance_rule_name(advance_by_number(pclause->value)));
             notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                           _("The %s can't accept %s."),
                           nation_plural_for_player(pother),
-			  advance_name_for_player(pplayer, pclause->value));
+                          advance_name_translation(advance_by_number
+                                                   (pclause->value)));
 	    return;
           }
           if (research_invention_state(research_get(pplayer), pclause->value)
               != TECH_KNOWN) {
             log_error("Nation %s try to give unknown tech %s to nation %s.",
                       nation_rule_name(nation_of_player(pplayer)),
-                      advance_name_by_player(pplayer, pclause->value),
+                      advance_rule_name(advance_by_number(pclause->value)),
                       nation_rule_name(nation_of_player(pother)));
             notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
 			  _("You don't have tech %s, you can't accept treaty."),
-			  advance_name_for_player(pplayer, pclause->value));
+                          advance_name_translation(advance_by_number
+                                                   (pclause->value)));
 	    return;
 	  }
 	  break;
@@ -420,19 +422,21 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           log_verbose("Nation %s already know tech %s, "
                       "that %s want to give them.",
                       nation_rule_name(nation_of_player(pdest)),
-                      advance_name_by_player(pplayer, pclause->value),
+                      advance_rule_name(advance_by_number(pclause->value)),
                       nation_rule_name(nation_of_player(pgiver)));
           break;
         }
         notify_player(pdest, NULL, E_TECH_GAIN, ftc_server,
                       _("You are taught the knowledge of %s."),
-                      advance_name_for_player(pdest, pclause->value));
+                      advance_name_translation(advance_by_number
+                                               (pclause->value)));
 
         if (tech_transfer(pdest, pgiver, pclause->value)) {
           notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN, ftc_server,
                            _("The %s have acquired %s from the %s."),
                            nation_plural_for_player(pdest),
-                           advance_name_for_player(pdest, pclause->value),
+                           advance_name_translation(advance_by_number
+                                                    (pclause->value)),
                            nation_plural_for_player(pgiver));
 
           script_server_signal_emit("tech_researched", 3,

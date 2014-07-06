@@ -77,7 +77,7 @@ void real_tech_log(struct ai_type *ait, const char *file, const char *function,
   plr_data = def_ai_player_data(pplayer, ait);
   fc_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ",
               player_name(pplayer),
-              advance_name_by_player(pplayer, advance_number(padvance)),
+              advance_rule_name(padvance),
               plr_data->tech_want[advance_index(padvance)],
               num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
 

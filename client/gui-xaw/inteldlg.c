@@ -176,6 +176,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 {
   char buf[4 * MAX_LEN_NAME], plr_buf[4 * MAX_LEN_NAME];
   struct city *pcity;
+  const struct research *presearch = research_get(pdialog->pplayer);
 
   static char *tech_list_names_ptrs[A_LAST+1];
   static char tech_list_names[A_LAST+1][200];
@@ -253,18 +254,19 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  XtNlabel, buf,
 			  NULL);
 
-  switch (research_get(pdialog->pplayer)->researching) {
+  switch (presearch->researching) {
   case A_UNKNOWN:
     fc_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
     break;
   case A_UNSET:
     fc_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
-                research_get(pdialog->pplayer)->bulbs_researched);
+                presearch->bulbs_researched);
     break;
   default:
     fc_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-		advance_name_researching(pdialog->pplayer),
-                research_get(pdialog->pplayer)->bulbs_researched,
+                research_advance_name_translation(presearch,
+                                                  presearch->researching),
+                presearch->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
     break;
   };
@@ -286,7 +288,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  NULL);
 
   advance_index_iterate(A_FIRST, i) {
-    if (research_invention_state(research_get(pdialog->pplayer), i)
+    if (research_invention_state(presearch, i)
         == TECH_KNOWN) {
       if (research_invention_state(research_get(client_player()), i)
           == TECH_KNOWN) {

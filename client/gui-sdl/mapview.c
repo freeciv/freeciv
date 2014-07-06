@@ -333,18 +333,26 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
                                     _("None"), 0, 0);
-  } else if (A_UNSET != research_get(client_player())->researching) {
-    /* TRANS: Research report action */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-		advance_name_researching(client.conn.playing),
-                research_get(client_player())->bulbs_researched,
-		total_bulbs_required(client.conn.playing));
   } else {
-    /* TRANS: Research report action */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-		advance_name_researching(client.conn.playing),
-                research_get(client_player())->bulbs_researched,
-		0);
+    const struct research *presearch = research_get(client_player());
+
+    if (A_UNSET != presearch->researching) {
+      /* TRANS: Research report action */
+      fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)",
+                  _("Research"), "F6",
+                  research_advance_name_translation(presearch,
+                                                    presearch->researching),
+                  presearch->bulbs_researched,
+                  total_bulbs_required(client_player()));
+    } else {
+      /* TRANS: Research report action */
+      fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)",
+                  _("Research"), "F6",
+                  research_advance_name_translation(presearch,
+                                                    presearch->researching),
+                  presearch->bulbs_researched,
+                  0);
+    }
   }
 
   copy_chars_to_string16(pBuf->info_label, cBuf);

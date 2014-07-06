@@ -19,11 +19,13 @@
 #include "iterator.h"
 #include "log.h"
 #include "shared.h"
+#include "support.h"
 
 /* common */
 #include "fc_types.h"
 #include "game.h"
 #include "player.h"
+#include "name_translation.h"
 #include "team.h"
 #include "tech.h"
 
@@ -47,6 +49,10 @@ struct research_player_iter {
 
 static struct research research_array[MAX_NUM_PLAYER_SLOTS];
 
+static struct name_translation advance_unset_name = NAME_INIT;
+static struct name_translation advance_future_name = NAME_INIT;
+static struct name_translation advance_unknown_name = NAME_INIT;
+
 
 /****************************************************************************
   Initializes all player research structure.
@@ -66,6 +72,13 @@ void researches_init(void)
     research_array[i].researching_saved = A_UNKNOWN;
     research_array[i].future_tech = 0;
   }
+
+  /* Set technology names. */
+  /* TRANS: "None" tech */
+  name_set(&advance_unset_name, NULL, N_("None"));
+  name_set(&advance_future_name, NULL, N_("Future Tech."));
+  /* TRANS: "Unknown" advance/technology */
+  name_set(&advance_unknown_name, NULL, N_("(Unknown)"));
 }
 
 /****************************************************************************
@@ -92,13 +105,105 @@ struct research *research_by_number(int number)
 ****************************************************************************/
 struct research *research_get(const struct player *pplayer)
 {
-  fc_assert_ret_val(NULL != pplayer, NULL);
-
-  if (game.info.team_pooled_research) {
+  if (NULL == pplayer) {
+    /* Special case used at client side. */
+    return NULL;
+  } else if (game.info.team_pooled_research) {
     return &research_array[team_number(pplayer->team)];
   } else {
     return &research_array[player_number(pplayer)];
   }
+}
+
+
+#define SPECVEC_TAG string
+#define SPECVEC_TYPE char *
+#include "specvec.h"
+
+/****************************************************************************
+  Return the name translation for 'tech'. Utility for
+  research_advance_rule_name() and research_advance_translated_name().
+****************************************************************************/
+static inline const struct name_translation *
+research_advance_name(Tech_type_id tech)
+{
+  if (A_UNSET == tech) {
+    return &advance_unset_name;
+  } else if (A_FUTURE == tech) {
+    return &advance_future_name;
+  } else if (A_UNKNOWN == tech) {
+    return &advance_unknown_name;
+  } else {
+    const struct advance *padvance = advance_by_number(tech);
+
+    fc_assert_ret_val(NULL != padvance, NULL);
+    return &padvance->name;
+  }
+}
+
+/****************************************************************************
+  Store the rule name of the given tech (including A_FUTURE) in 'buf'.
+  'presearch' may be NULL.
+  We don't return a static buffer because that would break anything that
+  needed to work with more than one name at a time.
+****************************************************************************/
+const char *research_advance_rule_name(const struct research *presearch,
+                                       Tech_type_id tech)
+{
+  if (A_FUTURE == tech && NULL != presearch) {
+    static struct string_vector future;
+    const int no = presearch->future_tech;
+    int i;
+
+    /* research->future_tech == 0 means "Future Tech. 1". */
+    for (i = future.size; i <= no; i++) {
+      string_vector_append(&future, NULL);
+    }
+    if (NULL == future.p[no]) {
+      char buffer[256];
+
+      fc_snprintf(buffer, sizeof(buffer), "%s %d",
+                  rule_name(&advance_future_name),
+                  no + 1);
+      future.p[no] = fc_strdup(buffer);
+    }
+    return future.p[no];
+  }
+
+  return rule_name(research_advance_name(tech));
+}
+
+/****************************************************************************
+  Store the translated name of the given tech (including A_FUTURE) in 'buf'.
+  'presearch' may be NULL.
+  We don't return a static buffer because that would break anything that
+  needed to work with more than one name at a time.
+****************************************************************************/
+const char *
+research_advance_name_translation(const struct research *presearch,
+                                  Tech_type_id tech)
+{
+  if (A_FUTURE == tech && NULL != presearch) {
+    static struct string_vector future;
+    const int no = presearch->future_tech;
+    int i;
+
+    /* research->future_tech == 0 means "Future Tech. 1". */
+    for (i = future.size; i <= no; i++) {
+      string_vector_append(&future, NULL);
+    }
+    if (NULL == future.p[no]) {
+      char buffer[256];
+
+      fc_snprintf(buffer, sizeof(buffer), "%s %d",
+                  name_translation(&advance_future_name),
+                  no + 1);
+      future.p[no] = fc_strdup(buffer);
+    }
+    return future.p[no];
+  }
+
+  return name_translation(research_advance_name(tech));
 }
 
 

@@ -135,9 +135,11 @@ static inline void science_report_store_set(GtkListStore *store,
                                             GtkTreeIter *iter,
                                             Tech_type_id tech)
 {
+  const struct research *presearch = research_get(client_player());
+
   gtk_list_store_set(store, iter,
                      SRD_COL_NAME,
-                     advance_name_for_player(client_player(), tech),
+                     research_advance_name_translation(presearch, tech),
                      SRD_COL_STEPS,
                      num_unknown_techs_for_goal(client_player(), tech),
                      SRD_COL_ID, tech,
@@ -193,6 +195,7 @@ static void science_report_combo_set_active(GtkComboBox *combo,
 static gboolean science_diagram_button_release_callback(GtkWidget *widget,
     GdkEventButton *event, gpointer data)
 {
+  const struct research *presearch = research_get(client_player());
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   Tech_type_id tech = get_tech_on_reqtree(reqtree, event->x, event->y);
 
@@ -202,13 +205,13 @@ static gboolean science_diagram_button_release_callback(GtkWidget *widget,
 
   if (event->button == 3) {
     /* RMB: get help */
-    popup_help_dialog_typed(advance_name_for_player(client_player(), tech),
+    popup_help_dialog_typed(research_advance_name_translation(presearch,
+                                                              tech),
                             HELP_TECH);
   } else {
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
-      switch (research_invention_state(research_get(client_player()),
-                                       tech)) {
+      switch (research_invention_state(presearch, tech)) {
        case TECH_PREREQS_KNOWN:
          dsend_packet_player_research(&client.conn, tech);
          break;
@@ -344,9 +347,10 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
   const gchar *a_str, *b_str;
   gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
+  const struct research *presearch = research_get(client_player());
 
-  a_str = advance_name_for_player(client_player(), a);
-  b_str = advance_name_for_player(client_player(), b);
+  a_str = research_advance_name_translation(presearch, a);
+  b_str = research_advance_name_translation(presearch, b);
 
   return fc_strcoll(a_str, b_str);
 }
@@ -634,8 +638,7 @@ static void science_report_free(struct science_report *preport)
 ****************************************************************************/
 void science_report_dialog_popup(bool raise)
 {
-  struct research *presearch =
-      (client_has_player() ? research_get(client_player()) : NULL);
+  struct research *presearch = research_get(client_player());
 
   if (NULL == science_report.shell) {
     science_report_init(&science_report);

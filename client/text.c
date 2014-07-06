@@ -895,8 +895,9 @@ const char *get_info_label_text_popup(void)
   astr_add_line(&str, _("Turn: %d"), game.info.turn);
 
   if (NULL != client.conn.playing) {
+    const struct research *presearch = research_get(client_player());
     int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-    int upkeep = research_get(client_player())->tech_upkeep;
+    int upkeep = presearch->tech_upkeep;
 
     astr_add_line(&str, _("Gold: %d"),
 		  client.conn.playing->economic.gold);
@@ -908,7 +909,8 @@ const char *get_info_label_text_popup(void)
 		  client.conn.playing->economic.luxury,
 		  client.conn.playing->economic.science);
     astr_add_line(&str, _("Researching %s: %s"),
-		  advance_name_researching(client.conn.playing),
+                  research_advance_name_translation(presearch,
+                                                    presearch->researching),
 		  get_science_target_text(NULL));
     /* perturn is defined as: (bulbs produced) - upkeep */
     if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
@@ -1291,7 +1293,8 @@ const char *get_bulb_tooltip(void)
 
       /* TRANS: <tech>: <amount>/<total bulbs> */
       astr_add_line(&str, _("%s: %d/%d (%s, %s)."),
-                    advance_name_researching(client.conn.playing),
+                    research_advance_name_translation(research,
+                                                      research->researching),
                     research->bulbs_researched,
                     total_bulbs_required(client.conn.playing),
                     astr_str(&buf1), astr_str(&buf2));

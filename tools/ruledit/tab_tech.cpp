@@ -352,7 +352,7 @@ void tab_tech::add_now()
   } advance_iterate_end;
 
   /* Try to add completely new tech */
-  if (game.control.num_tech_types >= A_LAST_REAL) {
+  if (game.control.num_tech_types >= A_LAST) {
     return;
   }
 

@@ -338,7 +338,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
       }
     }
     DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "%s clause worth %d",
-              advance_name_by_player(pplayer, pclause->value), worth);
+              advance_rule_name(advance_by_number(pclause->value)), worth);
     break;
 
   case CLAUSE_ALLIANCE:

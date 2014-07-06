@@ -3747,6 +3747,9 @@ static void sg_load_player_main(struct loaddata *loading,
 
   research->tech_goal =
     technology_load(loading->file, "player%d.research.goal", plrno);
+  if (NULL == valid_advance_by_number(research->tech_goal)) {
+    research->tech_goal = A_UNSET;
+  }
   plr->bulbs_last_turn =
     secfile_lookup_int_default(loading->file, 0,
                                "player%d.research.bulbs_last_turn", plrno);
@@ -3769,6 +3772,9 @@ static void sg_load_player_main(struct loaddata *loading,
     = technology_load(loading->file, "player%d.research.saved", plrno);
   research->researching
     = technology_load(loading->file, "player%d.research.now", plrno);
+  if (NULL == valid_advance_by_number(research->researching)) {
+    research->researching = A_UNSET;
+  }
   research->got_tech
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "player%d.research.got_tech", plrno);

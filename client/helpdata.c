@@ -343,13 +343,11 @@ static bool insert_requirement(char *buf, size_t bufsz,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires knowledge of the technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by knowledge of the technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
     case REQ_RANGE_TEAM:
@@ -357,14 +355,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires that a player on your team knows the "
                        "technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if any player on your team knows the "
                        "technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
@@ -372,27 +368,23 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires that a player allied to you knows the "
                        "technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if any player allied to you knows the "
                        "technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that some player knows the technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that no player knows the technology %s.\n"),
-                     advance_name_for_player(pplayer, advance_number
-                                             (preq->source.value.advance)));
+                     advance_name_translation(preq->source.value.advance));
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
@@ -2269,7 +2261,7 @@ void boot_help_texts(struct player *pplayer)
               if (valid_advance_by_number(i)) {
                 pitem = new_help_item(current_type);
                 fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                            advance_name_for_player(pplayer, i));
+                            advance_name_translation(advance_by_number(i)));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
@@ -2648,8 +2640,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     if (VUT_ADVANCE == pobs->source.kind) {
       cat_snprintf(buf, bufsz,
                    _("* The discovery of %s will make %s obsolete.\n"),
-                   advance_name_for_player(pplayer,
-                                           advance_number(pobs->source.value.advance)),
+                   advance_name_translation(pobs->source.value.advance),
                    improvement_name_translation(pimprove));
     }
   } requirement_vector_iterate_end;
@@ -2671,8 +2662,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		  * power to build nuclear units.' */
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
-		 advance_name_for_player(pplayer,
-					 advance_number(u->require_advance)),
+                 advance_name_translation(u->require_advance),
 		 utype_name_translation(u));
     cat_snprintf(buf, bufsz, "  ");
   }
@@ -2684,8 +2674,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       if (A_NEVER != u->require_advance) {
 	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"),
 		     utype_name_translation(u),
-		     advance_name_for_player(pplayer,
-					     advance_number(u->require_advance)));
+                     advance_name_translation(u->require_advance));
       } else {
 	cat_snprintf(buf, bufsz, _("* Allows %s.\n"),
 		     utype_name_translation(u));
@@ -3343,7 +3332,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                       const char *user_text, int i)
 {
-  const struct research *presearch;
   struct astring astr = ASTRING_INIT;
   struct advance *vap = valid_advance_by_number(i);
   struct universal source = {
@@ -3360,47 +3348,51 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     return;
   }
 
-  presearch = research_get(pplayer);
-  if (research_invention_state(presearch, i) != TECH_KNOWN) {
-    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
-      cat_snprintf(buf, bufsz,
-		   _("Starting now, researching %s would need %d bulbs."),
-		   advance_name_for_player(pplayer, i),
-		   base_total_bulbs_required(pplayer, i, FALSE));
-    } else if (research_invention_reachable(presearch, i)) {
-      cat_snprintf(buf, bufsz,
-                   PL_("To reach %s you need to obtain %d other"
-                       " technology first. The whole project"
-                       " will require %d bulbs to complete.",
-                       "To reach %s you need to obtain %d other"
-                       " technologies first. The whole project"
-                       " will require %d bulbs to complete.",
-                       num_unknown_techs_for_goal(pplayer, i) - 1),
-		   advance_name_for_player(pplayer, i),
-		   num_unknown_techs_for_goal(pplayer, i) - 1,
-		   total_bulbs_required_for_goal(pplayer, i));
-    } else {
-      CATLSTR(buf, bufsz,
-	      _("You cannot research this technology."));
+  if (NULL != pplayer) {
+    const struct research *presearch = research_get(pplayer);
+
+    if (research_invention_state(presearch, i) != TECH_KNOWN) {
+      if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
+        cat_snprintf(buf, bufsz,
+                     _("Starting now, researching %s would need %d bulbs."),
+                     advance_name_translation(vap),
+                     base_total_bulbs_required(pplayer, i, FALSE));
+      } else if (research_invention_reachable(presearch, i)) {
+        cat_snprintf(buf, bufsz,
+                     PL_("To reach %s you need to obtain %d other"
+                         " technology first. The whole project"
+                         " will require %d bulbs to complete.",
+                         "To reach %s you need to obtain %d other"
+                         " technologies first. The whole project"
+                         " will require %d bulbs to complete.",
+                         num_unknown_techs_for_goal(pplayer, i) - 1),
+                     advance_name_translation(vap),
+                     num_unknown_techs_for_goal(pplayer, i) - 1,
+                     total_bulbs_required_for_goal(pplayer, i));
+      } else {
+        CATLSTR(buf, bufsz,
+                _("You cannot research this technology."));
+      }
+      if (!techs_have_fixed_costs()
+          && research_invention_reachable(presearch, i)) {
+        CATLSTR(buf, bufsz,
+                _(" This number may vary depending on what "
+                  "other players research.\n"));
+      } else {
+        CATLSTR(buf, bufsz, "\n");
+      }
     }
-    if (!techs_have_fixed_costs()
-        && research_invention_reachable(presearch, i)) {
-      CATLSTR(buf, bufsz,
-	      _(" This number may vary depending on what "
-		"other players research.\n"));
-    } else {
-      CATLSTR(buf, bufsz, "\n");
-    }
+
+    CATLSTR(buf, bufsz, "\n");
   }
 
-  CATLSTR(buf, bufsz, "\n");
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   if (advance_has_flag(i, TF_BONUS_TECH)) {
     cat_snprintf(buf, bufsz,
 		 _("* The first player to research %s gets"
 		   " an immediate advance.\n"),
-		 advance_name_for_player(pplayer, i));
+                 advance_name_translation(vap));
   }
   if (advance_has_flag(i, TF_POPULATION_POLLUTION_INC))
     CATLSTR(buf, bufsz,

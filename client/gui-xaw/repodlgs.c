@@ -209,7 +209,8 @@ void create_science_dialog(bool make_modal)
     } else {
       fc_snprintf(current_text, sizeof(current_text),
 		  _("Researching %s: %d/%d"),
-		  advance_name_researching(client.conn.playing),
+                  research_advance_name_translation(research,
+                                                    research->researching),
 		  research->bulbs_researched,
 		  total_bulbs_required(client.conn.playing));
     }
@@ -485,7 +486,8 @@ void real_science_report_dialog_update(void)
     } else {
       fc_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%d"),
-		  advance_name_researching(client.conn.playing),
+                  research_advance_name_translation(research,
+                                                    research->researching),
 		  research->bulbs_researched,
 		  total_bulbs_required(client.conn.playing));
     }

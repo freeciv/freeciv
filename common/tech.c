@@ -114,7 +114,9 @@ struct advance *advance_by_number(const Tech_type_id atype)
 bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
 			    Tech_type_id goal)
 {
-  if (tech == goal) {
+  if (tech == goal
+      || NULL == valid_advance_by_number(tech)
+      || NULL == valid_advance_by_number(goal)) {
     return FALSE;
   } else if (!pplayer) {
     /* FIXME: We need a proper implementation here! */
@@ -176,7 +178,7 @@ static void build_required_techs_helper(struct player *pplayer,
   if (advance_required(tech, AR_ONE) == goal
       || advance_required(tech, AR_TWO) == goal) {
     log_fatal("tech \"%s\": requires itself",
-              advance_name_by_player(pplayer, goal));
+              advance_rule_name(advance_by_number(goal)));
     exit(EXIT_FAILURE);
   }
 
@@ -558,7 +560,7 @@ int base_total_bulbs_required(const struct player *pplayer,
   double base_cost;
 
   if (!loss_value && pplayer
-      && !is_future_tech(tech)
+      && !research_invention_reachable(presearch, tech)
       && research_invention_state(presearch, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */
     return 0;
@@ -694,6 +696,8 @@ int num_unknown_techs_for_goal(const struct player *pplayer,
   if (!pplayer) {
     /* FIXME: need an implementation for this! */
     return 0;
+  } else if (NULL == valid_advance_by_number(goal)) {
+    return 0;
   }
   return research_get(pplayer)->inventions[goal].num_required_techs;
 }
@@ -710,6 +714,8 @@ int total_bulbs_required_for_goal(const struct player *pplayer,
 {
   if (!pplayer) {
     /* FIXME: need an implementation for this! */
+    return 0;
+  } if (NULL == valid_advance_by_number(goal)) {
     return 0;
   }
   return research_get(pplayer)->inventions[goal].bulbs_required;
@@ -778,109 +784,6 @@ void precalc_tech_data()
 bool is_future_tech(Tech_type_id tech)
 {
   return tech == A_FUTURE;
-}
-
-#define SPECVEC_TAG string
-#define SPECVEC_TYPE char *
-#include "specvec.h"
-
-/**************************************************************************
-  Return the rule name of the given tech (including A_FUTURE). 
-  You don't have to free the return pointer.
-
-  pplayer may be NULL.
-**************************************************************************/
-const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech)
-{
-  /* We don't return a static buffer because that would break anything that
-   * needed to work with more than one name at a time.
-   * FIXME: The caller should provide a buffer to write that name. */
-  static struct string_vector future;
-
-  switch (tech) {
-  case A_FUTURE:
-    if (pplayer) {
-      struct research *research = research_get(pplayer);
-      int i;
-  
-      /* pplayer->future_tech == 0 means "Future Tech. 1". */
-      for (i = future.size; i <= research->future_tech; i++) {
-        string_vector_append(&future, NULL);
-      }
-      if (!future.p[research->future_tech]) {
-        char buffer[1024];
-
-        fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                    advance_rule_name(&advances[tech]),
-                    research->future_tech + 1);
-        future.p[research->future_tech] = fc_strdup(buffer);
-      }
-      return future.p[research->future_tech];
-    } else {
-      return advance_rule_name(&advances[tech]);
-    }
-  case A_UNKNOWN:
-  case A_UNSET:
-    return advance_rule_name(&advances[tech]);
-  default:
-    /* Includes A_NONE */
-    return advance_rule_name(advance_by_number(tech));
-  };
-}
-
-/**************************************************************************
-  Return the translated name of the given tech (including A_FUTURE). 
-  You don't have to free the return pointer.
-
-  pplayer may be NULL.
-**************************************************************************/
-const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech)
-{
-  /* We don't return a static buffer because that would break anything that
-   * needed to work with more than one name at a time.
-   * FIXME: The caller should provide a buffer to write that name. */
-  static struct string_vector future;
-
-  switch (tech) {
-  case A_FUTURE:
-    if (pplayer) {
-      struct research *research = research_get(pplayer);
-      int i;
-  
-      /* pplayer->future_tech == 0 means "Future Tech. 1". */
-      for (i = future.size; i <= research->future_tech; i++) {
-        string_vector_append(&future, NULL);
-      }
-      if (!future.p[research->future_tech]) {
-        char buffer[1024];
-
-        fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-                    research->future_tech + 1);
-        future.p[research->future_tech] = fc_strdup(buffer);
-      }
-      return future.p[research->future_tech];
-    } else {
-      return advance_name_translation(&advances[tech]);
-    }
-  case A_UNKNOWN:
-  case A_UNSET:
-    return advance_name_translation(&advances[tech]);
-  default:
-    /* Includes A_NONE */
-    return advance_name_translation(advance_by_number(tech));
-  };
-}
-
-/**************************************************************************
-  Return the translated name of the given research (including A_FUTURE). 
-  You don't have to free the return pointer.
-
-  pplayer must not be NULL.
-**************************************************************************/
-const char *advance_name_researching(const struct player *pplayer)
-{
-  return advance_name_for_player(pplayer,
-    research_get(pplayer)->researching);
 }
 
 /**************************************************************************
@@ -1003,16 +906,6 @@ void techs_init(void)
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
   name_set(&advances[A_NONE].name, NULL, N_("None"));
-
-  /* Initialize dummy tech A_UNSET */
-  name_set(&advances[A_UNSET].name, NULL, N_("None"));
-
-  /* Initialize dummy tech A_FUTURE */
-  name_set(&advances[A_FUTURE].name, NULL, N_("Future Tech."));
-
-  /* Initialize dummy tech A_UNKNOWN */
-  /* TRANS: "Unknown" advance/technology */
-  name_set(&advances[A_UNKNOWN].name, NULL, N_("(Unknown)"));
 }
 
 /***************************************************************

@@ -1492,10 +1492,13 @@ void popdown_all_game_dialogs(void)
 *****************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)
 {
-  if (options.gui_gtk2_popup_tech_help == GUI_POPUP_TECH_HELP_ENABLED
-      || (options.gui_gtk2_popup_tech_help == GUI_POPUP_TECH_HELP_RULESET
-          && game.control.popup_tech_help)) {
-    popup_help_dialog_typed(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
+  const struct advance *padvance = valid_advance_by_number(tech);
+
+  if (NULL != padvance
+      && (options.gui_gtk2_popup_tech_help == GUI_POPUP_TECH_HELP_ENABLED
+          || (options.gui_gtk2_popup_tech_help == GUI_POPUP_TECH_HELP_RULESET
+              && game.control.popup_tech_help))) {
+    popup_help_dialog_typed(advance_name_translation(padvance), HELP_TECH);
   }
 }
 

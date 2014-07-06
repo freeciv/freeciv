@@ -70,8 +70,8 @@ static void dai_select_tech(struct ai_type *ait,
   struct research *presearch = research_get(pplayer);
   Tech_type_id newtech, newgoal;
   int num_cities_nonzero = MAX(1, city_list_size(pplayer->cities));
-  int values[A_LAST];
-  int goal_values[A_LAST];
+  int values[MAX(A_LAST, A_UNSET + 1)];
+  int goal_values[MAX(A_LAST, A_UNSET + 1)];
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   memset(values, 0, sizeof(values));
@@ -137,7 +137,7 @@ static void dai_select_tech(struct ai_type *ait,
       goal_values[i] /= steps;
       if (steps < 6) {
         log_debug("%s: want = %d, value = %d, goal_value = %d",
-                  advance_name_by_player(pplayer, i),
+                  advance_rule_name(advance_by_number(i)),
                   plr_data->tech_want[i],
                   values[i], goal_values[i]);
       }
@@ -182,7 +182,8 @@ static void dai_select_tech(struct ai_type *ait,
          / num_cities_nonzero);
     log_debug("Goal->choice = %s, goal->want = %d, goal_value = %d, "
               "num_cities_nonzero = %d",
-              advance_name_by_player(pplayer, goal->choice), goal->want,
+              research_advance_rule_name(presearch, goal->choice),
+              goal->want,
               goal_values[newgoal],
               num_cities_nonzero);
   }
@@ -224,7 +225,7 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
 	total_bulbs_required(pplayer)) {
       TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(choice.choice), 
                "new research, was %s, penalty was %d", 
-               advance_name_by_player(pplayer, research->researching),
+               research_advance_rule_name(research, research->researching),
                penalty);
       choose_tech(pplayer, choice.choice);
     }
@@ -236,9 +237,9 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
   if (goal.choice != research->tech_goal) {
     log_debug("%s change goal from %s (want=%d) to %s (want=%d)",
               player_name(pplayer),
-              advance_name_by_player(pplayer, research->tech_goal), 
+              research_advance_rule_name(research, research->tech_goal),
               goal.current_want,
-              advance_name_by_player(pplayer, goal.choice),
+              research_advance_rule_name(research, goal.choice),
               goal.want);
     choose_tech_goal(pplayer, goal.choice);
   }

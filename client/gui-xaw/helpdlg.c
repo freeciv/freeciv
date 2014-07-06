@@ -873,8 +873,9 @@ static void help_update_unit_type(const struct help_item *pitem,
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    advance_name_for_player(client.conn.playing,
-				  advance_number(punittype->require_advance)));
+                    research_advance_name_translation
+                        (research_get(client_player()),
+                         advance_number(punittype->require_advance)));
     }
     create_tech_tree(help_tech_tree, 0, advance_number(punittype->require_advance), 3);
     if (U_NOT_OBSOLETED == punittype->obsoleted_by) {

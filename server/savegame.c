@@ -1801,7 +1801,8 @@ static void player_load_main(struct player *plr, int plrno,
   research->tech_goal =
     technology_load(file, "player%d.ai.tech_goal", plrno);
 
-  if (research->tech_goal == A_NONE) {
+  if (research->tech_goal == A_NONE
+      || NULL == valid_advance_by_number(research->tech_goal)) {
     /* Old servers (1.14.1) saved both A_UNSET and A_NONE by 0
      * Here 0 means A_UNSET
      */
@@ -1864,7 +1865,8 @@ static void player_load_main(struct player *plr, int plrno,
   research->researching =
     technology_load(file, "player%d.researching", plrno);
 
-  if (research->researching == A_NONE) {
+  if (research->researching == A_NONE
+      || NULL == valid_advance_by_number(research->researching)) {
     /* Old servers (1.14.1) used to save A_FUTURE by 0 
      * This has to be interpreted from context because A_NONE was also
      * saved by 0
