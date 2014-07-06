@@ -21,7 +21,7 @@
 
 /* utility */
 #include "fcintl.h"
-#include "game.h"
+#include "iterator.h"
 #include "log.h"
 #include "mem.h"                /* free */
 #include "shared.h"             /* ARRAY_SIZE */
@@ -29,14 +29,23 @@
 #include "support.h"
 
 /* common */
+#include "game.h"
 #include "research.h"
 
-
 #include "tech.h"
+
 
 /* Define this for additional debug information about the tech status
  * (in player_research_update()). */
 #undef DEBUG_TECH
+
+struct advance_req_iter {
+  struct iterator base;
+  bv_techs done;
+  const struct advance *array[A_LAST];
+  const struct advance **current, **end;
+};
+#define ADVANCE_REQ_ITER(it) ((struct advance_req_iter *) it)
 
 /* the advances array is now setup in:
  * server/ruleset.c (for the server)
@@ -934,4 +943,81 @@ void techs_free(void)
   advance_index_iterate(A_FIRST, i) {
     tech_free(i);
   } advance_index_iterate_end;
+}
+
+
+/****************************************************************************
+  Return the size of the advance requirements iterator.
+****************************************************************************/
+size_t advance_req_iter_sizeof(void)
+{
+  return sizeof(struct advance_req_iter);
+}
+
+/****************************************************************************
+  Return the current advance.
+****************************************************************************/
+static void *advance_req_iter_get(const struct iterator *it)
+{
+  return (void *) *ADVANCE_REQ_ITER(it)->current;
+}
+
+/****************************************************************************
+  Jump to next advance requirement.
+****************************************************************************/
+static void advance_req_iter_next(struct iterator *it)
+{
+  struct advance_req_iter *iter = ADVANCE_REQ_ITER(it);
+  const struct advance *padvance = *iter->current, *preq;
+  enum tech_req req;
+  bool new = FALSE;
+
+  for (req = AR_ONE; req < AR_SIZE; req++) {
+    preq = valid_advance(advance_requires(padvance, req));
+    if (NULL != preq
+        && A_NONE != advance_number(preq)
+        && !BV_ISSET(iter->done, advance_number(preq))) {
+      BV_SET(iter->done, advance_number(preq));
+      if (new) {
+        *iter->end++ = preq;
+      } else {
+        *iter->current = preq;
+        new = TRUE;
+      }
+    }
+  }
+
+  if (!new) {
+    iter->current++;
+  }
+}
+
+/****************************************************************************
+  Return whether we finished to iterate or not.
+****************************************************************************/
+static bool advance_req_iter_valid(const struct iterator *it)
+{
+  const struct advance_req_iter *iter = ADVANCE_REQ_ITER(it);
+
+  return iter->current < iter->end;
+}
+
+/****************************************************************************
+  Initialize an advance requirements iterator.
+****************************************************************************/
+struct iterator *advance_req_iter_init(struct advance_req_iter *it,
+                                       const struct advance *goal)
+{
+  struct iterator *base = ITERATOR(it);
+
+  base->get = advance_req_iter_get;
+  base->next = advance_req_iter_next;
+  base->valid = advance_req_iter_valid;
+
+  BV_CLR_ALL(it->done);
+  it->current = it->array;
+  *it->current = goal;
+  it->end = it->current + 1;
+
+  return base;
 }

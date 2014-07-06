@@ -220,6 +220,19 @@ const struct advance *advance_array_last(void);
   }									\
 }
 
+/* Advance requirements iterator. */
+struct advance_req_iter;
+
+size_t advance_req_iter_sizeof(void);
+struct iterator *advance_req_iter_init(struct advance_req_iter *it,
+                                       const struct advance *goal);
+
+#define advance_req_iterate(_goal, _padvance)                               \
+  generic_iterate(struct advance_req_iter, const struct advance *,          \
+                  _padvance, advance_req_iter_sizeof, advance_req_iter_init,\
+                  _goal)
+#define advance_req_iterate_end generic_iterate_end
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
