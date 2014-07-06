@@ -82,7 +82,9 @@
 /* Logging in find_ferry functions */
 #define LOGLEVEL_FINDFERRY LOG_DEBUG
 /* Extra consistency checks */
-#undef LOGLEVEL_FERRY_STATS
+#ifdef DEBUG
+#define LOGLEVEL_FERRY_STATS LOG_NORMAL
+#endif
 
 
 /* ========= managing statistics and boat/passanger assignments ======== */
@@ -361,9 +363,8 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
   } unit_list_iterate_end;
 
   if (boats != ai->stats.available_boats) {
-    log_base(LOGLEVEL_FERRY_STATS,
-             "Player[%d] in turn %d: boats miscounted.",
-             player_number(pplayer), game.info.turn);
+    log_error("Player[%d] in turn %d: boats miscounted.",
+              player_number(pplayer), game.info.turn);
     aiferry_print_stats(ait, pplayer);
   }
 #endif /* LOGLEVEL_FERRY_STATS */
