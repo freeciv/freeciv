@@ -521,9 +521,10 @@ if test "$USE_NLS" = "yes" ; then
      FC_CHECK_NGETTEXT_RUNTIME(,have_working_ngettext=1,)],)
 
   if test "$have_working_ngettext" = "0"; then
-    AC_CHECK_LIB(intl, ngettext,
-      [AC_MSG_CHECKING(whether libintl's ngettext works at runtime)
-       FC_CHECK_NGETTEXT_RUNTIME("-lintl",have_working_ngettext=1,)],)
+    AC_CHECK_LIB([intl], [ngettext],
+      [AC_MSG_CHECKING([whether libintl's ngettext works at runtime])
+       FC_CHECK_NGETTEXT_RUNTIME(["-lintl"],[have_working_ngettext=1
+UTILITY_LIBS="${UTILITY_LIBS} -lintl"],)],)
   fi
 
   if test "$have_working_ngettext" = "0"; then
