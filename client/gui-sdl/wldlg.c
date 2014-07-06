@@ -1361,10 +1361,6 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
 
-      if (is_improvement_redundant(pCity, pImprove)) {
-        pStr->style |= TTF_STYLE_STRIKETHROUGH;
-      }
-
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
   
       if (is_wonder(pImprove)) {
@@ -1451,8 +1447,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   
       copy_chars_to_string16(pStr, cBuf);
       pStr->style &= ~TTF_STYLE_BOLD;
-      pStr->style &= ~TTF_STYLE_STRIKETHROUGH;
-  
+
       pText = create_text_surf_from_str16(pStr);
 
       /*-----------------*/
