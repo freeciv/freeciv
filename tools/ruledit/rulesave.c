@@ -1323,8 +1323,8 @@ static bool save_techs_ruleset(const char *filename, const char *name)
         secfile_insert_str_vec(sfile, flag_names, set_count,
                                "%s.flags", path);
       }
-      if (pa->preset_cost >= 0) {
-        secfile_insert_int(sfile, pa->preset_cost, "%s.cost", path);
+      if (pa->cost >= 0) {
+        secfile_insert_int(sfile, pa->cost, "%s.cost", path);
       }
 
       save_strvec(sfile, pa->helptext, path, "helptext");
