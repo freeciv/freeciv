@@ -53,10 +53,6 @@ struct advance_req_iter {
  */
 struct advance advances[A_LAST];
 
-/* Precalculated costs according to techcost style 1.  These do not include
- * the sciencebox multiplier. */
-static double techcoststyle1[A_LAST];
-
 static int tech_upkeep_calc(const struct player *pplayer);
 
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
@@ -336,44 +332,29 @@ void player_research_update(struct player *pplayer)
 static int tech_upkeep_calc(const struct player *pplayer)
 {
   struct research *research = research_get(pplayer);
-  int tech_cost_style = game.info.tech_cost_style;
   int f = research->future_tech, t = research->techs_researched;
-  double tech_bulb_sum = 0.0;
-
-  if (!pplayer) {
-    return 0;
-  }
+  double tech_bulb_sum;
 
   /* upkeep cost for 'normal' techs (t) */
-  switch (tech_cost_style) {
+  switch (game.info.tech_cost_style) {
   case 0:
     /* sum_1^t x = t * (t + 1) / 2 */
-    tech_bulb_sum += (double)t * (t + 1) / 2 * game.info.base_tech_cost;
+    tech_bulb_sum += game.info.base_tech_cost * t * (t + 1) / 2;
     break;
   case 1:
-  case 3:
-    advance_index_iterate(A_NONE, i) {
-      if (research_invention_state(research, i) == TECH_KNOWN) {
-        tech_bulb_sum += techcoststyle1[i];
-      }
-    } advance_index_iterate_end;
-    break;
   case 2:
+  case 3:
   case 4:
     advance_index_iterate(A_NONE, i) {
       if (research_invention_state(research, i) == TECH_KNOWN) {
-        if (advances[i].preset_cost != -1) {
-          tech_bulb_sum += advances[i].preset_cost;
-        } else {
-          tech_bulb_sum += techcoststyle1[i];
-        }
+        tech_bulb_sum += advances[i].cost;
       }
     } advance_index_iterate_end;
     break;
   default:
-    fc_assert_ret_val_msg(FALSE, 0, "Invalid tech_cost_style %d %d",
-                          game.info.tech_cost_style,
-                          tech_cost_style);
+    fc_assert_msg(FALSE, "Invalid tech_cost_style %d",
+                  game.info.tech_cost_style);
+    tech_bulb_sum = 0.0;
   }
 
   /* upkeep cost for future techs (f) are calculated using style 0:
@@ -580,32 +561,18 @@ int base_total_bulbs_required(const struct player *pplayer,
     tech_cost_style = 0;
   }
 
-  if (tech_cost_style == 2 && advances[tech].preset_cost == -1) {
-    /* No preset, using style 1 */
-    tech_cost_style = 1;
-  }
-
-  if (tech_cost_style == 4 && advances[tech].preset_cost == -1) {
-    /* No preset, using style 3 */
-    tech_cost_style = 3;
-  }
-
   switch (tech_cost_style) {
   case 0:
-    if (pplayer) {
-      base_cost = research_get(pplayer)->techs_researched
-	* game.info.base_tech_cost;
-    } else {
-      base_cost = 0;
+    if (NULL != pplayer) {
+      base_cost = game.info.base_tech_cost
+                  * research_get(pplayer)->techs_researched;
+      break;
     }
-    break;
   case 1:
-  case 3:
-    base_cost = techcoststyle1[tech];
-    break;
   case 2:
+  case 3:
   case 4:
-    base_cost = advances[tech].preset_cost;
+    base_cost = advances[tech].cost;
     break;
   default:
     log_error("Invalid tech_cost_style %d %d", game.info.tech_cost_style,
@@ -730,61 +697,49 @@ int total_bulbs_required_for_goal(const struct player *pplayer,
   return research_get(pplayer)->inventions[goal].bulbs_required;
 }
 
-/**************************************************************************
- Returns number of requirements for the given tech. To not count techs
- double a memory (the counted array) is needed.
-**************************************************************************/
-static int precalc_tech_data_helper(Tech_type_id tech, bool *counted)
+/****************************************************************************
+  Function to precalculate needed data for technologies.
+****************************************************************************/
+void techs_precalc_data(void)
 {
-  if (tech == A_NONE || !valid_advance_by_number(tech) || counted[tech]) {
-    return 0;
-  }
+  advance_iterate(A_FIRST, padvance) {
+    int num_reqs = 0;
 
-  counted[tech] = TRUE;
-
-  return 1 + 
-      precalc_tech_data_helper(advance_required(tech, AR_ONE), counted)+ 
-      precalc_tech_data_helper(advance_required(tech, AR_TWO), counted);
-}
-
-/**************************************************************************
- Function to precalculate needed data for technologies.
- Styles 3 and 4 use the same table as styles 1 and 2 so we do not have to
- modify any function that reads it.
-**************************************************************************/
-void precalc_tech_data()
-{
-  bool counted[A_LAST];
-
-  advance_index_iterate(A_NONE, tech) {
-    memset(counted, 0, sizeof(counted));
-    advances[tech].num_reqs = precalc_tech_data_helper(tech, counted);
-  } advance_index_iterate_end;
-
-  advance_index_iterate(A_NONE, tech) {
-    /* FIXME: Why are we counting the current tech twice? */
-    double reqs = advances[tech].num_reqs + 1;
-    double cost = 0;
-    const double base = game.info.base_tech_cost;
+    advance_req_iterate(padvance, preq) {
+      (void) preq; /* Compiler wants us to do something with 'preq'. */
+      num_reqs++;
+    } advance_req_iterate_end;
+    padvance->num_reqs = num_reqs;
 
     switch (game.info.tech_cost_style) {
     case 0:
+      padvance->cost = game.info.base_tech_cost * num_reqs;
       break;
-    case 1:
     case 2:
-      cost = base * reqs * sqrt(reqs) / 2;
+      if (-1 != padvance->cost) {
+        continue;
+      }
+    case 1:
+      padvance->cost = game.info.base_tech_cost * (1.0 + num_reqs)
+                       * sqrt(1.0 + num_reqs) / 2;
       break;
-    case 3:
     case 4:
-      cost = base * (reqs - 1) * (reqs - 1) / (1 + sqrt(sqrt(reqs))) - base/2;
+      if (-1 != padvance->cost) {
+        continue;
+      }
+    case 3:
+      padvance->cost = game.info.base_tech_cost * ((num_reqs) * (num_reqs)
+                           / (1 + sqrt(sqrt(num_reqs + 1))) - 0.5);
       break;
     default:
       log_error("Invalid tech_cost_style %d", game.info.tech_cost_style);
       break;
     }
 
-    techcoststyle1[tech] = MAX(cost, game.info.base_tech_cost);
-  } advance_index_iterate_end;
+    if (padvance->cost < game.info.base_tech_cost) {
+      padvance->cost = game.info.base_tech_cost;
+    }
+  } advance_iterate_end;
 }
 
 /**************************************************************************
@@ -906,15 +861,21 @@ bool techs_have_fixed_costs()
 ****************************************************************************/
 void techs_init(void)
 {
+  struct advance *a_none = &advances[A_NONE];
   int i;
 
+  memset(advances, 0, sizeof(advances));
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
     advances[i].item_number = i;
+    advances[i].cost = -1;
   }
 
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
-  name_set(&advances[A_NONE].name, NULL, N_("None"));
+  name_set(&a_none->name, NULL, N_("None"));
+  a_none->require[AR_ONE] = a_none;
+  a_none->require[AR_TWO] = a_none;
+  a_none->require[AR_ROOT] = A_NEVER;
 }
 
 /***************************************************************

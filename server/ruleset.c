@@ -1105,12 +1105,6 @@ static bool load_ruleset_techs(struct section_file *file)
   }
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
 
-  /* Initialize dummy tech A_NONE */
-  a_none->require[AR_ONE] = a_none;
-  a_none->require[AR_TWO] = a_none;
-  a_none->require[AR_ROOT] = A_NEVER;
-  BV_CLR_ALL(a_none->flags);
-
   i = 0;
   advance_iterate(A_FIRST, a) {
     const char *sec_name = section_name(section_list_get(sec, i));
@@ -1174,8 +1168,8 @@ static bool load_ruleset_techs(struct section_file *file)
 
     a->helptext = lookup_strvec(file, sec_name, "helptext");
     a->bonus_message = lookup_string(file, sec_name, "bonus_message");
-    a->preset_cost =
-        secfile_lookup_int_default(file, -1, "%s.%s", sec_name, "cost");
+    a->cost = secfile_lookup_int_default(file, -1, "%s.%s",
+                                         sec_name, "cost");
     a->num_reqs = 0;
     
     i++;
@@ -5565,7 +5559,7 @@ static void send_ruleset_techs(struct conn_list *dest)
                       : advance_count();
 
     packet.flags = a->flags;
-    packet.preset_cost = a->preset_cost;
+    packet.cost = a->cost;
     packet.num_reqs = a->num_reqs;
     PACKET_STRVEC_COMPUTE(packet.helptext, a->helptext);
 
@@ -6430,7 +6424,7 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
   }
 
   if (ok) {
-    precalc_tech_data();
+    techs_precalc_data();
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();

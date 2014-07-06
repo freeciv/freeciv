@@ -1333,7 +1333,8 @@ PACKET_RULESET_TECH = 144; sc, lsend
   TECH req[2];
   TECH root_req;
   BV_TECH_FLAGS flags;
-  UINT32 preset_cost, num_reqs;
+  FLOAT10x7 cost;
+  UINT32 num_reqs;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];

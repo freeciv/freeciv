@@ -3049,7 +3049,7 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
   a->require[AR_TWO] = advance_by_number(p->req[AR_TWO]);
   a->require[AR_ROOT] = advance_by_number(p->root_req);
   a->flags = p->flags;
-  a->preset_cost = p->preset_cost;
+  a->cost = p->cost;
   a->num_reqs = p->num_reqs;
   PACKET_STRVEC_EXTRACT(a->helptext, p->helptext);
 

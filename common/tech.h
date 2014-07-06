@@ -124,11 +124,10 @@ struct advance {
    */
   char *bonus_message;
 
-  /* 
-   * Cost of advance in bulbs as specified in ruleset. -1 means that
-   * no value was set in ruleset. Server send this to client.
-   */
-  int preset_cost;
+  /* Cost of advance in bulbs. It may be specified in ruleset, or
+   * calculated in tech_precalc_data(). However, this value wouldn't
+   * be right if game.info.tech_cost_style is 0. */
+  double cost;
 
   /* 
    * Number of requirements this technology has _including_
@@ -190,11 +189,13 @@ bool is_tech_a_req_for_goal(const struct player *pplayer,
 			    Tech_type_id goal);
 bool is_future_tech(Tech_type_id tech);
 
-void precalc_tech_data(void);
-
-/* Initialization and iteration */
+/* Initialization */
 void techs_init(void);
 void techs_free(void);
+
+void techs_precalc_data(void);
+
+/* Iteration */
 
 /* This iterates over almost all technologies.  It includes non-existent
  * technologies, but not A_FUTURE. */
