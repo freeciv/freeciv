@@ -43,6 +43,8 @@ sound		= "b_aqueduct"
 sound_alt	= "b_generic"
 helptext	= _("\
 Allows a city to grow larger than size 10.\
+"), _("\
+Aqueduct protects the city from Fire and Plague.\
 ")
 
 [building_bank]
@@ -94,6 +96,8 @@ With a Barracks, each new unit built in a city will\
  defense strengths are increased by 50%.  Also, damaged units\
  which stay in town for one full turn without moving are completely\
  restored.\
+"), _("\
+Barracks protect the city from Pirates.\
 ")
 
 [building_barracks_ii]
@@ -121,6 +125,8 @@ With a Barracks, each new unit built in a city will\
  defense strengths are increased by 50%.  Also, damaged units\
  which stay in town for one full turn without moving are completely\
  restored.\
+"), _("\
+Barracks protect the city from Pirates.\
 ")
 
 [building_barracks_iii]
@@ -147,6 +153,8 @@ With a Barracks, each new unit built in a city will\
  defense strengths are increased by 50%.  Also, damaged units\
  which stay in town for one full turn without moving are completely\
  restored.\
+"), _("\
+Barracks protect the city from Pirates.\
 ")
 
 [building_cathedral]
@@ -196,6 +204,8 @@ City Walls make it easier to defend a city.  They triple the defense\
  units.  They are ineffective against non-helicopter airborne units as well\
  as Artillery.  City Walls also prevent the loss of population which\
  occurs when a defending unit is destroyed by a land unit.\
+"), _("\
+City Walls protect the city from Flood.\
 ")
 
 [building_colosseum]
@@ -289,6 +299,8 @@ helptext	= _("\
 The amount of stored food will be set to half full whenever a city\
  with a Granary shrinks or grows. This helps a city to grow faster\
  and more easily withstand famine.\
+"), _("\
+Granary protects the city from Famine.\
 ")
 ; NOTE:
 ; In Civ1, city size reduction does not generate food like this.
@@ -671,6 +683,8 @@ Makes one unhappy citizen content.  The Mysticism advance doubles\
  this effect, as does Oracle wonder.  With both Mysticism and the Oracle,\
  4 citizens are made content.  Does not affect citizens made unhappy by military\
  activity.\
+"), _("\
+Temple protects the city from Volcano.\
 ")
 
 [building_university]
