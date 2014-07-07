@@ -97,6 +97,9 @@ For "--LoadAI <modulename>" to find the AI module, it must reside in ${libdir}/f
 
 New in Freeciv 2.6:
 -------------------
+- Renamed enum danger_consideration as enum override_bool
+- Added restart_phase, called when AI gains control of the player whose phase is already
+  active, for example when continuing from a saved game
 - Added created_by_civil_war, called for AI type of the player who got created from
   civil war
 - Added "created" player parameter to split_by_civil_war
