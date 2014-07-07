@@ -1107,7 +1107,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->is_connected = FALSE;
   pplayer->government = pnation->init_government;
-  pplayer->server.capital = FALSE;
+  pplayer->server.got_first_city = FALSE;
 
   pplayer->economic.gold = 0;
   pplayer->economic = player_limit_to_max_rates(pplayer);

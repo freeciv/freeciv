@@ -3605,10 +3605,10 @@ static void sg_load_player_main(struct loaddata *loading,
     = secfile_lookup_int_default(loading->file, -1,
                                  "player%d.revolution_finishes", plrno);
 
-  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->server.capital,
-                                     "player%d.capital", plrno),
+  sg_failure_ret(secfile_lookup_bool(loading->file,
+                                     &plr->server.got_first_city,
+                                     "player%d.got_first_city", plrno),
                  "%s", secfile_error());
-
 
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_controlled,
                                      "player%d.ai.control", plrno),
@@ -4129,8 +4129,8 @@ static void sg_save_player_main(struct savedata *saving,
                        "player%d.achievement_count", plrno);
   }
 
-  secfile_insert_bool(saving->file, plr->server.capital,
-                      "player%d.capital", plrno);
+  secfile_insert_bool(saving->file, plr->server.got_first_city,
+                      "player%d.got_first_city", plrno);
   secfile_insert_int(saving->file, plr->revolution_finishes,
                      "player%d.revolution_finishes", plrno);
 

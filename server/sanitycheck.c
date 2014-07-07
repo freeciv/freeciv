@@ -462,6 +462,9 @@ static void check_players(const char *file, const char *function, int line)
     SANITY_CHECK(!pplayer->nation || pplayer->nation->player == pplayer);
     SANITY_CHECK(player_list_search(team_members(pplayer->team), pplayer));
 
+    SANITY_CHECK(!(city_list_size(pplayer->cities) > 0
+                   && !pplayer->server.got_first_city));
+
     city_list_iterate(pplayer->cities, pcity) {
       if (is_capital(pcity)) {
 	found_palace++;

@@ -155,7 +155,7 @@ void kill_player(struct player *pplayer)
       /* Transfer city to original owner, kill all its units outside of
          a radius of 3, give verbose messages of every unit transferred,
          and raze buildings according to raze chance (also removes palace) */
-      transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE);
+      transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE, TRUE);
     }
   } city_list_iterate_end;
   game.server.savepalace = palace;
@@ -184,33 +184,34 @@ void kill_player(struct player *pplayer)
   /* if there are barbarians around, they will take the remaining cities */
   /* vae victis! */
   if (barbarians) {
+    bool had_no_cities = (city_list_size(barbarians->cities) == 0);
     /* Moving victim's palace around is a waste of time, as they're dead */
     bool palace = game.server.savepalace;
     game.server.savepalace = FALSE;
+
     log_verbose("Barbarians take the empire of %s", pplayer->name);
     adv_data_phase_init(barbarians, TRUE);
-      
+
     /* Transfer any remaining cities */
     city_list_iterate(pplayer->cities, pcity) {
-      transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE);
+      transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE, FALSE);
     } city_list_iterate_end;
 
     game.server.savepalace = palace;
       
     resolve_unit_stacks(pplayer, barbarians, FALSE);
-      
-    /* Choose a capital (random). */
-    if (!player_capital(barbarians)) {
-      const int size = city_list_size(barbarians->cities);
-      const int idx = fc_rand(size);
-      struct city *pbarbcity =
-        city_list_get(barbarians->cities, idx);
 
-      if (pbarbcity) {
-        log_debug("New barbarian capital is %s", city_name(pbarbcity));
-        city_build_free_buildings(pbarbcity);
+    if (had_no_cities) {
+      /* Might need to give them a capital */
+      int cities = city_list_size(barbarians->cities);
+      if (cities > 0) {
+        /* Choose a capital (random). */
+        struct city *capital = city_list_get(barbarians->cities,
+                                             fc_rand(cities));
+        log_debug("New barbarian capital is %s", city_name(capital));
+        city_build_free_buildings(capital);
       }
-    }
+    } /* else existing barbarians, assume they have a capital if necessary */
   } else {
     /* Destroy any remaining cities */
     city_list_iterate(pplayer->cities, pcity) {
@@ -1266,7 +1267,7 @@ void server_player_init(struct player *pplayer, bool initmap,
 {
   player_status_reset(pplayer);
 
-  pplayer->server.capital = FALSE;
+  pplayer->server.got_first_city = FALSE;
   BV_CLR_ALL(pplayer->server.really_gives_vision);
   BV_CLR_ALL(pplayer->server.debug);
 
@@ -2359,7 +2360,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->government = nation_of_player(cplayer)->init_government;
   fc_assert(cplayer->revolution_finishes < 0);
   /* No capital for the splitted player. */
-  cplayer->server.capital = FALSE;
+  cplayer->server.got_first_city = FALSE;
 
   players_iterate(other_player) {
     struct player_diplstate *ds_co
@@ -2634,7 +2635,7 @@ struct player *civil_war(struct player *pplayer)
          * a unit from another city, and both cities join the rebellion. We
          * resolved stack conflicts for each city we would teleport the first
          * of the units we met since the other would have another owner. */
-        transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
+        transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE);
         log_verbose("%s declares allegiance to the %s.", city_name(pcity),
                     nation_rule_name(nation_of_player(cplayer)));
         notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,

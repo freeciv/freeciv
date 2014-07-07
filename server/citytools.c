@@ -895,16 +895,24 @@ static void reestablish_city_trade_routes(struct city *pcity)
 }
 
 /**************************************************************************
-  Create saved small wonders in a random city. Usually used to save the
-  palace when the capital was conquered.
+  Create saved small wonders in random cities. Usually used to save the
+  palace when the capital was conquered. Respects the 'savepalace'
+  server setting.
 **************************************************************************/
 static void build_free_small_wonders(struct player *pplayer,
 				     bv_imprs *had_small_wonders)
 {
   int size = city_list_size(pplayer->cities);
 
+  if (!game.server.savepalace) {
+    /* Nothing to do */
+    return;
+  }
+
   if (size == 0) {
-    /* The last city was removed or transferred to the enemy. R.I.P. */
+    /* The last city was removed or transferred to the enemy.
+     * If the victim survives to found or acquire another city, they'll
+     * get any savepalace initial buildings then. */
     return;
   }
 
@@ -948,7 +956,7 @@ transfer_city_units(), which is called in the middle of the function.
 ***********************************************************************/
 void transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
-		   bool resolve_stack, bool raze)
+		   bool resolve_stack, bool raze, bool build_free)
 {
   char old_city_name[MAX_LEN_NAME];
   bv_imprs had_small_wonders;
@@ -961,6 +969,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   bool had_great_wonders = FALSE;
   const citizens old_taker_content_citizens = player_content_citizens(ptaker);
   const citizens old_giver_content_citizens = player_content_citizens(pgiver);
+  bool taker_had_no_cities = (city_list_size(ptaker->cities) == 0);
   bool new_extras;
 
   fc_assert_ret(pgiver != ptaker);
@@ -1067,6 +1076,12 @@ void transfer_city(struct player *ptaker, struct city *pcity,
       raze_city(pcity);
     }
 
+    if (build_free && taker_had_no_cities) {
+      /* If conqueror previously had no cities, we might need to give
+       * them a palace etc */
+      city_build_free_buildings(pcity);
+    } /* else caller should probably ensure palace is built */
+
     /* Restore any global improvement effects that this city confers */
     city_built_iterate(pcity, pimprove) {
       city_add_improvement(pcity, pimprove);
@@ -1107,9 +1122,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
     /* Build a new palace for free if the player lost her capital and
        savepalace is on. */
-    if (game.server.savepalace) {
-      build_free_small_wonders(pgiver, &had_small_wonders);
-    }
+    build_free_small_wonders(pgiver, &had_small_wonders);
 
     /* Refresh the city's vision range, since it might be different 
      * under the new owner. */
@@ -1193,12 +1206,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 }
 
 /****************************************************************************
-  Give to a city the free (initial) buildings. Updates the
-  pplayer->server.capital field.
-  If need_player_info isn't NULL, it will be stored here a player pointer
-  that need to be updated at client sides, using send_player_info_c().
-  If need_game_info isn't NULL, it will be stored here whether the game_info
-  packet should be sent again or not, using send_game_info().
+  Give to a new city the free (initial) buildings.
+  Call this when a player has just acquired a city (or batch of cities,
+  e.g. civil war) after having no cities.
+  Doesn't check for building uniqueness! -- assumes player has no other
+  cities which might contain unique buildings.
 ****************************************************************************/
 void city_build_free_buildings(struct city *pcity)
 {
@@ -1206,6 +1218,7 @@ void city_build_free_buildings(struct city *pcity)
   struct nation_type *nation;
   int i;
   bool has_small_wonders, has_great_wonders;
+  bool first_city;
 
   fc_assert_ret(NULL != pcity);
   pplayer = city_owner(pcity);
@@ -1213,10 +1226,10 @@ void city_build_free_buildings(struct city *pcity)
   nation = nation_of_player(pplayer);
   fc_assert_ret(NULL != nation);
 
-  if (pplayer->server.capital) {
-    /* Already got it. */
-    return;
-  }
+  /* If this isn't the first city a player has ever had, they only get
+   * any initial buildings with the SaveSmallWonder flag, and then only
+   * if savepalace is enabled. */
+  first_city = !pplayer->server.got_first_city;
 
   has_small_wonders = FALSE;
   has_great_wonders = FALSE;
@@ -1231,11 +1244,15 @@ void city_build_free_buildings(struct city *pcity)
     }
 
     pimprove = improvement_by_number(n);
-    city_add_improvement(pcity, pimprove);
-    if (is_small_wonder(pimprove)) {
-      has_small_wonders = TRUE;
+    fc_assert_action(!is_great_wonder(pimprove), continue);
+    if (first_city ||
+        (game.server.savepalace
+         && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
+      city_add_improvement(pcity, pimprove);
+      if (is_small_wonder(pimprove)) {
+        has_small_wonders = TRUE;
+      }
     }
-    fc_assert(!is_great_wonder(pimprove));
   }
 
   /* Nation specific free buildings. */
@@ -1248,15 +1265,19 @@ void city_build_free_buildings(struct city *pcity)
     }
 
     pimprove = improvement_by_number(n);
-    city_add_improvement(pcity, pimprove);
-    if (is_small_wonder(pimprove)) {
-      has_small_wonders = TRUE;
-    } else if (is_great_wonder(pimprove)) {
-      has_great_wonders = TRUE;
+    if (first_city ||
+        (game.server.savepalace
+         && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
+      city_add_improvement(pcity, pimprove);
+      if (is_small_wonder(pimprove)) {
+        has_small_wonders = TRUE;
+      } else if (is_great_wonder(pimprove)) {
+        has_great_wonders = TRUE;
+      }
     }
   }
 
-  pplayer->server.capital = TRUE;
+  pplayer->server.got_first_city = TRUE;
 
   /* Update wonder infos. */
   if (has_great_wonders) {
@@ -1309,9 +1330,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
   idex_register_city(pcity);
   fc_release_mutex(&game.server.mutexes.city_list);
 
-  if (!pplayer->server.capital) {
+  if (city_list_size(pplayer->cities) == 0) {
+    /* Free initial buildings, or at least a palace if they were
+     * previously careless enough to lose all their cities */
     city_build_free_buildings(pcity);
-    fc_assert(TRUE == pplayer->server.capital);
   }
 
   /* Set up citizens nationality. */
@@ -1621,9 +1643,7 @@ dbv_free(&tile_processed);
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
-  if (game.server.savepalace) {
-    build_free_small_wonders(powner, &had_small_wonders);
-  }
+  build_free_small_wonders(powner, &had_small_wonders);
 
   /* Update wonder infos. */
   if (had_great_wonders) {
@@ -1790,7 +1810,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */
-  transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE);
+  transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE, TRUE);
 
   /* After city has been transferred, some players may no longer see inside. */
   players_iterate(pplayer) {
