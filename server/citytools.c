@@ -1224,7 +1224,7 @@ void city_build_free_buildings(struct city *pcity)
   struct player *pplayer;
   struct nation_type *nation;
   int i;
-  bool has_small_wonders;
+  bool has_small_wonders, has_great_wonders;
 
   fc_assert_ret(NULL != pcity);
   pplayer = city_owner(pcity);
@@ -1238,6 +1238,7 @@ void city_build_free_buildings(struct city *pcity)
   }
 
   has_small_wonders = FALSE;
+  has_great_wonders = FALSE;
 
   /* Global free buildings. */
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
@@ -1269,13 +1270,15 @@ void city_build_free_buildings(struct city *pcity)
     city_add_improvement(pcity, pimprove);
     if (is_small_wonder(pimprove)) {
       has_small_wonders = TRUE;
+    } else if (is_great_wonder(pimprove)) {
+      has_great_wonders = TRUE;
     }
   }
 
   pplayer->server.capital = TRUE;
 
   /* Update wonder infos. */
-  if (has_small_wonders) {
+  if (has_great_wonders) {
     send_game_info(NULL);
     /* No need to send to detached connections. */
     send_player_info_c(pplayer, NULL);
