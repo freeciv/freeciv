@@ -827,12 +827,9 @@ static void raze_city(struct city *pcity)
     razechance += 30;
 
   city_built_iterate(pcity, pimprove) {
-    if (is_small_wonder(pimprove)) {
-      /* small wonders are always razed
-       * This is not strictly necessary as transfer_city()
-       * would remove small wonders anyway. */
-      city_remove_improvement(pcity, pimprove);
-    }
+    /* Small wonders should have already been removed by
+     * transfer_city() (with 100% probability). */
+    fc_assert(!is_small_wonder(pimprove));
     if (is_improvement(pimprove) && (fc_rand(100) < razechance)) {
       city_remove_improvement(pcity, pimprove);
     }
