@@ -247,6 +247,8 @@ struct unit_class {
 
 #define UTYF_MAX 64 /* Used in the network protocol. */
 
+FC_STATIC_ASSERT(UTYF_LAST_USER_FLAG < UTYF_MAX, too_many_unit_flags);
+
 
 /* Unit "roles": these are similar to unit flags but differ in that
    they don't represent intrinsic properties or abilities of units,
@@ -259,83 +261,88 @@ struct unit_class {
    so some functions can use them interchangably.
    See data/classic/units.ruleset for documentation of their effects.
 */
-#define L_FIRST UTYF_LAST_USER_FLAG
+#define L_FIRST (UTYF_LAST_USER_FLAG + 1)
 
 #define SPECENUM_NAME unit_role_id
+/* Hack: on S2_5 only, L_FIRST role value in specenum (VALUE52) is
+ * not used due to a bug discovered after the network protocol was
+ * frozen (gna bug #22272) */
 /* is built first when city established */
-#define SPECENUM_VALUE52 L_FIRSTBUILD
-#define SPECENUM_VALUE52NAME "FirstBuild"
+#define SPECENUM_VALUE53 L_FIRSTBUILD
+#define SPECENUM_VALUE53NAME "FirstBuild"
 /* initial explorer unit */
-#define SPECENUM_VALUE53 L_EXPLORER
-#define SPECENUM_VALUE53NAME "Explorer"
+#define SPECENUM_VALUE54 L_EXPLORER
+#define SPECENUM_VALUE54NAME "Explorer"
 /* can be found in hut */
-#define SPECENUM_VALUE54 L_HUT
-#define SPECENUM_VALUE54NAME "Hut"
+#define SPECENUM_VALUE55 L_HUT
+#define SPECENUM_VALUE55NAME "Hut"
 /* can be found in hut, global tech required */
-#define SPECENUM_VALUE55 L_HUT_TECH
-#define SPECENUM_VALUE55NAME "HutTech"
+#define SPECENUM_VALUE56 L_HUT_TECH
+#define SPECENUM_VALUE56NAME "HutTech"
 /* is created in Partisan circumstances */
-#define SPECENUM_VALUE56 L_PARTISAN
-#define SPECENUM_VALUE56NAME "Partisan"
+#define SPECENUM_VALUE57 L_PARTISAN
+#define SPECENUM_VALUE57NAME "Partisan"
 /* ok on defense (AI) */
-#define SPECENUM_VALUE57 L_DEFEND_OK
-#define SPECENUM_VALUE57NAME "DefendOk"
+#define SPECENUM_VALUE58 L_DEFEND_OK
+#define SPECENUM_VALUE58NAME "DefendOk"
 /* primary purpose is defense (AI) */
-#define SPECENUM_VALUE58 L_DEFEND_GOOD
-#define SPECENUM_VALUE58NAME "DefendGood"
+#define SPECENUM_VALUE59 L_DEFEND_GOOD
+#define SPECENUM_VALUE59NAME "DefendGood"
 /* quick attacking unit (Horse..Armor) (unused)*/
-#define SPECENUM_VALUE59 L_ATTACK_FAST
-#define SPECENUM_VALUE59NAME "AttackFast"
+#define SPECENUM_VALUE60 L_ATTACK_FAST
+#define SPECENUM_VALUE60NAME "AttackFast"
 /* powerful attacking unit (Catapult..) (unused) */
-#define SPECENUM_VALUE60 L_ATTACK_STRONG
-#define SPECENUM_VALUE60NAME "AttackStrong"
+#define SPECENUM_VALUE61 L_ATTACK_STRONG
+#define SPECENUM_VALUE61NAME "AttackStrong"
 /* is useful for ferrying (AI) */
-#define SPECENUM_VALUE61 L_FERRYBOAT
-#define SPECENUM_VALUE61NAME "FerryBoat"
+#define SPECENUM_VALUE62 L_FERRYBOAT
+#define SPECENUM_VALUE62NAME "FerryBoat"
 /* barbarians unit, land only */
-#define SPECENUM_VALUE62 L_BARBARIAN
-#define SPECENUM_VALUE62NAME "Barbarian"
+#define SPECENUM_VALUE63 L_BARBARIAN
+#define SPECENUM_VALUE63NAME "Barbarian"
 /* barbarians unit, global tech required */
-#define SPECENUM_VALUE63 L_BARBARIAN_TECH
-#define SPECENUM_VALUE63NAME "BarbarianTech"
+#define SPECENUM_VALUE64 L_BARBARIAN_TECH
+#define SPECENUM_VALUE64NAME "BarbarianTech"
 /* barbarian boat */
-#define SPECENUM_VALUE64 L_BARBARIAN_BOAT
-#define SPECENUM_VALUE64NAME "BarbarianBoat"
+#define SPECENUM_VALUE65 L_BARBARIAN_BOAT
+#define SPECENUM_VALUE65NAME "BarbarianBoat"
 /* what barbarians should build */
-#define SPECENUM_VALUE65 L_BARBARIAN_BUILD
-#define SPECENUM_VALUE65NAME "BarbarianBuild"
+#define SPECENUM_VALUE66 L_BARBARIAN_BUILD
+#define SPECENUM_VALUE66NAME "BarbarianBuild"
 /* barbarians build when global tech */
-#define SPECENUM_VALUE66 L_BARBARIAN_BUILD_TECH
-#define SPECENUM_VALUE66NAME "BarbarianBuildTech"
+#define SPECENUM_VALUE67 L_BARBARIAN_BUILD_TECH
+#define SPECENUM_VALUE67NAME "BarbarianBuildTech"
 /* barbarian leader */
-#define SPECENUM_VALUE67 L_BARBARIAN_LEADER
-#define SPECENUM_VALUE67NAME "BarbarianLeader"
+#define SPECENUM_VALUE68 L_BARBARIAN_LEADER
+#define SPECENUM_VALUE68NAME "BarbarianLeader"
 /* sea raider unit */
-#define SPECENUM_VALUE68 L_BARBARIAN_SEA
-#define SPECENUM_VALUE68NAME "BarbarianSea"
+#define SPECENUM_VALUE69 L_BARBARIAN_SEA
+#define SPECENUM_VALUE69NAME "BarbarianSea"
 /* sea raider unit, global tech required */
-#define SPECENUM_VALUE69 L_BARBARIAN_SEA_TECH
-#define SPECENUM_VALUE69NAME "BarbarianSeaTech"
+#define SPECENUM_VALUE70 L_BARBARIAN_SEA_TECH
+#define SPECENUM_VALUE70NAME "BarbarianSeaTech"
 /* can found cities */
-#define SPECENUM_VALUE70 L_CITIES
-#define SPECENUM_VALUE70NAME "Cities"
+#define SPECENUM_VALUE71 L_CITIES
+#define SPECENUM_VALUE71NAME "Cities"
 /* can improve terrain */
-#define SPECENUM_VALUE71 L_SETTLERS
-#define SPECENUM_VALUE71NAME "Settlers"
+#define SPECENUM_VALUE72 L_SETTLERS
+#define SPECENUM_VALUE72NAME "Settlers"
 /* loss results in loss of game */
-#define SPECENUM_VALUE72 L_GAMELOSS
-#define SPECENUM_VALUE72NAME "GameLoss"
+#define SPECENUM_VALUE73 L_GAMELOSS
+#define SPECENUM_VALUE73NAME "GameLoss"
 /* can do diplomat actions */
-#define SPECENUM_VALUE73 L_DIPLOMAT
-#define SPECENUM_VALUE73NAME "Diplomat"
+#define SPECENUM_VALUE74 L_DIPLOMAT
+#define SPECENUM_VALUE74NAME "Diplomat"
 /* AI hunter type unit */
-#define SPECENUM_VALUE74 L_HUNTER
-#define SPECENUM_VALUE74NAME "Hunter"
+#define SPECENUM_VALUE75 L_HUNTER
+#define SPECENUM_VALUE75NAME "Hunter"
 #define L_LAST (L_HUNTER+1)
 
 #include "specenum_gen.h"
 
 #define L_MAX 64 /* Used in the network protocol. */
+
+FC_STATIC_ASSERT(L_LAST - L_FIRST <= L_MAX, too_many_unit_roles);
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
