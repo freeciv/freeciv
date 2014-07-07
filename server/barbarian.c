@@ -133,7 +133,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->is_connected = FALSE;
   barbarians->government = nation->init_government;
   fc_assert(barbarians->revolution_finishes < 0);
-  barbarians->server.capital = FALSE;
+  barbarians->server.got_first_city = FALSE;
   barbarians->economic.gold = 100;
 
   barbarians->phase_done = TRUE;

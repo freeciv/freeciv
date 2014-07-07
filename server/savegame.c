@@ -2607,7 +2607,7 @@ static void player_load_main(struct player *plr, int plrno,
     }
   }
 
-  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->server.capital,
+  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->server.got_first_city,
                                          "player%d.capital", plrno),
                      "%s", secfile_error());
 
@@ -3802,7 +3802,8 @@ static void player_save_main(struct player *plr, int plrno,
   secfile_insert_bool(file, player_research_get(plr)->got_tech,
                       "player%d.research_got_tech", plrno);
 
-  secfile_insert_bool(file, plr->server.capital, "player%d.capital", plrno);
+  secfile_insert_bool(file, plr->server.got_first_city,
+                      "player%d.capital", plrno);
 
   secfile_insert_int(file, plr->revolution_finishes,
 		     "player%d.revolution_finishes", plrno);

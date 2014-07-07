@@ -144,7 +144,7 @@ void kill_player(struct player *pplayer)
       /* Transfer city to original owner, kill all its units outside of
          a radius of 3, give verbose messages of every unit transferred,
          and raze buildings according to raze chance (also removes palace) */
-      transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE);
+      transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE, TRUE);
     }
   } city_list_iterate_end;
 
@@ -1194,7 +1194,7 @@ void server_player_init(struct player *pplayer, bool initmap,
 {
   player_status_reset(pplayer);
 
-  pplayer->server.capital = FALSE;
+  pplayer->server.got_first_city = FALSE;
   BV_CLR_ALL(pplayer->server.really_gives_vision);
   BV_CLR_ALL(pplayer->server.debug);
 
@@ -2125,7 +2125,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->government = nation_of_player(cplayer)->init_government;
   fc_assert(cplayer->revolution_finishes < 0);
   /* No capital for the splitted player. */
-  cplayer->server.capital = FALSE;
+  cplayer->server.got_first_city = FALSE;
 
   players_iterate(other_player) {
     struct player_diplstate *ds_co
@@ -2401,7 +2401,7 @@ struct player *civil_war(struct player *pplayer)
          * a unit from another city, and both cities join the rebellion. We
          * resolved stack conflicts for each city we would teleport the first
          * of the units we met since the other would have another owner. */
-        transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
+        transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE);
         log_verbose("%s declares allegiance to the %s.", city_name(pcity),
                     nation_rule_name(nation_of_player(cplayer)));
         notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
