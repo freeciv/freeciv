@@ -1464,11 +1464,11 @@ static bool worklist_change_build_target(struct player *pplayer,
 			          "%s can't build %s from the worklist; "
                                   "more than %d units on tile."
                                   "  Postponing...",
-                                  preq->source.value.maxTileUnits),
+                                  preq->source.value.max_tile_units),
 			      city_link(pcity),
 			      city_improvement_name_translation(pcity,
 								ptarget),
-			      preq->source.value.maxTileUnits);
+                              preq->source.value.max_tile_units);
 		script_server_signal_emit("building_cant_be_built", 3,
 					  API_TYPE_BUILDING_TYPE, ptarget,
 					  API_TYPE_CITY, pcity,
@@ -1482,11 +1482,11 @@ static bool worklist_change_build_target(struct player *pplayer,
 			          "%s can't build %s from the worklist; "
                                   "fewer than %d units on tile."
                                   "  Postponing...",
-                                  preq->source.value.maxTileUnits+1),
+                                  preq->source.value.max_tile_units + 1),
 			      city_link(pcity),
 			      city_improvement_name_translation(pcity,
 								ptarget),
-			      preq->source.value.maxTileUnits+1);
+                              preq->source.value.max_tile_units + 1);
 		script_server_signal_emit("building_cant_be_built", 3,
 					  API_TYPE_BUILDING_TYPE, ptarget,
 					  API_TYPE_CITY, pcity,

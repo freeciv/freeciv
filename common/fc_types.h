@@ -311,7 +311,7 @@ typedef union {
   int roadflag;                         /* enum road_flag_id */
   int diplrel;                          /* enum diplstate_type or
                                            enum diplrel_asym */
-  int maxTileUnits;
+  int max_tile_units;
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).

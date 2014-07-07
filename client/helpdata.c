@@ -1604,16 +1604,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      PL_("At most %d unit may be present on the tile.\n",
                          "At most %d units may be present on the tile.\n",
-                         preq->source.value.maxTileUnits),
-                     preq->source.value.maxTileUnits);
+                         preq->source.value.max_tile_units),
+                     preq->source.value.max_tile_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("There must be more than %d unit present on "
                          "the tile.\n",
                          "There must be more than %d units present on "
                          "the tile.\n",
-                         preq->source.value.maxTileUnits),
-                     preq->source.value.maxTileUnits);
+                         preq->source.value.max_tile_units),
+                     preq->source.value.max_tile_units);
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -1623,16 +1623,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
                          "must have %d unit or fewer.\n",
                          "The tile or at least one cardinally adjacent tile "
                          "must have %d units or fewer.\n",
-                         preq->source.value.maxTileUnits),
-                     preq->source.value.maxTileUnits);
+                         preq->source.value.max_tile_units),
+                     preq->source.value.max_tile_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("The tile and all cardinally adjacent tiles must "
                          "have more than %d unit each.\n",
                          "The tile and all cardinally adjacent tiles must "
                          "have more than %d units each.\n",
-                         preq->source.value.maxTileUnits),
-                     preq->source.value.maxTileUnits);
+                         preq->source.value.max_tile_units),
+                     preq->source.value.max_tile_units);
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -1642,16 +1642,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
                          "%d unit or fewer.\n",
                          "The tile or at least one adjacent tile must have "
                          "%d units or fewer.\n",
-                         preq->source.value.maxTileUnits),
-                     preq->source.value.maxTileUnits);
+                         preq->source.value.max_tile_units),
+                     preq->source.value.max_tile_units);
       } else {
         cat_snprintf(buf, bufsz,
                      PL_("The tile and all adjacent tiles must have more "
                          "than %d unit each.\n",
                          "The tile and all adjacent tiles must have more "
                          "than %d units each.\n",
-                         preq->source.value.maxTileUnits),
-                     preq->source.value.maxTileUnits);
+                         preq->source.value.max_tile_units),
+                     preq->source.value.max_tile_units);
       }
       return TRUE;
     case REQ_RANGE_CITY:

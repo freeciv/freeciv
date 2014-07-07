@@ -195,8 +195,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_MAXTILEUNITS:
-    source.value.maxTileUnits = atoi(value);
-    if (0 <= source.value.maxTileUnits) {
+    source.value.max_tile_units = atoi(value);
+    if (0 <= source.value.max_tile_units) {
       return source;
     }
     break;
@@ -365,7 +365,7 @@ struct universal universal_by_number(const enum universals_n kind,
     source.value.ai_level = value;
     return source;
   case VUT_MAXTILEUNITS:
-    source.value.maxTileUnits = value;
+    source.value.max_tile_units = value;
     return source;
   case VUT_TERRAINCLASS:
     source.value.terrainclass = value;
@@ -461,7 +461,7 @@ int universal_number(const struct universal *source)
   case VUT_AI_LEVEL:
     return source->value.ai_level;
   case VUT_MAXTILEUNITS:
-    return source->value.maxTileUnits;
+    return source->value.max_tile_units;
   case VUT_TERRAINCLASS:
     return source->value.terrainclass;
   case VUT_BASEFLAG:
@@ -2077,7 +2077,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_MAXTILEUNITS:
     eval = is_tile_units_in_range(target_tile, req->range,
-                                  req->source.value.maxTileUnits);
+                                  req->source.value.max_tile_units);
     break;
   case VUT_TERRAINCLASS:
     eval = is_terrain_class_in_range(target_tile, target_city,
@@ -2288,7 +2288,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_AI_LEVEL:
     return psource1->value.ai_level == psource2->value.ai_level;
   case VUT_MAXTILEUNITS:
-    return psource1->value.maxTileUnits == psource2->value.maxTileUnits;
+    return psource1->value.max_tile_units == psource2->value.max_tile_units;
   case VUT_TERRAINCLASS:
     return psource1->value.terrainclass == psource2->value.terrainclass;
   case VUT_BASEFLAG:
@@ -2379,7 +2379,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_AI_LEVEL:
     return ai_level_name(psource->value.ai_level);
   case VUT_MAXTILEUNITS:
-    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.maxTileUnits);
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.max_tile_units);
     return buffer;
   case VUT_TERRAINCLASS:
     return terrain_class_name(psource->value.terrainclass);
@@ -2502,8 +2502,8 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MAXTILEUNITS:
     /* TRANS: here <= means 'less than or equal' */
     cat_snprintf(buf, bufsz, PL_("<=%d unit",
-                                 "<=%d units", psource->value.maxTileUnits),
-                 psource->value.maxTileUnits);
+                                 "<=%d units", psource->value.max_tile_units),
+                 psource->value.max_tile_units);
     return buf;
   case VUT_TERRAINCLASS:
     /* TRANS: Terrain class: "Land terrain" */
