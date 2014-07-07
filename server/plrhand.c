@@ -182,6 +182,9 @@ void kill_player(struct player *pplayer)
   /* if there are barbarians around, they will take the remaining cities */
   /* vae victis! */
   if (barbarians) {
+    /* Moving victim's palace around is a waste of time, as they're dead */
+    bool palace = game.server.savepalace;
+    game.server.savepalace = FALSE;
     log_verbose("Barbarians take the empire of %s", pplayer->name);
     adv_data_phase_init(barbarians, TRUE);
       
@@ -189,6 +192,8 @@ void kill_player(struct player *pplayer)
     city_list_iterate(pplayer->cities, pcity) {
       transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE);
     } city_list_iterate_end;
+
+    game.server.savepalace = palace;
       
     resolve_unit_stacks(pplayer, barbarians, FALSE);
       
