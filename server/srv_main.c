@@ -672,74 +672,81 @@ static void update_diplomatics(void)
   players_iterate(plr1) {
     players_iterate(plr2) {
       struct player_diplstate *state = player_diplstate_get(plr1, plr2);
-      struct player_diplstate *state2 = player_diplstate_get(plr2, plr1);
 
-      state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
-      state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
+      /* Players might just met when first of them was being handled
+       * (pact with third player changed and units got bounced next
+       *  to second unit to form first contact)
+       * Do not decrease the counters for the other player yet in this turn */
+      if (state->first_contact_turn != game.info.turn) {
+        struct player_diplstate *state2 = player_diplstate_get(plr2, plr1);
 
-      if (state->type == DS_ARMISTICE) {
-        state->turns_left--;
-        if (state->turns_left <= 0) {
-          state->type = DS_PEACE;
-          state2->type = DS_PEACE;
-          state->turns_left = 0;
-          state2->turns_left = 0;
-          remove_illegal_armistice_units(plr1, plr2);
+        state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
+        state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
+
+        if (state->type == DS_ARMISTICE) {
+          state->turns_left--;
+          if (state->turns_left <= 0) {
+            state->type = DS_PEACE;
+            state2->type = DS_PEACE;
+            state->turns_left = 0;
+            state2->turns_left = 0;
+            remove_illegal_armistice_units(plr1, plr2);
+          }
         }
-      }
 
-      if (state->type == DS_CEASEFIRE) {
-        state->turns_left--;
-        switch(state->turns_left) {
-        case 1:
-          notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
-                        _("Concerned citizens point out that the cease-fire "
-                          "with %s will run out soon."), player_name(plr2));
-          /* Message to plr2 will be done when plr1 and plr2 will be swapped.
-           * Else, we will get a message duplication.  Note the case is not
-           * the below, because the state will be changed for both players to
-           * war. */
-          break;
-        case 0:
-          notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
-                        _("The cease-fire with %s has run out. "
-                          "You are now at war with the %s."),
-                        player_name(plr2),
-                        nation_plural_for_player(plr2));
-          notify_player(plr2, NULL, E_DIPLOMACY, ftc_server,
-                        _("The cease-fire with %s has run out. "
-                          "You are now at war with the %s."),
-                        player_name(plr1),
-                        nation_plural_for_player(plr1));
-          state->type = DS_WAR;
-          state2->type = DS_WAR;
-          state->turns_left = 0;
-          state2->turns_left = 0;
+        if (state->type == DS_CEASEFIRE) {
+          state->turns_left--;
+          switch(state->turns_left) {
+          case 1:
+            notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
+                          _("Concerned citizens point out that the cease-fire "
+                            "with %s will run out soon."), player_name(plr2));
+            /* Message to plr2 will be done when plr1 and plr2 will be swapped.
+             * Else, we will get a message duplication.  Note the case is not
+             * the below, because the state will be changed for both players to
+             * war. */
+            break;
+          case 0:
+            notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
+                          _("The cease-fire with %s has run out. "
+                            "You are now at war with the %s."),
+                          player_name(plr2),
+                          nation_plural_for_player(plr2));
+            notify_player(plr2, NULL, E_DIPLOMACY, ftc_server,
+                          _("The cease-fire with %s has run out. "
+                            "You are now at war with the %s."),
+                          player_name(plr1),
+                          nation_plural_for_player(plr1));
+            state->type = DS_WAR;
+            state2->type = DS_WAR;
+            state->turns_left = 0;
+            state2->turns_left = 0;
 
-          enter_war(plr1, plr2);
+            enter_war(plr1, plr2);
 
-          city_map_update_all_cities_for_player(plr1);
-          city_map_update_all_cities_for_player(plr2);
-          sync_cities();
+            city_map_update_all_cities_for_player(plr1);
+            city_map_update_all_cities_for_player(plr2);
+            sync_cities();
 
-          /* Avoid love-love-hate triangles */
-          players_iterate_alive(plr3) {
-            if (plr3 != plr1 && plr3 != plr2
-                && pplayers_allied(plr3, plr1)
-                && pplayers_allied(plr3, plr2)) {
-              notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
-                            _("The cease-fire between %s and %s has run out. "
-                              "They are at war. You cancel your alliance "
-                              "with both."),
-                            player_name(plr1),
-                            player_name(plr2));
-              player_diplstate_get(plr3, plr1)->has_reason_to_cancel = TRUE;
-              player_diplstate_get(plr2, plr2)->has_reason_to_cancel = TRUE;
-              handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
-              handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
-            }
-          } players_iterate_alive_end;
-          break;
+            /* Avoid love-love-hate triangles */
+            players_iterate_alive(plr3) {
+              if (plr3 != plr1 && plr3 != plr2
+                  && pplayers_allied(plr3, plr1)
+                  && pplayers_allied(plr3, plr2)) {
+                notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
+                              _("The cease-fire between %s and %s has run out. "
+                                "They are at war. You cancel your alliance "
+                                "with both."),
+                              player_name(plr1),
+                              player_name(plr2));
+                player_diplstate_get(plr3, plr1)->has_reason_to_cancel = TRUE;
+                player_diplstate_get(plr2, plr2)->has_reason_to_cancel = TRUE;
+                handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
+                handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
+              }
+            } players_iterate_alive_end;
+            break;
+          }
         }
       }
     } players_iterate_end;
