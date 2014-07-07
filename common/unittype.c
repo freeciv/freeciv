@@ -772,6 +772,7 @@ static void precalc_one(int i,
   int j;
 
   /* Count: */
+  fc_assert(n_with_role[i] == 0);
   unit_type_iterate(u) {
     if (func_has(u, i)) {
       n_with_role[i]++;

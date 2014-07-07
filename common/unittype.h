@@ -258,6 +258,8 @@ struct unit_class {
 
 #define UTYF_MAX 64 /* Used in the network protocol. */
 
+FC_STATIC_ASSERT(UTYF_LAST_USER_FLAG < UTYF_MAX, too_many_unit_flags);
+
 
 /* Unit "roles": these are similar to unit flags but differ in that
    they don't represent intrinsic properties or abilities of units,
@@ -270,7 +272,7 @@ struct unit_class {
    so some functions can use them interchangably.
    See data/classic/units.ruleset for documentation of their effects.
 */
-#define L_FIRST UTYF_LAST_USER_FLAG
+#define L_FIRST (UTYF_LAST_USER_FLAG + 1)
 
 #define SPECENUM_NAME unit_role_id
 /* is built first when city established */
@@ -347,6 +349,8 @@ struct unit_class {
 #include "specenum_gen.h"
 
 #define L_MAX 64 /* Used in the network protocol. */
+
+FC_STATIC_ASSERT(L_LAST - L_FIRST <= L_MAX, too_many_unit_roles);
 
 /* Used in the network protocol. */
 BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
