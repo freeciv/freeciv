@@ -1,7 +1,7 @@
 # Finnish translation
 # Copyright (C) 2002-2003 2005-2009 2011-2012, 2014
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>, 
-# Markus Linnakangas,
+# Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
 # Juhana Uuttu <juhana.uuttu@gmail.com>,
 # Jarkko Siekkinen <jarkko.siekkinen@evl.fi>, 
@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-08 23:44+0300\n"
-"PO-Revision-Date: 2014-06-22 16:05+0300\n"
+"POT-Creation-Date: 2014-07-01 20:58+0300\n"
+"PO-Revision-Date: 2014-07-02 22:34+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -194,7 +194,7 @@ msgstr ""
 #: data/nation/macedonian.ruleset:24 data/nation/moldovan.ruleset:24
 #: data/nation/muscovite.ruleset:25 data/nation/nestorian.ruleset:29
 #: data/nation/novgorodian.ruleset:42 data/nation/ossetian.ruleset:25
-#: data/nation/rusyn.ruleset:34 data/nation/ruthenian.ruleset:30
+#: data/nation/rusyn.ruleset:34 data/nation/ruthenian.ruleset:31
 #: data/nation/serbian.ruleset:35 data/nation/siberian.ruleset:23
 #: data/nation/transnistrian.ruleset:25 data/nation/ukrainian.ruleset:40
 #: data/nation/venetian.ruleset:28
@@ -212,7 +212,7 @@ msgstr "Patriarkka %s"
 #: data/nation/moldovan.ruleset:24 data/nation/muscovite.ruleset:25
 #: data/nation/nestorian.ruleset:29 data/nation/novgorodian.ruleset:42
 #: data/nation/ossetian.ruleset:25 data/nation/rusyn.ruleset:34
-#: data/nation/ruthenian.ruleset:30 data/nation/serbian.ruleset:35
+#: data/nation/ruthenian.ruleset:31 data/nation/serbian.ruleset:35
 #: data/nation/siberian.ruleset:23 data/nation/transnistrian.ruleset:25
 #: data/nation/ukrainian.ruleset:40 data/nation/venetian.ruleset:28
 #, c-format
@@ -539,6 +539,8 @@ msgid ""
 "Africa: the cradle of humanity. It is the world's second largest continent "
 "and also its second most populous."
 msgstr ""
+"Afrikka: ihmisyyden kehto. Se on maailman toiseksi suurin manner ja myös sen "
+"toiseksi väkirikkain."
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
@@ -566,7 +568,6 @@ msgid "?plural:Akwe"
 msgstr "šavantet"
 
 #: data/nation/akwe.ruleset:7
-#, fuzzy
 msgid ""
 "The Akwe are also known by three different tribal names in Portuguese, "
 "Xavante, Xakriaba and Xerente. They have a patrilineal clan system and live "
@@ -586,12 +587,10 @@ msgstr ""
 "maniokkia, bataattia ja jamssia."
 
 #: data/nation/alandalus.ruleset:3
-#, fuzzy
 msgid "Andalusi"
 msgstr "maurien"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Andalusis"
 msgstr "maurit"
 
@@ -666,18 +665,18 @@ msgstr "Kalifi %s"
 #: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Vizier %s"
-msgstr "Keisari %s"
+msgstr "Visiiri %s"
 
 #: data/nation/alandalus.ruleset:34 data/nation/bahraini.ruleset:28
 #: data/nation/emirati.ruleset:27 data/nation/fulani.ruleset:35
 #: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vizier %s"
-msgstr "Pääministeri %s"
+msgstr "Visiiri %s"
 
 #. TRANS: The first letter in "Aland" should be
 #. TRANS: U+00C5 LATIN CAPITAL A WITH RING if available in
@@ -702,27 +701,28 @@ msgstr ""
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Earl %s"
-msgstr "Kardinaali %s"
+msgstr "Jaarli %s"
 
+# Wikipedia (fi): Jaarlille ei ole naispuolista vastinetta.
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Earl %s"
-msgstr "Baani %s"
+msgstr "Jaarli %s"
 
-# Friar != normimunkki, mutta tehdään vähän eroa Brother %s:äänkin. Huom. kirjaimellisesti 'veli', naispuolisille sopii heikosti.
+# Vicar vars. kirkkoherra, mutta kirkkoherra voi myös olla rovasti mikä on päheempää, mutta taas kääntyy ilmeisesti provost.
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Vicar %s"
-msgstr "Munkkiveli %s"
+msgstr "Kirkkoherra %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vicar %s"
-msgstr "Diktaattori %s"
+msgstr "Kirkkoherra %s"
 
 #: data/nation/albanian.ruleset:3
 msgid "Albanian"
@@ -760,7 +760,7 @@ msgstr ""
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
 #: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:33
-#: data/nation/ruthenian.ruleset:28 data/nation/silesian.ruleset:22
+#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
 #: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
 #: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
 #: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
@@ -777,7 +777,7 @@ msgstr "Ruhtinas %s"
 #: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
-#: data/nation/romanian.ruleset:31 data/nation/ruthenian.ruleset:28
+#: data/nation/romanian.ruleset:31 data/nation/ruthenian.ruleset:29
 #: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
 #: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
 #: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:37
@@ -1115,15 +1115,16 @@ msgstr "Diktaattori %s"
 msgid "?female:Dictator %s"
 msgstr "Diktaattori %s"
 
+# Andorralaisilla on söpö jaettu ruhtinuus kirkon ja Ranskan välillä. Wikipedia.
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Prince %s"
-msgstr "Ruhtinas %s"
+msgstr "Ruhtinaskumppani %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Princess %s"
-msgstr "Ruhtinatar %s"
+msgstr "Ruhtinatarkumppani %s"
 
 #: data/nation/angolan.ruleset:3
 msgid "Angolan"
@@ -1283,15 +1284,14 @@ msgid ""
 "been independent from the United Kingdom since 1981."
 msgstr ""
 
+# KOTUS: alankomaidenantillilainen (Alankomaiden Antillit) tai alankomaalainen.
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "Tykistö"
+msgstr "alankomaidenantillilaisten"
 
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "angolalaiset"
+msgstr "alankomaidenantillilaiset"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -1350,7 +1350,7 @@ msgstr "argentiinalaisten"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr "?plural:argentiinalaiset"
+msgstr "argentiinalaiset"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -1490,7 +1490,6 @@ msgid "?plural:Ashantis"
 msgstr "ašantit"
 
 #: data/nation/ashanti.ruleset:6
-#, fuzzy
 msgid ""
 "The Ashanti were an ancient kingdom in a region that is currently a part of "
 "Ghana. The first Ashanti kingdom was founded in the 11th century."
@@ -1564,9 +1563,7 @@ msgstr "asturialaisten"
 msgid "?plural:Asturians"
 msgstr "asturialaiset"
 
-# TODO: typo in msgid: missing trailing period.
 #: data/nation/asturian.ruleset:6
-#, fuzzy
 msgid ""
 "The Astures were a Celtic people which occupied most of the northern coast "
 "of Spain. They battled against the Roman Empire until their defeat by Caesar "
@@ -1625,7 +1622,6 @@ msgid "?plural:Australians"
 msgstr "?plural:australialaiset"
 
 #: data/nation/australian.ruleset:6
-#, fuzzy
 msgid ""
 "Australia was founded as a British penal colony in 1788 CE. Originally "
 "comprising several colonies (New South Wales, Victoria, Queensland, South "
@@ -1831,14 +1827,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "Mahdi %s"
-msgstr "Mwami %s"
+msgstr "Mahdi %s"
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahdi %s"
-msgstr "Mwami %s"
+msgstr "Mahdi %s"
 
 #: data/nation/bangladeshi.ruleset:3
 msgid "Bangladeshi"
@@ -1853,6 +1849,8 @@ msgid ""
 "The People's Republic of Bangladesh was formed from the former Pakistani "
 "territory of East Bengal following a war of independence."
 msgstr ""
+"Bangladeshin kansantasavalta muodostettiin itsenäistymissodan jälkeen "
+"aiemmin Pakistaniin kuuluneesta Itä-Bengalin alueesta."
 
 #: data/nation/bangladeshi.ruleset:21 data/nation/bengali.ruleset:25
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
@@ -1980,9 +1978,9 @@ msgstr ""
 # Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Leader %s"
-msgstr "Suuri Johtaja %s"
+msgstr "Johtaja %s"
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
@@ -1993,12 +1991,12 @@ msgstr "Johtajatar %s"
 #: data/nation/basque.ruleset:33
 #, c-format
 msgid "Lehendakari %s"
-msgstr ""
+msgstr "Lehendakari %s"
 
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Lehendakari %s"
-msgstr "Johtajatar %s"
+msgstr "Lehendakari %s"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -2231,14 +2229,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Superintendent %s"
-msgstr "Kersantti %s"
+msgstr "Yli-intendentti %s"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Superintendent %s"
-msgstr "Kersantti %s"
+msgstr "Yli-intendentti %s"
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
@@ -2249,7 +2247,6 @@ msgid "?plural:Bengalis"
 msgstr "bengalilaiset"
 
 #: data/nation/bengali.ruleset:6
-#, fuzzy
 msgid ""
 "Bengal is a region in the easternmost part of the Indian subcontinent. The "
 "first recorded independent king of the Bengali is Shashanka who reigned "
@@ -2398,14 +2395,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Major %s"
-msgstr "Kapteeni %s"
+msgstr "Kapteenimajuri %s"
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Major %s"
-msgstr "Kapteeni %s"
+msgstr "Kapteenimajuri %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -2479,14 +2476,14 @@ msgid "?female:Reverend %s"
 msgstr "Pastori %s"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "State President %s"
-msgstr "Presidentti %s"
+msgstr "Valtionpresidentti %s"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:State President %s"
-msgstr "Presidentti %s"
+msgstr "Valtionpresidentti %s"
 
 #: data/nation/boian.ruleset:3
 msgid "Boian"
@@ -2739,20 +2736,19 @@ msgstr ""
 "neuvotteleman sopimuksen pohjalta. Tästä myös Iso-Britanniana tunnetusta "
 "maasta tuli johtava teollisuus- ja merimahti 1800-luvulla."
 
-# Otavan sivistyssanat 2001: presbyteeri
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/urartian.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "Pretender %s"
-msgstr "Presbyteeri %s"
+msgstr "Kruununtavoittelija %s"
 
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/urartian.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Pretender %s"
-msgstr "Presbyteeri %s"
+msgstr "Kruununtavoittelija %s"
 
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/frisian.ruleset:36 data/nation/galician.ruleset:21
@@ -2901,7 +2897,6 @@ msgid "?plural:Burgundians"
 msgstr "burgundit"
 
 #: data/nation/burgundian.ruleset:6
-#, fuzzy
 msgid ""
 "After the fall of the Western Roman Empire, a Germanic people known as the "
 "Burgundians settled in the river valleys of eastern Gaul, lending their name "
@@ -3139,14 +3134,12 @@ msgstr ""
 #. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/canari.ruleset:6
-#, fuzzy
 msgid "Canari"
-msgstr "kanadalaisten"
+msgstr "kanarien"
 
 #: data/nation/canari.ruleset:7
-#, fuzzy
 msgid "?plural:Canaris"
-msgstr "?plural:kanadalaiset"
+msgstr "kanarit"
 
 #: data/nation/canari.ruleset:9
 msgid ""
@@ -3185,12 +3178,11 @@ msgstr ""
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
-msgstr ""
+msgstr "kapverdeläisten"
 
 #: data/nation/capeverdean.ruleset:4
-#, fuzzy
 msgid "?plural:Cape Verdean"
-msgstr "?plural:kanadalaiset"
+msgstr "kapverdeläiset"
 
 #: data/nation/capeverdean.ruleset:6
 msgid ""
@@ -3202,14 +3194,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "Admiral %s"
-msgstr "Emiiri %s"
+msgstr "Amiraali %s"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Admiral %s"
-msgstr "Mirza %s"
+msgstr "Amiraali %s"
 
 #: data/nation/carantanian.ruleset:3
 #, fuzzy
@@ -3365,14 +3357,12 @@ msgid "Supreme Directrice %s"
 msgstr "Suuri johtaja %s"
 
 #: data/nation/centrallithuanian.ruleset:3
-#, fuzzy
 msgid "Central Lithuanian"
-msgstr "liettualaisten"
+msgstr "keskiliettualaisten"
 
 #: data/nation/centrallithuanian.ruleset:4
-#, fuzzy
 msgid "?plural:Central Lithuanians"
-msgstr "?plural:liettualaiset"
+msgstr "keskiliettualaiset"
 
 #. TRANS: The second and seventh letter in "Wladyslaw" should be
 #. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
@@ -3401,25 +3391,23 @@ msgstr ""
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "Komissaari %s"
+msgstr "Kansankomissaari %s"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "Paavi %s"
+msgstr "Kansankomissaari %s"
 
 #: data/nation/chadian.ruleset:3
-#, fuzzy
 msgid "Chadian"
-msgstr "kanadalaisten"
+msgstr "tšadilaisten"
 
 #: data/nation/chadian.ruleset:4
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "?plural:kanadalaiset"
+msgstr "tšadilaiset"
 
 #. TRANS: The last letter in "Habre" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -3431,6 +3419,11 @@ msgid ""
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
 "Habre led a notoriously brutal dictatorship."
 msgstr ""
+"Tšad on sisämaavaltio Afrikassa. Aikoinaan se oli Kanem-Bornun "
+"kuningaskunnan aluetta. Tšad valloitettiin Ranskan siirtomaaksi 1900, ja se "
+"itsenäistyi 1960. Se on nykyäänkin yksi maailman köyhimmistä valtioista. "
+"Vuodesta 1982 vuoteen 1990 Hissène Habré johti maata harvinaisen verisesti "
+"diktaattorina."
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
@@ -3567,7 +3560,6 @@ msgid "?plural:Chileans"
 msgstr "?plural:chileläiset"
 
 #: data/nation/chilean.ruleset:6
-#, fuzzy
 msgid ""
 "Chile is located on the south-western coast of South America. Chile declared "
 "its independence from Spain in 1810. At the expense of Bolivia, Peru and the "
@@ -3575,9 +3567,10 @@ msgid ""
 "century. Often having been more stable and prosperous than its neighbors, "
 "Chile currently is the most developed country of Latin America."
 msgstr ""
-"Chile sijaitsee Etelä-Amerikan lounaisrannikolla. Chile yli kaksinkertaisti "
-"maa-alueensa 1800-luvulla valtaamalla alueita Bolivialta, Perulta ja "
-"alkuperäiskansa Mapucheilta. Chile on aina ollut vakaampi ja hyvinvoivampi "
+"Chile sijaitsee Etelä-Amerikan lounaisrannikolla. Se julistautui "
+"itsenäiseksi Espanjan vallan alta vuonna 1810. Chile yli kaksinkertaisti maa-"
+"alueensa 1800-luvulla valtaamalla alueita Bolivialta, Perulta ja "
+"alkuperäiskansa Mapucheilta. Chile on usein ollut vakaampi ja hyvinvoivampi "
 "kuin naapurinsa, ja onkin nykyään Latinalaisen Amerikan kehittynein maa."
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
@@ -3641,12 +3634,11 @@ msgstr ""
 
 #: data/nation/choctaw.ruleset:3
 msgid "Choctaw"
-msgstr ""
+msgstr "choctawien"
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "cholat"
+msgstr "choctawit"
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -3734,7 +3726,7 @@ msgstr "Papitar %s"
 #: data/nation/greaterpolish.ruleset:22 data/nation/kashubian.ruleset:30
 #: data/nation/liechtensteiner.ruleset:31 data/nation/mazovian.ruleset:25
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:41
-#: data/nation/ruthenian.ruleset:29 data/nation/slavic.ruleset:32
+#: data/nation/ruthenian.ruleset:30 data/nation/slavic.ruleset:32
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
 #: data/nation/veletian.ruleset:31 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
@@ -3747,7 +3739,7 @@ msgstr "Suuriruhtinas %s"
 #: data/nation/greaterpolish.ruleset:22 data/nation/kashubian.ruleset:30
 #: data/nation/liechtensteiner.ruleset:31 data/nation/mazovian.ruleset:25
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:41
-#: data/nation/ruthenian.ruleset:29 data/nation/slavic.ruleset:32
+#: data/nation/ruthenian.ruleset:30 data/nation/slavic.ruleset:32
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
 #: data/nation/veletian.ruleset:31 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
@@ -3940,14 +3932,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:3
-#, fuzzy
 msgid "Brazzaville-Congolese"
-msgstr "kongolaiset"
+msgstr "brazzavillenkongolaiset"
 
 #: data/nation/congolesebrazzaville.ruleset:4
-#, fuzzy
 msgid "?plural:Brazzaville-Congolese"
-msgstr "kongolaiset"
+msgstr "brazzavillenkongolaiset"
 
 #: data/nation/congolesebrazzaville.ruleset:6
 msgid ""
@@ -4154,15 +4144,14 @@ msgstr ""
 "valloitti, ottomaanien sijaan, Bysantin hajoamisen jälkeen. Suurimman osan "
 "1900-lukua se kuului Jugoslavian liittovaltioon."
 
+# Vrt. yksikön nimi (crusader).
 #: data/nation/crusader.ruleset:3
-#, fuzzy
 msgid "Crusader"
-msgstr "Ristiritarikaarti"
+msgstr "ristiretkeläisten"
 
 #: data/nation/crusader.ruleset:4
-#, fuzzy
 msgid "?plural:Crusaders"
-msgstr "kuubalaiset"
+msgstr "ristiretkeläiset"
 
 #: data/nation/crusader.ruleset:6
 msgid ""
@@ -4306,15 +4295,15 @@ msgstr ""
 "taas oli vuoteen 1918 asti ollut Itävalta-Unkarin osa."
 
 #: data/nation/czech.ruleset:34 data/nation/xhosa.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Prophet %s"
-msgstr "Ennustajatar %s"
+msgstr "Profeetta %s"
 
 #: data/nation/czech.ruleset:34 data/nation/moravian.ruleset:35
 #: data/nation/xhosa.ruleset:27
 #, c-format
 msgid "Prophetess %s"
-msgstr "Ennustajatar %s"
+msgstr "Profeetta %s"
 
 #: data/nation/dacian.ruleset:3
 #, fuzzy
@@ -4359,12 +4348,11 @@ msgstr ""
 
 #: data/nation/darfuri.ruleset:3
 msgid "Darfuri"
-msgstr ""
+msgstr "darfurilaisten"
 
 #: data/nation/darfuri.ruleset:4
-#, fuzzy
 msgid "?plural:Darfuris"
-msgstr "rarámurit"
+msgstr "darfurilaiset"
 
 #: data/nation/darfuri.ruleset:7
 msgid ""
@@ -4380,12 +4368,11 @@ msgstr ""
 
 #: data/nation/djiboutian.ruleset:3
 msgid "Djiboutian"
-msgstr ""
+msgstr "djiboutilaisten"
 
 #: data/nation/djiboutian.ruleset:4
-#, fuzzy
 msgid "?plural:Djiboutians"
-msgstr "haitilaiset"
+msgstr "djiboutilaiset"
 
 #: data/nation/djiboutian.ruleset:6
 msgid ""
@@ -4480,25 +4467,25 @@ msgstr ""
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy of the People %s"
-msgstr "Uuden pelaajan kansakunta: %s."
+msgstr "Kansanvihollinen %s"
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Enemy of the People %s"
-msgstr "Pääministeri %s"
+msgstr "Kansanvihollinen %s"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Commissar %s"
 msgstr "Komissaari %s"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Commissar %s"
 msgstr "Komissaari %s"
 
@@ -4630,14 +4617,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/epirote.ruleset:30 data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyrant %s"
-msgstr "Kersantti %s"
+msgstr "Tyranni %s"
 
 #: data/nation/epirote.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tyrant %s"
-msgstr "Tarkaani %s"
+msgstr "Tyranni %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
@@ -4953,22 +4940,22 @@ msgstr ""
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiere %s"
-msgstr "Komentaja %s"
+msgstr "Condottiere %s"
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiera %s"
-msgstr "Komentaja %s"
+msgstr "Condottiera %s"
 
 #: data/nation/florentine.ruleset:40 data/nation/milanese.ruleset:27
 #: data/nation/piedmontese.ruleset:33 data/nation/sardinian.ruleset:33
 #: data/nation/sicilian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Fra %s"
-msgstr "Emiiri %s"
+msgstr "Fra %s"
 
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
 #: data/nation/milanese.ruleset:29
@@ -4994,13 +4981,13 @@ msgstr "normannit"
 #, c-format
 msgid ""
 "Taiwan is home to fourteen officially recognized and twelve unrecognized "
-"tribes,all of whom are traditionally speakers of a group of Austronesian "
-"languagesknown as Formosan. Historical linguists consider the island to be "
-"the homeof the Austronesian family, as it is host to the most diverse set of "
-"Austronesianlanguages. Many of the tribes are traditionally matrilineal. "
-"Starting in the 17thcentury, European and East Asian colonists vied for "
-"control of the island,encroaching on aboriginal lands. Today, Formosans "
-"constitute around 2%of the population of Taiwan."
+"tribes, all of whom are traditionally speakers of a group of Austronesian "
+"languages known as Formosan. Historical linguists consider the island to be "
+"the home of the Austronesian family, as it is host to the most diverse set "
+"of Austronesian languages. Many of the tribes are traditionally matrilineal. "
+"Starting in the 17th century, European and East Asian colonists vied for "
+"control of the island, encroaching on aboriginal lands. Today, Formosans "
+"constitute around 2% of the population of Taiwan."
 msgstr ""
 
 # Wikipedia: Franken
@@ -5055,16 +5042,15 @@ msgid ""
 msgstr ""
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "Mayor of the Palace %s"
-msgstr "Uuden pelaajan kansakunta: %s."
+msgstr "Palatsinjohtaja %s"
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mayor of the Palace %s"
-msgstr "Pääministeri %s"
+msgstr "Palatsinjohtaja %s"
 
-# TODO: was fuzzy, why?
 #: data/nation/frisian.ruleset:3
 msgid "Frisian"
 msgstr "friisiläisten"
@@ -5126,14 +5112,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gabonese.ruleset:3
-#, fuzzy
 msgid "Gabonese"
-msgstr "guyanalaisten"
+msgstr "gabonilaisten"
 
 #: data/nation/gabonese.ruleset:4
-#, fuzzy
 msgid "?plural:Gabonese"
-msgstr "guyanalaiset"
+msgstr "gabonilaiset"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -5413,15 +5397,14 @@ msgstr ""
 "perustivat sinne etuvartioasemia. 1800-luvulla Ghanasta tuli brittien "
 "siirtomaa. Vuonna 1957 Kwame Nkrumah julisti Ghanan itsenäiseksi."
 
+# Sävelletty (ghana = great warrior)
 #: data/nation/ghana.ruleset:3
-#, fuzzy
 msgid "Ghana"
-msgstr "ghanalaisten"
+msgstr "ghanojen"
 
 #: data/nation/ghana.ruleset:4
-#, fuzzy
 msgid "?plural:Ghana"
-msgstr "ghanalaiset"
+msgstr "ghanat"
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -5434,14 +5417,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Ghana %s"
-msgstr "Mansa %s"
+msgstr "Ghana %s"
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ghana %s"
-msgstr "Mansa %s"
+msgstr "Ghana %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
@@ -5482,15 +5465,14 @@ msgid ""
 "the Kuban river in the West to Korea in the East."
 msgstr ""
 
+# Kultainen orda ('leiri'/horde). Älä käännä monikkoa ei-monikkoon.
 #: data/nation/goldenhorde.ruleset:3
-#, fuzzy
 msgid "Golden Horde"
-msgstr "Kultaa: %d"
+msgstr "Kultaisen ordan"
 
 #: data/nation/goldenhorde.ruleset:4
-#, fuzzy
 msgid "?plural:Golden Horde"
-msgstr "?plural:buurit"
+msgstr "Kultaisen ordan leiriläiset"
 
 #: data/nation/goldenhorde.ruleset:6
 msgid ""
@@ -6311,12 +6293,13 @@ msgstr ""
 #: data/nation/israeli.ruleset:22
 #, c-format
 msgid "Kibbutznik %s"
-msgstr ""
+msgstr "Kibbutznik %s"
 
+# Wikipedia (en): "Kibbutznikyot training (female kibbutz members)"
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kibbutznik %s"
-msgstr "Encik %s"
+msgstr "Kibbutznikyot %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -6329,14 +6312,12 @@ msgid "?female:Rabbi %s"
 msgstr "Rabbi %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "israelilaisten"
+msgstr "israeliittien"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "?plural:israelilaiset"
+msgstr "israeliitit"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -6349,15 +6330,15 @@ msgstr ""
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Judge %s"
-msgstr "Doge %s"
+msgstr "Tuomari %s"
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Judge %s"
-msgstr "Duce %s"
+msgstr "Tuomari %s"
 
 #: data/nation/italiangreek.ruleset:3
 #, fuzzy
@@ -9807,7 +9788,7 @@ msgstr ""
 msgid "?plural:Kievan Rus'"
 msgstr "?plural:kenialaiset"
 
-#: data/nation/ruthenian.ruleset:6
+#: data/nation/ruthenian.ruleset:7
 msgid ""
 "The Kievan Rus' were a Medieval Slavic monarchy. It was centered in Kiev "
 "after that city was conquered by Oleg of Novgorod. In the 13th century the "
@@ -9932,12 +9913,11 @@ msgstr ""
 
 #: data/nation/salishan.ruleset:3
 msgid "Salishan"
-msgstr ""
+msgstr "salishien"
 
 #: data/nation/salishan.ruleset:4
-#, fuzzy
 msgid "?plural:Salishans"
-msgstr "malilaiset"
+msgstr "salishat"
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -10211,14 +10191,12 @@ msgstr ""
 "lähes täysin itsenäinen osa vuosina 1356–1806. "
 
 #: data/nation/scanian.ruleset:3
-#, fuzzy
 msgid "Scanian"
-msgstr "iranilaisten"
+msgstr "skånelaisten"
 
 #: data/nation/scanian.ruleset:4
-#, fuzzy
 msgid "?plural:Scanians"
-msgstr "iranilaiset"
+msgstr "skånelaiset"
 
 #: data/nation/scanian.ruleset:6
 msgid ""
@@ -10348,12 +10326,11 @@ msgstr ""
 
 #: data/nation/seljuk.ruleset:3
 msgid "Seljuk"
-msgstr ""
+msgstr "seldžukkien"
 
 #: data/nation/seljuk.ruleset:4
-#, fuzzy
 msgid "?plural:Seljuks"
-msgstr "seleukidit"
+msgstr "seldžukit"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -10369,12 +10346,11 @@ msgstr ""
 
 #: data/nation/seminole.ruleset:3
 msgid "Seminole"
-msgstr ""
+msgstr "seminolien"
 
 #: data/nation/seminole.ruleset:4
-#, fuzzy
 msgid "?plural:Seminoles"
-msgstr "senegalilaiset"
+msgstr "seminolit"
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -10452,12 +10428,11 @@ msgstr ""
 
 #: data/nation/shan.ruleset:3
 msgid "Shan"
-msgstr ""
+msgstr "shanien"
 
 #: data/nation/shan.ruleset:4
-#, fuzzy
 msgid "?plural:Shans"
-msgstr "saksit"
+msgstr "shanit"
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -10487,12 +10462,11 @@ msgstr ""
 
 #: data/nation/sherpa.ruleset:3
 msgid "Sherpa"
-msgstr ""
+msgstr "šerpojen"
 
 #: data/nation/sherpa.ruleset:4
-#, fuzzy
 msgid "?plural:Sherpas"
-msgstr "sahrawit"
+msgstr "šerpat"
 
 #: data/nation/sherpa.ruleset:6
 msgid ""
@@ -10639,14 +10613,12 @@ msgstr ""
 "Singapore on kauppamahti, kaupunkivaltio Malesian niemimaan eteläkärjessä."
 
 #: data/nation/sinhalese.ruleset:3
-#, fuzzy
 msgid "Sinhalese"
-msgstr "senegalilaisten"
+msgstr "singaleesien"
 
 #: data/nation/sinhalese.ruleset:4
-#, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "senegalilaiset"
+msgstr "singaleesit"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -11037,12 +11009,11 @@ msgstr "Kersantti %s"
 
 #: data/nation/swahili.ruleset:3
 msgid "Swahili"
-msgstr ""
+msgstr "swahilien"
 
 #: data/nation/swahili.ruleset:4
-#, fuzzy
 msgid "?plural:Swahili"
-msgstr "swazit"
+msgstr "swahilit"
 
 #: data/nation/swahili.ruleset:6
 msgid ""
@@ -11585,12 +11556,11 @@ msgstr ""
 
 #: data/nation/tuareg.ruleset:3
 msgid "Tuareg"
-msgstr ""
+msgstr "tuaregien"
 
 #: data/nation/tuareg.ruleset:4
-#, fuzzy
 msgid "?plural:Tuaregs"
-msgstr "turkkilaiset"
+msgstr "tuaregit"
 
 #: data/nation/tuareg.ruleset:6
 msgid ""
@@ -12343,7 +12313,7 @@ msgid ""
 msgstr ""
 "Westfalen oli Saksin herttuakunnan länsialue ennen muuttumistaan Preussin "
 "provinssiksi. Nykyään se kattaa pohjoisen osan Saksan liittotasavallan "
-"suurimmasta osavaltiosta, Nordhein-Westfalenista."
+"suurimmasta osavaltiosta, Nordrhein-Westfalenista."
 
 #: data/nation/wuerttembergian.ruleset:3
 msgid "Wuerttembergian"
@@ -14046,7 +14016,7 @@ msgstr ""
 
 #~ msgid "Treasury contains %d gold."
 #~ msgid_plural "Treasury contains %d gold."
-#~ msgstr[0] "Kassassa pohjalla on vain yksi (%d) kulta."
+#~ msgstr[0] "Kassan pohjalla on vain yksi (%d) kulta."
 #~ msgstr[1] "Kassassa on %d kultaa."
 
 #~ msgid ""
@@ -14710,6 +14680,9 @@ msgstr ""
 #~ msgid "Address"
 #~ msgstr "Osoite"
 
+#~ msgid "?property:Label"
+#~ msgstr "Merkki"
+
 #~ msgid "Exclude Nations"
 #~ msgstr "Vältä kansakuntia"
 
@@ -15311,6 +15284,9 @@ msgstr ""
 #~ msgid "National _Borders"
 #~ msgstr "Valtioiden ra_jat"
 
+#~ msgid "Native Tiles"
+#~ msgstr "Sallitut ruudut"
+
 #~ msgid "City Full Bar"
 #~ msgstr "Täydellinen kaupunki-in_fo"
 
@@ -15618,6 +15594,9 @@ msgstr ""
 
 #~ msgid "Reset"
 #~ msgstr "Oletusarvot"
+
+#~ msgid "Compiling scenario list."
+#~ msgstr "Koostetaan skenaariolistaa."
 
 #~ msgid "%s%s, %s client"
 #~ msgstr "%s%s, käyttöliittymä %s."
@@ -16218,13 +16197,6 @@ msgstr ""
 #~ msgstr "Peru"
 
 #~ msgid ""
-#~ "\n"
-#~ "veteran"
-#~ msgstr ""
-#~ "\n"
-#~ "konkari"
-
-#~ msgid ""
 #~ "Disband if build\n"
 #~ "settler at size 1"
 #~ msgstr ""
@@ -16823,9 +16795,6 @@ msgstr ""
 
 #~ msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 #~ msgstr "%s Väkiluku: %s  Vuosi: %s  Kulta %d Vero: %d Luk: %d Tie: %d"
-
-#~ msgid "veteran"
-#~ msgstr "konkari"
 
 #~ msgid "?nation:Neutral"
 #~ msgstr "neutraali"
@@ -17771,7 +17740,6 @@ msgstr ""
 #~ msgid "This is %s, %s client."
 #~ msgstr "Tämä on %s, käyttöliittymä %s."
 
-#, fuzzy
 #~ msgid "Requires knowledge of the technology %s.\n"
 #~ msgstr "Edellyttää teknologian %s.\n"
 
@@ -17800,58 +17768,93 @@ msgstr ""
 #~ msgid "Requires that %s was built at some point.\n"
 #~ msgstr "Edellyttää että ihme %s on rakennettu jossakin vaiheessa.\n"
 
-#, fuzzy
-#~ msgid "Requires %s to be owned by any player and not yet obsolete.\n"
-#~ msgstr "Edellyttää sinulla olevan samalla mantereella ihmeen %s.\n"
+#~ msgid "Prevented if %s has ever been built, unless it would be obsolete.\n"
+#~ msgstr ""
+#~ "Estyy jos %s on joskus rakennettu, paitsi jos se olisi vanhentunut.\n"
 
-#, fuzzy
+#~ msgid "Prevented if %s has ever been built.\n"
+#~ msgstr "Estyy jos %s on koskaan rakennettu.\n"
+
 #~ msgid "Requires %s to be owned by any player.\n"
-#~ msgstr "Edellyttää jonkun pelaajan rakentaneen ihmeen %s.\n"
+#~ msgstr "Edellyttää jonkun pelaajan omistavan ihmeen %s.\n"
 
-#, fuzzy
+#~ msgid ""
+#~ "Prevented if %s is currently owned by any player, unless it is obsolete.\n"
+#~ msgstr ""
+#~ "Estyy jos ihmeen %s tällä hetkellä omistaa joku pelaaja, paitsi jos se on "
+#~ "vanhentunut.\n"
+
+#~ msgid "Prevented if %s is currently owned by any player.\n"
+#~ msgstr "Estyy jos joku omistaja tällä hetkellä omistaa ihmeen %s.\n"
+
+#~ msgid ""
+#~ "Requires you to have built %s at some point, and for it not to have been "
+#~ "rendered obsolete.\n"
+#~ msgstr ""
+#~ "Edellyttää sinun rakentaneen %s taannoin, ja ettei se ole vielä "
+#~ "vanhentunut.\n"
+
 #~ msgid "Requires you to have built %s at some point.\n"
-#~ msgstr "Edellyttää sinulla olevan ihmeen %s.\n"
+#~ msgstr "Edellyttää sinun rakentaneen ihmeen %s taannoin.\n"
 
-#, fuzzy
+#~ msgid "Prevented if you have ever built %s, unless it would be obsolete.\n"
+#~ msgstr ""
+#~ "Estyy jos olet koskaan rakentanut ihmeen %s, paitsi jos se olisi "
+#~ "vanhentunut.\n"
+
+#~ msgid "Prevented if you have ever built %s.\n"
+#~ msgstr "Estyy jos olet koskaan rakentanut ihmeen %s.\n"
+
 #~ msgid "Requires you to own %s, which must not be obsolete.\n"
-#~ msgstr "Edellyttää sinulla olevan ihmeen %s.\n"
+#~ msgstr ""
+#~ "Edellyttää sinulla olevan ihmeen %s, joka ei saa olla vanhentunut.\n"
 
-#, fuzzy
 #~ msgid "Requires you to own %s.\n"
 #~ msgstr "Edellyttää sinulla olevan ihmeen %s.\n"
 
-#, fuzzy
-#~ msgid "Prevented if you own %s.\n"
-#~ msgstr "%s siirrettiin kaupunkiin %s."
+#~ msgid "Prevented if you own %s, unless it is obsolete.\n"
+#~ msgstr "Estyy jos sinulla on %s, paitsi jos se on vanhentunut.\n"
 
-#, fuzzy
+#~ msgid "Prevented if you own %s.\n"
+#~ msgstr "Estyy jos sinulla on %s.\n"
+
 #~ msgid ""
 #~ "Requires %s in one of your cities on the same continent, and not yet "
 #~ "obsolete.\n"
-#~ msgstr "Edellyttää sinulla olevan samalla mantereella ihmeen %s.\n"
+#~ msgstr ""
+#~ "Edellyttää sinulla olevan samalla mantereella ihmeen %s, joka ei ole "
+#~ "vielä vanhentunut.\n"
 
-#, fuzzy
 #~ msgid "Requires %s in one of your cities on the same continent.\n"
 #~ msgstr "Edellyttää sinulla olevan samalla mantereella ihmeen %s.\n"
 
-#, fuzzy
+#~ msgid ""
+#~ "Prevented if %s is in one of your cities on the same continent, unless it "
+#~ "is obsolete.\n"
+#~ msgstr ""
+#~ "Estyy jos %s on jossakin kaupungissasi samalla mantereella, paitsi jos se "
+#~ "on vanhentunut.\n"
+
 #~ msgid "Prevented if %s is in one of your cities on the same continent.\n"
-#~ msgstr "Vaikuttaa kuin kaupunginmuuri kaikissa saman maanosan kaupungeissa."
+#~ msgstr "Estyy jos %s on jossakin kaupungissasi samalla mantereella.\n"
 
-#, fuzzy
+#~ msgid "Requires %s in the city (and not yet obsolete).\n"
+#~ msgstr "Edellyttää että kaupungissa on %s (joka ei ole vanhentunut).\n"
+
 #~ msgid "Requires %s in the city.\n"
-#~ msgstr "Edellyttää tukikohdan %s ruudussa.\n"
+#~ msgstr "Edellyttää että kaupungissa on %s.\n"
 
-#, fuzzy
+#~ msgid "Prevented by %s in the city (unless it is obsolete).\n"
+#~ msgstr "Estyy jos kaupungissa on %s (paitsi jos se on vanhentunut).\n"
+
 #~ msgid "Prevented by %s in the city.\n"
-#~ msgstr "Edellyttää rakennusta %s kaupungissa.\n"
+#~ msgstr "Estyy jos kaupungissa on %s.\n"
 
 #~ msgid "Only applies to \"%s\" buildings.\n"
 #~ msgstr "Pätee vain rakennukseen \"%s\".\n"
 
-#, fuzzy
 #~ msgid "Does not apply to \"%s\" buildings.\n"
-#~ msgstr "Pätee vain rakennukseen \"%s\".\n"
+#~ msgstr "Ei päde rakennukseen \"%s\".\n"
 
 #, fuzzy
 #~ msgid "?special:Requires %s on the tile.\n"
@@ -17870,9 +17873,8 @@ msgstr ""
 #~ "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 #~ msgstr "Edellyttää ruudun tai viereisen ruudun olevan maastotyyppiä %s.\n"
 
-#, fuzzy
 #~ msgid "?special:Requires %s on the tile or an adjacent tile.\n"
-#~ msgstr "Edellyttää ruudun tai viereisen ruudun olevan maastotyyppiä %s.\n"
+#~ msgstr "Edellyttää erityispiirteen %s samalla tai viereisellä ruudulla.\n"
 
 #, fuzzy
 #~ msgid "?special:Prevented by %s on the tile or any adjacent tile.\n"
@@ -17903,33 +17905,23 @@ msgstr ""
 #~ msgid "?terrain:Prevented by %s on the tile or any adjacent tile.\n"
 #~ msgstr "Edellyttää ruudun tai viereisen ruudun olevan maastotyyppiä %s.\n"
 
-#, fuzzy
 #~ msgid "Requires that you are playing as the %s.\n"
-#~ msgstr ""
-#~ "Edellyttää kansakunnan olevan %s.\n"
-#~ "\n"
+#~ msgstr "Edellyttää kansakuntasi olevan %s.\n"
 
-#, fuzzy
 #~ msgid "Requires that you are not playing as the %s.\n"
-#~ msgstr ""
-#~ "Edellyttää kansakunnan olevan %s.\n"
-#~ "\n"
+#~ msgstr "Edellyttää ettei kansakuntasi ole %s.\n"
 
-#, fuzzy
 #~ msgid "Requires the %s to have been in the game.\n"
-#~ msgstr "Edellyttää kansakunnan %s olevan pelissä.\n"
+#~ msgstr "Edellyttää että %s ovat olleet joskus pelissä.\n"
 
-#, fuzzy
 #~ msgid "Requires the %s never to have been in the game.\n"
-#~ msgstr "Edellyttää kansakunnan %s olevan pelissä.\n"
+#~ msgstr "Edellyttää etteivät %s ole olleet pelissä.\n"
 
-#, fuzzy
 #~ msgid "Requires the %s in the game.\n"
-#~ msgstr "Edellyttää kansakunnan %s olevan pelissä.\n"
+#~ msgstr "Edellyttää että %s ovat pelissä.\n"
 
-#, fuzzy
 #~ msgid "Requires that the %s are not in the game.\n"
-#~ msgstr "Edellyttää kansakunnan %s olevan pelissä.\n"
+#~ msgstr "Edellyttää etteivät %s ole pelissä.\n"
 
 #~ msgid "?unit:Requires %s.\n"
 #~ msgstr "Edellyttää yksikön %s.\n"
@@ -18013,7 +18005,6 @@ msgstr ""
 #~ "adjacent tile.\n"
 #~ msgstr "Edellyttää ruudun tai viereisen ruudun olevan maastotyyppiä %s.\n"
 
-#, fuzzy
 #~ msgid "?terrainclass:Requires %s terrain on the tile or an adjacent tile.\n"
 #~ msgstr "Edellyttää ruudun tai viereisen ruudun olevan maastotyyppiä %s.\n"
 
@@ -18212,13 +18203,9 @@ msgstr ""
 #~ msgid "* Must stay next to coast.\n"
 #~ msgstr "· Joutuu pysyttelemään rannikon lähellä.\n"
 
-#~ msgid ""
-#~ "* Can establish trade routes (must travel to target city and must be at "
-#~ "least %d tiles [in Manhattan distance] from this unit's home city).\n"
-#~ msgstr ""
-#~ "· Voi aloittaa kauppareittejä – kulkemalla kohdekaupunkiin, joka on "
-#~ "vähintään %d ruudun päässä taksimiehen geometrialla (ruutujen reunoja, ei "
-#~ "diagonaaleja pitkin laskien) yksikön kotikaupungista.\n"
+#, fuzzy
+#~ msgid "* Can establish trade routes (must travel to target city).\n"
+#~ msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia"
 
 #~ msgid "* Can help build wonders (adds %d production).\n"
 #~ msgstr "· Voi auttaa ihmeen valmistumisessa (lisää %d tuotantoa).\n"
@@ -18232,8 +18219,11 @@ msgstr ""
 #~ "· Voidaan lakkauttaa kaupungissa, jolloin 50% tuotantokuluista saadaan "
 #~ "takaisin.\n"
 
-#~ msgid "* Can build new cities.\n"
-#~ msgstr "· Voi perustaa uusia kaupunkeja.\n"
+#, fuzzy
+#~ msgid "* Can build new cities (initial population %d).\n"
+#~ msgid_plural "* Can build new cities (initial population %d).\n"
+#~ msgstr[0] "· Voi perustaa uusia kaupunkeja.\n"
+#~ msgstr[1] "· Voi perustaa uusia kaupunkeja.\n"
 
 #~ msgid "* Can add on %d population to cities of no more than size %d.\n"
 #~ msgid_plural ""
@@ -18754,7 +18744,6 @@ msgstr ""
 #~ msgid "* Has no unhappy citizens.\n"
 #~ msgstr "· Tyytymättömiä asukkaita ei ole.\n"
 
-#, fuzzy
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
 #~ "unless the city working it is celebrating."
@@ -18762,7 +18751,7 @@ msgstr ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
 #~ "unless the city working it is celebrating."
 #~ msgstr[0] ""
-#~ "· Jokaisen ruudun tuotosta joka ylittää %d %spistettä, vähennetään yksi "
+#~ "· Jokaisen ruudun tuotosta joka ylittää %d %spisteen, vähennetään yksi "
 #~ "ellei kaupunki juhli."
 #~ msgstr[1] ""
 #~ "· Jokaisen ruudun tuotosta joka ylittää %d %spistettä, vähennetään yksi "
@@ -18771,7 +18760,6 @@ msgstr ""
 #~ msgid " (Cities below size %d will not celebrate.)"
 #~ msgstr " (Kokoa %d pienemmät kaupungit eivät juhli.)"
 
-#, fuzzy
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it while the "
 #~ "city working it is celebrating."
@@ -18779,22 +18767,21 @@ msgstr ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it while the "
 #~ "city working it is celebrating."
 #~ msgstr[0] ""
-#~ "· Jokainen ruutu, joka tuottaa ainakin 1 %spisteen, saadaan %d lisää "
-#~ "kaupungin juhliessa."
+#~ "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, saadaan %d "
+#~ "lisää kaupungin juhliessa."
 #~ msgstr[1] ""
-#~ "· Jokainen ruutu, joka tuottaa ainakin 1 %spisteen, saadaan %d lisää "
-#~ "kaupungin juhliessa."
+#~ "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, saadaan %d "
+#~ "lisää kaupungin juhliessa."
 
-#, fuzzy
 #~ msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 #~ msgid_plural ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 #~ msgstr[0] ""
-#~ "· Jokainen ruutu, joka tuottaa ainakin 1 %spisteen, tuottaa %d pistettä "
-#~ "lisää.\n"
+#~ "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d "
+#~ "pisteen lisää.\n"
 #~ msgstr[1] ""
-#~ "· Jokainen ruutu, joka tuottaa ainakin 1 %spisteen, tuottaa %d pistettä "
-#~ "lisää.\n"
+#~ "· Jokainen ruutu, jonka %s -tuotto on vähintään yhden pisteen, tuottaa %d "
+#~ "pistettä lisää.\n"
 
 #~ msgid "* %s production is increased %d%%.\n"
 #~ msgstr "· %spisteiden tuotto lisääntyy %d%%.\n"
@@ -20015,10 +20002,12 @@ msgstr ""
 #~ msgid "AI mode is now OFF."
 #~ msgstr "AI-tila on nyt POIS PÄÄLTÄ."
 
+#~ msgid "noconn"
+#~ msgstr "ei yht."
+
 #~ msgid "waiting"
 #~ msgstr "odottaa"
 
-#, fuzzy
 #~ msgid "blocking"
 #~ msgstr "estynyt"
 
@@ -21348,9 +21337,8 @@ msgstr ""
 #~ msgid "%s possible"
 #~ msgstr "%s mahdollinen"
 
-#, fuzzy
 #~ msgid "City center"
-#~ msgstr "Kaupungin keskiruutu"
+#~ msgstr "Kaupungin keskus"
 
 #~ msgid "Road"
 #~ msgstr "tie"
@@ -22513,6 +22501,9 @@ msgstr ""
 #~ msgid "Russian"
 #~ msgstr "venäläisten"
 
+#~ msgid "?plural:Russians"
+#~ msgstr "venäläiset"
+
 #~ msgid ""
 #~ "According to legend, Slavic and Finnic tribes of Novgorod invited in the "
 #~ "year 862 the Varangian (Viking) king Rurik to bring order to their land. "
@@ -22897,6 +22888,9 @@ msgstr ""
 
 #~ msgid "green"
 #~ msgstr "kokematon"
+
+#~ msgid "veteran"
+#~ msgstr "konkari"
 
 #~ msgid "?unitclass:Land"
 #~ msgstr "maavoimien"
@@ -23925,6 +23919,12 @@ msgstr ""
 #~ "tai hukkatuotantoa, mutta sotiminen korpeaa kansalaisia huomattavassa "
 #~ "määrin."
 
+#~ msgid "Carthaginian"
+#~ msgstr "karthagolaisten"
+
+#~ msgid "?plural:Carthaginians"
+#~ msgstr "?plural:karthagolaiset"
+
 #~ msgid ""
 #~ "The Carthaginians, descendants of Phoenician traders, ran a naval empire "
 #~ "in the Mediterranean from the 5th to 2nd centuries BC. Carthage was "
@@ -24203,7 +24203,6 @@ msgstr ""
 #~ msgid "?unitclass:Helicopter"
 #~ msgstr "helikopterijoukkojen"
 
-#, fuzzy
 #~ msgid ""
 #~ "Upkeep for Settlers is in food as well as production, and a Settler can "
 #~ "die if its supporting city runs out of food. Settlers require twice as "
@@ -24212,8 +24211,8 @@ msgstr ""
 #~ msgstr ""
 #~ "Uudisraivaajien ylläpito vaatii sekä ruokaa että tuotantoa. Uudisraivaaja "
 #~ "saattaa menehtyä jos sitä ylläpitävän kaupungin ruokavarastot tyhjenevät. "
-#~ "Tasavallassa ja Demokratiassa Uudisraivaajat vaativat kaksinkertaisen "
-#~ "määrän ruokaa, Kommunismissa ja Fundamentalismissa kolminkertaisen."
+#~ "Tasavallassa, Demokratiassa, Kommunismissa ja Fundamentalismissa "
+#~ "Uudisraivaajat vaativat kaksinkertaisen määrän ruokaa."
 
 #~ msgid "Engineers"
 #~ msgstr "Teknikkoryhmä"
@@ -25590,6 +25589,7 @@ msgstr ""
 #~ msgid "Take Player"
 #~ msgstr "Ota pelaaja hallintaan"
 
+#, fuzzy
 #~ msgid ""
 #~ "Freeciv is a turn-based strategy game, in which each player becomes the "
 #~ "leader of a civilization. You compete against several opponents to found "
@@ -25598,7 +25598,7 @@ msgstr ""
 #~ "emerge victorious. Each opponent may be either another human or be "
 #~ "controlled by the computer. All players begin at the dawn of history with "
 #~ "a handful of units -- typically with an explorer and a couple of settlers "
-#~ "in 4000 BC -- and race to expand outward from those humble beginnings."
+#~ "in 4000 BCE -- and race to expand outward from those humble beginnings."
 #~ msgstr ""
 #~ "Freeciv on vuoropohjainen strategiapeli, jossa pelaajista tulee kukin "
 #~ "oman sivilisaationsa hallitsijoita. Perustat kaupunkeja, käytät niitä "
@@ -25638,11 +25638,12 @@ msgstr ""
 #~ "avaruusaluksen kohti Alfa Centauria; se kansakunta voittaa jonka alus "
 #~ "ensimmäisenä saavuttaa toisen aurinkokunnan."
 
+#, fuzzy
 #~ msgid ""
 #~ " - In the absence of other means to determine victory, the game will end "
-#~ "in the year 2000 AD if no spacecraft have yet been launched. The "
-#~ "surviving civilizations are then rated, and the one with the highest "
-#~ "score is the winner."
+#~ "after 5000 turns if no spacecraft have yet been launched. The surviving "
+#~ "civilizations are then rated, and the one with the highest score is the "
+#~ "winner."
 #~ msgstr ""
 #~ " – Jos peli ei muuten ole ratkennut eikä avaruusaluksia ole laukaistu, "
 #~ "peli päättyy vuonna 2000 j.a.a. Jäljelle jääneet sivilisaatiot arvioidaan "
@@ -27511,20 +27512,22 @@ msgstr ""
 #~ "kohtaa Tuotanto. Joillakin yksiköillä, varsinkin niillä jotka saat pelin "
 #~ "alussa, ei ole kotikaupunkia eivätkä ne tarvitse ylläpitoa."
 
+#, fuzzy
 #~ msgid ""
-#~ "Units begin every turn with one or more movement points. Every action "
-#~ "undertaken by a unit consumes movement points."
+#~ "Most units begin every turn with one or more movement points. Every "
+#~ "action undertaken by a unit consumes movement points."
 #~ msgstr ""
 #~ "Yksiköillä on joka vuoron alussa yksi tai useampi liikepiste. Jokainen "
 #~ "toiminto johon yksikkö ryhtyy kuluttaa liikepisteitä."
 
+#, fuzzy
 #~ msgid ""
 #~ "The most basic action is movement; units can move into any of the tiles "
 #~ "surrounding their current location, subject to restrictions imposed by "
-#~ "their class, by diplomatic obligations (see the section on Diplomacy), "
-#~ "and by enemy units (see the section on Zones of Control). The number of "
-#~ "movement points consumed may depend on the type of terrain; see the "
-#~ "Terrain help."
+#~ "their physical nature (the terrain they are 'native' to), by diplomatic "
+#~ "obligations (see the section on Diplomacy), and by enemy units (see the "
+#~ "section on Zones of Control). The number of movement points consumed may "
+#~ "depend on the type of terrain; see the Terrain help."
 #~ msgstr ""
 #~ "Yksinkertaisin toiminto on liikuminen: yksiköt voivat liikkua mihin "
 #~ "tahansa niiden nykyisen sijainnin vieressä olevaan ruutuun niiden luokan, "
@@ -27979,10 +27982,9 @@ msgstr ""
 #~ msgstr ""
 #~ "Perussääntönä maavoimien yksikkö, joka on vihollisyksikön viereisessä "
 #~ "ruudussa, ei voi siirtyä suoraan toiseen ruutuun, joka myös on "
-#~ "vihollisyksikön hallussa pitämän ruudun vieressä. Hallussapidoksi "
-#~ "lasketaan se, että ruudulla on vieraan vallan yksikkö. Vierekkäisiksi "
-#~ "ruuduiksi lasketaan kaikki kahdeksan yksikköä ympäröivää nelikulmaista "
-#~ "ruutua tai kuusikulmaisessa ruudukossa kuusi ympäröivää ruutua."
+#~ "vihollisyksikön vieressä. Vierekkäisiksi ruuduiksi lasketaan kaikki "
+#~ "kahdeksan yksikköä ympäröivää nelikulmaista ruutua tai kuusikulmaisessa "
+#~ "ruudukossa kuusi ympäröivää ruutua."
 
 #~ msgid ""
 #~ "In the following special cases ZOC does not apply:\n"
@@ -28374,12 +28376,11 @@ msgstr ""
 #~ "se saapuu perille aikaisemmin. Ainoa toinen vaihtoehto on vallata "
 #~ "vihollisen pääkaupunki."
 
+#, fuzzy
 #~ msgid ""
 #~ "Each player in the game is represented by a nation. A nation can be a "
 #~ "modern-day nation state, a historical state or empire, an ethnic group, "
-#~ "or even a fictional nation. Nations are distinguished by their flags, "
-#~ "leaders and city names, but are identical in all other aspects and play "
-#~ "by the same rules."
+#~ "or even a fictional nation."
 #~ msgstr ""
 #~ "Kutakin pelaajaa edustaa pelissä kansakunta. Pelin kansakunnat voivat "
 #~ "olla nykyaikaisia kansallisvaltioita, historiallisia valtioita tai "
@@ -28387,6 +28388,16 @@ msgstr ""
 #~ "kansakunnalla on oma lippunsa, omat johtajansa ja kaupunkien nimensä, "
 #~ "mutta muissa suhteissa ne ovat täysin samanlaisia ja noudattavat samoja "
 #~ "sääntöjä."
+
+#~ msgid ""
+#~ "Nations are distinguished by their flags, leaders and city names; in the "
+#~ "default rules they are identical in all other aspects and play by the "
+#~ "same rules, but other rules may have nation-specific behavior."
+#~ msgstr ""
+#~ "Kullakin kansakunnalla on oma lippunsa, omat johtajansa ja kaupunkien "
+#~ "nimensä; oletussäännöissä ne ovat kaikilta muulta osin täysin samanlaisia "
+#~ "ja noudattavat samoja sääntöjä, mutta muissa säännöissä saattaa olla "
+#~ "kansakuntakohtaisia eroavuuksia."
 
 #~ msgid ""
 #~ "Before a game is started, anyone can connect to the server by supplying "
@@ -28913,7 +28924,7 @@ msgstr ""
 #~ "match."
 #~ msgstr ""
 #~ " – Rivit, jotka alkavat esim. 'Erkki::' ovat yksityisiä viestejä kuten "
-#~ "yllä, mutta täsmäävät vain käyttäjiin (ei pelaajiin), joien nimi on "
+#~ "yllä, mutta täsmäävät vain käyttäjiin (ei pelaajiin), joiden nimi on "
 #~ "'Erkki'. Nimiä voi yhä lyhentää, esim. 'Erkki-Jooseppi' täsmää."
 
 #~ msgid "  - Messages starting with '.' will be sent only to all your allies."
@@ -28932,7 +28943,7 @@ msgstr ""
 #~ "========================\n"
 #~ "\n"
 #~ "Versiosta 2.2 alkaen GTK-asiakasohjelma on tukenut tyyliteltyä tekstiä. "
-#~ "Ominaisuus sallii käyttäjien muotoilla lähettämieen keskusteluviestejä "
+#~ "Ominaisuus sallii käyttäjien muotoilla lähettämiään keskusteluviestejä "
 #~ "lihavoimalla, kursivoimalla, värittämällä, linkittämällä, jne. Tällaiset "
 #~ "muutokset suoritetaan lisäämällä viestiin sopivia tägejä."
 
@@ -28968,7 +28979,7 @@ msgstr ""
 #~ "Lyhennetägäys: '[c] ... [/c]'\n"
 #~ "Pikanäppäin syötteessä: Ctrl-C (sinun pitää myös valita väri "
 #~ "työkalupalkista syötteen yläpuolelta).\n"
-#~ "Väritägissä on aina ainakin seuraavat parametrit:\n"
+#~ "Väritägissä on oltava vähintään toinen seuraavista parametreista:\n"
 #~ "– 'foreground' (lyhenne fg): tekstin väri, parametrin arvo on hyvin "
 #~ "tunnettu värin nimi englanniksi kuten \"red\" (punainen) tai värin "
 #~ "määrittely heksadesimaalisena RGB-järjestelmässä kuten #3050b2 tai #35b.\n"
@@ -29001,7 +29012,7 @@ msgstr ""
 #~ "Pitkä tägäys: '[strike] ... [/strike]'\n"
 #~ "Lyhennetägäys: '[s] ... [/s]'\n"
 #~ "Pikanäppäin syötteessä: Ctrl-S\n"
-#~ "Esimerkki: '[b]yliviivattu[/b]' näyttää sanan 'yliviivattu' yliviivattuna."
+#~ "Esimerkki: '[s]yliviivattu[/s]' näyttää sanan 'yliviivattu' yliviivattuna."
 
 #~ msgid ""
 #~ "* Getting underline:\n"
@@ -29015,7 +29026,7 @@ msgstr ""
 #~ "Pitkä tägäys: '[underline] ... [/underline]'\n"
 #~ "Lyhennetägäys: '[u] ... [/u]'\n"
 #~ "Pikanäppäin syötteessä: Ctrl-U\n"
-#~ "Esimerkki: '[b]alleviivattu[/b]' näyttää sanan 'alleviivattu' "
+#~ "Esimerkki: '[u]alleviivattu[/u]' näyttää sanan 'alleviivattu' "
 #~ "alleviivattuna."
 
 #~ msgid ""
@@ -29062,7 +29073,7 @@ msgstr ""
 #~ "Example: '[l tgt=\"tile\" x=17 y=3]this tile[/l]' will make the string "
 #~ "'this tile' clickable and pointing to the tile (17, 3)."
 #~ msgstr ""
-#~ "· Linkitys ruutuihin:\n"
+#~ "· Linkitys ruutuun:\n"
 #~ "Pitkä tägäys: '[link target=\"tile\"] ... [/link]'\n"
 #~ "Lyhennetägäys: '[l tgt=\"tile\"] ... [/l]'\n"
 #~ "Pikanäppäin: Ctrl-Alt-oikea hiirennappi kaupungittomaan ruutuun "
@@ -29089,7 +29100,7 @@ msgstr ""
 #~ "'[l tgt=\"unit\" id=235 name=\"Warrior\" /]' will display the name of the "
 #~ "unit id 235 if known, else, the word 'Warrior'."
 #~ msgstr ""
-#~ "· Linkitys ruutuihin:\n"
+#~ "· Linkitys yksikköön:\n"
 #~ "Pitkä tägäys: '[link target=\"unit\" id=..] ... [/link]'\n"
 #~ "Lyhennetägäys: '[l tgt=\"unit\" id=..] ... [/l]'\n"
 #~ "Pikanäppäin: Ctrl-Alt-Vaihto-oikea hiirennappi yksikköön kartalla.\n"
@@ -29131,8 +29142,8 @@ msgstr ""
 #~ "selected item. Pressing Help with no item selected will display this page."
 #~ msgstr ""
 #~ "Lisätäksesi jotakin työlistaan, kaksoisnapsauta sitä saatavilla olevien "
-#~ "projektien listalla. Voit myös painaa Apua-nappia saadaksesi lisätietoa "
-#~ "projektista. Jos painat Apua-nappia valitsematta ensin projektia, näet "
+#~ "projektien listalla. Voit myös painaa Ohje-nappia saadaksesi lisätietoa "
+#~ "projektista. Jos painat Ohje-nappia valitsematta ensin projektia, näet "
 #~ "tämän sivun."
 
 #~ msgid ""
@@ -29660,13 +29671,11 @@ msgstr ""
 #~ "operaatiossa 1938. Toisen maailmansodan päätyttyä 1945 liittoutuneiden "
 #~ "joukot valloittivat Itävallan."
 
-#, fuzzy
 #~ msgid "Archduke %s"
-#~ msgstr "Suurherttua %s"
+#~ msgstr "Arkkiherttua %s"
 
-#, fuzzy
 #~ msgid "Archduchess %s"
-#~ msgstr "Herttuatar %s"
+#~ msgstr "Arkkiherttuatar %s"
 
 #~ msgid "Kaiser %s"
 #~ msgstr "Keisari %s"
@@ -29802,13 +29811,11 @@ msgstr ""
 #~ "Etiopia on Afrikan vanhin kansakunta ja ainoa joka pysyi itsenäisenä "
 #~ "eurooppalaisen siirtomaavallan aikana."
 
-#, fuzzy
 #~ msgid "Citizen %s"
-#~ msgstr "Kansalaiset"
+#~ msgstr "Kansalainen %s"
 
-#, fuzzy
 #~ msgid "?female:Citizen %s"
-#~ msgstr "Heimopäällikkö %s"
+#~ msgstr "Kansalainen %s"
 
 #~ msgid "Hittite"
 #~ msgstr "heettiläisten"
@@ -29868,9 +29875,8 @@ msgstr ""
 #~ "Huayana Capacin, poikia. Huayana oli kuollut sairauteen – todennäköisesti "
 #~ "kyseessä oli alueella epidemiana riehunut isorokko."
 
-#, fuzzy
 #~ msgid "Inka %s"
-#~ msgstr "Sapa Inka %s"
+#~ msgstr "Inka %s"
 
 #~ msgid "Qoya %s"
 #~ msgstr "Qoya %s"
@@ -29878,7 +29884,6 @@ msgstr ""
 #~ msgid "Sapa Inka %s"
 #~ msgstr "Sapa Inka %s"
 
-#, fuzzy
 #~ msgid "Sapa Qoya %s"
 #~ msgstr "Sapa Inka %s"
 
@@ -29921,6 +29926,12 @@ msgstr ""
 #~ "edistyneimmän Pohjois-Amerikkalaisen valtakunnan Eurooppalaisten "
 #~ "rantautumisen aikaan."
 
+#~ msgid "Italian"
+#~ msgstr "italialaisten"
+
+#~ msgid "?plural:Italians"
+#~ msgstr "?plural:italialaiset"
+
 #~ msgid ""
 #~ "The Italian nation was unified in 1870 CE after decades of campaigning by "
 #~ "indigenous nationalists. It was a monarchy under the House of Savoy until "
@@ -29957,6 +29968,9 @@ msgstr ""
 
 #~ msgid "Korean"
 #~ msgstr "korealaisten"
+
+#~ msgid "?plural:Koreans"
+#~ msgstr "korealaiset"
 
 #~ msgid ""
 #~ "According to legend, the first Korean kingdom was founded in prehistory "
@@ -30104,7 +30118,7 @@ msgstr ""
 #~ "Tablets of Sumerian writing some 5500 years old have been found, pre-"
 #~ "dating every other writing in history."
 #~ msgstr ""
-#~ "Sumerilaiset hallitisvat eteläistä Mesopotamiaa Babylonian nousuun asti. "
+#~ "Sumerilaiset hallitsivat eteläistä Mesopotamiaa Babylonian nousuun asti. "
 #~ "Noin 5500 vuotta vanhoja sumerilaisia kirjoituslaattoja on löydetty, ja "
 #~ "niiden perusteella sumerilaisia pidetään maailman ensimmäisinä "
 #~ "kirjoitustaidon keksijöinä."
@@ -31911,10 +31925,10 @@ msgstr ""
 #~ "äänestää sen puolesta, tai kielteinen, mikäli ainakin puolet tyhjää "
 #~ "äänestämättömistä pelaajista äänestää sitä vastaan."
 
+#, fuzzy
 #~ msgid ""
 #~ "debug diplomacy <player>\n"
 #~ "debug ferries\n"
-#~ "debug player <player>\n"
 #~ "debug tech <player>\n"
 #~ "debug city <x> <y>\n"
 #~ "debug units <x> <y>\n"
@@ -37863,3 +37877,18 @@ msgstr ""
 
 #~ msgid "error %d (compiled without strerror)"
 #~ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid ""
+#~ "* Can establish trade routes (must travel to target city and must be at "
+#~ "least %d tiles [in Manhattan distance] from this unit's home city).\n"
+#~ msgstr ""
+#~ "· Voi aloittaa kauppareittejä – kulkemalla kohdekaupunkiin, joka on "
+#~ "vähintään %d ruudun päässä taksimiehen geometrialla (ruutujen reunoja, ei "
+#~ "diagonaaleja pitkin laskien) yksikön kotikaupungista.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "veteran"
+#~ msgstr ""
+#~ "\n"
+#~ "konkari"

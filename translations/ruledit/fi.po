@@ -1,51 +1,147 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Finnish translation
+# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014
+# Sini Ruohomaa <sini.ruohomaa@iki.fi>, 
+# Markus Linnakangas <markus.linnakangas@luukku.com>,
+# Pekka Pessi <nospam@pessi.fi>,
+# Juhana Uuttu <juhana.uuttu@gmail.com>,
+# Jarkko Siekkinen <jarkko.siekkinen@evl.fi>, 
+# Juhani Heino <juhani.heino@vtt.fi>,
+# Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
+# This translation is covered by the GNU General Public License Version 2.
 #
-#, fuzzy
+# NOTE: Ruledit strings are independent from 2.4/2.5, no need to merge
+# from below.
+#
+# Merging translations upwards to e.g. TRUNK is fine, do not merge downwards 
+# by default.
+#
+# Prioritizing stable branch 2_4 for translations (June 2014), merge
+# to trunk when feeling like it with: 
+#   msgmerge --compendium=fi.po.trunk fi.po.s2_4 freeciv.pot -o fi.po.newtrunk
+# where fi.po.trunk is current trunk version, fi.po.s2_4 the improved branch
+# version, freeciv.pot an up-to-date POT for the trunk.
+# Then upload the resulting  fi.po.newtrunk to trunk.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:38+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-08 01:47+0300\n"
+"PO-Revision-Date: 2014-07-02 22:54+0300\n"
+"Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
+"Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "Näytä yhteenveto valitsimista"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
 msgid "Print the version number"
-msgstr ""
+msgstr "Näytä versionumero"
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Tunnistamaton asetus: \"%s\"\n"
+
+#: tools/ruledit/ruledit_qt.cpp:58
+msgid "Freeciv ruleset editor"
+msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
+
+# Todo: requested TRANS comment to clarify what this (needed by %s) is
+#: tools/ruledit/ruledit_qt.cpp:94
+#, c-format
+msgid "Needed by %s"
+msgstr "%s tarvitsee"
+
+#: tools/ruledit/ruledit_qt.cpp:117
+msgid "Give ruleset to use as starting point."
+msgstr "Anna sääntökokoelma lähtökohdaksi."
+
+#: tools/ruledit/ruledit_qt.cpp:123
+msgid "Start editing"
+msgstr "Aloita muokkaus"
+
+#: tools/ruledit/ruledit_qt.cpp:133
+msgid "Misc"
+msgstr "Sekalaiset"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Tech"
+msgstr "Teknologiat"
+
+#: tools/ruledit/ruledit_qt.cpp:144
+msgid "Welcome to freeciv-ruledit"
+msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
+
+#: tools/ruledit/ruledit_qt.cpp:179
+msgid "Ruleset loaded"
+msgstr "Sääntökokoelma ladattu"
+
+#: tools/ruledit/ruledit_qt.cpp:184
+msgid "Ruleset loading failed!"
+msgstr "Sääntökokoelman lataaminen epäonnistui!"
+
+#: tools/ruledit/tab_misc.cpp:53
+msgid "Ruleset name"
+msgstr "Sääntökokoelman nimi"
+
+#: tools/ruledit/tab_misc.cpp:58
+msgid "Ruleset version"
+msgstr "Sääntökokoelman versio"
+
+#: tools/ruledit/tab_misc.cpp:63
+msgid "Save to directory"
+msgstr "Tallenna hakemistoon"
+
+#: tools/ruledit/tab_misc.cpp:70
+msgid "Save now"
+msgstr "Tallenna nyt"
+
+#: tools/ruledit/tab_misc.cpp:106
+msgid "Ruleset saved"
+msgstr "Sääntökokoelma tallennettu"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Nimi"
+
+#: tools/ruledit/tab_tech.cpp:69
+msgid "Rule Name"
+msgstr "Säännön nimi"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr "Vaat1"
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr "Vaat2"
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr "Juurivaat."
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr "Lisää teknologia"
+
+#: tools/ruledit/tab_tech.cpp:107
+msgid "Remove this tech"
+msgstr "Poista tämä teknologia"
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr "Ei koskaan"
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr "Vaikutus"
+
+#: tools/ruledit/validity.c:145
+msgid "Music Style"
+msgstr "Musiikkityyli"
