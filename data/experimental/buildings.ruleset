@@ -44,6 +44,18 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; sabotage	= percent chance of diplomat sabotage being successful
 ; flags         = special flag strings
 ;
+; ** Building flags **
+; "VisibleByOthers"  = Anyone who can see your city knows whether it has
+;                      this improvement. (Great and small wonders are
+;                      always visible.)
+; "SaveSmallWonder"  = If you lose the city with this building in, and the
+;                      "savepalace" server setting is enabled, another will
+;                      be built for free in a random city.
+;                      Should only be used with genus "SmallWonder".
+; "Gold"             = Not a real building; production turned into gold
+;                      indefinitely (capitalization/coinage).
+;                      Genus should be "Special".
+;
 ; */ <-- avoid gettext warnings
 
 [building_airport]
