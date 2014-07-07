@@ -547,3 +547,11 @@ bool is_cardinal_only_road(const struct extra_type *pextra)
 
   return proad->move_mode == RMM_CARDINAL || proad->move_mode == RMM_RELAXED;
 }
+
+/****************************************************************************
+  Does road type provide move bonus
+****************************************************************************/
+bool road_provides_move_bonus(const struct road_type *proad)
+{
+  return proad->move_cost >= 0;
+}

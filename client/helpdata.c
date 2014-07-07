@@ -3651,7 +3651,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (proad != NULL && proad->move_mode != RMM_NO_BONUS) {
+  if (proad != NULL && road_provides_move_bonus(proad)) {
     if (proad->move_cost == 0) {
       CATLSTR(buf, bufsz, _("* Allows infinite movement.\n"));
     } else {

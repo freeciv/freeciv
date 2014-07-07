@@ -741,7 +741,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
         && (!pclass
             || is_native_extra_to_uclass(road_extra_get(proad), pclass))) {
       road_type_list_iterate(proad->integrators, iroad) {
-        if (iroad->move_mode != RMM_NO_BONUS
+        if (road_provides_move_bonus(iroad)
             && cost > iroad->move_cost 
             && tile_has_road(t2, iroad)
             && (!pclass
@@ -771,9 +771,6 @@ static int tile_move_cost_ptrs(const struct unit *punit,
             break;
           case RMM_FAST_ALWAYS:
             cost = iroad->move_cost;
-            break;
-          case RMM_NO_BONUS:
-            fc_assert(proad->move_mode != RMM_NO_BONUS);
             break;
           }
         }

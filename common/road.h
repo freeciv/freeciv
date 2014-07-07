@@ -33,14 +33,12 @@ extern "C" {
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME road_move_mode
-#define SPECENUM_VALUE0 RMM_NO_BONUS
-#define SPECENUM_VALUE0NAME "NoBonus"
-#define SPECENUM_VALUE1 RMM_CARDINAL
-#define SPECENUM_VALUE1NAME "Cardinal"
-#define SPECENUM_VALUE2 RMM_RELAXED
-#define SPECENUM_VALUE2NAME "Relaxed"
-#define SPECENUM_VALUE3 RMM_FAST_ALWAYS
-#define SPECENUM_VALUE3NAME "FastAlways"
+#define SPECENUM_VALUE0 RMM_CARDINAL
+#define SPECENUM_VALUE0NAME "Cardinal"
+#define SPECENUM_VALUE1 RMM_RELAXED
+#define SPECENUM_VALUE1NAME "Relaxed"
+#define SPECENUM_VALUE2 RMM_FAST_ALWAYS
+#define SPECENUM_VALUE2NAME "FastAlways"
 #include "specenum_gen.h"
 
 struct road_type;
@@ -131,6 +129,8 @@ bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile);
 
 bool is_cardinal_only_road(const struct extra_type *pextra);
+
+bool road_provides_move_bonus(const struct road_type *proad);
 
 /* Sorting */
 int compare_road_move_cost(const struct road_type *const *p,

@@ -1368,9 +1368,9 @@ They have no effect on gameplay.\
 ;                           README.effects for help on requirements)
 ; move_cost               = how much movement it takes to travel
 ;                           via this road (in fractional move points, as
-;                           defined by move_fragments)
+;                           defined by move_fragments).
+;                           -1 means that road provides no speed bonus.
 ; move_mode               = how movement costs are applied
-;   - "NoBonus"    = Road gives no movement bonuses (move_cost ignored)
 ;   - "Cardinal"   = Road cost applies only on cardinal moves
 ;   - "Relaxed"    = Road cost is normal for cardinal, double for diagonal moves
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads

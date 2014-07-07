@@ -347,7 +347,6 @@ bool is_native_move(const struct unit_class *punitclass,
       }
       switch (iroad->move_mode) {
       case RMM_FAST_ALWAYS:
-      case RMM_NO_BONUS:
         /* Road connects source and destination, so we're fine. */
         return TRUE;
       case RMM_CARDINAL:

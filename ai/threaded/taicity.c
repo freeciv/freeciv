@@ -117,7 +117,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
 
       road_type_iterate(pold) {
         if (tile_has_road(ptile, pold)) {
-          if (pold->move_mode != RMM_NO_BONUS
+          if (road_provides_move_bonus(pold)
               && pold->move_cost < old_move_cost) {
             old_move_cost = pold->move_cost;
           }
