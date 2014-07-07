@@ -258,10 +258,15 @@ effects        = "DestroyBuilding"
 ;
 ; Trade settings
 ;
-; For each of the trade route types; "National", "NationalIC", "IN", "INIC":
-; "pct"        - Trade income %. If this is 0, trade route cannot be established at all
-; "cancelling" - What to do to previously established traderoutes when they turn illegal
-;                "Active"   - Keep them active
+; IN = international, IC = intercontinental.
+; For each of the trade route types:
+; "pct"        - Trade income %. If this is 0, trade route cannot be
+;                established at all
+; "cancelling" - What to do to previously established traderoutes when they
+;                turn illegal
+;                "Active"   - Keep them active (although they will only
+;                             provide nonzero income if illegal due to
+;                             trademindist rather than pct==0)
 ;                "Inactive" - Keep them inactive
 ;                "Cancel"   - Cancel them altogether
 ;
