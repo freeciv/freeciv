@@ -242,7 +242,9 @@ struct player {
       /* Only used in the server (./ai/ and ./server/). */
       bv_pstatus status;
 
-      bool capital; /* used to give player init_buildings in first city. */
+      bool got_first_city; /* used to give player init_buildings in first
+                            * city. Once set, never becomes unset.
+                            * (Previously 'capital'.) */
 
       struct player_tile *private_map;
 

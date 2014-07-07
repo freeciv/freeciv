@@ -1990,7 +1990,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
              * give verbose messages of every unit transferred,
              * and raze buildings according to raze chance
              * (also removes palace) */
-            transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE);
+            transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE, TRUE);
             submit = FALSE;
           }
           if (conqsize <= 0) {

@@ -2153,7 +2153,7 @@ static void player_load_main(struct player *plr, int plrno,
     }
   }
 
-  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->server.capital,
+  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->server.got_first_city,
                                          "player%d.capital", plrno),
                      "%s", secfile_error());
 
