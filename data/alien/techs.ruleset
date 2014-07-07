@@ -8,7 +8,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; Names for custom tech flags. There can be up to 8 of these.
 ; name          = rule name; not translateable, but may be displayed in
 ;                 some circumstances
-; helptxt       = displayed in the help for advances with this flag
+; helptxt       = displayed in the help for advances with this flag (optional)
 ;flags =
 ;  { "name", "helptxt"
 ;  }

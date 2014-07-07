@@ -17,7 +17,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; Names for custom unit type flags. There can be up to 16 of these.
 ; name          = rule name; not translateable, but may be displayed in
 ;                 some circumstances
-; helptxt       = displayed in the help for units with this flag
+; helptxt       = displayed in the help for units with this flag (optional)
 ;flags =
 ;  { "name", "helptxt"
 ;  }
