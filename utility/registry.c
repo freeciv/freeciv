@@ -20,6 +20,8 @@
 #include <libxml/parser.h>
 #endif /* HAVE_XML_REGISTRY */
 
+#include "registry_xml.h"
+
 #include "registry.h"
 
 /*************************************************************************
@@ -53,8 +55,7 @@ struct section_file *secfile_load(const char *filename,
 
   sec_doc = xmlReadFile(filename, NULL, XML_PARSE_NOERROR);
   if (sec_doc != NULL) {
-    log_error("Loading xml-files not yet supported");
-    return NULL;
+    return xmlfile_load(sec_doc, filename);
   }
 #endif /* HAVE_XML_REGISTRY */
 

@@ -49,6 +49,8 @@ libcivutility_la_SOURCES = \
 		registry.h	\
 		registry_ini.c	\
 		registry_ini.h	\
+		registry_xml.c	\
+		registry_xml.h	\
 		section_file.c	\
 		section_file.h	\
 		shared.c	\
