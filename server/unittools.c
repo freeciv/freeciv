@@ -2653,9 +2653,9 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   /* Safe terrain according to player map? */
-  if (!is_native_terrain(unit_type(punit),
-                         plrtile->terrain,
-                         plrtile->extras)
+  if (!is_native_to_class(unit_class(punit),
+                          plrtile->terrain,
+                          plrtile->extras)
       && (ptransport == NULL
           || !can_player_see_unit_at(pplayer, ptransport, ptile))) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,

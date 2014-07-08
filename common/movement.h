@@ -61,9 +61,6 @@ bool is_native_tile(const struct unit_type *punittype,
                     const struct tile *ptile);
 bool is_native_tile_to_class(const struct unit_class *punitclass,
                              const struct tile *ptile);
-bool is_native_terrain(const struct unit_type *punittype,
-                       const struct terrain *pterrain,
-                       bv_extras extras);
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain,
                         bv_extras extras);

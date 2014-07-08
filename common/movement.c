@@ -260,18 +260,6 @@ bool is_native_tile(const struct unit_type *punittype,
 
 
 /****************************************************************************
-  This terrain is native to unit.
-
-  See is_native_to_class()
-****************************************************************************/
-bool is_native_terrain(const struct unit_type *punittype,
-                       const struct terrain *pterrain,
-                       bv_extras extras)
-{
-  return is_native_to_class(utype_class(punittype), pterrain, extras);
-}
-
-/****************************************************************************
   This tile is native to unit class.
 
   See is_native_to_class()
