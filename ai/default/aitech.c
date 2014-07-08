@@ -440,3 +440,15 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
   }
   return build_unit;
 }
+
+/**************************************************************************
+  Zero player tech wants
+**************************************************************************/
+void dai_clear_tech_wants(struct ai_type *ait, struct player *pplayer)
+{
+  struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
+
+  advance_index_iterate(A_FIRST, i) {
+    plr_data->tech_want[i] = 0;
+  } advance_index_iterate_end;
+}

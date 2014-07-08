@@ -757,6 +757,7 @@ void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
 void dai_do_last_activities(struct ai_type *ait, struct player *pplayer)
 {
   TIMING_LOG(AIT_ALL, TIMER_START);
+  dai_clear_tech_wants(ait, pplayer);
 
   dai_manage_government(ait, pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_START);
