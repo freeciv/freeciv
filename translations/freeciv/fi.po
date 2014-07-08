@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-08 01:43+0300\n"
-"PO-Revision-Date: 2014-07-02 22:34+0300\n"
+"PO-Revision-Date: 2014-07-08 03:24+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -15355,7 +15355,7 @@ msgstr "Freeciv %s"
 
 #: common/version.c:66
 msgid "betatest version "
-msgstr "beta-kokeiluversio"
+msgstr "beta-kokeiluversio "
 
 #: common/version.c:68
 msgid "version "
