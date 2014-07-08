@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 27-Jun-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 08-Jul-2014)
 ==========================================================
 
 
@@ -462,6 +462,7 @@ Units:
 - Triremes can navigate rivers. Caravel changed from (2/1) to (1/2), and cost restored to 40, in order to encourage peaceful exploration of the seas in the age of discovery. Reduced attack of Frigate and defense of Ironclad to 3 (was 4), and restored default costs.
 - Air units can perform pillage (representing bombardment of infrastructure). Increased defense of all Air units, in order to discourage the use of land units to protect them. Helicopters can only be attacked by Fighters (with no extra attack bonuses).
 - Diplomats and Spies are invisible like submarines, but they pay upkeep costs like all other units.
+- Increased vision of Explorer and Partisan. 
 - Cheating AI level gets +50% defense bonus for units placed in land tiles outside cities\fortresses.
 
 
