@@ -248,35 +248,34 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 #endif
 
   pDest = copy_surface(pSrc);
-  
+
   lock_surf(pSrc);
   lock_surf(pMask);  
   lock_surf(pDest);
-  
+
   pSrc_Pixel = (Uint32 *)pSrc->pixels;
   pDest_Pixel = (Uint32 *)pDest->pixels;
 
   for (row = 0; row < pSrc->h; row++) {
-      
     pMask_Pixel = (Uint32 *)pMask->pixels
                   + pMask->w * (row + mask_offset_y)
                   + mask_offset_x;
-    
+
     for (col = 0; col < pSrc->w; col++) {
       src_alpha = (*pSrc_Pixel & pSrc->format->Amask) >> pSrc->format->Ashift;
       mask_alpha = (*pMask_Pixel & pMask->format->Amask) >> pMask->format->Ashift;
-      
+
       *pDest_Pixel = (*pSrc_Pixel & ~pSrc->format->Amask)
-                   | (((src_alpha * mask_alpha) / 255) << pDest->format->Ashift);
-      
+        | (((src_alpha * mask_alpha) / 255) << pDest->format->Ashift);
+
       pSrc_Pixel++; pDest_Pixel++; pMask_Pixel++;
     }
   }
 
   unlock_surf(pDest);
-  unlock_surf(pMask);    
+  unlock_surf(pMask);
   unlock_surf(pSrc);
-  
+
 #if 0
   if (free_pMask) {
     FREESURFACE(pMask);
@@ -284,7 +283,7 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 
   FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
 #endif
-  
+
   return pDest;
 }
 

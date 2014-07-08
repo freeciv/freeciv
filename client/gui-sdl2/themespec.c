@@ -920,13 +920,13 @@ static void unload_sprite(struct theme *t, const char *tag_name)
 
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which the
-  client always requires. 
+  client always requires.
 ***********************************************************************/
 static void theme_lookup_sprite_tags(struct theme *t)
 {
   /* the 'sprites' structure is currently not used, for now we call some
    * functions in gui_tilespec.c instead */
-  
+
   tilespec_setup_theme();
   tilespec_setup_city_gfx();
   tilespec_setup_city_icons();
@@ -971,14 +971,16 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
                                            const char *name)
 {
   struct sprite *sp;
-  
+
   /* (should get sprite_hash before connection) */
   fc_assert_ret_val_msg(NULL != t->sprite_hash, NULL,
                         "attempt to lookup for %s \"%s\" before "
                         "sprite_hash setup", what, name);
 
   sp = load_sprite(t, tag);
-  if (sp) return sp;
+  if (sp) {
+    return sp;
+  }
 
   sp = load_sprite(t, alt);
   if (sp) {
@@ -1064,7 +1066,7 @@ void theme_free_sprites(struct theme *t)
   } sprite_vector_iterate_end;
   sprite_vector_free(&t->sprites.****);
 #endif  
-  
+
   /* the 'sprites' structure is currently not used, for now we call some
    * functions in gui_tilespec.c instead */
 
