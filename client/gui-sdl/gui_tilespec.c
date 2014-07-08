@@ -204,33 +204,6 @@ void tilespec_free_city_icons(void)
   if (!pIcons) {
     return;
   }
-  
-  FREESURFACE(pIcons->pBIG_Food_Corr);
-  FREESURFACE(pIcons->pBIG_Shield_Corr);
-  FREESURFACE(pIcons->pBIG_Trade_Corr);
-  FREESURFACE(pIcons->pBIG_Food);
-  FREESURFACE(pIcons->pBIG_Food_Surplus);
-  FREESURFACE(pIcons->pBIG_Shield);
-  FREESURFACE(pIcons->pBIG_Shield_Surplus);
-  FREESURFACE(pIcons->pBIG_Trade);
-  FREESURFACE(pIcons->pBIG_Luxury);
-  FREESURFACE(pIcons->pBIG_Coin);
-  FREESURFACE(pIcons->pBIG_Colb);
-  FREESURFACE(pIcons->pBIG_Face);
-  FREESURFACE(pIcons->pBIG_Coin_Corr);
-  FREESURFACE(pIcons->pBIG_Coin_UpKeep);
-
-  FREESURFACE(pIcons->pFood);
-  FREESURFACE(pIcons->pShield);
-  FREESURFACE(pIcons->pTrade);
-  FREESURFACE(pIcons->pFace);
-  FREESURFACE(pIcons->pLuxury);
-  FREESURFACE(pIcons->pCoin);		  
-  FREESURFACE(pIcons->pColb);		  
-
-  FREESURFACE(pIcons->pPollution);
-  FREESURFACE(pIcons->pPolice);
-  FREESURFACE(pIcons->pWorklist);
 
   /* small citizens */
   FREESURFACE(pIcons->pMale_Content);
@@ -247,9 +220,7 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
 
   FC_FREE(pIcons);
-  
 }
-
 
 /* =================================================== */
 /* ===================== THEME ======================= */
@@ -374,107 +345,7 @@ void tilespec_free_theme(void)
     return;
   }
 
-  FREESURFACE(pTheme->FR_Left);
-  FREESURFACE(pTheme->FR_Right);
-  FREESURFACE(pTheme->FR_Top);
-  FREESURFACE(pTheme->FR_Bottom);
-  
-  FREESURFACE(pTheme->Button);
-  
-  FREESURFACE(pTheme->Edit);
-
-  FREESURFACE(pTheme->CBOX_Sell_Icon);
-  FREESURFACE(pTheme->CBOX_Unsell_Icon);
-
-  FREESURFACE(pTheme->UP_Icon);
-  FREESURFACE(pTheme->DOWN_Icon);
-#if 0
-  FREESURFACE(pTheme->LEFT_Icon);
-  FREESURFACE(pTheme->RIGHT_Icon);
-#endif
-  FREESURFACE(pTheme->Vertic);
-  FREESURFACE(pTheme->Horiz);
-  
-  /* ------------------- */
-  
-  FREESURFACE(pTheme->OK_Icon);
-  FREESURFACE(pTheme->CANCEL_Icon);
-  FREESURFACE(pTheme->Small_OK_Icon);
-  FREESURFACE(pTheme->Small_CANCEL_Icon);
-  FREESURFACE(pTheme->FORWARD_Icon);
-  FREESURFACE(pTheme->BACK_Icon);
-  FREESURFACE(pTheme->L_ARROW_Icon);
-  FREESURFACE(pTheme->R_ARROW_Icon);
-  FREESURFACE(pTheme->MAP_Icon);
-  FREESURFACE(pTheme->FindCity_Icon);
-  FREESURFACE(pTheme->NEW_TURN_Icon);
-  FREESURFACE(pTheme->LOG_Icon);
-  FREESURFACE(pTheme->UNITS_Icon);
-  FREESURFACE(pTheme->UNITS2_Icon);
-  FREESURFACE(pTheme->PLAYERS_Icon);
-  FREESURFACE(pTheme->Options_Icon);
-  FREESURFACE(pTheme->Block);
-  FREESURFACE(pTheme->INFO_Icon);
-  FREESURFACE(pTheme->Army_Icon);
-  FREESURFACE(pTheme->Happy_Icon);
-  FREESURFACE(pTheme->Support_Icon);
-  FREESURFACE(pTheme->Buy_PROD_Icon);
-  FREESURFACE(pTheme->PROD_Icon);
-  FREESURFACE(pTheme->QPROD_Icon);
-  FREESURFACE(pTheme->CMA_Icon);
-  FREESURFACE(pTheme->LOCK_Icon);
-  FREESURFACE(pTheme->UNLOCK_Icon);
-  FREESURFACE(pTheme->OK_PACT_Icon);
-  FREESURFACE(pTheme->CANCEL_PACT_Icon);
-  FREESURFACE(pTheme->SAVE_Icon);
-  FREESURFACE(pTheme->LOAD_Icon);
-  FREESURFACE(pTheme->DELETE_Icon);
-  FREESURFACE(pTheme->BORDERS_Icon);
-  /* ------------------------------ */
-  FREESURFACE(pTheme->Tech_Tree_Icon);
-  /* ------------------------------ */
-
-  FREESURFACE(pTheme->Order_Icon);
-  FREESURFACE(pTheme->OAutoAtt_Icon);
-  FREESURFACE(pTheme->OAutoConnect_Icon);
-  FREESURFACE(pTheme->OAutoExp_Icon);
-  FREESURFACE(pTheme->OAutoSett_Icon);
-  FREESURFACE(pTheme->OBuildCity_Icon);
-  FREESURFACE(pTheme->OCutDownForest_Icon);
-  FREESURFACE(pTheme->OPlantForest_Icon);
-  FREESURFACE(pTheme->OMine_Icon);
-  FREESURFACE(pTheme->OIrrigation_Icon);
-  FREESURFACE(pTheme->ODone_Icon);
-  FREESURFACE(pTheme->ODisband_Icon);
-  FREESURFACE(pTheme->OFortify_Icon);
-  FREESURFACE(pTheme->OGoto_Icon);
-  FREESURFACE(pTheme->OGotoCity_Icon);
-  FREESURFACE(pTheme->OHomeCity_Icon);
-  FREESURFACE(pTheme->ONuke_Icon);
-  FREESURFACE(pTheme->OParaDrop_Icon);
-  FREESURFACE(pTheme->OPatrol_Icon);
-  FREESURFACE(pTheme->OPillage_Icon);
-  FREESURFACE(pTheme->ORailRoad_Icon);
-  FREESURFACE(pTheme->ORoad_Icon);
-  FREESURFACE(pTheme->OSentry_Icon);
-  FREESURFACE(pTheme->OUnload_Icon);
-  FREESURFACE(pTheme->OWait_Icon);
-  FREESURFACE(pTheme->OFortress_Icon);
-  FREESURFACE(pTheme->OFallout_Icon);
-  FREESURFACE(pTheme->OPollution_Icon);
-  FREESURFACE(pTheme->OAirBase_Icon);
-  FREESURFACE(pTheme->OTransform_Icon);
-  FREESURFACE(pTheme->OAddCity_Icon);
-  FREESURFACE(pTheme->OWonder_Icon);
-  FREESURFACE(pTheme->OTrade_Icon);
-  FREESURFACE(pTheme->OSpy_Icon);
-  FREESURFACE(pTheme->OWakeUp_Icon);
-  FREESURFACE(pTheme->OReturn_Icon);
-  FREESURFACE(pTheme->OAirLift_Icon);
-  FREESURFACE(pTheme->OLoad_Icon);
-
   FC_FREE(pTheme);
-  return;
 }
 
 /**************************************************************************
