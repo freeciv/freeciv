@@ -1033,6 +1033,9 @@ static void end_phase(void)
   } players_iterate_end;
   phase_players_iterate(pplayer) {
     auto_settlers_player(pplayer);
+    advance_index_iterate(A_FIRST, i) {
+      pplayer->ai_common.tech_want[i] = 0;
+    } advance_index_iterate_end;
     if (pplayer->ai_controlled) {
       CALL_PLR_AI_FUNC(last_activities, pplayer, pplayer);
     }
