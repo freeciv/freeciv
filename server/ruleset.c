@@ -2345,7 +2345,9 @@ static bool load_ruleset_buildings(struct section_file *file)
         }
       } unit_type_iterate_end;
     }
+  }
 
+  if (ok) {
     /* Some more consistency checking: */
     improvement_iterate(b) {
       if (valid_improvement(b)) {
