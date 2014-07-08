@@ -511,7 +511,8 @@ city_size     = 2
 flags         = "Cities", "Settlers", "NonMil"
 roles         = "Cities", "Settlers"
 helptext      = _("\
-Amphibious Engineer that can also establish new cities on Ocean.\
+Amphibious Engineer that can also establish new cities on Ocean. \
+Cities cannot be located on Boiling Ocean.\
 ")
 
 [unit_star_marines]

@@ -478,14 +478,15 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Amphibious", "Antigravity", "Missile"
-flags                = "UnsafeCoast"
+flags                = "UnsafeCoast", "NoCities"
 property_ocean_depth = 70
 color.r              = 30
 color.g              = 30
 color.b              = 220
 helptext             = _("\
 This ocean is boiling. No ship without special equipment can enter.\n\n\
-Cities can work these tiles only when Thermal Module is known.\
+Cities can work these tiles only when Thermal Module is known, and \
+city can never be located on Boiling Ocean.\
 ")
 
 [resource_resources]
