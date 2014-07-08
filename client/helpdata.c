@@ -2052,6 +2052,45 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     }
   } unit_type_iterate_end;
 
+  {
+    int i;
+
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      Impr_type_id n = game.rgame.global_init_buildings[i];
+      if (n == B_LAST) {
+        break;
+      } else if (improvement_by_number(n) == pimprove) {
+        cat_snprintf(buf, bufsz,
+                     _("* All players start with this improvement in their "
+                       "first city.\n"));
+        break;
+      }
+    }
+  }
+
+  /* Assume no-one will set the same building in both global and nation
+   * init_buildings... */
+  nations_iterate(pnation) {
+    int i;
+
+    /* Avoid mentioning nations not in current set. */
+    if (!is_nation_pickable(pnation)) {
+      continue;
+    }
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      Impr_type_id n = pnation->init_buildings[i];
+      if (n == B_LAST) {
+        break;
+      } else if (improvement_by_number(n) == pimprove) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a nation plural */
+                     _("* The %s start with this improvement in their "
+                       "first city.\n"), nation_plural_translation(pnation));
+        break;
+      }
+    }
+  } nations_iterate_end;
+
   if (improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER)) {
     cat_snprintf(buf, bufsz,
                  /* TRANS: don't translate 'savepalace' */
@@ -2210,6 +2249,29 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_BARBARIAN_ONLY)) {
     CATLSTR(buf, bufsz, _("* Only barbarians may build this.\n"));
   }
+  nations_iterate(pnation) {
+    int i, count = 0;
+
+    /* Avoid mentioning nations not in current set. */
+    if (!is_nation_pickable(pnation)) {
+      continue;
+    }
+    for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+      if (!pnation->init_units[i]) {
+        break;
+      } else if (pnation->init_units[i] == utype) {
+        count++;
+      }
+    }
+    if (count > 0) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a nation plural */
+                   PL_("* The %s start the game with %d of these units.\n",
+                       "* The %s start the game with %d of these units.\n",
+                       count),
+                   nation_plural_translation(pnation), count);
+    }
+  } nations_iterate_end;
   {
     const char *types[utype_count()];
     int i = 0;
@@ -2750,6 +2812,43 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 
   CATLSTR(buf, bufsz, "\n");
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+
+  {
+    int j;
+    
+    for (j = 0; j < MAX_NUM_TECH_LIST; j++) {
+      if (game.rgame.global_init_techs[j] == A_LAST) {
+        break;
+      } else if (game.rgame.global_init_techs[j] == i) {
+        CATLSTR(buf, bufsz,
+                _("* All players start the game with knowledge of this "
+                  "technology.\n"));
+        break;
+      }
+    }
+  }
+
+  /* Assume no-one will set the same tech in both global and nation
+   * init_tech... */
+  nations_iterate(pnation) {
+    int j;
+
+    /* Avoid mentioning nations not in current set. */
+    if (!is_nation_pickable(pnation)) {
+      continue;
+    }
+    for (j = 0; j < MAX_NUM_TECH_LIST; j++) {
+      if (pnation->init_techs[j] == A_LAST) {
+        break;
+      } else if (pnation->init_techs[j] == i) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a nation plural */
+                     _("* The %s start the game with knowledge of this "
+                       "technology.\n"), nation_plural_translation(pnation));
+        break;
+      }
+    }
+  } nations_iterate_end;
 
   if (advance_has_flag(i, TF_BONUS_TECH)) {
     cat_snprintf(buf, bufsz,
