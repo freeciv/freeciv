@@ -119,6 +119,8 @@ bool research_invention_gettable(const struct research *presearch,
                                  const Tech_type_id tech,
                                  bool reachable_ok);
 
+Tech_type_id research_goal_step(const struct research *presearch,
+                                Tech_type_id goal);
 int research_goal_unknown_techs(const struct research *presearch,
                                 Tech_type_id goal);
 int research_goal_bulbs_required(const struct research *presearch,

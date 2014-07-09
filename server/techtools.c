@@ -422,7 +422,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   if (tech_found == research->researching) {
     /* Try to pick new tech to research. */
-    Tech_type_id next_tech = player_research_step(plr, research->tech_goal);
+    Tech_type_id next_tech = research_goal_step(research,
+                                                research->tech_goal);
 
     /* As this function can be recursive, we need to print the messages
      * before really picking the new technology. */
@@ -1062,7 +1063,7 @@ void init_tech(struct player *plr, bool update)
     /* Mark the reachable techs */
     player_research_update(plr);
 
-    next_tech = player_research_step(plr, research->tech_goal);
+    next_tech = research_goal_step(research, research->tech_goal);
     if (A_UNSET != next_tech) {
       choose_tech(plr, next_tech);
     } else {

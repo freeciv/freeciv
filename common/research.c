@@ -337,6 +337,32 @@ bool research_invention_gettable(const struct research *presearch,
 }
 
 /****************************************************************************
+  Return the next tech we should research to advance towards our goal.
+  Returns A_UNSET if nothing is available or the goal is already known.
+****************************************************************************/
+Tech_type_id research_goal_step(const struct research *presearch,
+                                Tech_type_id goal)
+{
+  const struct advance *pgoal = valid_advance_by_number(goal);
+
+  if (NULL == pgoal
+      || !research_invention_reachable(presearch, goal)) {
+    return A_UNSET;
+  }
+
+  advance_req_iterate(pgoal, preq) {
+    switch (research_invention_state(presearch, advance_number(preq))) {
+    case TECH_PREREQS_KNOWN:
+      return advance_number(preq);
+    case TECH_KNOWN:
+    case TECH_UNKNOWN:
+       break;
+    };
+  } advance_req_iterate_end;
+  return A_UNSET;
+}
+
+/****************************************************************************
   Returns the number of technologies the player need to research to get
   the goal technology. This includes the goal technology. Technologies
   are only counted once.

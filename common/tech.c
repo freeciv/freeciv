@@ -359,36 +359,6 @@ static int tech_upkeep_calc(const struct player *pplayer)
 }
 
 /**************************************************************************
-  Return the next tech we should research to advance towards our goal.
-  Returns A_UNSET if nothing is available or the goal is already known.
-**************************************************************************/
-Tech_type_id player_research_step(const struct player *pplayer,
-				  Tech_type_id goal)
-{
-  const struct research *presearch = research_get(pplayer);
-  Tech_type_id sub_goal;
-
-  if (!research_invention_reachable(presearch, goal)) {
-    return A_UNSET;
-  }
-  switch (research_invention_state(presearch, goal)) {
-  case TECH_KNOWN:
-    return A_UNSET;
-  case TECH_PREREQS_KNOWN:
-    return goal;
-  case TECH_UNKNOWN:
-  default:
-    break;
-  };
-  sub_goal = player_research_step(pplayer, advance_required(goal, AR_ONE));
-  if (sub_goal != A_UNSET) {
-    return sub_goal;
-  } else {
-    return player_research_step(pplayer, advance_required(goal, AR_TWO));
-  }
-}
-
-/**************************************************************************
   Returns pointer when the advance "exists" in this game, returns NULL
   otherwise.
 

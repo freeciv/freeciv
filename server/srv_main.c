@@ -1065,10 +1065,11 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (A_UNSET == research_get(pplayer)->researching) {
-      Tech_type_id next_tech =
-          player_research_step(pplayer,
-                               research_get(pplayer)->tech_goal);
+    const struct research *presearch = research_get(pplayer);
+
+    if (A_UNSET == presearch->researching) {
+      Tech_type_id next_tech = research_goal_step(presearch,
+                                                  presearch->tech_goal);
 
       if (A_UNSET != next_tech) {
         choose_tech(pplayer, next_tech);
