@@ -6424,7 +6424,9 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
   }
 
   if (ok) {
-    techs_precalc_data();
+    if (act) {
+      techs_precalc_data();
+    }
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();
