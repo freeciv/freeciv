@@ -342,7 +342,7 @@ Increases the defense strength of units within a city by a factor\
 ")
 
 [building_colosseum]
-name            = _("Amphitheatre")
+name            = _("Amphitheater")
 rule_name	= "Colosseum"
 genus		= "Improvement"
 reqs	=
@@ -1786,7 +1786,8 @@ Reveals all cities in the map.  Gives an immediate technology\
 ")
 
 [building_shakespeares_theatre]
-name		= _("Shakespeare's Theatre")
+name		= _("Shakespeare's Theater")
+rule_name	= "Shakespeare's Theatre"  ; en_GB spelling used originally
 genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
