@@ -460,19 +460,6 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 }
 
 /**************************************************************************
- Search for a tech with a given flag starting at index
- Returns A_LAST if no tech has been found
-**************************************************************************/
-Tech_type_id advance_by_flag(Tech_type_id index, enum tech_flag_id flag)
-{
-  advance_index_iterate(index, i)
-  {
-    if(advance_has_flag(i,flag)) return i;
-  } advance_index_iterate_end
-  return A_LAST;
-}
-
-/**************************************************************************
   Returns the number of bulbs which are required to finished the
   currently researched tech denoted by
   pplayer->research->researching. This is _NOT_ the number of bulbs

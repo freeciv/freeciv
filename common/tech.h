@@ -162,9 +162,6 @@ const char *tech_flag_helptxt(enum tech_flag_id id);
 /* General advance/technology flag accessor routines */
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);
 
-/* FIXME: oddball function used in one place */
-Tech_type_id advance_by_flag(Tech_type_id index, enum tech_flag_id flag);
-
 /* Ancillary routines */
 Tech_type_id player_research_step(const struct player *pplayer,
 				  Tech_type_id goal);
