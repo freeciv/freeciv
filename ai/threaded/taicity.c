@@ -127,8 +127,8 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
       } road_type_iterate_end;
 
       if (proad->move_cost < old_move_cost) {
-        if (proad->move_cost >= 3) {
-          mc_divisor = proad->move_cost / 3;
+        if (proad->move_cost >= terrain_control.move_fragments) {
+          mc_divisor = proad->move_cost / terrain_control.move_fragments;
         } else {
           if (proad->move_cost == 0) {
             mc_multiplier = 2;
