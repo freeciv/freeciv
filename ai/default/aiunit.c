@@ -598,7 +598,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     /* FIXME: different behaviour for sailing units is silly;
      * should choose behaviour based on relative positions and
      * movement rates */
-    if (is_sailing_unit(aunit)) {
+    if (is_sailing_unit(aunit) && aunit->goto_tile != NULL) {
       ptile = aunit->goto_tile;
     } else {
       ptile = unit_tile(aunit);
