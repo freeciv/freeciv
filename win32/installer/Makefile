@@ -34,7 +34,7 @@ gtk2-installer:
 	make GUI=gtk2 FCMP=gtk2 wrap-gtk2
 
 sdl-installer:
-	make GUI=sdl FCMP=gtk3 wrap-sdl
+	make GUI=sdl FCMP=gtk2 wrap-sdl
 
 
 # build Freeciv
@@ -138,12 +138,12 @@ install-env-common:
 	# add DLLs
 	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-$(GUI)
 
-DEFAULT_FCMP_DLLS := \
+GTK3_DLLS := \
 	libgdk-3-0.dll \
 	libgtk-3-0.dll
 
-install-env-default-fcmp: install-env-common
-	cp -R $(addprefix /bin/, $(DEFAULT_FCMP_DLLS)) install-$(GUI)
+install-env-gtk3: install-env-common
+	cp -R $(addprefix /bin/, $(GTK3_DLLS)) install-$(GUI)
 	# add additional GTK+3 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
@@ -152,15 +152,13 @@ install-env-default-fcmp: install-env-common
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
-install-env-gtk3: install-env-default-fcmp
-
-GTK2_DLLS := \
+DEFAULT_FCMP_DLLS := \
 	libgdk-win32-2.0-0.dll \
 	libgtk-win32-2.0-0.dll
 
-install-env-gtk2: install-env-common
+install-env-default-fcmp: install-env-common
 	# add DLLs
-	cp -R $(addprefix /bin/, $(GTK2_DLLS)) install-$(GUI)
+	cp -R $(addprefix /bin/, $(DEFAULT_FCMP_DLLS)) install-$(GUI)
 	# add additional GTK+2 files
 	mkdir -p install-$(GUI)/etc
 	cp -R /etc/gtk-2.0 install-$(GUI)/etc/
@@ -168,6 +166,8 @@ install-env-gtk2: install-env-common
 	cp -R /lib/gtk-2.0/2.10.0 install-$(GUI)/lib/gtk-2.0/
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
+
+install-env-gtk2: install-env-default-fcmp
 
 SDL_DLLS := \
 	libpng12-0.dll \
