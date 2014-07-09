@@ -267,6 +267,26 @@
 
 /* =========================== Structures ================================ */
 
+/* Specifies the type of the action. */
+enum pf_action {
+  PF_ACTION_NONE = 0,
+  PF_ACTION_ATTACK,
+  PF_ACTION_DIPLOMAT,
+  PF_ACTION_TRADE_ROUTE
+};
+
+/* Specifies the actions to consider. */
+enum pf_action_account {
+  PF_AA_NONE = 0,
+  PF_AA_UNIT_ATTACK = 1 << 0,
+  /* When this option is turned on, the move to a city will be considered
+   * as attacking a unit, even if we ignore if there is a unit in the city.
+   * This does not mean we are considering taking over a city! */
+  PF_AA_CITY_ATTACK = 1 << 1,
+  PF_AA_DIPLOMAT = 1 << 2,
+  PF_AA_TRADE_ROUTE = 1 << 3
+};
+
 /* Specifies the way path-finding will treat a tile. */
 enum tile_behavior {
   TB_NORMAL = 0,        /* Well, normal .*/
@@ -276,6 +296,14 @@ enum tile_behavior {
                          * always evaluated to a constant single move cost,
                          * prefering straight paths because we don't need
                          * moves left to leave this tile. */
+};
+
+/* Specifies the possibility to move from/to a tile. */
+enum pf_move_scope {
+  PF_MS_NONE = 0,
+  PF_MS_NATIVE = 1 << 0,
+  PF_MS_CITY = 1 << 1,
+  PF_MS_TRANSPORT = 1 << 2
 };
 
 /* Full specification of a position and time to reach it. */
@@ -314,6 +342,7 @@ struct pf_parameter {
 
   int moves_left_initially;
   int fuel_left_initially;      /* Ignored for non-air units. */
+  bool transported_initially;   /* Set if the unit is transported. */
 
   int move_rate;                /* Move rate of the virtual unit */
   int fuel;                     /* Should be 1 for units without fuel. */
@@ -328,10 +357,18 @@ struct pf_parameter {
    * direction 'dir'. Note that the callback can calculate 'to_tile' by
    * itself based on 'from_tile' and 'dir'. Excessive information 'to_tile'
    * is provided to ease the implementation of the callback. */
-  int (*get_MC) (const struct tile *from_tile, enum direction8 dir,
+  int (*get_MC) (const struct tile *from_tile,
+                 enum pf_move_scope src_move_scope,
                  const struct tile *to_tile,
+                 enum pf_move_scope dst_move_scope,
                  const struct pf_parameter *param);
   int unknown_MC; /* Move cost into unknown - very large by default. */
+
+  /* Callback which determines if we can move from/to 'ptile'. */
+  enum pf_move_scope (*get_move_scope) (const struct tile *ptile,
+                                        enum pf_move_scope previous_scope,
+                                        const struct pf_parameter *param);
+  bool ignore_none_scopes;
 
   /* Callback which determines the behavior of a tile. If NULL
    * TB_NORMAL is assumed. It can be assumed that the implementation
@@ -346,10 +383,19 @@ struct pf_parameter {
   int (*get_EC) (const struct tile *ptile, enum known_type known,
                  const struct pf_parameter *param);
 
-  /* Callback to determines if we could invade the tile. Returns TRUE if we
-   * can enter in the territory of the tile owner. */
-  bool (*can_invade_tile) (const struct player *pplayer,
-                           const struct tile *ptile);
+  /* Callback which determines whether an action would be performed at
+   * 'ptile' instead of moving to it. */
+  enum pf_action (*get_action) (const struct tile *ptile,
+                                const struct pf_parameter *param);
+  enum pf_action_account actions;
+
+  /* Callback which determines whether the action from 'from_tile' to
+   * 'to_tile' is effectively possible. */
+  bool (*is_action_possible) (const struct tile *from_tile,
+                              enum pf_move_scope src_move_scope,
+                              const struct tile *to_tile,
+                              enum pf_action action,
+                              const struct pf_parameter *param);
 
   /* Although the rules governing ZoC are universal, the amount of
    * information available at server and client is different. To
@@ -488,8 +534,7 @@ bool pf_reverse_map_unit_position(struct pf_reverse_map *pfrm,
  *                   which indicate if the start tile should be iterated or
  *                   not. */
 #define pf_map_tiles_iterate(ARG_pfm, NAME_tile, COND_from_start)           \
-if (NULL != pf_map_iter(ARG_pfm)                                            \
-    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
+if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct tile *NAME_tile;                                                   \
   do {                                                                      \
@@ -510,8 +555,7 @@ if (NULL != pf_map_iter(ARG_pfm)                                            \
  *                   not. */
 #define pf_map_move_costs_iterate(ARG_pfm, NAME_tile, NAME_cost,            \
                                   COND_from_start)                          \
-if (NULL != pf_map_iter(ARG_pfm)                                            \
-    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
+if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct tile *NAME_tile;                                                   \
   int NAME_cost;                                                            \
@@ -532,8 +576,7 @@ if (NULL != pf_map_iter(ARG_pfm)                                            \
  *                   which indicate if the start tile should be iterated or
  *                   not. */
 #define pf_map_positions_iterate(ARG_pfm, NAME_pos, COND_from_start)        \
-if (NULL != pf_map_iter(ARG_pfm)                                            \
-    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
+if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct pf_position NAME_pos;                                              \
   do {                                                                      \
@@ -552,8 +595,7 @@ if (NULL != pf_map_iter(ARG_pfm)                                            \
  *                   which indicate if the start tile should be iterated or
  *                   not. */
 #define pf_map_paths_iterate(ARG_pfm, NAME_path, COND_from_start)           \
-if (NULL != pf_map_iter(ARG_pfm)                                            \
-    && (COND_from_start || pf_map_iterate((ARG_pfm)))) {                    \
+if (COND_from_start || pf_map_iterate((ARG_pfm))) {                         \
   struct pf_map *_MY_pf_map_ = (ARG_pfm);                                   \
   struct pf_path *NAME_path;\
   do {\

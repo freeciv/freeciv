@@ -560,7 +560,8 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     return -1;
   }
 
-  move_cost = param->get_MC(src_tile, dir, dest_tile, param);
+  move_cost = param->get_MC(src_tile, PF_MS_NATIVE, dest_tile, PF_MS_NATIVE,
+                            param);
   if (move_cost == PF_IMPOSSIBLE_MC) {
     return -1;
   }
@@ -671,7 +672,8 @@ static int get_connect_irrig(const struct tile *src_tile,
     return -1;
   }
 
-  move_cost = param->get_MC(src_tile, dir, dest_tile, param);
+  move_cost = param->get_MC(src_tile, PF_MS_NATIVE, dest_tile, PF_MS_NATIVE,
+                            param);
   if (move_cost == PF_IMPOSSIBLE_MC) {
     return -1;
   }

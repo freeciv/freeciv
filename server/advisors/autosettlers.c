@@ -286,16 +286,20 @@ static void consider_settler_action(const struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/****************************************************************************
   Don't enter in enemy territories.
-**************************************************************************/
-static bool autosettler_enter_territory(const struct player *pplayer,
-                                        const struct tile *ptile)
+****************************************************************************/
+static enum tile_behavior
+autosettler_tile_behavior(const struct tile *ptile,
+                          enum known_type known,
+                          const struct pf_parameter *param)
 {
   const struct player *owner = tile_owner(ptile);
 
-  return (NULL == owner
-          || pplayers_allied(owner, pplayer));
+  if (NULL != owner && !pplayers_allied(owner, param->owner)) {
+    return TB_IGNORE;
+  }
+  return TB_NORMAL;
 }
 
 /****************************************************************************
@@ -337,7 +341,7 @@ int settler_evaluate_improvements(struct unit *punit,
 
   pft_fill_unit_parameter(&parameter, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
-  parameter.can_invade_tile = autosettler_enter_territory;
+  parameter.get_TB = autosettler_tile_behavior;
   pfm = pf_map_new(&parameter);
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -635,7 +639,7 @@ static int settler_evaluate_city_requests(struct unit *punit,
 
   pft_fill_unit_parameter(&parameter, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
-  parameter.can_invade_tile = autosettler_enter_territory;
+  parameter.get_TB = autosettler_tile_behavior;
   pfm = pf_map_new(&parameter);
 
   /* Have nearby cities requests? */
@@ -869,7 +873,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
     if (!path) {
       pft_fill_unit_parameter(&parameter, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
-      parameter.can_invade_tile = autosettler_enter_territory;
+      parameter.get_TB = autosettler_tile_behavior;
       pfm = pf_map_new(&parameter);
       path = pf_map_path(pfm, best_tile);
     }

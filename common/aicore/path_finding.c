@@ -220,6 +220,8 @@ struct pf_normal_node {
   unsigned status : 3;  /* 'enum pf_node_status' really. */
 
   /* Cached values */
+  unsigned move_scope : 3;      /* 'enum pf_move_scope really. */
+  unsigned action : 2;          /* 'enum pf_action really. */
   unsigned node_known_type : 2; /* 'enum known_type' really. */
   unsigned behavior : 2;        /* 'enum tile_behavior' really. */
   unsigned zoc_number : 2;      /* 'enum pf_zoc_type' really. */
@@ -260,12 +262,13 @@ pf_normal_map_check(struct pf_map *pfm, const char *file,
   NS_INIT to avoid recalculating all values. Returns FALSE if we cannot
   enter node (in this case, most of the cached values are not set).
 ****************************************************************************/
-static bool pf_normal_node_init(struct pf_normal_map *pfnm,
-                                struct pf_normal_node *node,
-                                struct tile *ptile)
+static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
+                                       struct pf_normal_node *node,
+                                       struct tile *ptile,
+                                       enum pf_move_scope previous_scope)
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfnm));
-  struct terrain *pterrain;
+  enum known_type node_known_type;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -276,26 +279,18 @@ static bool pf_normal_node_init(struct pf_normal_map *pfnm,
 
   /* Establish the "known" status of node. */
   if (params->omniscience) {
-    node->node_known_type = TILE_KNOWN_SEEN;
+    node_known_type = TILE_KNOWN_SEEN;
   } else {
-    node->node_known_type = tile_get_known(ptile, params->owner);
+    node_known_type = tile_get_known(ptile, params->owner);
   }
+  node->node_known_type = node_known_type;
 
   /* Establish the tile behavior. */
   if (NULL != params->get_TB) {
-    node->behavior = params->get_TB(ptile, node->node_known_type, params);
-    if (TB_IGNORE == node->behavior) {
-      return FALSE;
-    } else if (NULL != params->can_invade_tile
-               && !params->can_invade_tile(params->owner, ptile)) {
-      /* Overwrite node behavior if we cannot invade it. */
-      node->behavior = TB_IGNORE;
+    node->behavior = params->get_TB(ptile, node_known_type, params);
+    if (TB_IGNORE == node->behavior && params->start_tile != ptile) {
       return FALSE;
     }
-  } else if (NULL != params->can_invade_tile
-             && !params->can_invade_tile(params->owner, ptile)) {
-    node->behavior = TB_IGNORE;
-    return FALSE;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* The default. */
@@ -303,25 +298,74 @@ static bool pf_normal_node_init(struct pf_normal_map *pfnm,
 #endif
   }
 
-  /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
-   * can move unrestricted into it, but not necessarily from it. */
-  if (NULL != params->get_zoc
-      && NULL == tile_city(ptile)
-      && T_UNKNOWN != (pterrain = tile_terrain(ptile))
-      && !terrain_has_flag(pterrain, TER_NO_ZOC)
-      && !params->get_zoc(params->owner, ptile)) {
-    node->zoc_number = (0 < unit_list_size(ptile->units)
-                        ? ZOC_ALLIED : ZOC_NO);
+  if (TILE_UNKNOWN != node_known_type) {
+    /* Test if we can invade tile. */
+    if (!BV_ISSET(params->unit_flags, UTYF_CIVILIAN)
+        && !player_can_invade_tile(params->owner, ptile)) {
+      /* Maybe overwrite node behavior. */
+      if (params->start_tile != ptile) {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      } else if (TB_NORMAL == node->behavior) {
+        node->behavior = TB_IGNORE;
+      }
+    }
+
+    /* Test the possiblity to perform an action. */
+    if (NULL != params->get_action) {
+      node->action = params->get_action(ptile, params);
+      if (PF_ACTION_NONE != node->action
+          && TB_DONT_LEAVE != node->behavior) {
+        /* Overwrite node behavior. */
+        node->behavior = TB_DONT_LEAVE;
+      }
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
+    } else {
+      /* Nodes are allocated by fc_calloc(), so should be already set to
+       * 0. */
+      node->action = PF_ACTION_NONE;
+#endif
+    }
+
+    /* Test the possiblity to move from/to 'ptile'. */
+    node->move_scope = params->get_move_scope(ptile, previous_scope, params);
+    if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
+      /* Maybe overwrite node behavior. */
+      if (params->start_tile != ptile) {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      } else if (TB_NORMAL == node->behavior) {
+        node->behavior = TB_IGNORE;
+      }
+    }
+
+    /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
+     * can move unrestricted into it, but not necessarily from it. */
+    if (NULL != params->get_zoc
+        && NULL == tile_city(ptile)
+        && !terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)
+        && !params->get_zoc(params->owner, ptile)) {
+      node->zoc_number = (0 < unit_list_size(ptile->units)
+                          ? ZOC_ALLIED : ZOC_NO);
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    } else {
+      /* Nodes are allocated by fc_calloc(), so should be already set to
+       * 0. */
+      node->zoc_number = ZOC_MINE;
+#endif
+    }
   } else {
-    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
+    node->move_scope = PF_MS_NATIVE;
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    /* Nodes are allocated by fc_calloc(), so  should be already set to 0. */
+    node->action = PF_ACTION_NONE;
     node->zoc_number = ZOC_MINE;
 #endif
   }
 
   /* Evaluate the extra cost of the destination */
   if (NULL != params->get_EC) {
-    node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
+    node->extra_tile = params->get_EC(ptile, node_known_type, params);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* Nodes are allocated by fc_calloc(), so  should be already set to 0. */
@@ -560,9 +604,10 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
   struct pf_normal_node *node = pfnm->lattice + index;
   const struct pf_parameter *params = pf_map_parameter(pfm);
   int cost_of_path;
+  enum pf_move_scope scope = node->move_scope;
 
   /* There is no exit from DONT_LEAVE tiles! */
-  if (node->behavior != TB_DONT_LEAVE) {
+  if (node->behavior != TB_DONT_LEAVE && PF_MS_NONE != scope) {
     /* Processing Stage */
 
     /* The previous position is defined by 'tile' (tile pointer), 'node'
@@ -589,7 +634,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       if (node1->status == NS_UNINIT) {
         /* Only initialize once. See comment for pf_normal_node_init().
          * Node status step A. to B. */
-        if (!pf_normal_node_init(pfnm, node1, tile1)) {
+        if (!pf_normal_node_init(pfnm, node1, tile1, scope)) {
           continue;
         }
       } else if (TB_IGNORE == node1->behavior) {
@@ -603,10 +648,19 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       }
 
       /* Evaluate the cost of the move. */
-      if (node1->node_known_type == TILE_UNKNOWN) {
+      if (PF_ACTION_NONE != node1->action) {
+        if (NULL != params->is_action_possible
+            && !params->is_action_possible(tile, scope, tile1, node1->action,
+                                           params)) {
+          continue;
+        }
+        /* We evalue actions as constant single move for getting straightest
+         * paths. */
+        cost = SINGLE_MOVE;
+      } else if (node1->node_known_type == TILE_UNKNOWN) {
         cost = params->unknown_MC;
       } else {
-        cost = params->get_MC(tile, dir, tile1, params);
+        cost = params->get_MC(tile, scope, tile1, node1->move_scope, params);
       }
       if (cost == PF_IMPOSSIBLE_MC) {
         continue;
@@ -614,12 +668,6 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       cost = pf_normal_map_adjust_cost(pfnm, cost);
       if (cost == PF_IMPOSSIBLE_MC) {
         continue;
-      }
-
-      if (node1->behavior == TB_DONT_LEAVE) {
-        /* We evaluate moves to TB_DONT_LEAVE tiles as a constant single
-         * move for getting straightest paths. */
-        cost = SINGLE_MOVE;
       }
 
       /* Total cost at tile1. Cost may be negative; see pf_turns(). */
@@ -687,7 +735,7 @@ static inline bool pf_normal_map_iterate_until(struct pf_normal_map *pfnm,
     /* Start position is handled in every function calling this function. */
     if (NS_UNINIT == node->status) {
       /* Initialize the node, for doing the following tests. */
-      if (!pf_normal_node_init(pfnm, node, ptile)) {
+      if (!pf_normal_node_init(pfnm, node, ptile, PF_MS_NONE)) {
         return FALSE;
       }
     } else if (TB_IGNORE == node->behavior) {
@@ -801,9 +849,13 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
   pfnm->lattice = fc_calloc(MAP_INDEX_SIZE, sizeof(struct pf_normal_node));
   pfnm->queue = pq_create(INITIAL_QUEUE_SIZE);
 
-  /* 'get_MC' or 'get_costs' callback must be set. */
-  fc_assert_ret_val(NULL != parameter->get_MC
-                    || NULL != parameter->get_costs, NULL);
+  if (NULL == parameter->get_costs) {
+    /* 'get_MC' callback must be set. */
+    fc_assert_ret_val(NULL != parameter->get_MC, NULL);
+
+    /* 'get_move_scope' callback must be set. */
+    fc_assert_ret_val(parameter->get_move_scope != NULL, NULL);
+  }
 
   /* Copy parameters. */
   *params = *parameter;
@@ -821,10 +873,18 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
 
   /* Initialise starting node. */
   node = pfnm->lattice + tile_index(params->start_tile);
-  if (!pf_normal_node_init(pfnm, node, params->start_tile)) {
-    /* No map possible because start tile is ignored. */
-    base_map->tile = NULL;
-    return PF_MAP(pfnm);
+  if (NULL == params->get_costs) {
+    if (!pf_normal_node_init(pfnm, node, params->start_tile, PF_MS_NONE)) {
+      /* Always fails. */
+      fc_assert(TRUE == pf_normal_node_init(pfnm, node, params->start_tile,
+                                            PF_MS_NONE));
+    }
+
+    if (params->transported_initially) {
+      /* Overwrite. It is safe because we cannot return to start tile with
+       * pf_normal_map. */
+      node->move_scope |= PF_MS_TRANSPORT;
+    }
   }
 
   /* Initialise the iterator. */
@@ -861,6 +921,8 @@ struct pf_danger_node {
   unsigned status : 3;  /* 'enum pf_node_status' really. */
 
   /* Cached values */
+  unsigned move_scope : 3;      /* 'enum pf_move_scope really. */
+  unsigned action : 2;          /* 'enum pf_action really. */
   unsigned node_known_type : 2; /* 'enum known_type' really. */
   unsigned behavior : 2;        /* 'enum tile_behavior' really. */
   unsigned zoc_number : 2;      /* 'enum pf_zoc_type' really. */
@@ -912,12 +974,13 @@ pf_danger_map_check(struct pf_map *pfm, const char *file,
   NS_INIT to avoid recalculating all values. Returns FALSE if we cannot
   enter node (in this case, most of the cached values are not set).
 ****************************************************************************/
-static bool pf_danger_node_init(struct pf_danger_map *pfdm,
-                                struct pf_danger_node *node,
-                                struct tile *ptile)
+static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
+                                       struct pf_danger_node *node,
+                                       struct tile *ptile,
+                                       enum pf_move_scope previous_scope)
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfdm));
-  struct terrain *pterrain;
+  enum known_type node_known_type;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -928,26 +991,18 @@ static bool pf_danger_node_init(struct pf_danger_map *pfdm,
 
   /* Establish the "known" status of node. */
   if (params->omniscience) {
-    node->node_known_type = TILE_KNOWN_SEEN;
+    node_known_type = TILE_KNOWN_SEEN;
   } else {
-    node->node_known_type = tile_get_known(ptile, params->owner);
+    node_known_type = tile_get_known(ptile, params->owner);
   }
+  node->node_known_type = node_known_type;
 
   /* Establish the tile behavior. */
   if (NULL != params->get_TB) {
-    node->behavior = params->get_TB(ptile, node->node_known_type, params);
-    if (TB_IGNORE == node->behavior) {
-      return FALSE;
-    } else if (NULL != params->can_invade_tile
-               && !params->can_invade_tile(params->owner, ptile)) {
-      /* Overwrite node behavior if we cannot invade it. */
-      node->behavior = TB_IGNORE;
+    node->behavior = params->get_TB(ptile, node_known_type, params);
+    if (TB_IGNORE == node->behavior && params->start_tile != ptile) {
       return FALSE;
     }
-  } else if (NULL != params->can_invade_tile
-             && !params->can_invade_tile(params->owner, ptile)) {
-    node->behavior = TB_IGNORE;
-    return FALSE;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* The default. */
@@ -955,25 +1010,74 @@ static bool pf_danger_node_init(struct pf_danger_map *pfdm,
 #endif
   }
 
-  /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
-   * can move unrestricted into it, but not necessarily from it. */
-  if (NULL != params->get_zoc
-      && NULL == tile_city(ptile)
-      && T_UNKNOWN != (pterrain = tile_terrain(ptile))
-      && !terrain_has_flag(pterrain, TER_NO_ZOC)
-      && !params->get_zoc(params->owner, ptile)) {
-    node->zoc_number = (0 < unit_list_size(ptile->units)
-                        ? ZOC_ALLIED : ZOC_NO);
+  if (TILE_UNKNOWN != node_known_type) {
+    /* Test if we can invade tile. */
+    if (!BV_ISSET(params->unit_flags, UTYF_CIVILIAN)
+        && !player_can_invade_tile(params->owner, ptile)) {
+      /* Maybe overwrite node behavior. */
+      if (params->start_tile != ptile) {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      } else if (TB_NORMAL == node->behavior) {
+        node->behavior = TB_IGNORE;
+      }
+    }
+
+    /* Test the possiblity to perform an action. */
+    if (NULL != params->get_action) {
+      node->action = params->get_action(ptile, params);
+      if (PF_ACTION_NONE != node->action
+          && TB_DONT_LEAVE != node->behavior) {
+        /* Overwrite node behavior. */
+        node->behavior = TB_DONT_LEAVE;
+      }
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
+    } else {
+      /* Nodes are allocated by fc_calloc(), so should be already set to
+       * 0. */
+      node->action = PF_ACTION_NONE;
+#endif
+    }
+
+    /* Test the possiblity to move from/to 'ptile'. */
+    node->move_scope = params->get_move_scope(ptile, previous_scope, params);
+    if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
+      /* Maybe overwrite node behavior. */
+      if (params->start_tile != ptile) {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      } else if (TB_NORMAL == node->behavior) {
+        node->behavior = TB_IGNORE;
+      }
+    }
+
+    /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
+     * can move unrestricted into it, but not necessarily from it. */
+    if (NULL != params->get_zoc
+        && NULL == tile_city(ptile)
+        && !terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)
+        && !params->get_zoc(params->owner, ptile)) {
+      node->zoc_number = (0 < unit_list_size(ptile->units)
+                          ? ZOC_ALLIED : ZOC_NO);
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    } else {
+      /* Nodes are allocated by fc_calloc(), so should be already set to
+       * 0. */
+      node->zoc_number = ZOC_MINE;
+#endif
+    }
   } else {
-    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
+    node->move_scope = PF_MS_NATIVE;
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    /* Nodes are allocated by fc_calloc(), so  should be already set to 0. */
+    node->action = PF_ACTION_NONE;
     node->zoc_number = ZOC_MINE;
 #endif
   }
 
   /* Evaluate the extra cost of the destination. */
   if (NULL != params->get_EC) {
-    node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
+    node->extra_tile = params->get_EC(ptile, node_known_type, params);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
@@ -988,7 +1092,7 @@ static bool pf_danger_node_init(struct pf_danger_map *pfdm,
 #endif
 
   node->is_dangerous =
-    params->is_pos_dangerous(ptile, node->node_known_type, params);
+    params->is_pos_dangerous(ptile, node_known_type, params);
 
   return TRUE;
 }
@@ -1314,14 +1418,22 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
   struct tile *tile = pfm->tile;
   int index = tile_index(tile);
   struct pf_danger_node *node = pfdm->lattice + index;
+  enum pf_move_scope scope = node->move_scope;
 
   /* The previous position is defined by 'tile' (tile pointer), 'node'
    * (the data of the tile for the pf_map), and index (the index of the
    * position in the Freeciv map). */
 
+  if (PF_DIR_NONE == node->dir_to_here && params->transported_initially) {
+#ifdef PF_DEBUG
+    fc_assert(tile == params->start_tile);
+#endif
+    scope |= PF_MS_TRANSPORT;
+  }
+
   for (;;) {
     /* There is no exit from DONT_LEAVE tiles! */
-    if (node->behavior != TB_DONT_LEAVE) {
+    if (node->behavior != TB_DONT_LEAVE && PF_MS_NONE != scope) {
       /* Cost at tile but taking into account waiting. */
       int loc_cost;
       if (node->status != NS_WAITING) {
@@ -1353,7 +1465,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
         if (node1->status == NS_UNINIT) {
           /* Only initialize once. See comment for pf_danger_node_init().
            * Node status step A. to B. */
-          if (!pf_danger_node_init(pfdm, node1, tile1)) {
+          if (!pf_danger_node_init(pfdm, node1, tile1, scope)) {
             continue;
           }
         } else if (TB_IGNORE == node1->behavior) {
@@ -1367,10 +1479,20 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
         }
 
         /* Evaluate the cost of the move. */
-        if (node1->node_known_type == TILE_UNKNOWN) {
+        if (PF_ACTION_NONE != node1->action) {
+          if (NULL != params->is_action_possible
+              && !params->is_action_possible(tile, scope, tile1,
+                                             node1->action, params)) {
+            continue;
+          }
+          /* We evalue actions as constant single move for getting
+           * straightest paths. */
+          cost = SINGLE_MOVE;
+        } else if (node1->node_known_type == TILE_UNKNOWN) {
           cost = params->unknown_MC;
         } else {
-          cost = params->get_MC(tile, dir, tile1, params);
+          cost = params->get_MC(tile, scope, tile1, node1->move_scope,
+                                params);
         }
         if (cost == PF_IMPOSSIBLE_MC) {
           continue;
@@ -1381,12 +1503,6 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
         if (cost == PF_IMPOSSIBLE_MC) {
           /* This move is deemed impossible. */
           continue;
-        }
-
-        if (node1->behavior == TB_DONT_LEAVE) {
-          /* We evaluate moves to TB_DONT_LEAVE tiles as a constant single
-           * move for getting straightest paths. */
-          cost = SINGLE_MOVE;
         }
 
         /* Total cost at 'tile1'. */
@@ -1531,6 +1647,8 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
       log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
     }
 #endif
+
+    scope = node->move_scope;
   }
 
   log_error("%s(): internal error.", __FUNCTION__);
@@ -1550,7 +1668,7 @@ static inline bool pf_danger_map_iterate_until(struct pf_danger_map *pfdm,
 
   if (NS_UNINIT == node->status) {
     /* Initialize the node, for doing the following tests. */
-    if (!pf_danger_node_init(pfdm, node, ptile)
+    if (!pf_danger_node_init(pfdm, node, ptile, PF_MS_NONE)
         || node->is_dangerous) {
       return FALSE;
     }
@@ -1680,6 +1798,9 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
   /* 'is_pos_dangerous' callback must be set. */
   fc_assert_ret_val(parameter->is_pos_dangerous != NULL, NULL);
 
+  /* 'get_move_scope' callback must be set. */
+  fc_assert_ret_val(parameter->get_move_scope != NULL, NULL);
+
   /* Copy parameters */
   *params = *parameter;
 
@@ -1692,11 +1813,15 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
 
   /* Initialise starting node. */
   node = pfdm->lattice + tile_index(params->start_tile);
-  if (!pf_danger_node_init(pfdm, node, params->start_tile)) {
-    /* No map possible because start tile is ignored. */
-    base_map->tile = NULL;
-    return PF_MAP(pfdm);
+  if (!pf_danger_node_init(pfdm, node, params->start_tile, PF_MS_NONE)) {
+    /* Always fails. */
+    fc_assert(TRUE == pf_danger_node_init(pfdm, node, params->start_tile,
+                                          PF_MS_NONE));
   }
+
+  /* NB: do not handle params->transported_initially because we want to
+   * handle only at start, not when crossing over the start tile for a
+   * second time. See pf_danger_map_iterate(). */
 
   /* Initialise the iterator. */
   base_map->tile = params->start_tile;
@@ -1735,10 +1860,11 @@ struct pf_fuel_node {
   unsigned status : 3;  /* 'enum pf_node_status' really. */
 
   /* Cached values */
+  unsigned move_scope : 3;      /* 'enum pf_move_scope really. */
+  unsigned action : 2;          /* 'enum pf_action really. */
   unsigned node_known_type : 2; /* 'enum known_type' really. */
   unsigned behavior : 2;        /* 'enum tile_behavior' really. */
   unsigned zoc_number : 2;      /* 'enum pf_zoc_type' really. */
-  bool is_enemy_tile : 1;
   bool waited : 1;              /* TRUE if waited to get here. */
   unsigned moves_left_req : 12; /* The minimum required moves left to reach
                                  * this tile. It the number of moves we need
@@ -1795,12 +1921,13 @@ pf_fuel_map_check(struct pf_map *pfm, const char *file,
   NS_INIT to avoid recalculating all values. Returns FALSE if we cannot
   enter node (in this case, most of the cached values are not set).
 ****************************************************************************/
-static bool pf_fuel_node_init(struct pf_fuel_map *pffm,
-                              struct pf_fuel_node *node,
-                              struct tile *ptile)
+static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
+                                     struct pf_fuel_node *node,
+                                     struct tile *ptile,
+                                     enum pf_move_scope previous_scope)
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pffm));
-  struct terrain *pterrain;
+  enum known_type node_known_type;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -1811,26 +1938,18 @@ static bool pf_fuel_node_init(struct pf_fuel_map *pffm,
 
   /* Establish the "known" status of node. */
   if (params->omniscience) {
-    node->node_known_type = TILE_KNOWN_SEEN;
+    node_known_type = TILE_KNOWN_SEEN;
   } else {
-    node->node_known_type = tile_get_known(ptile, params->owner);
+    node_known_type = tile_get_known(ptile, params->owner);
   }
+  node->node_known_type = node_known_type;
 
   /* Establish the tile behavior. */
   if (NULL != params->get_TB) {
-    node->behavior = params->get_TB(ptile, node->node_known_type, params);
-    if (TB_IGNORE == node->behavior) {
-      return FALSE;
-    } else if (NULL != params->can_invade_tile
-               && !params->can_invade_tile(params->owner, ptile)) {
-      /* Overwrite node behavior if we cannot invade it. */
-      node->behavior = TB_IGNORE;
+    node->behavior = params->get_TB(ptile, node_known_type, params);
+    if (TB_IGNORE == node->behavior && params->start_tile != ptile) {
       return FALSE;
     }
-  } else if (NULL != params->can_invade_tile
-             && !params->can_invade_tile(params->owner, ptile)) {
-    node->behavior = TB_IGNORE;
-    return FALSE;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* The default. */
@@ -1838,47 +1957,100 @@ static bool pf_fuel_node_init(struct pf_fuel_map *pffm,
 #endif
   }
 
-  if (is_enemy_unit_tile(ptile, params->owner)
-      || (is_enemy_city_tile(ptile, params->owner))) {
-    node->is_enemy_tile = TRUE;
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
-    node->moves_left_req = 0; /* Attack is always possible theorically. */
-#endif
-  } else {
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-    /* Nodes are allocated by fc_calloc(), so should be already set to
-     * FALSE. */
-    node->is_enemy_tile = FALSE;
-#endif
-    node->moves_left_req =
-      params->get_moves_left_req(ptile, node->node_known_type, params);
-    if (PF_IMPOSSIBLE_MC == node->moves_left_req) {
-       /* Overwrite node behavior. */
-      node->behavior = TB_IGNORE;
-      return FALSE;
+  if (TILE_UNKNOWN != node_known_type) {
+    /* Test if we can invade tile. */
+    if (!BV_ISSET(params->unit_flags, UTYF_CIVILIAN)
+        && !player_can_invade_tile(params->owner, ptile)) {
+      /* Maybe overwrite node behavior. */
+      if (params->start_tile != ptile) {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      } else if (TB_NORMAL == node->behavior) {
+        node->behavior = TB_IGNORE;
+      }
     }
-  }
 
-  /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
-   * can move unrestricted into it, but not necessarily from it. */
-  if (NULL != params->get_zoc
-      && NULL == tile_city(ptile)
-      && T_UNKNOWN != (pterrain = tile_terrain(ptile))
-      && !terrain_has_flag(pterrain, TER_NO_ZOC)
-      && !params->get_zoc(params->owner, ptile)) {
-    node->zoc_number = (0 < unit_list_size(ptile->units)
-                        ? ZOC_ALLIED : ZOC_NO);
+    /* Test the possiblity to perform an action. */
+    if (NULL != params->get_action
+        && PF_ACTION_NONE != (node->action = params->get_action(ptile,
+                                                                params))) {
+      if (TB_DONT_LEAVE != node->behavior) {
+        /* Overwrite node behavior. */
+        node->behavior = TB_DONT_LEAVE;
+      }
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
+      node->moves_left_req = 0; /* Attack is always possible theorically. */
+#endif
+    } else {
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+      /* Nodes are allocated by fc_calloc(), so should be already set to
+       * 0. */
+      node->action = PF_ACTION_NONE;
+#endif
+      node->moves_left_req =
+        params->get_moves_left_req(ptile, node_known_type, params);
+      if (PF_IMPOSSIBLE_MC == node->moves_left_req) {
+        /* Overwrite node behavior. */
+        if (params->start_tile == ptile) {
+          node->behavior = TB_DONT_LEAVE;
+        } else {
+          node->behavior = TB_IGNORE;
+          return FALSE;
+        }
+      }
+    }
+
+    /* Test the possiblity to move from/to 'ptile'. */
+    node->move_scope = params->get_move_scope(ptile, previous_scope, params);
+    if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
+      /* Maybe overwrite node behavior. */
+      if (params->start_tile != ptile) {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      } else if (TB_NORMAL == node->behavior) {
+        node->behavior = TB_IGNORE;
+      }
+    }
+
+    /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
+     * can move unrestricted into it, but not necessarily from it. */
+    if (NULL != params->get_zoc
+        && NULL == tile_city(ptile)
+        && !terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)
+        && !params->get_zoc(params->owner, ptile)) {
+      node->zoc_number = (0 < unit_list_size(ptile->units)
+                          ? ZOC_ALLIED : ZOC_NO);
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    } else {
+      /* Nodes are allocated by fc_calloc(), so should be already set to
+       * 0. */
+      node->zoc_number = ZOC_MINE;
+#endif
+    }
   } else {
-    /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
+    node->moves_left_req =
+      params->get_moves_left_req(ptile, node_known_type, params);
+    if (PF_IMPOSSIBLE_MC == node->moves_left_req) {
+      /* Overwrite node behavior. */
+      if (params->start_tile == ptile) {
+        node->behavior = TB_DONT_LEAVE;
+      } else {
+        node->behavior = TB_IGNORE;
+        return FALSE;
+      }
+    }
+
+    node->move_scope = PF_MS_NATIVE;
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
+    /* Nodes are allocated by fc_calloc(), so  should be already set to 0. */
+    node->action = PF_ACTION_NONE;
     node->zoc_number = ZOC_MINE;
 #endif
   }
 
   /* Evaluate the extra cost of the destination. */
   if (NULL != params->get_EC) {
-    node->extra_tile = params->get_EC(ptile, node->node_known_type, params);
+    node->extra_tile = params->get_EC(ptile, node_known_type, params);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   } else {
     /* Nodes are allocated by fc_calloc(), so should be already set to 0. */
@@ -1902,7 +2074,7 @@ static inline bool pf_fuel_node_dangerous(const struct pf_fuel_node *node)
 {
   return (NULL == node->fuel_segment
           || (node->fuel_segment->moves_left < node->moves_left_req
-              && !node->is_enemy_tile));
+              && PF_ACTION_NONE == node->action));
 }
 
 /****************************************************************************
@@ -2375,14 +2547,22 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
   struct tile *tile = pfm->tile;
   int index = tile_index(tile);
   struct pf_fuel_node *node = pffm->lattice + index;
+  enum pf_move_scope scope = node->move_scope;
 
   /* The previous position is defined by 'tile' (tile pointer), 'node'
    * (the data of the tile for the pf_map), and index (the index of the
    * position in the Freeciv map). */
 
+  if (PF_DIR_NONE == node->dir_to_here && params->transported_initially) {
+#ifdef PF_DEBUG
+    fc_assert(tile == params->start_tile);
+#endif
+    scope |= PF_MS_TRANSPORT;
+  }
+
   for (;;) {
     /* There is no exit from DONT_LEAVE tiles! */
-    if (node->behavior != TB_DONT_LEAVE) {
+    if (node->behavior != TB_DONT_LEAVE && PF_MS_NONE != scope) {
       int loc_cost, loc_moves_left;
 
       if (node->status != NS_WAITING) {
@@ -2420,7 +2600,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         if (node1->status == NS_UNINIT) {
           /* Only initialize once. See comment for pf_fuel_node_init().
            * Node status step A. to B. */
-          if (!pf_fuel_node_init(pffm, node1, tile1)) {
+          if (!pf_fuel_node_init(pffm, node1, tile1, scope)) {
             continue;
           }
         } else if (TB_IGNORE == node1->behavior) {
@@ -2434,10 +2614,20 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         }
 
         /* Evaluate the cost of the move. */
-        if (node1->node_known_type == TILE_UNKNOWN) {
+        if (PF_ACTION_NONE != node1->action) {
+          if (NULL != params->is_action_possible
+              && !params->is_action_possible(tile, scope, tile1,
+                                             node1->action, params)) {
+            continue;
+          }
+          /* We evalue actions as constant single move for getting
+           * straightest paths. */
+          cost = SINGLE_MOVE;
+        } else if (node1->node_known_type == TILE_UNKNOWN) {
           cost = params->unknown_MC;
         } else {
-          cost = params->get_MC(tile, dir, tile1, params);
+          cost = params->get_MC(tile, scope, tile1, node1->move_scope,
+                                params);
         }
         if (cost == PF_IMPOSSIBLE_MC) {
           continue;
@@ -2457,7 +2647,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           continue;
         }
 
-        if (node1->is_enemy_tile
+        if (PF_ACTION_ATTACK == node1->action
             && !pf_fuel_map_attack_is_possible(params, loc_moves_left,
                                                node->moves_left_req)) {
           /* We wouldn't have enough moves left after attacking. */
@@ -2579,7 +2769,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 #endif
       node->status = NS_PROCESSED;
     } else if (0 == node->moves_left_req
-               && !node->is_enemy_tile
+               && PF_ACTION_NONE == node->action
                && node->moves_left < pf_move_rate(params)) {
       int fc, cc;
       /* Consider waiting at this node. To do it, put it back into queue.
@@ -2634,6 +2824,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
     }
 #endif /* PF_DEBUG */
+
+    scope = node->move_scope;
   }
 
   log_error("%s(): internal error.", __FUNCTION__);
@@ -2653,7 +2845,7 @@ static inline bool pf_fuel_map_iterate_until(struct pf_fuel_map *pffm,
 
   if (NS_UNINIT == node->status) {
     /* Initialize the node, for doing the following tests. */
-    if (!pf_fuel_node_init(pffm, node, ptile)) {
+    if (!pf_fuel_node_init(pffm, node, ptile, PF_MS_NONE)) {
       return FALSE;
     }
   } else if (TB_IGNORE == node->behavior) {
@@ -2784,6 +2976,9 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
   /* 'get_moves_left_req' callback must be set. */
   fc_assert_ret_val(parameter->get_moves_left_req != NULL, NULL);
 
+  /* 'get_move_scope' callback must be set. */
+  fc_assert_ret_val(parameter->get_move_scope != NULL, NULL);
+
   /* Copy parameters. */
   *params = *parameter;
 
@@ -2796,11 +2991,15 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
 
   /* Initialise starting node. */
   node = pffm->lattice + tile_index(params->start_tile);
-  if (!pf_fuel_node_init(pffm, node, params->start_tile)) {
-    /* No map possible because start tile is ignored. */
-    base_map->tile = NULL;
-    return PF_MAP(pffm);
+  if (!pf_fuel_node_init(pffm, node, params->start_tile, PF_MS_NONE)) {
+    /* Always fails. */
+    fc_assert(TRUE == pf_fuel_node_init(pffm, node, params->start_tile,
+                                        PF_MS_NONE));
   }
+
+  /* NB: do not handle params->transported_initially because we want to
+   * handle only at start, not when crossing over the start tile for a
+   * second time. See pf_danger_map_iterate(). */
 
   /* Initialise the iterator. */
   base_map->tile = params->start_tile;

@@ -388,8 +388,9 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer)
   excluded using a TB call-back.
 **************************************************************************/
 static int combined_land_sea_move(const struct tile *src_tile,
-                                  enum direction8 dir,
+                                  enum pf_move_scope src_scope,
                                   const struct tile *tgt_tile,
+                                  enum pf_move_scope dst_scope,
                                   const struct pf_parameter *param)
 {
   int move_cost;

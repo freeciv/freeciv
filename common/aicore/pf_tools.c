@@ -24,6 +24,7 @@
 
 /* common */
 #include "base.h"
+#include "combat.h"
 #include "game.h"
 #include "movement.h"
 #include "tile.h"
@@ -54,132 +55,144 @@ static inline int overlap_move_cost(const struct pf_parameter *param)
   return param->move_rate;
 }
 
-/****************************************************************************
-  Cost of performing an attack.
-  This ends the turn for some units.
-****************************************************************************/
-static inline int attack_move_cost(const struct pf_parameter *param)
-{
-  if (uclass_has_flag(param->uclass, UCF_MISSILE)
-      || BV_ISSET(param->unit_flags, UTYF_ONEATTACK)) {
-    /* Can't move any more this turn. */
-    return param->move_rate;
-  } else {
-    return SINGLE_MOVE;
-  }
-}
 
 /* ===================== Capability Functions ======================== */
 
-enum pf_move_tile {
-  PF_MT_NONE = 0,
-  PF_MT_NATIVE = 1 << 0,
-  PF_MT_CITY = 1 << 1,
-  PF_MT_TRANSPORT = 1 << 2
-};
-
 /****************************************************************************
-  Determines if a tile is an acceptable tile for attacking.
-  Should include any potential rationale for a unit to actually attack the
-  target tile from the source tile. Do not use this function as part of a
-  test of whether a unit may move to/from a tile: many tiles that pass this
-  test may be unsuitable for some units to move to/from.
+  Determines if a path to 'ptile' would be considered as action rather than
+  normal move: attack, diplomat action, caravan action.
+
+  FIXME: For diplomat actions, we should take in account action enablers.
 ****************************************************************************/
-static inline bool pf_able_to_attack(const struct tile *target,
-                                     const struct pf_parameter *param,
-                                     const struct tile *position)
+static enum pf_action pf_get_action(const struct tile *ptile,
+                                    const struct pf_parameter *param)
 {
-  if ((is_non_allied_unit_tile(target, param->owner)
-       || is_non_allied_city_tile(target, param->owner))
-      && ((uclass_has_flag(param->uclass, UCF_ATTACK_NON_NATIVE)
-           && !BV_ISSET(param->unit_flags, UTYF_ONLY_NATIVE_ATTACK))
-          || is_native_tile_to_class(param->uclass, target))
-      && (uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
-          || BV_ISSET(param->unit_flags, UTYF_MARINES)
-          || is_native_tile_to_class(param->uclass, position))) {
+  bool non_allied_city = (NULL != is_non_allied_city_tile(ptile,
+                                                          param->owner));
 
-    /* FIXME: Should perform some checks from combat.c:
-     * can_player_attack_tile(): Can we attack? Are we at war?
-     * can_unit_attack_units_at_tile(): reachability
-     * (more?)
-     *
-     * These functions would need refactoring to take class arguments
-     * or reimplementation here, as the current form is unusable or
-     * repetitive. They might also be called by the consumers, so
-     * be duplicative here.
-     */
+  if (non_allied_city) {
+    if (PF_AA_TRADE_ROUTE & param->actions) {
+      return PF_ACTION_TRADE_ROUTE;
+    }
 
-    return TRUE;
+    if (PF_AA_DIPLOMAT & param->actions) {
+      return PF_ACTION_DIPLOMAT;
+    }
   }
 
-  return FALSE;
+  if (is_non_allied_unit_tile(ptile, param->owner)) {
+    if (PF_AA_DIPLOMAT & param->actions) {
+      return PF_ACTION_DIPLOMAT;
+    }
+
+    if (PF_AA_UNIT_ATTACK & param->actions
+        && ((uclass_has_flag(param->uclass, UCF_ATTACK_NON_NATIVE)
+             && !BV_ISSET(param->unit_flags, UTYF_ONLY_NATIVE_ATTACK))
+            || is_native_tile_to_class(param->uclass, ptile))
+        && (!param->omniscience
+            || can_player_attack_tile(param->owner, ptile))) {
+      /* FIXME: we should also test for unit reachability. */
+      return PF_ACTION_ATTACK;
+    }
+  }
+
+  if (non_allied_city
+      && PF_AA_CITY_ATTACK & param->actions
+      && ((uclass_has_flag(param->uclass, UCF_ATTACK_NON_NATIVE)
+           && !BV_ISSET(param->unit_flags, UTYF_ONLY_NATIVE_ATTACK))
+          || is_native_tile_to_class(param->uclass, ptile))) {
+    /* Consider that there are units, even if is_non_allied_unit_tile()
+     * returned NULL (usally when '!param->omniscience'). */
+    return PF_ACTION_ATTACK;
+  }
+
+  return PF_ACTION_NONE;
 }
 
 /****************************************************************************
-  Determines if a tile is an acceptable tile for movement.
-  Should include any potential rationale for a unit to actually move to/from
-  the tile. Do not use this function as part of a test of whether a unit may
-  attack a tile: many tiles that pass this test may be unsuitable for some
-  units to attack to/from.
-
-  Does not check if the tile is occupied by non-allied units.
-
-  'src_tile_result' is set to PF_MT_NONE if we are checking the source tile.
+  Determines if an action is possible from 'src' to 'dst': attack, diplomat
+  action, or caravan action.
 ****************************************************************************/
-static inline enum pf_move_tile
-pf_is_ok_move_tile(const struct pf_parameter *param,
-                   const struct tile *ptile,
-                   enum pf_move_tile src_tile_result)
+static bool pf_action_possible(const struct tile *src,
+                               enum pf_move_scope src_scope,
+                               const struct tile *dst,
+                               enum pf_action action,
+                               const struct pf_parameter *param)
 {
-  enum pf_move_tile result = PF_MT_NONE;
+  if (PF_ACTION_ATTACK == action) {
+    return (uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
+            || BV_ISSET(param->unit_flags, UTYF_MARINES)
+            || PF_MS_NATIVE & src_scope);
+  } else if (PF_ACTION_DIPLOMAT == action) {
+    return (PF_MS_NATIVE | PF_MS_CITY) & src_scope;
+  }
+  return TRUE;
+}
+
+/****************************************************************************
+  Determine how it is possible to move from/to 'ptile'. The checks for
+  specific move from tile to tile is done in pf_move_possible().
+****************************************************************************/
+static enum pf_move_scope
+pf_get_move_scope(const struct tile *ptile,
+                  enum pf_move_scope previous_scope,
+                  const struct pf_parameter *param)
+{
+  enum pf_move_scope scope = PF_MS_NONE;
   struct city *pcity = tile_city(ptile);
 
   if ((is_native_tile_to_class(param->uclass, ptile)
        && (!BV_ISSET(param->unit_flags, UTYF_TRIREME)
            || is_safe_ocean(ptile)))) {
-    result |= PF_MT_NATIVE;
+    scope |= PF_MS_NATIVE;
   }
 
   if (NULL != pcity
       && (uclass_has_flag(param->uclass, UCF_CAN_OCCUPY_CITY)
           || pplayers_allied(param->owner, city_owner(pcity)))
-      && ((src_tile_result & PF_MT_CITY) /* City channel previously tested */
+      && ((previous_scope & PF_MS_CITY) /* City channel previously tested */
           || uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
           || is_native_near_tile(param->uclass, ptile)
           || (1 == game.info.citymindist
               && is_city_channel_tile(param->uclass, ptile, NULL)))) {
-    result |= PF_MT_CITY;
+    scope |= PF_MS_CITY;
   }
 
-  unit_list_iterate(ptile->units, punit) {
-    if (pplayers_allied(unit_owner(punit), param->owner)
-        && (PF_MT_NONE == src_tile_result || !unit_has_orders(punit))
-        && can_unit_type_transport(unit_type(punit), param->uclass)) {
-      result |= PF_MT_TRANSPORT;
-      break;
-    }
-  } unit_list_iterate_end;
+  if (PF_MS_NONE == scope) {
+    /* Check for transporters. Useless if we already got another way to
+     * move. */
+    unit_list_iterate(ptile->units, punit) {
+      if (pplayers_allied(unit_owner(punit), param->owner)
+          && !unit_has_orders(punit)
+          && can_unit_type_transport(unit_type(punit), param->uclass)) {
+        scope |= PF_MS_TRANSPORT;
+        break;
+      }
+    } unit_list_iterate_end;
+  }
 
-  return result;
+  return scope;
 }
 
 /****************************************************************************
-  Here goes move additional checks to determine if a move is possible or
-  not.
+  A cost function for amphibious movement.
 ****************************************************************************/
-static inline bool pf_move_check(const struct pf_parameter *param,
-                                 const struct tile *src,
-                                 enum pf_move_tile src_tile_result,
-                                 const struct tile *dst,
-                                 enum pf_move_tile dst_tile_result)
+static enum pf_move_scope
+amphibious_move_scope(const struct tile *ptile,
+                      enum pf_move_scope previous_scope,
+                      const struct pf_parameter *param)
 {
-  if (PF_MT_NATIVE == dst_tile_result
-      && (PF_MT_NATIVE & src_tile_result)
-      && !is_native_move(param->uclass, src, dst)) {
-    return FALSE;
-  }
+  struct pft_amphibious *amphibious = param->data;
+  enum pf_move_scope scope;
 
-  return TRUE;
+  scope = pf_get_move_scope(ptile, previous_scope, &amphibious->land);
+
+  if (!(PF_MS_TRANSPORT & scope)
+      && ((PF_MS_NATIVE | PF_MS_CITY)
+          & pf_get_move_scope(ptile, scope, &amphibious->sea))) {
+    scope |= PF_MS_TRANSPORT;
+  }
+  return scope;
 }
 
 /****************************************************************************
@@ -190,18 +203,27 @@ static inline bool pf_move_check(const struct pf_parameter *param,
 
   Does not check if the tile is occupied by non-allied units.
 ****************************************************************************/
-static inline bool pf_able_to_move(const struct pf_parameter *param,
-                                   const struct tile *src,
-                                   const struct tile *dst)
+static inline bool pf_move_possible(const struct tile *src,
+                                    enum pf_move_scope src_scope,
+                                    const struct tile *dst,
+                                    enum pf_move_scope dst_scope,
+                                    const struct pf_parameter *param)
 {
-  enum pf_move_tile src_tile_result, dst_tile_result;
+  fc_assert(PF_MS_NONE != src_scope);
 
-  return ((src_tile_result = pf_is_ok_move_tile(param, src, PF_MT_NONE))
-          && (dst_tile_result = pf_is_ok_move_tile(param, dst,
-                                                   src_tile_result))
-          && pf_move_check(param, src, src_tile_result,
-                           dst, dst_tile_result));
+  if (PF_MS_NONE == dst_scope) {
+    return FALSE;
+  }
+
+  if (PF_MS_NATIVE == dst_scope
+      && (PF_MS_NATIVE & src_scope)
+      && !is_native_move(param->uclass, src, dst)) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
+
 
 /* ===================== Move Cost Callbacks ========================= */
 
@@ -211,13 +233,12 @@ static inline bool pf_able_to_move(const struct pf_parameter *param,
   Does not permit passing through non-native tiles without transport.
 ****************************************************************************/
 static int normal_move(const struct tile *src,
-                       enum direction8 dir,
+                       enum pf_move_scope src_scope,
                        const struct tile *dst,
+                       enum pf_move_scope dst_scope,
                        const struct pf_parameter *param)
 {
-  if (pf_able_to_attack(dst, param, src)) {
-    return attack_move_cost(param);
-  } else if (pf_able_to_move(param, src, dst)) {
+  if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
     return single_move_cost(param, src, dst);
   }
   return PF_IMPOSSIBLE_MC;
@@ -231,41 +252,15 @@ static int normal_move(const struct tile *src,
   Does not permit passing through non-native tiles without transport.
 ****************************************************************************/
 static int overlap_move(const struct tile *src,
-                        enum direction8 dir,
+                        enum pf_move_scope src_scope,
                         const struct tile *dst,
+                        enum pf_move_scope dst_scope,
                         const struct pf_parameter *param)
 {
-  enum pf_move_tile src_tile_result, dst_tile_result;
-
-  if ((src_tile_result = pf_is_ok_move_tile(param, src, PF_MT_NONE))) {
-    if ((dst_tile_result = pf_is_ok_move_tile(param, dst, src_tile_result))
-        && pf_move_check(param, src, src_tile_result,
-                         dst, dst_tile_result)) {
-      return single_move_cost(param, src, dst);
-    } else {
-      return overlap_move_cost(param);
-    }
-  }
-  return PF_IMPOSSIBLE_MC;
-}
-
-/****************************************************************************
-  A cost function for attack movement. Permits attacks.
-  Does not permit passing through non-allied occupied tiles.
-  Does not permit passing through non-native tiles without transport.
-****************************************************************************/
-static int attack_move(const struct tile *src,
-                       enum direction8 dir,
-                       const struct tile *dst,
-                       const struct pf_parameter *param)
-{
-  if (!is_non_allied_unit_tile(src, param->owner)) {
-    /* Only keep moving if we haven't just attacked. */
-    if (pf_able_to_attack(dst, param, src)) {
-      return attack_move_cost(param);
-    } else if (pf_able_to_move(param, src, dst)) {
-      return single_move_cost(param, src, dst);
-    }
+  if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
+    return single_move_cost(param, src, dst);
+  } else if (!(PF_MS_NATIVE & dst_scope)) {
+    return overlap_move_cost(param);
   }
   return PF_IMPOSSIBLE_MC;
 }
@@ -273,47 +268,44 @@ static int attack_move(const struct tile *src,
 /****************************************************************************
   A cost function for amphibious movement.
 ****************************************************************************/
-static int amphibious_move(const struct tile *ptile, enum direction8 dir,
+static int amphibious_move(const struct tile *ptile,
+                           enum pf_move_scope src_scope,
                            const struct tile *ptile1,
+                           enum pf_move_scope dst_scope,
                            const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  const bool src_ferry = is_native_tile_to_class(amphibious->sea.uclass, ptile);
-  const bool dst_ferry = is_native_tile_to_class(amphibious->sea.uclass, ptile1);
-  const bool dst_psng = is_native_tile_to_class(amphibious->land.uclass, ptile1);
   int cost, scale;
 
-  if (src_ferry && dst_ferry) {
-    /* Sea move */
-    cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
-    scale = amphibious->sea_scale;
-  } else if (src_ferry && is_allied_city_tile(ptile1, param->owner)) {
-    /* Moving from native terrain to a city. */
-    cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
-    scale = amphibious->sea_scale;
-  } else if (src_ferry && dst_psng) {
-    /* Disembark; use land movement function to handle UTYF_MARINES */
-    cost = amphibious->land.get_MC(ptile, dir, ptile1, &amphibious->land);
-    scale = amphibious->land_scale;
-  } else if (src_ferry) {
-    /* Neither ferry nor passenger can enter tile. */
-    cost = PF_IMPOSSIBLE_MC;
-    scale = amphibious->sea_scale;
-  } else if (is_allied_city_tile(ptile, param->owner) && dst_ferry) {
-    /* Leaving port (same as sea move) */
-    cost = amphibious->sea.get_MC(ptile, dir, ptile1, &amphibious->sea);
-    scale = amphibious->sea_scale;
-  } else if (!dst_psng) {
-    /* Now we have disembarked, our ferry can not help us - we have to
-     * stay on the land. */
-    cost = PF_IMPOSSIBLE_MC;
+  if (PF_MS_TRANSPORT & src_scope) {
+    if (PF_MS_TRANSPORT & dst_scope) {
+      /* Sea move, moving from native terrain to a city, or leaving port. */
+      cost = amphibious->sea.get_MC(ptile,
+                                    (PF_MS_CITY & src_scope) | PF_MS_NATIVE,
+                                    ptile1,
+                                    (PF_MS_CITY & dst_scope) | PF_MS_NATIVE,
+                                    &amphibious->sea);
+      scale = amphibious->sea_scale;
+    } else if (PF_MS_NATIVE & dst_scope) {
+      /* Disembark; use land movement function to handle UTYF_MARINES */
+      cost = amphibious->land.get_MC(ptile, PF_MS_TRANSPORT, ptile1,
+                                     PF_MS_NATIVE, &amphibious->land);
+      scale = amphibious->land_scale;
+    } else {
+      /* Neither ferry nor passenger can enter tile. */
+      return PF_IMPOSSIBLE_MC;
+    }
+  } else if ((PF_MS_NATIVE | PF_MS_CITY) & dst_scope) {
+    /* Land move */
+    cost = amphibious->land.get_MC(ptile, PF_MS_NATIVE, ptile1,
+                                   PF_MS_NATIVE, &amphibious->land);
     scale = amphibious->land_scale;
   } else {
-    /* land move */
-    cost = amphibious->land.get_MC(ptile, dir, ptile1, &amphibious->land);
-    scale = amphibious->land_scale;
+    /* Now we have disembarked, our ferry can not help us - we have to
+     * stay on the land. */
+    return PF_IMPOSSIBLE_MC;
   }
-  if (cost != PF_IMPOSSIBLE_MC) {
+  if (cost != PF_IMPOSSIBLE_MC && cost < FC_INFINITY) {
     cost *= scale;
   }
   return cost;
@@ -539,13 +531,14 @@ static bool amphibious_is_pos_dangerous(const struct tile *ptile,
   return FALSE;
 }
 
-/* =====================  Tools for filling parameters =============== */
+/* =======================  Tools for filling parameters ================= */
 
-/**********************************************************************
+/****************************************************************************
   Fill general use parameters to defaults.
-***********************************************************************/
-static void pft_fill_default_parameter(struct pf_parameter *parameter,
-                                       const struct unit_type *punittype)
+****************************************************************************/
+static inline void
+pft_fill_default_parameter(struct pf_parameter *parameter,
+                           const struct unit_type *punittype)
 {
   struct unit_class *punitclass = utype_class(punittype);
 
@@ -556,19 +549,50 @@ static void pft_fill_default_parameter(struct pf_parameter *parameter,
   parameter->get_moves_left_req = NULL;
   parameter->get_costs = NULL;
   parameter->get_zoc = NULL;
-  BV_CLR_ALL(parameter->unit_flags);
+  parameter->get_move_scope = pf_get_move_scope;
+  parameter->get_action = NULL;
+  parameter->is_action_possible = NULL;
+  parameter->actions = PF_AA_NONE;
 
   parameter->uclass = punitclass;
   parameter->unit_flags = punittype->flags;
 }
 
-/**********************************************************************
+/****************************************************************************
+  Enable default actions.
+****************************************************************************/
+static inline void
+pft_enable_default_actions(struct pf_parameter *parameter)
+{
+  if (!BV_ISSET(parameter->unit_flags, UTYF_CIVILIAN)) {
+    parameter->actions |= PF_AA_UNIT_ATTACK;
+    parameter->get_action = pf_get_action;
+    parameter->is_action_possible = pf_action_possible;
+    if (!parameter->omniscience) {
+      /* Consider units hided in cities. */
+      parameter->actions |= PF_AA_CITY_ATTACK;
+    }
+  }
+  if (BV_ISSET(parameter->unit_flags, UTYF_DIPLOMAT)) {
+    /* FIXME: it should consider action enablers. */
+    parameter->actions |= PF_AA_DIPLOMAT;
+    parameter->get_action = pf_get_action;
+    parameter->is_action_possible = pf_action_possible;
+  }
+  if (BV_ISSET(parameter->unit_flags, UTYF_TRADE_ROUTE)) {
+    parameter->actions |= PF_AA_TRADE_ROUTE;
+    parameter->get_action = pf_get_action;
+  }
+}
+
+/****************************************************************************
   Fill general use parameters to defaults for an unit type.
-***********************************************************************/
-static void pft_fill_utype_default_parameter(struct pf_parameter *parameter,
-                                             const struct unit_type *punittype,
-                                             struct tile *pstart_tile,
-                                             struct player *powner)
+****************************************************************************/
+static inline void
+pft_fill_utype_default_parameter(struct pf_parameter *parameter,
+                                 const struct unit_type *punittype,
+                                 struct tile *pstart_tile,
+                                 struct player *powner)
 {
   pft_fill_default_parameter(parameter, punittype);
 
@@ -582,22 +606,18 @@ static void pft_fill_utype_default_parameter(struct pf_parameter *parameter,
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
+  parameter->transported_initially = FALSE;
   parameter->owner = powner;
-
-  if (!BV_ISSET(parameter->unit_flags, UTYF_CIVILIAN)) {
-    parameter->can_invade_tile = player_can_invade_tile;
-  } else {
-    parameter->can_invade_tile = NULL;
-  }
 
   parameter->omniscience = FALSE;
 }
 
-/**********************************************************************
+/****************************************************************************
   Fill general use parameters to defaults for an unit.
-***********************************************************************/
-static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
-					    const struct unit *punit)
+****************************************************************************/
+static inline void
+pft_fill_unit_default_parameter(struct pf_parameter *parameter,
+                                const struct unit *punit)
 {
   pft_fill_default_parameter(parameter, unit_type(punit));
 
@@ -611,24 +631,21 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
+  parameter->transported_initially = unit_transported(punit);
   parameter->owner = unit_owner(punit);
-
-  if (!BV_ISSET(parameter->unit_flags, UTYF_CIVILIAN)) {
-    parameter->can_invade_tile = player_can_invade_tile;
-  } else {
-    parameter->can_invade_tile = NULL;
-  }
 
   parameter->omniscience = FALSE;
 }
 
-/**********************************************************************
+/****************************************************************************
   Base function to fill classic parameters.
-***********************************************************************/
-static void pft_fill_parameter(struct pf_parameter *parameter,
-                               const struct unit_type *punittype)
+****************************************************************************/
+static inline void pft_fill_parameter(struct pf_parameter *parameter,
+                                      const struct unit_type *punittype)
 {
   parameter->get_MC = normal_move;
+  parameter->ignore_none_scopes = TRUE;
+  pft_enable_default_actions(parameter);
 
   if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
     /* Unit needs fuel */
@@ -675,6 +692,7 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
                                    const struct unit_type *punittype)
 {
   parameter->get_MC = overlap_move;
+  parameter->ignore_none_scopes = FALSE;
 
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
@@ -717,7 +735,11 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 static void pft_fill_attack_param(struct pf_parameter *parameter,
                                   const struct unit_type *punittype)
 {
-  parameter->get_MC = attack_move;
+  parameter->get_MC = normal_move;
+  parameter->ignore_none_scopes = TRUE;
+  pft_enable_default_actions(parameter);
+  /* We want known units! */
+  parameter->actions &= ~PF_AA_CITY_ATTACK;
 
   if (!unit_type_really_ignores_zoc(punittype)) {
     parameter->get_zoc = is_my_zoc;
@@ -779,10 +801,18 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   parameter->combined.moves_left_initially *= parameter->sea_scale;
   parameter->combined.move_rate = move_rate;
   parameter->combined.get_MC = amphibious_move;
+  parameter->combined.get_move_scope = amphibious_move_scope;
   parameter->combined.get_TB = amphibious_behaviour;
   parameter->combined.get_EC = amphibious_extra_cost;
-  parameter->combined.is_pos_dangerous = amphibious_is_pos_dangerous;
+  if (NULL != parameter->land.is_pos_dangerous
+      || NULL != parameter->sea.is_pos_dangerous) {
+    parameter->combined.is_pos_dangerous = amphibious_is_pos_dangerous;
+  } else {
+    parameter->combined.is_pos_dangerous = NULL;
+  }
   parameter->combined.get_moves_left_req = NULL;
+  parameter->combined.get_action = NULL;
+  parameter->combined.is_action_possible = NULL;
   BV_CLR_ALL(parameter->combined.unit_flags);
 
   parameter->combined.data = parameter;
