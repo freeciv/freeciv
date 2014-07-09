@@ -348,7 +348,8 @@ static double chance_killed_at(const struct tile *ptile,
 
   /* If we are on defensive terrain, we are more likely to survive */
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  extras_bonus += tile_extras_class_defense_bonus(ptile, param->uclass);
+  extras_bonus += tile_extras_class_defense_bonus(ptile,
+                                                  utype_class(param->utype));
   db += (extras_bonus) / 100;
   p *= 10.0 / db;
 

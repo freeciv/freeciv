@@ -300,7 +300,7 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
 
   if (TILE_UNKNOWN != node_known_type) {
     /* Test if we can invade tile. */
-    if (!BV_ISSET(params->unit_flags, UTYF_CIVILIAN)
+    if (!utype_has_flag(params->utype, UTYF_CIVILIAN)
         && !player_can_invade_tile(params->owner, ptile)) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
@@ -658,7 +658,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
          * paths. */
         cost = SINGLE_MOVE;
       } else if (node1->node_known_type == TILE_UNKNOWN) {
-        cost = params->unknown_MC;
+        cost = params->utype->unknown_move_cost;
       } else {
         cost = params->get_MC(tile, scope, tile1, node1->move_scope, params);
       }
@@ -1012,7 +1012,7 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
 
   if (TILE_UNKNOWN != node_known_type) {
     /* Test if we can invade tile. */
-    if (!BV_ISSET(params->unit_flags, UTYF_CIVILIAN)
+    if (!utype_has_flag(params->utype, UTYF_CIVILIAN)
         && !player_can_invade_tile(params->owner, ptile)) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
@@ -1489,7 +1489,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
            * straightest paths. */
           cost = SINGLE_MOVE;
         } else if (node1->node_known_type == TILE_UNKNOWN) {
-          cost = params->unknown_MC;
+          cost = params->utype->unknown_move_cost;
         } else {
           cost = params->get_MC(tile, scope, tile1, node1->move_scope,
                                 params);
@@ -1959,7 +1959,7 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
 
   if (TILE_UNKNOWN != node_known_type) {
     /* Test if we can invade tile. */
-    if (!BV_ISSET(params->unit_flags, UTYF_CIVILIAN)
+    if (!utype_has_flag(params->utype, UTYF_CIVILIAN)
         && !player_can_invade_tile(params->owner, ptile)) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
@@ -2484,10 +2484,10 @@ static inline bool
 pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
                                int moves_left, int moves_left_req)
 {
-  if (uclass_has_flag(param->uclass, UCF_MISSILE)) {
+  if (uclass_has_flag(utype_class(param->utype), UCF_MISSILE)) {
     /* Case missile */
     return TRUE;
-  } else if (BV_ISSET(param->unit_flags, UTYF_ONEATTACK)) {
+  } else if (utype_has_flag(param->utype, UTYF_ONEATTACK)) {
     /* Case Bombers */
     if (moves_left <= param->move_rate) {
       /* We are in the last turn of fuel, don't attack */
@@ -2624,7 +2624,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
            * straightest paths. */
           cost = SINGLE_MOVE;
         } else if (node1->node_known_type == TILE_UNKNOWN) {
-          cost = params->unknown_MC;
+          cost = params->utype->unknown_move_cost;
         } else {
           cost = params->get_MC(tile, scope, tile1, node1->move_scope,
                                 params);
@@ -2640,7 +2640,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 
         moves_left = loc_moves_left - cost;
         if (moves_left < node1->moves_left_req
-            && (!uclass_has_flag(params->uclass, UCF_MISSILE)
+            && (!uclass_has_flag(utype_class(params->utype), UCF_MISSILE)
                 || 0 > moves_left)) {
           /* We don't have enough moves left, but missiles
            * can do suicidal attacks. */
@@ -3328,13 +3328,13 @@ static genhash_val_t pf_map_hash_val(const struct pf_parameter *parameter)
 
   for (i = 0, b = sizeof(result) * 8 - 1; i < signifiant_flags_num;
        i++, b--) {
-    if (BV_ISSET(parameter->unit_flags, signifiant_flags[i])) {
+    if (utype_has_flag(parameter->utype, signifiant_flags[i])) {
       result |= (1 << b);
     }
   }
 
   return (result
-          + uclass_number(parameter->uclass)
+          + uclass_number(utype_class(parameter->utype))
           + (parameter->move_rate << 6));
 }
 
@@ -3346,14 +3346,14 @@ static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
 {
   size_t i;
 
-  if (parameter1->uclass != parameter2->uclass
+  if (utype_class(parameter1->utype) != utype_class(parameter2->utype)
       || parameter1->move_rate != parameter2->move_rate) {
     return FALSE;
   }
 
   for (i = 0; i < signifiant_flags_num; i++) {
-    if (BV_ISSET(parameter1->unit_flags, signifiant_flags[i])
-        != BV_ISSET(parameter2->unit_flags, signifiant_flags[i])) {
+    if (utype_has_flag(parameter1->utype, signifiant_flags[i])
+        != utype_has_flag(parameter2->utype, signifiant_flags[i])) {
       return FALSE;
     }
   }
@@ -3379,12 +3379,11 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
   if (!param->omniscience
       && TILE_UNKNOWN == tile_get_known(to_tile, param->owner)) {
     cost = SINGLE_MOVE;
-  } else if (!is_native_tile_to_class(param->uclass, to_tile)
+  } else if (!is_native_tile(param->utype, to_tile)
              && !tile_city(to_tile)) {
     return -1;  /* Impossible move. */
   } else {
-    cost = map_move_cost(param->owner, param->uclass, from_tile, to_tile,
-                         BV_ISSET(param->unit_flags, UTYF_IGTER));
+    cost = map_move_cost(param->owner, param->utype, from_tile, to_tile);
   }
 
   if (to_cost + cost > FC_PTR_TO_INT(param->data)) {
@@ -3461,8 +3460,7 @@ pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
   int max_turns;
 
   param = &pfrm->param;
-  param->uclass = utype_class(punittype);
-  param->unit_flags = punittype->flags;
+  param->utype = punittype;
   param->move_rate = punittype->move_rate;
   param->moves_left_initially = punittype->move_rate;
 

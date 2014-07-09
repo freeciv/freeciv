@@ -395,16 +395,16 @@ static int combined_land_sea_move(const struct tile *src_tile,
 {
   int move_cost;
 
-  if (is_ocean_tile(tgt_tile)) {
+  if (!((PF_MS_NATIVE | PF_MS_CITY) & dst_scope)) {
     /* Any-to-Sea */
     move_cost = 0;
-  } else if (is_ocean_tile(src_tile)) {
+  } else if (!((PF_MS_NATIVE | PF_MS_CITY) & src_scope)) {
     /* Sea-to-Land */
     move_cost = PF_IMPOSSIBLE_MC;
   } else {
     /* Land-to-Land */
-    move_cost = map_move_cost(param->owner, param->uclass, src_tile, tgt_tile,
-                BV_ISSET(param->unit_flags, UTYF_IGTER));
+    move_cost = map_move_cost(param->owner, param->utype,
+                              src_tile, tgt_tile);
   }
 
   return move_cost;
@@ -523,6 +523,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
   param.get_TB = no_fights_or_unknown;
   param.get_EC = sea_move;
   param.get_MC = combined_land_sea_move;
+  param.ignore_none_scopes = FALSE;
 
   search_map = pf_map_new(&param);
 

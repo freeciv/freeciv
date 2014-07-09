@@ -347,10 +347,9 @@ struct pf_parameter {
   int move_rate;                /* Move rate of the virtual unit */
   int fuel;                     /* Should be 1 for units without fuel. */
 
+  const struct unit_type *utype;
   const struct player *owner;
-  const struct unit_class *uclass;
 
-  bv_unit_type_flags unit_flags; /* Like F_MARINE and F_TRIREME */
   bool omniscience;             /* Do we care if the tile is visible? */
 
   /* Callback to get MC of a move from 'from_tile' to 'to_tile' and in the
@@ -362,7 +361,6 @@ struct pf_parameter {
                  const struct tile *to_tile,
                  enum pf_move_scope dst_move_scope,
                  const struct pf_parameter *param);
-  int unknown_MC; /* Move cost into unknown - very large by default. */
 
   /* Callback which determines if we can move from/to 'ptile'. */
   enum pf_move_scope (*get_move_scope) (const struct tile *ptile,

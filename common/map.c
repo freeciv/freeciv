@@ -682,52 +682,45 @@ bool can_channel_land(const struct tile *ptile)
   tests are not done (for unit-independent results).
 ***************************************************************/
 static int tile_move_cost_ptrs(const struct unit *punit,
-                               const struct unit_class *pclass,
+                               const struct unit_type *punittype,
                                const struct player *pplayer,
-                               const struct tile *t1, const struct tile *t2,
-                               bool igter)
+                               const struct tile *t1, const struct tile *t2)
 {
+  const struct unit_class *pclass = utype_class(punittype);
   int cost;
   bool cardinal_move;
   bool ri;
 
-  fc_assert(punit == NULL || pclass == NULL || unit_class(punit) == pclass);
+  /* Try to exit early for detectable conditions */
+  if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
+    /* units without UCF_TERRAIN_SPEED have a constant cost. */
+    return SINGLE_MOVE;
 
-  if (punit) {
-    pclass = unit_class(punit);
-  }
+  } else if (!is_native_tile_to_class(pclass, t2)) {
+    /* Loading to transport or entering port.
+     * UTYF_IGTER units get move benefit. */
+    return (utype_has_flag(punittype, UTYF_IGTER)
+            ? MOVE_COST_IGTER : SINGLE_MOVE);
 
-  if (pclass != NULL) {
-    /* Try to exit early for detectable conditions */
-
-    if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
-      /* units without UCF_TERRAIN_SPEED have a constant cost. */
-      return SINGLE_MOVE;
-
-    } else if (!is_native_tile_to_class(pclass, t2)) {
-      /* Loading to transport or entering port.
-       * UTYF_IGTER units get move benefit. */
-      return (igter ? MOVE_COST_IGTER : SINGLE_MOVE);
-
-    } else if (!is_native_tile_to_class(pclass, t1)) {
-      if (game.info.slow_invasions
-          && tile_city(t1) == NULL) {
-        /* If "slowinvasions" option is turned on, units moving from
-         * non-native terrain (from transport) to native terrain lose all
-         * their movement.
-         * e.g. ground units moving from sea to land */
-        if (punit != NULL) {
-          return punit->moves_left;
-        } else {
-          /* Needs to be bigger than SINGLE_MOVE * move_rate * MAX(1, fuel)
-           * for the most mobile unit possible. */
-          return FC_INFINITY;
-        }
+  } else if (!is_native_tile_to_class(pclass, t1)) {
+    if (game.info.slow_invasions
+        && tile_city(t1) == NULL) {
+      /* If "slowinvasions" option is turned on, units moving from
+       * non-native terrain (from transport) to native terrain lose all
+       * their movement.
+       * e.g. ground units moving from sea to land */
+      if (punit != NULL) {
+        return punit->moves_left;
       } else {
-        /* Disembarking from transport or leaving port.
-         * UTYF_IGTER units get move benefit. */
-        return (igter ? MOVE_COST_IGTER : SINGLE_MOVE);
+        /* Needs to be bigger than SINGLE_MOVE * move_rate * MAX(1, fuel)
+         * for the most mobile unit possible. */
+        return FC_INFINITY;
       }
+    } else {
+      /* Disembarking from transport or leaving port.
+       * UTYF_IGTER units get move benefit. */
+      return (utype_has_flag(punittype, UTYF_IGTER)
+              ? MOVE_COST_IGTER : SINGLE_MOVE);
     }
   }
 
@@ -779,7 +772,9 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   } road_type_iterate_end;
 
   /* UTYF_IGTER units have a maximum move cost per step. */
-  cost = (igter ? MIN(cost, MOVE_COST_IGTER) : cost);
+  if (utype_has_flag(punittype, UTYF_IGTER) && MOVE_COST_IGTER < cost) {
+    cost = MOVE_COST_IGTER;
+  }
 
   if (!cardinal_move
       && terrain_control.pythagorean_diagonal
@@ -819,19 +814,18 @@ static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
 ***************************************************************/
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
-  return tile_move_cost_ptrs(punit, NULL, unit_owner(punit),
-                             unit_tile(punit), ptile,
-                             unit_has_type_flag(punit, UTYF_IGTER));
+  return tile_move_cost_ptrs(punit, unit_type(punit), unit_owner(punit),
+                             unit_tile(punit), ptile);
 }
 
 /***************************************************************
   Move cost between two tiles
 ***************************************************************/
-int map_move_cost(const struct player *pplayer, const struct unit_class *pclass,
-                  const struct tile *src_tile, const struct tile *dst_tile,
-                  bool igter)
+int map_move_cost(const struct player *pplayer,
+                  const struct unit_type *punittype,
+                  const struct tile *src_tile, const struct tile *dst_tile)
 {
-  return tile_move_cost_ptrs(NULL, pclass, pplayer, src_tile, dst_tile, igter);
+  return tile_move_cost_ptrs(NULL, punittype, pplayer, src_tile, dst_tile);
 }
 
 /***************************************************************

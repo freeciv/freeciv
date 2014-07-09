@@ -83,10 +83,10 @@ static int likely_native(struct tile *ptile,
 **************************************************************************/
 static bool player_may_explore(const struct tile *ptile,
                                const struct player *pplayer,
-                               const bv_unit_type_flags unit_flags)
+                               const struct unit_type *punittype)
 {
   /* Don't allow military units to cross borders. */
-  if (!BV_ISSET(unit_flags, UTYF_CIVILIAN)
+  if (!utype_has_flag(punittype, UTYF_CIVILIAN)
       && !player_can_invade_tile(pplayer, ptile)) {
     return FALSE;
   }
@@ -112,7 +112,7 @@ static enum tile_behavior explorer_tb(const struct tile *ptile,
                                       enum known_type k,
                                       const struct pf_parameter *param)
 {
-  if (!player_may_explore(ptile, param->owner, param->unit_flags)) {
+  if (!player_may_explore(ptile, param->owner, param->utype)) {
     return TB_IGNORE;
   }
   return TB_NORMAL;
@@ -210,7 +210,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   }
 
   /* Do no try to cross borders and break a treaty, etc. */
-  if (!player_may_explore(ptile, punit->owner, unit_type(punit)->flags)) {
+  if (!player_may_explore(ptile, punit->owner, unit_type(punit))) {
     return 0;
   }
 
