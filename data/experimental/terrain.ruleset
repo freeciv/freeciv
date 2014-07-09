@@ -213,7 +213,7 @@ color.r              = 25
 color.g              = 25
 color.b              = 25
 helptext             = _("\
-No unit can enter this terrain, nor can city work the tile.\
+No unit can enter this terrain, nor can any city work its tiles.\
 ")
 
 [terrain_lake]

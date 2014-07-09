@@ -2079,8 +2079,8 @@ static struct client_option client_options[] = {
                   COC_GRAPHICS, GUI_STUB, FALSE, NULL),
  GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
-                  N_("If this option is enabled, soundset suggested by "
-                     "the ruleset is automatically taken in to use."),
+                  N_("If this option is enabled, any soundset suggested by "
+                     "the ruleset is automatically used."),
                   COC_SOUND, GUI_STUB, FALSE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],

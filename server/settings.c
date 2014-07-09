@@ -1696,10 +1696,10 @@ static struct setting settings[] = {
   GEN_BOOL("killcitizen", game.info.killcitizen,
            SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
            N_("Reduce city population after attack"),
-           N_("This flag indicates whether city population is reduced "
-              "after successful attack of enemy unit. If this is disabled "
-              "population is never reduced. Even when this is enabled "
-              "only some units may kill citizens."),
+           N_("This flag indicates whether a city's population is reduced "
+              "after a successful attack by an enemy unit. If this is "
+              "disabled, population is never reduced. Even when this is "
+              "enabled, only some units may kill citizens."),
            NULL, NULL, GAME_DEFAULT_KILLCITIZEN)
 
   GEN_INT("killunhomed", game.server.killunhomed,

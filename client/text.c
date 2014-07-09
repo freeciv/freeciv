@@ -1738,10 +1738,10 @@ const char *text_happiness_nationality(const struct city *pcity)
     }
 
     if (enemies == 0) {
-      astr_add(&str, _("None. "));
+      astr_add(&str, _("None."));
     }
   } else {
-    astr_add(&str, _("Disabled. "));
+    astr_add(&str, _("Disabled."));
   }
 
   return astr_str(&str);

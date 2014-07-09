@@ -954,7 +954,7 @@ static void update_unit_activity(struct unit *punit)
             notify_player(unit_owner(punit2), unit_tile(punit2),
                           E_UNIT_ORDERS, ftc_server,
                           _("Orders for %s aborted because activity "
-                            "is no more available."),
+                            "is no longer available."),
                           unit_link(punit2));
             free_unit_orders(punit2);
           }

@@ -28,7 +28,7 @@ flags =
     "Airbase", _("Can build Airbases.") 
     "Transform", _("Can transform terrain.")
     "AirAttacker", _("Very bad at attacking AEGIS.")
-    "Submarine", _("Attack value halved when attacking Destroyer")
+    "Submarine", _("Attack value halved when attacking Destroyer.")
   }
 
 [veteran_system]

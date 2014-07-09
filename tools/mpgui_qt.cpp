@@ -187,7 +187,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   mplist_table->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   mplist_table->setColumnCount(ML_COL_COUNT);
   headers << _("Name") << _("Version") << _("Installed");
-  headers << Q_("?modpack:Type") << _("SubType") << _("License");
+  headers << Q_("?modpack:Type") << _("Subtype") << _("License");
   headers << _("URL") << "typeint";
   mplist_table->setHorizontalHeaderLabels(headers);
   mplist_table->verticalHeader()->setVisible(false);

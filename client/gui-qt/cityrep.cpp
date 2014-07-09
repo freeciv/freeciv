@@ -374,7 +374,7 @@ void city_widget::center()
 }
 
 /***************************************************************************
-  Displays rigt click menu on city row
+  Displays right click menu on city row
 ***************************************************************************/
 void city_widget::display_list_menu(const QPoint &)
 {
@@ -399,7 +399,7 @@ void city_widget::display_list_menu(const QPoint &)
   QMenu list_menu(this);
   QAction *act;
   QAction cty_view(style()->standardIcon(QStyle::SP_CommandLink),
-                   _("View"), 0);
+                   _("?verb:View"), 0);
   QAction cty_buy(_("Buy"), 0);
   QAction cty_center(style()->standardIcon(QStyle::SP_ArrowRight),
                      _("Center"), 0);

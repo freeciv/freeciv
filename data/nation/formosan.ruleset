@@ -3,6 +3,7 @@
 name=_("Formosan")
 plural=_("?plural:Formosans")
 groups="Asian", "Ancient", "Medieval", "Early Modern"
+; /* xgettext:no-c-format */
 legend=_("Taiwan is home to fourteen officially recognized and twelve unrecognized tribes,\
  all of whom are traditionally speakers of a group of Austronesian languages\
  known as Formosan. Historical linguists consider the island to be the home\
