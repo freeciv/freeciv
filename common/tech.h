@@ -172,7 +172,6 @@ Tech_type_id advance_required(const Tech_type_id tech,
 struct advance *advance_requires(const struct advance *padvance,
 				 enum tech_req require);
 
-int total_bulbs_required(const struct player *pplayer);
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech, bool loss_value);
 bool techs_have_fixed_costs(void);

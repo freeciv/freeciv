@@ -329,7 +329,7 @@ void update_intel_dialog(struct player *p)
                   p->economic.luxury,
                   research_advance_name_translation(research,
                                                     research->researching),
-                  research->bulbs_researched, total_bulbs_required(p));
+                  research->bulbs_researched, research->researching_cost);
       break;
     };
     

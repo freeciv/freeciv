@@ -459,21 +459,6 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
   return BV_ISSET(advance_by_number(tech)->flags, flag);
 }
 
-/**************************************************************************
-  Returns the number of bulbs which are required to finished the
-  currently researched tech denoted by
-  pplayer->research->researching. This is _NOT_ the number of bulbs
-  which are left to get the advance. Use the term
-  "total_bulbs_required(pplayer) - pplayer->research->bulbs_researched"
-  if you want this.
-**************************************************************************/
-int total_bulbs_required(const struct player *pplayer)
-{
-  return base_total_bulbs_required(pplayer,
-                                   research_get(pplayer)->researching,
-                                   FALSE);
-}
-
 /****************************************************************************
   Function to determine cost for technology.  The equation is determined
   from game.info.tech_cost_style and game.info.tech_leakage.

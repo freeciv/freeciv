@@ -347,12 +347,12 @@ void nuclear_winter_scaled(int *chance, int *rate, int max)
 struct sprite *client_research_sprite(void)
 {
   if (NULL != client.conn.playing && can_client_change_view()) {
+    const struct research *presearch = research_get(client_player());
     int index = 0;
 
-    if (A_UNSET != research_get(client_player())->researching) {
-      index = (NUM_TILES_PROGRESS
-               * research_get(client_player())->bulbs_researched)
-	/ (total_bulbs_required(client.conn.playing) + 1);
+    if (A_UNSET != presearch->researching) {
+      index = (NUM_TILES_PROGRESS * presearch->bulbs_researched
+               / (presearch->researching_cost + 1));
     }
 
     /* This clipping can be necessary since we can end up with excess

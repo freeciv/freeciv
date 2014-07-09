@@ -356,7 +356,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                   research_advance_name_translation(presearch,
                                                     presearch->researching),
                   presearch->bulbs_researched,
-                  total_bulbs_required(client_player()));
+                  presearch->researching_cost);
     } else {
       /* TRANS: Research report action */
       fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)",

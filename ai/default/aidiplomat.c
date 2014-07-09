@@ -244,7 +244,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
 					  pplayer, acity))
 	&& !pplayers_allied(pplayer, city_owner(acity))) {
       /* tech theft gain */
-      gain_theft = total_bulbs_required(pplayer) * TRADE_WEIGHTING;
+      gain_theft = research_get(pplayer)->researching_cost * TRADE_WEIGHTING;
     }
     gain = MAX(gain_incite, gain_theft);
     loss = utype_build_shield_cost(ut) * SHIELD_WEIGHTING;

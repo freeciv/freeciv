@@ -211,8 +211,8 @@ void create_science_dialog(bool make_modal)
 		  _("Researching %s: %d/%d"),
                   research_advance_name_translation(research,
                                                     research->researching),
-		  research->bulbs_researched,
-		  total_bulbs_required(client.conn.playing));
+                  research->bulbs_researched,
+                  research->researching_cost);
     }
 
     if (research->tech_goal == A_UNSET) {
@@ -488,8 +488,8 @@ void real_science_report_dialog_update(void)
 		  _("Researching %s: %d/%d"),
                   research_advance_name_translation(research,
                                                     research->researching),
-		  research->bulbs_researched,
-		  total_bulbs_required(client.conn.playing));
+                  research->bulbs_researched,
+                  research->researching_cost);
     }
 
     xaw_set_label(science_current_label, text);

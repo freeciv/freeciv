@@ -267,7 +267,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
                 research_advance_name_translation(presearch,
                                                   presearch->researching),
                 presearch->bulbs_researched,
-		total_bulbs_required(pdialog->pplayer));
+                presearch->researching_cost);
     break;
   };
 

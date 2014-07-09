@@ -413,8 +413,8 @@ void update_intel_dialog(struct player *p)
               buf = g_strdup_printf("%s(%d/%d)",
                                     research_advance_name_translation
                                         (research, research->researching),
-				    research->bulbs_researched,
-				    total_bulbs_required(p));
+                                    research->bulbs_researched,
+                                    research->researching_cost);
               break;
             }
             break;

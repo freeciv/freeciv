@@ -112,8 +112,8 @@ static void tech_researched(struct player *plr)
                                                      research->researching));
 
   /* Deduct tech cost */
-  research->bulbs_researched
-    = research->bulbs_researched - total_bulbs_required(plr);
+  research->bulbs_researched = (research->bulbs_researched
+                                - research->researching_cost);
 
   /* cache researched technology for event signal, because found_new_tech() changes the research goal */
   Tech_type_id researched_tech = research->researching;
@@ -201,12 +201,12 @@ package_research_info(struct packet_research_info *packet,
   packet->techs_researched = presearch->techs_researched;
   packet->future_tech = presearch->future_tech;
   packet->researching = presearch->researching;
+  packet->researching_cost = presearch->researching_cost;
   packet->bulbs_researched = presearch->bulbs_researched;
   packet->tech_goal = presearch->tech_goal;
-  advance_index_iterate(A_FIRST, i) {
+  advance_index_iterate(A_NONE, i) {
     packet->inventions[i] = presearch->inventions[i].state + '0';
   } advance_index_iterate_end;
-  packet->inventions[A_NONE] = presearch->inventions[A_NONE].state + '0';
   packet->inventions[advance_count()] = '\0';
   packet->tech_goal = presearch->tech_goal;
 #ifdef DEBUG
@@ -477,6 +477,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       choose_tech(plr, next_tech);
     } else {
       research->researching = A_UNSET;
+      research->researching_cost = 0;
     }
   }
 
@@ -554,7 +555,7 @@ static bool lose_tech(struct player *plr)
   }
 
   if (research->bulbs_researched <
-      -total_bulbs_required(plr) * game.server.techloss_forgiveness / 100) {
+      -research->researching_cost * game.server.techloss_forgiveness / 100) {
     return TRUE;
   }
 
@@ -624,7 +625,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 
   if (check_tech && research->researching != A_UNSET) {
     /* check for finished research */
-    if (research->bulbs_researched - total_bulbs_required(plr) >= 0) {
+    if (research->bulbs_researched - research->researching_cost >= 0) {
       tech_researched(plr);
 
       if (research->researching != A_UNSET) {
@@ -957,7 +958,8 @@ void choose_tech(struct player *plr, Tech_type_id tech)
     research->researching_saved = A_UNKNOWN;
   }
   research->researching=tech;
-  if (research->bulbs_researched > total_bulbs_required(plr)) {
+  research->researching_cost = base_total_bulbs_required(plr, tech, FALSE);
+  if (research->bulbs_researched >= research->researching_cost) {
     tech_researched(plr);
   }
 }

@@ -818,6 +818,7 @@ PACKET_RESEARCH_INFO = 60; sc, lsend, is-game-info
   UINT32 techs_researched;
   UINT16 future_tech;
   TECH researching;
+  UINT32 researching_cost;
   UINT32 bulbs_researched;
   TECH tech_goal;
   STRING inventions[A_LAST + 1];

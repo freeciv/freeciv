@@ -2122,6 +2122,7 @@ void handle_research_info(const struct packet_research_info *packet)
   presearch->techs_researched = packet->techs_researched;
   presearch->future_tech = packet->future_tech;
   presearch->researching = packet->researching;
+  presearch->researching_cost = packet->researching_cost;
   presearch->bulbs_researched = packet->bulbs_researched;
   presearch->tech_goal = packet->tech_goal;
 

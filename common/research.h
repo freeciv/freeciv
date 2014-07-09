@@ -50,6 +50,7 @@ struct research {
    * bulbs_researched tracks how many bulbs have been accumulated toward
    * this research target. */
   Tech_type_id researching;
+  int researching_cost;
   int bulbs_researched;
 
   /* If the player changes his research target in a turn, he loses some or
