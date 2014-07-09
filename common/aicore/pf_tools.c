@@ -136,6 +136,7 @@ static bool pf_action_possible(const struct tile *src,
 ****************************************************************************/
 static enum pf_move_scope
 pf_get_move_scope(const struct tile *ptile,
+                  bool *can_disembark,
                   enum pf_move_scope previous_scope,
                   const struct pf_parameter *param)
 {
@@ -163,11 +164,37 @@ pf_get_move_scope(const struct tile *ptile,
   if (PF_MS_NONE == scope) {
     /* Check for transporters. Useless if we already got another way to
      * move. */
+    bool allied_city_tile = (NULL != pcity
+                             && pplayers_allied(param->owner,
+                                                city_owner(pcity)));
+    const struct unit_type *utype;
+
+    *can_disembark = FALSE;
+
     unit_list_iterate(ptile->units, punit) {
-      if (pplayers_allied(unit_owner(punit), param->owner)
-          && !unit_has_orders(punit)
-          && can_unit_type_transport(unit_type(punit), uclass)) {
+      utype = unit_type(punit);
+
+      if (!pplayers_allied(unit_owner(punit), param->owner)
+          || unit_has_orders(punit)
+          || !can_unit_type_transport(utype, uclass)) {
+        continue;
+      }
+
+      if (allied_city_tile
+          || tile_has_native_base(ptile, utype)) {
         scope |= PF_MS_TRANSPORT;
+        *can_disembark = TRUE;
+        break;
+      }
+
+      if (!utype_can_freely_load(param->utype, utype)) {
+        continue;
+      }
+
+      scope |= PF_MS_TRANSPORT;
+
+      if (utype_can_freely_unload(param->utype, utype)) {
+        *can_disembark = TRUE;
         break;
       }
     } unit_list_iterate_end;
@@ -181,20 +208,26 @@ pf_get_move_scope(const struct tile *ptile,
 ****************************************************************************/
 static enum pf_move_scope
 amphibious_move_scope(const struct tile *ptile,
+                      bool *can_disembark,
                       enum pf_move_scope previous_scope,
                       const struct pf_parameter *param)
 {
   struct pft_amphibious *amphibious = param->data;
-  enum pf_move_scope scope;
+  enum pf_move_scope land_scope, sea_scope;
+  bool dumb;
 
-  scope = pf_get_move_scope(ptile, previous_scope, &amphibious->land);
+  land_scope = pf_get_move_scope(ptile, &dumb, previous_scope,
+                                 &amphibious->land);
+  sea_scope = pf_get_move_scope(ptile, &dumb, land_scope, &amphibious->sea);
 
-  if (!(PF_MS_TRANSPORT & scope)
-      && ((PF_MS_NATIVE | PF_MS_CITY)
-          & pf_get_move_scope(ptile, scope, &amphibious->sea))) {
-    scope |= PF_MS_TRANSPORT;
+  if ((PF_MS_NATIVE | PF_MS_CITY) & sea_scope) {
+    *can_disembark = (PF_MS_CITY & sea_scope
+                      || utype_can_freely_unload(amphibious->land.utype,
+                                                 amphibious->sea.utype)
+                      || tile_has_native_base(ptile, amphibious->sea.utype));
+    return PF_MS_TRANSPORT | land_scope;
   }
-  return scope;
+  return ~PF_MS_TRANSPORT & land_scope;
 }
 
 /****************************************************************************
@@ -453,10 +486,11 @@ static bool is_possible_base_fuel(const struct tile *ptile,
 
   /* Check for carriers */
   unit_list_iterate(ptile->units, ptrans) {
-    if (can_unit_type_transport(unit_type(ptrans), uclass)
+    if (pplayers_allied(unit_owner(ptrans), param->owner)
+        && can_unit_type_transport(unit_type(ptrans), uclass)
         && !unit_has_orders(ptrans)
-        && (get_transporter_occupancy(ptrans)
-            < get_transporter_capacity(ptrans))) {
+        && (utype_can_freely_load(param->utype, unit_type(ptrans))
+            || tile_has_native_base(ptile, unit_type(ptrans)))) {
       return TRUE;
     }
   } unit_list_iterate_end;
@@ -603,7 +637,7 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
-  parameter->transported_initially = FALSE;
+  parameter->transported_by_initially = NULL;
   parameter->owner = powner;
 
   parameter->omniscience = FALSE;
@@ -616,6 +650,8 @@ static inline void
 pft_fill_unit_default_parameter(struct pf_parameter *parameter,
                                 const struct unit *punit)
 {
+  const struct unit *ptrans = unit_transport_get(punit);
+
   pft_fill_default_parameter(parameter, unit_type(punit));
 
   parameter->start_tile = unit_tile(punit);
@@ -628,7 +664,8 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     parameter->fuel = 1;
     parameter->fuel_left_initially = 1;
   }
-  parameter->transported_initially = unit_transported(punit);
+  parameter->transported_by_initially = (NULL != ptrans ? unit_type(ptrans)
+                                         : NULL);
   parameter->owner = unit_owner(punit);
 
   parameter->omniscience = FALSE;

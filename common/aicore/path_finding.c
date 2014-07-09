@@ -299,6 +299,8 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
   }
 
   if (TILE_UNKNOWN != node_known_type) {
+    bool can_disembark;
+
     /* Test if we can invade tile. */
     if (!utype_has_flag(params->utype, UTYF_CIVILIAN)
         && !player_can_invade_tile(params->owner, ptile)) {
@@ -328,7 +330,8 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
     }
 
     /* Test the possiblity to move from/to 'ptile'. */
-    node->move_scope = params->get_move_scope(ptile, previous_scope, params);
+    node->move_scope = params->get_move_scope(ptile, &can_disembark,
+                                              previous_scope, params);
     if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
@@ -337,6 +340,12 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
       } else if (TB_NORMAL == node->behavior) {
         node->behavior = TB_IGNORE;
       }
+    } else if (PF_MS_TRANSPORT == node->move_scope
+               && !can_disembark
+               && (params->start_tile != ptile
+                   || NULL == params->transported_by_initially)) {
+      /* Overwrite node behavior. */
+      node->behavior = TB_DONT_LEAVE;
     }
 
     /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
@@ -880,10 +889,18 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
                                             PF_MS_NONE));
     }
 
-    if (params->transported_initially) {
+    if (NULL != params->transported_by_initially) {
       /* Overwrite. It is safe because we cannot return to start tile with
        * pf_normal_map. */
       node->move_scope |= PF_MS_TRANSPORT;
+      if (!utype_can_freely_unload(params->utype,
+                                   params->transported_by_initially)
+          && NULL == tile_city(params->start_tile)
+          && !tile_has_native_base(params->start_tile,
+                                   params->transported_by_initially)) {
+        /* Cannot disembark, don't leave transporter. */
+        node->behavior = TB_DONT_LEAVE;
+      }
     }
   }
 
@@ -1011,6 +1028,8 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
   }
 
   if (TILE_UNKNOWN != node_known_type) {
+    bool can_disembark;
+
     /* Test if we can invade tile. */
     if (!utype_has_flag(params->utype, UTYF_CIVILIAN)
         && !player_can_invade_tile(params->owner, ptile)) {
@@ -1040,7 +1059,8 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
     }
 
     /* Test the possiblity to move from/to 'ptile'. */
-    node->move_scope = params->get_move_scope(ptile, previous_scope, params);
+    node->move_scope = params->get_move_scope(ptile, &can_disembark,
+                                              previous_scope, params);
     if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
@@ -1049,6 +1069,12 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
       } else if (TB_NORMAL == node->behavior) {
         node->behavior = TB_IGNORE;
       }
+    } else if (PF_MS_TRANSPORT == node->move_scope
+               && !can_disembark
+               && (params->start_tile != ptile
+                   || NULL == params->transported_by_initially)) {
+      /* Overwrite node behavior. */
+      node->behavior = TB_DONT_LEAVE;
     }
 
     /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
@@ -1424,11 +1450,19 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
    * (the data of the tile for the pf_map), and index (the index of the
    * position in the Freeciv map). */
 
-  if (PF_DIR_NONE == node->dir_to_here && params->transported_initially) {
+  if (PF_DIR_NONE == node->dir_to_here
+      && NULL != params->transported_by_initially) {
 #ifdef PF_DEBUG
     fc_assert(tile == params->start_tile);
 #endif
     scope |= PF_MS_TRANSPORT;
+    if (!utype_can_freely_unload(params->utype,
+                                 params->transported_by_initially)
+        && NULL == tile_city(tile)
+        && !tile_has_native_base(tile, params->transported_by_initially)) {
+      /* Cannot disembark, don't leave transporter. */
+      node->behavior = TB_DONT_LEAVE;
+    }
   }
 
   for (;;) {
@@ -1819,7 +1853,7 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
                                           PF_MS_NONE));
   }
 
-  /* NB: do not handle params->transported_initially because we want to
+  /* NB: do not handle params->transported_by_initially because we want to
    * handle only at start, not when crossing over the start tile for a
    * second time. See pf_danger_map_iterate(). */
 
@@ -1958,6 +1992,8 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
   }
 
   if (TILE_UNKNOWN != node_known_type) {
+    bool can_disembark;
+
     /* Test if we can invade tile. */
     if (!utype_has_flag(params->utype, UTYF_CIVILIAN)
         && !player_can_invade_tile(params->owner, ptile)) {
@@ -2001,7 +2037,8 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
     }
 
     /* Test the possiblity to move from/to 'ptile'. */
-    node->move_scope = params->get_move_scope(ptile, previous_scope, params);
+    node->move_scope = params->get_move_scope(ptile, &can_disembark,
+                                              previous_scope, params);
     if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
@@ -2010,6 +2047,12 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
       } else if (TB_NORMAL == node->behavior) {
         node->behavior = TB_IGNORE;
       }
+    } else if (PF_MS_TRANSPORT == node->move_scope
+               && !can_disembark
+               && (params->start_tile != ptile
+                   || NULL == params->transported_by_initially)) {
+      /* Overwrite node behavior. */
+      node->behavior = TB_DONT_LEAVE;
     }
 
     /* ZOC_MINE means can move unrestricted from/into it, ZOC_ALLIED means
@@ -2553,11 +2596,19 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
    * (the data of the tile for the pf_map), and index (the index of the
    * position in the Freeciv map). */
 
-  if (PF_DIR_NONE == node->dir_to_here && params->transported_initially) {
+  if (PF_DIR_NONE == node->dir_to_here
+      && NULL != params->transported_by_initially) {
 #ifdef PF_DEBUG
     fc_assert(tile == params->start_tile);
 #endif
     scope |= PF_MS_TRANSPORT;
+    if (!utype_can_freely_unload(params->utype,
+                                 params->transported_by_initially)
+        && NULL == tile_city(tile)
+        && !tile_has_native_base(tile, params->transported_by_initially)) {
+      /* Cannot disembark, don't leave transporter. */
+      node->behavior = TB_DONT_LEAVE;
+    }
   }
 
   for (;;) {
@@ -2997,7 +3048,7 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
                                         PF_MS_NONE));
   }
 
-  /* NB: do not handle params->transported_initially because we want to
+  /* NB: do not handle params->transported_by_initially because we want to
    * handle only at start, not when crossing over the start tile for a
    * second time. See pf_danger_map_iterate(). */
 

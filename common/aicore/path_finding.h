@@ -342,7 +342,8 @@ struct pf_parameter {
 
   int moves_left_initially;
   int fuel_left_initially;      /* Ignored for non-air units. */
-  bool transported_initially;   /* Set if the unit is transported. */
+  /* Set if the unit is transported. */
+  const struct unit_type *transported_by_initially;
 
   int move_rate;                /* Move rate of the virtual unit */
   int fuel;                     /* Should be 1 for units without fuel. */
@@ -364,6 +365,7 @@ struct pf_parameter {
 
   /* Callback which determines if we can move from/to 'ptile'. */
   enum pf_move_scope (*get_move_scope) (const struct tile *ptile,
+                                        bool *can_disembark,
                                         enum pf_move_scope previous_scope,
                                         const struct pf_parameter *param);
   bool ignore_none_scopes;
