@@ -1019,8 +1019,8 @@ flags          = "RequiresBridge"
 
 [road_river]
 name           = _("River")
-move_cost      = 1
-move_mode      = "NoBonus"
+move_cost      = -1
+move_mode      = "Cardinal"
 compat_special = "River"
 flags          = "River", "PreventsOtherRoads", "UnrestrictedInfra"
 ;helptext       =
