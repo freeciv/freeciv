@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
       errmsg = download_modpack(fcmp.autoinstall, &fcmp, msg_callback, NULL);
 
       if (errmsg == NULL) {
-        log_normal(_("Modpack installed succesfully"));
+        log_normal(_("Modpack installed successfully"));
       } else {
         log_error(_("Modpack install failed: %s"), errmsg);
       }

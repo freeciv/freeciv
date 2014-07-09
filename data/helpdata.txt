@@ -611,7 +611,7 @@ each city every turn. The amount of ongoing trade increases with the \
 size of each city and the distance between them, and may also depend on \
 the factors mentioned above. If a trade route ever becomes unsustainable \
 -- for instance, if war breaks out in a ruleset where enemies cannot \
-trade -- it may be permanently cancelled.\
+trade -- it may be permanently canceled.\
 "), _("\
 Each city can only support a limited number of trade routes (the exact \
 limit is set by ruleset and circumstance). If you attempt to establish \
@@ -700,11 +700,11 @@ as your own, and behave the same in most respects, but they may become \
 unhappy when you are at war with their associated state; their presence \
 makes it cheaper for their state's agents to incite revolt in your \
 cities; and if migration is enabled, they have an increased tendency to \
-migrate to heir state's cities. Over time, citizens may be assimilated \
+migrate to their state's cities. Over time, citizens may be assimilated \
 into their home city, depending on ruleset settings.\
 "), _("\
 Some rulesets do not have nationality; in this case, citizens always \
-consider their nationality to be that of their home city.\
+consider their nationality to be that of their home city. \
 If nationality is enabled, you can see the cultural makeup of your \
 cities and any consequent effects on happiness in the City dialog, \
 on the Happiness tab.\

@@ -2795,7 +2795,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                 "a city.\n"));
     } else {
       CATLSTR(buf, bufsz,
-              /* xgettext:no-c-format */
               _("  * May fortify to stay put.\n"));
     }
   }

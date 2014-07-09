@@ -431,7 +431,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     techs_known = QString("<b>") + _("Techs unknown by") + sp
                   + QString(nation_adjective_for_player(pplayer)) + sp
                   + QString(_("nation")) + QString("</b> :");
-    techs_unknown = QString("<b>") + _("Techs unkown by you") + sp
+    techs_unknown = QString("<b>") + _("Techs unknown by you") + sp
                     + QString("</b> :");
 
     advance_iterate(A_FIRST, padvance) {

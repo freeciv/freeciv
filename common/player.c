@@ -1161,10 +1161,10 @@ bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
 **************************************************************************/
 const char *love_text(const int love)
 {
-  /* TRANS: These words should be adjectives which can fit in the sentence
-     "The x are y towards us"
-     "The Babylonians are respectful towards us" */
   if (love <= - MAX_AI_LOVE * 90 / 100) {
+    /* TRANS: These words should be adjectives which can fit in the sentence
+       "The x are y towards us"
+       "The Babylonians are respectful towards us" */
     return Q_("?attitude:Genocidal");
   } else if (love <= - MAX_AI_LOVE * 70 / 100) {
     return Q_("?attitude:Belligerent");

@@ -121,7 +121,7 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("c")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_center_view()));
   menu->addSeparator();
-  act = menu->addAction(_("Fullsceen"));
+  act = menu->addAction(_("Fullscreen"));
   act->setShortcut(QKeySequence(tr("alt+return")));
   act->setCheckable(true);
   act->setChecked(options.fullscreen_mode);

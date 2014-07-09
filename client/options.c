@@ -2126,13 +2126,13 @@ static struct client_option client_options[] = {
                   COC_SOUND, GUI_STUB, TRUE, menu_music_enable_callback),
   GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
-                  N_("If this option is enabled, soundset suggested by "
-                     "the ruleset is automatically taken in to use."),
+                  N_("If this option is enabled, any soundset suggested by "
+                     "the ruleset is automatically used."),
                   COC_SOUND, GUI_STUB, FALSE, NULL),
   GEN_BOOL_OPTION(autoaccept_musicset_suggestion,
                   N_("Autoaccept musicset suggestions"),
-                  N_("If this option is enabled, musicset suggested by "
-                     "the ruleset is automatically taken in to use."),
+                  N_("If this option is enabled, any musicset suggested by "
+                     "the ruleset is automatically used."),
                   COC_SOUND, GUI_STUB, FALSE, NULL),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],

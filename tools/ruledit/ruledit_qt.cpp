@@ -91,6 +91,8 @@ void ruledit_qt_display_requirers(const char *msg)
 {
   char buffer[2048];
 
+  /* TRANS: %s could be any of a number of ruleset items (e.g., tech,
+   * unit type, ... */
   fc_snprintf(buffer, sizeof(buffer), R__("Needed by %s"), msg);
   gui->display_msg(buffer);
 }

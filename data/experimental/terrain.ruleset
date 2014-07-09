@@ -23,7 +23,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; helptxt       = displayed in the help for terrains with this flag (optional)
 flags =
   { "name", "helptxt"
-    "Oil", _("Has Oil Derrick instead of Mine")
+    "Oil", _("Has Oil Well instead of Mine.")
   }
 
 [parameters]
@@ -204,7 +204,7 @@ color.r              = 25
 color.g              = 25
 color.b              = 25
 helptext             = _("\
-No unit can enter this terrain, nor can city work the tile.\
+No unit can enter this terrain, nor can any city work its tiles.\
 ")
 
 [terrain_lake]

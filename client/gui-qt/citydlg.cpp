@@ -629,7 +629,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     connect(lcity_name, SIGNAL(clicked()), SLOT(city_rename()));
     connect(buy_button, SIGNAL(clicked()), SLOT(buy()));
     item_button = new QPushButton();
-    item_button->setToolTip(_("Click left button to change current"
+    item_button->setToolTip(_("Click left button to change current "
                               "production"));
     connect(item_button, SIGNAL(clicked()), SLOT(show_targets()));
     production_table = new QTableWidget();
@@ -717,7 +717,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     but_clear_worklist = new QPushButton;
     item_button_p = new QPushButton;
 
-    item_button_p->setToolTip(_("Click left button to change"
+    item_button_p->setToolTip(_("Click left button to change "
                                 "current production"));
     label_p->setAlignment(Qt::AlignLeft);
     label_p->setText(_("Show future targets"));
