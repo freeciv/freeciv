@@ -2887,9 +2887,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (NULL != utype->converted_to) {
     cat_snprintf(buf, bufsz,
-                 /* TRANS: %s is a unit type. */
-                 _("* May be converted into %s.\n"),
-                 utype_name_translation(utype->converted_to));
+                 /* TRANS: %s is a unit type. "MP" = movement points. */
+                 PL_("* May be converted into %s (takes %d MP).\n",
+                     "* May be converted into %s (takes %d MP).\n",
+                     utype->convert_time),
+                 utype_name_translation(utype->converted_to),
+                 utype->convert_time);
   }
   if (utype_has_flag(utype, UTYF_NOHOME)) {
     CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
