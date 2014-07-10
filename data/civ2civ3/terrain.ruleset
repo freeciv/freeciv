@@ -1146,8 +1146,8 @@ rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
 flags          = "NuclearWinter"
 
-[extra_fortress]
-name           = _("Fortress")
+[extra_trench]
+name           = _("Trench")
 category       = "Infra"
 causes         = "Base"
 rmcauses       = "Pillage"
@@ -1163,14 +1163,36 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
-      "Extra", "River", "Local", FALSE
     }
 native_to      = "Land", "Small Land", "Big Land"
-conflicts      = "Airbase"
+conflicts      = "Airfield", "Airbase"
 flags          = "NativeTile"
 
-[extra_airbase]
-name           = _("Airbase")
+[extra_fortress]
+name           = _("Fortress")
+category       = "Infra"
+causes         = "Base"
+rmcauses       = "Pillage"
+graphic        = "base.fortress"
+graphic_alt    = "-"
+activity_gfx   = "unit.fortress"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present"
+      "Extra", "Trench", "Local", TRUE
+      "Tech", "Construction", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
+native_to      = "Land", "Small Land", "Big Land"
+conflicts      = "Airfield", "Airbase"
+flags          = "NativeTile"
+
+[extra_airfield]
+name           = _("Airfield")
 category       = "Infra"
 causes         = "Base"
 rmcauses       = "Pillage"
@@ -1186,10 +1208,32 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
-      "Extra", "River", "Local", FALSE
     }
 native_to      = "Air", "Helicopter", "Missile"
-conflicts      = "Fortress"
+conflicts      = "Trench", "Fortress"
+flags          = "Refuel"
+
+[extra_airbase]
+name           = _("Airbase")
+category       = "Infra"
+causes         = "Base"
+rmcauses       = "Pillage"
+graphic        = "base.airbase"
+graphic_alt    = "-"
+activity_gfx   = "unit.airbase"
+act_gfx_alt    = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present"
+      "Extra", "Airfield", "Local", TRUE
+      "Tech", "Radio", "Player", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "UnitFlag", "Airbase", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
+native_to      = "Air", "Helicopter", "Missile"
+conflicts      = "Trench", "Fortress"
 flags          = "Refuel"
 
 [extra_buoy]
@@ -1316,10 +1360,22 @@ flags          = "NativeTile"
 ;
 ; */ <-- avoid gettext warnings
 
+[base_trench]
+name           = _("Trench")
+gui_type       = "Fortress"
+build_time     = 2
+border_sq      = -1
+flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
+helptext       = _("\
+Trenches are fast-built fortifications providing some defense to land units. \
+The construction of fortresses can begin only after the underlaying trench \
+is completed.\
+")
+
 [base_fortress]
 name           = _("Fortress")
 gui_type       = "Fortress"
-build_time     = 3
+build_time     = 2
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
@@ -1328,10 +1384,24 @@ unit remaining in a fortress for a whole turn without moving recovers \
 a quarter of its hit points.\
 ")
 
+[base_airfield]
+name           = _("Airfield")
+gui_type       = "Airbase"
+build_time     = 2
+border_sq      = -1
+flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+helptext       = _("\
+Airfields are fast-built airbases to allow air units to land and refuel, \
+and improve the defense against enemy air units. \
+Air units in an airfield may be attacked by land units. \
+The construction of an airbase can begin only after the underlaying airfield \
+is completed.\
+")
+
 [base_airbase]
 name           = _("Airbase")
 gui_type       = "Airbase"
-build_time     = 3
+build_time     = 2
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
 helptext       = _("\

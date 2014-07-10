@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 08-Jul-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 11-Jul-2014)
 ==========================================================
 
 
@@ -34,6 +34,7 @@ CORE CHANGES:
 - A city can support as many Military units as its population size (min 4, max 20). Additional units cause waste of Food. If the city shrinks due to starvation, one of those extra units will be disbanded.
 - Units lose one Veteran level when upgraded.
 - No infinite movement: Railroads x6, Roads x3, Rivers x3 (non diagonal).
+- Added Trench and Airfield bases, required before you can build Fortress or Airbase, respectively. It prevents the construction of full bases in one single turn.
 - Specialists output reduced to 2 (same as civ2). There are wonders that increase it to 3 for all players.
 - Enabled Tech Leakage: technologies are cheaper if already discovered by other nations you have Embassy with.
 - The cost of each Tech is equal to the number of steps needed to get the tech (Tech Cost = Base Cost * Number of Parents). It is a linear formula more similar to civ2, and it fits better the new reduced bonuses from Trade and Science.
@@ -451,7 +452,7 @@ Changes:
 - Electricity allows Irrigation without adjacent water (as in civ3).
 - Removed effect that prevented extra output from cities where Irrigation and Mine were present at same time (no longer possible).
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
-- Airbases and Fortresses cannot be built on river tiles.
+- Added Trench and Airfield bases, as pre-requisite for Fortress and Airbase, in order to prevent the construction of full bases in one single turn. Airbases and Fortresses can be built on river tiles again.
 
 Units:
 - Units automatically move to the target tile after a successful attack. Units with remaining movement points can continue moving after the attack.
