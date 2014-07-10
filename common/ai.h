@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2014.Jun.20"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2014.Jul.11"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
@@ -52,6 +52,10 @@ struct ai_type
   char name[MAX_LEN_NAME];
 
   struct {
+    /* Called for every AI type when game starts. Game is not necessarily new one,
+       it can also be an old game loaded from a savegame. */
+    void (*game_start)(void);
+
     /* Called for every AI type when game has ended. */
     void (*game_free)(void);
 

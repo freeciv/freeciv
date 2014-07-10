@@ -546,6 +546,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   strncpy(ai->name, "classic", sizeof(ai->name));
 
+  /* ai->funcs.game_start = NULL; */
   /* ai->funcs.game_free = NULL; */
 
   ai->funcs.player_alloc = cai_player_alloc;

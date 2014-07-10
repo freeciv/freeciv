@@ -2838,6 +2838,8 @@ static void srv_ready(void)
       } players_iterate_end;
     }
   }
+
+  CALL_FUNC_EACH_AI(game_start);
 }
 
 /**************************************************************************
