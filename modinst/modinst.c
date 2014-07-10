@@ -137,6 +137,66 @@ static void pbar_callback(const double fraction)
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), fraction);
 }
 
+struct msg_data {
+  const char *msg;
+};
+
+/**************************************************************************
+  Main thread handling of message sent from downloader thread.
+**************************************************************************/
+static gboolean msg_main_thread(gpointer user_data)
+{
+  struct msg_data *data = (struct msg_data *)user_data;
+
+  msg_callback(data->msg);
+
+  FC_FREE(data);
+
+  return G_SOURCE_REMOVE;
+}
+
+/**************************************************************************
+  Downloader thread message callback.
+**************************************************************************/
+static void msg_dl_thread(const char *msg)
+{
+  struct msg_data *data = fc_malloc(sizeof(*data));
+
+  data->msg = msg;
+
+  gdk_threads_add_idle(msg_main_thread, data);
+}
+
+struct pbar_data {
+  double fraction;
+};
+
+/**************************************************************************
+  Main thread handling of progressbar update sent from downloader thread.
+**************************************************************************/
+static gboolean pbar_main_thread(gpointer user_data)
+{
+  struct pbar_data *data = (struct pbar_data *)user_data;
+
+  pbar_callback(data->fraction);
+
+  FC_FREE(data);
+
+  return G_SOURCE_REMOVE;
+}
+
+/**************************************************************************
+  Downloader thread progress bar callback.
+**************************************************************************/
+static void pbar_dl_thread(const double fraction)
+{
+  struct pbar_data *data = fc_malloc(sizeof(*data));
+
+  data->fraction = fraction;
+
+  gdk_threads_add_idle(pbar_main_thread, data);
+}
+
 /**************************************************************************
   Entry point for downloader thread
 **************************************************************************/
@@ -144,12 +204,12 @@ static gpointer download_thread(gpointer data)
 {
   const char *errmsg;
 
-  errmsg = download_modpack(data, &fcmp, msg_callback, pbar_callback);
+  errmsg = download_modpack(data, &fcmp, msg_dl_thread, pbar_dl_thread);
 
   if (errmsg == NULL) {
-    gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
+    msg_dl_thread(_("Ready"));
   } else {
-    gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
+    msg_dl_thread(errmsg);
   }
 
   free(data);
