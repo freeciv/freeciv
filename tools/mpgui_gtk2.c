@@ -147,25 +147,77 @@ static void pbar_callback(int downloaded, int max)
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), fraction);
 }
 
+
+struct msg_data {
+  const char *msg;
+};
+
 /**************************************************************************
-  Entry point for downloader thread
+  Main thread handling of message sent from downloader thread.
 **************************************************************************/
-static gpointer download_thread(gpointer data)
+static gboolean msg_main_thread(gpointer user_data)
 {
-  const char *errmsg;
+  struct msg_data *data = (struct msg_data *)user_data;
+
+  msg_callback(data->msg);
+
+  FC_FREE(data);
+
+  return G_SOURCE_REMOVE;
+}
+
+/**************************************************************************
+  Downloader thread message callback.
+**************************************************************************/
+static void msg_dl_thread(const char *msg)
+{
+  struct msg_data *data = fc_malloc(sizeof(*data));
+
+  data->msg = msg;
+
+  gdk_threads_add_idle(msg_main_thread, data);
+}
+
+struct pbar_data {
+  int current;
+  int max;
+};
+
+/**************************************************************************
+  Main thread handling of progressbar update sent from downloader thread.
+**************************************************************************/
+static gboolean pbar_main_thread(gpointer user_data)
+{
+  struct pbar_data *data = (struct pbar_data *)user_data;
+
+  pbar_callback(data->current, data->max);
+
+  FC_FREE(data);
+
+  return G_SOURCE_REMOVE;
+}
+
+/**************************************************************************
+  Downloader thread progress bar callback.
+**************************************************************************/
+static void pbar_dl_thread(int current, int max)
+{
+  struct pbar_data *data = fc_malloc(sizeof(*data));
+
+  data->current = current;
+  data->max = max;
+
+  gdk_threads_add_idle(pbar_main_thread, data);
+}
+
+/**************************************************************************
+  Main thread handling of versionlist update requested by downloader thread
+**************************************************************************/
+static gboolean versionlist_update_main_thread(gpointer user_data)
+{
   GtkTreeIter iter;
 
-  errmsg = download_modpack(data, &fcmp, msg_callback, pbar_callback);
-
-  if (errmsg == NULL) {
-    gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
-  } else {
-    gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
-  }
-
-  free(data);
-
-  if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(main_store), &iter)) {
+ if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(main_store), &iter)) {
     do {
       const char *name_str;
       int type_int;
@@ -191,6 +243,37 @@ static gpointer download_thread(gpointer data)
 
     } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(main_store), &iter));
   }
+
+  return G_SOURCE_REMOVE;
+}
+
+/**************************************************************************
+  Downloader thread requests versionlist update.
+**************************************************************************/
+static void versionlist_update_dl_thread(void)
+{
+  gdk_threads_add_idle(versionlist_update_main_thread, NULL);
+}
+
+
+/**************************************************************************
+  Entry point for downloader thread
+**************************************************************************/
+static gpointer download_thread(gpointer data)
+{
+  const char *errmsg;
+
+  errmsg = download_modpack(data, &fcmp, msg_dl_thread, pbar_dl_thread);
+
+  if (errmsg == NULL) {
+    msg_dl_thread(_("Ready"));
+  } else {
+    msg_dl_thread(errmsg);
+  }
+
+  free(data);
+
+  versionlist_update_dl_thread();
 
   downloading = FALSE;
 
