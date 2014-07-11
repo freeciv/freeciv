@@ -128,6 +128,9 @@ int research_goal_bulbs_required(const struct research *presearch,
 bool research_goal_tech_req(const struct research *presearch,
                             Tech_type_id goal, Tech_type_id tech);
 
+int research_total_bulbs_required(const struct research *presearch,
+                                  Tech_type_id tech, bool loss_value);
+
 /* Iterating utilities. */
 struct research_iter;
 

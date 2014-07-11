@@ -63,9 +63,9 @@ void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
 {
   struct research * research = research_get(pplayer);
 
-  research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech, FALSE)
-        * game.server.diplcost) / 100;
+  research->bulbs_researched -=
+      (research_total_bulbs_required(research, tech, FALSE)
+       * game.server.diplcost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -76,9 +76,9 @@ void do_free_cost(struct player *pplayer, Tech_type_id tech)
 {
   struct research * research = research_get(pplayer);
 
-  research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech, FALSE)
-        * game.server.freecost) / 100;
+  research->bulbs_researched -=
+      (research_total_bulbs_required(research, tech, FALSE)
+       * game.server.freecost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -89,9 +89,9 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 {
   struct research * research = research_get(pplayer);
 
-  research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech, FALSE)
-        * game.server.conquercost) / 100;
+  research->bulbs_researched -=
+      (research_total_bulbs_required(research, tech, FALSE)
+       * game.server.conquercost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -614,8 +614,9 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 
     if (tech != A_NONE) {
       if (game.server.techloss_restore >= 0) {
-        research->bulbs_researched += base_total_bulbs_required(plr, tech, TRUE)
-          * game.server.techloss_restore / 100;
+        research->bulbs_researched +=
+            (research_total_bulbs_required(research, tech, TRUE)
+             * game.server.techloss_restore / 100);
       } else {
         research->bulbs_researched = 0;
       }
@@ -873,7 +874,7 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
-      int cost = base_total_bulbs_required(plr, i, FALSE);
+      int cost = research_total_bulbs_required(presearch, i, FALSE);
 
       if (cost < cheapest_cost || cheapest_cost == -1) {
         cheapest_cost = cost;
@@ -896,7 +897,8 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN
-        && base_total_bulbs_required(plr, i, FALSE) == cheapest_cost) {
+        && (research_total_bulbs_required(presearch, i, FALSE)
+            == cheapest_cost)) {
       chosen--;
       if (chosen == 0) {
         return i;
@@ -959,7 +961,8 @@ void choose_tech(struct player *plr, Tech_type_id tech)
     research->researching_saved = A_UNKNOWN;
   }
   research->researching=tech;
-  research->researching_cost = base_total_bulbs_required(plr, tech, FALSE);
+  research->researching_cost = research_total_bulbs_required(research, tech,
+                                                             FALSE);
   if (research->bulbs_researched >= research->researching_cost) {
     tech_researched(plr);
   }
@@ -1016,7 +1019,7 @@ void init_tech(struct player *plr, bool update)
       log_debug("[player %d] %-25s (ID: %3d) cost: %6d - reachable: %-3s "
                 "(now) / %-3s (ever)", player_number(plr),
                 advance_rule_name(advance_by_number(i)), i,
-                base_total_bulbs_required(plr, i, FALSE),
+                research_total_bulbs_required(research, i, FALSE),
                 research_invention_gettable(research, i, FALSE)
                 ? "yes" : "no",
                 research_invention_reachable(research, i) ? "yes" : "no");
