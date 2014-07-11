@@ -186,7 +186,9 @@ static int cities_action_callback(struct widget *pButton)
 **************************************************************************/
 static int end_turn_callback(struct widget *pButton)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (Main.event.type == SDL_KEYDOWN
+      || (Main.event.type == SDL_MOUSEBUTTONDOWN
+          && Main.event.button.button == SDL_BUTTON_LEFT)) {
     widget_redraw(pButton);
     widget_flush(pButton);
     disable_focus_animation();
@@ -2268,12 +2270,12 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 /**************************************************************************
   Toggle map drawing stuff.
 **************************************************************************/
-bool map_event_handler(SDL_Keysym Key)
+bool map_event_handler(SDL_Keysym key)
 {
   if (C_S_RUNNING == client_state()) {
     enum direction8 movedir = DIR8_MAGIC_MAX;
 
-    switch (Key.scancode) {
+    switch (key.scancode) {
 
     case SDL_SCANCODE_KP_8:
       movedir = DIR8_NORTH;
@@ -2312,7 +2314,7 @@ bool map_event_handler(SDL_Keysym Key)
       return FALSE;
 
     default:
-      switch (Key.sym) {
+      switch (key.sym) {
 
         /* cancel action */
       case SDLK_ESCAPE:

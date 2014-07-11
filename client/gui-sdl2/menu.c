@@ -82,7 +82,9 @@ static struct widget *pOrder_Trade_Button;
 **************************************************************************/
 static int unit_order_callback(struct widget *pOrder_Widget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (Main.event.type == SDL_KEYDOWN
+      || (Main.event.type == SDL_MOUSEBUTTONDOWN
+          && Main.event.button.button == SDL_BUTTON_LEFT)) {
     struct unit *pUnit = head_of_units_in_focus();
 
     set_wstate(pOrder_Widget, FC_WS_SELECTED);
@@ -91,7 +93,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
     if (!pUnit) {
       return -1;
     }
-  
+
     switch (pOrder_Widget->ID) {
     case ID_UNIT_ORDER_BUILD_CITY:
       /* Enable the button for adding to a city in all cases, so we
@@ -246,7 +248,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       key_unit_done();
       flush_dirty();
       break;
-  
+
     default:
       break;
     }

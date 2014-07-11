@@ -440,6 +440,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   if (NULL == notify_goto_dialog) {
     notify_goto_dialog = notify_goto_dialog_new();
   }
+
   fc_assert(NULL != notify_goto_dialog);
 
   notify_goto_list_prepend(notify_goto_dialog->datas,
@@ -485,10 +486,12 @@ static int notify_dialog_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_notify_dialog_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if(pNotifyDlg) {
+  if (Main.event.type == SDL_KEYDOWN
+      || (Main.event.type == SDL_MOUSEBUTTONDOWN
+          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+    if (pNotifyDlg) {
       popdown_window_group_dialog(pNotifyDlg->pBeginWidgetList,
-                                              pNotifyDlg->pEndWidgetList);
+                                  pNotifyDlg->pEndWidgetList);
       FC_FREE(pNotifyDlg->pScroll);
       FC_FREE(pNotifyDlg);
       flush_dirty();
@@ -501,18 +504,18 @@ static int exit_notify_dialog_callback(struct widget *pWidget)
   Popup a generic dialog to display some generic information.
 **************************************************************************/
 void popup_notify_dialog(const char *caption, const char *headline,
-			 const char *lines)
+                         const char *lines)
 {
   struct widget *pBuf, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pHeadline, *pLines;
   SDL_Rect dst;
   SDL_Rect area;
-  
+
   if (pNotifyDlg) {
     return;
   }
-  
+
   pNotifyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
    
   pStr = create_str16_from_char(caption, adj_font(12));

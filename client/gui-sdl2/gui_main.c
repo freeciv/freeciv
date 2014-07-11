@@ -210,19 +210,20 @@ static void parse_options(int argc, char **argv)
 /**************************************************************************
   Main handler for key presses
 **************************************************************************/
-static Uint16 main_key_down_handler(SDL_Keysym Key, void *pData)
+static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 {
   static struct widget *pWidget;
-  if ((pWidget = find_next_widget_for_key(NULL, Key)) != NULL) {
+
+  if ((pWidget = find_next_widget_for_key(NULL, key)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
-    if (Key.sym == SDLK_TAB) {
+    if (key.sym == SDLK_TAB) {
       /* input */
       popup_input_line();
     } else {
-      if (map_event_handler(Key)
+      if (map_event_handler(key)
           && C_S_RUNNING == client_state()) {
-        switch (Key.sym) {
+        switch (key.sym) {
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
           if (LSHIFT || RSHIFT) {
@@ -305,7 +306,7 @@ static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
   struct widget *pWidget;
-  
+
   if ((pWidget = find_next_widget_at_pos(NULL,
                                          pButtonEvent->x,
                                          pButtonEvent->y)) != NULL) {
@@ -313,7 +314,7 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
       return widget_pressed_action(pWidget);
     }
   } else {
-    /* no visible widget at this position -> map click */ 
+    /* no visible widget at this position -> map click */
 #ifdef UNDER_CE
     if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
 #endif
