@@ -33,28 +33,6 @@
 
 #include "pf_tools.h"
 
-/* ===================== Cost of Specific Moves ====================== */
-
-/****************************************************************************
-  Cost of moving one normal step.
-****************************************************************************/
-static inline int single_move_cost(const struct pf_parameter *param,
-                                   const struct tile *src_tile,
-                                   const struct tile *dest_tile)
-{
-  return map_move_cost(param->owner, param->utype, src_tile, dest_tile);
-}
-
-/****************************************************************************
-  Cost of an overlap move (move to a non-native tile).
-  This should always be the last tile reached.
-****************************************************************************/
-static inline int overlap_move_cost(const struct pf_parameter *param)
-{
-  return param->move_rate;
-}
-
-
 /* ===================== Capability Functions ======================== */
 
 /****************************************************************************
@@ -85,9 +63,7 @@ static enum pf_action pf_get_action(const struct tile *ptile,
     }
 
     if (PF_AA_UNIT_ATTACK & param->actions
-        && ((uclass_has_flag(utype_class(param->utype),
-                             UCF_ATTACK_NON_NATIVE)
-             && !utype_has_flag(param->utype, UTYF_ONLY_NATIVE_ATTACK))
+        && (can_attack_non_native(param->utype)
             || is_native_tile(param->utype, ptile))
         && (!param->omniscience
             || can_player_attack_tile(param->owner, ptile))) {
@@ -98,8 +74,7 @@ static enum pf_action pf_get_action(const struct tile *ptile,
 
   if (non_allied_city
       && PF_AA_CITY_ATTACK & param->actions
-      && ((uclass_has_flag(utype_class(param->utype), UCF_ATTACK_NON_NATIVE)
-           && !utype_has_flag(param->utype, UTYF_ONLY_NATIVE_ATTACK))
+      && (can_attack_non_native(param->utype)
           || is_native_tile(param->utype, ptile))) {
     /* Consider that there are units, even if is_non_allied_unit_tile()
      * returned NULL (usally when '!param->omniscience'). */
@@ -120,10 +95,9 @@ static bool pf_action_possible(const struct tile *src,
                                const struct pf_parameter *param)
 {
   if (PF_ACTION_ATTACK == action) {
-    return (uclass_has_flag(utype_class(param->utype),
-                            UCF_ATT_FROM_NON_NATIVE)
-            || utype_has_flag(param->utype, UTYF_MARINES)
-            || PF_MS_NATIVE & src_scope);
+    return (PF_MS_NATIVE & src_scope
+            || can_attack_from_non_native(param->utype));
+            
   } else if (PF_ACTION_DIPLOMAT == action) {
     return (PF_MS_NATIVE | PF_MS_CITY) & src_scope;
   }
@@ -151,7 +125,7 @@ pf_get_move_scope(const struct tile *ptile,
   }
 
   if (NULL != pcity
-      && (uclass_has_flag(uclass, UCF_CAN_OCCUPY_CITY)
+      && (utype_can_take_over(param->utype)
           || pplayers_allied(param->owner, city_owner(pcity)))
       && ((previous_scope & PF_MS_CITY) /* City channel previously tested */
           || uclass_has_flag(uclass, UCF_BUILD_ANYWHERE)
@@ -274,7 +248,7 @@ static int normal_move(const struct tile *src,
                        const struct pf_parameter *param)
 {
   if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
-    return single_move_cost(param, src, dst);
+    return map_move_cost(param->owner, param->utype, src, dst);
   }
   return PF_IMPOSSIBLE_MC;
 }
@@ -293,9 +267,10 @@ static int overlap_move(const struct tile *src,
                         const struct pf_parameter *param)
 {
   if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
-    return single_move_cost(param, src, dst);
+    return map_move_cost(param->owner, param->utype, src, dst);
   } else if (!(PF_MS_NATIVE & dst_scope)) {
-    return overlap_move_cost(param);
+    /* This should always be the last tile reached. */
+    return param->move_rate;
   }
   return PF_IMPOSSIBLE_MC;
 }
@@ -322,7 +297,7 @@ static int amphibious_move(const struct tile *ptile,
                                     &amphibious->sea);
       scale = amphibious->sea_scale;
     } else if (PF_MS_NATIVE & dst_scope) {
-      /* Disembark; use land movement function to handle UTYF_MARINES */
+      /* Disembark; use land movement function to handle non-native attacks. */
       cost = amphibious->land.get_MC(ptile, PF_MS_TRANSPORT, ptile1,
                                      PF_MS_NATIVE, &amphibious->land);
       scale = amphibious->land_scale;
@@ -521,6 +496,8 @@ static int get_closest_safe_tile_distance(const struct tile *src_tile,
   return -1;
 }
 
+/* ====================  Postion Dangerous Callbacks =================== */
+
 /****************************************************************************
   Position-dangerous callback for air units.
 ****************************************************************************/
@@ -544,8 +521,6 @@ static int get_fuel_moves_left_req(const struct tile *ptile,
 
   return dist != -1 ? dist * SINGLE_MOVE : PF_IMPOSSIBLE_MC;
 }
-
-/* ====================  Postion Dangerous Callbacks =================== */
 
 /****************************************************************************
   Position-dangerous callback for amphibious movement.
