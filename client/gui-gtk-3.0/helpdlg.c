@@ -86,7 +86,7 @@ static GtkWidget *help_wlabel[6];
 static GtkWidget *help_ulabel[5][5];
 static GtkWidget *help_tlabel[4][5];
 static GtkWidget *help_blabel[4];
-static GtkWidget *help_rlabel[2];
+static GtkWidget *help_rlabel[4];
 
 static bool help_advances[A_LAST];
 
@@ -113,8 +113,8 @@ static const char *help_tlabel_name[4][5] =
 {
     { N_("Move/Defense:"),	NULL, NULL, N_("Food/Res/Trade:"),	NULL },
     { N_("Resources:"),		NULL, NULL, NULL,			NULL },
-    { N_("Road Rslt/Time:"),	NULL, NULL, N_("Irrig. Rslt/Time:"),	NULL },
-    { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
+    { N_("Irrig. Rslt/Time:"),	NULL, NULL, N_("Mine Rslt/Time:"),	NULL },
+    { N_("Trans. Rslt/Time:"),	NULL, NULL, NULL,                       NULL }
 };
 
 static const char *help_blabel_name[4] =
@@ -125,10 +125,14 @@ static const char *help_blabel_name[4] =
  * that can't be built on the same tile as this one. */
   N_("Conflicts with:"), NULL };
 
-static const char *help_rlabel_name[2] =
+static const char *help_rlabel_name[4] =
 /* TRANS: Label for build cost for roads in help. Will be followed by
  * something like "3 MP" (where MP = Movement Points) */
-{ N_("Build:"), NULL };
+{ N_("Build:"), NULL,
+/* TRANS: Road bonus in help. Will be followed by food/production/trade
+ * stats like "0/0/+1", "0/+50%/0" */
+  N_("Bonus (F/P/T):"), NULL };
+
 
 #define REQ_LABEL_NONE _("None")
 #define REQ_LABEL_NEVER _("(Never)")
@@ -636,7 +640,7 @@ static void create_help_dialog(void)
   help_rtable = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(help_box), help_rtable);
 
-  for (i = 0; i < 2; i++) {
+  for (i = 0; i < 4; i++) {
     help_rlabel[i] =
       gtk_label_new(help_rlabel_name[i] ? _(help_rlabel_name[i]) : "");
     gtk_grid_attach(GTK_GRID(help_rtable), help_rlabel[i], i, 0, 1, 1);
@@ -1148,13 +1152,6 @@ static void help_update_terrain(const struct help_item *pitem,
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
 
-    sprintf(buf, "%d%%/%d%%/%d%% / %d",
-            pterrain->road_output_incr_pct[O_FOOD],
-            pterrain->road_output_incr_pct[O_SHIELD],
-            pterrain->road_output_incr_pct[O_TRADE],
-            pterrain->road_time);
-    gtk_label_set_text(GTK_LABEL(help_tlabel[2][1]), buf);
-
     strcpy(buf, _("n/a"));
     if (pterrain->irrigation_result == pterrain) {
       if (pterrain->irrigation_food_incr > 0) {
@@ -1167,7 +1164,7 @@ static void help_update_terrain(const struct help_item *pitem,
 	      terrain_name_translation(pterrain->irrigation_result),
 	      pterrain->irrigation_time);
     }
-    gtk_label_set_text(GTK_LABEL(help_tlabel[2][4]), buf);
+    gtk_label_set_text(GTK_LABEL(help_tlabel[2][1]), buf);
 
     strcpy(buf, _("n/a"));
     if (pterrain->mining_result == pterrain) {
@@ -1181,7 +1178,7 @@ static void help_update_terrain(const struct help_item *pitem,
 	      terrain_name_translation(pterrain->mining_result),
 	      pterrain->mining_time);
     }
-    gtk_label_set_text(GTK_LABEL(help_tlabel[3][1]), buf);
+    gtk_label_set_text(GTK_LABEL(help_tlabel[2][4]), buf);
 
     if (pterrain->transform_result != T_NONE) {
       sprintf(buf, "%s / %d",
@@ -1190,7 +1187,7 @@ static void help_update_terrain(const struct help_item *pitem,
     } else {
       strcpy(buf, "n/a");
     }
-    gtk_label_set_text(GTK_LABEL(help_tlabel[3][4]), buf);
+    gtk_label_set_text(GTK_LABEL(help_tlabel[3][1]), buf);
   }
 
   helptext_terrain(buf, sizeof(buf), client.conn.playing, pitem->text, pterrain);
@@ -1273,6 +1270,25 @@ static void help_update_road(const struct help_item *pitem, char *title)
       sprintf(buf, "-");
     }
     gtk_label_set_text(GTK_LABEL(help_rlabel[1]), buf);
+    /* Bonus */
+    {
+      const char *bonus = NULL;
+      output_type_iterate(o) {
+        if (proad->tile_incr[o] > 0) {
+          /* TRANS: Road bonus depends on terrain. */
+          bonus = _("Terrain specific");
+          break;
+        }
+      } output_type_iterate_end;
+      if (!bonus) {
+        bonus = helptext_road_bonus_str(NULL, proad);
+      }
+      if (!bonus) {
+        /* TRANS: No output bonus from a road */
+        bonus = _("None");
+      }
+      gtk_label_set_text(GTK_LABEL(help_rlabel[3]), bonus);
+    }
     helptext_road(buf, sizeof(buf), client.conn.playing, pitem->text, proad);
   }
   gtk_widget_show(help_rtable);

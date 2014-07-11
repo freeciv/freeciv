@@ -872,6 +872,14 @@ compat_special = "Road"
 native_to      = "Land"
 hidden_by      = "Railroad"
 flags          = "RequiresBridge", "AlwaysOnCityCenter"
+helptext       = _("\
+Roads allow your land units to move more quickly, and on some terrain,\
+ also provide a trade bonus.\
+"), _("\
+Building roads on river tiles requires knowledge of Bridge Building.\
+ City center tiles automatically get roads, and are an exception to\
+ this requirement.\
+")
 
 [road_railroad]
 name           = _("Railroad")
@@ -897,6 +905,18 @@ trade_bonus    = 50
 compat_special = "Railroad"
 native_to      = "Land"
 flags          = "RequiresBridge", "AutoOnCityCenter"
+helptext       = _("\
+Once you learn the Railroad technology, you may upgrade your roads\
+ to railroads. Units expend no movement points when moving along a\
+ railroad; you may ride a railroad indefinitely. (As may your enemies!)\
+"), _("\
+A railroad also increases by half (rounding down) all resources produced\
+ by a tile. A tile whose road is upgraded to a railroad retains any trade\
+ bonus from the road as well.\
+"), _("\
+City center tiles with roads are automatically upgraded to railroads\
+ when you learn the Railroad technology.\
+")
 
 [road_river]
 name           = _("River")
@@ -912,4 +932,9 @@ move_mode      = "NoBonus"
 compat_special = "River"
 native_to      = "Land"
 flags          = "River", "PreventsOtherRoads", "Unrestrictedinfra", "Natural"
-;helptext       =
+helptext       = _("\
+Any land terrain type may have a River on it.\
+"), _("\
+Roads and railroads can only be built on River tiles if your\
+ civilization has learned Bridge Building technology.\
+")

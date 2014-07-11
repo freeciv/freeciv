@@ -1076,7 +1076,7 @@ static void help_update_base(const struct help_item *pitem,
     /* FIXME use actual widgets */
     const char *sep = "";
     buf[0] = '\0';
-    if (pbase->buildable) {
+    if (pbase->buildable && pbase->build_time > 0) {
       /* TRANS: Build cost for bases in help. "MP" = movement points */
       sprintf(buf, _("Build: %d MP\n"), pbase->build_time);
     }
@@ -1117,11 +1117,28 @@ static void help_update_road(const struct help_item *pitem,
   } else {
     /* FIXME use actual widgets */
     buf[0] = '\0';
-    if (proad->buildable) {
-      /* TRANS: Build cost for bases in help. "MP" = movement points */
+    if (proad->buildable && proad->build_time > 0) {
+      /* TRANS: Build cost for roads in help. "MP" = movement points */
       sprintf(buf, _("Build: %d MP\n"), proad->build_time);
     }
-    strcat(buf, "\n\n");
+    {
+      bool terrain_specific = FALSE;
+      output_type_iterate(o) {
+        if (proad->tile_incr[o] > 0) {
+          terrain_specific = TRUE;
+          break;
+        }
+      } output_type_iterate_end;
+      if (!terrain_specific) {
+        /* TRANS: Road bonus in help. %s is food/production/trade
+         * stats like "0/0/+1", "0/+50%/0" */
+        sprintf(buf + strlen(buf), _("Bonus (F/P/T): %s\n"),
+                helptext_road_bonus_str(NULL, proad));
+      }
+    }
+    if (buf[0] != '\0') {
+      strcat(buf, "\n");
+    }
     helptext_road(buf + strlen(buf), sizeof(buf) - strlen(buf),
                   client.conn.playing, pitem->text, proad);
   }

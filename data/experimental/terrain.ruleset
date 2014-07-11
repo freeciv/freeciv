@@ -1187,6 +1187,16 @@ compat_special = "Road"
 native_to      = "Land", "Big Land"
 hidden_by      = "Railroad", "Maglev"
 flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
+helptext       = _("\
+Roads allow your land units to move more quickly, and allow heavy\
+ Big Land units such as Catapults and Freight to travel through\
+ otherwise difficult terrain such as Mountains and Forest. On some\
+ terrain, roads also provide a trade bonus.\
+"), _("\
+Building roads on river tiles requires knowledge of Bridge Building.\
+ City center tiles automatically get roads (unless they are on a river\
+ tile and you do not yet know Bridge Building).\
+")
 
 [road_railroad]
 name           = _("Railroad")
@@ -1213,6 +1223,18 @@ compat_special = "Railroad"
 native_to      = "Land", "Big Land"
 hidden_by      = "Maglev"
 flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
+helptext       = _("\
+Once you learn the Railroad technology, you may upgrade your roads\
+ to railroads. Units travel considerably faster along railroads than\
+ along roads.\
+"), _("\
+A railroad also increases any shield resources produced by a tile.\
+ A tile whose road is upgraded to a railroad retains any trade bonus\
+ from the road as well.\
+"), _("\
+City center tiles with roads are automatically upgraded to railroads\
+ when you learn the Railroad technology.\
+")
 
 [road_maglev]
 name           = _("Maglev")
@@ -1237,6 +1259,14 @@ shield_bonus   = 0
 trade_bonus    = 0
 native_to      = "Land"
 flags          = "NativeTile", "RequiresBridge", "AutoOnCityCenter"
+helptext       = _("\
+With sufficient technology, you may upgrade your railroads to use\
+ magnetic levitation. Units expend no movement points when riding a\
+ maglev; you may ride indefinitely. (As may your enemies!)\
+"), _("\
+City center tiles with railroads are automatically upgraded to maglev\
+ when you learn about Superconductors.\
+")
 
 [road_river]
 name           = _("River")
@@ -1254,11 +1284,15 @@ compat_special = "River"
 native_to      = "Land", "Big Land", "Trireme"
 flags          = "River", "PreventsOtherRoads", "NativeTile", "UnrestrictedInfra", "Natural"
 helptext       = _("\
-Any land terrain type may have a River on it.  A River adds 1\
- trade to the resources produced by that tile.  It also increases a tile's\
- defense factor by 50%.  Finally, land units may move along a River (but\
- not diagonally) for fast travel.\
+Any land terrain type may have a River on it. A River adds 1\
+ trade to the resources produced by that tile. It also increases a tile's\
+ defense factor by 50%.\
 "), _("\
-Roads and railroads can only be built on River tiles if your\
+Land units may move along rivers for faster travel (but not diagonally),\
+ and heavy Big Land units such as Catapults and Freight may travel\
+ along them through otherwise difficult terrain. Triremes may also\
+ travel up rivers (although later boats cannot).\
+"), _("\
+Roads, railroads, and maglev can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
 ")
