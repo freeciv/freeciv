@@ -60,6 +60,8 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
 		     const char *user_text);
 
 char *helptext_unit_upkeep_str(struct unit_type *punittype);
+const char *helptext_road_bonus_str(const struct terrain *pterrain,
+                                    const struct road_type *proad);
 
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \

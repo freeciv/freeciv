@@ -420,6 +420,8 @@ color.b              = 106
 helptext             = _("\
 Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
+"), _("\
+A desert tile containing a river produces one extra food resource.\
 ")
 
 [terrain_forest]
@@ -1504,6 +1506,19 @@ shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
 flags          = "RequiresBridge"
+helptext       = _("\
+Roads allow your land units to move more quickly, allow wheeled\
+ Big Land units such as Chariots and Catapults to travel through\
+ otherwise difficult terrain (Mountains, Jungle, and Swamp), and\
+ Merchant units (Caravans and Freight) can only travel on roads,\
+ railroads, rivers or ships.\
+"), _("\
+On some terrains, roads also provide a trade bonus.\
+"), _("\
+Building roads on river tiles requires knowledge of Bridge Building.\
+ City center tiles automatically get roads (unless they are on a river\
+ tile and you do not yet know Bridge Building).\
+")
 
 [road_railroad]
 name           = _("Railroad")
@@ -1517,6 +1532,18 @@ shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
 flags          = "RequiresBridge"
+helptext       = _("\
+Once you learn the Railroad technology, you may upgrade your roads\
+ to railroads. Units travel considerably faster along railroads than\
+ along roads.\
+"), _("\
+A railroad also increases any shield resources produced by a tile.\
+ A tile whose road is upgraded to a railroad retains any trade bonus\
+ from the road as well.\
+"), _("\
+City center tiles with roads are automatically upgraded to railroads\
+ when you learn the Railroad technology.\
+")
 
 [road_river]
 name           = _("River")
@@ -1526,11 +1553,18 @@ trade_incr_const = 1
 compat_special = "River"
 flags          = "River", "PreventsOtherRoads"
 helptext       = _("\
-Any land terrain type may have a River on it.  A River adds 1\
- trade to the resources produced by that tile.  It also increases a tile's\
- defense factor by 25%.  Finally, land units may move along a River (but\
- not diagonally) for fast travel.\
+Any land terrain type may have a River on it. A River adds 1\
+ trade to the resources produced by that tile, and 1 food to Desert\
+ tiles. It also increases a tile's defense factor by 25%.\
+"), _("\
+Land units may move along rivers for faster travel (but not diagonally),\
+ wheeled Big Land units such as Chariots and Catapults may travel\
+ along them through otherwise difficult terrain, and Merchant units\
+ (Caravans and Freight) may require rivers to travel along in the\
+ absence of roads. Triremes may also travel up rivers (although later\
+ boats cannot).\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
- civilization has learned Bridge Building technology.\
+ civilization has learned Bridge Building technology. Fortresses and\
+ Airbases cannot be built on River tiles.\
 ")

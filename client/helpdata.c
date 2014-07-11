@@ -199,20 +199,20 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 
   if (0 == strcmp(name, "TerrainAlterations")) {
     int clean_pollution_time = -1, clean_fallout_time = -1;
-    int buildable_bases = 0;
+    bool terrain_independent_extras = FALSE;
 
     CATLSTR(outbuf, outlen,
-            _("Terrain     Road   Irrigation     Mining         Transform\n"));
+            /* TRANS: Header for fixed-width terrain alteration table.
+             * TRANS: Translators cannot change column widths :( */
+            _("Terrain       Irrigation       Mining           Transform\n"));
     CATLSTR(outbuf, outlen,
-            "---------------------------------------------------------------\n");
+            "----------------------------------------------------------------\n");
     terrain_type_iterate(pterrain) {
       if (0 != strlen(terrain_rule_name(pterrain))) {
-        char road_time[4], irrigation_time[4],
-             mining_time[4], transform_time[4];
+        char irrigation_time[4], mining_time[4], transform_time[4];
         const char *terrain, *irrigation_result,
                    *mining_result,*transform_result;
 
-        fc_snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
         fc_snprintf(irrigation_time, sizeof(irrigation_time),
                     "%d", pterrain->irrigation_time);
         fc_snprintf(mining_time, sizeof(mining_time),
@@ -235,16 +235,15 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         /* Use get_internal_string_length() for correct alignment with
          * multibyte character encodings */
         cat_snprintf(outbuf, outlen,
-            "%s%*s %3s    %3s %s%*s %3s %s%*s %3s %s\n",
+            "%s%*s %3s %s%*s %3s %s%*s %3s %s\n",
             terrain,
-            MAX(0, 10 - (int)get_internal_string_length(terrain)), "",
-            (pterrain->road_time == 0) ? "-" : road_time,
+            MAX(0, 12 - (int)get_internal_string_length(terrain)), "",
             (pterrain->irrigation_result == T_NONE) ? "-" : irrigation_time,
             irrigation_result,
-            MAX(0, 10 - (int)get_internal_string_length(irrigation_result)), "",
+            MAX(0, 12 - (int)get_internal_string_length(irrigation_result)), "",
             (pterrain->mining_result == T_NONE) ? "-" : mining_time,
             mining_result,
-            MAX(0, 10 - (int)get_internal_string_length(mining_result)), "",
+            MAX(0, 12 - (int)get_internal_string_length(mining_result)), "",
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
@@ -268,28 +267,52 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
     } terrain_type_iterate_end;
 
     base_type_iterate(b) {
-      if (base_extra_get(b)->buildable)
-	buildable_bases++;
+      if (base_extra_get(b)->buildable && b->build_time > 0) {
+        terrain_independent_extras = TRUE;
+        break;
+      }
     } base_type_iterate_end;
+    if (!terrain_independent_extras) {
+      road_type_iterate(r) {
+        if (road_extra_get(r)->buildable && r->build_time > 0) {
+          terrain_independent_extras = TRUE;
+          break;
+        }
+      } road_type_iterate_end;
+    }
 
-    if (clean_pollution_time > 0 || clean_fallout_time > 0 ||
-	buildable_bases > 0) {
+    if (clean_pollution_time > 0 || clean_fallout_time > 0
+        || terrain_independent_extras) {
       CATLSTR(outbuf, outlen, "\n");
       CATLSTR(outbuf, outlen,
-	      _("Time taken for the following activities is independent of terrain:\n"));
+              _("Time taken for the following activities is independent of "
+                "terrain:\n"));
       CATLSTR(outbuf, outlen, "\n");
       CATLSTR(outbuf, outlen,
-	      _("Activity            Time\n"));
+              /* TRANS: Header for fixed-width terrain alteration table.
+               * TRANS: Translators cannot change column widths :( */
+              _("Activity            Time\n"));
       CATLSTR(outbuf, outlen,
-	      "---------------------------");
+              "---------------------------");
       if (clean_pollution_time > 0)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean pollution    %3d"), clean_pollution_time);
       if (clean_fallout_time > 0)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
+      road_type_iterate(r) {
+        if (road_extra_get(r)->buildable && r->build_time > 0) {
+          const char *name = road_name_translation(r);
+
+          cat_snprintf(outbuf, outlen,
+                       "\n%s%*s %3d",
+                       name,
+                       MAX(0, 18 - (int)get_internal_string_length(name)), "",
+                       r->build_time);
+        }
+      } road_type_iterate_end;
       base_type_iterate(b) {
-	if (base_extra_get(b)->buildable) {
+        if (base_extra_get(b)->buildable && b->build_time > 0) {
           const char *name = base_name_translation(b);
 
           cat_snprintf(outbuf, outlen,
@@ -3563,6 +3586,28 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 	    _("* You cannot build cities on this terrain."));
     CATLSTR(buf, bufsz, "\n");
   }
+  if (pterrain->road_time == 0) {
+    /* Can't build roads; only mention if ruleset has buildable roads */
+    road_type_iterate(r) {
+      if (road_extra_get(r)->buildable) {
+        CATLSTR(buf, bufsz,
+                _("* Paths cannot be built on this terrain."));
+        CATLSTR(buf, bufsz, "\n");
+        break;
+      }
+    } road_type_iterate_end;
+  }
+  if (pterrain->base_time == 0) {
+    /* Can't build bases; only mention if ruleset has buildable bases */
+    base_type_iterate(b) {
+      if (base_extra_get(b)->buildable) {
+        CATLSTR(buf, bufsz,
+                _("* Bases cannot be built on this terrain."));
+        CATLSTR(buf, bufsz, "\n");
+        break;
+      }
+    } base_type_iterate_end;
+  }
   if (terrain_has_flag(pterrain, TER_UNSAFE_COAST)
       && terrain_type_terrain_class(pterrain) != TC_OCEAN) {
     CATLSTR(buf, bufsz,
@@ -3624,6 +3669,60 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n\n");
     CATLSTR(buf, bufsz, user_text);
   }
+}
+
+/****************************************************************************
+  Return a textual representation of the F/P/T bonus a road provides to a
+  terrain if supplied, or the terrain-independent bonus if pterrain==NULL.
+  e.g. "0/0/+1", "0/+50%/0", or for a complex road "+2/+1+50%/0".
+  Returns a pointer to a static string, so caller should not free
+  (or NULL if there is no effect at all).
+****************************************************************************/
+const char *helptext_road_bonus_str(const struct terrain *pterrain,
+                                    const struct road_type *proad)
+{
+  static char str[64];
+  str[0] = '\0';
+  bool has_effect = FALSE;
+  output_type_iterate(o) {
+    switch (o) {
+    case O_FOOD:
+    case O_SHIELD:
+    case O_TRADE:
+      {
+        int bonus = proad->tile_bonus[o];
+        int incr = proad->tile_incr_const[o];
+        if (pterrain) {
+          incr +=
+            proad->tile_incr[o] * pterrain->road_output_incr_pct[o] / 100;
+        }
+        if (str[0] != '\0') {
+          CATLSTR(str, sizeof(str), "/");
+        }
+        if (incr == 0 && bonus == 0) {
+          cat_snprintf(str, sizeof(str), "%d", incr);
+        } else {
+          has_effect = TRUE;
+          if (incr != 0) {
+            cat_snprintf(str, sizeof(str), "%+d", incr);
+          }
+          if (bonus != 0) {
+            cat_snprintf(str, sizeof(str), "%+d%%", bonus);
+          }
+        }
+      }
+      break;
+    default:
+      /* FIXME: there's nothing actually stopping roads having gold, etc
+       * bonuses */
+      fc_assert(proad->tile_incr_const[o] == 0
+                && proad->tile_incr[o] == 0
+                && proad->tile_bonus[o] == 0);
+      break;
+    }
+  } output_type_iterate_end;
+
+  return has_effect ? str : NULL;
 }
 
 /****************************************************************************
@@ -3800,6 +3899,84 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
               _("* Cannot be built to river tiles unless some technology "
                 "allowing bridge building is knowns.\n"));
     }
+  }
+
+  /* Table of terrain-specific attributes, if needed */
+  {
+    bool road, do_time, do_bonus;
+    int extra_time;
+    fc_assert(proad != NULL || pbase != NULL);
+    road = (proad != NULL);
+    extra_time = road ? proad->build_time : pbase->build_time;
+    /* Terrain-dependent build time? */
+    do_time = pextra->buildable && extra_time == 0;
+    if (road) {
+      /* Terrain-dependent output bonus? */
+      do_bonus = FALSE;
+      output_type_iterate(o) {
+        if (proad->tile_incr[o] > 0) {
+          do_bonus = TRUE;
+          fc_assert(o == O_FOOD || o == O_SHIELD || o == O_TRADE);
+        }
+      } output_type_iterate_end;
+    } else {
+      /* Bases don't have output bonuses */
+      do_bonus = FALSE;
+    }
+
+    if (do_time || do_bonus) {
+      if (do_time && do_bonus) {
+        CATLSTR(buf, bufsz,
+                _("\nTime to build and output bonus depends on terrain:\n\n"));
+        CATLSTR(buf, bufsz,
+                /* TRANS: Header for fixed-width road properties table.
+                 * TRANS: Translators cannot change column widths :( */
+                _("Terrain       Time     Bonus F/P/T\n"
+                  "----------------------------------\n"));
+      } else if (do_time) {
+        CATLSTR(buf, bufsz,
+                _("\nTime to build depends on terrain:\n\n"));
+        CATLSTR(buf, bufsz,
+                /* TRANS: Header for fixed-width extra properties table.
+                 * TRANS: Translators cannot change column widths :( */
+                _("Terrain       Time\n"
+                  "------------------\n"));
+      } else {
+        fc_assert(do_bonus);
+        CATLSTR(buf, bufsz,
+                /* TRANS: Header for fixed-width road properties table.
+                 * TRANS: Translators cannot change column widths :( */
+                _("\nYields an output bonus with some terrains:\n\n"));
+        CATLSTR(buf, bufsz,
+                _("Terrain       Bonus F/P/T\n"
+                  "-------------------------\n"));;
+      }
+      terrain_type_iterate(t) {
+        int time = road ? terrain_road_time(t, pextra)
+                        : terrain_base_time(t, pextra);
+        const char *bonus_text
+          = road ? helptext_road_bonus_str(t, proad) : NULL;
+        if (time > 0 || bonus_text) {
+          const char *terrain = terrain_name_translation(t);
+          cat_snprintf(buf, bufsz,
+                       "%s%*s ", terrain,
+                       MAX(0, 12 - (int)get_internal_string_length(terrain)),
+                       "");
+          if (do_time) {
+            if (time > 0) {
+              cat_snprintf(buf, bufsz, "%3d      ", time);
+            } else {
+              CATLSTR(buf, bufsz, "  -      ");
+            }
+          }
+          if (do_bonus) {
+            fc_assert(proad != NULL);
+            cat_snprintf(buf, bufsz, " %s", bonus_text ? bonus_text : "-");
+          }
+          CATLSTR(buf, bufsz, "\n");
+        }
+      } terrain_type_iterate_end;
+    } /* else rely on client-specific display */
   }
 
   if (user_text && user_text[0] != '\0') {
