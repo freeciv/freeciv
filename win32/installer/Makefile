@@ -36,6 +36,10 @@ gtk2-installer:
 sdl-installer:
 	make GUI=sdl FCMP=gtk2 wrap-sdl
 
+snapshot:
+	cd ../.. ; ./autogen.sh --no-configure-run
+	make EXTRA_CONFIG="--enable-svnrev" all
+
 
 # build Freeciv
 
@@ -43,7 +47,7 @@ build-freeciv-common:
 	# create build directory
 	mkdir -p build-$(GUI)
 	# configure
-	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32-S2_5" --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP)
+	cd build-$(GUI); ../../../configure --enable-client=$(GUI) --with-followtag="win32-S2_5" --enable-fcdb=sqlite3 --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
 	make -C build-$(GUI)
 
