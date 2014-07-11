@@ -121,8 +121,8 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
                            int read_recursion);
 static bool show_command(struct connection *caller, char *str, bool check);
 static void show_command_one(struct connection *caller, struct setting *pset);
-static void show_changed(struct connection *caller, bool check,
-                         int read_recursion);
+static void show_ruleset_info(struct connection *caller, bool check,
+                              int read_recursion);
 static void show_mapimg(struct connection *caller, enum command_id cmd);
 static bool set_command(struct connection *caller, char *str, bool check);
 
@@ -1288,7 +1288,7 @@ static bool read_init_script_real(struct connection *caller,
     }
     fclose(script_file);
 
-    show_changed(caller, check, read_recursion);
+    show_ruleset_info(caller, check, read_recursion);
 
     return TRUE;
   } else {
@@ -2108,16 +2108,22 @@ static bool set_away(struct connection *caller, char *name, bool check)
 /**************************************************************************
   Show changed settings.
 **************************************************************************/
-static void show_changed(struct connection *caller, bool check,
-                         int read_recursion)
+static void show_ruleset_info(struct connection *caller, bool check,
+                              int read_recursion)
 {
+  char *show_arg = "changed";
+
+  /* show changed settings only at the top level of recursion */
   if (read_recursion != 0) {
     return;
   }
 
-  /* show changed settings only at the top level of recursion */
-  char *show_arg = "changed";
   show_command(caller, show_arg, check);
+
+  if (game.control.description[0] != '\0') {
+    cmd_reply(CMD_RULESETDIR, caller, C_COMMENT, "%s", game.control.description);
+    cmd_reply(CMD_RULESETDIR, caller, C_COMMENT, horiz_line);
+  }
 }
 
 /**************************************************************************
@@ -3840,8 +3846,8 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
        * connected clients. */
       send_rulesets(game.est_connections);
     }
-    /* list changed values */
-    show_changed(caller, check, read_recursion);
+    /* show ruleset description and list changed values */
+    show_ruleset_info(caller, check, read_recursion);
     player_info_thaw();
 
     if (success) {
@@ -4590,8 +4596,9 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   send_server_settings(game.est_connections);
   cmd_reply(CMD_RESET, caller, C_OK, _("Settings re-initialized."));
 
-  /* list changed values */
-  show_changed(caller, check, read_recursion);
+  /* show ruleset description and list changed values */
+  show_ruleset_info(caller, check, read_recursion);
+
   return TRUE;
 }
 
