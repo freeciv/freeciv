@@ -18,7 +18,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 #ifdef HAVE_XML_REGISTRY
-  struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename);
+
+#define FCXML_CAPSTR "+xml"
+
+struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename);
+
 #endif /* HAVE_XML_REGISTRY */
 
 #ifdef __cplusplus

@@ -20,6 +20,7 @@
 #include <libxml/parser.h>
 
 /* utility */
+#include "capability.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "registry.h"
@@ -35,6 +36,7 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
   struct section_file *secfile;
   xmlNodePtr xmlroot;
   xmlNodePtr current;
+  char *cap;
 
   secfile = secfile_new(TRUE);
 
@@ -42,6 +44,23 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
   if (xmlroot == NULL || strcmp((const char *)xmlroot->name, "Freeciv")) {
     log_error(_("XML-file has no root node <Freeciv>"));
     secfile_destroy(secfile);
+    return NULL;
+  }
+
+  cap = (char *)xmlGetNsProp(xmlroot, (xmlChar *)"options", NULL);
+
+  if (cap == NULL) {
+    log_error(_("XML-file has no capabilities defined!"));
+    secfile_destroy(secfile);
+
+    return NULL;
+  }
+  if (!has_capabilities(FCXML_CAPSTR, cap)) {
+    log_error(_("XML-file has incompatible capabilities."));
+    log_normal(_("Freeciv capabilities: %s"), FCXML_CAPSTR);
+    log_normal(_("File capabilities: %s"), cap);
+    secfile_destroy(secfile);
+
     return NULL;
   }
 
