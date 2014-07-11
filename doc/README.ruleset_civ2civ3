@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 11-Jul-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 12-Jul-2014)
 ==========================================================
 
 
@@ -93,29 +93,29 @@ TERRAIN:
 - Hills receive 1 Shield for free, and +2 from mines, same as civ3, (was 0 and +3).
 - Mountains give extra vision range. Cities can not be placed over Mountains. Land units starting the turn over a Mountain receive a -1 penalty to movement (this way it is not so good for cavalry to end the turn on Mountains).
 - Lake tiles receive for free +1 Food (2/0/2), while Harbours and Offshore Platforms do not affect them. Lakes do not enable wonders that needs a coastal city.
-- Deep Oceans produce no Food (1 Food with Harbour). Offshore Platforms increase the production only if there is a Buoy in the Deep Ocean tile.
+- Deep ocean tiles must be mined in order to take advantage of the shield bonus from Offshore Platforms.
 - Pollution may appear in Ocean tiles, and Transports can clean it without the need of Workers\Engineers. Jungles and Forests are not affected by Pollution nor by Global Warming.
 
 - Minimum city output = 1/0/0 (was 1/1/0). City central tile now produces +1 Shield.
 This way, no matter the tile where you place your city, you never waste any resource (for example, with classic rules, a city placed over bonused Grassland was wasting the Shield bonus).
 
-TILE      F/P/T  IRRIG(t)   MINE(t)    ROAD  *CITY   MAX1   MAX2 
-Deep     *0/0/2  NO         NO         NO            1/0/2  1/1/2
-Ocean     1/0/2  NO         NO         NO            2/0/2  2/1/2
-Lake     *2/0/2  NO         NO         NO            2/0/2  2/0/2
-Swamp     1/0/0 *+1(10)    *NO         +0(4)  2/1/0  2/0/0  3/0/0
-Glacier   0/0/0  NO         +1(10)     +0(4)         0/1/0  0/1/0
-Tundra    1/0/0 *NO        *+1(5)     *+1(2)  1/2/1  1/1/1  1/1/1
-Desert    0/1/0  +1(5)      +1(5)      +1(2)  1/2/1  0/2/1  0/3/1
-Plains    1/1/0  +1(5)      Forest(15) +1(2)  2/2/1  2/1/1  3/1/1
-Grassland 2/0/0  +1(5)      Forest(15) +1(2)  3/1/1  3/0/1  4/0/1
-Jungle   *1/1/0 *Swamp(5)  *NO         +0(4)  1/2/0  1/1/0  1/1/0
-Forest    1/2/0  Plain(10) *NO         +0(4)  1/3/0  1/2/0  1/3/0
-Hills    *1/1/0  +1(10)    *+2(10)     +0(4)  2/2/0  1/3/0  1/4/0
-Mountains 0/1/0  NO         +1(10)     +0(6)         0/2/0  0/3/0
+TILE      F/P/T  IRRIG(t)   MINE(t)    ROAD   MAX1   MAX2   TRANSFORM
+Deep      1/0/2  NO         NO         NO     2/0/2  2/1/2  No
+Ocean     1/0/2  NO         NO         NO     2/0/2  2/1/2  Swamp
+Lake     *2/0/2  NO         NO         NO     2/0/2  2/0/2  Swamp
+Swamp     1/0/0 *+1(5)     *NO         +0(4)  2/0/0  3/0/0 *Grass
+Glacier   0/0/0  NO         +1(10)     +0(4)  0/1/0  0/1/0  Tundra
+Tundra    1/0/0 *NO        *+1(5)     *+1(2)  1/1/1  1/1/1 *Plains
+Desert    0/1/0  +1(5)      +1(5)      +1(2)  0/2/1  0/3/1  Plains
+Plains    1/1/0  +1(5)      Forest(10) +1(2)  2/1/1  3/1/1  Grass
+Grassland 2/0/0  +1(5)      Forest(15) +1(2)  3/0/1  4/0/1 *Lake
+Jungle   *1/1/0 *Swamp(10) *NO         +0(4)  1/1/0  1/1/0 *Forest
+Forest    1/2/0  Plain(10) *Grass(15)  +0(4)  1/2/0  1/3/0 *Hills
+Hills    *1/1/0  +1(10)    *+2(10)     +0(4)  1/3/0  1/4/0  Plains
+Mountains 0/1/0  NO         +1(10)     +0(6)  0/2/0  0/3/0  Hills
 
 F/P/T = Food/Production/Trade; (t) = turns
-CITY = central city tile; MAX1 = irrigated/mined/roaded/harbour; MAX2 = farmland/railroad/offshore.
+MAX1 = irrigated/mined/roaded/harbour; MAX2 = farmland/railroad/offshore.
 * = Changes compared to classic ruleset. Most affected are Jungles, Swamps and Tundras.
 
 TIP: The optimal tiles to place your initial cities are those with MAX output equal or greater than 2/1/1, mainly those with bonus resources or rivers. Hills and Plains are always good places for cities, as well as Flood Desert (desert with river), or bonused Grassland. The best defense comes from cities placed on Hills with river.
@@ -453,6 +453,16 @@ Changes:
 - Removed effect that prevented extra output from cities where Irrigation and Mine were present at same time (no longer possible).
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
 - Added Trench and Airfield bases, as pre-requisite for Fortress and Airbase, in order to prevent the construction of full bases in one single turn. Airbases and Fortresses can be built on river tiles again.
+
+Terrain:
+- Readjusted terrain transformations. Designed so all useful alterations can be finished in 1 or 2 steps, and all effects from Global warming can be reversibly with terraforming.
+- Allowed early transformation from Forest to Grassland, so it is possible to transform Grass->Forest->Plain, and also Plain->Forest->Grass, with same working time (25).
+- Restored Food output of Deep oceans, so Global warming does not affect Oceans that much. Now oceans transformed to deep ocean would only lose their specials.
+- Harbors and Offshore Platform can be built adjacent to any oceanic tile again (same as classic rules), so Global warming does not affect them.
+- Reduced irrigation times in Swamps and Jungles. They represent the drainage of wetlands.
+- Re-enabled terraforming from Mountains to Hills, and from Grassland to Lake.
+It is still possible to transform any terrain to Hills by changing them to Forest first.
+- Deep ocean tiles must be mined in order to take advantage of the shield bonus from Offshore Platforms (buoys are no longer needed).
 
 Units:
 - Units automatically move to the target tile after a successful attack. Units with remaining movement points can continue moving after the attack.

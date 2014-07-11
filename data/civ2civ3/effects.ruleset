@@ -2269,7 +2269,7 @@ reqs    =
     { "type", "name", "range"
       "Terrain", "Deep Ocean", "Local"
       "Building", "Offshore Platform", "City"
-      "Extra", "Buoy", "Local"
+      "Extra", "Oil Well", "Local"
       "OutputType", "Shield", "Local"
     }
 

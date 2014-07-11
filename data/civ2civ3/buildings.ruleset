@@ -454,7 +454,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Seafaring", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic	= "b.harbour"
 graphic_alt	= "-"
@@ -644,7 +644,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Miniaturization", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic	= "b.offshore_platform"
 graphic_alt	= "-"
@@ -659,8 +659,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The\
  city needs to be coastal to build this improvement.  Deep ocean tiles\
- need a buoy placed in the tile to take advantage of the shield bonus\
- (buoys are tile improvements available with the discovery of Radio).\
+ need to be mined in order to take advantage of the shield bonus.\
 "),
 ; /* xgettext:no-c-format */
 _("\
