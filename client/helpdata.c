@@ -2992,7 +2992,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz, "\n");
     }
     strvec_iterate(pterrain->helptext, text) {
-      CATLSTR(buf, bufsz, _(text));
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }
   if (user_text && user_text[0] != '\0') {
