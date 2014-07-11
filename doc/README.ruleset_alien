@@ -1,7 +1,7 @@
 
-=======================================================
-Alien World ruleset for Freeciv (Updated 04-Jul-2014)
-=======================================================
+===============================
+Alien World ruleset for Freeciv
+===============================
 
 Design Philosophy:
 ------------------
@@ -90,3 +90,6 @@ This list is incomplete
   units built by Team Gladiators in a city with Training Facility
 
 - Cities cannot be built on Boiling Ocean tiles.
+
+- Cities of Adventurers can grow one size bigger than cities of other
+  factions in lack of Basic Infrastructure or radiation fighting methods

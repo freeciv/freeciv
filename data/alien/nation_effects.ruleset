@@ -80,6 +80,14 @@ reqs    =
       "Nation", "Adventurers", "Player"
     }
 
+[effect_adventurer_city_size]
+type    = "Size_Adj"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Nation", "Adventurers", "Player"
+    }
+
 [effect_galactic_sound_happiness]
 type    = "Make_Content"
 value	= 3
