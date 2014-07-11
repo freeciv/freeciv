@@ -452,6 +452,38 @@ action_enabled_local(const enum gen_action wanted_action,
 }
 
 /**************************************************************************
+  Find out if the effect value is known
+
+  The knowledge of the actor is assumed to be given in the parameters.
+
+  If meta knowledge is missing TRI_MAYBE will be returned.
+**************************************************************************/
+static bool is_effect_val_known(enum effect_type effect_type,
+                                const struct player *pow_player,
+                                const struct player *target_player,
+                                const struct player *other_player,
+                                const struct city *target_city,
+                                const struct impr_type *target_building,
+                                const struct tile *target_tile,
+                                const struct unit *target_unit,
+                                const struct output_type *target_output,
+                                const struct specialist *target_specialist)
+{
+  effect_list_iterate(get_effects(effect_type), peffect) {
+    if (TRI_MAYBE == mke_eval_reqs(pow_player, target_player,
+                                   other_player, target_city,
+                                   target_building, target_tile,
+                                   target_unit, target_output,
+                                   target_specialist,
+                                   &(peffect->reqs))) {
+      return FALSE;
+    }
+  } effect_list_iterate_end;
+
+  return TRUE;
+}
+
+/**************************************************************************
   Does the target has any techs the actor don't?
 **************************************************************************/
 static enum fc_tristate
@@ -493,6 +525,8 @@ tech_can_be_stolen(const struct player *actor_player,
 static action_probability ap_diplomat_battle(const struct unit *pattacker,
                                              const struct unit *pdefender)
 {
+  struct city *pcity;
+
   /* Keep unconverted until the end to avoid scaling each step */
   int chance;
 
@@ -533,9 +567,16 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
   }
 
   /* City and base defense bonus */
-  if (tile_city(pdefender->tile)) {
-    /* TODO: take EFT_SPY_RESISTANT into account */
-    return ACTPROB_NOT_IMPLEMENTED;
+  pcity = tile_city(pdefender->tile);
+  if (pcity) {
+    if (!is_effect_val_known(EFT_SPY_RESISTANT, unit_owner(pattacker),
+                             city_owner(pcity),  NULL, pcity, NULL,
+                             city_tile(pcity), NULL, NULL, NULL)) {
+      return ACTPROB_NOT_KNOWN;
+    }
+
+    chance -= chance * get_city_bonus(tile_city(pdefender->tile),
+                                      EFT_SPY_RESISTANT) / 100;
   } else {
     if (tile_has_base_flag_for_unit(pdefender->tile, unit_type(pdefender),
                                     BF_DIPLOMAT_DEFENSE)) {
