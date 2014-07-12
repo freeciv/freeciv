@@ -91,6 +91,12 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     struct unit_type_ai *utai = utype_ai_data(ut, ait);
     int desire;
 
+    /* Temporary hack because pathfinding can't handle Fighters. */
+    if (!uclass_has_flag(utype_class(ut), UCF_MISSILE)
+        && 1 == utype_fuel(ut)) {
+      continue;
+    }
+
     if (!can_city_build_unit_now(pcity, ut)
         || ut->attack_strength < ut->transport_capacity
         || (tc == TC_OCEAN && utype_class(ut)->adv.sea_move == MOVE_NONE)

@@ -461,6 +461,12 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
       /* We don't consider this a plane */
       continue;
     }
+
+    /* Temporary hack because pathfinding can't handle Fighters. */
+    if (!uclass_has_flag(pclass, UCF_MISSILE) && 1 == utype_fuel(punittype)) {
+      continue;
+    }
+
     if (can_city_build_unit_now(pcity, punittype)) {
       struct unit *virtual_unit = 
 	unit_virtual_create(pplayer, pcity, punittype,
