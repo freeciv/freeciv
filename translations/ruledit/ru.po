@@ -13,10 +13,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv-ru-2.4\n"
+"Project-Id-Version: Freeciv-ru-2.6r\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
-"PO-Revision-Date: 2014-02-03 00:50+0600\n"
+"POT-Creation-Date: 2014-02-03 00:53+0600\n"
+"PO-Revision-Date: 2014-02-02 23:50+0600\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -28,125 +28,80 @@ msgstr ""
 "X-Poedit-Language: Russian\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: tools/ruledit/ruledit.cpp:102
+#: tools/ruledit/ruledit.cpp:131
 msgid "Print a summary of the options"
 msgstr "Выдать список возможных ключей командной строки"
 
-#: tools/ruledit/ruledit.cpp:104
+#. TRANS: "source" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:134
+msgid "source RULESET"
+msgstr "source НАБОРПРАВИЛ"
+
+#: tools/ruledit/ruledit.cpp:135
+msgid "Load given ruleset"
+msgstr "Загрузить выбранный набор правил"
+
+#: tools/ruledit/ruledit.cpp:137
 msgid "Print the version number"
 msgstr "Вывести номер версии"
 
-#: tools/ruledit/ruledit.cpp:118
+#: tools/ruledit/ruledit.cpp:153
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:58
-#, fuzzy
+#: tools/ruledit/ruledit_qt.cpp:49
 msgid "Freeciv ruleset editor"
-msgstr "Список серверов Freeciv"
+msgstr "Редактор наборов правил Freeciv"
 
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
-#, c-format
-msgid "Needed by %s"
-msgstr ""
-
-#: tools/ruledit/ruledit_qt.cpp:119
-msgid "Give ruleset to use as starting point."
-msgstr ""
-
-#: tools/ruledit/ruledit_qt.cpp:125
-#, fuzzy
-msgid "Start editing"
-msgstr "Нач. позиция"
-
-#: tools/ruledit/ruledit_qt.cpp:135
-msgid "Misc"
-msgstr ""
-
-#: tools/ruledit/ruledit_qt.cpp:137
-#, fuzzy
-msgid "Tech"
-msgstr "Открытия (_T)"
-
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:89
 msgid "Welcome to freeciv-ruledit"
-msgstr ""
+msgstr "Добро пожаловать в Freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:181
-#, fuzzy
-msgid "Ruleset loaded"
-msgstr "Набор правил"
+#: tools/ruledit/ruledit_qt.cpp:97
+msgid "Misc"
+msgstr "Разное"
 
-#: tools/ruledit/ruledit_qt.cpp:186
-msgid "Ruleset loading failed!"
-msgstr ""
+#: tools/ruledit/ruledit_qt.cpp:99
+msgid "Tech"
+msgstr "Открытия"
 
-#: tools/ruledit/tab_misc.cpp:53
-#, fuzzy
+#: tools/ruledit/tab_misc.cpp:52
 msgid "Ruleset name"
-msgstr "Набор правил"
+msgstr "Имя набора правил"
 
 #: tools/ruledit/tab_misc.cpp:58
-#, fuzzy
-msgid "Ruleset version"
-msgstr "Версия набора правил: (_V)"
-
-#: tools/ruledit/tab_misc.cpp:63
-#, fuzzy
 msgid "Save to directory"
-msgstr "Сохранять игры в каталоге КАТ"
+msgstr "Сохранить в каталог"
 
-#: tools/ruledit/tab_misc.cpp:70
-#, fuzzy
+#: tools/ruledit/tab_misc.cpp:65
 msgid "Save now"
-msgstr "Сохранить сценарий"
+msgstr "Сохранить"
 
-#: tools/ruledit/tab_misc.cpp:106
-#, fuzzy
+#: tools/ruledit/tab_misc.cpp:87
 msgid "Ruleset saved"
-msgstr "Набор правил"
+msgstr "Набор правил сохранён"
 
-#: tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_tech.cpp:62
 msgid "Name"
 msgstr "Название"
 
 #: tools/ruledit/tab_tech.cpp:69
-#, fuzzy
 msgid "Rule Name"
-msgstr "Имя игрока :"
+msgstr "Название Правила"
 
-#: tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_tech.cpp:76
 msgid "Req1"
-msgstr ""
+msgstr "Требует (Req1)"
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:85
 msgid "Req2"
-msgstr ""
+msgstr "Требует (Req2)"
 
-#: tools/ruledit/tab_tech.cpp:94
+#: tools/ruledit/tab_tech.cpp:93
 msgid "Root Req"
-msgstr ""
+msgstr "Базовое требование (Root Req)"
 
-#: tools/ruledit/tab_tech.cpp:103
-msgid "Add tech"
-msgstr ""
-
-#: tools/ruledit/tab_tech.cpp:107
-#, fuzzy
-msgid "Remove this tech"
-msgstr "Удалить эти установки?"
-
-#: tools/ruledit/tab_tech.cpp:186
+#: tools/ruledit/tab_tech.cpp:154
 msgid "Never"
 msgstr "Никогда"
-
-#: tools/ruledit/validity.c:64
-msgid "Effect"
-msgstr ""
-
-#: tools/ruledit/validity.c:145
-msgid "Music Style"
-msgstr ""
