@@ -90,6 +90,9 @@
   city_list_iterate(list, city) {					\
     if (range == REQ_RANGE_PLAYER					\
      || range == REQ_RANGE_TEAM						\
+     || (range == REQ_RANGE_TRADEROUTE                                  \
+         && (city == city_here                                          \
+             || have_cities_trade_route(city, city_here)))              \
      || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
       && city == city_here)						\
      || (range == REQ_RANGE_CONTINENT					\
@@ -1334,6 +1337,9 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     = cities[REQ_RANGE_PLAYER];
 
   cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];
+
+  /* All the trade partners and the city being considered. */
+  cities[REQ_RANGE_TRADEROUTE] = city_num_trade_routes(pcity)+1;
 
   cities[REQ_RANGE_CITY] = cities[REQ_RANGE_LOCAL] = 1;
 

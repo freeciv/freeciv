@@ -567,7 +567,8 @@ struct requirement req_from_str(const char *type, const char *range,
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_CADJACENT
 	       && req.range != REQ_RANGE_ADJACENT
-               && req.range != REQ_RANGE_CITY);
+               && req.range != REQ_RANGE_CITY
+               && req.range != REQ_RANGE_TRADEROUTE);
     break;
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
@@ -581,10 +582,12 @@ struct requirement req_from_str(const char *type, const char *range,
     break;
   case VUT_MINSIZE:
   case VUT_NATIONALITY:
-    invalid = (req.range != REQ_RANGE_CITY);
+    invalid = (req.range != REQ_RANGE_CITY
+               && req.range != REQ_RANGE_TRADEROUTE);
     break;
   case VUT_MINCULTURE:
     invalid = (req.range != REQ_RANGE_CITY
+               && req.range != REQ_RANGE_TRADEROUTE
                && req.range != REQ_RANGE_PLAYER
                && req.range != REQ_RANGE_TEAM
                && req.range != REQ_RANGE_ALLIANCE
@@ -767,6 +770,7 @@ static inline bool players_in_same_range(const struct player *pplayer1,
   case REQ_RANGE_PLAYER:
     return pplayer1 == pplayer2;
   case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CITY:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CADJACENT:
@@ -926,6 +930,7 @@ is_building_in_range(const struct player *target_player,
       }
       return BOOL_TO_TRISTATE(player_has_ever_built(target_player, source));
     case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CITY:
     case REQ_RANGE_LOCAL:
     case REQ_RANGE_CADJACENT:
@@ -968,6 +973,21 @@ is_building_in_range(const struct player *target_player,
         int continent = tile_continent(target_city->tile);
         return BOOL_TO_TRISTATE(num_continent_buildings(target_player,
                                                         continent, source) > 0);
+      } else {
+        return TRI_MAYBE;
+      }
+    case REQ_RANGE_TRADEROUTE:
+      if (target_city) {
+        if (num_city_buildings(target_city, source) > 0) {
+          return TRI_YES;
+        } else {
+          trade_routes_iterate(target_city, trade_partner) {
+            if (num_city_buildings(trade_partner, source) > 0) {
+              return TRI_YES;
+            }
+          } trade_routes_iterate_end;
+        }
+        return TRI_NO;
       } else {
         return TRI_MAYBE;
       }
@@ -1037,6 +1057,7 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_COUNT:
     break;
@@ -1086,6 +1107,7 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_COUNT:
     break;
@@ -1110,6 +1132,20 @@ static enum fc_tristate is_minculture_in_range(const struct city *target_city,
       return TRI_MAYBE;
     }
     return BOOL_TO_TRISTATE(city_culture(target_city) >= minculture);
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    if (city_culture(target_city) >= minculture) {
+      return TRI_YES;
+    } else {
+      trade_routes_iterate(target_city, trade_partner) {
+        if (city_culture(trade_partner) >= minculture) {
+          return TRI_YES;
+        }
+      } trade_routes_iterate_end;
+      return TRI_MAYBE;
+    }
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
@@ -1185,6 +1221,7 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     } adjc_iterate_end;
     return TRI_NO;
   case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -1238,6 +1275,28 @@ static enum fc_tristate is_extra_type_in_range(const struct tile *target_tile,
     } city_tile_iterate_end;
 
     return TRI_NO;
+
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_extra(ptile, pextra)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+    trade_routes_iterate(target_city, trade_partner) {
+      city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                        city_tile(trade_partner), ptile) {
+        if (tile_has_extra(ptile, pextra)) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+    } trade_routes_iterate_end;
+
+    return TRI_NO;
+
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -1290,6 +1349,27 @@ static enum fc_tristate is_terrain_in_range(const struct tile *target_tile,
       } city_tile_iterate_end;
     }
     return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    if (pterrain != NULL) {
+      city_tile_iterate(city_map_radius_sq_get(target_city),
+                        city_tile(target_city), ptile) {
+        if (tile_terrain(ptile) == pterrain) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+      trade_routes_iterate(target_city, trade_partner) {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          if (tile_terrain(ptile) == pterrain) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      } trade_routes_iterate_end;
+    }
+    return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -1340,6 +1420,28 @@ static enum fc_tristate is_resource_in_range(const struct tile *target_tile,
           return TRI_YES;
         }
       } city_tile_iterate_end;
+    }
+
+    return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    if (pres != NULL) {
+      city_tile_iterate(city_map_radius_sq_get(target_city),
+                        city_tile(target_city), ptile) {
+        if (tile_resource(ptile) == pres) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+      trade_routes_iterate(target_city, trade_partner) {
+        city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                          city_tile(trade_partner), ptile) {
+          if (tile_resource(ptile) == pres) {
+            return TRI_YES;
+          }
+        } city_tile_iterate_end;
+      } trade_routes_iterate_end;
     }
 
     return TRI_NO;
@@ -1396,6 +1498,31 @@ static enum fc_tristate is_terrain_class_in_range(const struct tile *target_tile
         return TRI_YES;
       }
     } city_tile_iterate_end;
+
+    return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      const struct terrain *pterrain = tile_terrain(ptile);
+      if (pterrain != T_UNKNOWN
+          && terrain_type_terrain_class(pterrain) == pclass) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    trade_routes_iterate(target_city, trade_partner) {
+      city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                        city_tile(trade_partner), ptile) {
+        const struct terrain *pterrain = tile_terrain(ptile);
+        if (pterrain != T_UNKNOWN
+            && terrain_type_terrain_class(pterrain) == pclass) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+    } trade_routes_iterate_end;
 
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
@@ -1459,6 +1586,31 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
     } city_tile_iterate_end;
 
     return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      const struct terrain *pterrain = tile_terrain(ptile);
+      if (pterrain != T_UNKNOWN
+          && terrain_has_flag(pterrain, terrflag)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    trade_routes_iterate(target_city, trade_partner) {
+      city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                        city_tile(trade_partner), ptile) {
+        const struct terrain *pterrain = tile_terrain(ptile);
+        if (pterrain != T_UNKNOWN
+            && terrain_has_flag(pterrain, terrflag)) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+    } trade_routes_iterate_end;
+
+    return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -1510,6 +1662,27 @@ static enum fc_tristate is_baseflag_in_range(const struct tile *target_tile,
         return TRI_YES;
       }
     } city_tile_iterate_end;
+
+    return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_base_flag(ptile, baseflag)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    trade_routes_iterate(target_city, trade_partner) {
+      city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                        city_tile(trade_partner), ptile) {
+        if (tile_has_base_flag(ptile, baseflag)) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+    } trade_routes_iterate_end;
 
     return TRI_NO;
   case REQ_RANGE_CONTINENT:
@@ -1565,6 +1738,27 @@ static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
     } city_tile_iterate_end;
 
     return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    city_tile_iterate(city_map_radius_sq_get(target_city),
+                      city_tile(target_city), ptile) {
+      if (tile_has_road_flag(ptile, roadflag)) {
+        return TRI_YES;
+      }
+    } city_tile_iterate_end;
+
+    trade_routes_iterate(target_city, trade_partner) {
+      city_tile_iterate(city_map_radius_sq_get(trade_partner),
+                        city_tile(trade_partner), ptile) {
+        if (tile_has_road_flag(ptile, roadflag)) {
+          return TRI_YES;
+        }
+      } city_tile_iterate_end;
+    } trade_routes_iterate_end;
+
+    return TRI_NO;
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -1599,6 +1793,7 @@ static enum fc_tristate is_terrain_alter_possible_in_range(const struct tile *ta
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT: /* XXX Could in principle support ADJACENT. */
   case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
@@ -1650,6 +1845,7 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_COUNT:
     break;
@@ -1669,16 +1865,35 @@ static enum fc_tristate is_nationality_in_range(const struct city *target_city,
 {
   switch (range) {
   case REQ_RANGE_CITY:
-   if (target_city == NULL) {
+    if (target_city == NULL) {
      return TRI_MAYBE;
-   }
-   citizens_iterate(target_city, slot, count) {
-     if (player_slot_get_player(slot)->nation == nationality) {
-       return TRI_YES;
-     }
-   } citizens_iterate_end;
+    }
+    citizens_iterate(target_city, slot, count) {
+      if (player_slot_get_player(slot)->nation == nationality) {
+        return TRI_YES;
+      }
+    } citizens_iterate_end;
 
-   return TRI_NO;
+    return TRI_NO;
+  case REQ_RANGE_TRADEROUTE:
+    if (target_city == NULL) {
+      return TRI_MAYBE;
+    }
+    citizens_iterate(target_city, slot, count) {
+      if (player_slot_get_player(slot)->nation == nationality) {
+        return TRI_YES;
+      }
+    } citizens_iterate_end;
+
+    trade_routes_iterate(target_city, trade_partner) {
+      citizens_iterate(trade_partner, slot, count) {
+        if (player_slot_get_player(slot)->nation == nationality) {
+          return TRI_YES;
+        }
+      } citizens_iterate_end;
+    } trade_routes_iterate_end;
+
+    return TRI_NO;
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
@@ -1732,6 +1947,7 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_COUNT:
     break;
@@ -1856,6 +2072,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 
         return TRI_NO;
       case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -2060,7 +2277,23 @@ bool is_req_active(const struct player *target_player,
     if (target_city == NULL) {
       eval = TRI_MAYBE;
     } else {
-      eval = BOOL_TO_TRISTATE(city_size_get(target_city) >= req->source.value.minsize);
+      if (req->range == REQ_RANGE_TRADEROUTE) {
+        bool found = FALSE;
+
+        if (city_size_get(target_city) >= req->source.value.minsize) {
+          eval = TRI_YES;
+          break;
+        }
+        trade_routes_iterate(target_city, trade_partner) {
+          if (city_size_get(trade_partner) >= req->source.value.minsize) {
+            found = TRUE;
+            break;
+          }
+        } trade_routes_iterate_end;
+        eval = BOOL_TO_TRISTATE(found);
+      } else {
+        eval = BOOL_TO_TRISTATE(city_size_get(target_city) >= req->source.value.minsize);
+      }
     }
     break;
   case VUT_MINCULTURE:

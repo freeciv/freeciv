@@ -414,6 +414,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -479,6 +480,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -548,6 +550,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -896,6 +899,41 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       /* surviving or non-wonder continent-ranged requirements not supported */
       break;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        if (can_improvement_go_obsolete(preq->source.value.building)) {
+          /* Should only apply to wonders */
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is a building or wonder */
+                       _("Requires %s in the city or a trade partner "
+                         "(and not yet obsolete).\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is a building or wonder */
+                       _("Requires %s in the city or a trade partner.\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        }
+      } else {
+        if (can_improvement_go_obsolete(preq->source.value.building)) {
+          /* Should only apply to wonders */
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is a building or wonder */
+                       _("Prevented by %s in the city or a trade partner "
+                         "(unless it is obsolete).\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is a building or wonder */
+                       _("Prevented by %s in the city or a trade partner.\n"),
+                       improvement_name_translation
+                       (preq->source.value.building));
+        }
+      }
+      return TRUE;
     case REQ_RANGE_CITY:
       if (preq->present) {
         if (can_improvement_go_obsolete(preq->source.value.building)) {
@@ -1003,6 +1041,19 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      extra_name_translation(preq->source.value.extra));
       }
       return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?extra:Requires %s on a tile within the city "
+                        "radius, or the city radius of a trade partner.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?extra:Prevented by %s on any tile within the city "
+                        "radius or the city radius of a trade partner.\n"),
+                     extra_name_translation(preq->source.value.extra));
+      }
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1061,6 +1112,19 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Prevented by %s on any tile within the city "
                         "radius.\n"),
+                     terrain_name_translation(preq->source.value.terrain));
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?terrain:Requires %s on a tile within the city "
+                        "radius, or the city radius of a trade partner.\n"),
+                     terrain_name_translation(preq->source.value.terrain));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?terrain:Prevented by %s on any tile within the city "
+                        "radius or the city radius of a trade partner.\n"),
                      terrain_name_translation(preq->source.value.terrain));
       }
       return TRUE;
@@ -1124,6 +1188,19 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      Q_("?resource:Prevented by %s on any tile within the "
                         "city radius.\n"),
+                     resource_name_translation(preq->source.value.resource));
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Requires %s on a tile within the "
+                        "city radius or the city radius of a trade partner.\n"),
+                     resource_name_translation(preq->source.value.resource));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     Q_("?resource:Prevented by %s on any tile within the "
+                        "city radius or the city radius of a trade partner.\n"),
                      resource_name_translation(preq->source.value.resource));
       }
       return TRUE;
@@ -1213,6 +1290,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1241,6 +1319,21 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
   case VUT_NATIONALITY:
     switch (preq->range) {
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: "Requires at least one Barbarian citizen ..." */
+                     _("Requires at least one %s citizen in the city or a "
+                       " trade partner.\n"),
+                     nation_adjective_translation(preq->source.value.nationality));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: "... no Pirate citizens ..." */
+                     _("Requires that there are no %s citizens in "
+                       "the city or any trade partners.\n"),
+                     nation_adjective_translation(preq->source.value.nationality));
+      }
+      return TRUE;
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
@@ -1339,6 +1432,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_COUNT:
       /* Not supported. */
@@ -1362,6 +1456,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1400,6 +1495,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1427,6 +1523,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1469,6 +1566,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       case REQ_RANGE_CADJACENT:
       case REQ_RANGE_ADJACENT:
       case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
       case REQ_RANGE_CONTINENT:
       case REQ_RANGE_PLAYER:
       case REQ_RANGE_TEAM:
@@ -1516,23 +1614,53 @@ static bool insert_requirement(char *buf, size_t bufsz,
     return TRUE;
 
   case VUT_MINSIZE:
-    if (preq->range != REQ_RANGE_CITY) {
+    switch (preq->range) {
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum city size of %d for this "
+                         "city or a trade partner.\n",
+                         "Requires a minimum city size of %d for this "
+                         "city or a trade partner.\n",
+                         preq->source.value.minsize),
+                     preq->source.value.minsize);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the city size to be less than %d "
+                         "for this city and all trade partners.\n",
+                         "Requires the city size to be less than %d "
+                         "for this city and all trade partners.\n",
+                         preq->source.value.minsize),
+                     preq->source.value.minsize);
+      }
+      return TRUE;
+    case REQ_RANGE_CITY:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum city size of %d.\n",
+                         "Requires a minimum city size of %d.\n",
+                         preq->source.value.minsize),
+                     preq->source.value.minsize);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the city size to be less than %d.\n",
+                         "Requires the city size to be less than %d.\n",
+                         preq->source.value.minsize),
+                   preq->source.value.minsize);
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
       break;
     }
-    if (preq->present) {
-      cat_snprintf(buf, bufsz,
-                   PL_("Requires a minimum city size of %d.\n",
-                       "Requires a minimum city size of %d.\n",
-                       preq->source.value.minsize),
-                   preq->source.value.minsize);
-    } else {
-      cat_snprintf(buf, bufsz,
-                   PL_("Requires the city size to be less than %d.\n",
-                       "Requires the city size to be less than %d.\n",
-                       preq->source.value.minsize),
-                   preq->source.value.minsize);
-    }
-    return TRUE;
 
   case VUT_MINCULTURE:
     switch (preq->range) {
@@ -1549,6 +1677,25 @@ static bool insert_requirement(char *buf, size_t bufsz,
                          "Requires the culture in a city to be less than %d.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a minimum culture of %d in this city or "
+                         "a trade partner",
+                         "Requires a minimum culture of %d in this city or "
+                         "a trade partner",
+                         preq->source.value.minculture),
+                      preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires the culture in this city and all trade "
+                         "partners to be less than %d.\n",
+                         "Requires the culture in this city and all trade "
+                         "partners to be less than %d.\n",
+                         preq->source.value.minculture),
+                      preq->source.value.minculture);
       }
       return TRUE;
     case REQ_RANGE_PLAYER:
@@ -1678,6 +1825,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1773,6 +1921,25 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      (preq->source.value.terrainclass));
       }
       return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Requires %s terrain on a tile within "
+                        "the city radius or the city radius of a trade "
+                        "partner.\n"),
+                     terrain_class_name_translation
+                     (preq->source.value.terrainclass));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a terrain class */
+                     Q_("?terrainclass:Prevented by %s terrain on any tile "
+                        "within the city radius or the city radius of a trade "
+                        "partner.\n"),
+                     terrain_class_name_translation
+                     (preq->source.value.terrainclass));
+      }
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1834,6 +2001,21 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
+                     terrain_flag_id_name(preq->source.value.terrainflag));
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires terrain with the \"%s\" flag on a tile "
+                       "within the city radius or the city radius of "
+                       "a trade partner.\n"),
+                     terrain_flag_id_name(preq->source.value.terrainflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by terrain with the \"%s\" flag on any tile "
+                       "within the city radius or the city radius of "
+                       "a trade partner.\n"),
                      terrain_flag_id_name(preq->source.value.terrainflag));
       }
       return TRUE;
@@ -1901,6 +2083,21 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      base_flag_id_name(preq->source.value.baseflag));
       }
       return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires a base with the \"%s\" flag on a tile "
+                       "within the city radius or the city radius of a "
+                       "trade partner.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by a base with the \"%s\" flag on any tile "
+                       "within the city radius or the city radius of a "
+                       "trade partner.\n"),
+                     base_flag_id_name(preq->source.value.baseflag));
+      }
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -1965,6 +2162,21 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      road_flag_id_name(preq->source.value.roadflag));
       }
       return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires a road with the \"%s\" flag on a tile "
+                       "within the city radius or the city radius of a "
+                       "trade partner.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by a road with the \"%s\" flag on any tile "
+                       "within the city radius or the city radius of a "
+                       "trade partner.\n"),
+                     road_flag_id_name(preq->source.value.roadflag));
+      }
+      return TRUE;
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -2010,6 +2222,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:
@@ -2052,6 +2265,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_TEAM:

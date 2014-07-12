@@ -51,28 +51,28 @@ Tech:          World, Alliance, Team, Player
 TechFlag:      World, Alliance, Team, Player
 Achievement:   World, Alliance, Team, Player
 Gov:           Player
-Building:      World, Alliance, Team, Player, Continent, City, Local
-Extra:         Local, Adjacent, CAdjacent, City
-BaseFlag:      Local, Adjacent, CAdjacent, City
-RoadFlag:      Local, Adjacent, CAdjacent, City
-Terrain:       Local, Adjacent, CAdjacent, City
-Resource:      Local, Adjacent, CAdjacent, City
+Building:      World, Alliance, Team, Player, Continent, Traderoute, City, Local
+Extra:         Local, Adjacent, CAdjacent, Traderoute, City
+BaseFlag:      Local, Adjacent, CAdjacent, Traderoute, City
+RoadFlag:      Local, Adjacent, CAdjacent, Traderoute, City
+Terrain:       Local, Adjacent, CAdjacent, Traderoute, City
+Resource:      Local, Adjacent, CAdjacent, Traderoute, City
 UnitType:      Local
 UnitFlag:      Local
 UnitClass:     Local
 UnitClassFlag: Local
 Nation:        World, Alliance, Team, Player
-Nationality:   City
+Nationality:   Traderoute, City
 DiplRel:       World, Alliance, Team, Player, Local
 OutputType:    Local
 Specialist:    Local
 MinYear:       World
-MinSize:       City
-MinCulture:    World, Alliance, Team, Player, City
+MinSize:       Traderoute, City
+MinCulture:    World, Alliance, Team, Player, Traderoute, City
 AI:            Player
 MaxUnitsOnTile:Local, Adjacent, CAdjacent
-TerrainClass:  Local, Adjacent, CAdjacent, City
-TerrainFlag:   Local, Adjacent, CAdjacent, City
+TerrainClass:  Local, Adjacent, CAdjacent, Traderoute, City
+TerrainFlag:   Local, Adjacent, CAdjacent, Traderoute, City
 TerrainAlter:  Local
 CityTile:      Local, Adjacent, CAdjacent
 Style:         Player

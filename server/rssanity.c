@@ -79,7 +79,7 @@ static bool sanity_check_req_individual(struct requirement *preq,
                   "%s (only great wonders supported)", list_for,
                   improvement_name_translation(pimprove));
         return FALSE;
-      } else if (preq->range > REQ_RANGE_CITY && !is_wonder(pimprove)) {
+      } else if (preq->range > REQ_RANGE_TRADEROUTE && !is_wonder(pimprove)) {
         log_error("%s: %s-ranged requirement not supported for "
                   "%s (only wonders supported)", list_for,
                   req_range_name(preq->range),
