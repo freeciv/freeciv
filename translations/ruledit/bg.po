@@ -1,51 +1,140 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Bulgarian translations for freeciv package.
+# Copyright (C) 2012 THE freeciv'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the freeciv package.
+# Bogdan Marinov <daggerstab@gmail.com>, 2012.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: freeciv 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:34+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"PO-Revision-Date: 2012-06-10 00:52+0200\n"
+"Last-Translator: Bogdan Marinov <bogdan.marinov84@gmail.com>\n"
+"Language-Team: Bulgarian\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Bookmarks: 3984,2024,3047,1762,-1,-1,-1,-1,-1,-1\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
 msgstr ""
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
 msgid "Print the version number"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:58
+#, fuzzy
+msgid "Freeciv ruleset editor"
+msgstr "Freeciv версия %s"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:96
+#, c-format
+msgid "Needed by %s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:119
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:125
+#, fuzzy
+msgid "Start editing"
+msgstr "Начална позиция"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:137
+#, fuzzy
+msgid "Tech"
+msgstr "_Технологии"
+
+#: tools/ruledit/ruledit_qt.cpp:146
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "За Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:181
+msgid "Ruleset loaded"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:186
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:53
+#, fuzzy
+msgid "Ruleset name"
+msgstr "_Версия на правилата:"
+
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "_Версия на правилата:"
+
+#: tools/ruledit/tab_misc.cpp:63
+msgid "Save to directory"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:70
+#, fuzzy
+msgid "Save now"
+msgstr "_Запазване на настройките веднага"
+
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "_Версия на правилата:"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Име"
+
+#: tools/ruledit/tab_tech.cpp:69
+#, fuzzy
+msgid "Rule Name"
+msgstr "Име"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+msgid "Remove this tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr ""
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:145
+msgid "Music Style"
 msgstr ""

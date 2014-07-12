@@ -1,51 +1,183 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Danish translation of Freeciv.
+# Copyright (C) 1999-2011 The Freeciv Team & nedenstående oversættere.
+# This translation is covered by the GNU General Public License Version 2.
+# Keld Simonsen <keld@dkuug.dk>, 2001-2002, 2004.
+# Ole Laursen <olau@hardworking.dk>, 2004.
+# Joe Hansen <joedalton2@yahoo.dk>, 2006, 2007, 2008, 2009, 2010.
+# Ask Hjorth Larsen <asklarsen@gmail.com>, 2010, 2011.
 #
-#, fuzzy
+#   For ordlister og konventioner henvises til siden 
+#   http://www.freeciv.org/wiki-da/Overs%C3%A6ttelsesmanual
+#
+#  ' ' -> ' '
+#  " " -> » «
+#
+# AI -> computer (visse steder virker kunstig intelligens/computerspiller bedre)
+# bulb -> forskningspoint
+# citizen -> borger/indbygger
+# disorder [i en by, når der er mange ulykkelige] -> uroligheder
+# farmland -> landbrug
+# governor -> byforvaltning (automatisk arbejdstildeling i byer)
+# hit points -> liv
+# hut -> landsby
+# output -> udbytte
+# preset -> forhåndsvalg
+# revolt [by skifter til en anden civilisation] -> oprør
+# revolution [i forb. med at skifte styreform] -> revolution
+# sentry -> afvent
+# sound set -> lydopsætning
+# unhappiness -> utilfredshed
+#
+#
+#
+# XXX airlift -> lufttransport, flytransport
+# build slots -> ??? (byggepladser)
+#
+# ---
+#
+# Der er mange sætninger af formen "Your %s <...>".  I visse tilfælde
+# kan Din/dit udelades, uden at det gør meddelelsen uforståelig, så vi
+# slipper for 'Din Bombefly'. Dog vil "Din %s" altid fungere i de
+# sammenhænge, hvor %s kun kan være spion eller diplomat, og "Dine %s"
+# når %s er faldskærmstropper
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:35+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"PO-Revision-Date: 2011-01-30 14:56+0100\n"
+"Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
+#, fuzzy
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "  -h, --help\t\tUdskriv resume af tilvalg\n"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
+#, fuzzy
 msgid "Print the version number"
+msgstr "  -v, --version\t\tUdskriv versionsnummeret\n"
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Ukendt indstilling: »%s«\n"
+
+#: tools/ruledit/ruledit_qt.cpp:58
+#, fuzzy
+msgid "Freeciv ruleset editor"
+msgstr "Freeciv-serverliste"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:96
+#, c-format
+msgid "Needed by %s"
 msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:119
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:125
+#, fuzzy
+msgid "Start editing"
+msgstr "Startposition"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:137
+#, fuzzy
+msgid "Tech"
+msgstr "_Teknologier"
+
+#: tools/ruledit/ruledit_qt.cpp:146
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "Velkommen til Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:181
+#, fuzzy
+msgid "Ruleset loaded"
+msgstr "Nulstil"
+
+#: tools/ruledit/ruledit_qt.cpp:186
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:53
+#, fuzzy
+msgid "Ruleset name"
+msgstr "Nulstil"
+
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "Regelsæt_version:"
+
+#: tools/ruledit/tab_misc.cpp:63
+#, fuzzy
+msgid "Save to directory"
+msgstr "  -s, --saves DIR\tGem spil i biblioteket DIR\n"
+
+#: tools/ruledit/tab_misc.cpp:70
+#, fuzzy
+msgid "Save now"
+msgstr "Gem scenarie"
+
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "Nulstil"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Navn"
+
+#: tools/ruledit/tab_tech.cpp:69
+#, fuzzy
+msgid "Rule Name"
+msgstr "Spillernavn :"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+#, fuzzy
+msgid "Remove this tech"
+msgstr "Fjern dette forhåndsvalg?"
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr "Aldrig"
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:145
+#, fuzzy
+msgid "Music Style"
+msgstr "Bystil:"

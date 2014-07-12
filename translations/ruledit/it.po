@@ -1,51 +1,151 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# $Id$
 #
-#, fuzzy
+# *** Traduzione Italiana di Freeciv ***
+# *** Freeciv Italian Translation ***
+#
+# This translation is covered by the GNU General Public License Version 2
+#
+# Freeciv Italian Team: 2000 - 2002
+# David Pagnin: 2002 - 2003
+# Paolo Sammicheli: 2010 - 2011
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:40+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"PO-Revision-Date: 2011-03-26 15:29+0100\n"
+"Last-Translator: Paolo Sammicheli <paolo@sammiche.li>\n"
+"Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
+#, fuzzy
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "  -h, --help\t\tVisualizza una lista delle opzioni\n"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
+#, fuzzy
 msgid "Print the version number"
+msgstr "  -v, --version\t\tVisualizza il numero di versione\n"
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Opzione sconosciuta: \"%s\"\n"
+
+#: tools/ruledit/ruledit_qt.cpp:58
+#, fuzzy
+msgid "Freeciv ruleset editor"
+msgstr "Scelta del server per Freeciv"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:96
+#, c-format
+msgid "Needed by %s"
 msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:119
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:125
+#, fuzzy
+msgid "Start editing"
+msgstr "Posizione di partenza"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:137
+#, fuzzy
+msgid "Tech"
+msgstr "_Tecnologie"
+
+#: tools/ruledit/ruledit_qt.cpp:146
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "Benvenuto a Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:181
+#, fuzzy
+msgid "Ruleset loaded"
+msgstr "Deserto"
+
+#: tools/ruledit/ruledit_qt.cpp:186
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:53
+#, fuzzy
+msgid "Ruleset name"
+msgstr "Deserto"
+
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "_Versione ruleset:"
+
+#: tools/ruledit/tab_misc.cpp:63
+#, fuzzy
+msgid "Save to directory"
+msgstr " -s, --saves DIR\tSalva le partite nella directory DIR\n"
+
+#: tools/ruledit/tab_misc.cpp:70
+#, fuzzy
+msgid "Save now"
+msgstr "Salva scenario"
+
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "Deserto"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Nome"
+
+#: tools/ruledit/tab_tech.cpp:69
+#, fuzzy
+msgid "Rule Name"
+msgstr "Nome giocatore :"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+#, fuzzy
+msgid "Remove this tech"
+msgstr "Elimina questa preselezione?"
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr "Mai"
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:145
+#, fuzzy
+msgid "Music Style"
+msgstr "Stile delle città:"

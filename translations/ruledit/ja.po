@@ -1,51 +1,301 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Japanese translations for Freeciv
+# Copyright (C) 2000-2006 Free Software Foundation, Inc.
+# Copyright (C) 2001 SUENAGA Yasuo
+# Copyright (C) 2002, 2006 MITA Yuusuke
+# Copyright (C) 2003 TAKAHASHI Naoki
+# This translation is covered by the GNU General Public License Version 2.
+# SAWADA Katsuya <ama@petmail.net>, 2000, 2001, 2002, 2003
+# SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>, 2001
+# MITA Yuusuke <clefs@mail.goo.ne.jp>, 2002, 2006
+# TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>, 2003, 2004
+# Daniel MARKSTEDT <himasaram@spray.se>, 2005
 #
-#, fuzzy
+# For Japanese users:
+# こんなことをわざわざ書くのは恥ずかしいんですが、はっきりいって私の訳は
+# とてもひどいもので、本来他人に公開できるようなレベルではないと思います。
+# しかし、私にとって実際、こんな下手な訳でも役に立っていますし、英語の苦
+# 手な他の人にも役に立つだろうと考えて公開しています。
+#
+# わざわざこの po ファイルを見て下さっているあなた。私のダサイ訳を直した
+# り、未訳のところを訳して送って下さい。継続的にメンテナンスしてくれる方
+# なら喜んで Primary Contacter を譲ります。
+#
+# メールをお待ちしています。(澤田)
+#
+# 2003年11月から主に私が訳すことになりました。
+#
+# GTK2 でビルドすると変なところがあったのですが、なかなか日本語訳の
+# 更新が無かった事から、澤田氏に連絡してみたりしている内に、
+# まあ色々あって私が代わりに訳す事になった次第です。
+#
+# 大分更新しましたが、それでも変な所があると思います。
+# (というか沢山ありそうな気もしますが。)
+# お気付きになられた点がありましたら、気兼ね無く連絡してください。
+# 特に AI diplomacy 関連、各国の伝説(紹介文)関連は、
+# こういう訳の方が良いというのがありましたら、ぜひとも教えて下さい。
+# 変な文章が多いと思われますので。
+#
+# by 高橋
+#
+#
+# ## 以下はclefs==Y.Mitaのメモです。(2006.7)
+#
+# 私はかなり昔にほんの少しお手伝いをしただけなのですが，
+# 現在他に連絡を取れる翻訳者がいないということでお鉢が回ってきました。
+#
+# 今後私自身で積極的な更新をできる見込みは残念ながらありませんが，
+# 次に翻訳をしてみたい，あるいは誤訳を見つけたから直してほしいといった方との
+# 「日本語でokな」架け橋の役だけ務めさせていただこうと思います。
+#
+# 翻訳作業をしてみたい，あるいは1ヶ所だけでも訳してみたという方は
+# <clefs@mail.goo.ne.jp> までメールをください。
+# 訳や訂正を送っていただければ私が反映させておきますし，
+# 自分でバリバリ更新なさりたい方には具体的な作業方法をご説明します。
+# 要はバケツリレーですね（笑）
+#
+#
+# Belgaeです。２ちゃんねる同人ゲーム板のfreecivスレで活動しています。
+# Windows版で%sや%dが変換されないという問題があり，日本語でのプレイが
+# 困難だったのですが，%の前に半角スペースを入れると化けないことが判明
+# しました。その点を処理するだけでなく，バージョンアップによるfuzzyや
+# 新規メッセージを翻訳し，非公式置換ファイルとして公開していました。
+# このたび一通り翻訳し終えたので公式に採用してもらうことにしました。
+# 未訳を翻訳するだけでなく，既訳部分もかなり手を入れており，ユニット名や
+# 建造物名などもいくつか変更しています。これはなるべく本家Civilization
+# の訳語に近づけたものです。今まで慣れていた名称が変わることにご不満の
+# 方も多いかと思いますが，新規プレイヤーにはそのほうが良いかと考えたものです。
+# 2010/08/14
+#
+#
+# # TODO:
+#
+# 各nationの指導者に冠せられる称号は調べがつかなかったり
+# 単純に訳しても意味がないようなものだったりして未訳のものが多いです。
+# たとえば，"Imparator" も "Emporer" も訳せば「皇帝」になってしまいますが，
+# こういうのは無理に訳さないか「インパラトール」などとベタ音訳した方が良いの
+# かも。
+# →称号を未訳のままにしておくと，どこまで称号でどこから元首名かすら
+# わからないので，Daniel MARKSTEDTさんのアドバイスを容れてカタカナ音訳を
+# 多用することにしました。安直と言われればそれまでですが。
+#
+# 指導者称号の女性形は適切な訳語がない場合が多いです。無理に訳し分けることも
+# ないのかなとは思いますが。
+#
+# 怪しい訳には "XXX" のマークをつけてあります。改良してやってください。
+#
+# 最近はAIも外交しますが，この時の台詞にはセンスが要求されるので大変です。
+# とりあえず訳は当ててありますが，雰囲気が出るような訳に改良したいところ。
+#
+# nation選択時に表示されるnationの説明文は突貫工事です。
+# 歴史の知識のある方のチェックを願えると助かります。
+#
+# SDLクライアント関係は未訳が多いです。client/gui-sdl/*
+# MitaはGTK2クライアントでしか試せていませんので。
+# 大半はfuzzyマークを外すだけで大丈夫だとは思うのですが。
+#
+# これはja.poではありませんが，ネット対戦関係の日本語ドキュメントがないのが
+# 日本人のネット対戦参入を妨げているかもしれません。
+# Freecivは生きた人間と外交してこそ面白いゲームなのですが。
+#
+# 開発者も英語のnativeとは限らないので，原文自体がおかしい場合も散見されます。
+# 訳で補うか，本隊にフィードバックするか？
+#
+#
+# # 訳語おぼえがき：
+# （→以降はBelgaeの当てた訳です）
+#
+# "citizen governor" 旧称CMAで，原文もまだ混乱している。
+#                   「市民管理者」「知事」「市長」「地方長官」→「総督府」（ちょっとオーバーかも）
+# "fog of war" 「霧戦」; 「見えない」場所のユニットなどを表示しない機能のこと
+#              「FoW」とでもした方がよほど誤解がないかも→「戦場の霧」（定訳です）
+# "zone of control" 文脈により「ゾーンコントロール」または「コントロールゾーン」
+#                   これも無理せず「ZOC」とでもした方が良いかも→「ZOC」
+# "technology" "tech" "science" 「科学」と「技術」でぶれがある→technology「科学技術」science「科学」
+# "Seafaring"「航海」と "Navigation"「航海術」は紛らわしい
+#             "Sailing"という中間技術も提案されているが，いよいよ訳語が……
+# "worker" 「労働者」だが，ユニットと都市民の両方あるのが困りもの
+#          ユニットの方は「土方」「土木作業員」あたり
+# "Pollution" 「公害」; いくつかの文脈では「汚染」
+# "incident" 「事変」
+# "incite" 「煽動」
+# "revolt" 都市単位の「反逆」「叛乱」だが，
+#          時々revolution「革命」の意味でも使われている
+# "you" 外交の際の"you"は君主か国か？
+# "martial law" 「戦時法」; 「戒厳令」
+# "content" 「普通」／「満足している」→「平静」
+# "unit" 「部隊」と訳しているが，「ユニット」の方が無理がない→「ユニット」
+# "tile" 「マス」→「タイル」
+# "field unit" 「フィールド兵器」苦しまぎれ，訳語募集→「フィールドユニット」
+# "nation" 「民族」「国家」「国」「国民」「ナシオン」「ネイション」「人々」
+#          Freecivに限らぬ厄介な語です。翻訳的にも政治的にも。→基本的には「民族」
+# "airport"「空港」，"airbase"「飛行場」
+#
+# "shield"
+# ntaka
+# 場所によって，シールド，シールド生産物，生産，資源，，，
+# どう訳せばよい? (ここでは，都市の生産)
+# clefs ゲームでの機能を考えると，「鉱工業生産」とかかなあ
+#
+#
+# 句読法の統一が必要です。「!」か「！」か?？
+# 句点は「。」，読点は「，」
+#
+# 訳註は[]で示しています。
+#
+# これはFreecivに限った話でもありませんが，
+# "* " や "- " で始まる箇条書きは，日本語では表示の際に醜く改行されてしまう
+# 傾向にあるようです。(gettextの問題なのかな)
+#
+# Italian「イタリア人」，Italians「イタリア民族」のように訳し分けてありましたが，
+# Cubanを「キューバ人」とは言えてもCubansを「キューバ民族」とは言えない
+# といったケースも多いので，全て「〜人」に統一しました。
+# 日本語の「〜人」は民族・国名を曖昧に包括できるので便利というわけです。
+# 国民国家や民族というフィクションの限界というやつですね。
+# "…さぁ，やつらを地獄へ送ってやろうぜ!"
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:40+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"PO-Revision-Date: 2013-09-09 09:58+0300\n"
+"Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
+"Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
+#, fuzzy
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "  -h, --help\t\tオプションの一覧を表示する\n"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
+#, fuzzy
 msgid "Print the version number"
+msgstr "  -v, --version\t\tバージョン番号を表示する\n"
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "認識できないオプション: \"%s\"\n"
+
+# Daniel
+#: tools/ruledit/ruledit_qt.cpp:58
+#, fuzzy
+msgid "Freeciv ruleset editor"
+msgstr "Freeciv サーバ一覧"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:96
+#, c-format
+msgid "Needed by %s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:119
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:125
+#, fuzzy
+msgid "Start editing"
+msgstr "開始位置"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:137
+#, fuzzy
+msgid "Tech"
+msgstr "技術(_T)"
+
+# cf. http://www.freeciv.org/index.php/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
+# Should I try to translate "Freeciv"?
+# No, just leave it "Freeciv" wherever you find it.
+# (Also, note that the "c" in "Freeciv" is not capitalized.)
+#: tools/ruledit/ruledit_qt.cpp:146
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "Freecivについて"
+
+#: tools/ruledit/ruledit_qt.cpp:181
+#, fuzzy
+msgid "Ruleset loaded"
+msgstr "ルールセット"
+
+#: tools/ruledit/ruledit_qt.cpp:186
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:53
+#, fuzzy
+msgid "Ruleset name"
+msgstr "ルールセット"
+
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "ルールセット(_V):"
+
+# clefs
+#: tools/ruledit/tab_misc.cpp:63
+#, fuzzy
+msgid "Save to directory"
+msgstr "  -s, --saves DIR\tディレクトリDIRにゲームを保存する\n"
+
+# Daniel
+#: tools/ruledit/tab_misc.cpp:70
+#, fuzzy
+msgid "Save now"
+msgstr "シナリオの保存"
+
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "ルールセット"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "名前"
+
+# Daniel
+#: tools/ruledit/tab_tech.cpp:69
+#, fuzzy
+msgid "Rule Name"
+msgstr "プレイヤー名 :"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+#, fuzzy
+msgid "Remove this tech"
+msgstr "このプリセットを削除していいですか?"
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr "なし"
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:145
+msgid "Music Style"
 msgstr ""

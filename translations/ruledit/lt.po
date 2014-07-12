@@ -1,51 +1,144 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Andrius Štikonas <stikonas@gmail.com>, 2006-2009.
+# Mindaugas Šukys  <ateivis@gmail.com>, 2006-2007.
+# Tomas Kuliavas <tokul@users.sourceforge.net>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:41+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"PO-Revision-Date: 2010-10-11 20:07+0100\n"
+"Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
+"Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
+"%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
+#, fuzzy
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "  -h, --help\t\tAtspausdinti parinkčių santrauką\n"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
+#, fuzzy
 msgid "Print the version number"
+msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Neatpažintas parametras: „%s“\n"
+
+#: tools/ruledit/ruledit_qt.cpp:58
+#, fuzzy
+msgid "Freeciv ruleset editor"
+msgstr "Freeciv serverių sąrašas"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:96
+#, c-format
+msgid "Needed by %s"
 msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:119
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:125
+#, fuzzy
+msgid "Start editing"
+msgstr "Nuostatos, priklausomos nuo situacijos"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:137
+#, fuzzy
+msgid "Tech"
+msgstr "_Technologijos"
+
+#: tools/ruledit/ruledit_qt.cpp:146
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "Sveiki atvykę į Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:181
+#, fuzzy
+msgid "Ruleset loaded"
+msgstr "Dykuma"
+
+#: tools/ruledit/ruledit_qt.cpp:186
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:53
+#, fuzzy
+msgid "Ruleset name"
+msgstr "Dykuma"
+
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "(beta versija)"
+
+#: tools/ruledit/tab_misc.cpp:63
+#, fuzzy
+msgid "Save to directory"
+msgstr "Išsaugo žaidimą į failą."
+
+#: tools/ruledit/tab_misc.cpp:70
+#, fuzzy
+msgid "Save now"
+msgstr "Žaisti _scenarijų"
+
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "Dykuma"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Vardas"
+
+#: tools/ruledit/tab_tech.cpp:69
+#, fuzzy
+msgid "Rule Name"
+msgstr "Žaidėjo vardas :"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+#, fuzzy
+msgid "Remove this tech"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_tech.cpp:186
+msgid "Never"
+msgstr "Niekada"
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:145
+#, fuzzy
+msgid "Music Style"
+msgstr "Miesto stilius:"

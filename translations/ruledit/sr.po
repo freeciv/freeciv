@@ -1,51 +1,187 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Serbian translation of Freeciv 2.3.0
 #
-#, fuzzy
+# This file is distributed under the same license as the Freeciv package.
+# Copyright (c)  Goran Rakic <grakic@devbase.net>, 2008, 2009, 2011.
+#
+# Goran's original README:
+#
+#   This translation is work in progress. I did this for fun way back in
+#   2008 so there are a lot of fuzzy strings now as some text changed a
+#   little in new releases.
+#   
+#   While about 33% of messages are translated and 15% marked as fuzzy,
+#   this makes only for about 11% of all text. The help and longer
+#   messages are mostly not translated. I tried to prioritize the UI
+#   messages so the game can be played in local language.
+#   
+#   There are known errors in the translation. The translation is not
+#   reviewed, and some words are just wrong. It is also very hard to get
+#   plurals and cases right, and I do not have that much free time to play
+#   the game and fix all errors.
+#
+#   I am not working on this right now so while I may continue one
+#   time, think about this as non-maintained and be free to jump in!
+#
+# Коментари:
+#
+# буџетска расподела
+#   државни приход (Tax)
+#   јавна потрошња (Luxury)
+#   наука и развој (Science)
+#
+# Treasury  = ризница
+# Sentry    = приправност
+#
+# називи јединица су у мушком роду:
+#     авион, коњички пук, скијашки одред,...
+#
+# називи народа су:
+#   * присвојни придев (English: енглески): енглески авион,
+#     енглески престоница, вођа/народ енглески,...
+#   * генитив збирне именице (?plural:English: Енглеза):
+#     држава Енглеза, народ Енглеза, престоница Енглеза,...
+#
+# пажња (warning)
+# вест (notice)
+# десант (paradrop)
+# поље (tile)
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-24 01:51+0300\n"
-"PO-Revision-Date: 2013-10-29 04:43+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"PO-Revision-Date: 2013-09-09 10:00+0300\n"
+"Last-Translator: Goran Rakic <grakic@devbase.net>\n"
+"Language-Team: Serbian (sr) <gnu@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 :    n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: tools/ruledit/ruledit.c:126
+#: tools/ruledit/ruledit.cpp:102
+#, fuzzy
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "Председник конфедерације"
 
-#. TRANS: "source" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.c:129
-msgid "source RULESET"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:130
-msgid "Load given ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:131
-msgid "destination DIR"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:132
-msgid "Save ruleset to given directory"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:133
-msgid "name NAME"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:134
-msgid "Set name of the ruleset"
-msgstr ""
-
-#: tools/ruledit/ruledit.c:136
+#: tools/ruledit/ruledit.cpp:104
 msgid "Print the version number"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:118
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:58
+#, fuzzy
+msgid "Freeciv ruleset editor"
+msgstr "Листа Фрицив сервера"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:96
+#, c-format
+msgid "Needed by %s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:119
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:125
+#, fuzzy
+msgid "Start editing"
+msgstr "Започето"
+
+#: tools/ruledit/ruledit_qt.cpp:135
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:137
+#, fuzzy
+msgid "Tech"
+msgstr "_Сазнања"
+
+#: tools/ruledit/ruledit_qt.cpp:146
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "О Фрициву"
+
+#: tools/ruledit/ruledit_qt.cpp:181
+#, fuzzy
+msgid "Ruleset loaded"
+msgstr "Ослободи управљања"
+
+#: tools/ruledit/ruledit_qt.cpp:186
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:53
+#, fuzzy
+msgid "Ruleset name"
+msgstr "Ослободи управљања"
+
+#: tools/ruledit/tab_misc.cpp:58
+#, fuzzy
+msgid "Ruleset version"
+msgstr "Скуп _правила:"
+
+#: tools/ruledit/tab_misc.cpp:63
+msgid "Save to directory"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:70
+#, fuzzy
+msgid "Save now"
+msgstr "Сачувај причу"
+
+#: tools/ruledit/tab_misc.cpp:106
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "Ослободи управљања"
+
+#: tools/ruledit/tab_tech.cpp:61
+msgid "Name"
+msgstr "Име"
+
+#: tools/ruledit/tab_tech.cpp:69
+#, fuzzy
+msgid "Rule Name"
+msgstr "Име играча:"
+
+#: tools/ruledit/tab_tech.cpp:77
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:86
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:94
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:103
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+#, fuzzy
+msgid "Remove this tech"
+msgstr "Уклони поставку?"
+
+#: tools/ruledit/tab_tech.cpp:186
+#, fuzzy
+msgid "Never"
+msgstr "(никада)"
+
+#: tools/ruledit/validity.c:64
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:145
+msgid "Music Style"
 msgstr ""
