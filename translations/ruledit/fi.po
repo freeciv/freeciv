@@ -9,6 +9,9 @@
 # Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
 #
+# NOTE: Ruledit strings are independent from 2.4/2.5, no need to merge
+# from below.
+#
 # Merging translations upwards to e.g. TRUNK is fine, do not merge downwards 
 # by default.
 #
@@ -22,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
-"PO-Revision-Date: 2014-07-08 03:22+0300\n"
+"POT-Creation-Date: 2014-07-08 01:47+0300\n"
+"PO-Revision-Date: 2014-07-02 22:54+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -46,102 +49,90 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:58
-#, fuzzy
 msgid "Freeciv ruleset editor"
-msgstr "Freeciv-palvelinluettelo"
+msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
+# Todo: requested TRANS comment to clarify what this (needed by %s) is
+#: tools/ruledit/ruledit_qt.cpp:94
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "%s tarvitsee"
 
-#: tools/ruledit/ruledit_qt.cpp:119
+#: tools/ruledit/ruledit_qt.cpp:117
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Anna sääntökokoelma lähtökohdaksi."
 
-#: tools/ruledit/ruledit_qt.cpp:125
-#, fuzzy
+#: tools/ruledit/ruledit_qt.cpp:123
 msgid "Start editing"
-msgstr "Aloituspaikka"
+msgstr "Aloita muokkaus"
+
+#: tools/ruledit/ruledit_qt.cpp:133
+msgid "Misc"
+msgstr "Sekalaiset"
 
 #: tools/ruledit/ruledit_qt.cpp:135
-msgid "Misc"
-msgstr ""
-
-#: tools/ruledit/ruledit_qt.cpp:137
-#, fuzzy
 msgid "Tech"
-msgstr "_Teknologiat"
+msgstr "Teknologiat"
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:144
 msgid "Welcome to freeciv-ruledit"
-msgstr ""
+msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
 
-#: tools/ruledit/ruledit_qt.cpp:181
-#, fuzzy
+#: tools/ruledit/ruledit_qt.cpp:179
 msgid "Ruleset loaded"
-msgstr "sääntökokoelma"
+msgstr "Sääntökokoelma ladattu"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:184
 msgid "Ruleset loading failed!"
-msgstr ""
+msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
 #: tools/ruledit/tab_misc.cpp:53
-#, fuzzy
 msgid "Ruleset name"
-msgstr "sääntökokoelma"
+msgstr "Sääntökokoelman nimi"
 
 #: tools/ruledit/tab_misc.cpp:58
-#, fuzzy
 msgid "Ruleset version"
-msgstr "Sääntökokoelman _versio:"
+msgstr "Sääntökokoelman versio"
 
 #: tools/ruledit/tab_misc.cpp:63
-#, fuzzy
 msgid "Save to directory"
-msgstr "Tallenna pelit hakemistoon HAKEMISTO"
+msgstr "Tallenna hakemistoon"
 
 #: tools/ruledit/tab_misc.cpp:70
-#, fuzzy
 msgid "Save now"
-msgstr "Tallenna skenaario"
+msgstr "Tallenna nyt"
 
 #: tools/ruledit/tab_misc.cpp:106
-#, fuzzy
 msgid "Ruleset saved"
-msgstr "sääntökokoelma"
+msgstr "Sääntökokoelma tallennettu"
 
 #: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
 msgstr "Nimi"
 
 #: tools/ruledit/tab_tech.cpp:69
-#, fuzzy
 msgid "Rule Name"
-msgstr "Pelaajan nimi :"
+msgstr "Säännön nimi"
 
 #: tools/ruledit/tab_tech.cpp:77
 msgid "Req1"
-msgstr ""
+msgstr "Vaat1"
 
 #: tools/ruledit/tab_tech.cpp:86
 msgid "Req2"
-msgstr ""
+msgstr "Vaat2"
 
 #: tools/ruledit/tab_tech.cpp:94
 msgid "Root Req"
-msgstr ""
+msgstr "Juurivaat."
 
 #: tools/ruledit/tab_tech.cpp:103
 msgid "Add tech"
-msgstr ""
+msgstr "Lisää teknologia"
 
 #: tools/ruledit/tab_tech.cpp:107
-#, fuzzy
 msgid "Remove this tech"
-msgstr "Poistetaanko tämä malli?"
+msgstr "Poista tämä teknologia"
 
 #: tools/ruledit/tab_tech.cpp:186
 msgid "Never"
@@ -149,8 +140,8 @@ msgstr "Ei koskaan"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "Vaikutus"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
-msgstr ""
+msgstr "Musiikkityyli"
