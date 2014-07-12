@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 18:09+0100\n"
-"PO-Revision-Date: 2013-04-23 00:37+0100\n"
+"POT-Creation-Date: 2014-07-12 22:34+0100\n"
+"PO-Revision-Date: 2013-11-09 01:27+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
 "Language: gd\n"
@@ -689,6 +689,12 @@ msgid ""
 "long period in which the islands were contested between Sweden and Finland. "
 "Aland's special and demilitarized status is protected by international law."
 msgstr ""
+"Tha Åland 'na innis-mhuir sa Mhuir Bhaltach eadar an t-Suain agus an "
+"Fhionnlann. 'S e Suainis a bhruidhneas na daoine ann ach 's e mòr-roinn "
+"fhèin-riaghladh na Fionnlainn a tha ann an Åland. Fhuair e an inbhe seo ann "
+"an 1921 an dèidh ùine fhada a chòmhstri eadar an t-Suain agus an Fhionnlann. "
+"Tha inbhe shònraichte Åland mar raon neo-armaichte fo dhìon laghan eadar-"
+"nàiseanta."
 
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
@@ -2190,6 +2196,14 @@ msgid ""
 "legions but eventually succumbed to the Romans. The modern country of "
 "Belgium derives its name from the Belgae."
 msgstr ""
+"Bha na Belgae 'na threubh Ceilteach àrsaidh aig an robh còmhnaidh san àite a "
+"bhiodh 'na mhòr-roinn Ròmanach Gallia Belgica aig àm. Dh'fhaoidte gun robh "
+"tùs measgaichte aca eadar na Ceiltich is na Gearmailtich a chionn 's gun "
+"dàinig iad dhan Ghall o thaobh ear na Rèine ach 's e ainmean Ceilteach a "
+"bhiodh air na ceannardan aca. Thuirt Julius Caesar gur iad na Belgae na "
+"daoine a bu ghaisgeil sa Ghall. Thug iad aghaidh air na Ròmanaich ach b' "
+"fheudar dhaibh gèilleadh aig a' cheann thall. Tha ainm na Beilge mar a tha "
+"sinne eòlach air a' tighinn o ainm nam Belgae."
 
 #: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
 #: data/nation/helvetian.ruleset:29
@@ -2565,6 +2579,10 @@ msgid ""
 "Central Europe and Northern Italy. The names of both Bohemia and Bavaria "
 "probably derive from this people."
 msgstr ""
+"Bha na Boii 'na threubh Ceilteach àrsaidh no 'na chaidreachas threubhan aig "
+"an robh còmhnaidh ann am meadhan na Roinn-Eòrpa agus taobh tuath na h-"
+"Eadailte. Tha coltas gu bheil an dà chuid ainm Bohemia agus Bavaria a' "
+"tighinn on mhuinntir seo."
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
@@ -3269,6 +3287,14 @@ msgid ""
 "incorporated into Han Dynasty China. Cantonese is the second most spoken "
 "Chinese language after Mandarin."
 msgstr ""
+"Tha na Yuet 'nam muinntir Shìneach à mòr-roinn Gwóng Dūng ann an taobh a "
+"deas na Sìne 's tha faisg air 70 millean dhiubh ann. Tha iad ainmeil air an "
+"cuid ciùil agus bìdh agus tha iad pailt am measg nan coimhearsnachdan "
+"Sìneach air feadh an t-saoghail. Tha iad cuideachd 'nam mòr-chuid ann an "
+"Sgìre Rianachd Shònraichte Hong Kong agus Macàthu. Bha cuid mhòr de thaobh a "
+"deas na Sìne agus Bhiet-Nam fo smachd rìoghachd Nàahm Yuht san dàrna linn "
+"RC. Rinneadh pàirt de rìoghachd Han na Sìne dhith ann an 111 RC. 'S e i "
+"Cantonais an dàrna cànan Sìneach as cumanta an dèidh Mandarin."
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
@@ -4276,6 +4302,15 @@ msgid ""
 "Byzantines, Venetians and Ottoman Turks. After having been a semi-"
 "independent state for 15 years, Crete finally became part of Greece in 1913."
 msgstr ""
+"Tha Criti 'na eilean sa Mhuir Mheadhanach, am fear as motha de dh'eileanan "
+"na Grèige. Bha aon dhe na sìobhaltasan adhartach a bu sine san Roinn-Eòrpa "
+"eadar 3000 is 2000 RC air an eilean, cultar nam Minoanach. Nuair a spreadh "
+"beinn-teine faisg orra air eilean Thira, chaidh an cultar a sgriosadh. Bha "
+"Criti 'na phàirt dhen Ghreug an uairsin agus chaidh a cheannsachadh an "
+"uairsin leis na Ròmanaich, na h-Arabaich, na Biosantaich, na Venetianaich is "
+"na Turcaich Otamanach. An dèidh dha a bhith 'na stàit leth-eisimeileach fad "
+"15 bliadhna, chaidh Criti a dhèanamh 'na phàirt oifigeach na Grèige ann an "
+"1913."
 
 #: data/nation/crimeantatar.ruleset:3
 msgid "Crimean Tatar"
@@ -4444,6 +4479,11 @@ msgid ""
 "Union in 1948. Four years after the fall of communism it was split into the "
 "Czech and Slovak republics."
 msgstr ""
+"Chaidh an t-Seic-Slòbhaice a chur air chois ann an 1918. B' ise an aon "
+"deamocrasaidh ann an taobh an ear na Roinn-Eòrpa fad ùine fhada gus an deach "
+"a cheannsachadh leis na Nazithich ann an 1939 agus an Aonadh Sovietach ann "
+"an 1948. Ceithir bliadhna an dèidh tuiteam na a' cho-mhaoineis, chaidh a "
+"sgaradh ann am Poblachd na Seice is Poblachd na Slòbhaice."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -4556,6 +4596,10 @@ msgid ""
 "groups are the Afar and the Somalis. The country has one of the hottest "
 "climates in the world."
 msgstr ""
+"'S e Diobùtaidh aon dhe na dùthchannan as lugha ann an Afraga, air cladach "
+"Camas Aden. Fhuair i neo-eisimeileachd on Fhraing ann an 1977. 'S iad na h-"
+"Afar agus na Somàili na cinnidhean as motha ann. 'S e Diobùtaidh aon dhe na "
+"dùthchannan as teotha san t-saoghal."
 
 #: data/nation/dominicano.ruleset:3
 msgid "Dominicano"
@@ -5215,7 +5259,7 @@ msgstr "Muinntir nam Frankach"
 
 #: data/nation/frankish.ruleset:4
 msgid "?plural:Franks"
-msgstr "?plural:muinntir nam Frankach"
+msgstr "?plural:Muinntir nam Frankach"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -5276,11 +5320,11 @@ msgstr ""
 
 #: data/nation/friulian.ruleset:3
 msgid "Friulian"
-msgstr "muinntir Friuli"
+msgstr "Muinntir Friuli"
 
 #: data/nation/friulian.ruleset:4
 msgid "?plural:Friulian"
-msgstr "?plural:muinntir Friuli"
+msgstr "?plural:Muinntir Friuli"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -5293,11 +5337,11 @@ msgstr ""
 
 #: data/nation/fulani.ruleset:3
 msgid "Fulani"
-msgstr "muinntir Fulani"
+msgstr "Muinntir Fulani"
 
 #: data/nation/fulani.ruleset:4
 msgid "?plural:Fulani"
-msgstr "?plural:muinntir Fulani"
+msgstr "?plural:Muinntir Fulani"
 
 #: data/nation/fulani.ruleset:6
 msgid ""
@@ -5311,14 +5355,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gabonese.ruleset:3
-#, fuzzy
 msgid "Gabonese"
-msgstr "muinntir na Seapaine"
+msgstr "Muinntir Ghaboin"
 
 #: data/nation/gabonese.ruleset:4
-#, fuzzy
 msgid "?plural:Gabonese"
-msgstr "?plural:muinntir na Seapaine"
+msgstr "?plural:Muinntir Ghaboin"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -5386,7 +5428,6 @@ msgid "?plural:Gauls"
 msgstr "?plural:Muinntir na Gaille"
 
 #: data/nation/gallic.ruleset:6
-#, fuzzy
 msgid ""
 "The Gauls were a Celtic people occupying what is now France and Belgium. "
 "They lived in chiefdom-level societies that grew increasingly centralized "
@@ -5398,31 +5439,32 @@ msgid ""
 "Gergovia, but was later crushed by him at the battle of Alesia."
 msgstr ""
 "'S e sluagh Ceilteach a bha sna Gallaich agus bha iad a' fuireach far a "
-"bheil an Fhraing 's a' Bheilg an-diugh.  Dh'atharraich an sòisealtas o "
+"bheil an Fhraing 's a' Bheilg an-diugh. Dh'atharraich an sòisealtas o "
 "threubhan fo chinn-fheachd gu sòisealtas le riaghaltas meadhanaichte agus le "
 "fillidhean sòisealta fo bhuaidh nam marsantach is saighdearan Greugach is "
-"Ròmanach a thàinig dhan Ghall.  Bhris Iulius Caesar a-steach air a' Ghall "
-"ann am 59 RC agus mhair an iomairt ochd bliadhna.  Tha Caesar a' cumail a-"
-"mach gun do mharbh e millean duine agus gun do rinn e tràillean de mhillean "
-"eile a-mach à sluagh tùsail de thrì milleanan.  Thàinig na Gallaich còmhla "
-"fo cheannardas Vercingetorix a thug buaidh air Caesar aig Blàr Gergovia ach "
+"Ròmanach a thàinig dhan Ghall. Bhris Iulius Caesar a-steach air a' Ghall ann "
+"am 59 RC agus mhair an iomairt ochd bliadhna. Tha Caesar a' cumail a-mach "
+"gun do mharbh e millean duine agus gun do rinn e tràillean de mhillean eile "
+"a-mach à sluagh tùsail de thrì milleanan. Thàinig na Gallaich còmhla fo "
+"cheannardas Vercingetorix a thug buaidh air Caesar aig Blàr Gergovia ach "
 "chaidh an ruagadh gu tur às a dhèidh sin aig Blàr Alesia."
 
 #: data/nation/gambian.ruleset:3
-#, fuzzy
 msgid "Gambian"
-msgstr "muinntir Aimeireaga"
+msgstr "muinntir na Gaimbia"
 
 #: data/nation/gambian.ruleset:4
-#, fuzzy
 msgid "?plural:Gambians"
-msgstr "?plural:Borbaich"
+msgstr "?plural:Muinntir na Gaimbia"
 
 #: data/nation/gambian.ruleset:6
 msgid ""
 "The Gambia is a small country in West Africa, straddling both banks of the "
 "Gambia river. It achieved independence from the United Kingdom in 1965."
 msgstr ""
+"Tha a' Ghaimbia 'na dùthaich bheag ann an taobh an iar Afraga. Tha e a' "
+"leantainn dà bhruach abhainn Ghaimbia. Fhuair i neo-eisimeileachd on "
+"Rìoghachd Aonaichte ann an 1965."
 
 #: data/nation/gambian.ruleset:19 data/nation/malian.ruleset:20
 #: data/nation/senegalese.ruleset:19
@@ -5437,14 +5479,12 @@ msgid "?female:Mansa %s"
 msgstr "?female:Mansa %s"
 
 #: data/nation/genoese.ruleset:3
-#, fuzzy
 msgid "Genoese"
-msgstr "muinntir na Seapaine"
+msgstr "muinntir Genoa"
 
 #: data/nation/genoese.ruleset:4
-#, fuzzy
 msgid "?plural:Genoese"
-msgstr "?plural:Boer"
+msgstr "?plural:muinntir Genoa"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -5477,7 +5517,6 @@ msgid "?plural:Georgians"
 msgstr "?plural:Muinntir na Cairtbheile"
 
 #: data/nation/georgian.ruleset:6
-#, fuzzy
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s CE."
@@ -5536,14 +5575,12 @@ msgid "?female:Great Warrior %s"
 msgstr "?female:Bana-ghaisgeach Mhòr %s"
 
 #: data/nation/germanbelgian.ruleset:3
-#, fuzzy
 msgid "German Belgian"
-msgstr "Muinntir na Beilge"
+msgstr "Muinntir Ghearmailteach na Beilge"
 
 #: data/nation/germanbelgian.ruleset:4
-#, fuzzy
 msgid "?plural:German Belgians"
-msgstr "?plural:Muinntir na Beilge"
+msgstr "?plural:Muinntir Ghearmailteach na Beilge"
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -5559,14 +5596,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/germanic.ruleset:3
-#, fuzzy
 msgid "Germanic"
-msgstr "Muinntir na Gearmailte"
+msgstr "Muinntir na Gearmaine"
 
 #: data/nation/germanic.ruleset:4
-#, fuzzy
 msgid "?plural:Germanics"
-msgstr "?plural:Muinntir na Gearmailte"
+msgstr "?plural:Muinntir na Gearmaine"
 
 #: data/nation/germanic.ruleset:6
 msgid ""
@@ -5605,14 +5640,12 @@ msgstr ""
 "ann an 1957."
 
 #: data/nation/ghana.ruleset:3
-#, fuzzy
 msgid "Ghana"
-msgstr "Sìol-lann:"
+msgstr "Muinntir Ghàna"
 
 #: data/nation/ghana.ruleset:4
-#, fuzzy
 msgid "?plural:Ghana"
-msgstr "?plural:muinntir Afghanstàn"
+msgstr "?plural:Muinntir Ghàna"
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -5625,24 +5658,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Ghana %s"
-msgstr "_Gabh cluicheadair"
+msgstr "Gàna %s"
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ghana %s"
-msgstr "?female:Lehendakari"
+msgstr "?female:Gàna %s"
 
 #: data/nation/ghaznavid.ruleset:3
-#, fuzzy
 msgid "Ghaznavid"
-msgstr "?plural:muinntir Afghanstàn"
+msgstr "Muinntir Ghazna"
 
 #: data/nation/ghaznavid.ruleset:4
-#, fuzzy
 msgid "?plural:Ghaznavids"
-msgstr "?plural:muinntir Afghanstàn"
+msgstr "?plural:Muinntir Ghazna"
 
 #: data/nation/ghaznavid.ruleset:6
 msgid ""
@@ -5680,14 +5711,12 @@ msgstr ""
 "steipean Àisea eadar Abhainn Kuban san iar gu ruige Coirèa san ear."
 
 #: data/nation/goldenhorde.ruleset:3
-#, fuzzy
 msgid "Golden Horde"
-msgstr "Òr: %d"
+msgstr "Muinntir an t-Sluaigh Òir"
 
 #: data/nation/goldenhorde.ruleset:4
-#, fuzzy
 msgid "?plural:Golden Horde"
-msgstr "?plural:Boer"
+msgstr "?plural:Muinntir an t-Sluaigh Òir"
 
 #: data/nation/goldenhorde.ruleset:6
 msgid ""
@@ -5702,14 +5731,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gothic.ruleset:3
-#, fuzzy
 msgid "Gothic"
-msgstr "Fàs"
+msgstr "Muinntir nan Gothach"
 
 #: data/nation/gothic.ruleset:4
-#, fuzzy
 msgid "?plural:Goths"
-msgstr "?plural:Muinntir na h-Alba"
+msgstr "?plural:Muinntir nan Gothach"
 
 #: data/nation/gothic.ruleset:6
 msgid ""
@@ -5840,14 +5867,12 @@ msgstr ""
 "linne ann gus an deach aonta sìthe a shoidhneadh ann an 1996."
 
 #: data/nation/guinean.ruleset:3
-#, fuzzy
 msgid "Guinean"
-msgstr "?plural:muinntir an Ostair"
+msgstr "?plural:Muinntir Ghini"
 
 #: data/nation/guinean.ruleset:4
-#, fuzzy
 msgid "?plural:Guinean"
-msgstr "?plural:muinntir an Ostair"
+msgstr "?plural:Muinntir Ghini"
 
 #. TRANS: The second letter in "Sekou" and last in "Toure" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -5858,6 +5883,9 @@ msgid ""
 "Sekou Toure continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
+"Fhuair Gini neo-eisimeileachd on Fhraing ann an 1958. B' e Ahmed Sekou Toure "
+"a' chiad cheannard aice agus riaghlaich e an dùthaich gus an do chaochail e "
+"ann an 1984. Cha cho-ionnann Gini agus Gini-Bioso."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -5868,7 +5896,6 @@ msgid "?plural:Gupta"
 msgstr "?plural:Muinntir Gupta"
 
 #: data/nation/gupta.ruleset:7
-#, fuzzy
 msgid ""
 "The Gupta Empire was one of the great classical empires. It ruled northern "
 "India from around 240 to 550 CE."
@@ -6099,14 +6126,12 @@ msgstr ""
 "Otomanach ann an 1832."
 
 #: data/nation/helvetian.ruleset:3
-#, fuzzy
 msgid "Helvetian"
-msgstr "?plural:muinntir na Beilge"
+msgstr "?plural:Muinntir Helvetia"
 
 #: data/nation/helvetian.ruleset:4
-#, fuzzy
 msgid "?plural:Helvetians"
-msgstr "?plural:muinntir na Beilge"
+msgstr "?plural:Muinntir Helvetia"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -6126,14 +6151,12 @@ msgid "?female:High Druid %s"
 msgstr "?female:Àrd-bhana-draoidh %s"
 
 #: data/nation/hephthalite.ruleset:3
-#, fuzzy
 msgid "Hephthalite"
-msgstr "sàr aonad"
+msgstr "Muinntir Hephthalite"
 
 #: data/nation/hephthalite.ruleset:4
-#, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "?plural:muinntir Beangal"
+msgstr "?plural:Muinntir Hephthalite"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -6186,7 +6209,6 @@ msgid "?plural:Himyar"
 msgstr "?plural:Muinntir Mamlakat Ħimyâr"
 
 #: data/nation/himyarite.ruleset:7
-#, fuzzy
 msgid ""
 "The Himyar were originally a mountain tribe in what is now Yemen that "
 "conquered the other South Arabian kingdoms, including Sabaea in 115 BCE, "
@@ -6250,7 +6272,6 @@ msgid "?plural:Papal States"
 msgstr "?plural:Muinntir Stàitean a' Phàpa"
 
 #: data/nation/holysee.ruleset:6
-#, fuzzy
 msgid ""
 "The Papal States were the territories on the Italian Peninsula and elsewhere "
 "under the direct sovereign rule by the Roman Catholic popes. Established in "
@@ -6349,7 +6370,6 @@ msgid "?plural:Iberians"
 msgstr "?plural:Muinntir na h-Ìbeire"
 
 #: data/nation/iberian.ruleset:6
-#, fuzzy
 msgid ""
 "The Iberians were non-Indo-European inhabitants of the ancient Iberian "
 "Peninsula. Very little is known about their history. They were subjugated by "
@@ -6389,7 +6409,6 @@ msgid "?plural:Illyrians"
 msgstr "?plural:Muinntir Illyria"
 
 #: data/nation/illyrian.ruleset:6
-#, fuzzy
 msgid ""
 "Illyrians were Indo-European tribes who appeared in the western part of the "
 "Balkan Peninsula before 1000 BCE, including Corcyra island and Ambracia bay "
@@ -6406,14 +6425,12 @@ msgstr ""
 "Ròimhe."
 
 #: data/nation/indoeuropean.ruleset:3
-#, fuzzy
 msgid "Indo-European"
-msgstr "Muinntir na Roinn-Eòrpa"
+msgstr "Muinntir nan Innd-Eòrpach"
 
 #: data/nation/indoeuropean.ruleset:4
-#, fuzzy
 msgid "?plural:Indo-Europeans"
-msgstr "?plural:Muinntir na Roinn-Eòrpa"
+msgstr "?plural:Muinntir nan Innd-Eòrpach"
 
 #: data/nation/indoeuropean.ruleset:6
 msgid ""
@@ -6530,16 +6547,20 @@ msgid ""
 "cantons in British Palestine, and has gradually expanded through winning "
 "wars in 1948, 1967 and 1973."
 msgstr ""
+"Chaidh nàisean muinntir Iosrael a chur air bhonn ann an 1948 mar badan "
+"sgapte de sgìrean ann am Palastain Bhreatainn agus chaidh a leudachadh mean "
+"air mhean 's i a' toirt buaidh ann an grunn chogaidhean ann an 1948, 1967 "
+"agus 1973."
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Kibbutznik %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kibbutznik %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -6552,14 +6573,12 @@ msgid "?female:Rabbi %s"
 msgstr "?female:Rabaidh %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "sàr aonad"
+msgstr "Muinntir Iosrael"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "?plural:muinntir na h-Èireann"
+msgstr "?plural:Muinntir Iosrael"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -6633,14 +6652,12 @@ msgstr ""
 "ach dh'èirich cogadh catharra ann an 2000."
 
 #: data/nation/jaffna.ruleset:3
-#, fuzzy
 msgid "Jaffna"
-msgstr "san Fhaoilleach"
+msgstr "Muinntir Jaffna"
 
 #: data/nation/jaffna.ruleset:4
-#, fuzzy
 msgid "?plural:Jaffnas"
-msgstr "?plural:muinntir na Seapaine"
+msgstr "?plural:Muinntir Jaffna"
 
 #: data/nation/jaffna.ruleset:7
 msgid ""
@@ -6654,7 +6671,6 @@ msgid "Jamaican"
 msgstr "Muinntir Dhiameuga"
 
 #: data/nation/jamaican.ruleset:4
-#, fuzzy
 msgid "?plural:Jamaicans"
 msgstr "?plural:Muinntir Dhiameuga"
 
@@ -6719,14 +6735,12 @@ msgstr ""
 "ri Ioslam mar thoradh air droch ghean ris na h-Eòrpaich."
 
 #: data/nation/jordanian.ruleset:3
-#, fuzzy
 msgid "Jordanian"
-msgstr "?plural:muinntir Bosna-Hearsagobhana"
+msgstr "?plural:Muinntir Iòrdain"
 
 #: data/nation/jordanian.ruleset:4
-#, fuzzy
 msgid "?plural:Jordanian"
-msgstr "?plural:muinntir Bosna-Hearsagobhana"
+msgstr "?plural:Muinntir Iòrdain"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -6778,14 +6792,12 @@ msgstr ""
 "dhen mhalairt a bha a' dol tron fhàsach Sathara."
 
 #: data/nation/karabakhi.ruleset:3
-#, fuzzy
 msgid "Karabakhi"
-msgstr "?plural:Borbaich"
+msgstr "?plural:Muinntir Karabakh"
 
 #: data/nation/karabakhi.ruleset:4
-#, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "?plural:Borbaich"
+msgstr "?plural:Muinntir Karabakh"
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -6819,14 +6831,12 @@ msgstr ""
 "àm seo. Tha dàimh dhlùth aca ris na Fionnlannaich."
 
 #: data/nation/karen.ruleset:3
-#, fuzzy
 msgid "Karen"
-msgstr "Ainneamh"
+msgstr "Muinntir Karen"
 
 #: data/nation/karen.ruleset:4
-#, fuzzy
 msgid "?plural:Karens"
-msgstr "?plural:muinntir na Breatainne Bige"
+msgstr "?plural:Muinntir Karen"
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -6857,14 +6867,12 @@ msgstr ""
 "cultaran Hindu, Tibeiteach agus Ioslamach a' co-measgachadh ann."
 
 #: data/nation/kashubian.ruleset:3
-#, fuzzy
 msgid "Kashubian"
-msgstr "?plural:Borbaich"
+msgstr "?plural:Muinntir Kashubia"
 
 #: data/nation/kashubian.ruleset:4
-#, fuzzy
 msgid "?plural:Kashubians"
-msgstr "?plural:Borbaich"
+msgstr "?plural:Muinntir Kashubia"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -6879,14 +6887,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/katangan.ruleset:3
-#, fuzzy
 msgid "Katangan"
-msgstr "Khatan"
+msgstr "Muinntir Katanga"
 
 #: data/nation/katangan.ruleset:4
-#, fuzzy
 msgid "?plural:Katangans"
-msgstr "?plural:muinntir Babhairea"
+msgstr "?plural:Muinntir Katanga"
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -7020,14 +7026,12 @@ msgid "?female:Satrap %s"
 msgstr "?female:Satrap %s"
 
 #: data/nation/kiribati.ruleset:3
-#, fuzzy
 msgid "Kiribati"
-msgstr "?plural:muinntir na h-Èireann"
+msgstr "?plural:Muinntir Chiribeas"
 
 #: data/nation/kiribati.ruleset:4
-#, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "?plural:muinntir na h-Èireann"
+msgstr "?plural:Muinntir Chiribeas"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -7042,12 +7046,11 @@ msgstr ""
 
 #: data/nation/kittitian.ruleset:3
 msgid "Kittitian and Nevisian"
-msgstr ""
+msgstr "Muinntir Naomh Chrìstein agus Nibheis"
 
 #: data/nation/kittitian.ruleset:4
-#, fuzzy
 msgid "?plural:Kittitians and Nevisians"
-msgstr "?plural:muinntir Bhabaloin"
+msgstr "?plural:Muinntir Naomh Chrìstein agus Nibheis"
 
 #: data/nation/kittitian.ruleset:6
 msgid ""
@@ -7083,7 +7086,6 @@ msgid "?plural:Kongo"
 msgstr "?plural:Muinntir Chongo"
 
 #: data/nation/kongo.ruleset:7
-#, fuzzy
 msgid ""
 "This Kingdom, lasting from roughly 1400 CE until the late 19th century, "
 "existed in the present-day countries of Angola and the Democratic Republic "
@@ -7116,14 +7118,12 @@ msgstr ""
 "chan eil gach dùthaich ag aithneachadh neo-eisimeileachd na Cosobho."
 
 #: data/nation/kuna.ruleset:3
-#, fuzzy
 msgid "Kuna"
-msgstr "Tundra"
+msgstr "Kuna"
 
 #: data/nation/kuna.ruleset:4
-#, fuzzy
 msgid "?plural:Kunas"
-msgstr "?plural:muinntir Cùrdastain"
+msgstr "?plural:muinntir Kuna"
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -7175,7 +7175,7 @@ msgstr "Muinntir nan Ashanti"
 #: data/nation/kushan.ruleset:4
 #, fuzzy
 msgid "?plural:Kushans"
-msgstr "?plural:muinntir Cùrdastain"
+msgstr "?plural:muinntir Kuna"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7196,14 +7196,12 @@ msgid "Guru %s"
 msgstr "Guru %s"
 
 #: data/nation/kuwaiti.ruleset:3
-#, fuzzy
 msgid "Kuwaiti"
-msgstr "a' fuireach"
+msgstr "Muinntir Cuibhèit"
 
 #: data/nation/kuwaiti.ruleset:4
-#, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "?plural:muinntir Hawai'i"
+msgstr "?plural:Muinntir Cuibhèit"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -7267,7 +7265,6 @@ msgid "?plural:Lankese"
 msgstr "?plural:Muinntir Lanca"
 
 #: data/nation/lankese.ruleset:6
-#, fuzzy
 msgid ""
 "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India, during "
 "the 6th century BCE and founded the Sinhalese kingdom there. During British "
@@ -7316,14 +7313,12 @@ msgstr ""
 "gu malairt phrìobhaideach mean air mhean."
 
 #: data/nation/latin.ruleset:3
-#, fuzzy
 msgid "Latin"
-msgstr "Muinntir Làthos"
+msgstr "Muinntir Laideann"
 
 #: data/nation/latin.ruleset:4
-#, fuzzy
 msgid "?plural:Latins"
-msgstr "?plural:Muinntir Làthos"
+msgstr "?plural:Muinntir Laideann"
 
 #: data/nation/latin.ruleset:6
 msgid ""
@@ -7424,14 +7419,12 @@ msgstr ""
 "León aig an àm seo."
 
 #: data/nation/lesothoan.ruleset:3
-#, fuzzy
 msgid "Lesothoan"
-msgstr "muinntir an Ostair"
+msgstr "Muinntir Leasoto"
 
 #: data/nation/lesothoan.ruleset:4
-#, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "?plural:muinntir na Breatainne Bige"
+msgstr "?plural:Muinntir Leasoto"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -7444,14 +7437,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liberian.ruleset:3
-#, fuzzy
 msgid "Liberian"
-msgstr "muinntir Aildirea"
+msgstr "Muinntir na Libèire"
 
 #: data/nation/liberian.ruleset:4
-#, fuzzy
 msgid "?plural:Liberians"
-msgstr "?plural:muinntir Aildirea"
+msgstr "?plural:Muinntir na Libèire"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -7467,14 +7458,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "muinntir Aildirea"
+msgstr "Muinntir Liburnia"
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "?plural:muinntir na h-Airmeine"
+msgstr "?plural:Muinntir Liburnia"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -7528,12 +7517,12 @@ msgstr ""
 #: data/nation/ligurian.ruleset:3
 #, fuzzy
 msgid "Ligurian"
-msgstr "muinntir Aildirea"
+msgstr "Muinntir na Libèire"
 
 #: data/nation/ligurian.ruleset:4
 #, fuzzy
 msgid "?plural:Ligurians"
-msgstr "?plural:muinntir na h-Airmeine"
+msgstr "?plural:Muinntir Liburnia"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7543,14 +7532,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Paramount Ruler %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Riaghlaiche %s a tha cudromach thar càich"
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "?female:Prìomh Mhinistear"
+msgstr "?female:Riaghlaiche %s a tha cudromach thar càich"
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
@@ -7576,20 +7565,20 @@ msgstr ""
 "diugh."
 
 #: data/nation/lippe.ruleset:3
-#, fuzzy
 msgid "Lippian"
-msgstr "muinntir Aildirea"
+msgstr "Muinntir na Lippe"
 
 #: data/nation/lippe.ruleset:4
-#, fuzzy
 msgid "?plural:Lippians"
-msgstr "?plural:muinntir Hawai'i"
+msgstr "?plural:Muinntir na Lippe"
 
 #: data/nation/lippe.ruleset:6
 msgid ""
 "Lippe was a historical state in Germany. It was located between the Weser "
 "River and the southeast part of the Teutoburg forest."
 msgstr ""
+"Bha an Lippe 'na stàit eachdraidheil sa Ghearmailt. Bha e eadar abhainn "
+"Weser agus ear-dheas na Coille Teutoburg."
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -7656,14 +7645,12 @@ msgstr ""
 "dhith ann an 1766."
 
 #: data/nation/luwian.ruleset:3
-#, fuzzy
 msgid "Luwian"
-msgstr "muinntir Aildirea"
+msgstr "Muinntir Luwia"
 
 #: data/nation/luwian.ruleset:4
-#, fuzzy
 msgid "?plural:Luwians"
-msgstr "?plural:Muinntir Libia"
+msgstr "?plural:Muinntir Luwia"
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -7699,7 +7686,7 @@ msgstr ""
 #: data/nation/lycian.ruleset:4
 #, fuzzy
 msgid "?plural:Lycians"
-msgstr "?plural:Muinntir Libia"
+msgstr "?plural:Muinntir Luwia"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -7755,7 +7742,6 @@ msgid "?plural:Macedons"
 msgstr "?plural:Muinntir na Masadoine"
 
 #: data/nation/macedon.ruleset:6
-#, fuzzy
 msgid ""
 "The Kingdom of Macedonia was located in the southern Balkans. Under "
 "Alexander the Great it became one of the most powerful states in the world "
@@ -7786,7 +7772,6 @@ msgid "?plural:Majapahit"
 msgstr "?plural:Muinntir Majapahit"
 
 #: data/nation/majapahit.ruleset:7
-#, fuzzy
 msgid ""
 "This empire began in 1293 CE when a local prince used invading Yuan dynasty "
 "troops to his own advantage by having them defeat his enemies and then "
@@ -7872,14 +7857,12 @@ msgstr ""
 "tràth san 14mh linn."
 
 #: data/nation/maldivian.ruleset:3
-#, fuzzy
 msgid "Maldivian"
-msgstr "?plural:muinntir Babhairea"
+msgstr "Muinntir nam Maladaibh"
 
 #: data/nation/maldivian.ruleset:4
-#, fuzzy
 msgid "?plural:Maldivians"
-msgstr "?plural:muinntir Babhairea"
+msgstr "?plural:Muinntir nam Maladaibh"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -7917,7 +7900,6 @@ msgid "?plural:Maltese"
 msgstr "?plural:Muinntir Mhalta"
 
 #: data/nation/maltese.ruleset:6
-#, fuzzy
 msgid ""
 "Malta was first settled around 5200 BCE. Over the centuries, the islands "
 "have been ruled by the Phoenicians, Romans, Fatimids, Sicilians, Knights "
@@ -7942,14 +7924,12 @@ msgid "Mistress %s"
 msgstr "Bana-mhaighstir %s"
 
 #: data/nation/mamluk.ruleset:3
-#, fuzzy
 msgid "Mamluk"
-msgstr "Malka"
+msgstr "Muinntir Mamluk"
 
 #: data/nation/mamluk.ruleset:4
-#, fuzzy
 msgid "?plural:Mamluks"
-msgstr "?plural:muinntir Dùthaich nam Basgach"
+msgstr "?plural:Muinntir Mamluk"
 
 #: data/nation/mamluk.ruleset:6
 msgid ""
@@ -7963,16 +7943,16 @@ msgstr ""
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "%s Pasha"
-msgstr "Ionad %s"
+msgstr "Paşa %s"
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Pasha"
-msgstr "?female:Taoiseach"
+msgstr "?female:Paşa %s"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -8002,7 +7982,6 @@ msgid "?plural:Manx"
 msgstr "?plural:Muinntir Mhanainn"
 
 #: data/nation/manx.ruleset:6
-#, fuzzy
 msgid ""
 "The Isle of Man is an island in the British Isles located between Britain "
 "and Ireland. Formally not a part of United Kingdom, it is a self-governing "
@@ -8073,14 +8052,12 @@ msgstr ""
 "ceannsachadh."
 
 #: data/nation/marathi.ruleset:3
-#, fuzzy
 msgid "Marathi"
-msgstr "Muinntir a' Chuirg"
+msgstr "Muinntir Marathi"
 
 #: data/nation/marathi.ruleset:4
-#, fuzzy
 msgid "?plural:Marathis"
-msgstr "?plural:Muinntir a' Chuirg"
+msgstr "?plural:Muinntir Marathi"
 
 #: data/nation/marathi.ruleset:6
 msgid ""
@@ -8091,14 +8068,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/marathi.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "High Brahmin %s"
-msgstr "Àrd Rìgh %s"
+msgstr "Àrd Brāhmaṇa %s"
 
 #: data/nation/marathi.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Brahmin %s"
-msgstr "?female:Buruzagi"
+msgstr "?female:Àrd Brāhmaṇa %s"
 
 #: data/nation/marshallese.ruleset:3
 #, fuzzy
@@ -8128,21 +8105,18 @@ msgid "?plural:Martians"
 msgstr "?plural:Muinntir a' Chuirg"
 
 #: data/nation/martian.ruleset:6
-#, fuzzy
 msgid "Marsmen landed on Earth in 4000 BCE!"
 msgstr ""
 "Laigh daoine on Chorg, air a bheil Mars cuideachd, air an talamh ann an 4000 "
 "RC!"
 
 #: data/nation/mauritanian.ruleset:3
-#, fuzzy
 msgid "Mauritanian"
-msgstr "An Sgrìobhadh"
+msgstr "Muinntir Mhoratàinea"
 
 #: data/nation/mauritanian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritanians"
-msgstr "?plural:Borbaich"
+msgstr "?plural:Muinntir Mhoratàinea"
 
 #: data/nation/mauritanian.ruleset:6
 msgid ""
@@ -8153,14 +8127,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mauritian.ruleset:3
-#, fuzzy
 msgid "Mauritian"
-msgstr "An Sgrìobhadh"
+msgstr "Muinntir Mhoiriseas"
 
 #: data/nation/mauritian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritians"
-msgstr "?plural:muinntir an Ostair"
+msgstr "?plural:Muinntir Mhoiriseas"
 
 #: data/nation/mauritian.ruleset:6
 msgid ""
@@ -8217,14 +8189,12 @@ msgstr ""
 "an iar de Mecklenburg-Vorpommern sa Ghearmailt an-diugh."
 
 #: data/nation/median.ruleset:3
-#, fuzzy
 msgid "Median"
-msgstr "Muinntir Lendia"
+msgstr "Muinntir Media"
 
 #: data/nation/median.ruleset:4
-#, fuzzy
 msgid "?plural:Medians"
-msgstr "?plural:Muinntir Lendia"
+msgstr "?plural:Muinntir Media"
 
 #: data/nation/median.ruleset:6
 msgid ""
@@ -8237,19 +8207,17 @@ msgid ""
 msgstr ""
 
 #: data/nation/median.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shahanshah"
-msgstr "%s Šahbānū"
+msgstr "Šāhān-šāh %s"
 
 #: data/nation/messapian.ruleset:3
-#, fuzzy
 msgid "Messapian"
-msgstr "Muinntir Hessen"
+msgstr "Muinntir Messapia"
 
 #: data/nation/messapian.ruleset:4
-#, fuzzy
 msgid "?plural:Messapians"
-msgstr "?plural:Muinntir Hessen"
+msgstr "?plural:Muinntir Messapia"
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -8333,7 +8301,6 @@ msgid "?plural:Miao"
 msgstr "?plural:Muinntir nam Miao"
 
 #: data/nation/miao.ruleset:6
-#, fuzzy
 msgid ""
 "According to Chinese legend, the Yellow Emperor of Huaxia battled and "
 "defeated Chi You, leader of the Nine Li tribe, at the Battle of Zhuolu in "
@@ -8440,14 +8407,12 @@ msgstr ""
 "1894."
 
 #: data/nation/mitanni.ruleset:3
-#, fuzzy
 msgid "Mitanni"
-msgstr "?plural:Ainu"
+msgstr "Muinntir Mitanni"
 
 #: data/nation/mitanni.ruleset:4
-#, fuzzy
 msgid "?plural:Mitanni"
-msgstr "?plural:Ainu"
+msgstr "?plural:Muinntir Mitanni"
 
 #: data/nation/mitanni.ruleset:6
 msgid ""
@@ -8468,7 +8433,6 @@ msgstr "?plural:Muinntir nam Mixtec"
 #. TRANS: U+00D1 LATIN CAPITAL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/mixtec.ruleset:9
-#, fuzzy
 msgid ""
 "The Mixtecs or Nuu Savi were one of the major Mesoamerican civilizations. "
 "The Mixtec territory was formed by a large number of city states. The Mixtec "
@@ -8572,14 +8536,12 @@ msgid "?female:Minister of State %s"
 msgstr "?female:Ministear na Stàite %s"
 
 #: data/nation/mon.ruleset:3
-#, fuzzy
 msgid "Mon"
-msgstr "M thunnaichean"
+msgstr "Mon"
 
 #: data/nation/mon.ruleset:4
-#, fuzzy
 msgid "?plural:Mons"
-msgstr "?plural:muinntir na Breatainne Bige"
+msgstr "?plural:Mon"
 
 #: data/nation/mon.ruleset:6
 msgid ""
@@ -8661,7 +8623,6 @@ msgid "?plural:Moroccans"
 msgstr "?plural:Muinntir Mhoroco"
 
 #: data/nation/moroccan.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Morocco gained independence in 1956. However, the area has been "
 "inhabited since at least 8000 BCE. In classical times the region was known "
@@ -8775,14 +8736,14 @@ msgstr ""
 "aramach às dèidh 1541 agus chaidh an cànan aca bàs san 18mh linn."
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Cacique %s"
-msgstr "?female:Taoiseach"
+msgstr "Cacique %s"
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Cacique %s"
-msgstr "?female:Taoiseach"
+msgstr "?female:Cacique %s"
 
 #: data/nation/namibian.ruleset:3
 msgid "Namibian"
@@ -8875,14 +8836,12 @@ msgstr ""
 "dèidh linn Napoleon."
 
 #: data/nation/nenets.ruleset:3
-#, fuzzy
 msgid "Nenets"
-msgstr "Chan eil gin"
+msgstr "Nenets"
 
 #: data/nation/nenets.ruleset:4
-#, fuzzy
 msgid "?plural:Nenets"
-msgstr "?plural:muinntir na Breatainne Bige"
+msgstr "?plural:Nenets"
 
 #: data/nation/nenets.ruleset:6
 msgid ""
@@ -8951,7 +8910,6 @@ msgid "?plural:Newfoundlanders"
 msgstr "?plural:Muinntir Talamh an Èisg"
 
 #: data/nation/newfoundland.ruleset:7
-#, fuzzy
 msgid ""
 "In precolumbian times Newfoundland and Labrador were settled by the Beothuk, "
 "though around 1000 CE for a short time Vikings also settled there. From the "
@@ -9183,7 +9141,6 @@ msgid "?plural:Norwegians"
 msgstr "?plural:Muinntir Nirribhidh"
 
 #: data/nation/norwegian.ruleset:6
-#, fuzzy
 msgid ""
 "After centuries of Danish rule, the Norwegians made their own constitution "
 "in Eidsvoll, 1814 CE. Finally, in 1905 CE the Norwegians got their "
@@ -9219,7 +9176,6 @@ msgid "?plural:Nubians"
 msgstr "?plural:Muinntir Nubia"
 
 #: data/nation/nubian.ruleset:6
-#, fuzzy
 msgid ""
 "A succession of kingdoms stretching roughly from the 1st to the 6th "
 "cataracts of the Nile river in modern Sudan and Egypt, Nubia was ancient "
@@ -9475,7 +9431,6 @@ msgid "?plural:Ossetians"
 msgstr "?plural:Muinntir Ossetia"
 
 #: data/nation/ossetian.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Ossetians are the successors of the Alans of Ancient history, who "
 "fled into the mountains during the Hunnic invasions. Around 800 CE an Alanic "
@@ -9721,7 +9676,6 @@ msgid "?plural:Palmyrenes"
 msgstr "?plural:Muinntir Palmyra"
 
 #: data/nation/palmyrene.ruleset:6
-#, fuzzy
 msgid ""
 "Palmyra was a breakaway Roman state in Asia governed by queen Zenobia. In "
 "273 CE Aurelian brought it back under Roman control."
@@ -10119,7 +10073,6 @@ msgstr "?plural:Muinntir nam P'urhepecha"
 #. TRANS: 00E1 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is E1.
 #: data/nation/purhepecha.ruleset:10
-#, fuzzy
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
 "of Michoacan, the heart of a former empire known to them as Irechikua "
@@ -10586,7 +10539,6 @@ msgid "?plural:Sammarinese"
 msgstr "?plural:Muinntir San Marino"
 
 #: data/nation/sammarinese.ruleset:6
-#, fuzzy
 msgid ""
 "San Marino is a tiny landlocked country on the Italian Peninsula. It is the "
 "oldest independent republic in the world. According to legend, it was "
@@ -10866,7 +10818,6 @@ msgid "?plural:Scottish Gaels"
 msgstr "?plural:Gàidheil na h-Alba"
 
 #: data/nation/scottishgaelic.ruleset:6
-#, fuzzy
 msgid ""
 "Both Gaels and the Gaelic language were brought to Scotland by the Dalriada "
 "dynasty from Ireland. They first settled in Argyll (Earra Ghaidheal or the "
@@ -10919,7 +10870,6 @@ msgid "?plural:Scots"
 msgstr "?plural:Muinntir na h-Alba"
 
 #: data/nation/scottish.ruleset:6
-#, fuzzy
 msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034 CE "
@@ -10939,7 +10889,6 @@ msgid "?plural:Scythians"
 msgstr "?plural:Muinntir Scythia"
 
 #: data/nation/scythian.ruleset:6
-#, fuzzy
 msgid ""
 "The Scythians or Scyths were an Ancient Iranian people of horse-riding "
 "nomadic pastoralists who throughout Classical Antiquity dominated the Pontic-"
@@ -10970,7 +10919,6 @@ msgid "?plural:Seleucids"
 msgstr "?plural:Muinntir Seleucia"
 
 #: data/nation/seleucid.ruleset:6
-#, fuzzy
 msgid ""
 "The Seleucid Empire was one of the diadochi states founded when Alexander "
 "the Great's generals carved up his empire after his death. It was named "
@@ -11628,7 +11576,6 @@ msgid "?plural:Sri Vijaya"
 msgstr "?plural:Muinntir Sri Vijaya"
 
 #: data/nation/srivijaya.ruleset:7
-#, fuzzy
 msgid ""
 "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and "
 "extended its control through much of the coastal regions of Sumatra, Java, "
@@ -11841,7 +11788,6 @@ msgid "?plural:Tairona"
 msgstr "?plural:Muinntir nan Tairona"
 
 #: data/nation/tairona.ruleset:7
-#, fuzzy
 msgid ""
 "A Chibchan-speaking people related to the Kuna of Panama and the Muisca of "
 "central Colombia, the Tairona inhabit the modern Magdalena and La Guajira "
@@ -12239,7 +12185,6 @@ msgid "?plural:Tongans"
 msgstr "?plural:Muinntir Thonga"
 
 #: data/nation/tongan.ruleset:6
-#, fuzzy
 msgid ""
 "An island group in the Southern Pacific, Tonga was settled by Polynesians "
 "around 1000 BCE. Although the islands became a British protectorate in the "
@@ -12363,7 +12308,6 @@ msgid "?plural:Tunisians"
 msgstr "?plural:Muinntir Thuinisea"
 
 #: data/nation/tunisian.ruleset:6
-#, fuzzy
 msgid ""
 "The Phoenicians founded Carthage in the area where Tunisia is today. "
 "Carthage later became a major power in the Mediterranean region until it was "
@@ -12414,7 +12358,6 @@ msgid "?plural:Turkmens"
 msgstr "?plural:Muinntir Thurcmanastàn"
 
 #: data/nation/turkmen.ruleset:6
-#, fuzzy
 msgid ""
 "Turkmen tribes were first united in the 11th century CE under Togrul Beg, "
 "second ruler of the Seljuk Empire. As the Seljuk state broke down under the "
@@ -12538,7 +12481,6 @@ msgid "?plural:Ukrainians"
 msgstr "?plural:Muinntir na h-Ucràine"
 
 #: data/nation/ukrainian.ruleset:6
-#, fuzzy
 msgid ""
 "Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
@@ -12619,7 +12561,6 @@ msgid "?plural:Uyghurs"
 msgstr "?plural:Muinntir nan Ùigiurach"
 
 #: data/nation/uyghur.ruleset:6
-#, fuzzy
 msgid ""
 "Uyghur was an east Turk empire and civilization. At its height in 820 CE it "
 "controlled most of Central and North Asia. After clashing with the Chinese "
@@ -12677,7 +12618,6 @@ msgid "?plural:Vandals"
 msgstr "?plural:Muinntir nam Vandalach"
 
 #: data/nation/vandalic.ruleset:6
-#, fuzzy
 msgid ""
 "The Vandals were an East Germanic people originating from what is now "
 "Southern Poland and Slovakia. They entered the Roman Empire in the early 5th "
@@ -12882,7 +12822,6 @@ msgid "?plural:Vietnamese"
 msgstr "?plural:Muinntir Bhiet-Nam"
 
 #: data/nation/vietnamese.ruleset:6
-#, fuzzy
 msgid ""
 "The Vietnamese nation was founded in the first century CE by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
@@ -12926,7 +12865,6 @@ msgid "?plural:Visigoths"
 msgstr "?plural:Muinntir nan Iar-Ghothach"
 
 #: data/nation/visigothic.ruleset:6
-#, fuzzy
 msgid ""
 "The Thervingi or Visigoths were an East Germanic people, one of the two "
 "tribes of the Goths. They probably originated from Scandinavia. In the 3rd "
@@ -13125,7 +13063,6 @@ msgid "?plural:West Romans"
 msgstr "?plural:Muinntir na Ròimhe an Iar"
 
 #: data/nation/westernroman.ruleset:6
-#, fuzzy
 msgid ""
 "The Roman Empire was first divided by Diocletian in 286 and split for good "
 "upon Theodosius' death in 395. Unlike its Eastern counterpart, the Byzantine "
