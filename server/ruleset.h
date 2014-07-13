@@ -67,6 +67,9 @@ char *get_script_buffer(void);
 
 #define RS_DEFAULT_TECH_UPKEEP_STYLE     "None"
 
+#define RS_DEFAULT_CULTURE_VIC_POINTS    1000
+#define RS_DEFAULT_CULTURE_VIC_LEAD      300
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1966,8 +1966,8 @@ static struct setting settings[] = {
                  "Alpha Centauri.\n"
                  "- \"Allied\" (ALLIED): After defeating enemies, all remaining "
                  "players are allied.\n"
-                 "- \"Culture\" (CULTURE): Player has at least 1000 points of culture, "
-                 "and thrice that of next one"),
+                 "- \"Culture\" (CULTURE): Player meets ruleset defined cultural "
+                 "domination criteria.\n"),
               NULL, NULL, victory_conditions_name, GAME_DEFAULT_VICTORY_CONDITIONS)
 
   GEN_BOOL("endspaceship", game.server.endspaceship, SSET_RULES_FLEXIBLE,

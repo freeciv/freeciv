@@ -301,6 +301,13 @@ tech_upkeep_style = "None"
 ; "Cheapest" - Cheapest researchable tech, random among equal cost ones
 free_tech_method = "Random"
 
+[culture]
+; Minimum culture points for cultural domination victory
+victory_min_points = 1000
+
+; Lead needed relative to second best player
+victory_lead_pct   = 300
+
 [calendar]
 ; Year 1 instead of 0.
 skip_year_0 = TRUE

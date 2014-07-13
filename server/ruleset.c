@@ -5135,6 +5135,14 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   }
 
   if (ok) {
+    /* section: culture */
+    game.info.culture_vic_points
+      = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_VIC_POINTS,
+                                   "culture.victory_min_points");
+    game.info.culture_vic_lead
+      = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_VIC_LEAD,
+                                   "culture.victory_lead_pct");
+
     /* section: calendar */
     game.info.calendar_skip_0
       = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,

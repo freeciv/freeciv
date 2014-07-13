@@ -808,6 +808,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile, free_tech_method_name(game.info.free_tech_method),
                      "research.free_tech_method");
 
+  save_default_int(sfile, game.info.culture_vic_points,
+                   RS_DEFAULT_CULTURE_VIC_POINTS,
+                   "culture.victory_min_points", NULL);
+  save_default_int(sfile, game.info.culture_vic_lead,
+                   RS_DEFAULT_CULTURE_VIC_LEAD,
+                   "culture.victory_lead_pct", NULL);
+
   save_default_bool(sfile, game.info.calendar_skip_0,
                     RS_DEFAULT_CALENDAR_SKIP_0,
                     "calendar.skip_year_0", NULL);

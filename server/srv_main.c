@@ -515,7 +515,8 @@ bool check_for_game_over(void)
       }
     } players_iterate_end;
 
-    if (best != NULL && best_value >= 1000 && best_value > second_value * 3) {
+    if (best != NULL && best_value >= game.info.culture_vic_points
+        && best_value > second_value * game.info.culture_vic_lead / 100) {
       notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                   _("Game ended in cultural domination victory for %s."),
                   player_name(best));
