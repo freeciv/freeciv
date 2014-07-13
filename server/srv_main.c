@@ -2689,7 +2689,7 @@ static void srv_ready(void)
           && game.info.is_new_game)) {
     int i;
     bool retry_ok = (map.server.seed == 0 && map.server.generator != MAPGEN_SCENARIO);
-    int max = retry_ok ? 2 : 1;
+    int max = retry_ok ? 3 : 1;
     bool created = FALSE;
     struct unit_type *utype = NULL;
     int sucount = strlen(game.server.start_units);
@@ -2702,10 +2702,16 @@ static void srv_ready(void)
 
     for (i = 0; !created && i < max ; i++) {
       created = map_fractal_generate(TRUE, utype);
-      if (!created && retry_ok) {
-        if (i == 0 && max > 1) {
+      if (!created && max > 1) {
+        if (i == 0) {
           /* We will retry only if max attempts allow it */
-          log_error(_("Failed to create suitable map, retrying with another mapseed"));
+          log_normal(_("Failed to create suitable map, retrying with another mapseed."));
+        } else {
+          /* +1 - start human readable count from 1 and not from 0
+           * +1 - refers to next round, not to one we just did
+           * ==
+           * +2 */
+          log_normal(_("Attempt %d/%d"), i + 2, max);
         }
         /* Reset mapseed so generator knows to use new one */
         map.server.seed = 0;
