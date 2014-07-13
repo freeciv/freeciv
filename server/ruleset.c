@@ -4856,13 +4856,12 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                            RS_MAX_UPGRADE_VETERAN_LOSS,
                                            "civstyle.autoupgrade_veteran_loss");
 
-    /* TODO: move to new section research */
     game.info.base_tech_cost
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_BASE_TECH_COST,
                                            RS_MIN_BASE_TECH_COST,
                                            RS_MAX_BASE_TECH_COST,
-                                           "civstyle.base_tech_cost");
+                                           "research.base_tech_cost");
 
     food_ini = secfile_lookup_int_vec(file, &gni_tmp,
                                       "civstyle.granary_food_ini");
@@ -4938,26 +4937,6 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                            RS_MIN_GOLD_UPKEEP_STYLE,
                                            RS_MAX_GOLD_UPKEEP_STYLE,
                                            "civstyle.gold_upkeep_style");
-
-    /* TODO: move to new section research */
-    game.info.tech_cost_style
-      = secfile_lookup_int_default_min_max(file,
-                                           RS_DEFAULT_TECH_COST_STYLE,
-                                           RS_MIN_TECH_COST_STYLE,
-                                           RS_MAX_TECH_COST_STYLE,
-                                           "civstyle.tech_cost_style");
-    /* TODO: move to new section research */
-    game.info.tech_leakage
-      = secfile_lookup_int_default_min_max(file,
-                                           RS_DEFAULT_TECH_LEAKAGE,
-                                           RS_MIN_TECH_LEAKAGE,
-                                           RS_MAX_TECH_LEAKAGE,
-                                           "civstyle.tech_leakage");
-    if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
-      log_error("Only tech_leakage 0 supported with tech_cost_style 0.");
-      log_error("Switching to tech_leakage 0.");
-      game.info.tech_leakage = 0;
-    }
 
     /* section: illness */
     game.info.illness_on
@@ -5101,6 +5080,30 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                            "borders.size_effect");
 
     /* section: research */
+    game.info.tech_cost_style
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_TECH_COST_STYLE,
+                                           RS_MIN_TECH_COST_STYLE,
+                                           RS_MAX_TECH_COST_STYLE,
+                                           "research.tech_cost_style");
+    game.info.tech_leakage
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_TECH_LEAKAGE,
+                                           RS_MIN_TECH_LEAKAGE,
+                                           RS_MAX_TECH_LEAKAGE,
+                                           "research.tech_leakage");
+    if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
+      log_error("Only tech_leakage 0 supported with tech_cost_style 0.");
+      log_error("Switching to tech_leakage 0.");
+      game.info.tech_leakage = 0;
+    }
+    game.info.base_tech_cost
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_BASE_TECH_COST,
+                                           RS_MIN_BASE_TECH_COST,
+                                           RS_MAX_BASE_TECH_COST,
+                                           "research.base_tech_cost");
+
     tus_text = secfile_lookup_str_default(file, RS_DEFAULT_TECH_UPKEEP_STYLE,
                                           "research.tech_upkeep_style");
 

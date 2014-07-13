@@ -708,9 +708,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.server.autoupgrade_veteran_loss,
                    RS_DEFAULT_UPGRADE_VETERAN_LOSS,
                    "civstyle.autoupgrade_veteran_loss", NULL);
-  save_default_int(sfile, game.info.base_tech_cost,
-                   RS_DEFAULT_BASE_TECH_COST,
-                   "civstyle.base_tech_cost", NULL);
 
   secfile_insert_int_vec(sfile, game.info.granary_food_ini,
                          game.info.granary_num_inis,
@@ -741,12 +738,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.gold_upkeep_style,
                    RS_DEFAULT_GOLD_UPKEEP_STYLE,
                    "civstyle.gold_upkeep_style", NULL);
-  save_default_int(sfile, game.info.tech_cost_style,
-                   RS_DEFAULT_TECH_COST_STYLE,
-                   "civstyle.tech_cost_style", NULL);
-  save_default_int(sfile, game.info.tech_leakage,
-                   RS_DEFAULT_TECH_LEAKAGE,
-                   "civstyle.tech_leakage", NULL);
   save_default_bool(sfile, game.info.illness_on,
                     RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", NULL);
@@ -800,6 +791,15 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.border_size_effect,
                    RS_DEFAULT_BORDER_SIZE_EFFECT,
                    "borders.size_effect", NULL);
+  save_default_int(sfile, game.info.tech_cost_style,
+                   RS_DEFAULT_TECH_COST_STYLE,
+                   "research.tech_cost_style", NULL);
+  save_default_int(sfile, game.info.base_tech_cost,
+                   RS_DEFAULT_BASE_TECH_COST,
+                   "research.base_tech_cost", NULL);
+  save_default_int(sfile, game.info.tech_leakage,
+                   RS_DEFAULT_TECH_LEAKAGE,
+                   "research.tech_leakage", NULL);
   secfile_insert_str(sfile, tech_upkeep_style_name(game.info.tech_upkeep_style),
                      "research.tech_upkeep_style");
   save_default_int(sfile, game.info.tech_upkeep_divider,
