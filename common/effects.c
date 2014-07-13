@@ -112,7 +112,10 @@ static struct {
   struct {
     /* This cache shows for each building, which effects it provides. */
     struct effect_list *buildings[B_LAST];
+    /* Same for governments */
     struct effect_list *govs[G_MAGIC];
+    /* ...advances... */
+    struct effect_list *advances[A_LAST];
   } reqs;
 } ruleset_cache;
 
@@ -146,6 +149,12 @@ struct effect_list *get_req_source_effects(struct universal *psource)
   case VUT_IMPROVEMENT:
     if (value >= 0 && value < improvement_count()) {
       return ruleset_cache.reqs.buildings[value];
+    } else {
+      return NULL;
+    }
+  case VUT_ADVANCE:
+    if (value >= 0 && value < advance_count()) {
+      return ruleset_cache.reqs.advances[value];
     } else {
       return NULL;
     }
@@ -210,6 +219,9 @@ void ruleset_cache_init(void)
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.govs); i++) {
     ruleset_cache.reqs.govs[i] = effect_list_new();
   }
+  for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.advances); i++) {
+    ruleset_cache.reqs.advances[i] = effect_list_new();
+  }
 }
 
 /**************************************************************************
@@ -254,6 +266,15 @@ void ruleset_cache_free(void)
     if (plist) {
       effect_list_destroy(plist);
       ruleset_cache.reqs.govs[i] = NULL;
+    }
+  }
+
+  for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.advances); i++) {
+    struct effect_list *plist = ruleset_cache.reqs.advances[i];
+
+    if (plist) {
+      effect_list_destroy(plist);
+      ruleset_cache.reqs.advances[i] = NULL;
     }
   }
 
