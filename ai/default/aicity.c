@@ -316,7 +316,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   if (city_data->choice.want != 0) {
     ASSERT_CHOICE(city_data->choice);
 
-    CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
+    CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire " ADV_WANT_PRINTF ".",
 	     dai_choice_rule_name(&city_data->choice),
 	     city_data->choice.want);
     
@@ -575,7 +575,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
                 && assess_defense(ait, pcity) == 0)
             || (bestchoice.want > 200 && city_data->urgency > 1))) {
       /* Buy stuff */
-      CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
+      CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want " ADV_WANT_PRINTF ")",
                dai_choice_rule_name(&bestchoice),
                buycost,
                bestchoice.want);
@@ -1713,7 +1713,7 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
   city_list_iterate(pplayer->cities, pcity) {
     improvement_iterate(pimprove) {
       if (pcity->server.adv->building_want[improvement_index(pimprove)] != 0) {
-        CITY_LOG(LOG_DEBUG, pcity, "want to build %s with %d", 
+        CITY_LOG(LOG_DEBUG, pcity, "want to build %s with " ADV_WANT_PRINTF, 
                  improvement_rule_name(pimprove),
                  pcity->server.adv->building_want[improvement_index(pimprove)]);
       }

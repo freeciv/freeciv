@@ -19,6 +19,9 @@
 /* common */
 #include "fc_types.h"
 
+/* server/advisors */
+#include "advtools.h"
+
 struct player;
 
 enum winning_strategy {
@@ -89,7 +92,7 @@ struct ai_plr
   struct ai_settler *settler;
 
   /* The units of tech_want seem to be shields */
-  int tech_want[A_LAST+1];
+  adv_want tech_want[A_LAST+1];
 };
 
 void dai_data_init(struct ai_type *ait, struct player *pplayer);

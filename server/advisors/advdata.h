@@ -21,6 +21,9 @@
 #include "fc_types.h"
 #include "improvement.h"
 
+/* server/advisors */
+#include "advtools.h"
+
 /* 
  * This file and advdata.c contains global data structures for the AI
  * and some of the functions that fill them with useful values at the 
@@ -143,8 +146,8 @@ enum choice_type {
 struct adv_choice {
   enum choice_type type;
   universals_u value; /* what the advisor wants */
-  int want;              /* how much it wants it (0-100) */
-  bool need_boat;        /* unit being built wants a boat */
+  adv_want want;      /* how much it wants it */
+  bool need_boat;     /* unit being built wants a boat */
 };
 
 void adv_data_init(struct player *pplayer);

@@ -42,10 +42,10 @@
 #include "aitech.h"
 
 struct ai_tech_choice {
-  Tech_type_id choice;   /* The id of the most needed tech */
-  int want;              /* Want of the most needed tech */
-  int current_want;      /* Want of the tech which is currently researched 
-			  * or is our current goal */
+  Tech_type_id choice;        /* The id of the most needed tech */
+  adv_want want;              /* Want of the most needed tech */
+  adv_want current_want;      /* Want of the tech which is currently researched 
+                               * or is our current goal */
 };
 
 /**************************************************************************
@@ -136,7 +136,7 @@ static void dai_select_tech(struct ai_type *ait,
        * it's supposed to be doing; it just looks strange. -- Syela */
       goal_values[i] /= steps;
       if (steps < 6) {
-        log_debug("%s: want = %d, value = %d, goal_value = %d",
+        log_debug("%s: want = " ADV_WANT_PRINTF ", value = %d, goal_value = %d",
                   advance_rule_name(advance_by_number(i)),
                   plr_data->tech_want[i],
                   values[i], goal_values[i]);
@@ -179,7 +179,7 @@ static void dai_select_tech(struct ai_type *ait,
     goal->want = goal_values[newgoal] / num_cities_nonzero;
     goal->current_want = (goal_values[presearch->tech_goal]
                           / num_cities_nonzero);
-    log_debug("Goal->choice = %s, goal->want = %d, goal_value = %d, "
+    log_debug("Goal->choice = %s, goal->want = " ADV_WANT_PRINTF ", goal_value = %d, "
               "num_cities_nonzero = %d",
               research_advance_rule_name(presearch, goal->choice),
               goal->want,
@@ -234,7 +234,8 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
   /* It worked, in particular, because the value it sets (research->tech_goal)
    * is practically never used, see the comment for ai_next_tech_goal */
   if (goal.choice != research->tech_goal) {
-    log_debug("%s change goal from %s (want=%d) to %s (want=%d)",
+    log_debug("%s change goal from %s (want=" ADV_WANT_PRINTF
+              ") to %s (want=" ADV_WANT_PRINTF ")",
               player_name(pplayer),
               research_advance_rule_name(research, research->tech_goal),
               goal.current_want,

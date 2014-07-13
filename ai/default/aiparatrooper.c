@@ -407,7 +407,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
     tech_req = requirements[i];
     plr_data->tech_want[tech_req] += 2;
     log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
-             "stimulating %s with %d (%d) and req",
+             "stimulating %s with %d (" ADV_WANT_PRINTF ") and req",
              city_name(pcity),
              player_name(pplayer),
              advance_rule_name(advance_by_number(tech_req)),

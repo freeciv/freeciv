@@ -13,6 +13,9 @@
 #ifndef FC__INFRACACHE_H
 #define FC__INFRACACHE_H
 
+/* server/advisors */
+#include "advtools.h"
+
 struct player;
 
 struct adv_city {
@@ -26,7 +29,7 @@ struct adv_city {
    * (shields/gold/luxuries) multiplied by a priority
    * (SHIELD_WEIGHTING, etc or ai->shields_priority, etc)
    */
-  int building_want[B_LAST];
+  adv_want building_want[B_LAST];
 
   int downtown;                 /* distance from neighbours, for locating
                                    wonders wisely */

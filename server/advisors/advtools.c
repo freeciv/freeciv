@@ -26,7 +26,7 @@
 
   This is based on a global interest rate as defined by the MORT value.
 **************************************************************************/
-int amortize(int benefit, int delay)
+adv_want amortize(adv_want benefit, int delay)
 {
   double discount = 1.0 - 1.0 / ((double)MORT);
 

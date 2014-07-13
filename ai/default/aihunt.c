@@ -148,7 +148,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
                                     struct city *pcity,
                                     struct adv_choice *choice)
 {
-  int best = -1;
+  adv_want best = -1;
   struct unit_type *best_unit_type = NULL;
   struct unit *hunter = NULL;
 
@@ -201,20 +201,21 @@ static void dai_hunter_missile_want(struct player *pplayer,
 		       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
-        best = desire;
-        best_unit_type = ut;
+      best = desire;
+      best_unit_type = ut;
     }
   } unit_type_iterate_end;
 
   if (best > choice->want) {
-    CITY_LOG(LOGLEVEL_HUNT, pcity, "pri missile w/ want %d", best);
+    CITY_LOG(LOGLEVEL_HUNT, pcity,
+             "pri missile w/ want " ADV_WANT_PRINTF, best);
     choice->value.utype = best_unit_type;
     choice->want = best;
     choice->type = CT_ATTACKER;
     choice->need_boat = FALSE;
-  } else if (best != -1) {
-    CITY_LOG(LOGLEVEL_HUNT, pcity, "not pri missile w/ want %d"
-             "(old want %d)", best, choice->want);
+  } else if (best >= 0) {
+    CITY_LOG(LOGLEVEL_HUNT, pcity, "not pri missile w/ want " ADV_WANT_PRINTF
+             "(old want " ADV_WANT_PRINTF ")", best, choice->want);
   }
 }
 

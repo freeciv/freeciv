@@ -424,7 +424,7 @@ void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer)
   This algorithm is very strange. But I created it by nesting up
   Syela's convoluted if ... else logic, and it seems to work. -- Per
 ***********************************************************************/
-static void dai_reevaluate_building(struct city *pcity, int *value, 
+static void dai_reevaluate_building(struct city *pcity, adv_want *value, 
                                     unsigned int urgency, unsigned int danger, 
                                     int defense)
 {
@@ -958,7 +958,8 @@ static void process_attacker_want(struct ai_type *ait,
             || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */) {
       /* Values to be computed */
-      int desire, want;
+      int desire;
+      adv_want want;
       int move_time;
       int vuln;
       int veteran_level = get_target_bonus_effects(NULL,
@@ -1098,7 +1099,7 @@ static void process_attacker_want(struct ai_type *ait,
           plr_data->tech_want[advance_index(punittype->require_advance)]
             += want;
           TECH_LOG(ait, LOG_DEBUG, pplayer, punittype->require_advance,
-                   "+ %d for %s vs %s(%d,%d)",
+                   "+ " ADV_WANT_PRINTF " for %s vs %s(%d,%d)",
                    want,
                    utype_rule_name(punittype),
                    (acity ? city_name(acity) : utype_rule_name(victim_unit_type)),
@@ -1109,7 +1110,8 @@ static void process_attacker_want(struct ai_type *ait,
           if (can_city_build_unit_now(pcity, punittype)) {
             /* This is a real unit and we really want it */
 
-            CITY_LOG(LOG_DEBUG, pcity, "overriding %s(%d) with %s(%d)"
+            CITY_LOG(LOG_DEBUG, pcity, "overriding %s(" ADV_WANT_PRINTF
+                     ") with %s(" ADV_WANT_PRINTF ")"
                      " [attack=%d,value=%d,move_time=%d,vuln=%d,bcost=%d]",
                      utype_rule_name(best_choice->value.utype),
 		     best_choice->want,
@@ -1297,7 +1299,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     /* We want attacker more than what we have selected before */
     copy_if_better_choice(&best_choice, choice);
     CITY_LOG(LOG_DEBUG, pcity, "kill_something_with()"
-	     " %s has chosen attacker, %s, want=%d",
+	     " %s has chosen attacker, %s, want=" ADV_WANT_PRINTF,
 	     city_name(pcity),
 	     utype_rule_name(best_choice.value.utype),
 	     best_choice.want);
@@ -1313,7 +1315,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
         log_debug("kill_something_with() %s has chosen attacker ferry, "
-                  "%s, want=%d, %d of %d free",
+                  "%s, want=" ADV_WANT_PRINTF ", %d of %d free",
                   city_name(pcity),
                   utype_rule_name(choice->value.utype),
                   choice->want,
@@ -1479,7 +1481,7 @@ void military_advisor_choose_build(struct ai_type *ait,
         choice->want = 100 + danger;
         build_walls = FALSE;
 
-        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants first defender with %d",
+        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants first defender with " ADV_WANT_PRINTF,
                  choice->want);
       }
     }
@@ -1509,7 +1511,8 @@ void military_advisor_choose_build(struct ai_type *ait,
           choice->want = 100;
         }
         choice->type = CT_BUILDING;
-        CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants defense building with %d",
+        CITY_LOG(LOG_DEBUG, pcity,
+                 "m_a_c_d wants defense building with " ADV_WANT_PRINTF,
                  choice->want);
       } else if (danger > 0 && num_defenders <= urgency) {
         /* Consider building defensive units */
@@ -1530,7 +1533,7 @@ void military_advisor_choose_build(struct ai_type *ait,
 
           choice->want += martial_value;
 
-          CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire %d",
+          CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire " ADV_WANT_PRINTF,
                    utype_rule_name(choice->value.utype),
                    choice->want);
         } else {
@@ -1560,7 +1563,8 @@ void military_advisor_choose_build(struct ai_type *ait,
      too general. In many cases we will want to buy attackers to counterattack.
      -- Per */
   if (choice->want - martial_value > 100 && city_data->grave_danger > 0) {
-    CITY_LOG(LOGLEVEL_BUILD, pcity, "severe danger (want %d), force defender",
+    CITY_LOG(LOGLEVEL_BUILD, pcity,
+             "severe danger (want " ADV_WANT_PRINTF "), force defender",
              choice->want);
     return;
   }
@@ -1609,7 +1613,8 @@ void military_advisor_choose_build(struct ai_type *ait,
   if (choice->want <= 0) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor has no advice");
   } else {
-    CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
+    CITY_LOG(LOGLEVEL_BUILD, pcity,
+             "military advisor choice: %s (want " ADV_WANT_PRINTF ")",
              dai_choice_rule_name(choice),
              choice->want);
   }
