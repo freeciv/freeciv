@@ -19,6 +19,24 @@ options="+Freeciv-2.4-ruleset"
 ; Cheating AI effects are in separate file
 *include "default/ai_effects.ruleset"
 
+[effect_barbarian_waste]
+name    = "Output_Waste_Pct"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Nation", "Barbarian", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_pirate_waste]
+name    = "Output_Waste_Pct"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Nation", "Pirate", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
 [effect_unhappysize]
 name    = "City_Unhappy_Size"
 value   = 4
