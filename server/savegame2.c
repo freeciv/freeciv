@@ -310,13 +310,13 @@ static void savegame2_load_real(struct section_file *file);
 static void savegame2_save_real(struct section_file *file,
                                 const char *save_reason,
                                 bool scenario);
-struct loaddata *loaddata_new(struct section_file *file);
-void loaddata_destroy(struct loaddata *loading);
+static struct loaddata *loaddata_new(struct section_file *file);
+static void loaddata_destroy(struct loaddata *loading);
 
-struct savedata *savedata_new(struct section_file *file,
-                              const char *save_reason,
-                              bool scenario);
-void savedata_destroy(struct savedata *saving);
+static struct savedata *savedata_new(struct section_file *file,
+                                     const char *save_reason,
+                                     bool scenario);
+static void savedata_destroy(struct savedata *saving);
 
 static enum unit_orders char2order(char order);
 static char order2char(enum unit_orders order);
@@ -623,7 +623,7 @@ static void savegame2_save_real(struct section_file *file,
 /****************************************************************************
   Create new loaddata item for given section file.
 ****************************************************************************/
-struct loaddata *loaddata_new(struct section_file *file)
+static struct loaddata *loaddata_new(struct section_file *file)
 {
   struct loaddata *loading = calloc(1, sizeof(*loading));
   loading->file = file;
@@ -654,7 +654,7 @@ struct loaddata *loaddata_new(struct section_file *file)
 /****************************************************************************
   Free resources allocated for loaddata item.
 ****************************************************************************/
-void loaddata_destroy(struct loaddata *loading)
+static void loaddata_destroy(struct loaddata *loading)
 {
   if (loading->improvement.order != NULL) {
     free(loading->improvement.order);
@@ -694,9 +694,9 @@ void loaddata_destroy(struct loaddata *loading)
 /****************************************************************************
   Create new savedata item for given file.
 ****************************************************************************/
-struct savedata *savedata_new(struct section_file *file,
-                              const char *save_reason,
-                              bool scenario)
+static struct savedata *savedata_new(struct section_file *file,
+                                     const char *save_reason,
+                                     bool scenario)
 {
   struct savedata *saving = calloc(1, sizeof(*saving));
   saving->file = file;
@@ -713,7 +713,7 @@ struct savedata *savedata_new(struct section_file *file,
 /****************************************************************************
   Free resources allocated for savedata item
 ****************************************************************************/
-void savedata_destroy(struct savedata *saving)
+static void savedata_destroy(struct savedata *saving)
 {
   free(saving);
 }
