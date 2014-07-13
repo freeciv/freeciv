@@ -663,9 +663,14 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
                                            params)) {
           continue;
         }
-        /* We evalue actions as constant single move for getting straightest
-         * paths. */
-        cost = SINGLE_MOVE;
+        /* action move cost depends on action and unit type. */
+        if (node1->action == PF_ACTION_ATTACK
+            && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+                || uclass_has_flag(utype_class(params->utype), UCF_MISSILE))) {
+          cost = params->move_rate;
+        } else {
+          cost = SINGLE_MOVE;
+        }
       } else if (node1->node_known_type == TILE_UNKNOWN) {
         cost = params->utype->unknown_move_cost;
       } else {
@@ -1519,9 +1524,15 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
                                              node1->action, params)) {
             continue;
           }
-          /* We evalue actions as constant single move for getting
-           * straightest paths. */
-          cost = SINGLE_MOVE;
+          /* action move cost depends on action and unit type. */
+          if (node1->action == PF_ACTION_ATTACK
+              && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+                  || uclass_has_flag(utype_class(params->utype),
+                                     UCF_MISSILE))) {
+            cost = params->move_rate;
+          } else {
+            cost = SINGLE_MOVE;
+          }
         } else if (node1->node_known_type == TILE_UNKNOWN) {
           cost = params->utype->unknown_move_cost;
         } else {
@@ -2671,9 +2682,15 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
                                              node1->action, params)) {
             continue;
           }
-          /* We evalue actions as constant single move for getting
-           * straightest paths. */
-          cost = SINGLE_MOVE;
+          /* action move cost depends on action and unit type. */
+          if (node1->action == PF_ACTION_ATTACK
+              && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+                  || uclass_has_flag(utype_class(params->utype),
+                                     UCF_MISSILE))) {
+            cost = params->move_rate;
+          } else {
+            cost = SINGLE_MOVE;
+          }
         } else if (node1->node_known_type == TILE_UNKNOWN) {
           cost = params->utype->unknown_move_cost;
         } else {
