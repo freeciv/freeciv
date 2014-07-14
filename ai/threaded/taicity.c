@@ -105,9 +105,6 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
 
     road_type_iterate(proad) {
       int value;
-      int old_move_cost;
-      int mc_multiplier = 1;
-      int mc_divisor = 1;
       int extra;
 
       if (!player_can_build_road(proad, pplayer, ptile)) {
@@ -115,31 +112,41 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
       }
 
       value = adv_city_worker_road_get(pcity, cindex, proad);
-      old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
 
-      road_type_iterate(pold) {
-        if (tile_has_road(ptile, pold)) {
-          if (pold->move_mode != RMM_NO_BONUS
-              && pold->move_cost < old_move_cost) {
-            old_move_cost = pold->move_cost;
+      if (proad->move_mode != RMM_NO_BONUS) {
+        int old_move_cost;
+        int mc_multiplier = 1;
+        int mc_divisor = 1;
+        old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
+
+        road_type_iterate(pold) {
+          if (tile_has_road(ptile, pold)) {
+            if (pold->move_mode != RMM_NO_BONUS
+                && pold->move_cost < old_move_cost) {
+              old_move_cost = pold->move_cost;
+            }
           }
-        }
-      } road_type_iterate_end;
+        } road_type_iterate_end;
 
-      if (proad->move_cost < old_move_cost) {
-        if (proad->move_cost >= terrain_control.move_fragments) {
-          mc_divisor = proad->move_cost / terrain_control.move_fragments;
-        } else {
-          if (proad->move_cost == 0) {
-            mc_multiplier = 2;
+        if (proad->move_cost < old_move_cost) {
+          if (proad->move_cost >= terrain_control.move_fragments) {
+            mc_divisor = proad->move_cost / terrain_control.move_fragments;
           } else {
-            mc_multiplier = 1 - proad->move_cost;
+            if (proad->move_cost == 0) {
+              mc_multiplier = 2;
+            } else {
+              mc_multiplier = 1 - proad->move_cost;
+            }
+            mc_multiplier += old_move_cost;
           }
-          mc_multiplier += old_move_cost;
         }
+
+        extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
+
+      } else {
+        extra = 0;
       }
 
-      extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
       value += extra;
 
       if (value - orig_value > task.want) {
