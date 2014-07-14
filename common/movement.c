@@ -318,7 +318,20 @@ bool is_native_move(const struct unit_class *punitclass,
   } else if (!is_native_tile_to_class(punitclass, src_tile)) {
     /* Disembarking or leaving port, so ignore road connectivity. */
     return TRUE;
+  } else if (is_native_to_class(punitclass, tile_terrain(src_tile), none)) {
+    /* Native source terrain depends entirely on destination tile nativity. */
+    return is_native_tile_to_class(punitclass, dst_tile);
   }
+
+  /* Check for non-road native extras on the source tile. */
+  extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
+    if (tile_has_extra(src_tile, pextra)
+        && !is_extra_caused_by(pextra, EC_ROAD)
+        && is_native_tile_to_class(punitclass, dst_tile)) {
+      /* If there is one, and the destination is native, the move is native. */
+      return TRUE;
+    }
+  } extra_type_list_iterate_end;
 
   extra_type_list_iterate(punitclass->cache.native_tile_extras, pextra) {
     if (!tile_has_extra(dst_tile, pextra)) {
