@@ -351,7 +351,7 @@ bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
 bool unit_being_aggressive(const struct unit *punit);
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 
-bool is_build_activity(enum unit_activity activity, struct tile *ptile);
+bool is_build_activity(enum unit_activity activity, const struct tile *ptile);
 bool is_clean_activity(enum unit_activity activity);
 bool is_tile_activity(enum unit_activity activity);
 

@@ -1001,6 +1001,37 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
 
+  if (target == NULL) {
+    /* TODO: Make sure that all callers set target so that
+     * we don't need these fallbacks. */
+    if (activity == ACTIVITY_IRRIGATE && pterrain->irrigation_result == pterrain) {
+      target = next_extra_for_tile(unit_tile(punit),
+                                   EC_IRRIGATION,
+                                   unit_owner(punit),
+                                   punit);
+    } else if (activity == ACTIVITY_MINE && pterrain->mining_result == pterrain) {
+      target = next_extra_for_tile(unit_tile(punit),
+                                   EC_MINE,
+                                   unit_owner(punit),
+                                   punit);
+    }
+  }
+
+  /* Check that no build activity conflicting with one already in progress
+   * gets executed. */
+  /* FIXME: Should check also the cases where one of the activities is terrain
+   *        change that destroyes the target of the other activity */
+  if (is_build_activity(activity, ptile)) {
+    fc_assert(target != NULL);
+
+    unit_list_iterate(ptile->units, tunit) {
+      if (is_build_activity(tunit->activity, ptile)
+          && !can_extras_coexist(target, tunit->activity_target)) {
+        return FALSE;
+      }
+    } unit_list_iterate_end;
+  }
+
   switch(activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_GOTO:
@@ -1075,114 +1106,65 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_MINE:
-   {
-      struct extra_type *pextra;
-
-      if (pterrain->mining_result == pterrain) {
-        if (target != NULL) {
-          pextra = target;
-        } else {
-          /* TODO: Make sure that all callers set target so that
-           * we don't need this fallback. */
-          pextra = next_extra_for_tile(unit_tile(punit),
-                                       EC_MINE,
-                                       unit_owner(punit),
-                                       punit);
-          if (pextra == NULL) {
-            /* No available mine extras */
-            return FALSE;
-          }
-        }
-
-        if (!is_extra_caused_by(pextra, EC_MINE)) {
-          return FALSE;
-        }
-      } else {
-        pextra = NULL;
+    if (pterrain->mining_result == pterrain) {
+      if (target == NULL) {
+        return FALSE;
       }
 
-      /* Don't allow it if someone else is irrigating this tile.
-       * *Do* allow it if they're transforming - the mine may survive */
-      if (unit_has_type_flag(punit, UTYF_SETTLERS)
-          && ((pterrain == pterrain->mining_result
-               && can_build_extra(pextra, punit, ptile)
-               && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
-              || (pterrain != pterrain->mining_result
-                  && pterrain->mining_result != T_NONE
-                  && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
-                  && (!is_ocean(pterrain)
-                      || is_ocean(pterrain->mining_result)
-                      || can_reclaim_ocean(ptile))
-                  && (is_ocean(pterrain)
-                      || !is_ocean(pterrain->mining_result)
-                      || can_channel_land(ptile))
-                  && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
-                      || !tile_city(ptile))))) {
-        unit_list_iterate(ptile->units, tunit) {
-          if (tunit->activity == ACTIVITY_IRRIGATE) {
-            return FALSE;
-          }
-        } unit_list_iterate_end;
-        return TRUE;
-      } else {
+      if (!is_extra_caused_by(target, EC_MINE)) {
         return FALSE;
       }
     }
 
+    if (unit_has_type_flag(punit, UTYF_SETTLERS)
+        && ((pterrain == pterrain->mining_result
+             && can_build_extra(target, punit, ptile)
+             && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
+            || (pterrain != pterrain->mining_result
+                && pterrain->mining_result != T_NONE
+                && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
+                && (!is_ocean(pterrain)
+                    || is_ocean(pterrain->mining_result)
+                    || can_reclaim_ocean(ptile))
+                && (is_ocean(pterrain)
+                    || !is_ocean(pterrain->mining_result)
+                    || can_channel_land(ptile))
+                && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
+                    || !tile_city(ptile))))) {
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+
   case ACTIVITY_IRRIGATE:
-    {
-      struct extra_type *pextra;
-
-      if (pterrain->irrigation_result == pterrain) {
-        if (target != NULL) {
-          pextra = target;
-        } else {
-          /* TODO: Make sure that all callers set target so that
-           * we don't need this fallback. */
-          pextra = next_extra_for_tile(unit_tile(punit),
-                                       EC_IRRIGATION,
-                                       unit_owner(punit),
-                                       punit);
-          if (pextra == NULL) {
-            /* No available irrigation extras */
-            return FALSE;
-          }
-        }
-
-        if (!is_extra_caused_by(pextra, EC_IRRIGATION)) {
-          return FALSE;
-        }
-      } else {
-        pextra = NULL;
-      }
-
-
-      /* Don't allow it if someone else is mining this tile.
-       * *Do* allow it if they're transforming - the irrigation may survive */
-      if (unit_has_type_flag(punit, UTYF_SETTLERS)
-          && ((pterrain == pterrain->irrigation_result
-               && can_build_extra(pextra, punit, ptile)
-               && can_be_irrigated(ptile, punit))
-              || (pterrain != pterrain->irrigation_result
-                  && pterrain->irrigation_result != T_NONE
-                  && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
-                  && (!is_ocean(pterrain)
-                      || is_ocean(pterrain->irrigation_result)
-                      || can_reclaim_ocean(ptile))
-                  && (is_ocean(pterrain)
-                      || !is_ocean(pterrain->irrigation_result)
-                      || can_channel_land(ptile))
-                  && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
-                      || !tile_city(ptile))))) {
-        unit_list_iterate(ptile->units, tunit) {
-          if (tunit->activity == ACTIVITY_MINE) {
-            return FALSE;
-          }
-        } unit_list_iterate_end;
-        return TRUE;
-      } else {
+    if (pterrain->irrigation_result == pterrain) {
+      if (target == NULL) {
         return FALSE;
       }
+
+      if (!is_extra_caused_by(target, EC_IRRIGATION)) {
+        return FALSE;
+      }
+    }
+
+    if (unit_has_type_flag(punit, UTYF_SETTLERS)
+        && ((pterrain == pterrain->irrigation_result
+             && can_build_extra(target, punit, ptile)
+             && can_be_irrigated(ptile, punit))
+            || (pterrain != pterrain->irrigation_result
+                && pterrain->irrigation_result != T_NONE
+                && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
+                && (!is_ocean(pterrain)
+                    || is_ocean(pterrain->irrigation_result)
+                    || can_reclaim_ocean(ptile))
+                && (is_ocean(pterrain)
+                    || !is_ocean(pterrain->irrigation_result)
+                    || can_channel_land(ptile))
+                && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
+                    || !tile_city(ptile))))) {
+      return TRUE;
+    } else {
+      return FALSE;
     }
 
   case ACTIVITY_FORTIFYING:
@@ -1780,7 +1762,7 @@ bool unit_being_aggressive(const struct unit *punit)
 /**************************************************************************
   Returns true if given activity is some kind of building.
 **************************************************************************/
-bool is_build_activity(enum unit_activity activity, struct tile *ptile)
+bool is_build_activity(enum unit_activity activity, const struct tile *ptile)
 {
   struct terrain *pterr = NULL;
 
