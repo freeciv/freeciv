@@ -73,7 +73,8 @@ const char *disaster_rule_name(struct disaster_type *pdis);
 bool disaster_has_effect(const struct disaster_type *pdis,
                          enum disaster_effect_id effect);
 
-bool can_disaster_happen(struct disaster_type *pdis, struct city *pcity);
+bool can_disaster_happen(const struct disaster_type *pdis,
+                         const struct city *pcity);
 
 #define disaster_type_iterate(_p)                                \
 {                                                                \

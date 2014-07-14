@@ -184,7 +184,7 @@ bool action_immune_government(struct government *gov, int act);
 
 bool is_action_possible_on_city(const enum gen_action action_id,
                                 const struct player *actor_player,
-                                struct city* target_city);
+                                const struct city* target_city);
 
 #ifdef __cplusplus
 }

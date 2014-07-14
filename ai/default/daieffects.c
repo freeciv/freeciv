@@ -113,10 +113,9 @@ static int num_affected_units(const struct effect *peffect,
                               const struct adv_data *ai)
 {
   int unit_count = 0;
-  struct requirement_vector reqs = peffect->reqs;
 
   unit_class_iterate(pclass) {
-    if (requirement_fulfilled_by_unit_class(pclass, &reqs)) {
+    if (requirement_fulfilled_by_unit_class(pclass, &peffect->reqs)) {
       unit_count += ai->stats.units.byclass[uclass_index(pclass)];
     }
   } unit_class_iterate_end;
@@ -406,9 +405,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
       v += amount / 10; /* make AI slow */
     }
     unit_class_iterate(pclass) {
-      struct requirement_vector reqs = peffect->reqs;
-
-      if (requirement_fulfilled_by_unit_class(pclass, &reqs)) {
+      if (requirement_fulfilled_by_unit_class(pclass, &peffect->reqs)) {
         if (pclass->adv.sea_move != MOVE_NONE) {
           affects_sea_capable_units = TRUE;
         }

@@ -2814,9 +2814,9 @@ int universal_build_shield_cost(const struct universal *target)
 static bool
 universal_fulfills_requirement(universals_u *univ,
                                enum item_found (*fulfills)(
-                                 struct requirement *,
+                                 const struct requirement *,
                                  universals_u *),
-                               struct requirement_vector *reqs)
+                               const struct requirement_vector *reqs)
 {
   fc_assert(univ);
   fc_assert(fulfills);
@@ -2845,7 +2845,7 @@ universal_fulfills_requirement(universals_u *univ,
 /*************************************************************************
   Find if a unit class fulfills a requirement
 **************************************************************************/
-static enum item_found unit_class_found(struct requirement *preq,
+static enum item_found unit_class_found(const struct requirement *preq,
                                         universals_u *uclass)
 {
   fc_assert(uclass);
@@ -2868,7 +2868,7 @@ static enum item_found unit_class_found(struct requirement *preq,
 /*************************************************************************
   Find if a unit type fulfills a requirement
 **************************************************************************/
-static enum item_found unit_type_found(struct requirement *preq,
+static enum item_found unit_type_found(const struct requirement *preq,
                                        universals_u *utype)
 {
   fc_assert(utype);
@@ -2897,7 +2897,7 @@ static enum item_found unit_type_found(struct requirement *preq,
   Will the specified unit class fulfill the requirements in the list?
 **************************************************************************/
 bool requirement_fulfilled_by_unit_class(struct unit_class *uclass,
-                                         struct requirement_vector *reqs)
+                                         const struct requirement_vector *reqs)
 {
   universals_u *univ;
   bool result;
@@ -2919,7 +2919,7 @@ bool requirement_fulfilled_by_unit_class(struct unit_class *uclass,
   Will the specified unit type fulfill the requirements in the list?
 **************************************************************************/
 bool requirement_fulfilled_by_unit_type(struct unit_type *utype,
-                                        struct requirement_vector *reqs)
+                                        const struct requirement_vector *reqs)
 {
   universals_u *univ;
   bool result;

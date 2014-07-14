@@ -818,7 +818,7 @@ static bool is_target_possible(const enum gen_action wanted_action,
 **************************************************************************/
 bool is_action_possible_on_city(const enum gen_action action_id,
                                 const struct player *actor_player,
-                                struct city* target_city)
+                                const struct city* target_city)
 {
   fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
                         FALSE, "Action %s is against %s not cities",
