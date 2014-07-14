@@ -1057,6 +1057,7 @@ Unit_Class_id uclass_count(void)
   return game.control.num_unit_classes;
 }
 
+#ifndef uclass_index
 /**************************************************************************
   Return the unit_class index.
 
@@ -1068,6 +1069,7 @@ Unit_Class_id uclass_index(const struct unit_class *pclass)
   fc_assert_ret_val(pclass, -1);
   return pclass - unit_classes;
 }
+#endif /* uclass_index */
 
 /**************************************************************************
   Return the unit_class index.
@@ -1089,6 +1091,7 @@ struct unit_class *uclass_by_number(const Unit_Class_id id)
   return &unit_classes[id];
 }
 
+#ifndef utype_class
 /***************************************************************
  Returns unit class pointer for a unit type.
 ***************************************************************/
@@ -1097,6 +1100,7 @@ struct unit_class *utype_class(const struct unit_type *punittype)
   fc_assert(NULL != punittype->uclass);
   return punittype->uclass;
 }
+#endif /* utype_class */
 
 /***************************************************************
  Returns unit class pointer for a unit.

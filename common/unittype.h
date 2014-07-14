@@ -513,12 +513,20 @@ bool role_units_translations(struct astring *astr, int flag, bool alts);
 
 /* General unit class routines */
 Unit_Class_id uclass_count(void);
-Unit_Class_id uclass_index(const struct unit_class *pclass);
 Unit_Class_id uclass_number(const struct unit_class *pclass);
+/* Optimised to be identical to uclass_number: the implementation
+ * unittype.c is also semantically correct. */
+#define uclass_index(_c_) (_c_)->item_number
+#ifndef uclass_index
+Unit_Class_id uclass_index(const struct unit_class *pclass);
+#endif /* uclass_index */
 
 struct unit_class *unit_class(const struct unit *punit);
-struct unit_class *utype_class(const struct unit_type *punittype);
 struct unit_class *uclass_by_number(const Unit_Class_id id);
+#define utype_class(_t_) (_t_)->uclass
+#ifndef utype_class
+struct unit_class *utype_class(const struct unit_type *punittype);
+#endif /* utype_class */
 
 struct unit_class *unit_class_by_rule_name(const char *s);
 
