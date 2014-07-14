@@ -131,7 +131,7 @@ const char *dai_choice_rule_name(const struct adv_choice *choice)
 /**************************************************************************
   Amortize a want modified by the shields (build_cost) we risk losing.
   We add the build time of the unit(s) we risk to amortize delay.  The
-  build time is claculated as the build cost divided by the production
+  build time is calculated as the build cost divided by the production
   output of the unit's homecity or the city where we want to produce
   the unit. If the city has less than average shield output, we
   instead use the average, to encourage long-term thinking.
