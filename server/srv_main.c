@@ -1447,7 +1447,7 @@ static bool identity_number_is_used(int id)
 **************************************************************************/
 static int increment_identity_number(void)
 {
-  server.identity_number = server.identity_number+1 % IDENTITY_NUMBER_SIZE;
+  server.identity_number = (server.identity_number + 1) % IDENTITY_NUMBER_SIZE;
   return server.identity_number;
 }
 
