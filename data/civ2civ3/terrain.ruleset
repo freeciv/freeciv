@@ -1565,6 +1565,5 @@ Land units may move along rivers for faster travel (but not diagonally),\
  boats cannot).\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
- civilization has learned Bridge Building technology. Fortresses and\
- Airbases cannot be built on River tiles.\
+ civilization has learned Bridge Building technology.\
 ")
