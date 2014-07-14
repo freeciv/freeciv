@@ -1500,7 +1500,6 @@ AC_CONFIG_FILES([Makefile
 	  data/multiplayer/Makefile
 	  data/experimental/Makefile
           data/alien/Makefile
-          data/alien/nation/Makefile
           data/civ2civ3/Makefile
 	  data/civ1/Makefile
 	  data/civ2/Makefile
