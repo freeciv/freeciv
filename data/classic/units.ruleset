@@ -394,7 +394,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "AddToCity", "Cities"
+flags         = "Settlers", "NonMil", "HasNoZOC", "AddToCity", "Cities"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -438,7 +438,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Airbase"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -477,7 +477,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Transform", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Transform", "Airbase"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -1928,7 +1928,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC"
 veteran_names =
 ; /* TRANS: diplomatic rank. */
 ; /* TRANS: Unless translated, the last character in "attache" should be */
@@ -2037,7 +2037,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Spy"
 veteran_names =
 ; /* TRANS: Spy veteran level */
   _("?spy_level:informant"),
@@ -2106,7 +2106,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil"
+flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 A Caravan carries goods or material for trading with distant cities\
@@ -2154,7 +2154,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil"
+flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 The Freight unit replaces the Caravan, and moves at twice the speed.\
@@ -2185,7 +2185,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgTer", "IgZOC", "NonMil"
+flags         = "IgTer", "IgZOC", "NonMil", "HasNoZOC"
 roles         = "Explorer"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
@@ -2217,7 +2217,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "NoBuild", "NoHome", "SuperSpy", 
+flags         = "IgZOC", "NonMil", "HasNoZOC", "NoBuild", "NoHome", "SuperSpy", 
                 "Undisbandable", "GameLoss", "Unique"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
@@ -2255,7 +2255,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil",
+flags         = "IgZOC", "NonMil", "HasNoZOC",
                 "Undisbandable", "SuperSpy", "NoHome", "NoBuild"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
