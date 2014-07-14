@@ -2518,24 +2518,70 @@ void boot_help_texts(struct player *pplayer)
             } terrain_type_iterate_end;
             break;
           case HELP_BASE:
-            base_type_iterate(pbase) {
-              pitem = new_help_item(current_type);
-              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                          base_name_translation(pbase));
-              pitem->topic = fc_strdup(name);
-              pitem->text = fc_strdup("");
-              help_list_append(category_nodes, pitem);
-            } base_type_iterate_end;
+            {
+              const char **cats;
+              size_t ncats;
+              cats = secfile_lookup_str_vec(sf, &ncats,
+                                            "%s.categories", sec_name);
+              base_type_iterate(pbase) {
+                /* If categories not specified, don't filter */
+                if (cats) {
+                  bool include = FALSE;
+                  const char *cat
+                    = extra_category_name(base_extra_get(pbase)->category);
+                  int i;
+                  for (i = 0; i < ncats; i++) {
+                    if (fc_strcasecmp(cats[i], cat) == 0) {
+                      include = TRUE;
+                      break;
+                    }
+                  }
+                  if (!include) {
+                    continue;
+                  }
+                }
+                pitem = new_help_item(current_type);
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                            base_name_translation(pbase));
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
+                help_list_append(category_nodes, pitem);
+              } base_type_iterate_end;
+              FC_FREE(cats);
+            }
             break;
           case HELP_ROAD:
-            road_type_iterate(proad) {
-              pitem = new_help_item(current_type);
-              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                          road_name_translation(proad));
-              pitem->topic = fc_strdup(name);
-              pitem->text = fc_strdup("");
-              help_list_append(category_nodes, pitem);
-            } road_type_iterate_end;
+            {
+              const char **cats;
+              size_t ncats;
+              cats = secfile_lookup_str_vec(sf, &ncats,
+                                            "%s.categories", sec_name);
+              road_type_iterate(proad) {
+                /* If categories not specified, don't filter */
+                if (cats) {
+                  bool include = FALSE;
+                  const char *cat
+                    = extra_category_name(road_extra_get(proad)->category);
+                  int i;
+                  for (i = 0; i < ncats; i++) {
+                    if (fc_strcasecmp(cats[i], cat) == 0) {
+                      include = TRUE;
+                      break;
+                    }
+                  }
+                  if (!include) {
+                    continue;
+                  }
+                }
+                pitem = new_help_item(current_type);
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                            road_name_translation(proad));
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
+                help_list_append(category_nodes, pitem);
+              } road_type_iterate_end;
+              FC_FREE(cats);
+            }
             break;
           case HELP_SPECIALIST:
             specialist_type_iterate(sp) {
@@ -4067,10 +4113,6 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (!pextra->buildable) {
-    CATLSTR(buf, bufsz,
-            _("* Cannot be built.\n"));
-  }
   if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
     CATLSTR(buf, bufsz,
             _("* Can be pillaged by units.\n"));
