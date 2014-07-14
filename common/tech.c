@@ -116,7 +116,7 @@ Tech_type_id advance_required(const Tech_type_id tech,
 			      enum tech_req require)
 {
   fc_assert_ret_val(require >= 0 && require < AR_SIZE, -1);
-  fc_assert_ret_val(tech >= A_NONE || tech < A_LAST, -1);
+  fc_assert_ret_val(tech >= A_NONE && tech < A_LAST, -1);
   if (A_NEVER == advances[tech].require[require]) {
     /* out of range */
     return A_LAST;
