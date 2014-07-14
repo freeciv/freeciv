@@ -3562,8 +3562,9 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   fc_assert_ret_msg(NULL != pnation, "Bad nation %d.", packet->id);
 
   if (packet->translation_domain[0] != '\0') {
-    pnation->translation_domain = fc_malloc(strlen(packet->translation_domain) + 1);
-    sz_strlcpy(pnation->translation_domain, packet->translation_domain);
+    size_t len = strlen(packet->translation_domain) + 1;
+    pnation->translation_domain = fc_malloc(len);
+    fc_strlcpy(pnation->translation_domain, packet->translation_domain, len);
   } else {
     pnation->translation_domain = NULL;
   }
