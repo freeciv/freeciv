@@ -5320,8 +5320,6 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     }
   }
 
-  settings_ruleset(file, "settings", act);
-
   if (ok) {
     secfile_check_unused(file);
   }
@@ -6368,6 +6366,11 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     road_integrators_cache_init();
 
     ok = sanity_check_ruleset_data();
+  }
+
+  if (ok) {
+    /* Only load settings for a sane ruleset */
+    ok = settings_ruleset(gamefile, "settings", act);
   }
 
   nullcheck_secfile_destroy(techfile);
