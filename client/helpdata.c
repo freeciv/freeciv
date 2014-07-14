@@ -1711,14 +1711,37 @@ void boot_help_texts(struct player *pplayer)
             } base_type_iterate_end;
             break;
           case HELP_ROAD:
-            road_type_iterate(proad) {
-              pitem = new_help_item(current_type);
-              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                          road_name_translation(proad));
-              pitem->topic = fc_strdup(name);
-              pitem->text = fc_strdup("");
-              help_list_append(category_nodes, pitem);
-            } road_type_iterate_end;
+            {
+              bool filter, natural;
+              {
+                const char *filterstr = secfile_lookup_str(sf, "%s.filter",
+                                                           sec_name);
+                if (!filterstr) {
+                  filter = FALSE;
+                } else {
+                  filter = TRUE;
+                  if (fc_strcasecmp(filterstr, "Natural") == 0) {
+                    natural = TRUE;
+                  } else if (fc_strcasecmp(filterstr, "NonNatural") == 0) {
+                    natural = FALSE;
+                  } else {
+                    log_error("bad road help filter \"%s\"", filterstr);
+                    filter = FALSE;
+                  }
+                }
+              }
+              road_type_iterate(proad) {
+                if (filter && road_has_flag(proad, RF_NATURAL) != natural) {
+                  continue;
+                }
+                pitem = new_help_item(current_type);
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                            road_name_translation(proad));
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
+                help_list_append(category_nodes, pitem);
+              } road_type_iterate_end;
+            }
             break;
           case HELP_SPECIALIST:
             specialist_type_iterate(sp) {
@@ -3327,9 +3350,6 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (!proad->buildable) {
-    CATLSTR(buf, bufsz, _("* Cannot be built.\n"));
-  }
   if (proad->pillageable) {
     CATLSTR(buf, bufsz,
             _("* Can be pillaged by units.\n"));
