@@ -1570,7 +1570,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT8 id;
   UINT8 first_reqs_count;
   REQUIREMENT first_reqs[MAX_NUM_REQS:first_reqs_count];
-  UINT8 move_cost;
+  SINT8 move_cost;
   MOVE_MODE move_mode;
   UINT8 build_time;
   UINT16 tile_incr_const[O_LAST];
