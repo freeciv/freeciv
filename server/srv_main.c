@@ -172,7 +172,7 @@ static enum server_states civserver_state = S_S_INITIAL;
 */
 bool force_end_of_sniff;
 
-#define IDENTITY_NUMBER_SIZE (1+MAX_UINT16)
+#define IDENTITY_NUMBER_SIZE 250000
 BV_DEFINE(bv_identity_numbers, IDENTITY_NUMBER_SIZE);
 bv_identity_numbers identity_numbers_used;
 
@@ -1599,7 +1599,7 @@ static bool identity_number_is_used(int id)
 **************************************************************************/
 static int increment_identity_number(void)
 {
-  server.identity_number = server.identity_number+1 % IDENTITY_NUMBER_SIZE;
+  server.identity_number = (server.identity_number + 1) % IDENTITY_NUMBER_SIZE;
   return server.identity_number;
 }
 
