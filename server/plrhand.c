@@ -1161,6 +1161,12 @@ static void package_player_info(struct player *plr,
   } else {
     packet->mood            = MOOD_COUNT;
   }
+
+  if (info_level >= INFO_FULL) {
+    packet->culture         = plr->culture;
+  } else {
+    packet->culture         = 0;
+  }
 }
 
 /**************************************************************************

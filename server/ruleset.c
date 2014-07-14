@@ -5305,6 +5305,8 @@ static bool load_ruleset_game(struct section_file *file, bool act)
 
       pach->value = secfile_lookup_int_default(file, GAME_DEFAULT_ACH_VALUE,
                                                "%s.value", sec_name);
+      pach->culture = secfile_lookup_int_default(file, 0,
+                                                 "%s.culture", sec_name);
 
       if (!ok) {
         break;

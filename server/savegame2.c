@@ -3950,6 +3950,9 @@ static void sg_load_player_main(struct loaddata *loading,
       }
     }
   }
+
+  plr->culture =
+    secfile_lookup_int_default(loading->file, 0, "player%d.culture", plrno);
 }
 
 /****************************************************************************
@@ -4192,6 +4195,9 @@ static void sg_save_player_main(struct savedata *saving,
     secfile_insert_str(saving->file, lost,
                        "player%d.lost_wonders", plrno);
   }
+
+  secfile_insert_int(saving->file, plr->culture,
+                     "player%d.culture", plrno);
 }
 
 /****************************************************************************

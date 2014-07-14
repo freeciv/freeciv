@@ -18,6 +18,7 @@
 /* common */
 #include "city.h"
 #include "effects.h"
+#include "player.h"
 
 #include "culture.h"
 
@@ -35,4 +36,18 @@ int city_culture(const struct city *pcity)
 int city_history_gain(const struct city *pcity)
 {
   return get_city_bonus(pcity, EFT_HISTORY);
+}
+
+/****************************************************************************
+  Return current culture score of the player.
+****************************************************************************/
+int player_culture(const struct player *plr)
+{
+  int culture = plr->culture;
+
+  city_list_iterate(plr->cities, pcity) {
+    culture += city_culture(pcity);
+  } city_list_iterate_end;
+
+  return culture;
 }

@@ -43,6 +43,7 @@ void achievements_init(void)
     achievements[i].id = i;
     achievements[i].first = NULL;
     achievements[i].value = 0;
+    achievements[i].culture = 0;
     BV_CLR_ALL(achievements[i].achievers);
   }
 }
@@ -129,6 +130,7 @@ struct player *achievement_plr(struct achievement *ach,
   players_iterate(pplayer) {
     if (achievement_check(ach, pplayer)) {
       if (!ach->unique) {
+        pplayer->culture += ach->culture;
         BV_SET(ach->achievers, player_index(pplayer));
       }
       player_list_append(achievers, pplayer);
@@ -146,6 +148,7 @@ struct player *achievement_plr(struct achievement *ach,
     credited = player_list_get(achievers, fc_rand(player_list_size(achievers)));
 
     ach->first = credited;
+    credited->culture += ach->culture;
 
     /* Mark the selected player as the only one having the achievement */
     BV_SET(ach->achievers, player_index(credited));
@@ -249,16 +252,8 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
 
     return FALSE;
   case ACHIEVEMENT_CULTURED_NATION:
-    {
-      int total = 0;
-
-      city_list_iterate(pplayer->cities, pcity) {
-        total += city_culture(pcity);
-      } city_list_iterate_end;
-
-      if (total >= ach->value) {
-        return TRUE;
-      }
+    if (player_culture(pplayer) >= ach->value) {
+      return TRUE;
     }
 
     return FALSE;

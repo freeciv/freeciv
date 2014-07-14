@@ -440,6 +440,8 @@ effects        = "ReducePopulation", "Fallout"
 ;                           get it. Defaults to TRUE.
 ; value                   = Value to reach. Exact meaning of this depends on
 ;                           achievement type.
+; culture                 = Amount of culture granted to player who gets achievement
+;                           granted.
 ;
 ; */ <-- avoid gettext warnings
 

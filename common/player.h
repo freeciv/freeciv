@@ -252,6 +252,9 @@ struct player {
 
   struct rgbcolor *rgb;
 
+  int culture; /* National level culture - does not include culture of individual
+                * cities. */
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */

@@ -29,6 +29,7 @@ struct achievement
   enum achievement_type type;
   int value;
   bool unique;
+  int culture;
   struct player *first;
   bv_player achievers;
 };

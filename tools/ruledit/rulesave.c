@@ -892,6 +892,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_default_int(sfile, pach->value,
                      GAME_DEFAULT_ACH_VALUE,
                      path, "value");
+    save_default_int(sfile, pach->culture,
+                     0, path, "culture");
 
   } achievements_iterate_end;
 

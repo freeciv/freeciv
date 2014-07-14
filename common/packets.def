@@ -771,6 +771,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8 ai_skill_level;
   UINT8 barbarian_type;
   BV_PLAYER gives_shared_vision;
+  UINT16 culture;
   SINT16 love[MAX_NUM_PLAYER_SLOTS];
 
   UINT8 color_red;

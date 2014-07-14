@@ -2004,6 +2004,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
     }
   }
 
+  pplayer->culture = pinfo->culture;
+
   /* Don't use player_iterate or player_slot_count here, because we ignore
    * the real number of players and we want to read all the datas. */
   fc_assert(ARRAY_SIZE(pplayer->ai_common.love) >= ARRAY_SIZE(pinfo->love));

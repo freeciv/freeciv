@@ -274,7 +274,7 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.mfg = 0;
   pplayer->score.literacy = 0;
   pplayer->score.spaceship = 0;
-  pplayer->score.culture = 0;
+  pplayer->score.culture = player_culture(pplayer);
 
   if (is_barbarian(pplayer)) {
     return;
@@ -296,7 +296,6 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.techout += pcity->prod[O_SCIENCE];
     pplayer->score.bnp += pcity->surplus[O_TRADE];
     pplayer->score.mfg += pcity->surplus[O_SHIELD];
-    pplayer->score.culture += city_culture(pcity);
 
     bonus = get_final_city_output_bonus(pcity, O_SCIENCE) - 100;
     bonus = CLIP(0, bonus, 100);
