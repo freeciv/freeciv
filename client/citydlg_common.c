@@ -116,7 +116,6 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
 #endif
   const int width = get_citydlg_canvas_width();
   const int height = get_citydlg_canvas_height();
-  int max_rad = rs_max_city_radius_sq();
 
   /* The citymap is centered over the center of the citydlg canvas. */
   canvas_x -= (width - tileset_tile_width(tileset)) / 2;
@@ -140,8 +139,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
 
   /* Add on the offset of the top-left corner to get the final
    * coordinates (like in canvas_to_map_pos). */
-  *city_x += max_rad;
-  *city_y += max_rad;
+  *city_x = CITY_REL2ABS(*city_x);
+  *city_y = CITY_REL2ABS(*city_y);
 
   log_debug("canvas_to_city_pos(pos=(%d,%d))=(%d,%d)@radius=%d",
             orig_canvas_x, orig_canvas_y, *city_x, *city_y, city_radius_sq);

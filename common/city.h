@@ -92,6 +92,8 @@ struct iter_index {
   int dx, dy, dist;
 };
 
+/* City map coordinates are positive integers shifted by the maximum
+ * radius the game engine allows (not the current ruleset) */
 #define CITY_REL2ABS(_coor) (_coor + CITY_MAP_MAX_RADIUS)
 #define CITY_ABS2REL(_coor) (_coor - CITY_MAP_MAX_RADIUS)
 
