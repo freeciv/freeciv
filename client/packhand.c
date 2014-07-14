@@ -2897,6 +2897,9 @@ void handle_rulesets_ready(void)
     set_unit_move_type(pclass);
   } unit_class_iterate_end;
 
+  /* Setup improvement feature caches */
+  improvement_feature_cache_init();
+
   /* Setup road integrators caches */
   road_integrators_cache_init();
 
@@ -3129,14 +3132,6 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
     } improvement_iterate_end;
   }
 #endif /* DEBUG */
-
-  b->allows_units = FALSE;
-  unit_type_iterate(ut) {
-    if (ut->need_improvement == b) {
-      b->allows_units = TRUE;
-      break;
-    }
-  } unit_type_iterate_end;
 
   tileset_setup_impr_type(tileset, b);
 }

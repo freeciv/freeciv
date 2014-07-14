@@ -1573,9 +1573,6 @@ static bool load_ruleset_units(struct section_file *file)
       if (!ok) {
         break;
       }
-
-      set_unit_class_caches(uc);
-
     } unit_class_iterate_end;
   }
 
@@ -1922,13 +1919,6 @@ static bool load_ruleset_units(struct section_file *file)
     } unit_type_iterate_end;
   }
 
-  if (ok) {
-    /* Finalize unit_type: cached values. */
-    unit_type_iterate(u) {
-      u->unknown_move_cost = utype_unknown_move_cost(u);
-    } unit_type_iterate_end;
-  }
-
   if (ok) { 
     /* Some more consistency checking: */
     unit_type_iterate(u) {
@@ -1950,11 +1940,6 @@ static bool load_ruleset_units(struct section_file *file)
         break;
       }
     } unit_type_iterate_end;
-  }
-
-  if (ok) {
-    /* Setup roles and flags pre-calcs: */
-    role_unit_precalcs();
   }
 
   section_list_destroy(csec);
@@ -2120,14 +2105,6 @@ static bool load_ruleset_buildings(struct section_file *file)
                  secfile_lookup_str_default(file, "-",
                                             "%s.sound_alt", sec_name));
       b->helptext = lookup_strvec(file, sec_name, "helptext");
-
-      b->allows_units = FALSE;
-      unit_type_iterate(ut) {
-        if (ut->need_improvement == b) {
-          b->allows_units = TRUE;
-          break;
-        }
-      } unit_type_iterate_end;
     }
   }
 
@@ -3165,7 +3142,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       proad->helptext = lookup_strvec(file, section, "helptext");
 
     } road_type_iterate_end;
-    road_integrators_cache_init();
   }
 
   if (ok) {
@@ -6387,6 +6363,10 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     /* Init nations we just loaded. */
     update_nations_with_startpos();
 
+    /* Prepare caches we want to sanity check. */
+    role_unit_precalcs();
+    road_integrators_cache_init();
+
     ok = sanity_check_ruleset_data();
   }
 
@@ -6438,7 +6418,15 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
 
   if (ok) {
     if (act) {
+      /* Populate remaining caches. */
       techs_precalc_data();
+      improvement_feature_cache_init();
+      unit_class_iterate(pclass) {
+        set_unit_class_caches(pclass);
+      } unit_class_iterate_end;
+      unit_type_iterate(u) {
+        u->unknown_move_cost = utype_unknown_move_cost(u);
+      } unit_type_iterate_end;
     }
 
     /* Build advisors unit class cache corresponding to loaded rulesets */

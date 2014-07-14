@@ -190,6 +190,8 @@ bool can_player_build_improvement_now(const struct player *p,
 void improvements_init(void);
 void improvements_free(void);
 
+void improvement_feature_cache_init(void);
+
 struct impr_type *improvement_array_first(void);
 const struct impr_type *improvement_array_last(void);
 

@@ -83,6 +83,22 @@ void improvements_free()
 }
 
 /**************************************************************************
+  Cache features of the improvement
+**************************************************************************/
+void improvement_feature_cache_init(void)
+{
+  improvement_iterate(pimprove) {
+    pimprove->allows_units = FALSE;
+    unit_type_iterate(putype) {
+      if (putype->need_improvement == pimprove) {
+        pimprove->allows_units = TRUE;
+        break;
+      }
+    } unit_type_iterate_end;
+  } improvement_iterate_end;
+}
+
+/**************************************************************************
   Return the first item of improvements.
 **************************************************************************/
 struct impr_type *improvement_array_first(void)
