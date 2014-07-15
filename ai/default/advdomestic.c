@@ -393,8 +393,8 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   settler_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
                                                   TC_LAND);
 
-  /* The worker want is calculated in settlers.c called from
-   * ai_manage_cities.  The expand value is the % that the AI should
+  /* The worker want is calculated in aicity.c called from
+   * dai_manage_cities.  The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficulty levels)
    * and is set when the difficulty level is changed (stdinhand.c). */
   settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
