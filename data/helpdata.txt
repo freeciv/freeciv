@@ -2267,30 +2267,41 @@ SUCH DAMAGES.\
 name = _("About Freeciv")
 text = "\
 $FreecivVersion\
-", _("\
-  Original authors:\n\
-    (they are no longer involved, please don't mail them!)\
-"), "\
-            Allan Ove Kjeldbjerg - allan@daimi.aau.dk\n\
-            Claus Leth Gregersen - leth@daimi.aau.dk\n\
-            Peter Joachim Unold  - pjunold@daimi.aau.dk\
-", _("\
-  Present administrators: \
-"), "\
-            Marko Lindqvist      - cazfi74@gmail.com\n\
-            R. Daniel Markstedt  - markstedt@gmail.com\n\
-            Christian Prochaska  - cp.ml.freeciv.dev@googlemail.com\n\
-            Jacob Nevins         - 0jacobnk.fca@chiark.greenend.org.uk\
-", _("\
+",
+; /* TRANS: followed by a URL */
+_("\
 If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
 "), "\
   http://gna.org/projects/freeciv/\
 ", _("\
-Please quote the above version information.  \
+Please quote the above version information. \
 For more information about submitting bug reports see the file BUGS \
-in the Freeciv distribution.  For more information in general, \
-visit the Freeciv website, at:\
+in the Freeciv distribution.\
+"), _("\
+To contact the developers about anything else, please email one of the \
+project's mailing lists:\
+"), _("\
+    freeciv-dev@gna.org         - public development mailing\n\
+                                  list (archives are public)\n\
+    freeciv-maintainers@gna.org - private project administration\n\
+                                  list (for security issues, etc)\
+"), _("\
+  Original authors:\n\
+    (they are no longer involved, please don't mail them!)\
+"), "\
+    Allan Ove Kjeldbjerg - allan@daimi.aau.dk\n\
+    Claus Leth Gregersen - leth@daimi.aau.dk\n\
+    Peter Joachim Unold  - pjunold@daimi.aau.dk\
+", _("\
+  Present administrators: \
+"), "\
+    Marko Lindqvist      - cazfi74@gmail.com\n\
+    R. Daniel Markstedt  - markstedt@gmail.com\n\
+    Christian Prochaska  - cp.ml.freeciv.dev@googlemail.com\n\
+    Jacob Nevins         - 0jacobnk.fca@chiark.greenend.org.uk\
+", _("\
+For more information in general, visit the Freeciv website, at:\
 "), "\
   http://www.freeciv.org/\
 "
