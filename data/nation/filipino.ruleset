@@ -20,7 +20,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",           "female_title"
  "Fundamentalism",  _("Cardinal %s"),       _("Mother Superior %s")
- "Republic",	    _("Governor %s"),       _("Governor %s")
+ "Republic",        _("Governor %s"),       _("?female:Governor %s")
 }
 flag="philippines"
 flag_alt = "-"

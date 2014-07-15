@@ -70,7 +70,7 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 
 ruler_male_title = _("Leader %s")
-ruler_female_title = _("Leader %s")
+ruler_female_title = _("?female:Leader %s")
 
 helptext = _("\
 This is the only available form of government in the beginning.\n\n\

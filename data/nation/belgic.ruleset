@@ -27,7 +27,7 @@ style = "Celtic"
 
 ruler_titles = {
  "government",           "male_title",         "female_title"
- "Fundamentalism",       _("High Druid %s"),   _("High Druid %s")
+ "Fundamentalism",       _("High Druid %s"),   _("?female:High Druid %s")
  "Communism",            _("Brother %s"),      _("Sister %s")
  "Republic",             _("Spokesman %s"),    _("Spokeswoman %s")
  "Democracy",            _("Speaker %s"),      _("?female:Speaker %s")
