@@ -309,7 +309,7 @@ static int tech_upkeep_calc(const struct player *pplayer)
 {
   struct research *research = research_get(pplayer);
   int f = research->future_tech, t = research->techs_researched;
-  double tech_bulb_sum;
+  double tech_bulb_sum = 0.0;
 
   /* upkeep cost for 'normal' techs (t) */
   switch (game.info.tech_cost_style) {
