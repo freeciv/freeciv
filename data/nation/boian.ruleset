@@ -19,7 +19,7 @@ city_style = "Celtic"
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Fundamentalism",       _("High Druid %s"),       _("High Druid %s")
+ "Fundamentalism",       _("High Druid %s"),       _("?female:High Druid %s")
 }
 
 init_techs=""

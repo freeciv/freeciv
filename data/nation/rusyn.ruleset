@@ -30,9 +30,9 @@ city_style = "Celtic"
 
 ruler_titles = {
  "government",      "male_title",                 "female_title"
- "Despotism",       _("Prince %s"),               _("Prince %s")
+ "Despotism",       _("Prince %s"),               _("Princess %s")
  "Fundamentalism",  _("Patriarch %s"),            _("Matriarch %s")
- "Communism",       _("People's Commissar %s"),   _("People's Commissar %s")
+ "Communism",       _("People's Commissar %s"),   _("?female:People's Commissar %s")
 }
 
 init_techs=""
