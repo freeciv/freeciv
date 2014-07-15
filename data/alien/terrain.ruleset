@@ -384,13 +384,13 @@ trade                = 0
 resources            = "resource_alien_mine"
 road_trade_incr_pct  = 0
 base_time            = 1
-road_time            = 20
+road_time            = 12
 irrigation_result    = "no"
 irrigation_food_incr = 0
 irrigation_time      = 0
 mining_result        = "yes"
 mining_shield_incr   = 1
-mining_time          = 50
+mining_time          = 17
 transform_result     = "no"
 transform_time       = 24
 clean_pollution_time = 3
@@ -406,7 +406,8 @@ color.g              = 77
 color.b              = 38
 helptext             = _("\
 What are these mountains made of?!? Diamond drill makes no scratch on them.\n\n\
-Burrowing units are unable to burrow through these mountains.\
+Burrowing units are unable to burrow through these mountains, \
+but at least Burrowing technology makes mining them possible.\
 ")
 
 [terrain_ocean]

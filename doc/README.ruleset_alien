@@ -96,3 +96,7 @@ This list is incomplete
   Destroyer:    4
   Light Saucer: 3
   Bomb Saucer:  2
+
+- Thick Mountains cannot be mined at all until Burrowing is known, but then
+  it requires just 17 movement points, road building time reduced to 12 movement
+  points
