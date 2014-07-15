@@ -327,7 +327,7 @@ names =
 set =
     { "name", "value", "lock"
       "generator", "ISLAND", FALSE
-      "topology", "WRAPX|WRAPY", FALSE
+      "topology", "WRAPX|WRAPY|ISO", FALSE
       "startpos", "SINGLE", FALSE
       "tinyisles", FALSE, FALSE
       "alltemperate", TRUE, FALSE
