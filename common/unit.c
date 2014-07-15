@@ -1060,7 +1060,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         return FALSE;
       }
 
-      if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+      if (!unit_has_type_flag(punit, UTYF_SETTLERS)
+          || !can_remove_extra(pextra, punit, ptile)) {
         return FALSE;
       }
 
@@ -1094,7 +1095,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         return FALSE;
       }
 
-      if (!unit_has_type_flag(punit, UTYF_SETTLERS)) {
+      if (!unit_has_type_flag(punit, UTYF_SETTLERS)
+          || !can_remove_extra(pextra, punit, ptile)) {
         return FALSE;
       }
 
