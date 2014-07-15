@@ -29,6 +29,8 @@ VERSION_LABEL="-dev"
 #   - IS_DEVEL_VERSION=0
 #   - IS_FREEZE_VERSION=0
 #   - IS_BETA_VERSION=0
+# (and update DEFAULT_FOLLOW_TAG to "stable", and also
+# win32/installer/Makefile --follow-tag to "win32")
 
 IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
@@ -40,7 +42,7 @@ NEXT_STABLE_VERSION="2.6.0"
 RELEASE_MONTH=0
 
 DATASUBDIR=dev
-DEFAULT_FOLLOW_TAG=stable
+DEFAULT_FOLLOW_TAG=S2_6
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
