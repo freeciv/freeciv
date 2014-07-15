@@ -283,7 +283,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Find out desire for workers (terrain improvers) */
   settler_type = best_role_unit(pcity, F_SETTLERS);
 
-  /* The worker want is calculated in settlers.c called from
+  /* The worker want is calculated in aicity.c called from
    * ai_manage_cities.  The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficulty levels)
    * and is set when the difficulty level is changed (stdinhand.c). */
