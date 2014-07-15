@@ -886,6 +886,20 @@ reqs    =
 [effect_mining]
 type    = "Mining_Possible"
 value   = 1
+reqs    =
+  { "type", "name", "range", "present"
+    "Terrain", "Thick Mountains", "Local", FALSE
+  }
+
+[effect_mine_mountains]
+type    = "Mining_Possible"
+value   = 1
+reqs    =
+  {
+    "type", "name", "range"
+    "Tech", "Burrowing", "Player"
+    "Terrain", "Thick Mountains", "Local"
+  }
 
 [effect_irrig_tf]
 type    = "Irrig_TF_Possible"
