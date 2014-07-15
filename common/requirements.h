@@ -140,10 +140,19 @@ const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct universal *target);
 
-bool requirement_fulfilled_by_unit_class(struct unit_class *uclass,
-                                         const struct requirement_vector *reqs);
-bool requirement_fulfilled_by_unit_type(struct unit_type *utype,
-                                        const struct requirement_vector *reqs);
+void universal_found_functions_init(void);
+bool universal_fulfills_requirement(const struct requirement_vector *reqs,
+                                    const struct universal *source);
+
+/* Accessors to determine if a universal fulfills a requirement vector.
+ * When adding an additional accessor, be sure to add the appropriate
+ * item_found function in universal_found_callbacks_init(). */
+#define requirement_fulfilled_by_unit_class(_uc_, _rqs_)                   \
+  universal_fulfills_requirement((_rqs_),                                  \
+      &(struct universal){.kind = VUT_UCLASS, .value = {.uclass = (_uc_)}})
+#define requirement_fulfilled_by_unit_type(_ut_, _rqs_)                    \
+  universal_fulfills_requirement((_rqs_),                                  \
+      &(struct universal){.kind = VUT_UTYPE, .value = {.utype = (_ut_)}})
 
 #ifdef __cplusplus
 }

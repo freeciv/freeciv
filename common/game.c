@@ -441,6 +441,7 @@ void game_init(void)
   idex_init();
   cm_init();
   researches_init();
+  universal_found_functions_init();
 }
 
 /****************************************************************************

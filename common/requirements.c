@@ -39,6 +39,13 @@
 /* The item contradicts, fulfills or is irrelevant to the requirement */
 enum item_found {ITF_NO, ITF_YES, ITF_NOT_APPLICABLE};
 
+/************************************************************************
+  Container for item_found functions
+************************************************************************/
+typedef enum item_found (*universal_found)(const struct requirement *,
+                                           const struct universal *);
+static universal_found universal_found_function[VUT_COUNT] = {NULL};
+
 /**************************************************************************
   Parse requirement type (kind) and value strings into a universal
   structure.  Passing in a NULL type is considered VUT_NONE (not an error).
@@ -2811,19 +2818,13 @@ int universal_build_shield_cost(const struct universal *target)
 
   Not being mentioned counts as fulfillment.
 **************************************************************************/
-static bool
-universal_fulfills_requirement(universals_u *univ,
-                               enum item_found (*fulfills)(
-                                 const struct requirement *,
-                                 universals_u *),
-                               const struct requirement_vector *reqs)
+bool universal_fulfills_requirement(const struct requirement_vector *reqs,
+                                    const struct universal *source)
 {
-  fc_assert(univ);
-  fc_assert(fulfills);
-  fc_assert(reqs);
+  fc_assert(universal_found_function[source->kind]);
 
   requirement_vector_iterate(reqs, preq) {
-    switch (fulfills(preq, univ)) {
+    switch ((*universal_found_function[source->kind])(preq, source)) {
     case ITF_NOT_APPLICABLE:
       continue;
     case ITF_NO:
@@ -2846,16 +2847,16 @@ universal_fulfills_requirement(universals_u *univ,
   Find if a unit class fulfills a requirement
 **************************************************************************/
 static enum item_found unit_class_found(const struct requirement *preq,
-                                        universals_u *uclass)
+                                        const struct universal *source)
 {
-  fc_assert(uclass);
-  fc_assert(preq);
+  fc_assert(source->value.uclass);
 
   switch (preq->source.kind) {
   case VUT_UCLASS:
-    return uclass->uclass == preq->source.value.uclass ? ITF_YES : ITF_NO;
+    return source->value.uclass == preq->source.value.uclass ? ITF_YES
+                                                             : ITF_NO;
   case VUT_UCFLAG:
-    return uclass_has_flag(uclass->uclass,
+    return uclass_has_flag(source->value.uclass,
                            preq->source.value.unitclassflag) ? ITF_YES
                                                              : ITF_NO;
 
@@ -2869,22 +2870,21 @@ static enum item_found unit_class_found(const struct requirement *preq,
   Find if a unit type fulfills a requirement
 **************************************************************************/
 static enum item_found unit_type_found(const struct requirement *preq,
-                                       universals_u *utype)
+                                       const struct universal *source)
 {
-  fc_assert(utype);
-  fc_assert(preq);
+  fc_assert(source->value.utype);
 
   switch (preq->source.kind) {
   case VUT_UTYPE:
-    return utype->utype == preq->source.value.utype ? ITF_YES : ITF_NO;
+    return source->value.utype == preq->source.value.utype ? ITF_YES : ITF_NO;
   case VUT_UCLASS:
-    return utype_class(utype->utype) == preq->source.value.uclass ? ITF_YES
-                                                                  : ITF_NO;
+    return utype_class(source->value.utype) == preq->source.value.uclass
+                                            ? ITF_YES : ITF_NO;
   case VUT_UTFLAG:
-    return utype_has_flag(utype->utype,
+    return utype_has_flag(source->value.utype,
                           preq->source.value.unitflag) ? ITF_YES : ITF_NO;
   case VUT_UCFLAG:
-    return uclass_has_flag(utype_class(utype->utype),
+    return uclass_has_flag(utype_class(source->value.utype),
                            preq->source.value.unitclassflag) ? ITF_YES
                                                              : ITF_NO;
   default:
@@ -2893,46 +2893,11 @@ static enum item_found unit_type_found(const struct requirement *preq,
   };
 }
 
-/*************************************************************************
-  Will the specified unit class fulfill the requirements in the list?
-**************************************************************************/
-bool requirement_fulfilled_by_unit_class(struct unit_class *uclass,
-                                         const struct requirement_vector *reqs)
+/************************************************************************
+  Initialise universal_found_callbacks array.
+*************************************************************************/
+void universal_found_functions_init(void)
 {
-  universals_u *univ;
-  bool result;
-
-  fc_assert(uclass);
-  fc_assert(reqs);
-
-  univ = fc_malloc(sizeof(*univ));
-  univ->uclass = uclass;
-
-  result = universal_fulfills_requirement(univ, unit_class_found, reqs);
-
-  free(univ);
-
-  return result;
-}
-
-/*************************************************************************
-  Will the specified unit type fulfill the requirements in the list?
-**************************************************************************/
-bool requirement_fulfilled_by_unit_type(struct unit_type *utype,
-                                        const struct requirement_vector *reqs)
-{
-  universals_u *univ;
-  bool result;
-
-  fc_assert(utype);
-  fc_assert(reqs);
-
-  univ = fc_malloc(sizeof(*univ));
-  univ->utype = utype;
-
-  result = universal_fulfills_requirement(univ, unit_type_found, reqs);
-
-  free(univ);
-
-  return result;
+  universal_found_function[VUT_UCLASS] = &unit_class_found;
+  universal_found_function[VUT_UTYPE] = &unit_type_found;
 }
