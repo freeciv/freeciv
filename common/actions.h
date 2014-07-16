@@ -106,7 +106,7 @@ typedef int action_probability;
 struct action
 {
   enum gen_action id;
-  enum action_target_kind actor_kind;
+  enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
 
   /* The name of the action shown in the UI */
