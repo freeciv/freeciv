@@ -3820,6 +3820,11 @@ static void sg_load_player_cities(struct loaddata *loading,
     ncities = 0;
   }
 
+  if (!plr->server.got_first_city && ncities > 0) {
+    /* Probably barbarians in an old savegame; fix up */
+    plr->server.got_first_city = TRUE;
+  }
+
   /* Load all cities of the player. */
   for (i = 0; i < ncities; i++) {
     char buf[32];
