@@ -2487,6 +2487,11 @@ static void player_load_cities(struct player *plr, int plrno,
     ncities = 0; /* Some old savegames may be buggy. */
   }
 
+  if (!plr->server.got_first_city && ncities > 0) {
+    /* Probably barbarians in an old savegame; fix up */
+    plr->server.got_first_city = TRUE;
+  }
+
   for (i = 0; i < ncities; i++) { /* read the cities */
     int specialists = 0, workers = 0;
     int nat_x, nat_y;
