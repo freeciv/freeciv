@@ -1334,7 +1334,7 @@ ocean tiles.\
 \n\n\
 - An enemy city counts as an enemy occupied tile if there are \
 any units inside the city, but not if the city is empty. (This is \
-the same rule as for any other tile).\
+the same rule as for any other tile.)\
 \n\n\
 - Moving from an ocean tile is a special case; moving _to_ an \
 ocean tile (moving back onto a boat) is also permitted, by the \
