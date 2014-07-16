@@ -1342,12 +1342,12 @@ Notes:\
 - ZOC does not restrict unit attacks, only movement.\
 "), _("\
 - Units may only impose ZOC when they are on terrain that supports it. \
-Thus, Units that are not native to terrain effectively cannot impose \
+Thus, units that are not native to terrain effectively cannot impose \
 ZOC except for the special case where they are in a city.\
 "), _("\
 - An enemy city counts as an enemy occupied tile if there are \
 any units inside the city, but not if the city is empty. (This is \
-the same rule as for any other tile).\
+the same rule as for any other tile.)\
 "), _("\
 TIP:  You can infiltrate enemy zones by first moving in a Diplomat \
 (or some other unit which ignores ZOC), and then moving regular \
