@@ -5,68 +5,21 @@
 # ...
 # Daniel Markstedt <himasaram@spray.se>, 2009.
 # "TimR" (timr@gna), 2010.
-# Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>, 2010-2013.
+# Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>, 2010-2014.
 #
 # This file aims to provide a translation for every string, even those that
 # are identical (previously it only included msgstrs that were different).
 # This leads to a bigger message catalogue, but makes maintenance much
 # easier, and avoids possible problems when users use fallback translations.
 #
-# Translated words include:
-#
-#   canceled/ing -> cancelled/ing
-#   center/ed/ing -> centre/ed/ing
-#   railroad -> railway
-#   honor -> honour
-#   neighbor -> neighbour
-#   color -> colour
-#   favor -> favour
-#   airplane -> aeroplane
-#   defense -> defence
-#   offense -> offence
-#   traveler/ed/ing -> traveller/ed/ing
-#   fulfill -> fulfil
-#   practice (verb) -> practise
-#   license (noun) -> licence
-#   (amphi)theater -> theatre
-#   labeled/ing -> labelled/ing
-#   modeled/ing -> modelled/ing
-#   channeled/ing -> channelled/ing
-#   labor -> labour
-#   armor -> armour
-#   harbor -> harbour
-#   donut -> doughnut
-#   gotten -> anything but :)
-#   behavior -> behaviour
-#   fueled -> fuelled
-#   kilometer -> kilometre
-#   splendor -> splendour
-#
-# and all manner of iz -> is (we don't use Oxford spelling), including
-# the following stems:
-#
-#   civiliz, centraliz, coloniz, organiz, capitaliz, recogniz, initializ,
-#   seculariz, optimiz, maximiz, minimiz, industrializ, militariz, localiz,
-#   neutraliz, mechaniz, motoriz, specializ, miniaturiz, characteriz, monetiz,
-#   urbaniz, authoriz, christianiz, familiariz, baptiz, islamiz, ...
-#
-# _Not_ translated:
-#   mediaeval (old-fashioned)
-#   dialog -> dialogue (unless _not_ referring to UI element)
-#   Apollo Program -> Programme (all-American)
-#   program -> programme (if referring to a computer program)
-#
-# For more suggestions see
-# <http://live.gnome.org/BritishEnglish>
-# <http://git.gnome.org/browse/gnome-i18n/tree/en_GB/en_GB.pl>
-# <http://en.wikipedia.org/wiki/American_and_British_English_spelling_differences>
+# See translations/freeciv/en_GB.po for full translation notes.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 2.3.0\n"
+"Project-Id-Version: Freeciv 2.6.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-12 19:10+0100\n"
-"PO-Revision-Date: 2014-07-06 16:22+0100\n"
+"PO-Revision-Date: 2014-07-17 10:18+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -89,102 +42,91 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Unrecognised option: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:58
-#, fuzzy
 msgid "Freeciv ruleset editor"
-msgstr "Freeciv Server List"
+msgstr "Freeciv ruleset editor"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
 #: tools/ruledit/ruledit_qt.cpp:96
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "Needed by %s"
 
 #: tools/ruledit/ruledit_qt.cpp:119
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Give ruleset to use as starting point."
 
 #: tools/ruledit/ruledit_qt.cpp:125
-#, fuzzy
 msgid "Start editing"
-msgstr "Start Position"
+msgstr "Start editing"
 
 #: tools/ruledit/ruledit_qt.cpp:135
 msgid "Misc"
-msgstr ""
+msgstr "Misc"
 
 #: tools/ruledit/ruledit_qt.cpp:137
-#, fuzzy
 msgid "Tech"
-msgstr "_Techs"
+msgstr "Tech"
 
 #: tools/ruledit/ruledit_qt.cpp:146
 msgid "Welcome to freeciv-ruledit"
-msgstr ""
+msgstr "Welcome to freeciv-ruledit"
 
 #: tools/ruledit/ruledit_qt.cpp:181
-#, fuzzy
 msgid "Ruleset loaded"
-msgstr "Ruleset"
+msgstr "Ruleset loaded"
 
 #: tools/ruledit/ruledit_qt.cpp:186
 msgid "Ruleset loading failed!"
-msgstr ""
+msgstr "Ruleset loading failed!"
 
 #: tools/ruledit/tab_misc.cpp:53
-#, fuzzy
 msgid "Ruleset name"
-msgstr "Ruleset"
+msgstr "Ruleset name"
 
 #: tools/ruledit/tab_misc.cpp:58
-#, fuzzy
 msgid "Ruleset version"
-msgstr "Ruleset _Version:"
+msgstr "Ruleset version"
 
 #: tools/ruledit/tab_misc.cpp:63
-#, fuzzy
 msgid "Save to directory"
-msgstr "Save games to directory DIR"
+msgstr "Save to directory"
 
 #: tools/ruledit/tab_misc.cpp:70
-#, fuzzy
 msgid "Save now"
-msgstr "Save Scenario"
+msgstr "Save now"
 
 #: tools/ruledit/tab_misc.cpp:106
-#, fuzzy
 msgid "Ruleset saved"
-msgstr "Ruleset"
+msgstr "Ruleset saved"
 
 #: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
 msgstr "Name"
 
 #: tools/ruledit/tab_tech.cpp:69
-#, fuzzy
 msgid "Rule Name"
-msgstr "Player Name :"
+msgstr "Rule Name"
 
 #: tools/ruledit/tab_tech.cpp:77
 msgid "Req1"
-msgstr ""
+msgstr "Req1"
 
 #: tools/ruledit/tab_tech.cpp:86
 msgid "Req2"
-msgstr ""
+msgstr "Req2"
 
 #: tools/ruledit/tab_tech.cpp:94
 msgid "Root Req"
-msgstr ""
+msgstr "Root Req"
 
 #: tools/ruledit/tab_tech.cpp:103
 msgid "Add tech"
-msgstr ""
+msgstr "Add tech"
 
 #: tools/ruledit/tab_tech.cpp:107
-#, fuzzy
 msgid "Remove this tech"
-msgstr "Remove this preset?"
+msgstr "Remove this tech"
 
 #: tools/ruledit/tab_tech.cpp:186
 msgid "Never"
@@ -192,8 +134,8 @@ msgstr "Never"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "Effect"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
-msgstr ""
+msgstr "Music Style"
