@@ -26,7 +26,7 @@
 #ifdef HAVE_POPEN
 #define LUA_USE_POPEN
 #endif
-#ifdef HAVE__LONGJMP
+#if defined(HAVE__LONGJMP) && defined(HAVE__SETJMP)
 #define LUA_USE_ULONGJMP
 #endif
 

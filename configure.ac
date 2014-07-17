@@ -1101,7 +1101,7 @@ gl_FUNC_MKSTEMP
 if test x$gl_cv_func_working_mkstemp = xyes ; then
   AC_DEFINE([HAVE_MKSTEMP], [1], [Have working mkstemp])
 fi
-AC_CHECK_FUNCS([isatty popen _longjmp])
+AC_CHECK_FUNCS([isatty popen _longjmp _setjmp])
 
 AC_ARG_ENABLE([sys-lua],
 [  --enable-sys-lua        use lua from system instead of one from freeciv tree [[false]]],
