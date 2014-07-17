@@ -242,7 +242,7 @@ void tai_refresh(struct ai_type *ait, struct player *pplayer)
 
        taireq_list_release_mutex(thrai.reqs_from.reqlist);
 
-       log_normal("Plr thr sent %s", taireqtype_name(req->type));
+       log_debug("Plr thr sent %s", taireqtype_name(req->type));
 
        switch(req->type) {
        case TAI_REQ_WORKER_TASK:
