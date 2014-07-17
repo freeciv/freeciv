@@ -3657,6 +3657,9 @@ static bool load_ruleset_nations(struct section_file *file)
 
   game.server.ruledit.nationlist = secfile_lookup_str_default(file, NULL,
                                                               "ruledit.nationlist");
+  if (game.server.ruledit.nationlist != NULL) {
+    game.server.ruledit.nationlist = fc_strdup(game.server.ruledit.nationlist);
+  }
 
   game.server.default_government = NULL;
 
