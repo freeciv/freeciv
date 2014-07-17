@@ -1,34 +1,36 @@
-# Finnish translation
+# Finnish translation for Freeciv
 # Copyright (C) 2002-2003 2005-2009 2011-2012, 2014
-# Sini Ruohomaa <sini.ruohomaa@iki.fi>, 
+# Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
 # Juhana Uuttu <juhana.uuttu@gmail.com>,
-# Jarkko Siekkinen <jarkko.siekkinen@evl.fi>, 
+# Jarkko Siekkinen <jarkko.siekkinen@evl.fi>,
 # Juhani Heino <juhani.heino@vtt.fi>,
 # Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
 # This translation is covered by the GNU General Public License Version 2.
 #
-# Merging translations upwards to e.g. TRUNK is fine, do not merge downwards 
+# Merging translations upwards to e.g. TRUNK is fine, do not merge downwards
 # by default.
 #
 # Prioritizing stable branch 2_4 for translations (June 2014), merge
-# to trunk when feeling like it with: 
+# to trunk when feeling like it with:
 #   msgmerge --compendium=fi.po.trunk fi.po.s2_4 freeciv.pot -o fi.po.newtrunk
 # where fi.po.trunk is current trunk version, fi.po.s2_4 the improved branch
 # version, freeciv.pot an up-to-date POT for the trunk.
 # Then upload the resulting  fi.po.newtrunk to trunk.
+#
+# For nationality translations, see http://www.kotus.fi/index.phtml?s=2377 
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 18:09+0100\n"
-"PO-Revision-Date: 2014-07-08 03:22+0300\n"
+"POT-Creation-Date: 2014-07-17 09:06+0100\n"
+"PO-Revision-Date: 2014-07-17 00:42+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
-"Language-Team: Finnish <laatu@lokalisointi.org>\n"
+"Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
@@ -126,9 +128,9 @@ msgstr "Suuri päällikkö %s"
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Elder %s"
-msgstr "Vaaliruhtinas %s"
+msgstr "Vanhin %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/maori.ruleset:26 data/nation/pelasgian.ruleset:26
@@ -136,9 +138,9 @@ msgstr "Vaaliruhtinas %s"
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Elder %s"
-msgstr "Johtajatar %s"
+msgstr "Vanhin %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
 #: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:27
@@ -178,12 +180,16 @@ msgstr "abyssinialaisten"
 msgid "?plural:Abyssinians"
 msgstr "abyssinialaiset"
 
+# TODO (abyssinians): could not find Finnish translation of Habesha, used Amharic as loan basis.
 #: data/nation/abyssinian.ruleset:6
 msgid ""
 "Abyssinians - also known as Habesha or Ethiopians - are a Semitic people who "
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"Abyssinialaiset, jotka tunnettiin myös habešoina tai etiopialaisina, ovat "
+"seemiläinen kansa joka hallitsi historiallisia valtioita Afrikan sarvessa. "
+"Näistä tunnetuimpia olivat Aksumin kuningaskunta ja Etiopian keisarikunta."
 
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
 #: data/nation/belarusian.ruleset:34 data/nation/bulgarian.ruleset:31
@@ -275,11 +281,13 @@ msgstr ""
 msgid "Premier %s"
 msgstr "Pääministeri %s"
 
+# Englanniksi 'premiere' ilmeisesti kirjoitettaisiin 'premier'.
+# Käännösehdotuksia provinssin pääministeri, tärkein, pääministeri.
 #: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Premiere %s"
-msgstr "Pääministeri %s"
+msgstr "Premiere %s"
 
 #: data/nation/acadian.ruleset:32 data/nation/germanbelgian.ruleset:27
 #: data/nation/paraguayan.ruleset:38 data/nation/sammarinese.ruleset:25
@@ -306,21 +314,21 @@ msgstr "Apotti %s"
 #: data/nation/galician.ruleset:22 data/nation/genoese.ruleset:50
 #: data/nation/germanbelgian.ruleset:27 data/nation/greaterpolish.ruleset:21
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
-#: data/nation/latin.ruleset:44 data/nation/leonese.ruleset:22
-#: data/nation/liechtensteiner.ruleset:32 data/nation/luxembourgish.ruleset:29
-#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
-#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
-#: data/nation/norman.ruleset:25 data/nation/northumbrian.ruleset:39
-#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
-#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
-#: data/nation/piedmontese.ruleset:33 data/nation/quebecois.ruleset:21
-#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
-#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:41
-#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:33
-#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
-#: data/nation/slovenian.ruleset:19 data/nation/teutonic.ruleset:29
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/yucatecan.ruleset:31
+#: data/nation/langobardic.ruleset:38 data/nation/latin.ruleset:44
+#: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
+#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
+#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
+#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
+#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:30
+#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
+#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
+#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
+#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
+#: data/nation/salvadoran.ruleset:41 data/nation/sammarinese.ruleset:25
+#: data/nation/sardinian.ruleset:33 data/nation/savoyard.ruleset:32
+#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
+#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/yucatecan.ruleset:31
 #, c-format
 msgid "Mother Superior %s"
 msgstr "Abbedissa %s"
@@ -386,10 +394,11 @@ msgstr "Kuvernööri %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
-#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
-#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
-#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
+#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
+#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
+#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "Kuvernööri %s"
@@ -402,6 +411,7 @@ msgstr "acrelaisten"
 msgid "?plural:Acreans"
 msgstr "acrelaiset"
 
+# (Acre) No direct translation to Independent state of Acre, could use 'republic of Acre' too, but dodged.
 #: data/nation/acrean.ruleset:6
 msgid ""
 "Acre is the westernmost state of Brazil. The region was part of Bolivia "
@@ -410,16 +420,21 @@ msgid ""
 "Petropolis of 1903, after which Acre was annexed to Brazil. Acre is one of "
 "the world's most important rubber producing regions."
 msgstr ""
+"Acre on Brasilian läntisin osavaltio. Alue oli osa Boliviaa vuoteen 1899, "
+"jolloin brasilialaiset uudisasukkaat tekivät vallankumouksen ja julistivat "
+"Acren itsenäiseksi valtioksi. Bolivia luopui vaatimuksistaan alueeseen "
+"Petropoliin sopimuksessa 1903, jonka jälkeen Acre liitettiin Brasiliaan. "
+"Acre on yksi maailman tärkeimmistä kumintuottaja-alueista."
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baron %s"
-msgstr "Baani %s"
+msgstr "Paroni %s"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
-msgstr "Ruhtinatar %s"
+msgstr "Paronitar %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -621,6 +636,7 @@ msgstr ""
 msgid "Sheikh %s"
 msgstr "Šeikki %s"
 
+# English wikipedia says sheikha is female equivalent, Šaikhah in Finnish is said to be the wife or daughter which might not be the same but close enough.
 #: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
 #: data/nation/bahraini.ruleset:25 data/nation/cyrenaican.ruleset:26
 #: data/nation/egyptianarab.ruleset:26 data/nation/emirati.ruleset:24
@@ -629,10 +645,10 @@ msgstr "Šeikki %s"
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
-#: data/nation/tuareg.ruleset:37
+#: data/nation/syrian.ruleset:20 data/nation/tuareg.ruleset:37
 #, c-format
 msgid "Shaykha %s"
-msgstr "Šeikki %s"
+msgstr "Šaikhah %s"
 
 #: data/nation/alandalus.ruleset:32 data/nation/algerian.ruleset:23
 #: data/nation/amazigh.ruleset:72 data/nation/egyptianarab.ruleset:27
@@ -689,6 +705,7 @@ msgstr "ahvenanmaalaisten"
 msgid "?plural:Alanders"
 msgstr "ahvenanmaalaiset"
 
+# (Aland; translation > original)
 #: data/nation/alander.ruleset:9
 msgid ""
 "Aland is an archipelago in the Baltic Sea, located between Sweden and "
@@ -697,6 +714,13 @@ msgid ""
 "long period in which the islands were contested between Sweden and Finland. "
 "Aland's special and demilitarized status is protected by international law."
 msgstr ""
+"Ahvenanmaa on Itämeren saaristo, joka sijaitsee Ruotsin ja Suomen välissä. "
+"Saaren asukkaat puhuvat ruotsia, mutta Ahvenanmaan maakunta on osa Suomea. "
+"Ahvenanmaan itsehallinto myönnettiin 1921, mitä edelsi pitkä keskustelu "
+"siitä, kuuluisiko Ahvenanmaa liittää osaksi Ruotsia. Kansainliitto ratkaisi "
+"tämän Ahvenanmaan kysymyksen lopulta Suomen eduksi. Ahvenanmaan "
+"erikoisasemaa neutraalina ja linnoittamattomana suojaa Genevessä tehty "
+"kansainvälinen sopimus 1921."
 
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
@@ -777,11 +801,11 @@ msgstr "Ruhtinas %s"
 #: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
-#: data/nation/romanian.ruleset:31 data/nation/ruthenian.ruleset:29
-#: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
-#: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
-#: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:37
-#: data/nation/westernpomeranian.ruleset:29
+#: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:33
+#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
+#: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
+#: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
+#: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Princess %s"
 msgstr "Ruhtinatar %s"
@@ -886,6 +910,12 @@ msgstr ""
 msgid "Secretary General %s"
 msgstr "Pääsihteeri %s"
 
+#: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
+#: data/nation/santomean.ruleset:33
+#, c-format
+msgid "?female:Secretary General %s"
+msgstr "Pääsihteeri %s"
+
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
 msgid "%s Dey"
@@ -896,13 +926,14 @@ msgstr "Dey %s"
 msgid "?female:%s Dey"
 msgstr "Dey %s"
 
+# Elsass on vanhakantainen (saksal.) nimi Alsacelle, ks http://www.kotus.fi/index.phtml?s=4834
 #: data/nation/alsatian.ruleset:3
 msgid "Alsatian"
-msgstr "elsassilaisten"
+msgstr "alsacelaisten"
 
 #: data/nation/alsatian.ruleset:4
 msgid "?plural:Alsatians"
-msgstr "elsassilaiset"
+msgstr "alsacelaiset"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -914,6 +945,13 @@ msgid ""
 "and France 4 times in less than a century. Since 1944 it has been in French "
 "hands."
 msgstr ""
+"Alsace, saksalaisittain Elsass, on alue Euroopassa, Ranskan ja Saksan "
+"rajalla. Keskiajalla Alsace oli osa Pyhää saksalais-roomalaista "
+"keisarikuntaa, ja koostui useista varsin varakkaista kaupunkivaltioista. "
+"1600- ja 1700-luvuilla Alsacen kaupungit liitettiin yksi kerrallaan "
+"Ranskaan, mutta sen jälkeen alueesta tuli yksi Euroopan kiistellyimmistä: se "
+"vaihtoi omistajaa Saksan ja Ranskan välillä neljästi alle vuosisadassa. "
+"Vuodesta 1944 se on kuulunut Ranskalle."
 
 #: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
@@ -1153,11 +1191,11 @@ msgstr ""
 
 #: data/nation/anhaltian.ruleset:3
 msgid "Anhaltian"
-msgstr ""
+msgstr "anhaltilaisten"
 
 #: data/nation/anhaltian.ruleset:4
 msgid "?plural:Anhaltians"
-msgstr ""
+msgstr "anhaltilaiset"
 
 #: data/nation/anhaltian.ruleset:6
 msgid ""
@@ -1170,6 +1208,16 @@ msgid ""
 "Anhalt finally ceased to exist when the allies decided to merge it with the "
 "former Prussian Province of Saxony to form the state of Saxony-Anhalt."
 msgstr ""
+"Anhalt oli Saksan osavaltio. Alunperin se oli kreivikunta, joka irrotettiin "
+"Saksista 1212. Suurimman osan historiastaan se on ollut jaettuna useaan "
+"alueeseen, joita hallitsi sama suku. Anhaltin kreivit korotettiin "
+"herttuoiksi kun Napoleon hajotti Pyhän saksalais-roomalaisen keisarikunnan "
+"1806. Anhalt yhdistettiin jälleen yhdeksi herttuakunnaksi 1863. Saksa "
+"julistettiin ensimmäisen maailmansodan lopulla tasavallaksi, ja Anhaltista "
+"tuli vapaavaltio. Toisen maailmansodan jälkeen liittoutuneet päättivät "
+"liittää Anhaltin Saksin entiseen preussilaiseen Saksin maakuntaan, josta "
+"syntynyt Saksi-Anhaltin osavaltio pani pisteen Anhaltin värikkäälle "
+"historialle."
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -1268,13 +1316,14 @@ msgstr "etelänapaatit"
 msgid "Independent South Pole, land of penguins."
 msgstr "Itsenäinen Etelänapa, pingviinien maa."
 
+# http://www.kotus.fi/index.phtml?s=2377 for the win!
 #: data/nation/antiguan.ruleset:3
 msgid "Antiguan and Barbudan"
-msgstr ""
+msgstr "antiguabarbudalaisten"
 
 #: data/nation/antiguan.ruleset:4
 msgid "?plural:Antiguans and Barbudans"
-msgstr ""
+msgstr "antiguabarbudalaiset"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -1282,6 +1331,9 @@ msgid ""
 "two eponymous islands as well as a number of smaller islets. The country has "
 "been independent from the United Kingdom since 1981."
 msgstr ""
+"Antigua ja Barbuda on valtio Itä-Karibianmerellä. Se koostuu kahdesta "
+"valtiolle nimen antaneesta pääsaaresta ja joukosta pienempiä saaria. Maa "
+"itsenäistyi Iso-Britanniasta 1981."
 
 # KOTUS: alankomaidenantillilainen (Alankomaiden Antillit) tai alankomaalainen.
 #: data/nation/antillean.ruleset:3
@@ -1292,6 +1344,7 @@ msgstr "alankomaidenantillilaisten"
 msgid "?plural:Antilleans"
 msgstr "alankomaidenantillilaiset"
 
+# Sint Eustatius (sic)
 #: data/nation/antillean.ruleset:6
 msgid ""
 "The islands of Aruba, Bonaire, Curacao, Saba, Saint Martin and Saint "
@@ -1302,6 +1355,13 @@ msgid ""
 "Kingdom of the Netherlands; the other three islands have been directly "
 "integrated into the Netherlands as special municipalities."
 msgstr ""
+"Hollantilaiset uudisraivaajat saapuivat Aruban, Bonairen, Curaçaon, Saban, "
+"Saint Martinin ja Sint Eustatiusin saarille 1600-luvulla. Saarten väestössä "
+"sekoittuvat eurooppalainen, afrikkalainen ja Latinalaisen Amerikan perimä. "
+"Alankomaiden Antillit sai sisäisen itsemääräämisoikeuden 1954, ja ne "
+"hajotettiin 2010. Aruba, Curaçao ja Saint Martin ovat Alankomaiden "
+"kuningaskuntaan kuuluvia autonomisia alueita, kun taas loput kolme saaret on "
+"kytketty suoraan Alankomaihin erityisasemassa olevina kuntina."
 
 #: data/nation/aragonese.ruleset:3
 msgid "Aragonese"
@@ -1467,15 +1527,16 @@ msgstr "Vallananastaja %s"
 #: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
-#: data/nation/seleucid.ruleset:28 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:26
+#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "Vallananastaja %s"
@@ -1538,6 +1599,11 @@ msgid ""
 "by the mighty Mughal Empire, effectively halting the Mughals' eastward "
 "expansion."
 msgstr ""
+"Shan-kansa perusti Assamin eli Ahomin kuningaskunnan 1228 Himalajan "
+"kaakkoisen edustan kukkuloille, jonne siirtyivät nykyisen Burman "
+"koillisosista. Assamin kuninkaat keräsivät mainetta kukistamalla useita "
+"Suurmogulien valtakunnan retkikuntia, mikä käytännössä pysäytti suurmogulien "
+"laajentumisen itään."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -1618,7 +1684,7 @@ msgstr "australialaisten"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
-msgstr "?plural:australialaiset"
+msgstr "australialaiset"
 
 #: data/nation/australian.ruleset:6
 msgid ""
@@ -1807,6 +1873,15 @@ msgid ""
 "The Bahamas are the most developed country of Latin America and the "
 "Caribbean as well as the world's wealthiest black-majority country."
 msgstr ""
+"Bahama koostuu saariryhmästä Pohjois-Amerikassa. Saapuessaan Amerikkaan "
+"Kolumbus rantautui aikoinaan ensimmäisenä jonnekin päin Bahamasaaria. "
+"Alkuperäiskansat kuolivat 25 vuodessa sukupuuttoon, ja saaret olivat "
+"asumattomia kunnes englantilaiset siirtolaiset saapuivat saarille 1600-"
+"luvulla. Bahama on ollut itsenäinen osa Kansainyhteisöä vuodesta 1973. "
+"Nykyään Bahama tunnetaan erityisesti rannoistaan, mutta se on myös "
+"huomattava offshore-talouspalveluiden keskus. Bahaman liittovaltio on "
+"Latinalaisen Amerikan ja Karibianmeren kehittynein maa, samoin kuin maailman "
+"rikkain maa jossa musta väestö on enemmistönä."
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
@@ -1824,6 +1899,11 @@ msgid ""
 "became a constitutional monarchy in 2001 but a pro-democracy uprising in "
 "2011 was violently crushed."
 msgstr ""
+"Bahrain on saarivaltio Persianlahdella, ja Lähi-Idän pienin valtio. Bahrain "
+"itsenäistyi Persiasta 1700-luvulla, tosin maa pysyi Iso-Britannian "
+"protektoraattina vuoteen 1971. Maasta tuli perustuslaillinen monarkia vuonna "
+"2001, mutta vuoden 2011 demokratiaa ajanut liikehdintä murskattiin "
+"väkivalloin."
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
 #, c-format
@@ -1926,6 +2006,12 @@ msgid ""
 "been independent since 1966. Barbados is a major international tourist "
 "destination and one of the most developed countries of the Caribbean."
 msgstr ""
+"Barbados on saarivaltio Atlantin valtameressä, noin 100 km itään Windward-"
+"saarista Karibianmerellä. Saarta asuttivat alunperin arawakit, kunnes "
+"portugalilaiset löysivät sen noin vuonna 1500. Kun englantilaiset "
+"siirtolaiset saapuivat Barbadosille 1627, he totesivat saaren asumattomaksi. "
+"Saari on ollut itsenäinen vuodesta 1966. Barbados on kansainvälisesti "
+"huomattava turistikohde ja yksi Karibianmeren kehittyneimmistä valtioista."
 
 # TODO: unconfirmed
 #: data/nation/bashkir.ruleset:3
@@ -2003,7 +2089,7 @@ msgstr "baijerilaisten"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "?plural:baijerilaiset"
+msgstr "baijerilaiset"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
@@ -2146,6 +2232,12 @@ msgstr ""
 msgid "High Druid %s"
 msgstr "Korkea druidi %s"
 
+#: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
+#: data/nation/helvetian.ruleset:29
+#, c-format
+msgid "?female:High Druid %s"
+msgstr "Korkea druidi %s"
+
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
@@ -2202,9 +2294,10 @@ msgstr "Puhemies %s"
 
 #: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
-#: data/nation/gepid.ruleset:44 data/nation/liberian.ruleset:30
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:40
+#: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
+#: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:40
 #, c-format
 msgid "?female:Speaker %s"
 msgstr "Puhenainen %s"
@@ -2226,6 +2319,13 @@ msgid ""
 "diverse, its population consisting of Creoles, Mayans, Spanish-speaking "
 "mestizos, Garifunas, Chinese, Mennonites, and Indians."
 msgstr ""
+"Belize on Keski-Amerikan pienin maa. Se oli aikoinaan osa maya-aluetta, "
+"jonka asuttivat brittiläiset merirosvot ja tukkimiehet 1600-luvulla. Belize, "
+"joka silloin tunnettiin nimellä Brittiläinen Honduras, oli kruunun siirtomaa "
+"vuodesta 1862. Se on ollut itsenäinen maa vuodesta 1981. Belize on etnisesti "
+"äärimmäisen monimuotoinen, ja sen asujaimisto koostuu kreoleista, mayoista, "
+"espanjankielisistä mestitseistä, garifuneista, kiinalaisista, mennoniiteistä "
+"ja intialaisista."
 
 #: data/nation/belizean.ruleset:25
 #, c-format
@@ -2392,6 +2492,8 @@ msgid ""
 "Guinea-Bissau is a country in West Africa. Formerly known as Portuguese "
 "Guinea, it declared independence in 1973."
 msgstr ""
+"Guinea-Bissau on maa Länsi-Afrikassa. Se tunnettiin aiemmin Portugalin "
+"Guineana, ja itsenäistyi 1973."
 
 #: data/nation/bissauguinean.ruleset:22
 #, c-format
@@ -2409,7 +2511,7 @@ msgstr "buurien"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "?plural:buurit"
+msgstr "buurit"
 
 #: data/nation/boer.ruleset:6
 msgid ""
@@ -2631,17 +2733,14 @@ msgstr "Konsuli %s"
 msgid "?female:Consul %s"
 msgstr "Konsuli %s"
 
-# Motswana is the singular form of batswana; using plural genetive as 
-# adjective as per Wikipedia and Jaakko Kankaanpää's plural-on-plural 
-# translation style, as seen in a McCall Smith book:
-# "eivätkä batswanat voi katsoa vierestä toisen motswanan kärsimystä"
+# Note that batswanas are separated from botswana-residents.
 #: data/nation/botswanan.ruleset:3
 msgid "Botswanan"
-msgstr "batswanojen"
+msgstr "botswanalaisten"
 
 #: data/nation/botswanan.ruleset:4
 msgid "?plural:Botswanans"
-msgstr "batswanat"
+msgstr "botswanalaiset"
 
 #: data/nation/botswanan.ruleset:6
 msgid ""
@@ -2671,7 +2770,7 @@ msgid ""
 "Republic of Germany."
 msgstr ""
 "Alkujaan itäiseen Frankkien valtakuntaan kuulunut Nordmarkin alue liitettiin "
-"Pyhään Saksalais-Roomalaiseen keisarikuntaan 1100-luvulla. Brandenburgin "
+"Pyhään saksalais-roomalaiseen keisarikuntaan 1100-luvulla. Brandenburgin "
 "hallitsijat saivat Preussin valtaansa 1618, ja alueet muodostivat yhdessä "
 "1701 Preussin kuningaskunnan. Brandenburgin nimellinen itsenäisyys säilyi "
 "vuoteen 1806 asti, jolloin siitä tuli Preussin maakunta. Nykyään Brandenburg "
@@ -2842,6 +2941,10 @@ msgid ""
 "century later thanks to its control of the maritime trade in much of "
 "Southeast Asia. Brunei was a British protectorate from 1888 to 1984."
 msgstr ""
+"Brunei Darussalamin valtio sijaitsee Borneon saarella, Malesian saaristossa. "
+"Sulttaanikunta perustettiin 1300-luvulla ja kasvoi varsin vahvaksi vuosisata "
+"myöhemmin, koska se hallitsi merellä tehtyä kauppaa suuressa osassa Kaakkois-"
+"Aasiaa. Brunei oli brittien protektoraatti vuodesta 1888 vuoteen 1984."
 
 #: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:36
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
@@ -2952,7 +3055,7 @@ msgid ""
 "Rome. Their first kingdom was founded in Worms, but after its destruction by "
 "the Huns they moved to what is today Savoy and Burgundy, where they founded "
 "their second kingdom. Eventually they were subordinated by the Frankish "
-"Kingdom. The Bugundians gave their name to the later Romance nation and "
+"Kingdom. The Burgundians gave their name to the later Romance nation and "
 "region of Burgundy."
 msgstr ""
 
@@ -3119,7 +3222,7 @@ msgstr "kanadalaisten"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "?plural:kanadalaiset"
+msgstr "kanadalaiset"
 
 #: data/nation/canadian.ruleset:7
 msgid ""
@@ -3191,6 +3294,11 @@ msgid ""
 "Atlantic slave trade. The islands declared independence from Portugal in "
 "1975. The Cape Verdean population is of mixed European and African descent."
 msgstr ""
+"Kap Verde on saaristo Länsi-Afrikan rannikon tuntumassa. Ennen kuin "
+"portugalilaiset asuttivat saaret 1400-luvulla, ne olivat todennäköisesti "
+"asumattomia. Kap Verdestä tuli tämän jälkeen yksi Atlantin orjakaupan "
+"keskuksia. Saaret julistautuivat itsenäisiksi Portugalista vuonna 1975. Kap "
+"Verden asukkaat ovat eurooppalais- ja afrikkalaistaustaisia."
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
 #, c-format
@@ -3210,7 +3318,7 @@ msgstr "karthagolaisten"
 #: data/nation/carantanian.ruleset:4
 #, fuzzy
 msgid "?plural:Carantanians"
-msgstr "?plural:karthagolaiset"
+msgstr "karthagolaiset"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3252,7 +3360,7 @@ msgstr "katalaanien"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr "?plural:katalaanit"
+msgstr "katalaanit"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -3395,7 +3503,7 @@ msgid "People's Commissar %s"
 msgstr "Kansankomissaari %s"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
-#: data/nation/volgagerman.ruleset:37
+#: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, c-format
 msgid "?female:People's Commissar %s"
 msgstr "Kansankomissaari %s"
@@ -3554,7 +3662,7 @@ msgstr "chileläisten"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "?plural:chileläiset"
+msgstr "chileläiset"
 
 #: data/nation/chilean.ruleset:6
 msgid ""
@@ -3611,11 +3719,11 @@ msgstr ""
 
 #: data/nation/chinook.ruleset:3
 msgid "Chinook"
-msgstr ""
+msgstr "chinookien"
 
 #: data/nation/chinook.ruleset:4
 msgid "?plural:Chinooks"
-msgstr ""
+msgstr "chinookit"
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -3779,11 +3887,11 @@ msgstr ""
 
 #: data/nation/circassian.ruleset:3
 msgid "Circassian"
-msgstr ""
+msgstr "tšerkessien"
 
 #: data/nation/circassian.ruleset:4
 msgid "?plural:Circassians"
-msgstr ""
+msgstr "tšerkessit"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -3857,11 +3965,11 @@ msgstr ""
 
 #: data/nation/comorian.ruleset:3
 msgid "Comorian"
-msgstr ""
+msgstr "komorilaisten"
 
 #: data/nation/comorian.ruleset:4
 msgid "?plural:Comorians"
-msgstr ""
+msgstr "komorilaiset"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -3871,6 +3979,12 @@ msgid ""
 "been under Arab influence since the 8th century, the Comoros is the "
 "southernmost Muslim-majority country in the world."
 msgstr ""
+"Komorien liitto on saarivaltio Mosambikin kanaalissa, ja koostuu kolmesta "
+"saaresta: Iso-Komori, Moheli ja Anjouan. Komorien liiton hallitus katsoo "
+"myös Mayotten kuuluvan osaksi liittoa, vaikka se on tällä hetkellä Ranskan "
+"hallinnassa. Komorit ovat olleet arabien vaikutuksen alaisia 700-luvulta "
+"asti, minkä jäljiltä maa on eteläisin valtio maailmassa jossa enemmistä "
+"asukkaista on muslimeja."
 
 #: data/nation/comorian.ruleset:24 data/nation/congolesebrazzaville.ruleset:27
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
@@ -3937,8 +4051,13 @@ msgid ""
 "Republic of the Congo. The country's economy relies heavily on the export of "
 "petroleum."
 msgstr ""
+"Kongon tasavalta on Keski-Afrikan valtio, jota ei tule sekoittaa Kongon "
+"demokraattiseen tasavaltaan. Kongo itsenäistyi Ranskasta 1960. Vuosina "
+"1970-1991 se oli marxilais-leniniläinen yksipuoluevaltio, jonka aikana maa "
+"tunnettiin nimellä Kongon kansantasavalta. Maan talous on vahvasti "
+"riippuvainen raakaöljyn viennistä."
 
-# Moderni Kongon demokraattinen tasavalta
+# Moderni Kongon demokraattinen tasavalta, myös kinshasankongolaiset
 #: data/nation/congolese.ruleset:3
 msgid "Congolese"
 msgstr "kongolaisten"
@@ -3947,6 +4066,7 @@ msgstr "kongolaisten"
 msgid "?plural:Congolese"
 msgstr "kongolaiset"
 
+# Paikalliskirjoitusasussa näköjään Leopold II:lle ei harrasteta aksentteja.
 #. TRANS: The second letter in "Leopold" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
@@ -3963,6 +4083,16 @@ msgid ""
 "civil war, causing five million deaths, the bloodiest event since World War "
 "II."
 msgstr ""
+"Kongon demokraattinen tasavalta on suuri valtio Keski-Afrikassa. Sen "
+"huomattavista luonnonrikkauksista huolimatta (tai niistä johtuen) se on "
+"ollut raunioina suuren osan lähihistoriastaan. Vuonna 1885 Kongo "
+"lahjoitettiin Belgian Leopold II:lle henkilökohtaiseksi omaisuudeksi Kongon "
+"vapaavaltiona, mikä muutti maan teurastamoksi. Ainakin viidennes asukkaista "
+"kuoli, ja kansainvälisen voimakkaan paheksunnan seurauksena siitä tuli "
+"Belgian siirtomaa 1906. Kongo itsenäistyi 1960. Mobutun diktatuuri aloitti "
+"uuden ryöväysaallon. Kun Mobutu syöstiin vallasta, maa vajosi "
+"sisällissotaan, aiheuttaen viisi miljoonaa kuolonuhria, enemmän kuin missään "
+"muussa konfliktissa sitten toisen maailmansodan."
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -4095,6 +4225,13 @@ msgid ""
 "Byzantines, Venetians and Ottoman Turks. After having been a semi-"
 "independent state for 15 years, Crete finally became part of Greece in 1913."
 msgstr ""
+"Kreeta on saari Välimerellä, ja Kreikan saariston suurin. 3. ja 2. "
+"vuosituhannella eaa. Kreetalla oli Euroopan ensimmäinen kehittynyt, "
+"minolainen kulttuuri, jonka tuhosi läheisen Thera-tulivuoren purkaus. Tämän "
+"jälkeen Kreeta siirtyi osaksi kreikkalaista kulttuurikenttää, ja sittemmin "
+"sen valloittivat roomalaiset, arabit, bysanttilaiset, venetsialaiset ja "
+"Osmanin turkkilaisvaltakunta. Kreetasta tuli osa Kreikkaa 1913 viidentoista "
+"vuoden osittaisen itsenäisyyden jälkeen."
 
 #: data/nation/crimeantatar.ruleset:3
 msgid "Crimean Tatar"
@@ -4120,7 +4257,7 @@ msgstr "kroaattien"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "?plural:kroaatit"
+msgstr "kroaatit"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -4262,6 +4399,10 @@ msgid ""
 "Union in 1948. Four years after the fall of communism it was split into the "
 "Czech and Slovak republics."
 msgstr ""
+"Tšekkoslovakia perustettiin 1918. Se oli pitkään Itä-Euroopan ainoa "
+"demokratia, kunnes natsit valtasivat sen 1939 ja Neuvostoliitto sen jälkeen "
+"1948. Neljän vuoden ajan se oli kommunistihallinnon alla, jonka jälkeen maa "
+"jaettiin Tšekin ja Slovakian tasavaltoihin."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -4366,6 +4507,9 @@ msgid ""
 "groups are the Afar and the Somalis. The country has one of the hottest "
 "climates in the world."
 msgstr ""
+"Djibouti on yksi Afrikan pienimmistä maista, joka sijaitsee Adeninlahdella. "
+"Se itsenäistyi Ranskan vallan alta 1977. Djiboutin suurimmat etniset ryhmät "
+"ovat afarit ja somalit. Maassa on yksi maailman kuumimmista ilmastoista."
 
 #: data/nation/dominicano.ruleset:3
 msgid "Dominicano"
@@ -4587,11 +4731,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "epeiroslaisten"
 
 #: data/nation/epirote.ruleset:4
 msgid "?plural:Epirotes"
-msgstr ""
+msgstr "epeiroslaiset"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4599,6 +4743,9 @@ msgid ""
 "northwestern Greece. Their most powerful ruler Pyrrhus launched a campaign "
 "against Rome in Italy, which ended in the famous \"Pyrrhic Victory\"."
 msgstr ""
+"Epeiroslaiset olivat Epeiroksen alueen muinaisia asukkaita luoteis-"
+"Kreikassa. Heidän vahvin johtansa Pyrrhos aloitti Roomaa vastaan sodan, joka "
+"päättyi kuuluisaan \"Pyrrhoksen voittoon\"."
 
 #: data/nation/epirote.ruleset:30 data/nation/italiangreek.ruleset:48
 #, c-format
@@ -4612,11 +4759,11 @@ msgstr "Tyranni %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
-msgstr ""
+msgstr "päiväntasaajanguinealaisten"
 
 #: data/nation/equatoguinean.ruleset:4
 msgid "?plural:Equatoguineans"
-msgstr ""
+msgstr "päiväntasaajanguinealaiset"
 
 #: data/nation/equatoguinean.ruleset:6
 msgid ""
@@ -4625,6 +4772,10 @@ msgid ""
 "the country achieved independence in 1968. Equatorial Guinea is one of the "
 "wealthier countries of Africa but also one of the most unequal."
 msgstr ""
+"Päiväntasaajan Guinea on Afrikan maa. Se jakautuu mannerosaan (Río Muni) ja "
+"kahteen saareen, Biokoon ja Annobóniin. Maata kutsuttiin siirtomaa-aikaan "
+"Espanjan Guineaksi, ja se itsenäistyi 1968. Päiväntasaajan Guinea on yksi "
+"Afrikan rikkaimmista maista, mutta myös yksi epätasa-arvoisimmista."
 
 #: data/nation/eritrean.ruleset:3
 msgid "Eritrean"
@@ -4663,7 +4814,7 @@ msgstr ""
 "Esperadot ovat maailmanlaajuinen yhteisö, joita yhdistää esperanton kieli."
 
 # Viro-muoto on suomessa virallinen, tosin siihen liittyy kuuleman
-# mukaan alistavampi sävy kuin Eestiin. :/ 
+# mukaan alistavampi sävy kuin Eestiin. :/
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
 msgstr "virolaisten"
@@ -4794,6 +4945,10 @@ msgid ""
 "possession in 1035 and passed to Denmark in 1814. The Faroes have home rule "
 "since 1948."
 msgstr ""
+"Färsaaret ovat saaristo Pohjois-Atlantilla. Saagojen mukaan ne kansoitti "
+"ensimmäisenä Norjan kuninkaan Harald Kaunotukan hirmuvaltaa paennut "
+"skandinaaviväestö. Saaret tulivat Norjan hallintaan 1035, ja siirtyivät "
+"Tanskalle 1814. Färsaarilla on ollut laaja itsehallinto vuodesta 1948."
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
@@ -4888,7 +5043,7 @@ msgstr "flaamien"
 
 #: data/nation/flemish.ruleset:4
 msgid "?plural:Flemings"
-msgstr "?plural:flaamit"
+msgstr "flaamit"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
@@ -4899,13 +5054,14 @@ msgid ""
 "the name is applied to the Dutch (or Flemish) speaking part of Belgium."
 msgstr ""
 
+# Suunnilleen florentiinit
 #: data/nation/florentine.ruleset:3
 msgid "Florentine"
-msgstr ""
+msgstr "florentiinien"
 
 #: data/nation/florentine.ruleset:4
 msgid "?plural:Florentines"
-msgstr ""
+msgstr "florentiinit"
 
 #: data/nation/florentine.ruleset:6
 msgid ""
@@ -4944,7 +5100,8 @@ msgstr "Fra %s"
 msgid "Captain %s"
 msgstr "Kapteeni %s"
 
-#: data/nation/florentine.ruleset:42 data/nation/milanese.ruleset:29
+#: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
+#: data/nation/milanese.ruleset:29
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Kapteeni %s"
@@ -5055,11 +5212,11 @@ msgstr ""
 
 #: data/nation/friulian.ruleset:3
 msgid "Friulian"
-msgstr ""
+msgstr "friulilaisten"
 
 #: data/nation/friulian.ruleset:4
 msgid "?plural:Friulian"
-msgstr ""
+msgstr "friulilaiset"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -5105,6 +5262,11 @@ msgid ""
 "one of the most developed countries of Sub-Saharan Africa, in part because "
 "of its position as a major oil exporter."
 msgstr ""
+"Gabon on Keski-Afrikan valtio Atlantin rannikolla. Alkujaan bantukansojen "
+"asuttava Gabon päätyi Ranskan protektoraatiksi 1800-luvulla. Se on ollut "
+"itsenäinen tasavalta vuodesat 1960. Sitä pidetään yhtenä Saharan eteläpuolen "
+"kehittyneimmistä maista, osin johtuen sen asemasta huomattavana öljyn "
+"viejämaana."
 
 #: data/nation/gaelic.ruleset:3
 msgid "Gaelic"
@@ -5199,6 +5361,8 @@ msgid ""
 "The Gambia is a small country in West Africa, straddling both banks of the "
 "Gambia river. It achieved independence from the United Kingdom in 1965."
 msgstr ""
+"Gambia on pieni maa Länsi-Afrikassa, joka sijoittuu molemmin puolin Gambia-"
+"joen rantoja. Se itsenäistyi Iso-Britanniasta 1965."
 
 #: data/nation/gambian.ruleset:19 data/nation/malian.ruleset:20
 #: data/nation/senegalese.ruleset:19
@@ -5424,7 +5588,7 @@ msgstr "gökturkkilaisten"
 
 #: data/nation/gokturk.ruleset:4
 msgid "?plural:Gokturks"
-msgstr "?plural:gökturkkilaiset"
+msgstr "gökturkkilaiset"
 
 #. TRANS: The second letter in "Gokturk" should be
 #. TRANS: U+00F6 LATIN SMALL LETTER O WITH DIAERESIS if available in
@@ -5511,6 +5675,11 @@ msgid ""
 "tip of the island. Today, Greenland is a self-governing country within the "
 "Kingdom of Denmark with mixed Inuit and Scaninavian population."
 msgstr ""
+"Tarnan mukaan suurshamaani Qitdlarssuag johti inuitit Thuleen (Qaanaaq), "
+"Grönlannin länsirannikolle, 900-luvulla. Samoihin aikoihin Skandinaviasta "
+"tulleet uudisasukkaat saapuivat saaren lounasrannikon vuonoille. Nykyään "
+"Grönlanti on osa Tanskan kuningaskuntaa, jolla on itsehallinto. Sen väestö "
+"koostuu inuiteista ja skandinaaveista."
 
 #: data/nation/grenadian.ruleset:3
 msgid "Grenadian"
@@ -5562,6 +5731,11 @@ msgid ""
 "Paraguay in agricultural villages. Today their Guarani language is spoken by "
 "over 4 million people and is an official language of the nation of Paraguay."
 msgstr ""
+"Abat, jotka tunnetaan yleisemmin nimellä guarani, olivat väestöltään ehkä "
+"jopa 400.000:n luokkaa ennen eurooppalaisten saapumista. He asuttivat "
+"nykyisen Paraguayn aluetta maanviljelijäkylinä. Nykyään guaranin kieltä "
+"puhuu yli neljä miljoonaa ihmistä, ja se on Paraguayn toinen virallinen "
+"kieli."
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
@@ -5603,6 +5777,9 @@ msgid ""
 "Sekou Toure continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
+"Guinea julistautui itsenäiseksi Ranskasta 1958. Sen ensimmäinen presidentti, "
+"Ahmed Sékou Touré, hallitsi maata kuolemaansa asti 1984. Guineaa ei pidä "
+"sekoittaa naapurimaahansa, Guinea-Bissauhun."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -5667,7 +5844,7 @@ msgstr ""
 "käskyttämällä. Mieluusti tämä tapahtui hiljaisessa yksinäisyydessä öisinä "
 "pikkutunteina. Nykyaikaisen hajaantuneen hakkeri(epä)yhteisön näkyvin osa "
 "lienee wannabe-alakulttuuri, joka voidaan kiteyttää olennaisilta osiltaan "
-"seuraavaan lausumaan: \n"
+"seuraavaan lausumaan:\n"
 "\n"
 "h4xx0rit on n11q üb3r-1337!!!1yksi"
 
@@ -5806,6 +5983,12 @@ msgid ""
 "in line with the other mound-building cultures of the Southeast. The word "
 "Texas is derived from Caddoan word for \"Friend.\""
 msgstr ""
+"Hasiinaiden liitto koostui joukosta maanviljelijöiden kyliä. Se oli Itä-"
+"Teksasilainen caddojen poliittinen yhteenliittymä. Vaikka hasiinaiden "
+"kauppaverkostot kulkivat pitkälle länteen, Amerikan koillisosissa "
+"sijaitseville pueblojen maille asti, kansan kulttuurisiteet taipuvat "
+"pikemminkin muiden hautakumpuja rakentavien kansojen suuntaan mantereen "
+"kaakkoisosissa. Sana Texas tulee caddon sanasta \"ystävä\"."
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
@@ -5861,11 +6044,14 @@ msgid ""
 "Helvetians succumbed to the Romans and became Romanized during the following "
 "centuries."
 msgstr ""
-
-#: data/nation/helvetian.ruleset:29
-#, c-format
-msgid "?female:High Druid %s"
-msgstr "Korkea druidi %s"
+"Helvetialaiset (latinaksi 'helvetii') olivat muinainen kelttikansa, joka "
+"asutti nykyisen Sveitsin aluetta ja läheisiä Ranskan ja Saksan osia. "
+"Helvetialaiset auttoivat ajoin mm. Rooman sisäisissä kahnauksissa, Ciceron "
+"puolella. Helvetialaiset olivat suuri ja laajalle levittynyt heimo, joka "
+"taisteli herruudesta gallihemojen kanssa. Caesar käytti "
+"helvetialaispäällikkö Orgetorix'n taisteluretkiä tekosyynä valloittaa "
+"Helvetia ja loput Galliasta. Helvetialaiset antautuivat Roomalle ja "
+"roomalaistuivat tulleiden vuosisatojen aikana."
 
 #: data/nation/hephthalite.ruleset:3
 msgid "Hephthalite"
@@ -5902,6 +6088,11 @@ msgid ""
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
 msgstr ""
+"Hessenistä tuli Pyhän saksalais-roomalaisen keisarikunnan ruhtinaskunta 1200-"
+"luvulla. 1500-luvulla se hajosi useaksi pienemmäksi alueeksi. Monet "
+"hesseniläiset taistelivat Amerikan vallankumouksessa palkkasotureina "
+"kummallakin puolella. Nykyään Hessen on yksi Saksan liittotasavallan "
+"osavaltioita."
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
 #, c-format
@@ -5968,7 +6159,7 @@ msgid ""
 "imperial free cities and other territories. In 1806 it was dissolved by "
 "Napoleon and replaced by the Confederation of the Rhine."
 msgstr ""
-"Pyhää saksalais–roomalainen keisarikuntaa pidettiin Rooman valtakunnan "
+"Pyhää saksalais–roomalaista keisarikuntaa pidettiin Rooman valtakunnan "
 "jatkeena, mutta kuten Voltaire pilkkasi sitä, se ei ollut pyhä, ei "
 "roomalainen eikä järin keisarikuntakaan. Tästä huolimatta valtakunta oli "
 "äärimmäisen pitkäikäinen ja menetti alueitaan hyvin hitaasti. Suuren osan "
@@ -6071,7 +6262,7 @@ msgstr "unkarilaisten"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr "?plural:unkarilaiset"
+msgstr "unkarilaiset"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -6159,6 +6350,14 @@ msgid ""
 "have been made. One of the first scientists who noted the similarities "
 "between these languages was Sir William Jones."
 msgstr ""
+"Indoeurooppalaiset olivat hypoteettinen muinaiskansa, joiden kielellisiä "
+"jälkeläisiä useat Euroopan sekä Etelä- ja Länsi-Aasian kansat ovat. He "
+"lienevät asuneen jossain päin Euraasian aroja noin 5000 vuotta sitten, mutta "
+"kansan todellinen alkuperä on tuntematon. Kansan olemassaolo on johdettu "
+"indoeurooppalaisten kielten tutkimuksesta, minkä pohjalta on pyritty "
+"rakentamaan protoindoeurooppalaista kieltä useampaan otteeseen. Yksi "
+"ensimmäisistä tiedemiehistä joka havaitsi samankaltaisuuksia näiden kielten "
+"välillä oli Sir William Jones."
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
@@ -6229,7 +6428,7 @@ msgstr "irlantilaisten"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:irlantilaiset"
+msgstr "irlantilaiset"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -6252,7 +6451,7 @@ msgstr "israelilaisten"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "?plural:israelilaiset"
+msgstr "israelilaiset"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -6301,6 +6500,12 @@ msgid ""
 "in the 1st century CE, leaving the Jews scattered around the world for "
 "nineteen centuries."
 msgstr ""
+"Israel oli juutalainen kuningaskunta Välimeren itärannikolla. Se "
+"muodostettiin noin 1000 eaa. Huomattavia osia sen historiasta on kuvattu "
+"abrahamilaisten uskontojen kuten juutalaisten ja islamin pyhissä kirjoissa. "
+"Roomalaiset tuhosivat viimeisen juutalaisen kuningaskunnan ensimmäisellä "
+"vuosisadalla ajanlaskun alkamisen jälkeen, mikä jätti juutalaiset hajalle "
+"ympäri maailmaa yhdeksäksitoista vuosisadaksi."
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
@@ -6322,7 +6527,7 @@ msgstr "italialaisten"
 #: data/nation/italiangreek.ruleset:4
 #, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "?plural:italialaiset"
+msgstr "italialaiset"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -6372,12 +6577,16 @@ msgstr "jaffnalaiset"
 msgid "?plural:Jaffnas"
 msgstr "jaffnalaisten"
 
+# Successful southern rival. Translate that.
 #: data/nation/jaffna.ruleset:7
 msgid ""
 "The Jaffna Kingdom was a medieval Tamil kingdom based in the north of Sri "
 "Lanka. It was a successful southern rival to the Chola Empire on the Indian "
 "mainland."
 msgstr ""
+"Jaffnan kuningaskunta oli keskiaikainen tamilivaltio Sri Lankan "
+"pohjoisosissa. Se kilpaili pohjoisessa Intian mantereella vaikuttavan Chola-"
+"dynastian kanssa."
 
 #: data/nation/jamaican.ruleset:3
 msgid "Jamaican"
@@ -6455,6 +6664,14 @@ msgid ""
 "established as Jordan's ruling dynasty. The country finally became "
 "independent in 1946."
 msgstr ""
+"Jordanian hašemiittinen kuningaskunta on valtio Lähi-Idässä. Antiikin aikaan "
+"valtion alueella vaikutti useita muinaisia kansakuntia, kuten nabatealaiset, "
+"jotka rakensivat Petran kaupungin. Maa on ollut arabien kansoittamaa 600-"
+"luvusta lähtien. Osmanit valloittivat sen 1519, ja siitä tuli osa brittien "
+"hallinnoimaa Palestiinan mandaattia Kansainliiton hyväksynnän mukaan toisen "
+"maailmansodan jälkeen. Hašemiittien klaani, joka johti kapinaa turkkilaisia "
+"osmaneja vastaan sodan aikaan, nousi Jordanian hallitsevaksi dynastiaksi. "
+"Maa itsenäistyi lopulta 1946."
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
@@ -6499,9 +6716,8 @@ msgid "Karabakhi"
 msgstr ""
 
 #: data/nation/karabakhi.ruleset:4
-#, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "kazakit"
+msgstr ""
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -6535,14 +6751,12 @@ msgstr ""
 "läheistä sukua suomalaisille."
 
 #: data/nation/karen.ruleset:3
-#, fuzzy
 msgid "Karen"
-msgstr "karjalaisten"
+msgstr "karenien"
 
 #: data/nation/karen.ruleset:4
-#, fuzzy
 msgid "?plural:Karens"
-msgstr "karjalaiset"
+msgstr "karenit"
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -6572,14 +6786,12 @@ msgstr ""
 "asuttu alue on sulatusuuni hindu-, tiibetiläis- ja islamilaiskulttuureille."
 
 #: data/nation/kashubian.ruleset:3
-#, fuzzy
 msgid "Kashubian"
-msgstr "nubialaisten"
+msgstr ""
 
 #: data/nation/kashubian.ruleset:4
-#, fuzzy
 msgid "?plural:Kashubians"
-msgstr "nubialaiset"
+msgstr ""
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -6595,12 +6807,11 @@ msgstr ""
 
 #: data/nation/katangan.ruleset:3
 msgid "Katangan"
-msgstr ""
+msgstr "katangalaisten"
 
 #: data/nation/katangan.ruleset:4
-#, fuzzy
 msgid "?plural:Katangans"
-msgstr "?plural:katalaanit"
+msgstr "katangalaiset"
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -6611,6 +6822,12 @@ msgid ""
 "was led by Moise Tshombe. Katanga was reincorporated into Congo after a "
 "Congolese and UN military campaign."
 msgstr ""
+"Katanga on Kongon demokraattisen tasavallan eteläisin osa, joka on ... ja "
+"jonka alueella Yeken valtakunta aikoinaan sijoittui. Alue irtautui Kongosta "
+"paria päivää maan itsenäistyttyä Belgian vallan alta 1960. Valtiota johti "
+"Moise Tshombe, ja sitä suojelivat belgialainen kaivosteollisuus ja "
+"ulkomaiset palkkasoturit. Katanga liitettiin takaisin Kongoon, Kongon ja YK:"
+"n sotilastoimien jälkeen."
 
 # Kazakit ovat turkkilais-tataarilainen kansa Keski-Aasiassa,
 # kazakstanilaiset Kazakstanin asukkaita.
@@ -6640,7 +6857,7 @@ msgstr "kenialaisten"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "?plural:kenialaiset"
+msgstr "kenialaiset"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -6748,15 +6965,21 @@ msgid ""
 "people of the Gilbert Islands adopted Kiribati (the Gilbertese rendering of "
 "\"Gilberts\") as the name of the newly established republic."
 msgstr ""
+"Gilbertsaaret, jotka tunnetaan kiribatin kielellä nimellä Tungaru, ovat "
+"saariketju Tyynessä valtameressä. Mikronesialaiset asuttivat saaria "
+"esihistoriallisilta ajoilta lähtien, ja ne yhdistyivät yhden päällikön alle "
+"myöhään 1800-luvulla. Britit liittivät Gilbert- ja Ellicesaaret yhdeksi "
+"siirtokunnakseen 1892. Maan itsenäistyttyä 1976 Gilbertsaarten asukkaat "
+"ottivat vastaperustetun tasavaltansa nimeksi Kiribati (joka on "
+"kiribatinkielinen tapa lausua \"Gilberts\")."
 
 #: data/nation/kittitian.ruleset:3
 msgid "Kittitian and Nevisian"
-msgstr ""
+msgstr "saintkittsnevisläisten"
 
 #: data/nation/kittitian.ruleset:4
-#, fuzzy
 msgid "?plural:Kittitians and Nevisians"
-msgstr "?plural:kanadalaiset"
+msgstr "saintkittsnevisläiset"
 
 #: data/nation/kittitian.ruleset:6
 msgid ""
@@ -6765,6 +6988,10 @@ msgid ""
 "smallest federation. Saint Kitts was the site of some of the earliest French "
 "and English colonization attempts in the New World."
 msgstr ""
+"Saint Kitts ja Nevis on valtio Karibianmerellä, joka sijaitsee sille nimen "
+"antaneilla kahdella saarella. Se on Amerikkojen pienin valtio, ja maailman "
+"pienin liittovaltio. Ranskalaiset ja englantilaiset tekivät joitakin "
+"ensimmäisistä Uuden maailman asutusyrityksistä Saint Kittsin alueella."
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
@@ -6829,9 +7056,8 @@ msgid "Kuna"
 msgstr ""
 
 #: data/nation/kuna.ruleset:4
-#, fuzzy
 msgid "?plural:Kunas"
-msgstr "?plural:kenialaiset"
+msgstr ""
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -6864,6 +7090,16 @@ msgid ""
 "of the colonial era. Today, Iraq's Kurdistan Autonomous Region is the only "
 "Kurd-dominated political entity in the world."
 msgstr ""
+"Kurdit ovat oma etnis-kielellinen ryhmänsä. Kurdin kieli kuuluu "
+"indoarjalaisten kielten ryhmään. Kurdien perinteinen kotimaa, Kurdistan, "
+"sijaitsee Lähi-Idän pohjoisosassa ja on jaettu Irakin, Turkin, Syyrian ja "
+"Iranin kesken. Keskiajalla kurdidynastioiden hallitsemia ruhtinaskuntia "
+"nousi useita, kuten Shaddadid, Rawadid, Hasanwayhid, Annazid ja Marwanid, "
+"mutta Osmanit valloittivat alueet. Tämän jälkeen kurdien pyrkimys "
+"itsehallintoon ja itsenäisyyteen nousi jälleen Osmanin valtakunnan kaaduttua "
+"ja siirtomaavaltojen ajan jälkeen. Irakissa sijaitseva Kurdistanin "
+"autonominen alue on tällä hetkellä maailman ainoa poliittinen yksikkö, jossa "
+"valtaa pitävät kurdit."
 
 #: data/nation/kushan.ruleset:3
 #, fuzzy
@@ -6873,7 +7109,7 @@ msgstr "ašantien"
 #: data/nation/kushan.ruleset:4
 #, fuzzy
 msgid "?plural:Kushans"
-msgstr "?plural:kenialaiset"
+msgstr "shanit"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -6891,6 +7127,12 @@ msgstr ""
 #: data/nation/vedic.ruleset:24
 #, c-format
 msgid "Guru %s"
+msgstr "Guru %s"
+
+#: data/nation/kushan.ruleset:43 data/nation/sikh.ruleset:33
+#: data/nation/vedic.ruleset:24
+#, c-format
+msgid "?female:Guru %s"
 msgstr "Guru %s"
 
 #: data/nation/kuwaiti.ruleset:3
@@ -6911,6 +7153,12 @@ msgid ""
 "East. Despite its relatively small size, the country has about ten percent "
 "of the world's proven oil reserves."
 msgstr ""
+"Kuwait on arabimaa, jota rajaavat Irak, Saudi-Arabia ja Persianlahti. Sen "
+"perusti 1756 al-Sabahin suku, joka on hallinnut maata siitä lähtien. Vuonna "
+"1990 maan miehittivät Irakin joukot, jotka poistettiin pian kansainvälisen "
+"sotilasoperaation voimin. Taloudellisesti Kuwait on yksi Lähi-Idän "
+"kehittyneimmistä maista. Vaikka sen koko on suhteellisen pieni, sillä on "
+"noin kymmenen prosenttia maailman todennetuista öljyvarannoista."
 
 #: data/nation/kyrgyz.ruleset:3
 msgid "Kyrgyz"
@@ -6947,11 +7195,6 @@ msgid ""
 "Italia in 568. They founded a new kingdom with its capital in Pavia. The "
 "modern region of Lombardy derives its name from the Lombards."
 msgstr ""
-
-#: data/nation/langobardic.ruleset:38
-#, fuzzy, c-format
-msgid "?female:Mother Superior %s"
-msgstr "Abbedissa %s"
 
 # Lankese? Whut? Singaleesi is the largest ethnic group.
 #: data/nation/lankese.ruleset:3
@@ -7068,11 +7311,6 @@ msgstr ""
 "ajan, ja siirtyi Ranskan mandaattialueeksi ensimmäisen maailmansodan "
 "jälkeen. Libanon julistautui itsenäiseksi 1943."
 
-#: data/nation/lebanese.ruleset:27 data/nation/santomean.ruleset:33
-#, c-format
-msgid "?female:Secretary General %s"
-msgstr "Pääsihteeri %s"
-
 # TODO: unconfirmed, puolan sanasta Lędzianie.
 #: data/nation/lendian.ruleset:3
 msgid "Lendian"
@@ -7127,6 +7365,12 @@ msgid ""
 "all sides, that country's apartheid policies prevented its integration into "
 "South Africa. In 1966 Basutoland became the independent Kingdom of Lesotho."
 msgstr ""
+"Lesotho muodostui 1800-luvulla kuningas Moshoeshoe I:n yhdistäessä "
+"sothoklaanit. Moshoeshoe haki suojaa Briteiltä buurien hyökkäyksiä vastaan, "
+"ja 1869 maasta tuli brittiläinen protektoraatti, Basutomaa. Vaikka maa on "
+"täysin Etelä-Afrikan ympäröimä, maan apartheid-politiikka esti sen "
+"integroinnin Etelä-Afrikkaan. Vuonna 1966 Basutomaasta tuli itsenäinen "
+"Lesothon kuningaskunta."
 
 #: data/nation/liberian.ruleset:3
 msgid "Liberian"
@@ -7148,16 +7392,23 @@ msgid ""
 "overthrown in 1980, which led to a period of instability and civil wars. A "
 "fragile peace returned in 2003."
 msgstr ""
+"Liberia on Länsi-Afrikan valtio, jonka vapautetut afrikkalaisamerikkalaiset "
+"orjat perustivat 1800-luvulla. Liberian historiaa ovat värittäneet "
+"jännitteet valtaapitävän amerikkalais-liberialaisen vähemmistön ja "
+"lukumääräenimmistöisen alkuperäiskansan välillä. Amerikkalais-liberialaiset "
+"järjestäytyivät True Whig -puolueeksi, joka piti valtaa jopa 102 vuotta, "
+"mikä on poliittisten puolueiden maailmanennätys. Alkuperäiskansa sai "
+"äänioikeuden 1960-luvulla, ja True Whig -puolueen valta kaatui 1980, mitä "
+"seurasi epävakauden ja sisällissodan kausi. Hauras rauha saatiin solmittua "
+"2003."
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "liettualaisten"
+msgstr "liburnialaisten"
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "?plural:liettualaiset"
+msgstr "liburnialaiset"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -7166,6 +7417,10 @@ msgid ""
 "from their neighbors, the Illyrians, and spoke an Italic language. They were "
 "Romanized after the annexation of their land by Rome."
 msgstr ""
+"Liburnialaiset olivat muinainen indoeurooppalainen heimo Adrianmeren "
+"koillisrannoilla, nykyisen Kroatian alueella. He todenäköisesti erottuivat "
+"naapureistaan illyrialaisilsta, ja puhuivat italiansukuista kieltä. "
+"Liburnialaiset roomalaistuivat kun heidän maansa liitettiin osaksi Roomaa."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -7215,7 +7470,7 @@ msgstr "liberialaisten"
 #: data/nation/ligurian.ruleset:4
 #, fuzzy
 msgid "?plural:Ligurians"
-msgstr "?plural:liettualaiset"
+msgstr "liburnialaiset"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7226,14 +7481,14 @@ msgstr ""
 
 # Paramount Chief on pikkupomo muiden pikkupomojen joukossa
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Paramount Ruler %s"
-msgstr "Suuri päällikkö %s"
+msgstr "Suuri hallitsija %s"
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "Suuri päällikkö %s"
+msgstr "Suuri hallitsija %s"
 
 # TODO: could not find specific Finnish term (tatar article in Finnish wikipedia is a warzone), picked literal translation from English wikipedia's most description-fitting alias.
 #: data/nation/lipkatatar.ruleset:3
@@ -7259,20 +7514,20 @@ msgstr ""
 "ja perinteisen uskontonsa nykypäivään asti."
 
 #: data/nation/lippe.ruleset:3
-#, fuzzy
 msgid "Lippian"
-msgstr "etiopialaisten"
+msgstr "lippeläisten"
 
 #: data/nation/lippe.ruleset:4
-#, fuzzy
 msgid "?plural:Lippians"
-msgstr "libyalaiset"
+msgstr "lippeläiset"
 
 #: data/nation/lippe.ruleset:6
 msgid ""
 "Lippe was a historical state in Germany. It was located between the Weser "
 "River and the southeast part of the Teutoburg forest."
 msgstr ""
+"Lippe oli historiallinen keisarikunta Saksassa. Se sijaitsi Weser-joen ja "
+"Teutoburgin metsän kaakkoisosan välissä."
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -7280,7 +7535,7 @@ msgstr "liettualaisten"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "?plural:liettualaiset"
+msgstr "liettualaiset"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -7337,9 +7592,8 @@ msgid "Luwian"
 msgstr ""
 
 #: data/nation/luwian.ruleset:4
-#, fuzzy
 msgid "?plural:Luwians"
-msgstr "libyalaiset"
+msgstr ""
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -7558,6 +7812,11 @@ msgid ""
 "independence. Today, the Maldives are above all known as a tourist "
 "destination."
 msgstr ""
+"Malediivit on saaristo Intian valtameressä, ja Aasian pienin valtio. "
+"Perimätiedon mukaan Malediivit yhdistyivät sulttaanin alle kun Cholat "
+"ajettiin alueelta 1100-luvulla. Saaret olivat brittiläinen protektoraatti "
+"vuosina 1887-1965. Monarkia lakkautettiin kolme vuotta itsenäistymisen "
+"jälkeen. Nykyään Malediivit ovat erityisesti turistikohde."
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -7623,20 +7882,26 @@ msgid ""
 "their own state in Egypt. The Mamluk Sultanate was ruled by two dynasties "
 "Mamluks until it was conquered by the Ottoman Turks in 1517."
 msgstr ""
+"Mamelukit olivat egyptiläinen soturikasti joka värvättiin turkkilais- ja "
+"kaukaasiperäisistä orjista. Mamelukit tunnettiin eliittisotilaina. Heillä "
+"oli tärkeä rooli useissa muslimimaissa. Vuonna 1250 mamelukit ottivat "
+"Egyptin valtaansa. Mamelukkien sulttaanikuntaa hallitsi kaksi eri "
+"mamelukkidynastiaa, kunnes Osmanit valtasivat maan 1517."
 
+# Pasha/pašša on lähinnä turkkilainen nimi, toivottavasti ei muita pasha-osumia
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "%s Pasha"
-msgstr "Baša %s"
+msgstr "%s pašša"
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Pasha"
-msgstr "Baša %s"
+msgstr "%s pašša"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -7735,13 +8000,13 @@ msgstr ""
 
 #: data/nation/marathi.ruleset:3
 msgid "Marathi"
-msgstr ""
+msgstr "marathien"
 
 #: data/nation/marathi.ruleset:4
-#, fuzzy
 msgid "?plural:Marathis"
-msgstr "marsilaiset"
+msgstr "marathit"
 
+# Wikipedia ei juuri Mohguleista kerro...
 #: data/nation/marathi.ruleset:6
 msgid ""
 "The Marathi are people who inhabit the state of Maharashtra in India. In the "
@@ -7749,16 +8014,19 @@ msgid ""
 "confederacy, waging war on the Moghul empire and eventually replacing the "
 "Moghuls as the main power on the Indian subcomtinent."
 msgstr ""
+"Marathit asuvat Maharashtrassa, joka on Intian osavaltio. 1600-luvulla "
+"marathiprinssi Shivaji perusti Marathan liiton, soti Mohgulin kuningaskunnan "
+"kanssa ja lopulta korvasi mohgulit suurimpana voimana Intian niemimaalla."
 
 #: data/nation/marathi.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "High Brahmin %s"
-msgstr "Korkea kuningas %s"
+msgstr "Ylibramiini %s"
 
 #: data/nation/marathi.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Brahmin %s"
-msgstr "Baani %s"
+msgstr "Ylibramiini %s"
 
 #: data/nation/marshallese.ruleset:3
 #, fuzzy
@@ -7806,6 +8074,9 @@ msgid ""
 "onwards. Colonized by France in the 19th century, the country became an "
 "independent republic in 1960."
 msgstr ""
+"Mauritania on Luoteis-Afrikan maa, jossa arabimaailma kohtaa Saharan "
+"eteläpuoliset Afrikan kulttuurin. Mauritania islamistui 1000-luvulla. Ranska "
+"valloitti sen 1800-luvulla, ja maa itsenäistyi 1960."
 
 #: data/nation/mauritian.ruleset:3
 msgid "Mauritian"
@@ -7826,6 +8097,15 @@ msgid ""
 "1968. Nowadays, Mauritius is one of the most developed countries of Africa. "
 "The population is mostly of Indian, African and European origin."
 msgstr ""
+"Mauritius on saari Intian valtameressä. Sen asuttivat ensimmäisenä "
+"hollantilaiset, jotka nimesivät sen Morits Oranialaisen mukaan. Saari on "
+"kuuluisa dodon eli drontin asuinpaikkana; tämä lentokyvytön lintulaji kuoli "
+"sukupuuttoon vuosisata tutkijoiden tietoon tulemisensa jälkeen. "
+"Hollantilaiset hylkäsivät saaren vuonna 1710, jonka jälkeen ranskalaiset "
+"asuttivat sen. Napoleonin sotien aikaan britit valtasivat saaren. Mauritius "
+"itsenäistyi 1968. Nykyään Mauritius on yksi Afrikan kehittyneimmistä maista. "
+"Asukkaat ovat enimmäkseen intialaista, afrikkalaista ja eurooppalaista "
+"alkuperää."
 
 # TODO: unconfirmed
 #: data/nation/mazovian.ruleset:3
@@ -7860,16 +8140,13 @@ msgid ""
 "German state of Mecklenburg-Cispomerania."
 msgstr ""
 
-# TODO: unconfirmed, puolan sanasta Lędzianie.
 #: data/nation/median.ruleset:3
-#, fuzzy
 msgid "Median"
-msgstr "ledsianien"
+msgstr "meedialaisten"
 
 #: data/nation/median.ruleset:4
-#, fuzzy
 msgid "?plural:Medians"
-msgstr "ledsianien"
+msgstr "meedialaiset"
 
 #: data/nation/median.ruleset:6
 msgid ""
@@ -7880,21 +8157,26 @@ msgid ""
 "ethnic empire and controlled a vast area spanning from the Halys river to "
 "what is now Afghanistan."
 msgstr ""
+"Meedia oli muinainen iranilaisvaltio, jonka loivat Länsi-Iranin meedialaiset "
+"heimot, jotka olivat Euroopan skyyttien sukua. Valtiota seurasi "
+"Akhaimenidien Persian muodostuminen, kun persialaiset nousivat kapinaan "
+"meedialaista hallitsijaa Astyagesta vastaan. Meedia oli ensimmäinen useasta "
+"etnisestä ryhmästä koostunut kuningaskunta, ja hallitsi valtavaa aluetta "
+"Halys-joelta nykyisen Afganistanin alueelle."
 
+# Shahanshah: vaihtoehtoisesti shaahien shaahi (oikeilla aksenteilla)
 #: data/nation/median.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shahanshah"
-msgstr "Šaahitar %s"
+msgstr "%s sâhanšâh"
 
 #: data/nation/messapian.ruleset:3
-#, fuzzy
 msgid "Messapian"
-msgstr "Viestiasetukset"
+msgstr ""
 
 #: data/nation/messapian.ruleset:4
-#, fuzzy
 msgid "?plural:Messapians"
-msgstr "hesseniläiset"
+msgstr ""
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -7922,6 +8204,12 @@ msgid ""
 "indigenous groups of Canada. In the 19th century the Metis repeatedly "
 "rebelled against the British and Canadian authorities."
 msgstr ""
+"Métisien kansa periytyy Ensimmäisten kansakuntien eli Amerikan "
+"alkuperäisasukkaiden, ja Eurooppalaisista (lähinnä ranskalaisista) juurista, "
+"ja asuu lähinnä Kanadan preeriaprovinsseissa. Yhdessä Ensimmäisten "
+"kansakuntien ja inuitien kanssa Métisit muodostavat yhden kolmesta Kanadan "
+"alueen alkuperäiskansojen ryhmistä. 1800-luvulla métisit nousivat "
+"toistuvasti kapinaan britti- ja kanadalaisia vallanpitäjiä vastaan."
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -8007,6 +8295,7 @@ msgstr "mi'kmaqien"
 msgid "?plural:Mi'kmaq"
 msgstr "mi'kmaqit"
 
+# Suzeraintyä käytetään lähinnä osmanien suhteesta valtaamiinsa alueisiin, en löytänyt käännöstä.
 #: data/nation/mikmaq.ruleset:6
 msgid ""
 "Today numbering roughly 25,000, the Mi'kmaq inhabited (and largely continue "
@@ -8014,6 +8303,10 @@ msgid ""
 "under French suzerainty. French rule gave way to English and English to "
 "Canadian."
 msgstr ""
+"Mi'kmaqit, nykyään lukumäärältään noin 25.000, asuttivat ja nykyäänkin "
+"pitkälti asuttavat Nova Scotian aluetta. Ensimmäinen mi'kmaq kääntyi "
+"kristinuskoon 1610 ranskalaisen hallinnon aikana. Ranskalaisvalta vaihtui "
+"englantilaisten valtaan, ja lopulta kanadalaiseen hallintoon."
 
 #: data/nation/milanese.ruleset:3
 msgid "Milanese"
@@ -8114,14 +8407,12 @@ msgstr ""
 "itsenäistyi Neuvostoliiton hajotessa 1991."
 
 #: data/nation/moluccan.ruleset:3
-#, fuzzy
 msgid "Moluccan"
-msgstr "marokkolaisten"
+msgstr "molukkilaisten"
 
 #: data/nation/moluccan.ruleset:4
-#, fuzzy
 msgid "?plural:Moluccans"
-msgstr "marokkolaiset"
+msgstr "molukkilaiset"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -8352,14 +8643,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Cacique %s"
-msgstr "Toveri %s"
+msgstr "Cacique %s"
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Cacique %s"
-msgstr "Päällikkö %s"
+msgstr "Cacique %s"
 
 #: data/nation/namibian.ruleset:3
 msgid "Namibian"
@@ -8428,6 +8719,9 @@ msgid ""
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
+"Navajot eli Dinét ovat suurilukuisin Amerikan alkuperäiskansa Yhdysvaltojen "
+"alueella. He ovat lähisukua apaššeille. Navajojen kieli on kerännyt mainetta "
+"olemalla yksi maailman monimutkaisimmista kielistä."
 
 #: data/nation/neapolitan.ruleset:3
 msgid "Neapolitan"
@@ -8444,6 +8738,10 @@ msgid ""
 "throne changed hands many times. After the Napoleonic Era it was merged with "
 "the Kingdom of Sicily."
 msgstr ""
+"Vuosisatojen ajan Napolin kuningaskunta oli Italian niemimaan suurin valtio. "
+"Useat eurooppalaiset vallat kiinnostuivat siitä, ja sen valtaistuin vaihtoi "
+"omistajaa useaan otteeseen. Napoleonin ajan jälkeen se liitettiin Sisilian "
+"kuningaskuntaan."
 
 #: data/nation/nenets.ruleset:3
 msgid "Nenets"
@@ -8458,6 +8756,8 @@ msgid ""
 "The Nenets are a people living in north-western Russia and the most populous "
 "among the Samoyed peoples."
 msgstr ""
+"Nenetsit asuvat Venäjän luoteisilla alueilla, ja ovat yksi suurimmista "
+"samojedikansoista."
 
 #: data/nation/nepali.ruleset:3
 msgid "Nepali"
@@ -8680,14 +8980,14 @@ msgstr ""
 
 # Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Dear Leader %s"
-msgstr "Suuri Johtaja %s"
+msgstr "Rakas Johtaja %s"
 
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Dear Leader %s"
-msgstr "Suuri Johtaja %s"
+msgstr "Rakas Johtaja %s"
 
 # Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
@@ -8833,6 +9133,12 @@ msgid ""
 "individuals. Like other people of the Pacific Northwest, they built large "
 "wooden canoes and houses and lived in clan systems."
 msgstr ""
+"Nuutsit (engl. Nuu-chah-nulth) ovat kansa Amerikan koillisosista, Tyynen "
+"valtameren rannikolta, ja yksi harvoista Amerikan alkuperäiskansoista jotka "
+"kulkevat avoimella valtamerellä ja metsästävät valaita. Nuutsit asuttivat "
+"suurinta osaa nykyisen Vancouverin saaren läntisestä osasta, ja ovat nykyään "
+"väkiluvultaan 8.000 henkeä. Muiden alueen kansojen tapaan nuutsit rakensivat "
+"suuria puisia kanootteja ja taloja, sekä järjestäytyivät klaaneiksi."
 
 #: data/nation/occitan.ruleset:3
 msgid "Occitan"
@@ -9192,6 +9498,8 @@ msgid ""
 "Palmyra was a breakaway Roman state in Asia governed by queen Zenobia. In "
 "273 CE Aurelian brought it back under Roman control."
 msgstr ""
+"Palmyra oli Roomasta irtautunut valtio Aasiassa, jota hallitsi kuningatar "
+"Zenobia. Vuonna 273 jaa. Aurelianus palautti sen Rooman vallan alle."
 
 #: data/nation/palmyrene.ruleset:20 data/nation/paraguayan.ruleset:37
 #, c-format
@@ -9216,15 +9524,22 @@ msgid ""
 "Noriega. Sovereignty over the Canal Zone was transferred to Panama in 1999. "
 "Panama is one of the few countries in the world without a standing army."
 msgstr ""
+"Panama sijaitsee kapealla kaistaleella joka yhdistää Pohjois- ja Etelä-"
+"Amerikkaa, ja on maailmankuulu Panaman kanavasta. Panama julistautui "
+"itsenäiseksi Kolumbiasta 1903 Yhdysvaltojen suojeluksessa. Yhdysvallat "
+"hallitsivat Panaman poliittista kenttää suurimman osan 1900-luvusta, "
+"erityisesti 1989 kun Yhdysvallat lähetti sotajoukkonsa Panamaan syöksemään "
+"vallasta ja pidättämään kenraali Noriegan. Panama sai kanava-alueen omaan "
+"hallintaansa 1999. Panama on yksi maailman harvoja maita, joilla ei ole "
+"pysyvää armeijaa."
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr ""
+msgstr "papua-uusiguinealaisten"
 
 #: data/nation/papuanewguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Papua New Guineans"
-msgstr "papualaiset"
+msgstr "papua-uusiguinealaiset"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -9234,6 +9549,11 @@ msgid ""
 "War I Papua New Guinea was transferred to Australia. It became an "
 "independent country in 1975."
 msgstr ""
+"Papua-Uusi-Guinea on maa joka pitää hallussaan Uuden Guinean saaren itäosaa. "
+"Papuan kansat ovat asuttaneet aluetta ammoisista ajoista alkaen. Siitä tuli "
+"brittien ja saksalaisten siirtomaa myöhään 1800-luvulla. Ensimmäisen "
+"maailmansodan aikaan Papua-Uusi-Guinea siirrettiin Australialle, ja se "
+"itsenäistyi 1975."
 
 #: data/nation/papuanewguinean.ruleset:22
 #, c-format
@@ -9278,6 +9598,7 @@ msgstr "paraguaylaisten"
 msgid "?plural:Paraguayans"
 msgstr "paraguaylaiset"
 
+# Stroessneriä kuulemma kirjoitettu monin tavoin.
 #: data/nation/paraguayan.ruleset:6
 msgid ""
 "Paraguay is located in the heartland of South America. It was conquered by "
@@ -9295,16 +9616,27 @@ msgid ""
 "Paraguay started to see a democratic system of government and an impressive "
 "economic growth."
 msgstr ""
+"Paraguay sijaitsee Etelä-Amerikan ytimessä. Espanjalaiset valloittivat sen "
+"1500-luvun lopulla. Siirtomaata hallitsivat lähinnä jesuiitat, kunnes nämä "
+"ajettiin pois 1767. Vuonna 1811 Paraguay oli ensimmäinen Etelä-Amerikan maa "
+"joka itsenäistyi Espanjan vallan alta. Joukko vahvan autoritaarisiä "
+"hallitsijoita johtivat maata rautanyrkillä, vaikkakin kohottivat sen samalla "
+"sotilaalliseksi ja taloudelliseksi vallaksi. Kolmoisliiton sota 1864-1870 "
+"johti Paraguayn lähes täydelliseen tuhoon; se menetti puolet alueestaan ja "
+"80% miespuolisesta väestöstään. Paraguayn historiaa läikittää epävakaus ja "
+"autoritaarisuus, tosin se löi Bolivian Chacon sodassa 1932-1936. Suurimman "
+"osan 1900-lukua sitä hallitsi kenraali Stroessner, joka tarjosi maassa "
+"turvapaikan natsien sotarikollisille. Vuosituhannen vaihteessa Paraguayn "
+"hallinto muuttui demokraattisemmaksi, ja sen talouskasvu on ollut "
+"vaikuttavaa."
 
 #: data/nation/parthian.ruleset:3
-#, fuzzy
 msgid "Parthian"
-msgstr "Sissiryhmä"
+msgstr ""
 
 #: data/nation/parthian.ruleset:4
-#, fuzzy
 msgid "?plural:Parthians"
-msgstr "marsilaiset"
+msgstr ""
 
 #: data/nation/parthian.ruleset:6
 msgid ""
@@ -9315,14 +9647,15 @@ msgid ""
 msgstr ""
 
 #: data/nation/parthian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Shah %s"
-msgstr "Šeikki %s"
+msgstr "Šaahi %s"
 
+# Shahbanu ei kirjaimellisesti tarkoita naispuolista shaahia, vaan spesifisti shaahin leidiä.
 #: data/nation/parthian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Shahbanu %s"
-msgstr "Šaahitar %s"
+msgstr "Šaahin rouva %s"
 
 #: data/nation/pashtun.ruleset:3
 msgid "Pashtun"
@@ -9343,14 +9676,12 @@ msgstr ""
 "paštunwali-kunniasäännöstön mukaisesti."
 
 #: data/nation/pelasgian.ruleset:3
-#, fuzzy
 msgid "Pelasgian"
-msgstr "belgialaisten"
+msgstr ""
 
 #: data/nation/pelasgian.ruleset:4
-#, fuzzy
 msgid "?plural:Pelasgians"
-msgstr "?plural:persialaiset"
+msgstr ""
 
 #: data/nation/pelasgian.ruleset:6
 msgid ""
@@ -9397,14 +9728,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/phrygian.ruleset:3
-#, fuzzy
 msgid "Phrygian"
-msgstr "georgialaisten"
+msgstr ""
 
 #: data/nation/phrygian.ruleset:4
-#, fuzzy
 msgid "?plural:Phrygians"
-msgstr "?plural:persialaiset"
+msgstr ""
 
 #: data/nation/phrygian.ruleset:6
 msgid ""
@@ -9434,6 +9763,12 @@ msgid ""
 "Middle Ages but by the 11th century they had been assimilated by the Gaelic "
 "Scots."
 msgstr ""
+"Piktit olivat Kaledonian eli muinaisen Skotlannin alkuperäisasukkaita. "
+"Piktit olivat todennäköisesti joko alunperin kelttejä tai kenties imeneet "
+"esi-indoeurooppalaisten kelttivaikutteita. Kansa sai nimensä, 'maalatut "
+"ihmiset', roomalaisilta; nimi viittaa piktien tapaan tatuoida vartalonsa. "
+"Piktit selvisivät pitkälle keskiajalle, mutta 1000-luvulla he olivat "
+"sulautuneet osaksi gaelilaisia skotteja."
 
 #: data/nation/piedmontese.ruleset:3
 msgid "Piedmontese"
@@ -9456,13 +9791,13 @@ msgstr ""
 
 #: data/nation/pontic.ruleset:3
 msgid "Pontic"
-msgstr ""
+msgstr "pontoslaisten"
 
 #: data/nation/pontic.ruleset:4
-#, fuzzy
 msgid "?plural:Pontians"
-msgstr "laosilaiset"
+msgstr "pontoslaiset"
 
+# Pontos
 #: data/nation/pontic.ruleset:6
 msgid ""
 "Pontus is a region on the Black Sea coast of Asia Minor, currently part of "
@@ -9506,7 +9841,6 @@ msgstr "puertoricolaisten"
 msgid "?plural:Puerto Ricans"
 msgstr "puertoricolaiset"
 
-# TODO: taino
 #: data/nation/puertorican.ruleset:6
 msgid ""
 "The smallest of the Greater Antilles, Puerto Rico was inhabited by the "
@@ -9575,6 +9909,9 @@ msgid ""
 "the wealthiest countries of the world in terms of GDP per capita. Qatar is "
 "one of the world's few absolute monarchies."
 msgstr ""
+"Quatar on emiirikunta joka sijaitsee Persianlahden niemimaalla. Se on yksi "
+"maailman rikkaimmista maista väkilukuun suhteutetulla BKT:lla mitattuna. "
+"Qatar on yksi maailman harvoista absoluuttisista monarkioista."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -9597,9 +9934,8 @@ msgid "Rapa Nui"
 msgstr ""
 
 #: data/nation/rapanui.ruleset:4
-#, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "rarámurit"
+msgstr ""
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -9650,6 +9986,7 @@ msgid ""
 "and Saarland."
 msgstr ""
 
+# Käännös perustuu ruotsinkieliseen sivuun 'Riffian people', ei varsinaisesti Rifin valtion sivuihin.
 #: data/nation/riffian.ruleset:3
 msgid "Riffian"
 msgstr "rifkabylien"
@@ -9665,6 +10002,10 @@ msgid ""
 "Moroccans. The country was conquered by the Spanish and French in 1926. The "
 "area is now part of Morocco."
 msgstr ""
+"Rifin tasavalta oli lyhytkestoinen valtio joka perustettiin syyskuussa 1921, "
+"kun Rifin berberit nousivat kapinaan espanjalaisia ja marokkolaisia vastaan. "
+"Espanjalaiset ja ranskalaiset valloittivat maan 1926, ja se on nykyään osa "
+"Marokkoa."
 
 #: data/nation/riograndense.ruleset:3
 msgid "Rio-Grandense"
@@ -9760,7 +10101,7 @@ msgstr ""
 #: data/nation/ruthenian.ruleset:4
 #, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "?plural:kenialaiset"
+msgstr "kenialaiset"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -9825,14 +10166,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/sabine.ruleset:27 data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Tribune %s"
-msgstr "Ruhtinas %s"
+msgstr "Tribuuni %s"
 
 #: data/nation/sabine.ruleset:27 data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tribune %s"
-msgstr "?female:Tun %s"
+msgstr "Tribuuni %s"
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
@@ -9851,14 +10192,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/saintlucian.ruleset:3
-#, fuzzy
 msgid "Saint Lucian"
-msgstr "galicialaisten"
+msgstr "saintlucialaisten"
 
 #: data/nation/saintlucian.ruleset:4
-#, fuzzy
 msgid "?plural:Saint Lucian"
-msgstr "haitilaiset"
+msgstr "saintlucialaiset"
 
 #: data/nation/saintlucian.ruleset:6
 msgid ""
@@ -9868,15 +10207,20 @@ msgid ""
 "became independent in 1979. It a member both of the Commonwealth and La "
 "Francophonie. The economy is based on tourism, bananas and sugar."
 msgstr ""
+"Saint Lucia on saarivaltio Itä-Karibianmerellä. Siirtomaavallan aikaan Saint "
+"Lucia vaihtoi käsiä Ranskan ja Iso-Britannian välillä jopa 14 kertaa, kunnes "
+"britit vihdoin sinetöivät valtansa 1814. Saari itsenäistyi 1979. Se on sekä "
+"Kansainliiton että ranskankielisten maiden yhteistyöjärjestö La "
+"Francophonien jäsen. Maan talous perustuu turismille sekä banaanien ja "
+"sokerin viennille."
 
 #: data/nation/saka.ruleset:3
 msgid "Saka"
 msgstr ""
 
 #: data/nation/saka.ruleset:4
-#, fuzzy
 msgid "?plural:Saka"
-msgstr "saamelaiset"
+msgstr ""
 
 #: data/nation/saka.ruleset:6
 msgid ""
@@ -9904,14 +10248,14 @@ msgid ""
 "and some even feature words without any vowels."
 msgstr ""
 
-# Wikipediassa sekä elsalvadorilaiset että salvadorilaiset
+# Kotus: elsalvadorilainen
 #: data/nation/salvadoran.ruleset:3
 msgid "Salvadoran"
-msgstr "salvadorilaisten"
+msgstr "elsalvadorilaisten"
 
 #: data/nation/salvadoran.ruleset:4
 msgid "?plural:Salvadorans"
-msgstr "salvadorilaiset"
+msgstr "elsalvadorilaiset"
 
 #. TRANS: The fifth letter in "Hernandez" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -9932,6 +10276,16 @@ msgid ""
 "country remained unstable and from 1979-1992 the country lived through "
 "another bloody civil war."
 msgstr ""
+"Espanja valloitti pipilintiaanien alunperin asuttaman El Salvadorin 1500-"
+"luvulla. Se liittyi Keski-Amerikan liittovaltioon itsenäistyttyään, ja "
+"muuttui täysin itsenäiseksi tasavallaksi 1840. Muodollisesti El Salvador on "
+"ollut demokratia suurimman osan itsenäisyytensä ajasta, mutta "
+"todellisuudessa maan hallinto on vahvasti oligarkkinen, ja sitä hallitsevat "
+"'neljätoista perhettä' jotka ovat pitäneet poliittista ja taloudellista "
+"valtaa maassa sen itsenäisyyden alusta asti. 1930-luvulla keneraali "
+"Hernandez Martinez nousi diktaattoriksi. Väkivallaton vallankumous syöksi "
+"Hernandezin vallasta 1944, mutta maa pysyi epävakaana ja kärsi jälleen "
+"verisen sisällissodan kourissa 1979-1992."
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
@@ -10010,16 +10364,23 @@ msgid ""
 "throughout the Pacific. Colonized by Germany and New Zealand, Samoa became "
 "independent in 1962."
 msgstr ""
+"Samoa on maa joka kattaa Samoasaarten läntisen osan Keski-Tyynellämerellä; "
+"itäistä osaa hallitsee Yhdysvallat, ja se tunnetaan nimellä Amerikan Samoa. "
+"Samoan kansoittivat austroneesialaiset noin 1500 eaa. Todennäköisesti "
+"polynesialaiset aloittivat laajentumisensa ympäri Tyyntä valtamerta juuri "
+"Samoalta. Samoa oli Saksan ja Uuden Seelannin siirtomaavallan alla, ja "
+"itsenäistyi 1962."
 
+# (Ei kovin luova käännös, chief of the government) 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Chief of the Government %s"
-msgstr "Valitse uusi hallintomuotosi"
+msgstr "Uuden hallinnon päällikkö %s"
 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief of the Government %s"
-msgstr "Pääministeri %s"
+msgstr "Uuden hallinnon päällikkö %s"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
@@ -10038,16 +10399,13 @@ msgstr ""
 "(virallisesti vuoteen 1413 asti) Euroopan viimeiset pakanat. Nykyään "
 "Samogitia on Liettuan alue."
 
-# Äännetään en. dõhoumiilaisten tai ransk. da-o-meilaisten (õ ~ schwa)
 #: data/nation/santomean.ruleset:3
-#, fuzzy
 msgid "Santomean"
-msgstr "dahomeylaisten"
+msgstr "sãotoméprincipeläisten"
 
 #: data/nation/santomean.ruleset:4
-#, fuzzy
 msgid "?plural:Santomeans"
-msgstr "dahomeylaiset"
+msgstr "sãotoméprincipeläiset"
 
 #. TRANS: The second letter in "Sao" should be
 #. TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in
@@ -10067,6 +10425,12 @@ msgid ""
 "Slavery was abolished in the 19th century and the country became independent "
 "in 1975. The islands' economy remains dependent on the export of cocoa."
 msgstr ""
+"São tomé ja Príncipe ovat kaksi saarta Atlantin valtamerellä, jonkin matkaa "
+"Afrikan rannikolta. Pääsaaren nimesi Pyhän Tuomaan mukaan joukko "
+"portugalilaisia merimiehiä, jotka löysivät saaren ensimmäisinä pyhimyksen "
+"juhlapäivänä noin vuonna 1470. Saarista tuli ensimmäinen suuri "
+"eurooppalainen plantaasisiirtomaa. Orjuus kiellettiin 1800-luvulla, ja maa "
+"itsenäistyi 1975. Saarten talous riippuu yhä kaakaopavun viennistä."
 
 #: data/nation/sardinian.ruleset:3
 msgid "Sardinian"
@@ -10180,6 +10544,12 @@ msgid ""
 "Scania saw something of a national revival in the late 20th century with "
 "calls for greater autonomy within the Kingdom of Sweden."
 msgstr ""
+"Skåne on Ruotsin eteläisin osa. Historiallisesti se on ollut yksi monista "
+"pienistä kuningaskunnista viikinkiajan Skandinaviassa. Keskiajalla se oli "
+"osa Tanskaa, mutta siirtyi Ruotsille Roskilden sopimuksen kautta 1658. Skåne "
+"koki jonkin verran kansallista heräämistä myöhään 1900-luvulla, mistä "
+"seurasi tahdonilmaisuja laajemman itsehallinnon puolesta suhteessa Ruotsin "
+"kuningaskuntaan."
 
 #: data/nation/schleswig-holsteinian.ruleset:3
 msgid "Schleswig-Holsteinian"
@@ -10201,14 +10571,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:3
-#, fuzzy
 msgid "Scottish Gaelic"
-msgstr "skottien"
+msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "skotit"
+msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -10224,14 +10592,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
-msgstr "Päällikkö %s"
+msgstr "Klaaninpäällikkö %s"
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
-msgstr "Päällikkö %s"
+msgstr "Klaaninpäällikkö %s"
 
 #: data/nation/scottishgaelic.ruleset:39 data/nation/scottish.ruleset:26
 #, c-format
@@ -10380,12 +10748,11 @@ msgstr ""
 
 #: data/nation/seychellois.ruleset:3
 msgid "Seychellois"
-msgstr ""
+msgstr "seychelliläisten"
 
 #: data/nation/seychellois.ruleset:4
-#, fuzzy
 msgid "?plural:Seychellois"
-msgstr "skotit"
+msgstr "seychelliläiset"
 
 #: data/nation/seychellois.ruleset:6
 msgid ""
@@ -10399,6 +10766,15 @@ msgid ""
 "populated country of Africa and have the highest human development of the "
 "continent."
 msgstr ""
+"Seychellit ovat saaristovaltio jonkin matkaa Itä-Afrikan rannikolta Intian "
+"valtameressä. Saarilla ovat käyneet antiikin aikoina austroneesien, "
+"malediivien ja arabien kauppiaat, mutta eurooppalaisten saapuessa saarille "
+"niillä ei ollut alkuperäisasutusta. Seychellit olivat vaihtelevasti Ranskan "
+"ja Iso-Britannian vallan alla, kunnes itsenäistyivät 1976. Seychellien "
+"väestö koostuu ihmisistä joiden alkujuuret ovat Afrikassa, Kiinassa, "
+"Euroopassa, Intiassa ja Madacascarilla. Seychellit ovat Afrikan vähäväkisin "
+"maa, ja inhimillisen kehityksen indeksillä mitattuna se on maanosan "
+"korkeimmalla sijalla."
 
 #: data/nation/shan.ruleset:3
 msgid "Shan"
@@ -10497,12 +10873,11 @@ msgstr ""
 
 #: data/nation/sierraleonean.ruleset:3
 msgid "Sierra Leonean"
-msgstr ""
+msgstr "sierraleonelaisten"
 
 #: data/nation/sierraleonean.ruleset:4
-#, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "siperialaiset"
+msgstr "sierraleonelaiset"
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -10512,6 +10887,10 @@ msgid ""
 "country passed through a civil war. Today, Sierra Leone remains one of the "
 "poorest countries in the world."
 msgstr ""
+"Sierra Leone on Länsi-Afrikan maa, joka perustettiin 1792 vapautettujen "
+"orjien kotimaaksi, ja päätyi pian Iso-Britannian alaisuuteen. Sierra Leone "
+"on ollut itsenäinen tasavalta vuodesta 1961. 1990-luvulla maa kärsi "
+"sisällissodan. Nykyään Sierra Leone on yksi maailman köyhimmistä maista."
 
 #: data/nation/sikh.ruleset:3
 msgid "Sikh"
@@ -10533,11 +10912,6 @@ msgstr ""
 "maailmanuskonnoista. Sikhiläisyyden keskus on Pakistanin ja Intian "
 "rajamaastossa sijaitseva Punjab; 1800-luvulla alueelle perustettiin "
 "Sikhivaltio, jonka britit lopulta alistivat valtaansa."
-
-#: data/nation/sikh.ruleset:33 data/nation/vedic.ruleset:24
-#, c-format
-msgid "?female:Guru %s"
-msgstr "Guru %s"
 
 # TODO: unco
 #: data/nation/sikkimese.ruleset:3
@@ -10600,6 +10974,8 @@ msgid ""
 "Prince Vijaya who settled the island of Sri Lanka together with 700 "
 "followers in 543 BCE."
 msgstr ""
+"Sri Lankan singaleesikansa polveutuu osin tarunomaisesta prinssi Vijayasta, "
+"joka asutti Sri Lankan saaren 700 seuraajansa kanssa 543 eaa."
 
 #: data/nation/slavic.ruleset:3
 msgid "Slavic"
@@ -10649,14 +11025,12 @@ msgid ""
 msgstr "Slovenia oli luoteisin osa vanhasta Jugoslavian liittovaltiosta."
 
 #: data/nation/solomonislander.ruleset:3
-#, fuzzy
 msgid "Solomon Islander"
-msgstr "Samalla saarella olevat kaupungit"
+msgstr "salomonsaarelaisten"
 
 #: data/nation/solomonislander.ruleset:4
-#, fuzzy
 msgid "?plural:Solomon Islanders"
-msgstr "islantilaiset"
+msgstr "salomonsaarelaiset"
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -10666,6 +11040,11 @@ msgid ""
 "of some fierce fighting during World War II, including the famous battle of "
 "Guadalcanal. Solomon Islands has been independent since 1978."
 msgstr ""
+"Salomonsaaret on osa Melanesiaa, joka sijaitsee Papua-Uuden-Guinean ja "
+"Vanuatun välissä. Austronesialaiset kansat ovat asuttaneet aluetta 4000-"
+"luvulta eaa. Saarista tuli brittien protektoraatti 1800-luvulla. Niillä "
+"käytiin kovia taisteluja toisen maailmansodan aikaan, kuten kuuluisa "
+"Guadalcanalin taistelu. Salomonsaaret itsenäistyi 1978."
 
 #: data/nation/somaliland.ruleset:3
 msgid "Somaliland"
@@ -10683,6 +11062,11 @@ msgid ""
 "a somewhat higher standard of living than the rest of Somalia it remains "
 "internationally unrecognized."
 msgstr ""
+"Somalimaan tasavalta on tunnustamaton valtio Pohjois-Somaliassa. Maan aiempi "
+"siirtomaavallan aikainen nimi oli Brittiläinen Somalimaa. Se julistautui "
+"itsenäiseksi Somalian romahtaessa 1991. Vaikka se on vakaampi ja "
+"elintasoltaan hieman korkeampi kuin loput Somaliasta, sitä ei ole "
+"kansainvälisesti tunnustettu."
 
 #: data/nation/somali.ruleset:3
 msgid "Somali"
@@ -10729,12 +11113,12 @@ msgstr ""
 
 #: data/nation/sotho.ruleset:3
 msgid "Sotho"
-msgstr ""
+msgstr "shothojen"
 
+# Wikipediassa sothot, ja monikko on hyvä juttu.
 #: data/nation/sotho.ruleset:4
-#, fuzzy
 msgid "?plural:Basotho"
-msgstr "baškiirit"
+msgstr "sothot"
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -10744,6 +11128,11 @@ msgid ""
 "Moshoeshoe I. Today, there are about 2 million Sotho in the Kingdom of "
 "Lesotho and almost twice that number in South Africa."
 msgstr ""
+"Basothot ovat eteläisen Afrikan bantukansa, jonka esi-isät saapuivat "
+"alueelle ensimmäisellä vuosituhannella jaa. Basothot koostivat ensimmäisen "
+"valtionsa 1800-luvulla kuningas Moshoeshoe I:n alaisuudessa. Nykyään sothoja "
+"asuu noin kaksi miljoonaa Lesothon kuningaskunnan alueella, ja lähes kaksi "
+"kertaa enemmän Etelä-Afrikan alueella."
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
@@ -10764,6 +11153,15 @@ msgid ""
 "prisoner Nelson Mandela became the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Hollantilaiset uudisasukkaat alkoivat asuttaa eteläistä Afrikkaa 1600-"
+"luvulla. Etelä-Afrikan Liitto luotiin 1910, mitä edelsi joukko sotia joiden "
+"osapuolina olivat buurit (hollantilaisten uudisasukkaiden jälkeläiset), "
+"brittiarmeijat zulut. Etelä-Afrikan hallitus keräsi kyseenalaista mainetta "
+"\"apartheid\"-politiikallaan, joka määritti kansalaiset eriarvoisiksi lain "
+"edessä ihonvärinsä perusteella. Sen jälkeen kun maan ensimmäinen ei-"
+"rasistinen perustuslaki otettiin käyttöön 1994, pitkäaikainen polittinen "
+"vanki Nelson Mandela nousi ensimmäiseksi aidon demokraattisesti valituksi "
+"Etelä-Afrikan presidentiksi."
 
 #: data/nation/southamerican.ruleset:3
 msgid "South American"
@@ -10789,7 +11187,7 @@ msgstr "eteläkorealaisten"
 
 #: data/nation/southkorean.ruleset:4
 msgid "?plural:South Koreans"
-msgstr "?plural:eteläkorealaiset"
+msgstr "eteläkorealaiset"
 
 #: data/nation/southkorean.ruleset:6
 msgid ""
@@ -10819,6 +11217,12 @@ msgid ""
 "The war left two million dead and many more displaced until a ceasefire was "
 "signed in 2005. Southern Sudan achieved full independence in 2011."
 msgstr ""
+"Etelä-Sudania asuttavat enimmäkseen mustat afrikkalaiset, ja maa on "
+"enimmäkseen animistinen ja kristitty. Pitkä sisällissota ajoi "
+"eteläsudanilaiset muslimi- ja arabitaustaista pohjoista Sudania vastaan. "
+"Sodassa kuoli kaksi miljoonaa ihmistä ja paljon enemmän joutui pakenemaan "
+"kotialueiltaan, kunnes aselepo allekirjoitettiin 2005. Etelä-Sudan tuli "
+"täysin itsenäiseksi 2011."
 
 #: data/nation/southvietnamese.ruleset:3
 msgid "South Vietnamese"
@@ -10849,7 +11253,7 @@ msgstr "eteläjemeniläisten"
 
 #: data/nation/southyemeni.ruleset:4
 msgid "?plural:South Yemenis"
-msgstr "?plural:eteläjemeniläiset"
+msgstr "eteläjemeniläiset"
 
 #: data/nation/southyemeni.ruleset:6
 msgid ""
@@ -11068,20 +11472,13 @@ msgstr ""
 "Nykyinen Syyrian arabitasavalta muodostui Ranskan mandaattialueesta, ja "
 "itsenäistyi vaiheittain 1940-luvulla."
 
-#: data/nation/syrian.ruleset:20
-#, fuzzy, c-format
-msgid "?female:Shaykha %s"
-msgstr "Šamaani %s"
-
 #: data/nation/tahitian.ruleset:3
-#, fuzzy
 msgid "Tahitian"
-msgstr "haitilaisten"
+msgstr "tahitilaisten"
 
 #: data/nation/tahitian.ruleset:4
-#, fuzzy
 msgid "?plural:Tahitians"
-msgstr "haitilaiset"
+msgstr "tahitilaiset"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -11093,6 +11490,13 @@ msgid ""
 "vegetation and Polynesian culture, Tahiti has become the archetypical exotic "
 "island."
 msgstr ""
+"Saaret jotka ovat nykyään osa Ranskan Polynesiaa olivat alkujaan "
+"polynesialaisten kansojen asuttamia 200-luvulla jaa. Ranska perusti "
+"Tahitiin, eli saariston pääsaarelle, protektoraatin 1842. Vuonna 1889 koko "
+"alue julistettiin Ranskan siirtomaaksi. Saaret ovat yhä Ranskan hallinnassa, "
+"mutta niillä on laaja sisäinen itsemääräämisoikeus. Runsaan kasvillisuutensa "
+"ja polynesialaisen kulttuurinsa ansiosta Tahiti on helppo mieltää "
+"arkkityypilliseksi eksoottiseksi saareksi."
 
 #: data/nation/tairona.ruleset:3
 msgid "Tairona"
@@ -11131,6 +11535,12 @@ msgid ""
 "island of Taiwan, establishing Taipei as the provisional capital of the "
 "Republic of China."
 msgstr ""
+"Kiinan tasavalta perustettiin 1912 Qing-dynastian jatkovaltioksi, mikä "
+"päätti yli kaksi vuosituhatta jatkuneen keisarivallan Kiinassa. Kun "
+"tasavaltaa hallinneet kiinalaiset kansallismieliset hävisivät sisällissodan "
+"kiinalaisia kommunisteja vastaan 1949, kansallismielinen hallinto evakuoitui "
+"Taiwanin saarelle, ja julisti Taipein väliaikaiseksi Kiinan tasavallan "
+"pääkaupungiksi."
 
 #: data/nation/tajik.ruleset:3
 msgid "Tajik"
@@ -11165,6 +11575,10 @@ msgid ""
 "British during World War I and declared independence in 1961. Three years "
 "later it merged with Zanzibar to form the Union of Tanzania."
 msgstr ""
+"Ajanlaskun alusta bantukansojen asuttama Tanganjika muuttui 1800-luvun "
+"lopulla Saksan siirtomaaksi. Britit valloittivat sen ensimmäisen "
+"maailmansodan aikana, ja maa julistautui itsenäiseksi 1961. Kolme vuotta "
+"myöhemmin se liittyi Sansibariin, mistä syntyi Tansanian liittovaltio."
 
 #: data/nation/tanzanian.ruleset:3
 msgid "Tanzanian"
@@ -11181,6 +11595,10 @@ msgid ""
 "Nyerere, who followed the tenets of African socialism. In 1985 Nyerere was "
 "the first African head of state to voluntarily step down."
 msgstr ""
+"Tansania muodostui entisten brittisiirtomaiden Tanganyikan ja Zanzibarin "
+"yhdistyessä 1964. Kahden vuosikymmenen ajan maata hallitsi Julius Nyerere, "
+"joka seurasi Afrikan sosialismin oppeja. Vuonna 1985 Nyerere oli ensimmäinen "
+"afrikkalainen valtionpäämies joka luopui vallasta vapaaehtoisesti."
 
 #: data/nation/tatar.ruleset:3
 msgid "Tatar"
@@ -11263,6 +11681,11 @@ msgid ""
 "six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
 "and the USA - as expressed in the slogan \"six flags over Texas\"."
 msgstr ""
+"Texas on Yhdysvaltojen toiseksi suurin ja toiseksi väkirikkain osavaltio. Se "
+"on kuuluisa \"elämää suuremmasta\" lehmipoika-asenteestaan. Historiansa "
+"aikana Texasia on hallinnut osin tai kokonaan kuusi eri maata: Ranska, "
+"Espanja, Meksiko, Texasin tasavalta, Etelävaltiot ja Yhdysvallat, mistä on "
+"muistona iskulause \"kuusi lippua Texasin yllä\"."
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -11284,9 +11707,8 @@ msgid "Thuringian"
 msgstr ""
 
 #: data/nation/thuringian.ruleset:4
-#, fuzzy
 msgid "?plural:Thuringians"
-msgstr "traakialaiset"
+msgstr ""
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -11402,6 +11824,10 @@ msgid ""
 "1960s the country's politics have been dominated by general Gnassingbe "
 "Eyadema, who was succeeded by his son Faure upon his death in 2005."
 msgstr ""
+"Togosta tuli Saksan protektoraatti 1885 ja sen valloittivat toisen "
+"maailmansodan aikana ranskalaiset ja britit. Togosta tuli itsenäinen 1960. "
+"1960-luvun lopulla maan poliittista kenttää on hallinnut kenraali Gnassingbé "
+"Eyadéma, jonka kuoltua valtaan nousi hänen poikansa Faure 2005."
 
 #: data/nation/toltec.ruleset:3
 msgid "Toltec"
@@ -11464,6 +11890,11 @@ msgid ""
 "the country is de facto independent, it is not recognized by any UN member. "
 "Power is still in the hands of the old communist elite."
 msgstr ""
+"Stalin liitti Transnistrian Moldavian sosialistiseen neuvostotasavaltaan, "
+"vaikka sitä asuttivat lähinnä venäläiset ja ukrainalaiset. Neuvostoliiton "
+"hajottua Transnistria julistautui itsenäiseksi Moldaviasta, sittemmin "
+"Moldovasta. Vaikka maa on käytännössä itsenäinen, yksikään YK:n jäsen ei ole "
+"tunnustanut sitä. Valta on yhä vanhan kommunistiaikojen eliitin käsissä."
 
 #: data/nation/transylvanian.ruleset:3
 msgid "Transylvanian"
@@ -11485,12 +11916,11 @@ msgstr ""
 
 #: data/nation/trinidadian.ruleset:3
 msgid "Trinidadian and Tobagonian"
-msgstr ""
+msgstr "trinidadtobagolaisten"
 
 #: data/nation/trinidadian.ruleset:4
-#, fuzzy
 msgid "?plural:Trinidadians and Tobagonians"
-msgstr "transilvanialaiset"
+msgstr "trinidadtobagolaiset"
 
 #: data/nation/trinidadian.ruleset:6
 msgid ""
@@ -11504,18 +11934,25 @@ msgid ""
 "compared to its Caribbean neighbors. Trinidad and Tobago is famous for its "
 "music and its Carnival."
 msgstr ""
+"Trinidad ja Tobago on kahdesta maalle nimen antaneesta saaresta koostuva "
+"valtio Karibianmerellä. Se on Vähä-Antillien väkirikkain maa. Kolumbus löysi "
+"Trinidadin 1498, ja se pysyi Espanjan siirtomaana kunnes britit valloitivat "
+"sen Napoleonin sotien aikaan. Tobagossa puolestaan viihtyivät kuurit, "
+"espanjalaiset, hollantilaiset, ranskalaiset ja ruotsalaiset, mutta se päätyi "
+"lopulta myös brittien käsiin. Saaret ovat olleet itsenäisiä vuodesta 1962. "
+"Niiden talous perustuu öljyyn ja on melko kehittynyt niiden Karibianmeren "
+"naapureihin verrattuna. Trinidad ja Tobago tunnetaan musiikistaan ja "
+"karnivaaleistaan."
 
-# Motswana is the singular form of batswana; using plural genetive as 
-# adjective as per Wikipedia and Jaakko Kankaanpää's plural-on-plural 
+# Motswana is the singular form of batswana; using plural genetive as
+# adjective as per Wikipedia and Jaakko Kankaanpää's plural-on-plural
 # translation style, as seen in a McCall Smith book:
 # "eivätkä batswanat voi katsoa vierestä toisen motswanan kärsimystä"
 #: data/nation/tswana.ruleset:3
-#, fuzzy
 msgid "Tswana"
 msgstr "batswanojen"
 
 #: data/nation/tswana.ruleset:4
-#, fuzzy
 msgid "?plural:Batswana"
 msgstr "batswanat"
 
@@ -11527,6 +11964,10 @@ msgid ""
 "them. In South Africa they count about four million Batswana and in the "
 "Apartheid era they had the Bantustan of Bophuthatswana."
 msgstr ""
+"Batswana ovat bantukansa eteläisessä Afrikassa. Noin 20% Botswanan väestöstä "
+"on batswanoja, ja maa on nimetty tämän suurimman etnisen ryhmän mukaan. "
+"Etelä-Amerikassa asuu noin neljä miljoonaa batswanaa, ja Apartheidin aikaan "
+"heillä oli Bophuthatswanan bantuvaltio."
 
 #: data/nation/tuareg.ruleset:3
 msgid "Tuareg"
@@ -11656,15 +12097,17 @@ msgstr ""
 "pois, ja alue siirtyi Itävallan Habsburgeille. Tirolin eteläosat liitettiin "
 "Italiaan ensimmäisen maailmansodan jälkeen."
 
+# Keksitty käännös.
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Count %s"
-msgstr "Ruhtinas %s"
+msgstr "Prinssikreivi %s"
 
+# Son 'princely', ei 'princessly', joten sekasukupuolinen.
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Countess %s"
-msgstr "Kreivitär %s"
+msgstr "Prinssikreivitär %s"
 
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
@@ -11856,12 +12299,11 @@ msgstr ""
 
 #: data/nation/vanuatuan.ruleset:3
 msgid "Vanuatuan"
-msgstr ""
+msgstr "vanuatualaisten"
 
 #: data/nation/vanuatuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ni-Vanuatu"
-msgstr "ainut"
+msgstr "vanuatualaiset"
 
 #: data/nation/vanuatuan.ruleset:6
 msgid ""
@@ -11871,16 +12313,19 @@ msgid ""
 "both colonial powers agreed to rule the New Hebrides together as a "
 "condominium. The Republic of Vanuatu declared its independence in 1980."
 msgstr ""
+"Vanuatu, joka ennen tunnettiin nimellä Uudet Hebridit, on valtio "
+"Melanesiassa. Se koostuu noin 80 saaresta. Ensimmäisenä sen asuttivat "
+"melanesialaiset, 1800-luvun lopulla siitä kilpailivat britit ja "
+"ranskalaiset. Vuonna 1906 Englanti ja Ranska sopivat hallitsevansa Uusia "
+"Hebrideitä yhdessä. Vanuatun tasavalta julistautui itsenäiseksi vuonna 1980."
 
 #: data/nation/vedic.ruleset:3
-#, fuzzy
 msgid "Vedic"
-msgstr "Lääketiede"
+msgstr ""
 
 #: data/nation/vedic.ruleset:4
-#, fuzzy
 msgid "?plural:Vedics"
-msgstr "métisit"
+msgstr ""
 
 #: data/nation/vedic.ruleset:6
 msgid ""
@@ -11901,14 +12346,12 @@ msgid "?female:Mahatma %s"
 msgstr "Mahatma %s"
 
 #: data/nation/veletian.ruleset:3
-#, fuzzy
 msgid "Veletian"
-msgstr "venetsialaisten"
+msgstr ""
 
 #: data/nation/veletian.ruleset:4
-#, fuzzy
 msgid "?plural:Veletians"
-msgstr "venetsialaiset"
+msgstr ""
 
 #: data/nation/veletian.ruleset:6
 msgid ""
@@ -11924,12 +12367,11 @@ msgstr ""
 
 #: data/nation/venda.ruleset:3
 msgid "Venda"
-msgstr ""
+msgstr "vendojen"
 
 #: data/nation/venda.ruleset:4
-#, fuzzy
 msgid "?plural:Vhavenda"
-msgstr "vandaalit"
+msgstr "vendat"
 
 #: data/nation/venda.ruleset:6
 msgid ""
@@ -11938,6 +12380,10 @@ msgid ""
 "mostly in the province of Limpopo. During the Apartheid Era there existed a "
 "Bantustan of Venda."
 msgstr ""
+"Vendat ovat bantukansa Etelä-Afrikassa ja Zimbabwessa. He hallitsivat "
+"muinoin Mapungubwen kuningaskuntaa, ja heitä elää nykyään noin miljoona, "
+"pääosin Etelä-Afrikan Limpopon provinssissa. Apartheid-aikana vendoja varten "
+"perustettiin Vendojen Bantustan."
 
 #: data/nation/venetian.ruleset:3
 msgid "Venetian"
@@ -11958,15 +12404,14 @@ msgid ""
 "eventually fell to the armies of Bonaparte in 1796."
 msgstr ""
 
+# Vähän niinku venetsialaiset mut ei kumminkaan. (Veneto on alue jonka pääkaupunki venetsia on.)
 #: data/nation/venetic.ruleset:3
-#, fuzzy
 msgid "Venetic"
-msgstr "venetsialaisten"
+msgstr "venetolaisten"
 
 #: data/nation/venetic.ruleset:4
-#, fuzzy
 msgid "?plural:Veneti"
-msgstr "venetsialaiset"
+msgstr "venetolaiset"
 
 #: data/nation/venetic.ruleset:6
 msgid ""
@@ -11990,7 +12435,6 @@ msgstr "venezuelalaiset"
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/venezuelan.ruleset:9
-#, fuzzy
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -12002,7 +12446,10 @@ msgid ""
 msgstr ""
 "Venezuela on Etelä-Amerikan pohjoisin valtio. Oltuaan Espanjan siirtomaana "
 "1500-luvulta lähtien maa itsenäistyi 5. heinäkuuta 1811 El Liberador "
-"(\"vapauttaja\") Simón Bolívarin johdolla."
+"(\"vapauttaja\") Simón Bolívarin johdolla. Venezuelalla on yksi maailman "
+"isoimmista tunnetuista öljy- ja kaasuvarannoista maailmassa; 1970-luvun "
+"öljykriisin aikaan se oli Latinalaisen Amerikan rikkain valtio. Venezuela "
+"tunnetaan vaihtelevista maisemistaan ja luonnon monimuotoisuudesta."
 
 #: data/nation/vermont.ruleset:3
 msgid "Vermont"
@@ -12029,7 +12476,6 @@ msgid "?plural:Vietnamese"
 msgstr "vietnamilaiset"
 
 #: data/nation/vietnamese.ruleset:6
-#, fuzzy
 msgid ""
 "The Vietnamese nation was founded in the first century CE by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
@@ -12038,6 +12484,7 @@ msgstr ""
 "kaksoissisaret jotka johtivat vallankumousta kiinalaista sotilaskuvernööriä "
 "vastaan."
 
+# Kotus is inconsistent with this, it's a rare "x ja y:n kansalainen". Brutally ignoring.
 #: data/nation/vincentian.ruleset:3
 msgid "Vincentian"
 msgstr "vincentläisten"
@@ -12055,6 +12502,13 @@ msgid ""
 "claims. Saint Vincent and the Grenadines became independent from Britain in "
 "1979 and are currently a Commonwealth realm."
 msgstr ""
+"Saint Vincent ja Grenadiinit olivat yksi viimeisistä Karibianmeren saarista "
+"jonne uudisraivaajat päätyivät, koska paikallinen intiaaniheimo karibit "
+"pitivät eurooppalaiset pois saarelta. Karibien ja paenneiden orjien "
+"jälkeläisistä syntyivät garifunat eli 'mustat karibit'. 1700-luvulla "
+"ranskalaiset ja britit kamppailivat saarista. 1783 Ranska luopui "
+"vaateistaan. Saint Vincent ja Grenadiinit itsenäistyi Iso-Britanniasta 1979 "
+"ja on nykyään osa Kansainyhteisöä."
 
 # Myös länsigootti
 #: data/nation/visigothic.ruleset:3
@@ -12080,12 +12534,11 @@ msgstr ""
 
 #: data/nation/vistulan.ruleset:3
 msgid "Vistulan"
-msgstr ""
+msgstr "vislaanien"
 
 #: data/nation/vistulan.ruleset:4
-#, fuzzy
 msgid "?plural:Vistulans"
-msgstr "asturialaiset"
+msgstr "vislaanit"
 
 #: data/nation/vistulan.ruleset:6
 msgid ""
@@ -12103,12 +12556,11 @@ msgstr ""
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 252.
 #: data/nation/volapuk.ruleset:6
 msgid "Volapukan"
-msgstr ""
+msgstr "volapükien"
 
 #: data/nation/volapuk.ruleset:7
-#, fuzzy
 msgid "?plural:Volapukans"
-msgstr "papualaiset"
+msgstr "volapükit"
 
 #: data/nation/volapuk.ruleset:9
 msgid ""
@@ -12119,15 +12571,21 @@ msgid ""
 "displaced Volapuk by the turn of the century. Today only a few dozen Volapuk "
 "speakers remain."
 msgstr ""
+"Volapük on kansainvälinen keinotekoinen apukieli jonka loi saksalainen pappi "
+"Johann Martin Schleyer vuonna 1879. Se saavutti lyhytaikaista suosiota 1800-"
+"luvun lopussa. Kieltä on usein pidetty tarpeettoman vaikeana verrattuna "
+"vaihtoehtoihin kuten esperantoon, joka oli lähes täysin korvannut volapükin "
+"vuosisadan vaihteessa. Nykyään on jäljellä vain kourallinen volapükin "
+"puhujia."
 
+# Todnäk volgan bulgaarit
 #: data/nation/volgabulgar.ruleset:3
 msgid "Volga Bulgar"
 msgstr ""
 
 #: data/nation/volgabulgar.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Bulgars"
-msgstr "bulgarialaiset"
+msgstr ""
 
 #: data/nation/volgabulgar.ruleset:6
 msgid ""
@@ -12180,15 +12638,15 @@ msgstr "walesilaisten"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "?plural:walesilaiset"
+msgstr "walesilaiset"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
 "The Welsh at one time controlled all of what is now England until being "
 "driven into the mountainous western reaches by invading Saxons."
 msgstr ""
-"Walesilaiset (kymrit) hallitsivat koko nykyistä Englantia, kunnes "
-"maahantunkeutuvat saksit ajoivat heidät läntisille vuorialueille."
+"Walesilaiset (kymrit) hallitsivat koko nykyistä Englantia, kunnes maahan "
+"tunkeutuneet saksit ajoivat heidät läntisille vuorialueille."
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
@@ -12205,6 +12663,10 @@ msgid ""
 "to terrorize villages in search of human flesh and were often blamed for "
 "unexplained or particularly brutal killings."
 msgstr ""
+"Ihmissusi on ihminen joka muuttuu sudenomaiseksi pedoksi tiettyjen "
+"olosuhteiden vallitessa. Euroopan keskiajalla ihmissusien uskottiin "
+"levittävän kauhua kyliin metsästämällä ihmislihaa, ja niitä syytettiin usein "
+"selittämättömistä tai epätavallisen julmista tapoista."
 
 # Wikipedia: Mecklenburg-Etu-Pommeri
 #: data/nation/westernpomeranian.ruleset:3
@@ -12309,12 +12771,11 @@ msgstr ""
 
 #: data/nation/xhosa.ruleset:3
 msgid "Xhosa"
-msgstr ""
+msgstr "xhosien"
 
 #: data/nation/xhosa.ruleset:4
-#, fuzzy
 msgid "?plural:amaXhosa"
-msgstr "amatsonit"
+msgstr "xhosat"
 
 #: data/nation/xhosa.ruleset:6
 msgid ""
@@ -12323,15 +12784,19 @@ msgid ""
 "two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
 "apartheid activists, including Nelson Mandela and Desmond Tutu, where Xhosa."
 msgstr ""
+"Xhosat ovat bantukansa Etelä-Afrikassa. He saapuivat alueelle Suurten "
+"järvien alueelta 1600-lukuun mennessä. Apartheid-aikana heitä varten "
+"perustettiin kaksi Bantustania, Transkei ja Ciskei. Monet johtavat "
+"apartheidin vastustajat, kuten Nelson Mandela ja Desmond Tutu, kuuluivat "
+"xhosa-kansaan."
 
 #: data/nation/xiongnu.ruleset:3
 msgid "Xiongnu"
 msgstr ""
 
 #: data/nation/xiongnu.ruleset:4
-#, fuzzy
 msgid "?plural:Xiongnu"
-msgstr "ainut"
+msgstr ""
 
 #: data/nation/xiongnu.ruleset:6
 msgid ""
@@ -12447,15 +12912,17 @@ msgid ""
 "in the 19th century. Governed as Northern Rhodesia by the British, Zambia "
 "gained its independence in 1964."
 msgstr ""
+"Sambiaa asuttivat bantukansat kun britit ottivat sen siirtokunnakseen 1800-"
+"luvulla. Britannian alla maan nimi oli Pohjois-Rhodesia. Sambia itsenäistyi "
+"1964."
 
 #: data/nation/zanzibari.ruleset:3
 msgid "Zanzibari"
-msgstr ""
+msgstr "sansibarilaisten"
 
 #: data/nation/zanzibari.ruleset:4
-#, fuzzy
 msgid "?plural:Zanzibaris"
-msgstr "kasaarit"
+msgstr "sansibarilaiset"
 
 #: data/nation/zanzibari.ruleset:6
 msgid ""
@@ -12468,6 +12935,14 @@ msgid ""
 "thereafter, the last sultan was overthrown and Zanzibar joined with "
 "Tanganyika to form the United Republic of Tanzania."
 msgstr ""
+"Sansibar on joukko saaria itäisen Afrikan rannikon lähistöllä. Se on ollut "
+"ammoisista ajoista kansainvälisen kaupan keskus. Sansibarin kauppiaat "
+"hallitsivat suurta osaa mauste- ja orjakaupasta Intian valtameren "
+"länsiosissa. Alue oli suhteellisen itsenäinen mutta sitä hallitsivat vuoron "
+"perään persialaiset, portugalilaiset, omanilaiset ja britit. Iso-Britannia "
+"miehitti Sansibarin 1893 ja se itsenäistyi 1963. Pian tämän jälkeen "
+"viimeinen Sansibarin sulttaani syöstiin vallasta, ja Sansibar liittyi "
+"Tanganjikaan ja muodosti Tansanian yhdistyneen tasavallan."
 
 # TODO: conf
 #: data/nation/zapotec.ruleset:3
@@ -12492,12 +12967,11 @@ msgstr ""
 
 #: data/nation/zhuang.ruleset:3
 msgid "Zhuang"
-msgstr ""
+msgstr "zhuangien"
 
 #: data/nation/zhuang.ruleset:4
-#, fuzzy
 msgid "?plural:Zhuang"
-msgstr "hanit"
+msgstr "zhuangit"
 
 #: data/nation/zhuang.ruleset:6
 msgid ""
@@ -12530,3 +13004,11 @@ msgid ""
 "1980 the country has been governed by Robert Mugabe, who has received an "
 "equally poor reputation internationally as the previous regime."
 msgstr ""
+"Zimbabwe on maa Etelä-Afrikassa, joka on nimetty vanhan Zimbabwen "
+"kuningaskunnan mukaan. Siitä tuli brittien siirtokunta, Etelä-Rhodesia, "
+"1898. Etelä-Rhodesian valkoinen vähemmistö julistautui yksimielisesti "
+"itsenäiseksi 1965. Pääministeri Ian Smith pystytti rasistihallinnon joka "
+"sulki mustat poliittisen vallan ulkopuolelle. Sisällissota pakotti Smithin "
+"päättämään valkoisen vähemmistövallan 1979. Vuodesta 1980 maata on hallinnut "
+"Robert Mugabe, jonka maine kansainvälisesti on ollut yhtä huono kuin "
+"aiemmallakin hallinnolla."
