@@ -666,7 +666,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
-  struct adv_data *ai = adv_data_get(pplayer, NULL);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
   struct unit_type *unit_type
            = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
   Continent_id place = tile_continent(pcenter);
@@ -697,8 +698,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   /* Massage our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in
    * the ruleset */
-  want /= MAX(1, ai->stats.workers[place]
-                 / (ai->stats.cities[place] + 1));
+  want /= MAX(1, ai->stats.workers[place] / (adv->stats.cities[place] + 1));
   want -= ai->stats.workers[place];
   want = MAX(want, 0);
 
@@ -709,7 +709,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
 	   get_activity_text(best_act),
 	   TILE_XY(best_tile),
            ai->stats.workers[place], 
-           ai->stats.cities[place]);
+           adv->stats.cities[place]);
   fc_assert(want >= 0);
 
   def_ai_city_data(pcity, ait)->settler_want = want;

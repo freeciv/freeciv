@@ -84,7 +84,6 @@ struct adv_data {
       /* Upgradeable units */
       int upgradeable;
     } units;
-    int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities we have on continent */
     int average_production;
   } stats;

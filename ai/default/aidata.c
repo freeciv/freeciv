@@ -187,6 +187,15 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 
   /*** Statistics ***/
 
+  ai->stats.workers = fc_calloc(adv->num_continents + 1, sizeof(int));
+  unit_list_iterate(pplayer->units, punit) {
+    struct tile *ptile = unit_tile(punit);
+
+    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, UTYF_SETTLERS)) {
+      ai->stats.workers[(int)tile_continent(unit_tile(punit))]++;
+    }
+  } unit_list_iterate_end;
+
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)
@@ -242,6 +251,9 @@ void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer)
   if (!ai->phase_initialized) {
     return;
   }
+
+  free(ai->stats.workers);
+  ai->stats.workers = NULL;
 
   ai->phase_initialized = FALSE;
 }

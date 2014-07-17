@@ -407,7 +407,6 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Statistics ***/
 
-  adv->stats.workers = fc_calloc(adv->num_continents + 1, sizeof(int));
   adv->stats.cities = fc_calloc(adv->num_continents + 1, sizeof(int));
   adv->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
@@ -418,13 +417,6 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     adv->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
   adv->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
-  unit_list_iterate(pplayer->units, punit) {
-    struct tile *ptile = unit_tile(punit);
-
-    if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, UTYF_SETTLERS)) {
-      adv->stats.workers[(int)tile_continent(unit_tile(punit))]++;
-    }
-  } unit_list_iterate_end;
 
   /*** Diplomacy ***/
 
@@ -541,9 +533,6 @@ void adv_data_phase_done(struct player *pplayer)
 
   free(adv->threats.ocean);
   adv->threats.ocean = NULL;
-
-  free(adv->stats.workers);
-  adv->stats.workers = NULL;
 
   free(adv->stats.cities);
   adv->stats.cities = NULL;
