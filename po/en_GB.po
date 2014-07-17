@@ -65,8 +65,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-11 19:12+0100\n"
-"PO-Revision-Date: 2014-07-11 19:18+0100\n"
+"POT-Creation-Date: 2014-07-17 09:00+0100\n"
+"PO-Revision-Date: 2014-07-17 10:22+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -17217,7 +17217,8 @@ msgstr "Sister %s"
 msgid "High Druid %s"
 msgstr "High Druid %s"
 
-#: data/civ2/nations.ruleset:358 data/nation/celtic.ruleset:41
+#: data/civ2/nations.ruleset:358 data/nation/belgic.ruleset:30
+#: data/nation/boian.ruleset:22 data/nation/celtic.ruleset:41
 #: data/nation/helvetian.ruleset:29
 #, c-format
 msgid "?female:High Druid %s"
@@ -23316,35 +23317,58 @@ msgstr ""
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv is covered by the GPL, which is included here: "
 
-#: data/helpdata.txt:2278
+#. TRANS: followed by a URL
+#: data/helpdata.txt:2280
 msgid ""
-"  Original authors:\n"
-"    (they are no longer involved, please don't mail them!)"
+"If you find any bugs, then please send us a bug report.  This is best done "
+"by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
-"  Original authors:\n"
-"    (they are no longer involved, please don't mail them!)"
+"If you find any bugs, then please send us a bug report.  This is best done "
+"by visiting the Freeciv Bug Tracking System, at:"
 
 #: data/helpdata.txt:2285
-msgid "  Present administrators: "
-msgstr "  Present administrators: "
+msgid ""
+"Please quote the above version information. For more information about "
+"submitting bug reports see the file BUGS in the Freeciv distribution."
+msgstr ""
+"Please quote the above version information. For more information about "
+"submitting bug reports see the file BUGS in the Freeciv distribution."
+
+#: data/helpdata.txt:2289
+msgid ""
+"To contact the developers about anything else, please email one of the "
+"project's mailing lists:"
+msgstr ""
+"To contact the developers about anything else, please email one of the "
+"project's mailing lists:"
 
 #: data/helpdata.txt:2292
 msgid ""
-"If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:"
+"    freeciv-dev@gna.org         - public development mailing\n"
+"                                  list (archives are public)\n"
+"    freeciv-maintainers@gna.org - private project administration\n"
+"                                  list (for security issues, etc)"
 msgstr ""
-"If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:"
+"    freeciv-dev@gna.org         - public development mailing\n"
+"                                  list (archives are public)\n"
+"    freeciv-maintainers@gna.org - private project administration\n"
+"                                  list (for security issues, etc)"
 
 #: data/helpdata.txt:2297
 msgid ""
-"Please quote the above version information.  For more information about "
-"submitting bug reports see the file BUGS in the Freeciv distribution.  For "
-"more information in general, visit the Freeciv website, at:"
+"  Original authors:\n"
+"    (they are no longer involved, please don't mail them!)"
 msgstr ""
-"Please quote the above version information.  For more information about "
-"submitting bug reports see the file BUGS in the Freeciv distribution.  For "
-"more information in general, visit the Freeciv website, at:"
+"  Original authors:\n"
+"    (they are no longer involved, please don't mail them!)"
+
+#: data/helpdata.txt:2304
+msgid "  Present administrators: "
+msgstr "  Present administrators: "
+
+#: data/helpdata.txt:2311
+msgid "For more information in general, visit the Freeciv website, at:"
+msgstr "For more information in general, visit the Freeciv website, at:"
 
 #: data/multiplayer/buildings.ruleset:89
 msgid "Amphitheater"
@@ -24071,10 +24095,11 @@ msgstr "Governor %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
-#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
-#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
-#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
+#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
+#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
+#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "?female:Governor %s"
@@ -24317,7 +24342,8 @@ msgstr "Sheikh %s"
 #: data/nation/kuwaiti.ruleset:27 data/nation/moroccan.ruleset:28
 #: data/nation/omani.ruleset:30 data/nation/palestinian.ruleset:22
 #: data/nation/qatari.ruleset:20 data/nation/somaliland.ruleset:25
-#: data/nation/somali.ruleset:36 data/nation/tuareg.ruleset:37
+#: data/nation/somali.ruleset:36 data/nation/syrian.ruleset:20
+#: data/nation/tuareg.ruleset:37
 #, c-format
 msgid "Shaykha %s"
 msgstr "Shaykha %s"
@@ -24559,6 +24585,12 @@ msgstr ""
 #, c-format
 msgid "Secretary General %s"
 msgstr "Secretary General %s"
+
+#: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
+#: data/nation/santomean.ruleset:33
+#, c-format
+msgid "?female:Secretary General %s"
+msgstr "?female:Secretary General %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
@@ -31060,11 +31092,6 @@ msgstr ""
 "of the Ottoman Empire for over four centuries and became a French mandate "
 "after World War I. Lebanon proclaimed its independence in 1943."
 
-#: data/nation/lebanese.ruleset:27 data/nation/santomean.ruleset:33
-#, c-format
-msgid "?female:Secretary General %s"
-msgstr "?female:Secretary General %s"
-
 #: data/nation/lendian.ruleset:3
 msgid "Lendian"
 msgstr "Lendian"
@@ -35715,11 +35742,6 @@ msgid ""
 msgstr ""
 "The modern Syrian Arab Republic was formed from a French mandate and "
 "gradually gained independence during the 1940s."
-
-#: data/nation/syrian.ruleset:20
-#, c-format
-msgid "?female:Shaykha %s"
-msgstr "?female:Shaykha %s"
 
 #: data/nation/tahitian.ruleset:3
 msgid "Tahitian"
@@ -42410,55 +42432,55 @@ msgstr ""
 "games, or it may indicate an invalid saved game file. Proceed at your own "
 "risk."
 
-#: server/savegame2.c:3113 server/savegame.c:5349 server/srv_main.c:1906
+#: server/savegame2.c:3113 server/savegame.c:5354 server/srv_main.c:1906
 #: server/srv_main.c:1911
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s has been added as %s level AI-controlled player (%s)."
 
-#: server/savegame2.c:3118 server/savegame.c:5354
+#: server/savegame2.c:3118 server/savegame.c:5359
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s has been added as human player."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3141 server/savegame.c:5401
+#: server/savegame2.c:3141 server/savegame.c:5406
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s had invalid nation; changing to %s."
 
-#: server/savegame2.c:6061
+#: server/savegame2.c:6066
 msgid "current version"
 msgstr "current version"
 
-#: server/savegame2.c:6065
+#: server/savegame2.c:6070
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:6067
+#: server/savegame2.c:6072
 msgid "freeciv 2.4.0"
 msgstr "freeciv 2.4.0"
 
-#: server/savegame2.c:6118
+#: server/savegame2.c:6123
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 
-#: server/savegame2.c:6152
+#: server/savegame2.c:6157
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr "Run compatibility function for version: <%d (want: %d, server: %d)."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4548
+#: server/savegame.c:4553
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 
-#: server/savegame.c:4556
+#: server/savegame.c:4561
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -42468,7 +42490,7 @@ msgstr ""
 "Using '%s'."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4597
+#: server/savegame.c:4602
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Saved game is too old, at least version 1.9.0 required."
 
@@ -47831,6 +47853,9 @@ msgstr "error %ld (failed FormatMessage)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
+
+#~ msgid "?female:Shaykha %s"
+#~ msgstr "?female:Shaykha %s"
 
 #~ msgid ""
 #~ "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
