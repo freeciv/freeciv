@@ -1318,7 +1318,7 @@ if test "x$sys_lua" != "xtrue" ; then
   if test x$gl_cv_func_working_mkstemp = xyes ; then
     AC_DEFINE([HAVE_MKSTEMP], [1], [Have working mkstemp])
   fi
-  AC_CHECK_FUNCS([isatty popen _longjmp])
+  AC_CHECK_FUNCS([isatty popen _longjmp _setjmp])
 
   LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.2/src"
   LUA_LIBS="\$(top_builddir)/dependencies/lua-5.2/src/liblua.la"
