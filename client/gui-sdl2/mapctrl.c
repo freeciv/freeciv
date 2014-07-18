@@ -2181,33 +2181,33 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
 {
   struct tile *ptile;
   struct city *pCity;
-    
+
   if (C_S_RUNNING != client_state()) {
     return;
   }
-  
+
   draw_goto_patrol_lines = FALSE;
-  
+
   if (button_behavior->event->button == SDL_BUTTON_LEFT) {
     switch(button_behavior->hold_state) {
       case MB_HOLD_SHORT:
-        if(LSHIFT || LALT || LCTRL) {
+        if (LSHIFT || LALT || LCTRL) {
           if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
                                           (int) button_behavior->event->y))) {
-            if(LSHIFT) {
+            if (LSHIFT) {
               popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
                                                    button_behavior->event->y);
             } else {
-              if(((pCity = tile_city(ptile)) != NULL) &&
-                (city_owner(pCity) == client.conn.playing)) {
-                if(LCTRL) {
+              if (((pCity = tile_city(ptile)) != NULL)
+                  && (city_owner(pCity) == client.conn.playing)) {
+                if (LCTRL) {
                   popup_worklist_editor(pCity, NULL);
                 } else {
                   /* LALT - this work only with fullscreen mode */
                   popup_hurry_production_dialog(pCity, NULL);
                 }
               }
-            }		      
+            }
           }
         } else {
           update_mouse_cursor(CURSOR_DEFAULT);

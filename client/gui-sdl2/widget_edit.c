@@ -338,10 +338,10 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   set_wstate(pEdit, FC_WS_DISABLED);
   set_wtype(pEdit, WT_EDIT);
   pEdit->mod = KMOD_NONE;
-  
+
   baseclass_redraw = pEdit->redraw;
   pEdit->redraw = redraw_edit;
-  
+
   if (pString16) {
     pEdit->string16->style |= SF_CENTER;
     buf = str16size(pString16);
@@ -355,7 +355,7 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   pEdit->size.w = length;
   pEdit->size.h = buf.h;
 
-  if(pDest) {
+  if (pDest) {
     pEdit->dst = pDest;
   } else {
     pEdit->dst = add_gui_layer(pEdit->size.w, pEdit->size.h);
@@ -398,14 +398,14 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
   NOTE: This functions can return NULL in 'pEdit_Widget->sting16->text' but
         never free 'pEdit_Widget->sting16' struct.
 **************************************************************************/
-static Uint16 edit_key_down(SDL_Keysym Key, void *pData)
+static Uint16 edit_key_down(SDL_Keysym key, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
   struct UniChar *pInputChain_TMP;
   bool Redraw = FALSE;
-      
+
   /* find which key is pressed */
-  switch (Key.sym) {
+  switch (key.sym) {
     case SDLK_ESCAPE:
       /* exit from loop without changes */
       return ED_ESC;
@@ -415,19 +415,18 @@ static Uint16 edit_key_down(SDL_Keysym Key, void *pData)
       return ED_RETURN;
       /*
     case SDLK_KP6:
-      if(Key.mod & KMOD_NUM) {
+      if (key.mod & KMOD_NUM) {
 	goto INPUT;
       }
       */
     case SDLK_RIGHT:
     {
       /* move cursor right */
-      if (pEdt->pInputChain->next) {
-	
-       if (pEdt->InputChain_X >= (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10))) {
-	pEdt->Start_X -= pEdt->pInputChain->pTsurf->w -
-		(pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
-       }
+      if (pEdt->pInputChain->next) {	
+        if (pEdt->InputChain_X >= (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10))) {
+          pEdt->Start_X -= pEdt->pInputChain->pTsurf->w -
+            (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
+        }
 
 	pEdt->pInputChain = pEdt->pInputChain->next;
 	Redraw = TRUE;
@@ -436,8 +435,8 @@ static Uint16 edit_key_down(SDL_Keysym Key, void *pData)
     break;
     /*
     case SDLK_KP4:
-      if(Key.mod & KMOD_NUM) {
-	goto INPUT;
+      if (key.mod & KMOD_NUM) {
+        goto INPUT;
       }
     */
     case SDLK_LEFT:
@@ -445,24 +444,24 @@ static Uint16 edit_key_down(SDL_Keysym Key, void *pData)
       /* move cursor left */
       if (pEdt->pInputChain->prev) {
         pEdt->pInputChain = pEdt->pInputChain->prev;
-	if ((pEdt->InputChain_X <=
-	       (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
-	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
-	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
-	  }
+        if ((pEdt->InputChain_X <=
+             (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
+          if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
+            pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
+          }
 
-	  pEdt->Start_X += (pEdt->pInputChain->pTsurf->w);
-	}
-	Redraw = TRUE;
+          pEdt->Start_X += (pEdt->pInputChain->pTsurf->w);
+        }
+        Redraw = TRUE;
       }
     }
     break;
     /*
     case SDLK_KP7:
-      if (Key.mod & KMOD_NUM) {
+      if (key.mod & KMOD_NUM) {
 	goto INPUT;
       }
-    */ 
+    */
     case SDLK_HOME:
     {
       /* move cursor to begin of chain (and edit field) */
@@ -473,135 +472,135 @@ static Uint16 edit_key_down(SDL_Keysym Key, void *pData)
     break;
     /*
     case SDLK_KP1:
-      if (Key.mod & KMOD_NUM) {
+      if (key.mod & KMOD_NUM) {
 	goto INPUT;
       }
     */
     case SDLK_END:
     {
-	/* move cursor to end of chain (and edit field) */
+      /* move cursor to end of chain (and edit field) */
       pEdt->pInputChain = pEdt->pEndTextChain;
       Redraw = TRUE;
 
       if (pEdt->pWidget->size.w - pEdt->Truelength < 0) {
-	  pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - adj_size(5);
+        pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - adj_size(5);
       }
     }
     break;
     case SDLK_BACKSPACE:
     {
-	/* del element of chain (and move cursor left) */
+      /* del element of chain (and move cursor left) */
       if (pEdt->pInputChain->prev) {
+        if ((pEdt->InputChain_X <=
+             (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
+          if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
+            pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
+          }
+          pEdt->Start_X += (pEdt->pInputChain->prev->pTsurf->w);
+        }
 
-	if ((pEdt->InputChain_X <=
-	       (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
-	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
-	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
-	  }
-	  pEdt->Start_X += (pEdt->pInputChain->prev->pTsurf->w);
-	}
+        if (pEdt->pInputChain->prev->prev) {
+          pEdt->pInputChain->prev->prev->next = pEdt->pInputChain;
+          pInputChain_TMP = pEdt->pInputChain->prev->prev;
+          pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
+          FREESURFACE(pEdt->pInputChain->prev->pTsurf);
+          FC_FREE(pEdt->pInputChain->prev);
+          pEdt->pInputChain->prev = pInputChain_TMP;
+        } else {
+          pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
+          FREESURFACE(pEdt->pInputChain->prev->pTsurf);
+          FC_FREE(pEdt->pInputChain->prev);
+          pEdt->pBeginTextChain = pEdt->pInputChain;
+        }
 
-	if (pEdt->pInputChain->prev->prev) {
-	  pEdt->pInputChain->prev->prev->next = pEdt->pInputChain;
-	  pInputChain_TMP = pEdt->pInputChain->prev->prev;
-	  pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
-	  FREESURFACE(pEdt->pInputChain->prev->pTsurf);
-	  FC_FREE(pEdt->pInputChain->prev);
-	  pEdt->pInputChain->prev = pInputChain_TMP;
-	} else {
-	  pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
-	  FREESURFACE(pEdt->pInputChain->prev->pTsurf);
-	  FC_FREE(pEdt->pInputChain->prev);
-	  pEdt->pBeginTextChain = pEdt->pInputChain;
-	}
-	
-	pEdt->ChainLen--;
-	Redraw = TRUE;
+        pEdt->ChainLen--;
+        Redraw = TRUE;
       }
     }
     break;
     /*
     case SDLK_KP_PERIOD:
-      if (Key.mod & KMOD_NUM) {
+      if (key.mod & KMOD_NUM) {
 	goto INPUT;
       }
     */
     case SDLK_DELETE:
     {
-	/* del element of chain */
+      /* del element of chain */
       if (pEdt->pInputChain->next && pEdt->pInputChain->prev) {
-	pEdt->pInputChain->prev->next = pEdt->pInputChain->next;
-	pEdt->pInputChain->next->prev = pEdt->pInputChain->prev;
-	pInputChain_TMP = pEdt->pInputChain->next;
-	pEdt->Truelength -= pEdt->pInputChain->pTsurf->w;
-	FREESURFACE(pEdt->pInputChain->pTsurf);
-	FC_FREE(pEdt->pInputChain);
-	pEdt->pInputChain = pInputChain_TMP;
-	pEdt->ChainLen--;
-	Redraw = TRUE;
+        pEdt->pInputChain->prev->next = pEdt->pInputChain->next;
+        pEdt->pInputChain->next->prev = pEdt->pInputChain->prev;
+        pInputChain_TMP = pEdt->pInputChain->next;
+        pEdt->Truelength -= pEdt->pInputChain->pTsurf->w;
+        FREESURFACE(pEdt->pInputChain->pTsurf);
+        FC_FREE(pEdt->pInputChain);
+        pEdt->pInputChain = pInputChain_TMP;
+        pEdt->ChainLen--;
+        Redraw = TRUE;
       }
 
       if (pEdt->pInputChain->next && !pEdt->pInputChain->prev) {
-	pEdt->pInputChain = pEdt->pInputChain->next;
-	pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
-	FREESURFACE(pEdt->pInputChain->prev->pTsurf);
-	FC_FREE(pEdt->pInputChain->prev);
-	pEdt->pBeginTextChain = pEdt->pInputChain;
-	pEdt->ChainLen--;
-	Redraw = TRUE;
+        pEdt->pInputChain = pEdt->pInputChain->next;
+        pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
+        FREESURFACE(pEdt->pInputChain->prev->pTsurf);
+        FC_FREE(pEdt->pInputChain->prev);
+        pEdt->pBeginTextChain = pEdt->pInputChain;
+        pEdt->ChainLen--;
+        Redraw = TRUE;
       }
     }
     break;
     default:
     {
-#if 0
-INPUT:/* add new element of chain (and move cursor right) */
-      if (Key.unicode) {
-	if (pEdt->pInputChain != pEdt->pBeginTextChain) {
-	  pInputChain_TMP = pEdt->pInputChain->prev;
-	  pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
-	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
-	  pEdt->pInputChain->prev->prev = pInputChain_TMP;
-	  pInputChain_TMP->next = pEdt->pInputChain->prev;
-	} else {
-	  pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
-	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
-	  pEdt->pBeginTextChain = pEdt->pInputChain->prev;
-	}
-        
-        pEdt->pInputChain->prev->chr[0] = Key.unicode;        
-	pEdt->pInputChain->prev->chr[1] = '\0';
 
-	if (pEdt->pInputChain->prev->chr) {
-	  if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
-	    Uint16 passwd_chr[2] = {'*', '\0'};
-	    
-	    pEdt->pInputChain->prev->pTsurf =
-	      TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
-					  passwd_chr,
-					  pEdt->pWidget->string16->fgcol);
-	  } else {
-	    pEdt->pInputChain->prev->pTsurf =
-	      TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
-					  pEdt->pInputChain->prev->chr,
-					  pEdt->pWidget->string16->fgcol);
-	  }
-	  pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
-	}
-
-	if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
-	  if (pEdt->pInputChain == pEdt->pEndTextChain) {
-	    pEdt->Start_X = pEdt->pBg->w - adj_size(5) - pEdt->Truelength;
-	  } else {
-	    pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
-		  (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
-	  }
-	}
-	
-	pEdt->ChainLen++;
-	Redraw = TRUE;
+      /* add new element of chain (and move cursor right) */
+      if (pEdt->pInputChain != pEdt->pBeginTextChain) {
+        pInputChain_TMP = pEdt->pInputChain->prev;
+        pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
+        pEdt->pInputChain->prev->next = pEdt->pInputChain;
+        pEdt->pInputChain->prev->prev = pInputChain_TMP;
+        pInputChain_TMP->next = pEdt->pInputChain->prev;
+      } else {
+        pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
+        pEdt->pInputChain->prev->next = pEdt->pInputChain;
+        pEdt->pBeginTextChain = pEdt->pInputChain->prev;
       }
-#endif
+
+      if (LSHIFT || RSHIFT) {
+        pEdt->pInputChain->prev->chr[0] = toupper(key.sym);
+      } else {
+        pEdt->pInputChain->prev->chr[0] = key.sym;
+      }
+      pEdt->pInputChain->prev->chr[1] = '\0';
+
+      if (pEdt->pInputChain->prev->chr) {
+        if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
+          Uint16 passwd_chr[2] = {'*', '\0'};
+
+          pEdt->pInputChain->prev->pTsurf =
+            TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+                                      passwd_chr,
+                                      pEdt->pWidget->string16->fgcol);
+        } else {
+          pEdt->pInputChain->prev->pTsurf =
+            TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+                                      pEdt->pInputChain->prev->chr,
+                                      pEdt->pWidget->string16->fgcol);
+        }
+        pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
+      }
+
+      if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
+        if (pEdt->pInputChain == pEdt->pEndTextChain) {
+          pEdt->Start_X = pEdt->pBg->w - adj_size(5) - pEdt->Truelength;
+        } else {
+          pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
+            (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
+        }
+      }
+	
+      pEdt->ChainLen++;
+      Redraw = TRUE;
     }
     break;
   }				/* key pressed switch */
@@ -616,7 +615,7 @@ INPUT:/* add new element of chain (and move cursor right) */
 static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
-    
+
   if (pButtonEvent->button == SDL_BUTTON_LEFT) {
     if (!(pButtonEvent->x >= pEdt->pWidget->size.x &&
               pButtonEvent->x < pEdt->pWidget->size.x + pEdt->pBg->w &&
@@ -722,15 +721,15 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
     if (pEdt.pBeginTextChain == pEdt.pEndTextChain) {
       pEdt.pBeginTextChain = NULL;
     }
-    
+
     if (rety == MAX_ID) {
       ret = ED_FORCE_EXIT;
     } else {
       ret = (enum Edit_Return_Codes) rety;
-      
-      /* this is here becouse we have no knowladge that pEdit_Widget exist
+
+      /* this is here because we have no knowledge that pEdit_Widget exist
          or nor in force exit mode from gui loop */
-  
+
       /* reset font settings */
       if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
         TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
