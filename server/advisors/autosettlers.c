@@ -241,6 +241,8 @@ static void consider_settler_action(const struct player *pplayer,
                                     bool in_use, int delay,
                                     int *best_value,
                                     int *best_old_tile_value,
+                                    bool *improve_worked,
+                                    int *best_delay,
                                     enum unit_activity *best_act,
                                     struct extra_type **best_target,
                                     struct tile **best_tile,
@@ -248,7 +250,8 @@ static void consider_settler_action(const struct player *pplayer,
 {
   bool consider;
   int total_value = 0, base_value = 0;
-  
+  int old_improvement_value;
+
   if (extra >= 0) {
     consider = TRUE;
   } else {
@@ -258,6 +261,25 @@ static void consider_settler_action(const struct player *pplayer,
 
   /* find the present value of the future benefit of this action */
   if (consider) {
+    if (!(*improve_worked) && !in_use) {
+      /* Going to improve tile that is not yet in use.
+       * Getting the best possible total for next citizen to work on is more
+       * important than amount tile gets improved. */
+      if (new_tile_value > *best_value
+          || (new_tile_value == *best_value && old_tile_value < *best_old_tile_value)) {
+        *best_value = new_tile_value;
+        *best_old_tile_value = old_tile_value;
+        *best_act = act;
+        *best_target = target;
+        *best_tile = ptile;
+        *best_delay = delay;
+      }
+
+      return;
+    }
+
+    /* At least one of the previous best or current tile is in use
+     * Prefer the tile that gets improved more, regarless of the resulting total */
 
     base_value = new_tile_value - old_tile_value;
     total_value = base_value * WORKER_FACTOR;
@@ -272,17 +294,30 @@ static void consider_settler_action(const struct player *pplayer,
     total_value = 0;
   }
 
-  if (total_value > *best_value
-      || (total_value == *best_value
+  if (*improve_worked) {
+    old_improvement_value = *best_value;
+  } else {
+    /* Convert old best_value to improvement value compatible with in_use
+     * tile value */
+    old_improvement_value = amortize((*best_value - *best_old_tile_value) * WORKER_FACTOR / 2,
+                                     *best_delay);
+  }
+
+  if (total_value > old_improvement_value
+      || (total_value == old_improvement_value
 	  && old_tile_value > *best_old_tile_value)) {
-    log_debug("Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
-              TILE_XY(*best_tile), *best_value, get_activity_text(act),
-              TILE_XY(ptile), total_value, delay, base_value);
-    *best_value = total_value;
+    if (in_use) {
+      *best_value = total_value;
+      *improve_worked = TRUE;
+    } else {
+      *best_value = new_tile_value;
+      *improve_worked = FALSE;
+    }
     *best_old_tile_value = old_tile_value;
     *best_act = act;
     *best_target = target;
     *best_tile = ptile;
+    *best_delay = delay;
   }
 }
 
@@ -335,6 +370,8 @@ int settler_evaluate_improvements(struct unit *punit,
                          * newv == best_newv; not initialized to zero,
                          * so that newv = 0 activities are not chosen. */
   int best_newv = 0;
+  bool improve_worked = FALSE;
+  int best_delay = 0;
 
   /* closest worker, if any, headed towards target tile */
   struct unit *enroute = NULL;
@@ -444,8 +481,9 @@ int settler_evaluate_improvements(struct unit *punit,
 
               consider_settler_action(pplayer, act, target, extra, base_value,
                                       oldv, in_use, time,
-                                      &best_newv, &best_oldv,
-                                      best_act, best_target, best_tile, ptile);
+                                      &best_newv, &best_oldv, &improve_worked,
+                                      &best_delay, best_act, best_target,
+                                      best_tile, ptile);
 
             } /* endif: can the worker perform this action */
           } activity_type_iterate_end;
@@ -501,8 +539,9 @@ int settler_evaluate_improvements(struct unit *punit,
                                                    ptile)) {
                 consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, target, extra, base_value,
                                         oldv, in_use, time,
-                                        &best_newv, &best_oldv,
-                                        best_act, best_target, best_tile, ptile);
+                                        &best_newv, &best_oldv, &improve_worked,
+                                        &best_delay, best_act, best_target,
+                                        best_tile, ptile);
               } else {
                 struct extra_type *pextra;
 
@@ -530,8 +569,9 @@ int settler_evaluate_improvements(struct unit *punit,
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
                                             oldv, in_use, dep_time,
-                                            &best_newv, &best_oldv,
-                                            best_act, best_target, best_tile, ptile);
+                                            &best_newv, &best_oldv, &improve_worked,
+                                            &best_delay, best_act, best_target,
+                                            best_tile, ptile);
                   }
                 } road_deps_iterate_end;
               }
@@ -555,8 +595,9 @@ int settler_evaluate_improvements(struct unit *punit,
                                                    ptile)) {
                 consider_settler_action(pplayer, ACTIVITY_BASE, target, 0, base_value,
                                         oldv, in_use, time,
-                                        &best_newv, &best_oldv,
-                                        best_act, best_target, best_tile, ptile);
+                                        &best_newv, &best_oldv, &improve_worked,
+                                        &best_delay, best_act, best_target,
+                                        best_tile, ptile);
               } else {
                 struct extra_type *pextra;
 
@@ -583,6 +624,7 @@ int settler_evaluate_improvements(struct unit *punit,
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
                                             0, dep_value, oldv, in_use,
                                             dep_time, &best_newv, &best_oldv,
+                                            &improve_worked, &best_delay,
                                             best_act, best_target,
                                             best_tile, ptile);
                   }
@@ -595,6 +637,11 @@ int settler_evaluate_improvements(struct unit *punit,
     } city_tile_iterate_index_end;
   } city_list_iterate_end;
 
+  if (!improve_worked) {
+    /* best_newv contains total value of improved tile. Check amount of improvement
+     * instead. */
+    best_newv = amortize((best_newv - best_oldv) * WORKER_FACTOR, best_delay);
+  }
   best_newv /= WORKER_FACTOR;
 
   best_newv = MAX(best_newv, 0); /* sanity */
