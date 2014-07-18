@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 12-Jul-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 18-Jul-2014)
 ==========================================================
 
 
@@ -271,7 +271,7 @@ Settlers:  pop_cost = 2, cost = 30, upkeep = 1
 Migrants:  pop_cost = 1, cost = 10, upkeep = 1
 Workers:   pop_cost = 0, cost = 20, upkeep = 1
 
-- Non-military units now belongs to a new unit class ("Small land") that can not pillage, nor capture cities.
+- Non-military units now belongs to a new unit class ("Small land") that can not pillage, nor capture cities, and does not create Zones of Control that would affect the movements of enemy units.
 - Created a new unit class for Caravans and Freights ("Merchant") that can only travel on roads, railroads, rivers or ships. They can only establish Trade Routes to foreign cities. And they can be captured.
 - Land units can capture enemy Migrants (as slaves) and Caravans/Freights (as loot).
 - Wheeled units (new unit class "Big land") can't move to Mountains, Jungles and Swamps, unless they are travelling on a road. They do not get defensive bonuses from the terrain, can not perform pillage, and need Galleons or Transports to travel by sea.
@@ -470,8 +470,10 @@ Units:
 - Wheeled units (Big land) can conquer cities again, but do not take advantage of terrain defense bonuses. Wheeled units can move to fortress even if not roaded. Fixed bug that kept them from entering Glacier tiles.
 - Fortresses do not affect national borders, and do not protect against Air units nor Missiles (they do protect against Land and See units, included those with CityBuster). Airbases do protect against Air units (+100% defend bonus).
 - Rebalanced ancient units. Reduced defense of Archers to 1 and cost to 20 (no IgZoc). Reduced cost of Legion to 30. Increased attack of Chariot to 4, attack of Elephant to 3, and defense of Knights to 3.
-- Triremes can navigate rivers. Caravel changed from (2/1) to (1/2), and cost restored to 40, in order to encourage peaceful exploration of the seas in the age of discovery. Reduced attack of Frigate and defense of Ironclad to 3 (was 4), and restored default costs.
+- Triremes can navigate rivers, but they are affected by ZoC rules while moving on a river. 
+- Caravel changed from (2/1) to (1/2), and cost restored to 40, in order to encourage peaceful exploration of the seas in the age of discovery. Reduced attack of Frigate and defense of Ironclad to 3 (was 4), and restored default costs.
 - Air units can perform pillage (representing bombardment of infrastructure). Increased defense of all Air units, in order to discourage the use of land units to protect them. Helicopters can only be attacked by Fighters (with no extra attack bonuses).
+- Zones of Control are not established by non-military units (Small Land and Merchant classes), so they do not affect the movements of enemy units.
 - Diplomats and Spies are invisible like submarines, but they pay upkeep costs like all other units.
 - Increased vision of Explorer and Partisan. 
 - Cheating AI level gets +50% defense bonus for units placed in land tiles outside cities\fortresses.
