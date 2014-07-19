@@ -35,9 +35,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-09 02:14+0300\n"
-"PO-Revision-Date: 2014-07-05 13:18+0100\n"
-"Last-Translator: Hubert Kowalewski <hubkow@gmai.com>\n"
+"POT-Creation-Date: 2014-07-12 23:09+0300\n"
+"PO-Revision-Date: 2014-07-13 11:53+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -3194,7 +3194,7 @@ msgstr "Identyfikator"
 #: client/gui-gtk-3.0/editprop.c:3513 client/gui-gtk-3.0/editprop.c:4156
 #: client/gui-gtk-3.0/editprop.c:4177 client/gui-gtk-3.0/pages.c:1315
 #: client/gui-gtk-3.0/pages.c:2681 client/gui-gtk-3.0/wldlg.c:1001
-#: data/Freeciv.in:97 manual/civmanual.c:368 modinst/modinst.c:283
+#: data/Freeciv.in:97 manual/civmanual.c:368 modinst/modinst.c:343
 msgid "Name"
 msgstr "Nazwa"
 
@@ -4734,7 +4734,7 @@ msgstr "Port"
 
 #: client/gui-gtk-2.0/pages.c:1119 client/gui-gtk-2.0/pages.c:1162
 #: client/gui-gtk-3.0/pages.c:1145 client/gui-gtk-3.0/pages.c:1190
-#: modinst/modinst.c:288
+#: modinst/modinst.c:348
 msgid "Version"
 msgstr "Wersja"
 
@@ -4949,7 +4949,7 @@ msgstr "Ranking"
 
 #: client/gui-gtk-2.0/pages.c:2653 client/gui-gtk-2.0/unitselect.c:470
 #: client/gui-gtk-3.0/pages.c:2687 client/gui-gtk-3.0/unitselect.c:472
-#: modinst/modinst.c:150
+#: modinst/modinst.c:210
 msgid "Ready"
 msgstr "Gotowy"
 
@@ -8395,13 +8395,13 @@ msgstr "* Pozwala na %s.\n"
 
 #: client/helpdata.c:1779
 msgid "* All players start with this improvement in their first city.\n"
-msgstr ""
+msgstr "* Wszyscy gracze rozpoczynają z tym budynkiem w pierwszym mieście.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:1798
 #, c-format
 msgid "* The %s start with this improvement in their first city.\n"
-msgstr ""
+msgstr "* %s rozpoczynają z tym budynkiem w pierwszym mieście.\n"
 
 #. TRANS: don't translate 'savepalace'
 #: client/helpdata.c:1808
@@ -8489,9 +8489,9 @@ msgstr "* Jednostkę mogą budować tylko barbarzyńcy.\n"
 #, c-format
 msgid "* The %s start the game with %d of these units.\n"
 msgid_plural "* The %s start the game with %d of these units.\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "* %s rozpoczynają z %d taką jednostką.\n"
+msgstr[1] "* %s rozpoczynają z %d takimi jednostkami.\n"
+msgstr[2] "* %s rozpoczynają z %d takimi jednostkami.\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
 #: client/helpdata.c:1979
@@ -8850,15 +8850,14 @@ msgid " This number may vary depending on what other players research.\n"
 msgstr " Ta liczba może się zmieniać w zależności od badań innych graczy.\n"
 
 #: client/helpdata.c:2393
-#, fuzzy
 msgid "* All players start the game with knowledge of this technology.\n"
-msgstr "* Pozwala wszystkim graczom ze znajomością %s budować jednostki %s.\n"
+msgstr "* Wszyscy gracze rozpoczynają grę z tą technologią.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:2411
-#, fuzzy, c-format
+#, c-format
 msgid "* The %s start the game with knowledge of this technology.\n"
-msgstr "Wymagania: znajomość technologii %s.\n"
+msgstr "* %s rozpoczynają grę z tą technologią.\n"
 
 #: client/helpdata.c:2420
 #, c-format
@@ -13243,6 +13242,8 @@ msgstr "Sąd"
 msgid ""
 "Reduces the corruption in a city by 50%. Has no effect in your capital city."
 msgstr ""
+"Zmniejsza korupcję w mieście o 50%. Nie ma przynosi żadnych korzyści w "
+"stolicy."
 
 #: data/civ1/buildings.ruleset:227 data/civ2/buildings.ruleset:284
 #: data/default/buildings.ruleset:324 data/experimental/buildings.ruleset:329
@@ -13389,7 +13390,6 @@ msgstr "Pałac"
 
 #: data/civ1/buildings.ruleset:435 data/default/buildings.ruleset:584
 #: data/experimental/buildings.ruleset:636
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -13397,11 +13397,11 @@ msgid ""
 "your capital itself is half of what it would otherwise be (as if it had a "
 "Courthouse)."
 msgstr ""
-"Miasto, w którym został wybudowany staje się twoją stolicą (ośrodkiem "
+"Miasto w którym został wybudowany staje się twoją stolicą (ośrodkiem "
 "władzy). Korupcja w pozostałych miastach jest obliczana na podstawie "
 "odległości od stolicy, chyba że twoim ustrojem jest Demokracja lub Komunizm. "
-"Koszt wzniecenia buntu w danym mieście jest także proporcjonalny do "
-"odległości  od stolicy (w każdym ustroju)."
+"Ponadto korupcja w stolicy jest o połowę niższa w porównaniu z miastem "
+"niestołecznym (tak jakby miasto miało Sąd)."
 
 #: data/civ1/buildings.ruleset:441
 msgid ""
@@ -13411,6 +13411,10 @@ msgid ""
 "enemy agents try to evade your own agents stationed in the city, or sabotage "
 "your buildings."
 msgstr ""
+"Koszt wzniecenia zamieszek przez Dyplomatów zależy również od odległości od "
+"stolicy (we wszystkich ustrojach). Sama stolica nie może zostać podburzona, "
+"a ponadto wrogim agentom trudniej jest sabotować stołeczne budynki i obronić "
+"się przed twoimi agentami stacjonującymi w stolicy."
 
 #: data/civ1/buildings.ruleset:447 data/civ2/buildings.ruleset:550
 #: data/default/buildings.ruleset:597 data/experimental/buildings.ruleset:649
@@ -16723,19 +16727,18 @@ msgid ""
 "of the city 4 times bigger. (These effects are redundant in your capital "
 "city.)"
 msgstr ""
+"Zmniejsza korupcję i straty w mieście o 50%, a koszt wzniecenia zamieszek w "
+"mieście jest 4-krotnie wyższy. (Te korzyści te nie dublują się w stolicy.)"
 
 #: data/civ2/buildings.ruleset:278 data/default/buildings.ruleset:318
 #: data/experimental/buildings.ruleset:323
 #: data/multiplayer/buildings.ruleset:319
-#, fuzzy
 msgid ""
 "Under a Democracy, a Courthouse also makes 1 unhappy citizen content (unless "
 "that citizen is unhappy about military activity)."
 msgstr ""
-"Redukuje korupcję  w mieście o 50%. W Demokracji, Sąd czyni jednego "
-"mieszkańca zadowolonym (nie wpływa jednak na niezadowolenia spowodowane "
-"działaniami wojennymi). Sprawia też, że koszty rewolty w mieście, wzrastają "
-"czterokrotnie."
+"W Demokracji, Sąd czyni jednego mieszkańca zadowolonym (nie wpływa jednak na "
+"niezadowolenia spowodowane działaniami wojennymi)."
 
 #: data/civ2/buildings.ruleset:329 data/default/buildings.ruleset:369
 #: data/experimental/buildings.ruleset:374
@@ -16800,7 +16803,6 @@ msgstr ""
 "Miasto musi być położone na wybrzeżu, aby zbudować Platformę."
 
 #: data/civ2/buildings.ruleset:536 data/multiplayer/buildings.ruleset:574
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption and "
 "waste in other cities is related to how far away from the capital they are, "
@@ -16808,11 +16810,11 @@ msgid ""
 "corruption and waste in your capital itself is half of what it would "
 "otherwise be (as if it had a Courthouse)."
 msgstr ""
-"Miasto, w którym został wybudowany staje się twoją stolicą (ośrodkiem "
-"władzy). Korupcja w pozostałych miastach jest obliczana na podstawie "
-"odległości od stolicy, chyba że twoim ustrojem jest Demokracja lub Komunizm. "
-"Koszt wzniecenia buntu w danym mieście jest także proporcjonalny do "
-"odległości  od stolicy (w każdym ustroju)."
+"Miasto w którym został wybudowany staje się twoją stolicą (ośrodkiem "
+"władzy). Korupcja i straty w pozostałych miastach jest obliczana na "
+"podstawie odległości od stolicy, chyba że twoim ustrojem jest Demokracja lub "
+"Komunizm. Ponadto korupcja w stolicy jest o połowę niższa w porównaniu z "
+"miastem niestołecznym (tak jakby miasto miało Sąd)."
 
 #: data/civ2/buildings.ruleset:543 data/default/buildings.ruleset:590
 #: data/experimental/buildings.ruleset:642
@@ -16824,6 +16826,11 @@ msgid ""
 "enjoys a bonus when enemy agents try to evade your own agents stationed in "
 "the city, or sabotage your buildings."
 msgstr ""
+"Koszt wzniecenia zamieszek przez Dyplomatów lub Szpiegów zależy również od "
+"odległości od stolicy (we wszystkich ustrojach). Sama stolica nie może "
+"zostać podburzona, a ponadto wrogim agentom trudniej jest sabotować "
+"stołeczne budynki i obronić się przed twoimi agentami stacjonującymi w "
+"stolicy."
 
 #: data/civ2/buildings.ruleset:557 data/default/buildings.ruleset:609
 #: data/experimental/buildings.ruleset:661
@@ -18470,6 +18477,8 @@ msgid ""
 "Reduces the corruption in a city by 50%, and makes the revolt cost of the "
 "city 4 times bigger. (These effects are redundant in your capital city.)"
 msgstr ""
+"Zmniejsza korupcję w mieście o 50%, a koszt wzniecenia zamieszek w mieście "
+"jest 4-krotnie wyższy. (Te korzyści te nie dublują się w stolicy.)"
 
 #: data/default/buildings.ruleset:408 data/experimental/buildings.ruleset:433
 #: data/multiplayer/buildings.ruleset:406
@@ -38639,50 +38648,50 @@ msgstr "Zestaw zasad"
 msgid "Modpack"
 msgstr "Dodatek"
 
-#: modinst/modinst.c:172
+#: modinst/modinst.c:232
 msgid "Another download already active"
 msgstr "Pobieram jeszcze jakiś inny plik"
 
-#: modinst/modinst.c:185
+#: modinst/modinst.c:245
 msgid "Failed to start downloader"
 msgstr "Nie udało się uruchomić programu pobierającego."
 
 #. TRANS: Unknown modpack type
-#: modinst/modinst.c:227
+#: modinst/modinst.c:287
 msgid "?"
 msgstr "?"
 
 #. TRANS: License of modpack is not known
-#: modinst/modinst.c:234
+#: modinst/modinst.c:294
 msgid "?license:Unknown"
 msgstr "?license:Nieznana"
 
-#: modinst/modinst.c:293
+#: modinst/modinst.c:353
 msgid "?modpack:Type"
 msgstr "?modpack:Typ"
 
 #. TRANS: noun
-#: modinst/modinst.c:300
+#: modinst/modinst.c:360
 msgid "License"
 msgstr "Licencja"
 
-#: modinst/modinst.c:305
+#: modinst/modinst.c:365
 msgid "URL"
 msgstr "URL"
 
-#: modinst/modinst.c:311
+#: modinst/modinst.c:371
 msgid "Install modpack"
 msgstr "Zainstaluj dodatek"
 
-#: modinst/modinst.c:317
+#: modinst/modinst.c:377
 msgid "Modpack URL"
 msgstr "Adres URL dodatku"
 
-#: modinst/modinst.c:334
+#: modinst/modinst.c:394
 msgid "Select modpack to install"
 msgstr "Wybierz dodatek"
 
-#: modinst/modinst.c:399
+#: modinst/modinst.c:459
 msgid "Freeciv modpack installer"
 msgstr "Instalator dodatków Freeciv"
 
