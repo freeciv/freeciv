@@ -16,11 +16,14 @@ freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
 MOC_FILES = meta_ruledit_qt.cpp \
             meta_tab_misc.cpp	\
+            meta_tab_nation.cpp	\
             meta_tab_tech.cpp
 
 freeciv_ruledit_SOURCES =	\
 		tab_misc.cpp	\
 		tab_misc.h	\
+		tab_nation.cpp	\
+		tab_nation.h	\
                 tab_tech.cpp	\
 		tab_tech.h	\
 		ruledit.cpp	\

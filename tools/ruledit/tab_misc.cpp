@@ -92,6 +92,8 @@ void tab_misc::save_now()
 {
   char nameUTF8[MAX_LEN_NAME];
 
+  ui->flush_widgets();
+
   strncpy(nameUTF8, name->text().toUtf8().data(), sizeof(nameUTF8));
 
   if (nameUTF8[0] != '\0') {
@@ -101,7 +103,7 @@ void tab_misc::save_now()
   strncpy(game.control.version, version->text().toUtf8().data(),
           sizeof(game.control.version));
 
-  save_ruleset(savedir->text().toUtf8().data(), nameUTF8);
+  save_ruleset(savedir->text().toUtf8().data(), nameUTF8, &(ui->data));
 
   ui->display_msg(R__("Ruleset saved"));
 }

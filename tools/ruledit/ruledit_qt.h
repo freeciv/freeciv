@@ -20,21 +20,28 @@
 #include <QLabel>
 #include <QTabWidget>
 
+// ruledit
+#include "rulesave.h"
+
 class QLineEdit;
 class QStackedLayout;
 
 class tab_misc;
 class tab_tech;
+class tab_nation;
 
 class ruledit_gui : public QObject
 {
   Q_OBJECT
 
   public:
-  void setup(QApplication *qapp, QWidget *central_in);
+    void setup(QApplication *qapp, QWidget *central_in);
     void display_msg(const char *msg);
     int run();
     void close();
+    void flush_widgets();
+
+    struct rule_data data;
 
   private:
     QApplication *app;
@@ -46,6 +53,7 @@ class ruledit_gui : public QObject
 
     tab_misc *misc;
     tab_tech *tech;
+    tab_nation *nation;
 
   private slots:
     void launch_now();

@@ -10,23 +10,35 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__RULESAVE_H
-#define FC__RULESAVE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#ifndef FC__TAB_NATION_H
+#define FC__TAB_NATION_H
 
-struct rule_data
+// Qt
+#include <QLineEdit>
+#include <QRadioButton>
+#include <QWidget>
+
+class ruledit_gui;
+
+class tab_nation : public QWidget
 {
-  char *nationlist;
-  char *nationlist_saved;
+  Q_OBJECT
+
+  public:
+    explicit tab_nation(ruledit_gui *ui_in);
+    void refresh();
+    void flush_widgets();
+
+  private slots:
+    void nationlist_toggle(bool checked);
+
+  private:
+    ruledit_gui *ui;
+
+    QRadioButton *via_include;
+    QLineEdit *nationlist;
 };
 
-bool save_ruleset(const char *path, const char *name, struct rule_data *data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-#endif /* FC__RULESAVE_H */
+#endif // FC__TAB_MISC_H

@@ -1020,7 +1020,8 @@ static bool save_traits(struct trait_limits *traits,
 /**************************************************************************
   Save nations.ruleset
 **************************************************************************/
-static bool save_nations_ruleset(const char *filename, const char *name)
+static bool save_nations_ruleset(const char *filename, const char *name,
+                                 struct rule_data *data)
 {
   struct section_file *sfile = create_ruleset_file(name, "nation");
 
@@ -1028,8 +1029,8 @@ static bool save_nations_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
-  if (game.server.ruledit.nationlist != NULL) {
-    secfile_insert_str(sfile, game.server.ruledit.nationlist, "ruledit.nationlist");
+  if (data->nationlist != NULL) {
+    secfile_insert_str(sfile, data->nationlist, "ruledit.nationlist");
   }
 
   save_traits(game.server.default_traits, NULL, sfile,
@@ -1042,8 +1043,8 @@ static bool save_nations_ruleset(const char *filename, const char *name)
                        "compatibility.default_government");
   }
 
-  if (game.server.ruledit.nationlist != NULL) {
-    secfile_insert_include(sfile, game.server.ruledit.nationlist);
+  if (data->nationlist != NULL) {
+    secfile_insert_include(sfile, data->nationlist);
   } else {
     int sect_idx = 0;
 
@@ -2093,7 +2094,7 @@ static bool save_script_lua(const char *filename, const char *name)
 /**************************************************************************
   Save ruleset to directory given.
 **************************************************************************/
-bool save_ruleset(const char *path, const char *name)
+bool save_ruleset(const char *path, const char *name, struct rule_data *data)
 {
   if (make_dir(path)) {
     bool success = TRUE;
@@ -2131,7 +2132,7 @@ bool save_ruleset(const char *path, const char *name)
 
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/nations.ruleset", path);
-      success = save_nations_ruleset(filename, name);
+      success = save_nations_ruleset(filename, name, data);
     }
 
     if (success) {

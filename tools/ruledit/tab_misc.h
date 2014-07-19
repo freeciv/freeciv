@@ -28,6 +28,7 @@ class tab_misc : public QWidget
   public:
     explicit tab_misc(ruledit_gui *ui_in);
     void refresh();
+    void flush_widgets();
 
   private slots:
     void save_now();

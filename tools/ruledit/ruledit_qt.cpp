@@ -37,6 +37,7 @@
 
 // ruledit
 #include "tab_misc.h"
+#include "tab_nation.h"
 #include "tab_tech.h"
 #include "ruledit.h"
 
@@ -110,6 +111,9 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   QPushButton *ruleset_accept;
   QLabel *rs_label;
 
+  data.nationlist = NULL;
+  data.nationlist_saved = NULL;
+
   app = qapp;
   central = central_in;
 
@@ -135,6 +139,8 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   stack->addTab(misc, R__("Misc"));
   tech = new tab_tech(this);
   stack->addTab(tech, R__("Tech"));
+  nation = new tab_nation(this);
+  stack->addTab(nation, R__("Nations"));
 
   edit_layout->addWidget(stack);
 
@@ -179,7 +185,16 @@ void ruledit_gui::launch_now()
     log_debug("Roads:        %d", game.control.num_road_types);
 
     display_msg(R__("Ruleset loaded"));
+
+    /* Make freeable copy */
+    if (game.server.ruledit.nationlist != NULL) {
+      data.nationlist = fc_strdup(game.server.ruledit.nationlist);
+    } else {
+      data.nationlist = NULL;
+    }
+
     misc->refresh();
+    nation->refresh();
     tech->refresh();
     main_layout->setCurrentIndex(1);
   } else {
@@ -211,4 +226,12 @@ void ruledit_gui::close()
 void ruledit_gui::display_msg(const char *msg)
 {
   msg_dspl->setText(msg);
+}
+
+/**************************************************************************
+  Flush information from widgets to stores where it can be saved from.
+**************************************************************************/
+void ruledit_gui::flush_widgets()
+{
+  nation->flush_widgets();
 }
