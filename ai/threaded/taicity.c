@@ -266,8 +266,8 @@ void tai_req_worker_task_rcv(struct tai_req *req)
 
   pcity = game_city_by_number(data->city_id);
 
-  if (pcity != NULL) {
-    /* City has not disappeared meanwhile */
+  if (pcity != NULL && city_owner(pcity) == req->plr) {
+    /* City has not been lost meanwhile */
 
     log_debug("%s storing req for act %d at (%d,%d)",
               pcity->name, data->task.act, TILE_XY(data->task.ptile));
