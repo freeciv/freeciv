@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-01 20:38+0300\n"
-"PO-Revision-Date: 2014-06-29 19:27+0100\n"
+"POT-Creation-Date: 2014-07-11 04:10+0300\n"
+"PO-Revision-Date: 2014-07-17 13:26+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmai.com>\n"
 "Language-Team: none\n"
 "Language: pl\n"
@@ -3021,7 +3021,7 @@ msgid ""
 "peoples they invaded the Roman Empire, and in 472 CE, some of them sacked "
 "Rome. Their first kingdom was founded in Worms, but after its destruction by "
 "the Huns they moved to what is today Savoy and Burgundy, where they founded "
-"was their second kingdom. Eventually they were subordinated by the Frankish "
+"their second kingdom. Eventually they were subordinated by the Frankish "
 "Kingdom. The Bugundians gave their name to the later Romance nation and "
 "region of Burgundy."
 msgstr ""
@@ -3032,7 +3032,7 @@ msgstr ""
 "Ich pierwszym państwem była Wormacja, lecz po najazdach Hunów Burgundowie "
 "przenieśli się na tereny dzisiejszej Sabaudii i Burgundii, gdzie założyli "
 "kolejne państwo. Ostatecznie zostali podporządkowani Królestwu Franków. "
-"Burgundowie dali nazwę późniejszemu narodowi romańskienu i regionowi "
+"Burgundowie dali nazwę późniejszemu narodowi romańskiemu i regionowi "
 "Burgundii."
 
 #. TRANS: The last letter in "Burkinabe" should be
@@ -3315,14 +3315,12 @@ msgid "?female:Admiral %s"
 msgstr "?female:Admirał %s"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "Kartagiński"
+msgstr "Karantański"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "?plural:Kartagińczycy"
+msgstr "?plural:Karantanie"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3336,6 +3334,15 @@ msgid ""
 "incorporated directly into the realm of the Franks. Slovenians are the "
 "modern descendants of the Carantanians."
 msgstr ""
+"Karantanie, zwani też Słowianami alpejskimi, to wczesnośredniowieczne "
+"zrzeszenie południowo-zachodnich plemion słowiańskich zamieszkujących tereny "
+"dzisiejszej Austrii. Założona przez nich Karantania była jednym z pierwszych "
+"państw słowiańskich i istniała od VII w. n.e. W VIII wieku popadła w "
+"zależność od królestwa Franków, co doprowadziło to wprowadzenia "
+"chrześcijaństwa w obrządku łacińskim przez księcia Gorazda. W 819 roku "
+"Karantania przyłączyła się do powstania Ljudevita Posawskiego. Po jego "
+"upadku w 822 roku, państwo zostało zlikwidowane i włączone bezpośrednio do "
+"królestwa Franków. Współczesnymi potomkami Karantan są Słoweńcy."
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -4530,14 +4537,12 @@ msgid "Prophetess %s"
 msgstr "Prorokini %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "Tracki"
+msgstr "Dacki"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "?plural:Trakowie"
+msgstr "?plural:Dakowie"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -4549,6 +4554,13 @@ msgid ""
 "Roman colonization. The remains of the Dacians mingled with East Germanic "
 "tribes and later with Slavs."
 msgstr ""
+"Dakowie to starożytne plemiona mieszkające na lewym brzegu dolnego Dunaju, "
+"na terenach obecnej Rumunii. Prawdopodobnie byli spokrewnieni z Trakami i "
+"innymi plemionami paleo-bałkańskimi. Plemiona dackie zjednoczyły się pod "
+"rządami króla Burebisty. Po wojnach z Rzymem zostali pokonani w roku 106 p.n."
+"e. Dacja stała się prowincją rzymską i uległa rzymskiej kolonizacji. "
+"Pozostali Dakowie zmieszali się z plemionami wschodniogermańskimi, a później "
+"ze Słowianami."
 
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
@@ -5238,15 +5250,14 @@ msgstr "?female:Kapitan %s"
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "Formozański"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "?plural:Normanowie"
+msgstr "?plural:Formozanie"
 
-#: data/nation/formosan.ruleset:6
-#, c-format
+#: data/nation/formosan.ruleset:7
+#, no-c-format
 msgid ""
 "Taiwan is home to fourteen officially recognized and twelve unrecognized "
 "tribes, all of whom are traditionally speakers of a group of Austronesian "
@@ -5257,6 +5268,14 @@ msgid ""
 "control of the island, encroaching on aboriginal lands. Today, Formosans "
 "constitute around 2% of the population of Taiwan."
 msgstr ""
+"Na Tajwanie mieszka czternaście oficjalnie uznanych i dwanaście "
+"nieuznawanych oficjalnie plemion. Wszystkie one posługują się językami z "
+"grupy języków austronezyjskich zwanych formozańskimi. Językoznawcy "
+"historyczni uważają, że wyspa jest kolebką Formozan, gdyż występuje na niej "
+"największe zróżnicowanie językowe. Część tych plemion jest tradycyjnie "
+"matrylinearna. Od XVII wieku koloniści europejscy i wschodnioazjatyccy "
+"usiłowali przejąć kontrolę nad wyspą i wkraczali na tereny rdzennych "
+"mieszkańców. Dziś Formozanie stanowią ok. 2% populacji Tajwanu."
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
@@ -6732,14 +6751,12 @@ msgid "?female:Judge %s"
 msgstr "?female:Sędzina %s"
 
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "Włoski"
+msgstr "Italogrecki"
 
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "?plural:Włosi"
+msgstr "?plural:Italogrecy"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -6749,14 +6766,24 @@ msgid ""
 "century BCE Magna Graecia was dominated by the city-state of Syracuse, a "
 "great center of Greek culture. Other major urban centers included Taranto, "
 "Croton, Sybaris and Messana. Magna Graecia was gradually conquered by Rome, "
-"a conquest that was completed by 272 BC.  After the fall of the Western "
-"Roman Empire Southern Italy was temporarily part of the Byzantine Empire as "
+"a conquest that was completed by 272 BC. After the fall of the Western Roman "
+"Empire, Southern Italy was temporarily part of the Byzantine Empire as the "
 "Catepanate of Italia. A Greek-speaking population has survived in these "
 "areas to modern times."
 msgstr ""
+"Starożytna Wielka Grecja była grupą greckich państw-miast na wybrzeżach "
+"Włoch i Sycylii, stworzoną przez greckich kolonistów. Odegrały one ważną "
+"rolę w rozwoju kultur etruskiej i rzymskiej. W V w. p.n.e. Wielka Grecja "
+"zdominowana była przez państwo-miasto Syrakuzy - ważny ośrodek kultury "
+"greckiej. Innymi istotnymi ośrodkami miejskimi były Tarent, Kroton, Sybaris "
+"i Messana. Wielka Grecja była stopniowo podbijana przez Rzymian, którzy "
+"podporządkowali ją sobie całkowicie do roku 272 p.n.e. Po upadku cesarstwa "
+"zachodniorzymskiego, południowa Italia była przez jakiś czas częścią "
+"Cesarstwa Bizantyjskiego zwaną Katepanatem Italii. Greckojęzyczna "
+"społeczność przetrwała na tych terenach do czasów obecnych."
 
 #: data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyranne %s"
 msgstr "Tyran %s"
 
@@ -7132,12 +7159,11 @@ msgstr "?female:Tarkan %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
-msgstr ""
+msgstr "Khoisański"
 
 #: data/nation/khoisan.ruleset:4
-#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "?plural:Komiacy"
+msgstr "?plural:Khoisanie"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -7149,6 +7175,14 @@ msgid ""
 "there are over 300,000 Khoisan people, forming significant minorities in and "
 "around the Kalahari desert in Namibia, Botswana, South Africa, and Angola."
 msgstr ""
+"Użytkownicy języka Khoisan są zazwyczaj dzieleni na Khoikhoi, lud "
+"(tradycyjnie) pasterski, i San, lud (tradycyjnie) zbieracko-łowiecki. Są to "
+"jedne z najbardziej egalitarnych społeczności świata. Szczególnie "
+"społeczność San zorganizowana jest wokół rodziny i gromady. Ludy Khoisan "
+"noszą jedne z najstarszych linii genetycznych na świecie. Dziś ludy Khoisan "
+"liczą sobie ponad 300 000 członków, stanowiąc znaczącą mniejszość na "
+"terenach skupionych wokół pustyni Kalahari w Namibii, Botswanie, RPA i "
+"Angoli."
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
@@ -7740,14 +7774,12 @@ msgstr ""
 "Schellenberg."
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "Liberyjski"
+msgstr "Liguryjski"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "?plural:Liburnowie"
+msgstr "?plural:Ligurowie"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7755,6 +7787,10 @@ msgid ""
 "Italy and Southern France. Their language is of uncertain origin, perhaps "
 "Para-Celtic or Pre-Indo-European."
 msgstr ""
+"Ligurowie byli pre-romańskim związkiem plemiennym zamieszkującym tereny "
+"obecnych północno-zachodnich Włoch i południowej Francji. Niewiele wiemy o "
+"pochodzeniu ich języka, być może zalicza on się do grupy języków para-"
+"celtyckich lub pre-indoeuropejskich."
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, c-format
@@ -7905,12 +7941,11 @@ msgstr ""
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
-msgstr ""
+msgstr "Licyjski"
 
 #: data/nation/lycian.ruleset:4
-#, fuzzy
 msgid "?plural:Lycians"
-msgstr "?plural:Luwijczycy"
+msgstr "?plural:Licyjczycy"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -7919,6 +7954,10 @@ msgid ""
 "when they were led by the legendary heroes Sarpedon and Glaucus. Their state "
 "was subordinated to the Persian Empire in the 6th century BCE."
 msgstr ""
+"Licja była państwem w południowo-zachodniej Anatolii, istniejącym od XV do "
+"VI w. p.n.e. Licyjczycy byli sojusznikami Troi podczas wojny trojańskiej i "
+"walczyli pod wodzą legendarnych herosów Sarpedona i Glaukosa. Ich państwo "
+"podporządkowali sobie Persowie w VI w. p.n.e."
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
@@ -10595,12 +10634,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr ""
+msgstr "Karpatoruski"
 
 #: data/nation/rusyn.ruleset:4
-#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "?plural:Rosjanie"
+msgstr "?plural:Karpatorusini"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -10611,15 +10649,21 @@ msgid ""
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
+"Karpatorusini to grupa etniczna Słowian Wschodnich. Zamieszkują przed "
+"wszystkim pogranicze polsko-ukraińsko-słowackie i okręg Wojwodiny. W wiekach "
+"średnich ojczyzna Karpatorusinów była siedzibą Księstwa Halicko-Wołyńskiego "
+"i Królestwa Rusi. W późniejszych czasach tereny te znajdowały się pod "
+"rządami polskimi i austriackimi. Po I Wojnie Światowej Karpatorusini "
+"stworzyli dwa krótkotrwałe państwa: Ruską Ludową Republikę Łemków i "
+"Republikę Komańczańską."
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
-msgstr ""
+msgstr "Rusko-kijowski"
 
 #: data/nation/ruthenian.ruleset:4
-#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "?plural:Kenijczycy"
+msgstr "?plural:Rusini Kijowscy"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
