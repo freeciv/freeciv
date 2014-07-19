@@ -2069,9 +2069,8 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
   }
 
   if (!can_type_transport_units_cargo(to_unittype, punit)) {
-    /* TODO: allow transported units to be reassigned.  Check for
-     * unit_class_transporter_capacity() here and make changes to
-     * upgrade_unit. */
+    /* TODO: allow transported units to be reassigned.  Check here
+     * and make changes to upgrade_unit. */
     return UU_NOT_ENOUGH_ROOM;
   }
 

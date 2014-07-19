@@ -485,8 +485,7 @@ unit_move_to_tile_test(const struct unit *punit,
 
   /* 4) */
   if (!(can_exist_at_tile(punittype, dst_tile)
-        || unit_class_transporter_capacity(dst_tile, puowner,
-                                           utype_class(punittype)) > 0)) {
+        || NULL != transport_from_tile(punit, dst_tile))) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
@@ -583,7 +582,8 @@ bool can_unit_type_transport(const struct unit_type *transporter,
   Search transport suitable for given unit from tile. It has to have
   free space in it.
 **************************************************************************/
-struct unit *transport_from_tile(struct unit *punit, struct tile *ptile)
+struct unit *transport_from_tile(const struct unit *punit,
+                                 const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, ptransport) {
     if (could_unit_load(punit, ptransport)) {
