@@ -35,6 +35,7 @@
 #include "ai.h"
 #include "bitvector.h"
 #include "capability.h"
+#include "citizens.h"
 #include "city.h"
 #include "game.h"
 #include "government.h"
@@ -52,6 +53,7 @@
 /* server */
 #include "aiiface.h"
 #include "barbarian.h"
+#include "citizenshand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
@@ -2269,6 +2271,7 @@ static void player_load_cities(struct player *plr, int plrno,
     /* copied into city->name */
     pcity = create_city_virtual(plr, pcenter, name);
     adv_city_alloc(pcity);
+    citizens_init(pcity);
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->id,
                                           "player%d.c%d.id", plrno, i),
@@ -2596,6 +2599,10 @@ static void player_load_cities(struct player *plr, int plrno,
 	BV_SET(pcity->city_options, j);
       }
     }
+
+    /* Create new citizens info, since these old savegames do not contain
+     * it. */
+    citizens_update(pcity, NULL);
 
     fc_snprintf(citystr, sizeof(citystr), "player%d.c%d", plrno, i);
     CALL_FUNC_EACH_AI(city_load, file, pcity, citystr);
