@@ -25,8 +25,8 @@
              1.14 How compatible is Freeciv with the commercial
                Civilization games?
              1.15 My opponents seem to be able to play two moves at once!
-             1.16 I am far superior to my opponent but his last city is on
-               a 1x1 island so I cannot conquer it, and he won't give up.
+             1.16 I am far superior to my opponent but their last city is on
+               a 1x1 island so I cannot conquer it, and they won't give up.
                What can I do?
              1.17 Why are the AI players so hard on 'novice' or 'easy'?
              1.18 Why are the AI players so easy on 'hard'?
@@ -83,7 +83,7 @@
                   3.29.3 Graphic display
                   3.29.4 Network
         4 Windows
-             4.1 How do I use Freeciv under MS Windows ?
+             4.1 How do I use Freeciv under MS Windows?
              4.2 Retrieving the Native Windows Freeciv
              4.3 OK, I've downloaded and installed it, how do I run it?
              4.4 I've started the Freeciv client, but don't know what to do
@@ -125,7 +125,7 @@
 
    Once the game is started you can find information in its Help menu. If
    you've never played a Civilization-style game before you may want to
-   look at the help on Strategy and tactics.
+   look at the help on Strategy and Tactics.
 
    You can continue to change the game settings through the Remote Server
    menu item in the Options submenu of the Game menu. Type /help in the
@@ -190,7 +190,7 @@
 
    In SDL Freeciv you have to press Tab to access the chatline.
 
-   The chatline can be used for normal chatting or for issuing server
+   The chatline can be used for normal chatting, or for issuing server
    commands by typing a forward-slash '/' followed by the server command.
 
 -------
@@ -261,7 +261,7 @@
    through the chatline by:
 /set spacerace 0
 
-   . From 2.4, you can allow space races without them ending the game by
+   From 2.4, you can allow space races without them ending the game by
    instead changing the endspaceship setting.
 
    A single player who defeats all enemies will always win the game --
@@ -382,9 +382,9 @@ games?
    100% compatible with Civilization™ I and II, but only as an option.
 
    This is why Freeciv comes with three game configurations (rulesets):
-   the civ1 and civ2 modpacks implement game rules, elements and features
+   the civ1 and civ2 rulesets implement game rules, elements and features
    that bring it as close as possible to Civilization I and Civilization
-   II respectively, while the default modpack tries to reflect the most
+   II respectively, while the default ruleset tries to reflect the most
    popular settings among Freeciv players. Unimplemented Civilization I
    and II features are mainly those that would have little or no benefit
    in multiplayer mode, and nobody is working on closing this gap.
@@ -393,8 +393,8 @@ games?
    similar games, such as SMAC, CTP or Civilization III.
 
    So the goal of compatibility is mainly used as a limiting factor in
-   development: When a new feature is added to Freeciv that makes gameplay
-   different, it is always implemented in such a way that the
+   development: when a new feature is added to Freeciv that makes gameplay
+   different, it is generally implemented in such a way that the
    "traditional" behaviour remains available as an option.
 
    See also Projects.
@@ -409,21 +409,20 @@ games?
    players to surprise their opponents by clever use of goto or quick
    fingers.
 
-   In Freeciv 2.2 an alternating movement server option (phasemode) is
-   available, in which only one player can move their units at a time.
-
-   Other server settings to mitigate this problem include:
+   Server settings to mitigate this problem include:
+     * phasemode, which has an alternating movement mode, in which only
+       one player can move their units at a time.
      * timeaddenemymove (which extends the turn timeout when an enemy's
-       unit is seen moving)
+       unit is seen moving).
      * (since 2.3.x) unitwaittime (which imposes a minimum time between
        moves of a single unit on successive turns).
 
 -------
 
-1.16 I am far superior to my opponent but his last city is on a 1x1 island so I
-cannot conquer it, and he won't give up. What can I do?
+1.16 I am far superior to my opponent but their last city is on a 1x1 island so
+I cannot conquer it, and they won't give up. What can I do?
 
-   Research 'amphibious warfare', build a marine, and get him.
+   Research 'amphibious warfare', build a marine, and get them.
    Alternatively research 'combined arms' and either move a helicopter or
    airdrop a paratroopers unit there.
 
@@ -437,8 +436,6 @@ cannot conquer it, and he won't give up. What can I do?
 
    You are not expanding fast enough. Read the How to Play article for
    some general tips how to get a head start in the game.
-
-   Learn more at the Freeciv Forums.
 
    You can also turn off Fog of War. That way, you will see the attacks of
    the AI. Just type '/set fogofwar 0' on the chat line before the game
@@ -467,7 +464,7 @@ cannot conquer it, and he won't give up. What can I do?
 /team ai1 "Team 2"
 /team ai2 "Team 2"
 
-   You can also form more than one AI teams by using any of the different
+   You can also form more than one AI team by using any of the different
    predefined team names, or put some AI players teamed with you.
 
 -------
@@ -1098,13 +1095,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 3.27 How do I get the latest development code?
 
-   A snapshot of the development code is made every day and can be
-   retrieved with your browser.
-
-   This is development code; it may contain new features, bugs, and
-   incompatibilities with older versions.
-
-   An alternative is to use Subversion (SVN) directly:
+   Use Subversion (SVN) directly:
     1. Obtain and install SVN on your Unix machine. On modern
        distributions it is already there; look for the svn command. You
        can get SVN from Apache.org.
@@ -1119,6 +1110,9 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
    This shows the changes between the version you have on disk and the
    current development code.
+
+   This is development code; it may contain new features, bugs, and
+   incompatibilities with older versions.
 
    See also How to Contribute to Freeciv development.
 
@@ -1194,7 +1188,7 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 -------
 
-4.1 How do I use Freeciv under MS Windows ?
+4.1 How do I use Freeciv under MS Windows?
 
    Precompiled binaries can be downloaded from www.freeciv.org.
 
