@@ -570,8 +570,7 @@ unit_move_to_tile_test(const struct unit *punit,
 
   /* 5) */
   if (!(can_exist_at_tile(punittype, dst_tile)
-        || unit_class_transporter_capacity(dst_tile, puowner,
-                                           utype_class(punittype)) > 0)) {
+        || NULL != transport_from_tile(punit, dst_tile))) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
@@ -640,9 +639,7 @@ unit_move_to_tile_test(const struct unit *punit,
   if (!(is_native_move(utype_class(punittype), src_tile, dst_tile)
         /* Allow non-native moves into cities or boarding transport. */
         || pcity
-        || 0 < unit_class_transporter_capacity(dst_tile,
-                                               puowner,
-                                               utype_class(punittype)))) {
+        || NULL != transport_from_tile(punit, dst_tile))) {
     return MR_NON_NATIVE_MOVE;
   }
 
@@ -678,7 +675,8 @@ bool can_unit_type_transport(const struct unit_type *transporter,
   Search transport suitable for given unit from tile. It has to have
   free space in it.
 **************************************************************************/
-struct unit *transport_from_tile(struct unit *punit, struct tile *ptile)
+struct unit *transport_from_tile(const struct unit *punit,
+                                 const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, ptransport) {
     if (could_unit_load(punit, ptransport)) {
@@ -687,30 +685,6 @@ struct unit *transport_from_tile(struct unit *punit, struct tile *ptile)
   } unit_list_iterate_end;
 
   return NULL;
-}
- 
-/**************************************************************************
- Returns the number of free spaces for units of given class.
- Can be 0.
-**************************************************************************/
-int unit_class_transporter_capacity(const struct tile *ptile,
-                                    const struct player *pplayer,
-                                    const struct unit_class *pclass)
-{
-  int availability = 0;
-
-  unit_list_iterate(ptile->units, punit) {
-    if (unit_owner(punit) == pplayer
-        || pplayers_allied(unit_owner(punit), pplayer)) {
-
-      if (can_unit_type_transport(unit_type(punit), pclass)) {
-        availability += get_transporter_capacity(punit);
-        availability -= get_transporter_occupancy(punit);
-      }
-    }
-  } unit_list_iterate_end;
-
-  return availability;
 }
 
 static int move_points_denomlen = 0;

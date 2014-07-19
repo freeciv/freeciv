@@ -61,7 +61,6 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
                                          struct pf_path **path)
 {
   struct player *pplayer = unit_owner(punit);
-  const struct unit_type *punittype = unit_type(punit);
   struct pf_parameter parameter;
   struct pf_map *pfm;
 
@@ -75,7 +74,7 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
       break;
     }
 
-    if (is_airunit_refuel_point(ptile, pplayer, punittype, FALSE)) {
+    if (is_airunit_refuel_point(ptile, pplayer, punit)) {
       if (path) {
         *path = pf_map_path(pfm, ptile);
       }
@@ -273,8 +272,7 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
       break; /* Too far! */
     }
 
-    if (!is_airunit_refuel_point(ptile, pplayer,
-                                 unit_type(punit), FALSE)) {
+    if (!is_airunit_refuel_point(ptile, pplayer, punit)) {
       continue; /* Cannot refuel here. */
     }
 
@@ -346,8 +344,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
         /* We are on a GOTO.  Check if it will get us anywhere */
         && NULL != punit->goto_tile
         && !same_pos(unit_tile(punit), punit->goto_tile)
-        && is_airunit_refuel_point(punit->goto_tile, 
-                                   pplayer, unit_type(punit), FALSE)) {
+        && is_airunit_refuel_point(punit->goto_tile, pplayer, punit)) {
       pfm = pf_map_new(&parameter);
       path = pf_map_path(pfm, punit->goto_tile);
       if (path) {

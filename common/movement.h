@@ -90,10 +90,8 @@ unit_move_to_tile_test(const struct unit *punit,
 bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
 bool can_unit_type_transport(const struct unit_type *transporter,
                              const struct unit_class *transported);
-int unit_class_transporter_capacity(const struct tile *ptile,
-                                    const struct player *pplayer,
-                                    const struct unit_class *pclass);
-struct unit *transport_from_tile(struct unit *punit, struct tile *ptile);
+struct unit *transport_from_tile(const struct unit *punit,
+                                 const struct tile *ptile);
 
 void init_move_fragments(void);
 const char *move_points_text_full(int mp, bool reduce, const char *prefix,

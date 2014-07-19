@@ -82,9 +82,9 @@ void combat_veterans(struct unit *attacker, struct unit *defender);
 
 /* move check related */
 bool is_unit_being_refueled(const struct unit *punit);
-bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
-			     const struct unit_type *punittype,
-			     bool unit_is_on_carrier);
+bool is_airunit_refuel_point(const struct tile *ptile,
+                             const struct player *pplayer,
+                             const struct unit *punit);
 
 /* turn update related */
 void player_restore_units(struct player *pplayer);

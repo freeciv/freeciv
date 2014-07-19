@@ -421,9 +421,7 @@ void player_restore_units(struct player *pplayer)
               break;
             }
 
-            if (is_airunit_refuel_point(ptile, pplayer,
-					unit_type(punit), FALSE)) {
-
+            if (is_airunit_refuel_point(ptile, pplayer, punit)) {
               struct pf_path *path;
               int id = punit->id;
 
@@ -1323,36 +1321,32 @@ bool is_unit_being_refueled(const struct unit *punit)
 /**************************************************************************
   Can unit refuel on tile. Considers also carrier capacity on tile.
 **************************************************************************/
-bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
-			     const struct unit_type *type,
-			     bool unit_is_on_carrier)
+bool is_airunit_refuel_point(const struct tile *ptile,
+                             const struct player *pplayer,
+                             const struct unit *punit)
 {
-  int cap;
-  struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+  const struct unit_class *pclass;
 
-  if (!is_non_allied_unit_tile(ptile, pplayer)) {
-    struct unit_class *pclass = utype_class(type);
-
-    if (is_allied_city_tile(ptile, pplayer)) {
-      return TRUE;
-    }
-
-    if (pclass->cache.refuel_bases != NULL) {
-      extra_type_list_iterate(pclass->cache.refuel_bases, pextra) {
-        if (BV_ISSET(plrtile->extras, extra_index(pextra))) {
-          return TRUE;
-        }
-      } extra_type_list_iterate_end;
-    }
+  if (NULL != is_non_allied_unit_tile(ptile, pplayer)) {
+    return FALSE;
   }
 
-  cap = unit_class_transporter_capacity(ptile, pplayer, utype_class(type));
-
-  if (unit_is_on_carrier) {
-    cap++;
+  if (NULL != is_allied_city_tile(ptile, pplayer)) {
+    return TRUE;
   }
 
-  return cap > 0;
+  pclass = unit_class(punit);
+  if (NULL != pclass->cache.refuel_bases) {
+    const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+
+    extra_type_list_iterate(pclass->cache.refuel_bases, pextra) {
+      if (BV_ISSET(plrtile->extras, extra_index(pextra))) {
+        return TRUE;
+      }
+    } extra_type_list_iterate_end;
+  }
+
+  return (NULL != transport_from_tile(punit, ptile));
 }
 
 /**************************************************************************
