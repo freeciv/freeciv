@@ -817,13 +817,6 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
-  /* Transporter must be native to the tile it is on (or it itself is
-   * transported). */
-  if (!can_unit_exist_at_tile(ptrans, unit_tile(ptrans))
-      && !unit_transported(ptrans)) {
-    return FALSE;
-  }
-
   /* Un-embarkable transport must be in city or base to load cargo. */
   if (!utype_can_freely_load(unit_type(pcargo), unit_type(ptrans))
       && !tile_city(unit_tile(ptrans))
@@ -2400,8 +2393,9 @@ struct unit_list *unit_transport_cargo(const struct unit *ptrans)
   Returns whether 'pcargo' in 'ptrans' is a valid transport. Note that
   'pcargo' can already be (but doesn't need) loaded into 'ptrans'.
 
-  It may fail if the cargo has the same type of one of the transport
-  (recursively).
+  It may fail if one of the cargo unit has the same type of one of the
+  transporter unit or if one of the cargo unit can transport one of
+  the transporter (recursively).
 ****************************************************************************/
 bool unit_transport_check(const struct unit *pcargo,
                           const struct unit *ptrans)
@@ -2412,7 +2406,8 @@ bool unit_transport_check(const struct unit *pcargo,
   /* Check transporters. */
   for (plevel = ptrans; NULL != plevel;
        plevel = unit_transport_get(plevel)) {
-    if (unit_type(plevel) == cargo_utype) {
+    if (unit_type(plevel) == cargo_utype
+        || can_unit_type_transport(cargo_utype, unit_class(plevel))) {
       return FALSE;
     }
   }
