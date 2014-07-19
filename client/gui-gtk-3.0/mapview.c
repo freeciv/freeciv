@@ -32,6 +32,7 @@
 #include "timing.h"
 
 /* common */
+#include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
@@ -97,6 +98,12 @@ void update_turn_done_button(bool do_restore)
 void update_timeout_label(void)
 {
   gtk_label_set_text(GTK_LABEL(timeout_label), get_timeout_label_text());
+
+  if (game.info.timeout > 0) {
+    gtk_widget_set_tooltip_text(timeout_label, _("Time to forced turn change"));
+  } else {
+    gtk_widget_set_tooltip_text(timeout_label, _("Turn timeout disabled"));
+  }
 }
 
 /**************************************************************************
