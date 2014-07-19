@@ -582,7 +582,7 @@ Changes affecting supplied rulesets
             "engine", without strict regard for game balance and
             playability. It enables some of the new features mentioned
             below, such as variable city radii.
-     * More than doubled the number of playable nations (from 187 to 387).
+     * More than doubled the number of playable nations (from 185 to 385).
        Many improvements to existing nations, such as using native
        spellings for cities and leaders.
      * The interaction of promotions and diplomat-vs-diplomat contests has
