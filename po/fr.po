@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-15 10:57+0200\n"
-"PO-Revision-Date: 2014-07-15 11:13+0200\n"
+"POT-Creation-Date: 2014-07-19 16:25+0200\n"
+"PO-Revision-Date: 2014-07-19 16:29+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -2150,7 +2150,7 @@ msgstr "_Mettre à jour l'unité"
 #: client/gui-sdl/diplomat_dialog.c:1402 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1949 client/gui-xaw/diplomat_dialog.c:115
 #: client/gui-xaw/diplomat_dialog.c:661 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1235 common/unit.c:1892
+#: client/text.c:1235 common/unit.c:1879
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -3912,12 +3912,20 @@ msgstr "Construire une nouvelle ville"
 msgid "What should we call our new city?"
 msgstr "Comment doit s'appeler la nouvelle ville?"
 
-#: client/gui-gtk-2.0/mapview.c:176 client/gui-gtk-3.0/mapview.c:173
+#: client/gui-gtk-2.0/mapview.c:103 client/gui-gtk-3.0/mapview.c:103
+msgid "Time to forced turn change"
+msgstr "Délai avant un changement de tour forcé"
+
+#: client/gui-gtk-2.0/mapview.c:105 client/gui-gtk-3.0/mapview.c:105
+msgid "Turn timeout disabled"
+msgstr "Limite de temps des tours désactivée"
+
+#: client/gui-gtk-2.0/mapview.c:183 client/gui-gtk-3.0/mapview.c:180
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
 msgstr ""
 "Montre vos taux actuels de luxe/recherche/taxes ; cliquez pour les modifier."
 
-#: client/gui-gtk-2.0/mapview.c:679
+#: client/gui-gtk-2.0/mapview.c:686
 msgid "Better fog will only work in truecolor. Disabling it"
 msgstr ""
 "Le brouillard de guerre amélioré ne fonctionne qu'en couleur vraie. Désactivé"
@@ -12278,12 +12286,12 @@ msgid "Pass any following options to the UI."
 msgstr "Passe une des options qui suivent à l'interface utilisateur."
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:580 data/civ1/game.ruleset:166 data/civ2/game.ruleset:160
+#: common/game.h:577 data/civ1/game.ruleset:166 data/civ2/game.ruleset:160
 msgid "AD"
 msgstr "après JC"
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:582 data/civ1/game.ruleset:168 data/civ2/game.ruleset:162
+#: common/game.h:579 data/civ1/game.ruleset:168 data/civ2/game.ruleset:162
 msgid "BC"
 msgstr "avant JC"
 
@@ -12948,16 +12956,16 @@ msgstr "Transformer"
 msgid "Base"
 msgstr "Base"
 
-#: common/unit.c:1329 common/unit.c:1335
+#: common/unit.c:1316 common/unit.c:1322
 msgid "Moves"
 msgstr "Mouvements"
 
-#: common/unit.c:1402
+#: common/unit.c:1389
 msgid "Food/Shield/Gold:"
 msgstr "Nourriture/Production/Or :"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1902
+#: common/unit.c:1889
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -12972,13 +12980,13 @@ msgstr[1] ""
 "Mettre à jour %s en %s pour %d lingots ?\n"
 "%s"
 
-#: common/unit.c:1911
+#: common/unit.c:1898
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Désolé, impossible de déjà mettre %s à jour."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1917
+#: common/unit.c:1904
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -12993,16 +13001,16 @@ msgstr[1] ""
 "Mettre à jour %s en %s coûte %d lingots.\n"
 "%s"
 
-#: common/unit.c:1927
+#: common/unit.c:1914
 msgid "You can only upgrade units in your cities."
 msgstr "Vous ne pouvez mettre à jour les unités que dans vos villes."
 
-#: common/unit.c:1931
+#: common/unit.c:1918
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Mettre à jour %s laisserait en plan les unités transportées."
 
-#: common/unit.c:1936
+#: common/unit.c:1923
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -43425,7 +43433,7 @@ msgid "Reducing aifill because there are not enough playable nations."
 msgstr "aifill réduit parce qu'il n'y a pas assez de nations jouables."
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:301 server/savegame.c:190
+#: server/savegame2.c:301 server/savegame.c:192
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
 "games, or it may indicate an invalid saved game file. Proceed at your own "
@@ -43435,37 +43443,37 @@ msgstr ""
 "peut arriver avec de vieilles parties sauvegardées, ou bien peut indiquer un "
 "fichier de sauvegarde invalide. Continuez à vos risques et périls."
 
-#: server/savegame2.c:3113 server/savegame.c:5349 server/srv_main.c:1906
+#: server/savegame2.c:3113 server/savegame.c:5361 server/srv_main.c:1906
 #: server/srv_main.c:1911
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 "%s a été ajouté en tant que joueur contrôlé par une IA de niveau %s (%s)."
 
-#: server/savegame2.c:3118 server/savegame.c:5354
+#: server/savegame2.c:3118 server/savegame.c:5366
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s a été ajouté en tant que joueur humain."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3141 server/savegame.c:5401
+#: server/savegame2.c:3141 server/savegame.c:5413
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s avait une nation invalide ; prenons %s en replacement."
 
-#: server/savegame2.c:6061
+#: server/savegame2.c:6066
 msgid "current version"
 msgstr "version actuelle"
 
-#: server/savegame2.c:6065
+#: server/savegame2.c:6070
 msgid "freeciv 2.3.0"
 msgstr "Freeciv 2.3.0"
 
-#: server/savegame2.c:6067
+#: server/savegame2.c:6072
 msgid "freeciv 2.4.0"
 msgstr "Freeciv 2.4.0"
 
-#: server/savegame2.c:6118
+#: server/savegame2.c:6123
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -43473,7 +43481,7 @@ msgstr ""
 "Lancer la fonction de compatibilité de version : <%d (fichier de "
 "sauvegarde : %d ; serveur : %d)."
 
-#: server/savegame2.c:6152
+#: server/savegame2.c:6157
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -43481,14 +43489,14 @@ msgstr ""
 "%d)."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4548
+#: server/savegame.c:4560
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "La sauvegarde utilise les règles du jeu des terrains classique qui ne sont "
 "plus supportées."
 
-#: server/savegame.c:4556
+#: server/savegame.c:4568
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -43498,7 +43506,7 @@ msgstr ""
 "ne sont plus supportés. Utilisation de \"%s\"."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4597
+#: server/savegame.c:4609
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Sauvegarde trop ancienne, une version 1.9.0 ou supérieure est requise."
 
