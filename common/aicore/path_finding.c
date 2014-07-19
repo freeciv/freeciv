@@ -1919,6 +1919,7 @@ struct pf_fuel_node {
                                  * FIXME: this is right only for units with
                                  * constant move costs! */
   unsigned short extra_tile;    /* EC */
+  unsigned char cost_to_here[DIR8_MAGIC_MAX]; /* Step cost[dir to here] */
 
   /* Segment leading across the danger area back to the nearest safe node:
    * need to remeber costs and stuff. */
@@ -2599,30 +2600,43 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           continue;
         }
 
-        /* Evaluate the cost of the move. */
-        if (PF_ACTION_NONE != node1->action) {
-          if (NULL != params->is_action_possible
-              && !params->is_action_possible(tile, scope, tile1,
-                                             node1->action, params)) {
+        cost = node1->cost_to_here[dir];
+        if (0 == cost) {
+          /* Evaluate the cost of the move. */
+          if (PF_ACTION_NONE != node1->action) {
+            if (NULL != params->is_action_possible
+                && !params->is_action_possible(tile, scope, tile1,
+                                               node1->action, params)) {
+              node1->cost_to_here[dir] = PF_IMPOSSIBLE_MC + 2;
+              continue;
+            }
+            /* action move cost depends on action and unit type. */
+            if (node1->action == PF_ACTION_ATTACK
+                && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+                    || uclass_has_flag(utype_class(params->utype),
+                                       UCF_MISSILE))) {
+              cost = params->move_rate;
+            } else {
+              cost = SINGLE_MOVE;
+            }
+          } else if (node1->node_known_type == TILE_UNKNOWN) {
+            cost = params->utype->unknown_move_cost;
+          } else {
+            cost = params->get_MC(tile, scope, tile1, node1->move_scope,
+                                  params);
+          }
+#ifdef PF_DEBUG
+          fc_assert(1 << (8 * sizeof(node1->cost_to_here[dir])) > cost + 2);
+          fc_assert(0 < cost + 2);
+#endif
+          node1->cost_to_here[dir] = cost + 2;
+          if (cost == PF_IMPOSSIBLE_MC) {
             continue;
           }
-          /* action move cost depends on action and unit type. */
-          if (node1->action == PF_ACTION_ATTACK
-              && (utype_has_flag(params->utype, UTYF_ONEATTACK)
-                  || uclass_has_flag(utype_class(params->utype),
-                                     UCF_MISSILE))) {
-            cost = params->move_rate;
-          } else {
-            cost = SINGLE_MOVE;
-          }
-        } else if (node1->node_known_type == TILE_UNKNOWN) {
-          cost = params->utype->unknown_move_cost;
-        } else {
-          cost = params->get_MC(tile, scope, tile1, node1->move_scope,
-                                params);
-        }
-        if (cost == PF_IMPOSSIBLE_MC) {
+        } else if (cost == PF_IMPOSSIBLE_MC - 2) {
           continue;
+        } else {
+          cost -= 2;
         }
 
         cost = pf_fuel_map_adjust_cost(cost, loc_moves_left, params->move_rate);
