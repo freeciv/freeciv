@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 18:09+0100\n"
+"POT-Creation-Date: 2014-07-17 10:08+0100\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -458,21 +458,21 @@ msgstr "大修道院長 %s"
 #: data/nation/galician.ruleset:22 data/nation/genoese.ruleset:50
 #: data/nation/germanbelgian.ruleset:27 data/nation/greaterpolish.ruleset:21
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
-#: data/nation/latin.ruleset:44 data/nation/leonese.ruleset:22
-#: data/nation/liechtensteiner.ruleset:32 data/nation/luxembourgish.ruleset:29
-#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
-#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
-#: data/nation/norman.ruleset:25 data/nation/northumbrian.ruleset:39
-#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
-#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
-#: data/nation/piedmontese.ruleset:33 data/nation/quebecois.ruleset:21
-#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
-#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:41
-#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:33
-#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
-#: data/nation/slovenian.ruleset:19 data/nation/teutonic.ruleset:29
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/yucatecan.ruleset:31
+#: data/nation/langobardic.ruleset:38 data/nation/latin.ruleset:44
+#: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
+#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
+#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
+#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
+#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:30
+#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
+#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
+#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
+#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
+#: data/nation/salvadoran.ruleset:41 data/nation/sammarinese.ruleset:25
+#: data/nation/sardinian.ruleset:33 data/nation/savoyard.ruleset:32
+#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
+#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/yucatecan.ruleset:31
 #, c-format
 msgid "Mother Superior %s"
 msgstr "女子修道院長 %s"
@@ -539,10 +539,11 @@ msgstr "%s総督"
 # 入れ替えあり
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
-#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
-#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
-#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
+#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
+#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
+#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "%s総督"
@@ -791,7 +792,7 @@ msgstr "シェイフ %s"
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
-#: data/nation/tuareg.ruleset:37
+#: data/nation/syrian.ruleset:20 data/nation/tuareg.ruleset:37
 #, c-format
 msgid "Shaykha %s"
 msgstr "シャイハ %s"
@@ -944,11 +945,11 @@ msgstr "公 %s"
 #: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
-#: data/nation/romanian.ruleset:31 data/nation/ruthenian.ruleset:29
-#: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
-#: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
-#: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:37
-#: data/nation/westernpomeranian.ruleset:29
+#: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:33
+#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
+#: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
+#: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
+#: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Princess %s"
 msgstr "女公 %s"
@@ -1054,6 +1055,12 @@ msgstr ""
 #: data/nation/santomean.ruleset:33
 #, c-format
 msgid "Secretary General %s"
+msgstr "事務総長 %s"
+
+#: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
+#: data/nation/santomean.ruleset:33
+#, c-format
+msgid "?female:Secretary General %s"
 msgstr "事務総長 %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
@@ -1652,15 +1659,16 @@ msgstr "簒奪者 %s"
 #: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
-#: data/nation/seleucid.ruleset:28 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:26
+#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "簒奪者 %s"
@@ -2373,6 +2381,12 @@ msgstr ""
 msgid "High Druid %s"
 msgstr "ドルイド"
 
+#: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
+#: data/nation/helvetian.ruleset:29
+#, fuzzy, c-format
+msgid "?female:High Druid %s"
+msgstr "ドルイド"
+
 # カンボジアの共産主義時の称号。クメール語があると思われるのですが不明なので。
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
@@ -2436,9 +2450,10 @@ msgstr "%s議長"
 # 入れ替えあり
 #: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
-#: data/nation/gepid.ruleset:44 data/nation/liberian.ruleset:30
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:40
+#: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
+#: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:40
 #, c-format
 msgid "?female:Speaker %s"
 msgstr "%s議長"
@@ -3218,7 +3233,7 @@ msgid ""
 "Rome. Their first kingdom was founded in Worms, but after its destruction by "
 "the Huns they moved to what is today Savoy and Burgundy, where they founded "
 "their second kingdom. Eventually they were subordinated by the Frankish "
-"Kingdom. The Bugundians gave their name to the later Romance nation and "
+"Kingdom. The Burgundians gave their name to the later Romance nation and "
 "region of Burgundy."
 msgstr ""
 
@@ -3668,7 +3683,7 @@ msgid "People's Commissar %s"
 msgstr "高等弁務官"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
-#: data/nation/volgagerman.ruleset:37
+#: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, fuzzy, c-format
 msgid "?female:People's Commissar %s"
 msgstr "レソス"
@@ -5309,7 +5324,8 @@ msgstr "首長"
 msgid "Captain %s"
 msgstr "カピタノ %s"
 
-#: data/nation/florentine.ruleset:42 data/nation/milanese.ruleset:29
+#: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
+#: data/nation/milanese.ruleset:29
 #, c-format
 msgid "?female:Captain %s"
 msgstr "カピタノ %s"
@@ -6293,11 +6309,6 @@ msgid ""
 "Helvetians succumbed to the Romans and became Romanized during the following "
 "centuries."
 msgstr ""
-
-#: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
-msgid "?female:High Druid %s"
-msgstr "ドルイド"
 
 #: data/nation/hephthalite.ruleset:3
 #, fuzzy
@@ -7369,6 +7380,12 @@ msgstr ""
 msgid "Guru %s"
 msgstr "グル %s"
 
+#: data/nation/kushan.ruleset:43 data/nation/sikh.ruleset:33
+#: data/nation/vedic.ruleset:24
+#, c-format
+msgid "?female:Guru %s"
+msgstr "グル %s"
+
 #: data/nation/kuwaiti.ruleset:3
 #, fuzzy
 msgid "Kuwaiti"
@@ -7425,13 +7442,6 @@ msgid ""
 "Italia in 568. They founded a new kingdom with its capital in Pavia. The "
 "modern region of Lombardy derives its name from the Lombards."
 msgstr ""
-
-# 「女子修道院長」だそうだけど，本当にそれでいいのかしらん (clefs)
-# Happiness is a warm gun?
-#: data/nation/langobardic.ruleset:38
-#, c-format
-msgid "?female:Mother Superior %s"
-msgstr "女子修道院長 %s"
 
 # clefs
 # 「ランカー人」では通りが悪いかな，と
@@ -7558,11 +7568,6 @@ msgstr ""
 "の帝国によって支配されました。4世紀以上にわたってオスマン帝国の一部であったこ"
 "の地は，第一次世界大戦の後にフランスの委任統治領となりました。レバノンは1943"
 "年に独立を宣言しました。"
-
-#: data/nation/lebanese.ruleset:27 data/nation/santomean.ruleset:33
-#, c-format
-msgid "?female:Secretary General %s"
-msgstr "事務総長 %s"
 
 #: data/nation/lendian.ruleset:3
 msgid "Lendian"
@@ -11385,11 +11390,6 @@ msgstr ""
 "国境地帯にあるパンジャブ地方がシク教の中心地です。19世紀にはこの地域にシク教"
 "国が存在しました。"
 
-#: data/nation/sikh.ruleset:33 data/nation/vedic.ruleset:24
-#, c-format
-msgid "?female:Guru %s"
-msgstr "グル %s"
-
 #: data/nation/sikkimese.ruleset:3
 msgid "Sikkimese"
 msgstr "シッキム人"
@@ -11957,11 +11957,6 @@ msgid ""
 msgstr ""
 "現在のシリア・アラブ共和国は，フランスの委任統治領として誕生し，1940年代に次"
 "第に独立を勝ち取ってきました。"
-
-#: data/nation/syrian.ruleset:20
-#, fuzzy, c-format
-msgid "?female:Shaykha %s"
-msgstr "シャーマン"
 
 #: data/nation/tahitian.ruleset:3
 #, fuzzy
@@ -13589,3 +13584,12 @@ msgstr ""
 "アン・スミスは黒人を権力から除外する人種差別政策を推し進めました。内戦を受け"
 "てスミスは1979年に少数白人支配を終わらせました。1980年からこの国はロバート・"
 "ムガベが統治していますが，彼は以前の政権と同様の悪評を国際的に受けています。"
+
+# 「女子修道院長」だそうだけど，本当にそれでいいのかしらん (clefs)
+# Happiness is a warm gun?
+#~ msgid "?female:Mother Superior %s"
+#~ msgstr "女子修道院長 %s"
+
+#, fuzzy
+#~ msgid "?female:Shaykha %s"
+#~ msgstr "シャーマン"

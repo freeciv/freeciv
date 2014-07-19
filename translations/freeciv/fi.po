@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-17 09:06+0100\n"
+"POT-Creation-Date: 2014-07-19 11:16+0100\n"
 "PO-Revision-Date: 2014-07-17 00:42+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -2210,7 +2210,7 @@ msgstr "A_janmukaista yksikkö"
 #: client/gui-sdl/diplomat_dialog.c:1424 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:115
 #: client/gui-xaw/diplomat_dialog.c:661 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1299 common/unit.c:2130
+#: client/text.c:1299 common/unit.c:2122
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -14332,16 +14332,16 @@ msgid "Base"
 msgstr "Tukikohta"
 
 # *** '(s/he/it) moves' ***
-#: common/unit.c:1515 common/unit.c:1520
+#: common/unit.c:1508 common/unit.c:1513
 msgid "Moves"
 msgstr "Liikkuu"
 
-#: common/unit.c:1627
+#: common/unit.c:1620
 msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2140
+#: common/unit.c:2132
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -14356,13 +14356,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2149
+#: common/unit.c:2141
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2155
+#: common/unit.c:2147
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -14377,17 +14377,17 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2165
+#: common/unit.c:2157
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2169
+#: common/unit.c:2161
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2174
+#: common/unit.c:2166
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -19889,7 +19889,7 @@ msgstr ""
 "yksiköitä, maksetaan hänestä 100 yksikön lunnaat kultana, mutta vain "
 "maavoimien yksiköille ja helikoptereille."
 
-#: data/default/default.lua:22 server/unittools.c:2838
+#: data/default/default.lua:22 server/unittools.c:2832
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -19919,7 +19919,7 @@ msgstr "Löysit ystävällismielisen kaupungin."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Joukko paimentolaisia liittyy valtakuntaasi."
 
-#: data/default/default.lua:108 server/unittools.c:2845
+#: data/default/default.lua:108 server/unittools.c:2839
 msgid "An abandoned village is here."
 msgstr "Täällä on vain hylätty kylä."
 
@@ -19927,7 +19927,7 @@ msgstr "Täällä on vain hylätty kylä."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Olet joutunut keskelle barbaarijoukon leiriä!"
 
-#: data/default/default.lua:118 server/unittools.c:2848
+#: data/default/default.lua:118 server/unittools.c:2842
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s menetettiin barbaarien hyökkäyksessä!"
@@ -32985,7 +32985,7 @@ msgid "Loading rulesets."
 msgstr "Lataan sääntökokoelmaa"
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:300 server/savegame.c:190
+#: server/savegame2.c:300 server/savegame.c:192
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
 "games, or it may indicate an invalid saved game file. Proceed at your own "
@@ -32995,19 +32995,19 @@ msgstr ""
 "tallennettu peli on vanha, tai tiedosto voi olla viallinen. Jatka omalla "
 "vastuullasi."
 
-#: server/savegame2.c:3445 server/savegame.c:4246 server/srv_main.c:1953
+#: server/savegame2.c:3445 server/savegame.c:4253 server/srv_main.c:1953
 #: server/srv_main.c:1958
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 
-#: server/savegame2.c:3450 server/savegame.c:4251
+#: server/savegame2.c:3450 server/savegame.c:4258
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3478 server/savegame.c:4301
+#: server/savegame2.c:3478 server/savegame.c:4308
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
@@ -33021,7 +33021,7 @@ msgstr ""
 "%d)."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3393
+#: server/savegame.c:3400
 #, fuzzy
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
@@ -33029,7 +33029,7 @@ msgid ""
 msgstr ""
 "Tallennettu peli käyttää \"klassista\" maastosäännöstöä, jota ei enää tueta."
 
-#: server/savegame.c:3401
+#: server/savegame.c:3408
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -33039,7 +33039,7 @@ msgstr ""
 "Käytetään hakemistoa '%s'."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3449
+#: server/savegame.c:3456
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 1.9.0."
 
@@ -37832,7 +37832,7 @@ msgstr ""
 msgid "Cannot conquer from a non-native tile."
 msgstr ""
 
-#: server/unithand.c:1324 server/unittools.c:2757
+#: server/unithand.c:1324 server/unittools.c:2751
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
@@ -37846,7 +37846,7 @@ msgstr "%s voi siirtyä vain itse valvomallesi alueelle."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ei voi liikkua niin kauas rannikolta."
 
-#: server/unithand.c:1342 server/unittools.c:2764
+#: server/unithand.c:1342 server/unittools.c:2758
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -37987,77 +37987,77 @@ msgstr "%s on ajanmukaistettu kustannuksetta yksiköksi %s."
 msgid "Your %s has run out of hit points."
 msgstr "Yksikkösi %s voimapisteet loppuivat."
 
-#: server/unittools.c:454
+#: server/unittools.c:452
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "%s on palannut tankkaamaan."
 
-#: server/unittools.c:485
+#: server/unittools.c:483
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "%s-yksikkösi polttoaine loppui."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:730
+#: server/unittools.c:728
 #, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "%s on nyt kokeneempi ja ylennettiin arvoon %s!"
 
-#: server/unittools.c:749
+#: server/unittools.c:747
 #, c-format
 msgid "%s converted to %s."
 msgstr "%s muunnettu yksiköksi %s."
 
-#: server/unittools.c:755
+#: server/unittools.c:753
 #, c-format
 msgid "%s cannot be converted."
 msgstr "Yksikköä %s ei voi muuntaa."
 
-#: server/unittools.c:956
+#: server/unittools.c:954
 #, fuzzy, c-format
 msgid "Orders for %s aborted because activity is no longer available."
 msgstr "%s keskeytti toimintansa, koska sen liikkuminen epäonnistui."
 
-#: server/unittools.c:1122
+#: server/unittools.c:1120
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "%s siirrettiin kaupunkiin %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1188
+#: server/unittools.c:1186
 #, c-format
 msgid "Moved your %s."
 msgstr "%s siirrettiin."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1207
+#: server/unittools.c:1205
 #, c-format
 msgid "Disbanded your %s."
 msgstr "%s lakkautettiin."
 
-#: server/unittools.c:1608
+#: server/unittools.c:1602
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Yksikön %s puolustaminen epäonnistui, %s on hävinnyt pelin."
 
-#: server/unittools.c:1612
+#: server/unittools.c:1606
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Yksikön %s menettäminen sai sinut häviämään pelin - ole varovaisempi ensi "
 "kerralla!"
 
-#: server/unittools.c:1661
+#: server/unittools.c:1655
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s menetetty yksikön %s mukana."
 
-#: server/unittools.c:1859
+#: server/unittools.c:1853
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s pakeni yksikön %s tuhoa ja pakeni kaupunkiin %s."
 
-#: server/unittools.c:2013
+#: server/unittools.c:2007
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -38065,19 +38065,19 @@ msgstr[0] "Barbaarijohtaja vangittu, saat %d kullan lunnaat."
 msgstr[1] "Barbaarijohtaja vangittu, saat %d kullan lunnaat."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:2034
+#: server/unittools.c:2028
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Hyökännyt yksikkösi %s onnistui, %s %s kukistettiin!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2043 server/unittools.c:2104
+#: server/unittools.c:2037 server/unittools.c:2098
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s menetettiin taistelussa; %s hyökännyt %s teki siitä selvää jälkeä."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2079
+#: server/unittools.c:2073
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -38089,14 +38089,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2114
+#: server/unittools.c:2108
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s menetettiin kun %s %s hyökkäsi kohteen %s %s kimppuun."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2130
+#: server/unittools.c:2124
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (ja %s) menetettiin kun %s %s hyökkäsi."
@@ -38104,7 +38104,7 @@ msgstr "%s (ja %s) menetettiin kun %s %s hyökkäsi."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2141
+#: server/unittools.c:2135
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -38114,154 +38114,154 @@ msgstr[1] "%s ja %d muuta yksikköä menetettiin kun %s %s hyökkäsi."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2156
+#: server/unittools.c:2150
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d yksikkö menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 msgstr[1] "%d yksikköä menetettiin kun %s %s hyökkäsi kohteenaan %s %s."
 
-#: server/unittools.c:2520
+#: server/unittools.c:2514
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Yksikkösi %s tuhoutui kun %s iskivät ydinasein."
 
-#: server/unittools.c:2523 server/unittools.c:2541
+#: server/unittools.c:2517 server/unittools.c:2535
 msgid "yourself"
 msgstr "sinä itse"
 
-#: server/unittools.c:2527
+#: server/unittools.c:2521
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s %s tuhottiin ydiniskussa."
 
-#: server/unittools.c:2538
+#: server/unittools.c:2532
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s tuhoutui kun %s iski ydinasein."
 
-#: server/unittools.c:2546
+#: server/unittools.c:2540
 #, c-format
 msgid "You nuked %s."
 msgstr "Olet pamauttanut kohteen %s tuusannuuskaksi ydiniskussa."
 
-#: server/unittools.c:2598
+#: server/unittools.c:2592
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s räjäyttivät ydinlatauksen!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2622 server/unittools.c:2630
+#: server/unittools.c:2616 server/unittools.c:2624
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s ei pysty lennättämään yksikköä %s."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2641
+#: server/unittools.c:2635
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Yksikköä %s ei voi kuljettaa kaupunkiin %s."
 
-#: server/unittools.c:2651
+#: server/unittools.c:2645
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s on turvallisesti siirretty kohteeseensa."
 
-#: server/unittools.c:2712
+#: server/unittools.c:2706
 msgid "This unit type can not be paradropped."
 msgstr "Tätä yksikköä ei voi maahanlaskea."
 
-#: server/unittools.c:2722
+#: server/unittools.c:2716
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Yksikkö joka kuljettaa muita yksiköitä ei voi hypätä laskuvarjolla."
 
-#: server/unittools.c:2728
+#: server/unittools.c:2722
 msgid "The destination location is not known."
 msgstr "Maahanlaskupaikka on tutkimaton."
 
-#: server/unittools.c:2746
+#: server/unittools.c:2740
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "%s ei sovi yksikön maahanlaskupaikaksi."
 
-#: server/unittools.c:2775
+#: server/unittools.c:2769
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Etäisyys kohteesta (%i) ylittää yksikön toimintasäteen (%i)."
 
-#: server/unittools.c:2787
+#: server/unittools.c:2781
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Yksikkösi %s menetettiin maahanlaskupaikassa %s."
 
-#: server/unittools.c:2801
+#: server/unittools.c:2795
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Maahanlaskupaikalla olleet vihollisyksiköt tuhosivat yksikkösi %s."
 
-#: server/unittools.c:2876
+#: server/unittools.c:2870
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Ylilentosi pelottaa alkukantaista heimoa; he hajaantuvat kauhuissaan."
 
-#: server/unittools.c:3162
+#: server/unittools.c:3156
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "%s keskeytti toimintansa havaittuaan vihollisen liikehdintää."
 
-#: server/unittools.c:3693
+#: server/unittools.c:3687
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s keskeytti toimintansa, koska lähistöllä on yksiköitä."
 
-#: server/unittools.c:3762
+#: server/unittools.c:3756
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "%s keskeytti toimintansa, koska kaupungin rakentaminen epäonnistui."
 
-#: server/unittools.c:3812
+#: server/unittools.c:3806
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "%s kieltäytyy jatkamasta sopimattomiksi käyneiden komentojen seuraamista."
 
-#: server/unittools.c:3821
+#: server/unittools.c:3815
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s keskeytti liikkumisensa, koska kohdepaikka on sopimaton."
 
-#: server/unittools.c:3831
+#: server/unittools.c:3825
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s keskeytti toimintansa, koska muut yksiköt ovat sen tiellä."
 
-#: server/unittools.c:3857
+#: server/unittools.c:3851
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s keskeytti toimintansa, koska sen liikkuminen epäonnistui."
 
-#: server/unittools.c:3874
+#: server/unittools.c:3868
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Yksikön %s kotipaikan muutos epäonnistui."
 
-#: server/unittools.c:3885
+#: server/unittools.c:3879
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Yritys perustaa kauppareitti yksiköllä %s epäonnistui."
 
-#: server/unittools.c:3897
+#: server/unittools.c:3891
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Yritys rakentaa ihme yksiköllä %s epäonnistui."
 
-#: server/unittools.c:3906
+#: server/unittools.c:3900
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Yksikölle %s annetut ohjeet eivät enää kelpaa."
 
-#: server/unittools.c:4004
+#: server/unittools.c:3998
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

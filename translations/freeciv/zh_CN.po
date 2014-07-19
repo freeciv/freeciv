@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 18:09+0100\n"
+"POT-Creation-Date: 2014-07-19 11:16+0100\n"
 "PO-Revision-Date: 2013-09-09 10:53+0300\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -348,8 +348,8 @@ msgstr "定制"
 
 #. TRANS: city is not growing.  Keep short.
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
-#: client/citydlg_common.c:284 client/citydlg_common.c:337
-#: client/citydlg_common.c:428 client/gui-gtk-2.0/citydlg.c:1559
+#: client/citydlg_common.c:283 client/citydlg_common.c:336
+#: client/citydlg_common.c:427 client/gui-gtk-2.0/citydlg.c:1559
 #: client/gui-gtk-3.0/citydlg.c:1621 client/gui-qt/citydlg.cpp:1622
 #: client/gui-sdl/cityrep.c:554 client/gui-sdl/cityrep.c:1086
 #: client/gui-sdl/wldlg.c:1399 client/gui-sdl/wldlg.c:1404
@@ -358,7 +358,7 @@ msgid "never"
 msgstr "从不"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
-#: client/citydlg_common.c:334 client/gui-gtk-2.0/citydlg.c:1565
+#: client/citydlg_common.c:333 client/gui-gtk-2.0/citydlg.c:1565
 #: client/gui-gtk-3.0/citydlg.c:1627 client/gui-qt/citydlg.cpp:1628
 #: client/gui-xaw/citydlg.c:257 client/text.c:924 client/text.c:1397
 #, c-format
@@ -503,181 +503,181 @@ msgid "Export failed, couldn't write to file."
 msgstr "导出失败，无法写入文件。"
 
 #. TRANS: Use longer of "XXX turns" and "never"
-#: client/citydlg_common.c:259
+#: client/citydlg_common.c:258
 msgid "?filler:XXX/XXX XXX turns"
 msgstr "?filler:XXX/XXX XXX 回合"
 
-#: client/citydlg_common.c:266
+#: client/citydlg_common.c:265
 #, fuzzy, c-format
 msgid "%3d gold per turn"
 msgid_plural "%3d gold per turn"
 msgstr[0] "每回合 %3d 黄金"
 
-#: client/citydlg_common.c:280
+#: client/citydlg_common.c:279
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d 回合"
 
-#: client/citydlg_common.c:288
+#: client/citydlg_common.c:287
 #, fuzzy, c-format
 msgid "%3d/%s:%s"
 msgstr "%3d/%3d:%s"
 
-#: client/citydlg_common.c:291
+#: client/citydlg_common.c:290
 #, fuzzy, c-format
 msgid "%3d/%s %s"
 msgstr "%3d/%3d %s"
 
-#: client/citydlg_common.c:321 client/citydlg_common.c:420
+#: client/citydlg_common.c:320 client/citydlg_common.c:419
 #, c-format
 msgid "%d/turn"
 msgstr "%d/回合"
 
-#: client/citydlg_common.c:381 client/citydlg_common.c:391
+#: client/citydlg_common.c:380 client/citydlg_common.c:390
 #: client/gui-sdl/wldlg.c:1368
 msgid "Obsolete"
 msgstr "淘汰"
 
-#: client/citydlg_common.c:383 client/citydlg_common.c:393
+#: client/citydlg_common.c:382 client/citydlg_common.c:392
 #: client/gui-sdl/repodlgs.c:2047 client/gui-sdl/wldlg.c:1371
 #: client/gui-sdl/wldlg.c:1379 common/events.c:91 common/events.c:161
 msgid "Built"
 msgstr "建成"
 
-#: client/citydlg_common.c:385 client/gui-sdl/wldlg.c:1373
+#: client/citydlg_common.c:384 client/gui-sdl/wldlg.c:1373
 #, fuzzy
 msgid "Destroyed"
 msgstr "驱逐舰"
 
-#: client/citydlg_common.c:387 client/gui-sdl/wldlg.c:1375
+#: client/citydlg_common.c:386 client/gui-sdl/wldlg.c:1375
 msgid "Great Wonder"
 msgstr "大奇迹"
 
-#: client/citydlg_common.c:395 client/gui-sdl/wldlg.c:1381
+#: client/citydlg_common.c:394 client/gui-sdl/wldlg.c:1381
 msgid "Small Wonder"
 msgstr "小奇迹"
 
-#: client/citydlg_common.c:451
+#: client/citydlg_common.c:450
 #, c-format
 msgid "%+4d : Citizens\n"
 msgstr "%+4d : 市民\n"
 
-#: client/citydlg_common.c:458
+#: client/citydlg_common.c:457
 #, c-format
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Taxed from trade\n"
 
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
-#: client/citydlg_common.c:478 client/gui-gtk-2.0/inteldlg.c:388
+#: client/citydlg_common.c:477 client/gui-gtk-2.0/inteldlg.c:388
 #: client/gui-gtk-3.0/inteldlg.c:380 client/gui-qt/plrdlg.cpp:384
 #: client/gui-sdl/inteldlg.c:313 client/gui-sdl/inteldlg.c:326
 #: client/gui-xaw/inteldlg.c:281 server/stdinhand.c:322
 msgid "(unknown)"
 msgstr "(未知)"
 
-#: client/citydlg_common.c:480
+#: client/citydlg_common.c:479
 #, fuzzy, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "还没有商路存在。\n"
 
-#: client/citydlg_common.c:489
+#: client/citydlg_common.c:488
 #, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "正在建造部队"
 
-#: client/citydlg_common.c:512
+#: client/citydlg_common.c:511
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr ""
 
-#: client/citydlg_common.c:532
+#: client/citydlg_common.c:531
 #, fuzzy, c-format
 msgid "%+4d : Size penalty\n"
 msgstr "%+4d : 市民\n"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
-#: client/citydlg_common.c:549
+#: client/citydlg_common.c:548
 #, fuzzy, c-format
 msgid "%+4d : Waste%s\n"
 msgstr "%+4d : 市民\n"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
-#: client/citydlg_common.c:554
+#: client/citydlg_common.c:553
 #, fuzzy, c-format
 msgid "%+4d : Corruption%s\n"
 msgstr "腐败"
 
-#: client/citydlg_common.c:564
+#: client/citydlg_common.c:563
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr ""
 
-#: client/citydlg_common.c:570
+#: client/citydlg_common.c:569
 #, c-format
 msgid "%+4d : Used\n"
 msgstr ""
 
 #. TRANS: City output that we cannot explain.
 #. * Should never happen.
-#: client/citydlg_common.c:581
+#: client/citydlg_common.c:580
 #, fuzzy, c-format
 msgid "%+4d : (unknown)\n"
 msgstr "(未知)"
 
-#: client/citydlg_common.c:585 client/citydlg_common.c:631
-#: client/citydlg_common.c:655
+#: client/citydlg_common.c:584 client/citydlg_common.c:630
+#: client/citydlg_common.c:654
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:587 client/citydlg_common.c:657
+#: client/citydlg_common.c:586 client/citydlg_common.c:656
 #, c-format
 msgid "%4d : Total surplus"
 msgstr ""
 
-#: client/citydlg_common.c:602
+#: client/citydlg_common.c:601
 msgid "Illness deactivated in ruleset."
 msgstr ""
 
-#: client/citydlg_common.c:609
+#: client/citydlg_common.c:608
 #, fuzzy, c-format
 msgid "%+5.1f : Risk from overcrowding\n"
 msgstr "%+4d : Taxed from trade\n"
 
-#: client/citydlg_common.c:611
+#: client/citydlg_common.c:610
 #, fuzzy, c-format
 msgid "%+5.1f : Risk from trade\n"
 msgstr "%+4d : Taxed from trade\n"
 
-#: client/citydlg_common.c:613
+#: client/citydlg_common.c:612
 #, fuzzy, c-format
 msgid "%+5.1f : Risk from pollution\n"
 msgstr "%+4d : Taxed from trade\n"
 
-#: client/citydlg_common.c:626
+#: client/citydlg_common.c:625
 #, fuzzy, c-format
 msgid "%+5.1f : Bonus from %s\n"
 msgstr "%s 来自 %s"
 
-#: client/citydlg_common.c:632
+#: client/citydlg_common.c:631
 #, c-format
 msgid "%5.1f : Total chance for a plague"
 msgstr ""
 
-#: client/citydlg_common.c:649
+#: client/citydlg_common.c:648
 #, fuzzy, c-format
 msgid "%+4d : Pollution from shields\n"
 msgstr "* 能够从方格上清除污染。\n"
 
-#: client/citydlg_common.c:651
+#: client/citydlg_common.c:650
 #, fuzzy, c-format
 msgid "%+4d : Pollution from citizens\n"
 msgstr "* 能够从方格上清除污染。\n"
 
-#: client/citydlg_common.c:653
+#: client/citydlg_common.c:652
 #, fuzzy, c-format
 msgid "%+4d : Pollution modifier\n"
 msgstr "腐败"
@@ -823,7 +823,7 @@ msgstr "最佳防御部队"
 #: client/gui-xaw/menu.c:159 client/gui-xaw/menu.c:220
 #: client/gui-xaw/menu.c:251 client/gui-xaw/repodlgs.c:889
 #: client/gui-xaw/repodlgs.c:1084 client/include/helpdlg_g.h:43
-#: data/Freeciv.in:1913 data/helpdata.txt:1030
+#: data/Freeciv.in:1913 data/helpdata.txt:1037
 msgid "Units"
 msgstr "部队"
 
@@ -916,7 +916,7 @@ msgstr "腐败"
 #: client/gui-qt/repodlgs.cpp:800 client/gui-sdl/mapctrl.c:1403
 #: client/gui-xaw/menu.c:224 client/gui-xaw/menu.c:247
 #: client/gui-xaw/repodlgs.c:652 client/gui-xaw/repodlgs.c:780
-#: client/include/helpdlg_g.h:40 data/Freeciv.in:1837 data/helpdata.txt:451
+#: client/include/helpdlg_g.h:40 data/Freeciv.in:1837 data/helpdata.txt:458
 msgid "Economy"
 msgstr "经济"
 
@@ -996,7 +996,7 @@ msgstr "管理者"
 #: client/gui-gtk-2.0/menu.c:1437 client/gui-gtk-3.0/cityrep.c:1895
 #: client/gui-gtk-3.0/menu.c:1437 client/gui-sdl/citydlg.c:3834
 #: client/gui-sdl/cma_fe.c:898 client/gui-xaw/menu.c:263
-#: client/include/helpdlg_g.h:36 data/Freeciv.in:1477 data/helpdata.txt:1742
+#: client/include/helpdlg_g.h:36 data/Freeciv.in:1477 data/helpdata.txt:1749
 msgid "Citizen Governor"
 msgstr "市民管理者"
 
@@ -1467,7 +1467,7 @@ msgstr "天哪！你好像没有首都了！"
 #: client/gui-gtk-2.0/menu.c:1404 client/gui-gtk-3.0/editprop.c:4153
 #: client/gui-gtk-3.0/menu.c:1404 client/gui-xaw/menu.c:150
 #: client/gui-xaw/menu.c:246 client/include/helpdlg_g.h:48
-#: data/helpdata.txt:287 tools/civmanual.c:293
+#: data/helpdata.txt:289 tools/civmanual.c:293
 msgid "Terrain"
 msgstr "地形"
 
@@ -2129,7 +2129,7 @@ msgstr "升级部队(_P)"
 #: client/gui-sdl/diplomat_dialog.c:1424 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:115
 #: client/gui-xaw/diplomat_dialog.c:661 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1299 common/unit.c:2130
+#: client/text.c:1299 common/unit.c:2122
 #, fuzzy, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -2287,7 +2287,7 @@ msgstr "显示(_D)"
 #: client/gui-xaw/cityrep.c:534 client/gui-xaw/menu.c:158
 #: client/gui-xaw/menu.c:223 client/gui-xaw/menu.c:248
 #: client/include/helpdlg_g.h:41 data/Freeciv.in:428 data/Freeciv.in:437
-#: data/Freeciv.in:1579 data/helpdata.txt:630
+#: data/Freeciv.in:1579 data/helpdata.txt:637
 msgid "Cities"
 msgstr "城市"
 
@@ -4168,63 +4168,63 @@ msgstr "人口(_D)"
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1400
 #: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
-#: data/helpdata.txt:41
+#: data/helpdata.txt:43
 #, fuzzy
 msgid "?help:Overview"
 msgstr "缩略地图"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1402
 #: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
-#: data/helpdata.txt:80
+#: data/helpdata.txt:82
 #, fuzzy
 msgid "Strategy and Tactics"
 msgstr "策略与技巧"
 
 #: client/gui-gtk-2.0/menu.c:1410 client/gui-gtk-3.0/menu.c:1410
 #: client/gui-xaw/menu.c:249 client/include/helpdlg_g.h:42
-#: data/helpdata.txt:983
+#: data/helpdata.txt:990
 msgid "City Improvements"
 msgstr "城市建筑"
 
 #: client/gui-gtk-2.0/menu.c:1412 client/gui-gtk-3.0/menu.c:1412
 #: client/gui-qt/menu.cpp:389 client/gui-xaw/menu.c:228
 #: client/gui-xaw/menu.c:250 client/include/helpdlg_g.h:49
-#: data/helpdata.txt:1008 server/report.c:444
+#: data/helpdata.txt:1015 server/report.c:444
 msgid "Wonders of the World"
 msgstr "世界奇迹"
 
 #: client/gui-gtk-2.0/menu.c:1416 client/gui-gtk-3.0/menu.c:1416
 #: client/gui-qt/menu.cpp:287 client/gui-xaw/menu.c:252
-#: client/include/helpdlg_g.h:44 data/helpdata.txt:1105
+#: client/include/helpdlg_g.h:44 data/helpdata.txt:1112
 msgid "Combat"
 msgstr "作战"
 
 #: client/gui-gtk-2.0/menu.c:1418 client/gui-gtk-3.0/menu.c:1418
-#: client/include/helpdlg_g.h:45 data/helpdata.txt:1295
+#: client/include/helpdlg_g.h:45 data/helpdata.txt:1302
 msgid "Zones of Control"
 msgstr "控制区域"
 
 #: client/gui-gtk-2.0/menu.c:1420 client/gui-gtk-3.0/menu.c:1420
 #: client/gui-qt/menu.cpp:362 client/gui-xaw/menu.c:254
-#: client/include/helpdlg_g.h:50 data/Freeciv.in:2045 data/helpdata.txt:1350
+#: client/include/helpdlg_g.h:50 data/Freeciv.in:2045 data/helpdata.txt:1357
 msgid "Government"
 msgstr "政府"
 
 #: client/gui-gtk-2.0/menu.c:1422 client/gui-gtk-3.0/menu.c:1422
 #: client/gui-xaw/menu.c:255 client/include/helpdlg_g.h:51 data/Freeciv.in:233
-#: data/helpdata.txt:1409
+#: data/helpdata.txt:1416
 msgid "Diplomacy"
 msgstr "外交"
 
 #: client/gui-gtk-2.0/menu.c:1424 client/gui-gtk-3.0/menu.c:1424
 #: client/gui-xaw/menu.c:256 client/include/helpdlg_g.h:46
-#: data/helpdata.txt:1452
+#: data/helpdata.txt:1459
 msgid "Technology"
 msgstr "科技"
 
 #: client/gui-gtk-2.0/menu.c:1426 client/gui-gtk-3.0/menu.c:1426
 #: client/gui-xaw/menu.c:257 client/include/helpdlg_g.h:52
-#: data/helpdata.txt:1491
+#: data/helpdata.txt:1498
 msgid "Space Race"
 msgstr "太空竞赛"
 
@@ -4236,51 +4236,51 @@ msgstr "弹出请求"
 
 #: client/gui-gtk-2.0/menu.c:1430 client/gui-gtk-3.0/menu.c:1430
 #: client/gui-xaw/menu.c:259 client/include/helpdlg_g.h:39
-#: data/helpdata.txt:1528
+#: data/helpdata.txt:1535
 #, fuzzy
 msgid "About Nations"
 msgstr "民族"
 
 #: client/gui-gtk-2.0/menu.c:1433 client/gui-gtk-3.0/menu.c:1433
 #: client/gui-xaw/menu.c:261 client/include/helpdlg_g.h:33
-#: data/helpdata.txt:1543
+#: data/helpdata.txt:1550
 msgid "Connecting"
 msgstr "连接"
 
 #: client/gui-gtk-2.0/menu.c:1435 client/gui-gtk-3.0/menu.c:1435
 #: client/gui-xaw/menu.c:262 client/include/helpdlg_g.h:37
-#: data/helpdata.txt:1570
+#: data/helpdata.txt:1577
 msgid "Controls"
 msgstr "控制"
 
 #: client/gui-gtk-2.0/menu.c:1439 client/gui-gtk-3.0/menu.c:1439
 #: client/gui-xaw/menu.c:264 client/include/helpdlg_g.h:34
-#: data/helpdata.txt:1791
+#: data/helpdata.txt:1798
 msgid "Chatline"
 msgstr "聊天"
 
 #: client/gui-gtk-2.0/menu.c:1441 client/gui-gtk-3.0/menu.c:1441
 #: client/gui-xaw/menu.c:265 client/include/helpdlg_g.h:35
-#: data/helpdata.txt:1904
+#: data/helpdata.txt:1911
 msgid "Worklist Editor"
 msgstr "工作列表编辑器"
 
 #: client/gui-gtk-2.0/menu.c:1444 client/gui-gtk-3.0/menu.c:1444
 #: client/gui-xaw/menu.c:267 client/include/helpdlg_g.h:32
-#: data/helpdata.txt:1928
+#: data/helpdata.txt:1935
 msgid "Languages"
 msgstr "语言"
 
 #: client/gui-gtk-2.0/menu.c:1446 client/gui-gtk-3.0/menu.c:1446
 #: client/gui-qt/menu.cpp:403 client/gui-qt/menu.cpp:870
 #: client/gui-xaw/menu.c:268 client/include/helpdlg_g.h:53
-#: data/helpdata.txt:1958
+#: data/helpdata.txt:1965
 msgid "Copying"
 msgstr "版权"
 
 #: client/gui-gtk-2.0/menu.c:1448 client/gui-gtk-3.0/menu.c:1448
 #: client/gui-xaw/menu.c:269 client/include/helpdlg_g.h:54
-#: data/helpdata.txt:2260
+#: data/helpdata.txt:2267
 #, fuzzy
 msgid "About Freeciv"
 msgstr "Freeciv"
@@ -7653,7 +7653,7 @@ msgid "Barracks"
 msgstr "兵营"
 
 #: client/gui-sdl/mapview.c:622 client/gui-sdl/mapview.c:628
-#: client/gui-sdl/mapview.c:634 client/helpdata.c:4095 client/helpdata.c:4103
+#: client/gui-sdl/mapview.c:634 client/helpdata.c:4115 client/helpdata.c:4123
 #, fuzzy
 msgid "?blistmore:, "
 msgstr "?blistmore: "
@@ -9602,7 +9602,7 @@ msgstr ""
 "\n"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: client/helpdata.c:1521 client/helpdata.c:2164 client/text.c:1693
+#: client/helpdata.c:1521 client/helpdata.c:2187 client/text.c:1693
 #: client/text.c:1771
 #, c-format
 msgid "?clistmore:, %s"
@@ -9633,17 +9633,17 @@ msgstr "使能 %s。"
 msgid "Prevents %s."
 msgstr "女大祭司"
 
-#: client/helpdata.c:1784
+#: client/helpdata.c:1807
 #, fuzzy
 msgid "Current ruleset contains no description."
 msgstr "当前规则集合目录为“%s”"
 
-#: client/helpdata.c:1935
+#: client/helpdata.c:1958
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "抱歉，没有关于 %s 的求助主题。\n"
 
-#: client/helpdata.c:1939
+#: client/helpdata.c:1962
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -9654,12 +9654,12 @@ msgstr ""
 "本页面是自动产生的。\n"
 "\n"
 
-#: client/helpdata.c:2033
+#: client/helpdata.c:2056
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* %s的发现将使%s作废。\n"
 
-#: client/helpdata.c:2041
+#: client/helpdata.c:2064
 msgid ""
 "* A 'small wonder': at most one of your cities may possess this "
 "improvement.\n"
@@ -9667,353 +9667,353 @@ msgstr ""
 
 #. TRANS: 'Allows all players with knowledge of atomic
 #. * power to build nuclear units.'
-#: client/helpdata.c:2054
+#: client/helpdata.c:2077
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "* 允许所有拥有 %s 知识的玩家建造 %s 部队。\n"
 
-#: client/helpdata.c:2067
+#: client/helpdata.c:2090
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "* 使能 %s （若有 %s）。\n"
 
-#: client/helpdata.c:2072
+#: client/helpdata.c:2095
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "* 使能 %s。\n"
 
-#: client/helpdata.c:2087
+#: client/helpdata.c:2110
 msgid "* All players start with this improvement in their first city.\n"
 msgstr ""
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2110
+#: client/helpdata.c:2133
 #, c-format
 msgid "* The %s start with this improvement in their first city.\n"
 msgstr ""
 
 #. TRANS: don't translate 'savepalace'
-#: client/helpdata.c:2120
+#: client/helpdata.c:2143
 msgid ""
 "* If you lose the city containing this improvement, it will be rebuilt for "
 "free in another of your cities (if the 'savepalace' server setting is "
 "enabled).\n"
 msgstr ""
 
-#: client/helpdata.c:2197
+#: client/helpdata.c:2220
 #, fuzzy, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr ""
 "仅可用于 %s 部队。\n"
 "\n"
 
-#: client/helpdata.c:2201
+#: client/helpdata.c:2224
 #, fuzzy
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr "* 能够修筑新城市。\n"
 
-#: client/helpdata.c:2204
+#: client/helpdata.c:2227
 msgid "  * Speed is not affected by terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:2207
+#: client/helpdata.c:2230
 msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:2210
+#: client/helpdata.c:2233
 #, fuzzy
 msgid "  * Not subject to zones of control.\n"
 msgstr "* 忽略区域控制。\n"
 
-#: client/helpdata.c:2213
+#: client/helpdata.c:2236
 msgid "  * Slowed down while damaged.\n"
-msgstr ""
-
-#: client/helpdata.c:2216
-#, fuzzy
-msgid "  * Gets used up in making an attack.\n"
-msgstr "* 导弹部队：在进行攻击后耗尽。\n"
-
-#: client/helpdata.c:2223
-#, fuzzy, no-c-format
-msgid "  * Gets a 50% defensive bonus while in cities.\n"
-msgstr "* 攻击城市时得到双倍火力。\n"
-
-#: client/helpdata.c:2226
-#, fuzzy, no-c-format
-msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
-msgstr "* 可以设防，得到 50% 的防御奖励。\n"
-
-#: client/helpdata.c:2230
-msgid "  * May fortify to stay put.\n"
-msgstr ""
-
-#: client/helpdata.c:2235
-msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
 
 #: client/helpdata.c:2239
 #, fuzzy
+msgid "  * Gets used up in making an attack.\n"
+msgstr "* 导弹部队：在进行攻击后耗尽。\n"
+
+#: client/helpdata.c:2246
+#, fuzzy, no-c-format
+msgid "  * Gets a 50% defensive bonus while in cities.\n"
+msgstr "* 攻击城市时得到双倍火力。\n"
+
+#: client/helpdata.c:2249
+#, fuzzy, no-c-format
+msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
+msgstr "* 可以设防，得到 50% 的防御奖励。\n"
+
+#: client/helpdata.c:2253
+msgid "  * May fortify to stay put.\n"
+msgstr ""
+
+#: client/helpdata.c:2258
+msgid "  * Is unreachable. Most units cannot attack this one.\n"
+msgstr ""
+
+#: client/helpdata.c:2262
+#, fuzzy
 msgid "  * Can pillage tile improvements.\n"
 msgstr "可用建筑"
 
-#: client/helpdata.c:2244 client/helpdata.c:2657
+#: client/helpdata.c:2267 client/helpdata.c:2680
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
 msgstr ""
 
-#: client/helpdata.c:2248
+#: client/helpdata.c:2271
 #, fuzzy
 msgid "  * Can attack units on non-native tiles.\n"
 msgstr "* 只能攻击海洋方格的部队（不能攻击陆地）。\n"
 
-#: client/helpdata.c:2253
+#: client/helpdata.c:2276
 #, fuzzy
 msgid "  * Can launch attack from non-native tiles.\n"
 msgstr "* 能够从方格上清除核辐射。\n"
 
-#: client/helpdata.c:2258
+#: client/helpdata.c:2281
 #, fuzzy, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "* 只能在 %s 政府下修建。\n"
 
-#: client/helpdata.c:2264
+#: client/helpdata.c:2287
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "* 只能在 %s 政府下修建。\n"
 
-#: client/helpdata.c:2269
+#: client/helpdata.c:2292
 msgid "* May not be built in cities.\n"
 msgstr "* 不能在城市中修建。\n"
 
-#: client/helpdata.c:2272
+#: client/helpdata.c:2295
 #, fuzzy
 msgid "* Only barbarians may build this.\n"
 msgstr "游戏： 只有伞兵部队可以这样作。"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2291
+#: client/helpdata.c:2314
 #, c-format
 msgid "* The %s start the game with %d of these units.\n"
 msgid_plural "* The %s start the game with %d of these units.\n"
 msgstr[0] ""
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:2310
+#: client/helpdata.c:2333
 #, c-format
 msgid "* May be obtained by conversion of %s.\n"
 msgstr ""
 
 #. TRANS: %s is a unit type. "MP" = movement points.
-#: client/helpdata.c:2318
+#: client/helpdata.c:2341
 #, fuzzy, c-format
 msgid "* May be converted into %s (takes %d MP).\n"
 msgid_plural "* May be converted into %s (takes %d MP).\n"
 msgstr[0] "%s 已从 %s 连入。"
 
-#: client/helpdata.c:2325
+#: client/helpdata.c:2348
 msgid "* Never has a home city.\n"
 msgstr "* 从来没有基地城市。\n"
 
-#: client/helpdata.c:2328
+#: client/helpdata.c:2351
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* 失去这个部队将输掉游戏！\n"
 
-#: client/helpdata.c:2332
+#: client/helpdata.c:2355
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* 每个玩家只能拥有一个这种类型的部队。\n"
 
-#: client/helpdata.c:2347
+#: client/helpdata.c:2370
 #, fuzzy, c-format
 msgid "* Requires %d population to build.\n"
 msgid_plural "* Requires %d population to build.\n"
 msgstr[0] "* 需要 %d 人口才能修建。\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:2365
+#: client/helpdata.c:2388
 #, fuzzy, c-format
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
 msgstr[0] "* 能够携带并为 %d 个飞行器加油。\n"
 
-#: client/helpdata.c:2393
+#: client/helpdata.c:2416
 msgid ""
 "  * Some cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
 msgstr ""
 
-#: client/helpdata.c:2398
+#: client/helpdata.c:2421
 #, fuzzy
 msgid ""
 "  * Cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
 msgstr "* %2$d 个回合之后部队必须在城市中或者%1$s上。\n"
 
-#: client/helpdata.c:2406
+#: client/helpdata.c:2429
 msgid ""
 "  * Some cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
 msgstr ""
 
-#: client/helpdata.c:2411
+#: client/helpdata.c:2434
 msgid ""
 "  * Cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
 msgstr ""
 
-#: client/helpdata.c:2418
+#: client/helpdata.c:2441
 msgid "* Must stay next to coast.\n"
 msgstr ""
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2476
+#: client/helpdata.c:2499
 #, c-format
 msgid "* May load onto and unload from %s transports even when underway.\n"
 msgstr ""
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2483
+#: client/helpdata.c:2506
 #, c-format
 msgid "* May load onto %s transports even when underway.\n"
 msgstr ""
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2503
+#: client/helpdata.c:2526
 #, c-format
 msgid "* May unload from %s transports even when underway.\n"
 msgstr ""
 
-#: client/helpdata.c:2510
+#: client/helpdata.c:2533
 #, fuzzy
 msgid "* Can establish trade routes (must travel to target city).\n"
 msgstr "抱歉，您的 %s 不能建立贸易路线，因为它没有基地城市。"
 
-#: client/helpdata.c:2514
+#: client/helpdata.c:2537
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* 能够帮助修筑奇迹（增加 %d 产出）。\n"
 
-#: client/helpdata.c:2518
+#: client/helpdata.c:2541
 msgid "* May not be disbanded.\n"
 msgstr "* 不能被解散。\n"
 
-#: client/helpdata.c:2522
+#: client/helpdata.c:2545
 #, fuzzy, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr "* 可以在城市中解散以收回 50% 的生产成本。\n"
 
-#: client/helpdata.c:2527
+#: client/helpdata.c:2550
 #, fuzzy, c-format
 msgid "* Can build new cities (initial population %d).\n"
 msgid_plural "* Can build new cities (initial population %d).\n"
 msgstr[0] "* 能够修筑新城市。\n"
 
 #. TRANS: Plural in "%d population", not "size %d".
-#: client/helpdata.c:2535
+#: client/helpdata.c:2558
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgid_plural "* Can add on %d population to cities of no more than size %d.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:2546
+#: client/helpdata.c:2569
 msgid "* Can build roads and railroads.\n"
 msgstr "* 能够修建公路和铁路。\n"
 
-#: client/helpdata.c:2547
+#: client/helpdata.c:2570
 msgid "* Can build mines on tiles.\n"
 msgstr "* 能够在方格上修筑矿井。\n"
 
-#: client/helpdata.c:2548
+#: client/helpdata.c:2571
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* 能够在方格上修建水利设施。\n"
 
-#: client/helpdata.c:2553
+#: client/helpdata.c:2576
 msgid "* Can build farmland.\n"
 msgstr "* 能够修建农场。\n"
 
-#: client/helpdata.c:2557
+#: client/helpdata.c:2580
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* 能够修建农场（如果掌握了 %s )。\n"
 
-#: client/helpdata.c:2561
+#: client/helpdata.c:2584
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* 能够修建农场（如果掌握了下面任何知识：%s）。\n"
 
-#: client/helpdata.c:2567
+#: client/helpdata.c:2590
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* 能够从方格上清除污染。\n"
 
-#: client/helpdata.c:2568
+#: client/helpdata.c:2591
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* 能够从方格上清除核辐射。\n"
 
-#: client/helpdata.c:2574
+#: client/helpdata.c:2597
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* 能够进行外交活动，并具有特别间谍能力。\n"
 
-#: client/helpdata.c:2577
+#: client/helpdata.c:2600
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* 能够进行外交活动。\n"
 
-#: client/helpdata.c:2582
+#: client/helpdata.c:2605
 #, fuzzy
 msgid "* Defends cities against diplomatic actions.\n"
 msgstr "* 能够进行外交活动。\n"
 
-#: client/helpdata.c:2585
+#: client/helpdata.c:2608
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* 从不输掉 外交对外交 的战斗。\n"
 
-#: client/helpdata.c:2589
+#: client/helpdata.c:2612
 msgid "* Will always survive a spy mission.\n"
 msgstr ""
 
-#: client/helpdata.c:2592
+#: client/helpdata.c:2615
 msgid "* May not be bribed.\n"
 msgstr "* 不能被贿赂。\n"
 
-#: client/helpdata.c:2596
+#: client/helpdata.c:2619
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* 是不可见的除非紧靠敌方部队或城市。\n"
 
-#: client/helpdata.c:2600
+#: client/helpdata.c:2623
 #, fuzzy
 msgid "* Can only attack units on native tiles.\n"
 msgstr "* 只能攻击海洋方格的部队（不能攻击陆地）。\n"
 
-#: client/helpdata.c:2605
+#: client/helpdata.c:2628
 #, fuzzy
 msgid "* Can launch attack from non-native tiles.\n"
 msgstr "* 能够从方格上清除核辐射。\n"
 
-#: client/helpdata.c:2609
+#: client/helpdata.c:2632
 #, fuzzy, c-format
 msgid ""
 "* Can be paradropped from a friendly city or suitable base (range: %d "
 "tiles).\n"
 msgstr "* 能够从友好城市空降（范围： %d）。\n"
 
-#: client/helpdata.c:2616
+#: client/helpdata.c:2639
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* 进行攻击将结束此部队。\n"
 
-#: client/helpdata.c:2620
+#: client/helpdata.c:2643
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* 该部队的攻击导致核爆炸！\n"
 
-#: client/helpdata.c:2624
+#: client/helpdata.c:2647
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* 攻击城市时得到双倍火力。\n"
 
-#: client/helpdata.c:2627
+#: client/helpdata.c:2650
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* 忽略城墙的效果。\n"
 
-#: client/helpdata.c:2631
+#: client/helpdata.c:2654
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
@@ -10022,107 +10022,107 @@ msgstr ""
 
 #. TRANS: "MP" = movement points. %s may have a
 #. * fractional part.
-#: client/helpdata.c:2640
+#: client/helpdata.c:2663
 #, fuzzy, c-format
 msgid "* Ignores terrain effects (moving costs at most %s MP per tile).\n"
 msgstr "* 忽略地形效果（把所有方格当作公路）。\n"
 
-#: client/helpdata.c:2645
+#: client/helpdata.c:2668
 msgid "* Ignores zones of control.\n"
 msgstr "* 忽略区域控制。\n"
 
-#: client/helpdata.c:2649
+#: client/helpdata.c:2672
 msgid "* A non-military unit:\n"
 msgstr ""
 
-#: client/helpdata.c:2651
+#: client/helpdata.c:2674
 #, fuzzy
 msgid "  * Cannot attack.\n"
 msgstr "无法从海洋进行攻击。"
 
-#: client/helpdata.c:2653
+#: client/helpdata.c:2676
 #, fuzzy
 msgid "  * Doesn't impose martial law.\n"
 msgstr "* 非军事部队（不能攻击；无军事管制）。\n"
 
-#: client/helpdata.c:2655
+#: client/helpdata.c:2678
 msgid "  * Can enter foreign territory regardless of peace treaty.\n"
 msgstr ""
 
-#: client/helpdata.c:2661
+#: client/helpdata.c:2684
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* 战场部队：即使是非侵略型的也将引起1点忧郁。\n"
 
-#: client/helpdata.c:2664
+#: client/helpdata.c:2687
 #, fuzzy
 msgid "* Can capture some enemy units.\n"
 msgstr "* 能够攻击敌方的空中部队。\n"
 
-#: client/helpdata.c:2667
+#: client/helpdata.c:2690
 #, fuzzy
 msgid "* Can be captured by some enemy units.\n"
 msgstr "* 能够攻击敌方的空中部队。\n"
 
-#: client/helpdata.c:2674
+#: client/helpdata.c:2697
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:2682
+#: client/helpdata.c:2705
 #, c-format
 msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr ""
 
-#: client/helpdata.c:2699
+#: client/helpdata.c:2722
 #, fuzzy, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
 msgstr[0] "* %2$d 个回合之后部队必须在城市中或者%1$s上。\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
-#: client/helpdata.c:2710
+#: client/helpdata.c:2733
 #, fuzzy, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
 msgstr[0] "* %2$d 个回合之后部队必须在城市中或者%1$s上。\n"
 
-#: client/helpdata.c:2722
+#: client/helpdata.c:2745
 msgid "* Will never achieve veteran status.\n"
 msgstr "* 从不会达到老练状态。\n"
 
-#: client/helpdata.c:2737
+#: client/helpdata.c:2760
 #, fuzzy
 msgid "* May acquire veteran status.\n"
 msgstr "* 从不会达到老练状态。\n"
 
-#: client/helpdata.c:2742
+#: client/helpdata.c:2765
 msgid "  * Veterans have increased strength in combat.\n"
 msgstr ""
 
-#: client/helpdata.c:2749
+#: client/helpdata.c:2772
 msgid "  * Veterans have improved chances in diplomatic contests.\n"
 msgstr ""
 
-#: client/helpdata.c:2753
+#: client/helpdata.c:2776
 msgid "  * Veterans are more likely to survive missions.\n"
 msgstr ""
 
-#: client/helpdata.c:2758
+#: client/helpdata.c:2781
 #, fuzzy
 msgid "  * Veterans work faster.\n"
 msgstr "* 老练 %s 部队.\n"
 
-#: client/helpdata.c:2769
+#: client/helpdata.c:2792
 msgid "This type of unit has its own veteran levels:"
 msgstr ""
 
-#: client/helpdata.c:2809
+#: client/helpdata.c:2832
 #, fuzzy, c-format
 msgid "Starting now, researching %s would need %d bulbs."
 msgstr "如果现在开始研究 %s 那么将需要 %d 点。"
 
-#: client/helpdata.c:2814
+#: client/helpdata.c:2837
 #, fuzzy, c-format
 msgid ""
 "To reach %s you need to obtain %d other technology first. The whole project "
@@ -10132,162 +10132,162 @@ msgid_plural ""
 "project will require %d bulbs to complete."
 msgstr[0] "要掌握 %s 需要首先获得 %d 项其它科技。整个项目需要 %d 点完成。"
 
-#: client/helpdata.c:2826
+#: client/helpdata.c:2849
 msgid "You cannot research this technology."
 msgstr "您不能研究这项科技。"
 
-#: client/helpdata.c:2831
+#: client/helpdata.c:2854
 #, fuzzy
 msgid " This number may vary depending on what other players research.\n"
 msgstr " 此数字可能因其他玩家的研究内容而改变。\n"
 
-#: client/helpdata.c:2849
+#: client/helpdata.c:2872
 #, fuzzy
 msgid "* All players start the game with knowledge of this technology.\n"
 msgstr "* 允许所有拥有 %s 知识的玩家建造 %s 部队。\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2871
+#: client/helpdata.c:2894
 #, c-format
 msgid "* The %s start the game with knowledge of this technology.\n"
 msgstr ""
 
-#: client/helpdata.c:2880
+#: client/helpdata.c:2903
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* 第一个研究 %s 的玩家可以立刻获得一项进展。\n"
 
-#: client/helpdata.c:2886
+#: client/helpdata.c:2909
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* 增加由人口太多造成的污染。\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:2892
+#: client/helpdata.c:2915
 #, fuzzy, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
 msgstr "* 使 %s 能够在河流上修建道路。\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:2900
+#: client/helpdata.c:2923
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* 使 %s 能够将水利升级为农场。\n"
 
-#: client/helpdata.c:2921
+#: client/helpdata.c:2944
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
 msgstr ""
 
-#: client/helpdata.c:2960
+#: client/helpdata.c:2983
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* 在这种地形上不会产生污染。"
 
-#: client/helpdata.c:2963
+#: client/helpdata.c:2986
 #, fuzzy
 msgid "* Fallout cannot be generated on this terrain."
 msgstr "* 在这种地形上不会产生污染。"
 
-#: client/helpdata.c:2968
+#: client/helpdata.c:2991
 msgid "* You cannot build cities on this terrain."
 msgstr "* 您不能在此地形上建造城市。"
 
-#: client/helpdata.c:2976
+#: client/helpdata.c:2999
 #, fuzzy
 msgid "* Paths cannot be built on this terrain."
 msgstr "* 您不能在此地形上建造城市。"
 
-#: client/helpdata.c:2987
+#: client/helpdata.c:3010
 #, fuzzy
 msgid "* Bases cannot be built on this terrain."
 msgstr "* 您不能在此地形上建造城市。"
 
-#: client/helpdata.c:2996
+#: client/helpdata.c:3019
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* 这种地形的海岸线不安全。"
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:3018 client/helpdata.c:3299
+#: client/helpdata.c:3041 client/helpdata.c:3322
 #, fuzzy, c-format
 msgid "* Can be traveled by %s units.\n"
 msgstr "* 能够攻击敌方的空中部队。\n"
 
-#: client/helpdata.c:3130 client/helpdata.c:3277
+#: client/helpdata.c:3153 client/helpdata.c:3300
 #, fuzzy
 msgid "Requirements to build:\n"
 msgstr "需要："
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:3152
+#: client/helpdata.c:3175
 #, fuzzy, c-format
 msgid "* Native to %s units.\n"
 msgstr ""
 "仅可用于 %s 部队。\n"
 "\n"
 
-#: client/helpdata.c:3158 client/helpdata.c:3305
+#: client/helpdata.c:3181 client/helpdata.c:3328
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
 msgstr ""
 
-#: client/helpdata.c:3166
+#: client/helpdata.c:3189
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
 msgstr ""
 
-#: client/helpdata.c:3171
+#: client/helpdata.c:3194
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
 msgstr ""
 
-#: client/helpdata.c:3176 client/helpdata.c:3310
+#: client/helpdata.c:3199 client/helpdata.c:3333
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:3183
+#: client/helpdata.c:3206
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr ""
 
-#: client/helpdata.c:3191 client/helpdata.c:3331
+#: client/helpdata.c:3214
 #, fuzzy
 msgid "* Cannot be built.\n"
 msgstr "* 不能被贿赂。\n"
 
-#: client/helpdata.c:3195 client/helpdata.c:3335
+#: client/helpdata.c:3218 client/helpdata.c:3355
 #, fuzzy
 msgid "* Can be pillaged by units.\n"
 msgstr "* 能够攻击敌方的空中部队。\n"
 
-#: client/helpdata.c:3200
+#: client/helpdata.c:3223
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 
-#: client/helpdata.c:3205
+#: client/helpdata.c:3228
 #, fuzzy
 msgid "* Units can paradrop from this tile.\n"
 msgstr "* 能够从方格上清除核辐射。\n"
 
-#: client/helpdata.c:3209
+#: client/helpdata.c:3232
 msgid "* Extends national borders of the building nation.\n"
 msgstr ""
 
-#: client/helpdata.c:3213
+#: client/helpdata.c:3236
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr ""
 
-#: client/helpdata.c:3218
+#: client/helpdata.c:3241
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
 msgstr ""
 
-#: client/helpdata.c:3226 client/helpdata.c:3370
+#: client/helpdata.c:3249 client/helpdata.c:3390
 msgid ""
 "\n"
 "Time to build depends on terrain:\n"
@@ -10298,7 +10298,7 @@ msgstr ""
 #. * TRANS: Translators cannot change column widths :(
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3230 client/helpdata.c:3374
+#: client/helpdata.c:3253 client/helpdata.c:3394
 #, fuzzy
 msgid ""
 "Terrain       Time\n"
@@ -10307,25 +10307,25 @@ msgstr ""
 "默认作战规则\n"
 "--------------"
 
-#: client/helpdata.c:3319
+#: client/helpdata.c:3342
 #, fuzzy
 msgid "* Allows infinite movement.\n"
 msgstr "* 使您能够把政府改变为 %s 。\n"
 
 #. TRANS: "MP" = movement points. Second %s may have a
 #. * fractional part.
-#: client/helpdata.c:3324
+#: client/helpdata.c:3347
 #, c-format
 msgid "* Movement cost along %s is %s MP.\n"
 msgstr ""
 
-#: client/helpdata.c:3341
+#: client/helpdata.c:3361
 msgid ""
 "* Cannot be built to river tiles unless some technology allowing bridge "
 "building is knowns.\n"
 msgstr ""
 
-#: client/helpdata.c:3362
+#: client/helpdata.c:3382
 msgid ""
 "\n"
 "Time to build and output bonus depends on terrain:\n"
@@ -10334,7 +10334,7 @@ msgstr ""
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3366
+#: client/helpdata.c:3386
 msgid ""
 "Terrain       Time     Bonus F/P/T\n"
 "----------------------------------\n"
@@ -10342,29 +10342,29 @@ msgstr ""
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3381
+#: client/helpdata.c:3401
 msgid ""
 "\n"
 "Yields an output bonus with some terrains:\n"
 "\n"
 msgstr ""
 
-#: client/helpdata.c:3383
+#: client/helpdata.c:3403
 msgid ""
 "Terrain       Bonus F/P/T\n"
 "-------------------------\n"
 msgstr ""
 
-#: client/helpdata.c:3487
+#: client/helpdata.c:3507
 msgid "Features:\n"
 msgstr ""
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:3604 client/helpdata.c:3605
+#: client/helpdata.c:3624 client/helpdata.c:3625
 msgid "?outputlist: Nothing "
 msgstr ""
 
-#: client/helpdata.c:3617
+#: client/helpdata.c:3637
 #, c-format
 msgid ""
 "* Military units away from home and field units will each cause %d citizen "
@@ -10374,14 +10374,14 @@ msgid_plural ""
 "to become unhappy.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3630
+#: client/helpdata.c:3650
 #, c-format
 msgid ""
 "* Unhappiness from foreign citizens due to war with their home state is %d%% "
 "the usual value.\n"
 msgstr ""
 
-#: client/helpdata.c:3636
+#: client/helpdata.c:3656
 msgid ""
 "* No unhappiness from foreign citizens even when at war with their home "
 "state.\n"
@@ -10389,21 +10389,21 @@ msgstr ""
 
 #. TRANS: not pluralised as gettext doesn't support
 #. * fractional numbers, which this might be
-#: client/helpdata.c:3643
+#: client/helpdata.c:3663
 #, c-format
 msgid ""
 "* Each foreign citizen causes %.2g unhappiness in their city while you are "
 "at war with their home state.\n"
 msgstr ""
 
-#: client/helpdata.c:3653
+#: client/helpdata.c:3673
 #, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
 "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3664
+#: client/helpdata.c:3684
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
@@ -10413,7 +10413,7 @@ msgid_plural ""
 "by aggression.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3675
+#: client/helpdata.c:3695
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
@@ -10425,23 +10425,23 @@ msgstr[0] ""
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:3690
+#: client/helpdata.c:3710
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:3694
+#: client/helpdata.c:3714
 msgid "* You pay no upkeep for your units.\n"
 msgstr ""
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:3702
+#: client/helpdata.c:3722
 #, c-format
 msgid "* You pay %.2g times normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:3707
+#: client/helpdata.c:3727
 #, c-format
 msgid "* You pay %.2g times normal upkeep for your units.\n"
 msgstr ""
@@ -10450,7 +10450,7 @@ msgstr ""
 #. * 'gold'; pluralised in %d but there is currently
 #. * no way to control the singular/plural name of the
 #. * output type; sorry
-#: client/helpdata.c:3722
+#: client/helpdata.c:3742
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgid_plural ""
@@ -10459,20 +10459,20 @@ msgstr[0] ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:3731
+#: client/helpdata.c:3751
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgid_plural ""
 "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3742
+#: client/helpdata.c:3762
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:3751
+#: client/helpdata.c:3771
 #, c-format
 msgid ""
 "* When you have %d city, the first unhappy citizen will appear in each city "
@@ -10483,7 +10483,7 @@ msgid_plural ""
 msgstr[0] ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:3764
+#: client/helpdata.c:3784
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -10493,17 +10493,17 @@ msgid_plural ""
 "additional cities another unhappy citizen will appear.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3778
+#: client/helpdata.c:3798
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
-#: client/helpdata.c:3783
+#: client/helpdata.c:3803
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 
-#: client/helpdata.c:3790
+#: client/helpdata.c:3810
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -10513,87 +10513,87 @@ msgid_plural ""
 "force %d unhappy citizens to become content.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3803
+#: client/helpdata.c:3823
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] ""
 
-#: client/helpdata.c:3814
+#: client/helpdata.c:3834
 msgid "* You may grow your cities by means of celebrations."
 msgstr ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:3820
+#: client/helpdata.c:3840
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr ""
 
-#: client/helpdata.c:3828
+#: client/helpdata.c:3848
 msgid "* Your units cannot be bribed.\n"
 msgstr "* 您的部队不能被贿赂。\n"
 
-#: client/helpdata.c:3833
+#: client/helpdata.c:3853
 #, fuzzy
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "* 您的城市不能被煽动。\n"
 
-#: client/helpdata.c:3840
+#: client/helpdata.c:3860
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 msgstr ""
 
-#: client/helpdata.c:3847
+#: client/helpdata.c:3867
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* 拥有一个可能会阻止宣战的议会。\n"
 
-#: client/helpdata.c:3853
+#: client/helpdata.c:3873
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 
-#: client/helpdata.c:3860
+#: client/helpdata.c:3880
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
 
-#: client/helpdata.c:3866
+#: client/helpdata.c:3886
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
-#: client/helpdata.c:3871
+#: client/helpdata.c:3891
 msgid "* Has no unhappy citizens.\n"
 msgstr "* 没有忧郁的市民。\n"
 
 #. TRANS: %s is a unit class
-#: client/helpdata.c:3896
+#: client/helpdata.c:3916
 #, c-format
 msgid "?unitclass:* New %s units will be veteran.\n"
 msgstr ""
 
 #. TRANS: %s is a unit type flag
-#: client/helpdata.c:3902
+#: client/helpdata.c:3922
 #, c-format
 msgid "?unitflag:* New %s units will be veteran.\n"
 msgstr ""
 
 #. TRANS: "* New Partisan units will have the rank
 #. * of elite."
-#: client/helpdata.c:3914
+#: client/helpdata.c:3934
 #, c-format
 msgid "?unittype:* New %s units will have the rank of %s.\n"
 msgstr ""
 
-#: client/helpdata.c:3923
+#: client/helpdata.c:3943
 msgid "* New units will be veteran.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or';
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
-#: client/helpdata.c:3933
+#: client/helpdata.c:3953
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -10605,13 +10605,13 @@ msgstr[0] ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:3944 client/helpdata.c:3964
+#: client/helpdata.c:3964 client/helpdata.c:3984
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:3953
+#: client/helpdata.c:3973
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -10622,7 +10622,7 @@ msgid_plural ""
 msgstr[0] ""
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:3972
+#: client/helpdata.c:3992
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
@@ -10630,91 +10630,91 @@ msgid_plural ""
 msgstr[0] ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3983
+#: client/helpdata.c:4003
 #, fuzzy, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* %s 产出将有严重损耗。\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3991
+#: client/helpdata.c:4011
 #, fuzzy, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "* %s 产出将有严重损耗。\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3996
+#: client/helpdata.c:4016
 #, fuzzy, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "* %s 产出将有一定损耗。\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4001
+#: client/helpdata.c:4021
 #, fuzzy, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "* %s 产出将有少量损耗。\n"
 
-#: client/helpdata.c:4010
+#: client/helpdata.c:4030
 #, fuzzy
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "* 增加由人口太多造成的污染。\n"
 
-#: client/helpdata.c:4013
+#: client/helpdata.c:4033
 #, fuzzy
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "* 增加由人口太多造成的污染。\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4023
+#: client/helpdata.c:4043
 #, fuzzy, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr "* %s 损耗将随着与首都距离的增大而迅速增加。\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4029
+#: client/helpdata.c:4049
 #, fuzzy, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr "* %s 损耗将随着与首都距离的增大而增加。\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4035
+#: client/helpdata.c:4055
 #, fuzzy, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr "* %s 损耗将随着与首都距离的增大而缓慢增加。\n"
 
-#: client/helpdata.c:4044
+#: client/helpdata.c:4064
 #, fuzzy
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr "* 增加由人口太多造成的污染。\n"
 
-#: client/helpdata.c:4047
+#: client/helpdata.c:4067
 #, fuzzy
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr "* 增加由人口太多造成的污染。\n"
 
-#: client/helpdata.c:4066
+#: client/helpdata.c:4086
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* 使您能够修建 %s 。\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:4094
+#: client/helpdata.c:4114
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:4102
+#: client/helpdata.c:4122
 #, fuzzy, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d 忧郁"
 
-#: client/helpdata.c:4129
+#: client/helpdata.c:4149
 #, fuzzy, c-format
 msgid "Initial government is %s.\n"
 msgstr "政府：%s"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4146
+#: client/helpdata.c:4166
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -10722,7 +10722,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4151
+#: client/helpdata.c:4171
 #, fuzzy, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "您学到了关于 %s 的知识。"
@@ -10730,7 +10730,7 @@ msgstr "您学到了关于 %s 的知识。"
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:4188
+#: client/helpdata.c:4208
 #, fuzzy, c-format
 msgid "%s (%d)"
 msgstr "%2$s （%3$s） 中的 %1$s\n"
@@ -10738,21 +10738,21 @@ msgstr "%2$s （%3$s） 中的 %1$s\n"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:4208
+#: client/helpdata.c:4228
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
 msgstr[0] ""
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4230
+#: client/helpdata.c:4250
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
 msgstr ""
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4235
+#: client/helpdata.c:4255
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr ""
@@ -14333,16 +14333,16 @@ msgstr "改造"
 msgid "Base"
 msgstr "损耗"
 
-#: common/unit.c:1515 common/unit.c:1520
+#: common/unit.c:1508 common/unit.c:1513
 msgid "Moves"
 msgstr "回合"
 
-#: common/unit.c:1627
+#: common/unit.c:1620
 msgid "Food/Shield/Gold:"
 msgstr ""
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2140
+#: common/unit.c:2132
 #, fuzzy, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -14352,13 +14352,13 @@ msgid_plural ""
 "%s"
 msgstr[0] "用 %3$d 黄金将 %1$s 升级到 %2$s。"
 
-#: common/unit.c:2149
+#: common/unit.c:2141
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "抱歉，（目前）无法升级 %s。"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2155
+#: common/unit.c:2147
 #, fuzzy, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -14370,16 +14370,16 @@ msgstr[0] ""
 "将 %s 升级到 %s 需要花费 %d 黄金。\n"
 "国库现有 %d 黄金。"
 
-#: common/unit.c:2165
+#: common/unit.c:2157
 msgid "You can only upgrade units in your cities."
 msgstr "您只能在您的城市中升级部队。"
 
-#: common/unit.c:2169
+#: common/unit.c:2161
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "升级此 %s 将使它所运送的部队搁浅。"
 
-#: common/unit.c:2174
+#: common/unit.c:2166
 #, fuzzy, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -19447,7 +19447,7 @@ msgstr ""
 "当野人头领在无防御部队的方格被杀死时，将得到100黄金的敲诈金，但只有地面部队和"
 "直升飞机能够得到。<"
 
-#: data/default/default.lua:22 server/unittools.c:2838
+#: data/default/default.lua:22 server/unittools.c:2832
 #, fuzzy, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -19475,7 +19475,7 @@ msgstr "您找到了一座友好城市。"
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "友好的流浪者被您感动并加入了您的队伍。"
 
-#: data/default/default.lua:108 server/unittools.c:2845
+#: data/default/default.lua:108 server/unittools.c:2839
 msgid "An abandoned village is here."
 msgstr "这里是一座废弃的村庄。"
 
@@ -19483,7 +19483,7 @@ msgstr "这里是一座废弃的村庄。"
 msgid "You have unleashed a horde of barbarians!"
 msgstr "您激活了一群野人！"
 
-#: data/default/default.lua:118 server/unittools.c:2848
+#: data/default/default.lua:118 server/unittools.c:2842
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "您的 %s 被野人杀死了！"
@@ -21706,7 +21706,7 @@ msgstr "服务器名称                         端口  版本     状态  玩家  说明"
 msgid "Take Player"
 msgstr "取代此玩家"
 
-#: data/helpdata.txt:42
+#: data/helpdata.txt:44
 msgid ""
 "Freeciv is a turn-based strategy game, in which each player becomes the "
 "leader of a civilization. You compete against several opponents to found "
@@ -21718,7 +21718,7 @@ msgid ""
 "and race to expand outward from those humble beginnings."
 msgstr ""
 
-#: data/helpdata.txt:52
+#: data/helpdata.txt:54
 msgid ""
 "Achieving success requires a balance between economic expansion, military "
 "strength, and technological development. Not only must you develop all three "
@@ -21726,21 +21726,21 @@ msgid ""
 "the three may provide victory over your opponents:"
 msgstr ""
 
-#: data/helpdata.txt:58
+#: data/helpdata.txt:60
 msgid ""
 " - As in other games of conquest and expansion, you are declared the winner "
 "by default once the last city and unit of every other civilization is "
 "destroyed."
 msgstr ""
 
-#: data/helpdata.txt:62
+#: data/helpdata.txt:64
 msgid ""
 " - Once technological progress has brought you into the space age, you may "
 "launch a spacecraft destined for Alpha Centauri; the first civilization "
 "whose craft reaches the system wins."
 msgstr ""
 
-#: data/helpdata.txt:66
+#: data/helpdata.txt:68
 msgid ""
 " - In the absence of other means to determine victory, the game will end "
 "after 5000 turns if no spacecraft have yet been launched. The surviving "
@@ -21748,7 +21748,7 @@ msgid ""
 "winner."
 msgstr ""
 
-#: data/helpdata.txt:71
+#: data/helpdata.txt:73
 msgid ""
 "A word of warning: Freeciv is highly customizable, both through run-time "
 "configuration and through custom rulesets which can change almost any aspect "
@@ -21757,7 +21757,7 @@ msgid ""
 "rules."
 msgstr ""
 
-#: data/helpdata.txt:81
+#: data/helpdata.txt:83
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -21765,13 +21765,13 @@ msgstr ""
 "尽管每局游戏都各不相同，但还是有一些大部分玩家都遵循的基本策略，特别是在游戏"
 "初期。"
 
-#: data/helpdata.txt:84
+#: data/helpdata.txt:86
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
 msgstr "下面的步骤可能随服务器选项不同而有所变化，但是，一般地，步骤如下："
 
-#: data/helpdata.txt:87
+#: data/helpdata.txt:89
 #, fuzzy
 msgid ""
 " 0. Choosing the first city site.\n"
@@ -21798,7 +21798,7 @@ msgstr ""
 " 9. 制定您自己的游戏策略。\n"
 "10. 同其他玩家交互（外交）。\n"
 
-#: data/helpdata.txt:99
+#: data/helpdata.txt:101
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -21817,7 +21817,7 @@ msgstr ""
 "记住您第一个建造的城市将是您的首都！要领是在您所找到位置的质量和尽早建立您的"
 "第一个城市之间进行平衡。"
 
-#: data/helpdata.txt:110
+#: data/helpdata.txt:112
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -21834,7 +21834,7 @@ msgstr ""
 "围。记住，留下城市没有防御是危险的，所以或许应该把第一个武士留在城市里，利用"
 "第二个去探路。如果游戏开始时您有一个冒险家，显然用他去探路！"
 
-#: data/helpdata.txt:119
+#: data/helpdata.txt:121
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -21850,7 +21850,7 @@ msgstr ""
 "御力的部队，用它替换旧的部队以使您的城市具有最大防守能力。最常用来防守的部队"
 "是（按防御能力排序）：武士，希腊方阵，长枪兵，火枪手，和步枪兵。"
 
-#: data/helpdata.txt:129
+#: data/helpdata.txt:131
 #, fuzzy, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -21863,7 +21863,7 @@ msgstr ""
 "个部队在城市里时，它获得50%的防守奖励，就像它已设防一样。当建成一座新城市时，"
 "它开始生产上面的列表中可用的最强的防御部队。"
 
-#: data/helpdata.txt:136
+#: data/helpdata.txt:138
 #, fuzzy
 msgid ""
 " 3. Deciding which units to build first.\n"
@@ -21884,7 +21884,7 @@ msgstr ""
 "者修建另外一个城市，并使用第三个进行对城市周围田野的农业设施。记住越多的人口"
 "将增加您的生产力和您文明的科研比率。"
 
-#: data/helpdata.txt:148
+#: data/helpdata.txt:150
 #, fuzzy
 msgid ""
 " 4. Improving the land.\n"
@@ -21902,7 +21902,7 @@ msgstr ""
 "些可以通过用移民者改进田野来增加产出。土地可以使用公路，水里，矿井和其它设施"
 "来改进。"
 
-#: data/helpdata.txt:158
+#: data/helpdata.txt:160
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -21919,7 +21919,7 @@ msgstr ""
 "出海部队的港口。（这些城市通常后面都需要一个海岸防御。）最佳的策略是两种都建"
 "一些，但是要记住如果您没有靠海建造城市，您的对手将更难发现它们。"
 
-#: data/helpdata.txt:167
+#: data/helpdata.txt:169
 #, fuzzy
 msgid ""
 " 6. Taking care of the cities.\n"
@@ -21938,7 +21938,7 @@ msgstr ""
 "可以成为科学家，艺人，或者税务员。特别是在游戏开始的时候，需要注意让市民合适"
 "工作以使增长，贸易和物资最大化。"
 
-#: data/helpdata.txt:177
+#: data/helpdata.txt:179
 #, fuzzy
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the land "
@@ -21948,7 +21948,7 @@ msgstr ""
 "    如果产生了太多的食物，可以通过单击所在的田野方格撤回市民。然后这个市民可"
 "以被改变成前面所述的其它职业者。"
 
-#: data/helpdata.txt:182
+#: data/helpdata.txt:184
 #, fuzzy
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
@@ -21958,7 +21958,7 @@ msgstr ""
 "    如果您把所有的市民都撤回城里然后右键单击中间的田野方格，市民将会按照最大"
 "化食物生产的方式被重新安排。"
 
-#: data/helpdata.txt:188
+#: data/helpdata.txt:190
 #, fuzzy
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
@@ -21972,7 +21972,7 @@ msgstr ""
 "这个条件的城市将被标识上一条闪电。一定注意不要让您的城市发生这种情况，因为忧"
 "郁的城市什么也不生产，并且很快会发生起义。"
 
-#: data/helpdata.txt:195
+#: data/helpdata.txt:197
 msgid ""
 " 7. Interacting with other players (diplomacy).\n"
 "\n"
@@ -21983,7 +21983,7 @@ msgid ""
 "report."
 msgstr ""
 
-#: data/helpdata.txt:203
+#: data/helpdata.txt:205
 msgid ""
 "    This communication will lapse after a set number of turns with no "
 "contact.  Establishing an embassy will give a more permanent communication "
@@ -21992,7 +21992,7 @@ msgid ""
 "no benefit - and once established, cannot be revoked."
 msgstr ""
 
-#: data/helpdata.txt:210
+#: data/helpdata.txt:212
 #, fuzzy
 msgid ""
 "    If you are in contact with another player, then you can arrange a "
@@ -22008,7 +22008,7 @@ msgstr ""
 "家，并从“玩家”菜单中选择“会晤”命令。如果使馆一列中的内容不为空并且对方玩"
 "家是已经连接进来的（或者是一个服务器AI），游戏就会弹出一个外交菜单。"
 
-#: data/helpdata.txt:217
+#: data/helpdata.txt:219
 msgid ""
 "    In this dialog you can negotiate an exchange of assets (maps, vision, "
 "advances, cities, or gold), embassies, or binding pacts such as a cease-fire "
@@ -22016,7 +22016,7 @@ msgid ""
 "advance or city for gold - you can consider this buying and selling."
 msgstr ""
 
-#: data/helpdata.txt:223
+#: data/helpdata.txt:225
 msgid ""
 "    Pacts affect where your units can go and what they can do, and a pact "
 "with one nation can affect your relations with others.  Under authoritarian "
@@ -22028,15 +22028,15 @@ msgid ""
 "described in the Diplomacy section."
 msgstr ""
 
-#: data/helpdata.txt:233
+#: data/helpdata.txt:235
 msgid "    A couple of notes:"
 msgstr ""
 
-#: data/helpdata.txt:235
+#: data/helpdata.txt:237
 msgid "   - You can't give away your capital."
 msgstr ""
 
-#: data/helpdata.txt:237
+#: data/helpdata.txt:239
 msgid ""
 "   - You can only request property that you know about; so you can't request "
 "technology unless you have an embassy, and if you can't see a city on your "
@@ -22044,7 +22044,7 @@ msgid ""
 "give it to you, in which case the area around the city is shown on your map."
 msgstr ""
 
-#: data/helpdata.txt:244
+#: data/helpdata.txt:246
 #, fuzzy
 msgid ""
 "   - One important thing to note: when a city is transferred, any units in "
@@ -22057,7 +22057,7 @@ msgstr ""
 "的部队（但不包括停留在其他城市的部队）也一起被转让。所以要确认对方玩家没有得"
 "到比你期望的更多。"
 
-#: data/helpdata.txt:249
+#: data/helpdata.txt:251
 #, fuzzy
 msgid ""
 " 8. Exploring the world.\n"
@@ -22077,7 +22077,7 @@ msgstr ""
 "您的科技进展真的是一个好主意。这种情况下外交部队和很有用，并将在后面给出回"
 "报。"
 
-#: data/helpdata.txt:259
+#: data/helpdata.txt:261
 #, fuzzy
 msgid ""
 " 9. Things to keep in mind.\n"
@@ -22100,7 +22100,7 @@ msgstr ""
 "\n"
 "  - 有些奇迹会被特定科技进展所淘汰。"
 
-#: data/helpdata.txt:270
+#: data/helpdata.txt:272
 #, fuzzy
 msgid ""
 " 10. Making your own strategy for the game.\n"
@@ -22119,13 +22119,13 @@ msgstr ""
 "org/\n"
 "您将发现关于玩法的更多技巧，以及如何与其她玩家接触的详细信息。"
 
-#: data/helpdata.txt:281
+#: data/helpdata.txt:283
 msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
 
-#: data/helpdata.txt:288
+#: data/helpdata.txt:290
 msgid ""
 "Terrain serves three roles: the theater upon which your units battle rival "
 "civilizations, the landscape across which your units travel, and the medium "
@@ -22134,21 +22134,21 @@ msgid ""
 "terrain type for details."
 msgstr ""
 
-#: data/helpdata.txt:294
+#: data/helpdata.txt:296
 msgid ""
 "Terrain affects combat very simply: when a land unit is attacked, its "
 "defense strength is multiplied by the defense factor (\"bonus\") of the "
 "terrain beneath it. See the help section on Combat for further details."
 msgstr ""
 
-#: data/helpdata.txt:299
+#: data/helpdata.txt:301
 msgid ""
 "Terrain complicates the movement of land units -- sea and air units always "
 "expend one movement point to move one tile, but moving onto rough terrain "
 "such as Mountains can cost land units more."
 msgstr ""
 
-#: data/helpdata.txt:303
+#: data/helpdata.txt:305
 msgid ""
 "Tiles within range of a city may be worked by that city to produce food, "
 "production, and trade points, and the quantity of each produced depends on "
@@ -22161,14 +22161,14 @@ msgid ""
 "Economy section for more information on the use of these products."
 msgstr ""
 
-#: data/helpdata.txt:314
+#: data/helpdata.txt:316
 #, fuzzy
 msgid ""
 "The net benefit of a tile for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr "一个方格对您城市的最终好处取决于您的政府类型以及城市建筑和奇迹。"
 
-#: data/helpdata.txt:317
+#: data/helpdata.txt:319
 msgid ""
 "It is possible for your units to change the terrain and hence its effects; "
 "see the section on Terrain Alterations for more details. City centers (the "
@@ -22177,11 +22177,11 @@ msgid ""
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:329
+#: data/helpdata.txt:335
 msgid " Terrain Alterations"
 msgstr " 地形变更"
 
-#: data/helpdata.txt:330
+#: data/helpdata.txt:336
 msgid ""
 "Certain units (Settlers, Workers, and Engineers in the classic ruleset) have "
 "the ability to alter terrain tiles in several ways. The following "
@@ -22189,7 +22189,7 @@ msgid ""
 "have different rules."
 msgstr ""
 
-#: data/helpdata.txt:335
+#: data/helpdata.txt:341
 #, fuzzy
 msgid ""
 "Irrigation systems can be built on suitable types of terrain. Irrigation "
@@ -22206,7 +22206,7 @@ msgstr ""
 "使它每回合多生产一些食物。另外，若有了足够的科技的话，您还可以第二次灌溉一个"
 "方格，把它变成生产能力更强的农场。"
 
-#: data/helpdata.txt:345
+#: data/helpdata.txt:351
 #, fuzzy
 msgid ""
 "Mines can be built on some types of terrain, which increases the number of "
@@ -22214,7 +22214,7 @@ msgid ""
 "possible to have irrigation and a mine on the same tile."
 msgstr "某些类型的地形可以修建矿井，这可以增加该方格的物资产出。"
 
-#: data/helpdata.txt:349
+#: data/helpdata.txt:355
 msgid ""
 "Units may be able to build other terrain improvements; see the following "
 "sections for details. Roads typically ease movement, if adjacent tiles have "
@@ -22223,7 +22223,7 @@ msgid ""
 "is up to the ruleset."
 msgstr ""
 
-#: data/helpdata.txt:355
+#: data/helpdata.txt:361
 msgid ""
 "Terrain can sometimes be permanently converted into a type more suitable to "
 "the player's needs, although this usually takes longer than adding an "
@@ -22233,13 +22233,13 @@ msgid ""
 "original terrain type."
 msgstr ""
 
-#: data/helpdata.txt:362
+#: data/helpdata.txt:368
 msgid ""
 "The requirements for terrain conversion are set by the ruleset. In the "
 "classic ruleset:"
 msgstr ""
 
-#: data/helpdata.txt:365
+#: data/helpdata.txt:371
 msgid ""
 " - Settlers and Workers have a limited range of terrain conversions "
 "available to them, initiated by issuing the \"irrigate\" or \"mine\" orders "
@@ -22248,7 +22248,7 @@ msgid ""
 "source.)"
 msgstr ""
 
-#: data/helpdata.txt:371
+#: data/helpdata.txt:377
 msgid ""
 " - Engineers can perform a much wider range of transformations on almost any "
 "type of terrain by issuing the \"transform\" order. Engineers on board sea-"
@@ -22259,7 +22259,7 @@ msgid ""
 "transformation takes place, if possible.)"
 msgstr ""
 
-#: data/helpdata.txt:379
+#: data/helpdata.txt:385
 #, fuzzy
 msgid ""
 "Many units -- in the classic rules, all land units -- also have the ability "
@@ -22275,7 +22275,7 @@ msgstr ""
 "它转变成了平原，掠夺并不能把它转变回森林－－要想这样，您必须用移民者或工程师"
 "再对方格进行一次转变。"
 
-#: data/helpdata.txt:387
+#: data/helpdata.txt:393
 #, fuzzy
 msgid ""
 "The time it takes a unit to alter terrain depends on its movement rate. The "
@@ -22298,12 +22298,12 @@ msgstr ""
 "来说一组工人/移民者/工程师太脆弱了。"
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:410
+#: data/helpdata.txt:417
 #, fuzzy
 msgid " Villages"
 msgstr "掠夺"
 
-#: data/helpdata.txt:411
+#: data/helpdata.txt:418
 msgid ""
 "Villages (also called \"huts\") are primitive communities spread across the "
 "world at the beginning of the game. Any land unit can enter a village, "
@@ -22314,19 +22314,19 @@ msgid ""
 "that the player cannot yet create), or even a new city."
 msgstr ""
 
-#: data/helpdata.txt:420
+#: data/helpdata.txt:427
 msgid ""
 "Later in the game, helicopters may also enter villages, but overflight by "
 "other aircraft will cause the villagers to take fright and disband."
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:427
+#: data/helpdata.txt:434
 #, fuzzy
 msgid " National Borders"
 msgstr "国家边界"
 
-#: data/helpdata.txt:428
+#: data/helpdata.txt:435
 msgid ""
 "If enabled on the server, each nation has borders, which can be seen as "
 "dotted lines on the map. Borders determine what land your citizens can work "
@@ -22336,7 +22336,7 @@ msgid ""
 "(see the section on Diplomacy)."
 msgstr ""
 
-#: data/helpdata.txt:435
+#: data/helpdata.txt:442
 msgid ""
 "Founding a city establishes a claim on an area of land around the city. Once "
 "claimed, a tile that can be directly worked by a city can not change "
@@ -22345,19 +22345,19 @@ msgid ""
 "as the relative size of nearby nations' cities."
 msgstr ""
 
-#: data/helpdata.txt:442
+#: data/helpdata.txt:449
 msgid ""
 "Borders can only extend into water for tiles adjacent to a city; other water "
 "tiles remain unclaimed territory."
 msgstr ""
 
-#: data/helpdata.txt:445
+#: data/helpdata.txt:452
 msgid ""
 "Bases can also extend national borders. See the help on Terrain Alterations "
 "for more details."
 msgstr ""
 
-#: data/helpdata.txt:452
+#: data/helpdata.txt:459
 msgid ""
 "The products which your cities extract from the surrounding terrain are the "
 "fountain from which your civilization is watered. There are three types of "
@@ -22367,19 +22367,19 @@ msgid ""
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:462
+#: data/helpdata.txt:469
 #, fuzzy
 msgid " Food"
 msgstr "食物"
 
-#: data/helpdata.txt:463
+#: data/helpdata.txt:470
 msgid ""
 "Your population needs food to survive. Each citizen requires two food points "
 "per turn; in addition, some units (such as Settlers in the classic ruleset) "
 "may require food points from the city supporting them."
 msgstr ""
 
-#: data/helpdata.txt:468
+#: data/helpdata.txt:475
 msgid ""
 "Every city has a granary for storing food points (the building called a "
 "Granary in the classic ruleset only enhances this capability). Cities "
@@ -22390,7 +22390,7 @@ msgid ""
 "ends."
 msgstr ""
 
-#: data/helpdata.txt:476
+#: data/helpdata.txt:483
 msgid ""
 "Excess food can increase the population: the city granary has a limited "
 "capacity, and once full the city grows by one citizen and the granary starts "
@@ -22401,12 +22401,12 @@ msgid ""
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:488
+#: data/helpdata.txt:495
 #, fuzzy
 msgid " Production"
 msgstr "生产"
 
-#: data/helpdata.txt:489
+#: data/helpdata.txt:496
 msgid ""
 "Production points (also known as \"shields\") represent manufacturing "
 "output. Most units require production points as upkeep, and demand them from "
@@ -22417,7 +22417,7 @@ msgid ""
 "production cost will usually be put towards that city's surplus."
 msgstr ""
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:505
 msgid ""
 "Production points in excess of any required by the city's units are put "
 "towards whichever unit, building, or wonder has been selected as the city's "
@@ -22429,7 +22429,7 @@ msgid ""
 "remain available to be applied towards the next project."
 msgstr ""
 
-#: data/helpdata.txt:508
+#: data/helpdata.txt:515
 msgid ""
 "In the classic ruleset, a city can build at most one product per turn, "
 "regardless of its production surplus. However, in some rulesets, factors "
@@ -22441,7 +22441,7 @@ msgid ""
 "to this rule; they can only be built singly, as can buildings."
 msgstr ""
 
-#: data/helpdata.txt:518
+#: data/helpdata.txt:525
 msgid ""
 "A city can be given a list of several products to build in its \"worklist\", "
 "avoiding the need to pay attention to it every few turns. Each item on the "
@@ -22458,7 +22458,7 @@ msgid ""
 "highly productive cities."
 msgstr ""
 
-#: data/helpdata.txt:533
+#: data/helpdata.txt:540
 msgid ""
 "Each player is free to build any products that his technology has made "
 "available, with a few restrictions; see the sections on Units, City "
@@ -22468,7 +22468,7 @@ msgid ""
 "immediately after completion."
 msgstr ""
 
-#: data/helpdata.txt:540
+#: data/helpdata.txt:547
 msgid ""
 "You can always change the product on which a city is working, though you "
 "lose half of the accumulated production points when switching from a "
@@ -22477,25 +22477,25 @@ msgid ""
 "button on the city dialog."
 msgstr ""
 
-#: data/helpdata.txt:546
+#: data/helpdata.txt:553
 msgid ""
 "Some production points may be lost to waste, although there is no waste in "
 "the classic rules. Waste can result in your cities not building anything."
 msgstr ""
 
-#: data/helpdata.txt:550
+#: data/helpdata.txt:557
 msgid ""
 "Cities with a large production output generate pollution; see the section on "
 "Cities for more information."
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:557
+#: data/helpdata.txt:564
 #, fuzzy
 msgid " Trade"
 msgstr "贸易"
 
-#: data/helpdata.txt:558
+#: data/helpdata.txt:565
 msgid ""
 "Trade points reflect wealth generated in each city by external commerce. "
 "Some trade points may be lost to corruption, which varies among forms of "
@@ -22506,7 +22506,7 @@ msgid ""
 "towards the discovery of new technology."
 msgstr ""
 
-#: data/helpdata.txt:567
+#: data/helpdata.txt:574
 msgid ""
 "You must choose a single ratio for your civilization by which trade points "
 "are distributed among these three uses. Though you may alter the tax rates "
@@ -22514,7 +22514,7 @@ msgid ""
 "of government limit their maximum value."
 msgstr ""
 
-#: data/helpdata.txt:572
+#: data/helpdata.txt:579
 msgid ""
 "Having this single ratio does not impact gold and science, because gold and "
 "technological progress are both empire-wide tallies. Luxury is more "
@@ -22527,7 +22527,7 @@ msgid ""
 "on Happiness for more details on the effect of luxuries."
 msgstr ""
 
-#: data/helpdata.txt:583
+#: data/helpdata.txt:590
 msgid ""
 "Besides working terrain gifted with rare commodities, or logistical benefits "
 "such as waterways or roads, you can increase trade by using units to "
@@ -22535,7 +22535,7 @@ msgid ""
 "it."
 msgstr ""
 
-#: data/helpdata.txt:588
+#: data/helpdata.txt:595
 msgid ""
 "The ruleset may limit the ability to trade or the yield from doing so "
 "depending on whether the two cities are on different continents and/or in "
@@ -22544,7 +22544,7 @@ msgid ""
 "(default nine tiles)."
 msgstr ""
 
-#: data/helpdata.txt:594
+#: data/helpdata.txt:601
 msgid ""
 "A trade route is established when a suitable unit (in the classic ruleset, a "
 "Caravan or Freight unit) enters an eligible city. For your own or allied "
@@ -22553,7 +22553,7 @@ msgid ""
 "from the city that originally produced it) and the destination."
 msgstr ""
 
-#: data/helpdata.txt:601
+#: data/helpdata.txt:608
 msgid ""
 "The origin civilization of the unit gains immediate revenue in gold and "
 "science from selling its trade goods at the destination city. The initial "
@@ -22561,7 +22561,7 @@ msgid ""
 "their distance apart."
 msgstr ""
 
-#: data/helpdata.txt:606
+#: data/helpdata.txt:613
 msgid ""
 "The ongoing trade route that is established benefits both its origin and "
 "destination cities equally by generating trade points for each city every "
@@ -22572,7 +22572,7 @@ msgid ""
 "permanently canceled."
 msgstr ""
 
-#: data/helpdata.txt:614
+#: data/helpdata.txt:621
 msgid ""
 "Each city can only support a limited number of trade routes (the exact limit "
 "is set by ruleset and circumstance). If you attempt to establish more, the "
@@ -22582,25 +22582,25 @@ msgid ""
 "is reduced to a third.)"
 msgstr ""
 
-#: data/helpdata.txt:621
+#: data/helpdata.txt:628
 msgid ""
 "Beware: in rulesets where plague is enabled, it can travel along trade "
 "routes. See the section on Plague for more details."
 msgstr ""
 
-#: data/helpdata.txt:624
+#: data/helpdata.txt:631
 msgid ""
 "To view the current trade routes of a city, click and hold over the Trade: "
 "line in the Overview tab in the city view."
 msgstr ""
 
-#: data/helpdata.txt:631
+#: data/helpdata.txt:638
 msgid ""
 "Cities are your sole instrument for developing natural resources and "
 "channeling them toward expansion, technological progress, and warfare."
 msgstr ""
 
-#: data/helpdata.txt:634
+#: data/helpdata.txt:641
 msgid ""
 "A city is created when Settlers are given the \"build city\" command on "
 "suitable terrain, removing the unit from play to provide the city with its "
@@ -22611,7 +22611,7 @@ msgid ""
 "although these have no effect on gameplay)."
 msgstr ""
 
-#: data/helpdata.txt:643
+#: data/helpdata.txt:650
 msgid ""
 "Each city may work the terrain within its reach. In the classic ruleset, "
 "this is a fixed radius of approximately three tiles, giving access to 20 "
@@ -22620,7 +22620,7 @@ msgid ""
 "depending on factors such as the size of the city and known technologies."
 msgstr ""
 
-#: data/helpdata.txt:650
+#: data/helpdata.txt:657
 msgid ""
 "To extract resources from a tile, you must have a citizen working there. You "
 "cannot begin working a tile which a neighboring city is already working, nor "
@@ -22631,7 +22631,7 @@ msgid ""
 "could even transform the terrain to make the tile less productive."
 msgstr ""
 
-#: data/helpdata.txt:659
+#: data/helpdata.txt:666
 msgid ""
 "The section on Terrain describes how the output of each tile is affected by "
 "the terrain, the presence of special resources such as game or minerals, and "
@@ -22646,7 +22646,7 @@ msgid ""
 "transportation built-in). Other rulesets may differ in detail."
 msgstr ""
 
-#: data/helpdata.txt:672
+#: data/helpdata.txt:679
 msgid ""
 "The roles of citizens are controlled from the City dialog. Citizens working "
 "the land are represented by three numbers showing their output on the tile "
@@ -22657,7 +22657,7 @@ msgid ""
 "icon to change their specialist role."
 msgstr ""
 
-#: data/helpdata.txt:681
+#: data/helpdata.txt:688
 msgid ""
 "Clicking on the city center tile in the city map will automatically choose "
 "citizen roles and tiles to work, with an emphasis on food production and "
@@ -22667,7 +22667,7 @@ msgid ""
 "priorities for a city with the Citizen Governor; see its help section."
 msgstr ""
 
-#: data/helpdata.txt:689
+#: data/helpdata.txt:696
 msgid ""
 "Citizens have a nationality distinct from that of the state they inhabit. "
 "When a city grows due to food surplus, new citizens take the nationality of "
@@ -22677,7 +22677,7 @@ msgid ""
 "their own nationality."
 msgstr ""
 
-#: data/helpdata.txt:696
+#: data/helpdata.txt:703
 msgid ""
 "Citizens of another nationality will work in your cities just the same as "
 "your own, and behave the same in most respects, but they may become unhappy "
@@ -22688,7 +22688,7 @@ msgid ""
 "depending on ruleset settings."
 msgstr ""
 
-#: data/helpdata.txt:704
+#: data/helpdata.txt:711
 msgid ""
 "Some rulesets do not have nationality; in this case, citizens always "
 "consider their nationality to be that of their home city. If nationality is "
@@ -22696,7 +22696,7 @@ msgid ""
 "effects on happiness in the City dialog, on the Happiness tab."
 msgstr ""
 
-#: data/helpdata.txt:710
+#: data/helpdata.txt:717
 msgid ""
 "Cities may be enhanced with a wide variety of buildings, which can improve "
 "their productivity, their military strength, or give them new abilities. See "
@@ -22705,12 +22705,12 @@ msgid ""
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:719
+#: data/helpdata.txt:726
 #, fuzzy
 msgid " Specialists"
 msgstr "专业人员："
 
-#: data/helpdata.txt:720
+#: data/helpdata.txt:727
 msgid ""
 "The first citizens of each city usually work the land, each toiling to yield "
 "up the resources of one terrain tile. However, there may be other specialist "
@@ -22719,26 +22719,26 @@ msgid ""
 "which case some citizens must become specialists."
 msgstr ""
 
-#: data/helpdata.txt:727
+#: data/helpdata.txt:734
 msgid ""
 "All specialists enjoy enough privilege to remain perpetually content -- they "
 "do not contribute to unhappiness or to celebration. See the section on "
 "Happiness for more details."
 msgstr ""
 
-#: data/helpdata.txt:731
+#: data/helpdata.txt:738
 msgid ""
 "This section describes the available specialist roles, their effects, and "
 "their requirements, if any."
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:741
+#: data/helpdata.txt:748
 #, fuzzy
 msgid " Happiness"
 msgstr "欢乐"
 
-#: data/helpdata.txt:742
+#: data/helpdata.txt:749
 #, fuzzy
 msgid ""
 "Keeping your citizens happy (or at least content) is one of the most "
@@ -22752,7 +22752,7 @@ msgstr ""
 "Freeciv 中最重要的目标。当您的市民变得忧郁时，您的城市将陷入骚乱（这将中止生"
 "产）；而当您的市民快乐时，您的城市将进行庆祝，并且您的产出将极大提高。"
 
-#: data/helpdata.txt:750
+#: data/helpdata.txt:757
 msgid ""
 "Each citizen working the land is either happy, content, unhappy, or angry. "
 "The normal state of a working citizen is contentment. However, as your "
@@ -22761,7 +22761,7 @@ msgid ""
 "unhappy, instead of content."
 msgstr ""
 
-#: data/helpdata.txt:756
+#: data/helpdata.txt:763
 #, fuzzy
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
@@ -22775,7 +22775,7 @@ msgstr ""
 "它将什么都不生产。处于骚乱中的城市更容易被敌方外交官或间谍煽动起义。民主制下"
 "持久的骚乱可能导致自发革命，推翻您的政府。"
 
-#: data/helpdata.txt:764
+#: data/helpdata.txt:771
 msgid ""
 "It should be stressed that only citizens working the land vary in morale -- "
 "specialists enjoy enough privilege to remain perpetually content (see the "
@@ -22785,21 +22785,21 @@ msgid ""
 "morale must be confronted more directly."
 msgstr ""
 
-#: data/helpdata.txt:772
+#: data/helpdata.txt:779
 msgid ""
 "There are many ways of making unhappy citizens content, which does prevent "
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
 msgstr ""
 
-#: data/helpdata.txt:777
+#: data/helpdata.txt:784
 msgid ""
 "Cities that are sufficiently large celebrate when at least half their "
 "citizens are happy and none remain unhappy. The effects of celebration vary; "
 "in the classic ruleset, they depend on your government type:"
 msgstr ""
 
-#: data/helpdata.txt:781
+#: data/helpdata.txt:788
 #, fuzzy
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
@@ -22809,7 +22809,7 @@ msgstr ""
 " -　在无政府状态下或专制政府下，您将不再为出产超过2点（食物，物资或贸易）的方"
 "格承受损失。"
 
-#: data/helpdata.txt:785
+#: data/helpdata.txt:792
 #, fuzzy
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
@@ -22819,7 +22819,7 @@ msgstr ""
 " -　在君主制或共产主义下，您的城市将得到共和制/民主制政府的贸易奖励：每个已经"
 "至少产出1点贸易的方格得到1点贸易的奖励。"
 
-#: data/helpdata.txt:789
+#: data/helpdata.txt:796
 #, fuzzy
 msgid ""
 " - Under a Republic or a Democracy, your city will enter \"rapture\": its "
@@ -22832,7 +22832,7 @@ msgstr ""
 " -　在共和制或民主制下，您城市的人口将以每回合1个的速度增长，知道没有多余的食"
 "物或者快乐市民数目不再足够庆祝。"
 
-#: data/helpdata.txt:796
+#: data/helpdata.txt:803
 msgid ""
 "In small empires, as already stated, the fifth citizen in each city is the "
 "first unhappy one. As you gain more cities, this limit actually decreases, "
@@ -22841,7 +22841,7 @@ msgid ""
 "for details."
 msgstr ""
 
-#: data/helpdata.txt:804
+#: data/helpdata.txt:811
 msgid ""
 "Thus, you may find that founding or conquering a city triggers widespread "
 "disorder across your empire. Continued empire growth may lead to further "
@@ -22851,7 +22851,7 @@ msgid ""
 "respects behave as unhappy citizens."
 msgstr ""
 
-#: data/helpdata.txt:814
+#: data/helpdata.txt:821
 msgid ""
 "Luxury makes citizens happy. For every two luxury points a city produces, "
 "one content citizen is made happy (if there are no content citizens left, "
@@ -22861,7 +22861,7 @@ msgid ""
 "means, such as entertainer specialists in the classic ruleset."
 msgstr ""
 
-#: data/helpdata.txt:822
+#: data/helpdata.txt:829
 msgid ""
 "There are several city improvements that will make content those remaining "
 "citizens that are unhappy due to crowding, such as Temples and Colosseums in "
@@ -22869,7 +22869,7 @@ msgid ""
 "the appropriate sections for details."
 msgstr ""
 
-#: data/helpdata.txt:827
+#: data/helpdata.txt:834
 msgid ""
 "Military units can affect city happiness. Under authoritarian regimes this "
 "is helpful, as military units stationed in a city can prevent unhappiness by "
@@ -22882,13 +22882,13 @@ msgid ""
 "regardless of location."
 msgstr ""
 
-#: data/helpdata.txt:838
+#: data/helpdata.txt:845
 msgid ""
 "If you are at war with a civilization and some of your citizens are of that "
 "nationality, those citizens may also become unhappy."
 msgstr ""
 
-#: data/helpdata.txt:841
+#: data/helpdata.txt:848
 msgid ""
 "These forms of unhappiness are distinct from that caused by overcrowding, "
 "and cannot be offset by luxuries, or by most city improvements. In the "
@@ -22898,19 +22898,19 @@ msgid ""
 "military or diplomatic tensions."
 msgstr ""
 
-#: data/helpdata.txt:848
+#: data/helpdata.txt:855
 msgid ""
 "The Happiness tab on the city dialog will give detailed insight into the "
 "mood of the citizenry and its causes."
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:855
+#: data/helpdata.txt:862
 #, fuzzy
 msgid " Pollution"
 msgstr "污染"
 
-#: data/helpdata.txt:856
+#: data/helpdata.txt:863
 msgid ""
 "Pollution can plague large cities, especially as your civilization becomes "
 "more industrialized. The chance of pollution appearing around a city depends "
@@ -22921,7 +22921,7 @@ msgid ""
 "if enabled in the ruleset; see the section on Plague.)"
 msgstr ""
 
-#: data/helpdata.txt:865
+#: data/helpdata.txt:872
 msgid ""
 "Pollution appears as gunk covering the terrain tiles around the city. A "
 "polluted tile generates only half its usual food, production, and trade. The "
@@ -22929,7 +22929,7 @@ msgid ""
 "with the \"clean pollution\" order."
 msgstr ""
 
-#: data/helpdata.txt:870
+#: data/helpdata.txt:877
 msgid ""
 "When an unused tile becomes polluted, there is the temptation to avoid the "
 "effort of cleaning it; but the spread of pollution has far more terrible "
@@ -22939,7 +22939,7 @@ msgid ""
 "devastate cities and leads to global impoverishment."
 msgstr ""
 
-#: data/helpdata.txt:878
+#: data/helpdata.txt:885
 msgid ""
 "The risk of global warming is cumulative; the longer polluted tiles are left "
 "uncleaned, the higher the risk becomes, and the risk can linger for some "
@@ -22949,16 +22949,16 @@ msgid ""
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:888
+#: data/helpdata.txt:895
 #, fuzzy
 msgid " Plague"
 msgstr "删除条款"
 
-#: data/helpdata.txt:889
+#: data/helpdata.txt:896
 msgid "Plague is a ruleset option, and is not enabled in the classic ruleset."
 msgstr ""
 
-#: data/helpdata.txt:892
+#: data/helpdata.txt:899
 msgid ""
 "When plague strikes a city, its population is reduced by one. Unless action "
 "is taken to reduce the risk of plague, this tends to act as a natural limit "
@@ -22966,7 +22966,7 @@ msgid ""
 "improvements or other means to reduce the risk of plague."
 msgstr ""
 
-#: data/helpdata.txt:898
+#: data/helpdata.txt:905
 msgid ""
 "The risk of plague depends on city size (overcrowding leads to insanitary "
 "conditions) and on the pollution generated in a city. Also, plague can "
@@ -22976,33 +22976,33 @@ msgid ""
 "depending on the size of both cities."
 msgstr ""
 
-#: data/helpdata.txt:905
+#: data/helpdata.txt:912
 msgid ""
 "If migration is enabled, citizens will tend to prefer cities with a lower "
 "risk of plague."
 msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:912
+#: data/helpdata.txt:919
 #, fuzzy
 msgid " Migration"
 msgstr "水利"
 
-#: data/helpdata.txt:913
+#: data/helpdata.txt:920
 msgid ""
 "Migration is the movement of citizens from one city to another based on the "
 "relative attractions of living in each city. Whether migration is enabled is "
 "controlled by the server option 'migration'; it is disabled by default."
 msgstr ""
 
-#: data/helpdata.txt:918
+#: data/helpdata.txt:925
 msgid ""
 "When migration is enabled, every few turns, a citizen of each city in the "
 "game may migrate to a nearby, more attractive city, either within the same "
 "nation or even across national borders (to a lesser extent, by default)."
 msgstr ""
 
-#: data/helpdata.txt:923
+#: data/helpdata.txt:930
 msgid ""
 "You cannot directly prevent or direct the migration of citizens. However, "
 "you can influence the attractiveness of your cities. The following factors "
@@ -23011,66 +23011,66 @@ msgid ""
 "current city, as they prefer not to move without a compelling reason.)"
 msgstr ""
 
-#: data/helpdata.txt:930
+#: data/helpdata.txt:937
 msgid " - City size."
 msgstr ""
 
-#: data/helpdata.txt:932
+#: data/helpdata.txt:939
 msgid ""
 " - The number of happy citizens. (To a lesser extent, unhappy and angry "
 "citizens reduce the desirability of a city.)"
 msgstr ""
 
-#: data/helpdata.txt:935
+#: data/helpdata.txt:942
 msgid ""
 " - In rulesets where nationality is enabled, citizens have a strong "
 "preference to move to cities of their own nationality."
 msgstr ""
 
-#: data/helpdata.txt:938
+#: data/helpdata.txt:945
 msgid ""
 " - The presence of any wonder in a city will greatly increase its "
 "desirability (further wonders do not contribute except by the lesser effect "
 "of their build cost)."
 msgstr ""
 
-#: data/helpdata.txt:942
+#: data/helpdata.txt:949
 msgid ""
 " - Capital cities are more attractive than other cities, all other factors "
 "being equal; in addition, citizens will never migrate out of a capital city."
 msgstr ""
 
-#: data/helpdata.txt:946
+#: data/helpdata.txt:953
 msgid " - A high risk of plague reduces a city's attractiveness."
 msgstr ""
 
-#: data/helpdata.txt:948
+#: data/helpdata.txt:955
 msgid " - Food surplus. (A food deficit reduces the desirability of a city.)"
 msgstr ""
 
-#: data/helpdata.txt:950
+#: data/helpdata.txt:957
 msgid ""
 " - Cities that are further away are less desirable. The absolute maximum "
 "distance that a citizen is prepared to migrate is controlled by the server "
 "option 'mgr_dist'."
 msgstr ""
 
-#: data/helpdata.txt:954
+#: data/helpdata.txt:961
 #, fuzzy
 msgid " - Trade surplus."
 msgstr "贸＋"
 
-#: data/helpdata.txt:956
+#: data/helpdata.txt:963
 #, fuzzy
 msgid " - Luxury and science output."
 msgstr "设置税务、娱乐和科研的比率"
 
-#: data/helpdata.txt:958
+#: data/helpdata.txt:965
 msgid ""
 " - The quantity of city improvements (and wonders), measured by build cost."
 msgstr ""
 
-#: data/helpdata.txt:961
+#: data/helpdata.txt:968
 msgid ""
 " - Depending on the ruleset, a number of other factors such as government "
 "type and city improvements may increase or decrease the desirability of "
@@ -23078,7 +23078,7 @@ msgid ""
 "contains no such effects.)"
 msgstr ""
 
-#: data/helpdata.txt:966
+#: data/helpdata.txt:973
 msgid ""
 "Citizens will not migrate to cities which cannot increase in size to support "
 "them, for instance due to lack of a city improvement such as an Aqueduct. If "
@@ -23086,7 +23086,7 @@ msgid ""
 "which would not have enough food to support them."
 msgstr ""
 
-#: data/helpdata.txt:971
+#: data/helpdata.txt:978
 msgid ""
 "Migration can even cause cities to be completely abandoned (ownership of any "
 "units being transferred to your nearest remaining city). However, cities "
@@ -23095,20 +23095,20 @@ msgid ""
 "another nation."
 msgstr ""
 
-#: data/helpdata.txt:977
+#: data/helpdata.txt:984
 msgid ""
 "Several of the details of migration can be changed with the 'mgr_*' server "
 "options."
 msgstr ""
 
-#: data/helpdata.txt:984
+#: data/helpdata.txt:991
 msgid ""
 "Cities may be improved with a wide variety of buildings, each with a "
 "different effect. Each city may have only one of each improvement, and some "
 "improvements require others to have been built first."
 msgstr ""
 
-#: data/helpdata.txt:988
+#: data/helpdata.txt:995
 msgid ""
 "It costs production points to build improvements, and once completed, many "
 "improvements require an upkeep of one or more gold pieces per turn. You may "
@@ -23120,14 +23120,14 @@ msgid ""
 "ones you would have preferred to sell."
 msgstr ""
 
-#: data/helpdata.txt:998
+#: data/helpdata.txt:1005
 msgid ""
 "Most improvements become available only when you achieve certain "
 "technologies, while further advances can render some improvements obsolete, "
 "at which point they are automatically sold."
 msgstr ""
 
-#: data/helpdata.txt:1009
+#: data/helpdata.txt:1016
 msgid ""
 "Wonders are special buildings which can each be completed by only one player "
 "each game, and which often enhance their entire civilization. Unlike "
@@ -23137,7 +23137,7 @@ msgid ""
 "the construction of a wonder in another city."
 msgstr ""
 
-#: data/helpdata.txt:1017
+#: data/helpdata.txt:1024
 msgid ""
 "Once built, a wonder is placed in the city that constructed it, and cannot "
 "be sold or destroyed (unless the entire city is destroyed). However, some "
@@ -23147,7 +23147,7 @@ msgid ""
 "player achieves the obsoleting advance."
 msgstr ""
 
-#: data/helpdata.txt:1031
+#: data/helpdata.txt:1038
 msgid ""
 "Units both offer mobility to your civilization and supply the violence with "
 "which it will survive and expand. The available units may be classified as "
@@ -23155,7 +23155,7 @@ msgid ""
 "noncombatants which support expansion, diplomacy, and trade."
 msgstr ""
 
-#: data/helpdata.txt:1037
+#: data/helpdata.txt:1044
 msgid ""
 "Units are usually built in cities using production points. Once built, units "
 "are owned by the city that built them (although they can later be re-homed "
@@ -23168,13 +23168,13 @@ msgid ""
 "game with, have no home city and thus require no upkeep."
 msgstr ""
 
-#: data/helpdata.txt:1048
+#: data/helpdata.txt:1055
 msgid ""
 "Most units begin every turn with one or more movement points. Every action "
 "undertaken by a unit consumes movement points."
 msgstr ""
 
-#: data/helpdata.txt:1051
+#: data/helpdata.txt:1058
 msgid ""
 "The most basic action is movement; units can move into any of the tiles "
 "surrounding their current location, subject to restrictions imposed by their "
@@ -23184,7 +23184,7 @@ msgid ""
 "depend on the type of terrain; see the Terrain help."
 msgstr ""
 
-#: data/helpdata.txt:1059
+#: data/helpdata.txt:1066
 msgid ""
 "A unit cannot move onto a tile occupied by an enemy unit, and when directed "
 "to do so will attack instead (if capable of attack), locking the two units "
@@ -23194,7 +23194,7 @@ msgid ""
 "following sections list specific units' attributes."
 msgstr ""
 
-#: data/helpdata.txt:1067
+#: data/helpdata.txt:1074
 msgid ""
 "Units' attributes can be further boosted by being veteran. Units may be "
 "built as veteran by means of certain city improvements or other influences; "
@@ -23203,7 +23203,7 @@ msgid ""
 "available from their initial training."
 msgstr ""
 
-#: data/helpdata.txt:1075
+#: data/helpdata.txt:1082
 #, fuzzy
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
@@ -23227,7 +23227,7 @@ msgstr ""
 "没有结束于城市中的每个回合都将损失2点生命值（或少恢复2点生命值）。放哨模式下"
 "的受伤部队在恢复全部生命值后将自动唤醒。"
 
-#: data/helpdata.txt:1088
+#: data/helpdata.txt:1095
 msgid ""
 "As technology advances, new types of units become available which obsolete "
 "existing types. When you discover such a new technology, your existing units "
@@ -23240,7 +23240,7 @@ msgid ""
 "lose some or all of its veteran levels."
 msgstr ""
 
-#: data/helpdata.txt:1106
+#: data/helpdata.txt:1113
 #, fuzzy
 msgid ""
 "In standard combat, when one unit attacks another unit, either the attacker "
@@ -23252,11 +23252,11 @@ msgstr ""
 "当一个部队攻击另一个部队时，要么攻击者被消灭，要么防御者被消灭－但不会两者都"
 "灭亡（除非攻击者是导弹）。结果取决于几个因素，包括机会因素。"
 
-#: data/helpdata.txt:1112
+#: data/helpdata.txt:1119
 msgid "The outcome of combat depends on several factors, including chance."
 msgstr ""
 
-#: data/helpdata.txt:1114
+#: data/helpdata.txt:1121
 msgid ""
 "The description below is for the classic ruleset, but the principles are "
 "similar for any ruleset. Notice that many bonuses are possible for "
@@ -23264,42 +23264,42 @@ msgid ""
 "unit can mostly expect circumstance to work against it."
 msgstr ""
 
-#: data/helpdata.txt:1119
+#: data/helpdata.txt:1126
 msgid "First, the attacker's strength is modified."
 msgstr "首先，攻击者的力量被修正。"
 
-#: data/helpdata.txt:1121
+#: data/helpdata.txt:1128
 #, fuzzy
 msgid ""
 " - If the attacker is a veteran, its strength is multiplied by the bonus "
 "associated with its veteran level."
 msgstr " -　如果攻击者是老练的，其力量被乘以1.5。"
 
-#: data/helpdata.txt:1124
+#: data/helpdata.txt:1131
 msgid ""
 " - Some rulesets (but not the classic rules) have 'tired attacks': a unit "
 "that attacks with less than a full movement point will have its strength "
 "proportionally reduced."
 msgstr ""
 
-#: data/helpdata.txt:1128
+#: data/helpdata.txt:1135
 msgid "Next, the defender's strength is modified."
 msgstr "其次，防御者的力量被修正。"
 
-#: data/helpdata.txt:1130
+#: data/helpdata.txt:1137
 #, fuzzy
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by the "
 "bonus associated with its veteran level."
 msgstr " -　如果防御者是老练的，其力量被乘以1.5。"
 
-#: data/helpdata.txt:1133
+#: data/helpdata.txt:1140
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr " -　然后防御者的力量乘以他所在地形的防御因子。"
 
-#: data/helpdata.txt:1136
+#: data/helpdata.txt:1143
 #, fuzzy
 msgid ""
 " - If the defender is a land unit, and is either fortified or inside a city, "
@@ -23307,18 +23307,18 @@ msgid ""
 msgstr ""
 " -　最后，如果防御者是地面部队，并且位于城市中或者已设防，其力量乘以1.5。"
 
-#: data/helpdata.txt:1139
+#: data/helpdata.txt:1146
 msgid " - Ruleset-specific bonuses are applied:"
 msgstr ""
 
-#: data/helpdata.txt:1141
+#: data/helpdata.txt:1148
 #, fuzzy
 msgid ""
 "   - The defender's strength is doubled if it is a Pikeman unit defending "
 "against a mounted unit."
 msgstr " -　然后，如果防御者是长枪兵，所防御的是骑兵部队，其力量翻倍。"
 
-#: data/helpdata.txt:1144
+#: data/helpdata.txt:1151
 #, fuzzy
 msgid ""
 "   - If the defender is an AEGIS Cruiser defending against airborne units "
@@ -23327,7 +23327,7 @@ msgstr ""
 " -　如果防御者是神盾巡洋舰，所防御的是空降部队（包括导弹和直升飞机），防御力"
 "量乘以5。"
 
-#: data/helpdata.txt:1148
+#: data/helpdata.txt:1155
 #, fuzzy
 msgid ""
 "   - The defender's strength is doubled again if it is in a city with a SAM "
@@ -23337,13 +23337,13 @@ msgstr ""
 " -　如果防御者位于拥有SAM导弹基地的城市中，攻击者是空中部队（不是直升飞机）或"
 "导弹，防御力量再次翻倍。"
 
-#: data/helpdata.txt:1152
+#: data/helpdata.txt:1159
 #, fuzzy
 msgid ""
 "   - An SDI Defense doubles the defender's strength against missile attacks."
 msgstr " -　SDI防御系统使防御者对导弹攻击的防守能力再次翻倍。"
 
-#: data/helpdata.txt:1155
+#: data/helpdata.txt:1162
 #, fuzzy
 msgid ""
 "   - If the attacker is a ship and the defender is in a city with a Coastal "
@@ -23351,7 +23351,7 @@ msgid ""
 msgstr ""
 " -　如果攻击者是船只并且防御者位于拥有海岸防御的城市中，防御者力量被翻倍。"
 
-#: data/helpdata.txt:1158
+#: data/helpdata.txt:1165
 #, fuzzy
 msgid ""
 "   - Against land units (other than Howitzers) and Helicopters, defending "
@@ -23360,14 +23360,14 @@ msgstr ""
 " -　防御地面部队（不是榴弹炮）和直升飞机时，在拥有城墙的城市中的部队的力量乘"
 "以3。"
 
-#: data/helpdata.txt:1162
+#: data/helpdata.txt:1169
 #, fuzzy
 msgid ""
 "   - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr " -　如果防御者位于要塞中（并且不是城市），其力量被翻倍。"
 
-#: data/helpdata.txt:1165
+#: data/helpdata.txt:1172
 #, fuzzy
 msgid ""
 "   - Finally, if the attacker is a fighter and the defender is a helicopter, "
@@ -23375,7 +23375,7 @@ msgid ""
 msgstr ""
 " -　如果攻击者是船只并且防御者位于拥有海岸防御的城市中，防御者力量被翻倍。"
 
-#: data/helpdata.txt:1168
+#: data/helpdata.txt:1175
 #, fuzzy
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
@@ -23385,32 +23385,32 @@ msgstr ""
 "如果，在进行这些修正后，攻击者的力量为0，它自动被击败。否则，如果防御者的力量"
 "为0，防御者失败。"
 
-#: data/helpdata.txt:1172
+#: data/helpdata.txt:1179
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "攻击者和防御者的火力也被进行修正。"
 
-#: data/helpdata.txt:1174
+#: data/helpdata.txt:1181
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
 " -　如果防御者是船只并且位于城市中，攻击者的火力翻倍并且船只的火力被置为1。"
 
-#: data/helpdata.txt:1177
+#: data/helpdata.txt:1184
 #, fuzzy
 msgid ""
 " - If a fighter is attacking a helicopter the firepower of the helicopter is "
 "set to 1."
 msgstr " -　如果是战斗机在攻击直升飞机，直升飞机的火力被置为1。"
 
-#: data/helpdata.txt:1180
+#: data/helpdata.txt:1187
 #, fuzzy
 msgid ""
 " - If a ship is attacking a land unit on land the firepower of both is set "
 "to 1."
 msgstr " -　如果是船只在攻击陆地上的地面部队，两者的火力都被置为1。"
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1190
 #, fuzzy
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
@@ -23426,7 +23426,7 @@ msgstr ""
 "数。如果此数大于防御者的力量，防御者将损失等于攻击者火力的生命值。否则，攻击"
 "者将损失等于防御者火力的生命值。生命值首先变成0（或负数）的部队被击败。"
 
-#: data/helpdata.txt:1198
+#: data/helpdata.txt:1205
 #, fuzzy, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of being promoted a veteran "
@@ -23438,7 +23438,7 @@ msgstr ""
 "的。如果获胜者文明拥有孙子战争学院（并且没有被作废），该部队将总是变成老练"
 "的。否则，变成老练的的机会是50%。"
 
-#: data/helpdata.txt:1203
+#: data/helpdata.txt:1210
 #, fuzzy
 msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
@@ -23446,7 +23446,7 @@ msgid ""
 msgstr ""
 "如果攻击者是地面部队并且获胜，而防御者是没有城墙的城市，城市的大小将减1。"
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1213
 #, fuzzy
 msgid ""
 "If the defender loses, and is not inside a city, fortress, or airbase, all "
@@ -23457,11 +23457,11 @@ msgstr ""
 "防御者一起被消灭。"
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:1215
+#: data/helpdata.txt:1222
 msgid " Combat example 1"
 msgstr " 战斗示例1"
 
-#: data/helpdata.txt:1216
+#: data/helpdata.txt:1223
 #, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
@@ -23472,7 +23472,7 @@ msgstr ""
 "一座修建在森林方格上拥有城墙的城市中的非老练火枪手（攻:3，防:3，命:20，"
 "火:1）。"
 
-#: data/helpdata.txt:1220
+#: data/helpdata.txt:1227
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -23482,7 +23482,7 @@ msgstr ""
 "防御者的基础力量是3。因为它在森林方格上，其力量变成4.5。因它在城墙后面，其力"
 "量被乘3，变成13.5。又因它是位于城市中的地面部队，因此其力量被增加到20.25。"
 
-#: data/helpdata.txt:1225
+#: data/helpdata.txt:1232
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -23491,11 +23491,11 @@ msgstr ""
 "游戏中的力量值实际上将被乘以10，并丢掉小数部分，所以攻击者的力量是80，防御者"
 "的力量是202。"
 
-#: data/helpdata.txt:1229
+#: data/helpdata.txt:1236
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "两个部队都保持火力为1不变。"
 
-#: data/helpdata.txt:1232
+#: data/helpdata.txt:1239
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -23505,7 +23505,7 @@ msgstr ""
 "在战斗的每个回合，生成一个介于1和282之间的随机数。如果此数大于202（大约28%的"
 "机会），防御者损失1点生命值。否则（大约72%的机会），攻击者损失1点生命。"
 
-#: data/helpdata.txt:1243
+#: data/helpdata.txt:1250
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -23519,11 +23519,11 @@ msgstr ""
 "发无损，或者也可能损失大部分生命值，或者甚至可能输掉战斗。"
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:1254
+#: data/helpdata.txt:1261
 msgid " Combat example 2"
 msgstr " 战斗示例2"
 
-#: data/helpdata.txt:1255
+#: data/helpdata.txt:1262
 #, fuzzy
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement "
@@ -23534,11 +23534,11 @@ msgstr ""
 "建在草地方格上拥有城墙和海岸防御的城市中的山地部队（攻:5，防:5，命:20，"
 "火:1）。"
 
-#: data/helpdata.txt:1260
+#: data/helpdata.txt:1267
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "攻击者的力量是12，因为老练而被提升到18。"
 
-#: data/helpdata.txt:1263
+#: data/helpdata.txt:1270
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -23550,17 +23550,17 @@ msgstr ""
 "将防御者的力量翻倍到15。（城墙对防御海洋部队的攻击没有作用。）防御者是位于城"
 "市中的地面部队，故其总的力量是22.5。"
 
-#: data/helpdata.txt:1269
+#: data/helpdata.txt:1276
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr "在内部，用于表示攻击者和防御者力量的值分别是180和225。"
 
-#: data/helpdata.txt:1272
+#: data/helpdata.txt:1279
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "战列舰的额火力被从2置为1。"
 
-#: data/helpdata.txt:1275
+#: data/helpdata.txt:1282
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -23570,7 +23570,7 @@ msgstr ""
 "每个回合中，生成一个1到405之间的随机数。如果大于225（大约44%的机会）防御者将"
 "损失1点生命。否则，攻击者损失1点生命。"
 
-#: data/helpdata.txt:1286
+#: data/helpdata.txt:1293
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -23583,7 +23583,7 @@ msgstr ""
 "是它有两倍多的生命值。战列舰预计在战斗中损失约60%的的生命值，并且不会剩下移动"
 "点力。"
 
-#: data/helpdata.txt:1296
+#: data/helpdata.txt:1303
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -23591,7 +23591,7 @@ msgstr ""
 "控制区域，缩写为ZOC，是一个游戏概念，它使您不能随意地在敌军控制（或部分控制）"
 "的区域内自由移动的。"
 
-#: data/helpdata.txt:1300
+#: data/helpdata.txt:1307
 #, fuzzy
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
@@ -23604,7 +23604,7 @@ msgstr ""
 "方格，如果该方格也紧挨一个被敌方部队占据的方格。这里一个被敌方部队占据的方格"
 "是指有敌方部队在上面的陆地方格。紧接是指一个部队周围8个方格中的任何一个。"
 
-#: data/helpdata.txt:1307
+#: data/helpdata.txt:1314
 #, fuzzy
 msgid ""
 "In the following special cases ZOC does not apply:\n"
@@ -23620,7 +23620,7 @@ msgstr ""
 "-　一个部队从海洋方格走出（从船上登岸）。\n"
 "-　显式忽略ZOC的部队，如外交官和间谍。"
 
-#: data/helpdata.txt:1315
+#: data/helpdata.txt:1322
 #, fuzzy
 msgid ""
 "Notes:\n"
@@ -23636,7 +23636,7 @@ msgid ""
 "\n"
 "- An enemy city counts as an enemy occupied tile if there are any units "
 "inside the city, but not if the city is empty. (This is the same rule as for "
-"any other tile).\n"
+"any other tile.)\n"
 "\n"
 "- Moving from an ocean tile is a special case; moving _to_ an ocean tile "
 "(moving back onto a boat) is also permitted, by the special case of moving "
@@ -23658,7 +23658,7 @@ msgstr ""
 "-　从海洋方格移动是一种特殊情况；移动*到*海洋方格（回到船上）也是被允许的，因"
 "为这是移动到友好部队（船）的特殊情形。"
 
-#: data/helpdata.txt:1335
+#: data/helpdata.txt:1342
 #, fuzzy
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
@@ -23671,7 +23671,7 @@ msgstr ""
 "把普通部队移动到现在有外交官的方格。不断重复这种进程（并可以在后面留下一些单"
 "位以使方格保持被占据），您可以透过敌方领土开辟一条道路。"
 
-#: data/helpdata.txt:1342
+#: data/helpdata.txt:1349
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -23682,7 +23682,7 @@ msgstr ""
 "-　里面没有部队的敌方城市不再引起ZOC。\n"
 "-　地面部队登陆的特殊情况是新的。"
 
-#: data/helpdata.txt:1351
+#: data/helpdata.txt:1358
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -23690,7 +23690,7 @@ msgstr ""
 "您的政府类型影响您的城市的生产力和商业，您的“市民”的欢乐，以及许多其它游戏"
 "因素。"
 
-#: data/helpdata.txt:1354
+#: data/helpdata.txt:1361
 #, fuzzy
 msgid ""
 "In the classic rules, your start out ruling your civilization through "
@@ -23704,7 +23704,7 @@ msgstr ""
 "（在下面列出的）。为了改变您的政府形式，您必须发动异常革命。这将引起您的文明"
 "度过一段无政府时期（持续1－5个回合）；革命结束后，您就可以选择您的新政府了。"
 
-#: data/helpdata.txt:1362
+#: data/helpdata.txt:1369
 #, fuzzy
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
@@ -23716,7 +23716,7 @@ msgstr ""
 "娱乐以使他们保持快乐。当政府别的文明时，且黄道更加军事化的政府类型可能会有所"
 "帮助。"
 
-#: data/helpdata.txt:1368
+#: data/helpdata.txt:1375
 #, fuzzy
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
@@ -23728,11 +23728,11 @@ msgstr ""
 "切换到共和政府，在游戏早期取得科技领先将对您非常有利。"
 
 #. TRANS: Preserve the leading space: it controls nesting
-#: data/helpdata.txt:1381
+#: data/helpdata.txt:1388
 msgid " Civil War"
 msgstr " 内战"
 
-#: data/helpdata.txt:1382
+#: data/helpdata.txt:1389
 #, fuzzy
 msgid ""
 "Civil war is devastating to any empire. In rulesets with civil war, it is "
@@ -23744,13 +23744,13 @@ msgstr ""
 "会起来造反并宣布效忠于一个新（AI）玩家，该玩家将掠得您一半的财富并得到您所有"
 "的科技进展。"
 
-#: data/helpdata.txt:1388
+#: data/helpdata.txt:1395
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr "玩家将在内战状态下持续一个回合，然后帝国进入无政府状态。"
 
-#: data/helpdata.txt:1391
+#: data/helpdata.txt:1398
 #, fuzzy
 msgid ""
 "The capture of your capital does not always lead to civil war. If you have "
@@ -23762,7 +23762,7 @@ msgstr ""
 "诚。每个正在庆祝的城市都将减少发生内战的机会，而每个骚乱的城市将增加内战机"
 "会。"
 
-#: data/helpdata.txt:1397
+#: data/helpdata.txt:1404
 #, fuzzy
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
@@ -23772,7 +23772,7 @@ msgstr ""
 "另外，政府的形式直接影响内战的机会。专制政府比具有普世公民权的政府更可能发生"
 "内战。"
 
-#: data/helpdata.txt:1401
+#: data/helpdata.txt:1408
 #, fuzzy
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
@@ -23783,20 +23783,20 @@ msgstr ""
 "一个帝国爆发内战所需的最少城市默认是10个。也就是说，少于10个城市的帝国不会发"
 "生内战。但是，这是一个服务器选项，可以被改变，最小值是6。"
 
-#: data/helpdata.txt:1410
+#: data/helpdata.txt:1417
 msgid ""
 "There are five diplomatic states between players: War, Cease-fire, "
 "Armistice, Peace, and Alliance. The first is the natural state, while the "
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
 
-#: data/helpdata.txt:1414
+#: data/helpdata.txt:1421
 msgid ""
 "During War, you can freely move your units inside enemy territory and attack "
 "their units and cities at will."
 msgstr ""
 
-#: data/helpdata.txt:1417
+#: data/helpdata.txt:1424
 msgid ""
 "When two players decide to end hostilities between them, they can agree on a "
 "Cease-fire treaty. This prevents each player from attacking the other, but "
@@ -23805,7 +23805,7 @@ msgid ""
 "with an AI player, it will automatically offer you a Cease-fire treaty."
 msgstr ""
 
-#: data/helpdata.txt:1424
+#: data/helpdata.txt:1431
 msgid ""
 "If you wish for a more permanent peaceful coexistence with another player, "
 "you may sign a peace pact. This will enter a transitional Armistice state, "
@@ -23813,7 +23813,7 @@ msgid ""
 "Breaking an Armistice will drop you directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:1430
+#: data/helpdata.txt:1437
 msgid ""
 "At the moment two players enter into the diplomatic state of Peace, all "
 "military units belonging to either player that happen to be within the "
@@ -23823,7 +23823,7 @@ msgid ""
 "drop you directly back to War."
 msgstr ""
 
-#: data/helpdata.txt:1437
+#: data/helpdata.txt:1444
 msgid ""
 "An Alliance is the ultimate diplomatic relationship between two players. In "
 "this state, you may move units into each other's cities and your units may "
@@ -23837,13 +23837,13 @@ msgid ""
 "cities, but in return will expect you to join its wars against other players."
 msgstr ""
 
-#: data/helpdata.txt:1453
+#: data/helpdata.txt:1460
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
 msgstr "研究科技对提高您的文明发展新的军事部队和城市建筑的能力是必需的。"
 
-#: data/helpdata.txt:1457
+#: data/helpdata.txt:1464
 msgid ""
 "There are a few ways to gain advances from other civilizations: you will "
 "sometimes discover enemy technology when you capture a city; your agents can "
@@ -23852,7 +23852,7 @@ msgid ""
 "be discovered through the efforts of your own people."
 msgstr ""
 
-#: data/helpdata.txt:1464
+#: data/helpdata.txt:1471
 msgid ""
 "Most technology progress comes from trade (see the Trade section) and, in "
 "the classic ruleset, from scientist specialists (see the Specialists "
@@ -23860,7 +23860,7 @@ msgid ""
 "researching, by default all progress is lost by doing so."
 msgstr ""
 
-#: data/helpdata.txt:1469
+#: data/helpdata.txt:1476
 msgid ""
 "While the majority of the resulting research output (\"bulbs\") usually goes "
 "toward advancing technology, in some rulesets (but not the classic rules), "
@@ -23873,7 +23873,7 @@ msgid ""
 "again."
 msgstr ""
 
-#: data/helpdata.txt:1479
+#: data/helpdata.txt:1486
 msgid ""
 "Technological advances can render units, city improvements, and wonders "
 "obsolete. While obsolete units merely become impossible for you to make -- "
@@ -23882,7 +23882,7 @@ msgid ""
 "sections for more information."
 msgstr ""
 
-#: data/helpdata.txt:1492
+#: data/helpdata.txt:1499
 #, fuzzy
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
@@ -23893,7 +23893,7 @@ msgstr ""
 "空间竞赛是出了消灭所有其他文明之外赢得游戏的另一种选项。如果您的宇宙飞船最先"
 "到达半人马星座，游戏将以您的胜利而结束。（但是这个选项可以在服务器端关闭。）"
 
-#: data/helpdata.txt:1497
+#: data/helpdata.txt:1504
 #, fuzzy
 msgid ""
 "In the classic rules, before you can build spaceship parts, the Apollo "
@@ -23908,7 +23908,7 @@ msgstr ""
 "空组件，和太空模块的帮助信息。（如果这些条目下没有帮助文本，那很可能是太空竞"
 "赛服务器选项被关闭了。）"
 
-#: data/helpdata.txt:1505
+#: data/helpdata.txt:1512
 #, fuzzy
 msgid ""
 "When you have started building your spaceship, you can see it with the "
@@ -23918,7 +23918,7 @@ msgstr ""
 "当您开始建造宇宙飞船后，您可以通过报告菜单中的“宇宙飞船”命令查看它。要查看"
 "其它玩家的宇宙飞船，在玩家对话框中选择该玩家然后单击“宇宙飞船”。"
 
-#: data/helpdata.txt:1510
+#: data/helpdata.txt:1517
 #, fuzzy
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
@@ -23928,7 +23928,7 @@ msgstr ""
 "如果存活概率低于100%，飞船上的某些人将不能经历旅行后存活下来。这将减少宇宙飞"
 "船的得分奖励，但是仍然算取得了胜利。"
 
-#: data/helpdata.txt:1514
+#: data/helpdata.txt:1521
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -23936,7 +23936,7 @@ msgstr ""
 "如果一个文明的首都沦陷了，它所发射的宇宙飞船将会失踪，所以请好好防御您的首"
 "都！"
 
-#: data/helpdata.txt:1517
+#: data/helpdata.txt:1524
 #, fuzzy
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
@@ -23946,21 +23946,21 @@ msgstr ""
 "提示：如果敌方文明发射了一艘宇宙飞船，请赶快建造一艘将更早到达的，具有很多推"
 "进力的轻快宇宙飞船。唯一的其它选择是占领它们的首都。"
 
-#: data/helpdata.txt:1529
+#: data/helpdata.txt:1536
 msgid ""
 "Each player in the game is represented by a nation. A nation can be a modern-"
 "day nation state, a historical state or empire, an ethnic group, or even a "
 "fictional nation."
 msgstr ""
 
-#: data/helpdata.txt:1533
+#: data/helpdata.txt:1540
 msgid ""
 "Nations are distinguished by their flags, leaders and city names; in the "
 "classic rules they are identical in all other aspects and play by the same "
 "rules, but other rules may have nation-specific behavior."
 msgstr ""
 
-#: data/helpdata.txt:1544
+#: data/helpdata.txt:1551
 #, fuzzy
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
@@ -23970,7 +23970,7 @@ msgstr ""
 "在游戏开始之前，任何人都可以通过主机名和端口号（默认为5555）连接到服务器。如"
 "果服务器启动时带有-m选项，它将向下面的元服务器报告："
 
-#: data/helpdata.txt:1551
+#: data/helpdata.txt:1558
 #, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
@@ -23984,7 +23984,7 @@ msgstr ""
 "\n"
 "  http://proxyhost:proxyportnumber/ ."
 
-#: data/helpdata.txt:1559
+#: data/helpdata.txt:1566
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -24000,7 +24000,7 @@ msgstr ""
 
 #. TRANS: This text mentions the names of some client options. These names
 #. ;  * are separately translated elsewhere; they should match!
-#: data/helpdata.txt:1573
+#: data/helpdata.txt:1580
 #, fuzzy
 msgid ""
 "Unit Orders:\n"
@@ -24081,7 +24081,7 @@ msgstr ""
 "    x: 自动探索\n"
 "space: 部队等待\n"
 
-#: data/helpdata.txt:1616
+#: data/helpdata.txt:1623
 msgid ""
 "Unit Selection:\n"
 "==============\n"
@@ -24096,7 +24096,7 @@ msgid ""
 "space: done giving orders  (unit stays put)\n"
 msgstr ""
 
-#: data/helpdata.txt:1628
+#: data/helpdata.txt:1635
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -24110,7 +24110,7 @@ msgid ""
 "  9: move north-east\n"
 msgstr ""
 
-#: data/helpdata.txt:1639
+#: data/helpdata.txt:1646
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -24128,7 +24128,7 @@ msgid ""
 "  Ctrl-Y: show/hide city outlines\n"
 msgstr ""
 
-#: data/helpdata.txt:1654
+#: data/helpdata.txt:1661
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -24145,7 +24145,7 @@ msgid ""
 "  Ctrl-center-click:             Wake up sentried units"
 msgstr ""
 
-#: data/helpdata.txt:1667
+#: data/helpdata.txt:1674
 msgid ""
 "  Quick unit selection:\n"
 "  =====================\n"
@@ -24158,7 +24158,7 @@ msgid ""
 "selected and moved in one gesture."
 msgstr ""
 
-#: data/helpdata.txt:1677
+#: data/helpdata.txt:1684
 msgid ""
 "  City manipulation (GTK):\n"
 "  ========================\n"
@@ -24169,7 +24169,7 @@ msgid ""
 "  Shift-Ctrl-right-click:        Paste production into city"
 msgstr ""
 
-#: data/helpdata.txt:1684
+#: data/helpdata.txt:1691
 msgid ""
 "  Area Selection mode (GTK):\n"
 "  ==========================\n"
@@ -24188,7 +24188,7 @@ msgid ""
 "previous section). Right-clicking leaves this mode."
 msgstr ""
 
-#: data/helpdata.txt:1700
+#: data/helpdata.txt:1707
 msgid ""
 "  Chatline (GTK):\n"
 "  ===============\n"
@@ -24199,7 +24199,7 @@ msgid ""
 "Chatline help for more details.\n"
 msgstr ""
 
-#: data/helpdata.txt:1708
+#: data/helpdata.txt:1715
 msgid ""
 "Overview Map (Mouse):\n"
 "=====================\n"
@@ -24207,7 +24207,7 @@ msgid ""
 "they do on the main map.\n"
 msgstr ""
 
-#: data/helpdata.txt:1713
+#: data/helpdata.txt:1720
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -24231,7 +24231,7 @@ msgid ""
 "Shift-Return: Turn done"
 msgstr ""
 
-#: data/helpdata.txt:1734
+#: data/helpdata.txt:1741
 msgid ""
 "Editing Mode (GTK):\n"
 "===================\n"
@@ -24239,7 +24239,7 @@ msgid ""
 "    Ctrl-M: toggle fog of war in editing mode\n"
 msgstr ""
 
-#: data/helpdata.txt:1743
+#: data/helpdata.txt:1750
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -24248,7 +24248,7 @@ msgid ""
 "keeps your cities content."
 msgstr ""
 
-#: data/helpdata.txt:1749
+#: data/helpdata.txt:1756
 msgid ""
 "There are various means to tell the governor what kind of output you would "
 "like. Open the city window and click on the governor tab. There are two "
@@ -24261,7 +24261,7 @@ msgid ""
 "needs."
 msgstr ""
 
-#: data/helpdata.txt:1760
+#: data/helpdata.txt:1767
 msgid ""
 "If you set up some Minimal Surpluses which are impossible to fulfill, the "
 "governor can't be activated. Whenever the governor can't fulfill its task in "
@@ -24269,19 +24269,19 @@ msgid ""
 "too high a surplus; instead, use factors to achieve your goals."
 msgstr ""
 
-#: data/helpdata.txt:1766
+#: data/helpdata.txt:1773
 msgid ""
 "The Celebrate checkbox lets your city - celebrate. This will work only with "
 "a high luxury rate. See help about 'Happiness'."
 msgstr ""
 
-#: data/helpdata.txt:1769
+#: data/helpdata.txt:1776
 msgid ""
 "Clicking on 'Control city' puts the city under control of the governor, "
 "'Release city' passes control back to you."
 msgstr ""
 
-#: data/helpdata.txt:1772
+#: data/helpdata.txt:1779
 msgid ""
 "For ease of use, you can save your slider setting as a preset with a name. "
 "Click on 'add preset' and enter a name for your setting. You can use this "
@@ -24291,13 +24291,13 @@ msgid ""
 "saved it as a preset."
 msgstr ""
 
-#: data/helpdata.txt:1779
+#: data/helpdata.txt:1786
 msgid ""
 "Use 'Game' --> 'Options' --> 'Save Settings' to store your presets "
 "permanently."
 msgstr ""
 
-#: data/helpdata.txt:1782
+#: data/helpdata.txt:1789
 msgid ""
 "But beware! If you use the governor for some of your cities, you will "
 "encounter some difficulties with managing cities nearby, by hand. It's best "
@@ -24306,27 +24306,27 @@ msgid ""
 "README.cma, included with Freeciv."
 msgstr ""
 
-#: data/helpdata.txt:1792
+#: data/helpdata.txt:1799
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
 msgstr ""
 "客户端有一个基本的聊天界面。您输入的每一行都将被送到所有晚间，除了以下例外："
 
-#: data/helpdata.txt:1795
+#: data/helpdata.txt:1802
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
 msgstr "  -　以“/”开头的消息被作为服务器命令执行，如果您有相应的权限的话。"
 
-#: data/helpdata.txt:1798
+#: data/helpdata.txt:1805
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
 msgstr ""
 
-#: data/helpdata.txt:1803
+#: data/helpdata.txt:1810
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -24334,11 +24334,11 @@ msgstr ""
 "  -　以“John::”开头的消息是发给名为“John”的玩家的私人消息；玩家名字可以被"
 "缩写。"
 
-#: data/helpdata.txt:1807
+#: data/helpdata.txt:1814
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr "  - 以“.”开头的消息将会被发送给你所有的盟友。"
 
-#: data/helpdata.txt:1809
+#: data/helpdata.txt:1816
 msgid ""
 "Featured text (GTK):\n"
 "====================\n"
@@ -24348,7 +24348,7 @@ msgid ""
 "colors, links, etc...  Such changes are performed using escape sequences."
 msgstr ""
 
-#: data/helpdata.txt:1816
+#: data/helpdata.txt:1823
 msgid ""
 "* Getting boldface:\n"
 "Full name sequence: '[bold] ... [/bold]'\n"
@@ -24357,7 +24357,7 @@ msgid ""
 "Example: '[b]bold[/b]' will display the word 'bold' in bold style."
 msgstr ""
 
-#: data/helpdata.txt:1822
+#: data/helpdata.txt:1829
 msgid ""
 "* Getting colors:\n"
 "Full name sequence: '[color] ... [/color]' \n"
@@ -24373,7 +24373,7 @@ msgid ""
 "'color' in blue on a yellow background."
 msgstr ""
 
-#: data/helpdata.txt:1835
+#: data/helpdata.txt:1842
 msgid ""
 "* Getting italic:\n"
 "Full name sequence: '[italic] ... [/italic]'\n"
@@ -24382,7 +24382,7 @@ msgid ""
 "Example: '[i]italic[/i]' will display the word 'italic' in italic style."
 msgstr ""
 
-#: data/helpdata.txt:1841
+#: data/helpdata.txt:1848
 msgid ""
 "* Getting strikethrough:\n"
 "Full name sequence: '[strike] ... [/strike]'\n"
@@ -24392,7 +24392,7 @@ msgid ""
 "strike."
 msgstr ""
 
-#: data/helpdata.txt:1848
+#: data/helpdata.txt:1855
 msgid ""
 "* Getting underline:\n"
 "Full name sequence: '[underline] ... [/underline]'\n"
@@ -24402,7 +24402,7 @@ msgid ""
 "underline."
 msgstr ""
 
-#: data/helpdata.txt:1855
+#: data/helpdata.txt:1862
 msgid ""
 "* Getting city links:\n"
 "Full name sequence: '[link target=\"city\"] ... [/link]'\n"
@@ -24420,7 +24420,7 @@ msgid ""
 "id 65 if known, else, the word 'noname'."
 msgstr ""
 
-#: data/helpdata.txt:1870
+#: data/helpdata.txt:1877
 msgid ""
 "* Getting tile links:\n"
 "Full name sequence: '[link target=\"tile\"] ... [/link]'\n"
@@ -24435,7 +24435,7 @@ msgid ""
 "tile' clickable and pointing to the tile (17, 3)."
 msgstr ""
 
-#: data/helpdata.txt:1882
+#: data/helpdata.txt:1889
 msgid ""
 "* Getting unit links:\n"
 "Full name sequence: '[link target=\"unit\"] ... [/link]'\n"
@@ -24453,14 +24453,14 @@ msgid ""
 "unit id 235 if known, else, the word 'Warrior'."
 msgstr ""
 
-#: data/helpdata.txt:1897
+#: data/helpdata.txt:1904
 msgid ""
 "Of course, the different escape sequences can be combined in the same "
 "sentence, like '[i][c fg=\"blue\"]this [b]is [s]funny[c bg=\"green\"] [u]to[/"
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 
-#: data/helpdata.txt:1905
+#: data/helpdata.txt:1912
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -24469,7 +24469,7 @@ msgstr ""
 "工作列表编辑器用于为每个城市编辑工作列表（在城市对话框中）以及编辑共用工作列"
 "表。使用此编辑器您可以创建列表指定在接下来的回合中建造什么。"
 
-#: data/helpdata.txt:1909
+#: data/helpdata.txt:1916
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -24478,7 +24478,7 @@ msgstr ""
 "要向工作列表添加一项，双击可用物品列表中的一项。您也可以按下帮助按钮以获得关"
 "于所选项的帮助信息。在未选中任何物品的时候按下帮助按钮将显示此页。"
 
-#: data/helpdata.txt:1913
+#: data/helpdata.txt:1920
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -24486,7 +24486,7 @@ msgstr ""
 "要从工作列表中删除一项只需双击该项。请使用工作列表下面的按钮对列表中的项进行"
 "上下移动。"
 
-#: data/helpdata.txt:1916
+#: data/helpdata.txt:1923
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -24498,13 +24498,13 @@ msgstr ""
 "可用列表中选择前/后项；PageUp/PageDown在工作列表中上下移动一项；Insert从可用"
 "列表中插入一项到工作列表；Delelte从工作列表中删除选中的项。"
 
-#: data/helpdata.txt:1922
+#: data/helpdata.txt:1929
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr "如果您想购买列表中第一个部队，您可以在城市概况页中进行。"
 
-#: data/helpdata.txt:1929
+#: data/helpdata.txt:1936
 #, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
@@ -24528,34 +24528,23 @@ msgstr ""
 "\n"
 "  freeciv-i18n@freeciv.org"
 
-#: data/helpdata.txt:1938
+#: data/helpdata.txt:1945
 msgid ""
 "If you would like to add a localization (translation) for your language, "
 "please see the instructions at:"
 msgstr ""
 
-#: data/helpdata.txt:1943
+#: data/helpdata.txt:1950
 msgid ""
 "You are also welcome to send any questions to the translation mailing list:"
 msgstr ""
 
-#: data/helpdata.txt:1959
+#: data/helpdata.txt:1966
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv受GPL保护，如下："
 
-#: data/helpdata.txt:2263
-msgid ""
-"  Original authors:\n"
-"    (they are no longer involved, please don't mail them!)"
-msgstr ""
-"  原始作者：\n"
-"    （他们已不再进行开发，请不要给他们发邮件！）"
-
-#: data/helpdata.txt:2270
-msgid "  Present administrators: "
-msgstr "  当前管理者："
-
-#: data/helpdata.txt:2277
+#. TRANS: followed by a URL
+#: data/helpdata.txt:2272
 #, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
@@ -24566,15 +24555,44 @@ msgstr ""
 "\n"
 "  http://bugs.freeciv.org/"
 
-#: data/helpdata.txt:2282
+#: data/helpdata.txt:2277
 #, fuzzy
 msgid ""
-"Please quote the above version information.  For more information about "
-"submitting bug reports see the file BUGS in the Freeciv distribution.  For "
-"more information in general, visit the Freeciv website, at:"
+"Please quote the above version information. For more information about "
+"submitting bug reports see the file BUGS in the Freeciv distribution."
 msgstr ""
 "关于提交错误报告的更多信息参见Freeciv发布中的BUGS文件。对于更多的一般信息，请"
 "访问Freeciv网站："
+
+#: data/helpdata.txt:2281
+msgid ""
+"To contact the developers about anything else, please email one of the "
+"project's mailing lists:"
+msgstr ""
+
+#: data/helpdata.txt:2284
+msgid ""
+"    freeciv-dev@gna.org         - public development mailing\n"
+"                                  list (archives are public)\n"
+"    freeciv-maintainers@gna.org - private project administration\n"
+"                                  list (for security issues, etc)"
+msgstr ""
+
+#: data/helpdata.txt:2289
+msgid ""
+"  Original authors:\n"
+"    (they are no longer involved, please don't mail them!)"
+msgstr ""
+"  原始作者：\n"
+"    （他们已不再进行开发，请不要给他们发邮件！）"
+
+#: data/helpdata.txt:2296
+msgid "  Present administrators: "
+msgstr "  当前管理者："
+
+#: data/helpdata.txt:2303
+msgid "For more information in general, visit the Freeciv website, at:"
+msgstr ""
 
 #: data/multiplayer/buildings.ruleset:614
 #, fuzzy
@@ -30742,7 +30760,7 @@ msgid "Loading rulesets."
 msgstr "正在载入规则集"
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:300 server/savegame.c:190
+#: server/savegame2.c:300 server/savegame.c:192
 #, fuzzy
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
@@ -30752,38 +30770,38 @@ msgstr ""
 "存盘文件含有不完整的地图数据。这可能是旧的存盘游戏，或者表明这是一个无效的存"
 "盘文件。如果继续的话后果自负。"
 
-#: server/savegame2.c:3445 server/savegame.c:4241 server/srv_main.c:1953
+#: server/savegame2.c:3445 server/savegame.c:4253 server/srv_main.c:1953
 #: server/srv_main.c:1958
 #, fuzzy, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s 已经作为 %s 级别的 AI 玩家加入。"
 
-#: server/savegame2.c:3450 server/savegame.c:4246
+#: server/savegame2.c:3450 server/savegame.c:4258
 #, fuzzy, c-format
 msgid "%s has been added as human player."
 msgstr "%s 已经作为 AI 玩家加入。"
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3478 server/savegame.c:4296
+#: server/savegame2.c:3478 server/savegame.c:4308
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
 
-#: server/savegame2.c:6571
+#: server/savegame2.c:6576
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3388
+#: server/savegame.c:3400
 #, fuzzy
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
 "supported."
 msgstr "存盘游戏使用了不再支持的古典地形规则集合。"
 
-#: server/savegame.c:3396
+#: server/savegame.c:3408
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -30791,7 +30809,7 @@ msgid ""
 msgstr "警告： 不同的规则集合目录（“%s”和“%s”）不再支持。将使用“%s”。"
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3444
+#: server/savegame.c:3456
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Savegame 太陈旧，至少需要 1.9.0 版本。"
@@ -35346,7 +35364,7 @@ msgstr ""
 msgid "Cannot conquer from a non-native tile."
 msgstr ""
 
-#: server/unithand.c:1324 server/unittools.c:2757
+#: server/unithand.c:1324 server/unittools.c:2751
 msgid "Cannot attack unless you declare war first."
 msgstr "除非您首先宣战否则无法攻击。"
 
@@ -35360,7 +35378,7 @@ msgstr "%s 只能移动到您自己控制的区域。"
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1342 server/unittools.c:2764
+#: server/unithand.c:1342 server/unittools.c:2758
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "除非您首先宣战否则无法攻击。"
@@ -35489,94 +35507,94 @@ msgstr "已经将 %s 免费升级到 %s。"
 msgid "Your %s has run out of hit points."
 msgstr "您的 %s 已经耗尽了生命值。"
 
-#: server/unittools.c:454
+#: server/unittools.c:452
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "您的 %s 已经回去添加燃料。"
 
-#: server/unittools.c:485
+#: server/unittools.c:483
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "您的 %s 的燃料已经耗尽。"
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:730
+#: server/unittools.c:728
 #, fuzzy, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "您的 %s 变得更有经验！"
 
-#: server/unittools.c:749
+#: server/unittools.c:747
 #, fuzzy, c-format
 msgid "%s converted to %s."
 msgstr "%s 征服了 %s。"
 
-#: server/unittools.c:755
+#: server/unittools.c:753
 #, fuzzy, c-format
 msgid "%s cannot be converted."
 msgstr " %s 不能被取代。"
 
-#: server/unittools.c:956
+#: server/unittools.c:954
 #, fuzzy, c-format
 msgid "Orders for %s aborted because activity is no longer available."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:1122
+#: server/unittools.c:1120
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "已将您的 %s 传送到 %s 。"
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1188
+#: server/unittools.c:1186
 #, fuzzy, c-format
 msgid "Moved your %s."
 msgstr "解散了您的 %s。"
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1207
+#: server/unittools.c:1205
 #, c-format
 msgid "Disbanded your %s."
 msgstr "解散了您的 %s。"
 
-#: server/unittools.c:1608
+#: server/unittools.c:1602
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "不能防御 %s ，%s 输掉了游戏。"
 
-#: server/unittools.c:1612
+#: server/unittools.c:1606
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "丢掉 %s 就意味着输掉游戏！下次小心点！"
 
-#: server/unittools.c:1661
+#: server/unittools.c:1655
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s 随 %s 的损失而损失。"
 
-#: server/unittools.c:1859
+#: server/unittools.c:1853
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s 从 %s 的解体中逃脱出来，并流亡到 %s。"
 
-#: server/unittools.c:2013
+#: server/unittools.c:2007
 #, fuzzy, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
 msgstr[0] "捕获野人头领，获得 %d 赎金。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:2034
+#: server/unittools.c:2028
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "您的 %1$s 对 %2$s 的 %3$s 的攻击成功！"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2043 server/unittools.c:2104
+#: server/unittools.c:2037 server/unittools.c:2098
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "在 %2$s 的 %3$s 的攻击下损失了 %1$s 。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2079
+#: server/unittools.c:2073
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -35585,14 +35603,14 @@ msgstr[0] "您的 %s 对 %s 的 %s （以及 %d 其它部队）的攻击成功！"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2114
+#: server/unittools.c:2108
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "在 %2$s 的 %3$s 攻击 %4$s 的 %5$s 时损失了 %1$s 。"
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2130
+#: server/unittools.c:2124
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s %2$s 。"
@@ -35600,7 +35618,7 @@ msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s %2$s 。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2141
+#: server/unittools.c:2135
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -35609,153 +35627,153 @@ msgstr[0] "在 %3$s 的 %4$s 的攻击下损失了 %2$s %1$d 。"
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2156
+#: server/unittools.c:2150
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2520
+#: server/unittools.c:2514
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "您的 %s 被 %s “核”了。"
 
-#: server/unittools.c:2523 server/unittools.c:2541
+#: server/unittools.c:2517 server/unittools.c:2535
 msgid "yourself"
 msgstr "您自己"
 
-#: server/unittools.c:2527
+#: server/unittools.c:2521
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "%s 的 %s 遭到核武器的攻击。"
 
-#: server/unittools.c:2538
+#: server/unittools.c:2532
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s 遭到 %s 的核武器的攻击。"
 
-#: server/unittools.c:2546
+#: server/unittools.c:2540
 #, c-format
 msgid "You nuked %s."
 msgstr "您以核武器攻击 %s。"
 
-#: server/unittools.c:2598
+#: server/unittools.c:2592
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s 引爆了核弹！"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2622 server/unittools.c:2630
+#: server/unittools.c:2616 server/unittools.c:2624
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2641
+#: server/unittools.c:2635
 #, fuzzy, c-format
 msgid "%s cannot be transported to %s."
 msgstr "改变为 %s"
 
-#: server/unittools.c:2651
+#: server/unittools.c:2645
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s 运输成功。"
 
-#: server/unittools.c:2712
+#: server/unittools.c:2706
 msgid "This unit type can not be paradropped."
 msgstr "这种类型的部队不能空降。"
 
-#: server/unittools.c:2722
+#: server/unittools.c:2716
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "您不能空降一个运输部队。"
 
-#: server/unittools.c:2728
+#: server/unittools.c:2722
 msgid "The destination location is not known."
 msgstr "目的位置未知。"
 
-#: server/unittools.c:2746
+#: server/unittools.c:2740
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "此部队不能空降到 %s。"
 
-#: server/unittools.c:2775
+#: server/unittools.c:2769
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "到目标的距离（%i）超出了部队的范围（%i）。"
 
-#: server/unittools.c:2787
+#: server/unittools.c:2781
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "您的 %s 被空降到 %s 并全部损失。"
 
-#: server/unittools.c:2801
+#: server/unittools.c:2795
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "您的 %s 在空降目的地被敌方部队杀死了。"
 
-#: server/unittools.c:2876
+#: server/unittools.c:2870
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "您在空中的飞过惊吓了部落；他们被吓得四下逃窜。"
 
-#: server/unittools.c:3162
+#: server/unittools.c:3156
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3693
+#: server/unittools.c:3687
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3762
+#: server/unittools.c:3756
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "因修建城市失败而取消对 %s 的命令。"
 
-#: server/unittools.c:3812
+#: server/unittools.c:3806
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s 的命令被取消因为它给出了无效的活动。"
 
-#: server/unittools.c:3821
+#: server/unittools.c:3815
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s 的命令被取消因为它给出了无效的位置。"
 
-#: server/unittools.c:3831
+#: server/unittools.c:3825
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "因有部队挡在路中而取消对 %s 的命令。"
 
-#: server/unittools.c:3857
+#: server/unittools.c:3851
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:3874
+#: server/unittools.c:3868
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "试图改变 %s 的基地城市失败。"
 
-#: server/unittools.c:3885
+#: server/unittools.c:3879
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "试图为 %s 建立贸易路线失败。"
 
-#: server/unittools.c:3897
+#: server/unittools.c:3891
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "试图为 %s 修建奇迹失败。"
 
-#: server/unittools.c:3906
+#: server/unittools.c:3900
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "您的 %s 得到了无效的命令。"
 
-#: server/unittools.c:4004
+#: server/unittools.c:3998
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."

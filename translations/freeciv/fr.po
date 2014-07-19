@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-17 04:57+0200\n"
+"POT-Creation-Date: 2014-07-19 11:16+0100\n"
 "PO-Revision-Date: 2014-07-17 22:18+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -2204,7 +2204,7 @@ msgstr "_Mettre à jour l'unité"
 #: client/gui-sdl/diplomat_dialog.c:1424 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1950 client/gui-xaw/diplomat_dialog.c:115
 #: client/gui-xaw/diplomat_dialog.c:661 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1299 common/unit.c:2130
+#: client/text.c:1299 common/unit.c:2122
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -14326,16 +14326,16 @@ msgstr "Transformer"
 msgid "Base"
 msgstr "Base"
 
-#: common/unit.c:1515 common/unit.c:1520
+#: common/unit.c:1508 common/unit.c:1513
 msgid "Moves"
 msgstr "Mouvements"
 
-#: common/unit.c:1627
+#: common/unit.c:1620
 msgid "Food/Shield/Gold:"
 msgstr "Nourriture/Production/Or :"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2140
+#: common/unit.c:2132
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -14350,13 +14350,13 @@ msgstr[1] ""
 "Mettre à jour %s en %s pour %d lingots ?\n"
 "%s"
 
-#: common/unit.c:2149
+#: common/unit.c:2141
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Désolé, impossible de déjà mettre %s à jour."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2155
+#: common/unit.c:2147
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -14371,16 +14371,16 @@ msgstr[1] ""
 "Mettre à jour %s en %s coûte %d lingots.\n"
 "%s"
 
-#: common/unit.c:2165
+#: common/unit.c:2157
 msgid "You can only upgrade units in your cities."
 msgstr "Vous ne pouvez mettre à jour les unités que dans vos villes."
 
-#: common/unit.c:2169
+#: common/unit.c:2161
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Mettre à jour %s laisserait en plan les unités transportées."
 
-#: common/unit.c:2174
+#: common/unit.c:2166
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -19946,7 +19946,7 @@ msgstr ""
 "unité défensive, une rançon de 100 lingots est payée, mais uniquement si "
 "l'unité attaquante est une unité terrestre ou un hélicoptère."
 
-#: data/default/default.lua:22 server/unittools.c:2838
+#: data/default/default.lua:22 server/unittools.c:2832
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -19975,7 +19975,7 @@ msgstr "Vous avez trouvé une ville amicale."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Vous impressionnez des nomades amicaux, et ils se joignent à vous."
 
-#: data/default/default.lua:108 server/unittools.c:2845
+#: data/default/default.lua:108 server/unittools.c:2839
 msgid "An abandoned village is here."
 msgstr "Il y a ici un village abandonné."
 
@@ -19983,7 +19983,7 @@ msgstr "Il y a ici un village abandonné."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Vous avez découvert une horde de barbares !"
 
-#: data/default/default.lua:118 server/unittools.c:2848
+#: data/default/default.lua:118 server/unittools.c:2842
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Votre %s a été tué(e) par les barbares !"
@@ -32629,8 +32629,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:306
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d "
-"player(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 "Taille de la carte positionnée à %d (approximativement %d cases (de terre) "
 "pour chacun des %d joueurs(s))"
@@ -33456,7 +33456,7 @@ msgid "Loading rulesets."
 msgstr "Chargement des différentes règles du jeu."
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:300 server/savegame.c:190
+#: server/savegame2.c:300 server/savegame.c:192
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
 "games, or it may indicate an invalid saved game file. Proceed at your own "
@@ -33466,20 +33466,20 @@ msgstr ""
 "peut arriver avec de vieilles parties sauvegardées, ou bien peut indiquer un "
 "fichier de sauvegarde invalide. Continuez à vos risques et périls."
 
-#: server/savegame2.c:3445 server/savegame.c:4246 server/srv_main.c:1953
+#: server/savegame2.c:3445 server/savegame.c:4253 server/srv_main.c:1953
 #: server/srv_main.c:1958
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
 "%s a été ajouté en tant que joueur contrôlé par une IA de niveau %s (%s)."
 
-#: server/savegame2.c:3450 server/savegame.c:4251
+#: server/savegame2.c:3450 server/savegame.c:4258
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s a été ajouté en tant que joueur humain."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3478 server/savegame.c:4301
+#: server/savegame2.c:3478 server/savegame.c:4308
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s avait une nation invalide ; prenons %s en replacement."
@@ -33493,7 +33493,7 @@ msgstr ""
 "sauvegarde : %d ; serveur : %d)."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3393
+#: server/savegame.c:3400
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
 "supported."
@@ -33501,7 +33501,7 @@ msgstr ""
 "La partie sauvegardée utilise les anciennes règles du jeu des terrains "
 "\"classiques\" qui ne sont plus supportées."
 
-#: server/savegame.c:3401
+#: server/savegame.c:3408
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -33511,7 +33511,7 @@ msgstr ""
 "ne sont plus supportés. Utilisation de \"%s\"."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3449
+#: server/savegame.c:3456
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Sauvegarde trop ancienne, une version 1.9.0 ou supérieure est requise."
 
@@ -38435,7 +38435,7 @@ msgstr "Seulement %s peut conquérir depuis une case non-native."
 msgid "Cannot conquer from a non-native tile."
 msgstr "Impossible de conquérir depuis une case non-native."
 
-#: server/unithand.c:1324 server/unittools.c:2757
+#: server/unithand.c:1324 server/unittools.c:2751
 msgid "Cannot attack unless you declare war first."
 msgstr "Impossible d'attaquer tant que vous n'avez pas déclaré la guerre."
 
@@ -38449,7 +38449,7 @@ msgstr "%s ne peut se déplacer qu'à l'intérieur de votre zone de contrôle."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ne peut pas naviguer si loin de la côte."
 
-#: server/unithand.c:1342 server/unittools.c:2764
+#: server/unithand.c:1342 server/unittools.c:2758
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -38589,79 +38589,79 @@ msgstr "%s a été gratuitement mis à jour en %s."
 msgid "Your %s has run out of hit points."
 msgstr "Votre %s a épuisé ses points d'attaque."
 
-#: server/unittools.c:454
+#: server/unittools.c:452
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "Votre %s est retourné faire le plein de carburant."
 
-#: server/unittools.c:485
+#: server/unittools.c:483
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "Votre %s a épuisé son carburant."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:730
+#: server/unittools.c:728
 #, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "Votre %s a acquis de l'expérience et a atteint le rang de %s."
 
-#: server/unittools.c:749
+#: server/unittools.c:747
 #, c-format
 msgid "%s converted to %s."
 msgstr "%s converti en %s."
 
-#: server/unittools.c:755
+#: server/unittools.c:753
 #, c-format
 msgid "%s cannot be converted."
 msgstr "%s ne peut pas être converti."
 
-#: server/unittools.c:956
+#: server/unittools.c:954
 #, c-format
 msgid "Orders for %s aborted because activity is no longer available."
 msgstr ""
 "Les ordres pour %s ont été annulés car l'activité n'est plus disponible."
 
-#: server/unittools.c:1122
+#: server/unittools.c:1120
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Téléportation de %s à %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1188
+#: server/unittools.c:1186
 #, c-format
 msgid "Moved your %s."
 msgstr "Votre %s a été déplacé."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1207
+#: server/unittools.c:1205
 #, c-format
 msgid "Disbanded your %s."
 msgstr "%s congédié."
 
-#: server/unittools.c:1608
+#: server/unittools.c:1602
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Incapable de défendre %s, %s a perdu la partie."
 
-#: server/unittools.c:1612
+#: server/unittools.c:1606
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Perdre %s revenait à perdre la partie ! Faites plus attention la prochaine "
 "fois !"
 
-#: server/unittools.c:1661
+#: server/unittools.c:1655
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Vous avez perdu %s lors de la perte de %s."
 
-#: server/unittools.c:1859
+#: server/unittools.c:1853
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s a réchappé de la destruction de %s et s'est réfugié à %s."
 
 # AR : problème de a/an
-#: server/unittools.c:2013
+#: server/unittools.c:2007
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -38669,20 +38669,20 @@ msgstr[0] "Chef barbare capturé ; %d lingot de rançon a été payé."
 msgstr[1] "Chef barbare capturé ; %d lingots de rançon ont été payés."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:2034
+#: server/unittools.c:2028
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "L'attaque de votre %1$s a réussi contre %3$s %2$s !"
 
 # AR : problème de a/an ?
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2043 server/unittools.c:2104
+#: server/unittools.c:2037 server/unittools.c:2098
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "Vous avez perdu %1$s dans une attaque de %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2079
+#: server/unittools.c:2073
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -38694,14 +38694,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2114
+#: server/unittools.c:2108
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%1$s perdu dans une attaque de %3$s %2$s contre %4$s %5$s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2130
+#: server/unittools.c:2124
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%1$s (et %2$s) perdu dans une attaque de %4$s %3$s."
@@ -38709,7 +38709,7 @@ msgstr "%1$s (et %2$s) perdu dans une attaque de %4$s %3$s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2141
+#: server/unittools.c:2135
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -38719,157 +38719,157 @@ msgstr[1] "%1$s et %2$d autres unités perdues lors d'une attaque de %4$s %3$s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2156
+#: server/unittools.c:2150
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%1$d unité perdue lors d'un attaque de %5$s %4$s par %3$s %2$s."
 msgstr[1] "%1$d unités perdues lors d'un attaque de %5$s %4$s par %3$s %2$s."
 
-#: server/unittools.c:2520
+#: server/unittools.c:2514
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Votre %s a été atomisé(e) par %s."
 
-#: server/unittools.c:2523 server/unittools.c:2541
+#: server/unittools.c:2517 server/unittools.c:2535
 msgid "yourself"
 msgstr "vous-même"
 
-#: server/unittools.c:2527
+#: server/unittools.c:2521
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%2$s %1$s a été atomisé(e)."
 
-#: server/unittools.c:2538
+#: server/unittools.c:2532
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s a été atomisé(e) par %s."
 
-#: server/unittools.c:2546
+#: server/unittools.c:2540
 #, c-format
 msgid "You nuked %s."
 msgstr "Vous avez atomisé %s."
 
-#: server/unittools.c:2598
+#: server/unittools.c:2592
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Les %s ont lancé une bombe atomique !"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2622 server/unittools.c:2630
+#: server/unittools.c:2616 server/unittools.c:2624
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s ne peut pas transporter %s"
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2641
+#: server/unittools.c:2635
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s ne peut pas être transporté vers %s."
 
-#: server/unittools.c:2651
+#: server/unittools.c:2645
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s transporté avec succès."
 
-#: server/unittools.c:2712
+#: server/unittools.c:2706
 msgid "This unit type can not be paradropped."
 msgstr "Ce type d'unité ne peut pas être parachuté."
 
-#: server/unittools.c:2722
+#: server/unittools.c:2716
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Une unité transportant des unités ne peut pas être parachutée."
 
-#: server/unittools.c:2728
+#: server/unittools.c:2722
 msgid "The destination location is not known."
 msgstr "L'endroit de destination n'est pas connu."
 
-#: server/unittools.c:2746
+#: server/unittools.c:2740
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Cette unité ne peut pas être parachutée dans %s."
 
-#: server/unittools.c:2775
+#: server/unittools.c:2769
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "La distance à la cible (%i) est supérieure à la portée de l'unité (%i)."
 
-#: server/unittools.c:2787
+#: server/unittools.c:2781
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Votre %s a été parachuté dans %s et a été perdu."
 
-#: server/unittools.c:2801
+#: server/unittools.c:2795
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Votre %s a été tué par des unités ennemies au point de parachutage."
 
-#: server/unittools.c:2876
+#: server/unittools.c:2870
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Votre survol effraie la tribu ; prise de terreur, elle s'enfuit."
 
-#: server/unittools.c:3162
+#: server/unittools.c:3156
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Les ordres de %s ont été annulés car des mouvements ennemis ont été aperçus."
 
-#: server/unittools.c:3693
+#: server/unittools.c:3687
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres de %s ont été annulés car il y a des unités à proximité."
 
-#: server/unittools.c:3762
+#: server/unittools.c:3756
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Les ordres pour %s ont été annulés car la fondation de la ville a échoué."
 
-#: server/unittools.c:3812
+#: server/unittools.c:3806
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Les ordres pour %s ont été annulés car l'activité est invalide."
 
-#: server/unittools.c:3821
+#: server/unittools.c:3815
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Les ordres pour %s ont été annulés car ils pointent sur un lieu invalide."
 
-#: server/unittools.c:3831
+#: server/unittools.c:3825
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres pour %s ont été annulés car il y a des unités à proximité."
 
-#: server/unittools.c:3857
+#: server/unittools.c:3851
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres pour %s ont été annulés à cause de l'échec d'un mouvement."
 
-#: server/unittools.c:3874
+#: server/unittools.c:3868
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "La tentative de changer la ville de support de %s a échoué."
 
-#: server/unittools.c:3885
+#: server/unittools.c:3879
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "La tentative de créer une route commerciale pour %s a échoué."
 
-#: server/unittools.c:3897
+#: server/unittools.c:3891
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "La tentative de construction de merveille à %s a échoué."
 
-#: server/unittools.c:3906
+#: server/unittools.c:3900
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Votre %s a des ordres invalides."
 
-#: server/unittools.c:4004
+#: server/unittools.c:3998
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -56546,8 +56546,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ "Maj-Ctrl-B: \"aller à\" et fonder une ville à la cible\n"
 #~ "Maj-Ctrl-R: connecter la case courante et la cible par la (r)oute\n"
 #~ "Maj-Ctrl-L: connecter la case courante et la cible par le rai(l)\n"
-#~ "Maj-Ctrl-I: connecter la case courante et la cible avec le "
-#~ "l'(i)rrigation\n"
+#~ "Maj-Ctrl-I: connecter la case courante et la cible avec le l'(i)"
+#~ "rrigation\n"
 
 #~ msgid ""
 #~ "Unit Movement:\n"
@@ -61140,8 +61140,8 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ msgstr "_Auto-attaquer"
 
 #~ msgid ""
-#~ "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d "
-#~ "second(s) for %d times"
+#~ "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second"
+#~ "(s) for %d times"
 #~ msgstr ""
 #~ "Autoconnexion au serveur \"%s\" port %d en tant que \"%s\" chaque %d.%d "
 #~ "seconde(s) pendant %d essais"
