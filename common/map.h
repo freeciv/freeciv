@@ -389,7 +389,6 @@ extern struct terrain_misc terrain_control;
   struct tile *_tile;							    \
   const struct tile *_tile##_start = (start_tile);			    \
   int _tile##_max = (max_dist);						    \
-  bool _tile##_is_border = is_border_tile(_tile##_start, _tile##_max);	    \
   int _tile##_index = 0;						    \
   index_to_map_pos(&_start##_x, &_start##_y, tile_index(_tile##_start));    \
   for (;								    \
@@ -402,10 +401,10 @@ extern struct terrain_misc terrain_control;
     _y = map.iterate_outwards_indices[_tile##_index].dy;		    \
     _tile##_x = _x + _start##_x;                                            \
     _tile##_y = _y + _start##_y;                                            \
-    if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {  \
-      continue;								    \
-    }									    \
-    _tile = map.tiles + map_pos_to_index(_tile##_x, _tile##_y);
+    _tile = map_pos_to_tile(_tile##_x, _tile##_y);                          \
+    if (NULL == _tile) {                                                    \
+      continue;                                                             \
+    }
 
 #define iterate_outward_dxy_end						    \
   }									    \
@@ -546,7 +545,6 @@ extern struct terrain_misc terrain_control;
   int _tile##_x, _tile##_y, _center##_x, _center##_y;                       \
   struct tile *_tile;							    \
   const struct tile *_tile##_center = (center_tile);			    \
-  bool _tile##_is_border = is_border_tile(_tile##_center, 1);		    \
   int _tile##_index = 0;						    \
   index_to_map_pos(&_center##_x, &_center##_y, tile_index(_tile##_center)); \
   for (;								    \
@@ -556,10 +554,10 @@ extern struct terrain_misc terrain_control;
     DIRSTEP(_tile##_x, _tile##_y, _dir);				    \
     _tile##_x += _center##_x;                                               \
     _tile##_y += _center##_y;                                               \
-    if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {  \
-      continue;								    \
-    }									    \
-    _tile = map.tiles + map_pos_to_index(_tile##_x, _tile##_y);
+    _tile = map_pos_to_tile(_tile##_x, _tile##_y);                          \
+    if (NULL == _tile) {                                                    \
+      continue;                                                             \
+    }
 
 #define adjc_dirlist_iterate_end					    \
     }									    \
