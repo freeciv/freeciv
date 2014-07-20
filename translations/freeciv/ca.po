@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-20 14:12+0200\n"
-"PO-Revision-Date: 2014-07-20 16:19+0200\n"
+"PO-Revision-Date: 2014-07-20 16:53+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1297,7 +1297,7 @@ msgstr "Sí"
 
 #: client/climisc.c:209
 msgid "?embassy:With Us"
-msgstr "Amb nosatres"
+msgstr "Amb nosaltres"
 
 #: client/climisc.c:212
 msgid "?embassy:Contact"
@@ -1317,7 +1317,7 @@ msgstr "Per ells"
 
 #: client/climisc.c:231
 msgid "?vision:To Us"
-msgstr "Per nosatres"
+msgstr "Per nosaltres"
 
 #: client/climisc.c:247 client/climisc.c:254
 #, c-format
@@ -4043,14 +4043,12 @@ msgid "What should we call our new city?"
 msgstr "Com hem d'anomenar la nostra nova ciutat?"
 
 #: client/gui-gtk-2.0/mapview.c:103 client/gui-gtk-3.0/mapview.c:103
-#, fuzzy
 msgid "Time to forced turn change"
-msgstr "Temps entre moviments d'unitat entre canvis de torn"
+msgstr "Temps fins al canvi de torn forçat"
 
 #: client/gui-gtk-2.0/mapview.c:105 client/gui-gtk-3.0/mapview.c:105
-#, fuzzy
 msgid "Turn timeout disabled"
-msgstr "desactivat"
+msgstr "Temps màxim per torn desactivat"
 
 #: client/gui-gtk-2.0/mapview.c:183 client/gui-gtk-3.0/mapview.c:180
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
@@ -8484,7 +8482,7 @@ msgstr ""
 #. * TRANS: Translators cannot change column widths :(
 #: client/helpdata.c:286
 msgid "Activity            Time\n"
-msgstr "Activitat           Temps\n"
+msgstr "Activitat            Temps\n"
 
 #: client/helpdata.c:291
 #, c-format
@@ -8755,7 +8753,7 @@ msgstr "Requereix %s a la casella.\n"
 #: client/helpdata.c:694
 #, c-format
 msgid "?special:Prevented by %s on the tile.\n"
-msgstr "No es pot fer si hi ha %s a la casella.\n"
+msgstr "S'evita si hi ha %s a la casella.\n"
 
 #: client/helpdata.c:701
 #, c-format
@@ -8768,8 +8766,7 @@ msgstr ""
 #, c-format
 msgid "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
-"No es pot fer si hi ha %s a la casella o en una d'adjacent en el sentit dels "
-"punts "
+"S'evita si hi ha %s a la casella o en una d'adjacent en el sentit dels punts "
 "cardinals.\n"
 
 #: client/helpdata.c:714
@@ -8780,7 +8777,7 @@ msgstr "Requereix %s a la casella o en una d'adjacent.\n"
 #: client/helpdata.c:719
 #, c-format
 msgid "?special:Prevented by %s on the tile or any adjacent tile.\n"
-msgstr "No es pot fer si hi ha %s a la casella o en una d'adjacent.\n"
+msgstr "S'evita si hi ha %s a la casella o en una d'adjacent.\n"
 
 #: client/helpdata.c:727
 #, c-format
@@ -8802,7 +8799,7 @@ msgstr "Requereix %s a la casella.\n"
 #: client/helpdata.c:753
 #, c-format
 msgid "?terrain:Prevented by %s on the tile.\n"
-msgstr "No es pot fer si hi ha %s a la casella.\n"
+msgstr "S'evita si hi ha %s a la casella.\n"
 
 #: client/helpdata.c:760
 #, c-format
@@ -8815,8 +8812,7 @@ msgstr ""
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
-"No es pot fer si hi ha terreny %s a la casella o en alguna d'adjacent en el "
-"sentit "
+"S'evita si hi ha terreny %s a la casella o en alguna d'adjacent en el sentit "
 "dels punts cardinals.\n"
 
 #: client/helpdata.c:773
@@ -8827,8 +8823,7 @@ msgstr "Requereix el terreny %s a la casella o en una d'adjacent.\n"
 #: client/helpdata.c:778
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any adjacent tile.\n"
-msgstr ""
-"No es pot fer si hi ha terreny %s a la casella o en alguna d'adjacent.\n"
+msgstr "S'evita si hi ha terreny %s a la casella o en alguna d'adjacent.\n"
 
 #: client/helpdata.c:786
 #, c-format
@@ -8865,8 +8860,7 @@ msgid ""
 "?resource:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "No es pot fer si hi ha %s a la casella o en alguna d'adjacent en el sentit "
-"dels "
-"punts cardinals.\n"
+"dels punts cardinals.\n"
 
 #: client/helpdata.c:834
 #, c-format
@@ -9087,7 +9081,8 @@ msgstr ""
 #, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius.\n"
 msgstr ""
-"Requereix terreny de classe %s en alguna casella dins del radi de la ciutat.\n"
+"Requereix terreny de classe %s en alguna casella dins del radi de la "
+"ciutat.\n"
 
 #. TRANS: %s is a terrain class
 #: client/helpdata.c:1207
@@ -9115,8 +9110,7 @@ msgid ""
 "tile.\n"
 msgstr ""
 "Requereix terreny amb l'opció \"%s\" a la casella o en una d'adjacent en el "
-"sentit dels "
-"punts cardinals.\n"
+"sentit dels punts cardinals.\n"
 
 #: client/helpdata.c:1244
 #, c-format
@@ -9125,8 +9119,7 @@ msgid ""
 "adjacent tile.\n"
 msgstr ""
 "No es pot fer si hi ha terreny amb l'opció \"%s\" a la casella o en una "
-"d'adjacent en el sentit dels "
-"punts cardinals.\n"
+"d'adjacent en el sentit dels punts cardinals.\n"
 
 #: client/helpdata.c:1252
 #, c-format
@@ -9220,16 +9213,15 @@ msgstr "No es pot fer si hi ha %s a la casella.\n"
 #, c-format
 msgid "?road:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr ""
-"Requereix %s a la casella o en alguna d'adjacent en el sentit dels "
-"punts cardinals.\n"
+"Requereix %s a la casella o en alguna d'adjacent en el sentit dels punts "
+"cardinals.\n"
 
 #: client/helpdata.c:1366
 #, c-format
 msgid "?road:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "No es pot fer si hi ha %s a la casella o en alguna d'adjacent en el sentit "
-"dels "
-"punts cardinals.\n"
+"dels punts cardinals.\n"
 
 #: client/helpdata.c:1374
 #, c-format
@@ -9525,24 +9517,24 @@ msgid ""
 "  * Some cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
 msgstr ""
-" * Part del material només es pot carregar en una ciutat o base de la qual en "
-"sigui nadiu aquest transport.\n"
+" * Part del material només es pot carregar en una ciutat o base de la qual "
+"en sigui nadiu aquest transport.\n"
 
 #: client/helpdata.c:2421
 msgid ""
 "  * Cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
 msgstr ""
-" * El material només es pot carregar en una ciutat o base de la qual en sigui "
-"nadiu aquest transport.\n"
+" * El material només es pot carregar en una ciutat o base de la qual en "
+"sigui nadiu aquest transport.\n"
 
 #: client/helpdata.c:2429
 msgid ""
 "  * Some cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
 msgstr ""
-" * Part del material només es pot descarregar en una ciutat o base de la qual "
-"en sigui nadiu aquest transport.\n"
+" * Part del material només es pot descarregar en una ciutat o base de la "
+"qual en sigui nadiu aquest transport.\n"
 
 #: client/helpdata.c:2434
 msgid ""
@@ -9578,11 +9570,9 @@ msgid "* May unload from %s transports even when underway.\n"
 msgstr ""
 
 #: client/helpdata.c:2533
-#, fuzzy
 msgid "* Can establish trade routes (must travel to target city).\n"
 msgstr ""
-"Ho sento, el teu %s no pot establir una ruta comercial perquè no té ciutat "
-"d'origen."
+"* Pot establir rutes comercials (ha de viatjar fins a la ciutat objectiu).\n"
 
 #: client/helpdata.c:2537
 #, c-format
@@ -9601,11 +9591,11 @@ msgstr ""
 "producció.\n"
 
 #: client/helpdata.c:2550
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build new cities (initial population %d).\n"
 msgid_plural "* Can build new cities (initial population %d).\n"
-msgstr[0] "* Pot construir noves ciutats.\n"
-msgstr[1] "* Pot construir noves ciutats.\n"
+msgstr[0] "* Pot construir noves ciutats (població inicial %d).\n"
+msgstr[1] "* Pot construir noves ciutats (població inicial %d).\n"
 
 #. TRANS: Plural in "%d population", not "size %d".
 #: client/helpdata.c:2558
@@ -9859,16 +9849,15 @@ msgstr ""
 "jugadors.\n"
 
 #: client/helpdata.c:2872
-#, fuzzy
 msgid "* All players start the game with knowledge of this technology.\n"
 msgstr ""
-"* Permet a tots els jugadors amb coneixement de %s construir unitats %s.\n"
+"* Tots els jugadors comencen la partida coneixent aquesta tecnologia.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:2894
 #, c-format
 msgid "* The %s start the game with knowledge of this technology.\n"
-msgstr ""
+msgstr "* Els %s comencen la partida coneixent aquesta tecnologia.\n"
 
 #: client/helpdata.c:2903
 #, c-format
@@ -14543,6 +14532,8 @@ msgstr "Jutjat"
 msgid ""
 "Reduces the corruption in a city by 50%. Has no effect in your capital city."
 msgstr ""
+"Redueix la corrupció d'una ciutat en un 50%. No té cap efecte a la teva "
+"capital."
 
 #: data/civ1/buildings.ruleset:237 data/civ2/buildings.ruleset:284
 #: data/classic/buildings.ruleset:324 data/experimental/buildings.ruleset:329
@@ -14696,7 +14687,6 @@ msgstr "Palau"
 
 #: data/civ1/buildings.ruleset:447 data/classic/buildings.ruleset:584
 #: data/experimental/buildings.ruleset:636
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -14706,9 +14696,9 @@ msgid ""
 msgstr ""
 "Fa que una ciutat sigui la capital i el centre del teu govern. La corrupció "
 "de les altres ciutats està relacionada amb la distància que les separa de la "
-"capital, amb l'excepció dels governs en Democràcia i Comunisme. El cost "
-"d'incitar a una revolta en una ciutat també depèn de la distància des de la "
-"capital (en qualsevol forma de govern)."
+"capital, amb l'excepció dels governs en Democràcia i Comunisme. A més, la "
+"corrupció a la pròpia capital és la meitat del que li tocaria (com si "
+"tingués Jutjat)."
 
 #: data/civ1/buildings.ruleset:453
 msgid ""
@@ -14718,6 +14708,11 @@ msgid ""
 "enemy agents try to evade your own agents stationed in the city, or sabotage "
 "your buildings."
 msgstr ""
+"El cost per als Diplomàtics enemics d'incitar una revolta en una ciutat "
+"també depèn de la distància de la ciutat a la capital (en totes les formes "
+"de govern). La pròpia capital no es pot incitar a la revolta, i a més té una "
+"bonificació quan els agents enemics intenten evadir-se dels teus propis "
+"agents situats a la ciutat, o quan sabotegen els teus edificis."
 
 #: data/civ1/buildings.ruleset:459 data/civ2/buildings.ruleset:550
 #: data/classic/buildings.ruleset:597 data/experimental/buildings.ruleset:649
@@ -17999,19 +17994,19 @@ msgid ""
 "of the city 4 times bigger. (These effects are redundant in your capital "
 "city.)"
 msgstr ""
+"Redueix la corrupció i el malbaratament d'una ciutat en un 50%, i fa que el "
+"cost de provocar una revolta a la ciutat sigui 4 vegades més gran. (Aquests "
+"efectes són redundants a la teva capital)."
 
 #: data/civ2/buildings.ruleset:278 data/classic/buildings.ruleset:318
 #: data/experimental/buildings.ruleset:323
 #: data/multiplayer/buildings.ruleset:319
-#, fuzzy
 msgid ""
 "Under a Democracy, a Courthouse also makes 1 unhappy citizen content (unless "
 "that citizen is unhappy about military activity)."
 msgstr ""
-"Redueix la corrupció d'una ciutat en un 50%. Sota la Democràcia, un Jutjat "
-"fa content un ciutadà descontent (si no és que aquest ciutadà sigui "
-"descontent per activitats militars). També fa que el cost d'una revolta a la "
-"ciutat sigui 4 vegades superior."
+"En Democràcia, un Jutjat també fa content un ciutadà descontent (si no és "
+"que aquest ciutadà sigui descontent per activitats militars)."
 
 #: data/civ2/buildings.ruleset:329 data/classic/buildings.ruleset:369
 #: data/experimental/buildings.ruleset:374 data/civ2civ3/buildings.ruleset:420
@@ -18078,7 +18073,6 @@ msgstr ""
 "La ciutat ha de ser costanera per poder construir aquesta millora."
 
 #: data/civ2/buildings.ruleset:536 data/multiplayer/buildings.ruleset:574
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Corruption and "
 "waste in other cities is related to how far away from the capital they are, "
@@ -18087,10 +18081,10 @@ msgid ""
 "otherwise be (as if it had a Courthouse)."
 msgstr ""
 "Fa que una ciutat sigui la capital i el centre del teu govern. La corrupció "
-"de les altres ciutats està relacionada amb la distància que les separa de la "
-"capital, amb l'excepció dels governs en Democràcia i Comunisme. El cost "
-"d'incitar a una revolta en una ciutat també depèn de la distància des de la "
-"capital (en qualsevol forma de govern)."
+"i el malbaratament de les altres ciutats estan relacionats amb la distància "
+"que les separa de la capital, amb l'excepció dels governs en Democràcia i "
+"Comunisme. . A més, la corrupció i el malbaratament a la pròpia capital són "
+"la meitat del que li tocaria (com si tingués Jutjat)."
 
 #: data/civ2/buildings.ruleset:543 data/classic/buildings.ruleset:590
 #: data/experimental/buildings.ruleset:642
@@ -18102,6 +18096,11 @@ msgid ""
 "enjoys a bonus when enemy agents try to evade your own agents stationed in "
 "the city, or sabotage your buildings."
 msgstr ""
+"El cost per als Diplomàtics i Espies enemics d'incitar una revolta en una "
+"ciutat també depèn de la distància de la ciutat a la capital (en totes les "
+"formes de govern). La pròpia capital no es pot incitar a la revolta, i a més "
+"té una bonificació quan els agents enemics intenten evadir-se dels teus "
+"propis agents situats a la ciutat, o quan sabotegen els teus edificis."
 
 #: data/civ2/buildings.ruleset:557 data/classic/buildings.ruleset:609
 #: data/experimental/buildings.ruleset:661 data/civ2civ3/buildings.ruleset:665
@@ -19942,6 +19941,9 @@ msgid ""
 "Reduces the corruption in a city by 50%, and makes the revolt cost of the "
 "city 4 times bigger. (These effects are redundant in your capital city.)"
 msgstr ""
+"Redueix la corrupció d'una ciutat en un 50%, i fa que el cost de provocar "
+"una revolta a la ciutat sigui 4 vegades més gran. (Aquests efectes són "
+"redundants a la teva capital)."
 
 #: data/classic/buildings.ruleset:408 data/experimental/buildings.ruleset:433
 #: data/multiplayer/buildings.ruleset:406
@@ -21597,7 +21599,7 @@ msgstr ""
 
 #: data/civ2civ3/techs.ruleset:354
 msgid "Makes it possible for Engineers to transform terrains."
-msgstr ""
+msgstr "Possibilita que els Enginyers transformin el terreny."
 
 #: data/civ2civ3/techs.ruleset:408
 msgid "Halves upgrade cost of your units."
@@ -22306,7 +22308,6 @@ msgid "Take Player"
 msgstr "Agafar un Jugador"
 
 #: data/helpdata.txt:44
-#, fuzzy
 msgid ""
 "Freeciv is a turn-based strategy game, in which each player becomes the "
 "leader of a civilization. You compete against several opponents to found "
@@ -22324,7 +22325,7 @@ msgstr ""
 "veïns i en surti victoriós. Cada contrincant pot ser o bé un altre humà, o "
 "ser controlat per l'ordinador. Tots els jugadors comencen al principi de la "
 "història amb un grapat d'unitats -- típicament un explorador i un parell de "
-"colons el 4000 a.C. -- i s'afanyen a expandir-se terra enllà a partir "
+"colons el 4000 AEC -- i s'afanyen a expandir-se terra enllà a partir "
 "d'aquests inicis humils."
 
 #: data/helpdata.txt:54
@@ -22361,17 +22362,16 @@ msgstr ""
 "una nau i hi arribi guanya."
 
 #: data/helpdata.txt:68
-#, fuzzy
 msgid ""
 " - In the absence of other means to determine victory, the game will end "
 "after 5000 turns if no spacecraft have yet been launched. The surviving "
 "civilizations are then rated, and the one with the highest score is the "
 "winner."
 msgstr ""
-" - A falta d'atres mitjans per determinar la victòria, el joc acabarà l'any "
-"2000 d.C. si encara no s'ha enviat cap nau espacial. Les civilitzacions "
-"supervivents es valoren, i la que tingui una millor puntuació és la "
-"guanyadora."
+" - A falta d'altres mitjans per determinar la victòria, la partida acabarà "
+"l'any al cap de 5000 torns si encara no s'ha enviat cap nau espacial. Les "
+"civilitzacions supervivents es valoren, i la que tingui una millor puntuació "
+"és la guanyadora."
 
 #: data/helpdata.txt:73
 msgid ""
@@ -24359,16 +24359,14 @@ msgstr ""
 "partida, no tenen ciutat origen i per tant no requereixen manteniment."
 
 #: data/helpdata.txt:1055
-#, fuzzy
 msgid ""
 "Most units begin every turn with one or more movement points. Every action "
 "undertaken by a unit consumes movement points."
 msgstr ""
-"Les unitats comencen cada torn amb un o més punts de moviment. Cada acció "
-"que duu a terme una unitat consumeix punts de moviment."
+"La majoria de les unitats comencen cada torn amb un o més punts de moviment. "
+"Cada acció que duu a terme una unitat consumeix punts de moviment."
 
 #: data/helpdata.txt:1058
-#, fuzzy
 msgid ""
 "The most basic action is movement; units can move into any of the tiles "
 "surrounding their current location, subject to restrictions imposed by their "
@@ -24379,10 +24377,11 @@ msgid ""
 msgstr ""
 "L'acció més bàsica és el moviment; les unitats poden moure's cap a qualsevol "
 "de les caselles del voltant de la seva ubicació actual, segons les "
-"restriccions que els imposin la seva classe, les obligacions diplomàtiques "
-"(veure la secció de Diplomàcia), i les unitats enemigues (veure la secció "
-"sobre Zones de Control). El nombre de punts de moviment consumits pot "
-"dependre del tipus de terreny; veure l'ajuda de Terreny."
+"restriccions que els imposin la seva naturalesa física (de quin terreny són "
+"'natives'), les obligacions diplomàtiques (vegeu la secció de Diplomàcia), i "
+"les unitats enemigues (vegeu la secció sobre Zones de Control). El nombre de "
+"punts de moviment consumits pot dependre del tipus de terreny; vegeu l'ajuda "
+"de Terreny."
 
 #: data/helpdata.txt:1066
 msgid ""
@@ -25313,7 +25312,6 @@ msgstr ""
 "que arribi abans. L'única altra opció es capturar la seva capital."
 
 #: data/helpdata.txt:1536
-#, fuzzy
 msgid ""
 "Each player in the game is represented by a nation. A nation can be a modern-"
 "day nation state, a historical state or empire, an ethnic group, or even a "
@@ -25321,9 +25319,7 @@ msgid ""
 msgstr ""
 "Cada jugador de la partida està representat per una nació. Una nació pot ser "
 "una nació-estat actual, un estat o imperi històrics, un grup ètnic, o fins i "
-"tot una nació fictícia. Les nacions es distingeixen per la seva bandera, els "
-"líders i els noms de ciutats, però són idèntiques en tots els altres "
-"aspectes i juguen amb les mateixes regles."
+"tot una nació fictícia."
 
 #: data/helpdata.txt:1540
 msgid ""
@@ -26195,21 +26191,21 @@ msgstr ""
 "de fer-ho és visitant el Sistema de Seguiment d'Errors de Freeciv, a:"
 
 #: data/helpdata.txt:2277
-#, fuzzy
 msgid ""
 "Please quote the above version information. For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution."
 msgstr ""
 "Si us plau doneu la informació sobre la versió que hi ha aquí dalt. Per més "
 "informació sobre l'enviament d'informes d'errors, vegeu el fitxer BUGS a la "
-"distribució de Freeciv. Per més informació en general, visiteu el web de "
-"Freeciv, a:"
+"distribució de Freeciv."
 
 #: data/helpdata.txt:2281
 msgid ""
 "To contact the developers about anything else, please email one of the "
 "project's mailing lists:"
 msgstr ""
+"Per posar-te en contacte amb els desenvolupadors sobre qualsevol altra cosa, "
+"si us plau envieu un email a alguna de les llistes de correu del projecte:"
 
 #: data/helpdata.txt:2284
 msgid ""
@@ -26218,6 +26214,12 @@ msgid ""
 "    freeciv-maintainers@gna.org - private project administration\n"
 "                                  list (for security issues, etc)"
 msgstr ""
+"    freeciv-dev@gna.org         - llista pública de correu de "
+"desenvolupament\n"
+"                                  (els arxius són públics)\n"
+"    freeciv-maintainers@gna.org - llista privada d'administració\n"
+"                                  del projecte (per problemes de seguretat, "
+"etc)"
 
 #: data/helpdata.txt:2289
 msgid ""
@@ -26233,7 +26235,7 @@ msgstr "  Administradors actuals: "
 
 #: data/helpdata.txt:2303
 msgid "For more information in general, visit the Freeciv website, at:"
-msgstr ""
+msgstr "Per més informació en general, visiteu el web de Freeciv, a:"
 
 #: data/multiplayer/buildings.ruleset:614
 msgid ""
@@ -30341,7 +30343,6 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:200
-#, fuzzy
 msgid ""
 "debug diplomacy <player>\n"
 "debug ferries\n"
@@ -30354,7 +30355,6 @@ msgid ""
 msgstr ""
 "debug diplomacy <jugador>\n"
 "debug ferries\n"
-"debug player <jugador>\n"
 "debug tech <jugador>\n"
 "debug city <x> <y>\n"
 "debug units <x> <y>\n"
@@ -38712,12 +38712,6 @@ msgstr "error %ld (Missatge de format fallat)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compilat sense strerror)"
 
-#~ msgid "%+4d : Waste\n"
-#~ msgstr "%+4d : Malbaratament\n"
-
-#~ msgid "%+4d : Corruption\n"
-#~ msgstr "%+4d : Corrupció\n"
-
 #~ msgid ""
 #~ "Place a start position which allows any nation to start at the tile. To "
 #~ "allow only certain nations to start there, middle click on the start "
@@ -38758,13 +38752,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Vegeu el fitxer COPYING, que es distribueix amb Freeciv per al text "
 #~ "complet de la llicència."
 
-#~ msgid ""
-#~ "\n"
-#~ "veteran"
-#~ msgstr ""
-#~ "\n"
-#~ "veterà"
-
 #~ msgid "Freeciv %s, %s client"
 #~ msgstr "Freeciv %s, client %s"
 
@@ -38789,17 +38776,6 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "* May be converted into %s.\n"
 #~ msgstr "* Es pot convertir en %s.\n"
-
-#~ msgid ""
-#~ "* Can establish trade routes (must travel to target city and must be at "
-#~ "least %d tiles [in Manhattan distance] from this unit's home city).\n"
-#~ msgstr ""
-#~ "* Pot establir rutes comercials (ha de viatjar fins a la ciutat objectiu "
-#~ "i ha de ser almenys a %d caselles (seguint la graella, sense diagonals) "
-#~ "des de la ciutat origen d'aquesta unitat).\n"
-
-#~ msgid "* Can build new cities.\n"
-#~ msgstr "* Pot construir noves ciutats.\n"
 
 #~ msgid "* Can transform tiles.\n"
 #~ msgstr "* Pot transformar caselles.\n"
@@ -38886,41 +38862,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr "Fallada en buscar el host del metaservidor"
 
 #~ msgid ""
-#~ "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
-#~ "makes 1 unhappy citizen content.  Also halves the effective distance to "
-#~ "the capital, for the purpose of calculating revolt cost."
-#~ msgstr ""
-#~ "Redueix la corrupció d'una ciutat en un 50%. Sota Democràcia, un Jutjat "
-#~ "fa content un ciutadà descontent. També redueix a la meitat la distància "
-#~ "efectiva fins a la capital, a l'hora de calcular el cost de provocar una "
-#~ "revolta."
-
-#~ msgid ""
-#~ "Makes a city the capital and the center of your government.  Corruption "
-#~ "in other cities is related to how far away from the capital they are, "
-#~ "except when the government is Democracy or Communism.  The cost of "
-#~ "inciting a revolt in a city also depends upon the city's distance from "
-#~ "the capital (under all forms of government)."
-#~ msgstr ""
-#~ "Fa que una ciutat sigui la capital i el centre del teu govern. La "
-#~ "corrupció de les altres ciutats està relacionada amb la distància que les "
-#~ "separa de la capital, amb l'excepció dels governs en Democràcia i "
-#~ "Comunisme. El cost d'incitar a una revolta en una ciutat també depèn de "
-#~ "la distància des de la capital (en qualsevol forma de govern)."
-
-#~ msgid ""
-#~ "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
-#~ "Courthouse also makes 1 unhappy citizen content (unless that citizen is "
-#~ "unhappy about military activity).  Also halves the effective distance to "
-#~ "the capital, for the purpose of calculating revolt cost."
-#~ msgstr ""
-#~ "Redueix la corrupció i el malbaratament d'una ciutat en un 50%. Sota la "
-#~ "Democràcia, un Jutjat fa content un ciutadà descontent (a no ser que "
-#~ "aquest ciutadà estigui descontent a causa d'activitats militars). També "
-#~ "redueix a la meitat la distància de fet a la capital a l'hora de calcular "
-#~ "el cost d'una revolta."
-
-#~ msgid ""
 #~ "Any land terrain type may have a River on it.  A River adds 1 trade to "
 #~ "the resources produced by that tile.  It also increases a tile's defense "
 #~ "factor by 50%.  Finally, land units may move along a River (but not "
@@ -38931,17 +38872,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "augmenta el factor defensiu de la casella en un 50%. Finalment, les "
 #~ "unitats terrestres poden moure's al llarg d'un Riu (però no en diagonal); "
 #~ "el moviment al llarg d'un Riu costa només 1/3 de punt de moviment."
-
-#~ msgid ""
-#~ "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
-#~ "also makes 1 unhappy citizen content (unless that citizen is unhappy "
-#~ "about military activity).  Also makes the revolt cost of the city 4 times "
-#~ "bigger."
-#~ msgstr ""
-#~ "Redueix la corrupció d'una ciutat en un 50%. Sota la Democràcia, un "
-#~ "Jutjat fa content un ciutadà descontent (si no és que aquest ciutadà "
-#~ "sigui descontent per activitats militars). També fa que el cost d'una "
-#~ "revolta a la ciutat sigui 4 vegades superior."
 
 #~ msgid ""
 #~ "All your new military land units start at the first veteran level. The "
@@ -38973,37 +38903,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "l'equilibri estricte del joc ni per la jugabilitat. Es pot trobar una "
 #~ "descripció de les diferències amb el joc de regles predeterminat al "
 #~ "fitxer README.ruleset_experimental."
-
-#~ msgid ""
-#~ "Freeciv is a turn-based strategy game, in which each player becomes the "
-#~ "leader of a civilization. You compete against several opponents to found "
-#~ "cities, use them to support a military and economy, and finally to "
-#~ "complete an empire that survives all encounters with its neighbors to "
-#~ "emerge victorious. Each opponent may be either another human or be "
-#~ "controlled by the computer. All players begin at the dawn of history with "
-#~ "a handful of units -- typically with an explorer and a couple of settlers "
-#~ "in 4000 BC -- and race to expand outward from those humble beginnings."
-#~ msgstr ""
-#~ "Freeciv és un joc d'estratègia per torns, on cada jugador es converteix "
-#~ "en el líder d'una civilització. Competeixes contra diversos contrincants "
-#~ "per fundar ciutats, utilitzar-les per mantenir un exèrcit i una economia, "
-#~ "i finalment culminar un imperi que sobrevisqui totes les topades amb els "
-#~ "seus veïns i en surti victoriós. Cada contrincant pot ser o bé un altre "
-#~ "humà, o ser controlat per l'ordinador. Tots els jugadors comencen al "
-#~ "principi de la història amb un grapat d'unitats -- típicament un "
-#~ "explorador i un parell de colons el 4000 a.C. -- i s'afanyen a expandir-"
-#~ "se terra enllà a partir d'aquests inicis humils."
-
-#~ msgid ""
-#~ " - In the absence of other means to determine victory, the game will end "
-#~ "in the year 2000 AD if no spacecraft have yet been launched. The "
-#~ "surviving civilizations are then rated, and the one with the highest "
-#~ "score is the winner."
-#~ msgstr ""
-#~ " - A falta d'atres mitjans per determinar la victòria, el joc acabarà "
-#~ "l'any 2000 d.C. si encara no s'ha enviat cap nau espacial. Les "
-#~ "civilitzacions supervivents es valoren, i la que tingui una millor "
-#~ "puntuació és la guanyadora."
 
 #~ msgid ""
 #~ " 7. Interacting with other players (diplomacy).\n"
@@ -39718,28 +39617,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "la construcció d'una meravella en una altra ciutat."
 
 #~ msgid ""
-#~ "Units begin every turn with one or more movement points. Every action "
-#~ "undertaken by a unit consumes movement points."
-#~ msgstr ""
-#~ "Les unitats comencen cada torn amb un o més punts de moviment. Cada acció "
-#~ "que duu a terme una unitat consumeix punts de moviment."
-
-#~ msgid ""
-#~ "The most basic action is movement; units can move into any of the tiles "
-#~ "surrounding their current location, subject to restrictions imposed by "
-#~ "their class, by diplomatic obligations (see the section on Diplomacy), "
-#~ "and by enemy units (see the section on Zones of Control). The number of "
-#~ "movement points consumed may depend on the type of terrain; see the "
-#~ "Terrain help."
-#~ msgstr ""
-#~ "L'acció més bàsica és el moviment; les unitats poden moure's cap a "
-#~ "qualsevol de les caselles del voltant de la seva ubicació actual, segons "
-#~ "les restriccions que els imposin la seva classe, les obligacions "
-#~ "diplomàtiques (veure la secció de Diplomàcia), i les unitats enemigues "
-#~ "(veure la secció sobre Zones de Control). El nombre de punts de moviment "
-#~ "consumits pot dependre del tipus de terreny; veure l'ajuda de Terreny."
-
-#~ msgid ""
 #~ "Units which have been damaged in combat will regain hit points each turn "
 #~ "in which they are not moved. Normally, a unit which has not moved will "
 #~ "regain one hit point per turn. Units which are fortified gain an extra "
@@ -40184,27 +40061,14 @@ msgstr "error %d (compilat sense strerror)"
 #~ "capital."
 
 #~ msgid ""
-#~ "Each player in the game is represented by a nation. A nation can be a "
-#~ "modern-day nation state, a historical state or empire, an ethnic group, "
-#~ "or even a fictional nation. Nations are distinguished by their flags, "
-#~ "leaders and city names, but are identical in all other aspects and play "
-#~ "by the same rules."
+#~ "Nations are distinguished by their flags, leaders and city names; in the "
+#~ "default rules they are identical in all other aspects and play by the "
+#~ "same rules, but other rules may have nation-specific behavior."
 #~ msgstr ""
-#~ "Cada jugador de la partida està representat per una nació. Una nació pot "
-#~ "ser una nació-estat actual, un estat o imperi històrics, un grup ètnic, o "
-#~ "fins i tot una nació fictícia. Les nacions es distingeixen per la seva "
-#~ "bandera, els líders i els noms de ciutats, però són idèntiques en tots "
-#~ "els altres aspectes i juguen amb les mateixes regles."
-
-#~ msgid ""
-#~ "Please quote the above version information.  For more information about "
-#~ "submitting bug reports see the file BUGS in the Freeciv distribution.  "
-#~ "For more information in general, visit the Freeciv website, at:"
-#~ msgstr ""
-#~ "Si us plau doneu la informació sobre la versió que hi ha aquí dalt. Per "
-#~ "més informació sobre l'enviament d'informes d'errors, vegeu el fitxer "
-#~ "BUGS a la distribució de Freeciv. Per més informació en general, visiteu "
-#~ "el web de Freeciv, a:"
+#~ "Les nacions es distingeixen per la bandera, el líder, i els noms de les "
+#~ "ciutats; jugant amb les regles predeterminades, són idèntiques en tots "
+#~ "els altres sentits i juguen amb les mateixes regles, però altres jocs de "
+#~ "regles poden presentar comportaments específics per a algunes nacions."
 
 #~ msgid ""
 #~ "All your new military land units produced in cities on the same continent "
@@ -40553,6 +40417,9 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Secretary General %s"
 #~ msgstr "Secretari General %s"
+
+#~ msgid "?female:Secretary General %s"
+#~ msgstr "Secretària General %s"
 
 #~ msgid "%s Dey"
 #~ msgstr "%s Dey"
@@ -45279,9 +45146,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "convertir-se en protectorat francès després de la Primera Guerra Mundial. "
 #~ "El Líban va proclamar la seva independència el 1943."
 
-#~ msgid "?female:Secretary General %s"
-#~ msgstr "Secretària General %s"
-
 #~ msgid "Lendian"
 #~ msgstr "Lendi"
 
@@ -46489,10 +46353,10 @@ msgstr "error %d (compilat sense strerror)"
 #~ "desenvolupat, i un dels països del món amb una renda per càpita més alta. "
 #~ "Amb l'esgotament de les reserves de fosfats, el país està patint una greu "
 #~ "crisi econòmica. S'han buscat fonts d'ingressos alternatives com la banca "
-#~ "\"offshore\", els centres de detenció d'immigrants i elsteatres musicals, "
-#~ "però no han pogut reemplaçar els fosfats. Nauru és el tercer país més "
-#~ "petit del món, i el segon més petit en població. És el país més petit de "
-#~ "l'Hemisferi Sud i la república més petita del món."
+#~ "\"offshore\", els centres de detenció d'immigrants i els teatres "
+#~ "musicals, però no han pogut reemplaçar els fosfats. Nauru és el tercer "
+#~ "país més petit del món, i el segon més petit en població. És el país més "
+#~ "petit de l'Hemisferi Sud i la república més petita del món."
 
 #~ msgid "Navajo"
 #~ msgstr "Navajo"
@@ -49076,9 +48940,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "La República Àrab Síria moderna va ser formada per un mandat francès i va "
 #~ "guanyar la independència gradualment durant la dècada dels 1940."
 
-#~ msgid "?female:Shaykha %s"
-#~ msgstr "Xeica %s"
-
 #~ msgid "Tahitian"
 #~ msgstr "Tahitià"
 
@@ -50596,27 +50457,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "L'argument pot ser abreujat, i el predeterminat és 'players' (jugadors), "
 #~ "si no es diu res."
 
-#~ msgid ""
-#~ "debug diplomacy <player>\n"
-#~ "debug ferries\n"
-#~ "debug player <player>\n"
-#~ "debug tech <player>\n"
-#~ "debug city <x> <y>\n"
-#~ "debug units <x> <y>\n"
-#~ "debug unit <id>\n"
-#~ "debug timing\n"
-#~ "debug info"
-#~ msgstr ""
-#~ "debug diplomacy <jugador>\n"
-#~ "debug ferries\n"
-#~ "debug player <jugador>\n"
-#~ "debug tech <jugador>\n"
-#~ "debug city <x> <y>\n"
-#~ "debug units <x> <y>\n"
-#~ "debug unit <id>\n"
-#~ "debug timing\n"
-#~ "debug info"
-
 #~ msgid "Save game to file using the old format."
 #~ msgstr "Desa la partida en un fitxer utilitzant el format antic."
 
@@ -50761,6 +50601,46 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Cannot attack from sea."
 #~ msgstr "No pots atacar des del mar."
+
+#~ msgid ""
+#~ "\n"
+#~ "veteran"
+#~ msgstr ""
+#~ "\n"
+#~ "veterà"
+
+#~ msgid ""
+#~ "* Can establish trade routes (must travel to target city and must be at "
+#~ "least %d tiles [in Manhattan distance] from this unit's home city).\n"
+#~ msgstr ""
+#~ "* Pot establir rutes comercials (ha de viatjar fins a la ciutat objectiu "
+#~ "i ha de ser almenys a %d caselles (seguint la graella, sense diagonals) "
+#~ "des de la ciutat origen d'aquesta unitat).\n"
+
+#~ msgid ""
+#~ "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
+#~ "makes 1 unhappy citizen content.  Also halves the effective distance to "
+#~ "the capital, for the purpose of calculating revolt cost."
+#~ msgstr ""
+#~ "Redueix la corrupció d'una ciutat en un 50%. Sota Democràcia, un Jutjat "
+#~ "fa content un ciutadà descontent. També redueix a la meitat la distància "
+#~ "efectiva fins a la capital, a l'hora de calcular el cost de provocar una "
+#~ "revolta."
+
+#~ msgid ""
+#~ "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
+#~ "Courthouse also makes 1 unhappy citizen content (unless that citizen is "
+#~ "unhappy about military activity).  Also halves the effective distance to "
+#~ "the capital, for the purpose of calculating revolt cost."
+#~ msgstr ""
+#~ "Redueix la corrupció i el malbaratament d'una ciutat en un 50%. Sota la "
+#~ "Democràcia, un Jutjat fa content un ciutadà descontent (a no ser que "
+#~ "aquest ciutadà estigui descontent a causa d'activitats militars). També "
+#~ "redueix a la meitat la distància de fet a la capital a l'hora de calcular "
+#~ "el cost d'una revolta."
+
+#~ msgid "?female:Shaykha %s"
+#~ msgstr "Xeica %s"
 
 #~ msgid "Requires the %s terrain special on the tile.\n"
 #~ msgstr "Requereix que la casella tingui el recurs especial de terreny %s.\n"
