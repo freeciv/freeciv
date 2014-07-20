@@ -1924,7 +1924,6 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
   Uint32 y, end;
   Uint8 *start, *pixel;
 
-
   movq_m2r(*load, mm4); /* alpha -> mm4 */
 
   *(Uint64 *)load = 0x00FF00FF00FF00FF;
@@ -2062,7 +2061,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
     }
 
     start = pixel = (Uint8 *) pSurface->pixels +
-	(pRect->y * pSurface->pitch ) + pRect->x * 3;
+      (pRect->y * pSurface->pitch ) + pRect->x * 3;
 
     if (A == 128) {		/* 50% A */
       *(Uint64 *)load = 0x0000fefefefefefe;/* alpha128 mask */
@@ -2107,8 +2106,9 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  pixel[5] = load[5];
 	  pixel += 6;
         }, end);
-	pixel = start + pSurface->pitch;
-	start = pixel;
+
+        pixel = start + pSurface->pitch;
+        start = pixel;
       }/* while */
       emms();
 
@@ -2177,8 +2177,8 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  pixel += 6;
 	}, end);
 
-	pixel = start + pSurface->pitch;
-	start = pixel;
+        pixel = start + pSurface->pitch;
+        start = pixel;
       } /* while */
       emms();
     }   
@@ -2198,7 +2198,8 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
 {
   Uint32 y, end;
 
-  Uint16 *start, *pixel;
+  Uint32 *start;
+  Uint32 *pixel;
 
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
@@ -2209,7 +2210,7 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
   lock_surf(pSurface);
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
-    pixel = (Uint16 *) pSurface->pixels;
+    pixel = pSurface->pixels;
     if (A == 16) {		/* A == 128 >> 3 */
       /* this code don't work (A == 128) */
       if (end & 0x1) {		/* end % 2 */
@@ -2255,8 +2256,8 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
       }
     }
 
-    start = pixel = (Uint16 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 1)) + pRect->x;
+    start = pixel = (Uint32 *) pSurface->pixels +
+      (pRect->y * pSurface->pitch) + pRect->x / 2;
 
     if (A == 16) {		/* A == 128 >> 3 */
       /* this code don't work (A == 128) */
@@ -2276,8 +2277,8 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
 	  pixel += 2;
 	}
 
-	pixel = start + (pSurface->pitch >> 1);
-	start = pixel;
+        pixel = start + pSurface->pitch;
+        start = pixel;
       }
     } else {
       y = 0;
@@ -2294,9 +2295,9 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
 	  D &= 0x07e0f81f;
 	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
         }, end);
-      
-	pixel = start + (pSurface->pitch >> 1);
-	start = pixel;
+
+        pixel = start + pSurface->pitch;
+        start = pixel;
       } /* while */
     }
 
@@ -2314,7 +2315,7 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 {
   Uint32 y, end;
 
-  Uint16 *start, *pixel;
+  Uint32 *start, *pixel;
 
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
@@ -2326,7 +2327,7 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
-    pixel = (Uint16 *) pSurface->pixels;
+    pixel = pSurface->pixels;
     if (A == 16) {		/* A == 128 >> 3 */
       if (end & 0x1) {
 	D = *pixel;
@@ -2336,8 +2337,8 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 
       S = S | S << 16;
       for (y = 0; y < end; y += 2) {
-	D = *(Uint32 *) pixel;
-	*(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
+	D = *pixel;
+	*pixel = BLEND2x16_50(D, S, MASK555);
 	pixel += 2;
       }
     } else {
@@ -2371,8 +2372,8 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
       }
     }
 
-    start = pixel = (Uint16 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 1)) + pRect->x;
+    start = pixel = (Uint32 *) pSurface->pixels +
+      (pRect->y * pSurface->pitch) + pRect->x / 2;
 
     if (A == 16) {		/* A == 128 >> 3 */
       S = S | S << 16;
@@ -2391,8 +2392,8 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  pixel += 2;
 	}
 
-	pixel = start + (pSurface->pitch >> 1);
-	start = pixel;
+        pixel = start + pSurface->pitch;
+        start = pixel;
       }
     } else {
       
@@ -2409,9 +2410,9 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 	  D &= 0x03e07c1f;
 	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
         }, end);
-      
-	pixel = start + (pSurface->pitch >> 1);
-	start = pixel;
+
+        pixel = start + pSurface->pitch;
+        start = pixel;
       } /* while */
     }
   }
@@ -2743,7 +2744,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
     pixel = (Uint8 *) pSurface->pixels;
 
     for (y = 0; y < end; y++) {
-      D = *(Uint32 *) pixel;
+      D = (pixel[0] << 16) + (pixel[1] << 8) + pixel[2];
 
       P = D & 0x00FF00FF;
       P += (S1 - P) * A >> 8;
@@ -2790,7 +2791,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 
     y = 0;
     while (y != pRect->h) {
-      D = *(Uint32 *) pixel;
+      D = (pixel[0] << 16) + (pixel[1] << 8) + pixel[2];
 
       P = D & 0x00FF00FF;
       P += (S1 - P) * A >> 8;
@@ -3099,7 +3100,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       h = pSurface->h;
       x = w - 1;
       y = h - 1;
-      pixel = (Uint16 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x * 2);
+      pixel = ((Uint16 *)pSurface->pixels + (y * pSurface->pitch / 2) + x);
       start = pixel;
       while(h--) {
         do {
@@ -3228,7 +3229,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       h = pSurface->h;
       x = w - 1;
       y = h - 1;
-      pixel = (Uint32 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x * 4);
+      pixel = ((Uint32 *)pSurface->pixels + (y * pSurface->pitch / 4) + x);
       start = pixel;
       while(h--) {
         do {
