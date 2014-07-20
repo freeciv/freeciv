@@ -30,7 +30,7 @@ AC_DEFUN([FC_CHECK_MYSQL],
     MYSQL_VERSION=`$MYSQL_CONFIG --version`
 
     # remove NDEBUG from MYSQL_CFLAGS
-    mysql_cflags=`echo $mysql_cflags | sed -e 's/-DNDEBUG//g'`
+    mysql_cflags=`echo $mysql_cflags | $SED -e 's/-DNDEBUG//g'`
 
     found_mysql="yes"
     AC_MSG_RESULT([yes])

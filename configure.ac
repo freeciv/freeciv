@@ -534,7 +534,7 @@ Try --disable-nls. Read ABOUT-NLS.)
 
   if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
     AC_MSG_CHECKING(for GNU xgettext version >= 0.10.36)
-    xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | sed 's/"/ /g'`
+    xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
     AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 
@@ -566,7 +566,7 @@ Please update your gettext package.)
     ])
 
     AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.35)
-    msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | sed 's/"/ /g'`
+    msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
     AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 

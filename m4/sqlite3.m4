@@ -83,8 +83,8 @@ AC_DEFUN([FC_CHECK_SQLITE3],
     dnl Retrieve SQLite release version
     if test "x$ac_sqlite3_header_path" != "x"; then
       ac_sqlite3_version=`cat $ac_sqlite3_header_path \
-                          | grep '#define.*SQLITE_VERSION.*\"' | sed -e 's/.* "//' \
-                          | sed -e 's/"//'`
+                          | grep '#define.*SQLITE_VERSION.*\"' | $SED -e 's/.* "//' \
+                          | $SED -e 's/"//'`
       if test $ac_sqlite3_version != ""; then
         SQLITE3_VERSION=$ac_sqlite3_version
       else

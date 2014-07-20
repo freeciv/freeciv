@@ -29,7 +29,7 @@ AC_DEFUN([FC_CHECK_X_LIB], [
  dnl just for library $1.  Separate tests with the same $1 and different $2s
  dnl may have different results.
 
- ac_lib_var=`echo $1['_']$2 | sed 'y%./+-%__p_%'`
+ ac_lib_var=`echo $1['_']$2 | $SED 'y%./+-%__p_%'`
  AC_CACHE_VAL(ac_cv_lib_$ac_lib_var,
   [ac_save_LIBS="$LIBS"
    LIBS="$X_LIBS -l$1 $X_EXTRA_LIBS $LIBS"
@@ -49,7 +49,7 @@ AC_DEFUN([FC_CHECK_X_LIB], [
   AC_MSG_RESULT(yes)
   ifelse([$3], ,
    [changequote(, )dnl
-    ac_tr_lib=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
+    ac_tr_lib=HAVE_LIB`echo $1 | $SED -e 's/[^a-zA-Z0-9_]/_/g' \
     -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
     changequote([, ])dnl
 
@@ -191,7 +191,7 @@ AC_MSG_CHECKING(for Xfuncproto control definition $1)
 fc_x_proto_value=
 for fc_x_define in $fc_x_proto_defines; do
   fc_x_val=1
-  eval `echo $fc_x_define | sed -e 's/=/ ; fc_x_val=/' | sed -e 's/^/fc_x_var=/'`
+  eval `echo $fc_x_define | $SED -e 's/=/ ; fc_x_val=/' | $SED -e 's/^/fc_x_var=/'`
   if test "x$fc_x_var" = "x$1"; then
     fc_x_proto_value=$fc_x_val
     break
@@ -238,7 +238,7 @@ fcfindpd:
 EOF
     if (xmkmf) >/dev/null 2>/dev/null && test -f Makefile; then
       # GNU make sometimes prints "make[1]: Entering...", which would confuse us.
-      eval `${MAKE-make} fcfindpd 2>/dev/null | grep -v make | sed -e 's/ -D/ /g'`
+      eval `${MAKE-make} fcfindpd 2>/dev/null | grep -v make | $SED -e 's/ -D/ /g'`
       AC_MSG_RESULT([no, found: $fc_x_proto_defines])
       cd ..
       rm -fr conftestdir
