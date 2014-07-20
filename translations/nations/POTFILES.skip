@@ -206,6 +206,7 @@ common/achievements.c
 common/actions.c
 common/actions.h
 common/ai.c
+common/calendar.c
 common/city.c
 common/clientutils.c
 common/connection.c
@@ -220,6 +221,7 @@ common/metaknowledge.h
 common/packets.c
 common/player.c
 common/player.h
+common/research.c
 common/requirements.c
 common/road.c
 common/team.c
@@ -242,6 +244,7 @@ tools/mpgui_qt_worker.cpp
 tools/ruledit/ruledit.cpp
 tools/ruledit/ruledit_qt.cpp
 tools/ruledit/tab_misc.cpp
+tools/ruledit/tab_nation.cpp
 tools/ruledit/tab_tech.cpp
 tools/ruledit/validity.c
 server/aiiface.c
@@ -290,5 +293,6 @@ utility/log.c
 utility/netfile.c
 utility/netintf.c
 utility/registry_ini.c
+utility/registry_xml.c
 utility/shared.c
 utility/support.c
