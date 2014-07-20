@@ -2781,6 +2781,8 @@ static void unit_enter_hut(struct unit *punit)
 
   extra_type_by_cause_iterate(EC_HUT, pextra) {
     if (tile_has_extra(ptile, pextra)) {
+      pplayer->server.huts++;
+
       tile_remove_extra(ptile, pextra);
       update_tile_knowledge(unit_tile(punit));
 

@@ -259,6 +259,8 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     return FALSE;
   case ACHIEVEMENT_LUCKY:
     return (fc_rand(10000) < ach->value);
+  case ACHIEVEMENT_HUTS:
+    return pplayer->server.huts >= ach->value;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -308,6 +310,11 @@ const char *achievement_first_msg(struct achievement *pach)
                 _("You beat %d in 10000 odds! You're the first one to be so lucky."),
                 pach->value);
     return buf;
+  case ACHIEVEMENT_HUTS:
+    fc_snprintf(buf, sizeof(buf),
+                _("You're the first one to have entered %d huts!"),
+                pach->value);
+    return buf;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -354,6 +361,11 @@ const char *achievement_later_msg(struct achievement *pach)
   case ACHIEVEMENT_LUCKY:
     fc_snprintf(buf, sizeof(buf),
                 _("You beat %d in 10000 odds!"),
+                pach->value);
+    return buf;
+  case ACHIEVEMENT_HUTS:
+    fc_snprintf(buf, sizeof(buf),
+                _("You have entered %d huts!"),
                 pach->value);
     return buf;
   case ACHIEVEMENT_COUNT:

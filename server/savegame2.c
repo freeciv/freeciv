@@ -3953,6 +3953,8 @@ static void sg_load_player_main(struct loaddata *loading,
 
   plr->culture =
     secfile_lookup_int_default(loading->file, 0, "player%d.culture", plrno);
+  plr->server.huts =
+    secfile_lookup_int_default(loading->file, 0, "player%d.hut_count", plrno);
 }
 
 /****************************************************************************
@@ -4198,6 +4200,8 @@ static void sg_save_player_main(struct savedata *saving,
 
   secfile_insert_int(saving->file, plr->culture,
                      "player%d.culture", plrno);
+  secfile_insert_int(saving->file, plr->server.huts,
+                     "player%d.hut_count", plrno);
 }
 
 /****************************************************************************

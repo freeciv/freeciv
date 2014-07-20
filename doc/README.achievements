@@ -34,3 +34,6 @@ Cultured_Nation
 Lucky
     Achievement is granted on turn when random number generator
     gives value less than <value> out of 10000.
+
+Huts
+    Achievement is granted once player has entered <value> huts.

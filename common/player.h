@@ -285,6 +285,8 @@ struct player {
        *    aside' while the delegate user controls a delegated player.
        *    (In this case orig_username == username.) */
       char orig_username[MAX_LEN_NAME];
+
+      int huts; /* How many huts this player has found */
     } server;
 
     struct {
