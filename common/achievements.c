@@ -23,6 +23,7 @@
 
 /* common */
 #include "citizens.h"
+#include "city.h"
 #include "culture.h"
 #include "game.h"
 #include "player.h"
@@ -261,6 +262,14 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     return (fc_rand(10000) < ach->value);
   case ACHIEVEMENT_HUTS:
     return pplayer->server.huts >= ach->value;
+  case ACHIEVEMENT_METROPOLIS:
+    city_list_iterate(pplayer->cities, pcity) {
+      if (city_size_get(pcity) >= ach->value) {
+        return TRUE;
+      }
+    } city_list_iterate_end;
+
+    return FALSE;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -315,6 +324,11 @@ const char *achievement_first_msg(struct achievement *pach)
                 _("You're the first one to have entered %d huts!"),
                 pach->value);
     return buf;
+  case ACHIEVEMENT_METROPOLIS:
+    fc_snprintf(buf, sizeof(buf),
+                _("Your empire has the first size %d city in the world!"),
+                pach->value);
+    return buf;
   case ACHIEVEMENT_COUNT:
     break;
   }
@@ -366,6 +380,11 @@ const char *achievement_later_msg(struct achievement *pach)
   case ACHIEVEMENT_HUTS:
     fc_snprintf(buf, sizeof(buf),
                 _("You have entered %d huts!"),
+                pach->value);
+    return buf;
+  case ACHIEVEMENT_METROPOLIS:
+    fc_snprintf(buf, sizeof(buf),
+                _("You have your first size %d city!"),
                 pach->value);
     return buf;
   case ACHIEVEMENT_COUNT:

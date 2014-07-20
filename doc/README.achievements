@@ -37,3 +37,7 @@ Lucky
 
 Huts
     Achievement is granted once player has entered <value> huts.
+
+Metropolis
+    Achievement is granted once there's city of at least size
+    <value> in the player's empire.
