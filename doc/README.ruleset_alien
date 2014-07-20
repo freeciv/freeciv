@@ -100,3 +100,6 @@ This list is incomplete
 - Thick Mountains cannot be mined at all until Burrowing is known, but then
   it requires just 17 movement points, road building time reduced to 12 movement
   points
+
+- Empire size causes additional unhappiness only once every 15 bases (was 10),
+  and knowledge of Communication eases it so that the step is 20 bases

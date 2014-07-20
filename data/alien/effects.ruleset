@@ -56,11 +56,27 @@ value	= 1
 
 [effect_empire_size_base]
 type    = "Empire_Size_Base"
-value   = 10
+value   = 15
 
 [effect_empire_size_step_base]
 type    = "Empire_Size_Step"
-value   = 10
+value   = 15
+
+[effect_empire_size_base_communication]
+type    = "Empire_Size_Base"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Communication", "Player"
+    }
+
+[effect_empire_size_step_communication]
+type    = "Empire_Size_Step"
+value   = 5
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Communication", "Player"
+    }
 
 [effect_enable_space]
 type    = "Enable_Space"
