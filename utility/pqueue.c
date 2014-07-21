@@ -60,7 +60,6 @@ struct pqueue *pq_create(int initial_size)
 ********************************************************************/
 void pq_destroy(struct pqueue *q)
 {
-  fc_assert_ret(NULL != q);
   free(q->cells);
   free(q->priorities);
   free(q);
@@ -72,8 +71,6 @@ void pq_destroy(struct pqueue *q)
 void pq_insert(struct pqueue *q, pq_data_t datum, int datum_priority)
 {
   int i;
-
-  fc_assert_ret(NULL != q);
 
   /* allocate more memory if necessary */
   if (q->size >= q->avail) {
@@ -101,8 +98,6 @@ void pq_insert(struct pqueue *q, pq_data_t datum, int datum_priority)
 void pq_replace(struct pqueue *q, const pq_data_t datum, int datum_priority)
 {
   int i;
-
-  fc_assert_ret(NULL != q);
 
   /* Lookup for datum... */
   for (i = q->size - 1; i >= 1; i--) {
@@ -140,8 +135,6 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
   int tmp_priority;
   pq_data_t top;
   int i = 1;
-
-  fc_assert_ret_val(NULL != q, FALSE);
 
   if (q->size == 1) {
     return FALSE;
@@ -181,11 +174,24 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
 **********************************************************************/
 bool pq_peek(struct pqueue *q, pq_data_t * dest)
 {
-  fc_assert_ret_val(NULL != q, FALSE);
   if (q->size == 1) {
     return FALSE;
   }
 
   *dest = q->cells[1];
+  return TRUE;
+}
+
+/****************************************************************************
+  Set the highest priority of the queue in 'datum_priority'. Return FALSE
+  iff the queue is empty.
+****************************************************************************/
+bool pq_priority(const struct pqueue *q, int *datum_priority)
+{
+  if (q->size == 1) {
+    return FALSE;
+  }
+
+  *datum_priority = q->priorities[1];
   return TRUE;
 }
