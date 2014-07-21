@@ -15,7 +15,8 @@ INPUTDIR="$(cd "$1/bootstrap" ; pwd)"
 OUTPUTDIR="$(cd "$2/common" ; pwd)"
 
 REVSTATE="OFF"
-REV="dist"
+REV1=""
+REV2="dist"
 
 (cd "$INPUTDIR"
  # Check that all commands required by this script are available
@@ -27,15 +28,16 @@ REV="dist"
      # This is svn checkout. Check for local modifications
      if test $(cd "$SRCROOT" ; svn diff | wc -l) -eq 0 ; then
        REVSTATE=ON
-       REV="$REVTMP"
+       REV2="$REVTMP"
      else
        REVSTATE=MOD
-       REV="modified $REVTMP"
+       REV1="modified "
+       REV2="$REVTMP"
      fi
    fi
  fi
 
- sed -e "s,<SVNREV>,$REV," -e "s,<SVNREVSTATE>,$REVSTATE," fc_svnrev_gen.h.in > "$OUTPUTDIR/fc_svnrev_gen.h.tmp"
+ sed -e "s,<SVNREV1>,$REV1," -e "s,<SVNREV2>,$REV2," -e "s,<SVNREVSTATE>,$REVSTATE," fc_svnrev_gen.h.in > "$OUTPUTDIR/fc_svnrev_gen.h.tmp"
  if ! test -f "$OUTPUTDIR/fc_svnrev_gen.h" ||
     ! cmp "$OUTPUTDIR/fc_svnrev_gen.h" "$OUTPUTDIR/fc_svnrev_gen.h.tmp"
  then
