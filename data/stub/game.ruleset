@@ -175,23 +175,9 @@ tired_attack = FALSE
 ;
 ; */ <-- avoid gettext warnings
 
-[actionenabler_sabotage_city]
-action = "Sabotage City"
-
-[actionenabler_sabotage_city_target]
-action = "Targeted Sabotage City"
-
-[actionenabler_poison_city]
-action = "Poison City"
-
-[actionenabler_incite_city]
-action = "Incite City"
-
-[actionenabler_bribe_unit]
-action = "Bribe Unit"
-
-[actionenabler_sabotage_unit]
-action = "Sabotage Unit"
+; No enabled actions
+; [actionenabler_embassy]
+; action = "Establish Embassy"
 
 [borders]
 ; Base border radius from city.
