@@ -150,14 +150,15 @@ void kill_player(struct player *pplayer)
      rightful owners, if they are still around */
   palace = game.server.savepalace;
   game.server.savepalace = FALSE; /* moving it around is dumb */
-  city_list_iterate(pplayer->cities, pcity) {
+  city_list_iterate_safe(pplayer->cities, pcity) {
     if (pcity->original != pplayer && pcity->original->is_alive) {
       /* Transfer city to original owner, kill all its units outside of
          a radius of 3, give verbose messages of every unit transferred,
          and raze buildings according to raze chance (also removes palace) */
-      transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE, TRUE);
+      (void) transfer_city(pcity->original, pcity, 3, TRUE, TRUE, TRUE,
+                           TRUE);
     }
-  } city_list_iterate_end;
+  } city_list_iterate_safe_end;
   game.server.savepalace = palace;
 
   /* let there be civil war */
@@ -193,9 +194,10 @@ void kill_player(struct player *pplayer)
     adv_data_phase_init(barbarians, TRUE);
 
     /* Transfer any remaining cities */
-    city_list_iterate(pplayer->cities, pcity) {
-      transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE, FALSE);
-    } city_list_iterate_end;
+    city_list_iterate_safe(pplayer->cities, pcity) {
+      (void) transfer_city(barbarians, pcity, -1, FALSE, FALSE, FALSE,
+                           FALSE);
+    } city_list_iterate_safe_end;
 
     game.server.savepalace = palace;
       
@@ -2632,7 +2634,7 @@ struct player *civil_war(struct player *pplayer)
    * flipped */
   i = MAX(city_list_size(pplayer->cities)/2,
           1 + (player_capital(pplayer) != NULL));
-  city_list_iterate(pplayer->cities, pcity) {
+  city_list_iterate_safe(pplayer->cities, pcity) {
     if (!is_capital(pcity)) {
       if (i >= j || (i > 0 && fc_rand(2) == 1)) {
         /* Transfer city and units supported by this city to the new owner.
@@ -2641,19 +2643,20 @@ struct player *civil_war(struct player *pplayer)
          * a unit from another city, and both cities join the rebellion. We
          * resolved stack conflicts for each city we would teleport the first
          * of the units we met since the other would have another owner. */
-        transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE);
-        log_verbose("%s declares allegiance to the %s.", city_name(pcity),
-                    nation_rule_name(nation_of_player(cplayer)));
-        notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
-                      /* TRANS: <city> ... the Poles. */
-                      _("%s declares allegiance to the %s."),
-                      city_link(pcity),
-                      nation_plural_for_player(cplayer));
+        if (transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE, FALSE)) {
+          log_verbose("%s declares allegiance to the %s.", city_name(pcity),
+                      nation_rule_name(nation_of_player(cplayer)));
+          notify_player(pplayer, pcity->tile, E_CITY_LOST, ftc_server,
+                        /* TRANS: <city> ... the Poles. */
+                        _("%s declares allegiance to the %s."),
+                        city_link(pcity),
+                        nation_plural_for_player(cplayer));
+        }
         i--;
       }
     }
     j--;
-  } city_list_iterate_end;
+  } city_list_iterate_safe_end;
 
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 

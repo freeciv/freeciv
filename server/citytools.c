@@ -42,6 +42,7 @@
 #include "movement.h"
 #include "player.h"
 #include "requirements.h"
+#include "research.h"
 #include "road.h"
 #include "specialist.h"
 #include "tech.h"
@@ -953,8 +954,11 @@ Handles all transactions in relation to transferring a city.
 
 The kill_outside and transfer_unit_verbose arguments are passed to
 transfer_city_units(), which is called in the middle of the function.
+
+  Return TRUE iff the city remains after transfering (the city may be
+  destroyed by a script, notably with bouncing or wiping units).
 ***********************************************************************/
-void transfer_city(struct player *ptaker, struct city *pcity,
+bool transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
 		   bool resolve_stack, bool raze, bool build_free)
 {
@@ -972,7 +976,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   bool taker_had_no_cities = (city_list_size(ptaker->cities) == 0);
   bool new_extras;
 
-  fc_assert_ret(pgiver != ptaker);
+  fc_assert_ret_val(pgiver != ptaker, TRUE);
 
   /* Remove AI control of the old owner. */
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
@@ -1203,6 +1207,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   }
 
   sync_cities();
+
+  return city_remains;
 }
 
 /****************************************************************************
@@ -1674,6 +1680,7 @@ dbv_free(&tile_processed);
 void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 {
   bool try_civil_war = FALSE;
+  bool city_remains;
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
@@ -1751,6 +1758,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
               + (coins * (city_size_get(pcity))) / 200);
   pplayer->economic.gold += coins;
   cplayer->economic.gold -= coins;
+  send_player_info_c(pplayer, pplayer->connections);
   send_player_info_c(cplayer, cplayer->connections);
   if (pcity->original != pplayer) {
     if (coins > 0) {
@@ -1807,38 +1815,45 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
 
   steal_a_tech(pplayer, cplayer, A_UNSET);
+  send_research_info(research_get(pplayer), NULL);
 
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */
-  transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE, TRUE);
+  city_remains = transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE, TRUE);
 
-  /* After city has been transferred, some players may no longer see inside. */
-  players_iterate(pplayer) {
-    if (BV_ISSET(saw_entering, player_index(pplayer))
-        && !can_player_see_unit_at(pplayer, punit, pcity->tile)) {
-      /* Player saw unit entering, but now unit is hiding inside city */
-      unit_goes_out_of_sight(pplayer, punit);
-    } else if (!BV_ISSET(saw_entering, player_index(pplayer))
-               && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
-      /* Player sees inside cities of new owner */
-      send_unit_info_to_onlookers(pplayer->connections, punit,
-                                  pcity->tile, FALSE, TRUE);
-    }
-  } players_iterate_end;
+  if (city_remains) {
+    /* After city has been transferred, some players may no longer see
+     * inside. */
+    players_iterate(pplayer) {
+      if (BV_ISSET(saw_entering, player_index(pplayer))
+          && !can_player_see_unit_at(pplayer, punit, pcity->tile)) {
+        /* Player saw unit entering, but now unit is hiding inside city */
+        unit_goes_out_of_sight(pplayer, punit);
+      } else if (!BV_ISSET(saw_entering, player_index(pplayer))
+                 && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
+        /* Player sees inside cities of new owner */
+        send_unit_info_to_onlookers(pplayer->connections, punit,
+                                    pcity->tile, FALSE, TRUE);
+      }
+    } players_iterate_end;
+  }
 
-  /* reduce size should not destroy this city */
-  fc_assert(city_size_get(pcity) > 1);
-  city_reduce_size(pcity, 1, pplayer);
-  send_player_info_c(pplayer, pplayer->connections); /* Update techs */
+  if (city_remains) {
+    /* reduce size should not destroy this city */
+    fc_assert(city_size_get(pcity) > 1);
+    city_reduce_size(pcity, 1, pplayer);
+  }
 
   if (try_civil_war) {
     (void) civil_war(cplayer);
   }
 
-  script_server_signal_emit("city_lost", 3,
-                            API_TYPE_CITY, pcity,
-                            API_TYPE_PLAYER, cplayer,
-                            API_TYPE_PLAYER, pplayer);
+  if (city_remains) {
+    script_server_signal_emit("city_lost", 3,
+                              API_TYPE_CITY, pcity,
+                              API_TYPE_PLAYER, cplayer,
+                              API_TYPE_PLAYER, pplayer);
+  }
 }
 
 /**************************************************************************

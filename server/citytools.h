@@ -26,7 +26,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
 			 int kill_outside, bool verbose);
-void transfer_city(struct player *ptaker, struct city *pcity,
+bool transfer_city(struct player *ptaker, struct city *pcity,
 		   int kill_outside, bool transfer_unit_verbose,
 		   bool resolve_stack, bool raze, bool build_free);
 struct city *find_closest_city(const struct tile *ptile,

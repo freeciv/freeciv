@@ -646,6 +646,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		     struct city *pcity)
 {
   struct player *cplayer;
+  struct tile *ctile;
+  const char *clink;
   int revolt_cost;
 
   /* Fetch target civilization's player.  Sanity checks. */
@@ -656,6 +658,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
+  ctile = city_tile(pcity);
+  clink = city_link(pcity);
+
   log_debug("incite: unit: %d", pdiplomat->id);
 
   /* Get incite cost, ignoring any previously saved value. */
@@ -663,10 +668,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* If player doesn't have enough gold, can't incite a revolt. */
   if (pplayer->economic.gold < revolt_cost) {
-    notify_player(pplayer, city_tile(pcity),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("You don't have enough gold to subvert %s."),
-                  city_link(pcity));
+                  clink);
     log_debug("incite: not enough gold");
     return;
   }
@@ -681,18 +685,16 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   if (fc_rand (100) >= game.server.diplchance) {
-    notify_player(pplayer, city_tile(pcity),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of inciting a revolt!"),
                   unit_tile_link(pdiplomat));
-    notify_player(cplayer, city_tile(pcity),
-                  E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+    notify_player(cplayer, ctile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                   _("You caught %s %s attempting"
                     " to incite a revolt in %s!"),
                   nation_adjective_for_player(pplayer),
                   unit_tile_link(pdiplomat),
-                  city_link(pcity));
+                  clink);
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return;
   }
@@ -710,14 +712,12 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   pplayer->economic.gold -= revolt_cost;
 
   /* Notify everybody involved. */
-  notify_player(pplayer, city_tile(pcity),
-                E_MY_DIPLOMAT_INCITE, ftc_server,
+  notify_player(pplayer, ctile, E_MY_DIPLOMAT_INCITE, ftc_server,
                 _("Revolt incited in %s, you now rule the city!"),
-                city_link(pcity));
-  notify_player(cplayer, city_tile(pcity),
-                E_ENEMY_DIPLOMAT_INCITE, ftc_server,
+                clink);
+  notify_player(cplayer, ctile, E_ENEMY_DIPLOMAT_INCITE, ftc_server,
                 _("%s has revolted, %s influence suspected."),
-                city_link(pcity),
+                clink,
                 nation_adjective_for_player(pplayer));
 
   pcity->shield_stock = 0;
@@ -727,18 +727,17 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   steal_a_tech(pplayer, cplayer, A_UNSET);
 
   /* this may cause a diplomatic incident */
-  maybe_cause_incident(DIPLOMAT_INCITE, pplayer, cplayer,
-                       city_tile(pcity), city_link(pcity));
+  maybe_cause_incident(DIPLOMAT_INCITE, pplayer, cplayer, ctile, clink);
 
   /* Transfer city and units supported by this city (that
      are within one square of the city) to the new owner. */
-  transfer_city (pplayer, pcity, 1, TRUE, TRUE, FALSE, TRUE);
+  (void) transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE, TRUE);
 
   /* Check if a spy survives her mission. Diplomats never do.
    * _After_ transferring the city, or the city area is first fogged
    * when the diplomat is removed, and then unfogged when the city
    * is transferred. */
-  diplomat_escape(pplayer, pdiplomat, pcity);
+  diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink);
 
   /* Update the players gold in the client */
   send_player_info_c(pplayer, pplayer->connections);

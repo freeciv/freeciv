@@ -1929,7 +1929,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
         game.server.savepalace = FALSE; /* moving it around is dumb */
 
-        city_list_iterate(pvictim->cities, pcity) {
+        city_list_iterate_safe(pvictim->cities, pcity) {
           /* kindly ask the citizens to submit */
           if (fc_rand(vcsize) < conqsize) {
             submit = TRUE;
@@ -1942,13 +1942,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
              * give verbose messages of every unit transferred,
              * and raze buildings according to raze chance
              * (also removes palace) */
-            transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE, TRUE);
+            (void) transfer_city(pvictor, pcity, 7, TRUE, TRUE, TRUE, TRUE);
             submit = FALSE;
           }
           if (conqsize <= 0) {
             break;
           }
-        } city_list_iterate_end;
+        } city_list_iterate_safe_end;
         game.server.savepalace = palace;
       }
     }
