@@ -180,6 +180,16 @@ graphic     = "a.composites"
 graphic_alt = "-"
 helptext    = _("Stronger materials mean stronger armors.")
 
+[advance_controlled_biomass]
+name        = _("Controlled Biomass");
+req1        = "Spitter Control"
+req2        = "None"
+flags       = ""
+graphic     = "a.controlled_biomass"
+graphic_alt = "-"
+helptext    = _("Bugs, Slimes, Molds. We can drive masses of them together and then\
+ control movement of that biomass to act like a one being.")
+
 [advance_crust_defense]
 name        = _("Crust Defense");
 req1        = "Modified Spitter"
@@ -503,7 +513,7 @@ It also gets 40% harder for enemies to sabotage specific buildings.")
 [advance_protein_modifications]
 name        = _("Protein Modifications");
 req1        = "Organic Structures"
-req2        = "Spitter Control"
+req2        = "Controlled Biomass"
 graphic     = "a.protein_mod"
 graphic_alt = "-"
 ; /* xgettext:no-c-format */

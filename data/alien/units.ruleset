@@ -986,6 +986,37 @@ helptext      = _("\
 This improved spitter can both make bombard attacks, and transport missiles \
 next to targets.")
 
+[unit_biomass]
+name          = _("Biomass")
+class         = "Native"
+tech_req      = "Controlled Biomass"
+obsolete_by   = "None"
+graphic       = "u.biomass"
+graphic_alt   = "u.transport"
+sound_move    = "m_transport"
+sound_move_alt = "m_generic"
+sound_fight   = "f_transport"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 1
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Earthly", "Amphibious"
+flags         = ""
+helptext      = _("\
+Just let the biomass to engulf your tank and pick it up, then enjoy \
+the ride in the radiation-safe inside of the slimy being.")
+
 [unit_explorer]
 name          = _("Explorer")
 class         = "Earthly"
