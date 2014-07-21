@@ -15,7 +15,8 @@ INPUTDIR="$(cd "$1/bootstrap" ; pwd)"
 OUTPUTDIR="$(cd "$2/common" ; pwd)"
 
 REVSTATE="OFF"
-REV="dist"
+REV1=""
+REV2="dist"
 
 (cd "$INPUTDIR"
  # Check that all commands required by this script are available
@@ -27,15 +28,16 @@ REV="dist"
      # This is git repository. Check for local modifications
      if test $(cd "$SRCROOT" ; git diff | wc -l) -eq 0 ; then
        REVSTATE=ON
-       REV="$REVTMP"
+       REV2="$REVTMP"
      else
        REVSTATE=MOD
-       REV="modified $REVTMP"
+       REV1="modified "
+       REV2="$REVTMP"
      fi
    fi
  fi
 
- sed -e "s,<GITREV>,$REV," -e "s,<GITREVSTATE>,$REVSTATE," fc_gitrev_gen.h.tmpl > "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
+ sed -e "s,<GITREV1>,$REV1," -e "s,<GITREV1>,$REV1," -e "s,<GITREVSTATE>,$REVSTATE," fc_gitrev_gen.h.tmpl > "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
  if ! test -f "$OUTPUTDIR/fc_fitrev_gen.h" ||
     ! cmp "$OUTPUTDIR/fc_gitrev_gen.h" "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
  then

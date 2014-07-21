@@ -76,7 +76,11 @@ const char *word_version(void)
 const char *fc_svn_revision(void)
 {
 #if defined(SVNREV) && !defined(FC_SVNREV_OFF)
-  return FC_SVNREV; /* Either revision, or modified revision */
+  static char buf[100];
+
+  fc_snprintf(buf, sizeof(buf), "%s%s", _(FC_SVNREV1), FC_SVNREV2);
+
+  return buf; /* Either revision, or modified revision */
 #else  /* FC_SVNREV_OFF */
   return NULL;
 #endif /* FC_SVNREV_OFF */
@@ -89,7 +93,11 @@ const char *fc_svn_revision(void)
 const char *fc_git_revision(void)
 {
 #if defined(GITREV) && !defined(FC_GITREV_OFF)
-  return FC_GITREV; /* Either revision, or modified revision */
+  static char buf[100];
+
+  fc_snprintf(buf, sizeof(buf), "%s%s", _(FC_GITREV1), FC_GITREV2);
+
+  return buf; /* Either revision, or modified revision */
 #else  /* FC_GITREV_OFF */
   return NULL;
 #endif /* FC_GITREV_OFF */
@@ -103,8 +111,8 @@ const char *fc_git_revision(void)
 const char *fc_comparable_version(void)
 {
 #ifdef FC_SVNREV_ON
-  /* Sane revision number in FC_SVNREV */
-  return VERSION_STRING "-" FC_SVNREV;
+  /* Sane revision number in FC_SVNREV2 */
+  return VERSION_STRING "-" FC_SVNREV2;
 #else  /* FC_SVNREV_ON */
   return VERSION_STRING;
 #endif
