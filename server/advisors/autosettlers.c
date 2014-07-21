@@ -449,16 +449,25 @@ int settler_evaluate_improvements(struct unit *punit,
           activity_type_iterate(act) {
             struct extra_type *target = NULL;
             enum extra_cause cause = EC_NONE;
+            enum extra_rmcause rmcause = ERM_NONE;
 
             if (act == ACTIVITY_IRRIGATE) {
               cause = EC_IRRIGATION;
             } else if (act == ACTIVITY_MINE) {
               cause = EC_MINE;
+            } else if (act == ACTIVITY_POLLUTION) {
+              rmcause = ERM_CLEANPOLLUTION;
+            } else if (act == ACTIVITY_FALLOUT) {
+              rmcause = ERM_CLEANFALLOUT;
             }
 
             if (cause != EC_NONE) {
               target = next_extra_for_tile(ptile, cause, pplayer,
                                            punit);
+            }
+            if (rmcause != ERM_NONE) {
+              target = prev_extra_in_tile(ptile, rmcause, pplayer,
+                                          punit);
             }
 
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
@@ -473,10 +482,13 @@ int settler_evaluate_improvements(struct unit *punit,
               time = pos.turn + get_turns_for_activity_at(punit, act, ptile,
                                                           target);
 
-              if (act == ACTIVITY_FALLOUT) {
-                extra = pplayer->ai_common.frost;
-              } else if (act == ACTIVITY_POLLUTION) {
-                extra = pplayer->ai_common.warmth;
+              if (rmcause != ERM_NONE && target != NULL) {
+                if (extra_has_flag(target, EF_GLOBAL_WARMING)) {
+                  extra = pplayer->ai_common.warmth;
+                }
+                if (extra_has_flag(target, EF_NUCLEAR_WINTER)) {
+                  extra = pplayer->ai_common.frost;
+                }
               }
 
               consider_settler_action(pplayer, act, target, extra, base_value,
