@@ -106,3 +106,6 @@ This list is incomplete
 
 - Empire size causes additional unhappiness only once every 15 bases (was 10),
   and knowledge of Communication eases it so that the step is 20 bases
+
+- Added tech "Controlled Biomass" that provides new unit "Biomass" that can
+  transport Earthly and Amphibious units through Radiating tiles
