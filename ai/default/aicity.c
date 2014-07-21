@@ -150,7 +150,7 @@ static void want_tech_for_improvement_effect(struct ai_type *ait,
                                              int building_want)
 {
   /* The conversion factor was determined by experiment,
-   * and might need adjustment.
+   * and might need adjustment. See also dai_tech_effect_values()
    */
   const int tech_want = building_want * def_ai_city_data(pcity, ait)->building_wait
                         * 14 / 8;
@@ -1132,8 +1132,8 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   nothing in the city has changed, and you just want to know the
   base want of a city.
 **************************************************************************/
-static int city_want(struct player *pplayer, struct city *acity, 
-                     struct adv_data *adv, struct impr_type *pimprove)
+int dai_city_want(struct player *pplayer, struct city *acity, 
+                  struct adv_data *adv, struct impr_type *pimprove)
 {
   int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST], i;
 
@@ -1228,7 +1228,7 @@ static int base_want(struct ai_type *ait, struct player *pplayer,
   /* Stir, then compare notes */
   city_range_iterate(pcity, pplayer->cities,
                      adv->impr_range[improvement_index(pimprove)], acity) {
-    final_want += city_want(pplayer, acity, adv, pimprove)
+    final_want += dai_city_want(pplayer, acity, adv, pimprove)
       - def_ai_city_data(acity, ait)->worth;
   } city_range_iterate_end;
 
@@ -1622,7 +1622,7 @@ void dai_build_adv_init(struct ai_type *ait, struct player *pplayer)
 
   /* Find current worth of cities and cache this. */
   city_list_iterate(pplayer->cities, pcity) {
-    def_ai_city_data(pcity, ait)->worth = city_want(pplayer, pcity, ai, NULL);
+    def_ai_city_data(pcity, ait)->worth = dai_city_want(pplayer, pcity, ai, NULL);
   } city_list_iterate_end;
 }
 

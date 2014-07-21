@@ -103,4 +103,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
                                       struct unit_type *utype);
 
+int dai_city_want(struct player *pplayer, struct city *acity, 
+                  struct adv_data *adv, struct impr_type *pimprove);
+
 #endif  /* FC__AICITY_H */

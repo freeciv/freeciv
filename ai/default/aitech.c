@@ -38,6 +38,7 @@
 #include "ailog.h"
 #include "aiplayer.h"
 #include "aitools.h"
+#include "daieffects.h"
 
 #include "aitech.h"
 
@@ -197,6 +198,118 @@ static void dai_select_tech(struct ai_type *ait,
 }
 
 /**************************************************************************
+  Calculates want for some techs by actually adding the tech and
+  measuring the effect.
+**************************************************************************/
+static int dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
+                              struct city *pcity, struct advance *padv)
+{
+  struct research *pres = research_get(pplayer);
+  Tech_type_id tech = advance_number(padv);
+  enum tech_state old_state = research_invention_state(pres, tech);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  int orig_want = dai_city_want(pplayer, pcity, adv, NULL);
+  int final_want;
+
+  research_invention_set(pres, tech, TECH_KNOWN);
+
+  final_want = dai_city_want(pplayer, pcity, adv, NULL);
+
+  research_invention_set(pres, tech, old_state);
+
+  return final_want - orig_want;
+}
+
+/**************************************************************************
+  Add effect values in to tech wants.
+**************************************************************************/
+static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
+{
+  /* TODO: Currently this duplicates code from aicity.c improvement effect
+   *       evaluating almost verbose - refactor so that they can share code. */
+  struct government *gov = government_of_player(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer, NULL);
+  struct ai_plr *aip = def_ai_player_data(pplayer, ait);
+  int turns = 9999; /* TODO: Set to correct value */
+  int nplayers = normal_player_count();
+
+  /* Remove team members from the equation */
+  players_iterate(aplayer) {
+    if (aplayer->team
+        && aplayer->team == pplayer->team
+        && aplayer != pplayer) {
+      nplayers--;
+    }
+  } players_iterate_end;
+
+  advance_iterate(A_FIRST, padv) {
+    if (research_invention_state(research_get(pplayer), advance_number(padv))
+        != TECH_KNOWN) {
+      struct universal source = { .kind = VUT_ADVANCE, .value.advance = padv };
+
+      city_list_iterate(pplayer->cities, pcity) {
+        int v;
+        int tech_want;
+        bool capital;
+
+        v = dai_tech_base_want(ait, pplayer, pcity, padv);
+        capital = is_capital(pcity);
+
+        effect_list_iterate(get_req_source_effects(&source), peffect) {
+          bool present = TRUE;
+          bool active = TRUE;
+
+          if (is_effect_prevented(pplayer, NULL, pcity, NULL,
+                                  NULL, NULL, NULL, NULL, NULL,
+                                  peffect, RPT_CERTAIN)) {
+            /* We believe that effect is disabled only if there is no chance that it
+             * is not. This should lead to AI using wider spectrum of improvements.
+             *
+             * TODO: Select between RPT_POSSIBLE and RPT_CERTAIN dynamically
+             * depending how much AI can take risks. */
+            continue;
+          }
+
+          requirement_vector_iterate(&peffect->reqs, preq) {
+            /* Check if all the requirements for the currently evaluated effect
+             * are met, except for having the tech that we are evaluating. */
+            if (VUT_ADVANCE == preq->source.kind
+                && preq->source.value.advance == padv) {
+              present = preq->present;
+              continue;
+            }
+            if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
+                               NULL, NULL, preq, RPT_POSSIBLE)) {
+              active = FALSE;
+            }
+          } requirement_vector_iterate_end;
+
+          if (active) {
+            int v1;
+
+            v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
+                                  turns, peffect, 1,
+                                  nplayers, v);
+
+            if (!present) {
+              /* Tech removes the effect */
+              v -= (v1 - v);
+            } else {
+              v = v1;
+            }
+          }
+        } effect_list_iterate_end;
+
+        /* Same conversion factor as in want_tech_for_improvement_effect() */
+        tech_want = v * 14 / 8;
+
+        aip->tech_want[advance_index(padv)] += tech_want;
+      } city_list_iterate_end;
+    }
+  } advance_iterate_end;
+}
+
+/**************************************************************************
   Key AI research function. Disable if we are in a team with human team
   mates in a research pool.
 **************************************************************************/
@@ -206,6 +319,10 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
   struct research *research = research_get(pplayer);
   /* Penalty for switching research */
   int penalty = (research->got_tech ? 0 : research->bulbs_researched);
+
+  /* Even when we let human to do the final decision, we keep our
+   * wants correctly calculated. Add effect values in */
+  dai_tech_effect_values(ait, pplayer);
 
   /* If there are humans in our team, they will choose the techs */
   players_iterate(aplayer) {
