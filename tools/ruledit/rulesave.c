@@ -1435,7 +1435,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     } output_type_iterate_end;
 
     /* Check resource count */
-    for (i = 0; pterr->resources[i] != NULL; i++);
+    for (i = 0; pterr->resources[i] != NULL; i++) {
+      /* Just increasing i as long as there is resources */
+    }
 
     {
       const char *resource_names[i];
