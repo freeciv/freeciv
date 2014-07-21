@@ -14,3 +14,9 @@ _("?vertag:win32")
 _("?vertag:S2_4")
 _("?vertag:S2_5")
 _("?vertag:crosser")
+
+Generated version header
+
+/* TRANS: part of revision based version number string
+          "(modified r25000)" */
+_("modified ")
