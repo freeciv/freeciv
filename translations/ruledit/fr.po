@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-28 08:13+0200\n"
-"PO-Revision-Date: 2014-06-28 08:26+0200\n"
+"POT-Creation-Date: 2014-07-20 22:58+0200\n"
+"PO-Revision-Date: 2014-07-21 11:23+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -30,40 +30,46 @@ msgstr "Imprimer le numéro de version"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:58
+#: tools/ruledit/ruledit_qt.cpp:59
 msgid "Freeciv ruleset editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:94
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/ruledit_qt.cpp:97
 #, c-format
 msgid "Needed by %s"
 msgstr "Nécessaire pour %s"
 
-#: tools/ruledit/ruledit_qt.cpp:117
+#: tools/ruledit/ruledit_qt.cpp:123
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:123
+#: tools/ruledit/ruledit_qt.cpp:129
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:133
+#: tools/ruledit/ruledit_qt.cpp:139
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:141
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:144
+#: tools/ruledit/ruledit_qt.cpp:143
+msgid "Nations"
+msgstr "Nations"
+
+#: tools/ruledit/ruledit_qt.cpp:152
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:179
+#: tools/ruledit/ruledit_qt.cpp:187
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:184
+#: tools/ruledit/ruledit_qt.cpp:201
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
@@ -83,9 +89,17 @@ msgstr "Sauver dans le répertoire"
 msgid "Save now"
 msgstr "Sauver maintenant"
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:108
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
+
+#: tools/ruledit/tab_nation.cpp:49
+msgid "Use nationlist"
+msgstr "Utiliser la liste des nations"
+
+#: tools/ruledit/tab_nation.cpp:53
+msgid "Nationlist"
+msgstr "Liste des nations"
 
 #: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
@@ -119,10 +133,10 @@ msgstr "Supprimer cette technologie"
 msgid "Never"
 msgstr "Jamais"
 
-#: tools/ruledit/validity.c:79
+#: tools/ruledit/validity.c:64
 msgid "Effect"
 msgstr "Effet"
 
-#: tools/ruledit/validity.c:160
+#: tools/ruledit/validity.c:145
 msgid "Music Style"
 msgstr "Style de musique"

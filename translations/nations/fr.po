@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 03:46+0300\n"
-"PO-Revision-Date: 2014-05-06 10:39+0200\n"
+"POT-Creation-Date: 2014-07-17 04:58+0200\n"
+"PO-Revision-Date: 2014-07-21 11:35+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -192,7 +192,7 @@ msgstr ""
 #: data/nation/macedonian.ruleset:24 data/nation/moldovan.ruleset:24
 #: data/nation/muscovite.ruleset:25 data/nation/nestorian.ruleset:29
 #: data/nation/novgorodian.ruleset:42 data/nation/ossetian.ruleset:25
-#: data/nation/rusyn.ruleset:34 data/nation/ruthenian.ruleset:30
+#: data/nation/rusyn.ruleset:34 data/nation/ruthenian.ruleset:31
 #: data/nation/serbian.ruleset:35 data/nation/siberian.ruleset:23
 #: data/nation/transnistrian.ruleset:25 data/nation/ukrainian.ruleset:40
 #: data/nation/venetian.ruleset:28
@@ -210,7 +210,7 @@ msgstr "Patriarche %s"
 #: data/nation/moldovan.ruleset:24 data/nation/muscovite.ruleset:25
 #: data/nation/nestorian.ruleset:29 data/nation/novgorodian.ruleset:42
 #: data/nation/ossetian.ruleset:25 data/nation/rusyn.ruleset:34
-#: data/nation/ruthenian.ruleset:30 data/nation/serbian.ruleset:35
+#: data/nation/ruthenian.ruleset:31 data/nation/serbian.ruleset:35
 #: data/nation/siberian.ruleset:23 data/nation/transnistrian.ruleset:25
 #: data/nation/ukrainian.ruleset:40 data/nation/venetian.ruleset:28
 #, c-format
@@ -303,21 +303,21 @@ msgstr "Abbé %s"
 #: data/nation/galician.ruleset:22 data/nation/genoese.ruleset:50
 #: data/nation/germanbelgian.ruleset:27 data/nation/greaterpolish.ruleset:21
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
-#: data/nation/latin.ruleset:44 data/nation/leonese.ruleset:22
-#: data/nation/liechtensteiner.ruleset:32 data/nation/luxembourgish.ruleset:29
-#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
-#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
-#: data/nation/norman.ruleset:25 data/nation/northumbrian.ruleset:39
-#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
-#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
-#: data/nation/piedmontese.ruleset:33 data/nation/quebecois.ruleset:21
-#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
-#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:41
-#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:33
-#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
-#: data/nation/slovenian.ruleset:19 data/nation/teutonic.ruleset:29
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/yucatecan.ruleset:31
+#: data/nation/langobardic.ruleset:38 data/nation/latin.ruleset:44
+#: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
+#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
+#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
+#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
+#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:30
+#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
+#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
+#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
+#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
+#: data/nation/salvadoran.ruleset:41 data/nation/sammarinese.ruleset:25
+#: data/nation/sardinian.ruleset:33 data/nation/savoyard.ruleset:32
+#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
+#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/yucatecan.ruleset:31
 #, c-format
 msgid "Mother Superior %s"
 msgstr "Mère supérieure %s"
@@ -381,10 +381,11 @@ msgstr "Gouverneur %s"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
-#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
-#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
-#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
+#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
+#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
+#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
 msgstr "Gouverneuse %s"
@@ -628,7 +629,7 @@ msgstr "Cheikh %s"
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
-#: data/nation/tuareg.ruleset:37
+#: data/nation/syrian.ruleset:20 data/nation/tuareg.ruleset:37
 #, c-format
 msgid "Shaykha %s"
 msgstr "Cheikhah %s"
@@ -763,7 +764,7 @@ msgstr ""
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
 #: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:33
-#: data/nation/ruthenian.ruleset:28 data/nation/silesian.ruleset:22
+#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
 #: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
 #: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
 #: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
@@ -780,11 +781,11 @@ msgstr "Prince %s"
 #: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
-#: data/nation/romanian.ruleset:31 data/nation/ruthenian.ruleset:28
-#: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
-#: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
-#: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:37
-#: data/nation/westernpomeranian.ruleset:29
+#: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:33
+#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
+#: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
+#: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
+#: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Princess %s"
 msgstr "Princesse %s"
@@ -887,6 +888,12 @@ msgstr ""
 #, c-format
 msgid "Secretary General %s"
 msgstr "Secrétaire général %s"
+
+#: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
+#: data/nation/santomean.ruleset:33
+#, c-format
+msgid "?female:Secretary General %s"
+msgstr "Secrétaire générale %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
@@ -1493,15 +1500,16 @@ msgstr "Usurpateur %s"
 #: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
-#: data/nation/seleucid.ruleset:28 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:26
+#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "Usurpatrice %s"
@@ -2215,6 +2223,12 @@ msgstr ""
 msgid "High Druid %s"
 msgstr "Grand Druide %s"
 
+#: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
+#: data/nation/helvetian.ruleset:29
+#, c-format
+msgid "?female:High Druid %s"
+msgstr "Grand Druide %s"
+
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
@@ -2271,9 +2285,10 @@ msgstr "Prêcheur %s"
 
 #: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
-#: data/nation/gepid.ruleset:44 data/nation/liberian.ruleset:30
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:40
+#: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
+#: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:40
 #, c-format
 msgid "?female:Speaker %s"
 msgstr "Prêcheuse %s"
@@ -3035,19 +3050,10 @@ msgid ""
 "peoples they invaded the Roman Empire, and in 472 CE, some of them sacked "
 "Rome. Their first kingdom was founded in Worms, but after its destruction by "
 "the Huns they moved to what is today Savoy and Burgundy, where they founded "
-"was their second kingdom. Eventually they were subordinated by the Frankish "
-"Kingdom. The Bugundians gave their name to the later Romance nation and "
+"their second kingdom. Eventually they were subordinated by the Frankish "
+"Kingdom. The Burgundians gave their name to the later Romance nation and "
 "region of Burgundy."
-msgstr ""
-"Les Burgondes étaient un peuple Est-Germanique qui était probablement issu "
-"de l'île de Bornholm. Après avoir quitté Bornholm, ils vécurent entre l'Oder "
-"et la Vistule. Pendant la Période de la Migration, eux et d'autres peuples "
-"germaniques envahirent l'Empire Romain et, en 472 EC, certains d'entre eux "
-"pillèrent Rome. Leur premier royaume fut fondé à Worms, mais après sa "
-"destruction par les Huns, ils se déplacèrent vers ce qui est actuellement la "
-"Savoie et la Bourgogne, où ils fondèrent leur second royaume. Ils furent "
-"finalement soumis par le Royaume Franc. Les Burgondes donnèrent plus tard "
-"leur nom à la nation romane et à la région de la Bourgogne."
+msgstr "Les Burgondes étaient un peuple Est-Germanique qui était probablement issu de l'île de Bornholm. Après avoir quitté Bornholm, ils vécurent entre l'Oder et la Vistule. Pendant la Période de la Migration, eux et d'autres peuples germaniques envahirent l'Empire Romain et, en 472 EC, certains d'entre eux pillèrent Rome. Leur premier royaume fut fondé à Worms, mais après sa destruction par les Huns, ils se déplacèrent vers ce qui est actuellement la Savoie et la Bourgogne, où ils fondèrent leur second royaume. Ils furent finalement soumis par le Royaume Franc. Les Burgondes donnèrent plus tard leur nom à la nation romane et à la région de la Bourgogne."
 
 #. TRANS: The last letter in "Burkinabe" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -3335,14 +3341,12 @@ msgid "?female:Admiral %s"
 msgstr "Amirale %s"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "Carthaginois"
+msgstr "Carantanien"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "Carthaginois"
+msgstr "Carantaniens"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3356,6 +3360,15 @@ msgid ""
 "incorporated directly into the realm of the Franks. Slovenians are the "
 "modern descendants of the Carantanians."
 msgstr ""
+"Les Carantaniens ou Slaves des Alpes étaient une confédération des débuts du "
+"Moyen-Âge de tribus slaves sud-occidentales qui colonisèrent ce qui est "
+"maintenant l'Autriche. Le Duché de Carantanie est l'un des premiers états "
+"slaves, qui existe depuis le VIIème siècle EC. Au VIIIème siècle, il tomba "
+"sous la dépendance du royaume franc, ce qui conduisit à l'adoption de la "
+"Chrétienté de rite latin par le duc Gorazd. En l'an 819, la Carantanie se "
+"joignit à la révolte du duc croate Ljudevit Posavski. Après sa chute en 822, "
+"l'état fut aboli et incorporé directement dans le royaume des Francs. Les "
+"Slovènes sont les descendants modernes des Carantaniens."
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -3542,7 +3555,7 @@ msgid "People's Commissar %s"
 msgstr "Commissaire du Peuple %s"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
-#: data/nation/volgagerman.ruleset:37
+#: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, c-format
 msgid "?female:People's Commissar %s"
 msgstr "Commissaire du Peuple %s"
@@ -3905,7 +3918,7 @@ msgstr "Prêtresse %s"
 #: data/nation/greaterpolish.ruleset:22 data/nation/kashubian.ruleset:30
 #: data/nation/liechtensteiner.ruleset:31 data/nation/mazovian.ruleset:25
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:41
-#: data/nation/ruthenian.ruleset:29 data/nation/slavic.ruleset:32
+#: data/nation/ruthenian.ruleset:30 data/nation/slavic.ruleset:32
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
 #: data/nation/veletian.ruleset:31 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
@@ -3918,7 +3931,7 @@ msgstr "Grand Prince %s"
 #: data/nation/greaterpolish.ruleset:22 data/nation/kashubian.ruleset:30
 #: data/nation/liechtensteiner.ruleset:31 data/nation/mazovian.ruleset:25
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:41
-#: data/nation/ruthenian.ruleset:29 data/nation/slavic.ruleset:32
+#: data/nation/ruthenian.ruleset:30 data/nation/slavic.ruleset:32
 #: data/nation/transylvanian.ruleset:29 data/nation/ukrainian.ruleset:38
 #: data/nation/veletian.ruleset:31 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
@@ -4581,14 +4594,12 @@ msgid "Prophetess %s"
 msgstr "Prophétesse %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "Thrace"
+msgstr "Dace"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "Thraces"
+msgstr "Daces"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -4600,6 +4611,13 @@ msgid ""
 "Roman colonization. The remains of the Dacians mingled with East Germanic "
 "tribes and later with Slavs."
 msgstr ""
+"Les Daces étaient des tribus antiques qui vivaient sur la rive gauche du Bas-"
+"Danube, en Dacie, dans ce qui est maintenant la Roumanie. Ils étaient "
+"probablement reliés aux Thraces et à d'autres tribus paléo-balkaniques. "
+"L'unification des tribus daces eut lieu durant le reigne du roi Burebista. "
+"Après les guerres avec Rome, ils furent vaincus en 106 CE. La dacie devint "
+"une province romaine, et succomba à la colonisation romaine. Le reste des "
+"Daces se mélèrent à des tribus est-germaniques et plus tard aux slaves."
 
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
@@ -5294,32 +5312,41 @@ msgstr "Fra %s"
 msgid "Captain %s"
 msgstr "Capitaine %s"
 
-#: data/nation/florentine.ruleset:42 data/nation/milanese.ruleset:29
+#: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
+#: data/nation/milanese.ruleset:29
 #, c-format
 msgid "?female:Captain %s"
 msgstr "Capitaine %s"
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "Taïwanais"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "Normands"
+msgstr "Taïwanais"
 
-#: data/nation/formosan.ruleset:6
-#, c-format
+#: data/nation/formosan.ruleset:7
+#, no-c-format
 msgid ""
 "Taiwan is home to fourteen officially recognized and twelve unrecognized "
-"tribes,all of whom are traditionally speakers of a group of Austronesian "
-"languagesknown as Formosan. Historical linguists consider the island to be "
-"the homeof the Austronesian family, as it is host to the most diverse set of "
-"Austronesianlanguages. Many of the tribes are traditionally matrilineal. "
-"Starting in the 17thcentury, European and East Asian colonists vied for "
-"control of the island,encroaching on aboriginal lands. Today, Formosans "
-"constitute around 2%of the population of Taiwan."
+"tribes, all of whom are traditionally speakers of a group of Austronesian "
+"languages known as Formosan. Historical linguists consider the island to be "
+"the home of the Austronesian family, as it is host to the most diverse set "
+"of Austronesian languages. Many of the tribes are traditionally matrilineal. "
+"Starting in the 17th century, European and East Asian colonists vied for "
+"control of the island, encroaching on aboriginal lands. Today, Formosans "
+"constitute around 2% of the population of Taiwan."
 msgstr ""
+"Taïwan abrite quatorze tribus reconnues officiellement et douze qui ne le "
+"sont pas, toutes parlant traditionnement un groupe de langues "
+"austronésiennes dites formosanes. Les linguistes historiques considèrent que "
+"l'île est le berceau de la famille austronésienne, puisqu'elle héberge "
+"l'ensemble le plus diversifié de langues austronésiennes. Beaucoup de tribus "
+"sont traditionnellement matrilinéaires. À partir du XVIIème siècle, les "
+"colons européens et est-asiatiques se disputèrent le contrôle de l'île, "
+"empiétant sur les terres aborigènes. De nos jours, les formosans constituent "
+"environ 2% ode la population de Tawaïn."
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
@@ -6352,11 +6379,6 @@ msgstr ""
 "prétexte pour conquérir l'Helvétie et le reste de la Gaule. Les Helvètes "
 "succombèrent aux Romains et furent romanisés au cours de siècles suivants."
 
-#: data/nation/helvetian.ruleset:29
-#, c-format
-msgid "?female:High Druid %s"
-msgstr "Grand Druide %s"
-
 #: data/nation/hephthalite.ruleset:3
 msgid "Hephthalite"
 msgstr "Hephthalite"
@@ -6828,14 +6850,12 @@ msgstr "Juge %s"
 
 # 	
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "Italien"
+msgstr "Grand-Grec"
 
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "Italiens"
+msgstr "Grands-Grecs"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -6845,14 +6865,14 @@ msgid ""
 "century BCE Magna Graecia was dominated by the city-state of Syracuse, a "
 "great center of Greek culture. Other major urban centers included Taranto, "
 "Croton, Sybaris and Messana. Magna Graecia was gradually conquered by Rome, "
-"a conquest that was completed by 272 BC.  After the fall of the Western "
-"Roman Empire Southern Italy was temporarily part of the Byzantine Empire as "
+"a conquest that was completed by 272 BC. After the fall of the Western Roman "
+"Empire, Southern Italy was temporarily part of the Byzantine Empire as the "
 "Catepanate of Italia. A Greek-speaking population has survived in these "
 "areas to modern times."
-msgstr ""
+msgstr "L'antique Magna Graecia (ou Grande-Grèce) était un complexe de villes-colonies grecques sur les côtes de l'Italie et de la Sicile, fondées au cours de la colonisation grecque. Elles jouèrent un rôle important dans le développement des cultures étrusques et romaines. Au Vème siècle AEC, la Grande-Grèce était dominée par la ville-état de Syracuse, un grand centre de la culture grecque. Les autres centres urbains majeurs comprenaient Tarante, Crotone, Sybaris et Messine. La Grande-Grèce fut petit à petit conquise par Rome; une conquète qui s'acheva en 272 AEC. Après la chute de l'Empire Romain d'Occident, l'Italie méridionale fit temporairement partie de l'Empire Byzantin en tant que Catépanat d'Italie. Une population hellénophone a survécu dans ces régions jusqu'aux temps modernes."
 
 #: data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyranne %s"
 msgstr "Tyran %s"
 
@@ -7233,12 +7253,11 @@ msgstr "Tarkhan %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
-msgstr ""
+msgstr "Khoïsan"
 
 #: data/nation/khoisan.ruleset:4
-#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "Komis"
+msgstr "Khoïsans"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -7250,6 +7269,14 @@ msgid ""
 "there are over 300,000 Khoisan people, forming significant minorities in and "
 "around the Kalahari desert in Namibia, Botswana, South Africa, and Angola."
 msgstr ""
+"Les locuteurs koïsans sont communément divisés entre les Khoïkhoï, "
+"habituellement éleveurs, et les Bochimans, habituellement chasseurs-"
+"cueilleurs. Ils sont habituellement parmi les sociétés les plus égalitaires "
+"de la planète. La société bochimane en particulier s'organise autour des "
+"institutions de la famille et du groupe. Les peuples khoïsans portent "
+"certains des ascendances génétiques les plus anciennes du monde. Il y a plus "
+"de 300.000 Koïsans, qui forment des minorités notables dans et autour du "
+"désert du Kalahari en Namibie, au Botswana, en Afrique du Sud et en Angola."
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
@@ -7490,6 +7517,12 @@ msgstr ""
 msgid "Guru %s"
 msgstr "Gourou %s"
 
+#: data/nation/kushan.ruleset:43 data/nation/sikh.ruleset:33
+#: data/nation/vedic.ruleset:24
+#, c-format
+msgid "?female:Guru %s"
+msgstr "Gourelle %s"
+
 #: data/nation/kuwaiti.ruleset:3
 msgid "Kuwaiti"
 msgstr "Koweïtien"
@@ -7558,11 +7591,6 @@ msgstr ""
 "envahirent l'Italie en 568. Ils fondèrent un nouveau royaume dont la "
 "capitale était Pavie. La région moderne de Lombardie doit son nom aux "
 "Lombards."
-
-#: data/nation/langobardic.ruleset:38
-#, c-format
-msgid "?female:Mother Superior %s"
-msgstr "Mère supérieure %s"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
@@ -7684,11 +7712,6 @@ msgstr ""
 "des empires. Il a fait partie de l'Empire Ottoman pendant plus de quatre "
 "siècles, et est devenu un mandat français après la première guerre mondiale. "
 "Le Liban proclama son indépendance en 1943."
-
-#: data/nation/lebanese.ruleset:27 data/nation/santomean.ruleset:33
-#, c-format
-msgid "?female:Secretary General %s"
-msgstr "Secrétaire générale %s"
 
 #: data/nation/lendian.ruleset:3
 msgid "Lendian"
@@ -7849,14 +7872,12 @@ msgstr ""
 "principauté fut formée par la fusion de Vaduz et de Schellenberg en 1719."
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "Libérien"
+msgstr "Ligurien"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "Liburniens"
+msgstr "Ligures"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7864,6 +7885,9 @@ msgid ""
 "Italy and Southern France. Their language is of uncertain origin, perhaps "
 "Para-Celtic or Pre-Indo-European."
 msgstr ""
+"Les Ligures étaient un peuple tribal pré-romain dans ce qui est maintenant "
+"le Nord-Ouest de l'Italie et le Sud de la France. Leur langue est d'origine "
+"incertaine, peut-être para-celtique ou pré-indo-européenne."
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, c-format
@@ -8016,12 +8040,11 @@ msgstr ""
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
-msgstr ""
+msgstr "Lycien"
 
 #: data/nation/lycian.ruleset:4
-#, fuzzy
 msgid "?plural:Lycians"
-msgstr "Louvites"
+msgstr "Lyciens"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -8030,6 +8053,11 @@ msgid ""
 "when they were led by the legendary heroes Sarpedon and Glaucus. Their state "
 "was subordinated to the Persian Empire in the 6th century BCE."
 msgstr ""
+"La Lycié était un état antique du Sud-Ouest de l'Anatolie qui exista entre "
+"le XVème et le VIème siècle AEC. Les Lyciens étaient alliés à Troie au cours "
+"de la Guerre de Troie, où ils furent menés par les héros légendaires "
+"Sarpédon et Glaucos. Leur état se soumit à l'Empire Perse au cours du VIème "
+"siècle AEC."
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
@@ -10752,12 +10780,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr ""
+msgstr "Ruthène"
 
 #: data/nation/rusyn.ruleset:4
-#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "Russes"
+msgstr "Ruthènes"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -10768,17 +10795,23 @@ msgid ""
 "were under Polish and later Austrian rule. Rusyns formed two ephemeral "
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
+"Les Ruthènes sont un groupe ethnique sur la périphérie occidentale des "
+"nations slaves de l'est. Ils vivent principalement à la frontière polonaise-"
+"ukrainienne-slovaque et en Voïvodine. À l'époque médiévale, la patrie des "
+"Ruthènes était le site du duché de Galicie-Volhynie et le Royaume de Rus'. "
+"Ces rterres furent ensuite sous contrôle polonais puis plus tard autrichien. "
+"Les ruthènes formèrent deux états éphémères après la Première Guerre "
+"Mondiale : La République Lemko-Ruthène et la République de Komańcza."
 
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
-msgstr ""
+msgstr "Rus' de Kiev"
 
 #: data/nation/ruthenian.ruleset:4
-#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "Kenyans"
+msgstr "Rus' de Kiev"
 
-#: data/nation/ruthenian.ruleset:6
+#: data/nation/ruthenian.ruleset:7
 msgid ""
 "The Kievan Rus' were a Medieval Slavic monarchy. It was centered in Kiev "
 "after that city was conquered by Oleg of Novgorod. In the 13th century the "
@@ -11716,11 +11749,6 @@ msgstr ""
 "l'Inde, est le fief du Sikisme. Au XIXème siècle, un Empire Sikh exista dans "
 "la région."
 
-#: data/nation/sikh.ruleset:33 data/nation/vedic.ruleset:24
-#, c-format
-msgid "?female:Guru %s"
-msgstr "Gourelle %s"
-
 #: data/nation/sikkimese.ruleset:3
 msgid "Sikkimese"
 msgstr "Sikkimais"
@@ -12312,11 +12340,6 @@ msgid ""
 msgstr ""
 "La République Arabe de Syrie moderne fut formée à partir d'un mandat "
 "Français, et gagna graduellement son indépendance au cours des années 1940."
-
-#: data/nation/syrian.ruleset:20
-#, c-format
-msgid "?female:Shaykha %s"
-msgstr "Shaykha %s"
 
 #: data/nation/tahitian.ruleset:3
 msgid "Tahitian"
@@ -14068,6 +14091,12 @@ msgstr ""
 "mettre fin à la loi de minorité blanche en 1979. Depuis 1980, le pays a été "
 "gouverné par Robert Mugabe, qui a reçu une réputation internationale aussi "
 "pauvre que le régime précédent."
+
+#~ msgid "?female:Mother Superior %s"
+#~ msgstr "Mère supérieure %s"
+
+#~ msgid "?female:Shaykha %s"
+#~ msgstr "Shaykha %s"
 
 #~ msgid "Ruthenian"
 #~ msgstr "Ruthénien"
