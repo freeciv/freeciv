@@ -28,6 +28,7 @@ void pq_insert(struct pqueue *q, const pq_data_t datum, int datum_priority);
 void pq_replace(struct pqueue *q, const pq_data_t datum, int datum_priority);
 bool pq_remove(struct pqueue *q, pq_data_t *dest);
 bool pq_peek(struct pqueue *q, pq_data_t *dest);
+bool pq_priority(const struct pqueue *q, int *datum_priority);
 
 #ifdef __cplusplus
 }
