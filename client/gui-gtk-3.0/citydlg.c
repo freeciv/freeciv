@@ -2558,13 +2558,11 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 Somebody clicked our list of citizens. If they clicked a specialist
 then change the type of him, else do nothing.
 *****************************************************************/
-static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
-			      gpointer data)
+static gboolean citizens_callback(GtkWidget *w, GdkEventButton *ev,
+                                  gpointer data)
 {
   struct city_dialog *pdialog = data;
   struct city *pcity = pdialog->pcity;
-  GtkAllocation allocation;
-  gtk_widget_get_allocation(w, &allocation);
   int citnum, tlen, len;
 
   if (!can_client_issue_orders()) {
@@ -2573,10 +2571,11 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 
   tlen = tileset_small_sprite_width(tileset);
   len = (city_size_get(pcity) - 1) * pdialog->cwidth + tlen;
-  if (ev->x- allocation.x > len) {
-    return FALSE;		/* no citizen that far to the right */
+  if (ev->x > len) {
+    /* no citizen that far to the right */
+    return FALSE;
   }
-  citnum = MIN(city_size_get(pcity) - 1, (ev->x - allocation.x)/ pdialog->cwidth);
+  citnum = MIN(city_size_get(pcity) - 1, ev->x / pdialog->cwidth);
 
   city_rotate_specialist(pcity, citnum);
 
