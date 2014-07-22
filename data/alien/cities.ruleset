@@ -62,6 +62,7 @@ when Specialist Training tech is known.")
 
 [specialist_government_merchant]
 name		= _("Government Merchants")
+rule_name       = "Government_Merchants"
 short_name	= _("?Merchant:M")
 graphic_alt     = "specialist.taxman_0"
 reqs		=

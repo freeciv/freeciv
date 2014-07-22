@@ -125,7 +125,7 @@ type    = "Specialist_Output"
 value   = 2
 reqs    =
     { "type", "name", "range"
-      "Specialist", "Government Merchants", "Local"
+      "Specialist", "Government_Merchants", "Local"
       "OutputType", "gold", "Local"
     }
 
@@ -135,7 +135,7 @@ value   = 2
 reqs    =
     { "type", "name", "range"
       "Tech", "Specialist Training", "Player"
-      "Specialist", "Government Merchants", "Local"
+      "Specialist", "Government_Merchants", "Local"
       "OutputType", "gold", "Local"
     }
 
