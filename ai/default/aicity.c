@@ -1116,7 +1116,7 @@ static int improvement_effect_value(struct player *pplayer,
      * Shortcutting these effects here is not only for performance,
      * more importantly it makes sure code below assuming amount to
      * be positive does not assign positive value. */
-    return 0;
+    return v;
   }
 
   switch (peffect->type) {
@@ -1862,7 +1862,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
                                         pimprove, peffect,
                                         cities[mypreq->range],
                                         nplayers, v);
-      /* v1 could be negative (the effect could be undesirable),
+      /* v1 - v could be negative (the effect could be undesirable),
        * although it is usually positive.
        * For example, in the default ruleset, Communism decreases the
        * effectiveness of a Cathedral. */
