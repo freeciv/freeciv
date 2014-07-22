@@ -65,10 +65,6 @@
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
-static void unit_activity_handling_targeted(struct unit *punit,
-					    enum unit_activity new_activity,
-					    enum tile_special_type new_target,
-                                            Base_type_id base);
 static void unit_activity_handling_base(struct unit *punit,
                                         Base_type_id base);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
@@ -2090,10 +2086,10 @@ void unit_activity_handling(struct unit *punit,
 /**************************************************************************
   Handle request for targeted activity.
 **************************************************************************/
-static void unit_activity_handling_targeted(struct unit *punit,
-					    enum unit_activity new_activity,
-					    enum tile_special_type new_target,
-                                            Base_type_id base)
+void unit_activity_handling_targeted(struct unit *punit,
+                                     enum unit_activity new_activity,
+                                     enum tile_special_type new_target,
+                                     Base_type_id base)
 {
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity);

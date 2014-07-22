@@ -19,6 +19,10 @@
 
 void unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity);
+void unit_activity_handling_targeted(struct unit *punit,
+                                     enum unit_activity new_activity,
+                                     enum tile_special_type new_target,
+                                     Base_type_id base);
 void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity);
 
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,

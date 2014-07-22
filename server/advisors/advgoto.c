@@ -49,6 +49,8 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
 {
   struct tile *old_tile = punit->goto_tile;
   enum unit_activity activity = punit->activity;
+  enum tile_special_type tgt = punit->activity_target;
+  Base_type_id tgt_base = punit->activity_base;
   bool alive;
 
   if (punit->moves_left <= 0) {
@@ -60,7 +62,7 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
   if (alive) {
     unit_activity_handling(punit, ACTIVITY_IDLE);
     send_unit_info(NULL, punit); /* FIXME: probably duplicate */
-    unit_activity_handling(punit, activity);
+    unit_activity_handling_targeted(punit, activity, tgt, tgt_base);
     punit->goto_tile = old_tile; /* May be NULL. */
     send_unit_info(NULL, punit);
   }
