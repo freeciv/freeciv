@@ -148,7 +148,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
      * Shortcutting these effects here is not only for performance,
      * more importantly it makes sure code below assuming amount to
      * be positive does not assign positive value. */
-    return 0;
+    return v;
   }
 
   switch (peffect->type) {

@@ -1415,7 +1415,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       int v1 = dai_effect_value(pplayer, gov, ai, pcity, capital, 
                                 turns, peffect, cities[mypreq->range],
                                 nplayers, v);
-      /* v1 could be negative (the effect could be undesirable),
+      /* v1 - v could be negative (the effect could be undesirable),
        * although it is usually positive.
        * For example, in the default ruleset, Communism decreases the
        * effectiveness of a Cathedral. */
