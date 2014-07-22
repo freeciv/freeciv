@@ -1604,7 +1604,7 @@ static int increment_identity_number(void)
 }
 
 /**************************************************************************
-  Truncation of unsigned short wraps at 65K, skipping IDENTITY_NUMBER_ZERO
+  Identity ids wrap at IDENTITY_NUMBER_SIZE, skipping IDENTITY_NUMBER_ZERO
   Setup in server_game_init()
 **************************************************************************/
 int identity_number(void)
