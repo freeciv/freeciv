@@ -4524,9 +4524,15 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
     /* Sanity check. */
     size = citizens_count(pcity);
     if (size != city_size_get(pcity)) {
-      log_sg("City size and number of citizens does not match in %s "
-             "(%d != %d)! Repairing ...", city_name(pcity),
-             city_size_get(pcity), size);
+      if (size != 0) {
+        /* size == 0 can be result from the fact that ruleset had no
+         * nationality enabled at saving time, so no citizens at all
+         * were saved. But something more serious must be going on if
+         * citizens have been saved partially - if some of them are there. */
+        log_sg("City size and number of citizens does not match in %s "
+               "(%d != %d)! Repairing ...", city_name(pcity),
+               city_size_get(pcity), size);
+      }
       citizens_update(pcity, NULL);
     }
   }
