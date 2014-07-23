@@ -175,7 +175,7 @@ Martial Law       +1       0        +1       +1       0        0        0       
 Civil war %       99       90       80       70       60       40       30       20       50       
 Empire Size       0        /14      /10      /12      /20      /16      /32      /24      /28      
 Special          +NoUpkeep +1 Move  +75%Gold +50%Gold +Tithes  +Bribe  +Brib/Sub +Subvert +NoUpkeep
-                 -50%Lux   Land/Mil)(Palace) (Palace) -50%Sci  -Revolt -Rev/Sen  -Senate  (Cost=1) 
+                 -50%Lux  (Land/Mil)(Palace) (Palace) -50%Sci  -Revolt -Rev/Sen  -Senate  (Cost=1) 
                  -NoTaxes                             +Fanatic         +Partisan          +Partisan 
                                                                                 
 Base Corruption   0%       30%      20%      10%      15%      25%      5%       0%       30%      
@@ -290,9 +290,10 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
 - Artillery and Howitzer receive the ability CityBuster, so their firepower is 1 in open field, and 2 against cities. Removed Ignore Walls for Howitzer (that would bypass the new city defense bonuses), and reduced movement to 1.
 - Bombers and Helicopters receive the Bombarder ability, so they can damage Land units, but they can not kill them, and can not be damaged while attacking. Note they still can kill or die against Sea units.
 Halved the attack so it is harder to bombard land enemies successfully. Increased hit points so it is still possible to kill naval units.
-- Air units can perform pillage (representing bombardment of infrastructure). Increased defense of all Air units, in order to discourage the use of Land units to protect them.
+- Air units can perform pillage (representing bombardment of infrastructure), and can be Airlifted from a city with an Airport to another. Increased defense of all Air units, in order to discourage the use of Land units to protect them.
+- Increased fuel of all Air units by one, in order to allow battles for air control. All Air unit lose 10% of HPs, like helicopters, when they end out of a city or airbase.
 - Helicopters can carry 1 infantry unit, and can only be attacked by Fighters (with no extra attack bonuses).
-- Nuclear weapons can be built with Nuclear Fission, but you need Advanced Flight to move them, and Rocketry to get max movement. Cruise Missile no longer cause unhappiness.
+- Nuclear weapons can be built with Nuclear Fission, but you need Advanced Flight to move them, and Rocketry to get max movement. Increased range of Cruise Missiles to 16, and they no longer cause unhappiness.
 - Readjusted many costs so units with better stats are always more expensive. At the same time, modern units always get better ratio Att/Cost or Def/Cost.
 
 UNIT            Att  Def  Mov  FP   HP   Cost   
@@ -338,13 +339,13 @@ AEGIS Cruiser   8    8    5   *1    30   100 *(x5 def anti-air\missile)
 Battleship      12   12   4   *1   *30   160 
 Submarine       12  *5    5   *1   *20  *70   Cargo 8, Invis
                          
-Fighter         4   *4    10  *1    20   60   Fuel 1
-Bomber         *6   *2    8   *1   *30  *100 *Bombard 3, Fuel 2, FieldUnit
+Fighter         4   *4    10  *1    20   60   Fuel 2
+Bomber         *6   *2    8   *1   *30  *100 *Bombard 3, Fuel 3, FieldUnit
 Helicopter     *5    3    6   *1   *30  *70  *Bombard 2,*Cargo 1
-Stealth Fighter 8   *8    14  *1    20   80   Fuel 1, Invis
-Stealth Bomber *9    5    12  *1   *30  *120 *Bombard 4, Fuel 2, FieldUnit, Invis
+Stealth Fighter 8   *8    14  *1    20   80   Fuel 2, Invis
+Stealth Bomber *9    5    12  *1   *30  *120 *Bombard 4, Fuel 3, FieldUnit, Invis
                          
-Cruise Missile  18   0    12  *1(2) 10  *50  *CityBuster,*No FieldUnit
+Cruise Missile  18   0   *16  *1(2) 10  *50  *CityBuster,*No FieldUnit
 Nuclear         99   0    16   1    10   160  Nuclear, FieldUnit
 
 FP = Firepower, HP = Hit Points
@@ -473,8 +474,9 @@ Units:
 - Rebalanced ancient units. Reduced defense of Archers to 1 and cost to 20 (no IgZoc). Reduced cost of Legion to 30. Increased attack of Chariot to 4, attack of Elephant to 3, and defense of Knights to 3.
 - Triremes can navigate rivers, but they are affected by ZoC rules while moving on a river. 
 - Caravel changed from (2/1) to (1/2), and cost restored to 40, in order to encourage peaceful exploration of the seas in the age of discovery. Reduced attack of Frigate and defense of Ironclad to 3 (was 4), and restored default costs.
-- Air units can perform pillage (representing bombardment of infrastructure). Increased defense of all Air units, in order to discourage the use of land units to protect them. Helicopters can only be attacked by Fighters (with no extra attack bonuses).
-- Zones of Control are not established by non-military units (Small Land and Merchant classes), so they do not affect the movements of enemy units.
+- Air units can perform pillage (representing bombardment of infrastructure), and can be Airlifted from a city with Airport to another. Increased defense of all Air units, in order to discourage the use of land units to protect them. Helicopters can only be attacked by Fighters (with no extra attack bonuses).
+- Increased fuel of all Air units by one, in order to allow battles for air control. All Air unit lose 10% of HPs, like helicopters, when they end out of city or airbase. Increased range of Cruise Missile to 16, so it is greater than movement of Stealth Fighters.
+- Zones of Control are not imposed by non-military units (Small Land and Merchant classes) nor by Air units or Missiles, so they do not affect the movements of enemy units.
 - Diplomats and Spies are invisible like submarines, but they pay upkeep costs like all other units.
 - Increased vision of Explorer and Partisan. 
 - Cheating AI level gets +50% defense bonus for units placed in land tiles outside cities\fortresses.

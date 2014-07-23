@@ -120,7 +120,7 @@ name          = _("?unitclass:Missile")
 min_speed     = 0
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
-flags         = "Missile", "Unreachable", "DoesntOccupyTile"
+flags         = "Missile", "Unreachable", "DoesntOccupyTile", "Airliftable"
 
 [unitclass_land]
 ; /* TRANS: Unit class: used adjectivally */
@@ -180,9 +180,9 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRans
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Air")
 min_speed     = 1
-hp_loss_pct   = 0
+hp_loss_pct   = 10
 hut_behavior  = "Frighten"
-flags         = "Unreachable", "DoesntOccupyTile", "CanPillage"
+flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1394,13 +1394,13 @@ firepower     = 1
 move_rate     = 10
 vision_radius_sq = 8
 transport_cap = 0
-fuel          = 1
+fuel          = 2
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "AirAttacker"
+flags         = "AirAttacker", "HasNoZOC"
 roles         = "DefendOk"
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1427,12 +1427,12 @@ firepower     = 1
 move_rate     = 8
 vision_radius_sq = 8
 transport_cap = 0
-fuel          = 2
+fuel          = 3
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder"
+flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1467,7 +1467,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land"
-flags         = "OneAttack", "AirAttacker", "Bombarder"
+flags         = "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 The Helicopter can transport one unit of infantry, and it can bombard\
@@ -1497,13 +1497,13 @@ firepower     = 1
 move_rate     = 14
 vision_radius_sq = 8
 transport_cap = 0
-fuel          = 1
+fuel          = 2
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "Partial_Invis", "AirAttacker"
+flags         = "Partial_Invis", "AirAttacker", "HasNoZOC"
 roles         = "DefendGood"
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1530,12 +1530,12 @@ firepower     = 1
 move_rate     = 12
 vision_radius_sq = 8
 transport_cap = 0
-fuel          = 2
+fuel          = 3
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker", "Bombarder"
+flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
 roles         = "DefendOk"
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
@@ -1966,7 +1966,7 @@ attack        = 18
 defense       = 0
 hitpoints     = 10
 firepower     = 1
-move_rate     = 12
+move_rate     = 16
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 1
@@ -1974,7 +1974,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "OneAttack", "AirAttacker", "CityBuster"
+flags         = "OneAttack", "AirAttacker", "CityBuster", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 The Cruise Missile is a long-distance missile\
@@ -2009,7 +2009,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "Nuclear", "AirAttacker"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "AirAttacker", "HasNoZOC"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -2427,7 +2427,7 @@ firepower     = 1
 move_rate     = 16
 vision_radius_sq = 26
 transport_cap = 0
-fuel          = 2
+fuel          = 3
 uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
