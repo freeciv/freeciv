@@ -1317,6 +1317,27 @@ reqs           =
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 flags          = "NativeTile", "AutoOnCityCenter"
 
+[extra_maglev]
+name           = _("Maglev")
+category       = "Infra"
+causes         = "Road"
+rmcauses       = "Pillage"
+graphic        = "road.maglev"
+graphic_alt    = "road.rail"
+activity_gfx   = "unit.maglev"
+act_gfx_alt    = "unit.road"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "Tech", "Superconductors", "Player"
+      "Extra", "Railroad", "Local"
+      "UnitFlag", "Settlers", "Local"
+      "TerrainClass", "Land", "Local"
+    }
+native_to      = "Land", "Small Land"
+flags          = "NativeTile", "AutoOnCityCenter"
+
 [extra_river]
 name           = _("River")
 category       = "Natural"
@@ -1357,7 +1378,7 @@ flags          = "NativeTile"
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "ShowFlag"          = Draw owner's flag
-; helptext                = optional help text string; should escape all raw 
+; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
@@ -1543,6 +1564,26 @@ A railroad also increases any shield resources produced by a tile.\
 "), _("\
 City center tiles with roads are automatically upgraded to railroads\
  when you learn the Railroad technology.\
+")
+
+[road_maglev]
+name           = _("Maglev")
+move_cost      = 0
+build_time     = 3
+food_incr      = 0
+shield_incr    = 0
+trade_incr     = 0
+food_bonus     = 0
+shield_bonus   = 0
+trade_bonus    = 0
+flags          = "RequiresBridge"
+helptext       = _("\
+With sufficient technology, you may upgrade your railroads to use\
+ magnetic levitation. Units expend no movement points when riding a\
+ maglev; you may ride indefinitely. (As may your enemies!)\
+"), _("\
+City center tiles with railroads are automatically upgraded to maglev\
+ when you learn about Superconductors.\
 ")
 
 [road_river]

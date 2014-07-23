@@ -33,7 +33,7 @@ CORE CHANGES:
 - Every unit pays some kind of Upkeep cost. Under some governments, this upkeep is changed from Shields to Gold (similar to civ3).
 - A city can support as many Military units as its population size (min 4, max 20). Additional units cause waste of Food. If the city shrinks due to starvation, one of those extra units will be disbanded.
 - Units lose one Veteran level when upgraded.
-- No infinite movement: Railroads x6, Roads x3, Rivers x3 (non diagonal).
+- Unlimited movement on rails delayed to maglev (available with Superconductors). Movement bonus on Railroads x6, on Roads x3, on Rivers x3 (non diagonal).
 - Added Trench and Airfield bases, required before you can build Fortress or Airbase, respectively. It prevents the construction of full bases in one single turn.
 - Specialists output reduced to 2 (same as civ2). There are wonders that increase it to 3 for all players.
 - Enabled Tech Leakage: technologies are cheaper if already discovered by other nations you have Embassy with.
@@ -453,6 +453,7 @@ Changes:
 - Removed effect that prevented extra output from cities where Irrigation and Mine were present at same time (no longer possible).
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
 - Added Trench and Airfield bases, as pre-requisite for Fortress and Airbase, in order to prevent the construction of full bases in one single turn. Airbases and Fortresses can be built on river tiles again.
+- Introduced Maglev, available with Superconductors, that allows unlimited movement for Land units (except Big Land and Merchant classes).
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations can be finished in 1 or 2 steps, and all effects from Global warming can be reversibly with terraforming.
