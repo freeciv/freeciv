@@ -216,7 +216,6 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 /**************************************************************************
   Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
   which has all requirements fullfiled.
-  If there is no such a tech mark A_FUTURE as researchable.
   
   Recalculate research->num_known_tech_with_flag
   Should always be called after research_invention_set()
@@ -270,11 +269,6 @@ void player_research_update(struct player *pplayer)
     log_debug("%s: [%3d] %s", player_name(pplayer), i, buf);
   } advance_index_iterate_end;
 #endif /* DEBUG */
-
-  /* No techs we can research? Mark A_FUTURE as researchable */
-  if (researchable == 0) {
-    research_invention_set(research, A_FUTURE, TECH_PREREQS_KNOWN);
-  }
 
   for (flag = 0; flag <= tech_flag_id_max(); flag++) {
     /* iterate over all possible tech flags (0..max) */

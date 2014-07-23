@@ -210,7 +210,7 @@ research_advance_name_translation(const struct research *presearch,
 /****************************************************************************
   Returns state of the tech for current research.
   This can be: TECH_KNOWN, TECH_UNKNOWN, or TECH_PREREQS_KNOWN
-  Should be called with existing techs or A_FUTURE
+  Should be called with existing techs.
 
   If 'presearch' is NULL this checks whether any player knows the tech
   (used by the client).
@@ -218,13 +218,11 @@ research_advance_name_translation(const struct research *presearch,
 enum tech_state research_invention_state(const struct research *presearch,
                                          Tech_type_id tech)
 {
-  fc_assert_ret_val(tech == A_FUTURE
-                    || (tech >= 0 && tech < game.control.num_tech_types),
-                    -1);
+  fc_assert_ret_val(NULL != valid_advance_by_number(tech), -1);
 
   if (NULL != presearch) {
     return presearch->inventions[tech].state;
-  } else if (tech != A_FUTURE && game.info.global_advances[tech]) {
+  } else if (game.info.global_advances[tech]) {
     return TECH_KNOWN;
   } else {
     return TECH_UNKNOWN;
@@ -238,8 +236,11 @@ enum tech_state research_invention_set(struct research *presearch,
                                        Tech_type_id tech,
                                        enum tech_state value)
 {
-  enum tech_state old = presearch->inventions[tech].state;
+  enum tech_state old;
 
+  fc_assert_ret_val(NULL != valid_advance_by_number(tech), -1);
+
+  old = presearch->inventions[tech].state;
   if (old == value) {
     return old;
   }
@@ -481,6 +482,7 @@ int research_total_bulbs_required(const struct research *presearch,
 
   if (!loss_value
       && NULL != presearch
+      && !is_future_tech(tech)
       && !research_invention_reachable(presearch, tech)
       && research_invention_state(presearch, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */

@@ -384,8 +384,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   /* Mark the tech as known in the research struct and update
    * global_advances array */
-  research_invention_set(research, tech_found, TECH_KNOWN);
-  player_research_update(plr);
+  if (!is_future_tech(tech_found)) {
+    research_invention_set(research, tech_found, TECH_KNOWN);
+    player_research_update(plr);
+  }
 
   /* Make proper changes for all players sharing the research */  
   research_players_iterate(research, aplayer) {
@@ -943,7 +945,8 @@ void choose_tech(struct player *plr, Tech_type_id tech)
   if (research->researching == tech) {
     return;
   }
-  if (research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
+  if (!is_future_tech(tech)
+      && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
     /* can't research this */
     return;
   }
@@ -1191,12 +1194,13 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       fc_assert(stolen_tech != A_NONE);
     }
   } else { /* preferred != A_UNSET */
-    fc_assert((preferred == A_FUTURE
-               && (research_invention_state(vresearch, A_FUTURE)
-                   == TECH_PREREQS_KNOWN))
-              || (valid_advance_by_number(preferred)
-                  && (research_invention_state(vresearch, preferred)
-                      == TECH_KNOWN)));
+#ifndef NDEBUG
+    if (!is_future_tech(preferred)) {
+      fc_assert(NULL != valid_advance_by_number(preferred));
+      fc_assert(TECH_KNOWN == research_invention_state(vresearch,
+                                                       preferred));
+    }
+#endif
     stolen_tech = preferred;
   }
 
