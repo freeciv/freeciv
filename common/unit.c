@@ -376,9 +376,9 @@ bool is_square_threatened(const struct player *pplayer,
 {
   square_iterate(ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
-      if ( ( (pplayer->ai_controlled
-              && !ai_handicap(pplayer, H_FOG))
-            || can_player_see_unit_at(pplayer, punit, ptile1))
+      if (((pplayer->ai_controlled
+            && !ai_handicap(pplayer, H_FOG))
+           || can_player_see_unit(pplayer, punit))
           && pplayers_at_war(pplayer, unit_owner(punit))
           && (is_diplomat_unit(punit)
               || (is_military_unit(punit) && is_attack_unit(punit)))

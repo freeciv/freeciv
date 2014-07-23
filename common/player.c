@@ -851,7 +851,8 @@ struct player *player_by_user(const char *name)
 ****************************************************************************/
 bool can_player_see_unit_at(const struct player *pplayer,
 			    const struct unit *punit,
-			    const struct tile *ptile)
+                            const struct tile *ptile,
+                            bool is_transported)
 {
   struct city *pcity;
 
@@ -863,7 +864,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   /* Don't show non-allied units that are in transports.  This is logical
    * because allied transports can also contain our units.  Shared vision
    * isn't taken into account. */
-  if (unit_transported(punit) && unit_owner(punit) != pplayer
+  if (is_transported && unit_owner(punit) != pplayer
       && !pplayers_allied(pplayer, unit_owner(punit))) {
     return FALSE;
   }
@@ -895,7 +896,8 @@ bool can_player_see_unit_at(const struct player *pplayer,
 bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit)
 {
-  return can_player_see_unit_at(pplayer, punit, unit_tile(punit));
+  return can_player_see_unit_at(pplayer, punit, unit_tile(punit),
+                                unit_transported(punit));
 }
 
 /****************************************************************************

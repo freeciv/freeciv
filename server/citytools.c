@@ -1858,14 +1858,13 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
      * inside. */
     players_iterate(pplayer) {
       if (BV_ISSET(saw_entering, player_index(pplayer))
-          && !can_player_see_unit_at(pplayer, punit, pcity->tile)) {
+          && !can_player_see_unit(pplayer, punit)) {
         /* Player saw unit entering, but now unit is hiding inside city */
         unit_goes_out_of_sight(pplayer, punit);
       } else if (!BV_ISSET(saw_entering, player_index(pplayer))
-                 && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
+                 && can_player_see_unit(pplayer, punit)) {
         /* Player sees inside cities of new owner */
-        send_unit_info_to_onlookers(pplayer->connections, punit,
-                                    pcity->tile, FALSE, TRUE);
+        send_unit_info(pplayer, punit);
       }
     } players_iterate_end;
   }
