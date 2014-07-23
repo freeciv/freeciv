@@ -998,12 +998,12 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     /* TODO: Make sure that all callers set target so that
      * we don't need these fallbacks. */
     if (activity == ACTIVITY_IRRIGATE && pterrain->irrigation_result == pterrain) {
-      target = next_extra_for_tile(unit_tile(punit),
+      target = next_extra_for_tile(ptile,
                                    EC_IRRIGATION,
                                    unit_owner(punit),
                                    punit);
     } else if (activity == ACTIVITY_MINE && pterrain->mining_result == pterrain) {
-      target = next_extra_for_tile(unit_tile(punit),
+      target = next_extra_for_tile(ptile,
                                    EC_MINE,
                                    unit_owner(punit),
                                    punit);
@@ -1039,7 +1039,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
-        pextra = prev_extra_in_tile(unit_tile(punit),
+        pextra = prev_extra_in_tile(ptile,
                                     ERM_CLEANPOLLUTION,
                                     unit_owner(punit),
                                     punit);
@@ -1074,7 +1074,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       } else {
         /* TODO: Make sure that all callers set target so that
          * we don't need this fallback. */
-        pextra = prev_extra_in_tile(unit_tile(punit),
+        pextra = prev_extra_in_tile(ptile,
                                     ERM_CLEANFALLOUT,
                                     unit_owner(punit),
                                     punit);
