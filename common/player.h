@@ -351,7 +351,8 @@ bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit);
 bool can_player_see_unit_at(const struct player *pplayer,
 			    const struct unit *punit,
-			    const struct tile *ptile);
+                            const struct tile *ptile,
+                            bool is_transported);
 
 bool can_player_see_units_in_city(const struct player *pplayer,
 				  const struct city *pcity);

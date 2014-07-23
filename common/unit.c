@@ -155,14 +155,14 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
     punit = unit_list_get(ptile->units, 0);
 
     if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION)
-        && can_player_see_unit_at(unit_owner(pdiplomat), punit, ptile)
+        && can_player_see_unit(unit_owner(pdiplomat), punit)
         && is_action_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
                                           pdiplomat, punit)) {
       return TRUE;
     }
 
     if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
-        && can_player_see_unit_at(unit_owner(pdiplomat), punit, ptile)
+        && can_player_see_unit(unit_owner(pdiplomat), punit)
         && is_action_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
                                           pdiplomat, punit)) {
       return TRUE;
@@ -409,8 +409,8 @@ bool is_square_threatened(const struct player *pplayer,
 {
   square_iterate(ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
-      if ( ( omniscient
-             || can_player_see_unit_at(pplayer, punit, ptile1))
+      if ((omniscient
+           || can_player_see_unit(pplayer, punit))
           && pplayers_at_war(pplayer, unit_owner(punit))
           && (is_diplomat_unit(punit)
               || (is_military_unit(punit) && is_attack_unit(punit)))

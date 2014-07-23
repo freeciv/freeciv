@@ -152,7 +152,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
       if (is_stack_vulnerable(target)) {
         unit_list_iterate(target->units, victim) {
           if ((!has_handicap(pplayer, H_FOG)
-               || can_player_see_unit_at(pplayer, victim, target))
+               || can_player_see_unit(pplayer, victim))
               && (unit_attack_unit_at_tile_result(punit, victim, target) == ATT_OK)) {
             val += victim->hp * 100;
           }
