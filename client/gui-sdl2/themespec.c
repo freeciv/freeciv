@@ -1071,6 +1071,7 @@ void theme_free_sprites(struct theme *t)
    * functions in gui_tilespec.c instead */
 
   tilespec_free_theme();
+  tilespec_free_city_gfx();
   tilespec_free_city_icons();
 }
 

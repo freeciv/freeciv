@@ -48,7 +48,7 @@
 struct Theme *pTheme;
 struct City_Icon *pIcons;
 
-static SDL_Surface *pCity_Surf;
+static SDL_Surface *city_surf;
 
 static SDL_Surface *pNeutral_Tech_Icon;
 static SDL_Surface *pNone_Tech_Icon;
@@ -124,9 +124,19 @@ void tilespec_setup_city_gfx(void) {
   struct sprite *pSpr =
     theme_lookup_sprite_tag_alt(theme, LOG_FATAL, "theme.city", "", "", "");    
 
-  pCity_Surf = (pSpr ? adj_surf(GET_SURF_REAL(pSpr)) : NULL);
+  city_surf = (pSpr ? adj_surf(GET_SURF_REAL(pSpr)) : NULL);
   
-  fc_assert(pCity_Surf != NULL);
+  fc_assert(city_surf != NULL);
+}
+
+/**************************************************************************
+  Free theme city screen graphics.
+**************************************************************************/
+void tilespec_free_city_gfx(void)
+{
+  /* There was two copies of this. One is freed from the sprite hash, but
+   * one created by adj_surf() in tilespec_setup_city_gfx() is freed here. */
+  FREESURFACE(city_surf);
 }
 
 /**********************************************************************
@@ -455,7 +465,7 @@ SDL_Color *get_tech_color(Tech_type_id tech_id)
 **************************************************************************/
 SDL_Surface *get_city_gfx(void)
 {
-  return pCity_Surf;
+  return city_surf;
 }
 
 /**************************************************************************

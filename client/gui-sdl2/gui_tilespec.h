@@ -195,6 +195,7 @@ void tilespec_setup_theme(void);
 void tilespec_free_theme(void);
 
 void tilespec_setup_city_gfx(void);
+void tilespec_free_city_gfx(void);
   
 void tilespec_setup_city_icons(void);
 void tilespec_free_city_icons(void);

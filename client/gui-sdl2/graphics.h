@@ -238,7 +238,7 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y);
 
-SDL_Surface *copy_surface(SDL_Surface *pSrc);
+SDL_Surface *copy_surface(SDL_Surface *src);
 
 bool correct_black(SDL_Surface *pSrc);
 

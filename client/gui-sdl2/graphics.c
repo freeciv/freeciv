@@ -3348,15 +3348,17 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
 /**************************************************************************
   Return copy of the surface
 **************************************************************************/
-SDL_Surface *copy_surface(SDL_Surface *pSrc)
+SDL_Surface *copy_surface(SDL_Surface *src)
 {
-  SDL_Surface *pDest;
+  SDL_Surface *dst;
 
-  pDest = SDL_CreateRGBSurface(0, pSrc->w, pSrc->h, pSrc->format->BitsPerPixel,
-                               pSrc->format->Rmask, pSrc->format->Gmask,
-                               pSrc->format->Bmask, pSrc->format->Amask);
+  dst = SDL_CreateRGBSurface(0, src->w, src->h, src->format->BitsPerPixel,
+                             src->format->Rmask, src->format->Gmask,
+                             src->format->Bmask, src->format->Amask);
 
-  return pDest;
+  SDL_BlitSurface(src, NULL, dst, NULL);
+
+  return dst;
 }
 
 /* ============ Freeciv game graphics function =========== */
