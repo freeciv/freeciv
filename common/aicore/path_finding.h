@@ -344,6 +344,10 @@ struct pf_parameter {
   int fuel_left_initially;      /* Ignored for non-air units. */
   /* Set if the unit is transported. */
   const struct unit_type *transported_by_initially;
+  /* See unit_cargo_depth(). */
+  int cargo_depth;
+  /* All cargo unit types. */
+  bv_unit_types cargo_types;
 
   int move_rate;                /* Move rate of the virtual unit */
   int fuel;                     /* Should be 1 for units without fuel. */

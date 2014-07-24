@@ -105,6 +105,55 @@ static bool pf_action_possible(const struct tile *src,
 }
 
 /****************************************************************************
+  Determine if we could load into 'ptrans' and its parents.
+****************************************************************************/
+static inline bool pf_transport_check(const struct pf_parameter *param,
+                                      const struct unit *ptrans,
+                                      const struct unit_type *trans_utype)
+{
+  if (!pplayers_allied(unit_owner(ptrans), param->owner)
+      || unit_has_orders(ptrans)
+      || param->utype == trans_utype
+      || can_unit_type_transport(param->utype, utype_class(trans_utype))
+      || (GAME_TRANSPORT_MAX_RECURSIVE
+          < 1 + unit_transport_depth(ptrans) + param->cargo_depth)) {
+    return FALSE;
+  }
+
+  if (1 <= param->cargo_depth) {
+    unit_type_iterate(cargo_utype) {
+      if (BV_ISSET(param->cargo_types, utype_index(cargo_utype))
+          && (cargo_utype == trans_utype
+              || can_unit_type_transport(cargo_utype,
+                                         utype_class(trans_utype)))) {
+        return FALSE;
+      }
+    } unit_type_iterate_end;
+  }
+
+  unit_transports_iterate(ptrans, pparent) {
+    if (unit_has_orders(pparent)
+        || param->utype == (trans_utype = unit_type(pparent))
+        || can_unit_type_transport(param->utype, utype_class(trans_utype))) {
+      return FALSE;
+    }
+
+    if (1 <= param->cargo_depth) {
+      unit_type_iterate(cargo_utype) {
+        if (BV_ISSET(param->cargo_types, utype_index(cargo_utype))
+          && (cargo_utype == trans_utype
+              || can_unit_type_transport(cargo_utype,
+                                         utype_class(trans_utype)))) {
+          return FALSE;
+        }
+      } unit_type_iterate_end;
+    }
+  } unit_transports_iterate_end;
+
+  return TRUE;
+}
+
+/****************************************************************************
   Determine how it is possible to move from/to 'ptile'. The checks for
   specific move from tile to tile is done in pf_move_possible().
 ****************************************************************************/
@@ -148,9 +197,7 @@ pf_get_move_scope(const struct tile *ptile,
     unit_list_iterate(ptile->units, punit) {
       utype = unit_type(punit);
 
-      if (!pplayers_allied(unit_owner(punit), param->owner)
-          || unit_has_orders(punit)
-          || !can_unit_type_transport(utype, uclass)) {
+      if (!pf_transport_check(param, punit, utype)) {
         continue;
       }
 
@@ -461,11 +508,11 @@ static bool is_possible_base_fuel(const struct tile *ptile,
 
   /* Check for carriers */
   unit_list_iterate(ptile->units, ptrans) {
-    if (pplayers_allied(unit_owner(ptrans), param->owner)
-        && can_unit_type_transport(unit_type(ptrans), uclass)
-        && !unit_has_orders(ptrans)
-        && (utype_can_freely_load(param->utype, unit_type(ptrans))
-            || tile_has_native_base(ptile, unit_type(ptrans)))) {
+    const struct unit_type *trans_utype = unit_type(ptrans);
+
+    if (pf_transport_check(param, ptrans, trans_utype)
+        && (utype_can_freely_load(param->utype, trans_utype)
+            || tile_has_native_base(ptile, trans_utype))) {
       return TRUE;
     }
   } unit_list_iterate_end;
@@ -621,6 +668,8 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
     parameter->fuel_left_initially = 1;
   }
   parameter->transported_by_initially = NULL;
+  parameter->cargo_depth = 0;
+  BV_CLR_ALL(parameter->cargo_types);
   parameter->owner = powner;
 
   parameter->omniscience = FALSE;
@@ -649,6 +698,11 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   }
   parameter->transported_by_initially = (NULL != ptrans ? unit_type(ptrans)
                                          : NULL);
+  parameter->cargo_depth = unit_cargo_depth(punit);
+  BV_CLR_ALL(parameter->cargo_types);
+  unit_cargo_iterate(punit, pcargo) {
+    BV_SET(parameter->cargo_types, utype_index(unit_type(pcargo)));
+  } unit_cargo_iterate_end;
   parameter->owner = unit_owner(punit);
 
   parameter->omniscience = FALSE;
@@ -811,6 +865,9 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
 {
   const int move_rate = parameter->land.move_rate * parameter->sea.move_rate;
+
+  parameter->sea.cargo_depth = 1;
+  BV_SET(parameter->sea.cargo_types, utype_index(parameter->land.utype));
 
   parameter->combined = parameter->sea;
   parameter->land_scale = move_rate / parameter->land.move_rate;
