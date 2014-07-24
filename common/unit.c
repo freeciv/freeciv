@@ -807,11 +807,6 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
-  /* Cannot load if cargo is already loaded onto something else. */
-  if (unit_transported(pcargo)) {
-    return FALSE;
-  }
-
   /* Make sure this transporter can carry this type of unit. */
   if (!can_unit_transport(ptrans, pcargo)) {
     return FALSE;
@@ -854,6 +849,11 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   /* Check positions of the units.  Of course you can't load a unit onto
    * a transporter on a different tile... */
   if (!same_pos(unit_tile(pcargo), unit_tile(ptrans))) {
+    return FALSE;
+  }
+
+  /* Cannot load if cargo is already loaded onto something else. */
+  if (unit_transported(pcargo)) {
     return FALSE;
   }
 
