@@ -448,7 +448,7 @@ bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
     return tile_has_any_bases(ptile);
   } else {
     base = base_type_by_rule_name(name);
-    return tile_has_base(ptile, base);
+    return (NULL != base && tile_has_base(ptile, base));
   }
 }
 
