@@ -600,11 +600,19 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
                                  struct tile *pstart_tile,
                                  struct player *powner)
 {
+  int veteran_level = get_unittype_bonus(powner, pstart_tile, punittype,
+                                         EFT_VETERAN_BUILD);
+
+  if (veteran_level >= utype_veteran_levels(punittype)) {
+    veteran_level = utype_veteran_levels(punittype) - 1;
+  }
+
   pft_fill_default_parameter(parameter, punittype);
 
   parameter->start_tile = pstart_tile;
   parameter->moves_left_initially = punittype->move_rate;
-  parameter->move_rate = punittype->move_rate;
+  parameter->move_rate = utype_move_rate(punittype, pstart_tile, powner,
+                                         veteran_level, punittype->hp);
   if (utype_fuel(punittype)) {
     parameter->fuel_left_initially = utype_fuel(punittype);
     parameter->fuel = utype_fuel(punittype);
