@@ -745,9 +745,8 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
-  /* Only top-level transporters may be loaded or loaded into. */
-  if (unit_transported(pcargo)
-      || unit_transported(ptrans)) {
+  /* Cannot load onto nested transporters.  */
+  if (unit_transported(ptrans)) {
     return FALSE;
   }
 
@@ -771,6 +770,11 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   /* Check positions of the units.  Of course you can't load a unit onto
    * a transporter on a different tile... */
   if (!same_pos(unit_tile(pcargo), unit_tile(ptrans))) {
+    return FALSE;
+  }
+
+  /* Cannot load if cargo is already loaded onto something else. */
+  if (unit_transported(pcargo)) {
     return FALSE;
   }
 
