@@ -46,6 +46,9 @@ enum unit_move_result {
   MR_NON_NATIVE_MOVE,  /* Usually RMM_RELAXED road diagonally without link */
 };
 
+int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
+                    const struct player *pplayer, int veteran_level,
+                    int hitpoints);
 int unit_move_rate(const struct unit *punit);
 int utype_unknown_move_cost(const struct unit_type *utype);
 

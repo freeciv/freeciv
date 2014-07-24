@@ -38,44 +38,58 @@
 #include "movement.h"
 
 /****************************************************************************
-  This function calculates the move rate of the unit, taking into 
-  account the penalty for reduced hitpoints (affects sea and land 
-  units only), the effects of wonders for sea units, and any veteran
+  This function calculates the move rate of the unit, taking into account
+  the penalty for reduced hitpoints, the active effects, and any veteran
   bonuses.
+
+  'utype' and 'pplayer' must be set. 'ptile' can be NULL.
 ****************************************************************************/
-int unit_move_rate(const struct unit *punit)
+int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
+                    const struct player *pplayer, int veteran_level,
+                    int hitpoints)
 {
-  int move_rate = 0;
-  int base_move_rate;
-  struct unit_class *pclass;
+  const struct unit_class *uclass;
   const struct veteran_level *vlevel;
+  int base_move_rate, move_rate;
 
-  fc_assert_ret_val(punit != NULL, 0);
+  fc_assert_ret_val(NULL != utype, 0);
+  fc_assert_ret_val(NULL != pplayer, 0);
+  vlevel = utype_veteran_level(utype, veteran_level);
+  fc_assert_ret_val(NULL != vlevel, 0);
+  uclass = utype_class(utype);
 
-  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
-  fc_assert_ret_val(vlevel != NULL, 0);
-
-  base_move_rate = unit_type(punit)->move_rate + vlevel->move_bonus;
+  base_move_rate = utype->move_rate + vlevel->move_bonus;
   move_rate = base_move_rate;
 
-  pclass = unit_class(punit);
-
-  if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
+  if (uclass_has_flag(uclass, UCF_DAMAGE_SLOWS)) {
     /* Scale the MP based on how many HP the unit has. */
-    move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
+    move_rate = (move_rate * hitpoints) / utype->hp;
   }
 
   /* Add on effects bonus (Magellan's Expedition, Lighthouse,
    * Nuclear Power). */
-  move_rate += (get_unit_bonus(punit, EFT_MOVE_BONUS) * SINGLE_MOVE);
+  move_rate += (get_unittype_bonus(pplayer, ptile, utype, EFT_MOVE_BONUS)
+                * SINGLE_MOVE);
 
   /* Don't let the move_rate be less than min_speed unless the base_move_rate is
    * also less than min_speed. */
-  if (move_rate < pclass->min_speed) {
-    move_rate = MIN(pclass->min_speed, base_move_rate);
+  if (move_rate < uclass->min_speed) {
+    move_rate = MIN(uclass->min_speed, base_move_rate);
   }
 
   return move_rate;
+}
+
+/****************************************************************************
+  This function calculates the move rate of the unit. See utype_move_rate()
+  for further details.
+****************************************************************************/
+int unit_move_rate(const struct unit *punit)
+{
+  fc_assert_ret_val(NULL != punit, 0);
+
+  return utype_move_rate(unit_type(punit), unit_tile(punit),
+                         unit_owner(punit), punit->veteran, punit->hp);
 }
 
 /****************************************************************************
