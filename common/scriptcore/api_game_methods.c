@@ -557,7 +557,7 @@ bool api_methods_tile_has_extra(lua_State *L, Tile *ptile, const char *name)
 
     pextra = extra_type_by_rule_name(name);
 
-    return tile_has_extra(ptile, pextra);
+    return (NULL != pextra && tile_has_extra(ptile, pextra));
   }
 }
 
@@ -583,7 +583,7 @@ bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
 
     pbase = base_type_by_rule_name(name);
 
-    return tile_has_extra(ptile, base_extra_get(pbase));
+    return (NULL != pbase && tile_has_extra(ptile, base_extra_get(pbase)));
   }
 }
 
@@ -610,7 +610,7 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
  
     proad = road_type_by_rule_name(name);
 
-    return tile_has_extra(ptile, road_extra_get(proad));
+    return (NULL != proad && tile_has_extra(ptile, road_extra_get(proad)));
   }
 }
 
