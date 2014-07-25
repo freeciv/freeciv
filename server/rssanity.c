@@ -426,6 +426,32 @@ bool sanity_check_ruleset_data(void)
     ok = FALSE;
   }
 
+  /* Advances. */
+  advance_iterate(A_FIRST, padvance) {
+    for (i = AR_ONE; i < AR_SIZE; i++) {
+      const struct advance *preq = advance_requires(padvance, i);
+
+      if (A_NEVER == preq) {
+        continue;
+      } else if (preq == padvance) {
+        ruleset_error(LOG_ERROR, "Tech \"%s\" requires itself.",
+                      advance_rule_name(padvance));
+        ok = FALSE;
+        continue;
+      }
+
+      advance_req_iterate(preq, preqreq) {
+        if (preqreq == padvance) {
+          ruleset_error(LOG_ERROR,
+                        "Tech \"%s\" requires itself indirectly via \"%s\".",
+                        advance_rule_name(padvance),
+                        advance_rule_name(preq));
+          ok = FALSE;
+        }
+      } advance_req_iterate_end;
+    }
+  } advance_iterate_end;
+
   /* Check that all players can have their initial techs */
   nations_iterate(pnation) {
     int i;

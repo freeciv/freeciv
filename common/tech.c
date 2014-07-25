@@ -156,13 +156,6 @@ static void build_required_techs_helper(struct player *pplayer,
   /* Mark the tech as required for the goal */
   BV_SET(presearch->inventions[goal].required_techs, tech);
 
-  if (advance_required(tech, AR_ONE) == goal
-      || advance_required(tech, AR_TWO) == goal) {
-    log_fatal("tech \"%s\": requires itself",
-              advance_rule_name(advance_by_number(goal)));
-    exit(EXIT_FAILURE);
-  }
-
   build_required_techs_helper(pplayer, advance_required(tech, AR_ONE), goal);
   build_required_techs_helper(pplayer, advance_required(tech, AR_TWO), goal);
 }
