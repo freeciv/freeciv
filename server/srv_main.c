@@ -1111,7 +1111,7 @@ static void end_phase(void)
     research_get(pplayer)->researching_saved = A_UNKNOWN;
     /* reduce the number of bulbs by the amount needed for tech upkeep and
      * check for finished research */
-    update_bulbs(pplayer, -research_get(pplayer)->tech_upkeep, TRUE);
+    update_bulbs(pplayer, player_tech_upkeep(pplayer), TRUE);
     flush_packets();
   } phase_players_iterate_end;
 

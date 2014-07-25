@@ -297,6 +297,8 @@ struct player {
       struct dbv tile_vision[V_COUNT];
 
       enum mood_type mood;
+
+      int tech_upkeep;
     } client;
   };
 };

@@ -88,9 +88,6 @@ struct research {
    * Cached values. Updated by player_research_update.
    */
   int num_known_tech_with_flag[TF_COUNT];
-
-  /* Tech upkeep in bulbs. Updated by player_research_update. */
-  int tech_upkeep;
 };
 
 /* Common functions. */
@@ -130,6 +127,8 @@ bool research_goal_tech_req(const struct research *presearch,
 
 int research_total_bulbs_required(const struct research *presearch,
                                   Tech_type_id tech, bool loss_value);
+
+int player_tech_upkeep(const struct player *pplayer);
 
 /* Iterating utilities. */
 struct research_iter;

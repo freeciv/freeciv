@@ -636,6 +636,94 @@ int research_total_bulbs_required(const struct research *presearch,
 
 
 /****************************************************************************
+  Calculate the bulb upkeep needed for all techs of a player. See also
+  research_total_bulbs_required().
+****************************************************************************/
+int player_tech_upkeep(const struct player *pplayer)
+{
+  const struct research *presearch = research_get(pplayer);
+  int f = presearch->future_tech, t = presearch->techs_researched;
+  double tech_upkeep, total_research_factor;
+  int members;
+
+  if (TECH_UPKEEP_NONE == game.info.tech_upkeep_style) {
+    return 0;
+  }
+
+  total_research_factor = 0.0;
+  members = 0;
+  research_players_iterate(presearch, pplayer) {
+    total_research_factor += (get_player_bonus(pplayer, EFT_TECH_COST_FACTOR)
+                              + (pplayer->ai_controlled
+                                 ? pplayer->ai_common.science_cost / 100.0
+                                 : 1));
+    members++;
+  } research_players_iterate_end;
+  if (0 == members) {
+    /* No player still alive. */
+    return 0;
+  }
+
+  /* Upkeep cost for 'normal' techs (t). */
+  switch (game.info.tech_cost_style) {
+  case 0:
+    /* sum_1^t x = t * (t + 1) / 2 */
+    tech_upkeep += game.info.base_tech_cost * t * (t + 1) / 2;
+    break;
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+    advance_iterate(A_NONE, padvance) {
+      if (TECH_KNOWN == research_invention_state(presearch,
+                                                 advance_number(padvance))) {
+        tech_upkeep += padvance->cost;
+      }
+    } advance_iterate_end;
+    if (0 < f) {
+      /* Upkeep cost for future techs (f) are calculated using style 0:
+       * sum_t^(t+f) x = (f * (2 * t + f + 1) + 2 * t) / 2 */
+      tech_upkeep += (double) (game.info.base_tech_cost
+                               * (f * (2 * t + f + 1) + 2 * t) / 2);
+    }
+    break;
+  default:
+    fc_assert_msg(FALSE, "Invalid tech_cost_style %d",
+                  game.info.tech_cost_style);
+    tech_upkeep = 0.0;
+  }
+
+  tech_upkeep *= total_research_factor / members;
+  tech_upkeep *= (double) game.info.sciencebox / 100.0;
+  /* We only want to calculate the upkeep part of one player, not the
+   * whole team! */
+  tech_upkeep /= members;
+  tech_upkeep /= game.info.tech_upkeep_divider;
+
+  switch (game.info.tech_upkeep_style) {
+  case TECH_UPKEEP_BASIC:
+    tech_upkeep -= get_player_bonus(pplayer, EFT_TECH_UPKEEP_FREE);
+    break;
+  case TECH_UPKEEP_PER_CITY:
+    tech_upkeep -= get_player_bonus(pplayer, EFT_TECH_UPKEEP_FREE);
+    tech_upkeep *= city_list_size(pplayer->cities);
+    break;
+  case TECH_UPKEEP_NONE:
+    fc_assert(game.info.tech_upkeep_style != TECH_UPKEEP_NONE);
+    tech_upkeep = 0.0;
+  }
+
+  if (0.0 > tech_upkeep) {
+    tech_upkeep = 0.0;
+  }
+
+  log_debug("[%s (%d)] tech upkeep: %d", player_name(pplayer),
+            player_number(pplayer), (int) tech_upkeep);
+  return (int) tech_upkeep;
+}
+
+
+/****************************************************************************
   Returns the real size of the player research iterator.
 ****************************************************************************/
 size_t research_iter_sizeof(void)

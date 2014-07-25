@@ -1972,6 +1972,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->economic.tax = pinfo->tax;
   pplayer->economic.science = pinfo->science;
   pplayer->economic.luxury = pinfo->luxury;
+  pplayer->client.tech_upkeep = pinfo->tech_upkeep;
   pplayer->government = pgov;
   pplayer->target_government = ptarget_gov;
   /* Don't use player_iterate here, because we ignore the real number

@@ -1049,7 +1049,7 @@ void init_tech(struct player *plr, bool update)
         log_debug("[player %d] researched: %-25s (ID: %4d) techs: %3d "
                   "upkeep: %4d", player_number(plr),
                   advance_rule_name(advance_by_number(tech)), tech,
-                  research->techs_researched, research->tech_upkeep);
+                  research->techs_researched, player_tech_upkeep(plr));
       }
     }
 

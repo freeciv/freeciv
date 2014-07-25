@@ -53,8 +53,6 @@ struct advance_req_iter {
  */
 struct advance advances[A_LAST];
 
-static int tech_upkeep_calc(const struct player *pplayer);
-
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 
 /**************************************************************************
@@ -274,75 +272,6 @@ void player_research_update(struct player *pplayer)
       }
     } advance_index_iterate_end;
   }
-
-  /* calculate tech upkeep cost */
-  if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
-    /* upkeep activated in the ruleset */
-    research->tech_upkeep = tech_upkeep_calc(pplayer);
-
-    log_debug("[%s (%d)] tech upkeep: %d", player_name(pplayer),
-              player_index(pplayer), research->tech_upkeep);
-  } else {
-    /* upkeep deactivated in the ruleset */
-    research->tech_upkeep = 0;
-  }
-}
-
-/**************************************************************************
-  Calculate the bulb upkeep needed for all techs of a player. See also
-  research_total_bulbs_required().
-**************************************************************************/
-static int tech_upkeep_calc(const struct player *pplayer)
-{
-  struct research *research = research_get(pplayer);
-  int f = research->future_tech, t = research->techs_researched;
-  double tech_bulb_sum = 0.0;
-
-  /* upkeep cost for 'normal' techs (t) */
-  switch (game.info.tech_cost_style) {
-  case 0:
-    /* sum_1^t x = t * (t + 1) / 2 */
-    tech_bulb_sum += game.info.base_tech_cost * t * (t + 1) / 2;
-    break;
-  case 1:
-  case 2:
-  case 3:
-  case 4:
-    advance_index_iterate(A_NONE, i) {
-      if (research_invention_state(research, i) == TECH_KNOWN) {
-        tech_bulb_sum += advances[i].cost;
-      }
-    } advance_index_iterate_end;
-    break;
-  default:
-    fc_assert_msg(FALSE, "Invalid tech_cost_style %d",
-                  game.info.tech_cost_style);
-    tech_bulb_sum = 0.0;
-  }
-
-  /* upkeep cost for future techs (f) are calculated using style 0:
-   * sum_t^(t+f) x = (f * (2 * t + f + 1) + 2 * t) / 2 */
-  tech_bulb_sum += (double)(f * (2 * t + f + 1) + 2 * t) / 2
-                           * game.info.base_tech_cost;
-
-  tech_bulb_sum *= get_player_bonus(pplayer, EFT_TECH_COST_FACTOR);
-  tech_bulb_sum *= (double)game.info.sciencebox / 100.0;
-  tech_bulb_sum /= game.info.tech_upkeep_divider;
-
-  switch (game.info.tech_upkeep_style) {
-  case TECH_UPKEEP_BASIC:
-    tech_bulb_sum -= get_player_bonus(pplayer, EFT_TECH_UPKEEP_FREE);
-    break;
-  case TECH_UPKEEP_PER_CITY:
-    tech_bulb_sum -= get_player_bonus(pplayer, EFT_TECH_UPKEEP_FREE);
-    tech_bulb_sum *= (1 + city_list_size(pplayer->cities));
-    break;
-  case TECH_UPKEEP_NONE:
-    fc_assert(game.info.tech_upkeep_style != TECH_UPKEEP_NONE);
-    tech_bulb_sum = 0;
-  }
-
-  return MAX((int)tech_bulb_sum, 0);
 }
 
 /**************************************************************************

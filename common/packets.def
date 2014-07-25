@@ -760,6 +760,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   GOLD gold;
   PERCENT tax, science,luxury;
 
+  UINT16 tech_upkeep;
   SINT32 bulbs_last_turn;
   UINT16 science_cost;
 
