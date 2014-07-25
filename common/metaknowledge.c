@@ -17,9 +17,11 @@
 
 /* common */
 #include "diptreaty.h"
+#include "game.h"
 #include "map.h"
 #include "metaknowledge.h"
 #include "tile.h"
+#include "traderoutes.h"
 
 /**************************************************************************
   An AND function for fc_tristate.
@@ -105,6 +107,59 @@ static bool is_req_knowable(const struct player *pow_player,
     if (vision == TILE_KNOWN_SEEN
         || (target_city && city_owner(target_city) == pow_player)) {
       return TRUE;
+    }
+  }
+
+  if (req->source.kind == VUT_IMPROVEMENT) {
+    /* Anyone that can see city internals (like the owner) */
+    if (can_player_see_city_internals(pow_player, target_city)) {
+      return TRUE;
+    }
+
+    /* Cities not owned by pow_player */
+    switch (req->range) {
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_CONTINENT:
+      /* Only wonders (great or small) can be required in those ranges.
+       * Wonders are always visible. */
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      /* Could be known for trade routes to cities owned by pow_player as
+       * long as the requirement is present. Not present requirements would
+       * require knowledge that no trade routes to another foreign city
+       * exists (since all possible trade routes are to a city owned by
+       * pow_player). Not worth the complexity, IMHO. */
+      return FALSE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_LOCAL:
+      /* Can't see invisible improvements in foreign cities. */
+      if (!is_improvement_visible(req->source.value.building)) {
+        return FALSE;
+      }
+
+      /* Can see visible improvements in seen cities. */
+      if (tile_get_known(city_tile(target_city), pow_player)
+          == TILE_KNOWN_SEEN) {
+        return TRUE;
+      }
+
+      /* Can see visible improvements in cities traded with. */
+      trade_routes_iterate(target_city, trade_city) {
+        if (city_owner(trade_city) == pow_player) {
+          return TRUE;
+        }
+      } trade_routes_iterate_end;
+
+      /* No way to know if a city has an improvement */
+      return FALSE;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_COUNT:
+      /* Not supported by the requirement type. */
+      return FALSE;
     }
   }
 
