@@ -647,6 +647,8 @@ AC_C99_STDINT_H
 
 FC_C11_STATIC_ASSERT
 
+FC_CXX11_STATIC_ASSERT
+
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
   AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [BeOS-specific setting])

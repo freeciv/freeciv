@@ -180,15 +180,23 @@ void fc_assert_fail(const char *file, const char *function, int line,
   fc_assert_action(condition,                                               \
                    log_fatal(message, ## __VA_ARGS__); exit(EXIT_FAILURE));
 
-#if defined(C11_STATIC_ASSERT) && !defined(__cplusplus)
+#ifdef __cplusplus
+#ifdef CXX11_STATIC_ASSERT
+#define FC_STATIC_ASSERT(cond, tag) static_assert(cond, #tag)
+#endif /* CXX11_STATIC_ASSERT */
+#else  /* __cplusplus */
+#ifdef C11_STATIC_ASSERT
 #define FC_STATIC_ASSERT(cond, tag) _Static_assert(cond, #tag)
-#else  /* C11_STATIC_ASSERT */
+#endif /* C11_STATIC_ASSERT */
+#endif /* __cplusplus */
+
+#ifndef FC_STATIC_ASSERT
 /* Static (compile-time) assertion.
  * "tag" is a semi-meaningful C identifier which will appear in the
  * compiler error message if the assertion fails. */
 #define FC_STATIC_ASSERT(cond, tag) \
                       enum { static_assert_ ## tag = 1 / (!!(cond)) }
-#endif  /* C11_STATIC_ASSERT */
+#endif
 
 #ifdef __cplusplus
 }
