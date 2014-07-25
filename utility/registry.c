@@ -338,7 +338,7 @@ struct section_file {
 /**************************************************************************
   Ensure name is correct to use it as section or entry name.
 **************************************************************************/
-static bool check_name(const char *name)
+bool is_secfile_entry_name_valid(const char *name)
 {
   static const char *const allowed = "_.,-[]";
 
@@ -2736,7 +2736,7 @@ struct section *secfile_section_new(struct section_file *secfile,
     return NULL;
   }
 
-  if (!check_name(name)) {
+  if (!is_secfile_entry_name_valid(name)) {
     SECFILE_LOG(secfile, NULL, "\"%s\" is not a valid section name.",
                 name);
     return NULL;
@@ -2833,7 +2833,7 @@ bool section_set_name(struct section *psection, const char *name)
     return FALSE;
   }
 
-  if (!check_name(name)) {
+  if (!is_secfile_entry_name_valid(name)) {
     SECFILE_LOG(secfile, psection,
                 "\"%s\" is not a valid section name for section \"%s\".",
                 name, psection->name);
@@ -2975,7 +2975,7 @@ static struct entry *entry_new(struct section *psection, const char *name)
     return NULL;
   }
 
-  if (!check_name(name)) {
+  if (!is_secfile_entry_name_valid(name)) {
     SECFILE_LOG(secfile, psection, "\"%s\" is not a valid entry name.",
                 name);
     return NULL;
@@ -3152,7 +3152,7 @@ bool entry_set_name(struct entry *pentry, const char *name)
     return FALSE;
   }
 
-  if (!check_name(name)) {
+  if (!is_secfile_entry_name_valid(name)) {
     SECFILE_LOG(secfile, psection,
                 "\"%s\" is not a valid entry name for entry \"%s\".",
                 name, pentry->name);
