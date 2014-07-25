@@ -2360,8 +2360,8 @@ struct unit_list *unit_transport_cargo(const struct unit *ptrans)
   Helper for unit_transport_check().
 ****************************************************************************/
 static inline bool
-unit_transport_check_one(const struct unit_type *trans_utype,
-                         const struct unit_type *cargo_utype)
+unit_transport_check_one(const struct unit_type *cargo_utype,
+                         const struct unit_type *trans_utype)
 {
   return (trans_utype != cargo_utype
           && !can_unit_type_transport(cargo_utype,
