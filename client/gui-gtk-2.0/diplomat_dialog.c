@@ -665,52 +665,32 @@ static void action_entry(GtkWidget *shl,
 {
   const gchar *label;
   const gchar *tooltip;
-  action_probability success_propability;
-  gchar *chance_text;
 
-  success_propability = action_probabilities[action_id];
+  /* Don't show disabled actions. */
+  if (action_probabilities[action_id] == ACTPROB_IMPOSSIBLE) {
+    return;
+  }
 
-  /* How to interpret action probabilities like success_propability is
-   * documented in actions.h */
-  switch (success_propability) {
-  case ACTPROB_IMPOSSIBLE:
-    /* Don't even show disabled actions */
-    break;
+  label = action_prepare_ui_name(action_id, "_",
+                                 action_probabilities[action_id]);
+
+  switch (action_probabilities[action_id]) {
   case ACTPROB_NOT_KNOWN:
-    /* Unknown because the player don't have the required knowledge to
-     * determine the probability of success for this action. */
-    label = action_prepare_ui_name(action_id, "_", _(" (?%)"));
-
-    choice_dialog_add(shl, label, handler, NULL,
-        _("Starting to do this may currently be impossible."));
+    /* Missing in game knowledge. An in game action can change this. */
+    tooltip =
+        _("Starting to do this may currently be impossible.");
     break;
   case ACTPROB_NOT_IMPLEMENTED:
-    /* Unknown because of missing server support. */
-    label = action_prepare_ui_name(action_id, "_", "");
-
-    choice_dialog_add(shl, label, handler, NULL, NULL);
+    /* Missing server support. No in game action will change this. */
+    tooltip = NULL;
     break;
   default:
-    /* Should be in the range 1 (0.5%) to 200 (100%) */
-    fc_assert_msg(success_propability < 201,
-                  "Diplomat action probability out of range");
-
-    /* TRANS: the probability that a diplomat action will succeed. */
-    chance_text = g_strdup_printf(_(" (%.1f%%)"),
-                                  (double)success_propability / 2);
-
-    label = action_prepare_ui_name(action_id, "_", chance_text);
-
     tooltip = g_strdup_printf(_("The probability of success is %.1f%%."),
-                              (double)success_propability / 2);
-
-    /* The unit of success_propability is 0.5% chance of success. */
-    choice_dialog_add(shl, label, handler, NULL, tooltip);
-
-    free(chance_text);
-
+                              (double)action_probabilities[action_id] / 2);
     break;
   }
+
+  choice_dialog_add(shl, label, handler, NULL, tooltip);
 }
 
 /****************************************************************

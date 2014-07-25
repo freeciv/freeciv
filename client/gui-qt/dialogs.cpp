@@ -1050,49 +1050,38 @@ static void action_entry(choice_dialog *cd,
                          QVariant data2)
 {
   QString title;
-  QString success;
-  double converted;
+  QString tool_tip;
 
-  action_probability success_propability = action_probabilities[act];
+  /* Don't show disabled actions. */
+  if (action_probabilities[act] == ACTPROB_IMPOSSIBLE) {
+    return;
+  }
 
-  /* How to interpret action probabilities like success_propability is
-   * documented in actions.h */
-  switch (success_propability) {
-  case ACTPROB_IMPOSSIBLE:
-    /* Don't even show disabled actions. */
-    break;
+  title = QString(action_prepare_ui_name(act, "&",
+                                         action_probabilities[act]));
+
+  switch (action_probabilities[act]) {
   case ACTPROB_NOT_KNOWN:
-    /* Unknown because the player don't have the required knowledge to
-     * determine the probability of success for this action. */
-    title = QString(action_prepare_ui_name(act, "&", " (?%)"));
-    cd->add_item(title, func, data1, data2,
-        QString(_("Starting to do this may currently be impossible.")));
+    /* Missing in game knowledge. An in game action can change this. */
+    tool_tip =
+        QString(_("Starting to do this may currently be impossible."));
     break;
   case ACTPROB_NOT_IMPLEMENTED:
-    /* Unknown because of missing server support. */
-    title = QString(action_prepare_ui_name(act, "&", ""));
-    cd->add_item(title, func, data1, data2);
+    /* Missing server support. No in game action will change this. */
+    tool_tip = "";
     break;
   default:
-    /* Should be in the range 1 (0.5%) to 200 (100%) */
-    fc_assert_msg(success_propability < 201,
-                  "Diplomat action probability out of range");
+    {
+      /* The unit is 0.5% chance of success. */
+      double converted = (double)action_probabilities[act] / 2;
 
-    /* TRANS: the probability that a diplomat action will succeed. */
-    success = _(" (%1%)");
-
-    /* The unit of success_propability is 0.5% chance of success. */
-    converted = (double)success_propability / 2;
-
-    title = QString(action_prepare_ui_name(act, "&",
-        success.arg(converted).toUtf8()));
-
-    cd->add_item(title, func, data1, data2,
-                 QString(_("The probability of success is %1%."))
-                 .arg(converted));
-
+      tool_tip = QString(_("The probability of success is %1%."))
+                   .arg(converted);
+    }
     break;
   }
+
+  cd->add_item(title, func, data1, data2, tool_tip);
 }
 
 /***************************************************************************

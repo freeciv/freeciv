@@ -638,39 +638,14 @@ static void action_entry(const enum gen_action act,
 {
   struct widget *pBuf;
   SDL_String16 *pStr;
-  action_probability prob;
   const char *ui_name;
-  static struct astring chance = ASTRING_INIT;
 
-  prob = action_probabilities[act];
-
-  /* How to interpret action probabilities like prob is documented in
-   * actions.h */
-  switch (prob) {
-  case ACTPROB_IMPOSSIBLE:
-    /* Don't even show disabled actions. */
+  /* Don't show disabled actions */
+  if (action_probabilities[act] == ACTPROB_IMPOSSIBLE) {
     return;
-  case ACTPROB_NOT_KNOWN:
-    /* Unknown because the player don't have the required knowledge to
-     * determine the probability of success for this action. */
-    /* TRANS: the chance of a diplomat action succeeding is unknown. */
-    astr_set(&chance, _(" (?%%)"));
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Unknown because of missing server support. */
-    astr_clear(&chance);
-    break;
-  default:
-    /* Should be in the range 1 (0.5%) to 200 (100%) */
-    fc_assert_msg(prob < 201,
-                  "Diplomat action probability out of range");
-
-    /* TRANS: the probability that a diplomat action will succeed. */
-    astr_set(&chance, _(" (%.1f%%)"), (double)prob / 2);
-    break;
   }
 
-  ui_name = action_prepare_ui_name(act, "", astr_str(&chance));
+  ui_name = action_prepare_ui_name(act, "", action_probabilities[act]);
 
   create_active_iconlabel(pBuf, pWindow->dst, pStr,
                           ui_name, callback);

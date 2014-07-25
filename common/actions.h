@@ -90,6 +90,11 @@ typedef int action_probability;
 #define ACTPROB_IMPOSSIBLE 0
 
 /*
+ * The special value ACTPROB_NA indicates that no probability should exist.
+ */
+#define ACTPROB_NA 253
+
+/*
  * The special value ACTPROB_NOT_IMPLEMENTED indicates that support
  * for finding this probability currently is missing.
  */
@@ -156,7 +161,7 @@ enum action_target_kind action_get_target_kind(int action_id);
 
 const char *action_get_ui_name(int action_id);
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
-                                   const char* append);
+                                   const action_probability prob);
 
 struct action_enabler_list *
 action_enablers_for_action(enum gen_action action);

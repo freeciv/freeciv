@@ -760,13 +760,13 @@ static void action_entry(Widget w, int action_id,
 {
   Arg arglist[1];
 
-  /* TODO: Use more of the probability information.
-   * See the documentation in actions.h for how to use it. */
   if (!action_probabilities[action_id]) {
     XtSetSensitive(w, FALSE);
   }
 
-  XtSetArg(arglist[0], "label", action_prepare_ui_name(action_id, "", ""));
+  XtSetArg(arglist[0], "label",
+           action_prepare_ui_name(action_id, "",
+                                  action_probabilities[action_id]));
   XtSetValues(w, arglist, XtNumber(arglist));
 }
 

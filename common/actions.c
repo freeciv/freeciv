@@ -174,13 +174,44 @@ const char *action_get_ui_name(int action_id)
   Get the UI name ready to show the action in the UI.
 **************************************************************************/
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
-                                   const char* append)
+                                   const action_probability prob)
 {
   static struct astring str = ASTRING_INIT;
+  static struct astring chance = ASTRING_INIT;
+
+  /* How to interpret action probabilities like prob is documented in
+   * actions.h */
+  switch (prob) {
+  case ACTPROB_NOT_KNOWN:
+    /* Unknown because the player don't have the required knowledge to
+     * determine the probability of success for this action. */
+    /* TRANS: the chance of a diplomat action succeeding is unknown. */
+    astr_set(&chance, _(" (?%%)"));
+    break;
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Unknown because of missing server support. */
+    astr_clear(&chance);
+    break;
+  case ACTPROB_NA:
+    /* Should not exist */
+    astr_clear(&chance);
+    break;
+  case ACTPROB_IMPOSSIBLE:
+    /* ACTPROB_IMPOSSIBLE is a 0% probability of success */
+  default:
+    /* Should be in the range 0 (0%) to 200 (100%) */
+    fc_assert_msg(prob < 201,
+                  "Diplomat action probability out of range");
+
+    /* TRANS: the probability that a diplomat action will succeed. */
+    astr_set(&chance, _(" (%.1f%%)"), (double)prob / 2);
+    break;
+  }
 
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
-  astr_set(&str, _(action_get_ui_name(action_id)), mnemonic, append);
+  astr_set(&str, _(action_get_ui_name(action_id)), mnemonic,
+           astr_str(&chance));
 
   return astr_str(&str);
 }
