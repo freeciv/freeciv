@@ -3972,10 +3972,10 @@ static void game_load_internal(struct section_file *file)
 
     /* In case of tech_leakage, we can update research only after all
      * the players have been loaded */
-    players_iterate(pplayer) {
+    researches_iterate(presearch) {
       /* Mark the reachable techs */
-      player_research_update(pplayer);
-    } players_iterate_end;
+      research_update(presearch);
+    } researches_iterate_end;
 
     /* The savegame may contain valid nations that are not included in
      * the current default nationset for the ruleset, since it predates

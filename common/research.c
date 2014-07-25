@@ -71,7 +71,10 @@ void researches_init(void)
     research_array[i].researching = A_UNSET;
     research_array[i].researching_saved = A_UNKNOWN;
     research_array[i].future_tech = 0;
+    research_array[i].inventions[A_NONE].state = TECH_KNOWN;
   }
+
+  game.info.global_advances[A_NONE] = TRUE;
 
   /* Set technology names. */
   /* TRANS: "None" tech */
@@ -115,6 +118,29 @@ struct research *research_get(const struct player *pplayer)
   }
 }
 
+/****************************************************************************
+  Returns the name of the research owner: a player name or a team name.
+****************************************************************************/
+const char *research_rule_name(const struct research *presearch)
+{
+  if (game.info.team_pooled_research) {
+    return team_rule_name(team_by_number(research_number(presearch)));
+  } else {
+    return player_name(player_by_number(research_number(presearch)));
+  }
+}
+
+/****************************************************************************
+  Returns the name of the research owner: a player name or a team name.
+****************************************************************************/
+const char *research_name_translation(const struct research *presearch)
+{
+  if (game.info.team_pooled_research) {
+    return team_name_translation(team_by_number(research_number(presearch)));
+  } else {
+    return player_name(player_by_number(research_number(presearch)));
+  }
+}
 
 #define SPECVEC_TAG string
 #define SPECVEC_TYPE char *
@@ -206,6 +232,97 @@ research_advance_name_translation(const struct research *presearch,
   return name_translation(research_advance_name(tech));
 }
 
+
+/****************************************************************************
+  Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
+  which has all requirements fullfiled.
+
+  Recalculate presearch->num_known_tech_with_flag
+  Should always be called after research_invention_set().
+****************************************************************************/
+void research_update(struct research *presearch)
+{
+  enum tech_flag_id flag;
+  int techs_researched;
+
+  advance_index_iterate(A_FIRST, i) {
+    if (!research_invention_reachable(presearch, i)) {
+      research_invention_set(presearch, i, TECH_UNKNOWN);
+    } else {
+      if (TECH_PREREQS_KNOWN == research_invention_state(presearch, i)) {
+        research_invention_set(presearch, i, TECH_UNKNOWN);
+      }
+
+      if (research_invention_state(presearch, i) == TECH_UNKNOWN
+          && (TECH_KNOWN
+              == research_invention_state(presearch,
+                                          advance_required(i, AR_ONE)))
+          && (TECH_KNOWN
+              == research_invention_state(presearch,
+                                          advance_required(i, AR_TWO)))) {
+        research_invention_set(presearch, i, TECH_PREREQS_KNOWN);
+      }
+    }
+
+    /* Updates required_techs, num_required_techs and bulbs_required. */
+    BV_CLR_ALL(presearch->inventions[i].required_techs);
+    presearch->inventions[i].num_required_techs = 0;
+    presearch->inventions[i].bulbs_required = 0;
+
+    if (TECH_KNOWN == research_invention_state(presearch, i)) {
+      continue;
+    }
+
+    techs_researched = presearch->techs_researched;
+    advance_req_iterate(valid_advance_by_number(i), preq) {
+      Tech_type_id j = advance_number(preq);
+
+      if (j != i) {
+        BV_SET(presearch->inventions[i].required_techs, j);
+      }
+      presearch->inventions[i].num_required_techs++;
+      presearch->inventions[i].bulbs_required +=
+          research_total_bulbs_required(presearch, j, FALSE);
+      /* This is needed to get a correct result for the
+       * research_total_bulbs_required() call when
+       * game.info.game.info.tech_cost_style is 0. */
+      presearch->techs_researched++;
+    } advance_req_iterate_end;
+    presearch->techs_researched = techs_researched;
+  } advance_index_iterate_end;
+
+#ifdef DEBUG
+  advance_index_iterate(A_FIRST, i) {
+    char buf[advance_count() + 1];
+
+    advance_index_iterate(A_NONE, j) {
+      if (BV_ISSET(presearch->inventions[i].required_techs, j)) {
+        buf[j] = '1';
+      } else {
+        buf[j] = '0';
+      }
+    } advance_index_iterate_end;
+    buf[advance_count()] = '\0';
+
+    log_debug("%s: [%3d] %-25s => %s", research_rule_name(presearch), i,
+              advance_rule_name(advance_by_number(i)),
+              tech_state_name(research_invention_state(presearch, i)));
+    log_debug("%s: [%3d] %s", research_rule_name(presearch), i, buf);
+  } advance_index_iterate_end;
+#endif
+
+  for (flag = 0; flag <= tech_flag_id_max(); flag++) {
+    /* Iterate over all possible tech flags (0..max). */
+    presearch->num_known_tech_with_flag[flag] = 0;
+
+    advance_index_iterate(A_NONE, i) {
+      if (TECH_KNOWN == research_invention_state(presearch, i)
+          && advance_has_flag(i, flag)) {
+        presearch->num_known_tech_with_flag[flag]++;
+      }
+    } advance_index_iterate_end;
+  }
+}
 
 /****************************************************************************
   Returns state of the tech for current research.

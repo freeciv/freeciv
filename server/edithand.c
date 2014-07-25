@@ -1254,7 +1254,7 @@ void handle_edit_player(struct connection *pc,
   if (update_research) {
     Tech_type_id current, goal;
 
-    player_research_update(pplayer);
+    research_update(research);
 
     /* FIXME: Modifies struct research directly. */
 

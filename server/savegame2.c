@@ -3377,11 +3377,14 @@ static void sg_load_players(struct loaddata *loading)
 
   /* In case of tech_leakage, we can update research only after all the 
    * players have been loaded */
+  researches_iterate(presearch) {
+    /* Mark the reachable techs */
+    research_update(presearch);
+  } researches_iterate_end;
+
   /* Also load the transport status of the units here. It must be a special
    * case as all units must be known (unit on an allied transporter). */
   players_iterate(pplayer) {
-    /* Mark the reachable techs */
-    player_research_update(pplayer);
     /* Load unit transport status. */
     sg_load_player_units_transport(loading, pplayer);
   } players_iterate_end;

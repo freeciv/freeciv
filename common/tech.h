@@ -163,8 +163,6 @@ const char *tech_flag_helptxt(enum tech_flag_id id);
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);
 
 /* Ancillary routines */
-void player_research_update(struct player *pplayer);
-
 Tech_type_id advance_required(const Tech_type_id tech,
 			      enum tech_req require);
 struct advance *advance_requires(const struct advance *padvance,

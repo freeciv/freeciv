@@ -2139,11 +2139,7 @@ void handle_research_info(const struct packet_research_info *packet)
     }
   } advance_index_iterate_end;
 
-  /* FIXME: This is a hack because we need a player pointer! */
-  research_players_iterate(presearch, pplayer) {
-    player_research_update(pplayer);
-    break;
-  } research_players_iterate_end;
+  research_update(presearch);
 
   if (C_S_RUNNING == client_state()) {
     if (presearch == research_get(client_player())) {

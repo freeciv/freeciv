@@ -74,7 +74,7 @@ struct research {
     /* 
      * required_techs, num_required_techs and bulbs_required are
      * cached values. Updated from build_required_techs (which is
-     * called by player_research_update).
+     * called by research_update()).
      */
     bv_techs required_techs;
     int num_required_techs, bulbs_required;
@@ -85,7 +85,7 @@ struct research {
   Tech_type_id tech_goal;
 
   /*
-   * Cached values. Updated by player_research_update.
+   * Cached values. Updated by research_update().
    */
   int num_known_tech_with_flag[TF_COUNT];
 };
@@ -94,6 +94,8 @@ struct research {
 void researches_init(void);
 
 int research_number(const struct research *presearch);
+const char *research_rule_name(const struct research *presearch);
+const char *research_name_translation(const struct research *presearch);
 
 struct research *research_by_number(int number);
 struct research *research_get(const struct player *pplayer);
@@ -105,6 +107,8 @@ research_advance_name_translation(const struct research *presearch,
                                   Tech_type_id tech);
 
 /* Ancillary routines */
+void research_update(struct research *presearch);
+
 enum tech_state research_invention_state(const struct research *presearch,
                                          Tech_type_id tech);
 enum tech_state research_invention_set(struct research *presearch,

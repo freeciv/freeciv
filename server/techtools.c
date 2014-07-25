@@ -386,7 +386,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
    * global_advances array */
   if (!is_future_tech(tech_found)) {
     research_invention_set(research, tech_found, TECH_KNOWN);
-    player_research_update(plr);
+    research_update(research);
   }
 
   /* Make proper changes for all players sharing the research */  
@@ -624,7 +624,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
       }
     }
 
-    player_research_update(plr);
+    research_update(research);
   }
 
   if (check_tech && research->researching != A_UNSET) {
@@ -717,8 +717,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 
   if (tech == A_FUTURE) {
     presearch->future_tech--;
-    player_research_update(plr);
-
+    research_update(presearch);
     return;
   }
 
@@ -729,7 +728,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 
   /* remove technology */
   research_invention_set(presearch, tech, TECH_UNKNOWN);
-  player_research_update(plr);
+  research_update(presearch);
   log_debug("%s lost tech id %d (%s)", player_name(plr), tech,
             advance_rule_name(advance_by_number(tech)));
 
@@ -1015,7 +1014,7 @@ void init_tech(struct player *plr, bool update)
     } advance_index_iterate_end;
 
     research->techs_researched = 1;
-    player_research_update(plr);
+    research_update(presearch);
 
     /* Show research costs. */
     advance_index_iterate(A_NONE, i) {
@@ -1044,7 +1043,7 @@ void init_tech(struct player *plr, bool update)
         research->techs_researched++;
 
         /* This will change the game state! */
-        player_research_update(plr);
+        research_update(research);
 
         log_debug("[player %d] researched: %-25s (ID: %4d) techs: %3d "
                   "upkeep: %4d", player_number(plr),
@@ -1067,7 +1066,7 @@ void init_tech(struct player *plr, bool update)
     Tech_type_id next_tech;
 
     /* Mark the reachable techs */
-    player_research_update(plr);
+    research_update(research);
 
     next_tech = research_goal_step(research, research->tech_goal);
     if (A_UNSET != next_tech) {
@@ -1334,7 +1333,7 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
                 research_advance_name_translation(research_get(pplayer),
                                                   tech));
   player_tech_lost(pplayer, tech);
-  player_research_update(pplayer);
+  research_update(research_get(pplayer));
 }
 
 /****************************************************************************

@@ -51,6 +51,7 @@
 #include "netintf.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "version.h"
 
 /* client/include */
@@ -831,7 +832,7 @@ void set_client_state(enum client_states newstate)
     options_dialogs_set();
     create_event(NULL, E_GAME_START, ftc_client, _("Game started."));
     if (pplayer) {
-      player_research_update(pplayer);
+      research_update(research_get(pplayer));
     }
     role_unit_precalcs();
     boot_help_texts(pplayer);   /* reboot with player */
@@ -878,7 +879,7 @@ void set_client_state(enum client_states newstate)
       init_city_report_game_data();
       options_dialogs_set();
       if (pplayer) {
-        player_research_update(pplayer);
+        research_update(research_get(pplayer));
       }
       role_unit_precalcs();
       boot_help_texts(pplayer);            /* reboot */
