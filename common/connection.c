@@ -487,7 +487,9 @@ const char *conn_description(const struct connection *pconn)
 ****************************************************************************/
 bool can_conn_edit(const struct connection *pconn)
 {
-  return can_conn_enable_editing(pconn) && game.info.is_edit_mode;
+  return (can_conn_enable_editing(pconn)
+          && game.info.is_edit_mode
+          && (NULL != pconn->playing || pconn->observer));
 }
 
 /****************************************************************************
