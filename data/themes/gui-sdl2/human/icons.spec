@@ -12,7 +12,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl/human/icons"
+gfx = "themes/gui-sdl2/human/icons"
 
 [grid_polluttion]
 

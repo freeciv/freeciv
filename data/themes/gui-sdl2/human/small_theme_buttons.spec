@@ -12,7 +12,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl/human/small_theme_buttons"
+gfx = "themes/gui-sdl2/human/small_theme_buttons"
 
 [grid_main]
 

@@ -13,7 +13,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl/human/city"
+gfx = "themes/gui-sdl2/human/city"
 
 [grid_main]
 

@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-gfx = "themes/gui-sdl/human/theme_boxs"
+gfx = "themes/gui-sdl2/human/theme_boxs"
 
 [grid_main]
 
