@@ -18,6 +18,7 @@
 // Qt
 #include <QGridLayout>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QPushButton>
 
 // utility
@@ -27,6 +28,9 @@
 
 // common
 #include "game.h"
+
+// server
+#include "rssanity.h"
 
 // ruledit
 #include "ruledit_qt.h"
@@ -103,7 +107,20 @@ void tab_misc::save_now()
   strncpy(game.control.version, version->text().toUtf8().data(),
           sizeof(game.control.version));
 
-  save_ruleset(savedir->text().toUtf8().data(), nameUTF8, &(ui->data));
+  if (!sanity_check_ruleset_data()) {
+    QMessageBox *box = new QMessageBox();
+
+    box->setText("Current data fails sanity checks. Save anyway?");
+    box->setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    box->exec();
+
+    if (box->result() != QMessageBox::Yes) {
+      return;
+    }
+  }
+
+  save_ruleset(savedir->text().toUtf8().data(), nameUTF8,
+               &(ui->data));
 
   ui->display_msg(R__("Ruleset saved"));
 }
