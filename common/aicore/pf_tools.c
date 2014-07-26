@@ -32,6 +32,36 @@
 
 #include "pf_tools.h"
 
+/**************************************************************************
+  Return TRUE iff a unit of the given unit type can "exist" at this
+  location. This means it can physically be present on the tile (without
+  the use of a transporter).
+
+  A version of can_unit_exist_at_tile()
+**************************************************************************/
+static bool can_exist_at_tile_pf(const struct pf_parameter *param,
+                                 const struct tile *ptile)
+{
+  /* Cities are safe havens except for units in the middle of non-native
+   * terrain. This can happen if adjacent terrain is changed after unit
+   * arrived to city. */
+  if (NULL != tile_city(ptile)
+      && (uclass_has_flag(param->uclass, UCF_BUILD_ANYWHERE)
+          || is_native_near_tile(param->uclass, ptile)
+          || (1 == game.info.citymindist
+              && is_city_channel_tile(param->uclass, ptile, NULL)))) {
+    return TRUE;
+  }
+
+  /* A trireme unit cannot exist in an ocean tile without access to
+   * land. */
+  if (BV_ISSET(param->unit_flags, UTYF_TRIREME) && !is_safe_ocean(ptile)) {
+    return FALSE;
+  }
+
+  return is_native_tile_to_class(param->uclass, ptile);
+}
+
 /*************************************************************
   Cost of moving one normal step.
 *************************************************************/
@@ -191,7 +221,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
+  } else if (!can_exist_at_tile_pf(param, ptile)) {
     if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
         && !uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
@@ -226,7 +256,7 @@ static int land_attack_move(const struct tile *src_tile,
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->uclass, src_tile)) {
+  } else if (!can_exist_at_tile_pf(param, src_tile)) {
 
     /* Sea-to-Land. */
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
@@ -339,7 +369,7 @@ static int igter_move_unit(const struct tile *ptile,
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_tile_to_class(param->uclass, ptile)) {
+  } else if (!can_exist_at_tile_pf(param, ptile)) {
     if (!BV_ISSET(param->unit_flags, UTYF_MARINES)
         && !uclass_has_flag(param->uclass, UCF_ATT_FROM_NON_NATIVE)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
