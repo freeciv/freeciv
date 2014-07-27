@@ -82,6 +82,16 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_UNITSTATE) {
+    fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, FALSE, "Wrong range");
+
+    switch (req->source.value.unit_state) {
+    case USP_TRANSPORTED:
+      /* Known if the unit is seen by the player. */
+      return target_unit && can_player_see_unit(pow_player, target_unit);
+    }
+  }
+
   if (req->source.kind == VUT_DIPLREL
       && pow_player == target_player
       && (req->range == REQ_RANGE_LOCAL

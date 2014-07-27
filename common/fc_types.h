@@ -265,6 +265,16 @@ enum citytile_type {
   CITYT_LAST
 };
 
+/*
+ * UnitState requirement property types.
+ *
+ * Used in the network protocol.
+ */
+#define SPECENUM_NAME ustate_prop
+#define SPECENUM_VALUE0 USP_TRANSPORTED
+#define SPECENUM_VALUE0NAME "Transported"
+#include "specenum_gen.h"
+
 /* Sometimes we don't know (or don't care) if some requirements for effect
  * are currently fulfilled or not. This enum tells lower level functions
  * how to handle uncertain requirements.
@@ -311,6 +321,7 @@ typedef union {
   int roadflag;                         /* enum road_flag_id */
   int diplrel;                          /* enum diplstate_type or
                                            enum diplrel_asym */
+  enum ustate_prop unit_state;
   int max_tile_units;
 } universals_u;
 
@@ -382,6 +393,8 @@ typedef union {
 #define SPECENUM_VALUE28NAME "Style"
 #define SPECENUM_VALUE29 VUT_MINCULTURE
 #define SPECENUM_VALUE29NAME "MinCulture"
+#define SPECENUM_VALUE30 VUT_UNITSTATE
+#define SPECENUM_VALUE30NAME "UnitState"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

@@ -151,6 +151,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     switch (preq->source.kind) {
      case VUT_GOVERNMENT:
      case VUT_UTYPE:
+     case VUT_UNITSTATE: /* While only one property exists. */
      case VUT_UCLASS:
      case VUT_OTYPE:
      case VUT_SPECIALIST:

@@ -76,6 +76,7 @@ TerrainFlag:   Local, Adjacent, CAdjacent, Traderoute, City
 TerrainAlter:  Local
 CityTile:      Local, Adjacent, CAdjacent
 Style:         Player
+UnitState:     Local
 
 MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
@@ -83,6 +84,7 @@ TerrainClass is either "Land" or "Oceanic".
 Only "Center" is supported as CityTile type.
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
+UnitState is "Transported".
 
 Effect types
 ============

@@ -1583,6 +1583,38 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_UNITSTATE:
+    {
+      switch (preq->range) {
+      case REQ_RANGE_LOCAL:
+        switch (preq->source.value.unit_state) {
+        case USP_TRANSPORTED:
+          if (preq->present) {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit is transported.\n"));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit isn't transported.\n"));
+          }
+          return TRUE;
+        }
+        break;
+      case REQ_RANGE_CADJACENT:
+      case REQ_RANGE_ADJACENT:
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+    }
+    break;
+
   case VUT_OTYPE:
     if (preq->range != REQ_RANGE_LOCAL) {
       break;

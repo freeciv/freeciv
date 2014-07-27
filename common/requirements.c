@@ -172,6 +172,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_UNITSTATE:
+    source.value.unit_state = ustate_prop_by_name(value, fc_strcasecmp);
+    if (ustate_prop_is_valid(source.value.unit_state)) {
+      return source;
+    }
+    break;
   case VUT_OTYPE:
     source.value.outputtype = output_type_by_identifier(value);
     if (source.value.outputtype != O_LAST) {
@@ -356,6 +362,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_UCFLAG:
     source.value.unitclassflag = value;
     return source;
+  case VUT_UNITSTATE:
+    source.value.unit_state = value;
+    return source;
   case VUT_OTYPE:
     source.value.outputtype = value;
     return source;
@@ -457,6 +466,8 @@ int universal_number(const struct universal *source)
     return uclass_number(source->value.uclass);
   case VUT_UCFLAG:
     return source->value.unitclassflag;
+  case VUT_UNITSTATE:
+    return source->value.unit_state;
   case VUT_OTYPE:
     return source->value.outputtype;
   case VUT_SPECIALIST:
@@ -525,6 +536,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UTFLAG:
     case VUT_UCLASS:
     case VUT_UCFLAG:
+    case VUT_UNITSTATE:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_TERRAINCLASS:
@@ -617,6 +629,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_UTFLAG:
   case VUT_UCLASS:
   case VUT_UCFLAG:
+  case VUT_UNITSTATE:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
@@ -662,6 +675,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UTFLAG:
     case VUT_UCLASS:
     case VUT_UCFLAG:
+    case VUT_UNITSTATE:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_MINSIZE:
@@ -2031,6 +2045,36 @@ static enum fc_tristate is_unitclassflag_in_range(const struct unit_type *target
 }
 
 /****************************************************************************
+  Is the given property of the unit state true?
+****************************************************************************/
+static enum fc_tristate is_unit_state(const struct unit *target_unit,
+                                      enum req_range range,
+                                      bool survives,
+                                      enum ustate_prop uprop)
+{
+  fc_assert_ret_val_msg(range == REQ_RANGE_LOCAL, TRI_NO,
+                        "Unsupported range \"%s\"",
+                        req_range_name(range));
+
+  /* Could be asked with incomplete data.
+   * is_req_active() will handle it based on prob_type. */
+  if (target_unit == NULL) {
+    return TRI_MAYBE;
+  }
+
+  switch (uprop) {
+  case USP_TRANSPORTED:
+    return BOOL_TO_TRISTATE(target_unit->transporter != NULL);
+    break;
+  }
+
+  /* Should never be reached */
+  fc_assert_ret_val_msg(FALSE, TRI_NO,
+                        "Unsupported unit property \"%s\"",
+                        ustate_prop_name(uprop));
+}
+
+/****************************************************************************
   Is center of given city in tile. If city is NULL, any city will do.
 ****************************************************************************/
 static bool is_city_in_tile(const struct tile *ptile,
@@ -2272,6 +2316,15 @@ bool is_req_active(const struct player *target_player,
                                        req->source.value.unitclassflag);
     }
     break;
+  case VUT_UNITSTATE:
+    if (target_unit == NULL) {
+      eval = TRI_MAYBE;
+    } else {
+      eval = is_unit_state(target_unit,
+                           req->range, req->survives,
+                           req->source.value.unit_state);
+    }
+    break;
   case VUT_OTYPE:
     eval = BOOL_TO_TRISTATE(target_output
                             && target_output->index == req->source.value.outputtype);
@@ -2446,6 +2499,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_UTFLAG:	/* Not sure about this one */
   case VUT_UCLASS:	/* Not sure about this one */
   case VUT_UCFLAG:	/* Not sure about this one */
+  case VUT_UNITSTATE:
   case VUT_ROADFLAG:
     return FALSE;
   case VUT_TERRAIN:
@@ -2517,6 +2571,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.uclass == psource2->value.uclass;
   case VUT_UCFLAG:
     return psource1->value.unitclassflag == psource2->value.unitclassflag;
+  case VUT_UNITSTATE:
+    return psource1->value.unit_state == psource2->value.unit_state;
   case VUT_OTYPE:
     return psource1->value.outputtype == psource2->value.outputtype;
   case VUT_SPECIALIST:
@@ -2604,6 +2660,8 @@ const char *universal_rule_name(const struct universal *psource)
     return uclass_rule_name(psource->value.uclass);
   case VUT_UCFLAG:
     return unit_class_flag_id_name(psource->value.unitclassflag);
+  case VUT_UNITSTATE:
+    return ustate_prop_name(psource->value.unit_state);
   case VUT_OTYPE:
     return get_output_name(psource->value.outputtype);
   case VUT_SPECIALIST:
@@ -2717,6 +2775,13 @@ const char *universal_name_translation(const struct universal *psource,
                  Q_("?ucflag:\"%s\" units"),
                  /* flag names are never translated */
                  unit_class_flag_id_name(psource->value.unitclassflag));
+    return buf;
+  case VUT_UNITSTATE:
+    switch (psource->value.unit_state) {
+    case USP_TRANSPORTED:
+      cat_snprintf(buf, bufsz, _("Transported units"));
+      break;
+    }
     return buf;
   case VUT_OTYPE:
     /* FIXME */
