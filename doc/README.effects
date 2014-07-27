@@ -448,6 +448,14 @@ Performance
 History
     Value is how much history type (cumulative) culture city produces.
 
+National_Performance
+    Value is how much performance type culture, not tied to any specific city,
+    nation produces.
+
+National_History
+    Value is how much history type (cumulative) culture, not tied to any any
+    specific city, nation produces.
+
 
 Details about requirement types
 ===============================

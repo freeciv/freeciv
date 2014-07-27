@@ -66,6 +66,7 @@
 #include "calendar.h"
 #include "capstr.h"
 #include "city.h"
+#include "culture.h"
 #include "dataio.h"
 #include "effects.h"
 #include "events.h"
@@ -1108,6 +1109,7 @@ static void end_phase(void)
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
+    pplayer->culture += nation_history_gain(pplayer);
     research_get(pplayer)->researching_saved = A_UNKNOWN;
     /* reduce the number of bulbs by the amount needed for tech upkeep and
      * check for finished research */
