@@ -1717,6 +1717,25 @@ static void sg_save_savefile(struct savedata *saving)
     free(modname);
   }
 
+  /* Save specialists order in the savegame. */
+  secfile_insert_int(saving->file, specialist_count(),
+                     "savefile.specialists_size");
+  {
+    const char **modname;
+    int i = 0;
+
+    modname = fc_calloc(specialist_count(), sizeof(*modname));
+
+    specialist_type_iterate(sp) {
+      modname[i++] = specialist_rule_name(specialist_by_number(sp));
+    } specialist_type_iterate_end;
+
+    secfile_insert_str_vec(saving->file, modname, specialist_count(),
+                           "savefile.specialists_vector");
+
+    free(modname);         
+  }
+
   /* Save trait order in savegame. */
   secfile_insert_int(saving->file, TRAIT_COUNT,
                      "savefile.trait_size");
