@@ -1769,7 +1769,7 @@ static struct client_option client_options[] = {
                       N_("This is the musicset that will be used.  Changing "
                          "this is the same as using the -m command-line "
                          "parameter."),
-                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, NULL),
+                      COC_SOUND, GUI_STUB, "stdmusic", get_musicset_list, musicspec_reread_callback),
   GEN_STR_LIST_OPTION(default_sound_plugin_name,
                       N_("Sound plugin"),
                       N_("If you have a problem with sound, try changing "

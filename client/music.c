@@ -101,3 +101,20 @@ void stop_menu_music(void)
 {
   audio_stop();
 }
+
+/**************************************************************************
+  Musicset changed in options.
+**************************************************************************/
+void musicspec_reread_callback(struct option *poption)
+{
+  const char *musicset_name = option_str_get(poption);
+
+  audio_restart(sound_set_name, musicset_name);
+
+  /* Start suitable music from the new set */
+  if (client_state() != C_S_RUNNING) {
+    start_menu_music("music_menu", NULL);
+  } else {
+    start_style_music();
+  }
+}
