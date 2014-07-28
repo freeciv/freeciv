@@ -51,6 +51,7 @@ static struct section_file *ms_tagfile = NULL;
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
 static int selected_plugin = -1;
+static int current_track = -1;
 
 static struct mfcb_data
 {
@@ -58,8 +59,9 @@ static struct mfcb_data
   const char *tag;
 } mfcb;
 
-static bool audio_play_tag(struct section_file *sfile,
-                           const char *tag, bool repeat);
+static int audio_play_tag(struct section_file *sfile,
+                          const char *tag, bool repeat,
+                          int exclude);
 
 /**********************************************************************
   Returns a static string vector of all sound plugins
@@ -362,38 +364,60 @@ void audio_restart(const char *soundset_name, const char *musicset_name)
 **************************************************************************/
 static void music_finished_callback(void)
 {
-  audio_play_tag(mfcb.sfile, mfcb.tag, TRUE);
+  current_track = audio_play_tag(mfcb.sfile, mfcb.tag, TRUE, current_track);
 }
 
 /**************************************************************************
-  INTERNAL. Returns TRUE for success.
+  INTERNAL. Returns id (>= 0) of the tag selected for playing, 0 when
+  there's no alternative tags, or negative value in case of error.
 **************************************************************************/
-static bool audio_play_tag(struct section_file *sfile,
-                           const char *tag, bool repeat)
+static int audio_play_tag(struct section_file *sfile,
+                          const char *tag, bool repeat, int exclude)
 {
   const char *soundfile;
   const char *fullpath = NULL;
   audio_finished_callback cb = NULL;
+  int ret = 0;
 
   if (!tag || strcmp(tag, "-") == 0) {
-    return FALSE;
+    return -1;
   }
 
   if (sfile) {
     soundfile = secfile_lookup_str(sfile, "files.%s", tag);
     if (soundfile == NULL) {
       const char *files[MAX_ALT_AUDIO_FILES];
+      bool excluded = FALSE;
       int i;
+      int j;
 
+      j = 0;
       for (i = 0; i < MAX_ALT_AUDIO_FILES; i++) {
-        files[i] = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
-        if (files[i] == NULL) {
+        files[j] = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
+        if (files[j] == NULL) {
           break;
+        }
+        if (i != exclude) {
+          j++;
+        } else {
+          excluded = TRUE;
         }
       }
 
-      if (i > 0) {
-        soundfile = files[fc_rand(i)];
+      if (j == 0 && excluded) {
+        /* Cannot exclude the only track */
+        excluded = FALSE;
+        j++;
+      }
+
+      if (j > 0) {
+        ret = fc_rand(j);
+
+        soundfile = files[ret];
+        if (excluded) {
+          /* Exclude track was skipped earlier, include it to track number to return */
+          ret++;
+        }
         if (repeat) {
           mfcb.sfile = sfile;
           mfcb.tag = tag;
@@ -411,7 +435,11 @@ static bool audio_play_tag(struct section_file *sfile,
     }
   }
 
-  return plugins[selected_plugin].play(tag, fullpath, repeat, cb);
+  if (!plugins[selected_plugin].play(tag, fullpath, repeat, cb)) {
+    return -1;
+  }
+
+  return ret;
 }
 
 /**************************************************************************
@@ -419,15 +447,15 @@ static bool audio_play_tag(struct section_file *sfile,
 **************************************************************************/
 static bool audio_play_sound_tag(const char *tag, bool repeat)
 {
-  return audio_play_tag(ss_tagfile, tag, repeat);
+  return (audio_play_tag(ss_tagfile, tag, repeat, -1) >= 0);
 }
 
 /**************************************************************************
   Play tag from music set
 **************************************************************************/
-static bool audio_play_music_tag(const char *tag, bool repeat)
+static int audio_play_music_tag(const char *tag, bool repeat)
 {
-  return audio_play_tag(ms_tagfile, tag, repeat);
+  return audio_play_tag(ms_tagfile, tag, repeat, -1);
 }
 
 /**************************************************************************
@@ -462,9 +490,14 @@ void audio_play_music(const char *const tag, char *const alt_tag)
   log_debug("audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 
   /* try playing primary tag first, if not go to alternative tag */
-  if (!audio_play_music_tag(tag, TRUE)
-      && !audio_play_music_tag(alt_tag, TRUE)) {
-    log_verbose("Neither of tags %s or %s found", tag, pretty_alt_tag);
+  current_track = audio_play_music_tag(tag, TRUE);
+
+  if (current_track < 0) {
+    current_track = audio_play_music_tag(tag, TRUE);
+
+    if (current_track < 0) {
+      log_verbose("Neither of tags %s or %s found", tag, pretty_alt_tag);
+    }
   }
 }
 
