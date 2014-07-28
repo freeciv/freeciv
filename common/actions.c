@@ -161,17 +161,18 @@ enum action_target_kind action_get_target_kind(int action_id)
 }
 
 /**************************************************************************
-  Get the raw name used when showning the action in the UI.
+  Get the action name used when displaying the action in the UI. Nothing
+  is added to the UI name.
 **************************************************************************/
 const char *action_get_ui_name(int action_id)
 {
-  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
-
-  return actions[action_id]->ui_name;
+  return action_prepare_ui_name(action_id, "", ACTPROB_NA);
 }
 
 /**************************************************************************
-  Get the UI name ready to show the action in the UI.
+  Get the UI name ready to show the action in the UI. It is possible to
+  add a client specific mnemonic. Success probability information is
+  interpreted and added to the text.
 **************************************************************************/
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
                                    const action_probability prob)
@@ -210,7 +211,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
 
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
-  astr_set(&str, _(action_get_ui_name(action_id)), mnemonic,
+  astr_set(&str, _(actions[action_id]->ui_name), mnemonic,
            astr_str(&chance));
 
   return astr_str(&str);
