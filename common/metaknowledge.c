@@ -87,6 +87,7 @@ static bool is_req_knowable(const struct player *pow_player,
 
     switch (req->source.value.unit_state) {
     case USP_TRANSPORTED:
+    case USP_TRANSP_DEP:
       /* Known if the unit is seen by the player. */
       return target_unit && can_player_see_unit(pow_player, target_unit);
     }

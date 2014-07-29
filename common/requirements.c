@@ -27,6 +27,7 @@
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
+#include "movement.h"
 #include "player.h"
 #include "map.h"
 #include "research.h"
@@ -2065,6 +2066,9 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
   switch (uprop) {
   case USP_TRANSPORTED:
     return BOOL_TO_TRISTATE(target_unit->transporter != NULL);
+  case USP_TRANSP_DEP:
+    return BOOL_TO_TRISTATE(
+        !can_unit_exist_at_tile(target_unit, unit_tile(target_unit)));
     break;
   }
 
@@ -2780,6 +2784,10 @@ const char *universal_name_translation(const struct universal *psource,
     switch (psource->value.unit_state) {
     case USP_TRANSPORTED:
       cat_snprintf(buf, bufsz, _("Transported units"));
+      break;
+    case USP_TRANSP_DEP:
+      cat_snprintf(buf, bufsz,
+                   _("Transport dependent units"));
       break;
     }
     return buf;

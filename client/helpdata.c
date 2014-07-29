@@ -1597,6 +1597,17 @@ static bool insert_requirement(char *buf, size_t bufsz,
                          _("Requires that the unit isn't transported.\n"));
           }
           return TRUE;
+        case USP_TRANSP_DEP:
+          if (preq->present) {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit can't exist at its tile"
+                           " without being inside a transport.\n"));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         _("Requires that the unit can exist at its tile"
+                           " without being inside a transport.\n"));
+          }
+          return TRUE;
         }
         break;
       case REQ_RANGE_CADJACENT:
