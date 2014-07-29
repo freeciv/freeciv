@@ -361,8 +361,12 @@ int get_target_bonus_effects(struct effect_list *plist,
 bool building_has_effect(const struct impr_type *pimprove,
 			 enum effect_type effect_type);
 int get_current_construction_bonus(const struct city *pcity,
-				   enum effect_type effect_type,
+                                   enum effect_type effect_type,
                                    const enum req_problem_type prob_type);
+int get_potential_improvement_bonus(struct impr_type *pimprove,
+                                    const struct city *pcity,
+                                    enum effect_type effect_type,
+                                    const enum req_problem_type prob_type);
 
 struct effect_list *get_effects(enum effect_type effect_type);
 

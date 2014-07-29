@@ -132,10 +132,10 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
         if (pcity != wonder_city && is_wonder(pimprove)) {
           /* Only wonder city should build wonders! */
           pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
-        } else if ((!is_coinage
-                    && !can_city_build_improvement_later(pcity, pimprove))
-                   || is_improvement_redundant(pcity, pimprove)) {
-          /* Don't consider impossible or redundant buildings */
+        } else if (!is_coinage
+                    && (!can_city_build_improvement_later(pcity, pimprove)
+                        || (!is_improvement_productive(pcity, pimprove)))) {
+          /* Don't consider impossible or unproductive buildings */
           pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         } else if (city_has_building(pcity, pimprove)) {
           /* Never want to build something we already have. */
@@ -190,9 +190,8 @@ void building_advisor(struct player *pplayer)
    || !is_wonder(wonder_city->production.value.building)
    || !can_city_build_improvement_now(wonder_city, 
                                       wonder_city->production.value.building)
-   || is_improvement_redundant(wonder_city, 
-                               wonder_city->production.value.building)
-      ) {
+   || !is_improvement_productive(wonder_city,
+                                 wonder_city->production.value.building)) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;
     struct city *best_candidate = NULL;

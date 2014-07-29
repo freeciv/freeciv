@@ -787,14 +787,28 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
 
 /**************************************************************************
   Are effects provided by this building not needed?
+
+  If this function is called for a building that has not yet been
+  constructed, side effect benefits may not be accurately calculated
+  (see improvement.c for details).
 **************************************************************************/
-static bool building_unwanted(struct player *plr, struct impr_type *pimprove)
+static bool building_unwanted(const struct player *plr,
+                              struct impr_type *pimprove,
+                              const struct city *pcity)
 {
 #if 0 /* This check will become more complicated now. */ 
-  return (ai_wants_no_science(plr)
-          && building_has_effect(pimprove, EFT_SCIENCE_BONUS));
+  if (ai_wants_no_science(plr)
+      && building_has_effect(pimprove, EFT_SCIENCE_BONUS)) {
+    return TRUE;
+  }
 #endif
-  return FALSE;
+  if (building_has_effect(pimprove, EFT_DEFEND_BONUS)
+        /* selling city walls is really, really dumb -- Syela */
+      || is_improvement_productive(pcity, pimprove)) {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -806,10 +820,7 @@ static void dai_sell_obsolete_buildings(struct city *pcity)
 
   city_built_iterate(pcity, pimprove) {
     if (can_city_sell_building(pcity, pimprove) 
-       && !building_has_effect(pimprove, EFT_DEFEND_BONUS)
-	      /* selling city walls is really, really dumb -- Syela */
-       && (is_improvement_redundant(pcity, pimprove)
-	   || building_unwanted(pplayer, pimprove))) {
+       && building_unwanted(pplayer, pimprove, pcity)) {
       do_sell_building(pplayer, pcity, pimprove);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
                     _("%s is selling %s (not needed) for %d."), 
@@ -1660,8 +1671,8 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
           pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         } else if ((!is_coinage
                     && !can_city_build_improvement_later(pcity, pimprove))
-                   || is_improvement_redundant(pcity, pimprove)) {
-          /* Don't consider impossible or redundant buildings */
+                   || building_unwanted(pplayer, pimprove, pcity)) {
+          /* Don't consider impossible or unwanted buildings */
           pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         } else if (city_data->building_turn <= game.info.turn) {
           /* Building wants vary relatively slowly, so not worthwhile

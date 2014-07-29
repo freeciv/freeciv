@@ -794,50 +794,64 @@ int get_current_construction_bonus(const struct city *pcity,
   }
 
   if (VUT_IMPROVEMENT == pcity->production.kind) {
-    struct impr_type *building = pcity->production.value.building;
-    struct universal source = {
-      .kind = VUT_IMPROVEMENT,
-      .value = {.building = building}
-    };
-    struct effect_list *plist = get_req_source_effects(&source);
+    return get_potential_improvement_bonus(pcity->production.value.building,
+                                           pcity, effect_type, prob_type);
+  }
+  return 0;
+}
 
-    if (plist) {
-      int power = 0;
+/**************************************************************************
+  Returns the effect bonus the improvement would or does provide if present.
 
-      effect_list_iterate(plist, peffect) {
-        bool present = TRUE;
-        bool useful = TRUE;
+  Problem type tells if we need to be CERTAIN about bonus before counting
+  it or is POSSIBLE bonus enough.
+**************************************************************************/
+int get_potential_improvement_bonus(struct impr_type *pimprove,
+                                    const struct city *pcity,
+                                    enum effect_type effect_type,
+                                    const enum req_problem_type prob_type)
+{
+  struct universal source = { .kind = VUT_IMPROVEMENT,
+                                .value = {.building = pimprove}};
+  struct effect_list *plist = get_req_source_effects(&source);
 
-	if (peffect->type != effect_type) {
-	  continue;
-	}
 
-        requirement_vector_iterate(&peffect->reqs, preq) {
-          if (VUT_IMPROVEMENT == preq->source.kind
-              && preq->source.value.building == building) {
-            present = preq->present;
-            continue;
-          }
+  if (plist) {
+    int power = 0;
 
-          if (!is_req_active(city_owner(pcity), NULL, pcity, building,
-                             NULL, NULL, NULL, NULL, NULL,
-                             preq, prob_type)) {
-            useful = FALSE;
-            break;
-          } 
-        } requirement_vector_iterate_end;
+    effect_list_iterate(plist, peffect) {
+      bool present = TRUE;
+      bool useful = TRUE;
 
-        if (useful) {
-          if (present) {
-            power += peffect->value;
-          } else {
-            power -= peffect->value;
-          }
+      if (peffect->type != effect_type) {
+        continue;
+      }
+
+      requirement_vector_iterate(&peffect->reqs, preq) {
+        if (VUT_IMPROVEMENT == preq->source.kind
+            && preq->source.value.building == pimprove) {
+          present = preq->present;
+          continue;
         }
-      } effect_list_iterate_end;
 
-      return power;
-    }
+        if (!is_req_active(city_owner(pcity), NULL, pcity, pimprove,
+                           NULL, NULL, NULL, NULL, NULL,
+                           preq, prob_type)) {
+          useful = FALSE;
+          break;
+        } 
+      } requirement_vector_iterate_end;
+
+      if (useful) {
+        if (present) {
+          power += peffect->value;
+        } else {
+          power -= peffect->value;
+        }
+      }
+    } effect_list_iterate_end;
+
+    return power;
   }
   return 0;
 }

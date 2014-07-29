@@ -377,6 +377,7 @@ bool improvement_obsolete(const struct player *pplayer,
 
   return FALSE;
 }
+
 /**************************************************************************
   Returns TRUE iff improvement provides units buildable in city
 **************************************************************************/
@@ -480,8 +481,8 @@ static bool impr_protects_vs_actions(const struct city *pcity,
   has not yet been built, or another city benefits from the improvement in
   this city (i.e. Wonders)).
 **************************************************************************/
-bool improvement_has_side_effects(const struct city *pcity,
-                                  struct impr_type *pimprove)
+static bool improvement_has_side_effects(const struct city *pcity,
+                                         struct impr_type *pimprove)
 {
     /* FIXME: There should probably also be a test as to whether
      *        the improvement *enables* an action (somewhere else),
@@ -491,6 +492,46 @@ bool improvement_has_side_effects(const struct city *pcity,
             || impr_provides_buildable_extras(pcity, pimprove)
             || impr_prevents_disaster(pcity, pimprove)
             || impr_protects_vs_actions(pcity, pimprove));
+}
+
+/**************************************************************************
+  Returns TRUE iff improvement provides some effect (good or bad).
+**************************************************************************/
+static bool improvement_has_effects(const struct city *pcity,
+                                    struct impr_type *pimprove)
+{
+  struct universal source = { .kind = VUT_IMPROVEMENT,
+                              .value = { .building = pimprove } };
+  struct effect_list *plist = get_req_source_effects(&source);
+
+  if (!plist || improvement_obsolete(city_owner(pcity), pimprove, pcity)) {
+    return FALSE;
+  }
+
+  effect_list_iterate(plist, peffect) {
+    if (0 != get_potential_improvement_bonus(pimprove, pcity,
+                                             peffect->type, RPT_CERTAIN)) {
+      return TRUE;
+    }
+  } effect_list_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE if an improvement in a city is productive, in some way.
+
+  Note that unproductive improvements may become productive later, if
+  appropriate conditions are met (e.g. a special building that isn't
+  producing units under the current government might under another).
+**************************************************************************/
+bool is_improvement_productive(const struct city *pcity,
+                               struct impr_type *pimprove)
+{
+    return (!improvement_obsolete(city_owner(pcity), pimprove, pcity)
+            && (improvement_has_flag(pimprove, IF_GOLD)
+                || improvement_has_side_effects(pcity, pimprove)
+                || improvement_has_effects(pcity, pimprove)));
 }
 
 /**************************************************************************

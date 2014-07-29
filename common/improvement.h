@@ -179,8 +179,8 @@ struct city *city_from_small_wonder(const struct player *pplayer,
 bool improvement_obsolete(const struct player *pplayer,
 			  const struct impr_type *pimprove,
                           const struct city *pcity);
-bool improvement_has_side_effects(const struct city *pcity,
-                                  struct impr_type *pimprove);
+bool is_improvement_productive(const struct city *pcity,
+                               struct impr_type *pimprove);
 bool is_improvement_redundant(const struct city *pcity,
                               struct impr_type *pimprove);
 
