@@ -90,7 +90,12 @@ struct impr_type {
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
 
-  bool allows_units;   /* Cache */
+  /* Cache */
+  bool allows_units;
+  bool allows_extras;
+  bool prevents_disaster;
+  bool protects_vs_actions;
+  
 };
 
 
@@ -174,8 +179,8 @@ struct city *city_from_small_wonder(const struct player *pplayer,
 bool improvement_obsolete(const struct player *pplayer,
 			  const struct impr_type *pimprove,
                           const struct city *pcity);
-bool impr_provides_buildable_units(const struct player *pplayer,
-                                   const struct impr_type *pimprove);
+bool improvement_has_side_effects(const struct city *pcity,
+                                  struct impr_type *pimprove);
 bool is_improvement_redundant(const struct city *pcity,
                               struct impr_type *pimprove);
 

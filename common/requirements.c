@@ -2880,12 +2880,13 @@ int universal_build_shield_cost(const struct universal *target)
 
 /*************************************************************************
   Will the specified universal fulfill the requirements in the list?
-
-  Not being mentioned counts as fulfillment.
 **************************************************************************/
-bool universal_fulfills_requirement(const struct requirement_vector *reqs,
+bool universal_fulfills_requirement(bool check_necessary,
+                                    const struct requirement_vector *reqs,
                                     const struct universal *source)
 {
+  bool necessary = FALSE;
+
   fc_assert(universal_found_function[source->kind]);
 
   requirement_vector_iterate(reqs, preq) {
@@ -2898,14 +2899,16 @@ bool universal_fulfills_requirement(const struct requirement_vector *reqs,
       }
       break;
     case ITF_YES:
-      if (!preq->present) {
+      if (preq->present) {
+        necessary = TRUE;
+      } else {
         return FALSE;
       }
       break;
     }
   } requirement_vector_iterate_end;
 
-  return TRUE;
+  return (!check_necessary || necessary);
 }
 
 /*************************************************************************
@@ -2919,6 +2922,27 @@ static enum item_found government_found(const struct requirement *preq,
   if (preq->source.kind == VUT_GOVERNMENT) {
     return preq->source.value.govern == source->value.govern ? ITF_YES
                                                              : ITF_NO;
+  }
+
+  return ITF_NOT_APPLICABLE;
+}
+
+/*************************************************************************
+  Find if an improvement fulfills a requirement
+**************************************************************************/
+static enum item_found improvement_found(const struct requirement *preq,
+                                         const struct universal *source)
+{
+  fc_assert(source->value.building);
+
+  /* We only ever return ITF_YES, because requiring a different
+   * improvement does not mean that the improvement under consideration
+   * cannot fulfill the requirements. This is necessary to allow
+   * requirement vectors to specify multiple required improvements. */
+
+  if (preq->source.kind == VUT_IMPROVEMENT
+      && source->value.building == preq->source.value.building) {
+    return ITF_YES;
   }
 
   return ITF_NOT_APPLICABLE;
@@ -2980,6 +3004,7 @@ static enum item_found unit_type_found(const struct requirement *preq,
 void universal_found_functions_init(void)
 {
   universal_found_function[VUT_GOVERNMENT] = &government_found;
+  universal_found_function[VUT_IMPROVEMENT] = &improvement_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
 }

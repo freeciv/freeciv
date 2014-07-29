@@ -141,21 +141,31 @@ const char *universal_type_rule_name(const struct universal *psource);
 int universal_build_shield_cost(const struct universal *target);
 
 void universal_found_functions_init(void);
-bool universal_fulfills_requirement(const struct requirement_vector *reqs,
+bool universal_fulfills_requirement(bool check_necessary,
+                                    const struct requirement_vector *reqs,
                                     const struct universal *source);
 
 /* Accessors to determine if a universal fulfills a requirement vector.
  * When adding an additional accessor, be sure to add the appropriate
  * item_found function in universal_found_callbacks_init(). */
 #define requirement_fulfilled_by_government(_gov_, _rqs_)                  \
-  universal_fulfills_requirement((_rqs_),                                  \
+  universal_fulfills_requirement(FALSE, (_rqs_),                           \
       &(struct universal){.kind = VUT_GOVERNMENT, .value = {.govern = (_gov_)}})
+#define requirement_fulfilled_by_improvement(_imp_, _rqs_)                 \
+  universal_fulfills_requirement(FALSE, (_rqs_),                           \
+    &(struct universal){.kind = VUT_IMPROVEMENT,                           \
+                        .value = {.building = (_imp_)}})
 #define requirement_fulfilled_by_unit_class(_uc_, _rqs_)                   \
-  universal_fulfills_requirement((_rqs_),                                  \
+  universal_fulfills_requirement(FALSE, (_rqs_),                           \
       &(struct universal){.kind = VUT_UCLASS, .value = {.uclass = (_uc_)}})
 #define requirement_fulfilled_by_unit_type(_ut_, _rqs_)                    \
-  universal_fulfills_requirement((_rqs_),                                  \
+  universal_fulfills_requirement(FALSE, (_rqs_),                           \
       &(struct universal){.kind = VUT_UTYPE, .value = {.utype = (_ut_)}})
+
+#define requirement_needs_improvement(_imp_, _rqs_)                        \
+  universal_fulfills_requirement(TRUE, (_rqs_),                            \
+    &(struct universal){.kind = VUT_IMPROVEMENT,                           \
+                        .value = {.building = (_imp_)}})
 
 #ifdef __cplusplus
 }

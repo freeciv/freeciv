@@ -95,6 +95,32 @@ void improvement_feature_cache_init(void)
         break;
       }
     } unit_type_iterate_end;
+
+    pimprove->allows_extras = FALSE;
+    extra_type_iterate(pextra) {
+      if (requirement_needs_improvement(pimprove, &pextra->reqs)) {
+        pimprove->allows_extras = TRUE;
+        break;
+      }
+    } extra_type_iterate_end;
+
+    pimprove->prevents_disaster = FALSE;
+    disaster_type_iterate(pdis) {
+      if (!requirement_fulfilled_by_improvement(pimprove, &pdis->reqs)) {
+        pimprove->protects_vs_actions = TRUE;
+        break;
+      }
+    } disaster_type_iterate_end;
+
+    pimprove->protects_vs_actions = FALSE;
+    action_enablers_iterate(act) {
+      if (!requirement_fulfilled_by_improvement(pimprove,
+                                                &act->target_reqs)) {
+        pimprove->protects_vs_actions = TRUE;
+        break;
+      }
+    } action_enablers_iterate_end;
+
   } improvement_iterate_end;
 }
 
@@ -351,27 +377,120 @@ bool improvement_obsolete(const struct player *pplayer,
 
   return FALSE;
 }
-
 /**************************************************************************
-  Returns TRUE iff improvement provides units buildable by player
+  Returns TRUE iff improvement provides units buildable in city
 **************************************************************************/
-bool impr_provides_buildable_units(const struct player *pplayer,
-                                   const struct impr_type *pimprove)
+static bool impr_provides_buildable_units(const struct city *pcity,
+                                          struct impr_type *pimprove)
 {
   /* Fast check */
-  if (! pimprove->allows_units) {
+  if (!pimprove->allows_units) {
     return FALSE;
   }
 
   unit_type_iterate(ut) {
-    if (ut->need_improvement == pimprove) {
-      if (can_player_build_unit_now(pplayer, ut)) {
-        return TRUE;
-      }
+    if (ut->need_improvement == pimprove
+        && can_city_build_unit_now(pcity, ut)) {
+      return TRUE;
     }
   } unit_type_iterate_end;
 
   return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff improvement provides extras buildable in city
+**************************************************************************/
+static bool impr_provides_buildable_extras(const struct city *pcity,
+                                           struct impr_type *pimprove)
+{
+
+  /* Fast check */
+  if (!pimprove->allows_extras) {
+    return FALSE;
+  }
+
+  extra_type_iterate(pextra) {
+    if (requirement_needs_improvement(pimprove, &pextra->reqs)) {
+      city_tile_iterate(city_map_radius_sq_get(pcity),
+                        city_tile(pcity), ptile) {
+        if (player_can_build_extra(pextra, city_owner(pcity), ptile)) {
+          return TRUE;
+        }
+      } city_tile_iterate_end;
+    }
+  } extra_type_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff improvement prevents a disaster in city
+**************************************************************************/
+static bool impr_prevents_disaster(const struct city *pcity,
+                                   struct impr_type *pimprove)
+{
+  /* Fast check */
+  if (!pimprove->prevents_disaster) {
+    return FALSE;
+  }
+
+  disaster_type_iterate(pdis) {
+    if (!requirement_fulfilled_by_improvement(pimprove, &pdis->reqs)
+        && !can_disaster_happen(pdis, pcity)) {
+      return TRUE;
+    }
+  } disaster_type_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff improvement protects against an action on the city
+  FIXME: This is prone to false positives: for example, if one requires
+         a special tech or unit to perform an action, and no other player
+         has or can gain that tech or unit, protection is still claimed.
+**************************************************************************/
+static bool impr_protects_vs_actions(const struct city *pcity,
+                                     struct impr_type *pimprove)
+{
+  /* Fast check */
+  if (!pimprove->protects_vs_actions) {
+    return FALSE;
+  }
+
+  action_enablers_iterate(act) {
+    if (!requirement_fulfilled_by_improvement(pimprove, &act->target_reqs)
+        && !is_action_possible_on_city(act->action, NULL, pcity)) {
+      return TRUE;
+    }
+  } action_enablers_iterate_end;
+
+  return FALSE;
+}
+
+
+/**************************************************************************
+  Check if an improvement has side effects for a city.  Side effects
+  are any benefits that accrue that are not tracked by the effects
+  system.
+
+  Note that this function will always return FALSE if the improvement does
+  not currently provide a benefit to the city (for example, if the improvement
+  has not yet been built, or another city benefits from the improvement in
+  this city (i.e. Wonders)).
+**************************************************************************/
+bool improvement_has_side_effects(const struct city *pcity,
+                                  struct impr_type *pimprove)
+{
+    /* FIXME: There should probably also be a test as to whether
+     *        the improvement *enables* an action (somewhere else),
+     *        but this is hard to determine at city scope. */
+
+    return (impr_provides_buildable_units(pcity, pimprove)
+            || impr_provides_buildable_extras(pcity, pimprove)
+            || impr_prevents_disaster(pcity, pimprove)
+            || impr_protects_vs_actions(pcity, pimprove));
 }
 
 /**************************************************************************
@@ -394,10 +513,8 @@ bool is_improvement_redundant(const struct city *pcity,
     return FALSE;
   }
 
-  /* If an improvement allows building of units, don't claim it's redundant.
-   * (FIXME: if enabling units were done via the effects system, then we
-   * could decide which of two improvements enabling a unit was "better".) */
-  if (impr_provides_buildable_units(city_owner(pcity), pimprove)) {
+  /* If an improvement has side effects, don't claim it's redundant. */
+  if (improvement_has_side_effects(pcity, pimprove)) {
     return FALSE;
   }
 
