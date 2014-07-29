@@ -104,3 +104,4 @@ New in Freeciv 2.6:
   civil war
 - Added "created" player parameter to split_by_civil_war
 - Added game_start, called for all AI types when game starts
+- "city_got" is called when the city is fully initialized, "city_lost" when city still valid

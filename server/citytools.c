@@ -1443,6 +1443,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   script_server_signal_emit("city_built", 1,
                             API_TYPE_CITY, pcity);
+
+  CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
 }
 
 /**************************************************************************
@@ -1459,6 +1461,8 @@ void remove_city(struct city *pcity)
   const citizens old_content_citizens = player_content_citizens(powner);
   struct dbv tile_processed;
   struct tile_list *process_queue;
+
+  CALL_PLR_AI_FUNC(city_lost, powner, powner, pcity);
 
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {

@@ -2622,6 +2622,8 @@ static void player_load_cities(struct player *plr, int plrno,
     city_refresh(pcity);
 
     city_list_append(plr->cities, pcity);
+
+    CALL_PLR_AI_FUNC(city_got, plr, plr, pcity);
   }
 }
 

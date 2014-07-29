@@ -4290,6 +4290,8 @@ static void sg_load_player_cities(struct loaddata *loading,
     city_refresh(pcity);
 
     city_list_append(plr->cities, pcity);
+
+    CALL_PLR_AI_FUNC(city_got, plr, plr, pcity);
   }
 
   /* Check the sanity of the cities. */
