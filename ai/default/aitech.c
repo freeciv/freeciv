@@ -407,30 +407,25 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
         struct impr_type *building = deftype->need_improvement;
 
         requirement_vector_iterate(&building->reqs, preq) {
-          if (VUT_ADVANCE == preq->source.kind) {
-            int iimprtech = advance_number(preq->source.value.advance);
+          if (!is_req_active(pplayer, NULL, pcity, building, city_tile(pcity),
+                             NULL, deftype, NULL, NULL, preq, RPT_CERTAIN)) {
 
-            if (preq->present) {
-              if (TECH_KNOWN != research_invention_state(presearch,
-                                                         iimprtech)) {
-                int imprcost = research_goal_bulbs_required(presearch,
-                                                            iimprtech);
+            if (VUT_ADVANCE == preq->source.kind && preq->present) {
+              int iimprtech = advance_number(preq->source.value.advance);
+              int imprcost = research_goal_bulbs_required(presearch,
+                                                          iimprtech);
 
-                if (imprcost < cost || cost == 0) {
-                  /* If we already have the primary tech (cost == 0),
-                   * or the building's tech is cheaper,
-                   * go for the building's required tech. */
-                  itech = preq->source.value.advance;
-                  cost = 0;
-                }
-                cost += imprcost;
+              if (imprcost < cost || cost == 0) {
+                /* If we already have the primary tech (cost == 0),
+                 * or the building's tech is cheaper,
+                 * go for the building's required tech. */
+                itech = preq->source.value.advance;
+                cost = 0;
               }
-            } else {
-              if (TECH_KNOWN == research_invention_state(presearch,
-                                                         iimprtech)) {
-                /* We're not going to lose tech */
-                impossible_to_get = TRUE;
-              }
+              cost += imprcost;
+            } else if (!dai_can_requirement_be_met_in_city(preq, pplayer,
+                                                           pcity)) {
+              impossible_to_get = TRUE;
             }
           }
         } requirement_vector_iterate_end;
