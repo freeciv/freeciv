@@ -2909,6 +2909,22 @@ bool universal_fulfills_requirement(const struct requirement_vector *reqs,
 }
 
 /*************************************************************************
+  Find if a government fulfills a requirement
+**************************************************************************/
+static enum item_found government_found(const struct requirement *preq,
+                                        const struct universal *source)
+{
+  fc_assert(source->value.govern);
+
+  if (preq->source.kind == VUT_GOVERNMENT) {
+    return preq->source.value.govern == source->value.govern ? ITF_YES
+                                                             : ITF_NO;
+  }
+
+  return ITF_NOT_APPLICABLE;
+}
+
+/*************************************************************************
   Find if a unit class fulfills a requirement
 **************************************************************************/
 static enum item_found unit_class_found(const struct requirement *preq,
@@ -2963,6 +2979,7 @@ static enum item_found unit_type_found(const struct requirement *preq,
 *************************************************************************/
 void universal_found_functions_init(void)
 {
+  universal_found_function[VUT_GOVERNMENT] = &government_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
 }

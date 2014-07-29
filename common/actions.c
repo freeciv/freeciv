@@ -798,18 +798,7 @@ bool action_immune_government(struct government *gov, int act)
   }
 
   action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-    bool blocked = FALSE;
-
-    requirement_vector_iterate(&(enabler->target_reqs), preq) {
-      if (preq->source.kind == VUT_GOVERNMENT
-          && preq->source.value.govern == gov
-          && !preq->present) {
-        blocked = TRUE;
-        break;
-      }
-    } requirement_vector_iterate_end;
-
-    if (!blocked) {
+    if (requirement_fulfilled_by_government(gov, &(enabler->target_reqs))) {
       return FALSE;
     }
   } action_enabler_list_iterate_end;

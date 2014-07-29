@@ -147,6 +147,9 @@ bool universal_fulfills_requirement(const struct requirement_vector *reqs,
 /* Accessors to determine if a universal fulfills a requirement vector.
  * When adding an additional accessor, be sure to add the appropriate
  * item_found function in universal_found_callbacks_init(). */
+#define requirement_fulfilled_by_government(_gov_, _rqs_)                  \
+  universal_fulfills_requirement((_rqs_),                                  \
+      &(struct universal){.kind = VUT_GOVERNMENT, .value = {.govern = (_gov_)}})
 #define requirement_fulfilled_by_unit_class(_uc_, _rqs_)                   \
   universal_fulfills_requirement((_rqs_),                                  \
       &(struct universal){.kind = VUT_UCLASS, .value = {.uclass = (_uc_)}})
