@@ -397,17 +397,17 @@ bool building_has_effect(const struct impr_type *pimprove,
   (Assumes that any requirement specified in the ruleset with a negative
   sense is an impediment.)
 **************************************************************************/
-bool is_effect_prevented(const struct player *target_player,
-                         const struct player *other_player,
-                         const struct city *target_city,
-                         const struct impr_type *target_building,
-                         const struct tile *target_tile,
-                         const struct unit *target_unit,
-                         const struct unit_type *target_unittype,
-                         const struct output_type *target_output,
-                         const struct specialist *target_specialist,
-                         const struct effect *peffect,
-                         const enum   req_problem_type prob_type)
+static bool is_effect_prevented(const struct player *target_player,
+                                const struct player *other_player,
+                                const struct city *target_city,
+                                const struct impr_type *target_building,
+                                const struct tile *target_tile,
+                                const struct unit *target_unit,
+                                const struct unit_type *target_unittype,
+                                const struct output_type *target_output,
+                                const struct specialist *target_specialist,
+                                const struct effect *peffect,
+                                const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(&peffect->reqs, preq) {
     /* Only check present=FALSE requirements; these will return _FALSE_

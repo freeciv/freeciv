@@ -337,20 +337,10 @@ int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
 
 /* miscellaneous auxiliary effects functions */
 struct effect_list *get_req_source_effects(struct universal *psource);
-bool is_effect_prevented(const struct player *target_player,
-                         const struct player *other_player,
-                         const struct city *target_city,
-                         const struct impr_type *target_building,
-                         const struct tile *target_tile,
-                         const struct unit *target_unit,
-                         const struct unit_type *target_unittype,
-                         const struct output_type *target_output,
-                         const struct specialist *target_specialist,
-                         const struct effect *peffect,
-                         const enum   req_problem_type prob_type);
 
 int get_player_bonus_effects(struct effect_list *plist,
-    const struct player *pplayer, enum effect_type effect_type);
+                             const struct player *pplayer,
+                             enum effect_type effect_type);
 int get_city_bonus_effects(struct effect_list *plist,
 			   const struct city *pcity,
 			   const struct output_type *poutput,

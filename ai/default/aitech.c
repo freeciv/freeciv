@@ -259,20 +259,10 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
           bool present = TRUE;
           bool active = TRUE;
 
-          if (is_effect_prevented(pplayer, NULL, pcity, NULL,
-                                  NULL, NULL, NULL, NULL, NULL,
-                                  peffect, RPT_CERTAIN)) {
-            /* We believe that effect is disabled only if there is no chance that it
-             * is not. This should lead to AI using wider spectrum of improvements.
-             *
-             * TODO: Select between RPT_POSSIBLE and RPT_CERTAIN dynamically
-             * depending how much AI can take risks. */
-            continue;
-          }
-
           requirement_vector_iterate(&peffect->reqs, preq) {
             /* Check if all the requirements for the currently evaluated effect
-             * are met, except for having the tech that we are evaluating. */
+             * are met, except for having the tech that we are evaluating.
+             * TODO: Consider requirements that could be met later. */
             if (VUT_ADVANCE == preq->source.kind
                 && preq->source.value.advance == padv) {
               present = preq->present;
@@ -281,6 +271,8 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
             if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
                                NULL, NULL, preq, RPT_POSSIBLE)) {
               active = FALSE;
+              break; /* presence doesn't matter for inactive effects. */
+
             }
           } requirement_vector_iterate_end;
 

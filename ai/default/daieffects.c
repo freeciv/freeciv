@@ -26,6 +26,9 @@
 #include "traderoutes.h"
 #include "victory.h"
 
+/* server */
+#include "plrhand.h"
+
 /* server/advisors */
 #include "advdata.h"
 #include "advtools.h"
@@ -565,4 +568,126 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
   }
 
   return v;
+}
+
+/**************************************************************************
+  Checks recursively to see if the player already has a better government
+**************************************************************************/
+static bool have_better_government(const struct player *pplayer,
+                                   const struct government *pgov)
+{
+    if (pgov->ai.better) {
+      if (pplayer->government == pgov->ai.better) {
+        return TRUE;
+      } else {
+        return have_better_government(pplayer, pgov->ai.better);
+      }
+    }
+    return FALSE;
+}
+/**************************************************************************
+  Does the AI expect to ever be able to meet this requirement.
+
+  The return value of this function is unreliable for requirements
+  that are are currently active: the caller should only call this
+  function to determine if a currently *inactive* requirement could
+  be met in the future.
+
+  City may be NULL, so request pplayer separately.
+**************************************************************************/
+bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
+                                        const struct player *pplayer,
+                                        const struct city *pcity)
+{
+  switch (preq->source.kind) {
+  case VUT_GOVERNMENT:
+    /* We can't meet a government requirement if we have a better one. */
+    return !have_better_government(pplayer, preq->source.value.govern);
+
+  case VUT_IMPROVEMENT: {
+    const struct impr_type *pimprove = preq->source.value.building;
+
+    if (preq->present && improvement_obsolete(pplayer, pimprove, pcity)) {
+      /* Would need to unobsolete a building, which is too hard. */
+      return FALSE;
+    } else if (!preq->present && pcity != NULL
+               && I_NEVER < pcity->built[improvement_index(pimprove)].turn
+               && !can_improvement_go_obsolete(pimprove)) {
+      /* Would need to unbuild an unobsoleteable building, which is too hard. */
+      return FALSE;
+    } else if (preq->present) {
+      requirement_vector_iterate(&pimprove->reqs, ireq) {
+        if (!dai_can_requirement_be_met_in_city(ireq, pplayer, pcity)) {
+          return FALSE;
+        }
+      } requirement_vector_iterate_end;
+    }
+    break;
+  } /* VUT_IMPROVEMENT inline block */
+
+  case VUT_SPECIALIST:
+    if (preq->present) {
+      requirement_vector_iterate(&(preq->source.value.specialist)->reqs,
+                                 sreq) {
+        if (!dai_can_requirement_be_met_in_city(sreq, pplayer, pcity)) {
+          return FALSE;
+        }
+      } requirement_vector_iterate_end;
+    } /* It is always possible to remove a specialist. */
+  break;
+
+  case VUT_NATIONALITY:
+    /* Crude, but the right answer needs to consider civil wars. */
+    return nation_is_in_current_set(preq->source.value.nation);
+
+  case VUT_TERRAIN:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRAINALTER:
+  case VUT_TERRFLAG:
+  case VUT_BASEFLAG:
+  case VUT_ROADFLAG:
+  case VUT_EXTRA:
+    /* TODO: These could be determined by building a map of all
+     *       possible futures (e.g. terrain transformations, etc.),
+     *       and traversing it for all tiles in largest possible range
+     *       of city, and using that to check requirements. */
+    break;
+
+  case VUT_ADVANCE:
+  case VUT_MINSIZE:
+  case VUT_MINYEAR:
+  case VUT_TECHFLAG:
+  case VUT_ACHIEVEMENT:
+  case VUT_MINCULTURE:
+    /* No way to remove once present. */
+    return preq->present;
+
+  case VUT_RESOURCE: /* AI can't remove, but global warm/cool can. */
+    /* No way to create if absent. */
+    return !preq->present;
+
+  case VUT_NATION:
+  case VUT_AI_LEVEL:
+    /* Beyond player control. */
+    return FALSE;
+
+  case VUT_OTYPE:
+  case VUT_CITYTILE:
+    /* Can always be achieved. */
+    return TRUE;
+
+  case VUT_NONE:
+  case VUT_UTYPE:
+  case VUT_UTFLAG:
+  case VUT_UCLASS:
+  case VUT_UCFLAG:
+  case VUT_DIPLREL:
+  case VUT_MAXTILEUNITS:
+  case VUT_STYLE:
+  case VUT_UNITSTATE:
+  case VUT_COUNT:
+    /* No sensible implementation possible with data available. */
+    break;
+  }
+  return TRUE;
 }

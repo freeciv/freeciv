@@ -1370,17 +1370,6 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     bool present = TRUE;
     bool impossible_to_get = FALSE;
 
-    if (is_effect_prevented(pplayer, NULL, pcity, pimprove,
-                            NULL, NULL, NULL, NULL, NULL,
-                            peffect, RPT_CERTAIN)) {
-      /* We believe that effect is disabled only if there is no chance that it
-       * is not. This should lead to AI using wider spectrum of improvements.
-       *
-       * TODO: Select between RPT_POSSIBLE and RPT_CERTAIN dynamically
-       * depending how much AI can take risks. */
-      continue;
-    }
-
     tech_vector_init(&needed_techs);
 
     requirement_vector_iterate(&peffect->reqs, preq) {
@@ -1395,18 +1384,15 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       if (!is_req_active(pplayer, NULL, pcity, pimprove, NULL, NULL, NULL,
                          NULL, NULL, preq, RPT_POSSIBLE)) {
 	active = FALSE;
-	if (VUT_ADVANCE == preq->source.kind) {
-          if (preq->present) {
-            /* This missing requirement is a missing tech requirement.
-             * This will be for some additional effect
-             * (For example, in the default ruleset, Mysticism increases
-             * the effect of Temples). */
-            tech_vector_append(&needed_techs, preq->source.value.advance);
-          } else {
-            /* Would require losing a tech - we're not going to do that. */
-            impossible_to_get = TRUE;
-          }
-	}
+	if (VUT_ADVANCE == preq->source.kind && preq->present) {
+          /* This missing requirement is a missing tech requirement.
+           * This will be for some additional effect
+           * (For example, in the default ruleset, Mysticism increases
+           * the effect of Temples). */
+          tech_vector_append(&needed_techs, preq->source.value.advance);
+        } else if (!dai_can_requirement_be_met_in_city(preq, pplayer, pcity)) {
+          impossible_to_get = TRUE;
+        }
       }
     } requirement_vector_iterate_end;
 
