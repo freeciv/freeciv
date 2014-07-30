@@ -41,6 +41,112 @@ enum fc_tristate tri_and(enum fc_tristate one,
 }
 
 /**************************************************************************
+  Returns TRUE iff the target_tile is seen by pow_player.
+**************************************************************************/
+static bool is_tile_seen(const struct player *pow_player,
+                         const struct tile *target_tile)
+{
+  return tile_get_known(target_tile, pow_player) == TILE_KNOWN_SEEN;
+}
+
+/**************************************************************************
+  Returns TRUE iff the target_tile it self and all tiles cardinally
+  adjacent to it are seen by pow_player.
+**************************************************************************/
+static bool is_tile_seen_cadj(const struct player *pow_player,
+                              const struct tile *target_tile)
+{
+  /* The tile it self is unseen. */
+  if (!is_tile_seen(pow_player, target_tile)) {
+    return FALSE;
+  }
+
+  /* A cardinally adjacent tile is unseen. */
+  cardinal_adjc_iterate(target_tile, ptile) {
+    if (!is_tile_seen(pow_player, ptile)) {
+      return FALSE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  /* They are all seen. */
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE iff the target_tile it self and all tiles adjacent to it
+  are seen by pow_player.
+**************************************************************************/
+static bool is_tile_seen_adj(const struct player *pow_player,
+                             const struct tile *target_tile)
+{
+  /* The tile it self is unseen. */
+  if (!is_tile_seen(pow_player, target_tile)) {
+    return FALSE;
+  }
+
+  /* An adjacent tile is unseen. */
+  adjc_iterate(target_tile, ptile) {
+    if (!is_tile_seen(pow_player, ptile)) {
+      return FALSE;
+    }
+  } adjc_iterate_end;
+
+  /* They are all seen. */
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE iff all tiles of a city are seen by pow_player.
+**************************************************************************/
+static bool is_tile_seen_city(const struct player *pow_player,
+                              const struct city *target_city)
+{
+  /* Don't know the city radius. */
+  if (!can_player_see_city_internals(pow_player, target_city)) {
+    return FALSE;
+  }
+
+  /* A tile of the city is unseen */
+  city_tile_iterate(city_map_radius_sq_get(target_city),
+                    city_tile(target_city), ptile) {
+    if (!is_tile_seen(pow_player, ptile)) {
+      return FALSE;
+    }
+  } city_tile_iterate_end;
+
+  /* They are all seen. */
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE iff all tiles of a city an all tiles of its trade partners
+  are seen by pow_player.
+**************************************************************************/
+static bool is_tile_seen_traderoute(const struct player *pow_player,
+                                    const struct city *target_city)
+{
+  /* Don't know who the trade routes will go to. */
+  if (!can_player_see_city_internals(pow_player, target_city)) {
+    return FALSE;
+  }
+
+  /* A tile of the city is unseen */
+  if (!is_tile_seen_city(pow_player, target_city)) {
+    return FALSE;
+  }
+
+  /* A tile of a trade parter is unseen */
+  trade_routes_iterate(target_city, trade_partner) {
+    if (!is_tile_seen_city(pow_player, trade_partner)) {
+      return FALSE;
+    }
+  } trade_routes_iterate_end;
+
+  /* They are all seen. */
+  return TRUE;
+}
+
+/**************************************************************************
   Is an evalutaion of the requirement accurate when pow_player evaluates
   it?
 
@@ -228,6 +334,47 @@ static bool is_req_knowable(const struct player *pow_player,
     case REQ_RANGE_WORLD:
     case REQ_RANGE_COUNT:
       /* Non existing. */
+      return FALSE;
+    }
+  }
+
+  if (req->source.kind == VUT_TERRAIN
+      || req->source.kind == VUT_TERRFLAG
+      || req->source.kind == VUT_TERRAINCLASS
+      || req->source.kind == VUT_RESOURCE
+      || req->source.kind == VUT_EXTRA
+      || req->source.kind == VUT_BASEFLAG
+      || req->source.kind == VUT_BASEFLAG) {
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      return is_tile_seen(pow_player, target_tile);
+    case REQ_RANGE_CADJACENT:
+      /* TODO: The answer is known when the universal is located on a seen
+       * tile. Is returning TRUE in those cases worth the added complexity
+       * and the extra work for the computer? */
+      return is_tile_seen_cadj(pow_player, target_tile);
+    case REQ_RANGE_ADJACENT:
+      /* TODO: The answer is known when the universal is located on a seen
+       * tile. Is returning TRUE in those cases worth the added complexity
+       * and the extra work for the computer? */
+      return is_tile_seen_adj(pow_player, target_tile);
+    case REQ_RANGE_CITY:
+      /* TODO: The answer is known when the universal is located on a seen
+       * tile. Is returning TRUE in those cases worth the added complexity
+       * and the extra work for the computer? */
+      return is_tile_seen_city(pow_player, target_city);
+    case REQ_RANGE_TRADEROUTE:
+      /* TODO: The answer is known when the universal is located on a seen
+       * tile. Is returning TRUE in those cases worth the added complexity
+       * and the extra work for the computer? */
+      return is_tile_seen_traderoute(pow_player, target_city);
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Non existing range for requirement types. */
       return FALSE;
     }
   }
