@@ -371,7 +371,7 @@ static bool can_build_extra_base(const struct extra_type *pextra,
                                  const struct tile *ptile)
 {
   if (is_extra_caused_by(pextra, EC_BASE)
-      && base_can_be_built(extra_base_get_const(pextra), ptile)) {
+      && !base_can_be_built(extra_base_get_const(pextra), ptile)) {
     return FALSE;
   }
 
