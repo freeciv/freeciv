@@ -82,6 +82,11 @@ struct loaddata {
     struct road_type **order;
     size_t size;
   } road;
+  /* loaded in sg_load_savefile(); needed in sg_load_(), ... */
+  struct {
+    struct specialist **order;
+    size_t size;
+  } specialist;
 
   /* loaded in sg_load_game(); needed in sg_load_random(), ... */
   enum server_states server_state;

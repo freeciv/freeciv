@@ -19,6 +19,9 @@
 #include "capability.h"
 #include "log.h"
 
+/* common */
+#include "specialist.h"
+
 /* server */
 #include "aiiface.h"
 
@@ -535,6 +538,9 @@ static char *revolentype_str(enum revolen_type type)
 ****************************************************************************/
 static void compat_load_020600(struct loaddata *loading)
 {
+  int nplayers;
+  int i;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -648,6 +654,53 @@ static void compat_load_020600(struct loaddata *loading)
                           "player%d.got_first_city", player_slot_index(pslot));
     }
   } player_slots_iterate_end;
+
+  /* Add specialist order - loading time order is ok here, as we will use
+   * that when we in later part of compatibility conversion use the specialist
+   * values */
+  secfile_insert_int(loading->file, specialist_count(),
+                     "savefile.specialists_size");
+  {
+    const char **modname;
+    int i = 0;
+
+    modname = fc_calloc(specialist_count(), sizeof(*modname));
+
+    specialist_type_iterate(sp) {
+      modname[i++] = specialist_rule_name(specialist_by_number(sp));
+    } specialist_type_iterate_end;
+
+    secfile_insert_str_vec(loading->file, modname, specialist_count(),
+                           "savefile.specialists_vector");
+
+    free(modname);
+  }
+
+  /* Replace all city specialist count fields with correct names */
+  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
+
+  for (i = 0; i < nplayers; i++) {
+    int ncities;
+    int j;
+
+    ncities = secfile_lookup_int(loading->file, &ncities, "player%d.ncities", i);
+
+    for (j = 0; j < ncities; j++) {
+      int k = 0;
+
+      specialist_type_iterate(sp) {
+        struct specialist *psp = specialist_by_number(sp);
+        int count;
+
+        secfile_lookup_int(loading->file, &count, "player%d.c%d.n%s",
+                           i, j, specialist_rule_name(psp));
+        secfile_entry_delete(loading->file, "player%d.c%d.n%s",
+                             i, j, specialist_rule_name(psp));
+        secfile_insert_int(loading->file, count, "player%d.c%d.nspe%d",
+                           i, j, k++);
+      } specialist_type_iterate_end;
+    }
+  }
 }
 
 /****************************************************************************

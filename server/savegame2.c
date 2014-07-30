@@ -643,6 +643,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->base.size = -1;
   loading->road.order = NULL;
   loading->road.size = -1;
+  loading->specialist.order = NULL;
+  loading->specialist.size = -1;
 
   loading->server_state = S_S_INITIAL;
   loading->rstate = fc_rand_state();
@@ -682,6 +684,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->road.order != NULL) {
     free(loading->road.order);
+  }
+
+  if (loading->specialist.order != NULL) {
+    free(loading->specialist.order);
   }
 
   if (loading->worked_tiles != NULL) {
@@ -1637,6 +1643,39 @@ static void sg_load_savefile(struct loaddata *loading)
       loading->road.order[j] = NULL;
     }
   }
+
+  /* Load specialists. */
+  loading->specialist.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.specialists_size");
+  if (loading->specialist.size) {
+    const char **modname;
+    size_t nmod;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->specialist.size,
+                                     "savefile.specialists_vector");
+    sg_failure_ret(loading->specialist.size != 0,
+                   "Failed to load specialists order: %s",
+                   secfile_error());
+    sg_failure_ret(!(game.control.num_specialist_types < loading->specialist.size),
+                   "Number of specialists defined by the ruleset (= %d) are "
+                   "lower than the number in the savefile (= %d).",
+                   game.control.num_specialist_types, (int)loading->specialist.size);
+    /* make sure that the size of the array is divisible by 4 */
+    /* That's not really needed with specialists at the moment, but done this way
+     * for consistency with other types, and to be prepared for the time it needs
+     * to be this way. */
+    nmod = 4 * ((loading->specialist.size + 3) / 4);
+    loading->specialist.order = fc_calloc(nmod, sizeof(*loading->specialist.order));
+    for (j = 0; j < loading->specialist.size; j++) {
+      loading->specialist.order[j] = specialist_by_rule_name(modname[j]);
+    }
+    free(modname);
+    for (; j < nmod; j++) {
+      loading->specialist.order[j] = NULL;
+    }
+  }
 }
 
 /****************************************************************************
@@ -1733,7 +1772,7 @@ static void sg_save_savefile(struct savedata *saving)
     secfile_insert_str_vec(saving->file, modname, specialist_count(),
                            "savefile.specialists_vector");
 
-    free(modname);         
+    free(modname);
   }
 
   /* Save trait order in savegame. */
@@ -4346,17 +4385,14 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                   "Invalid city size: %d, set to %d", value, size);
   city_size_set(pcity, size);
 
-  specialist_type_iterate(sp) {
-    sg_warn_ret_val(
-        secfile_lookup_int(loading->file, &value, "%s.n%s", citystr,
-                           specialist_rule_name(specialist_by_number(sp))),
-        FALSE, "%s", secfile_error());
-    pcity->specialists[sp] = (citizens)value; /* set the correct type */
-    sg_warn_ret_val(value == (int)pcity->specialists[sp], FALSE,
-                    "Invalid number of specialists: %d, set to %d.", value,
-                    pcity->specialists[sp]);
-    specialists += pcity->specialists[sp];
-  } specialist_type_iterate_end;
+  for (i = 0; i < loading->specialist.size; i++) {
+    sg_warn_ret_val(secfile_lookup_int(loading->file, &value, "%s.nspe%d",
+                                       citystr, i),
+                    FALSE, "%s", secfile_error());
+    pcity->specialists[specialist_index(loading->specialist.order[i])]
+      = (citizens)value;
+    specialists += value;
+  }
 
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     pcity->trade[i] = secfile_lookup_int_default(loading->file, 0,
@@ -4673,9 +4709,10 @@ static void sg_save_player_cities(struct savedata *saving,
                        "%s.original", buf);
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
 
+    j = 0;
     specialist_type_iterate(sp) {
-      secfile_insert_int(saving->file, pcity->specialists[sp], "%s.n%s", buf,
-                         specialist_rule_name(specialist_by_number(sp)));
+      secfile_insert_int(saving->file, pcity->specialists[sp], "%s.nspe%d",
+                         buf, j++);
     } specialist_type_iterate_end;
 
     for (j = 0; j < MAX_TRADE_ROUTES; j++) {
