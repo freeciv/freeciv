@@ -1869,20 +1869,17 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
       if (negated) {
         /* Building removes the effect */
-        /* But getting a tech will not force building the building,
-         * so don't hold it against the tech. */
-        if (active) {
-          /* Currently v1 is (v + delta). Make it (v - delta) instead */ 
-          v1 = v - (v1 - v);
-        } else {
-          /* Tech */
-          v1 = MAX(v, -v1);
-        }
+        /* Currently v1 is (v + delta). Make it (v - delta) instead */ 
+        v1 = v - (v1 - v);
       }
 
       if (active) {
 	v = v1;
-      } else { /* n_needed_techs */
+      } else if (v1 > v) {
+        /* If value of the effect is negative, do not hold it against
+         * the tech - having the tech wont force one to build the
+         * building. */
+
 	/* We might want the technology that will enable this
 	 * (additional) effect.
 	 * The better the effect, the more we want the technology.
