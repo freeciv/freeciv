@@ -4736,6 +4736,13 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
 {
   static char name_buffer[256];
   const char *name;
+  static int last_minors[] = {
+    0,  /* There was no 0.x releases */
+    14, /* 1.14 */
+    6   /* 2.6 */
+  };
+
+  FC_STATIC_ASSERT(MAJOR_VERSION < sizeof(last_minors) / sizeof(int), missing_last_minor);
 
   *allow_digital_boolean = FALSE;
   name = getenv("FREECIV_OPT");
@@ -4773,7 +4780,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
           return name_buffer;
         }
       }
-      minor = 99;       /* Looks enough big. */
+      minor = last_minors[major - 1];
     }
 
     /* minor having max value of FIRST_MINOR_NEW_OPTION_FILE_NAME
