@@ -210,12 +210,14 @@ static int dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   int orig_want = dai_city_want(pplayer, pcity, adv, NULL);
   int final_want;
+  bool world_knew = game.info.global_advances[tech];
 
   research_invention_set(pres, tech, TECH_KNOWN);
 
   final_want = dai_city_want(pplayer, pcity, adv, NULL);
 
   research_invention_set(pres, tech, old_state);
+  game.info.global_advances[tech] = world_knew;
 
   return final_want - orig_want;
 }
