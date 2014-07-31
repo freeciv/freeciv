@@ -97,11 +97,6 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   struct city *pcity;
   struct unit *punit;
 
-  if (action != DIPLOMAT_MOVE
-      && !can_unit_exist_at_tile(pdiplomat, unit_tile(pdiplomat))) {
-    return FALSE;
-  }
-
   if ((pcity = tile_city(ptile))) {
     if (city_owner(pcity) != unit_owner(pdiplomat)
         && real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
