@@ -49,13 +49,9 @@ void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
                              enum unit_activity act_id, int value);
 int adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
                             enum unit_activity act_id);
-void adv_city_worker_road_set(struct city *pcity, int city_tile_index,
-                              const struct road_type *proad, int value);
-int adv_city_worker_road_get(const struct city *pcity, int city_tile_index,
-                             const struct road_type *proad);
-void adv_city_worker_base_set(struct city *pcity, int city_tile_index,
-                              const struct base_type *pbase, int value);
-int adv_city_worker_base_get(const struct city *pcity, int city_tile_index,
-                             const struct base_type *pbase);
+void adv_city_worker_extra_set(struct city *pcity, int city_tile_index,
+                               const struct extra_type *pextra, int value);
+int adv_city_worker_extra_get(const struct city *pcity, int city_tile_index,
+                              const struct extra_type *pextra);
 
 #endif   /* FC__INFRACACHE_H */

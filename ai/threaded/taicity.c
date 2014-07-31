@@ -126,12 +126,14 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
     road_type_iterate(proad) {
       int value;
       int extra;
+      struct extra_type *pextra;
 
       if (!player_can_build_road(proad, pplayer, ptile)) {
         continue;
       }
 
-      value = adv_city_worker_road_get(pcity, cindex, proad);
+      pextra = road_extra_get(proad);
+      value = adv_city_worker_extra_get(pcity, cindex, pextra);
 
       if (road_provides_move_bonus(proad)) {
         int old_move_cost;
@@ -196,12 +198,14 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
 
     base_type_iterate(pbase) {
       int value;
+      struct extra_type *pextra;
 
       if (!player_can_build_base(pbase, pplayer, ptile)) {
         continue;
       }
 
-      value = adv_city_worker_base_get(pcity, cindex, pbase);
+      pextra = base_extra_get(pbase);
+      value = adv_city_worker_extra_get(pcity, cindex, pextra);
 
       if (tile_worked(ptile) == pcity) {
         if (value - orig_value > worked.want) {

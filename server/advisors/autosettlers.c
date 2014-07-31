@@ -501,10 +501,8 @@ int settler_evaluate_improvements(struct unit *punit,
           } activity_type_iterate_end;
 
           road_type_iterate(proad) {
-            struct extra_type *target;
-            int base_value = adv_city_worker_road_get(pcity, cindex, proad);
-
-            target = road_extra_get(proad);
+            struct extra_type *target = road_extra_get(proad);
+            int base_value = adv_city_worker_extra_get(pcity, cindex, target);
 
             if (base_value >= 0) {
               int extra;
@@ -576,7 +574,7 @@ int settler_evaluate_improvements(struct unit *punit,
                                                                     ACTIVITY_GEN_ROAD,
                                                                     ptile,
                                                                     dep_tgt);
-                    int dep_value = base_value + adv_city_worker_road_get(pcity, cindex, pdep);
+                    int dep_value = base_value + adv_city_worker_extra_get(pcity, cindex, dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
@@ -591,10 +589,8 @@ int settler_evaluate_improvements(struct unit *punit,
           } road_type_iterate_end;
 
           base_type_iterate(pbase) {
-            struct extra_type *target;
-            int base_value = adv_city_worker_base_get(pcity, cindex, pbase);
-
-            target = base_extra_get(pbase);
+            struct extra_type *target = base_extra_get(pbase);
+            int base_value = adv_city_worker_extra_get(pcity, cindex, target);
 
             if (base_value > 0) {
 
@@ -629,9 +625,9 @@ int settler_evaluate_improvements(struct unit *punit,
                                                                     ACTIVITY_BASE,
                                                                     ptile,
                                                                     dep_tgt);
-                    int dep_value = base_value + adv_city_worker_base_get(pcity,
-                                                                          cindex,
-                                                                          pbase);
+                    int dep_value = base_value + adv_city_worker_extra_get(pcity,
+                                                                           cindex,
+                                                                           dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
                                             0, dep_value, oldv, in_use,
