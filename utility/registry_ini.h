@@ -595,9 +595,6 @@ bool entry_str_set(struct entry *pentry, const char *value);
 bool entry_str_escaped(const struct entry *pentry);
 bool entry_str_set_escaped(struct entry *pentry, bool escaped);
 
-/* Validation functions */
-bool is_secfile_entry_name_valid(const char *name);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

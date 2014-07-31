@@ -597,14 +597,6 @@ bool sanity_check_ruleset_data(void)
                     "Specialists have conflicting or invalid requirements!");
       ok = FALSE;
     }
-
-    /* Specialist rulenames are used as an entry name in savegames. */
-    if (!is_secfile_entry_name_valid(specialist_rule_name(psp))) {
-      ruleset_error(LOG_ERROR,
-                    "Specialist rule name \"%s\" unusable in savegames!",
-                    specialist_rule_name(psp));
-      ok = FALSE;
-    }
   } specialist_type_iterate_end;
 
   /* Extras */

@@ -226,7 +226,7 @@ static const char *datafilename(const char *filename)
 /**************************************************************************
   Ensure name is correct to use it as section or entry name.
 **************************************************************************/
-bool is_secfile_entry_name_valid(const char *name)
+static bool is_secfile_entry_name_valid(const char *name)
 {
   static const char *const allowed = "_.,-[]";
 
