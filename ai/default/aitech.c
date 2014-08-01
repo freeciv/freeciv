@@ -283,13 +283,13 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
 
             v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
                                   turns, peffect, 1,
-                                  nplayers, v);
+                                  nplayers);
 
             if (!present) {
               /* Tech removes the effect */
-              v -= (v1 - v);
+              v -= v1;
             } else {
-              v = v1;
+              v += v1;
             }
           }
         } effect_list_iterate_end;

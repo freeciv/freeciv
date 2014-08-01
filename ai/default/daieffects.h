@@ -17,7 +17,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
                      const struct adv_data *ai, const struct city *pcity,
                      const bool capital, int turns,
                      const struct effect *peffect, const int c,
-                     const int nplayers, int v);
+                     const int nplayers);
 
 int dai_content_effect_value(const struct player *pplayer,
                              const struct city *pcity,

@@ -127,21 +127,21 @@ static int num_affected_units(const struct effect *peffect,
 }
 
 /**************************************************************************
-  How desirable is a particular effect for a particular city?
-  Expressed as an adjustment of the base value (v)
+  How desirable is a particular effect for a particular city,
   given the number of cities in range (c).
 **************************************************************************/
 int dai_effect_value(struct player *pplayer, struct government *gov,
                      const struct adv_data *ai, const struct city *pcity,
                      const bool capital, int turns,
                      const struct effect *peffect, const int c,
-                     const int nplayers, int v)
+                     const int nplayers)
 {
   int amount = peffect->value;
   bool affects_sea_capable_units = FALSE;
   bool affects_land_capable_units = FALSE;
   int num;
   int trait;
+  int v = 0;
 
   if (amount == 0) {
     /* We could prune such effects in ruleset loading already,
@@ -151,7 +151,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
      * Shortcutting these effects here is not only for performance,
      * more importantly it makes sure code below assuming amount to
      * be positive does not assign positive value. */
-    return v;
+    return 0;
   }
 
   switch (peffect->type) {

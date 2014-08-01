@@ -1411,8 +1411,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     if ((active || n_needed_techs) && !impossible_to_get) {
       int v1 = dai_effect_value(pplayer, gov, ai, pcity, capital, 
                                 turns, peffect, cities[mypreq->range],
-                                nplayers, v);
-      /* v1 - v could be negative (the effect could be undesirable),
+                                nplayers);
+      /* v1 could be negative (the effect could be undesirable),
        * although it is usually positive.
        * For example, in the default ruleset, Communism decreases the
        * effectiveness of a Cathedral. */
@@ -1420,12 +1420,12 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
       if (!present) {
         /* Building removes the effect */
         /* Currently v1 is (v + delta). Make it (v - delta) instead */ 
-        v1 = v - (v1 - v);
+        v1 = -v1;
       }
 
       if (active) {
-	v = v1;
-      } else if (v1 > v) {
+	v += v1;
+      } else if (v1 > 0) {
         /* If value of the effect is negative, do not hold it against
          * the tech - having the tech wont force one to build the
          * building. */
@@ -1433,14 +1433,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 	/* We might want the technology that will enable this
 	 * (additional) effect.
 	 * The better the effect, the more we want the technology.
-	 * Use (v1 - v) rather than v1 in case there are multiple
-	 * effects that have technology requirements and to eliminate the
-	 * 'base' effect of the building.
          * We are more interested in (additional) effects that enhance
 	 * buildings we already have.
 	 */
         const int a = already? 5: 4; /* WAG */
-        const int dv = (v1 - v) * a / (4 * n_needed_techs);
+        const int dv = v1 * a / (4 * n_needed_techs);
 
         want_techs_for_improvement_effect(ait, pplayer, pcity, pimprove,
                                           &needed_techs, dv);
