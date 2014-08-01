@@ -32,6 +32,7 @@ Updating from 2.5 to 2.6
   --enable-sys-tolua-cmd searches tolua from the PATH, other values
   are treated as full path to executable. You have to use system
   tolua when cross-compiling.
+* Minimum libtool version is now 1.5.2
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
