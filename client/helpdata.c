@@ -4121,9 +4121,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                   "not normally be suitable terrain.\n"));
       }
       if (pbase != NULL) {
-        if (BORDERS_DISABLED != game.info.borders
-            && game.info.happyborders
-            && base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
+        if (base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
           /* "3 tiles" is hardcoded in is_friendly_city_near() */
           CATLSTR(buf, bufsz,
                   _("  * Such units situated here are not considered aggressive "
