@@ -12,3 +12,16 @@ AC_DEFUN([FC_C11_STATIC_ASSERT],
     AC_DEFINE([C11_STATIC_ASSERT], [1], [C11 static assert supported])
   fi
 ])
+
+AC_DEFUN([FC_C11_AT_QUICK_EXIT],
+[
+  AC_CACHE_CHECK([for C11 at_quick_exit()], [ac_cv_c11_at_quick_exit],
+    [AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
+static void func(void)
+{}
+]], [[ at_quick_exit(func); ]])],
+[ac_cv_c11_at_quick_exit=yes], [ac_cv_c11_at_quick_exit=no])])
+  if test "x${ac_cv_c11_at_quick_exit}" = "xyes" ; then
+    AC_DEFINE([HAVE_AT_QUICK_EXIT], [1], [C11 at_quick_exit() available])
+  fi
+])

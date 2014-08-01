@@ -208,11 +208,20 @@ static void charsets_init(void)
 }
 
 /**************************************************************************
+ This is called at program exit in any emergency. This is registered
+ as at_quick_exit() callback, so no destructor kind of actions here
+**************************************************************************/
+static void emergency_exit(void)
+{
+  client_kill_server(TRUE);
+}
+
+/**************************************************************************
  This is called at program exit.
 **************************************************************************/
 static void at_exit(void)
 {
-  client_kill_server(TRUE);
+  emergency_exit();
   fc_shutdown_network();
   update_queue_free();
   fc_destroy_ow_mutex();
@@ -553,6 +562,7 @@ int client_main(int argc, char *argv[])
 
   /* register exit handler */ 
   atexit(at_exit);
+  fc_at_quick_exit(emergency_exit);
 
   init_our_capability();
   init_player_dlg_common();

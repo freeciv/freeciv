@@ -1187,3 +1187,15 @@ const char *fc_basename(const char *path)
 
   return basename(buf);
 }
+
+/*****************************************************************
+  Set quick_exit() callback if possible.
+*****************************************************************/
+int fc_at_quick_exit(void (*func)(void))
+{
+#ifdef HAVE_AT_QUICK_EXIT
+  return at_quick_exit(func);
+#else  /* HAVE_AT_QUICK_EXIT */
+  return -1;
+#endif /* HAVE_AT_QUICK_EXIT */
+}

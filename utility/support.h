@@ -176,6 +176,8 @@ void fc_uname(char *buf, size_t len);
 
 const char *fc_basename(const char *path);
 
+int fc_at_quick_exit(void (*func)(void));
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
