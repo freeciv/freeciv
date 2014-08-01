@@ -508,12 +508,12 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
   
-  if (technology < 0 || technology == A_NONE || technology >= A_LAST) {
-    return;
-  }
-  
-  if (technology != A_FUTURE && technology != A_UNSET
-      && !valid_advance_by_number(technology)) {
+  /* Targeted technology should be a ruleset defined tech,
+   * "At Spy's Discretion" (A_UNSET) or a future tech (A_FUTURE). */
+  if (technology == A_NONE
+      || (technology != A_FUTURE
+          && technology != A_UNSET
+          && !valid_advance_by_number(technology))) {
     return;
   }
 
