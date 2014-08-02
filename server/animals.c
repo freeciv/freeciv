@@ -102,8 +102,7 @@ void create_animals(void)
   server_player_init(plr, TRUE, TRUE);
 
   player_set_nation(plr, anination);
-
-  sz_strlcpy(plr->name, pick_random_player_name(anination));
+  player_nation_defaults(plr, anination, TRUE);
 
   assign_player_colors();
 
