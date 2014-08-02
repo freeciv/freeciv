@@ -26,6 +26,7 @@
 class QLineEdit;
 class QStackedLayout;
 
+class requirers_dlg;
 class tab_misc;
 class tab_tech;
 class tab_nation;
@@ -37,6 +38,8 @@ class ruledit_gui : public QObject
   public:
     void setup(QApplication *qapp, QWidget *central_in);
     void display_msg(const char *msg);
+    void clear_required(const char *title);
+    void show_required(const char *msg);
     int run();
     void close();
     void flush_widgets();
@@ -50,6 +53,8 @@ class ruledit_gui : public QObject
     QLineEdit *ruleset_select;
     QWidget *central;
     QStackedLayout *main_layout;
+
+    requirers_dlg *requirers;
 
     tab_misc *misc;
     tab_tech *tech;

@@ -36,10 +36,11 @@
 #include "ruleset.h"
 
 // ruledit
+#include "requirers_dlg.h"
+#include "ruledit.h"
 #include "tab_misc.h"
 #include "tab_nation.h"
 #include "tab_tech.h"
-#include "ruledit.h"
 
 #include "ruledit_qt.h"
 
@@ -90,12 +91,7 @@ void ruledit_qt_close()
 **************************************************************************/
 void ruledit_qt_display_requirers(const char *msg)
 {
-  char buffer[2048];
-
-  /* TRANS: %s could be any of a number of ruleset items (e.g., tech,
-   * unit type, ... */
-  fc_snprintf(buffer, sizeof(buffer), R__("Needed by %s"), msg);
-  gui->display_msg(buffer);
+  gui->show_required(msg);
 }
 
 /**************************************************************************
@@ -155,6 +151,8 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   msg_dspl->setAlignment(Qt::AlignHCenter);
 
   full_layout->addWidget(msg_dspl);
+
+  requirers = new requirers_dlg(this);
 
   central->setLayout(full_layout);
 }
@@ -226,6 +224,25 @@ void ruledit_gui::close()
 void ruledit_gui::display_msg(const char *msg)
 {
   msg_dspl->setText(msg);
+}
+
+/**************************************************************************
+  Clear requirers dlg.
+**************************************************************************/
+void ruledit_gui::clear_required(const char *title)
+{
+  requirers->clear(title);
+}
+
+/**************************************************************************
+  Add entry to requirers dlg.
+**************************************************************************/
+void ruledit_gui::show_required(const char *msg)
+{
+  requirers->add(msg);
+
+  // Show dialog if not already visible
+  requirers->show();
 }
 
 /**************************************************************************

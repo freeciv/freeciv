@@ -241,6 +241,7 @@ tools/mpgui_gtk2.c
 tools/mpgui_gtk3.c
 tools/mpgui_qt.cpp
 tools/mpgui_qt_worker.cpp
+tools/ruledit/requirers_dlg.cpp
 tools/ruledit/ruledit.cpp
 tools/ruledit/ruledit_qt.cpp
 tools/ruledit/tab_misc.cpp

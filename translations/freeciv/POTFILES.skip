@@ -7,6 +7,7 @@ client/gui-stub/dialogs.c
 client/gui-stub/gui_main.c
 client/gui-stub/mapview.c
 server/sanitycheck.c
+tools/ruledit/requirers_dlg.cpp
 tools/ruledit/ruledit.cpp
 tools/ruledit/ruledit_qt.cpp
 tools/ruledit/tab_misc.cpp
