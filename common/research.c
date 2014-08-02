@@ -760,7 +760,8 @@ int player_tech_upkeep(const struct player *pplayer)
 {
   const struct research *presearch = research_get(pplayer);
   int f = presearch->future_tech, t = presearch->techs_researched;
-  double tech_upkeep, total_research_factor;
+  double tech_upkeep = 0.0;
+  double total_research_factor;
   int members;
 
   if (TECH_UPKEEP_NONE == game.info.tech_upkeep_style) {
@@ -807,7 +808,6 @@ int player_tech_upkeep(const struct player *pplayer)
   default:
     fc_assert_msg(FALSE, "Invalid tech_cost_style %d",
                   game.info.tech_cost_style);
-    tech_upkeep = 0.0;
   }
 
   tech_upkeep *= total_research_factor / members;
