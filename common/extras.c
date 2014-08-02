@@ -672,3 +672,16 @@ bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause)
 
   return (pextra->causes & (1 << cause));
 }
+
+/**************************************************************************
+  Is the extra caused by some kind of worker action?
+**************************************************************************/
+bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
+{
+  /* Is any of the worker build action bits set? */
+  return (pextra->causes
+          & (1 << EC_IRRIGATION
+             | 1 << EC_MINE
+             | 1 << EC_BASE
+             | 1 << EC_ROAD));
+}

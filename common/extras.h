@@ -135,6 +135,7 @@ struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause);
 struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause);
 
 bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause);
+bool is_extra_caused_by_worker_action(const struct extra_type *pextra);
 
 void extra_to_removed_by_list(struct extra_type *pextra, enum extra_rmcause rmcause);
 struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause);

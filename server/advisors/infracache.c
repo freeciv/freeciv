@@ -435,8 +435,15 @@ void initialize_infrastructure_cache(struct player *pplayer)
        * account settlers that have already been assigned to building
        * roads this turn. */
       extra_type_iterate(pextra) {
-        adv_city_worker_extra_set(pcity, cindex, pextra,
-                                  adv_calc_extra(pcity, ptile, pextra));
+        /* We have no use for extra value, if workers cannot be assigned
+         * to build it, so don't use time to calculate values otherwise */
+        if (pextra->buildable
+            && is_extra_caused_by_worker_action(pextra)) {
+          adv_city_worker_extra_set(pcity, cindex, pextra,
+                                    adv_calc_extra(pcity, ptile, pextra));
+        } else {
+          adv_city_worker_extra_set(pcity, cindex, pextra, 0);
+        }
       } extra_type_iterate_end;
     } city_tile_iterate_index_end;
   } city_list_iterate_end;
