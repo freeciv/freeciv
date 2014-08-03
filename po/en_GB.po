@@ -65,8 +65,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-17 09:00+0100\n"
-"PO-Revision-Date: 2014-07-17 10:22+0100\n"
+"POT-Creation-Date: 2014-08-03 11:32+0100\n"
+"PO-Revision-Date: 2014-08-03 11:38+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -2173,13 +2173,13 @@ msgstr "U_pgrade unit"
 
 #: client/gui-gtk-2.0/citydlg.c:2605 client/gui-gtk-2.0/diplomat_dialog.c:90
 #: client/gui-gtk-2.0/diplomat_dialog.c:567 client/gui-gtk-2.0/repodlgs.c:1515
-#: client/gui-gtk-3.0/citydlg.c:2651 client/gui-gtk-3.0/diplomat_dialog.c:90
+#: client/gui-gtk-3.0/citydlg.c:2650 client/gui-gtk-3.0/diplomat_dialog.c:90
 #: client/gui-gtk-3.0/diplomat_dialog.c:577 client/gui-gtk-3.0/repodlgs.c:1547
 #: client/gui-sdl/citydlg.c:1158 client/gui-sdl/diplomat_dialog.c:1151
 #: client/gui-sdl/diplomat_dialog.c:1402 client/gui-sdl/repodlgs.c:188
 #: client/gui-xaw/citydlg.c:1949 client/gui-xaw/diplomat_dialog.c:115
 #: client/gui-xaw/diplomat_dialog.c:661 client/gui-xaw/repodlgs.c:1010
-#: client/text.c:1235 common/unit.c:1892
+#: client/text.c:1235 common/unit.c:1883
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -2187,7 +2187,7 @@ msgstr[0] "Treasury contains %d gold."
 msgstr[1] "Treasury contains %d gold."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2615 client/gui-gtk-3.0/citydlg.c:2661
+#: client/gui-gtk-2.0/citydlg.c:2615 client/gui-gtk-3.0/citydlg.c:2660
 #: client/gui-sdl/citydlg.c:1169 client/gui-xaw/citydlg.c:1957
 #, c-format
 msgid ""
@@ -2204,13 +2204,13 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2619 client/gui-gtk-2.0/citydlg.c:2633
-#: client/gui-gtk-3.0/citydlg.c:2665 client/gui-gtk-3.0/citydlg.c:2679
+#: client/gui-gtk-3.0/citydlg.c:2664 client/gui-gtk-3.0/citydlg.c:2678
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
 msgid "Buy It!"
 msgstr "Buy It!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2629 client/gui-gtk-3.0/citydlg.c:2675
+#: client/gui-gtk-2.0/citydlg.c:2629 client/gui-gtk-3.0/citydlg.c:2674
 #: client/gui-sdl/citydlg.c:1175 client/gui-xaw/citydlg.c:1968
 #, c-format
 msgid ""
@@ -2226,7 +2226,7 @@ msgstr[1] ""
 "%s costs %d gold.\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2680 client/gui-gtk-3.0/citydlg.c:2726
+#: client/gui-gtk-2.0/citydlg.c:2680 client/gui-gtk-3.0/citydlg.c:2725
 #: client/gui-sdl/citydlg.c:1419 client/gui-xaw/citydlg.c:2348
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -2234,16 +2234,16 @@ msgid_plural "Sell %s for %d gold?"
 msgstr[0] "Sell %s for %d gold?"
 msgstr[1] "Sell %s for %d gold?"
 
-#: client/gui-gtk-2.0/citydlg.c:2686 client/gui-gtk-3.0/citydlg.c:2732
+#: client/gui-gtk-2.0/citydlg.c:2686 client/gui-gtk-3.0/citydlg.c:2731
 #: data/Freeciv.in:2264
 msgid "Sell It!"
 msgstr "Sell It!"
 
-#: client/gui-gtk-2.0/citydlg.c:2753 client/gui-gtk-3.0/citydlg.c:2807
+#: client/gui-gtk-2.0/citydlg.c:2753 client/gui-gtk-3.0/citydlg.c:2806
 msgid "Rename City"
 msgstr "Rename City"
 
-#: client/gui-gtk-2.0/citydlg.c:2754 client/gui-gtk-3.0/citydlg.c:2808
+#: client/gui-gtk-2.0/citydlg.c:2754 client/gui-gtk-3.0/citydlg.c:2807
 #: client/gui-xaw/citydlg.c:1437
 msgid "What should we rename the city to?"
 msgstr "What should we rename the city to?"
@@ -3928,11 +3928,19 @@ msgstr "Build New City"
 msgid "What should we call our new city?"
 msgstr "What should we call our new city?"
 
-#: client/gui-gtk-2.0/mapview.c:176 client/gui-gtk-3.0/mapview.c:173
+#: client/gui-gtk-2.0/mapview.c:103 client/gui-gtk-3.0/mapview.c:103
+msgid "Time to forced turn change"
+msgstr "Time to forced turn change"
+
+#: client/gui-gtk-2.0/mapview.c:105 client/gui-gtk-3.0/mapview.c:105
+msgid "Turn timeout disabled"
+msgstr "Turn timeout disabled"
+
+#: client/gui-gtk-2.0/mapview.c:183 client/gui-gtk-3.0/mapview.c:180
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
 msgstr "Shows your current luxury/science/tax rates; click to toggle them."
 
-#: client/gui-gtk-2.0/mapview.c:679
+#: client/gui-gtk-2.0/mapview.c:686
 msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "Better fog will only work in truecolor. Disabling it"
 
@@ -6538,7 +6546,7 @@ msgid "Barracks"
 msgstr "Barracks"
 
 #: client/gui-sdl/mapview.c:623 client/gui-sdl/mapview.c:629
-#: client/gui-sdl/mapview.c:635 client/helpdata.c:3329 client/helpdata.c:3337
+#: client/gui-sdl/mapview.c:635 client/helpdata.c:3327 client/helpdata.c:3335
 msgid "?blistmore:, "
 msgstr "?blistmore:, "
 
@@ -8505,10 +8513,6 @@ msgstr "* Can build mines on tiles.\n"
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Can build irrigation on tiles.\n"
 
-#: client/helpdata.c:2074
-msgid "* Can build farmland.\n"
-msgstr "* Can build farmland.\n"
-
 #: client/helpdata.c:2078
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
@@ -8834,7 +8838,7 @@ msgstr ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
 
-#: client/helpdata.c:2614
+#: client/helpdata.c:2612
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
@@ -8842,7 +8846,7 @@ msgstr ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
 
-#: client/helpdata.c:2619
+#: client/helpdata.c:2617
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
@@ -8850,43 +8854,43 @@ msgstr ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
 
-#: client/helpdata.c:2624
+#: client/helpdata.c:2622
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr "  * Such units get a %d%% defence bonus on this tile.\n"
 
-#: client/helpdata.c:2631
+#: client/helpdata.c:2629
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr "  * Diplomatic units get a 25% defence bonus in diplomatic fights.\n"
 
-#: client/helpdata.c:2639
+#: client/helpdata.c:2637
 msgid "* Cannot be built.\n"
 msgstr "* Cannot be built.\n"
 
-#: client/helpdata.c:2643
+#: client/helpdata.c:2641
 msgid "* Can be pillaged by units.\n"
 msgstr "* Can be pillaged by units.\n"
 
-#: client/helpdata.c:2648
+#: client/helpdata.c:2646
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 
-#: client/helpdata.c:2653
+#: client/helpdata.c:2651
 msgid "* Units can paradrop from this tile.\n"
 msgstr "* Units can paradrop from this tile.\n"
 
-#: client/helpdata.c:2657
+#: client/helpdata.c:2655
 msgid "* Extends national borders of the building nation.\n"
 msgstr "* Extends national borders of the building nation.\n"
 
-#: client/helpdata.c:2661
+#: client/helpdata.c:2659
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr "* Grants permanent vision of an area around the tile to its owner.\n"
 
-#: client/helpdata.c:2666
+#: client/helpdata.c:2664
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
@@ -8894,16 +8898,16 @@ msgstr ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
 
-#: client/helpdata.c:2746
+#: client/helpdata.c:2744
 msgid "Features:\n"
 msgstr "Features:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:2863 client/helpdata.c:2864
+#: client/helpdata.c:2861 client/helpdata.c:2862
 msgid "?outputlist: Nothing "
 msgstr "?outputlist: Nothing "
 
-#: client/helpdata.c:2876
+#: client/helpdata.c:2874
 #, c-format
 msgid ""
 "* Military units away from home and field units will each cause %d citizen "
@@ -8918,7 +8922,7 @@ msgstr[1] ""
 "* Military units away from home and field units will each cause %d citizens "
 "to become unhappy.\n"
 
-#: client/helpdata.c:2887
+#: client/helpdata.c:2885
 #, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
@@ -8926,7 +8930,7 @@ msgid_plural ""
 msgstr[0] "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgstr[1] "* Each of your cities will avoid %d unhappiness caused by units.\n"
 
-#: client/helpdata.c:2898
+#: client/helpdata.c:2896
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
@@ -8941,7 +8945,7 @@ msgstr[1] ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by units.\n"
 
-#: client/helpdata.c:2909
+#: client/helpdata.c:2907
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including unhappiness "
@@ -8958,23 +8962,23 @@ msgstr[1] ""
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:2924
+#: client/helpdata.c:2922
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* You pay no %s upkeep for your units.\n"
 
-#: client/helpdata.c:2928
+#: client/helpdata.c:2926
 msgid "* You pay no upkeep for your units.\n"
 msgstr "* You pay no upkeep for your units.\n"
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:2936
+#: client/helpdata.c:2934
 #, c-format
 msgid "* You pay %.2g times normal %s upkeep for your units.\n"
 msgstr "* You pay %.2g times normal %s upkeep for your units.\n"
 
-#: client/helpdata.c:2941
+#: client/helpdata.c:2939
 #, c-format
 msgid "* You pay %.2g times normal upkeep for your units.\n"
 msgstr "* You pay %.2g times normal upkeep for your units.\n"
@@ -8983,7 +8987,7 @@ msgstr "* You pay %.2g times normal upkeep for your units.\n"
 #. * 'gold'; pluralised in %d but there is currently
 #. * no way to control the singular/plural name of the
 #. * output type; sorry
-#: client/helpdata.c:2956
+#: client/helpdata.c:2954
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgid_plural ""
@@ -8995,7 +8999,7 @@ msgstr[1] ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:2965
+#: client/helpdata.c:2963
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgid_plural ""
@@ -9003,13 +9007,13 @@ msgid_plural ""
 msgstr[0] "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr[1] "* Each of your cities will avoid paying %d upkeep for your units.\n"
 
-#: client/helpdata.c:2976
+#: client/helpdata.c:2974
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr "* If you lose your capital, the chance of civil war is %d%%.\n"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2985
+#: client/helpdata.c:2983
 #, c-format
 msgid ""
 "* When you have %d city, the first unhappy citizen will appear in each city "
@@ -9025,7 +9029,7 @@ msgstr[1] ""
 "city due to civilisation size.\n"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:2998
+#: client/helpdata.c:2996
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -9040,18 +9044,18 @@ msgstr[1] ""
 "* After the first unhappy citizen due to civilisation size, for each %d "
 "additional cities another unhappy citizen will appear.\n"
 
-#: client/helpdata.c:3012
+#: client/helpdata.c:3010
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 
-#: client/helpdata.c:3017
+#: client/helpdata.c:3015
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "* Has unlimited science/gold/luxuries rates.\n"
 
-#: client/helpdata.c:3024
+#: client/helpdata.c:3022
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -9066,33 +9070,33 @@ msgstr[1] ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
 
-#: client/helpdata.c:3037
+#: client/helpdata.c:3035
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] "* A maximum of %d unit in each city can enforce martial law.\n"
 msgstr[1] "* A maximum of %d units in each city can enforce martial law.\n"
 
-#: client/helpdata.c:3048
+#: client/helpdata.c:3046
 msgid "* You may grow your cities by means of celebrations."
 msgstr "* You may grow your cities by means of celebrations."
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:3054
+#: client/helpdata.c:3052
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr " (Cities below size %d cannot grow in this way.)"
 
-#: client/helpdata.c:3062
+#: client/helpdata.c:3060
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Your units cannot be bribed.\n"
 
-#: client/helpdata.c:3067
+#: client/helpdata.c:3065
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "* Your cities cannot be incited to revolt.\n"
 
-#: client/helpdata.c:3074
+#: client/helpdata.c:3072
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
@@ -9100,15 +9104,15 @@ msgstr ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
 
-#: client/helpdata.c:3081
+#: client/helpdata.c:3079
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Has a senate that may prevent declaration of war.\n"
 
-#: client/helpdata.c:3087
+#: client/helpdata.c:3085
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "* Allows partisans when cities are taken by the enemy.\n"
 
-#: client/helpdata.c:3094
+#: client/helpdata.c:3092
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -9116,41 +9120,41 @@ msgstr ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 
-#: client/helpdata.c:3100
+#: client/helpdata.c:3098
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Pays no upkeep for fanatics.\n"
 
-#: client/helpdata.c:3105
+#: client/helpdata.c:3103
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Has no unhappy citizens.\n"
 
 #. TRANS: %s is a unit class
-#: client/helpdata.c:3130
+#: client/helpdata.c:3128
 #, c-format
 msgid "?unitclass:* New %s units will be veteran.\n"
 msgstr "?unitclass:* New %s units will be veteran.\n"
 
 #. TRANS: %s is a unit type flag
-#: client/helpdata.c:3136
+#: client/helpdata.c:3134
 #, c-format
 msgid "?unitflag:* New %s units will be veteran.\n"
 msgstr "?unitflag:* New %s units will be veteran.\n"
 
 #. TRANS: "* New Partisan units will have the rank
 #. * of elite."
-#: client/helpdata.c:3148
+#: client/helpdata.c:3146
 #, c-format
 msgid "?unittype:* New %s units will have the rank of %s.\n"
 msgstr "?unittype:* New %s units will have the rank of %s.\n"
 
-#: client/helpdata.c:3157
+#: client/helpdata.c:3155
 msgid "* New units will be veteran.\n"
 msgstr "* New units will be veteran.\n"
 
 #. TRANS: %s is list of output types, with 'or';
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
-#: client/helpdata.c:3167
+#: client/helpdata.c:3165
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -9167,13 +9171,13 @@ msgstr[1] ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:3178 client/helpdata.c:3198
+#: client/helpdata.c:3176 client/helpdata.c:3196
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr " (Cities below size %d will not celebrate.)"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:3187
+#: client/helpdata.c:3185
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -9189,7 +9193,7 @@ msgstr[1] ""
 "city working it is celebrating."
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:3206
+#: client/helpdata.c:3204
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
@@ -9198,87 +9202,87 @@ msgstr[0] "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr[1] "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3217
+#: client/helpdata.c:3215
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* %s production is increased %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3225
+#: client/helpdata.c:3223
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "* %s production will suffer massive losses.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3230
+#: client/helpdata.c:3228
 #, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "* %s production will suffer some losses.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3235
+#: client/helpdata.c:3233
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "* %s production will suffer a small amount of losses.\n"
 
-#: client/helpdata.c:3244
+#: client/helpdata.c:3242
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "* Increases the chance of plague within your cities.\n"
 
-#: client/helpdata.c:3247
+#: client/helpdata.c:3245
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "* Decreases the chance of plague within your cities.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3257
+#: client/helpdata.c:3255
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr "* %s losses will increase quickly with distance from capital.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3263
+#: client/helpdata.c:3261
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr "* %s losses will increase with distance from capital.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:3269
+#: client/helpdata.c:3267
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr "* %s losses will increase slowly with distance from capital.\n"
 
-#: client/helpdata.c:3278
+#: client/helpdata.c:3276
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr "* Increases the chance of migration into your cities.\n"
 
-#: client/helpdata.c:3281
+#: client/helpdata.c:3279
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr "* Decreases the chance of migration into your cities.\n"
 
-#: client/helpdata.c:3300
+#: client/helpdata.c:3298
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Allows you to build %s.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:3328
+#: client/helpdata.c:3326
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:3336
+#: client/helpdata.c:3334
 #, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d Unhappy"
 
-#: client/helpdata.c:3363
+#: client/helpdata.c:3361
 #, c-format
 msgid "Initial government is %s.\n"
 msgstr "Initial government is %s.\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:3380
+#: client/helpdata.c:3378
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -9288,7 +9292,7 @@ msgstr ""
 "technologies.\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:3385
+#: client/helpdata.c:3383
 #, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "Starts with knowledge of %s.\n"
@@ -9296,7 +9300,7 @@ msgstr "Starts with knowledge of %s.\n"
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:3422
+#: client/helpdata.c:3420
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
@@ -9304,7 +9308,7 @@ msgstr "%s (%d)"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:3442
+#: client/helpdata.c:3440
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
@@ -9312,7 +9316,7 @@ msgstr[0] "Starts with the following additional unit: %s.\n"
 msgstr[1] "Starts with the following additional units: %s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:3464
+#: client/helpdata.c:3462
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
@@ -9320,7 +9324,7 @@ msgstr ""
 "First city will get %s for free in addition to the standard improvements.\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:3469
+#: client/helpdata.c:3467
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr "First city will get %s for free.\n"
@@ -11262,7 +11266,7 @@ msgstr[1] ""
 msgid "No units to disband!"
 msgstr "No units to disband!"
 
-#: client/text.c:1271 server/unithand.c:512
+#: client/text.c:1271 server/unithand.c:508
 #, c-format
 msgid "%s refuses to disband!"
 msgstr "%s refuses to disband!"
@@ -11616,16 +11620,16 @@ msgstr " (player %s)"
 msgid " (observer)"
 msgstr " (observer)"
 
-#: common/connection.c:860
+#: common/connection.c:862
 #, c-format
 msgid "\"%s\" is not a valid pattern type"
 msgstr "\"%s\" is not a valid pattern type"
 
-#: common/connection.c:871
+#: common/connection.c:873
 msgid "Missing pattern type"
 msgstr "Missing pattern type"
 
-#: common/connection.c:884
+#: common/connection.c:886
 msgid "Missing pattern"
 msgstr "Missing pattern"
 
@@ -12107,12 +12111,12 @@ msgid "Pass any following options to the UI."
 msgstr "Pass any following options to the UI."
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:580 data/civ1/game.ruleset:166 data/civ2/game.ruleset:160
+#: common/game.h:577 data/civ1/game.ruleset:166 data/civ2/game.ruleset:160
 msgid "AD"
 msgstr "AD"
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:582 data/civ1/game.ruleset:168 data/civ2/game.ruleset:162
+#: common/game.h:579 data/civ1/game.ruleset:168 data/civ2/game.ruleset:162
 msgid "BC"
 msgstr "BC"
 
@@ -12765,16 +12769,16 @@ msgstr "Transform"
 msgid "Base"
 msgstr "Base"
 
-#: common/unit.c:1329 common/unit.c:1335
+#: common/unit.c:1320 common/unit.c:1326
 msgid "Moves"
 msgstr "Moves"
 
-#: common/unit.c:1402
+#: common/unit.c:1393
 msgid "Food/Shield/Gold:"
 msgstr "Food/Shield/Gold:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1902
+#: common/unit.c:1893
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -12789,13 +12793,13 @@ msgstr[1] ""
 "Upgrade %s to %s for %d gold?\n"
 "%s"
 
-#: common/unit.c:1911
+#: common/unit.c:1902
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Sorry, cannot upgrade %s (yet)."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1917
+#: common/unit.c:1908
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -12810,16 +12814,16 @@ msgstr[1] ""
 "Upgrading %s to %s costs %d gold.\n"
 "%s"
 
-#: common/unit.c:1927
+#: common/unit.c:1918
 msgid "You can only upgrade units in your cities."
 msgstr "You can only upgrade units in your cities."
 
-#: common/unit.c:1931
+#: common/unit.c:1922
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Upgrading this %s would strand units it transports."
 
-#: common/unit.c:1936
+#: common/unit.c:1927
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
@@ -12863,56 +12867,56 @@ msgstr "betatest version "
 msgid "version "
 msgstr "version "
 
-#: common/version.c:103
+#: common/version.c:109
 msgid "January"
 msgstr "January"
 
-#: common/version.c:104
+#: common/version.c:110
 msgid "February"
 msgstr "February"
 
-#: common/version.c:105
+#: common/version.c:111
 msgid "March"
 msgstr "March"
 
-#: common/version.c:106
+#: common/version.c:112
 msgid "April"
 msgstr "April"
 
-#: common/version.c:107
+#: common/version.c:113
 msgid "May"
 msgstr "May"
 
-#: common/version.c:108
+#: common/version.c:114
 msgid "June"
 msgstr "June"
 
-#: common/version.c:109
+#: common/version.c:115
 msgid "July"
 msgstr "July"
 
-#: common/version.c:110
+#: common/version.c:116
 msgid "August"
 msgstr "August"
 
-#: common/version.c:111
+#: common/version.c:117
 msgid "September"
 msgstr "September"
 
-#: common/version.c:112
+#: common/version.c:118
 msgid "October"
 msgstr "October"
 
-#: common/version.c:113
+#: common/version.c:119
 msgid "November"
 msgstr "November"
 
-#: common/version.c:114
+#: common/version.c:120
 msgid "December"
 msgstr "December"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: common/version.c:120
+#: common/version.c:126
 #, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -12921,7 +12925,7 @@ msgstr ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in %s, at %s"
 
-#: common/version.c:125
+#: common/version.c:131
 #, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -12930,7 +12934,7 @@ msgstr ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released at %s"
 
-#: common/version.c:143
+#: common/version.c:149
 msgid "'Cause civilization should be free!"
 msgstr "'Cause civilisation should be free!"
 
@@ -42422,7 +42426,7 @@ msgid "Reducing aifill because there are not enough playable nations."
 msgstr "Reducing aifill because there are not enough playable nations."
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:301 server/savegame.c:190
+#: server/savegame2.c:301 server/savegame.c:192
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
 "games, or it may indicate an invalid saved game file. Proceed at your own "
@@ -42432,19 +42436,19 @@ msgstr ""
 "games, or it may indicate an invalid saved game file. Proceed at your own "
 "risk."
 
-#: server/savegame2.c:3113 server/savegame.c:5354 server/srv_main.c:1906
+#: server/savegame2.c:3113 server/savegame.c:5361 server/srv_main.c:1906
 #: server/srv_main.c:1911
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s has been added as %s level AI-controlled player (%s)."
 
-#: server/savegame2.c:3118 server/savegame.c:5359
+#: server/savegame2.c:3118 server/savegame.c:5366
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s has been added as human player."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3141 server/savegame.c:5406
+#: server/savegame2.c:3141 server/savegame.c:5413
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s had invalid nation; changing to %s."
@@ -42474,13 +42478,13 @@ msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr "Run compatibility function for version: <%d (want: %d, server: %d)."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4553
+#: server/savegame.c:4560
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 
-#: server/savegame.c:4561
+#: server/savegame.c:4568
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -42490,7 +42494,7 @@ msgstr ""
 "Using '%s'."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4602
+#: server/savegame.c:4609
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Saved game is too old, at least version 1.9.0 required."
 
@@ -46975,263 +46979,263 @@ msgstr "The %s have stolen %s from the %s."
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr "Too bad! You made a mistake transferring the tech %s and lost it."
 
-#: server/unithand.c:118
+#: server/unithand.c:114
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr "Illegal packet, can't upgrade %s (yet)."
 
 #. TRANS: "2 Musketeers upgraded to Riflemen for 100 gold."
 #. * Plurality is in gold (second %d), not units.
-#: server/unithand.c:150
+#: server/unithand.c:146
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
 msgid_plural "%d %s upgraded to %s for %d gold."
 msgstr[0] "%d %s upgraded to %s for %d gold."
 msgstr[1] "%d %s upgraded to %s for %d gold."
 
-#: server/unithand.c:160
+#: server/unithand.c:156
 msgid "No units could be upgraded."
 msgstr "No units could be upgraded."
 
-#: server/unithand.c:186
+#: server/unithand.c:182
 #, c-format
 msgid "%s upgraded to %s for %d gold."
 msgid_plural "%s upgraded to %s for %d gold."
 msgstr[0] "%s upgraded to %s for %d gold."
 msgstr[1] "%s upgraded to %s for %d gold."
 
-#: server/unithand.c:217
+#: server/unithand.c:213
 #, c-format
 msgid "%s converted to %s."
 msgstr "%s converted to %s."
 
-#: server/unithand.c:222
+#: server/unithand.c:218
 #, c-format
 msgid "%s cannot be converted."
 msgstr "%s cannot be converted."
 
 #. TRANS: <tile-terrain>.
-#: server/unithand.c:566
+#: server/unithand.c:562
 #, c-format
 msgid "Can't build a city on %s."
 msgstr "Can't build a city on %s."
 
 #. TRANS: <unit> ... <tile-terrain>.
-#: server/unithand.c:572
+#: server/unithand.c:568
 #, c-format
 msgid "%s can't build a city on %s."
 msgstr "%s can't build a city on %s."
 
-#: server/unithand.c:577
+#: server/unithand.c:573
 msgid "Can't place a city inside foreigner borders."
 msgstr "Can't place a city inside foreigner borders."
 
-#: server/unithand.c:581
+#: server/unithand.c:577
 msgid "Can't place a city there because another city is too close."
 msgstr "Can't place a city there because another city is too close."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:591
+#: server/unithand.c:587
 #, c-format
 msgid "Only %s can build a city."
 msgstr "Only %s can build a city."
 
-#: server/unithand.c:595
+#: server/unithand.c:591
 msgid "Can't build a city."
 msgstr "Can't build a city."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:606
+#: server/unithand.c:602
 #, c-format
 msgid "Only %s can add to a city."
 msgstr "Only %s can add to a city."
 
-#: server/unithand.c:610
+#: server/unithand.c:606
 msgid "Can't add to a city."
 msgstr "Can't add to a city."
 
-#: server/unithand.c:616
+#: server/unithand.c:612
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr "%s unit has no moves left to add to %s."
 
-#: server/unithand.c:621
+#: server/unithand.c:617
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr "%s unit has no moves left to build city."
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
-#: server/unithand.c:627
+#: server/unithand.c:623
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
 msgstr "%s is owned by %s, cannot add %s."
 
-#: server/unithand.c:634
+#: server/unithand.c:630
 #, c-format
 msgid "%s is too big to add %s."
 msgstr "%s is too big to add %s."
 
-#: server/unithand.c:639
+#: server/unithand.c:635
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr "%s needs an improvement to grow, so you cannot add %s."
 
-#: server/unithand.c:649
+#: server/unithand.c:645
 #, c-format
 msgid "Can't add %s to %s."
 msgstr "Can't add %s to %s."
 
-#: server/unithand.c:675
+#: server/unithand.c:671
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s added to aid %s in growing."
 
-#: server/unithand.c:1084
+#: server/unithand.c:1080
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Your %s was shot down by SDI defences, what a waste."
 
-#: server/unithand.c:1087
+#: server/unithand.c:1083
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "The nuclear attack on %s was avoided by your SDI defence."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1183
+#: server/unithand.c:1179
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "Your %s survived the pathetic attack from the %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1193
+#: server/unithand.c:1189
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "Your attacking %s failed against the %s %s!"
 
-#: server/unithand.c:1269
+#: server/unithand.c:1265
 msgid "This type of troops cannot take over a city."
 msgstr "This type of troops cannot take over a city."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1279
+#: server/unithand.c:1275
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Only %s can attack from sea."
 
-#: server/unithand.c:1283
+#: server/unithand.c:1279
 msgid "Cannot attack from sea."
 msgstr "Cannot attack from sea."
 
-#: server/unithand.c:1290 server/unittools.c:2519
+#: server/unithand.c:1286 server/unittools.c:2519
 msgid "Cannot attack unless you declare war first."
 msgstr "Cannot attack unless you declare war first."
 
-#: server/unithand.c:1295
+#: server/unithand.c:1291
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s can only move into your own zone of control."
 
-#: server/unithand.c:1301
+#: server/unithand.c:1297
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s cannot move that far from the coast line."
 
-#: server/unithand.c:1308 server/unittools.c:2526
+#: server/unithand.c:1304 server/unittools.c:2526
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Cannot invade unless you break peace with %s first."
 
-#: server/unithand.c:1355
+#: server/unithand.c:1351
 msgid "This unit has no moves left."
 msgstr "This unit has no moves left."
 
-#: server/unithand.c:1415
+#: server/unithand.c:1411
 msgid "No diplomat action possible."
 msgstr "No diplomat action possible."
 
-#: server/unithand.c:1419
+#: server/unithand.c:1415
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "Unit cannot perform diplomatic action from %s."
 
-#: server/unithand.c:1438
+#: server/unithand.c:1434
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr "You must declare war on %s first.  Try using the Nations report (F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1481
+#: server/unithand.c:1477
 #, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "Your %s succeeded in capturing the %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1486
+#: server/unithand.c:1482
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Your %s was captured by the %s."
 
-#: server/unithand.c:1511
+#: server/unithand.c:1507
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "This unit is being transported, and so cannot bombard."
 
-#: server/unithand.c:1528
+#: server/unithand.c:1524
 #, c-format
 msgid "%s is not an attack unit."
 msgstr "%s is not an attack unit."
 
-#: server/unithand.c:1532
+#: server/unithand.c:1528
 msgid "You can't attack there since there's an unreachable unit."
 msgstr "You can't attack there since there's an unreachable unit."
 
-#: server/unithand.c:1536
+#: server/unithand.c:1532
 #, c-format
 msgid "%s can't launch attack from %s."
 msgstr "%s can't launch attack from %s."
 
-#: server/unithand.c:1542
+#: server/unithand.c:1538
 #, c-format
 msgid "%s can't attack to %s."
 msgstr "%s can't attack to %s."
 
-#: server/unithand.c:1589
+#: server/unithand.c:1585
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr "A transported unit is not allied to all units or city on target tile."
 
-#: server/unithand.c:1637
+#: server/unithand.c:1633
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Your %s helps build the %s in %s (%d remaining)."
 
-#: server/unithand.c:1639
+#: server/unithand.c:1635
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Your %s helps build the %s in %s (%d surplus)."
 
-#: server/unithand.c:1693
+#: server/unithand.c:1689
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 
-#: server/unithand.c:1705
+#: server/unithand.c:1701
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Sorry, your %s cannot establish a trade route between %s and %s."
 
-#: server/unithand.c:1737 server/unithand.c:1758
+#: server/unithand.c:1733 server/unithand.c:1754
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Sorry, your %s cannot establish a trade route here!"
 
-#: server/unithand.c:1742 server/unithand.c:1763
+#: server/unithand.c:1738 server/unithand.c:1759
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      The city of %s already has %d better trade routes!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1785
+#: server/unithand.c:1781
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -47246,27 +47250,27 @@ msgstr[1] ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
 
-#: server/unithand.c:1811
+#: server/unithand.c:1807
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "New trade route established from %s to %s."
 
-#: server/unithand.c:1817
+#: server/unithand.c:1813
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "The %s established a trade route between their city %s and %s."
 
-#: server/unithand.c:1832 server/unithand.c:1862
+#: server/unithand.c:1828 server/unithand.c:1858
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Trade route between %s and %s cancelled."
 
-#: server/unithand.c:1841 server/unithand.c:1871
+#: server/unithand.c:1837 server/unithand.c:1867
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "Sorry, the %s cancelled the trade route from %s to your city %s."
 
-#: server/unithand.c:1848 server/unithand.c:1879
+#: server/unithand.c:1844 server/unithand.c:1875
 #, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "We cancelled the trade route from %s to %s city %s."
@@ -47853,6 +47857,9 @@ msgstr "error %ld (failed FormatMessage)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
+
+#~ msgid "* Can build farmland.\n"
+#~ msgstr "* Can build farmland.\n"
 
 #~ msgid "?female:Shaykha %s"
 #~ msgstr "?female:Shaykha %s"
