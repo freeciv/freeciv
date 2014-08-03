@@ -149,6 +149,7 @@
       <menuitem action="REPORT_RESEARCH" />
       <separator />
       <menuitem action="TAX_RATE" />
+      <menuitem action="POLICIES" />
       <menu action="MENU_GOVERNMENT">
         <menuitem action="START_REVOLUTION" />
         <!-- The government types are ruleset dependent -->
@@ -165,6 +166,7 @@
     <menu action="MENU_HELP">
       <menuitem action="HELP_OVERVIEW" />
       <menuitem action="HELP_PLAYING" />
+      <menuitem action="HELP_POLICIES" />
       <menuitem action="HELP_TERRAIN" />
       <menuitem action="HELP_ECONOMY" />
       <menuitem action="HELP_CITIES" />

@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 241
+Max id: 243
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -778,6 +778,8 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8 color_blue;
 
   CITYSPE wonders[B_LAST]; diff
+  
+  UINT32 multiplier[MAX_MULTIPLIERS_COUNT];
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend
@@ -811,6 +813,11 @@ PACKET_PLAYER_DIPLSTATE = 59; sc
   UINT16 turns_left;
   UINT8 has_reason_to_cancel;
   UINT16 contact_turns_left;
+end
+
+PACKET_PLAYER_MULTIPLIER = 242; cs
+  SINT32 multipliers[MAX_MULTIPLIERS_COUNT];
+  UINT32 count;
 end
 
 /************** Research packets **********************/
@@ -1620,6 +1627,16 @@ PACKET_RULESET_MUSIC = 240; sc, lsend
   STRING music_combat[MAX_LEN_NAME];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+end
+
+PACKET_RULESET_MULTIPLIER = 243; sc, dsend, lsend
+  SINT32 start;
+  SINT32 stop;
+  UINT32 step;
+  SINT32 def;
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
+  STRING helptext[MAX_LEN_PACKET];
 end
 
 /**************************************************************************

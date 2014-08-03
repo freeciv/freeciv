@@ -561,6 +561,10 @@ static void player_defaults(struct player *pplayer)
 
   pplayer->rgb = NULL;
 
+  multipliers_iterate(pmul) {
+    pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+  } multipliers_iterate_end;
+
   /* pplayer->server is initialised in
       ./server/plrhand.c:server_player_init()
      and pplayer->client in

@@ -45,6 +45,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "multipliers.h"
 #include "name_translation.h"
 #include "nation.h"
 #include "packets.h"
@@ -100,6 +101,7 @@
 #define DISASTER_SECTION_PREFIX "disaster_"
 #define ACHIEVEMENT_SECTION_PREFIX "achievement_"
 #define ACTION_ENABLER_SECTION_PREFIX "actionenabler_"
+#define MULTIPLIER_SECTION_PREFIX "multiplier_"
 
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 
@@ -3195,6 +3197,34 @@ static bool load_government_names(struct section_file *file)
 
   section_list_destroy(sec);
 
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, MULTIPLIER_SECTION_PREFIX);
+    nval = (NULL != sec ? section_list_size(sec) : 0);
+
+    if (nval > MAX_MULTIPLIERS_COUNT) {
+      ruleset_error(LOG_ERROR, "\"%s\": Too many multipliers (%d, max %d)",
+                    filename, nval, MAX_MULTIPLIERS_COUNT);
+
+      ok = FALSE;
+    }
+
+    if (ok) {
+      set_multiplier_count(nval);
+      multipliers_iterate(pmul) {
+        const char *sec_name =
+          section_name(section_list_get(sec, multiplier_index(pmul)));
+
+        if (!ruleset_load_names(&pmul->name, NULL, file, sec_name)) {
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load multiplier names", filename);
+          ok = FALSE;
+          break;
+        }
+      } multipliers_iterate_end;
+    }
+  }
+
+  section_list_destroy(sec);
+
   return ok;
 }
 
@@ -3286,6 +3316,40 @@ static bool load_ruleset_governments(struct section_file *file)
   }
 
   section_list_destroy(sec);
+
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, MULTIPLIER_SECTION_PREFIX);
+    if (sec != NULL) {
+      section_list_iterate(sec, psection) {
+        const char *sec_name = section_name(psection);
+        struct multiplier *pmul = multiplier_new();
+
+        if (!secfile_lookup_int(file, &pmul->start, "%s.start", sec_name)) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        if (!secfile_lookup_int(file, &pmul->stop,   "%s.stop", sec_name)) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        if (!secfile_lookup_int(file, &pmul->step, "%s.step", sec_name)) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        if (!secfile_lookup_int(file, &pmul->def, "%s.default", sec_name)) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+
+        pmul->helptext = lookup_strvec(file, sec_name, "helptext");   
+      } section_list_iterate_end;
+      section_list_destroy(sec);
+    }
+  }
 
   if (ok) {
     secfile_check_unused(file);
@@ -4516,6 +4580,7 @@ static bool load_ruleset_effects(struct section_file *file)
 {
   struct section_list *sec;
   const char *type;
+  const char *multiplier_name;
   const char *filename;
   bool ok = TRUE;
 
@@ -4557,6 +4622,24 @@ static bool load_ruleset_effects(struct section_file *file)
 
     peffect = effect_new(eff, value);
 
+    multiplier_name = secfile_lookup_str(file, "%s.multiplier", sec_name);
+    if (multiplier_name == NULL) {
+      peffect->multiplier = NULL;
+    } else {
+      multipliers_iterate(pmul) {
+        if (!strcmp(multiplier_name, rule_name(&pmul->name))) {
+          peffect->multiplier = pmul;
+          break;
+        }
+      } multipliers_iterate_end;
+
+      if (peffect->multiplier == 0) {
+        ruleset_error(LOG_ERROR, "There's no such(%s) name for multiplier", multiplier_name);
+        ok = FALSE;
+        break;
+      }
+    }
+
     reqs = lookup_req_list(file, sec_name, "reqs", type);
     if (reqs == NULL) {
       ok = FALSE;
@@ -4565,11 +4648,11 @@ static bool load_ruleset_effects(struct section_file *file)
 
     requirement_vector_iterate(reqs, req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
-
+      
       *preq = *req;
       effect_req_append(peffect, preq);
     } requirement_vector_iterate_end;
-
+    
     reqs = lookup_req_list(file, sec_name, "nreqs", type);
     if (reqs == NULL) {
       ok = FALSE;
@@ -4577,7 +4660,7 @@ static bool load_ruleset_effects(struct section_file *file)
     }
     requirement_vector_iterate(reqs, req) {
       struct requirement *preq = fc_malloc(sizeof(*preq));
-
+      
       *preq = *req;
       preq->present = !preq->present;
       effect_req_append(peffect, preq);
@@ -6086,6 +6169,25 @@ static void send_ruleset_styles(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the multiplier ruleset information to the specified
+  connections.
+**************************************************************************/
+static void send_ruleset_multipliers(struct conn_list *dest)
+{
+  char helptext[MAX_LEN_PACKET];
+
+  multipliers_iterate(pmul) {
+    PACKET_STRVEC_COMPUTE(helptext, pmul->helptext);
+
+    dlsend_packet_ruleset_multiplier(dest, pmul->start, pmul->stop,
+                                     pmul->step, pmul->def,
+                                     untranslated_name(&pmul->name),
+                                     rule_name(&pmul->name), 
+                                     helptext);
+  } multipliers_iterate_end;
+}
+
+/**************************************************************************
   Send the city-style ruleset information (each style) to the specified
   connections.
 **************************************************************************/
@@ -6504,6 +6606,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_nations(dest);
   send_ruleset_styles(dest);
   send_ruleset_cities(dest);
+  send_ruleset_multipliers(dest);
   send_ruleset_musics(dest);
   send_ruleset_cache(dest);
 

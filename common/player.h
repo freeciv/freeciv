@@ -25,6 +25,7 @@ extern "C" {
 #include "city.h"
 #include "connection.h"
 #include "fc_types.h"
+#include "multipliers.h"
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
@@ -251,6 +252,8 @@ struct player {
   struct dbv tile_known;
 
   struct rgbcolor *rgb;
+
+  int multipliers[MAX_MULTIPLIERS_COUNT];
 
   int culture; /* National level culture - does not include culture of individual
                 * cities. */

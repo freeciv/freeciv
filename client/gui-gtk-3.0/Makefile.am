@@ -40,6 +40,7 @@ libgui_gtk3_la_SOURCES = \
 	finddlg.c	\
 	finddlg.h	\
 	gamedlgs.c	\
+	gamedlgs.h	\
 	gotodlg.c	\
 	gotodlg.h	\
 	graphics.c	\

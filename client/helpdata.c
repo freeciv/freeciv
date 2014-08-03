@@ -44,7 +44,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
-#include "packets.h"
+#include "multipliers.h"
 #include "requirements.h"
 #include "research.h"
 #include "road.h"
@@ -65,7 +65,7 @@
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Bases", "Roads", "Specialists", "Governments",
-  "Ruleset", "Nations", NULL
+  "Ruleset", "Nations", "Multipliers", NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -2497,6 +2497,7 @@ void boot_help_texts(struct player *pplayer)
 
   if (NULL != sec) {
     section_list_iterate(sec, psection) {
+      char help_text_buffer[MAX_LEN_PACKET];
       const char *sec_name = section_name(psection);
       const char *gen_str = secfile_lookup_str(sf, "%s.generate", sec_name);
       
@@ -2741,6 +2742,20 @@ void boot_help_texts(struct player *pplayer)
                 help_list_append(category_nodes, pitem);
               }
             } nations_iterate_end;
+            break;
+	  case HELP_MULTIPLIER:
+            multipliers_iterate(pmul) {
+              help_text_buffer[0] = '\0';
+              pitem = new_help_item(current_type);
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          name_translation(&pmul->name));
+              pitem->topic = fc_strdup(name);
+              strvec_iterate(pmul->helptext, text) {
+                cat_snprintf(help_text_buffer, MAX_LEN_PACKET, "%s\n\n", text);
+              } strvec_iterate_end;
+              pitem->text = fc_strdup(help_text_buffer);
+              help_list_append(help_nodes, pitem);
+            } multipliers_iterate_end;
             break;
           default:
             log_error("Bad current_type: %d.", current_type);

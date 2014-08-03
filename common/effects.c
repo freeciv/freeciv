@@ -174,6 +174,7 @@ struct effect *effect_new(enum effect_type type, int value)
   peffect = fc_malloc(sizeof(*peffect));
   peffect->type = type;
   peffect->value = value;
+  peffect->multiplier = NULL;
 
   requirement_vector_init(&peffect->reqs);
 
@@ -496,8 +497,16 @@ int get_target_bonus_effects(struct effect_list *plist,
                         target_unit, target_unittype,
                         target_output, target_specialist,
 			&peffect->reqs, RPT_CERTAIN)) {
-      /* And if so add on the value. */
-      bonus += peffect->value;
+      /* This code will add value of effect. If there's multiplier for 
+       * effect and target_player aren't null, then value is multiplied
+       * by player's multiplier factor. */
+      if (peffect->multiplier) {
+        if (target_player) {
+          bonus += peffect->value * target_player->multipliers[multiplier_index(peffect->multiplier)];
+        }
+      } else {
+        bonus += peffect->value;
+      }
 
       if (plist) {
 	effect_list_append(plist, peffect);

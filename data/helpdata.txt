@@ -1936,6 +1936,13 @@ If you want to buy the unit that's first on the list, you can do that \
 from the City Overview window.\
 ")
 
+[help_multipiers]
+name = _("Policies")
+text = _("Policies are changable values, which define your civilization's rights.")
+
+[help_gen_multipiers]
+generate = " Multipliers"
+
 [help_languages]
 name = _("Languages")
 text = _("\

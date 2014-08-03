@@ -68,3 +68,22 @@ ruler_female_title = _("Leader %s")
 helptext = _("\
   This is the only available form of government.\
 ")
+
+; /* <-- avoid gettext warnings
+;
+; Multipliers
+;
+; name                    = translatable name as seen by user
+; rule_name               = (optional) name for savegames, rulesets etc; if not
+;                           present, 'name' is used. Since the name used in
+;                           savegames must not change, use this when renaming
+;                           an extra after a ruleset has been released.
+; default                 = default value
+; start                   = minimal value
+; stop                    = maximum value
+; step                    = minimum increase/decrease
+; helptext                = optional help text string; should escape all raw 
+;                           newlines so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
+

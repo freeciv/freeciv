@@ -24,6 +24,7 @@
 #include "game.h"
 #include "government.h"
 #include "movement.h"
+#include "multipliers.h"
 #include "specialist.h"
 #include "style.h"
 #include "unittype.h"
@@ -977,6 +978,22 @@ static bool save_governments_ruleset(const char *filename, const char *name)
     save_strvec(sfile, pg->helptext, path, "helptext");
 
   } governments_iterate_end;
+
+  sect_idx = 0;
+  multipliers_iterate(pmul) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "multiplier_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pmul->name), path);
+
+    secfile_insert_int(sfile, pmul->start, "%s.start", path);
+    secfile_insert_int(sfile, pmul->stop, "%s.stop", path);
+    secfile_insert_int(sfile, pmul->step, "%s.step", path);
+    secfile_insert_int(sfile, pmul->def, "%s.default", path);
+
+    save_strvec(sfile, pmul->helptext, path, "helptext");
+  } multipliers_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -2131,7 +2148,7 @@ bool save_ruleset(const char *path, const char *name, struct rule_data *data)
       fc_snprintf(filename, sizeof(filename), "%s/governments.ruleset", path);
       success = save_governments_ruleset(filename, name);
     }
-
+    
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/nations.ruleset", path);
       success = save_nations_ruleset(filename, name, data);

@@ -17,10 +17,13 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "support.h"            /* bool type */
-#include "fc_types.h"
 
+/* common */
 #include "connection.h"
+#include "fc_types.h"
+#include "multipliers.h"
 
 #include "requirements.h"
 
@@ -267,6 +270,9 @@ extern "C" {
  * Note the difference between effect and effect_type. */
 struct effect {
   enum effect_type type;
+
+  /* pointer to multipliers (NULL means that this effect has no multiplier  */
+  struct  multiplier *multiplier;
 
   /* The "value" of the effect.  The meaning of this varies between
    * effects.  When get_xxx_bonus() is called the value of all applicable

@@ -72,6 +72,8 @@ libfreeciv_la_SOURCES = \
 		metaknowledge.h \
 		movement.c	\
 		movement.h	\
+		multipliers.c   \
+		multipliers.h   \
 		name_translation.h \
 		nation.c        \
 		nation.h        \

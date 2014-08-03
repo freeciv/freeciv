@@ -29,9 +29,9 @@
 /* common */
 #include "citizens.h"
 #include "diptreaty.h"
-#include "game.h"
 #include "government.h"
 #include "movement.h"
+#include "multipliers.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -1056,6 +1056,18 @@ static void package_player_info(struct player *plr,
     info_level = MAX(min_info_level, info_level);
   } else {
     info_level = min_info_level;
+  }
+
+  /* multipliers */
+  if (info_level >= INFO_FULL) {
+    multipliers_iterate(pmul) {
+      packet->multiplier[multiplier_index(pmul)] =
+        plr->multipliers[multiplier_index(pmul)];
+    } multipliers_iterate_end;
+  } else {
+    multipliers_iterate(pmul) {
+      packet->multiplier[multiplier_index(pmul)] = 0;
+    } multipliers_iterate_end;
   }
 
   /* We need to send all tech info for all players on the same
@@ -2914,4 +2926,39 @@ int playercolor_count(void)
   fc_assert_ret_val(game.server.plr_colors != NULL, -1);
 
   return rgbcolor_list_size(game.server.plr_colors);
+}
+
+/****************************************************************************
+  Sets player's multipliers.
+****************************************************************************/
+void handle_player_multiplier(struct player *pplayer, const int *multipliers,
+                              int count)
+{
+  int rval;
+  int i;
+
+  if (count != get_multiplier_count()) {
+    log_error("Bad number of multipliers");
+
+    return;
+  }
+
+  for (i = 0; i < count; i++) {
+    struct multiplier *pmul = multiplier_by_number(i);
+
+    if (multipliers[i] < pmul->start || multipliers[i] > pmul->stop) {
+      return;
+    }
+
+    rval = (multipliers[i] - pmul->start) / pmul->step * pmul->step + pmul->start;
+    if (rval != multipliers[i]) {
+      return;
+    }
+  }
+
+  for (i = 0; i < count; i++) {
+    pplayer->multipliers[i] = multipliers[i];
+  }
+
+  send_player_info_c(pplayer, NULL);
 }

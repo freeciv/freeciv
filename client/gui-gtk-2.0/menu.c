@@ -47,6 +47,7 @@
 #include "editgui.h"
 #include "editprop.h"
 #include "finddlg.h"
+#include "gamedlgs.h"
 #include "gotodlg.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -309,6 +310,14 @@ static void report_achievements_callback(GtkAction *action, gpointer data)
 static void help_language_callback(GtkAction *action, gpointer data)
 {
   popup_help_dialog_string(HELP_LANGUAGES_ITEM);
+}
+
+/****************************************************************
+  Action "HELP_POLICIES" callback.
+*****************************************************************/
+static void help_policies_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_MULTIPLIER_ITEM);
 }
 
 /****************************************************************
@@ -1258,6 +1267,14 @@ static void tax_rate_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "MULTIPLIERS" callback.
+*****************************************************************/
+static void multiplier_callback(GtkAction *action, gpointer data)
+{
+  popup_multiplier_dialog();
+}
+
+/****************************************************************
   The player has chosen a government from the menu.
 *****************************************************************/
 static void government_callback(GtkMenuItem *item, gpointer data)
@@ -1443,6 +1460,8 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_combat_callback)},
       {"HELP_ZOC", NULL, _("Zones of Control"),
        NULL, NULL, G_CALLBACK(help_zoc_callback)},
+      {"HELP_POLICIES", NULL, _("Policies"),
+       NULL, NULL, G_CALLBACK(help_policies_callback)},
       {"HELP_GOVERNMENT", NULL, _("Government"),
        NULL, NULL, G_CALLBACK(help_government_callback)},
       {"HELP_DIPLOMACY", NULL, _("Diplomacy"),
@@ -1734,6 +1753,8 @@ static GtkActionGroup *get_playing_group(void)
       /* Civilization menu. */
       {"TAX_RATE", NULL, _("_Tax Rates..."),
        "<Control>t", NULL, G_CALLBACK(tax_rate_callback)},
+       {"POLICIES", NULL, _("Policies"),
+       NULL, NULL, G_CALLBACK(multiplier_callback)},
       /* Civilization/Government menu. */
       {"START_REVOLUTION", NULL, _("_Revolution..."),
        "<Shift><Control>r", NULL, G_CALLBACK(government_callback)},

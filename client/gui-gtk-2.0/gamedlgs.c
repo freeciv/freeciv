@@ -32,6 +32,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "government.h"
+#include "multipliers.h"
 #include "packets.h"
 #include "player.h"
 
@@ -47,7 +48,7 @@
 #include "gui_stuff.h"
 #include "ratesdlg.h"
 
-#include "optiondlg.h"
+#include "gamedlgs.h"
 
 /******************************************************************/
 static GtkWidget *rates_dialog_shell;
@@ -56,14 +57,15 @@ static GtkWidget *rates_tax_toggle, *rates_lux_toggle, *rates_sci_toggle;
 static GtkWidget *rates_tax_label, *rates_lux_label, *rates_sci_label;
 static GtkObject *rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
 
+GtkWidget *multiplier_dialog_shell;
+GtkWidget *multipliers_scale[MAX_MULTIPLIERS_COUNT];
+
 static gulong     rates_tax_sig, rates_lux_sig, rates_sci_sig;
 /******************************************************************/
 
 static int rates_tax_value, rates_lux_value, rates_sci_value;
 
-
 static void rates_changed_callback(GtkAdjustment *adj);
-
 
 /**************************************************************************
   Set tax values to display
@@ -214,6 +216,98 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
   gtk_widget_destroy(rates_dialog_shell);
 }
 
+/**************************************************************************
+  User has responded to multipliers dialog
+**************************************************************************/
+static void multipliers_command_callback(GtkWidget *w, gint response_id)
+{
+  struct packet_player_multiplier mul;
+  struct multiplier *m;
+  struct player *pplayer = client_player();
+  int i = 0;
+  int value, rvalue;
+
+  if (response_id == GTK_RESPONSE_OK) {
+    for (; i < get_multiplier_count(); ++i) {
+      value  = gtk_range_get_value(GTK_RANGE(multipliers_scale[i]));
+      m = multiplier_by_number(i);
+      rvalue = (value - m->start) / m->step * m->step + m->start;
+      pplayer->multipliers[i] = rvalue;
+      mul.multipliers[i] = rvalue;
+    }
+    mul.count = get_multiplier_count();
+    send_packet_player_multiplier(&client.conn, &mul);
+  }
+  gtk_widget_destroy(multiplier_dialog_shell);
+  multiplier_dialog_shell = NULL;
+}
+
+/****************************************************************
+  Create multipliers dialog
+****************************************************************/
+static GtkWidget *create_multiplier_dialog(void)
+{
+  GtkWidget     *shell, *content;
+  GtkWidget     *label, *scale;
+  int            multiplier = 0;
+  struct player *pplayer = client_player();
+
+  if (!can_client_issue_orders()) {
+    return NULL;
+  }
+
+  shell = gtk_dialog_new_with_buttons(_("Change governments modifiers"),
+                                      NULL,
+                                      0,
+                                      GTK_STOCK_CANCEL,
+                                      GTK_RESPONSE_CANCEL,
+                                      GTK_STOCK_OK,
+                                      GTK_RESPONSE_OK,
+                                      NULL);
+
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+  content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
+
+  multipliers_iterate(pmul) {
+    label = gtk_label_new(rule_name(&pmul->name));
+    scale = gtk_hscale_new_with_range(pmul->start, pmul->stop, pmul->step);
+    multipliers_scale[multiplier] = scale;
+    gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]), pplayer->multipliers[multiplier]);
+    multiplier++;
+    gtk_box_pack_start( GTK_BOX( content ), label, TRUE, TRUE, 5 );
+    gtk_box_pack_start( GTK_BOX( content ), scale, TRUE, TRUE, 5 );
+  } multipliers_iterate_end;
+
+  g_signal_connect(shell, "destroy",
+                   G_CALLBACK(gtk_widget_destroyed), &multiplier_dialog_shell);
+
+  g_signal_connect(shell, "response",
+                   G_CALLBACK(multipliers_command_callback), NULL);
+
+  gtk_widget_show_all(content);
+
+  return shell;
+}
+
+/****************************************************************
+  Popup multipliers dialog
+*****************************************************************/
+void popup_multiplier_dialog(void)
+{
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  if (!multiplier_dialog_shell) {
+    multiplier_dialog_shell = create_multiplier_dialog();
+  }
+
+  if (!multiplier_dialog_shell) {
+    return;
+  }
+
+  gtk_window_present(GTK_WINDOW(multiplier_dialog_shell));
+}
 
 /****************************************************************
   Create rates dialog

@@ -47,6 +47,7 @@
 #include "editgui.h"
 #include "editprop.h"
 #include "finddlg.h"
+#include "gamedlgs.h"
 #include "gotodlg.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -309,6 +310,14 @@ static void report_achievements_callback(GtkAction *action, gpointer data)
 static void help_language_callback(GtkAction *action, gpointer data)
 {
   popup_help_dialog_string(HELP_LANGUAGES_ITEM);
+}
+
+/****************************************************************
+  Action "HELP_POLICIES" callback.
+*****************************************************************/
+static void help_policies_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_MULTIPLIER_ITEM);
 }
 
 /****************************************************************
@@ -1259,6 +1268,14 @@ static void tax_rate_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "MULTIPLIERS" callback.
+*****************************************************************/
+static void multiplier_callback(GtkAction *action, gpointer data)
+{
+  popup_multiplier_dialog();
+}
+
+/****************************************************************
   The player has chosen a government from the menu.
 *****************************************************************/
 static void government_callback(GtkMenuItem *item, gpointer data)
@@ -1428,6 +1445,8 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_overview_callback)},
       {"HELP_PLAYING", NULL, _("Strategy and Tactics"),
        NULL, NULL, G_CALLBACK(help_playing_callback)},
+       {"HELP_POLICIES", NULL, _("Policies"),
+       NULL, NULL, G_CALLBACK(help_policies_callback)},
       {"HELP_TERRAIN", NULL, _("Terrain"),
        NULL, NULL, G_CALLBACK(help_terrain_callback)},
       {"HELP_ECONOMY", NULL, _("Economy"),
@@ -1738,6 +1757,9 @@ static GtkActionGroup *get_playing_group(void)
       /* Civilization/Government menu. */
       {"START_REVOLUTION", NULL, _("_Revolution..."),
        "<Shift><Control>r", NULL, G_CALLBACK(government_callback)},
+       /* Civilization/Policies menu */
+       {"POLICIES", NULL, _("_Policies"),
+	 "<Shift><Control>p", NULL, G_CALLBACK(multiplier_callback)},
     };
 
     group = gtk_action_group_new("PlayingGroup");

@@ -97,6 +97,7 @@
 #include "map.h"
 #include "mapimg.h"
 #include "movement.h"
+#include "multipliers.h"
 #include "packets.h"
 #include "research.h"
 #include "rgbcolor.h"
@@ -3294,6 +3295,16 @@ static void sg_load_players_basic(struct loaddata *loading)
 
     /* Free the color definition. */
     rgbcolor_destroy(prgbcolor);
+
+    /* multipliers (policies) */
+    i = get_multiplier_count();
+
+    for (k = 0; k < i; k++) {
+      pplayer->multipliers[k] = secfile_lookup_int_default(loading->file,
+                                                           multiplier_by_number(k)->def,
+                                                           "player%d.multiplier_%d",
+                                                           player_slot_index(pslot), k);
+    }
   } player_slots_iterate_end;
 
   /* check number of players */
@@ -4025,7 +4036,7 @@ static void sg_save_player_main(struct savedata *saving,
                                 struct player *plr)
 {
   const struct research *presearch = research_get(plr);
-  int i, plrno = player_number(plr);
+  int i, k, plrno = player_number(plr);
   struct player_spaceship *ship = &plr->spaceship;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -4113,6 +4124,13 @@ static void sg_save_player_main(struct savedata *saving,
   } players_iterate_end;
 
   CALL_FUNC_EACH_AI(player_save, plr, saving->file, plrno);
+
+  /* Multipliers (policies) */
+  i = get_multiplier_count();
+
+  for (k = 0; k < i; k++) {
+    secfile_insert_int(saving->file, plr->multipliers[k], "player%d.multiplier_%d", plrno, k);
+  }
 
   secfile_insert_str(saving->file, ai_level_name(plr->ai_common.skill_level),
                      "player%d.ai.level", plrno);

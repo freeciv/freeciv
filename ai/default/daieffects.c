@@ -20,6 +20,7 @@
 #include "effects.h"
 #include "game.h"
 #include "government.h"
+#include "multipliers.h"
 #include "player.h"
 #include "research.h"
 #include "specialist.h"
@@ -142,6 +143,14 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
   int num;
   int trait;
   int v = 0;
+
+  if (peffect->multiplier) {
+    if (pplayer) {
+      amount = pplayer->multipliers[multiplier_index(peffect->multiplier)] * amount;
+    } else {
+      amount = 0;
+    }
+  }
 
   if (amount == 0) {
     /* We could prune such effects in ruleset loading already,

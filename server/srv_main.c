@@ -3110,3 +3110,4 @@ static struct rgbcolor *mapimg_server_plrcolor_get(int i)
 {
   return playercolor_get(i);
 }
+

@@ -36,6 +36,7 @@
 #include "government.h"
 #include "idex.h"
 #include "map.h"
+#include "multipliers.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -515,6 +516,7 @@ void game_ruleset_init(void)
   user_unit_type_flags_init();
   user_terrain_flags_init();
   user_tech_flags_init();
+  multipliers_init();
 }
 
 /***************************************************************
@@ -552,6 +554,7 @@ void game_ruleset_free(void)
   user_terrain_flags_free();
   ruleset_cache_free();
   nation_sets_groups_free();
+  multipliers_free();
 
   /* Destroy the default veteran system. */
   veteran_system_destroy(game.veteran);

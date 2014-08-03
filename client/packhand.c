@@ -40,6 +40,7 @@
 #include "map.h"
 #include "name_translation.h"
 #include "movement.h"
+#include "multipliers.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -2097,6 +2098,11 @@ void handle_player_info(const struct packet_player_info *pinfo)
     update_intel_dialog(pplayer);
   }
 
+  multipliers_iterate(pmul) {
+    pplayer->multipliers[multiplier_index(pmul)] =
+        pinfo->multiplier[multiplier_index(pmul)];
+  } multipliers_iterate_end;
+  
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
                                 FALSE);
@@ -3131,6 +3137,31 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
 #endif /* DEBUG */
 
   tileset_setup_impr_type(tileset, b);
+}
+
+/****************************************************************************
+  Packet ruleset_multiplier handler.
+****************************************************************************/
+void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
+{
+  struct multiplier *pmul;
+
+  if (get_multiplier_count() >= MAX_MULTIPLIERS_COUNT) {
+    log_error("Too many multipliers sent by the server");
+    return;
+  }
+
+  pmul = multiplier_new();
+  pmul->start = p->start;
+  pmul->stop  = p->stop;
+  pmul->step  = p->step;
+  pmul->def   = p->def;
+
+  names_set(&pmul->name, NULL, p->name, p->rule_name);
+
+  PACKET_STRVEC_EXTRACT(pmul->helptext, p->helptext);
+
+  set_multiplier_count(get_multiplier_count()+1);
 }
 
 /****************************************************************************
