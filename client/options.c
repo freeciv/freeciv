@@ -4675,12 +4675,17 @@ static void save_cma_presets(struct section_file *file)
 /* New rc file name. */
 #define MID_OPTION_FILE_NAME ".freeciv-client-rc-%d.%d"
 #define NEW_OPTION_FILE_NAME "freeciv-client-rc-%d.%d"
+#if MINOR_VERSION >= 90
+#define MAJOR_NEW_OPTION_FILE_NAME (MAJOR_VERSION + 1)
+#define MINOR_NEW_OPTION_FILE_NAME 0
+#else /* MINOR_VERSION < 90 */
 #define MAJOR_NEW_OPTION_FILE_NAME MAJOR_VERSION
 #if IS_DEVEL_VERSION && ! IS_FREEZE_VERSION
 #define MINOR_NEW_OPTION_FILE_NAME (MINOR_VERSION + 1)
 #else
 #define MINOR_NEW_OPTION_FILE_NAME MINOR_VERSION
 #endif /* IS_DEVEL_VERSION */
+#endif /* MINOR_VERSION >= 90 */
 /* The first version the new option name appeared (2.6). */
 #define FIRST_MAJOR_NEW_OPTION_FILE_NAME 2
 #define FIRST_MINOR_NEW_OPTION_FILE_NAME 6
