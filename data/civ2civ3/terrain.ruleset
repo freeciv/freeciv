@@ -421,7 +421,9 @@ helptext             = _("\
 Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
 "), _("\
-A desert tile containing a river produces one extra food resource.\
+Rivers bring fertile soil to deserts; on a desert river not already\
+ benefiting from an oasis, building irrigation will yield two extra food\
+ resources rather than the usual one.\
 ")
 
 [terrain_forest]
@@ -1601,15 +1603,13 @@ compat_special = "River"
 flags          = "River", "PreventsOtherRoads"
 helptext       = _("\
 Any land terrain type may have a River on it. A River adds 1\
- trade to the resources produced by that tile, and 1 food to Desert\
- tiles. It also increases a tile's defense factor by 25%.\
+ trade to the resources produced by that tile. It also increases a\
+ tile's defense factor by 25%.\
 "), _("\
 Land units may move along rivers for faster travel (but not diagonally),\
- wheeled Big Land units such as Chariots and Catapults may travel\
- along them through otherwise difficult terrain, and Merchant units\
- (Caravans and Freight) may require rivers to travel along in the\
- absence of roads. Triremes may also travel up rivers (although later\
- boats cannot).\
+ and Merchant units (Caravans and Freight) may require rivers to travel\
+ along in the absence of roads. Triremes may also travel up rivers\
+ (although later boats cannot).\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
