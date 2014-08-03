@@ -3398,10 +3398,11 @@ reqs    =
 type    = "Output_Inc_Tile"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Terrain", "Desert", "Local"
-      "Extra", "River", "Local"
-      "OutputType", "Food", "Local"
+    { "type", "name", "range", "present"
+      "Terrain", "Desert", "Local", TRUE
+      "Extra", "River", "Local", TRUE
+      "OutputType", "Food", "Local", TRUE
+      "Resource", "Oasis", "Local", FALSE
     }
 
 [effect_city_shield]
