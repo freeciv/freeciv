@@ -42,7 +42,8 @@ this file.
 - A new unit class Big Land is introduced, comprising all "siege" units
   (Catapult, Cannon etc) and Freight. Units of this type are restricted
   to flat terrain and cannot move into difficult terrain such as hills
-  and forest, unless roads are built.
+  and forest, unless roads are built; nor can they ride maglevs (they
+  ride the railroad instead).
 
 - Triremes can move on rivers (but later ships cannot).
 
@@ -93,8 +94,9 @@ this file.
 - Each movement point is divided to 9 fragments instead of 3. IgTer, road,
   and river moves costs have similarly changed to 3 fragments, so they are
   still 1/3 (3/9) of a move. Movement along Railroad costs 1 fragment
-  (1/9 movement point), and infinite movement is provided by Maglev.
-  You can upgrade Railroads to Maglevs once you know Superconductor.
+  (1/9 movement point), and infinite movement is provided by Maglev (but
+  not to Big Land units). You can build Maglevs alongside your Railroads
+  once you know Superconductors.
 
 - Partisan appearance does not depend on original builder of the city,
   but number of citizen nationality. If at least 75% of the citizens are of
