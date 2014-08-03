@@ -341,21 +341,22 @@ text = _("\
 Certain units (Settlers, Workers, and Engineers in the classic \
 ruleset) have the ability to alter terrain tiles in several ways. \
 The following description uses the classic ruleset to illustrate \
-this; other rulesets may have different rules.\
+this; other rulesets may have different rules, or even omit some \
+of these alterations entirely.\
 "), _("\
-Irrigation systems can be built on suitable types of terrain. \
-Irrigation causes a tile to produce some extra food each turn. \
-In the classic ruleset, building irrigation requires a nearby \
-source of water: an Ocean, Lake, or River tile, or another tile with \
-an irrigation system, must share an edge (not just a corner) with \
-the target tile. Once irrigated, land remains so even if the water \
-source is removed. Given sufficient technology, you may upgrade \
-the irrigation system on a tile into even more productive Farmland \
+Irrigation systems can be built on suitable types of terrain; \
+these cause a tile to produce some extra food each turn. There may \
+be restrictions on where an irrigation system can be built; for \
+instance, in the classic ruleset, a water source is required. \
+See the ruleset help for details. However, once irrigated, land \
+remains so even if its requirements are removed.\
+"), _("\
+In some rulesets, given sufficient technology, you may upgrade \
+an irrigation system on a tile into even more productive Farmland, \
 by irrigating it a second time.\
 "), _("\
 Mines can be built on some types of terrain, which increases the \
-number of production points (shields) produced by that tile. However, \
-it is not possible to have irrigation and a mine on the same tile.\
+number of production points (shields) produced by that tile.\
 "), _("\
 Units may be able to build other terrain improvements; see the \
 following sections for details. Roads typically ease movement, if \
@@ -371,21 +372,21 @@ may also remove access to special resources if they were specific to \
 the original terrain type.\
 "), _("\
 The requirements for terrain conversion are set by the ruleset. \
-In the classic ruleset:\
+It can be initiated in several ways:\
 "), _("\
- - Settlers and Workers have a limited range of terrain conversions \
-available to them, initiated by issuing the \"irrigate\" or \"mine\" \
-orders when on terrain unsuitable for such improvements. (Converting \
-one kind of terrain into another with the \"irrigate\" order does not \
-require a water source.)\
+ - By issuing \"irrigate\" or \"mine\" orders when on terrain unsuitable \
+for such improvements.\
 "), _("\
- - Engineers can perform a much wider range of transformations on \
-almost any type of terrain by issuing the \"transform\" order. \
-Engineers on board sea-going vessels can even reclaim land from water \
-tiles, and similarly land can be transformed to ocean, although such \
-radical transformations may require a certain number of surrounding \
-tiles to already be land or water respectively. (Units will move to \
-safe neighboring tiles when the transformation takes place, if possible.)\
+ - By issuing the special \"transform\" order. This often causes more \
+radical transformations.\
+"), _("\
+In some rulesets, units can even reclaim land from water tiles, and \
+similarly land can be transformed to water, although such radical \
+transformations may require a certain number of surrounding tiles to \
+already be land or water respectively. Terrain-altering units that \
+cannot reach the existing terrain may have to be loaded onto a \
+suitable vessel, and if necessary and possible, they will move to \
+safe neighboring tiles when the conversion is complete.\
 "), _("\
 Many units -- in the classic rules, all land units -- also have the \
 ability to destroy terrain alterations, by pillaging. Pillaging removes \
