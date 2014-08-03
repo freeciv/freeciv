@@ -2573,7 +2573,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     /* Farmland. */
     switch (techs_with_flag_string(buf2, sizeof(buf2), pplayer, TF_FARMLAND)) {
     case 0:
-      CATLSTR(buf, bufsz, _("* Can build farmland.\n"));
+      /* Can never build farmland */
       break;
     case 1:
       cat_snprintf(buf, bufsz,
