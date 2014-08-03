@@ -77,8 +77,10 @@ const char *fc_svn_revision(void)
 {
 #if defined(SVNREV) && !defined(FC_SVNREV_OFF)
   static char buf[100];
+  bool translate = FC_SVNREV1[0] != '\0';
 
-  fc_snprintf(buf, sizeof(buf), "%s%s", _(FC_SVNREV1), FC_SVNREV2);
+  fc_snprintf(buf, sizeof(buf), "%s%s",
+              translate ? _(FC_SVNREV1) : FC_SVNREV1, FC_SVNREV2);
 
   return buf; /* Either revision, or modified revision */
 #else  /* FC_SVNREV_OFF */
@@ -94,8 +96,10 @@ const char *fc_git_revision(void)
 {
 #if defined(GITREV) && !defined(FC_GITREV_OFF)
   static char buf[100];
+  bool translate = FC_GITREV1[0] != '\0';
 
-  fc_snprintf(buf, sizeof(buf), "%s%s", _(FC_GITREV1), FC_GITREV2);
+  fc_snprintf(buf, sizeof(buf), "%s%s",
+              translate ? _(FC_GITREV1) : FC_GITREV1, FC_GITREV2);
 
   return buf; /* Either revision, or modified revision */
 #else  /* FC_GITREV_OFF */
