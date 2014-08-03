@@ -37,7 +37,7 @@ REV2="dist"
    fi
  fi
 
- sed -e "s,<GITREV1>,$REV1," -e "s,<GITREV1>,$REV1," -e "s,<GITREVSTATE>,$REVSTATE," fc_gitrev_gen.h.tmpl > "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
+ sed -e "s,<GITREV1>,$REV1," -e "s,<GITREV2>,$REV2," -e "s,<GITREVSTATE>,$REVSTATE," fc_gitrev_gen.h.tmpl > "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
  if ! test -f "$OUTPUTDIR/fc_fitrev_gen.h" ||
     ! cmp "$OUTPUTDIR/fc_gitrev_gen.h" "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
  then
