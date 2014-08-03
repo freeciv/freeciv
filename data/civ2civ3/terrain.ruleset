@@ -1293,7 +1293,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
-hidden_by      = "Railroad"
+hidden_by      = "Railroad", "Maglev"
 flags          = "NativeTile", "AutoOnCityCenter"
 
 [extra_railroad]
@@ -1316,6 +1316,7 @@ reqs           =
     }
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 flags          = "NativeTile", "AutoOnCityCenter"
+hidden_by      = "Maglev"
 
 [extra_maglev]
 name           = _("Maglev")
