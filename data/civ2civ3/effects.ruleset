@@ -3586,6 +3586,10 @@ reqs    =
       "Road", "River", "Local"
       "OutputType", "Food", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Resource", "Oasis", "Local"
+    }
 
 [effect_city_shield]
 type    = "Output_Add_Tile"

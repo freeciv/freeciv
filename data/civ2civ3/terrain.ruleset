@@ -889,7 +889,7 @@ name        = _("Oasis")
 graphic     = "ts.oasis"
 graphic_alt = "-"
 identifier  = "o"
-food        = 2
+food        = 3
 # desert.
 
 [resource_peat]

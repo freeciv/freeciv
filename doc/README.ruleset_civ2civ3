@@ -88,7 +88,8 @@ TIP: Optimal production of Settlers occurs at any city with Pop <= 4, or cities 
 TERRAIN:
 --------
 - Jungles receive +1 Shield (1/1/0). Swamps can be irrigated for +1 Food (to 2/0/0). Tundras can be mined for +1 Shield (instead of irrigated) and receive +1 Trade when roaded (up to 1/1/1).
-- Deserts with a river receive 1 extra Food from irrigation (to boost growth at terrains like Nile flood). Reduced Food bonus by 1 to some affected Special resources: Oasis and Spice.
+- Deserts with a river receive 1 extra Food from irrigation (to boost growth at terrains like Nile flood), unless they have an Oasis.
+- Reduced Food bonus by 1 to Swamp/Spice; the original bonus can be obtained by irrigating the Swamp.
 - Hills receive 1 Shield for free, and +2 from mines, same as civ3, (was 0 and +3).
 - Mountains give extra vision range. Cities can not be placed over Mountains. Land units starting the turn over a Mountain receive a -1 penalty to movement (this way it is not so good for cavalry to end the turn on Mountains).
 - Lake tiles receive for free +1 Food (2/0/2), while Harbours and Offshore Platforms do not affect them. Lakes do not enable wonders that needs a coastal city.
