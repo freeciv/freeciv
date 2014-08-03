@@ -25,7 +25,7 @@ options="+Freeciv-2.5-ruleset"
 ; helptxt       = displayed in the help for units with this flag (optional)
 flags =
   { "name", "helptxt"
-    "Airbase", _("Can build Airbases.") 
+    "Airbase", _("Can build airbases and buoys.")
     "Transform", _("Can transform terrain.")
     "AirAttacker", _("Very bad at attacking AEGIS.")
     "Horse", _("Attack value halved when attacking Pikemen.")
