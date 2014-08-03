@@ -62,9 +62,9 @@ local function mysql_connect()
     dbh:close()
   end
 
-  local sql = luasql.mysql()
+  local sql = ls_mysql.mysql()
 
-  log.verbose('MySQL database version is %s.', luasql._MYSQLVERSION)
+  log.verbose('MySQL database version is %s.', ls_mysql._MYSQLVERSION)
 
   -- Load the database parameters.
   local database = get_option("database")
@@ -90,7 +90,7 @@ local function sqlite_connect()
     dbh:close()
   end
 
-  local sql = luasql.sqlite3()
+  local sql = ls_sqlite3.sqlite3()
 
   -- Load the database parameters.
   local database = get_option("database")
