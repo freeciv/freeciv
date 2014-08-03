@@ -33,6 +33,9 @@ Updating from 2.5 to 2.6
   are treated as full path to executable. You have to use system
   tolua when cross-compiling.
 * Minimum libtool version is now 1.5.2
+* For translation support minimum gettext version is now 0.14. It's
+  still possible to build completely without translation support
+  with configure option --disable-nls
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

@@ -242,8 +242,8 @@ LIBTOOLIZE=$REALPKGNAME
 
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
-  version_check 1 "xgettext" "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 36 || DIE2=1
-  version_check 1 "msgfmt" "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 36 || DIE2=1
+  version_check 1 "xgettext" "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 14 || DIE2=1
+  version_check 1 "msgfmt" "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 14 || DIE2=1
   if [ "$DIE2" -eq 1 ]; then
     echo 
     echo "You may want to use --disable-nls to disable NLS."

@@ -533,7 +533,7 @@ Try --disable-nls. Read ABOUT-NLS.)
   fi
 
   if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
-    AC_MSG_CHECKING(for GNU xgettext version >= 0.10.36)
+    AC_MSG_CHECKING([for GNU xgettext version >= 0.14])
     xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
     AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
@@ -551,21 +551,20 @@ int main()
     return 1;
   }
   sscanf(p, "%d.%d.%d", &major, &minor, &patch);
-  if (major < 1 && (minor < 10 || (minor == 10 && patch < 36))) {
+  if (major < 1 && (minor < 14 || (minor == 14 && patch < 0))) {
     return 1;
   }
   return 0;
 }
-    ]])],[AC_MSG_RESULT(yes)
+    ]])],[AC_MSG_RESULT([yes])
     ],[
-     AC_MSG_RESULT(no)
-     AC_MSG_WARN(You may have problems with creating pox files. \
-Please update your gettext package.)   
-    
+     AC_MSG_RESULT([no])
+     AC_MSG_WARN([You may have problems with creating pox files. \
+Please update your gettext package.])
     ],[echo error
     ])
 
-    AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.35)
+    AC_MSG_CHECKING([for GNU msgfmt version >= 0.14])
     msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
     AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
@@ -584,19 +583,17 @@ int main()
     return 1;
   }
   sscanf(p, "%d.%d.%d", &major, &minor, &patch);
-  if (major < 1 && (minor < 10 || (minor == 10 && patch < 35))) {
+  if (major < 0 && (minor < 14 || (minor == 14 && patch < 0))) {
     return 1;
   }
   return 0;
 }
-    ]])],[AC_MSG_RESULT(yes)
+    ]])],[AC_MSG_RESULT([yes])
     ],[
-    AC_MSG_RESULT(no)
-    AC_MSG_ERROR(You are unable to create *.gmo files.
+    AC_MSG_RESULT([no])
+    AC_MSG_ERROR([You are unable to create *.gmo files.
 This is development version which doesn't include them. Please update your
-gettext package. We recommend you versions >= 0.10.38. Or use 
---disable-nls instead.)
-    
+gettext package. Or use --disable-nls instead.])
     ],[echo error
     ])
   fi
