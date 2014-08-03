@@ -1472,9 +1472,13 @@ shield_bonus   = 0
 trade_bonus    = 0
 flags          = "RequiresBridge"
 helptext       = _("\
-With sufficient technology, you may upgrade your railroads to use\
- magnetic levitation. Units expend no movement points when riding a\
- maglev; you may ride indefinitely. (As may your enemies!)\
+With sufficient technology, you may build magnetic levitation systems\
+ along your railroad routes. Land units expend no movement points\
+ when riding a maglev; you may ride indefinitely. (As may your enemies!)\
+"), _("\
+Your regular railroads are still used to carry heavy Big Land\
+ units for which the maglev system is unsuitable, and they continue\
+ to provide production and trade bonuses.\
 "), _("\
 City center tiles with railroads are automatically upgraded to maglev\
  when you learn about Superconductors.\
