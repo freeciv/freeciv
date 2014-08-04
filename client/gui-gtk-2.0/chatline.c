@@ -81,6 +81,14 @@ void inputline_grab_focus(void)
 }
 
 /**************************************************************************
+  Returns TRUE iff the input line is currently visible.
+**************************************************************************/
+bool inputline_is_visible(void)
+{
+  return GTK_WIDGET_MAPPED(toolkit.entry);
+}
+
+/**************************************************************************
   Helper function to determine if a given client input line is intended as
   a "plain" public message. Note that messages prefixed with : are a
   special case (explicit public messages), and will return FALSE.
