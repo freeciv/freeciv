@@ -1080,11 +1080,14 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
       raze_city(pcity);
     }
 
-    if (build_free && taker_had_no_cities) {
+    if (taker_had_no_cities) {
       /* If conqueror previously had no cities, we might need to give
        * them a palace etc */
-      city_build_free_buildings(pcity);
-    } /* else caller should probably ensure palace is built */
+      if (build_free) {
+        city_build_free_buildings(pcity);
+      } /* else caller should probably ensure palace is built */
+      ptaker->server.got_first_city = TRUE;
+    }
 
     /* Restore any global improvement effects that this city confers */
     city_built_iterate(pcity, pimprove) {
@@ -1283,8 +1286,6 @@ void city_build_free_buildings(struct city *pcity)
     }
   }
 
-  pplayer->server.got_first_city = TRUE;
-
   /* Update wonder infos. */
   if (has_great_wonders) {
     send_game_info(NULL);
@@ -1340,6 +1341,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     /* Free initial buildings, or at least a palace if they were
      * previously careless enough to lose all their cities */
     city_build_free_buildings(pcity);
+    pplayer->server.got_first_city = TRUE;
   }
 
   /* Set up citizens nationality. */
@@ -1823,7 +1825,10 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */
-  city_remains = transfer_city(pplayer, pcity , 0, TRUE, TRUE, TRUE, TRUE);
+  /* FIXME: maybe it should be a ruleset option whether barbarians get
+   * free buildings such as palaces? */
+  city_remains = transfer_city(pplayer, pcity, 0, TRUE, TRUE, TRUE,
+                               !is_barbarian(pplayer));
 
   if (city_remains) {
     /* After city has been transferred, some players may no longer see

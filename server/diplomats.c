@@ -730,7 +730,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Transfer city and units supported by this city (that
      are within one square of the city) to the new owner. */
-  (void) transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE, TRUE);
+  (void) transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE,
+                       !is_barbarian(pplayer));
 
   /* Check if a spy survives her mission. Diplomats never do.
    * _After_ transferring the city, or the city area is first fogged
