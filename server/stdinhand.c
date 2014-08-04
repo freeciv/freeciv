@@ -2125,7 +2125,9 @@ static void show_ruleset_info(struct connection *caller, enum command_id cmd,
   show_settings(caller, cmd, show_arg, check);
 
   if (game.control.description[0] != '\0') {
-    cmd_reply(cmd, caller, C_COMMENT, "%s", game.control.description);
+    char *translated = fc_strdup(_(game.control.description));
+    fc_break_lines(translated, LINE_BREAK);
+    cmd_reply(cmd, caller, C_COMMENT, "%s", translated);
     cmd_reply(cmd, caller, C_COMMENT, horiz_line);
   }
 }
