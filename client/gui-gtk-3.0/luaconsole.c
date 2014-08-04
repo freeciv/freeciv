@@ -178,7 +178,7 @@ void real_luaconsole_dialog_update(void)
 }
 
 /*****************************************************************************
-  Initilialize a lua console.
+  Initialize a lua console.
 *****************************************************************************/
 static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 {
@@ -223,6 +223,8 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 5);
 
   pdialog->message_area = GTK_TEXT_VIEW(text);
+  g_signal_connect(text, "destroy", G_CALLBACK(gtk_widget_destroyed),
+                   &pdialog->message_area);
 
   /* The lua console input line. */
   entry = gtk_entry_new();
@@ -233,6 +235,8 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   g_signal_connect(entry, "key_press_event",
                    G_CALLBACK(luaconsole_input_handler), NULL);
   pdialog->entry = entry;
+  g_signal_connect(entry, "destroy", G_CALLBACK(gtk_widget_destroyed),
+                   &pdialog->entry);
 
   /* Load lua script command button. */
   gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
@@ -444,6 +448,7 @@ static void luaconsole_dialog_destroy(struct luaconsole_data *pdialog)
     fc_assert(NULL == pdialog->shell);
   }
   fc_assert(NULL == pdialog->message_area);
+  fc_assert(NULL == pdialog->entry);
 }
 
 /*****************************************************************************
