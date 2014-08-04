@@ -431,7 +431,14 @@ bool sanity_check_ruleset_data(void)
   /* Advances. */
   advance_iterate(A_FIRST, padvance) {
     for (i = AR_ONE; i < AR_SIZE; i++) {
-      const struct advance *preq = advance_requires(padvance, i);
+      const struct advance *preq;
+
+      if (i == AR_ROOT) {
+        /* Self rootreq is a feature. */
+        continue;
+      }
+
+      preq = advance_requires(padvance, i);
 
       if (A_NEVER == preq) {
         continue;
