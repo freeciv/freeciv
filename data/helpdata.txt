@@ -1712,6 +1712,7 @@ previous section). Right-clicking leaves this mode.\
 "), _("\
   Chatline (GTK):\n\
   ===============\n\
+  ' (apostrophe):                Focus chatline\n\
   Ctrl-Alt-right-click:          Paste city or tile link into chatline\n\
   Shift-Ctrl-Alt-right-click:    Paste unit link into chatline\n\
 \n\
