@@ -487,7 +487,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                         _("You give the city of %s to %s."),
                         city_link(pcity), player_name(pdest));
 
-	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE, TRUE);
+          transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE,
+                        !is_barbarian(pdest));
 	  break;
 	}
       case CLAUSE_CEASEFIRE:
