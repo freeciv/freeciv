@@ -119,7 +119,7 @@ struct widget {
   SDL_Surface *theme2;        /* Icon or theme2 */
   SDL_Surface *gfx;           /* saved background */
   SDL_String16 *string16;
-  SDL_String16 *info_label;   /* optionnal info label. */
+  SDL_String16 *info_label;   /* optional info label. */
 
   /* data/information/transport pointers */
   union {
