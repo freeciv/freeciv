@@ -327,6 +327,19 @@ static const struct sset_val_name *plrcol_name(int plrcol)
 }
 
 /****************************************************************************
+  Happyborders setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *happyborders_name(int happyborders)
+{
+  switch (happyborders) {
+  NAME_CASE(HB_DISABLED, "DISABLE", N_("Borders are not helping"));
+  NAME_CASE(HB_NATIONAL, "NATIONAL", N_("Happy within own borders"));
+  NAME_CASE(HB_ALLIANCE, "ALLIED", N_("Happy within allied borders"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Diplomacy setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *diplomacy_name(int diplomacy)
@@ -1789,13 +1802,14 @@ static struct setting settings[] = {
               "fortress or city will be owned by that nation."),
            NULL, NULL, borders_name, GAME_DEFAULT_BORDERS)
 
-  GEN_BOOL("happyborders", game.info.happyborders,
-	   SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL,
-	   SSET_TO_CLIENT,
-	   N_("Units inside borders cause no unhappiness"),
-	   N_("If this is set, units will not cause unhappiness when "
-              "inside your own borders."), NULL, NULL,
-	   GAME_DEFAULT_HAPPYBORDERS)
+  GEN_ENUM("happyborders", game.info.happyborders,
+           SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL,
+           SSET_TO_CLIENT,
+           N_("Units inside borders cause no unhappiness"),
+           N_("If this is set, units will not cause unhappiness when "
+              "inside your borders, or even allies borders, depending "
+              "on value."), NULL, NULL,
+           happyborders_name, GAME_DEFAULT_HAPPYBORDERS)
 
   GEN_ENUM("diplomacy", game.info.diplomacy,
            SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,

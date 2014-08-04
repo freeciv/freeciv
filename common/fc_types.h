@@ -636,4 +636,10 @@ enum revolen_type {
   REVOLEN_QUICKENING
 };
 
+enum happyborders_type {
+  HB_DISABLED = 0,
+  HB_NATIONAL,
+  HB_ALLIANCE
+};
+
 #endif /* FC__FC_TYPES_H */

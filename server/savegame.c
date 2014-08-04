@@ -3459,8 +3459,11 @@ static void game_load_internal(struct section_file *file)
     if (BORDERS_EXPAND < game.info.borders) {
       game.info.borders = BORDERS_ENABLED;
     }
-    game.info.happyborders = secfile_lookup_bool_default(file, FALSE, 
-						    "game.happyborders");
+    if (secfile_lookup_bool_default(file, FALSE, "game.happyborders")) {
+      game.info.happyborders = HB_NATIONAL;
+    } else {
+      game.info.happyborders = HB_DISABLED;
+    }
 
     /* Diplomacy. */
     game.info.diplomacy = secfile_lookup_int_default(file, GAME_DEFAULT_DIPLOMACY, 

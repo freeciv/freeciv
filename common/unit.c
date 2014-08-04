@@ -1742,10 +1742,21 @@ bool unit_being_aggressive(const struct unit *punit)
   if (tile_city(unit_tile(punit))) {
     return FALSE;
   }
-  if (BORDERS_DISABLED != game.info.borders
-      && game.info.happyborders
-      && tile_owner(unit_tile(punit)) == unit_owner(punit)) {
-    return FALSE;
+  if (BORDERS_DISABLED != game.info.borders) {
+    switch (game.info.happyborders) {
+    case HB_DISABLED:
+      break;
+    case HB_NATIONAL:
+      if (tile_owner(unit_tile(punit)) == unit_owner(punit)) {
+        return FALSE;
+      }
+      break;
+    case HB_ALLIANCE:
+      if (pplayers_allied(tile_owner(unit_tile(punit)), unit_owner(punit))) {
+        return FALSE;
+      }
+      break;
+    }
   }
   if (tile_has_base_flag_for_unit(unit_tile(punit),
                                   unit_type(punit),

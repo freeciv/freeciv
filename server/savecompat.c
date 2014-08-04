@@ -623,6 +623,27 @@ static void compat_load_020600(struct loaddata *loading)
           } else {
             gsrlt = REVOLEN_FIXED;
           }
+        } else if (!fc_strcasecmp("happyborders", name)) {
+          bool value, value_start;
+
+          (void) secfile_lookup_bool(loading->file, &value,
+                                     "settings.set%d.value", i);
+          (void) secfile_lookup_bool(loading->file, &value_start,
+                                     "settings.set%d.gamestart", i);
+
+          secfile_entry_delete(loading->file, "settings.set%d.value", i);
+          secfile_entry_delete(loading->file, "settings.set%d.gamestart", i);
+
+          if (value) {
+            secfile_insert_str(loading->file, "NATIONAL", "settings.set%d.value", i);
+          } else {
+            secfile_insert_str(loading->file, "DISABLED", "settings.set%d.value", i);
+          }
+          if (value_start) {
+            secfile_insert_str(loading->file, "NATIONAL", "settings.set%d.gamestart", i);
+          } else {
+            secfile_insert_str(loading->file, "DISABLED", "settings.set%d.gamestart", i);
+          }
         }
       }
 

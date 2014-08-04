@@ -1875,7 +1875,7 @@ static void map_claim_border_ownership(struct tile *ptile,
   update_tile_knowledge(ptile);
 
   if (ploser != powner) {
-    if (S_S_RUNNING == server_state() && game.info.happyborders > 0) {
+    if (S_S_RUNNING == server_state() && game.info.happyborders != HB_DISABLED) {
       map_unit_homecity_enqueue(ptile);
     }
 

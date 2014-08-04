@@ -232,6 +232,7 @@ type TRI                = uint8(enum traderoute_illegal_cancelling)
 type MOVE_MODE          = uint8(enum road_move_mode)
 type GEN_ACTION         = uint8(enum gen_action)
 type REVOLENTYPE        = uint8(enum revolen_type)
+type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 
 # typedefs for bit vectors
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
@@ -464,7 +465,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 granary_num_inis;
   PLAYER great_wonder_owners[B_LAST]; diff
   UINT8 happy_cost;
-  BOOL happyborders;
+  HAPPYBORDERSTYPE happyborders;
   UINT32 heating;
   UINT8 illness_base_factor;
   UINT8 illness_min_size;
