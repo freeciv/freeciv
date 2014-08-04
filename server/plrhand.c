@@ -183,7 +183,6 @@ void kill_player(struct player *pplayer)
   /* if there are barbarians around, they will take the remaining cities */
   /* vae victis! */
   if (barbarians) {
-    bool had_no_cities = (city_list_size(barbarians->cities) == 0);
     /* Moving victim's palace around is a waste of time, as they're dead */
     bool palace = game.server.savepalace;
     game.server.savepalace = FALSE;
@@ -201,17 +200,9 @@ void kill_player(struct player *pplayer)
       
     resolve_unit_stacks(pplayer, barbarians, FALSE);
 
-    if (had_no_cities) {
-      /* Might need to give them a capital */
-      int cities = city_list_size(barbarians->cities);
-      if (cities > 0) {
-        /* Choose a capital (random). */
-        struct city *capital = city_list_get(barbarians->cities,
-                                             fc_rand(cities));
-        log_debug("New barbarian capital is %s", city_name(capital));
-        city_build_free_buildings(capital);
-      }
-    } /* else existing barbarians, assume they have a capital if necessary */
+    /* Barbarians don't get free buildings like Palaces, so we don't
+     * call city_build_free_buildings().
+     * FIXME: maybe this should be a ruleset option? */
   } else {
     /* Destroy any remaining cities */
     city_list_iterate(pplayer->cities, pcity) {

@@ -785,7 +785,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Transfer city and units supported by this city (that
      are within one square of the city) to the new owner. */
-  if (!transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE, TRUE)) {
+  if (!transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE,
+                     !is_barbarian(pplayer))) {
     pcity = NULL; /* City destroyed, probably due to a script. */
   }
 
