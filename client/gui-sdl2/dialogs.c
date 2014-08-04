@@ -2644,7 +2644,7 @@ static void select_random_leader(Nation_type_id nation);
 static void change_nation_label(void);
 
 /**************************************************************************
-  User interaceted with nations dialog.
+  User interacted with nations dialog.
 **************************************************************************/
 static int nations_dialog_callback(struct widget *pWindow)
 {
