@@ -587,18 +587,50 @@ static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
                                            gpointer data)
 {
-  /* Inputline history code. */
+  if (inputline_has_focus()) {
+    return FALSE;
+  }
+
+  switch (ev->keyval) {
+
+  case GDK_apostrophe:
+    /* Allow this even if not in main map view; chatline is present on
+     * some other pages too */
+    /* FIXME: should find the correct window, even when detached, from any
+     * other window; should scroll to the bottom automatically showing the
+     * latest text from other players; MUST NOT make spurious text windows
+     * at the bottom of other dialogs.
+     */
+    if (inputline_is_visible()) {
+      if (GTK_WIDGET_MAPPED(top_vbox)) {
+        if (gui_gtk2_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
+          gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
+        } else {
+          gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
+        }
+      }
+      inputline_grab_focus();
+      return TRUE;
+    } else {
+      break;
+    }
+
+  default:
+    break;
+  }
+
   if (!GTK_WIDGET_MAPPED(top_vbox)
-      || inputline_has_focus()
       || !can_client_change_view()) {
     return FALSE;
   }
 
   if (editor_is_active()) {
-    return handle_edit_key_press(ev);
+    if (handle_edit_key_press(ev)) {
+      return TRUE;
+    }
   }
 
-  if ((ev->state & GDK_SHIFT_MASK)) {
+  if (ev->state & GDK_SHIFT_MASK) {
     switch (ev->keyval) {
 
     case GDK_Return:
@@ -608,29 +640,8 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
 
     default:
       break;
-    };
-  } else {
-  }
-
-  switch (ev->keyval) {
-
-  case GDK_apostrophe:
-    /* FIXME: should find the correct window, even when detached, from any
-     * other window; should scroll to the bottom automatically showing the
-     * latest text from other players; MUST NOT make spurious text windows
-     * at the bottom of other dialogs.
-     */
-    if (gui_gtk2_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
-      gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
-    } else {
-      gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
     }
-    inputline_grab_focus();
-    return TRUE;
-
-  default:
-    break;
-  };
+  }
 
   if (0 == gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))) {
     /* 0 means the map view is focused. */
