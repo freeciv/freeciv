@@ -2259,17 +2259,37 @@ static void show_command_one(struct connection *caller, struct setting *pset)
 {
   char buf[MAX_LEN_CONSOLE_LINE] = "", value[MAX_LEN_CONSOLE_LINE] = "";
   bool is_changed;
+  static char prefix[OPTION_NAME_SPACE + 4 + 1] = "";
 
   fc_assert_ret(pset != NULL);
 
   is_changed = setting_changed(pset);
   setting_value_name(pset, TRUE, value, sizeof(value));
 
+  /* Wrap long option values, such as bitwise options */
+  fc_break_lines(value, LINE_BREAK - (sizeof(prefix)-1));
+
+  if (prefix[0] == '\0') {
+    memset(prefix, ' ', sizeof(prefix)-1);
+  }
+
   if (is_changed) {
     /* Emphasizes the changed option. */
-    featured_text_apply_tag(value, buf, sizeof(buf), TTT_COLOR,
-                            0, FT_OFFSET_UNSET, ftc_changed);
-    sz_strlcpy(value, buf);
+    /* Apply tags to each line fragment. */
+    size_t startpos = 0;
+    char *nl;
+    do {
+      nl = strchr(value + startpos, '\n');
+      featured_text_apply_tag(value, buf, sizeof(buf), TTT_COLOR,
+                              startpos, nl ? nl - value : FT_OFFSET_UNSET,
+                              ftc_changed);
+      sz_strlcpy(value, buf);
+      if (nl) {
+        char *p = strchr(nl, '\n');
+        fc_assert_action(p != NULL, break);
+        startpos = p + 1 - value;
+      }
+    } while (nl);
   }
 
   if (SSET_INT == setting_type(pset)) {
@@ -2278,9 +2298,10 @@ static void show_command_one(struct connection *caller, struct setting *pset)
                  setting_int_min(pset), setting_int_max(pset));
   }
 
-  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%-*s %c%c %s",
-            OPTION_NAME_SPACE, setting_name(pset),
-            setting_status(caller, pset), is_changed ? ' ' : '=', value);
+  cmd_reply_prefix(CMD_SHOW, caller, C_COMMENT, prefix, "%-*s %c%c %s",
+                   OPTION_NAME_SPACE, setting_name(pset),
+                   setting_status(caller, pset), is_changed ? ' ' : '=',
+                   value);
 }
 
 /******************************************************************
