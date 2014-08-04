@@ -120,9 +120,13 @@ static bool set_away(struct connection *caller, char *name, bool check);
 static bool set_rulesetdir(struct connection *caller, char *str, bool check,
                            int read_recursion);
 static bool show_command(struct connection *caller, char *str, bool check);
-static void show_command_one(struct connection *caller, struct setting *pset);
-static void show_changed(struct connection *caller, bool check,
-                         int read_recursion);
+static bool show_settings(struct connection *caller,
+                          enum command_id called_as,
+                          char *str, bool check);
+static void show_settings_one(struct connection *caller, enum command_id cmd,
+                              struct setting *pset);
+static void show_changed(struct connection *caller, enum command_id cmd,
+                         bool check, int read_recursion);
 static void show_mapimg(struct connection *caller, enum command_id cmd);
 static bool set_command(struct connection *caller, char *str, bool check);
 
@@ -1283,7 +1287,7 @@ static bool read_init_script_real(struct connection *caller,
     }
     fclose(script_file);
 
-    show_changed(caller, check, read_recursion);
+    show_changed(caller, CMD_READ_SCRIPT, check, read_recursion);
 
     return TRUE;
   } else {
@@ -2101,16 +2105,25 @@ static bool set_away(struct connection *caller, char *name, bool check)
 /**************************************************************************
   Show changed settings.
 **************************************************************************/
-static void show_changed(struct connection *caller, bool check,
-                         int read_recursion)
+static void show_changed(struct connection *caller, enum command_id cmd,
+                         bool check, int read_recursion)
 {
+  char *show_arg = "changed";
+
   if (read_recursion != 0) {
     return;
   }
 
   /* show changed settings only at the top level of recursion */
-  char *show_arg = "changed";
-  show_command(caller, show_arg, check);
+  show_settings(caller, cmd, show_arg, check);
+}
+
+/**************************************************************************
+  /show command: show settings and their values.
+**************************************************************************/
+static bool show_command(struct connection *caller, char *str, bool check)
+{
+  return show_settings(caller, CMD_SHOW, str, check);
 }
 
 /**************************************************************************
@@ -2118,7 +2131,9 @@ static void show_changed(struct connection *caller, bool check,
   are at most 4 digits, except seeds, which we let overflow their columns,
   plus a sign character. Only show options which the caller can SEE.
 **************************************************************************/
-static bool show_command(struct connection *caller, char *str, bool check)
+static bool show_settings(struct connection *caller,
+                          enum command_id called_as,
+                          char *str, bool check)
 {
   int cmd;
   enum sset_level level = SSET_ALL;
@@ -2134,7 +2149,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
       level = SSET_NONE;
 
       if (!setting_is_visible(setting_by_number(cmd), caller)) {
-        cmd_reply(CMD_SHOW, caller, C_FAIL,
+        cmd_reply(called_as, caller, C_FAIL,
                   _("Sorry, you do not have access to view option '%s'."),
                   str);
         return FALSE;
@@ -2144,7 +2159,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
     /* Valid negative values for 'cmd' are defined as LOOKUP_OPTION_*. */
     switch (cmd) {
     case LOOKUP_OPTION_NO_RESULT:
-      cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), str);
+      cmd_reply(called_as, caller, C_FAIL, _("Unknown option '%s'."), str);
       return FALSE;
     case LOOKUP_OPTION_AMBIGUOUS:
       /* Allow ambiguous: show all matching. */
@@ -2156,7 +2171,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
       break;
     case LOOKUP_OPTION_RULESETDIR:
       /* Ruleset. */
-      cmd_reply(CMD_SHOW, caller, C_COMMENT,
+      cmd_reply(called_as, caller, C_COMMENT,
                 _("Current ruleset directory is \"%s\""),
                 game.server.rulesetdir);
       return TRUE;
@@ -2173,7 +2188,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
                     || cmd == LOOKUP_OPTION_NO_RESULT, FALSE);
 
 #define cmd_reply_show(string)                                               \
-  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
+  cmd_reply(called_as, caller, C_COMMENT, "%s", string)
 
   {
     const char *heading = NULL;
@@ -2213,7 +2228,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
   cmd_reply_show(_(" - a '+' means you may change the option."));
   cmd_reply_show(_(" - a '=' means the option is on its default value."));
   cmd_reply_show(horiz_line);
-  cmd_reply(CMD_SHOW, caller, C_COMMENT, _("%-*s ## value (min, max)"),
+  cmd_reply(called_as, caller, C_COMMENT, _("%-*s ## value (min, max)"),
             OPTION_NAME_SPACE, _("Option"));
   cmd_reply_show(horiz_line);
 
@@ -2227,7 +2242,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
     {
       struct setting *pset = setting_by_number(cmd);
 
-      show_command_one(caller, pset);
+      show_settings_one(caller, called_as, pset);
     }
     break;
   case SSET_CHANGED:
@@ -2246,7 +2261,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
           continue;
       }
 
-      show_command_one(caller, pset);
+      show_settings_one(caller, called_as, pset);
     } settings_iterate_end;
     break;
   case OLEVELS_NUM:
@@ -2255,17 +2270,20 @@ static bool show_command(struct connection *caller, char *str, bool check)
   }
 
   cmd_reply_show(horiz_line);
-  cmd_reply_show(_("A help text for each option is available via 'help "
-                   "<option>'."));
-  cmd_reply_show(horiz_line);
-  if (level == SSET_VITAL) {
-    cmd_reply_show(_("Try 'show situational' or 'show rare' to show "
-                     "more options.\n"
-                     "Try 'show changed' to show settings with "
-                     "non-default values.\n"
-                     "Try 'show locked' to show settings locked "
-                     "by the ruleset."));
+  /* Only emit this additional help for bona fide 'show' command */
+  if (called_as == CMD_SHOW) {
+    cmd_reply_show(_("A help text for each option is available via 'help "
+                     "<option>'."));
     cmd_reply_show(horiz_line);
+    if (level == SSET_VITAL) {
+      cmd_reply_show(_("Try 'show situational' or 'show rare' to show "
+                       "more options.\n"
+                       "Try 'show changed' to show settings with "
+                       "non-default values.\n"
+                       "Try 'show locked' to show settings locked "
+                       "by the ruleset."));
+      cmd_reply_show(horiz_line);
+    }
   }
   return TRUE;
 #undef cmd_reply_show
@@ -2283,7 +2301,8 @@ static bool show_command(struct connection *caller, char *str, bool check)
    - '+': you may change the option
    - '=': the option is on its default value
 *****************************************************************************/
-static void show_command_one(struct connection *caller, struct setting *pset)
+static void show_settings_one(struct connection *caller, enum command_id cmd,
+                              struct setting *pset)
 {
   char buf[MAX_LEN_CONSOLE_LINE] = "", value[MAX_LEN_CONSOLE_LINE] = "";
   bool is_changed;
@@ -2326,7 +2345,7 @@ static void show_command_one(struct connection *caller, struct setting *pset)
                  setting_int_min(pset), setting_int_max(pset));
   }
 
-  cmd_reply_prefix(CMD_SHOW, caller, C_COMMENT, prefix, "%-*s %c%c %s",
+  cmd_reply_prefix(cmd, caller, C_COMMENT, prefix, "%-*s %c%c %s",
                    OPTION_NAME_SPACE, setting_name(pset),
                    setting_status(caller, pset), is_changed ? ' ' : '=',
                    value);
@@ -3842,7 +3861,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
       send_rulesets(game.est_connections);
     }
     /* list changed values */
-    show_changed(caller, check, read_recursion);
+    show_changed(caller, CMD_RULESETDIR, check, read_recursion);
     player_info_thaw();
 
     if (success) {
@@ -4591,7 +4610,8 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   cmd_reply(CMD_RESET, caller, C_OK, _("Settings re-initialized."));
 
   /* list changed values */
-  show_changed(caller, check, read_recursion);
+  show_changed(caller, CMD_RESET, check, read_recursion);
+
   return TRUE;
 }
 
