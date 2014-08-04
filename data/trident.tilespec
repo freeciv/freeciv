@@ -108,6 +108,7 @@ layer1_match_with = "water"
 layer2_match_type = "water"
 layer2_match_with = "water"
 layer2_sprite_type = "corner"
+mine_sprite = "tx.oil_mine"
 
 [tile_floor]
 is_blended = 0
@@ -118,6 +119,7 @@ layer1_match_with = "water"
 layer2_match_type = "water"
 layer2_match_with = "water"
 layer2_sprite_type = "corner"
+mine_sprite = "tx.oil_mine"
 
 ; Land graphics referenced by terrain.ruleset
 ;

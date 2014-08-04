@@ -109,6 +109,7 @@ num_layers = 1
 layer0_match_type = "shallow"
 layer0_match_with = "land"
 layer0_sprite_type = "corner"
+mine_sprite = "tx.oil_mine"
 
 [tile_coast]
 is_blended = 1
@@ -119,6 +120,7 @@ layer0_sprite_type = "corner"
 layer1_match_type = "water"
 layer1_match_with = "ice"
 layer1_sprite_type = "corner"
+mine_sprite = "tx.oil_mine"
 
 [tile_floor]
 is_blended = 0
@@ -129,6 +131,7 @@ layer0_sprite_type = "corner"
 layer1_match_type = "water"
 layer1_match_with = "ice"
 layer1_sprite_type = "corner"
+mine_sprite = "tx.oil_mine"
 
 ; Land graphics referenced by terrain.ruleset
 ;
