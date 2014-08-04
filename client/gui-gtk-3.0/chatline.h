@@ -23,6 +23,7 @@ void chatline_init(void);
 void inputline_make_chat_link(struct tile *ptile, bool unit);
 bool inputline_has_focus(void);
 void inputline_grab_focus(void);
+bool inputline_is_visible(void);
 
 void set_output_window_text(const char *text);
 bool chatline_is_scrolled_to_bottom(void);
