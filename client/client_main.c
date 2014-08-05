@@ -794,13 +794,6 @@ void set_client_state(enum client_states newstate)
       audio_stop();     /* stop intro sound loop. */
     }
 
-    /* This cannot be in handling the rulesets_ready packet,
-     * as that packet is only added via optional capability -
-     * first 2.4 versions didn't have it. */
-    unit_class_iterate(pclass) {
-      set_unit_class_caches(pclass);
-    } unit_class_iterate_end;
-
     init_city_report_game_data();
     options_dialogs_set();
     create_event(NULL, E_GAME_START, ftc_client, _("Game started."));

@@ -3239,6 +3239,15 @@ void handle_ruleset_city(const struct packet_ruleset_city *packet)
   sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
 
   tileset_setup_city_tiles(tileset, id);
+
+  /* HACK: build unit class here. This cannot be in handling the
+   * rulesets_ready packet, as that packet is only added via optional
+   * capability - first 2.4 versions didn't have it. */
+  if (id == game.control.styles_count - 1) {
+    unit_class_iterate(pclass) {
+      set_unit_class_caches(pclass);
+    } unit_class_iterate_end;
+  }
 }
 
 /****************************************************************************
