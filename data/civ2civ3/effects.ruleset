@@ -3205,9 +3205,25 @@ reqs    =
       "Building", "Lighthouse", "Player"
       "UnitClass", "Trireme", "Local"
     }
+; No move bonus to Triremes starting their turn on rivers
+; We also disable move bonus for city tiles in this clause...
 nreqs   =
     { "type", "name", "range"
       "Road", "River", "Local"
+      "CityTile", "Center", "Local"
+    }
+
+; ...so that we can use this one to avoid penalising Triremes which start
+; in a perfectly legal coastal city which also happens to be on a river
+[effect_lighthouse_trireme_move_2]
+type    = "Move_Bonus"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Lighthouse", "Player"
+      "UnitClass", "Trireme", "Local"
+      "CityTile", "Center", "Local"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 
 [effect_lighthouse_trireme_veteran]
