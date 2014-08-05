@@ -2209,8 +2209,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_hydro_plant_1]
@@ -2224,8 +2224,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_hydro_plant_2]
@@ -2237,8 +2237,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_hydro_plant_3]
@@ -2251,8 +2251,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_hydro_plant_4]
@@ -2265,8 +2265,8 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_library]
@@ -2333,8 +2333,8 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "Building", "Hydro Plant", "City"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_nuclear_plant_1]
@@ -2349,8 +2349,8 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "Building", "Hydro Plant", "City"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_nuclear_plant_2]
@@ -2363,8 +2363,8 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "Building", "Hydro Plant", "City"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_nuclear_plant_3]
@@ -2378,8 +2378,8 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "Building", "Hydro Plant", "City"
-      "Building", "Hoover Dam", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_offshore_platform]
@@ -2567,10 +2567,10 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Nuclear Plant", "City"
       "Building", "Hydro Plant", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_power_plant_1]
@@ -2584,10 +2584,10 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Nuclear Plant", "City"
       "Building", "Hydro Plant", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_recycling_center]
@@ -2599,10 +2599,10 @@ reqs    =
     }
 nreqs   =
     { "type", "name", "range"
-      "Building", "Hoover Dam", "City"
       "Building", "Nuclear Plant", "City"
       "Building", "Hydro Plant", "City"
       "Building", "Solar Plant", "City"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_research_lab]
@@ -2674,6 +2674,10 @@ reqs    =
       "Building", "Solar Plant", "City"
       "OutputType", "Shield", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "City"
+    }
 
 [effect_solar_plant_1]
 type    = "Output_Bonus"
@@ -2684,6 +2688,10 @@ reqs    =
       "Building", "Solar Plant", "City"
       "OutputType", "Shield", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "City"
+    }
 
 [effect_solar_plant_2]
 type    = "Pollu_Prod_Pct"
@@ -2691,6 +2699,10 @@ value   = -75
 reqs    =
     { "type", "name", "range"
       "Building", "Solar Plant", "City"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_solar_plant_3]
@@ -2700,6 +2712,10 @@ reqs    =
     { "type", "name", "range"
       "Building", "Recycling Center", "City"
       "Building", "Solar Plant", "City"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "City"
     }
 
 [effect_space_component]
@@ -3067,10 +3083,6 @@ reqs    =
       "Building", "Hoover Dam", "City"
       "OutputType", "Shield", "Local"
     }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Solar Plant", "City"
-    }
 
 [effect_hoover_dam_1]
 type    = "Output_Bonus"
@@ -3081,10 +3093,6 @@ reqs    =
       "Building", "Hoover Dam", "City"
       "OutputType", "Shield", "Local"
     }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Solar Plant", "City"
-    }
 
 [effect_hoover_dam_2]
 type    = "Pollu_Prod_Pct"
@@ -3092,10 +3100,6 @@ value   = -75
 reqs    =
     { "type", "name", "range"
       "Building", "Hoover Dam", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Solar Plant", "City"
     }
 
 [effect_hoover_dam_3]
@@ -3105,10 +3109,6 @@ reqs    =
     { "type", "name", "range"
       "Building", "Recycling Center", "City"
       "Building", "Hoover Dam", "City"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "Building", "Solar Plant", "City"
     }
 
 [effect_isaac_newtons_college]
