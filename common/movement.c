@@ -604,13 +604,11 @@ int unit_class_transporter_capacity(const struct tile *ptile,
   int availability = 0;
 
   unit_list_iterate(ptile->units, punit) {
-    if (unit_owner(punit) == pplayer
-        || pplayers_allied(unit_owner(punit), pplayer)) {
-
-      if (can_unit_type_transport(unit_type(punit), pclass)) {
-        availability += get_transporter_capacity(punit);
-        availability -= get_transporter_occupancy(punit);
-      }
+    if (!unit_transported(punit)
+        && pplayers_allied(unit_owner(punit), pplayer)
+        && can_unit_type_transport(unit_type(punit), pclass)) {
+      availability += get_transporter_capacity(punit);
+      availability -= get_transporter_occupancy(punit);
     }
   } unit_list_iterate_end;
 
