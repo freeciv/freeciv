@@ -69,7 +69,7 @@ Actions and their hard coded requirements
 
 "Establish Embassy" - Establish a real embassy to the target player
  * actor must have the diplomat flag.
- * actor can't have a real emabassy to the target player
+ * actor can't have a real embassy to the target player
 
 "Investigate City" - Look at the city dialog of a foreign city
  * actor must have the diplomat flag.
