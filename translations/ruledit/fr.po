@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-20 22:58+0200\n"
-"PO-Revision-Date: 2014-07-21 11:23+0200\n"
+"POT-Creation-Date: 2014-08-06 05:45+0200\n"
+"PO-Revision-Date: 2014-08-06 21:48+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -16,6 +16,17 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: tools/ruledit/requirers_dlg.cpp:43
+msgid "Close"
+msgstr "Fermer"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:68
+#, c-format
+msgid "Needed by %s"
+msgstr "Nécessaire pour %s"
 
 #: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
@@ -30,66 +41,59 @@ msgstr "Imprimer le numéro de version"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:59
+#: tools/ruledit/ruledit_qt.cpp:60
 msgid "Freeciv ruleset editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:97
-#, c-format
-msgid "Needed by %s"
-msgstr "Nécessaire pour %s"
-
-#: tools/ruledit/ruledit_qt.cpp:123
+#: tools/ruledit/ruledit_qt.cpp:119
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:125
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:139
+#: tools/ruledit/ruledit_qt.cpp:135
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:141
+#: tools/ruledit/ruledit_qt.cpp:137
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:143
+#: tools/ruledit/ruledit_qt.cpp:139
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:152
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:187
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:199
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
-#: tools/ruledit/tab_misc.cpp:53
+#: tools/ruledit/tab_misc.cpp:57
 msgid "Ruleset name"
 msgstr "Nom des règles du jeu"
 
-#: tools/ruledit/tab_misc.cpp:58
+#: tools/ruledit/tab_misc.cpp:62
 msgid "Ruleset version"
 msgstr "Version des règles du jeu"
 
-#: tools/ruledit/tab_misc.cpp:63
+#: tools/ruledit/tab_misc.cpp:67
 msgid "Save to directory"
 msgstr "Sauver dans le répertoire"
 
-#: tools/ruledit/tab_misc.cpp:70
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Save now"
 msgstr "Sauver maintenant"
 
-#: tools/ruledit/tab_misc.cpp:108
+#: tools/ruledit/tab_misc.cpp:125
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
 
