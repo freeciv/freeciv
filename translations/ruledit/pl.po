@@ -5,15 +5,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-13 05:26+0300\n"
-"PO-Revision-Date: 2014-07-17 13:26+0100\n"
-"Last-Translator: Hubert Kowalewski <hubkow@gmai.com>\n"
+"POT-Creation-Date: 2014-08-08 00:21+0100\n"
+"PO-Revision-Date: 2014-07-12 11:26+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
+
+#: tools/ruledit/requirers_dlg.cpp:43
+msgid "Close"
+msgstr ""
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:68
+#, c-format
+msgid "Needed by %s"
+msgstr "Wymagane przez %s"
 
 #: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
@@ -28,16 +39,9 @@ msgstr "Pokaż nazwę wersji"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:58
+#: tools/ruledit/ruledit_qt.cpp:60
 msgid "Freeciv ruleset editor"
 msgstr "Edytor zestawu zasad Freeciv"
-
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
-#, c-format
-msgid "Needed by %s"
-msgstr "Wymagane przez %s"
 
 #: tools/ruledit/ruledit_qt.cpp:119
 msgid "Give ruleset to use as starting point."
@@ -55,37 +59,49 @@ msgstr "Różne"
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:139
+msgid "Nations"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:199
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/tab_misc.cpp:53
+#: tools/ruledit/tab_misc.cpp:57
 msgid "Ruleset name"
 msgstr "Nazwa zestawu zasad"
 
-#: tools/ruledit/tab_misc.cpp:58
+#: tools/ruledit/tab_misc.cpp:62
 msgid "Ruleset version"
 msgstr "Wersja zestawu zasad"
 
-#: tools/ruledit/tab_misc.cpp:63
+#: tools/ruledit/tab_misc.cpp:67
 msgid "Save to directory"
 msgstr "Zapisz w katalogu"
 
-#: tools/ruledit/tab_misc.cpp:70
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Save now"
 msgstr "Zapisz teraz"
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:125
 msgid "Ruleset saved"
 msgstr "Zapisano zestaw zasad"
+
+#: tools/ruledit/tab_nation.cpp:49
+msgid "Use nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:53
+msgid "Nationlist"
+msgstr ""
 
 #: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
