@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-17 10:08+0100\n"
-"PO-Revision-Date: 2014-07-17 13:26+0100\n"
-"Last-Translator: Hubert Kowalewski <hubkow@gmai.com>\n"
+"PO-Revision-Date: 2014-07-12 11:37+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -3048,7 +3048,7 @@ msgstr ""
 "Ich pierwszym państwem była Wormacja, lecz po najazdach Hunów Burgundowie "
 "przenieśli się na tereny dzisiejszej Sabaudii i Burgundii, gdzie założyli "
 "kolejne państwo. Ostatecznie zostali podporządkowani Królestwu Franków. "
-"Burgundowie dali nazwę późniejszemu narodowi romańskiemu i regionowi "
+"Burgundowie dali nazwę późniejszemu narodowi romańskienu i regionowi "
 "Burgundii."
 
 #. TRANS: The last letter in "Burkinabe" should be
@@ -6771,6 +6771,7 @@ msgid "?plural:Italian Greeks"
 msgstr "?plural:Italogrecy"
 
 #: data/nation/italiangreek.ruleset:6
+#, fuzzy
 msgid ""
 "Ancient Magna Graecia was a complex of Greek cities-colonies on the coasts "
 "of Italy and Sicily, founded during the Greek Colonization. They played an "
