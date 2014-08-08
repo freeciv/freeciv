@@ -1,13 +1,13 @@
 # Scottish Gaelic Translation
 # Copyright (C) 1999 Free Software Foundation, Inc.
-# Michael Bauer "Akerbeltz" <fios@akerbeltz.org>, 2011, 2012, 2013.
+# Michael Bauer "Akerbeltz" <fios@akerbeltz.org>, 2011, 2012, 2013, 2014.
 # michael <fios@akerbeltz.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-17 10:08+0100\n"
-"PO-Revision-Date: 2013-11-09 01:27+0100\n"
+"POT-Creation-Date: 2014-08-09 00:24+0100\n"
+"PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
 "Language: gd\n"
@@ -13397,10 +13397,3 @@ msgstr ""
 "daoine geala ann an 1979 an dèidh cogaidh chatharra. Tha an dùthaich air a "
 "bhith fo smachd Robert Mugabe a-mach o 1980 agus tha cliù eadar-nàiseanta a "
 "cheart cho bochd aige 's a bha aig an fhear roimhe."
-
-#~ msgid "?female:Mother Superior %s"
-#~ msgstr "?female:Àrd Mhàthair %s"
-
-#, fuzzy
-#~ msgid "?female:Shaykha %s"
-#~ msgstr "?female:Ceann Comhairle"
