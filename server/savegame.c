@@ -1795,6 +1795,8 @@ static void player_load_units(struct player *plr, int plrno,
             }
 
             order->base = base;
+          } else {
+            order->base = BASE_NONE;
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
@@ -1803,6 +1805,8 @@ static void player_load_units(struct player *plr, int plrno,
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
             order->road = rail_idx;
+          } else {
+            order->road = ROAD_NONE;
           }
 	}
       } else {
