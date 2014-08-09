@@ -1556,6 +1556,8 @@ static void player_load_units(struct player *plr, int plrno,
             }
 
             order->target = extra_number(base_extra_get(base_by_number(base)));
+          } else {
+            order->target = EXTRA_NONE;
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
