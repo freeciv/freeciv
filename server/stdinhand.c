@@ -1324,7 +1324,11 @@ static void write_init_script(char *script_filename)
     fputs("# These are server options saved from a running freeciv-server.\n",
 	script_file);
 
-    /* first, some state info from commands (we can't save everything) */
+    /* first rulesetdir. Setting rulesetdir resets the settings to their
+     * default value, so they would be lost if placed before this.  */
+    fprintf(script_file, "rulesetdir %s\n", game.server.rulesetdir);
+
+    /* some state info from commands (we can't save everything) */
 
     fprintf(script_file, "cmdlevel %s new\n",
             cmdlevel_name(default_access_level));
@@ -1353,9 +1357,6 @@ static void write_init_script(char *script_filename)
       fprintf(script_file, "set %s \"%s\"\n", setting_name(pset),
               setting_value_name(pset, FALSE, buf, sizeof(buf)));
     } settings_iterate_end;
-
-    /* rulesetdir */
-    fprintf(script_file, "rulesetdir %s\n", game.server.rulesetdir);
 
     fclose(script_file);
 
