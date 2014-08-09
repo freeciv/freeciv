@@ -532,7 +532,7 @@ static void nationset_action(const struct setting *pset)
                 _("Warning: not enough nations for all current players."));
   }
 
-  send_nation_availability(game.est_connections);
+  send_nation_availability(game.est_connections, TRUE);
 }
 
 /*************************************************************************

@@ -52,7 +52,7 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
 bool nation_is_in_current_set(const struct nation_type *pnation);
 bool client_can_pick_nation(const struct nation_type *nation);
 void count_playable_nations(void);
-void send_nation_availability(struct conn_list *dest);
+void send_nation_availability(struct conn_list *dest, bool nationset_change);
 void fit_nationset_to_players(void);
 
 /* Iterate over nations in the currently selected set.

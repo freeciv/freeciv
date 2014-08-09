@@ -100,7 +100,8 @@ static void send_player_info_c_real(struct player *src,
 static void send_player_diplstate_c_real(struct player *src,
                                          struct conn_list *dest);
 
-static void send_nation_availability_real(struct conn_list *dest);
+static void send_nation_availability_real(struct conn_list *dest,
+                                          bool nationset_change);
 
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYER_SLOTS];
@@ -838,7 +839,7 @@ void player_info_freeze(void)
 void player_info_thaw(void)
 {
   if (0 == --player_info_frozen_level) {
-    send_nation_availability_real(game.est_connections);
+    send_nation_availability_real(game.est_connections, FALSE);
     send_player_info_c(NULL, NULL);
   }
   fc_assert(0 <= player_info_frozen_level);
@@ -2236,10 +2237,13 @@ bool client_can_pick_nation(const struct nation_type *pnation)
 /****************************************************************************
   Helper doing the actual work for send_nation_availability() (q.v.).
 ****************************************************************************/
-static void send_nation_availability_real(struct conn_list *dest)
+static void send_nation_availability_real(struct conn_list *dest,
+                                          bool nationset_change)
 {
   struct packet_nation_availability packet;
+
   packet.ncount = nation_count();
+  packet.nationset_change = nationset_change;
   nations_iterate(pnation) {
     packet.is_pickable[nation_index(pnation)] = client_can_pick_nation(pnation);
   } nations_iterate_end;
@@ -2249,12 +2253,13 @@ static void send_nation_availability_real(struct conn_list *dest)
 /****************************************************************************
   Tell clients which nations can be picked given current server settings.
 ****************************************************************************/
-void send_nation_availability(struct conn_list *dest)
+void send_nation_availability(struct conn_list *dest,
+                              bool nationset_change)
 {
   if (0 < player_info_frozen_level) {
     return; /* Discard, see comment for player_info_freeze(). */
   } else {
-    send_nation_availability_real(dest);
+    send_nation_availability_real(dest, nationset_change);
   }
 }
 

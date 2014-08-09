@@ -726,7 +726,7 @@ static void create_nation_selection_lists(void)
   The server has changed the set of selectable nations.
   Update any current nations dialog accordingly.
 *****************************************************************************/
-void races_update_pickable(void)
+void races_update_pickable(bool nationset_change)
 {
   int tab, groupidx;
 

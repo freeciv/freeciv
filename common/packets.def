@@ -1437,6 +1437,7 @@ end
 PACKET_NATION_AVAILABILITY = 237; sc, lsend
   UINT16 ncount;
   BOOL is_pickable[MAX_NUM_NATIONS:ncount];
+  BOOL nationset_change;
 end
 
 PACKET_RULESET_STYLE = 239; sc, lsend

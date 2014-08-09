@@ -6148,7 +6148,7 @@ static void send_ruleset_nations(struct conn_list *dest)
   } nations_iterate_end;
 
   /* Send initial values of is_pickable */
-  send_nation_availability(dest);
+  send_nation_availability(dest, FALSE);
 }
 
 /**************************************************************************
