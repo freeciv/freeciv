@@ -549,7 +549,7 @@ set =
       "sciencebox", 100
       "borders", "ENABLED"
       "foggedborders", "ENABLED"
-      "happyborders", "DISABLED"
+      "happyborders", "DISABLE"
       "restrictinfra", "ENABLED"
       "unreachableprotects", "DISABLED"
       "onsetbarbs", 120
