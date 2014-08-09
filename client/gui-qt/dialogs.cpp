@@ -617,8 +617,8 @@ void unit_select_dialog_update_real(void)
 /**************************************************************************
   The server has changed the set of selectable nations.
 **************************************************************************/
-void races_update_pickable(void)
-{ 
+void races_update_pickable(bool nationset_change)
+{
   /* FIXME handle this properly */
   popdown_races_dialog();
 }

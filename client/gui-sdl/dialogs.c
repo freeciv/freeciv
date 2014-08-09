@@ -2670,12 +2670,18 @@ struct NAT {
   unsigned char selected_leader;   /* if not unique -> selected leader */
   Nation_type_id nation;           /* selected nation */
   bool leader_sex;                 /* selected leader sex */
+  struct nation_set *set;
   struct widget *pChange_Sex;
   struct widget *pName_Edit;
   struct widget *pName_Next;
   struct widget *pName_Prev;
+  struct widget *pset_name;
+  struct widget *pset_next;
+  struct widget *pset_prev;
 };
 
+static int next_set_callback(struct widget *next_button);
+static int prev_set_callback(struct widget *prev_button);
 static int nations_dialog_callback(struct widget *pWindow);
 static int nation_button_callback(struct widget *pNation);
 static int races_dialog_ok_callback(struct widget *pStart_Button);
@@ -2861,6 +2867,45 @@ static int prev_name_callback(struct widget *pPrev)
     
     flush_dirty();
   }
+  return -1;
+}
+
+/**************************************************************************
+  User requested next nationset
+**************************************************************************/
+static int next_set_callback(struct widget *next_button)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+    struct option *poption = optset_option_by_name(server_optset, "nationset");
+
+    fc_assert(pSetup->set != NULL
+              && nation_set_index(pSetup->set) < nation_set_count() - 1);
+
+    pSetup->set = nation_set_by_number(nation_set_index(pSetup->set) + 1);
+
+    option_str_set(poption, nation_set_rule_name(pSetup->set));
+  }
+
+  return -1;
+}
+
+/**************************************************************************
+  User requested prev nationset
+**************************************************************************/
+static int prev_set_callback(struct widget *prev_button)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+    struct option *poption = optset_option_by_name(server_optset, "nationset");
+
+    fc_assert(pSetup->set != NULL && nation_set_index(pSetup->set) > 0);
+
+    pSetup->set = nation_set_by_number(nation_set_index(pSetup->set) - 1);
+
+    option_str_set(poption, nation_set_rule_name(pSetup->set));
+  }
+
   return -1;
 }
 
@@ -3173,6 +3218,8 @@ void popup_races_dialog(struct player *pplayer)
   struct NAT *pSetup;
   SDL_Rect area;
   int i;
+  bool nationsets;
+  int natinfo_y, natinfo_h;
 
 #define TARGETS_ROW 5
 #define TARGETS_COL 1
@@ -3286,9 +3333,59 @@ void popup_races_dialog(struct player *pplayer)
   }
   
   /* ----------------------------------------------------------------- */
-    
+
+  /* nation set selection */
+  if (nation_set_count() > 1) {
+    SDL_String16 *natset_str;
+    struct option *poption;
+
+    natset_str = create_str16_from_char(_("Nationset"), adj_font(12));
+    change_ptsize16(natset_str, adj_font(24));
+    pWidget = create_iconlabel(NULL, pWindow->dst, natset_str, 0);
+    add_to_gui_list(ID_LABEL, pWidget);
+    pBuf = pWidget;
+
+    /* create nation set name label */
+    poption = optset_option_by_name(server_optset, "nationset");
+    pSetup->set = nation_set_by_setting_value(option_str_get(poption));
+
+    natset_str = create_str16_from_char(nation_set_name_translation(pSetup->set),
+                                        adj_font(12));
+    change_ptsize16(natset_str, adj_font(24));
+
+    pWidget = create_iconlabel(NULL, pWindow->dst, natset_str, 0);
+
+    add_to_gui_list(ID_LABEL, pWidget);
+    pSetup->pset_name = pWidget;
+
+    /* create next nationset button */
+    pWidget = create_themeicon_button(pTheme->R_ARROW_Icon,
+                                      pWindow->dst, NULL, 0);
+    pWidget->action = next_set_callback;
+    if (nation_set_index(pSetup->set) < nation_set_count() - 1) {
+      set_wstate(pWidget, FC_WS_NORMAL);
+    }
+    add_to_gui_list(ID_NATION_NEXT_NATIONSET_BUTTON, pWidget);
+    pWidget->size.h = pWidget->next->size.h;
+    pSetup->pset_next = pWidget;
+
+    /* create prev nationset button */
+    pWidget = create_themeicon_button(pTheme->L_ARROW_Icon,
+                                      pWindow->dst, NULL, 0);
+    pWidget->action = prev_set_callback;
+    if (nation_set_index(pSetup->set) > 0) {
+      set_wstate(pWidget, FC_WS_NORMAL);
+    }
+    add_to_gui_list(ID_NATION_PREV_NATIONSET_BUTTON, pWidget);
+    pWidget->size.h = pWidget->next->size.h;
+    pSetup->pset_prev = pWidget;
+
+    nationsets = TRUE;
+  } else {
+    nationsets = FALSE;
+  }
+
   /* nation name */
-  
   pSetup->nation = fc_rand(get_playable_nation_count());
   pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
   
@@ -3300,8 +3397,10 @@ void popup_races_dialog(struct player *pplayer)
   pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(nation_by_number(pSetup->nation)));
   
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
-  			(WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
-  pBuf = pWidget;
+                             (WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
+  if (!nationsets) {
+    pBuf = pWidget;
+  }
   add_to_gui_list(ID_LABEL, pWidget);
   
   /* create leader name edit */
@@ -3331,7 +3430,6 @@ void popup_races_dialog(struct player *pplayer)
   pSetup->pName_Prev = pWidget;
   
   /* change sex button */
-  
   pWidget = create_icon_button_from_chars(NULL, pWindow->dst, _("Male"), adj_font(14), 0);
   pWidget->action = change_sex_callback;
   pWidget->size.w = adj_size(100);
@@ -3453,15 +3551,47 @@ void popup_races_dialog(struct player *pplayer)
              area2.x, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
              get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   }
+
+  if (nationsets) {
+    /* Nationsets header */
+    pBuf->size.x = area.x + area.w / 2 + (area.w / 2 - pBuf->size.w) / 2;
+    pBuf->size.y = area.y + adj_size(46);
+
+    natinfo_y = pBuf->size.y;
+    natinfo_h = area.h -= pBuf->size.y;
+
+    /* Nationset name */
+    pBuf = pBuf->prev;
+    pBuf->size.x = area.x + area.w / 2 + (area.w / 2 - pBuf->size.w) / 2;
+    pBuf->size.y = natinfo_y + adj_size(46);
+
+    natinfo_y += adj_size(46);
+    natinfo_h -= adj_size(46);
+
+    /* Next Nationset Button */
+    pBuf = pBuf->prev;
+    pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w;
+    pBuf->size.y = pBuf->next->size.y;
+
+    /* Prev Nationset Button */
+    pBuf = pBuf->prev;
+    pBuf->size.x = pBuf->next->next->size.x - pBuf->size.w;
+    pBuf->size.y = pBuf->next->size.y;
+
+    pBuf = pBuf->prev;
+  } else {
+    natinfo_y = area.y;
+    natinfo_h = area.h;
+  }
    
-  /* Sellected Nation Name */
+  /* Selected Nation Name */
   pBuf->size.x = area.x + area.w / 2 + (area.w / 2 - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + adj_size(46);
+  pBuf->size.y = natinfo_y + adj_size(46);
   
   /* Leader Name Edit */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + area.w / 2 + (area.w/2 - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + (area.h - pBuf->size.h) / 2 - adj_size(30);
+  pBuf->size.y = natinfo_y + (natinfo_h - pBuf->size.h) / 2 - adj_size(30);
   
   /* Next Leader Name Button */
   pBuf = pBuf->prev;
@@ -3494,15 +3624,15 @@ void popup_races_dialog(struct player *pplayer)
   
   putline(pWindow->theme,
           area.x,
-          area.y + area.h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
+          natinfo_y + natinfo_h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
           area.w - 1, 
-          area.y + area.h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
+          natinfo_y + natinfo_h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
           get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   
   /* Disconnect Button */
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + adj_size(10);
-  pBuf->size.y = area.y + area.h - adj_size(7) - pBuf->size.h;
+  pBuf->size.y = natinfo_y + natinfo_h - adj_size(7) - pBuf->size.h;
   
   /* Start Button */
   pBuf = pBuf->prev;
@@ -3540,7 +3670,20 @@ void popdown_races_dialog(void)
 /**************************************************************************
   The server has changed the set of selectable nations.
 **************************************************************************/
-void races_update_pickable(void)
+void races_update_pickable(bool nationset_change)
+{
+  /* If this is because of nationset change, update will take
+   * place later when the new option value is received */
+  if (pNationDlg != NULL && !nationset_change) {
+    popdown_races_dialog();
+    popup_races_dialog(client.conn.playing);
+  }
+}
+
+/**************************************************************************
+  Nationset selection update
+**************************************************************************/
+void nationset_changed(void)
 {
   if (pNationDlg != NULL) {
     popdown_races_dialog();

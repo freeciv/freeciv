@@ -2603,7 +2603,7 @@ static void srv_ready(void)
   (void) send_server_info_to_metaserver(META_INFO);
 
   /* Need to resend this as is_pickable changes on entry to S_S_RUNNING */
-  send_nation_availability(game.est_connections);
+  send_nation_availability(game.est_connections, FALSE);
 
   if (game.info.is_new_game) {
     /* If we're starting a new game, reset the max_players to be at

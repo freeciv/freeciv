@@ -41,7 +41,7 @@ void unit_select_dialog_update(void); /* Defined in update_queue.c. */
 GUI_FUNC_PROTO(void, unit_select_dialog_update_real, void)
 
 GUI_FUNC_PROTO(void, races_toggles_set_sensitive, void)
-GUI_FUNC_PROTO(void, races_update_pickable, void)
+GUI_FUNC_PROTO(void, races_update_pickable, bool nationset_change)
 
 GUI_FUNC_PROTO(void, popup_caravan_dialog, struct unit *punit,
                struct city *phomecity, struct city *pdestcity)

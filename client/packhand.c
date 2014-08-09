@@ -3485,17 +3485,24 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   Handle nation availability info.
   This can change during pregame so is separate from ruleset_nation.
 ****************************************************************************/
-void handle_nation_availability(int ncount, const bool *is_pickable)
+void handle_nation_availability(int ncount, const bool *is_pickable,
+                                bool nationset_change)
 {
   int i;
+
   fc_assert_action(ncount == nation_count(),
                    ncount = MIN(ncount, nation_count()));
 
-  for (i=0; i<ncount; i++) {
+  for (i = 0; i < ncount; i++) {
     nation_by_number(i)->client.is_pickable = is_pickable[i];
   }
 
-  races_update_pickable();
+  if (has_capability("nationset_change", client.conn.capability)) {
+    races_update_pickable(nationset_change);
+  } else {
+    /* Always do full processing as we don't know if it was nationset change or not */
+    races_update_pickable(FALSE);
+  }
 }
 
 /**************************************************************************
