@@ -2257,6 +2257,8 @@ static void player_load_units(struct player *plr, int plrno,
             }
 
             order->base = base;
+          } else {
+            order->base = BASE_NONE;
           }
 	}
       } else {
