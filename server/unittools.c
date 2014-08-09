@@ -772,6 +772,7 @@ static void update_unit_activity(struct unit *punit)
                                 punit->activity_target,
                                 punit->activity_base) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
+      struct player *victim = tile_owner(ptile); /* Owner before fortress gets destroyed */
 
       if (what_pillaged == S_LAST) {
         fc_assert(punit->activity_base != BASE_NONE);
@@ -795,7 +796,7 @@ static void update_unit_activity(struct unit *punit)
        * other units working on the same thing above */
       check_adjacent_units = TRUE;
 
-      call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
+      call_incident(INCIDENT_PILLAGE, unit_owner(punit), victim);
 
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
