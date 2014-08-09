@@ -831,6 +831,8 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
                                 &punit->activity_target) >= 1) {
+      struct player *victim = tile_owner(ptile); /* Owner before fortress gets destroyed */
+
       switch (punit->activity_target.type) {
         case ATT_SPECIAL:
           tile_clear_special(ptile, punit->activity_target.obj.spe);
@@ -848,7 +850,7 @@ static void update_unit_activity(struct unit *punit)
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
 
-      call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
+      call_incident(INCIDENT_PILLAGE, unit_owner(punit), victim);
 
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
