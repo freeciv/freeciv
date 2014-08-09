@@ -799,12 +799,14 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (total_activity(ptile, ACTIVITY_PILLAGE, 
                        punit->activity_target) >= 1) {
+      struct player *victim = tile_owner(ptile); /* Owner before fortress gets destroyed */
+
       destroy_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
 
       bounce_units_on_terrain_change(ptile);
 
-      call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
+      call_incident(INCIDENT_PILLAGE, unit_owner(punit), victim);
 
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
