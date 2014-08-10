@@ -1189,7 +1189,7 @@ int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pe
 
   tile_add_extra(ptile, pextra);
 
-  activity_mc += terrain_road_time(pterrain, pextra);
+  activity_mc += terrain_extra_build_time(pterrain, ACTIVITY_GEN_ROAD, pextra);
 
   return activity_mc;
 }

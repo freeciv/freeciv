@@ -309,11 +309,9 @@ const char *resource_name_translation(const struct resource *presource);
 const char *get_infrastructure_text(bv_extras extras);
 struct extra_type *get_preferred_pillage(bv_extras extras);
 
-int terrain_base_time(const struct terrain *pterrain,
-                      const struct extra_type *tgt);
-
-int terrain_road_time(const struct terrain *pterrain,
-                      const struct extra_type *tgt);
+int terrain_extra_build_time(const struct terrain *pterrain,
+                             enum unit_activity activity,
+                             const struct extra_type *tgt);
 
 /* Functions to operate on a terrain class. */
 const char *terrain_class_name_translation(enum terrain_class tclass);

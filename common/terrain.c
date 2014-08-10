@@ -783,36 +783,30 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
 }
 
 /****************************************************************************
-   Time to complete the base building activity on the given terrain.
+   Time to complete the extra building activity on the given terrain.
 ****************************************************************************/
-int terrain_base_time(const struct terrain *pterrain,
-                      const struct extra_type *tgt)
+int terrain_extra_build_time(const struct terrain *pterrain,
+                             enum unit_activity activity,
+                             const struct extra_type *tgt)
 {
-  struct base_type *pbase = extra_base_get(tgt);
-
-  if (pbase->build_time == 0) {
-    /* Terrain specific build time */
-    return pterrain->base_time;
-  } else {
-    /* Road specific build time */
-    return pbase->build_time;
+  if (tgt != NULL && tgt->build_time != 0) {
+    /* Extra specific build time */
+    return tgt->build_time;
   }
-}
 
-/****************************************************************************
-  Time to complete the road building activity on the given terrain.
-****************************************************************************/
-int terrain_road_time(const struct terrain *pterrain,
-                      const struct extra_type *tgt)
-{
-  struct road_type *proad = extra_road_get(tgt);
-
-  if (proad->build_time == 0) {
-    /* Terrain specific build time */
+  /* Terrain and activity specific build time */
+  switch (activity) {
+  case ACTIVITY_BASE:
+    return pterrain->base_time;
+  case ACTIVITY_GEN_ROAD:
     return pterrain->road_time;
-  } else {
-    /* Road specific build time */
-    return proad->build_time;
+  case ACTIVITY_IRRIGATE:
+    return pterrain->irrigation_time;
+  case ACTIVITY_MINE:
+    return pterrain->mining_time;
+  default:
+    fc_assert(FALSE);
+    return 0;
   }
 }
 

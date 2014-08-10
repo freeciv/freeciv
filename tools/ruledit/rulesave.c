@@ -1653,6 +1653,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (!pextra->buildable) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
     }
+    secfile_insert_int(sfile, pextra->build_time, "%s.build_time", path);
     if (pextra->defense_bonus != 0) {
       secfile_insert_int(sfile, pextra->defense_bonus, "%s.defense_bonus", path);
     }
@@ -1721,7 +1722,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     secfile_insert_str(sfile, base_gui_type_name(pbase->gui_type),
                        "%s.gui_type", path);
-    secfile_insert_int(sfile, pbase->build_time, "%s.build_time", path);
 
     if (pbase->border_sq >= 0) {
       secfile_insert_int(sfile, pbase->border_sq, "%s.border_sq", path);
@@ -1764,8 +1764,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, road_move_mode_name(proad->move_mode),
                          "%s.move_mode", path);
     }
-
-    secfile_insert_int(sfile, proad->build_time, "%s.build_time", path);
 
     output_type_iterate(o) {
       if (proad->tile_incr_const[o] != 0) {

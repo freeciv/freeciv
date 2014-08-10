@@ -1556,6 +1556,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 rmreqs_count;
   REQUIREMENT rmreqs[MAX_NUM_REQS:rmreqs_count];
   BOOL buildable;
+  UINT8 build_time;
   UINT8 defense_bonus;
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;
@@ -1566,7 +1567,6 @@ end
 PACKET_RULESET_BASE = 153; sc, lsend
   UINT8 id;
   BASE_GUI gui_type;
-  UINT8 build_time;
   SINT8 border_sq;
   SINT8 vision_main_sq;
   SINT8 vision_invis_sq;
@@ -1580,7 +1580,6 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   REQUIREMENT first_reqs[MAX_NUM_REQS:first_reqs_count];
   SINT8 move_cost;
   MOVE_MODE move_mode;
-  UINT8 build_time;
   UINT16 tile_incr_const[O_LAST];
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];

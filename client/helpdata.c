@@ -267,14 +267,18 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
     } terrain_type_iterate_end;
 
     base_type_iterate(b) {
-      if (base_extra_get(b)->buildable && b->build_time > 0) {
+      struct extra_type *pextra = base_extra_get(b);
+
+      if (pextra->buildable && pextra->build_time > 0) {
         terrain_independent_extras = TRUE;
         break;
       }
     } base_type_iterate_end;
     if (!terrain_independent_extras) {
       road_type_iterate(r) {
-        if (road_extra_get(r)->buildable && r->build_time > 0) {
+        struct extra_type *pextra = road_extra_get(r);
+
+        if (pextra->buildable && pextra->build_time > 0) {
           terrain_independent_extras = TRUE;
           break;
         }
@@ -301,25 +305,29 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
       road_type_iterate(r) {
-        if (road_extra_get(r)->buildable && r->build_time > 0) {
+        struct extra_type *pextra = road_extra_get(r);
+
+        if (pextra->buildable && pextra->build_time > 0) {
           const char *name = road_name_translation(r);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
                        name,
                        MAX(0, 18 - (int)get_internal_string_length(name)), "",
-                       r->build_time);
+                       pextra->build_time);
         }
       } road_type_iterate_end;
       base_type_iterate(b) {
-        if (base_extra_get(b)->buildable && b->build_time > 0) {
+        struct extra_type *pextra = base_extra_get(b);
+
+        if (pextra->buildable && pextra->build_time > 0) {
           const char *name = base_name_translation(b);
 
           cat_snprintf(outbuf, outlen,
                        "\n%s%*s %3d",
                        name,
                        MAX(0, 18 - (int)get_internal_string_length(name)), "",
-                       b->build_time);
+                       pextra->build_time);
         }
       } base_type_iterate_end;
     }
@@ -4230,12 +4238,11 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
   /* Table of terrain-specific attributes, if needed */
   {
     bool road, do_time, do_bonus;
-    int extra_time;
+
     fc_assert(proad != NULL || pbase != NULL);
     road = (proad != NULL);
-    extra_time = road ? proad->build_time : pbase->build_time;
     /* Terrain-dependent build time? */
-    do_time = pextra->buildable && extra_time == 0;
+    do_time = pextra->buildable && pextra->build_time == 0;
     if (road) {
       /* Terrain-dependent output bonus? */
       do_bonus = FALSE;
@@ -4278,8 +4285,8 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                   "-------------------------\n"));;
       }
       terrain_type_iterate(t) {
-        int time = road ? terrain_road_time(t, pextra)
-                        : terrain_base_time(t, pextra);
+        int time = road ? terrain_extra_build_time(t, ACTIVITY_GEN_ROAD, pextra)
+                          : terrain_extra_build_time(t, ACTIVITY_BASE, pextra);
         const char *bonus_text
           = road ? helptext_road_bonus_str(t, proad) : NULL;
         if (time > 0 || bonus_text) {

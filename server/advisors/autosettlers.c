@@ -115,7 +115,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
       potential_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      int build_time = terrain_road_time(tile_terrain(tile1), pextra);
+      int build_time = terrain_extra_build_time(tile_terrain(tile1), ACTIVITY_GEN_ROAD, pextra);
       int j;
 
       real_road[i] = tile_has_road(tile1, proad);

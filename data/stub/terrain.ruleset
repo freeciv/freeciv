@@ -86,12 +86,14 @@ ocean_resources = FALSE
 ;                        terrain name -- irrigation changes to that terrain
 ; irrigation_food_incr = increment to food if square is irrigated
 ; irrigation_time      = time to irrigate; if 0, cannot irrigate
+;                        Nonzero values only affect extras with build_time 0.
 ; mining_result        = result of mining; one of:
 ;                        "no"  -- cannot mine
 ;                        "yes" -- can mine
 ;                        terrain name -- mining changes to that terrain
 ; mining_shield_incr   = increment to shields if square is mined
 ; mining_time          = time to mine; if 0, cannot mine
+;                        Nonzero values only affect extras with build_time 0.
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
 ;                        terrain name -- transformation changes to that
@@ -295,6 +297,9 @@ identifier  = "g"
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
 ; buildable               = Can extra be built? Defaults to TRUE
+; build_time              = how long it takes a unit to build this extra.
+;                           Value of 0 (default) means that terrain- and 
+;                           build activity specific time is used instead.
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
 ; native_to               = List of unit classes that are considered to
@@ -335,6 +340,7 @@ identifier  = "g"
 ,act_gfx_alt    = "-"
 ;rmact_gfx      = "None"
 ;rmact_gfx_alt  = "-"
+;build_time     = 0
 
 ;[extra_gbase]
 ;name           = _("Generic Base")
@@ -352,6 +358,7 @@ identifier  = "g"
 ;    { "type", "name", "range"
 ; No requirements
 ;    }
+;build_time     = 0
 
 ;[extra_groad]
 ;name           = _("Generic Road")
@@ -369,6 +376,7 @@ identifier  = "g"
 ;    { "type", "name", "range"
 ; No requirements
 ;    }
+;build_time     = 0
 
 ; /* <-- avoid gettext warnings
 ;
@@ -380,9 +388,6 @@ identifier  = "g"
 ;                           and README.effects for help on requirements)
 ; gui_type                = How gui should handle this base.
 ;                           Fortress/Airbase/Other
-; build_time              = how long it takes a unit to build this base.
-;                           Value of 0 (default) means that terrain-specific
-;                           base_time is used instead.
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable. If enabled, base cannot exist in city tile.
 ; vision_main_sq          = Base will have main layer vision to this radius
@@ -404,7 +409,6 @@ identifier  = "g"
 ;[base_gbase]
 ;name         = _("Generic Base")
 ;gui_type     = "Fortress"
-;build_time   = 3
 
 ; /* <-- avoid gettext warnings
 ;
@@ -428,9 +432,6 @@ identifier  = "g"
 ;   - "Relaxed"    = Road cost is normal for cardinal, double for diagonal moves
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads
 ;                    (default)
-; build_time              = how long it takes a unit to build this road.
-;                           Value of 0 (default) means that terrain-specific
-;                           road_time is used instead.
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of
 ;                           terrain
@@ -470,7 +471,6 @@ identifier  = "g"
 ; [road_groad]
 ; name           = _("Generic Road")
 ; move_cost      = 1
-; build_time     = 0
 ; food_incr      = 0
 ; shield_incr    = 0
 ; trade_incr     = 0

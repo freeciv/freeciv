@@ -1095,9 +1095,9 @@ static void help_update_base(const struct help_item *pitem,
     const char *sep = "";
 
     buf[0] = '\0';
-    if (pextra->buildable && pbase->build_time > 0) {
+    if (pextra->buildable && pextra->build_time > 0) {
       /* TRANS: Build cost for bases in help. "MP" = movement points */
-      sprintf(buf, _("Build: %d MP\n"), pbase->build_time);
+      sprintf(buf, _("Build: %d MP\n"), pextra->build_time);
     }
     /* TRANS: Base conflicts in help. Will be followed by a list of bases
      * that can't be built on the same tile as this one. */
@@ -1137,9 +1137,9 @@ static void help_update_road(const struct help_item *pitem,
   } else {
     /* FIXME use actual widgets */
     buf[0] = '\0';
-    if (road_extra_get(proad)->buildable && proad->build_time > 0) {
+    if (road_extra_get(proad)->buildable && pextra->build_time > 0) {
       /* TRANS: Build cost for roads in help. "MP" = movement points */
-      sprintf(buf, _("Build: %d MP\n"), proad->build_time);
+      sprintf(buf, _("Build: %d MP\n"), pextra->build_time);
     }
     {
       bool terrain_specific = FALSE;

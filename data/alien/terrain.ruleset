@@ -93,12 +93,14 @@ ocean_resources = TRUE
 ;                        terrain name -- irrigation changes to that terrain
 ; irrigation_food_incr = increment to food if tile is irrigated
 ; irrigation_time      = time to irrigate; if 0, cannot irrigate
+;                        Nonzero values only affect extras with build_time 0.
 ; mining_result        = result of mining; one of:
 ;                        "no"  -- cannot mine
 ;                        "yes" -- can mine
 ;                        terrain name -- mining changes to that terrain
 ; mining_shield_incr   = increment to shields if tile is mined
 ; mining_time          = time to mine; if 0, cannot mine
+;                        Nonzero values only affect extras with build_time 0.
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
 ;                        terrain section -- transformation changes to that
@@ -575,6 +577,9 @@ identifier  = "g"
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
 ; buildable               = Can extra be built? Defaults to TRUE
+; build_time              = how long it takes a unit to build this extra.
+;                           Value of 0 (default) means that terrain- and 
+;                           build activity specific time is used instead.
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
 ; native_to               = List of unit classes that are considered to
@@ -615,6 +620,7 @@ activity_gfx   = "unit.irrigate"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+build_time     = 0
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 
@@ -629,6 +635,7 @@ activity_gfx   = "unit.mine"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+build_time     = 0
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -676,6 +683,7 @@ reqs           =
       "Tech", "Protein Modifications", "Player"
       "Extra", "Irrigation", "Local"
     }
+build_time     = 0
 conflicts      = "Mine"
 
 [extra_fallout]
@@ -709,6 +717,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 3
 defense_bonus  = 150
 native_to      = "Earthly", "Native", "Amphibious"
 conflicts      = "Force Fortress"
@@ -731,6 +740,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 3
 defense_bonus  = 100
 native_to      = "Earthly", "Native", "Amphibious"
 conflicts      = "Tower"
@@ -753,6 +763,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 3
 native_to      = "Antigravity"
 
 [extra_road]
@@ -771,6 +782,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+build_time     = 0
 native_to      = "Earthly", "Native"
 hidden_by      = "Highway", "Maglev"
 flags          = "AutoOnCityCenter"
@@ -793,6 +805,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+build_time     = 3
 native_to      = "Earthly", "Native"
 hidden_by      = "Maglev"
 flags          = "AutoOnCityCenter"
@@ -815,6 +828,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+build_time     = 3
 native_to      = "Earthly", "Native"
 flags          = "AutoOnCityCenter"
 
@@ -836,6 +850,7 @@ reqs           =
       "TerrainFlag", "Radiating", "Local"
       "TerrainClass", "Land", "Local" ; Needed explicitly for automatic move type assignment
     }
+build_time     = 3
 defense_bonus  = 35
 native_to      = "Earthly"
 flags          = "NativeTile", "AutoOnCityCenter"
@@ -857,6 +872,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Oceanic", "Local"
     }
+build_time     = 3
 native_to      = "Burrowing"
 flags          = "NativeTile", "AutoOnCityCenter", "ConnectLand"
 
@@ -901,9 +917,6 @@ native_to      = "Native", "Amphibious"
 ;                           base after a ruleset has been released.
 ; gui_type                = How gui should handle this base.
 ;                           Fortress/Airbase/Other
-; build_time              = how long it takes a unit to build this base.
-;                           Value of 0 (default) means that terrain-specific
-;                           base_time is used instead.
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable. If enabled, base cannot exist in city tile.
 ; vision_main_sq          = Base will have main layer vision to this radius
@@ -922,19 +935,16 @@ native_to      = "Native", "Amphibious"
 [base_tower]
 name          = _("Tower")
 gui_type      = "Fortress"
-build_time    = 3
 flags         = "NoAggressive", "NoStackDeath"
 
 [base_fortress]
 name          = _("Force Fortress")
 gui_type      = "Fortress"
-build_time    = 3
 flags         = "NoAggressive"
 
 [base_antigrav_base]
 name         = _("Antigrav Base")
 gui_type     = "Airbase"
-build_time   = 3
 flags        = "ParadropFrom", "NoAggressive"
 
 
@@ -960,9 +970,6 @@ flags        = "ParadropFrom", "NoAggressive"
 ;   - "Relaxed"    = Road cost is normal for cardinal, double for diagonal moves
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads
 ;                    (default)
-; build_time              = how long it takes a unit to build this road.
-;                           Value of 0 (default) means that terrain-specific
-;                           road_time is used instead.
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of
 ;                           terrain
@@ -1002,7 +1009,6 @@ flags        = "ParadropFrom", "NoAggressive"
 [road_road]
 name           = _("Road")
 move_cost      = 2
-build_time     = 0
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 1
@@ -1019,7 +1025,6 @@ Having Road on Grassland tile provides increase of +1 to trade on that tile.\
 [road_highway]
 name           = _("Highway")
 move_cost      = 1
-build_time     = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0
@@ -1034,7 +1039,6 @@ You can upgrade Roads to Highways.\
 [road_maglev]
 name           = _("Maglev")
 move_cost      = 0
-build_time     = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0
@@ -1054,7 +1058,6 @@ tile with Maglev is increased by 50%.\
 name           = _("Tunnel")
 move_cost      = -1
 move_mode      = "FastAlways"
-build_time     = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0
@@ -1075,7 +1078,6 @@ first_reqs     =
       "TerrainClass", "Land", "CAdjacent"
     }
 move_cost      = 4
-build_time     = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0

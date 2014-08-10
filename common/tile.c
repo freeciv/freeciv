@@ -399,18 +399,15 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   switch (activity) {
   case ACTIVITY_POLLUTION:
     return pterrain->clean_pollution_time * ACTIVITY_FACTOR;
-  case ACTIVITY_MINE:
-    return pterrain->mining_time * ACTIVITY_FACTOR;
-  case ACTIVITY_IRRIGATE:
-    return pterrain->irrigation_time * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
     return pterrain->clean_fallout_time * ACTIVITY_FACTOR;
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_MINE:
   case ACTIVITY_BASE:
-    return terrain_base_time(pterrain, tgt) * ACTIVITY_FACTOR;
   case ACTIVITY_GEN_ROAD:
-    return terrain_road_time(pterrain, tgt) * ACTIVITY_FACTOR;
+    return terrain_extra_build_time(pterrain, activity, tgt) * ACTIVITY_FACTOR;
   default:
     return 0;
   }

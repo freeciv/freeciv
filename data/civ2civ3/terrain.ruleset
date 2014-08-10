@@ -101,12 +101,14 @@ ocean_resources = FALSE
 ;                        terrain section -- irrigation changes to that terrain
 ; irrigation_food_incr = increment to food if tile is irrigated
 ; irrigation_time      = time to irrigate; if 0, cannot irrigate
+;                        Nonzero values only affect extras with build_time 0.
 ; mining_result        = result of mining; one of:
 ;                        "no"  -- cannot mine
 ;                        "yes" -- can mine
 ;                        terrain section -- mining changes to that terrain
 ; mining_shield_incr   = increment to shields if tile is mined
 ; mining_time          = time to mine; if 0, cannot mine
+;                        Nonzero values only affect extras with build_time 0.
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
 ;                        terrain section -- transformation changes to that
@@ -1012,6 +1014,9 @@ shield      = 3 ; glacier used to have 4
 ;                           and README.effects for help on requirements)
 ; rmreqs                  = requirements to remove the extra
 ; buildable               = Can extra be built? Defaults to TRUE
+; build_time              = how long it takes a unit to build this extra.
+;                           Value of 0 (default) means that terrain- and 
+;                           build activity specific time is used instead.
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
 ; native_to               = List of unit classes that are considered to
@@ -1052,6 +1057,7 @@ activity_gfx   = "unit.irrigate"
 act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+build_time     = 0
 conflicts      = "Mine", "Oil Well"
 hidden_by      = "Farmland"
 
@@ -1070,6 +1076,7 @@ reqs           =
     { "type", "name", "range", "present"
       "TerrainFlag", "Oil", "Local", FALSE
     }
+build_time     = 0
 conflicts      = "Irrigation", "Farmland"
 
 [extra_oil_well]
@@ -1087,6 +1094,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainFlag", "Oil", "Local"
     }
+build_time     = 0
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -1135,6 +1143,7 @@ reqs           =
       "Tech", "Refrigeration", "Player"
       "Extra", "Irrigation", "Local"
     }
+build_time     = 0
 conflicts      = "Mine", "Oil Well"
 
 [extra_fallout]
@@ -1168,6 +1177,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 2
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airfield", "Airbase"
 flags          = "NativeTile"
@@ -1191,6 +1201,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 2
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airfield", "Airbase"
 flags          = "NativeTile"
@@ -1213,6 +1224,7 @@ reqs           =
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 2
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Trench", "Fortress"
 flags          = "Refuel"
@@ -1236,6 +1248,7 @@ reqs           =
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 2
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Trench", "Fortress"
 flags          = "Refuel"
@@ -1258,6 +1271,7 @@ reqs           =
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+build_time     = 3
 
 [extra_ruins]
 name           = _("Ruins")
@@ -1294,6 +1308,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+build_time     = 0
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 hidden_by      = "Railroad", "Maglev"
 flags          = "NativeTile", "AutoOnCityCenter"
@@ -1316,6 +1331,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+build_time     = 3
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 flags          = "NativeTile", "AutoOnCityCenter"
 hidden_by      = "Maglev"
@@ -1338,6 +1354,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
       "TerrainClass", "Land", "Local"
     }
+build_time     = 3
 native_to      = "Land", "Small Land"
 flags          = "NativeTile", "AutoOnCityCenter"
 
@@ -1368,9 +1385,6 @@ flags          = "NativeTile"
 ;                           base after a ruleset has been released.
 ; gui_type                = How gui should handle this base.
 ;                           Fortress/Airbase/Other
-; build_time              = how long it takes a unit to build this base.
-;                           Value of 0 (default) means that terrain-specific
-;                           base_time is used instead.
 ; border_sq               = Base will claim land ownership up to this radius,
 ;                           -1 to disable. If enabled, base cannot exist in city tile.
 ; vision_main_sq          = Base will have main layer vision to this radius
@@ -1389,7 +1403,6 @@ flags          = "NativeTile"
 [base_trench]
 name           = _("Trench")
 gui_type       = "Fortress"
-build_time     = 2
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
@@ -1401,7 +1414,6 @@ is completed.\
 [base_fortress]
 name           = _("Fortress")
 gui_type       = "Fortress"
-build_time     = 2
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 helptext       = _("\
@@ -1413,7 +1425,6 @@ a quarter of its hit points.\
 [base_airfield]
 name           = _("Airfield")
 gui_type       = "Airbase"
-build_time     = 2
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
 helptext       = _("\
@@ -1427,7 +1438,6 @@ is completed.\
 [base_airbase]
 name           = _("Airbase")
 gui_type       = "Airbase"
-build_time     = 2
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
 helptext       = _("\
@@ -1441,7 +1451,6 @@ Air units in an airbase may be attacked by land units.\
 [base_buoy]
 name           = _("Buoy")
 gui_type       = "Fortress"
-build_time     = 3
 vision_main_sq = 5
 helptext       = _("\
 Buoys may be built in the ocean (by units on a sea-going vessel).\
@@ -1449,7 +1458,6 @@ Buoys may be built in the ocean (by units on a sea-going vessel).\
 
 [base_ruins]
 name           = _("Ruins")
-build_time     = 0
 gui_type       = "Other"
 helptext       = _("\
 Ruins mark the former site of a city that was destroyed or abandoned. \
@@ -1479,9 +1487,6 @@ They have no effect on gameplay.\
 ;   - "Relaxed"    = Road cost is normal for cardinal, double for diagonal moves
 ;   - "FastAlways" = Road cost applies always between two tiles with the roads
 ;                    (default)
-; build_time              = how long it takes a unit to build this road.
-;                           Value of 0 (default) means that terrain-specific
-;                           road_time is used instead.
 ; food_incr_const         = food production added to tile regardless of terrain
 ; shield_incr_const       = shield production added to tile regardless of
 ;                           terrain
@@ -1521,7 +1526,6 @@ They have no effect on gameplay.\
 [road_road]
 name           = _("Road")
 move_cost      = 2
-build_time     = 0
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 1
@@ -1547,7 +1551,6 @@ Building roads on river tiles requires knowledge of Bridge Building.\
 [road_railroad]
 name           = _("Railroad")
 move_cost      = 1
-build_time     = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0
@@ -1572,7 +1575,6 @@ City center tiles with roads are automatically upgraded to railroads\
 [road_maglev]
 name           = _("Maglev")
 move_cost      = 0
-build_time     = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0
