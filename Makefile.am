@@ -70,6 +70,7 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/fcdb-sqlite3.m4		\
 		m4/features.m4			\
 		m4/freetype2.m4			\
+		m4/gettext.m4			\
 		m4/gettimeofday.m4		\
 		m4/ggz.m4			\
 		m4/glib-gettext.m4		\
@@ -86,9 +87,12 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/magickwand.m4		\
 		m4/mapimg-magickwand.m4		\
 		m4/ngettext.m4			\
+		m4/nls.m4			\
 		m4/no-client.m4			\
 		m4/pkg.m4			\
+		m4/po.m4			\
 		m4/postgres.m4			\
+		m4/progtest.m4			\
 		m4/qt5.m4			\
 		m4/qt-client.m4			\
 		m4/readline.m4			\
