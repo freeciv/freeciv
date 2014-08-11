@@ -114,6 +114,10 @@ ocean_resources = FALSE
 ;                        terrain section -- transformation changes to that
 ;                          terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; clean_pollution_time = time to clean pollution
+;                        Nonzero values only affect extras with removal_time 0.
+; clean_fallout_time   = time to clean fallout
+;                        Nonzero values only affect extras with removal_time 0.
 ; animal               = unit type that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; does not count for warming
@@ -1017,6 +1021,9 @@ shield      = 3 ; glacier used to have 4
 ; build_time              = how long it takes a unit to build this extra.
 ;                           Value of 0 (default) means that terrain- and 
 ;                           build activity specific time is used instead.
+; removal_time            = how long it takes a unit to remove this extra.
+;                           Value of 0 (default) means that terrain- and
+;                           removal activity specific time is used instead.
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
 ; native_to               = List of unit classes that are considered to
@@ -1058,6 +1065,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 build_time     = 0
+removal_time   = 0
 conflicts      = "Mine", "Oil Well"
 hidden_by      = "Farmland"
 
@@ -1077,6 +1085,7 @@ reqs           =
       "TerrainFlag", "Oil", "Local", FALSE
     }
 build_time     = 0
+removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
 
 [extra_oil_well]
@@ -1095,6 +1104,7 @@ reqs           =
       "TerrainFlag", "Oil", "Local"
     }
 build_time     = 0
+removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -1108,6 +1118,7 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
+removal_time   = 0
 flags          = "GlobalWarming"
 
 [extra_hut]
@@ -1144,6 +1155,7 @@ reqs           =
       "Extra", "Irrigation", "Local"
     }
 build_time     = 0
+removal_time   = 0
 conflicts      = "Mine", "Oil Well"
 
 [extra_fallout]
@@ -1157,6 +1169,7 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
+removal_time   = 0
 flags          = "NuclearWinter"
 
 [extra_trench]
@@ -1178,6 +1191,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 2
+removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airfield", "Airbase"
 flags          = "NativeTile"
@@ -1202,6 +1216,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 2
+removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airfield", "Airbase"
 flags          = "NativeTile"
@@ -1225,6 +1240,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 2
+removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Trench", "Fortress"
 flags          = "Refuel"
@@ -1249,6 +1265,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 2
+removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Trench", "Fortress"
 flags          = "Refuel"
@@ -1272,6 +1289,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 3
+removal_time   = 0
 
 [extra_ruins]
 name           = _("Ruins")
@@ -1290,6 +1308,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 buildable      = FALSE
+removal_time   = 0
 flags          = "TerrChangeRemoves"
 
 [extra_road]
@@ -1309,6 +1328,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 build_time     = 0
+removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 hidden_by      = "Railroad", "Maglev"
 flags          = "NativeTile", "AutoOnCityCenter"
@@ -1332,6 +1352,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 build_time     = 3
+removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 flags          = "NativeTile", "AutoOnCityCenter"
 hidden_by      = "Maglev"
@@ -1355,6 +1376,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 build_time     = 3
+removal_time   = 0
 native_to      = "Land", "Small Land"
 flags          = "NativeTile", "AutoOnCityCenter"
 

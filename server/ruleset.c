@@ -2839,6 +2839,9 @@ static bool load_ruleset_terrain(struct section_file *file)
       pextra->build_time = 0; /* default */
       lookup_time(file, &pextra->build_time, section, "build_time",
                   filename, extra_rule_name(pextra), &ok);
+      pextra->removal_time = 0; /* default */
+      lookup_time(file, &pextra->removal_time, section, "removal_time",
+                  filename, extra_rule_name(pextra), &ok);
 
       pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
                                                           "%s.defense_bonus",
@@ -5836,6 +5839,7 @@ static void send_ruleset_extras(struct conn_list *dest)
 
     packet.buildable = e->buildable;
     packet.build_time = e->build_time;
+    packet.removal_time = e->removal_time;
     packet.defense_bonus = e->defense_bonus;
 
     packet.native_to = e->native_to;

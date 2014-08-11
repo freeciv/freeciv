@@ -1557,6 +1557,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   REQUIREMENT rmreqs[MAX_NUM_REQS:rmreqs_count];
   BOOL buildable;
   UINT8 build_time;
+  UINT8 removal_time;
   UINT8 defense_bonus;
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;

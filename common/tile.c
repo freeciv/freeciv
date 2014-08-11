@@ -398,11 +398,10 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
 
   switch (activity) {
   case ACTIVITY_POLLUTION:
-    return pterrain->clean_pollution_time * ACTIVITY_FACTOR;
+  case ACTIVITY_FALLOUT:
+    return terrain_extra_removal_time(pterrain, activity, tgt) * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
-  case ACTIVITY_FALLOUT:
-    return pterrain->clean_fallout_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
   case ACTIVITY_BASE:

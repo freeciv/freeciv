@@ -810,6 +810,30 @@ int terrain_extra_build_time(const struct terrain *pterrain,
   }
 }
 
+/****************************************************************************
+   Time to complete the extra removal activity on the given terrain.
+****************************************************************************/
+int terrain_extra_removal_time(const struct terrain *pterrain,
+                               enum unit_activity activity,
+                               const struct extra_type *tgt)
+{
+  if (tgt != NULL && tgt->removal_time != 0) {
+    /* Extra specific removal time */
+    return tgt->removal_time;
+  }
+
+  /* Terrain and activity specific removal time */
+  switch (activity) {
+  case ACTIVITY_POLLUTION:
+    return pterrain->clean_pollution_time;
+  case ACTIVITY_FALLOUT:
+    return pterrain->clean_fallout_time;
+  default:
+    fc_assert(FALSE);
+    return 0;
+  }
+}
+
 /**************************************************************************
   Initialize user terrain type flags.
 **************************************************************************/

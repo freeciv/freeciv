@@ -3387,6 +3387,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   pextra->buildable = p->buildable;
   pextra->build_time = p->build_time;
+  pextra->removal_time = p->removal_time;
   pextra->defense_bonus = p->defense_bonus;
 
   pextra->native_to = p->native_to;

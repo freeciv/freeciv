@@ -99,6 +99,10 @@ ocean_resources = FALSE
 ;                        terrain name -- transformation changes to that
 ;                          terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; clean_pollution_time = time to clean pollution
+;                        Nonzero values only affect extras with removal_time 0.
+; clean_fallout_time   = time to clean fallout
+;                        Nonzero values only affect extras with removal_time 0.
 ; animal               = unit type that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; doesn''t count for warming
@@ -300,6 +304,9 @@ identifier  = "g"
 ; build_time              = how long it takes a unit to build this extra.
 ;                           Value of 0 (default) means that terrain- and 
 ;                           build activity specific time is used instead.
+; removal_time            = how long it takes a unit to remove this extra.
+;                           Value of 0 (default) means that terrain- and
+;                           removal activity specific time is used instead.
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
 ; native_to               = List of unit classes that are considered to
@@ -341,6 +348,7 @@ identifier  = "g"
 ;rmact_gfx      = "None"
 ;rmact_gfx_alt  = "-"
 ;build_time     = 0
+;removal_time   = 0
 
 ;[extra_gbase]
 ;name           = _("Generic Base")
@@ -359,6 +367,7 @@ identifier  = "g"
 ; No requirements
 ;    }
 ;build_time     = 0
+;removal_time   = 0
 
 ;[extra_groad]
 ;name           = _("Generic Road")
@@ -377,6 +386,7 @@ identifier  = "g"
 ; No requirements
 ;    }
 ;build_time     = 0
+;removal_time   = 0
 
 ; /* <-- avoid gettext warnings
 ;

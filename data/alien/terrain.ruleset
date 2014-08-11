@@ -106,6 +106,10 @@ ocean_resources = TRUE
 ;                        terrain section -- transformation changes to that
 ;                          terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; clean_pollution_time = time to clean pollution
+;                        Nonzero values only affect extras with removal_time 0.
+; clean_fallout_time   = time to clean fallout
+;                        Nonzero values only affect extras with removal_time 0.
 ; animal               = unit type that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; doesn''t count for warming
@@ -580,6 +584,9 @@ identifier  = "g"
 ; build_time              = how long it takes a unit to build this extra.
 ;                           Value of 0 (default) means that terrain- and 
 ;                           build activity specific time is used instead.
+; removal_time            = how long it takes a unit to remove this extra.
+;                           Value of 0 (default) means that terrain- and
+;                           removal activity specific time is used instead.
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
 ; native_to               = List of unit classes that are considered to
@@ -621,6 +628,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 build_time     = 0
+removal_time   = 0
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 
@@ -636,6 +644,7 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 build_time     = 0
+removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
 
 [extra_pollution]
@@ -649,6 +658,7 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
+removal_time   = 0
 flags          = "GlobalWarming"
 
 [extra_capsule]
@@ -684,6 +694,7 @@ reqs           =
       "Extra", "Irrigation", "Local"
     }
 build_time     = 0
+removal_time   = 0
 conflicts      = "Mine"
 
 [extra_fallout]
@@ -697,6 +708,7 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
+removal_time   = 0
 flags          = "NuclearWinter"
 
 [extra_tower]
@@ -718,6 +730,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 3
+removal_time   = 0
 defense_bonus  = 150
 native_to      = "Earthly", "Native", "Amphibious"
 conflicts      = "Force Fortress"
@@ -741,6 +754,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 3
+removal_time   = 0
 defense_bonus  = 100
 native_to      = "Earthly", "Native", "Amphibious"
 conflicts      = "Tower"
@@ -764,6 +778,7 @@ reqs           =
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 3
+removal_time   = 0
 native_to      = "Antigravity"
 
 [extra_road]
@@ -783,6 +798,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 build_time     = 0
+removal_time   = 0
 native_to      = "Earthly", "Native"
 hidden_by      = "Highway", "Maglev"
 flags          = "AutoOnCityCenter"
@@ -806,6 +822,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 build_time     = 3
+removal_time   = 0
 native_to      = "Earthly", "Native"
 hidden_by      = "Maglev"
 flags          = "AutoOnCityCenter"
@@ -829,6 +846,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 build_time     = 3
+removal_time   = 0
 native_to      = "Earthly", "Native"
 flags          = "AutoOnCityCenter"
 
@@ -851,6 +869,7 @@ reqs           =
       "TerrainClass", "Land", "Local" ; Needed explicitly for automatic move type assignment
     }
 build_time     = 3
+removal_time   = 0
 defense_bonus  = 35
 native_to      = "Earthly"
 flags          = "NativeTile", "AutoOnCityCenter"
@@ -873,6 +892,7 @@ reqs           =
       "TerrainClass", "Oceanic", "Local"
     }
 build_time     = 3
+removal_time   = 0
 native_to      = "Burrowing"
 flags          = "NativeTile", "AutoOnCityCenter", "ConnectLand"
 
