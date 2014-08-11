@@ -596,19 +596,23 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
   case GDK_apostrophe:
     /* Allow this even if not in main map view; chatline is present on
      * some other pages too */
-    /* FIXME: should find the correct window, even when detached, from any
+
+    /* Make the chatline visible if it's not currently.
+     * FIXME: should find the correct window, even when detached, from any
      * other window; should scroll to the bottom automatically showing the
      * latest text from other players; MUST NOT make spurious text windows
-     * at the bottom of other dialogs.
-     */
-    if (inputline_is_visible()) {
-      if (GTK_WIDGET_MAPPED(top_vbox)) {
-        if (gui_gtk2_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
-          gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
-        } else {
-          gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
-        }
+     * at the bottom of other dialogs. */
+    if (GTK_WIDGET_MAPPED(top_vbox)) {
+      /* The main game view is visible. May need to switch notebook. */
+      if (gui_gtk2_message_chat_location == GUI_GTK_MSGCHAT_MERGED) {
+        gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
+      } else {
+        gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
       }
+    }
+
+    /* If the chatline is (now) visible, focus it. */
+    if (inputline_is_visible()) {
       inputline_grab_focus();
       return TRUE;
     } else {
