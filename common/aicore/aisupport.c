@@ -127,17 +127,19 @@ int city_gold_worth(struct city *pcity)
       struct unit_type *punittype = unit_type(punit)->obsoleted_by;
 
       if (punittype && can_city_build_unit_direct(pcity, punittype)) {
-        worth += unit_disband_shields(punit) / 2; /* obsolete */
+        worth += unit_disband_shields(punit); /* obsolete, candidate for disbanding */
       } else {
-        worth += unit_disband_shields(punit); /* good stuff */
+        worth += unit_build_shield_cost(punit); /* good stuff */
       }
     }
   } unit_list_iterate_end;
   city_built_iterate(pcity, pimprove) {
     if (improvement_obsolete(pplayer, pimprove, pcity)) {
-      worth += impr_sell_gold(pimprove) / 4;
+      worth += impr_sell_gold(pimprove); /* obsolete, candidate for selling */
+    } else if (!is_wonder(pimprove)) {
+      worth += impr_build_shield_cost(pimprove) * 2; /* Buy cost, with nonzero shield amount */
     } else {
-      worth += impr_sell_gold(pimprove);
+      worth += impr_build_shield_cost(pimprove) * 4;
     }
   } city_built_iterate_end;
   if (city_unhappy(pcity)) {
