@@ -25,7 +25,8 @@ still may make it impossible.
 In some situations an action controlled by generalized action enablers may be
 impossible because of limitations in Freeciv it self. Those limitations are
 called hard requirements. The hard requirements of each action are documented
-below in the section called "Actions and their hard coded requirements".
+below in the section called "Actions and their hard coded requirements". Hard
+requirements may sometimes be appended to an action's requirement vectors.
 
 If the player don't have the knowledge required to find out if an action is
 enabled or not the action is shown to the player in case it is possible. The
