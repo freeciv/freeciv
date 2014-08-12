@@ -43,8 +43,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
-"PO-Revision-Date: 2014-05-04 13:53+0200\n"
+"POT-Creation-Date: 2014-08-12 21:53+0100\n"
+"PO-Revision-Date: 2014-08-12 15:00+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
@@ -55,6 +55,17 @@ msgstr ""
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-Basepath: ../\n"
+
+#: tools/ruledit/requirers_dlg.cpp:43
+msgid "Close"
+msgstr "Schließen"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:68
+#, c-format
+msgid "Needed by %s"
+msgstr ""
 
 #: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
@@ -69,17 +80,10 @@ msgstr "Gebe die Versionsnummer aus"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Unbekannte Option: '%s'\n"
 
-#: tools/ruledit/ruledit_qt.cpp:58
+#: tools/ruledit/ruledit_qt.cpp:60
 #, fuzzy
 msgid "Freeciv ruleset editor"
 msgstr "Liste der Freeciv-Server"
-
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
-#, c-format
-msgid "Needed by %s"
-msgstr ""
 
 #: tools/ruledit/ruledit_qt.cpp:119
 msgid "Give ruleset to use as starting point."
@@ -99,44 +103,58 @@ msgstr ""
 msgid "Tech"
 msgstr "_Fortschritte"
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:139
+msgid "Nations"
+msgstr "Nationen"
+
+#: tools/ruledit/ruledit_qt.cpp:148
 #, fuzzy
 msgid "Welcome to freeciv-ruledit"
 msgstr "Willkommen bei Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:185
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "Regelsatz"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:199
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:53
+#: tools/ruledit/tab_misc.cpp:57
 #, fuzzy
 msgid "Ruleset name"
 msgstr "Regelsatz"
 
-#: tools/ruledit/tab_misc.cpp:58
+#: tools/ruledit/tab_misc.cpp:62
 #, fuzzy
 msgid "Ruleset version"
 msgstr "_Regelsatz:"
 
-#: tools/ruledit/tab_misc.cpp:63
+#: tools/ruledit/tab_misc.cpp:67
 #, fuzzy
 msgid "Save to directory"
 msgstr "Spielstände im Verzeichnis VERZ speichern"
 
-#: tools/ruledit/tab_misc.cpp:70
+#: tools/ruledit/tab_misc.cpp:74
 #, fuzzy
 msgid "Save now"
 msgstr "Szenario speichern"
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:125
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Regelsatz"
+
+#: tools/ruledit/tab_nation.cpp:49
+#, fuzzy
+msgid "Use nationlist"
+msgstr "die Vereinten Nationen"
+
+#: tools/ruledit/tab_nation.cpp:53
+#, fuzzy
+msgid "Nationlist"
+msgstr "Nationen"
 
 #: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
