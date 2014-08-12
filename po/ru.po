@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-11 10:30+0600\n"
+"POT-Creation-Date: 2014-08-11 09:57+0100\n"
 "PO-Revision-Date: 2014-08-11 11:33+0600\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -3591,40 +3591,40 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Сообщайте об ошибках по адресу %s\n"
 
-#: client/gui-gtk-2.0/gui_main.c:759 client/gui-gtk-2.0/gui_main.c:1564
-#: client/gui-gtk-3.0/gui_main.c:746 client/gui-gtk-3.0/gui_main.c:1632
+#: client/gui-gtk-2.0/gui_main.c:763 client/gui-gtk-2.0/gui_main.c:1568
+#: client/gui-gtk-3.0/gui_main.c:750 client/gui-gtk-3.0/gui_main.c:1636
 #: client/gui-sdl/gui_main.c:795 client/gui-sdl/gui_main.c:810
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1221 client/gui-gtk-2.0/gui_main.c:1229
-#: client/gui-gtk-3.0/gui_main.c:1231 client/gui-gtk-3.0/gui_main.c:1239
+#: client/gui-gtk-2.0/gui_main.c:1225 client/gui-gtk-2.0/gui_main.c:1233
+#: client/gui-gtk-3.0/gui_main.c:1235 client/gui-gtk-3.0/gui_main.c:1243
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Ход сделан"
 
-#: client/gui-gtk-2.0/gui_main.c:1229 client/gui-gtk-3.0/gui_main.c:1239
+#: client/gui-gtk-2.0/gui_main.c:1233 client/gui-gtk-3.0/gui_main.c:1243
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:901
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1300 client/gui-gtk-3.0/gui_main.c:1316
+#: client/gui-gtk-2.0/gui_main.c:1304 client/gui-gtk-3.0/gui_main.c:1320
 msgid "?noun:View"
 msgstr "Обзор"
 
-#: client/gui-gtk-2.0/gui_main.c:1412 client/gui-gtk-3.0/gui_main.c:1435
+#: client/gui-gtk-2.0/gui_main.c:1416 client/gui-gtk-3.0/gui_main.c:1439
 msgid "Chat"
 msgstr "Общение"
 
-#: client/gui-gtk-2.0/gui_main.c:1436 client/gui-gtk-3.0/gui_main.c:1462
+#: client/gui-gtk-2.0/gui_main.c:1440 client/gui-gtk-3.0/gui_main.c:1466
 msgid "Allies Only"
 msgstr "Только союзники"
 
-#: client/gui-gtk-2.0/gui_main.c:1445 client/gui-gtk-3.0/gui_main.c:1471
+#: client/gui-gtk-2.0/gui_main.c:1449 client/gui-gtk-3.0/gui_main.c:1475
 msgid "Clear links"
 msgstr "Очистить строку"
 
-#: client/gui-gtk-2.0/gui_main.c:2024 client/gui-gtk-3.0/gui_main.c:2044
+#: client/gui-gtk-2.0/gui_main.c:2028 client/gui-gtk-3.0/gui_main.c:2048
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
@@ -23735,8 +23735,8 @@ msgid ""
 msgstr ""
 "Конечно, разные escape-последовательности могут использоваться совместно в "
 "одной фразе, например '[i][c fg=\"blue\"]Это [b]будет [s]прекрасный[c bg="
-"\"green\"] [u]пример[/i] использования[/b] этой[/s] [/c]новой[/u] "
-"возможности[/c]'."
+"\"green\"] [u]пример[/i] использования[/b] этой[/s] [/c]новой[/u] возможности"
+"[/c]'."
 
 #: data/helpdata.txt:1921
 msgid ""
@@ -42609,8 +42609,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:306
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d "
-"player(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 "Устанавливаем размер карты в %d (примерно %d полей суши на каждого из %d "
 "игроков)."
