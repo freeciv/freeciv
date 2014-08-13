@@ -2678,8 +2678,7 @@ void do_explore(struct unit *punit)
 bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
-  struct player_tile *plrtile;
-  struct unit *ptransport = NULL;
+  int range, distance;
 
   if (!unit_has_type_flag(punit, UTYF_PARATROOPERS)) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -2703,71 +2702,95 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
-  plrtile = map_get_player_tile(ptile, pplayer);
-
-  if (game.info.paradrop_to_transport) {
-    ptransport = transport_from_tile(punit, ptile);
-  }
-
-  /* Safe terrain according to player map? */
-  if (!is_native_terrain(unit_type(punit),
-                         plrtile->terrain,
-                         plrtile->bases,
-                         plrtile->roads)
-      && (ptransport == NULL
-          || !can_player_see_unit(pplayer, ptransport))) {
+  range = unit_type(punit)->paratroopers_range;
+  distance = real_map_distance(unit_tile(punit), ptile);
+  if (distance > range) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("This unit cannot paradrop into %s."),
-                  terrain_name_translation(
-                      map_get_player_tile(ptile, pplayer)->terrain));
+                  _("The distance to the target (%i) "
+                    "is greater than the unit's range (%i)."),
+                  distance, range);
     return FALSE;
   }
 
-  if (map_is_known_and_seen(ptile, pplayer, V_MAIN)
-      && ((tile_city(ptile)
-           && pplayers_non_attack(pplayer, city_owner(tile_city(ptile))))
-      || is_non_attack_unit_tile(ptile, pplayer))) {
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("Cannot attack unless you declare war first."));
-    return FALSE;
-  }
-
-  if (is_military_unit(punit)
-      && !player_can_invade_tile(pplayer, ptile)) {
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("Cannot invade unless you break peace with "
-                    "%s first."),
-                  player_name(tile_owner(ptile)));
-    return FALSE;
-  }
-
-  {
-    int range = unit_type(punit)->paratroopers_range;
-    int distance = real_map_distance(unit_tile(punit), ptile);
-    if (distance > range) {
+  if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+    if (!can_unit_exist_at_tile(punit, ptile)
+        && (!game.info.paradrop_to_transport
+            || NULL == transport_from_tile(punit, ptile))) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    _("The distance to the target (%i) "
-                      "is greater than the unit's range (%i)."),
-                    distance, range);
+                    _("This unit cannot paradrop into %s."),
+                    terrain_name_translation(tile_terrain(ptile)));
       return FALSE;
+    }
+
+    if (NULL != is_non_attack_city_tile(ptile, pplayer)) {
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                    _("Cannot attack unless you declare war first."));
+      return FALSE;
+    }
+
+    unit_list_iterate(ptile->units, pother) {
+      if (can_player_see_unit(pplayer, pother)
+          && pplayers_non_attack(pplayer, unit_owner(pother))) {
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                      _("Cannot attack unless you declare war first."));
+        return FALSE;
+      }
+    } unit_list_iterate_end;
+
+    if (is_military_unit(punit)
+        && !player_can_invade_tile(pplayer, ptile)) {
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                    _("Cannot invade unless you break peace with "
+                      "%s first."),
+                    player_name(tile_owner(ptile)));
+      return FALSE;
+    }
+  } else {
+    /* Only take in account values from player map. */
+    const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+
+    if (NULL == plrtile->site
+        && !is_native_to_class(unit_class(punit), plrtile->terrain,
+                               plrtile->bases, plrtile->roads)) {
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                    _("This unit cannot paradrop into %s."),
+                    terrain_name_translation(plrtile->terrain));
+      return FALSE;
+    }
+
+    if (NULL != plrtile->site
+        && pplayers_non_attack(pplayer, plrtile->owner)) {
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                    _("Cannot attack unless you declare war first."));
+      return FALSE;
+    }
+
+    if (is_military_unit(punit)
+        && NULL != plrtile->owner
+        && players_non_invade(pplayer, plrtile->owner)) {
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                    _("Cannot invade unless you break peace with "
+                      "%s first."),
+                    player_name(plrtile->owner));
+      return FALSE;
+    }
+
+    /* Safe terrain, really? Not transformed since player last saw it. */
+    if (!can_unit_exist_at_tile(punit, ptile)
+        && (!game.info.paradrop_to_transport
+            || NULL == transport_from_tile(punit, ptile))) {
+      map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
+      notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
+                    _("Your %s paradropped into the %s and was lost."),
+                    unit_tile_link(punit),
+                    terrain_name_translation(tile_terrain(ptile)));
+      pplayer->score.units_lost++;
+      server_remove_unit(punit, ULR_NONNATIVE_TERR);
+      return TRUE;
     }
   }
 
-  /* Safe terrain, really? Not transformed since player last saw it. */
-  if (ptransport == NULL
-      && !can_unit_exist_at_tile(punit, ptile)) {
-    map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
-    notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
-                  _("Your %s paradropped into the %s and was lost."),
-                  unit_tile_link(punit),
-                  terrain_name_translation(tile_terrain(ptile)));
-    pplayer->score.units_lost++;
-    server_remove_unit(punit, ULR_NONNATIVE_TERR);
-    return TRUE;
-  }
-
-  if ((tile_city(ptile)
-       && pplayers_non_attack(pplayer, city_owner(tile_city(ptile))))
+  if (is_non_attack_city_tile(ptile, pplayer)
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
@@ -2784,16 +2807,13 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   /* All ok */
-  {
-    int move_cost = unit_type(punit)->paratroopers_mr_sub;
-    punit->paradropped = TRUE;
-    unit_move(punit, ptile, move_cost);
-    if (ptransport != NULL
-        && !can_unit_exist_at_tile(punit, ptile)) {
-      unit_transport_load_tp_status(punit, ptransport, FALSE);
-    }
-    return TRUE;
+  punit->paradropped = TRUE;
+  if (unit_move(punit, ptile, unit_type(punit)->paratroopers_mr_sub)) {
+    /* Ensure we finished on valid state. */
+    fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
+              || unit_transported(punit));
   }
+  return TRUE;
 }
 
 /**************************************************************************
