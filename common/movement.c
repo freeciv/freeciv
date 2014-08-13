@@ -685,10 +685,11 @@ bool can_unit_type_transport(const struct unit_type *transporter,
   return BV_ISSET(transporter->cargo, uclass_index(transported));
 }
 
-/**************************************************************************
-  Search transport suitable for given unit from tile. It has to have
-  free space in it.
-**************************************************************************/
+/****************************************************************************
+  Return the first transporter suitable for given unit from tile. It needs
+  to have free space. To find the best transporter, see
+  transporter_for_unit().
+****************************************************************************/
 struct unit *transport_from_tile(const struct unit *punit,
                                  const struct tile *ptile)
 {
