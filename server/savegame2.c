@@ -5439,7 +5439,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
             order->target
               = extra_number(base_extra_get(base_by_number(base_id)));
           } else if (road_unitstr && road_unitstr[j] != '?'
-                     && order->activity == ACTIVITY_OLD_ROAD) {
+                     && order->activity == ACTIVITY_GEN_ROAD) {
             road_id = char2num(road_unitstr[j]);
 
             if (road_id < 0 || road_id >= loading->road.size) {
