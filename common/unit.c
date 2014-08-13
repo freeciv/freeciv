@@ -1004,11 +1004,17 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                    EC_IRRIGATION,
                                    unit_owner(punit),
                                    punit);
+      if (NULL == target) {
+        return FALSE; /* No more irrigation available. */
+      }
     } else if (activity == ACTIVITY_MINE && pterrain->mining_result == pterrain) {
       target = next_extra_for_tile(ptile,
                                    EC_MINE,
                                    unit_owner(punit),
                                    punit);
+      if (NULL == target) {
+        return FALSE; /* No more mine available. */
+      }
     }
   }
 
