@@ -78,7 +78,7 @@ Unit *api_find_transport_unit(lua_State *L, Player *pplayer, Unit_Type *ptype,
     struct unit *pvirt = unit_virtual_create(pplayer, NULL, ptype, 0);
     unit_tile_set(pvirt, ptile);
     pvirt->homecity = 0;
-    ptransport = transport_from_tile(pvirt, ptile);
+    ptransport = transporter_for_unit(pvirt);
     unit_virtual_destroy(pvirt);
     return ptransport;
   }

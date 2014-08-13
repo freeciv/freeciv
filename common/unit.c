@@ -1987,24 +1987,47 @@ int get_transporter_occupancy(const struct unit *ptrans)
 }
 
 /****************************************************************************
-  Find a transporter at the given location for the unit.
+  Find the best transporter at the given location for the unit. See also
+  transport_from_tile() to test if a transport might be suitable for
+  'pcargo'.
 ****************************************************************************/
 struct unit *transporter_for_unit(const struct unit *pcargo)
 {
   struct unit_list *tile_units = unit_tile(pcargo)->units;
   struct unit *best = NULL;
-  int bestdepth = 0; /* initialiser doesn't matter */
+  bool best_has_orders = FALSE, has_orders;
+  bool best_can_freely_unload = FALSE, can_freely_unload;
+  int best_depth = 0, depth;
 
   unit_list_iterate(tile_units, ptrans) {
-    if (can_unit_load(pcargo, ptrans)) {
-      int depth = unit_transport_depth(ptrans);
-      if (!best || depth < bestdepth) {
-        best = ptrans;
-        bestdepth = depth;
-      } else if (depth == bestdepth
-                 && ptrans->moves_left > best->moves_left) {
-        best = ptrans;
+    if (!can_unit_load(pcargo, ptrans)) {
+      continue;
+    }
+
+    has_orders = unit_has_orders(ptrans);
+    if (!has_orders) {
+      const struct unit *ptranstrans = unit_transport_get(ptrans);
+
+      while (NULL != ptranstrans) {
+        if (unit_has_orders(ptranstrans)) {
+          has_orders = TRUE;
+          break;
+        }
+        ptranstrans = unit_transport_get(ptranstrans);
       }
+    }
+    can_freely_unload = utype_can_freely_unload(unit_type(pcargo),
+                                                unit_type(ptrans));
+    depth = unit_transport_depth(ptrans);
+
+    if (NULL == best
+        || (!has_orders && best_has_orders)
+        || (can_freely_unload && !best_can_freely_unload)
+        || depth < best_depth) {
+      best = ptrans;
+      best_has_orders = has_orders;
+      best_can_freely_unload = can_freely_unload;
+      best_depth = depth;
     }
   } unit_list_iterate_end;
 

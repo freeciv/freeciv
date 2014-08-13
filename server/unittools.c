@@ -394,7 +394,7 @@ void player_restore_units(struct player *pplayer)
           && !is_unit_being_refueled(punit)) {
         struct unit *carrier;
 
-        carrier = transport_from_tile(punit, unit_tile(punit));
+        carrier = transporter_for_unit(punit);
         if (carrier) {
           unit_transport_load_tp_status(punit, carrier, FALSE);
         } else {
@@ -441,7 +441,7 @@ void player_restore_units(struct player *pplayer)
                 punit->goto_tile = NULL;
 
                 if (!is_unit_being_refueled(punit)) {
-                  carrier = transport_from_tile(punit, unit_tile(punit));
+                  carrier = transporter_for_unit(punit);
                   if (carrier) {
                     unit_transport_load_tp_status(punit, carrier, FALSE);
                   }
@@ -1827,7 +1827,7 @@ bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
 {
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
-  struct unit *ptransport = transport_from_tile(punit, ptile);
+  struct unit *ptransport = transporter_for_unit(punit);
 
   /* Helpless units cannot board a transport in their current state. */
   if (!helpless
