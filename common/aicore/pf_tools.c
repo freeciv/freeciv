@@ -36,12 +36,52 @@
 /* ===================== Capability Functions ======================== */
 
 /****************************************************************************
+  Can we attack 'ptile'? At this point, it assumes there are non-allied
+  units on the tile.
+****************************************************************************/
+static inline bool pf_attack_possible(const struct tile *ptile,
+                                      enum known_type known,
+                                      const struct pf_parameter *param)
+{
+  bool attack_any;
+
+  if (!can_attack_non_native(param->utype)
+      && !is_native_tile(param->utype, ptile)) {
+    return FALSE;
+  }
+
+  if (TILE_KNOWN_SEEN != known) {
+    /* We cannot see units, let's assume we can attack. */
+    return TRUE;
+  }
+
+  attack_any = FALSE;
+  unit_list_iterate(ptile->units, punit) {
+    if (!pplayers_at_war(unit_owner(punit), param->owner)) {
+      return FALSE;
+    }
+
+    /* Unit reachability test. */
+    if (BV_ISSET(param->utype->targets, uclass_index(unit_class(punit)))
+        || tile_has_native_base(ptile, unit_type(punit))) {
+      attack_any = TRUE;
+    } else if (game.info.unreachable_protects) {
+      /* We would need to be able to attack all, this is not the case. */
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  return attack_any;
+}
+
+/****************************************************************************
   Determines if a path to 'ptile' would be considered as action rather than
   normal move: attack, diplomat action, caravan action.
 
   FIXME: For diplomat actions, we should take in account action enablers.
 ****************************************************************************/
 static enum pf_action pf_get_action(const struct tile *ptile,
+                                    enum known_type known,
                                     const struct pf_parameter *param)
 {
   bool non_allied_city = (NULL != is_non_allied_city_tile(ptile,
@@ -62,23 +102,19 @@ static enum pf_action pf_get_action(const struct tile *ptile,
       return PF_ACTION_DIPLOMAT;
     }
 
-    if (PF_AA_UNIT_ATTACK & param->actions
-        && (can_attack_non_native(param->utype)
-            || is_native_tile(param->utype, ptile))
-        && (!param->omniscience
-            || can_player_attack_tile(param->owner, ptile))) {
-      /* FIXME: we should also test for unit reachability. */
-      return PF_ACTION_ATTACK;
+    if (PF_AA_UNIT_ATTACK & param->actions) {
+      return (pf_attack_possible(ptile, known, param)
+              ? PF_ACTION_ATTACK : PF_ACTION_IMPOSSIBLE);
     }
   }
 
-  if (non_allied_city
-      && PF_AA_CITY_ATTACK & param->actions
-      && (can_attack_non_native(param->utype)
-          || is_native_tile(param->utype, ptile))) {
-    /* Consider that there are units, even if is_non_allied_unit_tile()
-     * returned NULL (usally when '!param->omniscience'). */
-    return PF_ACTION_ATTACK;
+  if (non_allied_city && PF_AA_CITY_ATTACK & param->actions) {
+    /* Consider that there are potentially units, even if
+     * is_non_allied_unit_tile() returned NULL (usually when
+     * '!param->omniscience'). */
+    return ((utype_can_take_over(param->utype)
+             || pf_attack_possible(ptile, TILE_KNOWN_UNSEEN, param))
+            ? PF_ACTION_ATTACK : PF_ACTION_IMPOSSIBLE);
   }
 
   return PF_ACTION_NONE;

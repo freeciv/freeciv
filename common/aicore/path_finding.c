@@ -269,6 +269,7 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfnm));
   enum known_type node_known_type;
+  enum pf_action action;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -315,12 +316,22 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
 
     /* Test the possiblity to perform an action. */
     if (NULL != params->get_action) {
-      node->action = params->get_action(ptile, params);
-      if (PF_ACTION_NONE != node->action
-          && TB_DONT_LEAVE != node->behavior) {
+      action = params->get_action(ptile, node_known_type, params);
+      if (PF_ACTION_IMPOSSIBLE == action) {
+        /* Maybe overwrite node behavior. */
+        if (params->start_tile != ptile) {
+          node->behavior = TB_IGNORE;
+          return FALSE;
+        } else if (TB_NORMAL == node->behavior) {
+          node->behavior = TB_IGNORE;
+        }
+        action = PF_ACTION_NONE;
+      } else if (PF_ACTION_NONE != action
+                 && TB_DONT_LEAVE != node->behavior) {
         /* Overwrite node behavior. */
         node->behavior = TB_DONT_LEAVE;
       }
+      node->action = action;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
     } else {
       /* Nodes are allocated by fc_calloc(), so should be already set to
@@ -1003,6 +1014,7 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfdm));
   enum known_type node_known_type;
+  enum pf_action action;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -1049,12 +1061,22 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
 
     /* Test the possiblity to perform an action. */
     if (NULL != params->get_action) {
-      node->action = params->get_action(ptile, params);
-      if (PF_ACTION_NONE != node->action
-          && TB_DONT_LEAVE != node->behavior) {
+      action = params->get_action(ptile, node_known_type, params);
+      if (PF_ACTION_IMPOSSIBLE == action) {
+        /* Maybe overwrite node behavior. */
+        if (params->start_tile != ptile) {
+          node->behavior = TB_IGNORE;
+          return FALSE;
+        } else if (TB_NORMAL == node->behavior) {
+          node->behavior = TB_IGNORE;
+        }
+        action = PF_ACTION_NONE;
+      } else if (PF_ACTION_NONE != action
+                 && TB_DONT_LEAVE != node->behavior) {
         /* Overwrite node behavior. */
         node->behavior = TB_DONT_LEAVE;
       }
+      node->action = action;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
     } else {
       /* Nodes are allocated by fc_calloc(), so should be already set to
@@ -2000,6 +2022,7 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
 {
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pffm));
   enum known_type node_known_type;
+  enum pf_action action;
 
 #ifdef PF_DEBUG
   fc_assert(NS_UNINIT == node->status);
@@ -2046,12 +2069,23 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
 
     /* Test the possiblity to perform an action. */
     if (NULL != params->get_action
-        && PF_ACTION_NONE != (node->action = params->get_action(ptile,
-                                                                params))) {
-      if (TB_DONT_LEAVE != node->behavior) {
+        && PF_ACTION_NONE != (action =
+                              params->get_action(ptile, node_known_type,
+                                                 params))) {
+      if (PF_ACTION_IMPOSSIBLE == action) {
+        /* Maybe overwrite node behavior. */
+        if (params->start_tile != ptile) {
+          node->behavior = TB_IGNORE;
+          return FALSE;
+        } else if (TB_NORMAL == node->behavior) {
+          node->behavior = TB_IGNORE;
+        }
+        action = PF_ACTION_NONE;
+      } else if (TB_DONT_LEAVE != node->behavior) {
         /* Overwrite node behavior. */
         node->behavior = TB_DONT_LEAVE;
       }
+      node->action = action;
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
       node->moves_left_req = 0; /* Attack is always possible theorically. */
 #endif

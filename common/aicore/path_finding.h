@@ -272,7 +272,8 @@ enum pf_action {
   PF_ACTION_NONE = 0,
   PF_ACTION_ATTACK,
   PF_ACTION_DIPLOMAT,
-  PF_ACTION_TRADE_ROUTE
+  PF_ACTION_TRADE_ROUTE,
+  PF_ACTION_IMPOSSIBLE = -1
 };
 
 /* Specifies the actions to consider. */
@@ -390,6 +391,7 @@ struct pf_parameter {
   /* Callback which determines whether an action would be performed at
    * 'ptile' instead of moving to it. */
   enum pf_action (*get_action) (const struct tile *ptile,
+                                enum known_type known,
                                 const struct pf_parameter *param);
   enum pf_action_account actions;
 
