@@ -127,6 +127,40 @@ struct sprite *load_gfxfile(const char *filename)
 
   new->surface = cairo_image_surface_create_from_png(filename);
 
+  if (cairo_image_surface_get_format(new->surface) == CAIRO_FORMAT_RGB24) {
+    /* Make format right */
+    cairo_surface_t *tmp;
+    int width = cairo_image_surface_get_width(new->surface);
+    int height = cairo_image_surface_get_height(new->surface);
+    unsigned char *old_data;
+    unsigned char *new_data;
+    int i, j;
+
+    /* Surface with correct format */
+    tmp = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+
+    old_data = cairo_image_surface_get_data(new->surface);
+    new_data = cairo_image_surface_get_data(tmp);
+
+    for (i = 0; i < width; i++) {
+      for (j = 0; j < height; j++) {
+        /* Add alpha channel */
+        new_data[(j * width + i) * 4] = 0xff;
+        /* Copy RGB */
+        new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
+        new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
+        new_data[(j * width + i) * 4 + 3] = old_data[(j * width + i) * 4 + 3];
+      }
+    }
+
+    cairo_surface_mark_dirty(tmp);
+    cairo_surface_destroy(new->surface);
+
+    new->surface = tmp;
+  }
+
+  fc_assert(cairo_image_surface_get_format(new->surface) == CAIRO_FORMAT_ARGB32);
+
   if (cairo_surface_status(new->surface) != CAIRO_STATUS_SUCCESS) {
     log_fatal("Failed reading graphics file: \"%s\"", filename);
     exit(EXIT_FAILURE);
@@ -231,7 +265,6 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
       }
     }
   }
-
 }
 
 /****************************************************************************
