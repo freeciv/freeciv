@@ -432,10 +432,9 @@ const char *team_name_translation(const struct team *pteam)
 int team_pretty_name(const struct team *pteam, char *buf, size_t buf_len)
 {
   if (NULL != pteam) {
-    const char *name = team_slot_defined_name(pteam->slot);
-
-    if (NULL != name) {
-      return fc_snprintf(buf, buf_len, _("team %s"), name);
+    if (NULL != pteam->slot->defined_name) {
+      return fc_snprintf(buf, buf_len, _("team %s"),
+                         team_slot_name_translation(pteam->slot));
     } else {
       return fc_snprintf(buf, buf_len, _("team %d"), team_number(pteam));
     }
