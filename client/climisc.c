@@ -347,11 +347,13 @@ void nuclear_winter_scaled(int *chance, int *rate, int max)
 struct sprite *client_research_sprite(void)
 {
   if (NULL != client.conn.playing && can_client_change_view()) {
+    const struct player_research *presearch =
+        player_research_get(client_player());
     int index = 0;
 
-    if (A_UNSET != player_research_get(client.conn.playing)->researching) {
-      index = (NUM_TILES_PROGRESS
-	       * player_research_get(client.conn.playing)->bulbs_researched)
+    if (is_future_tech(presearch->researching)
+        || NULL != valid_advance_by_number(presearch->researching)) {
+      index = (NUM_TILES_PROGRESS * presearch->bulbs_researched)
 	/ (total_bulbs_required(client.conn.playing) + 1);
     }
 

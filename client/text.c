@@ -744,7 +744,8 @@ const char *science_dialog_text(void)
     return _("Progress: no research");
   }
 
-  if (A_UNSET == research->researching) {
+  if (!is_future_tech(research->researching)
+      && NULL == valid_advance_by_number(research->researching)) {
     astr_add(&str, _("Progress: no research"));
   } else {
     int done = research->bulbs_researched;
@@ -811,7 +812,8 @@ const char *get_science_target_text(double *percent)
   }
 
   astr_clear(&str);
-  if (research->researching == A_UNSET) {
+  if (!is_future_tech(research->researching)
+      && NULL == valid_advance_by_number(research->researching)) {
     astr_add(&str, _("%d/- (never)"), research->bulbs_researched);
     if (percent) {
       *percent = 0.0;
@@ -1312,7 +1314,8 @@ const char *get_bulb_tooltip(void)
   if (NULL != client.conn.playing) {
     struct player_research *research = player_research_get(client_player());
 
-    if (research->researching == A_UNSET) {
+    if (!is_future_tech(research->researching)
+        && NULL == valid_advance_by_number(research->researching)) {
       astr_add_line(&str, _("no research target."));
     } else {
       int turns = 0;
