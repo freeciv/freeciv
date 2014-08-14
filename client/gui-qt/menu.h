@@ -120,6 +120,7 @@ private slots:
   void slot_unit_fortify();
   void slot_unit_airbase();
   void slot_pillage();
+  void slot_action();
 
   /*used by view menu*/
   void slot_center_view();

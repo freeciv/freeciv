@@ -298,6 +298,10 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(PILLAGE, act);
   act->setShortcut(QKeySequence(tr("shift+p")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_pillage()));
+  act = menu->addAction(_("Diplomat/Spy actions"));
+  menu_list.insertMulti(ORDER_DIPLOMAT_DLG, act);
+  act->setShortcut(QKeySequence(tr("d")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action()));
 
   /* Work Menu */
   menu = this->addMenu(_("Work"));
@@ -1086,6 +1090,14 @@ void mr_menu::slot_transform()
 void mr_menu::slot_pillage()
 {
   key_unit_pillage();
+}
+
+/***************************************************************************
+  Diplomat/Spy action
+***************************************************************************/
+void mr_menu::slot_action()
+{
+  key_unit_diplomat_actions();
 }
 
 
