@@ -221,14 +221,61 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
-  if (req->source.kind == VUT_CITYTILE
-      && req->range == REQ_RANGE_LOCAL) {
-    enum known_type vision =
-        tile_get_known(target_tile, pow_player);
+  if (req->source.kind == VUT_CITYTILE) {
+    struct city *pcity;
 
-    if (vision == TILE_KNOWN_SEEN
-        || (target_city && city_owner(target_city) == pow_player)) {
-      return TRUE;
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      /* Known because the tile is seen */
+      if (is_tile_seen(pow_player, target_tile)) {
+        return TRUE;
+      }
+
+      /* The player knows its city even if he can't see it */
+      pcity = tile_city(target_tile);
+      return pcity && city_owner(pcity) == pow_player;
+    case REQ_RANGE_CADJACENT:
+      /* Known because the tile is seen */
+      if (is_tile_seen_cadj(pow_player, target_tile)) {
+        return TRUE;
+      }
+
+      /* The player knows its city even if he can't see it */
+      cardinal_adjc_iterate(target_tile, ptile) {
+        pcity = tile_city(ptile);
+        if (pcity && city_owner(pcity) == pow_player) {
+          return TRUE;
+        }
+      } cardinal_adjc_iterate_end;
+
+      /* Unknown */
+      return FALSE;
+    case REQ_RANGE_ADJACENT:
+      /* Known because the tile is seen */
+      if (is_tile_seen_adj(pow_player, target_tile)) {
+        return TRUE;
+      }
+
+      /* The player knows its city even if he can't see it */
+      adjc_iterate(target_tile, ptile) {
+        pcity = tile_city(ptile);
+        if (pcity && city_owner(pcity) == pow_player) {
+          return TRUE;
+        }
+      } adjc_iterate_end;
+
+      /* Unknown */
+      return FALSE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Invalid range */
+      return FALSE;
     }
   }
 
