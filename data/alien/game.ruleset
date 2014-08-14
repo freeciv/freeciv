@@ -181,12 +181,17 @@ tired_attack = TRUE
 [actionenabler_sabotage_city]
 action = "Sabotage City"
 actor_reqs    =
-    { "type",   "name", "range"
-      "DiplRel", "War", "Local"
+    { "type",   "name", "range", "present"
+      "DiplRel", "War", "Local", TRUE
+      "UnitState", "TransportDependent", "Local", FALSE
     }
 
 [actionenabler_establish_embassy]
 action       = "Establish Embassy"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitState", "TransportDependent", "Local", FALSE
+    }
 target_reqs  =
     { "type",   "name", "range", "present"
       "Nation", "Lunatic", "Player", FALSE
@@ -195,9 +200,17 @@ target_reqs  =
 
 [actionenabler_investigate_city]
 action       = "Investigate City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitState", "TransportDependent", "Local", FALSE
+    }
 
 [actionenabler_steal_tech_random]
 action = "Steal Tech"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitState", "TransportDependent", "Local", FALSE
+    }
 target_reqs  =
     { "type",   "name", "range", "present"
       "Nation", "Lunatic", "Player", FALSE
@@ -210,6 +223,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
+      "UnitState", "TransportDependent", "Local", FALSE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -223,6 +237,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
+      "UnitState", "TransportDependent", "Local", FALSE
     }
 target_reqs    =
     { "type",   "name", "range", "present"

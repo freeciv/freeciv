@@ -256,12 +256,6 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                             req_from_str("UnitFlag", "Local", FALSE,
                                          TRUE, "Diplomat"));
 
-  /* Spy actions can't be done from tiles the spy must be inside a
-   * transport (until patch #4671 lands) */
-  requirement_vector_append(&enabler->actor_reqs,
-                            req_from_str("UnitState", "Local", FALSE,
-                                         FALSE, "TransportDependent"));
-
   if (enabler->action == ACTION_ESTABLISH_EMBASSY) {
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,
