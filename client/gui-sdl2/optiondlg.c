@@ -445,8 +445,9 @@ static inline bool string_to_video_mode(const char *buf,
 ****************************************************************************/
 static struct strvec *video_mode_list(void)
 {
-#if 0
   struct strvec *video_modes = strvec_new();
+
+#if 0
   /* Don't free this. */
   SDL_Rect **mode = SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
   char buf[64];
@@ -457,11 +458,11 @@ static struct strvec *video_mode_list(void)
       strvec_append(video_modes, buf);
     }
   }
-
-  return video_modes;
 #endif
 
-  return NULL;
+  strvec_append(video_modes, "640x480");
+
+  return video_modes;
 }
 
 /****************************************************************************
