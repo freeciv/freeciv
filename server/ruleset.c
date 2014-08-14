@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -6534,6 +6534,7 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
       } unit_class_iterate_end;
       unit_type_iterate(u) {
         u->unknown_move_cost = utype_unknown_move_cost(u);
+        unit_type_action_cache_set(u);
       } unit_type_iterate_end;
     }
 

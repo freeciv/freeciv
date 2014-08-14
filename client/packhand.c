@@ -2909,6 +2909,7 @@ void handle_rulesets_ready(void)
   /* Setup unit unknown move cost caches */
   unit_type_iterate(u) {
     u->unknown_move_cost = utype_unknown_move_cost(u);
+    unit_type_action_cache_set(u);
   } unit_type_iterate_end;
 
   /* We are not going to crop any more sprites from big sprites, free them. */

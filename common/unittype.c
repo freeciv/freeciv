@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -256,6 +256,87 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
 {
   return BV_ISSET(pcargotype->disembarks,
                   uclass_index(utype_class(ptranstype)));
+}
+
+/* Cache if any action at all may be possible when the actor unit's state
+ * is...
+ * bit 0 to USP_COUNT - 1: Possible when the corresponding property is TRUE
+ * bit USP_COUNT to ((USP_COUNT - 1) * 2): Possible when the corresponding
+ * property is FALSE
+ */
+BV_DEFINE(bv_unit_state_action_cache, ((USP_COUNT - 1) * 2));
+
+/* Cache for each unit type */
+static bv_unit_state_action_cache unit_state_action_cache[U_LAST];
+
+/**************************************************************************
+  Cache if any action may be possible for a unit of the type putype for
+  each unit state property. Since a unit state property could be ignored
+  both present and !present must be checked.
+**************************************************************************/
+static void unit_state_action_cache_set(struct unit_type *putype)
+{
+  struct requirement req;
+
+  BV_CLR_ALL(unit_state_action_cache[utype_index(putype)]);
+
+  /* Common for every situation */
+  req.range = REQ_RANGE_LOCAL;
+  req.survives = FALSE;
+  req.source.kind = VUT_UNITSTATE;
+
+  for (req.source.value.unit_state = ustate_prop_begin();
+       req.source.value.unit_state != ustate_prop_end();
+       req.source.value.unit_state = ustate_prop_next(
+         req.source.value.unit_state)) {
+
+    /* No action will ever be possible in a specific unit state if the
+     * opposite unit state is required of all action enablers. */
+    action_enablers_iterate(enabler) {
+      if (requirement_fulfilled_by_unit_type(putype,
+                                             &(enabler->actor_reqs))) {
+        req.present = FALSE;
+        if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
+          BV_SET(unit_state_action_cache[utype_index(putype)],
+                 req.source.value.unit_state);
+        }
+
+        req.present = TRUE;
+        if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
+          BV_SET(unit_state_action_cache[utype_index(putype)],
+                 req.source.value.unit_state + USP_COUNT);
+        }
+      }
+    } action_enablers_iterate_end;
+  }
+}
+
+/**************************************************************************
+  Cache if any action may be possible for a unit of the type putype given
+  the property tested for. Since a it could be ignored both present and
+  !present must be checked.
+**************************************************************************/
+void unit_type_action_cache_set(struct unit_type *ptype)
+{
+  unit_state_action_cache_set(ptype);
+}
+
+/**************************************************************************
+  Return TRUE iff there exists an (action enabler controlled) action that a
+  unit of the type punit_type can perform while its unit state property
+  prop has the value is_there.
+**************************************************************************/
+bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
+                                 const enum ustate_prop prop,
+                                 const bool is_there)
+{
+  if (is_there) {
+    return BV_ISSET(unit_state_action_cache[utype_index(punit_type)],
+                    prop);
+  } else {
+    return BV_ISSET(unit_state_action_cache[utype_index(punit_type)],
+                    prop + USP_COUNT);
+  }
 }
 
 /****************************************************************************

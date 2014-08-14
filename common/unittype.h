@@ -510,6 +510,10 @@ bool utype_can_freely_load(const struct unit_type *pcargotype,
 bool utype_can_freely_unload(const struct unit_type *pcargotype,
                              const struct unit_type *ptranstype);
 
+bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
+                                 const enum ustate_prop prop,
+                                 const bool is_there);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 
@@ -625,6 +629,8 @@ const struct unit_type *unit_type_array_last(void);
 void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai);
 void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
                        void *data);
+
+void unit_type_action_cache_set(struct unit_type *ptype);
 
 /* Initialization and iteration */
 void unit_classes_init(void);

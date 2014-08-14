@@ -1616,6 +1616,9 @@ static bool insert_requirement(char *buf, size_t bufsz,
                            " without being inside a transport.\n"));
           }
           return TRUE;
+        case USP_COUNT:
+          fc_assert_msg(preq->source.value.unit_state != USP_COUNT,
+                        "Invalid unit state property.");
         }
         break;
       case REQ_RANGE_CADJACENT:

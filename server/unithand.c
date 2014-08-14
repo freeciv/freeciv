@@ -1562,7 +1562,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                                 pdesttile->index);
         return FALSE;
       } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
-        if (can_unit_exist_at_tile(punit, unit_tile(punit))) {
+        if (can_unit_exist_at_tile(punit, unit_tile(punit))
+            || can_unit_act_when_ustate_is(unit_type(punit),
+                                           USP_TRANSP_DEP, TRUE)) {
           notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                         _("No diplomat action possible."));
         } else {

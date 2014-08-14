@@ -275,6 +275,7 @@ enum citytile_type {
 #define SPECENUM_VALUE0NAME "Transported"
 #define SPECENUM_VALUE1 USP_TRANSP_DEP
 #define SPECENUM_VALUE1NAME "TransportDependent"
+#define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 
 /* Sometimes we don't know (or don't care) if some requirements for effect

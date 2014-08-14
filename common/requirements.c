@@ -2070,6 +2070,10 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
     return BOOL_TO_TRISTATE(
         !can_unit_exist_at_tile(target_unit, unit_tile(target_unit)));
     break;
+  case USP_COUNT:
+    fc_assert_msg(uprop != USP_COUNT, "Invalid unit state property.");
+    /* Invalid property is unknowable. */
+    return TRI_NO;
   }
 
   /* Should never be reached */
@@ -2528,6 +2532,22 @@ bool is_req_unchanging(const struct requirement *req)
   return TRUE;
 }
 
+/*************************************************************************
+  Returns TRUE iff the requirement vector vec contains the requirement
+  req.
+**************************************************************************/
+bool is_req_in_vec(const struct requirement *req,
+                   const struct requirement_vector *vec)
+{
+  requirement_vector_iterate(vec, preq) {
+    if (are_requirements_equal(req, preq)) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  return FALSE;
+}
+
 /****************************************************************************
   Return TRUE iff the two sources are equivalent.  Note this isn't the
   same as an == or memcmp check.
@@ -2788,6 +2808,10 @@ const char *universal_name_translation(const struct universal *psource,
     case USP_TRANSP_DEP:
       cat_snprintf(buf, bufsz,
                    _("Transport dependent units"));
+      break;
+    case USP_COUNT:
+      fc_assert_msg(psource->value.unit_state != USP_COUNT,
+                    "Invalid unit state property.");
       break;
     }
     return buf;

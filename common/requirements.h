@@ -120,6 +120,9 @@ bool are_reqs_active(const struct player *target_player,
 
 bool is_req_unchanging(const struct requirement *req);
 
+bool is_req_in_vec(const struct requirement *req,
+                   const struct requirement_vector *vec);
+
 /* General universal functions. */
 int universal_number(const struct universal *source);
 
