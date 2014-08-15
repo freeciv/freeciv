@@ -140,6 +140,8 @@ fallout_trade_penalty=50
 ;                        "no"  -- cannot transform
 ;                        terrain section -- transformation changes to that terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; clean_pollution_time = time to clean pollution
+; clean_fallout_time   = time to clean fallout
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; does not count for warming
 ;                        "yes" -- no change; counts for warming
