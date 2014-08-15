@@ -123,6 +123,8 @@ int compare_strings_strvec(const char *const *first,
                            const char *const *second);
 
 char *skip_leading_spaces(char *s);
+void remove_leading_spaces(char *s);
+void remove_trailing_spaces(char *s);
 void remove_leading_trailing_spaces(char *s);
 
 bool check_strlen(const char *str, size_t len, const char *errmsg);

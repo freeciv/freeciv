@@ -583,7 +583,7 @@ char *skip_leading_spaces(char *s)
   Removes leading spaces in string pointed to by 's'.
   Note 's' must point to writeable memory!
 ***************************************************************************/
-static void remove_leading_spaces(char *s)
+void remove_leading_spaces(char *s)
 {
   char *t;
 
@@ -601,7 +601,7 @@ static void remove_leading_spaces(char *s)
   Terminates string pointed to by 's' to remove traling spaces;
   Note 's' must point to writeable memory!
 ***************************************************************************/
-static void remove_trailing_spaces(char *s)
+void remove_trailing_spaces(char *s)
 {
   char *t;
   size_t len;

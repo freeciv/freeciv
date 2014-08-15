@@ -134,7 +134,7 @@ static bool create_command(struct connection *caller, const char *str,
                            bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
-static bool handle_stdin_input_real(struct connection *caller, const char *str,
+static bool handle_stdin_input_real(struct connection *caller, char *str,
                                     bool check, int read_recursion);
 static bool read_init_script_real(struct connection *caller,
                                   char *script_filename, bool from_cmdline,
@@ -4089,32 +4089,6 @@ static bool playercolor_command(struct connection *caller,
 }
 
 /**************************************************************************
-  Cutting away a trailing comment by putting a '\0' on the '#'. The
-  method handles # in single or double quotes. It also takes care of
-  "\#".
-**************************************************************************/
-static void cut_comment(char *str)
-{
-  int i;
-  bool in_single_quotes = FALSE, in_double_quotes = FALSE;
-
-  log_debug("cut_comment(str =' %s')", str);
-
-  for (i = 0; i < strlen(str); i++) {
-    if (str[i] == '"' && !in_single_quotes) {
-      in_double_quotes = !in_double_quotes;
-    } else if (str[i] == '\'' && !in_double_quotes) {
-      in_single_quotes = !in_single_quotes;
-    } else if (str[i] == '#' && !(in_single_quotes || in_double_quotes)
-	       && (i == 0 || str[i - 1] != '\\')) {
-      str[i] = '\0';
-      break;
-    }
-  }
-  log_debug("cut_comment: returning '%s'", str);
-}
-
-/**************************************************************************
   Handle quit command
 **************************************************************************/
 static bool quit_game(struct connection *caller, bool check)
@@ -4130,10 +4104,9 @@ static bool quit_game(struct connection *caller, bool check)
 /**************************************************************************
   Main entry point for "command input".
 **************************************************************************/
-bool handle_stdin_input(struct connection *caller, const char *str,
-                        bool check)
+bool handle_stdin_input(struct connection *caller, char *str)
 {
-  return handle_stdin_input_real(caller, str, check, 0);
+  return handle_stdin_input_real(caller, str, FALSE, 0);
 }
 
 /**************************************************************************
@@ -4144,16 +4117,33 @@ bool handle_stdin_input(struct connection *caller, const char *str,
 
   If check is TRUE, then do nothing, just check syntax.
 **************************************************************************/
-static bool handle_stdin_input_real(struct connection *caller,
-                                    const char *str, bool check,
-                                    int read_recursion)
+static bool handle_stdin_input_real(struct connection *caller, char *str,
+                                    bool check, int read_recursion)
 {
-  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE],
-      allargs[MAX_LEN_CONSOLE_LINE], full_command[MAX_LEN_CONSOLE_LINE],
-      *cptr_s, *cptr_d;
-  int i;
+  char full_command[MAX_LEN_CONSOLE_LINE];
+  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE];
+  char *cptr_s, *cptr_d;
   enum command_id cmd;
   enum cmdlevel level;
+
+  /* Remove leading and trailing spaces, and server command prefix. */
+  cptr_s = str = skip_leading_spaces(str);
+  if ('\0' == *cptr_s || '#' == *cptr_s) {
+    /* This appear to be a comment or blank line. */
+    return FALSE;
+  }
+
+  if (SERVER_COMMAND_PREFIX == *cptr_s) {
+    /* Commands may be prefixed with SERVER_COMMAND_PREFIX, even when
+     * given on the server command line. */
+    cptr_s++;
+    remove_leading_spaces(cptr_s);
+    if ('\0' == *cptr_s) {
+      /* This appear to be a blank line. */
+      return FALSE;
+    }
+  }
+  remove_trailing_spaces(cptr_s);
 
   /* notify to the server console */
   if (!check && caller) {
@@ -4165,21 +4155,6 @@ static bool handle_stdin_input_real(struct connection *caller,
     cmd_reply(CMD_HELP, caller, C_FAIL,
 	_("Sorry, you are not allowed to use server commands."));
      return FALSE;
-  }
-
-  /* Is it a comment or a blank line? */
-  /* line is comment if the first non-whitespace character is '#': */
-  cptr_s = skip_leading_spaces((char *)str);
-  if (*cptr_s == '\0' || *cptr_s == '#') {
-    return FALSE;
-  }
-
-  /* commands may be prefixed with SERVER_COMMAND_PREFIX, even when
-     given on the server command line - rp */
-  if (*cptr_s == SERVER_COMMAND_PREFIX) cptr_s++;
-
-  for (; *cptr_s != '\0' && !fc_isalnum(*cptr_s); cptr_s++) {
-    /* nothing */
   }
 
   /* copy the full command, in case we need it for voting purposes. */
@@ -4196,19 +4171,8 @@ static bool handle_stdin_input_real(struct connection *caller,
   }
   *cptr_d = '\0';
 
-  cptr_s = skip_leading_spaces(cptr_s);
-
-  /* keep this before we cut everything after a space */
-  sz_strlcpy(allargs, cptr_s);
-  cut_comment(allargs);
-
-  sz_strlcpy(arg, cptr_s);
-  cut_comment(arg);
-
-  i = strlen(arg) - 1;
-  while (i > 0 && fc_isspace(arg[i])) {
-    arg[i--] = '\0';
-  }
+  /* cptr_s now contains the arguments. */
+  sz_strlcpy(arg, skip_leading_spaces(cptr_s));
 
   cmd = command_named(command, FALSE);
   if (cmd == CMD_AMBIGUOUS) {
@@ -4236,7 +4200,7 @@ static bool handle_stdin_input_real(struct connection *caller,
      * have one vote at a time. This is done by vote_new(). */
     if (handle_stdin_input_real(caller, full_command, TRUE,
                                 read_recursion + 1)
-        && (vote = vote_new(caller, allargs, cmd))) {
+        && (vote = vote_new(caller, arg, cmd))) {
       char votedesc[MAX_LEN_CONSOLE_LINE];
       const struct player *teamplr;
       const char *what;
@@ -4419,7 +4383,7 @@ static bool handle_stdin_input_real(struct connection *caller,
   case CMD_FIRSTLEVEL:
     return firstlevel_command(caller, check);
   case CMD_TIMEOUT:
-    return timeout_command(caller, allargs, check);
+    return timeout_command(caller, arg, check);
   case CMD_START_GAME:
     return start_command(caller, check, FALSE);
   case CMD_END_GAME:
