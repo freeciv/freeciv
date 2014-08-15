@@ -2715,9 +2715,7 @@ void key_unit_diplomat_actions(void)
   unit_list_iterate(get_units_in_focus(), punit) {
     if (is_diplomat_unit(punit)
         && (ptile = unit_tile(punit))
-        && (pcity = tile_city(ptile))
-	&& diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-				  ptile)) {
+        && (pcity = tile_city(ptile))) {
       process_diplomat_arrival(punit, ptile->index);
       return;
       /* FIXME: diplomat dialog for more than one unit at a time. */
