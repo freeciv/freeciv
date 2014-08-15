@@ -573,7 +573,7 @@ static void check_vote(struct vote *pvote)
   remove_vote(pvote);
 
   if (passed) {
-    handle_stdin_input(NULL, cmdline, FALSE);
+    handle_stdin_input(NULL, cmdline);
   }
 }
 

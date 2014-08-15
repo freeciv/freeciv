@@ -185,7 +185,7 @@ static void handle_readline_input_callback(char *line)
 
   con_prompt_enter();		/* just got an 'Enter' hit */
   line_internal = local_to_internal_string_malloc(line);
-  (void) handle_stdin_input(NULL, line_internal, FALSE);
+  (void) handle_stdin_input(NULL, line_internal);
   free(line_internal);
   free(line);
 
@@ -786,7 +786,7 @@ enum server_events server_sniff_all_input(void)
       char *bufptr_internal = local_to_internal_string_malloc(bufptr);
 
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input(NULL, bufptr_internal, FALSE);
+      handle_stdin_input(NULL, bufptr_internal);
       free(bufptr_internal);
     }
 #else  /* !SOCKET_ZERO_ISNT_STDIN */
@@ -830,7 +830,7 @@ enum server_events server_sniff_all_input(void)
 
       if (didget >= 0) {
         buf_internal = local_to_internal_string_malloc(buffer);
-        handle_stdin_input(NULL, buf_internal, FALSE);
+        handle_stdin_input(NULL, buf_internal);
         free(buf_internal);
       }
       free(buffer);
