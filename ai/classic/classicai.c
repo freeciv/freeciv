@@ -114,11 +114,11 @@ static void cai_player_load(struct player *pplayer,
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
-static void cai_assess_danger_player(struct player *pplayer)
+static void cai_gained_control(struct player *pplayer)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_assess_danger_player(deftype, pplayer);
+  dai_gained_control(deftype, pplayer);
 }
 
 /**************************************************************************
@@ -553,7 +553,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.player_free = cai_player_free;
   ai->funcs.player_save = cai_player_save;
   ai->funcs.player_load = cai_player_load;
-  ai->funcs.gained_control = cai_assess_danger_player;
+  ai->funcs.gained_control = cai_gained_control;
   /* ai->funcs.lost_control = NULL; */
   ai->funcs.split_by_civil_war = cai_split_by_civil_war;
   ai->funcs.created_by_civil_war = cai_created_by_civil_war;

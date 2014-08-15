@@ -20,8 +20,9 @@
 #include "city.h"
 #include "unit.h"
 
-/* ai */
+/* ai/default */
 #include "aidata.h"
+#include "advmilitary.h"
 
 #include "aiplayer.h"
 
@@ -130,4 +131,16 @@ void dai_player_copy(struct ai_type *ait,
   advance_index_iterate(A_NONE, i) {
     created_data->tech_want[i] = orig_data->tech_want[i];
   } advance_index_iterate_end;
+}
+
+/**************************************************************************
+  Ai got control of the player.
+**************************************************************************/
+void dai_gained_control(struct ai_type *ait, struct player *pplayer)
+{
+  multipliers_iterate(pmul) {
+    pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+  } multipliers_iterate_end;
+
+  dai_assess_danger_player(ait, pplayer);
 }

@@ -113,7 +113,7 @@ static void twai_control_gained(struct player *pplayer)
 {
   TAI_AIT;
   TAI_TFUNC(tai_control_gained, pplayer);
-  TAI_DFUNC(dai_assess_danger_player, pplayer);
+  TAI_DFUNC(dai_gained_control, pplayer);
 }
 
 /**************************************************************************

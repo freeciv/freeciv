@@ -30,6 +30,7 @@ void dai_player_load(struct ai_type *ait, const char *aitstr,
 
 void dai_player_copy(struct ai_type *ait,
                      struct player *original, struct player *created);
+void dai_gained_control(struct ai_type *ait, struct player *pplayer);
 
 static inline struct ai_city *def_ai_city_data(const struct city *pcity,
                                                struct ai_type *deftype)
