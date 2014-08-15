@@ -2710,12 +2710,10 @@ void key_unit_connect(enum unit_activity activity,
 **************************************************************************/
 void key_unit_diplomat_actions(void)
 {
-  struct city *pcity;		/* need pcity->id */
   struct tile *ptile;
   unit_list_iterate(get_units_in_focus(), punit) {
     if (is_diplomat_unit(punit)
-        && (ptile = unit_tile(punit))
-        && (pcity = tile_city(ptile))) {
+        && (ptile = unit_tile(punit))) {
       process_diplomat_arrival(punit, ptile->index);
       return;
       /* FIXME: diplomat dialog for more than one unit at a time. */
