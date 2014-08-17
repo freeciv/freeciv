@@ -295,12 +295,14 @@ static void unit_state_action_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))) {
+        /* Not required to be absent, so OK if present */
         req.present = FALSE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
           BV_SET(unit_state_action_cache[utype_index(putype)],
                  req.source.value.unit_state);
         }
 
+        /* Not required to be present, so OK if absent */
         req.present = TRUE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
           BV_SET(unit_state_action_cache[utype_index(putype)],
