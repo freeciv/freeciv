@@ -1637,6 +1637,44 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_MINMOVES:
+    {
+      switch (preq->range) {
+      case REQ_RANGE_LOCAL:
+        if (preq->present) {
+          cat_snprintf(buf, bufsz,
+                       PL_("Requires that the unit has at least %d move "
+                           "fragment left.\n",
+                          "Requires that the unit has at least %d move "
+                           "fragments left.\n",
+                          preq->source.value.minmoves),
+                       preq->source.value.minmoves);
+        } else {
+          cat_snprintf(buf, bufsz,
+                       PL_("Requires that the unit has less than %d move "
+                           "fragment left.\n",
+                          "Requires that the unit has less than %d move "
+                           "fragments left.\n",
+                          preq->source.value.minmoves),
+                       preq->source.value.minmoves);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+      case REQ_RANGE_ADJACENT:
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+    }
+    break;
+
   case VUT_OTYPE:
     if (preq->range != REQ_RANGE_LOCAL) {
       break;

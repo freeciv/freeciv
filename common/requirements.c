@@ -179,6 +179,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_MINMOVES:
+    source.value.minmoves = atoi(value);
+    if (source.value.minmoves > 0) {
+      return source;
+    }
+    break;
   case VUT_OTYPE:
     source.value.outputtype = output_type_by_identifier(value);
     if (source.value.outputtype != O_LAST) {
@@ -366,6 +372,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_UNITSTATE:
     source.value.unit_state = value;
     return source;
+  case VUT_MINMOVES:
+    source.value.minmoves = value;
+    return source;
   case VUT_OTYPE:
     source.value.outputtype = value;
     return source;
@@ -469,6 +478,8 @@ int universal_number(const struct universal *source)
     return source->value.unitclassflag;
   case VUT_UNITSTATE:
     return source->value.unit_state;
+  case VUT_MINMOVES:
+    return source->value.minmoves;
   case VUT_OTYPE:
     return source->value.outputtype;
   case VUT_SPECIALIST:
@@ -538,6 +549,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UCLASS:
     case VUT_UCFLAG:
     case VUT_UNITSTATE:
+    case VUT_MINMOVES:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_TERRAINCLASS:
@@ -631,6 +643,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_UCLASS:
   case VUT_UCFLAG:
   case VUT_UNITSTATE:
+  case VUT_MINMOVES:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
@@ -677,6 +690,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UCLASS:
     case VUT_UCFLAG:
     case VUT_UNITSTATE:
+    case VUT_MINMOVES:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_MINSIZE:
@@ -2333,6 +2347,14 @@ bool is_req_active(const struct player *target_player,
                            req->source.value.unit_state);
     }
     break;
+  case VUT_MINMOVES:
+    if (target_unit == NULL) {
+      eval = TRI_MAYBE;
+    } else {
+      eval = BOOL_TO_TRISTATE(
+            req->source.value.minmoves <= target_unit->moves_left);
+    }
+    break;
   case VUT_OTYPE:
     eval = BOOL_TO_TRISTATE(target_output
                             && target_output->index == req->source.value.outputtype);
@@ -2508,6 +2530,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_UCLASS:	/* Not sure about this one */
   case VUT_UCFLAG:	/* Not sure about this one */
   case VUT_UNITSTATE:
+  case VUT_MINMOVES:
   case VUT_ROADFLAG:
     return FALSE;
   case VUT_TERRAIN:
@@ -2597,6 +2620,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.unitclassflag == psource2->value.unitclassflag;
   case VUT_UNITSTATE:
     return psource1->value.unit_state == psource2->value.unit_state;
+  case VUT_MINMOVES:
+    return psource1->value.minmoves == psource2->value.minmoves;
   case VUT_OTYPE:
     return psource1->value.outputtype == psource2->value.outputtype;
   case VUT_SPECIALIST:
@@ -2686,6 +2711,10 @@ const char *universal_rule_name(const struct universal *psource)
     return unit_class_flag_id_name(psource->value.unitclassflag);
   case VUT_UNITSTATE:
     return ustate_prop_name(psource->value.unit_state);
+  case VUT_MINMOVES:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minmoves);
+
+    return buffer;
   case VUT_OTYPE:
     return get_output_name(psource->value.outputtype);
   case VUT_SPECIALIST:
@@ -2814,6 +2843,10 @@ const char *universal_name_translation(const struct universal *psource,
                     "Invalid unit state property.");
       break;
     }
+    return buf;
+  case VUT_MINMOVES:
+    cat_snprintf(buf, bufsz, _("%d remaining move fragments"),
+                 psource->value.minmoves);
     return buf;
   case VUT_OTYPE:
     /* FIXME */

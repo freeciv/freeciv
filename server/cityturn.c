@@ -1618,6 +1618,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_UCLASS:
 	    case VUT_UCFLAG:
             case VUT_UNITSTATE:
+            case VUT_MINMOVES:
 	    case VUT_OTYPE:
 	    case VUT_SPECIALIST:
 	    case VUT_TERRAINALTER: /* XXX could do this in principle */

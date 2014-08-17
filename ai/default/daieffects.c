@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -694,6 +694,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_MAXTILEUNITS:
   case VUT_STYLE:
   case VUT_UNITSTATE:
+  case VUT_MINMOVES:
   case VUT_COUNT:
     /* No sensible implementation possible with data available. */
     break;

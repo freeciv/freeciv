@@ -77,6 +77,8 @@ TerrainAlter:  Local
 CityTile:      Local, Adjacent, CAdjacent
 Style:         Player
 UnitState:     Local
+MinMoveFrags:  Local
+
 
 MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
@@ -85,6 +87,7 @@ Only "Center" is supported as CityTile type.
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported" or "TransportDependent".
+MinMoveFargs is the minimum move fragments the unit must have left.
 
 Effect types
 ============

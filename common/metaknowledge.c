@@ -204,6 +204,28 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_MINMOVES) {
+    fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL, FALSE, "Wrong range");
+
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      /* The owner can see if his unit has move fragments left. */
+      return unit_owner(target_unit) == pow_player;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Invalid range */
+      return FALSE;
+    }
+  }
+
   if (req->source.kind == VUT_DIPLREL
       && pow_player == target_player
       && (req->range == REQ_RANGE_LOCAL

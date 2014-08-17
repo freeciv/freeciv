@@ -325,6 +325,7 @@ typedef union {
   int diplrel;                          /* enum diplstate_type or
                                            enum diplrel_asym */
   enum ustate_prop unit_state;
+  int minmoves;
   int max_tile_units;
 } universals_u;
 
@@ -398,6 +399,8 @@ typedef union {
 #define SPECENUM_VALUE29NAME "MinCulture"
 #define SPECENUM_VALUE30 VUT_UNITSTATE
 #define SPECENUM_VALUE30NAME "UnitState"
+#define SPECENUM_VALUE31 VUT_MINMOVES
+#define SPECENUM_VALUE31NAME "MinMoveFrags"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
