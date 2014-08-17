@@ -1466,7 +1466,7 @@ static gboolean version_message_main_thread(gpointer user_data)
 
   output_window_append(ftc_client, vertext);
 
-  return G_SOURCE_REMOVE;
+  return FALSE;
 }
 
 /**************************************************************************
