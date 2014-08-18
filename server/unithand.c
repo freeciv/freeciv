@@ -388,126 +388,124 @@ void handle_unit_diplomat_action(struct player *pplayer,
     return;
   }
 
-  if(pdiplomat->moves_left > 0) {
-    switch(action_type) {
-    case DIPLOMAT_BRIBE:
-      if (punit && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
-					  unit_tile(punit))) {
-	diplomat_bribe(pplayer, pdiplomat, punit);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
-      }
-      break;
-    case SPY_SABOTAGE_UNIT:
-      if (punit && diplomat_can_do_action(pdiplomat, SPY_SABOTAGE_UNIT,
-					  unit_tile(punit))) {
-	spy_sabotage_unit(pplayer, pdiplomat, punit);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_UNIT);
-      }
-      break;
-     case DIPLOMAT_SABOTAGE:
-      if (pcity) {
-        if (diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
-                                   pcity->tile)) {
-          diplomat_sabotage(pplayer, pdiplomat, pcity, B_LAST);
-        } else {
-          illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_CITY);
-        }
-      }
-      break;
-    case DIPLOMAT_SABOTAGE_TARGET:
-     if (pcity) {
-       if (diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE_TARGET,
-                                  pcity->tile)) {
-         /* packet value is improvement ID + 1 (or some special codes) */
-         diplomat_sabotage(pplayer, pdiplomat, pcity, value - 1);
-       } else {
-         illegal_action(pplayer, pdiplomat, ACTION_SPY_TARGETED_SABOTAGE_CITY);
-       }
-     }
-     break;
-    case SPY_POISON:
-      if(pcity && diplomat_can_do_action(pdiplomat, SPY_POISON,
-					 pcity->tile)) {
-	spy_poison(pplayer, pdiplomat, pcity);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_POISON);
-      }
-      break;
-    case DIPLOMAT_INVESTIGATE:
-      if(pcity && diplomat_can_do_action(pdiplomat,DIPLOMAT_INVESTIGATE,
-					 pcity->tile)) {
-	diplomat_investigate(pplayer, pdiplomat, pcity);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_INVESTIGATE_CITY);
-      }
-      break;
-    case DIPLOMAT_EMBASSY:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY,
-					 pcity->tile)) {
-	diplomat_embassy(pplayer, pdiplomat, pcity);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_ESTABLISH_EMBASSY);
-      }
-      break;
-    case DIPLOMAT_INCITE:
-      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
-					 pcity->tile)) {
-	diplomat_incite(pplayer, pdiplomat, pcity);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
-      }
-      break;
-    case DIPLOMAT_MOVE:
-      fc_assert_msg(value == ATK_CITY || value == ATK_UNIT,
-                    "Unexpected target type %d", value);
-
-      switch (value) {
-      case ATK_CITY:
-        if (!pcity) {
-          return;
-        } else {
-          target_tile = pcity->tile;
-        }
-        break;
-      case ATK_UNIT:
-        if (!punit) {
-          return;
-        } else {
-          target_tile = unit_tile(punit);
-        }
-        break;
-      default:
-        return;
-      }
-
-      if (diplomat_can_do_action(pdiplomat, DIPLOMAT_MOVE, target_tile)) {
-        (void) unit_move_handling(pdiplomat, target_tile, FALSE, TRUE);
-      }
-      break;
-    case DIPLOMAT_STEAL:
-      if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
-                                          pcity->tile)) {
-	/* packet value is technology ID (or some special codes) */
-	diplomat_get_tech(pplayer, pdiplomat, pcity, A_UNSET);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_STEAL_TECH);
-      }
-      break;
-    case DIPLOMAT_STEAL_TARGET:
-      if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL_TARGET,
-                                          pcity->tile)) {
-        /* packet value is technology ID (or some special codes) */
-        diplomat_get_tech(pplayer, pdiplomat, pcity, value);
-      } else {
-        illegal_action(pplayer, pdiplomat, ACTION_SPY_TARGETED_STEAL_TECH);
-      }
-      break;
-    case DIPLOMAT_ANY_ACTION:
-      /* Nothing */
-      break;
+  switch(action_type) {
+  case DIPLOMAT_BRIBE:
+    if (punit && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
+                                        unit_tile(punit))) {
+      diplomat_bribe(pplayer, pdiplomat, punit);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
     }
+    break;
+  case SPY_SABOTAGE_UNIT:
+    if (punit && diplomat_can_do_action(pdiplomat, SPY_SABOTAGE_UNIT,
+                                        unit_tile(punit))) {
+      spy_sabotage_unit(pplayer, pdiplomat, punit);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_UNIT);
+    }
+    break;
+  case DIPLOMAT_SABOTAGE:
+    if (pcity) {
+      if (diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE,
+                                 pcity->tile)) {
+        diplomat_sabotage(pplayer, pdiplomat, pcity, B_LAST);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_SABOTAGE_CITY);
+      }
+    }
+    break;
+  case DIPLOMAT_SABOTAGE_TARGET:
+    if (pcity) {
+      if (diplomat_can_do_action(pdiplomat, DIPLOMAT_SABOTAGE_TARGET,
+                                 pcity->tile)) {
+        /* packet value is improvement ID + 1 (or some special codes) */
+        diplomat_sabotage(pplayer, pdiplomat, pcity, value - 1);
+      } else {
+        illegal_action(pplayer, pdiplomat, ACTION_SPY_TARGETED_SABOTAGE_CITY);
+      }
+    }
+    break;
+  case SPY_POISON:
+    if(pcity && diplomat_can_do_action(pdiplomat, SPY_POISON,
+                                       pcity->tile)) {
+      spy_poison(pplayer, pdiplomat, pcity);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_POISON);
+    }
+    break;
+  case DIPLOMAT_INVESTIGATE:
+    if(pcity && diplomat_can_do_action(pdiplomat,DIPLOMAT_INVESTIGATE,
+                                       pcity->tile)) {
+      diplomat_investigate(pplayer, pdiplomat, pcity);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_INVESTIGATE_CITY);
+    }
+    break;
+  case DIPLOMAT_EMBASSY:
+    if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_EMBASSY,
+                                       pcity->tile)) {
+      diplomat_embassy(pplayer, pdiplomat, pcity);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_ESTABLISH_EMBASSY);
+    }
+    break;
+  case DIPLOMAT_INCITE:
+    if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
+                                       pcity->tile)) {
+      diplomat_incite(pplayer, pdiplomat, pcity);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
+    }
+    break;
+  case DIPLOMAT_MOVE:
+    fc_assert_msg(value == ATK_CITY || value == ATK_UNIT,
+                  "Unexpected target type %d", value);
+
+    switch (value) {
+    case ATK_CITY:
+      if (!pcity) {
+        return;
+      } else {
+        target_tile = pcity->tile;
+      }
+      break;
+    case ATK_UNIT:
+      if (!punit) {
+        return;
+      } else {
+        target_tile = unit_tile(punit);
+      }
+      break;
+    default:
+      return;
+    }
+
+    if (diplomat_can_do_action(pdiplomat, DIPLOMAT_MOVE, target_tile)) {
+      (void) unit_move_handling(pdiplomat, target_tile, FALSE, TRUE);
+    }
+    break;
+  case DIPLOMAT_STEAL:
+    if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
+                                        pcity->tile)) {
+      /* packet value is technology ID (or some special codes) */
+      diplomat_get_tech(pplayer, pdiplomat, pcity, A_UNSET);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_STEAL_TECH);
+    }
+    break;
+  case DIPLOMAT_STEAL_TARGET:
+    if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL_TARGET,
+                                        pcity->tile)) {
+      /* packet value is technology ID (or some special codes) */
+      diplomat_get_tech(pplayer, pdiplomat, pcity, value);
+    } else {
+      illegal_action(pplayer, pdiplomat, ACTION_SPY_TARGETED_STEAL_TECH);
+    }
+    break;
+  case DIPLOMAT_ANY_ACTION:
+    /* Nothing */
+    break;
   }
 }
 

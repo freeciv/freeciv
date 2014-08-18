@@ -197,6 +197,7 @@ actor_reqs    =
       "DiplRel", "War", "Local", TRUE
       "UnitFlag", "Spy", "Local", FALSE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_sabotage_city_target]
@@ -206,6 +207,7 @@ actor_reqs    =
       "DiplRel", "War", "Local", TRUE
       "UnitFlag", "Spy", "Local", TRUE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_establish_embassy]
@@ -213,6 +215,7 @@ action       = "Establish Embassy"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -225,6 +228,7 @@ action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_poison_city]
@@ -234,6 +238,7 @@ actor_reqs    =
       "UnitFlag", "Spy", "Local", TRUE
       "DiplRel", "War", "Local", TRUE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range"
@@ -246,6 +251,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Spy", "Local", FALSE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -259,6 +265,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Spy", "Local", TRUE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -273,6 +280,7 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -287,6 +295,7 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -303,6 +312,7 @@ actor_reqs    =
       "Unitflag", "Spy", "Local", TRUE
       "DiplRel", "War", "Local", TRUE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"

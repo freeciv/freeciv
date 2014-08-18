@@ -78,9 +78,6 @@ bool diplomat_can_do_action(const struct unit *pdiplomat,
     return FALSE;
   }
 
-  if(pdiplomat->moves_left == 0)
-    return FALSE;
-
   return TRUE;
 }
 

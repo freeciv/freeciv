@@ -184,6 +184,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "DiplRel", "War", "Local", TRUE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_establish_embassy]
@@ -191,6 +192,7 @@ action       = "Establish Embassy"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -203,6 +205,7 @@ action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_steal_tech_random]
@@ -210,6 +213,7 @@ action = "Steal Tech"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -224,6 +228,7 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -238,6 +243,7 @@ actor_reqs    =
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
