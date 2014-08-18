@@ -694,7 +694,7 @@ info_label::info_label(QWidget *parent) : fcwidget()
   setMouseTracking(true);
   ufont = new QFont;
   create_end_turn_pixmap();
-  highlight_end_button = true;
+  highlight_end_button = false;
   end_button_area.setWidth(0);
   rates_area.setWidth(0);
   indicator_area.setWidth(0);
@@ -883,6 +883,16 @@ void info_label::mouseMoveEvent(QMouseEvent *event)
 }
 
 /**************************************************************************
+  Mouse has left widget
+**************************************************************************/
+void info_label::leaveEvent(QEvent *event)
+{
+  highlight_end_button = false;
+  update();
+  QWidget::leaveEvent(event);
+}
+
+/**************************************************************************
   Mouse wheel event, used for changing tax rates
 **************************************************************************/
 void info_label::wheelEvent(QWheelEvent *event)
@@ -1041,7 +1051,7 @@ void info_label::paint(QPainter *painter, QPaintEvent *event)
   w = end_turn_pix->width();
   w = (width() - w) / 2;
   end_button_area.setRect(w, h, end_turn_pix->width(),
-                          end_turn_pix->height() - 10);
+                          end_turn_pix->height());
   if (highlight_end_button == true) {
     painter->setCompositionMode(QPainter::CompositionMode_HardLight);
   }
