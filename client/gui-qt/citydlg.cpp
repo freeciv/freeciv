@@ -1649,13 +1649,13 @@ void city_dialog::update_info_label()
     int j = 2*i;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-    qlt[i]->setText(QString::fromLatin1(buf[2*i]));
+    qlt[i]->setText(QString(buf[2*i]));
 #else
     qlt[i]->setText(QString::fromAscii(buf[2*i]));
 #endif
     if (j != GROWTH && j != GRANARY && j!= WASTE && j!= CORRUPTION){
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-      qlt[i]->setToolTip(QString::fromLatin1(buf[2*i + 1]));
+      qlt[i]->setToolTip(QString(buf[2*i + 1]));
 #else
       qlt[i]->setToolTip(QString::fromAscii(buf[2*i + 1]));
 #endif
@@ -1947,7 +1947,7 @@ void city_dialog::buy()
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-  const QString title = QString::fromUtf8(_("Buy")) + QString::fromLatin1(" ? ");
+  const QString title = QString::fromUtf8(_("Buy")) + QString(" ? ");
 #else
   const QString title = QString::fromUtf8(_("Buy")) + QString::fromAscii(" ? ");
 #endif

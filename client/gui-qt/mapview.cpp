@@ -1109,7 +1109,7 @@ void info_label::info_update()
 void update_info_label(void)
 {
   QString eco_info;
-  QString s = QString::fromLatin1(textyear(game.info.year)) + " ("
+  QString s = QString(textyear(game.info.year)) + " ("
               + _("Turn") + ":" + QString::number(game.info.turn) + ")";
   gui()->game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
@@ -1157,7 +1157,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
 void qtg_update_timeout_label(void)
 {
   gui()->game_info_label->set_time_info (
-    QString::fromLatin1(get_timeout_label_text()));
+    QString(get_timeout_label_text()));
 }
 
 /****************************************************************************
