@@ -1644,10 +1644,10 @@ void city_dialog::update_info_label()
   for (int i = 0; i < NUM_INFO_FIELDS; i++) {
     int j = 2*i;
 
-    qlt[i]->setText(QString::fromLatin1(buf[2*i]));
+    qlt[i]->setText(QString(buf[2*i]));
 
     if (j != GROWTH && j != GRANARY && j!= WASTE && j!= CORRUPTION){
-      qlt[i]->setToolTip(QString::fromLatin1(buf[2*i + 1]));
+      qlt[i]->setToolTip(QString(buf[2*i + 1]));
     }
   }
 }
@@ -1935,7 +1935,7 @@ void city_dialog::buy()
   int ret;
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
-  const QString title = QString::fromUtf8(_("Buy")) + QString::fromLatin1(" ? ");
+  const QString title = QString::fromUtf8(_("Buy")) + QString(" ? ");
   QMessageBox ask(this);
 
   if (!can_client_issue_orders()) {

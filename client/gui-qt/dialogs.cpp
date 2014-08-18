@@ -415,9 +415,9 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   cw = new close_widget(this);
   cw->put_to_corner();
 
-  qcaption = QString::fromLatin1(caption);
-  qheadline = QString::fromLatin1(headline);
-  qlines = QString::fromLatin1(lines);
+  qcaption = QString(caption);
+  qheadline = QString(headline);
+  qlines = QString(lines);
   qlist = qlines.split("\n");
   small_font =::gui()->fc_fonts.get_font("gui_qt_font_notify_label");
   x = 0;
