@@ -273,7 +273,12 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
-    main_window->showMaximized();
+    if (options.fullscreen_mode){
+      gui()->main_window->showFullScreen();
+      gui()->mapview_wdg->showFullScreen();
+    } else {
+      main_window->showMaximized();
+    }
     main_window->menuBar()->setVisible(true);
     show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
     show_dock_widget(static_cast<int>(MESSAGE_DOCK_WIDGET), true);

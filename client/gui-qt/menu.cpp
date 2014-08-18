@@ -1296,13 +1296,13 @@ void mr_menu::slot_center_view()
 ***************************************************************************/
 void mr_menu::slot_fullscreen()
 {
-  /* FIXME - might not work on X11 ( according to qt-assistant -4.8.4 )
-   * Fix  should be to show as maximzed and borderless */
-  if (options.fullscreen_mode) {
+  if (!options.fullscreen_mode) {
     gui()->main_window->showFullScreen();
+    gui()->mapview_wdg->showFullScreen();
   } else {
     gui()->main_window->showNormal();
   }
+  options.fullscreen_mode = !options.fullscreen_mode;
 }
 
 /****************************************************************
