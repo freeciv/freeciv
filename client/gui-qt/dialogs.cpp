@@ -409,9 +409,9 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
   cw->put_to_corner();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-  qcaption = QString::fromLatin1(caption);
-  qheadline = QString::fromLatin1(headline);
-  qlines = QString::fromLatin1(lines);
+  qcaption = QString(caption);
+  qheadline = QString(headline);
+  qlines = QString(lines);
 #else
   qcaption = QString::fromAscii(caption);
   qheadline = QString::fromAscii(headline);
