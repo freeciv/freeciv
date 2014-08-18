@@ -118,6 +118,8 @@ bool can_units_do_connect(struct unit_list *punits,
 			  enum unit_activity activity,
                           struct extra_type *tgt);
 
+bool can_units_act_against_own_tile(struct unit_list *punits);
+
 enum unit_bg_color_type { UNIT_BG_HP_LOSS,
                           UNIT_BG_LAND,
                           UNIT_BG_SEA,

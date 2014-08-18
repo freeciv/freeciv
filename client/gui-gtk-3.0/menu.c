@@ -2272,8 +2272,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "CONNECT_IRRIGATION", conn_possible);
 
   menus_set_sensitive(unit_group, "DIPLOMAT_ACTION",
-                      can_units_do_diplomat_action(punits,
-                                                   DIPLOMAT_ANY_ACTION));
+                      can_units_act_against_own_tile(punits));
   menus_set_sensitive(unit_group, "EXPLODE_NUKE",
                       units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
 

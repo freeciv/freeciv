@@ -771,7 +771,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case ORDER_DIPLOMAT_DLG:
-        if (can_units_do_diplomat_action(punits, DIPLOMAT_ANY_ACTION)) {
+        if (can_units_act_against_own_tile(punits)) {
           i.value()->setEnabled(true);
         }
         break;

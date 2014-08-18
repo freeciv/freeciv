@@ -496,8 +496,7 @@ void real_menus_update(void)
 			   can_units_do(punits,
 				        unit_can_est_trade_route_here));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG,
-			   can_units_do_diplomat_action(punits,
-							DIPLOMAT_ANY_ACTION));
+                           can_units_act_against_own_tile(punits));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
                            units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
 

@@ -1202,6 +1202,29 @@ bool can_units_do_connect(struct unit_list *punits,
 }
 
 /****************************************************************************
+  Returns TRUE if any of the units can do a generalized action against its
+  own tile.
+****************************************************************************/
+bool can_units_act_against_own_tile(struct unit_list *punits)
+{
+  struct city *pcity;
+
+  unit_list_iterate(punits, punit) {
+    /* All generalized actions vs own tile is currently against cities */
+    if (is_diplomat_unit(punit)
+        && (pcity = tile_city(unit_tile(punit)))
+        && city_owner(pcity) != unit_owner(punit)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+
+  /* FIXME: Ask the server so other target types than foreign cities can be
+   * supported as targeting them on your own tile becomes possible. */
+}
+
+/****************************************************************************
   Determines which color type should be used for unit background.
   This is only guesswork based on unit properties. One should not
   take UNIT_BG_FLYING seriously meaning that unit can fly - custom

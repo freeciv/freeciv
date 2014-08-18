@@ -174,22 +174,6 @@ bool can_units_do_base_gui(const struct unit_list *punits,
 }
 
 /****************************************************************************
-  Returns TRUE if any of the units can do the activity.
-****************************************************************************/
-bool can_units_do_diplomat_action(const struct unit_list *punits,
-				  enum diplomat_actions action)
-{
-  unit_list_iterate(punits, punit) {
-    if (is_diplomat_unit(punit)
-	&& diplomat_can_do_action(punit, action, unit_tile(punit))) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
   If has_flag is true, returns true iff any of the units have the flag.
 
   If has_flag is false, returns true iff any of the units don't have the

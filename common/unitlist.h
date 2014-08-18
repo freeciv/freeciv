@@ -76,8 +76,6 @@ bool can_units_do_activity_targeted(const struct unit_list *punits,
 bool can_units_do_any_road(const struct unit_list *punits);
 bool can_units_do_base_gui(const struct unit_list *punits,
                            enum base_gui_type base_gui);
-bool can_units_do_diplomat_action(const struct unit_list *punits,
-				  enum diplomat_actions action);
 bool units_have_type_flag(const struct unit_list *punits,
                           enum unit_type_flag_id flag, bool has_flag);
 bool units_are_occupied(const struct unit_list *punits);
