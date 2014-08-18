@@ -88,6 +88,7 @@ fc_client::fc_client() : QObject()
   current_unit_id = -1;
   current_unit_target_id[ATK_CITY] = -1;
   current_unit_target_id[ATK_UNIT] = -1;
+  quitting = false;
 
   for (int i = 0; i < LAST_WIDGET; i++) {
     dock_widget[i] = NULL;
@@ -190,11 +191,29 @@ void fc_client::main(QApplication *qapp)
   set_client_state(C_S_DISCONNECTED);
 
   startTimer(TIMER_INTERVAL);
+  connect(qapp, SIGNAL(aboutToQuit()), this, SLOT(closing()));
   qapp->exec();
 
   free_mapcanvas_and_overview();
   tileset_free_tiles(tileset);
 }
+
+/****************************************************************************
+  Returns status if fc_client is being closed
+****************************************************************************/
+bool fc_client::is_closing()
+{
+  return quitting;
+}
+
+/****************************************************************************
+  Called when fc_client is going to quit
+****************************************************************************/
+void fc_client::closing()
+{
+  quitting = true;
+}
+
 
 /****************************************************************************
   Appends text to chat window
@@ -397,30 +416,17 @@ void fc_client::show_children(const QLayout* layout, bool show)
 /****************************************************************************
   Finds not used index on game_view_tab and returns it
 ****************************************************************************/
-int fc_client::gimme_place()
+void fc_client::gimme_place(QWidget* widget, QString str)
 {
-  int is_not_in;
+  QString x;
+  x = opened_repo_dlgs.key(widget);
 
-  for (int i = 1; i < 1000; i++) {
-    is_not_in = places.indexOf(i);
-
-    if (is_not_in == -1) {
-      places.append(i);
-      places.indexOf(i);
-      return i;
+      if (x.isEmpty()) {
+        opened_repo_dlgs.insert(str, widget);
+        return;
     }
-  }
-
   log_error("Failed to find place for new tab widget");
-  return 0;
-}
-
-/****************************************************************************
-  Removes given index from list of used indexes
-****************************************************************************/
-void fc_client::remove_place(int index)
-{
-  places.removeAll(index);
+  return;
 }
 
 /****************************************************************************
@@ -430,11 +436,11 @@ void fc_client::remove_place(int index)
 ****************************************************************************/
 bool fc_client::is_repo_dlg_open(QString str)
 {
-  int i;
+  QWidget *w;
 
-  i = opened_repo_dlgs.indexOf(str);
+  w = opened_repo_dlgs.value(str);
 
-  if (i == -1) {
+  if (w == NULL) {
     return false;
   }
 
@@ -447,10 +453,11 @@ bool fc_client::is_repo_dlg_open(QString str)
 int fc_client::gimme_index_of(QString str)
 {
   int i;
+  QWidget *w;
 
-  i = opened_repo_dlgs.indexOf(str);
-
-  return places.at(i);
+  w = opened_repo_dlgs.value(str);
+  i = game_tab_widget->indexOf(w);
+  return i;
 }
 
 /****************************************************************************
@@ -482,19 +489,11 @@ void fc_client::update_unit_sel()
 }
 
 /****************************************************************************
-  Adds new report dialog string to the list marking it as opened
-****************************************************************************/
-void fc_client::add_repo_dlg(QString str)
-{
-  opened_repo_dlgs.append(str);
-}
-
-/****************************************************************************
   Removes report dialog string from the list marking it as closed
 ****************************************************************************/
 void fc_client::remove_repo_dlg(QString str)
 {
-  opened_repo_dlgs.removeAll(str);
+  opened_repo_dlgs.remove(str);
 }
 
 /****************************************************************************

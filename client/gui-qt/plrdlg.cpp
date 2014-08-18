@@ -545,7 +545,6 @@ plr_report::plr_report():QWidget()
 plr_report::~plr_report()
 {
   gui()->remove_repo_dlg("PLR");
-  gui()->remove_place(index);
 }
 
 /**************************************************************************
@@ -553,10 +552,9 @@ plr_report::~plr_report()
 **************************************************************************/
 void plr_report::init()
 {
-  index = gui()->gimme_place();
-  gui()->add_game_tab(this, _("Players"), index);
+  gui()->gimme_place(this, "PLR");
+  index = gui()->add_game_tab(this, _("Players"));
   gui()->game_tab_widget->setCurrentIndex(index);
-  gui()->add_repo_dlg("PLR");
 }
 
 /**************************************************************************
