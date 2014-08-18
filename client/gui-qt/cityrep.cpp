@@ -760,7 +760,6 @@ city_report::city_report(): QWidget()
 city_report::~city_report()
 {
   gui()->remove_repo_dlg("CTS");
-  gui()->remove_place(index);
 }
 
 /***************************************************************************
@@ -768,10 +767,9 @@ city_report::~city_report()
 ***************************************************************************/
 void city_report::init()
 {
-  index = gui()->gimme_place();
-  gui()->add_game_tab(this, _("Cities"), index);
+  gui()->gimme_place(this, _("CTS"));
+  index = gui()->add_game_tab(this, _("Cities"));
   gui()->game_tab_widget->setCurrentIndex(index);
-  gui()->add_repo_dlg("CTS");
 }
 /***************************************************************************
   Updates whole report

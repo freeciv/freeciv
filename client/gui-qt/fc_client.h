@@ -24,6 +24,7 @@
 
 // Qt
 #include <QTabWidget>
+#include <QMap>
 
 // client
 #include "chatline_common.h"
@@ -172,7 +173,7 @@ public:
 
   void append_output_window(const QString &);
   void set_status_bar(QString);
-  int add_game_tab(QWidget *widget, QString title, int index);
+  int add_game_tab(QWidget *widget, QString title);
   void rm_game_tab(int index); /* doesn't delete widget */
   void update_start_page();
   void toggle_unit_sel_widget(struct tile *ptile);
@@ -192,18 +193,18 @@ public:
   QWidget *central_wdg;
   mr_menu *menu_bar;
   fc_game_tab_widget *game_tab_widget;
-  int gimme_place();
+  void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
-  void add_repo_dlg(QString str);
   void remove_repo_dlg(QString str);
   bool is_repo_dlg_open(QString str);
-  void remove_place(int index);
+  bool is_closing();
 
 private slots:
 
   void server_input(int sock);
   void chat();
   void quit();
+  void closing();
   void slot_lan_scan();
   void slot_meta_scan();
   void slot_connect();
@@ -250,9 +251,9 @@ private:
   void update_obs_button();
 
   enum client_pages page;
-  QList<int> places;
-  QStringList opened_repo_dlgs;
+  QMap<QString, QWidget*> opened_repo_dlgs;
   bool send_new_aifill_to_server;
+  bool quitting;
 
 protected:
   void timerEvent(QTimerEvent *);

@@ -183,7 +183,6 @@ science_report::science_report(): QWidget()
 science_report::~science_report()
 {
   gui()->remove_repo_dlg("SCI");
-  gui()->remove_place(index);
 }
 
 /****************************************************************************
@@ -193,14 +192,13 @@ science_report::~science_report()
 ****************************************************************************/
 void science_report::init(bool raise)
 {
-  index = gui()->gimme_place();
-  gui()->add_game_tab(this, _("Research"), index);
+  gui()->gimme_place(this, "SCI");
+  index = gui()->add_game_tab(this, _("Research"));
   if (raise == false) {
     gui()->game_tab_widget->change_color(index, Qt::red);
   } else {
     gui()->game_tab_widget->setCurrentIndex(index);
   }
-  gui()->add_repo_dlg("SCI");
   update_report();
 }
 
@@ -446,7 +444,6 @@ units_report::units_report(): QWidget()
 units_report::~units_report()
 {
   gui()->remove_repo_dlg("UNI");
-  gui()->remove_place(index);
 }
 
 /****************************************************************************
@@ -456,10 +453,9 @@ units_report::~units_report()
 void units_report::init()
 {
   curr_row = -1;
-  index = gui()->gimme_place();
-  gui()->add_game_tab(this, _("Units"), index);
+  gui()->gimme_place(this, "UNI");
+  index = gui()->add_game_tab(this, _("Units"));
   gui()->game_tab_widget->setCurrentIndex(index);
-  gui()->add_repo_dlg("UNI");
 }
 
 /**************************************************************************
@@ -787,7 +783,6 @@ eco_report::eco_report(): QWidget()
 eco_report::~eco_report()
 {
   gui()->remove_repo_dlg("ECO");
-  gui()->remove_place(index);
 }
 
 /**************************************************************************
@@ -796,10 +791,9 @@ eco_report::~eco_report()
 void eco_report::init()
 {
   curr_row = -1;
-  index = gui()->gimme_place();
-  gui()->add_game_tab(this, _("Economy"), index);
+  gui()->gimme_place(this, "ECO");
+  index = gui()->add_game_tab(this, _("Economy"));
   gui()->game_tab_widget->setCurrentIndex(index);
-  gui()->add_repo_dlg("ECO");
 }
 
 /**************************************************************************
@@ -1095,7 +1089,6 @@ endgame_report::endgame_report(const struct packet_endgame_report *packet): QWid
 endgame_report::~endgame_report()
 {
   gui()->remove_repo_dlg("END");
-  gui()->remove_place(index);
 }
 
 /**************************************************************************
@@ -1103,10 +1096,9 @@ endgame_report::~endgame_report()
 **************************************************************************/
 void endgame_report::init()
 {
-  index = gui()->gimme_place();
-  gui()->add_game_tab(this, _("Score"), index);
+  gui()->gimme_place(this, "END");
+  index = gui()->add_game_tab(this, _("Score"));
   gui()->game_tab_widget->setCurrentIndex(index);
-  gui()->add_repo_dlg("END");
 }
 
 /**************************************************************************
