@@ -2676,6 +2676,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     }
 
     if (NULL != plrtile->site
+        && plrtile->owner != NULL
         && pplayers_non_attack(pplayer, plrtile->owner)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("Cannot attack unless you declare war first."));
