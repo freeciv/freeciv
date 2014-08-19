@@ -1088,6 +1088,7 @@ int server_open_socket(void)
   int lan_family;
   struct fc_sockaddr_list *list;
   int name_count;
+  fc_errno eno = 0;
 
 #ifdef IPV6_SUPPORT
   struct ipv6_mreq mreq6;
@@ -1118,6 +1119,7 @@ int server_open_socket(void)
     if (s == -1) {
       /* Probably EAFNOSUPPORT or EPROTONOSUPPORT.
        * Kernel might have disabled AF_INET6. */
+      eno = fc_get_errno();
       cause = "socket";
       continue;
     }
@@ -1138,9 +1140,10 @@ int server_open_socket(void)
 #endif /* IPv6 support */
 
     if (bind(s, &paddr->saddr, sockaddr_size(paddr)) == -1) {
+      eno = fc_get_errno();
       cause = "bind";
 
-      if (fc_get_errno() == EADDRNOTAVAIL) {
+      if (eno == EADDRNOTAVAIL) {
         /* Close only this socket. This address is not available.
          * This can happen with the IPv6 wildcard address if this
          * machine has no IPv6 interfaces. */
@@ -1160,6 +1163,7 @@ int server_open_socket(void)
     }
 
     if (listen(s, MAX_NUM_CONNECTIONS) == -1) {
+      eno = fc_get_errno();
       cause = "listen";
       fc_closesocket(s);
       continue;
@@ -1169,7 +1173,7 @@ int server_open_socket(void)
   } fc_sockaddr_list_iterate_end;
 
   if (listen_count == 0) {
-    log_fatal("%s failed: %s", cause, fc_strerror(fc_get_errno()));
+    log_fatal("%s failed: %s", cause, fc_strerror(eno));
     fc_sockaddr_list_iterate(list, paddr) {
       sockaddr_debug(paddr);
     } fc_sockaddr_list_iterate_end;
