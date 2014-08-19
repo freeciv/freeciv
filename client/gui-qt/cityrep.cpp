@@ -767,7 +767,7 @@ city_report::~city_report()
 ***************************************************************************/
 void city_report::init()
 {
-  gui()->gimme_place(this, _("CTS"));
+  gui()->gimme_place(this, "CTS");
   index = gui()->add_game_tab(this, _("Cities"));
   gui()->game_tab_widget->setCurrentIndex(index);
 }
