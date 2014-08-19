@@ -104,7 +104,7 @@ struct client_options options = {
   .meta_accelerators = TRUE,
   .ask_city_name = TRUE,
   .popup_new_cities = TRUE,
-  .popup_caravan_arrival = TRUE,
+  .popup_actor_arrival = TRUE,
   .keyboardless_goto = TRUE,
   .enable_cursor_changes = TRUE,
   .separate_unit_selection = FALSE,
@@ -2051,15 +2051,16 @@ static struct client_option client_options[] = {
                   N_("Setting this option will pop up a newly-founded "
                      "city's city dialog automatically."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
-  GEN_BOOL_OPTION(popup_caravan_arrival, N_("Pop up caravan actions"),
-                  N_("If this option is enabled, when caravans or similar "
-                     "units arrive at a city where they can establish a "
-                     "trade route or help build a wonder, a window will "
-                     "pop up asking which action should be performed. "
+  GEN_BOOL_OPTION(popup_actor_arrival, N_("Pop up caravan and spy actions"),
+                  N_("If this option is enabled, when a unit arrieves at "
+                     "a city where it can perform an action like "
+                     "establishing a trade route, help build a wonder or "
+                     "establish an embassy, a window will pop up asking "
+                     "which action should be performed. "
                      "Disabling this option means you will have to do the "
                      "action manually by pressing either 'r' (for a trade "
-                     "route) or 'b' (for building a wonder) when the unit "
-                     "is in the city."),
+                     "route), 'b' (for building a wonder) or 'd' (for a "
+                     "spy action) when the unit is in the city."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
                   N_("This option controls whether the client should "
@@ -5332,6 +5333,10 @@ void options_load(void)
   } else {
     options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
   }
+
+  /* Removed in 2.6 */
+  options.popup_actor_arrival = secfile_lookup_bool_default(sf, TRUE,
+      "%s.popup_caravan_arrival", prefix);
 
   /* Load all the regular options */
   client_options_iterate_all(poption) {

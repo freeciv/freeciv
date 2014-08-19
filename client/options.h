@@ -123,7 +123,7 @@ struct client_options
   bool meta_accelerators;
   bool ask_city_name;
   bool popup_new_cities;
-  bool popup_caravan_arrival;
+  bool popup_actor_arrival;
   bool update_city_text_in_refresh_tile;
   bool keyboardless_goto;
   bool enable_cursor_changes;

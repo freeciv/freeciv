@@ -1531,7 +1531,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           refresh_city_dialog(pcity);
         }
 
-        if (options.popup_caravan_arrival
+        if (options.popup_actor_arrival
             && client_has_player()
             && client_player() == unit_owner(punit)
             && !client_player()->ai_controlled
@@ -1547,6 +1547,30 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
                ptrans = unit_transport_get(ptrans)) {
             if (NULL == ptrans) {
               process_caravan_arrival(punit);
+              break;
+            } else if (unit_has_orders(ptrans)) {
+              break;
+            }
+          }
+        }
+
+        if (options.popup_actor_arrival
+            && client_has_player()
+            && client_player() == unit_owner(punit)
+            && !client_player()->ai_controlled
+            && can_client_issue_orders()
+            && !unit_has_orders(punit)
+             /* the server handles non transported units */
+            && NULL != unit_transport_get(punit)
+            && is_diplomat_unit(punit)) {
+          /* Open diplomat dialog only if 'punit' and all its transporters
+           * (recursively) don't have orders. */
+          struct unit *ptrans;
+
+          for (ptrans = unit_transport_get(punit);;
+               ptrans = unit_transport_get(ptrans)) {
+            if (NULL == ptrans) {
+              process_diplomat_arrival(punit, unit_tile(punit)->index);
               break;
             } else if (unit_has_orders(ptrans)) {
               break;
