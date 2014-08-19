@@ -684,7 +684,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
   
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
   
-  /* Some handlers rely on head_of_units_in_focus() */
+  /* Focus on the unit so the player knows where it is */
   unit_focus_set(pUnit);
 
   is_unit_move_blocked = TRUE;
@@ -928,14 +928,13 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
 {
   struct widget *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
-  struct unit *pUnit = head_of_units_in_focus();
   SDL_String16 *pStr;
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0, y;
 
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
-  if (!pUnit) {
+  if (!actor) {
     choose_action_queue_next();
     return;
   }
@@ -943,13 +942,13 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   is_unit_move_blocked = TRUE;
     
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
-  pDiplomat_Dlg->diplomat_id = pUnit->id;
+  pDiplomat_Dlg->diplomat_id = actor->id;
   pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = pCity->id;
-  pCont->id1 = pUnit->id;/* spy id */
+  pCont->id1 = actor->id; /* spy id */
     
   pStr = create_str16_from_char(_("Select Improvement to Sabotage") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -1038,7 +1037,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   {
     struct astring str = ASTRING_INIT;
     /* TRANS: %s is a unit name, e.g., Spy */
-    astr_set(&str, _("At %s's Discretion"), unit_name_translation(pUnit));
+    astr_set(&str, _("At %s's Discretion"), unit_name_translation(actor));
     create_active_iconlabel(pBuf, pWindow->dst, pStr, astr_str(&str),
                             sabotage_impr_callback);
     astr_free(&str);
@@ -1080,7 +1079,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           unit_tile(pUnit));
+                           unit_tile(actor));
   
   w = area.w;
   
@@ -1223,7 +1222,6 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
-  struct unit *pUnit;
   char tBuf[255], cBuf[255];
   bool exit = FALSE;
   SDL_Rect area;
@@ -1232,10 +1230,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     return;
   }
   
-  /* ugly hack */
-  pUnit = head_of_units_in_focus();
-  
-  if (!pUnit || !is_diplomat_unit(pUnit)) {
+  if (!actor || !is_diplomat_unit(actor)) {
     choose_action_queue_next();
     return;
   }
@@ -1243,7 +1238,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   is_unit_move_blocked = TRUE;
   
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
-  pIncite_Dlg->diplomat_id = pUnit->id;
+  pIncite_Dlg->diplomat_id = actor->id;
   pIncite_Dlg->diplomat_target_id = pCity->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));  
 
@@ -1325,7 +1320,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     pBuf->data.city = pCity;
     set_wstate(pBuf, FC_WS_NORMAL);
   
-    add_to_gui_list(MAX_ID - pUnit->id, pBuf);
+    add_to_gui_list(MAX_ID - actor->id, pBuf);
     
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
@@ -1486,7 +1481,6 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
-  struct unit *pDiplomatUnit;
   char tBuf[255], cBuf[255];
   bool exit = FALSE;
   SDL_Rect area;
@@ -1494,11 +1488,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   if (pBribe_Dlg) {
     return;
   }
-    
-  /* ugly hack */
-  pDiplomatUnit = head_of_units_in_focus();
   
-  if (!pDiplomatUnit || !is_diplomat_unit(pDiplomatUnit)) {
+  if (!actor || !is_diplomat_unit(actor)) {
     choose_action_queue_next();
     return;
   }
@@ -1506,7 +1497,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   is_unit_move_blocked = TRUE;
   
   pBribe_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
-  pBribe_Dlg->diplomat_id = pDiplomatUnit->id;
+  pBribe_Dlg->diplomat_id = actor->id;
   pBribe_Dlg->diplomat_target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
 
@@ -1551,7 +1542,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
     pBuf->data.unit = pUnit;
     set_wstate(pBuf, FC_WS_NORMAL);
   
-    add_to_gui_list(MAX_ID - pDiplomatUnit->id, pBuf);
+    add_to_gui_list(MAX_ID - actor->id, pBuf);
     
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
@@ -1616,7 +1607,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           unit_tile(pDiplomatUnit));
+                           unit_tile(actor));
 
   /* setup widget size and start position */
   pBuf = pWindow;
