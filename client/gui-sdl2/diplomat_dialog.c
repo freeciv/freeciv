@@ -683,9 +683,6 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
   SDL_Rect area;
   
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
-  
-  /* Focus on the unit so the player knows where it is */
-  unit_focus_set(pUnit);
 
   is_unit_move_blocked = TRUE;
   pCity = tile_city(ptile);

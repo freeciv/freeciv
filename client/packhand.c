@@ -3937,6 +3937,10 @@ void handle_unit_actions(int actor_unit_id, int target_tile_id,
 
   /* Let the user choose (if he still has a choise) */
   if (ask_user) {
+    /* Focus on the unit so the player knows where it is */
+    unit_focus_set(actor_unit);
+
+    /* Show the client specific action dialog */
     popup_diplomat_dialog(actor_unit, target_tile, action_probabilities);
   } else {
     /* Nothing to do. Go to the next queued dipomat */
