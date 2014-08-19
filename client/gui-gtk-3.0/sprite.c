@@ -144,12 +144,21 @@ struct sprite *load_gfxfile(const char *filename)
 
     for (i = 0; i < width; i++) {
       for (j = 0; j < height; j++) {
+#ifdef WORDS_BIGENDIAN
+        /* Add alpha channel */
+        new_data[(j * width + i) * 4 + 3] = 0xff;
+        /* Copy RGB */
+        new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
+        new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
+        new_data[(j * width + i) * 4 + 0] = old_data[(j * width + i) * 4 + 0];
+#else  /* WORDS_BIGENDIAN */
         /* Add alpha channel */
         new_data[(j * width + i) * 4] = 0xff;
         /* Copy RGB */
         new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
         new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
         new_data[(j * width + i) * 4 + 3] = old_data[(j * width + i) * 4 + 3];
+#endif  /* WORDS_BIGENDIAN */
       }
     }
 
@@ -219,6 +228,13 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   int width = cairo_image_surface_get_width(sprite->surface);
   int height = cairo_image_surface_get_height(sprite->surface);
   int i, j;
+  int endian;
+
+#ifdef WORDS_BIGENDIAN
+  endian = 0;
+#else
+  endian = 3;
+#endif
 
   fc_assert(cairo_image_surface_get_format(sprite->surface) == CAIRO_FORMAT_ARGB32);
 
@@ -226,7 +242,7 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   *start_x = -1;
   for (i = 0; i < width && *start_x == -1; i++) {
     for (j = 0; j < height; j++) {
-      if (data[(j * width + i) * 4]) {
+      if (data[(j * width + i) * 4 + endian]) {
 	*start_x = i;
 	break;
       }
@@ -237,7 +253,7 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   *end_x = -1;
   for (i = width - 1; i >= *start_x && *end_x == -1; i--) {
     for (j = 0; j < height; j++) {
-      if (data[(j * width + i) * 4]) {
+      if (data[(j * width + i) * 4 + endian]) {
 	*end_x = i;
 	break;
       }
@@ -248,7 +264,7 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   *start_y = -1;
   for (i = 0; i < height && *start_y == -1; i++) {
     for (j = *start_x; j <= *end_x; j++) {
-      if (data[(i * width + j) * 4]) {
+      if (data[(i * width + j) * 4 + endian]) {
 	*start_y = i;
 	break;
       }
@@ -259,7 +275,7 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   *end_y = -1;
   for (i = height - 1; i >= *end_y && *end_y == -1; i--) {
     for (j = *start_x; j <= *end_x; j++) {
-      if (data[(i * width + j) * 4]) {
+      if (data[(i * width + j) * 4 + endian]) {
 	*end_y = i;
 	break;
       }
