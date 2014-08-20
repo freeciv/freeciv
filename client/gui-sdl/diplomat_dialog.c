@@ -911,6 +911,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
     
   add_to_gui_list(ID_SEPARATOR, pBuf);
   area.h += pBuf->next->size.h;
+
+  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
+
   /* ------------------ */
   n = 0;
   city_built_iterate(pCity, pImprove) {
@@ -926,11 +929,6 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
     
       area.w = MAX(area.w , pBuf->size.w);
       imp_h += pBuf->size.h;
-      
-      if (!pDiplomat_Dlg->pdialog->pEndActiveWidgetList)
-      {
-	pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
-      }
     
       if (n > 9) {
         set_wflag(pBuf, WF_HIDDEN);
