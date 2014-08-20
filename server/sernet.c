@@ -1147,6 +1147,8 @@ int server_open_socket(void)
         /* Close only this socket. This address is not available.
          * This can happen with the IPv6 wildcard address if this
          * machine has no IPv6 interfaces. */
+        /* If you change this logic, be sure to make clientside checking
+         * of acceptable port to match. */
         fc_closesocket(s);
         continue;
       } else {

@@ -203,12 +203,7 @@ bool client_start_server(void)
 # endif /* WIN32_NATIVE */
 
 #ifdef IPV6_SUPPORT
-  /* We want port that is free in IPv4 even if we (the client) have
-   * IPv6 support. In the unlikely case that local server is IPv4-only
-   * (meaning that it has to be from different build than client) we
-   * have to give port that it can use. IPv6-enabled client would first
-   * try same port in IPv6 and if that fails, fallback to IPv4 too. */
-  enum fc_addr_family family = FC_ADDR_IPV4;
+  enum fc_addr_family family = FC_ADDR_ANY;
 #else
   enum fc_addr_family family = FC_ADDR_IPV4;
 #endif /* IPV6_SUPPORT */
@@ -224,7 +219,7 @@ bool client_start_server(void)
    * used by standalone server on Windows where this is known to be buggy
    * by not starting from DEFAULT_SOCK_PORT but from one higher. */
   internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT + 1,
-                                             family, "localhost");
+                                             family, "localhost", TRUE);
 
   if (internal_server_port < 0) {
     output_window_append(ftc_client, _("Couldn't start the server."));
