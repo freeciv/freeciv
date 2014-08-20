@@ -48,10 +48,10 @@ AM_CPPFLAGS = $(common_cppflags)
 if MINGW32
 MPICON = $(top_builddir)/win32/mpicon.o
 else
-desktopfiledir = $(prefix)/share/applications
+desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA =
 
-appdatafiledir = $(prefix)/share/appdata
+appdatafiledir = @APPDATADIR@
 appdatafile_DATA =
 
 if MODINST_GTK2

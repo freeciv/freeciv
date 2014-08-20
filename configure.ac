@@ -200,6 +200,16 @@ if test "x$modlist_url" != "x" ; then
   AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${modlist_url}"], [Default modpack list URL])
 fi
 
+AC_ARG_WITH([desktopdir],
+  AS_HELP_STRING([--with-desktopdir], [install desktop files to given dir]),
+[ DESKTOPDIR=${withval} ], [ DESKTOPDIR="\$(prefix)/share/applications" ])
+AC_SUBST([DESKTOPDIR])
+
+AC_ARG_WITH([appdatadir],
+  AS_HELP_STRING([--with-appdatadir], [install appdata files to given dir]),
+[ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/appdata" ])
+AC_SUBST([APPDATADIR])
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no
