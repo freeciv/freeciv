@@ -2089,6 +2089,7 @@ static bool set_away(struct connection *caller, char *name, bool check)
     set_ai_level_directer(caller->playing, AI_LEVEL_AWAY);
     caller->playing->ai_controlled = TRUE;
     cancel_all_meetings(caller->playing);
+    CALL_PLR_AI_FUNC(gained_control, caller->playing, caller->playing);
   } else if (!check) {
     cmd_reply(CMD_AWAY, caller, C_OK,
               _("%s returned to game."), player_name(caller->playing));
@@ -2096,6 +2097,8 @@ static bool set_away(struct connection *caller, char *name, bool check)
     /* We have to do it, because the client doesn't display 
      * dialogs for meetings in AI mode. */
     cancel_all_meetings(caller->playing);
+
+    CALL_PLR_AI_FUNC(lost_control, caller->playing, caller->playing);
   }
 
   send_player_info_c(caller->playing, game.est_connections);
