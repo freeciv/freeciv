@@ -17,11 +17,15 @@
 
 // Qt
 #include <QApplication>
+#include <QDockWidget>
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QStatusBar>
 #include <QTabBar>
 #include <QTextEdit>
+
+// client
+#include "connectdlg_common.h"
 
 // common
 #include "game.h"
@@ -86,6 +90,8 @@ fc_client::fc_client() : QObject()
   info_tile_wdg = NULL;
   opened_dialog = NULL;
   current_unit_id = -1;
+  current_file = "";
+  status_bar_queue.clear();
   current_unit_target_id[ATK_CITY] = -1;
   current_unit_target_id[ATK_UNIT] = -1;
   quitting = false;
@@ -173,6 +179,7 @@ fc_client::fc_client() : QObject()
 ****************************************************************************/
 fc_client::~fc_client()
 {
+  delete dock_widget[0]->widget();
   delete main_window;
 }
 
@@ -182,7 +189,8 @@ fc_client::~fc_client()
 void fc_client::main(QApplication *qapp)
 {
 
-  qRegisterMetaType<QTextCursor> ("QTextCursor");
+  qRegisterMetaType<QTextCursor>("QTextCursor");
+  qRegisterMetaType<QTextBlock>("QTextBlock");
   fc_allocate_ow_mutex();
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
   fc_release_ow_mutex();
@@ -247,6 +255,17 @@ void fc_client::switch_page(int new_pg)
   enum client_pages new_page;
 
   new_page = static_cast<client_pages>(new_pg);
+
+  if ((new_page == PAGE_SCENARIO || new_page == PAGE_LOAD)
+       && !is_server_running()) {
+    current_file = "";
+    client_start_server_and_set_page(new_page);
+    return;
+  }
+
+  if (page == PAGE_NETWORK){
+    destroy_server_scans();
+  }
   main_window->menuBar()->setVisible(false);
   hide_dock_widgets();
   ver_dock_layout->addWidget(output_window);
@@ -259,7 +278,6 @@ void fc_client::switch_page(int new_pg)
       show_children(pages_layout[i], false);
     }
   }
-
   page = new_page;
   switch (page) {
   case PAGE_MAIN:
@@ -267,7 +285,7 @@ void fc_client::switch_page(int new_pg)
     break;
   case PAGE_START:
     pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
-    pages_layout[PAGE_START]->addWidget(output_window,3,0,2,8);
+    pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 2, 8);
     break;
   case PAGE_LOAD:
     update_load_page();
@@ -289,7 +307,6 @@ void fc_client::switch_page(int new_pg)
     update_scenarios_page();
     break;
   case PAGE_NETWORK:
-    hide_dock_widgets();
     update_network_lists();
     connect_host_edit->setText(server_host);
     fc_snprintf(buf, sizeof(buf), "%d", server_port);
@@ -297,6 +314,11 @@ void fc_client::switch_page(int new_pg)
     connect_login_edit->setText(user_name);
     break;
   case PAGE_GGZ:
+  default:
+    if (client.conn.used) {
+      disconnect_from_server();
+    }
+    set_client_page(PAGE_MAIN);
     break;
   }
 }
@@ -316,7 +338,16 @@ void fc_client::add_server_source(int sock)
 {
   server_notifier = new QSocketNotifier(sock, QSocketNotifier::Read);
 
-  connect(server_notifier, SIGNAL(activated(int)), this, SLOT(server_input(int)));
+  connect(server_notifier, SIGNAL(activated(int)), this, 
+          SLOT(server_input(int)));
+}
+
+/****************************************************************************
+  Removes notifier
+****************************************************************************/
+void fc_client::remove_server_source()
+{
+  delete server_notifier;
 }
 
 /****************************************************************************

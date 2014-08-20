@@ -32,7 +32,10 @@ void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,
                                    int conn_id)
 {
-  gui()->append_output_window(QString::fromUtf8(astring));
+  QString str;
+  str = QString::fromUtf8(astring);
+  gui()->append_output_window(str);
+  gui()->set_status_bar(str);
 }
 
 /**************************************************************************
@@ -61,5 +64,8 @@ void clear_output_window(void)
 **************************************************************************/
 void qtg_version_message(char *vertext)
 {
+  /* FIXME - this will crash at some point - event will come 
+   * later with non existent pointer 
   output_window_append(ftc_client, vertext);
+  */
 }

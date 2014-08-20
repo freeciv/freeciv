@@ -120,6 +120,7 @@ class fc_client : public QObject
 
   QTextEdit *output_window;
   QTextEdit *scenarios_view;
+  QLabel *scenarios_text;
 
   QLineEdit *connect_host_edit;
   QLineEdit *connect_port_edit;
@@ -168,11 +169,12 @@ public:
   minimap_view *minimapview_wdg;
   unit_label *unitinfo_wdg;
   void add_server_source(int);
+  void remove_server_source();
 
   enum client_pages current_page();
 
   void append_output_window(const QString &);
-  void set_status_bar(QString);
+  void set_status_bar(QString str, int timeout = 2000);
   int add_game_tab(QWidget *widget, QString title);
   void rm_game_tab(int index); /* doesn't delete widget */
   void update_start_page();
@@ -216,6 +218,12 @@ private slots:
   void start_page_menu(QPoint);
   void slot_pick_nation();
   void send_command_to_server(const QString &);
+  void start_new_game();
+  void start_scenario();
+  void start_from_save();
+  void browse_saves();
+  void browse_scenarios();
+  void clear_status_bar();
 
 public slots:
   void switch_page(int i);
@@ -252,6 +260,8 @@ private:
 
   enum client_pages page;
   QMap<QString, QWidget*> opened_repo_dlgs;
+  QStringList status_bar_queue;
+  QString current_file;
   bool send_new_aifill_to_server;
   bool quitting;
 
