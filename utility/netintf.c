@@ -621,7 +621,7 @@ const char *fc_url_encode(const char *txt)
   Finds the next (lowest) free port.
 **************************************************************************/ 
 int find_next_free_port(int starting_port, enum fc_addr_family family,
-                        char *net_interface)
+                        char *net_interface, bool not_avail_ok)
 {
   int port;
   int s;
@@ -650,8 +650,6 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
      return -1;
   }
 
-  s = socket(gafamily, SOCK_STREAM, 0);
-
   for (port = starting_port; !found ; port++) {
     /* HAVE_GETADDRINFO implies IPv6 support */
 #ifdef HAVE_GETADDRINFO
@@ -670,19 +668,35 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
     err = getaddrinfo(net_interface, servname, &hints, &res);
     if (!err) {
       struct addrinfo *current = res;
+      bool unusable = FALSE;
 
-      while (current != NULL && !found) {
-        if (bind(s, current->ai_addr, current->ai_addrlen) == 0) {
-          found = TRUE;
+      while (current != NULL && !unusable) {
+        s = socket(current->ai_family, SOCK_STREAM, 0);
+
+        if (s == -1) {
+          log_error("socket(): %s", fc_strerror(fc_get_errno()));
+        } else {
+          if (bind(s, current->ai_addr, current->ai_addrlen) != 0) {
+            if (!not_avail_ok || fc_get_errno() != EADDRNOTAVAIL) {
+              unusable = TRUE;
+            }
+          }
         }
         current = current->ai_next;
+        fc_closesocket(s);
       }
 
       freeaddrinfo(res);
+
+      if (!unusable && res != NULL) {
+        found = TRUE;
+      }
     }
 #else /* HAVE_GETADDRINFO */
     union fc_sockaddr tmp;
     struct sockaddr_in *sock4;
+
+    s = socket(gafamily, SOCK_STREAM, 0);
 
     sock4 = &tmp.saddr_in4;
     memset(&tmp, 0, sizeof(tmp));
@@ -711,14 +725,14 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
     if (bind(s, &tmp.saddr, sockaddr_size(&tmp)) == 0) {
       found = TRUE;
     }
+
+    fc_closesocket(s);
 #endif /* HAVE_GETADDRINFO */
   }
 
   /* Rollback the last increment from the loop, back to port
    * number found to be free. */
   port--;
-
-  fc_closesocket(s);
   
   return port;
 }
