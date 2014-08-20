@@ -19,6 +19,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QDockWidget>
+#include <QFileDialog>
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QTableWidget>
@@ -31,6 +32,7 @@
 
 // client
 #include "client_main.h"
+#include "connectdlg_common.h"
 
 // gui-qt
 #include "dialogs.h"
@@ -143,6 +145,7 @@ void fc_client::create_main_page(void)
     switch (iter) {
     case 0:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 0);
+      connect(button, SIGNAL(clicked()), this, SLOT(start_new_game()));
       break;
     case 1:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 0);
@@ -214,12 +217,15 @@ void fc_client::set_connection_state(enum connection_state state)
 ***************************************************************************/
 void fc_client::create_network_page(void)
 {
+  QHeaderView *header;
+  QLabel *connect_msg;
+  QPushButton *network_button;
+
   pages_layout[PAGE_NETWORK] = new QGridLayout;
   QVBoxLayout *page_network_layout = new QVBoxLayout;
   QGridLayout *page_network_grid_layout = new QGridLayout;
   QHBoxLayout *page_network_lan_layout = new QHBoxLayout;
   QHBoxLayout *page_network_wan_layout = new QHBoxLayout;
-
 
   connect_host_edit = new QLineEdit;
   connect_port_edit = new QLineEdit;
@@ -279,18 +285,21 @@ void fc_client::create_network_page(void)
   info_widget->setHorizontalHeaderLabels(server_info);
   info_widget->setProperty("selectionBehavior", "SelectRows");
   info_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  info_widget->setSelectionMode(QAbstractItemView::SingleSelection);
 
-  QHeaderView *header;
   header = lan_widget->horizontalHeader();
-  header->resizeSections(QHeaderView::Stretch);
+  header->setSectionResizeMode(0, QHeaderView::Stretch);
+  header->setStretchLastSection(true);
   header = wan_widget->horizontalHeader();
-  header->resizeSections(QHeaderView::Stretch);
+  header->setSectionResizeMode(0, QHeaderView::Stretch);
+  header->setStretchLastSection(true);
+  header = info_widget->horizontalHeader();
+  header->setSectionResizeMode(0, QHeaderView::Stretch);
+  header->setStretchLastSection(true);
 
-  QLabel *connect_msg;
   QStringList label_names;
   label_names << _("Connect") << _("Port") << _("Login")
               << _("Password") << _("Confirm Password");
-  connect_msg = new QLabel;
 
   for (int i = 0; i < label_names.count(); i++) {
     connect_msg = new QLabel;
@@ -303,27 +312,22 @@ void fc_client::create_network_page(void)
   page_network_grid_layout->addWidget(connect_login_edit, 2, 1);
   page_network_grid_layout->addWidget(connect_password_edit, 3, 1);
   page_network_grid_layout->addWidget(connect_confirm_password_edit, 4, 1);
-
   page_network_grid_layout->addWidget(info_widget, 0, 2, 5, 4);
 
-  QPushButton *network_button = new QPushButton;
-  network_button->setText(tr(_("&Refresh")));
+  network_button = new QPushButton(_("Refresh"));
   QObject::connect(network_button, SIGNAL(clicked()), this,
                    SLOT(update_network_lists()));
   page_network_grid_layout->addWidget(network_button, 5, 0);
 
-  network_button = new QPushButton;
-  network_button->setText(tr(_("&Cancel")));
+  network_button = new QPushButton(_("Cancel"));
   connect(network_button, SIGNAL(clicked()), switch_page_mapper,
           SLOT(map()));
   switch_page_mapper->setMapping(network_button, PAGE_MAIN);
   page_network_grid_layout->addWidget(network_button, 5, 2, 1, 1);
 
-  network_button = new QPushButton;
-  network_button->setText(tr(_("&Connect")));
+  network_button = new QPushButton(_("Connect"));
   page_network_grid_layout->addWidget(network_button, 5, 5, 1, 1);
-  QObject::connect(network_button, SIGNAL(clicked()), this,
-                   SLOT(slot_connect()));
+  connect(network_button, SIGNAL(clicked()), this, SLOT(slot_connect()));
 
   connect_lan->setLayout(page_network_lan_layout);
   connect_metaserver->setLayout(page_network_wan_layout);
@@ -339,13 +343,32 @@ void fc_client::create_network_page(void)
 }
 
 /***************************************************************************
-  Sets application status bar
+  Sets application status bar for given time in miliseconds
 ***************************************************************************/
-void fc_client::set_status_bar(QString message)
+void fc_client::set_status_bar(QString message, int timeout)
 {
-  status_bar_label->setText (message);
+  if (status_bar_label->text().isEmpty()) {
+    status_bar_label->setText(message);
+    QTimer::singleShot(timeout, this, SLOT(clear_status_bar()));
+  } else {
+    status_bar_queue.append(message);
+  }
 }
 
+/***************************************************************************
+  Clears status bar or shows next message in queue if exists
+***************************************************************************/
+void fc_client::clear_status_bar()
+{
+  QString str;
+  if (status_bar_queue.isEmpty() == false) {
+    str = status_bar_queue.takeFirst();
+    status_bar_label->setText(str);
+    QTimer::singleShot(2000, this, SLOT(clear_status_bar()));
+  } else {
+    status_bar_label->setText("");
+  }
+}
 /***************************************************************************
   Creates buttons and layouts for load page.
 ***************************************************************************/
@@ -357,7 +380,7 @@ void fc_client::create_load_page()
   saves_load = new QTableWidget;
 
   QStringList sav;
-  sav << _("Choose Saved Game to Load") << _("Time");
+  sav << _("Choose Saved Game to Load") << _("Date");
 
   saves_load->setRowCount (0);
   saves_load->setColumnCount (sav.count());
@@ -366,6 +389,8 @@ void fc_client::create_load_page()
   saves_load->setProperty("showGrid", "false");
   saves_load->setProperty("selectionBehavior", "SelectRows");
   saves_load->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  saves_load->setSelectionMode(QAbstractItemView::SingleSelection);
+  saves_load->verticalHeader()->setVisible(false);
 
   connect(saves_load->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
@@ -373,22 +398,33 @@ void fc_client::create_load_page()
 
   QHeaderView *header;
   header = saves_load->horizontalHeader();
-  header->resizeSections(QHeaderView::Stretch);
+  header->setSectionResizeMode(0, QHeaderView::Stretch);
+  header->setStretchLastSection(true);
 
   pages_layout[PAGE_LOAD]->addWidget(saves_load, 0, 0, 1, 4);
+  connect(saves_load->selectionModel(),
+          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
+          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
 
   but = new QPushButton;
-  but->setText(tr(_("Browse")));
+  but->setText(_("_Browse..."));
+  but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
+  connect(but, SIGNAL(clicked()), this, SLOT(browse_saves()));
   pages_layout[PAGE_LOAD]->addWidget (but, 1, 0);
 
   but = new QPushButton;
-  but->setText(tr(_("Cancel")));
+  but->setText(_("Cancel"));
+  but->setIcon(QApplication::style()->standardIcon(
+                                      QStyle::SP_DialogCancelButton));
   connect(but, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
   switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_LOAD]->addWidget(but, 1, 2);
 
   but = new QPushButton;
-  but->setText(tr(_("Load")));
+  but->setText(_("Load"));
+  but->setIcon(QApplication::style()->standardIcon(
+                                      QStyle::SP_DialogOkButton));
+  connect(but, SIGNAL(clicked()), this, SLOT(start_from_save()));
   pages_layout[PAGE_LOAD]->addWidget(but, 1, 3);
 
 }
@@ -403,37 +439,51 @@ void fc_client::create_scenario_page()
 
   scenarios_load = new QTableWidget;
   scenarios_view = new QTextEdit;
+  scenarios_text = new QLabel;
   QStringList sav;
-  QSpacerItem *free_space = new QSpacerItem(50, 100);
-  sav << tr(_("Choose a Scenario"));
+  sav << _("Choose a Scenario");
   scenarios_load->setRowCount(0);
   scenarios_load->setColumnCount(sav.count());
   scenarios_load->setHorizontalHeaderLabels(sav);
   scenarios_load->setProperty("showGrid", "false");
   scenarios_load->setProperty("selectionBehavior", "SelectRows");
   scenarios_load->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_load, 0, 0, 1, 2);
-  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_view, 0, 3, 1, 2);
-  pages_layout[PAGE_SCENARIO]->addItem(free_space, 1, 0);
+  scenarios_load->setSelectionMode(QAbstractItemView::SingleSelection);
+  scenarios_load->verticalHeader()->setVisible(false);
+  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_load, 0, 0, 3, 3);
+  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_view, 0, 3, 3, 2);
+  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_text, 3, 0, 1, 4);
   scenarios_view->setReadOnly(true);
+  scenarios_view->setWordWrapMode(QTextOption::WordWrap);
 
   QHeaderView *header;
   header = scenarios_load->horizontalHeader();
-  header->resizeSections(QHeaderView::ResizeToContents);
+  header->setSectionResizeMode(0, QHeaderView::Stretch);
+  header->setStretchLastSection(true);
+  connect(scenarios_load->selectionModel(),
+          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
+          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
 
   but = new QPushButton;
-  but->setText(tr(_("Browse")));
-  pages_layout[PAGE_SCENARIO]->addWidget (but, 2, 0);
+  but->setText(_("_Browse..."));
+  but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
+  connect(but, SIGNAL(clicked()), this, SLOT(browse_scenarios()));
+  pages_layout[PAGE_SCENARIO]->addWidget (but, 4, 0);
 
   but = new QPushButton;
-  but->setText(tr(_("Cancel")));
+  but->setText(_("Cancel"));
+  but->setIcon(QApplication::style()->standardIcon(
+                                        QStyle::SP_DialogCancelButton));
   connect(but, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
   switch_page_mapper->setMapping(but, PAGE_MAIN);
-  pages_layout[PAGE_SCENARIO]->addWidget(but, 2, 3);
+  pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 3);
 
   but = new QPushButton;
-  but->setText(tr(_("Load")));
-  pages_layout[PAGE_SCENARIO]->addWidget(but, 2, 4);
+  but->setText(_("Load"));
+  but->setIcon(QApplication::style()->standardIcon(
+                                        QStyle::SP_DialogOkButton));
+  connect(but, SIGNAL(clicked()), this, SLOT(start_scenario()));
+  pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 4);
 }
 
 /***************************************************************************
@@ -565,6 +615,38 @@ void fc_client::rm_game_tab(int index)
 }
 
 /***************************************************************************
+  Browse saves directory
+***************************************************************************/
+void fc_client::browse_saves(void)
+{
+  QString str;
+  str = QString(_("Save Files"))
+        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz)");
+  current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
+                                              _("Open Save File"),
+                                              QDir::homePath(), str);
+  if (current_file.isEmpty() ==  false) {
+    start_from_save();
+  }
+}
+
+/***************************************************************************
+  Browse scenarios directory
+***************************************************************************/
+void fc_client::browse_scenarios(void)
+{
+  QString str;
+  str = QString(_("Scenarios Files"))
+        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz)");
+  current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
+                                              _("Open Scenario File"),
+                                              QDir::homePath(), str);
+  if (current_file.isEmpty() == false) {
+    start_scenario();
+  }
+}
+
+/***************************************************************************
   Updates list of servers in network page in proper QTableViews
 ***************************************************************************/
 void fc_client::update_server_list(enum server_scan_type sstype,
@@ -679,12 +761,14 @@ void server_scan_error(struct server_scan *scan, const char *message)
 void fc_client::destroy_server_scans(void)
 {
   if (meta_scan) {
-    server_scan_finish (meta_scan);
+    server_scan_finish(meta_scan);
     meta_scan = NULL;
   }
 
-  if (meta_scan_timer != 0) {
+  if (meta_scan_timer != NULL) {
     meta_scan_timer->stop();
+    meta_scan_timer->disconnect();
+    delete meta_scan_timer;
     meta_scan_timer = NULL;
   }
 
@@ -693,8 +777,10 @@ void fc_client::destroy_server_scans(void)
     lan_scan = NULL;
   }
 
-  if (lan_scan_timer != 0) {
+  if (lan_scan_timer != NULL) {
     lan_scan_timer->stop();
+    lan_scan_timer->disconnect();
+    delete lan_scan_timer;
     lan_scan_timer = NULL;
   }
 }
@@ -711,8 +797,10 @@ void fc_client::update_network_lists(void)
   connect(lan_scan_timer, SIGNAL(timeout()), this, SLOT(slot_lan_scan()));
   lan_scan_timer->start(500);
 
-  meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
   meta_scan_timer = new QTimer(this);
+  meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+  connect(meta_scan_timer, SIGNAL(timeout()), this, SLOT(slot_meta_scan()));
+  meta_scan_timer->start(800);
 
 }
 
@@ -755,6 +843,9 @@ bool fc_client::check_server_scan(server_scan* data)
 ***************************************************************************/
 void fc_client::slot_lan_scan()
 {
+  if (lan_scan_timer == NULL) {
+    return;
+  }
   check_server_scan(lan_scan);
 }
 
@@ -763,7 +854,45 @@ void fc_client::slot_lan_scan()
 ***************************************************************************/
 void fc_client::slot_meta_scan()
 {
-  check_server_scan (meta_scan);
+  if (meta_scan_timer == NULL) {
+    return;
+  }
+  check_server_scan(meta_scan);
+}
+
+/**************************************************************************
+  spawn a server, if there isn't one, using the default settings.
+**************************************************************************/
+void fc_client::start_new_game()
+{
+  if (is_server_running() || client_start_server()) {
+    /* saved settings are sent in client/options.c load_settable_options() */
+  }
+}
+
+/**************************************************************************
+  Starts game from chosen scenario - chosen_file (save or scenario)
+**************************************************************************/
+void fc_client::start_scenario()
+{
+  if (!is_server_running()){
+    client_start_server();
+  }
+  send_chat_printf("/load %s", current_file.toLocal8Bit().data());
+  send_chat("/take -");
+  switch_page(PAGE_START);
+}
+
+/**************************************************************************
+  Starts game from chosen save - chosen_file (save or scenario)
+**************************************************************************/
+void fc_client::start_from_save()
+{
+  if (!is_server_running()){
+    client_start_server();
+  }
+  send_chat_printf("/load %s", current_file.toLocal8Bit().data());
+  switch_page(PAGE_START);
 }
 
 /***************************************************************************
@@ -774,13 +903,14 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 {
 
   QModelIndexList indexes = selected.indexes();
+  QStringList sl;
+  QModelIndex index;
+  QVariant qvar;
   client_pages i = current_page();
 
   if (indexes.isEmpty()) {
     return;
   }
-
-  QModelIndex index ;
 
   switch (i) {
   case PAGE_NETWORK:
@@ -791,8 +921,18 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     break;
   case PAGE_SCENARIO:
     index = indexes.at(0);
-    scenarios_view->setText(index.data().toString());
+    qvar = index.data(Qt::UserRole);
+    sl = qvar.toStringList();
+    scenarios_view->setText(sl.at(0));
+    if (sl.count() > 1){
+      scenarios_text->setText(sl.at(2));
+      current_file = sl.at(1);
+    }
     break;
+  case PAGE_LOAD:
+    index = indexes.at(0);
+    qvar = index.data(Qt::UserRole);
+    current_file = qvar.toString();
   default:
     break;
   }
@@ -805,6 +945,7 @@ void fc_client::create_dock_widgets()
 {
   int i;
   QWidget *wi;
+  QHeaderView *header;
 
   ver_dock_layout = new QVBoxLayout;
   output_window = new QTextEdit(central_wdg);
@@ -818,7 +959,6 @@ void fc_client::create_dock_widgets()
   messages_window->verticalHeader()->setVisible(false);
   messages_window->horizontalHeader()->setVisible(false);
   messages_window->setFocusPolicy(Qt::NoFocus);
-  QHeaderView *header;
   header = messages_window->horizontalHeader();
   header->resizeSections(QHeaderView::Stretch);
   output_window->setReadOnly(true);
@@ -876,9 +1016,9 @@ void fc_client::show_dock_widget(int dw, bool show)
   for (i = OUTPUT_DOCK_WIDGET ; i <  LAST_WIDGET; i++) {
     if (i == dw ) {
       if (show) {
-      dock_widget[i]->show();
+        dock_widget[i]->show();
       } else {
-      dock_widget[i]->hide();
+        dock_widget[i]->hide();
       }
     }
   }
@@ -889,14 +1029,17 @@ void fc_client::show_dock_widget(int dw, bool show)
 ***************************************************************************/
 void fc_client::update_load_page(void)
 {
-  struct fileinfo_list *files = fileinfolist_infix(get_save_dirs(),
-                                                   ".sav", false);
-  int row = 0;
+  struct fileinfo_list *files;
+  int row;
+
+  row = 0;
+  files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
   saves_load->clearContents();
   saves_load->setRowCount(0);
   fileinfo_list_iterate(files, pfile) {
     QTableWidgetItem *item;
     item = new QTableWidgetItem();
+    item->setData(Qt::UserRole, pfile->fullname);
     saves_load->insertRow(row);
     item->setText(pfile->name);
     saves_load->setItem(row, 0, item);
@@ -914,20 +1057,41 @@ void fc_client::update_load_page(void)
 ***************************************************************************/
 void fc_client::update_scenarios_page(void)
 {
-  struct fileinfo_list *files = fileinfolist_infix(get_scenario_dirs(),
-                                                   ".sav", false);
+  struct fileinfo_list *files;
   int row = 0;
+
   scenarios_load->clearContents();
   scenarios_load->setRowCount(0);
-  fileinfo_list_iterate(files, pfile) {
-    QTableWidgetItem *item;
+  scenarios_text->setText("");
+  scenarios_view->setText("");
 
-    item = new QTableWidgetItem();
-    scenarios_load->insertRow(row);
-    item->setText(pfile->name);
-    scenarios_load->setItem(row, 0, item);
-    scenarios_view->setText(pfile->fullname);
-    row++;
+  files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
+  fileinfo_list_iterate(files, pfile) {
+    struct section_file *sf;
+
+    if ((sf = secfile_load_section(pfile->fullname, "scenario", TRUE))
+        && secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
+
+      const char *sname, *sdescription;
+      QTableWidgetItem *item;
+      QString str = QString(pfile->name);
+      QStringList sl;
+
+      sname = secfile_lookup_str_default(sf, NULL, "scenario.name");
+      sdescription = secfile_lookup_str_default(sf, NULL,
+                                              "scenario.description");
+      item = new QTableWidgetItem();
+      scenarios_load->insertRow(row);
+      item->setText(pfile->name);
+      sl << (sname && strlen(sname) ? Q_(sname) : pfile->name)
+         << pfile->fullname
+         << (NULL != sdescription && '\0' != sdescription[0]
+             ? Q_(sdescription) : "");
+      item->setData(Qt::UserRole, sl);
+      scenarios_load->setItem(row, 0, item);
+      row++;
+      secfile_destroy(sf);
+    }
   } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
 }
@@ -983,9 +1147,9 @@ void fc_client::slot_connect()
   case LOGIN_TYPE:
     connect_password_edit->setDisabled(true);
     connect_confirm_password_edit->setDisabled(true);
-    sz_strlcpy(user_name, connect_login_edit->text().toLatin1().data());
-    sz_strlcpy(server_host, connect_host_edit->text().toLatin1().data());
-    server_port = atoi(connect_port_edit->text().toLatin1().data());
+    sz_strlcpy(user_name, connect_login_edit->text().toLocal8Bit().data());
+    sz_strlcpy(server_host, connect_host_edit->text().toLocal8Bit().data());
+    server_port = connect_port_edit->text().toInt();
 
     if (connect_to_server(user_name, server_host, server_port,
                           errbuf, sizeof(errbuf)) != -1) {
