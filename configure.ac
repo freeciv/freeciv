@@ -191,6 +191,16 @@ AC_ARG_WITH([followtag],
 [FOLLOWTAG=${withval}])
 AC_DEFINE_UNQUOTED([FOLLOWTAG], ["${FOLLOWTAG}"], [Version tag to follow])
 
+AC_ARG_WITH([desktopdir],
+  AS_HELP_STRING([--with-desktopdir], [install desktop files to given dir]),
+[ DESKTOPDIR=${withval} ], [ DESKTOPDIR="\$(prefix)/share/applications" ])
+AC_SUBST([DESKTOPDIR])
+
+AC_ARG_WITH([appdatadir],
+  AS_HELP_STRING([--with-appdatadir], [install appdata files to given dir]),
+[ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/appdata" ])
+AC_SUBST([APPDATADIR])
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no

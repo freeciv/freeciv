@@ -7,11 +7,11 @@ AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common $(MP_gtk_CFLAGS)
 if MINGW32
 MPICON = $(top_builddir)/win32/mpicon.o
 else
-desktopfiledir = $(prefix)/share/applications
+desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
 	freeciv-modpack.desktop
 
-appdatafiledir = $(prefix)/share/appdata
+appdatafiledir = @APPDATADIR@
 appdatafile_DATA = \
 	freeciv-modpack.appdata.xml
 endif

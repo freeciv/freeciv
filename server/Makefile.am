@@ -145,10 +145,10 @@ freeciv_server_LDADD = \
  $(MAPIMG_WAND_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
-desktopfiledir = $(prefix)/share/applications
+desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
 	freeciv-server.desktop
 
-appdatafiledir = $(prefix)/share/appdata
+appdatafiledir = @APPDATADIR@
 appdatafile_DATA = \
 	freeciv-server.appdata.xml

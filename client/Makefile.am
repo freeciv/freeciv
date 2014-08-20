@@ -3,8 +3,8 @@
 ## Must be set before adding anything
 GUI_SUBDIRS =
 
-desktopfiledir = $(prefix)/share/applications
-appdatafiledir = $(prefix)/share/appdata
+desktopfiledir = @DESKTOPDIR@
+appdatafiledir = @APPDATADIR@
 
 desktopfile_DATA =
 appdatafile_DATA =
