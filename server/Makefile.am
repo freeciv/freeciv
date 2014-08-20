@@ -164,10 +164,10 @@ freeciv_server_LDFLAGS = $(exe_ldflags)
 freeciv_server_LDADD = $(exe_ldadd)
 endif
 
-desktopfiledir = $(prefix)/share/applications
+desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
 	freeciv-server.desktop
 
-appdatafiledir = $(prefix)/share/appdata
+appdatafiledir = @APPDATADIR@
 appdatafile_DATA = \
 	freeciv-server.appdata.xml
