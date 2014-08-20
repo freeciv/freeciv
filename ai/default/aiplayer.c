@@ -138,9 +138,11 @@ void dai_player_copy(struct ai_type *ait,
 **************************************************************************/
 void dai_gained_control(struct ai_type *ait, struct player *pplayer)
 {
-  multipliers_iterate(pmul) {
-    pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
-  } multipliers_iterate_end;
+  if (pplayer->ai_common.skill_level != AI_LEVEL_AWAY) {
+    multipliers_iterate(pmul) {
+      pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+    } multipliers_iterate_end;
+  }
 
   dai_assess_danger_player(ait, pplayer);
 }
