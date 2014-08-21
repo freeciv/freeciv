@@ -260,7 +260,7 @@ void diplo_wdg::show_menu(int player)
   pother = player_by_number(other_player);
 
   /* Maps */
-  map_menu = menu.addMenu(_("_Maps"));
+  map_menu = menu.addMenu(_("Maps"));
   world_map = new QAction(_("World-map"), this);
   connect(world_map, SIGNAL(triggered()), this, SLOT(world_map_clause()));
   map_menu->addAction(world_map);
@@ -272,7 +272,7 @@ void diplo_wdg::show_menu(int player)
   if (game.info.trading_tech) {
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
-    adv_menu = menu.addMenu(_("_Advances"));
+    adv_menu = menu.addMenu(_("Advances"));
     advance_iterate(A_FIRST, padvance) {
       Tech_type_id i = advance_number(padvance);
 
@@ -311,7 +311,7 @@ void diplo_wdg::show_menu(int player)
 
   /* Trading: cities. */
   if (game.info.trading_city) {
-    city_menu = menu.addMenu(_("_Cities"));
+    city_menu = menu.addMenu(_("Cities"));
 
     city_list_iterate(pgiver->cities, pcity) {
       if (!is_capital(pcity)) {
@@ -331,14 +331,14 @@ void diplo_wdg::show_menu(int player)
       city_menu->setDisabled(true);
     }
   }
-  some_action = new QAction(_("_Give shared vision"), this);
+  some_action = new QAction(_("Give shared vision"), this);
   connect(some_action, SIGNAL(triggered()), this,
           SLOT(give_shared_vision()));
   menu.addAction(some_action);
   if (gives_shared_vision(pgiver, pother)) {
     some_action->setDisabled(true);
   }
-  some_action = new QAction(_("Give _embassy"), this);
+  some_action = new QAction(_("Give embassy"), this);
   connect(some_action, SIGNAL(triggered()), this, SLOT(give_embassy()));
   menu.addAction(some_action);
   if (player_has_real_embassy(pother, pgiver)) {
@@ -347,7 +347,7 @@ void diplo_wdg::show_menu(int player)
 
   /* Pacts */
   if (player_by_number(curr_player) == client_player()) {
-    pacts_menu = menu.addMenu(_("_Pacts"));
+    pacts_menu = menu.addMenu(_("Pacts"));
     ds = player_diplstate_get(pgiver, pother)->type;
     some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
     connect(some_action, SIGNAL(triggered()), this, SLOT(pact_ceasfire()));
