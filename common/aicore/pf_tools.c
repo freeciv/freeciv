@@ -669,7 +669,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
       parameter->actions |= PF_AA_CITY_ATTACK;
     }
   }
-  if (utype_has_flag(parameter->utype, UTYF_DIPLOMAT)) {
+  if (is_actor_unit_type(parameter->utype)) {
     /* FIXME: it should consider action enablers. */
     parameter->actions |= PF_AA_DIPLOMAT;
     parameter->get_action = pf_get_action;

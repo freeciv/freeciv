@@ -307,7 +307,7 @@ void handle_unit_diplomat_query(struct connection *pc,
     return;
   }
 
-  if (!unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT)) {
+  if (!is_actor_unit(pdiplomat)) {
     /* Shouldn't happen */
     log_error("handle_unit_diplomat_query() %s (%d) is not diplomat",
               unit_rule_name(pdiplomat), diplomat_id);
@@ -381,7 +381,7 @@ void handle_unit_diplomat_action(struct player *pplayer,
     return;
   }
 
-  if (!unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT)) {
+  if (!is_actor_unit(pdiplomat)) {
     /* Shouldn't happen */
     log_error("handle_unit_diplomat_action() %s (%d) is not diplomat",
               unit_rule_name(pdiplomat), diplomat_id);
@@ -1534,7 +1534,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * For tiles occupied by allied cities or units, keep moving if
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
-  if (is_diplomat_unit(punit)) {
+  if (is_actor_unit(punit)) {
     struct unit *target = is_other_players_unit_tile(pdesttile, pplayer);
 
     if ((target && !move_diplomat_city)

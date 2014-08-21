@@ -1211,7 +1211,7 @@ bool can_units_act_against_own_tile(struct unit_list *punits)
 
   unit_list_iterate(punits, punit) {
     /* All generalized actions vs own tile is currently against cities */
-    if (is_diplomat_unit(punit)
+    if (is_actor_unit(punit)
         && (pcity = tile_city(unit_tile(punit)))
         && city_owner(pcity) != unit_owner(punit)) {
       return TRUE;

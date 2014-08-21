@@ -510,6 +510,8 @@ bool utype_can_freely_load(const struct unit_type *pcargotype,
 bool utype_can_freely_unload(const struct unit_type *pcargotype,
                              const struct unit_type *ptranstype);
 
+bool is_actor_unit_type(const struct unit_type *putype);
+
 bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
                                  const enum ustate_prop prop,
                                  const bool is_there);

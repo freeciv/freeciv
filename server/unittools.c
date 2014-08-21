@@ -2969,7 +2969,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     penemywin = unit_win_chance(penemy, punit_defender);
 
     if ((penemywin > 1.0 - punitwin
-         || unit_has_type_flag(punit, UTYF_DIPLOMAT)
+         || is_actor_unit(punit)
          || get_transporter_capacity(punit) > 0)
         && penemywin > threshold) {
 #ifdef REALLY_DEBUG_THIS

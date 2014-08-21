@@ -405,7 +405,7 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
     }
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer &&
-          unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
+          is_actor_unit(punit)) {
         return TRUE;
       }
     } unit_list_iterate_end;

@@ -403,6 +403,15 @@ bool is_diplomat_unit(const struct unit *punit)
 }
 
 /**************************************************************************
+  Return TRUE iff this unit can do actions controlled by generalized
+  (ruleset defined) action enablers.
+**************************************************************************/
+bool is_actor_unit(const struct unit *punit)
+{
+  return is_actor_unit_type(unit_type(punit));
+}
+
+/**************************************************************************
   Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct player *pplayer,
@@ -413,7 +422,7 @@ bool is_square_threatened(const struct player *pplayer,
       if ((omniscient
            || can_player_see_unit(pplayer, punit))
           && pplayers_at_war(pplayer, unit_owner(punit))
-          && (is_diplomat_unit(punit)
+          && (is_actor_unit(punit)
               || (is_military_unit(punit) && is_attack_unit(punit)))
           && (is_native_tile(unit_type(punit), ptile)
               || (can_attack_non_native(unit_type(punit))

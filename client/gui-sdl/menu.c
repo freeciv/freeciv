@@ -1413,7 +1413,8 @@ void real_menus_update(void)
         }
       }
 
-      if (is_diplomat_unit(pUnit) &&
+      if (is_actor_unit(pUnit) &&
+          /* FIXME: Should not be based on client side knowledge */
 	  diplomat_can_do_action(pUnit, DIPLOMAT_ANY_ACTION, unit_tile(pUnit))) {
 	local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
       } else {

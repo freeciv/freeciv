@@ -1225,7 +1225,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     return;
   }
   
-  if (!actor || !is_diplomat_unit(actor)) {
+  if (!actor || !is_actor_unit(actor)) {
     choose_action_queue_next();
     return;
   }
@@ -1484,7 +1484,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
     return;
   }
   
-  if (!actor || !is_diplomat_unit(actor)) {
+  if (!actor || !is_actor_unit(actor)) {
     choose_action_queue_next();
     return;
   }

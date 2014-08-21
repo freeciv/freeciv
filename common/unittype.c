@@ -324,6 +324,16 @@ void unit_type_action_cache_set(struct unit_type *ptype)
 }
 
 /**************************************************************************
+  Return TRUE iff units of this type can do actions controlled by
+  generalized (ruleset defined) action enablers.
+**************************************************************************/
+bool is_actor_unit_type(const struct unit_type *putype)
+{
+  /* All units that can do generalized actions are diplomats */
+  return utype_has_flag(putype, UTYF_DIPLOMAT);
+}
+
+/**************************************************************************
   Return TRUE iff there exists an (action enabler controlled) action that a
   unit of the type punit_type can perform while its unit state property
   prop has the value is_there.

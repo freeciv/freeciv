@@ -981,7 +981,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
     pdiplomat = player_unit_by_number(client_player(), diplomat_id);
     ptile = index_to_tile(target_tile_id);
 
-    if (ptile && pdiplomat && unit_has_type_flag(pdiplomat, UTYF_DIPLOMAT)) {
+    if (ptile && pdiplomat && is_actor_unit(pdiplomat)) {
       have_asked_server_for_actions = TRUE;
       dsend_packet_unit_get_actions(&client.conn,
                                     diplomat_id, target_tile_id);
@@ -2712,7 +2712,7 @@ void key_unit_diplomat_actions(void)
 {
   struct tile *ptile;
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (is_diplomat_unit(punit)
+    if (is_actor_unit(punit)
         && (ptile = unit_tile(punit))) {
       process_diplomat_arrival(punit, ptile->index);
       return;

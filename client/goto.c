@@ -792,7 +792,7 @@ static void fill_client_goto_parameter(struct unit *punit,
     break;
   };
 
-  if (is_attack_unit(punit) || is_diplomat_unit(punit)) {
+  if (is_attack_unit(punit) || is_actor_unit(punit)) {
     parameter->get_TB = get_TB_aggr;
   } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
 	     || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {

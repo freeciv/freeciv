@@ -560,7 +560,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       struct unit_type_ai *utai = utype_ai_data(utype, ait);
 
       if (0 >= utype->transport_capacity
-          && !utype_has_flag(utype, UTYF_DIPLOMAT)
+          && !is_actor_unit_type(utype)
           && (utype_has_flag(utype, UTYF_CIVILIAN)
               || (0 >= utype->attack_strength
                   && !uclass_has_flag(utype_class(utype),
@@ -604,7 +604,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       (void) dai_wants_defender_against(ait, pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
-      if (unit_has_type_flag(punit, UTYF_DIPLOMAT) && 2 >= move_time) {
+      if (is_actor_unit(punit) && 2 >= move_time) {
         city_data->diplomat_threat = TRUE;
       }
 
