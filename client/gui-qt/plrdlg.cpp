@@ -42,6 +42,17 @@ static QRect check_box_rect(const QStyleOptionViewItem
   return QRect(check_box_point, check_box_rect.size());
 }
 
+/**************************************************************************
+  Slighty increase deafult cell height
+**************************************************************************/
+QSize plr_item_delegate::sizeHint(const QStyleOptionViewItem &option,
+                                  const QModelIndex &index) const
+{
+  QSize r;
+  r =  QItemDelegate::sizeHint(option, index);
+  r.setHeight(r.height() + 4);
+  return r;
+}
 
 /**************************************************************************
   Paint evenet for custom player item delegation
@@ -52,7 +63,10 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
   QStyleOptionButton but;
   QStyleOptionButton cbso;
   bool b;
+  QString str;
+  QRect rct;
   QPixmap pix(16, 16);
+
   QStyleOptionViewItemV3 opt = QItemDelegate::setOptions(index, option);
   painter->save();
   switch (player_dlg_columns[index.column()].type) {
@@ -80,16 +94,22 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
     QApplication::style()->drawControl(QStyle::CE_CheckBox, &cbso, painter);
     break;
   case COL_TEXT:
-    QItemDelegate::drawBackground(painter, opt, index);
-    opt.displayAlignment = Qt::AlignLeft;
-    QItemDelegate::drawDisplay(painter, opt, option.rect,
-                               index.data().toString());
+    QItemDelegate::paint(painter, option, index);
     break;
   case COL_RIGHT_TEXT:
     QItemDelegate::drawBackground(painter, opt, index);
     opt.displayAlignment = Qt::AlignRight;
-    QItemDelegate::drawDisplay(painter, opt, option.rect,
-                               index.data().toString());
+    rct = option.rect;
+    rct.setTop((rct.top() + rct.bottom()) / 2
+               - opt.fontMetrics.height() / 2);
+    rct.setBottom((rct.top()+rct.bottom()) / 2
+                  + opt.fontMetrics.height() / 2);
+    if (index.data().toInt() == -1){
+      str = "?";
+    } else {
+      str = index.data().toString();
+    }
+    QItemDelegate::drawDisplay(painter, opt, rct, str);
     break;
   default:
     QItemDelegate::paint(painter, option, index);
@@ -119,6 +139,7 @@ bool plr_item::setData(int column, const QVariant &value, int role)
 QVariant plr_item::data(int column, int role) const
 {
   QPixmap *pix;
+  QString str;
   struct player_dlg_column *pdc;
 
   if (role == Qt::UserRole) {
@@ -140,8 +161,16 @@ QVariant plr_item::data(int column, int role) const
     return pdc->bool_func(ipplayer);
     break;
   case COL_TEXT:
-  case COL_RIGHT_TEXT:
     return pdc->func(ipplayer);
+    break;
+  case COL_RIGHT_TEXT:
+    str = pdc->func(ipplayer);
+    if (str.toInt() != 0){
+      return str.toInt();
+    } else if (str == "?"){
+      return -1;
+    }
+    return str;
   default:
     return QVariant();
   }
@@ -226,6 +255,9 @@ void plr_model::populate()
 {
   plr_item *pi;
   players_iterate(pplayer) {
+    if ((is_barbarian(pplayer))){
+      continue;
+    }
     pi = new plr_item(pplayer);
     plr_list << pi;
   } players_iterate_end;
