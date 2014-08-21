@@ -39,6 +39,7 @@
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
+#include "spaceshipdlg.h"
 #include "sprite.h"
 
 #include "menu.h"
@@ -401,6 +402,10 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Demographics"));
   act->setShortcut(QKeySequence(tr("F11")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_demographics()));
+
+  act = menu->addAction(_("Spaceship"));
+  act->setShortcut(QKeySequence(tr("F12")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_spaceship()));
 
   act = menu->addAction(_("Achievements"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_achievements()));
@@ -930,6 +935,16 @@ void mr_menu::slot_menu_copying()
 void mr_menu::slot_show_research_tab()
 {
   science_report_dialog_popup(true);
+}
+
+/***************************************************************************
+  Slot for showing spaceship
+***************************************************************************/
+void mr_menu::slot_spaceship()
+{
+  if (NULL != client.conn.playing) {
+    popup_spaceship_dialog(client.conn.playing);
+  }
 }
 
 /***************************************************************************
