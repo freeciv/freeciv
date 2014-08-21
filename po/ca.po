@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-14 11:48+0200\n"
-"PO-Revision-Date: 2014-08-18 19:54+0200\n"
+"PO-Revision-Date: 2014-08-21 15:42+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11622,7 +11622,7 @@ msgstr "S'està carregant el joc de caselles \"%s\"."
 
 #: client/tilespec.c:1500
 msgid "Client does not support isometric tilesets."
-msgstr "EL client no suporta jocs de caselles isomètrics."
+msgstr "El client no suporta jocs de caselles isomètrics."
 
 #: client/tilespec.c:1501 client/tilespec.c:1507
 msgid "Using default tileset instead."
@@ -11630,7 +11630,7 @@ msgstr "Es farà servir el joc de caselles predeterminat."
 
 #: client/tilespec.c:1506
 msgid "Client does not support overhead view tilesets."
-msgstr "EL client no suporta jocs de caselles zenitals."
+msgstr "El client no suporta jocs de caselles zenitals."
 
 #: client/tilespec.c:4457
 #, c-format
@@ -17092,7 +17092,7 @@ msgstr "Ambaixada de Marco Polo"
 #: data/experimental/buildings.ruleset:1477
 msgid "The player who owns it gets an embassy with all players."
 msgstr ""
-"EL jugador que la té obté una ambaixada amb cadascun dels altres jugadors."
+"El jugador que la té obté una ambaixada amb cadascun dels altres jugadors."
 
 #: data/civ2/buildings.ruleset:1360 data/default/buildings.ruleset:1439
 #: data/experimental/buildings.ruleset:1496
@@ -20388,7 +20388,7 @@ msgstr ""
 "necessitats del jugador, encara que aquesta operació sol requerir més temps. "
 "Modificar el terreny d'un tipus a un altre d'aquesta manera pot destruir una "
 "mina o sistema d'irrigació que ja existeixin, si el terreny resultant no és "
-"apropiat per la millora, i també pot treure els recursos especials, si eren "
+"apropiat per la millora, i també pot treure'n els recursos especials, si eren "
 "específics del tipus de terreny original."
 
 #: data/helpdata.txt:347
@@ -23938,7 +23938,8 @@ msgid ""
 "that player's government falls."
 msgstr ""
 "Crea un senat mundial que pot evitar declaracions de guerra en algunes "
-"circumstàncies. Si qualsevol ciutat d'un jugador està en revolta durant més "
+"circumstàncies. Si alguna ciutat de qualsevol jugador està en revolta durant "
+"més "
 "de dos torns, cau el govern d'aquest jugador."
 
 #: data/multiplayer/buildings.ruleset:1587
@@ -44422,7 +44423,7 @@ msgid ""
 "This flag indicates whether city population is reduced after successful "
 "attack of enemy unit, depending on its movement type."
 msgstr ""
-"Aquest valor indica si la població d'una ciutat es redueix després d'un atac "
+"Aquesta opció indica si la població d'una ciutat es redueix després d'un atac "
 "victoriós d'una unitat enemiga, segons per el seu tipus de moviment."
 
 #: server/settings.c:1592
