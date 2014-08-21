@@ -1361,7 +1361,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
     incite_impossible.setText(QString(buf2));
     incite_impossible.exec();
   } else if (cost <= client_player()->economic.gold) {
-    QMessageBox ask;
+    QMessageBox ask(gui()->central_wdg);
 
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
                 PL_("Incite a revolt for %d gold?\n%s",
@@ -1402,7 +1402,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 **************************************************************************/
 void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
 {
-  QMessageBox ask;
+  QMessageBox ask(gui()->central_wdg);
   int ret;
   QString str;
   char buf[1024];
@@ -1573,7 +1573,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 ****************************************************************************/
 void popup_disband_dialog(struct unit_list *punits)
 {
-  QMessageBox ask;
+  QMessageBox ask(gui()->central_wdg);
   int ret;
   QString str;
 
@@ -1753,7 +1753,7 @@ void show_tileset_error(const char *msg)
 void popup_upgrade_dialog(struct unit_list *punits)
 {
   char buf[512];
-  QMessageBox ask;
+  QMessageBox ask(gui()->central_wdg);
   int ret;
 
   if (!punits || unit_list_size(punits) == 0) {

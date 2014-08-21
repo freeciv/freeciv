@@ -911,7 +911,7 @@ void mr_menu::slot_gov_change (const int &target)
 ****************************************************************************/
 void mr_menu::slot_menu_copying()
 {
-  QMessageBox info;
+  QMessageBox info(this);
   QString s = QString::fromUtf8(_("Freeciv is covered by the GPL. "))
               + QString::fromUtf8(_("See file COPYING distributed with "
                                     "Freeciv for full license text."));

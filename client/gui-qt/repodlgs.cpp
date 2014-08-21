@@ -661,7 +661,7 @@ void units_report::upgrade_units()
   struct unit_type *upgrade;
   utype = utype_by_number(uid);
   int price;
-  QMessageBox ask;
+  QMessageBox ask(this);
   QString s1, s2;
   int ret;
   char buf[1024];
@@ -957,7 +957,7 @@ void eco_report::disband_units()
 
   char buf[1024];
   QString s;
-  QMessageBox ask;
+  QMessageBox ask(this);
   int ret;
   selected = cid_decode(uid);
   struct unit_type *putype = selected.value.utype;
@@ -994,7 +994,7 @@ void eco_report::sell_buildings()
   struct universal selected;
   char buf[1024];
   QString s;
-  QMessageBox ask;
+  QMessageBox ask(this);
   int ret;
   selected = cid_decode(uid);
   struct impr_type *pimprove = selected.value.building;
@@ -1031,7 +1031,7 @@ void eco_report::sell_redundant()
   struct universal selected;
   char buf[1024];
   QString s;
-  QMessageBox ask;
+  QMessageBox ask(this);
   int ret;
   selected = cid_decode(uid);
   struct impr_type *pimprove = selected.value.building;
