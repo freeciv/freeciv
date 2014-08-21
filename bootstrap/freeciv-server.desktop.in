@@ -19,3 +19,4 @@ StartupNotify=true
 Terminal=true
 Type=Application
 Categories=ConsoleOnly;Game;StrategyGame;
+Keywords=strategy;simulation;civilization;tiles;history;mankind;multiplayer;
