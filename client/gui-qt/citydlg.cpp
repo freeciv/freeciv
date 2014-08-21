@@ -187,7 +187,7 @@ void unit_item::create_actions()
 ****************************************************************************/
 void unit_item::disband()
 {
-  QMessageBox ask;
+  QMessageBox ask(this);
   int ret;
 
   ask.setText(_("Are you sure you want to disband that unit?"));
@@ -1686,7 +1686,7 @@ void city_dialog::setup_ui(struct city *qcity)
 ****************************************************************************/
 void city_dialog::dbl_click(QTableWidgetItem *item)
 {
-  QMessageBox ask;
+  QMessageBox ask(this);
   QString s;
   QVariant qvar;
   char buf[256];

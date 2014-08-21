@@ -316,13 +316,14 @@ void reset_unit_table(void)
 **************************************************************************/
 void popup_quit_dialog()
 {
-  QMessageBox ask;
+  QMessageBox ask(gui()->central_wdg);
   int ret;
 
   ask.setText(_("Are you sure you want to quit?"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
   ask.setIcon(QMessageBox::Warning);
+  ask.setWindowTitle(_("Quit?"));
   ret = ask.exec();
 
   switch (ret) {
