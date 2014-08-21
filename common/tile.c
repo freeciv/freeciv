@@ -399,6 +399,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   switch (activity) {
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
+  case ACTIVITY_PILLAGE:
     return terrain_extra_removal_time(pterrain, activity, tgt) * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;

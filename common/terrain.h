@@ -200,6 +200,7 @@ struct terrain {
   int transform_time;
   int clean_pollution_time;
   int clean_fallout_time;
+  int pillage_time;
 
   struct unit_type *animal;
 

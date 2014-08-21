@@ -1,4 +1,4 @@
-; This is Alien World terrain ruleset.
+'; This is Alien World terrain ruleset.
 
 [datafile]
 description="Alien World tile_type data for Freeciv"
@@ -106,6 +106,7 @@ ocean_resources = TRUE
 ;                        terrain section -- transformation changes to that
 ;                          terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; pillage_time         = time to pillage extra from the tile
 ; clean_pollution_time = time to clean pollution
 ;                        Nonzero values only affect extras with removal_time 0.
 ; clean_fallout_time   = time to clean fallout
@@ -187,6 +188,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+pillage_time         = 0
 clean_pollution_time = 0
 clean_fallout_time   = 0
 animal               = "None"
@@ -225,6 +227,7 @@ mining_shield_incr   = 0
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 24
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"
@@ -266,6 +269,7 @@ mining_shield_incr   = 0
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 24
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"
@@ -310,6 +314,7 @@ mining_shield_incr   = 0
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 24
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"
@@ -353,6 +358,7 @@ mining_shield_incr   = 1
 mining_time          = 10
 transform_result     = "Grassland"
 transform_time       = 40
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"
@@ -393,6 +399,7 @@ mining_shield_incr   = 1
 mining_time          = 17
 transform_result     = "no"
 transform_time       = 24
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"
@@ -434,6 +441,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 36
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"
@@ -474,6 +482,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 36
+pillage_time         = 1
 clean_pollution_time = 3
 clean_fallout_time   = 3
 animal               = "None"

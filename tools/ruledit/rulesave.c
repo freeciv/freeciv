@@ -1505,6 +1505,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                          "%s.animal", path);
     }
 
+    secfile_insert_int(sfile, pterr->pillage_time,
+                       "%s.pillage_time", path);
     secfile_insert_int(sfile, pterr->clean_pollution_time,
                        "%s.clean_pollution_time", path);
     secfile_insert_int(sfile, pterr->clean_fallout_time,

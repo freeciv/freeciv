@@ -55,7 +55,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
 
   unit_list_iterate(ptile->units, punit) {
     if (is_clean_activity(punit->activity)) {
-     int eidx = extra_index(punit->activity_target);
+      int eidx = extra_index(punit->activity_target);
 
       rmextra_total[eidx] += punit->activity_count;
       rmextra_total[eidx] += get_activity_rate_this_turn(punit);

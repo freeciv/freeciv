@@ -797,8 +797,8 @@ static void update_unit_activity(struct unit *punit)
     return;
 
   case ACTIVITY_PILLAGE:
-    if (total_activity(ptile, ACTIVITY_PILLAGE, 
-                       punit->activity_target) >= 1) {
+    if (total_activity_done(ptile, ACTIVITY_PILLAGE, 
+                            punit->activity_target)) {
       struct player *victim = tile_owner(ptile); /* Owner before fortress gets destroyed */
 
       destroy_extra(ptile, punit->activity_target);
