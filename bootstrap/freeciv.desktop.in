@@ -19,3 +19,4 @@ StartupNotify=true
 Terminal=false
 Type=Application
 Categories=GTK;Game;StrategyGame;
+Keywords=strategy;simulation;civilization;tiles;history;mankind;multiplayer;
