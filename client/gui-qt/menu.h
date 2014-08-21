@@ -157,6 +157,7 @@ private slots:
   void slot_show_research_tab();
   void slot_gov_change(const int &target);
   void revolution();
+  void slot_spaceship();
   void slot_demographics();
   void slot_top_five();
   void slot_traveler();

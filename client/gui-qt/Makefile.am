@@ -24,7 +24,8 @@ MOC_FILES = \
 	meta_citydlg.cpp	\
 	meta_cityrep.cpp	\
 	meta_plrdlg.cpp		\
-	meta_diplodlg.cpp
+	meta_diplodlg.cpp	\
+	meta_spaceshipdlg.cpp
 
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\
