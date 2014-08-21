@@ -136,7 +136,7 @@ class city_widget: public QTreeView
   QMenu select_menu;
   QMenu production_menu;
   enum menu_labels {
-    CHANGE_PROD_NOW,
+    CHANGE_PROD_NOW = 1,
     CHANGE_PROD_NEXT,
     CHANGE_PROD_LAST,
     CHANGE_PROD_BEF_LAST,
