@@ -1319,6 +1319,8 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->terrain = from_tile->terrain;
       dest_tile->extras   = from_tile->extras;
       dest_tile->resource = from_tile->resource;
+      dest_tile->owner    = from_tile->owner;
+      dest_tile->extras_owner = from_tile->extras_owner;
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile, FALSE);
 
