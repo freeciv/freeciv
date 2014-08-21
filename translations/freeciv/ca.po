@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-18 18:36+0200\n"
-"PO-Revision-Date: 2014-08-18 20:03+0200\n"
+"PO-Revision-Date: 2014-08-21 16:18+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6213,9 +6213,8 @@ msgid "Pillage"
 msgstr "Saquejar"
 
 #: client/gui-qt/menu.cpp:301
-#, fuzzy
 msgid "Diplomat/Spy actions"
-msgstr "Diplomàtic/Accions d'espia"
+msgstr "Accions d'Espia/Diplomàtic"
 
 #: client/gui-qt/menu.cpp:307
 msgid "Work"
@@ -6988,9 +6987,8 @@ msgid "What nation will you be?"
 msgstr "Quina nació seràs?"
 
 #: client/gui-sdl/dialogs.c:3342
-#, fuzzy
 msgid "Nationset"
-msgstr "Nacions"
+msgstr "Joc de nacions"
 
 #: client/gui-sdl/diplodlg.c:489 data/Freeciv.in:510
 msgid "Pacts"
@@ -9563,21 +9561,21 @@ msgstr "* Ha de quedar-se al costat de la costa.\n"
 #: client/helpdata.c:2499
 #, c-format
 msgid "* May load onto and unload from %s transports even when underway.\n"
-msgstr ""
+msgstr "* Pot pujar i baixar de transports %s fins i tot de camí.\n"
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
 #: client/helpdata.c:2506
 #, c-format
 msgid "* May load onto %s transports even when underway.\n"
-msgstr ""
+msgstr "* Pot pujar a transports %s fins i tot de camí.\n"
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
 #: client/helpdata.c:2526
 #, c-format
 msgid "* May unload from %s transports even when underway.\n"
-msgstr ""
+msgstr "* Pot baixar de transports %s fins i tot de camí.\n"
 
 #: client/helpdata.c:2533
 msgid "* Can establish trade routes (must travel to target city).\n"
@@ -9719,10 +9717,11 @@ msgstr ""
 #. TRANS: "MP" = movement points. %s may have a
 #. * fractional part.
 #: client/helpdata.c:2663
-#, fuzzy, c-format
+#, c-format
 msgid "* Ignores terrain effects (moving costs at most %s MP per tile).\n"
 msgstr ""
-"* Ignora l'efecte del terreny (tracta totes les caselles com a camins).\n"
+"* Ignora els efectes del terreny (el cost del moviment és com a màxim %s PM "
+"per casella).\n"
 
 #: client/helpdata.c:2668
 msgid "* Ignores zones of control.\n"
@@ -9907,14 +9906,12 @@ msgid "* You cannot build cities on this terrain."
 msgstr "* No pots construir ciutats sobre aquest terreny."
 
 #: client/helpdata.c:3006
-#, fuzzy
 msgid "* Paths cannot be built on this terrain."
-msgstr "* No pots construir ciutats sobre aquest terreny."
+msgstr "* No es poden construir camins sobre aquest terreny."
 
 #: client/helpdata.c:3017
-#, fuzzy
 msgid "* Bases cannot be built on this terrain."
-msgstr "* No pots construir ciutats sobre aquest terreny."
+msgstr "* Les bases no es poden construir sobre aquest terreny."
 
 #: client/helpdata.c:3026
 msgid "* The coastline of this terrain is unsafe."
@@ -10018,19 +10015,21 @@ msgid ""
 "Time to build depends on terrain:\n"
 "\n"
 msgstr ""
+"\n"
+"El temps de construcció depèn del terreny:\n"
+"\n"
 
 #. TRANS: Header for fixed-width base properties table.
 #. * TRANS: Translators cannot change column widths :(
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
 #: client/helpdata.c:3258 client/helpdata.c:3399
-#, fuzzy
 msgid ""
 "Terrain       Time\n"
 "------------------\n"
 msgstr ""
-"Regles de Combat Predeterminades\n"
-"------------------------------"
+"Terreny       Temps\n"
+"-------------------\n"
 
 #: client/helpdata.c:3347
 msgid "* Allows infinite movement.\n"
@@ -10039,10 +10038,9 @@ msgstr "* Permet moviment infinit.\n"
 #. TRANS: "MP" = movement points. Second %s may have a
 #. * fractional part.
 #: client/helpdata.c:3352
-#, fuzzy, c-format
+#, c-format
 msgid "* Movement cost along %s is %s MP.\n"
-msgstr ""
-"* El cost del moviment per aquest camí és de %d/%d punts de moviment.\n"
+msgstr "* El cost del moviment al llarg de %s és de %s PM.\n"
 
 #: client/helpdata.c:3366
 msgid ""
@@ -10058,6 +10056,9 @@ msgid ""
 "Time to build and output bonus depends on terrain:\n"
 "\n"
 msgstr ""
+"\n"
+"El temps de construcció i la bonificació en producció depenen del terreny:\n"
+"\n"
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
@@ -10066,6 +10067,8 @@ msgid ""
 "Terrain       Time     Bonus F/P/T\n"
 "----------------------------------\n"
 msgstr ""
+"Terreny       Temps     Bonus M/P/C\n"
+"-----------------------------------\n"
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
@@ -10075,12 +10078,17 @@ msgid ""
 "Yields an output bonus with some terrains:\n"
 "\n"
 msgstr ""
+"\n"
+"Dóna una bonificació de producció en alguns terrenys:\n"
+"\n"
 
 #: client/helpdata.c:3408
 msgid ""
 "Terrain       Bonus F/P/T\n"
 "-------------------------\n"
 msgstr ""
+"Terreny       Bonus M/P/C\n"
+"-------------------------\n"
 
 #: client/helpdata.c:3512
 msgid "Features:\n"
@@ -10112,12 +10120,16 @@ msgid ""
 "* Unhappiness from foreign citizens due to war with their home state is %d%% "
 "the usual value.\n"
 msgstr ""
+"* La infelicitat dels ciutadans estrangers deguda a la guerra amb el seu "
+"estat és un %d%% del seu valor normal.\n"
 
 #: client/helpdata.c:3661
 msgid ""
 "* No unhappiness from foreign citizens even when at war with their home "
 "state.\n"
 msgstr ""
+"* No hi ha infelicitat dels ciutadans estrangers encara que estiguis en "
+"guerra amb el seu estat.\n"
 
 #. TRANS: not pluralised as gettext doesn't support
 #. * fractional numbers, which this might be
@@ -10127,6 +10139,8 @@ msgid ""
 "* Each foreign citizen causes %.2g unhappiness in their city while you are "
 "at war with their home state.\n"
 msgstr ""
+"* Cada ciutadà estranger provoca %.2g d'infelicitat a la seva ciutat mentre "
+"estàs en guerra amb el seu estat.\n"
 
 #: client/helpdata.c:3678
 #, c-format
@@ -10137,11 +10151,11 @@ msgstr[0] ""
 "* Cadascuna de les teves ciutats evitarà %d punts del descontentament "
 "provocat per les unitats.\n"
 msgstr[1] ""
-"* Cadascuna de les teves ciutats evitarà %d de descontentament, sense "
-"incloure el que provoquen les unitats.\n"
+"* Cadascuna de les teves ciutats evitarà %d punts del descontentament "
+"provocat per les unitats.\n"
 
 #: client/helpdata.c:3689
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by aggression.\n"
@@ -10150,13 +10164,13 @@ msgid_plural ""
 "by aggression.\n"
 msgstr[0] ""
 "* Cadascuna de les teves ciutats evitarà %d de descontentament, sense "
-"incloure el que provoquen les unitats.\n"
+"incloure el provocat per agressions.\n"
 msgstr[1] ""
 "* Cadascuna de les teves ciutats evitarà %d de descontentament, sense "
-"incloure el que provoquen les unitats.\n"
+"incloure el provocat per agressions.\n"
 
 #: client/helpdata.c:3700
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
 "aggression.\n"
@@ -10164,11 +10178,11 @@ msgid_plural ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
 "aggression.\n"
 msgstr[0] ""
-"* Cadascuna de les teves ciutats evitarà %d de descontentament, sense "
-"incloure el que provoquen les unitats.\n"
+"* Cadascuna de les teves ciutats evitarà %d de descontentament, inclòs el "
+"provocat per agressions.\n"
 msgstr[1] ""
-"* Cadascuna de les teves ciutats evitarà %d de descontentament, sense "
-"incloure el que provoquen les unitats.\n"
+"* Cadascuna de les teves ciutats evitarà %d de descontentament, inclòs el "
+"provocat per agressions.\n"
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
@@ -11340,7 +11354,6 @@ msgid "Autoaccept soundset suggestions"
 msgstr "Acceptar automàticament els suggeriments de joc de sons"
 
 #: client/options.c:2082
-#, fuzzy
 msgid ""
 "If this option is enabled, any soundset suggested by the ruleset is "
 "automatically used."
@@ -12779,12 +12792,10 @@ msgstr[0] "%d nacionalista enemic"
 msgstr[1] "%d nacionalistes enemics"
 
 #: client/text.c:1744
-#, fuzzy
 msgid "None."
-msgstr "Cap. "
+msgstr "Cap."
 
 #: client/text.c:1747
-#, fuzzy
 msgid "Disabled."
 msgstr "Desactivat."
 
@@ -12859,30 +12870,30 @@ msgid "Loading tileset \"%s\"."
 msgstr "S'està carregant el joc de caselles \"%s\"."
 
 #: client/tilespec.c:1270
-#, fuzzy
 msgid "Incompatible tileset capabilities"
-msgstr "continguts del paquet no compatibles"
+msgstr "Capacitats del joc de caselles no compatibles"
 
 #: client/tilespec.c:1278
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load gfx file for the spec file \"%s\"."
 msgstr ""
-"No s'ha pogut carregar el fitxer d'especificacions de so: '%s':\n"
-"%s"
+"No s'ha pogut carregar el fitxer gfx del fitxer d'especificacions:\"'%s\"."
 
 #: client/tilespec.c:1301
 #, c-format
 msgid "Specfile %s has incompatible capabilities"
-msgstr ""
+msgstr "El fitxer d'especificacions %s té capacitats incompatibles"
 
 #: client/tilespec.c:1463
 #, c-format
 msgid "Couldn't find a supported gfx file extension for \"%s\"."
 msgstr ""
+"No s'ha pogut trobar cap extensió de fitxer gfx que estigui suportada per a "
+"\"%s\"."
 
 #: client/tilespec.c:1584
 msgid "Client does not support isometric tilesets."
-msgstr "EL client no suporta jocs de caselles isomètrics."
+msgstr "El client no suporta jocs de caselles isomètrics."
 
 #: client/tilespec.c:1585 client/tilespec.c:1591
 msgid "Using default tileset instead."
@@ -12890,105 +12901,106 @@ msgstr "Es farà servir el joc de caselles predeterminat."
 
 #: client/tilespec.c:1590
 msgid "Client does not support overhead view tilesets."
-msgstr "EL client no suporta jocs de caselles zenitals."
+msgstr "El client no suporta jocs de caselles zenitals."
 
 #: client/tilespec.c:1724
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
-msgstr ""
+msgstr "[capa%d] match_types: \"%s\" inicial ('%c') no és únic."
 
 #: client/tilespec.c:1736
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
-msgstr ""
+msgstr "No hi ha seccions [%s] suportades pel joc de caselles \"%s\"."
 
 #: client/tilespec.c:2084
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
-msgstr ""
-"No s'ha pogut obrir el fitxer de registre: %s per afegir-hi dades \"%s\".\n"
+msgstr "No s'ha pogut carregar el fitxer gfx \"%s\" per a l'sprite '%s'."
 
 #: client/tilespec.c:2094
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
-msgstr ""
+msgstr "L'sprite '%s' del fitxer \"%s\" no és dins de la imatge!"
 
 #: client/tilespec.c:2163
 #, c-format
 msgid "Sprite tag '%s' missing."
-msgstr ""
+msgstr "L'etiqueta de sprite '%s' no hi és."
 
 #: client/tilespec.c:2175
 #, c-format
 msgid "Sprite tag '%s' and alternate '%s' are both missing."
 msgstr ""
+"L'etiqueta de sprite '%s' i l'alternativa '%s' no hi són cap de les dues."
 
 #: client/tilespec.c:2225
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics for specialist \"%s\"."
-msgstr "No concorda res amb \"%s\"."
+msgstr "No hi ha gràfic per a l'especialista \"%s\"."
 
 #: client/tilespec.c:2250
-#, fuzzy, c-format
+#, c-format
 msgid "No graphics for citizen \"%s\"."
-msgstr "No concorda res amb \"%s\"."
+msgstr "No hi ha gràfic per al ciutadà \"%s\"."
 
 #: client/tilespec.c:2547
 msgid "Missing necessary citybar.occupancy_N sprites."
-msgstr ""
+msgstr "Falten els sprites necessaris citybar.occupancy_N."
 
 #: client/tilespec.c:2644
 msgid "Missing overlay-color sprite colors.overlay_0."
-msgstr ""
+msgstr "Falta l'sprite de color de revestiment colors.overlay_0."
 
 #: client/tilespec.c:2730
 msgid "Sprite tx.darkness missing."
-msgstr ""
+msgstr "Falta l'sprite tx.darkness."
 
 #: client/tilespec.c:2869
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
-msgstr ""
+msgstr "No hi són les etiquetes gràfiques \"%s\" ni \"%s\" per a %s \"%s\"."
 
 #: client/tilespec.c:2948
 #, c-format
 msgid "Missing %s unit tag \"%s\" and alternative \"%s\"."
-msgstr ""
+msgstr "No hi ha unitat %s amb etiqueta \"%s\" ni alternatiu \"%s\"."
 
 #: client/tilespec.c:3018
-#, fuzzy, c-format
+#, c-format
 msgid "No roadstyle for \"%s\" or \"%s\"."
-msgstr "No concorda res amb \"%s\"."
+msgstr "No hi ha estil de camí per a \"%s\" ni \"%s\"."
 
 #: client/tilespec.c:3109
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load river \"%s\" or \"%s\""
-msgstr "No es pot llegir l'script de Freeciv '%s'."
+msgstr "No es pot carregar el riu \"%s\" ni \"%s\""
 
 #: client/tilespec.c:3140 client/tilespec.c:3204
 #, c-format
 msgid "Missing %s building activity tag \"%s\" and alternative \"%s\"."
 msgstr ""
+"No hi ha activitat d'edifici %s amb etiqueta \"%s\" ni alternatiu \"%s\"."
 
 #: client/tilespec.c:3195
 #, c-format
 msgid "No graphics for base \"%s\" at all!"
-msgstr ""
+msgstr "No hi ha cap mena de gràfic per a la base \"%s\"!"
 
 #: client/tilespec.c:3229
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
-msgstr ""
+msgstr "Terreny \"%s\": no hi ha casella gràfica \"%s\" ni \"%s\"."
 
 #: client/tilespec.c:3258
-#, fuzzy, c-format
+#, c-format
 msgid "Missing base sprite tag \"%s\"."
-msgstr "Falten arguments per a \"%s\".\n"
+msgstr "No hi ha sprite de base amb etiqueta \"%s\"."
 
 #: client/tilespec.c:3517
 #, c-format
 msgid "Nation %s: no national flag."
-msgstr ""
+msgstr "Nació %s: sense bandera nacional."
 
 #: client/tilespec.c:4703
 #, c-format
@@ -13011,17 +13023,17 @@ msgstr ""
 #: client/tilespec.c:5140
 #, c-format
 msgid "City style \"%s\": no city graphics."
-msgstr ""
+msgstr "Estil de ciutat \"%s\": no hi ha gràfic de ciutat."
 
 #: client/tilespec.c:5144
 #, c-format
 msgid "City style \"%s\": no wall graphics."
-msgstr ""
+msgstr "Estil de ciutat \"%s\": no hi ha gràfic sobre muralles."
 
 #: client/tilespec.c:5148
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
-msgstr ""
+msgstr "Estil de ciutat \"%s\": no hi ha gràfic sobre ocupació."
 
 #: common/ai.c:302
 #, c-format
@@ -14097,14 +14109,14 @@ msgid "?diplomatic_state:Team"
 msgstr "Equip"
 
 #: common/requirements.c:1958
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" tech"
-msgstr "Terreny \"%s\""
+msgstr "Tecnologia \"%s\""
 
 #: common/requirements.c:1984
-#, fuzzy, c-format
+#, c-format
 msgid "%s citizens"
-msgstr "ciutadans"
+msgstr "ciutadans %s"
 
 #. TRANS: Unit type flag
 #: common/requirements.c:1993
@@ -14143,7 +14155,7 @@ msgstr "Terreny %s"
 
 #. TRANS: Terrain flag
 #: common/requirements.c:2035
-#, fuzzy, c-format
+#, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "Terreny \"%s\""
 
@@ -14428,7 +14440,7 @@ msgstr "Permet que una ciutat creixi a més de mida 10."
 
 #: data/civ1/buildings.ruleset:44
 msgid "Aqueduct protects the city from Fire and Plague."
-msgstr ""
+msgstr "L'Aqüeducte protegeix la ciutat dels Incendis i Epidèmies."
 
 #: data/civ1/buildings.ruleset:49 data/civ2/buildings.ruleset:74
 #: data/classic/buildings.ruleset:109 data/experimental/buildings.ruleset:114
@@ -14465,7 +14477,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:92 data/civ1/buildings.ruleset:118
 #: data/civ1/buildings.ruleset:144
 msgid "Barracks protect the city from Pirates."
-msgstr ""
+msgstr "La Caserna protegeix la ciutat dels Pirates."
 
 #: data/civ1/buildings.ruleset:97 data/civ2/buildings.ruleset:120
 #: data/classic/buildings.ruleset:156 data/experimental/buildings.ruleset:161
@@ -14512,7 +14524,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:191
 msgid "City Walls protect the city from Flood."
-msgstr ""
+msgstr "Les Muralles protegeixen la ciutat de les Inundacions."
 
 #: data/civ1/buildings.ruleset:196 data/civ2/buildings.ruleset:238
 #: data/classic/buildings.ruleset:276 data/experimental/buildings.ruleset:281
@@ -14572,7 +14584,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:276
 msgid "Granary protects the city from Famine."
-msgstr ""
+msgstr "El Graner protegeix la ciutat de la Fam."
 
 #: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:351
 #: data/classic/buildings.ruleset:391 data/experimental/buildings.ruleset:416
@@ -14906,7 +14918,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:637
 msgid "Temple protects the city from Volcano."
-msgstr ""
+msgstr "El Temple protegeix la ciutat del Volcà."
 
 #: data/civ1/buildings.ruleset:642 data/civ1/techs.ruleset:583
 #: data/civ2/buildings.ruleset:938 data/civ2/techs.ruleset:750
@@ -17053,6 +17065,8 @@ msgid ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
 msgstr ""
+"Els camins permeten que les teves unitats terrestres es moguin més ràpid, i "
+"en alguns tipus de terreny, també proporcionen una bonificació en comerç."
 
 #: data/civ1/terrain.ruleset:880 data/civ2/terrain.ruleset:1008
 msgid ""
@@ -17060,17 +17074,21 @@ msgid ""
 "center tiles automatically get roads, and are an exception to this "
 "requirement."
 msgstr ""
+"Construir camins en caselles de riu requereix el coneixement de Construcció "
+"de Ponts. Les caselles del centre de la ciutat obtenen automàticament camins, "
+"i són una excepció d'aquest requeriment."
 
 #: data/civ1/terrain.ruleset:910 data/civ2/terrain.ruleset:1038
 #: data/classic/terrain.ruleset:1250 data/multiplayer/terrain.ruleset:1229
-#, fuzzy
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units expend no movement points when moving along a railroad; you "
 "may ride a railroad indefinitely. (As may your enemies!)"
 msgstr ""
-" - Les unitats no gasten punts de moviment si viatgen pel ferrocarril. Es "
-"pot viatjar infinitament amb el ferrocarril. (Els teus enemics, també!)"
+"Un cop aprens la tecnologia Ferrocarril, pots millorar els teus camins i "
+"convertir-los en ferrocarrils. Les unitats no gasten punts de moviment si "
+"viatgen pel ferrocarril; es "
+"pot viatjar indefinidament amb el ferrocarril. (Els teus enemics, també!)"
 
 #: data/civ1/terrain.ruleset:914
 msgid ""
@@ -17078,6 +17096,9 @@ msgid ""
 "a tile. A tile whose road is upgraded to a railroad retains any trade bonus "
 "from the road as well."
 msgstr ""
+"Un ferrocarril també augmenta en un 50% (arrodonint cap a baix) tots els "
+"recursos produïts per una casella. Una casella on el camí es transformi en "
+"ferrocarril també manté qualsevol bonificació en comerç que tingués el camí."
 
 #: data/civ1/terrain.ruleset:918 data/civ2/terrain.ruleset:1046
 #: data/classic/terrain.ruleset:1258 data/experimental/terrain.ruleset:1236
@@ -17086,6 +17107,8 @@ msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
 "you learn the Railroad technology."
 msgstr ""
+"Les caselles del centre de la ciutat amb camins es milloren automàticament a "
+"ferrocarrils quan aprens la tecnologia Ferrocarril."
 
 #: data/civ1/terrain.ruleset:924 data/civ2/terrain.ruleset:1052
 #: data/classic/terrain.ruleset:1264 data/experimental/terrain.ruleset:1278
@@ -17095,7 +17118,7 @@ msgstr "Riu"
 
 #: data/civ1/terrain.ruleset:937
 msgid "Any land terrain type may have a River on it."
-msgstr ""
+msgstr "Qualsevol tipus de terreny terrestre pot tenir un Riu."
 
 #: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1071
 #: data/classic/terrain.ruleset:1291 data/multiplayer/terrain.ruleset:1262
@@ -17172,9 +17195,10 @@ msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities, and can also improve terrain."
 msgstr ""
+"Els Colons són una de les unitats clau de la partida, perquè són el mitjà "
+"principal per a construir ciutats noves, i també poden millorar el terreny."
 
 #: data/civ1/units.ruleset:289
-#, fuzzy
 msgid ""
 "On terrain which supports it, they may build an irrigation system to produce "
 "some extra food each turn. This requires a nearby source of water: an ocean "
@@ -17182,31 +17206,28 @@ msgid ""
 "(not just a corner) with the target tile. Once irrigated, land remains so "
 "even if the water source is removed."
 msgstr ""
-"Als tipus de terreny adequats es pot fer regadiu. Irrigar una casella fa que "
-"produeixi menjar addicional a cada torn. Fer un regadiu requereix una font "
-"d'aigua propera: una casella d'Oceà, de Llac o de Riu, o una altra casella "
+"Als tipus de terreny que ho permetin, poden construir un sistema de regadiu "
+"per a "
+"produir menjar addicional a cada torn. Per això, cal una font "
+"d'aigua propera: una casella d'Oceà o de Riu, o una altra casella "
 "que estigui irrigada, ha de compartir una vora (no n'hi ha prou amb una "
 "cantonada) amb la casella que es vol irrigar. Un cop convertit en regadiu, "
-"el terreny s'hi queda així encara que es tregui la font d'aigua. A més, quan "
-"tens suficient tecnologia, pots millorar el sistema de regadiu d'una casella "
-"i convertir-la en Horta, que encara és més productiva, irrigant-la una "
-"segona vegada."
+"el terreny s'hi queda així encara que es tregui la font d'aigua."
 
 #: data/civ1/units.ruleset:296 data/civ2/units.ruleset:302
-#, fuzzy
 msgid ""
 "Settlers can build mines on some types of terrain, which increases the "
 "number of production points produced by that tile. However, it is not "
 "possible to have an irrigation system and a mine on the same tile."
 msgstr ""
-"En alguns tipus de terrenys es poden construir mines, que incrementen el "
-"nombre de punts de producció (escuts) que produeix aquesta casella. No "
+"Els Colons poden construir mines en alguns tipus de terreny, que incrementen "
+"el "
+"nombre de punts de producció que produeix aquesta casella. No "
 "obstant, no és possible de tenir regadiu i una mina a la mateixa casella."
 
 #: data/civ1/units.ruleset:300 data/civ2/units.ruleset:306
 #: data/classic/units.ruleset:470 data/experimental/units.ruleset:489
 #: data/multiplayer/units.ruleset:471
-#, fuzzy
 msgid ""
 "On terrain unsuitable for irrigation systems or mines, issuing the \"irrigate"
 "\" or \"mine\" order may permanently convert the terrain to another type; "
@@ -17214,16 +17235,15 @@ msgid ""
 "yield Grassland. (Terrain conversion with the \"irrigate\" order does not "
 "require a water source.)"
 msgstr ""
-" - Els Colons i els Treballadors poden fer un rang limitat de conversions de "
-"terreny, que es comencen donant les ordres d'\"irrigar\" o de \"fer mina\" "
-"en terrenys que no permeten la millora sol·licitada; veure la taula "
-"inferior. (Convertir un tipus de terreny en un altre amb l'ordre d'\"irrigar"
-"\" no requereix una font d'aigua)."
+"Sobre terreny que no sigui apropiat per a sistemes de regadiu ni mines, donar "
+"l'ordre \"irrigar\" o \"mina\" pot convertir de forma permanent el terreny en "
+"un altres tipus; això sol ser més car Per exemple, un Aiguamoll es pot "
+"\"irrigar\" per obtenir \"Prats\". (Convertir un tipus de terreny en un altre "
+"amb l'ordre d'\"irrigar\" no requereix una font d'aigua)."
 
 #: data/civ1/units.ruleset:306
-#, fuzzy
 msgid "Settlers can also build roads, railroads, or fortresses."
-msgstr "Permet als Colons de construir fortificacions."
+msgstr "Els Colons també poden construir camins, ferrocarrils, o fortaleses."
 
 #: data/civ1/units.ruleset:308 data/civ2/units.ruleset:314
 #: data/classic/units.ruleset:479 data/experimental/units.ruleset:498
@@ -17232,6 +17252,8 @@ msgid ""
 "See the help on Terrain and Terrain Alterations for the effects of these "
 "actions."
 msgstr ""
+"Vegeu l'ajuda sobre Terreny i Alteracions del Terreny per als efectes "
+"d'aquestes accions."
 
 #: data/civ1/units.ruleset:311 data/classic/units.ruleset:416
 #: data/experimental/units.ruleset:430
@@ -17859,7 +17881,6 @@ msgstr ""
 
 #: data/civ1/units.ruleset:1284 data/civ2/units.ruleset:2046
 #: data/classic/units.ruleset:2144 data/experimental/units.ruleset:2169
-#, fuzzy
 msgid ""
 "Caravans can establish trade routes with your own cities or those of other "
 "nations (even enemies) by traveling to them. A route's ongoing revenue is "
@@ -17870,10 +17891,9 @@ msgid ""
 "own one city, trade in each city is doubled, but you only get the benefit "
 "from one end of the route."
 msgstr ""
-"A més, s'estableix una ruta comercial contínua que beneficia tant l'origen "
-"com el destí de manera igual generant punts de comerç per a cada ciutat a "
-"cada torn. La quantitat d'aquest comerç continu augmenta amb la mida de cada "
-"ciutat i la distància entre elles; es duplica si les ciutats són de "
+"Les Caravanes poden establir rutes comercials amb les teves pròpies ciutats o "
+"amb les d'altres nacions (fins i tot enemigues) viatjant-hi. La renda "
+"contínua que genera una ruta es duplica si les dues ciutats són de "
 "continents diferents, i es torna a duplicar si les ciutats són de "
 "civilitzacions diferents. Aquesta última condició vol dir que el benefici "
 "net per a la teva civilització d'una ruta comercial és el mateix tant si les "
@@ -18470,7 +18490,7 @@ msgstr "Ambaixada de Marco Polo"
 #: data/civ2civ3/buildings.ruleset:1508
 msgid "The player who owns it gets an embassy with all players."
 msgstr ""
-"EL jugador que la té obté una ambaixada amb cadascun dels altres jugadors."
+"El jugador que la té obté una ambaixada amb cadascun dels altres jugadors."
 
 #: data/civ2/buildings.ruleset:1360 data/classic/buildings.ruleset:1439
 #: data/experimental/buildings.ruleset:1496
@@ -19248,6 +19268,9 @@ msgid ""
 "whose road is upgraded to a railroad retains any trade bonus from the road "
 "as well."
 msgstr ""
+"Un ferrocarril també augmenta els recursos d'escuts produïts per una casella. "
+"Una casella on el camí es transformi en ferrocarril també manté qualsevol "
+"bonificació en comerç que tingués el camí."
 
 #: data/civ2/terrain.ruleset:1066 data/classic/terrain.ruleset:1286
 #: data/multiplayer/terrain.ruleset:1257
@@ -19264,9 +19287,8 @@ msgstr ""
 "més ràpidament."
 
 #: data/civ2/units.ruleset:23 data/multiplayer/units.ruleset:28
-#, fuzzy
 msgid "Can build airbases."
-msgstr "Pot construir Bases aèries."
+msgstr "Pot construir bases aèries."
 
 #: data/civ2/units.ruleset:24 data/classic/units.ruleset:29
 #: data/experimental/units.ruleset:32 data/civ2civ3/units.ruleset:29
@@ -19298,7 +19320,6 @@ msgid "?unitclass:Helicopter"
 msgstr "Helicòpters"
 
 #: data/civ2/units.ruleset:293
-#, fuzzy
 msgid ""
 "On terrain which supports it, they may build an irrigation system to produce "
 "some extra food each turn. This requires a nearby source of water: an ocean "
@@ -19308,19 +19329,22 @@ msgid ""
 "systems can be upgraded to Farmland by irrigating them a second time; this "
 "provides more food to a city if it has a Supermarket."
 msgstr ""
-"Als tipus de terreny adequats es pot fer regadiu. Irrigar una casella fa que "
-"produeixi menjar addicional a cada torn. Fer un regadiu requereix una font "
-"d'aigua propera: una casella d'Oceà, de Llac o de Riu, o una altra casella "
+"Als tipus de terreny que ho permetin, poden construir un sistema de regadiu "
+"per a "
+"produir menjar addicional a cada torn. Per això, cal una font "
+"d'aigua propera: una casella d'Oceà o de Riu, o una altra casella "
 "que estigui irrigada, ha de compartir una vora (no n'hi ha prou amb una "
 "cantonada) amb la casella que es vol irrigar. Un cop convertit en regadiu, "
-"el terreny s'hi queda així encara que es tregui la font d'aigua. A més, quan "
-"tens suficient tecnologia, pots millorar el sistema de regadiu d'una casella "
-"i convertir-la en Horta, que encara és més productiva, irrigant-la una "
-"segona vegada."
+"el terreny s'hi queda així encara que es tregui la font d'aigua. Quan "
+"es coneix Refrigeració, es poden millorar els sistemes de regadiu a Horta, "
+"irrigant-los una "
+"segona vegada; això proporciona més menjar per una ciutat si té Supermercat."
 
 #: data/civ2/units.ruleset:312
 msgid "Settlers can also build roads, railroads, fortresses, or airbases."
 msgstr ""
+"Els colons també poden construir camins, ferrocarrils, fortaleses, o bases "
+"aèries."
 
 #: data/civ2/units.ruleset:317
 msgid ""
@@ -19946,11 +19970,12 @@ msgid ""
 "A small set of playable nations that should be fully localized into "
 "languages other than English."
 msgstr ""
+"Un petit conjunt de nacions per jugar que ha d'estar totalment traduït a les "
+"llengües que no són l'anglès."
 
 #: data/default/nationlist.ruleset:34
-#, fuzzy
 msgid "?nationset:Extended"
-msgstr "?nationset:Nucli"
+msgstr "Estès"
 
 #. TRANS: Description of the 'Extended' nation set in default rulesets,
 #. ; which contains all nations that come with Freeciv.
@@ -19964,6 +19989,9 @@ msgid ""
 "variety, but not all of these may have been localized into languages other "
 "than English."
 msgstr ""
+"El conjunt complet de nacions amb els quals es pot jugar; això permet "
+"partides més grans o més varietat, però no totes han d'estar traduïdes a "
+"llengües diferents de l'anglès."
 
 #: data/default/nationlist.ruleset:60
 msgid "?nationgroup:Medieval"
@@ -20286,15 +20314,17 @@ msgstr ""
 #: data/classic/buildings.ruleset:1569
 #: data/experimental/buildings.ruleset:1626
 #: data/civ2civ3/buildings.ruleset:1701
-#, fuzzy
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
 "are created as Hardened). The chance of a land unit getting the next veteran "
 "level after a battle increases by half."
 msgstr ""
-"Totes les teves noves unitats militars terrestres comencen al primer nivell "
-"de veterania. La probabilitat que una unitat terrestre aconsegueixi el "
+"Totes les unitats militars terrestres noves comencen amb un nivell addicional "
+"de veterania (això "
+"s'acumula amb qualsevol Caserna d'una ciutat; amb tots dos, les unitats es "
+"creen com a Endurides). La probabilitat que una unitat terrestre aconsegueixi "
+"el "
 "següent nivell de veterania després d'una batalla augmenta en un 50%."
 
 #: data/classic/buildings.ruleset:1631
@@ -20337,50 +20367,46 @@ msgid "?citystyle:ElectricAge"
 msgstr "EraElèctrica"
 
 #: data/classic/game.ruleset:18
-#, fuzzy
 msgid "Classic ruleset"
-msgstr "Joc de regles de Civ1"
+msgstr "Joc de regles clàssic"
 
 #: data/classic/game.ruleset:21
-#, fuzzy
 msgid "You are playing with classic Freeciv rules for single player games."
 msgstr ""
-"Estàs jugant al Freeciv amb les regles predeterminades per a partides d'un "
+"Estàs jugant al Freeciv amb les regles clàssiques per a partides d'un "
 "sol jugador."
 
 #. TRANS: year label (Common Era)
 #: data/classic/game.ruleset:220 data/experimental/game.ruleset:226
 #: data/civ2civ3/game.ruleset:228 data/multiplayer/game.ruleset:224
 msgid "CE"
-msgstr "d.C."
+msgstr "E.C."
 
 #. TRANS: year label (Before Common Era)
 #: data/classic/game.ruleset:222 data/experimental/game.ruleset:228
 #: data/civ2civ3/game.ruleset:230 data/multiplayer/game.ruleset:226
 msgid "BCE"
-msgstr "a.C."
+msgstr "a.E.C."
 
 #: data/classic/game.ruleset:258 data/civ2civ3/game.ruleset:278
 msgid "Nuclear Accident"
 msgstr "Accident nuclear"
 
 #: data/classic/script.lua:64 data/civ2civ3/script.lua:64
-#, fuzzy
 msgid "Highest Peak"
-msgstr "Alt sacerdot %s"
+msgstr "Pic més Alt"
 
 #: data/classic/script.lua:69 data/civ2civ3/script.lua:69
-#, fuzzy
 msgid "Deep Trench"
-msgstr "Oceà Profund"
+msgstr "Fossa Profunda"
 
 #: data/classic/script.lua:74 data/civ2civ3/script.lua:74
 msgid "Scorched Spot"
-msgstr ""
+msgstr "Zona de Terra Cremada"
 
 #: data/classic/script.lua:79 data/civ2civ3/script.lua:79
 msgid "Frozen Lake"
-msgstr ""
+msgstr "Llac Congelat"
 
 #: data/classic/techs.ruleset:224 data/experimental/techs.ruleset:242
 #: data/civ2civ3/techs.ruleset:244 data/multiplayer/techs.ruleset:224
@@ -20404,12 +20430,14 @@ msgstr "Permet als Treballadors i Enginyers de construir bases aèries i boies."
 #: data/classic/terrain.ruleset:182 data/experimental/terrain.ruleset:184
 #: data/civ2civ3/terrain.ruleset:182 data/multiplayer/terrain.ruleset:182
 msgid "Inaccessible"
-msgstr ""
+msgstr "Inaccessible"
 
 #: data/classic/terrain.ruleset:215 data/experimental/terrain.ruleset:217
 #: data/civ2civ3/terrain.ruleset:215 data/multiplayer/terrain.ruleset:215
 msgid "No unit can enter this terrain, nor can any city work its tiles."
 msgstr ""
+"Cap unitat no pot entrar en aquest terreny, ni cap ciutat pot treballar-ne "
+"les caselles."
 
 #: data/classic/terrain.ruleset:220 data/experimental/terrain.ruleset:222
 #: data/civ2civ3/terrain.ruleset:220 data/multiplayer/terrain.ruleset:220
@@ -20492,12 +20520,15 @@ msgid ""
 "center tiles automatically get roads (unless they are on a river tile and "
 "you do not yet know Bridge Building)."
 msgstr ""
+"Construir camins en caselles de riu requereix el coneixement de Construcció "
+"de Ponts. Les caselles del centre de la ciutat obtenen automàticament camins "
+"(si no és que són en una casella de Riu i encara no coneixes la Construcció "
+"de Ponts)."
 
 #: data/classic/units.ruleset:28 data/experimental/units.ruleset:31
 #: data/civ2civ3/units.ruleset:28
-#, fuzzy
 msgid "Can build airbases and buoys."
-msgstr "Pot construir Bases aèries."
+msgstr "Pot construir bases aèries i boies."
 
 #: data/classic/units.ruleset:37 data/experimental/units.ruleset:40
 #: data/civ2civ3/units.ruleset:36 data/multiplayer/units.ruleset:37
@@ -20521,6 +20552,8 @@ msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities."
 msgstr ""
+"Els Colons són una de les unitats clau de la partida, perquè són el mitjà "
+"principal per a construir ciutats noves."
 
 #: data/classic/units.ruleset:413 data/experimental/units.ruleset:427
 #: data/civ2civ3/units.ruleset:436
@@ -20528,6 +20561,8 @@ msgid ""
 "Settlers can also perform the same terrain alterations as Workers, except "
 "for building airbases or buoys."
 msgstr ""
+"Els Colons també poden dur a terme les mateixes alteracions de terreny que "
+"els Treballadors, excepte construir bases aèries o boies."
 
 #: data/classic/units.ruleset:423 data/experimental/units.ruleset:437
 #: data/civ2civ3/units.ruleset:481 data/multiplayer/units.ruleset:424
@@ -20536,15 +20571,12 @@ msgstr "Treballadors"
 
 #: data/classic/units.ruleset:455 data/experimental/units.ruleset:474
 #: data/civ2civ3/units.ruleset:513 data/multiplayer/units.ruleset:456
-#, fuzzy
 msgid "Workers have the ability to improve terrain tiles."
 msgstr ""
-"Els Colons, els Treballadors i els Enginyers tenen la capacitat d'alterar el "
-"terreny de diverses maneres."
+"Els Treballadors tenen la capacitat de millorar les caselles de terreny."
 
 #: data/classic/units.ruleset:457 data/experimental/units.ruleset:476
 #: data/multiplayer/units.ruleset:458
-#, fuzzy
 msgid ""
 "On terrain which supports it, they may build an irrigation system to produce "
 "some extra food each turn. This requires a nearby source of water: an ocean, "
@@ -20554,26 +20586,27 @@ msgid ""
 "irrigation systems can be upgraded to Farmland by irrigating them a second "
 "time; this provides more food to a city if it has a Supermarket."
 msgstr ""
-"Als tipus de terreny adequats es pot fer regadiu. Irrigar una casella fa que "
-"produeixi menjar addicional a cada torn. Fer un regadiu requereix una font "
+"Als tipus de terreny que ho permetin, poden construir un sistema de regadiu "
+"per a "
+"produir menjar addicional a cada torn. Per això, cal una font "
 "d'aigua propera: una casella d'Oceà, de Llac o de Riu, o una altra casella "
 "que estigui irrigada, ha de compartir una vora (no n'hi ha prou amb una "
 "cantonada) amb la casella que es vol irrigar. Un cop convertit en regadiu, "
-"el terreny s'hi queda així encara que es tregui la font d'aigua. A més, quan "
-"tens suficient tecnologia, pots millorar el sistema de regadiu d'una casella "
-"i convertir-la en Horta, que encara és més productiva, irrigant-la una "
-"segona vegada."
+"el terreny s'hi queda així encara que es tregui la font d'aigua. Quan "
+"es coneix Refrigeració, es poden millorar els sistemes de regadiu a Horta, "
+"irrigant-los una "
+"segona vegada; això proporciona més menjar per una ciutat si té Supermercat."
 
 #: data/classic/units.ruleset:466 data/experimental/units.ruleset:485
 #: data/civ2civ3/units.ruleset:526 data/multiplayer/units.ruleset:467
-#, fuzzy
 msgid ""
 "Workers can build mines on some types of terrain, which increases the number "
 "of production points produced by that tile. However, it is not possible to "
 "have an irrigation system and a mine on the same tile."
 msgstr ""
-"En alguns tipus de terrenys es poden construir mines, que incrementen el "
-"nombre de punts de producció (escuts) que produeix aquesta casella. No "
+"Els Treballadors poden construir mines en alguns tipus de terreny, que "
+"incrementen el "
+"nombre de punts de producció que produeix aquesta casella. No "
 "obstant, no és possible de tenir regadiu i una mina a la mateixa casella."
 
 #: data/classic/units.ruleset:476 data/civ2civ3/units.ruleset:536
@@ -20581,10 +20614,11 @@ msgid ""
 "Workers can also build roads, railroads, fortresses, airbases, or buoys "
 "(when on board a ship)."
 msgstr ""
+"Els Treballadors també poden construir camins, ferrocarrils, fortaleses, "
+"bases aèries, o boies (quan són a bord d'un vaixell)."
 
 #: data/classic/units.ruleset:517 data/experimental/units.ruleset:541
 #: data/multiplayer/units.ruleset:517
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast. Engineers may also perform major terrain transformations which are "
@@ -20595,9 +20629,11 @@ msgid ""
 msgstr ""
 "Els Enginyers són semblants als Treballadors, però treballen el doble de "
 "ràpid i es mouen el doble de ràpid. Els Enginyers també poden realitzar "
-"transformacions de terreny importants (per exemple, convertir Tundra en "
-"Desert), que estan més enllà de les possibilitats dels Treballadors i "
-"Colons; veure la secció d'Alteracions del Terreny per més detalls."
+"transformacions de terreny importants que no poden fer els Treballadors ni "
+"els Colons, com ara convertir Tundra en "
+"Desert, o fins i tot Oceà en Aiguamolls en algunes circumstàncies (quan són a "
+"bord d'un vaixell a l'oceà, en una casella rodejada de la terra suficient). "
+"Vegeu la secció d'Alteracions del Terreny per més detalls."
 
 #: data/classic/units.ruleset:525 data/experimental/units.ruleset:549
 #: data/multiplayer/units.ruleset:525
@@ -20826,7 +20862,6 @@ msgid "Experimental ruleset"
 msgstr "Joc de regles experimental"
 
 #: data/experimental/game.ruleset:24
-#, fuzzy
 msgid ""
 "You are playing with the experimental ruleset. This showcases new or unusual "
 "features available in Freeciv without regard for strict game balancing or "
@@ -20836,7 +20871,7 @@ msgstr ""
 "Estàs jugant amb el joc de regles experimental. Aquest il·lustra "
 "funcionalitats noves o inusuals disponibles a Freeciv sense miraments per "
 "l'equilibri estricte del joc ni per la jugabilitat. Es pot trobar una "
-"descripció de les diferències amb el joc de regles predeterminat al fitxer "
+"descripció de les diferències amb el joc de regles clàssic al fitxer "
 "README.ruleset_experimental."
 
 #: data/experimental/governments.ruleset:77
@@ -20850,26 +20885,35 @@ msgid ""
 "terrain such as Mountains and Forest. On some terrain, roads also provide a "
 "trade bonus."
 msgstr ""
+"Els camins permeten que les teves unitats terrestres es moguin més ràpid, i "
+"permeten que les unitats Terrestres Grans i pesades com les Catapultes i el "
+"Comboi viatgin per terreny que si no seria difícil com les Muntanyes o el "
+"Bosc. En alguns tipus de terreny, els camins també proporcionen una "
+"bonificació en comerç."
 
 #: data/experimental/terrain.ruleset:1228 data/civ2civ3/terrain.ruleset:1265
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units travel considerably faster along railroads than along roads."
 msgstr ""
+"Un cop aprens la tecnologia Ferrocarril, pots millorar els teus camins a "
+"ferrocarrils. Les unitats viatgen considerablement més ràpid amb ferrocarrils "
+"que no pas amb camins."
 
 #: data/experimental/terrain.ruleset:1242
 msgid "Maglev"
 msgstr "Maglev"
 
 #: data/experimental/terrain.ruleset:1264
-#, fuzzy
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land units expend no movement points when riding a "
 "maglev; you may ride indefinitely. (As may your enemies!)"
 msgstr ""
-" - Les unitats no gasten punts de moviment si viatgen pel ferrocarril. Es "
-"pot viatjar infinitament amb el ferrocarril. (Els teus enemics, també!)"
+"Amb la tecnologia suficient, pots construir sistemes de levitació magnètica a "
+"les rutes de ferrocarril. Les unitats terrestres no gasten punts de moviment "
+"si viatgen amb maglev; S'hi "
+"pot viatjar indefinidament. (Els teus enemics, també!)"
 
 #: data/experimental/terrain.ruleset:1268
 msgid ""
@@ -20877,25 +20921,27 @@ msgid ""
 "which the maglev system is unsuitable, and they continue to provide "
 "production and trade bonuses."
 msgstr ""
+"Els teus ferrocarrils normals encara es faran servir per portar unitats "
+"Terrestres Grans, que són massa pesades per al sistema maglev, i continuen "
+"donant bonificacions de producció i comerç."
 
 #: data/experimental/terrain.ruleset:1272
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
 "you learn about Superconductors."
 msgstr ""
+"Les caselles del centre de la ciutat amb ferrocarrils es milloren "
+"automàticament a maglev quan aprens Superconductors."
 
 #: data/experimental/terrain.ruleset:1292
-#, fuzzy
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
 "resources produced by that tile. It also increases a tile's defense factor "
 "by 50%."
 msgstr ""
-"Qualsevol tipus de terreny (excepte l'Oceà) pot tenir-hi un Riu. Un Riu "
+"Qualsevol tipus de terreny pot tenir-hi un Riu. Un Riu "
 "afegeix 1 punt de comerç als recursos produïts per aquesta casella. També "
-"augmenta el factor defensiu de la casella en un 50%. Finalment, les unitats "
-"terrestres poden moure's al llarg d'un Riu (però no en diagonal) per viatjar "
-"més ràpidament."
+"augmenta el factor defensiu de la casella en un 50%."
 
 #: data/experimental/terrain.ruleset:1296
 msgid ""
@@ -20904,14 +20950,20 @@ msgid ""
 "through otherwise difficult terrain. Triremes may also travel up rivers "
 "(although later boats cannot)."
 msgstr ""
+"Les unitats terrestres poden moure's al llarg d'un Riu (però no en diagonal) "
+"per viatjar "
+"més ràpidament, i les unitats Terrestres Grans pesades com les Catapultes i "
+"el Comboi poden passar-hi per travessar terreny que, si no, seria difícil. "
+"Els Trirrems també poden remuntar els rius (encara que els vaixells "
+"posteriors no)."
 
 #: data/experimental/terrain.ruleset:1301
-#, fuzzy
 msgid ""
 "Roads, railroads, and maglev can only be built on River tiles if your "
 "civilization has learned Bridge Building technology."
 msgstr ""
-"Els camins i ferrocarrils només poden construir-se sobre caselles de Riu si "
+"Els camins, els ferrocarrils, i els maglev només poden construir-se sobre "
+"caselles de Riu si "
 "la teva civilització ha après la tecnologia de Construcció de Ponts."
 
 #. TRANS: "Big Land" is a unit class, like Land or Sea. Big Land units
@@ -20942,9 +20994,10 @@ msgid ""
 "Workers can also build roads, railroads, maglev, fortresses, airbases, or "
 "buoys (when on board a ship)."
 msgstr ""
+"Els Treballadors també poden construir camins, ferrocarrils, maglev, "
+"fortaleses, bases aèries, o boies (quan són a bord d'un vaixell)."
 
 #: data/experimental/units.ruleset:785
-#, fuzzy
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -20958,7 +21011,8 @@ msgstr ""
 "conquereix una ciutat teva -- automàticament es posen en posicions "
 "defensives als camps del voltant -- però només sota aquestes condicions:\n"
 " - Al menys un jugador ha de conèixer Guerra de Guerrilles.\n"
-" - Has de ser el jugador que havia fundat la ciutat.\n"
+" - Almenys tres quartes parts dels ciutadans han de tenir la teva "
+"nacionalitat.\n"
 " - Has de conèixer Comunisme i Pólvora.\n"
 " - Has de tenir un govern en Democràcia o Comunisme."
 
@@ -20975,14 +21029,12 @@ msgstr ""
 "ciutat creixi a més de mida 16."
 
 #: data/civ2civ3/buildings.ruleset:111
-#, fuzzy
 msgid "Aqueduct, Lake"
-msgstr "Aqüeducte, prop de Llac"
+msgstr "Aqüeducte, Llac"
 
 #: data/civ2civ3/buildings.ruleset:133
-#, fuzzy
 msgid "Aqueduct, River"
-msgstr "Aqüeducte, prop de Riu"
+msgstr "Aqüeducte, Riu"
 
 #: data/civ2civ3/buildings.ruleset:172
 #, no-c-format
@@ -21033,16 +21085,20 @@ msgid ""
 "eliminated. A Granary together with a Courthouse in a city will eliminate "
 "food waste."
 msgstr ""
+"Redueix tota mena de malbaratament en una ciutat (corrupció, malbaratament de "
+"producció, i malbaratament de menjar) en un 50%. A la teva capital, la "
+"corrupció i el malbaratament de producció s'elimina del tot. Un Graner "
+"juntament amb un Jutjat en una mateixa ciutat eliminen el malbaratament de "
+"menjar."
 
 #: data/civ2civ3/buildings.ruleset:366
-#, fuzzy
 msgid ""
 "Also makes one unhappy citizen content (unless that citizen is unhappy about "
 "military activity), and makes the revolt cost of the city 4 times bigger."
 msgstr ""
-"Redueix la corrupció i el malbaratament d'una ciutat en un 50%, fa content "
+"També fa content "
 "un ciutadà descontent (si no és que aquest ciutadà sigui descontent per "
-"activitats militars), i també fa que el cost d'una revolta a la ciutat sigui "
+"activitats militars), i fa que el cost d'una revolta a la ciutat sigui "
 "4 vegades superior."
 
 #: data/civ2civ3/buildings.ruleset:388
@@ -21072,6 +21128,9 @@ msgid ""
 "Granary also halves the waste of food caused by distance to Palace.  "
 "Together with a Courthouse, it eliminates completely the waste of food."
 msgstr ""
+"El Graner també redueix a la meitat el malbaratament de menjar provocat per "
+"la distància respecte el Palau. Juntament amb un Jutjat, elimina completament "
+"el malbaratament de menjar."
 
 #: data/civ2civ3/buildings.ruleset:459 data/civ2civ3/buildings.ruleset:580
 #, no-c-format
@@ -21164,7 +21223,7 @@ msgstr ""
 "població de la ciutat (+25%)."
 
 #: data/civ2civ3/buildings.ruleset:641
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Makes a city the capital and the center of your government. Waste in other "
 "cities (corruption, production waste, and food waste) is often related to "
@@ -21172,11 +21231,12 @@ msgid ""
 "production waste in your capital itself is half of what it would otherwise "
 "be."
 msgstr ""
-"Fa que una ciutat sigui la capital i el centre del teu govern. La corrupció "
-"de les altres ciutats està relacionada amb la distància que les separa de la "
-"capital, amb l'excepció dels governs en Federació i Comunisme. El cost "
-"d'incitar a una revolta en una ciutat també depèn de la distància des de la "
-"capital (en qualsevol forma de govern)."
+"Fa que una ciutat sigui la capital i el centre del teu govern. El "
+"malbaratament "
+"de les altres ciutats (corrupció, malbarataments de producció  i de menjar) "
+"estan relacionats sovint amb la distància que les separa de la "
+"capital. A més, la corrupció i el malbaratament de producció en la pròpia "
+"capital és la meitat del que seria altrament."
 
 #: data/civ2civ3/buildings.ruleset:647
 msgid ""
@@ -21185,6 +21245,11 @@ msgid ""
 "cannot be incited to revolt, and enjoys a bonus when enemy agents try to "
 "evade your own agents stationed in the city, or sabotage your buildings."
 msgstr ""
+"El cost per als Diplomàtics i Espies enemics d'incitar una revolta en una "
+"ciutat també depèn de la distància de la ciutat a la capital. La pròpia "
+"capital no es pot incitar a la revolta, i a més té una bonificació quan els "
+"agents enemics intenten evadir-se dels teus propis agents situats a la "
+"ciutat, o quan sabotegen els teus edificis."
 
 #: data/civ2civ3/buildings.ruleset:659
 #, no-c-format
@@ -21231,13 +21296,14 @@ msgstr ""
 "generada per la producció d'una ciutat en un 50%."
 
 #: data/civ2civ3/buildings.ruleset:777
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by an additional 50% (by 100% if the "
 "Internet wonder was built by any player)."
 msgstr ""
-"Augmenta en un 50% l'aportació a ciència de la ciutat (en un 100% si "
-"qualsevol jugador ha construït la Gran Biblioteca)."
+"Augmenta en un 50% addicional l'aportació a ciència de la ciutat (en un 100% "
+"si "
+"qualsevol jugador ha construït la meravella Internet)."
 
 #: data/civ2civ3/buildings.ruleset:782
 #, no-c-format
@@ -21498,13 +21564,12 @@ msgstr ""
 "per ciutat)."
 
 #: data/civ2civ3/buildings.ruleset:1408
-#, fuzzy
 msgid ""
 "It neutralises the unhappiness caused by one military unit per city, and it "
 "gives two free gold per city for upkeep of units."
 msgstr ""
-"Neutralitza la infelicitat causada per 1 unitat militar per ciutat, i "
-"augmenta en 1 les unitats sense cost de manteniment per cada ciutat."
+"Neutralitza la infelicitat causada per una unitat militar per ciutat, i "
+"dóna dues monedes d'or de franc per ciutat per al manteniment d'unitats."
 
 #: data/civ2civ3/buildings.ruleset:1448
 msgid ""
@@ -21539,28 +21604,26 @@ msgid "Mausoleum of Mausolos"
 msgstr "Mausoleu d'Halicarnàs"
 
 #: data/civ2civ3/buildings.ruleset:1549
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content in every city with Walls,  and one "
 "additional unhappy citizen content in every city with Courthouse.  Also, no "
 "one of your cities can be incited to revolt."
 msgstr ""
-"Fa content un ciutadà infeliç a cada ciutat amb Muralles. I 3 ciutadans "
-"infeliços més contents a la ciutat on s'ha construït. Cap de les teves "
-"ciutats es pot incitar a la revolta."
+"Fa content un ciutadà descontent a cada ciutat amb Muralles, i un altre "
+"d'addicional a cada ciutat amb Jutjat. A més, cap de les teves "
+"ciutats no es pot incitar a la revolta."
 
 #: data/civ2civ3/buildings.ruleset:1556
 msgid "Statue of Zeus"
 msgstr "Estàtua de Zeus"
 
 #: data/civ2civ3/buildings.ruleset:1570
-#, fuzzy
 msgid ""
 "It neutralises the unhappiness caused by one military unit per city, and it "
 "gives one free shield per city for upkeep of units."
 msgstr ""
 "Neutralitza la infelicitat causada per 1 unitat militar per ciutat, i "
-"augmenta en 1 les unitats sense cost de manteniment per cada ciutat."
+"dóna un escut gratuït per ciutat per al manteniment d'unitats."
 
 #: data/civ2civ3/buildings.ruleset:1576
 msgid "Temple of Artemis"
@@ -21611,7 +21674,6 @@ msgstr ""
 "per a totes les nacions."
 
 #: data/civ2civ3/buildings.ruleset:1679
-#, fuzzy
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -21620,10 +21682,10 @@ msgid ""
 msgstr ""
 "Permet de triar qualsevol govern, fins i tot els que encara no han estat "
 "descoberts per la teva civilització, i sense el període de transició "
-"d'Anarquia."
+"d'Anarquia. També permet de trencar qualsevol acord diplomàtic, fins i tot "
+"quan el teu govern té senat."
 
 #: data/civ2civ3/buildings.ruleset:1723
-#, fuzzy
 msgid ""
 "Creates a world senate that may prevent declarations of war in some "
 "circumstances.  If any player's city is in revolt for more than two turns, "
@@ -21631,21 +21693,20 @@ msgid ""
 "other nations is recovered twice as fast."
 msgstr ""
 "Crea un senat mundial que pot evitar declaracions de guerra en algunes "
-"circumstàncies. Permet que cada nació triï qualsevol govern, inclosos els "
-"que encara no s'han descobert. Si qualsevol ciutat d'un jugador està en "
+"circumstàncies. Si alguna ciutat de qualsevol jugador està en "
 "revolta durant més de dos torns, cau el govern d'aquest jugador. A més, la "
 "teva reputació i bona voluntat entre les altres nacions es recupera el doble "
 "de ràpid."
 
 #: data/civ2civ3/buildings.ruleset:1754
-#, fuzzy
 msgid ""
 "It neutralises the unhappiness caused by one aggressively deployed military "
 "unit per city.  Under Democracy government, it halves the unhappiness caused "
 "by military units."
 msgstr ""
-"Neutralitza la infelicitat causada per 1 unitat militar de cada ciutat "
-"desplegada de forma agressiva. Sota un govern en Monarquia, neutralitza tota "
+"Neutralitza la infelicitat causada per una unitat militar de cada ciutat "
+"desplegada de forma agressiva. Sota un govern en Democràcia, redueix a la "
+"meitat "
 "la infelicitat causada per unitats militars."
 
 #: data/civ2civ3/game.ruleset:18
@@ -21788,6 +21849,9 @@ msgid ""
 "benefiting from an oasis, building irrigation will yield two extra food "
 "resources rather than the usual one."
 msgstr ""
+"Els rius porten sòl fèrtil als deserts; en un riu desert que encara no es "
+"beneficiï d'un oasi, construir-hi un regadiu donarà dos recursos addicionals "
+"de menjar en comptes d'un."
 
 #: data/civ2civ3/terrain.ruleset:1076
 msgid ""
@@ -21809,26 +21873,29 @@ msgid ""
 "terrain (Mountains, Jungle, and Swamp), and Merchant units (Caravans and "
 "Freight) can only travel on roads, railroads, rivers or ships."
 msgstr ""
+"Els camins permeten que les unitats terrestres es moguin més ràpid, "
+"permeten que les unitats Terrestres Grans amb rodes com els Carros i les "
+"Catapultes viatgin per terreny que si no seria difícil (Muntanyes, Jungla, i "
+"Aiguamolls), i les unitats Mercants (Caravanes i Combois) només poden viatjar "
+"per camins, ferrocarrils, rius o vaixells."
 
 #: data/civ2civ3/terrain.ruleset:1233
 msgid "On some terrains, roads also provide a trade bonus."
 msgstr ""
+"En alguns tipus de terreny, els camins també proporcionen una bonificació en "
+"comerç."
 
 #: data/civ2civ3/terrain.ruleset:1293
-#, fuzzy
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
 "resources produced by that tile. It also increases a tile's defense factor "
 "by 25%."
 msgstr ""
-"Qualsevol tipus de terreny (excepte l'Oceà) pot tenir-hi un Riu. Un Riu "
+"Qualsevol tipus de terreny pot tenir-hi un Riu. Un Riu "
 "afegeix 1 punt de comerç als recursos produïts per aquesta casella. També "
-"augmenta el factor defensiu de la casella en un 50%. Finalment, les unitats "
-"terrestres poden moure's al llarg d'un Riu (però no en diagonal) per viatjar "
-"més ràpidament."
+"augmenta el factor defensiu de la casella en un 25%."
 
 #: data/civ2civ3/terrain.ruleset:1297
-#, fuzzy
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
@@ -21836,26 +21903,24 @@ msgid ""
 "boats cannot)."
 msgstr ""
 "Les unitats terrestres poden moure's al llarg dels rius per viatjar més "
-"ràpid (però no en diagonal), les unitats grosses terrestres amb rodes com "
-"els Carros i les Catapultes poden passar-hi per travessar terreny difícil, i "
+"ràpid (però no en diagonal), i "
 "les unitats Mercants (Caravanes i Combois) poden necessitar rius per viatjar "
 "si no hi ha camins. Els Trirrems també poden remuntar els rius (però els "
 "vaixells posteriors no)."
 
 #: data/civ2civ3/terrain.ruleset:1302
-#, fuzzy
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
 "built on River tiles."
 msgstr ""
 "Els camins i ferrocarrils només poden construir-se sobre caselles de Riu si "
-"la teva civilització ha après la tecnologia de Construcció de Ponts."
+"la teva civilització ha après la tecnologia de Construcció de Ponts. Les "
+"Fortaleses i les Bases aèries no es poden construir sobre caselles de Riu."
 
 #: data/civ2civ3/units.ruleset:31
-#, fuzzy
 msgid "Attack value halved when attacking Destroyer."
-msgstr "El valor d'atac es redueix a la meitat quan s'ataca un Destructor"
+msgstr "El valor d'atac es redueix a la meitat quan s'ataca un Destructor."
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2civ3/units.ruleset:141
@@ -21877,9 +21942,11 @@ msgid ""
 "found new cities. They can also perform the same terrain alterations as "
 "Settlers."
 msgstr ""
+"Els Emigrants es poden utilitzar per transferir població a altres ciutats, "
+"però no poden fundar-ne de noves. També poden fer les mateixes alteracions de "
+"terreny que els Colons."
 
 #: data/civ2civ3/units.ruleset:515
-#, fuzzy
 msgid ""
 "On terrain which supports it, they may build an irrigation system to produce "
 "some extra food each turn. Without knowledge of Electricity, this requires a "
@@ -21891,18 +21958,21 @@ msgid ""
 "Farmland by irrigating them a second time; this provides more food to a city "
 "if it has a Supermarket."
 msgstr ""
-"Als tipus de terreny adequats es pot fer regadiu. Irrigar una casella fa que "
-"produeixi menjar addicional a cada torn. Fer un regadiu requereix una font "
+"Als tipus de terreny que ho permetin, poden construir un sistema de regadiu "
+"per a "
+"produir menjar addicional a cada torn. Si no es coneix Electricitat, cal una "
+"font "
 "d'aigua propera: una casella d'Oceà, de Llac o de Riu, o una altra casella "
 "que estigui irrigada, ha de compartir una vora (no n'hi ha prou amb una "
-"cantonada) amb la casella que es vol irrigar. Un cop convertit en regadiu, "
-"el terreny s'hi queda així encara que es tregui la font d'aigua. A més, quan "
-"tens suficient tecnologia, pots millorar el sistema de regadiu d'una casella "
-"i convertir-la en Horta, que encara és més productiva, irrigant-la una "
-"segona vegada."
+"cantonada) amb la casella que es vol irrigar. Quan es coneix Electricitat, "
+"es poden construir sistemes de regadiu sense font d'aigua. Un cop convertit "
+"en regadiu, "
+"el terreny s'hi queda així encara que es tregui la font d'aigua. Quan "
+"es coneix Refrigeració, es poden millorar els sistemes de regadiu a Horta, "
+"irrigant-los una "
+"segona vegada; això proporciona més menjar per una ciutat si té Supermercat."
 
 #: data/civ2civ3/units.ruleset:530
-#, fuzzy
 msgid ""
 "On terrain unsuitable for irrigation systems or mines, issuing the \"irrigate"
 "\" or \"mine\" order may permanently convert the terrain to another type; "
@@ -21910,21 +21980,20 @@ msgid ""
 "yield Plains. (Terrain conversion with the \"irrigate\" order does not "
 "require a water source.)"
 msgstr ""
-" - Els Colons i els Treballadors poden fer un rang limitat de conversions de "
-"terreny, que es comencen donant les ordres d'\"irrigar\" o de \"fer mina\" "
-"en terrenys que no permeten la millora sol·licitada; veure la taula "
-"inferior. (Convertir un tipus de terreny en un altre amb l'ordre d'\"irrigar"
-"\" no requereix una font d'aigua)."
+"Sobre terreny que no sigui apropiat per a sistemes de regadiu ni mines, donar "
+"l'ordre \"irrigar\" o \"mina\" pot convertir de forma permanent el terreny en "
+"un altres tipus; això sol ser més car. Per exemple, un Bosc es pot "
+"\"irrigar\" per obtenir \"Planes\". (Convertir un tipus de terreny en un "
+"altre amb l'ordre d'\"irrigar\" no requereix una font d'aigua)."
 
 #: data/civ2civ3/units.ruleset:571
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast, move twice as "
 "fast, and may gain experience from work enabling them to work even faster."
 msgstr ""
 "Els Enginyers són semblants als Treballadors, però treballen el doble de "
-"ràpid, es mouen el doble de ràpid, i poden augmentar el seu nivell de "
-"veterania fent treballs útils."
+"ràpid, es mouen el doble de ràpid, i poden guanyar experiència treballant, "
+"cosa que els permet de treballar encara més ràpid."
 
 #: data/civ2civ3/units.ruleset:575
 msgid ""
@@ -21935,6 +22004,13 @@ msgid ""
 "vessel, on a tile surrounded by sufficient existing land). See the Terrain "
 "Alterations section for more details."
 msgstr ""
+"Amb el coneixement de l'Energia de Fusió, els Enginyers també poden dur a "
+"terme transformacions de terreny més radicals que els Treballadors, Colons, i "
+"Emigrants, amb l'ordre \"transformar\". Alguns exemples inclouen la conversió "
+"de Tundra en Planes, o fins i tot Oceà en Aiguamolls en algunes "
+"circumstàncies (quan són a bord d'un vaixell a l'oceà, en una casella "
+"rodejada per suficient terra ja existent). Vegeu la secció d'Alteracions del "
+"Terreny per més detalls."
 
 #: data/civ2civ3/units.ruleset:675
 msgid "Archers fight with bows and arrows and have a good offensive value."
@@ -21972,10 +22048,9 @@ msgstr ""
 "per unitats terrestres."
 
 #: data/civ2civ3/units.ruleset:1646
-#, fuzzy
 msgid "The Caravel is a sailing ship that can enter any ocean tile."
 msgstr ""
-"La Caravel·la substitueix el Trirrem i pot anar per qualsevol casella d'oceà."
+"La Caravel·la és un vaixell de vela que pot anar per qualsevol casella d'oceà."
 
 #: data/civ2civ3/units.ruleset:1712
 msgid ""
@@ -21985,10 +22060,9 @@ msgstr ""
 "transportar cap unitat."
 
 #: data/civ2civ3/units.ruleset:1744
-#, fuzzy
 msgid "The Ironclad is an armored ship, more sturdy than the Frigate."
 msgstr ""
-"La Patrullera és un vaixell blindat amb el mateix atac, però millor defensa "
+"La Patrullera és un vaixell blindat, més robust "
 "que la Fragata."
 
 #: data/civ2civ3/units.ruleset:1780
@@ -23103,6 +23177,11 @@ msgid ""
 "description uses the classic ruleset to illustrate this; other rulesets may "
 "have different rules, or even omit some of these alterations entirely."
 msgstr ""
+"Certes unitats (Colons, Treballadors, i Enginyers al joc de regles clàssic) "
+"tenen la capacitat d'alterar les caselles de terreny de diferents maneres. La "
+"següent descripció utilitza el joc de regles clàssic per il·lustrar-ho; "
+"d'altres jocs de regles poden tenir regles diferents, o fins i tot ometre del "
+"tot algunes d'aquestes alteracions."
 
 #: data/helpdata.txt:342
 msgid ""
@@ -23113,6 +23192,12 @@ msgid ""
 "However, once irrigated, land remains so even if its requirements are "
 "removed."
 msgstr ""
+"Es poden construir sistemes de regadiu als tipus de terreny adequats; això fa "
+"que una casella produeixi menjar addicional a cada torn. Poden haver-hi "
+"restriccions sobre el lloc on es pot construir un sistema de regadiu; per "
+"exemple, al joc de regles clàssic, cal una font d'aigua. Vegeu l'ajuda del "
+"joc de regles per més detalls. No obstant, un cop irrigada, la terra continua "
+"així, fins i tot havent-ne retirat els requeriments originals."
 
 #: data/helpdata.txt:349
 msgid ""
@@ -23120,6 +23205,9 @@ msgid ""
 "system on a tile into even more productive Farmland, by irrigating it a "
 "second time."
 msgstr ""
+"En alguns jocs de regles, amb la tecnologia suficient, pots millorar un "
+"sistema de regadiu d'una casella cap a Horta, que encara és més productiva, "
+"irrigant-la una segona vegada."
 
 #: data/helpdata.txt:353
 msgid ""
@@ -23139,9 +23227,14 @@ msgid ""
 "improvements can also provide other bonuses such as production bonuses; this "
 "is up to the ruleset."
 msgstr ""
+"És possible que les unitats puguin construir altres millores al terreny; "
+"vegeu les seccions següents per a més detalls. Els camins típicament "
+"faciliten el moviment, si les caselles adjacents tenen el mateix camí, i les "
+"bases sovint proporcionen protecció i provisió de combustible. Aquestes "
+"millores també poden donar d'altres bonificacions com ara en producció; això "
+"depèn del joc de regles."
 
 #: data/helpdata.txt:363
-#, fuzzy
 msgid ""
 "Terrain can sometimes be permanently converted into a type more suitable to "
 "the player's needs, although this usually takes longer than adding an "
@@ -23150,12 +23243,13 @@ msgid ""
 "also remove access to special resources if they were specific to the "
 "original terrain type."
 msgstr ""
-"El terreny que no és adequat per regadius ni mines es pot modificar sovint "
+"El terreny es pot modificar de vegades "
 "de forma permanent cap a un altre tipus que sigui més apropiat per les "
-"necessitats del jugador, encara que aquesta operació sol requerir més temps. "
-"Modificar el terreny d'un tipus a un altre d'aquesta manera pot destruir una "
-"mina o sistema d'irrigació que ja existeixin, si el terreny resultant no és "
-"apropiat per la millora, i també pot treure els recursos especials, si eren "
+"necessitats del jugador, encara que aquesta operació sol requerir més temps "
+"que no pas afegir-hi una millora. "
+"Modificar el terreny d'un tipus a un altre d'aquesta manera pot destruir les "
+"millores que ja hi haguessin, si el terreny resultant no és "
+"apropiat per la millora, i també pot treure'n els recursos especials, si eren "
 "específics del tipus de terreny original."
 
 #: data/helpdata.txt:370
@@ -23163,21 +23257,26 @@ msgid ""
 "The requirements for terrain conversion are set by the ruleset. It can be "
 "initiated in several ways:"
 msgstr ""
+"Els requeriments per a convertir el terreny depenen del joc de regles. Es pot "
+"iniciar de maneres diverses:"
 
 #: data/helpdata.txt:373
 msgid ""
 " - By issuing \"irrigate\" or \"mine\" orders when on terrain unsuitable for "
 "such improvements."
 msgstr ""
+" - Donant ordres d'\"irrigar\" o \"mina\" quan s'és sobre un terreny que no "
+"sigui apropiat per a aquestes millores."
 
 #: data/helpdata.txt:376
 msgid ""
 " - By issuing the special \"transform\" order. This often causes more "
 "radical transformations."
 msgstr ""
+" - Donant l'ordre especial \"transformar\". Això sovint provoca "
+"transformacions més radicals."
 
 #: data/helpdata.txt:379
-#, fuzzy
 msgid ""
 "In some rulesets, units can even reclaim land from water tiles, and "
 "similarly land can be transformed to water, although such radical "
@@ -23187,14 +23286,14 @@ msgid ""
 "necessary and possible, they will move to safe neighboring tiles when the "
 "conversion is complete."
 msgstr ""
-" - Els Enginyers poden fer un rang molt més ample de transformacions sobre "
-"gairebé qualsevol tipus de terreny amb la comanda de \"transformar\". En "
-"alguns jocs de regles, els Enginyers sobre barques al mar poden fins i tot "
-"convertir en terra caselles d'aigua, i de forma similar, la terra es pot "
-"transformar en oceà, encara que transformacions tan radicals poden requerir "
-"que algun cert nombre de caselles properes ja siguin de terra o aigua, "
-"respectivament. (Les unitats es mouran a caselles veïnes segures quan la "
-"transformació tingui lloc, si és possible)."
+"En alguns jocs de regles, les unitats poden fins i tot guanyar terra a les "
+"caselles d'aigua, i de manera semblant, la terra es pot transformar en aigua, "
+"encara que transformacions tan radicals poden requerir que un cert nombre de "
+"caselles del voltant ja siguin de terra o d'aigua, respectivament. Les "
+"unitats que alteren el terreny que no puguin arribar a la casella objectiu "
+"s'hauran de carregar segurament en un vaixell apropiat, i si cal i és "
+"possible, es mouran a caselles veïnes segures quan la transformació sigui "
+"completa."
 
 #: data/helpdata.txt:387
 msgid ""
@@ -24147,6 +24246,8 @@ msgid ""
 "If you are at war with a civilization and some of your citizens are of that "
 "nationality, those citizens may also become unhappy."
 msgstr ""
+"Si ets en guerra amb una civilització i alguns dels teus ciutadans són "
+"d'aquesta nacionalitat, aquests ciutadans poden estar descontents."
 
 #: data/helpdata.txt:850
 msgid ""
@@ -24685,6 +24786,7 @@ msgstr ""
 #: data/helpdata.txt:1121
 msgid "The outcome of combat depends on several factors, including chance."
 msgstr ""
+"El resultat del combat depèn de factors diversos, que inclouen l'atzar."
 
 #: data/helpdata.txt:1123
 msgid ""
@@ -24717,6 +24819,9 @@ msgid ""
 "that attacks with less than a full movement point will have its strength "
 "proportionally reduced."
 msgstr ""
+" - Alguns jocs de regles (però no les regles clàssiques) tenen 'atacs "
+"cansats': una unitat que ataca amb menys d'un punt sencer de moviment tindrà "
+"la seva força reduïda de forma proporcional."
 
 #: data/helpdata.txt:1137
 msgid "Next, the defender's strength is modified."
@@ -24748,7 +24853,7 @@ msgstr ""
 
 #: data/helpdata.txt:1148
 msgid " - Ruleset-specific bonuses are applied:"
-msgstr ""
+msgstr " - S'apliquen les bonificacions específiques del joc de regles:"
 
 #: data/helpdata.txt:1150
 msgid ""
@@ -26639,7 +26744,8 @@ msgid ""
 "that player's government falls."
 msgstr ""
 "Crea un senat mundial que pot evitar declaracions de guerra en algunes "
-"circumstàncies. Si qualsevol ciutat d'un jugador està en revolta durant més "
+"circumstàncies. Si alguna ciutat de qualsevol jugador està en revolta durant "
+"més "
 "de dos torns, cau el govern d'aquest jugador."
 
 #: data/multiplayer/buildings.ruleset:1588
@@ -29714,13 +29820,13 @@ msgstr ""
 "està disponible.  S'ajorna..."
 
 #: server/cityturn.c:1104
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet "
 "available.  Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, la tecnologia encara no està "
-"disponible.  S'ajorna..."
+"%s no pot construir %s de la llista de treball; encara no hi ha disponible "
+"cap tecnologia amb l'opció \"%s\".  S'ajorna..."
 
 #: server/cityturn.c:1118
 #, c-format
@@ -29755,12 +29861,10 @@ msgstr ""
 "S'ajorna..."
 
 #: server/cityturn.c:1171
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?resource:%s can't build %s from the worklist; %s is required.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball; cal una infraestructura de "
-"%s.  S'ajorna..."
+msgstr "%s no pot construir %s de la llista de treball; cal %s.  S'ajorna..."
 
 #: server/cityturn.c:1186
 #, c-format
@@ -29816,12 +29920,10 @@ msgstr ""
 "%s.  S'ajorna..."
 
 #: server/cityturn.c:1270
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "?road:%s can't build %s from the worklist; %s is required.  Postponing..."
-msgstr ""
-"%s no pot construir %s de la llista de treball; cal una infraestructura de "
-"%s.  S'ajorna..."
+msgstr "%s no pot construir %s de la llista de treball; cal %s.  S'ajorna..."
 
 #: server/cityturn.c:1296
 #, c-format
@@ -30353,7 +30455,6 @@ msgid "Show a list of various things."
 msgstr "Mostrar una llista de coses diverses."
 
 #: server/commands.c:98
-#, fuzzy
 msgid ""
 "Show a list of:\n"
 " - the player colors,\n"
@@ -30376,6 +30477,7 @@ msgstr ""
 " - la llista d'imatges de mapa definides,\n"
 " - la llista dels jugadors de la partida,\n"
 " - els escenaris disponibles,\n"
+" - els conjunts de nacions d'aquest joc de regles,\n"
 " - els equips de jugadors, o\n"
 " - les votacions en curs.\n"
 "L'argument pot ser abreujat, i el predeterminat és 'players' (jugadors), si "
@@ -32338,13 +32440,13 @@ msgstr ""
 "aquesta nació ja està assignada al jugador %d (%s)."
 
 #: server/edithand.c:1247
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is not in the current nationset."
 msgstr ""
 "No es pot canviar la nació del jugador %d (%s) a la nació %d (%s) perquè "
-"aquesta nació ja està assignada al jugador %d (%s)."
+"aquesta nació no es troba al conjunt de nacions actual."
 
 #: server/edithand.c:1281
 #, c-format
@@ -32610,11 +32712,11 @@ msgstr ""
 "possibles amb camins millors."
 
 #: server/maphand.c:310 server/maphand.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
 msgstr ""
 "Els treballadors s'apleguen espontàniament i milloren totes les ciutats "
-"possibles amb camins millors."
+"possibles amb %s."
 
 #: server/maphand.c:397
 msgid ""
@@ -33288,12 +33390,11 @@ msgstr "No s'ha pogut trobar un fitxer de regles \"%s.%s\" llegible."
 
 #: server/ruleset.c:6023
 msgid "Ruleset couldn't be loaded. Keeping previous one."
-msgstr ""
+msgstr "No s'ha pogut carregar el joc de regles. Es manté l'anterior."
 
 #: server/ruleset.c:6041
-#, fuzzy
 msgid "Ruleset couldn't be loaded. Switching to default one."
-msgstr "Tornar a deixar totes les opcions amb els valors predeterminats."
+msgstr "No s'ha pogut carregar el joc de regles. Es canvia al predeterminat."
 
 #: server/ruleset.c:6071
 msgid "Loading rulesets."
@@ -33505,11 +33606,11 @@ msgstr "Per jugador, en ordre"
 
 #: server/settings.c:306
 msgid "Per-player, random"
-msgstr "Per jugador, en ordre aleatori"
+msgstr "Per jugador, a l'atzar"
 
 #: server/settings.c:307
 msgid "Set manually"
-msgstr "Fixar manualment"
+msgstr "Seleccionar manualment"
 
 #: server/settings.c:308
 msgid "Per-team, in order"
@@ -33532,14 +33633,12 @@ msgid "Only allowed between AI players"
 msgstr "Permès només entre jugadors IA"
 
 #: server/settings.c:324
-#, fuzzy
 msgid "Only allowed when human involved"
-msgstr "Permès només entre jugadors humans"
+msgstr "Permès només quan hi ha un humà implicat"
 
 #: server/settings.c:325
-#, fuzzy
 msgid "Only allowed between two humans, or two AI players"
-msgstr "Permès només entre jugadors humans"
+msgstr "Permès només entre dos humans, o dos jugadors IA"
 
 #: server/settings.c:326
 msgid "Restricted to teams"
@@ -33646,10 +33745,8 @@ msgid "enabled"
 msgstr "activat"
 
 #: server/settings.c:491
-#, fuzzy
 msgid "Warning: not enough nations for all current players."
-msgstr ""
-"No hi ha prou nacions per a tots els jugadors; la partida no començarà."
+msgstr "Avís: no hi ha prou nacions per a tots els jugadors actuals."
 
 #: server/settings.c:558
 #, c-format
@@ -33727,6 +33824,8 @@ msgstr ""
 #, c-format
 msgid "Unknown nation set \"%s\". See '%slist nationsets' for possible values."
 msgstr ""
+"Conjunt de nacions \"%s\" desconegut. Vegeu '%slist nationsets' per als "
+"valors possibles."
 
 #: server/settings.c:787
 msgid "You are not allowed to set timeout values less than 30 seconds."
@@ -34255,9 +34354,8 @@ msgstr ""
 "deixa a zero, es trauran tots els jugadors IA."
 
 #: server/settings.c:1331
-#, fuzzy
 msgid "Set of nations to choose from"
-msgstr "Llista de connexions al servidor:"
+msgstr "Conjunt de nacions per triar"
 
 #. TRANS: do not translate '/list nationsets'
 #: server/settings.c:1333
@@ -34270,6 +34368,15 @@ msgid ""
 "If this is left blank, the ruleset's default nation set is used.\n"
 "See '/list nationsets' for possible choices for the currently loaded ruleset."
 msgstr ""
+"Controla el conjunt de nacions permeses a la partida. Les seleccions "
+"possibles les defineix el joc de regles.\n"
+"Només les nacions del conjunt seleccionat aquí es permetran en qualsevol "
+"circumstància, inclosos jugadors nous i guerra civil; els conjunts petits "
+"poden doncs limitar el nombre de jugadors en una partida.\n"
+"Si això es deixa en blanc, s'utilitza el conjunt de nacions predeterminat del "
+"joc de regles.\n"
+"Vegeu '/list nationsets' per a les opcions disponibles per al joc de regles "
+"carregat actualment."
 
 #: server/settings.c:1347
 msgid "Event cache for this number of turns"
@@ -34513,7 +34620,7 @@ msgstr ""
 
 #: server/settings.c:1516
 msgid "Research point debt threshold for losing tech"
-msgstr ""
+msgstr "Llindar de deute de punts de recerca per perdre tecnologia"
 
 #: server/settings.c:1517
 msgid ""
@@ -34523,10 +34630,15 @@ msgid ""
 "The special value -1 prevents loss of technology regardless of research "
 "points."
 msgstr ""
+"Quan tens punts de recerca negatius, i la diferència és superior a aquest "
+"percentatge del cost de la teva recerca actual, oblides una tecnologia que ja "
+"coneixies.\n"
+"El valor especial -1 evita la pèrdua de tecnologia passi el que passi amb els "
+"punts de recerca."
 
 #: server/settings.c:1528
 msgid "Research points restored after losing a tech"
-msgstr ""
+msgstr "Punts de recerca restaurats després de perdre una tecnologia"
 
 #: server/settings.c:1529
 msgid ""
@@ -34536,6 +34648,11 @@ msgid ""
 "The special value -1 means that your research balance is always restored to "
 "zero, regardless of your previous shortfall."
 msgstr ""
+"Quan perds una tecnologia degut a un balanç de recerca negatiu (vegeu "
+"'techlossforgiveness'), aquest percentatge del seu cost de recerca s'afegeix "
+"al teu balanç de recerca (pot ser que no n'hi hagi prou per fer-lo positiu).\n"
+"El valor especial -1 significa que el teu balanç de recerca sempre torna a "
+"zero, fos quina fos la diferència anterior."
 
 #: server/settings.c:1541
 msgid "Food required for a city to grow"
@@ -34763,13 +34880,12 @@ msgid "Reduce city population after attack"
 msgstr "Reduir la població de la ciutat després d'un atac."
 
 #: server/settings.c:1699
-#, fuzzy
 msgid ""
 "This flag indicates whether a city's population is reduced after a "
 "successful attack by an enemy unit. If this is disabled, population is never "
 "reduced. Even when this is enabled, only some units may kill citizens."
 msgstr ""
-"Aquest valor indica si la població d'una ciutat es redueix després d'un atac "
+"Aquesta opció indica si la població d'una ciutat es redueix després d'un atac "
 "victoriós d'una unitat enemiga. Si està desactivat, la població no es "
 "redueix mai. Fins i tot quan està activat, només algunes unitats poden matar "
 "ciutadans."
@@ -34883,6 +34999,29 @@ msgid ""
 "Regardless of this setting, individual player colors can be changed after "
 "the game starts with the 'playercolor' command."
 msgstr ""
+"Aquesta opció determina com es trien els colors dels jugadors. Els colors "
+"dels jugadors s'utilitzen a l'informe de Nacions, per a les fronteres "
+"nacionals del mapa, etcètera.\n"
+"- \"Per jugador, en ordre\" (PLR_ORDER): els colors s'assignen als jugadors "
+"individuals en ordre a partir d'una llista definida pel joc de regles.\n"
+"- \"Per jugador, a l'atzar\" (PLR_RANDOM): els colors s'assignen als jugadors "
+"individuals de forma aleatòria a partir del conjunt definit pel joc de "
+"regles.\n"
+"- \"Seleccionar manualment\" (PLR_SET): els colors es poden seleccionar amb "
+"la comanda 'playercolor' abans de començar la partida; no estan restringits "
+"als colors del joc de regles. Qualssevol jugadors que no tingui color "
+"assignat quan comença la partida obtindran un color aleatori del joc de "
+"regles.\n"
+"- \"Per equip, en ordre\" (TEAM_ORDER): els colors s'assignen als equips a "
+"partir de la llista del joc de regles. Cada jugador del mateix equip obté el "
+"mateix color.\n"
+"- \"Per nació, en ordre\" (NATION_ORDER): si el joc de regles defineix un "
+"color per a la nació d'un jugador, el jugador pren aquell color. Qualssevol "
+"jugadors les nacions dels quals no tinguin colors associats obtindran un "
+"color aleatori a partir de la llista del joc de regles.\n"
+"Independentment d'aquesta configuració, els colors particulars de cada "
+"jugador es poden modificar després de l'inici de la partida amb la comanda "
+"'playercolor'."
 
 #: server/settings.c:1804
 msgid "Barbarian appearance frequency"
@@ -36081,9 +36220,9 @@ msgid "You are not allowed to edit."
 msgstr "No tens permís per editar."
 
 #: server/srv_main.c:1807
-#, fuzzy, c-format
+#, c-format
 msgid "%s nation is not available for user selection."
-msgstr "La nació %s no està disponible en aquest escenari."
+msgstr "La nació %s no està disponible per als usuaris."
 
 #: server/srv_main.c:1813
 #, c-format
@@ -36296,9 +36435,11 @@ msgid "A living player already exists by that name."
 msgstr "Ja existeix un jugador viu amb aquest nom."
 
 #: server/stdinhand.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create player, requested nation %s not in current nationset."
-msgstr "No es poden crear jugadors, la nació %s no pot coincidir amb %s."
+msgstr ""
+"No es pot crear el jugador, la nació %s sol·licitada no es troba al conjunt "
+"de nacions actual."
 
 #: server/stdinhand.c:943
 #, c-format
@@ -37840,9 +37981,8 @@ msgstr "Llista d'escenaris disponibles:"
 
 #. TRANS: don't translate text between ''
 #: server/stdinhand.c:6330
-#, fuzzy
 msgid "List of nation sets available for 'nationset' option:"
-msgstr "Hi ha explicacions disponibles per les següents opcions del servidor:"
+msgstr "Llista de conjunts de nacions disponibles per a l'opció 'nationset':"
 
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
@@ -37850,8 +37990,8 @@ msgstr "Hi ha explicacions disponibles per les següents opcions del servidor:"
 #, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " %-10s  %s (%d de jugable)"
+msgstr[1] " %-10s  %s (%d de jugables)"
 
 #: server/stdinhand.c:6367
 msgid "List of teams:"
@@ -38175,9 +38315,10 @@ msgid "Cannot invade unless you break peace with %s first."
 msgstr "No pots envair si no trenques primer la pau amb %s."
 
 #: server/unithand.c:1350
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
-msgstr "%s no poden desembarcar sense una base nativa per a %s a la casella."
+msgstr ""
+"%s no poden desembarcar fora d'una ciutat o sense una base nativa per a %s."
 
 #: server/unithand.c:1398
 msgid "This unit has no moves left."
@@ -38336,9 +38477,10 @@ msgid "%s cannot be converted."
 msgstr "%s no es pot convertir."
 
 #: server/unittools.c:956
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted because activity is no longer available."
-msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
+msgstr ""
+"Les ordres per a %s s'han avortat perquè l'activitat ja no està disponible."
 
 #: server/unittools.c:1122
 #, c-format
