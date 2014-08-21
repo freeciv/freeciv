@@ -46,14 +46,7 @@ void city_item_delegate::paint(QPainter *painter,
                                const QStyleOptionViewItem &option, 
                                const QModelIndex &index) const
 {
-  QStyleOptionViewItemV3 opt = QItemDelegate::setOptions(index, option);
-
-  painter->save();
-    QItemDelegate::drawBackground(painter, opt, index);
-    opt.displayAlignment = Qt::AlignLeft;
-    QItemDelegate::drawDisplay(painter, opt, option.rect,
-                               index.data().toString());
-   painter->restore();
+  QItemDelegate::paint(painter, option, index);
 }
 
 /***************************************************************************

@@ -736,6 +736,7 @@ void units_report::selection_changed(const QItemSelection& sl,
 **************************************************************************/
 eco_report::eco_report(): QWidget()
 {
+  QHeaderView *header;
   QGridLayout *eco_layout = new QGridLayout;
   eco_widget = new QTableWidget;
   disband_button = new QPushButton;
@@ -754,6 +755,9 @@ eco_report::eco_report(): QWidget()
   eco_widget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
   eco_widget->verticalHeader()->setVisible(false);
   eco_widget->setSelectionMode(QAbstractItemView::SingleSelection);
+  header = eco_widget->horizontalHeader();
+  header->setSectionResizeMode(1, QHeaderView::Stretch);
+  header->setStretchLastSection(true);
   disband_button->setText(_("_Disband"));
   disband_button->setEnabled(false);
   sell_button->setText(_("Sell _All"));
@@ -825,7 +829,6 @@ void eco_report::update_report()
     eco_widget->insertRow(i);
     for (j = 0; j < 6; j++) {
       item = new QTableWidgetItem;
-      item->setTextAlignment(Qt::AlignHCenter);
       switch (j) {
       case 0:
         item->setData(Qt::DecorationRole, pix_scaled);
@@ -848,6 +851,7 @@ void eco_report::update_report()
         item->setText(QString::number(pentry->total_cost));
         break;
       }
+      item->setTextAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
       eco_widget->setItem(i, j, item);
     }
   }
@@ -886,6 +890,7 @@ void eco_report::update_report()
         item->setText(QString::number(pentry->total_cost));
         break;
       }
+      item->setTextAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
       eco_widget->setItem(max_row + i, j, item);
     }
   }
