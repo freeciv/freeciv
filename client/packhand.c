@@ -3872,6 +3872,9 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   case DIPLOMAT_BRIBE:
     if (punit && client.conn.playing
         && !client.conn.playing->ai_controlled) {
+      /* Focus on the unit so the player knows where it is */
+      unit_focus_set(pdiplomat);
+
       popup_bribe_dialog(pdiplomat, punit, cost);
     } else {
       log_debug("Bad target %d.", target_id);
@@ -3881,6 +3884,9 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   case DIPLOMAT_INCITE:
     if (pcity && client.conn.playing
         && !client.conn.playing->ai_controlled) {
+      /* Focus on the unit so the player knows where it is */
+      unit_focus_set(pdiplomat);
+
       popup_incite_dialog(pdiplomat, pcity, cost);
     } else {
       log_debug("Bad target %d.", target_id);
@@ -3979,6 +3985,9 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
                                      BV_ISSET(improvements,
                                               improvement_index(pimprove)));
     } improvement_iterate_end;
+
+    /* Focus on the unit so the player knows where it is */
+    unit_focus_set(pdiplomat);
 
     popup_sabotage_dialog(pdiplomat, pcity);
   } else {
