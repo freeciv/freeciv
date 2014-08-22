@@ -518,30 +518,58 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
   }
 
   get_sprite_dimensions(ssprite, &sswidth, &ssheight);
-  canvas_put_sprite(pcanvas, canvas_x, canvas_y,
-                    ssprite, 0, 0, sswidth, ssheight);
 
   if (fog) {
-    if (!pcanvas->drawable) {
-      cr = cairo_create(pcanvas->surface);
-    } else {
-      cr = pcanvas->drawable;
+    struct color *fogcol = color_alloc(0.0, 0.0, 0.0);
+    cairo_surface_t *fog_surface;
+    struct sprite *fogged;
+    unsigned char *mask_in;
+    unsigned char *mask_out;
+    int i, j;
+
+    /* Create sprites fully transparent */
+    fogcol->color.alpha = 0.0;
+    fogged = create_sprite(sswidth, ssheight, fogcol);
+    fog_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, sswidth, ssheight);
+
+    /* Calculate black fog mask from the original sprite,
+     * we don't want to blacken transparent parts of the sprite */
+    mask_in = cairo_image_surface_get_data(ssprite->surface);
+    mask_out = cairo_image_surface_get_data(fog_surface);
+
+    for (i = 0; i < sswidth; i++) {
+      for (j = 0; j < ssheight; j++) {
+#ifndef WORDS_BIGENDIAN
+        mask_out[(j * sswidth + i) * 4 + 3] = 0.65 * mask_in[(j * sswidth + i) * 4 + 3];
+#else  /* WORDS_BIGENDIAN */
+        mask_out[(j * sswidth + i) * 4 + 0] = 0.65 * mask_in[(j * sswidth + i) * 4 + 0];
+#endif /* WORDS_BIGENDIAN */
+      }
     }
 
-    if (pcanvas->drawable) {
-      cairo_save(cr);
-    }
+    cairo_surface_mark_dirty(fog_surface);
 
-    cairo_set_operator(cr, CAIRO_OPERATOR_HSL_COLOR);
-    cairo_scale(cr, pcanvas->zoom, pcanvas->zoom);
-    cairo_set_source_rgb(cr, 0.65, 0.65, 0.65);
-    cairo_fill(cr);
+    /* First copy original sprite canvas to intermediate sprite canvas */
+    cr = cairo_create(fogged->surface);
+    cairo_set_source_surface(cr, ssprite->surface, 0, 0);
+    cairo_paint(cr);
 
-    if (!pcanvas->drawable) {
-      cairo_destroy(cr);
-    } else {
-      cairo_restore(cr);
-    }
+    /* Then apply created fog to the intermediate sprite */
+    cairo_set_source_surface(cr, fog_surface, 0, 0);
+    cairo_paint(cr);
+    cairo_destroy(cr);
+
+    /* Put intermediate sprite to the target canvas */
+    canvas_put_sprite(pcanvas, canvas_x, canvas_y,
+                      fogged, 0, 0, sswidth, ssheight);
+
+    /* Free intermediate stuff */
+    cairo_surface_destroy(fog_surface);
+    free_sprite(fogged);
+    color_free(fogcol);
+  } else {
+    canvas_put_sprite(pcanvas, canvas_x, canvas_y,
+                      ssprite, 0, 0, sswidth, ssheight);
   }
 }
 
