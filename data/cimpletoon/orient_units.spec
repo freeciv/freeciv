@@ -519,4 +519,13 @@ tiles = { "row", "column", "tag"
   54,  6, "u.elephants_se"
   54,  7, "u.elephants_s"
 
+  55,  0, "u.refugee_sw"
+  55,  1, "u.refugee_w"
+  55,  2, "u.refugee_nw"
+  55,  3, "u.refugee_n"
+  55,  4, "u.refugee_ne"
+  55,  5, "u.refugee_e"
+  55,  6, "u.refugee_se"
+  55,  7, "u.refugee_s"
+
 }
