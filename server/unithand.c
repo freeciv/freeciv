@@ -193,6 +193,27 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
+  Explain why punit can't perform any actions based on its current state.
+**************************************************************************/
+static void explain_why_no_action_enabled(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+
+  if (can_unit_exist_at_tile(punit, unit_tile(punit))
+      || can_unit_act_when_ustate_is(unit_type(punit),
+                                     USP_TRANSP_DEP, TRUE)) {
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("No diplomat action possible."));
+  } else {
+    struct terrain *pterrain = tile_terrain(unit_tile(punit));
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Unit cannot perform diplomatic action from %s."),
+                  terrain_name_translation(pterrain));
+  }
+}
+
+/**************************************************************************
   Handle a query for what actions a unit may do.
 
   MUST always send a reply so the client can move on in the queue. This
@@ -210,6 +231,8 @@ void handle_unit_get_actions(struct connection *pc,
 
   struct unit *target_unit;
   struct city *target_city;
+
+  bool at_least_one_action;
 
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
@@ -238,12 +261,26 @@ void handle_unit_get_actions(struct connection *pc,
       probabilities[act] = action_prob_vs_unit(actor_unit, act,
                                                target_unit);
     } else {
-      probabilities[act] = 0;
+      probabilities[act] = ACTPROB_IMPOSSIBLE;
     }
   } action_iterate_end;
 
   dsend_packet_unit_actions(pc, actor_unit_id, target_tile_id,
                             probabilities);
+
+  /* Find out if any action at all is possible */
+  at_least_one_action = FALSE;
+  action_iterate(act) {
+    if (probabilities[act] != ACTPROB_IMPOSSIBLE) {
+      at_least_one_action = TRUE;
+      break;
+    }
+  } action_iterate_end;
+
+  /* Explain why no action is possible */
+  if (!at_least_one_action) {
+    explain_why_no_action_enabled(actor_unit);
+  }
 }
 
 /**************************************************************************
@@ -1560,17 +1597,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                                 pdesttile->index);
         return FALSE;
       } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
-        if (can_unit_exist_at_tile(punit, unit_tile(punit))
-            || can_unit_act_when_ustate_is(unit_type(punit),
-                                           USP_TRANSP_DEP, TRUE)) {
-          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                        _("No diplomat action possible."));
-        } else {
-          struct terrain *pterrain = tile_terrain(unit_tile(punit));
-          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                        _("Unit cannot perform diplomatic action from %s."),
-                        terrain_name_translation(pterrain));
-        }
+        explain_why_no_action_enabled(punit);
+
         return FALSE;
       }
     }
