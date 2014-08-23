@@ -722,7 +722,6 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
     pconn->playing = NULL;
     pconn->observer = FALSE;
     restore_access_level(pconn);
-    strcpy(pplayer->ranked_username, ANON_USER_NAME);
     cancel_connection_votes(pconn);
     send_updated_vote_totals(NULL);
     send_conn_info(pconn->self, game.est_connections);
