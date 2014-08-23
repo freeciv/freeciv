@@ -260,7 +260,6 @@ void send_research_info(const struct research *presearch,
 {
   struct packet_research_info full_info, restricted_info;
   const struct player *pplayer;
-  bool embassy;
 
   fc_assert_ret(NULL != presearch);
   if (NULL == dest) {
@@ -279,20 +278,13 @@ void send_research_info(const struct research *presearch,
         /* Case research owner. */
         send_packet_research_info(pconn, &full_info);
       } else {
-        /* 'pconn' may have an embassy for looking to 'presearch'. */
-        embassy = FALSE;
-        player_list_iterate(team_members(pplayer->team), member) {
-          research_players_iterate(presearch, powner) {
-            if (player_has_embassy(member, powner)) {
-              embassy = TRUE;
-              break;
-            }
-          } research_players_iterate_end;
-          if (embassy) {
+        /* 'pplayer' may have an embassy for looking to 'presearch'. */
+        research_players_iterate(presearch, powner) {
+          if (player_has_embassy(pplayer, powner)) {
             send_packet_research_info(pconn, &restricted_info);
             break;
           }
-        } player_list_iterate_end;
+        } research_players_iterate_end;
       }
     } else if (pconn->observer) {
       /* Case global observer. */
