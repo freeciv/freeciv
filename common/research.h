@@ -96,6 +96,8 @@ void researches_init(void);
 int research_number(const struct research *presearch);
 const char *research_rule_name(const struct research *presearch);
 const char *research_name_translation(const struct research *presearch);
+int research_pretty_name(const struct research *presearch, char *buf,
+                         size_t buf_len);
 
 struct research *research_by_number(int number);
 struct research *research_get(const struct player *pplayer);

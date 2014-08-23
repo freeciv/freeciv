@@ -2009,9 +2009,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH,
                                               RPT_CERTAIN))) {
       struct research *presearch = research_get(pplayer);
+      char research_name[MAX_LEN_NAME * 2];
       int i;
 
-      notify_research(pplayer, E_TECH_GAIN, ftc_server,
+      notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                       PL_("%s boosts research; you gain %d immediate "
                           "advance.",
                           "%s boosts research; you gain %d immediate "
@@ -2019,16 +2020,16 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
                           mod),
                       improvement_name_translation(pimprove), mod);
 
+      research_pretty_name(presearch, research_name, sizeof(research_name));
       for (i = 0; i < mod; i++) {
 	Tech_type_id tech = give_immediate_free_tech(pplayer);
 
-        /* FIXME: We should notify all embassies with all players sharing
-         * the research. */
-        notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN, ftc_server,
-                         _("The %s have acquired %s from %s."),
-                         nation_plural_for_player(pplayer),
-                         research_advance_name_translation(presearch, tech),
-                         improvement_name_translation(pimprove));
+        notify_research_embassies
+            (presearch, NULL, E_TECH_GAIN, ftc_server,
+             _("The %s have acquired %s from %s."),
+             research_name,
+             research_advance_name_translation(presearch, tech),
+             improvement_name_translation(pimprove));
       }
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {

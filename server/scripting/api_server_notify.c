@@ -35,7 +35,7 @@ void api_notify_embassies_msg(lua_State *L, Player *pplayer, Tile *ptile,
 {
   LUASCRIPT_CHECK_STATE(L);
 
-  notify_embassies(pplayer, NULL, ptile, event, ftc_any, "%s", message);
+  notify_embassies(pplayer, ptile, event, ftc_any, "%s", message);
 }
 
 /*****************************************************************************

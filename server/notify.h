@@ -27,6 +27,9 @@
 /* server */
 #include "srv_main.h"           /* enum server_states */
 
+struct research;
+
+
 void package_chat_msg(struct packet_chat_msg *packet,
                       const struct connection *sender,
                       const struct ft_color color,
@@ -63,23 +66,29 @@ void notify_player(const struct player *pplayer,
                    const char *format, ...)
                    fc__attribute((__format__ (__printf__, 5, 6)));
 void notify_embassies(const struct player *pplayer,
-                      const struct player *exclude,
                       const struct tile *ptile,
                       enum event_type event,
                       const struct ft_color color,
                       const char *format, ...)
-                      fc__attribute((__format__ (__printf__, 6, 7)));
+                      fc__attribute((__format__ (__printf__, 5, 6)));
 void notify_team(const struct player *pplayer,
                  const struct tile *ptile,
                  enum event_type event,
                  const struct ft_color color,
                  const char *format, ...)
                  fc__attribute((__format__ (__printf__, 5, 6)));
-void notify_research(const struct player *pplayer,
+void notify_research(const struct research *presearch,
+                     const struct player *exclude,
                      enum event_type event,
                      const struct ft_color color,
                      const char *format, ...)
-                     fc__attribute((__format__ (__printf__, 4, 5)));
+                     fc__attribute((__format__ (__printf__, 5, 6)));
+void notify_research_embassies(const struct research *presearch,
+                               const struct player *exclude,
+                               enum event_type event,
+                               const struct ft_color color,
+                               const char *format, ...)
+                               fc__attribute((__format__ (__printf__, 5, 6)));
 
 /* Event cache. */
 

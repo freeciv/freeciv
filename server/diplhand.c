@@ -414,38 +414,54 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                       player_name(pgiver));
         break;
       case CLAUSE_ADVANCE:
-        /* It is possible that two players open the diplomacy dialog
-         * and try to give us the same tech at the same time. This
-         * should be handled discreetly instead of giving a core dump. */
-        if (research_invention_state(research_get(pdest), pclause->value)
-            == TECH_KNOWN) {
-          log_verbose("Nation %s already know tech %s, "
-                      "that %s want to give them.",
-                      nation_rule_name(nation_of_player(pdest)),
-                      advance_rule_name(advance_by_number(pclause->value)),
-                      nation_rule_name(nation_of_player(pgiver)));
-          break;
-        }
-        notify_player(pdest, NULL, E_TECH_GAIN, ftc_server,
-                      _("You are taught the knowledge of %s."),
-                      advance_name_translation(advance_by_number
-                                               (pclause->value)));
+        {
+          /* It is possible that two players open the diplomacy dialog
+           * and try to give us the same tech at the same time. This
+           * should be handled discreetly instead of giving a core dump. */
+          struct research *presearch = research_get(pdest);
+          const char *advance_name;
 
-        if (tech_transfer(pdest, pgiver, pclause->value)) {
-          notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN, ftc_server,
-                           _("The %s have acquired %s from the %s."),
-                           nation_plural_for_player(pdest),
-                           advance_name_translation(advance_by_number
-                                                    (pclause->value)),
-                           nation_plural_for_player(pgiver));
+          if (research_invention_state(presearch, pclause->value)
+              == TECH_KNOWN) {
+            log_verbose("Nation %s already know tech %s, "
+                        "that %s want to give them.",
+                        nation_rule_name(nation_of_player(pdest)),
+                        advance_rule_name(advance_by_number(pclause->value)),
+                        nation_rule_name(nation_of_player(pgiver)));
+            break;
+          }
+          advance_name =  advance_name_translation(advance_by_number
+                                                   (pclause->value));
+          notify_player(pdest, NULL, E_TECH_GAIN, ftc_server,
+                        _("You are taught the knowledge of %s."),
+                        advance_name);
 
-          script_server_signal_emit("tech_researched", 3,
-                                    API_TYPE_TECH_TYPE,
-                                    advance_by_number(pclause->value),
-                                    API_TYPE_PLAYER, pdest,
-                                    API_TYPE_STRING, "traded");
-          do_dipl_cost(pdest, pclause->value);
-          found_new_tech(pdest, pclause->value, FALSE, TRUE);
+          if (tech_transfer(pdest, pgiver, pclause->value)) {
+            char research_name[MAX_LEN_NAME * 2];
+
+            research_pretty_name(presearch, research_name,
+                                 sizeof(research_name));
+            notify_research(presearch, pdest, E_TECH_GAIN, ftc_server,
+                            _("You have acquired %s thanks to the %s "
+                              "diplomacy with the %s."),
+                            advance_name,
+                            nation_plural_for_player(pdest),
+                            nation_plural_for_player(pgiver));
+            notify_research_embassies
+                (presearch, pgiver, E_TECH_GAIN, ftc_server,
+                 _("The %s have acquired %s from the %s."),
+                 research_name,
+                 advance_name,
+                 nation_plural_for_player(pgiver));
+
+            script_server_signal_emit("tech_researched", 3,
+                                      API_TYPE_TECH_TYPE,
+                                      advance_by_number(pclause->value),
+                                      API_TYPE_PLAYER, pdest,
+                                      API_TYPE_STRING, "traded");
+            do_dipl_cost(pdest, pclause->value);
+            found_new_tech(pdest, pclause->value, FALSE, TRUE);
+          }
         }
         break;
       case CLAUSE_GOLD:

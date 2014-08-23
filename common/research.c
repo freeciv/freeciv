@@ -142,6 +142,34 @@ const char *research_name_translation(const struct research *presearch)
   }
 }
 
+/****************************************************************************
+  Set in 'buf' the name of the research owner. It may be either a nation
+  plural name, or something like "members of team Red".
+****************************************************************************/
+int research_pretty_name(const struct research *presearch, char *buf,
+                         size_t buf_len)
+{
+  const struct player *pplayer;
+
+  if (game.info.team_pooled_research) {
+    const struct team *pteam = team_by_number(research_number(presearch));
+
+    if (1 != player_list_size(team_members(pteam))) {
+      char buf2[buf_len];
+
+      team_pretty_name(pteam, buf2, sizeof(buf2));
+      /* TRANS: e.g. "members of team 1", or even "members of team Red". */
+      return fc_snprintf(buf, buf_len, _("members of %s"), buf2);
+    } else {
+      pplayer = player_list_front(team_members(pteam));
+    }
+  } else {
+    pplayer = player_by_number(research_number(presearch));
+  }
+
+  return fc_strlcpy(buf, nation_plural_for_player(pplayer), buf_len);
+}
+
 #define SPECVEC_TAG string
 #define SPECVEC_TYPE char *
 #include "specvec.h"

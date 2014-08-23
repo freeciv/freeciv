@@ -282,7 +282,6 @@ void notify_player(const struct player *pplayer,
   but excluding pplayer and specified player.
 **************************************************************************/
 void notify_embassies(const struct player *pplayer,
-                      const struct player *exclude,
                       const struct tile *ptile,
                       enum event_type event,
                       const struct ft_color color,
@@ -298,7 +297,6 @@ void notify_embassies(const struct player *pplayer,
 
   players_iterate(other_player) {
     if (player_has_embassy(other_player, pplayer)
-        && exclude != other_player
         && pplayer != other_player) {
       notify_conn_packet(other_player->connections, &genmsg);
       players = event_cache_player_add(players, other_player);
@@ -356,13 +354,13 @@ void notify_team(const struct player *pplayer,
 }
 
 /****************************************************************************
-  Sends a message to all players that share research with pplayer.  Currently
-  this is all players on the same team but it may not always be that way.
+  Sends a message to all players that share research.
 
   Unlike other notify functions this one does not take a tile argument.  We
   assume no research message will have a tile associated.
 ****************************************************************************/
-void notify_research(const struct player *pplayer,
+void notify_research(const struct research *presearch,
+                     const struct player *exclude,
                      enum event_type event,
                      const struct ft_color color,
                      const char *format, ...)
@@ -370,16 +368,55 @@ void notify_research(const struct player *pplayer,
   struct packet_chat_msg genmsg;
   struct event_cache_players *players = NULL;
   va_list args;
-  struct research *research = research_get(pplayer);
 
   va_start(args, format);
   vpackage_event(&genmsg, NULL, event, color, format, args);
   va_end(args);
 
-  research_players_iterate(research, aplayer) {
-    lsend_packet_chat_msg(aplayer->connections, &genmsg);
-    players = event_cache_player_add(players, aplayer);
+  research_players_iterate(presearch, aplayer) {
+    if (exclude != aplayer) {
+      lsend_packet_chat_msg(aplayer->connections, &genmsg);
+      players = event_cache_player_add(players, aplayer);
+    }
   } research_players_iterate_end;
+
+  /* Add to the cache */
+  event_cache_add_for_players(&genmsg, players);
+}
+
+/****************************************************************************
+  Sends a message to all players that share research.
+
+  Unlike other notify functions this one does not take a tile argument.  We
+  assume no research message will have a tile associated.
+****************************************************************************/
+void notify_research_embassies(const struct research *presearch,
+                               const struct player *exclude,
+                               enum event_type event,
+                               const struct ft_color color,
+                               const char *format, ...)
+{
+  struct packet_chat_msg genmsg;
+  struct event_cache_players *players = NULL;
+  va_list args;
+
+  va_start(args, format);
+  vpackage_event(&genmsg, NULL, event, color, format, args);
+  va_end(args);
+
+  players_iterate(aplayer) {
+    if (exclude == aplayer || research_get(aplayer) == presearch) {
+      continue;
+    }
+
+    research_players_iterate(presearch, rplayer) {
+      if (player_has_embassy(aplayer, rplayer)) {
+        lsend_packet_chat_msg(aplayer->connections, &genmsg);
+        players = event_cache_player_add(players, aplayer);
+        break;
+      }
+    } research_players_iterate_end;
+  } players_iterate_end;
 
   /* Add to the cache */
   event_cache_add_for_players(&genmsg, players);
