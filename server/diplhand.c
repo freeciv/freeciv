@@ -460,7 +460,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                                       API_TYPE_PLAYER, pdest,
                                       API_TYPE_STRING, "traded");
             do_dipl_cost(pdest, pclause->value);
-            found_new_tech(pdest, pclause->value, FALSE, TRUE);
+            found_new_tech(presearch, pclause->value, FALSE, TRUE);
           }
         }
         break;

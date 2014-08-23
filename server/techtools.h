@@ -26,7 +26,7 @@ void do_tech_parasite_effect(struct player *pplayer);
 void send_research_info(const struct research *presearch,
                         const struct conn_list *dest);
 
-void found_new_tech(struct player *plr, Tech_type_id tech_found,
+void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                     bool was_discovery, bool saving_bulbs);
 bool update_bulbs(struct player *plr, int bulbs, bool check_tech);
 void init_tech(struct player *plr, bool update);

@@ -254,12 +254,14 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                                     Tech_Type *ptech, const char *reason)
 {
+  struct research *presearch;
   Tech_type_id id;
   Tech_Type *result;
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
 
+  presearch = research_get(pplayer);
   if (ptech) {
     id = advance_number(ptech);
   } else {
@@ -267,18 +269,18 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
      * to pass correct reason to emitted signal. */
     if (game.info.free_tech_method == FTM_CHEAPEST) {
       id = pick_cheapest_tech(pplayer);
-    } else if (research_get(pplayer)->researching == A_UNSET
+    } else if (presearch->researching == A_UNSET
                || game.info.free_tech_method == FTM_RANDOM) {
       id = pick_random_tech(pplayer);
     } else {
-      id = research_get(pplayer)->researching;
+      id = presearch->researching;
     }
   }
 
   if (is_future_tech(id)
-      || research_invention_state(research_get(pplayer), id) != TECH_KNOWN) {
+      || research_invention_state(presearch, id) != TECH_KNOWN) {
     do_free_cost(pplayer, id);
-    found_new_tech(pplayer, id, FALSE, TRUE);
+    found_new_tech(presearch, id, FALSE, TRUE);
     result = advance_by_number(id);
     script_server_signal_emit("tech_researched", 3,
                               API_TYPE_TECH_TYPE, result,
