@@ -1333,7 +1333,7 @@ bool is_diplrel_between(const struct player *player1,
   fc_assert(player2 != NULL);
 
   /* No relationship to it self. */
-  if (player1 == player2) {
+  if (player1 == player2 && diplrel != DRO_FOREIGN) {
     return FALSE;
   }
 
@@ -1342,22 +1342,24 @@ bool is_diplrel_between(const struct player *player1,
   }
 
   switch (diplrel) {
-  case DRA_GIVES_SHARED_VISION:
+  case DRO_GIVES_SHARED_VISION:
     return gives_shared_vision(player1, player2);
-  case DRA_RECEIVES_SHARED_VISION:
+  case DRO_RECEIVES_SHARED_VISION:
     return gives_shared_vision(player2, player1);
-  case DRA_HOSTS_EMBASSY:
+  case DRO_HOSTS_EMBASSY:
     return player_has_embassy(player2, player1);
-  case DRA_HAS_EMBASSY:
+  case DRO_HAS_EMBASSY:
     return player_has_embassy(player1, player2);
-  case DRA_HOSTS_REAL_EMBASSY:
+  case DRO_HOSTS_REAL_EMBASSY:
     return player_has_real_embassy(player2, player1);
-  case DRA_HAS_REAL_EMBASSY:
+  case DRO_HAS_REAL_EMBASSY:
     return player_has_real_embassy(player1, player2);
-  case DRA_HAS_CASUS_BELLI:
+  case DRO_HAS_CASUS_BELLI:
     return 0 < player_diplstate_get(player1, player2)->has_reason_to_cancel;
-  case DRA_PROVIDED_CASUS_BELLI:
+  case DRO_PROVIDED_CASUS_BELLI:
     return 0 < player_diplstate_get(player2, player1)->has_reason_to_cancel;
+  case DRO_FOREIGN:
+    return player1 != player2;
   }
 
   fc_assert_msg(FALSE, "diplrel_between(): invalid diplrel number %d.",
@@ -1391,9 +1393,9 @@ bool is_diplrel_to_other(const struct player *pplayer, int diplrel)
 int diplrel_by_rule_name(const char *value)
 {
   /* Look for asymmetric diplomatic relations */
-  int diplrel = diplrel_asym_by_name(value, fc_strcasecmp);
+  int diplrel = diplrel_other_by_name(value, fc_strcasecmp);
 
-  if (diplrel != diplrel_asym_invalid()) {
+  if (diplrel != diplrel_other_invalid()) {
     return diplrel;
   }
 
@@ -1401,13 +1403,13 @@ int diplrel_by_rule_name(const char *value)
   diplrel = diplstate_type_by_name(value, fc_strcasecmp);
 
   /*
-   * Make sure DS_LAST isn't returned as DS_LAST is the first diplrel_asym.
+   * Make sure DS_LAST isn't returned as DS_LAST is the first diplrel_other.
    *
    * Can't happend now. This is in case that changes in the future. */
-  fc_assert_ret_val(diplrel != DS_LAST, diplrel_asym_invalid());
+  fc_assert_ret_val(diplrel != DS_LAST, diplrel_other_invalid());
 
   /*
-   * Make sure that diplrel_asym_invalid() is returned.
+   * Make sure that diplrel_other_invalid() is returned.
    *
    * Can't happend now. At the moment dpilrel_asym_invalid() is the same as
    * diplstate_type_invalid(). This is in case that changes in the future.
@@ -1416,7 +1418,7 @@ int diplrel_by_rule_name(const char *value)
     return diplrel;
   }
 
-  return diplrel_asym_invalid();
+  return diplrel_other_invalid();
 }
 
 /**************************************************************************
@@ -1427,7 +1429,7 @@ const char *diplrel_rule_name(int value)
   if (value < DS_LAST) {
     return diplstate_type_name(value);
   } else {
-    return diplrel_asym_name(value);
+    return diplrel_other_name(value);
   }
 }
 
@@ -1439,7 +1441,7 @@ const char *diplrel_name_translation(int value)
   if (value < DS_LAST) {
     return diplstate_type_translated_name(value);
   } else {
-    return _(diplrel_asym_name(value));
+    return _(diplrel_other_name(value));
   }
 }
 

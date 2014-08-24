@@ -138,31 +138,33 @@ struct player_ai {
 #define SPECENUM_VALUE6 DS_TEAM
 #define SPECENUM_VALUE6NAME N_("?diplomatic_state:Team")
   /* When adding or removing entries, note that first value
-   * of diplrel_asym should be next to last diplstate_type */
+   * of diplrel_other should be next to last diplstate_type */
 #define SPECENUM_COUNT DS_LAST	/* leave this last */
 #include "specenum_gen.h"
 
-/* Asymmetric diplomatic relations.
+/* Other diplomatic relation properties.
  *
  * The first element here is numbered DS_LAST
  */
-#define SPECENUM_NAME diplrel_asym
-#define SPECENUM_VALUE7 DRA_GIVES_SHARED_VISION
+#define SPECENUM_NAME diplrel_other
+#define SPECENUM_VALUE7 DRO_GIVES_SHARED_VISION
 #define SPECENUM_VALUE7NAME N_("Gives shared vision")
-#define SPECENUM_VALUE8 DRA_RECEIVES_SHARED_VISION
+#define SPECENUM_VALUE8 DRO_RECEIVES_SHARED_VISION
 #define SPECENUM_VALUE8NAME N_("Receives shared vision")
-#define SPECENUM_VALUE9 DRA_HOSTS_EMBASSY
+#define SPECENUM_VALUE9 DRO_HOSTS_EMBASSY
 #define SPECENUM_VALUE9NAME N_("Hosts embassy")
-#define SPECENUM_VALUE10 DRA_HAS_EMBASSY
+#define SPECENUM_VALUE10 DRO_HAS_EMBASSY
 #define SPECENUM_VALUE10NAME N_("Has embassy")
-#define SPECENUM_VALUE11 DRA_HOSTS_REAL_EMBASSY
+#define SPECENUM_VALUE11 DRO_HOSTS_REAL_EMBASSY
 #define SPECENUM_VALUE11NAME N_("Hosts real embassy")
-#define SPECENUM_VALUE12 DRA_HAS_REAL_EMBASSY
+#define SPECENUM_VALUE12 DRO_HAS_REAL_EMBASSY
 #define SPECENUM_VALUE12NAME N_("Has real embassy")
-#define SPECENUM_VALUE13 DRA_HAS_CASUS_BELLI
+#define SPECENUM_VALUE13 DRO_HAS_CASUS_BELLI
 #define SPECENUM_VALUE13NAME N_("Has Casus Belli")
-#define SPECENUM_VALUE14 DRA_PROVIDED_CASUS_BELLI
+#define SPECENUM_VALUE14 DRO_PROVIDED_CASUS_BELLI
 #define SPECENUM_VALUE14NAME N_("Provided Casus Belli")
+#define SPECENUM_VALUE15 DRO_FOREIGN
+#define SPECENUM_VALUE15NAME N_("Is foreign")
 #include "specenum_gen.h"
 
 enum dipl_reason {

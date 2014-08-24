@@ -323,7 +323,7 @@ typedef union {
   int baseflag;                         /* enum base_flag_id */
   int roadflag;                         /* enum road_flag_id */
   int diplrel;                          /* enum diplstate_type or
-                                           enum diplrel_asym */
+                                           enum diplrel_other */
   enum ustate_prop unit_state;
   int minmoves;
   int max_tile_units;

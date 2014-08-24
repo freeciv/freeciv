@@ -144,7 +144,7 @@ struct universal universal_by_rule_name(const char *kind,
     break;
   case VUT_DIPLREL:
     source.value.diplrel = diplrel_by_rule_name(value);
-    if (source.value.diplrel != diplrel_asym_invalid()) {
+    if (source.value.diplrel != diplrel_other_invalid()) {
       return source;
     }
     break;
@@ -341,7 +341,7 @@ struct universal universal_by_number(const enum universals_n kind,
     break;
   case VUT_DIPLREL:
     source.value.diplrel = value;
-    if (source.value.diplrel != diplrel_asym_invalid()) {
+    if (source.value.diplrel != diplrel_other_invalid()) {
       return source;
     }
     break;
@@ -630,7 +630,10 @@ struct requirement req_from_str(const char *type, const char *range,
                && req.range != REQ_RANGE_PLAYER
                && req.range != REQ_RANGE_TEAM
                && req.range != REQ_RANGE_ALLIANCE
-               && req.range != REQ_RANGE_WORLD);
+               && req.range != REQ_RANGE_WORLD)
+              /* Non local foreign makes no sense. */
+              || (req.source.value.diplrel == DRO_FOREIGN
+                  && req.range != REQ_RANGE_LOCAL);
     break;
   case VUT_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
