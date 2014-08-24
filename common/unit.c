@@ -1050,6 +1050,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     {
       struct extra_type *pextra;
 
+      if (pterrain->clean_pollution_time == 0) {
+        return FALSE;
+      }
+
       if (target != NULL) {
         pextra = target;
       } else {
@@ -1084,6 +1088,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_FALLOUT:
     {
       struct extra_type *pextra;
+
+      if (pterrain->clean_fallout_time == 0) {
+        return FALSE;
+      }
 
       if (target != NULL) {
         pextra = target;
@@ -1122,6 +1130,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         return FALSE;
       }
 
+      if (pterrain->mining_time == 0) {
+        return FALSE;
+      }
+
       if (!is_extra_caused_by(target, EC_MINE)) {
         return FALSE;
       }
@@ -1150,6 +1162,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_IRRIGATE:
     if (pterrain->irrigation_result == pterrain) {
       if (target == NULL) {
+        return FALSE;
+      }
+
+      if (pterrain->irrigation_time == 0) {
         return FALSE;
       }
 
@@ -1209,6 +1225,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_PILLAGE:
     {
+      if (pterrain->pillage_time == 0) {
+        return FALSE;
+      }
+
       if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
         bv_extras pspresent = get_tile_infrastructure_set(ptile, NULL);
         bv_extras psworking = get_unit_tile_pillage_set(ptile);
