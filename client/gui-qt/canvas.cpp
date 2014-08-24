@@ -23,6 +23,8 @@
 #include "sprite.h"
 #include "colors.h"
 
+QFont *get_font(enum client_font font);
+
 /****************************************************************************
   Create a canvas of the given size.
 ****************************************************************************/
@@ -271,6 +273,33 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /****************************************************************************
+  Returns given font
+****************************************************************************/
+QFont *get_font(client_font font)
+{
+  QFont *qf;
+  switch (font) {
+  case FONT_CITY_NAME:
+    qf = gui()->fc_fonts.get_font("gui_qt_font_city_names");
+    break;
+  case FONT_CITY_PROD:
+    qf = gui()->fc_fonts.get_font("gui_qt_font_city_productions");
+    break;
+  case FONT_REQTREE_TEXT:
+    qf = gui()->fc_fonts.get_font("gui_qt_font_reqtree_text");
+    break;
+  case FONT_COUNT:
+    qf = NULL;
+    break;
+  default:
+    qf = NULL;
+    break;
+  }
+  return qf;
+}
+
+
+/****************************************************************************
   Return the size of the given text in the given font.  This size should
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
@@ -278,19 +307,19 @@ void qtg_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 void qtg_get_text_size (int *width, int *height,
                         enum client_font font, const char *text)
 {
-  /* FIXME -> add font handling */
-  QFont afont;
-  int fontheight = 12;
-  afont.setPixelSize(fontheight);
-  QFontMetrics fm(afont);
+  QFont *afont;
+  QFontMetrics *fm;
 
+  afont = get_font(font);
+  fm = new QFontMetrics(*afont);
   if (width) {
-    *width = fm.width(QString::fromUtf8(text));
+    *width = fm->width(QString::fromUtf8(text));
   }
 
   if (height) {
-    *height = fm.height();
+    *height = fm->height();
   }
+  delete fm;
 }
 
 /****************************************************************************
@@ -304,17 +333,18 @@ void qtg_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 {
   QPainter p;
   QPen pen;
-  QFont afont;
-  int fontheight = 12;
+  QFont *afont;
   QColor color(pcolor->qcolor);
+  QFontMetrics *fm;
 
+  afont = get_font(font);
   pen.setColor(color);
-  afont.setPixelSize(fontheight);
+  fm = new QFontMetrics(*afont);
 
   p.begin(&pcanvas->map_pixmap);
   p.setPen(pen);
-  p.setFont(afont);
-  p.drawText(canvas_x, canvas_y + fontheight, QString::fromUtf8(text));
+  p.setFont(*afont);
+  p.drawText(canvas_x, canvas_y + fm->ascent(), QString::fromUtf8(text));
   p.end();
-  /* FIXME */ /*ADD DIFFERENT FONT HANDLING */
+  delete fm;
 }

@@ -59,6 +59,7 @@ static QPixmap *unit_pixmap;
 
 void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
+static void apply_font(struct option *poption);
 
 /****************************************************************************
   Return fc_client instance
@@ -75,8 +76,6 @@ class fc_client *gui()
 void qtg_set_city_names_font_sizes(int my_city_names_font_size,
                                    int my_city_productions_font_size)
 {
-  log_error("Unimplemented set_city_names_font_sizes.");
-  /* PORTME */
 }
 
 /**************************************************************************
@@ -119,7 +118,22 @@ void qtg_ui_main(int argc, char *argv[])
 ****************************************************************************/
 void qtg_gui_options_extra_init()
 {
-  /* Nothing to do. */
+    struct option *poption;
+
+#define option_var_set_callback(var, callback)                              \
+  if ((poption = optset_option_by_name(client_optset, #var))) {             \
+    option_set_changed_callback(poption, callback);                         \
+  } else {                                                                  \
+    log_error("Didn't find option %s!", #var);                              \
+  }
+
+  option_var_set_callback(gui_qt_font_city_names,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_city_productions,
+                          apply_font);
+  option_var_set_callback(gui_qt_font_reqtree_text,
+                          apply_font);
+#undef option_var_set_callback
 }
 
 /**************************************************************************
@@ -237,6 +251,27 @@ void qtg_add_idle_callback(void (callback)(void *), void *data)
   cb->callback = callback;
   cb->data = data;
   gui()->mr_idler.add_callback(cb);
+}
+
+/****************************************************************************
+  Change the given font.
+****************************************************************************/
+static void apply_font(struct option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui()) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = gui()->fc_fonts.get_font(s);
+    delete remove_old;
+    gui()->fc_fonts.set_font(s, f);
+    update_city_descriptions();
+  }
 }
 
 /****************************************************************************
