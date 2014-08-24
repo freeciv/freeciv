@@ -200,6 +200,7 @@ static int get_server_address(const char *hostname, int port,
 static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
   int sock = -1;
+  fc_errno err = 0;
 
   connections_set_close_callback(client_conn_close_callback);
 
@@ -213,12 +214,16 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
   sock = -1;
   fc_sockaddr_list_iterate(list, paddr) {
     if ((sock = socket(paddr->saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+      if (err == 0) {
+        err = fc_get_errno();
+      }
       /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
       continue;
     }
 
     if (fc_connect(sock, &paddr->saddr,
                    sockaddr_size(paddr)) == -1) {
+      err = fc_get_errno(); /* Save errno value before calling anything */
       fc_closesocket(sock);
       sock = -1;
       continue;
@@ -230,8 +235,6 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 
   client.conn.sock = sock;
   if (client.conn.sock == -1) {
-    fc_errno err = fc_get_errno(); /* Save errno value before calling anything */
-
     (void) fc_strlcpy(errbuf, fc_strerror(err), errbufsize);
 #ifdef HAVE_WINSOCK
     return -1;
