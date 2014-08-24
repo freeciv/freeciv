@@ -24,6 +24,7 @@
 // common
 #include "calendar.h"
 #include "game.h"
+#include "map.h"
 
 // client
 #include "climisc.h"
@@ -359,46 +360,45 @@ void minimap_view::scale(double factor)
 /**************************************************************************
   Converts gui to overview position.
 **************************************************************************/
-static void gui_to_overview(int *map_x, int *map_y, int gui_x, int gui_y)
+static void gui_to_overview(int *ovr_x, int *ovr_y, int gui_x, int gui_y)
 {
-  const int W = tileset_tile_width(tileset);
-  const int H = tileset_tile_height(tileset);
-  const int HH = tileset_hex_height(tileset);
-  const int HW = tileset_hex_width(tileset);
-  int a, b;
+  double ntl_x, ntl_y;
+  const double gui_xd = gui_x, gui_yd = gui_y;
+  const double W = tileset_tile_width(tileset);
+  const double H = tileset_tile_height(tileset);
+  double map_x, map_y;
 
-  if (HH > 0 || HW > 0) {
-    int x, y, dx, dy;
-    int xmult, ymult, mod, compar;
-    x = DIVIDE(gui_x, W);
-    y = DIVIDE(gui_y, H);
-    dx = gui_x - x * W;
-    dy = gui_y - y * H;
-    xmult = (dx >= W / 2) ? -1 : 1;
-    ymult = (dy >= H / 2) ? -1 : 1;
-    dx = (dx >= W / 2) ? (W - 1 - dx) : dx;
-    dy = (dy >= H / 2) ? (H - 1 - dy) : dy;
-    if (HW > 0) {
-      compar = (dx - HW / 2) * (H / 2) - (H / 2 - 1 - dy) * (W / 2 - HW);
-    } else {
-      compar = (dy - HH / 2) * (W / 2) - (W / 2 - 1 - dx) * (H / 2 - HH);
-    }
-    mod = (compar < 0) ? -1 : 0;
-    *map_x = (x + y) + mod * (xmult + ymult) / 2;
-    *map_y = (y - x) + mod * (ymult - xmult) / 2;
-  } else if (tileset_is_isometric(tileset)) {
-    gui_x -= W / 2;
-    *map_x = DIVIDE(gui_x * H + gui_y * W, W * H);
-    *map_y = DIVIDE(gui_y * W - gui_x * H, W * H);
+  if (tileset_is_isometric(tileset)) {
+    map_x = (gui_xd * H + gui_yd * W) / (W * H);
+    map_y = (gui_yd * W - gui_xd * H) / (W * H);
   } else {
-    *map_x = DIVIDE(gui_x, W);
-    *map_y = DIVIDE(gui_y, H);
+    map_x = gui_xd / W;
+    map_y = gui_yd / H;
   }
-  a = *map_x;
-  b = *map_y;
-  map_to_overview_pos(map_x, map_y, a, b);
-  *map_x = *map_x + 1;
-  *map_y = *map_y + 1;
+
+  if (MAP_IS_ISOMETRIC) {
+    ntl_y = map_x + map_y - map.xsize;
+    ntl_x = 2 * map_x - ntl_y;
+  } else {
+    ntl_x = map_x;
+    ntl_y = map_y;
+  }
+
+  *ovr_x = floor((ntl_x - (double)options.overview.map_x0)
+           * OVERVIEW_TILE_SIZE);
+  *ovr_y = floor((ntl_y - (double)options.overview.map_y0)
+           * OVERVIEW_TILE_SIZE);
+
+  if (current_topo_has_flag(TF_WRAPX)) {
+    *ovr_x = FC_WRAP(*ovr_x, NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
+  } else {
+    if (MAP_IS_ISOMETRIC) {
+      *ovr_x -= OVERVIEW_TILE_SIZE;
+    }
+  }
+  if (current_topo_has_flag(TF_WRAPY)) {
+    *ovr_y = FC_WRAP(*ovr_y, NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
+  }
 }
 
 /**************************************************************************
