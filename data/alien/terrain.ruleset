@@ -1,4 +1,4 @@
-'; This is Alien World terrain ruleset.
+; This is Alien World terrain ruleset.
 
 [datafile]
 description="Alien World tile_type data for Freeciv"
