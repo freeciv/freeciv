@@ -135,7 +135,7 @@ print_usage() {
 #
 # Script main
 
-# Check for commanline parameters
+# Check for commandline parameters
 
 if test "x$1" = "x-v" || test "x$1" = "x--version"
 then
