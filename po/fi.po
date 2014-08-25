@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-11 09:57+0100\n"
-"PO-Revision-Date: 2014-07-17 00:42+0300\n"
+"POT-Creation-Date: 2014-08-11 20:12+0300\n"
+"PO-Revision-Date: 2014-08-11 20:37+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -3913,13 +3913,12 @@ msgid "What should we call our new city?"
 msgstr "Mikä annetaan uudelle kaupungille nimeksi?"
 
 #: client/gui-gtk-2.0/mapview.c:103 client/gui-gtk-3.0/mapview.c:103
-#, fuzzy
 msgid "Time to forced turn change"
-msgstr "Aika yksikön siirtojen välillä vuoronvaihdon yli"
+msgstr "Aikaa automaattiseen vuoronvaihtoon"
 
 #: client/gui-gtk-2.0/mapview.c:105 client/gui-gtk-3.0/mapview.c:105
 msgid "Turn timeout disabled"
-msgstr ""
+msgstr "Automaattinen vuoronvaihto ei ole käytössä"
 
 #: client/gui-gtk-2.0/mapview.c:183 client/gui-gtk-3.0/mapview.c:180
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
@@ -23061,7 +23060,6 @@ msgstr ""
 "pois oikeanapsautuksella."
 
 #: data/helpdata.txt:1715
-#, fuzzy
 msgid ""
 "  Chatline (GTK):\n"
 "  ===============\n"
@@ -23074,11 +23072,11 @@ msgid ""
 msgstr ""
 "  Keskustelu (GTK):\n"
 "  =================\n"
+"  ' (heittomerkki):              Kohdista keskustelun tekstinsyöttöön\n"
 "  Ctrl-Alt-oikeanapautus:        Lisää kaupunki- tai ruutulinkki viestiin\n"
 "  Vaihto-Ctrl-Alt-oikeanapautus: Lisää yksikkölinkki viestiin\n"
 "\n"
-"  Näillä ohjauskomennoilla voidaan keskusteluviesteissä viitata kartan eri "
-"osiin. Lisää tietoa on ohjeiden kohdassa 'Keskustelu'.\n"
+"  Näillä ohjauskomennoilla voidaan keskusteluviesteissä viitata kartan eri osiin. Lisää tietoa on ohjeiden kohdassa 'Keskustelu'.\n"
 
 #: data/helpdata.txt:1724
 msgid ""
@@ -23492,8 +23490,8 @@ msgid ""
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 "Tietenkin eri tägäyksiä voi yhdistellä samassa virkkeessä kuten '[i][c fg="
-"\"blue\"]tämän [b]uuden [s]ominaisuuden [c bg=\"green\"]kokeilemisen [u]"
-"pitäisi[/i] varmaan[/b] olla[/s] [/c]aika[/u] hauskaa[/c]'."
+"\"blue\"]tämän [b]uuden [s]ominaisuuden [c bg=\"green\"]kokeilemisen "
+"[u]pitäisi[/i] varmaan[/b] olla[/s] [/c]aika[/u] hauskaa[/c]'."
 
 #: data/helpdata.txt:1921
 msgid ""
@@ -23587,20 +23585,16 @@ msgstr ""
 "Parhaiten tämä onnistuu Freecivin vikaraportointisivuston kautta, osoitteessa"
 
 #: data/helpdata.txt:2286
-#, fuzzy
 msgid ""
 "Please quote the above version information. For more information about "
 "submitting bug reports see the file BUGS in the Freeciv distribution."
-msgstr ""
-"Ole hyvä ja liitä mukaan ylläolevat versiotiedot. Lisäohjeita virheraportin "
-"lähettämiseen tiedostossa BUGS jonka pitäisi tulla Freecivin mukana. Yleisiä "
-"lisätietoja Freecivistä web-sivuilla osoitteessa"
+msgstr "Ole hyvä ja liitä mukaan ylläolevat versiotiedot. Lisäohjeita virheraportin lähettämiseen tiedostossa BUGS jonka pitäisi tulla Freecivin mukana."
 
 #: data/helpdata.txt:2290
 msgid ""
 "To contact the developers about anything else, please email one of the "
 "project's mailing lists:"
-msgstr ""
+msgstr "Ottaaksesi yhteyttä kehittäjiin muita asioita koskien, lähetä sähköpostisi asianmukaiselle sähköpostilistalle:"
 
 #: data/helpdata.txt:2293
 msgid ""
@@ -23609,6 +23603,10 @@ msgid ""
 "    freeciv-maintainers@gna.org - private project administration\n"
 "                                  list (for security issues, etc)"
 msgstr ""
+"    freeciv-dev@gna.org          - julkinen keskustelu freecivin kehittämisestä\n"
+"                                   (viestit tallettuvat julkiseen arkistoon)\n"
+"    freeciv-maintainers@gna.org  - projektin ylläpitäjien lukema lista\n"
+"                                   (tietoturva ja muut luottamukselliset asiat)"
 
 #: data/helpdata.txt:2298
 msgid ""
@@ -23624,7 +23622,7 @@ msgstr "  Nykyiset vastuuhenkilöt: "
 
 #: data/helpdata.txt:2312
 msgid "For more information in general, visit the Freeciv website, at:"
-msgstr ""
+msgstr "Lisää tietoa löytyy Freecivin kotisivuilta osoitteesta"
 
 #: data/multiplayer/buildings.ruleset:89
 msgid "Amphitheater"
@@ -41218,8 +41216,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:306
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
-"(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d "
+"player(s))."
 msgstr ""
 "Asetetaan kartan kooksi %d (noin %d maaruutua kutakin %d pelaajaa kohden)."
 
