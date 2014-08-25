@@ -18,11 +18,13 @@
 #include <string.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
 #include "shared.h" /* ARRAY_SIZE */
+#include "string_vector.h"
 
 /* common */
 #include "city.h"
@@ -869,7 +871,8 @@ int get_potential_improvement_bonus(struct impr_type *pimprove,
   Make user-friendly text for the source.  The text is put into a user
   buffer.
 **************************************************************************/
-void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
+void get_effect_req_text(const struct effect *peffect,
+                         char *buf, size_t buf_len)
 {
   buf[0] = '\0';
 
@@ -880,12 +883,31 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
       continue;
     }
     if (buf[0] != '\0') {
-      fc_strlcat(buf, "+", buf_len);
+      fc_strlcat(buf, Q_("?req-list-separator:+"), buf_len);
     }
 
     universal_name_translation(&preq->source,
 			buf + strlen(buf), buf_len - strlen(buf));
   } requirement_vector_iterate_end;
+}
+
+/****************************************************************************
+  Make user-friendly text for an effect list. The text is put into a user
+  astring.
+****************************************************************************/
+void get_effect_list_req_text(const struct effect_list *plist,
+                              struct astring *astr)
+{
+  struct strvec *psv = strvec_new();
+  char req_text[512];
+
+  effect_list_iterate(plist, peffect) {
+    get_effect_req_text(peffect, req_text, sizeof(req_text));
+    strvec_append(psv, req_text);
+  } effect_list_iterate_end;
+
+  strvec_to_and_list(psv, astr);
+  strvec_destroy(psv);
 }
 
 /**************************************************************************

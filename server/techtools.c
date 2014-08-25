@@ -15,6 +15,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -145,15 +146,9 @@ void do_tech_parasite_effect(struct player *pplayer)
    * much worse effect. */
   if ((mod = get_player_bonus_effects(plist, pplayer,
 				      EFT_TECH_PARASITE)) > 0) {
-    char buf[512];
+    struct astring effects = ASTRING_INIT;
 
-    buf[0] = '\0';
-    effect_list_iterate(plist, peffect) {
-      if (buf[0] != '\0') {
-	sz_strlcat(buf, ", ");
-      }
-      get_effect_req_text(peffect, buf, sizeof(buf));
-    } effect_list_iterate_end;
+    get_effect_list_req_text(plist, &effects);
 
     advance_index_iterate(A_FIRST, i) {
       if (research_invention_gettable(presearch, i,
@@ -174,18 +169,18 @@ void do_tech_parasite_effect(struct player *pplayer)
           notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                         _("%s acquired from %s!"),
                         research_advance_name_translation(presearch, i),
-                        buf);
+                        astr_str(&effects));
           notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
                           _("%s acquired from %s's %s!"),
                           research_advance_name_translation(presearch, i),
                           player_name(pplayer),
-                          buf);
+                          astr_str(&effects));
           notify_research_embassies
               (presearch, NULL, E_TECH_GAIN, ftc_server,
                _("The %s have acquired %s from %s."),
                research_name,
                research_advance_name_translation(presearch, i),
-               buf);
+               astr_str(&effects));
 
 	  do_free_cost(pplayer, i);
           found_new_tech(presearch, i, FALSE, TRUE);
@@ -201,6 +196,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	}
       }
     } advance_index_iterate_end;
+    astr_free(&effects);
   }
   effect_list_destroy(plist);
 }

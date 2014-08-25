@@ -1566,33 +1566,20 @@ const char *get_report_title(const char *report_name)
 ****************************************************************************/
 const char *text_happiness_buildings(const struct city *pcity)
 {
-  char buf[512];
-  int faces = 0;
   struct effect_list *plist = effect_list_new();
   static struct astring str = ASTRING_INIT;
 
-  astr_clear(&str);
-
-  astr_add_line(&str, _("Buildings: "));
-
   get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_CONTENT);
+  if (0 < effect_list_size(plist)) {
+    struct astring effects = ASTRING_INIT;
 
-  effect_list_iterate(plist, peffect) {
-    get_effect_req_text(peffect, buf, sizeof(buf));
-    if (faces++ > 0) {
-      /* only one comment to translators needed. */
-      astr_add(&str, Q_("?clistmore:, %s"), buf);
-    } else {
-      astr_add(&str, "%s", buf);
-    }
-  } effect_list_iterate_end;
-  effect_list_destroy(plist);
-
-  if (faces == 0) {
-    astr_add(&str, _("None. "));
+    get_effect_list_req_text(plist, &effects);
+    astr_set(&str, _("Buildings: %s."), astr_str(&effects));
+    astr_free(&effects);
   } else {
-    astr_add(&str, "%s", Q_("?clistend:."));
+    astr_set(&str, _("Buildings: None."));
   }
+  effect_list_destroy(plist);
 
   /* Add line breaks after 80 characters. */
   astr_break_lines(&str, 80);
@@ -1643,34 +1630,20 @@ const char *text_happiness_nationality(const struct city *pcity)
 ****************************************************************************/
 const char *text_happiness_wonders(const struct city *pcity)
 {
-  char buf[512];
-  int faces = 0;
   struct effect_list *plist = effect_list_new();
   static struct astring str = ASTRING_INIT;
 
-  astr_clear(&str);
-
-  astr_add_line(&str, _("Wonders: "));
   get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_HAPPY);
   get_city_bonus_effects(plist, pcity, NULL, EFT_FORCE_CONTENT);
   get_city_bonus_effects(plist, pcity, NULL, EFT_NO_UNHAPPY);
+  if (0 < effect_list_size(plist)) {
+    struct astring effects = ASTRING_INIT;
 
-  effect_list_iterate(plist, peffect) {
-    get_effect_req_text(peffect, buf, sizeof(buf));
-    if (faces++ > 0) {
-      /* only one comment to translators needed. */
-      astr_add(&str, Q_("?clistmore:, %s"), buf);
-    } else {
-      astr_add(&str, "%s", buf);
-    }
-  } effect_list_iterate_end;
-
-  effect_list_destroy(plist);
-
-  if (faces == 0) {
-    astr_add(&str, _("None. "));
+    get_effect_list_req_text(plist, &effects);
+    astr_set(&str, _("Wonders: %s."), astr_str(&effects));
+    astr_free(&effects);
   } else {
-    astr_add(&str, "%s",  Q_("?clistend:."));
+    astr_set(&str, _("Wonders: None."));
   }
 
   /* Add line breaks after 80 characters. */
