@@ -94,6 +94,7 @@ client/gui-qt/chatline.cpp
 client/gui-qt/citydlg.cpp
 client/gui-qt/cityrep.cpp
 client/gui-qt/dialogs.cpp
+client/gui-qt/diplodlg.cpp
 client/gui-qt/fc_client.cpp
 client/gui-qt/gui_main.cpp
 client/gui-qt/mapctrl.cpp
@@ -104,6 +105,7 @@ client/gui-qt/pages.cpp
 client/gui-qt/plrdlg.cpp
 client/gui-qt/ratesdlg.cpp
 client/gui-qt/repodlgs.cpp
+client/gui-qt/spaceshipdlg.cpp
 client/gui-sdl/caravan_dialog.c
 client/gui-sdl/chatline.c
 client/gui-sdl/citydlg.c
@@ -170,6 +172,7 @@ client/tilespec.c
 common/ai.c
 common/city.c
 common/connection.c
+common/effects.c
 common/events.c
 common/fc_cmdhelp.c
 common/game.c
@@ -179,7 +182,6 @@ common/mapimg.c
 common/packets.c
 common/player.c
 common/requirements.c
-common/road.c
 common/team.c
 common/tech.c
 common/terrain.c
@@ -204,14 +206,12 @@ data/civ2/techs.ruleset
 data/civ2/terrain.ruleset
 data/civ2/units.ruleset
 # lua files are included nevertheless
-data/database.lua
 data/default/default.lua
 data/default/nationlist.ruleset
 data/classic/buildings.ruleset
 data/classic/cities.ruleset
 data/classic/game.ruleset
 data/classic/governments.ruleset
-data/classic/nations.ruleset
 # lua files are included nevertheless
 data/classic/script.lua
 data/classic/techs.ruleset
@@ -228,7 +228,6 @@ data/civ2civ3/buildings.ruleset
 data/civ2civ3/cities.ruleset
 data/civ2civ3/game.ruleset
 data/civ2civ3/governments.ruleset
-data/civ2civ3/nations.ruleset
 data/civ2civ3/script.lua
 data/civ2civ3/techs.ruleset
 data/civ2civ3/terrain.ruleset
@@ -308,8 +307,8 @@ data/scenarios/tutorial.sav
 translations/Strings.txt
 tools/civmanual.c
 tools/download.c
-tools/download.h
 tools/modinst.c
+tools/modinst.h
 tools/mpcli.c
 tools/mpcmdline.c
 tools/mpgui_gtk2.c
