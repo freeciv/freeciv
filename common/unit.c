@@ -1196,8 +1196,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_FORTIFYING:
     return (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
+            && !unit_has_type_flag(punit, UTYF_CANT_FORTIFY)
 	    && punit->activity != ACTIVITY_FORTIFIED
-	    && !unit_has_type_flag(punit, UTYF_SETTLERS)
 	    && (!is_ocean(pterrain) || tile_city(ptile)));
 
   case ACTIVITY_FORTIFIED:

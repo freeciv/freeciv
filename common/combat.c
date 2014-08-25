@@ -533,7 +533,8 @@ static int defense_multiplication(const struct unit_type *att_type,
     defensepower * tile_extras_defense_bonus(ptile, def_type) / 100;
 
   if ((pcity || fortified)
-      && uclass_has_flag(utype_class(def_type), UCF_CAN_FORTIFY)) {
+      && uclass_has_flag(utype_class(def_type), UCF_CAN_FORTIFY)
+      && !utype_has_flag(def_type, UTYF_CANT_FORTIFY)) {
     defensepower = (defensepower * 3) / 2;
   }
 
