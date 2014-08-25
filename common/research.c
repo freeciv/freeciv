@@ -971,16 +971,13 @@ size_t research_player_iter_sizeof(void)
 }
 
 /****************************************************************************
-  Returns player of the iterator.
+  Returns whether the iterator is currently at a valid state.
 ****************************************************************************/
-static void research_player_iter_validate(struct iterator *it)
+static inline bool research_player_iter_valid_state(struct iterator *it)
 {
-  const struct player *pplayer;
+  const struct player *pplayer = iterator_get(it);
 
-  for (pplayer = iterator_get(it); NULL != pplayer && !pplayer->is_alive;
-       pplayer = iterator_get(it)) {
-    iterator_next(it);
-  }
+  return (NULL == pplayer || pplayer->is_alive);
 }
 
 /****************************************************************************
@@ -998,8 +995,9 @@ static void research_player_iter_pooled_next(struct iterator *it)
 {
   struct research_player_iter *rpit = RESEARCH_PLAYER_ITER(it);
 
-  rpit->plink = player_list_link_next(rpit->plink);
-  research_player_iter_validate(it);
+  do {
+    rpit->plink = player_list_link_next(rpit->plink);
+  } while (!research_player_iter_valid_state(it));
 }
 
 /****************************************************************************
@@ -1055,7 +1053,11 @@ struct iterator *research_player_iter_init(struct research_player_iter *it,
     it->pplayer = (NULL != presearch
                    ? player_by_number(research_number(presearch)) : NULL);
   }
-  research_player_iter_validate(base);
+
+  /* Ensure we have consistent data. */
+  if (!research_player_iter_valid_state(base)) {
+    iterator_next(base);
+  }
 
   return base;
 }

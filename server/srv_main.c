@@ -1275,6 +1275,11 @@ static void end_turn(void)
 
   log_debug("Sendresearchinfo");
   researches_iterate(presearch) {
+research_players_iterate(presearch, pplayer){
+log_normal("research %d (%s): %d (%s)",
+           research_number(presearch), research_rule_name(presearch),
+           player_number(pplayer), player_name(pplayer));
+}research_players_iterate_end;
     send_research_info(presearch, NULL);
   } researches_iterate_end;
 
