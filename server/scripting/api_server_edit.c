@@ -282,10 +282,12 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
     do_free_cost(pplayer, id);
     found_new_tech(presearch, id, FALSE, TRUE);
     result = advance_by_number(id);
-    script_server_signal_emit("tech_researched", 3,
-                              API_TYPE_TECH_TYPE, result,
-                              API_TYPE_PLAYER, pplayer,
-                              API_TYPE_STRING, reason);
+    research_players_iterate(presearch, member) {
+      script_server_signal_emit("tech_researched", 3,
+                                API_TYPE_TECH_TYPE, result,
+                                API_TYPE_PLAYER, member,
+                                API_TYPE_STRING, reason);
+    } research_players_iterate_end;
     return result;
   } else {
     return NULL;

@@ -122,11 +122,13 @@ static void tech_researched(struct player *plr)
   /* do all the updates needed after finding new tech */
   found_new_tech(research, research->researching, TRUE, TRUE);
 
-  script_server_signal_emit("tech_researched", 3,
-                            API_TYPE_TECH_TYPE,
-                            advance_by_number(researched_tech),
-                            API_TYPE_PLAYER, plr,
-                            API_TYPE_STRING, "researched");
+  research_players_iterate(research, member) {
+    script_server_signal_emit("tech_researched", 3,
+                              API_TYPE_TECH_TYPE,
+                              advance_by_number(researched_tech),
+                              API_TYPE_PLAYER, member,
+                              API_TYPE_STRING, "researched");
+  } research_players_iterate_end;
 }
 
 /****************************************************************************
@@ -188,11 +190,13 @@ void do_tech_parasite_effect(struct player *pplayer)
 	  do_free_cost(pplayer, i);
           found_new_tech(presearch, i, FALSE, TRUE);
 
-          script_server_signal_emit("tech_researched", 3,
-                                    API_TYPE_TECH_TYPE,
-                                    advance_by_number(i),
-                                    API_TYPE_PLAYER, pplayer,
-                                    API_TYPE_STRING, "stolen");
+          research_players_iterate(presearch, member) {
+            script_server_signal_emit("tech_researched", 3,
+                                      API_TYPE_TECH_TYPE,
+                                      advance_by_number(i),
+                                      API_TYPE_PLAYER, member,
+                                      API_TYPE_STRING, "stolen");
+          } research_players_iterate_end;
 	  break;
 	}
       }
@@ -1255,11 +1259,13 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     do_conquer_cost(pplayer, stolen_tech);
     found_new_tech(presearch, stolen_tech, FALSE, TRUE);
 
-    script_server_signal_emit("tech_researched", 3,
-                              API_TYPE_TECH_TYPE,
-                              advance_by_number(stolen_tech),
-                              API_TYPE_PLAYER, pplayer,
-                              API_TYPE_STRING, "stolen");
+    research_players_iterate(presearch, member) {
+      script_server_signal_emit("tech_researched", 3,
+                                API_TYPE_TECH_TYPE,
+                                advance_by_number(stolen_tech),
+                                API_TYPE_PLAYER, member,
+                                API_TYPE_STRING, "stolen");
+    } research_players_iterate_end;
 
     return stolen_tech;
   };

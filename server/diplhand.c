@@ -454,11 +454,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                  advance_name,
                  nation_plural_for_player(pgiver));
 
-            script_server_signal_emit("tech_researched", 3,
-                                      API_TYPE_TECH_TYPE,
-                                      advance_by_number(pclause->value),
-                                      API_TYPE_PLAYER, pdest,
-                                      API_TYPE_STRING, "traded");
+            research_players_iterate(presearch, member) {
+              script_server_signal_emit("tech_researched", 3,
+                                        API_TYPE_TECH_TYPE,
+                                        advance_by_number(pclause->value),
+                                        API_TYPE_PLAYER, member,
+                                        API_TYPE_STRING, "traded");
+            } research_players_iterate_end;
             do_dipl_cost(pdest, pclause->value);
             found_new_tech(presearch, pclause->value, FALSE, TRUE);
           }
