@@ -1201,27 +1201,36 @@ bool can_units_do_connect(struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
-  Returns TRUE if any of the units can do a generalized action against its
-  own tile.
-****************************************************************************/
-bool can_units_act_against_own_tile(struct unit_list *punits)
+/**************************************************************************
+  Returns TRUE if the unit can do a generalized action against its own
+  tile.
+**************************************************************************/
+bool can_unit_act_against_own_tile(struct unit *punit)
 {
   struct city *pcity;
 
+  /* All generalized actions vs own tile is currently against cities */
+  return (is_actor_unit(punit)
+          && (pcity = tile_city(unit_tile(punit)))
+          && city_owner(pcity) != unit_owner(punit));
+
+  /* FIXME: Ask the server so other target types than foreign cities can
+   * be supported as targeting them on your own tile becomes possible. */
+}
+
+/**************************************************************************
+  Returns TRUE if any of the units can do a generalized action against
+  its own tile.
+**************************************************************************/
+bool can_units_act_against_own_tile(struct unit_list *punits)
+{
   unit_list_iterate(punits, punit) {
-    /* All generalized actions vs own tile is currently against cities */
-    if (is_actor_unit(punit)
-        && (pcity = tile_city(unit_tile(punit)))
-        && city_owner(pcity) != unit_owner(punit)) {
+    if (can_unit_act_against_own_tile(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;
 
   return FALSE;
-
-  /* FIXME: Ask the server so other target types than foreign cities can be
-   * supported as targeting them on your own tile becomes possible. */
 }
 
 /****************************************************************************

@@ -1415,9 +1415,7 @@ void real_menus_update(void)
         }
       }
 
-      if (is_actor_unit(pUnit) &&
-          /* FIXME: Should not be based on client side knowledge */
-	  diplomat_can_do_action(pUnit, DIPLOMAT_ANY_ACTION, unit_tile(pUnit))) {
+     if (can_unit_act_against_own_tile(pUnit)) {
 	local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
       } else {
 	local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
