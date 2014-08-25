@@ -278,7 +278,11 @@ struct effect *effect_new(enum effect_type type, int value);
 void effect_req_append(struct effect *peffect, bool neg,
 		       struct requirement *preq);
 
-void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len);
+struct astring;
+void get_effect_req_text(const struct effect *peffect,
+                         char *buf, size_t buf_len);
+void get_effect_list_req_text(const struct effect_list *plist,
+                              struct astring *astr);
 
 /* ruleset cache creation and communication functions */
 struct packet_ruleset_effect;

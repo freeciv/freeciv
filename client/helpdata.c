@@ -1494,6 +1494,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
 static void insert_allows(struct universal *psource,
 			  char *buf, size_t bufsz)
 {
+  struct strvec *coreqs = strvec_new();
+  struct strvec *conoreqs = strvec_new();
+  struct astring coreqstr = ASTRING_INIT;
+  struct astring conoreqstr = ASTRING_INIT;
+  char buf2[bufsz];
+
   buf[0] = '\0';
 
   /* FIXME: show other data like range and survives. */
@@ -1504,40 +1510,32 @@ static void insert_allows(struct universal *psource,
         if (!req->negated) {
           /* This source enables a building, but other sources may
            * also be required (or required to be absent). */
-          char coreq_buf[512] = "", conoreq_buf[512] = "";
+          strvec_clear(coreqs);
+          strvec_clear(conoreqs);
 
           requirement_vector_iterate(&pimprove->reqs, coreq) {
             if (!are_universals_equal(psource, &coreq->source)) {
-              char buf2[512] = "";
-              char *rbuf = coreq->negated ? conoreq_buf : coreq_buf;
-
-              universal_name_translation(&coreq->source,
-                                         buf2, sizeof(buf2));
-              fc_assert_action(sizeof(coreq_buf) == sizeof(conoreq_buf), break);
-              if (rbuf[0] == '\0') {
-                fc_strlcpy(rbuf, buf2, sizeof(coreq_buf));
-              } else {
-                cat_snprintf(rbuf, sizeof(coreq_buf),
-                             Q_("?clistmore:, %s"), buf2);
-              }
+              universal_name_translation(&coreq->source, buf2, sizeof(buf2));
+              strvec_append(coreq->negated ? conoreqs : coreqs, buf2);
             }
           } requirement_vector_iterate_end;
 
-          if (coreq_buf[0] != '\0') {
-            if (conoreq_buf[0] != '\0') {
+          if (0 < strvec_size(coreqs)) {
+            if (0 < strvec_size(conoreqs)) {
               cat_snprintf(buf, bufsz, _("Allows %s (with %s but no %s)."),
                            improvement_name_translation(pimprove),
-                           coreq_buf, conoreq_buf);
+                           strvec_to_and_list(coreqs, &coreqstr),
+                           strvec_to_and_list(conoreqs, &conoreqstr));
             } else {
               cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
                            improvement_name_translation(pimprove),
-                           coreq_buf);
+                           strvec_to_and_list(coreqs, &coreqstr));
             }
           } else {
-            if (conoreq_buf[0] != '\0') {
+            if (0 < strvec_size(conoreqs)) {
               cat_snprintf(buf, bufsz, _("Allows %s (absent %s)."),
                            improvement_name_translation(pimprove),
-                           conoreq_buf);
+                           strvec_to_and_list(conoreqs, &conoreqstr));
             } else {
               cat_snprintf(buf, bufsz, _("Allows %s."),
                            improvement_name_translation(pimprove));
@@ -1552,6 +1550,11 @@ static void insert_allows(struct universal *psource,
       }
     } requirement_vector_iterate_end;
   } improvement_iterate_end;
+
+  strvec_destroy(coreqs);
+  strvec_destroy(conoreqs);
+  astr_free(&coreqstr);
+  astr_free(&conoreqstr);
 }
 
 /****************************************************************
