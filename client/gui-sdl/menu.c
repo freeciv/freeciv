@@ -1229,10 +1229,10 @@ void real_menus_update(void)
       }
 
       pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, unit_tile(pUnit));
-      if (!pCity && pbase) {
-	local_show(ID_UNIT_ORDER_FORTRESS);
+      if (pbase != NULL) {
+        local_show(ID_UNIT_ORDER_FORTRESS);
       } else {
-	local_hide(ID_UNIT_ORDER_FORTRESS);
+        local_hide(ID_UNIT_ORDER_FORTRESS);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_FORTIFYING)) {
@@ -1242,10 +1242,10 @@ void real_menus_update(void)
       }
 
       pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, unit_tile(pUnit));
-      if (!pCity && pbase) {
-	local_show(ID_UNIT_ORDER_AIRBASE);
+      if (pbase != NULL) {
+        local_show(ID_UNIT_ORDER_AIRBASE);
       } else {
-	local_hide(ID_UNIT_ORDER_AIRBASE);
+        local_hide(ID_UNIT_ORDER_AIRBASE);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_POLLUTION)) {
