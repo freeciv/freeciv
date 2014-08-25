@@ -305,6 +305,10 @@ void research_update(struct research *presearch)
     advance_req_iterate(valid_advance_by_number(i), preq) {
       Tech_type_id j = advance_number(preq);
 
+      if (TECH_KNOWN == research_invention_state(presearch, j)) {
+        continue;
+      }
+
       if (j != i) {
         BV_SET(presearch->inventions[i].required_techs, j);
       }
