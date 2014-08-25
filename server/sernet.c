@@ -1133,7 +1133,7 @@ int server_open_socket(void)
                      (char *)&on, sizeof(on)) == -1) {
         log_error("setsockopt IPV6_V6ONLY failed: %s",
                   fc_strerror(fc_get_errno()));
-        sockaddr_debug(paddr);
+        sockaddr_debug(paddr, LOG_DEBUG);
       }
 #endif /* IPV6_V6ONLY */
     }
@@ -1177,7 +1177,7 @@ int server_open_socket(void)
   if (listen_count == 0) {
     log_fatal("%s failed: %s", cause, fc_strerror(eno));
     fc_sockaddr_list_iterate(list, paddr) {
-      sockaddr_debug(paddr);
+      sockaddr_debug(paddr, LOG_DEBUG);
     } fc_sockaddr_list_iterate_end;
     exit(EXIT_FAILURE);
   }

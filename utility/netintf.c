@@ -257,20 +257,20 @@ void fc_nonblock(int sockfd)
 /***************************************************************************
   Write information about socaddr to debug log.
 ***************************************************************************/
-void sockaddr_debug(union fc_sockaddr *addr)
+void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 {
 #ifdef IPV6_SUPPORT
   char buf[INET6_ADDRSTRLEN] = "Unknown";
 
   if (addr->saddr.sa_family == AF_INET6) { 
     inet_ntop(AF_INET6, &addr->saddr_in6.sin6_addr, buf, INET6_ADDRSTRLEN);
-    log_debug("Host: %s, Port: %d (IPv6)",
-              buf, ntohs(addr->saddr_in6.sin6_port));
+    log_base(lvl, "Host: %s, Port: %d (IPv6)",
+             buf, ntohs(addr->saddr_in6.sin6_port));
     return;
   } else if (addr->saddr.sa_family == AF_INET) {
     inet_ntop(AF_INET, &addr->saddr_in4.sin_addr, buf, INET_ADDRSTRLEN);
-    log_debug("Host: %s, Port: %d (IPv4)",
-              buf, ntohs(addr->saddr_in4.sin_port));
+    log_base(lvl, "Host: %s, Port: %d (IPv4)",
+             buf, ntohs(addr->saddr_in4.sin_port));
     return;
   }
 #else  /* IPv6 support */
@@ -279,8 +279,8 @@ void sockaddr_debug(union fc_sockaddr *addr)
 
     buf = inet_ntoa(addr->saddr_in4.sin_addr);
 
-    log_debug("Host: %s, Port: %d",
-	      buf, ntohs(addr->saddr_in4.sin_port));
+    log_base(lvl, "Host: %s, Port: %d",
+             buf, ntohs(addr->saddr_in4.sin_port));
 
     return;
   }
