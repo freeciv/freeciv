@@ -17,7 +17,7 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; Ruleset name
 name = _("Civ2Civ3 ruleset")
 
-; There's no separate versioning in rulesets part of main freeciv distribution
+; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
 ; Description of the ruleset
