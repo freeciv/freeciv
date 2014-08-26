@@ -246,6 +246,8 @@ int resize_window(struct widget *pWindow,
 		  SDL_Surface * pBcgd,
 		  SDL_Color * pColor, Uint16 new_w, Uint16 new_h)
 {
+  SDL_Color color;
+
   /* window */
   if ((new_w != pWindow->size.w) || (new_h != pWindow->size.h)) {
     pWindow->size.w = new_w;
@@ -279,7 +281,8 @@ int resize_window(struct widget *pWindow,
     pWindow->theme = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
     
     if (!pColor) {
-      SDL_Color color = *get_theme_color(COLOR_THEME_BACKGROUND);
+      color = *get_theme_color(COLOR_THEME_BACKGROUND);
+
       pColor = &color;
     }
   
