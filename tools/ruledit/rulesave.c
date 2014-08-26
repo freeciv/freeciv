@@ -1712,6 +1712,8 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                              "%s.hidden_by", path);
     }
 
+    save_strvec(sfile, pextra->helptext, path, "helptext");
+
   } extra_type_iterate_end;
 
   sect_idx = 0;
@@ -1747,9 +1749,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       secfile_insert_str_vec(sfile, flag_names, set_count,
                              "%s.flags", path);
     }
-
-    save_strvec(sfile, pbase->helptext, path, "helptext");
-
   } base_type_iterate_end;
 
   sect_idx = 0;
@@ -1812,9 +1811,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       secfile_insert_str_vec(sfile, flag_names, set_count,
                              "%s.flags", path);
     }
-
-    save_strvec(sfile, proad->helptext, path, "helptext");
-
   } road_type_iterate_end;
 
   return save_ruleset_file(sfile, filename);
