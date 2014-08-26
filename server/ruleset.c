@@ -5211,6 +5211,9 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     game.info.culture_vic_lead
       = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_VIC_LEAD,
                                    "culture.victory_lead_pct");
+    game.info.culture_migration_pct
+      = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_MIGRATION_PCT,
+                                   "culture.migration_pct");
 
     /* section: calendar */
     game.info.calendar_skip_0

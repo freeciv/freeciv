@@ -433,6 +433,7 @@ PACKET_GAME_INFO = 16; sc
   UINT32 base_bribe_cost;
   UINT16 culture_vic_points;
   UINT16 culture_vic_lead;
+  UINT16 culture_migration_pct;
   BOOL calendar_skip_0;
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;

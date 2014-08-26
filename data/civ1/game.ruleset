@@ -293,6 +293,10 @@ victory_min_points = 1000
 ; Lead needed relative to second best player
 victory_lead_pct   = 300
 
+; How much each culture point affects the migration
+; from/to the city.
+migration_pct = 50
+
 [calendar]
 ; Year 1 instead of 0.
 skip_year_0 = TRUE
