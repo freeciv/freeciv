@@ -121,6 +121,8 @@ struct player_ai {
  * (Some diplomatic states are "pacts" (mutual agreements), others aren't.)
  *
  * Adding to or reordering this array will break many things.
+ *
+ * Used in the network protocol.
  */
 #define SPECENUM_NAME diplstate_type
 #define SPECENUM_VALUE0 DS_ARMISTICE
@@ -145,6 +147,8 @@ struct player_ai {
 /* Other diplomatic relation properties.
  *
  * The first element here is numbered DS_LAST
+ *
+ * Used in the network protocol.
  */
 #define SPECENUM_NAME diplrel_other
 #define SPECENUM_VALUE7 DRO_GIVES_SHARED_VISION

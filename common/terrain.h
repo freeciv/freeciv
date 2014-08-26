@@ -68,6 +68,7 @@ struct resource {
  * Used in the network protocol. */
 #define MAX_NUM_RESOURCES (MAX_NUM_TERRAINS/2)
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME terrain_class
 #define SPECENUM_VALUE0 TC_LAND
 /* TRANS: terrain class: used adjectivally */
@@ -79,7 +80,9 @@ struct resource {
 
 /* Types of alterations available to terrain.
  * This enum is only used in the effects system; the relevant information
- * is encoded in other members of the terrain structure. */
+ * is encoded in other members of the terrain structure.
+ *
+ * Used in the network protocol. */
 #define SPECENUM_NAME terrain_alteration
 /* Can build irrigation without changing terrain */
 #define SPECENUM_VALUE0 TA_CAN_IRRIGATE
@@ -92,6 +95,7 @@ struct resource {
 #define SPECENUM_VALUE2NAME N_("CanRoad")
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME terrain_flag_id
 /* No barbarians summoned on this terrain. */
 #define SPECENUM_VALUE0 TER_NO_BARBS

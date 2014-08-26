@@ -37,6 +37,7 @@ struct ai_type;
  * Used in the network protocol. */
 #define U_LAST MAX_NUM_ITEMS
 
+/* Used in the network protocol. */
 #define SPECENUM_NAME unit_class_flag_id
 #define SPECENUM_VALUE0 UCF_TERRAIN_SPEED
 #define SPECENUM_VALUE0NAME "TerrainSpeed"

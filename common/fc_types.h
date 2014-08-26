@@ -259,6 +259,8 @@ enum barbarian_type {
 
 /*
  * Citytile requirement types. 
+ *
+ * Used in the network protocol
  */
 enum citytile_type {
   CITYT_CENTER,
