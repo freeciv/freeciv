@@ -318,8 +318,13 @@ void handle_server_join_reply(bool you_can_join, const char *message,
             sizeof(client_info.distribution));
     send_packet_client_info(&client.conn, &client_info);
 
-    /* we could always use hack, verify we're local */ 
-    send_client_wants_hack(challenge_file);
+    /* we could always use hack, verify we're local */
+#ifdef DEBUG
+    if (!hackless || is_server_running())
+#endif
+    {
+      send_client_wants_hack(challenge_file);
+    }
 
     set_client_state(C_S_PREPARING);
   } else {

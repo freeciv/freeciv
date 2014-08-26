@@ -80,6 +80,10 @@ extern bool auto_connect;
 extern bool waiting_for_end_turn;
 extern bool in_ggz;
 
+#ifdef DEBUG
+extern bool hackless;
+#endif
+
 struct global_worklist_list;    /* Defined in global_worklist.[ch]. */
 
 /* Structure for holding global client data.

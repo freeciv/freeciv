@@ -151,6 +151,10 @@ bool waiting_for_end_turn = FALSE;
  */
 static bool server_busy = FALSE;
 
+#ifdef DEBUG
+bool hackless = FALSE;
+#endif
+
 /**************************************************************************
   Convert a text string from the internal to the data encoding, when it
   is written to the network.
@@ -388,6 +392,10 @@ int client_main(int argc, char *argv[])
 #endif /* NDEBUG */
       cmdhelp_add(help, "h", "help",
                   _("Print a summary of the options"));
+#ifdef DEBUG
+      cmdhelp_add(help, "H", "Hackless",
+                  _("Do not request hack access to local, but not spawned, server"));
+#endif /* DEBUG */
       cmdhelp_add(help, "l",
                   /* TRANS: "log" is exactly what user must type, do not translate. */
                   _("log FILE"),
@@ -438,9 +446,13 @@ int client_main(int argc, char *argv[])
       cmdhelp_destroy(help);
 
       exit(EXIT_SUCCESS);
-    } else if (is_option("--version",argv[i])) {
+    } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
       exit(EXIT_SUCCESS);
+#ifdef DEBUG
+    } else if (is_option("--Hackless", argv[i])) {
+      hackless = TRUE;
+#endif /* DEBUG */
     } else if ((option = get_option_malloc("--log", argv, &i, argc))) {
       logfile = option; /* never free()d */
 #ifndef NDEBUG
