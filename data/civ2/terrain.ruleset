@@ -148,6 +148,7 @@ pythagorean_diagonal = FALSE
 ;                        (lua scripting)
 ;   - NoZoc            = Units on this terrain are not generating or subject
 ;                        to zoc
+;   - NoFortify        = Units cannot fortify on this terrain
 ; property_*           = specific property % values used by mapgen.  Most
 ;                        terrains will have 0 for most values.
 ;  - mountainous       = degree to which this terrain is mountainous
@@ -198,7 +199,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "UnsafeCoast", "NoCities", "NoPollution", "NoZoc"
+flags                = "UnsafeCoast", "NoCities", "NoPollution", "NoZoc", "NoFortify"
 property_ocean_depth = 36
 color.r              = 0
 color.g              = 46

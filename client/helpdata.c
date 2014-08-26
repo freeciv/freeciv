@@ -4022,12 +4022,19 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (terrain_has_flag(pterrain, TER_NO_ZOC)) {
     CATLSTR(buf, bufsz,
-	    _("* Units on this terrain neither impose zones of control "
+            _("* Units on this terrain neither impose zones of control "
               "nor are restricted by them.\n"));
   } else {
     CATLSTR(buf, bufsz,
-	    _("* Units on this terrain may impose a zone of control, or "
+            _("* Units on this terrain may impose a zone of control, or "
               "be restricted by one.\n"));
+  }
+  if (terrain_has_flag(pterrain, TER_NO_FORTIFY)) {
+    CATLSTR(buf, bufsz,
+            _("* No units can fortify on this terrain.\n"));
+  } else {
+    CATLSTR(buf, bufsz,
+            _("* Units able to fortify may do so on this terrain.\n"));
   }
   for (flagid = TER_USER_1 ; flagid <= TER_USER_LAST; flagid++) {
     if (terrain_has_flag(pterrain, flagid)) {
