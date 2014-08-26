@@ -3422,6 +3422,8 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->hidden_by = p->hidden_by;
   pextra->conflicts = p->conflicts;
 
+  PACKET_STRVEC_EXTRACT(pextra->helptext, p->helptext);
+
   tileset_setup_extra(tileset, pextra);
 }
 
@@ -3440,8 +3442,6 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   pbase->vision_invis_sq = p->vision_invis_sq;
 
   pbase->flags = p->flags;
-
-  PACKET_STRVEC_EXTRACT(pbase->helptext, p->helptext);
 }
 
 /****************************************************************************
@@ -3471,8 +3471,6 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->compat = p->compat;
   proad->integrates = p->integrates;
   proad->flags = p->flags;
-
-  PACKET_STRVEC_EXTRACT(proad->helptext, p->helptext);
 }
 
 /****************************************************************************

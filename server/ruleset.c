@@ -2946,6 +2946,8 @@ static bool load_ruleset_terrain(struct section_file *file)
         break;
       }
 
+      pextra->helptext = lookup_strvec(file, section, "helptext");
+
     } extra_type_iterate_end;
   }
 
@@ -3016,8 +3018,6 @@ static bool load_ruleset_terrain(struct section_file *file)
           }
         } base_type_iterate_end;
       }
-
-      pbase->helptext = lookup_strvec(file, section, "helptext");
     } base_type_iterate_end;
   }
 
@@ -3144,9 +3144,6 @@ static bool load_ruleset_terrain(struct section_file *file)
       if (!ok) {
         break;
       }
-
-      proad->helptext = lookup_strvec(file, section, "helptext");
-
     } road_type_iterate_end;
   }
 
@@ -5856,6 +5853,8 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.hidden_by = e->hidden_by;
     packet.conflicts = e->conflicts;
 
+    PACKET_STRVEC_COMPUTE(packet.helptext, e->helptext);
+
     lsend_packet_ruleset_extra(dest, &packet);
   } extra_type_iterate_end;
 }
@@ -5877,8 +5876,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.vision_invis_sq = b->vision_invis_sq;
 
     packet.flags = b->flags;
-
-    PACKET_STRVEC_COMPUTE(packet.helptext, b->helptext);
 
     lsend_packet_ruleset_base(dest, &packet);
   } base_type_iterate_end;
@@ -5916,8 +5913,6 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     packet.integrates = r->integrates;
     packet.flags = r->flags;
-
-    PACKET_STRVEC_COMPUTE(packet.helptext, r->helptext);
 
     lsend_packet_ruleset_road(dest, &packet);
   } road_type_iterate_end;

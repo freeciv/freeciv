@@ -73,8 +73,6 @@ struct road_type {
    * faster than through all road types to check for compatible roads. */
   struct road_type_list *integrators;
 
-  struct strvec *helptext;
-
   struct extra_type *self;
 };
 

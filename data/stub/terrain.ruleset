@@ -337,6 +337,8 @@ identifier  = "g"
 ;                           Global Warming
 ;   - "NuclearWinter"     = Instances of this extra on map count towards
 ;                           Nuclear Winter
+; helptext                = optional help text string; should escape all raw
+;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 
@@ -353,6 +355,7 @@ identifier  = "g"
 ;rmact_gfx_alt  = "-"
 ;build_time     = 0
 ;removal_time   = 0
+;helptext       = _("")
 
 ;[extra_gbase]
 ;name           = _("Generic Base")
@@ -372,6 +375,7 @@ identifier  = "g"
 ;    }
 ;build_time     = 0
 ;removal_time   = 0
+;helptext       = _("")
 
 ;[extra_groad]
 ;name           = _("Generic Road")
@@ -391,6 +395,7 @@ identifier  = "g"
 ;    }
 ;build_time     = 0
 ;removal_time   = 0
+;helptext       = _("")
 
 ; /* <-- avoid gettext warnings
 ;
@@ -412,8 +417,6 @@ identifier  = "g"
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "ShowFlag"          = Draw owner's flag
-; helptext = optional help text string; should escape all raw
-; newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 
@@ -477,8 +480,6 @@ identifier  = "g"
 ;                           flowing from land tiles to ocean
 ;   - "UnrestrictedInfra" = Use of the enemy owned road is not restricted
 ;                           even if server setting 'restrictinfra' is set
-; helptext                = optional help text string; should escape all raw
-;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 

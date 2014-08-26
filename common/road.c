@@ -15,10 +15,6 @@
 #include <fc_config.h>
 #endif
 
-/* utility */
-#include "fcintl.h"
-#include "string_vector.h"
-
 /* common */
 #include "extras.h"
 #include "fc_types.h"
@@ -119,7 +115,6 @@ void road_type_init(struct extra_type *pextra, int idx)
 
   proad->id = idx;
   proad->integrators = NULL;
-  proad->helptext = NULL;
   proad->self = pextra;
 }
 
@@ -154,10 +149,6 @@ void road_types_free(void)
     if (proad->integrators != NULL) {
       road_type_list_destroy(proad->integrators);
       proad->integrators = NULL;
-    }
-    if (NULL != proad->helptext) {
-      strvec_destroy(proad->helptext);
-      proad->helptext = NULL;
     }
   } road_type_iterate_end;
 }

@@ -17,6 +17,7 @@
 
 /* utility */
 #include "rand.h"
+#include "string_vector.h"
 
 /* common */
 #include "base.h"
@@ -54,6 +55,7 @@ void extras_init(void)
     extras[i].data.road = NULL;
     extras[i].causes = 0;
     extras[i].rmcauses = 0;
+    extras[i].helptext = NULL;
   }
 }
 
@@ -91,6 +93,11 @@ void extras_free(void)
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
     requirement_vector_free(&(extras[i].rmreqs));
+
+    if (NULL != extras[i].helptext) {
+      strvec_destroy(extras[i].helptext);
+      extras[i].helptext = NULL;
+    }
   }
 
   extra_type_iterate(pextra) {

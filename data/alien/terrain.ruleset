@@ -623,6 +623,8 @@ identifier  = "g"
 ;                           Global Warming
 ;   - "NuclearWinter"     = Instances of this extra on map count towards
 ;                           Nuclear Winter
+; helptext                = optional help text string; should escape all raw
+;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 
@@ -812,6 +814,11 @@ removal_time   = 0
 native_to      = "Earthly", "Native"
 hidden_by      = "Highway", "Maglev"
 flags          = "AutoOnCityCenter"
+helptext       = _("\
+Basic Road is available for building from the beginning of the game.\
+\n\n\
+Having Road on Grassland tile provides increase of +1 to trade on that tile.\
+")
 
 [extra_highway]
 name           = _("Highway")
@@ -836,6 +843,9 @@ removal_time   = 0
 native_to      = "Earthly", "Native"
 hidden_by      = "Maglev"
 flags          = "AutoOnCityCenter"
+helptext       = _("\
+You can upgrade Roads to Highways.\
+")
 
 [extra_maglev]
 name           = _("Maglev")
@@ -859,6 +869,13 @@ build_time     = 3
 removal_time   = 0
 native_to      = "Earthly", "Native"
 flags          = "AutoOnCityCenter"
+; /* xgettext:no-c-format */
+helptext       = _("\
+You can upgrade Highways to Maglevs.\
+\n\n\
+Units can move via Maglevs indefinitely, Shield production of any \
+tile with Maglev is increased by 50%.\
+")
 
 [extra_tunnel]
 name           = _("Tunnel")
@@ -883,6 +900,11 @@ removal_time   = 0
 defense_bonus  = 35
 native_to      = "Earthly"
 flags          = "NativeTile", "AutoOnCityCenter"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Earthly units can travel on radiating tiles with tunnel built on them. \
+Tunnel provides no increase to unit speed, but they give 35% defense bonus.\
+")
 
 [extra_burrow_tube]
 name           = _("Burrow Tube")
@@ -905,6 +927,12 @@ build_time     = 3
 removal_time   = 0
 native_to      = "Burrowing"
 flags          = "NativeTile", "AutoOnCityCenter", "ConnectLand"
+helptext       = _("\
+Burrow Tubes provide the only way for burrowing units to cross oceans. \
+They can be built on oceanic terrains only, but first part of the tube \
+must be built cardinally adjacent to land and following parts must be \
+built in order.\
+")
 
 [extra_green_river]
 name           = _("Green River")
@@ -920,6 +948,13 @@ rmact_gfx_alt  = "-"
 buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Native", "Amphibious"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Any river increases a tile's defense factor by 50%. Native and Amphibious \
+units may move along a River (but not diagonally) for fast travel.\
+"), _("\
+Green River increases also tile's food production by 1.\
+")
 
 [extra_brown_river]
 name           = _("Brown River")
@@ -935,6 +970,13 @@ rmact_gfx_alt  = "-"
 buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Native", "Amphibious"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Any river increases a tile's defense factor by 50%. Native and Amphibious \
+units may move along a River (but not diagonally) for fast travel.\
+"), _("\
+Brown River increases also tile's shield production by 1.\
+")
 
 ; /* <-- avoid gettext warnings
 ;
@@ -957,8 +999,6 @@ native_to      = "Native", "Amphibious"
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "ShowFlag"          = Draw owner's flag
-; helptext                = optional help text string; should escape all raw
-;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1031,8 +1071,6 @@ flags        = "ParadropFrom", "NoAggressive"
 ;                           flowing from land tiles to ocean
 ;   - "UnrestrictedInfra" = Use of the enemy owned road is not restricted
 ;                           even if server setting 'restrictinfra' is set
-; helptext                = optional help text string; should escape all raw
-;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1046,11 +1084,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
-helptext       = _("\
-Basic Road is available for building from the beginning of the game.\
-\n\n\
-Having Road on Grassland tile provides increase of +1 to trade on that tile.\
-")
 
 [road_highway]
 name           = _("Highway")
@@ -1062,9 +1095,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Railroad"
-helptext       = _("\
-You can upgrade Roads to Highways.\
-")
 
 [road_maglev]
 name           = _("Maglev")
@@ -1076,13 +1106,6 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "None"
-; /* xgettext:no-c-format */
-helptext       = _("\
-You can upgrade Highways to Maglevs.\
-\n\n\
-Units can move via Maglevs indefinitely, Shield production of any \
-tile with Maglev is increased by 50%.\
-")
 
 [road_tunnel]
 name           = _("Tunnel")
@@ -1095,11 +1118,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "None"
-; /* xgettext:no-c-format */
-helptext       = _("\
-Earthly units can travel on radiating tiles with tunnel built on them. \
-Tunnel provides no increase to unit speed, but they give 35% defense bonus.\
-")
 
 [road_burrow_tube]
 name           = _("Burrow Tube")
@@ -1115,12 +1133,6 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "None"
-helptext       = _("\
-Burrow Tubes provide the only way for burrowing units to cross oceans. \
-They can be built on oceanic terrains only, but first part of the tube \
-must be built cardinally adjacent to land and following parts must be \
-built in order.\
-")
 
 [road_green_river]
 name           = _("Green River")
@@ -1130,13 +1142,6 @@ food_incr_const  = 1
 trade_incr_const = 1
 compat_special = "River"
 flags          = "River", "UnrestrictedInfra"
-; /* xgettext:no-c-format */
-helptext       = _("\
-Any river increases a tile's defense factor by 50%. Native and Amphibious \
-units may move along a River (but not diagonally) for fast travel.\
-"), _("\
-Green River increases also tile's food production by 1.\
-")
 
 [road_brown_river]
 name           = _("Brown River")
@@ -1148,10 +1153,3 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 flags          = "River", "UnrestrictedInfra"
-; /* xgettext:no-c-format */
-helptext       = _("\
-Any river increases a tile's defense factor by 50%. Native and Amphibious \
-units may move along a River (but not diagonally) for fast travel.\
-"), _("\
-Brown River increases also tile's shield production by 1.\
- ")

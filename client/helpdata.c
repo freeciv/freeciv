@@ -4148,14 +4148,8 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     proad = NULL;
   }
 
-  if (pbase != NULL && pbase->helptext != NULL) {
-    strvec_iterate(pbase->helptext, text) {
-      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
-    } strvec_iterate_end;
-  }
-
-  if (proad != NULL && proad->helptext != NULL) {
-    strvec_iterate(proad->helptext, text) {
+  if (pextra->helptext != NULL) {
+    strvec_iterate(pextra->helptext, text) {
       cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }

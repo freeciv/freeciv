@@ -68,8 +68,6 @@ struct base_type {
 
   bv_base_flags flags;
 
-  struct strvec *helptext;
-
   struct extra_type *self;
 };
 

@@ -15,11 +15,6 @@
 #include <fc_config.h>
 #endif
 
-/* utility */
-#include "fcintl.h"
-#include "log.h"
-#include "string_vector.h"
-
 /* common */
 #include "extras.h"
 #include "game.h"
@@ -292,7 +287,6 @@ void base_type_init(struct extra_type *pextra, int idx)
   pextra->data.base = pbase;
 
   pbase->item_number = idx;
-  pbase->helptext = NULL;
   pbase->self = pextra;
 }
 
@@ -301,12 +295,6 @@ void base_type_init(struct extra_type *pextra, int idx)
 ****************************************************************************/
 void base_types_free(void)
 {
-  base_type_iterate(pbase) {
-    if (NULL != pbase->helptext) {
-      strvec_destroy(pbase->helptext);
-      pbase->helptext = NULL;
-    }
-  } base_type_iterate_end;
 }
 
 /**************************************************************************

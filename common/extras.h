@@ -87,6 +87,8 @@ struct extra_type
    * Only used client side. */
   struct extra_type_list *hiders;
 
+  struct strvec *helptext;
+
   struct
   {
     int special_idx;
