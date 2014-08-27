@@ -2248,9 +2248,11 @@ void fit_nationset_to_players(void)
   /* Otherwise, pick the least worst set (requires unsetting fewest
    * players, possibly none). */
   {
-    int i, least_misfits;
+    /* Quell compiler warning; but least_misfits initializer won't be used */
+    int i, least_misfits = -1;
     const struct nation_set *best = NULL;
-    for (i=0; i<nation_set_count(); i++) {
+    fc_assert(nation_set_count() > 0);
+    for (i = 0; i < nation_set_count(); i++) {
       if (best == NULL || misfits[i] < least_misfits) {
         best = nation_set_by_number(i);
         least_misfits = misfits[i];
@@ -2260,6 +2262,7 @@ void fit_nationset_to_players(void)
         }
       }
     }
+    fc_assert(least_misfits >= 0);
 
     log_verbose("Current nationset \"%s\" doesn't fit all existing players.",
                 nation_set_rule_name(current_nationset()));
