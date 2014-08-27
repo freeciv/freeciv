@@ -461,7 +461,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                                         API_TYPE_PLAYER, member,
                                         API_TYPE_STRING, "traded");
             } research_players_iterate_end;
-            do_dipl_cost(pdest, pclause->value);
+            research_apply_penalty(presearch, pclause->value,
+                                   game.server.diplcost);
             found_new_tech(presearch, pclause->value, FALSE, TRUE);
           }
         }

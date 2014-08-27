@@ -279,7 +279,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
 
   if (is_future_tech(id)
       || research_invention_state(presearch, id) != TECH_KNOWN) {
-    do_free_cost(pplayer, id);
+    research_apply_penalty(presearch, id, game.server.freecost);
     found_new_tech(presearch, id, FALSE, TRUE);
     result = advance_by_number(id);
     research_players_iterate(presearch, member) {

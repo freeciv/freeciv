@@ -58,43 +58,16 @@ static void research_tech_lost(struct research *presearch,
                                Tech_type_id tech);
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 
-/**************************************************************************
-  Reduce dipl cost bulbs from player.
-**************************************************************************/
-void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
+/****************************************************************************
+  Apply a penalty to the research.
+****************************************************************************/
+void research_apply_penalty(struct research *presearch, Tech_type_id tech,
+                            int penalty_percent)
 {
-  struct research * research = research_get(pplayer);
-
-  research->bulbs_researched -=
-      (research_total_bulbs_required(research, tech, FALSE)
-       * game.server.diplcost) / 100;
-  research->researching_saved = A_UNKNOWN;
-}
-
-/**************************************************************************
-  Reduce free cost bulbs from player.
-**************************************************************************/
-void do_free_cost(struct player *pplayer, Tech_type_id tech)
-{
-  struct research * research = research_get(pplayer);
-
-  research->bulbs_researched -=
-      (research_total_bulbs_required(research, tech, FALSE)
-       * game.server.freecost) / 100;
-  research->researching_saved = A_UNKNOWN;
-}
-
-/**************************************************************************
-  Reduce conquer cost bulbs from player.
-**************************************************************************/
-void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
-{
-  struct research * research = research_get(pplayer);
-
-  research->bulbs_researched -=
-      (research_total_bulbs_required(research, tech, FALSE)
-       * game.server.conquercost) / 100;
-  research->researching_saved = A_UNKNOWN;
+  presearch->bulbs_researched -=
+      (research_total_bulbs_required(presearch, tech, FALSE)
+       * penalty_percent) / 100;
+  presearch->researching_saved = A_UNKNOWN;
 }
 
 /****************************************************************************
@@ -182,7 +155,7 @@ void do_tech_parasite_effect(struct player *pplayer)
                research_advance_name_translation(presearch, i),
                astr_str(&effects));
 
-	  do_free_cost(pplayer, i);
+          research_apply_penalty(presearch, i, game.server.freecost);
           found_new_tech(presearch, i, FALSE, TRUE);
 
           research_players_iterate(presearch, member) {
@@ -1252,7 +1225,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
                             nation_plural_for_player(victim));
 
   if (tech_transfer(pplayer, victim, stolen_tech)) {
-    do_conquer_cost(pplayer, stolen_tech);
+    research_apply_penalty(presearch, stolen_tech, game.server.conquercost);
     found_new_tech(presearch, stolen_tech, FALSE, TRUE);
 
     research_players_iterate(presearch, member) {
@@ -1328,11 +1301,12 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 ****************************************************************************/
 Tech_type_id give_random_free_tech(struct player* pplayer)
 {
+  struct research *presearch = research_get(pplayer);
   Tech_type_id tech;
 
   tech = pick_random_tech(pplayer);
-  do_free_cost(pplayer, tech);
-  found_new_tech(research_get(pplayer), tech, FALSE, TRUE);
+  research_apply_penalty(presearch, tech, game.server.freecost);
+  found_new_tech(presearch, tech, FALSE, TRUE);
   return tech;
 }
 
@@ -1352,7 +1326,7 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
   } else {
     tech = presearch->researching;
   }
-  do_free_cost(pplayer, tech);
+  research_apply_penalty(presearch, tech, game.server.freecost);
   found_new_tech(presearch, tech, FALSE, TRUE);
   return tech;
 }

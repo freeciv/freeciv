@@ -18,9 +18,8 @@
 
 struct research;
 
-void do_free_cost(struct player *pplayer, Tech_type_id tech);
-void do_conquer_cost(struct player *pplayer, Tech_type_id tech);
-void do_dipl_cost(struct player *pplayer, Tech_type_id tech);
+void research_apply_penalty(struct research *presearch, Tech_type_id tech,
+                            int penalty_percent);
 void do_tech_parasite_effect(struct player *pplayer);
 
 void send_research_info(const struct research *presearch,
