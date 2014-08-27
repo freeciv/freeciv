@@ -643,8 +643,12 @@ int total_bulbs_required(const struct player *pplayer)
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech)
 {
+  const struct player_research *presearch = (pplayer != NULL
+                                             ? player_research_get(pplayer)
+                                             : NULL);
   int tech_cost_style = game.info.tech_cost_style;
-  double base_cost;
+  int members;
+  double base_cost, total_cost;
 
   if (pplayer
       && !is_future_tech(tech)
@@ -670,9 +674,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    if (pplayer) {
-      base_cost = player_research_get(pplayer)->techs_researched 
-	* game.info.base_tech_cost;
+    if (presearch != NULL) {
+      base_cost = presearch->techs_researched * game.info.base_tech_cost;
     } else {
       base_cost = 0;
     }
@@ -691,7 +694,21 @@ int base_total_bulbs_required(const struct player *pplayer,
     base_cost = 0.0;
   }
 
-  base_cost *= get_player_bonus(pplayer, EFT_TECH_COST_FACTOR);
+  total_cost = 0.0;
+  members = 0;
+  players_iterate_alive(member) {
+    if (player_research_get(member) == presearch) {
+      members++;
+      total_cost += (base_cost
+                     * get_player_bonus(member, EFT_TECH_COST_FACTOR));
+    }
+  } players_iterate_alive_end;
+  if (0 == members) {
+    /* There is no more alive players for this research, no need to apply
+     * complicated modifiers. */
+    return base_cost * (double) game.info.sciencebox / 100.0;
+  }
+  base_cost = total_cost / members;
 
   switch (game.info.tech_leakage) {
   case 0:
@@ -702,16 +719,31 @@ int base_total_bulbs_required(const struct player *pplayer,
     {
       int players = 0, players_with_tech_and_embassy = 0;
 
-      players_iterate_alive(other) {
-	players++;
-	if (player_invention_state(other, tech) == TECH_KNOWN
-	    && pplayer && player_has_embassy(pplayer, other)) {
-	  players_with_tech_and_embassy++;
-	}
+      players_iterate_alive(aplayer) {
+        const struct player_research *aresearch =
+            player_research_get(aplayer);
+
+        players++;
+        if (aresearch == presearch
+            || (A_FUTURE == tech
+                ? aresearch->future_tech <= presearch->future_tech
+                : TECH_KNOWN != player_invention_state(aplayer, tech))) {
+          continue;
+        }
+
+        players_iterate_alive(member) {
+          if (player_research_get(member) == presearch
+              && player_has_embassy(member, aplayer)) {
+            players_with_tech_and_embassy++;
+            break;
+          }
+        } players_iterate_alive_end;
       } players_iterate_alive_end;
 
-      base_cost *= (double)(players - players_with_tech_and_embassy);
-      base_cost /= (double)players;
+      fc_assert_ret_val(0 < players, base_cost);
+      fc_assert(players >= players_with_tech_and_embassy);
+      base_cost *= (double) (players - players_with_tech_and_embassy);
+      base_cost /= (double) players;
     }
     break;
 
@@ -719,15 +751,20 @@ int base_total_bulbs_required(const struct player *pplayer,
     {
       int players = 0, players_with_tech = 0;
 
-      players_iterate_alive(other) {
-	players++;
-	if (player_invention_state(other, tech) == TECH_KNOWN) {
-	  players_with_tech++;
-	}
+      players_iterate_alive(aplayer) {
+        players++;
+        if (A_FUTURE == tech
+            ? (player_research_get(aplayer)->future_tech
+               > presearch->future_tech)
+            : TECH_KNOWN == player_invention_state(aplayer, tech)) {
+          players_with_tech++;
+        }
       } players_iterate_alive_end;
 
-      base_cost *= (double)(players - players_with_tech);
-      base_cost /= (double)players;
+      fc_assert_ret_val(0 < players, base_cost);
+      fc_assert(players >= players_with_tech);
+      base_cost *= (double) (players - players_with_tech);
+      base_cost /= (double) players;
     }
     break;
 
@@ -735,18 +772,23 @@ int base_total_bulbs_required(const struct player *pplayer,
     {
       int players = 0, players_with_tech = 0;
 
-      players_iterate_alive(other) {
-	if (is_barbarian(other)) {
-	  continue;
-	}
-	players++;
-	if (player_invention_state(other, tech) == TECH_KNOWN) {
-	  players_with_tech++;
-	}
+      players_iterate_alive(aplayer) {
+        if (is_barbarian(aplayer)) {
+          continue;
+        }
+        players++;
+        if (A_FUTURE == tech
+            ? (player_research_get(aplayer)->future_tech
+               > presearch->future_tech)
+            : TECH_KNOWN == player_invention_state(aplayer, tech)) {
+          players_with_tech++;
+        }
       } players_iterate_alive_end;
 
-      base_cost *= (double)(players - players_with_tech);
-      base_cost /= (double)players;
+      fc_assert_ret_val(0 < players, base_cost);
+      fc_assert(players >= players_with_tech);
+      base_cost *= (double) (players - players_with_tech);
+      base_cost /= (double) players;
     }
     break;
 
@@ -758,12 +800,21 @@ int base_total_bulbs_required(const struct player *pplayer,
    * can also be adopted to create an extra-hard AI skill level where the AI
    * gets science benefits */
 
-  if (pplayer && pplayer->ai_controlled) {
-    fc_assert_ret_val(pplayer->ai_common.science_cost > 0, FC_INFINITY);
-    base_cost *= (double)pplayer->ai_common.science_cost / 100.0;
-  }
+  total_cost = 0.0;
+  players_iterate_alive(member) {
+    if (player_research_get(member) != presearch) {
+      continue;
+    }
+    if (member->ai_controlled) {
+      fc_assert(0 < member->ai_common.science_cost);
+      total_cost += base_cost * member->ai_common.science_cost / 100.0;
+    } else {
+      total_cost += base_cost;
+    }
+  } players_iterate_alive_end;
+  base_cost = total_cost / members;
 
-  base_cost *= (double)game.info.sciencebox / 100.0;
+  base_cost *= (double) game.info.sciencebox / 100.0;
 
   return MAX(base_cost, 1);
 }
