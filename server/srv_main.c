@@ -2597,29 +2597,21 @@ static void srv_ready(void)
       give_nation_initial_techs(pplayer);
     } players_iterate_end;
 
-    players_iterate(pplayer) {
-      int i;
-      bool free_techs_already_given = FALSE;
-      
-      players_iterate(eplayer) {
-        if (players_on_same_team(eplayer, pplayer) &&
-	    player_number(eplayer) < player_number(pplayer)) {
-          free_techs_already_given = TRUE;
-	  break;
+    player_researches_iterate(presearch) {
+      players_iterate(pplayer) {
+        if (player_research_get(pplayer) == presearch) {
+          int i;
+
+          /* Give global technologies, as specified in the ruleset. */
+          give_global_initial_techs(pplayer);
+          /* Give random free technologies thanks to the techlevel setting. */
+          for (i = 0; i < game.info.tech; i++) {
+            give_random_initial_tech(pplayer);
+          }
+          break; /* Do it only for one player per research. */
         }
       } players_iterate_end;
-      
-      if (free_techs_already_given) {
-        continue;
-      }
-      
-      /* Give global technologies, as specified in the ruleset. */
-      give_global_initial_techs(pplayer);
-      /* Give random free technologies thanks to the techlevel setting. */
-      for (i = 0; i < game.info.tech; i++) {
-        give_random_initial_tech(pplayer);
-      }
-    } players_iterate_end;
+    } player_researches_iterate_end;
 
     /* Set up alliances based on team selections */
     players_iterate(pplayer) {
