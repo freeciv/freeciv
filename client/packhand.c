@@ -2065,7 +2065,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   }
   research->future_tech = pinfo->future_tech;
   research->tech_goal = pinfo->tech_goal;
-  
+
   turn_done_changed = (pplayer->phase_done != pinfo->phase_done
                        || pplayer->ai_controlled != pinfo->ai);
   pplayer->phase_done = pinfo->phase_done;
@@ -2076,6 +2076,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->ai_common.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai_common.skill_level = pinfo->ai_skill_level;
+  pplayer->client.tech_upkeep = player_tech_upkeep(pplayer);
 
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the

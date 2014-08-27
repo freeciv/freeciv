@@ -76,9 +76,6 @@ struct player_research {
    * Cached values. Updated by player_research_update.
    */
   int num_known_tech_with_flag[TF_COUNT];
-
-  /* Tech upkeep in bulbs. Updated by player_research_update. */
-  int tech_upkeep;
 };
 
 /* Common functions. */

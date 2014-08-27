@@ -275,6 +275,8 @@ struct player {
       /* Corresponds to the result of
          (player:server:private_map[tile_index]:seen_count[vlayer] != 0). */
       struct dbv tile_vision[V_COUNT];
+
+      int tech_upkeep;
     } client;
   };
 };
