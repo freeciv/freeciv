@@ -111,67 +111,88 @@ static void tech_researched(struct player *plr)
 ****************************************************************************/
 void do_tech_parasite_effect(struct player *pplayer)
 {
-  struct research *presearch = research_get(pplayer);
-  int mod;
   struct effect_list *plist = effect_list_new();
-
+  struct astring effects;
+  struct research *presearch;
+  char research_name[MAX_LEN_NAME * 2];
+  const char *advance_name;
+  Tech_type_id tech;
   /* Note that two EFT_TECH_PARASITE effects will combine into a single,
    * much worse effect. */
-  if ((mod = get_player_bonus_effects(plist, pplayer,
-				      EFT_TECH_PARASITE)) > 0) {
-    struct astring effects = ASTRING_INIT;
+  int mod = get_player_bonus_effects(plist, pplayer, EFT_TECH_PARASITE);
+  int num_players;
+  int num_techs;
 
-    get_effect_list_req_text(plist, &effects);
-
-    advance_index_iterate(A_FIRST, i) {
-      if (research_invention_gettable(presearch, i,
-                                      game.info.tech_parasite_allow_holes)
-          && research_invention_state(presearch, i) != TECH_KNOWN) {
-        int num_research = 0;
-
-        researches_iterate(presearch) {
-          if (presearch->inventions[i].state == TECH_KNOWN) {
-            num_research++;
-          }
-        } researches_iterate_end;
-        if (num_research >= mod) {
-          char research_name[MAX_LEN_NAME * 2];
-
-          research_pretty_name(presearch, research_name,
-                               sizeof(research_name));
-          notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                        _("%s acquired from %s!"),
-                        research_advance_name_translation(presearch, i),
-                        astr_str(&effects));
-          notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
-                          _("%s acquired from %s's %s!"),
-                          research_advance_name_translation(presearch, i),
-                          player_name(pplayer),
-                          astr_str(&effects));
-          notify_research_embassies
-              (presearch, NULL, E_TECH_GAIN, ftc_server,
-               _("The %s have acquired %s from %s."),
-               research_name,
-               research_advance_name_translation(presearch, i),
-               astr_str(&effects));
-
-          research_apply_penalty(presearch, i, game.server.freecost);
-          found_new_tech(presearch, i, FALSE, TRUE);
-
-          research_players_iterate(presearch, member) {
-            script_server_signal_emit("tech_researched", 3,
-                                      API_TYPE_TECH_TYPE,
-                                      advance_by_number(i),
-                                      API_TYPE_PLAYER, member,
-                                      API_TYPE_STRING, "stolen");
-          } research_players_iterate_end;
-	  break;
-	}
-      }
-    } advance_index_iterate_end;
-    astr_free(&effects);
+  if (mod <= 0) {
+    /* No effect. */
+    effect_list_destroy(plist);
+    return;
   }
+
+  /* Pick a random technology. */
+  tech = A_UNSET;
+  num_techs = 0;
+  presearch = research_get(pplayer);
+  advance_index_iterate(A_FIRST, i) {
+    if (!research_invention_gettable(presearch, i,
+                                     game.info.tech_parasite_allow_holes)
+        || TECH_KNOWN == research_invention_state(presearch, i)) {
+      continue;
+    }
+
+    num_players = 0;
+    players_iterate(aplayer) {
+      if (TECH_KNOWN == research_invention_state(research_get(aplayer), i)) {
+        if (mod <= ++num_players) {
+          if (0 == fc_rand(++num_techs)) {
+            tech = i;
+          }
+          break;
+        }
+      }
+    } players_iterate_end;
+  } advance_index_iterate_end;
+
+  if (A_UNSET == tech) {
+    /* No tech found. */
+    effect_list_destroy(plist);
+    return;
+  }
+
+  /* Notify. */
+  research_pretty_name(presearch, research_name, sizeof(research_name));
+  advance_name = research_advance_name_translation(presearch, tech);
+  astr_init(&effects);
+  get_effect_list_req_text(plist, &effects);
+
+  notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                _("%s acquired from %s!"),
+                advance_name,
+                astr_str(&effects));
+  notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
+                  _("%s acquired from %s's %s!"),
+                  advance_name,
+                 player_name(pplayer),
+                  astr_str(&effects));
+  notify_research_embassies(presearch, NULL, E_TECH_GAIN, ftc_server,
+                            _("The %s have acquired %s from %s."),
+                            research_name,
+                            advance_name,
+                            astr_str(&effects));
+
   effect_list_destroy(plist);
+  astr_free(&effects);
+
+  /* Really get tech. */
+  research_apply_penalty(presearch, tech, game.server.freecost);
+  found_new_tech(presearch, tech, FALSE, TRUE);
+
+  research_players_iterate(presearch, member) {
+    script_server_signal_emit("tech_researched", 3,
+                              API_TYPE_TECH_TYPE, advance_by_number(tech),
+                              API_TYPE_PLAYER, member,
+                              API_TYPE_STRING, "stolen");
+  } research_players_iterate_end;
 }
 
 /****************************************************************************
