@@ -679,9 +679,12 @@ int research_total_bulbs_required(const struct research *presearch,
     total_cost += (base_cost
                    * get_player_bonus(pplayer, EFT_TECH_COST_FACTOR));
   } research_players_iterate_end;
-  if (0 < members) {
-    base_cost = total_cost / members;
-  } /* else { base_cost = base_cost; } */
+  if (0 == members) {
+    /* There is no more alive players for this research, no need to apply
+     * complicated modifiers. */
+    return base_cost * (double) game.info.sciencebox / 100.0;
+  }
+  base_cost = total_cost / members;
 
   switch (game.info.tech_leakage) {
   case 0:
@@ -711,6 +714,8 @@ int research_total_bulbs_required(const struct research *presearch,
         } research_players_iterate_end;
       } players_iterate_alive_end;
 
+      fc_assert_ret_val(0 < players, base_cost);
+      fc_assert(players >= players_with_tech_and_embassy);
       base_cost *= (double) (players - players_with_tech_and_embassy);
       base_cost /= (double) players;
     }
@@ -730,6 +735,8 @@ int research_total_bulbs_required(const struct research *presearch,
         }
       } players_iterate_alive_end;
 
+      fc_assert_ret_val(0 < players, base_cost);
+      fc_assert(players >= players_with_tech);
       base_cost *= (double) (players - players_with_tech);
       base_cost /= (double) players;
     }
@@ -752,6 +759,8 @@ int research_total_bulbs_required(const struct research *presearch,
         }
       } players_iterate_alive_end;
 
+      fc_assert_ret_val(0 < players, base_cost);
+      fc_assert(players >= players_with_tech);
       base_cost *= (double) (players - players_with_tech);
       base_cost /= (double) players;
     }
@@ -765,18 +774,16 @@ int research_total_bulbs_required(const struct research *presearch,
    * can also be adopted to create an extra-hard AI skill level where the AI
    * gets science benefits. */
 
-  if (0 < members) {
-    total_cost = 0.0;
-    research_players_iterate(presearch, pplayer) {
-      if (pplayer->ai_controlled) {
-        fc_assert(0 < pplayer->ai_common.science_cost);
-        total_cost += base_cost * pplayer->ai_common.science_cost / 100.0;
-      } else {
-        total_cost += base_cost;
-      }
-    } research_players_iterate_end;
-    base_cost = total_cost / members;
-  } /* else { base_cost = base_cost; } */
+  total_cost = 0.0;
+  research_players_iterate(presearch, pplayer) {
+    if (pplayer->ai_controlled) {
+      fc_assert(0 < pplayer->ai_common.science_cost);
+      total_cost += base_cost * pplayer->ai_common.science_cost / 100.0;
+    } else {
+      total_cost += base_cost;
+    }
+  } research_players_iterate_end;
+  base_cost = total_cost / members;
 
   base_cost *= (double) game.info.sciencebox / 100.0;
 
