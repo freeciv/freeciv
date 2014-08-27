@@ -190,7 +190,13 @@ Nuke_Proof
     City is nuke proof.
 
 Pollu_Pop_Pct
-    Increases pollution caused by population by amount percent.
+    Increases pollution caused by each unit of population by amount
+percent (adds to baseline of 100%, i.e. 1 pollution per citizen).
+
+Pollu_Pop_Pct_2
+    Increases pollution caused by each unit of population by amount
+percent (adds to baseline of 100%, i.e. 1 pollution per citizen).
+This factor is applied after Pollu_Pop_Pct, so is multiplicative with it.
 
 Pollu_Prod_Pct
     Increases pollution caused by shields by amount percent.

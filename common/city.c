@@ -2434,18 +2434,17 @@ static inline void unhappy_city_check(struct city *pcity)
 int city_pollution_types(const struct city *pcity, int shield_total,
 			 int *pollu_prod, int *pollu_pop, int *pollu_mod)
 {
-  struct player *pplayer = city_owner(pcity);
   int prod, pop, mod;
 
   /* Add one one pollution per shield, multipled by the bonus. */
   prod = 100 + get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
   prod = shield_total * MAX(prod, 0) / 100;
 
-  /* Add one 1/4 pollution per citizen per tech, multiplied by the bonus. */
-  pop = 100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT);
-  pop = (city_size_get(pcity)
-	 * num_known_tech_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)
-	 * MAX(pop, 0)) / (4 * 100);
+  /* Add one pollution per citizen for baseline combined bonus (100%). */
+  pop = (100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT))
+      * (100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT_2))
+      / 100;
+  pop = (city_size_get(pcity) * MAX(pop, 0)) / 100;
 
   /* Then there is base pollution (usually a negative number). */
   mod = game.info.base_pollution;

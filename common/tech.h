@@ -69,7 +69,7 @@ typedef int Tech_type_id;
 */
 
 /* Changing these breaks network compatibility. */
-/* If a new flag is added techtools.c:player_tech_lost() should be checked */
+/* If a new flag is added techtools.c:research_tech_lost() should be checked */
 #define SPECENUM_NAME tech_flag_id
 /* player gets extra tech if rearched first */
 #define SPECENUM_VALUE0 TF_BONUS_TECH
@@ -77,23 +77,20 @@ typedef int Tech_type_id;
 /* "Settler" unit types can build bridges over rivers */
 #define SPECENUM_VALUE1 TF_BRIDGE
 #define SPECENUM_VALUE1NAME "Bridge"
-/* Increase the pollution factor created by population by one */
-#define SPECENUM_VALUE2 TF_POPULATION_POLLUTION_INC
-#define SPECENUM_VALUE2NAME "Population_Pollution_Inc"
 /* Player can build air units */
-#define SPECENUM_VALUE3 TF_BUILD_AIRBORNE
-#define SPECENUM_VALUE3NAME "Build_Airborne"
+#define SPECENUM_VALUE2 TF_BUILD_AIRBORNE
+#define SPECENUM_VALUE2NAME "Build_Airborne"
 /* Player can claim ocean tiles non-adjacent to border source */ 
-#define SPECENUM_VALUE4 TF_CLAIM_OCEAN
-#define SPECENUM_VALUE4NAME "Claim_Ocean"
-#define SPECENUM_VALUE5 TECH_USER_1
-#define SPECENUM_VALUE6 TECH_USER_2
-#define SPECENUM_VALUE7 TECH_USER_3
-#define SPECENUM_VALUE8 TECH_USER_4
-#define SPECENUM_VALUE9 TECH_USER_5
-#define SPECENUM_VALUE10 TECH_USER_6
-#define SPECENUM_VALUE11 TECH_USER_7
-#define SPECENUM_VALUE12 TECH_USER_LAST
+#define SPECENUM_VALUE3 TF_CLAIM_OCEAN
+#define SPECENUM_VALUE3NAME "Claim_Ocean"
+#define SPECENUM_VALUE4 TECH_USER_1
+#define SPECENUM_VALUE5 TECH_USER_2
+#define SPECENUM_VALUE6 TECH_USER_3
+#define SPECENUM_VALUE7 TECH_USER_4
+#define SPECENUM_VALUE8 TECH_USER_5
+#define SPECENUM_VALUE9 TECH_USER_6
+#define SPECENUM_VALUE10 TECH_USER_7
+#define SPECENUM_VALUE11 TECH_USER_LAST
 /* Keep this last. */
 #define SPECENUM_COUNT TF_COUNT
 #define SPECENUM_BITVECTOR bv_tech_flags

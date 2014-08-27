@@ -60,8 +60,6 @@ options="+Freeciv-ruleset-Devel-2013.May.14"
 ; "Bonus_Tech" = player gets extra tech if reached first
 ; "Bridge"   = "Settler" unit types can build roads with "RequiresBridge" flag
 ;              over roads with "PreventsOtherRoads" flag (rivers)
-; "Population_Pollution_Inc" = Increase the pollution factor created by
-;                              population by one
 ; "Build_Airborne" = from now on can build air units (for use by AI)
 ; "Claim_Ocean"    = Player claims ocean tiles even if they are not
 ;                    adjacent to border source
@@ -392,7 +390,6 @@ cost     = 10
 name     = _("Industrialization")
 req1     = "Railroad"
 req2     = "Banking"
-flags    = "Population_Pollution_Inc"
 graphic     = "a.industrialization"
 graphic_alt = "-"
 cost     = 380

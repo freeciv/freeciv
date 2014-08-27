@@ -100,6 +100,7 @@ static void adv_data_city_impr_calc(struct player *pplayer,
 #endif
       case EFT_CAPITAL_CITY:
       case EFT_POLLU_POP_PCT:
+      case EFT_POLLU_POP_PCT_2:
       case EFT_POLLU_PROD_PCT:
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:

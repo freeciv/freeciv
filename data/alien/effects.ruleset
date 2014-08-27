@@ -546,6 +546,11 @@ reqs	=
       "Extra", "Pollution", "Local"
     }
 
+; No population-related pollution
+[effect_pop_pollution]
+type	= "Pollu_Pop_Pct"
+value	= -100
+
 [effect_hospital]
 type    = "HP_Regen"
 value	= 50

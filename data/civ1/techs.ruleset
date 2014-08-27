@@ -91,9 +91,9 @@ graphic_alt = "-"
 name     = _("Automobile")
 req1     = "Combustion"
 req2     = "Steel"
-flags    = "Population_Pollution_Inc"
 graphic     = "a.automobile"
 graphic_alt = "-"
+helptext = _("Increases the population's contribution to pollution.")
 
 [advance_banking]
 name     = _("Banking")
@@ -293,9 +293,9 @@ graphic_alt = "-"
 name     = _("Industrialization")
 req1     = "Railroad"
 req2     = "Banking"
-flags    = "Population_Pollution_Inc"
 graphic     = "a.industrialization"
 graphic_alt = "-"
+helptext = _("Population will start contributing to pollution.")
 
 [advance_invention]
 name     = _("Invention")
@@ -357,9 +357,9 @@ graphic_alt = "-"
 name     = _("Mass Production")
 req1     = "Automobile"
 req2     = "The Corporation"
-flags    = "Population_Pollution_Inc"
 graphic     = "a.mass_production"
 graphic_alt = "-"
+helptext = _("Increases the population's contribution to pollution.")
 
 [advance_mathematics]
 name     = _("Mathematics")
@@ -446,9 +446,9 @@ graphic_alt = "-"
 name     = _("Plastics")
 req1     = "Refining"
 req2     = "Space Flight"
-flags    = "Population_Pollution_Inc"
 graphic     = "a.plastics"
 graphic_alt = "-"
+helptext = _("Increases the population's contribution to pollution.")
 
 [advance_pottery]
 name     = _("Pottery")

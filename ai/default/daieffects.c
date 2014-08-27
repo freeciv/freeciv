@@ -170,6 +170,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_UPKEEP_FREE:
   case EFT_TECH_UPKEEP_FREE:
   case EFT_POLLU_POP_PCT:
+  case EFT_POLLU_POP_PCT_2:
   case EFT_POLLU_PROD_PCT:
   case EFT_OUTPUT_BONUS:
   case EFT_OUTPUT_BONUS_2:

@@ -835,10 +835,6 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
         update = TRUE;
       }
 
-      if (advance_has_flag(tech, TF_POPULATION_POLLUTION_INC)) {
-        update = TRUE;
-      }
-
       if (update) {
         city_refresh(pcity);
         send_city_info(pplayer, pcity);

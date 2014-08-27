@@ -2046,7 +2046,7 @@ reqs    =
 
 [effect_factory_1]
 type    = "Pollu_Pop_Pct"
-value   = 100
+value   = 25
 reqs    =
     { "type", "name", "range"
       "Building", "Factory", "City"
@@ -2198,7 +2198,7 @@ reqs    =
 
 [effect_mass_transit]
 type    = "Pollu_Pop_Pct"
-value   = -200
+value   = -50
 reqs    =
     { "type", "name", "range"
       "Building", "Mass Transit", "City"
@@ -2215,7 +2215,7 @@ reqs    =
 
 [effect_mfg_plant_1]
 type    = "Pollu_Pop_Pct"
-value   = 100
+value   = 25
 reqs    =
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
@@ -2293,7 +2293,7 @@ reqs    =
 
 [effect_offshore_platform_2]
 type    = "Pollu_Pop_Pct"
-value   = 100
+value   = 25
 reqs    =
     { "type", "name", "range"
       "Building", "Offshore Platform", "City"
@@ -2667,7 +2667,7 @@ reqs    =
 
 [effect_super_highways_3]
 type    = "Pollu_Pop_Pct"
-value   = 100
+value   = 25
 reqs    =
     { "type", "name", "range"
       "Building", "Super Highways", "City"
@@ -2864,7 +2864,7 @@ reqs    =
 
 [effect_eiffel_tower_1]
 type    = "Pollu_Pop_Pct"
-value   = -100
+value   = -25
 reqs    =
     { "type", "name", "range"
       "Building", "Eiffel Tower", "Player"
@@ -3448,8 +3448,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-; Pop pollution increased by buildings, instead of techs
-; 100 = 25% (400 = 100%)
+; No base pop pollution; buildings will increase it
 [effect_pollu_pop]
 type    = "Pollu_Pop_Pct"
 value   = -100
