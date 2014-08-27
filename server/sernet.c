@@ -1071,6 +1071,10 @@ int server_open_socket(void)
   struct ipv6_mreq mreq6;
 #endif
 
+  log_verbose("Server attempting to listen on %s:%d",
+              srvarg.bind_addr ? srvarg.bind_addr : "(any)",
+              srvarg.port);
+
 #ifdef IPV6_SUPPORT
   list = net_lookup_service(srvarg.bind_addr, srvarg.port, FC_ADDR_ANY);
 #else  /* IPV6_SUPPORT */
@@ -1082,7 +1086,7 @@ int server_open_socket(void)
   /* Lookup addresses to bind. */
   if (name_count <= 0) {
     log_fatal(_("Server: bad address: <%s:%d>."),
-              srvarg.bind_addr, srvarg.port);
+              srvarg.bind_addr ? srvarg.bind_addr : "(none)", srvarg.port);
     exit(EXIT_FAILURE);
   }
 
