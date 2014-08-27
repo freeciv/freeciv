@@ -814,7 +814,10 @@ void eco_report::update_report()
   int h;
   QFontMetrics fm(f);
   h = fm.height() + 6;
+  QPixmap *pix;
   QPixmap pix_scaled;
+  struct sprite *sprite;
+
   eco_widget->setRowCount(0);
   eco_widget->clearContents();
   get_economy_report_data(building_entries, &entries_used,
@@ -822,8 +825,17 @@ void eco_report::update_report()
   for (i = 0; i < entries_used; i++) {
     struct improvement_entry *pentry = building_entries + i;
     struct impr_type *pimprove = pentry->type;
-    QPixmap *pix = get_building_sprite(tileset, pimprove)->pm;
-    pix_scaled = pix->scaledToHeight(h);
+
+    pix = NULL;
+    sprite = get_building_sprite(tileset, pimprove);
+    if (sprite != NULL){
+      pix = sprite->pm;
+    }
+    if (pix != NULL){
+      pix_scaled = pix->scaledToHeight(h);
+    } else {
+      pix_scaled.fill();
+    }
     cid cid = cid_encode_building(pimprove);
 
     eco_widget->insertRow(i);
@@ -860,8 +872,13 @@ void eco_report::update_report()
   for (i = 0; i < entries_used; i++) {
     struct unit_entry *pentry = unit_entries + i;
     struct unit_type *putype = pentry->type;
-    QPixmap *pix = get_unittype_sprite(tileset, putype,
-                                       direction8_invalid(), true)->pm;
+
+    pix = NULL;
+    sprite = get_unittype_sprite(tileset, putype,
+                                       direction8_invalid(), true);
+    if (sprite != NULL){
+      pix = sprite->pm;
+    }
     cid cid = cid_encode_unit(putype);
 
     eco_widget->insertRow(i + max_row);
@@ -870,7 +887,10 @@ void eco_report::update_report()
       item->setTextAlignment(Qt::AlignHCenter);
       switch (j) {
       case 0:
-        item->setData(Qt::DecorationRole, *pix);
+        if (pix != NULL){
+          pix_scaled = pix->scaledToHeight(h);
+          item->setData(Qt::DecorationRole, pix_scaled);
+        }
         item->setData(Qt::UserRole, cid);
         break;
       case 1:
