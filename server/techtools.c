@@ -71,35 +71,33 @@ void research_apply_penalty(struct research *presearch, Tech_type_id tech,
 }
 
 /****************************************************************************
-  Player has researched a new technology
+  Players have researched a new technology. May be recursive.
 ****************************************************************************/
-static void tech_researched(struct player *plr)
+static void tech_researched(struct research *research)
 {
-  struct research *research = research_get(plr);
   char research_name[MAX_LEN_NAME * 2];
-  /* plr will be notified when new tech is chosen */
+  /* Cache researched technology for event signal, because found_new_tech()
+   * changes the research target. */
+  Tech_type_id tech = research->researching;
 
   research_pretty_name(research, research_name, sizeof(research_name));
+  /* Players will be notified when new tech is chosen. */
   notify_research_embassies
       (research, NULL, E_TECH_GAIN, ftc_server,
        _("The %s have researched %s."),
        research_name,
-       research_advance_name_translation(research, research->researching));
+       research_advance_name_translation(research, tech));
 
-  /* Deduct tech cost */
-  research->bulbs_researched = (research->bulbs_researched
-                                - research->researching_cost);
+  /* Deduct tech cost. */
+  research->bulbs_researched -= research->researching_cost;
 
-  /* cache researched technology for event signal, because found_new_tech() changes the research goal */
-  Tech_type_id researched_tech = research->researching;
-
-  /* do all the updates needed after finding new tech */
-  found_new_tech(research, research->researching, TRUE, TRUE);
+  /* Do all the updates needed after finding new tech. */
+  found_new_tech(research, tech, TRUE, TRUE);
 
   research_players_iterate(research, member) {
     script_server_signal_emit("tech_researched", 3,
                               API_TYPE_TECH_TYPE,
-                              advance_by_number(researched_tech),
+                              advance_by_number(tech),
                               API_TYPE_PLAYER, member,
                               API_TYPE_STRING, "researched");
   } research_players_iterate_end;
@@ -627,7 +625,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
   if (check_tech && research->researching != A_UNSET) {
     /* check for finished research */
     if (research->bulbs_researched - research->researching_cost >= 0) {
-      tech_researched(plr);
+      tech_researched(research);
 
       if (research->researching != A_UNSET) {
         /* check research again */
@@ -978,7 +976,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
   research->researching_cost = research_total_bulbs_required(research, tech,
                                                              FALSE);
   if (research->bulbs_researched >= research->researching_cost) {
-    tech_researched(plr);
+    tech_researched(research);
   }
 }
 
