@@ -202,8 +202,7 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
       || unit_has_type_flag(punit, UTYF_NO_VETERAN)) {
     return FALSE;
   } else if (!settler) {
-    int mod = 100 + get_unittype_bonus(unit_owner(punit), unit_tile(punit),
-                                       unit_type(punit), EFT_VETERAN_COMBAT);
+    int mod = 100 + get_unit_bonus(punit, EFT_VETERAN_COMBAT);
 
     /* The modification is tacked on as a multiplier to the base chance.
      * For example with a base chance of 50% for green units and a modifier
