@@ -37,6 +37,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #endif
 
 /* utility */
+#include "astring.h"
 #include "capability.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -228,14 +229,10 @@ bool client_start_server(void)
   }
 
 # ifdef HAVE_WORKING_FORK
-  server_pid = fork();
-
-  if (server_pid == 0) {
-    int fd, argc = 0;
+  {
+    int argc = 0;
     const int max_nargs = 18;
     char *argv[max_nargs + 1], port_buf[32];
-
-    /* inside the child */
 
     /* Set up the command-line parameters. */
     fc_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
@@ -266,47 +263,66 @@ bool client_start_server(void)
     argv[argc] = NULL;
     fc_assert(argc <= max_nargs);
 
-    /* avoid terminal spam, but still make server output available */ 
-    fclose(stdout);
-    fclose(stderr);
-
-    /* FIXME: include the port to avoid duplication? */
-    if (logfile) {
-      fd = open(logfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-
-      if (fd != 1) {
-        dup2(fd, 1);
+    {
+      struct astring options = ASTRING_INIT;
+      int i;
+      for (i = 1; i < argc; i++) {
+        astr_add(&options, i == 1 ? "%s" : " %s", argv[i]);
       }
-      if (fd != 2) {
-        dup2(fd, 2);
-      }
-      fchmod(1, 0644);
+      log_verbose("Arguments to spawned server: %s",
+                  astr_str(&options));
+      astr_free(&options);
     }
 
-    /* If it's still attatched to our terminal, things get messed up, 
-      but freeciv-server needs *something* */ 
-    fclose(stdin);
-    fd = open("/dev/null", O_RDONLY);
-    if (fd != 0) {
-      dup2(fd, 0);
-    }
+    server_pid = fork();
 
-    /* these won't return on success */
+    if (server_pid == 0) {
+      int fd;
+
+      /* inside the child */
+
+      /* avoid terminal spam, but still make server output available */ 
+      fclose(stdout);
+      fclose(stderr);
+
+      /* FIXME: include the port to avoid duplication? */
+      if (logfile) {
+        fd = open(logfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+
+        if (fd != 1) {
+          dup2(fd, 1);
+        }
+        if (fd != 2) {
+          dup2(fd, 2);
+        }
+        fchmod(1, 0644);
+      }
+
+      /* If it's still attatched to our terminal, things get messed up, 
+        but freeciv-server needs *something* */ 
+      fclose(stdin);
+      fd = open("/dev/null", O_RDONLY);
+      if (fd != 0) {
+        dup2(fd, 0);
+      }
+
+      /* these won't return on success */
 #ifdef DEBUG
-    /* Search under current directory (what ever that happens to be)
-     * only in debug builds. This allows running freeciv directly from build
-     * tree, but could be considered security risk in release builds. */
-    execvp("./fcser", argv);
-    execvp("./server/freeciv-server", argv);
+      /* Search under current directory (what ever that happens to be)
+       * only in debug builds. This allows running freeciv directly from build
+       * tree, but could be considered security risk in release builds. */
+      execvp("./fcser", argv);
+      execvp("./server/freeciv-server", argv);
 #endif /* DEBUG */
-    execvp(BINDIR "/freeciv-server", argv);
-    execvp("freeciv-server", argv);
+      execvp(BINDIR "/freeciv-server", argv);
+      execvp("freeciv-server", argv);
 
-    /* This line is only reached if freeciv-server cannot be started, 
-     * so we kill the forked process.
-     * Calling exit here is dangerous due to X11 problems (async replies) */ 
-    _exit(1);
-  } 
+      /* This line is only reached if freeciv-server cannot be started, 
+       * so we kill the forked process.
+       * Calling exit here is dangerous due to X11 problems (async replies) */ 
+      _exit(1);
+    } 
+  }
 # else /* HAVE_WORKING_FORK */
 #  ifdef WIN32_NATIVE
   if (logfile) {
@@ -363,6 +379,8 @@ bool client_start_server(void)
               BINDIR "/freeciv-server %s", options);
   fc_snprintf(cmdline4, sizeof(cmdline4),
               "freeciv-server %s", options);
+
+  log_verbose("Arguments to spawned server: %s", options);
 
   if (
 #ifdef DEBUG
