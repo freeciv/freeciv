@@ -53,7 +53,8 @@
 /* Define this to add information about tech upkeep. */
 #undef TECH_UPKEEP_DEBUGGING
 
-static Tech_type_id pick_random_tech_to_lose(struct player* plr);
+static Tech_type_id
+pick_random_tech_to_lose(const struct research *presearch);
 static void research_tech_lost(struct research *presearch,
                                Tech_type_id tech);
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
@@ -470,7 +471,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
          * a random tech, else keep A_UNSET. */
         research_players_iterate(presearch, aplayer) {
           if (aplayer->ai_controlled) {
-            next_tech = pick_random_tech(aplayer);
+            next_tech = pick_random_tech(presearch);
             break;
           }
         } research_players_iterate_end;
@@ -591,7 +592,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
                       _("Insufficient science output. We lost %s."),
                       research_advance_name_translation(research, tech));
     } else {
-      tech = pick_random_tech_to_lose(plr);
+      tech = pick_random_tech_to_lose(research);
 
       if (tech != A_NONE) {
         log_debug("%s: tech loss (%s)", player_name(plr),
@@ -637,9 +638,9 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 /****************************************************************************
   Choose a random tech for player to lose.
 ****************************************************************************/
-static Tech_type_id pick_random_tech_to_lose(struct player* plr)
+static Tech_type_id
+pick_random_tech_to_lose(const struct research *presearch)
 {
-  struct research *presearch = research_get(plr);
   bv_techs eligible_techs;
   int chosen, eligible = advance_count();
 
@@ -695,6 +696,8 @@ static Tech_type_id pick_random_tech_to_lose(struct player* plr)
   } advance_index_iterate_end;
 
   /* should never be reached */
+  fc_assert_msg(FALSE, "internal error (eligible=%d, chosen=%d.",
+                eligible, chosen);
   return A_NONE;
 }
 
@@ -838,46 +841,31 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
 }
 
 /****************************************************************************
-  Returns random researchable tech or A_FUTURE.
-  No side effects
+  Returns random researchable tech or A_FUTURE. No side effects.
 ****************************************************************************/
-Tech_type_id pick_random_tech(struct player* plr) 
+Tech_type_id pick_random_tech(const struct research *presearch)
 {
-  const struct research *presearch = research_get(plr);
-  int chosen, researchable = 0;
+  Tech_type_id tech = A_FUTURE;
+  int num_techs = 0;
 
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
-      researchable++;
-    }
-  } advance_index_iterate_end;
-  if (researchable == 0) {
-    return A_FUTURE;
-  }
-  chosen = fc_rand(researchable) + 1;
-  
-  advance_index_iterate(A_FIRST, i) {
-    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
-      chosen--;
-      if (chosen == 0) {
-        return i;
+      if (fc_rand(++num_techs) == 0) {
+        tech = i;
       }
     }
   } advance_index_iterate_end;
-  log_error("Failed to pick a random tech.");
-  return A_FUTURE;
+  return tech;
 }
 
 /****************************************************************************
   Returns cheapest researchable tech, random among equal cost ones.
 ****************************************************************************/
-Tech_type_id pick_cheapest_tech(struct player* plr)
+Tech_type_id pick_cheapest_tech(const struct research *presearch)
 {
-  const struct research *presearch = research_get(plr);
   int cheapest_cost = -1;
   int cheapest_amount = 0;
   Tech_type_id cheapest = A_NONE;
-  int chosen;
 
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
@@ -887,35 +875,12 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
         cheapest_cost = cost;
         cheapest_amount = 1;
         cheapest = i;
-      } else if (cost == cheapest_cost) {
-        cheapest_amount++;
+      } else if (cost == cheapest_cost && fc_rand(++cheapest_amount) == 0) {
+        cheapest = i;
       }
     }
   } advance_index_iterate_end;
-  if (cheapest_cost == -1) {
-    return A_FUTURE;
-  }
-  if (cheapest_amount == 1) {
-    /* No need to get random one among the 1 cheapest */
-    return cheapest;
-  }
-
-  chosen = fc_rand(cheapest_amount) + 1;
-
-  advance_index_iterate(A_FIRST, i) {
-    if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN
-        && (research_total_bulbs_required(presearch, i, FALSE)
-            == cheapest_cost)) {
-      chosen--;
-      if (chosen == 0) {
-        return i;
-      }
-    }
-  } advance_index_iterate_end;
-
-  fc_assert(FALSE);
-
-  return A_NONE;
+  return cheapest;
 }
 
 /****************************************************************************
@@ -930,10 +895,7 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 void choose_random_tech(struct research *research)
 {
   do {
-    /* FIXME: HACK (we currently need a player pointer!). */
-    research_players_iterate(research, pplayer) {
-      choose_tech(research, pick_random_tech(pplayer));
-    } research_players_iterate_end;
+    choose_tech(research, pick_random_tech(research));
   } while (research->researching == A_UNSET);
 }
 
@@ -1136,10 +1098,11 @@ void give_nation_initial_techs(struct player *pplayer)
 ****************************************************************************/
 Tech_type_id give_random_initial_tech(struct player *pplayer)
 {
+  struct research *presearch = research_get(pplayer);
   Tech_type_id tech;
   
-  tech = pick_random_tech(pplayer);
-  found_new_tech(research_get(pplayer), tech, FALSE, TRUE);
+  tech = pick_random_tech(presearch);
+  found_new_tech(presearch, tech, FALSE, TRUE);
   return tech;
 }
 
@@ -1317,7 +1280,7 @@ Tech_type_id give_random_free_tech(struct player* pplayer)
   struct research *presearch = research_get(pplayer);
   Tech_type_id tech;
 
-  tech = pick_random_tech(pplayer);
+  tech = pick_random_tech(presearch);
   research_apply_penalty(presearch, tech, game.server.freecost);
   found_new_tech(presearch, tech, FALSE, TRUE);
   return tech;
@@ -1332,10 +1295,10 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
   Tech_type_id tech;
 
   if (game.info.free_tech_method == FTM_CHEAPEST) {
-    tech = pick_cheapest_tech(pplayer);
+    tech = pick_cheapest_tech(presearch);
   } else if (presearch->researching == A_UNSET
       || game.info.free_tech_method == FTM_RANDOM) {
-    return give_random_free_tech(pplayer);
+    tech = pick_random_tech(presearch);
   } else {
     tech = presearch->researching;
   }
