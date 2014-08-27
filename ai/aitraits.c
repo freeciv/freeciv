@@ -56,7 +56,7 @@ int ai_trait_get_value(enum trait tr, struct player *pplayer)
 {
   int val = pplayer->nation->server.traits[tr] + pplayer->ai_common.traits[tr].mod;
 
-  /* Clip so that vale is at least 1, and maximum is
+  /* Clip so that value is at least 1, and maximum is
    * TRAIT_DEFAULT_VALUE as many times as TRAIT_DEFAULT value is
    * minimum value of 1 ->
    * minimum is default / TRAIT_DEFAULT_VALUE,
