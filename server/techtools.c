@@ -491,11 +491,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
     }
 
     if (A_UNSET != next_tech) {
-      /* FIXME: HACK (we currently need a player pointer!). */
-      research_players_iterate(presearch, aplayer) {
-        choose_tech(aplayer, next_tech);
-        break;
-      } research_players_iterate_end;
+      choose_tech(presearch, next_tech);
     } else {
       presearch->researching = A_UNSET;
       presearch->researching_cost = 0;
@@ -924,45 +920,45 @@ Tech_type_id pick_cheapest_tech(struct player* plr)
 
 /****************************************************************************
   Finds and chooses (sets) a random research target from among all those
-  available until plr->research->researching != A_UNSET.
-  Player may research more than one tech in this function.
+  available until presearch->researching != A_UNSET.
+  Players may research more than one tech in this function.
   Possible reasons:
-  - techpenalty < 100
-  - research.got_tech = TRUE and enough bulbs was saved
-  - research.researching = A_UNSET and enough bulbs was saved
+  - techpenalty < 100;
+  - research.got_tech = TRUE and enough bulbs was saved;
+  - research.researching = A_UNSET and enough bulbs was saved.
 ****************************************************************************/
-void choose_random_tech(struct player *plr)
+void choose_random_tech(struct research *research)
 {
-  struct research* research = research_get(plr);
   do {
-    choose_tech(plr, pick_random_tech(plr));
+    /* FIXME: HACK (we currently need a player pointer!). */
+    research_players_iterate(research, pplayer) {
+      choose_tech(research, pick_random_tech(pplayer));
+    } research_players_iterate_end;
   } while (research->researching == A_UNSET);
 }
 
 /****************************************************************************
-  Called when the player chooses the tech he wants to research (or when
+  Called when a player chooses the tech he wants to research (or when
   the server chooses it for him automatically).
 
-  This takes care of all side effects so the player's research target
-  probably shouldn't be changed outside of this function (doing so has
-  been the cause of several bugs).
+  This takes care of all side effects so the research target probably
+  shouldn't be changed outside of this function (doing so has been the
+  cause of several bugs).
 ****************************************************************************/
-void choose_tech(struct player *plr, Tech_type_id tech)
+void choose_tech(struct research *research, Tech_type_id tech)
 {
-  struct research *research = research_get(plr);
-
   if (research->researching == tech) {
     return;
   }
   if (!is_future_tech(tech)
       && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
-    /* can't research this */
+    /* Can't research this. */
     return;
   }
   if (!research->got_tech && research->researching_saved == A_UNKNOWN) {
     research->bulbs_researching_saved = research->bulbs_researched;
     research->researching_saved = research->researching;
-    /* subtract a penalty because we changed subject */
+    /* Subtract a penalty because we changed subject. */
     if (research->bulbs_researched > 0) {
       research->bulbs_researched
         -= ((research->bulbs_researched * game.server.techpenalty) / 100);
@@ -972,7 +968,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
     research->bulbs_researched = research->bulbs_researching_saved;
     research->researching_saved = A_UNKNOWN;
   }
-  research->researching=tech;
+  research->researching = tech;
   research->researching_cost = research_total_bulbs_required(research, tech,
                                                              FALSE);
   if (research->bulbs_researched >= research->researching_cost) {
@@ -981,21 +977,23 @@ void choose_tech(struct player *plr, Tech_type_id tech)
 }
 
 /****************************************************************************
-  Called when the player chooses the tech goal he wants to research (or when
+  Called when a player chooses the tech goal he wants to research (or when
   the server chooses it for him automatically).
 ****************************************************************************/
-void choose_tech_goal(struct player *plr, Tech_type_id tech)
+void choose_tech_goal(struct research *presearch, Tech_type_id tech)
 {
-  struct research *research = research_get(plr);
+  fc_assert_ret(presearch != NULL);
 
-  if (research && tech != research->tech_goal) {
-    /* It's been suggested that if the research target is empty then
-     * choose_random_tech should be called here. */
-    research->tech_goal = tech;
-    notify_research(research, NULL, E_TECH_GOAL, ftc_server,
-                    _("Technology goal is %s."),
-                    research_advance_name_translation(research, tech));
+  if (tech == presearch->tech_goal) {
+    return;
   }
+
+  /* It's been suggested that if the research target is empty then
+   * choose_random_tech() should be called here. */
+  presearch->tech_goal = tech;
+  notify_research(presearch, NULL, E_TECH_GOAL, ftc_server,
+                  _("Technology goal is %s."),
+                  research_advance_name_translation(presearch, tech));
 }
 
 /****************************************************************************
@@ -1080,9 +1078,9 @@ void init_tech(struct player *plr, bool update)
 
     next_tech = research_goal_step(research, research->tech_goal);
     if (A_UNSET != next_tech) {
-      choose_tech(plr, next_tech);
+      choose_tech(research, next_tech);
     } else {
-      choose_random_tech(plr);
+      choose_random_tech(research);
     }
   }
 }
@@ -1277,7 +1275,7 @@ void handle_player_research(struct player *pplayer, int tech)
     return;
   }
 
-  choose_tech(pplayer, tech);
+  choose_tech(research, tech);
 
   /* Notify players sharing the same research. */
   send_research_info_to_owners(research);
@@ -1304,7 +1302,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
     tech_goal = A_UNSET;
   }
 
-  choose_tech_goal(pplayer, tech_goal);
+  choose_tech_goal(research, tech_goal);
 
   /* Notify players sharing the same research. */
   send_research_info_to_owners(research);

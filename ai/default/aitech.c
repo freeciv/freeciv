@@ -337,7 +337,7 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
                "new research, was %s, penalty was %d", 
                research_advance_rule_name(research, research->researching),
                penalty);
-      choose_tech(pplayer, choice.choice);
+      choose_tech(research, choice.choice);
     }
   }
 
@@ -352,7 +352,7 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
               goal.current_want,
               research_advance_rule_name(research, goal.choice),
               goal.want);
-    choose_tech_goal(pplayer, goal.choice);
+    choose_tech_goal(research, goal.choice);
   }
 }
 /**************************************************************************
