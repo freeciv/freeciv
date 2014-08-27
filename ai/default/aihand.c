@@ -357,15 +357,15 @@ static void ai_manage_taxes(struct player *pplayer)
 
   if (game.info.tech_upkeep_style == 1) {
     /* Tech upkeep activated. */
-    int tech_upkeep = research->tech_upkeep;
+    int tech_upkeep = player_tech_upkeep(pplayer);
     int bulbs_researched = research->bulbs_researched;
 
     /* The delta between the estimate and the real value. */
-    delta_sci = (result[AI_RATE_SCI] - research->tech_upkeep)
+    delta_sci = (result[AI_RATE_SCI] - tech_upkeep)
                 - pplayer->bulbs_last_turn;
     log_base(LOGLEVEL_TAX, "%s [sci] estimated=%d real=%d (delta=%d)",
              player_name(pplayer),
-             result[AI_RATE_SCI] - research->tech_upkeep,
+             result[AI_RATE_SCI] - tech_upkeep,
              pplayer->bulbs_last_turn, delta_sci);
 
     log_base(LOGLEVEL_TAX, "%s [sci] trade=%d bulbs=%d upkeep=%d",

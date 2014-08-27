@@ -697,14 +697,14 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
       } city_list_iterate_end;
 
       if (game.info.tech_upkeep_style == 1) {
-        ours -= player_research_get(pplayer)->tech_upkeep;
+        ours -= pplayer->client.tech_upkeep;
       }
     } else if (presearch == player_research_get(pplayer)) {
       team = TRUE;
       theirs += pplayer->bulbs_last_turn;
 
       if (game.info.tech_upkeep_style == 1) {
-        theirs -= presearch->tech_upkeep;
+        theirs -= pplayer->client.tech_upkeep;;
       }
     }
   } players_iterate_end;
@@ -737,7 +737,7 @@ const char *science_dialog_text(void)
   perturn = get_bulbs_per_turn(&ours, &team, &theirs);
 
   research = player_research_get(client_player());
-  upkeep = research->tech_upkeep;
+  upkeep = client_player()->client.tech_upkeep;
 
   if (NULL == client.conn.playing || (ours == 0 && theirs == 0
                                       && upkeep == 0)) {
@@ -965,7 +965,7 @@ const char *get_info_label_text_popup(void)
 
   if (NULL != client.conn.playing) {
     int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-    int upkeep = player_research_get(client_player())->tech_upkeep;
+    int upkeep = client_player()->client.tech_upkeep;
 
     astr_add_line(&str, _("Gold: %d"),
 		  client.conn.playing->economic.gold);

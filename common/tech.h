@@ -194,6 +194,7 @@ struct advance *advance_requires(const struct advance *padvance,
 int total_bulbs_required(const struct player *pplayer);
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech);
+int player_tech_upkeep(const struct player *pplayer);
 bool techs_have_fixed_costs(void);
 
 int num_unknown_techs_for_goal(const struct player *pplayer,
