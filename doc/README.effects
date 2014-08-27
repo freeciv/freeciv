@@ -78,6 +78,7 @@ CityTile:      Local, Adjacent, CAdjacent
 Style:         Player
 UnitState:     Local
 MinMoveFrags:  Local
+MinVeteran:    Local
 
 
 MinSize is the minimum size of a city required.

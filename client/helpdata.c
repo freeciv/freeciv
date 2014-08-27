@@ -1675,6 +1675,27 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_MINVETERAN:
+    if (preq->range != REQ_RANGE_LOCAL) {
+      break;
+    }
+    /* FIXME: this would be better with veteran level names, but that's
+     * potentially unit type dependent. */
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   PL_("Requires a unit with at least %d veteran level.",
+                       "Requires a unit with at least %d veteran levels.",
+                       preq->source.value.minveteran),
+                   preq->source.value.minveteran);
+    } else {
+      cat_snprintf(buf, bufsz,
+                   PL_("Requires a unit with fewer than %d veteran level.",
+                       "Requires a unit with fewer than %d veteran levels.",
+                       preq->source.value.minveteran),
+                   preq->source.value.minveteran);
+    }
+    return TRUE;
+
   case VUT_OTYPE:
     if (preq->range != REQ_RANGE_LOCAL) {
       break;

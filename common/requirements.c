@@ -173,6 +173,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_MINVETERAN:
+    source.value.minveteran = atoi(value);
+    if (source.value.minveteran > 0) {
+      return source;
+    }
+    break;
   case VUT_UNITSTATE:
     source.value.unit_state = ustate_prop_by_name(value, fc_strcasecmp);
     if (ustate_prop_is_valid(source.value.unit_state)) {
@@ -369,6 +375,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_UCFLAG:
     source.value.unitclassflag = value;
     return source;
+  case VUT_MINVETERAN:
+    source.value.minveteran = value;
+    return source;
   case VUT_UNITSTATE:
     source.value.unit_state = value;
     return source;
@@ -476,6 +485,8 @@ int universal_number(const struct universal *source)
     return uclass_number(source->value.uclass);
   case VUT_UCFLAG:
     return source->value.unitclassflag;
+  case VUT_MINVETERAN:
+    return source->value.minveteran;
   case VUT_UNITSTATE:
     return source->value.unit_state;
   case VUT_MINMOVES:
@@ -548,6 +559,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UTFLAG:
     case VUT_UCLASS:
     case VUT_UCFLAG:
+    case VUT_MINVETERAN:
     case VUT_UNITSTATE:
     case VUT_MINMOVES:
     case VUT_OTYPE:
@@ -645,6 +657,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_UTFLAG:
   case VUT_UCLASS:
   case VUT_UCFLAG:
+  case VUT_MINVETERAN:
   case VUT_UNITSTATE:
   case VUT_MINMOVES:
   case VUT_OTYPE:
@@ -692,6 +705,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_UTFLAG:
     case VUT_UCLASS:
     case VUT_UCFLAG:
+    case VUT_MINVETERAN:
     case VUT_UNITSTATE:
     case VUT_MINMOVES:
     case VUT_OTYPE:
@@ -2341,6 +2355,14 @@ bool is_req_active(const struct player *target_player,
                                        req->source.value.unitclassflag);
     }
     break;
+  case VUT_MINVETERAN:
+    if (target_unit == NULL) {
+      eval = TRI_MAYBE;
+    } else {
+      eval =
+        BOOL_TO_TRISTATE(target_unit->veteran >= req->source.value.minveteran);
+    }
+    break;
   case VUT_UNITSTATE:
     if (target_unit == NULL) {
       eval = TRI_MAYBE;
@@ -2532,6 +2554,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_UTFLAG:	/* Not sure about this one */
   case VUT_UCLASS:	/* Not sure about this one */
   case VUT_UCFLAG:	/* Not sure about this one */
+  case VUT_MINVETERAN:
   case VUT_UNITSTATE:
   case VUT_MINMOVES:
   case VUT_ROADFLAG:
@@ -2621,6 +2644,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.uclass == psource2->value.uclass;
   case VUT_UCFLAG:
     return psource1->value.unitclassflag == psource2->value.unitclassflag;
+  case VUT_MINVETERAN:
+    return psource1->value.minveteran == psource2->value.minveteran;
   case VUT_UNITSTATE:
     return psource1->value.unit_state == psource2->value.unit_state;
   case VUT_MINMOVES:
@@ -2712,6 +2737,10 @@ const char *universal_rule_name(const struct universal *psource)
     return uclass_rule_name(psource->value.uclass);
   case VUT_UCFLAG:
     return unit_class_flag_id_name(psource->value.unitclassflag);
+  case VUT_MINVETERAN:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minveteran);
+
+    return buffer;
   case VUT_UNITSTATE:
     return ustate_prop_name(psource->value.unit_state);
   case VUT_MINMOVES:
@@ -2831,6 +2860,11 @@ const char *universal_name_translation(const struct universal *psource,
                  Q_("?ucflag:\"%s\" units"),
                  /* flag names are never translated */
                  unit_class_flag_id_name(psource->value.unitclassflag));
+    return buf;
+  case VUT_MINVETERAN:
+    /* FIXME */
+    cat_snprintf(buf, bufsz, _("Veteran level >=%d"),
+		 psource->value.minveteran);
     return buf;
   case VUT_UNITSTATE:
     switch (psource->value.unit_state) {

@@ -696,6 +696,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_STYLE:
   case VUT_UNITSTATE:
   case VUT_MINMOVES:
+  case VUT_MINVETERAN:
   case VUT_COUNT:
     /* No sensible implementation possible with data available. */
     break;

@@ -329,6 +329,7 @@ typedef union {
   enum ustate_prop unit_state;
   int minmoves;
   int max_tile_units;
+  int minveteran;
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -403,6 +404,8 @@ typedef union {
 #define SPECENUM_VALUE30NAME "UnitState"
 #define SPECENUM_VALUE31 VUT_MINMOVES
 #define SPECENUM_VALUE31NAME "MinMoveFrags"
+#define SPECENUM_VALUE32 VUT_MINVETERAN
+#define SPECENUM_VALUE32NAME "MinVeteran"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
