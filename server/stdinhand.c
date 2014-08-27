@@ -46,6 +46,7 @@
 #include "mapimg.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "rgbcolor.h"
 #include "unitlist.h"
 #include "version.h"
@@ -910,6 +911,7 @@ enum rfc_status create_command_newcomer(const char *name,
                                         char *buf, size_t buflen)
 {
   struct player *pplayer = NULL;
+  struct research *presearch;
   bool new_slot = FALSE;
 
   /* Check player name. */
@@ -1032,9 +1034,9 @@ enum rfc_status create_command_newcomer(const char *name,
   cat_snprintf(buf, buflen, _(" Nation of the new player: %s."),
                nation_rule_name(pnation));
 
+  presearch = research_get(pplayer);
   init_tech(pplayer, TRUE);
-  give_global_initial_techs(pplayer);
-  give_nation_initial_techs(pplayer);
+  give_initial_techs(presearch, 0);
 
   server_player_set_name(pplayer, name);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);

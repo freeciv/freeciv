@@ -20,6 +20,7 @@
 #include "map.h"
 #include "movement.h"
 #include "player.h"
+#include "research.h"
 #include "tech.h"
 #include "tile.h"
 #include "unittype.h"
@@ -87,6 +88,7 @@ void create_animals(void)
 {
   struct nation_type *anination;
   struct player *plr;
+  struct research *presearch;
   int i;
 
   anination = pick_a_nation(NULL, FALSE, TRUE, ANIMAL_BARBARIAN);
@@ -118,9 +120,10 @@ void create_animals(void)
   plr->ai_controlled = TRUE;
   plr->ai_common.barbarian_type = ANIMAL_BARBARIAN;
   set_ai_level_directer(plr, game.info.skill_level);
+
+  presearch = research_get(plr);
   init_tech(plr, TRUE);
-  give_global_initial_techs(plr);
-  give_nation_initial_techs(plr);
+  give_initial_techs(presearch, 0);
 
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {

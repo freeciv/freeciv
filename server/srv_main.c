@@ -2763,34 +2763,11 @@ static void srv_ready(void)
       pplayer->economic.gold = game.info.gold;
     } players_iterate_end;
 
-    /* Give nation technologies, as specified in the ruleset. */
-    players_iterate(pplayer) {
-      give_nation_initial_techs(pplayer);
-    } players_iterate_end;
-
-    players_iterate(pplayer) {
-      int i;
-      bool free_techs_already_given = FALSE;
-      
-      players_iterate(eplayer) {
-        if (players_on_same_team(eplayer, pplayer) &&
-	    player_number(eplayer) < player_number(pplayer)) {
-          free_techs_already_given = TRUE;
-	  break;
-        }
-      } players_iterate_end;
-      
-      if (free_techs_already_given) {
-        continue;
-      }
-      
-      /* Give global technologies, as specified in the ruleset. */
-      give_global_initial_techs(pplayer);
-      /* Give random free technologies thanks to the techlevel setting. */
-      for (i = 0; i < game.info.tech; i++) {
-        give_random_initial_tech(pplayer);
-      }
-    } players_iterate_end;
+    /* Give initial technologies, as specified in the ruleset and the
+     * settings. */
+    researches_iterate(presearch) {
+      give_initial_techs(presearch, game.info.tech);
+    } researches_iterate_end;
 
     /* Set up alliances based on team selections */
     players_iterate(pplayer) {

@@ -514,11 +514,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                         "an immediate advance."));
     }
 
-    /* FIXME: HACK (we currently need a player pointer!). */
-    research_players_iterate(presearch, aplayer) {
-      give_immediate_free_tech(aplayer);
-      break;
-    } research_players_iterate_end;
+    give_immediate_free_tech(presearch);
   }
 
   packet.tech = tech_found;
@@ -1048,14 +1044,15 @@ void init_tech(struct player *plr, bool update)
 }
 
 /****************************************************************************
-  Gives global initial techs to the player.  The techs are read from the
-  game ruleset file.
+  Gives global (read from the game ruleset file) and nation (read from the
+  nation ruleset files) initial techs as specified in the ruleset, and
+  random free technologies thanks to the techlevel setting.
 ****************************************************************************/
-void give_global_initial_techs(struct player *pplayer)
+void give_initial_techs(struct research *presearch, int num_random_techs)
 {
-  struct research *presearch = research_get(pplayer);
   int i;
 
+  /* Global techs. */
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     if (game.rgame.global_init_techs[i] == A_LAST) {
       break;
@@ -1067,43 +1064,27 @@ void give_global_initial_techs(struct player *pplayer)
                      FALSE, TRUE);
     }
   }
-}
 
-/****************************************************************************
-  Gives nation specific initial techs to the player.  The techs are read
-  from the nation ruleset file.
-****************************************************************************/
-void give_nation_initial_techs(struct player *pplayer)
-{
-  struct research *presearch = research_get(pplayer);
-  const struct nation_type *pnation = nation_of_player(pplayer);
-  int i;
+  /* Nation techs. */
+  research_players_iterate(presearch, pplayer) {
+    const struct nation_type *pnation = nation_of_player(pplayer);
 
-  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    if (pnation->init_techs[i] == A_LAST) {
-      break;
+    for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+      if (pnation->init_techs[i] == A_LAST) {
+        break;
+      }
+      /* Maybe the player already got this tech by an other way (e.g. team). */
+      if (research_invention_state(presearch, pnation->init_techs[i])
+          != TECH_KNOWN) {
+        found_new_tech(presearch, pnation->init_techs[i], FALSE, TRUE);
+      }
     }
-    /* Maybe the player already got this tech by an other way (e.g. team). */
-    if (research_invention_state(presearch, pnation->init_techs[i])
-        != TECH_KNOWN) {
-      found_new_tech(presearch, pnation->init_techs[i], FALSE, TRUE);
-    }
+  } research_players_iterate_end;
+
+  /* Random free techs (N.B.: freecost penalty not applied). */
+  for (i = 0; i < num_random_techs; i++) {
+    found_new_tech(presearch, pick_random_tech(presearch), FALSE, TRUE);
   }
-}
-
-/****************************************************************************
-  Gives a player random tech, which he hasn't researched yet.
-  Returns the tech. This differs from give_random_free_tech - it doesn't
-  apply free cost
-****************************************************************************/
-Tech_type_id give_random_initial_tech(struct player *pplayer)
-{
-  struct research *presearch = research_get(pplayer);
-  Tech_type_id tech;
-  
-  tech = pick_random_tech(presearch);
-  found_new_tech(presearch, tech, FALSE, TRUE);
-  return tech;
 }
 
 /****************************************************************************
@@ -1272,12 +1253,11 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 }
 
 /****************************************************************************
-  Gives a player random tech, which he hasn't researched yet. Applies freecost
+  Gives a random tech, which he hasn't researched yet. Applies freecost.
   Returns the tech.
 ****************************************************************************/
-Tech_type_id give_random_free_tech(struct player* pplayer)
+Tech_type_id give_random_free_tech(struct research *presearch)
 {
-  struct research *presearch = research_get(pplayer);
   Tech_type_id tech;
 
   tech = pick_random_tech(presearch);
@@ -1287,11 +1267,10 @@ Tech_type_id give_random_free_tech(struct player* pplayer)
 }
 
 /****************************************************************************
-  Gives a player immediate free tech. Applies freecost
+  Gives an immediate free tech. Applies freecost. Returns the tech.
 ****************************************************************************/
-Tech_type_id give_immediate_free_tech(struct player* pplayer)
+Tech_type_id give_immediate_free_tech(struct research *presearch)
 {
-  struct research *presearch = research_get(pplayer);
   Tech_type_id tech;
 
   if (game.info.free_tech_method == FTM_CHEAPEST) {

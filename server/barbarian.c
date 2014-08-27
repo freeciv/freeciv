@@ -39,6 +39,7 @@
 #include "map.h"
 #include "movement.h"
 #include "nation.h"
+#include "research.h"
 #include "tech.h"
 #include "terrain.h"
 #include "unitlist.h"
@@ -91,6 +92,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
 {
   struct player *barbarians;
   struct nation_type *nation;
+  struct research *presearch;
 
   players_iterate(barbarians) {
     if ((type == LAND_BARBARIAN && is_land_barbarian(barbarians))
@@ -151,9 +153,10 @@ struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->ai_controlled = TRUE;
   barbarians->ai_common.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
+
+  presearch = research_get(barbarians);
   init_tech(barbarians, TRUE);
-  give_global_initial_techs(barbarians);
-  give_nation_initial_techs(barbarians);
+  give_initial_techs(presearch, 0);
 
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {

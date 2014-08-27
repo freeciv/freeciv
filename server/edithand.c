@@ -1066,6 +1066,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
 {
   struct player *pplayer;
   struct nation_type *pnation;
+  struct research *presearch;
 
   if (player_count() >= player_slot_count()) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
@@ -1112,9 +1113,9 @@ void handle_edit_player_create(struct connection *pc, int tag)
   pplayer->economic.gold = 0;
   pplayer->economic = player_limit_to_max_rates(pplayer);
 
+  presearch = research_get(pplayer);
   init_tech(pplayer, TRUE);
-  give_global_initial_techs(pplayer);
-  give_nation_initial_techs(pplayer);
+  give_initial_techs(presearch, 0);
 
   send_player_all_c(pplayer, NULL);
   if (tag > 0) {
