@@ -194,6 +194,8 @@ int main(int argc, char *argv[])
 #endif
   srvarg.announce = ANNOUNCE_DEFAULT;
 
+  game.server.meta_info.type[0] = '\0';
+
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
   /* FIXME: and that are? */
@@ -247,6 +249,10 @@ int main(int argc, char *argv[])
       srvarg.bind_addr = option; /* Never freed. */
     } else if ((option = get_option_malloc("--Bind-meta", argv, &inx, argc))) {
       srvarg.bind_meta_addr = option; /* Never freed. */
+#ifdef FREECIV_WEB
+    } else if ((option = get_option_malloc("--type", argv, &inx, argc))) {
+      sz_strlcpy(game.server.meta_info.type, option);
+#endif /* FREECIV_WEB */
     } else if ((option = get_option_malloc("--read", argv, &inx, argc)))
       srvarg.script_filename = option; /* Never freed. */
     else if ((option = get_option_malloc("--quitidle", argv, &inx, argc))) {
@@ -386,6 +392,12 @@ int main(int argc, char *argv[])
                 /* TRANS: "Metaserver" is exactly what user must type, do not translate. */
                 _("Metaserver ADDR"),
                 _("Set ADDR as metaserver address"));
+#ifdef FREECIV_WEB
+    cmdhelp_add(help, "t",
+                /* TRANS: "Type" is exactly what user must type, do not translate. */
+                _("Type TYPE"),
+                _("Set TYPE as server type in metaserver"));
+#endif /* FREECIV_WEB */
     cmdhelp_add(help, "p",
                 /* TRANS: "port" is exactly what user must type, do not translate. */
                 _("port PORT"),

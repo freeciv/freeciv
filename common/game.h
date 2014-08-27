@@ -230,6 +230,7 @@ struct civ_game {
       struct {
         bool user_message_set;
         char user_message[256];
+        char type[20];
       } meta_info;
 
       struct {

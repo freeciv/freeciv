@@ -113,6 +113,18 @@ const char *get_meta_message_string(void)
 }
 
 /*************************************************************************
+ The server metaserver type
+*************************************************************************/
+static const char *get_meta_type_string(void)
+{
+  if (game.server.meta_info.type[0] != '\0') {
+    return game.server.meta_info.type;
+  }
+
+  return NULL;
+}
+
+/*************************************************************************
  The metaserver message set by user
 *************************************************************************/
 const char *get_user_meta_message_string(void)
@@ -278,6 +290,11 @@ static bool send_to_metaserver(enum meta_flag flag)
   if (flag == META_GOODBYE) {
     netfile_add_form_int(post, "bye", 1);
   } else {
+    const char *srvtype = get_meta_type_string();
+
+    if (srvtype != NULL) {
+      netfile_add_form_str(post, "type", srvtype);
+    }
     netfile_add_form_str(post, "version", VERSION_STRING);
     netfile_add_form_str(post, "patches",
                          get_meta_patches_string());
