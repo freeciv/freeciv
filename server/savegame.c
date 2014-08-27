@@ -1728,8 +1728,7 @@ static void player_load_main(struct player *plr, int plrno,
   /* Nation may be unselected at this point; we check for this later and
    * reassign nations to players who don't have them. */
 
-  /* Add techs from game and nation, but ignore game.info.tech. */
-  init_tech(plr, FALSE);
+  init_tech(research, FALSE);
   /* We used to call give_initial_techs here, but that shouldn't be
    * necessary.  The savegame should already mark those techs as known.
    * give_initial_techs will crash if the nation is unset. */

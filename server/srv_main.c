@@ -2758,7 +2758,6 @@ static void srv_ready(void)
 
     players_iterate(pplayer) {
       player_map_init(pplayer);
-      init_tech(pplayer, TRUE);
       pplayer->economic = player_limit_to_max_rates(pplayer);
       pplayer->economic.gold = game.info.gold;
     } players_iterate_end;
@@ -2766,6 +2765,7 @@ static void srv_ready(void)
     /* Give initial technologies, as specified in the ruleset and the
      * settings. */
     researches_iterate(presearch) {
+      init_tech(presearch, TRUE);
       give_initial_techs(presearch, game.info.tech);
     } researches_iterate_end;
 

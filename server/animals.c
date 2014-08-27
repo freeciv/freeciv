@@ -122,7 +122,7 @@ void create_animals(void)
   set_ai_level_directer(plr, game.info.skill_level);
 
   presearch = research_get(plr);
-  init_tech(plr, TRUE);
+  init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
 
   /* Ensure that we are at war with everyone else */

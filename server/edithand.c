@@ -1114,7 +1114,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   pplayer->economic = player_limit_to_max_rates(pplayer);
 
   presearch = research_get(pplayer);
-  init_tech(pplayer, TRUE);
+  init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
 
   send_player_all_c(pplayer, NULL);

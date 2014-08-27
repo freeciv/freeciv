@@ -1035,7 +1035,7 @@ enum rfc_status create_command_newcomer(const char *name,
                nation_rule_name(pnation));
 
   presearch = research_get(pplayer);
-  init_tech(pplayer, TRUE);
+  init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
 
   server_player_set_name(pplayer, name);

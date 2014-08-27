@@ -155,7 +155,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   set_ai_level_directer(barbarians, game.info.skill_level);
 
   presearch = research_get(barbarians);
-  init_tech(barbarians, TRUE);
+  init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
 
   /* Ensure that we are at war with everyone else */

@@ -3814,11 +3814,9 @@ static void sg_load_player_main(struct loaddata *loading,
                                     "player%d.rates.luxury", plrno),
                  "%s", secfile_error());
 
-  /* Add techs from game and nation, but ignore game.info.tech. */
-  init_tech(plr, FALSE);
-
   /* Load research related data. */
   research = research_get(plr);
+  init_tech(research, FALSE);
 
   research->tech_goal =
     technology_load(loading->file, "player%d.research.goal", plrno);

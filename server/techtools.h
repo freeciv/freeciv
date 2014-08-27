@@ -28,7 +28,7 @@ void send_research_info(const struct research *presearch,
 void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                     bool was_discovery, bool saving_bulbs);
 bool update_bulbs(struct player *plr, int bulbs, bool check_tech);
-void init_tech(struct player *plr, bool update);
+void init_tech(struct research *presearch, bool update);
 void choose_tech(struct research *presearch, Tech_type_id tech);
 void choose_random_tech(struct research *presearch);
 void choose_tech_goal(struct research *presearch, Tech_type_id tech);

@@ -955,12 +955,10 @@ void choose_tech_goal(struct research *presearch, Tech_type_id tech)
 }
 
 /****************************************************************************
-  Initializes tech data for the player.
+  Initializes tech data for the research.
 ****************************************************************************/
-void init_tech(struct player *plr, bool update)
+void init_tech(struct research *research, bool update)
 {
-  struct research *research = research_get(plr);
-
   research_invention_set(research, A_NONE, TECH_KNOWN);
 
   advance_index_iterate(A_FIRST, i) {
@@ -984,8 +982,8 @@ void init_tech(struct player *plr, bool update)
 
     /* Show research costs. */
     advance_index_iterate(A_NONE, i) {
-      log_debug("[player %d] %-25s (ID: %3d) cost: %6d - reachable: %-3s "
-                "(now) / %-3s (ever)", player_number(plr),
+      log_debug("[research %d] %-25s (ID: %3d) cost: %6d - reachable: %-3s "
+                "(now) / %-3s (ever)", research_number(research),
                 advance_rule_name(advance_by_number(i)), i,
                 research_total_bulbs_required(research, i, FALSE),
                 research_invention_gettable(research, i, FALSE)
@@ -1011,10 +1009,12 @@ void init_tech(struct player *plr, bool update)
         /* This will change the game state! */
         research_update(research);
 
-        log_debug("[player %d] researched: %-25s (ID: %4d) techs: %3d "
-                  "upkeep: %4d", player_number(plr),
-                  advance_rule_name(advance_by_number(tech)), tech,
-                  research->techs_researched, player_tech_upkeep(plr));
+        research_players_iterate(research, pplayer) {
+          log_debug("[player %d] researched: %-25s (ID: %4d) techs: %3d "
+                    "upkeep: %4d", research_number(research),
+                    advance_rule_name(advance_by_number(tech)), tech,
+                    research->techs_researched, player_tech_upkeep(pplayer));
+        } research_players_iterate_end;
       }
     }
 
@@ -1073,7 +1073,7 @@ void give_initial_techs(struct research *presearch, int num_random_techs)
       if (pnation->init_techs[i] == A_LAST) {
         break;
       }
-      /* Maybe the player already got this tech by an other way (e.g. team). */
+      /* Maybe the player already got this tech by an other way. */
       if (research_invention_state(presearch, pnation->init_techs[i])
           != TECH_KNOWN) {
         found_new_tech(presearch, pnation->init_techs[i], FALSE, TRUE);
