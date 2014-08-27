@@ -72,7 +72,7 @@ void research_apply_penalty(struct research *presearch, Tech_type_id tech,
 }
 
 /****************************************************************************
-  Players have researched a new technology. May be recursive.
+  Players have researched a new technology.
 ****************************************************************************/
 static void tech_researched(struct research *research)
 {
@@ -526,16 +526,12 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 /****************************************************************************
   Is player about to lose tech?
 ****************************************************************************/
-static bool lose_tech(struct player *plr)
+static bool lose_tech(struct research *research)
 {
-  struct research *research;
-
   if (game.server.techloss_forgiveness < 0) {
     /* Tech loss disabled */
     return FALSE;
   }
-
-  research = research_get(plr);
 
   if (research->techs_researched == 0 && research->future_tech == 0) {
     /* No tech to lose */
@@ -560,75 +556,73 @@ static bool lose_tech(struct player *plr)
   This is called from each city every turn, from caravan revenue, and at the
   end of the phase.
 ****************************************************************************/
-bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
+void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
 {
-  struct research *research = research_get(plr);
+  struct research *research = research_get(pplayer);
 
   /* count our research contribution this turn */
-  plr->bulbs_last_turn += bulbs;
+  pplayer->bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
 
-  /* if we have a negative number of bulbs we do
-   * - try to reduce the number of future techs
-   * - or lose one random tech
-   * after that the number of bulbs available is incresed based on the value
-   * of the lost tech. */
-  if (lose_tech(plr)) {
-    Tech_type_id tech;
+  do {
+    /* If we have a negative number of bulbs we do try to:
+     * - reduce the number of future techs;
+     * - or lose one random tech.
+     * After that the number of bulbs available is incresed based on the
+     * value of the lost tech. */
+    if (lose_tech(research)) {
+      Tech_type_id tech;
 
-    if (research->future_tech > 0) {
-      log_debug("%s: tech loss (future tech %d)", player_name(plr),
-                research->future_tech);
+      if (research->future_tech > 0) {
+        log_debug("%s: tech loss (future tech %d)",
+                  research_rule_name(research),
+                  research->future_tech);
 
-      research->future_tech--;
-      tech = A_FUTURE;
+        research->future_tech--;
+        tech = A_FUTURE;
 
-      /* FIXME: technology loss event type missing. */
-      notify_research(research, NULL, E_TECH_GAIN, ftc_server,
-                      _("Insufficient science output. We lost %s."),
-                      research_advance_name_translation(research, tech));
-    } else {
-      tech = pick_random_tech_to_lose(research);
-
-      if (tech != A_NONE) {
-        log_debug("%s: tech loss (%s)", player_name(plr),
-                  research_advance_rule_name(research, tech));
         /* FIXME: technology loss event type missing. */
         notify_research(research, NULL, E_TECH_GAIN, ftc_server,
                         _("Insufficient science output. We lost %s."),
                         research_advance_name_translation(research, tech));
-
-        research_tech_lost(research, tech);
-      }
-    }
-
-    if (tech != A_NONE) {
-      if (game.server.techloss_restore >= 0) {
-        research->bulbs_researched +=
-            (research_total_bulbs_required(research, tech, TRUE)
-             * game.server.techloss_restore / 100);
       } else {
-        research->bulbs_researched = 0;
+        tech = pick_random_tech_to_lose(research);
+
+        if (tech != A_NONE) {
+          log_debug("%s: tech loss (%s)",
+                    research_rule_name(research),
+                    research_advance_rule_name(research, tech));
+          /* FIXME: technology loss event type missing. */
+          notify_research(research, NULL, E_TECH_GAIN, ftc_server,
+                          _("Insufficient science output. We lost %s."),
+                          research_advance_name_translation(research, tech));
+
+          research_tech_lost(research, tech);
+        }
       }
+
+      if (tech != A_NONE) {
+        if (game.server.techloss_restore >= 0) {
+          research->bulbs_researched +=
+              (research_total_bulbs_required(research, tech, TRUE)
+               * game.server.techloss_restore / 100);
+        } else {
+          research->bulbs_researched = 0;
+        }
+      }
+
+      research_update(research);
     }
 
-    research_update(research);
-  }
-
-  if (check_tech && research->researching != A_UNSET) {
-    /* check for finished research */
-    if (research->bulbs_researched - research->researching_cost >= 0) {
-      tech_researched(research);
-
-      if (research->researching != A_UNSET) {
-        /* check research again */
-        update_bulbs(plr, 0, TRUE);
-        return TRUE;
-      }
+    /* Check for finished research. */
+    if (!check_tech
+        || research->researching == A_UNSET
+        || research->bulbs_researched < research->researching_cost) {
+      break;
     }
-  }
 
-  return FALSE;
+    tech_researched(research);
+  } while (research->researching != A_UNSET);
 }
 
 /****************************************************************************
