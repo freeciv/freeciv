@@ -258,6 +258,38 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
+/* Cache if a unit can perform any actions at all. */
+static bv_unit_types unit_can_act_cache;
+
+/**************************************************************************
+  Cache if a unit of the given type can perform any action controlled by
+  generalized (ruleset defined) action enablers.
+**************************************************************************/
+static void unit_can_act_cache_set(struct unit_type *putype)
+{
+  /* Clear old value */
+  BV_CLR(unit_can_act_cache, utype_index(putype));
+
+  /* See if the unit type can do an action controlled by generalized action
+   * enablers */
+  action_enablers_iterate(enabler) {
+    if (requirement_fulfilled_by_unit_type(putype,
+                                           &(enabler->actor_reqs))) {
+        BV_SET(unit_can_act_cache, utype_index(putype));
+        return;
+      }
+  } action_enablers_iterate_end;
+}
+
+/**************************************************************************
+  Return TRUE iff units of this type can do actions controlled by
+  generalized (ruleset defined) action enablers.
+**************************************************************************/
+bool is_actor_unit_type(const struct unit_type *putype)
+{
+  return BV_ISSET(unit_can_act_cache, utype_index(putype));
+}
+
 /* Cache if any action at all may be possible when the actor unit's state
  * is...
  * bit 0 to USP_COUNT - 1: Possible when the corresponding property is TRUE
@@ -321,16 +353,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 void unit_type_action_cache_set(struct unit_type *ptype)
 {
   unit_state_action_cache_set(ptype);
-}
-
-/**************************************************************************
-  Return TRUE iff units of this type can do actions controlled by
-  generalized (ruleset defined) action enablers.
-**************************************************************************/
-bool is_actor_unit_type(const struct unit_type *putype)
-{
-  /* All units that can do generalized actions are diplomats */
-  return utype_has_flag(putype, UTYF_DIPLOMAT);
+  unit_can_act_cache_set(ptype);
 }
 
 /**************************************************************************
