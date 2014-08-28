@@ -1209,7 +1209,7 @@ PACKET_SPACESHIP_PLACE = 136; cs, dsend
   UINT8 num;
 end
 
-PACKET_SPACESHIP_INFO = 137; sc, lsend
+PACKET_SPACESHIP_INFO = 137; sc, lsend, is-game-info
   PLAYER player_num; key
   UINT8 sship_state;
   UINT8 structurals;
