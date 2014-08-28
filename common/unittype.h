@@ -258,11 +258,8 @@ struct unit_class {
 #define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_16
 #define MAX_NUM_USER_UNIT_FLAGS (UTYF_LAST_USER_FLAG - UTYF_USER_FLAG_1 + 1)
 #define SPECENUM_NAMEOVERRIDE
+#define SPECENUM_BITVECTOR bv_unit_type_flags
 #include "specenum_gen.h"
-
-#define UTYF_MAX 64 /* Used in the network protocol. */
-
-FC_STATIC_ASSERT(UTYF_LAST_USER_FLAG < UTYF_MAX, too_many_unit_flags);
 
 
 /* Unit "roles": these are similar to unit flags but differ in that
@@ -357,7 +354,6 @@ FC_STATIC_ASSERT(UTYF_LAST_USER_FLAG < UTYF_MAX, too_many_unit_flags);
 FC_STATIC_ASSERT(L_LAST - L_FIRST <= L_MAX, too_many_unit_roles);
 
 /* Used in the network protocol. */
-BV_DEFINE(bv_unit_type_flags, UTYF_MAX);
 BV_DEFINE(bv_unit_type_roles, L_MAX);
 
 /* Used in the network protocol. */
