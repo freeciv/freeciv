@@ -42,8 +42,6 @@ extern QApplication *qapp;
 ****************************************************************************/
 fc_client::fc_client() : QObject()
 {
-  struct rgbcolor *prgbcolor;
-
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 #endif
@@ -170,9 +168,6 @@ fc_client::fc_client() : QObject()
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
   fc_fonts.init_fonts();
-  /* workaround for changing tileset from main page */
-  prgbcolor = rgbcolor_new(0,0,0);
-  game.plr_bg_color = prgbcolor;
   main_window->setVisible(true);
 }
 
