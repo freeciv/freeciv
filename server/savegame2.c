@@ -1457,8 +1457,7 @@ static void sg_load_savefile(struct loaddata *loading)
 
   /* We don't need savefile.reason, but read it anyway to avoid
    * warnings about unread secfile entries. */
-  (void) secfile_lookup_str_default(loading->file, "None",
-                                    "savefile.reason");
+  (void) secfile_entry_by_path(loading->file, "savefile.reason");
 
   /* Load ruleset. */
   sz_strlcpy(game.server.rulesetdir,
@@ -2180,7 +2179,7 @@ static void sg_load_random(struct loaddata *loading)
     fc_rand_set_state(loading->rstate);
   } else {
     /* No random values - mark the setting. */
-    (void) secfile_lookup_bool_default(loading->file, TRUE, "random.save");
+    (void) secfile_entry_by_path(loading->file, "random.save");
 
     /* We're loading a game without a seed (which is okay, if it's a scenario).
      * We need to generate the game seed now because it will be needed later
@@ -3887,8 +3886,10 @@ static void sg_load_player_main(struct loaddata *loading,
           plr->ai_common.traits[tr].val = val;
         }
 
-        secfile_lookup_int(loading->file, &plr->ai_common.traits[tr].mod, 
-                           "plr%d.trait.mod%d", plrno, i);
+        if (secfile_lookup_int(loading->file, &val,
+                               "plr%d.trait.mod%d", plrno, i)) {
+          plr->ai_common.traits[tr].mod = val;
+        }
       }
     }
   }
@@ -3913,8 +3914,10 @@ static void sg_load_player_main(struct loaddata *loading,
         sg_failure_ret(pach != NULL,
                        "Unknown achievement \"%s\".", name);
 
-        secfile_lookup_bool(loading->file, &first,
-                            "player%d.achievement%d.first", plrno, i);
+        sg_failure_ret(secfile_lookup_bool(loading->file, &first,
+                                           "player%d.achievement%d.first",
+                                           plrno, i),
+                       "achievement error: %s", secfile_error());
 
         sg_failure_ret(pach->first == NULL || !first,
                        "Multiple players listed as first to get achievement \"%s\".",
@@ -5303,10 +5306,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
     /* This variables are not used but needed for saving the unit table.
      * Load them to prevent unused variables errors. */
-    (void) secfile_lookup_int_default(loading->file, 0, "%s.goto_x",
-                                      unitstr);
-    (void) secfile_lookup_int_default(loading->file, 0, "%s.goto_y",
-                                      unitstr);
+    (void) secfile_entry_lookup(loading->file, "%s.goto_x", unitstr);
+    (void) secfile_entry_lookup(loading->file, "%s.goto_y", unitstr);
   }
 
   /* Load AI data of the unit. */

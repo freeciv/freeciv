@@ -384,22 +384,17 @@ static void compat_load_020400(struct loaddata *loading)
         /* In 2.3.x and prior, saveturns=0 meant no turn-based saves.
          * This is now controlled by the "autosaves" setting. */
         if (!fc_strcasecmp("saveturns", name)) {
-          int nturns, nturns_start;
-          (void) secfile_lookup_int(loading->file, &nturns,
-                                    "settings.set%d.value", i);
-          (void) secfile_lookup_int(loading->file, &nturns_start,
-                                    "settings.set%d.gamestart", i);
-          if (nturns == 0 || (gamestart_valid && nturns_start == 0)) {
-            /* Invent a new "autosaves" setting */
-            /* XXX: hardcodes details from GAME_AUTOSAVES_DEFAULT
-             * and settings.c:autosaves_name() (but these defaults reflect
-             * 2.3's behaviour) */
-            const char *const nosave = "GAMEOVER|QUITIDLE|INTERRUPT",
-                       *const save = "TURN|GAMEOVER|QUITIDLE|INTERRUPT";
-            secfile_replace_int(loading->file, new_opt+1, "settings.set_count");
-            secfile_insert_str(loading->file, "autosaves",
-                               "settings.set%d.name", new_opt);
+          /* XXX: hardcodes details from GAME_AUTOSAVES_DEFAULT
+           * and settings.c:autosaves_name() (but these defaults reflect
+           * 2.3's behaviour). */
+          const char *const nosave = "GAMEOVER|QUITIDLE|INTERRUPT";
+          const char *const save = "TURN|GAMEOVER|QUITIDLE|INTERRUPT";
+          int nturns;
+
+          if (secfile_lookup_int(loading->file, &nturns,
+                                 "settings.set%d.value", i)) {
             if (nturns == 0) {
+              /* Invent a new "autosaves" setting */
               secfile_insert_str(loading->file, nosave,
                                  "settings.set%d.value", new_opt);
               /* Pick something valid for saveturns */
@@ -409,16 +404,25 @@ static void compat_load_020400(struct loaddata *loading)
               secfile_insert_str(loading->file, save,
                                  "settings.set%d.value", new_opt);
             }
-            if (gamestart_valid) {
-              if (nturns_start == 0) {
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
+          }
+          if (gamestart_valid) {
+            if (secfile_lookup_int(loading->file, &nturns,
+                                   "settings.set%d.gamestart", i)) {
+              if (nturns == 0) {
+                /* Invent a new "autosaves" setting */
                 secfile_insert_str(loading->file, nosave,
                                    "settings.set%d.gamestart", new_opt);
+                /* Pick something valid for saveturns */
                 secfile_replace_int(loading->file, GAME_DEFAULT_SAVETURNS,
                                     "settings.set%d.gamestart", i);
               } else {
                 secfile_insert_str(loading->file, save,
                                    "settings.set%d.gamestart", new_opt);
               }
+            } else {
+              log_sg("Setting '%s': %s", name, secfile_error());
             }
           }
         } else if (!fc_strcasecmp("autosaves", name)) {
@@ -486,28 +490,40 @@ static void compat_load_020500(struct loaddata *loading)
          * killed citizens after succesfull attack. Now killcitizen
          * is just boolean and classes affected are defined in ruleset. */
         if (!fc_strcasecmp("killcitizen", name)) {
-          int value, value_start;
+          int value;
 
-          (void) secfile_lookup_enum_data(loading->file, &value, TRUE,
-                                          killcitizen_enum_str, NULL,
-                                          "settings.set%d.value", i);
-          (void) secfile_lookup_enum_data(loading->file, &value_start, TRUE,
-                                          killcitizen_enum_str, NULL,
-                                          "settings.set%d.gamestart", i);
-
-          /* Lowest bit of old killcitizen value indicates if
-           * land units should kill citizens. We take that as
-           * new boolean killcitizen value. */
-          if (value & 0x1) {
-            secfile_replace_bool(loading->file, TRUE, "settings.set%d.value", i);
+          if (secfile_lookup_enum_data(loading->file, &value, TRUE,
+                                       killcitizen_enum_str, NULL,
+                                       "settings.set%d.value", i)) {
+            /* Lowest bit of old killcitizen value indicates if
+             * land units should kill citizens. We take that as
+             * new boolean killcitizen value. */
+            if (value & 0x1) {
+              secfile_replace_bool(loading->file, TRUE,
+                                   "settings.set%d.value", i);
+            } else {
+              secfile_replace_bool(loading->file, FALSE,
+                                   "settings.set%d.value", i);
+            }
           } else {
-            secfile_replace_bool(loading->file, FALSE, "settings.set%d.value", i);
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
           if (gamestart_valid) {
-            if (value_start & 0x1) {
-              secfile_replace_bool(loading->file, TRUE, "settings.set%d.gamestart", i);
+            if (secfile_lookup_enum_data(loading->file, &value, TRUE,
+                                         killcitizen_enum_str, NULL,
+                                         "settings.set%d.gamestart", i)) {
+              /* Lowest bit of old killcitizen value indicates if
+               * land units should kill citizens. We take that as
+               * new boolean killcitizen value. */
+              if (value & 0x1) {
+                secfile_replace_bool(loading->file, TRUE,
+                                     "settings.set%d.gamestart", i);
+              } else {
+                secfile_replace_bool(loading->file, FALSE,
+                                     "settings.set%d.gamestart", i);
+              }
             } else {
-              secfile_replace_bool(loading->file, FALSE, "settings.set%d.gamestart", i);
+              log_sg("Setting '%s': %s", name, secfile_error());
             }
           }
         }
@@ -570,18 +586,23 @@ static void compat_load_020600(struct loaddata *loading)
         /* In 2.5.x and prior, "spacerace" boolean controlled if
          * spacerace victory condition was active. */
         if (!fc_strcasecmp("spacerace", name)) {
-          bool value, value_start;
+          bool value;
 
-          (void) secfile_lookup_bool(loading->file, &value,
-                                     "settings.set%d.value", i);
-          (void) secfile_lookup_bool(loading->file, &value_start,
-                                     "settings.set%d.gamestart", i);
-
-          if (value) {
-            sz_strlcat(value_buffer, "|SPACERACE");
+          if (secfile_lookup_bool(loading->file, &value,
+                                  "settings.set%d.value", i)) {
+            if (value) {
+              sz_strlcat(value_buffer, "|SPACERACE");
+            }
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
-          if (value_start) {
-            sz_strlcat(gamestart_buffer, "|SPACERACE");
+          if (secfile_lookup_bool(loading->file, &value,
+                                  "settings.set%d.gamestart", i)) {
+            if (value) {
+              sz_strlcat(gamestart_buffer, "|SPACERACE");
+            }
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
 
           /* We cannot delete old values from the secfile, or rather cannot
@@ -589,60 +610,81 @@ static void compat_load_020600(struct loaddata *loading)
            * we don't know type of each setting we would encounter.
            * So we keep old setting values and only add new "victories" setting. */
         } else if (!fc_strcasecmp("alliedvictory", name)) {
-          bool value, value_start;
+          bool value;
 
-          (void) secfile_lookup_bool(loading->file, &value,
-                                     "settings.set%d.value", i);
-          (void) secfile_lookup_bool(loading->file, &value_start,
-                                     "settings.set%d.gamestart", i);
-
-          if (value) {
-            sz_strlcat(value_buffer, "|ALLIED");
+          if (secfile_lookup_bool(loading->file, &value,
+                                  "settings.set%d.value", i)) {
+            if (value) {
+              sz_strlcat(value_buffer, "|ALLIED");
+            }
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
-          if (value_start) {
-            sz_strlcat(gamestart_buffer, "|ALLIED");
+          if (secfile_lookup_bool(loading->file, &value,
+                                  "settings.set%d.gamestart", i)) {
+            if (value) {
+              sz_strlcat(gamestart_buffer, "|ALLIED");
+            }
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
         } else if (!fc_strcasecmp("revolen", name)) {
-          int value, value_start;
+          int value;
 
-          (void) secfile_lookup_int(loading->file, &value,
-                                    "settings.set%d.value", i);
-          (void) secfile_lookup_int(loading->file, &value_start,
-                                    "settings.set%d.gamestart", i);
-
-          /* 0 meant RANDOM 1-5 */
-          if (value == 0) {
-            rlt = REVOLEN_RANDOM;
-            secfile_replace_int(loading->file, 5, "settings.set%d.value", i);
+          if (secfile_lookup_int(loading->file, &value,
+                                 "settings.set%d.value", i)) {
+            /* 0 meant RANDOM 1-5 */
+            if (value == 0) {
+              rlt = REVOLEN_RANDOM;
+              secfile_replace_int(loading->file, 5,
+                                  "settings.set%d.value", i);
+            } else {
+              rlt = REVOLEN_FIXED;
+            }
           } else {
-            rlt = REVOLEN_FIXED;
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
-          if (value_start == 0) {
-            gsrlt = REVOLEN_RANDOM;
-            secfile_replace_int(loading->file, 5, "settings.set%d.gamestart", i);
+          if (secfile_lookup_int(loading->file, &value,
+                                 "settings.set%d.gamestart", i)) {
+            /* 0 meant RANDOM 1-5 */
+            if (value == 0) {
+              gsrlt = REVOLEN_RANDOM;
+              secfile_replace_int(loading->file, 5,
+                                  "settings.set%d.gamestart", i);
+            } else {
+              gsrlt = REVOLEN_FIXED;
+            }
           } else {
-            gsrlt = REVOLEN_FIXED;
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
         } else if (!fc_strcasecmp("happyborders", name)) {
-          bool value, value_start;
+          bool value;
 
-          (void) secfile_lookup_bool(loading->file, &value,
-                                     "settings.set%d.value", i);
-          (void) secfile_lookup_bool(loading->file, &value_start,
-                                     "settings.set%d.gamestart", i);
-
-          secfile_entry_delete(loading->file, "settings.set%d.value", i);
-          secfile_entry_delete(loading->file, "settings.set%d.gamestart", i);
-
-          if (value) {
-            secfile_insert_str(loading->file, "NATIONAL", "settings.set%d.value", i);
+          if (secfile_lookup_bool(loading->file, &value,
+                                  "settings.set%d.value", i)) {
+            secfile_entry_delete(loading->file, "settings.set%d.value", i);
+            if (value) {
+              secfile_insert_str(loading->file, "NATIONAL",
+                                 "settings.set%d.value", i);
+            } else {
+              secfile_insert_str(loading->file, "DISABLED",
+                                 "settings.set%d.value", i);
+            }
           } else {
-            secfile_insert_str(loading->file, "DISABLED", "settings.set%d.value", i);
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
-          if (value_start) {
-            secfile_insert_str(loading->file, "NATIONAL", "settings.set%d.gamestart", i);
+          if (secfile_lookup_bool(loading->file, &value,
+                                  "settings.set%d.gamestart", i)) {
+            secfile_entry_delete(loading->file, "settings.set%d.gamestart", i);
+            if (value) {
+              secfile_insert_str(loading->file, "NATIONAL",
+                                 "settings.set%d.gamestart", i);
+            } else {
+              secfile_insert_str(loading->file, "DISABLED",
+                                 "settings.set%d.gamestart", i);
+            }
           } else {
-            secfile_insert_str(loading->file, "DISABLED", "settings.set%d.gamestart", i);
+            log_sg("Setting '%s': %s", name, secfile_error());
           }
         }
       }
@@ -713,8 +755,10 @@ static void compat_load_020600(struct loaddata *loading)
         struct specialist *psp = specialist_by_number(sp);
         int count;
 
-        secfile_lookup_int(loading->file, &count, "player%d.c%d.n%s",
-                           i, j, specialist_rule_name(psp));
+        sg_failure_ret(secfile_lookup_int(loading->file, &count,
+                                          "player%d.c%d.n%s",
+                                          i, j, specialist_rule_name(psp)),
+                       "specialist error: %s", secfile_error());
         secfile_entry_delete(loading->file, "player%d.c%d.n%s",
                              i, j, specialist_rule_name(psp));
         secfile_insert_int(loading->file, count, "player%d.c%d.nspe%d",
