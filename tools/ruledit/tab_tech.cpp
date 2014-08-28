@@ -32,6 +32,7 @@
 #include "tech.h"
 
 // ruledit
+#include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
 
@@ -103,10 +104,12 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   add_button = new QPushButton(R__("Add tech"), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
   tech_layout->addWidget(add_button, 5, 0);
+  show_experimental(add_button);
 
   delete_button = new QPushButton(R__("Remove this tech"), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   tech_layout->addWidget(delete_button, 5, 1);
+  show_experimental(delete_button);
 
   refresh();
 

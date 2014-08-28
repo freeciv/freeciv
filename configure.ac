@@ -1068,6 +1068,9 @@ AC_ARG_ENABLE([ruledit],
   yes)  ruledit=yes ;;
   no)   ruledit=no ;;
   test) ruledit=test ;;
+  experimental)
+        AC_DEFINE([RULEDIT_EXPERIMENTAL], [1], [build experimental features to freeciv-ruledit])
+        ruledit=yes ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-ruledit]) ;;
 esac], [ruledit=no])
 if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then

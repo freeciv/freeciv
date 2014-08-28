@@ -124,3 +124,15 @@ static int re_parse_cmdline(int argc, char *argv[])
 
   return ui_options;
 }
+
+/**************************************************************************
+  Show widget if experimental features enabled, hide otherwise
+**************************************************************************/
+void show_experimental(QWidget *wdg)
+{
+#ifdef RULEDIT_EXPERIMENTAL
+  wdg->show();
+#else
+  wdg->hide();
+#endif
+}

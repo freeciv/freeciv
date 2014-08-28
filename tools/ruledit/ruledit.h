@@ -13,4 +13,6 @@
 #ifndef FC__RULEDIT_H
 #define FC__RULEDIT_H
 
+void show_experimental(QWidget *wdg);
+
 #endif /* FC__RULEDIT_H */
