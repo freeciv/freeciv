@@ -427,6 +427,10 @@ struct city {
       /* info for dipl/spy investigation */
       struct unit_list *info_units_supported;
       struct unit_list *info_units_present;
+      /* Before popup the city dialog, units go there. In normal process,
+       * these pointers are set to NULL. */
+      struct unit_list *collecting_info_units_supported;
+      struct unit_list *collecting_info_units_present;
 
       /* Updates needed for the city. */
       enum city_updates need_updates;

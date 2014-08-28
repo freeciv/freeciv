@@ -3126,6 +3126,8 @@ struct city *create_city_virtual(struct player *pplayer,
         unit_list_new_full(unit_virtual_destroy);
     pcity->client.info_units_present =
         unit_list_new_full(unit_virtual_destroy);
+    /* collecting_info_units_supported set by fc_calloc().
+     * collecting_info_units_present set by fc_calloc(). */
   }
 
   return pcity;
@@ -3150,6 +3152,14 @@ void destroy_city_virtual(struct city *pcity)
   if (!is_server()) {
     unit_list_destroy(pcity->client.info_units_supported);
     unit_list_destroy(pcity->client.info_units_present);
+    /* Handle a rare case where the game is freed in the middle of a
+     * spy/diplomat investigate cycle. */
+    if (pcity->client.collecting_info_units_supported != NULL) {
+      unit_list_destroy(pcity->client.collecting_info_units_supported);
+    }
+    if (pcity->client.collecting_info_units_present != NULL) {
+      unit_list_destroy(pcity->client.collecting_info_units_present);
+    }
   }
 
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
