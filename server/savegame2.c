@@ -1487,8 +1487,7 @@ static void sg_load_savefile(struct loaddata *loading)
 
   /* We don't need savefile.reason, but read it anyway to avoid
    * warnings about unread secfile entries. */
-  (void) secfile_lookup_str_default(loading->file, "None",
-                                    "savefile.reason");
+  (void) secfile_entry_by_path(loading->file, "savefile.reason");
 
   /* Load ruleset. */
   sz_strlcpy(game.server.rulesetdir,
@@ -1950,7 +1949,7 @@ static void sg_load_random(struct loaddata *loading)
     fc_rand_set_state(loading->rstate);
   } else {
     /* No random values - mark the setting. */
-    (void) secfile_lookup_bool_default(loading->file, TRUE, "random.save");
+    (void) secfile_entry_by_path(loading->file, "random.save");
 
     /* We're loading a game without a seed (which is okay, if it's a scenario).
      * We need to generate the game seed now because it will be needed later
@@ -4610,10 +4609,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
     /* This variables are not used but needed for saving the unit table.
      * Load them to prevent unused variables errors. */
-    (void) secfile_lookup_int_default(loading->file, 0, "%s.goto_x",
-                                      unitstr);
-    (void) secfile_lookup_int_default(loading->file, 0, "%s.goto_y",
-                                      unitstr);
+    (void) secfile_entry_lookup(loading->file, "%s.goto_x", unitstr);
+    (void) secfile_entry_lookup(loading->file, "%s.goto_y", unitstr);
   }
 
   /* Load AI data of the unit. */
@@ -5867,22 +5864,17 @@ static void compat_load_020400(struct loaddata *loading)
         /* In 2.3.x and prior, saveturns=0 meant no turn-based saves.
          * This is now controlled by the "autosaves" setting. */
         if (!fc_strcasecmp("saveturns", name)) {
-          int nturns, nturns_start;
-          (void) secfile_lookup_int(loading->file, &nturns,
-                                    "settings.set%d.value", i);
-          (void) secfile_lookup_int(loading->file, &nturns_start,
-                                    "settings.set%d.gamestart", i);
-          if (nturns == 0 || (gamestart_valid && nturns_start == 0)) {
-            /* Invent a new "autosaves" setting */
-            /* XXX: hardcodes details from GAME_AUTOSAVES_DEFAULT
-             * and settings.c:autosaves_name() (but these defaults reflect
-             * 2.3's behaviour) */
-            const char *const nosave = "GAMEOVER|QUITIDLE|INTERRUPT",
-                       *const save = "TURN|GAMEOVER|QUITIDLE|INTERRUPT";
-            secfile_replace_int(loading->file, new_opt+1, "settings.set_count");
-            secfile_insert_str(loading->file, "autosaves",
-                               "settings.set%d.name", new_opt);
+          /* XXX: hardcodes details from GAME_AUTOSAVES_DEFAULT
+           * and settings.c:autosaves_name() (but these defaults reflect
+           * 2.3's behaviour). */
+          const char *const nosave = "GAMEOVER|QUITIDLE|INTERRUPT";
+          const char *const save = "TURN|GAMEOVER|QUITIDLE|INTERRUPT";
+          int nturns;
+
+          if (secfile_lookup_int(loading->file, &nturns,
+                                 "settings.set%d.value", i)) {
             if (nturns == 0) {
+              /* Invent a new "autosaves" setting */
               secfile_insert_str(loading->file, nosave,
                                  "settings.set%d.value", new_opt);
               /* Pick something valid for saveturns */
@@ -5892,16 +5884,25 @@ static void compat_load_020400(struct loaddata *loading)
               secfile_insert_str(loading->file, save,
                                  "settings.set%d.value", new_opt);
             }
-            if (gamestart_valid) {
-              if (nturns_start == 0) {
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
+          }
+          if (gamestart_valid) {
+            if (secfile_lookup_int(loading->file, &nturns,
+                                   "settings.set%d.gamestart", i)) {
+              if (nturns == 0) {
+                /* Invent a new "autosaves" setting */
                 secfile_insert_str(loading->file, nosave,
                                    "settings.set%d.gamestart", new_opt);
+                /* Pick something valid for saveturns */
                 secfile_replace_int(loading->file, GAME_DEFAULT_SAVETURNS,
                                     "settings.set%d.gamestart", i);
               } else {
                 secfile_insert_str(loading->file, save,
                                    "settings.set%d.gamestart", new_opt);
               }
+            } else {
+              log_sg("Setting '%s': %s", name, secfile_error());
             }
           }
         } else if (!fc_strcasecmp("autosaves", name)) {

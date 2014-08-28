@@ -2003,8 +2003,7 @@ static void player_load_units(struct player *plr, int plrno,
     }
 
     /* Avoid warning when loading pre-2.1 saves containing foul status */
-    secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
-                                plrno, i);
+    (void) secfile_entry_lookup(file, "player%d.u%d.foul", plrno, i);
 
     fc_assert_exit_msg(secfile_lookup_int(file, &punit->homecity,
                                           "player%d.u%d.homecity", plrno, i),
@@ -3258,8 +3257,7 @@ static void player_load_cities(struct player *plr, int plrno,
 
       /* FIXME: Dummy to mark this value as used. It is needed to prevent
        *        old servers from crashing if a new savegame is loaded. */
-      (void) secfile_lookup_str_default(file, "", "player%d.c%d.workers",
-                                        plrno, i);
+      (void) secfile_entry_lookup(file, "player%d.c%d.workers", plrno, i);
 
       int radius_sq
         = secfile_lookup_int_default(file, -1, "player%d.c%d.city_radius_sq",
@@ -4485,7 +4483,7 @@ static void game_load_internal(struct section_file *file)
 
   /* We don't need savefile.reason, but read it anyway to avoid
    * warnings about unread secfile entries. */
-  secfile_lookup_str_default(file, "None", "savefile.reason");
+  (void) secfile_entry_by_path(file, "savefile.reason");
 
   if (has_capability("improvement_order", savefile_options)) {
     improvement_order = secfile_lookup_str_vec(file, &improvement_order_size,
@@ -4691,7 +4689,7 @@ static void game_load_internal(struct section_file *file)
                                                 "game.metamessage"));
     } else {
       /* To avoid warnings when loading pre-2.1 savegames */
-      secfile_lookup_str_default(file, "", "game.metamessage");
+      (void) secfile_entry_by_path(file, "game.metamessage");
     }
 
     if (0 == strcmp(DEFAULT_META_SERVER_ADDR, srvarg.metaserver_addr)) {
@@ -5222,7 +5220,7 @@ static void game_load_internal(struct section_file *file)
     fc_rand_set_state(rstate);
   } else {
     /* mark it */
-    (void) secfile_lookup_bool_default(file, TRUE, "game.save_random");
+    (void) secfile_entry_by_path(file, "game.save_random");
 
     /* We're loading a running game without a seed (which is okay, if it's
      * a scenario).  We need to generate the game seed now because it will
