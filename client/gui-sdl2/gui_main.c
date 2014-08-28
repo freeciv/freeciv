@@ -774,7 +774,7 @@ void ui_init(void)
   button_behavior.button_down_ticks = 0;
   button_behavior.hold_state = MB_HOLD_SHORT;
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
-  
+
   SDL_Client_Flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
 
@@ -782,68 +782,6 @@ void ui_init(void)
   putenv((char *)"SDL_VIDEO_CENTERED=yes");
 
   init_sdl(iSDL_Flags);
-
-  log_normal(_("Using Video Output: %s"),
-             SDL_GetCurrentVideoDriver());
-
-  set_video_mode(640, 480, 0);
-
-#if 0
-  if (pBgd && SDL_GetVideoInfo()->wm_available) {
-    set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT);
-#if 0
-    /*
-     * call this for other than X enviroments - currently not supported.
-     */
-    center_main_window_on_screen();
-#endif /* 0 */
-    alphablit(pBgd, NULL, Main.map, NULL);
-    putframe(Main.map,
-             0, 0, Main.map->w - 1, Main.map->h - 1,
-             &(SDL_Color){255, 255, 255, 255});
-    FREESURFACE(pBgd);
-  } else {
-    
-#ifndef SMALL_SCREEN
-    set_video_mode(640, 480, SDL_SWSURFACE);
-#else  /* SMALL_SCREEN */
-    set_video_mode(320, 240, SDL_SWSURFACE);
-#endif /* SMALL_SCREEN */
-
-    if (pBgd) {
-      blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
-                      (Main.map->h - pBgd->h) / 2);
-      FREESURFACE(pBgd);
-    } else {
-      SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
-    }
-  }
-#endif
-
-#if 0
-  /* create label background */
-  pBgd = create_surf(adj_size(350), adj_size(50), SDL_SWSURFACE);
-
-  SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
-  putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, SDL_MapRGB(pBgd->format, 0, 0, 0));
- 
-  pInit_String = create_iconlabel(pBgd, Main.gui,
-	create_str16_from_char(_("Initializing Client"), adj_font(20)),
-				   WF_ICON_CENTER|WF_FREE_THEME);
-  pInit_String->string16->style |= SF_CENTER;
-
-  draw_label(pInit_String,
-	     (main_window_width() - pInit_String->size.w) / 2,
-	     (main_window_height() - pInit_String->size.h) / 2);
-
-  flush_all();
-  
-  copy_chars_to_string16(pInit_String->string16,
-  			_("Waiting for the beginning of the game"));
-
-#endif /* 0 */
-
-  flush_all();
 }
 
 /****************************************************************************
@@ -852,18 +790,6 @@ void ui_init(void)
 static void real_resize_window_callback(void *data)
 {
   struct widget *widget;
-  Uint32 flags = 0; // Main.mainsurf->flags;
-
-  if (options.gui_sdl2_fullscreen) {
-    flags |= SDL_WINDOW_FULLSCREEN;
-  } else {
-    flags &= ~SDL_WINDOW_FULLSCREEN;
-  }
-
-  log_normal("Setting size %d, %d", options.gui_sdl2_screen.width,
-             options.gui_sdl2_screen.height);
-
-  //set_video_mode(gui_sdl2_screen.width, gui_sdl2_screen.height, flags);
 
   if (C_S_RUNNING == client_state()) {
     /* Move units window to botton-right corner. */
@@ -977,12 +903,21 @@ void ui_main(int argc, char *argv[])
   SDL_Event __Info_User_Event;
   SDL_Event __Flush_User_Event;
   SDL_Event __pMap_Scroll_User_Event;
+  Uint32 flags = 0;
 
   parse_options(argc, argv);
 
   if (!options.gui_sdl2_migrated_from_sdl) {
     migrate_options_from_sdl();
   }
+
+  if (options.gui_sdl2_fullscreen) {
+    flags |= SDL_WINDOW_FULLSCREEN;
+  } else {
+    flags &= ~SDL_WINDOW_FULLSCREEN;
+  }
+  log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
+  set_video_mode(options.gui_sdl2_screen.width, options.gui_sdl2_screen.height, flags);
 
   __Net_User_Event.type = SDL_USEREVENT;
   __Net_User_Event.user.code = NET;
