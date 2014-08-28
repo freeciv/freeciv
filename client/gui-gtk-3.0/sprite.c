@@ -144,7 +144,7 @@ struct sprite *load_gfxfile(const char *filename)
 
     for (i = 0; i < width; i++) {
       for (j = 0; j < height; j++) {
-#ifdef WORDS_BIGENDIAN
+#ifndef WORDS_BIGENDIAN
         /* Add alpha channel */
         new_data[(j * width + i) * 4 + 3] = 0xff;
         /* Copy RGB */
