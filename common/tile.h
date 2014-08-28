@@ -172,7 +172,8 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act);
 #define TILE_LB_TERRAIN_RIVER    (1 << 0)
 #define TILE_LB_RIVER_RESOURCE   (1 << 1)
 #define TILE_LB_RESOURCE_POLL    (1 << 2)
-const char *tile_get_info_text(const struct tile *ptile, int linebreaks);
+const char *tile_get_info_text(const struct tile *ptile,
+                               bool include_nuisances, int linebreaks);
 
 /* Virtual tiles are tiles that do not exist on the game map. */
 struct tile *tile_virtual_new(const struct tile *ptile);

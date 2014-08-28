@@ -1054,7 +1054,7 @@ BUILD_CITY:
       if (same_pos(unit_tile(punit), ptile)) {
         if (!dai_do_build_city(ait, pplayer, punit)) {
           UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
-                   tile_get_info_text(unit_tile(punit), 0));
+                   tile_get_info_text(unit_tile(punit), TRUE, 0));
           dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any

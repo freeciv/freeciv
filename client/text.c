@@ -166,7 +166,7 @@ const char *popup_info_text(struct tile *ptile)
     astr_add(&str, _("Unknown"));
     return astr_str(&str);
   }
-  astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, 0));
+  astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, TRUE, 0));
   astr_add_line(&str, _("Food/Prod/Trade: %s"),
 		get_tile_output_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
@@ -1137,7 +1137,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     struct city *pcity = player_city_by_number(owner,
                                                punit->homecity);
 
-    astr_add_line(&str, "%s", tile_get_info_text(unit_tile(punit),
+    astr_add_line(&str, "%s", tile_get_info_text(unit_tile(punit), TRUE,
                                                  linebreaks));
     {
       const char *infratext
