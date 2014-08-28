@@ -690,13 +690,16 @@ static bool tile_info_pollution(char *buf, int bufsz,
 /****************************************************************************
   Return a (static) string with tile name describing terrain and
   extras of some categories.
+  If include_nuisances is set, pollution and nuclear fallout will be
+  ignored.
 
   Examples:
     "Hills"
     "Hills (Coals)"
     "Hills (Coals) [Pollution]"
 ****************************************************************************/
-const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
+const char *tile_get_info_text(const struct tile *ptile,
+                               bool include_nuisances, int linebreaks)
 {
   static char s[256];
   bool pollution;
@@ -741,14 +744,17 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks)
     lb = TRUE;
   }
 
-  pollution = FALSE;
-  extra_type_iterate(pextra) {
-    if (pextra->category == ECAT_NUISANCE) {
-      pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution, lb);
+  if (include_nuisances) {
+    pollution = FALSE;
+    extra_type_iterate(pextra) {
+      if (pextra->category == ECAT_NUISANCE) {
+        pollution = tile_info_pollution(s, bufsz, ptile, pextra, pollution,
+                                        lb);
+      }
+    } extra_type_iterate_end;
+    if (pollution) {
+      sz_strlcat(s, "]");
     }
-  } extra_type_iterate_end;
-  if (pollution) {
-    sz_strlcat(s, "]");
   }
 
   return s;
