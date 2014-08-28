@@ -42,8 +42,6 @@ extern QApplication *qapp;
 ****************************************************************************/
 fc_client::fc_client() : QObject()
 {
-  struct rgbcolor *prgbcolor;
-
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
    * haven't been created yet by Qt, even constructor finished job,
@@ -168,9 +166,6 @@ fc_client::fc_client() : QObject()
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
   fc_fonts.init_fonts();
-  /* workaround for changing tileset from main page */
-  prgbcolor = rgbcolor_new(0,0,0);
-  game.plr_bg_color = prgbcolor;
   main_window->setVisible(true);
 }
 
