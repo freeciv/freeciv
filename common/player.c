@@ -1411,7 +1411,7 @@ int diplrel_by_rule_name(const char *value)
   /*
    * Make sure that diplrel_other_invalid() is returned.
    *
-   * Can't happend now. At the moment dpilrel_asym_invalid() is the same as
+   * Can't happen now. At the moment dpilrel_asym_invalid() is the same as
    * diplstate_type_invalid(). This is in case that changes in the future.
    */
   if (diplrel != diplstate_type_invalid()) {
