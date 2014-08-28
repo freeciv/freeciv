@@ -146,6 +146,9 @@ extern "C" {
 #define SPECENUM_VALUE109 E_UNIT_BUILT_POP_COST
 #define SPECENUM_VALUE110 E_DISASTER
 #define SPECENUM_VALUE111 E_ACHIEVEMENT
+#define SPECENUM_VALUE112 E_TECH_LOST
+/* Used to notify tech events for foreigner players. */
+#define SPECENUM_VALUE113 E_TECH_EMBASSY
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, and to

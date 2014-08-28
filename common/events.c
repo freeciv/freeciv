@@ -84,9 +84,11 @@ static struct {
    * server to generate messages. They are used in configuring how the client
    * handles the different types of messages. Some of them will be displayed
    * with prefixes, such as "Technology: Learned From Great Library". */
-  GEN_EV(E_TECH_GAIN,		E_S_ADVANCE,	N_("Learned From Great Library")),
-  GEN_EV(E_TECH_LEARNED,	E_S_ADVANCE,	N_("Learned New Tech")),
-  GEN_EV(E_TECH_GOAL,		E_S_ADVANCE,	N_("Selected New Goal")),
+  GEN_EV(E_TECH_GAIN,		E_S_ADVANCE,	N_("Gain of new Tech")),
+  GEN_EV(E_TECH_LEARNED,	E_S_ADVANCE,	N_("Learned new Tech")),
+  GEN_EV(E_TECH_GOAL,		E_S_ADVANCE,	N_("Selected new Goal")),
+  GEN_EV(E_TECH_LOST,		E_S_ADVANCE,	N_("Lost a Tech")),
+  GEN_EV(E_TECH_EMBASSY,	E_S_ADVANCE,	N_("Other player gained/lost a Tech")),
   GEN_EV(E_IMP_BUY,		E_S_BUILD,	N_("Bought")),
   GEN_EV(E_IMP_BUILD,		E_S_BUILD,	N_("Built")),
   GEN_EV(E_IMP_AUCTIONED,	E_S_BUILD,	N_("Forced to Sell")),

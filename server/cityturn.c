@@ -2026,7 +2026,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
         Tech_type_id tech = give_immediate_free_tech(presearch);
 
         notify_research_embassies
-            (presearch, NULL, E_TECH_GAIN, ftc_server,
+            (presearch, NULL, E_TECH_EMBASSY, ftc_server,
              _("The %s have acquired %s from %s."),
              research_name,
              research_advance_name_translation(presearch, tech),

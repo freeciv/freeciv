@@ -84,7 +84,7 @@ static void tech_researched(struct research *research)
   research_pretty_name(research, research_name, sizeof(research_name));
   /* Players will be notified when new tech is chosen. */
   notify_research_embassies
-      (research, NULL, E_TECH_GAIN, ftc_server,
+      (research, NULL, E_TECH_EMBASSY, ftc_server,
        _("The %s have researched %s."),
        research_name,
        research_advance_name_translation(research, tech));
@@ -173,7 +173,7 @@ void do_tech_parasite_effect(struct player *pplayer)
                   advance_name,
                  player_name(pplayer),
                   astr_str(&effects));
-  notify_research_embassies(presearch, NULL, E_TECH_GAIN, ftc_server,
+  notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
                             _("The %s have acquired %s from %s."),
                             research_name,
                             advance_name,
@@ -581,8 +581,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
         research->future_tech--;
         tech = A_FUTURE;
 
-        /* FIXME: technology loss event type missing. */
-        notify_research(research, NULL, E_TECH_GAIN, ftc_server,
+        notify_research(research, NULL, E_TECH_LOST, ftc_server,
                         _("Insufficient science output. We lost %s."),
                         research_advance_name_translation(research, tech));
       } else {
@@ -592,8 +591,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
           log_debug("%s: tech loss (%s)",
                     research_rule_name(research),
                     research_advance_rule_name(research, tech));
-          /* FIXME: technology loss event type missing. */
-          notify_research(research, NULL, E_TECH_GAIN, ftc_server,
+          notify_research(research, NULL, E_TECH_LOST, ftc_server,
                           _("Insufficient science output. We lost %s."),
                           research_advance_name_translation(research, tech));
 
@@ -722,8 +720,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
   if (is_future_tech(tech)) {
     presearch->future_tech--;
     research_update(presearch);
-    /* FIXME: technology loss event type missing. */
-    notify_research_embassies(presearch, NULL, E_TECH_GAIN, ftc_server,
+    notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
                               _("The %s have lost %s."),
                               research_name,
                               research_advance_name_translation(presearch,
@@ -732,8 +729,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
   }
 
   fc_assert_ret(valid_advance_by_number(tech));
-  /* FIXME: technology loss event type missing. */
-  notify_research_embassies(presearch, NULL, E_TECH_GAIN, ftc_server,
+  notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
                             _("The %s have lost %s."),
                             research_name,
                             research_advance_name_translation(presearch,
@@ -1169,7 +1165,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
                 nation_plural_for_player(pplayer),
                 advance_name);
 
-  notify_research_embassies(presearch, victim, E_TECH_GAIN, ftc_server,
+  notify_research_embassies(presearch, victim, E_TECH_EMBASSY, ftc_server,
                             _("The %s have stolen %s from the %s."),
                             research_name,
                             advance_name,
@@ -1287,13 +1283,11 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
 {
   struct research *presearch = research_get(pplayer);
 
-  /* FIXME: technology loss event type missing. */
-  notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+  notify_player(pplayer, NULL, E_TECH_LOST, ftc_server,
                 _("Too bad! You made a mistake transferring the tech %s and "
                   "lost it."),
                 research_advance_name_translation(presearch, tech));
-  /* FIXME: technology loss event type missing. */
-  notify_research(presearch, pplayer, E_TECH_GAIN, ftc_server,
+  notify_research(presearch, pplayer, E_TECH_LOST, ftc_server,
                   _("Too bad! The %s made a mistake transferring the tech "
                     "%s and lost it."),
                 nation_plural_for_player(pplayer),
