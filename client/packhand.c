@@ -2613,7 +2613,6 @@ void handle_spaceship_info(const struct packet_spaceship_info *p)
   ship->components   = p->components;
   ship->modules      = p->modules;
   ship->fuel         = p->fuel;
-  ship->fuel         = p->fuel;
   ship->propulsion   = p->propulsion;
   ship->habitation   = p->habitation;
   ship->life_support = p->life_support;
