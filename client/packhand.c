@@ -3564,10 +3564,7 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
                               0, 0);
   }
 
-  if (game.plr_bg_color) {
-    rgbcolor_destroy(game.plr_bg_color);
-  }
-
+  fc_assert(game.plr_bg_color == NULL);
   game.plr_bg_color = rgbcolor_new(packet->background_red,
                                    packet->background_green,
                                    packet->background_blue);
