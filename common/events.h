@@ -151,9 +151,9 @@ extern "C" {
 #define SPECENUM_VALUE113 E_TECH_EMBASSY
 /*
  * Note: If you add a new event, make sure you make a similar change
- * to the events array in "common/events.c" using GEN_EV, and to
+ * to the events array in "common/events.c" using GEN_EV, to
  * "data/stdsounds.soundspec", which serves as the documentation to
- * soundset authors.
+ * soundset authors, and to "data/misc/events.spec".
  */
 #define SPECENUM_COUNT E_COUNT
 /* The sound system also generates "e_game_quit", although there's no
