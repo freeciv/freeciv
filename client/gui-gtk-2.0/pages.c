@@ -157,6 +157,7 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
 {
   static PangoLayout *layout;
   static int width, height;
+  static bool left = FALSE;
 
   if (!layout) {
     char msgbuf[128];
@@ -167,9 +168,20 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
          pango_font_description_from_string("Sans Bold 10"));
 
     if (rev_ver == NULL) {
-      /* TRANS: "version 2.6.0, gui-gtk-2.0 client" */
-      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
-                  word_version(), VERSION_STRING, client_string);
+      rev_ver = fc_git_revision();
+
+      if (rev_ver == NULL) {
+        /* TRANS: "version 2.6.0, gui-gtk-2.0 client" */
+        fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
+                    word_version(), VERSION_STRING, client_string);
+      } else {
+        /* TRANS: "version 2.6.0
+         *         commit: [modified] <git commit id>
+         *         gui-gtk-2.0 client" */
+        fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s\ncommit: %s\n%s client"),
+                    word_version(), VERSION_STRING, rev_ver, client_string);
+        left = TRUE;
+      }
     } else {
       /* TRANS: "version 2.6.0 (r25000), gui-gtk-2.0 client" */
       fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), %s client"),
@@ -183,7 +195,7 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
   gtk_draw_shadowed_string(w->window,
       w->style->black_gc,
       w->style->white_gc,
-      w->allocation.x + w->allocation.width - width - 4,
+      w->allocation.x + (left ? 4 : w->allocation.width - width - 4),
       w->allocation.y + w->allocation.height - height - 4,
       layout);
   return TRUE;
