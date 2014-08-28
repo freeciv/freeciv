@@ -963,7 +963,7 @@ done
 
 if test "x$req_fcmp_gtk3" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  AM_PATH_GTK_3_0([3.0.0],
+  AM_PATH_GTK_3_0([3.8.0],
 [
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [

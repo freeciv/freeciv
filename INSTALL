@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 01-Aug-14.
+Last minor update was 25-Aug-14.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -231,12 +231,12 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
        Provides an abstraction layer over X-Windows/LinuxFB/Win32 to implement
        basic drawing functions, windows, clipping, etc.
 
-   Freeciv requires a version of "Gtk+" greater or equal to 3.6.0.
+   Freeciv requires a version of "Gtk+" greater or equal to 3.8.0.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.8/gtk+-3.8.1.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.12/gtk+-3.12.2.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
