@@ -136,13 +136,10 @@ struct resource {
 #define SPECENUM_VALUE16 TER_USER_7
 #define SPECENUM_VALUE17 TER_USER_LAST
 #define SPECENUM_NAMEOVERRIDE
+#define SPECENUM_BITVECTOR bv_terrain_flags
 #include "specenum_gen.h"
 
-#define TER_MAX 64 /* Changing this breaks network compatability. */
-
 #define MAX_NUM_USER_TER_FLAGS (TER_USER_LAST - TER_USER_1 + 1)
-
-BV_DEFINE(bv_terrain_flags, TER_MAX); /* Used in the network protocol. */
 
 #define SPECENUM_NAME mapgen_terrain_property
 #define SPECENUM_VALUE0 MG_MOUNTAINOUS
