@@ -1941,7 +1941,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   const char *text;
 
   tile_apply_activity(newtile, activity);
-  text = tile_get_info_text(newtile, 0);
+  text = tile_get_info_text(newtile, FALSE, 0);
   tile_virtual_destroy(newtile);
   return text;
 }

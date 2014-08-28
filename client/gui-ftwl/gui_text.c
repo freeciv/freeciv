@@ -149,7 +149,7 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
 	   TILE_XY(ptile),
 	   tile_continent(ptile));
 #endif /* DEBUG */
-  add_line("%s", tile_get_info_text(ptile, 0));
+  add_line("%s", tile_get_info_text(ptile, TRUE, 0));
   if (count > 0) {
     add_line("%s",
 	     get_infrastructure_text(infrastructure, ptile->bases));
