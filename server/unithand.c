@@ -1044,9 +1044,9 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
    * so that the original unit stats (HP) will be sent.
    */
   package_short_unit(pattacker, &unit_att_short_packet,
-		     UNIT_INFO_IDENTITY, 0, FALSE);
+                     UNIT_INFO_IDENTITY, 0);
   package_short_unit(pdefender, &unit_def_short_packet,
-		     UNIT_INFO_IDENTITY, 0, FALSE);
+                     UNIT_INFO_IDENTITY, 0);
   package_unit(pattacker, &unit_att_packet);
   package_unit(pdefender, &unit_def_packet);
 
@@ -1066,15 +1066,13 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
         if (pplayer == unit_owner(pattacker)) {
           send_packet_unit_info(pconn, &unit_att_packet);
         } else {
-          send_packet_unit_short_info(pconn,
-                                      &unit_att_short_packet);
+          send_packet_unit_short_info(pconn, &unit_att_short_packet, FALSE);
         }
         
         if (pplayer == unit_owner(pdefender)) {
           send_packet_unit_info(pconn, &unit_def_packet);
         } else {
-          send_packet_unit_short_info(pconn,
-                                      &unit_def_short_packet);
+          send_packet_unit_short_info(pconn, &unit_def_short_packet, FALSE);
         }
       }
     } else if (pconn->observer) {

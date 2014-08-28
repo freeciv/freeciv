@@ -2208,19 +2208,8 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 **************************************************************************/
 void package_short_unit(struct unit *punit,
 			struct packet_unit_short_info *packet,
-			enum unit_info_use packet_use,
-			int info_city_id, bool new_serial_num)
+                        enum unit_info_use packet_use, int info_city_id)
 {
-  static unsigned int serial_num = 0;
-
-  /* a 16-bit unsigned number, never zero */
-  if (new_serial_num) {
-    serial_num = (serial_num + 1) & 0xFFFF;
-    if (serial_num == 0) {
-      serial_num++;
-    }
-  }
-  packet->serial_num = serial_num;
   packet->packet_use = packet_use;
   packet->info_city_id = info_city_id;
 
@@ -2289,7 +2278,7 @@ static void send_unit_info_to_onlookers(struct conn_list *dest,
   CHECK_UNIT(punit);
 
   package_unit(punit, &info);
-  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
+  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0);
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->playing;
@@ -2306,7 +2295,7 @@ static void send_unit_info_to_onlookers(struct conn_list *dest,
                    || (unit_tile(punit) != old_tile
                        && can_player_see_unit_at(pplayer, punit, old_tile,
                                                  was_transported)))) {
-      send_packet_unit_short_info(pconn, &sinfo);
+      send_packet_unit_short_info(pconn, &sinfo, FALSE);
     }
   } conn_list_iterate_end;
 }

@@ -132,8 +132,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
 void package_unit(struct unit *punit, struct packet_unit_info *packet);
 void package_short_unit(struct unit *punit,
 			struct packet_unit_short_info *packet,
-			enum unit_info_use packet_use, int info_city_id,
-			bool new_serial_num);
+                        enum unit_info_use packet_use, int info_city_id);
 void send_unit_info(struct player *dest, struct unit *punit);
 void send_all_known_units(struct conn_list *dest);
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit);

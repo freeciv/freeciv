@@ -908,6 +908,30 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     city_workers_display=NULL;
   }
 
+  if (investigate) {
+    /* Commit the collected supported and present units. */
+    if (pcity->client.collecting_info_units_supported != NULL) {
+      /* We got units, let's move the unit lists. */
+      fc_assert(pcity->client.collecting_info_units_present != NULL);
+
+      unit_list_destroy(pcity->client.info_units_present);
+      pcity->client.info_units_present =
+          pcity->client.collecting_info_units_present;
+      pcity->client.collecting_info_units_present = NULL;
+
+      unit_list_destroy(pcity->client.info_units_supported);
+      pcity->client.info_units_supported =
+          pcity->client.collecting_info_units_supported;
+      pcity->client.collecting_info_units_supported = NULL;
+    } else {
+      /* We didn't get any unit, let's clear the unit lists. */
+      fc_assert(pcity->client.collecting_info_units_present == NULL);
+
+      unit_list_clear(pcity->client.info_units_supported);
+      unit_list_clear(pcity->client.info_units_present);
+    }
+  }
+
   if (popup
       && NULL != client.conn.playing
       && !client.conn.playing->ai_controlled
@@ -1730,26 +1754,36 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
       || packet->packet_use == UNIT_INFO_CITY_PRESENT) {
     static int last_serial_num = 0;
 
-    /* fetch city -- abort if not found */
     pcity = game_city_by_number(packet->info_city_id);
     if (!pcity) {
+      log_error("Investigate city: unknown city id %d!",
+                packet->info_city_id);
       return;
     }
 
-    /* New serial number -- clear (free) everything */
-    if (last_serial_num != packet->serial_num) {
-      last_serial_num = packet->serial_num;
-      unit_list_clear(pcity->client.info_units_supported);
-      unit_list_clear(pcity->client.info_units_present);
+    /* New serial number: start collecting supported and present units. */
+    if (last_serial_num
+        != client.conn.client.request_id_of_currently_handled_packet) {
+      last_serial_num =
+          client.conn.client.request_id_of_currently_handled_packet;
+      /* Ensure we are not already in an investigate cycle. */
+      fc_assert(pcity->client.collecting_info_units_supported == NULL);
+      fc_assert(pcity->client.collecting_info_units_present == NULL);
+      pcity->client.collecting_info_units_supported =
+          unit_list_new_full(unit_virtual_destroy);
+      pcity->client.collecting_info_units_present =
+          unit_list_new_full(unit_virtual_destroy);
     }
 
     /* Okay, append a unit struct to the proper list. */
     punit = unpackage_short_unit(packet);
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      unit_list_prepend(pcity->client.info_units_supported, punit);
+      fc_assert(pcity->client.collecting_info_units_supported != NULL);
+      unit_list_append(pcity->client.collecting_info_units_supported, punit);
     } else {
       fc_assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
-      unit_list_prepend(pcity->client.info_units_present, punit);
+      fc_assert(pcity->client.collecting_info_units_present != NULL);
+      unit_list_append(pcity->client.collecting_info_units_present, punit);
     }
 
     /* Done with special case. */

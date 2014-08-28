@@ -154,7 +154,6 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity)
 {
   struct player *cplayer;
-  bool first_packet;
   struct packet_unit_short_info unit_packet;
   struct packet_city_info city_packet;
 
@@ -174,18 +173,19 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
      units of a city, whether or not they are fogged. So, we
      send a list of them all before sending the city info.
      As this is a special case we bypass send_unit_info. */
-  first_packet = TRUE;
   unit_list_iterate(pcity->units_supported, punit) {
     package_short_unit(punit, &unit_packet,
-                       UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
-    lsend_packet_unit_short_info(pplayer->connections, &unit_packet);
-    first_packet = FALSE;
+                       UNIT_INFO_CITY_SUPPORTED, pcity->id);
+    /* We need to force to send the packet to ensure the client will receive
+     * something (e.g. investigating twice). */
+    lsend_packet_unit_short_info(pplayer->connections, &unit_packet, TRUE);
   } unit_list_iterate_end;
   unit_list_iterate((pcity->tile)->units, punit) {
     package_short_unit(punit, &unit_packet,
-                       UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
-    lsend_packet_unit_short_info(pplayer->connections, &unit_packet);
-    first_packet = FALSE;
+                       UNIT_INFO_CITY_PRESENT, pcity->id);
+    /* We need to force to send the packet to ensure the client will receive
+     * something (e.g. investigating twice). */
+    lsend_packet_unit_short_info(pplayer->connections, &unit_packet, TRUE);
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
      As this is a special case we bypass send_city_info. */

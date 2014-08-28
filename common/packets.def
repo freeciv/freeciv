@@ -889,7 +889,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   EXTRA orders_targets[MAX_LEN_ROUTE:orders_length];
 end
 
-PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
+PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, force, cancel(PACKET_UNIT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
@@ -907,8 +907,6 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
   UINT8 packet_use;	/* see enum unit_info_use */
   CITY info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
   			   and UNIT_INFO_CITY_PRESENT uses */
-  UINT16 serial_num;	/* a 16-bit unsigned number, never zero
-			   (not used by UNIT_INFO_IDENTITY) */
 end
 
 PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
