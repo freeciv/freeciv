@@ -5260,10 +5260,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       }
 
       if (ok) {
-        if (game.plr_bg_color != NULL) {
-          rgbcolor_destroy(game.plr_bg_color);
-          game.plr_bg_color = NULL;
-        }
+        fc_assert(game.plr_bg_color == NULL);
         if (!rgbcolor_load(file, &game.plr_bg_color, "playercolors.background")) {
           ruleset_error(LOG_ERROR, "No background player color defined! (%s)",
                         secfile_error());
