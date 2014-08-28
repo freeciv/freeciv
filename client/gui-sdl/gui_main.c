@@ -914,8 +914,8 @@ void gui_options_extra_init(void)
     log_error("Didn't find option %s!", #var);                              \
   }
 
-  option_var_set_callback(options.gui_sdl_fullscreen, resize_window_callback);
-  option_var_set_callback(options.gui_sdl_screen, resize_window_callback);
+  option_var_set_callback(gui_sdl_fullscreen, resize_window_callback);
+  option_var_set_callback(gui_sdl_screen, resize_window_callback);
 #undef option_var_set_callback
 }
 
