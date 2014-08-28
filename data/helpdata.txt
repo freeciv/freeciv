@@ -12,7 +12,7 @@
 ; 'generate' = means replace this node with generated list of game
 ;	       elements; current categories are: 
 ;	          "Units", "Improvements", "Wonders", "Techs", 
-;		  "Terrain", "Bases", "Roads", "Specialists",
+;		  "Terrain", "Extras", "Specialists",
 ;                 "Governments", "Ruleset", "Nations"
 ;              As for 'name', the number of spaces before the category
 ;              name indicates nesting level for display.
@@ -326,12 +326,8 @@ for free; see the section on Cities for more detail.\
 [help_gen_terrain]
 generate = " Terrain"
 
-[help_gen_natural_roads]
-generate = " Roads"
-categories = "Natural"
-
-[help_gen_natural_bases]
-generate = " Bases"
+[help_gen_natural_extras]
+generate = " Extras"
 categories = "Natural"
 
 [help_terrain_alterations]
@@ -410,20 +406,12 @@ improving units are often vulnerable to enemy attacks.\
 $TerrainAlterations\
 "
 
-[help_gen_roads]
-generate = "  Roads"
+[help_gen_extras]
+generate = "  Extras"
 categories = "Infra"
 
-[help_gen_bases]
-generate = "  Bases"
-categories = "Infra"
-
-[help_gen_misc_roads]
-generate = " Roads"
-categories = "Bonus", "Nuisance"
-
-[help_gen_misc_bases]
-generate = " Bases"
+[help_gen_misc_extras]
+generate = " Extras"
 categories = "Bonus", "Nuisance"
 
 [help_villages]

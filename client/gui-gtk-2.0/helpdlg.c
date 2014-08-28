@@ -74,8 +74,7 @@ static GtkWidget *help_itable;
 static GtkWidget *help_wtable;
 static GtkWidget *help_utable;
 static GtkWidget *help_ttable;
-static GtkWidget *help_btable;
-static GtkWidget *help_rtable;
+static GtkWidget *help_etable;
 static GtkWidget *help_tree;
 static GtkTreeStore *tstore;
 
@@ -87,8 +86,7 @@ static GtkWidget *help_ilabel[6];
 static GtkWidget *help_wlabel[6];
 static GtkWidget *help_ulabel[5][5];
 static GtkWidget *help_tlabel[4][5];
-static GtkWidget *help_blabel[4];
-static GtkWidget *help_rlabel[4];
+static GtkWidget *help_elabel[6];
 
 static bool help_advances[A_LAST];
 
@@ -119,22 +117,16 @@ static const char *help_tlabel_name[4][5] =
     { N_("Trans. Rslt/Time:"),	NULL, NULL, NULL,                       NULL }
 };
 
-static const char *help_blabel_name[4] =
-/* TRANS: Label for build cost for bases in help. Will be followed by
+static const char *help_elabel_name[6] =
+/* TRANS: Label for build cost for extras in help. Will be followed by
  * something like "3 MP" (where MP = Movement Points) */
 { N_("Build:"), NULL,
-/* TRANS: Base conflicts in help. Will be followed by a list of bases
+/* TRANS: Extra conflicts in help. Will be followed by a list of extras
  * that can't be built on the same tile as this one. */
-  N_("Conflicts with:"), NULL };
-
-static const char *help_rlabel_name[4] =
-/* TRANS: Label for build cost for roads in help. Will be followed by
- * something like "3 MP" (where MP = Movement Points) */
-{ N_("Build:"), NULL,
-/* TRANS: Road bonus in help. Will be followed by food/production/trade
+  N_("Conflicts with:"), NULL,
+/* TRANS: Extra bonus in help. Will be followed by food/production/trade
  * stats like "0/0/+1", "0/+50%/0" */
   N_("Bonus (F/P/T):"), NULL };
-
 
 #define REQ_LABEL_NONE _("None")
 #define REQ_LABEL_NEVER _("(Never)")
@@ -379,8 +371,7 @@ static void help_box_hide(void)
   gtk_widget_hide(help_wtable);
   gtk_widget_hide(help_utable);
   gtk_widget_hide(help_ttable);
-  gtk_widget_hide(help_btable);
-  gtk_widget_hide(help_rtable);
+  gtk_widget_hide(help_etable);
 
   gtk_widget_hide(help_tile); /* FIXME: twice? */
 
@@ -633,28 +624,16 @@ static void create_help_dialog(void)
     }
   }
 
-  help_btable = gtk_table_new(1, 4, FALSE);
-  gtk_box_pack_start(GTK_BOX(help_box), help_btable, FALSE, FALSE, 0);
+  help_etable = gtk_table_new(2, 4, FALSE);
+  gtk_box_pack_start(GTK_BOX(help_box), help_etable, FALSE, FALSE, 0);
 
-  for (i = 0; i < 4; i++) {
-    help_blabel[i] =
-      gtk_label_new(help_blabel_name[i] ? _(help_blabel_name[i]) : "");
-    gtk_table_attach_defaults(GTK_TABLE(help_btable),
-                              help_blabel[i], i, i+1, 0, 1);
-    gtk_widget_set_name(help_blabel[i], "help_label");
-    gtk_widget_show(help_blabel[i]);
-  }
-
-  help_rtable = gtk_table_new(1, 2, FALSE);
-  gtk_box_pack_start(GTK_BOX(help_box), help_rtable, FALSE, FALSE, 0);
-
-  for (i = 0; i < 4; i++) {
-    help_rlabel[i] =
-      gtk_label_new(help_rlabel_name[i] ? _(help_rlabel_name[i]) : "");
-    gtk_table_attach_defaults(GTK_TABLE(help_rtable),
-                              help_rlabel[i], i, i+1, 0, 1);
-    gtk_widget_set_name(help_rlabel[i], "help_label");
-    gtk_widget_show(help_rlabel[i]);
+  for (i = 0; i < 6; i++) {
+    help_elabel[i] =
+      gtk_label_new(help_elabel_name[i] ? _(help_elabel_name[i]) : "");
+    gtk_table_attach_defaults(GTK_TABLE(help_etable),
+                              help_elabel[i], i % 4, (i % 4) + 1, i / 4, i / 4 + 1);
+    gtk_widget_set_name(help_elabel[i], "help_label");
+    gtk_widget_show(help_elabel[i]);
   }
 
   help_vbox = gtk_vbox_new(FALSE, 1);
@@ -1193,19 +1172,20 @@ static void help_update_terrain(const struct help_item *pitem,
 }
 
 /**************************************************************************
-  Help page for bases.
+  Help page for extras.
 **************************************************************************/
-static void help_update_base(const struct help_item *pitem, char *title)
+static void help_update_extra(const struct help_item *pitem, char *title)
 {
   char buf[8192];
-  struct base_type *pbase = base_type_by_translated_name(title);
-  struct extra_type *pextra = base_extra_get(pbase);
+  struct extra_type *pextra = extra_type_by_translated_name(title);
 
-  create_help_page(HELP_BASE);
+  create_help_page(HELP_EXTRA);
 
-  if (!pbase) {
+  if (pextra == NULL) {
     strcat(buf, pitem->text);
   } else {
+    struct road_type *proad = extra_road_get(pextra);
+
     /* Cost to build */
     if (pextra->buildable) {
       if (pextra->build_time != 0) {
@@ -1218,7 +1198,7 @@ static void help_update_base(const struct help_item *pitem, char *title)
     } else {
       sprintf(buf, "-");
     }
-    gtk_label_set_text(GTK_LABEL(help_blabel[1]), buf);
+    gtk_label_set_text(GTK_LABEL(help_elabel[1]), buf);
     /* Conflicting bases */
     buf[0] = '\0';
     extra_type_iterate(pextra2) {
@@ -1230,45 +1210,12 @@ static void help_update_base(const struct help_item *pitem, char *title)
       }
     } extra_type_iterate_end;
     /* TRANS: "Conflicts with: (none)" (extras) */
-    gtk_label_set_text(GTK_LABEL(help_blabel[3]), buf[0] ? buf : _("(none)"));
-    helptext_extra(buf, sizeof(buf), client.conn.playing, pitem->text, pextra);
-  }
-  gtk_widget_show(help_btable);
+    gtk_label_set_text(GTK_LABEL(help_elabel[3]), buf[0] ? buf : _("(none)"));
 
-  gtk_text_buffer_set_text(help_text, buf, -1);
-  gtk_widget_show(help_text_sw);
-}
-
-/**************************************************************************
-  Help page for roads.
-**************************************************************************/
-static void help_update_road(const struct help_item *pitem, char *title)
-{
-  char buf[8192];
-  struct road_type *proad = road_type_by_translated_name(title);
-  struct extra_type *pextra = road_extra_get(proad);
-
-  create_help_page(HELP_ROAD);
-
-  if (!proad) {
-    strcat(buf, pitem->text);
-  } else {
-    /* Cost to build */
-    if (pextra->buildable) {
-      if (pextra->build_time != 0) {
-        /* TRANS: "MP" = movement points */
-        sprintf(buf, _("%d MP"), pextra->build_time);
-      } else {
-        /* TRANS: Build time depends on terrain. */
-        sprintf(buf, _("Terrain specific"));
-      }
-    } else {
-      sprintf(buf, "-");
-    }
-    gtk_label_set_text(GTK_LABEL(help_rlabel[1]), buf);
     /* Bonus */
-    {
+    if (proad != NULL) {
       const char *bonus = NULL;
+
       output_type_iterate(o) {
         if (proad->tile_incr[o] > 0) {
           /* TRANS: Road bonus depends on terrain. */
@@ -1283,11 +1230,14 @@ static void help_update_road(const struct help_item *pitem, char *title)
         /* TRANS: No output bonus from a road */
         bonus = _("None");
       }
-      gtk_label_set_text(GTK_LABEL(help_rlabel[3]), bonus);
+      gtk_label_set_text(GTK_LABEL(help_elabel[5]), bonus);
+    } else {
+      gtk_label_set_text(GTK_LABEL(help_elabel[5]), _("None"));
     }
+
     helptext_extra(buf, sizeof(buf), client.conn.playing, pitem->text, pextra);
   }
-  gtk_widget_show(help_rtable);
+  gtk_widget_show(help_etable);
 
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
@@ -1382,11 +1332,8 @@ static void help_update_dialog(const struct help_item *pitem)
   case HELP_TERRAIN:
     help_update_terrain(pitem, top);
     break;
-  case HELP_BASE:
-    help_update_base(pitem, top);
-    break;
-  case HELP_ROAD:
-    help_update_road(pitem, top);
+  case HELP_EXTRA:
+    help_update_extra(pitem, top);
     break;
   case HELP_SPECIALIST:
     help_update_specialist(pitem, top);

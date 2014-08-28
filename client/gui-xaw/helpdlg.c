@@ -1079,18 +1079,19 @@ static void help_update_terrain(const struct help_item *pitem,
 }
 
 /**************************************************************************
-  Help page for bases.
+  Help page for extras.
 **************************************************************************/
-static void help_update_base(const struct help_item *pitem,
-                             char *title)
+static void help_update_extra(const struct help_item *pitem,
+                              char *title)
 {
   char buf[4096];
-  struct base_type *pbase = base_type_by_translated_name(title);
-  struct extra_type *pextra = base_extra_get(pbase);
+  struct extra_type *pextra = extra_type_by_translated_name(title);
 
-  if (!pbase) {
+  if (pextra == NULL) {
     strcat(buf, pitem->text);
   } else {
+    struct road_type *proad = extra_road_get(pextra);
+
     /* FIXME use actual widgets */
     const char *sep = "";
 
@@ -1113,36 +1114,13 @@ static void help_update_base(const struct help_item *pitem,
       /* TRANS: "Conflicts with: (none)" (extras) */
       strcat(buf, _("(none)"));
     }
-    strcat(buf, "\n\n");
-    helptext_extra(buf + strlen(buf), sizeof(buf) - strlen(buf),
-                   client.conn.playing, pitem->text, pextra);
-  }
-  create_help_page(HELP_TEXT);
-  set_title_topic(pitem);
-  XtVaSetValues(help_text, XtNstring, buf, NULL);
-}
-
-/**************************************************************************
-  Help page for roads.
-**************************************************************************/
-static void help_update_road(const struct help_item *pitem,
-                             char *title)
-{
-  char buf[4096];
-  struct road_type *proad = road_type_by_translated_name(title);
-  struct extra_type *pextra = road_extra_get(proad);
-
-  if (!proad) {
-    strcat(buf, pitem->text);
-  } else {
-    /* FIXME use actual widgets */
-    buf[0] = '\0';
-    if (road_extra_get(proad)->buildable && pextra->build_time > 0) {
-      /* TRANS: Build cost for roads in help. "MP" = movement points */
-      sprintf(buf, _("Build: %d MP\n"), pextra->build_time);
+    if (buf[0] != '\0') {
+      strcat(buf, "\n");
     }
-    {
+
+    if (proad != NULL) {
       bool terrain_specific = FALSE;
+
       output_type_iterate(o) {
         if (proad->tile_incr[o] > 0) {
           terrain_specific = TRUE;
@@ -1253,11 +1231,8 @@ static void help_update_dialog(const struct help_item *pitem)
   case HELP_TERRAIN:
     help_update_terrain(pitem, top);
     break;
-  case HELP_BASE:
-    help_update_base(pitem, top);
-    break;
-  case HELP_ROAD:
-    help_update_road(pitem, top);
+  case HELP_EXTRA:
+    help_update_extra(pitem, top);
     break;
   case HELP_SPECIALIST:
     help_update_specialist(pitem, top);

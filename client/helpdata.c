@@ -64,7 +64,7 @@
 /* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Bases", "Roads", "Specialists", "Governments",
+  "Techs", "Terrain", "Extras", "Specialists", "Governments",
   "Ruleset", "Nations", "Multipliers", NULL
 };
 
@@ -2634,19 +2634,19 @@ void boot_help_texts(struct player *pplayer)
               }
             } terrain_type_iterate_end;
             break;
-          case HELP_BASE:
+          case HELP_EXTRA:
             {
               const char **cats;
               size_t ncats;
               cats = secfile_lookup_str_vec(sf, &ncats,
                                             "%s.categories", sec_name);
-              base_type_iterate(pbase) {
+              extra_type_iterate(pextra) {
                 /* If categories not specified, don't filter */
                 if (cats) {
                   bool include = FALSE;
-                  const char *cat
-                    = extra_category_name(base_extra_get(pbase)->category);
+                  const char *cat = extra_category_name(pextra->category);
                   int i;
+
                   for (i = 0; i < ncats; i++) {
                     if (fc_strcasecmp(cats[i], cat) == 0) {
                       include = TRUE;
@@ -2659,44 +2659,11 @@ void boot_help_texts(struct player *pplayer)
                 }
                 pitem = new_help_item(current_type);
                 fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                            base_name_translation(pbase));
+                            extra_name_translation(pextra));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
-              } base_type_iterate_end;
-              FC_FREE(cats);
-            }
-            break;
-          case HELP_ROAD:
-            {
-              const char **cats;
-              size_t ncats;
-              cats = secfile_lookup_str_vec(sf, &ncats,
-                                            "%s.categories", sec_name);
-              road_type_iterate(proad) {
-                /* If categories not specified, don't filter */
-                if (cats) {
-                  bool include = FALSE;
-                  const char *cat
-                    = extra_category_name(road_extra_get(proad)->category);
-                  int i;
-                  for (i = 0; i < ncats; i++) {
-                    if (fc_strcasecmp(cats[i], cat) == 0) {
-                      include = TRUE;
-                      break;
-                    }
-                  }
-                  if (!include) {
-                    continue;
-                  }
-                }
-                pitem = new_help_item(current_type);
-                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                            road_name_translation(proad));
-                pitem->topic = fc_strdup(name);
-                pitem->text = fc_strdup("");
-                help_list_append(category_nodes, pitem);
-              } road_type_iterate_end;
+              } extra_type_iterate_end;
               FC_FREE(cats);
             }
             break;
@@ -4292,10 +4259,9 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   /* Table of terrain-specific attributes, if needed */
-  {
+  if (proad != NULL || pbase != NULL) {
     bool road, do_time, do_bonus;
 
-    fc_assert(proad != NULL || pbase != NULL);
     road = (proad != NULL);
     /* Terrain-dependent build time? */
     do_time = pextra->buildable && pextra->build_time == 0;
