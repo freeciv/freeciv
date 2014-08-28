@@ -2179,6 +2179,8 @@ void handle_research_info(const struct packet_research_info *packet)
   struct research *presearch;
   bool tech_changed = FALSE;
   bool poptechup = FALSE;
+  Tech_type_id gained_techs[advance_count()];
+  int gained_techs_num = 0, i;
   enum tech_state newstate, oldstate;
 
 #ifdef DEBUG
@@ -2192,6 +2194,9 @@ void handle_research_info(const struct packet_research_info *packet)
   poptechup = (presearch->researching != packet->researching
                || presearch->tech_goal != packet->tech_goal);
   presearch->techs_researched = packet->techs_researched;
+  if (presearch->future_tech == 0 && packet->future_tech > 0) {
+    gained_techs[gained_techs_num++] = A_FUTURE;
+  }
   presearch->future_tech = packet->future_tech;
   presearch->researching = packet->researching;
   presearch->researching_cost = packet->researching_cost;
@@ -2202,9 +2207,15 @@ void handle_research_info(const struct packet_research_info *packet)
     newstate = packet->inventions[i] - '0';
     oldstate = research_invention_set(presearch, i, newstate);
 
-    if (newstate != oldstate
-        && (TECH_KNOWN == newstate || TECH_KNOWN == oldstate)) {
-      tech_changed = TRUE;
+    if (newstate != oldstate) {
+      if (TECH_KNOWN == newstate) {
+        tech_changed = TRUE;
+        if (A_NONE != i) {
+          gained_techs[gained_techs_num++] = i;
+        }
+      } else if (TECH_KNOWN == oldstate) {
+        tech_changed = TRUE;
+      }
     }
   } advance_index_iterate_end;
 
@@ -2226,6 +2237,9 @@ void handle_research_info(const struct packet_research_info *packet)
         /* If we got a new tech the tech tree news an update. */
         science_report_dialog_redraw();
       }
+      for (i = 0; i < gained_techs_num; i++) {
+        show_tech_gained_dialog(gained_techs[i]);
+      }
     }
     if (editor_is_active()) {
       editgui_refresh();
@@ -2235,19 +2249,6 @@ void handle_research_info(const struct packet_research_info *packet)
       } research_players_iterate_end;
     }
   }
-}
-
-/****************************************************************************
-  Player gained new tech.
-****************************************************************************/
-void handle_tech_gained(int tech)
-{
-  if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
-    log_error("Received illegal gained tech %d", tech);
-    return;
-  }
-
-  show_tech_gained_dialog(tech);
 }
 
 /****************************************************************************

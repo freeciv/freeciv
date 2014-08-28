@@ -843,10 +843,6 @@ PACKET_PLAYER_TECH_GOAL = 56; cs, dsend
   TECH tech;
 end
 
-PACKET_TECH_GAINED = 230; sc, lsend
-  TECH tech;
-end
-
 /************** Unit packets **********************/
 
 PACKET_UNIT_REMOVE = 62; sc, dsend, lsend, cancel(PACKET_UNIT_INFO), cancel(PACKET_UNIT_SHORT_INFO)

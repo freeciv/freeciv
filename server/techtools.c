@@ -302,7 +302,6 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
   const char *advance_name;
   struct advance *vap = valid_advance_by_number(tech_found);
   struct city *pcity;
-  struct packet_tech_gained packet;
 
 #ifndef NDEBUG
   if (!is_future_tech(tech_found)) {
@@ -516,11 +515,6 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
     give_immediate_free_tech(presearch);
   }
-
-  packet.tech = tech_found;
-  research_players_iterate(presearch, aplayer) {
-    lsend_packet_tech_gained(aplayer->connections, &packet);
-  } research_players_iterate_end;
 }
 
 /****************************************************************************
