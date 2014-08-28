@@ -281,7 +281,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Airbase", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "Cant_Fortify", "NonMil", "Airbase", "AddToCity", "Cities", "NoVeteran"
 roles         = "Settlers", "Cities"
 helptext      = _("\
 Settlers are one of the key units in the game, as they are your main \
@@ -342,7 +342,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Transform", "Airbase", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "Cant_Fortify", "NonMil", "Transform", "Airbase", "AddToCity", "Cities", "NoVeteran"
 roles         = "Settlers", "Cities"
 helptext      = _("\
 Engineers are similar to Settlers, but they work twice as fast and\

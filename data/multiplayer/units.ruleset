@@ -397,7 +397,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "HasNoZOC", "AddToCity", "Cities"
+flags         = "Settlers", "NonMil", "HasNoZOC", "AddToCity", "Cities", "Cant_Fortify"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -443,7 +443,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "HasNoZOC", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Airbase", "Cant_Fortify"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -504,7 +504,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "HasNoZOC", "Transform", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Transform", "Airbase", "Cant_Fortify"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0

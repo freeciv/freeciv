@@ -443,7 +443,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil"
+flags         = "Settlers", "Cant_Fortify", "NonMil"
 roles         = "Settlers"
 helptext      = _("\
 This is Earth technology engineer.\
@@ -474,7 +474,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "NonMil"
+flags         = "Settlers", "Cant_Fortify", "NonMil"
 roles         = "Settlers"
 helptext      = _("\
 Native version of the Engineer unit.\
@@ -506,7 +506,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 city_size     = 2
-flags         = "Cities", "Settlers", "NonMil"
+flags         = "Cities", "Settlers", "Cant_Fortify", "NonMil"
 roles         = "Cities", "Settlers"
 helptext      = _("\
 Amphibious Engineer that can also establish new cities on Ocean. \
