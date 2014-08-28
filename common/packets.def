@@ -998,11 +998,10 @@ PACKET_UNIT_AIRLIFT = 81; cs, dsend
   CITY city_id;
 end
 
-PACKET_UNIT_DIPLOMAT_QUERY = 82; cs, handle-per-conn, dsend
+PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
-  SINT16 value;
-  DIPLOMAT_ACTION action_type;
+  GEN_ACTION action_type;
 end
 
 PACKET_UNIT_TYPE_UPGRADE = 83; cs, dsend

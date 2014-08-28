@@ -1492,17 +1492,17 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 }
 
 /**************************************************************************
-  Query a diplomat about costs and infrastructure.
-  - action : The action to be requested.
-  - dipl_id : The unit ID of the diplomatic unit.
+  Request data for follow up questions about an action the unit can
+  perform.
+  - action : The action more details .
+  - actor_id : The unit ID of the acting unit.
   - target_id : The ID of the target unit or city.
-  - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
-            or building to aim for (spies only).
 **************************************************************************/
-void request_diplomat_answer(enum diplomat_actions action, int dipl_id,
-			     int target_id, int value)
+void request_action_details(enum gen_action action, int actor_id,
+                            int target_id)
 {
-  dsend_packet_unit_diplomat_query(&client.conn, dipl_id,target_id,value,action);
+  dsend_packet_unit_action_query(&client.conn,
+                                 actor_id, target_id, action);
 }
 
 /**************************************************************************

@@ -17,6 +17,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "actions.h"
 #include "packets.h"
 #include "unitlist.h"
 
@@ -123,8 +125,8 @@ void request_unit_select(struct unit_list *punits,
 
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value);
-void request_diplomat_answer(enum diplomat_actions action, int dipl_id,
-			     int target_id, int value);
+void request_action_details(enum gen_action action, int actor_id,
+			    int target_id);
 void request_toggle_city_outlines(void);
 void request_toggle_city_output(void);
 void request_toggle_map_grid(void);

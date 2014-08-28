@@ -325,74 +325,73 @@ static void unit_query_impossible(struct connection *pc,
   Only send result back to the requesting connection, not all
   connections for that player.
 **************************************************************************/
-void handle_unit_diplomat_query(struct connection *pc,
-				int diplomat_id,
-				int target_id,
-				int value,
-				enum diplomat_actions action_type)
+void handle_unit_action_query(struct connection *pc,
+			      int actor_id,
+			      int target_id,
+			      enum gen_action action_type)
 {
   struct player *pplayer = pc->playing;
-  struct unit *pdiplomat = player_unit_by_number(pplayer, diplomat_id);
+  struct unit *pactor = player_unit_by_number(pplayer, actor_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
-  if (NULL == pdiplomat) {
+  if (NULL == pactor) {
     /* Probably died or bribed. */
-    log_verbose("handle_unit_diplomat_query() invalid diplomat %d",
-                diplomat_id);
-    unit_query_impossible(pc, diplomat_id, target_id);
+    log_verbose("handle_unit_action_query() invalid actor %d",
+                actor_id);
+    unit_query_impossible(pc, actor_id, target_id);
     return;
   }
 
-  if (!is_actor_unit(pdiplomat)) {
+  if (!is_actor_unit(pactor)) {
     /* Shouldn't happen */
-    log_error("handle_unit_diplomat_query() %s (%d) is not diplomat",
-              unit_rule_name(pdiplomat), diplomat_id);
-    unit_query_impossible(pc, diplomat_id, target_id);
+    log_error("handle_unit_action_query() %s (%d) is not an actor",
+              unit_rule_name(pactor), actor_id);
+    unit_query_impossible(pc, actor_id, target_id);
     return;
   }
 
   switch (action_type) {
-  case DIPLOMAT_BRIBE:
-    if (punit && diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
+  case ACTION_SPY_BRIBE_UNIT:
+    if (punit && diplomat_can_do_action(pactor, DIPLOMAT_BRIBE,
 					unit_tile(punit))) {
       dsend_packet_unit_diplomat_answer(pc,
-					diplomat_id, target_id,
+                                        actor_id, target_id,
 					unit_bribe_cost(punit, pplayer),
-					action_type);
+					DIPLOMAT_BRIBE);
     } else {
-      illegal_action(pplayer, pdiplomat, ACTION_SPY_BRIBE_UNIT);
-      unit_query_impossible(pc, diplomat_id, target_id);
+      illegal_action(pplayer, pactor, ACTION_SPY_BRIBE_UNIT);
+      unit_query_impossible(pc, actor_id, target_id);
       return;
     }
     break;
-  case DIPLOMAT_INCITE:
-    if (pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_INCITE,
+  case ACTION_SPY_INCITE_CITY:
+    if (pcity && diplomat_can_do_action(pactor, DIPLOMAT_INCITE,
 					pcity->tile)) {
       dsend_packet_unit_diplomat_answer(pc,
-					diplomat_id, target_id,
+                                        actor_id, target_id,
 					city_incite_cost(pplayer, pcity),
-					action_type);
+					DIPLOMAT_INCITE);
     } else {
-      illegal_action(pplayer, pdiplomat, ACTION_SPY_INCITE_CITY);
-      unit_query_impossible(pc, diplomat_id, target_id);
+      illegal_action(pplayer, pactor, ACTION_SPY_INCITE_CITY);
+      unit_query_impossible(pc, actor_id, target_id);
       return;
     }
     break;
-  case DIPLOMAT_SABOTAGE_TARGET:
-    if (pcity && diplomat_can_do_action(pdiplomat,
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    if (pcity && diplomat_can_do_action(pactor,
                                         DIPLOMAT_SABOTAGE_TARGET,
 					pcity->tile)) {
-      spy_send_sabotage_list(pc, pdiplomat, pcity);
+      spy_send_sabotage_list(pc, pactor, pcity);
     } else {
-      illegal_action(pplayer, pdiplomat,
+      illegal_action(pplayer, pactor,
                      ACTION_SPY_TARGETED_SABOTAGE_CITY);
-      unit_query_impossible(pc, diplomat_id, target_id);
+      unit_query_impossible(pc, actor_id, target_id);
       return;
     }
     break;
   default:
-    unit_query_impossible(pc, diplomat_id, target_id);
+    unit_query_impossible(pc, actor_id, target_id);
     return;
   };
 }

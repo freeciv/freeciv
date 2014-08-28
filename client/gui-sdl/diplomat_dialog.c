@@ -154,10 +154,9 @@ static int spy_sabotage_request(struct widget *pWidget)
   if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
       && NULL != game_city_by_number(
               pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
-    request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET,
-                            pDiplomat_Dlg->diplomat_id,
-                            pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
-                            0);
+    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                           pDiplomat_Dlg->diplomat_id,
+                           pDiplomat_Dlg->diplomat_target_id[ATK_CITY]);
     popdown_diplomat_dialog();
   } else {
     popdown_diplomat_dialog();
@@ -496,9 +495,9 @@ static int diplomat_incite_callback(struct widget *pWidget)
     if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
-      request_diplomat_answer(DIPLOMAT_INCITE, pDiplomat_Dlg->diplomat_id,
-                              pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
-                              0);
+      request_action_details(ACTION_SPY_INCITE_CITY,
+                             pDiplomat_Dlg->diplomat_id,
+                             pDiplomat_Dlg->diplomat_target_id[ATK_CITY]);
       popdown_diplomat_dialog();
     } else {
       popdown_diplomat_dialog();
@@ -565,8 +564,9 @@ static int diplomat_bribe_callback(struct widget *pWidget)
     if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
         && NULL !=
          game_unit_by_number(pDiplomat_Dlg->diplomat_target_id[ATK_UNIT])) {
-      request_diplomat_answer(DIPLOMAT_BRIBE, pDiplomat_Dlg->diplomat_id,
-                              pDiplomat_Dlg->diplomat_target_id[ATK_UNIT], 0);
+      request_action_details(ACTION_SPY_BRIBE_UNIT,
+                             pDiplomat_Dlg->diplomat_id,
+                             pDiplomat_Dlg->diplomat_target_id[ATK_UNIT]);
       popdown_diplomat_dialog();
     } else {
       popdown_diplomat_dialog();

@@ -103,8 +103,8 @@ static void diplomat_bribe_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_unit_by_number(diplomat_target_id[ATK_UNIT])) {
-    request_diplomat_answer(DIPLOMAT_BRIBE, diplomat_id,
-                            diplomat_target_id[ATK_UNIT], 0);
+    request_action_details(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+                           diplomat_target_id[ATK_UNIT]);
   }
 }
 
@@ -586,8 +586,8 @@ static void spy_request_sabotage_list(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
-                            diplomat_target_id[ATK_CITY], 0);
+    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+                           diplomat_target_id[ATK_CITY]);
   }
 }
 
@@ -651,8 +651,8 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_answer(DIPLOMAT_INCITE, diplomat_id,
-                            diplomat_target_id[ATK_CITY], 0);
+    request_action_details(ACTION_SPY_INCITE_CITY, diplomat_id,
+                           diplomat_target_id[ATK_CITY]);
   }
 }
 

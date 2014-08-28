@@ -1097,8 +1097,8 @@ static void diplomat_bribe(QVariant data1, QVariant data2)
     /* Wait for the server's reply before moving on to the next queued diplomat. */
     is_more_user_input_needed = TRUE;
 
-    request_diplomat_answer(DIPLOMAT_BRIBE, diplomat_id,
-                            diplomat_target_id, 0);
+    request_action_details(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+                           diplomat_target_id);
   }
 }
 
@@ -1200,8 +1200,8 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2)
     /* Wait for the server's reply before moving on to the next queued diplomat. */
     is_more_user_input_needed = TRUE;
 
-    request_diplomat_answer(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
-                            diplomat_target_id, 0);
+    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+                           diplomat_target_id);
   }
 }
 
@@ -1292,8 +1292,8 @@ static void diplomat_incite(QVariant data1, QVariant data2)
     /* Wait for the server's reply before moving on to the next queued diplomat. */
     is_more_user_input_needed = TRUE;
 
-    request_diplomat_answer(DIPLOMAT_INCITE, diplomat_id,
-                            diplomat_target_id, 0);
+    request_action_details(ACTION_SPY_INCITE_CITY, diplomat_id,
+                           diplomat_target_id);
   }
 }
 
