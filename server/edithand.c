@@ -1116,6 +1116,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   presearch = research_get(pplayer);
   init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
+  send_research_info(presearch, NULL);
 
   send_player_all_c(pplayer, NULL);
   if (tag > 0) {

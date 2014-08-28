@@ -309,6 +309,7 @@ void handle_player_rates(struct player *pplayer,
 static void finish_revolution(struct player *pplayer)
 {
   struct government *government = pplayer->target_government;
+  struct research *presearch;
 
   fc_assert_ret(pplayer->target_government
                 != game.government_during_revolution
@@ -360,8 +361,11 @@ static void finish_revolution(struct player *pplayer)
 
   check_player_max_rates(pplayer);
   city_refresh_for_player(pplayer);
-  research_update(research_get(pplayer));
   send_player_info_c(pplayer, pplayer->connections);
+
+  presearch = research_get(pplayer);
+  research_update(presearch);
+  send_research_info(presearch, NULL);
 }
 
 /**************************************************************************

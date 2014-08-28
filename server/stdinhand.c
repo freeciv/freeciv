@@ -933,6 +933,7 @@ enum rfc_status create_command_newcomer(const char *name,
   presearch = research_get(pplayer);
   init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
+  send_research_info(presearch, NULL);
 
   server_player_set_name(pplayer, name);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);

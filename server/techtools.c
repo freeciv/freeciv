@@ -221,30 +221,6 @@ package_research_info(struct packet_research_info *packet,
 }
 
 /****************************************************************************
-  Send the research packet info to player sharing the research and global
-  observers.
-****************************************************************************/
-static void send_research_info_to_owners(const struct research *presearch)
-{
-  struct packet_research_info packet;
-
-  /* Packaging. */
-  package_research_info(&packet, presearch);
-
-  /* Send to players sharing the research. */
-  research_players_iterate(presearch, pplayer) {
-    lsend_packet_research_info(pplayer->connections, &packet);
-  } research_players_iterate_end;
-
-  /* Send to global observers. */
-  conn_list_iterate(game.est_connections, pconn) {
-    if (conn_is_global_observer(pconn)) {
-      send_packet_research_info(pconn, &packet);
-    }
-  } conn_list_iterate_end;
-}
-
-/****************************************************************************
   Send research info for 'presearch' to 'dest'. 'dest' can be NULL to send
   to all established connections.
 ****************************************************************************/
@@ -565,33 +541,8 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
      * After that the number of bulbs available is incresed based on the
      * value of the lost tech. */
     if (lose_tech(research)) {
-      Tech_type_id tech;
-
-      if (research->future_tech > 0) {
-        log_debug("%s: tech loss (future tech %d)",
-                  research_rule_name(research),
-                  research->future_tech);
-
-        research->future_tech--;
-        tech = A_FUTURE;
-
-        notify_research(research, NULL, E_TECH_LOST, ftc_server,
-                        _("Insufficient science output. We lost %s."),
-                        research_advance_name_translation(research, tech));
-      } else {
-        tech = pick_random_tech_to_lose(research);
-
-        if (tech != A_NONE) {
-          log_debug("%s: tech loss (%s)",
-                    research_rule_name(research),
-                    research_advance_rule_name(research, tech));
-          notify_research(research, NULL, E_TECH_LOST, ftc_server,
-                          _("Insufficient science output. We lost %s."),
-                          research_advance_name_translation(research, tech));
-
-          research_tech_lost(research, tech);
-        }
-      }
+      Tech_type_id tech = (research->future_tech > 0
+                           ? A_FUTURE : pick_random_tech_to_lose(research));
 
       if (tech != A_NONE) {
         if (game.server.techloss_restore >= 0) {
@@ -601,9 +552,19 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
         } else {
           research->bulbs_researched = 0;
         }
-      }
+        research->researching_saved = A_UNKNOWN;
 
-      research_update(research);
+        log_debug("%s: tech loss (%s)",
+                  research_rule_name(research),
+                  (is_future_tech(tech) ? "Future Tech"
+                   : research_advance_rule_name(research, tech)));
+        research_tech_lost(research, tech);
+        /* Make notification after losing the research, in case it is
+         * a future tech (for getting the right tech number). */
+        notify_research(research, NULL, E_TECH_LOST, ftc_server,
+                        _("Insufficient science output. We lost %s."),
+                        research_advance_name_translation(research, tech));
+      }
     }
 
     /* Check for finished research. */
@@ -714,11 +675,15 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
   if (is_future_tech(tech)) {
     presearch->future_tech--;
     research_update(presearch);
+    /* Notify after decreasing the future tech counter, to get the right
+     * tech number in the message. */
     notify_research_embassies(presearch, NULL, E_TECH_EMBASSY, ftc_server,
                               _("The %s have lost %s."),
                               research_name,
                               research_advance_name_translation(presearch,
                                                                 tech));
+    /* Inform players about their technology loss. */
+    send_research_info(presearch, NULL);
     return;
   }
 
@@ -1206,7 +1171,7 @@ void handle_player_research(struct player *pplayer, int tech)
   choose_tech(research, tech);
 
   /* Notify players sharing the same research. */
-  send_research_info_to_owners(research);
+  send_research_info(research, NULL);
 }
 
 /****************************************************************************
@@ -1233,7 +1198,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   choose_tech_goal(research, tech_goal);
 
   /* Notify players sharing the same research. */
-  send_research_info_to_owners(research);
+  send_research_info(research, NULL);
 }
 
 /****************************************************************************
@@ -1277,6 +1242,9 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
 {
   struct research *presearch = research_get(pplayer);
 
+  research_tech_lost(presearch, tech);
+  /* Make notification after losing the research, in case it is a future
+   * tech (for getting the right tech number). */
   notify_player(pplayer, NULL, E_TECH_LOST, ftc_server,
                 _("Too bad! You made a mistake transferring the tech %s and "
                   "lost it."),
@@ -1286,8 +1254,6 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
                     "%s and lost it."),
                 nation_plural_for_player(pplayer),
                 research_advance_name_translation(presearch, tech));
-  research_tech_lost(presearch, tech);
-  research_update(presearch);
 }
 
 /****************************************************************************

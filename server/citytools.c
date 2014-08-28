@@ -1821,7 +1821,6 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
 
   steal_a_tech(pplayer, cplayer, A_UNSET);
-  send_research_info(research_get(pplayer), NULL);
 
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */

@@ -38,6 +38,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
 #include "traderoutes.h"
 #include "unit.h"
@@ -1984,7 +1985,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   update_bulbs(pplayer, revenue, TRUE);
 
   /* Inform everyone about tech changes */
-  send_player_info_c(pplayer, NULL);
+  send_research_info(research_get(pplayer), NULL);
 
   if (can_establish) {
 
@@ -2092,15 +2093,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
       }
     }
   }
-  
-  /* The research has changed, we have to update all
-   * players sharing it */
-  players_iterate(aplayer) {
-    if (!players_on_same_team(pplayer, aplayer)) {
-      continue;
-    }
-    send_player_info_c(aplayer, aplayer->connections);
-  } players_iterate_end;
+
   conn_list_do_unbuffer(pplayer->connections);
   return TRUE;
 }
