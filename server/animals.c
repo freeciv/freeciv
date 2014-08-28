@@ -33,6 +33,9 @@
 #include "techtools.h"
 #include "unittools.h"
 
+/* ai */
+#include "difficulty.h"
+
 #include "animals.h"
 
 /****************************************************************************

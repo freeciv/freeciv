@@ -85,6 +85,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "difficulty.h"
 
 #include "savegame.h"
 

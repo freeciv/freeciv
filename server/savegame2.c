@@ -141,6 +141,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "difficulty.h"
 
 #include "savegame2.h"
 

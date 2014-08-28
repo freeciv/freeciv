@@ -60,6 +60,9 @@
 /* server/advisors */
 #include "advdata.h"
 
+/* ai */
+#include "difficulty.h"
+
 #include "barbarian.h"
 
 #define BARBARIAN_INITIAL_VISION_RADIUS 3

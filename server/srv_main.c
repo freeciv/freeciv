@@ -132,6 +132,7 @@
 
 /* ai */
 #include "aitraits.h"
+#include "difficulty.h"
 
 #include "srv_main.h"
 
