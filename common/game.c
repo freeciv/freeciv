@@ -37,6 +37,7 @@
 #include "packets.h"
 #include "player.h"
 #include "research.h"
+#include "rgbcolor.h"
 #include "spaceship.h"
 #include "specialist.h"
 #include "tech.h"
@@ -529,6 +530,12 @@ void game_ruleset_free(void)
   /* Destroy the default veteran system. */
   veteran_system_destroy(game.veteran);
   game.veteran = NULL;
+
+  /* Player colors. */
+  if (game.plr_bg_color != NULL) {
+    rgbcolor_destroy(game.plr_bg_color);
+    game.plr_bg_color = NULL;
+  }
 }
 
 /***************************************************************
