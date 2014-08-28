@@ -58,6 +58,7 @@
 #include "version.h"
 
 /* client */
+#include "chatline_common.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -319,7 +320,8 @@ int main(int argc, char **argv)
 void ui_main(int argc, char *argv[])
 {
   int i;
-  struct sprite *icon; 
+  struct sprite *icon;
+  const char *rev_ver;
 
   parse_options(argc, argv);
 
@@ -518,6 +520,14 @@ void ui_main(int argc, char *argv[])
     XtParseTranslationTable ("<Message>WM_PROTOCOLS: msg-quit-freeciv()"));
 
   XtSetSensitive(toplevel, FALSE);
+
+  rev_ver = fc_git_revision();
+  if (rev_ver != NULL) {
+    char buffer[512];
+
+    fc_snprintf(buffer, sizeof(buffer), _("Commit: %s"), rev_ver);
+    output_window_append(ftc_client, buffer);
+  }
 
   XtAppMainLoop(app_context);
 }
@@ -732,10 +742,10 @@ void setup_widgets(void)
 
 
 
-  outputwindow_text= I_SW(XtVaCreateManagedWidget("outputwindowtext", 
-						  asciiTextWidgetClass, 
-						  bottom_form,
-						  NULL));
+  outputwindow_text = I_SW(XtVaCreateManagedWidget("outputwindowtext",
+                                                   asciiTextWidgetClass,
+                                                   bottom_form,
+                                                   NULL));
 
 
   inputline_text= XtVaCreateManagedWidget("inputlinetext", 

@@ -157,6 +157,7 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
 {
   static PangoLayout *layout;
   static int width, height;
+  static bool left = FALSE;
   GtkAllocation allocation;
 
   if (!layout) {
@@ -168,12 +169,23 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
          pango_font_description_from_string("Sans Bold 10"));
 
     if (rev_ver == NULL) {
-      /* TRANS: "version 2.6.0, gui-gtk-3.0 client" */
-      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
-                  word_version(), VERSION_STRING, client_string);
+      rev_ver = fc_git_revision();
+
+      if (rev_ver == NULL) {
+        /* TRANS: "version 2.6.0, gui-gtk-3.0 client" */
+        fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
+                    word_version(), VERSION_STRING, client_string);
+      } else {
+        /* TRANS: "version 2.6.0
+         *         commit: [modified] <git commit id>
+         *         gui-gtk-3.0 client" */
+        fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s\ncommit: %s\n%s client"),
+                    word_version(), VERSION_STRING, rev_ver, client_string);
+        left = TRUE;
+      }
     } else {
       /* TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client" */
-      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), %s client"),
+      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s(%s), %s client"),
                   word_version(), VERSION_STRING, rev_ver, client_string);
     }
     pango_layout_set_text(layout, msgbuf, -1);
@@ -183,12 +195,12 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
   gtk_widget_get_allocation(w, &allocation);
  
   cairo_set_source_rgb(cr, 0, 0, 0);
-  cairo_move_to(cr, allocation.width - width - 3,
+  cairo_move_to(cr, left ? 4 : allocation.width - width - 3,
                 allocation.height - height - 3);
   pango_cairo_show_layout(cr, layout);
 
   cairo_set_source_rgb(cr, 1, 1, 1);
-  cairo_move_to(cr, allocation.width - width - 4,
+  cairo_move_to(cr, left ? 3 : allocation.width - width - 4,
                  allocation.height - height - 4);
   pango_cairo_show_layout(cr, layout);
 

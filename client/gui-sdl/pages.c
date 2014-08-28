@@ -325,6 +325,15 @@ static void show_main_page(void)
           line_color);
   
   set_output_window_text(_("SDLClient welcomes you..."));
+
+  rev_ver = fc_git_revision();
+  if (rev_ver != NULL) {
+    char buffer[512];
+
+    fc_snprintf(buffer, sizeof(buffer), _("Commit: %s"), rev_ver);
+    set_output_window_text(buffer);
+  }
+
   chat_welcome_message();
 
   meswin_dialog_popup(TRUE);

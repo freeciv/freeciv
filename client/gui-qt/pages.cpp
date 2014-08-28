@@ -101,18 +101,37 @@ void fc_client::create_main_page(void)
 
   pages_layout[PAGE_MAIN] = new QGridLayout;
 
+  painter.setPen(Qt::white);
+
   rev_ver = fc_svn_revision();
   if (rev_ver == NULL) {
-    /* TRANS: "version 2.6.0, Qt client" */
-    fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt client"),
-                word_version(), VERSION_STRING);
+    rev_ver = fc_git_revision();
+
+    if (rev_ver == NULL) {
+      /* TRANS: "version 2.6.0, Qt client" */
+      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, Qt client"),
+                  word_version(), VERSION_STRING);
+    } else {
+      fc_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
+                  word_version(), VERSION_STRING);
+      painter.drawText(10,
+                       main_graphics.height() - fm.descent() - fm.height() * 2,
+                       msgbuf);
+
+      /* TRANS: "commit: [modified] <git commit id>" */
+      fc_snprintf(msgbuf, sizeof(msgbuf), _("commit: %s"), rev_ver);
+      painter.drawText(10,
+                       main_graphics.height() - fm.descent() - fm.height(),
+                       msgbuf);
+
+      strncpy(msgbuf, _("Qt client"), sizeof(msgbuf));
+    }
   } else {
     /* TRANS: "version 2.6.0 (r25000), Qt client" */
     fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), Qt client"),
                 word_version(), VERSION_STRING, rev_ver);
   }
 
-  painter.setPen(Qt::white);
   painter.drawText(main_graphics.width()-fm.width(msgbuf)-10,
                    main_graphics.height()-fm.descent(), msgbuf);
   free_main_pic->setPixmap(main_graphics);

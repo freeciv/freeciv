@@ -333,6 +333,15 @@ static void show_main_page(void)
 #endif
 
   set_output_window_text(_("SDL2-client welcomes you..."));
+
+  rev_ver = fc_git_revision();
+  if (rev_ver != NULL) {
+    char buffer[512];
+
+    fc_snprintf(buffer, sizeof(buffer), _("Commit: %s"), rev_ver);
+    set_output_window_text(buffer);
+  }
+
   chat_welcome_message();
 
   meswin_dialog_popup(TRUE);
