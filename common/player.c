@@ -24,6 +24,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "city.h"
 #include "fc_interface.h"
 #include "featured_text.h"

@@ -21,6 +21,7 @@
 
 /* common */
 #include "actions.h"
+#include "ai.h"
 #include "city.h"
 #include "effects.h"
 #include "game.h"

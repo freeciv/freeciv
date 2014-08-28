@@ -38,7 +38,6 @@ struct tile;
 struct settlermap;
 struct pf_path;
 struct section_file;
-struct tech_vector;
 struct adv_data;
 
 enum incident_type {

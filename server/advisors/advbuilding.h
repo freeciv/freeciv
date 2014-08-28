@@ -13,6 +13,9 @@
 #ifndef FC__BUILDINGADV_H
 #define FC__BUILDINGADV_H
 
+/* server/advisors */
+#include "advdata.h"
+
 #define FOOD_WEIGHTING 25
 #define SHIELD_WEIGHTING 14
 #define TRADE_WEIGHTING 15

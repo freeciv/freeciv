@@ -19,6 +19,7 @@
 #include "rand.h"
 
 /* common */
+#include "ai.h"
 #include "city.h"
 #include "effects.h"
 #include "game.h"

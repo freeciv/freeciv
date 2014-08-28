@@ -26,6 +26,7 @@
 #include "timing.h"
 
 /* common */
+#include "ai.h"
 #include "city.h"
 #include "game.h"
 #include "government.h"

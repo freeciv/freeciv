@@ -13,8 +13,12 @@
 #ifndef FC__ADVMILITARY_H
 #define FC__ADVMILITARY_H
 
+/* common */
 #include "fc_types.h"
 #include "unittype.h"
+
+/* server/advisors */
+#include "advdata.h"
 
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);

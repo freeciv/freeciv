@@ -22,7 +22,6 @@ extern "C" {
 #include "log.h"
 
 /* common */
-#include "ai.h" /* FC_AI_LAST */
 #include "fc_types.h"
 #include "name_translation.h"
 #include "improvement.h"

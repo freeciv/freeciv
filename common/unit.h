@@ -21,7 +21,6 @@ extern "C" {
 #include "bitvector.h"
 
 /* common */
-#include "ai.h"                 /* FC_AI_LAST */
 #include "base.h"
 #include "fc_types.h"
 #include "terrain.h"		/* enum tile_special_type */

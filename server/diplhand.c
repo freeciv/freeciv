@@ -25,6 +25,7 @@
 #include "mem.h"
 
 /* common */
+#include "ai.h"
 #include "diptreaty.h"
 #include "events.h"
 #include "game.h"

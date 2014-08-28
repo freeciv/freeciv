@@ -27,6 +27,7 @@
 #include "cm.h"
 
 /* common */
+#include "ai.h"
 #include "achievements.h"
 #include "actions.h"
 #include "city.h"

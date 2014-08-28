@@ -21,6 +21,7 @@
 #include "advdata.h"
 
 struct adv_data;
+struct tech_vector;
 
 struct ai_activity_cache; /* defined and only used within aicity.c */
 

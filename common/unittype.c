@@ -28,6 +28,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "game.h"
 #include "government.h"
 #include "movement.h"

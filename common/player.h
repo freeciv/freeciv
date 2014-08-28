@@ -21,7 +21,6 @@ extern "C" {
 #include "bitvector.h"
 
 /* common */
-#include "ai.h" /* FC_AI_LAST */
 #include "city.h"
 #include "connection.h"
 #include "fc_types.h"
