@@ -36,6 +36,10 @@ Updating from 2.5 to 2.6
 * For translation support minimum gettext version is now 0.14. It's
   still possible to build completely without translation support
   with configure option --disable-nls
+* SDL2-mixer is now the default. To build clients to still use
+  SDL1.2-mixer, configure with --enable-sdlmixer=sdl1.2. sdl-client
+  cannot be built with SDL2-mixer, nor can sdl2-client be built with
+  SDL1.2-mixer
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
