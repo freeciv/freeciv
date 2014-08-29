@@ -593,6 +593,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   CITIZENS nation_citizens[MAX_NUM_PLAYER_SLOTS:nationalities_count];
 
   UINT16 history;
+  UINT16 culture;
 
   SINT16 surplus[O_LAST];
   UINT16 waste[O_LAST];

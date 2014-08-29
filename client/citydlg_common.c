@@ -659,6 +659,39 @@ void get_city_dialog_pollution_text(const struct city *pcity,
 }
 
 /**************************************************************************
+  Return text describing the culture output.
+**************************************************************************/
+void get_city_dialog_culture_text(const struct city *pcity,
+                                  char *buf, size_t bufsz)
+{
+  struct effect_list *plist;
+
+  buf[0] = '\0';
+
+  cat_snprintf(buf, bufsz,
+               _("%4d : History\n"), pcity->history);
+
+  plist = effect_list_new();
+
+  (void) get_city_bonus_effects(plist, pcity, NULL, EFT_PERFORMANCE);
+
+  effect_list_iterate(plist, peffect) {
+    char buf2[512];
+
+    get_effect_req_text(peffect, buf2, sizeof(buf2));
+
+    cat_snprintf(buf, bufsz,
+                 _("%4d : %s\n"), peffect->value, buf2);
+  } effect_list_iterate_end;
+  effect_list_destroy(plist);
+
+  cat_snprintf(buf, bufsz,
+	       _("==== : Adds up to\n"));
+  cat_snprintf(buf, bufsz,
+	       _("%4d : Total culture"), pcity->client.culture);
+}
+
+/**************************************************************************
   Provide a list of all citizens in the city, in order.  "index"
   should be the happiness index (currently [0..4]; 4 = final
   happiness).  "citizens" should be an array large enough to hold all

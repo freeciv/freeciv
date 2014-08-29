@@ -53,7 +53,9 @@ void get_city_dialog_output_text(const struct city *pcity,
                                  Output_type_id otype,
                                  char *buffer, size_t bufsz);
 void get_city_dialog_pollution_text(const struct city *pcity,
-                                    char *buffer, size_t bufsz);
+                                    char *buf, size_t bufsz);
+void get_city_dialog_culture_text(const struct city *pcity,
+                                  char *buf, size_t bufsz);
 void get_city_dialog_illness_text(const struct city *pcity,
                                   char *buf, size_t bufsz);
 

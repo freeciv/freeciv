@@ -32,7 +32,7 @@ class QProgressBar;
 class QVariant;
 class QVBoxLayout;
 
-#define NUM_INFO_FIELDS 12
+#define NUM_INFO_FIELDS 13
 
 // client
 #include "canvas.h"

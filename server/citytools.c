@@ -33,6 +33,7 @@
 #include "base.h"
 #include "citizens.h"
 #include "city.h"
+#include "culture.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -2199,6 +2200,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   }
 
   packet->history = pcity->history;
+  packet->culture = city_culture(pcity);
 
   if (packet->size != ppl) {
     static bool recursion = FALSE;

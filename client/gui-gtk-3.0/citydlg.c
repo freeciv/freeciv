@@ -104,7 +104,7 @@ enum { OVERVIEW_PAGE, WORKLIST_PAGE,
 enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 
 #define NUM_CITIZENS_SHOWN 30
-#define NUM_INFO_FIELDS 12      /* number of fields in city_info */
+#define NUM_INFO_FIELDS 13      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
@@ -599,7 +599,7 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
 
 enum { FIELD_FOOD, FIELD_SHIELD, FIELD_TRADE, FIELD_GOLD, FIELD_LUXURY,
        FIELD_SCIENCE, FIELD_GRANARY, FIELD_GROWTH, FIELD_CORRUPTION,
-       FIELD_WASTE, FIELD_POLLUTION, FIELD_ILLNESS
+       FIELD_WASTE, FIELD_CULTURE, FIELD_POLLUTION, FIELD_ILLNESS
 };
 
 /****************************************************************
@@ -635,6 +635,9 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     case FIELD_LUXURY:
       get_city_dialog_output_text(pdialog->pcity, O_LUXURY,
 				  buf, sizeof(buf));
+      break;
+    case FIELD_CULTURE:
+      get_city_dialog_culture_text(pdialog->pcity, buf, sizeof(buf));
       break;
     case FIELD_POLLUTION:
       get_city_dialog_pollution_text(pdialog->pcity, buf, sizeof(buf));
@@ -691,6 +694,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     N_("Change in:"),
     N_("Corruption:"),
     N_("Waste:"),
+    N_("Culture:"),
     N_("Pollution:"),
     N_("Plague Risk:")
   };
@@ -1591,7 +1595,8 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   GdkRGBA *color;
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
-         GRANARY, GROWTH, CORRUPTION, WASTE, POLLUTION, ILLNESS
+         GRANARY, GROWTH, CORRUPTION, WASTE, CULTURE,
+         POLLUTION, ILLNESS
   };
 
   /* fill the buffers with the necessary info */
@@ -1631,6 +1636,8 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
               pcity->waste[O_TRADE]);
   fc_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
               pcity->waste[O_SHIELD]);
+  fc_snprintf(buf[CULTURE], sizeof(buf[CULTURE]), "%4d",
+              pcity->client.culture);
   fc_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
               pcity->pollution);
   if (!game.info.illness_on) {

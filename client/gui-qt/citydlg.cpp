@@ -607,7 +607,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     info_list << _("Food:") << _("Prod:") << _("Trade:") << _("Gold:")
               << _("Luxury:") << _("Science:") << _("Granary:")
               << _("Change in:") << _("Corruption:") << _("Waste:")
-              << _("Pollution:") << _("Plague Risk:");
+              << _("Culture:") << _("Pollution:") << _("Plague Risk:");
     info_nr = info_list.count();
     info_widget->setMinimumHeight(tileset_tile_height(tileset) * 3 +
                                   2 * fm.height() + 2 * scroll_height + 50);
@@ -1590,7 +1590,7 @@ void city_dialog::update_info_label()
 
   enum { FOOD = 0, SHIELD = 2, TRADE = 4, GOLD = 6, LUXURY = 8, SCIENCE = 10,
          GRANARY = 12, GROWTH = 14, CORRUPTION = 16, WASTE = 18,
-         POLLUTION = 20, ILLNESS = 22
+         CULTURE = 20, POLLUTION = 22, ILLNESS = 24
        };
 
   /* fill the buffers with the necessary info */
@@ -1623,8 +1623,10 @@ void city_dialog::update_info_label()
                               sizeof(buf[SCIENCE + 1]));
   get_city_dialog_output_text(pcity, O_LUXURY, buf[LUXURY + 1],
                               sizeof(buf[LUXURY + 1]));
-  get_city_dialog_pollution_text(pcity, buf[POLLUTION+1],
-                                 sizeof(buf[POLLUTION +1]));
+  get_city_dialog_culture_text(pcity, buf[CULTURE + 1],
+                               sizeof(buf[CULTURE + 1]));
+  get_city_dialog_pollution_text(pcity, buf[POLLUTION + 1],
+                                 sizeof(buf[POLLUTION + 1]));
   get_city_dialog_illness_text(pcity, buf[ILLNESS + 1],
                                sizeof(buf[ILLNESS + 1]));
 
@@ -1647,6 +1649,8 @@ void city_dialog::update_info_label()
   fc_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
               pcity->waste[O_TRADE]);
   fc_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d", pcity->waste[O_SHIELD]);
+  fc_snprintf(buf[CULTURE], sizeof(buf[CULTURE]), "%4d",
+              pcity->client.culture);
   fc_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
               pcity->pollution);
 
