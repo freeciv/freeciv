@@ -312,6 +312,7 @@ class city_dialog: public QDialog
   QLabel *qlt[NUM_INFO_FIELDS];
   QLabel *cma_info_text;
   QLabel *cma_result;
+  QLabel *cma_result_pix;
   QLabel *supp_units;
   QLabel *curr_units;
   progress_bar *production_combo;
