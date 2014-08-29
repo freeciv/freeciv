@@ -448,7 +448,14 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   gtk_grid_set_row_spacing(GTK_GRID(mbox), 4);
 
   if (rev_ver == NULL) {
-    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+    rev_ver = fc_git_revision();
+
+    if (rev_ver == NULL) {
+      fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+    } else {
+      fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+                  word_version(), VERSION_STRING, rev_ver);
+    }
   } else {
     fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
                 rev_ver);
