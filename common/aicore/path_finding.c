@@ -343,7 +343,9 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
     /* Test the possiblity to move from/to 'ptile'. */
     node->move_scope = params->get_move_scope(ptile, &can_disembark,
                                               previous_scope, params);
-    if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
+    if (PF_MS_NONE == node->move_scope
+        && PF_ACTION_NONE == node->action
+        && params->ignore_none_scopes) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
         node->behavior = TB_IGNORE;
@@ -1088,7 +1090,9 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
     /* Test the possiblity to move from/to 'ptile'. */
     node->move_scope = params->get_move_scope(ptile, &can_disembark,
                                               previous_scope, params);
-    if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
+    if (PF_MS_NONE == node->move_scope
+        && PF_ACTION_NONE == node->action
+        && params->ignore_none_scopes) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
         node->behavior = TB_IGNORE;
@@ -2111,7 +2115,9 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
     /* Test the possiblity to move from/to 'ptile'. */
     node->move_scope = params->get_move_scope(ptile, &can_disembark,
                                               previous_scope, params);
-    if (PF_MS_NONE == node->move_scope && params->ignore_none_scopes) {
+    if (PF_MS_NONE == node->move_scope
+        && PF_ACTION_NONE == node->action
+        && params->ignore_none_scopes) {
       /* Maybe overwrite node behavior. */
       if (params->start_tile != ptile) {
         node->behavior = TB_IGNORE;
