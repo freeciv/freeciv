@@ -79,6 +79,7 @@ Style:         Player
 UnitState:     Local
 MinMoveFrags:  Local
 MinVeteran:    Local
+MinHitPoints:  Local
 
 
 MinSize is the minimum size of a city required.

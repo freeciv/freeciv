@@ -171,7 +171,8 @@ static bool is_req_knowable(const struct player *pow_player,
       || req->source.kind == VUT_UTYPE
       || req->source.kind == VUT_UCLASS
       || req->source.kind == VUT_UCFLAG
-      || req->source.kind == VUT_MINVETERAN) {
+      || req->source.kind == VUT_MINVETERAN
+      || req->source.kind == VUT_MINHP) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
       return target_unit && can_player_see_unit(pow_player, target_unit);

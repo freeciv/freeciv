@@ -1696,6 +1696,26 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     return TRUE;
 
+    case VUT_MINHP:
+      if (preq->range != REQ_RANGE_LOCAL) {
+        break;
+      }
+
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a unit with at least %d hit point left.",
+                         "Requires a unit with at least %d hit points left.",
+                         preq->source.value.min_hit_points),
+                     preq->source.value.min_hit_points);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires a unit with fewer than %d hit point left.",
+                         "Requires a unit with fewer than %d hit points left.",
+                         preq->source.value.min_hit_points),
+                     preq->source.value.min_hit_points);
+      }
+      return TRUE;
+
   case VUT_OTYPE:
     if (preq->range != REQ_RANGE_LOCAL) {
       break;
