@@ -485,7 +485,7 @@ void city_map::paintEvent(QPaintEvent *event)
       pix.fill(QColor(90, 90, 90, 90));
     painter.drawPixmap(0,0, cutted_width, cutted_height, pix);
     painter.setPen(QColor(120,120,120));
-    str = _("CMA") + QString(" ")
+    str = _("Governor") + QString(" ")
         +  QString(cmafec_get_short_descr_of_city(mcity));
     painter.drawText(5,cutted_height-10,str);
   }
@@ -579,7 +579,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   happiness_tab = new QWidget();
   tab_widget->addTab(happiness_tab, _("Happiness"));
   governor_tab = new QWidget();
-  tab_widget->addTab(governor_tab, _("CMA"));
+  tab_widget->addTab(governor_tab, _("Governor"));
 
   production_grid_layout = new QGridLayout();
   overview_grid_layout = new QGridLayout();
@@ -862,7 +862,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   { /** CMA tab initialization */
     QGroupBox *qgbox = new QGroupBox(_("Presets:"));
-    QGroupBox *qsliderbox = new QGroupBox(_("CMA settings"));
+    QGroupBox *qsliderbox = new QGroupBox(_("Governor settings"));
     QGroupBox *result_box = new QGroupBox(_("Results:"));
     QHBoxLayout *hbox = new QHBoxLayout;
     QGridLayout *gridl = new QGridLayout;
@@ -952,10 +952,12 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
     qsliderbox->setLayout(slider_grid);
     cma_result = new QLabel;
+    cma_result_pix = new QLabel;
     cma_grid_layout->addWidget(qgbox, 0, 0, 4 , 1);
-    cma_grid_layout->addWidget(result_box, 0, 1, 1, 1);
-    cma_grid_layout->addWidget(cma_result, 1, 1, 1, 1);
-    cma_grid_layout->addWidget(qsliderbox, 2, 1, 2, 1);
+    cma_grid_layout->addWidget(result_box, 0, 1, 1, 3);
+    cma_grid_layout->addWidget(cma_result, 1, 2, 1, 1);
+    cma_grid_layout->addWidget(cma_result_pix, 1, 1, 1, 1);
+    cma_grid_layout->addWidget(qsliderbox, 2, 1, 2, 3);
   } /** CMA tab initialization end */
 
   overview_tab->setLayout(overview_grid_layout);
@@ -1153,6 +1155,9 @@ void city_dialog::update_cma_tab()
 {
   QString s;
   QTableWidgetItem *item;
+  struct cm_parameter param;
+  QPixmap pix;
+  int i;
 
   cma_table->clear();
   cma_table->setRowCount(0);
@@ -1165,26 +1170,40 @@ void city_dialog::update_cma_tab()
   if (cmafec_preset_num() == 0) {
     cma_table->insertRow(0);
     item = new QTableWidgetItem;
-    item->setText(_("No CMA defined"));
+    item->setText(_("No governor defined"));
     cma_table->setItem(0, 0, item);
   }
   if (cma_is_city_under_agent(pcity, NULL)) {
     s = QString(cmafec_get_short_descr_of_city(pcity));
-    cma_result->setText(QString("<h3>") + QString(_("CMA is enabled"))
+    pix = style()->standardPixmap(QStyle::SP_DialogApplyButton);
+    pix = pix.scaled(2 * pix.width(), 2 * pix.height(),
+                     Qt::IgnoreAspectRatio,Qt::SmoothTransformation );
+    cma_result_pix->setPixmap(pix);
+    cma_result_pix->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    cma_result->setText(QString("<h3>") + QString(_("Governor Enabled"))
                         + QString(" (") + s + QString(")</h3>"));
-    cma_result->setAlignment(Qt::AlignCenter);
+    cma_result->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   } else {
-    cma_result->setText(QString("<h3>") + QString(_("CMA is disabled")) +
+    pix = style()->standardPixmap(QStyle::SP_DialogCancelButton);
+    pix = pix.scaled(1.6 * pix.width(), 1.6 * pix.height(),
+                     Qt::IgnoreAspectRatio,Qt::SmoothTransformation );
+    cma_result_pix->setPixmap(pix);
+    cma_result_pix->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    cma_result->setText(QString("<h3>") + QString(_("Governor Disabled")) +
                         QString("</h3>"));
-    cma_result->setAlignment(Qt::AlignCenter);
+    cma_result->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   }
   if (cma_is_city_under_agent(pcity, NULL)) {
-    cma_enable_but->setIcon(style()->
-                            standardIcon(QStyle::SP_DialogNoButton));
+    cmafec_get_fe_parameter(pcity, &param);
+    i = cmafec_preset_get_index_of_parameter(const_cast<const struct
+                                             cm_parameter *const>(&param));
+    if (i >= 0 && i < cma_table->rowCount()){
+      cma_table->blockSignals(true);
+      cma_table->setCurrentCell(i, 0);
+      cma_table->blockSignals(false);
+    }
     cma_enable_but->setText(_("Disable"));
   } else {
-    cma_enable_but->setIcon(style()->
-                            standardIcon(QStyle::SP_DialogYesButton));
     cma_enable_but->setText(_("Enable"));
   }
   update_results_text();
