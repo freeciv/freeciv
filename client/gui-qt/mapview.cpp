@@ -217,7 +217,10 @@ void map_view::resizeEvent(QResizeEvent* event)
 
   if (C_S_RUNNING == client_state()) {
     map_canvas_resized(size.width(), size.height());
-    gui()->unitinfo_wdg->move(0,size.height()-gui()->unitinfo_wdg->height());
+    gui()->infotab->resize(size.width() -10 - gui()->game_info_label->width(),
+                          gui()->game_info_label->height() + 50);
+    gui()->infotab->move(0 , size.height() - gui()->infotab->height());
+    gui()->unitinfo_wdg->move(width() - gui()->unitinfo_wdg->width(), 0);
     gui()->game_info_label->move(size.width()
                                  -gui()->game_info_label->width(), 
                                  size.height()
@@ -1505,7 +1508,7 @@ void unit_label::uupdate(unit_list *punits)
   }
   w_width += 5;
   setFixedWidth(w_width);
-  move(0, parentWidget()->height() - height());
+  move(parentWidget()->width() - width(), 0);
   update();
 }
 

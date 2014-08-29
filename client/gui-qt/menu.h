@@ -77,6 +77,8 @@ public:
   void menus_sensitive();
   void rm_gov_menu();
   QAction *minimap_status;
+  QAction *chat_status;
+  QAction *messages_status;
 private slots:
   /* game menu */
   void local_options();
@@ -161,6 +163,8 @@ private slots:
   void slot_demographics();
   void slot_top_five();
   void slot_traveler();
+  void slot_show_chat();
+  void slot_show_messages();
 
 private:
   int gov_count;

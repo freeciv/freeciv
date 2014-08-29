@@ -18,7 +18,6 @@
 // Qt
 #include <QAction>
 #include <QApplication>
-#include <QDockWidget>
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QLineEdit>
@@ -39,7 +38,6 @@
 #include "pages.h"
 #include "sprite.h"
 
-Q_DECLARE_METATYPE (QDockWidget::DockWidgetFeatures)
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;
@@ -513,6 +511,8 @@ void fc_client::create_start_page()
   pages_layout[PAGE_START] = new QGridLayout;
   QStringList player_widget_list;
   start_players_tree = new QTreeWidget;
+  chat_line = new QLineEdit;
+  output_window = new QTextEdit;
 
   player_widget_list << _("Name") << _("Ready") << _("Leader")
                      << _("Flag") << _("Nation") << _("Team");
@@ -557,6 +557,10 @@ void fc_client::create_start_page()
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
 
+  pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
+  pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 2, 8);
+  connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
+
 }
 
 /***************************************************************************
@@ -580,6 +584,8 @@ void fc_client::create_game_page()
   unitinfo_wdg->show();
   game_info_label = new info_label(mapview_wdg);
   game_info_label->show();
+  infotab = new info_tab(mapview_wdg);
+  infotab->show();
 
   game_layout->addWidget(mapview_wdg, 1, 0);
   game_main_widget->setLayout(game_layout);
@@ -956,91 +962,6 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     break;
   }
 
-}
-/***************************************************************************
-  Create dock_widgets
-***************************************************************************/
-void fc_client::create_dock_widgets()
-{
-  int i;
-  QWidget *wi;
-  QHeaderView *header;
-
-  ver_dock_layout = new QVBoxLayout;
-  output_window = new QTextEdit(central_wdg);
-  chat_line = new QLineEdit(central_wdg);
-  messages_window = new QTableWidget(central_wdg);
-  messages_window->setRowCount(0);
-  messages_window->setColumnCount(1);
-  messages_window->setProperty("showGrid", "false");
-  messages_window->setProperty("selectionBehavior", "SelectRows");
-  messages_window->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  messages_window->verticalHeader()->setVisible(false);
-  messages_window->horizontalHeader()->setVisible(false);
-  messages_window->setFocusPolicy(Qt::NoFocus);
-  header = messages_window->horizontalHeader();
-  header->resizeSections(QHeaderView::Stretch);
-  output_window->setReadOnly(true);
-  output_window->setVisible(true);
-  chat_line->setVisible(true);
-  connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
-  chat_line->setReadOnly(false);
-
-  for (i = OUTPUT_DOCK_WIDGET ; i <  LAST_WIDGET; i++) {
-    wi = new QWidget;
-    dock_widget[i] = new QDockWidget;
-
-    switch (i) {
-    case 0: //CHAT WIDGET
-      ver_dock_layout->addWidget(output_window);
-      ver_dock_layout->addWidget(chat_line);
-      wi->setLayout(ver_dock_layout);
-      dock_widget[i]->setWidget(wi);
-      dock_widget[i]->setFeatures(QDockWidget::DockWidgetMovable
-                                  | QDockWidget::DockWidgetFloatable);
-      dock_widget[i]->setWindowTitle(_("Chat"));
-      break;
-    case 1: //MESSAGE_DOCK_WIDGET
-      dock_widget[i]->setWidget(messages_window);
-      dock_widget[i]->setFeatures(QDockWidget::DockWidgetMovable
-                                  | QDockWidget::DockWidgetFloatable);
-      dock_widget[i]->setWindowTitle(_("Messages"));
-      dock_widget[i]->setFocusPolicy(Qt::NoFocus);
-      break;
-    default:
-      break;
-    }
-  }
-}
-
-/***************************************************************************
-  Hides ALL dock widgets
-***************************************************************************/
-void fc_client::hide_dock_widgets()
-{
-  int i;
-
-  for (i = OUTPUT_DOCK_WIDGET ; i <  LAST_WIDGET; i++) {
-    dock_widget[i]->hide();
-  }
-}
-
-/***************************************************************************
-  Shows one widget = dw, or hides if show is false
-***************************************************************************/
-void fc_client::show_dock_widget(int dw, bool show)
-{
-  int i;
-
-  for (i = OUTPUT_DOCK_WIDGET ; i <  LAST_WIDGET; i++) {
-    if (i == dw ) {
-      if (show) {
-        dock_widget[i]->show();
-      } else {
-        dock_widget[i]->hide();
-      }
-    }
-  }
 }
 
 /***************************************************************************

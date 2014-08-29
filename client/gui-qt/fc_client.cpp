@@ -17,7 +17,6 @@
 
 // Qt
 #include <QApplication>
-#include <QDockWidget>
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QStatusBar>
@@ -81,11 +80,11 @@ fc_client::fc_client() : QObject()
   status_bar_label = NULL;
   menu_bar = NULL;
   mapview_wdg = NULL;
-  messages_window = NULL;
+  msgwdg = NULL;
+  infotab = NULL;
   game_info_label = NULL;
   central_wdg = NULL;
   game_tab_widget = NULL;
-  ver_dock_layout = NULL;
   start_players_tree = NULL;
   unit_sel = NULL;
   info_tile_wdg = NULL;
@@ -96,10 +95,6 @@ fc_client::fc_client() : QObject()
   status_bar_queue.clear();
   quitting = false;
 
-  for (int i = 0; i < LAST_WIDGET; i++) {
-    dock_widget[i] = NULL;
-  }
-
   for (int i = 0; i <= PAGE_GGZ; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
@@ -109,7 +104,6 @@ fc_client::fc_client() : QObject()
   central_layout = new QGridLayout;
 
   // General part not related to any single page
-  create_dock_widgets();
   menu_bar = new mr_menu();
   menu_bar->setup_menus();
   main_window->setMenuBar(menu_bar);
@@ -160,10 +154,6 @@ fc_client::fc_client() : QObject()
   central_layout->addLayout(pages_layout[PAGE_GAME], 1, 1);
   central_wdg->setLayout(central_layout);
   main_window->setCentralWidget(central_wdg);
-  main_window->addDockWidget(Qt::RightDockWidgetArea,
-                             dock_widget[ (int) OUTPUT_DOCK_WIDGET]);
-  main_window->addDockWidget(Qt::BottomDockWidgetArea,
-                             dock_widget[ (int) MESSAGE_DOCK_WIDGET]);
 
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
@@ -176,7 +166,6 @@ fc_client::fc_client() : QObject()
 ****************************************************************************/
 fc_client::~fc_client()
 {
-  delete dock_widget[0]->widget();
   delete main_window;
 }
 
@@ -225,7 +214,9 @@ void fc_client::closing()
 ****************************************************************************/
 void fc_client::append_output_window(const QString &str)
 {
-  output_window->append(str);
+  if (output_window != NULL){
+    output_window->append(str);
+  }
 }
 
 /****************************************************************************
@@ -264,9 +255,6 @@ void fc_client::switch_page(int new_pg)
     destroy_server_scans();
   }
   main_window->menuBar()->setVisible(false);
-  hide_dock_widgets();
-  ver_dock_layout->addWidget(output_window);
-  ver_dock_layout->addWidget(chat_line);
 
   for (int i = 0; i < PAGE_GGZ + 1; i++) {
     if (i == new_page) {
@@ -278,11 +266,8 @@ void fc_client::switch_page(int new_pg)
   page = new_page;
   switch (page) {
   case PAGE_MAIN:
-    show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
     break;
   case PAGE_START:
-    pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
-    pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 2, 8);
     break;
   case PAGE_LOAD:
     update_load_page();
@@ -295,8 +280,6 @@ void fc_client::switch_page(int new_pg)
       main_window->showMaximized();
     }
     main_window->menuBar()->setVisible(true);
-    show_dock_widget(static_cast<int>(OUTPUT_DOCK_WIDGET), true);
-    show_dock_widget(static_cast<int>(MESSAGE_DOCK_WIDGET), true);
     mapview_wdg->setFocus();
     center_on_something();
     break;
