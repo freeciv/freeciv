@@ -918,11 +918,10 @@ static void diplomat_queue_handle_secondary(void)
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
+void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
+                           struct unit *ptunit, struct tile *dest_tile,
                            const action_probability *action_probabilities)
 {
-  struct city *pcity;
-  struct unit *ptunit;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
   int diplomat_id;
   QVariant qv1, qv2;
@@ -951,7 +950,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
   qv1 = punit->id;
   cd->unit_id = diplomat_id;
 
-  if ((pcity = tile_city(dest_tile))) {
+  if (pcity) {
     /* Spy/Diplomat acting against a city */
     gui()->set_current_unit(diplomat_id, pcity->id, ATK_CITY);
     qv2 = pcity->id;

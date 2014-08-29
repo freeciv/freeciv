@@ -673,19 +673,17 @@ static void action_entry(const enum gen_action act,
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
+void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
+                           struct unit *pTunit, struct tile *ptile,
                            const action_probability *action_probabilities)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
-  struct city *pCity;
-  struct unit *pTunit;
   SDL_Rect area;
   
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
   is_unit_move_blocked = TRUE;
-  pCity = tile_city(ptile);
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->diplomat_id = pUnit->id;
@@ -724,7 +722,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
   pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = -1;
 
   /* ---------- */
-  if((pCity))
+  if (pCity)
   {
     /* Spy/Diplomat acting against a city */
 
@@ -779,7 +777,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile,
                  pWindow, &area);
   }
 
-  if ((pTunit = unit_list_get(ptile->units, 0))) {
+  if (pTunit) {
     /* Spy/Diplomat acting against a unit */
 
     pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = pTunit->id;

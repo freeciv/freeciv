@@ -53,7 +53,8 @@ GUI_FUNC_PROTO(bool, caravan_dialog_is_open, int* unit_id, int* city_id)
 GUI_FUNC_PROTO(void, caravan_dialog_update, void)
 
 GUI_FUNC_PROTO(void, popup_diplomat_dialog, struct unit *punit,
-               struct tile *ptile,
+               struct city *target_city, struct unit *target_unit,
+               struct tile *target_tile,
                const action_probability *action_probabilities)
 GUI_FUNC_PROTO(int, diplomat_handled_in_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, close_diplomat_dialog, void)

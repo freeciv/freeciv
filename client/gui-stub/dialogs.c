@@ -138,7 +138,8 @@ bool caravan_dialog_is_open(int *unit_id, int *city_id)
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct tile *ptile,
+void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
+                           struct unit *ptunit, struct tile *ptile,
                            const action_probability *action_probabilities)
 {
   /* PORTME */

@@ -696,11 +696,10 @@ static void action_entry(GtkWidget *shl,
 /****************************************************************
  Popup new diplomat dialog.
 *****************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
+void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
+                           struct unit *ptunit, struct tile *dest_tile,
                            const action_probability *action_probabilities)
 {
-  struct city *pcity;
-  struct unit *ptunit;
   GtkWidget *shl;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
 
@@ -720,7 +719,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
   shl = choice_dialog_start(GTK_WINDOW(toplevel), astr_str(&title),
                             astr_str(&text));
 
-  if ((pcity = tile_city(dest_tile))) {
+  if (pcity) {
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id[ATK_CITY] = pcity->id;
@@ -766,7 +765,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
                  (GCallback)diplomat_incite_callback);
   }
 
-  if ((ptunit = unit_list_get(dest_tile->units, 0))){
+  if (ptunit) {
     /* Spy/Diplomat acting against a unit */
 
     diplomat_target_id[ATK_UNIT] = ptunit->id;

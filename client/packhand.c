@@ -3963,6 +3963,8 @@ void handle_unit_actions(int actor_unit_id, int target_tile_id,
 {
   struct unit *actor_unit = game_unit_by_number(actor_unit_id);
   struct tile *target_tile = index_to_tile(target_tile_id);
+  struct city *target_city = tile_city(target_tile);
+  struct unit *target_unit = unit_list_get(target_tile->units, 0);
   bool ask_user = FALSE;
 
   /* The dead can't act */
@@ -3982,7 +3984,9 @@ void handle_unit_actions(int actor_unit_id, int target_tile_id,
     unit_focus_set(actor_unit);
 
     /* Show the client specific action dialog */
-    popup_diplomat_dialog(actor_unit, target_tile, action_probabilities);
+    popup_diplomat_dialog(actor_unit,
+                          target_city, target_unit, target_tile,
+                          action_probabilities);
   } else {
     /* Nothing to do. Go to the next queued dipomat */
     choose_action_queue_next();

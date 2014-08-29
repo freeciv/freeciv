@@ -773,22 +773,21 @@ static void action_entry(Widget w, int action_id,
 /****************************************************************
   Popups the diplomat dialog
 *****************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile,
+void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
+                           struct unit *ptunit, struct tile *dest_tile,
                            const action_probability *action_probabilities)
 {
-  struct city *pcity;
-  struct unit *ptunit;
   struct astring text = ASTRING_INIT;
 
   diplomat_id = punit->id;
 
-  if ((ptunit = unit_list_get(dest_tile->units, 0))) {
+  if (ptunit) {
     diplomat_target_id[ATK_UNIT] = ptunit->id;
   } else {
     diplomat_target_id[ATK_UNIT] = -1;
   }
 
-  if ((pcity = tile_city(dest_tile))) {
+  if (pcity) {
     diplomat_target_id[ATK_CITY] = pcity->id;
   } else {
     diplomat_target_id[ATK_CITY] = -1;
