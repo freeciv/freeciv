@@ -395,6 +395,19 @@ AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
 AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
 [test "x$ai_mod_static_threaded" = "xyes"])
 
+fc_ai_last=0
+if test "x$ai_mod_static_classic" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_threaded" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$enable_aimodules" = "xyes" ; then
+  dnl Dynamic modules allowed, give slots for them
+  fc_ai_last=$fc_ai_last+3
+fi
+AC_DEFINE_UNQUOTED([FC_AI_LAST], [(${fc_ai_last})], [Max number of AI modules])
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC

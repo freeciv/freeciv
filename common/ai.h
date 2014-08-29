@@ -24,8 +24,6 @@ extern "C" {
    structure below */
 #define FC_AI_MOD_CAPSTR "+Freeciv-2.4-ai-module-2013.Feb.13"
 
-#define FC_AI_LAST 3
-
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
 #  undef DEBUG_AITIMERS
