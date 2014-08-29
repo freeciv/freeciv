@@ -432,7 +432,7 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
     default_ai_set="${module}"
   fi
 done
-if test "x$ai_mod_statix_classic" != "xyes" ; then
+if test "x$ai_mod_static_classic" != "xyes" ; then
   if test "x$ai_mod_static_threaded" = "xyes" ; then
     AC_MSG_WARN([Selected ai module depends on classic, it's automatically enabled])
     ai_mod_static_classic=yes
@@ -454,6 +454,19 @@ AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
 if test "x${default_ai_set}" = "x" ; then
   default_ai_set="classic"
 fi
+
+fc_ai_last=0
+if test "x$ai_mod_static_classic" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$ai_mod_static_threaded" = "xyes" ; then
+  fc_ai_last=$fc_ai_last+1
+fi
+if test "x$enable_aimodules" = "xyes" ; then
+  dnl Dynamic modules allowed, give slots for them
+  fc_ai_last=$fc_ai_last+3
+fi
+AC_DEFINE_UNQUOTED([FC_AI_LAST], [(${fc_ai_last})], [Max number of AI modules])
 
 AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 

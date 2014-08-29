@@ -255,8 +255,6 @@ enum barbarian_type {
   ANIMAL_BARBARIAN = 3
 };
 
-#define FC_AI_LAST 3
-
 /*
  * Citytile requirement types. 
  *
