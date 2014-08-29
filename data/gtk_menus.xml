@@ -128,6 +128,7 @@
     </menu>
 
     <menu action="MENU_COMBAT">
+      <menuitem action="FORTIFY" />
       <menuitem action="BUILD_FORTRESS" />
       <menuitem action="BUILD_AIRBASE" />
       <menu action="MENU_BUILD_BASE">

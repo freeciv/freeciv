@@ -1881,10 +1881,6 @@ static bool load_ruleset_units(struct section_file *file)
           break;
         } else {
           BV_SET(u->flags, ival);
-          /* FIXME: In current implementation UTYF_SETTLERS always need to have UTYF_CANT_FORTIFY */
-          if (ival == UTYF_SETTLERS) {
-            BV_SET(u->flags, UTYF_CANT_FORTIFY);
-          }
         }
         fc_assert(utype_has_flag(u, ival));
       }

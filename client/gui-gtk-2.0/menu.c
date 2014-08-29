@@ -1207,22 +1207,16 @@ static void clean_fallout_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void build_fortress_callback(GtkAction *action, gpointer data)
 {
+  key_unit_fortress();
+}
+
+/****************************************************************
+  Action "FORTIFY" callback.
+*****************************************************************/
+static void fortify_callback(GtkAction *action, gpointer data)
+{
   unit_list_iterate(get_units_in_focus(), punit) {
-    /* FIXME: this can provide different actions for different units...
-     * not good! */
-    struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
-                                                   punit, unit_tile(punit));
-    struct extra_type *pextra = NULL;
-
-    if (pbase) {
-      pextra = base_extra_get(pbase);
-    }
-
-    if (pextra && can_unit_do_activity_targeted(punit, ACTIVITY_BASE, pextra)) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
-    } else {
-      request_unit_fortify(punit);
-    }
+    request_unit_fortify(punit);
   } unit_list_iterate_end;
 }
 
@@ -1712,10 +1706,12 @@ static GtkActionGroup *get_unit_group(void)
        "n", NULL, G_CALLBACK(clean_fallout_callback)},
 
       /* Combat menu. */
+      {"FORTIFY", NULL, _("Fortify"),
+       "f", NULL, G_CALLBACK(fortify_callback)},
       {"BUILD_FORTRESS", NULL, _("Build Type A Base"),
-       "f", NULL, G_CALLBACK(build_fortress_callback)},
+       "<Shift>f", NULL, G_CALLBACK(build_fortress_callback)},
       {"BUILD_AIRBASE", NULL, _("Build Type B Base"),
-       "e", NULL, G_CALLBACK(build_airbase_callback)},
+       "<Shift>e", NULL, G_CALLBACK(build_airbase_callback)},
 
       {"DO_PILLAGE", NULL, _("_Pillage"),
        "<Shift>p", NULL, G_CALLBACK(do_pillage_callback)},
@@ -2196,10 +2192,11 @@ void real_menus_update(void)
                       can_units_do_activity(punits, ACTIVITY_MINE));
   menus_set_sensitive(unit_group, "TRANSFORM_TERRAIN",
                       can_units_do_activity(punits, ACTIVITY_TRANSFORM));
+  menus_set_sensitive(unit_group, "FORTIFY",
+                      can_units_do_activity(punits,
+                                            ACTIVITY_FORTIFYING));
   menus_set_sensitive(unit_group, "BUILD_FORTRESS",
-                      (can_units_do_base_gui(punits, BASE_GUI_FORTRESS)
-                       || can_units_do_activity(punits,
-                                                ACTIVITY_FORTIFYING)));
+                      can_units_do_base_gui(punits, BASE_GUI_FORTRESS));
   menus_set_sensitive(unit_group, "BUILD_AIRBASE",
                       can_units_do_base_gui(punits, BASE_GUI_AIRBASE));
   menus_set_sensitive(unit_group, "CLEAN_POLLUTION",
@@ -2442,12 +2439,6 @@ void real_menus_update(void)
   menus_rename(unit_group, "BUILD_IRRIGATION", irrtext);
   menus_rename(unit_group, "BUILD_MINE", mintext);
   menus_rename(unit_group, "TRANSFORM_TERRAIN", transtext);
-
-  if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
-    menus_rename(unit_group, "BUILD_FORTRESS", _("_Fortify Unit"));
-  } else {
-    menus_rename(unit_group, "BUILD_FORTRESS", _("Build Type A Base"));
-  }
 
   if (units_have_type_flag(punits, UTYF_PARATROOPERS, TRUE)) {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Drop _Paratrooper"));
