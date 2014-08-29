@@ -264,6 +264,7 @@ struct client_options
   bool gui_sdl2_use_color_cursors;
 
 /* gui-qt client specific options. */
+  bool gui_qt_allied_chat_only;
   char gui_qt_font_city_label[512];
   char gui_qt_font_notify_label[512];
   char gui_qt_font_spaceship_label[512];

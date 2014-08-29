@@ -14,8 +14,39 @@
 #ifndef FC__CHATLINE_H
 #define FC__CHATLINE_H
 
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
+
 extern "C" {
 #include "chatline_g.h"
 }
 
-#endif				/* FC__CHATLINE_H */
+//Qt
+#include <QTextEdit>
+#include <QLineEdit>
+#include <QCheckBox>
+
+/***************************************************************************
+  Class for chat widget
+***************************************************************************/
+class chatwdg : public QWidget
+{
+  Q_OBJECT
+public:
+  chatwdg(QWidget *parent);
+  void append(QString str);
+private slots:
+  void send();
+  void state_changed(int state);
+protected:
+  void paint(QPainter *painter, QPaintEvent *event);
+  void paintEvent(QPaintEvent *event);
+private:
+  QTextEdit *chat_output;
+  QLineEdit *chat_line;
+  QCheckBox *cb;
+
+};
+
+#endif                        /* FC__CHATLINE_H */

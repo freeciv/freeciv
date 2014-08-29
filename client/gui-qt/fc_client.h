@@ -50,6 +50,7 @@
 #include "chatline.h"
 #include "dialogs.h"
 #include "mapview.h"
+#include "messagewin.h"
 #include "menu.h"
 #include "pages.h"
 #include "ratesdlg.h"
@@ -59,14 +60,6 @@ enum connection_state {
   NEW_PASSWORD_TYPE,
   ENTER_PASSWORD_TYPE,
   WAITING_TYPE
-};
-
-
-enum DOCK_WIDGETS {
-  OUTPUT_DOCK_WIDGET = 0,
-  MESSAGE_DOCK_WIDGET,
-  /* ADD NEXT DOCK WIDGETS HERE */
-  LAST_WIDGET
 };
 
 class MainWindow;
@@ -81,7 +74,6 @@ class QSocketNotifier;
 class QDialog;
 class QApplication;
 class QTreeWidget;
-class QDockWidget;
 class QStatusBar;
 class QMainWindow;
 
@@ -114,7 +106,6 @@ class fc_client : public QObject
   QWidget *connect_metaserver;
   QWidget *game_main_widget;
 
-  QVBoxLayout *ver_dock_layout;
   QGridLayout *central_layout;
   QGridLayout *pages_layout[PAGE_GGZ + 1];
 
@@ -150,7 +141,6 @@ class fc_client : public QObject
   QTimer* meta_scan_timer;
   QTimer* lan_scan_timer;
 
-  QDockWidget *dock_widget[ (int) LAST_WIDGET ];
   QStatusBar *status_bar;
   QSignalMapper *switch_page_mapper;
   QLabel *status_bar_label;
@@ -190,11 +180,12 @@ public:
   QMainWindow *main_window;
   mr_idle mr_idler;
   fc_font fc_fonts;
-  QTableWidget *messages_window;
   info_label *game_info_label;
   QWidget *central_wdg;
   mr_menu *menu_bar;
   fc_game_tab_widget *game_tab_widget;
+  messagewdg *msgwdg;
+  info_tab *infotab;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
@@ -248,9 +239,6 @@ private:
   void update_server_list(enum server_scan_type,
                            const struct server_list *);
   bool check_server_scan (server_scan*);
-  void create_dock_widgets();
-  void hide_dock_widgets();
-  void show_dock_widget(int widget, bool show=true);
   void update_load_page(void);
   void update_scenarios_page(void);
   void set_connection_state(enum connection_state state);
