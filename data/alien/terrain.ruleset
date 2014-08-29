@@ -688,6 +688,15 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+helptext = _("\
+Space Capsules have landed to the surface of Deneb Seven's \
+Any unit can enter tile with a capsule to open it. Capsule disappears \
+from the map in the process. \
+There can be gold, blueprints of new technologies, equipment for a unit, \
+or it can even provide starting kit for a new base on the spot. \
+Unfortunately it's also possible that Madmen or Lunatics have already \
+found the capsule, and are there ready to kill anybody who enters.\
+")
 
 [extra_farmland]
 name           = _("Farmland")
