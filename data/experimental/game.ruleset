@@ -228,6 +228,21 @@ target_reqs  =
       "Nation", "Pirate", "Player", FALSE
     }
 
+[actionenabler_explorer_establish_embassy]
+action       = "Establish Embassy"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitType", "Explorer", "Local", TRUE
+      "Tech", "Writing", "Player", TRUE
+      "UnitState", "TransportDependent", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
+    }
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "Nation", "Barbarian", "Player", FALSE
+      "Nation", "Pirate", "Player", FALSE
+    }
+
 [actionenabler_investigate_city]
 action       = "Investigate City"
 actor_reqs    =
