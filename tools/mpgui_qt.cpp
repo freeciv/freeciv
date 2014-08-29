@@ -171,7 +171,14 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   const char *rev_ver = fc_svn_revision();
 
   if (rev_ver == NULL) {
-    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+    rev_ver = fc_git_revision();
+
+    if (rev_ver == NULL) {
+      fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+    } else {
+      fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+                  word_version(), VERSION_STRING, rev_ver);
+    }
   } else {
     fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
                 rev_ver);
