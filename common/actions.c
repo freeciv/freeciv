@@ -251,11 +251,6 @@ void action_enabler_add(struct action_enabler *enabler)
 **************************************************************************/
 void action_enabler_append_hard(struct action_enabler *enabler)
 {
-  /* All actions that currently use action enablers are spy actions. */
-  requirement_vector_append(&enabler->actor_reqs,
-                            req_from_str("UnitFlag", "Local", FALSE,
-                                         TRUE, "Diplomat"));
-
   if (enabler->action == ACTION_ESTABLISH_EMBASSY) {
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,

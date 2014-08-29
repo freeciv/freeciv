@@ -280,7 +280,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Partial_Invis" = visible only to adjancent units; does not hide transported
 ;		  units other than missiles
 ; "Settlers"	= can irrigate and build roads
-; "Diplomat"	= can do diplomat actions (see diplchance server option)
+; "Diplomat"	= can defend against diplomat actions (see diplchance
+;                 server option)
 ; "Spy"		= enhanced diplomat actions. _Must_ be "Diplomat" also
 ; "Trireme"	= (sea only) cannot leave shoreline
 ; "Nuclear"	= nuke!
