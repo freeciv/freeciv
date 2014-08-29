@@ -1663,21 +1663,22 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
                conn_description(pconn));
 
     dio_output_init(&dout, buffer, sizeof(buffer));
-    dio_put_uint16(&dout, 0);
+    DIO_PUT(uint16, &dout, "msg", 0);
 
     /* 1 == PACKET_LOGIN_REPLY in the old client */
-    dio_put_uint8(&dout, 1);
+    DIO_PUT(uint8, &dout, "msg", 1);
 
-    dio_put_bool32(&dout, FALSE);
-    dio_put_string(&dout, _("Your client is too old. To use this server, "
-			    "please upgrade your client to a "
-			    "Freeciv 2.2 or later."));
-    dio_put_string(&dout, "");
+    DIO_PUT(bool32, &dout, "msg", FALSE);
+    DIO_PUT(string, &dout, "msg",
+            _("Your client is too old. To use this server, "
+              "please upgrade your client to a "
+              "Freeciv 2.2 or later."));
+    DIO_PUT(string, &dout, "msg", "");
 
     {
       size_t size = dio_output_used(&dout);
       dio_output_rewind(&dout);
-      dio_put_uint16(&dout, size);
+      DIO_PUT(uint16, &dout, "size", size);
 
       /* 
        * Use send_connection_data instead of send_packet_data to avoid

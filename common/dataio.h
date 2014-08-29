@@ -113,8 +113,10 @@ bool dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
     fc__attribute((nonnull (2)));
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_GET(pdin, bv) \
+#define DIO_BV_GET(pdin, bv)                          \
   dio_get_memory((pdin), (bv).vec, sizeof((bv).vec))
+
+#define DIO_GET(f, d, k, ...) dio_get_##f(d, ## __VA_ARGS__)
 
 /* puts */
 void dio_put_type(struct data_out *dout, enum data_type type, int value);
@@ -144,8 +146,10 @@ void dio_put_uint8_vec8(struct data_out *dout, int *values, int stop_value);
 void dio_put_uint16_vec8(struct data_out *dout, int *values, int stop_value);
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_PUT(pdout, bv) \
+#define DIO_BV_PUT(pdout, k, bv)                         \
   dio_put_memory((pdout), (bv).vec, sizeof((bv).vec))
+
+#define DIO_PUT(f, d, k, ...) dio_put_##f(d, ## __VA_ARGS__)
 
 #ifdef __cplusplus
 }

@@ -347,22 +347,22 @@ class Field:
     # Returns code which put this field.
     def get_put(self):
         if self.dataio_type=="bitvector":
-            return "DIO_BV_PUT(&dout, packet->%(name)s);"%self.__dict__
+            return "DIO_BV_PUT(&dout, \"%(name)s\", packet->%(name)s);"%self.__dict__
 
         if self.struct_type=="float" and not self.is_array:
-            return "  dio_put_float(&dout, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
-        
+            return "  DIO_PUT(float, &dout, \"%(name)s\", real_packet->%(name)s, %(float_factor)d);"%self.__dict__
+
         if self.dataio_type in ["worklist"]:
-            return "  dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s);"%self.__dict__
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &real_packet->%(name)s);"%self.__dict__
 
         if self.dataio_type in ["memory"]:
-            return "  dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
-        
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
+
         arr_types=["string","bit_string","city_map","tech_list",
                    "unit_list","building_list"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
-            return "  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s);"%self.__dict__
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", real_packet->%(name)s);"%self.__dict__
         if self.is_struct:
             if self.is_array==2:
                 c="dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s[i][j]);"%self.__dict__
@@ -441,7 +441,7 @@ class Field:
     # Returns code which get this field.
     def get_get(self):
         if self.struct_type=="float" and not self.is_array:
-            return '''if (!dio_get_float(&din, &real_packet->%(name)s, %(float_factor)d)) {
+            return '''if (!DIO_GET(float, &din, \"%(name)s\", &real_packet->%(name)s, %(float_factor)d)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type=="bitvector":
@@ -450,27 +450,27 @@ class Field:
 }'''%self.__dict__
         if self.dataio_type in ["string","bit_string","city_map"] and \
            self.is_array!=2:
-            return '''if (!dio_get_%(dataio_type)s(&din, real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.is_struct and self.is_array==0:
-            return '''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s)) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type in ["tech_list","unit_list","building_list"]:
-            return '''if (!dio_get_%(dataio_type)s(&din, real_packet->%(name)s)) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if not self.is_array:
             if self.struct_type in ["int","bool"]:
-                return '''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s)) {
+                return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
             else:
                 return '''{
   int readin;
   
-  if (!dio_get_%(dataio_type)s(&din, &readin)) {
+  if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &readin)) {
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }
   real_packet->%(name)s = readin;
@@ -478,49 +478,49 @@ class Field:
 
         if self.is_struct:
             if self.is_array==2:
-                c='''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i][j])) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &real_packet->%(name)s[i][j])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
-                c='''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i])) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &real_packet->%(name)s[i])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.dataio_type=="string":
-            c='''if (!dio_get_%(dataio_type)s(&din, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]))) {
+            c='''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]))) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.struct_type=="float":
             if self.is_array==2:
-                c='''if (!dio_get_float(&din, &real_packet->%(name)s[i][j], %(float_factor)d)) {
+                c='''if (!DIO_GET(float, &din, \"%(name)s\", &real_packet->%(name)s[i][j], %(float_factor)d)) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
-                c='''if (!dio_get_float(&din, &real_packet->%(name)s[i], %(float_factor)d)) {
+                c='''if (!DIO_GET(float, &din, \"%(name)s\", &real_packet->%(name)s[i], %(float_factor)d)) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.is_array==2:
             if self.struct_type in ["int","bool"]:
-                c='''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i][j])) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &real_packet->%(name)s[i][j])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
                 c='''{
       int readin;
   
-      if (!dio_get_%(dataio_type)s(&din, &readin)) {
+      if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &readin)) {
         RECEIVE_PACKET_FIELD_ERROR(%(name)s);
       }
       real_packet->%(name)s[i][j] = readin;
     }'''%self.__dict__
         elif self.struct_type in ["int","bool"]:
-            c='''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i])) {
+            c='''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &real_packet->%(name)s[i])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         else:
             c='''{
       int readin;
   
-      if (!dio_get_%(dataio_type)s(&din, &readin)) {
+      if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &readin)) {
         RECEIVE_PACKET_FIELD_ERROR(%(name)s);
       }
       real_packet->%(name)s[i] = readin;
@@ -571,7 +571,7 @@ class Field:
 for (;;) {
   int i;
 
-  if (!dio_get_uint8(&din, &i)) {
+  if (!DIO_GET(uint8, &din, \"%(name)s\", &i)) {
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }
   if (i == 255) {
@@ -880,7 +880,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
 '''%self.get_dict(vars())
 
         body=body+'''
-  DIO_BV_PUT(&dout, fields);
+  DIO_BV_PUT(&dout, \"fields\", fields);
 '''
 
         for field in self.key_fields:
