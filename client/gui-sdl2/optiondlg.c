@@ -426,9 +426,9 @@ static int none_callback(struct widget *widget)
   Convert a video mode to string. Returns TRUE on success.
 ****************************************************************************/
 static inline bool video_mode_to_string(char *buf, size_t buf_len,
-                                        struct video_mode mode)
+                                        struct video_mode *mode)
 {
-  return (2 < fc_snprintf(buf, buf_len, "%dx%d", mode.width, mode.height));
+  return (2 < fc_snprintf(buf, buf_len, "%dx%d", mode->width, mode->height));
 }
 
 /****************************************************************************
@@ -446,21 +446,23 @@ static inline bool string_to_video_mode(const char *buf,
 static struct strvec *video_mode_list(void)
 {
   struct strvec *video_modes = strvec_new();
+  int active_display = 0; /* TODO: Support multiple displays */
+  int mode_count;
+  int i;
 
-#if 0
-  /* Don't free this. */
-  SDL_Rect **mode = SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
-  char buf[64];
+  mode_count = SDL_GetNumDisplayModes(active_display);
+  for (i = 0; i < mode_count; i++) {
+    SDL_DisplayMode mode;
 
-  for (; NULL != *mode; mode++) {
-    if (video_mode_to_string(buf, sizeof(buf),
-                             video_mode((*mode)->w, (*mode)->h))) {
-      strvec_append(video_modes, buf);
+    if (!SDL_GetDisplayMode(active_display, i, &mode)) {
+      char buf[64];
+      struct video_mode vmod = { .width = mode.w, .height = mode.h };
+
+      if (video_mode_to_string(buf, sizeof(buf), &vmod)) {
+        strvec_append(video_modes, buf);
+      }
     }
   }
-#endif
-
-  strvec_append(video_modes, "640x480");
 
   return video_modes;
 }
@@ -569,12 +571,12 @@ static struct widget *option_widget_new(struct option *poption,
   case OT_VIDEO_MODE:
     {
       char buf[64];
+      struct video_mode vmod;
 
-      if (!video_mode_to_string(buf, sizeof(buf),
-                                option_video_mode_get(poption))) {
+      vmod = option_video_mode_get(poption);
+      if (!video_mode_to_string(buf, sizeof(buf), &vmod)) {
         /* Always fails. */
-        fc_assert(video_mode_to_string(buf, sizeof(buf),
-                                       option_video_mode_get(poption)));
+        fc_assert(video_mode_to_string(buf, sizeof(buf), &vmod));
       }
 
       widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
@@ -655,14 +657,14 @@ static void option_widget_update(struct option *poption)
   case OT_VIDEO_MODE:
     {
       char buf[64];
+      struct video_mode vmod;
 
-      if (video_mode_to_string(buf, sizeof(buf),
-                               option_video_mode_get(poption))) {
+      vmod = option_video_mode_get(poption);
+      if (video_mode_to_string(buf, sizeof(buf), &vmod)) {
         copy_chars_to_string16(widget->string16, buf);
       } else {
         /* Always fails. */
-        fc_assert(video_mode_to_string(buf, sizeof(buf),
-                                       option_video_mode_get(poption)));
+        fc_assert(video_mode_to_string(buf, sizeof(buf), &vmod));
       }
     }
     break;
