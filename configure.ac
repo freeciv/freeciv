@@ -432,12 +432,6 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
     default_ai_set="${module}"
   fi
 done
-if test "x$ai_mod_static_classic" != "xyes" ; then
-  if test "x$ai_mod_static_threaded" = "xyes" ; then
-    AC_MSG_WARN([Selected ai module depends on classic, it's automatically enabled])
-    ai_mod_static_classic=yes
-  fi
-fi
 AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
 [test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
