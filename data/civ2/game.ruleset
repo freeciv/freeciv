@@ -291,6 +291,7 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Local", FALSE
+      "MinHitPoints", "2", "Local", TRUE
     }
 
 [borders]

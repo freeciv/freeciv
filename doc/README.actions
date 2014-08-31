@@ -117,7 +117,6 @@ Actions and their hard coded requirements
 "Sabotage Unit" - Halve the target unit's hit points.
  * actor must be on the tile next to the target.
  * target must be foreign.
- * target must have > 1 hp.
  * target must be alone at its tile.
  * target must be visible for the actor.
 

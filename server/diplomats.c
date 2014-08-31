@@ -299,7 +299,6 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   Sabotage an enemy unit.
 
   - Can't sabotage a unit if:
-    - It has only one hit point left.
     - It's not the only unit on the square
       (this is handled outside this function).
   - If successful, reduces hit points by half of those remaining.
@@ -325,18 +324,6 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(victim_link, unit_link(pvictim));
 
-  /* If unit has too few hp, can't sabotage. */
-  if (pvictim->hp < 2) {
-    notify_player(pplayer, unit_tile(pvictim),
-                  E_MY_DIPLOMAT_FAILED, ftc_server,
-                  _("Your %s could not sabotage the %s %s."),
-                  unit_link(pdiplomat),
-                  nation_adjective_for_player(uplayer),
-                  victim_link);
-    log_debug("sabotage-unit: unit has too few hit points");
-    return;
-  }
-
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, uplayer, pdiplomat, 
                                 unit_tile(pvictim))) {
@@ -345,23 +332,42 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("sabotage-unit: succeeded");
 
-  /* Sabotage the unit by removing half its remaining hit points. */
-  pvictim->hp /= 2;
-  send_unit_info(NULL, pvictim);
+  if (pvictim->hp < 2) {
+    /* Not possible to halve the hit points. Kill it. */
+    wipe_unit(pvictim, ULR_KILLED, pplayer);
 
-  /* Notify everybody involved. */
-  notify_player(pplayer, unit_tile(pvictim),
-                E_MY_DIPLOMAT_SABOTAGE, ftc_server,
-                _("Your %s succeeded in sabotaging the %s %s."),
-                unit_link(pdiplomat),
-                nation_adjective_for_player(uplayer),
-                victim_link);
-  notify_player(uplayer, unit_tile(pvictim),
-                E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
-                /* TRANS: ... the Poles! */
-                _("Your %s was sabotaged by the %s!"),
-                victim_link,
-                nation_plural_for_player(pplayer));
+    /* Notify everybody involved. */
+    notify_player(pplayer, unit_tile(pvictim),
+                  E_MY_DIPLOMAT_SABOTAGE, ftc_server,
+                  _("Your %s's successful sabotage killed the %s %s."),
+                  unit_link(pdiplomat),
+                  nation_adjective_for_player(uplayer),
+                  victim_link);
+    notify_player(uplayer, unit_tile(pvictim),
+                  E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
+                  /* TRANS: ... the Poles! */
+                  _("Your %s was killed by %s sabotage!"),
+                  victim_link,
+                  nation_plural_for_player(pplayer));
+  } else {
+    /* Sabotage the unit by removing half its remaining hit points. */
+    pvictim->hp /= 2;
+    send_unit_info(NULL, pvictim);
+
+    /* Notify everybody involved. */
+    notify_player(pplayer, unit_tile(pvictim),
+                  E_MY_DIPLOMAT_SABOTAGE, ftc_server,
+                  _("Your %s succeeded in sabotaging the %s %s."),
+                  unit_link(pdiplomat),
+                  nation_adjective_for_player(uplayer),
+                  victim_link);
+    notify_player(uplayer, unit_tile(pvictim),
+                  E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
+                  /* TRANS: ... the Poles! */
+                  _("Your %s was sabotaged by the %s!"),
+                  victim_link,
+                  nation_plural_for_player(pplayer));
+  }
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_SABOTAGE_UNIT, pplayer, uplayer,

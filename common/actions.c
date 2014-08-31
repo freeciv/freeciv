@@ -658,11 +658,6 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
-    /* Hard coded limit */
-    if (target_unit->hp < 2) {
-      return ACTPROB_IMPOSSIBLE;
-    }
-
     /* Hard coded limit: The victim unit is alone at the tile */
     chance = ap_diplomat_battle(actor_unit, target_unit);
     break;
