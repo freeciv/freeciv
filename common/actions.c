@@ -264,6 +264,13 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                               req_from_str("MaxUnitsOnTile", "Local",
                                            FALSE, TRUE, "1"));
   }
+
+  /* The Freeciv code assumes that all spy actions have foreign targets.
+   * TODO: Move this restriction to the ruleset to prepare for false flag
+   * operations. */
+  requirement_vector_append(&enabler->target_reqs,
+                            req_from_str("DiplRel", "Local", FALSE,
+                                         TRUE, "Is foreign"));
 }
 
 /**************************************************************************

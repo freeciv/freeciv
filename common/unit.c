@@ -95,8 +95,7 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   struct unit *punit;
 
   if ((pcity = tile_city(ptile))) {
-    if (city_owner(pcity) != unit_owner(pdiplomat)
-        && real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
+    if (real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
       if ((action == DIPLOMAT_SABOTAGE || action == DIPLOMAT_ANY_ACTION)
           && is_action_enabled_unit_on_city(ACTION_SPY_SABOTAGE_CITY,
                                             pdiplomat, pcity)) {
@@ -155,7 +154,6 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 
     if ((action == SPY_SABOTAGE_UNIT || action == DIPLOMAT_ANY_ACTION)
         && can_player_see_unit(unit_owner(pdiplomat), punit)
-        && unit_owner(pdiplomat) != unit_owner(punit)
         && is_action_enabled_unit_on_unit(ACTION_SPY_SABOTAGE_UNIT,
                                           pdiplomat, punit)) {
       return TRUE;
@@ -163,7 +161,6 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 
     if ((action == DIPLOMAT_BRIBE || action == DIPLOMAT_ANY_ACTION)
         && can_player_see_unit(unit_owner(pdiplomat), punit)
-        && unit_owner(pdiplomat) != unit_owner(punit)
         && is_action_enabled_unit_on_unit(ACTION_SPY_BRIBE_UNIT,
                                           pdiplomat, punit)) {
       return TRUE;
