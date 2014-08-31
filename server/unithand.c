@@ -313,10 +313,10 @@ static void unit_query_impossible(struct connection *pc,
 				  int diplomat_id,
 				  int target_id)
 {
-  dsend_packet_unit_diplomat_answer(pc,
-                                    diplomat_id, target_id,
-                                    0,
-                                    DIPLOMAT_ANY_ACTION);
+  dsend_packet_unit_action_answer(pc,
+                                  diplomat_id, target_id,
+                                  0,
+                                  ACTION_COUNT);
 }
 
 /**************************************************************************
@@ -356,10 +356,10 @@ void handle_unit_action_query(struct connection *pc,
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && diplomat_can_do_action(pactor, DIPLOMAT_BRIBE,
 					unit_tile(punit))) {
-      dsend_packet_unit_diplomat_answer(pc,
-                                        actor_id, target_id,
-					unit_bribe_cost(punit, pplayer),
-					DIPLOMAT_BRIBE);
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      unit_bribe_cost(punit, pplayer),
+                                      ACTION_SPY_BRIBE_UNIT);
     } else {
       illegal_action(pplayer, pactor, ACTION_SPY_BRIBE_UNIT);
       unit_query_impossible(pc, actor_id, target_id);
@@ -369,10 +369,10 @@ void handle_unit_action_query(struct connection *pc,
   case ACTION_SPY_INCITE_CITY:
     if (pcity && diplomat_can_do_action(pactor, DIPLOMAT_INCITE,
 					pcity->tile)) {
-      dsend_packet_unit_diplomat_answer(pc,
-                                        actor_id, target_id,
-					city_incite_cost(pplayer, pcity),
-					DIPLOMAT_INCITE);
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      city_incite_cost(pplayer, pcity),
+                                      ACTION_SPY_INCITE_CITY);
     } else {
       illegal_action(pplayer, pactor, ACTION_SPY_INCITE_CITY);
       unit_query_impossible(pc, actor_id, target_id);

@@ -3886,10 +3886,10 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 }
 
 /**************************************************************************
-  Handle reply to diplomat action request
+  Handle the requested follow up question about an action
 **************************************************************************/
-void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
-                                 enum diplomat_actions action_type)
+void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
+                               enum gen_action action_type)
 {
   struct city *pcity = game_city_by_number(target_id);
   struct unit *punit = game_unit_by_number(target_id);
@@ -3897,14 +3897,14 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
                                                  diplomat_id);
 
   if (!pdiplomat) {
-    log_debug("Bad diplomat %d.", diplomat_id);
+    log_debug("Bad actor %d.", diplomat_id);
 
     choose_action_queue_next();
     return;
   }
 
   switch (action_type) {
-  case DIPLOMAT_BRIBE:
+  case ACTION_SPY_BRIBE_UNIT:
     if (punit && client.conn.playing
         && !client.conn.playing->ai_controlled) {
       /* Focus on the unit so the player knows where it is */
@@ -3916,7 +3916,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
       choose_action_queue_next();
     }
     break;
-  case DIPLOMAT_INCITE:
+  case ACTION_SPY_INCITE_CITY:
     if (pcity && client.conn.playing
         && !client.conn.playing->ai_controlled) {
       /* Focus on the unit so the player knows where it is */
@@ -3928,12 +3928,12 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
       choose_action_queue_next();
     }
     break;
-  case DIPLOMAT_ANY_ACTION:
+  case ACTION_COUNT:
     log_debug("Server didn't respond to query.");
     choose_action_queue_next();
     break;
   default:
-    log_error("handle_unit_diplomat_answer() invalid action_type (%d).",
+    log_error("handle_unit_action_answer() invalid action_type (%d).",
               action_type);
     choose_action_queue_next();
     break;
