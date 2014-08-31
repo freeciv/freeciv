@@ -31,6 +31,7 @@
 
 // common
 #include "game.h"
+#include "version.h"
 
 // server
 #include "ruleset.h"
@@ -106,6 +107,9 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   QWidget *edit_widget = new QWidget();
   QPushButton *ruleset_accept;
   QLabel *rs_label;
+  QLabel *version_label;
+  char verbuf[2048];
+  const char *rev_ver = fc_svn_revision();
 
   data.nationlist = NULL;
   data.nationlist_saved = NULL;
@@ -113,9 +117,27 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   app = qapp;
   central = central_in;
 
+  if (rev_ver == NULL) {
+    rev_ver = fc_git_revision();
+
+    if (rev_ver == NULL) {
+      fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+    } else {
+      fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+                  word_version(), VERSION_STRING, rev_ver);
+    }
+  } else {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
+                rev_ver);
+  }
+
   main_layout = new QStackedLayout();
 
   preload_layout->setSizeConstraint(QLayout::SetMaximumSize);
+  version_label = new QLabel(verbuf);
+  version_label->setAlignment(Qt::AlignHCenter);
+  version_label->setParent(central);
+  preload_layout->addWidget(version_label);
   rs_label = new QLabel(R__("Give ruleset to use as starting point."));
   rs_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   preload_layout->addWidget(rs_label);
