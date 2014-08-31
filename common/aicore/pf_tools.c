@@ -157,6 +157,7 @@ static inline bool pf_transport_check(const struct pf_parameter *param,
   if (!pplayers_allied(unit_owner(ptrans), param->owner)
       || unit_has_orders(ptrans)
       || param->utype == trans_utype
+      || !can_unit_type_transport(trans_utype, utype_class(param->utype))
       || can_unit_type_transport(param->utype, utype_class(trans_utype))
       || (GAME_TRANSPORT_MAX_RECURSIVE
           < 1 + unit_transport_depth(ptrans) + param->cargo_depth)) {
