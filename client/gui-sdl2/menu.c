@@ -771,7 +771,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Airbase */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Airbase"), "E");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Airbase"), "Shift+E");
   pBuf = create_themeicon(pTheme->OAirBase_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -795,7 +795,7 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Fortress */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Fortress"), "F");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Fortress"), "Shift+F");
   pBuf = create_themeicon(pTheme->OFortress_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
