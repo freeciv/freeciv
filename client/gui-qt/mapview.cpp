@@ -1435,6 +1435,7 @@ unit_label::unit_label(QWidget *parent)
   setParent(parent);
   pix = NULL;
   arrow_pix = NULL;
+  tile_pix = NULL;
   ufont = new QFont;
   w_width = 0;
   selection_area.setWidth(0);
@@ -1454,9 +1455,10 @@ void unit_label::uupdate(unit_list *punits)
   struct unit *punit = unit_list_get(punits, 0);
   struct player *owner;
   struct canvas *unit_pixmap;
+  struct canvas *tile_pixmap;
 
   one_unit = true;
-  setFixedHeight(50);
+  setFixedHeight(56);
   if (unit_list_size(punits) == 0) {
     unit_label1 = "";
     unit_label2 = "";
@@ -1499,7 +1501,19 @@ void unit_label::uupdate(unit_list *punits)
     pix = &unit_pixmap->map_pixmap;
     *pix = pix->scaledToHeight(height());
     w_width = pix->width() + 1;
+
+    if (tile_pix != NULL) {
+      delete tile_pix;
+    };
+    tile_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+                                    tileset_tile_height(tileset) * 2);
+    tile_pixmap->map_pixmap.fill(QColor(0 , 0 , 0 , 85));
+    put_terrain(punit->tile, tile_pixmap, 1.0, 0, 0);
+    tile_pix = &tile_pixmap->map_pixmap;
+    *tile_pix = tile_pix->scaledToHeight(height());
+     w_width = w_width + tile_pix->width() + 1;
   }
+
   QFontMetrics fm(*ufont);
   if (arrow_pix == NULL) {
     arrow_pix = get_arrow_sprite(tileset, ARROW_PLUS)->pm;
@@ -1563,6 +1577,7 @@ void unit_label::paint(QPainter *painter, QPaintEvent *event)
   int w;
   QPainter::CompositionMode comp_mode = painter->compositionMode();
   QPen pen;
+  QFontMetrics fm(*ufont);
 
   selection_area.setWidth(0);
   pen.setWidth(1);
@@ -1571,9 +1586,11 @@ void unit_label::paint(QPainter *painter, QPaintEvent *event)
   painter->drawRect(0, 0, w_width, height());
   painter->setFont(*ufont);
   painter->setPen(pen);
+
+  w = 0;
   if (pix != NULL) {
-    painter->drawPixmap(0, (height() - pix->height()) / 2, *pix);
-    w = pix->width() + 1;
+    painter->drawPixmap(w, (height() - pix->height()) / 2, *pix);
+    w = w + pix->width() + 1;
     if (one_unit == false) {
       if (highlight_pix) {
         painter->setCompositionMode(QPainter::CompositionMode_HardLight);
@@ -1586,6 +1603,11 @@ void unit_label::paint(QPainter *painter, QPaintEvent *event)
     painter->setCompositionMode(comp_mode);
     painter->drawText(w, height() / 2.5, unit_label1);
     painter->drawText(w, height() - 8, unit_label2);
+    w = w + 5 + qMax(fm.width(unit_label1), fm.width(unit_label2));
+    if (tile_pix != NULL) {
+      painter->drawPixmap(w, (height() - pix->height()) / 2, *tile_pix);
+      w = tile_pix->width() + 1;
+    }
   } else {
     painter->drawText(5, height() / 3 + 5, _("No units selected."));
   }

@@ -278,6 +278,7 @@ class unit_label:public fcwidget
   Q_OBJECT
   QPixmap *pix;
   QPixmap *arrow_pix;
+  QPixmap *tile_pix;
   QFont *ufont;
 public:
   unit_label(QWidget *parent);
