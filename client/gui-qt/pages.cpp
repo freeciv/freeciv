@@ -1177,7 +1177,9 @@ void fc_client::update_start_page()
         break;
       }
     } conn_list_iterate_end;
-
+    if (is_barbarian(pplayer)) {
+      continue;
+    }
     if (pplayer->ai_controlled) {
       is_ready = true;
     } else {
@@ -1539,9 +1541,11 @@ void fc_client::send_command_to_server(const QString &str)
       splayer = "\"" + splayer + "\"";
 
       if (!splayer.compare(s)) {
-        send_chat(str.toLocal8Bit().data());
-        send_chat("/away");
-        return;
+        if (pplayer->ai_controlled) {
+          send_chat(str.toLocal8Bit().data());
+          send_chat("/away");
+          return;
+        }
       }
     } players_iterate_end;
   }
