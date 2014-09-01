@@ -663,6 +663,7 @@ FC_C11_STATIC_ASSERT
 FC_C11_AT_QUICK_EXIT
 
 FC_CXX11_STATIC_ASSERT
+FC_CXX11_NULLPTR
 
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
