@@ -40,6 +40,7 @@ extern "C" {
 // Qt
 #include <QAbstractListModel>
 #include <QItemDelegate>
+#include <QSortFilterProxyModel>
 #include <QTreeView>
 #include <QWidget>
 #include <QMenu>
@@ -56,6 +57,11 @@ class QSortFilterProxyModel;
 class QTableWidget;
 class QVBoxLayout;
 class city_report;
+
+class city_sort_model:public QSortFilterProxyModel
+{
+  bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+};
 
 /***************************************************************************
   Item delegate for painting in model of city table
