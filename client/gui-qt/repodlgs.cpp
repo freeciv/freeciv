@@ -755,6 +755,7 @@ eco_report::eco_report(): QWidget()
   eco_widget->horizontalHeader()->resizeSections(QHeaderView::Stretch);
   eco_widget->verticalHeader()->setVisible(false);
   eco_widget->setSelectionMode(QAbstractItemView::SingleSelection);
+  eco_widget->setSortingEnabled(true);
   header = eco_widget->horizontalHeader();
   header->setSectionResizeMode(1, QHeaderView::Stretch);
   header->setStretchLastSection(true);
@@ -851,16 +852,16 @@ void eco_report::update_report()
         item->setText(improvement_name_translation(pimprove));
         break;
       case 2:
-        item->setText(QString::number(pentry->redundant));
+        item->setData(Qt::DisplayRole, pentry->redundant);
         break;
       case 3:
-        item->setText(QString::number(pentry->count));
+        item->setData(Qt::DisplayRole, pentry->count);
         break;
       case 4:
-        item->setText(QString::number(pentry->cost));
+        item->setData(Qt::DisplayRole, pentry->cost);
         break;
       case 5:
-        item->setText(QString::number(pentry->total_cost));
+        item->setData(Qt::DisplayRole, pentry->total_cost);
         break;
       }
       item->setTextAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
@@ -898,16 +899,16 @@ void eco_report::update_report()
         item->setText(utype_name_translation(putype));
         break;
       case 2:
-        item->setText(QString::number(0));
+        item->setData(Qt::DisplayRole, 0);
         break;
       case 3:
-        item->setText(QString::number(pentry->count));
+        item->setData(Qt::DisplayRole, pentry->count);
         break;
       case 4:
-        item->setText(QString::number(pentry->cost));
+        item->setData(Qt::DisplayRole, pentry->cost);
         break;
       case 5:
-        item->setText(QString::number(pentry->total_cost));
+        item->setData(Qt::DisplayRole, pentry->total_cost);
         break;
       }
       item->setTextAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
