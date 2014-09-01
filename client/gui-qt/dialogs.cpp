@@ -1650,25 +1650,28 @@ void popup_upgrade_dialog(struct unit_list *punits)
     return;
   }
   if (!get_units_upgrade_info(buf, sizeof(buf), punits)) {
-    ask.setText(QString(buf));
     ask.setWindowTitle(_("Upgrade Unit!"));
+    ask.setStandardButtons(QMessageBox::Ok);
+    ask.setIcon(QMessageBox::Information);
   } else {
     ask.setWindowTitle(_("Upgrade Obsolete Units"));
     ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-    ask.setDefaultButton(QMessageBox::Cancel);
     ask.setIcon(QMessageBox::Question);
-    ret = ask.exec();
+    ask.setDefaultButton(QMessageBox::Cancel);
+  }
+  ask.setText(QString(buf));
+  ret = ask.exec();
 
-    switch (ret) {
-    case QMessageBox::Cancel:
-      return;
-      break;
-    case QMessageBox::Ok:
-      unit_list_iterate(punits, punit) {
-        request_unit_upgrade(punit);
-      } unit_list_iterate_end;
-      break;
+  switch (ret) {
+  case QMessageBox::Cancel:
+    return;
+    break;
+  case QMessageBox::Ok:
+    unit_list_iterate(punits, punit) {
+      request_unit_upgrade(punit);
     }
+    unit_list_iterate_end;
+    break;
   }
 }
 

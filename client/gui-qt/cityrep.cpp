@@ -260,6 +260,35 @@ void city_model::all_changed()
 }
 
 /***************************************************************************
+  Resores last selection
+***************************************************************************/
+void city_widget::restore_selection()
+{
+  QItemSelection selection;
+  QItemSelection s;
+  QModelIndex i;
+  struct city *pcity;
+  QVariant qvar;
+
+  if (selected_cities.isEmpty()) {
+    return;
+  }
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pcity = reinterpret_cast<city *>(qvar.value<void *>());
+    if (selected_cities.contains(pcity)) {
+      selection.append(QItemSelectionRange(i));
+    }
+  }
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::SelectCurrent);
+}
+
+/***************************************************************************
   Constructor for city widget
 ***************************************************************************/
 city_widget::city_widget(city_report *ctr): QTreeView()
@@ -277,6 +306,7 @@ city_widget::city_widget(city_report *ctr): QTreeView()
   setAllColumnsShowFocus(true);
   setSortingEnabled(true);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
+  setSelectionBehavior(QAbstractItemView::SelectRows);
   setItemsExpandable(false);
   setAutoScroll(true);
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -393,7 +423,13 @@ void city_widget::display_list_menu(const QPoint &)
   QAction *act;
   QAction cty_view(style()->standardIcon(QStyle::SP_CommandLink),
                    Q_("?verb:View"), 0);
-  QAction cty_buy(_("Buy"), 0);
+  sell_gold = 0;
+  foreach (pcity, selected_cities) {
+    sell_gold = sell_gold + city_production_buy_gold_cost(pcity);
+  }
+  fc_snprintf(buf, sizeof(buf), "%s %d %s", _("Buy ( Cost:"),
+              sell_gold, ")");
+  QAction cty_buy(QString(buf), 0);
   QAction cty_center(style()->standardIcon(QStyle::SP_ArrowRight),
                      _("Center"), 0);
   QAction wl_clear(_("Clear"), 0);
@@ -433,7 +469,7 @@ void city_widget::display_list_menu(const QPoint &)
     worklist_defined = false;
   }
   fill_data(WORKLIST_CHANGE, cma_labels, tmp2_menu);
-  some_menu = list_menu.addMenu(_("CMA"));
+  some_menu = list_menu.addMenu(_("Governor"));
   gen_cma_labels(cma_labels);
   fill_data(CMA, cma_labels, some_menu);
   some_menu = list_menu.addMenu(_("Sell"));
@@ -638,6 +674,7 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
 void city_widget::update_city(city *pcity)
 {
   list_model->city_changed(pcity);
+  restore_selection();
 }
 
 /***************************************************************************
@@ -645,7 +682,10 @@ void city_widget::update_city(city *pcity)
 ***************************************************************************/
 void city_widget::update_model()
 {
+  setUpdatesEnabled(false);
   list_model->all_changed();
+  restore_selection();
+  setUpdatesEnabled(true);
 }
 
 /***************************************************************************
