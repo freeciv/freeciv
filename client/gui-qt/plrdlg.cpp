@@ -433,7 +433,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     }
     entry_exist = false;
     players_iterate_alive(other) {
-      if (other == pplayer) {
+      if (other == pplayer || is_barbarian(other)) {
         continue;
       }
       state = player_diplstate_get(pplayer, other);
@@ -448,8 +448,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
         ally_str = ally_str + nation_plural_for_player(other) + ", ";
         entry_exist = true;
       }
-    }
-    players_iterate_alive_end;
+    } players_iterate_alive_end;
     if (entry_exist) {
       ally_str.replace(ally_str.lastIndexOf(","), 1, ".");
     }
