@@ -164,6 +164,7 @@ public slots:
   void center();
 
 private:
+  void restore_selection();
   void gen_cma_labels(QMap<QString, int> &list);
   void gen_worklist_labels(QMap<QString, int> &list);
   void gen_production_labels(menu_labels which, QMap<QString, cid> &list, 
