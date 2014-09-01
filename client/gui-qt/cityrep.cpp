@@ -27,6 +27,27 @@
 static bool can_city_sell_universal(const struct city *pcity,
                                     struct universal target);
 
+
+bool city_sort_model::lessThan(const QModelIndex &left,
+                               const QModelIndex &right) const
+{
+  QVariant qleft;
+  QVariant qright;
+  int i;
+
+  qleft = sourceModel()->data(left);
+  qright = sourceModel()->data(right);
+  i = cityrepfield_compare(qleft.toString().toLocal8Bit().data(),
+                           qright.toString().toLocal8Bit().data());
+
+  if (i >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
 /***************************************************************************
   City item delegate constructor
 ***************************************************************************/
@@ -297,7 +318,7 @@ city_widget::city_widget(city_report *ctr): QTreeView()
   c_i_d = new city_item_delegate(this);
   setItemDelegate(c_i_d);
   list_model = new city_model(this);
-  filter_model = new QSortFilterProxyModel();
+  filter_model = new city_sort_model();
   filter_model->setDynamicSortFilter(true);
   filter_model->setSourceModel(list_model);
   filter_model->setFilterRole(Qt::DisplayRole);
