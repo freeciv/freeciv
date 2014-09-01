@@ -2229,6 +2229,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->id = pcity->id;
       sz_strlcpy(packet->name, pcity->name);
       packet->size = city_size_get(pcity);
+      packet->history = pcity->history;
       for (i = 0; i < B_LAST; i++) {
         packet->built[i] = pcity->built[i].turn;
       }
