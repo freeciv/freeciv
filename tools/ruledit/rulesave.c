@@ -28,6 +28,7 @@
 #include "specialist.h"
 #include "style.h"
 #include "unittype.h"
+#include "version.h"
 
 /* server */
 #include "ruleset.h"
@@ -50,6 +51,7 @@ static struct section_file *create_ruleset_file(const char *rsname,
   }
 
   secfile_insert_str(sfile, buf, "datafile.description");
+  secfile_insert_str(sfile, freeciv_datafile_version(), "datafile.ruledit");
   secfile_insert_str(sfile, RULESET_CAPABILITIES, "datafile.options");
 
   return sfile;
