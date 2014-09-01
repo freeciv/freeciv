@@ -11,6 +11,8 @@ For this reason it's important to keep information about max id currently
 in use updated here. So we know what ids are safe to use when adding new
 packets.
 
+Range 256:511 is reserved for freeciv-web specific packets.
+
 
 Syntax:
 
