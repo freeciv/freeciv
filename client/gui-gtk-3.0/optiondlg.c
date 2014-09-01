@@ -514,8 +514,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
                                    GTK_ORIENTATION_VERTICAL);
     g_object_set(pdialog->vboxes[category], "margin", 8, NULL);
     gtk_widget_set_hexpand(pdialog->vboxes[category], TRUE);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw),
-                                          pdialog->vboxes[category]);
+    gtk_container_add(GTK_CONTAINER(sw), pdialog->vboxes[category]);
 
     gtk_widget_show_all(sw);
   }

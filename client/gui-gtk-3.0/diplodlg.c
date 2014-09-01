@@ -494,8 +494,7 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dipl_sw),
                                    GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(dipl_sw),
-                                          dipl_main->notebook);
+    gtk_container_add(GTK_CONTAINER(dipl_sw), dipl_main->notebook);
 
     /* Buttons */
     gui_dialog_add_stockbutton(dipl_main->dialog, GTK_STOCK_CANCEL,

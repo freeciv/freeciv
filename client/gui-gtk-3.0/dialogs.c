@@ -132,7 +132,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   label = gtk_label_new(lines);
   gtk_widget_set_hexpand(label, TRUE);
   gtk_widget_set_vexpand(label, TRUE);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), label);
+  gtk_container_add(GTK_CONTAINER(sw), label);
 
   gtk_widget_set_name(label, "notify_label");
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);

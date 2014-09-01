@@ -4716,8 +4716,7 @@ property_page_new(enum editor_object_type objtype,
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
   gtk_container_set_border_width(GTK_CONTAINER(vbox2), 4);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwin),
-                                        vbox2);
+  gtk_container_add(GTK_CONTAINER(scrollwin), vbox2);
   
   property_page_objprop_iterate(pp, op) {
     if (!objprop_has_widget(op)) {

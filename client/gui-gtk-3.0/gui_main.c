@@ -1058,8 +1058,7 @@ static void setup_widgets(void)
     gtk_container_add(GTK_CONTAINER(hgrid), right_vbox);
 
     paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page),
-                                          top_vbox);
+    gtk_container_add(GTK_CONTAINER(page), top_vbox);
     gtk_container_add(GTK_CONTAINER(top_vbox), hgrid);
     gtk_container_add(GTK_CONTAINER(right_vbox), paned);
     gtk_container_add(GTK_CONTAINER(right_vbox), ingame_votebar);
@@ -1071,7 +1070,7 @@ static void setup_widgets(void)
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
     paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page), paned);
+    gtk_container_add(GTK_CONTAINER(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
     gtk_container_add(GTK_CONTAINER(top_vbox), hgrid);
 
@@ -1115,9 +1114,8 @@ static void setup_widgets(void)
 				        |GDK_POINTER_MOTION_MASK);
   gtk_container_add(GTK_CONTAINER(avbox), overview_scrolled_window);
 
-  gtk_scrolled_window_add_with_viewport (
-                      GTK_SCROLLED_WINDOW (overview_scrolled_window), 
-                      overview_canvas);
+  gtk_container_add(GTK_CONTAINER(overview_scrolled_window), 
+                    overview_canvas);
  
   g_signal_connect(overview_canvas, "draw",
         	   G_CALLBACK(overview_canvas_draw), NULL);
@@ -1275,7 +1273,7 @@ static void setup_widgets(void)
   gtk_widget_set_hexpand(label, TRUE);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   gtk_misc_set_padding(GTK_MISC(label), 2, 2);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), label);
+  gtk_container_add(GTK_CONTAINER(sw), label);
   unit_info_label = label;
 
   hgrid2 = gtk_grid_new();

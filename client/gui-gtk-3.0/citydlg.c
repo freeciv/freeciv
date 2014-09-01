@@ -389,7 +389,7 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
   gtk_widget_set_halign(ebox, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(ebox, GTK_ALIGN_CENTER);
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), ebox);
+  gtk_container_add(GTK_CONTAINER(sw), ebox);
 
   darea = gtk_drawing_area_new();
   gtk_widget_add_events(darea, GDK_BUTTON_PRESS_MASK);
@@ -953,7 +953,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 2);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), table);
+  gtk_container_add(GTK_CONTAINER(sw), table);
 
   gtk_container_set_focus_hadjustment(GTK_CONTAINER(table),
     gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw)));
@@ -976,7 +976,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   table = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(table), 2);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), table);
+  gtk_container_add(GTK_CONTAINER(sw), table);
 
   gtk_container_set_focus_hadjustment(GTK_CONTAINER(table),
     gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw)));
