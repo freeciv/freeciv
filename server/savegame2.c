@@ -3124,8 +3124,33 @@ static void sg_load_players(struct loaddata *loading)
   /* Also load the transport status of the units here. It must be a special
    * case as all units must be known (unit on an allied transporter). */
   players_iterate(pplayer) {
+    struct player_research *presearch = player_research_get(pplayer);
+
     /* Mark the reachable techs */
     player_research_update(pplayer);
+
+    /* Check researching technology and goal. */
+    if (presearch->researching != A_UNSET
+        && !is_future_tech(presearch->researching)
+        && (valid_advance_by_number(presearch->researching) == NULL
+            || (player_invention_state(pplayer, presearch->researching)
+                != TECH_PREREQS_KNOWN))) {
+      log_sg(_("%s had invalid researching technology."),
+             player_name(pplayer));
+      presearch->researching = A_UNSET;
+    }
+    if (presearch->tech_goal != A_UNSET
+        && !is_future_tech(presearch->tech_goal)
+        && (valid_advance_by_number(presearch->researching) == NULL
+            || !player_invention_reachable(pplayer, presearch->tech_goal,
+                                           TRUE)
+            || (player_invention_state(pplayer, presearch->tech_goal)
+                == TECH_KNOWN))) {
+      log_sg(_("%s had invalid technology goal."),
+             player_name(pplayer));
+      presearch->tech_goal = A_UNSET;
+    }
+
     /* Load unit transport status. */
     sg_load_player_units_transport(loading, pplayer);
   } players_iterate_end;

@@ -5398,8 +5398,32 @@ static void game_load_internal(struct section_file *file)
     /* In case of tech_leakage, we can update research only after all
      * the players have been loaded */
     players_iterate(pplayer) {
+      struct player_research *presearch = player_research_get(pplayer);
+
       /* Mark the reachable techs */
       player_research_update(pplayer);
+
+      /* Check researching technology and goal. */
+      if (presearch->researching != A_UNSET
+          && !is_future_tech(presearch->researching)
+          && (valid_advance_by_number(presearch->researching) == NULL
+              || (player_invention_state(pplayer, presearch->researching)
+                  != TECH_PREREQS_KNOWN))) {
+        log_error(_("%s had invalid researching technology."),
+                  player_name(pplayer));
+        presearch->researching = A_UNSET;
+      }
+      if (presearch->tech_goal != A_UNSET
+          && !is_future_tech(presearch->tech_goal)
+          && (valid_advance_by_number(presearch->researching) == NULL
+              || !player_invention_reachable(pplayer, presearch->tech_goal,
+                                             TRUE)
+              || (player_invention_state(pplayer, presearch->tech_goal)
+                  == TECH_KNOWN))) {
+        log_error(_("%s had invalid technology goal."),
+                  player_name(pplayer));
+        presearch->tech_goal = A_UNSET;
+      }
     } players_iterate_end;
 
     /* Some players may have invalid nations in the ruleset.  Once all 
