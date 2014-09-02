@@ -1336,13 +1336,13 @@ static void diplomat_keep_moving_unit(QVariant data1, QVariant data2)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
 {
   char buf[1024];
   char buf2[1024];
   int ret;
-  int diplomat_id;
-  int diplomat_target_id;
+  int diplomat_id = actor->id;
+  int diplomat_target_id = tcity->id;
 
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
@@ -1356,7 +1356,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
     QMessageBox incite_impossible;
 
     fc_snprintf(buf2, ARRAY_SIZE(buf2),
-                _("You can't incite a revolt in %s."), city_name(pcity));
+                _("You can't incite a revolt in %s."), city_name(tcity));
     incite_impossible.setText(QString(buf2));
     incite_impossible.exec();
   } else if (cost <= client_player()->economic.gold) {
@@ -1376,7 +1376,6 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
       return;
       break;
     case QMessageBox::Ok:
-      gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
       request_diplomat_action(DIPLOMAT_INCITE, diplomat_id,
                               diplomat_target_id, 0);
       break;
@@ -1399,20 +1398,19 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
 {
   QMessageBox ask(gui()->central_wdg);
   int ret;
   QString str;
   char buf[1024];
   char buf2[1024];
-  int diplomat_id;
-  int diplomat_target_id;
+  int diplomat_id = actor->id;
+  int diplomat_target_id = tunit->id;
 
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_UNIT);
   fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
                                         "Treasury contains %d gold.",
                                         client_player()->economic.gold),
@@ -1474,10 +1472,9 @@ static void pillage_something(QVariant data1, QVariant data2)
 ***************************************************************************/
 static void spy_sabotage(QVariant data1, QVariant data2)
 {
-  int diplomat_id;
-  int diplomat_target_id;
+  int diplomat_id = data1.toList().at(0).toInt();
+  int diplomat_target_id = data1.toList().at(1).toInt();
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id)) {
       request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
@@ -1489,13 +1486,13 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   Popup a dialog asking a diplomatic unit if it wishes to sabotage the
   given enemy city.
 **************************************************************************/
-void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
+void popup_sabotage_dialog(struct unit *actor, struct city *tcity)
 {
 
   QString str;
   QVariant qv1, qv2;
-  int diplomat_id;
-  int diplomat_target_id;
+  int diplomat_id = actor->id;
+  int diplomat_target_id = tcity->id;
   pfcn_void func;
   choice_dialog *cd = new choice_dialog(_("_Sabotage"),
                                         _("Select Improvement to Sabotage"),
@@ -1503,18 +1500,22 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
                                         diplomat_queue_handle_secondary);
   int nr = 0;
   struct astring stra = ASTRING_INIT;
+  QList<QVariant> actor_and_target;
 
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
-  qv1 = diplomat_id;
+  /* Put both actor and target city in qv1 since qv2 is taken */
+  actor_and_target.append(diplomat_id);
+  actor_and_target.append(diplomat_target_id);
+  qv1 = QVariant::fromValue(actor_and_target);
+
   func = spy_sabotage;
   cd->add_item(QString(_("City Production")), func, qv1, -1);
-  city_built_iterate(pcity, pimprove) {
+  city_built_iterate(tcity, pimprove) {
     if (pimprove->sabotage > 0) {
       func = spy_sabotage;
-      str = city_improvement_name_translation(pcity, pimprove);
+      str = city_improvement_name_translation(tcity, pimprove);
       qv2 = nr;
       cd->add_item(str, func, qv1, improvement_number(pimprove));
       nr++;
