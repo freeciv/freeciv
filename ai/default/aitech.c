@@ -332,7 +332,8 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
     /* changing */
     if (choice.want - choice.current_want > penalty
         && (penalty + research->bulbs_researched
-            <= research->researching_cost)) {
+            <= research_total_bulbs_required(research, research->researching,
+                                             FALSE))) {
       TECH_LOG(ait, LOG_DEBUG, pplayer, advance_by_number(choice.choice), 
                "new research, was %s, penalty was %d", 
                research_advance_rule_name(research, research->researching),

@@ -236,7 +236,7 @@ void science_report::update_report()
   }
 
   if (research->researching != A_UNSET) {
-    total = research->researching_cost;
+    total = research->client.researching_cost;
   } else  {
     total = -1;
   }

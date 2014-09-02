@@ -197,6 +197,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
 
   /* Do we have a good reason for building diplomats? */
   {
+    const struct research *presearch = research_get(pplayer);
     struct pf_map *pfm;
     struct pf_parameter parameter;
     struct city *acity;
@@ -237,14 +238,18 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
       gain_incite -= incite_cost * TRADE_WEIGHTING;
     }
     if ((research_get(city_owner(acity))->techs_researched
-         < research_get(pplayer)->techs_researched)
+         > presearch->techs_researched)
 	&& (is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
 				       pplayer, acity)
 	    || is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
 					  pplayer, acity))
 	&& !pplayers_allied(pplayer, city_owner(acity))) {
       /* tech theft gain */
-      gain_theft = research_get(pplayer)->researching_cost * TRADE_WEIGHTING;
+      /* FIXME: this value is right only when
+       * 'game.info.game.info.tech_cost_style' is set to 0. */
+      gain_theft =
+          (research_total_bulbs_required(presearch, presearch->researching,
+                                         FALSE) * TRADE_WEIGHTING);
     }
     gain = MAX(gain_incite, gain_theft);
     loss = utype_build_shield_cost(ut) * SHIELD_WEIGHTING;

@@ -401,7 +401,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     res = QString(research_advance_name_translation(research,
                                                     research->researching))
           + sp + "(" + QString::number(research->bulbs_researched) + "/"
-          + QString::number(research->researching_cost) + ")";
+          + QString::number(research->client.researching_cost) + ")";
     break;
   }
   /** Formatting rich text */

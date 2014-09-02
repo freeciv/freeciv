@@ -90,7 +90,8 @@ static void tech_researched(struct research *research)
        research_advance_name_translation(research, tech));
 
   /* Deduct tech cost. */
-  research->bulbs_researched -= research->researching_cost;
+  research->bulbs_researched -= research_total_bulbs_required(research, tech,
+                                                              FALSE);
 
   /* Do all the updates needed after finding new tech. */
   found_new_tech(research, tech, TRUE, TRUE);
@@ -205,7 +206,10 @@ package_research_info(struct packet_research_info *packet,
   packet->techs_researched = presearch->techs_researched;
   packet->future_tech = presearch->future_tech;
   packet->researching = presearch->researching;
-  packet->researching_cost = presearch->researching_cost;
+  packet->researching_cost =
+      (packet->researching != A_UNSET
+       ? research_total_bulbs_required(presearch, presearch->researching,
+                                       FALSE) : 0);
   packet->bulbs_researched = presearch->bulbs_researched;
   packet->tech_goal = presearch->tech_goal;
   advance_index_iterate(A_NONE, i) {
@@ -470,7 +474,6 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
       choose_tech(presearch, next_tech);
     } else {
       presearch->researching = A_UNSET;
-      presearch->researching_cost = 0;
     }
   }
 
@@ -509,7 +512,8 @@ static bool lose_tech(struct research *research)
   }
 
   if (research->bulbs_researched <
-      -research->researching_cost * game.server.techloss_forgiveness / 100) {
+      (-research_total_bulbs_required(research, research->researching, FALSE)
+       * game.server.techloss_forgiveness / 100)) {
     return TRUE;
   }
 
@@ -570,7 +574,9 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
     /* Check for finished research. */
     if (!check_tech
         || research->researching == A_UNSET
-        || research->bulbs_researched < research->researching_cost) {
+        || (research->bulbs_researched
+            < research_total_bulbs_required(research, research->researching,
+                                            FALSE))) {
       break;
     }
 
@@ -854,13 +860,20 @@ void choose_random_tech(struct research *research)
 ****************************************************************************/
 void choose_tech(struct research *research, Tech_type_id tech)
 {
-  if (research->researching == tech) {
-    return;
-  }
-  if (!is_future_tech(tech)
-      && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
-    /* Can't research this. */
-    return;
+  if (is_future_tech(tech)) {
+    if (is_future_tech(research->researching)
+        && (research->bulbs_researched
+            >= research_total_bulbs_required(research, tech, FALSE))) {
+      tech_researched(research);
+    }
+  } else {
+    if (research->researching == tech) {
+      return;
+    }
+    if (research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
+      /* Can't research this. */
+      return;
+    }
   }
   if (!research->got_tech && research->researching_saved == A_UNKNOWN) {
     research->bulbs_researching_saved = research->bulbs_researched;
@@ -876,9 +889,8 @@ void choose_tech(struct research *research, Tech_type_id tech)
     research->researching_saved = A_UNKNOWN;
   }
   research->researching = tech;
-  research->researching_cost = research_total_bulbs_required(research, tech,
-                                                             FALSE);
-  if (research->bulbs_researched >= research->researching_cost) {
+  if (research->bulbs_researched
+      >= research_total_bulbs_required(research, tech, FALSE)) {
     tech_researched(research);
   }
 }

@@ -352,7 +352,7 @@ struct sprite *client_research_sprite(void)
 
     if (A_UNSET != presearch->researching) {
       index = (NUM_TILES_PROGRESS * presearch->bulbs_researched
-               / (presearch->researching_cost + 1));
+               / (presearch->client.researching_cost + 1));
     }
 
     /* This clipping can be necessary since we can end up with excess

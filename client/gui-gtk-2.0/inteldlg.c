@@ -422,7 +422,7 @@ void update_intel_dialog(struct player *p)
                                     research_advance_name_translation
                                         (research, research->researching),
                                     research->bulbs_researched,
-                                    research->researching_cost);
+                                    research->client.researching_cost);
               break;
             }
             break;

@@ -3449,10 +3449,6 @@ static void sg_load_players(struct loaddata *loading)
   researches_iterate(presearch) {
     /* Mark the reachable techs */
     research_update(presearch);
-    presearch->researching_cost =
-        (presearch->researching != A_UNSET
-         ? research_total_bulbs_required(presearch, presearch->researching,
-                                         FALSE) : 0);
   } researches_iterate_end;
 
   /* Also load the transport status of the units here. It must be a special

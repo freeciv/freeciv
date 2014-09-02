@@ -2553,7 +2553,7 @@ void real_science_report_dialog_update(void)
     pChangeResearchGoalButton = pWindow->prev->prev;
     
     if (A_UNSET != presearch->researching) {
-      cost = presearch->researching_cost;
+      cost = presearch->client.researching_cost;
     } else {
       cost = 0;
     }        

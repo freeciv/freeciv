@@ -50,7 +50,6 @@ struct research {
    * bulbs_researched tracks how many bulbs have been accumulated toward
    * this research target. */
   Tech_type_id researching;
-  int researching_cost;
   int bulbs_researched;
 
   /* If the player changes his research target in a turn, he loses some or
@@ -88,6 +87,18 @@ struct research {
    * Cached values. Updated by research_update().
    */
   int num_known_tech_with_flag[TF_COUNT];
+
+  union {
+    struct {
+      /* Only used in the server (./ai/ and ./server/). */
+    } server;
+
+    struct {
+      /* Only used at the client (the server is omniscient; ./client/). */
+
+      int researching_cost;
+    } client;
+  };
 };
 
 /* Common functions. */

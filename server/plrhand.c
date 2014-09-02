@@ -2431,11 +2431,14 @@ static struct player *split_player(struct player *pplayer)
   new_research->tech_goal = old_research->tech_goal;
 
   advance_index_iterate(A_NONE, i) {
-    new_research->inventions[i] = old_research->inventions[i];
+    if (TECH_KNOWN == research_invention_state(old_research, i)) {
+      research_invention_set(new_research, i, TECH_KNOWN);
+    }
   } advance_index_iterate_end;
   cplayer->phase_done = TRUE; /* Have other things to think
 				 about - paralysis */
   BV_CLR_ALL(cplayer->real_embassy);   /* all embassies destroyed */
+  research_update(new_research);
 
   /* Do the ai */
   cplayer->ai_controlled = TRUE;
@@ -2450,7 +2453,8 @@ static struct player *split_player(struct player *pplayer)
     pplayer->government = game.government_during_revolution;
     pplayer->revolution_finishes = game.info.turn + 1;
   }
-  research_get(pplayer)->bulbs_researched = 0;
+  old_research->bulbs_researched = 0;
+  old_research->researching_saved = A_UNKNOWN;
   BV_CLR_ALL(pplayer->real_embassy);   /* all embassies destroyed */
 
   /* give splitted player the embassies to his team mates back, if any */
@@ -2462,6 +2466,7 @@ static struct player *split_player(struct player *pplayer)
       }
     } players_iterate_end;
   }
+  research_update(old_research);
 
   pplayer->economic = player_limit_to_max_rates(pplayer);
 
