@@ -1525,7 +1525,7 @@ static void insert_allows(struct universal *psource,
               cat_snprintf(buf, bufsz, _("Allows %s (with %s but no %s)."),
                            improvement_name_translation(pimprove),
                            strvec_to_and_list(coreqs, &coreqstr),
-                           strvec_to_and_list(conoreqs, &conoreqstr));
+                           strvec_to_or_list(conoreqs, &conoreqstr));
             } else {
               cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
                            improvement_name_translation(pimprove),
