@@ -77,11 +77,10 @@ void team_remove_player(struct player *pplayer);
 /* iterate over all teams, which are used at the moment */
 #define teams_iterate(_pteam)                                               \
   team_slots_iterate(_tslot) {                                              \
-    if (!team_slot_is_used(_tslot)) {                                       \
-      continue;                                                             \
-    }                                                                       \
-    struct team *_pteam = team_slot_get_team(_tslot);
+    struct team *_pteam = team_slot_get_team(_tslot);                       \
+    if (_pteam != NULL) {
 #define teams_iterate_end                                                   \
+    }                                                                       \
   } team_slots_iterate_end;
 
 #ifdef __cplusplus
