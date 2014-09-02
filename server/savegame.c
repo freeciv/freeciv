@@ -3980,6 +3980,28 @@ static void game_load_internal(struct section_file *file)
     researches_iterate(presearch) {
       /* Mark the reachable techs */
       research_update(presearch);
+
+      /* Check researching technology and goal. */
+      if (presearch->researching != A_UNSET
+          && !is_future_tech(presearch->researching)
+          && (valid_advance_by_number(presearch->researching) == NULL
+              || (research_invention_state(presearch, presearch->researching)
+                  != TECH_PREREQS_KNOWN))) {
+        log_error(_("%s had invalid researching technology."),
+                  research_name_translation(presearch));
+        presearch->researching = A_UNSET;
+      }
+      if (presearch->tech_goal != A_UNSET
+          && !is_future_tech(presearch->tech_goal)
+          && (valid_advance_by_number(presearch->researching) == NULL
+              || !research_invention_reachable(presearch,
+                                               presearch->tech_goal)
+              || (research_invention_state(presearch, presearch->tech_goal)
+                  == TECH_KNOWN))) {
+        log_error(_("%s had invalid technology goal."),
+                  research_name_translation(presearch));
+        presearch->tech_goal = A_UNSET;
+      }
     } researches_iterate_end;
 
     /* The savegame may contain valid nations that are not included in
