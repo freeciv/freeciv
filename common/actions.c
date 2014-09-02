@@ -665,10 +665,20 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
+    /* Hard coded limit: The target unit must be seen by the actor */
+    if (!can_player_see_unit(actor_player, target_unit)) {
+      return ACTPROB_IMPOSSIBLE;
+    }
+
     /* Hard coded limit: The victim unit is alone at the tile */
     chance = ap_diplomat_battle(actor_unit, target_unit);
     break;
   case ACTION_SPY_BRIBE_UNIT:
+    /* Hard coded limit: The target unit must be seen by the actor */
+    if (!can_player_see_unit(actor_player, target_unit)) {
+      return ACTPROB_IMPOSSIBLE;
+    }
+
     /* Hard coded limit: The target unit is alone at its tile.
      * It won't fight a diplomatic battle. */
     chance = 200;

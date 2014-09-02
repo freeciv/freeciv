@@ -1031,6 +1031,8 @@ end
 
 PACKET_UNIT_ACTIONS = 90; sc, dsend
   UNIT actor_unit_id;
+  UNIT target_unit_id;
+  CITY target_city_id;
   TILE target_tile_id;
 
   /* How to interpret action probabilities is documented in actions.h */

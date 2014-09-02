@@ -3959,17 +3959,18 @@ void handle_unit_diplomat_wants_input(int diplomat_id, int target_tile_id)
   Note that it MUST call process_diplomat_arrival() in the end in case
   there are more elements in the queue.
 **************************************************************************/
-void handle_unit_actions(int actor_unit_id, int target_tile_id,
+void handle_unit_actions(int actor_unit_id, int target_unit_id,
+                         int target_city_id, int target_tile_id,
                          const action_probability *action_probabilities)
 {
   struct unit *actor_unit = game_unit_by_number(actor_unit_id);
   struct tile *target_tile = index_to_tile(target_tile_id);
-  struct city *target_city = tile_city(target_tile);
-  struct unit *target_unit = unit_list_get(target_tile->units, 0);
+  struct city *target_city = game_city_by_number(target_city_id);
+  struct unit *target_unit = game_unit_by_number(target_unit_id);
   bool ask_user = FALSE;
 
   /* The dead can't act */
-  if (actor_unit && target_tile) {
+  if (actor_unit && target_tile && (target_city || target_unit)) {
     /* At least one action must be possible */
     action_iterate(act) {
       if (action_probabilities[act]) {

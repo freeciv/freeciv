@@ -194,6 +194,26 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
+  Find a city to target for an action on the specified tile.
+
+  Returns NULL if no proper target is found.
+**************************************************************************/
+static struct city *tgt_city(struct unit *actor, struct tile *target_tile)
+{
+  return tile_city(target_tile);
+}
+
+/**************************************************************************
+  Find a unit to target for an action on the specified tile.
+
+  Returns NULL if no proper target is found.
+**************************************************************************/
+static struct unit *tgt_unit(struct unit *actor, struct tile *target_tile)
+{
+  return is_other_players_unit_tile(target_tile, unit_owner(actor));
+}
+
+/**************************************************************************
   Explain why punit can't perform any actions based on its current state.
 **************************************************************************/
 static void explain_why_no_action_enabled(struct unit *punit)
@@ -233,7 +253,13 @@ void handle_unit_get_actions(struct connection *pc,
   struct unit *target_unit;
   struct city *target_city;
 
-  bool at_least_one_action;
+  /* No potentially legal action is known yet. If none is found the player
+   * should get an explanation. */
+  bool at_least_one_action = FALSE;
+
+  /* A target should only be sent if it is possible to act against it */
+  int target_city_id = IDENTITY_NUMBER_ZERO;
+  int target_unit_id = IDENTITY_NUMBER_ZERO;
 
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
@@ -246,14 +272,18 @@ void handle_unit_get_actions(struct connection *pc,
       probabilities[act] = 0;
     } action_iterate_end;
 
-    dsend_packet_unit_actions(pc, actor_unit_id, target_tile_id,
+    dsend_packet_unit_actions(pc, actor_unit_id,
+                              IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+                              target_tile_id,
                               probabilities);
     return;
   }
 
-  target_unit = is_other_players_unit_tile(target_tile, actor_player);
-  target_city = tile_city(target_tile);
+  /* Find targets. */
+  target_unit = tgt_unit(actor_unit, target_tile);
+  target_city = tgt_city(actor_unit, target_tile);
 
+  /* Set the probability for the actions. */
   action_iterate(act) {
     if (target_city && action_get_target_kind(act) == ATK_CITY) {
       probabilities[act] = action_prob_vs_city(actor_unit, act,
@@ -266,20 +296,50 @@ void handle_unit_get_actions(struct connection *pc,
     }
   } action_iterate_end;
 
-  dsend_packet_unit_actions(pc, actor_unit_id, target_tile_id,
-                            probabilities);
-
-  /* Find out if any action at all is possible */
-  at_least_one_action = FALSE;
+  /* Analyze the probabilities. Decide what targets to send and if an
+   * explanation is needed. */
   action_iterate(act) {
     if (probabilities[act] != ACTPROB_IMPOSSIBLE) {
+      /* An action can be done. No need to explain why no action can be
+       * done. */
       at_least_one_action = TRUE;
-      break;
+
+      switch (action_get_target_kind(act)) {
+      case ATK_CITY:
+        /* The city should be sent as a target since it is possible to act
+         * against it. */
+        fc_assert(target_city != NULL);
+        target_city_id = target_city->id;
+        break;
+      case ATK_UNIT:
+        /* The unit should be sent as a target since it is possible to act
+         * against it. */
+        fc_assert(target_unit != NULL);
+        target_unit_id = target_unit->id;
+        break;
+      case ATK_COUNT:
+        fc_assert_msg(action_get_target_kind(act) != ATK_COUNT,
+                      "Invalid action target kind.");
+        break;
+      }
+
+      if (at_least_one_action
+          && target_city_id != IDENTITY_NUMBER_ZERO
+          && target_unit != IDENTITY_NUMBER_ZERO) {
+        /* No need to find out more. */
+        break;
+      }
     }
   } action_iterate_end;
 
-  /* Explain why no action is possible */
+  /* Send possible actions and targets. */
+  dsend_packet_unit_actions(pc,
+                            actor_unit_id, target_unit_id, target_city_id,
+                            target_tile_id,
+                            probabilities);
+
   if (!at_least_one_action) {
+    /* The user should get an explanation why no action is possible. */
     explain_why_no_action_enabled(actor_unit);
   }
 }
@@ -1570,12 +1630,17 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
   if (is_actor_unit(punit)) {
-    struct unit *target = is_other_players_unit_tile(pdesttile, pplayer);
+    struct unit *tunit = tgt_unit(punit, pdesttile);
+    struct city *tcity = tgt_city(punit, pdesttile);
 
-    if ((target && !move_diplomat_city)
-        || (target && is_non_allied_unit_tile(pdesttile, pplayer))
-        || is_non_allied_city_tile(pdesttile, pplayer)
-        || (is_allied_city_tile(pdesttile, pplayer) && !move_diplomat_city)) {
+    if ((tunit && !(move_diplomat_city
+                    && pplayers_allied(pplayer, unit_owner(tunit))))
+        || (tcity && !(move_diplomat_city
+                       && pplayers_allied(pplayer, city_owner(tcity))))) {
+      /* A target (unit or city) exists at the tile. If a target is an ally
+       * it still looks like a target since move_diplomat_city isn't set.
+       * Assume that the intention is to do an action. */
+
       if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
 				       pdesttile)) {
         if (pplayer->ai_controlled) {
@@ -1595,6 +1660,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                                 pdesttile->index);
         return FALSE;
       } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
+        /* No action can be done. No regular move can be done. Try to
+         * explain it to the player. */
         explain_why_no_action_enabled(punit);
 
         return FALSE;
