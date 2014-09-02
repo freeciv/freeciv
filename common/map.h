@@ -53,7 +53,8 @@ enum map_generator {
   MAPGEN_SCENARIO = 0,
   MAPGEN_RANDOM,
   MAPGEN_FRACTAL,
-  MAPGEN_ISLAND
+  MAPGEN_ISLAND,
+  MAPGEN_FAIR
 };
 
 enum map_startpos {
