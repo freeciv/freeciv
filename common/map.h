@@ -64,6 +64,14 @@ enum map_startpos {
   MAPSTARTPOS_VARIABLE,         /* Depending on size of continents. */
 };
 
+#define SPECENUM_NAME team_placement
+#define SPECENUM_VALUE0 TEAM_PLACEMENT_DISABLED
+#define SPECENUM_VALUE1 TEAM_PLACEMENT_CLOSEST
+#define SPECENUM_VALUE2 TEAM_PLACEMENT_CONTINENT
+#define SPECENUM_VALUE3 TEAM_PLACEMENT_HORIZONTAL
+#define SPECENUM_VALUE4 TEAM_PLACEMENT_VERTICAL
+#include "specenum_gen.h"
+
 struct civ_map {
   int topology_id;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
@@ -101,6 +109,7 @@ struct civ_map {
       bool ocean_resources;         /* Resources in the middle of the ocean */
       bool have_huts;
       bool have_rivers_overlay;	/* only applies if !have_resources */
+      enum team_placement team_placement;
     } server;
   };
 };
@@ -680,6 +689,8 @@ FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
 #define MAP_DEFAULT_TEMPERATURE   50
 #define MAP_MIN_TEMPERATURE       0
 #define MAP_MAX_TEMPERATURE       100
+
+#define MAP_DEFAULT_TEAM_PLACEMENT  TEAM_PLACEMENT_CLOSEST
 
 /*
  * Inline function definitions.  These are at the bottom because they may use

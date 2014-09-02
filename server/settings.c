@@ -266,6 +266,26 @@ static const struct sset_val_name *startpos_name(int startpos)
 }
 
 /****************************************************************************
+  Team placement setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *teamplacement_name(int team_placement)
+{
+  switch (team_placement) {
+  NAME_CASE(TEAM_PLACEMENT_DISABLED, "DISABLED",
+            N_("Disabled"));
+  NAME_CASE(TEAM_PLACEMENT_CLOSEST, "CLOSEST",
+            N_("As close as possible"));
+  NAME_CASE(TEAM_PLACEMENT_CONTINENT, "CONTINENT",
+            N_("On the same continent"));
+  NAME_CASE(TEAM_PLACEMENT_HORIZONTAL, "HORIZONTAL",
+            N_("Horizontal placement"));
+  NAME_CASE(TEAM_PLACEMENT_VERTICAL, "VERTICAL",
+            N_("Vertical placement"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Autosaves setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *autosaves_name(int autosaves_bit)
@@ -1175,6 +1195,31 @@ static struct setting settings[] = {
               "'startpos' setting and the number of players, so this is "
               "unlikely to occur.)"),
            NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
+
+  GEN_ENUM("teamplacement", map.server.team_placement,
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Method used for placement of team mates"),
+           /* TRANS: The strings between double quotes are also translated
+            * separately (they must match!). The strings between single
+            * quotes are setting names and shouldn't be translated. The
+            * strings between parentheses and in uppercase must stay as
+            * untranslated. */
+           N_("After start positions have been generated thanks to the "
+              "'startpos' setting, this setting controls how the start "
+              "positions will be assigned to the different players of the "
+              "same team.\n"
+              "- \"Disabled\" (DISABLED): the start positions will be "
+              "randomly assigned to players, regardless of teams.\n"
+              "- \"As close as possible\" (CLOSEST): players will be "
+              "placed as close as possible, regardless of continents.\n"
+              "- \"On the same continent\" (CONTINENT): if possible, place "
+              "all players of the same team onto the same "
+              "island/continent.\n"
+              "- \"Horizontal placement\" (HORIZONTAL): players of the same "
+              "team will be placed horizontally.\n"
+              "- \"Vertical placement\" (VERTICAL): players of the same "
+              "team will be placed vertically."),
+           NULL, NULL, teamplacement_name, MAP_DEFAULT_TEAM_PLACEMENT)
 
   GEN_BOOL("tinyisles", map.server.tinyisles,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,

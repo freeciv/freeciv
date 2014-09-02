@@ -226,6 +226,7 @@ void map_init(void)
     map.server.have_resources = FALSE;
     map.server.have_rivers_overlay = FALSE;
     map.server.have_huts = FALSE;
+    map.server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
   }
 }
 
