@@ -1459,23 +1459,14 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
 {
   struct tile *vtile;
   struct unit *vunit;
-  const struct tile *origin;
-  int dx, dy;
   bool copied = FALSE;
 
   if (!ebuf || !ptile) {
     return;
   }
 
-  origin = edit_buffer_get_origin(ebuf);
-  if (origin) {
-    map_distance_vector(&dx, &dy, origin, ptile);
-  } else {
-    dx = 0;
-    dy = 0;
-  }
   vtile = tile_virtual_new(NULL);
-  vtile->index = native_pos_to_index(dx, dy);
+  vtile->index = tile_index(ptile);
 
   edit_buffer_type_iterate(ebuf, type) {
     switch (type) {
@@ -1689,20 +1680,24 @@ static void paste_tile(struct edit_buffer *ebuf,
 void edit_buffer_paste(struct edit_buffer *ebuf, const struct tile *dest)
 {
   struct connection *my_conn = &client.conn;
-  const struct tile *ptile;
-  int dest_x, dest_y;
+  const struct tile *origin, *ptile;
+  int dx, dy;
 
   if (!ebuf || !dest) {
     return;
   }
 
-  index_to_map_pos(&dest_x, &dest_y, tile_index(dest));
+  /* Calculate vector. */
+  origin = edit_buffer_get_origin(ebuf);
+  fc_assert_ret(origin != NULL);
+  map_distance_vector(&dx, &dy, origin, dest);
+
   connection_do_buffer(my_conn);
   tile_list_iterate(ebuf->vtiles, vtile) {
     int virt_x, virt_y;
 
     index_to_map_pos(&virt_x, &virt_y, tile_index(vtile));
-    ptile = map_pos_to_tile(dest_x + virt_x, dest_y + virt_y);
+    ptile = map_pos_to_tile(virt_x + dx, virt_y + dy);
     if (!ptile) {
       continue;
     }
