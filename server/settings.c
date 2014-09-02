@@ -241,6 +241,7 @@ static const struct sset_val_name *generator_name(int generator)
   NAME_CASE(MAPGEN_RANDOM, "RANDOM", N_("Fully random height"));
   NAME_CASE(MAPGEN_FRACTAL, "FRACTAL", N_("Pseudo-fractal height"));
   NAME_CASE(MAPGEN_ISLAND, "ISLAND", N_("Island-based"));
+  NAME_CASE(MAPGEN_FAIR, "FAIR", N_("Fair islands"));
   }
   return NULL;
 }
@@ -1240,6 +1241,8 @@ static struct setting settings[] = {
               "number of similarly-sized and -shaped islands, each with "
               "approximately the same ratios of terrain types. By default, "
               "each player gets their own island.\n"
+              "- \"Fair islands\" (FAIR): generates the exact copy of the "
+              "same island for every player or every team.\n"
               "If the requested generator is incompatible with other server "
               "settings, the server may fall back to another generator."),
            generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
