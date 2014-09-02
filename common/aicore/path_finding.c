@@ -19,7 +19,6 @@
 #include "bitvector.h"
 #include "log.h"
 #include "mem.h"
-#include "pqueue.h"
 #include "support.h"
 
 /* common */
@@ -31,6 +30,10 @@
 
 /* For explanations on how to use this module, see "path_finding.h". */
 
+#define SPECPQ_TAG map_index
+#define SPECPQ_DATA_TYPE int
+#define SPECPQ_PRIORITY_TYPE int
+#include "specpq.h"
 #define INITIAL_QUEUE_SIZE 100
 
 #ifdef DEBUG
@@ -232,9 +235,9 @@ struct pf_normal_node {
 struct pf_normal_map {
   struct pf_map base_map;   /* Base structure, must be the first! */
 
-  struct pqueue *queue;     /* Queue of nodes we have reached but not
-                             * processed yet (NS_NEW), sorted by their
-                             * total_CC. */
+  struct map_index_pq *queue; /* Queue of nodes we have reached but not
+                               * processed yet (NS_NEW), sorted by their
+                               * total_CC. */
   struct pf_normal_node *lattice; /* Lattice of nodes. */
 };
 
@@ -574,9 +577,9 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
       /* We found a better route to 'tile1', record it (the costs are
        * recorded already). Node status step A. to B. */
       if (NS_NEW == node1->status) {
-        pq_replace(pfnm->queue, index1, -priority);
+        map_index_pq_replace(pfnm->queue, index1, -priority);
       } else {
-        pq_insert(pfnm->queue, index1, -priority);
+        map_index_pq_insert(pfnm->queue, index1, -priority);
       }
       node1->cost = cost1;
       node1->extra_cost = extra_cost1;
@@ -586,7 +589,7 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
   } adjc_dir_iterate_end;
 
   /* Get the next node (the index with the highest priority). */
-  if (!pq_remove(pfnm->queue, &index)) {
+  if (!map_index_pq_remove(pfnm->queue, &index)) {
     /* No more indexes in the priority queue, iteration end. */
     return FALSE;
   }
@@ -717,7 +720,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
         node1->cost = cost;
         node1->dir_to_here = dir;
         /* As we prefer lower costs, let's reverse the cost of the path. */
-        pq_insert(pfnm->queue, index1, -cost_of_path);
+        map_index_pq_insert(pfnm->queue, index1, -cost_of_path);
       } else if (cost_of_path < pf_total_CC(params, node1->cost,
                                             node1->extra_cost)) {
         /* We found a better route to 'tile1'. Let's register 'index1' to
@@ -727,13 +730,13 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
         node1->cost = cost;
         node1->dir_to_here = dir;
         /* As we prefer lower costs, let's reverse the cost of the path. */
-        pq_replace(pfnm->queue, index1, -cost_of_path);
+        map_index_pq_replace(pfnm->queue, index1, -cost_of_path);
       }
     } adjc_dir_iterate_end;
   }
 
   /* Get the next node (the index with the highest priority). */
-  if (!pq_remove(pfnm->queue, &index)) {
+  if (!map_index_pq_remove(pfnm->queue, &index)) {
     /* No more indexes in the priority queue, iteration end. */
     return FALSE;
   }
@@ -850,7 +853,7 @@ static void pf_normal_map_destroy(struct pf_map *pfm)
   struct pf_normal_map *pfnm = PF_NORMAL_MAP(pfm);
 
   free(pfnm->lattice);
-  pq_destroy(pfnm->queue);
+  map_index_pq_destroy(pfnm->queue);
   free(pfnm);
 }
 
@@ -874,7 +877,7 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
 
   /* Allocate the map. */
   pfnm->lattice = fc_calloc(MAP_INDEX_SIZE, sizeof(struct pf_normal_node));
-  pfnm->queue = pq_create(INITIAL_QUEUE_SIZE);
+  pfnm->queue = map_index_pq_new(INITIAL_QUEUE_SIZE);
 
   if (NULL == parameter->get_costs) {
     /* 'get_MC' callback must be set. */
@@ -978,10 +981,10 @@ struct pf_danger_node {
 struct pf_danger_map {
   struct pf_map base_map;       /* Base structure, must be the first! */
 
-  struct pqueue *queue;         /* Queue of nodes we have reached but not
+  struct map_index_pq *queue;   /* Queue of nodes we have reached but not
                                  * processed yet (NS_NEW and NS_WAITING),
                                  * sorted by their total_CC. */
-  struct pqueue *danger_queue;  /* Dangerous positions. */
+  struct map_index_pq *danger_queue; /* Dangerous positions. */
   struct pf_danger_node *lattice; /* Lattice of nodes. */
 };
 
@@ -1614,12 +1617,12 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
             }
             if (NS_INIT == node1->status) {
               node1->status = NS_NEW;
-              pq_insert(pfdm->queue, index1, -cost_of_path);
+              map_index_pq_insert(pfdm->queue, index1, -cost_of_path);
             } else {
 #ifdef PF_DEBUG
               fc_assert(NS_NEW == node1->status);
 #endif
-              pq_replace(pfdm->queue, index1, -cost_of_path);
+              map_index_pq_replace(pfdm->queue, index1, -cost_of_path);
             }
           }
         } else {
@@ -1637,7 +1640,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
             node1->status = NS_NEW;
             node1->waited = (node->status == NS_WAITING);
             /* Extra costs of all nodes in danger_queue are equal! */
-            pq_insert(pfdm->danger_queue, index1, -cost);
+            map_index_pq_insert(pfdm->danger_queue, index1, -cost);
           } else if ((pf_moves_left(params, cost)
                       > pf_moves_left(params, node1->cost))
                      || (node1->status == NS_PROCESSED
@@ -1651,7 +1654,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
             node1->status = NS_NEW;
             node1->waited = (node->status == NS_WAITING);
             /* Extra costs of all nodes in danger_queue are equal! */
-            pq_replace(pfdm->danger_queue, index1, -cost);
+            map_index_pq_replace(pfdm->danger_queue, index1, -cost);
           }
         }
       } adjc_dir_iterate_end;
@@ -1672,19 +1675,19 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
       fc = pf_danger_map_fill_cost_for_full_moves(params, node->cost);
       cc = pf_total_CC(params, fc, node->extra_cost);
       node->status = NS_WAITING;
-      pq_insert(pfdm->queue, index, -cc);
+      map_index_pq_insert(pfdm->queue, index, -cc);
     }
 
     /* Get the next node (the index with the highest priority). First try
      * to get it from danger_queue. */
-    if (pq_remove(pfdm->danger_queue, &index)) {
+    if (map_index_pq_remove(pfdm->danger_queue, &index)) {
       /* Change the pf_map iterator and reset data. */
       tile = index_to_tile(index);
       pfm->tile = tile;
       node = pfdm->lattice + index;
     } else {
       /* No dangerous nodes to process, go for a safe one. */
-      if (!pq_remove(pfdm->queue, &index)) {
+      if (!map_index_pq_remove(pfdm->queue, &index)) {
         /* No more indexes in the priority queue, iteration end. */
         return FALSE;
       }
@@ -1835,8 +1838,8 @@ static void pf_danger_map_destroy(struct pf_map *pfm)
     }
   }
   free(pfdm->lattice);
-  pq_destroy(pfdm->queue);
-  pq_destroy(pfdm->danger_queue);
+  map_index_pq_destroy(pfdm->queue);
+  map_index_pq_destroy(pfdm->danger_queue);
   free(pfdm);
 }
 
@@ -1860,8 +1863,8 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
 
   /* Allocate the map. */
   pfdm->lattice = fc_calloc(MAP_INDEX_SIZE, sizeof(struct pf_danger_node));
-  pfdm->queue = pq_create(INITIAL_QUEUE_SIZE);
-  pfdm->danger_queue = pq_create(INITIAL_QUEUE_SIZE);
+  pfdm->queue = map_index_pq_new(INITIAL_QUEUE_SIZE);
+  pfdm->danger_queue = map_index_pq_new(INITIAL_QUEUE_SIZE);
 
   /* 'get_MC' callback must be set. */
   fc_assert_ret_val(parameter->get_MC != NULL, NULL);
@@ -1970,11 +1973,11 @@ struct pf_fuel_pos {
 struct pf_fuel_map {
   struct pf_map base_map;       /* Base structure, must be the first! */
 
-  struct pqueue *queue;         /* Queue of nodes we have reached but not
+  struct map_index_pq *queue;   /* Queue of nodes we have reached but not
                                  * processed yet (NS_NEW), sorted by their
                                  * total_CC */
-  struct pqueue *waited_queue;  /* Queue of nodes to reach farer positions
-                                 * after having refueled. */
+  struct map_index_pq *waited_queue; /* Queue of nodes to reach farer
+                                      * positions after having refueled. */
   struct pf_fuel_node *lattice; /* Lattice of nodes */
 };
 
@@ -2775,14 +2778,14 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           if (NS_INIT == node1->status) {
             /* Node status B. to C. */
             node1->status = NS_NEW;
-            pq_insert(pffm->queue, index1, -cost_of_path);
+            map_index_pq_insert(pffm->queue, index1, -cost_of_path);
           } else {
             /* else staying at D. */
 #ifdef PF_DEBUG
             fc_assert(NS_NEW == node1->status);
 #endif
             if (cost_of_path < old_cost_of_path) {
-              pq_replace(pffm->queue, index1, -cost_of_path);
+              map_index_pq_replace(pffm->queue, index1, -cost_of_path);
             }
           }
           continue;     /* adjc_dir_iterate() */
@@ -2816,9 +2819,9 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           node1->cost = cost;
           node1->moves_left = moves_left;
           node1->dir_to_here = dir;
-          pq_insert(pffm->waited_queue, index1,
-                    -pf_fuel_waited_total_CC(cost, moves_left
-                                             - node1->moves_left_req));
+          map_index_pq_insert(pffm->waited_queue, index1,
+                              -pf_fuel_waited_total_CC(cost,
+                                  moves_left - node1->moves_left_req));
         }
       } adjc_dir_iterate_end;
     }
@@ -2840,16 +2843,17 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       node->cost = pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
                                                         node->moves_left);
       node->moves_left = pf_move_rate(params);
-      pq_insert(pffm->queue, index,
-                -pf_fuel_waited_total_CC(node->cost, node->moves_left));
+      map_index_pq_insert(pffm->queue, index,
+                          -pf_fuel_waited_total_CC(node->cost,
+                                                   node->moves_left));
     }
 
     /* Get the next node (the index with the highest priority). First try
      * to get it from waited_queue. */
-    if (!pq_priority(pffm->queue, &priority)
-        || (pq_priority(pffm->waited_queue, &waited_priority)
+    if (!map_index_pq_priority(pffm->queue, &priority)
+        || (map_index_pq_priority(pffm->waited_queue, &waited_priority)
             && priority < waited_priority)) {
-      if (!pq_remove(pffm->waited_queue, &index)) {
+      if (!map_index_pq_remove(pffm->waited_queue, &index)) {
         /* End of the iteration. */
         return FALSE;
       }
@@ -2865,10 +2869,10 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 #endif
     } else {
 #ifdef PF_DEBUG
-      bool success = pq_remove(pffm->queue, &index);
+      bool success = map_index_pq_remove(pffm->queue, &index);
       fc_assert(TRUE == success);
 #else
-      pq_remove(pffm->queue, &index);
+      map_index_pq_remove(pffm->queue, &index);
 #endif
 
       /* Change the pf_map iterator and reset data. */
@@ -3019,8 +3023,8 @@ static void pf_fuel_map_destroy(struct pf_map *pfm)
     pf_fuel_pos_unref(node->segment);
   }
   free(pffm->lattice);
-  pq_destroy(pffm->queue);
-  pq_destroy(pffm->waited_queue);
+  map_index_pq_destroy(pffm->queue);
+  map_index_pq_destroy(pffm->waited_queue);
   free(pffm);
 }
 
@@ -3044,8 +3048,8 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
 
   /* Allocate the map. */
   pffm->lattice = fc_calloc(MAP_INDEX_SIZE, sizeof(struct pf_fuel_node));
-  pffm->queue = pq_create(INITIAL_QUEUE_SIZE);
-  pffm->waited_queue = pq_create(INITIAL_QUEUE_SIZE);
+  pffm->queue = map_index_pq_new(INITIAL_QUEUE_SIZE);
+  pffm->waited_queue = map_index_pq_new(INITIAL_QUEUE_SIZE);
 
   /* 'get_MC' callback must be set. */
   fc_assert_ret_val(parameter->get_MC != NULL, NULL);
