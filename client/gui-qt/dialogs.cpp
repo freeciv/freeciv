@@ -22,7 +22,6 @@
 #include <QRadioButton>
 #include <QTableWidgetItem>
 #include <QTextEdit>
-#include <QToolBox>
 
 // utility
 #include "astring.h"
@@ -78,26 +77,28 @@ static bool is_race_dialog_open = false;
 /***************************************************************************
  Constructor for selecting nations
 ***************************************************************************/
-races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(parent)
+races_dialog::races_dialog(struct player *pplayer,
+                           QWidget * parent) : QDialog(parent)
 {
-  struct nation_group *group;
   int i;
   QGridLayout *qgroupbox_layout;
   QGroupBox *no_name;
-  QWidget *tab_widget;
   QTableWidgetItem *item;
   QPixmap *pix;
   QHeaderView *header;
   QSize size;
   QString title;
+  QLabel *ns_label;
 
   setAttribute(Qt::WA_DeleteOnClose);
   is_race_dialog_open = true;
   main_layout = new QGridLayout;
-  nation_tabs = new QToolBox(parent);
+  nation_tabs = new QTableWidget();
   selected_nation_tabs = new QTableWidget;
   city_styles = new QTableWidget;
   ok_button = new QPushButton;
+  qnation_set =  new QComboBox;
+  ns_label = new QLabel;
   tplayer = pplayer;
 
   selected_nation = -1;
@@ -111,7 +112,18 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   selected_nation_tabs->horizontalHeader()->setVisible(false);
   selected_nation_tabs->setProperty("showGrid", "true");
   selected_nation_tabs->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  selected_nation_tabs->setShowGrid(false);
+  selected_nation_tabs->setAlternatingRowColors(true);
 
+  nation_tabs->setRowCount(0);
+  nation_tabs->setColumnCount(1);
+  nation_tabs->setSelectionMode(QAbstractItemView::SingleSelection);
+  nation_tabs->verticalHeader()->setVisible(false);
+  nation_tabs->horizontalHeader()->setVisible(false);
+  nation_tabs->setProperty("showGrid", "true");
+  nation_tabs->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  nation_tabs->setShowGrid(false);
+  ns_label->setText(_("Nation Set:"));
   city_styles->setRowCount(0);
   city_styles->setColumnCount(2);
   city_styles->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -120,6 +132,7 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   city_styles->setProperty("showGrid", "false");
   city_styles->setProperty("selectionBehavior", "SelectRows");
   city_styles->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  city_styles->setShowGrid(false);
 
   qgroupbox_layout = new QGridLayout;
   no_name = new QGroupBox(parent);
@@ -170,14 +183,18 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   header->resizeSections(QHeaderView::ResizeToContents);
   header = city_styles->verticalHeader();
   header->resizeSections(QHeaderView::ResizeToContents);
-  tab_widget = new QWidget();
-  nation_tabs->addItem(tab_widget, _("All Nations"));
-  for (i = 0; i < nation_group_count(); i++) {
-    group = nation_group_by_number(i);
-    tab_widget = new QWidget();
-    nation_tabs->addItem(tab_widget, nation_group_name_translation(group));
-  }
-  connect(nation_tabs, SIGNAL(currentChanged(int)), SLOT(set_index(int)));
+  nation_sets_iterate(pset) {
+    qnation_set->addItem(nation_set_name_translation(pset),
+                         nation_set_rule_name(pset));
+  } nation_sets_iterate_end;
+  /* create nation sets */
+  refresh();
+
+  connect(nation_tabs->selectionModel(),
+          SIGNAL(selectionChanged(const QItemSelection &,
+                                  const QItemSelection &)),
+          SLOT(group_selected(const QItemSelection &,
+                              const QItemSelection &)));
   connect(city_styles->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
@@ -190,11 +207,18 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
                               const QItemSelection &)));
   connect(leader_name, SIGNAL(currentIndexChanged(int)),
           SLOT(leader_selected(int)));
+  connect(qnation_set, SIGNAL(currentIndexChanged(int)),
+          SLOT(nationset_changed(int)));
+  connect(nation_tabs->selectionModel(),
+          SIGNAL(selectionChanged(const QItemSelection &,
+                                  const QItemSelection &)),
+          SLOT(group_selected(const QItemSelection &,
+                              const QItemSelection &)));
 
   ok_button = new QPushButton;
   ok_button->setText(_("Cancel"));
   connect(ok_button, SIGNAL(pressed()), SLOT(cancel_pressed()));
-  main_layout->addWidget(ok_button, 8, 1, 1, 1);
+  main_layout->addWidget(ok_button, 8, 2, 1, 1);
   random_button = new QPushButton;
   random_button->setText(_("Random"));
   connect(random_button, SIGNAL(pressed()), SLOT(random_pressed()));
@@ -202,16 +226,23 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
   ok_button = new QPushButton;
   ok_button->setText(_("Ok"));
   connect(ok_button, SIGNAL(pressed()), SLOT(ok_pressed()));
-  main_layout->addWidget(ok_button, 8, 2, 1, 1);
-  main_layout->addWidget(no_name, 0, 2, 2, 1);
-  main_layout->addWidget(nation_tabs, 0, 0, 6, 1);
-  main_layout->addWidget(city_styles, 2, 2, 4, 1);
-  main_layout->addWidget(description, 6, 0, 2, 3);
-  main_layout->addWidget(selected_nation_tabs, 0, 1, 6, 1);
+  main_layout->addWidget(ok_button, 8, 3, 1, 1);
+  main_layout->addWidget(no_name, 0, 3, 2, 1);
+  if (nation_set_count() > 1) {
+    main_layout->addWidget(ns_label, 0, 0, 1, 1);
+    main_layout->addWidget(qnation_set, 0, 1, 1, 1);
+    main_layout->addWidget(nation_tabs, 1, 0, 6, 2);
+  } else {
+    main_layout->addWidget(nation_tabs, 0, 0, 6, 2);
+  }
+  main_layout->addWidget(city_styles, 2, 3, 4, 1);
+  main_layout->addWidget(description, 6, 0, 2, 4);
+  main_layout->addWidget(selected_nation_tabs, 0, 2, 6, 1);
 
   setLayout(main_layout);
   set_index(0);
   update();
+  set_index(-99);
 
   if (C_S_RUNNING == client_state()) {
     title = _("Edit Nation");
@@ -221,6 +252,7 @@ races_dialog::races_dialog(struct player *pplayer, QWidget * parent):QDialog(par
     title = _("Pick Nation");
   }
 
+  update_nationset_combo();
   setWindowTitle(title);
 }
 
@@ -233,31 +265,126 @@ races_dialog::~races_dialog()
 }
 
 /***************************************************************************
-  Sets new nations' group by given index
+  Sets first index to call update of nation list
+***************************************************************************/
+void races_dialog::refresh()
+{
+  struct nation_group *group;
+  QTableWidgetItem *item;
+  QHeaderView *header;
+  int i;
+  int count;
+
+  nation_tabs->clearContents();
+  nation_tabs->setRowCount(0);
+  nation_tabs->insertRow(0);
+  item =  new QTableWidgetItem;
+  item->setText(_("All nations"));
+  item->setData(Qt::UserRole, -99);
+  nation_tabs->setItem(0, 0, item);
+
+  for (i = 1; i < nation_group_count() + 1; i++) {
+    group = nation_group_by_number(i - 1);
+    count = 0;
+    /* checking if group is empty */
+    nations_iterate(pnation) {
+      if (!is_nation_playable(pnation)
+          || !is_nation_pickable(pnation)
+          || !nation_is_in_group(pnation, group)) {
+        continue;
+      }
+      count ++;
+    } nations_iterate_end;
+    if (count == 0) {
+      continue;
+    }
+    nation_tabs->insertRow(i);
+    item =  new QTableWidgetItem;
+    item->setData(Qt::UserRole, i - 1);
+    item->setText(nation_group_name_translation(group));
+    nation_tabs->setItem(i, 0, item);
+  }
+  header = nation_tabs->horizontalHeader();
+  header->resizeSections(QHeaderView::Stretch);
+  header = nation_tabs->verticalHeader();
+  header->resizeSections(QHeaderView::ResizeToContents);
+  set_index(-99);
+}
+
+/***************************************************************************
+  Updates nation_set combo ( usually called from option change )
+***************************************************************************/
+void races_dialog::update_nationset_combo()
+{
+  struct option *popt;
+  struct nation_set *s;
+
+  popt = optset_option_by_name(server_optset, "nationset");
+  if (popt) {
+    s = nation_set_by_setting_value(option_str_get(popt));
+    qnation_set->setCurrentIndex(nation_set_index(s));
+    qnation_set->setToolTip(nation_set_description(s));
+  }
+}
+
+/***************************************************************************
+  Selected group of nation
+***************************************************************************/
+void races_dialog::group_selected(const QItemSelection &sl,
+                                  const QItemSelection &ds)
+{
+  QModelIndexList indexes = sl.indexes();
+  QModelIndex index ;
+
+  if (indexes.isEmpty()) {
+    return;
+  }
+  index = indexes.at(0);
+  set_index(index.row());
+}
+
+
+/***************************************************************************
+  Sets new nations' group by current current selection,
+  index is used only when there is no current selection.
 ***************************************************************************/
 void races_dialog::set_index(int index)
 {
   QTableWidgetItem *item;
   QPixmap *pix;
+  QFont f;
   struct nation_group *group;
-  int i = 0;
+  int i;
   struct sprite *s;
   QHeaderView *header;
-
   selected_nation_tabs->clearContents();
   selected_nation_tabs->setRowCount(0);
 
-  group = nation_group_by_number(index - 1);
+  last_index = 0;
+  i = nation_tabs->currentRow();
+  if (i != -1) {
+    item = nation_tabs->item(i, 0);
+    index = item->data(Qt::UserRole).toInt();
+  }
+
+  group = nation_group_by_number(index);
+  i = 0;
   nations_iterate(pnation) {
-    if (!is_nation_playable(pnation) || !is_nation_pickable(pnation)) {
+    if (!is_nation_playable(pnation)
+        || !is_nation_pickable(pnation)) {
       continue;
     }
-    if (!nation_is_in_group(pnation, group) && index != 0) {
+    if (!nation_is_in_group(pnation, group) && index != -99) {
       continue;
     }
     item = new QTableWidgetItem;
     selected_nation_tabs->insertRow(i);
     s = get_nation_flag_sprite(tileset, pnation);
+    if (pnation->player) {
+      f = item->font();
+      f.setStrikeOut(true);
+      item->setFont(f);
+    }
     pix = s->pm;
     item->setData(Qt::DecorationRole, *pix);
     item->setData(Qt::UserRole, nation_number(pnation));
@@ -347,8 +474,7 @@ void races_dialog::style_selected(const QItemSelection &selected,
 ***************************************************************************/
 void races_dialog::leader_selected(int index)
 {
-  if (leader_name->itemData(index).toBool())
-  {
+  if (leader_name->itemData(index).toBool()) {
     is_male->setChecked(true);
     is_female->setChecked(false);
     selected_sex=0;
@@ -382,6 +508,12 @@ void races_dialog::ok_pressed()
 
   if (leader_name->currentText().length() == 0) {
     output_window_append(ftc_client, _("You must type a legal name."));
+    return;
+  }
+
+  if (nation_by_number(selected_nation)->player != NULL) {
+    output_window_append(ftc_client,
+                         _("Nation has been chosen by other player"));
     return;
   }
   dsend_packet_nation_select_req(&client.conn, player_number(tplayer),
@@ -544,6 +676,22 @@ void races_dialog::random_pressed()
   delete this;
 }
 
+/***************************************************************************
+  User changed nation_set
+***************************************************************************/
+void races_dialog::nationset_changed(int index)
+{
+  QString rule_name;
+  char *rn;
+  struct option *poption = optset_option_by_name(server_optset, "nationset");
+  rule_name = qnation_set->currentData().toString();
+  rn = rule_name.toLocal8Bit().data();
+  if (nation_set_by_setting_value(option_str_get(poption))
+      != nation_set_by_rule_name(rn)) {
+    option_str_set(poption, rn);
+  }
+}
+
 /**************************************************************************
   Popup a dialog to display information about an event that has a
   specific location.  The user should be given the option to goto that
@@ -580,8 +728,12 @@ void popup_notify_dialog(const char *caption, const char *headline,
 **************************************************************************/
 void popup_races_dialog(struct player *pplayer)
 {
-  race_dialog = new races_dialog(pplayer);
-  race_dialog->show();
+  if (!is_race_dialog_open) {
+    race_dialog = new races_dialog(pplayer, gui()->central_wdg);
+    is_race_dialog_open = true;
+    race_dialog->show();
+  }
+  race_dialog->showNormal();
 }
 
 /**************************************************************************
@@ -615,12 +767,23 @@ void unit_select_dialog_update_real(void)
 }
 
 /**************************************************************************
+  Updates nationset combobox
+**************************************************************************/
+void update_nationset_combo()
+{
+  if (is_race_dialog_open) {
+    race_dialog->update_nationset_combo();
+  }
+}
+
+/**************************************************************************
   The server has changed the set of selectable nations.
 **************************************************************************/
 void races_update_pickable(bool nationset_change)
 {
-  /* FIXME handle this properly */
-  popdown_races_dialog();
+  if (is_race_dialog_open){
+    race_dialog->refresh();
+  }
 }
 
 /**************************************************************************
@@ -629,8 +792,9 @@ void races_update_pickable(bool nationset_change)
 **************************************************************************/
 void races_toggles_set_sensitive(void)
 {
-  /* PORTME */
-  /* maybe just emit signal about chosen toolbox ? */
+  if (is_race_dialog_open) {
+    race_dialog->refresh();
+  }
 }
 
 /**************************************************************************

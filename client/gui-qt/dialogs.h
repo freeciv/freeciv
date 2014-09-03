@@ -38,13 +38,12 @@ class QSignalMapper;
 class QTableView;
 class QTableWidget;
 class QTextEdit;
-class QToolBox;
 class QWidget;
 
 typedef void (*pfcn_void)(QVariant, QVariant);
-
-
+void update_nationset_combo();
 void popup_races_dialog(struct player *pplayer);
+
 /***************************************************************************
  Dialog for selecting nation, style and leader leader
 ***************************************************************************/
@@ -52,10 +51,11 @@ class races_dialog:public QDialog
 {
   Q_OBJECT
   QGridLayout *main_layout;
-  QToolBox *nation_tabs;
+  QTableWidget *nation_tabs;
   QList<QWidget*> *nations_tabs_list;
   QTableWidget *selected_nation_tabs;
   QComboBox *leader_name;
+  QComboBox *qnation_set;
   QRadioButton *is_male;
   QRadioButton *is_female;
   QTableWidget *city_styles;
@@ -66,11 +66,15 @@ class races_dialog:public QDialog
 public:
   races_dialog(struct player *pplayer, QWidget *parent = 0);
   ~races_dialog();
+  void refresh();
+  void update_nationset_combo();
 
 private slots:
   void set_index(int index);
   void nation_selected(const QItemSelection &sl, const QItemSelection &ds);
   void style_selected(const QItemSelection &sl, const QItemSelection &ds);
+  void group_selected(const QItemSelection &sl, const QItemSelection &ds);
+  void nationset_changed(int index);
   void leader_selected(int index);
   void ok_pressed();
   void cancel_pressed();
@@ -81,6 +85,7 @@ private:
   int selected_style;
   int selected_sex;
   struct player *tplayer;
+  int last_index;
 };
 
 /***************************************************************************
