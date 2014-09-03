@@ -1922,6 +1922,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     CALL_FUNC_EACH_AI(unit_alloc, punit);
   } else {
     punit->client.focus_status = FOCUS_AVAIL;
+    punit->client.transported_by = -1;
     punit->client.colored = FALSE;
   }
 
