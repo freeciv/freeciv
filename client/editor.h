@@ -59,6 +59,9 @@ enum editor_tool_mode {
 };
 
 void editor_init(void);
+void editor_clear(void);
+void editor_free(void);
+
 bool editor_is_active(void);
 enum editor_tool_type editor_get_tool(void);
 void editor_set_tool(enum editor_tool_type emt);

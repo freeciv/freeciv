@@ -626,6 +626,7 @@ void client_exit(void)
 
   script_client_free();
 
+  editor_free();
   options_free();
   if (client_state() >= C_S_PREPARING) {
     client_game_free();
@@ -762,6 +763,7 @@ void set_client_state(enum client_states newstate)
     if (oldstate > C_S_DISCONNECTED) {
       unit_focus_set(NULL);
       agents_disconnect();
+      editor_clear();
       global_worklists_unbuild();
       client_remove_all_cli_conn();
       client_game_free();
