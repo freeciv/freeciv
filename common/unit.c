@@ -1690,6 +1690,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
   } else {
     punit->client.focus_status = FOCUS_AVAIL;
+    punit->client.transported_by = -1;
     punit->client.colored = FALSE;
   }
 
