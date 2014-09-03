@@ -854,7 +854,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                ACTION_SPY_SABOTAGE_UNIT,
                action_probabilities);
 
-  if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
+  if (!is_diplomat_action_available(punit, DIPLOMAT_MOVE, dest_tile)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button10"), FALSE);
   }
 

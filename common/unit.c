@@ -62,26 +62,6 @@ sabotage city
 **************************************************************************/
 
 /**************************************************************************
-Whether a diplomat can move to a particular tile and perform a
-particular action there.
-**************************************************************************/
-bool diplomat_can_do_action(const struct unit *pdiplomat,
-			    enum diplomat_actions action, 
-			    const struct tile *ptile)
-{
-  if (!is_diplomat_action_available(pdiplomat, action, ptile)) {
-    return FALSE;
-  }
-
-  if (!is_tiles_adjacent(unit_tile(pdiplomat), ptile)
-      && !same_pos(unit_tile(pdiplomat), ptile)) {
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
 Whether a diplomat can perform a particular action at a particular
 tile.  This does _not_ check whether the diplomat can move there.
 If the action is DIPLOMAT_ANY_ACTION, checks whether there is any
@@ -95,56 +75,54 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   struct unit *punit;
 
   if ((pcity = tile_city(ptile))) {
-    if (real_map_distance(unit_tile(pdiplomat), pcity->tile) <= 1) {
-      if ((action == DIPLOMAT_SABOTAGE || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_SPY_SABOTAGE_CITY,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_SABOTAGE || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_SPY_SABOTAGE_CITY,
+                                          pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == DIPLOMAT_SABOTAGE_TARGET
-           || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(
-            ACTION_SPY_TARGETED_SABOTAGE_CITY, pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_SABOTAGE_TARGET
+         || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(
+          ACTION_SPY_TARGETED_SABOTAGE_CITY, pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == DIPLOMAT_EMBASSY || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_ESTABLISH_EMBASSY,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_EMBASSY || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_ESTABLISH_EMBASSY,
+                                          pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == SPY_POISON || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_SPY_POISON,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == SPY_POISON || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_SPY_POISON,
+                                          pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == DIPLOMAT_INVESTIGATE || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_SPY_INVESTIGATE_CITY,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_INVESTIGATE || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_SPY_INVESTIGATE_CITY,
+                                          pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == DIPLOMAT_STEAL || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_SPY_STEAL_TECH,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_STEAL || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_SPY_STEAL_TECH,
+                                          pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == DIPLOMAT_STEAL_TARGET
-           || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_STEAL_TARGET
+         || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
+                                          pdiplomat, pcity)) {
+      return TRUE;
+    }
 
-      if ((action == DIPLOMAT_INCITE || action == DIPLOMAT_ANY_ACTION)
-          && is_action_enabled_unit_on_city(ACTION_SPY_INCITE_CITY,
-                                            pdiplomat, pcity)) {
-        return TRUE;
-      }
+    if ((action == DIPLOMAT_INCITE || action == DIPLOMAT_ANY_ACTION)
+        && is_action_enabled_unit_on_city(ACTION_SPY_INCITE_CITY,
+                                          pdiplomat, pcity)) {
+      return TRUE;
     }
   }
 

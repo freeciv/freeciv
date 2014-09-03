@@ -336,7 +336,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   unit_activity_handling(punit, ACTIVITY_IDLE);
 
 #define T(my_act,my_val)                                            \
-  if (diplomat_can_do_action(punit, my_act, ctarget->tile)) {       \
+  if (is_diplomat_action_available(punit, my_act, ctarget->tile)) { \
     log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",      \
              nation_rule_name(nation_of_unit(punit)),               \
              unit_rule_name(punit), punit->id, city_name(ctarget)); \
@@ -641,7 +641,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       pf_path_destroy(path);
     }
 
-    if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, pos.tile)) {
+    if (is_diplomat_action_available(punit, DIPLOMAT_BRIBE, pos.tile)) {
       handle_unit_diplomat_action(pplayer, punit->id,
 				  unit_list_get(ptile->units, 0)->id, -1,
 				  DIPLOMAT_BRIBE);
@@ -651,7 +651,8 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       } else {
         return FALSE;
       }
-    } else if (diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, pos.tile)
+    } else if (is_diplomat_action_available(punit, SPY_SABOTAGE_UNIT,
+                                            pos.tile)
                && threat) {
       /* don't stand around waiting for the final blow */
       handle_unit_diplomat_action(pplayer, punit->id,

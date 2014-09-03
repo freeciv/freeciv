@@ -781,7 +781,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                  (GCallback)spy_sabotage_unit_callback);
   }
 
-  if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
+  if (is_diplomat_action_available(punit, DIPLOMAT_MOVE, dest_tile)) {
     if (pcity) {
       choice_dialog_add(shl, _("_Keep moving"),
                         (GCallback)diplomat_keep_moving_city_callback,

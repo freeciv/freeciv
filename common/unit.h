@@ -250,9 +250,6 @@ extern Activity_type_id real_activities[ACTIVITY_LAST];
   }									    \
 }
 
-bool diplomat_can_do_action(const struct unit *pdiplomat,
-			    enum diplomat_actions action,
-			    const struct tile *ptile);
 bool is_diplomat_action_available(const struct unit *pdiplomat,
 				  enum diplomat_actions action,
 				  const struct tile *ptile);

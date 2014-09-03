@@ -796,7 +796,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
   }
 
   /* ---------- */
-  if (diplomat_can_do_action(pUnit, DIPLOMAT_MOVE, ptile)) {
+  if (is_diplomat_action_available(pUnit, DIPLOMAT_MOVE, ptile)) {
 
     if (pCity) {
       create_active_iconlabel(pBuf, pWindow->dst, pStr,

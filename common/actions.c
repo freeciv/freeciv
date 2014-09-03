@@ -283,6 +283,52 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns TRUE if the wanted action is possible given that an action
+  enabler later will enable it.
+
+  This is done by checking the action's hard requirements. Hard requirements
+  must be TRUE before an action can be done. The reason why is usually that
+  code dealing with the action assumes that the requirements are true. A
+  requirement may also end up here if it can't be expressed in a requirment
+  vector or if its abstence makes the action pointless.
+
+  When adding a new hard requirement here:
+   * explain why it is a hard requirment in a comment.
+   * remember that this is called from action_prob(). Should information
+     the player don't have access to be used in a test the way this
+     function is used must change.
+**************************************************************************/
+static bool is_action_possible(const enum gen_action wanted_action,
+			       const struct player *actor_player,
+			       const struct city *actor_city,
+			       const struct impr_type *actor_building,
+			       const struct tile *actor_tile,
+			       const struct unit *actor_unit,
+			       const struct unit_type *actor_unittype,
+			       const struct output_type *actor_output,
+			       const struct specialist *actor_specialist,
+			       const struct player *target_player,
+			       const struct city *target_city,
+			       const struct impr_type *target_building,
+			       const struct tile *target_tile,
+			       const struct unit *target_unit,
+			       const struct unit_type *target_unittype,
+			       const struct output_type *target_output,
+			       const struct specialist *target_specialist)
+{
+  if (action_get_actor_kind(wanted_action) == AAK_UNIT) {
+    /* The Freeciv code for all actions controlled by enablers assumes that
+     * an acting unit is on the same tile as its target or on the tile next
+     * to it. */
+    if (real_map_distance(actor_tile, target_tile) > 1) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Return TRUE iff the action enabler is active
 **************************************************************************/
 static bool is_enabler_active(const struct action_enabler *enabler,
@@ -316,13 +362,10 @@ static bool is_enabler_active(const struct action_enabler *enabler,
 }
 
 /**************************************************************************
-  Returns TRUE if the wanted action is enabled by an action enabler.
+  Returns TRUE if the wanted action is enabled.
 
-  Note that the action may disable it self by doing its own tests after
-  this returns TRUE. This is because some actions have preconditions
-  that can't be expressed in an action enabler's requirement vector.
-  Should a precondition become expressible in an action enabler's
-  requirement vector please move it.
+  Note that the action may disable it self because of hard requirements
+  even if an action enabler returns TRUE.
 **************************************************************************/
 static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct player *actor_player,
@@ -342,6 +385,20 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist)
 {
+  if (!is_action_possible(wanted_action,
+                          actor_player, actor_city,
+                          actor_building, actor_tile,
+                          actor_unit, actor_unittype,
+                          actor_output, actor_specialist,
+                          target_player, target_city,
+                          target_building, target_tile,
+                          target_unit, target_unittype,
+                          target_output, target_specialist)) {
+    /* The action enablers are irrelevant since the action it self is
+     * impossible. */
+    return FALSE;
+  }
+
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
     if (is_enabler_active(enabler, actor_player, actor_city,
@@ -649,6 +706,35 @@ action_prob(const enum gen_action wanted_action,
 {
   int known;
   int chance;
+
+  const struct unit_type *actor_unittype;
+  const struct unit_type *target_unittype;
+
+  if (actor_unit == NULL) {
+    actor_unittype = NULL;
+  } else {
+    actor_unittype = unit_type(actor_unit);
+  }
+
+  if (target_unit == NULL) {
+    target_unittype = NULL;
+  } else {
+    target_unittype = unit_type(target_unit);
+  }
+
+  if (!is_action_possible(wanted_action,
+                          actor_player, actor_city,
+                          actor_building, actor_tile,
+                          actor_unit, actor_unittype,
+                          actor_output, actor_specialist,
+                          target_player, target_city,
+                          target_building, target_tile,
+                          target_unit, target_unittype,
+                          target_output, target_specialist)) {
+    /* The action enablers are irrelevant since the action it self is
+     * impossible. */
+    return ACTPROB_IMPOSSIBLE;
+  }
 
   chance = ACTPROB_NOT_IMPLEMENTED;
 
