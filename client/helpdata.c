@@ -4152,10 +4152,26 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
+  if (is_extra_caused_by(pextra, EC_POLLUTION)) {
+    CATLSTR(buf, bufsz,
+            _("* May randomly appear around polluting city.\n"));
+  }
+
+  if (is_extra_caused_by(pextra, EC_FALLOUT)) {
+    CATLSTR(buf, bufsz,
+            _("* May randomly appear around nuclear blast.\n"));
+  }
+
+  if (is_extra_caused_by(pextra, EC_HUT)
+      || (proad != NULL && road_has_flag(proad, RF_RIVER))) {
+    CATLSTR(buf, bufsz,
+            _("* Placed by mapgenerator.\n"));
+  }
+
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (pextra->buildable) {
+    if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
       CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
     requirement_vector_iterate(&pextra->reqs, preq) {
