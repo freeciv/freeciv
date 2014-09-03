@@ -806,6 +806,12 @@ void option_gui_update(struct option *poption)
     dial =::dialog_list[option_optset(poption)];
     dial->option_dialog_refresh(poption);
   }
+
+  if (option_optset(poption) == server_optset) {
+  if (strcmp(option_name(poption), "nationset") == 0) {
+      update_nationset_combo();
+    }
+  }
 }
 
 /****************************************************************************
