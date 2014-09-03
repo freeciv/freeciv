@@ -97,7 +97,7 @@ struct editor_state {
   struct edit_buffer *copybuf;
 };
 
-static struct editor_state *editor;
+static struct editor_state *editor = NULL;
 
 /****************************************************************************
   Initialize editor tool data.
@@ -153,9 +153,7 @@ static void tool_init(enum editor_tool_type ett, const char *name,
 ****************************************************************************/
 void editor_init(void)
 {
-  if (editor != NULL) {
-    return;
-  }
+  fc_assert(editor == NULL);
 
   editor = fc_calloc(1, sizeof(struct editor_state));
 
@@ -201,6 +199,30 @@ void editor_init(void)
 
   editor->selected_tile_table = tile_hash_new();
   tile_hash_set_no_shrink(editor->selected_tile_table, TRUE);
+}
+
+/****************************************************************************
+  Clear the editor data which is game dependent.
+****************************************************************************/
+void editor_clear(void)
+{
+  fc_assert_ret(editor != NULL);
+
+  edit_buffer_clear(editor->copybuf);
+  tile_hash_clear(editor->selected_tile_table);
+}
+
+/****************************************************************************
+  Free the client's editor.
+****************************************************************************/
+void editor_free(void)
+{
+  fc_assert_ret(editor != NULL);
+
+  edit_buffer_free(editor->copybuf);
+  tile_hash_destroy(editor->selected_tile_table);
+  free(editor);
+  editor = NULL;
 }
 
 /****************************************************************************
