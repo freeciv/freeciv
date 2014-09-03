@@ -332,7 +332,7 @@ static int dai_goldequiv_clause(struct ai_type *ait,
         int limit = MAX(1, player_tech_upkeep(pplayer)
                            / research->techs_researched);
 
-        if (pplayer->bulbs_last_turn < limit) {
+        if (pplayer->server.bulbs_last_turn < limit) {
           worth /= 2;
         }
       }

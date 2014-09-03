@@ -249,8 +249,8 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
 
       bulbs = 0;
       players_iterate(aplayer) {
-	int potential = aplayer->bulbs_last_turn
-	  + city_list_size(aplayer->cities) + 1;
+        int potential = (aplayer->server.bulbs_last_turn
+                         + city_list_size(aplayer->cities) + 1);
 
 	if (players_on_same_team(aplayer, pplayer)) {
 	  continue;

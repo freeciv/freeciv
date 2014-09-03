@@ -1146,10 +1146,8 @@ static void package_player_info(struct player *plr,
       || (receiver
 	  && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
     packet->tech_upkeep = player_tech_upkeep(plr);
-    packet->bulbs_last_turn = plr->bulbs_last_turn;
   } else {
     packet->tech_upkeep = 0;
-    packet->bulbs_last_turn = 0;
   }
 
   /* Send most civ info about the player only to players who have an

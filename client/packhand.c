@@ -2100,7 +2100,6 @@ void handle_player_info(const struct packet_player_info *pinfo)
   }
 
   pplayer->ai_common.science_cost = pinfo->science_cost;
-  pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
 
   turn_done_changed = (pplayer->phase_done != pinfo->phase_done
                        || pplayer->ai_controlled != pinfo->ai);
@@ -2203,6 +2202,7 @@ void handle_research_info(const struct packet_research_info *packet)
   presearch->client.researching_cost = packet->researching_cost;
   presearch->bulbs_researched = packet->bulbs_researched;
   presearch->tech_goal = packet->tech_goal;
+  presearch->client.total_bulbs_prod = packet->total_bulbs_prod;
 
   advance_index_iterate(A_NONE, i) {
     newstate = packet->inventions[i] - '0';

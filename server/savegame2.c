@@ -3841,7 +3841,7 @@ static void sg_load_player_main(struct loaddata *loading,
   if (NULL == valid_advance_by_number(research->tech_goal)) {
     research->tech_goal = A_UNSET;
   }
-  plr->bulbs_last_turn =
+  plr->server.bulbs_last_turn =
     secfile_lookup_int_default(loading->file, 0,
                                "player%d.research.bulbs_last_turn", plrno);
   sg_failure_ret(secfile_lookup_int(loading->file,
@@ -4170,7 +4170,7 @@ static void sg_save_player_main(struct savedata *saving,
 
   technology_save(saving->file, "player%d.research.goal",
                   plrno, presearch->tech_goal);
-  secfile_insert_int(saving->file, plr->bulbs_last_turn,
+  secfile_insert_int(saving->file, plr->server.bulbs_last_turn,
                      "player%d.research.bulbs_last_turn", plrno);
   secfile_insert_int(saving->file, presearch->techs_researched,
                      "player%d.research.techs", plrno);

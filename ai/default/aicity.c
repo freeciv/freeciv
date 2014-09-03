@@ -1358,8 +1358,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   cities[REQ_RANGE_ADJACENT] = cities[REQ_RANGE_CADJACENT] = 0;
 
   players_iterate(aplayer) {
-    int potential = aplayer->bulbs_last_turn
-      + city_list_size(aplayer->cities) + 1;
+    int potential = (aplayer->server.bulbs_last_turn
+                     + city_list_size(aplayer->cities) + 1);
 
     if (potential > 0) {
       requirement_vector_iterate(&pimprove->obsolete_by, pobs) {

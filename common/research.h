@@ -97,6 +97,7 @@ struct research {
       /* Only used at the client (the server is omniscient; ./client/). */
 
       int researching_cost;
+      int total_bulbs_prod;
     } client;
   };
 };

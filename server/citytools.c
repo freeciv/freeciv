@@ -2061,6 +2061,12 @@ void send_city_info(struct player *dest, struct city *pcity)
   } else {
     send_city_info_at_tile(dest, dest->connections, pcity, pcity->tile);
   }
+
+  if (game.info.team_pooled_research
+      && player_list_size(team_members(powner->team)) > 1) {
+    /* We want to send the new total bulbs production of the team. */
+    send_research_info(research_get(powner), NULL);
+  }
 }
 
 /**************************************************************************

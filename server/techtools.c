@@ -212,6 +212,12 @@ package_research_info(struct packet_research_info *packet,
                                        FALSE) : 0);
   packet->bulbs_researched = presearch->bulbs_researched;
   packet->tech_goal = presearch->tech_goal;
+  packet->total_bulbs_prod = 0;
+  research_players_iterate(presearch, pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      packet->total_bulbs_prod += pcity->surplus[O_SCIENCE];
+    } city_list_iterate_end;
+  } research_players_iterate_end;
   advance_index_iterate(A_NONE, i) {
     packet->inventions[i] = presearch->inventions[i].state + '0';
   } advance_index_iterate_end;
@@ -243,6 +249,7 @@ void send_research_info(const struct research *presearch,
   package_research_info(&full_info, presearch);
   restricted_info = full_info;
   restricted_info.tech_goal = A_UNSET;
+  restricted_info.total_bulbs_prod = 0;
 
   conn_list_iterate(dest, pconn) {
     pplayer = conn_get_player(pconn);
@@ -535,7 +542,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
   struct research *research = research_get(pplayer);
 
   /* count our research contribution this turn */
-  pplayer->bulbs_last_turn += bulbs;
+  pplayer->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
 
   do {

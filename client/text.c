@@ -623,24 +623,21 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
   presearch = research_get(client_player());
 
   /* Sum up science */
-  players_iterate(pplayer) {
+  research_players_iterate(presearch, pplayer) {
     if (pplayer == client_player()) {
       city_list_iterate(pplayer->cities, pcity) {
-        ours += pcity->prod[O_SCIENCE];
+        ours += pcity->surplus[O_SCIENCE];
       } city_list_iterate_end;
-
-      if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
-        ours -= pplayer->client.tech_upkeep;
-      }
-    } else if (presearch == research_get(pplayer)) {
+    } else {
       team = TRUE;
-      theirs += pplayer->bulbs_last_turn;
-
-      if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
-        theirs -= pplayer->client.tech_upkeep;
-      }
+      theirs -= pplayer->client.tech_upkeep;
     }
-  } players_iterate_end;
+  } research_players_iterate_end;
+
+  if (team) {
+    theirs += presearch->client.total_bulbs_prod - ours;
+  }
+  ours -= client_player()->client.tech_upkeep;
 
   if (pours) {
     *pours = ours;

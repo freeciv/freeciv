@@ -766,7 +766,6 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   PERCENT tax, science,luxury;
 
   UINT16 tech_upkeep;
-  SINT32 bulbs_last_turn;
   UINT16 science_cost;
 
   BOOL is_connected;
@@ -835,6 +834,7 @@ PACKET_RESEARCH_INFO = 60; sc, lsend, is-game-info
   UINT32 researching_cost;
   UINT32 bulbs_researched;
   TECH tech_goal;
+  SINT32 total_bulbs_prod;
   STRING inventions[A_LAST + 1];
 end
 

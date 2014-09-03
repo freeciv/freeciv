@@ -236,7 +236,6 @@ struct player {
   struct player_score score;
   struct player_economic economic;
 
-  int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
@@ -295,6 +294,8 @@ struct player {
       char orig_username[MAX_LEN_NAME];
 
       int huts; /* How many huts this player has found */
+
+      int bulbs_last_turn; /* Number of bulbs researched last turn only. */
     } server;
 
     struct {
