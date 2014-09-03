@@ -936,6 +936,7 @@ fcmp_cli=no
 fcmp_gtk2=no
 fcmp_gtk3=no
 fcmp_qt=no
+fcmp_list=
 
 if test "x$fc_mp" = "xcli" ; then
   dnl Only cli requested -> no gui needed
@@ -976,6 +977,7 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk3=yes
+  fcmp_list="$fcmp_list gtk3"
   mp_gtk3_cflags="$GTK3_CFLAGS $GHTREAD_CFLAGS"
   mp_gtk3_libs="$GTK3_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
@@ -1001,6 +1003,7 @@ if test "x$req_fcmp_gtk2" = "xyes" ||
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
   fcmp_gtk2=yes
+  fcmp_list="$fcmp_list gtk2"
   mp_gtk2_cflags="$GTK2_CFLAGS $GTHREAD_CFLAGS"
   mp_gtk2_libs="$GTK2_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
@@ -1027,6 +1030,7 @@ if test "x$req_fcmp_qt" = "xyes" ||
 
      if test "x$fc_qt5_usable" = "xtrue" ; then
        fcmp_qt=yes
+       fcmp_list="$fcmp_list qt"
 
        mp_qt_cppflags=$FC_QT5_CPPFLAGS
        mp_qt_cxxflags=$FC_QT5_CXXFLAGS
@@ -1047,6 +1051,7 @@ fi
 dnl Cli does not satisfy --enable-fcmp=auto as it's not an gui.
 if test "x$req_fcmp_cli" = "xyes" || test "x$modinst" = "xall" ; then
   fcmp_cli=yes
+  fcmp_list="$fcmp_list cli"
 fi
 
 if test "x$modinst" != "xfound" &&
@@ -1062,6 +1067,10 @@ if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
   mp_gtk2_cflags="$mp_gtk2_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
   mp_gtk3_cflags="$mp_gtk3_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+fi
+
+if test "x$fcmp_list" = "x" ; then
+  fcmp_list="none"
 fi
 
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
@@ -1725,6 +1734,9 @@ AC_MSG_NOTICE([
       mysql:                 $fcdb_mysql
       postgres:              $fcdb_postgres
       sqlite3:               $fcdb_sqlite3
+
+  == Tools ==
+  Modpack installers:   $fcmp_list
 ])
 
 FC_MISSING_FEATURES
