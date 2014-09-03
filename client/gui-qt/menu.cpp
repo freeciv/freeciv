@@ -295,12 +295,16 @@ void mr_menu::setup_menus()
   /* Combat Menu */
   menu = this->addMenu(_("Combat"));
   act = menu->addAction(_("Fortify Unit"));
-  menu_list.insertMulti(FORTRESS, act);
+  menu_list.insertMulti(FORTIFY, act);
   act->setShortcut(QKeySequence(tr("f")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_fortify()));
+  act = menu->addAction(_("Build Type A Base"));
+  menu_list.insertMulti(FORTRESS, act);
+  act->setShortcut(QKeySequence(tr("shift+f")));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_fortress()));
   act = menu->addAction(_("Build Type B Base"));
   menu_list.insertMulti(AIRBASE, act);
-  act->setShortcut(QKeySequence(tr("e")));
+  act->setShortcut(QKeySequence(tr("shift+e")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_airbase()));
   menu->addSeparator();
   act = menu->addAction(_("Pillage"));
@@ -655,15 +659,15 @@ void mr_menu::menus_sensitive()
         }
         break;
 
-      case FORTRESS:
-        if (can_units_do_base_gui(punits, BASE_GUI_FORTRESS)
-            || can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
+      case FORTIFY:
+        if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
           i.value()->setEnabled(true);
         }
-        if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
-          i.value()->setText(_("Fortify Unit"));
-        } else {
-          i.value()->setText(_("Build Type A Base"));
+        break;
+
+      case FORTRESS:
+        if (can_units_do_base_gui(punits, BASE_GUI_FORTRESS)) {
+          i.value()->setEnabled(true);
         }
         break;
 
@@ -1069,6 +1073,14 @@ void mr_menu::slot_conn_rail()
 }
 
 /***************************************************************************
+  Action "BUILD FORTRESS"
+***************************************************************************/
+void mr_menu::slot_unit_fortress()
+{
+  key_unit_fortress();
+}
+
+/***************************************************************************
   Action "BUILD AIRBASE"
 ***************************************************************************/
 void mr_menu::slot_unit_airbase()
@@ -1174,28 +1186,13 @@ void mr_menu::slot_build_mine()
   key_unit_mine();
 }
 /****************************************************************
-  Action "FORTIFY AND BUILD BASE A (USUALLY FORTRESS)"
+  Action "FORTIFY"
 *****************************************************************/
 void mr_menu::slot_unit_fortify()
 {
-  unit_list_iterate(get_units_in_focus(), punit) {
-    /* FIXME: this can provide different actions for different units...
-     * not good! */
-    struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
-                                                   punit, unit_tile(punit));
-    struct extra_type *pextra = NULL;
-
-    if (pbase) {
-      pextra = base_extra_get(pbase);
-    }
-
-    if (pextra && can_unit_do_activity_targeted(punit, ACTIVITY_BASE, pextra)) {
-      request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
-    } else {
-      request_unit_fortify(punit);
-    }
-  } unit_list_iterate_end;
+  key_unit_fortify();
 }
+
 /****************************************************************
   Action "SENTRY"
 *****************************************************************/
