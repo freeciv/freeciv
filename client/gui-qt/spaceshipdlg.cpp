@@ -45,7 +45,7 @@ ss_report::ss_report(struct player *pplayer)
   layout->addWidget(ss_pix_label, 0, 0, 3, 3);
   ss_label = new QLabel;
   layout->addWidget(ss_label, 0, 3, 3, 1);
-  launch_button = new QPushButton(_("_Launch"));
+  launch_button = new QPushButton(_("Launch"));
   connect(launch_button, SIGNAL(clicked()), SLOT(launch()));
   layout->addWidget(launch_button, 4, 3, 1, 1);
   setLayout(layout);

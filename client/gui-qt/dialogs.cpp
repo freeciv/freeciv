@@ -1002,18 +1002,18 @@ void popup_caravan_dialog(struct unit *punit,
 
   if (destcity && caravan && unit_can_help_build_wonder(caravan, destcity)) {
     can_wonder = true;
-    fc_snprintf(buf2, sizeof(buf2), _("Help build _Wonder (%d remaining)"),
+    fc_snprintf(buf2, sizeof(buf2), _("Help build Wonder (%d remaining)"),
                 impr_build_shield_cost(destcity->production.value.building)
                 - destcity->shield_stock);
     wonder = QString(buf2);
   } else {
     can_wonder = false;
-    wonder = QString(_("Help build _Wonder"));
+    wonder = QString(_("Help build Wonder"));
   }
 
   if (can_trade) {
     func = caravan_establish_trade;
-    str = can_establish ? QString(_("Establish _Trade route")) :
+    str = can_establish ? QString(_("Establish Trade route")) :
           QString(_("Enter Marketplace"));
     caravan_dialog->add_item(str, func, qv1, qv2);
   }
@@ -1213,7 +1213,7 @@ static void spy_steal(QVariant data1, QVariant data2)
     cd->close();
   }
   struct astring stra = ASTRING_INIT;
-  cd = new choice_dialog(_("_Steal"), _("Steal Technology"),
+  cd = new choice_dialog(_("Steal"), _("Steal Technology"),
                          gui()->game_tab_widget);
   qv1 = data1;
   struct player *pplayer = client.conn.playing;
@@ -1548,7 +1548,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
   int diplomat_id;
   int diplomat_target_id;
   pfcn_void func;
-  choice_dialog *cd = new choice_dialog(_("_Sabotage"),
+  choice_dialog *cd = new choice_dialog(_("Sabotage"),
                                         _("Select Improvement to Sabotage"),
                                         gui()->game_tab_widget);
   int nr = 0;
@@ -1644,19 +1644,14 @@ void popup_disband_dialog(struct unit_list *punits)
   if (!punits || unit_list_size(punits) == 0) {
     return;
   }
-  if (unit_list_size(punits) == 1) {
-    ask.setText(_("Are you sure you want to disband that unit?"));
-  } else {
-    str =
-        QString(_("Are you sure you want to disband those %1 units?")).arg
-        (unit_list_size(punits));
-    ask.setText(str);
-  }
-  ask.setWindowTitle(_("Disband"));
+  str = QString(PL_("Are you sure you want to disband that %1 unit?",
+                  "Are you sure you want to disband those %1 units?",
+                  unit_list_size(punits))).arg(unit_list_size(punits));
+  ask.setText(str);
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
   ask.setIcon(QMessageBox::Question);
-  ask.setWindowTitle(_("Disband unit(s)"));
+  ask.setWindowTitle(_("Disband units"));
   ret = ask.exec();
 
   switch (ret) {
@@ -1772,12 +1767,12 @@ void caravan_dialog_update(void)
       if (destcity && caravan
           && unit_can_help_build_wonder(caravan, destcity)) {
         fc_snprintf(buf2, sizeof(buf2),
-                  _("Help build _Wonder (%d remaining)"),
+                  _("Help build Wonder (%d remaining)"),
                   impr_build_shield_cost(destcity->production.value.building)
                   - destcity->shield_stock);
         wonder = QString(buf2);
       } else {
-        wonder = QString(_("Help build _Wonder"));
+        wonder = QString(_("Help build Wonder"));
       }
       qpb = qobject_cast<QPushButton *>(layout->itemAt(i + 1)->widget());
       qpb->setText(wonder);
@@ -2047,13 +2042,14 @@ void unit_select::paint(QPainter *painter, QPaintEvent *event)
   }
   if (highligh_num != -1 && highligh_num < unit_list.count()) {
     punit = unit_list.at(highligh_num);
-    str2 = QString(unit_activity_text(punit))
-          + QString(" ") + QString(_("HP")) + QString(": ")
-          + QString::number(punit->hp) + QString("/")
-          + QString::number(unit_type(punit)->hp);
+    /* TRANS: HP - hit points */
+    str2 = QString(_("%1 HP:%2/%3")).arg(QString(unit_activity_text(punit)),
+                                      QString::number(punit->hp),
+                                      QString::number(unit_type(punit)->hp));
   }
-  str = QString::number(unit_list_size(utile->units)) + " "
-        + QString(_("units"));
+  str = QString(PL_("%1 unit", "%1 units",
+                    unit_list_size(utile->units)))
+                .arg(unit_list_size(utile->units));
   for (i = *f_size; i > 4; i--) {
     if (point_size < 0) {
       info_font->setPixelSize(i);

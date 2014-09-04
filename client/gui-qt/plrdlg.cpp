@@ -456,11 +456,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       && me != pplayer) {
     a = 0;
     b = 0;
-    techs_known = QString("<b>") + _("Techs unknown by") + sp
-                  + QString(nation_adjective_for_player(pplayer)) + sp
-                  + QString(_("nation")) + QString("</b> :");
-    techs_unknown = QString("<b>") + _("Techs unknown by you") + sp
-                    + QString("</b> :");
+    techs_known = QString(_("<b>Techs unknown by %1:</b>")).
+                    arg(nation_plural_for_player(pplayer));
+    techs_unknown = QString(_("<b>Techs unknown by you :</b>"));
 
     advance_iterate(A_FIRST, padvance) {
       tech_id = advance_number(padvance);

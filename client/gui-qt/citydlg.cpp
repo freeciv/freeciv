@@ -485,8 +485,9 @@ void city_map::paintEvent(QPaintEvent *event)
       pix.fill(QColor(90, 90, 90, 90));
     painter.drawPixmap(0,0, cutted_width, cutted_height, pix);
     painter.setPen(QColor(120,120,120));
-    str = _("Governor") + QString(" ")
-        +  QString(cmafec_get_short_descr_of_city(mcity));
+    /* TRANS: %1 is custom string choosen by player. */
+    str = QString(_("Governor %1"))
+                  .arg(cmafec_get_short_descr_of_city(mcity));
     painter.drawText(5,cutted_height-10,str);
   }
   painter.end();
@@ -1184,8 +1185,8 @@ void city_dialog::update_cma_tab()
                      Qt::IgnoreAspectRatio,Qt::SmoothTransformation );
     cma_result_pix->setPixmap(pix);
     cma_result_pix->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    cma_result->setText(QString("<h3>") + QString(_("Governor Enabled"))
-                        + QString(" (") + s + QString(")</h3>"));
+    /* TRANS: %1 is custom string chosen player */
+    cma_result->setText(QString(_("<h3>Governor Enabled - %1</h3>")).arg(s));
     cma_result->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   } else {
     pix = style()->standardPixmap(QStyle::SP_DialogCancelButton);
@@ -1193,8 +1194,7 @@ void city_dialog::update_cma_tab()
                      Qt::IgnoreAspectRatio,Qt::SmoothTransformation );
     cma_result_pix->setPixmap(pix);
     cma_result_pix->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    cma_result->setText(QString("<h3>") + QString(_("Governor Disabled")) +
-                        QString("</h3>"));
+    cma_result->setText(QString(_("<h3>Governor Disabled</h3>")));
     cma_result->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   }
   if (cma_is_city_under_agent(pcity, NULL)) {
@@ -1394,15 +1394,16 @@ void city_dialog::update_buy_button()
 
   buy_button->setDisabled(true);
   buy_button_p->setDisabled(true);
-  str = QString(_("Buy"));
 
   if (!client_is_observer() && client.conn.playing != NULL) {
     value = city_production_buy_gold_cost(pcity);
-    str = str + QString("( ") + QString::number(value) + " gold )";
+    str = QString(_("Buy (%1 gold)")).arg(QString::number(value));
     if (client.conn.playing->economic.gold >= value && value != 0) {
       buy_button->setEnabled(true);
       buy_button_p->setEnabled(true);
     }
+  } else {
+    str = QString(_("Buy"));
   }
   buy_button->setText(str);
   buy_button_p->setText(str);
@@ -1965,11 +1966,7 @@ void city_dialog::buy()
   int ret;
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
-  const QString title = QString::fromUtf8(_("Buy")) + QString(" ? ");
-#else
-  const QString title = QString::fromUtf8(_("Buy")) + QString::fromAscii(" ? ");
-#endif
+  const QString title = _("Buy ?");
   QMessageBox ask(this);
 
   if (!can_client_issue_orders()) {
@@ -2049,8 +2046,6 @@ void city_dialog::update_improvements()
           qitem->setData(Qt::DecorationRole, pix_scaled);
           size.setHeight(h);
           size.setWidth(pix_scaled.width()+6);
-        } else {
-          qitem->setText("Sprite missing");
         }
         break;
       case 1:
@@ -2103,8 +2098,6 @@ void city_dialog::update_improvements()
           pix = sprite->pm;
           pix_scaled = pix->scaledToHeight(h);
           qitem->setData(Qt::DecorationRole, pix_scaled);
-        } else {
-          qitem->setText(_("[Pixmap]"));
         }
         break;
       case 1:
@@ -2224,17 +2217,25 @@ void city_dialog::update_title()
                       + QString("</b></i>  "));
   pcity_name->setText(QString("<i><b>") + QString(city_name(pcity))
                       + QString("</b></i>  "));
-  buf = QString::fromUtf8(city_name(pcity)) + " - "
-        + QString::fromUtf8(population_to_text(city_population(pcity)))
-        + " " + _("citizens");
 
   if (city_unhappy(pcity)) {
-    buf = buf + " - " + _("DISORDER");
+    /* TRANS: city dialog title */
+    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name(pcity),
+                population_to_text(city_population(pcity)));
   } else if (city_celebrating(pcity)) {
-    buf = buf + " - " + _("celebrating");
+    /* TRANS: city dialog title */
+    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name(pcity),
+                population_to_text(city_population(pcity)));
   } else if (city_happy(pcity)) {
-    buf = buf + " - " + _("happy");
+    /* TRANS: city dialog title */
+    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name(pcity),
+                population_to_text(city_population(pcity)));
+  } else {
+    /* TRANS: city dialog title */
+    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name(pcity),
+                population_to_text(city_population(pcity)));
   }
+
   setWindowTitle(buf);
 }
 
