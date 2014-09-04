@@ -494,6 +494,7 @@ void game_reset(void)
 
     map_init();
     idex_init();
+    researches_init();
   }
 }
 
