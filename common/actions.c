@@ -426,6 +426,11 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city)
 {
+  if (actor_unit == NULL || target_city == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not units",
                         gen_action_name(wanted_action),
@@ -457,6 +462,11 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit)
 {
+  if (actor_unit == NULL || target_unit == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
                         FALSE, "Action %s is performed by %s not units",
                         gen_action_name(wanted_action),
@@ -830,6 +840,11 @@ action_probability action_prob_vs_city(struct unit* actor_unit,
                                        int action_id,
                                        struct city* target_city)
 {
+  if (actor_unit == NULL || target_city == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
                         FALSE, "Action %s is performed by %s not units",
                         gen_action_name(action_id),
@@ -858,6 +873,11 @@ action_probability action_prob_vs_unit(struct unit* actor_unit,
                                        int action_id,
                                        struct unit* target_unit)
 {
+  if (actor_unit == NULL || target_unit == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
                         FALSE, "Action %s is performed by %s not units",
                         gen_action_name(action_id),
