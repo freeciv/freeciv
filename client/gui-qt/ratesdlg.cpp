@@ -58,10 +58,10 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   setWindowTitle(_("Select tax, luxury and science rates"));
   QVBoxLayout *main_layout = new QVBoxLayout;
 
-  // FIXME: Translations support.
-  str = QString::fromUtf8
-        (government_name_for_player(client.conn.playing)) + " "
-        + "max rate: " + QString::number(max) + "%";
+  /* Trans: Government - max rate (of taxes) x% */
+  str = QString(_("%1 - max rate: %2%")).
+          arg(government_name_for_player(client.conn.playing),
+          QString::number(max));
 
   some_label->setText(str);
   main_layout->addWidget(some_label);
@@ -78,7 +78,7 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   connect(tax_slider, SIGNAL(valueChanged(int)),
           SLOT(slot_set_value(int)));
   group_box_layout->addWidget(tax_slider);
-  str = QString::number(tax_slider->value() * 10) + "%"; // FIXME: Translations
+  str = QString::number(tax_slider->value() * 10) + "%";
   tax_label->setText(str);
   group_box_layout->addWidget(tax_label);
   group_box_layout->addSpacing(20);

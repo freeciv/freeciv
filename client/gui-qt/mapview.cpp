@@ -37,7 +37,7 @@
 #include "qtg_cxxside.h"
 #include "mapview.h"
 
-const char*get_timeout_label_text();
+const char *get_timeout_label_text();
 static int mapview_frozen_level = 0;
 extern void destroy_city_dialog();
 extern struct canvas *canvas;
@@ -745,8 +745,8 @@ void info_label::update_menu()
 void info_label::create_end_turn_pixmap()
 {
   int w, s, r;
-  QString str(_("End Turn"));
-  QFontMetrics fm(*ufont);
+  QString str(_("Turn Done"));
+  QFontMetrics *fm;
   QPainter p;
   QPen pen;
   struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
@@ -755,19 +755,23 @@ void info_label::create_end_turn_pixmap()
   r = 8;
   for (s = 8; s < 30; s++) {
     ufont->setPixelSize(s);
-    if (fm.width(str) < w) {
+    fm = new QFontMetrics(*ufont);
+    if (fm->width(str) < w) {
       r = s;
     }
+    delete fm;
   }
   ufont->setPixelSize(r);
+  fm = new QFontMetrics(*ufont);
   pen.setColor(QColor(30, 175, 30));
-  end_turn_pix = new QPixmap(w, fm.height() + 4);
+  end_turn_pix = new QPixmap(w, fm->height() + 5);
   end_turn_pix->fill(Qt::transparent);
   p.begin(end_turn_pix);
   p.setPen(pen);
   p.setFont(*ufont);
-  p.drawText(0, fm.height() + 3, str);
+  p.drawText(0, fm->height() - 4, str);
   p.end();
+  delete fm;
 }
 
 /**************************************************************************
@@ -873,7 +877,7 @@ void info_label::mouseMoveEvent(QMouseEvent *event)
   }
 
   if (rates_area.contains(event->x(), event->y())) {
-    QToolTip::showText(p, 
+    QToolTip::showText(p,
                        QString(_("Shows your current luxury/science/tax "
                                  "rates. Use mouse wheel to change them")));
   } else if (!indicator_area.contains(event->x(), event->y())) {
@@ -1050,7 +1054,10 @@ void info_label::paint(QPainter *painter, QPaintEvent *event)
   h = h + rates_label->height() + 6;
   rates_area.setRect(w, h, rates_label->width(), rates_label->height());
   painter->drawPixmap(w, h, *rates_label);
-  h = h + end_turn_pix->height() + 6;
+  h = height() - h - rates_label->height();
+  h = (h - end_turn_pix->height()) / 2;
+  h = height() - h - end_turn_pix->height();
+  
   w = end_turn_pix->width();
   w = (width() - w) / 2;
   end_button_area.setRect(w, h, end_turn_pix->width(),
@@ -1093,12 +1100,10 @@ void info_label::info_update()
   w = qMax(w, fm->width(time_label));
   if (rates_label != NULL && indicator_icons != NULL) {
     h = 3 * (fm->height() + 5) + rates_label->height() +
-        indicator_icons->height();
+        indicator_icons->height() + end_turn_pix->height();
     w = qMax(w, rates_label->width());
     w = qMax(w, indicator_icons->width());
   }
-  ufont->setPixelSize(20);
-  h = h + fm->height() + 20;
   setFixedWidth(h + 20);
   setFixedHeight(w + 20);
   update();
@@ -1113,15 +1118,16 @@ void info_label::info_update()
 void update_info_label(void)
 {
   QString eco_info;
-  QString s = QString(textyear(game.info.year)) + " ("
-              + _("Turn") + ":" + QString::number(game.info.turn) + ")";
+  QString s = QString(_("%1 (Turn:%2)")).arg(textyear(game.info.year),
+                                         QString::number(game.info.turn));
   gui()->game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
                       client_warming_sprite(),
                       client_cooling_sprite(), client_government_sprite());
   if (client.conn.playing != NULL) {
-    eco_info = QString(_("Gold")) + ": "
-               + QString::number(client.conn.playing->economic.gold);
+    eco_info = QString(_("Gold:%1 (+%2)"))
+      .arg(QString::number(client.conn.playing->economic.gold),
+           QString::number(player_get_expected_income(client.conn.playing)));
     gui()->game_info_label->set_eco_info(eco_info);
   }
   gui()->game_info_label->set_rates_pixmap();
@@ -1480,13 +1486,15 @@ void unit_label::uupdate(unit_list *punits)
   owner = unit_owner(punit);
   pcity = player_city_by_number(owner, punit->homecity);
   if (pcity != NULL && unit_list_size(punits) == 1) {
-    unit_label1 = unit_label1 + " " + _("from") + " ";
-    unit_label1 += QString(city_name(pcity));
+    /* TRANS: unitX from cityZ */
+    unit_label1 = QString(_("%1 from %2"))
+                   .arg(get_unit_info_label_text1(punits), city_name(pcity));
   }
-  unit_label2 = QString(unit_activity_text(unit_list_get(punits, 0)))
-      + QString(" ") + QString(_("HP")) + QString(": ")
-      + QString::number(punit->hp) + QString("/")
-      + QString::number(unit_type(punit)->hp);
+  /* TRANS: HP - hit points */
+  unit_label2 = QString(_("%1 HP:%2/%3")).arg(unit_activity_text(
+                   unit_list_get(punits, 0)),
+                   QString::number(punit->hp),
+                   QString::number(unit_type(punit)->hp));
 
   if (pix != NULL) {
     delete pix;
