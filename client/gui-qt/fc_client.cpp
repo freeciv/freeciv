@@ -86,11 +86,8 @@ fc_client::fc_client() : QObject()
   unit_sel = NULL;
   info_tile_wdg = NULL;
   opened_dialog = NULL;
-  current_unit_id = -1;
   current_file = "";
   status_bar_queue.clear();
-  current_unit_target_id[ATK_CITY] = -1;
-  current_unit_target_id[ATK_UNIT] = -1;
   quitting = false;
 
   for (int i = 0; i <= PAGE_GGZ; i++) {

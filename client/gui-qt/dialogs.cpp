@@ -1110,7 +1110,6 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
 
   if (pcity) {
     /* Spy/Diplomat acting against a city */
-    gui()->set_current_unit(diplomat_id, pcity->id, ATK_CITY);
     qv2 = pcity->id;
 
     action_entry(cd,
@@ -1157,7 +1156,6 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   if ((ptunit = unit_list_get(dest_tile->units, 0))) {
     /* Spy/Diplomat acting against a unit */
 
-    gui()->set_current_unit(diplomat_id, ptunit->id, ATK_UNIT);
     qv2 = ptunit->id;
 
     action_entry(cd,
@@ -1285,6 +1283,7 @@ static void spy_steal(QVariant data1, QVariant data2)
   struct player *pvictim = NULL;
   choice_dialog *cd;
   int nr = 0;
+  QList<QVariant> actor_and_target;
 
   /* Wait for the player's reply before moving on to the next queued diplomat. */
   is_more_user_input_needed = TRUE;
@@ -1300,7 +1299,12 @@ static void spy_steal(QVariant data1, QVariant data2)
   cd = new choice_dialog(_("Steal"), _("Steal Technology"),
                          gui()->game_tab_widget,
                          diplomat_queue_handle_secondary);
-  qv1 = data1;
+
+  /* Put both actor and target city in qv1 since qv2 is taken */
+  actor_and_target.append(diplomat_id);
+  actor_and_target.append(diplomat_target_id);
+  qv1 = QVariant::fromValue(actor_and_target);
+
   struct player *pplayer = client.conn.playing;
   if (pvictim) {
     const struct research *presearch = research_get(pplayer);
@@ -1333,10 +1337,9 @@ static void spy_steal(QVariant data1, QVariant data2)
 ***************************************************************************/
 static void spy_steal_something(QVariant data1, QVariant data2)
 {
-  int diplomat_id;
-  int diplomat_target_id;
+  int diplomat_id = data1.toList().at(0).toInt();
+  int diplomat_target_id = data1.toList().at(1).toInt();
 
-  gui()->get_current_unit(&diplomat_id, &diplomat_target_id, ATK_CITY);
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_diplomat_action(DIPLOMAT_STEAL_TARGET, diplomat_id,
@@ -1839,8 +1842,6 @@ void close_diplomat_dialog(void)
   if (cd != NULL){
     cd->close();
   }
-  gui()->set_current_unit(-1, -1, ATK_UNIT);
-  gui()->set_current_unit(-1, -1, ATK_CITY);
 }
 
 /****************************************************************
@@ -2247,26 +2248,6 @@ void unit_select::wheelEvent(QWheelEvent *event)
   create_pixmap();
   update();
   event->accept();
-}
-
-/***************************************************************************
- Set current unit handled in diplo dialog
-***************************************************************************/
-void fc_client::set_current_unit(int curr, int target,
-                                 action_target_kind tgt)
-{
-  current_unit_id = curr;
-  current_unit_target_id[tgt] = target;
-}
-
-/***************************************************************************
- Get current unit handled in diplo dialog
-***************************************************************************/
-void fc_client::get_current_unit(int *curr, int *target,
-                                 action_target_kind tgt)
-{
-  *curr = current_unit_id;
-  *target = current_unit_target_id[tgt];
 }
 
 /***************************************************************************
