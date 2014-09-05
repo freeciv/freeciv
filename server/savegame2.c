@@ -438,6 +438,9 @@ static void sg_save_player_attributes(struct savedata *saving,
 static void sg_save_player_vision(struct savedata *saving,
                                   struct player *plr);
 
+static void sg_load_researches(struct loaddata *loading);
+static void sg_save_researches(struct savedata *saving);
+
 static void sg_load_event_cache(struct loaddata *loading);
 static void sg_save_event_cache(struct savedata *saving);
 
@@ -554,6 +557,8 @@ static void savegame2_load_real(struct section_file *file)
   sg_load_map(loading);
   /* [player<i>] */
   sg_load_players(loading);
+  /* [research] */
+  sg_load_researches(loading);
   /* [event_cache] */
   sg_load_event_cache(loading);
   /* [mapimg] */
@@ -606,6 +611,8 @@ static void savegame2_save_real(struct section_file *file,
   sg_save_map(saving);
   /* [player<i>] */
   sg_save_players(saving);
+  /* [research] */
+  sg_save_researches(saving);
   /* [event_cache] */
   sg_save_event_cache(saving);
   /* [mapimg] */
@@ -3444,34 +3451,6 @@ static void sg_load_players(struct loaddata *loading)
     }
   } players_iterate_end;
 
-  /* In case of tech_leakage, we can update research only after all the 
-   * players have been loaded */
-  researches_iterate(presearch) {
-    /* Mark the reachable techs */
-    research_update(presearch);
-
-    /* Check researching technology and goal. */
-    if (presearch->researching != A_UNSET
-        && !is_future_tech(presearch->researching)
-        && (valid_advance_by_number(presearch->researching) == NULL
-            || (research_invention_state(presearch, presearch->researching)
-                != TECH_PREREQS_KNOWN))) {
-      log_sg(_("%s had invalid researching technology."),
-             research_name_translation(presearch));
-      presearch->researching = A_UNSET;
-    }
-    if (presearch->tech_goal != A_UNSET
-        && !is_future_tech(presearch->tech_goal)
-        && (valid_advance_by_number(presearch->researching) == NULL
-            || !research_invention_reachable(presearch, presearch->tech_goal)
-            || (research_invention_state(presearch, presearch->tech_goal)
-                == TECH_KNOWN))) {
-      log_sg(_("%s had invalid technology goal."),
-             research_name_translation(presearch));
-      presearch->tech_goal = A_UNSET;
-    }
-  } researches_iterate_end;
-
   /* Also load the transport status of the units here. It must be a special
    * case as all units must be known (unit on an allied transporter). */
   players_iterate(pplayer) {
@@ -3649,7 +3628,6 @@ static void sg_load_player_main(struct loaddata *loading,
   int i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
-  struct research *research;
   const char *level;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -3831,65 +3809,9 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.luxury,
                                     "player%d.rates.luxury", plrno),
                  "%s", secfile_error());
-
-  /* Load research related data. */
-  research = research_get(plr);
-  init_tech(research, FALSE);
-
-  research->tech_goal =
-    technology_load(loading->file, "player%d.research.goal", plrno);
-  if (NULL == valid_advance_by_number(research->tech_goal)) {
-    research->tech_goal = A_UNSET;
-  }
   plr->server.bulbs_last_turn =
     secfile_lookup_int_default(loading->file, 0,
                                "player%d.research.bulbs_last_turn", plrno);
-  sg_failure_ret(secfile_lookup_int(loading->file,
-                                    &research->techs_researched,
-                                    "player%d.research.techs", plrno),
-                 "%s", secfile_error());
-  sg_failure_ret(secfile_lookup_int(loading->file,
-                                    &research->future_tech,
-                                    "player%d.research.futuretech", plrno),
-                 "%s", secfile_error());
-  sg_failure_ret(secfile_lookup_int(loading->file,
-                                    &research->bulbs_researched,
-                                    "player%d.research.bulbs", plrno),
-                 "%s", secfile_error());
-  research->bulbs_researching_saved
-    = secfile_lookup_int_default(loading->file, 0,
-                                 "player%d.research.bulbs_before", plrno);
-  research->researching_saved
-    = technology_load(loading->file, "player%d.research.saved", plrno);
-  research->researching
-    = technology_load(loading->file, "player%d.research.now", plrno);
-  if (NULL == valid_advance_by_number(research->researching)) {
-    research->researching = A_UNSET;
-  }
-  research->got_tech
-    = secfile_lookup_bool_default(loading->file, FALSE,
-                                  "player%d.research.got_tech", plrno);
-
-  string = secfile_lookup_str(loading->file, "player%d.research.done", plrno);
-  sg_failure_ret(string != NULL, "%s", secfile_error());
-  sg_failure_ret(strlen(string) == loading->technology.size,
-                 "Invalid length of 'player%d.technology' (%lu ~= %lu).",
-                 plrno, (unsigned long) strlen(string),
-                 (unsigned long) loading->technology.size);
-  for (i = 0; i < loading->technology.size; i++) {
-    sg_failure_ret(string[i] == '1' || string[i] == '0',
-                   "Undefined value '%c' within 'player%d.technology'.",
-                   string[i], plrno)
-
-    if (string[i] == '1') {
-      struct advance *padvance =
-          advance_by_rule_name(loading->technology.order[i]);
-      if (padvance) {
-        research_invention_set(research, advance_number(padvance),
-                               TECH_KNOWN);
-      }
-    }
-  }
 
   /* Traits */
   {
@@ -4058,7 +3980,6 @@ static void sg_load_player_main(struct loaddata *loading,
 static void sg_save_player_main(struct savedata *saving,
                                 struct player *plr)
 {
-  const struct research *presearch = research_get(plr);
   int i, k, plrno = player_number(plr);
   struct player_spaceship *ship = &plr->spaceship;
 
@@ -4167,37 +4088,8 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.rates.science", plrno);
   secfile_insert_int(saving->file, plr->economic.luxury,
                      "player%d.rates.luxury", plrno);
-
-  technology_save(saving->file, "player%d.research.goal",
-                  plrno, presearch->tech_goal);
   secfile_insert_int(saving->file, plr->server.bulbs_last_turn,
                      "player%d.research.bulbs_last_turn", plrno);
-  secfile_insert_int(saving->file, presearch->techs_researched,
-                     "player%d.research.techs", plrno);
-  secfile_insert_int(saving->file, presearch->future_tech,
-                     "player%d.research.futuretech", plrno);
-  secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
-                     "player%d.research.bulbs_before", plrno);
-  technology_save(saving->file, "player%d.research.saved", plrno,
-                  presearch->researching_saved);
-  secfile_insert_int(saving->file, presearch->bulbs_researched,
-                     "player%d.research.bulbs", plrno);
-  technology_save(saving->file, "player%d.research.now", plrno,
-                  presearch->researching);
-  secfile_insert_bool(saving->file, presearch->got_tech,
-                      "player%d.research.got_tech", plrno);
-
-  /* Save technology lists as bytevector. Note that technology order is
-   * saved in savefile.technology.order */
-  {
-    char invs[A_LAST+1];
-    advance_index_iterate(A_NONE, tech_id) {
-      invs[tech_id] = (research_invention_state(presearch, tech_id)
-                       == TECH_KNOWN ? '1' : '0');
-    } advance_index_iterate_end;
-    invs[game.control.num_tech_types] = '\0';
-    secfile_insert_str(saving->file, invs, "player%d.research.done", plrno);
-  }
 
   /* Save traits */
   {
@@ -6327,6 +6219,141 @@ static void sg_save_player_vision(struct savedata *saving,
 }
 
 /* =======================================================================
+ * Load / save the researches.
+ * ======================================================================= */
+
+/****************************************************************************
+  Load '[research]'.
+****************************************************************************/
+static void sg_load_researches(struct loaddata *loading)
+{
+  struct research *presearch;
+  int count;
+  int number;
+  const char *string;
+  int i, j;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  /* Initialize all researches. */
+  researches_iterate(presearch) {
+    init_tech(presearch, FALSE);
+  } researches_iterate_end;
+
+  /* May be unsaved (e.g. scenario case). */
+  count = secfile_lookup_int_default(loading->file, 0, "research.count");
+  for (i = 0; i < count; i++) {
+    sg_failure_ret(secfile_lookup_int(loading->file, &number,
+                                      "research.r%d.number", i),
+                   "%s", secfile_error());
+    presearch = research_by_number(number);
+    sg_failure_ret(presearch != NULL,
+                   "Invalid research number %d in 'research.r%d.number'",
+                   number, i);
+
+    presearch->tech_goal = technology_load(loading->file,
+                                           "research.r%d.goal", i);
+    sg_failure_ret(secfile_lookup_int(loading->file,
+                                      &presearch->techs_researched,
+                                      "research.r%d.techs", i),
+                 "%s", secfile_error());
+    sg_failure_ret(secfile_lookup_int(loading->file,
+                                      &presearch->future_tech,
+                                      "research.r%d.futuretech", i),
+                   "%s", secfile_error());
+    sg_failure_ret(secfile_lookup_int(loading->file,
+                                      &presearch->bulbs_researched,
+                                      "research.r%d.bulbs", i),
+                   "%s", secfile_error());
+    sg_failure_ret(secfile_lookup_int(loading->file,
+                                      &presearch->bulbs_researching_saved,
+                                      "research.r%d.bulbs_before", i),
+                   "%s", secfile_error());
+    presearch->researching_saved = technology_load(loading->file,
+                                                   "research.r%d.saved", i);
+    presearch->researching = technology_load(loading->file,
+                                             "research.r%d.now", i);
+    sg_failure_ret(secfile_lookup_bool(loading->file,
+                                       &presearch->got_tech,
+                                       "research.r%d.got_tech", i),
+                   "%s", secfile_error());
+
+    string = secfile_lookup_str(loading->file, "research.r%d.done",
+                                i);
+    sg_failure_ret(string != NULL, "%s", secfile_error());
+    sg_failure_ret(strlen(string) == loading->technology.size,
+                   "Invalid length of 'research.r%d.done' (%lu ~= %lu).",
+                   i, (unsigned long) strlen(string),
+                   (unsigned long) loading->technology.size);
+    for (j = 0; j < loading->technology.size; j++) {
+      sg_failure_ret(string[j] == '1' || string[j] == '0',
+                     "Undefined value '%c' within 'research.r%d.done'.",
+                     string[j], i);
+
+      if (string[j] == '1') {
+        struct advance *padvance =
+            advance_by_rule_name(loading->technology.order[j]);
+
+        if (padvance) {
+          research_invention_set(presearch, advance_number(padvance),
+                                 TECH_KNOWN);
+        }
+      }
+    }
+  }
+
+  /* In case of tech_leakage, we can update research only after all the
+   * researches have been loaded */
+  researches_iterate(presearch) {
+    research_update(presearch);
+  } researches_iterate_end;
+}
+
+/****************************************************************************
+  Save '[research]'.
+****************************************************************************/
+static void sg_save_researches(struct savedata *saving)
+{
+  char invs[A_LAST];
+  int i = 0;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  researches_iterate(presearch) {
+    secfile_insert_int(saving->file, research_number(presearch),
+                       "research.r%d.number", i);
+    technology_save(saving->file, "research.r%d.goal",
+                    i, presearch->tech_goal);
+    secfile_insert_int(saving->file, presearch->techs_researched,
+                       "research.r%d.techs", i);
+    secfile_insert_int(saving->file, presearch->future_tech,
+                       "research.r%d.futuretech", i);
+    secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
+                       "research.r%d.bulbs_before", i);
+    technology_save(saving->file, "research.r%d.saved",
+                    i, presearch->researching_saved);
+    secfile_insert_int(saving->file, presearch->bulbs_researched,
+                       "research.r%d.bulbs", i);
+    technology_save(saving->file, "research.r%d.now",
+                    i, presearch->researching);
+    secfile_insert_bool(saving->file, presearch->got_tech,
+                        "research.r%d.got_tech", i);
+    /* Save technology lists as bytevector. Note that technology order is
+     * saved in savefile.technology.order */
+    advance_index_iterate(A_NONE, tech_id) {
+      invs[tech_id] = (research_invention_state(presearch, tech_id)
+                       == TECH_KNOWN ? '1' : '0');
+    } advance_index_iterate_end;
+    invs[game.control.num_tech_types] = '\0';
+    secfile_insert_str(saving->file, invs, "research.r%d.done", i);
+    i++;
+  } researches_iterate_end;
+  secfile_insert_int(saving->file, i, "research.count");
+}
+
+/* =======================================================================
  * Load / save the event cache. Sould be the last think to do.
  * ======================================================================= */
 
@@ -6512,6 +6539,29 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     } whole_map_iterate_end;
   }
 #endif /* DEBUG */
+
+  /* Check researching technologies and goals. */
+  researches_iterate(presearch) {
+    if (presearch->researching != A_UNSET
+        && !is_future_tech(presearch->researching)
+        && (valid_advance_by_number(presearch->researching) == NULL
+            || (research_invention_state(presearch, presearch->researching)
+                != TECH_PREREQS_KNOWN))) {
+      log_sg(_("%s had invalid researching technology."),
+             research_name_translation(presearch));
+      presearch->researching = A_UNSET;
+    }
+    if (presearch->tech_goal != A_UNSET
+        && !is_future_tech(presearch->tech_goal)
+        && (valid_advance_by_number(presearch->researching) == NULL
+            || !research_invention_reachable(presearch, presearch->tech_goal)
+            || (research_invention_state(presearch, presearch->tech_goal)
+                == TECH_KNOWN))) {
+      log_sg(_("%s had invalid technology goal."),
+             research_name_translation(presearch));
+      presearch->tech_goal = A_UNSET;
+    }
+  } researches_iterate_end;
 
   if (0 == strlen(server.game_identifier)
       || !is_base64url(server.game_identifier)) {

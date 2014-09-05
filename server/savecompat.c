@@ -556,6 +556,7 @@ static void compat_load_020600(struct loaddata *loading)
 {
   int nplayers;
   int i;
+  bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -686,6 +687,11 @@ static void compat_load_020600(struct loaddata *loading)
           } else {
             log_sg("Setting '%s': %s", name, secfile_error());
           }
+        } else if (!fc_strcasecmp("team_pooled_research", name)) {
+          sg_warn(secfile_lookup_bool(loading->file,
+                                      &team_pooled_research,
+                                      "settings.set%d.value", i),
+                  "%s", secfile_error());
         }
       }
 
@@ -765,6 +771,94 @@ static void compat_load_020600(struct loaddata *loading)
                            i, j, k++);
       } specialist_type_iterate_end;
     }
+  }
+
+  /* Build [research]. */
+  {
+    const struct {
+      const char *entry_name;
+      enum entry_type entry_type;
+    } entries[] = {
+      { "goal_name", ENTRY_STR },
+      { "techs", ENTRY_INT },
+      { "futuretech", ENTRY_INT },
+      { "bulbs_before", ENTRY_INT },
+      { "saved_name", ENTRY_STR },
+      { "bulbs", ENTRY_INT },
+      { "now_name", ENTRY_STR },
+      { "got_tech", ENTRY_BOOL },
+      { "done", ENTRY_STR }
+    };
+
+    int researches[MAX(player_slot_count(), team_slot_count())];
+    int count = 0;
+    int j;
+
+    for (i = 0; i < ARRAY_SIZE(researches); i++) {
+      researches[i] = -1;
+    }
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int ival;
+      bool bval;
+      const char *sval;
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno) == NULL) {
+        continue;
+      }
+
+      /* Get the research number. */
+      if (team_pooled_research) {
+        i = secfile_lookup_int_default(loading->file, plrno,
+                                       "player%d.team_no", plrno);
+      } else {
+        i = plrno;
+      }
+
+      sg_failure_ret(i >= 0 && i < ARRAY_SIZE(researches),
+                     "Research out of bounds (%d)!", i);
+
+      /* Find the index in [research] section. */
+      if (researches[i] == -1) {
+        /* This is the first player for this research. */
+        secfile_insert_int(loading->file, i, "research.r%d.number", count);
+        researches[i] = count;
+        count++;
+      }
+      i = researches[i];
+
+      /* Move entries. */
+      for (j = 0; j < ARRAY_SIZE(entries); j++) {
+        switch (entries[j].entry_type) {
+        case ENTRY_BOOL:
+          if (secfile_lookup_bool(loading->file, &bval,
+                                  "player%d.research.%s",
+                                  plrno, entries[j].entry_name)) {
+            secfile_insert_bool(loading->file, bval, "research.r%d.%s",
+                                i, entries[j].entry_name);
+          }
+          break;
+        case ENTRY_INT:
+          if (secfile_lookup_int(loading->file, &ival,
+                                 "player%d.research.%s",
+                                 plrno, entries[j].entry_name)) {
+            secfile_insert_int(loading->file, ival, "research.r%d.%s",
+                               i, entries[j].entry_name);
+          }
+          break;
+        case ENTRY_STR:
+          if ((sval = secfile_lookup_str(loading->file,
+                                         "player%d.research.%s",
+                                         plrno, entries[j].entry_name))) {
+            secfile_insert_str(loading->file, sval, "research.r%d.%s",
+                               i, entries[j].entry_name);
+          }
+          break;
+        }
+      }
+    } player_slots_iterate_end;
+    secfile_insert_int(loading->file, count, "research.count");
   }
 }
 
