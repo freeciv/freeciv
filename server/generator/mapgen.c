@@ -3636,11 +3636,10 @@ static bool map_generate_fair_islands(void)
           break;
         }
         i += k;
-        team_players_num -= k;
         j++;
       } teams_iterate_end;
 
-      fc_assert(!done || team_players_num == 0);
+      fc_assert(!done || i == team_players_num);
     }
 
     if (done) {
@@ -3651,9 +3650,8 @@ static bool map_generate_fair_islands(void)
           done = FALSE;
           break;
         }
-        single_players_num -= players_per_island;
       }
-      fc_assert(!done || single_players_num == 0);
+      fc_assert(!done || i == player_count());
     }
     fair_map_destroy(pisland);
 
