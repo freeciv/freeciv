@@ -362,11 +362,11 @@ static void ai_manage_taxes(struct player *pplayer)
 
     /* The delta between the estimate and the real value. */
     delta_sci = (result[AI_RATE_SCI] - tech_upkeep)
-                - pplayer->bulbs_last_turn;
+                - pplayer->server.bulbs_last_turn;
     log_base(LOGLEVEL_TAX, "%s [sci] estimated=%d real=%d (delta=%d)",
              player_name(pplayer),
              result[AI_RATE_SCI] - tech_upkeep,
-             pplayer->bulbs_last_turn, delta_sci);
+             pplayer->server.bulbs_last_turn, delta_sci);
 
     log_base(LOGLEVEL_TAX, "%s [sci] trade=%d bulbs=%d upkeep=%d",
              player_name(pplayer), trade, research->bulbs_researched,

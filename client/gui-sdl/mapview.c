@@ -338,7 +338,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
 		advance_name_researching(client.conn.playing),
 		player_research_get(client.conn.playing)->bulbs_researched,
-		total_bulbs_required(client.conn.playing));
+                player_research_get(client_player())->client.researching_cost);
   } else {
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",

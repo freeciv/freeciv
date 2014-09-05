@@ -697,15 +697,17 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   GOLD gold;
   PERCENT tax, science,luxury;
 
-  SINT16 bulbs_last_turn_old; remove-cap(bulbs_size)
-  SINT32 bulbs_last_turn_new; add-cap(bulbs_size)
+  SINT16 bulbs_last_turn; remove-cap(bulbs_size)
+  SINT32 bulbs_prod; add-cap(bulbs_size)
   UINT32 bulbs_researched;
   UINT32 techs_researched;
   UINT8 researching;
+  UINT32 researching_cost; add-cap(tech_cost)
   UINT16 science_cost;
-
   UINT16 future_tech;
   UINT8 tech_goal;
+  UINT16 tech_upkeep; add-cap(tech_cost)
+
   BOOL is_connected;
   TURN revolution_finishes;
   BOOL ai;

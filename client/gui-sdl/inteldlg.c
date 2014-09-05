@@ -326,7 +326,8 @@ void update_intel_dialog(struct player *p)
                   NULL != pCapital ? city_name(pCapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax, p->economic.science,
                   p->economic.luxury, advance_name_researching(p),
-                  research->bulbs_researched, total_bulbs_required(p));
+                  research->bulbs_researched,
+                  research->client.researching_cost);
       break;
     };
     

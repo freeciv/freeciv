@@ -693,7 +693,7 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
   players_iterate(pplayer) {
     if (pplayer == client_player()) {
       city_list_iterate(pplayer->cities, pcity) {
-        ours += pcity->prod[O_SCIENCE];
+        ours += pcity->surplus[O_SCIENCE];
       } city_list_iterate_end;
 
       if (game.info.tech_upkeep_style == 1) {
@@ -701,7 +701,7 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
       }
     } else if (presearch == player_research_get(pplayer)) {
       team = TRUE;
-      theirs += pplayer->bulbs_last_turn;
+      theirs += pplayer->client.bulbs_prod;
 
       if (game.info.tech_upkeep_style == 1) {
         theirs -= pplayer->client.tech_upkeep;;
@@ -749,7 +749,7 @@ const char *science_dialog_text(void)
     astr_add(&str, _("Progress: no research"));
   } else {
     int done = research->bulbs_researched;
-    int total = total_bulbs_required(client_player());
+    int total = research->client.researching_cost;
 
     if (perturn > 0) {
       int turns = MAX(1, ceil((double)total) / perturn);
@@ -819,7 +819,7 @@ const char *get_science_target_text(double *percent)
       *percent = 0.0;
     }
   } else {
-    int total = total_bulbs_required(client.conn.playing);
+    int total = research->client.researching_cost;
     int done = research->bulbs_researched;
     int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
 
@@ -1321,7 +1321,7 @@ const char *get_bulb_tooltip(void)
       int turns = 0;
       int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
       int done = research->bulbs_researched;
-      int total = total_bulbs_required(client_player());
+      int total = research->client.researching_cost;
       struct astring buf1 = ASTRING_INIT, buf2 = ASTRING_INIT;
 
       if (perturn > 0) {
@@ -1343,7 +1343,7 @@ const char *get_bulb_tooltip(void)
       astr_add_line(&str, _("%s: %d/%d (%s, %s)."),
                     advance_name_researching(client.conn.playing),
                     research->bulbs_researched,
-                    total_bulbs_required(client.conn.playing),
+                    research->client.researching_cost,
                     astr_str(&buf1), astr_str(&buf2));
       
       astr_free(&buf1);

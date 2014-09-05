@@ -322,7 +322,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
         int limit = MAX(1, player_tech_upkeep(pplayer)
                            / research->techs_researched);
 
-        if (pplayer->bulbs_last_turn < limit) {
+        if (pplayer->server.bulbs_last_turn < limit) {
           worth /= 2;
         }
       }

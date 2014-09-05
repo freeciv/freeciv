@@ -2552,7 +2552,7 @@ void real_science_report_dialog_update(void)
     pChangeResearchGoalButton = pWindow->prev->prev;
     
     if (A_UNSET != player_research_get(client.conn.playing)->researching) {
-      cost = total_bulbs_required(client.conn.playing);
+      cost = player_research_get(client_player())->client.researching_cost;
     } else {
       cost = 0;
     }        

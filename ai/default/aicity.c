@@ -1181,8 +1181,8 @@ static int improvement_effect_value(struct player *pplayer,
       turns = 9999;
       bulbs = 0;
       players_iterate(aplayer) {
-	int potential = aplayer->bulbs_last_turn
-	  + city_list_size(aplayer->cities) + 1;
+        int potential = (aplayer->server.bulbs_last_turn
+                         + city_list_size(aplayer->cities) + 1);
 
         if (potential > 0) {
           if (valid_advance(pimprove->obsolete_by)) {

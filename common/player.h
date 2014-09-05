@@ -211,7 +211,6 @@ struct player {
   struct player_score score;
   struct player_economic economic;
 
-  int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
@@ -263,6 +262,8 @@ struct player {
        *    aside' while the delegate user controls a delegated player.
        *    (In this case orig_username == username.) */
       char orig_username[MAX_LEN_NAME];
+
+      int bulbs_last_turn; /* Number of bulbs researched last turn only. */
     } server;
 
     struct {
@@ -273,6 +274,7 @@ struct player {
       struct dbv tile_vision[V_COUNT];
 
       int tech_upkeep;
+      int bulbs_prod; /* Current number of bulbs production. */
     } client;
   };
 };

@@ -2066,9 +2066,9 @@ void handle_player_info(const struct packet_player_info *pinfo)
   poptechup = (research->researching != pinfo->researching
                || research->tech_goal != pinfo->tech_goal);
   if (has_capability("bulbs_size", client.conn.capability)) {
-    pplayer->bulbs_last_turn = pinfo->bulbs_last_turn_new;
+    pplayer->client.bulbs_prod = pinfo->bulbs_prod;
   } else {
-    pplayer->bulbs_last_turn = pinfo->bulbs_last_turn_old;
+    pplayer->client.bulbs_prod = pinfo->bulbs_last_turn;
   }
   research->bulbs_researched = pinfo->bulbs_researched;
   research->techs_researched = pinfo->techs_researched;
@@ -2095,7 +2095,13 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->ai_common.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai_common.skill_level = pinfo->ai_skill_level;
-  pplayer->client.tech_upkeep = player_tech_upkeep(pplayer);
+  if (has_capability("tech_cost", client.conn.capability)) {
+    research->client.researching_cost = pinfo->researching_cost;
+    pplayer->client.tech_upkeep = pinfo->tech_upkeep;
+  } else {
+    research->client.researching_cost = total_bulbs_required(pplayer);
+    pplayer->client.tech_upkeep = player_tech_upkeep(pplayer);
+  }
 
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the
@@ -2116,32 +2122,32 @@ void handle_player_info(const struct packet_player_info *pinfo)
 
   /* The player information is now fully set. Update the GUI. */
 
-  if (pplayer == my_player && can_client_change_view()) {
-    if (poptechup) {
-      if (client_has_player() && !my_player->ai_controlled) {
+  if (my_player != NULL && can_client_change_view()) {
+    if (research == player_research_get(my_player)) {
+      if (poptechup && !my_player->ai_controlled) {
         science_report_dialog_popup(FALSE);
       }
-    }
-    if (new_tech) {
-      /* If we just learned bridge building and focus is on a settler
-         on a river the road menu item will remain disabled unless we
-         do this. (applys in other cases as well.) */
-      if (get_num_units_in_focus() > 0) {
-        menus_update();
+      science_report_dialog_update();
+      if (new_tech) {
+        /* If we just learned bridge building and focus is on a settler
+           on a river the road menu item will remain disabled unless we
+           do this. (applys in other cases as well.) */
+        if (get_num_units_in_focus() > 0) {
+          menus_update();
+        }
+        /* If we got a new tech the tech tree news an update. */
+        science_report_dialog_redraw();
       }
     }
-    if (turn_done_changed) {
-      update_turn_done_button_state();
+    if (pplayer == my_player) {
+      if (turn_done_changed) {
+        update_turn_done_button_state();
+      }
+      economy_report_dialog_update();
+      units_report_dialog_update();
+      city_report_dialog_update();
+      update_info_label();
     }
-    science_report_dialog_update();
-    if (new_tech) {
-      /* If we got a new tech the tech tree news an update. */
-      science_report_dialog_redraw();
-    }
-    economy_report_dialog_update();
-    units_report_dialog_update();
-    city_report_dialog_update();
-    update_info_label();
   }
 
   upgrade_canvas_clipboard();

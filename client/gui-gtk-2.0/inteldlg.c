@@ -413,7 +413,7 @@ void update_intel_dialog(struct player *p)
               fc_snprintf(buf, sizeof(buf), "%s(%d/%d)",
                           advance_name_researching(p),
                           research->bulbs_researched,
-                          total_bulbs_required(p));
+                          research->client.researching_cost);
               break;
             }
             break;

@@ -265,7 +265,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
     fc_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advance_name_researching(pdialog->pplayer),
 		player_research_get(pdialog->pplayer)->bulbs_researched,
-		total_bulbs_required(pdialog->pplayer));
+                player_research_get(pdialog->pplayer)->client.researching_cost);
     break;
   };
 

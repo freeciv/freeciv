@@ -500,7 +500,7 @@ void update_city_activities(struct player *pplayer)
 
   n = city_list_size(pplayer->cities);
   gold = pplayer->economic.gold;
-  pplayer->bulbs_last_turn = 0;
+  pplayer->server.bulbs_last_turn = 0;
 
   if (n > 0) {
     struct city *cities[n];

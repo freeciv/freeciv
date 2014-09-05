@@ -668,6 +668,10 @@ int base_total_bulbs_required(const struct player *pplayer,
   int members;
   double base_cost, total_cost;
 
+  if (A_UNSET == tech) {
+    return 0;
+  }
+
   if (pplayer
       && !is_future_tech(tech)
       && player_invention_state(pplayer, tech) == TECH_KNOWN) {
