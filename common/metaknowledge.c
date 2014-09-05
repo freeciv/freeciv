@@ -236,10 +236,7 @@ static bool is_req_knowable(const struct player *pow_player,
   }
 
   if (req->source.kind == VUT_MINSIZE && target_city != NULL) {
-    enum known_type vision =
-        tile_get_known(city_tile(target_city), pow_player);
-
-    if (vision == TILE_KNOWN_SEEN
+    if (is_tile_seen(pow_player, city_tile(target_city))
         || city_owner(target_city) == pow_player) {
       return TRUE;
     }
@@ -334,8 +331,7 @@ static bool is_req_knowable(const struct player *pow_player,
       }
 
       /* Can see visible improvements in seen cities. */
-      if (tile_get_known(city_tile(target_city), pow_player)
-          == TILE_KNOWN_SEEN) {
+      if (is_tile_seen(pow_player, city_tile(target_city))) {
         return TRUE;
       }
 
