@@ -23,6 +23,7 @@
 /* common */
 #include "actions.h"
 #include "game.h"
+#include "movement.h"
 #include "research.h"
 #include "unitlist.h"
 
@@ -796,7 +797,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
   }
 
   /* ---------- */
-  if (is_diplomat_action_available(pUnit, DIPLOMAT_MOVE, ptile)) {
+  if (unit_can_move_to_tile(pUnit, ptile, FALSE)) {
 
     if (pCity) {
       create_active_iconlabel(pBuf, pWindow->dst, pStr,

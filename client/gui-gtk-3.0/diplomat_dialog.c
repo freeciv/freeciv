@@ -24,6 +24,7 @@
 /* common */
 #include "actions.h"
 #include "game.h"
+#include "movement.h"
 #include "research.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -908,7 +909,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                  data);
   }
 
-  if (is_diplomat_action_available(punit, DIPLOMAT_MOVE, dest_tile)) {
+  if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
     if (pcity) {
       choice_dialog_add(shl, _("_Keep moving"),
                         (GCallback)diplomat_keep_moving_city_callback,

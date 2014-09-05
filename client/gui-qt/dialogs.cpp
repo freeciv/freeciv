@@ -1175,7 +1175,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
     qv2 = ptunit->id;
   }
 
-  if (is_diplomat_action_available(punit, DIPLOMAT_MOVE, dest_tile)) {
+  if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
     if (pcity) {
       func = diplomat_keep_moving_city;
       cd->add_item(QString(_("Keep moving")), func, qv1, qv2);

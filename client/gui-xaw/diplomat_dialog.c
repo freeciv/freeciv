@@ -35,6 +35,7 @@
 #include "actions.h"
 #include "game.h"
 #include "improvement.h"
+#include "movement.h"
 #include "research.h"
 #include "tech.h"
 #include "unitlist.h"
@@ -854,7 +855,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                ACTION_SPY_SABOTAGE_UNIT,
                action_probabilities);
 
-  if (!is_diplomat_action_available(punit, DIPLOMAT_MOVE, dest_tile)) {
+  if (!unit_can_move_to_tile(punit, dest_tile, FALSE)) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button10"), FALSE);
   }
 
