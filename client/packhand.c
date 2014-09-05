@@ -3395,7 +3395,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
     if (punit) {
       if (NULL != client.conn.playing
           && !client.conn.playing->ai_controlled) {
-        popup_bribe_dialog(punit, cost);
+        popup_bribe_dialog(pdiplomat, punit, cost);
       }
     }
     break;
@@ -3403,7 +3403,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
     if (pcity) {
       if (NULL != client.conn.playing
           && !client.conn.playing->ai_controlled) {
-        popup_incite_dialog(pcity, cost);
+        popup_incite_dialog(pdiplomat, pcity, cost);
       }
     }
     break;
@@ -3439,7 +3439,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
                                               improvement_index(pimprove)));
     } improvement_iterate_end;
 
-    popup_sabotage_dialog(pcity);
+    popup_sabotage_dialog(pdiplomat, pcity);
   }
 }
 

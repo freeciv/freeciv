@@ -827,11 +827,11 @@ static int sabotage_impr_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/*************************************************************************
  Pops-up the Spy sabotage dialog, upon return of list of
  available improvements requested by the above function.
-*****************************************************************/
-void popup_sabotage_dialog(struct city *pCity)
+**************************************************************************/
+void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
 {
   struct widget *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
@@ -1119,7 +1119,7 @@ void popdown_incite_dialog(void)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct city *pCity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
@@ -1370,7 +1370,7 @@ void popdown_bribe_dialog(void)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *pUnit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;

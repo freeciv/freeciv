@@ -108,7 +108,7 @@ static void diplomat_bribe_callback(Widget w, XtPointer client_data,
 /**************************************************************************
   Creates and popups the bribe dialog
 **************************************************************************/
-void popup_bribe_dialog(struct unit *punit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
 {
   char tbuf[128], buf[128];
 
@@ -590,7 +590,7 @@ static void spy_request_sabotage_list(Widget w, XtPointer client_data,
   Pops-up the Spy sabotage dialog, upon return of list of
   available improvements requested by the above function.
 **************************************************************************/
-void popup_sabotage_dialog(struct city *pcity)
+void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
 {  
   if(!spy_sabotage_shell){
     Position x, y;
@@ -654,7 +654,7 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
 /**************************************************************************
   Popup the yes/no dialog for inciting, since we know the cost now
 **************************************************************************/
-void popup_incite_dialog(struct city *pcity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 {
   char tbuf[128], buf[128];
 

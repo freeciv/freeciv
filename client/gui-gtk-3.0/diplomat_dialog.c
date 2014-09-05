@@ -79,10 +79,10 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
   gtk_widget_destroy(diplomat_dialog);
 }
 
-/****************************************************************
+/*************************************************************************
   Popup unit bribe dialog
-*****************************************************************/
-void popup_bribe_dialog(struct unit *punit, int cost)
+**************************************************************************/
+void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
 {
   GtkWidget *shell;
   char buf[1024];
@@ -529,11 +529,11 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
   gtk_widget_destroy(diplomat_dialog);
 }
 
-/****************************************************************
+/*************************************************************************
  Pops-up the Spy sabotage dialog, upon return of list of
  available improvements requested by the above function.
-*****************************************************************/
-void popup_sabotage_dialog(struct city *pcity)
+**************************************************************************/
+void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
 {
   if(!spy_sabotage_shell){
     create_improvements_list(client.conn.playing, pcity);
@@ -566,10 +566,10 @@ static void incite_response(GtkWidget *w, gint response)
   gtk_widget_destroy(w);
 }
 
-/****************************************************************
+/*************************************************************************
 Popup the yes/no dialog for inciting, since we know the cost now
-*****************************************************************/
-void popup_incite_dialog(struct city *pcity, int cost)
+**************************************************************************/
+void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 {
   GtkWidget *shell;
   char buf[1024];
