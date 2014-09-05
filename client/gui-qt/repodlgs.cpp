@@ -236,7 +236,7 @@ void science_report::update_report()
   }
 
   if (research->researching != A_UNSET) {
-    total = total_bulbs_required(client.conn.playing);
+    total = research->client.researching_cost;
   } else  {
     total = -1;
   }

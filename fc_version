@@ -55,7 +55,7 @@ DEFAULT_FOLLOW_TAG=S2_5
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv-2.5-network"
-NETWORK_CAPSTRING_OPTIONAL="nationset_change"
+NETWORK_CAPSTRING_OPTIONAL="nationset_change tech_cost"
 
 FREECIV_DISTRIBUTOR=""
 

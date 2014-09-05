@@ -353,8 +353,8 @@ struct sprite *client_research_sprite(void)
 
     if (is_future_tech(presearch->researching)
         || NULL != valid_advance_by_number(presearch->researching)) {
-      index = (NUM_TILES_PROGRESS * presearch->bulbs_researched)
-	/ (total_bulbs_required(client.conn.playing) + 1);
+      index = (NUM_TILES_PROGRESS * presearch->bulbs_researched
+               / (presearch->client.researching_cost + 1));
     }
 
     /* This clipping can be necessary since we can end up with excess

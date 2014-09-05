@@ -2085,7 +2085,7 @@ static void player_load_main(struct player *plr, int plrno,
                                         "player%d.luxury", plrno),
                      "%s", secfile_error());
 
-  plr->bulbs_last_turn =
+  plr->server.bulbs_last_turn =
     secfile_lookup_int_default(file, 0,
                                "player%d.bulbs_last_turn", plrno);
 

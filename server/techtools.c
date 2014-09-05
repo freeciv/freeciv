@@ -497,7 +497,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
   struct player_research *research = player_research_get(plr);
 
   /* count our research contribution this turn */
-  plr->bulbs_last_turn += bulbs;
+  plr->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
 
   /* if we have a negative number of bulbs we do

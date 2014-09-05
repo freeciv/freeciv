@@ -76,6 +76,18 @@ struct player_research {
    * Cached values. Updated by player_research_update.
    */
   int num_known_tech_with_flag[TF_COUNT];
+
+  union {
+    struct {
+      /* Only used in the server (./ai/ and ./server/). */
+    } server;
+
+    struct {
+      /* Only used at the client (the server is omniscient; ./client/). */
+
+      int researching_cost;
+    } client;
+  };
 };
 
 /* Common functions. */

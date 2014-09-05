@@ -1072,9 +1072,11 @@ static void package_player_info(struct player *plr,
   if (info_level >= INFO_EMBASSY 
       || (receiver
 	  && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
-    packet->bulbs_last_turn = plr->bulbs_last_turn;
+    packet->bulbs_prod = plr->server.bulbs_last_turn;
+    packet->tech_upkeep = player_tech_upkeep(plr);
   } else {
-    packet->bulbs_last_turn = 0;
+    packet->bulbs_prod = 0;
+    packet->tech_upkeep = 0;
   }
 
   /* Send most civ info about the player only to players who have an
@@ -1090,6 +1092,7 @@ static void package_player_info(struct player *plr,
     packet->bulbs_researched = research->bulbs_researched;
     packet->techs_researched = research->techs_researched;
     packet->researching = research->researching;
+    packet->researching_cost = total_bulbs_required(plr);
     packet->future_tech = research->future_tech;
     packet->revolution_finishes = plr->revolution_finishes;
   } else {
@@ -1119,6 +1122,10 @@ static void package_player_info(struct player *plr,
       || (receiver
           && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
     packet->tech_goal       = research->tech_goal;
+    packet->bulbs_prod = 0;
+    city_list_iterate(plr->cities, pcity) {
+      packet->bulbs_prod += pcity->surplus[O_SCIENCE];
+    } city_list_iterate_end;
   } else {
     packet->tech_goal       = A_UNSET;
   }

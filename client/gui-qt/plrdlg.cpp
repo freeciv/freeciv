@@ -400,7 +400,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   default:
     res = QString(advance_name_researching(pplayer))
           + sp + "(" + QString::number(research->bulbs_researched) + "/"
-          + QString::number(total_bulbs_required(pplayer)) + ")";
+          + QString::number(research->client.researching_cost) + ")";
     break;
   }
   /** Formatting rich text */
