@@ -1098,7 +1098,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
         func = diplomat_incite;
         cd->add_item(QString(_("Incite a Revolt")), func, qv1, qv2);
       }
-      if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
+      if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
         func = diplomat_keep_moving;
         cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
       }
@@ -1121,7 +1121,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
         func = diplomat_incite;
         cd->add_item(QString(_("Incite a Revolt")), func, qv1, qv2);
       }
-      if (diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile)) {
+      if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
         func = diplomat_keep_moving;
         cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
       }

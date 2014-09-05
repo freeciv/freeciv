@@ -23,6 +23,7 @@
 
 /* common */
 #include "game.h"
+#include "movement.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -798,8 +799,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	choice_dialog_button_set_sensitive(shl, 3, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
 	choice_dialog_button_set_sensitive(shl, 4, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
+      if (!unit_can_move_to_tile(punit, dest_tile, FALSE)) {
 	choice_dialog_button_set_sensitive(shl, 5, FALSE);
+      }
     } else {
        shl = popup_choice_dialog(GTK_WINDOW(toplevel),
         astr_str(&title), astr_str(&text),
@@ -825,8 +827,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	choice_dialog_button_set_sensitive(shl, 4, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
 	choice_dialog_button_set_sensitive(shl, 5, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
+      if (!unit_can_move_to_tile(punit, dest_tile, FALSE)) {
 	choice_dialog_button_set_sensitive(shl, 6, FALSE);
+      }
      }
 
     diplomat_dialog = shl;

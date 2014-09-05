@@ -34,6 +34,7 @@
 /* common */
 #include "game.h"
 #include "improvement.h"
+#include "movement.h"
 #include "tech.h"
 #include "unitlist.h"
 
@@ -766,8 +767,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
+      if (!unit_can_move_to_tile(punit, dest_tile, FALSE)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
+      }
     } else {
       diplomat_dialog =
         popup_message_dialog(toplevel, "spydialog", astr_str(&text),
@@ -793,8 +795,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
+      if (!unit_can_move_to_tile(punit, dest_tile, FALSE)) {
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button6"), FALSE);
+      }
     }
   } else { 
     if ((ptunit = unit_list_get(dest_tile->units, 0))) {

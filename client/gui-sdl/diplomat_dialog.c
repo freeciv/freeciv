@@ -22,6 +22,7 @@
 
 /* common */
 #include "game.h"
+#include "movement.h"
 #include "unitlist.h"
 
 /* client */
@@ -695,7 +696,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
     }
       
     /* ---------- */
-    if (diplomat_can_do_action(pUnit, DIPLOMAT_MOVE, ptile)) {
+    if (unit_can_move_to_tile(pUnit, ptile, FALSE)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    _("Keep moving"), diplomat_keep_moving_callback);
