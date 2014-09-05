@@ -3737,7 +3737,7 @@ bool execute_orders(struct unit *punit)
 
     switch (order.order) {
     case ORDER_FULL_MP:
-      if (punit->moves_left != unit_move_rate(punit)) {
+      if (punit->moves_left < unit_move_rate(punit)) {
 	/* If the unit doesn't have full MP then it just waits until the
 	 * next turn.  We assume that the next turn it will have full MP
 	 * (there's no check for that). */
