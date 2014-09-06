@@ -133,20 +133,19 @@ static inline int pf_move_rate(const struct pf_parameter *param)
 ****************************************************************************/
 static inline int pf_turns(const struct pf_parameter *param, int cost)
 {
-  int move_rate = param->move_rate;
-
-  if (move_rate <= 0) {
-    /* This unit cannot move by itself. */
-    return FC_INFINITY;
-  }
-
   /* Negative cost can happen when a unit initially has more MP than its
    * move-rate (due to wonders transfer etc). Although this may be a bug,
    * we'd better be ready.
    *
    * Note that cost == 0 corresponds to the current turn with full MP. */
-  return (cost < 0 ? 0
-          : cost / move_rate + param->fuel_left_initially - param->fuel);
+  if (cost <= 0) {
+    return 0;
+  } else if (param->move_rate <= 0) {
+    return FC_INFINITY; /* This unit cannot move by itself. */
+  } else {
+    return (cost / param->move_rate
+            + param->fuel_left_initially - param->fuel);
+  }
 }
 
 /****************************************************************************
@@ -156,13 +155,14 @@ static inline int pf_moves_left(const struct pf_parameter *param, int cost)
 {
   int move_rate = pf_move_rate(param);
 
-  if (move_rate <= 0) {
-    /* This unit never have moves left. */
-    return 0;
-  }
-
   /* Cost may be negative; see pf_turns(). */
-  return (cost < 0 ? move_rate - cost : move_rate - (cost % move_rate));
+  if (cost <= 0) {
+    return move_rate - cost;
+  } else if (move_rate <= 0) {
+    return 0; /* This unit never have moves left. */
+  } else {
+    return move_rate - (cost % move_rate);
+  }
 }
 
 /****************************************************************************
@@ -428,22 +428,11 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
 /****************************************************************************
   Adjust MC to reflect the move_rate.
 ****************************************************************************/
-static int pf_normal_map_adjust_cost(const struct pf_normal_map *pfnm,
-                                     int cost)
+static int pf_normal_map_adjust_cost(int cost, int moves_left)
 {
-  const struct pf_parameter *params;
-  const struct pf_normal_node *node;
-  int moves_left;
-
   fc_assert_ret_val(cost >= 0, PF_IMPOSSIBLE_MC);
 
-  params = pf_map_parameter(PF_MAP(pfnm));
-  node = pfnm->lattice + tile_index(PF_MAP(pfnm)->tile);
-  moves_left = pf_moves_left(params, node->cost);
-  if (cost > moves_left) {
-    cost = moves_left;
-  }
-  return cost;
+  return MIN(cost, moves_left);
 }
 
 /****************************************************************************
@@ -560,7 +549,8 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
   int cost_of_path;
 
   /* There is no exit from DONT_LEAVE tiles! */
-  if (node->behavior != TB_DONT_LEAVE) {
+  if (node->behavior != TB_DONT_LEAVE
+      && (params->move_rate > 0 || node->cost < 0)) {
     /* Processing Stage */
 
     /* The previous position is defined by 'tile' (tile pointer), 'node'
@@ -610,7 +600,8 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       if (cost == PF_IMPOSSIBLE_MC) {
         continue;
       }
-      cost = pf_normal_map_adjust_cost(pfnm, cost);
+      cost = pf_normal_map_adjust_cost(cost,
+                                       pf_moves_left(params, node->cost));
       if (cost == PF_IMPOSSIBLE_MC) {
         continue;
       }
@@ -1246,7 +1237,7 @@ pf_danger_map_adjust_cost(const struct pf_parameter *params,
     /* We would have to end the turn on a dangerous tile! */
     return PF_IMPOSSIBLE_MC;
   } else {
-    return cost;
+    return MIN(cost, moves_left);
   }
 }
 
@@ -1302,7 +1293,8 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
 
   for (;;) {
     /* There is no exit from DONT_LEAVE tiles! */
-    if (node->behavior != TB_DONT_LEAVE) {
+    if (node->behavior != TB_DONT_LEAVE
+        && (params->move_rate > 0 || node->cost < 0)) {
       /* Cost at tile but taking into account waiting. */
       int loc_cost;
       if (node->status != NS_WAITING) {
@@ -1947,6 +1939,9 @@ static inline int
 pf_fuel_map_fill_cost_for_full_moves(const struct pf_parameter *param,
                                      int cost, int moves_left)
 {
+#ifdef PF_DEBUG
+  fc_assert(0 < param->move_rate);
+#endif /* PF_DEBUG */
   return cost + moves_left % param->move_rate;
 }
 
@@ -2253,18 +2248,17 @@ static int pf_fuel_map_adjust_cost(const int cost,
                                    const int moves_left,
                                    const int move_rate)
 {
-  int remaining_moves;
+  if (move_rate > 0) {
+    int remaining_moves = moves_left % move_rate;
 
-  if (cost == PF_IMPOSSIBLE_MC) {
-    return PF_IMPOSSIBLE_MC;
+    if (remaining_moves == 0) {
+      remaining_moves = move_rate;
+    }
+
+    return MIN(cost, remaining_moves);
+  } else {
+    return MIN(cost, moves_left);
   }
-
-  remaining_moves = moves_left % move_rate;
-  if (remaining_moves == 0) {
-    remaining_moves = move_rate;
-  }
-
-  return MIN(cost, remaining_moves);
 }
 
 /****************************************************************************
@@ -2351,7 +2345,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 
   for (;;) {
     /* There is no exit from DONT_LEAVE tiles! */
-    if (node->behavior != TB_DONT_LEAVE) {
+    if (node->behavior != TB_DONT_LEAVE
+        && (params->move_rate > 0 || node->cost < 0)) {
       int loc_cost, loc_moves_left;
 
       if (node->status == NS_WAITING) {
@@ -2360,6 +2355,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
                                                         node->moves_left);
         loc_moves_left = pf_move_rate(params);
       } else if (0 == node->moves_left_req
+                 && 0 < params->move_rate
                  && 0 == node->moves_left % params->move_rate
                  && node->cost >= params->moves_left_initially) {
         /* We have implicitly refueled at the end of the turn. */
@@ -2424,10 +2420,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           continue;
         }
 
-        cost = pf_fuel_map_adjust_cost(cost, loc_moves_left, params->move_rate);
-        if (cost == PF_IMPOSSIBLE_MC) {
-          continue;
-        }
+        cost = pf_fuel_map_adjust_cost(cost, loc_moves_left,
+                                       params->move_rate);
 
         moves_left = loc_moves_left - cost;
         if (moves_left < node1->moves_left_req
@@ -2553,6 +2547,9 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
     } else if (0 == node->moves_left_req
                && !node->is_enemy_tile
                && node->moves_left < pf_move_rate(params)
+#ifdef PF_DEBUG
+               && (fc_assert(0 < params->move_rate), 0 < params->move_rate)
+#endif
                && (0 != node->moves_left % params->move_rate
                    || node->cost < params->moves_left_initially)) {
       int fc, cc;
@@ -2888,12 +2885,6 @@ bool pf_map_iterate(struct pf_map *pfm)
   if (NULL == pfm->tile) {
     /* The end of the iteration was already reached. Don't try to iterate
      * again. */
-    return FALSE;
-  }
-
-  if (0 >= pf_move_rate(pf_map_parameter(pfm))) {
-    /* The unit cannot moves itself. */
-    pfm->tile = NULL;
     return FALSE;
   }
 
