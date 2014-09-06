@@ -89,12 +89,16 @@ void fc_client::create_main_page(void)
   char msgbuf[128];
   const char *rev_ver;
   QFont f = QApplication::font();
+  QFont *fe;
   QFontMetrics fm(f);
   QPalette warn_color;
   QLabel *experimental_warning = new QLabel(_("Qt-client is experimental!"));
+  fe = fc_fonts.get_font("gui_qt_font_beta_label");
+  experimental_warning->setFont(*fe);
   int row = 0;
 #if IS_BETA_VERSION
   QLabel *beta_label = new QLabel(beta_message());
+  beta_label->setFont(*fe);
 #endif
 
   pages_layout[PAGE_MAIN] = new QGridLayout;

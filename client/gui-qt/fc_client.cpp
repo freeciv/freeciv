@@ -89,16 +89,21 @@ fc_client::fc_client() : QObject()
   current_file = "";
   status_bar_queue.clear();
   quitting = false;
-
   for (int i = 0; i <= PAGE_GGZ; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
   }
+  init();
+}
+
+void fc_client::init()
+{
   main_window = new QMainWindow;
   central_wdg = new QWidget;
   central_layout = new QGridLayout;
 
   // General part not related to any single page
+  fc_fonts.init_fonts();
   menu_bar = new mr_menu();
   menu_bar->setup_menus();
   main_window->setMenuBar(menu_bar);
@@ -152,8 +157,8 @@ fc_client::fc_client() : QObject()
 
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
-  fc_fonts.init_fonts();
   main_window->setVisible(true);
+  
 }
 
 /****************************************************************************
