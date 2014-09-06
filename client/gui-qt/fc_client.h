@@ -245,6 +245,7 @@ private:
   void handle_authentication_req(
     enum authentication_type type, const char *message);
   void update_obs_button();
+  void init();
 
   enum client_pages page;
   QMap<QString, QWidget*> opened_repo_dlgs;
