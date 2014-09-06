@@ -1915,7 +1915,9 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
     punit->server.vision = NULL; /* No vision. */
     punit->server.action_timestamp = 0;
-    punit->server.action_turn = 0;
+    /* Must be an invalid turn number, and an invalid previous turn
+     * number. */
+    punit->server.action_turn = -2;
 
     punit->server.adv = fc_calloc(1, sizeof(*punit->server.adv));
 
