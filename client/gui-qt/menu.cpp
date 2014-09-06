@@ -36,6 +36,7 @@
 #include "cityrep.h"
 #include "dialogs.h"
 #include "gui_main.h"
+#include "messagedlg.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
@@ -111,6 +112,8 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(local_options()));
   act = menu->addAction(_("Server Options"));
   connect(act, SIGNAL(triggered()), this, SLOT(server_options()));
+  act = menu->addAction(_("Messages"));
+  connect(act, SIGNAL(triggered()), this, SLOT(messages_options()));
   menu = pr;
   act = menu->addAction(_("Quit"));
   act->setIcon(style()->standardIcon(QStyle::SP_TitleBarCloseButton));
@@ -1592,6 +1595,14 @@ void mr_menu::local_options()
 void mr_menu::server_options()
 {
   gui()->popup_server_options();
+}
+
+/****************************************************************
+  Invoke dialog with server options
+*****************************************************************/
+void mr_menu::messages_options()
+{
+  popup_messageopt_dialog();
 }
 
 /***************************************************************************

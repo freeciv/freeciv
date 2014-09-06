@@ -27,7 +27,8 @@ MOC_FILES = \
 	meta_diplodlg.cpp	\
 	meta_spaceshipdlg.cpp	\
 	meta_messagewin.cpp	\
-	meta_chatline.cpp
+	meta_chatline.cpp	\
+	meta_messagedlg.cpp
 
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\

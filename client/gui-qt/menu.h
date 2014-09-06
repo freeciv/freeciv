@@ -84,6 +84,7 @@ private slots:
   /* game menu */
   void local_options();
   void server_options();
+  void messages_options();
   void quit_game();
 
   /* help menu */
