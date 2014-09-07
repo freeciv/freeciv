@@ -478,8 +478,8 @@ void handle_unit_action_query(struct connection *pc,
 
   switch (action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit && is_diplomat_action_available(pactor, DIPLOMAT_BRIBE,
-                                              unit_tile(punit))) {
+    if (punit && is_action_enabled_unit_on_unit(action_type,
+                                                pactor, punit)) {
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
                                       unit_bribe_cost(punit, pplayer),
@@ -491,8 +491,8 @@ void handle_unit_action_query(struct connection *pc,
     }
     break;
   case ACTION_SPY_INCITE_CITY:
-    if (pcity && is_diplomat_action_available(pactor, DIPLOMAT_INCITE,
-                                              pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                pactor, pcity)) {
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
                                       city_incite_cost(pplayer, pcity),
@@ -504,9 +504,8 @@ void handle_unit_action_query(struct connection *pc,
     }
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-    if (pcity && is_diplomat_action_available(pactor,
-                                              DIPLOMAT_SABOTAGE_TARGET,
-                                              pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                pactor, pcity)) {
       spy_send_sabotage_list(pc, pactor, pcity);
     } else {
       illegal_action(pplayer, pactor,
@@ -551,17 +550,16 @@ void handle_unit_do_action(struct player *pplayer,
 
   switch(action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit && is_diplomat_action_available(actor_unit, DIPLOMAT_BRIBE,
-                                              unit_tile(punit))) {
+    if (punit && is_action_enabled_unit_on_unit(action_type,
+                                                actor_unit, punit)) {
       diplomat_bribe(pplayer, actor_unit, punit);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_BRIBE_UNIT);
     }
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
-    if (punit && is_diplomat_action_available(actor_unit,
-                                              SPY_SABOTAGE_UNIT,
-                                              unit_tile(punit))) {
+    if (punit && is_action_enabled_unit_on_unit(action_type,
+                                                actor_unit, punit)) {
       spy_sabotage_unit(pplayer, actor_unit, punit);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_SABOTAGE_UNIT);
@@ -569,8 +567,7 @@ void handle_unit_do_action(struct player *pplayer,
     break;
   case ACTION_SPY_SABOTAGE_CITY:
     if (pcity) {
-      if (is_diplomat_action_available(actor_unit, DIPLOMAT_SABOTAGE,
-                                       pcity->tile)) {
+      if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
         diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST);
       } else {
         illegal_action(pplayer, actor_unit, ACTION_SPY_SABOTAGE_CITY);
@@ -579,9 +576,7 @@ void handle_unit_do_action(struct player *pplayer,
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     if (pcity) {
-      if (is_diplomat_action_available(actor_unit,
-                                       DIPLOMAT_SABOTAGE_TARGET,
-                                       pcity->tile)) {
+      if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
         /* packet value is improvement ID + 1 (or some special codes) */
         diplomat_sabotage(pplayer, actor_unit, pcity, value - 1);
       } else {
@@ -591,33 +586,32 @@ void handle_unit_do_action(struct player *pplayer,
     }
     break;
   case ACTION_SPY_POISON:
-    if(pcity && is_diplomat_action_available(actor_unit, SPY_POISON,
-                                             pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                actor_unit, pcity)) {
       spy_poison(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_POISON);
     }
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
-    if(pcity && is_diplomat_action_available(actor_unit,
-                                             DIPLOMAT_INVESTIGATE,
-                                             pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                actor_unit, pcity)) {
       diplomat_investigate(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_INVESTIGATE_CITY);
     }
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    if(pcity && is_diplomat_action_available(actor_unit, DIPLOMAT_EMBASSY,
-                                             pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                actor_unit, pcity)) {
       diplomat_embassy(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_ESTABLISH_EMBASSY);
     }
     break;
   case ACTION_SPY_INCITE_CITY:
-    if(pcity && is_diplomat_action_available(actor_unit, DIPLOMAT_INCITE,
-                                             pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                actor_unit, pcity)) {
       diplomat_incite(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_INCITE_CITY);
@@ -646,14 +640,13 @@ void handle_unit_do_action(struct player *pplayer,
       return;
     }
 
-    if (is_diplomat_action_available(actor_unit, DIPLOMAT_MOVE,
-                                     target_tile)) {
+    if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
       (void) unit_move_handling(actor_unit, target_tile, FALSE, TRUE);
     }
     break;
   case ACTION_SPY_STEAL_TECH:
-    if (pcity && is_diplomat_action_available(actor_unit, DIPLOMAT_STEAL,
-                                              pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                actor_unit, pcity)) {
       /* packet value is technology ID (or some special codes) */
       diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
     } else {
@@ -661,9 +654,8 @@ void handle_unit_do_action(struct player *pplayer,
     }
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
-    if (pcity && is_diplomat_action_available(actor_unit,
-                                              DIPLOMAT_STEAL_TARGET,
-                                              pcity->tile)) {
+    if (pcity && is_action_enabled_unit_on_city(action_type,
+                                                actor_unit, pcity)) {
       /* packet value is technology ID (or some special codes) */
       diplomat_get_tech(pplayer, actor_unit, pcity, value);
     } else {

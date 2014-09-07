@@ -250,10 +250,6 @@ extern Activity_type_id real_activities[ACTIVITY_LAST];
   }									    \
 }
 
-bool is_diplomat_action_available(const struct unit *pdiplomat,
-				  enum diplomat_actions action,
-				  const struct tile *ptile);
-
 bool unit_can_help_build_wonder(const struct unit *punit,
 				const struct city *pcity);
 bool unit_can_help_build_wonder_here(const struct unit *punit);
