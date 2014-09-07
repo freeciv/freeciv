@@ -1177,15 +1177,21 @@ void update_info_label(void)
 {
   QString eco_info;
   QString s = QString(_("%1 (Turn:%2)")).arg(textyear(game.info.year),
-                                         QString::number(game.info.turn));
+                                             QString::number(game.info.turn));
   gui()->game_info_label->set_turn_info(s);
   set_indicator_icons(client_research_sprite(),
                       client_warming_sprite(),
                       client_cooling_sprite(), client_government_sprite());
   if (client.conn.playing != NULL) {
-    eco_info = QString(_("Gold:%1 (+%2)"))
-      .arg(QString::number(client.conn.playing->economic.gold),
+    if (player_get_expected_income(client.conn.playing) > 0) {
+      eco_info = QString(_("Gold:%1 (+%2)"))
+           .arg(QString::number(client.conn.playing->economic.gold),
            QString::number(player_get_expected_income(client.conn.playing)));
+    } else {
+      eco_info = QString(_("Gold:%1 (%2)"))
+           .arg(QString::number(client.conn.playing->economic.gold),
+           QString::number(player_get_expected_income(client.conn.playing)));
+    }
     gui()->game_info_label->set_eco_info(eco_info);
   }
   gui()->game_info_label->set_rates_pixmap();
