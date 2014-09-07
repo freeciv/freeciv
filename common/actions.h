@@ -63,6 +63,9 @@ extern "C" {
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
+/* Used to signal that the unit should move in stead of trying to act. */
+#define ACTION_MOVE ACTION_COUNT
+
 /*
  * Action probability
  *

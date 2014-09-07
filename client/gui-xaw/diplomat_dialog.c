@@ -78,8 +78,8 @@ int diplomat_target_id[ATK_COUNT];
 static void diplomat_bribe_yes_callback(Widget w, XtPointer client_data, 
 					XtPointer call_data)
 {
-  request_diplomat_action(DIPLOMAT_BRIBE, diplomat_id,
-                          diplomat_target_id[ATK_UNIT], 0);
+  request_do_action(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+                    diplomat_target_id[ATK_UNIT], 0);
 
   destroy_message_dialog(w);
 }
@@ -152,8 +152,8 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
-                            diplomat_target_id[ATK_CITY], B_LAST + 1);
+    request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
+                      diplomat_target_id[ATK_CITY], B_LAST + 1);
   }
 
   choose_action_queue_next();
@@ -170,8 +170,8 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
-                            diplomat_target_id[ATK_CITY], 0);
+    request_do_action(ACTION_ESTABLISH_EMBASSY, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
   }
 
   choose_action_queue_next();
@@ -188,8 +188,8 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_city_by_number(diplomat_target_id[ATK_CITY])
       && NULL != game_unit_by_number(diplomat_id)) {
-    request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
-                            diplomat_target_id[ATK_CITY], 0);
+    request_do_action(ACTION_SPY_INVESTIGATE_CITY, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
   }
 
   choose_action_queue_next();
@@ -201,8 +201,8 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
 static void spy_sabotage_unit_callback(Widget w, XtPointer client_data, 
 				       XtPointer call_data)
 {
-  request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id,
-                          diplomat_target_id[ATK_UNIT], 0);
+  request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id,
+                    diplomat_target_id[ATK_UNIT], 0);
 
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
@@ -219,8 +219,8 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_action(SPY_POISON, diplomat_id,
-                            diplomat_target_id[ATK_CITY], 0);
+    request_do_action(ACTION_SPY_POISON, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
   }
 
   choose_action_queue_next();
@@ -237,8 +237,8 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
-                            diplomat_target_id[ATK_CITY], A_UNSET);
+    request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
+                      diplomat_target_id[ATK_CITY], A_UNSET);
   }
 
   choose_action_queue_next();
@@ -323,8 +323,8 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_action(DIPLOMAT_STEAL_TARGET, diplomat_id,
-                            diplomat_target_id[ATK_CITY], steal_advance);
+    request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
+                      diplomat_target_id[ATK_CITY], steal_advance);
   }
 
   choose_action_queue_next();
@@ -347,9 +347,9 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
-                            diplomat_target_id[ATK_CITY],
-                            sabotage_improvement + 1);
+    request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+                      diplomat_target_id[ATK_CITY],
+                      sabotage_improvement + 1);
   }
 
   choose_action_queue_next();
@@ -621,8 +621,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
 static void diplomat_incite_yes_callback(Widget w, XtPointer client_data, 
 					 XtPointer call_data)
 {
-  request_diplomat_action(DIPLOMAT_INCITE, diplomat_id,
-                          diplomat_target_id[ATK_CITY], 0);
+  request_do_action(ACTION_SPY_INCITE_CITY, diplomat_id,
+                    diplomat_target_id[ATK_CITY], 0);
 
   destroy_message_dialog(w);
 
@@ -713,8 +713,8 @@ static void diplomat_keep_moving_callback_city(Widget w,
   if ((punit = game_unit_by_number(diplomat_id))
       && (pcity = game_city_by_number(diplomat_target_id[ATK_CITY]))
       && !same_pos(unit_tile(punit), city_tile(pcity))) {
-    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
-                            diplomat_target_id[ATK_CITY], ATK_CITY);
+    request_do_action(ACTION_MOVE, diplomat_id,
+                      diplomat_target_id[ATK_CITY], ATK_CITY);
   }
   choose_action_queue_next();
 }
@@ -736,8 +736,8 @@ static void diplomat_keep_moving_callback_unit(Widget w,
   if ((punit = game_unit_by_number(diplomat_id))
       && (tunit = game_unit_by_number(diplomat_target_id[ATK_UNIT]))
       && !same_pos(unit_tile(punit), unit_tile(tunit))) {
-    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
-                            diplomat_target_id[ATK_UNIT], ATK_UNIT);
+    request_do_action(ACTION_MOVE, diplomat_id,
+                      diplomat_target_id[ATK_UNIT], ATK_UNIT);
   }
   choose_action_queue_next();
 }

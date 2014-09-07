@@ -1478,17 +1478,18 @@ void request_unit_select(struct unit_list *punits,
 }
 
 /**************************************************************************
-  Request a diplomat to do a specific action.
+  Request an actor unit to do a specific action.
   - action : The action to be requested.
-  - dipl_id : The unit ID of the diplomatic unit.
+  - actor_id : The unit ID of the actor unit.
   - target_id : The ID of the target unit or city.
   - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
             or building to aim for (spies only).
 **************************************************************************/
-void request_diplomat_action(enum diplomat_actions action, int dipl_id,
-			     int target_id, int value)
+void request_do_action(enum gen_action action, int actor_id,
+                       int target_id, int value)
 {
-  dsend_packet_unit_diplomat_action(&client.conn, dipl_id,target_id,value,action);
+  dsend_packet_unit_do_action(&client.conn,
+                              actor_id, target_id, value, action);
 }
 
 /**************************************************************************

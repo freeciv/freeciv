@@ -1265,8 +1265,8 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
-  request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id,
-                          diplomat_target_id, 0);
+  request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id,
+                    diplomat_target_id, 0);
 }
 
 /***************************************************************************
@@ -1342,8 +1342,8 @@ static void spy_steal_something(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_action(DIPLOMAT_STEAL_TARGET, diplomat_id,
-                            diplomat_target_id, data2.toInt());
+    request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
+                      diplomat_target_id, data2.toInt());
   }
 }
 
@@ -1375,7 +1375,8 @@ static void spy_poison(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_action(SPY_POISON, diplomat_id, diplomat_target_id, 0);
+    request_do_action(ACTION_SPY_POISON,
+                      diplomat_id, diplomat_target_id, 0);
   }
 }
 
@@ -1389,8 +1390,8 @@ static void diplomat_embassy(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_action(DIPLOMAT_EMBASSY, diplomat_id,
-                            diplomat_target_id, 0);
+    request_do_action(ACTION_ESTABLISH_EMBASSY, diplomat_id,
+                      diplomat_target_id, 0);
   }
 }
 
@@ -1404,8 +1405,8 @@ static void diplomat_investigate(QVariant data1, QVariant data2)
 
   if (NULL != game_city_by_number(diplomat_target_id)
       && NULL != game_unit_by_number(diplomat_id)) {
-    request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
-                            diplomat_target_id, 0);
+    request_do_action(ACTION_SPY_INVESTIGATE_CITY, diplomat_id,
+                      diplomat_target_id, 0);
   }
 }
 
@@ -1419,8 +1420,8 @@ static void diplomat_sabotage(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
-                            diplomat_target_id, B_LAST + 1);
+    request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
+                      diplomat_target_id, B_LAST + 1);
   }
 }
 
@@ -1434,8 +1435,8 @@ static void diplomat_steal(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
-                            diplomat_target_id, A_UNSET);
+    request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
+                      diplomat_target_id, A_UNSET);
   }
 }
 
@@ -1470,8 +1471,8 @@ static void diplomat_keep_moving_city(QVariant data1, QVariant data2)
   if ((punit = game_unit_by_number(diplomat_id))
       && (pcity = game_city_by_number(diplomat_target_id))
       && !same_pos(unit_tile(punit), city_tile(pcity))) {
-    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
-                            diplomat_target_id, ATK_CITY);
+    request_do_action(ACTION_MOVE, diplomat_id,
+                      diplomat_target_id, ATK_CITY);
   }
 }
 
@@ -1488,8 +1489,8 @@ static void diplomat_keep_moving_unit(QVariant data1, QVariant data2)
   if ((punit = game_unit_by_number(diplomat_id))
       && (tunit = game_unit_by_number(diplomat_target_id))
       && !same_pos(unit_tile(punit), unit_tile(tunit))) {
-    request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
-                            diplomat_target_id, ATK_UNIT);
+    request_do_action(ACTION_MOVE, diplomat_id,
+                      diplomat_target_id, ATK_UNIT);
   }
 }
 
@@ -1537,8 +1538,8 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
       return;
       break;
     case QMessageBox::Ok:
-      request_diplomat_action(DIPLOMAT_INCITE, diplomat_id,
-                              diplomat_target_id, 0);
+      request_do_action(ACTION_SPY_INCITE_CITY, diplomat_id,
+                        diplomat_target_id, 0);
       break;
     }
   } else {
@@ -1591,8 +1592,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
     case QMessageBox::Cancel:
       break;
     case QMessageBox::Ok:
-      request_diplomat_action(DIPLOMAT_BRIBE, diplomat_id,
-                              diplomat_target_id, 0);
+      request_do_action(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+                        diplomat_target_id, 0);
       break;
     default:
       break;
@@ -1638,8 +1639,8 @@ static void spy_sabotage(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id)) {
-      request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET, diplomat_id,
-                              diplomat_target_id,  data2.toInt()+1);
+      request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+                        diplomat_target_id,  data2.toInt()+1);
     }
 }
 

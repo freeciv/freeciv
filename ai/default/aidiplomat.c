@@ -335,17 +335,17 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
 
-#define T(my_act, my_dact, my_val)                                        \
+#define T(my_act, my_val)                                                 \
   if (ACTPROB_IMPOSSIBLE != action_prob_vs_city(punit, my_act, ctarget)) {\
     log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",      \
              nation_rule_name(nation_of_unit(punit)),               \
              unit_rule_name(punit), punit->id, city_name(ctarget)); \
-    handle_unit_diplomat_action(pplayer, punit->id,                 \
-                                ctarget->id, my_val, my_dact);       \
+    handle_unit_do_action(pplayer, punit->id,                             \
+                          ctarget->id, my_val, my_act);                   \
     return;                                                         \
   }
 
-  T(ACTION_ESTABLISH_EMBASSY, DIPLOMAT_EMBASSY, 0);
+  T(ACTION_ESTABLISH_EMBASSY, 0);
 
   if (pplayers_allied(pplayer, tplayer)) {
     return; /* Don't do the rest to allies */
@@ -353,10 +353,10 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 
   if (count_tech > 0 
       && (ctarget->server.steal == 0 || unit_has_type_flag(punit, UTYF_SPY))) {
-    T(ACTION_SPY_STEAL_TECH, DIPLOMAT_STEAL, 0);
+    T(ACTION_SPY_STEAL_TECH, 0);
 
     /* In case untargeted isn't there. TODO: choose target */
-    T(ACTION_SPY_TARGETED_STEAL_TECH, DIPLOMAT_STEAL_TARGET, A_UNSET);
+    T(ACTION_SPY_TARGETED_STEAL_TECH, A_UNSET);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "We have already stolen from %s!",
              city_name(ctarget));
@@ -366,7 +366,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   dai_calc_data(pplayer, NULL, &expenses, NULL);
 
   if (incite_cost <= pplayer->economic.gold - 2 * expenses) {
-    T(ACTION_SPY_INCITE_CITY, DIPLOMAT_INCITE, 0);
+    T(ACTION_SPY_INCITE_CITY, 0);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "%s too expensive!",
              city_name(ctarget));
@@ -377,16 +377,15 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   }
 
   if (count_impr > 0) {
-    T(ACTION_SPY_SABOTAGE_CITY, DIPLOMAT_SABOTAGE, 0);
+    T(ACTION_SPY_SABOTAGE_CITY, 0);
   }
 
   /* In case untargeted isn't there. TODO: choose target */
   if (count_impr > 0) {
-    T(ACTION_SPY_TARGETED_SABOTAGE_CITY, DIPLOMAT_SABOTAGE_TARGET,
-      B_LAST + 1);
+    T(ACTION_SPY_TARGETED_SABOTAGE_CITY, B_LAST + 1);
   }
 
-  T(ACTION_SPY_POISON, SPY_POISON, 0); /* absolutely last resort */
+  T(ACTION_SPY_POISON, 0); /* absolutely last resort */
 #undef T
 
   /* This can happen for a number of odd and esoteric reasons  */
@@ -645,9 +644,9 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     if (ACTPROB_IMPOSSIBLE != action_prob_vs_unit(punit,
                                   ACTION_SPY_BRIBE_UNIT,
                                   pvictim)) {
-      handle_unit_diplomat_action(pplayer, punit->id,
-				  unit_list_get(ptile->units, 0)->id, -1,
-				  DIPLOMAT_BRIBE);
+      handle_unit_do_action(pplayer, punit->id,
+                            pvictim->id, -1,
+                            ACTION_SPY_BRIBE_UNIT);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;
@@ -659,9 +658,9 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
                                          pvictim)
                && threat) {
       /* don't stand around waiting for the final blow */
-      handle_unit_diplomat_action(pplayer, punit->id,
-                                  unit_list_get(ptile->units, 0)->id, -1,
-                                  SPY_SABOTAGE_UNIT);
+      handle_unit_do_action(pplayer, punit->id,
+                            pvictim->id, -1,
+                            ACTION_SPY_SABOTAGE_UNIT);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;

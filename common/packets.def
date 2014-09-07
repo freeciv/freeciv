@@ -211,7 +211,6 @@ type BORDERS_MODE       = uint8(enum borders_mode)
 type CLAUSE             = uint8(enum clause_type)
 type CMDLEVEL           = uint8(enum cmdlevel)
 type DIPLOMACY_MODE     = uint8(enum diplomacy_mode)
-type DIPLOMAT_ACTION    = uint8(enum diplomat_actions)
 type DIRECTION          = sint8(enum direction8)
 type EFFECT_TYPE        = uint8(enum effect_type)
 type EVENT              = sint16(enum event_type)
@@ -1005,11 +1004,11 @@ PACKET_UNIT_TYPE_UPGRADE = 83; cs, dsend
   UNIT_TYPE type;
 end
 
-PACKET_UNIT_DIPLOMAT_ACTION = 84; cs, dsend
-  UNIT diplomat_id;
+PACKET_UNIT_DO_ACTION = 84; cs, dsend
+  UNIT actor_id;
   UNIT target_id;   # city_id or unit_id
   SINT16 value;
-  DIPLOMAT_ACTION action_type;
+  GEN_ACTION action_type;
 end
 
 PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend

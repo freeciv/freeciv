@@ -90,8 +90,8 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (response == GTK_RESPONSE_YES) {
-    request_diplomat_action(DIPLOMAT_BRIBE, args->actor_unit_id,
-                            args->target_unit_id, 0);
+    request_do_action(ACTION_SPY_BRIBE_UNIT, args->actor_unit_id,
+                      args->target_unit_id, 0);
   }
 
   gtk_widget_destroy(w);
@@ -160,8 +160,8 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
-    request_diplomat_action(DIPLOMAT_SABOTAGE, args->actor_unit_id,
-                            args->target_city_id, B_LAST + 1);
+    request_do_action(ACTION_SPY_SABOTAGE_CITY, args->actor_unit_id,
+                      args->target_city_id, B_LAST + 1);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -177,8 +177,8 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 
   if (NULL != game_city_by_number(args->target_city_id)
       && NULL != game_unit_by_number(args->actor_unit_id)) {
-    request_diplomat_action(DIPLOMAT_INVESTIGATE, args->actor_unit_id,
-                            args->target_city_id, 0);
+    request_do_action(ACTION_SPY_INVESTIGATE_CITY, args->actor_unit_id,
+                      args->target_city_id, 0);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -192,8 +192,8 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  request_diplomat_action(SPY_SABOTAGE_UNIT, args->actor_unit_id,
-                          args->target_unit_id, 0);
+  request_do_action(ACTION_SPY_SABOTAGE_UNIT, args->actor_unit_id,
+                    args->target_unit_id, 0);
 
   gtk_widget_destroy(diplomat_dialog);
   free(args);
@@ -208,8 +208,8 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
-    request_diplomat_action(DIPLOMAT_EMBASSY, args->actor_unit_id,
-                            args->target_city_id, 0);
+    request_do_action(ACTION_ESTABLISH_EMBASSY, args->actor_unit_id,
+                      args->target_city_id, 0);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -225,8 +225,8 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
-    request_diplomat_action(SPY_POISON, args->actor_unit_id,
-                            args->target_city_id, 0);
+    request_do_action(ACTION_SPY_POISON, args->actor_unit_id,
+                      args->target_city_id, 0);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -242,8 +242,8 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
-    request_diplomat_action(DIPLOMAT_STEAL, args->actor_unit_id,
-                            args->target_city_id, A_UNSET);
+    request_do_action(ACTION_SPY_STEAL_TECH, args->actor_unit_id,
+                      args->target_city_id, A_UNSET);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -261,8 +261,9 @@ static void spy_advances_response(GtkWidget *w, gint response,
   if (response == GTK_RESPONSE_ACCEPT && args->value > 0) {
     if (NULL != game_unit_by_number(args->actor_unit_id)
         && NULL != game_city_by_number(args->target_city_id)) {
-      request_diplomat_action(DIPLOMAT_STEAL_TARGET, args->actor_unit_id,
-                              args->target_city_id, args->value);
+      request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
+                        args->actor_unit_id, args->target_city_id,
+                        args->value);
     }
   }
 
@@ -428,10 +429,10 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   if (response == GTK_RESPONSE_ACCEPT && args->value > -2) {
     if (NULL != game_unit_by_number(args->actor_unit_id)
         && NULL != game_city_by_number(args->target_city_id)) {
-      request_diplomat_action(DIPLOMAT_SABOTAGE_TARGET,
-                              args->actor_unit_id,
-                              args->target_city_id,
-                              args->value + 1);
+      request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                        args->actor_unit_id,
+                        args->target_city_id,
+                        args->value + 1);
     }
   }
 
@@ -658,8 +659,8 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (response == GTK_RESPONSE_YES) {
-    request_diplomat_action(DIPLOMAT_INCITE, args->actor_unit_id,
-                            args->target_city_id, 0);
+    request_do_action(ACTION_SPY_INCITE_CITY, args->actor_unit_id,
+                      args->target_city_id, 0);
   }
 
   gtk_widget_destroy(w);
@@ -726,8 +727,8 @@ static void diplomat_keep_moving_city_callback(GtkWidget *w, gpointer data)
   if ((punit = game_unit_by_number(args->actor_unit_id))
       && (pcity = game_city_by_number(args->target_city_id))
       && !same_pos(unit_tile(punit), city_tile(pcity))) {
-    request_diplomat_action(DIPLOMAT_MOVE, args->actor_unit_id,
-                            args->target_city_id, ATK_CITY);
+    request_do_action(ACTION_MOVE, args->actor_unit_id,
+                      args->target_city_id, ATK_CITY);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -748,8 +749,8 @@ static void diplomat_keep_moving_unit_callback(GtkWidget *w, gpointer data)
   if ((punit = game_unit_by_number(args->actor_unit_id))
       && (tunit = game_unit_by_number(args->target_unit_id))
       && !same_pos(unit_tile(punit), unit_tile(tunit))) {
-    request_diplomat_action(DIPLOMAT_MOVE, args->actor_unit_id,
-                            args->target_unit_id, ATK_UNIT);
+    request_do_action(ACTION_MOVE, args->actor_unit_id,
+                      args->target_unit_id, ATK_UNIT);
   }
 
   gtk_widget_destroy(diplomat_dialog);
