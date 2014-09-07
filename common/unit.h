@@ -47,22 +47,6 @@ enum unit_focus_status {
   FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE  
 };
 
-/* Changing this enum will break network compatability. */
-enum diplomat_actions {
-  DIPLOMAT_MOVE = 0,	/* move onto tile when other options exist. */
-  DIPLOMAT_EMBASSY = 1,
-  DIPLOMAT_BRIBE = 2,
-  DIPLOMAT_INCITE = 3,
-  DIPLOMAT_INVESTIGATE = 4,
-  DIPLOMAT_SABOTAGE = 5,
-  DIPLOMAT_STEAL = 6,
-  SPY_POISON = 7, 
-  SPY_SABOTAGE_UNIT = 8,
-  DIPLOMAT_SABOTAGE_TARGET = 9,
-  DIPLOMAT_STEAL_TARGET = 10,
-  DIPLOMAT_ANY_ACTION   /* leave this one last */
-};
-
 enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
