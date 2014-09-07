@@ -95,6 +95,8 @@ fc_client::fc_client() : QObject()
   current_file = "";
   status_bar_queue.clear();
   quitting = false;
+  pre_vote = NULL;
+  x_vote = NULL;
   for (int i = 0; i <= PAGE_GGZ; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
@@ -275,6 +277,8 @@ void fc_client::switch_page(int new_pg)
   case PAGE_MAIN:
     break;
   case PAGE_START:
+    pre_vote->hide();
+    voteinfo_gui_update();
     break;
   case PAGE_LOAD:
     update_load_page();
@@ -289,6 +293,7 @@ void fc_client::switch_page(int new_pg)
     main_window->menuBar()->setVisible(true);
     mapview_wdg->setFocus();
     center_on_something();
+    voteinfo_gui_update();
     break;
   case PAGE_SCENARIO:
     update_scenarios_page();

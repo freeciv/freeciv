@@ -54,6 +54,7 @@
 #include "menu.h"
 #include "pages.h"
 #include "ratesdlg.h"
+#include "voteinfo_bar.h"
 
 enum connection_state {
   LOGIN_TYPE,
@@ -186,6 +187,8 @@ public:
   fc_game_tab_widget *game_tab_widget;
   messagewdg *msgwdg;
   info_tab *infotab;
+  pregamevote *pre_vote;
+  xvote *x_vote;
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
