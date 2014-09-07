@@ -223,7 +223,10 @@ void establish_new_connection(struct connection *pconn)
       }
     } else {
       if (!game_was_started()) {
-        if (!connection_attach(pconn, NULL, FALSE)) {
+        if (connection_attach_real(pconn, NULL, FALSE, TRUE)) {
+          pplayer = conn_get_player(pconn);
+          fc_assert(pplayer != NULL);
+        } else {
           notify_conn(dest, NULL, E_CONNECTION, ftc_server,
                       _("Couldn't attach your connection to new player."));
           log_verbose("%s is not attached to a player", pconn->username);
@@ -235,25 +238,16 @@ void establish_new_connection(struct connection *pconn)
 
   send_conn_info(game.est_connections, dest);
 
-  send_pending_events(pconn, TRUE);
-  send_running_votes(pconn, FALSE);
-
   if (NULL == pplayer) {
-    /* Else this has already been done in connection_attach(). */
+    /* Else this has already been done in connection_attach_real(). */
+    send_pending_events(pconn, TRUE);
+    send_running_votes(pconn, FALSE);
     restore_access_level(pconn);
     send_conn_info(dest, game.est_connections);
-  }
 
-  /* remind the connection who he is */
-  if (NULL == pconn->playing) {
     notify_conn(dest, NULL, E_CONNECTION, ftc_server,
 		_("You are logged in as '%s' connected to no player."),
                 pconn->username);
-  } else if (strcmp(player_name(pconn->playing), ANON_PLAYER_NAME) == 0) {
-    notify_conn(dest, NULL, E_CONNECTION, ftc_server,
-		_("You are logged in as '%s' connected to an "
-		  "anonymous player."),
-		pconn->username);
   } else {
     notify_conn(dest, NULL, E_CONNECTION, ftc_server,
 		_("You are logged in as '%s' connected to %s."),
@@ -628,6 +622,8 @@ static bool connection_attach_real(struct connection *pconn,
    * connecthand.c::establish_new_connection(). */
   switch (server_state()) {
   case S_S_INITIAL:
+    send_pending_events(pconn, connecting);
+    send_running_votes(pconn, !connecting);
     break;
 
   case S_S_RUNNING:
@@ -641,11 +637,8 @@ static bool connection_attach_real(struct connection *pconn,
     dsend_packet_start_phase(pconn, game.info.phase);
     /* Must be after C_S_RUNNING client state to be effective. */
     send_diplomatic_meetings(pconn);
-    if (!connecting) {
-      /* Those will be sent later in establish_new_connection(). */
-      send_pending_events(pconn, FALSE);
-      send_running_votes(pconn, TRUE);
-    }
+    send_pending_events(pconn, connecting);
+    send_running_votes(pconn, !connecting);
     break;
 
   case S_S_OVER:
@@ -656,10 +649,9 @@ static bool connection_attach_real(struct connection *pconn,
     }
     conn_compression_thaw(pconn);
     report_final_scores(pconn->self);
+    send_pending_events(pconn, connecting);
+    send_running_votes(pconn, !connecting);
     if (!connecting) {
-      /* Those will be sent later in establish_new_connection(). */
-      send_pending_events(pconn, FALSE);
-      send_running_votes(pconn, TRUE);
       /* Send information about delegation(s). */
       send_delegation_info(pconn);
     }
