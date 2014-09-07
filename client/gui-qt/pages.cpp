@@ -578,6 +578,8 @@ void fc_client::create_game_page()
   game_main_widget = new QWidget;
   game_layout = new QGridLayout;
   game_tab_widget = new fc_game_tab_widget;
+  game_layout->setContentsMargins(0, 0, 0, 0);
+  game_layout->setSpacing(0);
   game_tab_widget->setTabPosition(QTabWidget::South);
   game_tab_widget->setDocumentMode(false);
   mapview_wdg = new map_view();
