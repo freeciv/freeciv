@@ -1109,6 +1109,7 @@ fi
 if test "x$ruledit" = "xtest" ; then
   dnl Still not set to 'yes' so failed tests
   ruledit=no
+  feature_ruledit=missing
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
