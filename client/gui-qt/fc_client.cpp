@@ -107,6 +107,7 @@ void fc_client::init()
   main_window = new QMainWindow;
   central_wdg = new QWidget;
   central_layout = new QGridLayout;
+  central_layout->setContentsMargins(2, 2, 2, 2);
 
   // General part not related to any single page
   fc_fonts.init_fonts();
