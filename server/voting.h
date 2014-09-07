@@ -87,6 +87,8 @@ void remove_vote(struct vote *pvote);
 struct vote *vote_new(struct connection *caller,
                       const char *allargs,
                       int command_id);
+bool vote_would_pass_immediately(const struct connection *caller,
+                                 int command_id);
 const struct connection *vote_get_caller(const struct vote *pvote);
 bool vote_is_team_only(const struct vote *pvote);
 int describe_vote(struct vote *pvote, char *buf, int buflen);
