@@ -5138,6 +5138,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
       punit->orders.vigilant
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "%s.orders_vigilant", unitstr);
+      punit->server.last_order_move_is_safe
+        = secfile_lookup_bool_default(loading->file, FALSE,
+                                      "%s.orders_last_move_safe", unitstr);
 
       orders_unitstr
         = secfile_lookup_str_default(loading->file, "",
@@ -5410,6 +5413,9 @@ static void sg_save_player_units(struct savedata *saving,
                           "%s.orders_repeat", buf);
       secfile_insert_bool(saving->file, punit->orders.vigilant,
                           "%s.orders_vigilant", buf);
+      secfile_insert_bool(saving->file,
+                          punit->server.last_order_move_is_safe,
+                          "%s.orders_last_move_safe", buf);
 
       for (j = 0; j < len; j++) {
         orders_buf[j] = order2char(punit->orders.list[j].order);
@@ -5455,6 +5461,8 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_int(saving->file, 0, "%s.orders_index", buf);
       secfile_insert_bool(saving->file, FALSE, "%s.orders_repeat", buf);
       secfile_insert_bool(saving->file, FALSE, "%s.orders_vigilant", buf);
+      secfile_insert_bool(saving->file, FALSE,
+                          "%s.orders_last_move_safe", buf);
       secfile_insert_str(saving->file, "-", "%s.orders_list", buf);
       secfile_insert_str(saving->file, "-", "%s.dir_list", buf);
       secfile_insert_str(saving->file, "-", "%s.activity_list", buf);

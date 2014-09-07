@@ -1736,6 +1736,7 @@ static void player_load_units(struct player *plr, int plrno,
 			"player%d.u%d.orders_repeat", plrno, i);
 	punit->orders.vigilant = secfile_lookup_bool_default(file, FALSE,
 			"player%d.u%d.orders_vigilant", plrno, i);
+        punit->server.last_order_move_is_safe = FALSE;
 
 	orders_buf = secfile_lookup_str_default(file, "",
 			"player%d.u%d.orders_list", plrno, i);

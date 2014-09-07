@@ -3819,7 +3819,8 @@ bool execute_orders(struct unit *punit)
         return TRUE;
       }
 
-      if (!last_order
+      if ((!last_order
+           || punit->server.last_order_move_is_safe)
           && maybe_cancel_goto_due_to_enemy(punit, dst_tile)) {
         cancel_orders(punit, "  orders canceled because of enemy");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
