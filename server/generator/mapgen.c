@@ -1531,6 +1531,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 
       success = create_start_positions(mode, initial_unit);
       if (success) {
+        map.server.startpos = mode;
         break;
       }
 
@@ -3435,6 +3436,11 @@ static bool map_generate_fair_islands(void)
   fc_assert(team_players_num + single_players_num == player_count());
 
   /* Take in account the 'startpos' setting. */
+  if (map.server.startpos == MAPSTARTPOS_DEFAULT
+      && map.server.team_placement == TEAM_PLACEMENT_CONTINENT) {
+    map.server.startpos = MAPSTARTPOS_ALL;
+  }
+
   switch (map.server.startpos) {
   case MAPSTARTPOS_2or3:
     {
@@ -3473,6 +3479,7 @@ static bool map_generate_fair_islands(void)
             /* Every team doesn't have the same number of players. Cannot
              * consider this option. */
             players_per_island = 1;
+            map.server.team_placement = TEAM_PLACEMENT_CLOSEST;
             break;
           }
         }
@@ -3483,6 +3490,9 @@ static bool map_generate_fair_islands(void)
   case MAPSTARTPOS_SINGLE:
   case MAPSTARTPOS_VARIABLE:
     break;
+  }
+  if (players_per_island == 1) {
+    map.server.startpos = MAPSTARTPOS_SINGLE;
   }
 
   whole_map_iterate(ptile) {

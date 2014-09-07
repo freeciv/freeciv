@@ -2688,6 +2688,15 @@ static void srv_ready(void)
   if (map_is_empty()
       || (MAPGEN_SCENARIO == map.server.generator
           && game.info.is_new_game)) {
+    struct {
+      const char *name;
+      char value[MAX_LEN_NAME * 2];
+      char pretty[MAX_LEN_NAME * 2];
+    } mapgen_settings[] = {
+      { "generator", },
+      { "startpos", },
+      { "teamplacement", }
+    };
     int i;
     bool retry_ok = (map.server.seed == 0 && map.server.generator != MAPGEN_SCENARIO);
     int max = retry_ok ? 3 : 1;
@@ -2698,8 +2707,20 @@ static void srv_ready(void)
     for (i = 0; utype == NULL && i < sucount; i++) {
       utype = crole_to_unit_type(game.server.start_units[i], NULL);
     }
-
     fc_assert(utype != NULL);
+
+    /* Register map generator setting main values. */
+    for (i = 0; i < ARRAY_SIZE(mapgen_settings); i++) {
+      const struct setting *pset = setting_by_name(mapgen_settings[i].name);
+
+      fc_assert_action(pset != NULL, continue);
+      (void) setting_value_name(pset, FALSE,
+                                mapgen_settings[i].value,
+                                sizeof(mapgen_settings[i].value));
+      (void) setting_value_name(pset, TRUE,
+                                mapgen_settings[i].pretty,
+                                sizeof(mapgen_settings[i].pretty));
+    }
 
     for (i = 0; !created && i < max ; i++) {
       created = map_fractal_generate(TRUE, utype);
@@ -2723,6 +2744,24 @@ static void srv_ready(void)
 
         /* Remove old information already present in tiles */
         map_free();
+        /* Restore the settings. */
+        for (i = 0; i < ARRAY_SIZE(mapgen_settings); i++) {
+          struct setting *pset = setting_by_name(mapgen_settings[i].name);
+#ifdef NDEBUG
+          setting_enum_set(pset, mapgen_settings[i].value, NULL, NULL, 0);
+#else
+          char error[128];
+          bool success;
+
+          fc_assert_action(pset != NULL, continue);
+          success = setting_enum_set(pset, mapgen_settings[i].value,
+                                     NULL, error, sizeof(error));
+          fc_assert_msg(success == TRUE,
+                        "Failed to restore '%s': %s",
+                        mapgen_settings[i].name,
+                        error);
+#endif
+        }
         map_allocate(); /* NOT map_init() as that would overwrite settings */
       }
     }
@@ -2738,6 +2777,28 @@ static void srv_ready(void)
     }
 
     game_map_init();
+
+    /* Test if main map generator settings have changed. */
+    for (i = 0; i < ARRAY_SIZE(mapgen_settings); i++) {
+      const struct setting *pset = setting_by_name(mapgen_settings[i].name);
+      char pretty[sizeof(mapgen_settings[i].pretty)];
+
+      fc_assert_action(pset != NULL, continue);
+      if (0 == strcmp(setting_value_name(pset, TRUE, pretty,
+                                         sizeof(pretty)),
+                      mapgen_settings[i].pretty)) {
+        continue; /* Setting didn't change. */
+      }
+      notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                  _("Setting '%s' has been adjusted from %s to %s."),
+                  setting_name(pset),
+                  mapgen_settings[i].pretty,
+                  pretty);
+      log_normal(_("Setting '%s' has been adjusted from %s to %s."),
+                 setting_name(pset),
+                 mapgen_settings[i].pretty,
+                 pretty);
+    }
   }
 
   /* start the game */
