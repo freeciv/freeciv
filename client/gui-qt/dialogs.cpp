@@ -1084,6 +1084,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   int diplomat_id;
   QVariant qv1, qv2;
   pfcn_void func;
+  struct city *actor_homecity;
 
   /* Could be caused by the server failing to reply to a request for more
    * information or a bug in the client code. */
@@ -1093,13 +1094,30 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   /* No extra input is required as no action has been chosen yet. */
   is_more_user_input_needed = FALSE;
 
+  actor_homecity = game_city_by_number(punit->homecity);
+
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
            _("Choose Your %s's Strategy"), unit_name_translation(punit));
-  astr_set(&text,
-           /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
-           _("Your %s is waiting for your command."),
-           unit_name_translation(punit));
+
+  if (pcity && actor_homecity) {
+    astr_set(&text,
+             _("Your %s from %s reaches the city of %s.\nWhat now?"),
+             unit_name_translation(punit),
+             city_name(actor_homecity),
+             city_name(pcity));
+  } else if (pcity) {
+    astr_set(&text,
+             _("Your %s has arrived at %s.\nWhat is your command?"),
+             unit_name_translation(punit),
+             city_name(pcity));
+  } else {
+    astr_set(&text,
+             /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
+             _("Your %s is waiting for your command."),
+             unit_name_translation(punit));
+  }
+
   choice_dialog *cd = new choice_dialog(astr_str(&title),
                                         astr_str(&text),
                                         gui()->game_tab_widget,
