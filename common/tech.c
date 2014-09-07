@@ -683,7 +683,8 @@ int base_total_bulbs_required(const struct player *pplayer,
   int members;
   double base_cost, total_cost;
 
-  if (A_UNSET == tech) {
+  if (A_UNSET == tech
+      || A_UNKNOWN == tech) {
     return 0;
   }
 
