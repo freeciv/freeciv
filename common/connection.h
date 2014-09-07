@@ -26,7 +26,9 @@ extern "C" {
 #include <sys/time.h>
 #endif
 
+#ifndef JSON_CONNECTION
 #define USE_COMPRESSION
+#endif  /* JSON_CONNECTION */
 
 /**************************************************************************
   The connection struct and related stuff.

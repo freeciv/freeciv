@@ -13,5 +13,7 @@ AC_DEFUN([FC_WEB_CLIENT],
 
     AC_CHECK_HEADER([jansson.h], [],
 [AC_MSG_ERROR([libjansson found but not jansson.h])])
+
+    AC_DEFINE([JSON_CONNECTION], [1], [jansson network protocol in use])
   fi
 ])
