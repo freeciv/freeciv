@@ -1284,11 +1284,8 @@ static void end_turn(void)
 }
 
 /**************************************************************************
-Unconditionally save the game, with specified filename.
-Always prints a message: either save ok, or failed.
-
-Note that if !HAVE_LIBZ, then game.server.save_compress_level should never
-become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
+  Unconditionally save the game, with specified filename.
+  Always prints a message: either save ok, or failed.
 **************************************************************************/
 void save_game(const char *orig_filename, const char *save_reason,
                bool scenario)
