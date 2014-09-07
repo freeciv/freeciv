@@ -1568,6 +1568,10 @@ static void player_load_units(struct player *plr, int plrno,
             order->target = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
 	}
+        if (punit->orders.list[len - 1].order == ORDER_MOVE) {
+          /* Last move never safe in old versions. */
+          punit->orders.list[len - 1].order = ORDER_ACTION_MOVE;
+        }
       } else {
 	punit->has_orders = FALSE;
 	punit->orders.list = NULL;

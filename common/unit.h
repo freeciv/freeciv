@@ -39,6 +39,7 @@ enum unit_orders {
   ORDER_BUILD_WONDER = 5,
   ORDER_TRADE_ROUTE = 6,
   ORDER_HOMECITY = 7,
+  ORDER_ACTION_MOVE = 8,
   /* and plenty more for later... */
   ORDER_LAST
 };

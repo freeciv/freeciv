@@ -767,6 +767,9 @@ static enum unit_orders char2order(char order)
   case 'h':
   case 'H':
     return ORDER_HOMECITY;
+  case 'x':
+  case 'X':
+    return ORDER_ACTION_MOVE;
   }
 
   /* This can happen if the savegame is invalid. */
@@ -795,6 +798,8 @@ static char order2char(enum unit_orders order)
     return 't';
   case ORDER_HOMECITY:
     return 'h';
+  case ORDER_ACTION_MOVE:
+    return 'x';
   case ORDER_LAST:
     break;
   }
@@ -5565,6 +5570,7 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_BUILD_WONDER:
         case ORDER_TRADE_ROUTE:
         case ORDER_HOMECITY:
+        case ORDER_ACTION_MOVE:
         case ORDER_LAST:
           break;
         }

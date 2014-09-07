@@ -724,6 +724,43 @@ static void compat_load_020600(struct loaddata *loading)
     }
   } player_slots_iterate_end;
 
+  /* Units orders. */
+  player_slots_iterate(pslot) {
+    int player_idx = player_slot_index(pslot);
+    int units_num = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.nunits",
+                                               player_idx);
+
+    for (i = 0; i < units_num; i++) {
+      int len;
+
+      if (secfile_lookup_bool_default(loading->file, FALSE,
+                                      "player%d.u%d.orders_last_move_safe",
+                                      player_idx, i)) {
+        continue;
+      }
+
+      len = secfile_lookup_int_default(loading->file, 0,
+                                       "player%d.u%d.orders_length",
+                                       player_idx, i);
+      if (len > 0) {
+        char orders_str[len + 1];
+        char *p;
+
+        sz_strlcpy(orders_str,
+                   secfile_lookup_str_default(loading->file, "",
+                                              "player%d.u%d.orders_list",
+                                              player_idx, i));
+        if ((p = strrchr(orders_str, 'm'))
+            || (p = strrchr(orders_str, 'M'))) {
+          *p = 'x'; /* ORDER_MOVE -> ORDER_ACTION_MOVE */
+          secfile_replace_str(loading->file, orders_str,
+                              "player%d.u%d.orders_list", player_idx, i);
+        }
+      }
+    }
+  } player_slots_iterate_end;
+
   /* Add specialist order - loading time order is ok here, as we will use
    * that when we in later part of compatibility conversion use the specialist
    * values */

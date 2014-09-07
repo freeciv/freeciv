@@ -1029,6 +1029,12 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     old_tile = new_tile;
   }
 
+  if (p.orders[i - 1] == ORDER_MOVE
+      && (is_non_allied_city_tile(old_tile, client_player()) != NULL
+          || is_non_allied_unit_tile(old_tile, client_player()) != NULL)) {
+    p.orders[i - 1] = ORDER_ACTION_MOVE;
+  }
+
   if (final_order) {
     p.orders[i] = final_order->order;
     p.dir[i] = (final_order->order == ORDER_MOVE) ? final_order->dir : -1;

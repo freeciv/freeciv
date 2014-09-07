@@ -2538,6 +2538,7 @@ void handle_unit_orders(struct player *pplayer,
     }
     switch (packet->orders[i]) {
     case ORDER_MOVE:
+    case ORDER_ACTION_MOVE:
       if (!is_valid_dir(packet->dir[i])) {
 	return;
       }

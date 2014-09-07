@@ -3613,6 +3613,7 @@ bool execute_orders(struct unit *punit)
     if (0 == punit->moves_left) {
       switch (order.order) {
       case ORDER_MOVE:
+      case ORDER_ACTION_MOVE:
       case ORDER_FULL_MP:
       case ORDER_BUILD_CITY:
         log_debug("  stopping because of no more move points");
@@ -3705,6 +3706,7 @@ bool execute_orders(struct unit *punit)
                     unit_link(punit));
       return TRUE;
     case ORDER_MOVE:
+    case ORDER_ACTION_MOVE:
       /* Move unit */
       if (!(dst_tile = mapstep(unit_tile(punit), order.dir))) {
         cancel_orders(punit, "  move order sent us to invalid location");
@@ -3715,8 +3717,9 @@ bool execute_orders(struct unit *punit)
         return TRUE;
       }
 
-      if (!last_order
+      if (order.order != ORDER_ACTION_MOVE
           && maybe_cancel_goto_due_to_enemy(punit, dst_tile)) {
+        /* Plain move required: no attack, trade route etc. */
         cancel_orders(punit, "  orders canceled because of enemy");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted as there "
