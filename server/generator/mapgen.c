@@ -3222,7 +3222,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
     struct fair_tile *pend;
     int n = ((river_pct * size * map.num_cardinal_dirs
               * map.num_cardinal_dirs) / 200);
-    int length_max = 3, l;
+    int length_max = 3, length, l;
     enum direction8 dir;
     int extra_idx;
     int dirs_num;
@@ -3279,6 +3279,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
 
       /* Check a river in one direction. */
       pend = NULL;
+      length = -1;
       dir = -1;
       dirs_num = 0;
       for (j = 0; j < map.num_valid_dirs; j++) {
@@ -3330,6 +3331,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
         if (finished && fc_rand(++dirs_num) == 0) {
           dir = map.valid_dirs[j];
           pend = pftile2;
+          length = l;
         }
       }
       if (pend == NULL) {
@@ -3342,10 +3344,12 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
                 index_to_map_pos_x(pend - pisland),
                 index_to_map_pos_y(pend - pisland),
                 direction8_name(dir),
-                 l);
+                length);
       for (;;) {
         BV_SET(pftile->extras, extra_idx);
+        length--;
         if (pftile == pend) {
+          fc_assert(length == 0);
           break;
         }
         pftile = fair_map_tile_step(pisland, pftile, dir);
