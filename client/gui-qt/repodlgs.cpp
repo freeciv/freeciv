@@ -307,9 +307,10 @@ void science_report::update_report()
 
   /** set current tech and goal */
   qres = research->researching;
-
-  if (qres == A_UNSET) {
-    researching_combo->insertItem(0, _("None"), A_UNSET);
+  if (qres == A_UNSET || is_future_tech(research->researching)) {
+    researching_combo->insertItem(0, research_advance_name_translation(
+                                  research, research->researching ), 
+                                  A_UNSET);
     researching_combo->setCurrentIndex(0);
   } else {
     for (int i = 0; i < researching_combo->count(); i++) {
