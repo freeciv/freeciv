@@ -2243,6 +2243,8 @@ void handle_unit_orders(struct player *pplayer,
   int length = packet->length, i;
   struct unit *punit = player_unit_by_number(pplayer, packet->unit_id);
   struct tile *src_tile = index_to_tile(packet->src_tile);
+  struct tile *dest_tile = index_to_tile(packet->dest_tile);
+  const struct vision_site *psite;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -2359,8 +2361,31 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].base = packet->base[i];
   }
 
+  /* Determine if the last move is safe or not. */
+  punit->server.last_order_move_is_safe = TRUE;
+  if (dest_tile != NULL) {
+    /* Is a city visible for player? */
+    psite = map_get_player_city(dest_tile, pplayer);
+    if (psite != NULL
+        && psite->identity > IDENTITY_NUMBER_ZERO
+        && psite->owner != NULL
+        && !pplayers_allied(pplayer, psite->owner)) {
+      punit->server.last_order_move_is_safe = FALSE;
+    }
+
+    if (punit->server.last_order_move_is_safe) {
+      unit_list_iterate(dest_tile->units, aunit) {
+        if (!pplayers_allied(pplayer, unit_owner(aunit))
+            && can_player_see_unit(pplayer, aunit)) {
+          punit->server.last_order_move_is_safe = FALSE;
+          break;
+        }
+      } unit_list_iterate_end;
+    }
+  }
+
   if (!packet->repeat) {
-    punit->goto_tile = index_to_tile(packet->dest_tile);
+    punit->goto_tile = dest_tile;
   }
 
 #ifdef DEBUG

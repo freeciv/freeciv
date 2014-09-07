@@ -222,6 +222,8 @@ struct unit {
       struct vision *vision;
       time_t action_timestamp;
       int action_turn;
+
+      bool last_order_move_is_safe;
     } server;
   };
 };
