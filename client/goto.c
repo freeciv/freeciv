@@ -912,14 +912,16 @@ bool goto_get_turns(int *min, int *max)
 
     mp = MAX(0, mp);
 
-    if (goto_map->template.move_rate == 0) {
+    if (goto_map->template.move_rate > 0) {
+      /* Round down -- if we can get there this turn with MP left, report 0,
+       * if we get there with 0 MP, report 1 */
+      turns = mp / goto_map->template.move_rate;
+    } else if (goto_map->template.moves_left_initially > 0) {
+      turns = (mp == goto_map->template.moves_left_initially);
+    } else {
       /* Immobile unit can never reach destination. */
-      return FALSE;
+      continue;
     }
-
-    /* Round down -- if we can get there this turn with MP left, report 0,
-     * if we get there with 0 MP, report 1 */
-    turns = mp / goto_map->template.move_rate;
 
     if (min) {
       *min = MIN(*min, turns);
