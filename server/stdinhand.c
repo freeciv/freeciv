@@ -4182,7 +4182,8 @@ static bool handle_stdin_input_real(struct connection *caller,
   level = command_level(command_by_number(cmd));
 
   if (conn_can_vote(caller, NULL) && level == ALLOW_CTRL
-      && conn_get_access(caller) == ALLOW_BASIC && !check) {
+      && conn_get_access(caller) == ALLOW_BASIC && !check
+      && !vote_would_pass_immediately(caller, cmd)) {
     struct vote *vote;
     bool caller_had_vote = (NULL != get_vote_by_caller(caller));
 
@@ -4235,8 +4236,10 @@ static bool handle_stdin_input_real(struct connection *caller,
     }
   }
 
-  if (caller && !(check && conn_get_access(caller) >= ALLOW_BASIC
-                  && level == ALLOW_CTRL)
+  if (caller
+      && !((check || vote_would_pass_immediately(caller, cmd))
+           && conn_get_access(caller) >= ALLOW_BASIC
+           && level == ALLOW_CTRL)
       && conn_get_access(caller) < level) {
     cmd_reply(cmd, caller, C_FAIL,
 	      _("You are not allowed to use this command."));
