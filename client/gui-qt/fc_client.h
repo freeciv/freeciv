@@ -186,6 +186,7 @@ public:
   fc_game_tab_widget *game_tab_widget;
   messagewdg *msgwdg;
   info_tab *infotab;
+  QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
@@ -240,6 +241,7 @@ private:
                            const struct server_list *);
   bool check_server_scan (server_scan*);
   void update_load_page(void);
+  void create_cursors(void);
   void update_scenarios_page(void);
   void set_connection_state(enum connection_state state);
   void handle_authentication_req(

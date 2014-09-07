@@ -118,6 +118,7 @@ public:
                   int recursive_nr);
   void resume_searching(int pos_x,int pos_y,int &w, int &h,
                         int wdtht, int hght, int recursive_nr);
+  void update_cursor(enum cursor_type);
 
 protected:
   void paintEvent(QPaintEvent *event);
@@ -126,6 +127,13 @@ protected:
   void mousePressEvent(QMouseEvent *event);
   void mouseReleaseEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
+  void focusOutEvent(QFocusEvent *event);
+  void leaveEvent(QEvent *event);
+private slots:
+  void timer_event();
+private:
+  int cursor_frame;
+  int cursor;
 
 };
 

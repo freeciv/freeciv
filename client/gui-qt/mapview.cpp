@@ -96,7 +96,67 @@ void mr_idle::add_callback(call_me_back* cb)
 **************************************************************************/
 map_view::map_view() : QWidget()
 {
+  cursor = -1;
+  QTimer *timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(timer_event()));
+  timer->start(200);
   setMouseTracking(true);
+}
+
+/**************************************************************************
+  Updates cursor
+**************************************************************************/
+void map_view::update_cursor(enum cursor_type ct)
+{
+  int i;
+
+  if (ct == CURSOR_DEFAULT) {
+    setCursor(Qt::ArrowCursor);
+    cursor = -1;
+    return;
+  }
+  cursor_frame = 0;
+  i = static_cast<int>(ct);
+  cursor = i;
+  setCursor(*(gui()->fc_cursors[i][0]));
+}
+
+/**************************************************************************
+  Timer for cursor
+**************************************************************************/
+void map_view::timer_event()
+{
+  if (gui()->infotab->underMouse()
+      || gui()->minimapview_wdg->underMouse()
+      || gui()->game_info_label->underMouse()
+      || gui()->unitinfo_wdg->underMouse()) {
+    update_cursor(CURSOR_DEFAULT);
+    return;
+  }
+  if (cursor == -1) {
+    return;
+  }
+  cursor_frame++;
+  if (cursor_frame == NUM_CURSOR_FRAMES) {
+    cursor_frame = 0;
+  }
+  setCursor(*(gui()->fc_cursors[cursor][cursor_frame]));
+}
+
+/**************************************************************************
+  Focus lost event
+**************************************************************************/
+void map_view::focusOutEvent(QFocusEvent *event)
+{
+  update_cursor(CURSOR_DEFAULT);
+}
+
+/**************************************************************************
+  Leave event
+**************************************************************************/
+void map_view::leaveEvent(QEvent *event)
+{
+  update_cursor(CURSOR_DEFAULT);
 }
 
 /**************************************************************************
@@ -1154,7 +1214,7 @@ void update_unit_info_label(struct unit_list *punitlist)
 ****************************************************************************/
 void update_mouse_cursor(enum cursor_type new_cursor_type)
 {
-  /* PORTME */
+  gui()->mapview_wdg->update_cursor(new_cursor_type);
 }
 
 /****************************************************************************
