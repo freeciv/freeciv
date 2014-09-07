@@ -94,7 +94,7 @@ void create_line_at_mouse_pos(void)
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {
-  /* PORTME */
+  /* PLS DONT PORT IT */
 }
 
 /**************************************************************************
@@ -196,6 +196,9 @@ void map_view::mouseReleaseEvent(QMouseEvent *event)
   if (event->button() == Qt::MiddleButton) {
     gui()->popdown_tile_info();
   }
+  if (event->button() == Qt::LeftButton) {
+    release_goto_button(event->x(), event->y());
+  }
 }
 
 /**************************************************************************
@@ -204,6 +207,8 @@ void map_view::mouseReleaseEvent(QMouseEvent *event)
 void map_view::mouseMoveEvent(QMouseEvent *event)
 {
   update_line(event->pos().x(), event->pos().y());
+  control_mouse_cursor(canvas_pos_to_tile(event->pos().x(),
+                                          event->pos().y()));
 }
 
 /**************************************************************************

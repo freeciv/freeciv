@@ -32,6 +32,7 @@
 // gui-qt
 #include "fc_client.h"
 #include "optiondlg.h"
+#include "sprite.h"
 
 
 extern QApplication *qapp;
@@ -112,7 +113,7 @@ void fc_client::init()
   status_bar_label->setAlignment(Qt::AlignCenter);
   status_bar->addWidget(status_bar_label, 1);
   set_status_bar(_("Welcome to Freeciv"));
-
+  create_cursors();
   switch_page_mapper = new QSignalMapper;
   // PAGE_MAIN
   pages[PAGE_MAIN] = new QWidget(central_wdg);
@@ -526,6 +527,26 @@ void fc_client::popup_client_options()
 void fc_client::popup_server_options()
 {
   option_dialog_popup(_("Set server options"), server_optset);
+}
+
+void fc_client::create_cursors(void)
+{
+  enum cursor_type curs;
+  int cursor;
+  QPixmap *pix;
+  int hot_x, hot_y;
+  struct sprite *sprite;
+  int frame;
+  QCursor *c;
+  for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
+    for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
+      curs = static_cast<cursor_type>(cursor);
+      sprite = get_cursor_sprite(tileset, curs, &hot_x, &hot_y, frame);
+      pix = sprite->pm;
+      c = new QCursor(*pix, hot_x, hot_y);
+      fc_cursors[cursor][frame] = c;
+    }
+  }
 }
 
 /****************************************************************************
