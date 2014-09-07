@@ -283,9 +283,10 @@ void map_view::resizeEvent(QResizeEvent* event)
     gui()->infotab->move(0 , size.height() - gui()->infotab->height());
     gui()->unitinfo_wdg->move(width() - gui()->unitinfo_wdg->width(), 0);
     gui()->game_info_label->move(size.width()
-                                 -gui()->game_info_label->width(), 
+                                 -gui()->game_info_label->width(),
                                  size.height()
                                  -gui()->game_info_label->height());
+    gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
   }
 }
 

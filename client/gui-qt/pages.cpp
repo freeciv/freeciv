@@ -37,6 +37,7 @@
 #include "dialogs.h"
 #include "pages.h"
 #include "sprite.h"
+#include "voteinfo_bar.h"
 
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
@@ -560,9 +561,11 @@ void fc_client::create_start_page()
   pages_layout[PAGE_START]->addWidget(but, 5, 7);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
-
+  pre_vote = new pregamevote;
+  
+  pages_layout[PAGE_START]->addWidget(pre_vote, 4, 0, 1, 4);
   pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
-  pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 2, 8);
+  pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 1, 8);
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
 
 }
@@ -592,6 +595,8 @@ void fc_client::create_game_page()
   game_info_label->show();
   infotab = new info_tab(mapview_wdg);
   infotab->show();
+  x_vote = new xvote(mapview_wdg);
+  x_vote->hide();
 
   game_layout->addWidget(mapview_wdg, 1, 0);
   game_main_widget->setLayout(game_layout);

@@ -28,7 +28,8 @@ MOC_FILES = \
 	meta_spaceshipdlg.cpp	\
 	meta_messagewin.cpp	\
 	meta_chatline.cpp	\
-	meta_messagedlg.cpp
+	meta_messagedlg.cpp	\
+	meta_voteinfo_bar.cpp
 
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\

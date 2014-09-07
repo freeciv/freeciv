@@ -17,4 +17,50 @@ extern "C" {
 #include "voteinfo_bar_g.h"
 }
 
+// Qt
+#include <QWidget>
+
+class QPushButton;
+class QLabel;
+class QGridLayout;
+
+/***************************************************************************
+  pregamevote class used for displaying vote bar in PAGE START
+***************************************************************************/
+class pregamevote : public QWidget
+{
+  Q_OBJECT
+public:
+  explicit pregamevote(QWidget *parent = NULL);
+  ~pregamevote();
+  void update_vote();
+  QLabel *label_text;
+  QLabel *label_vote_text;
+  QPushButton *vote_yes;
+  QPushButton *vote_no;
+  QPushButton *vote_abstain;
+  QLabel *lab_yes;
+  QLabel *lab_no;
+  QLabel *lab_abstain;
+  QLabel *voters;
+  QGridLayout *layout;
+public slots:
+  void v_yes();
+  void v_no();
+  void v_abstain();
+};
+
+/***************************************************************************
+  xvote class used for displaying vote bar in PAGE START
+***************************************************************************/
+class xvote : public pregamevote
+{
+  Q_OBJECT
+public:
+  xvote(QWidget *parent);
+protected:
+  void paint(QPainter *painter, QPaintEvent *event);
+  void paintEvent(QPaintEvent *event);
+};
+
 #endif  /* FC__VOTEBAR_H */
