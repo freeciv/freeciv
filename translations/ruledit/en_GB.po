@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
-"PO-Revision-Date: 2014-07-17 10:18+0100\n"
+"POT-Creation-Date: 2014-09-08 22:19+0100\n"
+"PO-Revision-Date: 2014-09-08 22:21+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -27,6 +27,17 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: tools/ruledit/requirers_dlg.cpp:43
+msgid "Close"
+msgstr "Close"
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:68
+#, c-format
+msgid "Needed by %s"
+msgstr "Needed by %s"
 
 #: tools/ruledit/ruledit.cpp:102
 msgid "Print a summary of the options"
@@ -41,94 +52,108 @@ msgstr "Print the version number"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Unrecognised option: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:58
+#: tools/ruledit/ruledit_qt.cpp:61
 msgid "Freeciv ruleset editor"
 msgstr "Freeciv ruleset editor"
 
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
+#: tools/ruledit/ruledit_qt.cpp:126
 #, c-format
-msgid "Needed by %s"
-msgstr "Needed by %s"
+msgid ""
+"%s%s\n"
+"commit: %s"
+msgstr ""
+"%s%s\n"
+"commit: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:119
+#: tools/ruledit/ruledit_qt.cpp:141
 msgid "Give ruleset to use as starting point."
 msgstr "Give ruleset to use as starting point."
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:147
 msgid "Start editing"
 msgstr "Start editing"
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:157
 msgid "Misc"
 msgstr "Misc"
 
-#: tools/ruledit/ruledit_qt.cpp:137
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Tech"
 msgstr "Tech"
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:161
+msgid "Nations"
+msgstr "Nations"
+
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Welcome to freeciv-ruledit"
 msgstr "Welcome to freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:207
 msgid "Ruleset loaded"
 msgstr "Ruleset loaded"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:221
 msgid "Ruleset loading failed!"
 msgstr "Ruleset loading failed!"
 
-#: tools/ruledit/tab_misc.cpp:53
+#: tools/ruledit/tab_misc.cpp:57
 msgid "Ruleset name"
 msgstr "Ruleset name"
 
-#: tools/ruledit/tab_misc.cpp:58
+#: tools/ruledit/tab_misc.cpp:62
 msgid "Ruleset version"
 msgstr "Ruleset version"
 
-#: tools/ruledit/tab_misc.cpp:63
+#: tools/ruledit/tab_misc.cpp:67
 msgid "Save to directory"
 msgstr "Save to directory"
 
-#: tools/ruledit/tab_misc.cpp:70
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Save now"
 msgstr "Save now"
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:125
 msgid "Ruleset saved"
 msgstr "Ruleset saved"
 
-#: tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_nation.cpp:49
+msgid "Use nationlist"
+msgstr "Use nationlist"
+
+#: tools/ruledit/tab_nation.cpp:53
+msgid "Nationlist"
+msgstr "Nationlist"
+
+#: tools/ruledit/tab_tech.cpp:62
 msgid "Name"
 msgstr "Name"
 
-#: tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_tech.cpp:70
 msgid "Rule Name"
 msgstr "Rule Name"
 
-#: tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
 msgstr "Req1"
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
 msgstr "Req2"
 
-#: tools/ruledit/tab_tech.cpp:94
+#: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
 msgstr "Root Req"
 
-#: tools/ruledit/tab_tech.cpp:103
+#: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
 msgstr "Add tech"
 
-#: tools/ruledit/tab_tech.cpp:107
+#: tools/ruledit/tab_tech.cpp:109
 msgid "Remove this tech"
 msgstr "Remove this tech"
 
-#: tools/ruledit/tab_tech.cpp:186
+#: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
 msgstr "Never"
 
