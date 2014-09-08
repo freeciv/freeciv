@@ -813,21 +813,38 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
 {
   GtkWidget *shl;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
+  struct city *actor_homecity;
 
   struct action_data *data = act_data(punit->id,
                                       (pcity) ? pcity->id : 0,
                                       (ptunit) ? ptunit->id : 0,
                                       0);
 
+  actor_homecity = game_city_by_number(punit->homecity);
+
   diplomat_id = punit->id;
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
            _("Choose Your %s's Strategy"), unit_name_translation(punit));
-  astr_set(&text,
-           /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
-           _("Your %s is waiting for your command."),
-           unit_name_translation(punit));
+
+  if (pcity && actor_homecity) {
+    astr_set(&text,
+             _("Your %s from %s reaches the city of %s.\nWhat now?"),
+             unit_name_translation(punit),
+             city_name(actor_homecity),
+             city_name(pcity));
+  } else if (pcity) {
+    astr_set(&text,
+             _("Your %s has arrived at %s.\nWhat is your command?"),
+             unit_name_translation(punit),
+             city_name(pcity));
+  } else {
+    astr_set(&text,
+             /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
+             _("Your %s is waiting for your command."),
+             unit_name_translation(punit));
+  }
 
   shl = choice_dialog_start(GTK_WINDOW(toplevel), astr_str(&title),
                             astr_str(&text));
