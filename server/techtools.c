@@ -652,7 +652,7 @@ pick_random_tech_to_lose(const struct research *presearch)
   } advance_index_iterate_end;
 
   /* should never be reached */
-  fc_assert_msg(FALSE, "internal error (eligible=%d, chosen=%d.",
+  fc_assert_msg(chosen == 0, "internal error (eligible=%d, chosen=%d)",
                 eligible, chosen);
   return A_NONE;
 }
