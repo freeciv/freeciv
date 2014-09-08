@@ -86,7 +86,7 @@ dnl Now check if the installed SDL2 is sufficiently new. (Also sanity
 dnl checks the results of sdl2-config to some extent
 dnl
       rm -f conf.sdl2test
-      AC_TRY_RUN([
+      AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -118,7 +118,7 @@ int main (int argc, char *argv[])
   */
   { FILE *fp = fopen("conf.sdl2test", "a"); if ( fp ) fclose(fp); }
 
-  /* HP/UX 9 (%@#!) writes to sscanf strings */
+  /* HP/UX 9 writes to sscanf strings */
   tmp_version = my_strdup("$min_sdl2_version");
   if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
      printf("%s, bad version string\n", "$min_sdl2_version");
@@ -143,7 +143,7 @@ int main (int argc, char *argv[])
     }
 }
 
-],, no_sdl2=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+]])], [], [no_sdl2=yes], [echo $ac_n "cross compiling; assumed OK... $ac_c"])
         CFLAGS="$ac_save_CFLAGS"
         CXXFLAGS="$ac_save_CXXFLAGS"
         LIBS="$ac_save_LIBS"
@@ -171,7 +171,7 @@ int main (int argc, char *argv[])
           CFLAGS="$CFLAGS $SDL2_CFLAGS"
           CXXFLAGS="$CXXFLAGS $SDL2_CFLAGS"
           LIBS="$LIBS $SDL2_LIBS"
-          AC_TRY_LINK([
+          AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #include <stdio.h>
 #include "SDL.h"
 
@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
 { return 0; }
 #undef  main
 #define main K_and_R_C_main
-],      [ return 0; ],
+]], [[ return 0; ]])],
         [ echo "*** The test program compiled, but did not run. This usually means"
           echo "*** that the run-time linker is not finding SDL2 or finding the wrong"
           echo "*** version of SDL2. If it is not finding SDL2, you'll need to set your"
