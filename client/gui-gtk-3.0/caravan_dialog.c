@@ -112,7 +112,8 @@ void popup_caravan_dialog(struct unit *punit,
   
   wonder = get_help_build_wonder_button_label(&can_wonder);
   
-  can_trade = can_cities_trade(phomecity, pdestcity);
+  can_trade = (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+               && can_cities_trade(phomecity, pdestcity));
   can_establish = can_trade
   		  && can_establish_trade_route(phomecity, pdestcity);
 
