@@ -23,10 +23,13 @@ extern "C" {
 }
 
 //Qt
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QLineEdit>
 #include <QCheckBox>
 
+class QPushButton;
+
+QString apply_tags(QString str, const struct text_tag_list *tags);
 /***************************************************************************
   Class for chat widget
 ***************************************************************************/
@@ -36,15 +39,19 @@ class chatwdg : public QWidget
 public:
   chatwdg(QWidget *parent);
   void append(QString str);
+  QLineEdit *chat_line;
 private slots:
   void send();
   void state_changed(int state);
+  void rm_links();
+  void anchor_clicked(const QUrl &link);
 protected:
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);
+  bool eventFilter(QObject *obj, QEvent *event);
 private:
-  QTextEdit *chat_output;
-  QLineEdit *chat_line;
+  QTextBrowser *chat_output;
+  QPushButton *remove_links;
   QCheckBox *cb;
 
 };

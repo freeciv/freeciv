@@ -64,6 +64,7 @@ enum connection_state {
 };
 
 class MainWindow;
+class QCompleter;
 class QLabel;
 class QLineEdit;
 class QLineEdit;
@@ -100,7 +101,6 @@ public:
 class fc_client : public QObject
 {
   Q_OBJECT
-
   QWidget *main_wdg;
   QWidget *pages[ (int) PAGE_GGZ + 1];
   QWidget *connect_lan;
@@ -176,9 +176,13 @@ public:
   void set_current_unit(int curr, int target);
   void get_current_unit(int *curr, int *target);
   void set_diplo_dialog(choice_dialog *widget);
+  void update_completer();
   choice_dialog *get_diplo_dialog();
 
   QMainWindow *main_window;
+  QCompleter *chat_completer;
+  QStringList chat_history;
+  int history_pos;
   mr_idle mr_idler;
   fc_font fc_fonts;
   info_label *game_info_label;
@@ -261,7 +265,7 @@ private:
 
 protected:
   void timerEvent(QTimerEvent *);
-
+  bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
   void keyCaught(QKeyEvent *e);
