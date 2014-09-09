@@ -521,6 +521,8 @@ void fc_client::create_start_page()
   start_players_tree = new QTreeWidget;
   chat_line = new QLineEdit;
   output_window = new QTextEdit;
+  output_window->setReadOnly(false);
+  chat_line->installEventFilter(this);
 
   player_widget_list << _("Name") << _("Ready") << _("Leader")
                      << _("Flag") << _("Nation") << _("Team");

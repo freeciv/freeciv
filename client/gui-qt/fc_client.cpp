@@ -17,6 +17,7 @@
 
 // Qt
 #include <QApplication>
+#include <QCompleter>
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QStatusBar>
@@ -51,6 +52,7 @@ fc_client::fc_client() : QObject()
    */
   main_window = NULL;
   main_wdg = NULL;
+  chat_completer = NULL;
   connect_lan = NULL;
   connect_metaserver = NULL;
   central_layout = NULL;
@@ -104,10 +106,12 @@ void fc_client::init()
   main_window = new QMainWindow;
   central_wdg = new QWidget;
   central_layout = new QGridLayout;
+  chat_completer = new QCompleter;
   central_layout->setContentsMargins(2, 2, 2, 2);
 
   // General part not related to any single page
   fc_fonts.init_fonts();
+  history_pos = -1;
   menu_bar = new mr_menu();
   menu_bar->setup_menus();
   main_window->setMenuBar(menu_bar);
@@ -162,7 +166,6 @@ void fc_client::init()
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
   main_window->setVisible(true);
-  
 }
 
 /****************************************************************************
@@ -218,8 +221,9 @@ void fc_client::closing()
 ****************************************************************************/
 void fc_client::append_output_window(const QString &str)
 {
-  if (output_window != NULL){
+  if (output_window != NULL) {
     output_window->append(str);
+    chat_line->setCompleter(chat_completer);
   }
 }
 
@@ -330,6 +334,40 @@ void fc_client::add_server_source(int sock)
 }
 
 /****************************************************************************
+  Event handler
+****************************************************************************/
+bool fc_client::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == chat_line) {
+    if (event->type() == QEvent::KeyPress) {
+      QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+      if (keyEvent->key() == Qt::Key_Up) {
+        history_pos++;
+        history_pos = qMin(chat_history.count(), history_pos);
+        if (history_pos < chat_history.count()) {
+          chat_line->setText(chat_history.at(history_pos));
+        }
+        if (history_pos == chat_history.count()) {
+          chat_line->setText("");
+        }
+        return true;
+      } else if (keyEvent->key() == Qt::Key_Down) {
+        history_pos--;
+        history_pos = qMax(-1, history_pos);
+        if (history_pos < chat_history.count() && history_pos != -1) {
+          chat_line->setText(chat_history.at(history_pos));
+        }
+        if (history_pos == -1) {
+          chat_line->setText("");
+        }
+        return true;
+      }
+    }
+  }
+  return QObject::eventFilter(obj, event);
+}
+
+/****************************************************************************
   Removes notifier
 ****************************************************************************/
 void fc_client::remove_server_source()
@@ -351,11 +389,9 @@ void fc_client::server_input(int sock)
 void fc_client::chat()
 {
   send_chat(chat_line->text().toUtf8().data());
-  real_output_window_append(chat_line->text().toUtf8().data(), NULL, -1);
+  chat_history.prepend(chat_line->text());
   chat_line->clear();
 }
-
-
 
 /****************************************************************************
   Timer event handling
@@ -481,6 +517,36 @@ int fc_client::gimme_index_of(QString str)
   w = opened_repo_dlgs.value(str);
   i = game_tab_widget->indexOf(w);
   return i;
+}
+
+/****************************************************************************
+  Updates autocompleter for chat widgets
+****************************************************************************/
+void fc_client::update_completer()
+{
+  QStringList wordlist;
+  QString str;
+
+  conn_list_iterate(game.est_connections, pconn) {
+    if (pconn->playing) {
+      wordlist << pconn->playing->name;
+      wordlist << pconn->playing->username;
+    } else {
+      wordlist << pconn->username;
+    }
+  } conn_list_iterate_end;
+  players_iterate (pplayer){
+    str = pplayer->name;
+    if (!wordlist.contains(str)){
+      wordlist << str;
+    }
+  } players_iterate_end
+  if (chat_completer != NULL) {
+    delete chat_completer;
+  }
+  chat_completer = new QCompleter(wordlist);
+  chat_completer->setCaseSensitivity(Qt::CaseInsensitive);
+  chat_completer->setCompletionMode(QCompleter::InlineCompletion);
 }
 
 /****************************************************************************

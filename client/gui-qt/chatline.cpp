@@ -17,8 +17,11 @@
 
 // client
 #include "climisc.h"      /* for write_chatline_content */
+#include "climap.h"
+#include "game.h"
 
 // gui-qt
+#include "colors.h"
 #include "fc_client.h"
 #include "qtg_cxxside.h"
 
@@ -32,6 +35,8 @@ static bool is_plain_public_message(const char *s);
 chatwdg::chatwdg(QWidget *parent)
 {
   QVBoxLayout *vb;
+  QHBoxLayout *hl;
+  QSpacerItem *si;
   setStyleSheet("QTextEdit {background-color: transparent;}"
     "QTextEdit {color: #cdcead;}"
     "QTextEdit {background-attachment: fixed;}"
@@ -48,20 +53,34 @@ chatwdg::chatwdg(QWidget *parent)
     "QCheckBox {color: #5d4e4d;}");
 
   setParent(parent);
+  si = new QSpacerItem(0,0,QSizePolicy::Expanding);
   cb = new QCheckBox(_("Allies only"));
   cb->setChecked(options.gui_qt_allied_chat_only);
   vb = new QVBoxLayout;
+  hl = new QHBoxLayout;
   chat_line = new QLineEdit;
-  chat_output = new QTextEdit;
+  chat_output = new QTextBrowser;
+  remove_links = new QPushButton(_("Clear links"));
+  remove_links->setStyleSheet("QPushButton {color: #5d4e4d;}");
   vb->addWidget(chat_output);
-  vb->addWidget(cb);
+  hl->addWidget(cb);
+  hl->addItem(si);
+  hl->addWidget(remove_links);
+  vb->addLayout(hl);
   vb->addWidget(chat_line);
   setLayout(vb);
   chat_output->setReadOnly(true);
   chat_line->setReadOnly(false);
   chat_line->setVisible(true);
+  chat_line->installEventFilter(this);
   chat_output->setVisible(true);
+  chat_output->setAcceptRichText(true);
+  chat_output->setOpenLinks(false);
+  chat_output->setReadOnly(true);
+  connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
+          this, SLOT(anchor_clicked(const QUrl)));
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(send()));
+  connect(remove_links, SIGNAL(clicked()), this, SLOT(rm_links()));
   connect(cb, SIGNAL(stateChanged(int)), this, SLOT(state_changed(int)));
 }
 
@@ -78,11 +97,73 @@ void chatwdg::state_changed(int state)
 }
 
 /***************************************************************************
+  User clicked clear links button
+***************************************************************************/
+void chatwdg::rm_links()
+{
+  link_marks_clear_all();
+}
+
+/***************************************************************************
+  User clicked some custom link
+***************************************************************************/
+void chatwdg::anchor_clicked(const QUrl &link)
+{
+  int n;
+  QStringList sl;
+  int id;
+  enum text_link_type type;
+  sl = link.toString().split(",");
+  n = sl.at(0).toInt();
+  id = sl.at(1).toInt();
+
+  type = static_cast<text_link_type>(n);
+  struct tile *ptile = NULL;
+  switch (type) {
+  case TLT_CITY: {
+    struct city *pcity = game_city_by_number(id);
+
+    if (pcity) {
+      ptile = client_city_tile(pcity);
+    } else {
+      output_window_append(ftc_client, _("This city isn't known!"));
+    }
+  }
+  break;
+  case TLT_TILE:
+    ptile = index_to_tile(id);
+
+    if (!ptile) {
+      output_window_append(ftc_client,
+                           _("This tile doesn't exist in this game!"));
+    }
+    break;
+  case TLT_UNIT: {
+    struct unit *punit = game_unit_by_number(id);
+
+    if (punit) {
+      ptile = unit_tile(punit);
+    } else {
+      output_window_append(ftc_client, _("This unit isn't known!"));
+    }
+  }
+  break;
+  }
+  if (ptile) {
+            center_tile_mapcanvas(ptile);
+          link_mark_restore(type, id);
+  }
+}
+
+
+/***************************************************************************
   Adds news string to chatwdg
 ***************************************************************************/
 void chatwdg::append(QString str)
 {
   chat_output->append(str);
+  chat_output->ensureCursorVisible();
+  chat_line->setCompleter(gui()->chat_completer);
 }
 
 /***************************************************************************
@@ -93,6 +174,7 @@ void chatwdg::send()
   const char *theinput;
 
   theinput = chat_line->text().toUtf8().data();
+  gui()->chat_history.prepend(chat_line->text());
   if (*theinput) {
     if (client_state() == C_S_RUNNING && options.gui_qt_allied_chat_only
         && is_plain_public_message(theinput)) {
@@ -125,6 +207,147 @@ void chatwdg::paintEvent(QPaintEvent *event)
   painter.begin(this);
   paint(&painter, event);
   painter.end();
+}
+
+/***************************************************************************
+  Processess history for chat
+***************************************************************************/
+bool chatwdg::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == chat_line) {
+    if (event->type() == QEvent::KeyPress) {
+      QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+      if (keyEvent->key() == Qt::Key_Up) {
+        gui()->history_pos++;
+        gui()->history_pos = qMin(gui()->chat_history.count(), 
+                                  gui()->history_pos);
+        if (gui()->history_pos < gui()->chat_history.count()) {
+          chat_line->setText(gui()->chat_history.at(gui()->history_pos));
+        }
+        if (gui()->history_pos == gui()->chat_history.count()) {
+          chat_line->setText("");
+        }
+        return true;
+      } else if (keyEvent->key() == Qt::Key_Down) {
+        gui()->history_pos--;
+        gui()->history_pos = qMax(-1, gui()->history_pos);
+        if (gui()->history_pos < gui()->chat_history.count() 
+            && gui()->history_pos != -1) {
+          chat_line->setText(gui()->chat_history.at(gui()->history_pos));
+        }
+        if (gui()->history_pos == -1) {
+          chat_line->setText("");
+        }
+        return true;
+      }
+    }
+  }
+  return QObject::eventFilter(obj, event);
+}
+
+/***************************************************************************
+  Applies tags to text
+***************************************************************************/
+QString apply_tags(QString str, const struct text_tag_list *tags)
+{
+  QByteArray qba;
+  int start, stop;
+  QString str_col;
+  QString color;
+  QColor qc;
+  QMultiMap <int, QString> mm;
+  qba = str.toLocal8Bit();
+  if (tags == NULL) {
+    return str;
+  }
+  text_tag_list_iterate(tags, ptag) {
+
+
+    if ((text_tag_stop_offset(ptag) == FT_OFFSET_UNSET)) {
+      stop = qba.count();
+    } else {
+      stop = text_tag_stop_offset(ptag);
+    }
+
+    if ((text_tag_start_offset(ptag) == FT_OFFSET_UNSET)) {
+      start = 0;
+    } else {
+      start = text_tag_start_offset(ptag);
+    }
+    switch (text_tag_type(ptag)) {
+    case TTT_BOLD:
+      mm.insert(stop, "</b>");
+      mm.insert(start, "<b>");
+      break;
+    case TTT_ITALIC:
+      mm.insert(stop, "</i>");
+      mm.insert(start, "<i>");
+      break;
+    case TTT_STRIKE:
+      mm.insert(stop, "</s>");
+      mm.insert(start, "<s>");
+      break;
+    case TTT_UNDERLINE:
+      mm.insert(stop, "</u>");
+      mm.insert(start, "<u>");
+      break;
+    case TTT_COLOR:
+      if (text_tag_color_foreground(ptag)) {
+        color = text_tag_color_foreground(ptag);
+        if (color == "#00008B" && gui()->current_page() == PAGE_GAME) {
+          color = "#E8FF00";
+        }
+        str_col = QString("<span style=color:%1>").arg(color);
+        mm.insert(stop, "</span>");
+        mm.insert(start, str_col);
+      }
+      if (text_tag_color_background(ptag)) {
+        color = text_tag_color_background(ptag);
+        if (QColor::isValidColor(color)) {
+          str_col = QString("<span style= background-color:%1;>").arg(color);
+          mm.insert(stop, "</span>");
+          mm.insert(start, str_col);
+        }
+      }
+      break;
+    case TTT_LINK: {
+      struct color *pcolor = NULL;
+
+      switch (text_tag_link_type(ptag)) {
+      case TLT_CITY:
+        pcolor = get_color(tileset, COLOR_MAPVIEW_CITY_LINK);
+        break;
+      case TLT_TILE:
+        pcolor = get_color(tileset, COLOR_MAPVIEW_TILE_LINK);
+        break;
+      case TLT_UNIT:
+        pcolor = get_color(tileset, COLOR_MAPVIEW_UNIT_LINK);
+        break;
+      }
+
+      if (!pcolor) {
+        break; /* Not a valid link type case. */
+      }
+      color = pcolor->qcolor.name(QColor::HexRgb);
+      str_col = QString("<font color=\"%1\">").arg(color);
+      mm.insert(stop, "</a></font>");
+
+      color = QString(str_col + "<a href=%1,%2>").
+              arg(QString::number(text_tag_link_type(ptag)),
+                  QString::number(text_tag_link_id(ptag)));
+      mm.insert(start, color);
+    }
+    }
+  }
+  text_tag_list_iterate_end;
+
+  /* insert html starting from last items */
+  QMultiMap<int, QString>::const_iterator i = mm.constEnd();
+  while (i != mm.constBegin()) {
+    --i;
+    qba.insert(i.key(), i.value());
+  }
+  return QString(qba);
 }
 
 /**************************************************************************
@@ -168,10 +391,28 @@ void qtg_real_output_window_append(const char *astring,
                                    int conn_id)
 {
   QString str;
+  QString s, s2;
   str = QString::fromUtf8(astring);
-  gui()->append_output_window(str);
   gui()->set_status_bar(str);
-  if (gui()->infotab != NULL){
+  gui()->update_completer();
+
+  /* Replace HTML tags first or it will be cut
+     Replace <player>
+   */
+  players_iterate(pplayer) {
+    s = pplayer->name;
+    s = "<" + s + ">";
+    if (str.contains(s)) {
+      s2 = "[" + QString(pplayer->name) + "]";
+      str = str.replace(s, s2);
+    }
+
+  } players_iterate_end;
+
+  str  = apply_tags(str, tags);
+
+  gui()->append_output_window(str);
+  if (gui()->infotab != NULL) {
     gui()->infotab->chtwdg->append(str);
   }
 }
@@ -203,7 +444,7 @@ void clear_output_window(void)
 void qtg_version_message(char *vertext)
 {
   /* FIXME - this will crash at some point - event will come 
-   * later with non existent pointer 
+   * later with non existent pointer
   output_window_append(ftc_client, vertext);
   */
 }
