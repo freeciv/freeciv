@@ -178,6 +178,8 @@ void fc_client::init()
 ****************************************************************************/
 fc_client::~fc_client()
 {
+  status_bar_queue.clear();
+  fc_fonts.release_fonts();
   delete main_window;
 }
 
@@ -667,6 +669,17 @@ void fc_font::init_fonts()
     }
   } options_iterate_end;
 }
+
+/****************************************************************************
+  Deletes all fonts
+****************************************************************************/
+void fc_font::release_fonts()
+{
+  foreach (QFont *f, font_map) {
+    delete f;
+  }
+}
+
 
 /****************************************************************************
   Adds new font or overwrite old one

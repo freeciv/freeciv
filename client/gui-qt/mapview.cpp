@@ -397,6 +397,16 @@ minimap_view::minimap_view(QWidget *parent) : fcwidget()
 }
 
 /**************************************************************************
+  Minimap_view destructor
+**************************************************************************/
+minimap_view::~minimap_view()
+{
+  if (pix) {
+    delete pix;
+  }
+}
+
+/**************************************************************************
   Paint event for minimap
 **************************************************************************/
 void minimap_view::paintEvent(QPaintEvent *event)
@@ -759,6 +769,17 @@ info_label::info_label(QWidget *parent) : fcwidget()
   end_button_area.setWidth(0);
   rates_area.setWidth(0);
   indicator_area.setWidth(0);
+}
+
+/**************************************************************************
+  Destructor for information label
+**************************************************************************/
+info_label::~info_label()
+{
+  if (end_turn_pix)
+    delete end_turn_pix;
+  if (rates_label)
+    delete rates_label;
 }
 
 /**************************************************************************

@@ -96,6 +96,7 @@ public:
   void set_font(QString name, QFont *qf);
   QFont* get_font(QString name);
   void init_fonts();
+  void release_fonts();
 };
 
 class fc_client : public QObject
