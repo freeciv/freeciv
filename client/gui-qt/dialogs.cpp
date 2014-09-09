@@ -994,7 +994,8 @@ void popup_caravan_dialog(struct unit *punit,
   qv2 = punit->id;
   caravan_city_id = pdestcity->id;
   caravan_unit_id = punit->id;
-  can_trade = can_cities_trade(phomecity, pdestcity);
+  can_trade = (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+               && can_cities_trade(phomecity, pdestcity));
   can_establish = can_trade
                   && can_establish_trade_route(phomecity, pdestcity);
   destcity = game_city_by_number(pdestcity->id);
