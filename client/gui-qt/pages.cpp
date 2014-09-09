@@ -374,6 +374,9 @@ void fc_client::set_status_bar(QString message, int timeout)
     QTimer::singleShot(timeout, this, SLOT(clear_status_bar()));
   } else {
     status_bar_queue.append(message);
+    while (status_bar_queue.count() > 3){
+      status_bar_queue.removeFirst();
+    }
   }
 }
 
