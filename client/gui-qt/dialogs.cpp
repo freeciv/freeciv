@@ -1554,7 +1554,6 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
     ret = ask.exec();
     switch (ret) {
     case QMessageBox::Cancel:
-      return;
       break;
     case QMessageBox::Ok:
       request_do_action(ACTION_SPY_INCITE_CITY, diplomat_id,
