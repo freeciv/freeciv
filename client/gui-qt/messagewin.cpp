@@ -44,7 +44,7 @@ info_tab::info_tab(QWidget *parent)
   chat_button = new QPushButton;
   chat_button->setText(_("Chat"));
   hide_button = new QPushButton(
-    style()->standardIcon(QStyle::SP_TitleBarMinButton), "");
+                  style()->standardIcon(QStyle::SP_TitleBarMinButton), "");
 
   layout->addWidget(hide_button, 1, 0, 1, 1);
   layout->addWidget(msg_button, 1, 1, 1, 4);
