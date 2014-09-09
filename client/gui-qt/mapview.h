@@ -206,6 +206,7 @@ class minimap_view:public fcwidget
   Q_OBJECT 
 public:
   minimap_view(QWidget * parent);
+  ~minimap_view();
   void paint(QPainter * painter, QPaintEvent * event);
   virtual void update_menu();
   void update_image();
@@ -255,6 +256,7 @@ class info_label : public fcwidget
 
 public:
   info_label(QWidget *parent);
+  ~info_label();
   void set_turn_info(QString);
   void set_time_info(QString);
   void set_eco_info(QString);
