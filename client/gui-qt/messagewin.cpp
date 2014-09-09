@@ -68,6 +68,10 @@ info_tab::info_tab(QWidget *parent)
   connect(hide_button, SIGNAL(clicked()), SLOT(hide_me()));
   connect(msg_button, SIGNAL(clicked()), SLOT(activate_msg()));
   connect(chat_button, SIGNAL(clicked()), SLOT(activate_chat()));
+  resx = false;
+  resy = false;
+  chat_stretch = 5;
+  msg_stretch = 5;
 }
 
 /***************************************************************************
@@ -100,6 +104,10 @@ void info_tab::mousePressEvent(QMouseEvent * event)
     cursor = event->globalPos() - geometry().topLeft();
     if (event->y() > 0 && event->y() < 20){
       resize_mode = true;
+      resy = true;
+    } else if (event->x() > width() - 20 && event->x() < width()){
+      resize_mode = true;
+      resx = true;
     }
   }
   event->setAccepted(false);
@@ -112,6 +120,8 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
 {
   if (resize_mode) {
     resize_mode = false;
+    resx = false;
+    resy = false;
     setCursor(Qt::ArrowCursor);
   }
 }
@@ -121,11 +131,15 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
 **************************************************************************/
 void info_tab::mouseMoveEvent(QMouseEvent *event)
 {
-  if ((event->buttons() & Qt::LeftButton) && resize_mode) {
+  if ((event->buttons() & Qt::LeftButton) && resize_mode && resy) {
     resize(width(), gui()->mapview_wdg->height()
            - event->globalPos().y() + cursor.y());
     move(0, event->globalPos().y() - cursor.y());
-    setCursor(Qt::SizeAllCursor);
+    setCursor(Qt::SizeVerCursor);
+  } else if ((event->buttons() & Qt::LeftButton) && resize_mode && resx) {
+    resize(event->x(), height());
+    move(0, gui()->mapview_wdg->height() - height());
+    setCursor(Qt::SizeHorCursor);
   }
 }
 
@@ -160,10 +174,12 @@ void info_tab::activate_chat()
   i++;
   i = qMin(i, 5);
   layout->setColumnStretch(6, i);
+  chat_stretch = i;
   i = layout->columnStretch(4);
   i--;
   i = qMax(i, 1);
   layout->setColumnStretch(4, i);
+  msg_stretch = i;
 
 }
 
@@ -226,11 +242,13 @@ void info_tab::activate_msg()
   i = layout->columnStretch(4);
   i++;
   i = qMin(i, 5);
+  msg_stretch = i;
   layout->setColumnStretch(4, i);
   i = layout->columnStretch(6);
   i--;
   i = qMax(i, 1);
   layout->setColumnStretch(6, i);
+  chat_stretch = i;
 }
 
 /***************************************************************************
@@ -246,6 +264,13 @@ void info_tab::update_menu()
 void info_tab::hide_me()
 {
   if (!hidden_state) {
+    whats_hidden = 0;
+    if (hidden_mess && !hidden_chat) {
+      whats_hidden = 1;
+    }
+    if (hidden_chat && !hidden_mess) {
+      whats_hidden = 2;
+    }
     hide_messages(true);
     hide_chat(true);
     last_size.setWidth(width());
@@ -255,18 +280,32 @@ void info_tab::hide_me()
          - hide_button->fontMetrics().height());
     hide_button->setIcon(style()->standardIcon(QStyle::SP_TitleBarMaxButton));
     hidden_state = true;
-    if (layout_changed){
+    if (layout_changed) {
       change_layout();
     }
   } else {
-    hide_messages(false);
-    hide_chat(false);
     resize(last_size);
     move(0 , gui()->mapview_wdg->size().height() - last_size.height());
     hide_button->setIcon(style()->standardIcon(QStyle::SP_TitleBarMinButton));
     hidden_state = false;
-    if (layout_changed){
+    if (layout_changed) {
       change_layout();
+    }
+    switch (whats_hidden) {
+    case 0:
+      hide_messages(false);
+      hide_chat(false);
+      layout->setColumnStretch(4, msg_stretch);
+      layout->setColumnStretch(6, chat_stretch);
+      break;
+    case 1:
+      hide_messages(true);
+      hide_chat(false);
+      break;
+    case 2:
+      hide_messages(false);
+      hide_chat(true);
+      break;
     }
   }
 }

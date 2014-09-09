@@ -69,17 +69,22 @@ public:
   void hide_messages(bool hyde);
   bool hidden_chat;
   bool hidden_mess;
+  int whats_hidden;
 private:
-  QPushButton *msg_button;
+  void change_layout();
+  void update_menu();
+  QPoint cursor;
   QPushButton *chat_button;
   QPushButton *hide_button;
+  QPushButton *msg_button;
   QSize last_size;
   bool hidden_state;
   bool layout_changed;
-  void change_layout();
-  void update_menu();
   bool resize_mode;
-  QPoint cursor;
+  bool resx;
+  bool resy;
+  int chat_stretch;
+  int msg_stretch;
 public slots:
   void hide_me();
 private slots:
