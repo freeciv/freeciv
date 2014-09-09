@@ -156,7 +156,8 @@ void popup_caravan_dialog(struct unit *pUnit,
   area.h = MAX(area.h, adj_size(2));
   
   /* ---------- */
-  if (can_cities_trade(pHomecity, pDestcity))
+  if (unit_has_type_flag(pUnit, UTYF_TRADE_ROUTE)
+      && can_cities_trade(pHomecity, pDestcity))
   {
     int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pDestcity);
     
