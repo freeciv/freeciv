@@ -644,10 +644,12 @@ void update_line(int canvas_x, int canvas_y)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
+  case HOVER_NUKE:
     ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
     is_valid_goto_draw_line(ptile);
-  default:
+  case HOVER_NONE:
+  case HOVER_PARADROP:
     break;
   };
 }
@@ -664,11 +666,13 @@ void overview_update_line(int overview_x, int overview_y)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
+  case HOVER_NUKE:
     overview_to_map_pos(&x, &y, overview_x, overview_y);
     ptile = map_pos_to_tile(x, y);
 
     is_valid_goto_draw_line(ptile);
-  default:
+  case HOVER_NONE:
+  case HOVER_PARADROP:
     break;
   };
 }

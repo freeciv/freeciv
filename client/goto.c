@@ -785,10 +785,23 @@ static void fill_client_goto_parameter(struct unit *punit,
     }
     break;
   case HOVER_NUKE:
-    parameter->get_moves_left_req = NULL; /* nuclear safety? pwah! */
-    /* FALLTHRU */
-  default:
+    /* We only want targets reachable immediatly... */
+    parameter->move_rate = 0;
+    /* ...then we don't need to deal with dangers or refuel points. */
+    parameter->is_pos_dangerous = NULL;
+    parameter->get_moves_left_req = NULL;
+    *initial_mp = -parameter->moves_left_initially;
+    break;
+  case HOVER_GOTO:
+  case HOVER_PATROL:
     *initial_mp = parameter->move_rate - parameter->moves_left_initially;
+    break;
+  case HOVER_NONE:
+  case HOVER_PARADROP:
+    fc_assert_msg(hover_state != HOVER_NONE, "Goto with HOVER_NONE?");
+    fc_assert_msg(hover_state != HOVER_PARADROP,
+                  "Goto with HOVER_PARADROP?");
+    *initial_mp = 0;
     break;
   };
 
@@ -910,14 +923,12 @@ bool goto_get_turns(int *min, int *max)
       mp += goto_map->parts[i].mp;
     }
 
-    mp = MAX(0, mp);
-
     if (goto_map->template.move_rate > 0) {
       /* Round down -- if we can get there this turn with MP left, report 0,
        * if we get there with 0 MP, report 1 */
-      turns = mp / goto_map->template.move_rate;
+      turns = MAX(mp, 0) / goto_map->template.move_rate;
     } else if (goto_map->template.moves_left_initially > 0) {
-      turns = (mp == goto_map->template.moves_left_initially);
+      turns = (mp == 0);
     } else {
       /* Immobile unit can never reach destination. */
       continue;
