@@ -1500,7 +1500,7 @@ void request_unit_select(struct unit_list *punits,
   Request an actor unit to do a specific action.
   - action : The action to be requested.
   - actor_id : The unit ID of the actor unit.
-  - target_id : The ID of the target unit or city.
+  - target_id : The ID of the target unit, city or tile.
   - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
             or building to aim for (spies only).
 **************************************************************************/

@@ -60,6 +60,7 @@ struct action_data {
   int actor_unit_id;
   int target_city_id;
   int target_unit_id;
+  int target_tile_id;
   int value;
 };
 
@@ -70,6 +71,7 @@ struct action_data {
 static struct action_data *act_data(int actor_unit_id,
                                     int target_city_id,
                                     int target_unit_id,
+                                    int target_tile_id,
                                     int value)
 {
   struct action_data *data = fc_malloc(sizeof(*data));
@@ -77,6 +79,7 @@ static struct action_data *act_data(int actor_unit_id,
   data->actor_unit_id = actor_unit_id;
   data->target_city_id = target_city_id;
   data->target_unit_id = target_unit_id;
+  data->target_tile_id = target_tile_id;
   data->value = value;
 
   return data;
@@ -148,7 +151,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(bribe_response),
-                   act_data(actor->id, 0, punit->id, cost));
+                   act_data(actor->id, 0, punit->id, 0, cost));
 }
 
 /****************************************************************
@@ -629,7 +632,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
   /* FIXME: Don't discard the second target choice dialog. */
   if (!spy_sabotage_shell) {
     create_improvements_list(client.conn.playing, pcity,
-                             act_data(actor->id, pcity->id, 0, 0));
+                             act_data(actor->id, pcity->id, 0, 0, 0));
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
 }
@@ -709,48 +712,27 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(incite_response),
-                   act_data(actor->id, pcity->id, 0, cost));
+                   act_data(actor->id, pcity->id, 0, 0, cost));
 }
 
 
-/****************************************************************
+/**************************************************************************
   Callback from diplomat/spy dialog for "keep moving".
-  (This should only occur when entering allied city.)
-*****************************************************************/
-static void diplomat_keep_moving_city_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = (struct action_data *)data;
-
-  struct unit *punit;
-  struct city *pcity;
-
-  if ((punit = game_unit_by_number(args->actor_unit_id))
-      && (pcity = game_city_by_number(args->target_city_id))
-      && !same_pos(unit_tile(punit), city_tile(pcity))) {
-    request_do_action(ACTION_MOVE, args->actor_unit_id,
-                      args->target_city_id, ATK_CITY);
-  }
-
-  gtk_widget_destroy(diplomat_dialog);
-  free(args);
-}
-
-/*************************************************************************
-  Callback from diplomat/spy dialog for "keep moving".
-  (This should only occur when entering the tile of an allied unit.)
+  (This should only occur when entering a tile that has an allied city or
+  an allied unit.)
 **************************************************************************/
-static void diplomat_keep_moving_unit_callback(GtkWidget *w, gpointer data)
+static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
   struct unit *punit;
-  struct unit *tunit;
+  struct tile *ptile;
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
-      && (tunit = game_unit_by_number(args->target_unit_id))
-      && !same_pos(unit_tile(punit), unit_tile(tunit))) {
+      && (ptile = index_to_tile(args->target_tile_id))
+      && !same_pos(unit_tile(punit), ptile)) {
     request_do_action(ACTION_MOVE, args->actor_unit_id,
-                      args->target_unit_id, ATK_UNIT);
+                      args->target_tile_id, 0);
   }
 
   gtk_widget_destroy(diplomat_dialog);
@@ -839,6 +821,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   struct action_data *data = act_data(punit->id,
                                       (pcity) ? pcity->id : 0,
                                       (ptunit) ? ptunit->id : 0,
+                                      (dest_tile) ? dest_tile->index : 0,
                                       0);
 
   actor_homecity = game_city_by_number(punit->homecity);
@@ -939,15 +922,9 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   }
 
   if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
-    if (pcity) {
-      choice_dialog_add(shl, _("_Keep moving"),
-                        (GCallback)diplomat_keep_moving_city_callback,
-                        data, NULL);
-    } else {
-      choice_dialog_add(shl, _("_Keep moving"),
-                        (GCallback)diplomat_keep_moving_unit_callback,
-                        data, NULL);
-    }
+    choice_dialog_add(shl, _("_Keep moving"),
+                      (GCallback)diplomat_keep_moving_callback,
+                      data, NULL);
   }
 
   choice_dialog_add(shl, GTK_STOCK_CANCEL,

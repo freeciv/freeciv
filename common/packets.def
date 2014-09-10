@@ -1006,7 +1006,7 @@ end
 
 PACKET_UNIT_DO_ACTION = 84; cs, dsend
   UNIT actor_id;
-  UNIT target_id;   # city_id or unit_id
+  SINT32 target_id;   # city_id, unit_id or tile_id
   SINT16 value;
   GEN_ACTION action_type;
 end

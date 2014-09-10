@@ -530,7 +530,7 @@ void handle_unit_do_action(struct player *pplayer,
 			   enum gen_action action_type)
 {
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
-  struct tile *target_tile;
+  struct tile *target_tile = index_to_tile(target_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
@@ -618,29 +618,8 @@ void handle_unit_do_action(struct player *pplayer,
     }
     break;
   case ACTION_MOVE:
-    fc_assert_msg(value == ATK_CITY || value == ATK_UNIT,
-                  "Unexpected target type %d", value);
-
-    switch (value) {
-    case ATK_CITY:
-      if (!pcity) {
-        return;
-      } else {
-        target_tile = pcity->tile;
-      }
-      break;
-    case ATK_UNIT:
-      if (!punit) {
-        return;
-      } else {
-        target_tile = unit_tile(punit);
-      }
-      break;
-    default:
-      return;
-    }
-
-    if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+    if (target_tile
+        && unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
       (void) unit_move_handling(actor_unit, target_tile, FALSE, TRUE);
     }
     break;

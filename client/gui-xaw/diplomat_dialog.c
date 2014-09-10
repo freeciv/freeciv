@@ -698,46 +698,24 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
 
 /**************************************************************************
   Callback from diplomat/spy dialog for "keep moving".
-  (This should only occur when entering allied city.)
+  (This should only occur when entering a tile that has an allied city or
+  an allied unit.)
 **************************************************************************/
-static void diplomat_keep_moving_callback_city(Widget w,
-                                               XtPointer client_data,
-                                               XtPointer call_data)
+static void diplomat_keep_moving_callback(Widget w,
+                                          XtPointer client_data,
+                                          XtPointer call_data)
 {
   struct unit *punit;
-  struct city *pcity;
+  struct tile *ptile;
   
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
   if ((punit = game_unit_by_number(diplomat_id))
-      && (pcity = game_city_by_number(diplomat_target_id[ATK_CITY]))
-      && !same_pos(unit_tile(punit), city_tile(pcity))) {
+      && (ptile = (struct tile *)client_data)
+      && !same_pos(unit_tile(punit), ptile)) {
     request_do_action(ACTION_MOVE, diplomat_id,
-                      diplomat_target_id[ATK_CITY], ATK_CITY);
-  }
-  choose_action_queue_next();
-}
-
-/**************************************************************************
-  Callback from diplomat/spy dialog for "keep moving".
-  (This should only occur when entering the tile of an allied unit..)
-**************************************************************************/
-static void diplomat_keep_moving_callback_unit(Widget w,
-                                               XtPointer client_data,
-                                               XtPointer call_data)
-{
-  struct unit *punit;
-  struct unit *tunit;
-
-  destroy_message_dialog(w);
-  diplomat_dialog = NULL;
-
-  if ((punit = game_unit_by_number(diplomat_id))
-      && (tunit = game_unit_by_number(diplomat_target_id[ATK_UNIT]))
-      && !same_pos(unit_tile(punit), unit_tile(tunit))) {
-    request_do_action(ACTION_MOVE, diplomat_id,
-                      diplomat_target_id[ATK_UNIT], ATK_UNIT);
+                      ptile->index, 0);
   }
   choose_action_queue_next();
 }
@@ -826,8 +804,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                            diplomat_incite_callback, 0, 1,
                            diplomat_bribe_callback, 0, 0,
                            spy_sabotage_unit_callback, 0, 0,
-                           pcity ? diplomat_keep_moving_callback_city :
-                                   diplomat_keep_moving_callback_unit, 0, 1,
+                           diplomat_keep_moving_callback, dest_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
 

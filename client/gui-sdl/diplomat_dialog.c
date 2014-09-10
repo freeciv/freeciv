@@ -511,48 +511,21 @@ static int diplomat_incite_callback(struct widget *pWidget)
 
 /********************************************************************
   Callback from diplomat/spy dialog for "keep moving".
-  (This should only occur when entering allied city.)
+  (This should only occur when entering a tile with an allied city
+  or an allied unit.)
 *********************************************************************/
-static int diplomat_keep_moving_city_callback(struct widget *pWidget)
+static int diplomat_keep_moving_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *punit;
-    struct city *pcity;
 
     if ((punit = game_unit_by_number(pDiplomat_Dlg->diplomat_id))
-        && (pcity = game_city_by_number(
-                pDiplomat_Dlg->diplomat_target_id[ATK_CITY]))
-        && !same_pos(unit_tile(punit), city_tile(pcity))) {
+        && !same_pos(unit_tile(punit), pWidget->data.tile)) {
       request_do_action(ACTION_MOVE, pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
-                        ATK_CITY);
+                        pWidget->data.tile->index, 0);
     }
     
     popdown_diplomat_dialog();  
-  }
-  return -1;
-}
-
-/********************************************************************
-  Callback from diplomat/spy dialog for "keep moving".
-  (This should only occur when entering the tile of an allied unit.)
-*********************************************************************/
-static int diplomat_keep_moving_unit_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct unit *punit;
-    struct unit *tunit;
-
-    if ((punit = game_unit_by_number(pDiplomat_Dlg->diplomat_id))
-        && (tunit =
-         game_unit_by_number(pDiplomat_Dlg->diplomat_target_id[ATK_UNIT]))
-        && !same_pos(unit_tile(punit), unit_tile(tunit))) {
-      request_do_action(ACTION_MOVE, pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_UNIT],
-                        ATK_UNIT);
-    }
-
-    popdown_diplomat_dialog();
   }
   return -1;
 }
@@ -800,19 +773,12 @@ void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
   /* ---------- */
   if (unit_can_move_to_tile(pUnit, ptile, FALSE)) {
 
-    if (pCity) {
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              _("Keep moving"),
-                              diplomat_keep_moving_city_callback);
+    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                            _("Keep moving"),
+                            diplomat_keep_moving_callback);
 
-      pBuf->data.city = pCity;
-    } else {
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              _("Keep moving"),
-                              diplomat_keep_moving_unit_callback);
+    pBuf->data.tile = ptile;
 
-      pBuf->data.unit = pTunit;
-    }
     set_wstate(pBuf, FC_WS_NORMAL);
 
     add_to_gui_list(MAX_ID - pUnit->id, pBuf);

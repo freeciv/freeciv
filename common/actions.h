@@ -29,7 +29,6 @@ extern "C" {
 #define SPECENUM_COUNT AAK_COUNT
 #include "specenum_gen.h"
 
-/* Used in the network protocol. */
 #define SPECENUM_NAME action_target_kind
 #define SPECENUM_VALUE0 ATK_CITY
 #define SPECENUM_VALUE0NAME N_("cities")

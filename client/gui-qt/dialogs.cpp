@@ -50,8 +50,7 @@
 #include "sprite.h"
 
 
-static void diplomat_keep_moving_unit(QVariant data1, QVariant data2);
-static void diplomat_keep_moving_city(QVariant data1, QVariant data2);
+static void diplomat_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
 static void spy_request_sabotage_list(QVariant data1, QVariant data2);
 static void spy_sabotage(QVariant data1, QVariant data2);
@@ -1188,20 +1187,11 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                  spy_sabotage_unit, qv1, qv2);
   }
 
-  if (pcity) {
-    qv2 = pcity->id;
-  } else {
-    qv2 = ptunit->id;
-  }
-
   if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
-    if (pcity) {
-      func = diplomat_keep_moving_city;
-      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
-    } else {
-      func = diplomat_keep_moving_unit;
-      cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
-    }
+    qv2 = dest_tile->index;
+
+    func = diplomat_keep_moving;
+    cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
   }
 
   func = keep_moving;
@@ -1480,36 +1470,18 @@ static void diplomat_incite(QVariant data1, QVariant data2)
 /***************************************************************************
   Action keep moving with diplomat for choice dialog
 ***************************************************************************/
-static void diplomat_keep_moving_city(QVariant data1, QVariant data2)
+static void diplomat_keep_moving(QVariant data1, QVariant data2)
 {
   struct unit *punit;
-  struct city *pcity;
+  struct tile *ptile;
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
 
   if ((punit = game_unit_by_number(diplomat_id))
-      && (pcity = game_city_by_number(diplomat_target_id))
-      && !same_pos(unit_tile(punit), city_tile(pcity))) {
+      && (ptile = index_to_tile(diplomat_target_id))
+      && !same_pos(unit_tile(punit), ptile)) {
     request_do_action(ACTION_MOVE, diplomat_id,
-                      diplomat_target_id, ATK_CITY);
-  }
-}
-
-/***************************************************************************
-  Action keep moving with diplomat for choice dialog
-***************************************************************************/
-static void diplomat_keep_moving_unit(QVariant data1, QVariant data2)
-{
-  struct unit *punit;
-  struct unit *tunit;
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if ((punit = game_unit_by_number(diplomat_id))
-      && (tunit = game_unit_by_number(diplomat_target_id))
-      && !same_pos(unit_tile(punit), unit_tile(tunit))) {
-    request_do_action(ACTION_MOVE, diplomat_id,
-                      diplomat_target_id, ATK_UNIT);
+                      diplomat_target_id, 0);
   }
 }
 
