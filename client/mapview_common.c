@@ -573,9 +573,16 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
   }
 
   center_tile_overviewcanvas();
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
+  switch (hover_state) {
+  case HOVER_GOTO:
+  case HOVER_PATROL:
+  case HOVER_CONNECT:
+  case HOVER_NUKE:
     create_line_at_mouse_pos();
-  }
+  case HOVER_NONE:
+  case HOVER_PARADROP:
+    break;
+  };
   if (rectangle_active) {
     update_rect_at_mouse_pos();
   }

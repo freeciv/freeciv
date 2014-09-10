@@ -23,31 +23,41 @@
 #include "timing.h"
 
 /* common */
+#include "combat.h"
 #include "game.h"
 #include "map.h"
 #include "movement.h"
+#include "unitlist.h"
 
-/* client */
-#include "audio.h"
+/* client/include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
-#include "client_main.h"
-#include "climap.h"
-#include "climisc.h"
-#include "combat.h"
 #include "dialogs_g.h"
-#include "editor.h"
-#include "goto.h"
 #include "gui_main_g.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
+
+/* client */
+#include "audio.h"
+#include "client_main.h"
+#include "climap.h"
+#include "climisc.h"
+#include "editor.h"
+#include "goto.h"
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
-#include "unitlist.h"
+#include "update_queue.h"
 
 #include "control.h"
+
+
+struct client_nuke_data {
+  int *units_id;
+  int units_num;
+  int tile_idx;
+};
 
 /* gui-dep code may adjust depending on tile size etc: */
 int num_units_below = MAX_NUM_UNITS_BELOW;
@@ -1089,8 +1099,11 @@ void control_mouse_cursor(struct tile *ptile)
     }
     break;
   case HOVER_NUKE:
-    /* FIXME: check for invalid tiles. */
-    mouse_cursor_type = CURSOR_NUKE;
+    if (is_valid_goto_destination(ptile)) {
+      mouse_cursor_type = CURSOR_NUKE;
+    } else {
+      mouse_cursor_type = CURSOR_INVALID;
+    }
     break;
   case HOVER_PARADROP:
     /* FIXME: check for invalid tiles. */
@@ -1615,28 +1628,27 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 **************************************************************************/
 void request_unit_nuke(struct unit_list *punits)
 {
-  bool can = FALSE;
-  struct tile *offender = NULL;
-
   if (unit_list_size(punits) == 0) {
     return;
   }
+
   unit_list_iterate(punits, punit) {
-    if (unit_has_type_flag(punit, F_NUCLEAR)) {
-      can = TRUE;
-      break;
-    }
-    if (!offender) { /* Take first offender tile/unit */
-      offender = unit_tile(punit);
+    if (!unit_has_type_flag(punit, F_NUCLEAR)) {
+      create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
+                   _("Only nuclear units can do this."));
+      return;
     }
   } unit_list_iterate_end;
-  if (can) {
+
+  if (hover_state != HOVER_NUKE) {
     set_hover_state(punits, HOVER_NUKE, ACTIVITY_LAST, ORDER_LAST);
-    update_unit_info_label(punits);
     enter_goto_state(punits);
+    create_line_at_mouse_pos();
+    update_unit_info_label(punits);
+    control_mouse_cursor(NULL);
   } else {
-    create_event(offender, E_BAD_COMMAND, ftc_client,
-                 _("Only nuclear units can do this."));
+    fc_assert_ret(goto_is_active());
+    goto_add_waypoint();
   }
 }
 
@@ -2221,8 +2233,6 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   struct city *pcity = tile_city(ptile);
   struct unit_list *punits = get_units_in_focus();
   bool maybe_goto = FALSE;
-  bool possible = FALSE;
-  struct tile *offender = NULL;
 
   if (hover_state != HOVER_NONE) {
     switch (hover_state) {
@@ -2232,26 +2242,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       do_unit_goto(ptile);
       break;
     case HOVER_NUKE:
-      unit_list_iterate(punits, punit) {
-	if (SINGLE_MOVE * real_map_distance(unit_tile(punit), ptile)
-	    <= punit->moves_left) {
-	  possible = TRUE;
-	  break;
-	}
-	offender = unit_tile(punit);
-      } unit_list_iterate_end;
-      if (!possible) {
-        create_event(offender, E_BAD_COMMAND, ftc_client,
-                     _("Too far for this unit."));
-      } else {
-        do_unit_goto(ptile);
-	if (!pcity) {
-	  unit_list_iterate(punits, punit) {
-	    /* note that this will be executed by the server after the goto */
-	    do_unit_nuke(punit);
-	  } unit_list_iterate_end;
-	}
-      }
+      do_unit_nuke(ptile);
       break;
     case HOVER_PARADROP:
       unit_list_iterate(punits, punit) {
@@ -2446,7 +2437,7 @@ static struct unit *quickselect(struct tile *ptile,
 **************************************************************************/
 void do_unit_goto(struct tile *ptile)
 {
-  if (hover_state != HOVER_GOTO && hover_state != HOVER_NUKE) {
+  if (hover_state != HOVER_GOTO) {
     return;
   }
 
@@ -2458,12 +2449,68 @@ void do_unit_goto(struct tile *ptile)
   }
 }
 
-/**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-void do_unit_nuke(struct unit *punit)
+/****************************************************************************
+  Destroy the client nuke data.
+****************************************************************************/
+static void client_nuke_data_destroy(void *p)
 {
-  dsend_packet_unit_nuke(&client.conn, punit->id);
+  struct client_nuke_data *data = p;
+
+  free(data->units_id);
+  free(data);
+}
+
+/****************************************************************************
+  Explode nuclear at a tile without enemy units.
+****************************************************************************/
+static void do_real_unit_nuke(void *p)
+{
+  struct client_nuke_data *data = p;
+  struct tile *ptile = index_to_tile(data->tile_idx);
+  struct unit *punit;
+  int i;
+
+  fc_assert_ret(can_client_issue_orders());
+  fc_assert_ret(ptile != NULL);
+
+  for (i = 0; i < data->units_num; i++) {
+    /* Ensure we have reached destination. */
+    punit = player_unit_by_number(client_player(), data->units_id[i]);
+    if (punit != NULL && unit_tile(punit) == ptile) {
+      dsend_packet_unit_nuke(&client.conn, punit->id);
+    }
+  }
+}
+
+/****************************************************************************
+  Send units to 'ptile' and nuke there!
+****************************************************************************/
+void do_unit_nuke(struct tile *ptile)
+{
+  if (hover_state != HOVER_NUKE) {
+    return;
+  }
+
+  if (is_valid_goto_draw_line(ptile)) {
+    struct client_nuke_data *data = fc_malloc(sizeof(*data));
+    int i = 0;
+
+    data->units_id = fc_malloc(sizeof(*data->units_id)
+                               * get_num_units_in_focus());
+    unit_list_iterate(get_units_in_focus(), punit) {
+      data->units_id[i++] = punit->id;
+    } unit_list_iterate_end;
+    data->units_num = i;
+    data->tile_idx = tile_index(ptile);
+
+    send_goto_route();
+    update_queue_connect_processing_finished_full
+        (client.conn.client.last_request_id_used,
+         do_real_unit_nuke, data, client_nuke_data_destroy);
+  } else {
+    create_event(ptile, E_BAD_COMMAND, ftc_client,
+                 _("Didn't find a route to the destination!"));
+  }
 }
 
 /**************************************************************************
@@ -2517,11 +2564,11 @@ void key_cancel_action(void)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
+  case HOVER_NUKE:
     if (goto_pop_waypoint()) {
       break;
     }
     /* else fall through: */
-  case HOVER_NUKE:
   case HOVER_PARADROP:
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
@@ -2530,7 +2577,7 @@ void key_cancel_action(void)
     keyboardless_goto_active = FALSE;
     keyboardless_goto_start_tile = NULL;
     break;
-  default:
+  case HOVER_NONE:
     break;
   };
 }
