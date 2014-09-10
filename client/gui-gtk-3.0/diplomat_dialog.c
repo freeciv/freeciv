@@ -753,6 +753,17 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  Diplomat dialog has been closed
+*****************************************************************/
+static void diplomat_close_callback(GtkWidget *w,
+                                    gint response_id,
+                                    gpointer data)
+{
+  gtk_widget_destroy(diplomat_dialog);
+  free(data);
+}
+
+/****************************************************************
  Popup new diplomat dialog.
 *****************************************************************/
 void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
@@ -838,7 +849,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     g_signal_connect(shl, "destroy",
 		     G_CALLBACK(diplomat_destroy_callback), NULL);
     g_signal_connect(shl, "delete_event",
-		     G_CALLBACK(diplomat_cancel_callback), NULL);
+		     G_CALLBACK(diplomat_close_callback), data);
   } else { 
     if ((ptunit = unit_list_get(dest_tile->units, 0))){
       /* Spy/Diplomat acting against a unit */ 
@@ -870,7 +881,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       g_signal_connect(shl, "destroy",
 		       G_CALLBACK(diplomat_destroy_callback), NULL);
       g_signal_connect(shl, "delete_event",
-		       G_CALLBACK(diplomat_cancel_callback), NULL);
+		       G_CALLBACK(diplomat_close_callback), data);
     }
   }
   astr_free(&title);
