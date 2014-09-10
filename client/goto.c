@@ -79,7 +79,7 @@ struct goto_map {
 /* Iterate over goto maps, assumes no dead units. */
 #define goto_map_unit_iterate(gotolist, pgoto, punit)			\
   goto_map_list_iterate(gotolist, pgoto) {				\
-    struct unit *punit = pgoto->focus;
+    struct unit *punit = goto_map_unit(pgoto);
 
 #define goto_map_unit_iterate_end					\
   } goto_map_list_iterate_end;
@@ -124,6 +124,19 @@ static void goto_map_free(struct goto_map *goto_map)
     free(goto_map->parts);
   }
   free(goto_map);
+}
+
+/****************************************************************************
+  Returns the unit associated with the goto map.
+****************************************************************************/
+static struct unit *goto_map_unit(const struct goto_map *goto_map)
+{
+  struct unit *punit = goto_map->focus;
+
+  fc_assert(punit != NULL);
+  fc_assert(unit_is_in_focus(punit));
+  fc_assert(punit == player_unit_by_number(client_player(), punit->id));
+  return punit;
 }
 
 /********************************************************************** 
@@ -299,11 +312,7 @@ static void add_part(struct goto_map *goto_map)
 {
   struct part *p;
   struct pf_parameter parameter = goto_map->template;
-  struct unit *punit = goto_map->focus;
-
-  if (!punit) {
-    return;
-  }
+  struct unit *punit = goto_map_unit(goto_map);
 
   goto_map->num_parts++;
   goto_map->parts =
