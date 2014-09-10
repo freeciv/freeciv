@@ -60,16 +60,6 @@ enum report_type {
 };
 
 /* Used in network protocol. */
-enum spaceship_place_type {
-  SSHIP_PLACE_STRUCTURAL,
-  SSHIP_PLACE_FUEL,
-  SSHIP_PLACE_PROPULSION,
-  SSHIP_PLACE_HABITATION,
-  SSHIP_PLACE_LIFE_SUPPORT,
-  SSHIP_PLACE_SOLAR_PANELS
-};
-
-/* Used in network protocol. */
 enum unit_info_use {
   UNIT_INFO_IDENTITY,
   UNIT_INFO_CITY_SUPPORTED,

@@ -2475,126 +2475,14 @@ which is left.
 static bool spaceship_autoplace(struct player *pplayer,
 			       struct player_spaceship *ship)
 {
-  int i, num;
-  enum spaceship_place_type type;
-  
-  if (ship->modules > (ship->habitation + ship->life_support
-		       + ship->solar_panels)) {
-    /* "nice" governments prefer to keep success 100%;
-     * others build habitation first (for score?)  (Thanks Massimo.)
-     */
-    type =
-      (ship->habitation==0)   ? SSHIP_PLACE_HABITATION :
-      (ship->life_support==0) ? SSHIP_PLACE_LIFE_SUPPORT :
-      (ship->solar_panels==0) ? SSHIP_PLACE_SOLAR_PANELS :
-      ((ship->habitation < ship->life_support)
-       && (ship->solar_panels*2 >= ship->habitation + ship->life_support + 1))
-                              ? SSHIP_PLACE_HABITATION :
-      (ship->solar_panels*2 < ship->habitation + ship->life_support)
-                              ? SSHIP_PLACE_SOLAR_PANELS :
-      (ship->life_support<ship->habitation)
-                              ? SSHIP_PLACE_LIFE_SUPPORT :
-      ((ship->life_support <= ship->habitation)
-       && (ship->solar_panels*2 >= ship->habitation + ship->life_support + 1))
-                              ? SSHIP_PLACE_LIFE_SUPPORT :
-                                SSHIP_PLACE_SOLAR_PANELS;
+  struct spaceship_component place;
 
-    if (type == SSHIP_PLACE_HABITATION) {
-      num = ship->habitation + 1;
-    } else if(type == SSHIP_PLACE_LIFE_SUPPORT) {
-      num = ship->life_support + 1;
-    } else {
-      num = ship->solar_panels + 1;
-    }
-    fc_assert(num <= NUM_SS_MODULES / 3);
+  if (next_spaceship_component(pplayer, ship, &place)) {
+    dsend_packet_spaceship_place(&client.conn, place.type, place.num);
 
-    dsend_packet_spaceship_place(&client.conn, type, num);
     return TRUE;
   }
-  if (ship->components > ship->fuel + ship->propulsion) {
-    if (ship->fuel <= ship->propulsion) {
-      type = SSHIP_PLACE_FUEL;
-      num = ship->fuel + 1;
-    } else {
-      type = SSHIP_PLACE_PROPULSION;
-      num = ship->propulsion + 1;
-    }
-    dsend_packet_spaceship_place(&client.conn, type, num);
-    return TRUE;
-  }
-  if (ship->structurals > num_spaceship_structurals_placed(ship)) {
-    /* Want to choose which structurals are most important.
-       Else we first want to connect one of each type of module,
-       then all placed components, pairwise, then any remaining
-       modules, or else finally in numerical order.
-    */
-    int req = -1;
-    
-    if (!BV_ISSET(ship->structure, 0)) {
-      /* if we don't have the first structural, place that! */
-      type = SSHIP_PLACE_STRUCTURAL;
-      num = 0;
-      dsend_packet_spaceship_place(&client.conn, type, num);
-      return TRUE;
-    }
-    
-    if (ship->habitation >= 1
-        && !BV_ISSET(ship->structure, modules_info[0].required)) {
-      req = modules_info[0].required;
-    } else if (ship->life_support >= 1
-               && !BV_ISSET(ship->structure, modules_info[1].required)) {
-      req = modules_info[1].required;
-    } else if (ship->solar_panels >= 1
-               && !BV_ISSET(ship->structure, modules_info[2].required)) {
-      req = modules_info[2].required;
-    } else {
-      int i;
-      for(i=0; i<NUM_SS_COMPONENTS; i++) {
-	if ((i%2==0 && ship->fuel > (i/2))
-	    || (i%2==1 && ship->propulsion > (i/2))) {
-	  if (!BV_ISSET(ship->structure, components_info[i].required)) {
-	    req = components_info[i].required;
-	    break;
-	  }
-	}
-      }
-    }
-    if (req == -1) {
-      for(i=0; i<NUM_SS_MODULES; i++) {
-	if ((i%3==0 && ship->habitation > (i/3))
-	    || (i%3==1 && ship->life_support > (i/3))
-	    || (i%3==2 && ship->solar_panels > (i/3))) {
-	  if (!BV_ISSET(ship->structure, modules_info[i].required)) {
-	    req = modules_info[i].required;
-	    break;
-	  }
-	}
-      }
-    }
-    if (req == -1) {
-      for(i=0; i<NUM_SS_STRUCTURALS; i++) {
-        if (!BV_ISSET(ship->structure, i)) {
-	  req = i;
-	  break;
-	}
-      }
-    }
-    /* sanity: */
-    fc_assert(req != -1);
-    fc_assert(!BV_ISSET(ship->structure, req));
-    
-    /* Now we want to find a structural we can build which leads to req.
-       This loop should bottom out, because everything leads back to s0,
-       and we made sure above that we do s0 first.
-     */
-    while(!BV_ISSET(ship->structure, structurals_info[req].required)) {
-      req = structurals_info[req].required;
-    }
-    type = SSHIP_PLACE_STRUCTURAL;
-    num = req;
-    dsend_packet_spaceship_place(&client.conn, type, num);
-    return TRUE;
-  }
+
   return FALSE;
 }
 

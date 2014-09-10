@@ -21,6 +21,9 @@ extern "C" {
 #include "bitvector.h"
 #include "support.h"            /* bool type */
 
+/* common */
+#include "fc_types.h"
+
 /**********************************************************************
 First, some ascii art showing the spaceship and relevant parts,
 including numbering of parts:
@@ -124,6 +127,16 @@ extern const struct sship_part_info modules_info[NUM_SS_MODULES];
 
 void spaceship_init(struct player_spaceship *ship);
 int num_spaceship_structurals_placed(const struct player_spaceship *ship);
+
+struct spaceship_component
+{
+  enum spaceship_place_type type;
+  int num;
+};
+
+bool next_spaceship_component(struct player *pplayer,
+                              struct player_spaceship *ship,
+                              struct spaceship_component *fill);
 
 #ifdef __cplusplus
 }
