@@ -596,7 +596,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
        * has run out of movement points */
       struct tile *next_tile;
 
-      if (!pft_advance_path(path, unit_tile(passenger))) {
+      if (!pf_path_advance(path, unit_tile(passenger))) {
         /* Somehow we got thrown away from our route.
          * This can happen if our movement caused alliance breakup. */
         return alive;

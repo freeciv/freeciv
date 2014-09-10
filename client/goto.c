@@ -1118,9 +1118,9 @@ void send_patrol_route(void)
     }
 
     for (i = 0; i < goto_map->num_parts; i++) {
-      path = pft_concat(path, goto_map->parts[i].path);
+      path = pf_path_concat(path, goto_map->parts[i].path);
     }
-    path = pft_concat(path, return_path);
+    path = pf_path_concat(path, return_path);
 
     pf_map_destroy(pfm);
     pf_path_destroy(return_path);
@@ -1153,7 +1153,7 @@ void send_connect_route(enum unit_activity activity)
     memset(&p, 0, sizeof(p));
 
     for (i = 0; i < goto_map->num_parts; i++) {
-      path = pft_concat(path, goto_map->parts[i].path);
+      path = pf_path_concat(path, goto_map->parts[i].path);
     }
 
     p.unit_id = punit->id;
@@ -1242,7 +1242,7 @@ void send_goto_route(void)
     }
 
     for (i = 0; i < goto_map->num_parts; i++) {
-      path = pft_concat(path, goto_map->parts[i].path);
+      path = pf_path_concat(path, goto_map->parts[i].path);
     }
 
     clear_unit_orders(punit);
