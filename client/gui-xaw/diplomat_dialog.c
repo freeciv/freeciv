@@ -780,6 +780,8 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
 {
   struct astring text = ASTRING_INIT;
 
+  struct city *actor_homecity = game_city_by_number(punit->homecity);
+
   diplomat_id = punit->id;
 
   if (ptunit) {
@@ -794,9 +796,23 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
     diplomat_target_id[ATK_CITY] = -1;
   }
 
-  astr_set(&text,
-           _("Your %s is waiting for your command."),
-           unit_name_translation(punit));
+  if (pcity && actor_homecity) {
+    astr_set(&text,
+             _("Your %s from %s reaches the city of %s.\nWhat now?"),
+             unit_name_translation(punit),
+             city_name(actor_homecity),
+             city_name(pcity));
+  } else if (pcity) {
+    astr_set(&text,
+             _("Your %s has arrived at %s.\nWhat is your command?"),
+             unit_name_translation(punit),
+             city_name(pcity));
+  } else {
+    astr_set(&text,
+             /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
+             _("Your %s is waiting for your command."),
+             unit_name_translation(punit));
+  }
 
   diplomat_dialog =
       popup_message_dialog(toplevel, "diplomatdialog", astr_str(&text),
