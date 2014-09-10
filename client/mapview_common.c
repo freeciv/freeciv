@@ -2203,11 +2203,6 @@ void move_unit_map_canvas(struct unit *punit,
     return;
   }
 
-  if (unit_is_in_focus(punit) && hover_state != HOVER_NONE) {
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
-    update_unit_info_label(get_units_in_focus());
-  }
-
   index_to_map_pos(&src_x, &src_y, tile_index(src_tile));
   dest_x = src_x + dx;
   dest_y = src_y + dy;
