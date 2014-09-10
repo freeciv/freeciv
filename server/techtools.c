@@ -598,7 +598,9 @@ static Tech_type_id
 pick_random_tech_to_lose(const struct research *presearch)
 {
   bv_techs eligible_techs;
-  int chosen, eligible = advance_count();
+  /* A_NONE included in advance_count(). */
+  int eligible = advance_count() - 1;
+  int chosen;
 
   BV_SET_ALL(eligible_techs);
 
