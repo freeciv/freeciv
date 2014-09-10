@@ -56,7 +56,7 @@ int check_recursive_road_connect(struct tile *ptile, const struct road_type *pro
 
 void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(struct tile *ptile);
-void do_unit_nuke(struct unit *punit);
+void do_unit_nuke(struct tile *ptile);
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile);
 void do_unit_patrol_to(struct tile *ptile);
 void do_unit_connect(struct tile *ptile,
