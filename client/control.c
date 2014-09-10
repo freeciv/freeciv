@@ -888,7 +888,9 @@ void process_caravan_arrival(struct unit *punit)
   }
 
   /* There can only be one dialog at a time: */
-  if (caravan_dialog_is_open(NULL, NULL)) {
+  if (have_asked_server_for_actions
+      || diplomat_handled_in_diplomat_dialog() != -1
+      || caravan_dialog_is_open(NULL, NULL)) {
     return;
   }
 
@@ -913,6 +915,10 @@ void process_caravan_arrival(struct unit *punit)
       }
     }
   }
+
+  /* No more caravan action selections. Look in the other action selection
+   * queues. */
+  choose_action_queue_next();
 }
 
 /**************************************************************************
@@ -921,7 +927,18 @@ void process_caravan_arrival(struct unit *punit)
 **************************************************************************/
 void choose_action_queue_next(void)
 {
-  process_diplomat_arrival(NULL, ACTION_CHOOSE_NEXT);
+  /* This was called because the queue can move on. */
+  have_asked_server_for_actions = FALSE;
+
+  if (diplomat_arrival_queue && genlist_size(diplomat_arrival_queue) > 0) {
+    process_diplomat_arrival(NULL, ACTION_CHOOSE_NEXT);
+    return;
+  }
+
+  if (caravan_arrival_queue && 0 < genlist_size(caravan_arrival_queue)) {
+    process_caravan_arrival(NULL);
+    return;
+  }
 }
 
 /**************************************************************************
@@ -956,15 +973,13 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
     p_ids[0] = pdiplomat->id;
     p_ids[1] = target_tile_id;
     genlist_prepend(diplomat_arrival_queue, p_ids);
-  } else {
-    /* The queue can move on (verified above)  */
-    have_asked_server_for_actions = FALSE;
   }
 
   /* There can only be one dialog at a time.
    * Stop if one is (about to pop) up. */
   if (have_asked_server_for_actions
-      || diplomat_handled_in_diplomat_dialog() != -1) {
+      || diplomat_handled_in_diplomat_dialog() != -1
+      || caravan_dialog_is_open(NULL, NULL)) {
     return;
   }
 
@@ -988,6 +1003,10 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
       return;
     }
   }
+
+  /* No more diplomat action selections. Look in the other action selection
+   * queues. */
+  choose_action_queue_next();
 }
 
 /**************************************************************************
