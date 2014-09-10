@@ -26,6 +26,10 @@ extern "C" {
 #include <sys/time.h>
 #endif
 
+#ifdef JSON_CONNECTION
+#include <jansson.h>
+#endif  /* JSON_CONNECTION */
+
 #ifndef JSON_CONNECTION
 #define USE_COMPRESSION
 #endif  /* JSON_CONNECTION */
@@ -152,9 +156,12 @@ struct connection {
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
   struct timer *last_write;
+#ifdef JSON_CONNECTION
+  json_t *json_packet;
+#endif /* JSON_CONNECTION */
 
   double ping_time;
-  
+
   struct conn_list *self;     /* list with this connection as single element */
   char username[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
