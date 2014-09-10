@@ -775,6 +775,17 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
   free(data);
 }
 
+/****************************************************************
+  Diplomat dialog has been closed
+*****************************************************************/
+static void diplomat_close_callback(GtkWidget *w,
+                                    gint response_id,
+                                    gpointer data)
+{
+  gtk_widget_destroy(diplomat_dialog);
+  free(data);
+}
+
 /******************************************************************
   Show the user the action if it is enabled.
 *******************************************************************/
@@ -950,7 +961,7 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   g_signal_connect(shl, "destroy",
                    G_CALLBACK(diplomat_destroy_callback), NULL);
   g_signal_connect(shl, "delete_event",
-                   G_CALLBACK(diplomat_cancel_callback), NULL);
+                   G_CALLBACK(diplomat_close_callback), data);
   astr_free(&title);
   astr_free(&text);
 }
