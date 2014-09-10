@@ -384,6 +384,9 @@ static void science_report_update(struct science_report *preport)
   fc_assert_ret(NULL != preport);
   fc_assert_ret(NULL != presearch);
 
+  /* Disable callbacks. */
+  science_report_no_combo_callback = TRUE;
+
   gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 
   gtk_label_set_text(preport->main_label, science_dialog_text());
@@ -463,6 +466,9 @@ static void science_report_update(struct science_report *preport)
 
   /* Free. */
   g_list_free(sorting_list);
+
+  /* Re-enable callbacks. */
+  science_report_no_combo_callback = FALSE;
 }
 
 /****************************************************************************
