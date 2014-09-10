@@ -2187,6 +2187,12 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
    * drawn there will be up-to-date. */
   unit_tile_set(punit, dst_tile);
 
+  if (hover_state != HOVER_NONE && unit_is_in_focus(punit)) {
+    /* Cancel current goto/patrol/connect/nuke command. */
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    update_unit_info_label(get_units_in_focus());
+  }
+
   if (!unit_transported(punit)) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
