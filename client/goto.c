@@ -1004,6 +1004,15 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   int i;
   struct tile *old_tile;
 
+  fc_assert_ret(path != NULL);
+  fc_assert_ret_msg(unit_tile(punit) == path->positions[0].tile,
+                    "Unit %d has moved without goto cancelation.",
+                    punit->id);
+
+  if (path->length == 1 && final_order == NULL) {
+    return; /* No path at all, no need to spam the server. */
+  }
+
   memset(&p, 0, sizeof(p));
   p.unit_id = punit->id;
   p.src_tile = tile_index(unit_tile(punit));
