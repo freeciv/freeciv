@@ -3507,8 +3507,19 @@ void link_mark_restore(enum text_link_type type, int id)
 ***********************************************************************/
 bool tileset_map_topo_compatible(int topology_id, struct tileset *tset)
 {
-  return (!XOR((topology_id & TF_HEX), (tileset_hex_width(tset) > 0
-                                        || tileset_hex_height(tset) > 0))
-          && !XOR(((topology_id & TF_HEX) || (topology_id & TF_ISO)),
-                  tileset_is_isometric(tset)));
+  int tileset_topology;
+
+  if (tileset_hex_width(tset) > 0) {
+    fc_assert(tileset_is_isometric(tset));
+    tileset_topology = TF_HEX | TF_ISO;
+  } else if (tileset_hex_height(tset) > 0) {
+    fc_assert(tileset_is_isometric(tset));
+    tileset_topology = TF_HEX;
+  } else if (tileset_is_isometric(tset)) {
+    tileset_topology = TF_ISO;
+  } else {
+    tileset_topology = 0;
+  }
+
+  return ((topology_id & (TF_HEX | TF_ISO)) == tileset_topology);
 }

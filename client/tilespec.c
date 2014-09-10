@@ -647,8 +647,8 @@ bool tileset_is_isometric(const struct tileset *t)
 }
 
 /****************************************************************************
-  Return the hex_width of the current tileset.  For hex tilesets this value
-  will be > 0 and is_isometric will be set.
+  Return the hex_width of the current tileset. For iso-hex tilesets this
+  value will be > 0 and is_isometric will be set.
 ****************************************************************************/
 int tileset_hex_width(const struct tileset *t)
 {
@@ -656,7 +656,7 @@ int tileset_hex_width(const struct tileset *t)
 }
 
 /****************************************************************************
-  Return the hex_height of the current tileset.  For iso-hex tilesets this
+  Return the hex_height of the current tileset. For hex tilesets this
   value will be > 0 and is_isometric will be set.
 ****************************************************************************/
 int tileset_hex_height(const struct tileset *t)
