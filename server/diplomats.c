@@ -447,9 +447,11 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                 _("Your %s was bribed by the %s."),
                 victim_link, nation_plural_for_player(pplayer));
 
-  /* The unit may have been in a city */
+  /* The unit may have been on a tile shared with a city or a unit
+   * it no longer can share a tile with. */
   pcity = tile_city(unit_tile(pvictim));
-  if (NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer)) {
+  if ((NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer))
+      || 1 < unit_list_size(unit_tile(pvictim)->units)) {
     bounce_unit(pvictim, TRUE);
   }
 
@@ -464,8 +466,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  /* Try to move the briber onto the victim's square unless its a city. */
-  if (NULL == pcity
+  /* Try to move the briber onto the victim's square unless its a city or
+   * have other units. */
+  if (NULL == pcity && unit_list_size(unit_tile(pvictim)->units) < 2
       && !unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }

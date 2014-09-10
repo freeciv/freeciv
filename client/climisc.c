@@ -1211,11 +1211,13 @@ bool can_unit_act_against_own_tile(struct unit *punit)
 
   /* All generalized actions vs own tile is currently against cities */
   return (is_actor_unit(punit)
-          && (pcity = tile_city(unit_tile(punit)))
-          && city_owner(pcity) != unit_owner(punit));
+          && (((pcity = tile_city(unit_tile(punit)))
+               && city_owner(pcity) != unit_owner(punit))
+              || is_other_players_unit_tile(unit_tile(punit),
+                                            unit_owner(punit))));
 
-  /* FIXME: Ask the server so other target types than foreign cities can
-   * be supported as targeting them on your own tile becomes possible. */
+  /* FIXME: Ask the server in stead. Will bring improved accuracy and
+   * remove the need to update this as other potential target appear. */
 }
 
 /**************************************************************************

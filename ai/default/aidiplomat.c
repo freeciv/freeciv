@@ -575,7 +575,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     struct tile *ptile = pos.tile;
     bool threat = FALSE;
     int newval, bestval = 0, cost;
-    struct unit *pvictim = unit_list_get(ptile->units, 0);
+    struct unit *pvictim = is_other_players_unit_tile(ptile, pplayer);
     int sanity = punit->id;
 
     if (pos.total_MC > punit->moves_left) {

@@ -254,6 +254,7 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Local", FALSE
+      "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
 [borders]

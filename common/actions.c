@@ -257,14 +257,6 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                                            FALSE, "Has real embassy"));
   }
 
-  /* The Freeciv code assumes that the victim is alone at its tile. */
-  if (enabler->action == ACTION_SPY_BRIBE_UNIT
-      || enabler->action == ACTION_SPY_SABOTAGE_UNIT) {
-    requirement_vector_append(&enabler->target_reqs,
-                              req_from_str("MaxUnitsOnTile", "Local",
-                                           FALSE, TRUE, "1"));
-  }
-
   /* The Freeciv code assumes that all spy actions have foreign targets.
    * TODO: Move this restriction to the ruleset to prepare for false flag
    * operations. */
