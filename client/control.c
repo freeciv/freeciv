@@ -493,8 +493,18 @@ void unit_focus_remove(struct unit *punit)
     return;
   }
 
+  if (hover_state != HOVER_NONE) {
+    /* Can't continue with current goto if set of focus units
+     * change. Cancel it. */
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
+  }
+
   current_focus_remove(punit);
-  focus_units_changed();
+  if (get_num_units_in_focus() > 0) {
+    focus_units_changed();
+  } else {
+    unit_focus_advance();
+  }
 }
 
 /**************************************************************************
