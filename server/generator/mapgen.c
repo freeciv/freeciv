@@ -3502,18 +3502,23 @@ static bool map_generate_fair_islands(void)
     tile_set_owner(ptile, NULL, NULL);
   } whole_map_iterate_end;
 
-  i = (map_num_tiles() * map.server.landpercent) / 100;
+  i = 0;
   if (HAS_POLES) {
     make_polar();
 
     whole_map_iterate(ptile) {
       if (tile_terrain(ptile) != deepest_ocean) {
-        i--;
+        i++;
       }
     } whole_map_iterate_end;
   }
 
-  playermass = i / player_count();
+  if (map.server.mapsize == MAPSIZE_PLAYER) {
+    playermass = map.server.tilesperplayer - i / player_count();
+  } else {
+    playermass = ((map_num_tiles() * map.server.landpercent - i)
+                  / (player_count() * 100));
+  }
   islandmass1 = (players_per_island * playermass * 7) / 10;
   if (islandmass1 < min_island_size) {
     islandmass1 = min_island_size;
