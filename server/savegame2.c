@@ -104,6 +104,7 @@
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
+#include "version.h"
 
 /* server */
 #include "barbarian.h"
@@ -1467,9 +1468,10 @@ static void sg_load_savefile(struct loaddata *loading)
   loading->secfile_options
     = secfile_lookup_str(loading->file, "savefile.options");
 
-  /* We don't need savefile.reason, but read it anyway to avoid
+  /* We don't need these entries, but read them anyway to avoid
    * warnings about unread secfile entries. */
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
+  (void) secfile_entry_by_path(loading->file, "savefile.revision");
 
   /* Load ruleset. */
   sz_strlcpy(game.server.rulesetdir,
@@ -1706,6 +1708,9 @@ static void sg_save_savefile(struct savedata *saving)
 
   /* Save reason of the savefile generation. */
   secfile_insert_str(saving->file, saving->save_reason, "savefile.reason");
+
+  /* Save as accurate freeciv revision information as possible */
+  secfile_insert_str(saving->file, freeciv_datafile_version(), "savefile.revision");
 
   /* Save rulesetdir at this point as this ruleset is required by this
    * savefile. */
