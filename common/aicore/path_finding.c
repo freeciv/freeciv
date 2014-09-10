@@ -3334,6 +3334,83 @@ void pf_path_destroy(struct pf_path *path)
 }
 
 /****************************************************************************
+  Concatenate two paths together. The additional segment 'src_path'
+  should start where the initial segment 'dest_path' stops. The
+  overlapping position is removed.
+
+  If 'dest_path' == NULL, we just copy the src_path and nothing else.
+****************************************************************************/
+struct pf_path *pf_path_concat(struct pf_path *dest_path,
+                               const struct pf_path *src_path)
+{
+  int dest_end;
+
+  fc_assert_ret_val(src_path != NULL, NULL);
+
+  if (dest_path == NULL) {
+    /* Just copy path. */
+    dest_path = fc_malloc(sizeof(*dest_path));
+    dest_path->length = src_path->length;
+    dest_path->positions = fc_malloc(sizeof(*dest_path->positions)
+                                     * dest_path->length);
+    memcpy(dest_path->positions, src_path->positions,
+           sizeof(*dest_path->positions) * dest_path->length);
+    return dest_path;
+  }
+
+  dest_end = dest_path->length - 1;
+  fc_assert(dest_path->positions[dest_end].tile
+            == src_path->positions[0].tile);
+  fc_assert(dest_path->positions[dest_end].moves_left
+            == src_path->positions[0].moves_left);
+  fc_assert(dest_path->positions[dest_end].fuel_left
+            == src_path->positions[0].fuel_left);
+
+  if (src_path->length == 1) {
+    return dest_path;
+  }
+
+  dest_path->length = dest_end + src_path->length;
+  dest_path->positions = fc_realloc(dest_path->positions,
+                                    sizeof(*dest_path->positions)
+                                    * dest_path->length);
+  /* Be careful to include the first position of src_path, it contains
+   * the direction (it is undefined in the last position of dest_path) */
+  memcpy(dest_path->positions + dest_end, src_path->positions,
+         sizeof(*dest_path->positions) * src_path->length);
+
+  return dest_path;
+}
+
+/****************************************************************************
+  Remove the part of a path leading up to a given tile.
+  If given tile is on the path more than once then the first occurrance
+  will be the one used.
+  If tile is not on the path at all, returns FALSE and path is not changed
+  at all.
+****************************************************************************/
+bool pf_path_advance(struct pf_path *path, struct tile *ptile)
+{
+  int i;
+  struct pf_position *new_positions;
+
+  for (i = 0; path->positions[i].tile != ptile; i++) {
+    if (i >= path->length) {
+      return FALSE;
+    }
+  }
+  fc_assert_ret_val(i < path->length, FALSE);
+  path->length -= i;
+  new_positions = fc_malloc(sizeof(*path->positions) * path->length);
+  memcpy(new_positions, path->positions + i,
+         path->length * sizeof(*path->positions));
+  free(path->positions);
+  path->positions = new_positions;
+
+  return TRUE;
+}
+
+/****************************************************************************
   Get the last position of the path.
 ****************************************************************************/
 const struct pf_position *pf_path_last_position(const struct pf_path *path)

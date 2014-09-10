@@ -491,6 +491,9 @@ const struct pf_parameter *pf_map_parameter(const struct pf_map *pfm);
 
 /* Paths functions. */
 void pf_path_destroy(struct pf_path *path);
+struct pf_path *pf_path_concat(struct pf_path *dest_path,
+                               const struct pf_path *src_path);
+bool pf_path_advance(struct pf_path *path, struct tile *ptile);
 const struct pf_position *pf_path_last_position(const struct pf_path *path);
 void pf_path_print_real(const struct pf_path *path, enum log_level level,
                         const char *file, const char *function, int line);
