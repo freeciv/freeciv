@@ -211,7 +211,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
    * that may be importante for some topologies.
    */
   const int i_size
-    = sqrt((float)(1000 * size)
+    = sqrt((float)(size)
 	   / (float)(Xratio * Yratio * iso * even * even)) + 0.49;
 
   /* Now build xsize and ysize value as described above. */
@@ -223,14 +223,14 @@ static void set_sizes(double size, int Xratio, int Yratio)
    * (MAP_MAX_SIZE * 1000). If it is then decrease the size and try again. */
   if (MAX(MAP_WIDTH, MAP_HEIGHT) > MAP_MAX_LINEAR_SIZE
       || MAP_INDEX_SIZE > MAP_MAX_SIZE * 1000) {
-    fc_assert(size > 0.1);
-    set_sizes(size - 0.1, Xratio, Yratio);
+    fc_assert(size > 100.0);
+    set_sizes(size - 100.0, Xratio, Yratio);
     return;
   }
 
   /* If the ratio is too big for some topology the simplest way to avoid
    * this error is to set the maximum size smaller for all topologies! */
-  if (map.server.size > size + 0.9) {
+  if (map.server.size * 1000 > size + 900.0) {
     /* Warning when size is set uselessly big */ 
     log_error("Requested size of %d is too big for this topology.",
               map.server.size);
@@ -243,19 +243,39 @@ static void set_sizes(double size, int Xratio, int Yratio)
 
   log_normal(_("Creating a map of size %d x %d = %d tiles (%d requested)."),
              map.xsize, map.ysize, map.xsize * map.ysize,
-             map.server.size * 1000);
+             (int) size);
 }
 
-/*
- * The default ratios for known topologies
- *
- * The factor Xratio * Yratio determines the accuracy of the size.
- * Small ratios work better than large ones; 3:2 is not the same as 6:4
- */
-#define AUTO_RATIO_FLAT           {1, 1}
-#define AUTO_RATIO_CLASSIC        {3, 2} 
-#define AUTO_RATIO_URANUS         {2, 3} 
-#define AUTO_RATIO_TORUS          {1, 1}
+/****************************************************************************
+  Return the default ratios for known topologies.
+
+ The factor x_ratio * y_ratio determines the accuracy of the size.
+ Small ratios work better than large ones; 3:2 is not the same as 6:4
+****************************************************************************/
+static void get_ratios(int *x_ratio, int *y_ratio)
+{
+  if (current_topo_has_flag(TF_WRAPX)) {
+    if (current_topo_has_flag(TF_WRAPY)) {
+      /* Ratios for torus map. */
+      *x_ratio = 1;
+      *y_ratio = 1;
+    } else {
+      /* Ratios for classic map. */
+      *x_ratio = 3;
+      *y_ratio = 2;
+    }
+  } else {
+    if (current_topo_has_flag(TF_WRAPY)) {
+      /* Ratios for uranus map. */
+      *x_ratio = 2;
+      *y_ratio = 3;
+    } else {
+      /* Ratios for flat map. */
+      *x_ratio = 1;
+      *y_ratio = 1;
+    }
+  }
+}
 
 /***************************************************************************
   This function sets sizes in a topology-specific way then calls
@@ -264,56 +284,64 @@ static void set_sizes(double size, int Xratio, int Yratio)
 ***************************************************************************/
 void generator_init_topology(bool autosize)
 {
-  int sqsize, map_size;
+  int sqsize;
+  double map_size;
 
   /* The server behavior to create the map is defined by 'map.server.mapsize'.
    * Calculate the xsize/ysize if it is not directly defined. */
   if (autosize) {
-    /* Changing or reordering the topo_flag enum will break this code. */
-    const int default_ratios[4][2] =
-      {AUTO_RATIO_FLAT, AUTO_RATIO_CLASSIC,
-       AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
-    const int id = 0x3 & map.topology_id;
-
-    /* see map.h for the definitions of TF_WRAP(X|Y) */
-    fc_assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
+    int x_ratio, y_ratio;
 
     switch (map.server.mapsize) {
     case MAPSIZE_XYSIZE:
       map.server.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
+      map.server.tilesperplayer = ((map_num_tiles() * map.server.landpercent)
+                                   / (player_count() * 100));
       log_normal(_("Creating a map of size %d x %d = %d tiles (map size: "
                    "%d)."), map.xsize, map.ysize, map.xsize * map.ysize,
                  map.server.size);
       break;
 
     case MAPSIZE_PLAYER:
-      map_size = player_count() * map.server.tilesperplayer
-                 / map.server.landpercent / 10;
+      map_size = ((double) (player_count() * map.server.tilesperplayer * 100)
+                  / map.server.landpercent);
 
-      map.server.size = CLIP(MAP_MIN_SIZE, map_size, MAP_MAX_SIZE);
-
-      if (map_size < MAP_MIN_SIZE) {
+      if (map_size < MAP_MIN_SIZE * 1000) {
+        map.server.size = MAP_MIN_SIZE;
+        map_size = MAP_MIN_SIZE * 1000;
         log_normal(_("Map size calculated for %d (land) tiles per player "
                      "and %d player(s) too small. Setting map size to the "
                      "minimal size %d."), map.server.tilesperplayer,
                    player_count(), map.server.size);
-      } else if (map_size > MAP_MAX_SIZE) {
+      } else if (map_size > MAP_MAX_SIZE * 1000) {
+        map.server.size = MAP_MAX_SIZE;
+        map_size = MAP_MAX_SIZE * 1000;
         log_normal(_("Map size calculated for %d (land) tiles per player "
                      "and %d player(s) too large. Setting map size to the "
                      "maximal size %d."), map.server.tilesperplayer,
                    player_count(), map.server.size);
       } else {
+        map.server.size = (double) map_size / 1000.0 + 0.5;
         log_normal(_("Setting map size to %d (approx. %d (land) tiles for "
-                   "each of the %d player(s))."), map.server.size,
+                     "each of the %d player(s))."), map.server.size,
                    map.server.tilesperplayer, player_count());
       }
-      /* no break */
+      get_ratios(&x_ratio, &y_ratio);
+      set_sizes(map_size, x_ratio, y_ratio);
+      break;
 
     case MAPSIZE_FULLSIZE:
       /* Set map.xsize and map.ysize based on map.size. */
-      set_sizes(map.server.size, default_ratios[id][0], default_ratios[id][1]);
+      get_ratios(&x_ratio, &y_ratio);
+      set_sizes(map.server.size * 1000, x_ratio, y_ratio);
+      map.server.tilesperplayer = ((map_num_tiles() * map.server.landpercent)
+                                   / (player_count() * 100));
       break;
     }
+  } else {
+    map.server.size = (double) map_num_tiles() / 1000.0 + 0.5;
+    map.server.tilesperplayer = ((map_num_tiles() * map.server.landpercent)
+                                 / (player_count() * 100));
   }
 
   sqsize = get_sqsize();
