@@ -168,13 +168,31 @@ void map_view::keyPressEvent(QKeyEvent * event)
 void map_view::mousePressEvent(QMouseEvent *event)
 {
   struct tile *ptile = NULL;
+  bool alt;
+  bool ctrl;
   QPoint pos;
 
+  alt = false;
+  ctrl = false;
+
+  if (event->modifiers() & Qt::AltModifier) {
+    alt = true;
+  }
+  if (event->modifiers() & Qt::ControlModifier) {
+    ctrl = true;
+  }
   pos = gui()->mapview_wdg->mapFromGlobal(QCursor::pos());
 
   if (event->button() == Qt::RightButton) {
-    recenter_button_pressed(event->x(), event->y());
-    ::gui()->minimapview_wdg->update_image();
+    if (alt && ctrl){
+      ptile = canvas_pos_to_tile(pos.x(), pos.y());
+      if (ptile) {
+        gui()->infotab->chtwdg->make_link(ptile);
+      }
+    } else {
+      recenter_button_pressed(event->x(), event->y());
+      ::gui()->minimapview_wdg->update_image();
+    }
   }
 
   /* Left Button */

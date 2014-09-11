@@ -40,6 +40,7 @@ public:
   chatwdg(QWidget *parent);
   void append(QString str);
   QLineEdit *chat_line;
+  void make_link(struct tile *ptile);
 private slots:
   void send();
   void state_changed(int state);
