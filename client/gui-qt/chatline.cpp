@@ -18,6 +18,7 @@
 // client
 #include "climisc.h"      /* for write_chatline_content */
 #include "climap.h"
+#include "control.h"
 #include "game.h"
 
 // gui-qt
@@ -243,6 +244,26 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
     }
   }
   return QObject::eventFilter(obj, event);
+}
+
+/***************************************************************************
+  Makes link to tile/unit or city
+***************************************************************************/
+void chatwdg::make_link(struct tile *ptile)
+{
+  struct unit *punit;
+  char buf[MAX_LEN_MSG];
+
+  punit = find_visible_unit(ptile);
+  if (tile_city(ptile)) {
+    sz_strlcpy(buf, city_link(tile_city(ptile)));
+  } else if (punit) {
+    sz_strlcpy(buf, unit_link(punit));
+  } else {
+    sz_strlcpy(buf, tile_link(ptile));
+  }
+  chat_line->insert(QString(buf));
+  chat_line->setFocus();
 }
 
 /***************************************************************************
