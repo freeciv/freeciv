@@ -60,6 +60,7 @@ static QPixmap *unit_pixmap;
 void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
 static void apply_font(struct option *poption);
+static void apply_city_font(struct option *poption);
 
 /****************************************************************************
   Return fc_client instance
@@ -133,6 +134,8 @@ void qtg_gui_options_extra_init()
                           apply_font);
   option_var_set_callback(gui_qt_font_reqtree_text,
                           apply_font);
+  option_var_set_callback(gui_qt_font_city_label,
+                          apply_city_font);
 #undef option_var_set_callback
 }
 
@@ -368,6 +371,27 @@ void popup_quit_dialog()
   case QMessageBox::Ok:
     qapp->quit();
     break;
+  }
+}
+
+/****************************************************************************
+  Changes city label font
+****************************************************************************/
+void apply_city_font(option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui() && qtg_get_current_client_page() == PAGE_GAME) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = gui()->fc_fonts.get_font(s);
+    delete remove_old;
+    gui()->fc_fonts.set_font(s, f);
+    qtg_popdown_all_city_dialogs();
   }
 }
 
