@@ -66,19 +66,20 @@ static void diplomat_bribe(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
-static void caravan_keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
                          gen_action act,
                          const action_probability *action_probabilities,
                          pfcn_void func, QVariant data1,
                          QVariant data2);
+static void popup_action_selction(struct unit *actor_unit,
+                                  struct city *target_city,
+                                  struct unit *target_unit,
+                                  struct tile *target_tile,
+                                  const action_probability *act_probs);
 
-static int caravan_city_id = 0;
-static int caravan_unit_id = 0;
-static bool caravan_dialog_open = false;
+
 static bool is_showing_pillage_dialog = false;
-static choice_dialog *caravan_dialog = NULL;
 static races_dialog* race_dialog;
 static bool is_race_dialog_open = false;
 static bool is_more_user_input_needed = FALSE;
@@ -838,6 +839,8 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   setAttribute(Qt::WA_DeleteOnClose);
   gui()->set_diplo_dialog(this);
   unit_id = -1;
+  target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
+  target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
 }
 
 /***************************************************************************
@@ -923,8 +926,7 @@ void choice_dialog::execute_action(const int action)
 ***************************************************************************/
 static void caravan_establish_trade(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_establish_trade(&client.conn, data2.toInt());
-  caravan_dialog_open = false;
+  dsend_packet_unit_establish_trade(&client.conn, data1.toInt());
   process_caravan_arrival(NULL);
 }
 
@@ -933,17 +935,7 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
 ***************************************************************************/
 static void caravan_help_build(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn, data2.toInt());
-  caravan_dialog_open = false;
-  process_caravan_arrival(NULL);
-}
-
-/***************************************************************************
-  Action 'do nothing' with caravan for choice dialog
-***************************************************************************/
-static void caravan_keep_moving(QVariant data1, QVariant data2)
-{
-  caravan_dialog_open = false;
+  dsend_packet_unit_help_build_wonder(&client.conn, data1.toInt());
   process_caravan_arrival(NULL);
 }
 
@@ -974,65 +966,15 @@ void revolution_response(struct government *government)
 void popup_caravan_dialog(struct unit *punit,
                           struct city *phomecity, struct city *pdestcity)
 {
-  char title_buf[128], buf[128], buf2[1024];
-  bool can_establish, can_trade, can_wonder;
-  struct city* destcity;
-  struct unit* caravan;
-  QString wonder;
-  QString str;
-  QVariant qv1, qv2;
-  pfcn_void func;
+  action_probability probabilities[ACTION_COUNT];
 
-  fc_snprintf(title_buf, sizeof(title_buf),
-              /* TRANS: %s is a unit type */
-              _("Your %s Has Arrived"), unit_name_translation(punit));
-  fc_snprintf(buf, sizeof(buf),
-              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-              unit_name_translation(punit),
-              city_name(phomecity), city_name(pdestcity));
+  /* Caravan actions don't use action enablers yet. */
+  action_iterate(act) {
+    probabilities[act] = ACTPROB_IMPOSSIBLE;
+  } action_iterate_end;
 
-  caravan_dialog = new choice_dialog(QString(title_buf),
-                                     QString(buf),
-                                     gui()->game_tab_widget);
-  caravan_dialog_open = true;
-  qv1 = pdestcity->id;
-  qv2 = punit->id;
-  caravan_city_id = pdestcity->id;
-  caravan_unit_id = punit->id;
-  can_trade = (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
-               && can_cities_trade(phomecity, pdestcity));
-  can_establish = can_trade
-                  && can_establish_trade_route(phomecity, pdestcity);
-  destcity = game_city_by_number(pdestcity->id);
-  caravan = game_unit_by_number(punit->id);
-
-  if (destcity && caravan && unit_can_help_build_wonder(caravan, destcity)) {
-    can_wonder = true;
-    fc_snprintf(buf2, sizeof(buf2), _("Help build Wonder (%d remaining)"),
-                impr_build_shield_cost(destcity->production.value.building)
-                - destcity->shield_stock);
-    wonder = QString(buf2);
-  } else {
-    can_wonder = false;
-    wonder = QString(_("Help build Wonder"));
-  }
-
-  if (can_trade) {
-    func = caravan_establish_trade;
-    str = can_establish ? QString(_("Establish Trade route")) :
-          QString(_("Enter Marketplace"));
-    caravan_dialog->add_item(str, func, qv1, qv2);
-  }
-  if (can_wonder) {
-    func = caravan_help_build;
-    caravan_dialog->add_item(wonder, func, qv1, qv2);
-  }
-  func = caravan_keep_moving;
-  caravan_dialog->add_item(QString(_("Keep moving")),
-                           func, qv1, qv2);
-
-  caravan_dialog->set_layout();
-  caravan_dialog->show_me();
+  popup_action_selction(punit, pdestcity, NULL, city_tile(pdestcity),
+                        probabilities);
 }
 
 /**************************************************************************
@@ -1041,13 +983,19 @@ void popup_caravan_dialog(struct unit *punit,
 **************************************************************************/
 bool caravan_dialog_is_open(int *unit_id, int *city_id)
 {
+  if (gui()->get_diplo_dialog() == NULL) {
+    return FALSE;
+  }
+
   if (unit_id) {
-    *unit_id = caravan_unit_id;
+    *unit_id = gui()->get_diplo_dialog()->unit_id;
   }
+
   if (city_id) {
-    *city_id = caravan_city_id;
+    *city_id = gui()->get_diplo_dialog()->target_id[ATK_CITY];
   }
-  return caravan_dialog_open;
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1072,6 +1020,7 @@ static void diplomat_queue_handle_secondary(void)
   diplomat_queue_handle_primary();
 }
 
+
 /**************************************************************************
   Popup a dialog giving a diplomatic unit some options when moving into
   the target tile.
@@ -1080,8 +1029,21 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                            struct unit *ptunit, struct tile *dest_tile,
                            const action_probability *action_probabilities)
 {
+  popup_action_selction(punit, pcity, ptunit, dest_tile,
+                        action_probabilities);
+}
+
+/**************************************************************************
+  Popup a dialog that allows the player to select what action a unit
+  should take.
+**************************************************************************/
+static void popup_action_selction(struct unit *actor_unit,
+                                  struct city *target_city,
+                                  struct unit *target_unit,
+                                  struct tile *target_tile,
+                                  const action_probability *act_probs)
+{
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
-  int diplomat_id;
   QVariant qv1, qv2;
   pfcn_void func;
   struct city *actor_homecity;
@@ -1094,101 +1056,136 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   /* No extra input is required as no action has been chosen yet. */
   is_more_user_input_needed = FALSE;
 
-  actor_homecity = game_city_by_number(punit->homecity);
+  actor_homecity = game_city_by_number(actor_unit->homecity);
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
-           _("Choose Your %s's Strategy"), unit_name_translation(punit));
+           _("Choose Your %s's Strategy"),
+           unit_name_translation(actor_unit));
 
-  if (pcity && actor_homecity) {
+  if (target_city && actor_homecity) {
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-             unit_name_translation(punit),
+             unit_name_translation(actor_unit),
              city_name(actor_homecity),
-             city_name(pcity));
-  } else if (pcity) {
+             city_name(target_city));
+  } else if (target_city) {
     astr_set(&text,
              _("Your %s has arrived at %s.\nWhat is your command?"),
-             unit_name_translation(punit),
-             city_name(pcity));
+             unit_name_translation(actor_unit),
+             city_name(target_city));
   } else {
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
              _("Your %s is waiting for your command."),
-             unit_name_translation(punit));
+             unit_name_translation(actor_unit));
   }
 
   choice_dialog *cd = new choice_dialog(astr_str(&title),
                                         astr_str(&text),
                                         gui()->game_tab_widget,
                                         diplomat_queue_handle_primary);
-  diplomat_id = punit->id;
-  qv1 = punit->id;
-  cd->unit_id = diplomat_id;
+  qv1 = actor_unit->id;
+  cd->unit_id = actor_unit->id;
 
-  if (pcity) {
+  if (target_city) {
     /* Spy/Diplomat acting against a city */
-    qv2 = pcity->id;
+    qv2 = target_city->id;
+    cd->target_id[ATK_CITY] = target_city->id;
 
     action_entry(cd,
                  ACTION_ESTABLISH_EMBASSY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_embassy, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_INVESTIGATE_CITY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_investigate, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_POISON,
-                 action_probabilities,
+                 act_probs,
                  spy_poison, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_SABOTAGE_CITY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_sabotage, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 action_probabilities,
+                 act_probs,
                  spy_request_sabotage_list, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_STEAL_TECH,
-                 action_probabilities,
+                 act_probs,
                  diplomat_steal, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_TARGETED_STEAL_TECH,
-                 action_probabilities,
+                 act_probs,
                  spy_steal, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_INCITE_CITY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_incite, qv1, qv2);
+
+    /* The Freeciv protocol currently only supports caravan actions if the
+     * target city is on the actor unit's tile. */
+    if (target_tile == unit_tile(actor_unit)) {
+      bool can_marketplace = unit_has_type_flag(actor_unit,
+                                                UTYF_TRADE_ROUTE)
+          && can_cities_trade(actor_homecity, target_city);
+      bool can_traderoute = can_marketplace
+                      && can_establish_trade_route(actor_homecity,
+                                                   target_city);
+      bool can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
+          && unit_can_help_build_wonder(actor_unit, target_city);
+
+      if (can_marketplace && !can_traderoute) {
+        func = caravan_establish_trade;
+        cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
+      }
+
+      if (can_traderoute) {
+        func = caravan_establish_trade;
+        cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
+      }
+
+      if (can_wonder) {
+        QString title;
+
+        title = QString(_("Help build Wonder (%1 remaining)")).arg(
+            impr_build_shield_cost(target_city->production.value.building)
+              - target_city->shield_stock);
+        func = caravan_help_build;
+        cd->add_item(title, func, qv1, qv2);
+      }
+    }
   }
 
-  if ((ptunit = unit_list_get(dest_tile->units, 0))) {
+  if ((target_unit = unit_list_get(target_tile->units, 0))) {
     /* Spy/Diplomat acting against a unit */
 
-    qv2 = ptunit->id;
+    qv2 = target_unit->id;
+    cd->target_id[ATK_UNIT] = target_unit->id;
 
     action_entry(cd,
                  ACTION_SPY_BRIBE_UNIT,
-                 action_probabilities,
+                 act_probs,
                  diplomat_bribe, qv1, qv2);
 
     action_entry(cd,
                  ACTION_SPY_SABOTAGE_UNIT,
-                 action_probabilities,
+                 act_probs,
                  spy_sabotage_unit, qv1, qv2);
   }
 
-  if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
-    qv2 = dest_tile->index;
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+    qv2 = target_tile->index;
 
     func = diplomat_keep_moving;
     cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
@@ -1850,12 +1847,13 @@ void caravan_dialog_update(void)
   int i;
   QVBoxLayout *layout;
   QPushButton *qpb;
+  choice_dialog *caravan_dialog = gui()->get_diplo_dialog();
 
   if (caravan_dialog == NULL) {
     return;
   }
-  destcity = game_city_by_number(caravan_city_id);
-  caravan = game_unit_by_number(caravan_unit_id);
+  destcity = game_city_by_number(caravan_dialog->target_id[ATK_CITY]);
+  caravan = game_unit_by_number(caravan_dialog->unit_id);
   i = 0;
   layout = caravan_dialog->get_layout();
   foreach (func, caravan_dialog->func_list) {

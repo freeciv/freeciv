@@ -174,6 +174,7 @@ public:
   QVBoxLayout *get_layout();
   QList<pfcn_void> func_list;
   int unit_id;
+  int target_id[ATK_COUNT];
 public slots:
   void execute_action(const int action);
 };
