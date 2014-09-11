@@ -31,6 +31,8 @@ class QTableWidget;
 class QProgressBar;
 class QVariant;
 class QVBoxLayout;
+class city_dialog;
+class QChecBox;
 
 #define NUM_INFO_FIELDS 12
 
@@ -41,9 +43,6 @@ class QVBoxLayout;
 #include <QProgressBar>
 #include <QTableWidget>
 
-class city_dialog;
-class QChecBox;
-
 /****************************************************************************
   Subclassed QProgressBar to receive clicked signal
 ****************************************************************************/
@@ -52,6 +51,7 @@ class progress_bar: public QProgressBar
   Q_OBJECT
 signals:
   void clicked();
+
 public:
   progress_bar(QWidget *parent): QProgressBar(parent) {}
   void mousePressEvent(QMouseEvent *event) {
@@ -60,59 +60,51 @@ public:
 };
 
 /****************************************************************************
-  Subclassed QLabel to receive clicked signal
-****************************************************************************/
-class fc_label: public QLabel
-{
-  Q_OBJECT
-signals:
-  void clicked();
-public:
-  fc_label(QWidget *parent): QLabel(parent) {}
-  void mousePressEvent(QMouseEvent *event) {
-    emit clicked();
-  }
-};
-
-
-/****************************************************************************
   Single item on unit_info in city dialog representing one unit
 ****************************************************************************/
 class unit_item: public QLabel
 {
-
   Q_OBJECT
-
   QAction *disband_action;
   QAction *change_home;
   QAction *activate;
   QAction *activate_and_close;
   QAction *sentry;
   QAction *fortify;
+  QAction *load;
+  QAction *unload;
+  QAction *upgrade;
+  QAction *unload_trans;
 
 public:
-
-  unit_item(struct unit *punit);
+  unit_item(struct unit *punit, bool supp = false, int happy_cost = 0);
   ~unit_item();
   void init_pix();
-  void mouseMoveEvent(QMouseEvent *event);
-  void mousePressEvent(QMouseEvent *event);
-private:
 
+private:
   struct unit *qunit;
   struct canvas *unit_pixmap;
   void contextMenuEvent(QContextMenuEvent *ev);
   void create_actions();
+  int happy_cost;
+  bool supported;
 
 private slots:
-
   void disband();
   void change_homecity();
   void activate_unit();
   void activate_and_close_dialog();
   void sentry_unit();
   void fortify_unit();
+  void upgrade_unit();
+  void load_unit();
+  void unload_unit();
+  void unload_all();
 
+protected:
+  void mousePressEvent(QMouseEvent *event);
+  void leaveEvent(QEvent *event);
+  void enterEvent(QEvent *event);
 };
 
 /****************************************************************************
@@ -124,16 +116,17 @@ class unit_info: public QWidget
   Q_OBJECT
 
 public:
-
-  unit_info();
+  unit_info(bool supp);
   ~unit_info();
   void add_item(unit_item *item);
   void init_layout();
+  void update_units();
   void clear_layout();
   QHBoxLayout *layout;
   QList<unit_item *> unit_list;
-  void mouseMoveEvent(QMouseEvent *event);
 
+private:
+  bool supports;
 };
 
 
@@ -148,13 +141,11 @@ class city_map: public QWidget
   canvas *miniview;
 
 public:
-
   city_map(QWidget *parent);
   ~city_map();
   void set_pixmap(struct city *pcity);
 
 private:
-
   void mousePressEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);
   struct city *mcity;
@@ -175,16 +166,18 @@ class city_production_delegate: public QItemDelegate
   Q_OBJECT
 
 public:
-  city_production_delegate(QPoint sh, QObject *parent, struct city* city);
+  city_production_delegate(QPoint sh, QObject *parent, struct city *city);
   ~city_production_delegate() {}
   void paint(QPainter *painter, const QStyleOptionViewItem &option,
              const QModelIndex &index) const;
   QSize sizeHint(const QStyleOptionViewItem &option,
                  const QModelIndex &index) const;
+
 private:
   int item_height;
   QPoint pd;
   struct city *pcity;
+
 protected:
   void drawFocus(QPainter *painter, const QStyleOptionViewItem &option,
                  const QRect &rect) const;
@@ -205,6 +198,7 @@ public:
   }
   QVariant data() const;
   bool setData();
+
 private:
   struct universal *target;
 };
@@ -215,6 +209,7 @@ private:
 class city_production_model : public QAbstractListModel
 {
   Q_OBJECT
+
 public:
   city_production_model(struct city *pcity, bool f, bool su,
                         QObject *parent = 0);
@@ -233,6 +228,7 @@ public:
   QPoint size_hint();
   void populate();
   QPoint sh;
+
 private:
   QList<production_item *> city_target_list;
   struct city *mcity;
@@ -246,16 +242,23 @@ private:
 class production_widget: public QTableView
 {
   Q_OBJECT
+
   city_production_model *list_model;
   city_production_delegate *c_p_d;
+
 public:
   production_widget(struct city *pcity, bool future, int when, int curr,
                     bool show_units);
   ~production_widget();
+
 public slots:
   void prod_selected(const QItemSelection &sl, const QItemSelection &ds);
-private:
+
+protected:
   void mousePressEvent(QMouseEvent *event);
+  bool eventFilter(QObject *obj, QEvent *ev);
+
+private:
   struct city *pw_city;
   int when_change;
   int curr_selection;
@@ -269,23 +272,18 @@ private:
 ****************************************************************************/
 class city_label: public QLabel
 {
-
   Q_OBJECT
 
 public:
-
   city_label(int type, QWidget *parent = 0);
   void set_city(struct city *pcity);
 
 private:
-
   struct city *pcity;
   int type;
 
 protected:
-
   void mousePressEvent(QMouseEvent *event);
-
 };
 
 /****************************************************************************
@@ -339,18 +337,16 @@ class city_dialog: public QDialog
   QPushButton *cma_enable_but;
   QPushButton *next_city_but;
   QPushButton *prev_city_but;
-  QPushButton *but_remove_item;
-  QPushButton *but_clear_worklist;
+  QPushButton *but_menu_worklist;
   QPixmap *citizen_pixmap;
   unit_info *current_units;
   unit_info *supported_units;
-  fc_label *lcity_name;
-  fc_label *pcity_name;
+  QPushButton *lcity_name;
+  QPushButton *pcity_name;
   int selected_row_p;
-  QSlider* slider_tab[2*O_LAST+2];
+  QSlider *slider_tab[2 * O_LAST + 2];
 
 public:
-
   city_dialog(QWidget *parent = 0);
   ~city_dialog();
   void setup_ui(struct city *qcity);
@@ -358,7 +354,6 @@ public:
   struct city *pcity;
 
 private:
-
   int current_building;
   void update_title();
   void update_building();
@@ -371,9 +366,9 @@ private:
   void update_nation_table();
   void update_cma_tab();
   void update_disabled();
+  void update_sliders();
 
 private slots:
-
   void next_city();
   void prev_city();
   void production_changed(int index);
@@ -382,7 +377,7 @@ private slots:
   void buy();
   void dbl_click(QTableWidgetItem *item);
   void dbl_click_p(QTableWidgetItem *item);
-  void delete_prod();;
+  void delete_prod();
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
   void clear_worklist();
   void save_worklist();
