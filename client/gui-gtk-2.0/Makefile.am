@@ -25,9 +25,9 @@ libgui_gtk2_la_DEPENDENCIES = rc2c
 libgui_gtk2_la_SOURCES = \
 	rc2c		\
 	Freeciv.h	\
+	action_dialog.c \
 	canvas.c	\
 	canvas.h	\
-	caravan_dialog.c \
 	chatline.h	\
 	chatline.c	\
 	choice_dialog.c	\
@@ -53,7 +53,6 @@ libgui_gtk2_la_SOURCES = \
 	editprop.c	\
 	editprop.h	\
 	embedggz.c	\
-	diplomat_dialog.c \
 	finddlg.c	\
 	finddlg.h	\
 	gamedlgs.c	\

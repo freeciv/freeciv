@@ -8,9 +8,9 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include \
 	$(gui_gtk3_cflags) $(GGZ_GTK_INCLUDES) $(SOUND_CFLAGS)
 
 libgui_gtk3_la_SOURCES = \
+	action_dialog.c \
 	canvas.c	\
 	canvas.h	\
-	caravan_dialog.c \
 	chatline.h	\
 	chatline.c	\
 	choice_dialog.c	\
@@ -36,7 +36,6 @@ libgui_gtk3_la_SOURCES = \
 	editprop.c	\
 	editprop.h	\
 	embedggz.c	\
-	diplomat_dialog.c \
 	finddlg.c	\
 	finddlg.h	\
 	gamedlgs.c	\

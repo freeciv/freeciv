@@ -24,6 +24,7 @@
 /* common */
 #include "actions.h"
 #include "game.h"
+#include "traderoutes.h"
 #include "movement.h"
 #include "research.h"
 #include "unit.h"
@@ -42,10 +43,15 @@
 #include "mapview.h"
 #include "packhand.h"
 
-/* client/gui-gtk-3.0 */
+/* client/gui-gtk-2.0 */
 #include "citydlg.h"
 #include "dialogs.h"
 #include "wldlg.h"
+
+static int caravan_city_id;
+static int caravan_unit_id;
+
+static GtkWidget *caravan_dialog;
 
 static GtkWidget *diplomat_dialog;
 static int diplomat_id;
@@ -106,6 +112,129 @@ static void diplomat_queue_handle_secondary(void)
   /* Stop waiting. Move on to the next queued diplomat. */
   is_more_user_input_needed = FALSE;
   diplomat_queue_handle_primary();
+}
+
+/****************************************************************
+  User selected traderoute from caravan dialog
+*****************************************************************/
+static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
+{
+  dsend_packet_unit_establish_trade(&client.conn, caravan_unit_id);
+}
+
+/****************************************************************
+  User selected wonder building helping from caravan dialog
+*****************************************************************/
+static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
+{
+  dsend_packet_unit_help_build_wonder(&client.conn, caravan_unit_id);
+}
+
+/****************************************************************
+  Close caravan dialog
+*****************************************************************/
+static void caravan_destroy_callback(GtkWidget *w, gpointer data)
+{
+  caravan_dialog = NULL;
+  process_caravan_arrival(NULL);
+}
+
+/****************************************************************
+  Returns the proper text (g_strdup'd - must be g_free'd) which should
+  be displayed on the helpbuild wonder button.
+*****************************************************************/
+static gchar *get_help_build_wonder_button_label(bool* help_build_possible)
+{
+  struct city* destcity = game_city_by_number(caravan_city_id);
+  struct unit* caravan = game_unit_by_number(caravan_unit_id);
+
+  if (destcity && caravan
+      && unit_can_help_build_wonder(caravan, destcity)) {
+    *help_build_possible = TRUE;
+    return g_strdup_printf(_("Help build _Wonder (%d remaining)"),
+                           impr_build_shield_cost(destcity->production.value.building)
+                           - destcity->shield_stock);
+  } else {
+    *help_build_possible = FALSE;
+    return g_strdup(_("Help build _Wonder"));
+  }
+}
+
+/****************************************************************
+  Open caravan dialog
+*****************************************************************/
+void popup_caravan_dialog(struct unit *punit,
+                          struct city *phomecity, struct city *pdestcity)
+{
+  char title_buf[128], buf[128];
+  bool can_establish, can_trade, can_wonder;
+  gchar *wonder;
+
+  fc_snprintf(title_buf, sizeof(title_buf),
+              /* TRANS: %s is a unit type */
+              _("Your %s Has Arrived"), unit_name_translation(punit));
+  fc_snprintf(buf, sizeof(buf),
+              _("Your %s from %s reaches the city of %s.\nWhat now?"),
+              unit_name_translation(punit),
+              city_name(phomecity), city_name(pdestcity));
+
+  caravan_city_id=pdestcity->id; /* callbacks need these */
+  caravan_unit_id=punit->id;
+
+  wonder = get_help_build_wonder_button_label(&can_wonder);
+
+  can_trade = (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+               && can_cities_trade(phomecity, pdestcity));
+  can_establish = can_trade
+                  && can_establish_trade_route(phomecity, pdestcity);
+
+
+  caravan_dialog = popup_choice_dialog(GTK_WINDOW(toplevel),
+    title_buf, buf,
+    (can_establish ? _("Establish _Trade route") :
+    _("Enter Marketplace")),caravan_establish_trade_callback, NULL,
+    wonder,caravan_help_build_wonder_callback, NULL,
+    _("_Keep moving"), NULL, NULL,
+    NULL);
+
+  g_signal_connect(caravan_dialog, "destroy",
+                   G_CALLBACK(caravan_destroy_callback), NULL);
+
+  if (!can_trade) {
+    choice_dialog_button_set_sensitive(caravan_dialog, 0, FALSE);
+  }
+
+  if (!can_wonder) {
+    choice_dialog_button_set_sensitive(caravan_dialog, 1, FALSE);
+  }
+  g_free(wonder);
+}
+
+/****************************************************************
+  Returns whether the caravan dialog is open, and sets
+  caravan id and destination city id, if they are not NULL.
+*****************************************************************/
+bool caravan_dialog_is_open(int* unit_id, int* city_id)
+{
+  if (unit_id) {
+    *unit_id = caravan_unit_id;
+  }
+  if (city_id) {
+    *city_id = caravan_city_id;
+  }
+  return caravan_dialog != NULL;
+}
+
+/****************************************************************
+  Updates caravan dialog
+****************************************************************/
+void caravan_dialog_update(void)
+{
+  bool can_help;
+  gchar *buf = get_help_build_wonder_button_label(&can_help);
+  choice_dialog_button_set_label(caravan_dialog, 1, buf);
+  choice_dialog_button_set_sensitive(caravan_dialog, 1, can_help);
+  g_free(buf);
 }
 
 /**********************************************************************
@@ -359,19 +488,14 @@ static void create_advances_list(struct player *pplayer,
 				  GTK_RESPONSE_ACCEPT);
 
   label = gtk_frame_new(_("Select Advance to Steal"));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), label);
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(spy_tech_shell)->vbox), label);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
+  vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
       
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  gtk_widget_set_hexpand(view, TRUE);
-  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -443,7 +567,7 @@ static void create_advances_list(struct player *pplayer,
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
   
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell)));
+  gtk_widget_show_all(GTK_DIALOG(spy_tech_shell)->vbox);
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
                    G_CALLBACK(spy_advances_callback), args);
@@ -531,19 +655,14 @@ static void create_improvements_list(struct player *pplayer,
 				  GTK_RESPONSE_ACCEPT);
 
   label = gtk_frame_new(_("Select Improvement to Sabotage"));
-  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(spy_sabotage_shell)->vbox), label);
 
-  vbox = gtk_grid_new();
-  gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
-                                 GTK_ORIENTATION_VERTICAL);
-  gtk_grid_set_row_spacing(GTK_GRID(vbox), 6);
+  vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
       
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  gtk_widget_set_hexpand(view, TRUE);
-  gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
@@ -568,7 +687,7 @@ static void create_improvements_list(struct player *pplayer,
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
+  gtk_widget_set_size_request(sw, -1, 200);
   
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
@@ -599,7 +718,7 @@ static void create_improvements_list(struct player *pplayer,
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
   
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell)));
+  gtk_widget_show_all(GTK_DIALOG(spy_sabotage_shell)->vbox);
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
                    G_CALLBACK(spy_improvements_callback), args);
