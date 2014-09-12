@@ -338,7 +338,8 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
   int err;
   char servname[8];
   int gafam;
-  struct fc_sockaddr_list *addrs = fc_sockaddr_list_new();
+  struct fc_sockaddr_list *addrs =
+      fc_sockaddr_list_new_full((fc_sockaddr_list_free_fn_t) free);
 
   switch (family) {
     case FC_ADDR_IPV4:
@@ -378,6 +379,7 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
 
       current = current->ai_next;
     }
+    freeaddrinfo(res);
   }
 
   return addrs;
