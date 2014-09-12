@@ -342,6 +342,8 @@ void free_unit_orders(struct unit *punit);
 
 int get_transporter_occupancy(const struct unit *ptrans);
 struct unit *transporter_for_unit(const struct unit *pcargo);
+struct unit *transporter_for_unit_at(const struct unit *pcargo,
+                                     const struct tile *ptile);
 
 enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                            bool is_free);

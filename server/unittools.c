@@ -1347,7 +1347,7 @@ bool is_airunit_refuel_point(const struct tile *ptile,
     } extra_type_list_iterate_end;
   }
 
-  return (NULL != transport_from_tile(punit, ptile));
+  return unit_could_load_at(punit, ptile);
 }
 
 /**************************************************************************
@@ -2620,7 +2620,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
     if (!can_unit_exist_at_tile(punit, ptile)
         && (!game.info.paradrop_to_transport
-            || NULL == transport_from_tile(punit, ptile))) {
+            || !unit_could_load_at(punit, ptile))) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("This unit cannot paradrop into %s."),
                     terrain_name_translation(tile_terrain(ptile)));
@@ -2684,7 +2684,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     /* Safe terrain, really? Not transformed since player last saw it. */
     if (!can_unit_exist_at_tile(punit, ptile)
         && (!game.info.paradrop_to_transport
-            || NULL == transport_from_tile(punit, ptile))) {
+            || !unit_could_load_at(punit, ptile))) {
       map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
       notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s paradropped into the %s and was lost."),

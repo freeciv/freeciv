@@ -584,7 +584,7 @@ unit_move_to_tile_test(const struct unit *punit,
 
   /* 5) */
   if (!(can_exist_at_tile(punittype, dst_tile)
-        || NULL != transport_from_tile(punit, dst_tile))) {
+        || unit_could_load_at(punit, dst_tile))) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
@@ -653,7 +653,7 @@ unit_move_to_tile_test(const struct unit *punit,
   if (!(is_native_move(utype_class(punittype), src_tile, dst_tile)
         /* Allow non-native moves into cities or boarding transport. */
         || pcity
-        || NULL != transport_from_tile(punit, dst_tile))) {
+        || unit_could_load_at(punit, dst_tile))) {
     return MR_NON_NATIVE_MOVE;
   }
 
@@ -686,20 +686,35 @@ bool can_unit_type_transport(const struct unit_type *transporter,
 }
 
 /****************************************************************************
-  Return the first transporter suitable for given unit from tile. It needs
-  to have free space. To find the best transporter, see
+  Return whether we can find a suitable transporter for given unit at
+  'ptile'. It needs to have free space. To find the best transporter, see
   transporter_for_unit().
 ****************************************************************************/
-struct unit *transport_from_tile(const struct unit *punit,
-                                 const struct tile *ptile)
+bool unit_can_load(const struct unit *punit)
 {
-  unit_list_iterate(ptile->units, ptransport) {
-    if (could_unit_load(punit, ptransport)) {
-      return ptransport;
+  unit_list_iterate(unit_tile(punit)->units, ptransport) {
+    if (can_unit_load(punit, ptransport)) {
+      return TRUE;
     }
   } unit_list_iterate_end;
 
-  return NULL;
+  return FALSE;
+}
+
+/****************************************************************************
+  Return whether we could find a suitable transporter for given unit at
+  'ptile'. It needs to have free space. To find the best transporter, see
+  transporter_for_unit_at().
+****************************************************************************/
+bool unit_could_load_at(const struct unit *punit, const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, ptransport) {
+    if (could_unit_load(punit, ptransport)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
 }
 
 static int move_points_denomlen = 0;

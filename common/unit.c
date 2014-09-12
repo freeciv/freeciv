@@ -1864,20 +1864,21 @@ int get_transporter_occupancy(const struct unit *ptrans)
 }
 
 /****************************************************************************
-  Find the best transporter at the given location for the unit. See also
-  transport_from_tile() to test if a transport might be suitable for
-  'pcargo'.
+  Helper for transporter_for_unit() and transporter_for_unit_at() 
 ****************************************************************************/
-struct unit *transporter_for_unit(const struct unit *pcargo)
+static struct unit *base_transporter_for_unit(const struct unit *pcargo,
+                                              const struct tile *ptile,
+                                              bool (*unit_load_test)
+                                                  (const struct unit *pc,
+                                                   const struct unit *pt))
 {
-  struct unit_list *tile_units = unit_tile(pcargo)->units;
   struct unit *best = NULL;
   bool best_has_orders = FALSE, has_orders;
   bool best_can_freely_unload = FALSE, can_freely_unload;
   int best_depth = 0, depth;
 
-  unit_list_iterate(tile_units, ptrans) {
-    if (!can_unit_load(pcargo, ptrans)) {
+  unit_list_iterate(ptile->units, ptrans) {
+    if (!unit_load_test(pcargo, ptrans)) {
       continue;
     }
 
@@ -1906,6 +1907,27 @@ struct unit *transporter_for_unit(const struct unit *pcargo)
   } unit_list_iterate_end;
 
   return best;
+}
+
+/****************************************************************************
+  Find the best transporter at the given location for the unit. See also
+  unit_can_load() to test if there will be transport might be suitable
+  for 'pcargo'.
+****************************************************************************/
+struct unit *transporter_for_unit(const struct unit *pcargo)
+{
+  return base_transporter_for_unit(pcargo, unit_tile(pcargo), can_unit_load);
+}
+
+/****************************************************************************
+  Find the best transporter at the given location for the unit. See also
+  unit_could_load_at() to test if there will be transport might be suitable
+  for 'pcargo'.
+****************************************************************************/
+struct unit *transporter_for_unit_at(const struct unit *pcargo,
+                                     const struct tile *ptile)
+{
+  return base_transporter_for_unit(pcargo, ptile, could_unit_load);
 }
 
 /****************************************************************************

@@ -211,7 +211,7 @@ bool units_are_occupied(const struct unit_list *punits)
 bool units_can_load(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (transporter_for_unit(punit)) {
+    if (unit_can_load(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;
