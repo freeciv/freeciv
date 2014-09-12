@@ -60,6 +60,7 @@
 static bool send_tile_suppressed = FALSE;
 
 static void player_tile_init(struct tile *ptile, struct player *pplayer);
+static void player_tile_free(struct tile *ptile, struct player *pplayer);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 struct tile *ptile);
@@ -1090,6 +1091,10 @@ void player_map_free(struct player *pplayer)
     return;
   }
 
+  whole_map_iterate(ptile) {
+    player_tile_free(ptile, pplayer);
+  } whole_map_iterate_end;
+
   free(pplayer->server.private_map);
   pplayer->server.private_map = NULL;
 
@@ -1176,6 +1181,18 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->seen_count[V_MAIN] = !game.server.fogofwar_old;
   plrtile->seen_count[V_INVIS] = 0;
   memcpy(plrtile->own_seen, plrtile->seen_count, sizeof(v_radius_t));
+}
+
+/****************************************************************************
+  Free the memory stored into the player tile.
+****************************************************************************/
+static void player_tile_free(struct tile *ptile, struct player *pplayer)
+{
+  struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+
+  if (plrtile->site != NULL) {
+    vision_site_destroy(plrtile->site);
+  }
 }
 
 /****************************************************************************
