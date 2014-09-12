@@ -152,8 +152,8 @@ void chatwdg::anchor_clicked(const QUrl &link)
   break;
   }
   if (ptile) {
-            center_tile_mapcanvas(ptile);
-          link_mark_restore(type, id);
+    center_tile_mapcanvas(ptile);
+    link_mark_restore(type, id);
   }
 }
 
@@ -278,7 +278,7 @@ QString apply_tags(QString str, const struct text_tag_list *tags)
   QString color;
   QColor qc;
   QMultiMap <int, QString> mm;
-  qba = str.toLocal8Bit();
+  qba = str.toUtf8();
   if (tags == NULL) {
     return str;
   }
