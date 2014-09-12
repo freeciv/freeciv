@@ -2020,6 +2020,7 @@ static void show_ruleset_info(struct connection *caller, enum command_id cmd,
     fc_break_lines(translated, LINE_BREAK);
     cmd_reply(cmd, caller, C_COMMENT, "%s", translated);
     cmd_reply(cmd, caller, C_COMMENT, horiz_line);
+    free(translated);
   }
 }
 
