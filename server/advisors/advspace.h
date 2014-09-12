@@ -13,13 +13,15 @@
 #ifndef FC__ADVSPACE_H
 #define FC__ADVSPACE_H
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "fc_types.h"
 
 struct player_spaceship;
 
-bool dai_spaceship_autoplace(struct player *pplayer,
+bool adv_spaceship_autoplace(struct player *pplayer,
                              struct player_spaceship *ship);
 
 #endif  /* FC__ADVSPACE_H */

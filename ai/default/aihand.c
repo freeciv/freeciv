@@ -101,11 +101,12 @@ static void dai_manage_spaceship(struct player *pplayer)
 {
   if (victory_enabled(VC_SPACERACE)) {
     if (pplayer->spaceship.state == SSHIP_STARTED) {
-      dai_spaceship_autoplace(pplayer, &pplayer->spaceship);
+      adv_spaceship_autoplace(pplayer, &pplayer->spaceship);
+
       /* if we have built the best possible spaceship  -- AJS 19990610 */
-      if ((pplayer->spaceship.structurals == NUM_SS_STRUCTURALS) &&
-        (pplayer->spaceship.components == NUM_SS_COMPONENTS) &&
-        (pplayer->spaceship.modules == NUM_SS_MODULES))
+      if ((pplayer->spaceship.structurals == NUM_SS_STRUCTURALS)
+          && (pplayer->spaceship.components == NUM_SS_COMPONENTS)
+          && (pplayer->spaceship.modules == NUM_SS_MODULES))
         handle_spaceship_launch(pplayer);
     }
   }

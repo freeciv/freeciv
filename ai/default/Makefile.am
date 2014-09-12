@@ -11,8 +11,6 @@ libdefaultai_la_SOURCES = \
 		advmilitary.h	\
 		advdiplomacy.c	\
 		advdiplomacy.h	\
-		advspace.c	\
-		advspace.h	\
 		aiair.c		\
 		aiair.h		\
 		aicity.c	\

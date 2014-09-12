@@ -28,7 +28,7 @@
 /****************************************************************************
   Place all available spaceship components.
 ****************************************************************************/
-bool dai_spaceship_autoplace(struct player *pplayer,
+bool adv_spaceship_autoplace(struct player *pplayer,
                              struct player_spaceship *ship)
 {
   struct spaceship_component place;
