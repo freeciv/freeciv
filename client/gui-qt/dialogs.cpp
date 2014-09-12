@@ -1167,7 +1167,7 @@ static void popup_action_selction(struct unit *actor_unit,
     }
   }
 
-  if ((target_unit = unit_list_get(target_tile->units, 0))) {
+  if (target_unit) {
     /* Spy/Diplomat acting against a unit */
 
     qv2 = target_unit->id;
