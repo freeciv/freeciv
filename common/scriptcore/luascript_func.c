@@ -127,7 +127,6 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
                   func_name);
   } else {
     enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
-    char *name = fc_strdup(func_name);
     int i;
 
     for (i = 0; i < nargs; i++) {
@@ -136,7 +135,7 @@ void luascript_func_add_valist(struct fc_lua *fcl, const char *func_name,
 
     pfunc = func_new(required, nargs, parg_types);
 
-    luascript_func_hash_insert(fcl->funcs, name, pfunc);
+    luascript_func_hash_insert(fcl->funcs, func_name, pfunc);
   }
 }
 
