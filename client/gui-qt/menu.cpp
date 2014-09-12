@@ -35,6 +35,7 @@
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
+#include "gotodlg.h"
 #include "gui_main.h"
 #include "messagedlg.h"
 #include "plrdlg.h"
@@ -245,6 +246,10 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("shift+g")));
   menu_list.insertMulti(GOTO_CITY, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_return_to_city()));
+  act = menu->addAction(_("Go to/Airlift to City..."));
+  act->setShortcut(QKeySequence(tr("t")));
+  menu_list.insertMulti(AIRLIFT, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_airlift()));
   menu->addSeparator();
   act = menu->addAction(_("Auto Explore"));
   menu_list.insertMulti(EXPLORE, act);
@@ -556,7 +561,8 @@ void mr_menu::menus_sensitive()
             i.value()->setText(QString(_("Transform to %1")).
                                /* TRANS: Transfrom terrain to specific type */
                                arg(QString(get_tile_change_menu_text
-                                           (unit_tile(punit), ACTIVITY_IRRIGATE))));
+                                           (unit_tile(punit),
+                                           ACTIVITY_IRRIGATE))));
           } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
                      && player_knows_techs_with_flag(unit_owner(punit),
                                                      TF_FARMLAND)) {
@@ -720,6 +726,12 @@ void mr_menu::menus_sensitive()
         break;
 
       case GOTO_CITY:
+        if (any_cities) {
+          i.value()->setEnabled(true);
+        }
+        break;
+
+      case AIRLIFT:
         if (any_cities) {
           i.value()->setEnabled(true);
         }
@@ -1185,6 +1197,14 @@ void mr_menu::slot_return_to_city()
   unit_list_iterate(get_units_in_focus(), punit) {
     request_unit_return(punit);
   } unit_list_iterate_end;
+}
+
+/***************************************************************************
+  Action "GOTO/AIRLIFT TO CITY"
+***************************************************************************/
+void mr_menu::slot_airlift()
+{
+  popup_goto_dialog();
 }
 
 /***************************************************************************

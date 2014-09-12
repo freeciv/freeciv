@@ -51,6 +51,7 @@ enum munit {
   CONNECT_RAIL,
   CONNECT_IRRIGATION,
   GOTO_CITY,
+  AIRLIFT,
   BUILD_WONDER,
   ORDER_TRADEROUTE,
   ORDER_DIPLOMAT_DLG,
@@ -108,6 +109,7 @@ private slots:
   void slot_unit_sentry();
   void slot_unit_explore();
   void slot_unit_goto();
+  void slot_airlift();
   void slot_return_to_city();
   void slot_patrol();
   void slot_unsentry();
