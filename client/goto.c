@@ -939,8 +939,9 @@ bool goto_get_turns(int *min, int *max)
     } else if (goto_map->template.moves_left_initially > 0) {
       turns = (mp == 0);
     } else {
-      /* Immobile unit can never reach destination. */
-      continue;
+      /* Immobile unit: it is current position, or it would have returned
+       * when testing 'goto_destination'. */
+      turns = 0;
     }
 
     if (min) {
