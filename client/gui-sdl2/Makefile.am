@@ -7,9 +7,9 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
         $(gui_sdl2_cflags)
 
 libgui_sdl2_la_SOURCES = \
+	action_dialog.c \
 	canvas.c	\
 	canvas.h	\
-	caravan_dialog.c \
 	chatline.c	\
 	chatline.h	\
 	citydlg.c	\
@@ -26,7 +26,6 @@ libgui_sdl2_la_SOURCES = \
 	dialogs.h	\
 	diplodlg.c	\
 	diplodlg.h	\
-	diplomat_dialog.c \
 	finddlg.c	\
 	finddlg.h	\
 	gotodlg.c	\
