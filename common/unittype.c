@@ -1097,6 +1097,7 @@ void unit_types_init(void)
    * num_unit_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
     unit_types[i].item_number = i;
+    unit_types[i].helptext = NULL;
     unit_types[i].veteran = NULL;
     unit_types[i].bonuses = combat_bonus_list_new();
   }
@@ -1124,9 +1125,13 @@ static void unit_type_free(struct unit_type *punittype)
 ***************************************************************/
 void unit_types_free(void)
 {
-  unit_type_iterate(punittype) {
-    unit_type_free(punittype);
-  } unit_type_iterate_end;
+  int i;
+
+  /* Can't use unit_type_iterate or utype_by_number here because
+   * we want to free what unit_types_init() has allocated. */
+  for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
+    unit_type_free(unit_types + i);
+  }
 }
 
 /***************************************************************
