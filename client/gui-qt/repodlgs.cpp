@@ -403,10 +403,18 @@ void real_science_report_dialog_update(void)
 **************************************************************************/
 units_report::units_report(): QWidget()
 {
+  QLabel *empty1, *empty2;
+  int len;
+
   QGridLayout *units_layout= new QGridLayout;
   units_widget = new QTableWidget;
-  find_button = new QPushButton;
-  upgrade_button = new QPushButton;
+  find_button = new QPushButton(style()->standardIcon(
+                          QStyle::SP_ToolBarHorizontalExtensionButton),
+                          _("Find Nearest"));
+  upgrade_button = new QPushButton(style()->standardIcon(
+                          QStyle::SP_FileDialogToParent),_("Upgrade"));
+  empty1 = new QLabel;
+  empty2 = new QLabel;
   QStringList slist;
   slist << _("Unit Type") << Q_("?Upgradable unit [short]:U") << _("In-Prog") 
         << _("Active") << _("Shield") << _("Food") << _("Gold");
@@ -419,13 +427,17 @@ units_report::units_report(): QWidget()
                                                    ResizeToContents);
   units_widget->verticalHeader()->setVisible(false);
   units_widget->setSelectionMode(QAbstractItemView::SingleSelection);
-  find_button->setText(_("Find _Nearest"));
   find_button->setEnabled(false);
   upgrade_button->setText(_("Upgrade"));
   upgrade_button->setEnabled(false);
-  units_layout->addWidget(units_widget, 1, 0, 5, 5);
-  units_layout->addWidget(find_button, 0, 0, 1, 1);
-  units_layout->addWidget(upgrade_button, 0, 1, 1, 1);
+  units_layout->addWidget(empty1, 0, 0, 1, 1);
+  units_layout->addWidget(units_widget, 0, 1, 1, 2);
+  units_layout->addWidget(find_button, 1, 2, 1, 1, Qt::AlignRight);
+  units_layout->addWidget(upgrade_button, 1, 1, 1, 1);
+  units_layout->addWidget(empty2, 0, 3, 1, 1);
+  units_layout->setColumnStretch(0, 1);
+  units_layout->setColumnStretch(1, 10);
+  units_layout->setColumnStretch(3, 1);
 
   connect(find_button, SIGNAL(pressed()), SLOT(find_units()));
   connect(upgrade_button, SIGNAL(pressed()), SLOT(upgrade_units()));
@@ -435,6 +447,10 @@ units_report::units_report(): QWidget()
           SLOT(selection_changed(const QItemSelection &,
                                  const QItemSelection &)));
   setLayout(units_layout);
+  len = units_widget->horizontalHeader()->length() + 3;
+  units_widget->setFixedWidth(len);
+  find_button->setFixedWidth(len / 3);
+  upgrade_button->setFixedWidth(len / 3);
 }
 
 
@@ -476,6 +492,14 @@ void units_report::update_report()
   struct urd_info unit_totals;
   struct urd_info *info;
   QVariant qvar;
+  QPixmap *pix;
+  QPixmap pix_scaled;
+  struct sprite *sprite;
+  QFont f = QApplication::font();
+  int h;
+  int len;
+  QFontMetrics fm(f);
+  h = fm.height() + 6;
 
   units_widget->setRowCount(0);
   units_widget->clearContents();
@@ -520,13 +544,22 @@ void units_report::update_report()
     units_widget->setRowCount(row + 1);
     for (column = 0; column < 7; column++) {
       unit_item = new QTableWidgetItem;
-      unit_item->setTextAlignment(Qt::AlignHCenter);
+      unit_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
       switch (column) {
       case 0:
         unit_item->setTextAlignment(Qt::AlignLeft);
         unit_item->setText(utype_name_translation(utype));
         qvar = utype_id;
         unit_item->setData(Qt::UserRole, qvar);
+        sprite = get_unittype_sprite(tileset, utype, direction8_invalid(),
+                                     true);
+        if (sprite != NULL) {
+          pix = sprite->pm;
+          pix_scaled = pix->scaledToHeight(h);
+        } else {
+          pix_scaled.fill();
+        }
+        unit_item->setData(Qt::DecorationRole, pix_scaled);
         break;
       case 1:
         if ((client_has_player()
@@ -535,6 +568,7 @@ void units_report::update_report()
         } else {
           unit_item->setCheckState(Qt::Unchecked);
         }
+        unit_item->setFlags(Qt::ItemIsSelectable);
         break;
       case 2:
         unit_item->setText(QString::number(info->building_count));
@@ -575,6 +609,7 @@ void units_report::update_report()
       break;
     case 1:
       unit_item->setCheckState(Qt::Unchecked);
+      unit_item->setFlags(Qt::ItemIsSelectable);
       break;
     case 2:
       unit_item->setText(QString::number(unit_totals.building_count));
@@ -594,7 +629,11 @@ void units_report::update_report()
     }
     units_widget->setItem(row - 1, column, unit_item);
   }
-  units_widget->resizeRowsToContents();
+  units_widget->resizeColumnsToContents();
+  len = units_widget->horizontalHeader()->length() + 3;
+  units_widget->setFixedWidth(len);
+  find_button->setFixedWidth(len / 3);
+  upgrade_button->setFixedWidth(len / 3);
   max_row = row - 1;
 }
 
