@@ -50,7 +50,6 @@
  * to move, end_tile equals start_tile and path is NULL.
  */
 struct part {
-  int start_moves_left, start_fuel_left;
   struct tile *start_tile, *end_tile;
   int end_moves_left, end_fuel_left;
   int mp; /* scaled by SINGLE_MOVE */
@@ -323,16 +322,24 @@ static void add_part(struct goto_map *goto_map)
   if (goto_map->num_parts == 1) {
     /* first part */
     p->start_tile = unit_tile(punit);
-    p->start_moves_left = parameter.moves_left_initially;
-    p->start_fuel_left = parameter.fuel_left_initially;
   } else {
     struct part *prev = &goto_map->parts[goto_map->num_parts - 2];
 
     p->start_tile = prev->end_tile;
-    p->start_moves_left = prev->end_moves_left;
-    p->start_fuel_left = prev->end_fuel_left;
-    parameter.moves_left_initially = p->start_moves_left;
-    parameter.fuel_left_initially = p->start_fuel_left;
+    parameter.moves_left_initially = prev->end_moves_left;
+    parameter.fuel_left_initially = prev->end_fuel_left;
+    if (prev->end_tile == prev->start_tile) {
+      parameter.transported_by_initially =
+          pf_map_parameter(prev->map)->transported_by_initially;
+    } else if (can_exist_at_tile(parameter.utype, p->start_tile)) {
+      parameter.transported_by_initially = NULL;
+    } else {
+      const struct unit *transporter =
+          transporter_for_unit_at(punit, p->start_tile);
+
+      parameter.transported_by_initially = (transporter != NULL
+                                            ? unit_type(transporter) : NULL);
+    }
   }
   p->path = NULL;
   p->end_tile = p->start_tile;
