@@ -49,6 +49,7 @@
 
 static GtkWidget *diplomat_dialog;
 static int diplomat_id;
+static bool is_more_user_input_needed = FALSE;
 
 static GtkWidget  *spy_tech_shell;
 
@@ -85,6 +86,28 @@ static struct action_data *act_data(int actor_unit_id,
   return data;
 }
 
+/**************************************************************************
+  Move the queue of units that need user input forward unless the current
+  unit are going to need more input.
+**************************************************************************/
+static void diplomat_queue_handle_primary(void)
+{
+  if (!is_more_user_input_needed) {
+    choose_action_queue_next();
+  }
+}
+
+/**************************************************************************
+  Move the queue of diplomats that need user input forward since the
+  current diplomat got the extra input that was required.
+**************************************************************************/
+static void diplomat_queue_handle_secondary(void)
+{
+  /* Stop waiting. Move on to the next queued diplomat. */
+  is_more_user_input_needed = FALSE;
+  diplomat_queue_handle_primary();
+}
+
 /**********************************************************************
   User responded to bribe dialog
 **********************************************************************/
@@ -99,6 +122,9 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
 
   gtk_widget_destroy(w);
   free(args);
+
+  /* The user have answered the follow up question. Move on. */
+  diplomat_queue_handle_secondary();
 }
 
 /****************************************************************
@@ -113,6 +139,10 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
     request_action_details(ACTION_SPY_BRIBE_UNIT, args->actor_unit_id,
                            args->target_unit_id);
   }
+
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
 
   gtk_widget_destroy(diplomat_dialog);
   free(args);
@@ -273,6 +303,9 @@ static void spy_advances_response(GtkWidget *w, gint response,
   gtk_widget_destroy(spy_tech_shell);
   spy_tech_shell = NULL;
   free(data);
+
+  /* The user have answered the follow up question. Move on. */
+  diplomat_queue_handle_secondary();
 }
 
 /****************************************************************
@@ -437,6 +470,9 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   gtk_widget_destroy(spy_sabotage_shell);
   spy_sabotage_shell = NULL;
   free(args);
+
+  /* The user have answered the follow up question. Move on. */
+  diplomat_queue_handle_secondary();
 }
 
 /****************************************************************
@@ -591,6 +627,10 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
     free(args);
   }
 
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
+
   gtk_widget_destroy(diplomat_dialog);
 }
 
@@ -608,6 +648,10 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
                            args->actor_unit_id,
                            args->target_city_id);
   }
+
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
 
   gtk_widget_destroy(diplomat_dialog);
   free(args);
@@ -640,6 +684,10 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
                            args->target_city_id);
   }
 
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
+
   gtk_widget_destroy(diplomat_dialog);
   free(args);
 }
@@ -658,6 +706,9 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
 
   gtk_widget_destroy(w);
   free(args);
+
+  /* The user have answered the follow up question. Move on. */
+  diplomat_queue_handle_secondary();
 }
 
 /*************************************************************************
@@ -735,7 +786,7 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
 static void diplomat_destroy_callback(GtkWidget *w, gpointer data)
 {
   diplomat_dialog = NULL;
-  choose_action_queue_next();
+  diplomat_queue_handle_primary();
 }
 
 /****************************************************************
@@ -813,6 +864,14 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                                       (ptunit) ? ptunit->id : 0,
                                       (dest_tile) ? dest_tile->index : 0,
                                       0);
+
+  /* Could be caused by the server failing to reply to a request for more
+   * information or a bug in the client code. */
+  fc_assert_msg(!is_more_user_input_needed,
+                "Diplomat queue problem. Is another diplomat window open?");
+
+  /* No extra input is required as no action has been chosen yet. */
+  is_more_user_input_needed = FALSE;
 
   actor_homecity = game_city_by_number(punit->homecity);
 
