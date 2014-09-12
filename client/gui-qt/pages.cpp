@@ -602,6 +602,8 @@ void fc_client::create_game_page()
   infotab->show();
   x_vote = new xvote(mapview_wdg);
   x_vote->hide();
+  gtd = new goto_dialog(mapview_wdg);
+  gtd->hide();
 
   game_layout->addWidget(mapview_wdg, 1, 0);
   game_main_widget->setLayout(game_layout);

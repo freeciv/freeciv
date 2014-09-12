@@ -94,6 +94,7 @@ fc_client::fc_client() : QObject()
   quitting = false;
   pre_vote = NULL;
   x_vote = NULL;
+  gtd = NULL;
   for (int i = 0; i <= PAGE_GGZ; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;

@@ -35,6 +35,7 @@
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
+#include "gotodlg.h"
 #include "gui_main.h"
 #include "messagedlg.h"
 #include "plrdlg.h"
@@ -245,6 +246,10 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("shift+g")));
   menu_list.insertMulti(GOTO_CITY, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_return_to_city()));
+  act = menu->addAction(_("Go to/Airlift to City..."));
+  act->setShortcut(QKeySequence(tr("t")));
+  menu_list.insertMulti(AIRLIFT, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_airlift()));
   menu->addSeparator();
   act = menu->addAction(_("Auto Explore"));
   menu_list.insertMulti(EXPLORE, act);
@@ -778,6 +783,12 @@ void mr_menu::menus_sensitive()
         }
         break;
 
+      case AIRLIFT:
+        if (any_cities) {
+          i.value()->setEnabled(true);
+        }
+        break;
+
       case BUILD_WONDER:
         if (can_units_do(punits, unit_can_help_build_wonder_here)) {
           i.value()->setEnabled(true);
@@ -1246,6 +1257,14 @@ void mr_menu::slot_return_to_city()
   unit_list_iterate(get_units_in_focus(), punit) {
     request_unit_return(punit);
   } unit_list_iterate_end;
+}
+
+/***************************************************************************
+  Action "GOTO/AIRLIFT TO CITY"
+***************************************************************************/
+void mr_menu::slot_airlift()
+{
+  popup_goto_dialog();
 }
 
 /***************************************************************************

@@ -49,6 +49,7 @@
 #include "canvas.h"
 #include "chatline.h"
 #include "dialogs.h"
+#include "gotodlg.h"
 #include "mapview.h"
 #include "messagewin.h"
 #include "menu.h"
@@ -190,6 +191,7 @@ public:
   info_tab *infotab;
   pregamevote *pre_vote;
   xvote *x_vote;
+  goto_dialog *gtd;
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
