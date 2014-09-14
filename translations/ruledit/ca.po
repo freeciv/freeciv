@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-12 19:10+0100\n"
-"PO-Revision-Date: 2013-07-29 19:14+0200\n"
+"PO-Revision-Date: 2014-09-14 12:42+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -36,104 +36,91 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opció no reconeguda: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:58
-#, fuzzy
 msgid "Freeciv ruleset editor"
-msgstr "Llista de Servidors de Freeciv:"
+msgstr "Editor de jocs de regles de Freeciv"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
 #: tools/ruledit/ruledit_qt.cpp:96
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "El necessita %s"
 
 #: tools/ruledit/ruledit_qt.cpp:119
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Donar un joc de regles per utilitzar com a punt de partida."
 
 #: tools/ruledit/ruledit_qt.cpp:125
-#, fuzzy
 msgid "Start editing"
-msgstr "Posició Inicial"
+msgstr "Començar a editar"
 
 #: tools/ruledit/ruledit_qt.cpp:135
 msgid "Misc"
-msgstr ""
+msgstr "Diversos"
 
 #: tools/ruledit/ruledit_qt.cpp:137
-#, fuzzy
 msgid "Tech"
-msgstr "_Tecnologies"
+msgstr "Tecnologia"
 
 #: tools/ruledit/ruledit_qt.cpp:146
-#, fuzzy
 msgid "Welcome to freeciv-ruledit"
-msgstr "Benvingut a Freeciv"
+msgstr "Benvingut a freeciv-ruledit"
 
 #: tools/ruledit/ruledit_qt.cpp:181
-#, fuzzy
 msgid "Ruleset loaded"
-msgstr "Joc de regles"
+msgstr "Joc de regles carregat"
 
 #: tools/ruledit/ruledit_qt.cpp:186
 msgid "Ruleset loading failed!"
-msgstr ""
+msgstr "Ha fallat la càrrega del joc de regles!"
 
 #: tools/ruledit/tab_misc.cpp:53
-#, fuzzy
 msgid "Ruleset name"
-msgstr "Joc de regles"
+msgstr "Nom del Joc de Regles"
 
 #: tools/ruledit/tab_misc.cpp:58
-#, fuzzy
 msgid "Ruleset version"
-msgstr "_Versió de Joc de Regles:"
+msgstr "Versió del Joc de Regles:"
 
 #: tools/ruledit/tab_misc.cpp:63
-#, fuzzy
 msgid "Save to directory"
-msgstr "Desar les partides al directori DIR"
+msgstr "Desar al directori"
 
 #: tools/ruledit/tab_misc.cpp:70
-#, fuzzy
 msgid "Save now"
-msgstr "Desar Escenari"
+msgstr "Desar ara"
 
 #: tools/ruledit/tab_misc.cpp:106
-#, fuzzy
 msgid "Ruleset saved"
-msgstr "Joc de regles"
+msgstr "Joc de regles desat"
 
 #: tools/ruledit/tab_tech.cpp:61
 msgid "Name"
 msgstr "Nom"
 
 #: tools/ruledit/tab_tech.cpp:69
-#, fuzzy
 msgid "Rule Name"
-msgstr "Nom del jugador:"
+msgstr "Nom de Regla"
 
 #: tools/ruledit/tab_tech.cpp:77
 msgid "Req1"
-msgstr ""
+msgstr "Req1"
 
 #: tools/ruledit/tab_tech.cpp:86
 msgid "Req2"
-msgstr ""
+msgstr "Req2"
 
 #: tools/ruledit/tab_tech.cpp:94
 msgid "Root Req"
-msgstr ""
+msgstr "Req Arrel"
 
 #: tools/ruledit/tab_tech.cpp:103
-#, fuzzy
 msgid "Add tech"
-msgstr "Afegir al Final"
+msgstr "Afegir tecnologia"
 
 #: tools/ruledit/tab_tech.cpp:107
-#, fuzzy
 msgid "Remove this tech"
-msgstr "Eliminar aquest prefixat?"
+msgstr "Treure aquesta tecnologia"
 
 #: tools/ruledit/tab_tech.cpp:186
 msgid "Never"
@@ -141,9 +128,9 @@ msgstr "Mai"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "Efecte"
 
 #: tools/ruledit/validity.c:145
-#, fuzzy
 msgid "Music Style"
-msgstr "_Estil de les ciutats:"
+msgstr "Estil Musical"
+
