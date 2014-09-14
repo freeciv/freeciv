@@ -2509,6 +2509,7 @@ void do_unit_nuke(struct tile *ptile)
 
   if (is_valid_goto_draw_line(ptile)) {
     struct client_nuke_data *data = fc_malloc(sizeof(*data));
+    int last_request_id_used = client.conn.client.last_request_id_used;
     int i = 0;
 
     data->units_id = fc_malloc(sizeof(*data->units_id)
@@ -2520,9 +2521,19 @@ void do_unit_nuke(struct tile *ptile)
     data->tile_idx = tile_index(ptile);
 
     send_goto_route();
-    update_queue_connect_processing_finished_full
-        (client.conn.client.last_request_id_used,
-         do_real_unit_nuke, data, client_nuke_data_destroy);
+
+    if (last_request_id_used != client.conn.client.last_request_id_used) {
+      /* We sent some packets, let's wait the server to process them to know
+       * where our units hold. */
+      update_queue_connect_processing_finished_full
+          (client.conn.client.last_request_id_used,
+           do_real_unit_nuke, data, client_nuke_data_destroy);
+    } else {
+      /* We didn't sent the packets, that mean that the route was nil, or
+       * an internal error occured. Process nuke units now. */
+      do_real_unit_nuke(data);
+      client_nuke_data_destroy(data);
+    }
   } else {
     create_event(ptile, E_BAD_COMMAND, ftc_client,
                  _("Didn't find a route to the destination!"));
