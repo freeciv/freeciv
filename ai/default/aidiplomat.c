@@ -246,7 +246,8 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
 	&& !pplayers_allied(pplayer, city_owner(acity))) {
       /* tech theft gain */
       /* FIXME: this value is right only when
-       * 'game.info.game.info.tech_cost_style' is set to 0. */
+       * 'game.info.game.info.tech_cost_style' is set to
+       * TECH_COST_CIV1CIV2. */
       gain_theft =
           (research_total_bulbs_required(presearch, presearch->researching,
                                          FALSE) * TRADE_WEIGHTING);

@@ -662,4 +662,18 @@ enum spaceship_place_type {
   SSHIP_PLACE_SOLAR_PANELS
 };
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME tech_cost_style
+#define SPECENUM_VALUE0 TECH_COST_CIV1CIV2
+#define SPECENUM_VALUE0NAME "Civ I|II"
+#define SPECENUM_VALUE1 TECH_COST_CLASSIC
+#define SPECENUM_VALUE1NAME "Classic"
+#define SPECENUM_VALUE2 TECH_COST_CLASSIC_PRESET
+#define SPECENUM_VALUE2NAME "Classic+"
+#define SPECENUM_VALUE3 TECH_COST_EXPERIMENTAL
+#define SPECENUM_VALUE3NAME "Experimental"
+#define SPECENUM_VALUE4 TECH_COST_EXPERIMENTAL_PRESET
+#define SPECENUM_VALUE4NAME "Experimental+"
+#include "specenum_gen.h"
+
 #endif /* FC__FC_TYPES_H */

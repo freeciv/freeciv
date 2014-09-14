@@ -5146,20 +5146,26 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                            "borders.size_effect");
 
     /* section: research */
-    game.info.tech_cost_style
-      = secfile_lookup_int_default_min_max(file,
-                                           RS_DEFAULT_TECH_COST_STYLE,
-                                           RS_MIN_TECH_COST_STYLE,
-                                           RS_MAX_TECH_COST_STYLE,
-                                           "research.tech_cost_style");
+    tus_text = secfile_lookup_str_default(file, RS_DEFAULT_TECH_COST_STYLE,
+                                          "research.tech_cost_style");
+    game.info.tech_cost_style = tech_cost_style_by_name(tus_text,
+                                                        fc_strcasecmp);
+    if (!tech_cost_style_is_valid(game.info.tech_cost_style)) {
+      ruleset_error(LOG_ERROR, "Unknown tech cost style \"%s\"",
+                    tus_text);
+      ok = FALSE;
+    }
+
     game.info.tech_leakage
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_TECH_LEAKAGE,
                                            RS_MIN_TECH_LEAKAGE,
                                            RS_MAX_TECH_LEAKAGE,
                                            "research.tech_leakage");
-    if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
-      log_error("Only tech_leakage 0 supported with tech_cost_style 0.");
+    if (game.info.tech_cost_style == TECH_COST_CIV1CIV2
+        && game.info.tech_leakage != 0) {
+      log_error("Only tech_leakage 0 supported with tech_cost_style %s.",
+                tech_cost_style_name(TECH_COST_CIV1CIV2));
       log_error("Switching to tech_leakage 0.");
       game.info.tech_leakage = 0;
     }

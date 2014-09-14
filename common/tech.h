@@ -123,7 +123,7 @@ struct advance {
 
   /* Cost of advance in bulbs. It may be specified in ruleset, or
    * calculated in tech_precalc_data(). However, this value wouldn't
-   * be right if game.info.tech_cost_style is 0. */
+   * be right if game.info.tech_cost_style is TECH_COST_CIV1CIV2. */
   double cost;
 
   /* 

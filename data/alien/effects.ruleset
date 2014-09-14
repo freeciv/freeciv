@@ -2,7 +2,7 @@
 
 [datafile]
 description="Alien World effects data for Freeciv"
-options="+Freeciv-ruleset-Devel-2013.May.14"
+options="+Freeciv-ruleset-Devel-2014.September.14a"
 
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings

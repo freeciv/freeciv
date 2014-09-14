@@ -610,7 +610,7 @@ void dai_treaty_evaluate(struct ai_type *ait, struct player *pplayer,
     if (pclause->type != CLAUSE_GOLD && pclause->type != CLAUSE_MAP
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
-            || game.info.tech_cost_style != 0
+            || game.info.tech_cost_style != TECH_COST_CIV1CIV2
             || pclause->value == research_get(pplayer)->tech_goal
             || pclause->value == research_get(pplayer)->researching
             || research_goal_tech_req(presearch, presearch->tech_goal,

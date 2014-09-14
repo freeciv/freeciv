@@ -794,9 +794,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.border_size_effect,
                    RS_DEFAULT_BORDER_SIZE_EFFECT,
                    "borders.size_effect", NULL);
-  save_default_int(sfile, game.info.tech_cost_style,
-                   RS_DEFAULT_TECH_COST_STYLE,
-                   "research.tech_cost_style", NULL);
+  secfile_insert_str(sfile, tech_cost_style_name(game.info.tech_cost_style),
+                     "research.tech_cost_style");
   save_default_int(sfile, game.info.base_tech_cost,
                    RS_DEFAULT_BASE_TECH_COST,
                    "research.base_tech_cost", NULL);

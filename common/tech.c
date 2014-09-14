@@ -205,6 +205,9 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 ****************************************************************************/
 void techs_precalc_data(void)
 {
+  fc_assert_msg(tech_cost_style_is_valid(game.info.tech_cost_style),
+                "Invalid tech_cost_style %d", game.info.tech_cost_style);
+
   advance_iterate(A_FIRST, padvance) {
     int num_reqs = 0;
 
@@ -215,27 +218,26 @@ void techs_precalc_data(void)
     padvance->num_reqs = num_reqs;
 
     switch (game.info.tech_cost_style) {
-    case 0:
+    case TECH_COST_CIV1CIV2:
       padvance->cost = game.info.base_tech_cost * num_reqs;
       break;
-    case 2:
+    case TECH_COST_CLASSIC_PRESET:
       if (-1 != padvance->cost) {
         continue;
       }
-    case 1:
+      /* No break. */
+    case TECH_COST_CLASSIC:
       padvance->cost = game.info.base_tech_cost * (1.0 + num_reqs)
                        * sqrt(1.0 + num_reqs) / 2;
       break;
-    case 4:
+    case TECH_COST_EXPERIMENTAL_PRESET:
       if (-1 != padvance->cost) {
         continue;
       }
-    case 3:
+      /* No break. */
+    case TECH_COST_EXPERIMENTAL:
       padvance->cost = game.info.base_tech_cost * ((num_reqs) * (num_reqs)
                            / (1 + sqrt(sqrt(num_reqs + 1))) - 0.5);
-      break;
-    default:
-      log_error("Invalid tech_cost_style %d", game.info.tech_cost_style);
       break;
     }
 
@@ -356,7 +358,8 @@ const char *tech_flag_helptxt(enum tech_flag_id id)
 **************************************************************************/
 bool techs_have_fixed_costs()
 {
-  return (game.info.tech_leakage == 0 && game.info.tech_cost_style != 0);
+  return (game.info.tech_leakage == 0
+          && game.info.tech_cost_style != TECH_COST_CIV1CIV2);
 }
 
 /****************************************************************************
