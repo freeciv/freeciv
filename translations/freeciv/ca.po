@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 17:51+0200\n"
-"PO-Revision-Date: 2014-08-21 18:08+0200\n"
+"PO-Revision-Date: 2014-09-14 12:38+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4861,7 +4861,7 @@ msgstr "%s%s, client %s"
 #: client/gui-gtk-2.0/pages.c:175 client/gui-gtk-3.0/pages.c:176
 #, c-format
 msgid "%s%s (%s), %s client"
-msgstr "Cient %s, %s%s (%s)"
+msgstr "%s%s (%s), client %s"
 
 #: client/gui-gtk-2.0/pages.c:249 client/gui-gtk-3.0/pages.c:258
 msgid "Start _New Game"
@@ -35543,17 +35543,17 @@ msgstr "El teu %s ha enverinat l'aigua de %s."
 #: server/diplomats.c:119
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr "%s està sota sospita d'haver enverinat l'aigua de %s."
+msgstr "Se sospita que %s ha enverinat el subministre d'aigua de %s."
 
 #: server/diplomats.c:128
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s destroyed %s by poisoning its water supply."
-msgstr "El teu %s no ha pogut enverinar l'aigua de %s."
+msgstr "El teu %s ha destruït %s enverinant-ne el subministre d'aigua."
 
 #: server/diplomats.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "%s is suspected of destroying %s by poisoning its water supply."
-msgstr "%s està sota sospita d'haver enverinat l'aigua de %s."
+msgstr "Se sospita que %s ha destruït %s enverinant-ne el subministre d'aigua."
 
 #: server/diplomats.c:272
 #, c-format
@@ -35806,57 +35806,57 @@ msgstr "Has provocat un incident en subornar el %2$s %1$s."
 #: server/diplomats.c:1362
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
-msgstr "%s ha causat un incident en subornar els teus %s."
+msgstr "%s ha provocat un incident en subornar els teus %s."
 
 #: server/diplomats.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while sabotaging the %s %s."
-msgstr "Has provocat un incident en subornar el %2$s %1$s."
+msgstr "Has provocat un incident en sabotejar el %2$s dels %1$s."
 
 #: server/diplomats.c:1374
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident while sabotaging your %s."
-msgstr "%s ha causat un incident en subornar els teus %s."
+msgstr "Els %s han provocat un incident en sabotejar el teu %s."
 
 #: server/diplomats.c:1383
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr "Has causat un incident en intentar robar tecnologia de %s."
+msgstr "Has provocat un incident en intentar robar tecnologia de %s."
 
 #: server/diplomats.c:1387
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
-msgstr "%s ha causat un incident en intentar robar-te tecnologia."
+msgstr "%s ha provocat un incident en intentar robar-te tecnologia."
 
 #: server/diplomats.c:1393
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
-msgstr "Has causat un incident en incitar una revolta a %s."
+msgstr "Has provocat un incident en incitar una revolta a %s."
 
 #: server/diplomats.c:1397
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
-msgstr "Els %s han causat un incident en incitar una revolta a %s."
+msgstr "Els %s han provocat un incident en incitar una revolta a %s."
 
 #: server/diplomats.c:1404
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while poisoning %s."
-msgstr "Has provocat un incident en subornar el %2$s %1$s."
+msgstr "Has provocat un incident en enverinar %s."
 
 #: server/diplomats.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident while posioning %s."
-msgstr "Els %s han causat un incident en incitar una revolta a %s."
+msgstr "Els %s han provocat un incident en enverinar %s."
 
 #: server/diplomats.c:1415
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while sabotaging %s."
-msgstr "Has provocat un incident en subornar el %2$s %1$s."
+msgstr "Has provocat un incident en sabotejar %s."
 
 #: server/diplomats.c:1419
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident while sabotaging %s."
-msgstr "Els %s han causat un incident en incitar una revolta a %s."
+msgstr "Els %s han provocat un incident en sabotejar %s."
 
 #: server/edithand.c:193
 #, c-format
@@ -36351,31 +36351,28 @@ msgstr ""
 "en tundra."
 
 #: server/maphand.c:293
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new "
 "infrastructure building technology is announced."
 msgstr ""
 "L'esperança s'escampa com el foc per tot el país en anunciar-se el "
-"descobriment d'una nova tecnologia de construcció de bases."
+"descobriment d'una nova tecnologia de construcció d'infraestructures."
 
 #: server/maphand.c:300
-#, fuzzy
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "infrastructure building technology."
 msgstr ""
 "La gent es posa contenta de sentir que els teus científics finalment "
-"coneixen una nova tecnologia de construcció de bases."
+"coneixen una nova tecnologia de construcció d'infraestructures."
 
 #: server/maphand.c:308
-#, fuzzy
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "infrastructure."
 msgstr ""
 "Els treballadors s'apleguen espontàniament i milloren totes les ciutats "
-"possibles amb camins millors."
+"possibles amb infraestructures millors."
 
 #: server/maphand.c:312
 #, c-format
@@ -37309,7 +37306,7 @@ msgstr "Per nació, en ordre"
 
 #: server/settings.c:335
 msgid "Borders are not helping"
-msgstr ""
+msgstr "Les fronteres no ajuden"
 
 #: server/settings.c:336
 #, fuzzy
@@ -37387,7 +37384,7 @@ msgstr "Hordes rabioses"
 
 #: server/settings.c:395
 msgid "Fixed to 'revolen' turns"
-msgstr ""
+msgstr "Fixat a 'revolen' torns"
 
 #: server/settings.c:396
 msgid "Randomly 1-'revolen' turns"
@@ -37395,7 +37392,7 @@ msgstr ""
 
 #: server/settings.c:397
 msgid "First time 'revolen', then always quicker"
-msgstr ""
+msgstr "Primer cop 'revolen', després sempre més ràpid"
 
 #: server/settings.c:408
 msgid "Reveal map at game start"
@@ -37511,9 +37508,8 @@ msgid ""
 "The first starting unit must be native to at least one \"Starter\" terrain.  "
 "Try \"help startunits\"."
 msgstr ""
-"La primera unitat d'inici ha de ser nadiua com a mínim d'un terreny "
-"\"Inicial\". "
-"Prova \"help startunits\"."
+"La primera unitat d'inici ha de ser nadiua com a mínim d'un terreny \"Inicial"
+"\". Prova \"help startunits\"."
 
 #: server/settings.c:798
 msgid "Cannot set endturn earlier than current turn."
@@ -38164,8 +38160,7 @@ msgid ""
 msgstr ""
 "Això hauria de ser una cadena de caràcters, cadascun dels quals especifica "
 "un rol d'unitat. El primer caràcter ha de ser nadiu com a mínim d'un terreny "
-"\"Inicial\". "
-"Els caràcters i els seus significats són:\n"
+"\"Inicial\". Els caràcters i els seus significats són:\n"
 "    c   = Fundador de ciutats (p.ex., Colons)\n"
 "    w   = Treballador de terreny (p.ex., Enginyers)\n"
 "    x   = Explorador (p.ex., Explorador)\n"
@@ -38655,8 +38650,7 @@ msgid ""
 "or even allies borders, depending on value."
 msgstr ""
 "Si això està seleccionat, les unitats no causaran infelicitat quan estiguin "
-"dins "
-"de les teves pròpies fronteres, o fins i tot les fronteres dels aliats, "
+"dins de les teves pròpies fronteres, o fins i tot les fronteres dels aliats, "
 "segons el valor."
 
 #: server/settings.c:1816
@@ -38782,21 +38776,23 @@ msgid ""
 "Which method is used in determining how long period of anarchy lasts when "
 "changing government. The actual value is set with 'revolen' setting."
 msgstr ""
+"Quin mètode s'utilitza per determinar quant de temps dura el període "
+"d'anarquia quan es canvia el tipus de govern. El valor concret es controla "
+"amb l'opció 'revolen'."
 
 #: server/settings.c:1911
 msgid "Length in turns of revolution"
 msgstr "Llargada en torns d'una revolució"
 
 #: server/settings.c:1912
-#, fuzzy
 msgid ""
 "When changing governments, a period of anarchy will occur. Value of this "
 "setting, used the way 'revolentype' setting dictates, defines the length of "
 "the anarchy."
 msgstr ""
-"Quan es canvien governs, ocorrerà un període d'anarquia que duri aquesta "
-"quantitat de torns. Fixar aquest valor a 0 donarà una llargada aleatòria d'1 "
-"a 5 torns."
+"Quan es canvien governs, ocorrerà un període d'anarquia. El valor d'aquesta "
+"opció, que s'utilitza de la manera que dicti l'opció 'revolentype', defineix "
+"la durada de l'anarquia."
 
 #: server/settings.c:1921
 msgid "Whether to enable fog of war"
@@ -38876,7 +38872,7 @@ msgstr ""
 
 #: server/settings.c:1970
 msgid "What kind of vicrories are possible"
-msgstr ""
+msgstr "Quins tipus de victòria són possibles"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -38894,6 +38890,15 @@ msgid ""
 "- \"Culture\" (CULTURE): Player meets ruleset defined cultural domination "
 "criteria.\n"
 msgstr ""
+"Aquesta opció controla com es pot guanyar la partida. Sempre es pot guanyar "
+"conquerint el planeta sencer, però es poden activar o desactivar altres "
+"condicions de victòria:\n"
+"- \"Carrera espacial\" (SPACERACE): es construeix la nau espacial i arriba a "
+"Alpha Centauri.\n"
+"- \"Aliada\" (ALLIED): després de derrotar els enemics, tots els jugadors que "
+"queden són aliats.\n"
+"- \"Cultural\" (CULTURE): el jugador aconsegueix els criteris de dominació "
+"cultural definits al joc de regles.\n"
 
 #: server/settings.c:1989
 msgid "Should the game end if the spaceship arrives?"
@@ -39415,7 +39420,6 @@ msgstr "Què hi ha a l'informe demogràfic"
 #. TRANS: The strings between double quotes should be
 #. * translated.
 #: server/settings.c:2342
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion "
 "of a line of information in the Demographics report.\n"
@@ -39444,11 +39448,12 @@ msgstr ""
 "    P = incloure Producció\n"
 "    A = incloure Àrea de terra\n"
 "    L = incloure Alfabetització\n"
-"    R = incloure Velocitat recerca\n"
+"    R = incloure Velocitat de recerca\n"
 "    S = incloure Àrea colonitzada\n"
 "    E = incloure Economia\n"
 "    M = incloure Servei Militar\n"
 "    O = incloure Contaminació \n"
+"    C= incloure Cultura\n"
 "A més a més, els següents caràcters controlen si algunes columnes es mostren "
 "o no a l'informe:\n"
 "    q = mostrar columna \"quantitat\"\n"
@@ -39473,24 +39478,24 @@ msgstr ""
 "nou\"."
 
 #: server/settings.c:2378
-#, fuzzy
 msgid "Minutes per auto-save"
-msgstr "Torns per desar automàticament"
+msgstr "Minuts per desar automàticament"
 
 #. TRANS: The string between double quotes is also translated
 #. * separately (it must match!). The string between single
 #. * quotes is a setting name and shouldn't be translated.
 #: server/settings.c:2382
-#, fuzzy
 msgid ""
 "How many minutes elapse between automatic game saves. Unlike other save "
 "types, this save is only meant as backup for computer memory, and it always "
 "uses the same name, older saves are not kept. This setting only has an "
 "effect when the 'autosaves' setting includes \"Timer\"."
 msgstr ""
-"Quants torns es deixen passar per tornar a desar automàticament la partida. "
-"Aquest paràmetre només té efecte quan el paràmetre 'autosaves' inclou \"Torn "
-"nou\"."
+"Quants minuts es deixen passar per tornar a desar automàticament la partida. "
+"Al contrari d'altres maneres de desar, aquesta només es considera una còpia "
+"de seguretat de la memòria de l'ordinador, i sempre utilitza el mateix nom, "
+"sense guardar les partides antigues. Aquest paràmetre només té efecte quan "
+"l'opció 'autosaves' inclou \"Temporitzador\"."
 
 #: server/settings.c:2391
 msgid "Which savegames are generated automatically"
@@ -39502,7 +39507,6 @@ msgstr "Quines partides desades es generen automàticament"
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
 #: server/settings.c:2397
-#, fuzzy
 msgid ""
 "This setting controls which autosave types get generated:\n"
 "- \"New turn\" (TURN): Save when turn begins, once every 'saveturns' turns.\n"
@@ -39513,7 +39517,7 @@ msgid ""
 "interrupt.\n"
 "- \"Timer\" (TIMER): Save every 'savefrequency' minutes."
 msgstr ""
-"Aquest paràmetre controla quins tipus de partida autodesada es generen:\n"
+"Aquesta opció controla quins tipus de partida autodesada es generen:\n"
 "- \"Torn nou\" (TURN): Desar quan comença el torn, un cop cada 'saveturns' "
 "torns.\n"
 "- \"Final de partida\" (GAMEOVER): Es desa al final quan la partida "
@@ -39521,7 +39525,8 @@ msgstr ""
 "- \"Sense connexions de jugador\" (QUITIDLE): Desa abans que el servidor es "
 "reiniciï per manca de jugadors.\n"
 "- \"Servidor interromput\" (INTERRUPT): Desar quan el servidor plega degut a "
-"una interrupció."
+"una interrupció. "
+"- \"Temporitzador\" (TIMER): Desar cada 'savefrequency' minuts."
 
 #: server/settings.c:2410
 msgid "Savegame compression level"
@@ -39888,14 +39893,14 @@ msgid "Allied victory to %s."
 msgstr "Victòria aliada per a %s."
 
 #: server/srv_main.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "Game ended in conquest victory for %s."
-msgstr "La partida s'ha acabat amb victòria de %s."
+msgstr "La partida s'ha acabat amb victòria per conquesta de %s."
 
 #: server/srv_main.c:522
-#, fuzzy, c-format
+#, c-format
 msgid "Game ended in cultural domination victory for %s."
-msgstr "La partida s'ha acabat amb victòria de %s."
+msgstr "La partida s'ha acabat amb victòria per dominació cultural de %s."
 
 #: server/srv_main.c:535
 msgid "Game ended as the turn limit was exceeded."
@@ -40048,7 +40053,7 @@ msgstr ""
 #: server/srv_main.c:2716
 #, c-format
 msgid "Attempt %d/%d"
-msgstr ""
+msgstr "Intent %d/%d"
 
 #: server/srv_main.c:2731
 msgid "Cannot create suitable map with given settings."
@@ -42724,27 +42729,25 @@ msgstr "No s'ha pogut obrir %s per escriptura "
 
 #: utility/registry_xml.c:45
 msgid "XML-file has no root node <Freeciv>"
-msgstr ""
+msgstr "El fitxer XML no té el node arrel <Freeciv>"
 
 #: utility/registry_xml.c:53
-#, fuzzy
 msgid "XML-file has no capabilities defined!"
-msgstr "El fitxer d'especificacions %s té capacitats incompatibles"
+msgstr "El fitxer XML no té capacitats definides!"
 
 #: utility/registry_xml.c:59
-#, fuzzy
 msgid "XML-file has incompatible capabilities."
-msgstr "El fitxer d'especificacions %s té capacitats incompatibles"
+msgstr "El fitxer XML té capacitats incompatibles."
 
 #: utility/registry_xml.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv capabilities: %s"
-msgstr "Capacitats del servidor: %s"
+msgstr "Capacitats de Freeciv: %s"
 
 #: utility/registry_xml.c:61
-#, fuzzy, c-format
+#, c-format
 msgid "File capabilities: %s"
-msgstr "Capacitats del client: %s"
+msgstr "Capacitats de fitxer: %s"
 
 #: utility/shared.c:209
 #, c-format
@@ -42907,6 +42910,72 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Bu_ild Farmland"
 #~ msgstr "Constru_ir Horta"
 
+#~ msgid ""
+#~ "%s%s\n"
+#~ "commit: %s\n"
+#~ "%s client"
+#~ msgstr ""
+#~ "%s%s\n"
+#~ "versió: %s\n"
+#~ "client %s"
+
+#~ msgid "%s%s(%s), %s client"
+#~ msgstr "%s%s(%s), client %s"
+
+#~ msgid "Allies only"
+#~ msgstr "Només aliats"
+
+#~ msgid "Governor %1"
+#~ msgstr "Gestor %1"
+
+#~ msgid "Governor"
+#~ msgstr "Gestor"
+
+#~ msgid "Worklist menu"
+#~ msgstr "Menú de llista de treball"
+
+#~ msgid "Governor settings"
+#~ msgstr "Configuració del gestor"
+
+#~ msgid "No governor defined"
+#~ msgstr "No s'ha definit gestor"
+
+#~ msgid "<h3>Governor Enabled - %1</h3>"
+#~ msgstr "<h3>Gestor Engegat - %1</h3>"
+
+#~ msgid "<h3>Governor Disabled</h3>"
+#~ msgstr "<h3>Gestor Aturat</h3>"
+
+#~ msgid "Buy (%1 gold)"
+#~ msgstr "Comprar (%1 peces d'or)"
+
+#~ msgid "Buy ?"
+#~ msgstr "Comprar ?"
+
+#~ msgid "%1 - %2 citizens - DISORDER"
+#~ msgstr "%1 - %2 ciutadans - DESORDRE"
+
+#~ msgid "%1 - %2 citizens - celebrating"
+#~ msgstr "%1 - %2 ciutadans - en festa"
+
+#~ msgid "%1 - %2 citizens - happy"
+#~ msgstr "%1 - %2 ciutadans - feliços"
+
+#~ msgid "Buy ( Cost: %d )"
+#~ msgstr "Comprar ( Cost: %d )"
+
+#~ msgid "Nation Set:"
+#~ msgstr "Conjunt de Nacions:"
+
+#~ msgid "Nation has been chosen by other player"
+#~ msgstr "La nació l'ha triada un altre jugador"
+
+#~ msgid "Help build Wonder (%d remaining)"
+#~ msgstr "Ajudar a construir la Meravella (en queden %d)"
+
+#~ msgid "Establish Trade route"
+#~ msgstr "Establir Ruta Comercial"
+
 #~ msgid "Incite a Revolt"
 #~ msgstr "Incitar revolta"
 
@@ -42916,8 +42985,60 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Sabotage Enemy Unit"
 #~ msgstr "Sabotejar unitat enemiga"
 
+#~ msgid "Are you sure you want to disband that %1 unit?"
+#~ msgid_plural "Are you sure you want to disband those %1 units?"
+#~ msgstr[0] "Segur que voleu desmobilitzar aquesta unitat %1?"
+#~ msgstr[1] "Segur que voleu desmobilitzar aquestes unitats %1?"
+
+#~ msgid "Disband units"
+#~ msgstr "Desmobilitzar unitats"
+
+#~ msgid "%1 HP:%2/%3"
+#~ msgstr "%1 PV:%2/%3"
+
+#~ msgid "%1 unit"
+#~ msgid_plural "%1 units"
+#~ msgstr[0] "%1 unitat"
+#~ msgstr[1] "%1 unitats"
+
+#~ msgid "Quit?"
+#~ msgstr "Sortir?"
+
+#~ msgid "%1 (Turn:%2)"
+#~ msgstr "%1 (Torn:%2)"
+
+#~ msgid "Gold:%1 (+%2)"
+#~ msgstr "Or:%1 (+%2)"
+
+#~ msgid "Gold:%1 (%2)"
+#~ msgstr "Or:%1 (%2)"
+
+#~ msgid "%1 from %2"
+#~ msgstr "%1 de %2"
+
 #~ msgid "Build Farmland"
 #~ msgstr "Construir Horta"
+
+#~ msgid "commit: %s"
+#~ msgstr "versió: %s"
+
+#~ msgid "Qt client"
+#~ msgstr "Client Qt"
+
+#~ msgid "<b>Techs unknown by %1:</b>"
+#~ msgstr "<b>Tecnologies desconegudes per %1:</b>"
+
+#~ msgid "<b>Techs unknown by you :</b>"
+#~ msgstr "<b>Tecnologies desconegudes per tu:</b>"
+
+#~ msgid "%1 - max rate: %2%"
+#~ msgstr "%1 - taxa màxima: %2%"
+
+#~ msgid "Find Nearest"
+#~ msgstr "Trobar el Més Proper"
+
+#~ msgid "Commit: %s"
+#~ msgstr "Versió: %s"
 
 #~ msgid "?special:Requires %s on the tile.\n"
 #~ msgstr "Requereix %s a la casella.\n"
@@ -43053,11 +43174,41 @@ msgstr "error %d (compilat sense strerror)"
 #~ "* Si qualsevol ciutat roman en desordre durant més de dos torns seguits, "
 #~ "el govern caurà en l'anarquia.\n"
 
+#~ msgid "Pop up caravan actions"
+#~ msgstr "Finestra emergent per accions de caravana"
+
+#~ msgid ""
+#~ "If this option is enabled, when caravans or similar units arrive at a "
+#~ "city where they can establish a trade route or help build a wonder, a "
+#~ "window will pop up asking which action should be performed. Disabling "
+#~ "this option means you will have to do the action manually by pressing "
+#~ "either 'r' (for a trade route) or 'b' (for building a wonder) when the "
+#~ "unit is in the city."
+#~ msgstr ""
+#~ "Si se selecciona aquesta opció, quan arribin caravanes o unitats similars "
+#~ "a una ciutat on poden establir una ruta comercial o ajudar a construir "
+#~ "una meravella, apareixerà una finestra emergent que demanarà quina acció "
+#~ "s'ha de fer. Si s'inhabilita aquesta opció, vol dir que s'haurà de fer "
+#~ "l'acció desitjada manualment, prement 'r' (per una ruta comercial) o "
+#~ "'b' (per construir una meravella) quan la unitat sigui a la ciutat."
+
 #~ msgid "Could not open temp file."
 #~ msgstr "No s'ha pogut obrir l'arxiu temporal."
 
 #~ msgid "Bribe cost: %d"
 #~ msgstr "Cost del suborn: %d"
+
+#~ msgid "Buildings: %s."
+#~ msgstr "Edificis: %s."
+
+#~ msgid "Buildings: None."
+#~ msgstr "Edificis: Cap."
+
+#~ msgid "Wonders: %s."
+#~ msgstr "Meravelles: %s."
+
+#~ msgid "Wonders: None."
+#~ msgstr "Meravelles: Cap."
 
 #~ msgid "No roadstyle for \"%s\" or \"%s\"."
 #~ msgstr "No hi ha estil de camí per a \"%s\" ni \"%s\"."
@@ -43067,6 +43218,9 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "City style \"%s\": no wall graphics."
 #~ msgstr "Estil de ciutat \"%s\": no hi ha gràfic sobre muralles."
+
+#~ msgid "?req-list-separator:+"
+#~ msgstr "+"
 
 #~ msgid "Away"
 #~ msgstr "Fora"
@@ -43126,6 +43280,15 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Investigate City (free)"
 #~ msgstr "Investigar ciutat (de franc)"
+
+#~ msgid ""
+#~ "Mines can be built on some types of terrain, which increases the number "
+#~ "of production points (shields) produced by that tile. However, it is not "
+#~ "possible to have irrigation and a mine on the same tile."
+#~ msgstr ""
+#~ "En alguns tipus de terrenys es poden construir mines, que incrementen el "
+#~ "nombre de punts de producció (escuts) que produeix aquesta casella. No "
+#~ "obstant, no és possible de tenir regadiu i una mina a la mateixa casella."
 
 #~ msgid ""
 #~ "The ruleset may limit the ability to trade or the yield from doing so "
@@ -43249,6 +43412,16 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Downloading modpack control file."
 #~ msgstr "Baixant fitxer de control del modpack."
+
+#~ msgid "Modpack"
+#~ msgstr "Modpack"
+
+#~ msgid ""
+#~ "%s%s\n"
+#~ "commit: %s"
+#~ msgstr ""
+#~ "%s%s\n"
+#~ "versió: %s"
 
 #~ msgid "Workers spontaneously gather and upgrade %s roads."
 #~ msgstr "Els treballadors s'apleguen espontàniament i milloren %s camins."
@@ -43383,6 +43556,11 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr ""
 #~ "Les unitats marines d'inici encara no estan suportades. Ningú no obté %s."
 
+#~ msgid "Didn't find optimal solution for team placement in %d iterations."
+#~ msgstr ""
+#~ "No s'ha trobat cap solució òptima per la col·locació dels equips en %d "
+#~ "iteracions."
+
 #~ msgid ""
 #~ "New hope sweeps like fire through the country as the discovery of new "
 #~ "road building technology is announced."
@@ -43425,8 +43603,106 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Els treballadors s'apleguen espontàniament i milloren totes les ciutats "
 #~ "possibles amb bases millors."
 
+#~ msgid "%s had invalid researching technology."
+#~ msgstr "%s tenia una tecnologia de recerca no vàlida."
+
+#~ msgid "%s had invalid technology goal."
+#~ msgstr "%s tenia un objectiu de tecnologia no vàlid."
+
 #~ msgid "Saved game is too old, at least version 1.9.0 required."
 #~ msgstr "La partida desada és massa vella, cal la versió 1.9.0 com a mínim."
+
+#~ msgid "Fair islands"
+#~ msgstr "Illes justes"
+
+#~ msgid "As close as possible"
+#~ msgstr "Tan a prop com sigui possible"
+
+#~ msgid "On the same continent"
+#~ msgstr "Al mateix continent"
+
+#~ msgid "Horizontal placement"
+#~ msgstr "Col·locació horitzontal"
+
+#~ msgid "Vertical placement"
+#~ msgstr "Col·locació vertical"
+
+#~ msgid ""
+#~ "Specifies the algorithm used to generate the map. If the default value of "
+#~ "the 'startpos' option is used, then the chosen generator chooses an "
+#~ "appropriate 'startpos' setting; otherwise, the generated map tries to "
+#~ "accommodate the chosen 'startpos' setting.\n"
+#~ "- \"Scenario map\" (SCENARIO): indicates a pre-generated map. By default, "
+#~ "if the scenario does not specify start positions, they will be allocated "
+#~ "depending on the size of continents.\n"
+#~ "- \"Fully random height\" (RANDOM): generates maps with a number of "
+#~ "equally spaced, relatively small islands. By default, start positions are "
+#~ "allocated depending on continent size.\n"
+#~ "- \"Pseudo-fractal height\" (FRACTAL): generates Earthlike worlds with "
+#~ "one or more large continents and a scattering of smaller islands. By "
+#~ "default, players are all placed on a single continent.\n"
+#~ "- \"Island-based\" (ISLAND): generates 'fair' maps with a number of "
+#~ "similarly-sized and -shaped islands, each with approximately the same "
+#~ "ratios of terrain types. By default, each player gets their own island.\n"
+#~ "- \"Fair islands\" (FAIR): generates the exact copy of the same island "
+#~ "for every player or every team.\n"
+#~ "If the requested generator is incompatible with other server settings, "
+#~ "the server may fall back to another generator."
+#~ msgstr ""
+#~ "Especifica l'algorisme que s'utilitzarà per generar el mapa. Si "
+#~ "s'utilitza el valor predeterminat de l'opció 'startpos', el generador "
+#~ "triat escull un paràmetre 'starpos' apropiat; si no, el mapa generat "
+#~ "intenta d'adaptar-se al paràmetre 'startpos' que s'hagi escollit.\n"
+#~ "- \"Mapa d'escenari\" (SCENARIO): indica un mapa generat prèviament. Per "
+#~ "defecte, si l'escenari no especifica posicions d'inici, s'assignaran "
+#~ "segons la mida dels continents.\n"
+#~ "- \"Alçada completament aleatòria\" (RANDOM): genera mapes amb unes "
+#~ "quantes illes amb el mateix espai, relativament petites. Per defecte, les "
+#~ "posicions d'inici s'assignen segons la mida dels continents.\n"
+#~ "- \"Alçada pseudo-fractal\" (FRACTAL): genera mons semblants a la Terra "
+#~ "amb un o més continents grans i una escampada d'illes més petites. Per "
+#~ "defecte, els jugadors es col·loquen tots en un sol continent.\n"
+#~ "- \"Basat en illes\" (ISLAND): genera mapes 'justos' amb unes quantes "
+#~ "illes de forma i mida similars, cadascuna de les quals té aproximadament "
+#~ "les mateixes proporcions de tipus de terreny. Per defecte, cada jugador "
+#~ "té una illa per ell sol.\n"
+#~ "- \"Illes justes\" (FAIR): genera una còpia idèntica de la mateixa illa "
+#~ "per a cada jugador o cada equip.\n"
+#~ "Si el generador sol·licitat no és compatible amb d'altres opcions del "
+#~ "servidor, el servidor pot triar un altre generador."
+
+#~ msgid "Method used for placement of team mates"
+#~ msgstr "Mètode usat per a la col·locació dels companys d'equip"
+
+#~ msgid ""
+#~ "After start positions have been generated thanks to the 'startpos' "
+#~ "setting, this setting controls how the start positions will be assigned "
+#~ "to the different players of the same team.\n"
+#~ "- \"Disabled\" (DISABLED): the start positions will be randomly assigned "
+#~ "to players, regardless of teams.\n"
+#~ "- \"As close as possible\" (CLOSEST): players will be placed as close as "
+#~ "possible, regardless of continents.\n"
+#~ "- \"On the same continent\" (CONTINENT): if possible, place all players "
+#~ "of the same team onto the same island/continent.\n"
+#~ "- \"Horizontal placement\" (HORIZONTAL): players of the same team will be "
+#~ "placed horizontally.\n"
+#~ "- \"Vertical placement\" (VERTICAL): players of the same team will be "
+#~ "placed vertically."
+#~ msgstr ""
+#~ "Després que s'han generat les posicions d'inici segons l'opció "
+#~ "'startpos', aquesta opció controla com s'assignen les posicions d'inici "
+#~ "als diferents jugadors del mateix equip.\n"
+#~ "- \"Desactivat\" (DISABLED): les posicions d'inici s'assignaran "
+#~ "aleatòriament als jugadors, sense  tenir en compte els equips.\n"
+#~ "- \"Tan a prop com sigui possible\" (CLOSEST): els jugadors es "
+#~ "col·locaran tan a prop com sigui possible, sense tenir en compte els "
+#~ "continents.\n"
+#~ "- \"Al mateix continent\" (CONTINENT): si és possible, col·locar tots els "
+#~ "jugadors del mateix equip a la mateixa illa/continent.\n"
+#~ "- \"Col·locació horitzontal\" (HORIZONTAL): els jugadors del mateix equip "
+#~ "es col·locaran horitzontalment.\n"
+#~ "- \"Col·locació vertical\" (VERTICAL): els jugadors del mateix equip es "
+#~ "col·locaran verticalment."
 
 #~ msgid ""
 #~ "This should be a string of characters, each of which specifies a unit "
@@ -43454,6 +43730,13 @@ msgstr "error %d (compilat sense strerror)"
 #~ "    D   = Bona unitat defensiva (p.ex., Falange)\n"
 #~ "    a   = Unitat d'atac ràpida (p.ex., Genets)\n"
 #~ "    A   = Unitat d'atac forta (p.ex., Catapulta)\n"
+
+#~ msgid ""
+#~ "If this is set, units will not cause unhappiness when inside your own "
+#~ "borders."
+#~ msgstr ""
+#~ "Si això està fixat, les unitats no causaran infelicitat quan estiguin "
+#~ "dins de les teves pròpies fronteres."
 
 #~ msgid ""
 #~ "When changing governments, a period of anarchy lasting this many turns "
@@ -43545,6 +43828,14 @@ msgstr "error %d (compilat sense strerror)"
 #~ "es reiniciï per manca de jugadors.\n"
 #~ "- \"Servidor interromput\" (INTERRUPT): Desar quan el servidor plega "
 #~ "degut a una interrupció."
+
+#~ msgid "Failed to create suitable map, retrying with another mapseed"
+#~ msgstr ""
+#~ "No s'ha pogut crear un mapa apropiat, es torna a provar amb una altra "
+#~ "llavor de mapa"
+
+#~ msgid "Setting '%s' has been adjusted from %s to %s."
+#~ msgstr "L'opció '%s' s'ha modificat de %s a %s."
 
 #~ msgid "The %s have researched Future Tech. %d."
 #~ msgstr "Els %s descobreixen la tecnologia del futur %d."
@@ -45092,9 +45383,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Sumatra, fou una potència regional els segles XVI i XVII, controlant bona "
 #~ "part del comerç que passava per l'estret de Malaca. Aceh fou sotmès pels "
 #~ "holandesos en la sagnant guerra d'Aceh entre 1873 i 1903."
-
-#~ msgid "Governor %s"
-#~ msgstr "Governador %s"
 
 #~ msgid "?female:Governor %s"
 #~ msgstr "Governadora %s"
@@ -55314,9 +55602,6 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Cannot determine control directory"
 #~ msgstr "No s'ha pogut determinar el directori de control"
-
-#~ msgid "Modpack"
-#~ msgstr "Modpack"
 
 #~ msgid "Freeciv modpack installer"
 #~ msgstr "Instal·lador de modpacks de Freeciv"
