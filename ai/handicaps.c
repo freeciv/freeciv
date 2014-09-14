@@ -28,6 +28,10 @@
 **************************************************************************/
 void handicaps_init(struct player *pplayer)
 {
+  if (pplayer->ai_common.handicaps != NULL) {
+    return;
+  }
+
   pplayer->ai_common.handicaps = fc_malloc(sizeof(bv_handicap));
   BV_CLR_ALL(*((bv_handicap *)pplayer->ai_common.handicaps));
 }
@@ -37,8 +41,11 @@ void handicaps_init(struct player *pplayer)
 **************************************************************************/
 void handicaps_close(struct player *pplayer)
 {
-  FC_FREE(pplayer->ai_common.handicaps);
+  if (pplayer->ai_common.handicaps == NULL) {
+    return;
+  }
 
+  free(pplayer->ai_common.handicaps);
   pplayer->ai_common.handicaps = NULL;
 }
 
