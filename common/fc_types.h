@@ -688,4 +688,14 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE3NAME "Normal Players"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME gold_upkeep_style
+#define SPECENUM_VALUE0 GOLD_UPKEEP_CITY
+#define SPECENUM_VALUE0NAME "City"
+#define SPECENUM_VALUE1 GOLD_UPKEEP_MIXED
+#define SPECENUM_VALUE1NAME "Mixed"
+#define SPECENUM_VALUE2 GOLD_UPKEEP_NATION
+#define SPECENUM_VALUE2NAME "Nation"
+#include "specenum_gen.h"
+
 #endif /* FC__FC_TYPES_H */

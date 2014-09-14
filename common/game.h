@@ -703,10 +703,6 @@ extern struct civ_game game;
 #define RS_MIN_FOOD_COST                         0
 #define RS_MAX_FOOD_COST                         100
 
-#define RS_DEFAULT_GOLD_UPKEEP_STYLE             0
-#define RS_MIN_GOLD_UPKEEP_STYLE                 0
-#define RS_MAX_GOLD_UPKEEP_STYLE                 2
-
 #define RS_DEFAULT_SLOW_INVASIONS                TRUE
 
 #define RS_DEFAULT_TIRED_ATTACK                  FALSE

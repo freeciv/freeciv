@@ -2,7 +2,7 @@
 
 [datafile]
 description="Alien World tile_type data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14b"
+options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 [control]
 ; Names for custom terrain flags. There can be up to 8 of these.

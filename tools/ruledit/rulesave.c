@@ -738,9 +738,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.init_city_radius_sq,
                    RS_DEFAULT_CITY_RADIUS_SQ,
                    "civstyle.init_city_radius_sq", NULL);
-  save_default_int(sfile, game.info.gold_upkeep_style,
-                   RS_DEFAULT_GOLD_UPKEEP_STYLE,
-                   "civstyle.gold_upkeep_style", NULL);
+  if (0 != fc_strcasecmp(gold_upkeep_style_name(game.info.gold_upkeep_style),
+                         RS_DEFAULT_GOLD_UPKEEP_STYLE)) {
+    secfile_insert_str(sfile,
+                       gold_upkeep_style_name(game.info.gold_upkeep_style),
+                       "civstyle.gold_upkeep_style");
+  }
   save_default_bool(sfile, game.info.illness_on,
                     RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", NULL);

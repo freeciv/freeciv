@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ2 effects data for Freeciv (incomplete)"
-options="+Freeciv-ruleset-Devel-2014.September.14b"
+options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings

@@ -236,6 +236,7 @@ type REVOLENTYPE        = uint8(enum revolen_type)
 type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 type TECH_COST_STYLE    = uint8(enum tech_cost_style)
 type TECH_LEAKAGE_STYLE = uint8(enum tech_leakage_style)
+type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
 
 # typedefs for bit vectors
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
@@ -461,7 +462,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL global_warming;
   UINT32 globalwarming;
   GOLD gold;
-  UINT8 gold_upkeep_style;
+  GOLD_UPKEEP_STYLE gold_upkeep_style;
   REVOLENTYPE revolentype;
   GOVERNMENT government_during_revolution_id;
   UINT8 granary_food_inc;

@@ -144,12 +144,16 @@ void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
     }
   } city_list_iterate_end;
 
-  if (game.info.gold_upkeep_style > 0) {
-    /* Account for units with gold upkeep paid for by the nation.
-     * (game.info.gold_upkeep_style = 1 & 2) */
+  switch (game.info.gold_upkeep_style) {
+  case GOLD_UPKEEP_CITY:
+    break;
+  case GOLD_UPKEEP_MIXED:
+  case GOLD_UPKEEP_NATION:
+    /* Account for units with gold upkeep paid for by the nation. */
     unit_list_iterate(pplayer->units, punit) {
       *expenses += punit->upkeep[O_GOLD];
     } unit_list_iterate_end;
+    break;
   }
 }
 

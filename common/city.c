@@ -2710,18 +2710,22 @@ static inline void city_support(struct city *pcity)
 
   /* Building and unit gold upkeep depends on the setting
    * 'game.info.gold_upkeep_style':
-   * 0 - The upkeep for buildings and units is paid by the city.
-   * 1 - The upkeep for buildings is paid by the city.
-   *     The upkeep for units is paid by the nation.
-   * 2 - The upkeep for buildings and units is paid by the nation. */
+   * GOLD_UPKEEP_CITY: The upkeep for buildings and units is paid by the
+   *                   city.
+   * GOLD_UPKEEP_MIXED: The upkeep for buildings is paid by the city.
+   *                    The upkeep for units is paid by the nation.
+   * GOLD_UPKEEP_NATION: The upkeep for buildings and units is paid by the
+   *                     nation. */
+  fc_assert_msg(gold_upkeep_style_is_valid(game.info.gold_upkeep_style),
+                "Invalid gold_upkeep_style %d", game.info.gold_upkeep_style);
   switch (game.info.gold_upkeep_style) {
-  case 0:
+  case GOLD_UPKEEP_CITY:
     pcity->usage[O_GOLD] += city_total_unit_gold_upkeep(pcity);
     /* no break */
-  case 1:
+  case GOLD_UPKEEP_MIXED:
     pcity->usage[O_GOLD] += city_total_impr_gold_upkeep(pcity);
     break;
-  case 2:
+  case GOLD_UPKEEP_NATION:
     /* nothing */
     break;
   }

@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ2Civ3 governments data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14b"
+options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 [governments]
 during_revolution="Anarchy"

@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ1-equivalent nations data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14b"
+options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 ; This section contains meta information for freeciv-ruledit to recreate the ruleset
 ; file in a form wanted. These have no in-game effect whatsoever

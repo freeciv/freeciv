@@ -4979,6 +4979,8 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   }
 
   if (ok) {
+    const char *tus_text;
+
     game.server.init_vis_radius_sq
       = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_VIS_RADIUS_SQ,
@@ -4993,12 +4995,15 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                            RS_MAX_CITY_RADIUS_SQ,
                                            "civstyle.init_city_radius_sq");
 
-    game.info.gold_upkeep_style
-      = secfile_lookup_int_default_min_max(file,
-                                           RS_DEFAULT_GOLD_UPKEEP_STYLE,
-                                           RS_MIN_GOLD_UPKEEP_STYLE,
-                                           RS_MAX_GOLD_UPKEEP_STYLE,
-                                           "civstyle.gold_upkeep_style");
+    tus_text = secfile_lookup_str_default(file, RS_DEFAULT_GOLD_UPKEEP_STYLE,
+                                          "civstyle.gold_upkeep_style");
+    game.info.gold_upkeep_style = gold_upkeep_style_by_name(tus_text,
+                                                            fc_strcasecmp);
+    if (!gold_upkeep_style_is_valid(game.info.gold_upkeep_style)) {
+      ruleset_error(LOG_ERROR, "Unknown gold upkeep style \"%s\"",
+                    tus_text);
+      ok = FALSE;
+    }
 
     /* section: illness */
     game.info.illness_on

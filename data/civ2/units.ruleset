@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ2 unit_type data for Freeciv (approximate)"
-options="+Freeciv-ruleset-Devel-2014.September.14b"
+options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 [control]
 ; Names for custom unit type flags. There can be up to 16 of these.
