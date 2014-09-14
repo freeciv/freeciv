@@ -18,6 +18,7 @@
 // Qt
 #include <QApplication>
 #include <QHeaderView>
+#include <QStyleFactory>
 
 // gui-qt
 #include "fc_client.h"
@@ -317,6 +318,7 @@ messagewdg::messagewdg(QWidget *parent): QWidget(parent)
 {
   QPalette palette;
   layout = new QGridLayout;
+  setStyle(QStyleFactory::create("fusion"));
   setStyleSheet("QScrollBar:vertical "
                 "{border: 1px solid #90A4FF; background: transparent;}"
                 "QScrollBar::sub-line:vertical {width: 0px;height: 0px}"
