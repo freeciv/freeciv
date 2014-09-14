@@ -30,7 +30,7 @@
 
 static bool gui_qt_allied_chat_only = false;
 static bool is_plain_public_message(const char *s);
-
+static QString replace_html(QString str);
 /***************************************************************************
   Constructor for chatwdg
 ***************************************************************************/
@@ -373,6 +373,47 @@ QString apply_tags(QString str, const struct text_tag_list *tags)
 }
 
 /**************************************************************************
+  Replace HTML tags first or it will be cut
+  Replace <player>
+  Replace <(player)>
+**************************************************************************/
+static QString replace_html(QString str)
+{
+  QString s, s2;
+  conn_list_iterate(game.all_connections, pconn){
+    s = pconn->username;
+    s = "<(" + s + ")>";
+    if (str.contains(s)) {
+      s2 = "([" + QString(pconn->username) + ")]";
+      str = str.replace(s, s2);
+      break;
+    }
+    s = pconn->username;
+    s = "<" + s + ">";
+    if (str.contains(s)) {
+      s2 = "[" + QString(pconn->username) + "]";
+      str = str.replace(s, s2);
+    }
+  } conn_list_iterate_end;
+  players_iterate(pplayer) {
+    s = pplayer->name;
+    s = "(<" + s + ">)";
+    if (str.contains(s)) {
+      s2 = "([" + QString(pplayer->name) + ")]";
+      str = str.replace(s, s2);
+      break;
+    }
+    s = pplayer->name;
+    s = "<" + s + ">";
+    if (str.contains(s)) {
+      s2 = "[" + QString(pplayer->name) + "]";
+      str = str.replace(s, s2);
+    }
+  } players_iterate_end;
+  return str;
+}
+
+/**************************************************************************
   Helper function to determine if a given client input line is intended as
   a "plain" public message.
 **************************************************************************/
@@ -413,24 +454,11 @@ void qtg_real_output_window_append(const char *astring,
                                    int conn_id)
 {
   QString str;
-  QString s, s2;
   str = QString::fromUtf8(astring);
   gui()->set_status_bar(str);
   gui()->update_completer();
 
-  /* Replace HTML tags first or it will be cut
-     Replace <player>
-   */
-  players_iterate(pplayer) {
-    s = pplayer->name;
-    s = "<" + s + ">";
-    if (str.contains(s)) {
-      s2 = "[" + QString(pplayer->name) + "]";
-      str = str.replace(s, s2);
-    }
-
-  } players_iterate_end;
-
+  str = replace_html(str);
   str  = apply_tags(str, tags);
 
   gui()->append_output_window(str);
