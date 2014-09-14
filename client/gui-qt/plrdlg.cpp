@@ -364,6 +364,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   QString res;
   QString sp = " ";
   QString nl = "<br>";
+  QStringList sorted_list_a;
+  QStringList sorted_list_b;
   struct player *pplayer;
   int a , b;
   bool added;
@@ -410,7 +412,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     + QString(nation_adjective_for_player(pplayer))
     + QString("</td><tr><td><b>") + N_("Ruler:") + QString("</b></td><td>")
     + QString(ruler_title_for_player(pplayer, tbuf, sizeof(tbuf)))
-    + QString("</td></tr><tr><td><b>") + N_("Government:") 
+    + QString("</td></tr><tr><td><b>") + N_("Government:")
     + QString("</b></td><td>") + QString(government_name_for_player(pplayer))
     + QString("</td></tr><tr><td><b>") + N_("Capital:")
     + QString("</b></td><td>")
@@ -455,46 +457,68 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   }
   me = client_player();
   my_research = research_get(me);
-  if ((player_has_embassy(me, pplayer) || client_is_global_observer())
-      && me != pplayer) {
-    a = 0;
-    b = 0;
-    techs_known = QString(_("<b>Techs unknown by %1:</b>")).
+  if (!client_is_global_observer()) {
+    if (player_has_embassy(me, pplayer) && me != pplayer) {
+      a = 0;
+      b = 0;
+      techs_known = QString(_("<b>Techs unknown by %1:</b>")).
                     arg(nation_plural_for_player(pplayer));
-    techs_unknown = QString(_("<b>Techs unknown by you :</b>"));
+      techs_unknown = QString(_("<b>Techs unknown by you :</b>"));
 
+      advance_iterate(A_FIRST, padvance) {
+        tech_id = advance_number(padvance);
+        if (research_invention_state(my_research, tech_id) == TECH_KNOWN
+            && (research_invention_state(research, tech_id) 
+                == TECH_UNKNOWN)) {
+          a++;
+          sorted_list_a << research_advance_name_translation(research,
+                                                             tech_id);
+        }
+        if (research_invention_state(my_research, tech_id) == TECH_UNKNOWN
+            && (research_invention_state(research, tech_id) == TECH_KNOWN)) {
+          b++;
+          sorted_list_b << research_advance_name_translation(research,
+                                                             tech_id);
+        }
+      } advance_iterate_end;
+      sorted_list_a.sort(Qt::CaseInsensitive);
+      sorted_list_b.sort(Qt::CaseInsensitive);
+      foreach (res, sorted_list_a) {
+        techs_known = techs_known + QString("<i>") + res + ","
+                      + QString("</i>") + sp;
+      }
+      foreach (res, sorted_list_b) {
+        techs_unknown = techs_unknown + QString("<i>") + res + ","
+                        + QString("</i>") + sp;
+      }
+      if (a == 0) {
+        techs_known = techs_known + QString("<i>") + sp
+                      + QString(_("None")) + QString("</i>");
+      } else {
+        techs_known.replace(techs_known.lastIndexOf(","), 1, ".");
+      }
+      if (b == 0) {
+        techs_unknown = techs_unknown + QString("<i>") + sp
+                        + QString(_("None")) + QString("</i>");
+      } else {
+        techs_unknown.replace(techs_unknown.lastIndexOf(","), 1, ".");
+      }
+      tech_str = techs_known + nl + techs_unknown;
+    }
+  } else {
+    tech_str = QString(_("<b>Techs known by %1:</b>")).
+               arg(nation_plural_for_player(pplayer));
     advance_iterate(A_FIRST, padvance) {
       tech_id = advance_number(padvance);
-      if (research_invention_state(my_research, tech_id) == TECH_KNOWN
-          && (research_invention_state(research, tech_id) == TECH_UNKNOWN)) {
-        a++;
-        techs_known = techs_known + QString("<i>") 
-                      + research_advance_name_translation(research, tech_id)
-                      + "," + QString("</i>") + sp;
-      }
-      if (research_invention_state(my_research, tech_id) == TECH_UNKNOWN
-          && (research_invention_state(research, tech_id) == TECH_KNOWN)) {
-        b++;
-        techs_unknown = techs_unknown + QString("<i>")
-                        + research_advance_name_translation(research,
-                                                            tech_id)
-                        + "," + QString("</i>") + sp;
+      if (research_invention_state(research, tech_id) == TECH_KNOWN) {
+        sorted_list_a << research_advance_name_translation(research, tech_id);
       }
     } advance_iterate_end;
-
-    if (a == 0) {
-      techs_known = techs_known + QString("<i>") + sp
-                    + QString(_("None")) + QString("</i>");
-    } else {
-      techs_known.replace(techs_known.lastIndexOf(","), 1, ".");
+    sorted_list_a.sort(Qt::CaseInsensitive);
+    foreach (res, sorted_list_a) {
+      tech_str = tech_str + QString("<i>") + res + ","
+                    + QString("</i>") + sp;
     }
-    if (b == 0) {
-      techs_unknown = techs_unknown + QString("<i>") + sp
-                      + QString(_("None")) + QString("</i>");
-    } else {
-      techs_unknown.replace(techs_unknown.lastIndexOf(","), 1, ".");
-    }
-    tech_str = techs_known + nl + techs_unknown;
   }
   plr->update_report();
 }
