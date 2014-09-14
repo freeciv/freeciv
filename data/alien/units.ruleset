@@ -2,7 +2,7 @@
 
 [datafile]
 description="Alien World unit data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14a"
+options="+Freeciv-ruleset-Devel-2014.September.14b"
 
 [control]
 ; Names for custom unit type flags. There can be up to 16 of these.

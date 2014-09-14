@@ -235,6 +235,7 @@ type GEN_ACTION         = uint8(enum gen_action)
 type REVOLENTYPE        = uint8(enum revolen_type)
 type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 type TECH_COST_STYLE    = uint8(enum tech_cost_style)
+type TECH_LEAKAGE_STYLE = uint8(enum tech_leakage_style)
 
 # typedefs for bit vectors
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
@@ -509,7 +510,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL team_pooled_research;
   UINT32 tech;
   TECH_COST_STYLE tech_cost_style;
-  UINT8 tech_leakage;
+  TECH_LEAKAGE_STYLE tech_leakage;
   UINT16 tech_upkeep_divider;
   TECH_UPKEEP_STYLE tech_upkeep_style;
   FTM free_tech_method;

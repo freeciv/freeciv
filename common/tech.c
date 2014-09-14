@@ -358,7 +358,7 @@ const char *tech_flag_helptxt(enum tech_flag_id id)
 **************************************************************************/
 bool techs_have_fixed_costs()
 {
-  return (game.info.tech_leakage == 0
+  return (game.info.tech_leakage == TECH_LEAKAGE_NONE
           && game.info.tech_cost_style != TECH_COST_CIV1CIV2);
 }
 

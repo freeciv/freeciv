@@ -14,7 +14,7 @@
 
 [datafile]
 description="Civilization I governments data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14a"
+options="+Freeciv-ruleset-Devel-2014.September.14b"
 
 [governments]
 during_revolution="Anarchy"

@@ -11,7 +11,7 @@
 
 [datafile]
 description="Experimental technology data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14a"
+options="+Freeciv-ruleset-Devel-2014.September.14b"
 
 [control]
 ; Names for custom tech flags. There can be up to 8 of these.

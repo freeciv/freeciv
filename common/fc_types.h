@@ -676,4 +676,16 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE4NAME "Experimental+"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME tech_leakage_style
+#define SPECENUM_VALUE0 TECH_LEAKAGE_NONE
+#define SPECENUM_VALUE0NAME "None"
+#define SPECENUM_VALUE1 TECH_LEAKAGE_EMBASSIES
+#define SPECENUM_VALUE1NAME "Embassies"
+#define SPECENUM_VALUE2 TECH_LEAKAGE_PLAYERS
+#define SPECENUM_VALUE2NAME "All Players"
+#define SPECENUM_VALUE3 TECH_LEAKAGE_NO_BARBS
+#define SPECENUM_VALUE3NAME "Normal Players"
+#include "specenum_gen.h"
+
 #endif /* FC__FC_TYPES_H */

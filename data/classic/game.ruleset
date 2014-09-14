@@ -11,7 +11,7 @@
 
 [datafile]
 description="Default game rules for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14a"
+options="+Freeciv-ruleset-Devel-2014.September.14b"
 
 [about]
 ; Ruleset name
@@ -354,14 +354,17 @@ tech_cost_style = "Classic"
 base_tech_cost   = 20
 
 ; Technology leak from other civilizations
-; 0 - No reduction of the technology cost.
-; 1 - Technology cost is reduced depending on the number of players
-;     which already know the tech and you have an embassy with.
-; 2 - Technology cost is reduced depending on the number of all players
-;     (human, AI and barbarians) which already know the tech.
-; 3 - Technology cost is reduced depending on the number of normal
-;     players (human and AI) which already know the tech.
-tech_leakage = 0
+; "None"           - No reduction of the technology cost.
+; "Embassies"      - Technology cost is reduced depending on the number of
+;                    players which already know the tech and you have an
+;                    embassy with.
+; "All Players"    - Technology cost is reduced depending on the number of
+;                    all players (human, AI and barbarians) which already
+;                    know the tech.
+; "Normal Players" - Technology cost is reduced depending on the number of
+;                    normal players (human and AI) which already know the
+;                    tech.
+tech_leakage = "None"
 
 ; Method of paying tech upkeep
 ; "None"   - no upkeep

@@ -733,10 +733,6 @@ extern struct civ_game game;
 #define RS_MIN_BASE_TECH_COST                    0
 #define RS_MAX_BASE_TECH_COST                    200
 
-#define RS_DEFAULT_TECH_LEAKAGE                  0
-#define RS_MIN_TECH_LEAKAGE                      0
-#define RS_MAX_TECH_LEAKAGE                      3
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

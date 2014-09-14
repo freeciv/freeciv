@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2014.September.14a"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2014.September.14b"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -66,6 +66,7 @@ char *get_script_buffer(void);
 #define RS_DEFAULT_PYTHAGOREAN_DIAGONAL  FALSE
 
 #define RS_DEFAULT_TECH_COST_STYLE       "Civ I|II"
+#define RS_DEFAULT_TECH_LEAKAGE          "None"
 #define RS_DEFAULT_TECH_UPKEEP_STYLE     "None"
 
 #define RS_DEFAULT_CULTURE_VIC_POINTS    1000

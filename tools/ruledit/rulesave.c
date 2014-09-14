@@ -799,9 +799,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.base_tech_cost,
                    RS_DEFAULT_BASE_TECH_COST,
                    "research.base_tech_cost", NULL);
-  save_default_int(sfile, game.info.tech_leakage,
-                   RS_DEFAULT_TECH_LEAKAGE,
-                   "research.tech_leakage", NULL);
+  secfile_insert_str(sfile, tech_leakage_style_name(game.info.tech_leakage),
+                     "research.tech_leakage");
   secfile_insert_str(sfile, tech_upkeep_style_name(game.info.tech_upkeep_style),
                      "research.tech_upkeep_style");
   save_default_int(sfile, game.info.tech_upkeep_divider,

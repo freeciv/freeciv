@@ -2,7 +2,7 @@
 
 [datafile]
 description="Alien World cities data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14a"
+options="+Freeciv-ruleset-Devel-2014.September.14b"
 
 ; /* <-- avoid gettext warnings
 ;
