@@ -275,9 +275,6 @@ void city_model::all_changed()
   beginResetModel();
   populate();
   endResetModel();
-  for (int i = 0; i < city_list.count(); i++) {
-    notify_city_changed(i);
-  }
 }
 
 /***************************************************************************
