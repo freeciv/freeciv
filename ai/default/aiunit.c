@@ -3076,7 +3076,15 @@ void dai_units_ruleset_init(struct ai_type *ait)
 void dai_units_ruleset_close(struct ai_type *ait)
 {
   unit_type_iterate(ptype) {
-    utype_set_ai_data(ptype, ait, NULL); 
+    struct unit_type_ai *utai = utype_ai_data(ptype, ait);
+
+    if (utai == NULL) {
+      continue;
+    }
+    utype_set_ai_data(ptype, ait, NULL);
+
+    unit_type_list_destroy(utai->potential_charges);
+    free(utai);
   } unit_type_iterate_end;
 }
 
