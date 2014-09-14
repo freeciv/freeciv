@@ -2902,8 +2902,10 @@ void server_game_init(void)
   identity_number_reserve(IDENTITY_NUMBER_ZERO);
 
   event_cache_init();
-  playercolor_init();
   game_init();
+  /* game_init() set game.server.plr_colors to NULL. So we need to
+   * initialize the colors after. */
+  playercolor_init();
 }
 
 /**************************************************************************
