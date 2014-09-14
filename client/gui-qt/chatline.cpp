@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+//Qt
+#include <QStyleFactory>
+
 // client
 #include "climisc.h"      /* for write_chatline_content */
 #include "climap.h"
@@ -39,6 +42,7 @@ chatwdg::chatwdg(QWidget *parent)
   QVBoxLayout *vb;
   QHBoxLayout *hl;
   QSpacerItem *si;
+  setStyle(QStyleFactory::create("fusion"));
   setStyleSheet("QTextEdit {background-color: transparent;}"
     "QTextEdit {color: #cdcead;}"
     "QTextEdit {background-attachment: fixed;}"
