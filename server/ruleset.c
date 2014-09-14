@@ -5123,6 +5123,7 @@ static bool load_ruleset_game(const char *rsdir, bool act)
 
       ruleset_error(LOG_ERROR, "\"%s\": Too many disaster types (%d, max %d)",
                     filename, num, MAX_DISASTER_TYPES);
+      section_list_destroy(sec);
       ok = FALSE;
     } else {
       game.control.num_disaster_types = nval;
@@ -5182,6 +5183,7 @@ static bool load_ruleset_game(const char *rsdir, bool act)
         break;
       }
     } disaster_type_iterate_end;
+    section_list_destroy(sec);
   }
 
   if (ok) {
