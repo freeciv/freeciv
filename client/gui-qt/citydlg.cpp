@@ -2861,7 +2861,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       break;
     case 1:                 /* Change current (selected on list)*/
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
-        return;
+        curr_selection = 0;
       }
       worklist_remove(&queue, curr_selection);
       worklist_insert(&queue, *target, curr_selection);
@@ -2869,7 +2869,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       break;
     case 2:                 /* Insert before */
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
-        return;
+        curr_selection = 0;
       }
       curr_selection--;
       curr_selection = qMax(0, curr_selection);
@@ -2878,7 +2878,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
       break;
     case 3:                 /* Insert after */
       if (curr_selection < 0 || curr_selection > worklist_length(&queue)) {
-        return;
+        curr_selection = 0;
       }
       curr_selection++;
       worklist_insert(&queue, *target, curr_selection);
