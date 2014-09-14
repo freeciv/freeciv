@@ -835,7 +835,7 @@ static void action_entry(Widget w, int action_id,
 {
   Arg arglist[1];
 
-  if (!action_probabilities[action_id]) {
+  if (!action_prob_possible(action_probabilities[action_id])) {
     XtSetSensitive(w, FALSE);
   }
 

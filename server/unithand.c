@@ -215,7 +215,7 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
       continue;
     }
 
-    if (ACTPROB_IMPOSSIBLE != action_prob_vs_city(actor, act, target)) {
+    if (action_prob_possible(action_prob_vs_city(actor, act, target))) {
       /* The actor unit may be able to do this action to the target
        * city. */
       return TRUE;
@@ -247,7 +247,7 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
       continue;
     }
 
-    if (ACTPROB_IMPOSSIBLE != action_prob_vs_unit(actor, act, target)) {
+    if (action_prob_possible(action_prob_vs_unit(actor, act, target))) {
       /* The actor unit may be able to do this action to the target
        * unit. */
       return TRUE;
@@ -363,7 +363,7 @@ void handle_unit_get_actions(struct connection *pc,
   /* Analyze the probabilities. Decide what targets to send and if an
    * explanation is needed. */
   action_iterate(act) {
-    if (probabilities[act] != ACTPROB_IMPOSSIBLE) {
+    if (action_prob_possible(probabilities[act])) {
       /* An action can be done. No need to explain why no action can be
        * done. */
       at_least_one_action = TRUE;

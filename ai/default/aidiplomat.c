@@ -337,7 +337,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   unit_activity_handling(punit, ACTIVITY_IDLE);
 
 #define T(my_act, my_val)                                                 \
-  if (ACTPROB_IMPOSSIBLE != action_prob_vs_city(punit, my_act, ctarget)) {\
+  if (action_prob_possible(action_prob_vs_city(punit, my_act, ctarget))) {\
     log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",      \
              nation_rule_name(nation_of_unit(punit)),               \
              unit_rule_name(punit), punit->id, city_name(ctarget)); \
@@ -642,9 +642,9 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       pf_path_destroy(path);
     }
 
-    if (ACTPROB_IMPOSSIBLE != action_prob_vs_unit(punit,
-                                  ACTION_SPY_BRIBE_UNIT,
-                                  pvictim)) {
+    if (action_prob_possible(action_prob_vs_unit(punit,
+                                 ACTION_SPY_BRIBE_UNIT,
+                                 pvictim))) {
       handle_unit_do_action(pplayer, punit->id,
                             pvictim->id, -1,
                             ACTION_SPY_BRIBE_UNIT);
@@ -654,9 +654,9 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       } else {
         return FALSE;
       }
-    } else if (ACTPROB_IMPOSSIBLE != action_prob_vs_unit(punit,
-                                         ACTION_SPY_SABOTAGE_UNIT,
-                                         pvictim)
+    } else if (action_prob_possible(action_prob_vs_unit(punit,
+                                        ACTION_SPY_SABOTAGE_UNIT,
+                                        pvictim))
                && threat) {
       /* don't stand around waiting for the final blow */
       handle_unit_do_action(pplayer, punit->id,

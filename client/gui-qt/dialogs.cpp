@@ -1214,7 +1214,7 @@ static void action_entry(choice_dialog *cd,
   QString tool_tip;
 
   /* Don't show disabled actions. */
-  if (action_probabilities[act] == ACTPROB_IMPOSSIBLE) {
+  if (!action_prob_possible(action_probabilities[act])) {
     return;
   }
 

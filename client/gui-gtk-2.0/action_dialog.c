@@ -951,7 +951,7 @@ static void action_entry(GtkWidget *shl,
   const gchar *tooltip;
 
   /* Don't show disabled actions. */
-  if (action_probabilities[action_id] == ACTPROB_IMPOSSIBLE) {
+  if (!action_prob_possible(action_probabilities[action_id])) {
     return;
   }
 

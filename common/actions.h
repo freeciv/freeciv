@@ -186,6 +186,8 @@ action_probability action_prob_vs_city(struct unit* actor, int action_id,
 action_probability action_prob_vs_unit(struct unit* actor, int action_id,
                                        struct unit* victim);
 
+bool action_prob_possible(action_probability probability);
+
 /* Reasoning about actions */
 bool action_immune_government(struct government *gov, int act);
 

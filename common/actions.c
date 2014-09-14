@@ -892,6 +892,15 @@ action_probability action_prob_vs_unit(struct unit* actor_unit,
 }
 
 /**************************************************************************
+  Returns TRUE iff the given action probability belongs to an action that
+  may be possible.
+**************************************************************************/
+bool action_prob_possible(action_probability probability)
+{
+  return ACTPROB_IMPOSSIBLE != probability;
+}
+
+/**************************************************************************
   Will a player with the government gov be immune to the action act?
 **************************************************************************/
 bool action_immune_government(struct government *gov, int act)
