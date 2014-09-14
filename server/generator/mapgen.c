@@ -3407,7 +3407,7 @@ static bool map_generate_fair_islands(void)
   int min_island_size = map.server.tinyisles ? 1 : 2;
   int players_per_island = 1;
   int teams_num = 0, team_players_num = 0, single_players_num = 0;
-  int i, iter;
+  int i, iter = CLIP(1, 100000 / map_num_tiles(), 10);
   bool done;
 
   teams_iterate(pteam) {
@@ -3520,6 +3520,7 @@ static bool map_generate_fair_islands(void)
   }
 
   log_verbose("Creating a map with fair island generator");
+  log_debug("max iterations=%d", iter);
   log_debug("players_per_island=%d", players_per_island);
   log_debug("team_placement=%s",
             team_placement_name(map.server.team_placement));
@@ -3528,7 +3529,7 @@ static bool map_generate_fair_islands(void)
   log_debug("playermass=%d, islandmass1=%d, islandmass2=%d, islandmass3=%d",
             playermass, islandmass1, islandmass2, islandmass3);
 
-  for (iter = 0; iter < 100; iter++) {
+  while (--iter >= 0) {
     done = TRUE;
     pmap = fair_map_new();
 
