@@ -339,6 +339,13 @@ void science_report::update_report()
   researching_combo->blockSignals(false);
   goal_combo->blockSignals(false);
 
+  if (client_is_observer()) {
+    researching_combo->setDisabled(true);
+    goal_combo->setDisabled(true);
+  } else {
+    researching_combo->setDisabled(false);
+    goal_combo->setDisabled(false);
+  }
   update_reqtree();
 }
 
