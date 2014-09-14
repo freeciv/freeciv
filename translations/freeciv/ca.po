@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 17:51+0200\n"
-"PO-Revision-Date: 2014-09-14 12:38+0200\n"
+"PO-Revision-Date: 2014-09-14 13:02+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -27227,7 +27227,6 @@ msgstr ""
 "i de la distància que les separa."
 
 #: data/helpdata.txt:628
-#, fuzzy
 msgid ""
 "The ongoing trade route that is established benefits both its origin and "
 "destination cities equally by generating trade points for each city every "
@@ -27237,16 +27236,13 @@ msgid ""
 "breaks out in a ruleset where enemies cannot trade -- it may be permanently "
 "canceled."
 msgstr ""
-"A més, s'estableix una ruta comercial contínua que beneficia tant l'origen "
-"com el destí de manera igual generant punts de comerç per a cada ciutat a "
+"La ruta comercial contínua que s'estableix beneficia tant la ciutat origen "
+"com la de destí de manera igual, generant punts de comerç per a cada ciutat a "
 "cada torn. La quantitat d'aquest comerç continu augmenta amb la mida de cada "
-"ciutat i la distància entre elles; es duplica si les ciutats són de "
-"continents diferents, i es torna a duplicar si les ciutats són de "
-"civilitzacions diferents. Aquesta última condició vol dir que el benefici "
-"net per a la teva civilització d'una ruta comercial és el mateix tant si les "
-"dues ciutats són teves com si només ho és una; si només en tens una, el "
-"comerç de cada ciutat es duplica, però només obtens el benefici d'una banda "
-"de la ruta comercial."
+"ciutat i la distància entre elles, i també pot dependre dels factors "
+"mencionats abans. Si una ruta comercial esdevé insostenible -- per exemple, "
+"si comença una guerra en un joc de regles on els enemics no puguin comerciar "
+"-- es pot cancel·lar de forma permanent."
 
 #: data/helpdata.txt:636
 msgid ""
@@ -28627,7 +28623,6 @@ msgstr ""
 "lliurement per zones controlades totalment o parcial per forces enemigues."
 
 #: data/helpdata.txt:1322
-#, fuzzy
 msgid ""
 "Zones of control are only enforceable on some terrain -- in the classic "
 "rules, only on land tiles. When ZOC applies, the general rule is that a unit "
@@ -28637,16 +28632,19 @@ msgid ""
 "an Alliance pact with that nation. Adjacency means any of the eight tiles "
 "surrounding a unit for rectangular grids, or six tiles for hexagonal grids."
 msgstr ""
-"La regla general és que una unitat de terra que es troba adjacent a una "
+"Les zones de control només es poden mantenir en alguns tipus de terreny -- en "
+"el reglament clàssic, només en caselles terrestres. Quan s'aplica la ZDC, la "
+"regla general és que una unitat que es troba adjacent a una "
 "casella ocupada per un enemic no es pot moure directament a una altra "
 "casella que també sigui adjacent a una casella ocupada per un enemic. "
-"S'entén per casella ocupada per un enemic una casella de terra que conté una "
-"unitat estrangera. Adjacència es refereix a qualsevol de les vuit caselles "
+"S'entén per casella ocupada per un enemic una que contingui una "
+"unitat estrangera d'un tipus que imposi ZDC, a no ser que tinguis un pacte "
+"d'aliança amb la seva nació. Adjacència es refereix a qualsevol de les vuit "
+"caselles "
 "que hi ha al voltant d'una unitat per graelles rectangulars, o sis caselles "
-"per graelles hexagonals"
+"per graelles hexagonals."
 
 #: data/helpdata.txt:1331
-#, fuzzy
 msgid ""
 "In the following special cases, units can move regardless of ZOC:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -28657,22 +28655,24 @@ msgid ""
 "- A unit type which explicitly ignores ZOC, such as Diplomats and Spies in "
 "the classic rules."
 msgstr ""
-"Les ZDC no s'apliquen en els següents casos especials:\n"
-"- una unitat movent-se directament des de o cap a una ciutat.\n"
-"- una unitat movent-se cap a una casella ocupada per una unitat amiga.\n"
-"- una unitat movent-se des d'una casella d'oceà (desembarcant des d'una "
-"barca).\n"
+"En els següents casos especials, les unitats es poden moure sense importar la "
+"ZDC:\n"
+"- una unitat que es mogui directament des de o cap a una ciutat.\n"
+"- una unitat que es mogui cap a una casella que ja estigui ocupada per una "
+"unitat amiga.\n"
+"- una unitat que es mogui des de o cap a un terreny on la ZDC no es pot "
+"mantenir; per exemple, en les regles clàssiques, una unitat terrestre que "
+"desembarqui d'un vaixell que és en una casella d'oceà.\n"
 "- una unitat que explícitament pot ignorar les ZDC, p.ex.: Diplomàtics i "
-"Espies.\n"
-"- La unitat estrangera és d'una nació amb què tens un pacte d'Aliança."
+"Espies en les regles clàssiques."
 
 #: data/helpdata.txt:1340
 msgid "Notes:"
-msgstr ""
+msgstr "Notes:"
 
 #: data/helpdata.txt:1342
 msgid "- ZOC does not restrict unit attacks, only movement."
-msgstr ""
+msgstr "- La ZDC no restringeix els atacs de les unitats, només el moviment."
 
 #: data/helpdata.txt:1344
 msgid ""
@@ -28680,6 +28680,9 @@ msgid ""
 "units that are not native to terrain effectively cannot impose ZOC except "
 "for the special case where they are in a city."
 msgstr ""
+"- Les unitats només poden imposar ZDC quan són en un terreny que ho permet. "
+"Així, les unitats que no són natives del terreny no poden imposar ZDC excepte "
+"en el cas especial que siguin en una ciutat."
 
 #: data/helpdata.txt:1348
 msgid ""
@@ -28687,6 +28690,9 @@ msgid ""
 "inside the city, but not if the city is empty. (This is the same rule as for "
 "any other tile.)"
 msgstr ""
+"- Una ciutat enemiga compta com a casella ocupada per l'enemic si hi ha "
+"unitats a dins, però no si la ciutat és buida. (És la mateixa regla que per a "
+"qualsevol altra casella)."
 
 #: data/helpdata.txt:1352
 msgid ""
@@ -32256,9 +32262,8 @@ msgid "?vertag:crosser"
 msgstr "crosser"
 
 #: translations/Strings.txt:17
-#, fuzzy
 msgid "?vertag:win32-S2_6"
-msgstr "win32"
+msgstr "win32-S2_6"
 
 #. TRANS: part of revision based version number string
 #. "(modified r25000)"
@@ -33554,7 +33559,7 @@ msgstr ""
 "%s.  S'ajorna..."
 
 #: server/cityturn.c:1633
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
 msgstr ""
