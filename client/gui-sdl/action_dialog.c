@@ -758,6 +758,7 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
     }
     
     popdown_diplomat_dialog();  
+    choose_action_queue_next();
   }
   return -1;
 }
