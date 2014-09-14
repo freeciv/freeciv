@@ -46,7 +46,6 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
-#include "traderoutes.h"
 #include "unitlist.h"
 
 /* client */
@@ -150,14 +149,6 @@ static int city_style_ridx[64];    /* translation table the other way           
 
 int is_showing_pillage_dialog = FALSE;
 int unit_to_use_to_pillage;
-
-int caravan_city_id;
-int caravan_unit_id;
-
-struct city *pcity_caravan_dest;
-struct unit *punit_caravan;
-
-static Widget caravan_dialog;
 
 /****************************************************************
 ...
@@ -404,92 +395,6 @@ void popup_connect_msg(const char *headline, const char *message)
    *        Now just puts to chat window so message is not completely lost. */
 
   output_window_append(ftc_client, message);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
-					     XtPointer call_data)
-{
-  dsend_packet_unit_establish_trade(&client.conn, caravan_unit_id);
-  destroy_message_dialog(w);
-  caravan_dialog = 0;
-  process_caravan_arrival(NULL);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_help_build_wonder_callback(Widget w,
-					       XtPointer client_data,
-					       XtPointer call_data)
-{
-  dsend_packet_unit_help_build_wonder(&client.conn, caravan_unit_id);
-
-  destroy_message_dialog(w);
-  caravan_dialog = 0;
-  process_caravan_arrival(NULL);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_keep_moving_callback(Widget w, XtPointer client_data, 
-					 XtPointer call_data)
-{
-  destroy_message_dialog(w);
-  caravan_dialog = 0;
-  process_caravan_arrival(NULL);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_caravan_dialog(struct unit *punit,
-			  struct city *phomecity, struct city *pdestcity)
-{
-  char buf[128];
-  
-  fc_snprintf(buf, sizeof(buf),
-              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-              unit_name_translation(punit),
-              city_name(phomecity), city_name(pdestcity));
-  
-  caravan_city_id=pdestcity->id; /* callbacks need these */
-  caravan_unit_id=punit->id;
-  
-  caravan_dialog=popup_message_dialog(toplevel, "caravandialog", 
-			   buf,
-			   caravan_establish_trade_callback, 0, 0,
-			   caravan_help_build_wonder_callback, 0, 0,
-			   caravan_keep_moving_callback, 0, 0,
-			   NULL);
-  
-  if (!can_cities_trade(phomecity, pdestcity))
-    XtSetSensitive(XtNameToWidget(caravan_dialog, "*button0"), FALSE);
-  
-  if(!unit_can_help_build_wonder(punit, pdestcity))
-    XtSetSensitive(XtNameToWidget(caravan_dialog, "*button1"), FALSE);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-bool caravan_dialog_is_open(int* unit_id, int* city_id)
-{
-  return BOOL_VAL(caravan_dialog);
-}
-
-/**************************************************************************
-  Updates caravan dialog
-**************************************************************************/
-void caravan_dialog_update(void)
-{
-/* PORT ME */
 }
 
 /****************************************************************
