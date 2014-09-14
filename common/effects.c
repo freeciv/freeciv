@@ -189,11 +189,11 @@ struct effect *effect_new(enum effect_type type, int value)
 /**************************************************************************
   Append requirement to effect.
 **************************************************************************/
-void effect_req_append(struct effect *peffect, struct requirement *preq)
+void effect_req_append(struct effect *peffect, struct requirement req)
 {
-  struct effect_list *eff_list = get_req_source_effects(&preq->source);
+  struct effect_list *eff_list = get_req_source_effects(&req.source);
 
-  requirement_vector_append(&peffect->reqs, *preq);
+  requirement_vector_append(&peffect->reqs, req);
 
   if (eff_list) {
     effect_list_append(eff_list, peffect);
@@ -330,14 +330,11 @@ void recv_ruleset_effect(const struct packet_ruleset_effect *packet)
 {
   struct effect *peffect;
   int i;
-  struct requirement *preq;
 
   peffect = effect_new(packet->effect_type, packet->effect_value);
 
   for (i = 0; i < packet->reqs_count; i++) {
-    preq = fc_malloc(sizeof(*preq));
-    *preq = packet->reqs[i];
-    effect_req_append(peffect, preq);
+    effect_req_append(peffect, packet->reqs[i]);
   }
   fc_assert(peffect->reqs.size == packet->reqs_count);
 }

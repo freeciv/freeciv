@@ -595,6 +595,7 @@ static void nation_free(struct nation_type *pnation)
   free(pnation->legend);
   FC_FREE(pnation->translation_domain);
   nation_leader_list_destroy(pnation->leaders);
+  nation_set_list_destroy(pnation->sets);
   nation_group_list_destroy(pnation->groups);
 
   if (is_server()) {

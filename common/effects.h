@@ -295,7 +295,7 @@ struct effect {
 #define effect_list_iterate_end LIST_ITERATE_END
 
 struct effect *effect_new(enum effect_type type, int value);
-void effect_req_append(struct effect *peffect, struct requirement *preq);
+void effect_req_append(struct effect *peffect, struct requirement req);
 
 struct astring;
 void get_effect_req_text(const struct effect *peffect,

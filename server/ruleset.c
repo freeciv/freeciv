@@ -2894,6 +2894,7 @@ static bool load_ruleset_terrain(struct section_file *file)
           BV_SET(pextra->flags, flag);
         }
       }
+      free(slist);
 
       if (!ok) {
         break;
@@ -3722,10 +3723,9 @@ static bool load_ruleset_nations(struct section_file *file)
     return FALSE;
   }
 
-  game.server.ruledit.nationlist = secfile_lookup_str_default(file, NULL,
-                                                              "ruledit.nationlist");
-  if (game.server.ruledit.nationlist != NULL) {
-    game.server.ruledit.nationlist = fc_strdup(game.server.ruledit.nationlist);
+  name = secfile_lookup_str_default(file, NULL, "ruledit.nationlist");
+  if (name != NULL) {
+    game.server.ruledit.nationlist = fc_strdup(name);
   }
 
   game.server.default_government = NULL;
@@ -4651,24 +4651,18 @@ static bool load_ruleset_effects(struct section_file *file)
       break;
     }
 
-    requirement_vector_iterate(reqs, req) {
-      struct requirement *preq = fc_malloc(sizeof(*preq));
-      
-      *preq = *req;
-      effect_req_append(peffect, preq);
+    requirement_vector_iterate(reqs, preq) {
+      effect_req_append(peffect, *preq);
     } requirement_vector_iterate_end;
-    
+
     reqs = lookup_req_list(file, sec_name, "nreqs", type);
     if (reqs == NULL) {
       ok = FALSE;
       break;
     }
-    requirement_vector_iterate(reqs, req) {
-      struct requirement *preq = fc_malloc(sizeof(*preq));
-      
-      *preq = *req;
+    requirement_vector_iterate(reqs, preq) {
       preq->present = !preq->present;
-      effect_req_append(peffect, preq);
+      effect_req_append(peffect, *preq);
     } requirement_vector_iterate_end;
   } section_list_iterate_end;
   section_list_destroy(sec);
@@ -5124,6 +5118,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
 
           action_enabler_add(enabler);
         } section_list_iterate_end;
+        section_list_destroy(sec);
       }
     }
   }
@@ -5293,6 +5288,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
 
       ruleset_error(LOG_ERROR, "\"%s\": Too many disaster types (%d, max %d)",
                     filename, num, MAX_DISASTER_TYPES);
+      section_list_destroy(sec);
       ok = FALSE;
     } else {
       game.control.num_disaster_types = nval;
@@ -5352,6 +5348,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
         break;
       }
     } disaster_type_iterate_end;
+    section_list_destroy(sec);
   }
 
   if (ok) {

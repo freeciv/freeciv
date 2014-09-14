@@ -243,7 +243,7 @@ struct civ_game {
       struct government *default_government;
 
       struct {
-        const char *nationlist;
+        char *nationlist;
       } ruledit;
     } server;
   };

@@ -568,6 +568,11 @@ void game_ruleset_free(void)
     rgbcolor_destroy(game.plr_bg_color);
     game.plr_bg_color = NULL;
   }
+
+  if (is_server() && game.server.ruledit.nationlist != NULL) {
+    free(game.server.ruledit.nationlist);
+    game.server.ruledit.nationlist = NULL;
+  }
 }
 
 /***************************************************************
