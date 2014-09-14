@@ -350,60 +350,78 @@ Map structure
 =========================================================================
 The map is maintained in a pretty straightforward C array, containing
 X*Y tiles. You can use the function
-struct tile *map_get_tile(x, y)
+struct tile *map_pos_to_tile(x, y)
 to find a pointer to a specific tile.
-A tile has various fields; see the struct in common/map.h
+A tile has various fields; see the struct in "common/map.h"
 
-When operating on tiles you normally iterate over x and y and maybe use
-map_get_tile() to get the tile struct.
-When fx iterating in a square around a map position (x,y) the naive method
+You may iterate tiles, you may use the following methods:
 
-for (x1 = x-1; x1 <= x+1; x1++)
-  for (y1 = y-1; y1 <= y+1; y1++)
-    /* do something */
+whole_map_iterate(tile_itr) {
+  /* do something */
+} whole_map_iterate_end;
+for iterating all tiles of the map;
 
-would sometimes, fx if (x,y) = (0,0) , give tiles like (-1,0) or (0,-1)
-Because the map wraps in the x direction the first position should be
-[assuming the map has the size (map.xsize,map.ysize)] (map.xsize-1, 0), while
-the second tile (0,-1) is not a real time at all!
-This could be solved by the following:
+adjc_iterate(center_tile, tile_itr) {
+  /* do something */
+} adjc_iterate_end;
+for iterating all tiles close to 'center_tile', in all *valid* directions
+for the current topology (see below);
 
+cardinal_adjc_iterate(center_tile, tile_itr) {
+  /* do something */
+} cardinal_adjc_iterate_end;
+for iterating all tiles close to 'center_tile', in all *cardinal* directions
+for the current topology (see below);
+
+square_iterate(center_tile, radius, tile_itr) {
+  /* do something */
+} square_iterate_end;
+for iterating all tiles in the radius defined 'radius' (in real distance,
+see below), beginning by 'center_tile';
+
+circle_iterate(center_tile, radius, tile_itr) {
+  /* do something */
+} square_iterate_end;
+for iterating all tiles in the radius defined 'radius' (in square distance,
+see below), beginning by 'center_tile';
+
+iterate_outward(center_tile, real_dist, tile_itr) {
+  /* do something */
+} iterate_outward_end;
+for iterating all tiles in the radius defined 'radius' (in real distance,
+see below), beginning by 'center_tile'. (Actually, this is the duplicate
+of square_iterate);
+
+or various tricky ones defined in "common/map.h", which automatically
+adjust the tile values. The defined macros should be used whenever
+possible, the examples above were only included to give people the
+knowledge of how things work.
+
+Note that the following
 for (x1 = x-1; x1 <= x+1; x1++) {
   for (y1 = y-1; y1 <= y+1; y1++) {
-    int abs_x = x1, abs_y = y1;
-    if (!normalize_map_pos(&abs_x, &abs_y))
-      continue;
-    /* do something with abs_x, abs_y */
+    /* do something */
   }
 }
+is not a reliable way to iterate all adjacent tiles for all topologies, so
+such operations should be avoided.
 
-normalize_map_pos() will adjust the values of abs_x, abs_y to fix within
-the map, and if the original pos does not correspond to a tile, as (0, -1),
-it will return 0.
-Alternatively this could have all been done via the macro call
 
-square_iterate(x, y, 1/*radius*/, x1, y1)  {
-/* do something */
-} square_iterate_end;
+Also available are the functions calculating distance between tiles. In
+Freeciv, we are using 3 types of distance between tiles:
 
-which automatically adjust the tile values. The defined macros should be
-used whenever possible, the example of a "manual" square iterate was only
-included to give people the knowledge of how things work.
+map_distance(ptile0, ptile1) returns the *Manhattan* distance between
+tiles, i.e. the distance from 'ptile0' to 'ptile1', only using cardinal
+directions, for example (abs(dx) + ads(dy)) for non-hexagonal topologies.
 
-Also available is the function real_map_distance(), which takes wrap and
-such things into account. It does not however take terrain and roads, etc.
-into account. For that you would use a move_cost_map, which is generated
-via the function generate_warmap(), and calculates the distances from a
-tile to all other tiles on the map. See server/gotohand.c.
+real_map_distance(ptile0, ptile1) returns the *normal* distance between
+tiles, i.e. the minimal distance from 'ptile0' to 'ptile1' using all
+valid directions for the current topology.
 
-Note that if all the code that operate on x and y values used macros, it
-would be very simple to convert these, to allow fx a flat world or a map
-structure like in civ2 for isometric view.
-
-Almost all functions expect that any passed map positions are normal
-(is_normal_map_pos returns true). Currently there is no known
-exception of this rule. To assert this the CHECK_MAP_POS macro should
-be used.
+sq_map_distance(ptile0, ptile1) returns the *square* distance between
+tiles. This is a simple way to make Pythagorean effects for making circles
+on the map for example. For non-hexagonal topologies, it would be
+(dx * dx + dy * dy). Only useless square root is missing.
 
 =========================================================================
 Different types of map topology
@@ -449,6 +467,23 @@ cylinder, horizontal cylinder, and torus.  Traditionally Freeciv only wraps
 in the east-west direction.
 
 =========================================================================
+Topology, cardinal directions and valid directions
+=========================================================================
+
+A *cardinal* direction connects tiles per a *side*.
+Another *valid* direction connects tiles per a *corner*.
+
+In non-hexagonal topologies, there are 4 cardinal directions, and 4 other
+valid directions.
+In hexagonal topologies, there are 6 cardinal directions, which matches
+exactly the 6 valid directions.
+
+Note that with isometric view, the direction named "North" (DIR8_NORTH)
+is actually not from the top to the bottom of the screen view. All
+directions are turned a step on the left (pi/4 rotation with square tiles,
+pi/3 rotation for hexagonal tiles).
+
+=========================================================================
 Different coordinate systems
 =========================================================================
 
@@ -458,7 +493,7 @@ becomes important when we start to use non-standard maps (see above).
 
   Here is a diagram of coordinate conversions for a classical map.
 
-      map        natural      native
+      map        natural      native       index
 
       ABCD        ABCD         ABCD
       EFGH  <=>   EFGH     <=> EFGH   <=> ABCDEFGHIJKL
@@ -475,6 +510,8 @@ becomes important when we start to use non-standard maps (see above).
 
 Below each of the coordinate systems are explained in more detail.
 
+Note that hexagonal topologies are always considered as isometric.
+
 - Map (or "standard") coordinates.
 
   All of the code examples above are in map coordinates.  These preserve
@@ -489,8 +526,38 @@ Below each of the coordinate systems are explained in more detail.
   are preserved, regardless of what the underlying map or drawing code
   looks like.  This is the definition of the system.
 
-  Map coordinates are easiest for local operations (like square_iterate
-  or adjc_iterate) but unwieldy for global operations.
+  With an isometric view, this looks like:
+
+                              (map_x-1, map_y-1)
+                 (map_x-1, map_y)            (map_x, map_y-1)
+  (map_x-1, map_y+1)          (map_x, map_y)              (map_x+1, map_y-1)
+                 (map_x, map_y+1)            (map_x+1, map_y)
+                              (map_x+1, map_y+1)
+
+  Map coordinates are easiest for local operations (like 'square_iterate'
+  and friends, translations, rotations and any other scalar operation)
+  but unwieldy for global operations.
+
+  When performing operations in map coordinates (like a translation
+  of tile (x, y) by (dx, dy) -> (x + dx, y + dy)), the new map coordinates
+  may be unsuitable for the current map. In case, you should use one of
+  the following functions/macros:
+
+  map_pos_to_tile(): return NULL if normalization is not possible;
+
+  normalize_map_pos(): return TRUE if normalization have been done (wrapping
+  X and Y coordinates if the current topology allows it);
+
+  is_normal_map_pos(): return TRUE if the map coordinates exist for the map;
+
+  is_real_map_pos(): return TRUE if the map coordinates may exist if we
+  perform normalization.
+
+  CHECK_MAP_POS(): assert whether the map coordinates exist for the map.
+
+  Map coordinates are quite central in the coordinate system, and they may
+  be easily converted to any other coordinates: MAP_TO_NATURAL_POS(),
+  MAP_TO_NATIVE_POS(), map_pos_to_index().
 
 - Natural coordinates.
 
@@ -500,25 +567,45 @@ Below each of the coordinate systems are explained in more detail.
   scale as map coordinates and, in the iso case, there are gaps in the
   natural representation of a map.
 
+  With classical view, this looks like:
+
+      (nat_x-1, nat_y-1)    (nat_x, nat_y-1)   (nat_x+1, nat_y-1)
+      (nat_x-1, nat_y)      (nat_x, nat_y)     (nat_x+1, nat_y)
+      (nat_x-1, nat_y+1)    (nat_x, nat_y+1)   (nat_x+1, nat_y+1)
+
+  With an isometric view, this looks like:
+
+                              (nat_x, nat_y-2)
+               (nat_x-1, nat_y-1)          (nat_x+1, nat_y-1)
+  (nat_x-2, nat_y)            (nat_x, nat_y)              (nat_x+2, nat_y)
+               (nat_x-1, nat_y+1)          (nat_x+1, nat_y+1)
+                              (nat_x, nat_y+2)
+
+  Natural coordinates are mostly used for operations which concern the user
+  view. It is the best way to determine the horizontal and the vertical
+  axis of the view.
+
+  The only coordinates conversion is done using NATURAL_TO_MAP_POS().
+
 - Native coordinates.
 
-  With an iso-rectangular map, global operations are difficult using map
-  coordinates.  Imagine a simple iso-rectangular map.  Its "natural"
-  representation is
+  With classical view, this looks like:
 
-                 A B C        (0,0)   (2,0)   (4,0)
-                  D E F  <=>      (1,1)   (3,1)   (5,1)
-                 G H I        (0,2)   (2,2)   (4,2)
+      (nat_x-1, nat_y-1)    (nat_x, nat_y-1)   (nat_x+1, nat_y-1)
+      (nat_x-1, nat_y)      (nat_x, nat_y)     (nat_x+1, nat_y)
+      (nat_x-1, nat_y+1)    (nat_x, nat_y+1)   (nat_x+1, nat_y+1)
 
-  while its representation in map coordinates would be
+  With an isometric view, this looks like:
 
-                     CF                   (2,0) (3,0)
-                    BEI  <=>        (1,1) (2,1) (3,1)
-                   ADH        (0,2) (1,2) (2,2)
-                    G               (1,3)
+                              (nat_x, nat_y-2)
+               (nat_x-1, nat_y-1)          (nat_x, nat_y-1)
+  (nat_x-1, nat_y)            (nat_x, nat_y)            (nat_x+1, nat_y)
+               (nat_x-1, nat_y+1)          (nat_x, nat_y+1)
+                              (nat_x, nat_y+2)
 
   Neither is particularly good for a global map operation such as
-  whole_map_iterate.  Something better is needed.
+  map wrapping or conversions to/from map indexes, something better
+  is needed.
 
   Native coordinates compress the map into a continuous rectangle; the
   dimensions are defined as map.xsize x map.ysize.  For instance the
@@ -539,6 +626,13 @@ Below each of the coordinate systems are explained in more detail.
   the basic map becomes a continuous (gap-free) cardinally-oriented
   rectangle when expressed in native coordinates.
 
+  Native coordinates can be easily converted to map coordinates using
+  NATIVE_TO_MAP_POS(), to index using native_pos_to_index() and
+  to tile (shortcut) using native_pos_to_tile().
+
+  After operations, such as FC_WRAP(x, map.xsize), the result may be checked
+  with CHECK_NATIVE_POS().
+
 - Index coordinates.
 
   Index coordinates simply reorder the map into a continuous (filled-in)
@@ -548,6 +642,12 @@ Below each of the coordinate systems are explained in more detail.
   one-dimensional.  In general you can't assume anything about the ordering
   of the positions within the system.
 
+  Indexes can be easily converted to native coordinates using
+  index_to_native_pos() or to map positions (shortcut) using
+  index_to_map_pos().
+
+  An map index can tested using the CHECK_INDEX macro.
+
 With a classical rectangular map, the first three coordinate systems are
 equivalent.  When we introduce isometric maps, the distinction becomes
 important, as demonstrated above.  Many places in the code have
@@ -555,6 +655,10 @@ introduced "map_x/map_y" or "nat_x/nat_y" to help distinguish whether
 map or native coordinates are being used.  Other places are not yet
 rigorous in keeping them apart, and will often just name their variables
 "x" and "y".  The latter can usually be assumed to be map coordinates.
+
+Note that if you don't need to do some abstract geometry exploit, you
+will mostly use tile pointers, and give to map.[ch] tools the ability
+to perform what you want.
 
 Note that map.xsize and map.ysize define the dimension of the map in
 _native_ coordinates.
@@ -602,8 +706,8 @@ The math then works out to
   nat_y = map_x + map_y - map.xsize
   nat_x = floor(map_x - map_y + map.xsize / 2)
 
-which leads to the macros native_to_map_pos, map_to_native_pos,
-map_pos_to_native_x, and map_pos_to_native_y that are defined in map.h.
+which leads to the macros NATIVE_TO_MAP_POS(), MAP_TO_NATIVE_POS() that are
+defined in map.h.
 
 =========================================================================
 Unknown tiles and Fog of War
