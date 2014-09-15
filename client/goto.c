@@ -302,6 +302,35 @@ static void reset_last_part(struct goto_map *goto_map)
   }
 }
 
+/****************************************************************************
+  Fill pathfinding parameter for adding a new part.
+****************************************************************************/
+static void fill_parameter_part(struct pf_parameter *param,
+                                const struct goto_map *goto_map,
+                                const struct part *p)
+{
+  *param = goto_map->template;
+
+  if (p->start_tile == p->end_tile) {
+    /* Copy is enough, we didn't move last part. */
+    fc_assert(p->path->length == 1);
+    return;
+  }
+
+  param->start_tile = p->end_tile;
+  param->moves_left_initially = p->end_moves_left;
+  param->fuel_left_initially = p->end_fuel_left;
+  if (can_exist_at_tile(param->utype, param->start_tile)) {
+    param->transported_by_initially = NULL;
+  } else {
+    const struct unit *transporter =
+        transporter_for_unit_at(goto_map_unit(goto_map), param->start_tile);
+
+    param->transported_by_initially = (transporter != NULL
+                                       ? unit_type(transporter) : NULL);
+  }
+}
+
 /********************************************************************** 
   Add a part. Depending on the num of already existing parts the start
   of the new part is either the unit position (for the first part) or
@@ -310,7 +339,7 @@ static void reset_last_part(struct goto_map *goto_map)
 static void add_part(struct goto_map *goto_map)
 {
   struct part *p;
-  struct pf_parameter parameter = goto_map->template;
+  struct pf_parameter parameter;
   struct unit *punit = goto_map_unit(goto_map);
 
   goto_map->num_parts++;
@@ -322,25 +351,13 @@ static void add_part(struct goto_map *goto_map)
   if (goto_map->num_parts == 1) {
     /* first part */
     p->start_tile = unit_tile(punit);
+    parameter = goto_map->template;
   } else {
     struct part *prev = &goto_map->parts[goto_map->num_parts - 2];
 
     p->start_tile = prev->end_tile;
-    parameter.moves_left_initially = prev->end_moves_left;
-    parameter.fuel_left_initially = prev->end_fuel_left;
-    if (prev->end_tile == prev->start_tile) {
-      parameter.transported_by_initially =
-          pf_map_parameter(prev->map)->transported_by_initially;
-    } else if (can_exist_at_tile(parameter.utype, p->start_tile)) {
-      parameter.transported_by_initially = NULL;
-    } else {
-      const struct unit *transporter =
-          transporter_for_unit_at(punit, p->start_tile);
-
-      parameter.transported_by_initially = (transporter != NULL
-                                            ? unit_type(transporter) : NULL);
-    }
-  }
+    fill_parameter_part(&parameter, goto_map, prev);
+   }
   p->path = NULL;
   p->end_tile = p->start_tile;
   p->mp = 0;
@@ -1134,7 +1151,7 @@ void send_patrol_route(void)
     struct pf_map *pfm;
     struct pf_path *return_path;
     struct pf_path *path = NULL;
-    struct pf_parameter parameter = goto_map->template;
+    struct pf_parameter parameter;
     struct part *last_part = &goto_map->parts[goto_map->num_parts - 1];
 
     if (NULL == last_part->path) {
@@ -1142,9 +1159,7 @@ void send_patrol_route(void)
       continue;
     }
 
-    parameter.start_tile = last_part->end_tile;
-    parameter.moves_left_initially = last_part->end_moves_left;
-    parameter.fuel_left_initially = last_part->end_fuel_left;
+    fill_parameter_part(&parameter, goto_map, last_part);
     pfm = pf_map_new(&parameter);
     return_path = pf_map_path(pfm, goto_map->parts[0].start_tile);
     if (!return_path) {
