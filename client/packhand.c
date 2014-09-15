@@ -1776,9 +1776,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   map.ysize = ysize;
   map.topology_id = topology_id;
 
-  /* Parameter is FALSE so that sizes are kept unchanged. */
-  map_init_topology(FALSE);
-
+  map_init_topology();
   map_allocate();
   client_player_maps_reset();
   init_client_goto();
