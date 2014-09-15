@@ -127,7 +127,6 @@ void create_animals(void)
   presearch = research_get(plr);
   init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
-  send_research_info(presearch, NULL);
 
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {
@@ -140,6 +139,9 @@ void create_animals(void)
   CALL_PLR_AI_FUNC(gained_control, plr, plr);
 
   send_player_all_c(plr, NULL);
+  /* Send research info after player info, else the client will complain
+   * about invalid team. */
+  send_research_info(presearch, NULL);
 
   for (i = 0; i < map.xsize * map.ysize / 50; i++) {
     place_animal(plr);

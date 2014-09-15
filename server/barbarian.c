@@ -160,7 +160,6 @@ struct player *create_barbarian_player(enum barbarian_type type)
   presearch = research_get(barbarians);
   init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
-  send_research_info(presearch, NULL);
 
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {
@@ -181,6 +180,9 @@ struct player *create_barbarian_player(enum barbarian_type type)
                 player_name(barbarians));
 
   send_player_all_c(barbarians, NULL);
+  /* Send research info after player info, else the client will complain
+   * about invalid team. */
+  send_research_info(presearch, NULL);
 
   return barbarians;
 }
