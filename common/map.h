@@ -631,7 +631,8 @@ extern const int DIR_DY[8];
 FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
                  map_too_big_for_bitvector);
 /* We communicate through the network with signed 32-bits integers. */
-FC_STATIC_ASSERT((long) MAP_MAX_SIZE * 1000 < (long) 1 << 31,
+FC_STATIC_ASSERT((long unsigned) MAP_MAX_SIZE * 1000
+                 < (long unsigned) 1 << 31,
                  map_too_big_for_network);
 
 #define MAP_DEFAULT_TILESPERPLAYER      100
