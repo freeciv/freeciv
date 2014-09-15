@@ -130,6 +130,15 @@ void free_help_texts(void)
 }
 
 /****************************************************************************
+  Returns whether we should show help for this nation.
+****************************************************************************/
+static bool show_help_for_nation(const struct nation_type *pnation)
+{
+  return (is_nation_pickable(pnation)
+          || nation_barbarian_type(pnation) != NOT_A_BARBARIAN);
+}
+
+/****************************************************************************
   Insert fixed-width table describing veteran system.
   If only one veteran level, inserts 'nolevels' if non-NULL.
   Otherwise, insert 'intro' then a table.
@@ -2793,7 +2802,7 @@ void boot_help_texts(struct player *pplayer)
           case HELP_NATIONS:
             nations_iterate(pnation) {
               if (client_state() < C_S_RUNNING
-                  || is_nation_pickable(pnation)) {
+                  || show_help_for_nation(pnation)) {
                 pitem = new_help_item(current_type);
                 fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                             nation_plural_translation(pnation));
@@ -3112,7 +3121,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     int i;
 
     /* Avoid mentioning nations not in current set. */
-    if (!is_nation_pickable(pnation)) {
+    if (!show_help_for_nation(pnation)) {
       continue;
     }
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
@@ -3255,7 +3264,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     int i, count = 0;
 
     /* Avoid mentioning nations not in current set. */
-    if (!is_nation_pickable(pnation)) {
+    if (!show_help_for_nation(pnation)) {
       continue;
     }
     for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
@@ -3870,7 +3879,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     int j;
 
     /* Avoid mentioning nations not in current set. */
-    if (!is_nation_pickable(pnation)) {
+    if (!show_help_for_nation(pnation)) {
       continue;
     }
     for (j = 0; j < MAX_NUM_TECH_LIST; j++) {
