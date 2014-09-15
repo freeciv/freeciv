@@ -829,7 +829,6 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
   case ACTIVITY_FALLOUT:
     return pterrain->clean_fallout_time;
   case ACTIVITY_PILLAGE:
-    log_normal("pillage_time: %d", pterrain->pillage_time);
     return pterrain->pillage_time;
   default:
     fc_assert(FALSE);
