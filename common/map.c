@@ -307,10 +307,12 @@ void map_init_topology(bool set_sizes)
 
   /* The size and ratio must satisfy the minimum and maximum *linear*
    * restrictions on width */
-  fc_assert(MAP_WIDTH >= MAP_MIN_LINEAR_SIZE);
-  fc_assert(MAP_HEIGHT >= MAP_MIN_LINEAR_SIZE);
-  fc_assert(MAP_WIDTH <= MAP_MAX_LINEAR_SIZE);
-  fc_assert(MAP_HEIGHT <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(map.xsize >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(map.ysize >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(map.xsize <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(map.ysize <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(map_num_tiles() >= MAP_MIN_SIZE * 1000);
+  fc_assert(map_num_tiles() <= MAP_MAX_SIZE * 1000);
 
   map.num_valid_dirs = map.num_cardinal_dirs = 0;
   for (dir = 0; dir < 8; dir++) {
