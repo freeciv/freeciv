@@ -221,7 +221,8 @@ static void set_sizes(double size, int Xratio, int Yratio)
   /* Now make sure the size isn't too large for this ratio or the overall map
    * size (MAP_INDEX_SIZE) is larger than the maximal allowed size
    * (MAP_MAX_SIZE * 1000). If it is then decrease the size and try again. */
-  if (MAX(MAP_WIDTH, MAP_HEIGHT) > MAP_MAX_LINEAR_SIZE
+  if (map.xsize > MAP_MAX_LINEAR_SIZE
+      || map.ysize > MAP_MAX_LINEAR_SIZE
       || MAP_INDEX_SIZE > MAP_MAX_SIZE * 1000) {
     fc_assert(size > 100.0);
     set_sizes(size - 100.0, Xratio, Yratio);
@@ -370,7 +371,7 @@ void generator_init_topology(bool autosize)
     ice_base_colatitude /= 2;
   }
 
-  map_init_topology(TRUE);
+  map_init_topology();
 }
 
 /*************************************************************************** 

@@ -637,8 +637,9 @@ static void map_load_tiles(struct section_file *file)
     fc_assert_exit_msg(FALSE, "%s", secfile_error());
   }
 
-  /* With a FALSE parameter [xy]size are not changed by this call. */
-  map_init_topology(FALSE);
+  /* Initialize the map for the current topology. 'map.xsize' and
+   * 'map.ysize' must be set. */
+  map_init_topology();
 
   map_allocate();
 

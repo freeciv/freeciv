@@ -286,32 +286,25 @@ static void generate_map_indices(void)
 /****************************************************************************
   map_init_topology needs to be called after map.topology_id is changed.
 
-  If map.size is changed, map.xsize and map.ysize must be set before
-  calling map_init_topology(TRUE).  This is done by the mapgen code
-  (server) and packhand code (client).
-
-  If map.xsize and map.ysize are changed, call map_init_topology(FALSE) to
-  calculate map.size.  This should be done in the client or when loading
-  savegames, since the [xy]size values are already known.
+  map.xsize and map.ysize must be set before calling map_init_topology().
+  This is done by the map generator code (server), when loading a savegame
+  or a scenario with map (server), and packhand code (client).
 ****************************************************************************/
-void map_init_topology(bool set_sizes)
+void map_init_topology(void)
 {
   enum direction8 dir;
 
-  if (!set_sizes && is_server()) {
-    /* Set map.size based on map.xsize and map.ysize. */
-    map.server.size = (float)(map_num_tiles()) / 1000.0 + 0.5;
-  }
-  
   /* sanity check for iso topologies*/
   fc_assert(!MAP_IS_ISOMETRIC || (map.ysize % 2) == 0);
 
   /* The size and ratio must satisfy the minimum and maximum *linear*
    * restrictions on width */
-  fc_assert(MAP_WIDTH >= MAP_MIN_LINEAR_SIZE);
-  fc_assert(MAP_HEIGHT >= MAP_MIN_LINEAR_SIZE);
-  fc_assert(MAP_WIDTH <= MAP_MAX_LINEAR_SIZE);
-  fc_assert(MAP_HEIGHT <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(map.xsize >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(map.ysize >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(map.xsize <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(map.ysize <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(map_num_tiles() >= MAP_MIN_SIZE * 1000);
+  fc_assert(map_num_tiles() <= MAP_MAX_SIZE * 1000);
 
   map.num_valid_dirs = map.num_cardinal_dirs = 0;
   for (dir = 0; dir < 8; dir++) {

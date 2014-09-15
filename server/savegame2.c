@@ -2507,8 +2507,9 @@ static void sg_load_map_tiles(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  /* With a FALSE parameter [xy]size are not changed by this call. */
-  map_init_topology(FALSE);
+  /* Initialize the map for the current topology. 'map.xsize' and
+   * 'map.ysize' must be set. */
+  map_init_topology();
 
   /* Allocate map. */
   map_allocate();

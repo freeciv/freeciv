@@ -139,7 +139,7 @@ static const bool C_PERCENT = TRUE;
 
 bool map_is_empty(void);
 void map_init(void);
-void map_init_topology(bool set_sizes);
+void map_init_topology(void);
 void map_allocate(void);
 void map_free(void);
 
@@ -304,11 +304,6 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 /* Width and height of the map, in natural coordinates. */
 #define NATURAL_WIDTH (MAP_IS_ISOMETRIC ? 2 * map.xsize : map.xsize)
 #define NATURAL_HEIGHT map.ysize
-
-#define MAP_WIDTH  \
-  (MAP_IS_ISOMETRIC ? (map.xsize + map.ysize / 2) : map.xsize)
-#define MAP_HEIGHT \
-  (MAP_IS_ISOMETRIC ? (map.xsize + map.ysize / 2) : map.ysize)
 
 static inline int map_pos_to_index(int map_x, int map_y);
 
@@ -635,16 +630,17 @@ extern const int DIR_DY[8];
 
 FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
                  map_too_big_for_bitvector);
+/* We communicate through the network with signed 32-bits integers. */
+FC_STATIC_ASSERT((long) MAP_MAX_SIZE * 1000 < (long) 1 << 31,
+                 map_too_big_for_network);
 
 #define MAP_DEFAULT_TILESPERPLAYER      100
 #define MAP_MIN_TILESPERPLAYER            1
 #define MAP_MAX_TILESPERPLAYER         1000
 
-/* This defines the maximum linear size in _map_ coordinates. */
+/* This defines the maximum linear size in _native_ coordinates. */
 #define MAP_DEFAULT_LINEAR_SIZE  64
-/* 32 * 1024 is 2^15; thus, x*y is <= 2^15 * 2^15 = 2^30. This can be
- * represented by an signed int as required by the network protocol. */
-#define MAP_MAX_LINEAR_SIZE      (32 * 1024)
+#define MAP_MAX_LINEAR_SIZE      (MAP_MAX_SIZE * 1000 / MAP_MIN_LINEAR_SIZE)
 #define MAP_MIN_LINEAR_SIZE      16
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
