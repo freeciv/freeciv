@@ -155,6 +155,8 @@ enum sprite_type {
 };
 
 struct drawing_data {
+  bool init;
+
   char *name;
 
   int num_layers; /* 1 thru MAX_NUM_LAYERS. */
@@ -471,8 +473,8 @@ static void drawing_data_destroy(struct drawing_data *draw);
 #include "spechash.h"
 
 #define SPECHASH_TAG estyle
-#define SPECHASH_CSTR_KEY_TYPE
-#define SPECHASH_IDATA_TYPE enum extrastyle_id *
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_ENUM_DATA_TYPE extrastyle_id
 #include "spechash.h"
 
 enum ts_type { TS_OVERVIEW, TS_ISOMETRIC };
@@ -628,6 +630,7 @@ static void drawing_data_destroy(struct drawing_data *draw)
 
     sprite_vector_free(&draw->layer[i].base);
     sprite_vector_free(&draw->layer[i].allocated);
+    free(draw->layer[i].cells);
   }
   free(draw);
 }
@@ -1927,26 +1930,19 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                                                       "extras.styles%d.name",
                                                       i)); i++) {
     const char *style_name;
-    enum extrastyle_id *style = fc_malloc(sizeof(enum extrastyle_id));
-    char *name;
+    enum extrastyle_id style;
 
     style_name = secfile_lookup_str_default(file, "Single1",
                                             "extras.styles%d.style", i);
-    *style = extrastyle_id_by_name(style_name, fc_strcasecmp);
-    if (!extrastyle_id_is_valid(*style)) {
+    style = extrastyle_id_by_name(style_name, fc_strcasecmp);
+    if (!extrastyle_id_is_valid(style)) {
       log_error("Unknown extra style \"%s\" for road \"%s\"",
                 style_name, extraname);
-      FC_FREE(style);
       goto ON_ERROR;
     }
 
-    name = fc_malloc(strlen(extraname) + 1);
-    strcpy(name, extraname);
-
-    if (!estyle_hash_insert(t->estyle_hash, name, style)) {
+    if (!estyle_hash_insert(t->estyle_hash, extraname, style)) {
       log_error("warning: duplicate extrastyle entry [%s].", extraname);
-      FC_FREE(name);
-      FC_FREE(style);
       goto ON_ERROR;
     }
   }
@@ -2996,7 +2992,7 @@ void tileset_setup_extra(struct tileset *t,
                          struct extra_type *pextra)
 {
   const int id = extra_index(pextra);
-  enum extrastyle_id *extrastyle;
+  enum extrastyle_id extrastyle;
 
   if (!estyle_hash_lookup(t->estyle_hash, pextra->graphic_str,
                           &extrastyle)
@@ -3007,11 +3003,11 @@ void tileset_setup_extra(struct tileset *t,
                   pextra->graphic_alt);
   }
 
-  t->sprites.extras[id].extrastyle = *extrastyle;
+  t->sprites.extras[id].extrastyle = extrastyle;
 
-  extra_type_list_append(t->style_lists[*extrastyle], pextra);
+  extra_type_list_append(t->style_lists[extrastyle], pextra);
 
-  switch (*extrastyle) {
+  switch (extrastyle) {
   case ESTYLE_3LAYER:
     tileset_setup_base(t, pextra);
     break;
@@ -3291,6 +3287,11 @@ void tileset_setup_tile_type(struct tileset *t,
                   pterrain->graphic_alt);
   }
 
+  if (draw->init) {
+    t->sprites.drawing[terrain_index(pterrain)] = draw;
+    return;
+  }
+
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
     struct drawing_layer *dlp = &draw->layer[l];
@@ -3526,6 +3527,7 @@ void tileset_setup_tile_type(struct tileset *t,
     }
   }
 
+  draw->init = TRUE;
   t->sprites.drawing[terrain_index(pterrain)] = draw;
 }
 

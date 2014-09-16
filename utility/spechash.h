@@ -21,12 +21,14 @@
  *   SPECHASH_TAG - this tag will be used to form names for functions etc.
  *   SPECHASH_IKEY_TYPE - the typed genhash will use this type as key.
  *     (genhash internal usage). You may omit this setting defining
- *     SPECHASH_INT_KEY_TYPE, SPECHASH_ASTR_KEY_TYPE or
- *     SPECHASH_CSTR_KEY_TYPE, by convenience for integers or strings.
+ *     SPECHASH_INT_KEY_TYPE, SPECHASH_ENUM_KEY_TYPE,
+ *     SPECHASH_ASTR_KEY_TYPE, or SPECHASH_CSTR_KEY_TYPE, by convenience
+ *     for integer, enumerators, or strings.
  *   SPECHASH_IDATA_TYPE - the typed genhash will use this type as data.
  *     (genhash internal usage). You may omit this setting defining
- *     SPECHASH_INT_DATA_TYPE, SPECHASH_ASTR_DATA_TYPE or
- *     SPECHASH_CSTR_DATA_TYPE, by convenience for integers or strings.
+ *     SPECHASH_INT_DATA_TYPE, SPECHASH_ENUM_DATA_TYPE,
+ *     SPECHASH_ASTR_DATA_TYPE, or SPECHASH_CSTR_DATA_TYPE, by convenience
+ *     for integers, enumerators, or strings.
  * You may also define:
  *   SPECHASH_UKEY_TYPE - the typed genhash will use this as key.
  *     (external user usage, see SPECHASH_UKEY_TO_IKEY and
@@ -165,6 +167,25 @@ extern "C" {
 #define SPECHASH_IDATA_COPY NULL
 #define SPECHASH_IDATA_FREE NULL
 #endif/* SPECHASH_INT_DATA_TYPE */
+#ifdef SPECHASH_ENUM_KEY_TYPE
+#define SPECHASH_UKEY_TYPE enum SPECHASH_ENUM_KEY_TYPE
+#define SPECHASH_IKEY_TYPE void *
+#define SPECHASH_IKEY_TO_UKEY FC_PTR_TO_INT
+#define SPECHASH_UKEY_TO_IKEY FC_INT_TO_PTR
+#define SPECHASH_IKEY_VAL NULL
+#define SPECHASH_IKEY_COMP NULL
+#define SPECHASH_IKEY_COPY NULL
+#define SPECHASH_IKEY_FREE NULL
+#endif/* SPECHASH_ENUM_KEY_TYPE */
+#ifdef SPECHASH_ENUM_DATA_TYPE
+#define SPECHASH_UDATA_TYPE enum SPECHASH_ENUM_DATA_TYPE
+#define SPECHASH_IDATA_TYPE void *
+#define SPECHASH_IDATA_TO_UDATA FC_PTR_TO_INT
+#define SPECHASH_UDATA_TO_IDATA FC_INT_TO_PTR
+#define SPECHASH_IDATA_COMP NULL
+#define SPECHASH_IDATA_COPY NULL
+#define SPECHASH_IDATA_FREE NULL
+#endif/* SPECHASH_ENUM_DATA_TYPE */
 #ifdef SPECHASH_ASTR_KEY_TYPE
 #undef SPECHASH_ASTR_KEY_TYPE
 #define SPECHASH_IKEY_TYPE char *
@@ -641,6 +662,12 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
 #undef SPECHASH_HASH
 #undef SPECHASH_ITER
 #undef SPECHASH_FOO
+#ifdef SPECHASH_ENUM_KEY_TYPE
+#undef SPECHASH_ENUM_KEY_TYPE
+#endif
+#ifdef SPECHASH_ENUM_DATA_TYPE
+#undef SPECHASH_ENUM_DATA_TYPE
+#endif
 
 
 /* Base macros that the users can specialize. */
