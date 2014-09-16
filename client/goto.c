@@ -768,21 +768,50 @@ no_fights_or_unknown_goto(const struct tile *ptile,
   return no_fights_or_unknown(ptile, known, p);
 }
 
-/********************************************************************** 
+/****************************************************************************
+  Fill the PF parameter with the correct client-goto values.
+  See also goto_fill_parameter_full().
+****************************************************************************/
+static void goto_fill_parameter_base(struct pf_parameter *parameter,
+                                     struct unit *punit)
+{
+  pft_fill_unit_parameter(parameter, punit);
+
+  fc_assert(parameter->get_EC == NULL);
+  fc_assert(parameter->get_TB == NULL);
+  fc_assert(parameter->get_MC != NULL);
+  fc_assert(parameter->start_tile == unit_tile(punit));
+  fc_assert(parameter->omniscience == FALSE);
+
+  parameter->get_EC = get_EC;
+  if (is_attack_unit(punit) || is_actor_unit(punit)) {
+    parameter->get_TB = get_TB_aggr;
+  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+             || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+    parameter->get_TB = get_TB_caravan;
+  } else {
+    parameter->get_TB = no_fights_or_unknown_goto;
+  }
+}
+
+/****************************************************************************
   Fill the PF parameter with the correct client-goto values.
   The storage behind "connect_speed" must remain valid for the lifetime
   of the pf_map.
-***********************************************************************/
-static void fill_client_goto_parameter(struct unit *punit,
-				       struct pf_parameter *parameter,
-				       int *initial_mp,
-				       int *connect_speed)
+
+  Note that you must call this function only if the 'hover_state' is set,
+  and we are in goto mode (usually, this function is only called from
+  enter_goto_state()).
+
+  See also goto_fill_parameter_base().
+****************************************************************************/
+static void goto_fill_parameter_full(struct pf_parameter *parameter,
+                                     struct unit *punit,
+                                     int *initial_mp, int *connect_speed)
 {
-  pft_fill_unit_parameter(parameter, punit);
-  fc_assert(parameter->get_EC == NULL);
-  parameter->get_EC = get_EC;
-  fc_assert(parameter->get_TB == NULL);
-  fc_assert(parameter->get_MC != NULL);
+  goto_fill_parameter_base(parameter, punit);
+
+  fc_assert_ret(goto_is_active());
 
   switch (hover_state) {
   case HOVER_CONNECT:
@@ -837,22 +866,6 @@ static void fill_client_goto_parameter(struct unit *punit,
     *initial_mp = 0;
     break;
   };
-
-  if (is_attack_unit(punit) || is_actor_unit(punit)) {
-    parameter->get_TB = get_TB_aggr;
-  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
-	     || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-    parameter->get_TB = get_TB_caravan;
-  } else {
-    parameter->get_TB = no_fights_or_unknown_goto;
-  }
-
-  /* Note that in connect mode the "time" does not correspond to any actual
-   * move rate. */
-  parameter->start_tile = unit_tile(punit);
-
-  /* Omniscience is always FALSE in the client */
-  parameter->omniscience = FALSE;
 }
 
 /********************************************************************** 
@@ -870,14 +883,12 @@ void enter_goto_state(struct unit_list *punits)
     struct goto_map *goto_map = goto_map_new();
 
     goto_map->focus = punit;
-
-    fill_client_goto_parameter(punit, &goto_map->template,
-                               &goto_map->initial_mp,
-                               &goto_map->connect_speed);
-
-    add_part(goto_map);
-
     goto_map_list_append(goto_maps, goto_map);
+
+    goto_fill_parameter_full(&goto_map->template, punit,
+                             &goto_map->initial_mp,
+                             &goto_map->connect_speed);
+    add_part(goto_map);
   } unit_list_iterate_end;
   goto_warned = FALSE;
 }
@@ -1120,12 +1131,11 @@ void send_goto_path(struct unit *punit, struct pf_path *path,
 ****************************************************************************/
 bool send_goto_tile(struct unit *punit, struct tile *ptile)
 {
-  int dummy1, dummy2;
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_path *path;
 
-  fill_client_goto_parameter(punit, &parameter, &dummy1, &dummy2);
+  goto_fill_parameter_base(&parameter, punit);
   pfm = pf_map_new(&parameter);
   path = pf_map_path(pfm, ptile);
   pf_map_destroy(pfm);
@@ -1338,7 +1348,6 @@ void send_goto_route(void)
 ***************************************************************************/
 struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 {
-  int dummy1, dummy2;
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_path *path = NULL;
@@ -1348,7 +1357,7 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
     return NULL;
   }
 
-  fill_client_goto_parameter(punit, &parameter, &dummy1, &dummy2);
+  goto_fill_parameter_base(&parameter, punit);
   pfm = pf_map_new(&parameter);
 
   pf_map_tiles_iterate(pfm, ptile, FALSE) {
