@@ -769,7 +769,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
 
     desire = dai_unit_defence_desirability(ait, punittype);
 
-    if (!utype_has_role(punittype, L_DEFEND_OK)) {
+    if (!utype_has_role(punittype, L_DEFEND_GOOD)) {
       desire /= 2; /* not good, just ok */
     }
 
