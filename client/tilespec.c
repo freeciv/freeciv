@@ -513,6 +513,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
                                   const struct unit *punit,
                                   bool stack, bool backdrop);
 
+static void tileset_player_free(struct tileset *t, int plrid);
 
 /****************************************************************************
   Create a new drawing data.
@@ -959,11 +960,13 @@ static void tileset_free_toplevel(struct tileset *t)
 **************************************************************************/
 void tileset_free(struct tileset *t)
 {
+  int i;
+
   tileset_free_tiles(t);
   tileset_free_toplevel(t);
-  players_iterate(pplayer) {
-    tileset_player_free(t, pplayer);
-  } players_iterate_end;
+  for (i = 0; i < ARRAY_SIZE(t->sprites.player); i++) {
+    tileset_player_free(t, i);
+  }
   specfile_list_destroy(t->specfiles);
   small_sprite_list_destroy(t->small_sprites);
   free(t);
@@ -1024,6 +1027,7 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
   enum client_states state = client_state();
   const char *name = new_tileset_name ? new_tileset_name : tileset->name;
   char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
+  int i;
 
   /* Make local copies since these values may be freed down below */
   sz_strlcpy(tileset_name, name);
@@ -1043,9 +1047,9 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
    */
   tileset_free_tiles(tileset);
   tileset_free_toplevel(tileset);
-  players_iterate(pplayer) {
-    tileset_player_free(tileset, pplayer);
-  } players_iterate_end;
+  for (i = 0; i < ARRAY_SIZE(tileset->sprites.player); i++) {
+    tileset_player_free(tileset, i);
+  }
 
   /* Step 2:  Read.
    *
@@ -5603,10 +5607,12 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
   fc_assert_ret(pplayer != NULL);
   fc_assert_ret(pplayer->rgb != NULL);
 
-  /* Free all data before recreating it. */
-  tileset_player_free(t, pplayer);
-
   plrid = player_index(pplayer);
+  fc_assert_ret(plrid >= 0);
+  fc_assert_ret(plrid < ARRAY_SIZE(t->sprites.player));
+
+  /* Free all data before recreating it. */
+  tileset_player_free(t, plrid);
 
   t->sprites.player[plrid].color
     = create_plr_sprite(ensure_color(pplayer->rgb));
@@ -5635,13 +5641,12 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
 /****************************************************************************
   Free tiles for one player using the player color.
 ****************************************************************************/
-void tileset_player_free(struct tileset *t, struct player *pplayer)
+static void tileset_player_free(struct tileset *t, int plrid)
 {
-  int plrid, i, j;
+  int i, j;
 
-  fc_assert_ret(pplayer != NULL);
-
-  plrid = player_index(pplayer);
+  fc_assert_ret(plrid >= 0);
+  fc_assert_ret(plrid < ARRAY_SIZE(t->sprites.player));
 
   if (t->sprites.player[plrid].color) {
     free_sprite(t->sprites.player[plrid].color);
