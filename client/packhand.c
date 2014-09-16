@@ -1956,7 +1956,6 @@ void handle_player_remove(int playerno)
   /* Save player number before player is freed */
   plr_nbr = player_number(pplayer);
 
-  client_player_destroy(pplayer);
   player_destroy(pplayer);
 
   players_dialog_update();

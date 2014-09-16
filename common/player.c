@@ -697,6 +697,12 @@ void player_destroy(struct player *pplayer)
 
   dbv_free(&pplayer->tile_known);
 
+  if (!is_server()) {
+    vision_layer_iterate(v) {
+      dbv_free(&pplayer->client.tile_vision[v]);
+    } vision_layer_iterate_end;
+  }
+
   free(pplayer);
   pslot->player = NULL;
   player_slots.used_slots--;
