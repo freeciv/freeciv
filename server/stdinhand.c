@@ -4440,19 +4440,35 @@ static bool end_command(struct connection *caller, char *str, bool check)
 **************************************************************************/
 static bool surrender_command(struct connection *caller, char *str, bool check)
 {
-  if (S_S_RUNNING == server_state() && caller && NULL != caller->playing) {
-    if (check) {
-      return TRUE;
-    }
-    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("%s has conceded the game and can no longer win."),
-                player_name(caller->playing));
-    player_status_add(caller->playing, PSTATUS_SURRENDER);
-    return TRUE;
-  } else {
+  struct player *pplayer;
+
+  if (caller == NULL || !conn_controls_player(caller)) {
+    cmd_reply(CMD_SURRENDER, caller, C_FAIL,
+              _("You are not allowed to use this command."));
+    return FALSE;
+  }
+
+  if (S_S_RUNNING != server_state()) {
     cmd_reply(CMD_SURRENDER, caller, C_FAIL, _("You cannot surrender now."));
     return FALSE;
   }
+
+  pplayer = conn_get_player(caller);
+  if (player_status_check(pplayer, PSTATUS_SURRENDER)) {
+    cmd_reply(CMD_SURRENDER, caller, C_FAIL,
+              _("You have already conceded the game."));
+    return FALSE;
+  }
+
+  if (check) {
+    return TRUE;
+  }
+
+  notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+              _("%s has conceded the game and can no longer win."),
+              player_name(pplayer));
+  player_status_add(pplayer, PSTATUS_SURRENDER);
+  return TRUE;
 }
 
 /* Define the possible arguments to the reset command */
