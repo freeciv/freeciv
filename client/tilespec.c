@@ -133,6 +133,8 @@ enum sprite_type {
 };
 
 struct drawing_data {
+  bool init;
+
   char *name;
   char *mine_tag;
 
@@ -554,6 +556,7 @@ static void drawing_data_destroy(struct drawing_data *draw)
 
     sprite_vector_free(&draw->layer[i].base);
     sprite_vector_free(&draw->layer[i].allocated);
+    free(draw->layer[i].cells);
   }
   free(draw);
 }
@@ -2985,6 +2988,11 @@ void tileset_setup_tile_type(struct tileset *t,
     exit(EXIT_FAILURE);
   }
 
+  if (draw->init) {
+    t->sprites.drawing[terrain_index(pterrain)] = draw;
+    return;
+  }
+
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
     struct drawing_layer *dlp = &draw->layer[l];
@@ -3227,6 +3235,7 @@ void tileset_setup_tile_type(struct tileset *t,
     draw->mine = NULL;
   }
 
+  draw->init = TRUE;
   t->sprites.drawing[terrain_index(pterrain)] = draw;
 }
 
