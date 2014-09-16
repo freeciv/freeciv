@@ -378,10 +378,7 @@ static void genhash_resize_table(struct genhash *pgenhash,
 
   pgenhash_new = genhash_new_nbuckets(pgenhash->key_val_func,
                                       pgenhash->key_comp_func,
-                                      pgenhash->key_copy_func,
-                                      pgenhash->key_free_func,
-                                      pgenhash->data_copy_func,
-                                      pgenhash->data_free_func,
+                                      NULL, NULL, NULL, NULL,
                                       new_nbuckets);
   pgenhash_new->frozen = TRUE;
 
@@ -392,10 +389,11 @@ static void genhash_resize_table(struct genhash *pgenhash,
       fc_assert(TRUE == success);
     }
   }
-  pgenhash_new->frozen = FALSE;
 
   free(pgenhash->buckets);
-  *pgenhash = *pgenhash_new;
+  pgenhash->buckets = pgenhash_new->buckets;
+  pgenhash->num_buckets = pgenhash_new->num_buckets;
+  fc_assert(pgenhash->num_entries == pgenhash_new->num_entries);
   free(pgenhash_new);
 }
 
