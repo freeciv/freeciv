@@ -148,6 +148,17 @@ static bool pf_action_possible(const struct tile *src,
 }
 
 /****************************************************************************
+  Special case for reverse maps. Always consider the target tile as
+  attackable, notably for transports.
+****************************************************************************/
+static enum pf_action pf_reverse_get_action(const struct tile *ptile,
+                                            enum known_type known,
+                                            const struct pf_parameter *param)
+{
+  return (ptile == param->data ? PF_ACTION_ATTACK : PF_ACTION_NONE);
+}
+
+/****************************************************************************
   Determine if we could load into 'ptrans' and its parents.
 ****************************************************************************/
 static inline bool pf_transport_check(const struct pf_parameter *param,
@@ -895,6 +906,28 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 }
 
 /****************************************************************************
+  Fill default parameters for reverse map.
+****************************************************************************/
+void pft_fill_reverse_parameter(struct pf_parameter *parameter,
+                                struct tile *target_tile)
+{
+  memset(parameter, 0, sizeof(*parameter));
+
+  /* We ignore refuel bases in reverse mode. */
+  parameter->fuel = 1;
+  parameter->fuel_left_initially = 1;
+
+  parameter->get_MC = normal_move;
+  parameter->get_move_scope = pf_get_move_scope;
+  parameter->ignore_none_scopes = TRUE;
+
+  parameter->get_action = pf_reverse_get_action;
+  parameter->data = target_tile;
+
+  /* Other data may stay at zero. */
+}
+
+/****************************************************************************
   Fill parameters for combined sea-land movement.
   This is suitable for the case of a land unit riding a ferry.
   The starting position of the ferry is taken to be the starting position for
@@ -934,4 +967,3 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
 
   parameter->combined.data = parameter;
 }
-

@@ -26,6 +26,9 @@
 #include "map.h"
 #include "movement.h"
 
+/* common/aicore */
+#include "pf_tools.h"
+
 #include "path_finding.h"
 
 /* For explanations on how to use this module, see "path_finding.h". */
@@ -3453,35 +3456,40 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
  * units needs to reach the start tile. It stores a pf_map for every unit
  * type. */
 
-static genhash_val_t pf_map_hash_val(const struct pf_parameter *parameter);
-static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
+static genhash_val_t pf_pos_hash_val(const struct pf_parameter *parameter);
+static bool pf_pos_hash_cmp(const struct pf_parameter *parameter1,
                             const struct pf_parameter *parameter2);
+static void pf_reverse_map_destroy_pos(struct pf_position *pos);
+static void pf_reverse_map_destroy_param(struct pf_parameter *param);
 
-#define SPECHASH_TAG pf_map
+#define SPECHASH_TAG pf_pos
 #define SPECHASH_IKEY_TYPE struct pf_parameter *
-#define SPECHASH_IDATA_TYPE struct pf_map *
-#define SPECHASH_IKEY_VAL pf_map_hash_val
-#define SPECHASH_IKEY_COMP pf_map_hash_cmp
-#define SPECHASH_IDATA_FREE pf_map_destroy
+#define SPECHASH_IDATA_TYPE struct pf_position *
+#define SPECHASH_IKEY_VAL pf_pos_hash_val
+#define SPECHASH_IKEY_COMP pf_pos_hash_cmp
+#define SPECHASH_IKEY_FREE pf_reverse_map_destroy_param
+#define SPECHASH_IDATA_FREE pf_reverse_map_destroy_pos
 #include "spechash.h"
 
 /* The reverse map structure. */
 struct pf_reverse_map {
-  struct pf_parameter param;    /* Keep a parameter ready for usage. */
-  struct pf_map_hash *hash;     /* A hash where pf_map are stored. */
+  struct tile *target_tile;     /* Where we want to go. */
+  int max_turns;                /* The maximum of turns. */
+  struct pf_parameter template; /* Keep a parameter ready for usage. */
+  struct pf_pos_hash *hash;     /* A hash where pf_position are stored. */
 };
 
 /* Here goes all unit type flags which affect the move rules handled by
  * the reverse map. */
 static const enum unit_type_flag_id signifiant_flags[] = {
-  UTYF_IGTER
+  UTYF_IGTER, UTYF_CIVILIAN, UTYF_TRIREME
 };
 static const size_t signifiant_flags_num = ARRAY_SIZE(signifiant_flags);
 
 /****************************************************************************
   Hash function for pf_parameter key.
 ****************************************************************************/
-static genhash_val_t pf_map_hash_val(const struct pf_parameter *parameter)
+static genhash_val_t pf_pos_hash_val(const struct pf_parameter *parameter)
 {
   genhash_val_t result = 0;
   size_t b, i;
@@ -3493,21 +3501,29 @@ static genhash_val_t pf_map_hash_val(const struct pf_parameter *parameter)
     }
   }
 
-  return (result
-          + uclass_number(utype_class(parameter->utype))
-          + (parameter->move_rate << 4)
-          + (parameter->utype->unknown_move_cost << 8));
+  result += (uclass_number(utype_class(parameter->utype))
+             + (parameter->move_rate << 5)
+             + (parameter->moves_left_initially << 11)
+             + (tile_index(parameter->start_tile) << 17));
+  if (!parameter->omniscience) {
+    result += parameter->utype->unknown_move_cost << 23;
+  }
+
+  return result;
 }
 
 /****************************************************************************
   Comparison function for pf_parameter hash key.
 ****************************************************************************/
-static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
+static bool pf_pos_hash_cmp(const struct pf_parameter *parameter1,
                             const struct pf_parameter *parameter2)
 {
   size_t i;
 
-  if (parameter1->move_rate != parameter2->move_rate) {
+  if (parameter1->start_tile != parameter2->start_tile
+      || parameter1->move_rate != parameter2->move_rate
+      || (parameter1->moves_left_initially
+          != parameter2->moves_left_initially)) {
     return FALSE;
   }
 
@@ -3516,10 +3532,18 @@ static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
     return TRUE;
   }
 
-  if (utype_class(parameter1->utype) != utype_class(parameter2->utype)
-      || (parameter1->utype->unknown_move_cost
-          != parameter2->utype->unknown_move_cost)) {
+  if (utype_class(parameter1->utype) != utype_class(parameter2->utype)) {
     return FALSE;
+  }
+
+  if (!parameter1->omniscience) {
+#ifdef PF_DEBUG
+    fc_assert(parameter2->omniscience == FALSE);
+#endif
+    if (parameter1->utype->unknown_move_cost
+        != parameter2->utype->unknown_move_cost) {
+      return FALSE;
+    }
   }
 
   for (i = 0; i < signifiant_flags_num; i++) {
@@ -3533,62 +3557,19 @@ static bool pf_map_hash_cmp(const struct pf_parameter *parameter1,
 }
 
 /****************************************************************************
-  This function estime the cost for unit moves to reach the start tile.
-
-  NB: The costs are calculated in the invert order because we want to know
-  how many costs needs the units to REACH the tile, and not to leave it.
+  Destroy the position if not NULL.
 ****************************************************************************/
-static int pf_reverse_map_get_costs(const struct tile *to_tile,
-                                    enum direction8 dir,
-                                    const struct tile *from_tile,
-                                    int to_cost, int to_extra,
-                                    int *from_cost, int *from_extra,
-                                    const struct pf_parameter *param)
+static void pf_reverse_map_destroy_pos(struct pf_position *pos)
 {
-  int cost;
+  free(pos);
+}
 
-  if (!param->omniscience
-      && TILE_UNKNOWN == tile_get_known(to_tile, param->owner)) {
-    cost = param->utype->unknown_move_cost;
-  }
-
-  if (to_tile == param->start_tile) {
-    /* Attack point. Do not consider if attack is possible, because we
-     * also want to be frighten by transports. */
-    cost = SINGLE_MOVE;
-  } else {
-    const struct unit_class *uclass = utype_class(param->utype);
-    const struct city *pcity = tile_city(to_tile);
-
-    if (NULL != pcity) {
-      /* Not allied cities are reputed impregnable! */
-      if (!pplayers_allied(city_owner(pcity), param->owner)) {
-        return -1; /* Impossible move. */
-      }
-    } else {
-      if (!is_native_tile_to_class(uclass, to_tile)
-          || (NULL == tile_city(from_tile)
-              && !is_native_move(uclass, from_tile, to_tile))) {
-        return -1; /* Impossible move. */
-      }
-    }
-
-    cost = map_move_cost(param->owner, param->utype, from_tile, to_tile);
-    if (cost > param->utype->move_rate) {
-      cost = param->utype->move_rate;
-    }
-  }
-
-  cost += to_cost;
-  if (cost > FC_PTR_TO_INT(param->data)) {
-    return -1; /* We reached the maximum we wanted. */
-  } else if (*from_cost == PF_IMPOSSIBLE_MC || cost < *from_cost) {
-    /* Uninitialized yet, or better route. */
-    *from_cost = cost;
-    /* N.B.: We don't deal with from_extra. */
-  }
-
-  return cost;
+/****************************************************************************
+  Destroy the parameter.
+****************************************************************************/
+static void pf_reverse_map_destroy_param(struct pf_parameter *param)
+{
+  free(param);
 }
 
 /****************************************************************************
@@ -3596,25 +3577,22 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
   try to iterate the maps beyond this number of turns.
 ****************************************************************************/
 struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
-                                          struct tile *start_tile,
+                                          struct tile *target_tile,
                                           int max_turns, bool omniscient)
 {
   struct pf_reverse_map *pfrm = fc_malloc(sizeof(struct pf_reverse_map));
-  struct pf_parameter *param = &pfrm->param;
+  struct pf_parameter *param = &pfrm->template;
+
+  pfrm->target_tile = target_tile;
+  pfrm->max_turns = max_turns;
 
   /* Initialize the parameter. */
-  memset(param, 0, sizeof(*param));
-  param->get_costs = pf_reverse_map_get_costs;
-  param->start_tile = start_tile;
+  pft_fill_reverse_parameter(param, target_tile);
   param->owner = pplayer;
   param->omniscience = omniscient;
-  /* We don't deal with re-fuel points. */
-  param->fuel = 1;
-  param->fuel_left_initially = 1;
-  param->data = FC_INT_TO_PTR(max_turns);
 
   /* Initialize the map hash. */
-  pfrm->hash = pf_map_hash_new();
+  pfrm->hash = pf_pos_hash_new();
 
   return pfrm;
 }
@@ -3637,62 +3615,107 @@ void pf_reverse_map_destroy(struct pf_reverse_map *pfrm)
 {
   fc_assert_ret(NULL != pfrm);
 
-  pf_map_hash_destroy(pfrm->hash);
+  pf_pos_hash_destroy(pfrm->hash);
   free(pfrm);
 }
 
 /****************************************************************************
-  Returns the map for the unit type. Creates it if needed.
+  Returns the map for the unit type. Creates it if needed. Returns NULL if
+  'target_tile' is unreachable.
 ****************************************************************************/
-static inline struct pf_map *
-pf_reverse_map_get_map(struct pf_reverse_map *pfrm,
-                       const struct unit_type *punittype,
-                       int move_rate)
+static const struct pf_position *
+pf_reverse_map_pos(struct pf_reverse_map *pfrm,
+                   const struct pf_parameter *param)
 {
+  struct pf_position *pos;
   struct pf_map *pfm;
-  struct pf_parameter *param;
-  int max_turns;
+  struct pf_parameter *copy;
+  struct tile *target_tile;
+  const struct pf_normal_node *lattice;
+  int max_cost;
 
-  param = &pfrm->param;
-  param->utype = punittype;
-  param->move_rate = move_rate;
-  param->moves_left_initially = move_rate;
-
-  if (pf_map_hash_lookup(pfrm->hash, param, &pfm)) {
-    fc_assert(NULL != pfm);
-    return pfm;
+  /* Check if we already processed something similar. */
+  if (pf_pos_hash_lookup(pfrm->hash, param, &pos)) {
+    return pos;
   }
 
-  /* Build map. */
-  max_turns = FC_PTR_TO_INT(param->data);
-  pfm = pf_map_new(param);
-  pfm->params.data =
-      FC_INT_TO_PTR(0 <= max_turns && FC_INFINITY > max_turns
-                    ? max_turns * param->move_rate : FC_INFINITY);
-  pf_map_hash_insert(pfrm->hash, &pfm->params, pfm);
-  return pfm;
+  /* We didn't. Build map and iterate. */
+  pfm = pf_normal_map_new(param);
+  lattice = PF_NORMAL_MAP(pfm)->lattice;
+  target_tile = pfrm->target_tile;
+  if (pfrm->max_turns >= 0) {
+    max_cost = param->move_rate * (pfrm->max_turns + 1);
+    do {
+      if (lattice[tile_index(pfm->tile)].cost >= max_cost) {
+        break;
+      } else if (pfm->tile == target_tile) {
+        /* Found our position. Insert in hash, destroy map, and return. */
+        pos = fc_malloc(sizeof(*pos));
+        pf_normal_map_fill_position(PF_NORMAL_MAP(pfm), target_tile, pos);
+        copy = fc_malloc(sizeof(*copy));
+        *copy = *param;
+        pf_pos_hash_insert(pfrm->hash, copy, pos);
+        pf_map_destroy(pfm);
+        return pos;
+      }
+    } while (pfm->iterate(pfm));
+  } else {
+    /* No limit for iteration. */
+    do {
+      if (pfm->tile == target_tile) {
+        /* Found our position. Insert in hash, destroy map, and return. */
+        pos = fc_malloc(sizeof(*pos));
+        pf_normal_map_fill_position(PF_NORMAL_MAP(pfm), target_tile, pos);
+        copy = fc_malloc(sizeof(*copy));
+        *copy = *param;
+        pf_pos_hash_insert(pfrm->hash, copy, pos);
+        pf_map_destroy(pfm);
+        return pos;
+      }
+    } while (pfm->iterate(pfm));
+  }
+  pf_map_destroy(pfm);
+
+  /* Position not found. Let's insert NULL as position to avoid to iterate
+   * the map again. */
+  copy = fc_malloc(sizeof(*copy));
+  *copy = *param;
+  pf_pos_hash_insert(pfrm->hash, copy, NULL);
+  return NULL;
 }
 
 /****************************************************************************
-  Returns the map for the unit. Creates it if needed.
+  Returns the position for the unit. Creates it if needed. Returns NULL if
+  'target_tile' is unreachable.
 ****************************************************************************/
-static inline struct pf_map *
-pf_reverse_map_unit_map(struct pf_reverse_map *pfrm,
+static inline const struct pf_position *
+pf_reverse_map_unit_pos(struct pf_reverse_map *pfrm,
                         const struct unit *punit)
 {
-  return pf_reverse_map_get_map(pfrm, unit_type(punit),
-                                unit_move_rate(punit));
+  struct pf_parameter *param = &pfrm->template;
+
+  /* Fill parameter. */
+  param->start_tile = unit_tile(punit);
+  param->move_rate = unit_move_rate(punit);
+  /* Do not consider punit->moves_left, because this value is usually
+   * not restored when calling this function. Let's assume the unit will
+   * have its whole move rate. */
+  param->moves_left_initially = param->move_rate;
+  param->utype = unit_type(punit);
+  return pf_reverse_map_pos(pfrm, param);
 }
 
 /****************************************************************************
-  Returns the map for the unit type. Creates it if needed.
+  Returns the position for the unit type. Creates it if needed. Returns NULL
+  if 'target_tile' is unreachable.
 ****************************************************************************/
-static inline struct pf_map *
-pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
+static inline const struct pf_position *
+pf_reverse_map_utype_pos(struct pf_reverse_map *pfrm,
                          const struct unit_type *punittype,
-                         const struct tile *ptile)
+                         struct tile *ptile)
 {
-  const struct player *pplayer = pfrm->param.owner;
+  struct pf_parameter *param = &pfrm->template;
+  const struct player *pplayer = param->owner;
   int veteran_level = get_unittype_bonus(pplayer, ptile, punittype,
                                          EFT_VETERAN_BUILD);
 
@@ -3700,9 +3723,13 @@ pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
     veteran_level = utype_veteran_levels(punittype) - 1;
   }
 
-  return pf_reverse_map_get_map(pfrm, punittype,
-             utype_move_rate(punittype, ptile, pplayer, veteran_level,
-                             punittype->hp));
+  /* Fill parameter. */
+  param->start_tile = ptile;
+  param->move_rate = utype_move_rate(punittype, ptile, pplayer,
+                                     veteran_level, punittype->hp);
+  param->moves_left_initially = param->move_rate;
+  param->utype = punittype;
+  return pf_reverse_map_pos(pfrm, param);
 }
 
 /****************************************************************************
@@ -3713,9 +3740,10 @@ int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
                                    const struct unit_type *punittype,
                                    struct tile *ptile)
 {
-  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, punittype, ptile);
+  const struct pf_position *pos = pf_reverse_map_utype_pos(pfrm, punittype,
+                                                           ptile);
 
-  return pfm->get_move_cost(pfm, ptile);
+  return (pos != NULL ? pos->total_MC : PF_IMPOSSIBLE_MC);
 }
 
 /****************************************************************************
@@ -3725,63 +3753,9 @@ int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
 int pf_reverse_map_unit_move_cost(struct pf_reverse_map *pfrm,
                                   const struct unit *punit)
 {
-  struct pf_map *pfm = pf_reverse_map_unit_map(pfrm, punit);
+  const struct pf_position *pos = pf_reverse_map_unit_pos(pfrm, punit);
 
-  return pfm->get_move_cost(pfm, unit_tile(punit));
-}
-
-/****************************************************************************
-  Get the path to the target from 'ptile'. Note that the path will be in
-  reverse order.
-****************************************************************************/
-struct pf_path *pf_reverse_map_utype_path(struct pf_reverse_map *pfrm,
-                                          const struct unit_type *punittype,
-                                          struct tile *ptile)
-{
-  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, punittype, ptile);
-
-  return pfm->get_path(pfm, ptile);
-}
-
-/****************************************************************************
-  Get the path to the target from 'punit'. Note that the path will be in
-  reverse order.
-****************************************************************************/
-struct pf_path *pf_reverse_map_unit_path(struct pf_reverse_map *pfrm,
-                                         const struct unit *punit)
-{
-  struct pf_map *pfm = pf_reverse_map_unit_map(pfrm, punit);
-  struct pf_path *path = pfm->get_path(pfm, unit_tile(punit));
-  const struct pf_parameter *param;
-  int i, diff;
-
-  if (NULL == path) {
-    return NULL;
-  }
-
-  /* Adjust some values. */
-  param = pf_map_parameter(pfm);
-  if (0 >= param->move_rate) {
-    fc_assert(1 == path->length);
-    path->positions[0].moves_left = punit->moves_left;
-    return path;
-  }
-
-  fc_assert(1 <= path->length);
-  diff = path->positions[path->length - 1].moves_left - punit->moves_left;
-  for (i = 0; i < path->length; i++) {
-    struct pf_position *pos = path->positions + i;
-
-    pos->moves_left -= diff;
-    pos->moves_left %= param->move_rate;
-    if (0 > pos->moves_left) {
-      pos->moves_left += param->move_rate;
-    }
-    pos->turn = ((pos->total_MC + param->move_rate - pos->moves_left)
-                 / param->move_rate);
-  }
-
-  return path;
+  return (pos != NULL ? pos->total_MC : PF_IMPOSSIBLE_MC);
 }
 
 /****************************************************************************
@@ -3792,9 +3766,15 @@ bool pf_reverse_map_utype_position(struct pf_reverse_map *pfrm,
                                    struct tile *ptile,
                                    struct pf_position *pos)
 {
-  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, punittype, ptile);
+  const struct pf_position *mypos = pf_reverse_map_utype_pos(pfrm, punittype,
+                                                             ptile);
 
-  return pfm->get_position(pfm, ptile, pos);
+  if (mypos != NULL) {
+    *pos = *mypos;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 /****************************************************************************
@@ -3804,19 +3784,12 @@ bool pf_reverse_map_unit_position(struct pf_reverse_map *pfrm,
                                   const struct unit *punit,
                                   struct pf_position *pos)
 {
-  struct pf_map *pfm = pf_reverse_map_unit_map(pfrm, punit);
-  const struct pf_parameter *param;
+  const struct pf_position *mypos = pf_reverse_map_unit_pos(pfrm, punit);
 
-  if (!pfm->get_position(pfm, unit_tile(punit), pos)) {
+  if (mypos != NULL) {
+    *pos = *mypos;
+    return TRUE;
+  } else {
     return FALSE;
   }
-
-  /* Adjust some values. */
-  param = pf_map_parameter(pfm);
-  if (0 < param->move_rate) {
-    pos->turn = ((pos->total_MC + param->move_rate - punit->moves_left)
-                 / param->move_rate);
-  }
-  pos->moves_left = punit->moves_left;
-  return TRUE;
 }
