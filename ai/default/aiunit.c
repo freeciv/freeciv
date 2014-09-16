@@ -3220,19 +3220,34 @@ struct unit_type *dai_role_utype_for_terrain_class(struct city *pcity, int role,
   return role_units_iterate_backwards(role, role_unit_cb, &cb_data);
 }
 
+/****************************************************************************
+  Returns whether 'attacker' can attack 'defender' immediately.
+****************************************************************************/
 bool dai_unit_can_strike_my_unit(const struct unit *attacker,
                                  const struct unit *defender)
 {
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  const struct tile *ptarget = unit_tile(defender);
+  int max_move_cost = attacker->moves_left;
   bool able_to_strike = FALSE;
-  struct pf_reverse_map *pfrm;
 
-  pfrm  = pf_reverse_map_new(unit_owner(defender), unit_tile(defender), 1,
-                             !has_handicap( unit_owner(defender), H_MAP));
-  if (pf_reverse_map_unit_move_cost(pfrm, attacker) < attacker->moves_left) {
-    able_to_strike = TRUE;
-  }
+  pft_fill_unit_parameter(&parameter, attacker);
+  parameter.omniscience = !has_handicap(unit_owner(defender), H_MAP);
+  pfm = pf_map_new(&parameter);
 
-  pf_reverse_map_destroy(pfrm);
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
+    if (move_cost > max_move_cost) {
+      break;
+    }
+
+    if (ptile == ptarget) {
+      able_to_strike = TRUE;
+      break;
+    }
+  } pf_map_move_costs_iterate_end;
+
+  pf_map_destroy(pfm);
 
   return able_to_strike;
 }
