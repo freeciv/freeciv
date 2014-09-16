@@ -147,6 +147,8 @@ enum sprite_type {
 };
 
 struct drawing_data {
+  bool init;
+
   char *name;
   char *mine_tag;
 
@@ -472,9 +474,13 @@ static void drawing_data_destroy(struct drawing_data *draw);
 
 #define SPECHASH_TAG rstyle
 #define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE enum roadstyle_id *
+#define SPECHASH_DATA_TYPE enum roadstyle_id
+#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
 #define SPECHASH_KEY_VAL genhash_str_val_func
 #define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
 #include "spechash.h"
 
 enum ts_type { TS_OVERVIEW, TS_ISOMETRIC };
@@ -615,6 +621,7 @@ static void drawing_data_destroy(struct drawing_data *draw)
 
     sprite_vector_free(&draw->layer[i].base);
     sprite_vector_free(&draw->layer[i].allocated);
+    free(draw->layer[i].cells);
   }
   free(draw);
 }
@@ -1912,26 +1919,19 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                                                      "roads.styles%d.name",
                                                      i)); i++) {
     const char *style_name;
-    enum roadstyle_id *style = fc_malloc(sizeof(enum roadstyle_id));
-    char *name;
+    enum roadstyle_id style;
 
     style_name = secfile_lookup_str_default(file, "AllSeparate",
                                             "roads.styles%d.style", i);
-    *style = roadstyle_id_by_name(style_name, fc_strcasecmp);
-    if (!roadstyle_id_is_valid(*style)) {
+    style = roadstyle_id_by_name(style_name, fc_strcasecmp);
+    if (!roadstyle_id_is_valid(style)) {
       log_error("Unknown road style \"%s\" for road \"%s\"",
                 style_name, roadname);
-      FC_FREE(style);
       goto ON_ERROR;
     }
 
-    name = fc_malloc(strlen(roadname) + 1);
-    strcpy(name, roadname);
-
-    if (!rstyle_hash_insert(t->rstyle_hash, name, style)) {
+    if (!rstyle_hash_insert(t->rstyle_hash, roadname, style)) {
       log_error("warning: duplicate roadstyle entry [%s].", roadname);
-      FC_FREE(name);
-      FC_FREE(style);
       goto ON_ERROR;
     }
   }
@@ -3014,7 +3014,7 @@ void tileset_setup_road(struct tileset *t,
   char full_alt_name[MAX_LEN_NAME + strlen("_isolated")];
   const int id = road_index(proad);
   int i;
-  enum roadstyle_id *roadstyle;
+  enum roadstyle_id roadstyle;
 
   if (!rstyle_hash_lookup(t->rstyle_hash, proad->graphic_str,
                           &roadstyle)
@@ -3025,15 +3025,16 @@ void tileset_setup_road(struct tileset *t,
                   proad->graphic_alt);
   }
 
-  t->sprites.roads[id].roadstyle = *roadstyle;
+  t->sprites.roads[id].roadstyle = roadstyle;
 
-  if (*roadstyle == RSTYLE_RIVER) {
+  if (roadstyle == RSTYLE_RIVER) {
     road_type_list_append(t->rivers, proad);
   }
 
   /* Isolated road graphics are used by RSTYLE_ALL_SEPARATE and
      RSTYLE_PARITY_COMBINED. */
-  if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
+  if (roadstyle == RSTYLE_ALL_SEPARATE
+      || roadstyle == RSTYLE_PARITY_COMBINED) {
     fc_snprintf(full_tag_name, sizeof(full_tag_name),
                 "%s_isolated", proad->graphic_str);
     fc_snprintf(full_alt_name, sizeof(full_alt_name),
@@ -3042,7 +3043,7 @@ void tileset_setup_road(struct tileset *t,
     SET_SPRITE_ALT(roads[id].isolated, full_tag_name, full_alt_name);
   }
 
-  if (*roadstyle == RSTYLE_ALL_SEPARATE) {
+  if (roadstyle == RSTYLE_ALL_SEPARATE) {
     /* RSTYLE_ALL_SEPARATE has just 8 additional sprites for each road type:
      * one going off in each direction. */
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
@@ -3056,7 +3057,7 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].u.dir[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == RSTYLE_PARITY_COMBINED) {
+  } else if (roadstyle == RSTYLE_PARITY_COMBINED) {
     int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
 
     /* RSTYLE_PARITY_COMBINED has 32 additional sprites for each road type:
@@ -3093,7 +3094,7 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].u.combo.odd[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == RSTYLE_ALL_COMBINED) {
+  } else if (roadstyle == RSTYLE_ALL_COMBINED) {
     /* RSTYLE_ALL_COMBINED includes 256 sprites, one for every possibility.
      * Just go around clockwise, with all combinations. */
     for (i = 0; i < t->num_index_valid; i++) {
@@ -3106,7 +3107,7 @@ void tileset_setup_road(struct tileset *t,
 
       SET_SPRITE_ALT(roads[id].u.total[i], full_tag_name, full_alt_name);
     }
-  } else if (*roadstyle == RSTYLE_RIVER) {
+  } else if (roadstyle == RSTYLE_RIVER) {
     if (!load_river_sprites(t, &t->sprites.roads[id].u.rivers,
                             proad->graphic_str)) {
       if (!load_river_sprites(t, &t->sprites.roads[id].u.rivers,
@@ -3121,7 +3122,8 @@ void tileset_setup_road(struct tileset *t,
 
   /* Corner road graphics are used by RSTYLE_ALL_SEPARATE and
    * RSTYLE_PARITY_COMBINED. */
-  if (*roadstyle == RSTYLE_ALL_SEPARATE || *roadstyle == RSTYLE_PARITY_COMBINED) {
+  if (roadstyle == RSTYLE_ALL_SEPARATE
+      || roadstyle == RSTYLE_PARITY_COMBINED) {
     for (i = 0; i < t->num_valid_tileset_dirs; i++) {
       enum direction8 dir = t->valid_tileset_dirs[i];
 
@@ -3234,6 +3236,11 @@ void tileset_setup_tile_type(struct tileset *t,
     tileset_error(LOG_FATAL, _("Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."),
                   terrain_rule_name(pterrain), pterrain->graphic_str,
                   pterrain->graphic_alt);
+  }
+
+  if (draw->init) {
+    t->sprites.drawing[terrain_index(pterrain)] = draw;
+    return;
   }
 
   /* Set up each layer of the drawing. */
@@ -3477,6 +3484,7 @@ void tileset_setup_tile_type(struct tileset *t,
     draw->mine = NULL;
   }
 
+  draw->init = TRUE;
   t->sprites.drawing[terrain_index(pterrain)] = draw;
 }
 
