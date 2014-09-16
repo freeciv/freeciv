@@ -81,6 +81,7 @@ void init_themes(void)
 	get_useable_themes_in_directory(directories[i].path,
 					&(directories[i].num_themes));
   }
+  free(gui_directories);
 }
 
 /****************************************************************************
