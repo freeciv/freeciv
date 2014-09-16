@@ -316,6 +316,10 @@ static bool send_to_metaserver(enum meta_flag flag)
                              plr->nation != NO_NATION_SELECTED 
                              ? nation_plural_for_player(plr)
                              : "none");
+        netfile_add_form_str(post, "plf[]",
+                             plr->nation != NO_NATION_SELECTED 
+                             ? nation_of_player(plr)->flag_graphic_str
+                             : "none");
         netfile_add_form_str(post, "plh[]",
                              pconn ? pconn->addr : "");
 
