@@ -1526,7 +1526,7 @@ void report_final_scores(struct conn_list *dest)
     { N_("Technologies\n"),             get_techs },
     { N_("Military Service\n(months)"), get_mil_service },
     { N_("Wonders\n"),                  get_wonders },
-    { N_("Research Speed\n(%)"),        get_research },
+    { N_("Research Speed\n(bulbs)"),    get_research },
     /* TRANS: "sq. mi." is abbreviation for "square miles" */
     { N_("Land Area\n(sq. mi.)"),       get_landarea },
     /* TRANS: "sq. mi." is abbreviation for "square miles" */
