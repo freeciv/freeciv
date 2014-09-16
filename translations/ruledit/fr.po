@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-06 05:45+0200\n"
-"PO-Revision-Date: 2014-08-06 21:48+0200\n"
+"POT-Creation-Date: 2014-08-31 06:52+0200\n"
+"PO-Revision-Date: 2014-08-31 13:34+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -41,39 +41,48 @@ msgstr "Imprimer le numéro de version"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:60
+#: tools/ruledit/ruledit_qt.cpp:61
 msgid "Freeciv ruleset editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:119
+#: tools/ruledit/ruledit_qt.cpp:126
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s"
+msgstr ""
+"%s%s\n"
+"commit : %s"
+
+#: tools/ruledit/ruledit_qt.cpp:141
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:147
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:157
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:137
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:139
+#: tools/ruledit/ruledit_qt.cpp:161
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:207
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:199
+#: tools/ruledit/ruledit_qt.cpp:221
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
@@ -105,35 +114,35 @@ msgstr "Utiliser la liste des nations"
 msgid "Nationlist"
 msgstr "Liste des nations"
 
-#: tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_tech.cpp:62
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_tech.cpp:70
 msgid "Rule Name"
 msgstr "Nom de la règle"
 
-#: tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
 msgstr "Prérequis1"
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
 msgstr "Prérequis2"
 
-#: tools/ruledit/tab_tech.cpp:94
+#: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
 msgstr "Prérequis racine"
 
-#: tools/ruledit/tab_tech.cpp:103
+#: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
 msgstr "Ajouter une technologie"
 
-#: tools/ruledit/tab_tech.cpp:107
+#: tools/ruledit/tab_tech.cpp:109
 msgid "Remove this tech"
 msgstr "Supprimer cette technologie"
 
-#: tools/ruledit/tab_tech.cpp:186
+#: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
 msgstr "Jamais"
 
