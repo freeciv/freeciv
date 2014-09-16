@@ -1950,9 +1950,6 @@ void handle_player_remove(int playerno)
   } conn_list_iterate_end;
   conn_list_clear(pplayer->connections);
 
-  /* Free the memory allocated for the player color. */
-  tileset_player_free(tileset, pplayer);
-
   /* Save player number before player is freed */
   plr_nbr = player_number(pplayer);
 
