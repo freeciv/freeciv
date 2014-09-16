@@ -711,7 +711,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
 
     desire = ai_unit_defence_desirability(punittype);
 
-    if (!utype_has_role(punittype, L_DEFEND_OK)) {
+    if (!utype_has_role(punittype, L_DEFEND_GOOD)) {
       desire /= 2; /* not good, just ok */
     }
 
