@@ -46,22 +46,15 @@
 
 #include "dialogs_g.h"
 
-extern bool is_unit_move_blocked;
-
-void popdown_caravan_dialog(void);
-
-static int caravan_city_id;
-static int caravan_unit_id;
-
 struct diplomat_dialog {
-  int diplomat_id;
-  int diplomat_target_id[ATK_COUNT];
+  int actor_unit_id;
+  int target_ids[ATK_COUNT];
   struct ADVANCED_DLG *pdialog;
 };
 
 struct small_diplomat_dialog {
-  int diplomat_id;
-  int diplomat_target_id;
+  int actor_unit_id;
+  int target_id;
   struct SMALL_DLG *pdialog;
 };
  
@@ -71,18 +64,18 @@ void popdown_diplomat_dialog(void);
 void popdown_incite_dialog(void);
 void popdown_bribe_dialog(void);
 
+
+static void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs);
+
+static struct diplomat_dialog *pDiplomat_Dlg = NULL;
+
 /* ====================================================================== */
 /* ============================ CARAVAN DIALOG ========================== */
 /* ====================================================================== */
-static struct SMALL_DLG *pCaravan_Dlg = NULL;
-
-static int caravan_dlg_window_callback(struct widget *pWindow)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    move_window_group(pCaravan_Dlg->pBeginWidgetList, pWindow);
-  }
-  return -1;
-}
 
 /****************************************************************
   User selected that caravan should establish traderoute.
@@ -90,13 +83,14 @@ static int caravan_dlg_window_callback(struct widget *pWindow)
 static int caravan_establish_trade_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_unit_establish_trade(&client.conn, pWidget->data.cont->id0);
+    dsend_packet_unit_establish_trade(&client.conn,
+                                      pDiplomat_Dlg->actor_unit_id);
 
-    popdown_caravan_dialog();
+    popdown_diplomat_dialog();
+    choose_action_queue_next();
   }
   return -1;
 }
-
 
 /****************************************************************
   User selected that caravan should help in wonder building.
@@ -104,37 +98,13 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_unit_help_build_wonder(&client.conn, pWidget->data.cont->id0);
+    dsend_packet_unit_help_build_wonder(&client.conn,
+                                        pDiplomat_Dlg->actor_unit_id);
 
-    popdown_caravan_dialog();
+    popdown_diplomat_dialog();
+    choose_action_queue_next();
   }
   return -1;
-}
-
-/****************************************************************
-  User selected that caravan should not do anything special
-*****************************************************************/
-static int exit_caravan_dlg_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_caravan_dialog();
-    process_caravan_arrival(NULL);
-  }
-  return -1;
-}
-
-/****************************************************************
-  Close caravan dialog
-*****************************************************************/
-void popdown_caravan_dialog(void)
-{
-  if (pCaravan_Dlg) {
-    is_unit_move_blocked = FALSE;
-    popdown_window_group_dialog(pCaravan_Dlg->pBeginWidgetList,
-                                pCaravan_Dlg->pEndWidgetList);
-    FC_FREE(pCaravan_Dlg);
-    flush_dirty();
-  }
 }
 
 /**************************************************************************
@@ -147,128 +117,15 @@ void popdown_caravan_dialog(void)
 void popup_caravan_dialog(struct unit *pUnit,
                           struct city *pHomecity, struct city *pDestcity)
 {
-  struct widget *pWindow = NULL, *pBuf = NULL;
-  SDL_String16 *pStr;
-  struct CONTAINER *pCont;
-  char cBuf[128];
-  SDL_Rect area;
+  action_probability probabilities[ACTION_COUNT];
 
-  if (pCaravan_Dlg) {
-    return;
-  }
+  /* Caravan actions don't use action enablers yet. */
+  action_iterate(act) {
+    probabilities[act] = ACTPROB_IMPOSSIBLE;
+  } action_iterate_end;
 
-  caravan_unit_id=pUnit->id;
-  caravan_city_id=pDestcity->id;
-
-  pCont = fc_calloc(1, sizeof(struct CONTAINER));
-  pCont->id0 = pUnit->id;
-  pCont->id1 = pDestcity->id;
-
-  pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-  is_unit_move_blocked = TRUE;
-
-  fc_snprintf(cBuf, sizeof(cBuf), _("Your %s has arrived at %s"),
-              unit_name_translation(pUnit), city_name(pDestcity));
-
-  /* window */
-  pStr = create_str16_from_char(cBuf, adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-
-  pWindow = create_window_skeleton(NULL, pStr, 0);
-
-  pWindow->action = caravan_dlg_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-
-  add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
-  pCaravan_Dlg->pEndWidgetList = pWindow;
-
-  area = pWindow->area;
-  area.h = MAX(area.h, adj_size(2));
-
-  /* ---------- */
-  if (unit_has_type_flag(pUnit, UTYF_TRADE_ROUTE)
-      && can_cities_trade(pHomecity, pDestcity))
-  {
-    int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pDestcity);
-
-    if (can_establish_trade_route(pHomecity, pDestcity)) {
-      fc_snprintf(cBuf, sizeof(cBuf),
-                  _("Establish Trade route with %s ( %d R&G + %d trade )"),
-                  city_name(pHomecity),
-                  revenue,
-                  trade_between_cities(pHomecity, pDestcity));
-    } else {
-      revenue = (revenue + 2) / 3;
-      fc_snprintf(cBuf, sizeof(cBuf),
-                _("Enter Marketplace ( %d R&G bonus )"), revenue);
-    }
-
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            cBuf, caravan_establish_trade_callback);
-    pBuf->data.cont = pCont;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    add_to_gui_list(ID_LABEL, pBuf);
-
-    area.w = MAX(area.w, pBuf->size.w);
-    area.h += pBuf->size.h;
-  }
-
-  /* ---------- */
-  if (unit_can_help_build_wonder(pUnit, pDestcity)) {
-
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
-        _("Help build Wonder"), caravan_help_build_wonder_callback);
-
-    pBuf->data.cont = pCont;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    add_to_gui_list(ID_LABEL, pBuf);
-
-    area.w = MAX(area.w, pBuf->size.w);
-    area.h += pBuf->size.h;
-  }
-  /* ---------- */
-
-  create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            _("Keep moving"), exit_caravan_dlg_callback);
-
-  pBuf->data.cont = pCont;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  set_wflag(pBuf, WF_FREE_DATA);
-  pBuf->key = SDLK_ESCAPE;
-
-  add_to_gui_list(ID_LABEL, pBuf);
-
-  area.w = MAX(area.w, pBuf->size.w);
-  area.h += pBuf->size.h;
-  /* ---------- */
-  pCaravan_Dlg->pBeginWidgetList = pBuf;
-
-  /* setup window size and start position */
-
-  resize_window(pWindow, NULL, NULL,
-                (pWindow->size.w - pWindow->area.w) + area.w,
-                (pWindow->size.h - pWindow->area.h) + area.h);
-
-  area = pWindow->area;
-
-  auto_center_on_focus_unit();
-  put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           unit_tile(pUnit));
-
-  /* setup widget size and start position */
-
-  pBuf = pWindow->prev;
-  setup_vertical_widgets_position(1,
-        area.x,
-        area.y + 1, area.w, 0,
-        pCaravan_Dlg->pBeginWidgetList, pBuf);
-  /* --------------------- */
-  /* redraw */
-  redraw_group(pCaravan_Dlg->pBeginWidgetList, pWindow, 0);
-
-  widget_flush(pWindow);
+  popup_diplomat_dialog(pUnit, pDestcity, NULL, city_tile(pDestcity),
+                         probabilities);
 }
 
 /**************************************************************************
@@ -277,14 +134,19 @@ void popup_caravan_dialog(struct unit *pUnit,
 **************************************************************************/
 bool caravan_dialog_is_open(int *unit_id, int *city_id)
 {
-  if (unit_id) {
-    *unit_id = caravan_unit_id;
-  }
-  if (city_id) {
-    *city_id = caravan_city_id;
+  if (pDiplomat_Dlg == NULL) {
+    return FALSE;
   }
 
-  return pCaravan_Dlg != NULL;
+  if (unit_id) {
+    *unit_id = pDiplomat_Dlg->actor_unit_id;
+  }
+
+  if (city_id) {
+    *city_id = pDiplomat_Dlg->target_ids[ATK_CITY];
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -298,7 +160,6 @@ void caravan_dialog_update(void)
 /* ====================================================================== */
 /* ============================ DIPLOMAT DIALOG ========================= */
 /* ====================================================================== */
-static struct diplomat_dialog *pDiplomat_Dlg = NULL;
 
 /****************************************************************
   User interacted with diplomat dialog.
@@ -318,11 +179,11 @@ static int diplomat_embassy_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (NULL != game_city_by_number(
-          pDiplomat_Dlg->diplomat_target_id[ATK_CITY])
-        && NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)) {
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
       request_do_action(ACTION_ESTABLISH_EMBASSY,
-                        pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
                         0);
     }
 
@@ -339,12 +200,12 @@ static int diplomat_embassy_callback(struct widget *pWidget)
 static int diplomat_investigate_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
-          pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
+          pDiplomat_Dlg->target_ids[ATK_CITY])) {
       request_do_action(ACTION_SPY_INVESTIGATE_CITY,
-                        pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
                         0);
     }
   
@@ -363,11 +224,11 @@ static int diplomat_investigate_callback(struct widget *pWidget)
 static int spy_poison_callback( struct widget *pWidget )
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
-          pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
-      request_do_action(ACTION_SPY_POISON, pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
+          pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_POISON, pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
                         0);
     }
   
@@ -384,12 +245,12 @@ static int spy_poison_callback( struct widget *pWidget )
 *****************************************************************/
 static int spy_sabotage_request(struct widget *pWidget)
 {
-  if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+  if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
       && NULL != game_city_by_number(
-              pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
+              pDiplomat_Dlg->target_ids[ATK_CITY])) {
     request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                           pDiplomat_Dlg->diplomat_id,
-                           pDiplomat_Dlg->diplomat_target_id[ATK_CITY]);
+                           pDiplomat_Dlg->actor_unit_id,
+                           pDiplomat_Dlg->target_ids[ATK_CITY]);
     popdown_diplomat_dialog();
   } else {
     popdown_diplomat_dialog();
@@ -405,12 +266,12 @@ static int spy_sabotage_request(struct widget *pWidget)
 static int diplomat_sabotage_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
-                pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
       request_do_action(ACTION_SPY_SABOTAGE_CITY,
-                        pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
                         B_LAST + 1);
     }
     
@@ -455,12 +316,12 @@ static int spy_steal_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int steal_advance = MAX_ID - pWidget->ID;
   
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
-                pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
       request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
-                        pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
                         steal_advance);
     }
     
@@ -532,8 +393,8 @@ static int spy_steal_popup(struct widget *pWidget)
   pCont->id1 = id;/* spy id */
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
-  pDiplomat_Dlg->diplomat_id = id;
-  pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pVcity->id;
+  pDiplomat_Dlg->actor_unit_id = id;
+  pDiplomat_Dlg->target_ids[ATK_CITY] = pVcity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   pStr = create_str16_from_char(_("Select Advance to Steal"), adj_font(12));
@@ -705,11 +566,12 @@ static int spy_steal_popup(struct widget *pWidget)
 static int diplomat_steal_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
-                pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
-      request_do_action(ACTION_SPY_STEAL_TECH, pDiplomat_Dlg->diplomat_id,
-                        pDiplomat_Dlg->diplomat_target_id[ATK_CITY],
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_STEAL_TECH,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
                         A_UNSET);
     }
     
@@ -726,12 +588,12 @@ static int diplomat_steal_callback(struct widget *pWidget)
 static int diplomat_incite_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
-                pDiplomat_Dlg->diplomat_target_id[ATK_CITY])) {
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
       request_action_details(ACTION_SPY_INCITE_CITY,
-                             pDiplomat_Dlg->diplomat_id,
-                             pDiplomat_Dlg->diplomat_target_id[ATK_CITY]);
+                             pDiplomat_Dlg->actor_unit_id,
+                             pDiplomat_Dlg->target_ids[ATK_CITY]);
       popdown_diplomat_dialog();
     } else {
       popdown_diplomat_dialog();
@@ -751,9 +613,9 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *punit;
 
-    if ((punit = game_unit_by_number(pDiplomat_Dlg->diplomat_id))
+    if ((punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))
         && !same_pos(unit_tile(punit), pWidget->data.tile)) {
-      request_do_action(ACTION_MOVE, pDiplomat_Dlg->diplomat_id,
+      request_do_action(ACTION_MOVE, pDiplomat_Dlg->actor_unit_id,
                         pWidget->data.tile->index, 0);
     }
     
@@ -769,12 +631,12 @@ static int diplomat_keep_moving_callback(struct widget *pWidget)
 static int diplomat_bribe_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL !=
-         game_unit_by_number(pDiplomat_Dlg->diplomat_target_id[ATK_UNIT])) {
+         game_unit_by_number(pDiplomat_Dlg->target_ids[ATK_UNIT])) {
       request_action_details(ACTION_SPY_BRIBE_UNIT,
-                             pDiplomat_Dlg->diplomat_id,
-                             pDiplomat_Dlg->diplomat_target_id[ATK_UNIT]);
+                             pDiplomat_Dlg->actor_unit_id,
+                             pDiplomat_Dlg->target_ids[ATK_UNIT]);
       popdown_diplomat_dialog();
     } else {
       popdown_diplomat_dialog();
@@ -885,30 +747,44 @@ void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
                            struct unit *pTunit, struct tile *ptile,
                            const action_probability *action_probabilities)
 {
+  popup_action_selection(pUnit, pCity, pTunit, ptile,
+                         action_probabilities);
+}
+
+/**************************************************************************
+  Popup a dialog that allows the player to select what action a unit
+  should take.
+**************************************************************************/
+static void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs)
+{
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   SDL_Rect area;
+  struct city *actor_homecity;
   
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
   is_unit_move_blocked = TRUE;
+
+  actor_homecity = game_city_by_number(actor_unit->homecity);
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
-  pDiplomat_Dlg->diplomat_id = pUnit->id;
+  pDiplomat_Dlg->actor_unit_id = actor_unit->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   /* window */
-  if (pCity)
-  {
+  if (target_city) {
     struct astring title = ASTRING_INIT;
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&title, _("Choose Your %s's Strategy"),
-             unit_name_translation(pUnit));
+             unit_name_translation(actor_unit));
     pStr = create_str16_from_char(astr_str(&title), adj_font(12));
     astr_free(&title);
-  }
-  else
-  {
+  } else {
     pStr = create_str16_from_char(_("Subvert Enemy Unit"), adj_font(12));
   }
   
@@ -926,95 +802,162 @@ void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
 
-  pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = -1;
-  pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = -1;
+  pDiplomat_Dlg->target_ids[ATK_CITY] = -1;
+  pDiplomat_Dlg->target_ids[ATK_UNIT] = -1;
 
   /* ---------- */
-  if (pCity)
-  {
+  if (target_city) {
     /* Spy/Diplomat acting against a city */
 
-    pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
+    pDiplomat_Dlg->target_ids[ATK_CITY] = target_city->id;
 
     action_entry(ACTION_ESTABLISH_EMBASSY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_embassy_callback,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_INVESTIGATE_CITY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_investigate_callback,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_POISON,
-                 action_probabilities,
+                 act_probs,
                  spy_poison_callback,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_SABOTAGE_CITY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_sabotage_callback,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 action_probabilities,
+                 act_probs,
                  spy_sabotage_request,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_STEAL_TECH,
-                 action_probabilities,
+                 act_probs,
                  diplomat_steal_callback,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
-                 action_probabilities,
+                 act_probs,
                  spy_steal_popup,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_INCITE_CITY,
-                 action_probabilities,
+                 act_probs,
                  diplomat_incite_callback,
-                 pUnit, pCity, NULL,
+                 actor_unit, target_city, NULL,
                  pWindow, &area);
+
+    /* The Freeciv protocol currently only supports caravan actions if the
+     * target city is on the actor unit's tile. */
+    if (target_tile == unit_tile(actor_unit)) {
+      char cBuf[128];
+
+      bool can_marketplace = unit_has_type_flag(actor_unit,
+                                                UTYF_TRADE_ROUTE)
+          && can_cities_trade(actor_homecity, target_city);
+      bool can_traderoute = can_marketplace
+                      && can_establish_trade_route(actor_homecity,
+                                                   target_city);
+      bool can_wonder = unit_can_help_build_wonder(actor_unit,
+                                                   target_city);
+
+      /* ---------- */
+      if (can_marketplace && !can_traderoute) {
+        int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                         target_city);
+
+        revenue = (revenue + 2) / 3;
+        fc_snprintf(cBuf, sizeof(cBuf),
+                    _("Enter Marketplace ( %d R&G bonus )"), revenue);
+
+        create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                cBuf, caravan_establish_trade_callback);
+        set_wstate(pBuf, FC_WS_NORMAL);
+
+        add_to_gui_list(ID_LABEL, pBuf);
+
+        area.w = MAX(area.w, pBuf->size.w);
+        area.h += pBuf->size.h;
+      }
+
+      /* ---------- */
+      if (can_traderoute) {
+        int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                         target_city);
+
+        fc_snprintf(cBuf, sizeof(cBuf),
+                    _("Establish Trade route with %s ( %d R&G + %d trade )"),
+                    city_name(actor_homecity),
+                    revenue,
+                    trade_between_cities(actor_homecity, target_city));
+
+        create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                cBuf, caravan_establish_trade_callback);
+        set_wstate(pBuf, FC_WS_NORMAL);
+
+        add_to_gui_list(ID_LABEL, pBuf);
+
+        area.w = MAX(area.w, pBuf->size.w);
+        area.h += pBuf->size.h;
+      }
+
+      /* ---------- */
+      if (can_wonder) {
+        create_active_iconlabel(pBuf, pWindow->dst, pStr,
+            _("Help build Wonder"), caravan_help_build_wonder_callback);
+
+        set_wstate(pBuf, FC_WS_NORMAL);
+
+        add_to_gui_list(ID_LABEL, pBuf);
+
+        area.w = MAX(area.w, pBuf->size.w);
+        area.h += pBuf->size.h;
+      }
+    }
   }
 
-  if (pTunit) {
+  if (target_unit) {
     /* Spy/Diplomat acting against a unit */
 
-    pDiplomat_Dlg->diplomat_target_id[ATK_UNIT] = pTunit->id;
+    pDiplomat_Dlg->target_ids[ATK_UNIT] = target_unit->id;
 
     action_entry(ACTION_SPY_BRIBE_UNIT,
-                 action_probabilities,
+                 act_probs,
                  diplomat_bribe_callback,
-                 pUnit, NULL, pTunit,
+                 actor_unit, NULL, target_unit,
                  pWindow, &area);
 
     action_entry(ACTION_SPY_SABOTAGE_UNIT,
-                 action_probabilities,
+                 act_probs,
                  spy_sabotage_unit_callback,
-                 pUnit, NULL, pTunit,
+                 actor_unit, NULL, target_unit,
                  pWindow, &area);
   }
 
   /* ---------- */
-  if (unit_can_move_to_tile(pUnit, ptile, FALSE)) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
 
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
                             _("Keep moving"),
                             diplomat_keep_moving_callback);
 
-    pBuf->data.tile = ptile;
+    pBuf->data.tile = target_tile;
 
     set_wstate(pBuf, FC_WS_NORMAL);
 
-    add_to_gui_list(MAX_ID - pUnit->id, pBuf);
+    add_to_gui_list(MAX_ID - actor_unit->id, pBuf);
 
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
@@ -1045,7 +988,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           unit_tile(pUnit));
+                           unit_tile(actor_unit));
  
   /* setup widget size and start position */
     
@@ -1072,7 +1015,7 @@ int diplomat_handled_in_diplomat_dialog(void)
     return -1;
   }
 
-  return pDiplomat_Dlg->diplomat_id;
+  return pDiplomat_Dlg->actor_unit_id;
 }
 
 /****************************************************************
@@ -1138,8 +1081,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   is_unit_move_blocked = TRUE;
     
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
-  pDiplomat_Dlg->diplomat_id = actor->id;
-  pDiplomat_Dlg->diplomat_target_id[ATK_CITY] = pCity->id;
+  pDiplomat_Dlg->actor_unit_id = actor->id;
+  pDiplomat_Dlg->target_ids[ATK_CITY] = pCity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pCont = fc_calloc(1, sizeof(struct CONTAINER));
@@ -1369,10 +1312,10 @@ static int incite_dlg_window_callback(struct widget *pWindow)
 static int diplomat_incite_yes_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pIncite_Dlg->diplomat_id)
-        && NULL != game_city_by_number(pIncite_Dlg->diplomat_target_id)) {
-      request_do_action(ACTION_SPY_INCITE_CITY, pIncite_Dlg->diplomat_id,
-                        pIncite_Dlg->diplomat_target_id, 0);
+    if (NULL != game_unit_by_number(pIncite_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(pIncite_Dlg->target_id)) {
+      request_do_action(ACTION_SPY_INCITE_CITY, pIncite_Dlg->actor_unit_id,
+                        pIncite_Dlg->target_id, 0);
     }
     popdown_incite_dialog();
     choose_action_queue_next();
@@ -1432,8 +1375,8 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   is_unit_move_blocked = TRUE;
   
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
-  pIncite_Dlg->diplomat_id = actor->id;
-  pIncite_Dlg->diplomat_target_id = pCity->id;
+  pIncite_Dlg->actor_unit_id = actor->id;
+  pIncite_Dlg->target_id = pCity->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));  
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
@@ -1628,10 +1571,10 @@ static int bribe_dlg_window_callback(struct widget *pWindow)
 static int diplomat_bribe_yes_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (NULL != game_unit_by_number(pBribe_Dlg->diplomat_id)
-        && NULL != game_unit_by_number(pBribe_Dlg->diplomat_target_id)) {
-      request_do_action(ACTION_SPY_BRIBE_UNIT, pBribe_Dlg->diplomat_id,
-                        pBribe_Dlg->diplomat_target_id, 0);
+    if (NULL != game_unit_by_number(pBribe_Dlg->actor_unit_id)
+        && NULL != game_unit_by_number(pBribe_Dlg->target_id)) {
+      request_do_action(ACTION_SPY_BRIBE_UNIT, pBribe_Dlg->actor_unit_id,
+                        pBribe_Dlg->target_id, 0);
     }
     popdown_bribe_dialog();
     choose_action_queue_next();
@@ -1691,8 +1634,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   is_unit_move_blocked = TRUE;
   
   pBribe_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
-  pBribe_Dlg->diplomat_id = actor->id;
-  pBribe_Dlg->diplomat_target_id = pUnit->id;
+  pBribe_Dlg->actor_unit_id = actor->id;
+  pBribe_Dlg->target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",

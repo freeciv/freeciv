@@ -81,8 +81,6 @@ extern void popdown_diplomat_dialog(void);
 extern void popdown_incite_dialog(void);
 extern void popdown_bribe_dialog(void);
 
-extern void popdown_caravan_dialog(void);
-
 void popdown_advanced_terrain_dialog(void);
 int advanced_terrain_window_dlg_callback(struct widget *pWindow);
 int exit_advanced_terrain_dlg_callback(struct widget *pWidget);
@@ -142,7 +140,6 @@ void put_window_near_map_tile(struct widget *pWindow,
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  popdown_caravan_dialog();
   unit_select_dialog_popdown();
   popdown_advanced_terrain_dialog();
   popdown_terrain_info_dialog();
