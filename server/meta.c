@@ -259,6 +259,7 @@ static bool send_to_metaserver(enum meta_flag flag)
   int humans = 0;
   char host[512];
   char state[20];
+  char rs[256];
   struct netfile_post *post;
 
   switch(server_state()) {
@@ -280,12 +281,19 @@ static bool send_to_metaserver(enum meta_flag flag)
     sz_strlcpy(host, "unknown");
   }
 
+  if (game.control.version[0] != '\0') {
+    fc_snprintf(rs, sizeof(rs), "%s %s", game.control.name, game.control.version);
+  } else {
+    sz_strlcpy(rs, game.control.name);
+  }
+
   /* Freed in metaserver thread function send_metaserver_post() */
   post = netfile_start_post();
 
   netfile_add_form_str(post, "host", host);
   netfile_add_form_int(post, "port", srvarg.port);
   netfile_add_form_str(post, "state", state);
+  netfile_add_form_str(post, "ruleset", rs);
 
   if (flag == META_GOODBYE) {
     netfile_add_form_int(post, "bye", 1);
