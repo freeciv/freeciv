@@ -1933,7 +1933,7 @@ struct pf_fuel_node {
   unsigned node_known_type : 2; /* 'enum known_type' really. */
   unsigned behavior : 2;        /* 'enum tile_behavior' really. */
   unsigned zoc_number : 2;      /* 'enum pf_zoc_type' really. */
-  unsigned moves_left_req : 12; /* The minimum required moves left to reach
+  signed moves_left_req : 13;   /* The minimum required moves left to reach
                                  * this tile. It the number of moves we need
                                  * to reach the nearest refuel point. A
                                  * value of 0 means this is a refuel point.
