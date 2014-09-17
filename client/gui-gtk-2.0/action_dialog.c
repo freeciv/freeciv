@@ -49,12 +49,10 @@
 #include "wldlg.h"
 
 static int caravan_city_id;
-static int caravan_unit_id;
-
-static GtkWidget *caravan_dialog;
+static int help_wonder_button_id;
 
 static GtkWidget *diplomat_dialog;
-static int diplomat_id;
+static int actor_unit_id;
 static bool is_more_user_input_needed = FALSE;
 
 static GtkWidget  *spy_tech_shell;
@@ -70,6 +68,12 @@ struct action_data {
   int target_tile_id;
   int value;
 };
+
+static void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs);
 
 /****************************************************************
   Create a new action data structure that can be stored in the
@@ -119,7 +123,11 @@ static void diplomat_queue_handle_secondary(void)
 *****************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
-  dsend_packet_unit_establish_trade(&client.conn, caravan_unit_id);
+  struct action_data *args = (struct action_data *)data;
+
+  dsend_packet_unit_establish_trade(&client.conn, args->actor_unit_id);
+
+  free(args);
 }
 
 /****************************************************************
@@ -127,26 +135,23 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn, caravan_unit_id);
-}
+  struct action_data *args = (struct action_data *)data;
 
-/****************************************************************
-  Close caravan dialog
-*****************************************************************/
-static void caravan_destroy_callback(GtkWidget *w, gpointer data)
-{
-  caravan_dialog = NULL;
-  process_caravan_arrival(NULL);
+  dsend_packet_unit_help_build_wonder(&client.conn, args->actor_unit_id);
+
+  free(args);
 }
 
 /****************************************************************
   Returns the proper text (g_strdup'd - must be g_free'd) which should
   be displayed on the helpbuild wonder button.
 *****************************************************************/
-static gchar *get_help_build_wonder_button_label(bool* help_build_possible)
+static gchar *get_help_build_wonder_button_label(bool* help_build_possible,
+                                                 int actor_unit_id,
+                                                 int target_city_id)
 {
-  struct city* destcity = game_city_by_number(caravan_city_id);
-  struct unit* caravan = game_unit_by_number(caravan_unit_id);
+  struct city* destcity = game_city_by_number(target_city_id);
+  struct unit* caravan = game_unit_by_number(actor_unit_id);
 
   if (destcity && caravan
       && unit_can_help_build_wonder(caravan, destcity)) {
@@ -166,48 +171,15 @@ static gchar *get_help_build_wonder_button_label(bool* help_build_possible)
 void popup_caravan_dialog(struct unit *punit,
                           struct city *phomecity, struct city *pdestcity)
 {
-  char title_buf[128], buf[128];
-  bool can_establish, can_trade, can_wonder;
-  gchar *wonder;
+  action_probability probabilities[ACTION_COUNT];
 
-  fc_snprintf(title_buf, sizeof(title_buf),
-              /* TRANS: %s is a unit type */
-              _("Your %s Has Arrived"), unit_name_translation(punit));
-  fc_snprintf(buf, sizeof(buf),
-              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-              unit_name_translation(punit),
-              city_name(phomecity), city_name(pdestcity));
+  /* Caravan actions don't use action enablers yet. */
+  action_iterate(act) {
+    probabilities[act] = ACTPROB_IMPOSSIBLE;
+  } action_iterate_end;
 
-  caravan_city_id=pdestcity->id; /* callbacks need these */
-  caravan_unit_id=punit->id;
-
-  wonder = get_help_build_wonder_button_label(&can_wonder);
-
-  can_trade = (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
-               && can_cities_trade(phomecity, pdestcity));
-  can_establish = can_trade
-                  && can_establish_trade_route(phomecity, pdestcity);
-
-
-  caravan_dialog = popup_choice_dialog(GTK_WINDOW(toplevel),
-    title_buf, buf,
-    (can_establish ? _("Establish _Trade route") :
-    _("Enter Marketplace")),caravan_establish_trade_callback, NULL,
-    wonder,caravan_help_build_wonder_callback, NULL,
-    _("_Keep moving"), NULL, NULL,
-    NULL);
-
-  g_signal_connect(caravan_dialog, "destroy",
-                   G_CALLBACK(caravan_destroy_callback), NULL);
-
-  if (!can_trade) {
-    choice_dialog_button_set_sensitive(caravan_dialog, 0, FALSE);
-  }
-
-  if (!can_wonder) {
-    choice_dialog_button_set_sensitive(caravan_dialog, 1, FALSE);
-  }
-  g_free(wonder);
+  popup_action_selection(punit, pdestcity, NULL, city_tile(pdestcity),
+                         probabilities);
 }
 
 /****************************************************************
@@ -217,12 +189,12 @@ void popup_caravan_dialog(struct unit *punit,
 bool caravan_dialog_is_open(int* unit_id, int* city_id)
 {
   if (unit_id) {
-    *unit_id = caravan_unit_id;
+    *unit_id = actor_unit_id;
   }
   if (city_id) {
     *city_id = caravan_city_id;
   }
-  return caravan_dialog != NULL;
+  return diplomat_dialog != NULL;
 }
 
 /****************************************************************
@@ -231,9 +203,31 @@ bool caravan_dialog_is_open(int* unit_id, int* city_id)
 void caravan_dialog_update(void)
 {
   bool can_help;
-  gchar *buf = get_help_build_wonder_button_label(&can_help);
-  choice_dialog_button_set_label(caravan_dialog, 1, buf);
-  choice_dialog_button_set_sensitive(caravan_dialog, 1, can_help);
+  gchar *buf = get_help_build_wonder_button_label(&can_help, actor_unit_id,
+                                                  caravan_city_id);
+
+  if (-1 != help_wonder_button_id) {
+    /* Update existing help build wonder button. */
+    choice_dialog_button_set_label(diplomat_dialog, help_wonder_button_id,
+                                   buf);
+    choice_dialog_button_set_sensitive(diplomat_dialog,
+                                       help_wonder_button_id, can_help);
+  } else if (can_help) {
+    /* Help build wonder just became possible. */
+
+    /* Only actor unit and target city are relevant. */
+    struct action_data *data = act_data(actor_unit_id,
+                                        caravan_city_id,
+                                        0, 0, 0);
+
+    help_wonder_button_id =
+        choice_dialog_get_number_of_buttons(diplomat_dialog);
+    choice_dialog_add(diplomat_dialog, buf,
+                      (GCallback)caravan_help_build_wonder_callback,
+                      data, NULL);
+    choice_dialog_end(diplomat_dialog);
+  }
+
   g_free(buf);
 }
 
@@ -977,22 +971,37 @@ static void action_entry(GtkWidget *shl,
   choice_dialog_add(shl, label, handler, handler_args, tooltip);
 }
 
-/****************************************************************
+/**************************************************************************
  Popup new diplomat dialog.
-*****************************************************************/
+**************************************************************************/
 void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                            struct unit *ptunit, struct tile *dest_tile,
                            const action_probability *action_probabilities)
+{
+  popup_action_selection(punit, pcity, ptunit, dest_tile,
+                         action_probabilities);
+}
+
+/**************************************************************************
+  Popup a dialog that allows the player to select what action a unit
+  should take.
+**************************************************************************/
+static void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs)
 {
   GtkWidget *shl;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
   struct city *actor_homecity;
 
-  struct action_data *data = act_data(punit->id,
-                                      (pcity) ? pcity->id : 0,
-                                      (ptunit) ? ptunit->id : 0,
-                                      (dest_tile) ? dest_tile->index : 0,
-                                      0);
+  struct action_data *data =
+      act_data(actor_unit->id,
+               (target_city) ? target_city->id : 0,
+               (target_unit) ? target_unit->id : 0,
+               (target_tile) ? target_tile->index : 0,
+               0);
 
   /* Could be caused by the server failing to reply to a request for more
    * information or a bug in the client code. */
@@ -1002,104 +1011,149 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
   /* No extra input is required as no action has been chosen yet. */
   is_more_user_input_needed = FALSE;
 
-  actor_homecity = game_city_by_number(punit->homecity);
+  /* No help build wonder button yet. */
+  help_wonder_button_id = -1;
 
-  diplomat_id = punit->id;
+  actor_homecity = game_city_by_number(actor_unit->homecity);
+
+  actor_unit_id = actor_unit->id;
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
-           _("Choose Your %s's Strategy"), unit_name_translation(punit));
+           _("Choose Your %s's Strategy"),
+           unit_name_translation(actor_unit));
 
-  if (pcity && actor_homecity) {
+  if (target_city && actor_homecity) {
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-             unit_name_translation(punit),
+             unit_name_translation(actor_unit),
              city_name(actor_homecity),
-             city_name(pcity));
-  } else if (pcity) {
+             city_name(target_city));
+  } else if (target_city) {
     astr_set(&text,
              _("Your %s has arrived at %s.\nWhat is your command?"),
-             unit_name_translation(punit),
-             city_name(pcity));
+             unit_name_translation(actor_unit),
+             city_name(target_city));
   } else {
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
              _("Your %s is waiting for your command."),
-             unit_name_translation(punit));
+             unit_name_translation(actor_unit));
   }
 
   shl = choice_dialog_start(GTK_WINDOW(toplevel), astr_str(&title),
                             astr_str(&text));
 
-  if (pcity) {
+  if (target_city) {
     /* Spy/Diplomat acting against a city */
+
+    /* Used by caravan_dialog_update() */
+    caravan_city_id = target_city->id;
 
     action_entry(shl,
                  ACTION_ESTABLISH_EMBASSY,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)diplomat_embassy_callback,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_INVESTIGATE_CITY,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)diplomat_investigate_callback,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_POISON,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)spy_poison_callback,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_SABOTAGE_CITY,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)diplomat_sabotage_callback,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)spy_request_sabotage_list,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_STEAL_TECH,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)diplomat_steal_callback,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_TARGETED_STEAL_TECH,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)spy_steal_popup,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_INCITE_CITY,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)diplomat_incite_callback,
                  data);
+
+    /* The Freeciv protocol currently only supports caravan actions if the
+     * target city is on the actor unit's tile. */
+    if (target_tile == unit_tile(actor_unit)) {
+      bool can_wonder;
+      bool can_marketplace = unit_has_type_flag(actor_unit,
+                                                UTYF_TRADE_ROUTE)
+          && can_cities_trade(actor_homecity, target_city);
+      bool can_traderoute = can_marketplace
+                      && can_establish_trade_route(actor_homecity,
+                                                   target_city);
+      gchar *wonder = get_help_build_wonder_button_label(&can_wonder,
+                                                         actor_unit->id,
+                                                         target_city->id);
+
+      if (can_marketplace && !can_traderoute) {
+        choice_dialog_add(shl, _("Enter Marketplace"),
+                          (GCallback)caravan_establish_trade_callback,
+                          data, "");
+      }
+
+      if (can_traderoute) {
+        choice_dialog_add(shl, _("Establish Trade route"),
+                          (GCallback)caravan_establish_trade_callback,
+                          data, "");
+      }
+
+      if (can_wonder) {
+        /* Used by caravan_dialog_update() */
+        help_wonder_button_id = choice_dialog_get_number_of_buttons(shl);
+
+        choice_dialog_add(shl, wonder,
+                          (GCallback)caravan_help_build_wonder_callback,
+                          data, "");
+      }
+
+      g_free(wonder);
+    }
   }
 
-  if (ptunit) {
+  if (target_unit) {
     /* Spy/Diplomat acting against a unit */
 
     action_entry(shl,
                  ACTION_SPY_BRIBE_UNIT,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)diplomat_bribe_callback,
                  data);
 
     action_entry(shl,
                  ACTION_SPY_SABOTAGE_UNIT,
-                 action_probabilities,
+                 act_probs,
                  (GCallback)spy_sabotage_unit_callback,
                  data);
   }
 
-  if (unit_can_move_to_tile(punit, dest_tile, FALSE)) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     choice_dialog_add(shl, _("_Keep moving"),
                       (GCallback)diplomat_keep_moving_callback,
                       data, NULL);
@@ -1129,7 +1183,7 @@ int diplomat_handled_in_diplomat_dialog(void)
   if (diplomat_dialog == NULL) {
     return -1;
   }
-  return diplomat_id;
+  return actor_unit_id;
 }
 
 /****************************************************************

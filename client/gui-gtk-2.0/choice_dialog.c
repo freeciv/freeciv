@@ -30,6 +30,14 @@
   placed vertically
 ****************************************************************/
 
+/***********************************************************************
+  Get the number of buttons in the choice dialog.
+***********************************************************************/
+int choice_dialog_get_number_of_buttons(GtkWidget *cd)
+{
+  return GPOINTER_TO_INT(g_object_get_data(G_OBJECT(cd), "nbuttons"));
+}
+
 /****************************************************************
   Get nth button widget from dialog
 *****************************************************************/
@@ -129,7 +137,7 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
   int nbuttons;
 
   bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
-  nbuttons = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dshell), "nbuttons"));
+  nbuttons = choice_dialog_get_number_of_buttons(dshell);
   g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(nbuttons+1));
 
   fc_snprintf(name, sizeof(name), "button%d", nbuttons);
