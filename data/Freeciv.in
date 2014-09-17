@@ -2277,26 +2277,10 @@ Freeciv*buynodialog.*.dlabel.borderWidth:  0
 Freeciv*buynodialog.*.button0.label:     _("Darn")
 Freeciv*buynodialog.*.button0.fromVert:  dlabel
 
-
-!
-! caravan dialog
-!
-! /* TRANS: Title for caravan popup */
-Freeciv*caravandialog.title: _("Your Unit Has Arrived")
-Freeciv*caravandialog.*.dlabel.borderWidth:  0
-Freeciv*caravandialog.*.button0.label:     _("Establish trade route")
-Freeciv*caravandialog.*.button0.fromVert:  dlabel
-Freeciv*caravandialog.*.button1.label:     _("Help build Wonder")
-Freeciv*caravandialog.*.button1.fromVert:  dlabel
-Freeciv*caravandialog.*.button1.fromHoriz: button0
-Freeciv*caravandialog.*.button2.label:     _("Keep moving")
-Freeciv*caravandialog.*.button2.fromVert:  dlabel
-Freeciv*caravandialog.*.button2.fromHoriz: button1
-
 !
 ! diplomat dialog
 !
-Freeciv*diplomatdialog.title: _("Choose Your Covert Strategy")
+Freeciv*diplomatdialog.title: _("Your Unit Has Arrived")
 Freeciv*diplomatdialog.dform.*.justify: Center
 Freeciv*diplomatdialog.dform.*.width:       160
 Freeciv*diplomatdialog.dform.dlabel.width:  320
@@ -2321,17 +2305,27 @@ Freeciv*diplomatdialog.*.button6.fromVert:  button4
 Freeciv*diplomatdialog.*.button7.fromVert:  button5
 Freeciv*diplomatdialog.*.button7.fromHoriz: button6
 
+Freeciv*diplomatdialog.*.button8.label:     _("Enter Marketplace")
 Freeciv*diplomatdialog.*.button8.fromVert:  button6
 
+Freeciv*diplomatdialog.*.button9.label:     _("Establish trade route")
 Freeciv*diplomatdialog.*.button9.fromVert:  button7
 Freeciv*diplomatdialog.*.button9.fromHoriz: button8
 
-Freeciv*diplomatdialog.*.button10.label:     _("Keep moving")
+Freeciv*diplomatdialog.*.button10.label:     _("Help build Wonder")
 Freeciv*diplomatdialog.*.button10.fromVert:  button8
 
-Freeciv*diplomatdialog.*.button11.label:     _("Cancel")
 Freeciv*diplomatdialog.*.button11.fromVert:  button9
 Freeciv*diplomatdialog.*.button11.fromHoriz: button10
+
+Freeciv*diplomatdialog.*.button12.fromVert:  button10
+
+Freeciv*diplomatdialog.*.button13.label:     _("Keep moving")
+Freeciv*diplomatdialog.*.button13.fromVert:  button11
+Freeciv*diplomatdialog.*.button13.fromHoriz: button12
+
+Freeciv*diplomatdialog.*.button14.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button14.fromVert:  button12
 
 !
 ! Spy Steal Tech Dialog

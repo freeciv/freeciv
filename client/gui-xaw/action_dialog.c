@@ -74,13 +74,11 @@ int diplomat_id;
 int diplomat_target_id[ATK_COUNT];
 
 /******************************************************************/
-int caravan_city_id;
-int caravan_unit_id;
-
-struct city *pcity_caravan_dest;
-struct unit *punit_caravan;
-
-static Widget caravan_dialog;
+static void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs);
 
 /****************************************************************
 ...
@@ -88,10 +86,12 @@ static Widget caravan_dialog;
 static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
                                              XtPointer call_data)
 {
-  dsend_packet_unit_establish_trade(&client.conn, caravan_unit_id);
+  dsend_packet_unit_establish_trade(&client.conn, diplomat_id);
+
   destroy_message_dialog(w);
-  caravan_dialog = 0;
-  process_caravan_arrival(NULL);
+  diplomat_dialog = NULL;
+
+  choose_action_queue_next();
 }
 
 
@@ -102,23 +102,12 @@ static void caravan_help_build_wonder_callback(Widget w,
 					       XtPointer client_data,
 					       XtPointer call_data)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn, caravan_unit_id);
+  dsend_packet_unit_help_build_wonder(&client.conn, diplomat_id);
 
   destroy_message_dialog(w);
-  caravan_dialog = 0;
-  process_caravan_arrival(NULL);
-}
+  diplomat_dialog = NULL;
 
-
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_keep_moving_callback(Widget w, XtPointer client_data,
-                                         XtPointer call_data)
-{
-  destroy_message_dialog(w);
-  caravan_dialog = 0;
-  process_caravan_arrival(NULL);
+  choose_action_queue_next();
 }
 
 
@@ -128,28 +117,15 @@ static void caravan_keep_moving_callback(Widget w, XtPointer client_data,
 void popup_caravan_dialog(struct unit *punit,
                           struct city *phomecity, struct city *pdestcity)
 {
-  char buf[128];
+  action_probability probabilities[ACTION_COUNT];
 
-  fc_snprintf(buf, sizeof(buf),
-              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-              unit_name_translation(punit),
-              city_name(phomecity), city_name(pdestcity));
+  /* Caravan actions don't use action enablers yet. */
+  action_iterate(act) {
+    probabilities[act] = ACTPROB_IMPOSSIBLE;
+  } action_iterate_end;
 
-  caravan_city_id=pdestcity->id; /* callbacks need these */
-  caravan_unit_id=punit->id;
-
-  caravan_dialog=popup_message_dialog(toplevel, "caravandialog",
-                           buf,
-                           caravan_establish_trade_callback, 0, 0,
-                           caravan_help_build_wonder_callback, 0, 0,
-                           caravan_keep_moving_callback, 0, 0,
-                           NULL);
-
-  if (!can_cities_trade(phomecity, pdestcity))
-    XtSetSensitive(XtNameToWidget(caravan_dialog, "*button0"), FALSE);
-
-  if(!unit_can_help_build_wonder(punit, pdestcity))
-    XtSetSensitive(XtNameToWidget(caravan_dialog, "*button1"), FALSE);
+  popup_diplomat_dialog(punit, pdestcity, NULL, city_tile(pdestcity),
+                         probabilities);
 }
 
 /****************************************************************
@@ -157,7 +133,7 @@ void popup_caravan_dialog(struct unit *punit,
 *****************************************************************/
 bool caravan_dialog_is_open(int* unit_id, int* city_id)
 {
-  return BOOL_VAL(caravan_dialog);
+  return BOOL_VAL(diplomat_dialog);
 }
 
 /**************************************************************************
@@ -852,40 +828,64 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                            struct unit *ptunit, struct tile *dest_tile,
                            const action_probability *action_probabilities)
 {
+  popup_action_selection(punit, pcity, ptunit, dest_tile,
+                         action_probabilities);
+}
+
+/**************************************************************************
+  Popup a dialog that allows the player to select what action a unit
+  should take.
+**************************************************************************/
+static void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs)
+{
   struct astring text = ASTRING_INIT;
 
-  struct city *actor_homecity = game_city_by_number(punit->homecity);
+  struct city *actor_homecity = game_city_by_number(actor_unit->homecity);
 
-  diplomat_id = punit->id;
+  bool can_marketplace = target_city
+      && unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
+      && can_cities_trade(actor_homecity, target_city)
+      && target_tile == unit_tile(actor_unit);
+  bool can_traderoute = can_marketplace
+      && can_establish_trade_route(actor_homecity, target_city);
+  bool can_wonder = target_city
+      && unit_can_help_build_wonder(actor_unit, target_city)
+      && target_tile == unit_tile(actor_unit);
 
-  if (ptunit) {
-    diplomat_target_id[ATK_UNIT] = ptunit->id;
+  diplomat_id = actor_unit->id;
+
+  if (target_unit) {
+    diplomat_target_id[ATK_UNIT] = target_unit->id;
   } else {
     diplomat_target_id[ATK_UNIT] = -1;
   }
 
-  if (pcity) {
-    diplomat_target_id[ATK_CITY] = pcity->id;
+  if (target_city) {
+    diplomat_target_id[ATK_CITY] = target_city->id;
   } else {
     diplomat_target_id[ATK_CITY] = -1;
   }
 
-  if (pcity && actor_homecity) {
+  if (target_city && actor_homecity) {
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),
-             unit_name_translation(punit),
+             unit_name_translation(actor_unit),
              city_name(actor_homecity),
-             city_name(pcity));
-  } else if (pcity) {
+             city_name(target_city));
+  } else if (target_city) {
     astr_set(&text,
              _("Your %s has arrived at %s.\nWhat is your command?"),
-             unit_name_translation(punit),
-             city_name(pcity));
+             unit_name_translation(actor_unit),
+             city_name(target_city));
   } else {
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
              _("Your %s is waiting for your command."),
-             unit_name_translation(punit));
+             unit_name_translation(actor_unit));
   }
 
   diplomat_dialog =
@@ -898,54 +898,69 @@ void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
                            diplomat_steal_callback, 0, 1,
                            spy_steal_popup, 0, 1,
                            diplomat_incite_callback, 0, 1,
+                           caravan_establish_trade_callback, 0, 0,
+                           caravan_establish_trade_callback, 0, 0,
+                           caravan_help_build_wonder_callback, 0, 0,
                            diplomat_bribe_callback, 0, 0,
                            spy_sabotage_unit_callback, 0, 0,
-                           diplomat_keep_moving_callback, dest_tile, 1,
+                           diplomat_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button0"),
                ACTION_ESTABLISH_EMBASSY,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button1"),
                ACTION_SPY_INVESTIGATE_CITY,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button2"),
                ACTION_SPY_POISON,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button3"),
                ACTION_SPY_SABOTAGE_CITY,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button4"),
                ACTION_SPY_TARGETED_SABOTAGE_CITY,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button5"),
                ACTION_SPY_STEAL_TECH,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button6"),
                ACTION_SPY_TARGETED_STEAL_TECH,
-               action_probabilities);
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button7"),
                ACTION_SPY_INCITE_CITY,
-               action_probabilities);
+               act_probs);
 
-  action_entry(XtNameToWidget(diplomat_dialog, "*button8"),
-               ACTION_SPY_BRIBE_UNIT,
-               action_probabilities);
+  if (!(can_marketplace && !can_traderoute)) {
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button8"), FALSE);
+  }
 
-  action_entry(XtNameToWidget(diplomat_dialog, "*button9"),
-               ACTION_SPY_SABOTAGE_UNIT,
-               action_probabilities);
+  if (!can_traderoute) {
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button9"), FALSE);
+  }
 
-  if (!unit_can_move_to_tile(punit, dest_tile, FALSE)) {
+  if (!can_wonder) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button10"), FALSE);
+  }
+
+  action_entry(XtNameToWidget(diplomat_dialog, "*button11"),
+               ACTION_SPY_BRIBE_UNIT,
+               act_probs);
+
+  action_entry(XtNameToWidget(diplomat_dialog, "*button12"),
+               ACTION_SPY_SABOTAGE_UNIT,
+               act_probs);
+
+  if (!unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button13"), FALSE);
   }
 
   astr_free(&text);
