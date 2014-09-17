@@ -77,7 +77,7 @@ class unit_item: public QLabel
   QAction *unload_trans;
 
 public:
-  unit_item(struct unit *punit, bool supp = false, int happy_cost = 0);
+  unit_item(QWidget *parent ,struct unit *punit, bool supp = false, int happy_cost = 0);
   ~unit_item();
   void init_pix();
 
@@ -116,7 +116,7 @@ class unit_info: public QWidget
   Q_OBJECT
 
 public:
-  unit_info(bool supp);
+  unit_info(QWidget *parent, bool supp);
   ~unit_info();
   void add_item(unit_item *item);
   void init_layout();
@@ -191,7 +191,7 @@ class production_item: public QObject
   Q_OBJECT
 
 public:
-  production_item(struct universal *ptarget);
+  production_item(struct universal *ptarget, QObject *parent);
   ~production_item();
   inline int columnCount() const {
     return 1;
@@ -247,8 +247,8 @@ class production_widget: public QTableView
   city_production_delegate *c_p_d;
 
 public:
-  production_widget(struct city *pcity, bool future, int when, int curr,
-                    bool show_units);
+  production_widget(QWidget *parent, struct city *pcity, bool future,
+                    int when, int curr, bool show_units);
   ~production_widget();
 
 public slots:

@@ -77,8 +77,10 @@ static void pixmap_put_x(QPixmap *pix)
 /****************************************************************************
   Class representing one unit, allows context menu, holds pixmap for it
 ****************************************************************************/
-unit_item::unit_item(struct unit *punit, bool supp, int hppy_cost) : QLabel()
+unit_item::unit_item(QWidget *parent, struct unit *punit, 
+                     bool supp, int hppy_cost) : QLabel()
 {
+  setParent(parent);
   happy_cost = hppy_cost;
   supported = supp;
   unit_pixmap = NULL;
@@ -401,9 +403,10 @@ void unit_item::sentry_unit()
 /****************************************************************************
   Class representing list of units ( unit_item 's)
 ****************************************************************************/
-unit_info::unit_info(bool supp) : QWidget()
+unit_info::unit_info(QWidget *parent, bool supp) : QWidget()
 {
-  layout = new QHBoxLayout;
+  setParent(parent);
+  layout = new QHBoxLayout(this);
   init_layout();
   supports = supp;
 }
@@ -448,12 +451,16 @@ void unit_info::update_units()
   int i = unit_list.count();
   int j;
   unit_item *ui;
+  
   setUpdatesEnabled(false);
+  hide();
   for (j = 0; j < i; j++) {
     ui = unit_list[j];
     layout->addWidget(ui, 0, Qt::AlignVCenter);
   }
+  show();
   setUpdatesEnabled(true);
+  layout->update();
 }
 
 /****************************************************************************
@@ -464,7 +471,7 @@ void unit_info::clear_layout()
   int i = unit_list.count();
   unit_item *ui;
   int j;
-
+  setUpdatesEnabled(false);
   setMouseTracking(false);
   for (j = 0; j < i; j++) {
     ui = unit_list[j];
@@ -475,7 +482,7 @@ void unit_info::clear_layout()
     unit_list.removeFirst();
   }
   setMouseTracking(true);
-
+  setUpdatesEnabled(true);
 }
 
 /****************************************************************************
@@ -680,9 +687,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   /** Overview tab initiazlization */
   {
-    QGroupBox *map_box = new QGroupBox;
+    QGroupBox *map_box = new QGroupBox(this);
     QVBoxLayout *v_layout = new QVBoxLayout;
-    QGroupBox *prod_box = new QGroupBox;
+    QGroupBox *prod_box = new QGroupBox(this);
     QGridLayout *prod_layout = new QGridLayout;
     QScrollArea *scroll;
     QScrollArea *scroll2;
@@ -734,7 +741,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     production_combo->setMinimumWidth(200);
     connect(production_table, SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
             SLOT(dbl_click(QTableWidgetItem *)));
-    citizens_label = new city_label(FEELING_FINAL);
+    citizens_label = new city_label(FEELING_FINAL, this);
     citizen_pixmap = NULL;
     view = new city_map(this);
     v_layout->addWidget(view);
@@ -742,13 +749,13 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     map_box->setTitle(_("City map"));
     supp_units = new QLabel();
     curr_units = new QLabel();
-    supported_units = new unit_info(true);
+    supported_units = new unit_info(this, true);
     scroll = new QScrollArea;
     scroll->setWidgetResizable(true);
     scroll->setMaximumHeight(tileset_tile_height(tileset) * 2);
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scroll->setWidget(supported_units);
-    current_units = new unit_info(false);
+    current_units = new unit_info(this, false);
     scroll2 = new QScrollArea;
     scroll2->setWidgetResizable(true);
     scroll2->setMaximumHeight(tileset_tile_height(tileset) * 2);
@@ -928,9 +935,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
               << N_("Nationality:") << N_("Units:") <<  N_("Wonders:");
     info_nr = info_list.count();
     for (int i = 0; i < info_list.count(); i++) {
-      lab_table[i] = new city_label(1 + i);
+      lab_table[i] = new city_label(1 + i, this);
       gridl->addWidget(lab_table[i], i, 1, 1, 1);
-      lab2 = new QLabel;
+      lab2 = new QLabel(this);
       lab2->setFont(*small_font);
       lab2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
       lab2->setText(info_list.at(i));
@@ -1001,7 +1008,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     for (int i = 0; i < str_list.count(); i++) {
       some_label = new QLabel(str_list.at(i));
       slider_grid->addWidget(some_label, i + 1, 0, 1, 1);
-      some_label = new QLabel("0");
+      some_label = new QLabel("0", this);
       some_label->setMinimumWidth(25);
       if (i != str_list.count() - 1) {
         slider = new QSlider(Qt::Horizontal);
@@ -1126,6 +1133,15 @@ void city_dialog::update_disabled()
 
 city_dialog::~city_dialog()
 {
+  if (citizen_pixmap) {
+    delete citizen_pixmap;
+  }
+  cma_table->clear();
+  production_table->clear();
+  p_table_p->clear();
+  nationality_table->clear();
+  current_units->clear_layout();
+  supported_units->clear_layout();
   ::city_dlg_created = false;
 }
 
@@ -1559,7 +1575,6 @@ void city_dialog::update_citizens()
   if (citizen_pixmap) {
     delete citizen_pixmap;
   }
-
   citizen_pixmap = new QPixmap(width, height);
   for (j = 0, i = 0; i < num_citizens; i++, j++) {
     dest_rect.moveTo(i * w, 0);
@@ -1613,6 +1628,7 @@ void city_dialog::update_citizens()
 ****************************************************************************/
 void city_dialog::refresh()
 {
+  setUpdatesEnabled(false);
   production_combo->blockSignals(true);
   production_combo_p->blockSignals(true);
   if (pcity) {
@@ -1636,6 +1652,7 @@ void city_dialog::refresh()
   }
   production_combo_p->blockSignals(false);
   production_combo->blockSignals(false);
+  setUpdatesEnabled(true);
 }
 
 void city_dialog::update_settings()
@@ -1909,6 +1926,7 @@ void city_dialog::update_units()
   int n;
   int happy_cost;
   int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+  supported_units->setUpdatesEnabled(false);
   supported_units->clear_layout();
 
   if (NULL != client.conn.playing
@@ -1920,15 +1938,16 @@ void city_dialog::update_units()
 
   unit_list_iterate(units, punit) {
     happy_cost = city_unit_unhappiness(punit, &free_unhappy);
-    ui = new unit_item(punit, true, happy_cost);
+    ui = new unit_item(this, punit, true, happy_cost);
     ui->init_pix();
     supported_units->add_item(ui);
   } unit_list_iterate_end;
-
   n = unit_list_size(units);
   fc_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
   supp_units->setText(QString(buf));
   supported_units->update_units();
+  supported_units->setUpdatesEnabled(true);
+  current_units->setUpdatesEnabled(true);
   current_units->clear_layout();
 
   if (NULL != client.conn.playing
@@ -1939,7 +1958,7 @@ void city_dialog::update_units()
   }
 
   unit_list_iterate(units, punit) {
-    ui = new unit_item(punit, false);
+    ui = new unit_item(this ,punit, false);
     ui->init_pix();
     current_units->add_item(ui);
   } unit_list_iterate_end;
@@ -1949,6 +1968,7 @@ void city_dialog::update_units()
   curr_units->setText(QString(buf));
 
   current_units->update_units();
+  current_units->setUpdatesEnabled(true);
 
 }
 
@@ -2140,7 +2160,7 @@ void city_dialog::update_improvements()
   targets_used = collect_already_built_targets(targets, pcity);
   name_and_sort_items(targets, targets_used, items, false, pcity);
 
-  production_table->clearContents();
+  production_table->clear();
   production_table->setRowCount(0);
 
   total = 0;
@@ -2256,7 +2276,7 @@ void city_dialog::show_targets()
 {
   production_widget *pw;
 
-  pw = new production_widget(pcity, false, 0, 0, true);
+  pw = new production_widget(this, pcity, false, 0, 0, true);
   pw->show();
 }
 
@@ -2286,7 +2306,7 @@ void city_dialog::show_targets_worklist()
     when = 4;
   }
 
-  pw = new production_widget(pcity, future, when, selected_row_p,
+  pw = new production_widget(this, pcity, future, when, selected_row_p,
                              show_units);
   pw->show();
 }
@@ -2610,8 +2630,10 @@ QSize city_production_delegate::sizeHint(const QStyleOptionViewItem &option,
 /****************************************************************************
   Production item constructor
 ****************************************************************************/
-production_item::production_item(struct universal *ptarget): QObject()
+production_item::production_item(struct universal *ptarget, 
+                                 QObject *parent): QObject()
 {
+  setParent(parent);
   target = ptarget;
 }
 
@@ -2705,7 +2727,7 @@ void city_production_model::populate()
     if (future_t || can_city_build_now(mcity, items[item].item)) {
       renegade = new universal(items[item].item);
       /* renagade deleted in production_item destructor */
-      pi = new production_item(renegade);
+      pi = new production_item(renegade, this);
       if (VUT_UTYPE == renegade->kind) {
         str = utype_name_translation(renegade->value.utype);
         sh.setX(qMax(sh.x(), fm.width(str)));
@@ -2720,7 +2742,7 @@ void city_production_model::populate()
     }
   }
   renegade = NULL;
-  pi = new production_item(renegade);
+  pi = new production_item(renegade, this);
   city_target_list << pi;
   sh.setX(sh.y() + sh.x());
 }
@@ -2748,8 +2770,8 @@ bool city_production_model::setData(const QModelIndex &index,
   when - where to insert
   curr - current index to insert
 ****************************************************************************/
-production_widget::production_widget(struct city *pcity, bool future,
-                                     int when, int curr,
+production_widget::production_widget(QWidget *parent, struct city *pcity, 
+                                     bool future, int when, int curr,
                                      bool show_units): QTableView()
 {
   QPoint pos, sh;
@@ -2764,7 +2786,7 @@ production_widget::production_widget(struct city *pcity, bool future,
   sh_units = show_units;
   pw_city = pcity;
   when_change = when;
-  list_model = new city_production_model(pw_city, future, show_units);
+  list_model = new city_production_model(pw_city, future, show_units, this);
   sh = list_model->sh;
   c_p_d = new city_production_delegate(sh, this, pw_city);
   setItemDelegate(c_p_d);
@@ -2895,5 +2917,6 @@ production_widget::~production_widget()
 {
   delete c_p_d;
   delete list_model;
+  removeEventFilter(this);
 }
 
