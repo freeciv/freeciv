@@ -559,7 +559,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
       struct unit_type *utype = unit_type(punit);
       struct unit_type_ai *utai = utype_ai_data(utype, ait);
 
-      if (0 >= utype->transport_capacity
+      if (!utai->carries_occupiers
           && !is_actor_unit_type(utype)
           && (utype_has_flag(utype, UTYF_CIVILIAN)
               || (0 >= utype->attack_strength
@@ -576,23 +576,13 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         continue;
       }
 
-      if (0 < vulnerability && unit_can_take_over(punit)) {
+      if ((0 < vulnerability && unit_can_take_over(punit))
+          || utai->carries_occupiers) {
         if (3 >= move_time) {
           urgency++;
           if (1 >= move_time) {
             city_data->grave_danger++;
           }
-        }
-      } else {
-        if (utai->carries_occupiers) {
-          /* It can transport some threatening units! */
-          if (3 >= move_time) {
-            urgency++;
-            if (1 >= move_time) {
-              city_data->grave_danger++;
-            }
-          }
-          break;
         }
       }
 
@@ -635,7 +625,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
   } players_iterate_end;
 
   if (total_danger) {
-    city_data->wallvalue = (total_danger * 90 / total_danger);
+    city_data->wallvalue = 90;
   } else {
     /* No danger.
      * This is half of the wallvalue of what danger 1 would produce. */
