@@ -146,7 +146,7 @@ static inline int pf_turns(const struct pf_parameter *param, int cost)
   } else if (param->move_rate <= 0) {
     return FC_INFINITY; /* This unit cannot move by itself. */
   } else {
-    return (cost / param->move_rate
+    return ((cost - 1) / param->move_rate
             + param->fuel_left_initially - param->fuel);
   }
 }
@@ -188,19 +188,14 @@ static inline void pf_finalize_position(const struct pf_parameter *param,
 {
   int move_rate = param->move_rate;
 
-  pos->turn *= param->fuel;
   if (0 < move_rate) {
-    pos->turn += ((move_rate - pos->moves_left) / move_rate);
-
     /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
      * ranges from [1, ut->fuel] not from [0, ut->fuel) as one may think. */
     pos->fuel_left = pos->moves_left / move_rate + 1;
 
-    pos->moves_left %= move_rate;
-  } else {
-    /* This unit cannot move by itself. */
-    pos->turn = pos->tile == param->start_tile ? 0 : FC_INFINITY;
-    pos->fuel_left = 0; /* or 1? */
+    if (pos->moves_left == move_rate) {
+      pos->moves_left = 0;
+    }
   }
 }
 

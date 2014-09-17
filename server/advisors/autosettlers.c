@@ -482,6 +482,10 @@ int settler_evaluate_improvements(struct unit *punit,
 
               time = pos.turn + get_turns_for_activity_at(punit, act, ptile,
                                                           target);
+              if (pos.moves_left == 0) {
+                /* We need moves left to begin activity immediately. */
+                time++;
+              }
 
               if (rmcause != ERM_NONE && target != NULL) {
                 if (extra_has_flag(target, EF_GLOBAL_WARMING)) {
@@ -512,6 +516,10 @@ int settler_evaluate_improvements(struct unit *punit,
                                                           ACTIVITY_GEN_ROAD,
                                                           ptile,
                                                           target);
+              if (pos.moves_left == 0) {
+                /* We need moves left to begin activity immediately. */
+                time++;
+              }
 
               if (road_provides_move_bonus(proad)) {
                 int mc_multiplier = 1;
@@ -599,6 +607,10 @@ int settler_evaluate_improvements(struct unit *punit,
                                                           ACTIVITY_BASE,
                                                           ptile,
                                                           target);
+              if (pos.moves_left == 0) {
+                /* We need moves left to begin activity immediately. */
+                time++;
+              }
 
               if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, target,
                                                    ptile)) {
