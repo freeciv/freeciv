@@ -141,6 +141,16 @@ static struct action *action_new(enum gen_action id,
 }
 
 /**************************************************************************
+  Return the action with the given id.
+**************************************************************************/
+struct action *action_by_number(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return actions[action_id];
+}
+
+/**************************************************************************
   Get the actor kind of an action.
 **************************************************************************/
 enum action_actor_kind action_get_actor_kind(int action_id)
@@ -158,6 +168,16 @@ enum action_target_kind action_get_target_kind(int action_id)
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->target_kind;
+}
+
+/**************************************************************************
+  Get the rule name of the action.
+**************************************************************************/
+const char *action_get_rule_name(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return gen_action_name(action_id);
 }
 
 /**************************************************************************

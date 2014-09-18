@@ -88,10 +88,17 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   const char *clink;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (!pcity) {
     return;
+  }
+
   cplayer = city_owner(pcity);
   if (!cplayer) {
+    return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
     return;
   }
 
@@ -158,11 +165,18 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   struct packet_city_info city_packet;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (!pcity) {
     return;
+  }
+
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || !cplayer)
     return;
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
+    return;
+  }
 
   log_debug("investigate: unit: %d", pdiplomat->id);
 
@@ -254,11 +268,19 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (!pcity) {
     return;
-  cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || !cplayer)
+  }
+
+  cplayer = city_owner(pcity);
+  if ((cplayer == pplayer) || !cplayer) {
     return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
+    return;
+  }
 
   log_debug("embassy: unit: %d", pdiplomat->id);
 
@@ -312,10 +334,17 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   struct player *uplayer;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim)
+  if (!pvictim) {
     return;
+  }
+
   uplayer = unit_owner(pvictim);
   if (!uplayer) {
+    return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
     return;
   }
 
@@ -404,6 +433,11 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
   uplayer = unit_owner(pvictim);
   if (!uplayer) {
+    return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
     return;
   }
 
@@ -514,6 +548,11 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || !cplayer) {
+    return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
     return;
   }
   
@@ -659,10 +698,17 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   int revolt_cost;
 
   /* Fetch target civilization's player.  Sanity checks. */
-  if (!pcity)
+  if (!pcity) {
     return;
+  }
+
   cplayer = city_owner (pcity);
   if (!cplayer) {
+    return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
     return;
   }
 
@@ -776,10 +822,17 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   int success_prob;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (!pcity) {
     return;
+  }
+
   cplayer = city_owner (pcity);
   if (!cplayer) {
+    return;
+  }
+
+  /* Sanity check: The actor still exists. */
+  if (!pplayer || !pdiplomat) {
     return;
   }
 

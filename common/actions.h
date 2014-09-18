@@ -158,9 +158,12 @@ struct action_enabler
 void actions_init(void);
 void actions_free(void);
 
+struct action *action_by_number(int action_id);
+
 enum action_actor_kind action_get_actor_kind(int action_id);
 enum action_target_kind action_get_target_kind(int action_id);
 
+const char *action_get_rule_name(int action_id);
 const char *action_get_ui_name(int action_id);
 const char *action_prepare_ui_name(int action_id, const char* mnemonic,
                                    const action_probability prob);

@@ -76,9 +76,60 @@ avoid this complexity a requirement that the acting player has an embassy to
 the target cities civilization (and therefore knowledge about its techs) can
 be added.
 
+Actions and Lua
+===============
+Right before an action is executed, but after it is known to be legal, a
+signal is emitted to Lua. It has access to the same information as the
+server. It obviously don't have access to the result of the action since it
+isn't done yet.
+
+The signal's name starts with action_started_, then the actor kind, then
+another _ and in the end the target kind. The signal that is emitted when a
+unit performs an action on a city is therefore action_started_unit_city.
+
+The signal has three parameters. The first parameter is the action that is
+about to get started. The second is the actor. The third parameter is the
+target. The parameters of action_started_unit_city is therefore action,
+actor_unit and finally target city.
+
+To get the rule name of an action, that is the name used in action enablers,
+you can use the method rule_name(). To get a translated name that is nice to
+show to players use name_translation().
+
+Example 1
+=========
+The following Lua code will log all actions done by any unit to a city or to
+another unit:
+
+function action_started_callback(action, actor, target)
+  log.normal(_("%s (rule name: %s) performed by %s on %s"),
+             action:name_translation(),
+             action:rule_name(),
+             actor.owner.nation:plural_translation(),
+             target.owner.nation:plural_translation())
+end
+
+signal.connect("action_started_unit_city", "action_started_callback")
+signal.connect("action_started_unit_unit", "action_started_callback")
+
+Example 2
+=========
+The following Lua code will make a player that poisons the population of
+cities risk civil war:
+
+function action_started_callback(action, actor, target)
+  if action:rule_name() == "Poison City" then
+     edit.civil_war(actor.owner, 5);
+  end
+end
+
+signal.connect("action_started_unit_city", "action_started_callback")
+
 Actions and their hard coded requirements
 =========================================
 
+Actions done by a unit against a city
+=====================================
 "Establish Embassy" - Establish a real embassy to the target player
  * actor can't have a real embassy to the target player
  * actor must be on the same tile as the target or on the tile next to it.
@@ -114,6 +165,8 @@ Actions and their hard coded requirements
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign.
 
+Actions done by a unit against another unit
+===========================================
 "Sabotage Unit" - Halve the target unit's hit points.
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign.

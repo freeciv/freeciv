@@ -22,6 +22,7 @@ extern "C" {
 
 /* common */
 #include "achievements.h"
+#include "actions.h"
 #include "city.h"
 #include "connection.h"
 #include "events.h"
@@ -56,6 +57,7 @@ typedef struct connection Connection;
 typedef enum direction8 Direction;
 typedef struct disaster_type Disaster;
 typedef struct achievement Achievement;
+typedef struct action Action;
 
 typedef void Nonexistent;
 
@@ -101,6 +103,8 @@ typedef const struct city_list_link City_List_Link;
 #define SPECENUM_VALUE15NAME "Disaster"
 #define SPECENUM_VALUE16      API_TYPE_ACHIEVEMENT
 #define SPECENUM_VALUE16NAME "Achievement"
+#define SPECENUM_VALUE17      API_TYPE_ACTION
+#define SPECENUM_VALUE17NAME "Action"
 #include "specenum_gen.h"
 
 #ifdef __cplusplus

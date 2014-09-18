@@ -101,6 +101,10 @@ struct Achievement {
   const int id;
 };
 
+struct Action {
+  const int id;
+};
+
 struct Unit_List_Link {
 };
 
@@ -356,6 +360,14 @@ module Achievement {
     @ rule_name (lua_State *L, Achievement *self);
   const char *api_methods_achievement_name_translation
     @ name_translation (lua_State *L, Achievement *self);
+}
+
+/* Module Action. */
+module Action {
+  const char *api_methods_action_rule_name
+    @ rule_name (lua_State *L, Action *self);
+  const char *api_methods_action_name_translation
+    @ name_translation (lua_State *L, Action *self);
 }
 
 /* Module Unit_List_Link. */

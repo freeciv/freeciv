@@ -44,6 +44,9 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* common/scriptcore */
+#include "luascript_types.h"
+
 /* server */
 #include "barbarian.h"
 #include "citizenshand.h"
@@ -62,6 +65,9 @@
 /* server/advisors */
 #include "autoexplorer.h"
 #include "autosettlers.h"
+
+/* server/scripting */
+#include "script_server.h"
 
 #include "unithand.h"
 
@@ -555,10 +561,24 @@ void handle_unit_do_action(struct player *pplayer,
     return;
   }
 
+#define ACTION_STARTED_UNIT_CITY(action, actor, target)                   \
+  script_server_signal_emit("action_started_unit_city", 3,                \
+                            API_TYPE_ACTION, action_by_number(action),    \
+                            API_TYPE_UNIT, actor,                         \
+                            API_TYPE_CITY, target);
+
+#define ACTION_STARTED_UNIT_UNIT(action, actor, target)                   \
+  script_server_signal_emit("action_started_unit_unit", 3,                \
+                            API_TYPE_ACTION, action_by_number(action),    \
+                            API_TYPE_UNIT, actor,                         \
+                            API_TYPE_UNIT, target);
+
   switch(action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && is_action_enabled_unit_on_unit(action_type,
                                                 actor_unit, punit)) {
+      ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
+
       diplomat_bribe(pplayer, actor_unit, punit);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_BRIBE_UNIT);
@@ -567,6 +587,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_SABOTAGE_UNIT:
     if (punit && is_action_enabled_unit_on_unit(action_type,
                                                 actor_unit, punit)) {
+      ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
+
       spy_sabotage_unit(pplayer, actor_unit, punit);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_SABOTAGE_UNIT);
@@ -575,6 +597,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_SABOTAGE_CITY:
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
         diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST);
       } else {
         illegal_action(pplayer, actor_unit, ACTION_SPY_SABOTAGE_CITY);
@@ -584,6 +608,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
         /* packet value is improvement ID + 1 (or some special codes) */
         diplomat_sabotage(pplayer, actor_unit, pcity, value - 1);
       } else {
@@ -595,6 +621,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_POISON:
     if (pcity && is_action_enabled_unit_on_city(action_type,
                                                 actor_unit, pcity)) {
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
       spy_poison(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_POISON);
@@ -603,6 +631,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_INVESTIGATE_CITY:
     if (pcity && is_action_enabled_unit_on_city(action_type,
                                                 actor_unit, pcity)) {
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
       diplomat_investigate(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_INVESTIGATE_CITY);
@@ -611,6 +641,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_ESTABLISH_EMBASSY:
     if (pcity && is_action_enabled_unit_on_city(action_type,
                                                 actor_unit, pcity)) {
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
       diplomat_embassy(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_ESTABLISH_EMBASSY);
@@ -619,6 +651,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_INCITE_CITY:
     if (pcity && is_action_enabled_unit_on_city(action_type,
                                                 actor_unit, pcity)) {
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
       diplomat_incite(pplayer, actor_unit, pcity);
     } else {
       illegal_action(pplayer, actor_unit, ACTION_SPY_INCITE_CITY);
@@ -633,6 +667,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_STEAL_TECH:
     if (pcity && is_action_enabled_unit_on_city(action_type,
                                                 actor_unit, pcity)) {
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
       /* packet value is technology ID (or some special codes) */
       diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
     } else {
@@ -642,6 +678,8 @@ void handle_unit_do_action(struct player *pplayer,
   case ACTION_SPY_TARGETED_STEAL_TECH:
     if (pcity && is_action_enabled_unit_on_city(action_type,
                                                 actor_unit, pcity)) {
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
       /* packet value is technology ID (or some special codes) */
       diplomat_get_tech(pplayer, actor_unit, pcity, value);
     } else {

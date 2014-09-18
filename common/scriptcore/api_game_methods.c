@@ -17,6 +17,7 @@
 
 /* common */
 #include "achievements.h"
+#include "actions.h"
 #include "citizens.h"
 #include "game.h"
 #include "government.h"
@@ -465,6 +466,28 @@ const char *api_methods_achievement_name_translation(lua_State *L,
   LUASCRIPT_CHECK_SELF(L, pach, NULL);
 
   return achievement_name_translation(pach);
+}
+
+/*****************************************************************************
+  Return rule name for Action
+*****************************************************************************/
+const char *api_methods_action_rule_name(lua_State *L, Action *pact)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pact, NULL);
+
+  return action_get_rule_name(pact->id);
+}
+
+/*****************************************************************************
+  Return translated name for Action
+*****************************************************************************/
+const char *api_methods_action_name_translation(lua_State *L, Action *pact)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pact, NULL);
+
+  return action_get_ui_name(pact->id);
 }
 
 /*****************************************************************************
