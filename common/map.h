@@ -624,9 +624,15 @@ extern const int DIR_DY[8];
 /* Size of the map in thousands of tiles. If MAP_MAX_SIZE is increased, 
  * MAX_DBV_LENGTH in bitvector.c must be checked; see the static assertion
  * below. */
+#ifdef FREECIV_WEB
+#define MAP_DEFAULT_SIZE         3
+#define MAP_MIN_SIZE             0
+#define MAP_MAX_SIZE             18
+#else  /* FREECIV_WEB */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             0
 #define MAP_MAX_SIZE             2048
+#endif /* FREECIV_WEB */
 
 FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
                  map_too_big_for_bitvector);
