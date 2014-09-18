@@ -268,13 +268,20 @@ static struct city *tgt_city(struct unit *actor, struct tile *target_tile)
 }
 
 /**************************************************************************
-  Find a unit to target for an action on the specified tile.
+  Find a unit to target for an action at the specified tile.
 
-  Returns NULL if no proper target is found.
+  Returns the first unit found at the tile that the actor may act against
+  or NULL if no proper target is found.
 **************************************************************************/
 static struct unit *tgt_unit(struct unit *actor, struct tile *target_tile)
 {
-  return is_other_players_unit_tile(target_tile, unit_owner(actor));
+  unit_list_iterate(target_tile->units, target) {
+    if (may_unit_act_vs_unit(actor, target)) {
+      return target;
+    }
+  } unit_list_iterate_end;
+
+  return NULL;
 }
 
 /**************************************************************************
@@ -1671,16 +1678,17 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     struct unit *tunit = tgt_unit(punit, pdesttile);
     struct city *tcity = tgt_city(punit, pdesttile);
 
-    if ((tunit && !(move_diplomat_city
-                    && pplayers_allied(pplayer, unit_owner(tunit))))
-        || (tcity && !(move_diplomat_city
-                       && pplayers_allied(pplayer, city_owner(tcity))))) {
+    if ((0 < unit_list_size(pdesttile->units) || tcity)
+        && !(move_diplomat_city
+             && unit_can_move_to_tile(punit, pdesttile, igzoc))) {
       /* A target (unit or city) exists at the tile. If a target is an ally
        * it still looks like a target since move_diplomat_city isn't set.
        * Assume that the intention is to do an action. */
 
       if (may_unit_act_vs_city(punit, tcity)
-          || may_unit_act_vs_unit(punit, tunit)) {
+          /* It must be possible to act against tunit since tgt_unit()
+           * wouldn't have targeted it otherwise. */
+          || tunit != NULL) {
         if (pplayer->ai_controlled) {
           return FALSE;
         }
