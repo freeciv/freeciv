@@ -1989,6 +1989,7 @@ void unit_select::create_pixmap()
     pix = NULL;
   };
 
+  update_units();
   if (unit_list.count() > 0) {
   punit = unit_list.at(0);
   item_size.setWidth(tileset_full_tile_width(tileset));
@@ -2104,8 +2105,11 @@ void unit_select::mousePressEvent(QMouseEvent *event)
     close();
     destroy();
   }
-  if (event->button() == Qt::LeftButton && highligh_num != -1
-      && highligh_num < unit_list.count()) {
+  if (event->button() == Qt::LeftButton && highligh_num != -1) {
+    update_units();
+    if (highligh_num >= unit_list.count()) {
+      return;
+    }
     punit = unit_list.at(highligh_num);
     unit_focus_set(punit);
     was_destroyed = true;
@@ -2212,6 +2216,9 @@ void unit_select::update_units()
       unit_list.push_back(punit);
     i++;
   } unit_list_iterate_end;
+  if (unit_list.count() == 0) {
+    close();
+  }
 }
 
 /****************************************************************
