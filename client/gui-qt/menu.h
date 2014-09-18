@@ -18,8 +18,15 @@ extern "C" {
 #include "menu_g.h"
 }
 
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
+
 // Qt
 #include <QMenuBar>
+
+// client
+#include "control.h"
 
 class QSignalMapper;
 
@@ -62,6 +69,23 @@ enum munit {
 };
 
 /**************************************************************************
+  Class for filtering chosen units
+**************************************************************************/
+class unit_filter {
+public:
+  unit_filter();
+  void reset_activity();
+  void reset_other();
+  bool any_activity;
+  bool forified;
+  bool idle;
+  bool sentried;
+  bool any;
+  bool full_mp;
+  bool full_hp;
+};
+
+/**************************************************************************
   Class representing global menus in gameview
 **************************************************************************/
 class mr_menu : public QMenuBar
@@ -69,8 +93,12 @@ class mr_menu : public QMenuBar
   Q_OBJECT
   QMenu *menu;
   QMenu *gov_menu;
+  QMenu *filter_menu;
   QList<QAction*> gov_list;
+  QActionGroup *filter_act;
+  QActionGroup *filter_any;;
   QHash<munit, QAction*> menu_list;
+  unit_filter u_filter;
 public:
   mr_menu();
   void setup_menus();
@@ -153,6 +181,8 @@ private slots:
   void slot_done_moving();
   void slot_selection_dialog();
   void slot_wait();
+  void slot_filter();
+  void slot_filter_other();
 
   /*used by civilization menu */
   void slot_show_map();
@@ -173,6 +203,11 @@ private slots:
   void slot_show_messages();
 
 private:
+  void unit_select(struct unit_list *punits, 
+                   enum unit_select_type_mode seltype,
+                   enum unit_select_location_mode selloc);
+  void apply_filter(struct unit *punit);
+  void apply_2nd_filter(struct unit *punit);
   int gov_count;
   int gov_target;
   QSignalMapper *signal_gov_mapper;

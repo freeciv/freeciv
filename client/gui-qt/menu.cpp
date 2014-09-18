@@ -87,6 +87,142 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 }
 
 /****************************************************************************
+  Unit filter constructor
+****************************************************************************/
+unit_filter::unit_filter()
+{
+  reset_activity();
+  reset_other();
+  any = true;
+  any_activity = true;
+}
+
+/****************************************************************************
+  Resets activity filter to all disabled
+****************************************************************************/
+void unit_filter::reset_activity()
+{
+  forified = false;
+  sentried = false;
+  idle = false;
+  any_activity = false;
+}
+
+/****************************************************************************
+  Resets 2nd filter to all disbaled
+****************************************************************************/
+void unit_filter::reset_other()
+{
+  full_hp = false;
+  full_mp = false;
+  any = false;
+}
+
+/****************************************************************************
+  Applies activity filter to given unit
+****************************************************************************/
+void mr_menu::apply_filter(struct unit *punit)
+{
+  if (punit->activity == ACTIVITY_FORTIFIED && u_filter.forified) {
+    apply_2nd_filter(punit);
+  }
+  if (punit->activity == ACTIVITY_SENTRY && u_filter.sentried) {
+    apply_2nd_filter(punit);
+  }
+  if (punit->activity == ACTIVITY_IDLE && u_filter.idle) {
+    apply_2nd_filter(punit);
+  }
+  if (u_filter.any_activity){
+    apply_2nd_filter(punit);
+  }
+}
+
+/****************************************************************************
+  Applies miscelanous filter for given unit
+****************************************************************************/
+void mr_menu::apply_2nd_filter(struct unit *punit)
+{
+  if (punit->hp == punit->utype->hp && u_filter.full_hp) {
+    unit_focus_add(punit);
+  }
+  if (punit->moves_left  == punit->utype->move_rate && u_filter.full_mp) {
+    unit_focus_add(punit);
+  }
+  if (u_filter.any){
+    unit_focus_add(punit);
+  }
+}
+
+/****************************************************************************
+  Selects units based on selection modes
+****************************************************************************/
+void mr_menu::unit_select(struct unit_list *punits,
+                         enum unit_select_type_mode seltype,
+                         enum unit_select_location_mode selloc)
+{
+  QList<const struct tile *> tiles;
+  QList<struct unit_type *> types;
+  QList<Continent_id> conts;
+
+  const struct player *pplayer;
+  const struct tile *ptile;
+  struct unit *punit_first;
+
+  if (!can_client_change_view() || !punits
+      || unit_list_size(punits) < 1) {
+    return;
+  }
+
+  punit_first = unit_list_get(punits, 0);
+
+  if (seltype == SELTYPE_SINGLE) {
+    unit_focus_set(punit_first);
+    return;
+  }
+  pplayer = unit_owner(punit_first);
+  unit_focus_remove(punit_first);
+  unit_list_iterate(punits, punit) {
+    if (seltype == SELTYPE_SAME) {
+      types.append(unit_type(punit));
+    }
+
+    ptile = unit_tile(punit);
+    if (selloc == SELLOC_TILE) {
+      tiles.append(ptile);
+    } else if (selloc == SELLOC_CONT) {
+      conts.append(ptile->continent);
+    }
+  } unit_list_iterate_end;
+
+  if (selloc == SELLOC_TILE) {
+    foreach (ptile, tiles) {
+      unit_list_iterate(ptile->units, punit) {
+        if (unit_owner(punit) != pplayer) {
+          continue;
+        }
+        if (seltype == SELTYPE_SAME
+            && !types.contains(unit_type(punit))) {
+          continue;
+        }
+        apply_filter(punit);
+      } unit_list_iterate_end;
+    }
+  } else {
+    unit_list_iterate(pplayer->units, punit) {
+      ptile = unit_tile(punit);
+      if ((seltype == SELTYPE_SAME
+           && !types.contains(unit_type(punit)))
+          || (selloc == SELLOC_CONT
+              && !conts.contains(ptile->continent))) {
+        continue;
+      }
+      apply_filter(punit);
+    } unit_list_iterate_end;
+  }
+}
+
+
+/****************************************************************************
   Constructor for global menubar in gameview
 ****************************************************************************/
 mr_menu::mr_menu() : QMenuBar()
@@ -235,6 +371,61 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("space")));
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_done_moving()));
+
+  filter_act = new QActionGroup(this);
+  filter_any = new QActionGroup(this);
+  filter_menu = menu->addMenu(_("Units Filter"));
+  /* TRANS: Any activity for given selection of units */
+  act = filter_menu->addAction(_("Any activity"));
+  act->setCheckable(true);
+  act->setShortcut(QKeySequence(tr("ctrl+1")));
+  act->setChecked(u_filter.any_activity);
+  act->setData(qVariantFromValue((void *) &u_filter.any_activity));
+  filter_act->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
+  act = filter_menu->addAction(_("Idle"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.idle);
+  act->setShortcut(QKeySequence(tr("ctrl+2")));
+  act->setData(qVariantFromValue((void *) &u_filter.idle));
+  filter_act->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
+  act = filter_menu->addAction(_("Fortified"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.forified);
+  act->setShortcut(QKeySequence(tr("ctrl+3")));
+  act->setData(qVariantFromValue((void *) &u_filter.forified));
+  filter_act->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
+  act = filter_menu->addAction(_("Sentried"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.sentried);
+  act->setShortcut(QKeySequence(tr("ctrl+4")));
+  act->setData(qVariantFromValue((void *) &u_filter.sentried));
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
+  filter_act->addAction(act);
+  filter_menu->addSeparator();
+  act = filter_menu->addAction(_("Any unit"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.any);
+  act->setShortcut(QKeySequence(tr("ctrl+6")));
+  act->setData(qVariantFromValue((void *) &u_filter.any));
+  filter_any->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
+  act = filter_menu->addAction(_("Full HP"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.idle);
+  act->setShortcut(QKeySequence(tr("ctrl+7")));
+  act->setData(qVariantFromValue((void *) &u_filter.full_hp));
+  filter_any->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
+  act = filter_menu->addAction(_("Full MP"));
+  act->setCheckable(true);
+  act->setChecked(u_filter.full_mp);
+  act->setShortcut(QKeySequence(tr("ctrl+8")));
+  act->setData(qVariantFromValue((void *) &u_filter.full_mp));
+  filter_any->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
 
   /* Unit Menu */
   menu = this->addMenu(_("Unit"));
@@ -1497,7 +1688,7 @@ void mr_menu::slot_done_moving()
 ***************************************************************************/
 void mr_menu::slot_select_all_tile()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
+  unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
 }
 
 /***************************************************************************
@@ -1505,7 +1696,7 @@ void mr_menu::slot_select_all_tile()
 ***************************************************************************/
 void mr_menu::slot_select_one()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
+  unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
 }
 
 /***************************************************************************
@@ -1513,7 +1704,7 @@ void mr_menu::slot_select_one()
 ***************************************************************************/
 void mr_menu::slot_select_same_continent()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
+  unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
 }
 
 /***************************************************************************
@@ -1521,7 +1712,7 @@ void mr_menu::slot_select_same_continent()
 ***************************************************************************/
 void mr_menu::slot_select_same_everywhere()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
+  unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
 }
 
 /***************************************************************************
@@ -1529,7 +1720,7 @@ void mr_menu::slot_select_same_everywhere()
 ***************************************************************************/
 void mr_menu::slot_select_same_tile()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
+  unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
 }
 
 /***************************************************************************
@@ -1549,6 +1740,44 @@ void mr_menu::slot_selection_dialog()
 void mr_menu::slot_wait()
 {
   key_unit_wait();
+}
+
+/***************************************************************************
+  Filter units has been changed
+***************************************************************************/
+void mr_menu::slot_filter()
+{
+  QAction *act;
+  QVariant v;
+  bool *bp;
+  bool b;
+
+  /* toggle u_filter.value */
+  act = qobject_cast<QAction *>(sender());
+  v = act->data();
+  bp = (bool *) v.value<void *>();
+  b = *bp;
+  u_filter.reset_activity();
+  *bp = !b;
+}
+
+/***************************************************************************
+  Second filter units has been changed
+***************************************************************************/
+void mr_menu::slot_filter_other()
+{
+  QAction *act;
+  QVariant v;
+  bool *bp;
+  bool b;
+
+  /* toggle u_filter.value */
+  act = qobject_cast<QAction *>(sender());
+  v = act->data();
+  bp = (bool *) v.value<void *>();
+  b = *bp;
+  u_filter.reset_other();
+  *bp = !b;
 }
 
 /****************************************************************
