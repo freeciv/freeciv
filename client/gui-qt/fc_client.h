@@ -147,7 +147,6 @@ class fc_client : public QObject
   QStatusBar *status_bar;
   QSignalMapper *switch_page_mapper;
   QLabel *status_bar_label;
-  unit_select *unit_sel;
   info_tile *info_tile_wdg;
   choice_dialog *opened_dialog;
   int current_unit_id;
@@ -194,6 +193,7 @@ public:
   messagewdg *msgwdg;
   info_tab *infotab;
   pregamevote *pre_vote;
+  unit_select *unit_sel;
   xvote *x_vote;
   goto_dialog *gtd;
   QCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];

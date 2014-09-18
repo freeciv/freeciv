@@ -239,7 +239,9 @@ void qtg_set_unit_icons_more_arrow(bool onoff)
 ****************************************************************************/
 void qtg_real_focus_units_changed(void)
 {
-  /* PORTME */
+  if (gui()->unit_sel != NULL) {
+    gui()->unit_sel->update_units();
+  }
 }
 
 /****************************************************************************
