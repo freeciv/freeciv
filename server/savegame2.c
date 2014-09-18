@@ -6366,7 +6366,7 @@ static void sg_save_researches(struct savedata *saving)
 }
 
 /* =======================================================================
- * Load / save the event cache. Sould be the last think to do.
+ * Load / save the event cache. Should be the last thing to do.
  * ======================================================================= */
 
 /****************************************************************************
