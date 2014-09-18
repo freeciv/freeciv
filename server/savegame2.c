@@ -6064,7 +6064,7 @@ static void sg_save_player_vision(struct savedata *saving,
 }
 
 /* =======================================================================
- * Load / save the event cache. Sould be the last think to do.
+ * Load / save the event cache. Should be the last thing to do.
  * ======================================================================= */
 
 /****************************************************************************
