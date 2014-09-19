@@ -19,6 +19,7 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QScrollArea>
 
 // common
 #include "game.h"
@@ -28,6 +29,7 @@
 
 // client
 #include "control.h"
+#include "helpdata.h"
 
 // gui-qt
 #include "qtg_cxxside.h"
@@ -84,6 +86,36 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   text = tile_get_info_text(newtile, FALSE, 0);
   tile_virtual_destroy(newtile);
   return text;
+}
+
+/**************************************************************************
+  Displays dialog with scrollbars, like QMessageBox with ok button
+**************************************************************************/
+void fc_message_box::info(QWidget *parent, const QString &title,
+                          const QString &message) {
+  setParent(parent);
+  setWindowTitle(title);
+  setWindowFlags(Qt::Window);
+  QVBoxLayout *vb = new  QVBoxLayout;
+  label = new QLabel;
+  label->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+  label->setContentsMargins(2, 2, 2, 2);
+  label->setWordWrap(true);
+  label->setText(message);
+  scroll = new QScrollArea(this);
+  scroll->setWidget(label);
+  scroll->setWidgetResizable(true);
+
+  ok_button = new QPushButton(this);
+  connect(ok_button, SIGNAL(clicked()), this, SLOT(close()));
+  ok_button->setText(_("Roger that"));
+
+  vb->addWidget(scroll);
+  vb->addWidget(ok_button);
+  setLayout(vb);
+  setFixedHeight(400);
+  setFixedWidth(600);
+  show();
 }
 
 /****************************************************************************
@@ -1081,17 +1113,20 @@ void mr_menu::slot_gov_change (const int &target)
 ****************************************************************************/
 void mr_menu::slot_menu_copying()
 {
-  QMessageBox info(this);
-  QString s = QString::fromUtf8(_("Freeciv is covered by the GPL. "))
-              + QString::fromUtf8(_("See file COPYING distributed with "
-                                    "Freeciv for full license text."));
+  fc_message_box *inf = new fc_message_box;
+  const struct help_item *pitem;
+  int idx;
+  QString s,ds;
 
-  info.setText(s);
-  info.setStandardButtons(QMessageBox::Ok);
-  info.setDefaultButton(QMessageBox::Cancel);
-  info.setIcon(QMessageBox::Information);
-  info.setWindowTitle(_("Copying"));
-  info.exec();
+  if (!(pitem = get_help_item_spec(Q_(HELP_COPYING_ITEM),
+                                  HELP_ANY , &idx))) {
+    log_error("Failed to find %s entry in help", Q_(HELP_COPYING_ITEM));
+    return;
+  }
+  ds = QString(pitem->text);
+
+  s = QString(Q_(HELP_COPYING_ITEM));
+  inf->info(gui()->central_wdg, s, ds);
 }
 
 /***************************************************************************
