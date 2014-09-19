@@ -23,12 +23,16 @@ extern "C" {
 #endif
 
 // Qt
+#include <QDialog>
 #include <QMenuBar>
 
 // client
 #include "control.h"
 
+class QLabel;
+class QPushButton;
 class QSignalMapper;
+class QScrollArea;
 
 /** used for indicating menu about current option - for renaming 
  * and enabling disbaling */
@@ -83,6 +87,23 @@ public:
   bool any;
   bool full_mp;
   bool full_hp;
+};
+
+/**************************************************************************
+  Custom dialog to show information
+**************************************************************************/
+class fc_message_box : public QDialog
+{
+  Q_OBJECT
+
+public:
+  fc_message_box() {};
+  void info(QWidget *parent, const QString &title, const QString &mess);
+
+private:
+  QLabel *label;
+  QScrollArea *scroll;
+  QPushButton *ok_button;
 };
 
 /**************************************************************************
