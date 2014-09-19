@@ -59,6 +59,7 @@ ss_report::ss_report(struct player *pplayer)
 ss_report::~ss_report()
 {
   gui()->remove_repo_dlg("SPS");
+  qtg_canvas_free(can);
 }
 
 /****************************************************************************
