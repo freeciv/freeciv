@@ -1524,9 +1524,7 @@ void overview_size_changed(void)
 unit_label::unit_label(QWidget *parent)
 {
   setParent(parent);
-  pix = NULL;
   arrow_pix = NULL;
-  tile_pix = NULL;
   ufont = new QFont;
   w_width = 0;
   selection_area.setWidth(0);
@@ -1534,6 +1532,8 @@ unit_label::unit_label(QWidget *parent)
   setMouseTracking(true);
   setFixedWidth(0);
   setFixedHeight(0);
+  tile_pix =  new QPixmap();
+  pix = new QPixmap();
 }
 
 /**************************************************************************
@@ -1547,16 +1547,13 @@ void unit_label::uupdate(unit_list *punits)
   struct player *owner;
   struct canvas *unit_pixmap;
   struct canvas *tile_pixmap;
-
+  no_units = false;
   one_unit = true;
   setFixedHeight(56);
   if (unit_list_size(punits) == 0) {
     unit_label1 = "";
     unit_label2 = "";
-    if (pix != NULL) {
-      delete pix;
-    };
-    pix = NULL;
+    no_units = true;
     update();
     return;
   } else if (unit_list_size(punits) == 1) {
@@ -1581,10 +1578,6 @@ void unit_label::uupdate(unit_list *punits)
                    QString::number(punit->hp),
                    QString::number(unit_type(punit)->hp));
 
-  if (pix != NULL) {
-    delete pix;
-    pix = NULL;
-  };
   punit = head_of_units_in_focus();
   if (punit) {
     if (tileset_is_isometric(tileset)){
@@ -1596,13 +1589,9 @@ void unit_label::uupdate(unit_list *punits)
     }
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(punit, unit_pixmap, 0, 0);
-    pix = &unit_pixmap->map_pixmap;
-    *pix = pix->scaledToHeight(height());
+    *pix = (&unit_pixmap->map_pixmap)->scaledToHeight(height());
     w_width = pix->width() + 1;
 
-    if (tile_pix != NULL) {
-      delete tile_pix;
-    };
     if (tileset_is_isometric(tileset)){
       tile_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
                                       tileset_tile_height(tileset) * 2);
@@ -1612,9 +1601,10 @@ void unit_label::uupdate(unit_list *punits)
     }
     tile_pixmap->map_pixmap.fill(QColor(0 , 0 , 0 , 85));
     put_terrain(punit->tile, tile_pixmap, 0, 0);
-    tile_pix = &tile_pixmap->map_pixmap;
-    *tile_pix = tile_pix->scaledToHeight(height());
+    *tile_pix = (&tile_pixmap->map_pixmap)->scaledToHeight(height());
      w_width = w_width + tile_pix->width() + 1;
+     qtg_canvas_free(tile_pixmap);
+     qtg_canvas_free(unit_pixmap);
   }
 
   QFontMetrics fm(*ufont);
@@ -1691,7 +1681,7 @@ void unit_label::paint(QPainter *painter, QPaintEvent *event)
   painter->setPen(pen);
 
   w = 0;
-  if (pix != NULL) {
+  if (!no_units) {
     painter->drawPixmap(w, (height() - pix->height()) / 2, *pix);
     w = w + pix->width() + 1;
     if (one_unit == false) {

@@ -307,6 +307,7 @@ private:
   QString unit_label1, unit_label2;
   bool highlight_pix;
   bool one_unit;
+  bool no_units;
   int w_width;
 };
 
