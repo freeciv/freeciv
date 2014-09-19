@@ -3868,9 +3868,9 @@ void handle_unit_actions(int actor_unit_id, int target_unit_id,
     unit_focus_set(actor_unit);
 
     /* Show the client specific action dialog */
-    popup_diplomat_dialog(actor_unit,
-                          target_city, target_unit, target_tile,
-                          action_probabilities);
+    popup_action_selection(actor_unit,
+                           target_city, target_unit, target_tile,
+                           action_probabilities);
   } else {
     /* Nothing to do. Go to the next queued dipomat */
     choose_action_queue_next();

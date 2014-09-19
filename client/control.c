@@ -930,7 +930,17 @@ void process_caravan_arrival(struct unit *punit)
       struct city *pcity_homecity = game_city_by_number(punit->homecity);
 
       if (pcity_dest && pcity_homecity) {
-        popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
+        action_probability probabilities[ACTION_COUNT];
+
+        /* Caravan actions don't use action enablers yet. */
+        action_iterate(act) {
+          probabilities[act] = ACTPROB_IMPOSSIBLE;
+        } action_iterate_end;
+
+        popup_action_selection(punit, pcity_dest, NULL,
+                               city_tile(pcity_dest),
+                               probabilities);
+
         return;
       }
     }

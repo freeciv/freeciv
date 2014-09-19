@@ -47,15 +47,13 @@ GUI_FUNC_PROTO(void, unit_select_dialog_update_real, void)
 GUI_FUNC_PROTO(void, races_toggles_set_sensitive, void)
 GUI_FUNC_PROTO(void, races_update_pickable, bool nationset_change)
 
-GUI_FUNC_PROTO(void, popup_caravan_dialog, struct unit *punit,
-               struct city *phomecity, struct city *pdestcity)
 GUI_FUNC_PROTO(bool, caravan_dialog_is_open, int* unit_id, int* city_id)
 GUI_FUNC_PROTO(void, caravan_dialog_update, void)
 
-GUI_FUNC_PROTO(void, popup_diplomat_dialog, struct unit *punit,
+GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
                struct tile *target_tile,
-               const action_probability *action_probabilities)
+               const action_probability *act_probs)
 GUI_FUNC_PROTO(int, diplomat_handled_in_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, close_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,

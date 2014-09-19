@@ -112,19 +112,6 @@ void popup_revolution_dialog(void)
 }
 
 /**************************************************************************
-  Popup a dialog giving a player choices when their caravan arrives at
-  a city (other than its home city).  Example:
-    - Establish trade route.
-    - Help build wonder.
-    - Keep moving.
-**************************************************************************/
-void popup_caravan_dialog(struct unit *punit,
-			  struct city *phomecity, struct city *pdestcity)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
   Is there currently a caravan dialog open?  This is important if there
   can be only one such dialog at a time; otherwise return FALSE.
 **************************************************************************/
@@ -135,12 +122,14 @@ bool caravan_dialog_is_open(int *unit_id, int *city_id)
 }
 
 /**************************************************************************
-  Popup a dialog giving a diplomatic unit some options when moving into
-  the target tile.
+  Popup a dialog that allows the player to select what action a unit
+  should take.
 **************************************************************************/
-void popup_diplomat_dialog(struct unit *punit, struct city *pcity,
-                           struct unit *ptunit, struct tile *ptile,
-                           const action_probability *action_probabilities)
+void popup_action_selection(struct unit *actor_unit,
+                                   struct city *target_city,
+                                   struct unit *target_unit,
+                                   struct tile *target_tile,
+                                   const action_probability *act_probs)
 {
   /* PORTME */
 }

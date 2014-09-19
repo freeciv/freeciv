@@ -65,12 +65,6 @@ void popdown_incite_dialog(void);
 void popdown_bribe_dialog(void);
 
 
-static void popup_action_selection(struct unit *actor_unit,
-                                   struct city *target_city,
-                                   struct unit *target_unit,
-                                   struct tile *target_tile,
-                                   const action_probability *act_probs);
-
 static struct diplomat_dialog *pDiplomat_Dlg = NULL;
 
 /* ====================================================================== */
@@ -105,27 +99,6 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
     choose_action_queue_next();
   }
   return -1;
-}
-
-/**************************************************************************
-  Popup a dialog giving a player choices when their caravan arrives at
-  a city (other than its home city).  Example:
-    - Establish trade route.
-    - Help build wonder.
-    - Keep moving.
-**************************************************************************/
-void popup_caravan_dialog(struct unit *pUnit,
-                          struct city *pHomecity, struct city *pDestcity)
-{
-  action_probability probabilities[ACTION_COUNT];
-
-  /* Caravan actions don't use action enablers yet. */
-  action_iterate(act) {
-    probabilities[act] = ACTPROB_IMPOSSIBLE;
-  } action_iterate_end;
-
-  popup_diplomat_dialog(pUnit, pDestcity, NULL, city_tile(pDestcity),
-                         probabilities);
 }
 
 /**************************************************************************
@@ -740,26 +713,14 @@ static void action_entry(const enum gen_action act,
 }
 
 /**************************************************************************
-  Popup a dialog giving a diplomatic unit some options when moving into
-  the target tile.
-**************************************************************************/
-void popup_diplomat_dialog(struct unit *pUnit, struct city *pCity,
-                           struct unit *pTunit, struct tile *ptile,
-                           const action_probability *action_probabilities)
-{
-  popup_action_selection(pUnit, pCity, pTunit, ptile,
-                         action_probabilities);
-}
-
-/**************************************************************************
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
-static void popup_action_selection(struct unit *actor_unit,
-                                   struct city *target_city,
-                                   struct unit *target_unit,
-                                   struct tile *target_tile,
-                                   const action_probability *act_probs)
+void popup_action_selection(struct unit *actor_unit,
+                            struct city *target_city,
+                            struct unit *target_unit,
+                            struct tile *target_tile,
+                            const action_probability *act_probs)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
