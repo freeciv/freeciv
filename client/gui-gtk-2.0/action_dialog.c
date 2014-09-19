@@ -1081,13 +1081,13 @@ void popup_action_selection(struct unit *actor_unit,
       if (can_marketplace && !can_traderoute) {
         choice_dialog_add(shl, _("Enter Marketplace"),
                           (GCallback)caravan_establish_trade_callback,
-                          data, "");
+                          data, NULL);
       }
 
       if (can_traderoute) {
         choice_dialog_add(shl, _("Establish Trade route"),
                           (GCallback)caravan_establish_trade_callback,
-                          data, "");
+                          data, NULL);
       }
 
       if (can_wonder) {
@@ -1096,7 +1096,7 @@ void popup_action_selection(struct unit *actor_unit,
 
         choice_dialog_add(shl, wonder,
                           (GCallback)caravan_help_build_wonder_callback,
-                          data, "");
+                          data, NULL);
       }
 
       g_free(wonder);
