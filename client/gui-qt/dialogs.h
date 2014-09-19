@@ -24,6 +24,7 @@ extern "C" {
 
 // Qt
 #include <QDialog>
+#include <QMessageBox>
 #include <QVariant>
 
 // gui-qt
@@ -43,6 +44,26 @@ class QWidget;
 typedef void (*pfcn_void)(QVariant, QVariant);
 void update_nationset_combo();
 void popup_races_dialog(struct player *pplayer);
+
+/***************************************************************************
+ Dialog for goto popup
+***************************************************************************/
+class notify_goto : public QMessageBox
+{
+  Q_OBJECT
+  QPushButton *goto_but;
+  QPushButton *inspect_but;
+  QPushButton *close_but;
+  struct tile *gtile;
+public:
+  notify_goto(const char *headline, const char *lines,
+              const struct text_tag_list *tags, struct tile *ptile,
+              QWidget *parent);
+
+private slots:
+  void goto_tile();
+  void inspect_city();
+};
 
 /***************************************************************************
  Dialog for selecting nation, style and leader leader

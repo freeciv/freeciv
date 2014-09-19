@@ -667,6 +667,59 @@ void races_dialog::random_pressed()
 }
 
 /***************************************************************************
+  Notify goto dialog constructor
+***************************************************************************/
+notify_goto::notify_goto(const char *headline, const char *lines,
+                         const struct text_tag_list *tags, tile *ptile,
+                         QWidget *parent): QMessageBox(parent)
+{
+  setAttribute(Qt::WA_DeleteOnClose);
+  goto_but = this->addButton(_("Goto Location"), QMessageBox::ActionRole);
+  goto_but->setIcon(style()->standardIcon(
+                      QStyle::SP_ToolBarHorizontalExtensionButton));
+  inspect_but = this->addButton(_("Inspect City"), QMessageBox::ActionRole);
+  inspect_but->setIcon(style()->standardIcon(QStyle::SP_FileDialogToParent));
+
+  close_but = this->addButton(QMessageBox::Close);
+  gtile = ptile;
+  if (!gtile) {
+    goto_but->setDisabled(true);
+    inspect_but->setDisabled(true);
+  } else {
+    struct city *pcity = tile_city(gtile);
+    inspect_but->setEnabled(NULL != pcity
+                            && city_owner(pcity) == client.conn.playing);
+  }
+  setWindowTitle(headline);
+  setText(lines);
+  connect(goto_but, SIGNAL(pressed()), SLOT(goto_tile()));
+  connect(inspect_but, SIGNAL(pressed()), SLOT(inspect_city()));
+  connect(close_but, SIGNAL(pressed()), SLOT(close()));
+  show();
+}
+
+/***************************************************************************
+  Clicked goto tile in notify goto dialog
+***************************************************************************/
+void notify_goto::goto_tile()
+{
+  center_tile_mapcanvas(gtile);
+  close();
+}
+
+/***************************************************************************
+  Clicked inspect city in notify goto dialog
+***************************************************************************/
+void notify_goto::inspect_city()
+{
+  struct city *pcity = tile_city(gtile);
+  if (pcity) {
+    qtg_real_city_dialog_popup(pcity);
+  }
+  close();
+}
+
+/***************************************************************************
   User changed nation_set
 ***************************************************************************/
 void races_dialog::nationset_changed(int index)
@@ -691,7 +744,9 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
                               const struct text_tag_list *tags,
                               struct tile *ptile)
 {
-  /* PORTME */
+  notify_goto *ask = new notify_goto(headline, lines, tags, ptile,
+                                     gui()->central_wdg);
+  ask->show();
 }
 
 /**************************************************************************
@@ -699,7 +754,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 **************************************************************************/
 void popup_connect_msg(const char *headline, const char *message)
 {
-  /* PORTME */
+  qDebug() << Q_FUNC_INFO << "PORTME";
 }
 
 /**************************************************************************
