@@ -303,10 +303,12 @@ void tab_tech::root_req_menu(QAction *action)
 **************************************************************************/
 void tab_tech::name_given()
 {
-  names_set(&(selected->name), 0,
-            name->text().toUtf8().data(),
-            rname->text().toUtf8().data());
-  refresh();
+  if (selected != nullptr) {
+    names_set(&(selected->name), 0,
+              name->text().toUtf8().data(),
+              rname->text().toUtf8().data());
+    refresh();
+  }
 }
 
 /**************************************************************************
