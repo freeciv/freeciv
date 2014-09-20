@@ -263,6 +263,8 @@ extern "C" {
 #define SPECENUM_VALUE100NAME "National_Performance"
 #define SPECENUM_VALUE101 EFT_NATION_HISTORY
 #define SPECENUM_VALUE101NAME "National_History"
+#define SPECENUM_VALUE102 EFT_TURN_FRAGMENTS
+#define SPECENUM_VALUE102NAME "Turn_Fragments"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

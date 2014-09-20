@@ -293,6 +293,9 @@ Turn_Years
     Year advances by AMOUNT each turn unless Slow_Down_Timeline causes it
     to be less.
 
+Turn_Fragments
+    Year fragments advance by AMOUNT each turn.
+
 Slow_Down_Timeline
     Slow down the timeline based on the AMOUNT. If AMOUNT >= 3 the timeline 
 will be max 1 year/turn; with AMOUNT == 2 it is max 2 years/turn;

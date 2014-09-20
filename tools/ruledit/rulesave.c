@@ -828,6 +828,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.server.start_year,
                    GAME_START_YEAR,
                    "calendar.start_year", NULL);
+  save_default_int(sfile, game.info.calendar_fragments,
+                   0, "calendar.fragments", NULL);
 
   /* FIXME: These are stored in memory in translated form only -
    *        So we're currently saving them translated, though ruleset should have

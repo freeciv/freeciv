@@ -5239,6 +5239,8 @@ static bool load_ruleset_game(struct section_file *file, bool act)
     game.server.start_year
       = secfile_lookup_int_default(file, GAME_START_YEAR,
                                    "calendar.start_year");
+    game.info.calendar_fragments
+      = secfile_lookup_int_default(file, 0, "calendar.fragments");
     sz_strlcpy(game.info.positive_year_label,
                _(secfile_lookup_str_default(file,
                                             RS_DEFAULT_POS_YEAR_LABEL,

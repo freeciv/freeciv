@@ -526,6 +526,8 @@ PACKET_GAME_INFO = 16; sc
   UINT32 warminglevel;
   YEAR year;
   BOOL year_0_hack;
+  UINT16 calendar_fragments;
+  UINT16 fragment_count;
   BOOL civil_war_enabled;
   BOOL paradrop_to_transport;
 end

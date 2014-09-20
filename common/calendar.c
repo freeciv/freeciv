@@ -29,6 +29,7 @@ int game_next_year(int year)
   int increase = get_world_bonus(EFT_TURN_YEARS);
   const int slowdown = (victory_enabled(VC_SPACERACE)
 			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
+  int fragment_years;
 
   if (game.info.year_0_hack) {
     /* hacked it to get rid of year 0 */
@@ -63,6 +64,14 @@ int game_next_year(int year)
     if (increase > 5) {
       increase = 5;
     }
+  }
+
+  if (game.info.calendar_fragments) {
+    game.info.fragment_count += get_world_bonus(EFT_TURN_FRAGMENTS);
+    fragment_years = game.info.fragment_count / game.info.calendar_fragments;
+
+    increase += fragment_years;
+    game.info.fragment_count -= fragment_years * game.info.calendar_fragments;
   }
 
   year += increase;

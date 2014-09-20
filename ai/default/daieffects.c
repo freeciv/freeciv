@@ -196,6 +196,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
     break;
 
   case EFT_TURN_YEARS:
+  case EFT_TURN_FRAGMENTS:
   case EFT_SLOW_DOWN_TIMELINE:
     /* AI doesn't care about these. */
     break;
