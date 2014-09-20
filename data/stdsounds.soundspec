@@ -4,6 +4,7 @@ options = "+soundspec"
 
 [info]
 artists = "\
+ FreeCol - [fcol]\
  OpenQuartz - Ali Jackson (alister667@hotmail.com) [ali]\
  OpenQuartz - Frank Condello (pox@planetquake.com) [pox]\
  Warzone - Eidos Entertainment (GPL release) [warzone]"
@@ -199,7 +200,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 
 ;e_ai_debug = ""
 ;e_anarchy = ""
-;e_bad_command = ""
+e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
 ;e_broadcast_report = ""
 ;e_caravan_action = ""
 ;e_chat_error = ""
