@@ -35,9 +35,13 @@ unit_flag_offset_y = 11
 city_flag_offset_x = 17
 city_flag_offset_y = 11
 
-; offset the units by this amount when drawing units
+; offset the units by this amount
 unit_offset_x = 21
 unit_offset_y = 13
+
+; offset the cities by this amount
+city_offset_x = 0
+city_offset_y = 0
 
 ; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 20

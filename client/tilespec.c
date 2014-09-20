@@ -503,6 +503,7 @@ struct tileset {
   int unit_flag_offset_x, unit_flag_offset_y;
   int city_flag_offset_x, city_flag_offset_y;
   int unit_offset_x, unit_offset_y;
+  int city_offset_x, city_offset_y;
 
   int citybar_offset_y;
   int tilelabel_offset_y;
@@ -1710,6 +1711,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                              "tilespec.unit_offset_x")
       || !secfile_lookup_int(file, &t->unit_offset_y,
                              "tilespec.unit_offset_y")
+      || !secfile_lookup_int(file, &t->city_offset_x,
+                             "tilespec.city_offset_x")
+      || !secfile_lookup_int(file, &t->city_offset_y,
+                             "tilespec.city_offset_y")
       || !secfile_lookup_int(file, &t->citybar_offset_y,
                              "tilespec.citybar_offset_y")
       || !secfile_lookup_int(file, &t->tilelabel_offset_y,
@@ -5076,7 +5081,9 @@ int fill_sprite_array(struct tileset *t,
        * for non-iso view they are an overlay on top of the base city
        * graphic. */
       if (t->type == TS_OVERVIEW || pcity->client.walls <= 0) {
-	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.tile, pcity));
+	ADD_SPRITE(get_city_sprite(t->sprites.city.tile, pcity), TRUE,
+                   FULL_TILE_X_OFFSET + t->city_offset_x,
+                   FULL_TILE_Y_OFFSET + t->city_offset_y);
       }
       if (t->type == TS_ISOMETRIC && pcity->client.walls > 0) {
         struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
