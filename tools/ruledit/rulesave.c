@@ -666,7 +666,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   if (set_count > 0) {
     secfile_insert_str_vec(sfile, style_names, set_count,
-                           "cvistyle.gameloss_style");
+                           "civstyle.gameloss_style");
   }
 
   save_default_int(sfile, game.info.happy_cost,
