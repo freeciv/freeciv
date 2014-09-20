@@ -562,7 +562,7 @@ colorlist =
 ; etc...
 
 [settings]
-; freeciv game settings for the default ruleset
+; freeciv game settings for the classic ruleset
 ;
 ; set =
 ;     { "name", "value", "lock"
