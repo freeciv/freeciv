@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-14 11:04+0200\n"
-"PO-Revision-Date: 2014-09-14 11:07+0200\n"
+"POT-Creation-Date: 2014-09-21 20:00+0200\n"
+"PO-Revision-Date: 2014-09-21 20:02+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1497,12 +1497,12 @@ msgstr "Només les unitats nuclears poden fer això."
 msgid "Only paratrooper units can do this."
 msgstr "Només els paracaigudistes poden fer això."
 
-#: client/control.c:2464 client/control.c:2528 client/control.c:2550
-#: client/control.c:2566
+#: client/control.c:2464 client/control.c:2539 client/control.c:2561
+#: client/control.c:2577
 msgid "Didn't find a route to the destination!"
 msgstr "No he trobat una ruta al destí."
 
-#: client/control.c:2614
+#: client/control.c:2625
 msgid "Oh my! You seem to have no capital!"
 msgstr "Bufa! Pel que sembla no tens capital!"
 
@@ -2622,19 +2622,19 @@ msgstr "Donar A_mbaixada"
 
 #: client/gui-gtk-2.0/diplodlg.c:419 client/gui-gtk-3.0/diplodlg.c:419
 #: client/gui-sdl/diplodlg.c:498 client/gui-xaw/diplodlg.c:546
-#: common/player.c:1183
+#: common/player.c:1189
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Alto el foc"
 
 #: client/gui-gtk-2.0/diplodlg.c:425 client/gui-gtk-3.0/diplodlg.c:425
 #: client/gui-sdl/diplodlg.c:512 client/gui-xaw/diplodlg.c:550
-#: common/player.c:1184
+#: common/player.c:1190
 msgid "?diplomatic_state:Peace"
 msgstr "Pau"
 
 #: client/gui-gtk-2.0/diplodlg.c:431 client/gui-gtk-3.0/diplodlg.c:431
 #: client/gui-sdl/diplodlg.c:527 client/gui-xaw/diplodlg.c:554
-#: common/player.c:1185
+#: common/player.c:1191
 msgid "?diplomatic_state:Alliance"
 msgstr "Aliança"
 
@@ -3529,40 +3529,40 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Informa dels errors a %s\n"
 
-#: client/gui-gtk-2.0/gui_main.c:763 client/gui-gtk-2.0/gui_main.c:1568
-#: client/gui-gtk-3.0/gui_main.c:750 client/gui-gtk-3.0/gui_main.c:1636
+#: client/gui-gtk-2.0/gui_main.c:763 client/gui-gtk-2.0/gui_main.c:1573
+#: client/gui-gtk-3.0/gui_main.c:750 client/gui-gtk-3.0/gui_main.c:1641
 #: client/gui-sdl/gui_main.c:795 client/gui-sdl/gui_main.c:810
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1225 client/gui-gtk-2.0/gui_main.c:1233
-#: client/gui-gtk-3.0/gui_main.c:1235 client/gui-gtk-3.0/gui_main.c:1243
+#: client/gui-gtk-2.0/gui_main.c:1230 client/gui-gtk-2.0/gui_main.c:1238
+#: client/gui-gtk-3.0/gui_main.c:1240 client/gui-gtk-3.0/gui_main.c:1248
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Acabar el torn"
 
-#: client/gui-gtk-2.0/gui_main.c:1233 client/gui-gtk-3.0/gui_main.c:1243
+#: client/gui-gtk-2.0/gui_main.c:1238 client/gui-gtk-3.0/gui_main.c:1248
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:901
 msgid "Shift+Return"
 msgstr "Maj.+Retorn"
 
-#: client/gui-gtk-2.0/gui_main.c:1304 client/gui-gtk-3.0/gui_main.c:1320
+#: client/gui-gtk-2.0/gui_main.c:1309 client/gui-gtk-3.0/gui_main.c:1325
 msgid "?noun:View"
 msgstr "Vista"
 
-#: client/gui-gtk-2.0/gui_main.c:1416 client/gui-gtk-3.0/gui_main.c:1439
+#: client/gui-gtk-2.0/gui_main.c:1421 client/gui-gtk-3.0/gui_main.c:1444
 msgid "Chat"
 msgstr "Xat"
 
-#: client/gui-gtk-2.0/gui_main.c:1440 client/gui-gtk-3.0/gui_main.c:1466
+#: client/gui-gtk-2.0/gui_main.c:1445 client/gui-gtk-3.0/gui_main.c:1471
 msgid "Allies Only"
 msgstr "Només Aliats"
 
-#: client/gui-gtk-2.0/gui_main.c:1449 client/gui-gtk-3.0/gui_main.c:1475
+#: client/gui-gtk-2.0/gui_main.c:1454 client/gui-gtk-3.0/gui_main.c:1480
 msgid "Clear links"
 msgstr "Esborrar enllaços"
 
-#: client/gui-gtk-2.0/gui_main.c:2028 client/gui-gtk-3.0/gui_main.c:2048
+#: client/gui-gtk-2.0/gui_main.c:2033 client/gui-gtk-3.0/gui_main.c:2053
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "Segur que vols sortir?"
@@ -6826,7 +6826,7 @@ msgid "R.I.P."
 msgstr "R.I.P."
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:263
-#: server/stdinhand.c:3493 server/stdinhand.c:6268
+#: server/stdinhand.c:3493 server/stdinhand.c:6284
 msgid "AI"
 msgstr "IA"
 
@@ -6992,7 +6992,7 @@ msgid "Loading theme \"%s\"."
 msgstr "Carregant el tema \"%s\"."
 
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1195 client/tilespec.c:1229
+#: client/tilespec.c:1202 client/tilespec.c:1236
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -10770,11 +10770,11 @@ msgstr "Inici del torn %d"
 msgid "Welcome"
 msgstr "Benvingut"
 
-#: client/packhand.c:2046
+#: client/packhand.c:2042
 msgid "AI mode is now ON."
 msgstr "El mode IA està actiu ara."
 
-#: client/packhand.c:2048
+#: client/packhand.c:2044
 msgid "AI mode is now OFF."
 msgstr "El mode IA està apagat ara."
 
@@ -11608,28 +11608,28 @@ msgstr "Les unitats militars no tenen cap efecte sobre la felicitat."
 msgid "Luxury: %d total."
 msgstr "Luxes: %d en total."
 
-#: client/tilespec.c:1000
+#: client/tilespec.c:1006
 msgid "No usable default tileset found, aborting!"
 msgstr "No s'ha trobat cap joc de caselles usable, s'avorta l'execució!"
 
-#: client/tilespec.c:1032
+#: client/tilespec.c:1039
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "S'està carregant el joc de caselles \"%s\"."
 
-#: client/tilespec.c:1500
+#: client/tilespec.c:1507
 msgid "Client does not support isometric tilesets."
 msgstr "El client no suporta jocs de caselles isomètrics."
 
-#: client/tilespec.c:1501 client/tilespec.c:1507
+#: client/tilespec.c:1508 client/tilespec.c:1514
 msgid "Using default tileset instead."
 msgstr "Es farà servir el joc de caselles predeterminat."
 
-#: client/tilespec.c:1506
+#: client/tilespec.c:1513
 msgid "Client does not support overhead view tilesets."
 msgstr "El client no suporta jocs de caselles zenitals."
 
-#: client/tilespec.c:4457
+#: client/tilespec.c:4470
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -11638,7 +11638,7 @@ msgstr ""
 "El joc de caselles \"%s\" no permet camins d'anada llargs, com ara %d. El "
 "camí no es mostrarà de la forma esperada."
 
-#: client/tilespec.c:4782
+#: client/tilespec.c:4795
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -12655,63 +12655,63 @@ msgstr "Trampós"
 msgid "Experimental"
 msgstr "Experimental"
 
-#: common/player.c:1149
+#: common/player.c:1155
 msgid "?attitude:Genocidal"
 msgstr "Genocida"
 
-#: common/player.c:1151
+#: common/player.c:1157
 msgid "?attitude:Belligerent"
 msgstr "Bel·ligerant"
 
-#: common/player.c:1153
+#: common/player.c:1159
 msgid "?attitude:Hostile"
 msgstr "Hostil"
 
-#: common/player.c:1155
+#: common/player.c:1161
 msgid "?attitude:Uncooperative"
 msgstr "No cooperativa"
 
-#: common/player.c:1157
+#: common/player.c:1163
 msgid "?attitude:Uneasy"
 msgstr "Intranquil·la"
 
-#: common/player.c:1159
+#: common/player.c:1165
 msgid "?attitude:Neutral"
 msgstr "Neutral"
 
-#: common/player.c:1161
+#: common/player.c:1167
 msgid "?attitude:Respectful"
 msgstr "Respectuosa"
 
-#: common/player.c:1163
+#: common/player.c:1169
 msgid "?attitude:Helpful"
 msgstr "Col·laboració"
 
-#: common/player.c:1165
+#: common/player.c:1171
 msgid "?attitude:Enthusiastic"
 msgstr "Entusiasta"
 
-#: common/player.c:1167
+#: common/player.c:1173
 msgid "?attitude:Admiring"
 msgstr "Admiració"
 
-#: common/player.c:1170
+#: common/player.c:1176
 msgid "?attitude:Worshipful"
 msgstr "Veneració"
 
-#: common/player.c:1181
+#: common/player.c:1187
 msgid "?diplomatic_state:Armistice"
 msgstr "Armistici"
 
-#: common/player.c:1182
+#: common/player.c:1188
 msgid "?diplomatic_state:War"
 msgstr "Guerra"
 
-#: common/player.c:1186
+#: common/player.c:1192
 msgid "?diplomatic_state:Never met"
 msgstr "Sense contacte"
 
-#: common/player.c:1187
+#: common/player.c:1193
 msgid "?diplomatic_state:Team"
 msgstr "Equip"
 
@@ -15196,7 +15196,7 @@ msgstr "Gran Cap %s"
 
 #: data/civ1/nations.ruleset:1398 data/civ2/nations.ruleset:1951
 #: data/nation/barbarian.ruleset:3 server/stdinhand.c:3491
-#: server/stdinhand.c:6266
+#: server/stdinhand.c:6282
 msgid "Barbarian"
 msgstr "Bàrbar"
 
@@ -42202,17 +42202,17 @@ msgstr "El generador 3 no ha situat totes les illes grans."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "El generador 3 ha deixat massa de terra %li sense situar."
 
-#: server/generator/mapgen_topology.c:244
+#: server/generator/mapgen_topology.c:245
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
 msgstr "Creant un mapa de mida %d x %d = %d caselles (%d demanades)."
 
-#: server/generator/mapgen_topology.c:284
+#: server/generator/mapgen_topology.c:285
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
 msgstr "Creant un mapa de mida %d x %d = %d caselles (mida de mapa:%d)."
 
-#: server/generator/mapgen_topology.c:296
+#: server/generator/mapgen_topology.c:297
 #, c-format
 msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
@@ -42221,7 +42221,7 @@ msgstr ""
 "La mida de mapa calculada per %d caselles (de terra) per jugador i %d "
 "jugador(s) és massa petita. Es deixa la mida de mapa al mínim de %d."
 
-#: server/generator/mapgen_topology.c:301
+#: server/generator/mapgen_topology.c:302
 #, c-format
 msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
@@ -42230,7 +42230,7 @@ msgstr ""
 "La mida de mapa calculada per %d caselles (de terra) per jugador i %d "
 "jugador(s) és massa gran. Es deixa la mida de mapa al màxim de %d."
 
-#: server/generator/mapgen_topology.c:306
+#: server/generator/mapgen_topology.c:307
 #, c-format
 msgid ""
 "Setting map size to %d (approx. %d (land) tiles for each of the %d "
@@ -42947,10 +42947,10 @@ msgstr "Meravelles\n"
 #: server/report.c:1475
 msgid ""
 "Research Speed\n"
-"(%)"
+"(bulbs)"
 msgstr ""
 "Velocitat de Recerca\n"
-"(%)"
+"(bombetes)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
 #: server/report.c:1477
@@ -45818,7 +45818,7 @@ msgstr ""
 msgid "Cannot create suitable map with given settings."
 msgstr "No es pot crear un mapa adequat amb els paràmetres donats."
 
-#: server/srv_main.c:2758
+#: server/srv_main.c:2760
 msgid "Now accepting new client connections."
 msgstr "S'estan acceptant noves connexions de clients."
 
@@ -46070,7 +46070,7 @@ msgstr "Carregant fitxer de script '%s'."
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "No es pot llegir el fitxer d'script de línia de comandes '%s'."
 
-#: server/stdinhand.c:1269 server/stdinhand.c:4560
+#: server/stdinhand.c:1269 server/stdinhand.c:4576
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "No s'ha pogut llegir el fitxer d'script '%s'."
@@ -46197,7 +46197,7 @@ msgstr "Opció: %s  -  %s"
 msgid "Option: %s"
 msgstr "Opció: %s"
 
-#: server/stdinhand.c:1749 server/stdinhand.c:5936
+#: server/stdinhand.c:1749 server/stdinhand.c:5952
 msgid "Description:"
 msgstr "Descripció:"
 
@@ -46413,6 +46413,7 @@ msgid "There are no votes going on."
 msgstr "No hi ha cap votació en marxa."
 
 #: server/stdinhand.c:2477 server/stdinhand.c:2602 server/stdinhand.c:4245
+#: server/stdinhand.c:4447
 msgid "You are not allowed to use this command."
 msgstr "No tens permís per usar aquesta comanda."
 
@@ -46736,7 +46737,7 @@ msgstr "Nació reassignada a %s per %s."
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s ara controla %s (%s, %s)."
 
-#: server/stdinhand.c:3494 server/stdinhand.c:6270
+#: server/stdinhand.c:3494 server/stdinhand.c:6286
 msgid "Human"
 msgstr "Humà"
 
@@ -46813,7 +46814,7 @@ msgstr "No s'ha trobat el directori de regles \"%s\" "
 msgid "Ruleset directory set to \"%s\""
 msgstr "Directori de regles fixat a \"%s\""
 
-#: server/stdinhand.c:3848 server/stdinhand.c:3884 server/stdinhand.c:6186
+#: server/stdinhand.c:3848 server/stdinhand.c:3884 server/stdinhand.c:6202
 msgid "That would be rather silly, since you are not a player."
 msgstr "Això seria de ximplets, perquè no ets jugador."
 
@@ -46827,7 +46828,7 @@ msgstr "%s. Proveu /help ignore"
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "S'ha afegit el patró %s com a entrada %d a la teva llista d'ignorats."
 
-#: server/stdinhand.c:3893 server/stdinhand.c:6191
+#: server/stdinhand.c:3893 server/stdinhand.c:6207
 msgid "Your ignore list is empty."
 msgstr "La teva llista d'ignorats és buida."
 
@@ -46942,134 +46943,138 @@ msgstr ""
 msgid "Cannot end the game: no game running."
 msgstr "No es pot acabar la partida, no n'hi ha cap en joc."
 
-#: server/stdinhand.c:4448
+#: server/stdinhand.c:4452
+msgid "You cannot surrender now."
+msgstr "No pots rendir-te ara."
+
+#: server/stdinhand.c:4459
+msgid "You have already conceded the game."
+msgstr "Ja has donat la partida per perduda."
+
+#: server/stdinhand.c:4468
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s ha donat la partida per perduda i ja no pot guanyar."
 
-#: server/stdinhand.c:4453
-msgid "You cannot surrender now."
-msgstr "No pots rendir-te ara."
-
-#: server/stdinhand.c:4503
+#: server/stdinhand.c:4519
 msgid "Guessing argument 'ruleset'."
 msgstr "Se suposa l'argument 'ruleset'."
 
-#: server/stdinhand.c:4507
+#: server/stdinhand.c:4523
 msgid "Guessing argument 'game'."
 msgstr "Se suposa l'argument 'game'."
 
-#: server/stdinhand.c:4515
+#: server/stdinhand.c:4531
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "Els arguments vàlids són: 'game', 'ruleset', 'script' o 'default'."
 
-#: server/stdinhand.c:4530
+#: server/stdinhand.c:4546
 msgid "Reset all settings to the values at the game start."
 msgstr "Restaurar totes les opcions als valors del principi de la partida."
 
-#: server/stdinhand.c:4533
+#: server/stdinhand.c:4549
 msgid "No saved settings from the game start available."
 msgstr "No hi ha disponibles les opcions desades del principi de la partida."
 
-#: server/stdinhand.c:4537
+#: server/stdinhand.c:4553
 msgid "No game started..."
 msgstr "No ha començat la partida..."
 
-#: server/stdinhand.c:4544
+#: server/stdinhand.c:4560
 msgid "Reset all settings to ruleset values."
 msgstr "Restaurar totes les opcions als valors del joc de regles."
 
-#: server/stdinhand.c:4551
+#: server/stdinhand.c:4567
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 "Restaurar totes les opcions i tornar a llegir l'script d'arrencada del "
 "servidor."
 
-#: server/stdinhand.c:4569
+#: server/stdinhand.c:4585
 msgid "Reset all settings to default values."
 msgstr "Tornar a deixar totes les opcions amb els valors predeterminats."
 
-#: server/stdinhand.c:4575
+#: server/stdinhand.c:4591
 msgid "Settings re-initialized."
 msgstr "Paràmetres reiniciats."
 
-#: server/stdinhand.c:4636
+#: server/stdinhand.c:4652
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
 msgstr "Tornar a la sintaxi antiga '%slua <comanda de script>'."
 
-#: server/stdinhand.c:4646
+#: server/stdinhand.c:4662
 #, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
 msgstr "No hi  ha comanda lua ni fitxer de script lua. Vegeu '%shelp lua'."
 
-#: server/stdinhand.c:4669
+#: server/stdinhand.c:4685
 #, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
 msgstr "L'script de Freeciv '%s' no és permès per raons de seguretat."
 
-#: server/stdinhand.c:4683
+#: server/stdinhand.c:4699
 #, c-format
 msgid "No Freeciv script found by the name '%s'."
 msgstr "No s'ha trobat cap script de Freeciv amb el nom '%s'."
 
-#: server/stdinhand.c:4705
+#: server/stdinhand.c:4721
 #, c-format
 msgid "Loading Freeciv script file '%s'."
 msgstr "Carregant fitxer de script de Freeciv '%s'."
 
-#: server/stdinhand.c:4713
+#: server/stdinhand.c:4729
 #, c-format
 msgid "Cannot read Freeciv script '%s'."
 msgstr "No es pot llegir l'script de Freeciv '%s'."
 
-#: server/stdinhand.c:4762
+#: server/stdinhand.c:4778
 msgid "Game not started - cannot delegate yet."
 msgstr "Partida no començada - la delegació encara no es pot fer."
 
 #. TRANS: do not translate the command 'delegate'.
-#: server/stdinhand.c:4815
+#: server/stdinhand.c:4831
 #, c-format
 msgid "Valid arguments for 'delegate' are: %s."
 msgstr "Els arguments vàlids per a 'delegate' són: %s."
 
-#: server/stdinhand.c:4835 server/stdinhand.c:4925
+#: server/stdinhand.c:4851 server/stdinhand.c:4941
 #, c-format
 msgid "Command level '%s' or greater needed to modify others' delegations."
 msgstr ""
 "Cal nivell de comandes '%s' o superior per a modificar les delegacions dels "
 "altres."
 
-#: server/stdinhand.c:4844
+#: server/stdinhand.c:4860
 msgid "Please specify a player for whom delegation should be canceled."
 msgstr ""
 "Si us plau especifiqueu el jugador per al qual s'ha de cancel·lar la "
 "delegació."
 
-#: server/stdinhand.c:4855 server/stdinhand.c:4885
+#: server/stdinhand.c:4871 server/stdinhand.c:4901
 msgid "You can't switch players from the console."
 msgstr "No es pot canviar de jugador des de la consola."
 
-#: server/stdinhand.c:4874
+#: server/stdinhand.c:4890
 msgid "Please specify a player for whom the delegation should be shown."
 msgstr ""
 "Si us plau especifiqueu el jugador per al qual s'ha de mostrar la delegació."
 
-#: server/stdinhand.c:4899
+#: server/stdinhand.c:4915
 msgid "Please specify a player to take control of."
 msgstr ""
 "Si us plau especifiqueu el jugador del qual s'ha de prendre el control."
 
-#: server/stdinhand.c:4910
+#: server/stdinhand.c:4926
 msgid "Please specify a user to whom control is to be delegated."
 msgstr ""
 "Si us plau especifiqueu el jugador al qual se li ha de delegar el control."
 
-#: server/stdinhand.c:4934
+#: server/stdinhand.c:4950
 msgid "You do not control a player."
 msgstr "No controleu cap jugador."
 
-#: server/stdinhand.c:4970
+#: server/stdinhand.c:4986
 #, c-format
 msgid ""
 "Can't delegate control of '%s' belonging to %s while they are controlling "
@@ -47078,14 +47083,14 @@ msgstr ""
 "No es pot delegar el control de '%s', que pertany a %s mentre està "
 "controlant un altre jugador."
 
-#: server/stdinhand.c:4976
+#: server/stdinhand.c:4992
 #, c-format
 msgid "Can't change delegation of '%s' while controlled by delegate %s."
 msgstr ""
 "No es pot modificar la delegació de '%s' mentre està controlat pel delegat "
 "%s."
 
-#: server/stdinhand.c:4983
+#: server/stdinhand.c:4999
 msgid ""
 "You can't delegate control while you are controlling a delegated player "
 "yourself."
@@ -47094,7 +47099,7 @@ msgstr ""
 "delegat."
 
 #. TRANS: don't translate 'delegate cancel'
-#: server/stdinhand.c:4997
+#: server/stdinhand.c:5013
 #, c-format
 msgid ""
 "%s already owns '%s', so cannot also be delegate. Use '%sdelegate cancel' to "
@@ -47104,7 +47109,7 @@ msgstr ""
 "cancel' per cancel·lar una delegació ja feta."
 
 #. TRANS: don't translate '/delegate cancel'
-#: server/stdinhand.c:5006
+#: server/stdinhand.c:5022
 msgid ""
 "You can't delegate control to yourself. Use '/delegate cancel' to cancel an "
 "existing delegation."
@@ -47112,32 +47117,32 @@ msgstr ""
 "No pots delegar-te el control a tu mateix. Utilitzeu '/delegate cancel' per "
 "cancel·lar una delegació que ja existeix."
 
-#: server/stdinhand.c:5019 server/stdinhand.c:5036
+#: server/stdinhand.c:5035 server/stdinhand.c:5052
 #, c-format
 msgid "Control of player '%s' delegated to user %s."
 msgstr "El control del jugador '%s' s'ha delegat a l'usuari %s."
 
-#: server/stdinhand.c:5032 server/stdinhand.c:5047
+#: server/stdinhand.c:5048 server/stdinhand.c:5063
 #, c-format
 msgid "No delegation defined for '%s'."
 msgstr "No s'ha definit cap delegació per a '%s'."
 
-#: server/stdinhand.c:5067 server/stdinhand.c:5143 server/stdinhand.c:5173
+#: server/stdinhand.c:5083 server/stdinhand.c:5159 server/stdinhand.c:5189
 msgid "Unexpected failure."
 msgstr "Error inesperat."
 
-#: server/stdinhand.c:5072
+#: server/stdinhand.c:5088
 #, c-format
 msgid "Your delegated control of player '%s' was canceled."
 msgstr "El teu control delegat del jugador '%s' s'ha cancel·lat."
 
-#: server/stdinhand.c:5077
+#: server/stdinhand.c:5093
 #, c-format
 msgid "Delegation of '%s' canceled."
 msgstr "La delegació de '%s' s'ha cancel·lat."
 
 #. TRANS: don't translate '/delegate restore'.
-#: server/stdinhand.c:5091
+#: server/stdinhand.c:5107
 msgid ""
 "You are already controlling a delegated player. Use '/delegate restore' to "
 "relinquish control of your current player first."
@@ -47146,7 +47151,7 @@ msgstr ""
 "deixar anar el control del teu jugador actual."
 
 #. TRANS: don't translate '/delegate cancel'.
-#: server/stdinhand.c:5105
+#: server/stdinhand.c:5121
 msgid ""
 "Can't take player while you have delegated control yourself. Use '/delegate "
 "cancel' to cancel your own delegation first."
@@ -47154,152 +47159,152 @@ msgstr ""
 "No es pot agafar un jugador mentre tu has delegat el control. Utilitzeu "
 "primer '/delegate cancel' per cancel·lar la pròpia delegació."
 
-#: server/stdinhand.c:5115
+#: server/stdinhand.c:5131
 #, c-format
 msgid "You already control '%s'."
 msgstr "Ja controleu '%s'."
 
-#: server/stdinhand.c:5124
+#: server/stdinhand.c:5140
 #, c-format
 msgid "Control of player '%s' has not been delegated to you."
 msgstr "No se t'ha delegat el control del jugador '%s'."
 
-#: server/stdinhand.c:5133
+#: server/stdinhand.c:5149
 #, c-format
 msgid "Another user already controls player '%s'."
 msgstr "Un altre usuari ja controla el jugador '%s'."
 
-#: server/stdinhand.c:5149
+#: server/stdinhand.c:5165
 #, c-format
 msgid "%s is now controlling player '%s'."
 msgstr "%s ara controla el jugador '%s'."
 
-#: server/stdinhand.c:5162
+#: server/stdinhand.c:5178
 msgid "You are not currently controlling a delegated player."
 msgstr "Actualment no esteu controlant cap jugador delegat."
 
 #. TRANS: "<user> is now connected to <player>" where <player>
 #. * can also be "global observer" or "nothing"
-#: server/stdinhand.c:5181
+#: server/stdinhand.c:5197
 #, c-format
 msgid "%s is now connected as %s."
 msgstr "%s està connectat ara com a %s."
 
-#: server/stdinhand.c:5202
+#: server/stdinhand.c:5218
 #, c-format
 msgid "%s (observer)"
 msgstr "%s (observador)"
 
-#: server/stdinhand.c:5207
+#: server/stdinhand.c:5223
 msgid "global observer"
 msgstr "observador global"
 
 #. TRANS: in place of player name or "global observer"
-#: server/stdinhand.c:5210
+#: server/stdinhand.c:5226
 msgid "nothing"
 msgstr "res"
 
-#: server/stdinhand.c:5265
+#: server/stdinhand.c:5281
 msgid "Ambiguous 'mapimg' command."
 msgstr "Comanda 'mapimg' ambigua."
 
-#: server/stdinhand.c:5291 server/stdinhand.c:5544
+#: server/stdinhand.c:5307 server/stdinhand.c:5560
 #, c-format
 msgid "The valid arguments are: %s."
 msgstr "Els arguments vàlids són: %s."
 
-#: server/stdinhand.c:5306
+#: server/stdinhand.c:5322
 msgid "Missing argument for 'mapimg define'."
 msgstr "Falta l'argument per a 'mapimg define'."
 
-#: server/stdinhand.c:5312 server/stdinhand.c:5321
+#: server/stdinhand.c:5328 server/stdinhand.c:5337
 #, c-format
 msgid "Can't use definition: %s."
 msgstr "No es pot utilitzar definició: %s."
 
-#: server/stdinhand.c:5328
+#: server/stdinhand.c:5344
 #, c-format
 msgid "Defined as map image definition %d: '%s'."
 msgstr "Definit com a  definició %d d'imatge de mapa amb: '%s'."
 
-#: server/stdinhand.c:5338
+#: server/stdinhand.c:5354
 msgid "Missing argument for 'mapimg delete'."
 msgstr "Falta l'argument per a 'mapimg delete'."
 
-#: server/stdinhand.c:5349
+#: server/stdinhand.c:5365
 msgid "All map image definitions deleted."
 msgstr "S'han esborrat totes les definicions d'imatge de mapa."
 
-#: server/stdinhand.c:5359
+#: server/stdinhand.c:5375
 #, c-format
 msgid "Couldn't delete definition: %s."
 msgstr "No s'ha pogut esborrar la definició: %s."
 
-#: server/stdinhand.c:5362
+#: server/stdinhand.c:5378
 #, c-format
 msgid "Map image definition %d deleted."
 msgstr "S'ha esborrat la definició d'imatge de mapa %d."
 
-#: server/stdinhand.c:5367
+#: server/stdinhand.c:5383
 #, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
 msgstr "Argument no vàlid per a 'mapimg delete': '%s'."
 
-#: server/stdinhand.c:5390
+#: server/stdinhand.c:5406
 #, c-format
 msgid "Couldn't show definition: %s."
 msgstr "No s'ha pogut mostrar la definició: %s."
 
-#: server/stdinhand.c:5395
+#: server/stdinhand.c:5411
 #, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
 msgstr "Argument no vàlid per a 'mapimg show': '%s'."
 
-#: server/stdinhand.c:5406
+#: server/stdinhand.c:5422
 msgid "Map color test images saved."
 msgstr "Imatges de prova de color de mapa desades."
 
-#: server/stdinhand.c:5412
+#: server/stdinhand.c:5428
 msgid "Missing argument for 'mapimg create'."
 msgstr "Falta l'argument per a 'mapimg create'."
 
-#: server/stdinhand.c:5430 server/stdinhand.c:5447
+#: server/stdinhand.c:5446 server/stdinhand.c:5463
 #, c-format
 msgid "Error saving map image %d: %s."
 msgstr "Error desant la imatge de mapa %d: %s."
 
-#: server/stdinhand.c:5452
+#: server/stdinhand.c:5468
 #, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
 msgstr "Argument no vàlid per a 'mapimg create': '%s'."
 
-#: server/stdinhand.c:5496
+#: server/stdinhand.c:5512
 msgid "Freeciv database script deactivated at compile time."
 msgstr "Script de base de dades de Freeciv desactivat en temps de compilació."
 
-#: server/stdinhand.c:5514
+#: server/stdinhand.c:5530
 msgid "Ambiguous fcdb command."
 msgstr "Comanda fcdb ambigua."
 
-#: server/stdinhand.c:5646
+#: server/stdinhand.c:5662
 msgid "Not enough human players; game will not start."
 msgstr "No hi ha prou jugadors humans; la partida no començarà."
 
-#: server/stdinhand.c:5651
+#: server/stdinhand.c:5667
 msgid "No players; game will not start."
 msgstr "No hi ha jugadors; la partida no començarà."
 
-#: server/stdinhand.c:5655
+#: server/stdinhand.c:5671
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "No hi ha prou nacions per a tots els jugadors; la partida no començarà."
 
-#: server/stdinhand.c:5665
+#: server/stdinhand.c:5681
 msgid "All players are ready; starting game."
 msgstr "Tots els jugadors estan a punt; començant la partida"
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5681
+#: server/stdinhand.c:5697
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -47308,24 +47313,24 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5688
+#: server/stdinhand.c:5704
 msgid "Cannot start the game: it is already running."
 msgstr "No es pot iniciar la partida: ja s'està jugant."
 
-#: server/stdinhand.c:5719
+#: server/stdinhand.c:5735
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Tallant connexió %s."
 
-#: server/stdinhand.c:5720
+#: server/stdinhand.c:5736
 msgid "connection cut"
 msgstr "connexió tallada"
 
-#: server/stdinhand.c:5808
+#: server/stdinhand.c:5824
 msgid "You may not kick yourself."
 msgstr "No pots expulsar-te tu mateix."
 
-#: server/stdinhand.c:5831
+#: server/stdinhand.c:5847
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
@@ -47334,11 +47339,11 @@ msgstr ""
 "Hi ha d'haver com a mínim %d connexions úniques al servidor perquè aquesta "
 "comanda sigui vàlida."
 
-#: server/stdinhand.c:5857
+#: server/stdinhand.c:5873
 msgid "kicked"
 msgstr "expulsat"
 
-#: server/stdinhand.c:5873
+#: server/stdinhand.c:5889
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -47377,165 +47382,165 @@ msgstr ""
 "  quit   - per sortir"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5910
+#: server/stdinhand.c:5926
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Comanda: %s -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5916
+#: server/stdinhand.c:5932
 #, c-format
 msgid "Command: %s"
 msgstr "Comanda: %s"
 
-#: server/stdinhand.c:5921
+#: server/stdinhand.c:5937
 msgid "Synopsis: "
 msgstr "Sinopsi: "
 
-#: server/stdinhand.c:5930
+#: server/stdinhand.c:5946
 #, c-format
 msgid "Level: %s"
 msgstr "Nivell: %s"
 
-#: server/stdinhand.c:5954
+#: server/stdinhand.c:5970
 msgid "The following server commands are available:"
 msgstr "Estan disponibles les següents comandes de servidor:"
 
-#: server/stdinhand.c:6015
+#: server/stdinhand.c:6031
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Concordances possibles: %s"
 
-#: server/stdinhand.c:6077
+#: server/stdinhand.c:6093
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "L'argument de l'ajuda '%s' és ambigu."
 
-#: server/stdinhand.c:6084
+#: server/stdinhand.c:6100
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Cap coincidència per l'argument d'ajuda '%s'."
 
-#: server/stdinhand.c:6125
+#: server/stdinhand.c:6141
 msgid "List of connections to server:"
 msgstr "Llista de connexions al servidor:"
 
-#: server/stdinhand.c:6129
+#: server/stdinhand.c:6145
 msgid "<no connections>"
 msgstr "<no hi ha cap connexió>"
 
-#: server/stdinhand.c:6150
+#: server/stdinhand.c:6166
 msgid "List of all delegations:"
 msgstr "Llista de totes les delegacions:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6162
+#: server/stdinhand.c:6178
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr "%s delega el control del jugador '%s' cap a l'usuari %s%s."
 
-#: server/stdinhand.c:6164
+#: server/stdinhand.c:6180
 msgid " (active)"
 msgstr " (activa)"
 
-#: server/stdinhand.c:6170
+#: server/stdinhand.c:6186
 msgid "No delegations defined."
 msgstr "No s'han definit delegacions."
 
-#: server/stdinhand.c:6195
+#: server/stdinhand.c:6211
 msgid "Your ignore list:"
 msgstr "La teva llista d'ignorats:"
 
-#: server/stdinhand.c:6211
+#: server/stdinhand.c:6227
 msgid "List of players:"
 msgstr "Llista de jugadors:"
 
-#: server/stdinhand.c:6215 server/stdinhand.c:6382
+#: server/stdinhand.c:6231 server/stdinhand.c:6398
 msgid "<no players>"
 msgstr "<no hi ha cap jugador>"
 
-#: server/stdinhand.c:6245
+#: server/stdinhand.c:6261
 #, c-format
 msgid ", user %s"
 msgstr ", usuari %s"
 
-#: server/stdinhand.c:6249
+#: server/stdinhand.c:6265
 msgid ", ready"
 msgstr ", preparat"
 
-#: server/stdinhand.c:6253
+#: server/stdinhand.c:6269
 msgid ", not ready"
 msgstr ", no preparat"
 
-#: server/stdinhand.c:6259
+#: server/stdinhand.c:6275
 msgid ", Dead"
 msgstr ", Mort"
 
-#: server/stdinhand.c:6273
+#: server/stdinhand.c:6289
 #, c-format
 msgid ", %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:6274
+#: server/stdinhand.c:6290
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", nivell de dificultat %s"
 
-#: server/stdinhand.c:6280
+#: server/stdinhand.c:6296
 #, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] ", %d connexió:"
 msgstr[1] ", %d connexions:"
 
-#: server/stdinhand.c:6287
+#: server/stdinhand.c:6303
 #, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr " %s des de %s (nivell d'accés de comandes %s), bufsize=%dkb"
 
-#: server/stdinhand.c:6292
+#: server/stdinhand.c:6308
 msgid " (observer mode)"
 msgstr "(mode observador)"
 
-#: server/stdinhand.c:6309
+#: server/stdinhand.c:6325
 msgid "List of scenarios available:"
 msgstr "Llista d'escenaris disponibles:"
 
-#: server/stdinhand.c:6330
+#: server/stdinhand.c:6346
 msgid "List of teams:"
 msgstr "Llista d'equips:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6340
+#: server/stdinhand.c:6356
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d jugador :"
 msgstr[1] "%2d : '%s' : %d jugadors :"
 
-#: server/stdinhand.c:6361
+#: server/stdinhand.c:6377
 msgid "No map image definitions."
 msgstr "No hi ha definicions d'imatge de mapa."
 
-#: server/stdinhand.c:6363
+#: server/stdinhand.c:6379
 msgid "List of map image definitions:"
 msgstr "Llista de definicions d'imatge de mapa:"
 
-#: server/stdinhand.c:6368
+#: server/stdinhand.c:6384
 #, c-format
 msgid "[%2d] %s"
 msgstr "[%2d] %s"
 
-#: server/stdinhand.c:6379
+#: server/stdinhand.c:6395
 msgid "List of player colors:"
 msgstr "Llista de colors de jugadors:"
 
-#: server/stdinhand.c:6385
+#: server/stdinhand.c:6401
 #, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s (usuari %s): [%s]"
 
-#: server/stdinhand.c:6442
+#: server/stdinhand.c:6458
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Argument de llista incorrecte: '%s'. Prova '%shelp list'."
