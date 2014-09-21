@@ -941,6 +941,7 @@ end
 
 PACKET_UNIT_ESTABLISH_TRADE = 70; cs, dsend
   UNIT unit_id;
+  CITY city_id;
 end
 
 PACKET_UNIT_BATTLEGROUP = 71; cs, dsend
@@ -950,6 +951,7 @@ end
 
 PACKET_UNIT_HELP_BUILD_WONDER = 72; cs, dsend
   UNIT unit_id;
+  CITY city_id;
 end
 
 # used for client orders: currently client-side goto and patrol

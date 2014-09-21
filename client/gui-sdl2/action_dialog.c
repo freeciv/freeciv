@@ -78,7 +78,8 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     dsend_packet_unit_establish_trade(&client.conn,
-                                      pDiplomat_Dlg->actor_unit_id);
+                                      pDiplomat_Dlg->actor_unit_id,
+                                      pDiplomat_Dlg->target_ids[ATK_CITY]);
 
     popdown_diplomat_dialog();
     choose_action_queue_next();
@@ -93,7 +94,7 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     dsend_packet_unit_help_build_wonder(&client.conn,
-                                        pDiplomat_Dlg->actor_unit_id);
+        pDiplomat_Dlg->actor_unit_id, pDiplomat_Dlg->target_ids[ATK_CITY]);
 
     popdown_diplomat_dialog();
     choose_action_queue_next();
@@ -770,6 +771,17 @@ void popup_action_selection(struct unit *actor_unit,
   if (target_city) {
     /* Spy/Diplomat acting against a city */
 
+    char cBuf[128];
+
+    bool can_marketplace = unit_has_type_flag(actor_unit,
+                                              UTYF_TRADE_ROUTE)
+        && can_cities_trade(actor_homecity, target_city);
+    bool can_traderoute = can_marketplace
+                    && can_establish_trade_route(actor_homecity,
+                                                 target_city);
+    bool can_wonder = unit_can_help_build_wonder(actor_unit,
+                                                 target_city);
+
     pDiplomat_Dlg->target_ids[ATK_CITY] = target_city->id;
 
     action_entry(ACTION_ESTABLISH_EMBASSY,
@@ -820,72 +832,57 @@ void popup_action_selection(struct unit *actor_unit,
                  actor_unit, target_city, NULL,
                  pWindow, &area);
 
-    /* The Freeciv protocol currently only supports caravan actions if the
-     * target city is on the actor unit's tile. */
-    if (target_tile == unit_tile(actor_unit)) {
-      char cBuf[128];
+    /* ---------- */
+    if (can_marketplace && !can_traderoute) {
+      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                       target_city);
 
-      bool can_marketplace = unit_has_type_flag(actor_unit,
-                                                UTYF_TRADE_ROUTE)
-          && can_cities_trade(actor_homecity, target_city);
-      bool can_traderoute = can_marketplace
-                      && can_establish_trade_route(actor_homecity,
-                                                   target_city);
-      bool can_wonder = unit_can_help_build_wonder(actor_unit,
-                                                   target_city);
+      revenue = (revenue + 2) / 3;
+      fc_snprintf(cBuf, sizeof(cBuf),
+                  _("Enter Marketplace ( %d R&G bonus )"), revenue);
 
-      /* ---------- */
-      if (can_marketplace && !can_traderoute) {
-        int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                         target_city);
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                              cBuf, caravan_establish_trade_callback);
+      set_wstate(pBuf, FC_WS_NORMAL);
 
-        revenue = (revenue + 2) / 3;
-        fc_snprintf(cBuf, sizeof(cBuf),
-                    _("Enter Marketplace ( %d R&G bonus )"), revenue);
+      add_to_gui_list(ID_LABEL, pBuf);
 
-        create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                cBuf, caravan_establish_trade_callback);
-        set_wstate(pBuf, FC_WS_NORMAL);
+      area.w = MAX(area.w, pBuf->size.w);
+      area.h += pBuf->size.h;
+    }
 
-        add_to_gui_list(ID_LABEL, pBuf);
+    /* ---------- */
+    if (can_traderoute) {
+      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                       target_city);
 
-        area.w = MAX(area.w, pBuf->size.w);
-        area.h += pBuf->size.h;
-      }
+      fc_snprintf(cBuf, sizeof(cBuf),
+                  _("Establish Trade route with %s ( %d R&G + %d trade )"),
+                  city_name(actor_homecity),
+                  revenue,
+                  trade_between_cities(actor_homecity, target_city));
 
-      /* ---------- */
-      if (can_traderoute) {
-        int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                         target_city);
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                              cBuf, caravan_establish_trade_callback);
+      set_wstate(pBuf, FC_WS_NORMAL);
 
-        fc_snprintf(cBuf, sizeof(cBuf),
-                    _("Establish Trade route with %s ( %d R&G + %d trade )"),
-                    city_name(actor_homecity),
-                    revenue,
-                    trade_between_cities(actor_homecity, target_city));
+      add_to_gui_list(ID_LABEL, pBuf);
 
-        create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                cBuf, caravan_establish_trade_callback);
-        set_wstate(pBuf, FC_WS_NORMAL);
+      area.w = MAX(area.w, pBuf->size.w);
+      area.h += pBuf->size.h;
+    }
 
-        add_to_gui_list(ID_LABEL, pBuf);
+    /* ---------- */
+    if (can_wonder) {
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+          _("Help build Wonder"), caravan_help_build_wonder_callback);
 
-        area.w = MAX(area.w, pBuf->size.w);
-        area.h += pBuf->size.h;
-      }
+      set_wstate(pBuf, FC_WS_NORMAL);
 
-      /* ---------- */
-      if (can_wonder) {
-        create_active_iconlabel(pBuf, pWindow->dst, pStr,
-            _("Help build Wonder"), caravan_help_build_wonder_callback);
+      add_to_gui_list(ID_LABEL, pBuf);
 
-        set_wstate(pBuf, FC_WS_NORMAL);
-
-        add_to_gui_list(ID_LABEL, pBuf);
-
-        area.w = MAX(area.w, pBuf->size.w);
-        area.h += pBuf->size.h;
-      }
+      area.w = MAX(area.w, pBuf->size.w);
+      area.h += pBuf->size.h;
     }
   }
 

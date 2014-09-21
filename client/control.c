@@ -1742,14 +1742,19 @@ void request_unit_unload(struct unit *pcargo)
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
-  if (!tile_city(unit_tile(punit))) {
+  struct city *target_city;
+
+  if (!((target_city = tile_city(unit_tile(punit))))) {
     return;
   }
 
   if (action == PACKET_UNIT_ESTABLISH_TRADE) {
-    dsend_packet_unit_establish_trade(&client.conn, punit->id);
+    dsend_packet_unit_establish_trade(&client.conn,
+                                      punit->id, IDENTITY_NUMBER_ZERO);
   } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
-    dsend_packet_unit_help_build_wonder(&client.conn, punit->id);
+    dsend_packet_unit_help_build_wonder(&client.conn,
+                                        punit->id,
+                                        tile_city(unit_tile(punit))->id);
   } else {
     log_error("request_unit_caravan_action() Bad action (%d)", action);
   }

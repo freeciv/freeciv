@@ -1931,7 +1931,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                punit->id,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
-      handle_unit_help_build_wonder(pplayer, punit->id);
+      handle_unit_help_build_wonder(pplayer, punit->id, dest_city->id);
     } else {
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
                nation_rule_name(nation_of_unit(punit)),
@@ -1939,7 +1939,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                punit->id,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
-      handle_unit_establish_trade(pplayer, punit->id);
+      handle_unit_establish_trade(pplayer, punit->id, dest_city->id);
     }
   }
 }

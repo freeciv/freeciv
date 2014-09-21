@@ -1936,7 +1936,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 /**************************************************************************
   Handle request to help in wonder building.
 **************************************************************************/
-void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
+void handle_unit_help_build_wonder(struct player *pplayer,
+                                   int unit_id, int city_id)
 {
   const char *text;
   struct city *pcity_dest;
@@ -1951,7 +1952,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   if (!unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     return;
   }
-  pcity_dest = tile_city(unit_tile(punit));
+  pcity_dest = game_city_by_number(city_id);
   
   if (!pcity_dest || !unit_can_help_build_wonder(punit, pcity_dest)) {
     return;
@@ -2253,9 +2254,11 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   Handle request to establish traderoute between unit homecity and the
   city its currently in.
 **************************************************************************/
-void handle_unit_establish_trade(struct player *pplayer, int unit_id)
+void handle_unit_establish_trade(struct player *pplayer,
+                                 int unit_id, int city_id)
 {
-  (void) base_handle_unit_establish_trade(pplayer, unit_id, NULL);
+  (void) base_handle_unit_establish_trade(pplayer, unit_id,
+                                          game_city_by_number(city_id));
 }
 
 /**************************************************************************

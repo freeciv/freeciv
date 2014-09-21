@@ -79,7 +79,9 @@ int diplomat_target_id[ATK_COUNT];
 static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
                                              XtPointer call_data)
 {
-  dsend_packet_unit_establish_trade(&client.conn, diplomat_id);
+  dsend_packet_unit_establish_trade(&client.conn,
+                                    diplomat_id,
+                                    diplomat_target_id[ATK_CITY]);
 
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
@@ -95,7 +97,9 @@ static void caravan_help_build_wonder_callback(Widget w,
 					       XtPointer client_data,
 					       XtPointer call_data)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn, diplomat_id);
+  dsend_packet_unit_help_build_wonder(&client.conn,
+                                      diplomat_id,
+                                      diplomat_target_id[ATK_CITY]);
 
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
@@ -812,13 +816,11 @@ void popup_action_selection(struct unit *actor_unit,
 
   bool can_marketplace = target_city
       && unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
-      && can_cities_trade(actor_homecity, target_city)
-      && target_tile == unit_tile(actor_unit);
+      && can_cities_trade(actor_homecity, target_city);
   bool can_traderoute = can_marketplace
       && can_establish_trade_route(actor_homecity, target_city);
   bool can_wonder = target_city
-      && unit_can_help_build_wonder(actor_unit, target_city)
-      && target_tile == unit_tile(actor_unit);
+      && unit_can_help_build_wonder(actor_unit, target_city);
 
   diplomat_id = actor_unit->id;
 

@@ -976,7 +976,8 @@ void choice_dialog::execute_action(const int action)
 ***************************************************************************/
 static void caravan_establish_trade(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_establish_trade(&client.conn, data1.toInt());
+  dsend_packet_unit_establish_trade(&client.conn,
+                                    data1.toInt(), data2.toInt());
   process_caravan_arrival(NULL);
 }
 
@@ -985,7 +986,9 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
 ***************************************************************************/
 static void caravan_help_build(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn, data1.toInt());
+  dsend_packet_unit_help_build_wonder(&client.conn,
+                                      data1.toInt(), data2.toInt());
+
   process_caravan_arrival(NULL);
 }
 
@@ -1107,6 +1110,16 @@ void popup_action_selection(struct unit *actor_unit,
 
   if (target_city) {
     /* Spy/Diplomat acting against a city */
+
+    bool can_marketplace = unit_has_type_flag(actor_unit,
+                                              UTYF_TRADE_ROUTE)
+        && can_cities_trade(actor_homecity, target_city);
+    bool can_traderoute = can_marketplace
+                    && can_establish_trade_route(actor_homecity,
+                                                 target_city);
+    bool can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
+        && unit_can_help_build_wonder(actor_unit, target_city);
+
     qv2 = target_city->id;
     cd->target_id[ATK_CITY] = target_city->id;
 
@@ -1150,37 +1163,24 @@ void popup_action_selection(struct unit *actor_unit,
                  act_probs,
                  diplomat_incite, qv1, qv2);
 
-    /* The Freeciv protocol currently only supports caravan actions if the
-     * target city is on the actor unit's tile. */
-    if (target_tile == unit_tile(actor_unit)) {
-      bool can_marketplace = unit_has_type_flag(actor_unit,
-                                                UTYF_TRADE_ROUTE)
-          && can_cities_trade(actor_homecity, target_city);
-      bool can_traderoute = can_marketplace
-                      && can_establish_trade_route(actor_homecity,
-                                                   target_city);
-      bool can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
-          && unit_can_help_build_wonder(actor_unit, target_city);
+    if (can_marketplace && !can_traderoute) {
+      func = caravan_establish_trade;
+      cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
+    }
 
-      if (can_marketplace && !can_traderoute) {
-        func = caravan_establish_trade;
-        cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
-      }
+    if (can_traderoute) {
+      func = caravan_establish_trade;
+      cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
+    }
 
-      if (can_traderoute) {
-        func = caravan_establish_trade;
-        cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
-      }
+    if (can_wonder) {
+      QString title;
 
-      if (can_wonder) {
-        QString title;
-
-        title = QString(_("Help build Wonder (%1 remaining)")).arg(
+      title = QString(_("Help build Wonder (%1 remaining)")).arg(
             impr_build_shield_cost(target_city->production.value.building)
-              - target_city->shield_stock);
-        func = caravan_help_build;
-        cd->add_item(title, func, qv1, qv2);
-      }
+            - target_city->shield_stock);
+      func = caravan_help_build;
+      cd->add_item(title, func, qv1, qv2);
     }
   }
 
