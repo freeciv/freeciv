@@ -566,8 +566,6 @@ static struct editbar *editbar_create(void)
   eb->player_pov_store = store;
 
   combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
-  gtk_widget_set_hexpand(combo, TRUE);
-  gtk_widget_set_halign(combo, GTK_ALIGN_CENTER);
 
   cell = gtk_cell_renderer_pixbuf_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), cell, FALSE);
