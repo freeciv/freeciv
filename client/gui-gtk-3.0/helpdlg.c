@@ -548,6 +548,7 @@ static void create_help_dialog(void)
   for (i=0; i<6; i++) {
     help_ilabel[i] =
 	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_ilabel[i], TRUE);
 
     if (i==5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
@@ -565,6 +566,7 @@ static void create_help_dialog(void)
   for (i=0; i<6; i++) {
     help_wlabel[i] =
 	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_wlabel[i], TRUE);
 
     if (i==3 || i==5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
@@ -584,6 +586,7 @@ static void create_help_dialog(void)
     for (j=0; j<5; j++) {
       help_ulabel[j][i] =
 	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
+      gtk_widget_set_hexpand(help_ulabel[j][i], TRUE);
 
       if (j==4 && (i==1 || i==4)) {
 	if (i==1)
@@ -608,6 +611,7 @@ static void create_help_dialog(void)
     for (i=0; i<5; i++) {
       help_tlabel[j][i] =
 	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
+      gtk_widget_set_hexpand(help_tlabel[j][i], TRUE);
       gtk_widget_set_name(help_tlabel[j][i], "help_label");
 
       /* Ugly (but these numbers are hardcoded in help_update_terrain() too) */
@@ -631,6 +635,7 @@ static void create_help_dialog(void)
   for (i = 0; i < 6; i++) {
     help_elabel[i] =
       gtk_label_new(help_elabel_name[i] ? _(help_elabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_elabel[i], TRUE);
     gtk_grid_attach(GTK_GRID(help_etable), help_elabel[i], i % 4, i / 4, 1, 1);
     gtk_widget_set_name(help_elabel[i], "help_label");
     gtk_widget_show(help_elabel[i]);
