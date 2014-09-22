@@ -74,7 +74,7 @@ mr_idle::mr_idle()
 **************************************************************************/
 void mr_idle::idling()
 {
-  call_me_back* cb = new call_me_back;
+  call_me_back* cb;
 
   while (!callback_list.isEmpty()) {
     cb = callback_list.dequeue();
