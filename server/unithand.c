@@ -1876,12 +1876,12 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 
     /* Now cancel any less profitable trade route from the home city. */
     if (pcity_out_of_home) {
-      remove_trade_route(pcity_homecity, pcity_out_of_home, TRUE);
+      remove_trade_route(pcity_homecity, pcity_out_of_home, TRUE, FALSE);
     }
 
     /* And the same for the dest city. */
     if (pcity_out_of_dest) {
-      remove_trade_route(pcity_dest, pcity_out_of_dest, TRUE);
+      remove_trade_route(pcity_dest, pcity_out_of_dest, TRUE, FALSE);
     }
 
     /* Actually create the new trade route */

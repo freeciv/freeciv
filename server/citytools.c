@@ -89,7 +89,8 @@ static bool send_city_suppressed = FALSE;
 
 static bool city_workers_queue_remove(struct city *pcity);
 
-static void announce_trade_route_removal(struct city *pc1, struct city *pc2);
+static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
+                                         bool source_gone);
 
 /****************************************************************************
   Freeze the workers (citizens on tiles) for the city.  They will not be
@@ -859,7 +860,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
 
     /* Remove the city's trade routes (old owner).
      * Do not announce removal as we might restore the route immediately below */
-    remove_trade_route(ptrade_city, pcity, FALSE);
+    remove_trade_route(ptrade_city, pcity, FALSE, FALSE);
 
     keep_route = can_cities_trade(pcity, ptrade_city)
       && can_establish_trade_route(pcity, ptrade_city);
@@ -878,7 +879,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
       establish_trade_route(pcity, ptrade_city);
     } else {
       /* Now announce the traderoute removal */
-      announce_trade_route_removal(pcity, ptrade_city);
+      announce_trade_route_removal(pcity, ptrade_city, FALSE);
     }
 
     /* refresh regardless; either it lost a trade route or the trade
@@ -1605,7 +1606,7 @@ dbv_free(&tile_processed);
   }
 
   trade_routes_iterate(pcity, pother_city) {
-    remove_trade_route(pother_city, pcity, TRUE);
+    remove_trade_route(pcity, pother_city, TRUE, TRUE);
   } trade_routes_iterate_end;
 
   map_clear_border(pcenter);
@@ -2412,7 +2413,8 @@ void remove_dumb_city(struct player *pplayer, struct tile *ptile)
   Announce to the owners of the cities that trade route has been canceled
   between them.
 **************************************************************************/
-static void announce_trade_route_removal(struct city *pc1, struct city *pc2)
+static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
+                                         bool source_gone)
 {
   struct player *plr1 = city_owner(pc1);
   struct player *plr2 = city_owner(pc2);
@@ -2423,28 +2425,50 @@ static void announce_trade_route_removal(struct city *pc1, struct city *pc2)
   sz_strlcpy(city2_link, city_link(pc2));
 
   if (plr1 == plr2) {
-    notify_player(plr1, city_tile(pc1),
-                  E_CARAVAN_ACTION, ftc_server,
-                  _("Trade route between %s and %s canceled."),
-                  city1_link, city2_link);
+    if (source_gone) {
+      notify_player(plr2, city_tile(pc2),
+                    E_CARAVAN_ACTION, ftc_server,
+                    _("Trade between %s and %s lost along with city."),
+                    city1_link, city2_link);
+    } else {
+      notify_player(plr1, city_tile(pc1),
+                    E_CARAVAN_ACTION, ftc_server,
+                    _("Trade route between %s and %s canceled."),
+                    city1_link, city2_link);
+    }
   } else {
-    notify_player(plr2, city_tile(pc2),
-                  E_CARAVAN_ACTION, ftc_server,
-                  _("Sorry, the %s canceled the trade route "
-                    "from %s to your city %s."),
-                  nation_plural_for_player(plr1), city1_link, city2_link);
-    notify_player(plr1, city_tile(pc1),
-                  E_CARAVAN_ACTION, ftc_server,
-                  _("We canceled the trade route "
-                    "from %s to %s city %s."),
-                  city1_link, nation_plural_for_player(plr2), city2_link);
+    if (source_gone) {
+      notify_player(plr2, city_tile(pc2),
+                    E_CARAVAN_ACTION, ftc_server,
+                    /* TRANS: "...between Spanish city Madrid and Paris..." */
+                    _("Trade between %s city %s and %s lost along with "
+                      "their city."),
+                    nation_adjective_for_player(plr1), city1_link, city2_link);
+      /* It's implicit to removed city's owner that that city no longer
+       * has trade routes, so say nothing in that case */
+    } else {
+      notify_player(plr2, city_tile(pc2),
+                    E_CARAVAN_ACTION, ftc_server,
+                    _("Sorry, the %s canceled the trade route "
+                      "from %s to your city %s."),
+                    nation_plural_for_player(plr1), city1_link, city2_link);
+      notify_player(plr1, city_tile(pc1),
+                    E_CARAVAN_ACTION, ftc_server,
+                    /* TRANS: "...from Paris to Spanish city Madrid." */
+                    _("We canceled the trade route "
+                      "from %s to %s city %s."),
+                    city1_link, nation_adjective_for_player(plr2), city2_link);
+    }
   }
 }
 
 /**************************************************************************
   Remove the trade route between pc1 and pc2 (if one exists).
+  source_gone should be TRUE if the reason for removal is the imminent
+  removal of the source city (pc1) from the game.
 **************************************************************************/
-void remove_trade_route(struct city *pc1, struct city *pc2, bool announce)
+void remove_trade_route(struct city *pc1, struct city *pc2,
+                        bool announce, bool source_gone)
 {
   int i;
 
@@ -2460,7 +2484,7 @@ void remove_trade_route(struct city *pc1, struct city *pc2, bool announce)
   }
 
   if (announce) {
-    announce_trade_route_removal(pc1, pc2);
+    announce_trade_route_removal(pc1, pc2, source_gone);
   }
 }
 
@@ -2475,7 +2499,8 @@ static void remove_smallest_trade_route(struct city *pcity)
     return;
   }
 
-  remove_trade_route(pcity, game_city_by_number(pcity->trade[slot]), TRUE);
+  remove_trade_route(pcity, game_city_by_number(pcity->trade[slot]),
+                     TRUE, FALSE);
 }
 
 /**************************************************************************

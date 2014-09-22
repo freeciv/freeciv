@@ -70,7 +70,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
 void remove_city(struct city *pcity);
 
 void establish_trade_route(struct city *pc1, struct city *pc2);
-void remove_trade_route(struct city *pc1, struct city *pc2, bool announce);
+void remove_trade_route(struct city *pc1, struct city *pc2,
+                        bool announce, bool source_gone);
 
 void do_sell_building(struct player *pplayer, struct city *pcity,
 		      struct impr_type *pimprove);

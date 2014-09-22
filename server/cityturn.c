@@ -547,7 +547,7 @@ void update_city_activities(struct player *pplayer)
           struct trade_route_settings *settings = trade_route_settings_by_type(type);
 
           if (settings->cancelling == TRI_CANCEL) {
-            remove_trade_route(pcity, tcity, TRUE);
+            remove_trade_route(pcity, tcity, TRUE, FALSE);
           }
         }
       }
