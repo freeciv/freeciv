@@ -1008,7 +1008,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     for (int i = 0; i < str_list.count(); i++) {
       some_label = new QLabel(str_list.at(i));
       slider_grid->addWidget(some_label, i + 1, 0, 1, 1);
-      some_label = new QLabel("0", this);
+      some_label = new QLabel("0");
       some_label->setMinimumWidth(25);
       if (i != str_list.count() - 1) {
         slider = new QSlider(Qt::Horizontal);
@@ -2050,6 +2050,7 @@ void city_dialog::update_building()
 {
   char buf[32];
   QPixmap *pix;
+  QString str;
   struct sprite *sprite;
   int cost = city_production_build_shield_cost(pcity);
 
@@ -2065,13 +2066,15 @@ void city_dialog::update_building()
   }
   production_combo->setAlignment(Qt::AlignCenter);
   production_combo_p->setAlignment(Qt::AlignCenter);
-  production_combo->setFormat(QString("(%p%) %2\n%1")
+  str = QString(buf);
+  str = str.simplified();
+  production_combo->setFormat(QString("(%p%) %1\n%2")
                               .arg(city_production_name_translation(pcity),
-                                   QString(buf)));
+                                   str));
 
   production_combo_p->setFormat(QString("(%p%) %2\n%1")
                                 .arg(city_production_name_translation(pcity),
-                                     QString(buf)));
+                                     str));
 
   if (VUT_UTYPE == pcity->production.kind) {
     sprite = get_unittype_sprite(tileset, pcity->production.value.utype,
@@ -2559,10 +2562,10 @@ void city_production_delegate::paint(QPainter *painter,
       pixmap_put_x(&pix_scaled);
     }
   }
-
   opt = QItemDelegate::setOptions(index, option);
   painter->save();
   opt.displayAlignment = Qt::AlignLeft;
+  opt.textElideMode = Qt::ElideMiddle;
   QItemDelegate::drawBackground(painter, opt, index);
   rect1 = option.rect;
   rect1.setWidth(pix_scaled.width() + 4);
@@ -2744,7 +2747,8 @@ void city_production_model::populate()
   renegade = NULL;
   pi = new production_item(renegade, this);
   city_target_list << pi;
-  sh.setX(sh.y() + sh.x());
+  sh.setX(2 * sh.y() + sh.x());
+  sh.setX(qMin(sh.x(), 250));
 }
 
 /****************************************************************************
@@ -2828,6 +2832,9 @@ void production_widget::mousePressEvent(QMouseEvent *event)
   QAbstractItemView::mousePressEvent(event);
 }
 
+/****************************************************************************
+  Event filter for production widget
+****************************************************************************/
 bool production_widget::eventFilter(QObject *obj, QEvent *ev)
 {
   QRect pw_rect;
