@@ -18,7 +18,7 @@ client/control.c
 client/editor.c
 client/ggzclient.c
 client/global_worklist.c
-client/gui-gtk-2.0/caravan_dialog.c
+client/gui-gtk-2.0/action_dialog.c
 client/gui-gtk-2.0/chatline.c
 client/gui-gtk-2.0/citizensinfo.c
 client/gui-gtk-2.0/citydlg.c
@@ -26,7 +26,6 @@ client/gui-gtk-2.0/cityrep.c
 client/gui-gtk-2.0/cma_fe.c
 client/gui-gtk-2.0/dialogs.c
 client/gui-gtk-2.0/diplodlg.c
-client/gui-gtk-2.0/diplomat_dialog.c
 client/gui-gtk-2.0/editgui.c
 client/gui-gtk-2.0/editprop.c
 client/gui-gtk-2.0/finddlg.c
@@ -54,7 +53,7 @@ client/gui-gtk-2.0/tileset_dlg.c
 client/gui-gtk-2.0/unitselect.c
 client/gui-gtk-2.0/voteinfo_bar.c
 client/gui-gtk-2.0/wldlg.c
-client/gui-gtk-3.0/caravan_dialog.c
+client/gui-gtk-3.0/action_dialog.c
 client/gui-gtk-3.0/chatline.c
 client/gui-gtk-3.0/citizensinfo.c
 client/gui-gtk-3.0/citydlg.c
@@ -62,7 +61,6 @@ client/gui-gtk-3.0/cityrep.c
 client/gui-gtk-3.0/cma_fe.c
 client/gui-gtk-3.0/dialogs.c
 client/gui-gtk-3.0/diplodlg.c
-client/gui-gtk-3.0/diplomat_dialog.c
 client/gui-gtk-3.0/editgui.c
 client/gui-gtk-3.0/editprop.c
 client/gui-gtk-3.0/finddlg.c
@@ -106,7 +104,7 @@ client/gui-qt/plrdlg.cpp
 client/gui-qt/ratesdlg.cpp
 client/gui-qt/repodlgs.cpp
 client/gui-qt/spaceshipdlg.cpp
-client/gui-sdl/caravan_dialog.c
+client/gui-sdl/action_dialog.c
 client/gui-sdl/chatline.c
 client/gui-sdl/citydlg.c
 client/gui-sdl/cityrep.c
@@ -114,7 +112,6 @@ client/gui-sdl/cma_fe.c
 client/gui-sdl/connectdlg.c
 client/gui-sdl/dialogs.c
 client/gui-sdl/diplodlg.c
-client/gui-sdl/diplomat_dialog.c
 client/gui-sdl/finddlg.c
 client/gui-sdl/gotodlg.c
 client/gui-sdl/graphics.c
@@ -135,7 +132,7 @@ client/gui-sdl/sprite.c
 client/gui-sdl/themes.c
 client/gui-sdl/themespec.c
 client/gui-sdl/wldlg.c
-client/gui-sdl2/caravan_dialog.c
+client/gui-sdl2/action_dialog.c
 client/gui-sdl2/chatline.c
 client/gui-sdl2/citydlg.c
 client/gui-sdl2/cityrep.c
@@ -143,7 +140,6 @@ client/gui-sdl2/cma_fe.c
 client/gui-sdl2/connectdlg.c
 client/gui-sdl2/dialogs.c
 client/gui-sdl2/diplodlg.c
-client/gui-sdl2/diplomat_dialog.c
 client/gui-sdl2/finddlg.c
 client/gui-sdl2/gotodlg.c
 client/gui-sdl2/graphics.c
@@ -173,7 +169,7 @@ client/gui-xaw/cma_fe.c
 client/gui-xaw/connectdlg.c
 client/gui-xaw/dialogs.c
 client/gui-xaw/diplodlg.c
-client/gui-xaw/diplomat_dialog.c
+client/gui-xaw/action_dialog.c
 client/gui-xaw/gui_main.c
 client/gui-xaw/helpdlg.c
 client/gui-xaw/inputdlg.c
