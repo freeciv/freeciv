@@ -549,6 +549,7 @@ static void create_help_dialog(void)
   for (i=0; i<6; i++) {
     help_ilabel[i] =
 	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_ilabel[i], TRUE);
 
     if (i==5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
@@ -566,6 +567,7 @@ static void create_help_dialog(void)
   for (i=0; i<6; i++) {
     help_wlabel[i] =
 	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_wlabel[i], TRUE);
 
     if (i==3 || i==5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
@@ -585,6 +587,7 @@ static void create_help_dialog(void)
     for (j=0; j<5; j++) {
       help_ulabel[j][i] =
 	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
+      gtk_widget_set_hexpand(help_ulabel[j][i], TRUE);
 
       if (j==4 && (i==1 || i==4)) {
 	if (i==1)
@@ -609,6 +612,7 @@ static void create_help_dialog(void)
     for (i=0; i<5; i++) {
       help_tlabel[j][i] =
 	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
+      gtk_widget_set_hexpand(help_tlabel[j][i], TRUE);
       gtk_widget_set_name(help_tlabel[j][i], "help_label");
 
       /* Ugly (but these numbers are hardcoded in help_update_terrain() too) */
@@ -632,6 +636,7 @@ static void create_help_dialog(void)
   for (i = 0; i < 4; i++) {
     help_blabel[i] =
       gtk_label_new(help_blabel_name[i] ? _(help_blabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_blabel[i], TRUE);
     gtk_grid_attach(GTK_GRID(help_btable), help_blabel[i], i, 0, 1, 1);
     gtk_widget_set_name(help_blabel[i], "help_label");
     gtk_widget_show(help_blabel[i]);
@@ -643,6 +648,7 @@ static void create_help_dialog(void)
   for (i = 0; i < 4; i++) {
     help_rlabel[i] =
       gtk_label_new(help_rlabel_name[i] ? _(help_rlabel_name[i]) : "");
+    gtk_widget_set_hexpand(help_rlabel[i], TRUE);
     gtk_grid_attach(GTK_GRID(help_rtable), help_rlabel[i], i, 0, 1, 1);
     gtk_widget_set_name(help_rlabel[i], "help_label");
     gtk_widget_show(help_rlabel[i]);
