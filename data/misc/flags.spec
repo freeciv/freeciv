@@ -800,7 +800,7 @@ sprites =
 		"f.jamaica", "flags/jamaica"
 		"f.japan", "flags/japan"
 		"f.jbonai", "flags/jbonai"
-		"f.jerusalem", "flags/jerusalem-large"
+		"f.jerusalem", "flags/jerusalem"
 		"f.jolof", "flags/jolof"
 		"f.jordan", "flags/jordan"
 		"f.kalmykia", "flags/kalmykia"
