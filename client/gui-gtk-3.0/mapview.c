@@ -428,7 +428,7 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
-  if (map_canvas != NULL) {
+  if (map_canvas != NULL && gtk_widget_get_realized(map_canvas)) {
     gdk_window_process_updates(gtk_widget_get_window(map_canvas), FALSE);
   }
 }
