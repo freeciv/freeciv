@@ -1739,6 +1739,7 @@ AC_MSG_NOTICE([
   == Tools ==
   Modpack installers:   $fcmp_list
   Ruleset editor:        $ruledit
+  Manual generator:      $fcmanual
 ])
 
 FC_MISSING_FEATURES
