@@ -513,8 +513,9 @@ static bool lose_tech(struct research *research)
     return FALSE;
   }
 
-  if (research->techs_researched == 0 && research->future_tech == 0) {
+  if (research->techs_researched == 0) {
     /* No tech to lose */
+    fc_assert(research->future_tech == 0);
     return FALSE;
   }
 
@@ -687,6 +688,7 @@ static void research_tech_lost(struct research *presearch, Tech_type_id tech)
 
   research_pretty_name(presearch, research_name, sizeof(research_name));
 
+  presearch->techs_researched--;
   if (is_future_tech(tech)) {
     presearch->future_tech--;
     research_update(presearch);
