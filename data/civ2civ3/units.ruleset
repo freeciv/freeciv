@@ -876,7 +876,7 @@ A number of Partisans are granted free when an enemy conquers your\
  city -- they automatically assume defensive positions in the\
  surrounding countryside -- but only under these conditions:\n\
  - Guerilla Warfare must be known by at least one player.\n\
- - You must be the player who originally built the city.\n\
+ - At least three quarters of the citizens must have your nationality.\n\
  - You must know about Communism and Gunpowder.\n\
  - You must run either a Democracy or a Communist government.\
 ")
