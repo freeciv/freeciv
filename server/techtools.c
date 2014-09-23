@@ -469,8 +469,9 @@ static bool lose_tech(struct player *plr)
 
   research = player_research_get(plr);
 
-  if (research->techs_researched == 0 && research->future_tech == 0) {
+  if (research->techs_researched == 0) {
     /* No tech to lose */
+    fc_assert(research->future_tech == 0);
     return FALSE;
   }
 
@@ -635,6 +636,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 {
   struct player_research *presearch = player_research_get(plr);
 
+  presearch->techs_researched--;
   if (is_future_tech(tech)) {
     presearch->future_tech--;
     player_research_update(plr);
