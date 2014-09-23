@@ -8,7 +8,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Default nations data for Freeciv"
+description="Classic nations data for Freeciv"
 options="+Freeciv-2.5-ruleset"
 
 [compatibility]
