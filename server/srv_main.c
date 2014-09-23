@@ -2069,6 +2069,7 @@ void aifill(int amount)
       fc_snprintf(leader_name, sizeof(leader_name), "AI*%d", filled++);
     } while (player_by_name(leader_name));
     server_player_set_name(pplayer, leader_name);
+    pplayer->random_name = TRUE;
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
     pplayer->ai_common.skill_level = game.info.skill_level;
@@ -2109,7 +2110,7 @@ static void player_set_nation_full(struct player *pplayer,
                                    struct nation_type *pnation)
 {
   /* Don't change the name of a created player. */
-  player_nation_defaults(pplayer, pnation, !pplayer->was_created);
+  player_nation_defaults(pplayer, pnation, pplayer->random_name);
 }
 
 /****************************************************************************

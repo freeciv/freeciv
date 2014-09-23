@@ -243,6 +243,7 @@ struct player {
   const struct ai_type *ai;
 
   bool was_created;                    /* if the player was /created */
+  bool random_name;
   bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list *connections;       /* will replace conn */

@@ -964,7 +964,20 @@ enum rfc_status create_command_pregame(const char *name,
                                        struct player **newplayer,
                                        char *buf, size_t buflen)
 {
+  char leader_name[MAX_LEN_NAME]; /* Must be in whole function scope */
   struct player *pplayer = NULL;
+  bool rand_name = FALSE;
+
+  if (name[0] == '\0') {
+    int filled = 1;
+
+    do {
+      fc_snprintf(leader_name, sizeof(leader_name), "%s*%d", ai, filled++);
+    } while (player_by_name(leader_name));
+
+    name = leader_name;
+    rand_name = TRUE;
+  }
 
   if (!player_name_check(name, buf, buflen)) {
     return C_SYNTAX;
@@ -1046,6 +1059,7 @@ enum rfc_status create_command_pregame(const char *name,
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
+  pplayer->random_name = rand_name;
   pplayer->ai_controlled = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
   CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);

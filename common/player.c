@@ -544,6 +544,7 @@ static void player_defaults(struct player *pplayer)
 
   pplayer->ai = NULL;
   pplayer->was_created = FALSE;
+  pplayer->random_name = TRUE;
   pplayer->is_connected = FALSE;
   pplayer->current_conn = NULL;
   pplayer->connections = conn_list_new();
