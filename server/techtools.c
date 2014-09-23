@@ -593,6 +593,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 {
   struct player_research *presearch = player_research_get(plr);
 
+  presearch->techs_researched--;
   if (is_future_tech(tech)) {
     presearch->future_tech--;
     player_research_update(plr);
