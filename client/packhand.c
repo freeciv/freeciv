@@ -1305,6 +1305,7 @@ void handle_unit_info(const struct packet_unit_info *packet)
 
   punit = unpackage_unit(packet);
   if (handle_unit_packet_common(punit)) {
+    punit->client.transported_by = -1;
     unit_virtual_destroy(punit);
   }
 }
@@ -1797,6 +1798,7 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
 
   punit = unpackage_short_unit(packet);
   if (handle_unit_packet_common(punit)) {
+    punit->client.transported_by = -1;
     unit_virtual_destroy(punit);
   }
 }
