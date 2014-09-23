@@ -1629,6 +1629,7 @@ AC_MSG_NOTICE([
 
   == Tools ==
   Modpack installers:   $fcmp_list
+  Manual generator:      $fcmanual
 ])
 
 FC_MISSING_FEATURES
