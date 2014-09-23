@@ -10,7 +10,7 @@
 ; than minor changes.
 
 [datafile]
-description="Default game rules for Freeciv"
+description="Classic game rules for Freeciv"
 options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 [about]
