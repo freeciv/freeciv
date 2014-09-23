@@ -1750,7 +1750,8 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 
   if (action == PACKET_UNIT_ESTABLISH_TRADE) {
     dsend_packet_unit_establish_trade(&client.conn,
-                                      punit->id, IDENTITY_NUMBER_ZERO);
+                                      punit->id, IDENTITY_NUMBER_ZERO,
+                                      TRUE);
   } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
     dsend_packet_unit_help_build_wonder(&client.conn,
                                         punit->id,

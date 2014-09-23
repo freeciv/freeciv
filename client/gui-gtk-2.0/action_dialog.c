@@ -113,6 +113,21 @@ static void diplomat_queue_handle_secondary(void)
 }
 
 /****************************************************************
+  User selected enter market place from caravan dialog
+*****************************************************************/
+static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  dsend_packet_unit_establish_trade(&client.conn,
+                                    args->actor_unit_id,
+                                    args->target_city_id,
+                                    FALSE);
+
+  free(args);
+}
+
+/****************************************************************
   User selected traderoute from caravan dialog
 *****************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
@@ -121,7 +136,8 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 
   dsend_packet_unit_establish_trade(&client.conn,
                                     args->actor_unit_id,
-                                    args->target_city_id);
+                                    args->target_city_id,
+                                    TRUE);
 
   free(args);
 }
@@ -1080,15 +1096,15 @@ void popup_action_selection(struct unit *actor_unit,
                  (GCallback)diplomat_incite_callback,
                  data);
 
-    if (can_marketplace && !can_traderoute) {
-      choice_dialog_add(shl, _("Enter Marketplace"),
+    if (can_traderoute) {
+      choice_dialog_add(shl, _("Establish Trade route"),
                         (GCallback)caravan_establish_trade_callback,
                         data, NULL);
     }
 
-    if (can_traderoute) {
-      choice_dialog_add(shl, _("Establish Trade route"),
-                        (GCallback)caravan_establish_trade_callback,
+    if (can_marketplace) {
+      choice_dialog_add(shl, _("Enter Marketplace"),
+                        (GCallback)caravan_marketplace_callback,
                         data, NULL);
     }
 

@@ -72,6 +72,23 @@ static struct diplomat_dialog *pDiplomat_Dlg = NULL;
 /* ====================================================================== */
 
 /****************************************************************
+  User selected that caravan should enter marketplace.
+*****************************************************************/
+static int caravan_marketplace_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_unit_establish_trade(&client.conn,
+                                      pDiplomat_Dlg->actor_unit_id,
+                                      pDiplomat_Dlg->target_ids[ATK_CITY],
+                                      FALSE);
+
+    popdown_diplomat_dialog();
+    choose_action_queue_next();
+  }
+  return -1;
+}
+
+/****************************************************************
   User selected that caravan should establish traderoute.
 *****************************************************************/
 static int caravan_establish_trade_callback(struct widget *pWidget)
@@ -79,7 +96,8 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     dsend_packet_unit_establish_trade(&client.conn,
                                       pDiplomat_Dlg->actor_unit_id,
-                                      pDiplomat_Dlg->target_ids[ATK_CITY]);
+                                      pDiplomat_Dlg->target_ids[ATK_CITY],
+                                      TRUE);
 
     popdown_diplomat_dialog();
     choose_action_queue_next();
@@ -833,25 +851,6 @@ void popup_action_selection(struct unit *actor_unit,
                  pWindow, &area);
 
     /* ---------- */
-    if (can_marketplace && !can_traderoute) {
-      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                       target_city);
-
-      revenue = (revenue + 2) / 3;
-      fc_snprintf(cBuf, sizeof(cBuf),
-                  _("Enter Marketplace ( %d R&G bonus )"), revenue);
-
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              cBuf, caravan_establish_trade_callback);
-      set_wstate(pBuf, FC_WS_NORMAL);
-
-      add_to_gui_list(ID_LABEL, pBuf);
-
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-
-    /* ---------- */
     if (can_traderoute) {
       int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                        target_city);
@@ -864,6 +863,25 @@ void popup_action_selection(struct unit *actor_unit,
 
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
                               cBuf, caravan_establish_trade_callback);
+      set_wstate(pBuf, FC_WS_NORMAL);
+
+      add_to_gui_list(ID_LABEL, pBuf);
+
+      area.w = MAX(area.w, pBuf->size.w);
+      area.h += pBuf->size.h;
+    }
+
+    /* ---------- */
+    if (can_marketplace) {
+      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                       target_city);
+
+      revenue = (revenue + 2) / 3;
+      fc_snprintf(cBuf, sizeof(cBuf),
+                  _("Enter Marketplace ( %d R&G bonus )"), revenue);
+
+      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                              cBuf, caravan_marketplace_callback);
       set_wstate(pBuf, FC_WS_NORMAL);
 
       add_to_gui_list(ID_LABEL, pBuf);

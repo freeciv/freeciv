@@ -63,6 +63,7 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2);
 static void diplomat_investigate(QVariant data1, QVariant data2);
 static void diplomat_sabotage(QVariant data1, QVariant data2);
 static void diplomat_bribe(QVariant data1, QVariant data2);
+static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
@@ -972,12 +973,22 @@ void choice_dialog::execute_action(const int action)
 }
 
 /***************************************************************************
+  Action enter market place for choice dialog
+***************************************************************************/
+static void caravan_marketplace(QVariant data1, QVariant data2)
+{
+  dsend_packet_unit_establish_trade(&client.conn,
+                                    data1.toInt(), data2.toInt(), FALSE);
+  process_caravan_arrival(NULL);
+}
+
+/***************************************************************************
   Action establish trade for choice dialog
 ***************************************************************************/
 static void caravan_establish_trade(QVariant data1, QVariant data2)
 {
   dsend_packet_unit_establish_trade(&client.conn,
-                                    data1.toInt(), data2.toInt());
+                                    data1.toInt(), data2.toInt(), TRUE);
   process_caravan_arrival(NULL);
 }
 
@@ -1163,14 +1174,14 @@ void popup_action_selection(struct unit *actor_unit,
                  act_probs,
                  diplomat_incite, qv1, qv2);
 
-    if (can_marketplace && !can_traderoute) {
-      func = caravan_establish_trade;
-      cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
-    }
-
     if (can_traderoute) {
       func = caravan_establish_trade;
       cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
+    }
+
+    if (can_marketplace) {
+      func = caravan_marketplace;
+      cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
     }
 
     if (can_wonder) {

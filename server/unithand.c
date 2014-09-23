@@ -76,7 +76,10 @@ static void illegal_action(struct player *pplayer, struct unit *actor,
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
-static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
+static bool base_handle_unit_establish_trade(struct player *pplayer,
+                                             int unit_id,
+                                             struct city *pcity_dest,
+                                             bool est_if_able);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
 /**************************************************************************
@@ -1703,7 +1706,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * asking if we are moving on. */
   if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE) && pcity
       && !pplayers_allied(city_owner(pcity), pplayer) ) {
-    return base_handle_unit_establish_trade(pplayer, punit->id, pcity);
+    return base_handle_unit_establish_trade(pplayer, punit->id, pcity,
+                                            TRUE);
   }
 
   /* Diplomats. Pop up a diplomat action dialog in the client.
@@ -1985,7 +1989,10 @@ void handle_unit_help_build_wonder(struct player *pplayer,
   Handle request to establish traderoute. If pcity_dest is NULL, assumes
   that unit is inside target city.
 **************************************************************************/
-static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest)
+static bool base_handle_unit_establish_trade(struct player *pplayer,
+                                             int unit_id,
+                                             struct city *pcity_dest,
+                                             bool est_if_able)
 {
   char homecity_link[MAX_LEN_LINK], destcity_link[MAX_LEN_LINK];
   char punit_link[MAX_LEN_LINK];
@@ -2050,7 +2057,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
    * that we actually do the action of making the trade route. */
 
   /* If we can't make a new trade route we can still get the trade bonus. */
-  can_establish = !have_cities_trade_route(pcity_homecity, pcity_dest);
+  can_establish = est_if_able
+                  && !have_cities_trade_route(pcity_homecity, pcity_dest);
 
   if (can_establish) {
     home_max = max_trade_routes(pcity_homecity);
@@ -2255,10 +2263,12 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   city its currently in.
 **************************************************************************/
 void handle_unit_establish_trade(struct player *pplayer,
-                                 int unit_id, int city_id)
+                                 int unit_id, int city_id,
+                                 bool est_if_able)
 {
   (void) base_handle_unit_establish_trade(pplayer, unit_id,
-                                          game_city_by_number(city_id));
+                                          game_city_by_number(city_id),
+                                          est_if_able);
 }
 
 /**************************************************************************

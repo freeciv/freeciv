@@ -3773,7 +3773,8 @@ bool execute_orders(struct unit *punit)
     case ORDER_TRADE_ROUTE:
       log_debug("  orders: establishing trade route.");
       handle_unit_establish_trade(pplayer,
-                                  unitid, tile_city(unit_tile(punit))->id);
+                                  unitid, tile_city(unit_tile(punit))->id,
+                                  TRUE);
       if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no trade route city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,

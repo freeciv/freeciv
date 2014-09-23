@@ -73,15 +73,16 @@ static Widget diplomat_dialog;
 int diplomat_id;
 int diplomat_target_id[ATK_COUNT];
 
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
+/**************************************************************************
+  User selected enter market place from caravan dialog
+**************************************************************************/
+static void caravan_marketplace_callback(Widget w, XtPointer client_data,
                                              XtPointer call_data)
 {
   dsend_packet_unit_establish_trade(&client.conn,
                                     diplomat_id,
-                                    diplomat_target_id[ATK_CITY]);
+                                    diplomat_target_id[ATK_CITY],
+                                    FALSE);
 
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
@@ -89,6 +90,22 @@ static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
   choose_action_queue_next();
 }
 
+/****************************************************************
+  User selected traderoute from caravan dialog
+*****************************************************************/
+static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
+                                             XtPointer call_data)
+{
+  dsend_packet_unit_establish_trade(&client.conn,
+                                    diplomat_id,
+                                    diplomat_target_id[ATK_CITY],
+                                    TRUE);
+
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+
+  choose_action_queue_next();
+}
 
 /****************************************************************
 ...
@@ -864,7 +881,7 @@ void popup_action_selection(struct unit *actor_unit,
                            diplomat_steal_callback, 0, 1,
                            spy_steal_popup, 0, 1,
                            diplomat_incite_callback, 0, 1,
-                           caravan_establish_trade_callback, 0, 0,
+                           caravan_marketplace_callback, 0, 0,
                            caravan_establish_trade_callback, 0, 0,
                            caravan_help_build_wonder_callback, 0, 0,
                            diplomat_bribe_callback, 0, 0,
@@ -905,7 +922,7 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_SPY_INCITE_CITY,
                act_probs);
 
-  if (!(can_marketplace && !can_traderoute)) {
+  if (!can_marketplace) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button8"), FALSE);
   }
 
