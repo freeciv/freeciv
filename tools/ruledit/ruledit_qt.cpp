@@ -39,6 +39,7 @@
 // ruledit
 #include "requirers_dlg.h"
 #include "ruledit.h"
+#include "tab_building.h"
 #include "tab_misc.h"
 #include "tab_nation.h"
 #include "tab_tech.h"
@@ -157,6 +158,8 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   stack->addTab(misc, R__("Misc"));
   tech = new tab_tech(this);
   stack->addTab(tech, R__("Tech"));
+  bldg = new tab_building(this);
+  stack->addTab(bldg, R__("Buildings"));
   nation = new tab_nation(this);
   stack->addTab(nation, R__("Nations"));
 
@@ -213,6 +216,7 @@ void ruledit_gui::launch_now()
       data.nationlist = NULL;
     }
 
+    bldg->refresh();
     misc->refresh();
     nation->refresh();
     tech->refresh();

@@ -27,6 +27,7 @@ class QLineEdit;
 class QStackedLayout;
 
 class requirers_dlg;
+class tab_building;
 class tab_misc;
 class tab_tech;
 class tab_nation;
@@ -56,6 +57,7 @@ class ruledit_gui : public QObject
 
     requirers_dlg *requirers;
 
+    tab_building *bldg;
     tab_misc *misc;
     tab_tech *tech;
     tab_nation *nation;
