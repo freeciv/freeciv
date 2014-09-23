@@ -468,6 +468,15 @@ reqs           =
 frequency      = 100
 effects        = "DestroyBuilding"
 
+[disaster_industrial_accident]
+name           = _("Industrial Accident")
+reqs           =
+    { "type", "name", "range"
+      "Building", "Mfg. Plant", "City"
+    }
+frequency      = 100
+effects        = "ReducePopulation", "Pollution"
+
 [disaster_nuclear_accident]
 name           = _("Nuclear Accident")
 reqs           =
