@@ -1280,7 +1280,7 @@ static void end_turn(void)
   } researches_iterate_end;
 
   log_debug("Sendyeartoclients");
-  send_year_to_clients(game.info.year);
+  send_year_to_clients();
 }
 
 /**************************************************************************

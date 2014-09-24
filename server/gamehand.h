@@ -18,7 +18,7 @@ struct connection;
 struct conn_list;
 
 void init_new_game(void);
-void send_year_to_clients(int year);
+void send_year_to_clients(void);
 void send_game_info(struct conn_list *dest);
 
 void send_scenario_info(struct conn_list *dest);

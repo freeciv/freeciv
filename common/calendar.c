@@ -113,3 +113,22 @@ const char *textyear(int year)
 
   return y;
 }
+
+/****************************************************************************
+  Produce a statically allocated textual representation of the current
+  calendar time.
+****************************************************************************/
+const char *calendar_text(void)
+{
+  if (game.info.calendar_fragments) {
+    static char buffer[128];
+
+    /* Human readable fragment count starts from 1, not 0 */
+    fc_snprintf(buffer, sizeof(buffer), "%s/%d", textyear(game.info.year),
+                game.info.fragment_count + 1);
+
+    return buffer;
+  } else {
+    return textyear(game.info.year);
+  }
+}

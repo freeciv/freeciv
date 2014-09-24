@@ -1854,7 +1854,7 @@ static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize
   pimg->turn = game.info.turn;
   fc_snprintf(pimg->title, sizeof(pimg->title),
               _("Turn: %4d - Year: %10s"), game.info.turn,
-              textyear(game.info.year));
+              calendar_text());
 
   pimg->mapsize.x = xsize; /* x size of the map */
   pimg->mapsize.y = ysize; /* y size of the map */

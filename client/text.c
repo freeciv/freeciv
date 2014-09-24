@@ -838,7 +838,7 @@ const char *get_info_label_text(bool moreinfo)
 		  population_to_text(civ_population(client.conn.playing)));
   }
   astr_add_line(&str, _("Year: %s (T%d)"),
-		textyear(game.info.year), game.info.turn);
+		calendar_text(), game.info.turn);
 
   if (NULL != client.conn.playing) {
     astr_add_line(&str, _("Gold: %d (%+d)"),
@@ -887,7 +887,7 @@ const char *get_info_label_text_popup(void)
     astr_add_line(&str, _("%s People"),
 		  population_to_text(civ_population(client.conn.playing)));
   }
-  astr_add_line(&str, _("Year: %s"), textyear(game.info.year));
+  astr_add_line(&str, _("Year: %s"), calendar_text());
   astr_add_line(&str, _("Turn: %d"), game.info.turn);
 
   if (NULL != client.conn.playing) {
@@ -1549,11 +1549,11 @@ const char *get_report_title(const char *report_name)
      * syntax. */
     astr_add_line(&str, _("%s - %s"),
                   ruler_title_for_player(pplayer, buf, sizeof(buf)),
-                  textyear(game.info.year));
+                  calendar_text());
   } else {
     /* TRANS: "Observer - 1985 AD" */
     astr_add_line(&str, _("Observer - %s"),
-		  textyear(game.info.year));
+		  calendar_text());
   }
   return astr_str(&str);
 }

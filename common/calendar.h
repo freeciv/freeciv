@@ -21,6 +21,7 @@ int game_next_year(int);
 void game_advance_year(void);
 
 const char *textyear(int year);
+const char *calendar_text(void);
 
 #ifdef __cplusplus
 }

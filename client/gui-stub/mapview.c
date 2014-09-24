@@ -50,7 +50,7 @@ void update_info_label(void)
                 "Gold %d\n"
                 "Tax: %d Lux: %d Sci: %d"),
               population_to_text(civ_population(client_player())),
-              textyear(game.info.year),
+              calendar_text(),
               client.conn.playing->economic.gold,
               client.conn.playing->economic.tax,
               client.conn.playing->economic.luxury,

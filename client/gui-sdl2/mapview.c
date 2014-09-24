@@ -435,28 +435,28 @@ void update_info_label(void)
                   "Gold %d "),
                 nation_adjective_for_player(client.conn.playing),
                 population_to_text(civ_population(client.conn.playing)),
-                textyear(game.info.year),
+                calendar_text(),
                 client.conn.playing->economic.gold);
-#else
+#else /* SMALL_SCREEN */
     fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
                 nation_adjective_for_player(client.conn.playing),
                 population_to_text(civ_population(client.conn.playing)),
-                textyear(game.info.year),
+                calendar_text(),
                 client.conn.playing->economic.gold,
                 client.conn.playing->economic.tax,
                 client.conn.playing->economic.luxury,
                 client.conn.playing->economic.science);
-#endif
+#endif /* SMALL_SCREEN */
     /* convert to unistr and create text surface */
     copy_chars_to_string16(pText, buffer);
     pTmp = create_text_surf_from_str16(pText);
 
     area.x = (main_window_width() - pTmp->w) / 2 - adj_size(5);
     area.w = pTmp->w + adj_size(8);
-      area.h = pTmp->h + adj_size(4);
-  
+    area.h = pTmp->h + adj_size(4);
+
     SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
 
 #if 0    

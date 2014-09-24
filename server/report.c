@@ -279,7 +279,7 @@ static void historian_generic(enum historian_type which_news)
     fc_strlcat(buffer, "\n", sizeof(buffer));
   }
   fc_snprintf(title, sizeof(title), _(historian_message[which_news]),
-              textyear(game.info.year),
+              calendar_text(),
               _(historian_name[fc_rand(ARRAY_SIZE(historian_name))]));
   page_conn_etype(game.est_connections, _("Historian Publishes!"),
 		  title, buffer, E_BROADCAST_REPORT);
@@ -1025,7 +1025,7 @@ void report_demographics(struct connection *pconn)
     fc_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
                 nation_adjective_for_player(pplayer),
                 government_name_for_player(pplayer),
-                textyear(game.info.year));
+                calendar_text());
   } else {
     civbuf[0] = '\0';
   }
@@ -1062,7 +1062,7 @@ void report_achievements(struct connection *pconn)
   fc_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
               nation_adjective_for_player(pplayer),
               government_name_for_player(pplayer),
-              textyear(game.info.year));
+              calendar_text());
 
   buffer[0] = '\0';
 
@@ -1425,7 +1425,7 @@ void log_civ_score_now(void)
 
   if (game.info.turn > score_log->last_turn) {
     fprintf(score_log->fp, "turn %d %d %s\n", game.info.turn, game.info.year,
-            textyear(game.info.year));
+            calendar_text());
     score_log->last_turn = game.info.turn;
   }
 

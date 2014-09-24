@@ -1116,9 +1116,10 @@ void handle_worker_task(const struct packet_worker_task *packet)
 /**************************************************************************
   Handle turn and year advancement.
 **************************************************************************/
-void handle_new_year(int year, int turn)
+void handle_new_year(int year, int fragments, int turn)
 {
   game.info.year = year;
+  game.info.fragment_count = fragments;
   /*
    * The turn was increased in handle_before_new_year()
    */

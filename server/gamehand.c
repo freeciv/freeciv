@@ -826,21 +826,22 @@ void init_new_game(void)
   Tell clients the year, and also update turn_done and nturns_idle fields
   for all players.
 **************************************************************************/
-void send_year_to_clients(int year)
+void send_year_to_clients(void)
 {
   struct packet_new_year apacket;
-  
+
   players_iterate(pplayer) {
     pplayer->nturns_idle++;
   } players_iterate_end;
 
-  apacket.year = year;
+  apacket.year = game.info.year;
+  apacket.fragments = game.info.fragment_count;
   apacket.turn = game.info.turn;
   lsend_packet_new_year(game.est_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
   notify_conn(game.est_connections, NULL, E_NEXT_YEAR, ftc_any,
-              _("Year: %s"), textyear(year));
+              _("Year: %s"), calendar_text());
 }
 
 /**************************************************************************

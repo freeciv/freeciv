@@ -1180,6 +1180,7 @@ end
 # send to each client whenever the turn has ended.
 PACKET_NEW_YEAR = 127; sc, lsend
   YEAR year;
+  UINT16 fragments;
   TURN turn;
 end
 
