@@ -112,16 +112,6 @@ void popup_revolution_dialog(void)
 }
 
 /**************************************************************************
-  Is there currently a caravan dialog open?  This is important if there
-  can be only one such dialog at a time; otherwise return FALSE.
-**************************************************************************/
-bool caravan_dialog_is_open(int *unit_id, int *city_id)
-{
-  /* PORTME */
-  return FALSE;
-}
-
-/**************************************************************************
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
@@ -224,13 +214,27 @@ void popdown_all_game_dialogs(void)
   /* PORTME */
 }
 
-/****************************************************************
-  Returns id of a diplomat currently handled in diplomat dialog
-*****************************************************************/
-int diplomat_handled_in_diplomat_dialog(void)
+/**************************************************************************
+  Returns the id of the actor unit currently handled in action selection
+  dialog when the action selection dialog is open.
+  Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
+**************************************************************************/
+int action_selection_actor_unit(void)
 {
   /* PORTME */    
-  return -1;  
+  return IDENTITY_NUMBER_ZERO;
+}
+
+/**************************************************************************
+  Returns id of the target city of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
+  is open or no city target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_city(void)
+{
+  /* PORTME */
+  return IDENTITY_NUMBER_ZERO;
 }
 
 /****************************************************************

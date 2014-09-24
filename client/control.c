@@ -909,8 +909,7 @@ void process_caravan_arrival(struct unit *punit)
 
   /* There can only be one dialog at a time: */
   if (have_asked_server_for_actions
-      || diplomat_handled_in_diplomat_dialog() != -1
-      || caravan_dialog_is_open(NULL, NULL)) {
+      || action_selection_actor_unit() != IDENTITY_NUMBER_ZERO) {
     return;
   }
 
@@ -1008,8 +1007,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
   /* There can only be one dialog at a time.
    * Stop if one is (about to pop) up. */
   if (have_asked_server_for_actions
-      || diplomat_handled_in_diplomat_dialog() != -1
-      || caravan_dialog_is_open(NULL, NULL)) {
+      || action_selection_actor_unit() != IDENTITY_NUMBER_ZERO) {
     return;
   }
 

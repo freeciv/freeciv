@@ -392,7 +392,7 @@ void handle_unit_remove(int unit_id)
   }
 
   /* Close diplomat dialog if the diplomat is lost */
-  if (diplomat_handled_in_diplomat_dialog() == punit->id) {
+  if (action_selection_actor_unit() == punit->id) {
     close_diplomat_dialog();
     /* Open another diplomat dialog if there are other diplomats waiting */
     choose_action_queue_next();
@@ -533,7 +533,6 @@ static bool update_improvement_from_packet(struct city *pcity,
 void handle_city_info(const struct packet_city_info *packet)
 {
   struct universal product;
-  int caravan_city_id;
   int i;
   bool popup;
   bool city_is_new = FALSE;
@@ -848,8 +847,7 @@ void handle_city_info(const struct packet_city_info *packet)
   
   /* update caravan dialog */
   if ((production_changed || shield_stock_changed)
-      && caravan_dialog_is_open(NULL, &caravan_city_id)
-      && caravan_city_id == pcity->id) {
+      && action_selection_target_city() == pcity->id) {
     caravan_dialog_update();
   }
 

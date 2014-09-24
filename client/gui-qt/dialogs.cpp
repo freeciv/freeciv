@@ -889,7 +889,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   setWindowTitle(title);
   setAttribute(Qt::WA_DeleteOnClose);
   gui()->set_diplo_dialog(this);
-  unit_id = -1;
+  unit_id = IDENTITY_NUMBER_ZERO;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
 }
@@ -1019,27 +1019,6 @@ void revolution_response(struct government *government)
   } else {
     set_government_choice(government);
   }
-}
-
-/**************************************************************************
-  Is there currently a caravan dialog open?  This is important if there
-  can be only one such dialog at a time; otherwise return false.
-**************************************************************************/
-bool caravan_dialog_is_open(int *unit_id, int *city_id)
-{
-  if (gui()->get_diplo_dialog() == NULL) {
-    return FALSE;
-  }
-
-  if (unit_id) {
-    *unit_id = gui()->get_diplo_dialog()->unit_id;
-  }
-
-  if (city_id) {
-    *city_id = gui()->get_diplo_dialog()->target_id[ATK_CITY];
-  }
-
-  return TRUE;
 }
 
 /**************************************************************************
@@ -1833,17 +1812,36 @@ void popdown_all_game_dialogs(void)
   }
 }
 
-/****************************************************************
-  Returns id of a diplomat currently handled in diplomat dialog
-*****************************************************************/
-int diplomat_handled_in_diplomat_dialog(void)
+/**************************************************************************
+  Returns the id of the actor unit currently handled in action selection
+  dialog when the action selection dialog is open.
+  Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
+**************************************************************************/
+int action_selection_actor_unit(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
 
-  if (cd != NULL){
+  if (cd != NULL) {
     return cd->unit_id;
   } else {
-    return -1;
+    return IDENTITY_NUMBER_ZERO;
+  }
+}
+
+/**************************************************************************
+  Returns id of the target city of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
+  is open or no city target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_city(void)
+{
+  choice_dialog *cd = gui()->get_diplo_dialog();
+
+  if (cd != NULL) {
+    return cd->target_id[ATK_CITY];
+  } else {
+    return IDENTITY_NUMBER_ZERO;
   }
 }
 

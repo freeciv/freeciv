@@ -180,21 +180,6 @@ static gchar *get_help_build_wonder_button_label(bool* help_build_possible,
 }
 
 /****************************************************************
-  Returns whether the caravan dialog is open, and sets
-  caravan id and destination city id, if they are not NULL.
-*****************************************************************/
-bool caravan_dialog_is_open(int* unit_id, int* city_id)
-{
-  if (unit_id) {
-    *unit_id = actor_unit_id;
-  }
-  if (city_id) {
-    *city_id = caravan_city_id;
-  }
-  return diplomat_dialog != NULL;
-}
-
-/****************************************************************
   Updates caravan dialog
 ****************************************************************/
 void caravan_dialog_update(void)
@@ -1003,6 +988,7 @@ void popup_action_selection(struct unit *actor_unit,
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
   actor_unit_id = actor_unit->id;
+  caravan_city_id = IDENTITY_NUMBER_ZERO;
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1158,15 +1144,31 @@ void popup_action_selection(struct unit *actor_unit,
   astr_free(&text);
 }
 
-/****************************************************************
-  Returns id of a diplomat currently handled in diplomat dialog
-*****************************************************************/
-int diplomat_handled_in_diplomat_dialog(void)
+/**************************************************************************
+  Returns the id of the actor unit currently handled in action selection
+  dialog when the action selection dialog is open.
+  Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
+**************************************************************************/
+int action_selection_actor_unit(void)
 {
   if (diplomat_dialog == NULL) {
-    return -1;
+    return IDENTITY_NUMBER_ZERO;
   }
   return actor_unit_id;
+}
+
+/**************************************************************************
+  Returns id of the target city of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
+  is open or no city target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_city(void)
+{
+  if (diplomat_dialog == NULL) {
+    return IDENTITY_NUMBER_ZERO;
+  }
+  return caravan_city_id;
 }
 
 /****************************************************************

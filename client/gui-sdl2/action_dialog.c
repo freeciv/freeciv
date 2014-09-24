@@ -121,27 +121,6 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  Is there currently a caravan dialog open?  This is important if there
-  can be only one such dialog at a time; otherwise return FALSE.
-**************************************************************************/
-bool caravan_dialog_is_open(int *unit_id, int *city_id)
-{
-  if (pDiplomat_Dlg == NULL) {
-    return FALSE;
-  }
-
-  if (unit_id) {
-    *unit_id = pDiplomat_Dlg->actor_unit_id;
-  }
-
-  if (city_id) {
-    *city_id = pDiplomat_Dlg->target_ids[ATK_CITY];
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Updates caravan dialog
 **************************************************************************/
 void caravan_dialog_update(void)
@@ -782,8 +761,8 @@ void popup_action_selection(struct unit *actor_unit,
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
 
-  pDiplomat_Dlg->target_ids[ATK_CITY] = -1;
-  pDiplomat_Dlg->target_ids[ATK_UNIT] = -1;
+  pDiplomat_Dlg->target_ids[ATK_CITY] = IDENTITY_NUMBER_ZERO;
+  pDiplomat_Dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
 
   /* ---------- */
   if (target_city) {
@@ -982,16 +961,33 @@ void popup_action_selection(struct unit *actor_unit,
   
 }
 
-/****************************************************************
-  Returns id of a diplomat currently handled in diplomat dialog
-*****************************************************************/
-int diplomat_handled_in_diplomat_dialog(void)
+/**************************************************************************
+  Returns the id of the actor unit currently handled in action selection
+  dialog when the action selection dialog is open.
+  Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
+**************************************************************************/
+int action_selection_actor_unit(void)
 {
   if (!pDiplomat_Dlg) {
-    return -1;
+    return IDENTITY_NUMBER_ZERO;
   }
 
   return pDiplomat_Dlg->actor_unit_id;
+}
+
+/**************************************************************************
+  Returns id of the target city of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
+  is open or no city target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_city(void)
+{
+  if (!pDiplomat_Dlg) {
+    return IDENTITY_NUMBER_ZERO;
+  }
+
+  return pDiplomat_Dlg->target_ids[ATK_CITY];
 }
 
 /****************************************************************

@@ -124,14 +124,6 @@ static void caravan_help_build_wonder_callback(Widget w,
   choose_action_queue_next();
 }
 
-/****************************************************************
-...
-*****************************************************************/
-bool caravan_dialog_is_open(int* unit_id, int* city_id)
-{
-  return BOOL_VAL(diplomat_dialog);
-}
-
 /**************************************************************************
   Updates caravan dialog
 **************************************************************************/
@@ -844,13 +836,13 @@ void popup_action_selection(struct unit *actor_unit,
   if (target_unit) {
     diplomat_target_id[ATK_UNIT] = target_unit->id;
   } else {
-    diplomat_target_id[ATK_UNIT] = -1;
+    diplomat_target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
   if (target_city) {
     diplomat_target_id[ATK_CITY] = target_city->id;
   } else {
-    diplomat_target_id[ATK_CITY] = -1;
+    diplomat_target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   }
 
   if (target_city && actor_homecity) {
@@ -950,14 +942,32 @@ void popup_action_selection(struct unit *actor_unit,
 }
 
 /**************************************************************************
-  Returns id of a diplomat currently handled in diplomat dialog
+  Returns the id of the actor unit currently handled in action selection
+  dialog when the action selection dialog is open.
+  Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
 **************************************************************************/
-int diplomat_handled_in_diplomat_dialog(void)
+int action_selection_actor_unit(void)
 {
   if (diplomat_dialog == NULL) {
-    return -1;
+    return IDENTITY_NUMBER_ZERO;
   }
+
   return diplomat_id;
+}
+
+/**************************************************************************
+  Returns id of the target city of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
+  is open or no city target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_city(void)
+{
+  if (diplomat_dialog == NULL) {
+    return IDENTITY_NUMBER_ZERO;
+  }
+
+  return diplomat_target_id[ATK_CITY];
 }
 
 /**************************************************************************
