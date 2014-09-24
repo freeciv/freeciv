@@ -337,6 +337,10 @@ class city_dialog: public QDialog
   QPushButton *cma_enable_but;
   QPushButton *next_city_but;
   QPushButton *prev_city_but;
+  QPushButton *work_next_but;
+  QPushButton *work_prev_but;
+  QPushButton *work_add_but;
+  QPushButton *work_rem_but;
   QPushButton *but_menu_worklist;
   QPixmap *citizen_pixmap;
   unit_info *current_units;
@@ -368,6 +372,7 @@ private:
   void update_cma_tab();
   void update_disabled();
   void update_sliders();
+  void update_prod_buttons();
 
 private slots:
   void next_city();
@@ -382,6 +387,9 @@ private slots:
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
   void clear_worklist();
   void save_worklist();
+  void worklist_up();
+  void worklist_down();
+  void worklist_del();
   void display_worklist_menu(const QPoint &p);
   void disband_state_changed(int state);
   void update_results_text();

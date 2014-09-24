@@ -804,7 +804,20 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     QGroupBox *group_box = new QGroupBox(_("Worklist Option"));
     QGridLayout *qgrid = new QGridLayout;
     QPushButton *but2 = new QPushButton;
-
+    QHBoxLayout *work_but_layout = new QHBoxLayout;
+    work_next_but = new QPushButton(style()->
+                                    standardIcon(QStyle::SP_ArrowDown), "");
+    work_prev_but = new QPushButton(style()->
+                                    standardIcon(QStyle::SP_ArrowUp), "");
+    work_add_but = new QPushButton();
+    work_add_but->setIcon(QIcon(*(get_arrow_sprite(tileset,
+                                                   ARROW_PLUS)->pm)));
+    work_rem_but = new QPushButton(style()->standardIcon(
+                                   QStyle::SP_DialogDiscardButton), "");
+    work_but_layout->addWidget(work_add_but);
+    work_but_layout->addWidget(work_next_but);
+    work_but_layout->addWidget(work_prev_but);
+    work_but_layout->addWidget(work_rem_but);
     but_menu_worklist = new QPushButton;
     item_button_p = new QPushButton;
 
@@ -832,11 +845,11 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     r3 = new QRadioButton(_("Insert After"));
     r4 = new QRadioButton(_("Add Last"));
     r4->setChecked(true);
+    vbox->addLayout(work_but_layout);
     vbox->addWidget(r1);
     vbox->addWidget(r2);
     vbox->addWidget(r3);
     vbox->addWidget(r4);
-    vbox->addStretch(1);
     group_box->setLayout(vbox);
 
     p_table_p->setColumnCount(3);
@@ -903,6 +916,10 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     connect(buy_button_p, SIGNAL(clicked()), SLOT(buy()));
     connect(production_combo_p, SIGNAL(clicked()),
             SLOT(show_targets_worklist()));
+    connect(work_add_but, SIGNAL(clicked()), SLOT(show_targets_worklist()));
+    connect(work_prev_but, SIGNAL(clicked()), SLOT(worklist_up()));
+    connect(work_next_but, SIGNAL(clicked()), SLOT(worklist_down()));
+    connect(work_rem_but, SIGNAL(clicked()), SLOT(worklist_del()));
     connect(item_button_p, SIGNAL(clicked()),
             SLOT(show_targets()));
     connect(p_table_p,
@@ -1129,8 +1146,35 @@ void city_dialog::update_disabled()
   } else  {
     cma_enable_but->setDisabled(true);
   }
+  update_prod_buttons();
 }
 
+/****************************************************************************
+  Update sensitivity of buttons in production tab
+****************************************************************************/
+void city_dialog::update_prod_buttons()
+{
+  work_next_but->setDisabled(true);
+  work_prev_but->setDisabled(true);
+  work_add_but->setDisabled(true);
+  work_rem_but->setDisabled(true);
+  if (client.conn.playing && city_owner(pcity) == client.conn.playing) {
+    work_add_but->setEnabled(true);
+    if (selected_row_p >= 0 && selected_row_p < p_table_p->rowCount()) {
+      work_rem_but->setEnabled(true);
+    }
+    if (selected_row_p >= 0 && selected_row_p < p_table_p->rowCount() - 1) {
+      work_next_but->setEnabled(true);
+    }
+    if (selected_row_p > 0 && selected_row_p < p_table_p->rowCount()) {
+      work_prev_but->setEnabled(true);
+    }
+  }
+}
+
+/****************************************************************************
+  City dialog destructor
+****************************************************************************/
 city_dialog::~city_dialog()
 {
   if (citizen_pixmap) {
@@ -1986,6 +2030,7 @@ void city_dialog::item_selected(const QItemSelection &sl,
   }
   index = indexes.at(0);
   selected_row_p = index.row();
+  update_prod_buttons();
 }
 
 /****************************************************************************
@@ -2326,6 +2371,68 @@ void city_dialog::clear_worklist()
   }
   worklist_init(&empty);
   city_set_worklist(pcity, &empty);
+}
+
+/****************************************************************************
+  Move current item on worklist up
+****************************************************************************/
+void city_dialog::worklist_up()
+{
+  QModelIndex index;
+  struct worklist queue;
+  struct universal *target = new universal;
+  QVariant qvar;
+
+  if (selected_row_p < 1 || selected_row_p >= p_table_p->rowCount()) {
+    return;
+  }
+  city_get_queue(pcity, &queue);
+  worklist_peek_ith(&queue, target, selected_row_p);
+  worklist_remove(&queue, selected_row_p);
+  worklist_insert(&queue, *target, selected_row_p - 1);
+  city_set_queue(pcity, &queue);
+  index = p_table_p->model()->index(selected_row_p - 1, 0);
+  p_table_p->setCurrentIndex(index);
+  delete target;
+
+}
+
+/****************************************************************************
+  Remove current item on worklist
+****************************************************************************/
+void city_dialog::worklist_del()
+{
+  QTableWidgetItem *item;
+  if (selected_row_p < 0 
+      || selected_row_p >= p_table_p->rowCount()) {
+    return;
+  }
+  item = p_table_p->item(selected_row_p, 0);
+  dbl_click_p(item);
+  update_prod_buttons();
+}
+
+/****************************************************************************
+  Move current item on worklist down
+****************************************************************************/
+void city_dialog::worklist_down()
+{
+  QModelIndex index;
+  struct worklist queue;
+  struct universal *target = new universal;
+  QVariant qvar;
+
+  if (selected_row_p < 0 || selected_row_p >= p_table_p->rowCount() - 1 ) {
+    return;
+  }
+  city_get_queue(pcity, &queue);
+  worklist_peek_ith(&queue, target, selected_row_p);
+  worklist_remove(&queue, selected_row_p);
+  worklist_insert(&queue, *target, selected_row_p + 1);
+  city_set_queue(pcity, &queue);
+  index = p_table_p->model()->index(selected_row_p + 1, 0);
+  p_table_p->setCurrentIndex(index);
+  delete target;
 }
 
 /****************************************************************************
