@@ -1030,10 +1030,11 @@ static int action_target_neg_util(int action_id,
                - game.server.incite_improvement_factor * 5
                - game.server.incite_unit_factor * 5, 0);
 
-  /* Bad for the city */
+  /* Bad for the city owner. */
   case ACTION_SPY_POISON:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_GOLD:
     /* TODO: Individual and well balanced values */
     return 10;
 

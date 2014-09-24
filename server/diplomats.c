@@ -45,6 +45,12 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/*************************************************************************/
+
+/* TODO: Should be an effect */
+#define STEAL_GOLD_PCT 5
+/* TODO: Should be an effect */
+#define THIEFS_SHARE_PCT 1
 
 /****************************************************************************/
 
@@ -1061,6 +1067,125 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 }
 
 /**************************************************************************
+  Steal gold from another player.
+  The amount stolen is decided randomly.
+  Not everything stolen reaches the player that ordered it stolen.
+
+  - Check for infiltration success.  Our thief may not survive this.
+  - Check for basic success.  Again, our thief may not survive this.
+  - Can't steal if there is no money to take.
+**************************************************************************/
+void spy_steal_gold(struct player *act_player, struct unit *act_unit,
+                    struct city *tgt_city)
+{
+  struct player *tgt_player;
+  struct tile *tgt_tile;
+
+  const char *tgt_city_link;
+
+  int gold_take;
+  int gold_give;
+
+  /* Sanity check: The actor still exists. */
+  if (!act_player || !act_unit) {
+    return;
+  }
+
+  /* Sanity check: The target city still exists. */
+  if (!tgt_city) {
+    return;
+  }
+
+  /* Find who to steal from. */
+  tgt_player = city_owner(tgt_city);
+
+  /* Sanity check: The target player still exists. */
+  if (!tgt_player) {
+    return;
+  }
+
+  /* Sanity check: There is something to steal. */
+  if (tgt_player->economic.gold <= 0) {
+    return;
+  }
+
+  tgt_tile = city_tile(tgt_city);
+  tgt_city_link = city_link(tgt_city);
+
+  log_debug("steal gold: unit: %d", act_unit->id);
+
+  /* Battle all units capable of diplomatic defence. */
+  if (!diplomat_infiltrate_tile(act_player, tgt_player,
+                                act_unit, tgt_tile)) {
+    return;
+  }
+
+  log_debug("steal gold: infiltrated");
+
+  /* Try to steal the gold. */
+  if (fc_rand (100) >= game.server.diplchance) {
+    notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("Your %s was caught in an attempt"
+                    " of stealing gold!"),
+                  unit_tile_link(act_unit));
+    notify_player(tgt_player, tgt_tile, E_ENEMY_DIPLOMAT_FAILED,
+                  ftc_server,
+                  _("You caught %s %s attempting"
+                    " to steal your gold in %s!"),
+                  nation_adjective_for_player(act_player),
+                  unit_tile_link(act_unit),
+                  tgt_city_link);
+
+    /* Execute the caught thief. */
+    wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
+
+    return;
+  }
+
+  log_debug("steal gold: succeeded");
+
+  /* Decide the upper limit on how much can be taken. */
+  gold_take = (tgt_player->economic.gold * STEAL_GOLD_PCT) / 100;
+
+  /* Decide how much to actually take. */
+  gold_take = fc_rand(gold_take) + 1;
+
+  log_debug("steal gold: will take %d gold", gold_take);
+
+  /* Steal it. */
+  tgt_player->economic.gold -= gold_take;
+
+  /* Some gold are lost during transfer. */
+  gold_give = gold_take - (gold_take * THIEFS_SHARE_PCT) / 100;
+
+  log_debug("steal gold: will give %d gold", gold_give);
+
+  /* Pocket the stolen money. */
+  act_player->economic.gold += gold_give;
+
+  /* Notify everyone involved. */
+  notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_GOLD, ftc_server,
+                _("Your %s got you %d gold from %s."),
+                unit_link(act_unit), gold_give, tgt_city_link);
+  notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
+                _("The %s is suspect of taking %d gold from %s."),
+                nation_plural_for_player(act_player),
+                gold_take, tgt_city_link);
+
+  /* This may cause a diplomatic incident. */
+  maybe_cause_incident(ACTION_SPY_STEAL_GOLD,
+                       act_player, tgt_player, tgt_tile, tgt_city_link);
+
+  /* Try to escape. */
+  diplomat_escape_full(act_player, act_unit, TRUE,
+                       tgt_tile, tgt_city_link);
+
+  /* Update the players' gold in the client */
+  send_player_info_c(act_player, act_player->connections);
+  send_player_info_c(tgt_player, tgt_player->connections);
+}
+
+/**************************************************************************
   This subtracts the destination movement cost from a diplomat/spy.
 **************************************************************************/
 static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile)
@@ -1480,6 +1605,18 @@ static void maybe_cause_incident(enum gen_action action,
       notify_player(victim_player, victim_tile,
                     E_DIPLOMATIC_INCIDENT, ftc_server,
                     _("The %s have caused an incident while sabotaging %s."),
+                    nation_plural_for_player(offender), victim_link);
+      break;
+    case ACTION_SPY_STEAL_GOLD:
+      notify_player(offender, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("You have caused an incident while"
+                      " stealing gold from %s."),
+                    victim_link);
+      notify_player(victim_player, victim_tile,
+                    E_DIPLOMATIC_INCIDENT, ftc_server,
+                    _("The %s have caused an incident while"
+                      " stealing gold from %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
     case ACTION_MOVE:

@@ -386,6 +386,8 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     T(ACTION_SPY_TARGETED_SABOTAGE_CITY, B_LAST + 1);
   }
 
+  T(ACTION_SPY_STEAL_GOLD, 0);
+
   T(ACTION_SPY_POISON, 0); /* absolutely last resort */
 #undef T
 

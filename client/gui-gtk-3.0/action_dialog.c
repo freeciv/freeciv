@@ -355,6 +355,23 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected to steal gold from choice dialog
+*****************************************************************/
+static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_SPY_STEAL_GOLD, args->actor_unit_id,
+                      args->target_city_id, 0);
+  }
+
+  gtk_widget_destroy(diplomat_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected poisoning from choice dialog
 *****************************************************************/
 static void spy_poison_callback(GtkWidget *w, gpointer data)
@@ -1060,6 +1077,12 @@ void popup_action_selection(struct unit *actor_unit,
                  ACTION_SPY_POISON,
                  act_probs,
                  (GCallback)spy_poison_callback,
+                 data);
+
+    action_entry(shl,
+                 ACTION_SPY_STEAL_GOLD,
+                 act_probs,
+                 (GCallback)spy_steal_gold_callback,
                  data);
 
     action_entry(shl,

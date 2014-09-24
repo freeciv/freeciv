@@ -33,6 +33,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		     struct city *pcity);
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, 
 		       struct city *pcity, Impr_type_id improvement);
+void spy_steal_gold(struct player *act_player, struct unit *act_unit,
+		    struct city *tgt_city);
 
 int count_diplomats_on_tile(struct tile *ptile);
 

@@ -96,6 +96,10 @@ void actions_init(void)
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
                  /* TRANS: _Investigate City (100% chance of success). */
                  N_("%sInvestigate City%s"));
+  actions[ACTION_SPY_STEAL_GOLD] =
+      action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
+                 /* TRANS: Steal _Gold (100% chance of success). */
+                 N_("Steal %sGold%s"));
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -342,6 +346,15 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * controlled by action enablers assumes that the acting player can see
      * the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_SPY_STEAL_GOLD) {
+    /* If actor_unit can do the action the actor_player can see how much
+     * gold target_player have. Not requireing it is therefore pointless.
+     */
+    if (target_player->economic.gold <= 0) {
       return FALSE;
     }
   }
@@ -779,6 +792,9 @@ action_prob(const enum gen_action wanted_action,
 
   switch (wanted_action) {
   case ACTION_SPY_POISON:
+    /* TODO */
+    break;
+  case ACTION_SPY_STEAL_GOLD:
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:

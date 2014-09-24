@@ -149,6 +149,8 @@ extern "C" {
 #define SPECENUM_VALUE112 E_TECH_LOST
 /* Used to notify tech events for foreigner players. */
 #define SPECENUM_VALUE113 E_TECH_EMBASSY
+#define SPECENUM_VALUE114 E_MY_SPY_STEAL_GOLD
+#define SPECENUM_VALUE115 E_ENEMY_SPY_STEAL_GOLD
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to
