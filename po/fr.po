@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-14 15:19+0200\n"
-"PO-Revision-Date: 2014-09-02 21:46+0200\n"
+"POT-Creation-Date: 2014-09-23 11:19+0200\n"
+"PO-Revision-Date: 2014-09-17 07:50+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -794,7 +794,7 @@ msgid "?size [short]:Sz"
 msgstr "T"
 
 #: client/cityrepdata.c:643 client/gui-gtk-2.0/editgui.c:1255
-#: client/gui-gtk-2.0/editprop.c:4142 client/gui-gtk-3.0/editgui.c:1283
+#: client/gui-gtk-2.0/editprop.c:4142 client/gui-gtk-3.0/editgui.c:1281
 #: client/gui-gtk-3.0/editprop.c:4166
 msgid "Size"
 msgstr "Taille"
@@ -2635,19 +2635,19 @@ msgstr "Donn_e une ambassade"
 
 #: client/gui-gtk-2.0/diplodlg.c:419 client/gui-gtk-3.0/diplodlg.c:419
 #: client/gui-sdl/diplodlg.c:498 client/gui-xaw/diplodlg.c:546
-#: common/player.c:1183
+#: common/player.c:1189
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Cessez-le-feu"
 
 #: client/gui-gtk-2.0/diplodlg.c:425 client/gui-gtk-3.0/diplodlg.c:425
 #: client/gui-sdl/diplodlg.c:512 client/gui-xaw/diplodlg.c:550
-#: common/player.c:1184
+#: common/player.c:1190
 msgid "?diplomatic_state:Peace"
 msgstr "Paix"
 
 #: client/gui-gtk-2.0/diplodlg.c:431 client/gui-gtk-3.0/diplodlg.c:431
 #: client/gui-sdl/diplodlg.c:527 client/gui-xaw/diplodlg.c:554
-#: common/player.c:1185
+#: common/player.c:1191
 msgid "?diplomatic_state:Alliance"
 msgstr "Alliance"
 
@@ -2970,7 +2970,7 @@ msgstr ""
 msgid "Global Observer"
 msgstr "Observateur global"
 
-#: client/gui-gtk-2.0/editgui.c:580 client/gui-gtk-3.0/editgui.c:586
+#: client/gui-gtk-2.0/editgui.c:580 client/gui-gtk-3.0/editgui.c:584
 msgid ""
 "Switch player point-of-view. Use this to edit from the perspective of "
 "different players, or even as a global observer."
@@ -2978,32 +2978,32 @@ msgstr ""
 "Changer de point de vue. Utiliser ceci pour éditer depuis le point de vue de "
 "différents joueurs, ou même de l'observateur global."
 
-#: client/gui-gtk-2.0/editgui.c:592 client/gui-gtk-3.0/editgui.c:598
+#: client/gui-gtk-2.0/editgui.c:592 client/gui-gtk-3.0/editgui.c:596
 msgid "Show the property editor."
 msgstr "Montrer l'éditeur de propriétés"
 
-#: client/gui-gtk-2.0/editgui.c:1007 client/gui-gtk-3.0/editgui.c:1021
+#: client/gui-gtk-2.0/editgui.c:1007 client/gui-gtk-3.0/editgui.c:1019
 msgid "Select Tool Value"
 msgstr "Valeur de l'outil de sélection"
 
-#: client/gui-gtk-2.0/editgui.c:1176 client/gui-gtk-3.0/editgui.c:1192
+#: client/gui-gtk-2.0/editgui.c:1176 client/gui-gtk-3.0/editgui.c:1190
 msgid "Editor Tool"
 msgstr "Outils d'édition"
 
-#: client/gui-gtk-2.0/editgui.c:1189 client/gui-gtk-3.0/editgui.c:1209
+#: client/gui-gtk-2.0/editgui.c:1189 client/gui-gtk-3.0/editgui.c:1207
 msgid "Click to change value if applicable."
 msgstr "Cliquez pour changer la valeur si applicable."
 
 # AR
-#: client/gui-gtk-2.0/editgui.c:1216 client/gui-gtk-3.0/editgui.c:1240
+#: client/gui-gtk-2.0/editgui.c:1216 client/gui-gtk-3.0/editgui.c:1238
 msgid "Click to change tool mode."
 msgstr "Cliquez pour changer le mode de l'outil."
 
-#: client/gui-gtk-2.0/editgui.c:1230 client/gui-gtk-3.0/editgui.c:1257
+#: client/gui-gtk-2.0/editgui.c:1230 client/gui-gtk-3.0/editgui.c:1255
 msgid "Mode"
 msgstr "Mode"
 
-#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1274
+#: client/gui-gtk-2.0/editgui.c:1246 client/gui-gtk-3.0/editgui.c:1272
 msgid ""
 "Use this to change the \"size\" parameter for the tool. This parameter "
 "controls for example the half-width of the square of tiles that will be "
@@ -3013,7 +3013,7 @@ msgstr ""
 "paramètre contrôle par exemple la demi-largeur d'un carré de cases qui sera "
 "affecté par l'outil, ou la taille d'une ville créée."
 
-#: client/gui-gtk-2.0/editgui.c:1263 client/gui-gtk-3.0/editgui.c:1292
+#: client/gui-gtk-2.0/editgui.c:1263 client/gui-gtk-3.0/editgui.c:1290
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
@@ -3023,12 +3023,12 @@ msgstr ""
 "l'outil unités."
 
 #: client/gui-gtk-2.0/editgui.c:1271 client/gui-gtk-2.0/repodlgs.c:760
-#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1300
+#: client/gui-gtk-2.0/unitselect.c:97 client/gui-gtk-3.0/editgui.c:1298
 #: client/gui-gtk-3.0/repodlgs.c:788 client/gui-gtk-3.0/unitselect.c:97
 msgid "Count"
 msgstr "Nombre"
 
-#: client/gui-gtk-2.0/editgui.c:1298 client/gui-gtk-3.0/editgui.c:1326
+#: client/gui-gtk-2.0/editgui.c:1298 client/gui-gtk-3.0/editgui.c:1324
 msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
@@ -3548,40 +3548,40 @@ msgstr ""
 msgid "Report bugs at %s\n"
 msgstr "Signaler les bogues à %s\n"
 
-#: client/gui-gtk-2.0/gui_main.c:763 client/gui-gtk-2.0/gui_main.c:1568
-#: client/gui-gtk-3.0/gui_main.c:750 client/gui-gtk-3.0/gui_main.c:1636
+#: client/gui-gtk-2.0/gui_main.c:763 client/gui-gtk-2.0/gui_main.c:1573
+#: client/gui-gtk-3.0/gui_main.c:750 client/gui-gtk-3.0/gui_main.c:1641
 #: client/gui-sdl/gui_main.c:795 client/gui-sdl/gui_main.c:810
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1225 client/gui-gtk-2.0/gui_main.c:1233
-#: client/gui-gtk-3.0/gui_main.c:1235 client/gui-gtk-3.0/gui_main.c:1243
+#: client/gui-gtk-2.0/gui_main.c:1230 client/gui-gtk-2.0/gui_main.c:1238
+#: client/gui-gtk-3.0/gui_main.c:1240 client/gui-gtk-3.0/gui_main.c:1248
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Fin du tour"
 
-#: client/gui-gtk-2.0/gui_main.c:1233 client/gui-gtk-3.0/gui_main.c:1243
+#: client/gui-gtk-2.0/gui_main.c:1238 client/gui-gtk-3.0/gui_main.c:1248
 #: client/gui-sdl/mapctrl.c:1575 client/gui-sdl/mapview.c:901
 msgid "Shift+Return"
 msgstr "Maj+Entrée"
 
-#: client/gui-gtk-2.0/gui_main.c:1304 client/gui-gtk-3.0/gui_main.c:1320
+#: client/gui-gtk-2.0/gui_main.c:1309 client/gui-gtk-3.0/gui_main.c:1325
 msgid "?noun:View"
 msgstr "Vue"
 
-#: client/gui-gtk-2.0/gui_main.c:1416 client/gui-gtk-3.0/gui_main.c:1439
+#: client/gui-gtk-2.0/gui_main.c:1421 client/gui-gtk-3.0/gui_main.c:1444
 msgid "Chat"
 msgstr "Discussion"
 
-#: client/gui-gtk-2.0/gui_main.c:1440 client/gui-gtk-3.0/gui_main.c:1466
+#: client/gui-gtk-2.0/gui_main.c:1445 client/gui-gtk-3.0/gui_main.c:1471
 msgid "Allies Only"
 msgstr "Alliés seulement"
 
-#: client/gui-gtk-2.0/gui_main.c:1449 client/gui-gtk-3.0/gui_main.c:1475
+#: client/gui-gtk-2.0/gui_main.c:1454 client/gui-gtk-3.0/gui_main.c:1480
 msgid "Clear links"
 msgstr "Effacer les liens"
 
-#: client/gui-gtk-2.0/gui_main.c:2028 client/gui-gtk-3.0/gui_main.c:2048
+#: client/gui-gtk-2.0/gui_main.c:2033 client/gui-gtk-3.0/gui_main.c:2053
 #: modinst/modinst.c:102
 msgid "Are you sure you want to quit?"
 msgstr "Voulez-vous vraiment quitter?"
@@ -3765,34 +3765,34 @@ msgstr "Retiré"
 msgid "Freeciv Help Browser"
 msgstr "Navigateur d'aide de Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:689 client/gui-gtk-3.0/helpdlg.c:696
+#: client/gui-gtk-2.0/helpdlg.c:689 client/gui-gtk-3.0/helpdlg.c:701
 msgid "Expand All"
 msgstr "Tout déplier"
 
-#: client/gui-gtk-2.0/helpdlg.c:690 client/gui-gtk-3.0/helpdlg.c:697
+#: client/gui-gtk-2.0/helpdlg.c:690 client/gui-gtk-3.0/helpdlg.c:702
 msgid "Collapse All"
 msgstr "Tout replier"
 
 #: client/gui-gtk-2.0/helpdlg.c:984 client/gui-gtk-2.0/helpdlg.c:1014
 #: client/gui-gtk-2.0/helpdlg.c:1026 client/gui-gtk-2.0/helpdlg.c:1034
-#: client/gui-gtk-2.0/helpdlg.c:1051 client/gui-gtk-3.0/helpdlg.c:1005
-#: client/gui-gtk-3.0/helpdlg.c:1035 client/gui-gtk-3.0/helpdlg.c:1047
-#: client/gui-gtk-3.0/helpdlg.c:1055 client/gui-gtk-3.0/helpdlg.c:1072
+#: client/gui-gtk-2.0/helpdlg.c:1051 client/gui-gtk-3.0/helpdlg.c:1010
+#: client/gui-gtk-3.0/helpdlg.c:1040 client/gui-gtk-3.0/helpdlg.c:1052
+#: client/gui-gtk-3.0/helpdlg.c:1060 client/gui-gtk-3.0/helpdlg.c:1077
 #: client/gui-sdl/helpdlg.c:998
 msgid "Allows"
 msgstr "Autorise"
 
-#: client/gui-gtk-2.0/helpdlg.c:997 client/gui-gtk-3.0/helpdlg.c:1018
+#: client/gui-gtk-2.0/helpdlg.c:997 client/gui-gtk-3.0/helpdlg.c:1023
 msgid "Obsoletes"
 msgstr "Rend obsolète"
 
 #: client/gui-gtk-2.0/helpdlg.c:1038 client/gui-gtk-2.0/helpdlg.c:1055
-#: client/gui-gtk-3.0/helpdlg.c:1059 client/gui-gtk-3.0/helpdlg.c:1076
+#: client/gui-gtk-3.0/helpdlg.c:1064 client/gui-gtk-3.0/helpdlg.c:1081
 msgid "with"
 msgstr "avec"
 
 #: client/gui-gtk-2.0/helpdlg.c:1043 client/gui-gtk-2.0/helpdlg.c:1060
-#: client/gui-gtk-3.0/helpdlg.c:1064 client/gui-gtk-3.0/helpdlg.c:1081
+#: client/gui-gtk-3.0/helpdlg.c:1069 client/gui-gtk-3.0/helpdlg.c:1086
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
@@ -3806,48 +3806,48 @@ msgstr "?techhelp:"
 #. TRANS: "Conflicts with: (none)" (bases)
 #. TRANS: missing value
 #: client/gui-gtk-2.0/helpdlg.c:1108 client/gui-gtk-2.0/helpdlg.c:1202
-#: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1129
-#: client/gui-gtk-3.0/helpdlg.c:1223 client/gui-gtk-3.0/inteldlg.c:402
+#: client/gui-gtk-2.0/inteldlg.c:410 client/gui-gtk-3.0/helpdlg.c:1134
+#: client/gui-gtk-3.0/helpdlg.c:1228 client/gui-gtk-3.0/inteldlg.c:402
 #: client/gui-xaw/helpdlg.c:1015 client/gui-xaw/helpdlg.c:1100
 #: common/requirements.c:1472 common/requirements.c:1526
 #, c-format
 msgid "(none)"
 msgstr "(aucun)"
 
-#: client/gui-gtk-2.0/helpdlg.c:1113 client/gui-gtk-3.0/helpdlg.c:1134
+#: client/gui-gtk-2.0/helpdlg.c:1113 client/gui-gtk-3.0/helpdlg.c:1139
 #: client/gui-xaw/helpdlg.c:1020
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Comm. / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1117 client/gui-gtk-3.0/helpdlg.c:1138
+#: client/gui-gtk-2.0/helpdlg.c:1117 client/gui-gtk-3.0/helpdlg.c:1143
 #: client/gui-xaw/helpdlg.c:1024
 #, c-format
 msgid "no extra / %d"
 msgstr "pas d'extra / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1120 client/gui-gtk-2.0/helpdlg.c:1124
-#: client/gui-gtk-2.0/helpdlg.c:1138 client/gui-gtk-3.0/helpdlg.c:1141
-#: client/gui-gtk-3.0/helpdlg.c:1145 client/gui-gtk-3.0/helpdlg.c:1159
+#: client/gui-gtk-2.0/helpdlg.c:1138 client/gui-gtk-3.0/helpdlg.c:1146
+#: client/gui-gtk-3.0/helpdlg.c:1150 client/gui-gtk-3.0/helpdlg.c:1164
 #: client/gui-xaw/helpdlg.c:1026 client/gui-xaw/helpdlg.c:1030
 #: client/gui-xaw/helpdlg.c:1044 client/gui-xaw/helpdlg.c:1063
 msgid "n/a"
 msgstr "nc"
 
-#: client/gui-gtk-2.0/helpdlg.c:1127 client/gui-gtk-3.0/helpdlg.c:1148
+#: client/gui-gtk-2.0/helpdlg.c:1127 client/gui-gtk-3.0/helpdlg.c:1153
 #: client/gui-xaw/helpdlg.c:1033
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Nour. / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1141 client/gui-gtk-3.0/helpdlg.c:1162
+#: client/gui-gtk-2.0/helpdlg.c:1141 client/gui-gtk-3.0/helpdlg.c:1167
 #: client/gui-xaw/helpdlg.c:1047
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Res. / %d"
 
 #. TRANS: "MP" = movement points
-#: client/gui-gtk-2.0/helpdlg.c:1186 client/gui-gtk-3.0/helpdlg.c:1207
+#: client/gui-gtk-2.0/helpdlg.c:1186 client/gui-gtk-3.0/helpdlg.c:1212
 #, c-format
 msgid "%d MP"
 msgstr "%d PM"
@@ -6857,7 +6857,7 @@ msgid "R.I.P."
 msgstr "Mort"
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:263
-#: server/stdinhand.c:3493 server/stdinhand.c:6268
+#: server/stdinhand.c:3493 server/stdinhand.c:6284
 msgid "AI"
 msgstr "IA"
 
@@ -7024,7 +7024,7 @@ msgstr "Chargement du thème \"%s\"."
 
 # AR
 #: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
-#: client/tilespec.c:1195 client/tilespec.c:1229
+#: client/tilespec.c:1202 client/tilespec.c:1236
 #, c-format
 msgid ""
 "Could not open '%s':\n"
@@ -10837,11 +10837,11 @@ msgstr "Début du tour %d"
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: client/packhand.c:2046
+#: client/packhand.c:2044
 msgid "AI mode is now ON."
 msgstr "L'IA est maintenant activée."
 
-#: client/packhand.c:2048
+#: client/packhand.c:2046
 msgid "AI mode is now OFF."
 msgstr "L'IA est maintenant désactivée."
 
@@ -11678,29 +11678,29 @@ msgstr "La présence d'unités militaires n'a pas d'effet sur le bonheur. "
 msgid "Luxury: %d total."
 msgstr "Luxe : %d au total."
 
-#: client/tilespec.c:1000
+#: client/tilespec.c:1006
 msgid "No usable default tileset found, aborting!"
 msgstr "Aucun jeu de textures par défaut utilisable, annulation!"
 
-#: client/tilespec.c:1032
+#: client/tilespec.c:1039
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Chargement des jeux de textures \"%s\"."
 
-#: client/tilespec.c:1500
+#: client/tilespec.c:1507
 msgid "Client does not support isometric tilesets."
 msgstr "Le client ne supporte pas les jeux de textures isométriques."
 
-#: client/tilespec.c:1501 client/tilespec.c:1507
+#: client/tilespec.c:1508 client/tilespec.c:1514
 msgid "Using default tileset instead."
 msgstr "Utilisation du jeu de textures standard à la place."
 
-#: client/tilespec.c:1506
+#: client/tilespec.c:1513
 msgid "Client does not support overhead view tilesets."
 msgstr ""
 "Le client ne supporte pas les jeux de textures de vue par dessus la tête."
 
-#: client/tilespec.c:4457
+#: client/tilespec.c:4470
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -11709,7 +11709,7 @@ msgstr ""
 "Le jeu de textures \"%s\" ne supporte pas longs chemins aussi longs que %d. "
 "Le chemin n'est pas affiché tel qu'attendu."
 
-#: client/tilespec.c:4782
+#: client/tilespec.c:4795
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -12734,63 +12734,63 @@ msgstr "Tricheur"
 msgid "Experimental"
 msgstr "Expérimental"
 
-#: common/player.c:1149
+#: common/player.c:1155
 msgid "?attitude:Genocidal"
 msgstr "Tueur"
 
-#: common/player.c:1151
+#: common/player.c:1157
 msgid "?attitude:Belligerent"
 msgstr "Belliqueux"
 
-#: common/player.c:1153
+#: common/player.c:1159
 msgid "?attitude:Hostile"
 msgstr "Hostile"
 
-#: common/player.c:1155
+#: common/player.c:1161
 msgid "?attitude:Uncooperative"
 msgstr "Pas commode"
 
-#: common/player.c:1157
+#: common/player.c:1163
 msgid "?attitude:Uneasy"
 msgstr "Équivoque"
 
-#: common/player.c:1159
+#: common/player.c:1165
 msgid "?attitude:Neutral"
 msgstr "Neutre"
 
-#: common/player.c:1161
+#: common/player.c:1167
 msgid "?attitude:Respectful"
 msgstr "Respectueux"
 
-#: common/player.c:1163
+#: common/player.c:1169
 msgid "?attitude:Helpful"
 msgstr "Coopératif"
 
-#: common/player.c:1165
+#: common/player.c:1171
 msgid "?attitude:Enthusiastic"
 msgstr "Enthousiaste"
 
-#: common/player.c:1167
+#: common/player.c:1173
 msgid "?attitude:Admiring"
 msgstr "Admiratif"
 
-#: common/player.c:1170
+#: common/player.c:1176
 msgid "?attitude:Worshipful"
 msgstr "Idolâtre"
 
-#: common/player.c:1181
+#: common/player.c:1187
 msgid "?diplomatic_state:Armistice"
 msgstr "Armistice"
 
-#: common/player.c:1182
+#: common/player.c:1188
 msgid "?diplomatic_state:War"
 msgstr "Guerre"
 
-#: common/player.c:1186
+#: common/player.c:1192
 msgid "?diplomatic_state:Never met"
 msgstr "Jamais rencontré"
 
-#: common/player.c:1187
+#: common/player.c:1193
 msgid "?diplomatic_state:Team"
 msgstr "Partenariat"
 
@@ -15285,7 +15285,7 @@ msgstr "Cheftaine Principale %s"
 # AR
 #: data/civ1/nations.ruleset:1398 data/civ2/nations.ruleset:1951
 #: data/nation/barbarian.ruleset:3 server/stdinhand.c:3491
-#: server/stdinhand.c:6266
+#: server/stdinhand.c:6282
 msgid "Barbarian"
 msgstr "Barbare"
 
@@ -42597,18 +42597,18 @@ msgstr "Le générateur 3 n'a pas placé toutes les grandes îles."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Le générateur 3 a laissé %li terres non placées."
 
-#: server/generator/mapgen_topology.c:244
+#: server/generator/mapgen_topology.c:245
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
 msgstr "Création d'une carte de taille %d x %d = %d cases (%d demandées)."
 
-#: server/generator/mapgen_topology.c:284
+#: server/generator/mapgen_topology.c:285
 #, c-format
 msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
 msgstr ""
 "Création d'une carte de taille %d x %d = %d cases (taille de carte : %d)"
 
-#: server/generator/mapgen_topology.c:296
+#: server/generator/mapgen_topology.c:297
 #, c-format
 msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
@@ -42618,7 +42618,7 @@ msgstr ""
 "joueurs est trop petite. Réinitialisation de la taille de la carte à la "
 "valeur minimale %d."
 
-#: server/generator/mapgen_topology.c:301
+#: server/generator/mapgen_topology.c:302
 #, c-format
 msgid ""
 "Map size calculated for %d (land) tiles per player and %d player(s) too "
@@ -42628,7 +42628,7 @@ msgstr ""
 "joueurs est trop grande. Réinitialisation de la taille de la carte à la "
 "valeur maximale %d."
 
-#: server/generator/mapgen_topology.c:306
+#: server/generator/mapgen_topology.c:307
 #, c-format
 msgid ""
 "Setting map size to %d (approx. %d (land) tiles for each of the %d "
@@ -43361,10 +43361,10 @@ msgstr "Merveilles\n"
 #: server/report.c:1475
 msgid ""
 "Research Speed\n"
-"(%)"
+"(bulbs)"
 msgstr ""
-"Rapidité des recherches\n"
-"(%)"
+"Vitesse de recherche\n"
+"(ampoules)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
 #: server/report.c:1477
@@ -46545,7 +46545,7 @@ msgstr "Chargement du fichier de script : '%s'."
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Impossible de lire le fichier de script \"%s\"."
 
-#: server/stdinhand.c:1269 server/stdinhand.c:4560
+#: server/stdinhand.c:1269 server/stdinhand.c:4576
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Impossible de lire le fichier de script \"%s\"."
@@ -46674,7 +46674,7 @@ msgstr "Option : %s  -  %s"
 msgid "Option: %s"
 msgstr "Option : %s"
 
-#: server/stdinhand.c:1749 server/stdinhand.c:5936
+#: server/stdinhand.c:1749 server/stdinhand.c:5952
 msgid "Description:"
 msgstr "Description :"
 
@@ -46893,6 +46893,7 @@ msgid "There are no votes going on."
 msgstr "Il n'y a pas de vote en cours."
 
 #: server/stdinhand.c:2477 server/stdinhand.c:2602 server/stdinhand.c:4245
+#: server/stdinhand.c:4447
 msgid "You are not allowed to use this command."
 msgstr "Vous n'êtes pas autorisé à utiliser cette commande."
 
@@ -47227,7 +47228,7 @@ msgid "%s now controls %s (%s, %s)."
 msgstr "%s contrôle maintenant %s (%s, %s)."
 
 # AR
-#: server/stdinhand.c:3494 server/stdinhand.c:6270
+#: server/stdinhand.c:3494 server/stdinhand.c:6286
 msgid "Human"
 msgstr "Humain"
 
@@ -47304,7 +47305,7 @@ msgstr "Le répertoire de règles du jeu \"%s\" n'a pas été trouvé"
 msgid "Ruleset directory set to \"%s\""
 msgstr "Le répertoire de règles du jeu est \"%s\""
 
-#: server/stdinhand.c:3848 server/stdinhand.c:3884 server/stdinhand.c:6186
+#: server/stdinhand.c:3848 server/stdinhand.c:3884 server/stdinhand.c:6202
 msgid "That would be rather silly, since you are not a player."
 msgstr "Ce serait plutôt ridicule, puisque vous n'êtes pas un joueur."
 
@@ -47320,7 +47321,7 @@ msgstr ""
 "Ajout du motif %s en tant qu'entrée n° %d de votre liste des utilisateurs "
 "ignorés."
 
-#: server/stdinhand.c:3893 server/stdinhand.c:6191
+#: server/stdinhand.c:3893 server/stdinhand.c:6207
 msgid "Your ignore list is empty."
 msgstr "Votre liste des utilisateurs ignorés est vide."
 
@@ -47437,131 +47438,135 @@ msgstr ""
 msgid "Cannot end the game: no game running."
 msgstr "Impossible de terminer la partie : il n'y a pas de partie en cours."
 
-#: server/stdinhand.c:4448
+#: server/stdinhand.c:4452
+msgid "You cannot surrender now."
+msgstr "Vous ne pouvez pas vous rendre maintenant."
+
+#: server/stdinhand.c:4459
+msgid "You have already conceded the game."
+msgstr "Vous vous êtes déjà avoué vaincu."
+
+#: server/stdinhand.c:4468
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s s'est avoué vaincu et ne peut plus dorénavant gagner la partie."
 
-#: server/stdinhand.c:4453
-msgid "You cannot surrender now."
-msgstr "Vous ne pouvez pas vous rendre maintenant."
-
-#: server/stdinhand.c:4503
+#: server/stdinhand.c:4519
 msgid "Guessing argument 'ruleset'."
 msgstr "Argument supposé : 'ruleset'."
 
-#: server/stdinhand.c:4507
+#: server/stdinhand.c:4523
 msgid "Guessing argument 'game'."
 msgstr "Argument supposé : 'game'."
 
-#: server/stdinhand.c:4515
+#: server/stdinhand.c:4531
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "Les arguments valides sont : 'game', 'ruleset', 'script' ou 'default'."
 
-#: server/stdinhand.c:4530
+#: server/stdinhand.c:4546
 msgid "Reset all settings to the values at the game start."
 msgstr "Réinitialise toutes les options à leur valeur au démarrage du jeu."
 
-#: server/stdinhand.c:4533
+#: server/stdinhand.c:4549
 msgid "No saved settings from the game start available."
 msgstr "Pas d'options sauvegardées en début de partie disponible."
 
-#: server/stdinhand.c:4537
+#: server/stdinhand.c:4553
 msgid "No game started..."
 msgstr "Aucune partie commencée..."
 
-#: server/stdinhand.c:4544
+#: server/stdinhand.c:4560
 msgid "Reset all settings to ruleset values."
 msgstr ""
 "Réinitialise toutes les options aux valeurs définies dans les règles du jeu."
 
-#: server/stdinhand.c:4551
+#: server/stdinhand.c:4567
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 "Réinitialise toutes les options et relecture le script de démarrage du "
 "serveur."
 
-#: server/stdinhand.c:4569
+#: server/stdinhand.c:4585
 msgid "Reset all settings to default values."
 msgstr "Réinitialise toutes les options à leur valeur par défaut."
 
-#: server/stdinhand.c:4575
+#: server/stdinhand.c:4591
 msgid "Settings re-initialized."
 msgstr "Paramètres de la partie réinitialisés."
 
-#: server/stdinhand.c:4636
+#: server/stdinhand.c:4652
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>'."
 msgstr "Retour à l'ancienne syntaxe '%slua <script command>'."
 
-#: server/stdinhand.c:4646
+#: server/stdinhand.c:4662
 #, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
 msgstr "Pas de commande ou de fichier de script Lua. Voir '%shelp lua'."
 
-#: server/stdinhand.c:4669
+#: server/stdinhand.c:4685
 #, c-format
 msgid "Freeciv script '%s' disallowed for security reasons."
 msgstr "Le script Freeciv '%s' a été bloqué pour des raisons de sécurité."
 
-#: server/stdinhand.c:4683
+#: server/stdinhand.c:4699
 #, c-format
 msgid "No Freeciv script found by the name '%s'."
 msgstr "Aucun script Freeciv du nom de '%s'."
 
-#: server/stdinhand.c:4705
+#: server/stdinhand.c:4721
 #, c-format
 msgid "Loading Freeciv script file '%s'."
 msgstr "Chargement du fichier de script Freeciv '%s'."
 
-#: server/stdinhand.c:4713
+#: server/stdinhand.c:4729
 #, c-format
 msgid "Cannot read Freeciv script '%s'."
 msgstr "Impossible de lire le script Freeciv '%s'."
 
-#: server/stdinhand.c:4762
+#: server/stdinhand.c:4778
 msgid "Game not started - cannot delegate yet."
 msgstr "Partie non lancée - impossible de déjà déléguer."
 
 #. TRANS: do not translate the command 'delegate'.
-#: server/stdinhand.c:4815
+#: server/stdinhand.c:4831
 #, c-format
 msgid "Valid arguments for 'delegate' are: %s."
 msgstr "Les arguments valides pour 'delegate' sont : %s."
 
-#: server/stdinhand.c:4835 server/stdinhand.c:4925
+#: server/stdinhand.c:4851 server/stdinhand.c:4941
 #, c-format
 msgid "Command level '%s' or greater needed to modify others' delegations."
 msgstr ""
 "Le niveau de commande '%s' ou plus est nécessaire pour modifier les "
 "délégations des autres."
 
-#: server/stdinhand.c:4844
+#: server/stdinhand.c:4860
 msgid "Please specify a player for whom delegation should be canceled."
 msgstr "Merci de préciser un joueur dont la délégation doit être annulée."
 
-#: server/stdinhand.c:4855 server/stdinhand.c:4885
+#: server/stdinhand.c:4871 server/stdinhand.c:4901
 msgid "You can't switch players from the console."
 msgstr "Vous ne pouvez pas changer de joueur depuis la console."
 
-#: server/stdinhand.c:4874
+#: server/stdinhand.c:4890
 msgid "Please specify a player for whom the delegation should be shown."
 msgstr "Merci de préciser le joueur dont la délégation doit être affichée."
 
-#: server/stdinhand.c:4899
+#: server/stdinhand.c:4915
 msgid "Please specify a player to take control of."
 msgstr "Merci de préciser le joueur à contrôler."
 
-#: server/stdinhand.c:4910
+#: server/stdinhand.c:4926
 msgid "Please specify a user to whom control is to be delegated."
 msgstr ""
 "Merci de précision le nom de l'utilisateur auquel déléguer le contrôle."
 
-#: server/stdinhand.c:4934
+#: server/stdinhand.c:4950
 msgid "You do not control a player."
 msgstr "Vous ne contrôlez aucun joueur."
 
-#: server/stdinhand.c:4970
+#: server/stdinhand.c:4986
 #, c-format
 msgid ""
 "Can't delegate control of '%s' belonging to %s while they are controlling "
@@ -47570,14 +47575,14 @@ msgstr ""
 "Impossible de déléguer le contrôle de '%s' appartenant à %s, tant qu'il "
 "contrôle un autre joueur."
 
-#: server/stdinhand.c:4976
+#: server/stdinhand.c:4992
 #, c-format
 msgid "Can't change delegation of '%s' while controlled by delegate %s."
 msgstr ""
 "Impossible de changer la délégation de '%s' tant que vous avez délégué le "
 "contrôle à %s."
 
-#: server/stdinhand.c:4983
+#: server/stdinhand.c:4999
 msgid ""
 "You can't delegate control while you are controlling a delegated player "
 "yourself."
@@ -47586,7 +47591,7 @@ msgstr ""
 "délégué vous-même."
 
 #. TRANS: don't translate 'delegate cancel'
-#: server/stdinhand.c:4997
+#: server/stdinhand.c:5013
 #, c-format
 msgid ""
 "%s already owns '%s', so cannot also be delegate. Use '%sdelegate cancel' to "
@@ -47596,7 +47601,7 @@ msgstr ""
 "'%sdelegate cancel' pour annuler une délégation existante."
 
 #. TRANS: don't translate '/delegate cancel'
-#: server/stdinhand.c:5006
+#: server/stdinhand.c:5022
 msgid ""
 "You can't delegate control to yourself. Use '/delegate cancel' to cancel an "
 "existing delegation."
@@ -47604,32 +47609,32 @@ msgstr ""
 "Vous ne pouvez pas déléguer le contrôle à vous-même. Utilisez '/delegate "
 "cancel' pour annuler une délégation existante."
 
-#: server/stdinhand.c:5019 server/stdinhand.c:5036
+#: server/stdinhand.c:5035 server/stdinhand.c:5052
 #, c-format
 msgid "Control of player '%s' delegated to user %s."
 msgstr "Le contrôle du joueur '%s' est délégué à l'utilisateur %s."
 
-#: server/stdinhand.c:5032 server/stdinhand.c:5047
+#: server/stdinhand.c:5048 server/stdinhand.c:5063
 #, c-format
 msgid "No delegation defined for '%s'."
 msgstr "Aucune délégation définie pour '%s'."
 
-#: server/stdinhand.c:5067 server/stdinhand.c:5143 server/stdinhand.c:5173
+#: server/stdinhand.c:5083 server/stdinhand.c:5159 server/stdinhand.c:5189
 msgid "Unexpected failure."
 msgstr "Échec inattendu."
 
-#: server/stdinhand.c:5072
+#: server/stdinhand.c:5088
 #, c-format
 msgid "Your delegated control of player '%s' was canceled."
 msgstr "Votre délégation sur le joueur '%s' a été annulée."
 
-#: server/stdinhand.c:5077
+#: server/stdinhand.c:5093
 #, c-format
 msgid "Delegation of '%s' canceled."
 msgstr "Délégation de '%s' annullée."
 
 #. TRANS: don't translate '/delegate restore'.
-#: server/stdinhand.c:5091
+#: server/stdinhand.c:5107
 msgid ""
 "You are already controlling a delegated player. Use '/delegate restore' to "
 "relinquish control of your current player first."
@@ -47638,7 +47643,7 @@ msgstr ""
 "pour restituer le controle de votre joueur courant."
 
 #. TRANS: don't translate '/delegate cancel'.
-#: server/stdinhand.c:5105
+#: server/stdinhand.c:5121
 msgid ""
 "Can't take player while you have delegated control yourself. Use '/delegate "
 "cancel' to cancel your own delegation first."
@@ -47647,152 +47652,152 @@ msgstr ""
 "votre propre contrôle. Utilisez '/delegate cancel' pour annuler votre propre "
 "délagation d'abord."
 
-#: server/stdinhand.c:5115
+#: server/stdinhand.c:5131
 #, c-format
 msgid "You already control '%s'."
 msgstr "Vous contrôlez déjà '%s'."
 
-#: server/stdinhand.c:5124
+#: server/stdinhand.c:5140
 #, c-format
 msgid "Control of player '%s' has not been delegated to you."
 msgstr "Le contrôle du joueur '%s' ne vous a pas été délégué."
 
-#: server/stdinhand.c:5133
+#: server/stdinhand.c:5149
 #, c-format
 msgid "Another user already controls player '%s'."
 msgstr "Un autre utilisateur contrôle déjà le joueur '%s'."
 
-#: server/stdinhand.c:5149
+#: server/stdinhand.c:5165
 #, c-format
 msgid "%s is now controlling player '%s'."
 msgstr "%s contrôle maintenant le joueur '%s'."
 
-#: server/stdinhand.c:5162
+#: server/stdinhand.c:5178
 msgid "You are not currently controlling a delegated player."
 msgstr "Vous ne contrôlez pas actuellement un un joueur délégué."
 
 #. TRANS: "<user> is now connected to <player>" where <player>
 #. * can also be "global observer" or "nothing"
-#: server/stdinhand.c:5181
+#: server/stdinhand.c:5197
 #, c-format
 msgid "%s is now connected as %s."
 msgstr "%s est maintenent connecté en tant que %s."
 
-#: server/stdinhand.c:5202
+#: server/stdinhand.c:5218
 #, c-format
 msgid "%s (observer)"
 msgstr "%s (observateur)"
 
-#: server/stdinhand.c:5207
+#: server/stdinhand.c:5223
 msgid "global observer"
 msgstr "observateur global"
 
 #. TRANS: in place of player name or "global observer"
-#: server/stdinhand.c:5210
+#: server/stdinhand.c:5226
 msgid "nothing"
 msgstr "rien"
 
-#: server/stdinhand.c:5265
+#: server/stdinhand.c:5281
 msgid "Ambiguous 'mapimg' command."
 msgstr "Commande 'mapimg' ambigüe."
 
-#: server/stdinhand.c:5291 server/stdinhand.c:5544
+#: server/stdinhand.c:5307 server/stdinhand.c:5560
 #, c-format
 msgid "The valid arguments are: %s."
 msgstr "Les argument valides sont : %s."
 
-#: server/stdinhand.c:5306
+#: server/stdinhand.c:5322
 msgid "Missing argument for 'mapimg define'."
 msgstr "Argument manquant pour 'mapimg define'."
 
-#: server/stdinhand.c:5312 server/stdinhand.c:5321
+#: server/stdinhand.c:5328 server/stdinhand.c:5337
 #, c-format
 msgid "Can't use definition: %s."
 msgstr "Impossible d'utiliser la définition : %s."
 
-#: server/stdinhand.c:5328
+#: server/stdinhand.c:5344
 #, c-format
 msgid "Defined as map image definition %d: '%s'."
 msgstr "Définition de l'image de carte %d : '%s'."
 
-#: server/stdinhand.c:5338
+#: server/stdinhand.c:5354
 msgid "Missing argument for 'mapimg delete'."
 msgstr "Argument manquant pour 'mapimg delete'."
 
-#: server/stdinhand.c:5349
+#: server/stdinhand.c:5365
 msgid "All map image definitions deleted."
 msgstr "Toutes les définition d'image de carte sont effacées."
 
-#: server/stdinhand.c:5359
+#: server/stdinhand.c:5375
 #, c-format
 msgid "Couldn't delete definition: %s."
 msgstr "Impossible d'effacer la définition : %s."
 
-#: server/stdinhand.c:5362
+#: server/stdinhand.c:5378
 #, c-format
 msgid "Map image definition %d deleted."
 msgstr "Définition de l'image de carte %d effacée."
 
-#: server/stdinhand.c:5367
+#: server/stdinhand.c:5383
 #, c-format
 msgid "Bad argument for 'mapimg delete': '%s'."
 msgstr "Argument erroné pour 'mapimg delete' : '%s'."
 
-#: server/stdinhand.c:5390
+#: server/stdinhand.c:5406
 #, c-format
 msgid "Couldn't show definition: %s."
 msgstr "Impossible d'afficher la définition : %s."
 
-#: server/stdinhand.c:5395
+#: server/stdinhand.c:5411
 #, c-format
 msgid "Bad argument for 'mapimg show': '%s'."
 msgstr "Argument erroné pour 'mapimg show' : '%s'."
 
-#: server/stdinhand.c:5406
+#: server/stdinhand.c:5422
 msgid "Map color test images saved."
 msgstr "Images de test des couleurs de la carte sauvegardées."
 
-#: server/stdinhand.c:5412
+#: server/stdinhand.c:5428
 msgid "Missing argument for 'mapimg create'."
 msgstr "Argument manquant pour 'mapimg create'."
 
-#: server/stdinhand.c:5430 server/stdinhand.c:5447
+#: server/stdinhand.c:5446 server/stdinhand.c:5463
 #, c-format
 msgid "Error saving map image %d: %s."
 msgstr "Erreur de sauvegarde de l'image de carte %d : %s."
 
-#: server/stdinhand.c:5452
+#: server/stdinhand.c:5468
 #, c-format
 msgid "Bad argument for 'mapimg create': '%s'."
 msgstr "Argument erroné pour 'mapimg create' : '%s'."
 
-#: server/stdinhand.c:5496
+#: server/stdinhand.c:5512
 msgid "Freeciv database script deactivated at compile time."
 msgstr "Script de base de données Freeciv désactivé à la compilation."
 
-#: server/stdinhand.c:5514
+#: server/stdinhand.c:5530
 msgid "Ambiguous fcdb command."
 msgstr "Commande fcdb ambigüe"
 
-#: server/stdinhand.c:5646
+#: server/stdinhand.c:5662
 msgid "Not enough human players; game will not start."
 msgstr "Pas assez de joueurs humains ; la partie ne se lancera pas."
 
-#: server/stdinhand.c:5651
+#: server/stdinhand.c:5667
 msgid "No players; game will not start."
 msgstr "Pas de joueurs ; la partie ne se lancera pas."
 
-#: server/stdinhand.c:5655
+#: server/stdinhand.c:5671
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "Pas assez de nations pour tous les joueurs ; la partie ne se lancera pas."
 
-#: server/stdinhand.c:5665
+#: server/stdinhand.c:5681
 msgid "All players are ready; starting game."
 msgstr "Tous les joueurs sont prêts ; la partie peut commencer."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5681
+#: server/stdinhand.c:5697
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -47801,24 +47806,24 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5688
+#: server/stdinhand.c:5704
 msgid "Cannot start the game: it is already running."
 msgstr "Impossible de lancer la partie : elle est déjà en cours."
 
-#: server/stdinhand.c:5719
+#: server/stdinhand.c:5735
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Coupure de la connexion %s."
 
-#: server/stdinhand.c:5720
+#: server/stdinhand.c:5736
 msgid "connection cut"
 msgstr "connexion coupée"
 
-#: server/stdinhand.c:5808
+#: server/stdinhand.c:5824
 msgid "You may not kick yourself."
 msgstr "Vous ne pouvez pas vous éjecter vous-même."
 
-#: server/stdinhand.c:5831
+#: server/stdinhand.c:5847
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
@@ -47827,11 +47832,11 @@ msgstr ""
 "Il doit y avoir au moins %d connexions différentes au serveur pour que cette "
 "commande soit valide."
 
-#: server/stdinhand.c:5857
+#: server/stdinhand.c:5873
 msgid "kicked"
 msgstr "éjecté"
 
-#: server/stdinhand.c:5873
+#: server/stdinhand.c:5889
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -47871,165 +47876,165 @@ msgstr ""
 "  quit  - pour quitter"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5910
+#: server/stdinhand.c:5926
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Commande : %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5916
+#: server/stdinhand.c:5932
 #, c-format
 msgid "Command: %s"
 msgstr "Commande : %s"
 
-#: server/stdinhand.c:5921
+#: server/stdinhand.c:5937
 msgid "Synopsis: "
 msgstr "Synopsis : "
 
-#: server/stdinhand.c:5930
+#: server/stdinhand.c:5946
 #, c-format
 msgid "Level: %s"
 msgstr "Niveau : %s"
 
-#: server/stdinhand.c:5954
+#: server/stdinhand.c:5970
 msgid "The following server commands are available:"
 msgstr "Les commandes suivantes du serveur sont disponibles :"
 
-#: server/stdinhand.c:6015
+#: server/stdinhand.c:6031
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Possibilités : %s"
 
-#: server/stdinhand.c:6077
+#: server/stdinhand.c:6093
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "L'argument \"%s\" de \"help\" est ambigu."
 
-#: server/stdinhand.c:6084
+#: server/stdinhand.c:6100
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Pas de correspondance pour l'argument \"%s\" de \"help\"."
 
-#: server/stdinhand.c:6125
+#: server/stdinhand.c:6141
 msgid "List of connections to server:"
 msgstr "Liste des connexions au serveur :"
 
-#: server/stdinhand.c:6129
+#: server/stdinhand.c:6145
 msgid "<no connections>"
 msgstr "<pas de connexions>"
 
-#: server/stdinhand.c:6150
+#: server/stdinhand.c:6166
 msgid "List of all delegations:"
 msgstr "Liste de toutes les délégations :"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6162
+#: server/stdinhand.c:6178
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr "%s délègues le controle sur le joueur '%s' à l'utilisateur %s%s."
 
-#: server/stdinhand.c:6164
+#: server/stdinhand.c:6180
 msgid " (active)"
 msgstr " (actif)"
 
-#: server/stdinhand.c:6170
+#: server/stdinhand.c:6186
 msgid "No delegations defined."
 msgstr "Aucune délégation définie."
 
-#: server/stdinhand.c:6195
+#: server/stdinhand.c:6211
 msgid "Your ignore list:"
 msgstr "Votre liste d'utilisateurs ignorés :"
 
-#: server/stdinhand.c:6211
+#: server/stdinhand.c:6227
 msgid "List of players:"
 msgstr "Liste des joueurs :"
 
-#: server/stdinhand.c:6215 server/stdinhand.c:6382
+#: server/stdinhand.c:6231 server/stdinhand.c:6398
 msgid "<no players>"
 msgstr "<aucun joueur>"
 
-#: server/stdinhand.c:6245
+#: server/stdinhand.c:6261
 #, c-format
 msgid ", user %s"
 msgstr ", utilisateur %s"
 
-#: server/stdinhand.c:6249
+#: server/stdinhand.c:6265
 msgid ", ready"
 msgstr ", prêt"
 
-#: server/stdinhand.c:6253
+#: server/stdinhand.c:6269
 msgid ", not ready"
 msgstr ", pas prêt"
 
-#: server/stdinhand.c:6259
+#: server/stdinhand.c:6275
 msgid ", Dead"
 msgstr ", Mort"
 
-#: server/stdinhand.c:6273
+#: server/stdinhand.c:6289
 #, c-format
 msgid ", %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:6274
+#: server/stdinhand.c:6290
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", niveau de difficulté %s"
 
-#: server/stdinhand.c:6280
+#: server/stdinhand.c:6296
 #, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] ", %d connexion :"
 msgstr[1] ", %d connexions :"
 
-#: server/stdinhand.c:6287
+#: server/stdinhand.c:6303
 #, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "%s depuis %s (niveau de commande %s), taille du tampon=%dKo"
 
-#: server/stdinhand.c:6292
+#: server/stdinhand.c:6308
 msgid " (observer mode)"
 msgstr " (mode observateur)"
 
-#: server/stdinhand.c:6309
+#: server/stdinhand.c:6325
 msgid "List of scenarios available:"
 msgstr "Liste des scenarii disponibles :"
 
-#: server/stdinhand.c:6330
+#: server/stdinhand.c:6346
 msgid "List of teams:"
 msgstr "Liste des équipes :"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6340
+#: server/stdinhand.c:6356
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d joueur"
 msgstr[1] "%2d : '%s' : %d joueurs"
 
-#: server/stdinhand.c:6361
+#: server/stdinhand.c:6377
 msgid "No map image definitions."
 msgstr "Pas de définition d'image de carte"
 
-#: server/stdinhand.c:6363
+#: server/stdinhand.c:6379
 msgid "List of map image definitions:"
 msgstr "Liste des définitions d'images de carte :"
 
-#: server/stdinhand.c:6368
+#: server/stdinhand.c:6384
 #, c-format
 msgid "[%2d] %s"
 msgstr "[%2d] %s"
 
-#: server/stdinhand.c:6379
+#: server/stdinhand.c:6395
 msgid "List of player colors:"
 msgstr "Liste des couleurs des joueurs :"
 
-#: server/stdinhand.c:6385
+#: server/stdinhand.c:6401
 #, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s (utilisateur %s) : [%s]"
 
-#: server/stdinhand.c:6442
+#: server/stdinhand.c:6458
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Mauvais argument pour \"list\" : \"%s\" . Essayez \"%shelp list\"."
@@ -48108,7 +48113,7 @@ msgstr ""
 msgid "Insufficient science output. We lost %s."
 msgstr "Production scientifique insuffisante. Nous avons perdu %s."
 
-#: server/techtools.c:623
+#: server/techtools.c:624
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -48117,7 +48122,7 @@ msgstr ""
 "La technologie nécessaire pour notre gouvernement '%s' a été perdue. Les "
 "citoyens ont commencé une révolution vers '%s'."
 
-#: server/techtools.c:638
+#: server/techtools.c:639
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -48126,32 +48131,32 @@ msgstr ""
 "La technologie nécessaire pour notre nouveau gouvernement '%s' a été perdue. "
 "Les citoyens ont choisi '%s' comme leur nouvel objectif de gouvernement."
 
-#: server/techtools.c:669 server/techtools.c:682
+#: server/techtools.c:670 server/techtools.c:683
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s ne peut construire %s. La technologie nécessaire a été perdue."
 
-#: server/techtools.c:803
+#: server/techtools.c:804
 #, c-format
 msgid "Technology goal is %s."
 msgstr "Le but technologique est %s."
 
-#: server/techtools.c:1012
+#: server/techtools.c:1013
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Vous avez volé %s aux %s."
 
-#: server/techtools.c:1017
+#: server/techtools.c:1018
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "Les %s vous ont volé %s!"
 
-#: server/techtools.c:1022
+#: server/techtools.c:1023
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "Les %s ont volé %s aux %s."
 
-#: server/techtools.c:1143
+#: server/techtools.c:1144
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
