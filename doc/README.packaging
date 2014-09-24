@@ -45,6 +45,7 @@ Updating from 2.4 to 2.5
   lua5.2 instead of lua5.1 in your system.
 * New configure option --without-freeciv-manual to disable build
   of freeciv-manual tool that's mostly useless for normal users.
+* Qt-client is now supported client, no longer just "in-development"
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
