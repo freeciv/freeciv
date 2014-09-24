@@ -3498,8 +3498,7 @@ static genhash_val_t pf_pos_hash_val(const struct pf_parameter *parameter)
 
   result += (uclass_number(utype_class(parameter->utype))
              + (parameter->move_rate << 5)
-             + (parameter->moves_left_initially << 11)
-             + (tile_index(parameter->start_tile) << 17));
+             + (tile_index(parameter->start_tile) << 11));
   if (!parameter->omniscience) {
     result += parameter->utype->unknown_move_cost << 23;
   }
@@ -3516,9 +3515,7 @@ static bool pf_pos_hash_cmp(const struct pf_parameter *parameter1,
   size_t i;
 
   if (parameter1->start_tile != parameter2->start_tile
-      || parameter1->move_rate != parameter2->move_rate
-      || (parameter1->moves_left_initially
-          != parameter2->moves_left_initially)) {
+      || parameter1->move_rate != parameter2->move_rate) {
     return FALSE;
   }
 
