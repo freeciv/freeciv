@@ -90,17 +90,14 @@ void fc_client::create_main_page(void)
   char msgbuf[128];
   const char *rev_ver;
   QFont f = QApplication::font();
-  QFont *fe;
   QFontMetrics fm(f);
-  QPalette warn_color;
-  QLabel *experimental_warning = new QLabel(_("Qt-client is experimental!"));
-  fe = fc_fonts.get_font("gui_qt_font_beta_label");
-  experimental_warning->setFont(*fe);
   int row = 0;
 #if IS_BETA_VERSION
+  QFont *fe = fc_fonts.get_font("gui_qt_font_beta_label");
+  QPalette warn_color;
   QLabel *beta_label = new QLabel(beta_message());
   beta_label->setFont(*fe);
-#endif
+#endif /* IS_BETA_VERSION */
 
   pages_layout[PAGE_MAIN] = new QGridLayout;
 
@@ -141,13 +138,8 @@ void fc_client::create_main_page(void)
   pages_layout[PAGE_MAIN]->addWidget(free_main_pic,
                                      row++, 0, 1, 2, Qt::AlignCenter);
 
-  warn_color.setColor(QPalette::WindowText, Qt::red);
-  experimental_warning->setPalette(warn_color);
-  experimental_warning->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Maximum);
-  pages_layout[PAGE_MAIN]->addWidget(experimental_warning,
-                                     row++, 0, 1, 2, Qt::AlignHCenter);
-
 #if IS_BETA_VERSION
+  warn_color.setColor(QPalette::WindowText, Qt::red);
   beta_label->setPalette(warn_color);
   beta_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Maximum);
   beta_label->setAlignment(Qt::AlignCenter);
