@@ -2433,8 +2433,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     city_reduce_size(pcity, city_size_get(pcity) / 2, pplayer);
   }
 
-  if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
-      && fc_rand(2) == 1) {
+  if (fc_rand(2) == 1) {
     struct extra_type *pextra;
 
     pextra = rand_extra_for_tile(ptile, EC_FALLOUT);

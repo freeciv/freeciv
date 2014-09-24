@@ -256,22 +256,24 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
-	if (clean_pollution_time != 0 &&
-	    !terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
-	  if (clean_pollution_time < 0)
-	    clean_pollution_time = pterrain->clean_pollution_time;
-	  else
-	    if (clean_pollution_time != pterrain->clean_pollution_time)
-	      clean_pollution_time = 0; /* give up */
-	}
-	if (clean_fallout_time != 0 &&
-	    !terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
-	  if (clean_fallout_time < 0)
-	    clean_fallout_time = pterrain->clean_fallout_time;
-	  else
-	    if (clean_fallout_time != pterrain->clean_fallout_time)
-	      clean_fallout_time = 0; /* give up */
-	}
+        if (clean_pollution_time != 0) {
+          if (clean_pollution_time < 0) {
+            clean_pollution_time = pterrain->clean_pollution_time;
+          } else {
+            if (clean_pollution_time != pterrain->clean_pollution_time) {
+              clean_pollution_time = 0; /* give up */
+            }
+          }
+        }
+        if (clean_fallout_time != 0) {
+          if (clean_fallout_time < 0) {
+            clean_fallout_time = pterrain->clean_fallout_time;
+          } else {
+            if (clean_fallout_time != pterrain->clean_fallout_time) {
+              clean_fallout_time = 0; /* give up */
+            }
+          }
+        }
       }
     } terrain_type_iterate_end;
 
@@ -3964,14 +3966,6 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
-  if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
-    CATLSTR(buf, bufsz,
-	    _("* Pollution cannot be generated on this terrain."));
-    CATLSTR(buf, bufsz, "\n");
-    CATLSTR(buf, bufsz,
-	    _("* Fallout cannot be generated on this terrain."));
-    CATLSTR(buf, bufsz, "\n");
-  }
   if (terrain_has_flag(pterrain, TER_NO_CITIES)) {
     CATLSTR(buf, bufsz,
 	    _("* You cannot build cities on this terrain."));

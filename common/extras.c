@@ -532,13 +532,6 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
     }
   }
 
-  if (terrain_has_flag(pterr, TER_NO_POLLUTION)
-      && (is_extra_caused_by(pextra, EC_POLLUTION)
-          || is_extra_caused_by(pextra, EC_FALLOUT))) {
-    /* Pollution cannot exist at that terrain. */
-    return FALSE;
-  }
-
   return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
                          NULL, NULL, NULL, NULL,
                          &pextra->reqs, RPT_POSSIBLE);

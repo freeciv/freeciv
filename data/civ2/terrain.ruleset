@@ -131,7 +131,6 @@ pythagorean_diagonal = FALSE
 ;                        following, and/or any user flags defined above:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - NoCities         = Cities may not be built or found on this terrain.
-;   - NoPollution      = Pollution will not be put on this terrain type.
 ;   - Starter          = Players will only be started on "Starter" terrain.
 ;                        (Currently this cannot be Oceanic terrain.)
 ;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the
@@ -199,7 +198,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Sea", "Air", "Missile", "Helicopter"
-flags                = "UnsafeCoast", "NoCities", "NoPollution", "NoZoc", "NoFortify"
+flags                = "UnsafeCoast", "NoCities", "NoZoc", "NoFortify"
 property_ocean_depth = 36
 color.r              = 0
 color.g              = 46
@@ -934,6 +933,10 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present"
+      "Terrain", "Ocean", "Local", FALSE
+    }
 removal_time   = 0
 flags          = "GlobalWarming"
 

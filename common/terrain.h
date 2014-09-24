@@ -100,41 +100,38 @@ struct resource {
 /* No barbarians summoned on this terrain. */
 #define SPECENUM_VALUE0 TER_NO_BARBS
 #define SPECENUM_VALUE0NAME "NoBarbs"
-/* This terrain cannot be polluted. */
-#define SPECENUM_VALUE1 TER_NO_POLLUTION
-#define SPECENUM_VALUE1NAME "NoPollution"
 /* No cities on this terrain. */
-#define SPECENUM_VALUE2 TER_NO_CITIES
-#define SPECENUM_VALUE2NAME "NoCities"
+#define SPECENUM_VALUE1 TER_NO_CITIES
+#define SPECENUM_VALUE1NAME "NoCities"
 /* Players will start on this terrain type. */
-#define SPECENUM_VALUE3 TER_STARTER
-#define SPECENUM_VALUE3NAME "Starter"
+#define SPECENUM_VALUE2 TER_STARTER
+#define SPECENUM_VALUE2NAME "Starter"
 /* Terrains with this type can have road with "River" flag on them. */
-#define SPECENUM_VALUE4 TER_CAN_HAVE_RIVER
-#define SPECENUM_VALUE4NAME "CanHaveRiver"
+#define SPECENUM_VALUE3 TER_CAN_HAVE_RIVER
+#define SPECENUM_VALUE3NAME "CanHaveRiver"
 /*this tile is not safe as coast, (all ocean / ice) */
-#define SPECENUM_VALUE5 TER_UNSAFE_COAST
-#define SPECENUM_VALUE5NAME "UnsafeCoast"
+#define SPECENUM_VALUE4 TER_UNSAFE_COAST
+#define SPECENUM_VALUE4NAME "UnsafeCoast"
 /* Fresh water terrain */
-#define SPECENUM_VALUE6 TER_FRESHWATER
-#define SPECENUM_VALUE6NAME "FreshWater"
+#define SPECENUM_VALUE5 TER_FRESHWATER
+#define SPECENUM_VALUE5NAME "FreshWater"
 /* Map generator does not place this terrain */
-#define SPECENUM_VALUE7 TER_NOT_GENERATED
-#define SPECENUM_VALUE7NAME "NotGenerated"
+#define SPECENUM_VALUE6 TER_NOT_GENERATED
+#define SPECENUM_VALUE6NAME "NotGenerated"
 /* Units on this terrain are not generating or subject to zoc */
-#define SPECENUM_VALUE8 TER_NO_ZOC
-#define SPECENUM_VALUE8NAME "NoZoc"
+#define SPECENUM_VALUE7 TER_NO_ZOC
+#define SPECENUM_VALUE7NAME "NoZoc"
 /* No unit can fortify on this terrain */
-#define SPECENUM_VALUE9 TER_NO_FORTIFY
-#define SPECENUM_VALUE9NAME "NoFortify"
-#define SPECENUM_VALUE10 TER_USER_1
-#define SPECENUM_VALUE11 TER_USER_2
-#define SPECENUM_VALUE12 TER_USER_3
-#define SPECENUM_VALUE13 TER_USER_4
-#define SPECENUM_VALUE14 TER_USER_5
-#define SPECENUM_VALUE15 TER_USER_6
-#define SPECENUM_VALUE16 TER_USER_7
-#define SPECENUM_VALUE17 TER_USER_LAST
+#define SPECENUM_VALUE8 TER_NO_FORTIFY
+#define SPECENUM_VALUE8NAME "NoFortify"
+#define SPECENUM_VALUE9 TER_USER_1
+#define SPECENUM_VALUE10 TER_USER_2
+#define SPECENUM_VALUE11 TER_USER_3
+#define SPECENUM_VALUE12 TER_USER_4
+#define SPECENUM_VALUE13 TER_USER_5
+#define SPECENUM_VALUE14 TER_USER_6
+#define SPECENUM_VALUE15 TER_USER_7
+#define SPECENUM_VALUE16 TER_USER_LAST
 #define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_terrain_flags
 #include "specenum_gen.h"

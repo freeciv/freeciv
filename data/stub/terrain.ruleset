@@ -119,7 +119,6 @@ ocean_resources = FALSE
 ; flags                = General flags for this terrain. List taken from the
 ;                        following, and/or any user flags defined above:
 ;   - NoBarbs          = Barbarians will not be spawned here.
-;   - NoPollution      = Pollution will not be put on this terrain type.
 ;   - NoCities         = Cities may not be built or found on this terrain.
 ;   - Starter          = Players will only be started on "Starter" terrain.
 ;                        (Currently this cannot be Oceanic terrain.)

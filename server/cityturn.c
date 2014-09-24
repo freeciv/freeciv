@@ -2545,6 +2545,8 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
     /* place pollution on a random city tile */
     int cx, cy;
     int tile_id = fc_rand(city_map_tiles(city_radius_sq));
+    struct extra_type *pextra;
+
     city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
 
     /* check for a a real map position */
@@ -2552,15 +2554,13 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
       continue;
     }
 
-    if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)) {
-      struct extra_type *pextra = rand_extra_for_tile(ptile, cause);
+    pextra = rand_extra_for_tile(ptile, cause);
 
-      if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
-        tile_add_extra(ptile, pextra);
-        update_tile_knowledge(ptile);
+    if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
+      tile_add_extra(ptile, pextra);
+      update_tile_knowledge(ptile);
 
-        return TRUE;
-      }
+      return TRUE;
     }
     k--;
   }

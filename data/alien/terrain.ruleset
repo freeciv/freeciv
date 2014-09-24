@@ -12,6 +12,7 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 flags =
   { "name", "helptxt"
     "Radiating", _("Terrain has alien radiation.")
+    "NoPollution", _("No Pollution nor Fallout appear here.")
   }
 
 [parameters]
@@ -126,7 +127,6 @@ ocean_resources = TRUE
 ; flags                = General flags for this terrain. List taken from the
 ;                        following, and/or any user flags defined above:
 ;   - NoBarbs          = Barbarians will not be spawned here.
-;   - NoPollution      = Pollution and Fallout will not be put on this terrain type.
 ;   - NoCities         = Cities may not be built or found on this terrain.
 ;   - Starter          = Players will only be started on "Starter" terrain.
 ;                        (Currently this cannot be Oceanic terrain.)
@@ -670,6 +670,10 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present"
+      "TerrainFlag", "NoPollution", "Local", FALSE
+    }
 removal_time   = 0
 flags          = "GlobalWarming"
 
@@ -729,6 +733,10 @@ activity_gfx   = "None"
 act_gfx_alt    = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present"
+      "TerrainFlag", "NoPollution", "Local", FALSE
+    }
 removal_time   = 0
 flags          = "NuclearWinter"
 
