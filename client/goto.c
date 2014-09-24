@@ -363,6 +363,7 @@ static void remove_last_part(struct goto_map *goto_map)
 bool goto_add_waypoint(void)
 {
   struct tile *ptile_start = NULL;
+  bool duplicate_of_last = TRUE;
 
   fc_assert_ret_val(goto_is_active(), FALSE);
   if (NULL == goto_destination) {
@@ -383,7 +384,13 @@ bool goto_add_waypoint(void)
       /* Scattered group (not all in same location). */
       return FALSE;
     }
+    if (last_part->start_tile != last_part->end_tile) {
+      duplicate_of_last = FALSE;
+    }
   } goto_map_list_iterate_end;
+  if (duplicate_of_last) {
+    return FALSE;
+  }
 
   goto_map_list_iterate(goto_maps, goto_map) {
     add_part(goto_map);
