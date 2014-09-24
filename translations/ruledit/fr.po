@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 06:52+0200\n"
-"PO-Revision-Date: 2014-08-31 13:34+0200\n"
+"POT-Creation-Date: 2014-09-23 06:32+0200\n"
+"PO-Revision-Date: 2014-09-23 07:22+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -41,11 +41,11 @@ msgstr "Imprimer le numéro de version"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:61
+#: tools/ruledit/ruledit_qt.cpp:62
 msgid "Freeciv ruleset editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:126
+#: tools/ruledit/ruledit_qt.cpp:127
 #, c-format
 msgid ""
 "%s%s\n"
@@ -54,35 +54,39 @@ msgstr ""
 "%s%s\n"
 "commit : %s"
 
-#: tools/ruledit/ruledit_qt.cpp:141
+#: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:147
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:157
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:159
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:161
+#: tools/ruledit/ruledit_qt.cpp:162
+msgid "Buildings"
+msgstr "Bâtiments"
+
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:173
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:207
+#: tools/ruledit/ruledit_qt.cpp:210
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:221
+#: tools/ruledit/ruledit_qt.cpp:225
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
