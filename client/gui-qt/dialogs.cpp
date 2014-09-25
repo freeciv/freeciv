@@ -58,6 +58,7 @@ static void spy_steal(QVariant data1, QVariant data2);
 static void spy_steal_something(QVariant data1, QVariant data2);
 static void diplomat_steal(QVariant data1, QVariant data2);
 static void spy_poison(QVariant data1, QVariant data2);
+static void spy_steal_gold(QVariant data1, QVariant data2);
 static void diplomat_embassy(QVariant data1, QVariant data2);
 static void spy_sabotage_unit(QVariant data1, QVariant data2);
 static void diplomat_investigate(QVariant data1, QVariant data2);
@@ -1129,6 +1130,11 @@ void popup_action_selection(struct unit *actor_unit,
                  spy_poison, qv1, qv2);
 
     action_entry(cd,
+                 ACTION_SPY_STEAL_GOLD,
+                 act_probs,
+                 spy_steal_gold, qv1, qv2);
+
+    action_entry(cd,
                  ACTION_SPY_SABOTAGE_CITY,
                  act_probs,
                  diplomat_sabotage, qv1, qv2);
@@ -1389,6 +1395,21 @@ static void spy_poison(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_POISON,
+                      diplomat_id, diplomat_target_id, 0);
+  }
+}
+
+/***************************************************************************
+  Action steal gold for choice dialog
+***************************************************************************/
+static void spy_steal_gold(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id)) {
+    request_do_action(ACTION_SPY_STEAL_GOLD,
                       diplomat_id, diplomat_target_id, 0);
   }
 }
