@@ -147,6 +147,31 @@ static bool is_tile_seen_traderoute(const struct player *pow_player,
 }
 
 /**************************************************************************
+  Returns TRUE iff pplayer can see all the symmetric diplomatic
+  relationships of tplayer.
+**************************************************************************/
+static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
+                                            const struct player *tplayer)
+{
+  if (pplayer == tplayer) {
+    /* Can see own relationships. */
+    return TRUE;
+  }
+
+  if (player_has_embassy(pplayer, tplayer)) {
+    /* Gets reports from the embassy. */
+    return TRUE;
+  }
+
+  if (player_diplstate_get(pplayer, tplayer)->contact_turns_left > 0) {
+    /* Can see relationships during contact turns. */
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Is an evalutaion of the requirement accurate when pow_player evaluates
   it?
 
@@ -228,11 +253,51 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
-  if (req->source.kind == VUT_DIPLREL
-      && pow_player == target_player
-      && (req->range == REQ_RANGE_LOCAL
-          || req->range == REQ_RANGE_PLAYER)) {
-    return TRUE;
+  if (req->source.kind == VUT_DIPLREL) {
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
+      if (pow_player == target_player
+          || pow_player == other_player)  {
+        return TRUE;
+      }
+
+      if (can_plr_see_all_sym_diplrels_of(pow_player, target_player)
+          || can_plr_see_all_sym_diplrels_of(pow_player, other_player)) {
+        return TRUE;
+      }
+
+      /* TODO: Non symmetric diplomatic relationships. */
+      break;
+    case REQ_RANGE_PLAYER:
+      if (pow_player == target_player) {
+        return TRUE;
+      }
+
+      if (can_plr_see_all_sym_diplrels_of(pow_player, target_player)) {
+        return TRUE;
+      }
+
+      /* TODO: Non symmetric diplomatic relationships. */
+      break;
+    case REQ_RANGE_TEAM:
+      /* TODO */
+      break;
+    case REQ_RANGE_ALLIANCE:
+      /* TODO */
+      break;
+    case REQ_RANGE_WORLD:
+      /* TODO */
+      break;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      /* Invalid range */
+      return FALSE;
+      break;
+    }
   }
 
   if (req->source.kind == VUT_MINSIZE && target_city != NULL) {
