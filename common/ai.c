@@ -282,10 +282,8 @@ int ai_type_number(const struct ai_type *ai)
 ***************************************************************/
 struct ai_type *ai_type_by_name(const char *search)
 {
-  size_t len = strlen(search);
-
   ai_type_iterate(ai) {
-    if (!strncmp(ai_name(ai), search, len)) {
+    if (!fc_strcasecmp(ai_name(ai), search)) {
       return ai;
     }
   } ai_type_iterate_end;
