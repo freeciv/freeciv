@@ -286,6 +286,24 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
   choose_action_queue_next();
 }
 
+/********************************************************************
+  The player selected "Steal Gold"
+********************************************************************/
+static void spy_steal_gold_callback(Widget w, XtPointer client_data,
+                                    XtPointer call_data)
+{
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
+    request_do_action(ACTION_SPY_STEAL_GOLD, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
+  }
+
+  choose_action_queue_next();
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -878,6 +896,7 @@ void popup_action_selection(struct unit *actor_unit,
                            caravan_help_build_wonder_callback, 0, 0,
                            diplomat_bribe_callback, 0, 0,
                            spy_sabotage_unit_callback, 0, 0,
+                           spy_steal_gold_callback, 0, 0,
                            diplomat_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
@@ -934,8 +953,12 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_SPY_SABOTAGE_UNIT,
                act_probs);
 
+  action_entry(XtNameToWidget(diplomat_dialog, "*button13"),
+               ACTION_SPY_STEAL_GOLD,
+               act_probs);
+
   if (!unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button13"), FALSE);
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button14"), FALSE);
   }
 
   astr_free(&text);
