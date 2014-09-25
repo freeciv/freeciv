@@ -210,6 +210,28 @@ static int spy_poison_callback( struct widget *pWidget )
   return -1;
 }
 
+/********************************************************************
+  User clicked "Steal Gold"
+********************************************************************/
+static int spy_steal_gold_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_STEAL_GOLD,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0);
+    }
+
+    popdown_diplomat_dialog();
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
 /****************************************************************
  Requests up-to-date list of improvements, the return of
  which will trigger the popup_sabotage_dialog() function.
@@ -796,6 +818,12 @@ void popup_action_selection(struct unit *actor_unit,
     action_entry(ACTION_SPY_POISON,
                  act_probs,
                  spy_poison_callback,
+                 actor_unit, target_city, NULL,
+                 pWindow, &area);
+
+    action_entry(ACTION_SPY_STEAL_GOLD,
+                 act_probs,
+                 spy_steal_gold_callback,
                  actor_unit, target_city, NULL,
                  pWindow, &area);
 
