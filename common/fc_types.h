@@ -56,6 +56,7 @@ extern "C" {
 /* Used in the network protocol -- nation count is a UINT16 */
 #define MAX_NUM_NATIONS MAX_UINT16
 #define MAX_NUM_STARTPOS_NATIONS 1024 /* Used in the network protocol. */
+#define MAX_CALENDAR_FRAGMENTS 52     /* Used in the network protocol. */
 
 /* Changing these will probably break network compatability. */
 #define MAX_LEN_NAME     48

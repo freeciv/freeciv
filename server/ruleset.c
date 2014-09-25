@@ -5221,6 +5221,8 @@ static bool load_ruleset_game(struct section_file *file, bool act)
   }
 
   if (ok) {
+    int i;
+
     /* section: culture */
     game.info.culture_vic_points
       = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_VIC_POINTS,
@@ -5241,6 +5243,13 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                    "calendar.start_year");
     game.info.calendar_fragments
       = secfile_lookup_int_default(file, 0, "calendar.fragments");
+
+    if (game.info.calendar_fragments > MAX_CALENDAR_FRAGMENTS) {
+      ruleset_error(LOG_ERROR, "Too many calendar fragments. Max is %d",
+                    MAX_CALENDAR_FRAGMENTS);
+      ok = FALSE;
+      game.info.calendar_fragments = 0;
+    }
     sz_strlcpy(game.info.positive_year_label,
                _(secfile_lookup_str_default(file,
                                             RS_DEFAULT_POS_YEAR_LABEL,
@@ -5249,6 +5258,16 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                _(secfile_lookup_str_default(file,
                                             RS_DEFAULT_NEG_YEAR_LABEL,
                                             "calendar.negative_label")));
+
+    for (i = 0; i < game.info.calendar_fragments; i++) {
+      const char *name;
+
+      name = secfile_lookup_str_default(file, NULL, "calendar.fragment_name%d", i);
+      if (name != NULL) {
+        strncpy(game.info.calendar_fragment_name[i], name,
+                sizeof(game.info.calendar_fragment_name[i]));
+      }
+    }
   }
 
   if (ok) {

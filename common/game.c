@@ -527,6 +527,8 @@ void game_ruleset_init(void)
 ***************************************************************/
 void game_ruleset_free(void)
 {
+  int i;
+
   CALL_FUNC_EACH_AI(units_ruleset_close);
 
   /* Clear main structures which can points to the ruleset dependent
@@ -572,6 +574,10 @@ void game_ruleset_free(void)
   if (is_server() && game.server.ruledit.nationlist != NULL) {
     free(game.server.ruledit.nationlist);
     game.server.ruledit.nationlist = NULL;
+  }
+
+  for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {
+    game.info.calendar_fragment_name[i][0] = '\0';
   }
 }
 

@@ -619,6 +619,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                                 * currently it's 3 (bits 0,1, and 2) so there's plenty of
                                 * safety margin here. */
   enum trade_route_type trt;
+  int i;
 
   if (sfile == NULL) {
     return FALSE;
@@ -830,6 +831,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
                    "calendar.start_year", NULL);
   save_default_int(sfile, game.info.calendar_fragments,
                    0, "calendar.fragments", NULL);
+
+  for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {
+    if (game.info.calendar_fragment_name[i][0] != '\0') {
+      secfile_insert_str(sfile, game.info.calendar_fragment_name[i],
+                         "calendar.fragment_name%d", i);
+    }
+  }
 
   /* FIXME: These are stored in memory in translated form only -
    *        So we're currently saving them translated, though ruleset should have
