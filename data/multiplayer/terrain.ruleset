@@ -379,6 +379,8 @@ helptext             = _("\
 Glaciers are found only in the most northerly or southerly\
  reaches of the world.  They are very cold, and hence difficult to\
  work with.\
+"), _("\
+Oil Wells can be built when Refining is known.\
 ")
 
 [terrain_desert]
@@ -423,6 +425,8 @@ color.b              = 106
 helptext             = _("\
 Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
+"), _("\
+Oil Wells can be built when Construction is known.\
 ")
 
 [terrain_forest]

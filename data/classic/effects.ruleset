@@ -2238,6 +2238,28 @@ reqs    =
 [effect_mining]
 type    = "Mining_Possible"
 value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "TerrainFlag", "Oil", "Local", FALSE
+    }
+
+[effect_desert_oil]
+type    = "Mining_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Terrain", "Desert", "Local"
+      "Tech", "Construction", "Player"
+    }
+
+[effect_glacier_oil]
+type    = "Mining_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Terrain", "Glacier", "Local"
+      "Tech", "Refining", "Player"
+    }
 
 [effect_irrig_tf]
 type    = "Irrig_TF_Possible"
