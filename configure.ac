@@ -1515,6 +1515,7 @@ AC_CONFIG_FILES([Makefile
 	  data/civserver.dsc
 	  data/civserver.room
 	  data/hex2t/Makefile
+          data/hexemplio/Makefile
 	  data/amplio2/Makefile
 	  data/buildings/Makefile
 	  data/flags/Makefile

@@ -4,9 +4,10 @@ pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
 
 if CLIENT
 CLIENT_FILES =				\
-	hex2t.tilespec			\
 	amplio2.tilespec		\
 	cimpletoon.tilespec		\
+	hex2t.tilespec			\
+	hexemplio.tilespec		\
 	isophex.tilespec		\
 	isotrident.tilespec		\
 	trident.tilespec		\
@@ -62,9 +63,10 @@ EXTRA_DIST = \
 	civclient.dsc.in	\
 	civserver.room.in	\
 	database.lua	\
-	hex2t.tilespec	\
 	amplio2.tilespec \
 	cimpletoon.tilespec \
+	hex2t.tilespec	\
+	hexemplio.tilespec	\
 	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\
@@ -82,7 +84,7 @@ EXTRA_DIST = \
 
 if CLIENT
 CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
- isophex hex2t stdsounds stdmusic themes wonders
+ isophex hex2t hexemplio stdsounds stdmusic themes wonders
 else
 CLIENTDATADIRS = 
 endif
