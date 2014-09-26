@@ -1085,7 +1085,17 @@ void popup_action_selection(struct unit *actor_unit,
              _("Your %s has arrived at %s.\nWhat is your command?"),
              unit_name_translation(actor_unit),
              city_name(target_city));
+  } else if (target_unit) {
+    astr_set(&text,
+             /* TRANS: Your Spy is ready to act against Roman Freight. */
+             _("Your %s is ready to act against %s %s."),
+             unit_name_translation(actor_unit),
+             nation_adjective_for_player(unit_owner(target_unit)),
+             unit_name_translation(target_unit));
   } else {
+    fc_assert_msg(target_unit || target_city,
+                  "No target unit or target city specified.");
+
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
              _("Your %s is waiting for your command."),
