@@ -134,7 +134,7 @@ static bool my_results_are_equal(const struct cm_result *result1,
   Returns TRUE if the city is valid for CMA. Fills parameter if TRUE
   is returned. Parameter can be NULL.
 *****************************************************************************/
-static bool check_city(int city_id, struct cm_parameter *parameter)
+static struct city *check_city(int city_id, struct cm_parameter *parameter)
 {
   struct city *pcity = game_city_by_number(city_id);
   struct cm_parameter dummy;
@@ -145,15 +145,15 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 
   if (!pcity
       || !cma_get_parameter(ATTR_CITY_CMA_PARAMETER, city_id, parameter)) {
-    return FALSE;
+    return NULL;
   }
 
   if (city_owner(pcity) != client.conn.playing) {
     cma_release_city(pcity);
-    return FALSE;
+    return NULL;
   }
 
-  return TRUE;
+  return pcity;
 }  
 
 /****************************************************************************
@@ -178,13 +178,6 @@ static bool apply_result_on_server(struct city *pcity,
     return TRUE;
   }
 
-  stats.apply_result_applied++;
-
-  log_apply_result("apply_result_on_server(city %d=\"%s\")",
-                   pcity->id, city_name(pcity));
-
-  connection_do_buffer(&client.conn);
-
   /* Do checks */
   if (city_size_get(pcity) != cm_result_citizens(result)) {
     log_error("apply_result_on_server(city %d=\"%s\") bad result!",
@@ -193,6 +186,13 @@ static bool apply_result_on_server(struct city *pcity,
     cm_print_result(result);
     return FALSE;
   }
+
+  stats.apply_result_applied++;
+
+  log_apply_result("apply_result_on_server(city %d=\"%s\")",
+                   pcity->id, city_name(pcity));
+
+  connection_do_buffer(&client.conn);
 
   /* Remove all surplus workers */
   city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, index,
@@ -284,9 +284,8 @@ static bool apply_result_on_server(struct city *pcity,
     int city_id = pcity->id;
 
     wait_for_requests("CMA", first_request_id, last_request_id);
-    if (!check_city(city_id, NULL)) {
-      log_error("apply_result_on_server(city %d=\"%s\") !check_city()!",
-                pcity->id, city_name(pcity));
+    if (pcity != check_city(city_id, NULL)) {
+      log_verbose("apply_result_on_server(city %d) !check_city()!", city_id);
       return FALSE;
     }
   }
@@ -374,12 +373,10 @@ static void handle_city(struct city *pcity)
 
     log_handle_city2("  try %d", i);
 
-    if (!check_city(city_id, &parameter)) {
+    if (pcity != check_city(city_id, &parameter)) {
       handled = TRUE;	
       break;
     }
-
-    pcity = game_city_by_number(city_id);
 
     cm_query_result(pcity, &parameter, result);
     if (!result->found_a_valid) {
@@ -395,7 +392,7 @@ static void handle_city(struct city *pcity)
     } else {
       if (!apply_result_on_server(pcity, result)) {
         log_handle_city2("  doesn't cleanly apply");
-        if (check_city(city_id, NULL) && i == 0) {
+        if (pcity == check_city(city_id, NULL) && i == 0) {
           create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
                        _("The citizen governor has gotten confused dealing "
                          "with %s.  You may want to have a look."),
@@ -412,10 +409,8 @@ static void handle_city(struct city *pcity)
 
   cm_result_destroy(result);
 
-  pcity = game_city_by_number(city_id);
-
   if (!handled) {
-    fc_assert_ret(pcity != NULL);
+    fc_assert_ret(pcity == check_city(city_id, NULL));
     log_handle_city2("  not handled");
 
     create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
