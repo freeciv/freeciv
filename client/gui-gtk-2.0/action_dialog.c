@@ -156,25 +156,28 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**************************************************************************
+  Returns true iff actor_unit can help build a wonder in target_city.
+**************************************************************************/
+static bool is_help_build_possible(const struct unit *actor_unit,
+                                   const struct city *target_city)
+{
+  return actor_unit && target_city
+      && unit_can_help_build_wonder(actor_unit, target_city);
+}
+
+/**************************************************************************
   Returns the proper text (g_strdup'd - must be g_free'd) which should
   be displayed on the helpbuild wonder button.
-*****************************************************************/
-static gchar *get_help_build_wonder_button_label(bool* help_build_possible,
-                                                 int actor_unit_id,
-                                                 int target_city_id)
+***************************************************************************/
+static gchar *get_help_build_wonder_button_label(bool help_build_possible,
+                                                 struct city* destcity)
 {
-  struct city* destcity = game_city_by_number(target_city_id);
-  struct unit* caravan = game_unit_by_number(actor_unit_id);
-
-  if (destcity && caravan
-      && unit_can_help_build_wonder(caravan, destcity)) {
-    *help_build_possible = TRUE;
+  if (help_build_possible) {
     return g_strdup_printf(_("Help build _Wonder (%d remaining)"),
                            impr_build_shield_cost(destcity->production.value.building)
                            - destcity->shield_stock);
   } else {
-    *help_build_possible = FALSE;
     return g_strdup(_("Help build _Wonder"));
   }
 }
@@ -184,9 +187,12 @@ static gchar *get_help_build_wonder_button_label(bool* help_build_possible,
 ****************************************************************/
 void caravan_dialog_update(void)
 {
-  bool can_help;
-  gchar *buf = get_help_build_wonder_button_label(&can_help, actor_unit_id,
-                                                  caravan_city_id);
+  struct unit *actor_unit = game_unit_by_number(actor_unit_id);
+  struct city *target_city = game_city_by_number(caravan_city_id);
+
+  bool can_help = is_help_build_possible(actor_unit, target_city);
+
+  gchar *buf = get_help_build_wonder_button_label(can_help, target_city);
 
   if (-1 != help_wonder_button_id) {
     /* Update existing help build wonder button. */
@@ -1045,7 +1051,7 @@ void popup_action_selection(struct unit *actor_unit,
   if (target_city) {
     /* Spy/Diplomat acting against a city */
 
-    bool can_wonder;
+    bool can_wonder = is_help_build_possible(actor_unit, target_city);
     bool can_marketplace = unit_has_type_flag(actor_unit,
                                               UTYF_TRADE_ROUTE)
         && can_cities_trade(actor_homecity, target_city);
@@ -1056,9 +1062,8 @@ void popup_action_selection(struct unit *actor_unit,
     /* Used by caravan_dialog_update() */
     caravan_city_id = target_city->id;
 
-    gchar *wonder = get_help_build_wonder_button_label(&can_wonder,
-                                                       actor_unit->id,
-                                                       target_city->id);
+    gchar *wonder = get_help_build_wonder_button_label(can_wonder,
+                                                       target_city);
 
     action_entry(shl,
                  ACTION_ESTABLISH_EMBASSY,
