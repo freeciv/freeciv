@@ -1059,6 +1059,10 @@ void popup_action_selection(struct unit *actor_unit,
   pfcn_void func;
   struct city *actor_homecity;
 
+  bool can_marketplace;
+  bool can_traderoute;
+  bool can_wonder;
+
   /* Could be caused by the server failing to reply to a request for more
    * information or a bug in the client code. */
   fc_assert_msg(!is_more_user_input_needed,
@@ -1068,6 +1072,17 @@ void popup_action_selection(struct unit *actor_unit,
   is_more_user_input_needed = FALSE;
 
   actor_homecity = game_city_by_number(actor_unit->homecity);
+
+  can_marketplace = unit_has_type_flag(actor_unit,
+                                            UTYF_TRADE_ROUTE)
+      && target_city
+      && can_cities_trade(actor_homecity, target_city);
+  can_traderoute = can_marketplace
+                  && can_establish_trade_route(actor_homecity,
+                                               target_city);
+  can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
+      && target_city
+      && unit_can_help_build_wonder(actor_unit, target_city);
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1107,105 +1122,105 @@ void popup_action_selection(struct unit *actor_unit,
                                         gui()->game_tab_widget,
                                         diplomat_queue_handle_primary);
   qv1 = actor_unit->id;
+
   cd->unit_id = actor_unit->id;
 
   if (target_city) {
-    /* Spy/Diplomat acting against a city */
-
-    bool can_marketplace = unit_has_type_flag(actor_unit,
-                                              UTYF_TRADE_ROUTE)
-        && can_cities_trade(actor_homecity, target_city);
-    bool can_traderoute = can_marketplace
-                    && can_establish_trade_route(actor_homecity,
-                                                 target_city);
-    bool can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
-        && unit_can_help_build_wonder(actor_unit, target_city);
-
-    qv2 = target_city->id;
     cd->target_id[ATK_CITY] = target_city->id;
-
-    action_entry(cd,
-                 ACTION_ESTABLISH_EMBASSY,
-                 act_probs,
-                 diplomat_embassy, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_INVESTIGATE_CITY,
-                 act_probs,
-                 diplomat_investigate, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_POISON,
-                 act_probs,
-                 spy_poison, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_STEAL_GOLD,
-                 act_probs,
-                 spy_steal_gold, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_SABOTAGE_CITY,
-                 act_probs,
-                 diplomat_sabotage, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 act_probs,
-                 spy_request_sabotage_list, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_STEAL_TECH,
-                 act_probs,
-                 diplomat_steal, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_TARGETED_STEAL_TECH,
-                 act_probs,
-                 spy_steal, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_INCITE_CITY,
-                 act_probs,
-                 diplomat_incite, qv1, qv2);
-
-    if (can_traderoute) {
-      func = caravan_establish_trade;
-      cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
-    }
-
-    if (can_marketplace) {
-      func = caravan_marketplace;
-      cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
-    }
-
-    if (can_wonder) {
-      QString title;
-
-      title = QString(_("Help build Wonder (%1 remaining)")).arg(
-            impr_build_shield_cost(target_city->production.value.building)
-            - target_city->shield_stock);
-      func = caravan_help_build;
-      cd->add_item(title, func, qv1, qv2);
-    }
+  } else {
+    cd->target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   }
 
   if (target_unit) {
-    /* Spy/Diplomat acting against a unit */
-
-    qv2 = target_unit->id;
     cd->target_id[ATK_UNIT] = target_unit->id;
-
-    action_entry(cd,
-                 ACTION_SPY_BRIBE_UNIT,
-                 act_probs,
-                 diplomat_bribe, qv1, qv2);
-
-    action_entry(cd,
-                 ACTION_SPY_SABOTAGE_UNIT,
-                 act_probs,
-                 spy_sabotage_unit, qv1, qv2);
+  } else {
+    cd->target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
+
+  /* Spy/Diplomat acting against a city */
+
+  /* Set the correct target for the following actions. */
+  qv2 = cd->target_id[ATK_CITY];
+
+  action_entry(cd,
+               ACTION_ESTABLISH_EMBASSY,
+               act_probs,
+               diplomat_embassy, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_INVESTIGATE_CITY,
+               act_probs,
+               diplomat_investigate, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_POISON,
+               act_probs,
+               spy_poison, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_STEAL_GOLD,
+               act_probs,
+               spy_steal_gold, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_SABOTAGE_CITY,
+               act_probs,
+               diplomat_sabotage, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_TARGETED_SABOTAGE_CITY,
+               act_probs,
+               spy_request_sabotage_list, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_STEAL_TECH,
+               act_probs,
+               diplomat_steal, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_TARGETED_STEAL_TECH,
+               act_probs,
+               spy_steal, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_INCITE_CITY,
+               act_probs,
+               diplomat_incite, qv1, qv2);
+
+  if (can_traderoute) {
+    func = caravan_establish_trade;
+    cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
+  }
+
+  if (can_marketplace) {
+    func = caravan_marketplace;
+    cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
+  }
+
+  if (can_wonder) {
+    QString title;
+
+    title = QString(_("Help build Wonder (%1 remaining)")).arg(
+          impr_build_shield_cost(target_city->production.value.building)
+          - target_city->shield_stock);
+    func = caravan_help_build;
+    cd->add_item(title, func, qv1, qv2);
+  }
+
+  /* Spy/Diplomat acting against a unit */
+
+  /* Set the correct target for the following actions. */
+  qv2 = cd->target_id[ATK_UNIT];
+
+  action_entry(cd,
+               ACTION_SPY_BRIBE_UNIT,
+               act_probs,
+               diplomat_bribe, qv1, qv2);
+
+  action_entry(cd,
+               ACTION_SPY_SABOTAGE_UNIT,
+               act_probs,
+               spy_sabotage_unit, qv1, qv2);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     qv2 = target_tile->index;
