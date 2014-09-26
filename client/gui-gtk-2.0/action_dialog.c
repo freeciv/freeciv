@@ -990,6 +990,10 @@ void popup_action_selection(struct unit *actor_unit,
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
   struct city *actor_homecity;
 
+  bool can_wonder;
+  bool can_marketplace;
+  bool can_traderoute;
+
   struct action_data *data =
       act_data(actor_unit->id,
                (target_city) ? target_city->id : 0,
@@ -1011,7 +1015,15 @@ void popup_action_selection(struct unit *actor_unit,
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
   actor_unit_id = actor_unit->id;
-  caravan_city_id = IDENTITY_NUMBER_ZERO;
+  caravan_city_id = target_city ? target_city->id : IDENTITY_NUMBER_ZERO;
+
+  can_wonder = is_help_build_possible(actor_unit, target_city);
+  can_marketplace = unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
+                    && target_city
+                    && can_cities_trade(actor_homecity, target_city);
+  can_traderoute = can_marketplace
+                    && can_establish_trade_route(actor_homecity,
+                                                 target_city);
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1048,116 +1060,100 @@ void popup_action_selection(struct unit *actor_unit,
   shl = choice_dialog_start(GTK_WINDOW(toplevel), astr_str(&title),
                             astr_str(&text));
 
-  if (target_city) {
-    /* Spy/Diplomat acting against a city */
+  /* Spy/Diplomat acting against a city */
 
-    bool can_wonder = is_help_build_possible(actor_unit, target_city);
-    bool can_marketplace = unit_has_type_flag(actor_unit,
-                                              UTYF_TRADE_ROUTE)
-        && can_cities_trade(actor_homecity, target_city);
-    bool can_traderoute = can_marketplace
-        && can_establish_trade_route(actor_homecity,
-                                     target_city);
+  action_entry(shl,
+               ACTION_ESTABLISH_EMBASSY,
+               act_probs,
+               (GCallback)diplomat_embassy_callback,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_INVESTIGATE_CITY,
+               act_probs,
+               (GCallback)diplomat_investigate_callback,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_POISON,
+               act_probs,
+               (GCallback)spy_poison_callback,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_STEAL_GOLD,
+               act_probs,
+               (GCallback)spy_steal_gold_callback,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_SABOTAGE_CITY,
+               act_probs,
+               (GCallback)diplomat_sabotage_callback,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_TARGETED_SABOTAGE_CITY,
+               act_probs,
+               (GCallback)spy_request_sabotage_list,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_STEAL_TECH,
+               act_probs,
+               (GCallback)diplomat_steal_callback,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_TARGETED_STEAL_TECH,
+               act_probs,
+               (GCallback)spy_steal_popup,
+               data);
+
+  action_entry(shl,
+               ACTION_SPY_INCITE_CITY,
+               act_probs,
+               (GCallback)diplomat_incite_callback,
+               data);
+
+  if (can_traderoute) {
+    choice_dialog_add(shl, _("Establish Trade route"),
+                      (GCallback)caravan_establish_trade_callback,
+                      data, NULL);
+  }
+
+  if (can_marketplace) {
+    choice_dialog_add(shl, _("Enter Marketplace"),
+                      (GCallback)caravan_marketplace_callback,
+                      data, NULL);
+  }
+
+  if (can_wonder) {
+    gchar *wonder = get_help_build_wonder_button_label(can_wonder, target_city);
 
     /* Used by caravan_dialog_update() */
-    caravan_city_id = target_city->id;
+    help_wonder_button_id = choice_dialog_get_number_of_buttons(shl);
 
-    gchar *wonder = get_help_build_wonder_button_label(can_wonder,
-                                                       target_city);
-
-    action_entry(shl,
-                 ACTION_ESTABLISH_EMBASSY,
-                 act_probs,
-                 (GCallback)diplomat_embassy_callback,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_INVESTIGATE_CITY,
-                 act_probs,
-                 (GCallback)diplomat_investigate_callback,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_POISON,
-                 act_probs,
-                 (GCallback)spy_poison_callback,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_STEAL_GOLD,
-                 act_probs,
-                 (GCallback)spy_steal_gold_callback,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_SABOTAGE_CITY,
-                 act_probs,
-                 (GCallback)diplomat_sabotage_callback,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 act_probs,
-                 (GCallback)spy_request_sabotage_list,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_STEAL_TECH,
-                 act_probs,
-                 (GCallback)diplomat_steal_callback,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_TARGETED_STEAL_TECH,
-                 act_probs,
-                 (GCallback)spy_steal_popup,
-                 data);
-
-    action_entry(shl,
-                 ACTION_SPY_INCITE_CITY,
-                 act_probs,
-                 (GCallback)diplomat_incite_callback,
-                 data);
-
-    if (can_traderoute) {
-      choice_dialog_add(shl, _("Establish Trade route"),
-                        (GCallback)caravan_establish_trade_callback,
-                        data, NULL);
-    }
-
-    if (can_marketplace) {
-      choice_dialog_add(shl, _("Enter Marketplace"),
-                        (GCallback)caravan_marketplace_callback,
-                        data, NULL);
-    }
-
-    if (can_wonder) {
-      /* Used by caravan_dialog_update() */
-      help_wonder_button_id = choice_dialog_get_number_of_buttons(shl);
-
-      choice_dialog_add(shl, wonder,
-                        (GCallback)caravan_help_build_wonder_callback,
-                        data, NULL);
-    }
+    choice_dialog_add(shl, wonder,
+                      (GCallback)caravan_help_build_wonder_callback,
+                      data, NULL);
 
     g_free(wonder);
   }
 
-  if (target_unit) {
-    /* Spy/Diplomat acting against a unit */
+  /* Spy/Diplomat acting against a unit */
 
-    action_entry(shl,
-                 ACTION_SPY_BRIBE_UNIT,
-                 act_probs,
-                 (GCallback)diplomat_bribe_callback,
-                 data);
+  action_entry(shl,
+               ACTION_SPY_BRIBE_UNIT,
+               act_probs,
+               (GCallback)diplomat_bribe_callback,
+               data);
 
-    action_entry(shl,
-                 ACTION_SPY_SABOTAGE_UNIT,
-                 act_probs,
-                 (GCallback)spy_sabotage_unit_callback,
-                 data);
-  }
+  action_entry(shl,
+               ACTION_SPY_SABOTAGE_UNIT,
+               act_probs,
+               (GCallback)spy_sabotage_unit_callback,
+               data);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     choice_dialog_add(shl, _("_Keep moving"),
