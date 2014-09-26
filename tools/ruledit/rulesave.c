@@ -839,9 +839,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
-  /* FIXME: These are stored in memory in translated form only -
-   *        So we're currently saving them translated, though ruleset should have
-   *        untranslated form. */
   if (strcmp(game.info.positive_year_label, RS_DEFAULT_POS_YEAR_LABEL)) {
     secfile_insert_str(sfile, game.info.positive_year_label,
                        "calendar.positive_label");

@@ -104,11 +104,11 @@ const char *textyear(int year)
   if (year < 0) {
     /* TRANS: <year> <label> -> "1000 BC" */
     fc_snprintf(y, sizeof(y), _("%d %s"), -year,
-                game.info.negative_year_label);
+                _(game.info.negative_year_label));
   } else {
     /* TRANS: <year> <label> -> "1000 AD" */
     fc_snprintf(y, sizeof(y), _("%d %s"), year,
-                game.info.positive_year_label);
+                _(game.info.positive_year_label));
   }
 
   return y;

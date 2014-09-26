@@ -5251,13 +5251,13 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       game.info.calendar_fragments = 0;
     }
     sz_strlcpy(game.info.positive_year_label,
-               _(secfile_lookup_str_default(file,
-                                            RS_DEFAULT_POS_YEAR_LABEL,
-                                            "calendar.positive_label")));
+               secfile_lookup_str_default(file,
+                                          RS_DEFAULT_POS_YEAR_LABEL,
+                                          "calendar.positive_label"));
     sz_strlcpy(game.info.negative_year_label,
-               _(secfile_lookup_str_default(file,
-                                            RS_DEFAULT_NEG_YEAR_LABEL,
-                                            "calendar.negative_label")));
+               secfile_lookup_str_default(file,
+                                          RS_DEFAULT_NEG_YEAR_LABEL,
+                                          "calendar.negative_label"));
 
     for (i = 0; i < game.info.calendar_fragments; i++) {
       const char *name;
