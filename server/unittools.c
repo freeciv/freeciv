@@ -3771,8 +3771,21 @@ bool execute_orders(struct unit *punit)
       break;
     case ORDER_TRADE_ROUTE:
       log_debug("  orders: establishing trade route.");
+      dst_tile = unit_tile(punit);
+
+      fc_assert_ret_val_msg(dst_tile, FALSE, "No tile for ordered unit");
+
+      if (tile_city(dst_tile) == NULL) {
+        cancel_orders(punit, "  trade route order with no city");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("Orders for %s aborted since they "
+                        "give a location without a city."),
+                      unit_link(punit));
+        return TRUE;
+      }
+
       handle_unit_establish_trade(pplayer,
-                                  unitid, tile_city(unit_tile(punit))->id,
+                                  unitid, tile_city(dst_tile)->id,
                                   TRUE);
       if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no trade route city");
@@ -3785,9 +3798,22 @@ bool execute_orders(struct unit *punit)
       }
     case ORDER_BUILD_WONDER:
       log_debug("  orders: building wonder");
+      dst_tile = unit_tile(punit);
+
+      fc_assert_ret_val_msg(dst_tile, FALSE, "No tile for ordered unit");
+
+      if (tile_city(dst_tile) == NULL) {
+        cancel_orders(punit, "  build wonder order with no city");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("Orders for %s aborted since they "
+                        "give a location without a city."),
+                      unit_link(punit));
+        return TRUE;
+      }
+
       handle_unit_help_build_wonder(pplayer,
                                     unitid,
-                                    tile_city(unit_tile(punit))->id);
+                                    tile_city(dst_tile)->id);
       if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no wonder city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
