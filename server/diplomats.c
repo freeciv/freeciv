@@ -45,13 +45,6 @@
 #include "unithand.h"
 #include "unittools.h"
 
-/*************************************************************************/
-
-/* TODO: Should be an effect */
-#define STEAL_GOLD_PCT 5
-/* TODO: Should be an effect */
-#define THIEFS_SHARE_PCT 1
-
 /****************************************************************************/
 
 static void diplomat_charge_movement (struct unit *pdiplomat,
@@ -1145,7 +1138,9 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
   log_debug("steal gold: succeeded");
 
   /* Decide the upper limit on how much can be taken. */
-  gold_take = (tgt_player->economic.gold * STEAL_GOLD_PCT) / 100;
+  gold_take = (tgt_player->economic.gold
+               * get_city_bonus(tgt_city, EFT_MAX_STOLEN_GOLD_PCT))
+              / 100;
 
   /* Decide how much to actually take. */
   gold_take = fc_rand(gold_take) + 1;
@@ -1156,7 +1151,9 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
   tgt_player->economic.gold -= gold_take;
 
   /* Some gold are lost during transfer. */
-  gold_give = gold_take - (gold_take * THIEFS_SHARE_PCT) / 100;
+  gold_give = gold_take
+            - (gold_take * get_unit_bonus(act_unit, EFT_THIEFS_SHARE_PCT))
+              / 100;
 
   log_debug("steal gold: will give %d gold", gold_give);
 

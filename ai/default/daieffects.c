@@ -573,6 +573,12 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
       }
     }
     break;
+  case EFT_MAX_STOLEN_GOLD_PCT:
+    v -= amount / 4;
+    break;
+  case EFT_THIEFS_SHARE_PCT:
+    v -= amount / 8;
+    break;
   case EFT_COUNT:
     log_error("Bad effect type.");
     break;

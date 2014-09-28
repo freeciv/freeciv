@@ -219,6 +219,16 @@ Unit_Bribe_Cost_Pct
     Increases unit bribe cost by amount percent. Requirements are from the
 point of view of the target unit, not the briber.
 
+Max_Stolen_Gold_Pct
+    The upper limit on the percentage of the players gold that may be
+stolen by a unit doing the "Steal Gold" action. Evaluated against the city
+stolen from.
+
+Thiefs_Share_Pct
+    The percentage of the gold stolen by a unit doing the "Steal Gold"
+action that is lost before it reaches the player ordering it. Evaluated
+against the actor unit.
+
 Size_Adj
     Increase maximum size of a city by amount.
 

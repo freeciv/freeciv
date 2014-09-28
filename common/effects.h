@@ -265,6 +265,10 @@ extern "C" {
 #define SPECENUM_VALUE101NAME "National_History"
 #define SPECENUM_VALUE102 EFT_TURN_FRAGMENTS
 #define SPECENUM_VALUE102NAME "Turn_Fragments"
+#define SPECENUM_VALUE103 EFT_MAX_STOLEN_GOLD_PCT
+#define SPECENUM_VALUE103NAME "Max_Stolen_Gold_Pct"
+#define SPECENUM_VALUE104 EFT_THIEFS_SHARE_PCT
+#define SPECENUM_VALUE104NAME "Thiefs_Share_Pct"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
