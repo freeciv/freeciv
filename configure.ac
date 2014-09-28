@@ -236,18 +236,6 @@ dnl checks for MagickWand mapimg support
 dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
 FC_MAPIMG_MAGICKWAND
 
-AC_ARG_ENABLE([fcweb],
-  AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
-[case "${enableval}" in
-  yes)
-    fcweb=true ;;
-  no)
-    fcweb=false ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcweb]) ;;
-esac], [fcweb=false])
-
-FC_WEB_CLIENT
-
 dnl no:   Do not compile client.
 dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
@@ -257,14 +245,6 @@ AC_ARG_ENABLE([client],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
-
-if test "x$fcweb" = "xtrue" ; then
-  if test "x$clients" != "x" && test "x$clients" != "xauto" &&
-     test "x$clients" != "xno" ; then
-    AC_MSG_ERROR([One cannot enable any clients for freeciv-web build])
-  fi
-  clients=no
-fi
 
 gui_gtk2=no
 gui_gtk3=no

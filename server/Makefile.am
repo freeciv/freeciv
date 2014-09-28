@@ -2,11 +2,7 @@
 
 SUBDIRS = advisors generator scripting
 
-if FREECIV_WEB
-srvbin = freeciv-web
-else
 srvbin = freeciv-server
-endif
 
 bin_PROGRAMS = $(srvbin)
 lib_LTLIBRARIES = libfreeciv-srv.la
@@ -154,15 +150,9 @@ exe_ldadd = \
  $(MAPIMG_WAND_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
-if FREECIV_WEB
-freeciv_web_SOURCES = $(exe_sources)
-freeciv_web_LDFLAGS = $(exe_ldflags)
-freeciv_web_LDADD = $(exe_ldadd)
-else
 freeciv_server_SOURCES = $(exe_sources)
 freeciv_server_LDFLAGS = $(exe_ldflags)
 freeciv_server_LDADD = $(exe_ldadd)
-endif
 
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
