@@ -6413,6 +6413,11 @@ bool load_rulesets(const char *restore, bool act, bool save_script)
     }
   }
 
+#ifdef FREECIV_WEB
+  log_normal(_("Cannot load any ruleset. Freeciv-web ruleset is available from "
+               "https://github.com/freeciv/freeciv-web"));
+#endif /* FREECIV_WEB */
+
   /* Cannot load even default ruleset, we're in completely unusable state */
   exit(EXIT_FAILURE);
 }
