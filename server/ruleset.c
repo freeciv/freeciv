@@ -5434,6 +5434,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       } else {
         struct trade_route_settings *set = trade_route_settings_by_type(type);
         const char *cancelling;
+        const char *bonus;
 
         set->trade_pct = secfile_lookup_int_default(file, 100,
                                                     "trade.settings%d.pct", i);
@@ -5444,6 +5445,17 @@ static bool load_ruleset_game(struct section_file *file, bool act)
           ruleset_error(LOG_ERROR,
                         "\"%s\" unknown traderoute cancelling type \"%s\".",
                         filename, cancelling);
+          ok = FALSE;
+        }
+
+        bonus = secfile_lookup_str_default(file, "None", "trade.settings%d.bonus", i);
+
+        set->bonus_type = traderoute_bonus_type_by_name(bonus, fc_strcasecmp);
+
+        if (!traderoute_bonus_type_is_valid(set->bonus_type)) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" unknown traderoute bonus type \"%s\".",
+                        filename, bonus);
           ok = FALSE;
         }
       }
@@ -6051,6 +6063,7 @@ static void send_ruleset_trade_routes(struct conn_list *dest)
     packet.id = type;
     packet.trade_pct = set->trade_pct;
     packet.cancelling = set->cancelling;
+    packet.bonus_type = set->bonus_type;
 
     lsend_packet_ruleset_trade(dest, &packet);
   }

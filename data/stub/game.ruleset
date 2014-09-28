@@ -341,20 +341,25 @@ negative_label = _("BCE")
 ;                             trademindist rather than pct==0)
 ;                "Inactive" - Keep them inactive
 ;                "Cancel"   - Cancel them altogether
+; "bonus"      - One-time bonuses granted when traderoute established
+;                "None"     - No one-time bonus
+;                "Gold"     - Bonus to gold
+;                "Science"  - Bonus to research
+;                "Both"     - Bonus to gold and research
 ;
 [trade]
 settings =
-  { "type", "pct", "cancelling"
-    "National",   0, "Cancel"
-    "NationalIC", 0, "Cancel"
-    "IN",         0, "Cancel"
-    "INIC",       0, "Cancel"
-    "Ally",       0, "Cancel"
-    "AllyIC",     0, "Cancel"
-    "Enemy",      0, "Cancel"
-    "EnemyIC",    0, "Cancel"
-    "Team",       0, "Cancel"
-    "TeamIC",     0, "Cancel"
+  { "type", "pct", "cancelling", "bonus"
+    "National",   0, "Cancel", "None"
+    "NationalIC", 0, "Cancel", "None"
+    "IN",         0, "Cancel", "None"
+    "INIC",       0, "Cancel", "None"
+    "Ally",       0, "Cancel", "None"
+    "AllyIC",     0, "Cancel", "None"
+    "Enemy",      0, "Cancel", "None"
+    "EnemyIC",    0, "Cancel", "None"
+    "Team",       0, "Cancel", "None"
+    "TeamIC",     0, "Cancel", "None"
   }
 
 [playercolors]

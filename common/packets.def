@@ -237,6 +237,7 @@ type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
 type TECH_COST_STYLE    = uint8(enum tech_cost_style)
 type TECH_LEAKAGE_STYLE = uint8(enum tech_leakage_style)
 type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
+type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
 
 # typedefs for bit vectors
 type BV_EXTRA_FLAGS     = bitvector(bv_extra_flags)
@@ -1619,9 +1620,10 @@ PACKET_RULESET_ACHIEVEMENT = 233; sc, lsend
 end
 
 PACKET_RULESET_TRADE = 227; sc, lsend
-  UINT8  id;
-  UINT16 trade_pct;
-  TRI    cancelling;
+  UINT8         id;
+  UINT16        trade_pct;
+  TRI           cancelling;
+  TR_BONUS_TYPE bonus_type;
 end
 
 PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend

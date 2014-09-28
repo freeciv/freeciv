@@ -429,20 +429,25 @@ effects        = "ReducePopulation"
 ;                             trademindist rather than pct==0)
 ;                "Inactive" - Keep them inactive
 ;                "Cancel"   - Cancel them altogether
+; "bonus"      - One-time bonuses granted when traderoute established
+;                "None"     - No one-time bonus
+;                "Gold"     - Bonus to gold
+;                "Science"  - Bonus to research
+;                "Both"     - Bonus to gold and research
 ;
 [trade]
 settings =
-  { "type",       "pct", "cancelling"
-    "National",   100,   "Cancel"
-    "NationalIC", 100,   "Cancel"
-    "IN",         300,   "Cancel"
-    "INIC",       300,   "Cancel"
-    "Ally",       300,   "Cancel"
-    "AllyIC",     300,   "Cancel"
-    "Enemy",      300,   "Cancel"
-    "EnemyIC",    300,   "Cancel"
-    "Team",       300,   "Cancel"
-    "TeamIC",     300,   "Cancel"
+  { "type",       "pct", "cancelling", "bonus"
+    "National",   100,   "Cancel",     "Both"
+    "NationalIC", 100,   "Cancel",     "Both"
+    "IN",         300,   "Cancel",     "Both"
+    "INIC",       300,   "Cancel",     "Both"
+    "Ally",       300,   "Cancel",     "Both"
+    "AllyIC",     300,   "Cancel",     "Both"
+    "Enemy",      300,   "Cancel",     "Both"
+    "EnemyIC",    300,   "Cancel",     "Both"
+    "Team",       300,   "Cancel",     "Both"
+    "TeamIC",     300,   "Cancel",     "Both"
   }
 
 [playercolors]

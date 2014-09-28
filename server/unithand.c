@@ -2015,6 +2015,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
   struct city *pcity_homecity;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
+  enum traderoute_bonus_type bonus_type;
+  const char *bonus_str;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -2136,26 +2138,63 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
     revenue = (revenue + 2) / 3;
   }
 
-  conn_list_do_buffer(pplayer->connections);
-  notify_player(pplayer, city_tile(pcity_dest),
-                E_CARAVAN_ACTION, ftc_server,
-                /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
-                PL_("Your %s from %s has arrived in %s,"
-                    " and revenues amount to %d in gold and research.",
-                    "Your %s from %s has arrived in %s,"
-                    " and revenues amount to %d in gold and research.",
-                    revenue),
-                punit_link,
-                homecity_link,
-                destcity_link,
-                revenue);
-  wipe_unit(punit, ULR_USED, NULL);
-  pplayer->economic.gold += revenue;
-  /* add bulbs and check for finished research */
-  update_bulbs(pplayer, revenue, TRUE);
+  bonus_type = trade_route_settings_by_type(cities_trade_route_type(pcity_homecity, pcity_dest))->bonus_type;
+  bonus_str = NULL;
 
-  /* Inform everyone about tech changes */
-  send_research_info(research_get(pplayer), NULL);
+  switch (bonus_type) {
+  case TBONUS_NONE:
+    break;
+  case TBONUS_GOLD:
+    bonus_str = _("gold");
+    break;
+  case TBONUS_SCIENCE:
+    bonus_str = _("research");
+    break;
+  case TBONUS_BOTH:
+    bonus_str = _("gold and research");
+    break;
+  }
+
+  conn_list_do_buffer(pplayer->connections);
+
+  if (bonus_str != NULL) {
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... gold and research. */
+                  PL_("Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in %s.",
+                      "Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in %s.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  revenue,
+                  bonus_str);
+  } else {
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
+                  _("Your %s from %s has arrived in %s."),
+                  punit_link,
+                  homecity_link,
+                  destcity_link);
+  }
+  wipe_unit(punit, ULR_USED, NULL);
+
+  if (bonus_type == TBONUS_GOLD || bonus_type == TBONUS_BOTH) {
+    pplayer->economic.gold += revenue;
+
+    send_player_info_c(pplayer, pplayer->connections);
+  }
+
+  if (bonus_type == TBONUS_SCIENCE || bonus_type == TBONUS_BOTH) {
+    /* add bulbs and check for finished research */
+    update_bulbs(pplayer, revenue, TRUE);
+
+    /* Inform everyone about tech changes */
+    send_research_info(research_get(pplayer), NULL);
+  }
 
   if (can_establish) {
 
@@ -2219,10 +2258,10 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
     /* Notify the owners of the cities. */
     send_city_info(pplayer, pcity_homecity);
     send_city_info(city_owner(pcity_dest), pcity_dest);
-    if(pcity_out_of_home) {
+    if (pcity_out_of_home) {
       send_city_info(city_owner(pcity_out_of_home), pcity_out_of_home);
     }
-    if(pcity_out_of_dest) {
+    if (pcity_out_of_dest) {
       send_city_info(city_owner(pcity_out_of_dest), pcity_out_of_dest);
     }
 
@@ -2240,7 +2279,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
       }
       if (pplayer != city_owner(pcity_out_of_home)) {
         send_city_info(pplayer, pcity_out_of_home);
-	 send_city_info(city_owner(pcity_out_of_home), pcity_homecity);
+        send_city_info(city_owner(pcity_out_of_home), pcity_homecity);
       }
       if (pcity_out_of_dest && city_owner(pcity_out_of_home) !=
 					city_owner(pcity_out_of_dest)) {
@@ -2251,7 +2290,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
     if (pcity_out_of_dest) {
       if (city_owner(pcity_dest) != city_owner(pcity_out_of_dest)) {
         send_city_info(city_owner(pcity_dest), pcity_out_of_dest);
-	 send_city_info(city_owner(pcity_out_of_dest), pcity_dest);
+        send_city_info(city_owner(pcity_out_of_dest), pcity_dest);
       }
       if (pplayer != city_owner(pcity_out_of_dest)) {
 	 send_city_info(pplayer, pcity_out_of_dest);

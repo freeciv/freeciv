@@ -45,9 +45,21 @@ enum trade_route_type {
   TRT_LAST                            = 10
 };
 
+#define SPECENUM_NAME traderoute_bonus_type
+#define SPECENUM_VALUE0 TBONUS_NONE
+#define SPECENUM_VALUE0NAME "None"
+#define SPECENUM_VALUE1 TBONUS_GOLD
+#define SPECENUM_VALUE1NAME "Gold"
+#define SPECENUM_VALUE2 TBONUS_SCIENCE
+#define SPECENUM_VALUE2NAME "Science"
+#define SPECENUM_VALUE3 TBONUS_BOTH
+#define SPECENUM_VALUE3NAME "Both"
+#include "specenum_gen.h"
+
 struct trade_route_settings {
   int trade_pct;
   enum traderoute_illegal_cancelling cancelling;
+  enum traderoute_bonus_type bonus_type;
 };
 
 int max_trade_routes(const struct city *pcity);

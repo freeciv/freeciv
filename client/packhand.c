@@ -3470,6 +3470,7 @@ void handle_ruleset_trade(const struct packet_ruleset_trade *p)
   if (pset != NULL) {
     pset->trade_pct  = p->trade_pct;
     pset->cancelling = p->cancelling;
+    pset->bonus_type = p->bonus_type;
   }
 }
 

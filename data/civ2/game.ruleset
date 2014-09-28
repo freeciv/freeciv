@@ -442,19 +442,27 @@ negative_label = _("BC")
 ;       traderoute with enemy city nearby and conquer it -> what happens to traderoute
 ;       between your cities with less than trademindist distance?
 ;
+; "bonus"      - One-time bonuses granted when traderoute established
+;                "None"     - No one-time bonus
+;                "Gold"     - Bonus to gold
+;                "Science"  - Bonus to research
+;                "Both"     - Bonus to gold and research
+;
+; TODO: What`s correct "bonus" behavior for civ2?
+;
 [trade]
 settings =
-  { "type",       "pct", "cancelling"
-    "National",   100,   "Cancel"
-    "NationalIC", 200,   "Cancel"
-    "IN",         200,   "Cancel"
-    "INIC",       400,   "Cancel"
-    "Ally",       200,   "Cancel"
-    "AllyIC",     400,   "Cancel"
-    "Enemy",      200,   "Cancel"
-    "EnemyIC",    400,   "Cancel"
-    "Team",       200,   "Cancel"
-    "TeamIC",     400,   "Cancel"
+  { "type",       "pct", "cancelling", "bonus"
+    "National",   100,   "Cancel",     "Both"
+    "NationalIC", 200,   "Cancel",     "Both"
+    "IN",         200,   "Cancel",     "Both"
+    "INIC",       400,   "Cancel",     "Both"
+    "Ally",       200,   "Cancel",     "Both"
+    "AllyIC",     400,   "Cancel",     "Both"
+    "Enemy",      200,   "Cancel",     "Both"
+    "EnemyIC",    400,   "Cancel",     "Both"
+    "Team",       200,   "Cancel",     "Both"
+    "TeamIC",     400,   "Cancel",     "Both"
   }
 
 [playercolors]
