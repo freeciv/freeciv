@@ -357,52 +357,53 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   improvement_iterate(pb) {
-    char path[512];
-    const char *flag_names[IF_COUNT];
-    int set_count;
-    int flagi;
+    if (!pb->disabled) {
+      char path[512];
+      const char *flag_names[IF_COUNT];
+      int set_count;
+      int flagi;
 
-    fc_snprintf(path, sizeof(path), "building_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "building_%d", sect_idx++);
 
-    save_name_translation(sfile, &(pb->name), path);
+      save_name_translation(sfile, &(pb->name), path);
 
-    secfile_insert_str(sfile, impr_genus_id_name(pb->genus),
-                       "%s.genus", path);
+      secfile_insert_str(sfile, impr_genus_id_name(pb->genus),
+                         "%s.genus", path);
 
-    if (strcmp(pb->graphic_str, "-")) {
-      secfile_insert_str(sfile, pb->graphic_str, "%s.graphic", path);
-    }
-    if (strcmp(pb->graphic_alt, "-")) {
-      secfile_insert_str(sfile, pb->graphic_alt, "%s.graphic_alt", path);
-    }
-    if (strcmp(pb->soundtag, "-")) {
-      secfile_insert_str(sfile, pb->soundtag, "%s.sound", path);
-    }
-    if (strcmp(pb->soundtag_alt, "-")) {
-      secfile_insert_str(sfile, pb->soundtag_alt, "%s.sound_alt", path);
-    }
-
-    save_reqs_vector(sfile, &(pb->reqs), path, "reqs");
-    save_reqs_vector(sfile, &(pb->obsolete_by), path, "obsolete_by");
-
-    secfile_insert_int(sfile, pb->build_cost, "%s.build_cost", path);
-    secfile_insert_int(sfile, pb->upkeep, "%s.upkeep", path);
-    secfile_insert_int(sfile, pb->sabotage, "%s.sabotage", path);
-
-    set_count = 0;
-    for (flagi = 0; flagi < IF_COUNT; flagi++) {
-      if (improvement_has_flag(pb, flagi)) {
-        flag_names[set_count++] = impr_flag_id_name(flagi);
+      if (strcmp(pb->graphic_str, "-")) {
+        secfile_insert_str(sfile, pb->graphic_str, "%s.graphic", path);
       }
+      if (strcmp(pb->graphic_alt, "-")) {
+        secfile_insert_str(sfile, pb->graphic_alt, "%s.graphic_alt", path);
+      }
+      if (strcmp(pb->soundtag, "-")) {
+        secfile_insert_str(sfile, pb->soundtag, "%s.sound", path);
+      }
+      if (strcmp(pb->soundtag_alt, "-")) {
+        secfile_insert_str(sfile, pb->soundtag_alt, "%s.sound_alt", path);
+      }
+
+      save_reqs_vector(sfile, &(pb->reqs), path, "reqs");
+      save_reqs_vector(sfile, &(pb->obsolete_by), path, "obsolete_by");
+
+      secfile_insert_int(sfile, pb->build_cost, "%s.build_cost", path);
+      secfile_insert_int(sfile, pb->upkeep, "%s.upkeep", path);
+      secfile_insert_int(sfile, pb->sabotage, "%s.sabotage", path);
+
+      set_count = 0;
+      for (flagi = 0; flagi < IF_COUNT; flagi++) {
+        if (improvement_has_flag(pb, flagi)) {
+          flag_names[set_count++] = impr_flag_id_name(flagi);
+        }
+      }
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, flag_names, set_count,
+                               "%s.flags", path);
+      }
+
+      save_strvec(sfile, pb->helptext, path, "helptext");
     }
-
-    if (set_count > 0) {
-      secfile_insert_str_vec(sfile, flag_names, set_count,
-                             "%s.flags", path);
-    }
-
-   save_strvec(sfile, pb->helptext, path, "helptext");
-
   } improvement_iterate_end;
 
   return save_ruleset_file(sfile, filename);

@@ -184,3 +184,16 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb)
 
   return needed;
 }
+
+/**************************************************************************
+  Check if anything in ruleset needs building
+**************************************************************************/
+bool is_building_needed(struct impr_type *pimpr, requirers_cb cb)
+{
+  struct universal uni = { .value.building = pimpr, .kind = VUT_IMPROVEMENT };
+  bool needed = FALSE;
+
+  needed |= is_universal_needed(&uni, cb);
+
+  return needed;
+}

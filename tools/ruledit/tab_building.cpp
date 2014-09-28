@@ -76,7 +76,7 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   bldg_layout->addWidget(rname, 1, 1);
 
   add_button = new QPushButton(R__("Add Building"), this);
-  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
+  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
   bldg_layout->addWidget(add_button, 5, 0);
   show_experimental(add_button);
 
@@ -100,9 +100,11 @@ void tab_building::refresh()
   bldg_list->clear();
 
   improvement_iterate(pimpr) {
-    QListWidgetItem *item = new QListWidgetItem(improvement_rule_name(pimpr));
+    if (!pimpr->disabled) {
+      QListWidgetItem *item = new QListWidgetItem(improvement_rule_name(pimpr));
 
-    bldg_list->insertItem(improvement_index(pimpr), item);
+      bldg_list->insertItem(improvement_index(pimpr), item);
+    }
   } improvement_iterate_end;
 }
 
@@ -152,14 +154,12 @@ void tab_building::name_given()
 **************************************************************************/
 void tab_building::delete_now()
 {
-#if 0
-  ui->clear_required(advance_rule_name(selected));
-  if (is_tech_needed(selected, &ruledit_qt_display_requirers)) {
+  ui->clear_required(improvement_rule_name(selected));
+  if (is_building_needed(selected, &ruledit_qt_display_requirers)) {
     return;
   }
 
-  selected->require[AR_ONE] = A_NEVER;
-#endif
+  selected->disabled = true;
 
   refresh();
   update_bldg_info(0);
@@ -176,30 +176,29 @@ void tab_building::initialize_new_bldg(struct impr_type *pimpr)
 /**************************************************************************
   User requested new building
 **************************************************************************/
-void tab_building::add_now()
+void tab_building::add_now2()
 {
-#if 0
-  struct advance *new_adv;
+  struct impr_type *new_bldg;
 
-  /* Try to reuse freed tech slot */
-  advance_iterate(A_FIRST, padv) {
-    if (padv->require[AR_ONE] == A_NEVER) {
-      initialize_new_tech(padv);
-      update_tech_info(padv);
+  /* Try to reuse freed building slot */
+  improvement_iterate(pimpr) {
+    if (pimpr->disabled) {
+      pimpr->disabled = false;
+      initialize_new_bldg(pimpr);
+      update_bldg_info(pimpr);
       refresh();
       return;
     }
-  } advance_iterate_end;
+  } improvement_iterate_end;
 
-  /* Try to add completely new tech */
-  if (game.control.num_tech_types >= A_LAST) {
+  /* Try to add completely new building */
+  if (game.control.num_impr_types >= B_LAST) {
     return;
   }
 
-  new_adv = advance_by_number(game.control.num_tech_types++);
-  initialize_new_bldg(new_adv);
-  update_tech_info(new_adv);
-#endif
+  new_bldg = improvement_by_number(game.control.num_impr_types++);
+  initialize_new_bldg(new_bldg);
+  update_bldg_info(new_bldg);
 
   refresh();
 }
