@@ -746,12 +746,26 @@ void popup_action_selection(struct unit *actor_unit,
   SDL_String16 *pStr;
   SDL_Rect area;
   struct city *actor_homecity;
+
+  char cBuf[128];
+  bool can_marketplace;
+  bool can_traderoute;
+  bool can_wonder;
   
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
   is_unit_move_blocked = TRUE;
 
   actor_homecity = game_city_by_number(actor_unit->homecity);
+
+  can_marketplace = unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
+                    && target_city
+                    && can_cities_trade(actor_homecity, target_city);
+  can_traderoute = can_marketplace
+                   && can_establish_trade_route(actor_homecity,
+                                                target_city);
+  can_wonder = target_city
+               && unit_can_help_build_wonder(actor_unit, target_city);
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->actor_unit_id = actor_unit->id;
@@ -783,151 +797,141 @@ void popup_action_selection(struct unit *actor_unit,
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
 
-  pDiplomat_Dlg->target_ids[ATK_CITY] = IDENTITY_NUMBER_ZERO;
-  pDiplomat_Dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
-
-  /* ---------- */
   if (target_city) {
-    /* Spy/Diplomat acting against a city */
-
-    char cBuf[128];
-
-    bool can_marketplace = unit_has_type_flag(actor_unit,
-                                              UTYF_TRADE_ROUTE)
-        && can_cities_trade(actor_homecity, target_city);
-    bool can_traderoute = can_marketplace
-                    && can_establish_trade_route(actor_homecity,
-                                                 target_city);
-    bool can_wonder = unit_can_help_build_wonder(actor_unit,
-                                                 target_city);
-
     pDiplomat_Dlg->target_ids[ATK_CITY] = target_city->id;
-
-    action_entry(ACTION_ESTABLISH_EMBASSY,
-                 act_probs,
-                 diplomat_embassy_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_INVESTIGATE_CITY,
-                 act_probs,
-                 diplomat_investigate_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_POISON,
-                 act_probs,
-                 spy_poison_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_STEAL_GOLD,
-                 act_probs,
-                 spy_steal_gold_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_SABOTAGE_CITY,
-                 act_probs,
-                 diplomat_sabotage_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                 act_probs,
-                 spy_sabotage_request,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_STEAL_TECH,
-                 act_probs,
-                 diplomat_steal_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
-                 act_probs,
-                 spy_steal_popup,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_INCITE_CITY,
-                 act_probs,
-                 diplomat_incite_callback,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-
-    /* ---------- */
-    if (can_traderoute) {
-      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                       target_city);
-
-      fc_snprintf(cBuf, sizeof(cBuf),
-                  _("Establish Trade route with %s ( %d R&G + %d trade )"),
-                  city_name(actor_homecity),
-                  revenue,
-                  trade_between_cities(actor_homecity, target_city));
-
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              cBuf, caravan_establish_trade_callback);
-      set_wstate(pBuf, FC_WS_NORMAL);
-
-      add_to_gui_list(ID_LABEL, pBuf);
-
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-
-    /* ---------- */
-    if (can_marketplace) {
-      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                       target_city);
-
-      revenue = (revenue + 2) / 3;
-      fc_snprintf(cBuf, sizeof(cBuf),
-                  _("Enter Marketplace ( %d R&G bonus )"), revenue);
-
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                              cBuf, caravan_marketplace_callback);
-      set_wstate(pBuf, FC_WS_NORMAL);
-
-      add_to_gui_list(ID_LABEL, pBuf);
-
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
-
-    /* ---------- */
-    if (can_wonder) {
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
-          _("Help build Wonder"), caravan_help_build_wonder_callback);
-
-      set_wstate(pBuf, FC_WS_NORMAL);
-
-      add_to_gui_list(ID_LABEL, pBuf);
-
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
-    }
+  } else {
+    pDiplomat_Dlg->target_ids[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   }
 
   if (target_unit) {
-    /* Spy/Diplomat acting against a unit */
-
     pDiplomat_Dlg->target_ids[ATK_UNIT] = target_unit->id;
-
-    action_entry(ACTION_SPY_BRIBE_UNIT,
-                 act_probs,
-                 diplomat_bribe_callback,
-                 actor_unit, NULL, target_unit,
-                 pWindow, &area);
-
-    action_entry(ACTION_SPY_SABOTAGE_UNIT,
-                 act_probs,
-                 spy_sabotage_unit_callback,
-                 actor_unit, NULL, target_unit,
-                 pWindow, &area);
+  } else {
+    pDiplomat_Dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
+
+  /* ---------- */
+  /* Spy/Diplomat acting against a city */
+
+  action_entry(ACTION_ESTABLISH_EMBASSY,
+               act_probs,
+               diplomat_embassy_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_INVESTIGATE_CITY,
+               act_probs,
+               diplomat_investigate_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_POISON,
+               act_probs,
+               spy_poison_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_STEAL_GOLD,
+               act_probs,
+               spy_steal_gold_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_SABOTAGE_CITY,
+               act_probs,
+               diplomat_sabotage_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+               act_probs,
+               spy_sabotage_request,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_STEAL_TECH,
+               act_probs,
+               diplomat_steal_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
+               act_probs,
+               spy_steal_popup,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_INCITE_CITY,
+               act_probs,
+               diplomat_incite_callback,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
+
+  /* ---------- */
+  if (can_traderoute) {
+    int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                     target_city);
+
+    fc_snprintf(cBuf, sizeof(cBuf),
+                _("Establish Trade route with %s ( %d R&G + %d trade )"),
+                city_name(actor_homecity),
+                revenue,
+                trade_between_cities(actor_homecity, target_city));
+
+    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                            cBuf, caravan_establish_trade_callback);
+    set_wstate(pBuf, FC_WS_NORMAL);
+
+    add_to_gui_list(ID_LABEL, pBuf);
+
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
+  }
+
+  /* ---------- */
+  if (can_marketplace) {
+    int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                     target_city);
+
+    revenue = (revenue + 2) / 3;
+    fc_snprintf(cBuf, sizeof(cBuf),
+                _("Enter Marketplace ( %d R&G bonus )"), revenue);
+
+    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+                            cBuf, caravan_marketplace_callback);
+    set_wstate(pBuf, FC_WS_NORMAL);
+
+    add_to_gui_list(ID_LABEL, pBuf);
+
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
+  }
+
+  /* ---------- */
+  if (can_wonder) {
+    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+        _("Help build Wonder"), caravan_help_build_wonder_callback);
+
+    set_wstate(pBuf, FC_WS_NORMAL);
+
+    add_to_gui_list(ID_LABEL, pBuf);
+
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
+  }
+
+  /* Spy/Diplomat acting against a unit */
+
+  action_entry(ACTION_SPY_BRIBE_UNIT,
+               act_probs,
+               diplomat_bribe_callback,
+               actor_unit, NULL, target_unit,
+               pWindow, &area);
+
+  action_entry(ACTION_SPY_SABOTAGE_UNIT,
+               act_probs,
+               spy_sabotage_unit_callback,
+               actor_unit, NULL, target_unit,
+               pWindow, &area);
 
   /* ---------- */
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
