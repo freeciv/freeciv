@@ -10,6 +10,7 @@ CLIENT_FILES =				\
 	hexemplio.tilespec		\
 	isophex.tilespec		\
 	isotrident.tilespec		\
+	toonhex.tilespec		\
 	trident.tilespec		\
 	stdmusic.musicspec		\
 	stdsounds.soundspec		\
@@ -69,6 +70,7 @@ EXTRA_DIST = \
 	hexemplio.tilespec	\
 	isophex.tilespec	\
 	isotrident.tilespec \
+	toonhex.tilespec	\
 	trident.tilespec	\
 	stdmusic.musicspec	\
 	stdsounds.soundspec	\
