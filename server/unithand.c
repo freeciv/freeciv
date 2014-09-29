@@ -698,7 +698,7 @@ void handle_unit_build_city(struct player *pplayer, int unit_id,
   }
 
   if (!unit_can_do_action_now(punit)) {
-    /* Building a city not possible due to unixwaittime setting. */
+    /* Building a city not possible due to unitwaittime setting. */
     return;
   }
 
