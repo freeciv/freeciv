@@ -30,6 +30,7 @@ class requirers_dlg;
 class tab_building;
 class tab_misc;
 class tab_tech;
+class tab_unit;
 class tab_nation;
 
 class ruledit_gui : public QObject
@@ -60,6 +61,7 @@ class ruledit_gui : public QObject
     tab_building *bldg;
     tab_misc *misc;
     tab_tech *tech;
+    tab_unit *unit;
     tab_nation *nation;
 
   private slots:
