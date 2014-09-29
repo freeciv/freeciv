@@ -48,11 +48,11 @@
 #include "dialogs.h"
 #include "wldlg.h"
 
-static int caravan_city_id;
 static int help_wonder_button_id;
 
 static GtkWidget *diplomat_dialog;
 static int actor_unit_id;
+static int target_ids[ATK_COUNT];
 static bool is_more_user_input_needed = FALSE;
 
 static GtkWidget  *spy_tech_shell;
@@ -188,7 +188,7 @@ static gchar *get_help_build_wonder_button_label(bool help_build_possible,
 void caravan_dialog_update(void)
 {
   struct unit *actor_unit = game_unit_by_number(actor_unit_id);
-  struct city *target_city = game_city_by_number(caravan_city_id);
+  struct city *target_city = game_city_by_number(target_ids[ATK_CITY]);
 
   bool can_help = is_help_build_possible(actor_unit, target_city);
 
@@ -205,7 +205,7 @@ void caravan_dialog_update(void)
 
     /* Only actor unit and target city are relevant. */
     struct action_data *data = act_data(actor_unit_id,
-                                        caravan_city_id,
+                                        target_ids[ATK_CITY],
                                         0, 0, 0);
 
     help_wonder_button_id =
@@ -1025,7 +1025,12 @@ void popup_action_selection(struct unit *actor_unit,
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
   actor_unit_id = actor_unit->id;
-  caravan_city_id = target_city ? target_city->id : IDENTITY_NUMBER_ZERO;
+  target_ids[ATK_CITY] = target_city ?
+                         target_city->id :
+                         IDENTITY_NUMBER_ZERO;
+  target_ids[ATK_UNIT] = target_unit ?
+                         target_unit->id :
+                         IDENTITY_NUMBER_ZERO;
 
   can_wonder = is_help_build_possible(actor_unit, target_city);
   can_marketplace = unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
@@ -1211,7 +1216,7 @@ int action_selection_target_city(void)
   if (diplomat_dialog == NULL) {
     return IDENTITY_NUMBER_ZERO;
   }
-  return caravan_city_id;
+  return target_ids[ATK_CITY];
 }
 
 /****************************************************************
