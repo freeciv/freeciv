@@ -202,11 +202,14 @@ char *convert_string(const char *text,
   if (cd == (iconv_t) (-1)) {
     /* Do not do potentially recursive call to freeciv logging here,
      * but use fprintf(stderr) */
+    /* Use the real OS-provided strerror and errno rather than Freeciv's
+     * abstraction, as that wouldn't do the correct thing with third-party
+     * iconv on Windows */
 
     /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
      *        <externally translated error string>."*/
-    fprintf(stderr, _("Could not convert text from %s to %s: %s"),
-            from, to, fc_strerror(fc_get_errno()));
+    fprintf(stderr, _("Could not convert text from %s to %s: %s.\n"),
+            from, to, strerror(errno));
     /* The best we can do? */
     if (alloc) {
       return fc_strdup(text);
@@ -242,7 +245,8 @@ char *convert_string(const char *text,
       if (errno != E2BIG) {
         /* Invalid input. */
 
-        fprintf(stderr, "Invalid string conversion from %s to %s.", from, to);
+        fprintf(stderr, "Invalid string conversion from %s to %s: %s.\n",
+                from, to, strerror(errno));
         iconv_close(cd);
         if (alloc) {
           free(buf);
