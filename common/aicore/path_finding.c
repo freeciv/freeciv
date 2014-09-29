@@ -189,13 +189,7 @@ static inline void pf_finalize_position(const struct pf_parameter *param,
   int move_rate = param->move_rate;
 
   if (0 < move_rate) {
-    /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
-     * ranges from [1, ut->fuel] not from [0, ut->fuel) as one may think. */
-    pos->fuel_left = pos->moves_left / move_rate + 1;
-
-    if (pos->moves_left == move_rate) {
-      pos->moves_left = 0;
-    }
+    pos->moves_left %= move_rate;
   }
 }
 
@@ -422,10 +416,17 @@ static void pf_normal_map_fill_position(const struct pf_normal_map *pfnm,
                    + pf_moves_left_initially(params));
   pos->turn = pf_turns(params, node->cost);
   pos->moves_left = pf_moves_left(params, node->cost);
+#ifdef PF_DEBUG
+  fc_assert(params->fuel == 1);
+  fc_assert(params->fuel_left_initially == 1);
+#endif /* PF_DEBUG */
+  pos->fuel_left = 1;
   pos->dir_to_here = node->dir_to_here;
   pos->dir_to_next_pos = PF_DIR_NONE;   /* This field does not apply. */
 
-  pf_finalize_position(params, pos);
+  if (node->cost > 0) {
+    pf_finalize_position(params, pos);
+  }
 }
 
 /****************************************************************************
@@ -1171,10 +1172,17 @@ static void pf_danger_map_fill_position(const struct pf_danger_map *pfdm,
                    + pf_moves_left_initially(params));
   pos->turn = pf_turns(params, node->cost);
   pos->moves_left = pf_moves_left(params, node->cost);
+#ifdef PF_DEBUG
+  fc_assert(params->fuel == 1);
+  fc_assert(params->fuel_left_initially == 1);
+#endif /* PF_DEBUG */
+  pos->fuel_left = 1;
   pos->dir_to_here = node->dir_to_here;
   pos->dir_to_next_pos = PF_DIR_NONE;   /* This field does not apply. */
 
-  pf_finalize_position(params, pos);
+  if (node->cost > 0) {
+    pf_finalize_position(params, pos);
+  }
 }
 
 /****************************************************************************
@@ -1272,6 +1280,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
         pos->turn = pf_turns(params,
             pf_danger_map_fill_cost_for_full_moves(params, node->cost));
         pos->moves_left = params->move_rate;
+        pos->fuel_left = params->fuel;
         pos->total_MC = ((pos->turn - 1) * params->move_rate
                          + params->moves_left_initially);
         pos->dir_to_next_pos = dir_next;
@@ -1299,10 +1308,17 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     }
     pos->turn = pf_turns(params, pos->total_MC);
     pos->moves_left = pf_moves_left(params, pos->total_MC);
+#ifdef PF_DEBUG
+    fc_assert(params->fuel == 1);
+    fc_assert(params->fuel_left_initially == 1);
+#endif /* PF_DEBUG */
+    pos->fuel_left = 1;
     pos->total_MC -= (pf_move_rate(params)
                       - pf_moves_left_initially(params));
     pos->dir_to_next_pos = (old_waited ? PF_DIR_NONE : dir_next);
-    pf_finalize_position(params, pos);
+    if (node->cost > 0) {
+      pf_finalize_position(params, pos);
+    }
 
     /* 3: Check if we finished. */
     if (i == 0) {
@@ -2261,15 +2277,13 @@ pf_fuel_finalize_position_base(const struct pf_parameter *param,
 {
   int move_rate = param->move_rate;
 
+  pos->turn = pf_turns(param, cost);
   if (move_rate > 0) {
-    pos->turn = pf_turns(param, cost);
     pos->fuel_left = (moves_left - 1) / move_rate + 1;
     pos->moves_left = (moves_left - 1) % move_rate + 1;
   } else {
-    /* This unit cannot move by itself. */
-    pos->turn = pos->tile == param->start_tile ? 0 : FC_INFINITY;
-    pos->fuel_left = 0;
-    pos->moves_left = 0;
+    pos->fuel_left = param->fuel_left_initially;
+    pos->moves_left = moves_left;
   }
 }
 
@@ -3168,10 +3182,27 @@ int pf_map_move_cost(struct pf_map *pfm, struct tile *ptile)
 struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
 {
 #ifdef PF_DEBUG
+  struct pf_path *path;
+
   fc_assert_ret_val(NULL != pfm, NULL);
   fc_assert_ret_val(NULL != ptile, NULL);
-#endif
+  path = pfm->get_path(pfm, ptile);
+
+  if (path != NULL) {
+    const struct pf_parameter *param = pf_map_parameter(pfm);
+    const struct pf_position *pos = &path->positions[0];
+
+    fc_assert(path->length >= 1);
+    fc_assert(pos->turn == 0);
+    fc_assert(pos->tile == param->start_tile);
+    fc_assert(pos->moves_left == param->moves_left_initially);
+    fc_assert(pos->fuel_left == param->fuel_left_initially);
+  }
+
+  return path;
+#else
   return pfm->get_path(pfm, ptile);
+#endif
 }
 
 /****************************************************************************
