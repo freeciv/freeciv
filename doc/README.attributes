@@ -5,7 +5,7 @@ Client/server model
 Each client player has an attribute block and the server also holds
 such an attribute block for every player. All attribute blocks the
 server holds are included in the save game. The client and server
-synchronize their blocks. The server sends it's block to the client at
+synchronize their blocks. The server sends its block to the client at
 game start or reload. The client sends an updated block at each end of
 turn to the server. Since the maximum packet size is limited to
 currently 4k and the attribute block can have arbitrary size (although
