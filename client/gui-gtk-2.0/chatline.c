@@ -1462,9 +1462,11 @@ void chatline_init(void)
 **************************************************************************/
 static gboolean version_message_main_thread(gpointer user_data)
 {
-  const char *vertext = (const char *)user_data;
+  char *vertext = (char *)user_data;
 
   output_window_append(ftc_client, vertext);
+
+  FC_FREE(vertext);
 
   return FALSE;
 }
@@ -1474,5 +1476,10 @@ static gboolean version_message_main_thread(gpointer user_data)
 **************************************************************************/
 void version_message(char *vertext)
 {
-  gdk_threads_add_idle(version_message_main_thread, vertext);
+  int len = strlen(vertext) + 1;
+  char *persistent = fc_malloc(len);
+
+  strncpy(persistent, vertext, len);
+
+  gdk_threads_add_idle(version_message_main_thread, persistent);
 }
