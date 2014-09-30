@@ -193,23 +193,6 @@ void ruledit_gui::launch_now()
   sz_strlcpy(game.server.rulesetdir, ruleset_select->text().toUtf8().data());
 
   if (load_rulesets(NULL, FALSE, TRUE)) {
-
-    log_debug("Terrains:     %d", game.control.terrain_count);
-    log_debug("Resources:    %d", game.control.resource_count);
-    log_debug("Techs:        %d", game.control.num_tech_types);
-    log_debug("Unit classes: %d", game.control.num_unit_classes);
-    log_debug("Unit types:   %d", game.control.num_unit_types);
-    log_debug("Buildings:    %d", game.control.num_impr_types);
-    log_debug("Nations:      %d", game.control.nation_count);
-    log_debug("City Styles:  %d", game.control.styles_count);
-    log_debug("Specialists:  %d", game.control.num_specialist_types);
-    log_debug("Governments:  %d", game.control.government_count);
-    log_debug("Disasters:    %d", game.control.num_disaster_types);
-    log_debug("Achievements: %d", game.control.num_achievement_types);
-    log_debug("Extras:       %d", game.control.num_extra_types);
-    log_debug("Bases:        %d", game.control.num_base_types);
-    log_debug("Roads:        %d", game.control.num_road_types);
-
     display_msg(R__("Ruleset loaded"));
 
     /* Make freeable copy */

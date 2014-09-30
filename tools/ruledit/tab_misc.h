@@ -18,6 +18,7 @@
 #include <QWidget>
 
 class QLineEdit;
+class QTableWidget;
 
 class ruledit_gui;
 
@@ -32,12 +33,14 @@ class tab_misc : public QWidget
 
   private slots:
     void save_now();
+    void refresh_stats();
 
   private:
     ruledit_gui *ui;
     QLineEdit *name;
     QLineEdit *version;
     QLineEdit *savedir;
+    QTableWidget *stats;
 };
 
 

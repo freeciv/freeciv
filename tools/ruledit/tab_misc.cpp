@@ -17,9 +17,11 @@
 
 // Qt
 #include <QGridLayout>
+#include <QHeaderView>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QTableWidget>
 
 // utility
 #include "fcintl.h"
@@ -33,6 +35,7 @@
 #include "rssanity.h"
 
 // ruledit
+#include "ruledit.h"
 #include "ruledit_qt.h"
 #include "rulesave.h"
 
@@ -48,7 +51,9 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   QLabel *name_label;
   QLabel *version_label;
   QPushButton *save_button;
+  QPushButton *refresh_button;
   int row = 0;
+  QTableWidgetItem *item;
 
   ui = ui_in;
 
@@ -73,7 +78,82 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   main_layout->addWidget(savedir, row++, 1);
   save_button = new QPushButton(R__("Save now"), this);
   connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
-  main_layout->addWidget(save_button, row, 0);
+  main_layout->addWidget(save_button, row++, 1);
+
+  stats = new QTableWidget(this);
+  stats->setColumnCount(8);
+  stats->setRowCount(6);
+  item = new QTableWidgetItem(R__("Terrains"));
+  stats->setItem(0, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(0, 1, item);
+  item = new QTableWidgetItem(R__("Resources"));
+  stats->setItem(1, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(1, 1, item);
+  item = new QTableWidgetItem(R__("Techs"));
+  stats->setItem(2, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(2, 1, item);
+  item = new QTableWidgetItem(R__("Unit Classes"));
+  stats->setItem(3, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(3, 1, item);
+  item = new QTableWidgetItem(R__("Unit Types"));
+  stats->setItem(4, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(4, 1, item);
+  item = new QTableWidgetItem(R__("Buildings"));
+  stats->setItem(5, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(5, 1, item);
+  item = new QTableWidgetItem(R__("Nations"));
+  stats->setItem(0, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(0, 4, item);
+  item = new QTableWidgetItem(R__("Styles"));
+  stats->setItem(1, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(1, 4, item);
+  item = new QTableWidgetItem(R__("Specialists"));
+  stats->setItem(2, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(2, 4, item);
+  item = new QTableWidgetItem(R__("Governments"));
+  stats->setItem(3, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(3, 4, item);
+  item = new QTableWidgetItem(R__("Disasters"));
+  stats->setItem(4, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(4, 4, item);
+  item = new QTableWidgetItem(R__("Achievements"));
+  stats->setItem(5, 3, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(5, 4, item);
+  item = new QTableWidgetItem(R__("Extras"));
+  stats->setItem(0, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(0, 7, item);
+  item = new QTableWidgetItem(R__("Bases"));
+  stats->setItem(1, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(1, 7, item);
+  item = new QTableWidgetItem(R__("Roads"));
+  stats->setItem(2, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(2, 7, item);
+  stats->verticalHeader()->setVisible(false);
+  stats->horizontalHeader()->setVisible(false);
+  stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
+  main_layout->addWidget(stats, row++, 0, 1, 2);
+  refresh_button = new QPushButton(R__("Refresh Stats"), this);
+  connect(refresh_button, SIGNAL(pressed()), this, SLOT(refresh_stats()));
+  main_layout->addWidget(refresh_button, row++, 0, 1, 2);
+
+  // Stats never change except with experimental features. Hide useless
+  // button.
+  show_experimental(refresh_button);
 
   refresh();
 
@@ -87,6 +167,7 @@ void tab_misc::refresh()
 {
   name->setText(game.control.name);
   version->setText(game.control.version);
+  refresh_stats();
 }
 
 /**************************************************************************
@@ -123,4 +204,32 @@ void tab_misc::save_now()
                &(ui->data));
 
   ui->display_msg(R__("Ruleset saved"));
+}
+
+/**************************************************************************
+  Recalculate stats
+**************************************************************************/
+void tab_misc::refresh_stats()
+{
+  int row = 0;
+
+  stats->item(row++, 1)->setText(QString::number(game.control.terrain_count));
+  stats->item(row++, 1)->setText(QString::number(game.control.resource_count));
+  stats->item(row++, 1)->setText(QString::number(game.control.num_tech_types));
+  stats->item(row++, 1)->setText(QString::number(game.control.num_unit_classes));
+  stats->item(row++, 1)->setText(QString::number(game.control.num_unit_types));
+  stats->item(row++, 1)->setText(QString::number(game.control.num_impr_types));
+  row = 0;
+  stats->item(row++, 4)->setText(QString::number(game.control.nation_count));
+  stats->item(row++, 4)->setText(QString::number(game.control.styles_count));
+  stats->item(row++, 4)->setText(QString::number(game.control.num_specialist_types));
+  stats->item(row++, 4)->setText(QString::number(game.control.government_count));
+  stats->item(row++, 4)->setText(QString::number(game.control.num_disaster_types));
+  stats->item(row++, 4)->setText(QString::number(game.control.num_achievement_types));
+  row = 0;
+  stats->item(row++, 7)->setText(QString::number(game.control.num_extra_types));
+  stats->item(row++, 7)->setText(QString::number(game.control.num_base_types));
+  stats->item(row++, 7)->setText(QString::number(game.control.num_road_types));
+
+  stats->resizeColumnsToContents();
 }
