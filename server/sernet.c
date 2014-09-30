@@ -1109,6 +1109,16 @@ int server_open_socket(void)
       continue;
     }
 
+#ifndef HAVE_WINSOCK
+    /* SO_REUSEADDR considered harmful on Win, necessary otherwise */
+    if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, 
+                   (char *)&on, sizeof(on)) == -1) {
+      log_error("setsockopt SO_REUSEADDR failed: %s",
+                fc_strerror(fc_get_errno()));
+      sockaddr_debug(paddr);
+    }
+#endif /* HAVE_WINSOCK */
+
     /* AF_INET6 sockets should use IPv6 only,
      * without stealing IPv4 from AF_INET sockets. */
 #ifdef IPV6_SUPPORT
