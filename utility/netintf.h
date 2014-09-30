@@ -82,7 +82,6 @@ typedef int socklen_t;
 #endif
 
 union fc_sockaddr {
-  struct sockaddr_storage saddr_storage; /* to ensure big enough */
   struct sockaddr saddr;
   struct sockaddr_in saddr_in4;
 #ifdef IPV6_SUPPORT
