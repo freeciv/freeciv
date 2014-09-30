@@ -95,7 +95,7 @@ fc_client::fc_client() : QObject()
   pre_vote = NULL;
   x_vote = NULL;
   gtd = NULL;
-  for (int i = 0; i <= PAGE_GGZ; i++) {
+  for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
   }
@@ -153,8 +153,6 @@ void fc_client::init()
   create_game_page();
   pages[PAGE_GAME]->setVisible(false);
 
-  // PAGE_GGZ
-  pages[PAGE_GGZ] = NULL;
   central_layout->addLayout(pages_layout[PAGE_MAIN], 1, 1);
   central_layout->addLayout(pages_layout[PAGE_NETWORK], 1, 1);
   central_layout->addLayout(pages_layout[PAGE_LOAD], 1, 1);
@@ -268,7 +266,7 @@ void fc_client::switch_page(int new_pg)
   }
   main_window->menuBar()->setVisible(false);
 
-  for (int i = 0; i < PAGE_GGZ + 1; i++) {
+  for (int i = 0; i <= PAGE_GAME; i++) {
     if (i == new_page) {
       show_children(pages_layout[i], true);
     } else {
@@ -308,7 +306,6 @@ void fc_client::switch_page(int new_pg)
     connect_port_edit->setText(buf);
     connect_login_edit->setText(user_name);
     break;
-  case PAGE_GGZ:
   default:
     if (client.conn.used) {
       disconnect_from_server();

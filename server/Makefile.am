@@ -20,7 +20,6 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/advisors \
 	-I$(srcdir)/generator \
 	-I$(srcdir)/scripting \
-	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 
 if MINGW32
@@ -63,8 +62,6 @@ libfreeciv_srv_la_SOURCES = \
 		fcdb.h		\
 		gamehand.c	\
 		gamehand.h	\
-		ggzserver.c	\
-		ggzserver.h	\
 		handchat.c	\
 		handchat.h	\
 		hand_gen.h	\
@@ -150,14 +147,14 @@ libfreeciv_srv_la_LIBADD = \
  $(srvlibs) $(SRV_LIB_LIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS)
 
-exe_ldflags = $(GGZDMOD_LDFLAGS)
+exe_ldflags =
 
 exe_ldadd = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) \
- $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
+ $(SERVER_LIBS) $(SERVERICON)
 
 if FREECIV_WEB
 freeciv_web_SOURCES = $(exe_sources)

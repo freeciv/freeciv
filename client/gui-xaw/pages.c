@@ -96,7 +96,6 @@ void real_set_client_page(enum client_pages page)
   case PAGE_SCENARIO:
   case PAGE_LOAD:
   case PAGE_NETWORK:
-  case PAGE_GGZ:
     break;
   }
 

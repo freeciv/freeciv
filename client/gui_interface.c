@@ -18,7 +18,6 @@
 /* client */
 #include "client_main.h"
 #include "editgui_g.h"
-#include "ggz_g.h"
 #include "options.h"
 
 #include "chatline_g.h"
@@ -490,38 +489,6 @@ void editgui_tileset_changed(void)
 void editgui_popdown_all(void)
 {
   funcs.editgui_popdown_all();
-}
-
-/**************************************************************************
-  Call gui_ggz_embed_ensure_server callback
-**************************************************************************/
-void gui_ggz_embed_ensure_server(void)
-{
-  funcs.gui_ggz_embed_ensure_server();
-}
-
-/**************************************************************************
-  Call add_ggz_input callback
-**************************************************************************/
-void add_ggz_input(int sock)
-{
-  funcs.add_ggz_input(sock);
-}
-
-/**************************************************************************
-  Call remove_ggz_input callback
-**************************************************************************/
-void remove_ggz_input(void)
-{
-  funcs.remove_ggz_input();
-}
-
-/****************************************************************************
-  Call gui_ggz_embed_leave_table callback
-****************************************************************************/
-void gui_ggz_embed_leave_table(void)
-{
-  funcs.gui_ggz_embed_leave_table();
 }
 
 /****************************************************************************

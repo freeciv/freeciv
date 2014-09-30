@@ -5,7 +5,7 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include \
 	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/aicore -I$(top_srcdir)/common/scriptcore \
 	-I$(srcdir)/../agents  -I$(srcdir)/../luascript \
-	$(gui_gtk3_cflags) $(GGZ_GTK_INCLUDES) $(SOUND_CFLAGS)
+	$(gui_gtk3_cflags) $(SOUND_CFLAGS)
 
 libgui_gtk3_la_SOURCES = \
 	action_dialog.c \
@@ -35,7 +35,6 @@ libgui_gtk3_la_SOURCES = \
 	editgui.h	\
 	editprop.c	\
 	editprop.h	\
-	embedggz.c	\
 	finddlg.c	\
 	finddlg.h	\
 	gamedlgs.c	\

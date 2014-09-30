@@ -23,8 +23,6 @@
 #define SPECENUM_VALUE3 PAGE_LOAD       /* Load saved game page. */
 #define SPECENUM_VALUE4 PAGE_NETWORK    /* Connect to network page.  */
 #define SPECENUM_VALUE5 PAGE_GAME       /* In game page. */
-#define SPECENUM_VALUE6 PAGE_GGZ        /* In game page.
-                                         * This one must be last. */
 #include "specenum_gen.h"
 
 #include "gui_proto_constructor.h"

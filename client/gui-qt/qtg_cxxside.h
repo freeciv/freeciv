@@ -113,11 +113,6 @@ void qtg_editgui_popup_properties(const struct tile_list *tiles, int objtype);
 void qtg_editgui_tileset_changed();
 void qtg_editgui_popdown_all();
 
-void qtg_gui_ggz_embed_ensure_server();
-void qtg_gui_ggz_embed_leave_table();
-void qtg_add_ggz_input(int sock);
-void qtg_remove_ggz_input();
-
 void qtg_update_timeout_label();
 void qtg_real_city_dialog_popup(struct city *pcity);
 void qtg_real_city_dialog_refresh(struct city *pcity);

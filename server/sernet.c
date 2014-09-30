@@ -81,7 +81,6 @@
 #include "auth.h"
 #include "connecthand.h"
 #include "console.h"
-#include "ggzserver.h"
 #include "meta.h"
 #include "plrhand.h"
 #include "srv_main.h"
@@ -521,7 +520,7 @@ enum server_events server_sniff_all_input(void)
 
   while (TRUE) {
     con_prompt_on();		/* accepting new input */
-    
+
     if (force_end_of_sniff) {
       force_end_of_sniff = FALSE;
       con_prompt_off();
@@ -656,15 +655,6 @@ enum server_events server_sniff_all_input(void)
       max_desc = MAX(max_desc, listen_socks[i]);
     }
 
-    if (with_ggz) {
-#ifdef GGZ_SERVER
-      int ggz_sock = get_ggz_socket();
-
-      FD_SET(ggz_sock, &readfs);
-      max_desc = MAX(max_desc, ggz_sock);
-#endif /* GGZ_SERVER */
-    }
-
     for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
       struct connection *pconn = connections + i;
       if (pconn->used && !pconn->server.is_closing) {
@@ -732,28 +722,26 @@ enum server_events server_sniff_all_input(void)
       }
     }
 
-    if (!with_ggz) { /* No listening socket when using GGZ. */
-      excepting = FALSE;
-      for (i = 0; i < listen_count; i++) {
-        if (FD_ISSET(listen_socks[i], &exceptfs)) {
-          excepting = TRUE;
-          break;
-        }
+    excepting = FALSE;
+    for (i = 0; i < listen_count; i++) {
+      if (FD_ISSET(listen_socks[i], &exceptfs)) {
+        excepting = TRUE;
+        break;
       }
-      if (excepting) {                  /* handle Ctrl-Z suspend/resume */
-	continue;
-      }
-      for (i = 0; i < listen_count; i++) {
-        s = listen_socks[i];
-        if (FD_ISSET(s, &readfs)) {     /* new players connects */
-          log_verbose("got new connection");
-          if (-1 == server_accept_connection(s)) {
-            /* There will be a log_error() message from
-             * server_accept_connection() if something
-             * goes wrong, so no need to make another
-             * error-level message here. */
-            log_verbose("failed accepting connection");
-          }
+    }
+    if (excepting) {                  /* handle Ctrl-Z suspend/resume */
+      continue;
+    }
+    for (i = 0; i < listen_count; i++) {
+      s = listen_socks[i];
+      if (FD_ISSET(s, &readfs)) {     /* new players connects */
+        log_verbose("got new connection");
+        if (-1 == server_accept_connection(s)) {
+          /* There will be a log_error() message from
+           * server_accept_connection() if something
+           * goes wrong, so no need to make another
+           * error-level message here. */
+          log_verbose("failed accepting connection");
         }
       }
     }
@@ -768,116 +756,105 @@ enum server_events server_sniff_all_input(void)
                     conn_description(pconn));
         connection_close_server(pconn, _("network exception"));
       }
-    }
-#ifdef GGZ_SERVER
-    if (with_ggz) {
-      /* This is intentionally after all the player socket handling because
-       * it may cut a client. */
-      int ggz_sock = get_ggz_socket();
-
-      if (FD_ISSET(ggz_sock, &readfs)) {
-	input_from_ggz(ggz_sock);
-      }
-    }
-#endif /* GGZ_SERVER */
     
 #ifdef SOCKET_ZERO_ISNT_STDIN
-    if (!no_input && (bufptr = fc_read_console())) {
-      char *bufptr_internal = local_to_internal_string_malloc(bufptr);
+      if (!no_input && (bufptr = fc_read_console())) {
+        char *bufptr_internal = local_to_internal_string_malloc(bufptr);
 
-      con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input(NULL, bufptr_internal);
-      free(bufptr_internal);
-    }
-#else  /* !SOCKET_ZERO_ISNT_STDIN */
-    if(!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
-#ifdef HAVE_LIBREADLINE
-      rl_callback_read_char();
-      if (readline_handled_input) {
-	readline_handled_input = FALSE;
-	con_prompt_enter_clear();
+        con_prompt_enter();	/* will need a new prompt, regardless */
+        handle_stdin_input(NULL, bufptr_internal);
+        free(bufptr_internal);
       }
-      continue;
+#else  /* !SOCKET_ZERO_ISNT_STDIN */
+      if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
+#ifdef HAVE_LIBREADLINE
+        rl_callback_read_char();
+        if (readline_handled_input) {
+          readline_handled_input = FALSE;
+          con_prompt_enter_clear();
+        }
+        continue;
 #else  /* !HAVE_LIBREADLINE */
-      ssize_t didget;
-      char *buffer = NULL; /* Must be NULL when calling getline() */
-      char *buf_internal;
+        ssize_t didget;
+        char *buffer = NULL; /* Must be NULL when calling getline() */
+        char *buf_internal;
 
 #ifdef HAVE_GETLINE
-      size_t len = 0;
+        size_t len = 0;
 
-      didget = getline(&buffer, &len, stdin);
-      if (didget >= 1) {
-        buffer[didget-1] = '\0'; /* overwrite newline character */
-        didget--;
-        log_debug("Got line: \"%s\" (%ld, %ld)", buffer,
-                  (long int) didget, (long int) len);
-      }
+        didget = getline(&buffer, &len, stdin);
+        if (didget >= 1) {
+          buffer[didget-1] = '\0'; /* overwrite newline character */
+          didget--;
+          log_debug("Got line: \"%s\" (%ld, %ld)", buffer,
+                    (long int) didget, (long int) len);
+        }
 #else  /* HAVE_GETLINE */
-      buffer = malloc(BUF_SIZE + 1);
+        buffer = malloc(BUF_SIZE + 1);
 
-      didget = read(0, buffer, BUF_SIZE);
-      if (didget < 0) {
-        didget = 0; /* Avoid buffer underrun below. */
-      }
-      *(buffer+didget)='\0';
+        didget = read(0, buffer, BUF_SIZE);
+        if (didget < 0) {
+          didget = 0; /* Avoid buffer underrun below. */
+        }
+        *(buffer+didget)='\0';
 #endif /* HAVE_GETLINE */
-      if (didget <= 0) {
-        handle_stdin_close();
-      }
+        if (didget <= 0) {
+          handle_stdin_close();
+        }
 
-      con_prompt_enter();	/* will need a new prompt, regardless */
+        con_prompt_enter();	/* will need a new prompt, regardless */
 
-      if (didget >= 0) {
-        buf_internal = local_to_internal_string_malloc(buffer);
-        handle_stdin_input(NULL, buf_internal);
-        free(buf_internal);
-      }
-      free(buffer);
+        if (didget >= 0) {
+          buf_internal = local_to_internal_string_malloc(buffer);
+          handle_stdin_input(NULL, buf_internal);
+          free(buf_internal);
+        }
+        free(buffer);
 #endif /* !HAVE_LIBREADLINE */
-    } else
+      } else
 #endif /* !SOCKET_ZERO_ISNT_STDIN */
      
-    {                             /* input from a player */
-      for(i = 0; i < MAX_NUM_CONNECTIONS; i++) {
-        struct connection *pconn = connections + i;
-        int nb;
+      {                             /* input from a player */
+        for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+          struct connection *pconn = connections + i;
+          int nb;
 
-        if (!pconn->used
-            || pconn->server.is_closing
-            || !FD_ISSET(pconn->sock, &readfs)) {
-          continue;
-	}
+          if (!pconn->used
+              || pconn->server.is_closing
+              || !FD_ISSET(pconn->sock, &readfs)) {
+            continue;
+          }
 
-        nb = read_socket_data(pconn->sock, pconn->buffer);
-        if (0 <= nb) {
-          /* We read packets; now handle them. */
-          incoming_client_packets(pconn);
-        } else if (-2 == nb) {
-          connection_close_server(pconn, _("client disconnected"));
-        } else {
-          /* Read failure; the connection is closed. */
-          connection_close_server(pconn, _("read error"));
+          nb = read_socket_data(pconn->sock, pconn->buffer);
+          if (0 <= nb) {
+            /* We read packets; now handle them. */
+            incoming_client_packets(pconn);
+          } else if (-2 == nb) {
+            connection_close_server(pconn, _("client disconnected"));
+          } else {
+            /* Read failure; the connection is closed. */
+            connection_close_server(pconn, _("read error"));
+          }
+        }
+
+        for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+          struct connection *pconn = &connections[i];
+
+          if (pconn->used
+              && !pconn->server.is_closing
+              && pconn->send_buffer
+              && pconn->send_buffer->ndata > 0) {
+            if (FD_ISSET(pconn->sock, &writefs)) {
+              flush_connection_send_buffer_all(pconn);
+            } else {
+              cut_lagging_connection(pconn);
+            }
+          }
         }
       }
-
-      for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
-        struct connection *pconn = &connections[i];
-
-        if (pconn->used
-            && !pconn->server.is_closing
-            && pconn->send_buffer
-	    && pconn->send_buffer->ndata > 0) {
-	  if (FD_ISSET(pconn->sock, &writefs)) {
-	    flush_connection_send_buffer_all(pconn);
-	  } else {
-	    cut_lagging_connection(pconn);
-	  }
-        }
-      }
+      really_close_connections();
+      break;
     }
-    really_close_connections();
-    break;
   }
   con_prompt_off();
 
@@ -1406,10 +1383,6 @@ static void get_lanserver_announcement(void)
   int type;
   fd_set readfs, exceptfs;
   struct timeval tv;
-
-  if (with_ggz) {
-    return;
-  }
 
   if (srvarg.announce == ANNOUNCE_NONE) {
     return;

@@ -900,22 +900,6 @@ if test "x$client" = "xall" ; then
   fi
 fi
 
-dnl Check for GGZ
-if test "x$gui_gtk2" = "xyes" || test "x$gui_gtk3" = "xyes" ; then
-  AC_GGZ_CHECK("gtk")
-  if test "x$gui_gtk2" = "xyes" ; then
-    gui_gtk2_LIBS="$gui_gtk2_libs $LIB_GGZ_GTK"
-  fi
-  if test "x$gui_gtk3" = "xyes" ; then
-    gui_gtk3_libs="$gui_gtk3_libs $LIB_GGZ_GTK"
-  fi
-else
-  AC_GGZ_CHECK
-fi
-if test "$ggz_server" = "yes" ; then
-  AC_CHECK_FUNCS([chdir mkdtemp])
-fi
-
 FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
@@ -1511,9 +1495,6 @@ AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ['$CXXFLAGS'],
 
 AC_CONFIG_FILES([Makefile
           data/Makefile
-	  data/civclient.dsc
-	  data/civserver.dsc
-	  data/civserver.room
 	  data/hex2t/Makefile
           data/hexemplio/Makefile
 	  data/amplio2/Makefile

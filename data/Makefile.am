@@ -107,19 +107,3 @@ icondir = $(prefix)/share/pixmaps
 icon_DATA=$(ICONS)
 
 SUBDIRS = icons $(CLIENTDATADIRS) $(SERVERDATADIRS) override
-
-if GGZ_CLIENT
-install-data-local:
-	$(GGZ_CONFIG) -D --install --modfile=civclient.dsc --force
-
-uninstall-local:
-	$(GGZ_CONFIG) -D --remove --modfile=civclient.dsc
-endif
-
-if GGZ_SERVER
-ggzroom_DATA = civserver.room
-ggzroomdir = $(ggzdconfdir)/rooms/
-
-ggzgame_DATA = civserver.dsc
-ggzgamedir = $(ggzdconfdir)/games/
-endif

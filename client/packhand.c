@@ -85,7 +85,6 @@
 #include "connectdlg_common.h"
 #include "control.h"
 #include "editor.h"
-#include "ggzclient.h"
 #include "goto.h"               /* client_goto_init() */
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
@@ -308,8 +307,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     set_server_busy(FALSE);
 
     if (get_client_page() == PAGE_MAIN
-        || get_client_page() == PAGE_NETWORK
-        || get_client_page() == PAGE_GGZ) {
+        || get_client_page() == PAGE_NETWORK) {
       set_client_page(PAGE_START);
     }
 
@@ -337,9 +335,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     }
     gui_server_connect();
 
-    if (!with_ggz) {
-      set_client_page(in_ggz ? PAGE_MAIN : PAGE_GGZ);
-    }
+    set_client_page(PAGE_MAIN);
   }
   if (strcmp(s_capability, our_capability) == 0) {
     return;

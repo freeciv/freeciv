@@ -90,11 +90,6 @@ void setup_gui_funcs()
   funcs->editgui_tileset_changed = qtg_editgui_tileset_changed;
   funcs->editgui_popdown_all = qtg_editgui_popdown_all;
 
-  funcs->gui_ggz_embed_ensure_server = qtg_gui_ggz_embed_ensure_server;
-  funcs->gui_ggz_embed_leave_table = qtg_gui_ggz_embed_leave_table;
-  funcs->add_ggz_input = qtg_add_ggz_input;
-  funcs->remove_ggz_input = qtg_remove_ggz_input;
-
   funcs->update_timeout_label = qtg_update_timeout_label;
   funcs->real_city_dialog_popup = qtg_real_city_dialog_popup;
   funcs->real_city_dialog_refresh = qtg_real_city_dialog_refresh;

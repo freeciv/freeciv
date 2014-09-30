@@ -30,7 +30,6 @@
 
 /* server */
 #include "gamehand.h"
-#include "ggzserver.h"
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
@@ -828,16 +827,6 @@ static bool endturn_callback(int value, struct connection *caller,
 static bool maxplayers_callback(int value, struct connection *caller,
                                 char *reject_msg, size_t reject_msg_len)
 {
-#ifdef GGZ_SERVER
-  if (with_ggz) {
-    /* In GGZ mode the maxplayers is the number of actual players - set
-     * when the game is lauched and not changed thereafter.  This may be
-     * changed in future. */
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("Cannot change maxplayers in GGZ mode."));
-    return FALSE;
-  }
-#endif /* GGZ_SERVER */
   if (value < player_count()) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Number of players (%d) is higher than requested "

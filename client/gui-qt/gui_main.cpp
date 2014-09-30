@@ -37,7 +37,6 @@
 // client
 #include "client_main.h"
 #include "editgui_g.h"
-#include "ggz_g.h"
 #include "options.h"
 #include "tilespec.h"
 #include "sprite.h"
@@ -188,23 +187,6 @@ void qtg_remove_net_input()
 }
 
 /**************************************************************************
-  Called to monitor a GGZ socket.
-**************************************************************************/
-void qtg_add_ggz_input(int sock)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
-  Called on disconnection to remove monitoring on the GGZ socket.  Only
-  call this if we're actually in GGZ mode.
-**************************************************************************/
-void qtg_remove_ggz_input()
-{
-  /* PORTME */
-}
-
-/**************************************************************************
   Set one of the unit icons (specified by idx) in the information area
   based on punit.
 
@@ -313,18 +295,6 @@ void qtg_editgui_notify_object_changed(int objtype, int object_id, bool remove)
   Stub for editor function
 ****************************************************************************/
 void qtg_editgui_notify_object_created(int tag, int id)
-{}
-
-/****************************************************************************
-  Stub for ggz function
-****************************************************************************/
-void qtg_gui_ggz_embed_leave_table()
-{}
-
-/****************************************************************************
-  Stub for ggz function
-****************************************************************************/
-void qtg_gui_ggz_embed_ensure_server()
 {}
 
 /****************************************************************************

@@ -118,11 +118,6 @@ struct gui_funcs {
   void (*editgui_tileset_changed)(void);
   void (*editgui_popdown_all)(void);
 
-  void (*gui_ggz_embed_ensure_server)(void);
-  void (*gui_ggz_embed_leave_table)(void);
-  void (*add_ggz_input)(int sock);
-  void (*remove_ggz_input)(void);
-
   void (*update_timeout_label)(void);
   void (*real_city_dialog_popup)(struct city *pcity);
   void (*real_city_dialog_refresh)(struct city *pcity);

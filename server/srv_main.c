@@ -104,7 +104,6 @@
 #include "diplhand.h"
 #include "edithand.h"
 #include "gamehand.h"
-#include "ggzserver.h"
 #include "handchat.h"
 #include "maphand.h"
 #include "meta.h"
@@ -331,7 +330,6 @@ bool check_for_game_over(void)
                  nation_plural_for_player(pplayer));
       }
       pplayer->is_winner = TRUE;
-      ggz_report_victor(pplayer);
       winners++;
     }
   } players_iterate_end;
@@ -339,7 +337,6 @@ bool check_for_game_over(void)
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 /* TRANS: There can be several winners listed */
                 _("Scenario victory to %s."), astr_str(&str));
-    ggz_report_victory();
     astr_free(&str);
     return TRUE;
   }
@@ -368,7 +365,6 @@ bool check_for_game_over(void)
   if (0 == candidates) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game is over."));
-    ggz_report_victory();
     return TRUE;
   } else if (0 < defeated) {
     /* If nobody conceded the game, it mays be a solo game or a single team
@@ -406,9 +402,7 @@ bool check_for_game_over(void)
           /* All players of the team win, even dead and surrended ones. */
           player_list_iterate(members, pplayer) {
             pplayer->is_winner = TRUE;
-            ggz_report_victor(pplayer);
           } player_list_iterate_end;
-          ggz_report_victory();
           return TRUE;
         }
       } teams_iterate_end;
@@ -457,12 +451,10 @@ bool check_for_game_over(void)
                      nation_plural_for_player(pplayer));
           }
           pplayer->is_winner = TRUE;
-          ggz_report_victor(pplayer);
         } player_list_iterate_end;
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                     /* TRANS: There can be several winners listed */
                     _("Allied victory to %s."), astr_str(&str));
-        ggz_report_victory();
         astr_free(&str);
         player_list_destroy(winner_list);
         return TRUE;
@@ -490,8 +482,6 @@ bool check_for_game_over(void)
         notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                     _("Game ended in conquest victory for %s."), player_name(victor));
         victor->is_winner = TRUE;
-        ggz_report_victor(victor);
-        ggz_report_victory();
         return TRUE;
       }
     }
@@ -523,8 +513,6 @@ bool check_for_game_over(void)
                   _("Game ended in cultural domination victory for %s."),
                   player_name(best));
       best->is_winner = TRUE;
-      ggz_report_victor(best);
-      ggz_report_victory();
 
       return TRUE;
     }
@@ -534,7 +522,6 @@ bool check_for_game_over(void)
   if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game ended as the turn limit was exceeded."));
-    ggz_report_victory();
     return TRUE;
   }
 
@@ -578,15 +565,11 @@ bool check_for_game_over(void)
       /* All players of the team win, even dead and surrended ones. */
       player_list_iterate(members, pplayer) {
         pplayer->is_winner = TRUE;
-        ggz_report_victor(pplayer);
       } player_list_iterate_end;
-      ggz_report_victory();
     } else {
       notify_conn(NULL, NULL, E_GAME_END, ftc_server,
                   _("Game ended in victory for %s."), player_name(victor));
       victor->is_winner = TRUE;
-      ggz_report_victor(victor);
-      ggz_report_victory();
     }
     return TRUE;
   }
@@ -1422,8 +1405,6 @@ void save_game(const char *orig_filename, const char *save_reason,
 
   timer_destroy(timer_cpu);
   timer_destroy(timer_user);
-
-  ggz_game_saved(filepath);
 }
 
 /**************************************************************************
@@ -2546,9 +2527,7 @@ static void srv_prepare(void)
                srvarg.fatal_assertions);
   /* logging available after this point */
 
-  if (!with_ggz) {
-    server_open_socket();
-  }
+  server_open_socket();
 
 #if IS_BETA_VERSION
   con_puts(C_COMMENT, "");

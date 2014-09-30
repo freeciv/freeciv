@@ -40,7 +40,6 @@
 /* server */
 #include "citytools.h"
 #include "connecthand.h"
-#include "ggzserver.h"
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
@@ -1058,19 +1057,17 @@ void handle_single_want_hack_req(struct connection *pc,
   const char *token = NULL;
   bool you_have_hack = FALSE;
 
-  if (!with_ggz) {
-    if ((secfile = secfile_load(get_challenge_fullname(pc), FALSE))) {
-      token = secfile_lookup_str(secfile, "challenge.token");
-      you_have_hack = (token && strcmp(token, packet->token) == 0);
-      secfile_destroy(secfile);
-    } else {
-      log_debug("Error reading '%s':\n%s", get_challenge_fullname(pc),
-                secfile_error());
-    }
+  if ((secfile = secfile_load(get_challenge_fullname(pc), FALSE))) {
+    token = secfile_lookup_str(secfile, "challenge.token");
+    you_have_hack = (token && strcmp(token, packet->token) == 0);
+    secfile_destroy(secfile);
+  } else {
+    log_debug("Error reading '%s':\n%s", get_challenge_fullname(pc),
+              secfile_error());
+  }
 
-    if (!token) {
-      log_debug("Failed to read authentication token");
-    }
+  if (!token) {
+    log_debug("Failed to read authentication token");
   }
 
   if (you_have_hack) {

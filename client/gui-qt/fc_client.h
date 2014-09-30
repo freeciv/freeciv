@@ -104,13 +104,13 @@ class fc_client : public QObject
 {
   Q_OBJECT
   QWidget *main_wdg;
-  QWidget *pages[ (int) PAGE_GGZ + 1];
+  QWidget *pages[ (int) PAGE_GAME + 1];
   QWidget *connect_lan;
   QWidget *connect_metaserver;
   QWidget *game_main_widget;
 
   QGridLayout *central_layout;
-  QGridLayout *pages_layout[PAGE_GGZ + 1];
+  QGridLayout *pages_layout[PAGE_GAME + 1];
 
   QTextEdit *output_window;
   QTextEdit *scenarios_view;

@@ -53,8 +53,6 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "editgui_g.h"
-#include "ggzclient.h"
-#include "ggz_g.h"
 #include "tilespec.h"
 #include "update_queue.h"
 
@@ -109,7 +107,6 @@ int city_productions_font_size = 12;
 
 /* ================================ Private ============================ */
 static int net_socket = -1;
-static int ggz_socket = -1;
 static bool autoconnect = FALSE;
 static bool is_map_scrolling = FALSE;
 static enum direction8 scroll_dir;
@@ -117,7 +114,6 @@ static enum direction8 scroll_dir;
 static struct mouse_button_behavior button_behavior;
   
 static SDL_Event *pNet_User_Event = NULL;
-static SDL_Event *pGGZ_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
 static SDL_Event *pMap_Scroll_User_Event = NULL;
@@ -129,7 +125,6 @@ static int check_scroll_area(int x, int y);
 enum USER_EVENT_ID {
   EVENT_ERROR = 0,
   NET,
-  GGZ,
   ANIM,
   TRY_AUTO_CONNECT,
   SHOW_WIDGET_INFO_LABBEL,
@@ -530,28 +525,23 @@ Uint16 gui_event_loop(void *pData,
   Uint32 t_current, t_last_unit_anim, t_last_map_scrolling;
   Uint32 real_timer_next_call;
   static int result;
-  /* static int schot_nr = 0;
-     static char schot[32]; */
 
   ID = ID_ERROR;
   t_last_map_scrolling = t_last_unit_anim = real_timer_next_call = SDL_GetTicks();
   while (ID == ID_ERROR) {
     /* ========================================= */
     /* net check with 10ms delay event loop */
-    if ((net_socket >= 0) || (ggz_socket >= 0)) {
+    if (net_socket >= 0) {
       FD_ZERO(&civfdset);
-      
+
       if (net_socket >= 0) {
         FD_SET(net_socket, &civfdset);
       }
-      if (ggz_socket >= 0) {
-        FD_SET(ggz_socket, &civfdset);
-      }
-      
+
       tv.tv_sec = 0;
       tv.tv_usec = 10000;/* 10ms*/
     
-      result = fc_select(MAX(net_socket, ggz_socket) + 1, &civfdset, NULL, NULL, &tv);
+      result = fc_select(net_socket + 1, &civfdset, NULL, NULL, &tv);
       if (result < 0) {
         if (errno != EINTR) {
 	  break;
@@ -562,9 +552,6 @@ Uint16 gui_event_loop(void *pData,
         if (result > 0) {
 	  if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
 	    SDL_PushEvent(pNet_User_Event);
-	  }
-	  if ((ggz_socket >= 0) && FD_ISSET(ggz_socket, &civfdset)) {
-	    SDL_PushEvent(pGGZ_User_Event);
 	  }
 	}
       }
@@ -711,9 +698,6 @@ Uint16 gui_event_loop(void *pData,
           switch(Main.event.user.code) {
             case NET:
               input_from_server(net_socket);
-            break;
-            case GGZ:
-              input_from_ggz(ggz_socket);
             break;
             case ANIM:
               update_button_hold_state();
@@ -898,7 +882,6 @@ static void migrate_options_from_sdl(void)
 void ui_main(int argc, char *argv[])
 {
   SDL_Event __Net_User_Event;
-  SDL_Event __GGZ_User_Event;
   SDL_Event __Anim_User_Event;
   SDL_Event __Info_User_Event;
   SDL_Event __Flush_User_Event;
@@ -924,12 +907,6 @@ void ui_main(int argc, char *argv[])
   __Net_User_Event.user.data1 = NULL;
   __Net_User_Event.user.data2 = NULL;
   pNet_User_Event = &__Net_User_Event;
-
-  __GGZ_User_Event.type = SDL_USEREVENT;
-  __GGZ_User_Event.user.code = GGZ;
-  __GGZ_User_Event.user.data1 = NULL;
-  __GGZ_User_Event.user.data2 = NULL;
-  pGGZ_User_Event = &__GGZ_User_Event;
 
   __Anim_User_Event.type = SDL_USEREVENT;
   __Anim_User_Event.user.code = EVENT_ERROR;
@@ -1082,25 +1059,6 @@ void remove_net_input(void)
   update_mouse_cursor(CURSOR_DEFAULT);
 }
 
-/**************************************************************************
-  Called to monitor a GGZ socket.
-**************************************************************************/
-void add_ggz_input(int sock)
-{
-  log_debug("GGZ Connection UP (%d)", sock);
-  ggz_socket = sock;
-}
-
-/**************************************************************************
-  Called on disconnection to remove monitoring on the GGZ socket.  Only
-  call this if we're actually in GGZ mode.
-**************************************************************************/
-void remove_ggz_input(void)
-{
-  log_debug("GGZ Connection DOWN... ");
-  ggz_socket = (-1);
-}
-
 /****************************************************************************
   Enqueue a callback to be called during an idle moment.  The 'callback'
   function should be called sometimes soon, and passed the 'data' pointer
@@ -1151,19 +1109,6 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 ****************************************************************************/
 void editgui_notify_object_created(int tag, int id)
 {}
-
-/****************************************************************************
-  Stub for ggz function
-****************************************************************************/
-void gui_ggz_embed_leave_table(void)
-{}
-
-/****************************************************************************
-  Stub for ggz function
-****************************************************************************/
-void gui_ggz_embed_ensure_server(void)
-{}
-
 
 /**************************************************************************
   Updates a gui font style.

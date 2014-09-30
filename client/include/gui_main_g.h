@@ -33,8 +33,6 @@ GUI_FUNC_PROTO(void, real_conn_list_dialog_update, void)
 GUI_FUNC_PROTO(void, sound_bell, void)
 GUI_FUNC_PROTO(void, add_net_input, int)
 GUI_FUNC_PROTO(void, remove_net_input, void)
-GUI_FUNC_PROTO(void, add_ggz_input, int socket)
-GUI_FUNC_PROTO(void, remove_ggz_input, void)
 
 GUI_FUNC_PROTO(void, set_unit_icon, int idx, struct unit *punit)
 GUI_FUNC_PROTO(void, set_unit_icons_more_arrow, bool onoff)

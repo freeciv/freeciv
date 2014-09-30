@@ -57,7 +57,6 @@
 #include "connecthand.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "ggzserver.h"
 #include "mapgen.h"
 #include "maphand.h"
 #include "meta.h"
@@ -4027,7 +4026,6 @@ static bool quit_game(struct connection *caller, bool check)
 {
   if (!check) {
     cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
-    ggz_report_victory();
     server_quit();
   }
   return TRUE;

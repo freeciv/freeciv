@@ -39,10 +39,6 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#ifdef GGZ_GTK
-#  include <ggz-gtk.h>
-#endif
-
 /* utility */
 #include "fciconv.h"
 #include "fcintl.h"
@@ -68,7 +64,6 @@
 #include "connectdlg_common.h"
 #include "control.h"
 #include "editor.h"
-#include "ggzclient.h"
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
@@ -194,8 +189,7 @@ static GtkWidget *allied_chat_toggle_button;
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
 static GIOChannel *srv_channel;
-static GIOChannel *ggz_channel;
-static guint srv_id, ggz_id;
+static guint srv_id;
 gint cur_x, cur_y;
 
 
@@ -1072,11 +1066,6 @@ static void setup_widgets(void)
     overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
   }
 
-#ifdef GGZ_GTK
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
-			   ggz_gtk_create_main_area(toplevel), NULL);
-#endif
-
   /* this holds the overview canvas, production info, etc. */
   vbox = gtk_vbox_new(FALSE, 3);
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
@@ -1477,50 +1466,11 @@ static void setup_widgets(void)
   }
 }
 
-#ifdef GGZ_GTK
-/****************************************************************************
-  Callback function that's called by the library when a connection is
-  established (or lost) to the GGZ server.  The server parameter gives
-  the server (or NULL).
-****************************************************************************/
-static void ggz_connected(GGZServer *server)
-{
-  in_ggz = (server != NULL);
-  set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
-}
-
-/****************************************************************************
-  Callback function that's called by the library when we launch a game.  This
-  means we now have a connection to a freeciv server so handling can be given
-  back to the regular freeciv code.
-****************************************************************************/
-static void ggz_game_launched(void)
-{
-  ggz_begin();
-}
-
-/****************************************************************************
-  Callback function that's invoked when GGZ is exited.
-****************************************************************************/
-static void ggz_closed(void)
-{
-  set_client_page(PAGE_MAIN);
-}
-#endif /* GGZ_GTK */
-
 /**************************************************************************
  called from main().
 **************************************************************************/
 void ui_init(void)
 {
-#ifdef GGZ_GTK
-  /* Engine and version match what is provided in civclient.dsc.in and
-   * civserver.dsc.in. */
-  ggz_gtk_initialize(FALSE,
-		     ggz_connected, ggz_game_launched, ggz_closed,
-		     "Freeciv", NETWORK_CAPSTRING_MANDATORY, "Pubserver");
-#endif
-
   log_set_callback(log_callback_utf8);
 }
 
@@ -1910,17 +1860,6 @@ static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
 }
 
 /**************************************************************************
-  Callback for when the GGZ socket has data pending.
-**************************************************************************/
-static gboolean get_ggz_input(GIOChannel *source, GIOCondition condition,
-                              gpointer data)
-{
-  input_from_ggz(g_io_channel_unix_get_fd(source));
-
-  return TRUE;
-}
-
-/**************************************************************************
   Set socket writability state
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
@@ -1971,32 +1910,6 @@ void remove_net_input(void)
   g_source_remove(srv_id);
   g_io_channel_unref(srv_channel);
   gdk_window_set_cursor(root_window, NULL);
-}
-
-/**************************************************************************
-  Called to monitor a GGZ socket.
-**************************************************************************/
-void add_ggz_input(int sock)
-{
-#ifdef WIN32_NATIVE
-  ggz_channel = g_io_channel_win32_new_socket(sock);
-#else
-  ggz_channel = g_io_channel_unix_new(sock);
-#endif
-  ggz_id = g_io_add_watch(ggz_channel,
-                          G_IO_IN,
-                          get_ggz_input,
-                          NULL);
-}
-
-/**************************************************************************
-  Called on disconnection to remove monitoring on the GGZ socket.  Only
-  call this if we're actually in GGZ mode.
-**************************************************************************/
-void remove_ggz_input(void)
-{
-  g_source_remove(ggz_id);
-  g_io_channel_unref(ggz_channel);
 }
 
 /****************************************************************

@@ -82,7 +82,6 @@
 #include "control.h" 
 #include "editor.h"
 #include "global_worklist.h"
-#include "ggzclient.h"
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapview_common.h"
 #include "music.h"
@@ -136,7 +135,6 @@ char password[MAX_LEN_PASSWORD] = "\0";
 char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
-bool in_ggz = FALSE;
 enum announce_type announce;
 
 struct civclient client;
@@ -635,8 +633,6 @@ int client_main(int argc, char *argv[])
   audio_real_init(sound_set_name, music_set_name, sound_plugin_name);
   start_menu_music("music_menu", NULL);
 
-  ggz_initialize();
-
   editor_init();
 
   /* run gui-specific client */
@@ -818,9 +814,7 @@ void set_client_state(enum client_states newstate)
       }
     }
 
-    if (!with_ggz) {
-      set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
-    }
+    set_client_page(PAGE_MAIN);
     break;
 
   case C_S_PREPARING:

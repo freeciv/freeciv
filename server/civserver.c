@@ -53,7 +53,6 @@
 /* server */
 #include "aiiface.h"
 #include "console.h"
-#include "ggzserver.h"
 #include "meta.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -83,9 +82,6 @@ static void signal_handler(int sig)
 
   switch (sig) {
   case SIGINT:
-    if (with_ggz) {
-      save_and_exit(SIGINT);
-    }
     if (timer && timer_read_seconds(timer) <= 1.0) {
       save_and_exit(SIGINT);
     } else {
@@ -457,7 +453,6 @@ int main(int argc, char *argv[])
   /* disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_server");
 
-  ggz_initialize();
   init_our_capability();
 
   /* have arguments, call the main server loop... */

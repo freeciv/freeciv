@@ -64,7 +64,6 @@
 #include "clinet.h"
 #include "control.h"
 #include "editgui_g.h"
-#include "ggz_g.h"
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
@@ -868,23 +867,6 @@ void remove_net_input(void)
 }
 
 /**************************************************************************
-  Called to monitor a GGZ socket.
-**************************************************************************/
-void add_ggz_input(int sock)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
-  Called on disconnection to remove monitoring on the GGZ socket.  Only
-  call this if we're actually in GGZ mode.
-**************************************************************************/
-void remove_ggz_input(void)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void end_turn_callback(Widget w, XtPointer client_data, XtPointer call_data)
@@ -1139,19 +1121,6 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 ****************************************************************************/
 void editgui_notify_object_created(int tag, int id)
 {}
-
-/****************************************************************************
-  Stub for ggz function
-****************************************************************************/
-void gui_ggz_embed_leave_table(void)
-{}
-
-/****************************************************************************
-  Stub for ggz function
-****************************************************************************/
-void gui_ggz_embed_ensure_server(void)
-{}
-
 
 /**************************************************************************
   Updates a gui font style.

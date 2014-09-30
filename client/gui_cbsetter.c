@@ -26,7 +26,6 @@
 #include "citydlg_g.h"
 #include "connectdlg_g.h"
 #include "editgui_g.h"
-#include "ggz_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "mapview_g.h"
@@ -103,11 +102,6 @@ void setup_gui_funcs()
   funcs->editgui_popup_properties = gui_editgui_popup_properties;
   funcs->editgui_tileset_changed = gui_editgui_tileset_changed;
   funcs->editgui_popdown_all = gui_editgui_popdown_all;
-
-  funcs->gui_ggz_embed_ensure_server = gui_gui_ggz_embed_ensure_server;
-  funcs->gui_ggz_embed_leave_table = gui_gui_ggz_embed_leave_table;
-  funcs->add_ggz_input = gui_add_ggz_input;
-  funcs->remove_ggz_input = gui_remove_ggz_input;
 
   funcs->update_timeout_label = gui_update_timeout_label;
   funcs->real_city_dialog_popup = gui_real_city_dialog_popup;
