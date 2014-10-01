@@ -170,6 +170,14 @@ bool universal_fulfills_requirement(bool check_necessary,
     &(struct universal){.kind = VUT_IMPROVEMENT,                           \
                         .value = {.building = (_imp_)}})
 
+int requirement_kind_state_pos(const int id,
+                               const enum req_range range,
+                               const bool present,
+                               const int count_id);
+
+#define requirement_unit_state_pos(_id_, _present_)                       \
+  requirement_kind_state_pos(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

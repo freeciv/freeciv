@@ -3143,3 +3143,23 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
 }
+
+/**************************************************************************
+  Returns the position of the given requirement kind state in an
+  enumeration of all possible states for a requirement kind.
+**************************************************************************/
+int requirement_kind_state_pos(const int id,
+                               const enum req_range range,
+                               const bool present,
+                               const int count_id)
+{
+  /* Requirement kind state data for a range starts with present for each
+   * possible id followed by !present for each possible id. */
+  const int pres_pos = (present ? 0 : count_id);
+
+  /* Requirement kind state data for a range follows the requirement state
+   * data of the previous range. */
+  const int past_ranges = ((count_id - 1) * 2) * range;
+
+  return past_ranges + pres_pos + id;
+}
