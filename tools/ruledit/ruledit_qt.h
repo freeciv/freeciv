@@ -38,18 +38,15 @@ class ruledit_gui : public QObject
   Q_OBJECT
 
   public:
-    void setup(QApplication *qapp, QWidget *central_in);
+    void setup(QWidget *central_in);
     void display_msg(const char *msg);
     void clear_required(const char *title);
     void show_required(const char *msg);
-    int run();
-    void close();
     void flush_widgets();
 
     struct rule_data data;
 
   private:
-    QApplication *app;
     QLabel *msg_dspl;
     QTabWidget *stack;
     QLineEdit *ruleset_select;

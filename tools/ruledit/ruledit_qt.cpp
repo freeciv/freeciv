@@ -48,13 +48,13 @@
 #include "ruledit_qt.h"
 
 static ruledit_gui *gui;
+static QApplication *qapp;
 
 /**************************************************************************
   Setup ruledit-qt gui.
 **************************************************************************/
 bool ruledit_qt_setup(int argc, char **argv)
 {
-  QApplication *qapp;
   QMainWindow *main_window;
   QWidget *central;
 
@@ -64,7 +64,7 @@ bool ruledit_qt_setup(int argc, char **argv)
   central = new QWidget;
 
   gui = new ruledit_gui;
-  gui->setup(qapp, central);
+  gui->setup(central);
   main_window->setCentralWidget(central);
   main_window->setVisible(true);
 
@@ -76,7 +76,7 @@ bool ruledit_qt_setup(int argc, char **argv)
 **************************************************************************/
 int ruledit_qt_run()
 {
-  return gui->run();
+  return qapp->exec();
 }
 
 /**************************************************************************
@@ -84,9 +84,8 @@ int ruledit_qt_run()
 **************************************************************************/
 void ruledit_qt_close()
 {
-  gui->close();
-
   delete gui;
+  delete qapp;
 }
 
 /**************************************************************************
@@ -100,7 +99,7 @@ void ruledit_qt_display_requirers(const char *msg)
 /**************************************************************************
   Setup GUI object
 **************************************************************************/
-void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
+void ruledit_gui::setup(QWidget *central_in)
 {
   QVBoxLayout *full_layout = new QVBoxLayout();
   QVBoxLayout *preload_layout = new QVBoxLayout();
@@ -116,7 +115,6 @@ void ruledit_gui::setup(QApplication *qapp, QWidget *central_in)
   data.nationlist = NULL;
   data.nationlist_saved = NULL;
 
-  app = qapp;
   central = central_in;
 
   if (rev_ver == NULL) {
@@ -211,24 +209,6 @@ void ruledit_gui::launch_now()
   } else {
     display_msg(R__("Ruleset loading failed!"));
   }
-}
-
-/**************************************************************************
-  Execute GUI object
-**************************************************************************/
-int ruledit_gui::run()
-{
-  app->exec();
-
-  return EXIT_SUCCESS;
-}
-
-/**************************************************************************
-  Close GUI object
-**************************************************************************/
-void ruledit_gui::close()
-{
-  delete app;
 }
 
 /**************************************************************************
