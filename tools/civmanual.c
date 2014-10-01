@@ -49,6 +49,7 @@
 
 /* client */
 #include "client_main.h"
+#include "climisc.h"
 #include "helpdata.h"
 #include "helpdlg_g.h"
 
@@ -135,6 +136,13 @@ void popdown_help_dialog(void)
 enum client_states client_state(void)
 {
   return C_S_INITIAL;
+}
+
+bool client_nation_is_in_current_set(const struct nation_type *pnation)
+{
+  /* Currently, there is no way to select a nation set for freeciv-manual.
+   * Then, let's assume we want to print help for all nations. */
+  return TRUE;
 }
 
 /**************************************************************************

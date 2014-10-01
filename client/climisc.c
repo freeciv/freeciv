@@ -60,6 +60,7 @@ used throughout the client.
 #include "mapctrl_common.h"
 #include "mapview_common.h"
 #include "messagewin_common.h"
+#include "options.h"
 #include "packhand.h"
 #include "repodlgs_common.h"
 #include "tilespec.h"
@@ -1453,4 +1454,28 @@ bool mapimg_client_createmap(const char *filename)
   }
 
   return mapimg_create(pmapdef, TRUE, mapimgfile, NULL);
+}
+
+/****************************************************************************
+  Returns the nation set in use.
+****************************************************************************/
+struct nation_set *client_current_nation_set(void)
+{
+  struct option *poption = optset_option_by_name(server_optset, "nationset");
+  const char *setting_str;
+
+  if (poption == NULL
+      || option_type(poption) != OT_STRING
+      || (setting_str = option_str_get(poption)) == NULL) {
+    setting_str = "";
+  }
+  return nation_set_by_setting_value(setting_str);
+}
+
+/****************************************************************************
+  Returns Whether 'pnation' is in the current nation set.
+****************************************************************************/
+bool client_nation_is_in_current_set(const struct nation_type *pnation)
+{
+  return nation_is_in_set(pnation, client_current_nation_set());
 }
