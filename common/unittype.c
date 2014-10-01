@@ -311,6 +311,8 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 {
   struct requirement req;
 
+  /* The unit is not yet known to be allowed to perform any actions no
+   * matter what the diplomatic state is. */
   BV_CLR_ALL(unit_state_action_cache[utype_index(putype)]);
 
   if (!is_actor_unit_type(putype)) {
@@ -329,7 +331,9 @@ static void unit_state_action_cache_set(struct unit_type *putype)
          req.source.value.unit_state)) {
 
     /* No action will ever be possible in a specific unit state if the
-     * opposite unit state is required of all action enablers. */
+     * opposite unit state is required in all action enablers.
+     * No unit state except present and !present of the same property
+     * implies or conflicts with another so the tests can be simple. */
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))) {
