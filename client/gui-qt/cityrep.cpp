@@ -27,7 +27,9 @@
 static bool can_city_sell_universal(const struct city *pcity,
                                     struct universal target);
 
-
+/***************************************************************************
+  Overriden compare for sorting items
+***************************************************************************/
 bool city_sort_model::lessThan(const QModelIndex &left,
                                const QModelIndex &right) const
 {
@@ -63,11 +65,37 @@ city_item_delegate::city_item_delegate(QObject *parent)
 /***************************************************************************
   City item delgate paint event
 ***************************************************************************/
-void city_item_delegate::paint(QPainter *painter, 
-                               const QStyleOptionViewItem &option, 
+void city_item_delegate::paint(QPainter *painter,
+                               const QStyleOptionViewItem &option,
                                const QModelIndex &index) const
 {
-  QItemDelegate::paint(painter, option, index);
+  QStyleOptionViewItemV3 opt = QItemDelegate::setOptions(index, option);
+  QString txt;
+  QFont font;
+  QPalette palette;
+  struct city_report_spec *spec;
+  spec = city_report_specs + index.column();
+  txt = spec->tagname;
+  if (txt == "cityname") {
+    font.setCapitalization(QFont::SmallCaps);
+    font.setBold(true);
+    opt.font = font;
+  }
+  if (txt == "hstate_verbose") {
+    font.setItalic(true);
+    opt.font = font;
+  }
+  if (txt == "prodplus") {
+    txt = index.data().toString();
+    if (txt.toInt() < 0) {
+      font.setBold(true);
+      palette.setColor(QPalette::Text, QColor(255, 0, 0));
+      opt.font = font;
+      opt.palette = palette;
+    }
+  }
+
+  QItemDelegate::paint(painter, opt, index);
 }
 
 /***************************************************************************
@@ -78,7 +106,7 @@ QSize city_item_delegate::sizeHint(const QStyleOptionViewItem &option,
 {
   QSize s = QItemDelegate::sizeHint(option, index);
 
-  s.setHeight(item_height);
+  s.setHeight(item_height + 4);
   return s;
 }
 
@@ -123,7 +151,6 @@ QVariant city_item::data(int column, int role) const
   spec = city_report_specs+column;
   fc_snprintf(buf, sizeof(buf), "%*s", NEG_VAL(spec->width),
                 spec->func(i_city, spec->data));
-
   return QString(buf);
 }
 
@@ -197,6 +224,10 @@ QVariant city_model::headerData(int section, Qt::Orientation orientation,
                 NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
                 NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
       return QString(buf);
+    }
+    if (role == Qt::ToolTipRole) {
+      spec = city_report_specs + section;
+      return QString(spec->explanation);
     }
   }
   return QVariant();
@@ -442,6 +473,9 @@ void city_widget::display_list_menu(const QPoint &)
   QAction cty_view(style()->standardIcon(QStyle::SP_CommandLink),
                    Q_("?verb:View"), 0);
   sell_gold = 0;
+  if (selected_cities.isEmpty()) {
+    return;
+  }
   foreach (pcity, selected_cities) {
     sell_gold = sell_gold + city_production_buy_gold_cost(pcity);
   }

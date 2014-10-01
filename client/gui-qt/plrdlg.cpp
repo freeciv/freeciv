@@ -285,6 +285,7 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
   setSelectionMode(QAbstractItemView::SingleSelection);
   setItemsExpandable(false);
   setAutoScroll(true);
+  setAlternatingRowColors(true);
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
   hide_columns();
   connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)),
