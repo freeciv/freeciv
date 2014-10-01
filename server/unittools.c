@@ -95,8 +95,9 @@ static int hp_gain_coord(struct unit *punit);
 
 static void unit_move_transported(struct unit_list *units,
                                   struct tile *psrc, struct tile *pdest);
-static void remove_transported_gone_out_of_sight(struct unit_list *units,
-                                                 struct tile *psrc);
+static void
+remove_transported_gone_out_of_sight(const struct unit_list *units,
+                                     const struct tile *psrc);
 
 static bool maybe_become_veteran_real(struct unit *punit, bool settler);
 
@@ -2391,30 +2392,24 @@ static void send_unit_info_to_onlookers(struct conn_list *dest,
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/****************************************************************************
   Remove unit from client if it has gone out of sight by moving from
-  old_tile to current tile.
-**************************************************************************/
-static void remove_unit_gone_out_of_sight(struct conn_list *dest,
-                                          struct unit *punit,
-                                          struct tile *old_tile,
-                                          bool old_transported)
+  'old_tile' to current tile. We assume there the unit isn't transported in
+  case the client would have seen the unit move. Also, note that we don't
+  need to handle the global observer case here, as they still can see the
+  units.
+****************************************************************************/
+static void remove_unit_gone_out_of_sight(struct unit *punit,
+                                          const struct tile *old_tile)
 {
-  if (!dest) {
-    dest = game.est_connections;
-  }
-
-  conn_list_iterate(dest, pconn) {
-    struct player *pplayer = pconn->playing;
-
-    /* Player can be NULL either since connection is global observer,
-     * or new connection that has not yet attached to player */
-    if (pplayer != NULL
-        && can_player_see_unit_at(pplayer, punit, old_tile, old_transported)
-        && !can_player_see_unit(pplayer, punit)) {
+  players_iterate(pplayer) {
+    if (!can_player_see_unit(pplayer, punit)
+        && (can_player_see_unit_at(pplayer, punit, old_tile, FALSE)
+            || (can_player_see_unit_at(pplayer, punit, unit_tile(punit),
+                                       FALSE)))) {
       unit_goes_out_of_sight(pplayer, punit);
     }
-  } conn_list_iterate_end;
+  } players_iterate_end;
 }
 
 /*****************************************************************************
@@ -3498,10 +3493,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* Now cargo is in same tile with transport. Safe to remove units from
      * clients. */
     remove_transported_gone_out_of_sight(pcargo_units, psrctile);
-    /* Assume this unit is not transported, because players could see
-     * the unit moving (i.e. after having unloaded). See previous call to
-     * send_unit_info_to_onlookers(). */
-    remove_unit_gone_out_of_sight(NULL, punit, psrctile, FALSE);
+    remove_unit_gone_out_of_sight(punit, psrctile);
 
     /* Let the scripts run ... */
     script_server_signal_emit("unit_moved", 3,
@@ -3581,20 +3573,26 @@ static void unit_move_transported(struct unit_list *units,
   } unit_list_iterate_end;
 }
 
-/*****************************************************************************
+/****************************************************************************
   Remove transported units gone out of sight from clients.
-*****************************************************************************/
-static void remove_transported_gone_out_of_sight(struct unit_list *units,
-                                                 struct tile *psrc)
+****************************************************************************/
+static void
+remove_transported_gone_out_of_sight(const struct unit_list *units,
+                                     const struct tile *old_tile)
 {
   unit_list_iterate(units, pcargo) {
-    struct unit_list *pcargo_units = unit_transport_cargo(pcargo);
+    const struct unit_list *pcargo_units = unit_transport_cargo(pcargo);
 
     if (unit_list_size(pcargo_units) > 0) {
-      remove_transported_gone_out_of_sight(pcargo_units, psrc);
+      remove_transported_gone_out_of_sight(pcargo_units, old_tile);
     }
 
-    remove_unit_gone_out_of_sight(NULL, pcargo, psrc, TRUE);
+    players_iterate(pplayer) {
+      if (can_player_see_unit_at(pplayer, pcargo, old_tile, TRUE)
+          && !can_player_see_unit(pplayer, pcargo)) {
+        unit_goes_out_of_sight(pplayer, pcargo);
+      }
+    } players_iterate_end;
   } unit_list_iterate_end;
 }
 
