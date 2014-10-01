@@ -6585,19 +6585,17 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     ok = openload_script_file("script", rsdir, buffer);
   }
 
-  if (ok) {
-    if (act) {
-      /* Populate remaining caches. */
-      techs_precalc_data();
-      improvement_feature_cache_init();
-      unit_class_iterate(pclass) {
-        set_unit_class_caches(pclass);
-      } unit_class_iterate_end;
-      unit_type_iterate(u) {
-        u->unknown_move_cost = utype_unknown_move_cost(u);
-        unit_type_action_cache_set(u);
-      } unit_type_iterate_end;
-    }
+  if (ok && act) {
+    /* Populate remaining caches. */
+    techs_precalc_data();
+    improvement_feature_cache_init();
+    unit_class_iterate(pclass) {
+      set_unit_class_caches(pclass);
+    } unit_class_iterate_end;
+    unit_type_iterate(u) {
+      u->unknown_move_cost = utype_unknown_move_cost(u);
+      unit_type_action_cache_set(u);
+    } unit_type_iterate_end;
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
     adv_units_ruleset_init();
@@ -6605,9 +6603,7 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
 
     /* We may need to adjust the number of AI players
      * if the number of available nations changed. */
-    if (act) {
-      aifill(game.info.aifill);
-    }
+    aifill(game.info.aifill);
   }
 
   return ok;
