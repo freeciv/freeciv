@@ -534,32 +534,37 @@ void fc_client::create_start_page()
   QPushButton *but;
   but = new QPushButton;
   but->setText(_("More Game Options"));
+  but->setIcon(fc_icons::instance()->get_icon("preferences-other"));
   pages_layout[PAGE_START]->addWidget(but, 5, 3);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(popup_server_options()));
   pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 2, 8);
   but = new QPushButton;
   but->setText(_("Disconnect"));
+  but->setIcon(fc_icons::instance()->get_icon("network-disconnect"));
   QObject::connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
   pages_layout[PAGE_START]->addWidget(but, 5, 4);
   but = new QPushButton;
   but->setText(_("Pick Nation"));
+  but->setIcon(fc_icons::instance()->get_icon("flag"));
   pages_layout[PAGE_START]->addWidget(but, 5, 5);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pick_nation()));
 
   obs_button = new QPushButton;
   obs_button->setText(_("Observe"));
+  obs_button->setIcon(fc_icons::instance()->get_icon("meeting-observer"));
   pages_layout[PAGE_START]->addWidget(obs_button, 5, 6);
   QObject::connect(obs_button, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_observe()));
   but = new QPushButton;
   but->setText(_("Start"));
+  but->setIcon(fc_icons::instance()->get_icon("fork"));
   pages_layout[PAGE_START]->addWidget(but, 5, 7);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
   pre_vote = new pregamevote;
-  
+
   pages_layout[PAGE_START]->addWidget(pre_vote, 4, 0, 1, 4);
   pages_layout[PAGE_START]->addWidget(chat_line, 5, 0, 1, 3);
   pages_layout[PAGE_START]->addWidget(output_window, 3, 0, 1, 8);
