@@ -50,6 +50,7 @@
 
 /* client */
 #include "client_main.h"
+#include "climisc.h"
 #include "gui_main_g.h" /* client_string */
 
 #include "helpdata.h"
@@ -130,8 +131,7 @@ void free_help_texts(void)
 ****************************************************************************/
 static bool show_help_for_nation(const struct nation_type *pnation)
 {
-  return (is_nation_pickable(pnation)
-          || nation_barbarian_type(pnation) != NOT_A_BARBARIAN);
+  return client_nation_is_in_current_set(pnation);
 }
 
 /****************************************************************************
