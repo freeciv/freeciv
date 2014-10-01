@@ -435,6 +435,7 @@ units_report::units_report(): QWidget()
                                                    ResizeToContents);
   units_widget->verticalHeader()->setVisible(false);
   units_widget->setSelectionMode(QAbstractItemView::SingleSelection);
+  units_widget->setAlternatingRowColors(true);
   find_button->setEnabled(false);
   upgrade_button->setText(_("Upgrade"));
   upgrade_button->setEnabled(false);
@@ -455,7 +456,7 @@ units_report::units_report(): QWidget()
           SLOT(selection_changed(const QItemSelection &,
                                  const QItemSelection &)));
   setLayout(units_layout);
-  len = units_widget->horizontalHeader()->length() + 3;
+  len = units_widget->horizontalHeader()->length() + 4;
   units_widget->setFixedWidth(len);
   find_button->setFixedWidth(len / 3);
   upgrade_button->setFixedWidth(len / 3);
@@ -499,6 +500,8 @@ void units_report::update_report()
   struct urd_info unit_array[utype_count()];
   struct urd_info unit_totals;
   struct urd_info *info;
+  int total_upgradable_count = 0;
+  bool upgradable;
   QVariant qvar;
   QPixmap *pix;
   QPixmap pix_scaled;
@@ -545,7 +548,8 @@ void units_report::update_report()
   unit_type_iterate(utype) {
     utype_id = utype_index(utype);
     info = unit_array + utype_id;
-
+    upgradable = client_has_player()
+                 && NULL != can_upgrade_unittype(client_player(), utype);
     if (0 == info->active_count && 0 == info->building_count) {
       continue;                 /* We don't need a row for this type. */
     }
@@ -555,7 +559,7 @@ void units_report::update_report()
       unit_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
       switch (column) {
       case 0:
-        unit_item->setTextAlignment(Qt::AlignLeft);
+        unit_item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         unit_item->setText(utype_name_translation(utype));
         qvar = utype_id;
         unit_item->setData(Qt::UserRole, qvar);
@@ -576,7 +580,7 @@ void units_report::update_report()
         } else {
           unit_item->setCheckState(Qt::Unchecked);
         }
-        unit_item->setFlags(Qt::ItemIsSelectable);
+        unit_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         break;
       case 2:
         unit_item->setText(QString::number(info->building_count));
@@ -602,22 +606,23 @@ void units_report::update_report()
       unit_totals.upkeep[output] += info->upkeep[output];
     }
     unit_totals.building_count += info->building_count;
-
+    if (upgradable) {
+      total_upgradable_count += info->active_count;
+    }
     row++;
   } unit_type_iterate_end;
   row++;
   units_widget->setRowCount(row);
   for (column = 0; column < 7; column++) {
     unit_item = new QTableWidgetItem;
-    unit_item->setTextAlignment(Qt::AlignHCenter);
+    unit_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     switch (column) {
     case 0:
-      unit_item->setTextAlignment(Qt::AlignLeft);
+      unit_item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
       unit_item->setText(_("Totals:"));
       break;
     case 1:
-      unit_item->setCheckState(Qt::Unchecked);
-      unit_item->setFlags(Qt::ItemIsSelectable);
+      unit_item->setText(QString::number(total_upgradable_count));
       break;
     case 2:
       unit_item->setText(QString::number(unit_totals.building_count));
@@ -638,7 +643,7 @@ void units_report::update_report()
     units_widget->setItem(row - 1, column, unit_item);
   }
   units_widget->resizeColumnsToContents();
-  len = units_widget->horizontalHeader()->length() + 3;
+  len = units_widget->horizontalHeader()->length() + 4;
   units_widget->setFixedWidth(len);
   find_button->setFixedWidth(len / 3);
   upgrade_button->setFixedWidth(len / 3);
