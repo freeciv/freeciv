@@ -107,6 +107,10 @@ static void unit_transport_load_tp_status(struct unit *punit,
                                                struct unit *ptrans,
                                                bool force);
 
+static void wipe_unit_full(struct unit *punit, bool transported,
+                           enum unit_loss_reason reason,
+                           struct player *killer);
+
 /**************************************************************************
   Returns a unit type that matches the role_tech or role roles.
 
@@ -1543,11 +1547,12 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   return punit;
 }
 
-/**************************************************************************
+/****************************************************************************
   We remove the unit and see if it's disappearance has affected the homecity
   and the city it was in.
-**************************************************************************/
-static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
+****************************************************************************/
+static void server_remove_unit_full(struct unit *punit, bool transported,
+                                    enum unit_loss_reason reason)
 {
   struct packet_unit_remove packet;
   struct tile *ptile = unit_tile(punit);
@@ -1584,7 +1589,8 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
   packet.unit_id = punit->id;
   /* Send to onlookers. */
   players_iterate(aplayer) {
-    if (can_player_see_unit(aplayer, punit)) {
+    if (can_player_see_unit_at(aplayer, punit, unit_tile(punit),
+                               transported)) {
       lsend_packet_unit_remove(aplayer->connections, &packet);
     }
   } players_iterate_end;
@@ -1642,6 +1648,16 @@ static void server_remove_unit(struct unit *punit, enum unit_loss_reason reason)
   }
 }
 
+/****************************************************************************
+  We remove the unit and see if it's disappearance has affected the homecity
+  and the city it was in.
+****************************************************************************/
+static void server_remove_unit(struct unit *punit,
+                               enum unit_loss_reason reason)
+{
+  server_remove_unit_full(punit, unit_transported(punit), reason);
+}
+
 /**************************************************************************
   Handle units destroyed when their transport is destroyed
 **************************************************************************/
@@ -1654,15 +1670,16 @@ static void unit_lost_with_transport(const struct player *pplayer,
                 _("%s lost when %s was lost."),
                 unit_tile_link(pcargo),
                 utype_name_translation(ptransport));
-  wipe_unit(pcargo, ULR_TRANSPORT_LOST, killer);
+  wipe_unit_full(pcargo, TRUE, ULR_TRANSPORT_LOST, killer);
 }
 
-/**************************************************************************
-  Remove the unit, and passengers if it is a carrying any. Remove the 
+/****************************************************************************
+  Remove the unit, and passengers if it is a carrying any. Remove the
   _minimum_ number, eg there could be another boat on the square.
-**************************************************************************/
-void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
-               struct player *killer)
+****************************************************************************/
+static void wipe_unit_full(struct unit *punit, bool transported,
+                           enum unit_loss_reason reason,
+                           struct player *killer)
 {
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
@@ -1713,7 +1730,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
   }
 
   /* Now remove the unit. */
-  server_remove_unit(punit, reason);
+  server_remove_unit_full(punit, transported, reason);
 
   switch (reason) {
   case ULR_KILLED:
@@ -1816,6 +1833,16 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
     } unit_list_iterate_safe_end;
   }
   unit_list_destroy(unsaved);
+}
+
+/****************************************************************************
+  Remove the unit, and passengers if it is a carrying any. Remove the
+  _minimum_ number, eg there could be another boat on the square.
+****************************************************************************/
+void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
+               struct player *killer)
+{
+  wipe_unit_full(punit, unit_transported(punit), reason, killer);
 }
 
 /****************************************************************************
