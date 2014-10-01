@@ -313,6 +313,11 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 
   BV_CLR_ALL(unit_state_action_cache[utype_index(putype)]);
 
+  if (!is_actor_unit_type(putype)) {
+    /* Not an actor unit. */
+    return;
+  }
+
   /* Common for every situation */
   req.range = REQ_RANGE_LOCAL;
   req.survives = FALSE;
@@ -353,8 +358,8 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 **************************************************************************/
 void unit_type_action_cache_set(struct unit_type *ptype)
 {
-  unit_state_action_cache_set(ptype);
   unit_can_act_cache_set(ptype);
+  unit_state_action_cache_set(ptype);
 }
 
 /**************************************************************************
