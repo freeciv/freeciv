@@ -2348,6 +2348,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     return TRUE;
 
+  case VUT_AGE:
+    if (preq->present) {
+      cat_snprintf(buf, bufsz,
+                   _("Requires age of %d turns.\n"),
+                   preq->source.value.age);
+    } else {
+      cat_snprintf(buf, bufsz,
+                   _("Prevented if age is over %d turns.\n"),
+                   preq->source.value.age);
+    }
+    return TRUE;
+
   case VUT_TERRAINALTER:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:

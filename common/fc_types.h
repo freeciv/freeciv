@@ -330,6 +330,7 @@ typedef union {
   int max_tile_units;
   int minveteran;
   int min_hit_points;
+  int age;
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -408,6 +409,8 @@ typedef union {
 #define SPECENUM_VALUE32NAME "MinVeteran"
 #define SPECENUM_VALUE33 VUT_MINHP
 #define SPECENUM_VALUE33NAME "MinHitPoints"
+#define SPECENUM_VALUE34 VUT_AGE
+#define SPECENUM_VALUE34NAME "Age"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

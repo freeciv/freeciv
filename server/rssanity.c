@@ -193,6 +193,16 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        }
        break;
 
+    case VUT_AGE:
+      /* There can be age of the city, and age of the unit */
+      if (rc > 2) {
+        log_error("%s: Requirement list has more %s requirements than "
+                  "can ever be fullfilled.", list_for,
+                  universal_type_rule_name(&preq->source));
+        return FALSE;
+      }
+      break;
+
      case VUT_EXTRA:
        /* Note that there can be more than 1 extra / tile. */
      case VUT_MAXTILEUNITS:

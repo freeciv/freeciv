@@ -67,6 +67,7 @@ DiplRel:       World, Alliance, Team, Player, Local
 OutputType:    Local
 Specialist:    Local
 MinYear:       World
+Age:           Local, City
 MinSize:       Traderoute, City
 MinCulture:    World, Alliance, Team, Player, Traderoute, City
 AI:            Player
