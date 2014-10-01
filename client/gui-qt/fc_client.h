@@ -80,6 +80,22 @@ class QTreeWidget;
 class QStatusBar;
 class QMainWindow;
 
+class fc_icons
+{
+  Q_DISABLE_COPY(fc_icons);
+
+private:
+  explicit fc_icons();
+  static fc_icons* m_instance;
+
+public:
+  static fc_icons* instance();
+  static void drop();
+  QIcon get_icon(const QString& id);
+  QString get_path(const QString& id);
+};
+
+
 class fc_game_tab_widget: public QTabWidget
 {
   Q_OBJECT

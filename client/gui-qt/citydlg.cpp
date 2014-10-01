@@ -720,7 +720,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
     connect(production_combo, SIGNAL(clicked()), SLOT(show_targets()));
     buy_button = new QPushButton();
-    buy_button->setIcon(style()->standardIcon(QStyle::SP_CommandLink));
+    buy_button->setIcon(fc_icons::instance()->get_icon("help-donate"));
     connect(lcity_name, SIGNAL(clicked()), SLOT(city_rename()));
     connect(buy_button, SIGNAL(clicked()), SLOT(buy()));
     item_button = new QPushButton();
@@ -806,15 +806,14 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     QGridLayout *qgrid = new QGridLayout;
     QPushButton *but2 = new QPushButton;
     QHBoxLayout *work_but_layout = new QHBoxLayout;
-    work_next_but = new QPushButton(style()->
-                                    standardIcon(QStyle::SP_ArrowDown), "");
-    work_prev_but = new QPushButton(style()->
-                                    standardIcon(QStyle::SP_ArrowUp), "");
-    work_add_but = new QPushButton();
-    work_add_but->setIcon(QIcon(*(get_arrow_sprite(tileset,
-                                                   ARROW_PLUS)->pm)));
-    work_rem_but = new QPushButton(style()->standardIcon(
-                                   QStyle::SP_DialogDiscardButton), "");
+    work_next_but = new QPushButton(fc_icons::instance()->get_icon(
+                                    "go-down"), "");
+    work_prev_but = new QPushButton(fc_icons::instance()->get_icon(
+                                    "go-up"), "");
+    work_add_but = new QPushButton(fc_icons::instance()->get_icon(
+                                    "list-add"), "");
+    work_rem_but = new QPushButton(fc_icons::instance()->get_icon(
+                                    "edit-delete"), "");
     work_but_layout->addWidget(work_add_but);
     work_but_layout->addWidget(work_next_but);
     work_but_layout->addWidget(work_prev_but);
@@ -836,6 +835,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     production_combo_p->setToolTip(_("Click to change worklist production"));
     p_table_p = new QTableWidget;
     buy_button_p = new QPushButton(parent);
+    buy_button_p->setIcon(fc_icons::instance()->get_icon("help-donate"));
     future_targets_p = new QCheckBox;
     future_targets_p->setChecked(false);
     show_units_p = new QCheckBox;

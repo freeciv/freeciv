@@ -37,7 +37,7 @@
 
 
 extern QApplication *qapp;
-
+fc_icons* fc_icons::m_instance = 0;
 /****************************************************************************
   Constructor
 ****************************************************************************/
@@ -690,10 +690,62 @@ void fc_font::set_font(QString name, QFont * qf)
   font_map.insert(name,qf);
 }
 
+/****************************************************************************
+  Game tab widget constructor
+****************************************************************************/
 fc_game_tab_widget::fc_game_tab_widget(): QTabWidget()
 {
   connect(this, SIGNAL(currentChanged(int)), SLOT(restore_label_color(int)));
 }
+
+/****************************************************************************
+  Icon provider constructor
+****************************************************************************/
+fc_icons::fc_icons()
+{
+}
+
+/****************************************************************************
+  Returns instance of fc_icons
+****************************************************************************/
+fc_icons *fc_icons::instance()
+{
+  if (!m_instance)
+    m_instance = new fc_icons;
+  return m_instance;
+}
+
+/****************************************************************************
+  Deletes fc_icons instance
+****************************************************************************/
+void fc_icons::drop()
+{
+  if (m_instance) {
+    delete m_instance;
+    m_instance = 0;
+  }
+}
+
+/****************************************************************************
+  Returns icon by given name
+****************************************************************************/
+QIcon fc_icons::get_icon(const QString &id)
+{
+  return QIcon(fileinfoname(get_data_dirs(),
+                            QString("themes/gui-qt/oxygen/"
+                                    + id + ".png").toLocal8Bit().data()));
+}
+
+/****************************************************************************
+  Returns path for icon
+****************************************************************************/
+QString fc_icons::get_path(const QString &id)
+{
+  return fileinfoname(get_data_dirs(),
+                      QString("themes/gui-qt/oxygen/"
+                              + id + ".png").toLocal8Bit().data());
+}
+
 
 /****************************************************************************
   Restores black color of label
