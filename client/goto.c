@@ -759,12 +759,13 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
                                      struct unit *punit)
 {
   pft_fill_unit_parameter(parameter, punit);
+  /* Overwrite 'omniscience' in case client player is under AI control. */
+  parameter->omniscience = FALSE;
 
   fc_assert(parameter->get_EC == NULL);
   fc_assert(parameter->get_TB == NULL);
   fc_assert(parameter->get_MC != NULL);
   fc_assert(parameter->start_tile == unit_tile(punit));
-  fc_assert(parameter->omniscience == FALSE);
 
   parameter->get_EC = get_EC;
   if (is_attack_unit(punit) || is_diplomat_unit(punit)) {
