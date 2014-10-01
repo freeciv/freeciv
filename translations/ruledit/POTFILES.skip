@@ -16,7 +16,6 @@ client/clinet.c
 client/connectdlg_common.c
 client/control.c
 client/editor.c
-client/ggzclient.c
 client/global_worklist.c
 client/gui-gtk-2.0/action_dialog.c
 client/gui-gtk-2.0/chatline.c
@@ -255,7 +254,6 @@ server/gamehand.c
 server/generator/mapgen.c
 server/generator/mapgen_topology.c
 server/generator/startpos.c
-server/ggzserver.c
 server/handchat.c
 server/maphand.c
 server/meta.c
