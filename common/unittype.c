@@ -312,7 +312,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
   struct requirement req;
 
   /* The unit is not yet known to be allowed to perform any actions no
-   * matter what the diplomatic state is. */
+   * matter what its unit state is. */
   BV_CLR_ALL(unit_state_action_cache[utype_index(putype)]);
 
   if (!is_actor_unit_type(putype)) {
