@@ -98,11 +98,6 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/vsnprintf.m4			\
 		m4/xaw-client.m4		\
 		m4/x.m4				\
-		vms/config.h_vms		\
-		vms/freeciv_h.vms		\
-		vms/imlib_config.h_vms		\
-		vms/readme.vms			\
-		vms/vms_build.com		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh
 
