@@ -3524,45 +3524,71 @@ reqs    =
 type    = "Irrig_Possible"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Tech", "Electricity", "Player"
+    { "type", "name", "range", "present"
+      "Tech", "Electricity", "Player", TRUE
+      "UnitClass", "Sea", "Local", FALSE
     }
 
 [effect_irrigate_src_ocean]
 type    = "Irrig_Possible"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "TerrainClass", "Oceanic", "CAdjacent"
+    { "type", "name", "range", "present"
+      "TerrainClass", "Oceanic", "CAdjacent", TRUE
+      "UnitClass", "Sea", "Local", FALSE
     }
 
 [effect_irrigate_src_river]
 type    = "Irrig_Possible"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Extra", "River", "CAdjacent"
+    { "type", "name", "range", "present"
+      "Extra", "River", "CAdjacent", TRUE
+      "UnitClass", "Sea", "Local", FALSE
     }
 
 [effect_irrigate_src_irrigation]
 type    = "Irrig_Possible"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Extra", "Irrigation", "CAdjacent"
+    { "type", "name", "range", "present"
+      "Extra", "Irrigation", "CAdjacent", TRUE
+      "UnitClass", "Sea", "Local", FALSE
     }
 
 [effect_mining]
 type    = "Mining_Possible"
 value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Deep Ocean", "Local", FALSE
+      "UnitClass", "Sea", "Local", FALSE
+    }
+
+[effect_mining_ocean]
+type    = "Mining_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Deep Ocean", "Local", TRUE
+      "Tech", "Miniaturization", "Player", TRUE
+    }
 
 [effect_irrig_tf]
 type    = "Irrig_TF_Possible"
 value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "UnitClass", "Sea", "Local", FALSE
+    }
 
 [effect_mining_tf]
 type    = "Mining_TF_Possible"
 value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "UnitClass", "Sea", "Local", FALSE
+    }
 
 [effect_transform]
 type    = "Transform_Possible"
