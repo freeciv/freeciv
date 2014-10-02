@@ -3714,6 +3714,10 @@ reqs    =
     { "type", "name", "range"
       "Tech", "Electricity", "Player"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
+    }
 
 [effect_irrigate_src_ocean]
 type    = "Irrig_Possible"
@@ -3721,6 +3725,10 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "TerrainClass", "Oceanic", "CAdjacent"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
     }
 
 [effect_irrigate_src_river]
@@ -3730,6 +3738,10 @@ reqs    =
     { "type", "name", "range"
       "Road", "River", "CAdjacent"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
+    }
 
 [effect_irrigate_src_irrigation]
 type    = "Irrig_Possible"
@@ -3738,18 +3750,34 @@ reqs    =
     { "type", "name", "range"
       "Special", "Irrigation", "CAdjacent"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
+    }
 
 [effect_mining]
 type    = "Mining_Possible"
 value   = 1
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
+    }
 
 [effect_irrig_tf]
 type    = "Irrig_TF_Possible"
 value   = 1
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
+    }
 
 [effect_mining_tf]
 type    = "Mining_TF_Possible"
 value   = 1
+nreqs   =
+    { "type", "name", "range"
+      "UnitClass", "Sea", "Local"
+    }
 
 [effect_transform]
 type    = "Transform_Possible"
