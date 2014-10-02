@@ -893,6 +893,32 @@ static void begin_turn(bool is_new_turn)
       calc_civ_score(pplayer);
     } players_iterate_end;
     log_civ_score_now();
+
+    /* Retire useless barbarian units */
+    players_iterate(pplayer) {
+      if (is_barbarian(pplayer)) {
+        unit_list_iterate(pplayer->units, punit) {
+          if (unit_can_be_retired(punit) && fc_rand(100) > 90) {
+            wipe_unit(punit, ULR_RETIRED, NULL);
+            continue;
+          }
+          if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
+            struct tile *ptile = punit->tile;
+
+            /* Lone Leader past expected lifetime has extra 33% chance to disappear
+             * on coast */
+            if (unit_list_size(ptile->units) == 1
+                && is_terrain_class_near_tile(ptile, TC_OCEAN)
+                && (punit->server.birth_turn + BARBARIAN_MIN_LIFESPAN
+                    < game.info.turn)
+                && fc_rand(3) == 0) {
+              log_debug("Barbarian leader disappearing...");
+              wipe_unit(punit, ULR_RETIRED, NULL);
+            }
+          }
+        } unit_list_iterate_end;
+      }
+    } players_iterate_end;
   }
 
   /* find out if users attached to players have been attached to those players

@@ -2426,32 +2426,6 @@ void dai_manage_military(struct ai_type *ait, struct player *pplayer,
 }
 
 /**************************************************************************
-  Barbarian units may disband spontaneously if their age is more than
-  BARBARIAN_MIN_LIFESPAN, they are not in cities, and they are far from
-  any enemy units. It is to remove barbarians that do not engage into any
-  activity for a long time.
-**************************************************************************/
-static bool unit_can_be_retired(struct unit *punit)
-{
-  if (punit->server.birth_turn + BARBARIAN_MIN_LIFESPAN > game.info.turn) {
-    return FALSE;
-  }
-
-  if (is_allied_city_tile
-      ((unit_tile(punit)), unit_owner(punit))) return FALSE;
-
-  /* check if there is enemy nearby */
-  square_iterate(unit_tile(punit), 3, ptile) {
-    if (is_enemy_city_tile(ptile, unit_owner(punit)) ||
-	is_enemy_unit_tile(ptile, unit_owner(punit)))
-      return FALSE;
-  }
-  square_iterate_end;
-
-  return TRUE;
-}
-
-/**************************************************************************
   Manages settlers.
 **************************************************************************/
 static void dai_manage_settler(struct ai_type *ait, struct player *pplayer,
@@ -2493,16 +2467,6 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     unit_data->done = TRUE;
     return;
-  }
-
-  /* retire useless barbarian units here, before calling the management
-     function */
-  if( is_barbarian(pplayer) ) {
-    /* Todo: should be configurable */
-    if (unit_can_be_retired(punit) && fc_rand(100) > 90) {
-      wipe_unit(punit, ULR_RETIRED, NULL);
-      return;
-    }
   }
 
   /* Check if we have lost our bodyguard. If we never had one, all
@@ -2749,10 +2713,10 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   if (is_boss_of_boat(ait, leader)) {
     /* We are in charge. Of course, since we are the leader...
      * But maybe somebody more militaristic should lead our ship to battle! */
-  
+
     /* First release boat from leaders lead */
     aiferry_clear_boat(ait, leader);
-  
+
     unit_list_iterate(leader_tile->units, warrior) {
       if (!unit_has_type_role(warrior, L_BARBARIAN_LEADER)
           && get_transporter_capacity(warrior) == 0
@@ -2807,18 +2771,6 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   }
 
   UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader needs to flee");
-
-  /* Disappearance - 33% chance on coast, when older than barbarian life
-   * span. */
-  if (is_terrain_class_near_tile(unit_tile(leader), TC_OCEAN)
-      && (leader->server.birth_turn + BARBARIAN_MIN_LIFESPAN
-          < game.info.turn)) {
-    if (fc_rand(3) == 0) {
-      UNIT_LOG(LOG_DEBUG, leader, "barbarian leader disappearing...");
-      wipe_unit(leader, ULR_RETIRED, NULL);
-      return;
-    }
-  }
 
   /* Check for units we could fear. */
   pfrm = pf_reverse_map_new(pplayer, leader_tile, 3,

@@ -150,4 +150,6 @@ bool execute_orders(struct unit *punit);
 bool unit_can_do_action_now(const struct unit *punit);
 void unit_did_action(struct unit *punit);
 
+bool unit_can_be_retired(struct unit *punit);
+
 #endif  /* FC__UNITTOOLS_H */

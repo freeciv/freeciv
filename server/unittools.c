@@ -3970,3 +3970,31 @@ void unit_did_action(struct unit *punit)
   punit->server.action_timestamp = time(NULL);
   punit->server.action_turn = game.info.turn;
 }
+
+/**************************************************************************
+  Barbarian units may disband spontaneously if their age is more than
+  BARBARIAN_MIN_LIFESPAN, they are not in cities, and they are far from
+  any enemy units. It is to remove barbarians that do not engage into any
+  activity for a long time.
+**************************************************************************/
+bool unit_can_be_retired(struct unit *punit)
+{
+  if (punit->server.birth_turn + BARBARIAN_MIN_LIFESPAN > game.info.turn) {
+    return FALSE;
+  }
+
+  if (is_allied_city_tile((unit_tile(punit)), unit_owner(punit))) {
+    return FALSE;
+  }
+
+  /* check if there is enemy nearby */
+  square_iterate(unit_tile(punit), 3, ptile) {
+    if (is_enemy_city_tile(ptile, unit_owner(punit))
+        || is_enemy_unit_tile(ptile, unit_owner(punit))) {
+      return FALSE;
+    }
+  }
+  square_iterate_end;
+
+  return TRUE;
+}
