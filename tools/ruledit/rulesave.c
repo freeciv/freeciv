@@ -1960,134 +1960,135 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   unit_type_iterate(put) {
-    char path[512];
-    const char *flag_names[UTYF_LAST_USER_FLAG + 1];
-    int flagi;
-    int set_count;
+    if (!put->disabled) {
+      char path[512];
+      const char *flag_names[UTYF_LAST_USER_FLAG + 1];
+      int flagi;
+      int set_count;
 
-    fc_snprintf(path, sizeof(path), "unit_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "unit_%d", sect_idx++);
 
-    save_name_translation(sfile, &(put->name), path);
+      save_name_translation(sfile, &(put->name), path);
 
-    secfile_insert_str(sfile, uclass_rule_name(put->uclass),
-                       "%s.class", path);
+      secfile_insert_str(sfile, uclass_rule_name(put->uclass),
+                         "%s.class", path);
 
-    save_tech_ref(sfile, put->require_advance, path, "tech_req");
+      save_tech_ref(sfile, put->require_advance, path, "tech_req");
 
-    if (put->need_government != NULL) {
-      secfile_insert_str(sfile, government_rule_name(put->need_government),
-                         "%s.gov_req", path);
-    }
-
-    if (put->need_improvement != NULL) {
-      secfile_insert_str(sfile, improvement_rule_name(put->need_improvement),
-                         "%s.impr_req", path);
-    }
-
-    if (put->obsoleted_by != NULL) {
-      secfile_insert_str(sfile, utype_rule_name(put->obsoleted_by),
-                         "%s.obsolete_by", path);
-    }
-
-    secfile_insert_str(sfile, put->graphic_str, "%s.graphic", path);
-    if (strcmp("-", put->graphic_alt)) {
-      secfile_insert_str(sfile, put->graphic_alt, "%s.graphic_alt", path);
-    }
-    if (strcmp("-", put->sound_move)) {
-      secfile_insert_str(sfile, put->sound_move, "%s.sound_move", path);
-    }
-    if (strcmp("-", put->sound_move_alt)) {
-      secfile_insert_str(sfile, put->sound_move_alt, "%s.sound_move_alt", path);
-    }
-    if (strcmp("-", put->sound_fight)) {
-      secfile_insert_str(sfile, put->sound_fight, "%s.sound_fight", path);
-    }
-    if (strcmp("-", put->sound_fight_alt)) {
-      secfile_insert_str(sfile, put->sound_fight_alt, "%s.sound_fight_alt", path);
-    }
-
-    secfile_insert_int(sfile, put->build_cost, "%s.build_cost", path);
-    secfile_insert_int(sfile, put->pop_cost, "%s.pop_cost", path);
-    secfile_insert_int(sfile, put->attack_strength, "%s.attack", path);
-    secfile_insert_int(sfile, put->defense_strength, "%s.defense", path);
-    secfile_insert_int(sfile, put->move_rate / SINGLE_MOVE, "%s.move_rate", path);
-    secfile_insert_int(sfile, put->vision_radius_sq, "%s.vision_radius_sq", path);
-    secfile_insert_int(sfile, put->transport_capacity, "%s.transport_cap", path);
-
-    save_uclass_vec(sfile, &(put->cargo), path, "cargo", FALSE);
-    save_uclass_vec(sfile, &(put->embarks), path, "embarks", TRUE);
-    save_uclass_vec(sfile, &(put->disembarks), path, "disembarks", TRUE);
-
-    secfile_insert_int(sfile, put->hp, "%s.hitpoints", path);
-    secfile_insert_int(sfile, put->firepower, "%s.firepower", path);
-    secfile_insert_int(sfile, put->fuel, "%s.fuel", path);
-    secfile_insert_int(sfile, put->happy_cost, "%s.uk_happy", path);
-
-    output_type_iterate(o) {
-      if (put->upkeep[o] != 0) {
-        secfile_insert_int(sfile, put->upkeep[o], "%s.uk_%s",
-                           path, get_output_identifier(o));
+      if (put->need_government != NULL) {
+        secfile_insert_str(sfile, government_rule_name(put->need_government),
+                           "%s.gov_req", path);
       }
-    } output_type_iterate_end;
 
-    if (put->converted_to != NULL) {
-      secfile_insert_str(sfile, utype_rule_name(put->converted_to),
-                         "%s.convert_to", path);
-    }
-    if (put->convert_time != 1) {
-      secfile_insert_int(sfile, put->convert_time, "%s.convert_time", path);
-    }
-
-    save_combat_bonuses(sfile, put, path);
-    save_uclass_vec(sfile, &(put->targets), path, "targets", TRUE);
-
-    if (put->veteran != NULL) {
-      save_veteran_system(sfile, path, put->veteran);
-    }
-
-    if (put->paratroopers_range != 0) {
-      secfile_insert_int(sfile, put->paratroopers_range,
-                         "%s.paratroopers_range", path);
-     secfile_insert_int(sfile, put->paratroopers_mr_req / SINGLE_MOVE,
-                         "%s.paratroopers_mr_req", path);
-     secfile_insert_int(sfile, put->paratroopers_mr_sub / SINGLE_MOVE,
-                         "%s.paratroopers_mr_sub", path);
-    }
-    if (put->bombard_rate != 0) {
-      secfile_insert_int(sfile, put->bombard_rate,
-                         "%s.bombard_rate", path);
-    }
-    if (put->city_size != 1) {
-      secfile_insert_int(sfile, put->city_size,
-                         "%s.city_size", path);
-    }
-
-    set_count = 0;
-    for (flagi = 0; flagi <= UTYF_LAST_USER_FLAG; flagi++) {
-      if (utype_has_flag(put, flagi)) {
-        flag_names[set_count++] = unit_type_flag_id_name(flagi);
+      if (put->need_improvement != NULL) {
+        secfile_insert_str(sfile, improvement_rule_name(put->need_improvement),
+                           "%s.impr_req", path);
       }
-    }
 
-    if (set_count > 0) {
-      secfile_insert_str_vec(sfile, flag_names, set_count,
-                             "%s.flags", path);
-    }
-
-    set_count = 0;
-    for (flagi = L_FIRST; flagi < L_LAST; flagi++) {
-      if (utype_has_role(put, flagi)) {
-        flag_names[set_count++] = unit_role_id_name(flagi);
+      if (put->obsoleted_by != NULL) {
+        secfile_insert_str(sfile, utype_rule_name(put->obsoleted_by),
+                           "%s.obsolete_by", path);
       }
+
+      secfile_insert_str(sfile, put->graphic_str, "%s.graphic", path);
+      if (strcmp("-", put->graphic_alt)) {
+        secfile_insert_str(sfile, put->graphic_alt, "%s.graphic_alt", path);
+      }
+      if (strcmp("-", put->sound_move)) {
+        secfile_insert_str(sfile, put->sound_move, "%s.sound_move", path);
+      }
+      if (strcmp("-", put->sound_move_alt)) {
+        secfile_insert_str(sfile, put->sound_move_alt, "%s.sound_move_alt", path);
+      }
+      if (strcmp("-", put->sound_fight)) {
+        secfile_insert_str(sfile, put->sound_fight, "%s.sound_fight", path);
+      }
+      if (strcmp("-", put->sound_fight_alt)) {
+        secfile_insert_str(sfile, put->sound_fight_alt, "%s.sound_fight_alt", path);
+      }
+
+      secfile_insert_int(sfile, put->build_cost, "%s.build_cost", path);
+      secfile_insert_int(sfile, put->pop_cost, "%s.pop_cost", path);
+      secfile_insert_int(sfile, put->attack_strength, "%s.attack", path);
+      secfile_insert_int(sfile, put->defense_strength, "%s.defense", path);
+      secfile_insert_int(sfile, put->move_rate / SINGLE_MOVE, "%s.move_rate", path);
+      secfile_insert_int(sfile, put->vision_radius_sq, "%s.vision_radius_sq", path);
+      secfile_insert_int(sfile, put->transport_capacity, "%s.transport_cap", path);
+
+      save_uclass_vec(sfile, &(put->cargo), path, "cargo", FALSE);
+      save_uclass_vec(sfile, &(put->embarks), path, "embarks", TRUE);
+      save_uclass_vec(sfile, &(put->disembarks), path, "disembarks", TRUE);
+
+      secfile_insert_int(sfile, put->hp, "%s.hitpoints", path);
+      secfile_insert_int(sfile, put->firepower, "%s.firepower", path);
+      secfile_insert_int(sfile, put->fuel, "%s.fuel", path);
+      secfile_insert_int(sfile, put->happy_cost, "%s.uk_happy", path);
+
+      output_type_iterate(o) {
+        if (put->upkeep[o] != 0) {
+          secfile_insert_int(sfile, put->upkeep[o], "%s.uk_%s",
+                             path, get_output_identifier(o));
+        }
+      } output_type_iterate_end;
+
+      if (put->converted_to != NULL) {
+        secfile_insert_str(sfile, utype_rule_name(put->converted_to),
+                           "%s.convert_to", path);
+      }
+      if (put->convert_time != 1) {
+        secfile_insert_int(sfile, put->convert_time, "%s.convert_time", path);
+      }
+
+      save_combat_bonuses(sfile, put, path);
+      save_uclass_vec(sfile, &(put->targets), path, "targets", TRUE);
+
+      if (put->veteran != NULL) {
+        save_veteran_system(sfile, path, put->veteran);
+      }
+
+      if (put->paratroopers_range != 0) {
+        secfile_insert_int(sfile, put->paratroopers_range,
+                           "%s.paratroopers_range", path);
+        secfile_insert_int(sfile, put->paratroopers_mr_req / SINGLE_MOVE,
+                           "%s.paratroopers_mr_req", path);
+        secfile_insert_int(sfile, put->paratroopers_mr_sub / SINGLE_MOVE,
+                           "%s.paratroopers_mr_sub", path);
+      }
+      if (put->bombard_rate != 0) {
+        secfile_insert_int(sfile, put->bombard_rate,
+                           "%s.bombard_rate", path);
+      }
+      if (put->city_size != 1) {
+        secfile_insert_int(sfile, put->city_size,
+                           "%s.city_size", path);
+      }
+
+      set_count = 0;
+      for (flagi = 0; flagi <= UTYF_LAST_USER_FLAG; flagi++) {
+        if (utype_has_flag(put, flagi)) {
+          flag_names[set_count++] = unit_type_flag_id_name(flagi);
+        }
+      }
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, flag_names, set_count,
+                               "%s.flags", path);
+      }
+
+      set_count = 0;
+      for (flagi = L_FIRST; flagi < L_LAST; flagi++) {
+        if (utype_has_role(put, flagi)) {
+          flag_names[set_count++] = unit_role_id_name(flagi);
+        }
+      }
+
+      if (set_count > 0) {
+        secfile_insert_str_vec(sfile, flag_names, set_count,
+                               "%s.roles", path);
+      }
+
+      save_strvec(sfile, put->helptext, path, "helptext");
     }
-
-    if (set_count > 0) {
-      secfile_insert_str_vec(sfile, flag_names, set_count,
-                             "%s.roles", path);
-    }
-
-    save_strvec(sfile, put->helptext, path, "helptext");
-
   } unit_type_iterate_end;
 
   return save_ruleset_file(sfile, filename);

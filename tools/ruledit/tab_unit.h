@@ -36,8 +36,8 @@ class tab_unit : public QWidget
 
   private:
     ruledit_gui *ui;
-    void update_unit_info(struct unit_type *ptype);
-    void initialize_new_unit(struct unit_type *ptype);
+    void update_utype_info(struct unit_type *ptype);
+    void initialize_new_utype(struct unit_type *ptype);
 
     QLineEdit *name;
     QLineEdit *rname;

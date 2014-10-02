@@ -197,3 +197,16 @@ bool is_building_needed(struct impr_type *pimpr, requirers_cb cb)
 
   return needed;
 }
+
+/**************************************************************************
+  Check if anything in ruleset needs unit type
+**************************************************************************/
+bool is_utype_needed(struct unit_type *ptype, requirers_cb cb)
+{
+  struct universal uni = { .value.utype = ptype, .kind = VUT_UTYPE };
+  bool needed = FALSE;
+
+  needed |= is_universal_needed(&uni, cb);
+
+  return needed;
+}

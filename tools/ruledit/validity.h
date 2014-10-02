@@ -21,6 +21,7 @@ typedef void (*requirers_cb)(const char *msg);
 
 bool is_tech_needed(struct advance *padv, requirers_cb cb);
 bool is_building_needed(struct impr_type *pimpr, requirers_cb cb);
+bool is_utype_needed(struct unit_type *ptype, requirers_cb cb);
 
 #ifdef __cplusplus
 }

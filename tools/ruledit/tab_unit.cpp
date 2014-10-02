@@ -100,16 +100,18 @@ void tab_unit::refresh()
   unit_list->clear();
 
   unit_type_iterate(ptype) {
-    QListWidgetItem *item = new QListWidgetItem(utype_rule_name(ptype));
+    if (!ptype->disabled) {
+      QListWidgetItem *item = new QListWidgetItem(utype_rule_name(ptype));
 
-    unit_list->insertItem(utype_index(ptype), item);
+      unit_list->insertItem(utype_index(ptype), item);
+    }
   } unit_type_iterate_end;
 }
 
 /**************************************************************************
   Update info of the unit
 **************************************************************************/
-void tab_unit::update_unit_info(struct unit_type *ptype)
+void tab_unit::update_utype_info(struct unit_type *ptype)
 {
   selected = ptype;
 
@@ -130,7 +132,7 @@ void tab_unit::select_unit()
   QList<QListWidgetItem *> select_list = unit_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_unit_info(unit_type_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    update_utype_info(unit_type_by_rule_name(select_list.at(0)->text().toUtf8().data()));
   }
 }
 
@@ -152,23 +154,21 @@ void tab_unit::name_given()
 **************************************************************************/
 void tab_unit::delete_now()
 {
-#if 0
-  ui->clear_required(advance_rule_name(selected));
-  if (is_tech_needed(selected, &ruledit_qt_display_requirers)) {
+  ui->clear_required(utype_rule_name(selected));
+  if (is_utype_needed(selected, &ruledit_qt_display_requirers)) {
     return;
   }
 
-  selected->require[AR_ONE] = A_NEVER;
-#endif
+  selected->disabled = true;
 
   refresh();
-  update_unit_info(0);
+  update_utype_info(0);
 }
 
 /**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
-void tab_unit::initialize_new_unit(struct unit_type *ptype)
+void tab_unit::initialize_new_utype(struct unit_type *ptype)
 {
   name_set(&(ptype->name), "None", "None");
 }
@@ -178,28 +178,27 @@ void tab_unit::initialize_new_unit(struct unit_type *ptype)
 **************************************************************************/
 void tab_unit::add_now()
 {
-#if 0
-  struct advance *new_adv;
+  struct unit_type *new_utype;
 
-  /* Try to reuse freed tech slot */
-  advance_iterate(A_FIRST, padv) {
-    if (padv->require[AR_ONE] == A_NEVER) {
-      initialize_new_tech(padv);
-      update_tech_info(padv);
+  /* Try to reuse freed utype slot */
+  unit_type_iterate(ptype) {
+    if (ptype->disabled) {
+      ptype->disabled = false;
+      initialize_new_utype(ptype);
+      update_utype_info(ptype);
       refresh();
       return;
     }
-  } advance_iterate_end;
+  } unit_type_iterate_end;
 
-  /* Try to add completely new tech */
-  if (game.control.num_tech_types >= A_LAST) {
+  /* Try to add completely new unit type */
+  if (game.control.num_unit_types >= U_LAST) {
     return;
   }
 
-  new_adv = advance_by_number(game.control.num_tech_types++);
-  initialize_new_bldg(new_adv);
-  update_tech_info(new_adv);
-#endif
+  new_utype = utype_by_number(game.control.num_unit_types++);
+  initialize_new_utype(new_utype);
+  update_utype_info(new_utype);
 
   refresh();
 }
