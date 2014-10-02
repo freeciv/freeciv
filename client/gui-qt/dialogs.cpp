@@ -72,14 +72,44 @@ static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
                          gen_action act,
                          const action_probability *action_probabilities,
-                         pfcn_void func, QVariant data1,
-                         QVariant data2);
+                         QVariant data1, QVariant data2);
 
 
 static bool is_showing_pillage_dialog = false;
 static races_dialog* race_dialog;
 static bool is_race_dialog_open = false;
 static bool is_more_user_input_needed = FALSE;
+
+/**********************************************************************
+  Initialize a mapping between an action and the function to call if
+  the action's button is pushed.
+**********************************************************************/
+static const QHash<enum gen_action, pfcn_void> af_map_init(void)
+{
+  QHash<enum gen_action, pfcn_void> action_function;
+
+  /* Unit acting against a city target. */
+  action_function[ACTION_ESTABLISH_EMBASSY] = diplomat_embassy;
+  action_function[ACTION_SPY_INVESTIGATE_CITY] = diplomat_investigate;
+  action_function[ACTION_SPY_POISON] = spy_poison;
+  action_function[ACTION_SPY_STEAL_GOLD] = spy_steal_gold;
+  action_function[ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage;
+  action_function[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
+      spy_request_sabotage_list;
+  action_function[ACTION_SPY_STEAL_TECH] = diplomat_steal;
+  action_function[ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal;
+  action_function[ACTION_SPY_INCITE_CITY] = diplomat_incite;
+
+  /* Unit acting against a unit target. */
+  action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
+  action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
+
+  return action_function;
+}
+
+/* Mapping from an action to the function to call when its button is
+ * pushed. */
+static const QHash<enum gen_action, pfcn_void> af_map = af_map_init();
 
 /***************************************************************************
  Constructor for selecting nations
@@ -1145,47 +1175,47 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(cd,
                ACTION_ESTABLISH_EMBASSY,
                act_probs,
-               diplomat_embassy, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_INVESTIGATE_CITY,
                act_probs,
-               diplomat_investigate, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_POISON,
                act_probs,
-               spy_poison, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_STEAL_GOLD,
                act_probs,
-               spy_steal_gold, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_SABOTAGE_CITY,
                act_probs,
-               diplomat_sabotage, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_TARGETED_SABOTAGE_CITY,
                act_probs,
-               spy_request_sabotage_list, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_STEAL_TECH,
                act_probs,
-               diplomat_steal, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_TARGETED_STEAL_TECH,
                act_probs,
-               spy_steal, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_INCITE_CITY,
                act_probs,
-               diplomat_incite, qv1, qv2);
+               qv1, qv2);
 
   if (can_traderoute) {
     func = caravan_establish_trade;
@@ -1215,12 +1245,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(cd,
                ACTION_SPY_BRIBE_UNIT,
                act_probs,
-               diplomat_bribe, qv1, qv2);
+               qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_SABOTAGE_UNIT,
                act_probs,
-               spy_sabotage_unit, qv1, qv2);
+               qv1, qv2);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
     qv2 = target_tile->index;
@@ -1245,8 +1275,7 @@ void popup_action_selection(struct unit *actor_unit,
 static void action_entry(choice_dialog *cd,
                          gen_action act,
                          const action_probability *action_probabilities,
-                         pfcn_void func, QVariant data1,
-                         QVariant data2)
+                         QVariant data1, QVariant data2)
 {
   QString title;
   QString tool_tip;
@@ -1280,7 +1309,7 @@ static void action_entry(choice_dialog *cd,
     break;
   }
 
-  cd->add_item(title, func, data1, data2, tool_tip);
+  cd->add_item(title, af_map[act], data1, data2, tool_tip);
 }
 
 /***************************************************************************
