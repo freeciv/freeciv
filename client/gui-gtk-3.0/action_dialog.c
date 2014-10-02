@@ -947,13 +947,34 @@ static void diplomat_close_callback(GtkWidget *w,
   free(data);
 }
 
+
+
+/* Mapping from an action to the function to call when its button is
+ * pushed. */
+static const GCallback af_map[ACTION_COUNT] = {
+  /* Unit acting against a city target. */
+  [ACTION_ESTABLISH_EMBASSY] = (GCallback)diplomat_embassy_callback,
+  [ACTION_SPY_INVESTIGATE_CITY] = (GCallback)diplomat_investigate_callback,
+  [ACTION_SPY_POISON] = (GCallback)spy_poison_callback,
+  [ACTION_SPY_STEAL_GOLD] = (GCallback)spy_steal_gold_callback,
+  [ACTION_SPY_SABOTAGE_CITY] = (GCallback)diplomat_sabotage_callback,
+  [ACTION_SPY_TARGETED_SABOTAGE_CITY] =
+      (GCallback)spy_request_sabotage_list,
+  [ACTION_SPY_STEAL_TECH] = (GCallback)diplomat_steal_callback,
+  [ACTION_SPY_TARGETED_STEAL_TECH] = (GCallback)spy_steal_popup,
+  [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,
+
+  /* Unit acting against a unit target. */
+  [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
+  [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)spy_sabotage_unit_callback
+};
+
 /******************************************************************
   Show the user the action if it is enabled.
 *******************************************************************/
 static void action_entry(GtkWidget *shl,
                          int action_id,
                          const action_probability *action_probabilities,
-                         GCallback handler,
                          struct action_data *handler_args)
 {
   const gchar *label;
@@ -983,7 +1004,7 @@ static void action_entry(GtkWidget *shl,
     break;
   }
 
-  choice_dialog_add(shl, label, handler, handler_args, tooltip);
+  choice_dialog_add(shl, label, af_map[action_id], handler_args, tooltip);
 }
 
 /**************************************************************************
@@ -1080,55 +1101,46 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(shl,
                ACTION_ESTABLISH_EMBASSY,
                act_probs,
-               (GCallback)diplomat_embassy_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_INVESTIGATE_CITY,
                act_probs,
-               (GCallback)diplomat_investigate_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_POISON,
                act_probs,
-               (GCallback)spy_poison_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_STEAL_GOLD,
                act_probs,
-               (GCallback)spy_steal_gold_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_SABOTAGE_CITY,
                act_probs,
-               (GCallback)diplomat_sabotage_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_TARGETED_SABOTAGE_CITY,
                act_probs,
-               (GCallback)spy_request_sabotage_list,
                data);
 
   action_entry(shl,
                ACTION_SPY_STEAL_TECH,
                act_probs,
-               (GCallback)diplomat_steal_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_TARGETED_STEAL_TECH,
                act_probs,
-               (GCallback)spy_steal_popup,
                data);
 
   action_entry(shl,
                ACTION_SPY_INCITE_CITY,
                act_probs,
-               (GCallback)diplomat_incite_callback,
                data);
 
   if (can_traderoute) {
@@ -1161,13 +1173,11 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(shl,
                ACTION_SPY_BRIBE_UNIT,
                act_probs,
-               (GCallback)diplomat_bribe_callback,
                data);
 
   action_entry(shl,
                ACTION_SPY_SABOTAGE_UNIT,
                act_probs,
-               (GCallback)spy_sabotage_unit_callback,
                data);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
