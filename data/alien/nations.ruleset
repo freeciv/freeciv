@@ -16,7 +16,7 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 
 ; Nationlist to add include statement for. If this entry is omitted, all the nations
 ; will be saved to nations.ruleset itself.
-; There's no nationlist file for alien ruleset
+; There`s no nationlist file for alien ruleset
 ;nationlist = ""
 
 [compatibility]
@@ -38,7 +38,7 @@ default_government = "Despotism"
 ; outside the selected subset will be used.
 ; The first set defined is the one that is used by default. It is mandatory
 ; to have at least one, but if there is only one, it will be kept out of
-; the user's way.
+; the user`s way.
 ; name 		= Translatable name of the set presented in the UI.
 ; rule_name     = Unique persistent name; this is also visible to users as
 ;                 the value of the "nationset" server option, and presented

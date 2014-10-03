@@ -115,10 +115,12 @@ req2        = "Cyber Aliens"
 flags       = ""
 graphic     = "a.burrowing"
 graphic_alt = "-"
-helptext    = _("Since it seems to be impossible to fly in this world, we \
-focus on opposite direction. Burrowing through earth is possible.\n\n
-In addition to making first burrowing units available, knowledge of this \
-tech allows mining of Thick Mountains.")
+helptext    = _("\
+Since it seems to be impossible to fly in this world, we\
+ focus on opposite direction. Burrowing through earth is possible.\n\n\
+ In addition to making first burrowing units available, knowledge of this\
+ tech allows mining of Thick Mountains.\
+")
 
 [advance_brain_development]
 name        = _("Brain Development")

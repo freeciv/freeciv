@@ -468,7 +468,7 @@ effects        = "ReducePopulation"
 ;                "Science"  - Bonus to research
 ;                "Both"     - Bonus to gold and research
 ;
-; TODO: What`s correct "bonus" behavior for civ1? I don't remember it having one-time
+; TODO: What`s correct "bonus" behavior for civ1? I don`t remember it having one-time
 ;       bonuses at all, but they have always been present in freeciv.
 ;
 [trade]
