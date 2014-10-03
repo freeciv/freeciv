@@ -114,6 +114,8 @@ this file.
 
 - AI players get their traits randomly assigned from a limited range
 
+- Being part of a unit stack won't protect against spy actions.
+
 
 2. Use the new ruleset
    -------------------
