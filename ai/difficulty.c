@@ -26,10 +26,10 @@
 
 #include "difficulty.h"
 
-static bv_handicap handicap_of_skill_level(int level);
-static int fuzzy_of_skill_level(int level);
-static int science_cost_of_skill_level(int level);
-static int expansionism_of_skill_level(int level);
+static bv_handicap handicap_of_skill_level(enum ai_level level);
+static int fuzzy_of_skill_level(enum ai_level level);
+static int science_cost_of_skill_level(enum ai_level level);
+static int expansionism_of_skill_level(enum ai_level level);
 
 /**************************************************************************
   Set an AI level and related quantities, with no feedback.
@@ -46,11 +46,11 @@ void set_ai_level_directer(struct player *pplayer, enum ai_level level)
 /**************************************************************************
   Returns handicap bitvector for given AI skill level
 **************************************************************************/
-static bv_handicap handicap_of_skill_level(int level)
+static bv_handicap handicap_of_skill_level(enum ai_level level)
 {
   bv_handicap handicap;
 
-  fc_assert(level > 0 && level <= 10);
+  fc_assert(ai_level_is_valid(level));
 
   BV_CLR_ALL(handicap);
 
@@ -101,6 +101,12 @@ static bv_handicap handicap_of_skill_level(int level)
    case AI_LEVEL_CHEATING:
      BV_SET(handicap, H_RATES);
      break;
+   case AI_LEVEL_HARD:
+     /* No handicaps */
+     break;
+  case AI_LEVEL_COUNT:
+    fc_assert(level != AI_LEVEL_COUNT);
+    break;
   }
 
   return handicap;
@@ -110,12 +116,30 @@ static bv_handicap handicap_of_skill_level(int level)
   Return the AI fuzziness (0 to 1000) corresponding to a given skill
   level (1 to 10).  See ai_fuzzy() in common/player.c
 **************************************************************************/
-static int fuzzy_of_skill_level(int level)
+static int fuzzy_of_skill_level(enum ai_level level)
 {
-  int f[11] = { -1, 0, 400/*novice*/, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
+  fc_assert(ai_level_is_valid(level));
 
-  fc_assert_ret_val(level > 0 && level <= 10, 0);
-  return f[level];
+  switch(level) {
+  case AI_LEVEL_AWAY:
+    return -1;
+  case AI_LEVEL_HANDICAPPED:
+    return 0;
+  case AI_LEVEL_NOVICE:
+    return 400;
+  case AI_LEVEL_EASY:
+    return 300;
+  case AI_LEVEL_NORMAL:
+  case AI_LEVEL_HARD:
+  case AI_LEVEL_CHEATING:
+  case AI_LEVEL_EXPERIMENTAL:
+    return 0;
+  case AI_LEVEL_COUNT:
+    fc_assert(level != AI_LEVEL_COUNT);
+    return 0;
+  }
+
+  return 0;
 }
 
 /**************************************************************************
@@ -125,13 +149,29 @@ static int fuzzy_of_skill_level(int level)
   of a human, and a sceence development cost of 50 means that the AI develops
   science twice as fast as the human.
 **************************************************************************/
-static int science_cost_of_skill_level(int level)
+static int science_cost_of_skill_level(enum ai_level level)
 {
-  int x[11] = { -1, 100, 250/*novice*/, 100/*easy*/, 100, 100, 100, 100,
-                100, 100, 100 };
+  fc_assert(ai_level_is_valid(level));
 
-  fc_assert_ret_val(level > 0 && level <= 10, 0);
-  return x[level];
+  switch(level) {
+  case AI_LEVEL_AWAY:
+    return -1;
+  case AI_LEVEL_HANDICAPPED:
+    return 100;
+  case AI_LEVEL_NOVICE:
+    return 250;
+  case AI_LEVEL_EASY:
+  case AI_LEVEL_NORMAL:
+  case AI_LEVEL_HARD:
+  case AI_LEVEL_CHEATING:
+  case AI_LEVEL_EXPERIMENTAL:
+    return 100;
+  case AI_LEVEL_COUNT:
+    fc_assert(level != AI_LEVEL_COUNT);
+    return 100;
+  }
+
+  return 100;
 }
 
 /**************************************************************************
@@ -139,11 +179,27 @@ static int science_cost_of_skill_level(int level)
   compared to defaults.  0 means _never_ build new cities, > 100 means to
   (over?)value them even more than the default (already expansionistic) AI.
 **************************************************************************/
-static int expansionism_of_skill_level(int level)
+static int expansionism_of_skill_level(enum ai_level level)
 {
-  int x[11] = { -1, 100, 10/*novice*/, 10/*easy*/, 100, 100, 100, 100,
-                100, 100, 100 };
+  fc_assert(ai_level_is_valid(level));
 
-  fc_assert_ret_val(level > 0 && level <= 10, 0);
-  return x[level];
+  switch(level) {
+  case AI_LEVEL_AWAY:
+    return -1;
+  case AI_LEVEL_HANDICAPPED:
+    return 100;
+  case AI_LEVEL_NOVICE:
+  case AI_LEVEL_EASY:
+    return 10;
+  case AI_LEVEL_NORMAL:
+  case AI_LEVEL_HARD:
+  case AI_LEVEL_CHEATING:
+  case AI_LEVEL_EXPERIMENTAL:
+    return 100;
+  case AI_LEVEL_COUNT:
+    fc_assert(level != AI_LEVEL_COUNT);
+    return 100;
+  }
+
+  return 100;
 }
