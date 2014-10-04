@@ -981,6 +981,9 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   /* Remove AI control of the old owner. */
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
 
+  /* Forget old tasks */
+  worker_task_init(&pcity->server.task_req);
+
   /* Activate AI control of the new owner. */
   CALL_PLR_AI_FUNC(city_got, ptaker, ptaker, pcity);
 
