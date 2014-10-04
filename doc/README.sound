@@ -89,7 +89,6 @@ There are a few things that can be done to get better sound support in
 Freeciv still:
   * add more plugins (gstreamer, arts, windows, etc)
   * add a sound tag for each technology, as for buildings/units
-  * add support for playing .ogg files
   * always add more event tags
   * find or create better sound samples and make better spec-file
 
