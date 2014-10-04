@@ -477,7 +477,12 @@ static void drawing_data_destroy(struct drawing_data *draw);
 #define SPECHASH_ENUM_DATA_TYPE extrastyle_id
 #include "spechash.h"
 
-enum ts_type { TS_OVERVIEW, TS_ISOMETRIC };
+#define SPECENUM_NAME ts_type
+#define SPECENUM_VALUE0 TS_OVERVIEW
+#define SPECENUM_VALUE0NAME "Overview"
+#define SPECENUM_VALUE1 TS_ISOMETRIC
+#define SPECENUM_VALUE1NAME "Isometric"
+#include "specenum_gen.h"
 
 struct tileset {
   char name[512];
@@ -1576,11 +1581,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     goto ON_ERROR;
   }
 
-  if (!fc_strcasecmp(tstr, "overview")) {
-    t->type = TS_OVERVIEW;
-  } else if (!fc_strcasecmp(tstr, "isometric")) {
-    t->type = TS_ISOMETRIC;
-  } else {
+  t->type = ts_type_by_name(tstr, fc_strcasecmp);
+  if (!ts_type_is_valid(t->type)) {
     log_error("Tileset \"%s\": unknown tileset type \"%s\"", t->name, tstr);
     goto ON_ERROR;
   }
