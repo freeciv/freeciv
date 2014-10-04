@@ -17,10 +17,9 @@ pkgdata_DATA =          	\
 	meeting-chair.png     	\
 	network-server.png      \
 	preferences-system.png	\
-	edit-find.png    	\
 	go-down.png  		\
 	list-add.png     	\
 	meeting-observer.png  	\
 	object-locked.png	
-EXTRA_DIST = $(pkgdata_DATA)
 
+EXTRA_DIST = $(pkgdata_DATA)
