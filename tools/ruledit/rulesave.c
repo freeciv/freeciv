@@ -1676,6 +1676,12 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     }
     secfile_insert_int(sfile, pextra->build_time, "%s.build_time", path);
     secfile_insert_int(sfile, pextra->removal_time, "%s.removal_time", path);
+    if (pextra->build_time_factor != 1) {
+      secfile_insert_int(sfile, pextra->build_time_factor, "%s.build_time_factor", path);
+    }
+    if (pextra->removal_time_factor != 1) {
+      secfile_insert_int(sfile, pextra->removal_time_factor, "%s.removal_time_factor", path);
+    }
     if (pextra->defense_bonus != 0) {
       secfile_insert_int(sfile, pextra->defense_bonus, "%s.defense_bonus", path);
     }

@@ -72,7 +72,9 @@ struct extra_type
   struct requirement_vector rmreqs;
   bool buildable;
   int build_time;
+  int build_time_factor;
   int removal_time;
+  int removal_time_factor;
 
   int defense_bonus;
 

@@ -789,21 +789,29 @@ int terrain_extra_build_time(const struct terrain *pterrain,
                              enum unit_activity activity,
                              const struct extra_type *tgt)
 {
+  int factor;
+
   if (tgt != NULL && tgt->build_time != 0) {
     /* Extra specific build time */
     return tgt->build_time;
   }
 
+  if (tgt == NULL) {
+    factor = 1;
+  } else {
+    factor = tgt->build_time_factor;
+  }
+
   /* Terrain and activity specific build time */
   switch (activity) {
   case ACTIVITY_BASE:
-    return pterrain->base_time;
+    return pterrain->base_time * factor;
   case ACTIVITY_GEN_ROAD:
-    return pterrain->road_time;
+    return pterrain->road_time * factor;
   case ACTIVITY_IRRIGATE:
-    return pterrain->irrigation_time;
+    return pterrain->irrigation_time * factor;
   case ACTIVITY_MINE:
-    return pterrain->mining_time;
+    return pterrain->mining_time * factor;
   default:
     fc_assert(FALSE);
     return 0;
@@ -817,19 +825,27 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
                                enum unit_activity activity,
                                const struct extra_type *tgt)
 {
+  int factor;
+
   if (tgt != NULL && tgt->removal_time != 0) {
     /* Extra specific removal time */
     return tgt->removal_time;
   }
 
+  if (tgt == NULL) {
+    factor = 1;
+  } else {
+    factor = tgt->build_time_factor;
+  }
+
   /* Terrain and activity specific removal time */
   switch (activity) {
   case ACTIVITY_POLLUTION:
-    return pterrain->clean_pollution_time;
+    return pterrain->clean_pollution_time * factor;
   case ACTIVITY_FALLOUT:
-    return pterrain->clean_fallout_time;
+    return pterrain->clean_fallout_time * factor;
   case ACTIVITY_PILLAGE:
-    return pterrain->pillage_time;
+    return pterrain->pillage_time * factor;
   default:
     fc_assert(FALSE);
     return 0;
