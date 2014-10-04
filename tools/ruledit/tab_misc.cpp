@@ -212,13 +212,38 @@ void tab_misc::save_now()
 void tab_misc::refresh_stats()
 {
   int row = 0;
+  int count;
 
   stats->item(row++, 1)->setText(QString::number(game.control.terrain_count));
   stats->item(row++, 1)->setText(QString::number(game.control.resource_count));
-  stats->item(row++, 1)->setText(QString::number(game.control.num_tech_types));
+
+  count = 0;
+  advance_iterate(A_FIRST, padv) {
+    if (padv->require[AR_ONE] != A_NEVER) {
+      count++;
+    }
+  } advance_iterate_end;
+  stats->item(row++, 1)->setText(QString::number(count));
+
   stats->item(row++, 1)->setText(QString::number(game.control.num_unit_classes));
-  stats->item(row++, 1)->setText(QString::number(game.control.num_unit_types));
-  stats->item(row++, 1)->setText(QString::number(game.control.num_impr_types));
+
+  count = 0;
+  unit_type_iterate(ptype) {
+    if (!ptype->disabled) {
+      count++;
+    }
+  } unit_type_iterate_end;
+  stats->item(row++, 1)->setText(QString::number(count));
+
+  count = 0;
+  improvement_iterate(pimpr) {
+    if (!pimpr->disabled) {
+      count++;
+    }
+  } improvement_iterate_end;
+  stats->item(row++, 1)->setText(QString::number(count));
+
+  // Second column
   row = 0;
   stats->item(row++, 4)->setText(QString::number(game.control.nation_count));
   stats->item(row++, 4)->setText(QString::number(game.control.styles_count));
@@ -226,6 +251,8 @@ void tab_misc::refresh_stats()
   stats->item(row++, 4)->setText(QString::number(game.control.government_count));
   stats->item(row++, 4)->setText(QString::number(game.control.num_disaster_types));
   stats->item(row++, 4)->setText(QString::number(game.control.num_achievement_types));
+
+  // Third column
   row = 0;
   stats->item(row++, 7)->setText(QString::number(game.control.num_extra_types));
   stats->item(row++, 7)->setText(QString::number(game.control.num_base_types));
