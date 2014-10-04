@@ -46,6 +46,8 @@ void achievements_init(void)
     achievements[i].value = 0;
     achievements[i].culture = 0;
     BV_CLR_ALL(achievements[i].achievers);
+    achievements[i].first_msg = NULL;
+    achievements[i].cons_msg = NULL;
   }
 }
 
@@ -54,6 +56,16 @@ void achievements_init(void)
 ****************************************************************************/
 void achievements_free(void)
 {
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(achievements); i++) {
+    if (achievements[i].first_msg != NULL) {
+      FC_FREE(achievements[i].first_msg);
+    }
+    if (achievements[i].cons_msg != NULL) {
+      FC_FREE(achievements[i].cons_msg);
+    }
+  }
 }
 
 /**************************************************************************
@@ -284,58 +296,9 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
 ****************************************************************************/
 const char *achievement_first_msg(struct achievement *pach)
 {
-  static char buf[1024]; /* TODO: Get rid of this */
+  fc_assert(pach->first_msg != NULL);
 
-  switch(pach->type) {
-  case ACHIEVEMENT_SPACESHIP:
-    return _("You're the first one to launch spaceship towards Alpha Centauri!");
-  case ACHIEVEMENT_MAP:
-    if (pach->value >= 100) {
-      return _("You're the first one to have entire world mapped!");
-    } else {
-      fc_snprintf(buf, sizeof(buf),
-                  _("You're the first one to have %d%% of the world mapped!"),
-                    pach->value);
-      return buf;
-    }
-    break;
-  case ACHIEVEMENT_MULTICULTURAL:
-    fc_snprintf(buf, sizeof(buf),
-                _("You're the first one to have %d different nationalities "
-                  "in your cities!"), pach->value);
-    return buf;
-  case ACHIEVEMENT_CULTURED_CITY:
-    fc_snprintf(buf, sizeof(buf),
-                _("You're the first one to have city of at least %d culture points."),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_CULTURED_NATION:
-    fc_snprintf(buf, sizeof(buf),
-                _("You're the first one to have at least %d culture points."),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_LUCKY:
-    fc_snprintf(buf, sizeof(buf),
-                _("You beat %d in 10000 odds! You're the first one to be so lucky."),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_HUTS:
-    fc_snprintf(buf, sizeof(buf),
-                _("You're the first one to have entered %d huts!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_METROPOLIS:
-    fc_snprintf(buf, sizeof(buf),
-                _("Your empire has the first size %d city in the world!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_COUNT:
-    break;
-  }
-
-  log_error("achievement_first_msg(): Illegal achievement type %d", pach->type);
-
-  return NULL;
+  return _(pach->first_msg);
 }
 
 /****************************************************************************
@@ -343,57 +306,9 @@ const char *achievement_first_msg(struct achievement *pach)
 ****************************************************************************/
 const char *achievement_later_msg(struct achievement *pach)
 {
-  static char buf[1024]; /* TODO: Get rid of this */
+  fc_assert(pach->cons_msg != NULL);
 
-  switch(pach->type) {
-  case ACHIEVEMENT_SPACESHIP:
-    return _("You have launched spaceship towards Alpha Centauri!");
-  case ACHIEVEMENT_MAP:
-    if (pach->value >= 100) {
-      return _("You have entire world mapped!");
-    } else {
-      fc_snprintf(buf, sizeof(buf),
-                  _("You have %d%% of the world mapped!"),
-                    pach->value);
-      return buf;
-    }
-  case ACHIEVEMENT_MULTICULTURAL:
-    fc_snprintf(buf, sizeof(buf),
-                _("You have %d different nationalities "
-                  "in your cities!"), pach->value);
-    return buf;
-  case ACHIEVEMENT_CULTURED_CITY:
-    fc_snprintf(buf, sizeof(buf),
-                _("You have city of %d culture points!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_CULTURED_NATION:
-    fc_snprintf(buf, sizeof(buf),
-                _("You have %d culture points!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_LUCKY:
-    fc_snprintf(buf, sizeof(buf),
-                _("You beat %d in 10000 odds!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_HUTS:
-    fc_snprintf(buf, sizeof(buf),
-                _("You have entered %d huts!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_METROPOLIS:
-    fc_snprintf(buf, sizeof(buf),
-                _("You have your first size %d city!"),
-                pach->value);
-    return buf;
-  case ACHIEVEMENT_COUNT:
-    break;
-  }
-
-  log_error("achievement_later_msg(): Illegal achievement type %d", pach->type);
-
-  return NULL;
+  return _(pach->cons_msg);
 }
 
 /****************************************************************************

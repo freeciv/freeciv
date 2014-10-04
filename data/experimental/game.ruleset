@@ -492,22 +492,30 @@ effects        = "ReducePopulation", "Pollution"
 ;                           achievement type.
 ; culture                 = Amount of culture granted to player who gets achievement
 ;                           granted.
+; first_msg               = Message shown to first player gaining the achievement
+; cons_msg                = Message shown to consecutive players gaining the achievement
 ;
 ; */ <-- avoid gettext warnings
 
 [achievement_spaceship]
 name           = _("Spaceship Launch")
 type           = "Spaceship"
+first_msg      = _("You're the first one to launch spaceship towards Alpha Centauri!");
+cons_msg       = _("You have launched spaceship towards Alpha Centauri!")
 
 [achievement_map_known]
 name           = _("Entire Map Known")
 type           = "Map_Known"
 value          = 100
+first_msg      = _("You're the first one to have entire world mapped!")
+cons_msg       = _("You have entire world mapped!")
 
 [achievement_map_known_20p]
 name           = _("Map Known 20 pct")
 type           = "Map_Known"
 value          = 20
+first_msg      = _("You're the first one to have 20% of the world mapped!")
+cons_msg       = _("You have 20% of the world mapped!")
 
 ;
 ; Trade settings

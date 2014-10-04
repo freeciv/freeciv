@@ -32,6 +32,10 @@ struct achievement
   int culture;
   struct player *first;
   bv_player achievers;
+
+  /* Messages at server side only */
+  char *first_msg;
+  char *cons_msg;
 };
 
 void achievements_init(void);

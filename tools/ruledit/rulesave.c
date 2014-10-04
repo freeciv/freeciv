@@ -910,6 +910,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_default_int(sfile, pach->culture,
                      0, path, "culture");
 
+    secfile_insert_str(sfile, pach->first_msg, "%s.first_msg", path);
+    if (pach->cons_msg != NULL) {
+      secfile_insert_str(sfile, pach->const_msg, "%s.cons_msg", path);
+    }
+
   } achievements_iterate_end;
 
   set_count = 0;

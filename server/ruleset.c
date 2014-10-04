@@ -5396,6 +5396,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       int id = achievement_index(pach);
       const char *sec_name = section_name(section_list_get(sec, id));
       const char *typename;
+      const char *msg;
 
       typename = secfile_lookup_str_default(file, NULL, "%s.type", sec_name);
 
@@ -5406,13 +5407,35 @@ static bool load_ruleset_game(struct section_file *file, bool act)
         ok = FALSE;
       }
 
-      pach->unique = secfile_lookup_bool_default(file, GAME_DEFAULT_ACH_UNIQUE,
-                                                 "%s.unique", sec_name);
+      if (ok) {
+        pach->unique = secfile_lookup_bool_default(file, GAME_DEFAULT_ACH_UNIQUE,
+                                                   "%s.unique", sec_name);
 
-      pach->value = secfile_lookup_int_default(file, GAME_DEFAULT_ACH_VALUE,
-                                               "%s.value", sec_name);
-      pach->culture = secfile_lookup_int_default(file, 0,
-                                                 "%s.culture", sec_name);
+        pach->value = secfile_lookup_int_default(file, GAME_DEFAULT_ACH_VALUE,
+                                                 "%s.value", sec_name);
+        pach->culture = secfile_lookup_int_default(file, 0,
+                                                   "%s.culture", sec_name);
+
+        msg = secfile_lookup_str_default(file, NULL, "%s.first_msg", sec_name);
+        if (msg == NULL) {
+          ruleset_error(LOG_ERROR, "Achievement %s has no first msg!", sec_name);
+          ok = FALSE;
+        } else {
+          pach->first_msg = fc_strdup(msg);
+        }
+      }
+
+      if (ok) {
+        msg = secfile_lookup_str_default(file, NULL, "%s.cons_msg", sec_name);
+        if (msg == NULL) {
+          if (!pach->unique) {
+            ruleset_error(LOG_ERROR, "Achievement %s has no msg for consecutive gainers!", sec_name);
+            ok = FALSE;
+          }
+        } else {
+          pach->cons_msg = fc_strdup(msg);
+        }
+      }
 
       if (!ok) {
         break;

@@ -460,6 +460,8 @@ negative_label = _("BCE")
 ;                           achievement type.
 ; culture                 = Amount of culture granted to player who gets achievement
 ;                           granted.
+; first_msg               = Message shown to first player gaining the achievement
+; cons_msg                = Message shown to consecutive players gaining the achievement
 ;
 ; */ <-- avoid gettext warnings
 
