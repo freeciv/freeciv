@@ -60,7 +60,7 @@
   * Loading lua files or libraries
 *****************************************************************************/
 #define LUASCRIPT_SECURE_LUA_VERSION1 502
-#define LUASCRIPT_SECURE_LUA_VERSION2 501
+#define LUASCRIPT_SECURE_LUA_VERSION2 503
 
 static const char *luascript_unsafe_symbols[] = {
   "debug",
@@ -78,17 +78,7 @@ static const char *luascript_unsafe_symbols[] = {
   Lua libraries to load (all default libraries, excluding operating system
   and library loading modules). See linit.c in Lua 5.1 for the default list.
 *****************************************************************************/
-#if LUA_VERSION_NUM == 501
-static luaL_Reg luascript_lualibs[] = {
-  /* Using default libraries excluding: package, io and os */
-  {"", luaopen_base},
-  {LUA_TABLIBNAME, luaopen_table},
-  {LUA_STRLIBNAME, luaopen_string},
-  {LUA_MATHLIBNAME, luaopen_math},
-  {LUA_DBLIBNAME, luaopen_debug},
-  {NULL, NULL}
-};
-#elif LUA_VERSION_NUM == 502
+#if LUA_VERSION_NUM == 502
 static luaL_Reg luascript_lualibs[] = {
   /* Using default libraries excluding: package, io and os */
   {"_G", luaopen_base},
@@ -96,6 +86,18 @@ static luaL_Reg luascript_lualibs[] = {
   {LUA_TABLIBNAME, luaopen_table},
   {LUA_STRLIBNAME, luaopen_string},
   {LUA_BITLIBNAME, luaopen_bit32},
+  {LUA_MATHLIBNAME, luaopen_math},
+  {LUA_DBLIBNAME, luaopen_debug},
+  {NULL, NULL}
+};
+#elif LUA_VERSION_NUM == 503
+static luaL_Reg luascript_lualibs[] = {
+  /* Using default libraries excluding: package, io, os, and bit32 */
+  {"_G", luaopen_base},
+  {LUA_COLIBNAME, luaopen_coroutine},
+  {LUA_TABLIBNAME, luaopen_table},
+  {LUA_STRLIBNAME, luaopen_string},
+  {LUA_UTF8LIBNAME, luaopen_utf8},
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_DBLIBNAME, luaopen_debug},
   {NULL, NULL}
@@ -251,19 +253,11 @@ static void luascript_hook_end(lua_State *L)
 ****************************************************************************/
 static void luascript_openlibs(lua_State *L, const luaL_Reg *llib)
 {
-#if LUA_VERSION_NUM == 501
-  for (; llib->func; llib++) {
-    lua_pushcfunction(L, llib->func);
-    lua_pushstring(L, llib->name);
-    lua_call(L, 1, 0);
-  }
-#elif LUA_VERSION_NUM == 502
   /* set results to global table */
   for (; llib->func; llib++) {
     luaL_requiref(L, llib->name, llib->func, 1);
     lua_pop(L, 1);  /* remove lib */
   }
-#endif
 }
 
 /*****************************************************************************
