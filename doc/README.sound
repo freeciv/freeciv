@@ -78,9 +78,6 @@ common/events.h) in lowercase. So E_POLLUTION becomes the tag
 "e_pollution". There is no generic event tag and no alternate tags are
 used.
 
-There is currently only one music: the intro music. This music will be
-played until the game starts. The tag for this music is "music_start".
-
 ================================
  TODO
 ================================
@@ -89,7 +86,6 @@ There are a few things that can be done to get better sound support in
 Freeciv still:
   * add more plugins (gstreamer, arts, windows, etc)
   * add a sound tag for each technology, as for buildings/units
-  * add support for playing .ogg files
   * always add more event tags
   * find or create better sound samples and make better spec-file
 
