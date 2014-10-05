@@ -753,11 +753,6 @@ static bool save_command(struct connection *caller, char *arg, bool check)
 void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 {
   fc_assert_ret(pplayer != NULL);
-  if (is_barbarian(pplayer)) {
-    cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
-	      _("Cannot toggle a barbarian player."));
-    return;
-  }
 
   if (!pplayer->ai_controlled) {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
