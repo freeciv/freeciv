@@ -200,7 +200,6 @@ client/repodlgs_common.c
 client/servers.c
 client/text.c
 client/tilespec.c
-common/achievements.c
 common/actions.c
 common/actions.h
 common/ai.c

@@ -14,4 +14,5 @@ tools/ruledit/tab_building.cpp
 tools/ruledit/tab_misc.cpp
 tools/ruledit/tab_nation.cpp
 tools/ruledit/tab_tech.cpp
+tools/ruledit/tab_unit.cpp
 tools/ruledit/validity.c
