@@ -2223,8 +2223,7 @@ void count_playable_nations(void)
 
 /****************************************************************************
   Return whether a nation is "pickable" -- whether players can select it
-  at game start. (After game start the set changes -- this is used on the
-  client to e.g. decide which nations to display help for.)
+  at game start.
   (is_nation_pickable() is the equivalent function on the client.)
 ****************************************************************************/
 bool client_can_pick_nation(const struct nation_type *pnation)
@@ -2232,8 +2231,7 @@ bool client_can_pick_nation(const struct nation_type *pnation)
   fc_assert_ret_val(pnation != NULL, FALSE);
   return nation_is_in_current_set(pnation)
          && is_nation_playable(pnation)
-         && (server_state() >= S_S_RUNNING
-             || !game.scenario.startpos_nations
+         && (!game.scenario.startpos_nations
              || !pnation->server.no_startpos);
 }
 
