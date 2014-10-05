@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "achievements.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
@@ -744,6 +745,16 @@ bool sanity_check_ruleset_data(void)
       }
     }
   } unit_class_iterate_end;
+
+  achievements_iterate(pach) {
+    if (!pach->unique && pach->cons_msg == NULL) {
+      ruleset_error(LOG_ERROR,
+                    "Achievement %s has no message for consecutive gainers thouugh "
+                    "it's possible to be gained by multiple players",
+                    achievement_rule_name(pach));
+      ok = FALSE;
+    }
+  } achievements_iterate_end;
 
   if (ok) {
     ok = rs_common_units();
