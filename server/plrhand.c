@@ -2676,3 +2676,41 @@ int playercolor_count(void)
 
   return rgbcolor_list_size(game.server.plr_colors);
 }
+
+/****************************************************************************
+  Toggle player to AI mode.
+****************************************************************************/
+void player_set_to_ai_mode(struct player *pplayer, enum ai_level skill_level)
+{
+  pplayer->ai_controlled = TRUE;
+
+  set_ai_level_directer(pplayer, skill_level);
+  cancel_all_meetings(pplayer);
+  CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
+
+  if (S_S_RUNNING == server_state()) {
+    /* In case this was last player who has not pressed turn done. */
+    check_for_full_turn_done();
+  }
+
+  fc_assert(pplayer->ai_common.skill_level == skill_level);
+}
+
+/****************************************************************************
+  Toggle player under human control.
+****************************************************************************/
+void player_set_under_human_control(struct player *pplayer)
+{
+  pplayer->ai_controlled = FALSE;
+  if (pplayer->ai_common.skill_level == AI_LEVEL_AWAY) {
+    pplayer->ai_common.skill_level = 0;
+  }
+
+  CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+
+  /* Because the AI "cheats" with government rates but humans shouldn't. */
+  if (!game.info.is_new_game) {
+    check_player_max_rates(pplayer);
+  }
+  cancel_all_meetings(pplayer);
+}

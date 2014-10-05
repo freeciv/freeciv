@@ -120,7 +120,7 @@ static bool set_ai_level_named(struct connection *caller, const char *name,
                                const char *level_name, bool check);
 static bool set_ai_level(struct connection *caller, const char *name,
                          enum ai_level level, bool check);
-static bool set_away(struct connection *caller, char *name, bool check);
+static bool away_command(struct connection *caller, bool check);
 static bool set_rulesetdir(struct connection *caller, char *str, bool check,
                            int read_recursion);
 static bool show_command(struct connection *caller, char *str, bool check);
@@ -759,42 +759,20 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     return;
   }
 
-  pplayer->ai_controlled = !pplayer->ai_controlled;
-  if (pplayer->ai_controlled) {
+  if (!pplayer->ai_controlled) {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."),
 	      player_name(pplayer));
-    if (pplayer->ai_common.skill_level == 0) {
-      pplayer->ai_common.skill_level = game.info.skill_level;
-    }
-    /* Set the skill level explicitly, because eg: the player skill
-       level could have been set as AI, then toggled, then saved,
-       then reloaded. */ 
-    set_ai_level(caller, player_name(pplayer),
-                 pplayer->ai_common.skill_level, FALSE);
-    /* the AI can't do active diplomacy */
-    cancel_all_meetings(pplayer);
-
-    CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
-
-    if (S_S_RUNNING == server_state()) {
-      /* In case this was last player who has not pressed turn done. */
-      check_for_full_turn_done();
-    }
+    player_set_to_ai_mode(pplayer, pplayer->ai_common.skill_level == 0
+                          ? game.info.skill_level
+                          : pplayer->ai_common.skill_level);
+    fc_assert(pplayer->ai_controlled == TRUE);
   } else {
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under human control."),
 	      player_name(pplayer));
-
-    CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
-
-    /* because the AI `cheats' with government rates but humans shouldn't */
-    if (!game.info.is_new_game) {
-      check_player_max_rates(pplayer);
-    }
-    /* Remove hidden dialogs from clients. This way the player can initiate
-     * new meeting */
-    cancel_all_meetings(pplayer);
+    player_set_under_human_control(pplayer);
+    fc_assert(pplayer->ai_controlled == FALSE);
   }
 }
 
@@ -2041,36 +2019,37 @@ static bool set_ai_level(struct connection *caller, const char *name,
 /******************************************************************
   Set user to away mode.
 ******************************************************************/
-static bool set_away(struct connection *caller, char *name, bool check)
+static bool away_command(struct connection *caller, bool check)
 {
+  struct player *pplayer;
+
   if (caller == NULL) {
     cmd_reply(CMD_AWAY, caller, C_FAIL, _("This command is client only."));
     return FALSE;
-  } else if (name && strlen(name) > 0) {
-    cmd_reply(CMD_AWAY, caller, C_SYNTAX, _("Usage:\n%s"),
-              command_synopsis(command_by_number(CMD_AWAY)));
-    return FALSE;
-  } else if (NULL == caller->playing || caller->observer) {
+  }
+
+  if (!conn_controls_player(caller)) {
     /* This happens for detached or observer connections. */
     cmd_reply(CMD_AWAY, caller, C_FAIL,
               _("Only players may use the away command."));
     return FALSE;
-  } else if (!caller->playing->ai_controlled && !check) {
-    cmd_reply(CMD_AWAY, caller, C_OK,
-              _("%s set to away mode."), player_name(caller->playing));
-    set_ai_level_directer(caller->playing, AI_LEVEL_AWAY);
-    caller->playing->ai_controlled = TRUE;
-    cancel_all_meetings(caller->playing);
-    CALL_PLR_AI_FUNC(gained_control, caller->playing, caller->playing);
-  } else if (!check) {
-    cmd_reply(CMD_AWAY, caller, C_OK,
-              _("%s returned to game."), player_name(caller->playing));
-    caller->playing->ai_controlled = FALSE;
-    /* We have to do it, because the client doesn't display 
-     * dialogs for meetings in AI mode. */
-    cancel_all_meetings(caller->playing);
+  }
 
-    CALL_PLR_AI_FUNC(lost_control, caller->playing, caller->playing);
+  if (check) {
+    return TRUE;
+  }
+
+  pplayer = conn_get_player(caller);
+  if (!pplayer->ai_controlled) {
+    cmd_reply(CMD_AWAY, caller, C_OK,
+              _("%s set to away mode."), player_name(pplayer));
+    player_set_to_ai_mode(pplayer, AI_LEVEL_AWAY);
+    fc_assert(pplayer->ai_controlled == TRUE);
+  } else {
+    cmd_reply(CMD_AWAY, caller, C_OK,
+              _("%s returned to game."), player_name(pplayer));
+    player_set_under_human_control(pplayer);
+    fc_assert(pplayer->ai_controlled == FALSE);
   }
 
   send_player_info_c(caller->playing, game.est_connections);
@@ -4329,7 +4308,7 @@ static bool handle_stdin_input_real(struct connection *caller,
   case CMD_CREATE:
     return create_command(caller, arg, check);
   case CMD_AWAY:
-    return set_away(caller, arg, check);
+    return away_command(caller, check);
   case CMD_NOVICE:
   case CMD_EASY:
   case CMD_NORMAL:
