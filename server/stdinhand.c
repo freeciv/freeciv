@@ -673,7 +673,8 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."),
 	      player_name(pplayer));
-    player_set_to_ai_mode(pplayer, pplayer->ai_common.skill_level == 0
+    player_set_to_ai_mode(pplayer,
+                          !ai_level_is_valid(pplayer->ai_common.skill_level)
                           ? game.info.skill_level
                           : pplayer->ai_common.skill_level);
     fc_assert(pplayer->ai_controlled == TRUE);

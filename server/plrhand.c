@@ -2999,7 +2999,7 @@ void player_set_under_human_control(struct player *pplayer)
 {
   pplayer->ai_controlled = FALSE;
   if (pplayer->ai_common.skill_level == AI_LEVEL_AWAY) {
-    pplayer->ai_common.skill_level = 0;
+    pplayer->ai_common.skill_level = ai_level_invalid();
   }
 
   CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);

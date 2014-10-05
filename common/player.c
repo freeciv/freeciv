@@ -533,7 +533,7 @@ static void player_defaults(struct player *pplayer)
   spaceship_init(&pplayer->spaceship);
 
   pplayer->ai_controlled = FALSE;
-  pplayer->ai_common.skill_level = 0;
+  pplayer->ai_common.skill_level = ai_level_invalid();
   pplayer->ai_common.fuzzy = 0;
   pplayer->ai_common.expand = 100;
   pplayer->ai_common.barbarian_type = NOT_A_BARBARIAN;
