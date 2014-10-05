@@ -1109,6 +1109,15 @@ void handle_edit_player(struct connection *pc,
                   packet->nation, nation_plural_translation(pnation),
                   player_number(pnation->player),
                   player_name(pnation->player));
+    } else if (pplayer->ai_common.barbarian_type
+               != nation_barbarian_type(pnation)
+               || (!is_barbarian(pplayer) && !is_nation_playable(pnation))) {
+      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+                  _("Cannot change nation for player %d (%s) "
+                    "to nation %d (%s) because that nation is "
+                    "unsuitable for this player."),
+                  player_number(pplayer), player_name(pplayer),
+                  packet->nation, nation_plural_translation(pnation));
     } else {
       changed = player_set_nation(pplayer, pnation);
     }
