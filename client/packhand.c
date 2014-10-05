@@ -1107,6 +1107,8 @@ void handle_worker_task(const struct packet_worker_task *packet)
   pcity->task_req.act = packet->activity;
   pcity->task_req.tgt = extra_by_number(packet->tgt);
   pcity->task_req.want = packet->want;
+
+  refresh_city_dialog(pcity);
 }
 
 /**************************************************************************

@@ -5322,6 +5322,34 @@ int fill_sprite_array(struct tileset *t,
     }
     break;
 
+  case LAYER_WORKERTASK:
+    if (citymode != NULL && ptile != NULL) {
+      if (citymode->task_req.ptile == ptile) {
+        switch (citymode->task_req.act) {
+        case ACTIVITY_MINE:
+          if (citymode->task_req.tgt == NULL) {
+            ADD_SPRITE_SIMPLE(t->sprites.unit.mine);
+          } else {
+            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
+          }
+          break;
+        case ACTIVITY_IRRIGATE:
+          if (citymode->task_req.tgt == NULL) {
+            ADD_SPRITE_SIMPLE(t->sprites.unit.irrigate);
+          } else {
+            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
+          }
+          break;
+        case ACTIVITY_GEN_ROAD:
+          ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
+          break;
+        default:
+          break;
+        }
+      }
+    }
+    break;
+
   case LAYER_EDITOR:
     if (ptile && editor_is_active()) {
       if (editor_tile_is_selected(ptile)) {
