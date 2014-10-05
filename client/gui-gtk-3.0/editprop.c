@@ -36,6 +36,7 @@
 
 /* client */
 #include "client_main.h"
+#include "climisc.h"
 #include "editor.h"
 #include "mapview_common.h"
 #include "tilespec.h"
@@ -3764,9 +3765,8 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     gtk_list_store_set(store, &iter, 0, all, 1, -1, 3,
                        _("All nations"), -1);
     nations_iterate(pnation) {
-      /* The server should have lifted start-position-based restrictions
-       * on pickability before we're invoked. */
-      if (is_nation_pickable(pnation)) {
+      if (client_nation_is_in_current_set(pnation)
+          && is_nation_playable(pnation)) {
         present = (!all && nation_hash_lookup(pv->data.v_nation_hash,
                                               pnation, NULL));
         id = nation_number(pnation);
@@ -3807,27 +3807,35 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     break;
 
   case OPID_PLAYER_NATION:
-    gtk_list_store_clear(store);
-    nations_iterate(pnation) {
-      if (is_nation_pickable(pnation)) {
-        present = (pnation == pv->data.v_nation);
-        id = nation_index(pnation);
-        pixbuf = get_flag(pnation);
-        name = nation_adjective_translation(pnation);
-        gtk_list_store_append(store, &iter);
-        gtk_list_store_set(store, &iter, 0, present, 1, id,
-                           2, pixbuf, 3, name, -1);
-        if (pixbuf) {
-          g_object_unref(pixbuf);
+    {
+      enum barbarian_type barbarian_type =
+          nation_barbarian_type(pv->data.v_nation);
+
+      gtk_list_store_clear(store);
+      nations_iterate(pnation) {
+        if (client_nation_is_in_current_set(pnation)
+            && nation_barbarian_type(pnation) == barbarian_type
+            && (barbarian_type != NOT_A_BARBARIAN
+                || is_nation_playable(pnation))) {
+          present = (pnation == pv->data.v_nation);
+          id = nation_index(pnation);
+          pixbuf = get_flag(pnation);
+          name = nation_adjective_translation(pnation);
+          gtk_list_store_append(store, &iter);
+          gtk_list_store_set(store, &iter, 0, present, 1, id,
+                             2, pixbuf, 3, name, -1);
+          if (pixbuf) {
+            g_object_unref(pixbuf);
+          }
         }
+      } nations_iterate_end;
+      gtk_label_set_text(GTK_LABEL(ev->panel_label),
+                         nation_adjective_translation(pv->data.v_nation));
+      pixbuf = get_flag(pv->data.v_nation);
+      gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), pixbuf);
+      if (pixbuf) {
+        g_object_unref(pixbuf);
       }
-    } nations_iterate_end;
-    gtk_label_set_text(GTK_LABEL(ev->panel_label),
-                       nation_adjective_translation(pv->data.v_nation));
-    pixbuf = get_flag(pv->data.v_nation);
-    gtk_image_set_from_pixbuf(GTK_IMAGE(ev->panel_image), pixbuf);
-    if (pixbuf) {
-      g_object_unref(pixbuf);
     }
     break;
 
