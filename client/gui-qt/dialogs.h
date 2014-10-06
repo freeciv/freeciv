@@ -173,6 +173,25 @@ private:
   int highligh_num;
 };
 
+/**************************************************************************
+  Store data about a choice dialog button
+**************************************************************************/
+class choice_dialog_button_data: public QObject
+{
+  Q_OBJECT
+  QPushButton *button;
+  pfcn_void func;
+  QVariant data1, data2;
+public:
+  choice_dialog_button_data(QPushButton *button, pfcn_void func,
+                            QVariant data1, QVariant data2);
+  ~choice_dialog_button_data();
+  QPushButton *getButton();
+  pfcn_void getFunc();
+  QVariant getData1();
+  QVariant getData2();
+};
+
 /***************************************************************************
   Simple choice dialog, allowing choosing one of set actions
 ***************************************************************************/
@@ -183,6 +202,7 @@ class choice_dialog: public QWidget
   QList<QVariant> data1_list;
   QList<QVariant> data2_list;
   QSignalMapper *signal_mapper;
+  QList<choice_dialog_button_data *> last_buttons_stack;
 public:
   choice_dialog(const QString title, const QString text,
                 QWidget *parent = NULL);
@@ -191,6 +211,8 @@ public:
   void add_item(QString title, pfcn_void func, QVariant data1, 
                 QVariant data2);
   void show_me();
+  void stack_button(const int button_number);
+  void unstack_all_buttons();
   QVBoxLayout *get_layout();
   QList<pfcn_void> func_list;
   int unit_id;
