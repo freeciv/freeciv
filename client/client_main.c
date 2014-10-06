@@ -125,6 +125,7 @@ static void fc_interface_init_client(void);
 
 char *logfile = NULL;
 char *scriptfile = NULL;
+char *savefile = NULL;
 static char tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
@@ -135,6 +136,7 @@ char password[MAX_LEN_PASSWORD] = "\0";
 char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
+bool auto_spawn = FALSE; /* TRUE = skip main menu, start local server */
 enum announce_type announce;
 
 struct civclient client;
@@ -388,6 +390,10 @@ int client_main(int argc, char *argv[])
                   _("Fatal [SIGNAL]"),
                   _("Raise a signal on failed assertion"));
 #endif /* NDEBUG */
+      cmdhelp_add(help, "f",
+                  /* TRANS: "file" is exactly what user must type, do not translate. */
+                  _("file FILE"),
+                  _("Load saved game FILE"));
       cmdhelp_add(help, "h", "help",
                   _("Print a summary of the options"));
 #ifdef DEBUG
@@ -468,6 +474,9 @@ int client_main(int argc, char *argv[])
 #endif /* NDEBUG */
     } else  if ((option = get_option_malloc("--read", argv, &i, argc))) {
       scriptfile = option; /* never free()d */
+    } else if ((option = get_option_malloc("--file", argv, &i, argc))) {
+      savefile = option; /* never free()d */
+      auto_spawn = TRUE;
     } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
       sz_strlcpy(user_name, option);
       free(option);
@@ -532,6 +541,13 @@ int client_main(int argc, char *argv[])
     }
     i++;
   } /* of while */
+
+  if (auto_spawn && auto_connect) {
+    /* TRANS: don't translate option names */
+    fc_fprintf(stderr, _("-f/--file and -a/--autoconnect options are "
+                         "incompatible\n"));
+    exit(EXIT_FAILURE);
+  }
 
   /* Remove all options except those intended for the UI. */
   argv[1 + ui_options] = NULL;
@@ -761,6 +777,15 @@ void set_client_state(enum client_states newstate)
 {
   enum client_states oldstate = civclient_state;
   struct player *pplayer = client_player();
+
+  if (auto_spawn) {
+    fc_assert(!auto_connect);
+    auto_spawn = FALSE;
+    if (!client_start_server()) {
+      log_fatal(_("Failed to start local server; aborting."));
+      exit(EXIT_FAILURE);
+    }
+  }
 
   if (auto_connect && newstate == C_S_DISCONNECTED) {
     if (oldstate == C_S_DISCONNECTED) {
