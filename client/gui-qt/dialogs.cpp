@@ -2063,7 +2063,9 @@ void caravan_dialog_update(void)
   QVariant qv1, qv2;
   pfcn_void func;
   bool can_wonder;
+  bool wonder_button_not_found;
   int i;
+  int kmbn;
   QVBoxLayout *layout;
   QPushButton *qpb;
   choice_dialog *caravan_dialog = gui()->get_diplo_dialog();
@@ -2077,10 +2079,13 @@ void caravan_dialog_update(void)
   can_wonder = destcity && caravan
                && unit_can_help_build_wonder(caravan, destcity);
 
+  wonder_button_not_found = TRUE;
   i = 0;
+  kmbn = -1;
   layout = caravan_dialog->get_layout();
   foreach (func, caravan_dialog->func_list) {
     if (func == caravan_help_build) {
+      wonder_button_not_found = FALSE;
       if (can_wonder) {
         fc_snprintf(buf2, sizeof(buf2),
                   _("Help build Wonder (%d remaining)"),
@@ -2094,8 +2099,33 @@ void caravan_dialog_update(void)
       qpb = qobject_cast<QPushButton *>(layout->itemAt(i + 1)->widget());
       qpb->setText(wonder);
       qpb->setEnabled(can_wonder);
+    } else if (func == keep_moving) {
+      /* Store the number of the Keep moving button for later insert. */
+      kmbn = i;
     }
     i++;
+  }
+
+  if (can_wonder && wonder_button_not_found) {
+    QString title;
+
+    if (0 <= kmbn) {
+      /* Temporary remove the Keep moving button so it won't end up above
+       * the Help build Wonder button. */
+      caravan_dialog->stack_button(kmbn);
+    }
+
+    title = QString(_("Help build Wonder (%1 remaining)")).arg(
+          impr_build_shield_cost(destcity->production.value.building)
+          - destcity->shield_stock);
+    caravan_dialog->add_item(title, caravan_help_build,
+                             caravan->id, destcity->id);
+
+    if (0 <= kmbn) {
+      /* Reinsert the "Keep moving" button below the
+       * Help build Wonder button. */
+      caravan_dialog->unstack_all_buttons();
+    }
   }
 }
 
