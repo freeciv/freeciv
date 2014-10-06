@@ -122,7 +122,7 @@ static int fuzzy_of_skill_level(enum ai_level level)
 
   switch(level) {
   case AI_LEVEL_AWAY:
-    return -1;
+    return 0;
   case AI_LEVEL_HANDICAPPED:
   case AI_LEVEL_NOVICE:
     return 400;
@@ -154,7 +154,7 @@ static int science_cost_of_skill_level(enum ai_level level)
 
   switch(level) {
   case AI_LEVEL_AWAY:
-    return -1;
+    return 100;
   case AI_LEVEL_HANDICAPPED:
   case AI_LEVEL_NOVICE:
     return 250;
@@ -183,7 +183,7 @@ static int expansionism_of_skill_level(enum ai_level level)
 
   switch(level) {
   case AI_LEVEL_AWAY:
-    return -1;
+    return 0;
   case AI_LEVEL_HANDICAPPED:
   case AI_LEVEL_NOVICE:
   case AI_LEVEL_EASY:
