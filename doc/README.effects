@@ -410,6 +410,9 @@ Upgrade_Price_Pct
     player level. You cannot adjust upgrade costs for certain unit type or
     for units upgraded in certain city.
 
+Retire_Pct
+    The chance that unit gets retired when turn changes
+
 Visible_Wall
     Instruct client to show specific buildings version of the city graphics.
     Zero or below are considered normal city graphics.

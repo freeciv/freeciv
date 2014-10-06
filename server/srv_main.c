@@ -896,15 +896,22 @@ static void begin_turn(bool is_new_turn)
 
     /* Retire useless barbarian units */
     players_iterate(pplayer) {
-      if (is_barbarian(pplayer)) {
-        unit_list_iterate(pplayer->units, punit) {
+      unit_list_iterate(pplayer->units, punit) {
+        struct tile *ptile = punit->tile;
+
+        if (unit_can_be_retired(punit)
+            && fc_rand(100) <= get_unit_bonus(punit, EFT_RETIRE_PCT)) {
+          notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
+                        _("%s retired!"), unit_tile_link(punit));
+          wipe_unit(punit, ULR_RETIRED, NULL);
+          continue;
+        }
+        if (is_barbarian(pplayer)) {
           if (unit_can_be_retired(punit) && fc_rand(100) > 90) {
             wipe_unit(punit, ULR_RETIRED, NULL);
             continue;
           }
           if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
-            struct tile *ptile = punit->tile;
-
             /* Lone Leader past expected lifetime has extra 33% chance to disappear
              * on coast */
             if (unit_list_size(ptile->units) == 1
@@ -916,8 +923,8 @@ static void begin_turn(bool is_new_turn)
               wipe_unit(punit, ULR_RETIRED, NULL);
             }
           }
-        } unit_list_iterate_end;
-      }
+        }
+      } unit_list_iterate_end;
     } players_iterate_end;
   }
 

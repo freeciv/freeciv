@@ -579,6 +579,10 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_THIEFS_SHARE_PCT:
     v -= amount / 8;
     break;
+  case EFT_RETIRE_PCT:
+    num = num_affected_units(peffect, ai);
+    v -= amount * num / 20;
+    break;
   case EFT_COUNT:
     log_error("Bad effect type.");
     break;
