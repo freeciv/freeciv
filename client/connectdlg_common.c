@@ -198,6 +198,7 @@ bool client_start_server(void)
   char cmdline4[512];
   char logcmdline[512];
   char scriptcmdline[512];
+  char savefilecmdline[512];
   char savescmdline[512];
   char scenscmdline[512];
 # endif /* WIN32_NATIVE */
@@ -259,6 +260,10 @@ bool client_start_server(void)
     if (scriptfile) {
       argv[argc++] = "--read";
       argv[argc++] = scriptfile;
+    }
+    if (savefile) {
+      argv[argc++] = "--file";
+      argv[argc++] = savefile;
     }
     argv[argc] = NULL;
     fc_assert(argc <= max_nargs);
@@ -342,6 +347,7 @@ bool client_start_server(void)
   /* Set up the command-line parameters. */
   logcmdline[0] = 0;
   scriptcmdline[0] = 0;
+  savefilecmdline[0] = 0;
 
   /* the server expects command line arguments to be in local encoding */ 
   if (logfile) {
@@ -360,6 +366,14 @@ bool client_start_server(void)
                 scriptfile_in_local_encoding);
     free(scriptfile_in_local_encoding);
   }
+  if (savefile) {
+    char *savefile_in_local_encoding =
+        internal_to_local_string_malloc(savefile);
+
+    fc_snprintf(savefilecmdline, sizeof(savefilecmdline),  " --file %s",
+                savefile_in_local_encoding);
+    free(savefile_in_local_encoding);
+  }
 
   interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
   internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
@@ -368,10 +382,10 @@ bool client_start_server(void)
   internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
 
   fc_snprintf(options, sizeof(options),
-              "-p %d --bind localhost -q 1 -e%s%s --saves \"%s\" "
+              "-p %d --bind localhost -q 1 -e%s%s%s --saves \"%s\" "
               "--scenarios \"%s\" -A none",
-              internal_server_port, logcmdline, scriptcmdline, savescmdline,
-              scenscmdline);
+              internal_server_port, logcmdline, scriptcmdline, savefilecmdline,
+              savescmdline, scenscmdline);
   fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
   fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
