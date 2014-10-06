@@ -1945,6 +1945,7 @@ void caravan_dialog_update(void)
   QString str;
   QVariant qv1, qv2;
   pfcn_void func;
+  bool can_wonder;
   int i;
   QVBoxLayout *layout;
   QPushButton *qpb;
@@ -1953,14 +1954,17 @@ void caravan_dialog_update(void)
   if (caravan_dialog == NULL) {
     return;
   }
+
   destcity = game_city_by_number(caravan_dialog->target_id[ATK_CITY]);
   caravan = game_unit_by_number(caravan_dialog->unit_id);
+  can_wonder = destcity && caravan
+               && unit_can_help_build_wonder(caravan, destcity);
+
   i = 0;
   layout = caravan_dialog->get_layout();
   foreach (func, caravan_dialog->func_list) {
     if (func == caravan_help_build) {
-      if (destcity && caravan
-          && unit_can_help_build_wonder(caravan, destcity)) {
+      if (can_wonder) {
         fc_snprintf(buf2, sizeof(buf2),
                   _("Help build Wonder (%d remaining)"),
                   impr_build_shield_cost(destcity->production.value.building)
@@ -1969,8 +1973,10 @@ void caravan_dialog_update(void)
       } else {
         wonder = QString(_("Help build Wonder"));
       }
+
       qpb = qobject_cast<QPushButton *>(layout->itemAt(i + 1)->widget());
       qpb->setText(wonder);
+      qpb->setEnabled(can_wonder);
     }
     i++;
   }
