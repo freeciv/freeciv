@@ -4,6 +4,7 @@ translation_domain="freeciv"
 
 name = _("Kindergarden")
 plural = _("?plural:Children")
+; /* xgettext:no-c-format */
 legend = _("Deneb 7 ended vacation of children and their parents. Everyone \
 had kids, so obviously there was nobody supporting zero child policy.\n\n\
 * Granary is not emptied when city grows, but set to 25% full")

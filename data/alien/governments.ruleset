@@ -72,6 +72,7 @@ graphic_alt = "-"
 ruler_male_title = _("Leader %s")
 ruler_female_title = _("?female:Leader %s")
 
+; /* xgettext:no-c-format */
 helptext = _("\
 This is the only available form of government in the beginning.\n\n\
 Max tax/science/lux rate is 40%.\
@@ -91,6 +92,7 @@ graphic_alt = "-"
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
 
+; /* xgettext:no-c-format */
 helptext = _("\
 Government type for military might.\n\n\
 Max tax/science/lux rate is 60%.\n\n\
@@ -111,6 +113,7 @@ graphic_alt = "-"
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")
 
+; /* xgettext:no-c-format */
 helptext = _("\
 Government type of freedom.\n\n\
 Max tax/science/lux rate is 70%.\n\n\
@@ -131,6 +134,7 @@ graphic_alt = "gov.monarchy"
 ruler_male_title = _("Comrade %s")
 ruler_female_title = _("?female:Comrade %s")
 
+; /* xgettext:no-c-format */
 helptext = _("\
 Government type for military might for both humans and aliens alike.\n\n\
 Max tax/science/lux rate is 80%.\n\n\
@@ -151,6 +155,7 @@ graphic_alt = "gov.republic"
 ruler_male_title = _("President %s")
 ruler_female_title = _("?female:President %s")
 
+; /* xgettext:no-c-format */
 helptext = _("\
 Government type of freedom for both humans and aliens alike.\n\n\
 Max tax/science/lux rate is 90%.\n\n\

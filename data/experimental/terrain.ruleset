@@ -1414,6 +1414,7 @@ buildable      = FALSE
 defense_bonus  = 50
 native_to      = "Land", "Big Land", "Trireme"
 flags          = "NativeTile"
+; /* xgettext:no-c-format */
 helptext       = _("\
 Any land terrain type may have a River on it. A River adds 1\
  trade to the resources produced by that tile. It also increases a tile's\

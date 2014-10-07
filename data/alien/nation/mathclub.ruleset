@@ -4,6 +4,7 @@ translation_domain="freeciv"
 
 name = _("Math Club")
 plural = _("?plural:Mathematicians")
+; /* xgettext:no-c-format */
 legend = _("Math Club was traveling home from Math Competition when Deneb 7 \
 got their ship.\n\n\
 * 30% bonus to science output")
