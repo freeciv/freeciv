@@ -12,7 +12,11 @@ endif
 if SERVER
 SSUBDIRS = ai server
 else
+if RULEDIT
+SSUBDIRS = ai server
+else
 SSUBDIRS =
+endif
 endif
 
 if MAKE_DATA

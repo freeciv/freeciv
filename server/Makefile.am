@@ -8,7 +8,10 @@ else
 srvbin = freeciv-server
 endif
 
+if SERVER
 bin_PROGRAMS = $(srvbin)
+endif
+
 lib_LTLIBRARIES = libfreeciv-srv.la
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/ai \
