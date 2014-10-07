@@ -41,3 +41,7 @@ Huts
 Metropolis
     Achievement is granted once there's city of at least size
     <value> in the player's empire.
+
+Literate
+    Achievement is granted when player's literacy score is at least
+    <value>.

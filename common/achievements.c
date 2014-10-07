@@ -282,6 +282,8 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     } city_list_iterate_end;
 
     return FALSE;
+  case ACHIEVEMENT_LITERATE:
+    return pplayer->score.literacy >= ach->value;
   case ACHIEVEMENT_COUNT:
     break;
   }

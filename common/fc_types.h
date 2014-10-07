@@ -599,6 +599,8 @@ enum diplomacy_mode {
 #define SPECENUM_VALUE6NAME "Huts"
 #define SPECENUM_VALUE7 ACHIEVEMENT_METROPOLIS
 #define SPECENUM_VALUE7NAME "Metropolis"
+#define SPECENUM_VALUE8 ACHIEVEMENT_LITERATE
+#define SPECENUM_VALUE8NAME "Literate"
 #define SPECENUM_COUNT ACHIEVEMENT_COUNT
 #include "specenum_gen.h"
 
