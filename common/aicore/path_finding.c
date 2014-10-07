@@ -3197,6 +3197,9 @@ struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
   param->start_tile = start_tile;
   param->owner = pplayer;
   param->omniscience = !ai_handicap(pplayer, H_MAP);
+  /* We ignore refuel bases in reverse mode. */
+  param->fuel = 1;
+  param->fuel_left_initially = 1;
   param->data = FC_INT_TO_PTR(max_turns);
 
   /* Initialize the map vector. */
@@ -3263,13 +3266,6 @@ pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
     param->unit_flags = punittype->flags;
     param->move_rate = punittype->move_rate;
     param->moves_left_initially = punittype->move_rate;
-    if (utype_fuel(punittype)) {
-      param->fuel = utype_fuel(punittype);
-      param->fuel_left_initially = utype_fuel(punittype);
-    } else {
-      param->fuel = 1;
-      param->fuel_left_initially = 1;
-    }
     pfm = pf_map_new(param);
     pfm->params.data =
         FC_INT_TO_PTR(0 <= max_turns && FC_INFINITY > max_turns
