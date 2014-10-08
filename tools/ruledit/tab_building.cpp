@@ -142,6 +142,14 @@ void tab_building::select_bldg()
 void tab_building::name_given()
 {
   if (selected != nullptr) {
+    improvement_iterate(pimpr) {
+      if (pimpr != selected && !pimpr->disabled) {
+        if (!strcmp(improvement_rule_name(pimpr), rname->text().toUtf8().data())) {
+          ui->display_msg(R__("Building with that rule name already exist!"));
+          return;
+        }
+      }
+    } improvement_iterate_end;
     names_set(&(selected->name), 0,
               name->text().toUtf8().data(),
               rname->text().toUtf8().data());

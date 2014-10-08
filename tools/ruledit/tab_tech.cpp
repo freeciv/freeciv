@@ -304,6 +304,16 @@ void tab_tech::root_req_menu(QAction *action)
 void tab_tech::name_given()
 {
   if (selected != nullptr) {
+    advance_iterate(A_FIRST, padv) {
+      if (padv != selected
+          && padv->require[AR_ONE] != A_NEVER) {
+        if (!strcmp(advance_rule_name(padv), rname->text().toUtf8().data())) {
+          ui->display_msg(R__("Tech with that rule name already exist!"));
+          return;
+        }
+      }
+    } advance_iterate_end;
+
     names_set(&(selected->name), 0,
               name->text().toUtf8().data(),
               rname->text().toUtf8().data());

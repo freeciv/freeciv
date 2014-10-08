@@ -142,6 +142,15 @@ void tab_unit::select_unit()
 void tab_unit::name_given()
 {
   if (selected != nullptr) {
+    unit_type_iterate(ptype) {
+      if (ptype != selected && !ptype->disabled) {
+        if (!strcmp(utype_rule_name(ptype), rname->text().toUtf8().data())) {
+          ui->display_msg(R__("Unit type with that rule name already exist!"));
+          return;
+        }
+      }
+    } unit_type_iterate_end;
+
     names_set(&(selected->name), 0,
               name->text().toUtf8().data(),
               rname->text().toUtf8().data());
