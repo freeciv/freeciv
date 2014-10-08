@@ -308,9 +308,7 @@ void research_update(struct research *presearch)
         continue;
       }
 
-      if (j != i) {
-        BV_SET(presearch->inventions[i].required_techs, j);
-      }
+      BV_SET(presearch->inventions[i].required_techs, j);
       presearch->inventions[i].num_required_techs++;
       presearch->inventions[i].bulbs_required +=
           research_total_bulbs_required(presearch, j, FALSE);
