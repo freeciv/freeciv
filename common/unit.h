@@ -402,6 +402,23 @@ bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans);
 int unit_cargo_depth(const struct unit *pcargo);
 int unit_transport_depth(const struct unit *ptrans);
 
+/* Iterate all transporters carrying '_pcargo', directly or indirectly. */
+#define unit_transports_iterate(_pcargo, _ptrans) {                         \
+  struct unit *_ptrans;                                                     \
+  for (_ptrans = unit_transport_get(_pcargo); NULL != _ptrans;              \
+       _ptrans = unit_transport_get(_ptrans)) {
+#define unit_transports_iterate_end }}
+
+struct cargo_iter;
+size_t cargo_iter_sizeof(void) fc__attribute((const));
+
+struct iterator *cargo_iter_init(struct cargo_iter *iter,
+                                 const struct unit *ptrans);
+#define unit_cargo_iterate(_ptrans, _pcargo)                                \
+  generic_iterate(struct cargo_iter, struct unit *, _pcargo,                \
+                  cargo_iter_sizeof, cargo_iter_init, _ptrans)
+#define unit_cargo_iterate_end generic_iterate_end
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
