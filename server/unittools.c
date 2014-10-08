@@ -3979,10 +3979,6 @@ void unit_did_action(struct unit *punit)
 **************************************************************************/
 bool unit_can_be_retired(struct unit *punit)
 {
-  if (punit->server.birth_turn + BARBARIAN_MIN_LIFESPAN > game.info.turn) {
-    return FALSE;
-  }
-
   if (is_allied_city_tile((unit_tile(punit)), unit_owner(punit))) {
     return FALSE;
   }
