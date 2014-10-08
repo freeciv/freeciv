@@ -2286,6 +2286,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   struct tile *src_tile = unit_tile(punit);
   struct tile *dst_tile = unit_tile(target_unit);
   bool was_teleported, do_animation;
+  bool in_focus = unit_is_in_focus(punit);
 
   was_teleported = !is_tiles_adjacent(src_tile, dst_tile);
   do_animation = (!was_teleported && smooth_move_unit_msec > 0);
@@ -2297,8 +2298,6 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
                      unit_type(punit)->sound_move_alt);
   }
 
-  unit_list_remove(src_tile->units, punit);
-
   if (unit_owner(punit) == client.conn.playing
       && auto_center_on_unit
       && !unit_has_orders(punit)
@@ -2308,19 +2307,18 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     center_tile_mapcanvas(dst_tile);
   }
 
-  /* Set the tile before the movement animation is done, so that everything
-   * drawn there will be up-to-date. */
-  unit_tile_set(punit, dst_tile);
-
-  if (hover_state != HOVER_NONE && unit_is_in_focus(punit)) {
+  if (hover_state != HOVER_NONE && in_focus) {
     /* Cancel current goto/patrol/connect/nuke command. */
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
 
+  unit_list_remove(src_tile->units, punit);
+
   if (!unit_transported(punit)) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
+    unit_tile_set(punit, NULL); /* Ensure the unit will not be drawn. */
     refresh_unit_mapcanvas(punit, src_tile, TRUE, FALSE);
 
     if (do_animation) {
@@ -2333,6 +2331,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     }
   }
 
+  unit_tile_set(punit, dst_tile);
   unit_list_prepend(dst_tile->units, punit);
 
   if (!unit_transported(punit)) {
@@ -2351,7 +2350,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     update_city_description(tile_city(dst_tile));
   }
 
-  if (unit_is_in_focus(punit)) {
+  if (in_focus) {
     menus_update();
   }
 }
