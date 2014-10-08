@@ -323,7 +323,8 @@ static void explain_why_no_action_enabled(struct unit *punit)
   not stop the client from processing the next unit in the queue.
 **************************************************************************/
 void handle_unit_get_actions(struct connection *pc,
-                             int actor_unit_id, int target_tile_id)
+                             const int actor_unit_id,
+                             const int target_tile_id)
 {
   struct player *actor_player;
   struct unit *actor_unit;
@@ -450,8 +451,8 @@ static void illegal_action(struct player *pplayer, struct unit *actor,
   Inform the client that something went wrong during a unit diplomat query
 **************************************************************************/
 static void unit_query_impossible(struct connection *pc,
-				  int diplomat_id,
-				  int target_id)
+				  const int diplomat_id,
+				  const int target_id)
 {
   dsend_packet_unit_action_answer(pc,
                                   diplomat_id, target_id,
@@ -467,9 +468,9 @@ static void unit_query_impossible(struct connection *pc,
   connections for that player.
 **************************************************************************/
 void handle_unit_action_query(struct connection *pc,
-			      int actor_id,
-			      int target_id,
-			      enum gen_action action_type)
+			      const int actor_id,
+			      const int target_id,
+			      const enum gen_action action_type)
 {
   struct player *pplayer = pc->playing;
   struct unit *pactor = player_unit_by_number(pplayer, actor_id);
@@ -540,10 +541,10 @@ void handle_unit_action_query(struct connection *pc,
   Handle a request to do an action.
 **************************************************************************/
 void handle_unit_do_action(struct player *pplayer,
-			   int actor_id,
-			   int target_id,
-			   int value,
-			   enum gen_action action_type)
+			   const int actor_id,
+			   const int target_id,
+			   const int value,
+			   const enum gen_action action_type)
 {
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct tile *target_tile = index_to_tile(target_id);
