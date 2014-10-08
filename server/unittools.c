@@ -93,16 +93,8 @@ static void do_upgrade_effects(struct player *pplayer);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 static int hp_gain_coord(struct unit *punit);
 
-static void unit_move_transported(struct unit_list *units,
-                                  struct tile *psrc, struct tile *pdest);
-static void
-remove_transported_gone_out_of_sight(const struct unit_list *units,
-                                     const struct tile *psrc);
-
 static bool maybe_become_veteran_real(struct unit *punit, bool settler);
 
-static void send_unit_info_to_onlookers_transport(struct connection *pconn,
-                                                  struct unit *punit);
 static void unit_transport_load_tp_status(struct unit *punit,
                                                struct unit *ptrans,
                                                bool force);
@@ -2375,93 +2367,6 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
   }
 }
 
-/**************************************************************************
-  Send the unit into to those connections in dest which can see the units
-  at its position, or the specified ptile (if different).
-  Eg, use old_tile as where the unit came from, so that the info can be
-  sent if the other players can see either the target or destination tile.
-  dest = NULL means all connections (game.est_connections)
-  was_transported tells whether the unit was previously transported.
-**************************************************************************/
-static void send_unit_info_to_onlookers(struct conn_list *dest,
-                                        struct unit *punit,
-                                        struct tile *old_tile,
-                                        bool was_transported)
-{
-  struct packet_unit_info info;
-  struct packet_unit_short_info sinfo;
-  
-  if (!dest) {
-    dest = game.est_connections;
-  }
-
-  CHECK_UNIT(punit);
-
-  package_unit(punit, &info);
-  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
-
-  conn_list_iterate(dest, pconn) {
-    struct player *pplayer = pconn->playing;
-
-    /* Be careful to consider all cases where pplayer is NULL... */
-    if ((!pplayer && pconn->observer) || pplayer == unit_owner(punit)) {
-      /* If the unit is transported, go recursive up and send information
-       * about the transporters. */
-      send_unit_info_to_onlookers_transport(pconn, punit);
-
-      send_packet_unit_info(pconn, &info);
-    } else if (NULL != pplayer
-               && (can_player_see_unit(pplayer, punit)
-                   || (unit_tile(punit) != old_tile
-                       && can_player_see_unit_at(pplayer, punit, old_tile,
-                                                 was_transported)))) {
-      send_packet_unit_short_info(pconn, &sinfo);
-    }
-  } conn_list_iterate_end;
-}
-
-/****************************************************************************
-  Remove unit from client if it has gone out of sight by moving from
-  'old_tile' to current tile. We assume there the unit isn't transported in
-  case the client would have seen the unit move. Also, note that we don't
-  need to handle the global observer case here, as they still can see the
-  units.
-****************************************************************************/
-static void remove_unit_gone_out_of_sight(struct unit *punit,
-                                          const struct tile *old_tile)
-{
-  players_iterate(pplayer) {
-    if (!can_player_see_unit(pplayer, punit)
-        && (can_player_see_unit_at(pplayer, punit, old_tile, FALSE)
-            || (can_player_see_unit_at(pplayer, punit, unit_tile(punit),
-                                       FALSE)))) {
-      unit_goes_out_of_sight(pplayer, punit);
-    }
-  } players_iterate_end;
-}
-
-/*****************************************************************************
-  Recursively send information about the transporter for punit to dest. This
-  is a helper function for send_unit_info_to_onlookers().
-**************************************************************************/
-static void send_unit_info_to_onlookers_transport(struct connection *pconn,
-                                                  struct unit *punit)
-{
-  struct unit *ptrans;
-
-  fc_assert_ret(punit);
-
-  ptrans = unit_transport_get(punit);
-  if (ptrans) {
-    struct packet_unit_info info_trans;
-
-    send_unit_info_to_onlookers_transport(pconn, ptrans);
-
-    package_unit(ptrans, &info_trans);
-    send_packet_unit_info(pconn, &info_trans);
-  }
-}
-
 /****************************************************************************
   send the unit to the players who need the info.
   dest = NULL means all connections (game.est_connections)
@@ -3363,6 +3268,95 @@ static void check_unit_activity(struct unit *punit)
   };
 }
 
+struct unit_move_data {
+  struct unit *punit;
+  int unit_id;
+  const struct player *powner;
+  bv_player can_see_unit_at_src;
+  bv_player can_see_unit_at_dest;
+  struct vision *old_vision;
+};
+
+#define SPECLIST_TAG unit_move_data
+#include "speclist.h"
+#define unit_move_data_list_iterate(_plist, _pdata)                         \
+  TYPED_LIST_ITERATE(struct unit_move_data, _plist, _pdata)
+#define unit_move_data_list_iterate_end LIST_ITERATE_END
+#define unit_move_data_list_both_iterate(_plist, _plink, _pdata)            \
+  TYPED_LIST_BOTH_ITERATE(struct unit_move_data_list_link,                  \
+                          struct unit_move_data, _plist, _plink, _pdata)
+#define unit_move_data_list_both_iterate_end LIST_BOTH_ITERATE_END
+#define unit_move_data_list_iterate_rev(_plist, _pdata)                     \
+  TYPED_LIST_ITERATE_REV(struct unit_move_data, _plist, _pdata)
+#define unit_move_data_list_iterate_rev_end LIST_ITERATE_REV_END
+
+/****************************************************************************
+  Create a new unit move data.
+****************************************************************************/
+static struct unit_move_data *unit_move_data_new(struct unit *punit,
+                                                 struct tile *psrctile,
+                                                 struct tile *pdesttile)
+{
+  struct unit_move_data *pdata = fc_malloc(sizeof(*pdata));
+  struct player *powner = unit_owner(punit);
+  const v_radius_t radius_sq =
+        V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
+                 get_unit_vision_at(punit, pdesttile, V_INVIS));
+  struct vision *new_vision;
+  bool transported = unit_transported(punit);
+  bool success;
+
+  pdata->punit = punit;
+  pdata->unit_id = punit->id;
+  pdata->powner = powner;
+  BV_CLR_ALL(pdata->can_see_unit_at_src);
+  BV_CLR_ALL(pdata->can_see_unit_at_dest);
+  players_iterate(pplayer) {
+    if (pplayer == powner
+        || can_player_see_unit_at(pplayer, punit, psrctile, transported)) {
+      BV_SET(pdata->can_see_unit_at_src, player_index(pplayer));
+    }
+    if (pplayer == powner
+        || can_player_see_unit_at(pplayer, punit, pdesttile, transported)) {
+      BV_SET(pdata->can_see_unit_at_dest, player_index(pplayer));
+    }
+  } players_iterate_end;
+  pdata->old_vision = punit->server.vision;
+
+  /* Remove unit from the source tile. */
+  fc_assert(unit_tile(punit) == psrctile);
+  success = unit_list_remove(psrctile->units, punit);
+  fc_assert(success == TRUE);
+
+  /* Set new tile. */
+  unit_tile_set(punit, pdesttile);
+  unit_list_prepend(pdesttile->units, punit);
+
+  if (transported) {
+    /* Silently free orders since they won't be applicable anymore. */
+    free_unit_orders(punit);
+  }
+
+  /* Check unit activity. */
+  check_unit_activity(punit);
+  unit_did_action(punit);
+  unit_forget_last_activity(punit);
+
+  /* We first unfog the destination, then send the move,
+   * and then fog the old territory. This means that the player
+   * gets a chance to see the newly explored territory while the
+   * client moves the unit, and both areas are visible during the
+   * move */
+
+  /* Enhance vision if unit steps into a fortress */
+  new_vision = vision_new(powner, pdesttile);
+  punit->server.vision = new_vision;
+  vision_change_sight(new_vision, radius_sq);
+  ASSERT_VISION(new_vision);
+
+  return pdata;
+}
+
 /*****************************************************************************
   Moves a unit. No checks whatsoever! This is meant as a practical
   function for other functions, like do_airline, which do the checking
@@ -3380,9 +3374,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   struct tile *psrctile;
   struct city *pcity;
   struct unit *ptransporter;
-  struct vision *old_vision;
-  struct vision *new_vision;
-  struct unit_list *pcargo_units;
+  struct packet_unit_info src_info, dest_info;
+  struct packet_unit_short_info src_sinfo, dest_sinfo;
+  struct unit_move_data_list *plist =
+      unit_move_data_list_new_full((unit_move_data_list_free_fn_t) free);
+  struct unit_move_data *pdata;
   int saved_id;
   bool unit_lives = TRUE;
   bool adj;
@@ -3394,10 +3390,10 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   pplayer = unit_owner(punit);
   saved_id = punit->id;
-  old_vision = punit->server.vision;
   psrctile = unit_tile(punit);
+  adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
 
-  conn_list_do_buffer(pplayer->connections);
+  conn_list_do_buffer(game.est_connections);
 
   /* Unload the unit if on a transport. */
   ptransporter = unit_transport_get(punit);
@@ -3407,30 +3403,26 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* Send updated information to anyone watching that transporter
      * was unloading cargo. */
     send_unit_info(NULL, ptransporter);
-    send_unit_info(NULL, punit);
   }
 
   /* Wakup units next to us before we move. */
   wakeup_neighbor_sentries(punit);
 
-  /* Remove unit from the source tile. */
-  unit_list_remove(psrctile->units, punit);
+  /* Make info packets at 'psrctile'. */
+  if (adj) {
+    package_unit(punit, &src_info);
+    package_short_unit(punit, &src_sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
+  }
+
+  /* Make new data for 'punit'. */
+  pdata = unit_move_data_new(punit, psrctile, pdesttile);
+  unit_move_data_list_prepend(plist, pdata);
 
   /* Set unit orientation */
-  adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
   if (adj) {
     /* Only change orientation when moving to adjacent tile */
     punit->facing = facing;
   }
-
-  /* Set new tile. */
-  unit_tile_set(punit, pdesttile);
-  unit_list_prepend(pdesttile->units, punit);
-
-  /* Check unit activity. */
-  check_unit_activity(punit);
-  unit_did_action(punit);
-  unit_forget_last_activity(punit);
 
   /* Move magic. */
   punit->moved = TRUE;
@@ -3438,21 +3430,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   if (punit->moves_left == 0) {
     punit->done_moving = TRUE;
   }
-
-  /* We first unfog the destination, then send the move,
-     and then fog the old territory. This means that the player
-     gets a chance to see the newly explored territory while the
-     client moves the unit, and both areas are visible during the
-     move */
-
-  /* Enhance vision if unit steps into a fortress */
-  const v_radius_t radius_sq =
-      V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
-               get_unit_vision_at(punit, pdesttile, V_INVIS));
-  new_vision = vision_new(unit_owner(punit), pdesttile);
-  punit->server.vision = new_vision;
-  vision_change_sight(new_vision, radius_sq);
-  ASSERT_VISION(new_vision);
 
   /* Claim ownership of fortress? */
   if ((!base_owner(pdesttile)
@@ -3469,16 +3446,137 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     } base_type_iterate_end;
   }
 
-  /* Send updated information to anyone watching.  If the unit moves
-   * in or out of a city we update the 'occupied' field.  Note there may
-   * be cities at both src and dest under some rulesets.
-   * If unit is about to take over enemy city, unit is seen by
-   * those players seeing inside cities of old city owner. After city
-   * has been transferred, updated info is sent by unit_enter_city() */
-  send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
+  /* Move all contained units. */
+  unit_cargo_iterate(punit, pcargo) {
+    pdata = unit_move_data_new(pcargo, psrctile, pdesttile);
+    unit_move_data_list_append(plist, pdata);
+  } unit_cargo_iterate_end;
 
-  /* Move consequences and wakeup. */
-  unit_lives = unit_move_consequences(punit, psrctile, pdesttile, FALSE);
+  /* Get data for 'punit'. */
+  pdata = unit_move_data_list_front(plist);
+
+  /* Check timeout settings. */
+  if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
+    bool new_information_for_enemy = FALSE;
+
+    phase_players_iterate(penemy) {
+      /* Increase the timeout if an enemy unit moves and the
+       * timeoutaddenemymove setting is in use. */
+      if (penemy->is_connected
+          && pplayer != penemy
+          && pplayers_at_war(pplayer, penemy)
+          && (BV_ISSET(pdata->can_see_unit_at_src, player_index(penemy))
+              || BV_ISSET(pdata->can_see_unit_at_dest,
+                          player_index(penemy)))) {
+        new_information_for_enemy = TRUE;
+        break;
+      }
+    } phase_players_iterate_end;
+
+    if (new_information_for_enemy) {
+      increase_timeout_because_unit_moved();
+    }
+  }
+
+  /* Notifications of the move to the clients. */
+  if (adj) {
+    /* Special case: 'punit' is moving to adjacent position. Then we show
+     * 'punit' move to all users able to see 'psrctile' or 'pdesttile'. */
+
+    /* Make info packets at 'pdesttile'. */
+    package_unit(punit, &dest_info);
+    package_short_unit(punit, &dest_sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
+
+    conn_list_iterate(game.est_connections, pconn) {
+      struct player *aplayer = conn_get_player(pconn);
+
+      if (aplayer == pplayer || (aplayer == NULL && pconn->observer)) {
+        send_packet_unit_info(pconn, &src_info);
+        send_packet_unit_info(pconn, &dest_info);
+      } else if (aplayer != NULL
+                 && (BV_ISSET(pdata->can_see_unit_at_src,
+                              player_index(aplayer))
+                     || BV_ISSET(pdata->can_see_unit_at_dest,
+                                 player_index(aplayer)))) {
+        send_packet_unit_short_info(pconn, &src_sinfo);
+        send_packet_unit_short_info(pconn, &dest_sinfo);
+      }
+    } conn_list_iterate_end;
+  }
+
+  /* Other moves. */
+  unit_move_data_list_iterate(plist, pmove_data) {
+    if (adj && pmove_data == pdata) {
+      /* If positions are adjacent, we have already shown 'punit' move.
+       * See above. */
+      continue;
+    }
+
+    /* Make info packets at 'pdesttile'. */
+    package_unit(pmove_data->punit, &dest_info);
+    package_short_unit(pmove_data->punit, &dest_sinfo,
+                       UNIT_INFO_IDENTITY, 0, FALSE);
+
+    conn_list_iterate(game.est_connections, pconn) {
+      struct player *aplayer = conn_get_player(pconn);
+
+      if (aplayer == pmove_data->powner
+          || (aplayer == NULL && pconn->observer)) {
+        send_packet_unit_info(pconn, &dest_info);
+      } else if (aplayer != NULL
+                 && BV_ISSET(pmove_data->can_see_unit_at_dest,
+                             player_index(aplayer))) {
+        send_packet_unit_short_info(pconn, &dest_sinfo);
+      }
+    } conn_list_iterate_end;
+  } unit_move_data_list_iterate_end;
+
+  /* Remove units going out of sight. */
+  unit_move_data_list_iterate_rev(plist, pmove_data) {
+    players_iterate(aplayer) {
+      if (aplayer != pmove_data->powner
+          && BV_ISSET(pmove_data->can_see_unit_at_src, player_index(aplayer))
+          && !BV_ISSET(pmove_data->can_see_unit_at_dest,
+                       player_index(aplayer))) {
+        unit_goes_out_of_sight(aplayer, pdata->punit);
+      }
+    } players_iterate_end;
+  } unit_move_data_list_iterate_rev_end;
+
+  /* Clear old vision. */
+  unit_move_data_list_iterate(plist, pmove_data) {
+    vision_clear_sight(pmove_data->old_vision);
+    vision_free(pmove_data->old_vision);
+  } unit_move_data_list_iterate_end;
+
+  /* Move consequences. */
+  unit_move_data_list_both_iterate(plist, plink, pmove_data) {
+    struct unit *aunit = player_unit_by_number(pmove_data->powner,
+                                               pmove_data->unit_id);
+
+    if (aunit == pmove_data->punit && unit_tile(aunit) == pdesttile) {
+      (void) unit_move_consequences(aunit, psrctile, pdesttile,
+                                    pdata != pmove_data);
+    } else {
+      unit_move_data_list_erase(plist, plink);
+    }
+  } unit_move_data_list_both_iterate_end;
+  /* Check alive units. */
+  unit_move_data_list_both_iterate(plist, plink, pmove_data) {
+    struct unit *aunit = player_unit_by_number(pmove_data->powner,
+                                               pmove_data->unit_id);
+
+    if (aunit != pmove_data->punit || unit_tile(aunit) != pdesttile) {
+      unit_move_data_list_erase(plist, plink);
+    }
+  } unit_move_data_list_both_iterate_end;
+  pdata = unit_move_data_list_front(plist);
+  if (pdata == NULL || punit != pdata->punit) {
+    unit_lives = FALSE;
+    pdata = NULL;
+  }
+
+  /* Wakeup units and make contact. */
   if (unit_lives) {
     wakeup_neighbor_sentries(punit);
   }
@@ -3500,6 +3598,17 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
         }
 
         send_unit_info(NULL, punit);
+        /* Remove units going out of sight. */
+        unit_move_data_list_iterate_rev(plist, pmove_data) {
+          players_iterate(aplayer) {
+            if (aplayer != pmove_data->powner
+                && BV_ISSET(pdata->can_see_unit_at_dest,
+                            player_index(aplayer))
+                && !can_player_see_unit(aplayer, pmove_data->punit)) {
+              unit_goes_out_of_sight(aplayer, punit);
+            }
+          } players_iterate_end;
+        } unit_move_data_list_iterate_rev_end;
       }
     }
   }
@@ -3512,45 +3621,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     refresh_dumb_city(pcity);
   }
 
-  /* Clear old vision. */
-  vision_clear_sight(old_vision);
-  vision_free(old_vision);
-
   if (unit_lives) {
-    /* Check timeout settings. */
-    if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
-      bool new_information_for_enemy = FALSE;
-
-      phase_players_iterate(penemy) {
-        /* Increase the timeout if an enemy unit moves and the
-         * timeoutaddenemymove setting is in use. */
-        if (penemy->is_connected
-            && pplayer != penemy
-            && pplayers_at_war(penemy, pplayer)
-            && can_player_see_unit(penemy, punit)) {
-          new_information_for_enemy = TRUE;
-          break;
-        }
-      } phase_players_iterate_end;
-
-      if (new_information_for_enemy) {
-        increase_timeout_because_unit_moved();
-      }
-    }
-  }
-
-  if (unit_lives) {
-    /* Move transported units. */
-    pcargo_units = unit_transport_cargo(punit);
-    if (unit_list_size(pcargo_units) > 0) {
-      unit_move_transported(pcargo_units, psrctile, pdesttile);
-    }
-
-    /* Now cargo is in same tile with transport. Safe to remove units from
-     * clients. */
-    remove_transported_gone_out_of_sight(pcargo_units, psrctile);
-    remove_unit_gone_out_of_sight(punit, psrctile);
-
     /* Let the scripts run ... */
     script_server_signal_emit("unit_moved", 3,
                               API_TYPE_UNIT, punit,
@@ -3572,84 +3643,11 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     }
   }
 
-  conn_list_do_unbuffer(pplayer->connections);
+  conn_list_do_unbuffer(game.est_connections);
+
+  unit_move_data_list_destroy(plist);
 
   return unit_lives;
-}
-
-/*****************************************************************************
-  Move transported units to the new tile.
-*****************************************************************************/
-static void unit_move_transported(struct unit_list *units,
-                                  struct tile *psrc, struct tile *pdest)
-{
-  fc_assert_ret(units != NULL);
-  fc_assert_ret(psrc != NULL);
-  fc_assert_ret(pdest != NULL);
-
-  /* Move all units _recursive_!*/
-  unit_list_iterate(units, pcargo) {
-    struct unit_list *pcargo_units = unit_transport_cargo(pcargo);
-    struct vision *old_vision = pcargo->server.vision;
-    struct vision *new_vision = vision_new(unit_owner(pcargo), pdest);
-    const v_radius_t radius_sq =
-      V_RADIUS(get_unit_vision_at(pcargo, pdest, V_MAIN),
-               get_unit_vision_at(pcargo, pdest, V_INVIS));
-
-    fc_assert(unit_tile(pcargo) == psrc);
-
-    if (unit_list_size(pcargo_units) > 0) {
-      /* Move all units transported by 'pcargo'. */
-      unit_move_transported(pcargo_units, psrc, pdest);
-    }
-
-    pcargo->server.vision = new_vision;
-    vision_change_sight(new_vision, radius_sq);
-    ASSERT_VISION(new_vision);
-
-    /* Silently free orders since they won't be applicable anymore. */
-    free_unit_orders(pcargo);
-
-    /* Remove the unit from the old tile. */
-    unit_list_remove(psrc->units, pcargo);
-
-    /* Add the unit to the new tile. */
-    unit_tile_set(pcargo, pdest);
-    unit_list_prepend(pdest->units, pcargo);
-
-    check_unit_activity(pcargo);
-    send_unit_info_to_onlookers(NULL, pcargo, psrc, TRUE);
-
-    vision_clear_sight(old_vision);
-    vision_free(old_vision);
-
-    unit_move_consequences(pcargo, psrc, pdest, TRUE);
-    unit_did_action(pcargo);
-    unit_forget_last_activity(pcargo);
-  } unit_list_iterate_end;
-}
-
-/****************************************************************************
-  Remove transported units gone out of sight from clients.
-****************************************************************************/
-static void
-remove_transported_gone_out_of_sight(const struct unit_list *units,
-                                     const struct tile *old_tile)
-{
-  unit_list_iterate(units, pcargo) {
-    const struct unit_list *pcargo_units = unit_transport_cargo(pcargo);
-
-    if (unit_list_size(pcargo_units) > 0) {
-      remove_transported_gone_out_of_sight(pcargo_units, old_tile);
-    }
-
-    players_iterate(pplayer) {
-      if (can_player_see_unit_at(pplayer, pcargo, old_tile, TRUE)
-          && !can_player_see_unit(pplayer, pcargo)) {
-        unit_goes_out_of_sight(pplayer, pcargo);
-      }
-    } players_iterate_end;
-  } unit_list_iterate_end;
 }
 
 /**************************************************************************
