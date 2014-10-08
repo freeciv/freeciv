@@ -1073,7 +1073,7 @@ AC_ARG_ENABLE([ruledit],
         AC_DEFINE([RULEDIT_EXPERIMENTAL], [1], [build experimental features to freeciv-ruledit])
         ruledit=yes ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-ruledit]) ;;
-esac], [ruledit=no])
+esac], [ruledit=test])
 if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
   if test "x$cxx_works" = "xyes" ; then
     FC_QT5

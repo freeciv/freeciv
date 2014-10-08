@@ -20,10 +20,8 @@ Updating from 2.5 to 2.6
 * Minimum gtk3 requirement for building gtk3-client is now 3.8.
 * There's new experimental sdl2-client. It can be built with
   --enable-client=sdl2
-* Development of ruleset editor, freeciv-ruledit, has begun. You can
-  include current version of it to the build with configure option
-  --enable-ruledit. It has same Qt5 dependencies as other Qt programs
-  in Freeciv distribution.
+* Development of ruleset editor, freeciv-ruledit, has begun.
+  It has same Qt5 dependencies as other Qt programs in Freeciv distribution.
 * System lua library is now used by default. Copy of lua distributed
   with freeciv is used only if system lua is not found, or it's
   explicitly requested with configure option --disable-sys-lua
