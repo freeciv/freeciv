@@ -1687,10 +1687,12 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   struct unit_list *helpless = unit_list_new();
   struct unit_list *imperiled = unit_list_new();
   struct unit_list *unsaved = unit_list_new();
+  struct unit *ptrans = unit_transport_get(punit);
 
   /* Remove unit itself from its transport */
-  if (unit_transport_get(punit) != NULL) {
-    unit_transport_unload_send(punit);
+  if (ptrans != NULL) {
+    unit_transport_unload(punit);
+    send_unit_info(NULL, ptrans);
   }
 
   /* First pull all units off of the transporter. */
