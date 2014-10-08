@@ -670,26 +670,6 @@ void map_vision_update(struct player *pplayer, struct tile *ptile,
 }
 
 /****************************************************************************
-  Perform an actions on all units on 'ptile' seen by 'pplayer'.
-****************************************************************************/
-static inline void vision_update_units(struct player *pplayer,
-                                       struct tile *ptile,
-                                       void (*func) (struct player *,
-                                                     struct unit *))
-{
-  /* Iterate vision layers. */
-  vision_layer_iterate(v) {
-    if (0 < map_get_seen(pplayer, ptile, v)) {
-      unit_list_iterate(ptile->units, punit) {
-        if (unit_is_visible_on_layer(punit, v)) {
-          func(pplayer, punit);
-        }
-      } unit_list_iterate_end;
-    }
-  } vision_layer_iterate_end;
-}
-
-/****************************************************************************
   Shows the area to the player.  Unless the tile is "seen", it will remain
   fogged and units will be hidden.
 
@@ -726,7 +706,15 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 	  send_city_info(pplayer, pcity);
 	}
 
-        vision_update_units(pplayer, ptile, send_unit_info);
+        vision_layer_iterate(v) {
+          if (0 < map_get_seen(pplayer, ptile, v)) {
+            unit_list_iterate(ptile->units, punit) {
+              if (unit_is_visible_on_layer(punit, v)) {
+                send_unit_info(pplayer->connections, punit);
+              }
+            } unit_list_iterate_end;
+          }
+        } vision_layer_iterate_end;
       }
     }
   } players_iterate_end;
@@ -759,7 +747,15 @@ void map_hide_tile(struct player *src_player, struct tile *ptile)
         remove_dumb_city(pplayer, ptile);
 
         /* Remove units. */
-        vision_update_units(pplayer, ptile, unit_goes_out_of_sight);
+        vision_layer_iterate(v) {
+          if (0 < map_get_seen(pplayer, ptile, v)) {
+            unit_list_iterate(ptile->units, punit) {
+              if (unit_is_visible_on_layer(punit, v)) {
+                unit_goes_out_of_sight(pplayer, punit);
+              }
+            } unit_list_iterate_end;
+          }
+        } vision_layer_iterate_end;
       }
 
       map_clear_known(ptile, pplayer);
@@ -950,7 +946,7 @@ void map_change_seen(struct player *pplayer,
     /* Discover units. */
     unit_list_iterate(ptile->units, punit) {
       if (unit_is_visible_on_layer(punit, V_MAIN)) {
-        send_unit_info(pplayer, punit);
+        send_unit_info(pplayer->connections, punit);
       }
     } unit_list_iterate_end;
 
@@ -971,7 +967,7 @@ void map_change_seen(struct player *pplayer,
      /* Discover units. */
     unit_list_iterate(ptile->units, punit) {
       if (unit_is_visible_on_layer(punit, V_INVIS)) {
-        send_unit_info(pplayer, punit);
+        send_unit_info(pplayer->connections, punit);
       }
     } unit_list_iterate_end;
   }

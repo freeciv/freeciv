@@ -226,7 +226,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     wipe_unit(pdiplomat, ULR_USED, NULL);
   } else {
-    send_unit_info (pplayer, pdiplomat);
+    send_unit_info(NULL, pdiplomat);
   }
 }
 
@@ -317,7 +317,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
     wipe_unit(pdiplomat, ULR_USED, NULL);
   } else {
-    send_unit_info (pplayer, pdiplomat);
+    send_unit_info(NULL, pdiplomat);
   }
 }
 
@@ -521,7 +521,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     pdiplomat->moves_left = 0;
   }
   if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
-    send_unit_info(pplayer, pdiplomat);
+    send_unit_info(NULL, pdiplomat);
   }
 
   /* Update clients. */
@@ -670,7 +670,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                   _("No new technology found in %s."),
                   city_link(pcity));
     diplomat_charge_movement (pdiplomat, pcity->tile);
-    send_unit_info (pplayer, pdiplomat);
+    send_unit_info(NULL, pdiplomat);
     return;
   }
 
@@ -912,7 +912,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                     unit_link(pdiplomat),
                     city_link(pcity));
       diplomat_charge_movement(pdiplomat, pcity->tile);
-      send_unit_info(pplayer, pdiplomat);
+      send_unit_info(NULL, pdiplomat);
       log_debug("sabotage: random: nothing to do");
       return;
     }
@@ -964,7 +964,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                       _("You cannot sabotage a %s!"),
                       improvement_name_translation(pimprove));
         diplomat_charge_movement(pdiplomat, pcity->tile);
-        send_unit_info(pplayer, pdiplomat);
+        send_unit_info(NULL, pdiplomat);
         log_debug("sabotage: disallowed target improvement: %d (%s)",
                   improvement, improvement_rule_name(pimprove));
         return;
@@ -977,7 +977,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                     improvement_name_translation(pimprove),
                     city_link(pcity));
       diplomat_charge_movement(pdiplomat, pcity->tile);
-      send_unit_info(pplayer, pdiplomat);
+      send_unit_info(NULL, pdiplomat);
       log_debug("sabotage: target improvement not found: %d (%s)",
                 improvement, improvement_rule_name(pimprove));
       return;
@@ -1399,7 +1399,7 @@ static bool diplomat_infiltrate_tile_victim(struct player *pplayer,
         if (maybe_make_veteran(pdiplomat)) {
           notify_unit_experience(pdiplomat);
         }
-        send_unit_info(pplayer, pdiplomat);
+        send_unit_info(NULL, pdiplomat);
         wipe_unit(punit, ULR_ELIMINATED, pplayer);
         return FALSE;
       } else {
@@ -1542,7 +1542,7 @@ static void diplomat_escape_full(struct player *pplayer,
 
     /* being teleported costs all movement */
     if (!teleport_unit_to_city (pdiplomat, spyhome, -1, FALSE)) {
-      send_unit_info (pplayer, pdiplomat);
+      send_unit_info(NULL, pdiplomat);
       log_error("Bug in diplomat_escape: Spy can't teleport.");
       return;
     }
