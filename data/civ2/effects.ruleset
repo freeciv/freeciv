@@ -37,6 +37,26 @@ reqs	=
       "OutputType", "Shield", "Local"
     }
 
+; Barbarian disappearance
+
+[effect_barb_disappear]
+type    = "Retire_Pct"
+value   = 10
+reqs    =
+    { "type", "name", "range"
+      "Nation", "Barbarian", "Player"
+      "Age", "5", "Local"
+    }
+
+[effect_pirate_disappear]
+type    = "Retire_Pct"
+value   = 10
+reqs    =
+    { "type", "name", "range"
+      "Nation", "Pirate", "Player"
+      "Age", "5", "Local"
+    }
+
 [effect_unhappysize]
 type    = "City_Unhappy_Size"
 value   = 4

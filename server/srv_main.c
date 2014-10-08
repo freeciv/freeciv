@@ -907,10 +907,6 @@ static void begin_turn(bool is_new_turn)
           continue;
         }
         if (is_barbarian(pplayer)) {
-          if (unit_can_be_retired(punit) && fc_rand(100) > 90) {
-            wipe_unit(punit, ULR_RETIRED, NULL);
-            continue;
-          }
           if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
             /* Lone Leader past expected lifetime has extra 33% chance to disappear
              * on coast */

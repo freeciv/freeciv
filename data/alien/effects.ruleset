@@ -45,6 +45,26 @@ reqs    =
       "Nation", "Lunatic", "Player"
     }
 
+; Barbarian disappearance
+
+[effect_madmen_disappear]
+type    = "Retire_Pct"
+value   = 10
+reqs    =
+    { "type", "name", "range"
+      "Nation", "Madmen", "Player"
+      "Age", "5", "Local"
+    }
+
+[effect_lunatic_disappear]
+type    = "Retire_Pct"
+value   = 10
+reqs    =
+    { "type", "name", "range"
+      "Nation", "Lunatic", "Player"
+      "Age", "5", "Local"
+    }
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 type    = "City_Vision_Radius_Sq"
