@@ -685,3 +685,24 @@ bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
              | 1 << EC_BASE
              | 1 << EC_ROAD));
 }
+
+/**************************************************************************
+  What extra cause activity is considered to be?
+**************************************************************************/
+enum extra_cause activity_to_extra_cause(enum unit_activity act)
+{
+  switch(act) {
+  case ACTIVITY_IRRIGATE:
+    return EC_IRRIGATION;
+  case ACTIVITY_MINE:
+    return EC_MINE;
+  case ACTIVITY_BASE:
+    return EC_BASE;
+  case ACTIVITY_GEN_ROAD:
+    return EC_ROAD;
+  default:
+    break;
+  }
+
+  return EC_LAST;
+}

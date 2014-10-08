@@ -40,6 +40,7 @@
 #include "unitlist.h"
 
 /* client */
+#include "chatline_common.h"
 #include "client_main.h"
 #include "colors.h"
 #include "control.h"
@@ -52,6 +53,7 @@
 #include "cma_fec.h" 
 
 /* client/gui-gtk-3.0 */
+#include "choice_dialog.h"
 #include "citizensinfo.h"
 #include "cityrep.h"
 #include "cma_fe.h"
@@ -197,6 +199,14 @@ static bool city_dialogs_have_been_initialised;
 static int canvas_width, canvas_height;
 static int new_dialog_def_page = OVERVIEW_PAGE;
 static int last_page = OVERVIEW_PAGE;
+
+static bool is_showing_workertask_dialog = FALSE;
+
+static struct
+{
+  struct city *owner;
+  struct tile *loc;
+} workertask_req;
 
 /****************************************/
 
@@ -2608,10 +2618,95 @@ static gboolean citizens_callback(GtkWidget *w, GdkEventButton *ev,
 }
 
 /**************************************************************************
+  Set requested workertask
+**************************************************************************/
+static void set_city_workertask(GtkWidget *w, gpointer data)
+{
+  enum unit_activity act = (enum unit_activity)GPOINTER_TO_INT(data);
+  struct city *pcity = workertask_req.owner;
+  struct tile *ptile = workertask_req.loc;
+  struct packet_worker_task task;
+
+  task.city_id = pcity->id;
+
+  if (act == ACTIVITY_IDLE) {
+    task.tile_id = 0;
+    task.activity = ACTIVITY_IDLE;
+    task.tgt = 0;
+    task.want = 0;
+  } else {
+    enum extra_cause cause = activity_to_extra_cause(act);
+    struct extra_type *tgt;
+
+    fc_assert(cause != EC_LAST);
+
+    tgt = next_extra_for_tile(ptile, cause, city_owner(pcity), NULL);
+
+    if (tgt != NULL) {
+      task.tile_id = ptile->index;
+      task.activity = act;
+      task.tgt = extra_index(tgt);
+      task.want = 1;
+    } else {
+      /* No extra to order */
+      output_window_append(ftc_client, _("There's no suitable extra to order."));
+
+      return;
+    }
+  }
+
+  send_packet_worker_task(&client.conn, &task);
+}
+
+/****************************************************************
+  Destroy workertask dlg
+*****************************************************************/
+static void workertask_dlg_destroy(GtkWidget *w, gpointer data)
+{
+  is_showing_workertask_dialog = FALSE;
+}
+
+/**************************************************************************
+  Open dialog for setting worker task
+**************************************************************************/
+static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
+{
+  if (!is_showing_workertask_dialog) {
+    GtkWidget *shl;
+
+    is_showing_workertask_dialog = TRUE;
+    workertask_req.owner = pcity;
+    workertask_req.loc = ptile;
+
+    shl = choice_dialog_start(GTK_WINDOW(toplevel),
+			       _("What Action to Request"),
+			       _("Select activity:"));
+    choice_dialog_add(shl, _("Clear workertask"),
+                      G_CALLBACK(set_city_workertask),
+                      GINT_TO_POINTER(ACTIVITY_IDLE), NULL);
+    choice_dialog_add(shl, _("Mine"),
+                      G_CALLBACK(set_city_workertask),
+                      GINT_TO_POINTER(ACTIVITY_MINE), NULL);
+    choice_dialog_add(shl, _("Irrigate"),
+                      G_CALLBACK(set_city_workertask),
+                      GINT_TO_POINTER(ACTIVITY_IRRIGATE), NULL);
+    choice_dialog_add(shl, _("Road"),
+                      G_CALLBACK(set_city_workertask),
+                      GINT_TO_POINTER(ACTIVITY_GEN_ROAD), NULL);
+
+    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, NULL);
+    choice_dialog_end(shl);
+
+    g_signal_connect(shl, "destroy", G_CALLBACK(workertask_dlg_destroy),
+		     NULL);
+  }
+}
+
+/**************************************************************************
   User has pressed button on citymap
 **************************************************************************/
-static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
-				    gpointer data)
+static gboolean button_down_citymap(GtkWidget *w, GdkEventButton *ev,
+                                    gpointer data)
 {
   struct city_dialog *pdialog = data;
   int canvas_x, canvas_y, city_x, city_y;
@@ -2626,7 +2721,15 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
   if (canvas_to_city_pos(&city_x, &city_y,
                          city_map_radius_sq_get(pdialog->pcity),
                          canvas_x, canvas_y)) {
-    city_toggle_worker(pdialog->pcity, city_x, city_y);
+    if (ev->button == 1) {
+      city_toggle_worker(pdialog->pcity, city_x, city_y);
+    } else if (ev->button == 3) {
+      struct city *pcity = pdialog->pcity;
+
+      popup_workertask_dlg(pdialog->pcity,
+                           city_map_to_tile(pcity->tile, city_map_radius_sq_get(pcity),
+                                            city_x, city_y));
+    }
   }
 
   return TRUE;
