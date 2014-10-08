@@ -500,9 +500,9 @@ void handle_unit_action_query(struct connection *pc,
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
                                       unit_bribe_cost(punit, pplayer),
-                                      ACTION_SPY_BRIBE_UNIT);
+                                      action_type);
     } else {
-      illegal_action(pplayer, pactor, ACTION_SPY_BRIBE_UNIT);
+      illegal_action(pplayer, pactor, action_type);
       unit_query_impossible(pc, actor_id, target_id);
       return;
     }
@@ -513,9 +513,9 @@ void handle_unit_action_query(struct connection *pc,
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
                                       city_incite_cost(pplayer, pcity),
-                                      ACTION_SPY_INCITE_CITY);
+                                      action_type);
     } else {
-      illegal_action(pplayer, pactor, ACTION_SPY_INCITE_CITY);
+      illegal_action(pplayer, pactor, action_type);
       unit_query_impossible(pc, actor_id, target_id);
       return;
     }
@@ -525,8 +525,7 @@ void handle_unit_action_query(struct connection *pc,
                                                 pactor, pcity)) {
       spy_send_sabotage_list(pc, pactor, pcity);
     } else {
-      illegal_action(pplayer, pactor,
-                     ACTION_SPY_TARGETED_SABOTAGE_CITY);
+      illegal_action(pplayer, pactor, action_type);
       unit_query_impossible(pc, actor_id, target_id);
       return;
     }
@@ -585,7 +584,7 @@ void handle_unit_do_action(struct player *pplayer,
 
       diplomat_bribe(pplayer, actor_unit, punit);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_BRIBE_UNIT);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -595,7 +594,7 @@ void handle_unit_do_action(struct player *pplayer,
 
       spy_sabotage_unit(pplayer, actor_unit, punit);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_SABOTAGE_UNIT);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_SPY_SABOTAGE_CITY:
@@ -605,7 +604,7 @@ void handle_unit_do_action(struct player *pplayer,
 
         diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST);
       } else {
-        illegal_action(pplayer, actor_unit, ACTION_SPY_SABOTAGE_CITY);
+        illegal_action(pplayer, actor_unit, action_type);
       }
     }
     break;
@@ -617,8 +616,7 @@ void handle_unit_do_action(struct player *pplayer,
         /* packet value is improvement ID + 1 (or some special codes) */
         diplomat_sabotage(pplayer, actor_unit, pcity, value - 1);
       } else {
-        illegal_action(pplayer, actor_unit,
-                       ACTION_SPY_TARGETED_SABOTAGE_CITY);
+        illegal_action(pplayer, actor_unit, action_type);
       }
     }
     break;
@@ -629,7 +627,7 @@ void handle_unit_do_action(struct player *pplayer,
 
       spy_poison(pplayer, actor_unit, pcity);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_POISON);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -639,7 +637,7 @@ void handle_unit_do_action(struct player *pplayer,
 
       diplomat_investigate(pplayer, actor_unit, pcity);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_INVESTIGATE_CITY);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_ESTABLISH_EMBASSY:
@@ -649,7 +647,7 @@ void handle_unit_do_action(struct player *pplayer,
 
       diplomat_embassy(pplayer, actor_unit, pcity);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_ESTABLISH_EMBASSY);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_SPY_INCITE_CITY:
@@ -659,7 +657,7 @@ void handle_unit_do_action(struct player *pplayer,
 
       diplomat_incite(pplayer, actor_unit, pcity);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_INCITE_CITY);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_MOVE:
@@ -676,7 +674,7 @@ void handle_unit_do_action(struct player *pplayer,
       /* packet value is technology ID (or some special codes) */
       diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_STEAL_TECH);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
@@ -687,7 +685,7 @@ void handle_unit_do_action(struct player *pplayer,
       /* packet value is technology ID (or some special codes) */
       diplomat_get_tech(pplayer, actor_unit, pcity, value);
     } else {
-      illegal_action(pplayer, actor_unit, ACTION_SPY_TARGETED_STEAL_TECH);
+      illegal_action(pplayer, actor_unit, action_type);
     }
     break;
   case ACTION_SPY_STEAL_GOLD:
