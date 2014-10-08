@@ -418,13 +418,8 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     set_unit_activity(punit, ACTIVITY_IDLE);
   }
 
-  if (old_owner == new_owner) {
-    /* Only changed homecity only owner can see it. */
-    send_unit_info(new_owner, punit);
-  } else {
-    /* Unit owner changed, send info to all able to see it. */
-    send_unit_info(NULL, punit);    
-  }
+  /* Send info to players and observers. */
+  send_unit_info(NULL, punit);
 
   city_refresh(new_pcity);
   send_city_info(new_owner, new_pcity);
@@ -1436,7 +1431,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
          * restore cycle when doing goto's, and the unit's movepoints
          * have been restored, but we only send the unit info at the
          * end of the function.) */
-        send_unit_info(pplayer, punit);
+        send_unit_info(player_reply_dest(pplayer), punit);
         
         /* if is_diplomat_action_available() then there must be 
          * a city or a unit */
@@ -1535,7 +1530,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         if (punit->moves_left < 0) {
           punit->moves_left = 0;
         }
-        send_unit_info(pplayer, punit);
+        send_unit_info(NULL, punit);
 
         return TRUE;
       }
@@ -2017,7 +2012,7 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
     return;
 
   punit->ai_controlled = TRUE;
-  send_unit_info(pplayer, punit);
+  send_unit_info(NULL, punit);
 }
 
 /**************************************************************************

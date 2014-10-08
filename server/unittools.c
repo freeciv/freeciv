@@ -1914,8 +1914,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   gained_unit->paradropped = punit->paradropped;
   gained_unit->server.birth_turn = punit->server.birth_turn;
 
-  /* Inform owner about less than full fuel */
-  send_unit_info(pplayer, gained_unit);
+  send_unit_info(NULL, gained_unit);
 
   /* update unit upkeep in the homecity of the victim */
   if (punit->homecity > 0) {
@@ -2463,15 +2462,46 @@ static void send_unit_info_to_onlookers_transport(struct connection *pconn,
   }
 }
 
-/**************************************************************************
-  send the unit to the players who need the info 
+/****************************************************************************
+  send the unit to the players who need the info.
   dest = NULL means all connections (game.est_connections)
-**************************************************************************/
-void send_unit_info(struct player *dest, struct unit *punit)
+****************************************************************************/
+void send_unit_info(struct conn_list *dest, struct unit *punit)
 {
-  struct conn_list *conn_dest = (dest ? dest->connections
-				 : game.est_connections);
-  send_unit_info_to_onlookers(conn_dest, punit, unit_tile(punit), FALSE);
+  const struct player *powner;
+  struct packet_unit_info info[GAME_TRANSPORT_MAX_RECURSIVE + 1];
+  struct packet_unit_short_info sinfo;
+  int info_num;
+  int i;
+
+  if (dest == NULL) {
+    dest = game.est_connections;
+  }
+
+  CHECK_UNIT(punit);
+
+  powner = unit_owner(punit);
+  package_unit(punit, &info[0]);
+  i = 1;
+  unit_transports_iterate(punit, ptrans) {
+    fc_assert_action(i < ARRAY_SIZE(info), break);
+    package_unit(punit, &info[i++]);
+  } unit_transports_iterate_end;
+  info_num = i;
+  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
+
+  conn_list_iterate(dest, pconn) {
+    struct player *pplayer = conn_get_player(pconn);
+
+    /* Be careful to consider all cases where pplayer is NULL... */
+    if (pplayer == powner || (pplayer == NULL && pconn->observer)) {
+      for (i = info_num - 1; i >= 0; i--) {
+        send_packet_unit_info(pconn, &info[i]);
+      }
+    } else if (pplayer != NULL && can_player_see_unit(pplayer, punit)) {
+      send_packet_unit_short_info(pconn, &sinfo);
+    }
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************
@@ -2490,10 +2520,7 @@ void send_all_known_units(struct conn_list *dest)
 
     players_iterate(unitowner) {
       unit_list_iterate(unitowner->units, punit) {
-	if (!pplayer || can_player_see_unit(pplayer, punit)) {
-          send_unit_info_to_onlookers(pconn->self, punit, unit_tile(punit),
-                                      FALSE);
-	}
+        send_unit_info(dest, punit);
       } unit_list_iterate_end;
     } players_iterate_end;
   }

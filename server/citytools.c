@@ -1640,7 +1640,7 @@ dbv_free(&tile_processed);
     }
     unit_list_iterate(pcenter->units, punit) {
       if (can_player_see_unit(other_player, punit)) {
-        send_unit_info(other_player, punit);
+        send_unit_info(other_player->connections, punit);
       }
     } unit_list_iterate_end;
   } players_iterate_end;
@@ -1873,7 +1873,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
       } else if (!BV_ISSET(saw_entering, player_index(pplayer))
                  && can_player_see_unit(pplayer, punit)) {
         /* Player sees inside cities of new owner */
-        send_unit_info(pplayer, punit);
+        send_unit_info(pplayer->connections, punit);
       }
     } players_iterate_end;
   }
@@ -2650,8 +2650,8 @@ void city_units_upkeep(const struct city *pcity)
     } output_type_iterate_end;
 
     if (update) {
-      /* update unit information to the player */
-      send_unit_info(plr, punit);
+      /* Update unit information to the player and global observers. */
+      send_unit_info(NULL, punit);
     }
   } unit_list_iterate_end;
 }
