@@ -74,6 +74,18 @@ void choice_dialog_button_set_label(GtkWidget *cd, int number,
 }
 
 /****************************************************************
+  Move the specified button to the end.
+*****************************************************************/
+void choice_dialog_button_move_to_the_end(GtkWidget *cd,
+                                          const int number)
+{
+  GtkWidget *button = choice_dialog_get_nth_button(cd, number);
+  GtkWidget *bbox = g_object_get_data(G_OBJECT(cd), "bbox");
+
+  gtk_box_reorder_child(GTK_BOX(bbox), button, -1);
+}
+
+/****************************************************************
   Create choice dialog
 *****************************************************************/
 GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,

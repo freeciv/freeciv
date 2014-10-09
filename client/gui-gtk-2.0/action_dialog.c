@@ -49,6 +49,7 @@
 #include "wldlg.h"
 
 static int help_wonder_button_id;
+static int cancel_button_id;
 
 static GtkWidget *diplomat_dialog;
 static int actor_unit_id;
@@ -214,6 +215,17 @@ void caravan_dialog_update(void)
                       (GCallback)caravan_help_build_wonder_callback,
                       data, NULL);
     choice_dialog_end(diplomat_dialog);
+
+    if (-1 != cancel_button_id) {
+      /* Move the cancel button below the recently added button. */
+      choice_dialog_button_move_to_the_end(diplomat_dialog,
+                                           cancel_button_id);
+
+      /* DO NOT change cancel_button_id or help_wonder_button_id to reflect
+       * the new positions. A button keeps its choice dialog internal name
+       * when its position changes. A button's id number is therefore based
+       * on when it was added, not on its current position. */
+    }
   }
 
   g_free(buf);
@@ -1033,6 +1045,9 @@ void popup_action_selection(struct unit *actor_unit,
   /* No help build wonder button yet. */
   help_wonder_button_id = -1;
 
+  /* No cancel button yet. */
+  cancel_button_id = -1;
+
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
   actor_unit_id = actor_unit->id;
@@ -1176,6 +1191,7 @@ void popup_action_selection(struct unit *actor_unit,
                       data, NULL);
   }
 
+  cancel_button_id = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
                     (GCallback)diplomat_cancel_callback, data, NULL);
 

@@ -31,4 +31,6 @@ void choice_dialog_button_set_sensitive(GtkWidget *shl, int button,
 					 gboolean state);
 void choice_dialog_button_set_label(GtkWidget *cd, int button,
                                     const char* label);
+void choice_dialog_button_move_to_the_end(GtkWidget *cd,
+                                          const int number);
 #endif
