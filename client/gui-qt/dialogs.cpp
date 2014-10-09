@@ -905,37 +905,21 @@ void popup_revolution_dialog(struct government *government)
 /**************************************************************************
   Constructor for choice_dialog_button_data
 **************************************************************************/
-choice_dialog_button_data::choice_dialog_button_data(QPushButton *button,
-                                                     pfcn_void func,
-                                                     QVariant data1,
-                                                     QVariant  data2)
+Choice_dialog_button::Choice_dialog_button(const QString title,
+                                           pfcn_void func,
+                                           QVariant data1,
+                                           QVariant data2)
+  : QPushButton(title)
 {
-  this->button = button;
   this->func = func;
   this->data1 = data1;
   this->data2 = data2;
 }
 
 /**************************************************************************
-  Destructor for choice_dialog_button_data
-**************************************************************************/
-choice_dialog_button_data::~choice_dialog_button_data()
-{
-  /* Don't delete the stored data! */
-}
-
-/**************************************************************************
-  Get the button it self.
-**************************************************************************/
-QPushButton *choice_dialog_button_data::getButton()
-{
-  return button;
-}
-
-/**************************************************************************
   Get the function to call when the button is pressed.
 **************************************************************************/
-pfcn_void choice_dialog_button_data::getFunc()
+pfcn_void Choice_dialog_button::getFunc()
 {
   return func;
 }
@@ -944,7 +928,7 @@ pfcn_void choice_dialog_button_data::getFunc()
   Get the first piece of data to feed the function when the button is
   pressed.
 **************************************************************************/
-QVariant choice_dialog_button_data::getData1()
+QVariant Choice_dialog_button::getData1()
 {
   return data1;
 }
@@ -953,7 +937,7 @@ QVariant choice_dialog_button_data::getData1()
   Get the second piece of data to feed the function when the button is
   pressed.
 **************************************************************************/
-QVariant choice_dialog_button_data::getData2()
+QVariant Choice_dialog_button::getData2()
 {
   return data2;
 }
@@ -986,8 +970,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
 ***************************************************************************/
 choice_dialog::~choice_dialog()
 {
-  data1_list.clear();
-  data2_list.clear();
+  buttons_list.clear();
   delete signal_mapper;
   gui()->set_diplo_dialog(NULL);
 
@@ -1013,12 +996,11 @@ void choice_dialog::set_layout()
 void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
                              QVariant data2, QString tool_tip = "")
 {
-   QPushButton *button = new QPushButton(title);
+   Choice_dialog_button *button = new Choice_dialog_button(title, func,
+                                                           data1, data2);
    connect(button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
-   signal_mapper->setMapping(button, func_list.count());
-   func_list.append(func);
-   data1_list.append(data1);
-   data2_list.append(data2);
+   signal_mapper->setMapping(button, buttons_list.count());
+   buttons_list.append(button);
 
    if (!tool_tip.isEmpty()) {
      button->setToolTip(tool_tip);
@@ -1054,8 +1036,10 @@ QVBoxLayout *choice_dialog::get_layout()
 ***************************************************************************/
 void choice_dialog::execute_action(const int action)
 {
-  pfcn_void func = func_list.at(action);
-  func(data1_list.at(action), data2_list.at(action));
+  Choice_dialog_button *button = buttons_list.at(action);
+  pfcn_void func = button->getFunc();
+
+  func(button->getData1(), button->getData2());
   close();
 }
 
@@ -1069,7 +1053,7 @@ void choice_dialog::execute_action(const int action)
 **************************************************************************/
 void choice_dialog::stack_button(const int button_number)
 {
-  choice_dialog_button_data *data = NULL;
+  Choice_dialog_button *data = NULL;
 
   fc_assert_msg(0 <= button_number, "Invalid button number");
   if (0 > button_number) {
@@ -1077,27 +1061,22 @@ void choice_dialog::stack_button(const int button_number)
   }
 
   /* Start with grabbing the data. */
-  data = new choice_dialog_button_data(
-      qobject_cast<QPushButton *>(layout
-                                  ->itemAt(button_number + 1)
-                                  ->widget()),
-      func_list.at(button_number),
-      data1_list.at(button_number), data2_list.at(button_number));
+  data = qobject_cast<Choice_dialog_button *>(layout
+                                              ->itemAt(button_number + 1)
+                                              ->widget());
 
   /* Store the data in the stack. */
   last_buttons_stack.append(data);
 
   /* Temporary remove the button so it will end up below buttons added
    * before unstack_all_buttons() is called. */
-  layout->removeWidget(data->getButton());
+  layout->removeWidget(data);
 
   /* The old mappings may not be valid after reinsertion. */
-  signal_mapper->removeMappings(data->getButton());
+  signal_mapper->removeMappings(data);
 
-  /* Synchronize the lists with the layout. */
-  func_list.removeAt(button_number);
-  data1_list.removeAt(button_number);
-  data2_list.removeAt(button_number);
+  /* Synchronize the list with the layout. */
+  buttons_list.removeAt(button_number);
 }
 
 /**************************************************************************
@@ -1107,16 +1086,14 @@ void choice_dialog::stack_button(const int button_number)
 void choice_dialog::unstack_all_buttons()
 {
   while (!last_buttons_stack.isEmpty()) {
-    choice_dialog_button_data *data = last_buttons_stack.takeLast();
+    Choice_dialog_button *data = last_buttons_stack.takeLast();
 
     /* Restore mapping. */
-    signal_mapper->setMapping(data->getButton(), func_list.count());
+    signal_mapper->setMapping(data, buttons_list.count());
 
     /* Reinsert the button below the other buttons. */
-    func_list.append(data->getFunc());
-    data1_list.append(data->getData1());
-    data2_list.append(data->getData2());
-    layout->addWidget(data->getButton());
+    buttons_list.append(data);
+    layout->addWidget(data);
   }
 }
 
@@ -2061,7 +2038,7 @@ void caravan_dialog_update(void)
   QString wonder;
   QString str;
   QVariant qv1, qv2;
-  pfcn_void func;
+  Choice_dialog_button *button;
   bool can_wonder;
   bool wonder_button_not_found;
   int i;
@@ -2083,8 +2060,8 @@ void caravan_dialog_update(void)
   i = 0;
   kmbn = -1;
   layout = caravan_dialog->get_layout();
-  foreach (func, caravan_dialog->func_list) {
-    if (func == caravan_help_build) {
+  foreach (button, caravan_dialog->buttons_list) {
+    if (button->getFunc() == caravan_help_build) {
       wonder_button_not_found = FALSE;
       if (can_wonder) {
         fc_snprintf(buf2, sizeof(buf2),
@@ -2099,7 +2076,7 @@ void caravan_dialog_update(void)
       qpb = qobject_cast<QPushButton *>(layout->itemAt(i + 1)->widget());
       qpb->setText(wonder);
       qpb->setEnabled(can_wonder);
-    } else if (func == keep_moving) {
+    } else if (button->getFunc() == keep_moving) {
       /* Store the number of the Keep moving button for later insert. */
       kmbn = i;
     }

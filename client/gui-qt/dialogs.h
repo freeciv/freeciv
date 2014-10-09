@@ -174,19 +174,16 @@ private:
 };
 
 /**************************************************************************
-  Store data about a choice dialog button
+  A QPushButton that includes data like function to call and parmeters
 **************************************************************************/
-class choice_dialog_button_data: public QObject
+class Choice_dialog_button: public QPushButton
 {
   Q_OBJECT
-  QPushButton *button;
   pfcn_void func;
   QVariant data1, data2;
 public:
-  choice_dialog_button_data(QPushButton *button, pfcn_void func,
-                            QVariant data1, QVariant data2);
-  ~choice_dialog_button_data();
-  QPushButton *getButton();
+  Choice_dialog_button(const QString title, pfcn_void func,
+                       QVariant data1, QVariant data2);
   pfcn_void getFunc();
   QVariant getData1();
   QVariant getData2();
@@ -199,10 +196,8 @@ class choice_dialog: public QWidget
 {
   Q_OBJECT
   QVBoxLayout *layout;
-  QList<QVariant> data1_list;
-  QList<QVariant> data2_list;
   QSignalMapper *signal_mapper;
-  QList<choice_dialog_button_data *> last_buttons_stack;
+  QList<Choice_dialog_button *> last_buttons_stack;
   void (*run_on_close)(void);
 public:
   choice_dialog(const QString title, const QString text,
@@ -215,7 +210,7 @@ public:
   void stack_button(const int button_number);
   void unstack_all_buttons();
   QVBoxLayout *get_layout();
-  QList<pfcn_void> func_list;
+  QList<Choice_dialog_button *> buttons_list;
   int unit_id;
   int target_id[ATK_COUNT];
 public slots:
