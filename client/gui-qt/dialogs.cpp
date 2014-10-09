@@ -49,6 +49,13 @@
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
+/* Locations for non action enabler controlled buttons. */
+#define BUTTON_MOVE ACTION_MOVE
+#define BUTTON_CANCEL BUTTON_MOVE + 1
+#define BUTTON_TRADE_ROUTE BUTTON_MOVE + 2
+#define BUTTON_MARKET_PLACE BUTTON_MOVE + 3
+#define BUTTON_HELP_WONDER BUTTON_MOVE + 4
+#define BUTTON_COUNT BUTTON_MOVE + 5
 
 static void diplomat_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
@@ -960,9 +967,15 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   setWindowTitle(title);
   setAttribute(Qt::WA_DeleteOnClose);
   gui()->set_diplo_dialog(this);
+
   unit_id = IDENTITY_NUMBER_ZERO;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
+
+  /* No buttons are added yet. */
+  for (int i = 0; i < BUTTON_COUNT; i++) {
+    action_button_map << NULL;
+  }
 }
 
 /***************************************************************************
@@ -971,6 +984,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
 choice_dialog::~choice_dialog()
 {
   buttons_list.clear();
+  action_button_map.clear();
   delete signal_mapper;
   gui()->set_diplo_dialog(NULL);
 
@@ -994,7 +1008,8 @@ void choice_dialog::set_layout()
   Adds new action for choice dialog
 ***************************************************************************/
 void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
-                             QVariant data2, QString tool_tip = "")
+                             QVariant data2, QString tool_tip = "",
+                             const int button_id = -1)
 {
    Choice_dialog_button *button = new Choice_dialog_button(title, func,
                                                            data1, data2);
@@ -1004,6 +1019,11 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
 
    if (!tool_tip.isEmpty()) {
      button->setToolTip(tool_tip);
+   }
+
+   if (0 <= button_id) {
+     /* The id is valid. */
+     action_button_map[button_id] = button;
    }
 
    layout->addWidget(button);
@@ -1031,6 +1051,19 @@ QVBoxLayout *choice_dialog::get_layout()
   return layout;
 }
 
+/**************************************************************************
+  Get the button with the given identity.
+**************************************************************************/
+Choice_dialog_button *choice_dialog::get_identified_button(const int id)
+{
+  if (id < 0) {
+    fc_assert_msg(0 <= id, "Invalid button ID.");
+    return NULL;
+  }
+
+  return action_button_map[id];
+}
+
 /***************************************************************************
   Run chosen action and close dialog
 ***************************************************************************/
@@ -1051,32 +1084,20 @@ void choice_dialog::execute_action(const int action)
   Can be used to place a button below existing buttons or below buttons
   added while it was in the stack.
 **************************************************************************/
-void choice_dialog::stack_button(const int button_number)
+void choice_dialog::stack_button(Choice_dialog_button *button)
 {
-  Choice_dialog_button *data = NULL;
-
-  fc_assert_msg(0 <= button_number, "Invalid button number");
-  if (0 > button_number) {
-    return;
-  }
-
-  /* Start with grabbing the data. */
-  data = qobject_cast<Choice_dialog_button *>(layout
-                                              ->itemAt(button_number + 1)
-                                              ->widget());
-
   /* Store the data in the stack. */
-  last_buttons_stack.append(data);
+  last_buttons_stack.append(button);
 
   /* Temporary remove the button so it will end up below buttons added
    * before unstack_all_buttons() is called. */
-  layout->removeWidget(data);
+  layout->removeWidget(button);
 
   /* The old mappings may not be valid after reinsertion. */
-  signal_mapper->removeMappings(data);
+  signal_mapper->removeMappings(button);
 
   /* Synchronize the list with the layout. */
-  buttons_list.removeAt(button_number);
+  buttons_list.removeAll(button);
 }
 
 /**************************************************************************
@@ -1313,12 +1334,14 @@ void popup_action_selection(struct unit *actor_unit,
 
   if (can_traderoute) {
     func = caravan_establish_trade;
-    cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2);
+    cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2,
+                 "", BUTTON_TRADE_ROUTE);
   }
 
   if (can_marketplace) {
     func = caravan_marketplace;
-    cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2);
+    cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2,
+                 "", BUTTON_MARKET_PLACE);
   }
 
   if (can_wonder) {
@@ -1328,7 +1351,7 @@ void popup_action_selection(struct unit *actor_unit,
           impr_build_shield_cost(target_city->production.value.building)
           - target_city->shield_stock);
     func = caravan_help_build;
-    cd->add_item(title, func, qv1, qv2);
+    cd->add_item(title, func, qv1, qv2, "", BUTTON_HELP_WONDER);
   }
 
   /* Spy/Diplomat acting against a unit */
@@ -1350,11 +1373,13 @@ void popup_action_selection(struct unit *actor_unit,
     qv2 = target_tile->index;
 
     func = diplomat_keep_moving;
-    cd->add_item(QString(_("Keep moving")), func, qv1, qv2);
+    cd->add_item(QString(_("Keep moving")), func, qv1, qv2,
+                 "", BUTTON_MOVE);
   }
 
   func = keep_moving;
-  cd->add_item(QString(_("Do nothing")), func, qv1, qv2);
+  cd->add_item(QString(_("Do nothing")), func, qv1, qv2,
+               "", BUTTON_CANCEL);
 
   cd->set_layout();
   cd->show_me();
@@ -1403,7 +1428,7 @@ static void action_entry(choice_dialog *cd,
     break;
   }
 
-  cd->add_item(title, af_map[act], data1, data2, tool_tip);
+  cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
 }
 
 /***************************************************************************
@@ -2036,72 +2061,57 @@ void caravan_dialog_update(void)
   struct city *destcity;
   struct unit *caravan;
   QString wonder;
-  QString str;
-  QVariant qv1, qv2;
-  Choice_dialog_button *button;
+  Choice_dialog_button *help_wonder_button;
   bool can_wonder;
-  bool wonder_button_not_found;
-  int i;
-  int kmbn;
-  QVBoxLayout *layout;
-  QPushButton *qpb;
-  choice_dialog *caravan_dialog = gui()->get_diplo_dialog();
+  choice_dialog *asd = gui()->get_diplo_dialog();
 
-  if (caravan_dialog == NULL) {
+  if (asd == NULL) {
     return;
   }
 
-  destcity = game_city_by_number(caravan_dialog->target_id[ATK_CITY]);
-  caravan = game_unit_by_number(caravan_dialog->unit_id);
+  destcity = game_city_by_number(asd->target_id[ATK_CITY]);
+  caravan = game_unit_by_number(asd->unit_id);
   can_wonder = destcity && caravan
                && unit_can_help_build_wonder(caravan, destcity);
 
-  wonder_button_not_found = TRUE;
-  i = 0;
-  kmbn = -1;
-  layout = caravan_dialog->get_layout();
-  foreach (button, caravan_dialog->buttons_list) {
-    if (button->getFunc() == caravan_help_build) {
-      wonder_button_not_found = FALSE;
-      if (can_wonder) {
-        fc_snprintf(buf2, sizeof(buf2),
+  help_wonder_button = asd->get_identified_button(BUTTON_HELP_WONDER);
+
+  if (help_wonder_button != NULL) {
+    if (can_wonder) {
+      fc_snprintf(buf2, sizeof(buf2),
                   _("Help build Wonder (%d remaining)"),
                   impr_build_shield_cost(destcity->production.value.building)
                   - destcity->shield_stock);
-        wonder = QString(buf2);
-      } else {
-        wonder = QString(_("Help build Wonder"));
-      }
-
-      qpb = qobject_cast<QPushButton *>(layout->itemAt(i + 1)->widget());
-      qpb->setText(wonder);
-      qpb->setEnabled(can_wonder);
-    } else if (button->getFunc() == keep_moving) {
-      /* Store the number of the Keep moving button for later insert. */
-      kmbn = i;
+      wonder = QString(buf2);
+    } else {
+      wonder = QString(_("Help build Wonder"));
     }
-    i++;
-  }
 
-  if (can_wonder && wonder_button_not_found) {
+    help_wonder_button->setText(wonder);
+    help_wonder_button->setEnabled(can_wonder);
+  } else if (can_wonder) {
+    Choice_dialog_button *keep_moving_button;
     QString title;
 
-    if (0 <= kmbn) {
+    keep_moving_button = asd->get_identified_button(BUTTON_CANCEL);
+
+    if (keep_moving_button != NULL) {
       /* Temporary remove the Keep moving button so it won't end up above
        * the Help build Wonder button. */
-      caravan_dialog->stack_button(kmbn);
+      asd->stack_button(keep_moving_button);
     }
 
     title = QString(_("Help build Wonder (%1 remaining)")).arg(
           impr_build_shield_cost(destcity->production.value.building)
           - destcity->shield_stock);
-    caravan_dialog->add_item(title, caravan_help_build,
-                             caravan->id, destcity->id);
+    asd->add_item(title, caravan_help_build,
+                  caravan->id, destcity->id,
+                  "", BUTTON_HELP_WONDER);
 
-    if (0 <= kmbn) {
+    if (keep_moving_button != NULL) {
       /* Reinsert the "Keep moving" button below the
        * Help build Wonder button. */
-      caravan_dialog->unstack_all_buttons();
+      asd->unstack_all_buttons();
     }
   }
 }

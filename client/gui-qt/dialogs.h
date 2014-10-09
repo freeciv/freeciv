@@ -197,20 +197,22 @@ class choice_dialog: public QWidget
   Q_OBJECT
   QVBoxLayout *layout;
   QSignalMapper *signal_mapper;
+  QList<Choice_dialog_button *> buttons_list;
   QList<Choice_dialog_button *> last_buttons_stack;
+  QList<Choice_dialog_button *> action_button_map;
   void (*run_on_close)(void);
 public:
   choice_dialog(const QString title, const QString text,
                 QWidget *parent = NULL, void (*run_on_close)(void) = NULL);
   ~choice_dialog();
   void set_layout();
-  void add_item(QString title, pfcn_void func, QVariant data1, 
-                QVariant data2, QString tool_tip);
+  void add_item(QString title, pfcn_void func, QVariant data1,
+                QVariant data2, QString tool_tip, const int button_id);
   void show_me();
-  void stack_button(const int button_number);
+  void stack_button(Choice_dialog_button *button);
   void unstack_all_buttons();
   QVBoxLayout *get_layout();
-  QList<Choice_dialog_button *> buttons_list;
+  Choice_dialog_button *get_identified_button(const int id);
   int unit_id;
   int target_id[ATK_COUNT];
 public slots:
