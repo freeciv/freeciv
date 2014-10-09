@@ -46,6 +46,8 @@
 
 #include "dialogs_g.h"
 
+typedef int (*act_func)(struct widget *);
+
 struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
@@ -686,12 +688,30 @@ void popdown_diplomat_dialog(void)
   }
 }
 
+/* Mapping from an action to the function to call when its button is
+ * pushed. */
+static const act_func af_map[ACTION_COUNT] = {
+  /* Unit acting against a city target. */
+  [ACTION_ESTABLISH_EMBASSY] = diplomat_embassy_callback,
+  [ACTION_SPY_INVESTIGATE_CITY] = diplomat_investigate_callback,
+  [ACTION_SPY_POISON] = spy_poison_callback,
+  [ACTION_SPY_STEAL_GOLD] = spy_steal_gold_callback,
+  [ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage_callback,
+  [ACTION_SPY_TARGETED_SABOTAGE_CITY] = spy_sabotage_request,
+  [ACTION_SPY_STEAL_TECH] = diplomat_steal_callback,
+  [ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal_popup,
+  [ACTION_SPY_INCITE_CITY] = diplomat_incite_callback,
+
+  /* Unit acting against a unit target. */
+  [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
+  [ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit_callback
+};
+
 /**************************************************************************
   Add an entry for an action in the action choise dialog.
 **************************************************************************/
 static void action_entry(const enum gen_action act,
                          const int *action_probabilities,
-                         int (*callback) (struct widget *),
                          struct unit *act_unit,
                          struct city *tgt_city,
                          struct unit *tgt_unit,
@@ -710,7 +730,7 @@ static void action_entry(const enum gen_action act,
   ui_name = action_prepare_ui_name(act, "", action_probabilities[act]);
 
   create_active_iconlabel(pBuf, pWindow->dst, pStr,
-                          ui_name, callback);
+                          ui_name, af_map[act]);
 
   switch(action_get_target_kind(act)) {
   case ATK_CITY:
@@ -813,55 +833,46 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_entry(ACTION_ESTABLISH_EMBASSY,
                act_probs,
-               diplomat_embassy_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_INVESTIGATE_CITY,
                act_probs,
-               diplomat_investigate_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_POISON,
                act_probs,
-               spy_poison_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_STEAL_GOLD,
                act_probs,
-               spy_steal_gold_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_SABOTAGE_CITY,
                act_probs,
-               diplomat_sabotage_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
                act_probs,
-               spy_sabotage_request,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_STEAL_TECH,
                act_probs,
-               diplomat_steal_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
                act_probs,
-               spy_steal_popup,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
   action_entry(ACTION_SPY_INCITE_CITY,
                act_probs,
-               diplomat_incite_callback,
                actor_unit, target_city, NULL,
                pWindow, &area);
 
@@ -922,13 +933,11 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_entry(ACTION_SPY_BRIBE_UNIT,
                act_probs,
-               diplomat_bribe_callback,
                actor_unit, NULL, target_unit,
                pWindow, &area);
 
   action_entry(ACTION_SPY_SABOTAGE_UNIT,
                act_probs,
-               spy_sabotage_unit_callback,
                actor_unit, NULL, target_unit,
                pWindow, &area);
 
