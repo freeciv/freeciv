@@ -48,10 +48,20 @@
 #include "dialogs.h"
 #include "wldlg.h"
 
-static int help_wonder_button_id;
-static int cancel_button_id;
+/* Locations for non action enabler controlled buttons. */
+#define BUTTON_MOVE ACTION_MOVE
+#define BUTTON_CANCEL BUTTON_MOVE + 1
+#define BUTTON_TRADE_ROUTE BUTTON_MOVE + 2
+#define BUTTON_MARKET_PLACE BUTTON_MOVE + 3
+#define BUTTON_HELP_WONDER BUTTON_MOVE + 4
+#define BUTTON_COUNT BUTTON_MOVE + 5
+
+#define BUTTON_NOT_THERE -1
+
 
 static GtkWidget *diplomat_dialog;
+static int action_button_map[BUTTON_COUNT];
+
 static int actor_unit_id;
 static int target_ids[ATK_COUNT];
 static bool is_more_user_input_needed = FALSE;
@@ -195,12 +205,13 @@ void caravan_dialog_update(void)
 
   gchar *buf = get_help_build_wonder_button_label(can_help, target_city);
 
-  if (-1 != help_wonder_button_id) {
+  if (BUTTON_NOT_THERE != action_button_map[BUTTON_HELP_WONDER]) {
     /* Update existing help build wonder button. */
-    choice_dialog_button_set_label(diplomat_dialog, help_wonder_button_id,
+    choice_dialog_button_set_label(diplomat_dialog,
+                                   action_button_map[BUTTON_HELP_WONDER],
                                    buf);
     choice_dialog_button_set_sensitive(diplomat_dialog,
-                                       help_wonder_button_id, can_help);
+        action_button_map[BUTTON_HELP_WONDER], can_help);
   } else if (can_help) {
     /* Help build wonder just became possible. */
 
@@ -209,19 +220,19 @@ void caravan_dialog_update(void)
                                         target_ids[ATK_CITY],
                                         0, 0, 0);
 
-    help_wonder_button_id =
+    action_button_map[BUTTON_HELP_WONDER] =
         choice_dialog_get_number_of_buttons(diplomat_dialog);
     choice_dialog_add(diplomat_dialog, buf,
                       (GCallback)caravan_help_build_wonder_callback,
                       data, NULL);
     choice_dialog_end(diplomat_dialog);
 
-    if (-1 != cancel_button_id) {
+    if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
       /* Move the cancel button below the recently added button. */
       choice_dialog_button_move_to_the_end(diplomat_dialog,
-                                           cancel_button_id);
+                                           action_button_map[BUTTON_CANCEL]);
 
-      /* DO NOT change cancel_button_id or help_wonder_button_id to reflect
+      /* DO NOT change action_button_map[BUTTON_CANCEL] or action_button_map[BUTTON_HELP_WONDER] to reflect
        * the new positions. A button keeps its choice dialog internal name
        * when its position changes. A button's id number is therefore based
        * on when it was added, not on its current position. */
@@ -1016,6 +1027,7 @@ static void action_entry(GtkWidget *shl,
     break;
   }
 
+  action_button_map[action_id] = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, label, af_map[action_id], handler_args, tooltip);
 }
 
@@ -1032,6 +1044,8 @@ void popup_action_selection(struct unit *actor_unit,
   GtkWidget *shl;
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
   struct city *actor_homecity;
+
+  int button_id;
 
   bool can_wonder;
   bool can_marketplace;
@@ -1052,11 +1066,10 @@ void popup_action_selection(struct unit *actor_unit,
   /* No extra input is required as no action has been chosen yet. */
   is_more_user_input_needed = FALSE;
 
-  /* No help build wonder button yet. */
-  help_wonder_button_id = -1;
-
-  /* No cancel button yet. */
-  cancel_button_id = -1;
+  /* No buttons are added yet. */
+  for (button_id = 0; button_id < BUTTON_COUNT; button_id++) {
+    action_button_map[button_id] = BUTTON_NOT_THERE;
+  }
 
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
@@ -1159,12 +1172,14 @@ void popup_action_selection(struct unit *actor_unit,
                data);
 
   if (can_traderoute) {
+    action_button_map[BUTTON_TRADE_ROUTE] = choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Establish Trade route"),
                       (GCallback)caravan_establish_trade_callback,
                       data, NULL);
   }
 
   if (can_marketplace) {
+    action_button_map[BUTTON_MARKET_PLACE] = choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Enter Marketplace"),
                       (GCallback)caravan_marketplace_callback,
                       data, NULL);
@@ -1174,7 +1189,7 @@ void popup_action_selection(struct unit *actor_unit,
     gchar *wonder = get_help_build_wonder_button_label(can_wonder, target_city);
 
     /* Used by caravan_dialog_update() */
-    help_wonder_button_id = choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_HELP_WONDER] = choice_dialog_get_number_of_buttons(shl);
 
     choice_dialog_add(shl, wonder,
                       (GCallback)caravan_help_build_wonder_callback,
@@ -1196,12 +1211,13 @@ void popup_action_selection(struct unit *actor_unit,
                data);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+    action_button_map[BUTTON_MOVE] = choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),
                       (GCallback)diplomat_keep_moving_callback,
                       data, NULL);
   }
 
-  cancel_button_id = choice_dialog_get_number_of_buttons(shl);
+  action_button_map[BUTTON_CANCEL] = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
                     (GCallback)diplomat_cancel_callback, data, NULL);
 
