@@ -2203,7 +2203,6 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   if (!unit_transported(punit)) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
-    unit_tile_set(punit, NULL); /* Ensure the unit will not be drawn. */
     refresh_unit_mapcanvas(punit, src_tile, TRUE, FALSE);
 
     if (do_animation) {
