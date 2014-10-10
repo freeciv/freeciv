@@ -19,6 +19,24 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 ; Cheating AI effects are in separate file
 *include "default/ai_effects.ruleset"
 
+; Barbarian effects
+
+[effect_barbarian_diplomacy]
+type    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Barbarian", "Player"
+    }
+
+[effect_pirate_diplomacy]
+type    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Pirate", "Player"
+    }
+
 [effect_barbarian_waste]
 type    = "Output_Waste_Pct"
 value	= 100
