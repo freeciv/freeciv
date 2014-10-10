@@ -45,3 +45,8 @@ Metropolis
 Literate
     Achievement is granted when player's literacy score is at least
     <value>.
+
+Land_Ahoy
+    Achievement is granted when player has seen <value> different
+    islands/continents. Home continent counts, so to give achievements
+    for finding first other continent, use value 2.

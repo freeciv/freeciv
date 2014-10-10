@@ -284,6 +284,44 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     return FALSE;
   case ACHIEVEMENT_LITERATE:
     return pplayer->score.literacy >= ach->value;
+  case ACHIEVEMENT_LAND_AHOY:
+    {
+      bool seen[map.num_continents];
+      int i;
+      int count = 0;
+
+      for (i = 0; i < map.num_continents; i++) {
+        seen[i] = FALSE;
+      }
+
+      whole_map_iterate(ptile) {
+        bool this_is_known = FALSE;
+
+        if (is_server()) {
+          if (dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
+            this_is_known = TRUE;
+          }
+        } else {
+          /* Client */
+          if (ptile->terrain != T_UNKNOWN) {
+            this_is_known = TRUE;
+          }
+        }
+
+        if (this_is_known) {
+          /* FIXME: This makes the assumption that fogged tiles belonged
+           *        to their current continent when they were last seen. */
+          if (ptile->continent > 0 && !seen[ptile->continent]) {
+            if (++count >= ach->value) {
+              return TRUE;
+            }
+            seen[ptile->continent] = TRUE;
+          }
+        }
+      } whole_map_iterate_end;
+
+      return FALSE;
+    }
   case ACHIEVEMENT_COUNT:
     break;
   }
