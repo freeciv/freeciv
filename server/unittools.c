@@ -4008,10 +4008,6 @@ void unit_did_action(struct unit *punit)
 **************************************************************************/
 bool unit_can_be_retired(struct unit *punit)
 {
-  if (is_allied_city_tile((unit_tile(punit)), unit_owner(punit))) {
-    return FALSE;
-  }
-
   /* check if there is enemy nearby */
   square_iterate(unit_tile(punit), 3, ptile) {
     if (is_enemy_city_tile(ptile, unit_owner(punit))

@@ -51,18 +51,20 @@ reqs    =
 type    = "Retire_Pct"
 value   = 10
 reqs    =
-    { "type", "name", "range"
-      "Nation", "Madmen", "Player"
-      "Age", "5", "Local"
+    { "type", "name", "range", "present"
+      "Nation", "Madmen", "Player", TRUE
+      "Age", "5", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 [effect_lunatic_disappear]
 type    = "Retire_Pct"
 value   = 10
 reqs    =
-    { "type", "name", "range"
-      "Nation", "Lunatic", "Player"
-      "Age", "5", "Local"
+    { "type", "name", "range", "present"
+      "Nation", "Lunatic", "Player", TRUE
+      "Age", "5", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 ; Base vision range - radius of vision is sqrt(5) = 2.24
