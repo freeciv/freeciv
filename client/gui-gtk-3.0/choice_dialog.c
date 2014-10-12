@@ -74,6 +74,16 @@ void choice_dialog_button_set_label(GtkWidget *cd, int number,
 }
 
 /****************************************************************
+  Set tool tip for choice dialog button.
+*****************************************************************/
+void choice_dialog_button_set_tooltip(GtkWidget *cd, int number,
+                                      const char* tool_tip)
+{
+  GtkWidget* button = choice_dialog_get_nth_button(cd, number);
+  gtk_widget_set_tooltip_text(button, tool_tip);
+}
+
+/****************************************************************
   Move the specified button to the end.
 *****************************************************************/
 void choice_dialog_button_move_to_the_end(GtkWidget *cd,
