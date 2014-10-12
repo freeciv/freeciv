@@ -42,7 +42,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   GtkCssProvider *css_provider;
   GError *error = NULL;
   char buf[strlen(directory) + strlen(theme_name) + 32];
-  /* Gtk theme is a directory containing gtk-3.0/gtkrc file */
+  /* Gtk theme is a directory containing gtk-3.0/gtk.css file */
   fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtk.css", directory,
               theme_name);
   css_provider = gtk_css_provider_new();
@@ -130,7 +130,7 @@ char **get_gui_specific_themes_directories(int *count)
 /*****************************************************************************
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
-  Useable theme for gtk+ is a directory which contains file gtk-3.0/gtkrc.
+  Useable theme for gtk+ is a directory which contains file gtk-3.0/gtk.css.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
 char **get_useable_themes_in_directory(const char *directory, int *count)
