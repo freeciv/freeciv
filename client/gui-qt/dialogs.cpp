@@ -1190,6 +1190,19 @@ static void diplomat_queue_handle_secondary(void)
 }
 
 /**************************************************************************
+  Returns the label for the help build wonder button when it is possible
+  to help build it.
+***************************************************************************/
+static QString label_help_wonder_rem(struct city *target_city)
+{
+  QString label = QString(_("Help build Wonder (%1 remaining)")).arg(
+      impr_build_shield_cost(target_city->production.value.building)
+      - target_city->shield_stock);
+
+  return label;
+}
+
+/**************************************************************************
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
@@ -1347,9 +1360,7 @@ void popup_action_selection(struct unit *actor_unit,
   if (can_wonder) {
     QString title;
 
-    title = QString(_("Help build Wonder (%1 remaining)")).arg(
-          impr_build_shield_cost(target_city->production.value.building)
-          - target_city->shield_stock);
+    title = label_help_wonder_rem(target_city);
     func = caravan_help_build;
     cd->add_item(title, func, qv1, qv2, "", BUTTON_HELP_WONDER);
   }
@@ -2057,7 +2068,6 @@ void close_diplomat_dialog(void)
 ****************************************************************/
 void caravan_dialog_update(void)
 {
-  char buf2[1024];
   struct city *destcity;
   struct unit *caravan;
   QString wonder;
@@ -2078,11 +2088,7 @@ void caravan_dialog_update(void)
 
   if (help_wonder_button != NULL) {
     if (can_wonder) {
-      fc_snprintf(buf2, sizeof(buf2),
-                  _("Help build Wonder (%d remaining)"),
-                  impr_build_shield_cost(destcity->production.value.building)
-                  - destcity->shield_stock);
-      wonder = QString(buf2);
+      wonder = label_help_wonder_rem(destcity);
     } else {
       wonder = QString(_("Help build Wonder"));
     }
@@ -2101,9 +2107,7 @@ void caravan_dialog_update(void)
       asd->stack_button(keep_moving_button);
     }
 
-    title = QString(_("Help build Wonder (%1 remaining)")).arg(
-          impr_build_shield_cost(destcity->production.value.building)
-          - destcity->shield_stock);
+    title = label_help_wonder_rem(destcity);
     asd->add_item(title, caravan_help_build,
                   caravan->id, destcity->id,
                   "", BUTTON_HELP_WONDER);
