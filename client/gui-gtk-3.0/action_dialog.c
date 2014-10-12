@@ -230,12 +230,13 @@ void caravan_dialog_update(void)
     if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
       /* Move the cancel button below the recently added button. */
       choice_dialog_button_move_to_the_end(diplomat_dialog,
-                                           action_button_map[BUTTON_CANCEL]);
+          action_button_map[BUTTON_CANCEL]);
 
-      /* DO NOT change action_button_map[BUTTON_CANCEL] or action_button_map[BUTTON_HELP_WONDER] to reflect
-       * the new positions. A button keeps its choice dialog internal name
-       * when its position changes. A button's id number is therefore based
-       * on when it was added, not on its current position. */
+      /* DO NOT change action_button_map[BUTTON_CANCEL] or
+       * action_button_map[BUTTON_HELP_WONDER] to reflect the new
+       * positions. A button keeps its choice dialog internal name when its
+       * position changes. A button's id number is therefore based on when
+       * it was added, not on its current position. */
     }
   }
 
@@ -1172,24 +1173,28 @@ void popup_action_selection(struct unit *actor_unit,
                data);
 
   if (can_traderoute) {
-    action_button_map[BUTTON_TRADE_ROUTE] = choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_TRADE_ROUTE] =
+        choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Establish Trade route"),
                       (GCallback)caravan_establish_trade_callback,
                       data, NULL);
   }
 
   if (can_marketplace) {
-    action_button_map[BUTTON_MARKET_PLACE] = choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_MARKET_PLACE] =
+        choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Enter Marketplace"),
                       (GCallback)caravan_marketplace_callback,
                       data, NULL);
   }
 
   if (can_wonder) {
-    gchar *wonder = get_help_build_wonder_button_label(can_wonder, target_city);
+    gchar *wonder = get_help_build_wonder_button_label(can_wonder,
+                                                       target_city);
 
     /* Used by caravan_dialog_update() */
-    action_button_map[BUTTON_HELP_WONDER] = choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_HELP_WONDER] =
+        choice_dialog_get_number_of_buttons(shl);
 
     choice_dialog_add(shl, wonder,
                       (GCallback)caravan_help_build_wonder_callback,
@@ -1211,13 +1216,15 @@ void popup_action_selection(struct unit *actor_unit,
                data);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
-    action_button_map[BUTTON_MOVE] = choice_dialog_get_number_of_buttons(shl);
+    action_button_map[BUTTON_MOVE] =
+        choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),
                       (GCallback)diplomat_keep_moving_callback,
                       data, NULL);
   }
 
-  action_button_map[BUTTON_CANCEL] = choice_dialog_get_number_of_buttons(shl);
+  action_button_map[BUTTON_CANCEL] =
+      choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
                     (GCallback)diplomat_cancel_callback, data, NULL);
 
