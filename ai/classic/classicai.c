@@ -118,6 +118,11 @@ static void cai_gained_control(struct player *pplayer)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
+  /* Clear worker tasks, classic AI does not use those */
+  city_list_iterate(pplayer->cities, pcity) {
+    worker_task_init(&pcity->task_req);
+  } city_list_iterate_end;
+
   dai_gained_control(deftype, pplayer);
 }
 
