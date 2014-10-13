@@ -195,6 +195,14 @@ reqs    =
       "Nation", "Barbarian", "Player"
     }
 
+[effect_pirate]
+name    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Pirate", "Player"
+    }
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 name    = "City_Vision_Radius_Sq"
