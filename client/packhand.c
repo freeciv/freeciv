@@ -3843,39 +3843,47 @@ void handle_unit_diplomat_wants_input(int diplomat_id, int target_tile_id)
   Note that it MUST call process_diplomat_arrival() in the end in case
   there are more elements in the queue.
 **************************************************************************/
-void handle_unit_actions(int actor_unit_id, int target_unit_id,
-                         int target_city_id, int target_tile_id,
-                         const action_probability *action_probabilities)
+void handle_unit_actions(const struct packet_unit_actions *packet)
 {
-  struct unit *actor_unit = game_unit_by_number(actor_unit_id);
-  struct tile *target_tile = index_to_tile(target_tile_id);
-  struct city *target_city = game_city_by_number(target_city_id);
-  struct unit *target_unit = game_unit_by_number(target_unit_id);
-  bool ask_user = FALSE;
+  struct unit *actor_unit = game_unit_by_number(packet->actor_unit_id);
+
+  struct tile *target_tile = index_to_tile(packet->target_tile_id);
+  struct city *target_city = game_city_by_number(packet->target_city_id);
+  struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
+
+  const action_probability *act_prob = packet->action_probabilities;
+
+  bool disturb_player = packet->disturb_player;
+  bool valid = FALSE;
 
   /* The dead can't act */
   if (actor_unit && target_tile && (target_city || target_unit)) {
     /* At least one action must be possible */
     action_iterate(act) {
-      if (action_probabilities[act]) {
-        ask_user = TRUE;
+      if (act_prob[act]) {
+        valid = TRUE;
         break;
       }
     } action_iterate_end;
   }
 
-  /* Let the user choose (if he still has a choise) */
-  if (ask_user) {
+  if (valid && disturb_player) {
+    /* The player can select an action and should be informed. */
+
     /* Focus on the unit so the player knows where it is */
     unit_focus_set(actor_unit);
 
     /* Show the client specific action dialog */
     popup_action_selection(actor_unit,
                            target_city, target_unit, target_tile,
-                           action_probabilities);
-  } else {
+                           act_prob);
+  } else if (disturb_player) {
     /* Nothing to do. Go to the next queued dipomat */
     choose_action_queue_next();
+  } else {
+    /* This was a background request. */
+
+    /* TODO: Use the information. */
   }
 }
 

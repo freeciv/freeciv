@@ -1037,6 +1037,8 @@ end
 PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
   UNIT actor_unit_id;
   TILE target_tile_id;
+
+  BOOL disturb_player;
 end
 
 PACKET_UNIT_ACTIONS = 90; sc, dsend
@@ -1044,6 +1046,8 @@ PACKET_UNIT_ACTIONS = 90; sc, dsend
   UNIT target_unit_id;
   CITY target_city_id;
   TILE target_tile_id;
+
+  BOOL disturb_player;
 
   /* How to interpret action probabilities is documented in actions.h */
   ACT_PROB action_probabilities[ACTION_COUNT];

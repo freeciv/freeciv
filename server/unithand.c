@@ -324,7 +324,8 @@ static void explain_why_no_action_enabled(struct unit *punit)
 **************************************************************************/
 void handle_unit_get_actions(struct connection *pc,
                              const int actor_unit_id,
-                             const int target_tile_id)
+                             const int target_tile_id,
+                             const bool disturb_player)
 {
   struct player *actor_player;
   struct unit *actor_unit;
@@ -356,6 +357,7 @@ void handle_unit_get_actions(struct connection *pc,
     dsend_packet_unit_actions(pc, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
                               target_tile_id,
+                              disturb_player,
                               probabilities);
     return;
   }
@@ -417,9 +419,10 @@ void handle_unit_get_actions(struct connection *pc,
   dsend_packet_unit_actions(pc,
                             actor_unit_id, target_unit_id, target_city_id,
                             target_tile_id,
+                            disturb_player,
                             probabilities);
 
-  if (!at_least_one_action) {
+  if (disturb_player && !at_least_one_action) {
     /* The user should get an explanation why no action is possible. */
     explain_why_no_action_enabled(actor_unit);
   }
