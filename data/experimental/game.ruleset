@@ -519,6 +519,13 @@ first_msg      = _("You're the first one to have 20% of the world mapped!")
 ; /* xgettext:no-c-format */
 cons_msg       = _("You have 20% of the world mapped!")
 
+[achievement_another_island]
+name          = _("Land Ahoy")
+type          = "Land_Ahoy"
+value         = 2
+first_msg     = _("As the first people in history, your people see foreign continent!")
+cons_msg      = _("You see foreign island!")
+
 ;
 ; Trade settings
 ;
