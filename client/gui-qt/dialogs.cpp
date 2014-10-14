@@ -1442,6 +1442,50 @@ static void action_entry(choice_dialog *cd,
   cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
 }
 
+/**********************************************************************
+  Update an existing button.
+**********************************************************************/
+static void action_entry_update(QPushButton *button,
+                                gen_action act,
+                                const action_probability *act_prob,
+                                QVariant data1, QVariant data2)
+{
+  QString title;
+  QString tool_tip;
+
+  /* An action that just became impossible has its button disabled.
+   * An action that became possible again must be reenabled. */
+  button->setEnabled(action_prob_possible(act_prob[act]));
+
+  /* The probability may have changed. */
+  title = QString(action_prepare_ui_name(act, "&",
+                                         act_prob[act]));
+
+  switch (act_prob[act]) {
+  case ACTPROB_NOT_KNOWN:
+    /* Missing in game knowledge. An in game action can change this. */
+    tool_tip =
+        QString(_("Starting to do this may currently be impossible."));
+    break;
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Missing server support. No in game action will change this. */
+    tool_tip = "";
+    break;
+  default:
+    {
+      /* The unit is 0.5% chance of success. */
+      double converted = (double)act_prob[act] / 2;
+
+      tool_tip = QString(_("The probability of success is %1%."))
+                   .arg(converted);
+    }
+    break;
+  }
+
+  button->setText(title);
+  button->setToolTip(tool_tip);
+}
+
 /***************************************************************************
   Action bribe unit for choice dialog
 ***************************************************************************/
@@ -2076,7 +2120,83 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct tile *target_tile,
                               const action_probability *act_prob)
 {
-  /* TODO: port me. */
+  choice_dialog *asd;
+  Choice_dialog_button *keep_moving_button;
+  QVariant qv1, qv2;
+
+  asd = gui()->get_diplo_dialog();
+  if (asd == NULL) {
+    fc_assert_msg(asd != NULL,
+                  "The action selection dialog should have been open");
+    return;
+  }
+
+  if (actor_unit->id != action_selection_actor_unit()) {
+    fc_assert_msg(actor_unit->id == action_selection_actor_unit(),
+                  "The action selection dialog is for another actor unit.");
+  }
+
+  /* Put the actor id in qv1. */
+  qv1 = actor_unit->id;
+
+  keep_moving_button = asd->get_identified_button(BUTTON_CANCEL);
+  if (keep_moving_button != NULL) {
+    /* Temporary remove the Keep moving button so it won't end up above
+     * any added buttons. */
+    asd->stack_button(keep_moving_button);
+  }
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) != AAK_UNIT) {
+      /* Not relevant. */
+      continue;
+    }
+
+    /* Put the target id in qv2. */
+    switch (action_get_target_kind(act)) {
+    case ATK_UNIT:
+      if (target_unit != NULL) {
+        qv2 = target_unit->id;
+      } else {
+        fc_assert_msg(!action_prob_possible(act_prob[act])
+                      || target_unit != NULL,
+                      "Action enabled against non existing unit!");
+
+        qv2 = IDENTITY_NUMBER_ZERO;
+      }
+      break;
+    case ATK_CITY:
+      if (target_city != NULL) {
+        qv2 = target_city->id;
+      } else {
+        fc_assert_msg(!action_prob_possible(act_prob[act])
+                      || target_city != NULL,
+                      "Action enabled against non existing city!");
+
+        qv2 = IDENTITY_NUMBER_ZERO;
+      }
+      break;
+    case ATK_COUNT:
+      fc_assert_msg(ATK_COUNT != action_get_target_kind(act),
+                    "Bad target kind");
+      continue;
+    }
+
+    if (asd->get_identified_button(act)) {
+      /* Update the existing button. */
+      action_entry_update(asd->get_identified_button(act),
+                          (enum gen_action)act, act_prob, qv1, qv2);
+    } else {
+      /* Add the button (unless its probability is 0). */
+      action_entry(asd, (enum gen_action)act, act_prob, qv1, qv2);
+    }
+  } action_iterate_end;
+
+  if (keep_moving_button != NULL) {
+    /* Reinsert the "Keep moving" button below any potential
+     * buttons recently added. */
+    asd->unstack_all_buttons();
+  }
 }
 
 /****************************************************************
