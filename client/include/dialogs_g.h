@@ -55,6 +55,7 @@ GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
                const action_probability *act_probs)
 GUI_FUNC_PROTO(int, action_selection_actor_unit, void)
 GUI_FUNC_PROTO(int, action_selection_target_city, void)
+GUI_FUNC_PROTO(int, action_selection_target_unit, void)
 GUI_FUNC_PROTO(void, close_diplomat_dialog, void)
 GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,
                struct city *pcity, int cost)

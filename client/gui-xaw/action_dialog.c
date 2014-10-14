@@ -994,6 +994,21 @@ int action_selection_target_city(void)
 }
 
 /**************************************************************************
+  Returns id of the target unit of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  unit target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
+  is open or no unit target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_unit(void)
+{
+  if (diplomat_dialog == NULL) {
+    return IDENTITY_NUMBER_ZERO;
+  }
+
+  return diplomat_target_id[ATK_UNIT];
+}
+
+/**************************************************************************
   Closes the diplomat dialog
 **************************************************************************/
 void close_diplomat_dialog(void)
