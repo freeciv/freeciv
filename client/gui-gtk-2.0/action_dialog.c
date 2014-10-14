@@ -1022,6 +1022,51 @@ static void action_entry(GtkWidget *shl,
   choice_dialog_add(shl, label, af_map[action_id], handler_args, tooltip);
 }
 
+/******************************************************************
+  Update an existing button.
+*******************************************************************/
+static void action_entry_update(GtkWidget *shl,
+                                int action_id,
+                                const action_probability *act_prob,
+                                struct action_data *handler_args)
+{
+  const gchar *label;
+  const gchar *tooltip;
+
+  /* An action that just became impossible has its button disabled.
+   * An action that became possible again must be reenabled. */
+  choice_dialog_button_set_sensitive(diplomat_dialog,
+      action_button_map[action_id],
+      action_prob_possible(act_prob[action_id]));
+
+  /* The probability may have changed. */
+  label = action_prepare_ui_name(action_id, "_",
+                                 act_prob[action_id]);
+
+  switch (act_prob[action_id]) {
+  case ACTPROB_NOT_KNOWN:
+    /* Missing in game knowledge. An in game action can change this. */
+    tooltip =
+        _("Starting to do this may currently be impossible.");
+    break;
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Missing server support. No in game action will change this. */
+    tooltip = NULL;
+    break;
+  default:
+    tooltip = g_strdup_printf(_("The probability of success is %.1f%%."),
+                              (double)act_prob[action_id] / 2);
+    break;
+  }
+
+  choice_dialog_button_set_label(diplomat_dialog,
+                                 action_button_map[action_id],
+                                 label);
+  choice_dialog_button_set_tooltip(diplomat_dialog,
+                                   action_button_map[action_id],
+                                   tooltip);
+}
+
 /**************************************************************************
   Popup a dialog that allows the player to select what action a unit
   should take.
@@ -1282,7 +1327,54 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct tile *target_tile,
                               const action_probability *act_prob)
 {
-  /* TODO: port me. */
+  struct action_data *data;
+
+  if (diplomat_dialog == NULL) {
+    fc_assert_msg(diplomat_dialog != NULL,
+                  "The action selection dialog should have been open");
+    return;
+  }
+
+  if (actor_unit->id != action_selection_actor_unit()) {
+    fc_assert_msg(actor_unit->id == action_selection_actor_unit(),
+                  "The action selection dialog is for another actor unit.");
+    return;
+  }
+
+  data = act_data(actor_unit->id,
+                  (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
+                  (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
+                  (target_tile) ? target_tile->index : 0,
+                  0);
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) != AAK_UNIT) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (BUTTON_NOT_THERE == action_button_map[act]) {
+      /* Add the button (unless its probability is 0). */
+      action_entry(diplomat_dialog, act, act_prob, data);
+    } else {
+      /* Update the existing button. */
+      action_entry_update(diplomat_dialog, act, act_prob, data);
+    }
+  } action_iterate_end;
+
+  if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
+    /* Move the cancel button below the recently added button. */
+    choice_dialog_button_move_to_the_end(diplomat_dialog,
+        action_button_map[BUTTON_CANCEL]);
+
+    /* DO NOT change action_button_map[BUTTON_CANCEL] or
+     * the action_button_map[] for any other button to reflect the new
+     * positions. A button keeps its choice dialog internal name when its
+     * position changes. A button's id number is therefore based on when
+     * it was added, not on its current position. */
+  }
+
+  choice_dialog_end(diplomat_dialog);
 }
 
 /****************************************************************
