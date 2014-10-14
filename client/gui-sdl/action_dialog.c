@@ -1045,6 +1045,18 @@ int action_selection_target_unit(void)
   return pDiplomat_Dlg->target_ids[ATK_UNIT];
 }
 
+/**************************************************************************
+  Updates the action selection dialog with new information.
+**************************************************************************/
+void action_selection_refresh(struct unit *actor_unit,
+                              struct city *target_city,
+                              struct unit *target_unit,
+                              struct tile *target_tile,
+                              const action_probability *act_prob)
+{
+  /* TODO: port me. */
+}
+
 /****************************************************************
   Closes the diplomat dialog
 ****************************************************************/
