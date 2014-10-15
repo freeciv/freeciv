@@ -498,39 +498,45 @@ void handle_unit_action_query(struct connection *pc,
 
   switch (action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit && is_action_enabled_unit_on_unit(action_type,
-                                                pactor, punit)) {
-      dsend_packet_unit_action_answer(pc,
-                                      actor_id, target_id,
-                                      unit_bribe_cost(punit, pplayer),
-                                      action_type);
-    } else {
-      illegal_action(pplayer, pactor, action_type);
-      unit_query_impossible(pc, actor_id, target_id);
-      return;
+    if (punit) {
+      if (is_action_enabled_unit_on_unit(action_type,
+                                         pactor, punit)) {
+        dsend_packet_unit_action_answer(pc,
+                                        actor_id, target_id,
+                                        unit_bribe_cost(punit, pplayer),
+                                        action_type);
+      } else {
+        illegal_action(pplayer, pactor, action_type);
+        unit_query_impossible(pc, actor_id, target_id);
+        return;
+      }
     }
     break;
   case ACTION_SPY_INCITE_CITY:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                pactor, pcity)) {
-      dsend_packet_unit_action_answer(pc,
-                                      actor_id, target_id,
-                                      city_incite_cost(pplayer, pcity),
-                                      action_type);
-    } else {
-      illegal_action(pplayer, pactor, action_type);
-      unit_query_impossible(pc, actor_id, target_id);
-      return;
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         pactor, pcity)) {
+        dsend_packet_unit_action_answer(pc,
+                                        actor_id, target_id,
+                                        city_incite_cost(pplayer, pcity),
+                                        action_type);
+      } else {
+        illegal_action(pplayer, pactor, action_type);
+        unit_query_impossible(pc, actor_id, target_id);
+        return;
+      }
     }
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                pactor, pcity)) {
-      spy_send_sabotage_list(pc, pactor, pcity);
-    } else {
-      illegal_action(pplayer, pactor, action_type);
-      unit_query_impossible(pc, actor_id, target_id);
-      return;
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         pactor, pcity)) {
+        spy_send_sabotage_list(pc, pactor, pcity);
+      } else {
+        illegal_action(pplayer, pactor, action_type);
+        unit_query_impossible(pc, actor_id, target_id);
+        return;
+      }
     }
     break;
   default:
@@ -581,23 +587,27 @@ void handle_unit_do_action(struct player *pplayer,
 
   switch(action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit && is_action_enabled_unit_on_unit(action_type,
-                                                actor_unit, punit)) {
-      ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
+    if (punit) {
+      if (is_action_enabled_unit_on_unit(action_type,
+                                         actor_unit, punit)) {
+        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
 
-      diplomat_bribe(pplayer, actor_unit, punit);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        diplomat_bribe(pplayer, actor_unit, punit);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
-    if (punit && is_action_enabled_unit_on_unit(action_type,
-                                                actor_unit, punit)) {
-      ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
+    if (punit) {
+      if (is_action_enabled_unit_on_unit(action_type,
+                                         actor_unit, punit)) {
+        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
 
-      spy_sabotage_unit(pplayer, actor_unit, punit);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        spy_sabotage_unit(pplayer, actor_unit, punit);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_SPY_SABOTAGE_CITY:
@@ -624,43 +634,51 @@ void handle_unit_do_action(struct player *pplayer,
     }
     break;
   case ACTION_SPY_POISON:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      spy_poison(pplayer, actor_unit, pcity);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        spy_poison(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      diplomat_investigate(pplayer, actor_unit, pcity);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        diplomat_investigate(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      diplomat_embassy(pplayer, actor_unit, pcity);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        diplomat_embassy(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_SPY_INCITE_CITY:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      diplomat_incite(pplayer, actor_unit, pcity);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        diplomat_incite(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_MOVE:
@@ -670,35 +688,41 @@ void handle_unit_do_action(struct player *pplayer,
     }
     break;
   case ACTION_SPY_STEAL_TECH:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      /* packet value is technology ID (or some special codes) */
-      diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        /* packet value is technology ID (or some special codes) */
+        diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      /* packet value is technology ID (or some special codes) */
-      diplomat_get_tech(pplayer, actor_unit, pcity, value);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        /* packet value is technology ID (or some special codes) */
+        diplomat_get_tech(pplayer, actor_unit, pcity, value);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   case ACTION_SPY_STEAL_GOLD:
-    if (pcity && is_action_enabled_unit_on_city(action_type,
-                                                actor_unit, pcity)) {
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-      spy_steal_gold(pplayer, actor_unit, pcity);
-    } else {
-      illegal_action(pplayer, actor_unit, action_type);
+        spy_steal_gold(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
     }
     break;
   }
