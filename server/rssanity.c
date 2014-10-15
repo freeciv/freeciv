@@ -275,9 +275,13 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
     }
     requirement_vector_iterate(preqs, nreq) {
       if (are_requirements_opposites(preq, nreq)) {
-        log_error("%s: Identical %s requirement both present and absent.",
+        log_error("%s: %s ranged %s %s requirement \"%s\" "
+                  "required to be both present and absent.",
                   list_for,
-                  universal_type_rule_name(&preq->source));
+                  req_range_name(preq->range),
+                  preq->survives ? "surviving" : "non surviving",
+                  universal_type_rule_name(&preq->source),
+                  universal_rule_name(&preq->source));
         return FALSE;
       }
     } requirement_vector_iterate_end;
