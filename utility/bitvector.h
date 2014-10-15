@@ -102,6 +102,13 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
   bv_are_equal((vec1).vec, (vec2).vec, sizeof((vec1).vec),                  \
                sizeof((vec2).vec))
 
+void bv_set_all_from(unsigned char *vec_to,
+                     const unsigned char *vec_from,
+                     size_t size_to, size_t size_from);
+#define BV_SET_ALL_FROM(vec_to, vec_from)                                 \
+  bv_set_all_from((vec_to).vec, (vec_from).vec,                           \
+                  sizeof((vec_to).vec), sizeof((vec_from).vec))
+
 /* Used to make a BV typedef. Such types are usually called "bv_foo". */
 #define BV_DEFINE(name, bits)                                               \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name

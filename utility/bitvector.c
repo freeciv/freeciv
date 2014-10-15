@@ -261,3 +261,23 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
   }
   return TRUE;
 }
+
+/**************************************************************************
+  Set everything that is true in vec_from in vec_to. Stuff that already is
+  true in vec_to aren't touched. (Bitwise inclusive OR assignment)
+
+  Both vectors are expected to have same number of elements,
+  i.e. , size1 must be equal to size2.
+**************************************************************************/
+void bv_set_all_from(unsigned char *vec_to,
+                     const unsigned char *vec_from,
+                     size_t size_to, size_t size_from)
+{
+  size_t i;
+
+  fc_assert_ret(size_to == size_from);
+
+  for (i = 0; i < size_to; i++) {
+    vec_to[i] |= vec_from[i];
+  }
+}
