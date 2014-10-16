@@ -9,6 +9,7 @@
 --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --   GNU General Public License for more details.
 
+-- Place Ruins at the location of the destroyed city.
 function city_destroyed_callback(city, loser, destroyer)
   city.tile:create_base("Ruins", NIL)
   -- continue processing
@@ -18,10 +19,12 @@ end
 signal.connect("city_destroyed", "city_destroyed_callback")
 
 
+-- Look this up once, not each time building_built_handler() is called.
 tevo_tech = find.tech_type("Theory of Evolution")
 darw_btype = find.building_type("Darwin's Voyage")
 darw_id = darw_btype.id
 
+-- Grant two techs when the wonder Darwin's Voyage is built.
 function building_built_handler(btype, city)
   local player, id = city.owner, btype.id
   local gained = {}
@@ -59,14 +62,17 @@ end
 signal.connect("building_built", "building_built_handler")
 
 
+-- Look this up once, not each time tech_researched_handler() is called.
 phil_tech = find.tech_type("Philosophy")
 phil_id = phil_tech.id
 
+-- Grant one tech when the tech Philosophy is researched.
 function tech_researched_handler(tech, player, how)
   local id
   local gained
 
   if tech == nil then
+    -- no tech was researched.
     return
   end
 

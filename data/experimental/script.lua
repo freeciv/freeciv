@@ -12,6 +12,7 @@
 -- This is the experimental ruleset. See doc/README.ruleset_experimental
 -- for a detailed description.
 
+-- Place Ruins at the location of the destroyed city.
 function city_destroyed_callback(city, loser, destroyer)
   city.tile:create_base("Ruins", NIL)
   -- continue processing
