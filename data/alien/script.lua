@@ -9,6 +9,7 @@
 --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --   GNU General Public License for more details.
 
+-- Show a pop up telling the beginning of the story when the game starts.
 function turn_callback(turn, year)
   if turn == 0 then
     notify.event(nil, nil, E.SCRIPT,
