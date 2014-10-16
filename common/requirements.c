@@ -15,6 +15,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
@@ -545,6 +546,24 @@ int universal_number(const struct universal *source)
   fc_assert_msg(FALSE, "universal_number(): invalid source kind %d.",
                 source->kind);
   return 0;
+}
+
+
+/****************************************************************************
+  Returns the given requirement as a formated string ready for printing.
+****************************************************************************/
+const char *req_to_fstring(const struct requirement *req)
+{
+  struct astring printable_req = ASTRING_INIT;
+
+  astr_set(&printable_req, "%s%s %s %s%s",
+           req->survives ? "surviving " : "",
+           req_range_name(req->range),
+           universal_type_rule_name(&req->source),
+           req->present ? "" : "!",
+           universal_rule_name(&req->source));
+
+  return astr_str(&printable_req);
 }
 
 /****************************************************************************
