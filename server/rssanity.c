@@ -284,6 +284,13 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
                   universal_rule_name(&preq->source));
         return FALSE;
       }
+      if (are_requirements_contradictions(preq, nreq)) {
+        log_error("%s: Requirements {%s} and {%s} contradict each other.",
+                  list_for,
+                  req_to_fstring(preq),
+                  req_to_fstring(nreq));
+        return FALSE;
+      }
     } requirement_vector_iterate_end;
   } requirement_vector_iterate_end;
 
