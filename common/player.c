@@ -1451,6 +1451,158 @@ const char *diplrel_name_translation(int value)
   }
 }
 
+/* The number of mutually exclusive requirement sets that
+ * diplrel_mess_gen() creates for the DiplRel requirement type. */
+#define DIPLREL_MESS_SIZE (1 + (DRO_LAST * (5 + 4 + 3 + 2 + 1)))
+
+/**************************************************************************
+  Generate and return an array of mutually exclusive requirement sets for
+  the DiplRel requirement type. The array has DIPLREL_MESS_SIZE sets.
+
+  A mutually exclusive set is a set of requirements were the presence of
+  one requirement proves the absence of every other requirement. In other
+  words: at most one of the requirements in the set can be present.
+**************************************************************************/
+static bv_diplrel_all_reqs *diplrel_mess_gen(void)
+{
+  /* The ranges supported by the DiplRel requiremnt type. */
+  const enum req_range legal_ranges[] = {
+    REQ_RANGE_LOCAL,
+    REQ_RANGE_PLAYER,
+    REQ_RANGE_ALLIANCE,
+    REQ_RANGE_TEAM,
+    REQ_RANGE_WORLD
+  };
+
+  /* Iterators. */
+  int rel;
+  int i;
+  int j;
+
+  /* Storage for the mutually exclusive requirement sets. */
+  bv_diplrel_all_reqs *mess = fc_malloc(DIPLREL_MESS_SIZE
+                                        * sizeof(bv_diplrel_all_reqs));
+
+  /* Position in mess. */
+  int mess_pos = 0;
+
+  /* The first mutually exclusive set is about local diplstate. */
+  BV_CLR_ALL(mess[mess_pos]);
+
+  /* It is not possible to have more than one diplstate to a nation. */
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_ARMISTICE, REQ_RANGE_LOCAL, TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_WAR, REQ_RANGE_LOCAL, TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_CEASEFIRE, REQ_RANGE_LOCAL, TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_PEACE, REQ_RANGE_LOCAL, TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_ALLIANCE, REQ_RANGE_LOCAL, TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_NO_CONTACT, REQ_RANGE_LOCAL, TRUE));
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DS_TEAM, REQ_RANGE_LOCAL, TRUE));
+
+  /* It is not possible to have a diplstate to your self. */
+  BV_SET(mess[mess_pos],
+         requirement_diplrel_ereq(DRO_FOREIGN, REQ_RANGE_LOCAL, FALSE));
+
+  mess_pos++;
+
+  /* Loop over diplstate_type and diplrel_other. */
+  for (rel = 0; rel < DRO_LAST; rel++) {
+    /* The presence of a DiplRel at a more local range proves that it can't
+     * be absent in a more global range. (The alliance range includes the
+     * Team range) */
+    for (i = 0; i < 5; i++) {
+      for (j = i; j < 5; j++) {
+        BV_CLR_ALL(mess[mess_pos]);
+
+        BV_SET(mess[mess_pos],
+               requirement_diplrel_ereq(rel, legal_ranges[i], TRUE));
+        BV_SET(mess[mess_pos],
+               requirement_diplrel_ereq(rel, legal_ranges[j], FALSE));
+
+        mess_pos++;
+      }
+    }
+  }
+
+  /* No uninitialized element exists. */
+  fc_assert(mess_pos == DIPLREL_MESS_SIZE);
+
+  return mess;
+}
+
+/* An array of mutually exclusive requirement sets for the DiplRel
+ * requirement type. Is initialized the first time diplrel_mess_get() is
+ * called. */
+static bv_diplrel_all_reqs *diplrel_mess = NULL;
+
+/**************************************************************************
+  Get the mutually exclusive requirement sets for DiplRel.
+**************************************************************************/
+static bv_diplrel_all_reqs *diplrel_mess_get(void)
+{
+  if (diplrel_mess == NULL) {
+    /* This is the first call. Initialize diplrel_mess. */
+    diplrel_mess = diplrel_mess_gen();
+  }
+
+  return diplrel_mess;
+}
+
+/**************************************************************************
+  Get the DiplRel requirements that are known to contradict the specified
+  DiplRel requirement.
+
+  The known contratictions have their position in the enumeration of all
+  possible DiplRel requirements set in the returned bitvector.
+**************************************************************************/
+bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req)
+{
+  int diplrel_req_num;
+  bv_diplrel_all_reqs *mess;
+  bv_diplrel_all_reqs known;
+  int set;
+
+  /* Nothing is known to contradict the requirement yet. */
+  BV_CLR_ALL(known);
+
+  if (req->source.kind != VUT_DIPLREL) {
+    /* No known contradiction of a requirement of any other kind. */
+    fc_assert(req->source.kind == VUT_DIPLREL);
+
+    return known;
+  }
+
+  /* Convert the requirement to its position in the enumeration of all
+   * DiplRel requirements. */
+  diplrel_req_num = requirement_diplrel_ereq(req->source.value.diplrel,
+                                             req->range, req->present);
+
+  /* Get the mutually exclusive requirement sets for DiplRel. */
+  mess = diplrel_mess_get();
+
+  /* Add all known contradictions. */
+  for (set = 0; set < DIPLREL_MESS_SIZE; set++) {
+    if (BV_ISSET(mess[set], diplrel_req_num)) {
+      /* The requirement req is mentioned in the set. It is therefore known
+       * that all other requirements in the set contradicts it. They should
+       * therefore be added to the known contradictions. */
+      BV_SET_ALL_FROM(known, mess[set]);
+    }
+  }
+
+  /* The requirement isn't self contradicting. It was set by the mutually
+   * exclusive requirement sets that mentioned it. Remove it. */
+  BV_CLR(known, diplrel_req_num);
+
+  return known;
+}
+
 /***************************************************************************
   Return the number of pplayer2's visible units in pplayer's territory,
   from the point of view of pplayer.  Units that cannot be seen by pplayer

@@ -179,6 +179,9 @@ int requirement_kind_state_pos(const int id,
 #define requirement_unit_state_pos(_id_, _present_)                       \
   requirement_kind_state_pos(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
 
+#define requirement_diplrel_ereq(_id_, _range_, _present_)                \
+  requirement_kind_state_pos(_id_, _range_, _present_, DRO_LAST)
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

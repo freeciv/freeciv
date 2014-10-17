@@ -168,7 +168,12 @@ struct player_ai {
 #define SPECENUM_VALUE14NAME N_("Provided Casus Belli")
 #define SPECENUM_VALUE15 DRO_FOREIGN
 #define SPECENUM_VALUE15NAME N_("Is foreign")
+#define SPECENUM_COUNT DRO_LAST
 #include "specenum_gen.h"
+
+BV_DEFINE(bv_diplrel_all_reqs,
+          /* Reserve a location for each possible DiplRel requirement. */
+          ((DRO_LAST - 1) * 2) * REQ_RANGE_COUNT);
 
 enum dipl_reason {
   DIPL_OK, DIPL_ERROR, DIPL_SENATE_BLOCKING,
@@ -430,6 +435,8 @@ bool is_diplrel_to_other(const struct player *pplayer, int diplrel);
 int diplrel_by_rule_name(const char *value);
 const char *diplrel_rule_name(int value);
 const char *diplrel_name_translation(int value);
+
+bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req);
 
 /* iterate over all player slots */
 #define player_slots_iterate(_pslot)                                        \
