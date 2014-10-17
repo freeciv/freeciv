@@ -59,7 +59,7 @@
 #define BUTTON_NOT_THERE -1
 
 
-static GtkWidget *diplomat_dialog;
+static GtkWidget *act_sel_dialog;
 static int action_button_map[BUTTON_COUNT];
 
 static int actor_unit_id;
@@ -207,10 +207,10 @@ void caravan_dialog_update(void)
 
   if (BUTTON_NOT_THERE != action_button_map[BUTTON_HELP_WONDER]) {
     /* Update existing help build wonder button. */
-    choice_dialog_button_set_label(diplomat_dialog,
+    choice_dialog_button_set_label(act_sel_dialog,
                                    action_button_map[BUTTON_HELP_WONDER],
                                    buf);
-    choice_dialog_button_set_sensitive(diplomat_dialog,
+    choice_dialog_button_set_sensitive(act_sel_dialog,
         action_button_map[BUTTON_HELP_WONDER], can_help);
   } else if (can_help) {
     /* Help build wonder just became possible. */
@@ -221,15 +221,15 @@ void caravan_dialog_update(void)
                                         0, 0, 0);
 
     action_button_map[BUTTON_HELP_WONDER] =
-        choice_dialog_get_number_of_buttons(diplomat_dialog);
-    choice_dialog_add(diplomat_dialog, buf,
+        choice_dialog_get_number_of_buttons(act_sel_dialog);
+    choice_dialog_add(act_sel_dialog, buf,
                       (GCallback)caravan_help_build_wonder_callback,
                       data, NULL);
-    choice_dialog_end(diplomat_dialog);
+    choice_dialog_end(act_sel_dialog);
 
     if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
       /* Move the cancel button below the recently added button. */
-      choice_dialog_button_move_to_the_end(diplomat_dialog,
+      choice_dialog_button_move_to_the_end(act_sel_dialog,
           action_button_map[BUTTON_CANCEL]);
 
       /* DO NOT change action_button_map[BUTTON_CANCEL] or
@@ -279,7 +279,7 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
    * needs to know what action to take. */
   is_more_user_input_needed = TRUE;
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -332,7 +332,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
                       args->target_city_id, B_LAST + 1);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -349,7 +349,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
                       args->target_city_id, 0);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -363,7 +363,7 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, args->actor_unit_id,
                     args->target_unit_id, 0);
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -380,7 +380,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
                       args->target_city_id, 0);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -397,7 +397,7 @@ static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
                       args->target_city_id, 0);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -414,7 +414,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
                       args->target_city_id, 0);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -431,7 +431,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
                       args->target_city_id, A_UNSET);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -783,7 +783,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
    * needs to know what action to take. */
   is_more_user_input_needed = TRUE;
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
 }
 
 /****************************************************************
@@ -805,7 +805,7 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
    * needs to know what action to take. */
   is_more_user_input_needed = TRUE;
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -840,7 +840,7 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
    * needs to know what action to take. */
   is_more_user_input_needed = TRUE;
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -928,40 +928,38 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
                       args->target_tile_id, 0);
   }
 
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
 /****************************************************************
-  Diplomat dialog has been destoryed
+  Action selection dialog has been destroyed
 *****************************************************************/
-static void diplomat_destroy_callback(GtkWidget *w, gpointer data)
+static void act_sel_destroy_callback(GtkWidget *w, gpointer data)
 {
-  diplomat_dialog = NULL;
+  act_sel_dialog = NULL;
   diplomat_queue_handle_primary();
 }
 
 /****************************************************************
-  Diplomat dialog has been canceled
+  Action selection dialog has been canceled
 *****************************************************************/
-static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
+static void act_sel_cancel_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(data);
 }
 
 /****************************************************************
-  Diplomat dialog has been closed
+  Action selection dialog has been closed
 *****************************************************************/
-static void diplomat_close_callback(GtkWidget *w,
-                                    gint response_id,
-                                    gpointer data)
+static void act_sel_close_callback(GtkWidget *w,
+                                   gint response_id,
+                                   gpointer data)
 {
-  gtk_widget_destroy(diplomat_dialog);
+  gtk_widget_destroy(act_sel_dialog);
   free(data);
 }
-
-
 
 /* Mapping from an action to the function to call when its button is
  * pushed. */
@@ -1035,7 +1033,7 @@ static void action_entry_update(GtkWidget *shl,
 
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
-  choice_dialog_button_set_sensitive(diplomat_dialog,
+  choice_dialog_button_set_sensitive(act_sel_dialog,
       action_button_map[action_id],
       action_prob_possible(act_prob[action_id]));
 
@@ -1059,10 +1057,10 @@ static void action_entry_update(GtkWidget *shl,
     break;
   }
 
-  choice_dialog_button_set_label(diplomat_dialog,
+  choice_dialog_button_set_label(act_sel_dialog,
                                  action_button_map[action_id],
                                  label);
-  choice_dialog_button_set_tooltip(diplomat_dialog,
+  choice_dialog_button_set_tooltip(act_sel_dialog,
                                    action_button_map[action_id],
                                    tooltip);
 }
@@ -1261,17 +1259,17 @@ void popup_action_selection(struct unit *actor_unit,
   action_button_map[BUTTON_CANCEL] =
       choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, GTK_STOCK_CANCEL,
-                    (GCallback)diplomat_cancel_callback, data, NULL);
+                    (GCallback)act_sel_cancel_callback, data, NULL);
 
   choice_dialog_end(shl);
 
-  diplomat_dialog = shl;
+  act_sel_dialog = shl;
 
   choice_dialog_set_hide(shl, TRUE);
   g_signal_connect(shl, "destroy",
-                   G_CALLBACK(diplomat_destroy_callback), NULL);
+                   G_CALLBACK(act_sel_destroy_callback), NULL);
   g_signal_connect(shl, "delete_event",
-                   G_CALLBACK(diplomat_close_callback), data);
+                   G_CALLBACK(act_sel_close_callback), data);
   astr_free(&title);
   astr_free(&text);
 }
@@ -1283,7 +1281,7 @@ void popup_action_selection(struct unit *actor_unit,
 **************************************************************************/
 int action_selection_actor_unit(void)
 {
-  if (diplomat_dialog == NULL) {
+  if (act_sel_dialog == NULL) {
     return IDENTITY_NUMBER_ZERO;
   }
   return actor_unit_id;
@@ -1297,7 +1295,7 @@ int action_selection_actor_unit(void)
 **************************************************************************/
 int action_selection_target_city(void)
 {
-  if (diplomat_dialog == NULL) {
+  if (act_sel_dialog == NULL) {
     return IDENTITY_NUMBER_ZERO;
   }
   return target_ids[ATK_CITY];
@@ -1311,7 +1309,7 @@ int action_selection_target_city(void)
 **************************************************************************/
 int action_selection_target_unit(void)
 {
-  if (diplomat_dialog == NULL) {
+  if (act_sel_dialog == NULL) {
     return IDENTITY_NUMBER_ZERO;
   }
 
@@ -1329,8 +1327,8 @@ void action_selection_refresh(struct unit *actor_unit,
 {
   struct action_data *data;
 
-  if (diplomat_dialog == NULL) {
-    fc_assert_msg(diplomat_dialog != NULL,
+  if (act_sel_dialog == NULL) {
+    fc_assert_msg(act_sel_dialog != NULL,
                   "The action selection dialog should have been open");
     return;
   }
@@ -1355,16 +1353,16 @@ void action_selection_refresh(struct unit *actor_unit,
 
     if (BUTTON_NOT_THERE == action_button_map[act]) {
       /* Add the button (unless its probability is 0). */
-      action_entry(diplomat_dialog, act, act_prob, data);
+      action_entry(act_sel_dialog, act, act_prob, data);
     } else {
       /* Update the existing button. */
-      action_entry_update(diplomat_dialog, act, act_prob, data);
+      action_entry_update(act_sel_dialog, act, act_prob, data);
     }
   } action_iterate_end;
 
   if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
     /* Move the cancel button below the recently added button. */
-    choice_dialog_button_move_to_the_end(diplomat_dialog,
+    choice_dialog_button_move_to_the_end(act_sel_dialog,
         action_button_map[BUTTON_CANCEL]);
 
     /* DO NOT change action_button_map[BUTTON_CANCEL] or
@@ -1374,7 +1372,7 @@ void action_selection_refresh(struct unit *actor_unit,
      * it was added, not on its current position. */
   }
 
-  choice_dialog_end(diplomat_dialog);
+  choice_dialog_end(act_sel_dialog);
 }
 
 /****************************************************************
@@ -1382,7 +1380,7 @@ void action_selection_refresh(struct unit *actor_unit,
 ****************************************************************/
 void close_diplomat_dialog(void)
 {
-  if (diplomat_dialog != NULL) {
-    gtk_widget_destroy(diplomat_dialog);
+  if (act_sel_dialog != NULL) {
+    gtk_widget_destroy(act_sel_dialog);
   }
 }
