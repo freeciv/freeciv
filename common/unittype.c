@@ -299,8 +299,9 @@ bool is_actor_unit_type(const struct unit_type *putype)
  */
 BV_DEFINE(bv_unit_state_action_cache, ((USP_COUNT - 1) * 2));
 
-/* Cache for each unit type */
+/* Caches for each unit type */
 static bv_unit_state_action_cache unit_state_action_cache[U_LAST];
+static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_COUNT];
 
 /**************************************************************************
   Cache if any action may be possible for a unit of the type putype for
@@ -358,6 +359,66 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 }
 
 /**************************************************************************
+  Cache what actions may be possible for a unit of the type putype for
+  each local DiplRel variation. Since a diplomatic relationship could be
+  ignored both present and !present must be checked.
+
+  Note: since can_unit_act_when_local_diplrel_is() only supports querying
+  the local range no values for the other ranges are set.
+**************************************************************************/
+static void local_dipl_rel_action_cache_set(struct unit_type *putype)
+{
+  struct requirement req;
+  int putype_id = utype_index(putype);
+
+  /* The unit is not yet known to be allowed to perform any actions no
+   * matter what the diplomatic state is. */
+  action_iterate(action_id) {
+    BV_CLR_ALL(dipl_rel_action_cache[putype_id][action_id]);
+  } action_iterate_end;
+
+  if (!is_actor_unit_type(putype)) {
+    /* Not an actor unit. */
+    return;
+  }
+
+  /* Common for every situation */
+  req.range = REQ_RANGE_LOCAL;
+  req.survives = FALSE;
+  req.source.kind = VUT_DIPLREL;
+
+  /* DiplRel starts with diplstate_type and ends with diplrel_other */
+  for (req.source.value.diplrel = diplstate_type_begin();
+       req.source.value.diplrel != DRO_LAST;
+       req.source.value.diplrel++) {
+
+    /* No action will ever be possible in a specific diplomatic relation if
+     * its presence contradicts all action enablers.
+     * Everything was set to false above. It is therefore OK to only change
+     * the cache when units can do an action given a certain diplomatic
+     * relationship property value. */
+    action_enablers_iterate(enabler) {
+      if (requirement_fulfilled_by_unit_type(putype,
+                                             &(enabler->actor_reqs))) {
+        req.present = TRUE;
+        if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
+          BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
+                 requirement_diplrel_ereq(req.source.value.unit_state,
+                                          REQ_RANGE_LOCAL, TRUE));
+        }
+
+        req.present = FALSE;
+        if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
+          BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
+              requirement_diplrel_ereq(req.source.value.unit_state,
+                                       REQ_RANGE_LOCAL, FALSE));
+        }
+      }
+    } action_enablers_iterate_end;
+  }
+}
+
+/**************************************************************************
   Cache if any action may be possible for a unit of the type putype given
   the property tested for. Since a it could be ignored both present and
   !present must be checked.
@@ -366,6 +427,7 @@ void unit_type_action_cache_set(struct unit_type *ptype)
 {
   unit_can_act_cache_set(ptype);
   unit_state_action_cache_set(ptype);
+  local_dipl_rel_action_cache_set(ptype);
 }
 
 /**************************************************************************
@@ -379,6 +441,26 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
 {
   return BV_ISSET(unit_state_action_cache[utype_index(punit_type)],
       requirement_unit_state_pos(prop, is_there));
+}
+
+/**************************************************************************
+  Return TRUE iff the given (action enabler controlled) action can be
+  performed by a unit of the given type while the given property of its
+  owner's diplomatic relationship to the target's owner has the given
+  value.
+
+  Note: since this only supports the local range no information for other
+  ranges are stored in dipl_rel_action_cache.
+**************************************************************************/
+bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
+                                     const int action_id,
+                                     const int prop,
+                                     const bool is_there)
+{
+  int utype_id = utype_index(punit_type);
+
+  return BV_ISSET(dipl_rel_action_cache[utype_id][action_id],
+      requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
 }
 
 /****************************************************************************

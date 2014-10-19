@@ -883,6 +883,26 @@ bool are_requirements_contradictions(const struct requirement *req1,
   }
 }
 
+/**************************************************************************
+  Returns TRUE if the given requirement contradicts the given requirement
+  vector.
+**************************************************************************/
+bool does_req_contradicts_reqs(const struct requirement *req,
+                               const struct requirement_vector *vec)
+{
+  /* If the requirement is contradicted by any requirement in the vector it
+   * contradicts the entire requirement vector. */
+  requirement_vector_iterate(vec, preq) {
+    if (are_requirements_contradictions(req, preq)) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  /* Not a singe requirement in the requirement vector is contradicted be
+   * the specified requirement. */
+  return FALSE;
+}
+
 /****************************************************************************
   Returns TRUE if players are in the same requirements range.
 ****************************************************************************/

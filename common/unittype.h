@@ -516,6 +516,10 @@ bool is_actor_unit_type(const struct unit_type *putype);
 bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
                                  const enum ustate_prop prop,
                                  const bool is_there);
+bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
+                                     const int action_id,
+                                     const int prop,
+                                     const bool is_there);
 
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
