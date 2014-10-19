@@ -1203,36 +1203,123 @@ bool can_units_do_connect(struct unit_list *punits,
 }
 
 /**************************************************************************
-  Returns TRUE if the unit can do a generalized action against its own
-  tile.
+  Returns TRUE if a unit of the given type can act given an actor player,
+  a target player and their diplomatic state.
+
+  Note: only DRO_FOREIGN and the values of diplstate_type are tested.
 **************************************************************************/
-bool can_unit_act_against_own_tile(struct unit *punit)
+static bool can_unit_act_diplstate(struct unit_type *act_unit_type,
+                                   const int action_id,
+                                   const struct player *act_player,
+                                   const struct player *tgt_player)
 {
-  struct city *pcity;
+  if (act_player == tgt_player) {
+    /* The actor player is the target player. */
+    return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
+                                           DRO_FOREIGN, FALSE);
+  } else {
+    /* The actor player and the target player are different. */
+    struct player_diplstate *diplstate;
 
-  /* All generalized actions vs own tile is currently against cities */
-  return (is_actor_unit(punit)
-          && (((pcity = tile_city(unit_tile(punit)))
-               && city_owner(pcity) != unit_owner(punit))
-              || is_other_players_unit_tile(unit_tile(punit),
-                                            unit_owner(punit))));
+    /* Get the diplstate between actor player and target player. */
+    diplstate = player_diplstate_get(act_player, tgt_player);
+    fc_assert(diplstate);
 
-  /* FIXME: Ask the server in stead. Will bring improved accuracy and
-   * remove the need to update this as other potential target appear. */
+    return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
+                                           diplstate->type, TRUE);
+  }
 }
 
 /**************************************************************************
-  Returns TRUE if any of the units can do a generalized action against
-  its own tile.
+  Returns TRUE if the unit can do a generalized action against its own
+  tile. May contain false positives.
+**************************************************************************/
+bool can_unit_act_against_own_tile(struct unit *act_unit)
+{
+  struct player *act_player;
+  struct player *tgt_player;
+  struct city *tgt_city;
+  struct tile *tgt_tile;
+
+  if (!is_actor_unit(act_unit)) {
+    /* Not an actor unit. */
+    return FALSE;
+  }
+
+  act_player = unit_owner(act_unit);
+  fc_assert(act_player);
+
+  tgt_tile = unit_tile(act_unit);
+  fc_assert(tgt_tile);
+
+  if ((tgt_city = tile_city(tgt_tile))) {
+    /* Target city detected. */
+
+    tgt_player = city_owner(tgt_city);
+    fc_assert(tgt_player);
+
+    action_iterate(act) {
+      if (action_get_actor_kind(act) != AAK_UNIT
+          || action_get_target_kind(act) != ATK_CITY) {
+        /* Not relevant. */
+        continue;
+      }
+
+      /* Can't return yet unless TRUE. Another action vs the city may be
+       * possible. It may also be possible to act against a unit target on
+       * the tile. */
+      if (can_unit_act_diplstate(unit_type(act_unit), act,
+                                 act_player, tgt_player)) {
+        /* City target confirmed possible. */
+        return TRUE;
+      }
+    } action_iterate_end;
+  }
+
+  unit_list_iterate(tgt_tile->units, tgt_unit) {
+    /* Checking this target unit. */
+
+    tgt_player = unit_owner(tgt_unit);
+    fc_assert(tgt_player);
+
+    action_iterate(act) {
+      if (action_get_actor_kind(act) != AAK_UNIT
+          || action_get_target_kind(act) != ATK_UNIT) {
+        /* Not relevant. */
+        continue;
+      }
+
+      /* Can't return yet unless TRUE. Another action vs the unit may be
+       * possible. It may also be possible to act against another unit
+       * target at the tile. */
+      if (can_unit_act_diplstate(unit_type(act_unit), act,
+                                 act_player, tgt_player)) {
+        /* Unit target confirmed possible. */
+        return TRUE;
+      }
+    } action_iterate_end;
+  } unit_list_iterate_end;
+
+  /* No action against any kind of target possible. */
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE if any of the units in the provided list can do a
+  generalized action against a target at its own tile.
 **************************************************************************/
 bool can_units_act_against_own_tile(struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
+    /* Can't return unless TRUE. Another unit may be able to act against a
+     * target at its won tile. */
     if (can_unit_act_against_own_tile(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;
 
+  /* No unit in the list were able to act against a target located at its
+   * own tile. */
   return FALSE;
 }
 
