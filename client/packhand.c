@@ -2297,53 +2297,39 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
     /* An action selection dialog is open and our diplomatic state just
      * changed. Find out if the relationship that changed was to a
      * potential target. */
-
-    bool refresh_tgt;
-    struct tile *tgt_tile;
-
-    /* No target to refresh yet. */
-    refresh_tgt = FALSE;
+    struct tile *tgt_tile = NULL;
 
     /* Is a refresh needed because of a unit target? */
     if (action_selection_target_unit() != IDENTITY_NUMBER_ZERO) {
-      bool refresh_tgt_unit;
       struct unit *tgt_unit;
 
       tgt_unit = game_unit_by_number(action_selection_target_unit());
 
-      if (tgt_unit != NULL) {
-        refresh_tgt_unit = tgt_unit->owner == plr1;
-        refresh_tgt = refresh_tgt_unit;
-
-        if (refresh_tgt_unit) {
-          /* An update is needed because of this unit target. */
-          tgt_tile = unit_tile(tgt_unit);
-        }
+      if (tgt_unit != NULL && tgt_unit->owner == plr1) {
+        /* An update is needed because of this unit target. */
+        tgt_tile = unit_tile(tgt_unit);
+        fc_assert(tgt_tile != NULL);
       }
     }
 
     /* Is a refresh needed because of a city target? */
     if (action_selection_target_city() != IDENTITY_NUMBER_ZERO) {
-      bool refresh_tgt_city;
       struct city *tgt_city;
 
       tgt_city = game_city_by_number(action_selection_target_city());
 
-      if (tgt_city != NULL) {
-        refresh_tgt_city = tgt_city->owner == plr1;
-        refresh_tgt = refresh_tgt || refresh_tgt_city;
-
-        if (refresh_tgt_city) {
-          /* An update is needed because of this city target.
-           * Overwrites any target tile from a unit. */
-          tgt_tile = city_tile(tgt_city);
-        }
+      if (tgt_city != NULL && tgt_city->owner == plr1) {
+        /* An update is needed because of this city target.
+         * Overwrites any target tile from a unit. */
+        tgt_tile = city_tile(tgt_city);
+        fc_assert(tgt_tile != NULL);
       }
     }
 
-    if (refresh_tgt) {
+    if (tgt_tile) {
       /* The diplomatic relationship to the target in an open action
-       * selection dialog have changed. This probably change */
+       * selection dialog have changed. This probably changes
+       * the set of available actions. */
       dsend_packet_unit_get_actions(&client.conn,
                                     action_selection_actor_unit(),
                                     tgt_tile->index,
