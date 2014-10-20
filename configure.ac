@@ -783,7 +783,8 @@ AC_SUBST([COMMON_LIBS])
 AC_ARG_ENABLE([crosser],
   AS_HELP_STRING([--enable-crosser], [build version to be used with crosser environment]),
 [case "${enableval}" in
-  yes) crosser=yes ;;
+  yes) crosser=yes 
+       AC_DEFINE([CROSSER], [1], [this is crosser based build]) ;;
   no)  crosser=no ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-crosser]) ;;
 esac], [crosser=no])

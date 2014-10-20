@@ -112,7 +112,11 @@ char **get_gui_specific_themes_directories(int *count)
   } strvec_iterate_end;
 
   /* standard GTK+ themes directory */
+#ifdef CROSSER
+  standard_dir = "../share/themes";
+#else  /* CROSSER */
   standard_dir = "/usr/share/themes";
+#endif /* CROSSER */
   directories[(*count)++] = fc_strdup(standard_dir);
 
   /* user GTK+ themes directory (~/.themes) */
