@@ -104,7 +104,7 @@ Give_Imm_Tech
 
 Growth_Food
     Food left after cities grow or shrink is amount percent of the capacity of 
-the city's foodbox.
+the city's foodbox. This also affects the 'aqueductloss' penalty.
 
 Have_Embassies
     Like having embassies with all other players.

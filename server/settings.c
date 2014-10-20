@@ -1450,11 +1450,12 @@ static struct setting settings[] = {
 
   GEN_INT("aqueductloss", game.server.aqueductloss,
 	  SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Percentage food lost when building needed"),
-	  N_("If a city would expand, but it can't because it needs "
-	     "an Aqueduct (or Sewer System), it loses this percentage "
-	     "of its foodbox (or half that amount when it has a "
-             "Granary)."), NULL, NULL,
+          N_("Percentage food lost when city can't grow"),
+          N_("If a city would expand, but it can't because it lacks some "
+             "prerequisite (traditionally an Aqueduct or Sewer System), "
+             "this is the base percentage of its foodbox that is lost "
+             "each turn; the penalty may be reduced by buildings or other "
+             "circumstances, depending on the ruleset."), NULL, NULL,
 	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
 	  GAME_DEFAULT_AQUEDUCTLOSS)
 
