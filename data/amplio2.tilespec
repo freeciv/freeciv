@@ -215,6 +215,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadAllSeparate"
       "road.rail",     "RoadAllSeparate"
+      "road.maglev",   "RoadAllSeparate"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
