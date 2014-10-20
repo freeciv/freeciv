@@ -222,7 +222,8 @@ mine_sprite = "tx.mine"
 [roads]
 styles =
     { "name", "style"
-      "road.road",  "AllSeparate"
-      "road.rail",  "AllSeparate"
-      "road.river", "River"
+      "road.road",   "AllSeparate"
+      "road.rail",   "AllSeparate"
+      "road.maglev", "AllSeparate"
+      "road.river",  "River"
     }
