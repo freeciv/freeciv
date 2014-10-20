@@ -65,10 +65,6 @@ translations/nations/POTFILES.in
   Nations part of the "core" group go to tranlations/freeciv/POTFILES.in
   instead.
 
-(See utility/fciconv.[ch])
-The data charset is used in all data files and network transactions.
-This is UTF-8. Currently, the rulesets are in latin1 (ISO-8859-1).
-
 
 ----------------------------------------------------------------------
 How to add a Flag:

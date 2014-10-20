@@ -72,7 +72,6 @@ void init_character_encodings(const char *my_internal_encoding,
    * then fall back to the default. */
   data_encoding = getenv("FREECIV_DATA_ENCODING");
   if (!data_encoding) {
-    /* Currently the rulesets are in latin1 (ISO-8859-1). */
     data_encoding = FC_DEFAULT_DATA_ENCODING;
   }
 
@@ -130,7 +129,7 @@ void init_character_encodings(const char *my_internal_encoding,
    /* log_* may not work at this point. */
   fprintf(stderr,
           _("You are running Freeciv without using iconv. Unless\n"
-            "you are using the latin1 character set, some characters\n"
+            "you are using the UTF-8 character set, some characters\n"
             "may not be displayed properly. You can download iconv\n"
             "at http://gnu.org/.\n"));
 #endif /* HAVE_ICONV */

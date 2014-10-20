@@ -75,10 +75,6 @@ self-explanatory. A few points:
 - Rulesets must be in UTF-8; translatable texts should be American English
   ASCII.
 
-(See utility/fciconv.[ch])
-The data charset is used in all data files and network transactions.
-This is UTF-8. Currently, the rulesets are in latin1 (ISO-8859-1).
-
 ----------------------------------------------------------------------
 Restrictions and Limitations:
 -----------------------------

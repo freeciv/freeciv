@@ -29,7 +29,7 @@ server: (duh)
 client: common client code
 client/* (fx gui-gtk): a specific gui implementation of the client.
 data: graphics, rulesets and stuff
-po: translations
+translations: localization files
 ai: the ai, later linked into the server.
 
 Freeciv is written in C.  Header files should be compatible with C++ so
@@ -83,9 +83,9 @@ setting timeout to -1 again.
 
 The commandline to run server-only games can be typed as variations
 of:
-$ while( time server/civserver -r civ.serv ); do date; done
+$ while( time server/freeciv-server -r civ.serv ); do date; done
   ---  or  ---
-$ server/civserver -r civ.serv -f buggy1534.sav.gz
+$ server/freeciv-server -r civ.serv -f buggy1534.sav.gz
 
 To attach one or more clients to an autogame, remove the "start"
 command, start the server program and attach clients to created AI
@@ -113,7 +113,7 @@ helpful:
 Data Structures
 ===========================================================================
 For variable length list of fx units and cities freeciv uses a genlist,
-which is implemented in common/genlist.c. By some macro magic type specific
+which is implemented in utility/genlist.c. By some macro magic type specific
 macros have been defined, avoiding much trouble.
 For example a tile struct (the pointer to it we call ptile) has a unit
 list, ptile->units; to iterate though all the units on the tile you would
@@ -132,7 +132,7 @@ city_list_iterate(pplayer->cities, pcity) {
 } city_list_iterate_end;
 
 There are other operations than iterating that can be performed on a list;
-inserting, deleting, sorting etc. See common/speclist.h
+inserting, deleting, sorting etc. See utility/speclist.h
 Note that the way the *_list_iterate macro is implemented means you can use
 "continue" and "break" in the usual manner.
 
@@ -146,12 +146,14 @@ pointer, and use it in a moment, with a segfault as the result. To avoid
 this, use unit_list_iterate_safe instead.
 
 You can also define your own lists with operations like iterating; read how
-in common/speclist.h.
+in utility/speclist.h.
 
 =========================================================================
 Network and Packets
 =========================================================================
 The basic netcode is located in server/sernet.c and client/clinet.c.
+
+(FIXME: this section is a bit out of date. See also doc/README.delta.)
 
 All information passed between the server and clients, must be sent
 through the network as serialized packet structures.
@@ -842,11 +844,11 @@ limited information about non-neighbouring and unseen enemies, is available
 at http://freecivac.sf.net/.
 
 =========================================================================
-Client GUI- Athena 
+Xaw Client GUI- Athena
 =========================================================================
-One client GUI is written using athena-widgets. A few comments on this 
-could prove useful for anyone wishing to write new dialogs or improve
-on the current ones.
+The old freeciv-xaw client GUI is written using athena-widgets. A few
+comments on this could prove useful for anyone wishing to write new
+dialogs or improve on the current ones.
 
 Widgets:
 --------
@@ -1177,13 +1179,15 @@ Internationalization (I18N)
 ===========================================================================
 
 Messages and text in general which are shown in the GUI should be
-translated by using the "_()" macro. In addition freelog(LOG_NORMAL,
-...) messages should be translated. The other loglevels (LOG_FATAL,
-LOG_ERROR,LOG_VERBOSE, LOG_DEBUG) should NOT be translated.
+translated by using the "_()" macro. In addition log_normal() messages
+should be translated. In most cases, the other log levels (log_fatal(),
+log_error(), log_verbose(), log_debug()) should NOT be localised.
 
-(See utility/fciconv.[ch])
+See utility/fciconv.h for details of how Freeciv handles character sets
+and encodings. Briefly:
+
 The data_encoding is used in all data files and network transactions.
-This is UTF-8.  Currently, the rulesets are in latin1 (ISO-8859-1).
+This is UTF-8.
 
 The internal_encoding is used internally within freeciv.  This is always
 UTF-8 at the server, but can be configured by the GUI client.  (When your
