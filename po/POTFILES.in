@@ -216,6 +216,7 @@ data/multiplayer/buildings.ruleset
 data/multiplayer/cities.ruleset
 data/multiplayer/game.ruleset
 data/multiplayer/governments.ruleset
+data/multiplayer/script.lua
 data/multiplayer/techs.ruleset
 data/multiplayer/terrain.ruleset
 data/multiplayer/units.ruleset
