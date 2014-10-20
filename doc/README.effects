@@ -37,7 +37,9 @@ certain ranges; this is not yet documented. In particular, at present,
 "Continent" effects can affect only cities and units in cities.
 
 A requirement may have a 'survives' field, and if this 'TRUE', the effect
-survives destruction (wonders only, at world or player range only).
+survives destruction. This is supported for only a few conditions and
+ranges: wonders (at world or player range), nations, and advances
+(both at world range only).
 
 A requirement may have a 'present' field, and if this is 'FALSE',
 the requirement is negated (the condition must not be true for the req to be

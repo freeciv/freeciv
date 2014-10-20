@@ -308,6 +308,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
         if (pobs->source.kind == VUT_ADVANCE
             && pobs->source.value.advance == vap
             && pobs->range >= REQ_RANGE_WORLD
+            && pobs->survives
             && is_great_wonder(pimprove)
             && (pcity = city_from_great_wonder(pimprove))) {
           notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE, ftc_server,

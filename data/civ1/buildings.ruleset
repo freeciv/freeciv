@@ -747,8 +747,8 @@ reqs	=
 graphic		= "b.colossus"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Electricity", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Electricity", "World", TRUE
     }
 build_cost	= 200
 upkeep		= 0
@@ -770,8 +770,8 @@ reqs	=
 graphic		= "b.copernicus_observatory"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Automobile", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Automobile", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -839,8 +839,8 @@ reqs	=
 graphic		= "b.great_library"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Electronics", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Electronics", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -862,8 +862,8 @@ reqs	=
 graphic		= "b.great_wall"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Gunpowder", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Gunpowder", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -886,8 +886,8 @@ reqs	=
 graphic		= "b.hanging_gardens"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Invention", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Invention", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -935,8 +935,8 @@ reqs	=
 graphic		= "b.isaac_newtons_college"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Nuclear Fission", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Nuclear Fission", "World", TRUE
     }
 build_cost	= 400
 upkeep		= 0
@@ -981,8 +981,8 @@ reqs	=
 graphic		= "b.lighthouse"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Magnetism", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Magnetism", "World", TRUE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1044,8 +1044,8 @@ reqs	=
 graphic		= "b.michelangelos_chapel"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Communism", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Communism", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -1066,8 +1066,8 @@ reqs	=
 graphic		= "b.oracle"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Religion", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Religion", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -1089,8 +1089,8 @@ reqs	=
 graphic		= "b.pyramids"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Communism", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Communism", "World", TRUE
     }
 build_cost	= 300
 upkeep		= 0
@@ -1136,8 +1136,8 @@ reqs	=
 graphic		= "b.shakespeares_theatre"
 graphic_alt	= "-"
 obsolete_by	=
-    { "type", "name", "range"
-      "Tech", "Electronics", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Electronics", "World", TRUE
     }
 build_cost	= 400
 upkeep		= 0

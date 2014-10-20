@@ -419,14 +419,30 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     _("Requires that some player knows the technology %s.\n"),
-                     advance_name_translation(preq->source.value.advance));
+      if (preq->survives) {
+        if (preq->present) {
+          cat_snprintf(buf, bufsz,
+                       _("Requires that someone has discovered the "
+                         "technology %s.\n"),
+                       advance_name_translation(preq->source.value.advance));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       _("Requires that no-one has yet discovered the "
+                        "technology %s.\n"),
+                       advance_name_translation(preq->source.value.advance));
+        }
       } else {
-        cat_snprintf(buf, bufsz,
-                     _("Requires that no player knows the technology %s.\n"),
-                     advance_name_translation(preq->source.value.advance));
+        if (preq->present) {
+          cat_snprintf(buf, bufsz,
+                       _("Requires that some player knows the "
+                         "technology %s.\n"),
+                       advance_name_translation(preq->source.value.advance));
+        } else {
+          cat_snprintf(buf, bufsz,
+                       _("Requires that no player knows the "
+                         "technology %s.\n"),
+                       advance_name_translation(preq->source.value.advance));
+        }
       }
       return TRUE;
     case REQ_RANGE_LOCAL:

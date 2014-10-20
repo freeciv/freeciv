@@ -744,9 +744,9 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = survives && req.range <= REQ_RANGE_CONTINENT;
       break;
     case VUT_NATION:
+    case VUT_ADVANCE:
       invalid = survives && req.range != REQ_RANGE_WORLD;
       break;
-    case VUT_ADVANCE:
     case VUT_GOVERNMENT:
     case VUT_TERRAIN:
     case VUT_UTYPE:
@@ -1175,9 +1175,15 @@ is_building_in_range(const struct player *target_player,
   Is there a source tech within range of the target?
 ****************************************************************************/
 static enum fc_tristate is_tech_in_range(const struct player *target_player,
-                                         enum req_range range,
+                                         enum req_range range, bool survives,
                                          Tech_type_id tech)
 {
+  if (survives) {
+    fc_assert(range == REQ_RANGE_WORLD);
+    return BOOL_TO_TRISTATE(game.info.global_advances[tech]);
+  }
+
+  /* Not a 'surviving' requirement. */
   switch (range) {
   case REQ_RANGE_PLAYER:
     if (NULL != target_player) {
@@ -1188,6 +1194,7 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
     }
   case REQ_RANGE_TEAM:
   case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
    if (NULL == target_player) {
      return TRI_MAYBE;
    }
@@ -1201,8 +1208,6 @@ static enum fc_tristate is_tech_in_range(const struct player *target_player,
    } players_iterate_alive_end;
 
    return TRI_NO;
-  case REQ_RANGE_WORLD:
-    return BOOL_TO_TRISTATE(game.info.global_advances[tech]);
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
@@ -2356,7 +2361,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_ADVANCE:
     /* The requirement is filled if the player owns the tech. */
-    eval = is_tech_in_range(target_player, req->range,
+    eval = is_tech_in_range(target_player, req->range, req->survives,
                             advance_number(req->source.value.advance));
     break;
  case VUT_TECHFLAG:

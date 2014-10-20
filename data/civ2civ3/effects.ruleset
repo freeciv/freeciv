@@ -1438,10 +1438,10 @@ reqs    =
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Anarchy", "Player", TRUE
-      "Building", "Pyramids", "Player", FALSE
-      "Tech", "Railroad", "World", FALSE
+    { "type", "name", "range", "present", "survives"
+      "Gov", "Anarchy", "Player", TRUE, FALSE
+      "Building", "Pyramids", "Player", FALSE, FALSE
+      "Tech", "Railroad", "World", FALSE, TRUE
     }
 
 ; Railroad because makes Pyramids obsolete
@@ -1449,10 +1449,10 @@ reqs    =
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Tribal", "Player", TRUE
-      "Building", "Pyramids", "Player", FALSE
-      "Tech", "Railroad", "World", FALSE
+    { "type", "name", "range", "present", "survives"
+      "Gov", "Tribal", "Player", TRUE, FALSE
+      "Building", "Pyramids", "Player", FALSE, FALSE
+      "Tech", "Railroad", "World", FALSE, TRUE
     }
 
 ; Railroad because makes Pyramids obsolete
@@ -1460,10 +1460,10 @@ reqs    =
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Despotism", "Player", TRUE
-      "Building", "Pyramids", "Player", FALSE
-      "Tech", "Railroad", "World", FALSE
+    { "type", "name", "range", "present", "survives"
+      "Gov", "Despotism", "Player", TRUE, FALSE
+      "Building", "Pyramids", "Player", FALSE, FALSE
+      "Tech", "Railroad", "World", FALSE, TRUE
     }
 
 [effect_gov_tile_bonus_republic]
@@ -2618,24 +2618,24 @@ reqs    =
 type    = "Slow_Down_Timeline"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Tech", "Plastics", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Plastics", "World", TRUE
     }
 
 [effect_superconductor_slowdown]
 type    = "Slow_Down_Timeline"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Tech", "Superconductors", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Superconductors", "World", TRUE
     }
 
 [effect_spaceflight_slowdown]
 type    = "Slow_Down_Timeline"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Tech", "Space Flight", "World"
+    { "type", "name", "range", "survives"
+      "Tech", "Space Flight", "World", TRUE
     }
 
 [effect_stock_exchange]
