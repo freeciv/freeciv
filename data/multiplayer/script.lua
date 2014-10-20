@@ -24,8 +24,14 @@ darw_id = darw_btype.id
 
 function building_built_handler(btype, city)
   local player, id = city.owner, btype.id
+
   if id == darw_id then
+    -- Block the player from destroying the wonder, rebuilding it and
+    -- getting two free advances again.
+    -- This also prevents those he share research with from getting two
+    -- free advances from building Darwin's Voyage them self.
     if player:give_technology(tevo_tech, "researched") then
+      -- Give the player two free advances.
       player:give_technology(nil, "researched")
       player:give_technology(nil, "researched")
     end
@@ -47,6 +53,8 @@ function tech_researched_handler(tech, player, how)
 
   id = tech.id
   if id == phil_id and how == "researched" then
+    -- Give the player a free advance.
+    -- This will give a free advance for each player that shares research.
     player:give_technology(nil, "researched")
   end
 end 
