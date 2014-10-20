@@ -774,6 +774,19 @@ static int granary_savings(const struct city *pcity)
 }
 
 /**************************************************************************
+  Reset the foodbox, usually when a city grows or shrinks.
+  By default it is reset to zero, but this can be increased by Growth_Food
+  effects.
+  Usually this should be called before the city changes size.
+**************************************************************************/
+static void city_reset_foodbox(struct city *pcity, int new_size)
+{
+  fc_assert_ret(pcity != NULL);
+  pcity->food_stock = (city_granary_size(new_size)
+                       * granary_savings(pcity)) / 100;
+}
+
+/**************************************************************************
   Increase city size by one. We do not refresh borders or send info about
   the city to the clients as part of this function. There might be several
   calls to this function at once, and those actions are needed only once.
@@ -934,8 +947,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
         wipe_unit(punit, ULR_STARVED, NULL);
 
         if (city_exist(saved_id)) {
-          pcity->food_stock = (city_granary_size(city_size_get(pcity))
-                               * granary_savings(pcity)) / 100;
+          city_reset_foodbox(pcity, city_size_get(pcity));
         }
 	return;
       }
@@ -951,8 +963,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
 		    _("Famine destroys %s entirely."),
 		    city_link(pcity));
     }
-    pcity->food_stock = (city_granary_size(city_size_get(pcity) - 1)
-			 * granary_savings(pcity)) / 100;
+    city_reset_foodbox(pcity, city_size_get(pcity) - 1);
     city_reduce_size(pcity, 1, NULL);
   }
 }
@@ -2787,6 +2798,7 @@ static void update_city_activity(struct city *pcity)
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
                       _("%s has been struck by a plague! Population lost!"), 
                       city_link(pcity));
+        city_reset_foodbox(pcity, city_size_get(pcity) - 1);
         city_reduce_size(pcity, 1, NULL);
         pcity->turn_plague = game.info.turn;
 
