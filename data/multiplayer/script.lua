@@ -36,6 +36,14 @@ function building_built_handler(btype, city)
       gained[0] = player:give_technology(nil, "researched")
       gained[1] = player:give_technology(nil, "researched")
 
+      -- Notify the player. Include the tech names in a way that makes it
+      -- look natural no matter if each tech is announced or not.
+      notify.event(player, NIL, E.TECH_GAIN,
+        _("%s boosts research; you gain the immediate advances %s and %s."),
+        darw_btype:name_translation(),
+        gained[0]:name_translation(),
+        gained[1]:name_translation())
+
       -- default.lua informs the embassies when the tech source is a hut.
       -- They should therefore be informed about the source here too.
       notify.embassies(player, NIL, E.TECH_GAIN,
@@ -67,6 +75,13 @@ function tech_researched_handler(tech, player, how)
     -- Give the player a free advance.
     -- This will give a free advance for each player that shares research.
     gained = player:give_technology(nil, "researched")
+
+      -- Notify the player. Include the tech names in a way that makes it
+      -- look natural no matter if each tech is announced or not.
+    notify.event(player, NIL, E.TECH_GAIN,
+                 _("Great philosophers from all the world join your "
+                   .. "civilization: you get the immediate advance %s."),
+                 gained:name_translation())
 
     -- default.lua informs the embassies when the tech source is a hut.
     -- They should therefore be informed about the source here too.
