@@ -24,7 +24,7 @@ tevo_tech = find.tech_type("Theory of Evolution")
 darw_btype = find.building_type("Darwin's Voyage")
 darw_id = darw_btype.id
 
--- Grant two techs when the wonder Darwin's Voyage is built.
+-- Grant two techs when the wonder Darwin`s Voyage is built.
 function building_built_handler(btype, city)
   local player, id = city.owner, btype.id
   local gained = {}
@@ -32,8 +32,8 @@ function building_built_handler(btype, city)
   if id == darw_id then
     -- Block the player from destroying the wonder, rebuilding it and
     -- getting two free advances again.
-    -- This also prevents those he share research with from getting two
-    -- free advances from building Darwin's Voyage them self.
+    -- This also prevents those they share research with from getting two
+    -- free advances from building Darwin`s Voyage themselves.
     if player:give_technology(tevo_tech, "researched") then
       -- Give the player two free advances.
       gained[0] = player:give_technology(nil, "researched")
@@ -85,15 +85,13 @@ function tech_researched_handler(tech, player, how)
       -- Notify the player. Include the tech names in a way that makes it
       -- look natural no matter if each tech is announced or not.
     notify.event(player, NIL, E.TECH_GAIN,
-                 _("Great philosophers from all the world join your "
-                   .. "civilization: you get the immediate advance %s."),
+                 _("Great philosophers from all the world join your civilization: you get the immediate advance %s."),
                  gained:name_translation())
 
     -- default.lua informs the embassies when the tech source is a hut.
     -- They should therefore be informed about the source here too.
     notify.embassies(player, NIL, E.TECH_GAIN,
-                     _("Great philosophers from all the world join the "
-                       .. "%s: they get %s as an immediate advance."),
+                     _("Great philosophers from all the world join the %s: they get %s as an immediate advance."),
                        player.nation:plural_translation(),
                        gained:name_translation())
   end

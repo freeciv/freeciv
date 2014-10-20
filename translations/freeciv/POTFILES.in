@@ -299,6 +299,7 @@ data/multiplayer/styles.ruleset
 data/multiplayer/techs.ruleset
 data/multiplayer/terrain.ruleset
 data/multiplayer/units.ruleset
+data/multiplayer/script.lua
 data/nation/american.ruleset
 data/nation/apache.ruleset
 data/nation/arab.ruleset
