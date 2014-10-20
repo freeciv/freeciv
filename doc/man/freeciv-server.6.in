@@ -315,13 +315,18 @@ constraints between clients and server.
 Sets the compression level for network traffic.
 .TP
 .BI FREECIV_DATA_ENCODING
-Sets the data encoding (used for data files, savegames, and network strings).
+Sets the character encoding used for data files, savegames, and network
+strings). This should not normally be changed from the default of UTF-8,
+since that is the format of the supplied rulesets and the standard
+network protocol.
 .TP
 .BI FREECIV_INTERNAL_ENCODING
-Sets the internal encoding (used for GUI strings).
+Sets the character encoding used internally by \fBfreeciv-server\fP; this
+encoding should not be visible at any interface. Defaults to UTF-8.
 .TP
 .BI FREECIV_LOCAL_ENCODING
-Sets the local encoding (used for terminal output).
+Sets the local character encoding (used for the command line and terminal
+output). The default is inferred from other aspects of the environment.
 .TP 
 .BI FREECIV_MULTICAST_GROUP
 Sets the multicast group (for the LAN tab).
