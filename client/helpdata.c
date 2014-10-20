@@ -354,12 +354,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_WORLD:
       if (!preq->negated) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that some player knows the technology %s.\n"),
+                     _("Requires that someone has discovered the "
+                       "technology %s.\n"),
                      advance_name_for_player(pplayer, advance_number
                                              (preq->source.value.advance)));
       } else {
         cat_snprintf(buf, bufsz,
-                     _("Requires that no player knows the technology %s.\n"),
+                     _("Requires that no-one has yet discovered the "
+                       "technology %s.\n"),
                      advance_name_for_player(pplayer, advance_number
                                              (preq->source.value.advance)));
       }
