@@ -2101,6 +2101,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->is_ready = pinfo->is_ready;
   pplayer->nturns_idle = pinfo->nturns_idle;
   pplayer->is_alive = pinfo->is_alive;
+  pplayer->turns_alive = pinfo->turns_alive;
   pplayer->ai_common.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai_common.skill_level = pinfo->ai_skill_level;

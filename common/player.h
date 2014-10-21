@@ -225,6 +225,8 @@ struct player {
   bool phase_done;    /* Has human player finished */
   bool ai_phase_done; /* Has AI type finished */
   int nturns_idle;
+  int turns_alive;    /* Number of turns this player has spent alive;
+                       * 0 when created, increment at the end of each turn */
   bool is_alive;
   bool is_winner;
   int last_war_action;
@@ -361,6 +363,8 @@ bool player_has_real_embassy(const struct player *pplayer,
                              const struct player *pplayer2);
 bool player_has_embassy_from_effect(const struct player *pplayer,
                                     const struct player *pplayer2);
+
+int player_age(const struct player *pplayer);
 
 bool can_player_see_hypotetic_units_at(const struct player *pplayer,
 				       const struct tile *ptile);

@@ -505,6 +505,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->is_ready = FALSE;
   pplayer->nturns_idle = 0;
   pplayer->is_alive = TRUE;
+  pplayer->turns_alive = 0;
   pplayer->is_winner = FALSE;
   pplayer->last_war_action = -1;
 
@@ -844,6 +845,15 @@ struct player *player_by_user(const char *name)
   } players_iterate_end;
 
   return NULL;
+}
+
+/*************************************************************************
+  "Age" of the player: number of turns spent alive since created.
+**************************************************************************/
+int player_age(const struct player *pplayer)
+{
+  fc_assert_ret_val(pplayer != NULL, 0);
+  return pplayer->turns_alive;
 }
 
 /*************************************************************************

@@ -1800,6 +1800,8 @@ static void player_load_main(struct player *plr, int plrno,
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->is_alive,
                                          "player%d.is_alive", plrno),
                      "%s", secfile_error());
+  plr->turns_alive = secfile_lookup_int_default(file, game.info.turn,
+                                                "player%d.turns_alive", plrno);
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_controlled,
                                          "player%d.ai.control", plrno),
                      "%s", secfile_error());

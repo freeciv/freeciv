@@ -1012,6 +1012,7 @@ static void package_player_common(struct player *plr,
   }
 
   packet->is_alive=plr->is_alive;
+  packet->turns_alive=plr->turns_alive;
   packet->is_connected=plr->is_connected;
   packet->ai = plr->ai_controlled;
   packet->ai_skill_level = plr->ai_controlled

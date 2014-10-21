@@ -719,8 +719,10 @@ struct requirement req_from_str(const char *type, const char *range,
     invalid = (req.range != REQ_RANGE_WORLD);
     break;
   case VUT_AGE:
+    /* FIXME: could support TRADEROUTE, TEAM, etc */
     invalid = (req.range != REQ_RANGE_LOCAL
-               && req.range != REQ_RANGE_CITY);
+               && req.range != REQ_RANGE_CITY
+               && req.range != REQ_RANGE_PLAYER);
     break;
   case VUT_IMPROVEMENT:
     /* Valid ranges depend on the building genus (wonder/improvement),
@@ -2491,22 +2493,36 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_AGE:
-    if (req->range == REQ_RANGE_LOCAL) {
+    switch (req->range) {
+    case REQ_RANGE_LOCAL:
       if (target_unit == NULL || !is_server()) {
         eval = TRI_MAYBE;
       } else {
         eval = BOOL_TO_TRISTATE(
-                 req->source.value.age <= game.info.turn - target_unit->server.birth_turn);
+                 req->source.value.age <=
+                 game.info.turn - target_unit->server.birth_turn);
       }
-    } else if (req->range == REQ_RANGE_CITY) {
+      break;
+    case REQ_RANGE_CITY:
       if (target_city == NULL) {
         eval = TRI_MAYBE;
       } else {
         eval = BOOL_TO_TRISTATE(
-                 req->source.value.age <= game.info.turn - target_city->turn_founded);
+                 req->source.value.age <=
+                 game.info.turn - target_city->turn_founded);
       }
-    } else {
+      break;
+    case REQ_RANGE_PLAYER:
+      if (target_player == NULL) {
+        eval = TRI_MAYBE;
+      } else {
+        eval =
+          BOOL_TO_TRISTATE(req->source.value.age <= player_age(target_player));
+      }
+      break;
+    default:
       eval = TRI_MAYBE;
+      break;
     }
     break;
   case VUT_OTYPE:

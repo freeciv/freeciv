@@ -1276,6 +1276,9 @@ static void end_turn(void)
 
   log_debug("Gamenextyear");
   game_advance_year();
+  players_iterate_alive(pplayer) {
+    pplayer->turns_alive++;
+  } players_iterate_alive_end;
 
   log_debug("Updatetimeout");
   update_timeout();

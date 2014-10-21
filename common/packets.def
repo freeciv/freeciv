@@ -766,6 +766,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BOOL is_ready;
   BOOL phase_done;
   TURN nturns_idle;
+  TURN turns_alive;
   BOOL is_alive;
 
   GOLD gold;

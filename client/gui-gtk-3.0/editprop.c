@@ -345,6 +345,7 @@ enum object_property_ids {
 
   OPID_PLAYER_NAME,
   OPID_PLAYER_NATION,
+  OPID_PLAYER_AGE,
 #ifdef DEBUG
   OPID_PLAYER_ADDRESS,
 #endif /* DEBUG */
@@ -1735,6 +1736,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_PLAYER_NATION:
         pv->data.v_nation = nation_of_player(pplayer);
         break;
+      case OPID_PLAYER_AGE:
+        pv->data.v_int = pplayer->turns_alive;
+        break;
 #ifdef DEBUG
       case OPID_PLAYER_ADDRESS:
         pv->data.v_string = g_strdup_printf("%p", pplayer);
@@ -2870,6 +2874,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_UNIT_TYPE:
   case OPID_CITY_ID:
   case OPID_CITY_XY:
+  case OPID_PLAYER_AGE:
 #ifdef DEBUG
   case OPID_TILE_ADDRESS:
   case OPID_UNIT_ADDRESS:
@@ -3079,6 +3084,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_TILE_CONTINENT:
   case OPID_UNIT_ID:
   case OPID_CITY_ID:
+  case OPID_PLAYER_AGE:
     label = objprop_get_child_widget(op, "value-label");
     if (pv) {
       char buf[16];
@@ -4327,6 +4333,8 @@ static void property_page_setup_objprops(struct property_page *pp)
 #endif /* DEBUG */
     ADDPROP(OPID_PLAYER_NATION, _("Nation"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_NATION);
+    ADDPROP(OPID_PLAYER_AGE, _("Age"),
+            OPF_HAS_WIDGET, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
     ADDPROP(OPID_PLAYER_GOLD, _("Gold"), OPF_IN_LISTVIEW
