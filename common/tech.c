@@ -523,7 +523,7 @@ Tech_type_id player_research_step(const struct player *pplayer,
 {
   Tech_type_id sub_goal;
 
-  if (!player_invention_reachable(pplayer, goal, FALSE)) {
+  if (!player_invention_reachable(pplayer, goal, TRUE)) {
     return A_UNSET;
   }
   switch (player_invention_state(pplayer, goal)) {
