@@ -81,6 +81,9 @@ enum unit_orders goto_last_order; /* Last order for goto */
 static struct tile *hover_tile = NULL;
 static struct unit_list *battlegroups[MAX_NUM_BATTLEGROUPS];
 
+/* Current moving unit. */
+static struct unit *punit_moving = NULL;
+
 /* units involved in current combat */
 static struct unit *punit_attacking = NULL;
 static struct unit *punit_defending = NULL;
@@ -680,7 +683,6 @@ Return a pointer to a visible unit, if there is one.
 struct unit *find_visible_unit(struct tile *ptile)
 {
   struct unit *panyowned = NULL, *panyother = NULL, *ptptother = NULL;
-  struct unit *pfocus;
 
   /* If no units here, return nothing. */
   if (unit_list_size(ptile->units)==0) {
@@ -702,9 +704,11 @@ struct unit *find_visible_unit(struct tile *ptile)
   }
 
   /* If the unit in focus is at this tile, show that on top */
-  if ((pfocus = get_focus_unit_on_tile(ptile))) {
-    return pfocus;
-  }
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (punit != punit_moving && unit_tile(punit) == ptile) {
+      return punit;
+    }
+  } unit_list_iterate_end;
 
   /* If a city is here, return nothing (unit hidden by city). */
   if (tile_city(ptile)) {
@@ -2316,6 +2320,11 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   unit_list_remove(src_tile->units, punit);
 
   if (!unit_transported(punit)) {
+    /* Mark the unit as moving unit, then find_visible_unit() won't return
+     * it. It is especially useful to don't draw many times the unit when
+     * refreshing the canvas. */
+    punit_moving = punit;
+
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
     refresh_unit_mapcanvas(punit, src_tile, TRUE, FALSE);
@@ -2334,6 +2343,9 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   unit_list_prepend(dst_tile->units, punit);
 
   if (!unit_transported(punit)) {
+    /* For find_visible_unit(), see above. */
+    punit_moving = NULL;
+
     refresh_unit_mapcanvas(punit, dst_tile, TRUE, FALSE);
   }
 
