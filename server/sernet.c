@@ -766,89 +766,89 @@ enum server_events server_sniff_all_input(void)
         free(bufptr_internal);
       }
 #else  /* !SOCKET_ZERO_ISNT_STDIN */
-      if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
+    }
+    if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
 #ifdef HAVE_LIBREADLINE
-        rl_callback_read_char();
-        if (readline_handled_input) {
-          readline_handled_input = FALSE;
-          con_prompt_enter_clear();
-        }
-        continue;
+      rl_callback_read_char();
+      if (readline_handled_input) {
+        readline_handled_input = FALSE;
+        con_prompt_enter_clear();
+      }
+      continue;
 #else  /* !HAVE_LIBREADLINE */
-        ssize_t didget;
-        char *buffer = NULL; /* Must be NULL when calling getline() */
-        char *buf_internal;
+      ssize_t didget;
+      char *buffer = NULL; /* Must be NULL when calling getline() */
+      char *buf_internal;
 
 #ifdef HAVE_GETLINE
-        size_t len = 0;
+      size_t len = 0;
 
-        didget = getline(&buffer, &len, stdin);
-        if (didget >= 1) {
-          buffer[didget-1] = '\0'; /* overwrite newline character */
-          didget--;
-          log_debug("Got line: \"%s\" (%ld, %ld)", buffer,
-                    (long int) didget, (long int) len);
-        }
+      didget = getline(&buffer, &len, stdin);
+      if (didget >= 1) {
+        buffer[didget-1] = '\0'; /* overwrite newline character */
+        didget--;
+        log_debug("Got line: \"%s\" (%ld, %ld)", buffer,
+                  (long int) didget, (long int) len);
+      }
 #else  /* HAVE_GETLINE */
-        buffer = malloc(BUF_SIZE + 1);
+      buffer = malloc(BUF_SIZE + 1);
 
-        didget = read(0, buffer, BUF_SIZE);
-        if (didget < 0) {
-          didget = 0; /* Avoid buffer underrun below. */
-        }
-        *(buffer+didget)='\0';
+      didget = read(0, buffer, BUF_SIZE);
+      if (didget < 0) {
+        didget = 0; /* Avoid buffer underrun below. */
+      }
+      *(buffer+didget)='\0';
 #endif /* HAVE_GETLINE */
-        if (didget <= 0) {
-          handle_stdin_close();
-        }
+      if (didget <= 0) {
+        handle_stdin_close();
+      }
 
-        con_prompt_enter();	/* will need a new prompt, regardless */
+      con_prompt_enter();	/* will need a new prompt, regardless */
 
-        if (didget >= 0) {
-          buf_internal = local_to_internal_string_malloc(buffer);
-          handle_stdin_input(NULL, buf_internal);
-          free(buf_internal);
-        }
-        free(buffer);
+      if (didget >= 0) {
+        buf_internal = local_to_internal_string_malloc(buffer);
+        handle_stdin_input(NULL, buf_internal);
+        free(buf_internal);
+      }
+      free(buffer);
 #endif /* !HAVE_LIBREADLINE */
-      } else
+    } else
 #endif /* !SOCKET_ZERO_ISNT_STDIN */
-     
-      {                             /* input from a player */
-        for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
-          struct connection *pconn = connections + i;
-          int nb;
 
-          if (!pconn->used
-              || pconn->server.is_closing
-              || !FD_ISSET(pconn->sock, &readfs)) {
-            continue;
-          }
+    {                             /* input from a player */
+      for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+        struct connection *pconn = connections + i;
+        int nb;
 
-          nb = read_socket_data(pconn->sock, pconn->buffer);
-          if (0 <= nb) {
-            /* We read packets; now handle them. */
-            incoming_client_packets(pconn);
-          } else if (-2 == nb) {
-            connection_close_server(pconn, _("client disconnected"));
-          } else {
-            /* Read failure; the connection is closed. */
-            connection_close_server(pconn, _("read error"));
-          }
+        if (!pconn->used
+            || pconn->server.is_closing
+            || !FD_ISSET(pconn->sock, &readfs)) {
+          continue;
         }
 
-        for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
-          struct connection *pconn = &connections[i];
+        nb = read_socket_data(pconn->sock, pconn->buffer);
+        if (0 <= nb) {
+          /* We read packets; now handle them. */
+          incoming_client_packets(pconn);
+        } else if (-2 == nb) {
+          connection_close_server(pconn, _("client disconnected"));
+        } else {
+          /* Read failure; the connection is closed. */
+          connection_close_server(pconn, _("read error"));
+        }
+      }
 
-          if (pconn->used
-              && !pconn->server.is_closing
-              && pconn->send_buffer
-              && pconn->send_buffer->ndata > 0) {
-            if (FD_ISSET(pconn->sock, &writefs)) {
-              flush_connection_send_buffer_all(pconn);
-            } else {
-              cut_lagging_connection(pconn);
-            }
+      for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+        struct connection *pconn = &connections[i];
+
+        if (pconn->used
+            && !pconn->server.is_closing
+            && pconn->send_buffer
+            && pconn->send_buffer->ndata > 0) {
+          if (FD_ISSET(pconn->sock, &writefs)) {
+            flush_connection_send_buffer_all(pconn);
+          } else {
+            cut_lagging_connection(pconn);
           }
         }
       }
