@@ -181,12 +181,13 @@ Syntax:
 
 # typedefs for numbers
 type BOOL               = bool8(bool)
+type SFLOAT10x3         = sfloat100(float)
+type SFLOAT10x7         = sfloat1000000(float)
 type SINT8              = sint8(int)
 type SINT16             = sint16(int)
 type SINT32             = sint32(int)
 type UFLOAT10x3         = ufloat100(float)
 type UFLOAT             = ufloat10000(float)
-type UFLOAT10x7         = ufloat1000000(float)
 type UINT8              = uint8(int)
 type UINT16             = uint16(int)
 type UINT32             = uint32(int)
@@ -504,7 +505,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL restrictinfra;
   BOOL unreachable_protects;
   UINT32 sciencebox;
-  UFLOAT10x3 seconds_to_phasedone;
+  SFLOAT10x3 seconds_to_phasedone;
   UINT32 shieldbox;
   UINT32 skill_level;
   BOOL slow_invasions;
@@ -1155,7 +1156,7 @@ end
 PACKET_CONN_PING_INFO = 116; sc, lsend
   UINT8 connections;
   CONNECTION conn_id[MAX_NUM_CONNECTIONS:connections];
-  UFLOAT10x7 ping_time[MAX_NUM_CONNECTIONS:connections];
+  SFLOAT10x7 ping_time[MAX_NUM_CONNECTIONS:connections];
 end
 
 # For compatibility with older versions, this number cannot be changed.
@@ -1359,7 +1360,7 @@ PACKET_RULESET_TECH = 144; sc, lsend
   TECH req[2];
   TECH root_req;
   BV_TECH_FLAGS flags;
-  UFLOAT10x7 cost;
+  UFLOAT10x3 cost;
   UINT32 num_reqs;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];

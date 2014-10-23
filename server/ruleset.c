@@ -5697,7 +5697,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     lsend_packet_ruleset_tech_flag(dest, &fpacket);
   }
 
-  advance_iterate(A_NONE, a) {
+  advance_iterate(A_FIRST, a) {
     packet.id = advance_number(a);
     sz_strlcpy(packet.name, untranslated_name(&a->name));
     sz_strlcpy(packet.rule_name, rule_name(&a->name));
