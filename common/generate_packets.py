@@ -123,9 +123,10 @@ def parse_fields(str, types):
     typeinfo["dataio_type"],typeinfo["struct_type"]=mo.groups()
 
     if typeinfo["struct_type"]=="float":
-        mo=re.search("^float(\d+)$",typeinfo["dataio_type"])
+        mo=re.search("^(\D+)(\d+)$",typeinfo["dataio_type"])
         assert mo
-        typeinfo["float_factor"]=int(mo.group(1))
+        typeinfo["dataio_type"]=mo.group(1)
+        typeinfo["float_factor"]=int(mo.group(2))
 
     # analyze fields
     fields=[]
@@ -350,7 +351,7 @@ class Field:
             return "DIO_BV_PUT(&dout, packet->%(name)s);"%self.__dict__
 
         if self.struct_type=="float" and not self.is_array:
-            return "  dio_put_float(&dout, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
+            return "  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
         
         if self.dataio_type in ["worklist"]:
             return "  dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s);"%self.__dict__
@@ -374,9 +375,9 @@ class Field:
 
         elif self.struct_type=="float":
             if self.is_array==2:
-                c="  dio_put_float(&dout, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
+                c="  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
             else:
-                c="  dio_put_float(&dout, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
+                c="  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
         else:
             if self.is_array==2:
                 c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i][j]);"%self.__dict__
@@ -441,7 +442,7 @@ class Field:
     # Returns code which get this field.
     def get_get(self):
         if self.struct_type=="float" and not self.is_array:
-            return '''if (!dio_get_float(&din, &real_packet->%(name)s, %(float_factor)d)) {
+            return '''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s, %(float_factor)d)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type=="bitvector":
@@ -491,11 +492,11 @@ class Field:
     }'''%self.__dict__
         elif self.struct_type=="float":
             if self.is_array==2:
-                c='''if (!dio_get_float(&din, &real_packet->%(name)s[i][j], %(float_factor)d)) {
+                c='''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i][j], %(float_factor)d)) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
-                c='''if (!dio_get_float(&din, &real_packet->%(name)s[i], %(float_factor)d)) {
+                c='''if (!dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i], %(float_factor)d)) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.is_array==2:

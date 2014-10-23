@@ -226,14 +226,16 @@ bool dio_input_skip(struct data_in *din, size_t size)
 **************************************************************************/
 void dio_put_uint8(struct data_out *dout, int value)
 {
-  if (value < 0x00 || 0xff < value) {
-    log_error("Trying to put %d into 8 bits", value);
+  uint8_t x = value;
+  FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_1_byte);
+
+  if ((int) x != value) {
+    log_error("Trying to put %d into 8 bits; "
+              "it will result %d at receiving side.",
+              value, (int) x);
   }
 
   if (enough_space(dout, 1)) {
-    uint8_t x = value;
-
-    FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_1_byte);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
     dout->current++;
   }
@@ -244,14 +246,16 @@ void dio_put_uint8(struct data_out *dout, int value)
 **************************************************************************/
 void dio_put_uint16(struct data_out *dout, int value)
 {
-  if (value < 0x0000 || 0xffff < value) {
-    log_error("Trying to put %d into 16 bits", value);
+  uint16_t x = htons(value);
+  FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
+
+  if ((int) ntohs(x) != value) {
+    log_error("Trying to put %d into 16 bits; "
+              "it will result %d at receiving side.",
+              value, (int) ntohs(x));
   }
 
   if (enough_space(dout, 2)) {
-    uint16_t x = htons(value);
-
-    FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
     dout->current += 2;
   }
@@ -262,14 +266,16 @@ void dio_put_uint16(struct data_out *dout, int value)
 **************************************************************************/
 void dio_put_uint32(struct data_out *dout, int value)
 {
-  if (sizeof(value) > 4 && (value < 0x00000000 || 0xffffffff < value)) {
-    log_error("Trying to put %d into 32 bits", value);
+  uint32_t x = htonl(value);
+  FC_STATIC_ASSERT(sizeof(x) == 4, uint32_not_4_bytes);
+
+  if ((int) ntohl(x) != value) {
+    log_error("Trying to put %d into 32 bits; "
+              "it will result %d at receiving side.",
+              value, (int) ntohl(x));
   }
 
   if (enough_space(dout, 4)) {
-    uint32_t x = htonl(value);
-
-    FC_STATIC_ASSERT(sizeof(x) == 4, uint32_not_4_bytes);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
     dout->current += 4;
   }
@@ -341,7 +347,7 @@ void dio_put_bool8(struct data_out *dout, bool value)
 {
   if (value != TRUE && value != FALSE) {
     log_error("Trying to put a non-boolean: %d", (int) value);
-    value = FALSE;
+    value = (value != FALSE);
   }
 
   dio_put_uint8(dout, value ? 1 : 0);
@@ -354,19 +360,44 @@ void dio_put_bool32(struct data_out *dout, bool value)
 {
   if (value != TRUE && value != FALSE) {
     log_error("Trying to put a non-boolean: %d", (int) value);
-    value = FALSE;
+    value = (value != FALSE);
   }
 
   dio_put_uint32(dout, value ? 1 : 0);
 }
 
-/**************************************************************************
+/****************************************************************************
   Insert a float number, which is multiplied by 'float_factor' before
-  being encoded into a uint32.
-**************************************************************************/
-void dio_put_float(struct data_out *dout, float value, int float_factor)
+  being encoded into an uint32.
+****************************************************************************/
+void dio_put_ufloat(struct data_out *dout, float value, int float_factor)
 {
-  dio_put_uint32(dout, value * float_factor);
+  uint32_t v = value * float_factor;
+
+  if (abs((float) v / float_factor - value) >= 1.0 / float_factor) {
+    log_error("Trying to put %f with factor %d in 32 bits; "
+              "it will result %f at receiving side.",
+              value, float_factor, (float) v / float_factor);
+  }
+
+  dio_put_uint32(dout, v);
+}
+
+/****************************************************************************
+  Insert a float number, which is multiplied by 'float_factor' before
+  being encoded into a sint32.
+****************************************************************************/
+void dio_put_sfloat(struct data_out *dout, float value, int float_factor)
+{
+  int32_t v = value * float_factor;
+
+  if (abs((float) v / float_factor - value) >= 1.0 / float_factor) {
+    log_error("Trying to put %f with factor %d in 32 bits; "
+              "it will result %f at receiving side.",
+              value, float_factor, (float) v / float_factor);
+  }
+
+  dio_put_sint32(dout, v);
 }
 
 /**************************************************************************
@@ -640,15 +671,31 @@ bool dio_get_bool32(struct data_in *din, bool * dest)
   return TRUE;
 }
 
-/**************************************************************************
-  Get a float number, which have been multiplied by 'float_factor' and
-  encoded into a uint32 by dio_put_float().
-**************************************************************************/
-bool dio_get_float(struct data_in *din, float *dest, int float_factor)
+/****************************************************************************
+  Get an unsigned float number, which have been multiplied by 'float_factor'
+  and encoded into an uint32 by dio_put_ufloat().
+****************************************************************************/
+bool dio_get_ufloat(struct data_in *din, float *dest, int float_factor)
 {
   int ival;
 
   if (!dio_get_uint32(din, &ival)) {
+    return FALSE;
+  }
+
+  *dest = (float) ival / float_factor;
+  return TRUE;
+}
+
+/****************************************************************************
+  Get a signed float number, which have been multiplied by 'float_factor'
+  and encoded into a sint32 by dio_put_sfloat().
+****************************************************************************/
+bool dio_get_sfloat(struct data_in *din, float *dest, int float_factor)
+{
+  int ival;
+
+  if (!dio_get_sint32(din, &ival)) {
     return FALSE;
   }
 
