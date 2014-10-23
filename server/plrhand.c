@@ -412,6 +412,7 @@ void handle_player_change_government(struct player *pplayer, int government)
       turns = fc_rand(game.server.revolution_length) + 1;
       break;
     case REVOLEN_QUICKENING:
+    case REVOLEN_RANDQUICK:
       if (gov == game.government_during_revolution) {
         /* Targetless revolution not acceptable */
         notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
@@ -420,6 +421,9 @@ void handle_player_change_government(struct player *pplayer, int government)
       }
       turns = game.server.revolution_length - gov->changed_to_times;
       turns = MAX(1, turns);
+      if (game.info.revolentype == REVOLEN_RANDQUICK) {
+        turns = fc_rand(turns) + 1;
+      }
       break;
     }
   }

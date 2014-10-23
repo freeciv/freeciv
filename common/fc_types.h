@@ -651,7 +651,8 @@ enum environment_upset_type
 enum revolen_type {
   REVOLEN_FIXED = 0,
   REVOLEN_RANDOM,
-  REVOLEN_QUICKENING
+  REVOLEN_QUICKENING,
+  REVOLEN_RANDQUICK
 };
 
 enum happyborders_type {

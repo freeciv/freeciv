@@ -415,6 +415,7 @@ static const struct sset_val_name *revolentype_name(int revolentype)
   NAME_CASE(REVOLEN_FIXED, "FIXED", N_("Fixed to 'revolen' turns"));
   NAME_CASE(REVOLEN_RANDOM, "RANDOM", N_("Randomly 1-'revolen' turns"));
   NAME_CASE(REVOLEN_QUICKENING, "QUICKENING", N_("First time 'revolen', then always quicker"));
+  NAME_CASE(REVOLEN_RANDQUICK, "RANDQUICK", N_("Random, max always quicker"));
   }
   return NULL;
 }

@@ -544,6 +544,8 @@ static char *revolentype_str(enum revolen_type type)
     return "RANDOM";
   case REVOLEN_QUICKENING:
     return "QUICKENING";
+  case REVOLEN_RANDQUICK:
+    return "RANDQUICK";
   }
 
   return "";
