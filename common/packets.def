@@ -181,12 +181,12 @@ Syntax:
 
 # typedefs for numbers
 type BOOL               = bool8(bool)
-type FLOAT10x3          = float100(float)
-type FLOAT              = float10000(float)
-type FLOAT10x7          = float1000000(float)
 type SINT8              = sint8(int)
 type SINT16             = sint16(int)
 type SINT32             = sint32(int)
+type UFLOAT10x3         = ufloat100(float)
+type UFLOAT             = ufloat10000(float)
+type UFLOAT10x7         = ufloat1000000(float)
 type UINT8              = uint8(int)
 type UINT16             = uint16(int)
 type UINT32             = uint32(int)
@@ -504,7 +504,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL restrictinfra;
   BOOL unreachable_protects;
   UINT32 sciencebox;
-  FLOAT10x3 seconds_to_phasedone;
+  UFLOAT10x3 seconds_to_phasedone;
   UINT32 shieldbox;
   UINT32 skill_level;
   BOOL slow_invasions;
@@ -1155,7 +1155,7 @@ end
 PACKET_CONN_PING_INFO = 116; sc, lsend
   UINT8 connections;
   CONNECTION conn_id[MAX_NUM_CONNECTIONS:connections];
-  FLOAT10x7 ping_time[MAX_NUM_CONNECTIONS:connections];
+  UFLOAT10x7 ping_time[MAX_NUM_CONNECTIONS:connections];
 end
 
 # For compatibility with older versions, this number cannot be changed.
@@ -1241,10 +1241,10 @@ PACKET_SPACESHIP_INFO = 137; sc, lsend, is-game-info
   UINT32 population;
   UINT32 mass;
   BV_SPACESHIP_STRUCT structure;
-  FLOAT support_rate;
-  FLOAT energy_rate;
-  FLOAT success_rate;
-  FLOAT travel_time;
+  UFLOAT support_rate;
+  UFLOAT energy_rate;
+  UFLOAT success_rate;
+  UFLOAT travel_time;
 end
 
 /************** Ruleset packets **********************/
@@ -1359,7 +1359,7 @@ PACKET_RULESET_TECH = 144; sc, lsend
   TECH req[2];
   TECH root_req;
   BV_TECH_FLAGS flags;
-  FLOAT10x7 cost;
+  UFLOAT10x7 cost;
   UINT32 num_reqs;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
