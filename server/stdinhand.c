@@ -902,7 +902,6 @@ enum rfc_status create_command_newcomer(const char *name,
   presearch = research_get(pplayer);
   init_tech(presearch, TRUE);
   give_initial_techs(presearch, 0);
-  send_research_info(presearch, NULL);
 
   server_player_set_name(pplayer, name);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
@@ -916,6 +915,9 @@ enum rfc_status create_command_newcomer(const char *name,
   send_player_info_c(pplayer, NULL);
   /* Send updated diplstate information to all players. */
   send_player_diplstate_c(NULL, NULL);
+  /* Send research info after player info, else the client will complain
+   * about invalid team. */
+  send_research_info(presearch, NULL);
   (void) send_server_info_to_metaserver(META_INFO);
 
   if (newplayer != NULL) {
