@@ -141,13 +141,15 @@ static inline int pf_turns(const struct pf_parameter *param, int cost)
    * we'd better be ready.
    *
    * Note that cost == 0 corresponds to the current turn with full MP. */
+  if (param->fuel_left_initially < param->fuel) {
+    cost -= (param->fuel - param->fuel_left_initially) * param->move_rate;
+  }
   if (cost <= 0) {
     return 0;
   } else if (param->move_rate <= 0) {
     return FC_INFINITY; /* This unit cannot move by itself. */
   } else {
-    return ((cost - 1) / param->move_rate
-            + param->fuel_left_initially - param->fuel);
+    return (cost - 1) / param->move_rate;
   }
 }
 
