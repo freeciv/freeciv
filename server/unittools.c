@@ -2297,10 +2297,8 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
 void send_unit_info(struct conn_list *dest, struct unit *punit)
 {
   const struct player *powner;
-  struct packet_unit_info info[GAME_TRANSPORT_MAX_RECURSIVE + 1];
+  struct packet_unit_info info;
   struct packet_unit_short_info sinfo;
-  int info_num;
-  int i;
 
   if (dest == NULL) {
     dest = game.est_connections;
@@ -2309,13 +2307,7 @@ void send_unit_info(struct conn_list *dest, struct unit *punit)
   CHECK_UNIT(punit);
 
   powner = unit_owner(punit);
-  package_unit(punit, &info[0]);
-  i = 1;
-  unit_transports_iterate(punit, ptrans) {
-    fc_assert_action(i < ARRAY_SIZE(info), break);
-    package_unit(punit, &info[i++]);
-  } unit_transports_iterate_end;
-  info_num = i;
+  package_unit(punit, &info);
   package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0);
 
   conn_list_iterate(dest, pconn) {
@@ -2323,9 +2315,7 @@ void send_unit_info(struct conn_list *dest, struct unit *punit)
 
     /* Be careful to consider all cases where pplayer is NULL... */
     if (pplayer == powner || (pplayer == NULL && pconn->observer)) {
-      for (i = info_num - 1; i >= 0; i--) {
-        send_packet_unit_info(pconn, &info[i]);
-      }
+      send_packet_unit_info(pconn, &info);
     } else if (pplayer != NULL && can_player_see_unit(pplayer, punit)) {
       send_packet_unit_short_info(pconn, &sinfo, FALSE);
     }
