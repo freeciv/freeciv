@@ -1685,6 +1685,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     need_units_report_update = TRUE;
   } /*** End of Create new unit ***/
 
+  fc_assert_ret_val(punit != NULL, ret);
+
   /* Check if we have to load the unit on a transporter. */
   if (punit->client.transported_by != -1) {
     struct unit *ptrans
@@ -1711,8 +1713,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 #endif /* DEBUG_TRANSPORT */
     }
   }
-
-  fc_assert_ret_val(punit != NULL, ret);
 
   if (unit_is_in_focus(punit)
       || get_focus_unit_on_tile(unit_tile(punit))
