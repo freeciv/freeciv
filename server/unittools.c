@@ -3554,7 +3554,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
           && BV_ISSET(pmove_data->can_see_unit_at_src, player_index(aplayer))
           && !BV_ISSET(pmove_data->can_see_unit_at_dest,
                        player_index(aplayer))) {
-        unit_goes_out_of_sight(aplayer, pdata->punit);
+        unit_goes_out_of_sight(aplayer, pmove_data->punit);
       }
     } players_iterate_end;
   } unit_move_data_list_iterate_rev_end;
