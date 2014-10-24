@@ -812,12 +812,13 @@ enum server_events server_sniff_all_input(void)
       buffer = malloc(BUF_SIZE + 1);
 
       didget = read(0, buffer, BUF_SIZE);
-      if (didget < 0) {
-        didget = 0; /* Avoid buffer underrun below. */
+      if (didget > 0) {
+        buffer[didget] = '\0';
+      } else {
+        didget = -1; /* error or end-of-file: closing stdin... */
       }
-      *(buffer+didget)='\0';
 #endif /* HAVE_GETLINE */
-      if (didget <= 0) {
+      if (didget < 0) {
         handle_stdin_close();
       }
 
