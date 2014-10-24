@@ -27,6 +27,9 @@
 #include "unit.h"
 #include "workertask.h"
 
+/* server */
+#include "citytools.h"
+
 /* server/advisors */
 #include "autosettlers.h"
 #include "infracache.h"
@@ -278,5 +281,8 @@ void tai_req_worker_task_rcv(struct tai_req *req)
     pcity->task_req.ptile = data->task.ptile;
     pcity->task_req.act   = data->task.act;
     pcity->task_req.tgt   = data->task.tgt;
+
+    /* Send info to observers */
+    package_and_send_worker_task(pcity);
   }
 }

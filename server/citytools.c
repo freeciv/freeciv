@@ -1003,7 +1003,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
 
   /* Forget old tasks */
-  worker_task_init(&pcity->task_req);
+  clear_worker_task(pcity);
 
   /* Activate AI control of the new owner. */
   CALL_PLR_AI_FUNC(city_got, ptaker, ptaker, pcity);
@@ -3020,4 +3020,48 @@ bool city_map_update_radius_sq(struct city *pcity)
   citylog_map_workers(LOG_DEBUG, pcity);
 
   return TRUE;
+}
+
+/**************************************************************************
+  Clear worker task from the city and inform owner
+**************************************************************************/
+void clear_worker_task(struct city *pcity)
+{
+  struct packet_worker_task packet;
+
+  worker_task_init(&pcity->task_req);
+
+  packet.city_id = pcity->id;
+  packet.tile_id = 0;
+  packet.activity = ACTIVITY_IDLE;
+  packet.tgt = 0;
+  packet.want = 0;
+
+  lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
+  /* TODO: Send to global observers */
+}
+
+/**************************************************************************
+  Send city worker task to owner
+**************************************************************************/
+void package_and_send_worker_task(struct city *pcity)
+{
+  struct packet_worker_task packet;
+
+  packet.city_id = pcity->id;
+  if (pcity->task_req.ptile == NULL) {
+    packet.tile_id = 0;
+  } else {
+    packet.tile_id = tile_index(pcity->task_req.ptile);
+  }
+  packet.activity = pcity->task_req.act;
+  if (pcity->task_req.tgt == NULL) {
+    packet.tgt = 0;
+  } else {
+    packet.tgt = extra_number(pcity->task_req.tgt);
+  }
+  packet.want = pcity->task_req.want;
+
+  lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
+  /* TODO: Send to global observers */
 }
