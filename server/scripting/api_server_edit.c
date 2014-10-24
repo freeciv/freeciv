@@ -367,6 +367,9 @@ void api_edit_tile_set_label(lua_State *L, Tile *ptile, const char *label)
   LUASCRIPT_CHECK_ARG_NIL(L, label, 3, string);
 
   tile_set_label(ptile, label);
+  if (server_state() >= S_S_RUNNING) {
+    send_tile_info(NULL, ptile, FALSE);
+  }
 }
 
 /*****************************************************************************
