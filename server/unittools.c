@@ -3449,8 +3449,10 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
           || (aplayer == NULL && pconn->observer)) {
         send_packet_unit_info(pconn, &dest_info);
       } else if (aplayer != NULL
-                 && BV_ISSET(pmove_data->can_see_unit_at_dest,
-                             player_index(aplayer))) {
+                 && (BV_ISSET(pmove_data->can_see_unit_at_dest,
+                              player_index(aplayer))
+                     || (adj && BV_ISSET(pmove_data->can_see_unit_at_src,
+                                         player_index(aplayer))))) {
         send_packet_unit_short_info(pconn, &dest_sinfo, FALSE);
       }
     } conn_list_iterate_end;
