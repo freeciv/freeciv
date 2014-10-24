@@ -1665,6 +1665,18 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     repaint_unit = !unit_transported(punit);
     agents_unit_new(punit);
 
+    /* Check if we should link cargo units. */
+    if (client_has_player()
+        && unit_owner(punit) != client_player()
+        && punit->client.occupied) {
+      unit_list_iterate(unit_tile(punit)->units, aunit) {
+        if (aunit->client.transported_by == punit->id) {
+          fc_assert(aunit->transporter == NULL);
+          unit_transport_load(aunit, punit, TRUE);
+        }
+      } unit_list_iterate_end;
+    }
+
     if ((pcity = tile_city(unit_tile(punit)))) {
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
