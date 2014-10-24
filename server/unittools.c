@@ -1279,6 +1279,20 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
   } city_list_iterate_end;
 }
 
+/****************************************************************************
+  Refresh units visibility of 'aplayer' for 'pplayer' after alliance have
+  been contracted.
+****************************************************************************/
+void give_allied_visibility(struct player *pplayer,
+                            struct player *aplayer)
+{
+  unit_list_iterate(aplayer->units, punit) {
+    if (can_player_see_unit(pplayer, punit)) {
+      send_unit_info(pplayer, punit);
+    }
+  } unit_list_iterate_end;
+}
+
 /**************************************************************************
  Is unit being refueled in its current position
 **************************************************************************/

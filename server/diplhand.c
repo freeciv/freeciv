@@ -561,6 +561,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         notify_player(pdest, NULL, E_TREATY_ALLIANCE, ftc_server,
                       _("You agree on an alliance with %s."),
                       player_name(pgiver));
+        give_allied_visibility(pgiver, pdest);
+        give_allied_visibility(pdest, pgiver);
 
         worker_refresh_required = TRUE;
 	break;
