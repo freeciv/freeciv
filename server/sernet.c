@@ -756,17 +756,16 @@ enum server_events server_sniff_all_input(void)
                     conn_description(pconn));
         connection_close_server(pconn, _("network exception"));
       }
-    
-#ifdef SOCKET_ZERO_ISNT_STDIN
-      if (!no_input && (bufptr = fc_read_console())) {
-        char *bufptr_internal = local_to_internal_string_malloc(bufptr);
-
-        con_prompt_enter();	/* will need a new prompt, regardless */
-        handle_stdin_input(NULL, bufptr_internal);
-        free(bufptr_internal);
-      }
-#else  /* !SOCKET_ZERO_ISNT_STDIN */
     }
+#ifdef SOCKET_ZERO_ISNT_STDIN
+    if (!no_input && (bufptr = fc_read_console())) {
+      char *bufptr_internal = local_to_internal_string_malloc(bufptr);
+
+      con_prompt_enter();	/* will need a new prompt, regardless */
+      handle_stdin_input(NULL, bufptr_internal);
+      free(bufptr_internal);
+    }
+#else  /* !SOCKET_ZERO_ISNT_STDIN */
     if (!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
 #ifdef HAVE_LIBREADLINE
       rl_callback_read_char();
