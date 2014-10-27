@@ -1263,6 +1263,13 @@ void handle_edit_player(struct connection *pc,
     }
   }
 
+  /* Handle a change in research progress. */
+  if (packet->bulbs_researched != research->bulbs_researched) {
+    research->bulbs_researched = packet->bulbs_researched;
+    changed = TRUE;
+    update_research = TRUE;
+  }
+  
   /* Handle a change in known inventions. */
   /* FIXME: Modifies struct player_research directly. */
   advance_index_iterate(A_FIRST, tech) {
@@ -1282,7 +1289,7 @@ void handle_edit_player(struct connection *pc,
     changed = TRUE;
     update_research = TRUE;
   } advance_index_iterate_end;
-  
+
   /* Handle a change in the player's gold. */
   if (packet->gold != pplayer->economic.gold) {
     if (!(0 <= packet->gold && packet->gold <= 1000000)) {
