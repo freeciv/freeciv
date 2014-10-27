@@ -2565,6 +2565,15 @@ int city_illness_calc(const struct city *pcity, int *ill_base,
 }
 
 /****************************************************************************
+  Returns whether city had a plague outbreak this turn.
+****************************************************************************/
+bool city_had_recent_plague(const struct city *pcity)
+{
+  /* Correctly handles special case turn_plague == -1 (never) */
+  return (pcity->turn_plague == game.info.turn);
+}
+
+/****************************************************************************
   The maximum number of units a city can build per turn.
 ****************************************************************************/
 int city_build_slots(const struct city *pcity)
