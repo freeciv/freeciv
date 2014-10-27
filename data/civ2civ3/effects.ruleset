@@ -3004,8 +3004,8 @@ reqs    =
       "Building", "Eiffel Tower", "Player"
     }
 nreqs   =
-    { "type", "name", "range"
-      "Building", "Apollo Program", "World"
+    { "type", "name", "range", "survives"
+      "Building", "Apollo Program", "World", TRUE
     }
 
 [effect_eiffel_tower_1]
@@ -3501,14 +3501,14 @@ nreqs   =
 type    = "Has_Senate"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Building", "United Nations", "World"
-      "Building", "Manhattan Project", "World"
-      "Tech", "Nuclear Fission", "Player"
+    { "type", "name", "range", "survives"
+      "Building", "United Nations", "World", FALSE
+      "Building", "Manhattan Project", "World", TRUE
+      "Tech", "Nuclear Fission", "Player", FALSE
     }
 nreqs   =
-    { "type", "name", "range"
-      "Building", "Apollo Program", "World"
+    { "type", "name", "range", "survives"
+      "Building", "Apollo Program", "World", TRUE
     }
 
 [effect_united_nations_1]
@@ -3527,8 +3527,8 @@ reqs    =
       "Building", "United Nations", "Player"
     }
 nreqs   =
-    { "type", "name", "range"
-      "Building", "Apollo Program", "World"
+    { "type", "name", "range", "survives"
+      "Building", "Apollo Program", "World", TRUE
     }
 
 [effect_womens_suffrage]
