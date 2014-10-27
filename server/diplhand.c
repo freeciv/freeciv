@@ -463,7 +463,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                                         API_TYPE_STRING, "traded");
             } research_players_iterate_end;
             research_apply_penalty(presearch, pclause->value,
-                                   game.server.diplcost);
+                                   game.server.diplbulbcost);
             found_new_tech(presearch, pclause->value, FALSE, TRUE);
           }
         }
@@ -471,7 +471,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_GOLD:
         {
           int received = pclause->value
-                         * (100 - game.server.diplcost) / 100;
+                         * (100 - game.server.diplgoldcost) / 100;
           pgiver->economic.gold -= pclause->value;
           pdest->economic.gold += received;
           notify_player(pdest, NULL, E_DIPLOMACY, ftc_server,

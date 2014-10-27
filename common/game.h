@@ -119,7 +119,8 @@ struct civ_game {
       int conquercost;
       int contactturns;
       int diplchance;
-      int diplcost;
+      int diplbulbcost;
+      int diplgoldcost;
       int dispersion;
       int end_turn;
       bool endspaceship;
@@ -339,9 +340,13 @@ extern struct civ_game game;
 #define GAME_MIN_SCIENCEBOX 1
 #define GAME_MAX_SCIENCEBOX 10000
 
-#define GAME_DEFAULT_DIPLCOST        0
-#define GAME_MIN_DIPLCOST            0
-#define GAME_MAX_DIPLCOST            100
+#define GAME_DEFAULT_DIPLBULBCOST    0
+#define GAME_MIN_DIPLBULBCOST        0
+#define GAME_MAX_DIPLBULBCOST        100
+
+#define GAME_DEFAULT_DIPLGOLDCOST    0
+#define GAME_MIN_DIPLGOLDCOST        0
+#define GAME_MAX_DIPLGOLDCOST        100
 
 #define GAME_DEFAULT_FOGOFWAR        TRUE
 

@@ -573,11 +573,14 @@ static void compat_load_020600(struct loaddata *loading)
       char value_buffer[1024] = "";
       char gamestart_buffer[1024] = "";
       int i;
+      int dcost = -1;
+      int dstartcost = -1;
       enum revolen_type rlt = GAME_DEFAULT_REVOLENTYPE;
       enum revolen_type gsrlt = GAME_DEFAULT_REVOLENTYPE;
       bool gamestart_valid
         = secfile_lookup_bool_default(loading->file, FALSE,
                                       "settings.gamestart_valid");
+      int new_set_count;
 
       for (i = 0; i < set_count; i++) {
         const char *name
@@ -694,10 +697,29 @@ static void compat_load_020600(struct loaddata *loading)
                                       &team_pooled_research,
                                       "settings.set%d.value", i),
                   "%s", secfile_error());
+        } else if (!fc_strcasecmp("diplcost", name)) {
+          /* Old 'diplcost' split to 'diplbulbcost' and 'diplgoldcost' */
+          if (secfile_lookup_int(loading->file, &dcost,
+                                 "settings.set%d.value", i)) {
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
+          }
+
+          if (secfile_lookup_int(loading->file, &dstartcost,
+                                 "settings.set%d.gamestart", i)) {
+          } else {
+            log_sg("Setting '%s': %s", name, secfile_error());
+          }
         }
       }
 
-      secfile_replace_int(loading->file, set_count + 2, "settings.set_count");
+      new_set_count = set_count + 2; /* 'victories' and 'revolentype' */
+
+      if (dcost >= 0) {
+        new_set_count += 2;
+      }
+
+      secfile_replace_int(loading->file, new_set_count, "settings.set_count");
 
       secfile_insert_str(loading->file, "victories", "settings.set%d.name",
                          set_count);
@@ -707,11 +729,24 @@ static void compat_load_020600(struct loaddata *loading)
                          set_count + 1);
       secfile_insert_str(loading->file, revolentype_str(rlt), "settings.set%d.value",
                          set_count + 1);
+
+      if (dcost >= 0) {
+        secfile_insert_str(loading->file, "diplbulbcost", "settings.set%d.name", set_count + 2);
+        secfile_insert_int(loading->file, dcost, "settings.set%d.value", set_count + 2);
+        secfile_insert_str(loading->file, "diplgoldcost", "settings.set%d.name", set_count + 3);
+        secfile_insert_int(loading->file, dcost, "settings.set%d.value", set_count + 3);
+      }
+
       if (gamestart_valid) {
         secfile_insert_str(loading->file, gamestart_buffer, "settings.set%d.gamestart",
                            set_count);
         secfile_insert_str(loading->file, revolentype_str(gsrlt), "settings.set%d.gamestart",
                            set_count + 1);
+
+        if (dcost >= 0) {
+          secfile_insert_int(loading->file, dstartcost, "settings.set%d.gamestart", set_count + 2);
+          secfile_insert_int(loading->file, dstartcost, "settings.set%d.gamestart", set_count + 3);
+        }
       }
     }
   }

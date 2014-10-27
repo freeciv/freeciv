@@ -3434,8 +3434,9 @@ static void game_load_internal(struct section_file *file)
     }
     game.info.rapturedelay =
       secfile_lookup_int_default(file, GAME_DEFAULT_RAPTUREDELAY, "game.rapturedelay");
-    game.server.diplcost =
-      secfile_lookup_int_default(file, GAME_DEFAULT_DIPLCOST, "game.diplcost");
+    game.server.diplbulbcost =
+      secfile_lookup_int_default(file, GAME_DEFAULT_DIPLBULBCOST, "game.diplcost");
+    game.server.diplgoldcost = game.server.diplbulbcost; /* They used to be one value */
     game.server.freecost =
       secfile_lookup_int_default(file, GAME_DEFAULT_FREECOST, "game.freecost");
     game.server.conquercost =

@@ -360,7 +360,8 @@ static void game_defaults(void)
     }
     sz_strlcpy(game.server.demography, GAME_DEFAULT_DEMOGRAPHY);
     game.server.diplchance        = GAME_DEFAULT_DIPLCHANCE;
-    game.server.diplcost          = GAME_DEFAULT_DIPLCOST;
+    game.server.diplbulbcost      = GAME_DEFAULT_DIPLBULBCOST;
+    game.server.diplgoldcost      = GAME_DEFAULT_DIPLGOLDCOST;
     game.server.dispersion        = GAME_DEFAULT_DISPERSION;
     game.server.endspaceship      = GAME_DEFAULT_END_SPACESHIP;
     game.server.end_turn          = GAME_DEFAULT_END_TURN;

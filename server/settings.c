@@ -1595,16 +1595,25 @@ static struct setting settings[] = {
               "have to make its own."),
            NULL, NULL, GAME_DEFAULT_TEAM_POOLED_RESEARCH)
 
-  GEN_INT("diplcost", game.server.diplcost,
+  GEN_INT("diplbulbcost", game.server.diplbulbcost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Penalty when getting tech or gold from treaty"),
 	  N_("For each technology you gain from a diplomatic treaty, you "
 	     "lose research points equal to this percentage of the cost to "
 	     "research a new technology. If this is non-zero, you can end up "
-	     "with negative research points. Also applies to gold "
-             "transfers in diplomatic treaties."),
+	     "with negative research points."),
           NULL, NULL,
-	  GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST)
+	  GAME_MIN_DIPLBULBCOST, GAME_MAX_DIPLBULBCOST, GAME_DEFAULT_DIPLBULBCOST)
+
+  GEN_INT("diplgoldcost", game.server.diplgoldcost,
+	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
+	  N_("Penalty when getting tech or gold from treaty"),
+	  N_("Gold transfer in diplomatic treaties suffer loss percentage "
+             "equal to this percentage. The sum of the treaty is what gets "
+             "subtracted from the one giving gold. Receiver gets the "
+             "penalty."),
+          NULL, NULL,
+	  GAME_MIN_DIPLGOLDCOST, GAME_MAX_DIPLGOLDCOST, GAME_DEFAULT_DIPLGOLDCOST)
 
   GEN_INT("conquercost", game.server.conquercost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
