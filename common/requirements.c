@@ -2677,7 +2677,6 @@ bool are_reqs_active(const struct player *target_player,
 bool is_req_unchanging(const struct requirement *req)
 {
   switch (req->source.kind) {
-  case VUT_NATION:
   case VUT_NONE:
   case VUT_OTYPE:
   case VUT_SPECIALIST:	/* Only so long as it's at local range only */
@@ -2685,6 +2684,8 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_CITYTILE:
   case VUT_STYLE:
     return TRUE;
+  case VUT_NATION:
+    return (req->range != REQ_RANGE_ALLIANCE);
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
   case VUT_GOVERNMENT:

@@ -1330,10 +1330,35 @@ static bool worklist_change_build_target(struct player *pplayer,
                                           API_TYPE_STRING, "have_resource");
               }
 	      break;
-	    case VUT_NATION:
-              /* Can't change leader nationality. */
-              success = FALSE;
-	      break;
+            case VUT_NATION:
+              /* Nation can be required at Alliance range, which may change. */
+              if (preq->present) {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: "%s nation" is adjective */
+                              Q_("?nation:%s can't build %s from the worklist; "
+                                 "%s nation is required. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              nation_adjective_translation(preq->source.value.nation));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "need_nation");
+              } else {
+                notify_player(pplayer, city_tile(pcity),
+                              E_CITY_CANTBUILD, ftc_server,
+                              Q_("?nation:%s can't build %s from the worklist; "
+                                 "%s nation is prohibited. Postponing..."),
+                              city_link(pcity),
+                              city_improvement_name_translation(pcity, ptarget),
+                              nation_adjective_translation(preq->source.value.nation));
+                script_server_signal_emit("building_cant_be_built", 3,
+                                          API_TYPE_BUILDING_TYPE, ptarget,
+                                          API_TYPE_CITY, pcity,
+                                          API_TYPE_STRING, "have_nation");
+              }
+              break;
             case VUT_STYLE:
               /* FIXME: City styles sometimes change over time, but it isn't
                * entirely under player control.  Probably better to purge
