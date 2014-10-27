@@ -18,19 +18,19 @@ AC_DEFUN([FC_SDL2_CLIENT],
     if test "$sdl2_found" = yes; then
       gui_sdl2_cflags="$SDL2_CFLAGS"
       gui_sdl2_libs="$SDL2_LIBS"
-      FC_SDL2_PROJECT([SDL2_image], [IMG_Load], [SDL/SDL_image.h])
+      FC_SDL2_PROJECT([SDL2_image], [IMG_Load], [SDL_image.h])
       if test "x$sdl2_h_found" = "xyes" ; then
-        FC_SDL2_PROJECT([SDL2_ttf], [TTF_OpenFont], [SDL/SDL_ttf.h])
+        FC_SDL2_PROJECT([SDL2_ttf], [TTF_OpenFont], [SDL_ttf.h])
       else
         missing_2_project="SDL2_image"
       fi
       if test "x$sdl2_h_found" = "xyes" ; then
-        FC_SDL2_PROJECT([SDL2_gfx], [rotozoomSurface], [SDL/SDL_rotozoom.h])
+        FC_SDL2_PROJECT([SDL2_gfx], [rotozoomSurface], [SDL2_rotozoom.h])
       else
         missing_2_project="SDL2_ttf"
       fi
       if test "x$sdl2_h_found" = "xyes" ; then
-        AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
+        AC_CHECK_FT2([2.1.3], [freetype_found="yes"], [freetype_found="no"])
         if test "$freetype_found" = yes; then
           gui_sdl2_cflags="$gui_sdl2_cflags $FT2_CFLAGS"
           gui_sdl2_libs="$gui_sdl2_libs $FT2_LIBS"
