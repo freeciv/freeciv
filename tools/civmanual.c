@@ -614,7 +614,7 @@ int main(int argc, char **argv)
 
     /* The function below prints a header and footer for the options.
      * Furthermore, the options are sorted. */
-    cmdhelp_display(help, TRUE, TRUE, TRUE);
+    cmdhelp_display(help, TRUE, FALSE, TRUE);
     cmdhelp_destroy(help);
 
     exit(EXIT_SUCCESS);
