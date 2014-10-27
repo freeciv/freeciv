@@ -2673,6 +2673,25 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "Building", "Sewer System", "City"
+      "Building", "Aqueduct", "City"
+    }
+
+[effect_sewer_system_1]
+type    = "Size_Unlimit"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Sewer System", "City"
+      "Building", "Aqueduct, Lake", "City"
+    }
+
+[effect_sewer_system_2]
+type    = "Size_Unlimit"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Sewer System", "City"
+      "Building", "Aqueduct, River", "City"
     }
 
 [effect_sewer_system_health]
