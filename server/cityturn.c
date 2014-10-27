@@ -908,12 +908,21 @@ bool city_change_size(struct city *pcity, citizens size,
 static void city_populate(struct city *pcity, struct player *nationality)
 {
   int saved_id = pcity->id;
+  int granary_size = city_granary_size(city_size_get(pcity));
 
   pcity->food_stock += pcity->surplus[O_FOOD];
-  if (pcity->food_stock >= city_granary_size(city_size_get(pcity)) 
-     || city_rapture_grow(pcity)) {
-    city_increase_size(pcity, nationality);
-    map_claim_border(pcity->tile, pcity->owner);
+  if (pcity->food_stock >= granary_size || city_rapture_grow(pcity)) {
+    if (city_had_recent_plague(pcity)) {
+      notify_player(city_owner(pcity), city_tile(pcity),
+                    E_CITY_PLAGUE, ftc_server,
+                    _("A recent plague outbreak prevents growth in %s."),
+                    city_link(pcity));
+      /* Lose excess food */
+      pcity->food_stock = MIN(pcity->food_stock, granary_size);
+    } else {
+      city_increase_size(pcity, nationality);
+      map_claim_border(pcity->tile, pcity->owner);
+    }
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
      * cities or on units that require food in upkeep?
@@ -2405,7 +2414,6 @@ static void update_city_activity(struct city *pcity)
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
                       _("%s has been struck by a plague! Population lost!"), 
                       city_link(pcity));
-        city_reset_foodbox(pcity, city_size_get(pcity) - 1);
         city_reduce_size(pcity, 1, NULL);
         pcity->turn_plague = game.info.turn;
 
