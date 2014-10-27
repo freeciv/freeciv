@@ -1874,41 +1874,112 @@ static struct unit *base_transporter_for_unit(const struct unit *pcargo,
                                                   (const struct unit *pc,
                                                    const struct unit *pt))
 {
-  struct unit *best = NULL;
-  bool best_has_orders = FALSE, has_orders;
-  bool best_can_freely_unload = FALSE, can_freely_unload;
-  int best_depth = 0, depth;
+  struct unit *best_trans = NULL;
+  struct {
+    bool has_orders, is_idle, can_freely_unload;
+    int depth, outermost_moves_left, total_moves;
+  } cur, best = { FALSE };
 
   unit_list_iterate(ptile->units, ptrans) {
     if (!unit_load_test(pcargo, ptrans)) {
       continue;
+    } else if (best_trans == NULL) {
+      best_trans = ptrans;
     }
 
-    has_orders = unit_has_orders(ptrans);
-    if (!has_orders) {
-      unit_transports_iterate(ptrans, ptranstrans) {
-        if (unit_has_orders(ptranstrans)) {
-          has_orders = TRUE;
-          break;
-        }
-      } unit_transports_iterate_end;
-    }
-    can_freely_unload = utype_can_freely_unload(unit_type(pcargo),
-                                                unit_type(ptrans));
-    depth = unit_transport_depth(ptrans);
+    /* Gather data from transport stack in a single pass, for use in
+     * various conditions below. */
+    cur.has_orders = unit_has_orders(ptrans);
+    cur.outermost_moves_left = ptrans->moves_left;
+    cur.total_moves = ptrans->moves_left + unit_move_rate(ptrans);
+    unit_transports_iterate(ptrans, ptranstrans) {
+      if (unit_has_orders(ptranstrans)) {
+        cur.has_orders = TRUE;
+      }
+      cur.outermost_moves_left = ptranstrans->moves_left;
+      cur.total_moves += ptranstrans->moves_left + unit_move_rate(ptranstrans);
+    } unit_transports_iterate_end;
 
-    if (NULL == best
-        || (!has_orders && best_has_orders)
-        || (can_freely_unload && !best_can_freely_unload)
-        || depth < best_depth) {
-      best = ptrans;
-      best_has_orders = has_orders;
-      best_can_freely_unload = can_freely_unload;
-      best_depth = depth;
+    /* Criteria for deciding the 'best' transport to load onto.
+     * The following tests are applied in order; earlier ones have
+     * lexicographically greater significance than later ones. */
+
+    /* Transports which have orders, or are on transports with orders,
+     * are less preferable to transport stacks without orders (to
+     * avoid loading on units that are just passing through). */
+    if (best_trans != ptrans) {
+      if (!cur.has_orders && best.has_orders) {
+        best_trans = ptrans;
+      } else if (cur.has_orders && !best.has_orders) {
+        continue;
+      }
     }
+
+    /* Else, transports which are idle are preferable (giving players
+     * some control over loading) -- this does not check transports
+     * of transports. */
+    cur.is_idle = (ptrans->activity == ACTIVITY_IDLE);
+    if (best_trans != ptrans) {
+      if (cur.is_idle && !best.is_idle) {
+        best_trans = ptrans;
+      } else if (!cur.is_idle && best.is_idle) {
+        continue;
+      }
+    }
+
+    /* Else, transports from which the cargo could unload at any time
+     * are preferable to those where the cargo can only disembark in
+     * cities/bases. */
+    cur.can_freely_unload = utype_can_freely_unload(unit_type(pcargo),
+                                                    unit_type(ptrans));
+    if (best_trans != ptrans) {
+      if (cur.can_freely_unload && !best.can_freely_unload) {
+        best_trans = ptrans;
+      } else if (!cur.can_freely_unload && best.can_freely_unload) {
+        continue;
+      }
+    }
+
+    /* Else, transports which are less deeply nested are preferable. */
+    cur.depth = unit_transport_depth(ptrans);
+    if (best_trans != ptrans) {
+      if (cur.depth < best.depth) {
+        best_trans = ptrans;
+      } else if (cur.depth > best.depth) {
+        continue;
+      }
+    }
+
+    /* Else, transport stacks where the outermost transport has more
+     * moves left are preferable (on the assumption that it's the
+     * outermost transport that's about to move). */
+    if (best_trans != ptrans) {
+      if (cur.outermost_moves_left > best.outermost_moves_left) {
+        best_trans = ptrans;
+      } else if (cur.outermost_moves_left < best.outermost_moves_left) {
+        continue;
+      }
+    }
+
+    /* All other things being equal, as a tie-breaker, compare the total
+     * moves left (this turn) and move rate (future turns) for the whole
+     * stack, to take into account total potential movement for both
+     * short and long journeys (we don't know which the cargo intends to
+     * make). Doesn't try to account for whether transports can unload,
+     * etc. */
+    if (best_trans != ptrans) {
+      if (cur.total_moves > best.total_moves) {
+        best_trans = ptrans;
+      } else {
+        continue;
+      }
+    }
+
+    fc_assert(best_trans == ptrans);
+    best = cur;
   } unit_list_iterate_end;
 
-  return best;
+  return best_trans;
 }
 
 /****************************************************************************
