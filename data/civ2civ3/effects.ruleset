@@ -2879,9 +2879,9 @@ reqs    =
 type    = "Gain_AI_Love"
 value   = 10
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Eiffel Tower", "Player", TRUE
-      "Building", "Apollo Program", "World", FALSE
+    { "type", "name", "range", "present", "survives"
+      "Building", "Eiffel Tower", "Player", TRUE, FALSE
+      "Building", "Apollo Program", "World", FALSE, TRUE
     }
 
 [effect_eiffel_tower_1]
@@ -3342,11 +3342,11 @@ reqs    =
 type    = "Has_Senate"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "United Nations", "World", TRUE
-      "Building", "Manhattan Project", "World", TRUE
-      "Tech", "Nuclear Fission", "Player", TRUE
-      "Building", "Apollo Program", "World", FALSE
+    { "type", "name", "range", "present", "survives"
+      "Building", "United Nations", "World", TRUE, FALSE
+      "Building", "Manhattan Project", "World", TRUE, TRUE
+      "Tech", "Nuclear Fission", "Player", TRUE, FALSE
+      "Building", "Apollo Program", "World", FALSE, TRUE
     }
 
 [effect_united_nations_1]
@@ -3365,9 +3365,9 @@ reqs    =
 type    = "Gain_AI_Love"
 value   = 10
 reqs    =
-    { "type", "name", "range", "present"
-      "Building", "United Nations", "Player", TRUE
-      "Building", "Apollo Program", "World", FALSE
+    { "type", "name", "range", "present", "survives"
+      "Building", "United Nations", "Player", TRUE, FALSE
+      "Building", "Apollo Program", "World", FALSE, TRUE
     }
 
 [effect_womens_suffrage]
