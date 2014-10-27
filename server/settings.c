@@ -2213,17 +2213,16 @@ static struct setting settings[] = {
 
   GEN_INT("unitwaittime", game.server.unitwaittime,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
-          N_("Time between unit moves over turn change"),
+          N_("Time between unit actions over turn change"),
           /* TRANS: The string between single quotes is a setting name and
            * should not be translated. */
           N_("This setting gives the minimum amount of time in seconds "
-             "between unit moves after a turn change occurs. For "
-             "example, if this setting is set to 20 and a unit moves "
-             "5 seconds before the turn change, it will not be able "
-             "to move in the next turn for at least 15 seconds. Building "
-             "cities is also affected by this setting, as well as units "
-             "moving inside a transporter. This value is limited to "
-             "a maximum value of 2/3 'timeout'."),
+             "between unit moves and other significant actions (such as "
+             "building cities) after a turn change occurs. For example, "
+             "if this setting is set to 20 and a unit moves 5 seconds "
+             "before the turn change, it will not be able to move or act "
+             "in the next turn for at least 15 seconds. This value is "
+             "limited to a maximum value of 2/3 'timeout'."),
           unitwaittime_callback, NULL, GAME_MIN_UNITWAITTIME,
           GAME_MAX_UNITWAITTIME, GAME_DEFAULT_UNITWAITTIME)
 
