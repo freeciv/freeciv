@@ -704,5 +704,24 @@ enum extra_cause activity_to_extra_cause(enum unit_activity act)
     break;
   }
 
-  return EC_LAST;
+  return EC_NONE;
+}
+
+/**************************************************************************
+  What extra rmcause activity is considered to be?
+**************************************************************************/
+enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
+{
+  switch(act) {
+  case ACTIVITY_PILLAGE:
+    return ERM_PILLAGE;
+  case ACTIVITY_POLLUTION:
+    return ERM_CLEANPOLLUTION;
+  case ACTIVITY_FALLOUT:
+    return ERM_CLEANFALLOUT;
+  default:
+    break;
+  }
+
+  return ERM_NONE;
 }

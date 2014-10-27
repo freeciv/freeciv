@@ -449,24 +449,13 @@ int settler_evaluate_improvements(struct unit *punit,
           /* Now, consider various activities... */
           activity_type_iterate(act) {
             struct extra_type *target = NULL;
-            enum extra_cause cause = EC_NONE;
-            enum extra_rmcause rmcause = ERM_NONE;
-
-            if (act == ACTIVITY_IRRIGATE) {
-              cause = EC_IRRIGATION;
-            } else if (act == ACTIVITY_MINE) {
-              cause = EC_MINE;
-            } else if (act == ACTIVITY_POLLUTION) {
-              rmcause = ERM_CLEANPOLLUTION;
-            } else if (act == ACTIVITY_FALLOUT) {
-              rmcause = ERM_CLEANFALLOUT;
-            }
+            enum extra_cause cause = activity_to_extra_cause(act);
+            enum extra_rmcause rmcause = activity_to_extra_rmcause(act);
 
             if (cause != EC_NONE) {
               target = next_extra_for_tile(ptile, cause, pplayer,
                                            punit);
-            }
-            if (rmcause != ERM_NONE) {
+            } else if (rmcause != ERM_NONE) {
               target = prev_extra_in_tile(ptile, rmcause, pplayer,
                                           punit);
             }

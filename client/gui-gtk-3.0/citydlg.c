@@ -2638,7 +2638,7 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
     enum extra_cause cause = activity_to_extra_cause(act);
     struct extra_type *tgt;
 
-    fc_assert(cause != EC_LAST);
+    fc_assert(cause != EC_NONE);
 
     tgt = next_extra_for_tile(ptile, cause, city_owner(pcity), NULL);
 

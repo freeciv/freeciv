@@ -189,6 +189,7 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_rmcau
                                       const struct unit *punit);
 
 enum extra_cause activity_to_extra_cause(enum unit_activity act);
+enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \
