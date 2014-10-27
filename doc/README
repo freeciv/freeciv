@@ -23,13 +23,13 @@ Translations:
 You may find a translated version of this file, as well as of other parts
 of the Freeciv documentation, in the following places:
 
-	Catalan			./doc/ca
-	Dutch			./doc/nl
-	French			./doc/fr
-	German			./doc/de
-	Italian			./doc/it
-	Japanese		./doc/ja
-	Swedish			./doc/sv
+        Catalan                 ./doc/ca
+        Dutch                   ./doc/nl
+        French                  ./doc/fr
+        German                  ./doc/de
+        Italian                 ./doc/it
+        Japanese                ./doc/ja
+        Swedish                 ./doc/sv
 
 Even if there is no translation for your language, the game itself may
 support it.  Please see "Native Language Support" below.
@@ -173,7 +173,7 @@ Server:
   This will make the map twice as large as the default.
 
 Client:
-  
+
   Now all the human players should join, by running the Freeciv
   client:
 
@@ -295,7 +295,7 @@ Caveats:
     to http://proxy.myisp.com:8888/ before starting the client.
 
  3) Sometimes there are no games on the metaserver.  That happens.
-    The number of players there vary with the time of the day. Try 
+    The number of players there vary with the time of the day. Try
     starting one yourself!
 
 
@@ -339,7 +339,7 @@ The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will find a player name that matches the part of the
 name you typed.
 
-You can send a message to all your allies by prefixing it with the 
+You can send a message to all your allies by prefixing it with the
 letter '.' (yes, that is a period).
 
 You can issue server commands from the client input line:
@@ -376,11 +376,11 @@ There are four ways in which a game can end:
 1) Only winners remain in game
    1a) If server setting 'alliedvictory' is enabled:
        All the remaining nations, short of those who have ceded the game
-       (/surrendr), are allied or in the same team.
+       (/surrender), are allied or in the same team.
    1b) If 'alliedvictory' is disabled:
        Only one nation or one team is left, or all other players of all
        other teams have ceded the game (/surrender).
-2) The final year is reached.
+2) The final turn (/show endturn) is reached.
 3) A player builds and launches a spaceship, which reaches Alpha
    Centauri first.
 4) The server operator uses the /endgame command.
@@ -450,9 +450,9 @@ Both the client and server print messages known as "log messages".
 There are five categories of log messages: "fatal", "error", "normal",
 "verbose", and "debug".
 
-By default, fatal, error and normal messages are printed to standard 
-output where the client or server was started.  You can direct log 
-messages to a file instead of the screen with the "--log filename", 
+By default, fatal, error and normal messages are printed to standard
+output where the client or server was started.  You can direct log
+messages to a file instead of the screen with the "--log filename",
 or "-l filename" command line options.
 
 You can change the level of log messages displayed with "--debug
@@ -528,17 +528,17 @@ We maintain 4 mailing lists:
 All lists are open to the general public and everyone is welcome to join.
 Only maintainers may post to the -announce and -commits lists.
 
-The lists are hosted at gna.org. For more information, to join, or to leave 
+The lists are hosted at gna.org. For more information, to join, or to leave
 these lists, go to http://gna.org/mail/?group=freeciv
 
 
 Internet Relay Chat (IRC)
 =========================
 
-Several players and developers hang out on #freeciv and #freeciv-dev 
+Several players and developers hang out on #freeciv and #freeciv-dev
 channels on the freenode network. Try connecting to the server
 
-	irc.freenode.net
+        irc.freenode.net
 
 
 And finally:
