@@ -1359,7 +1359,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      /* TRANS: "Requires at least one Barbarian citizen ..." */
                      _("Requires at least one %s citizen in the city or a "
-                       " trade partner.\n"),
+                       "trade partner.\n"),
                      nation_adjective_translation(preq->source.value.nationality));
       } else {
         cat_snprintf(buf, bufsz,
@@ -1670,20 +1670,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
       case REQ_RANGE_LOCAL:
         if (preq->present) {
           cat_snprintf(buf, bufsz,
-                       PL_("Requires that the unit has at least %d move "
-                           "fragment left.\n",
-                          "Requires that the unit has at least %d move "
-                           "fragments left.\n",
-                          preq->source.value.minmoves),
-                       preq->source.value.minmoves);
+                       /* %s is numeric move points; it may have a
+                        * fractional part ("1 1/3 MP"). */
+                       _("Requires that the unit has at least %s MP left.\n"),
+                       move_points_text(preq->source.value.minmoves, TRUE));
         } else {
           cat_snprintf(buf, bufsz,
-                       PL_("Requires that the unit has less than %d move "
-                           "fragment left.\n",
-                          "Requires that the unit has less than %d move "
-                           "fragments left.\n",
-                          preq->source.value.minmoves),
-                       preq->source.value.minmoves);
+                       /* %s is numeric move points; it may have a
+                        * fractional part ("1 1/3 MP"). */
+                       _("Requires that the unit has less than %s MP left.\n"),
+                       move_points_text(preq->source.value.minmoves, TRUE));
         }
         return TRUE;
       case REQ_RANGE_CADJACENT:
@@ -1710,14 +1706,14 @@ static bool insert_requirement(char *buf, size_t bufsz,
      * potentially unit type dependent. */
     if (preq->present) {
       cat_snprintf(buf, bufsz,
-                   PL_("Requires a unit with at least %d veteran level.",
-                       "Requires a unit with at least %d veteran levels.",
+                   PL_("Requires a unit with at least %d veteran level.\n",
+                       "Requires a unit with at least %d veteran levels.\n",
                        preq->source.value.minveteran),
                    preq->source.value.minveteran);
     } else {
       cat_snprintf(buf, bufsz,
-                   PL_("Requires a unit with fewer than %d veteran level.",
-                       "Requires a unit with fewer than %d veteran levels.",
+                   PL_("Requires a unit with fewer than %d veteran level.\n",
+                       "Requires a unit with fewer than %d veteran levels.\n",
                        preq->source.value.minveteran),
                    preq->source.value.minveteran);
     }
@@ -1730,14 +1726,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a unit with at least %d hit point left.",
-                         "Requires a unit with at least %d hit points left.",
+                     PL_("Requires a unit with at least %d hit point left.\n",
+                         "Requires a unit with at least %d hit points left.\n",
                          preq->source.value.min_hit_points),
                      preq->source.value.min_hit_points);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a unit with fewer than %d hit point left.",
-                         "Requires a unit with fewer than %d hit points left.",
+                     PL_("Requires a unit with fewer than %d hit point "
+                         "left.\n",
+                         "Requires a unit with fewer than %d hit points "
+                         "left.\n",
                          preq->source.value.min_hit_points),
                      preq->source.value.min_hit_points);
       }
@@ -1827,14 +1825,16 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CITY:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum culture of %d in a city.\n",
-                         "Requires a minimum culture of %d in a city.\n",
+                     PL_("Requires a minimum culture of %d in the city.\n",
+                         "Requires a minimum culture of %d in the city.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires the culture in a city to be less than %d.\n",
-                         "Requires the culture in a city to be less than %d.\n",
+                     PL_("Requires the culture in the city to be less "
+                         "than %d.\n",
+                         "Requires the culture in the city to be less "
+                         "than %d.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1843,9 +1843,9 @@ static bool insert_requirement(char *buf, size_t bufsz,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum culture of %d in this city or "
-                         "a trade partner",
+                         "a trade partner.\n",
                          "Requires a minimum culture of %d in this city or "
-                         "a trade partner",
+                         "a trade partner.\n",
                          preq->source.value.minculture),
                       preq->source.value.minculture);
       } else {

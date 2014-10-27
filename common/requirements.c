@@ -2942,6 +2942,10 @@ const char *universal_rule_name(const struct universal *psource)
 /****************************************************************************
   Make user-friendly text for the source.  The text is put into a user
   buffer which is also returned.
+  This should be short, as it's used in lists like "Aqueduct+Size 8" when
+  explaining a calculated value. It just needs to be enough to remind the
+  player of rules they already know, not a complete explanation (use
+  insert_requirement() for that).
 *****************************************************************************/
 const char *universal_name_translation(const struct universal *psource,
 				       char *buf, size_t bufsz)
@@ -3028,11 +3032,14 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_UNITSTATE:
     switch (psource->value.unit_state) {
     case USP_TRANSPORTED:
-      cat_snprintf(buf, bufsz, _("Transported units"));
+      /* TRANS: unit state. (appears in strings like "Missile+Transported") */
+      cat_snprintf(buf, bufsz, _("Transported"));
       break;
     case USP_TRANSP_DEP:
       cat_snprintf(buf, bufsz,
-                   _("Transport dependent units"));
+                   /* TRANS: unit state. (appears in strings like
+                    * "Missile+Needs transport") */
+                   _("Needs transport"));
       break;
     case USP_COUNT:
       fc_assert_msg(psource->value.unit_state != USP_COUNT,
@@ -3041,15 +3048,18 @@ const char *universal_name_translation(const struct universal *psource,
     }
     return buf;
   case VUT_MINMOVES:
-    cat_snprintf(buf, bufsz, _("%d remaining move fragments"),
-                 psource->value.minmoves);
+    /* TRANS: Minimum unit movement points left for requirement to be met
+     * (%s is a string like "1" or "2 1/3") */
+    cat_snprintf(buf, bufsz, _("%s MP"),
+                 move_points_text(psource->value.minmoves, TRUE));
     return buf;
   case VUT_MINHP:
-    cat_snprintf(buf, bufsz, _("%d remaining hit points"),
+    /* TRANS: HP = hit points */
+    cat_snprintf(buf, bufsz, _("%d HP"),
                  psource->value.min_hit_points);
     return buf;
   case VUT_AGE:
-    cat_snprintf(buf, bufsz, _("age of %d turns"),
+    cat_snprintf(buf, bufsz, _("Age %d"),
                  psource->value.age);
     return buf;
   case VUT_OTYPE:
