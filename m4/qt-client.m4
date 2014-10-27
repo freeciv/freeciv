@@ -17,11 +17,11 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
       gui_qt_cxxflags=$FC_QT5_CXXFLAGS
       gui_qt_libs=$FC_QT5_LIBS
     else
-      AC_MSG_RESULT([not found])
+      qt_fail_reason="Missing Qt5 development files"
     fi
 
   else
-    AC_MSG_RESULT([not found])
+     qt_fail_reason="C++ compiler does not work"
   fi
 
   if test "x$fc_qt5_usable" = "xtrue" ; then
@@ -30,7 +30,7 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
       client=yes
     fi
   elif test "x$gui_qt" = "xyes" ; then
-    AC_MSG_ERROR([selected client 'qt' cannot be built])
+    AC_MSG_ERROR([selected client 'qt' cannot be built: $qt_fail_reason])
   fi
 fi
 ])
