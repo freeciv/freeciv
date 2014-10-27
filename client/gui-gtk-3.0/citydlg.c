@@ -2680,8 +2680,8 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
 
     shl = choice_dialog_start(GTK_WINDOW(toplevel),
 			       _("What Action to Request"),
-			       _("Select activity:"));
-    choice_dialog_add(shl, _("Clear workertask"),
+			       _("Select autosettler activity:"));
+    choice_dialog_add(shl, _("Clear request"),
                       G_CALLBACK(set_city_workertask),
                       GINT_TO_POINTER(ACTIVITY_IDLE), NULL);
     choice_dialog_add(shl, _("Mine"),
