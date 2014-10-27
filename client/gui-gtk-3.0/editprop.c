@@ -350,6 +350,7 @@ enum object_property_ids {
   OPID_PLAYER_ADDRESS,
 #endif /* DEBUG */
   OPID_PLAYER_INVENTIONS,
+  OPID_PLAYER_SCIENCE,
   OPID_PLAYER_GOLD,
 
   OPID_GAME_YEAR,
@@ -1754,6 +1755,10 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         } advance_index_iterate_end;
         pv->must_free = TRUE;
         break;
+      case OPID_PLAYER_SCIENCE:
+        presearch = research_get(pplayer);
+        pv->data.v_int = presearch->bulbs_researched;
+        break;
       case OPID_PLAYER_GOLD:
         pv->data.v_int = pplayer->economic.gold;
         break;
@@ -1957,6 +1962,12 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
 
   case OBJTYPE_PLAYER:
     switch (propid) {
+    case OPID_PLAYER_SCIENCE:
+      *pmin = 0;
+      *pmax = 1000000; /* Arbitrary. */
+      *pstep = 1;
+      *pbig_step = 100;
+      return TRUE;
     case OPID_PLAYER_GOLD:
       *pmin = 0;
       *pmax = 1000000; /* Arbitrary. */
@@ -2488,6 +2499,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
           packet->inventions[tech] = pv->data.v_inventions[tech];
         } advance_index_iterate_end;
         return;
+      case OPID_PLAYER_SCIENCE:
+        packet->bulbs_researched = pv->data.v_int;
+        return;
       case OPID_PLAYER_GOLD:
         packet->gold = pv->data.v_int;
         return;
@@ -2918,6 +2932,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_SIZE:
   case OPID_CITY_HISTORY:
   case OPID_CITY_SHIELD_STOCK:
+  case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
   case OPID_GAME_YEAR:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
@@ -3111,6 +3126,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_CITY_SIZE:
   case OPID_CITY_HISTORY:
   case OPID_CITY_SHIELD_STOCK:
+  case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
   case OPID_GAME_YEAR:
     spin = objprop_get_child_widget(op, "spin");
@@ -4337,6 +4353,8 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_HAS_WIDGET, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
+    ADDPROP(OPID_PLAYER_SCIENCE, _("Science"),
+            OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_PLAYER_GOLD, _("Gold"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     return;
