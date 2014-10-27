@@ -137,6 +137,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_NATIONGROUP:
+    source.value.nationgroup = nation_group_by_rule_name(value);
+    if (source.value.nationgroup != NULL) {
+      return source;
+    }
+    break;
   case VUT_NATIONALITY:
     source.value.nationality = nation_by_rule_name(value);
     if (source.value.nationality != NO_NATION_SELECTED) {
@@ -358,6 +364,12 @@ struct universal universal_by_number(const enum universals_n kind,
       return source;
     }
     break;
+  case VUT_NATIONGROUP:
+    source.value.nationgroup = nation_group_by_number(value);
+    if (source.value.nationgroup != NULL) {
+      return source;
+    }
+    break;
   case VUT_DIPLREL:
     source.value.diplrel = value;
     if (source.value.diplrel != diplrel_other_invalid()) {
@@ -492,6 +504,8 @@ int universal_number(const struct universal *source)
     return resource_number(source->value.resource);
   case VUT_NATION:
     return nation_number(source->value.nation);
+  case VUT_NATIONGROUP:
+    return nation_group_number(source->value.nationgroup);
   case VUT_NATIONALITY:
     return nation_number(source->value.nationality);
   case VUT_DIPLREL:
@@ -626,6 +640,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_ADVANCE:
     case VUT_TECHFLAG:
     case VUT_NATION:
+    case VUT_NATIONGROUP:
     case VUT_DIPLREL:
     case VUT_AI_LEVEL:
       req.range = REQ_RANGE_PLAYER;
@@ -691,6 +706,7 @@ struct requirement req_from_str(const char *type, const char *range,
                   && req.range != REQ_RANGE_LOCAL);
     break;
   case VUT_NATION:
+  case VUT_NATIONGROUP:
     invalid = (req.range != REQ_RANGE_PLAYER
                && req.range != REQ_RANGE_TEAM
                && req.range != REQ_RANGE_ALLIANCE
@@ -777,6 +793,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_EXTRA:
     case VUT_TECHFLAG:
     case VUT_ACHIEVEMENT:
+    case VUT_NATIONGROUP:
     case VUT_STYLE:
     case VUT_DIPLREL:
     case VUT_MAXTILEUNITS:
@@ -2014,6 +2031,50 @@ static enum fc_tristate is_nation_in_range(const struct player *target_player,
 }
 
 /****************************************************************************
+  Is there a nation group within range of the target?
+****************************************************************************/
+static enum fc_tristate
+is_nation_group_in_range(const struct player *target_player,
+                         enum req_range range, bool survives,
+                         const struct nation_group *ngroup)
+{
+  switch (range) {
+  case REQ_RANGE_PLAYER:
+    if (target_player == NULL) {
+      return TRI_MAYBE;
+    }
+    return BOOL_TO_TRISTATE(nation_is_in_group(nation_of_player(target_player),
+                                               ngroup));
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
+    if (target_player == NULL) {
+      return TRI_MAYBE;
+    }
+    players_iterate_alive(plr2) {
+      if (players_in_same_range(target_player, plr2, range)) {
+        if (nation_is_in_group(nation_of_player(plr2), ngroup)) {
+          return TRI_YES;
+        }
+      }
+    } players_iterate_alive_end;
+    return TRI_NO;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_TRADEROUTE:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/****************************************************************************
   Is there a nationality within range of the target?
 ****************************************************************************/
 static enum fc_tristate is_nationality_in_range(const struct city *target_city,
@@ -2419,6 +2480,10 @@ bool is_req_active(const struct player *target_player,
     eval = is_nation_in_range(target_player, req->range, req->survives,
                               req->source.value.nation);
     break;
+  case VUT_NATIONGROUP:
+    eval = is_nation_group_in_range(target_player, req->range, req->survives,
+                                    req->source.value.nationgroup);
+    break;
   case VUT_NATIONALITY:
     eval = is_nationality_in_range(target_city, req->range,
                                    req->source.value.nationality);
@@ -2685,6 +2750,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_STYLE:
     return TRUE;
   case VUT_NATION:
+  case VUT_NATIONGROUP:
     return (req->range != REQ_RANGE_ALLIANCE);
   case VUT_ADVANCE:
   case VUT_TECHFLAG:
@@ -2780,6 +2846,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.resource == psource2->value.resource;
   case VUT_NATION:
     return psource1->value.nation == psource2->value.nation;
+  case VUT_NATIONGROUP:
+    return psource1->value.nationgroup == psource2->value.nationgroup;
   case VUT_NATIONALITY:
     return psource1->value.nationality == psource2->value.nationality;
   case VUT_DIPLREL:
@@ -2877,6 +2945,8 @@ const char *universal_rule_name(const struct universal *psource)
     return resource_rule_name(psource->value.resource);
   case VUT_NATION:
     return nation_rule_name(psource->value.nation);
+  case VUT_NATIONGROUP:
+    return nation_group_rule_name(psource->value.nationgroup);
   case VUT_DIPLREL:
     return diplrel_rule_name(psource->value.diplrel);
   case VUT_NATIONALITY:
@@ -2992,6 +3062,10 @@ const char *universal_name_translation(const struct universal *psource,
     return buf;
   case VUT_NATION:
     fc_strlcat(buf, nation_adjective_translation(psource->value.nation),
+               bufsz);
+    return buf;
+  case VUT_NATIONGROUP:
+    fc_strlcat(buf, nation_group_name_translation(psource->value.nationgroup),
                bufsz);
     return buf;
   case VUT_NATIONALITY:

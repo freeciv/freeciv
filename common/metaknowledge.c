@@ -417,7 +417,8 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
-  if (req->source.kind == VUT_NATION) {
+  if (req->source.kind == VUT_NATION
+      || req->source.kind == VUT_NATIONGROUP) {
     return TRUE;
   }
 

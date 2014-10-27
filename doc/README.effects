@@ -64,6 +64,7 @@ UnitFlag:      Local
 UnitClass:     Local
 UnitClassFlag: Local
 Nation:        World, Alliance, Team, Player
+NationGroup:   World, Alliance, Team, Player
 Nationality:   Traderoute, City
 DiplRel:       World, Alliance, Team, Player, Local
 OutputType:    Local

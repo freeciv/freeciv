@@ -694,6 +694,9 @@ static void create_nation_selection_lists(void)
   
   for (i = 0; i < nation_group_count(); i++) {
     struct nation_group* group = (nation_group_by_number(i));
+    if (is_nation_group_hidden(group)) {
+      continue;
+    }
     nation_list = create_list_of_nations_in_group(group, i);
     if (nation_list) {
       group_name_label = gtk_label_new(nation_group_name_translation(group));

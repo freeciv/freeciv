@@ -3573,8 +3573,9 @@ void handle_ruleset_nation_groups
     struct nation_group *pgroup;
 
     pgroup = nation_group_new(packet->groups[i]);
-    fc_assert(NULL != pgroup);
+    fc_assert_action(NULL != pgroup, continue);
     fc_assert(i == nation_group_index(pgroup));
+    pgroup->hidden = packet->hidden[i];
   }
 }
 

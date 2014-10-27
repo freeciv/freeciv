@@ -320,6 +320,9 @@ void races_dialog::refresh()
 
   for (i = 1; i < nation_group_count() + 1; i++) {
     group = nation_group_by_number(i - 1);
+    if (is_nation_group_hidden(group)) {
+      continue;
+    }
     count = 0;
     /* checking if group is empty */
     nations_iterate(pnation) {

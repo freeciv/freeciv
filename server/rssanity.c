@@ -209,7 +209,9 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_MAXTILEUNITS:
        /* Can require different numbers on e.g. local/adjacent tiles. */
      case VUT_NATION:
-       /* Can require multiple nations at Alliance/World range. */
+       /* Can require multiple nations at Team/Alliance/World range. */
+     case VUT_NATIONGROUP:
+       /* Nations can be in multiple groups. */
      case VUT_NONE:
      case VUT_ADVANCE:
      case VUT_TECHFLAG:

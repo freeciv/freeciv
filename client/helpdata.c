@@ -1333,6 +1333,69 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_NATIONGROUP:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "... playing African nation." */
+                     _("Requires that you are playing %s nation.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "... playing Imaginary nation." */
+                     _("Prevented if you are playing %s nation.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      }
+      return TRUE;
+    case REQ_RANGE_TEAM:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "Requires Medieval nation ..." */
+                     _("Requires %s nation on your team.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by %s nation on your team.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      }
+      return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "Requires Modern nation ..." */
+                     _("Requires %s nation in alliance with you.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented if %s nation is in alliance with you.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      }
+      return TRUE;
+    case REQ_RANGE_WORLD:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: nation group: "Requires Asian nation ..." */
+                     _("Requires %s nation in the game.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Prevented by %s nation in the game.\n"),
+                     nation_group_name_translation(preq->source.value.nationgroup));
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_STYLE:
     if (preq->range != REQ_RANGE_PLAYER) {
       break;
@@ -1861,14 +1924,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum culture of %d in the nation.\n",
-                         "Requires a minimum culture of %d in the nation.\n",
+                     PL_("Requires the total culture of all your cities "
+                         "to be at least %d.\n",
+                         "Requires the total culture of all your cities "
+                         "to be at least %d.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires the culture in the nation to be less than %d.\n",
-                         "Requires the culture in the nation to be less than %d.\n",
+                     PL_("Prevented if the total culture of all your "
+                         "cities is %d or more.\n",
+                         "Prevented if the total culture of all your "
+                         "cities is %d or more.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }

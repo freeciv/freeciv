@@ -985,6 +985,15 @@ struct nation_group *nation_group_by_rule_name(const char *name)
 }
 
 /****************************************************************************
+  Set whether this group should appear in the nation selection UI.
+****************************************************************************/
+void nation_group_set_hidden(struct nation_group *pgroup, bool hidden)
+{
+  fc_assert_ret(NULL != pgroup);
+  pgroup->hidden = hidden;
+}
+
+/****************************************************************************
   Set how much the AI will try to select a nation in the same group.
   Server only function.
 ****************************************************************************/
@@ -993,6 +1002,15 @@ void nation_group_set_match(struct nation_group *pgroup, int match)
   fc_assert_ret(is_server());
   fc_assert_ret(NULL != pgroup);
   pgroup->server.match = match;
+}
+
+/****************************************************************************
+  Return whether this group should appear in the nation selection UI.
+****************************************************************************/
+bool is_nation_group_hidden(struct nation_group *pgroup)
+{
+  fc_assert_ret_val(NULL != pgroup, TRUE);
+  return pgroup->hidden;
 }
 
 /****************************************************************************

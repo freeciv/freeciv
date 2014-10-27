@@ -1413,6 +1413,7 @@ end
 PACKET_RULESET_NATION_GROUPS = 147; sc, lsend
   UINT8 ngroups;
   STRING groups[MAX_NUM_NATION_GROUPS:ngroups][MAX_LEN_NAME];
+  BOOL hidden[MAX_NUM_NATION_GROUPS:ngroups];
 end
 
 PACKET_RULESET_NATION = 148; sc, lsend

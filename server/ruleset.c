@@ -3794,6 +3794,7 @@ static bool load_ruleset_nations(struct section_file *file)
     if (sec) {
       section_list_iterate(sec, psection) {
         struct nation_group *pgroup;
+        bool hidden;
 
         name = secfile_lookup_str(file, "%s.name", section_name(psection));
         if (NULL == name) {
@@ -3806,6 +3807,11 @@ static bool load_ruleset_nations(struct section_file *file)
           ok = FALSE;
           break;
         }
+
+        hidden = secfile_lookup_bool_default(file, FALSE, "%s.hidden",
+                                             section_name(psection));
+        nation_group_set_hidden(pgroup, hidden);
+
         if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
           ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
           ok = FALSE;
@@ -6133,8 +6139,10 @@ static void send_ruleset_nations(struct conn_list *dest)
   groups_packet.ngroups = nation_group_count();
   i = 0;
   nation_groups_iterate(pgroup) {
-    sz_strlcpy(groups_packet.groups[i++],
+    sz_strlcpy(groups_packet.groups[i],
                nation_group_untranslated_name(pgroup));
+    groups_packet.hidden[i] = pgroup->hidden;
+    i++;
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 

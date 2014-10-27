@@ -165,6 +165,7 @@ struct nation_type {
 /* Nation group structure. */
 struct nation_group {
   struct name_translation name;
+  bool hidden;
 
   union {
     struct {
@@ -278,7 +279,9 @@ struct nation_group *nation_group_new(const char *name);
 struct nation_group *nation_group_by_number(int id);
 struct nation_group *nation_group_by_rule_name(const char *name);
 
+void nation_group_set_hidden(struct nation_group *pgroup, bool hidden);
 void nation_group_set_match(struct nation_group *pgroup, int match);
+bool is_nation_group_hidden(struct nation_group *pgroup);
 
 const char *nation_group_untranslated_name(const struct nation_group *pgroup);
 const char *nation_group_rule_name(const struct nation_group *pgroup);

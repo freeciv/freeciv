@@ -307,6 +307,7 @@ typedef union {
   struct extra_type *extra;
   struct resource *resource;
   struct achievement *achievement;
+  struct nation_group *nationgroup;
   struct nation_style *style;
 
   enum ai_level ai_level;
@@ -411,6 +412,8 @@ typedef union {
 #define SPECENUM_VALUE33NAME "MinHitPoints"
 #define SPECENUM_VALUE34 VUT_AGE
 #define SPECENUM_VALUE34NAME "Age"
+#define SPECENUM_VALUE35 VUT_NATIONGROUP
+#define SPECENUM_VALUE35NAME "NationGroup"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
