@@ -20,23 +20,45 @@ Use FILE as logfile
 \fB\-v\fR, \fB\-\-version\fR
 Print the version number
 .SH DESCRIPTION
-This tool can be used to generate 6 HTML pages with the documentation
-for freeciv-server. The pages cover several topics in detail, including:
+\fBfreeciv-manual\fR generates a subset of documentation for
+.IR freeciv-server(6)
+and the game rules of a selected ruleset that it runs. Currently it
+generates 6 files:
+.TP
+.BI "manual1.html"
+Server options
 
-\fB*\fP Wonders
+.TP
+.BI "manual2.html"
+Server commands
 
-\fB*\fP Buildings
+.TP
+.BI "manual3.html"
+Terrain
 
-\fB*\fP Terrain
+.TP
+.BI "manual4.html"
+Buildings
 
-\fB*\fP Governments
+.TP
+.BI "manual5.html"
+Wonders
 
-\fB*\fP Server commands and
+.TP
+.BI "manual6.html"
+Governments
 
-\fB*\fP Server options
+.SH BUGS
+This tool is currently only really of use to the Freeciv maintainers,
+as a starting point for pages on the main Freeciv wiki; it's not very
+useful to end users.
+
+Known shortcomings include that it is missing many ruleset features,
+and is hardcoded to output a mixture of MediaWiki markup and HTML.
 
 .SH "REPORTING BUGS"
 Report bugs at @BUG_URL@
+(but see above caveats).
 .SH "SEE ALSO"
 .IR freeciv-server (6)
 and the Client Manual at the Freeciv homepage.
