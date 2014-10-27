@@ -3756,7 +3756,7 @@ bool unit_can_do_action_now(const struct unit *punit)
     char buf[64];
     format_time_duration(game.server.unitwaittime - dt, buf, sizeof(buf));
     notify_player(unit_owner(punit), unit_tile(punit), E_BAD_COMMAND,
-                  ftc_server, _("Your unit may not move for another %s "
+                  ftc_server, _("Your unit may not act for another %s "
                                 "this turn. See /help unitwaittime."), buf);
     return FALSE;
   }
