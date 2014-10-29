@@ -250,14 +250,31 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
 
   if (selected->ptile != NULL) {
     struct tai_worker_task_req *data = fc_malloc(sizeof(*data));
+    struct extra_type *target = NULL;
 
     log_debug("%s: act %d at (%d,%d)", pcity->name, selected->act,
               TILE_XY(selected->ptile));
 
+    if (selected->tgt == NULL) {
+      enum extra_cause cause = activity_to_extra_cause(selected->act);
+
+      if (cause != EC_NONE) {
+        target = next_extra_for_tile(selected->ptile, cause, pplayer, NULL);
+      } else {
+        enum extra_rmcause rmcause = activity_to_extra_rmcause(selected->act);
+
+        if (rmcause != ERM_NONE) {
+          target = prev_extra_in_tile(selected->ptile, rmcause, pplayer, NULL);
+        }
+      }
+    } else {
+      target = selected->tgt;
+    }
+
     data->city_id = pcity->id;
     data->task.ptile = selected->ptile;
     data->task.act = selected->act;
-    data->task.tgt = selected->tgt;
+    data->task.tgt = target;
 
     tai_send_req(TAI_REQ_WORKER_TASK, pplayer, data);
   }
