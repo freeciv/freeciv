@@ -71,7 +71,7 @@ def get_choices(all):
             return [so_far]
         t0=so_far[:]
         t1=so_far[:]
-        t1.append(all[index])
+        t1.append(list(all)[index])
         return helper(helper,all,index+1,t1)+helper(helper,all,index+1,t0)
 
     result=helper(helper,all,0,[])
@@ -589,8 +589,8 @@ class Variant:
         if self.poscaps or self.negcaps:
             def f(cap):
                 return '(has_capability("%s", pc->capability) && has_capability("%s", our_capability))'%(cap,cap)
-            t=(map(lambda x,f=f: f(x),self.poscaps)+
-               map(lambda x,f=f: '!'+f(x),self.negcaps))
+            t=(list(map(lambda x,f=f: f(x),self.poscaps))+
+               list(map(lambda x,f=f: '!'+f(x),self.negcaps)))
             self.condition=" && ".join(t)
         else:
             self.condition="TRUE"
