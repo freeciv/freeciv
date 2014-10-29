@@ -61,9 +61,12 @@ rule_name="all"
 
 ; Descriptions of nation groups
 ; These are more cosmetic than sets; they affect the "pick nation" dialog,
-; and also affect random nation selection.
+; random nation selection, and possibly ruleset behaviour.
 ; It`s OK to not define any nation groups at all.
-; name 		= name of the group
+; name 		= name of the group (used adjectivally)
+; hidden        = TRUE to not include this group in the "pick nation" dialog
+;                 (for instance if it's for use in a NationGroup requirement).
+;                 Default FALSE.
 ; match		= How much the AI will try to select a nation in the same
 ;                 group
 
