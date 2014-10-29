@@ -843,7 +843,38 @@ bool can_unit_continue_current_activity(struct unit *punit)
 bool can_unit_do_activity(const struct unit *punit,
                           enum unit_activity activity)
 {
-  return can_unit_do_activity_targeted(punit, activity, NULL);
+  struct extra_type *target = NULL;
+
+  /* FIXME: lots of callers (usually client real_menus_update()) rely on
+   * being able to find out whether an activity is in general possible.
+   * Find one for them, but when they come to do the activity, they will
+   * have to determine the target themselves */
+  {
+    struct tile *ptile = unit_tile(punit);
+    struct terrain *pterrain = tile_terrain(ptile);
+
+    if (activity == ACTIVITY_IRRIGATE
+        && pterrain->irrigation_result == pterrain) {
+      target = next_extra_for_tile(ptile,
+                                   EC_IRRIGATION,
+                                   unit_owner(punit),
+                                   punit);
+      if (NULL == target) {
+        return FALSE; /* No more irrigation extras available. */
+      }
+    } else if (activity == ACTIVITY_MINE
+               && pterrain->mining_result == pterrain) {
+      target = next_extra_for_tile(ptile,
+                                   EC_MINE,
+                                   unit_owner(punit),
+                                   punit);
+      if (NULL == target) {
+        return FALSE; /* No more mine extras available. */
+      }
+    }
+  }
+
+  return can_unit_do_activity_targeted(punit, activity, target);
 }
 
 /**************************************************************************
@@ -874,35 +905,11 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
 
-  if (target == NULL) {
-    /* TODO: Make sure that all callers set target so that
-     * we don't need these fallbacks. */
-    if (activity == ACTIVITY_IRRIGATE && pterrain->irrigation_result == pterrain) {
-      target = next_extra_for_tile(ptile,
-                                   EC_IRRIGATION,
-                                   unit_owner(punit),
-                                   punit);
-      if (NULL == target) {
-        return FALSE; /* No more irrigation available. */
-      }
-    } else if (activity == ACTIVITY_MINE && pterrain->mining_result == pterrain) {
-      target = next_extra_for_tile(ptile,
-                                   EC_MINE,
-                                   unit_owner(punit),
-                                   punit);
-      if (NULL == target) {
-        return FALSE; /* No more mine available. */
-      }
-    }
-  }
-
   /* Check that no build activity conflicting with one already in progress
    * gets executed. */
   /* FIXME: Should check also the cases where one of the activities is terrain
-   *        change that destroyes the target of the other activity */
-  if (is_build_activity(activity, ptile)) {
-    fc_assert(target != NULL);
-
+   *        change that destroys the target of the other activity */
+  if (target != NULL && is_build_activity(activity, ptile)) {
     unit_list_iterate(ptile->units, tunit) {
       if (is_build_activity(tunit->activity, ptile)
           && !can_extras_coexist(target, tunit->activity_target)) {
