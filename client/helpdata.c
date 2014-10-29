@@ -1924,33 +1924,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_PLAYER:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires the total culture of all your cities "
-                         "to be at least %d.\n",
-                         "Requires the total culture of all your cities "
-                         "to be at least %d.\n",
+                     PL_("Requires your nation to have culture "
+                         "of at least %d.\n",
+                         "Requires your nation to have culture "
+                         "of at least %d.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Prevented if the total culture of all your "
-                         "cities is %d or more.\n",
-                         "Prevented if the total culture of all your "
-                         "cities is %d or more.\n",
-                         preq->source.value.minculture),
-                     preq->source.value.minculture);
-      }
-      return TRUE;
-    case REQ_RANGE_ALLIANCE:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum culture of %d in some allied nation.\n",
-                         "Requires a minimum culture of %d in some allied nation.\n",
-                         preq->source.value.minculture),
-                     preq->source.value.minculture);
-      } else {
-        cat_snprintf(buf, bufsz,
-                     PL_("Requires the culture in all allied nations to be less than %d.\n",
-                         "Requires the culture in all allied nations to be less than %d.\n",
+                     PL_("Prevented if your nation has culture of "
+                         "%d or more.\n",
+                         "Prevented if your nation has culture of "
+                         "%d or more.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1958,14 +1943,37 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_TEAM:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum culture of %d in some teamed nation.\n",
-                         "Requires a minimum culture of %d in some teamed nation.\n",
+                     PL_("Requires someone on your team to have culture of "
+                         "at least %d.\n",
+                         "Requires someone on your team to have culture of "
+                         "at least %d.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires the culture in all teamed nations to be less than %d.\n",
-                         "Requires the culture in all teamed nations to be less than %d.\n",
+                     PL_("Prevented if anyone on your team has culture of "
+                         "%d or more.\n",
+                         "Prevented if anyone on your team has culture of "
+                         "%d or more.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      }
+      return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     PL_("Requires someone in your current alliance to "
+                         "have culture of at least %d.\n",
+                         "Requires someone in your current alliance to "
+                         "have culture of at least %d.\n",
+                         preq->source.value.minculture),
+                     preq->source.value.minculture);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     PL_("Prevented if anyone in your current alliance has "
+                         "culture of %d or more.\n",
+                         "Prevented if anyone in your current alliance has "
+                         "culture of %d or more.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
@@ -1973,14 +1981,18 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_WORLD:
       if (preq->present) {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires a minimum culture of %d in some nation.\n",
-                         "Requires a minimum culture of %d in some nation.\n",
+                     PL_("Requires that some player has culture of at "
+                         "least %d.\n",
+                         "Requires that some player has culture of at "
+                         "least %d.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       } else {
         cat_snprintf(buf, bufsz,
-                     PL_("Requires the culture in all nations to be less than %d.\n",
-                         "Requires the culture in all nations to be less than %d.\n",
+                     PL_("Requires that no player has culture of %d "
+                         "or more.\n",
+                         "Requires that no player has culture of %d "
+                         "or more.\n",
                          preq->source.value.minculture),
                      preq->source.value.minculture);
       }
