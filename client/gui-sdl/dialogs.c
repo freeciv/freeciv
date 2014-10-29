@@ -3218,7 +3218,7 @@ void popup_races_dialog(struct player *pplayer)
   struct NAT *pSetup;
   SDL_Rect area;
   int i;
-  bool nationsets;
+  struct widget *nationsets = NULL;
   int natinfo_y, natinfo_h;
 
 #define TARGETS_ROW 5
@@ -3341,9 +3341,8 @@ void popup_races_dialog(struct player *pplayer)
 
     natset_str = create_str16_from_char(_("Nationset"), adj_font(12));
     change_ptsize16(natset_str, adj_font(24));
-    pWidget = create_iconlabel(NULL, pWindow->dst, natset_str, 0);
-    add_to_gui_list(ID_LABEL, pWidget);
-    pBuf = pWidget;
+    nationsets = create_iconlabel(NULL, pWindow->dst, natset_str, 0);
+    add_to_gui_list(ID_LABEL, nationsets);
 
     /* create nation set name label */
     poption = optset_option_by_name(server_optset, "nationset");
@@ -3379,10 +3378,6 @@ void popup_races_dialog(struct player *pplayer)
     add_to_gui_list(ID_NATION_PREV_NATIONSET_BUTTON, pWidget);
     pWidget->size.h = pWidget->next->size.h;
     pSetup->pset_prev = pWidget;
-
-    nationsets = TRUE;
-  } else {
-    nationsets = FALSE;
   }
 
   /* nation name */
@@ -3398,9 +3393,12 @@ void popup_races_dialog(struct player *pplayer)
   
   pWidget = create_iconlabel(pTmp_Surf_zoomed, pWindow->dst, pStr,
                              (WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
-  if (!nationsets) {
+  if (nationsets == NULL) {
     pBuf = pWidget;
+  } else {
+    pBuf = nationsets;
   }
+
   add_to_gui_list(ID_LABEL, pWidget);
   
   /* create leader name edit */
@@ -3552,7 +3550,7 @@ void popup_races_dialog(struct player *pplayer)
              get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   }
 
-  if (nationsets) {
+  if (nationsets != NULL) {
     /* Nationsets header */
     pBuf->size.x = area.x + area.w / 2 + (area.w / 2 - pBuf->size.w) / 2;
     pBuf->size.y = area.y + adj_size(46);
