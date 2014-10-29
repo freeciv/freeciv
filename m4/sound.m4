@@ -50,7 +50,7 @@ if test "x$USE_SOUND_SDL" != "xno" && test "x$USE_SOUND_SDL" != "xsdl" ; then
   fi
 fi
 
-if test "x$USE_SOUND_SDL" != "xsdl2" && test "x$USE_SOUND_SDL" != "xno" && test "xSOUND_SDL_OK" != "xtrue" ; then
+if test "x$USE_SOUND_SDL" != "xsdl2" && test "x$USE_SOUND_SDL" != "xno" && test "x$SOUND_SDL_OK" != "xtrue" ; then
   dnl Add SDL-mixer support to client
   SDL_VERSION=1.0.0
   AM_PATH_SDL($SDL_VERSION, SDL=yes, SDL=no)
