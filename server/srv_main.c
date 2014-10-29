@@ -600,6 +600,10 @@ void send_all_info(struct conn_list *dest)
   send_all_known_cities(dest);
   send_all_known_units(dest);
   send_spaceship_info(NULL, dest);
+
+  cities_iterate(pcity) {
+    package_and_send_worker_task(pcity);
+  } cities_iterate_end;
 }
 
 /**************************************************************************
