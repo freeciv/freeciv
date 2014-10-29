@@ -2,6 +2,7 @@
 
 options = "+Freeciv-spec-Devel-2013.Feb.13"
 
+[info]
 ; TODO: FIX ARTISTS
 artists = "
     Hogne Håskjold
@@ -22,7 +23,7 @@ x_top_left = 0
 y_top_left = 0
 dx = 96
 dy = 48
-is_pixel_border = 0
+pixel_border = 0
 
 tiles = { "row", "column", "tag"
 
