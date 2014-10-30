@@ -1078,7 +1078,7 @@ static char *quote_block(const void *const data, int length)
 
 /****************************************************************************
   Unquote a string. The unquoted data is written into dest. If the unqoted
-  data will be largern than dest_length the function aborts. It returns the
+  data will be larger than dest_length the function aborts. It returns the
   actual length of the unquoted block.
 ****************************************************************************/
 static int unquote_block(const char *const quoted_, void *dest,
