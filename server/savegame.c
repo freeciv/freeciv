@@ -473,7 +473,7 @@ static inline int fz_method2int(enum fz_method method)
 
 /****************************************************************************
   Unquote a string. The unquoted data is written into dest. If the unquoted
-  data will be largern than dest_length the function aborts. It returns the
+  data will be larger than dest_length the function aborts. It returns the
   actual length of the unquoted block.
 ****************************************************************************/
 static int unquote_block(const char *const quoted_, void *dest,
