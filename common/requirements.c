@@ -1293,7 +1293,7 @@ static enum fc_tristate is_techflag_in_range(const struct player *target_player,
 }
 
 /****************************************************************************
-  Is city with at least minculture culture in range?
+  Is city or player with at least minculture culture in range?
 ****************************************************************************/
 static enum fc_tristate is_minculture_in_range(const struct city *target_city,
                                                const struct player *target_player,
@@ -1329,13 +1329,7 @@ static enum fc_tristate is_minculture_in_range(const struct city *target_city,
     }
     players_iterate_alive(plr2) {
       if (players_in_same_range(target_player, plr2, range)) {
-        int total = 0;
-
-        city_list_iterate(plr2->cities, pcity) {
-          total += city_culture(pcity);
-        } city_list_iterate_end;
-
-        if (total >= minculture) {
+        if (player_culture(plr2) >= minculture) {
           return TRI_YES;
         }
       }
