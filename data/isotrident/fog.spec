@@ -2,6 +2,7 @@
 
 options = "+Freeciv-2.5-spec"
 
+[info]
 artists = "unknown"
 
 [file]
