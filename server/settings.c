@@ -1597,7 +1597,7 @@ static struct setting settings[] = {
 
   GEN_INT("diplbulbcost", game.server.diplbulbcost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Penalty when getting tech or gold from treaty"),
+	  N_("Penalty when getting tech from treaty"),
 	  N_("For each technology you gain from a diplomatic treaty, you "
 	     "lose research points equal to this percentage of the cost to "
 	     "research a new technology. If this is non-zero, you can end up "
@@ -1607,7 +1607,7 @@ static struct setting settings[] = {
 
   GEN_INT("diplgoldcost", game.server.diplgoldcost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Penalty when getting tech or gold from treaty"),
+	  N_("Penalty when getting gold from treaty"),
 	  N_("Gold transfer in diplomatic treaties suffer loss percentage "
              "equal to this percentage. The sum of the treaty is what gets "
              "subtracted from the one giving gold. Receiver gets the "
