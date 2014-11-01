@@ -510,49 +510,12 @@ ALL_LINGUAS="ar bg cs ca da de el en_GB eo es et fa fi fr ga gd he hu id it ja
 ko lt nl nb pl pt pt_BR ro ru sr sv tr uk zh_CN zh_TW"
 PODOMAINS="freeciv nations ruledit"
 
-AC_ARG_ENABLE([nls],
-  AS_HELP_STRING([--disable-nls], [do not add localization support]),
-[case "${enableval}" in
-  yes) USE_NLS=yes ;;
-  no)  USE_NLS=no  ;;
+AM_GNU_GETTEXT([external], [need-ngettext])
 
-  dnl NLS disabled, but 'make dist' allowed. That dist will lack
-  dnl all generated localization files.
-  no-gmo-dist) USE_NLS=no
-               FORCE_DIST=yes ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-nls]) ;;
-esac], [USE_NLS=yes])
-
-if test "$USE_NLS" = "yes" ; then
-  AM_GLIB_GNU_GETTEXT
-
-  dnl AM_GLIB_GNU_GETTEXT doesn't have all features we want
-  dnl or they don't behave correctly.
-  dnl Old gettext binaries don't understand plurals. (ngettext, msgid_plural)
-  dnl and there are some problems with missing ngettext.
-  dnl Is that ngettext part still true? AM_GLIB_GNU_GETTEXT does check for it
-
-  have_working_ngettext=0
-  AC_CHECK_LIB(c, ngettext,
-    [AC_MSG_CHECKING(whether libc's ngettext works at runtime)
-     FC_CHECK_NGETTEXT_RUNTIME(,have_working_ngettext=1,)],)
-
-  if test "$have_working_ngettext" = "0"; then
-    AC_CHECK_LIB([intl], [ngettext],
-      [AC_MSG_CHECKING([whether libintl's ngettext works at runtime])
-       FC_CHECK_NGETTEXT_RUNTIME(["-lintl"],[have_working_ngettext=1
-UTILITY_LIBS="${UTILITY_LIBS} -lintl"],)],)
-  fi
-
-  if test "$have_working_ngettext" = "0"; then
-    AC_MSG_ERROR(I haven't found a working ngettext function in your system. 
-Try --disable-nls. Read ABOUT-NLS.)
-  fi
-
-  if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
-    AC_MSG_CHECKING([for GNU xgettext version >= 0.14])
-    xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
-    AC_RUN_IFELSE([AC_LANG_SOURCE([[
+if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
+  AC_MSG_CHECKING([for GNU xgettext version >= 0.14])
+  xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
+  AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 
 const char *version = "$xgettext_version";
@@ -573,17 +536,17 @@ int main()
   }
   return 0;
 }
-    ]])],[AC_MSG_RESULT([yes])
-    ],[
-     AC_MSG_RESULT([no])
-     AC_MSG_WARN([You may have problems with creating pox files. \
+  ]])],[AC_MSG_RESULT([yes])
+  ],[
+   AC_MSG_RESULT([no])
+   AC_MSG_WARN([You may have problems with creating pox files. \
 Please update your gettext package.])
-    ],[echo error
-    ])
+  ],[echo error
+  ])
 
-    AC_MSG_CHECKING([for GNU msgfmt version >= 0.14])
-    msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
-    AC_RUN_IFELSE([AC_LANG_SOURCE([[
+  AC_MSG_CHECKING([for GNU msgfmt version >= 0.14])
+  msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
+  AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 
 const char *version = "$msgfmt_version";
@@ -605,22 +568,14 @@ int main()
   }
   return 0;
 }
-    ]])],[AC_MSG_RESULT([yes])
-    ],[
-    AC_MSG_RESULT([no])
-    AC_MSG_ERROR([You are unable to create *.gmo files.
+  ]])],[AC_MSG_RESULT([yes])
+  ],[
+  AC_MSG_RESULT([no])
+  AC_MSG_ERROR([You are unable to create *.gmo files.
 This is development version which doesn't include them. Please update your
 gettext package. Or use --disable-nls instead.])
-    ],[echo error
-    ])
-  fi
-else
-  dnl Setup POFILES even when NLS disabled.
-  dnl AM_GLIB_GNU_GETTEXT does this when NLS enabled.
-  for lang in $ALL_LINGUAS; do
-    POFILES="$POFILES $lang.po"
-  done
-  AC_SUBST([POFILES])
+  ],[echo error
+  ])
 fi
 
 PKG_PROG_PKG_CONFIG
