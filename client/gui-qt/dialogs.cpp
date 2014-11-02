@@ -1235,7 +1235,7 @@ void popup_action_selection(struct unit *actor_unit,
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
   can_marketplace = unit_has_type_flag(actor_unit,
-                                            UTYF_TRADE_ROUTE)
+                                       UTYF_TRADE_ROUTE)
       && target_city
       && can_cities_trade(actor_homecity, target_city);
   can_traderoute = can_marketplace
