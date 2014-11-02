@@ -259,25 +259,33 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
-/* Cache if a unit can perform any actions at all. */
-static bv_unit_types unit_can_act_cache;
+/* Fake action representing any action at all. */
+#define ACTION_ANY ACTION_COUNT
+
+/* Cache of what generalized (ruleset defined) action enabler controlled
+ * actions units of each type can perform. Checking if any action can be
+ * done at all is done via the fake action ACTION_ANY. */
+static bv_unit_types unit_can_act_cache[ACTION_ANY + 1];
 
 /**************************************************************************
-  Cache if a unit of the given type can perform any action controlled by
-  generalized (ruleset defined) action enablers.
+  Cache what generalized (ruleset defined) action enabler controlled
+  actions a unit of the given type can perform.
 **************************************************************************/
 static void unit_can_act_cache_set(struct unit_type *putype)
 {
-  /* Clear old value */
-  BV_CLR(unit_can_act_cache, utype_index(putype));
+  /* Clear old values. */
+  action_iterate(act_id) {
+    BV_CLR(unit_can_act_cache[act_id], utype_index(putype));
+  } action_iterate_end;
+  BV_CLR(unit_can_act_cache[ACTION_ANY], utype_index(putype));
 
   /* See if the unit type can do an action controlled by generalized action
    * enablers */
   action_enablers_iterate(enabler) {
     if (requirement_fulfilled_by_unit_type(putype,
                                            &(enabler->actor_reqs))) {
-        BV_SET(unit_can_act_cache, utype_index(putype));
-        return;
+        BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
+        BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
       }
   } action_enablers_iterate_end;
 }
@@ -288,7 +296,17 @@ static void unit_can_act_cache_set(struct unit_type *putype)
 **************************************************************************/
 bool is_actor_unit_type(const struct unit_type *putype)
 {
-  return BV_ISSET(unit_can_act_cache, utype_index(putype));
+  return utype_can_do_action(putype, ACTION_ANY);
+}
+
+/**************************************************************************
+  Return TRUE iff units of the given type can do the specified generalized
+  (ruleset defined) action enabler controlled action.
+**************************************************************************/
+bool utype_can_do_action(const struct unit_type *putype,
+                         const int action_id)
+{
+  return BV_ISSET(unit_can_act_cache[action_id], utype_index(putype));
 }
 
 /* Cache if any action at all may be possible when the actor unit's state

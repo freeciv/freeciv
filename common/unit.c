@@ -282,6 +282,16 @@ bool is_actor_unit(const struct unit *punit)
 }
 
 /**************************************************************************
+  Return TRUE iff this unit can do the specified generalized (ruleset
+  defined) action enabler controlled action.
+**************************************************************************/
+bool unit_can_do_action(const struct unit *punit,
+                        const int action_id)
+{
+  return utype_can_do_action(unit_type(punit), action_id);
+}
+
+/**************************************************************************
   Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct player *pplayer,
