@@ -584,7 +584,7 @@ int fc_utf8_vsnprintf_trunc(char *str, size_t n, const char *format,
     return ret;
   } else {
     /* Truncate at last valid UTF-8 character. */
-    end = '\0';
+    *end = '\0';
     return (-1 == ret ? -1 : end - str);
   }
 }
