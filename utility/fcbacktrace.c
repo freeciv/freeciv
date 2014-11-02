@@ -105,7 +105,7 @@ static void backtrace_log(enum log_level level, bool print_from_where,
     int frames;
     char **names;
 
-    frames = backtrace(buffer, sizeof(buffer));
+    frames = backtrace(buffer, ARRAY_SIZE(buffer));
     names = backtrace_symbols(buffer, frames);
 
     if (names == NULL) {
