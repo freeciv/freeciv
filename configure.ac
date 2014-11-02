@@ -24,7 +24,9 @@ AC_DEFINE_UNQUOTED([WIKI_URL], ["$WIKI_URL"], [Informational URL])
 
 AC_DEFINE(DEFAULT_SOCK_PORT, 5556, [Connection TCP Port])
 
+AC_DEFINE_UNQUOTED([PACKAGE_BUGREPORT], ["$BUG_URL"], [Translation bug reporting URL])
 AC_SUBST([BUG_URL])
+AC_SUBST([PACKAGE_BUGREPORT])
 AC_SUBST([WIKI_URL])
 AC_SUBST([MAIL_ADDRESS])
 
@@ -1412,7 +1414,7 @@ AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PODOMAINS ; do
      else
        echo modifying translations/${domain}/Makefile add-comments/escape
        mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
-       sed -e 's/add-comments/add-comments="TRANS:" --escape/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
+       sed -e 's/add-comments=TRANSLATORS:/add-comments="TRANS:" --escape/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
        rm translations/${domain}/Makefile.tmp
      fi
    fi
