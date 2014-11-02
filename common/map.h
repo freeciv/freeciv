@@ -87,10 +87,6 @@ struct civ_map {
 
   union {
     struct {
-      /* Nothing yet. */
-    } client;
-
-    struct {
       enum mapsize_type mapsize; /* how the map size is defined */
       int size; /* used to calculate [xy]size */
       int tilesperplayer; /* tiles per player; used to calculate size */
@@ -112,6 +108,8 @@ struct civ_map {
       bool have_rivers_overlay;	/* only applies if !have_resources */
       enum team_placement team_placement;
     } server;
+
+    /* Add client side when needed */
   };
 };
 
