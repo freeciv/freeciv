@@ -2127,24 +2127,6 @@ static void happy_copy(struct city *pcity, enum citizen_feeling i)
 }
 
 /**************************************************************************
-  Move up to 'count' citizens from the source to the destination
-  happiness categories. For instance
-
-    make_citizens_happy(&pcity->angry[0], &pcity->unhappy[0], 1)
-
-  will make up to 1 angry citizen unhappy.  The number converted will be
-  returned.
-**************************************************************************/
-static inline citizens make_citizens_happy(citizens *from, citizens *to,
-                                           citizens count)
-{
-  count = MIN(count, *from);
-  *from -= count;
-  *to += count;
-  return count;
-}
-
-/**************************************************************************
   Create content, unhappy and angry citizens.
 **************************************************************************/
 static void citizen_base_mood(struct city *pcity)
