@@ -2419,7 +2419,15 @@ static void mapgenerator3(void)
   struct gen234_state *pstate = &state;
 
   if (map.server.landpercent > 80) {
-    log_verbose("ISLAND generator: falling back to FRACTAL generator");
+    log_verbose("ISLAND generator: falling back to FRACTAL generator due "
+                "to landpercent > 80.");
+    map.server.generator = MAPGEN_FRACTAL;
+    return;
+  }
+
+  if (map.xsize < 40 || map.ysize < 40) {
+    log_verbose("ISLAND generator: falling back to FRACTAL generator due "
+                "to unsupported map size.");
     map.server.generator = MAPGEN_FRACTAL;
     return;
   }
@@ -2442,12 +2450,6 @@ static void mapgenerator3(void)
   }
   if (islandmass < 3 * maxmassdiv6 && player_count() * 2 < landmass) {
     islandmass= (landmass)/(bigislands);
-  }
-
-  if (map.xsize < 40 || map.ysize < 40 || map.server.landpercent > 80) { 
-    log_verbose("ISLAND generator: falling back to FRACTAL generator");
-    map.server.generator = MAPGEN_FRACTAL;
-    return; 
   }
 
   if (islandmass < 2) {
