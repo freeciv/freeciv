@@ -13,12 +13,13 @@
 #ifndef FC__PLRHAND_H
 #define FC__PLRHAND_H
 
-struct section_file;
 struct connection;
 struct conn_list;
-struct rgbcolor;
-struct player;
 struct nation_type;
+struct player;
+struct rgbcolor;
+struct section_file;
+struct unit_list;
 
 enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
@@ -115,8 +116,12 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
 bool civil_war_triggered(struct player *pplayer);
 struct player *civil_war(struct player *pplayer);
 
-void update_players_after_alliance_breakup(struct player* pplayer,
-                                          struct player* pplayer2);
+void update_players_after_alliance_breakup(struct player *pplayer,
+                                           struct player *pplayer2,
+                                           const struct unit_list
+                                               *pplayer_seen_units,
+                                           const struct unit_list
+                                               *pplayer2_seen_units);
 
 /* Player counts, total player_count() is in common/player.c */
 int barbarian_count(void);
