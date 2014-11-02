@@ -1318,22 +1318,36 @@ void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
 }
 
 /****************************************************************************
+  Returns the list of the units owned by 'aplayer' seen by 'pplayer'. The
+  returned pointer is newly allocated and should be freed by the caller,
+  using unit_list_destroy().
+****************************************************************************/
+struct unit_list *get_seen_units(const struct player *pplayer,
+                                 const struct player *aplayer)
+{
+  struct unit_list *seen_units = unit_list_new();
+
+  unit_list_iterate(aplayer->units, punit) {
+    if (can_player_see_unit(pplayer, punit)) {
+      unit_list_append(seen_units, punit);
+    }
+  } unit_list_iterate_end;
+
+  return seen_units;
+}
+
+/****************************************************************************
   When two players cancel an alliance, a lot of units that were visible may
   no longer be visible (this includes units in transporters and cities).
   Call this function to inform the clients that these units are no longer
-  visible.  Note that this function should be called _after_
-  resolve_unit_stacks().
+  visible.
 ****************************************************************************/
-void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
+void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
+                              const struct unit_list *seen_units)
 {
-  unit_list_iterate(aplayer->units, punit) {
-    /* We don't know exactly which units have been hidden.  But only a unit
-     * whose tile is visible but who aren't visible themselves are
-     * candidates.  This solution just tells the client to drop all such
-     * units.  If any of these are unknown to the client the client will
-     * just ignore them. */
-    if (map_is_known_and_seen(unit_tile(punit), pplayer, V_MAIN) &&
-        !can_player_see_unit(pplayer, punit)) {
+  unit_list_iterate(seen_units, punit) {
+    /* We need to hide units previously seen by the client. */
+    if (!can_player_see_unit(pplayer, punit)) {
       unit_goes_out_of_sight(pplayer, punit);
     }
   } unit_list_iterate_end;

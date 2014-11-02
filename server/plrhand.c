@@ -517,21 +517,28 @@ void check_player_max_rates(struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/****************************************************************************
   After the alliance is breaken, we need to do two things:
   - Inform clients that they cannot see units inside the former's ally
     cities
   - Remove units stacked together
-**************************************************************************/
-void update_players_after_alliance_breakup(struct player* pplayer,
-                                          struct player* pplayer2)
+  Note that you shouldn't use the units listed in 'pplayer_seen_units'
+  and 'pplayer2_seen_units' after calling this function because these
+  units might have died during the process.
+****************************************************************************/
+void update_players_after_alliance_breakup(struct player *pplayer,
+                                           struct player *pplayer2,
+                                           const struct unit_list
+                                               *pplayer_seen_units,
+                                           const struct unit_list
+                                               *pplayer2_seen_units)
 {
   /* The client needs updated diplomatic state, because it is used
    * during calculation of new states of occupied flags in cities */
    send_player_all_c(pplayer, NULL);
    send_player_all_c(pplayer2, NULL);
-   remove_allied_visibility(pplayer, pplayer2);
-   remove_allied_visibility(pplayer2, pplayer);    
+   remove_allied_visibility(pplayer, pplayer2, pplayer_seen_units);
+   remove_allied_visibility(pplayer2, pplayer, pplayer2_seen_units);
    resolve_unit_stacks(pplayer, pplayer2, TRUE);
 }
 
@@ -594,6 +601,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   bool repeat = FALSE;
   struct player *pplayer2 = player_by_number(other_player_id);
   struct player_diplstate *ds_plrplr2, *ds_plr2plr;
+  struct unit_list *pplayer_seen_units, *pplayer2_seen_units;
 
   if (NULL == pplayer2) {
     return;
@@ -652,6 +660,11 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   ds_plrplr2 = player_diplstate_get(pplayer, pplayer2);
   ds_plr2plr = player_diplstate_get(pplayer2, pplayer);
 
+  if (old_type == DS_ALLIANCE) {
+    pplayer_seen_units = get_seen_units(pplayer, pplayer2);
+    pplayer2_seen_units = get_seen_units(pplayer2, pplayer);
+  }
+
   /* do the change */
   ds_plrplr2->type = ds_plr2plr->type = new_type;
   ds_plrplr2->turns_left = ds_plr2plr->turns_left = 16;
@@ -659,7 +672,11 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
-    update_players_after_alliance_breakup(pplayer, pplayer2);
+    update_players_after_alliance_breakup(pplayer, pplayer2,
+                                          pplayer_seen_units,
+                                          pplayer2_seen_units);
+    unit_list_destroy(pplayer_seen_units);
+    unit_list_destroy(pplayer2_seen_units);
   }
 
   /* if there's a reason to cancel the pact, do it without penalty */
@@ -688,17 +705,6 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
   send_player_all_c(pplayer, NULL);
   send_player_all_c(pplayer2, NULL);
-
-  if (old_type == DS_ALLIANCE) {
-    /* Inform clients about units that have been hidden.  Units in cities
-     * and transporters are visible to allies but not visible once the
-     * alliance is broken.  We have to call this after resolve_unit_stacks
-     * because that function may change units' locations.  It also sends
-     * out new city info packets to tell the client about occupied cities,
-     * so it should also come after the send_player_all_c calls above. */
-    remove_allied_visibility(pplayer, pplayer2);
-    remove_allied_visibility(pplayer2, pplayer);
-  }
 
   /* 
    * Refresh all cities which have a unit of the other side within
