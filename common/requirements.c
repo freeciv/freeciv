@@ -3358,21 +3358,25 @@ void universal_found_functions_init(void)
 }
 
 /**************************************************************************
-  Returns the position of the given requirement kind state in an
-  enumeration of all possible states for a requirement kind.
+  Returns (the position of) the given requirement's enumerator in the
+  enumeration of all possible requirements of its requirement kind.
+
+  Note: Since this isn't used for any requirement type that supports
+  surviving requirements those aren't supported. Add support if a user
+  appears.
 **************************************************************************/
-int requirement_kind_state_pos(const int id,
-                               const enum req_range range,
-                               const bool present,
-                               const int count_id)
+int requirement_kind_ereq(const int value,
+                          const enum req_range range,
+                          const bool present,
+                          const int max_value)
 {
-  /* Requirement kind state data for a range starts with present for each
-   * possible id followed by !present for each possible id. */
-  const int pres_pos = (present ? 0 : count_id);
+  /* The enumerators in each range starts with present for every possible
+   * value followed by !present for every possible value. */
+  const int pres_start = (present ? 0 : max_value);
 
-  /* Requirement kind state data for a range follows the requirement state
-   * data of the previous range. */
-  const int past_ranges = ((count_id - 1) * 2) * range;
+  /* The enumerators for every range follows all the positions of the
+   * previous range(s). */
+  const int range_start = ((max_value - 1) * 2) * range;
 
-  return past_ranges + pres_pos + id;
+  return range_start + pres_start + value;
 }

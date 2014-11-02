@@ -342,7 +342,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
         req.present = FALSE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
           BV_SET(unit_state_action_cache[utype_index(putype)],
-              requirement_unit_state_pos(req.source.value.unit_state,
+              requirement_unit_state_ereq(req.source.value.unit_state,
                                          TRUE));
         }
 
@@ -350,7 +350,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
         req.present = TRUE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
           BV_SET(unit_state_action_cache[utype_index(putype)],
-                 requirement_unit_state_pos(req.source.value.unit_state,
+                 requirement_unit_state_ereq(req.source.value.unit_state,
                                             FALSE));
         }
       }
@@ -440,7 +440,7 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
                                  const bool is_there)
 {
   return BV_ISSET(unit_state_action_cache[utype_index(punit_type)],
-      requirement_unit_state_pos(prop, is_there));
+      requirement_unit_state_ereq(prop, is_there));
 }
 
 /**************************************************************************

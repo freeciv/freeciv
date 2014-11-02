@@ -177,16 +177,16 @@ bool universal_fulfills_requirement(bool check_necessary,
     &(struct universal){.kind = VUT_IMPROVEMENT,                           \
                         .value = {.building = (_imp_)}})
 
-int requirement_kind_state_pos(const int id,
-                               const enum req_range range,
-                               const bool present,
-                               const int count_id);
+int requirement_kind_ereq(const int value,
+                          const enum req_range range,
+                          const bool present,
+                          const int max_value);
 
-#define requirement_unit_state_pos(_id_, _present_)                       \
-  requirement_kind_state_pos(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
+#define requirement_unit_state_ereq(_id_, _present_)                       \
+  requirement_kind_ereq(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
 
 #define requirement_diplrel_ereq(_id_, _range_, _present_)                \
-  requirement_kind_state_pos(_id_, _range_, _present_, DRO_LAST)
+  requirement_kind_ereq(_id_, _range_, _present_, DRO_LAST)
 
 #ifdef __cplusplus
 }
