@@ -242,6 +242,39 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
 }
 
 /**************************************************************************
+  Get information about starting the action in the current situation.
+  Suitable for a tool tip for the button that starts it.
+**************************************************************************/
+const char *action_get_tool_tip(const int action_id,
+                                const action_probability act_prob)
+{
+  static struct astring tool_tip = ASTRING_INIT;
+
+  switch (act_prob) {
+  case ACTPROB_NOT_KNOWN:
+    /* Missing in game knowledge. An in game action can change this. */
+    astr_set(&tool_tip,
+             _("Starting to do this may currently be impossible."));
+    break;
+  case ACTPROB_NOT_IMPLEMENTED:
+    /* Missing server support. No in game action will change this. */
+    astr_clear(&tool_tip);
+    break;
+  default:
+    {
+      /* The unit is 0.5% chance of success. */
+      const double converted = (double)act_prob / 2.0;
+
+      astr_set(&tool_tip, _("The probability of success is %.1f%%."),
+               converted);
+    }
+    break;
+  }
+
+  return astr_str(&tool_tip);
+}
+
+/**************************************************************************
   Create a new action enabler.
 **************************************************************************/
 struct action_enabler *action_enabler_new(void)

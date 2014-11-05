@@ -1421,26 +1421,7 @@ static void action_entry(choice_dialog *cd,
   title = QString(action_prepare_ui_name(act, "&",
                                          action_probabilities[act]));
 
-  switch (action_probabilities[act]) {
-  case ACTPROB_NOT_KNOWN:
-    /* Missing in game knowledge. An in game action can change this. */
-    tool_tip =
-        QString(_("Starting to do this may currently be impossible."));
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Missing server support. No in game action will change this. */
-    tool_tip = "";
-    break;
-  default:
-    {
-      /* The unit is 0.5% chance of success. */
-      double converted = (double)action_probabilities[act] / 2;
-
-      tool_tip = QString(_("The probability of success is %1%."))
-                   .arg(converted);
-    }
-    break;
-  }
+  tool_tip = QString(action_get_tool_tip(act, action_probabilities[act]));
 
   cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
 }
@@ -1464,26 +1445,7 @@ static void action_entry_update(QPushButton *button,
   title = QString(action_prepare_ui_name(act, "&",
                                          act_prob[act]));
 
-  switch (act_prob[act]) {
-  case ACTPROB_NOT_KNOWN:
-    /* Missing in game knowledge. An in game action can change this. */
-    tool_tip =
-        QString(_("Starting to do this may currently be impossible."));
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Missing server support. No in game action will change this. */
-    tool_tip = "";
-    break;
-  default:
-    {
-      /* The unit is 0.5% chance of success. */
-      double converted = (double)act_prob[act] / 2;
-
-      tool_tip = QString(_("The probability of success is %1%."))
-                   .arg(converted);
-    }
-    break;
-  }
+  tool_tip = QString(action_get_tool_tip(act, act_prob[act]));
 
   button->setText(title);
   button->setToolTip(tool_tip);

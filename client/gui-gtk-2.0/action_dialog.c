@@ -1000,21 +1000,8 @@ static void action_entry(GtkWidget *shl,
   label = action_prepare_ui_name(action_id, "_",
                                  action_probabilities[action_id]);
 
-  switch (action_probabilities[action_id]) {
-  case ACTPROB_NOT_KNOWN:
-    /* Missing in game knowledge. An in game action can change this. */
-    tooltip =
-        _("Starting to do this may currently be impossible.");
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Missing server support. No in game action will change this. */
-    tooltip = NULL;
-    break;
-  default:
-    tooltip = g_strdup_printf(_("The probability of success is %.1f%%."),
-                              (double)action_probabilities[action_id] / 2);
-    break;
-  }
+  tooltip = action_get_tool_tip(action_id,
+                                action_probabilities[action_id]);
 
   action_button_map[action_id] = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, label, af_map[action_id], handler_args, tooltip);
@@ -1041,21 +1028,8 @@ static void action_entry_update(GtkWidget *shl,
   label = action_prepare_ui_name(action_id, "_",
                                  act_prob[action_id]);
 
-  switch (act_prob[action_id]) {
-  case ACTPROB_NOT_KNOWN:
-    /* Missing in game knowledge. An in game action can change this. */
-    tooltip =
-        _("Starting to do this may currently be impossible.");
-    break;
-  case ACTPROB_NOT_IMPLEMENTED:
-    /* Missing server support. No in game action will change this. */
-    tooltip = NULL;
-    break;
-  default:
-    tooltip = g_strdup_printf(_("The probability of success is %.1f%%."),
-                              (double)act_prob[action_id] / 2);
-    break;
-  }
+  tooltip = action_get_tool_tip(action_id,
+                                act_prob[action_id]);
 
   choice_dialog_button_set_label(act_sel_dialog,
                                  action_button_map[action_id],
