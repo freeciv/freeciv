@@ -3361,8 +3361,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
   }
 
   /* Make huts. */
-  if (map.server.riches > 0) {
-    for (i = map.server.riches, j = 0;
+  if (map.server.huts > 0) {
+    for (i = map.server.huts, j = 0;
          i * map_num_tiles() >= 2000 && j < map_num_tiles() * 2; j++) {
       k = fc_rand(MAP_INDEX_SIZE);
       pftile = pisland + k;
