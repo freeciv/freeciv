@@ -439,7 +439,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     if (give) {
       worth -= pclause->value;
     } else {
-      worth += pclause->value;
+      worth += pclause->value * (100 - game.server.diplcost) / 100;
     }
     break;
 
