@@ -448,30 +448,6 @@ static inline enum fz_method int2fz_method(int magic)
 }
 
 /****************************************************************************
-  Setting compress type compability checks.
-****************************************************************************/
-static inline int fz_method2int(enum fz_method method)
-{
-  switch (method) {
-  case FZ_PLAIN:
-    return 0;
-#ifdef HAVE_LIBZ
-  case FZ_ZLIB:
-    return 1;
-#endif
-#ifdef HAVE_LIBBZ2
-  case FZ_BZIP2:
-    return 2;
-#endif
-#ifdef HAVE_LIBLZMA
-  case FZ_XZ:
-    return 3;
-#endif
-  }
-  return 0;     /* Not supported, reverting to FZ_PLAIN. */
-}
-
-/****************************************************************************
   Unquote a string. The unquoted data is written into dest. If the unquoted
   data will be larger than dest_length the function aborts. It returns the
   actual length of the unquoted block.
