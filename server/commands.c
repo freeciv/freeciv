@@ -585,7 +585,7 @@ static struct command commands[] = {
   },
   {"reset",	ALLOW_CTRL,
    /* no translatable parameters */
-   SYN_ORIG_("reset"),
+   SYN_ORIG_("reset [game|ruleset|script|default]"),
    N_("Reset all server settings."),
    N_("Reset all settings if it is possible. The following levels are "
       "supported:\n"
