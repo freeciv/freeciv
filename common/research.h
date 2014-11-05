@@ -78,9 +78,7 @@ struct player_research {
   int num_known_tech_with_flag[TF_COUNT];
 
   union {
-    struct {
-      /* Only used in the server (./ai/ and ./server/). */
-    } server;
+    /* Add server side when needed */
 
     struct {
       /* Only used at the client (the server is omniscient; ./client/). */
