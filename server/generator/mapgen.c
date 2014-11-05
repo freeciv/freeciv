@@ -3034,6 +3034,98 @@ fair_map_place_island_team(struct fair_tile *ptarget, int tx, int ty,
 }
 
 /****************************************************************************
+  Add resources on 'pmap'.
+****************************************************************************/
+static void fair_map_make_resources(struct fair_tile *pmap)
+{
+  struct fair_tile *pftile, *pftile2;
+  struct resource **r;
+  int i, j;
+
+  for (i = 0; i < MAP_INDEX_SIZE; i++) {
+    pftile = pmap + i;
+    if (pftile->flags == FTF_NONE
+        || pftile->flags & FTF_NO_RESOURCE
+        || fc_rand (1000) > map.server.riches) {
+      continue;
+    }
+
+    if (pftile->flags & FTF_OCEAN) {
+      bool land_around = FALSE;
+
+      for (j = 0; j < map.num_valid_dirs; j++) {
+        pftile2 = fair_map_tile_step(pmap, pftile, map.valid_dirs[j]);
+        if (pftile2 != NULL
+            && pftile2->flags & FTF_ASSIGNED
+            && !(pftile2->flags & FTF_OCEAN)) {
+          land_around = TRUE;
+          break;
+        }
+      }
+      if (!land_around) {
+        continue;
+      }
+    }
+
+    j = 0;
+    for (r = pftile->pterrain->resources; *r != NULL; r++) {
+      if (fc_rand(++j) == 0) {
+        pftile->presource = *r;
+      }
+    }
+    /* Note that 'pftile->presource' might be NULL if there is no suitable
+     * resource for the terrain. */
+    if (pftile->presource != NULL) {
+      pftile->flags |= FTF_NO_RESOURCE;
+      for (j = 0; j < map.num_valid_dirs; j++) {
+        pftile2 = fair_map_tile_step(pmap, pftile, map.valid_dirs[j]);
+        if (pftile2 != NULL) {
+          pftile2->flags |= FTF_NO_RESOURCE;
+        }
+      }
+    }
+  }
+}
+
+/****************************************************************************
+  Add huts on 'pmap'.
+****************************************************************************/
+static void fair_map_make_huts(struct fair_tile *pmap)
+{
+  struct fair_tile *pftile;
+  int i, j, k;
+
+  for (i = map.server.huts, j = 0;
+       i * map_num_tiles() >= 2000 && j < map_num_tiles() * 2; j++) {
+    k = fc_rand(MAP_INDEX_SIZE);
+    pftile = pmap + k;
+    while (pftile->flags & FTF_NO_HUT) {
+      pftile++;
+      if (pftile - pmap == MAP_INDEX_SIZE) {
+        pftile = pmap;
+      }
+      if (pftile - pmap == k) {
+        break;
+      }
+    }
+    if (pftile->flags & FTF_NO_HUT) {
+      break; /* Cannot make huts anymore. */
+    }
+
+    i--;
+    if (pftile->pterrain == NULL || pftile->flags & FTF_OCEAN) {
+      continue; /* Not an used tile, or sea tile. */
+    }
+
+    set_special(&pftile->specials, S_HUT);
+    pftile->flags |= FTF_HAS_HUT;
+    square_iterate(index_to_tile(pftile - pmap), 3, ptile) {
+      pmap[tile_index(ptile)].flags |= FTF_NO_HUT;
+    } square_iterate_end;
+  }
+}
+
+/****************************************************************************
   Generate a map where an island would be placed in the center.
 ****************************************************************************/
 static struct fair_tile *fair_map_island_new(int size, int startpos_num)
@@ -3168,54 +3260,6 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
         }
       }
     } square_iterate_end;
-  }
-
-  /* Make resources. */
-  for (i = 0; i < MAP_INDEX_SIZE; i++) {
-    struct resource **r;
-
-    pftile = pisland + i;
-    if (pftile->flags == FTF_NONE
-        || pftile->flags & FTF_NO_RESOURCE
-        || fc_rand (1000) > map.server.riches) {
-      continue;
-    }
-
-    if (pftile->flags & FTF_OCEAN) {
-      bool land_around = FALSE;
-
-      for (j = 0; j < map.num_valid_dirs; j++) {
-        pftile2 = fair_map_tile_step(pisland, pftile, map.valid_dirs[j]);
-        if (pftile2 != NULL
-            && pftile2->flags & FTF_ASSIGNED
-            && !(pftile2->flags & FTF_OCEAN)) {
-          land_around = TRUE;
-          break;
-        }
-      }
-      if (!land_around) {
-        continue;
-      }
-    }
-
-    j = 0;
-    for (r = pftile->pterrain->resources; *r != NULL; r++) {
-      if (fc_rand(++j) == 0) {
-        pftile->presource = *r;
-      }
-    }
-    /* Note that 'pftile->presource' might be NULL if there is no suitable
-     * resource for the terrain. */
-    if (pftile->presource != NULL) {
-      /* We don't want to share this resource. */
-      pftile->flags |= FTF_ASSIGNED;
-      for (j = 0; j < map.num_valid_dirs; j++) {
-        pftile2 = fair_map_tile_step(pisland, pftile, map.valid_dirs[j]);
-        if (pftile2 != NULL) {
-          pftile2->flags |= FTF_NO_RESOURCE;
-        }
-      }
-    }
   }
 
   /* Make rivers. */
@@ -3360,36 +3404,27 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
     }
   }
 
-  /* Make huts. */
-  if (map.server.huts > 0) {
-    for (i = map.server.huts, j = 0;
-         i * map_num_tiles() >= 2000 && j < map_num_tiles() * 2; j++) {
-      k = fc_rand(MAP_INDEX_SIZE);
-      pftile = pisland + k;
-      while (pftile->flags & FTF_NO_HUT) {
-        pftile++;
-        if (pftile - pisland == MAP_INDEX_SIZE) {
-          pftile = pisland;
-        }
-        if (pftile - pisland == k) {
-          break;
-        }
-      }
-      if (pftile->flags & FTF_NO_HUT) {
-        break; /* Cannot make huts anymore. */
-      }
+  if (startpos_num > 0) {
+    /* Islands with start positions must have the same resources and the
+     * same huts. Other ones don't matter. */
 
-      i--;
-      if (pftile->pterrain == NULL || pftile->flags & FTF_OCEAN) {
-        continue; /* Not an used tile, or sea tile. */
-      }
+    /* Make resources. */
+    if (map.server.riches > 0) {
+      fair_map_make_resources(pisland);
+    }
 
-      set_special(&pftile->specials, S_HUT);
-      pftile->flags |= (FTF_ASSIGNED & FTF_HAS_HUT);
-      square_iterate(index_to_tile(pftile - pisland), 3, ptile) {
-        pftile2 = pisland + tile_index(ptile);
-        pftile2->flags |= FTF_NO_HUT;
-      } square_iterate_end;
+    /* Make huts. */
+    if (map.server.huts > 0) {
+      fair_map_make_huts(pisland);
+    }
+
+    /* Make sure there will be no more resources and huts on assigned
+     * tiles. */
+    for (i = 0; i < MAP_INDEX_SIZE; i++) {
+      pftile = pisland + i;
+      if (pftile->flags & FTF_ASSIGNED) {
+        pftile->flags |= (FTF_NO_RESOURCE | FTF_NO_HUT);
+      }
     }
   }
 
@@ -3537,7 +3572,7 @@ static bool map_generate_fair_islands(void)
       struct fair_tile *pftile = pmap + tile_index(ptile);
 
       if (tile_terrain(ptile) != deepest_ocean) {
-        pftile->flags |= FTF_ASSIGNED;
+        pftile->flags |= (FTF_ASSIGNED | FTF_NO_HUT);
         adjc_iterate(ptile, atile) {
           struct fair_tile *aftile = pmap + tile_index(atile);
 
@@ -3714,6 +3749,23 @@ static bool map_generate_fair_islands(void)
     log_verbose("Failed to create map after %d iterations.", iter);
     map.server.generator = MAPGEN_ISLAND;
     return FALSE;
+  }
+
+  /* Finalize the map. */
+  for (i = 0; i < MAP_INDEX_SIZE; i++) {
+    /* Mark all tiles as assigned, for adding resources and huts. */
+    struct fair_tile *pftile = pmap + i;
+
+    if (pftile->pterrain == deepest_ocean) {
+      pftile->flags |= FTF_OCEAN;
+    }
+    pftile->flags |= FTF_ASSIGNED;
+  }
+  if (map.server.riches > 0) {
+    fair_map_make_resources(pmap);
+  }
+  if (map.server.huts > 0) {
+    fair_map_make_huts(pmap);
   }
 
   /* Apply the map. */
