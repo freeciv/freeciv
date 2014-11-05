@@ -1001,6 +1001,37 @@ static void load_ruleset_techs(struct section_file *file)
     i++;
   } advance_iterate_end;
 
+  /* Propagate a root tech up into the tech tree.  Thus if a technology
+   * X has Y has a root tech, then any technology requiring X also has
+   * Y as a root tech. */
+restart:
+  advance_iterate(A_FIRST, a) {
+    if (valid_advance(a)
+     && A_NEVER != a->require[AR_ROOT]) {
+      bool out_of_order = FALSE;
+
+      /* Now find any tech depending on this technology and update its
+       * root_req. */
+      advance_iterate(A_FIRST, b) {
+        if (valid_advance(b)
+         && A_NEVER == b->require[AR_ROOT]
+         && (a == b->require[AR_ONE] || a == b->require[AR_TWO])) {
+          b->require[AR_ROOT] = a->require[AR_ROOT];
+          if (b < a) {
+            out_of_order = TRUE;
+          }
+        }
+      } advance_iterate_end;
+
+      if (out_of_order) {
+        /* HACK: If we just changed the root_tech of a lower-numbered
+         * technology, we need to go back so that we can propagate the
+         * root_tech up to that technology's parents... */
+        goto restart;
+      }
+    }
+  } advance_iterate_end;
+
   /* Now rename A_NEVER to A_NONE for consistency */
   advance_iterate(A_NONE, a) {
     if (A_NEVER == a->require[AR_ROOT]) {

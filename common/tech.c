@@ -291,74 +291,55 @@ bool player_invention_reachable(const struct player *pplayer,
                                 const Tech_type_id tech,
                                 bool allow_prereqs)
 {
-  bv_techs done;
-  Tech_type_id techs[game.control.num_tech_types];
-  Tech_type_id t;
-  enum tech_req req;
-  int techs_num;
-  int i;
-
-  if (!valid_advance_by_number(tech)) {
+  if (valid_advance_by_number(tech) == NULL) {
     return FALSE;
-  }
+  } else if (advance_required(tech, AR_ROOT) != A_NONE) {
+    /* 'tech' has at least one root requirement. We need to check them
+     * all. */
+    bv_techs done;
+    Tech_type_id techs[game.control.num_tech_types];
+    Tech_type_id root;
+    enum tech_req req;
+    int techs_num;
+    int i;
 
-  techs[0] = tech;
-  BV_CLR_ALL(done);
-  BV_SET(done, A_NONE);
-  BV_SET(done, tech);
-  techs_num = 1;
+    techs[0] = tech;
+    BV_CLR_ALL(done);
+    BV_SET(done, A_NONE);
+    BV_SET(done, tech);
+    techs_num = 1;
 
-  if (allow_prereqs) {
     for (i = 0; i < techs_num; i++) {
-      t = advance_required(techs[i], AR_ROOT);
-      if (t == techs[i]) {
-        /* This tech requires itself; it can only be reached by special means
-         * (init_techs, lua script, ...).
+      root = advance_required(techs[i], AR_ROOT);
+      if (root == techs[i]) {
+        /* This tech requires itself; it can only be reached by special
+         * means (init_techs, lua script, ...).
          * If you already know it, you can "reach" it; if not, not. (This
          * case is needed for descendants of this tech.) */
-        if (TECH_KNOWN == player_invention_state(pplayer, t)) {
-          continue;
-        } else {
+        if (player_invention_state(pplayer, root) != TECH_KNOWN) {
           return FALSE;
         }
-      }
-
-      /* Check if requirements are reachable. */
-      for (req = 0; req < AR_SIZE; req++) {
-        t = advance_required(techs[i], req);
-        if (!valid_advance_by_number(t)) {
-          return FALSE;
-        } else if (!BV_ISSET(done, t)) {
-          if (TECH_KNOWN != player_invention_state(pplayer, t)) {
-            fc_assert(techs_num < ARRAY_SIZE(techs));
-            techs[techs_num] = t;
-            techs_num++;
-          }
-          BV_SET(done, t);
-        }
-      }
-    }
-  } else {
-    for (i = 0; i < techs_num; i++) {
-      t = advance_required(techs[i], AR_ROOT);
-      if (TECH_KNOWN != player_invention_state(pplayer, t)) {
+      } else if (!allow_prereqs
+                 && player_invention_state(pplayer, root) != TECH_KNOWN) {
         /* This tech requires knowledge of another tech (root tech) before
          * being available. Prevents sharing of untransferable techs. */
         return FALSE;
-      }
+      } else {
+        /* Check if requirements are reachable. */
+        Tech_type_id req_tech;
 
-      /* Check if requirements are reachable. */
-      for (req = AR_ONE; req <= AR_TWO; req++) {
-        t = advance_required(techs[i], req);
-        if (!valid_advance_by_number(t)) {
-          return FALSE;
-        } else if (!BV_ISSET(done, t)) {
-          if (TECH_KNOWN != player_invention_state(pplayer, t)) {
-            fc_assert(techs_num < ARRAY_SIZE(techs));
-            techs[techs_num] = t;
-            techs_num++;
+        for (req = 0; req < (allow_prereqs ? AR_SIZE : AR_ROOT); req++) {
+          req_tech = advance_required(techs[i], req);
+          if (!valid_advance_by_number(req_tech)) {
+            return FALSE;
+          } else if (!BV_ISSET(done, req_tech)) {
+            if (advance_required(req_tech, AR_ROOT) != A_NONE) {
+              fc_assert(techs_num < ARRAY_SIZE(techs));
+              techs[techs_num] = req_tech;
+              techs_num++;
+            }
+            BV_SET(done, req_tech);
           }
-          BV_SET(done, t);
         }
       }
     }
