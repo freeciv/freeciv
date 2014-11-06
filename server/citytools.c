@@ -3032,7 +3032,7 @@ void clear_worker_task(struct city *pcity)
   worker_task_init(&pcity->task_req);
 
   packet.city_id = pcity->id;
-  packet.tile_id = 0;
+  packet.tile_id = -1;
   packet.activity = ACTIVITY_IDLE;
   packet.tgt = 0;
   packet.want = 0;

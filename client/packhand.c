@@ -1103,7 +1103,11 @@ void handle_worker_task(const struct packet_worker_task *packet)
 
   /* It's ok for the tile to be NULL. That means clearing
    * existing worker task. */
-  pcity->task_req.ptile = index_to_tile(packet->tile_id);
+  if (packet->tile_id >= 0) {
+    pcity->task_req.ptile = index_to_tile(packet->tile_id);
+  } else {
+    pcity->task_req.ptile = NULL;
+  }
   pcity->task_req.act = packet->activity;
   pcity->task_req.tgt = extra_by_number(packet->tgt);
   pcity->task_req.want = packet->want;

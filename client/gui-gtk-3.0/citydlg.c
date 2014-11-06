@@ -2630,7 +2630,7 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
   task.city_id = pcity->id;
 
   if (act == ACTIVITY_IDLE) {
-    task.tile_id = 0;
+    task.tile_id = -1;
     task.activity = ACTIVITY_IDLE;
     task.tgt = 0;
     task.want = 0;
