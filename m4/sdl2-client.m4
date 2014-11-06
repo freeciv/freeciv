@@ -26,7 +26,7 @@ AC_DEFUN([FC_SDL2_CLIENT],
       fi
       if test "x$sdl2_h_found" = "xyes" ; then
         FC_SDL2_PROJECT([SDL2_gfx], [rotozoomSurface], [SDL2_rotozoom.h])
-      else
+      elif test "x$missing_2_project" = "x" ; then
         missing_2_project="SDL2_ttf"
       fi
       if test "x$sdl2_h_found" = "xyes" ; then
