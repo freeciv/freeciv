@@ -1940,6 +1940,7 @@ reqs	=
       "UnitClass", "Sea", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
+      "Building", "Port Facility", "City", FALSE
     }
 
 [effect_lighthouse_trireme_move]
@@ -1960,6 +1961,7 @@ reqs	=
       "UnitClass", "Trireme", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
+      "Building", "Port Facility", "City", FALSE
     }
 
 [effect_magellans_expedition]

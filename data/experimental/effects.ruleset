@@ -2146,6 +2146,7 @@ reqs	=
       "UnitClass", "Sea", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
+      "Building", "Port Facility", "City", FALSE
     }
 
 [effect_lighthouse_trireme_move]
@@ -2164,8 +2165,9 @@ reqs	=
     { "type", "name", "range", "present"
       "Building", "Lighthouse", "Player", TRUE
       "UnitClass", "Trireme", "Local", TRUE
-     "UnitFlag", "NonMil", "Local", FALSE
+      "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
+      "Building", "Port Facility", "City", FALSE
     }
 
 [effect_magellans_expedition]
