@@ -3243,6 +3243,7 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
+      "Building", "Port Facility", "City"
     }
 
 [effect_lighthouse_trireme_move]
@@ -3286,6 +3287,7 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
+      "Building", "Port Facility", "City"
     }
 
 [effect_magellans_expedition_move]

@@ -1938,6 +1938,7 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
+      "Building", "Port Facility", "City"
     }
 
 [effect_magellans_expedition]
