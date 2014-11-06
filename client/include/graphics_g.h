@@ -19,10 +19,12 @@
 /* client/include */
 #include "sprite_g.h"
 
+/* client */
+#include "tilespec.h"
+
 #include "gui_proto_constructor.h"
 
-GUI_FUNC_PROTO(bool, isometric_view_supported, void)
-GUI_FUNC_PROTO(bool, overhead_view_supported, void)
+GUI_FUNC_PROTO(bool, is_view_supported, enum ts_type type)
 
 GUI_FUNC_PROTO(void, load_intro_gfx, void)
 GUI_FUNC_PROTO(void, load_cursors, void)

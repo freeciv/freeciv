@@ -38,8 +38,7 @@ void setup_gui_funcs()
   funcs->version_message = qtg_version_message;
   funcs->real_output_window_append = qtg_real_output_window_append;
 
-  funcs->isometric_view_supported = qtg_isometric_view_supported;
-  funcs->overhead_view_supported = qtg_overhead_view_supported;
+  funcs->is_view_supported = qtg_is_view_supported;
   funcs->free_intro_radar_sprites = qtg_free_intro_radar_sprites;
   funcs->load_gfxfile = qtg_load_gfxfile;
   funcs->create_sprite = qtg_create_sprite;

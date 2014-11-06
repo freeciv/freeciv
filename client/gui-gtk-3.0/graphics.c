@@ -53,19 +53,17 @@ struct sprite *radar_gfx_sprite;
 GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 /***************************************************************************
-  Returns TRUE to indicate that gtk-client supports isometric view
+  Returns TRUE to indicate that gtk3-client supports given view type
 ***************************************************************************/
-bool isometric_view_supported(void)
+bool is_view_supported(enum ts_type type)
 {
-  return TRUE;
-}
+  switch (type) {
+  case TS_ISOMETRIC:
+  case TS_OVERVIEW:
+    return TRUE;
+  }
 
-/***************************************************************************
-  Returns TRUE to indicate that gtk-client supports overhead view
-***************************************************************************/
-bool overhead_view_supported(void)
-{
-  return TRUE;
+  return FALSE;
 }
 
 #define COLOR_MOTTO_FACE_R    0x2D

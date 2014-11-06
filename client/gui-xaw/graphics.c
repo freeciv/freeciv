@@ -56,20 +56,18 @@ static struct sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
 static struct sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
  				       int width, int height);
 
-/***************************************************************************
-...
-***************************************************************************/
-bool isometric_view_supported(void)
+/**************************************************************************
+  Return whether the client supports given view type
+**************************************************************************/
+bool is_view_supported(enum ts_type type)
 {
-  return TRUE;
-}
+  switch (type) {
+  case TS_ISOMETRIC:
+  case TS_OVERVIEW:
+    return TRUE;
+  }
 
-/***************************************************************************
-...
-***************************************************************************/
-bool overhead_view_supported(void)
-{
-  return TRUE;
+  return FALSE;
 }
 
 /***************************************************************************

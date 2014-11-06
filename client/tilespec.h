@@ -44,6 +44,13 @@ struct resource;
   TYPED_VECTOR_ITERATE(struct sprite *, sprite_vec, psprite)
 #define sprite_vector_iterate_end VECTOR_ITERATE_END
 
+#define SPECENUM_NAME ts_type
+#define SPECENUM_VALUE0 TS_OVERVIEW
+#define SPECENUM_VALUE0NAME N_("Overview")
+#define SPECENUM_VALUE1 TS_ISOMETRIC
+#define SPECENUM_VALUE1NAME N_("Isometric")
+#include "specenum_gen.h"
+
 /* An edge is the border between two tiles.  This structure represents one
  * edge.  The tiles are given in the same order as the enumeration name. */
 enum edge_type {

@@ -29,19 +29,17 @@ static struct sprite *intro_gfx_sprite = NULL;
 static struct sprite *radar_gfx_sprite = NULL;
 
 /****************************************************************************
-  Return whether the client supports isometric view (isometric tilesets).
+  Return whether the client supports given view type.
 ****************************************************************************/
-bool qtg_isometric_view_supported()
+bool qtg_is_view_supported(enum ts_type type)
 {
-  return true;
-}
+  switch (type) {
+  case TS_ISOMETRIC:
+  case TS_OVERVIEW:
+    return true;
+  }
 
-/****************************************************************************
-  Return whether the client supports "overhead" (non-isometric) view.
-****************************************************************************/
-bool qtg_overhead_view_supported()
-{
-  return true;
+  return false;
 }
 
 /****************************************************************************

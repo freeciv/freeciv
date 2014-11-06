@@ -27,6 +27,9 @@ extern "C" {
 #include "canvas_g.h"
 #include "pages_g.h"
 
+/* client */
+#include "tilespec.h"
+
 struct gui_funcs {
   void (*ui_init)(void);
   void (*ui_main)(int argc, char *argv[]);
@@ -40,8 +43,7 @@ struct gui_funcs {
                                     const struct text_tag_list *tags,
                                     int conn_id);
 
-  bool (*isometric_view_supported)(void);
-  bool (*overhead_view_supported)(void);
+  bool (*is_view_supported)(enum ts_type type);
   void (*free_intro_radar_sprites)(void);
   struct sprite * (*load_gfxfile)(const char *filename);
   struct sprite * (*create_sprite)(int width, int height, struct color *pcolor);

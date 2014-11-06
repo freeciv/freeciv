@@ -477,13 +477,6 @@ static void drawing_data_destroy(struct drawing_data *draw);
 #define SPECHASH_ENUM_DATA_TYPE extrastyle_id
 #include "spechash.h"
 
-#define SPECENUM_NAME ts_type
-#define SPECENUM_VALUE0 TS_OVERVIEW
-#define SPECENUM_VALUE0NAME "Overview"
-#define SPECENUM_VALUE1 TS_ISOMETRIC
-#define SPECENUM_VALUE1NAME "Isometric"
-#include "specenum_gen.h"
-
 struct tileset {
   char name[512];
   int priority;
@@ -1608,14 +1601,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     t->type = TS_ISOMETRIC;
   }
 
-  if (t->type == TS_ISOMETRIC && !isometric_view_supported()) {
-    log_normal(_("Client does not support isometric tilesets."));
-    log_normal(_("Using default tileset instead."));
-    fc_assert(tileset_name != NULL);
-    goto ON_ERROR;
-  }
-  if (t->type == TS_OVERVIEW && !overhead_view_supported()) {
-    log_normal(_("Client does not support overhead view tilesets."));
+  if (!is_view_supported(t->type)) {
+    log_normal(_("Client does not support %s tilesets."),
+               _(ts_type_name(t->type)));
     log_normal(_("Using default tileset instead."));
     fc_assert(tileset_name != NULL);
     goto ON_ERROR;

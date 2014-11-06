@@ -35,8 +35,7 @@ void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,
                                    int conn_id);
 
-bool qtg_isometric_view_supported();
-bool qtg_overhead_view_supported();
+bool qtg_is_view_supported(enum ts_type type);
 void qtg_free_intro_radar_sprites();
 struct sprite *qtg_load_gfxfile(const char *filename);
 struct sprite *qtg_create_sprite(int width, int height, struct color *pcolor);

@@ -3304,19 +3304,17 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
 /* ============ Freeciv game graphics function =========== */
 
 /**************************************************************************
-  Return whether the client supports isometric view (isometric tilesets).
+  Return whether the client supports given view type
 **************************************************************************/
-bool isometric_view_supported(void)
+bool is_view_supported(enum ts_type type)
 {
-  return TRUE;
-}
+  switch (type) {
+  case TS_ISOMETRIC:
+  case TS_OVERVIEW:
+    return TRUE;
+  }
 
-/**************************************************************************
-  Return whether the client supports "overhead" (non-isometric) view.
-**************************************************************************/
-bool overhead_view_supported(void)
-{
-  return TRUE;
+  return FALSE;
 }
 
 /**************************************************************************

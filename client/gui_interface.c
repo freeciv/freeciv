@@ -101,19 +101,11 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 }
 
 /**************************************************************************
-  Call isometric_view_supported callback
+  Call is_view_supported callback
 **************************************************************************/
-bool isometric_view_supported(void)
+bool is_view_supported(enum ts_type type)
 {
-  return funcs.isometric_view_supported();
-}
-
-/**************************************************************************
-  Call overhead_view_supported callback
-**************************************************************************/
-bool overhead_view_supported(void)
-{
-  return funcs.overhead_view_supported();
+  return funcs.is_view_supported(type);
 }
 
 /**************************************************************************

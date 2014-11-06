@@ -51,8 +51,7 @@ void setup_gui_funcs()
   funcs->version_message = gui_version_message;
   funcs->real_output_window_append = gui_real_output_window_append;
 
-  funcs->isometric_view_supported = gui_isometric_view_supported;
-  funcs->overhead_view_supported = gui_overhead_view_supported;
+  funcs->is_view_supported = gui_is_view_supported;
   funcs->free_intro_radar_sprites = gui_free_intro_radar_sprites;
   funcs->load_gfxfile = gui_load_gfxfile;
   funcs->create_sprite = gui_create_sprite;
