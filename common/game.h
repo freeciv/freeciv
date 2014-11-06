@@ -96,11 +96,7 @@ struct civ_game {
   } rgame;
 
   union {
-    struct {
-      /* Only used at the client (./client/). */
-
-      /* Nothing yet. */
-    } client;
+    /* Add client side when needed */
 
     struct {
       /* Only used in the server (./ai/ and ./server/). */
