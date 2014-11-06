@@ -2207,6 +2207,11 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
     return;
   }
 
+  if (!unit_can_do_action_now(punit)) {
+    /* Exploding nuke not possible due to unitwaittime setting. */
+    return;
+  }
+
   unit_attack_handling(punit, punit);
 }
 
