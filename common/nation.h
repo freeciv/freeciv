@@ -175,10 +175,7 @@ struct nation_group {
       int match;
     } server;
 
-    struct {
-      /* Only used at the client. */
-      /* Nothing yet. */
-    } client;
+    /* Add client side when needed */
   };
 };
 
