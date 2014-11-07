@@ -171,7 +171,7 @@ static bool manual_command(void)
     int i;
     int ri;
 
-    fc_snprintf(filename, sizeof(filename), "manual%d.html", manuals + 1);
+    fc_snprintf(filename, sizeof(filename), "%s%d.html", game.server.rulesetdir, manuals + 1);
 
     if (!is_reg_file_for_access(filename, TRUE)
         || !(doc = fc_fopen(filename, "w"))) {
