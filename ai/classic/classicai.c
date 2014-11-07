@@ -256,6 +256,17 @@ static void cai_build_adv_adjust(struct player *pplayer, struct city *wonder_cit
 /**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
+static void cai_gov_value(struct player *pplayer, struct government *gov,
+                          int *val, bool *override)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  dai_gov_value(deftype, pplayer, gov, val, override);
+}
+
+/**************************************************************************
+  Call default ai with classic ai type as parameter.
+**************************************************************************/
 static void cai_units_ruleset_init(void)
 {
   struct ai_type *deftype = classic_ai_get_self();
@@ -581,6 +592,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.build_adv_prepare = cai_wonder_city_distance;
   ai->funcs.build_adv_init = cai_build_adv_init;
   ai->funcs.build_adv_adjust_want = cai_build_adv_adjust;
+
+  ai->funcs.gov_value = cai_gov_value;
 
   ai->funcs.units_ruleset_init = cai_units_ruleset_init;
   ai->funcs.units_ruleset_close = cai_units_ruleset_close;

@@ -799,9 +799,7 @@ void adv_best_government(struct player *pplayer)
 
     governments_iterate(gov) {
       int val = 0;
-      int bonus = 0; /* in percentage */
-      int dist;
-      int revolution_turns;
+      bool override = FALSE;
 
       if (gov == game.government_during_revolution) {
         continue; /* pointless */
@@ -810,48 +808,58 @@ void adv_best_government(struct player *pplayer)
           && can_change_to_government(pplayer, gov->ai.better)) {
         continue; /* we have better governments available */
       }
-      pplayer->government = gov;
-      /* Ideally we should change tax rates here, but since
-       * this is a rather big CPU operation, we'd rather not. */
-      check_player_max_rates(pplayer);
-      city_list_iterate(pplayer->cities, acity) {
-        auto_arrange_workers(acity);
-      } city_list_iterate_end;
-      city_list_iterate(pplayer->cities, pcity) {
-        val += adv_eval_calc_city(pcity, adv);
-      } city_list_iterate_end;
 
-      /* Bonuses for non-economic abilities. We increase val by
-       * a very small amount here to choose govt in cases where
-       * we have no cities yet. */
-      bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
-      if (action_immune_government(gov, ACTION_SPY_INCITE_CITY)) {
-        bonus += 4;
+      CALL_PLR_AI_FUNC(gov_value, pplayer, pplayer, gov, &val, &override);
+
+      if (!override) {
+        int dist;
+        int bonus = 0; /* in percentage */
+        int revolution_turns;
+
+        pplayer->government = gov;
+        /* Ideally we should change tax rates here, but since
+         * this is a rather big CPU operation, we'd rather not. */
+        check_player_max_rates(pplayer);
+        city_list_iterate(pplayer->cities, acity) {
+          auto_arrange_workers(acity);
+        } city_list_iterate_end;
+        city_list_iterate(pplayer->cities, pcity) {
+          val += adv_eval_calc_city(pcity, adv);
+        } city_list_iterate_end;
+
+        /* Bonuses for non-economic abilities. We increase val by
+         * a very small amount here to choose govt in cases where
+         * we have no cities yet. */
+        bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
+        if (action_immune_government(gov, ACTION_SPY_INCITE_CITY)) {
+          bonus += 4;
+        }
+        if (action_immune_government(gov, ACTION_SPY_BRIBE_UNIT)) {
+          bonus += 2;
+        }
+        bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
+        bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
+        bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
+        bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
+
+        revolution_turns = get_player_bonus(pplayer, EFT_REVOLUTION_UNHAPPINESS);
+        if (revolution_turns > 0) {
+          bonus -= 6 / revolution_turns;
+        }
+
+        val += (val * bonus) / 100;
+
+        /* FIXME: handle reqs other than technologies. */
+        dist = 0;
+        requirement_vector_iterate(&gov->reqs, preq) {
+          if (VUT_ADVANCE == preq->source.kind) {
+            dist += MAX(1, research_goal_unknown_techs(presearch,
+                                                       advance_number(preq->source.value.advance)));
+          }
+        } requirement_vector_iterate_end;
+        val = amortize(val, dist);
       }
-      if (action_immune_government(gov, ACTION_SPY_BRIBE_UNIT)) {
-        bonus += 2;
-      }
-      bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
-      bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
-      bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
-      bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
 
-      revolution_turns = get_player_bonus(pplayer, EFT_REVOLUTION_UNHAPPINESS);
-      if (revolution_turns > 0) {
-        bonus -= 6 / revolution_turns;
-      }
-
-      val += (val * bonus) / 100;
-
-      /* FIXME: handle reqs other than technologies. */
-      dist = 0;
-      requirement_vector_iterate(&gov->reqs, preq) {
-	if (VUT_ADVANCE == preq->source.kind) {
-          dist += MAX(1, research_goal_unknown_techs(presearch,
-                             advance_number(preq->source.value.advance)));
-	}
-      } requirement_vector_iterate_end;
-      val = amortize(val, dist);
       adv->government_want[government_index(gov)] = val; /* Save want */
     } governments_iterate_end;
     /* Now reset our gov to it's real state. */

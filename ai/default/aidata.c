@@ -17,17 +17,25 @@
 
 /* common */
 #include "game.h"
+#include "government.h"
 #include "map.h"
+#include "research.h"
+
+/* server */
+#include "cityturn.h"
+#include "plrhand.h"
 
 /* server/advisors */
 #include "advdata.h"
 
 /* ai */
 #include "advdiplomacy.h"
+#include "aicity.h"
 #include "aiferry.h"
 #include "aiplayer.h"
 #include "aisettler.h"
 #include "aiunit.h"
+#include "daieffects.h"
 
 #include "aidata.h"
 
@@ -393,4 +401,100 @@ static void dai_diplomacy_destroy(struct ai_type *ait,
   }
 
   *player_intel_slot = NULL;
+}
+
+/****************************************************************************
+  Set value of the government.
+****************************************************************************/
+void dai_gov_value(struct ai_type *ait, struct player *pplayer,
+                   struct government *gov, int *val, bool *override)
+{
+  int dist;
+  int bonus = 0; /* in percentage */
+  int revolution_turns;
+  struct universal source = { .kind = VUT_GOVERNMENT, .value.govern = gov };
+  struct adv_data *adv;
+  int turns = 9999; /* TODO: Set to correct value */
+  int nplayers;
+  const struct research *presearch;
+
+  /* Use default handling of no-cities case */
+  if (city_list_size(pplayer->cities) == 0) {
+    *override = FALSE;
+    return;
+  }
+
+  adv = adv_data_get(pplayer, NULL);
+  nplayers = normal_player_count();
+  presearch = research_get(pplayer);
+
+  pplayer->government = gov;
+  /* Ideally we should change tax rates here, but since
+   * this is a rather big CPU operation, we'd rather not. */
+  check_player_max_rates(pplayer);
+  city_list_iterate(pplayer->cities, acity) {
+    auto_arrange_workers(acity);
+  } city_list_iterate_end;
+  city_list_iterate(pplayer->cities, pcity) {
+    bool capital;
+
+    *val += dai_city_want(pplayer, pcity, adv, NULL);
+    capital = is_capital(pcity);
+
+    effect_list_iterate(get_req_source_effects(&source), peffect) {
+      bool present = TRUE;
+      bool active = TRUE;
+
+      requirement_vector_iterate(&peffect->reqs, preq) {
+        /* Check if all the requirements for the currently evaluated effect
+         * are met, except for having the tech that we are evaluating.
+         * TODO: Consider requirements that could be met later. */
+        if (VUT_GOVERNMENT == preq->source.kind
+            && preq->source.value.govern == gov) {
+          present = preq->present;
+          continue;
+        }
+        if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
+                           NULL, NULL, preq, RPT_POSSIBLE)) {
+          active = FALSE;
+          break; /* presence doesn't matter for inactive effects. */
+        }
+
+      } requirement_vector_iterate_end;
+
+      if (active) {
+        int v1;
+
+        v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
+                              turns, peffect, 1,
+                              nplayers);
+
+        if (!present) {
+          /* Tech removes the effect */
+          *val -= v1;
+        } else {
+          *val += v1;
+        }
+      }
+    } effect_list_iterate_end;
+  } city_list_iterate_end;
+
+  revolution_turns = get_player_bonus(pplayer, EFT_REVOLUTION_UNHAPPINESS);
+  if (revolution_turns > 0) {
+    bonus -= 6 / revolution_turns;
+  }
+
+  *val += (*val * bonus) / 100;
+
+  /* FIXME: handle reqs other than technologies. */
+  dist = 0;
+  requirement_vector_iterate(&gov->reqs, preq) {
+    if (VUT_ADVANCE == preq->source.kind) {
+      dist += MAX(1, research_goal_unknown_techs(presearch,
+                                                 advance_number(preq->source.value.advance)));
+    }
+  } requirement_vector_iterate_end;
+  *val = amortize(*val, dist);
+
+  *override = TRUE;
 }
