@@ -461,3 +461,25 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
 
   return unit_move(punit, ptile, movecost);
 }
+
+/*****************************************************************************
+  Add history to a city
+*****************************************************************************/
+void api_edit_city_add_history(lua_State *L, City *pcity, int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, pcity);
+
+  pcity->history += amount;
+}
+
+/*****************************************************************************
+  Add history to a player
+*****************************************************************************/
+void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, pplayer);
+
+  pplayer->culture += amount;
+}

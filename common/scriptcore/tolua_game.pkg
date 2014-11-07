@@ -134,6 +134,9 @@ module Player {
     @ gold (lua_State *L, Player *self);
   bool api_methods_player_knows_tech
     @ knows_tech (lua_State *L, Player *self, Tech_Type *ptech);
+
+  int api_methods_player_culture_get
+    @ culture(lua_State *L, Player *self);
 }
 
 module methods_private {
@@ -173,6 +176,9 @@ module City {
     @ map_sq_radius(lua_State *L, City *self);
   int api_methods_city_inspire_partisans
     @ inspire_partisans(lua_State *L, City *self, Player *inspirer);
+
+  int api_methods_city_culture_get
+    @ culture(lua_State *L, City *self);
 }
 
 $[

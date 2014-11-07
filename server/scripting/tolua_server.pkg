@@ -139,6 +139,11 @@ module edit {
     @ player_victory (lua_State *L, Player *self);
   bool api_edit_unit_move
     @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost);
+
+  void api_edit_city_add_history
+    @ add_city_history(lua_State *L, City *self, int amount);
+  void api_edit_player_add_history
+    @ add_player_history(lua_State *L, Player *self, int amount);
 }
 
 $[
@@ -228,6 +233,15 @@ end
 
 function Player:victory()
   edit.player_victory(self)
+end
+
+function Player:add_history(amount)
+  edit.add_player_history(self, amount)
+end
+
+-- Server functions for City module
+function City:add_history(amount)
+  edit.add_city_history(self, amount)
 end
 
 -- Server functions for Unit module

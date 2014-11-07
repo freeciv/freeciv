@@ -49,6 +49,8 @@ int api_methods_city_size_get(lua_State *L, City *pcity);
 Tile *api_methods_city_tile_get(lua_State *L, City *pcity);
 int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspirer);
 
+int api_methods_city_culture_get(lua_State *L, City *pcity);
+
 /* Government */
 const char *api_methods_government_rule_name(lua_State *L,
                                              Government *pgovernment);
@@ -77,6 +79,7 @@ Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
                                                           Player *pplayer);
 City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
                                                           Player *pplayer);
+int api_methods_player_culture_get(lua_State *L, Player *pplayer);
 
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech);

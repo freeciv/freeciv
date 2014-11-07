@@ -19,6 +19,7 @@
 #include "achievements.h"
 #include "actions.h"
 #include "citizens.h"
+#include "culture.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
@@ -209,6 +210,17 @@ int api_methods_city_inspire_partisans(lua_State *L, City *self, Player *inspire
   return 0;
 }
 
+/**************************************************************************
+  How much culture city has?
+**************************************************************************/
+int api_methods_city_culture_get(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pcity, 0);
+
+  return city_culture(pcity);
+}
+
 /*****************************************************************************
   Return rule name for Government
 *****************************************************************************/
@@ -340,6 +352,17 @@ bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
 
   return research_invention_state(research_get(pplayer),
                                   advance_number(ptech)) == TECH_KNOWN;
+}
+
+/**************************************************************************
+  How much culture player has?
+**************************************************************************/
+int api_methods_player_culture_get(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
+  return player_culture(pplayer);
 }
 
 /*****************************************************************************
