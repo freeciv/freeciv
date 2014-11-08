@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2.5-2014.Feb.25"
+#define FC_AI_MOD_CAPSTR "+Freeciv-2.5a-ai-module"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef DEBUG
