@@ -1678,7 +1678,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   if (t->darkness_style < DARKNESS_NONE
       || t->darkness_style > DARKNESS_CORNER
       || (t->darkness_style == DARKNESS_ISORECT
-          && (t->type == TS_OVERVIEW || t->hex_width > 0 || t->hex_height > 0))) {
+          && (t->type == TS_OVERHEAD || t->hex_width > 0 || t->hex_height > 0))) {
     log_error("Invalid darkness style set in tileset \"%s\".", t->name);
     goto ON_ERROR;
   }
@@ -5070,7 +5070,7 @@ int fill_sprite_array(struct tileset *t,
       /* For iso-view the city.wall graphics include the full city, whereas
        * for non-iso view they are an overlay on top of the base city
        * graphic. */
-      if (t->type == TS_OVERVIEW || pcity->client.walls <= 0) {
+      if (t->type == TS_OVERHEAD || pcity->client.walls <= 0) {
 	ADD_SPRITE(get_city_sprite(t->sprites.city.tile, pcity), TRUE,
                    FULL_TILE_X_OFFSET + t->city_offset_x,
                    FULL_TILE_Y_OFFSET + t->city_offset_y);
@@ -5096,7 +5096,7 @@ int fill_sprite_array(struct tileset *t,
       if (!options.draw_full_citybar && pcity->client.occupied) {
 	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.occupied, pcity));
       }
-      if (t->type == TS_OVERVIEW && pcity->client.walls > 0) {
+      if (t->type == TS_OVERHEAD && pcity->client.walls > 0) {
         struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
         struct sprite *spr = NULL;
 
@@ -5286,7 +5286,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_GRID2:
-    if (t->type == TS_OVERVIEW) {
+    if (t->type == TS_OVERHEAD) {
       sprs += fill_grid_sprite_array(t, sprs, ptile, pedge, pcorner,
 				     punit, pcity, citymode);
     }

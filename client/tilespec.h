@@ -45,8 +45,8 @@ struct resource;
 #define sprite_vector_iterate_end VECTOR_ITERATE_END
 
 #define SPECENUM_NAME ts_type
-#define SPECENUM_VALUE0 TS_OVERVIEW
-#define SPECENUM_VALUE0NAME N_("Overview")
+#define SPECENUM_VALUE0 TS_OVERHEAD
+#define SPECENUM_VALUE0NAME N_("Overhead")
 #define SPECENUM_VALUE1 TS_ISOMETRIC
 #define SPECENUM_VALUE1NAME N_("Isometric")
 #include "specenum_gen.h"

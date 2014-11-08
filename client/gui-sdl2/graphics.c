@@ -3370,7 +3370,7 @@ bool is_view_supported(enum ts_type type)
 {
   switch (type) {
   case TS_ISOMETRIC:
-  case TS_OVERVIEW:
+  case TS_OVERHEAD:
     return TRUE;
   }
 

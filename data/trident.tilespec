@@ -18,7 +18,7 @@ small_tile_width   = 15
 small_tile_height  = 20
 
 ; Basic tile style.
-type = "overview"
+type = "overhead"
 is_hex = FALSE
 
 ; Was fogstyle 0 (old iso style)
