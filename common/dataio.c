@@ -24,6 +24,7 @@
 #endif
 
 #include <limits.h>
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -374,7 +375,7 @@ void dio_put_ufloat(struct data_out *dout, float value, int float_factor)
 {
   uint32_t v = value * float_factor;
 
-  if (abs((float) v / float_factor - value) >= 1.0 / float_factor) {
+  if (fabsf((float) v / float_factor - value) >= 1.0 / float_factor) {
     log_error("Trying to put %f with factor %d in 32 bits; "
               "it will result %f at receiving side.",
               value, float_factor, (float) v / float_factor);
@@ -391,7 +392,7 @@ void dio_put_sfloat(struct data_out *dout, float value, int float_factor)
 {
   int32_t v = value * float_factor;
 
-  if (abs((float) v / float_factor - value) >= 1.0 / float_factor) {
+  if (fabsf((float) v / float_factor - value) >= 1.0 / float_factor) {
     log_error("Trying to put %f with factor %d in 32 bits; "
               "it will result %f at receiving side.",
               value, float_factor, (float) v / float_factor);
