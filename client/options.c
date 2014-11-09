@@ -1194,6 +1194,7 @@ static const struct option_enum_vtable client_option_enum_vtable = {
   .cmp = fc_strcasecmp
 };
 
+#if 0 /* There's no bitwise options currently */
 static unsigned client_option_bitwise_get(const struct option *poption);
 static unsigned client_option_bitwise_def(const struct option *poption);
 static const struct strvec *
@@ -1206,6 +1207,7 @@ static const struct option_bitwise_vtable client_option_bitwise_vtable = {
   .values = client_option_bitwise_pretty_names,
   .set = client_option_bitwise_set
 };
+#endif /* 0 */
 
 static const char *client_option_font_get(const struct option *poption);
 static const char *client_option_font_def(const struct option *poption);
@@ -3017,6 +3019,7 @@ static const char *client_option_enum_secfile_str(secfile_data_t data,
           ? strvec_get(names, val) : NULL);
 }
 
+#if 0 /* There's no bitwise options currently */
 /****************************************************************************
   Returns the current value of this client option of type OT_BITWISE.
 ****************************************************************************/
@@ -3058,6 +3061,7 @@ static bool client_option_bitwise_set(struct option *poption, unsigned val)
   *pcoption->bitwise.pvalue = val;
   return TRUE;
 }
+#endif /* 0 */
 
 /****************************************************************************
   Returns the "support" name of a single value for this client option of type
