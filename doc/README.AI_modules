@@ -6,7 +6,8 @@ CONTENTS
 2. Using freeciv built with AI-modules support
 3. Building freeciv with AI-modules support
 4. Coding new AI module
-5. Callback interface ChangeLog
+5. Using default AI as part of new AI module
+6. Callback interface ChangeLog
 
 
 1. Default build
@@ -92,7 +93,23 @@ For "--LoadAI <modulename>" to find the AI module, it must reside in ${libdir}/f
 (/usr/lib/fcai by default) under name fc_ai_<modulename>.so
 
 
-5. Callback interface ChangeLog
+5. Using default AI as part of new AI module
+--------------------------------------------
+
+Default AI here refers to specific code module that any AI module can use, not to any
+one AI module. Classic AI module is just a thin wrapper around it, and also Threaded AI
+uses it.
+
+Almost all functions in default AI API take pointer to current AI type as parameter.
+This is used for accessing memory associated with the correct AI type from the structures
+having such AI type specific data.
+
+If a AI type wants to add its own data associated with some code structure, it needs
+to make sure data needed by default AI is in the beginning of the allocated data blocks.
+For example, see threaded AI: tai_player_alloc(), tai_player_free(), and struct tai_plr.
+
+
+6. Callback interface ChangeLog
 -------------------------------
 
 New in Freeciv 2.6:
