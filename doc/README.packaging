@@ -38,6 +38,8 @@ Updating from 2.5 to 2.6
   SDL1.2-mixer, configure with --enable-sdlmixer=sdl1.2. sdl-client
   cannot be built with SDL2-mixer, nor can sdl2-client be built with
   SDL1.2-mixer
+* Server now saves its readline history to file
+  "~/.freeciv/freeciv-server_history" instead of "~/.freeciv-server_history"
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -107,7 +109,7 @@ This is list of files Freeciv might generate to filesystem when running.
 You may want to remove some of these when Freeciv is uninstalled.
 
 * Client saves its options to file "~/.freeciv/freeciv-client-rc-2.6"
-* Server saves its readline history to file "~/.freeciv-server_history"
+* Server saves its readline history to file "~/.freeciv/freeciv-server_history"
 * When running local single player games, challenge files with name
   like "~/.freeciv/challenge_*_*" are generated
 * When saving game in server launched by client, savegame go to

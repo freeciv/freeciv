@@ -155,7 +155,7 @@ static void handle_stdin_close(void)
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
 
-#define HISTORY_FILENAME  ".freeciv-server_history"
+#define HISTORY_FILENAME  "freeciv-server_history"
 #define HISTORY_LENGTH    100
 
 static char *history_file = NULL;
@@ -496,15 +496,25 @@ enum server_events server_sniff_all_input(void)
       char *home_dir = user_home_dir();
 
       if (home_dir) {
-	history_file
-	  = fc_malloc(strlen(home_dir) + 1 + strlen(HISTORY_FILENAME) + 1);
-	if (history_file) {
-	  strcpy(history_file, home_dir);
-	  strcat(history_file, "/");
-	  strcat(history_file, HISTORY_FILENAME);
-	  using_history();
-	  read_history(history_file);
-	}
+        int fcdl = strlen(home_dir) + 1 + strlen(".freeciv") + 1;
+        char *fc_dir = fc_malloc(fcdl);
+
+        if (fc_dir != NULL) {
+          fc_snprintf(fc_dir, fcdl, "%s/.freeciv", home_dir);
+          
+          if (make_dir(fc_dir)) {
+            history_file
+              = fc_malloc(strlen(fc_dir) + 1 + strlen(HISTORY_FILENAME) + 1);
+            if (history_file) {
+              strcpy(history_file, fc_dir);
+              strcat(history_file, "/");
+              strcat(history_file, HISTORY_FILENAME);
+              using_history();
+              read_history(history_file);
+            }
+          }
+          FC_FREE(fc_dir);
+        }
       }
 
       rl_initialize();
