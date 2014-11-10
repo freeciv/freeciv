@@ -921,7 +921,7 @@ int player_tech_upkeep(const struct player *pplayer)
   case TECH_COST_CLASSIC_PRESET:
   case TECH_COST_EXPERIMENTAL:
   case TECH_COST_EXPERIMENTAL_PRESET:
-    advance_iterate(A_NONE, padvance) {
+    advance_iterate(A_FIRST, padvance) {
       if (TECH_KNOWN == research_invention_state(presearch,
                                                  advance_number(padvance))) {
         tech_upkeep += padvance->cost;
