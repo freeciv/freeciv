@@ -2576,6 +2576,10 @@ void handle_spaceship_info(const struct packet_spaceship_info *p)
   }
 
   if (!spaceship_autoplace(pplayer, ship)) {
+    /* We refresh the dialog when the packet did *not* cause placing
+     * of new part. That's because those cases where part is placed, are
+     * followed by exactly one case where there's no more parts to place -
+     * we want to refresh the dialog only when that last packet comes. */
     refresh_spaceship_dialog(pplayer);
   }
 }
