@@ -464,7 +464,7 @@ int player_tech_upkeep(const struct player *pplayer)
     break;
   case 1:
   case 3:
-    advance_index_iterate(A_NONE, i) {
+    advance_index_iterate(A_FIRST, i) {
       if (TECH_KNOWN == player_invention_state(pplayer, i)) {
         tech_upkeep += techcoststyle1[i];
       }
@@ -478,7 +478,7 @@ int player_tech_upkeep(const struct player *pplayer)
     break;
   case 2:
   case 4:
-    advance_index_iterate(A_NONE, i) {
+    advance_index_iterate(A_FIRST, i) {
       if (TECH_KNOWN == player_invention_state(pplayer, i)) {
         if (advances[i].preset_cost != -1) {
           tech_upkeep += advances[i].preset_cost;
