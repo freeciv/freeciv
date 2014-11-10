@@ -3157,7 +3157,10 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
   struct fair_tile *land_tiles[1000];
   struct fair_tile *pftile, *pftile2, *pftile3;
   int fantasy;
-  int sea_around_island = (startpos_num > 0 ? 2 : 1);
+  const int sea_around_island = (startpos_num > 0
+                                 ? CITY_MAP_DEFAULT_RADIUS : 1);
+  const int sea_around_island_sq = (startpos_num > 0
+                                    ? CITY_MAP_DEFAULT_RADIUS_SQ : 2);
   int i, j, k;
 
   size = CLIP(startpos_num, size, ARRAY_SIZE(land_tiles));
@@ -3246,8 +3249,8 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
 
   /* Make sea arround the island. */
   for (i = 0; i < size; i++) {
-    square_iterate(index_to_tile(land_tiles[i] - pisland), sea_around_island,
-                   ptile) {
+    circle_iterate(index_to_tile(land_tiles[i] - pisland),
+                   sea_around_island_sq, ptile) {
       pftile = pisland + tile_index(ptile);
 
       if (pftile->flags == FTF_NONE) {
@@ -3259,7 +3262,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
           pftile->flags |= FTF_ASSIGNED;
         }
       }
-    } square_iterate_end;
+    } circle_iterate_end;
   }
 
   /* Make rivers. */
