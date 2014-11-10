@@ -130,6 +130,14 @@ static void connect_network_game_callback(GtkWidget *w, gpointer data)
   set_client_page(PAGE_NETWORK);
 }
 
+/****************************************************************************
+  Callback to open settings dialog.
+****************************************************************************/
+static void open_settings(void)
+{
+  option_dialog_popup(_("Set local options"), client_optset);
+}
+
 /**************************************************************************
   cancel, by terminating the connection and going back to main page.
 **************************************************************************/
@@ -265,6 +273,11 @@ GtkWidget *create_main_page(void)
   gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 0, 1);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(connect_network_game_callback), NULL);
+
+  button = gtk_button_new_with_mnemonic(_("Local Settings"));
+  gtk_size_group_add_widget(size, button);
+  gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
+  g_signal_connect(button, "clicked", open_settings, NULL);
 
   button = gtk_button_new_from_stock(GTK_STOCK_QUIT);
   gtk_size_group_add_widget(size, button);
