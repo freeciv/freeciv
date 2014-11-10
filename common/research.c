@@ -725,7 +725,6 @@ int research_total_bulbs_required(const struct research *presearch,
   if (!loss_value
       && NULL != presearch
       && !is_future_tech(tech)
-      && !research_invention_reachable(presearch, tech)
       && research_invention_state(presearch, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */
     return 0;
