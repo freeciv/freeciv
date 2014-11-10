@@ -259,6 +259,115 @@ research_advance_name_translation(const struct research *presearch,
   return name_translation(research_advance_name(tech));
 }
 
+/****************************************************************************
+  Returns TRUE iff the given tech is ever reachable by the players sharing
+  the research by checking tech tree limitations.
+
+  Helper for research_update().
+****************************************************************************/
+static bool research_get_reachable(const struct research *presearch,
+                                   Tech_type_id tech)
+{
+  if (valid_advance_by_number(tech) == NULL) {
+    return FALSE;
+  } else if (advance_required(tech, AR_ROOT) != A_NONE) {
+    /* 'tech' has at least one root requirement. We need to check them
+     * all. */
+    bv_techs done;
+    Tech_type_id techs[game.control.num_tech_types];
+    enum tech_req req;
+    int techs_num;
+    int i;
+
+    techs[0] = tech;
+    BV_CLR_ALL(done);
+    BV_SET(done, A_NONE);
+    BV_SET(done, tech);
+    techs_num = 1;
+
+    for (i = 0; i < techs_num; i++) {
+      if (advance_required(techs[i], AR_ROOT) == techs[i]) {
+        /* This tech requires itself; it can only be reached by special
+         * means (init_techs, lua script, ...).
+         * If you already know it, you can "reach" it; if not, not. (This
+         * case is needed for descendants of this tech.) */
+        if (presearch->inventions[techs[i]].state != TECH_KNOWN) {
+          return FALSE;
+        }
+      } else {
+        /* Check if requirements are reachable. */
+        Tech_type_id req_tech;
+
+        for (req = 0; req < AR_SIZE; req++) {
+          req_tech = advance_required(techs[i], req);
+          if (valid_advance_by_number(req_tech) == NULL) {
+            return FALSE;
+          } else if (!BV_ISSET(done, req_tech)) {
+            if (advance_required(req_tech, AR_ROOT) != A_NONE) {
+              fc_assert(techs_num < ARRAY_SIZE(techs));
+              techs[techs_num] = req_tech;
+              techs_num++;
+            }
+            BV_SET(done, req_tech);
+          }
+        }
+      }
+    }
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE iff the players sharing 'presearch' already have got the
+  knowledge of all root requirement technologies.
+
+  Helper for research_update().
+****************************************************************************/
+static bool research_get_root_reqs_known(const struct research *presearch,
+                                         Tech_type_id tech)
+{
+  if (advance_required(tech, AR_ROOT) != A_NONE) {
+    /* 'padvance' has got at least one root requirement. We need to check
+     * if all of them are known. */
+    bv_techs done;
+    Tech_type_id techs[game.control.num_tech_types];
+    Tech_type_id root;
+    int techs_num;
+    int i;
+
+    techs[0] = tech;
+    BV_CLR_ALL(done);
+    BV_SET(done, A_NONE);
+    BV_SET(done, tech);
+    techs_num = 1;
+
+    for (i = 0; i < techs_num; i++) {
+      root = advance_required(techs[i], AR_ROOT);
+      if (presearch->inventions[root].state != TECH_KNOWN) {
+        return FALSE;
+      } else {
+        /* Check if requirement roots are also known. */
+        enum tech_req req;
+        Tech_type_id req_tech;
+
+        for (req = 0; req <= AR_TWO; req++) {
+          req_tech = advance_required(techs[i], req);
+          if (!BV_ISSET(done, req_tech)) {
+            if (advance_required(req_tech, AR_ROOT) != A_NONE) {
+              fc_assert(techs_num < ARRAY_SIZE(techs));
+              techs[techs_num] = req_tech;
+              techs_num++;
+            }
+            BV_SET(done, req_tech);
+          }
+        }
+      }
+    }
+  }
+
+  return TRUE;
+}
 
 /****************************************************************************
   Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
@@ -273,30 +382,35 @@ void research_update(struct research *presearch)
   int techs_researched;
 
   advance_index_iterate(A_FIRST, i) {
-    if (!research_invention_reachable(presearch, i)) {
-      research_invention_set(presearch, i, TECH_UNKNOWN);
-    } else {
-      if (TECH_PREREQS_KNOWN == research_invention_state(presearch, i)) {
-        research_invention_set(presearch, i, TECH_UNKNOWN);
-      }
+    enum tech_state state = presearch->inventions[i].state;
+    bool root_reqs_known = TRUE;
+    bool reachable = research_get_reachable(presearch, i);
 
-      if (research_invention_state(presearch, i) == TECH_UNKNOWN
-          && (TECH_KNOWN
-              == research_invention_state(presearch,
-                                          advance_required(i, AR_ONE)))
-          && (TECH_KNOWN
-              == research_invention_state(presearch,
-                                          advance_required(i, AR_TWO)))) {
-        research_invention_set(presearch, i, TECH_PREREQS_KNOWN);
+    if (reachable) {
+      root_reqs_known = research_get_root_reqs_known(presearch, i);
+      if (state != TECH_KNOWN) {
+        /* Update state. */
+        state = (root_reqs_known
+                 && (presearch->inventions[advance_required(i, AR_ONE)].state
+                     == TECH_KNOWN)
+                 && (presearch->inventions[advance_required(i, AR_TWO)].state
+                     == TECH_KNOWN)
+                 ? TECH_PREREQS_KNOWN : TECH_UNKNOWN);
       }
+    } else {
+      fc_assert(state == TECH_UNKNOWN);
+      root_reqs_known = FALSE;
     }
+    presearch->inventions[i].state = state;
+    presearch->inventions[i].reachable = reachable;
+    presearch->inventions[i].root_reqs_known = root_reqs_known;
 
     /* Updates required_techs, num_required_techs and bulbs_required. */
     BV_CLR_ALL(presearch->inventions[i].required_techs);
     presearch->inventions[i].num_required_techs = 0;
     presearch->inventions[i].bulbs_required = 0;
 
-    if (TECH_KNOWN == research_invention_state(presearch, i)) {
+    if (!reachable || state == TECH_KNOWN) {
       continue;
     }
 
@@ -333,9 +447,14 @@ void research_update(struct research *presearch)
     } advance_index_iterate_end;
     buf[advance_count()] = '\0';
 
-    log_debug("%s: [%3d] %-25s => %s", research_rule_name(presearch), i,
+    log_debug("%s: [%3d] %-25s => %s%s%s",
+              research_rule_name(presearch),
+              i,
               advance_rule_name(advance_by_number(i)),
-              tech_state_name(research_invention_state(presearch, i)));
+              tech_state_name(research_invention_state(presearch, i)),
+              presearch->inventions[i].reachable ? "" : " [unrechable]",
+              presearch->inventions[i].root_reqs_known
+              ? "" : " [root reqs aren't known]");
     log_debug("%s: [%3d] %s", research_rule_name(presearch), i, buf);
   } advance_index_iterate_end;
 #endif
@@ -410,52 +529,16 @@ bool research_invention_reachable(const struct research *presearch,
 {
   if (valid_advance_by_number(tech) == NULL) {
     return FALSE;
-  } else if (advance_required(tech, AR_ROOT) != A_NONE) {
-    /* 'tech' has at least one root requirement. We need to check them
-     * all. */
-    bv_techs done;
-    Tech_type_id techs[game.control.num_tech_types];
-    enum tech_req req;
-    int techs_num;
-    int i;
-
-    techs[0] = tech;
-    BV_CLR_ALL(done);
-    BV_SET(done, A_NONE);
-    BV_SET(done, tech);
-    techs_num = 1;
-
-    for (i = 0; i < techs_num; i++) {
-      if (advance_required(techs[i], AR_ROOT) == techs[i]) {
-        /* This tech requires itself; it can only be reached by special
-         * means (init_techs, lua script, ...).
-         * If you already know it, you can "reach" it; if not, not. (This
-         * case is needed for descendants of this tech.) */
-        if (research_invention_state(presearch, techs[i]) != TECH_KNOWN) {
-          return FALSE;
-        }
-      } else {
-        /* Check if requirements are reachable. */
-        Tech_type_id req_tech;
-
-        for (req = 0; req < AR_SIZE; req++) {
-          req_tech = advance_required(techs[i], req);
-          if (!valid_advance_by_number(req_tech)) {
-            return FALSE;
-          } else if (!BV_ISSET(done, req_tech)) {
-            if (advance_required(req_tech, AR_ROOT) != A_NONE) {
-              fc_assert(techs_num < ARRAY_SIZE(techs));
-              techs[techs_num] = req_tech;
-              techs_num++;
-            }
-            BV_SET(done, req_tech);
-          }
-        }
+  } else if (presearch != NULL) {
+    return presearch->inventions[tech].reachable;
+  } else {
+    researches_iterate(presearch) {
+      if (presearch->inventions[tech].reachable) {
+        return TRUE;
       }
-    }
+    } researches_iterate_end;
+    return FALSE;
   }
-
-  return TRUE;
 }
 
 /****************************************************************************
@@ -467,40 +550,24 @@ bool research_invention_reachable(const struct research *presearch,
 ****************************************************************************/
 bool research_invention_gettable(const struct research *presearch,
                                  const Tech_type_id tech,
-                                 bool reachable_ok)
+                                 bool allow_holes)
 {
-  Tech_type_id req;
-
-  if (!valid_advance_by_number(tech)) {
+  if (valid_advance_by_number(tech) == NULL) {
+    return FALSE;
+  } else if (presearch != NULL) {
+    return (allow_holes
+            ? presearch->inventions[tech].root_reqs_known
+            : presearch->inventions[tech].state == TECH_PREREQS_KNOWN);
+  } else {
+    researches_iterate(presearch) {
+      if (allow_holes
+          ? presearch->inventions[tech].root_reqs_known
+          : presearch->inventions[tech].state == TECH_PREREQS_KNOWN) {
+        return TRUE;
+      }
+    } researches_iterate_end;
     return FALSE;
   }
-
-  /* Tech with root req is immediately gettable only if root req is already
-   * known. */
-  req = advance_required(tech, AR_ROOT);
-
-  if (req != A_NONE
-      && research_invention_state(presearch, req) != TECH_KNOWN) {
-    return FALSE;
-  }
-
-  if (reachable_ok) {
-    /* Any recursively reachable tech is ok */
-    return TRUE;
-  }
-
-  req = advance_required(tech, AR_ONE);
-  if (req != A_NONE
-      && research_invention_state(presearch, req) != TECH_KNOWN) {
-    return FALSE;
-  }
-  req = advance_required(tech, AR_TWO);
-  if (req != A_NONE
-      && research_invention_state(presearch, req) != TECH_KNOWN) {
-    return FALSE;
-  }
-
-  return TRUE;
 }
 
 /****************************************************************************

@@ -66,15 +66,14 @@ struct research {
    * and changing targets may be done without penalty. */
   bool got_tech;
 
-  struct {
+  struct research_invention {
     /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_PREREQS_KNOWN. */
     enum tech_state state;
 
-    /* 
-     * required_techs, num_required_techs and bulbs_required are
-     * cached values. Updated from build_required_techs (which is
-     * called by research_update()).
-     */
+    /* Following fields are cached values. They are updated by
+     * research_update()). */
+    bool reachable;
+    bool root_reqs_known;
     bv_techs required_techs;
     int num_required_techs, bulbs_required;
   } inventions[A_LAST];
@@ -130,7 +129,7 @@ bool research_invention_reachable(const struct research *presearch,
                                   const Tech_type_id tech);
 bool research_invention_gettable(const struct research *presearch,
                                  const Tech_type_id tech,
-                                 bool reachable_ok);
+                                 bool allow_holes);
 
 Tech_type_id research_goal_step(const struct research *presearch,
                                 Tech_type_id goal);
