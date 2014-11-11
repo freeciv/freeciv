@@ -733,6 +733,8 @@ if test "x$libxz_available" != "xtrue" ; then
   feature_xz=missing
 fi
 
+UTILITY_LIBS="${UTILITY_LIBS} ${LTLIBINTL}"
+
 AC_SUBST([UTILITY_CFLAGS])
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
