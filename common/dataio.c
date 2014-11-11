@@ -68,6 +68,26 @@ static bool get_conv(char *dst, size_t ndst, const char *src,
 static DIO_PUT_CONV_FUN put_conv_callback = NULL;
 static DIO_GET_CONV_FUN get_conv_callback = get_conv;
 
+/* Uncomment to make field range tests to asserts, fatal with -F */
+/* #define FIELD_RANGE_ASSERT */
+
+#ifdef FIELD_RANGE_ASSERT
+/* This evaluates _test_ twice. If that's a problem,
+ * it should evaluate it just once and store result to variable.
+ * That would lose verbosity of the assert message. */
+#define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
+  fc_assert(!(_test_));                                   \
+  if (_test_) {                                           \
+    _action_                                              \
+  }
+#else
+#define FIELD_RANGE_TEST(_test_, _action_, _format_, ...) \
+  if (_test_) {                                           \
+    _action_                                              \
+    log_error(_format_, ## __VA_ARGS__);                  \
+  }
+#endif
+
 /**************************************************************************
   Sets string conversion callback to be used when putting text.
 **************************************************************************/
@@ -230,11 +250,10 @@ void dio_put_uint8(struct data_out *dout, int value)
   uint8_t x = value;
   FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_1_byte);
 
-  if ((int) x != value) {
-    log_error("Trying to put %d into 8 bits; "
-              "it will result %d at receiving side.",
-              value, (int) x);
-  }
+  FIELD_RANGE_TEST((int) x != value, ,
+                   "Trying to put %d into 8 bits; "
+                   "it will result %d at receiving side.",
+                   value, (int) x);
 
   if (enough_space(dout, 1)) {
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
@@ -250,11 +269,10 @@ void dio_put_uint16(struct data_out *dout, int value)
   uint16_t x = htons(value);
   FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
 
-  if ((int) ntohs(x) != value) {
-    log_error("Trying to put %d into 16 bits; "
-              "it will result %d at receiving side.",
-              value, (int) ntohs(x));
-  }
+  FIELD_RANGE_TEST((int) ntohs(x) != value, ,
+                   "Trying to put %d into 16 bits; "
+                   "it will result %d at receiving side.",
+                   value, (int) ntohs(x));
 
   if (enough_space(dout, 2)) {
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
@@ -270,11 +288,10 @@ void dio_put_uint32(struct data_out *dout, int value)
   uint32_t x = htonl(value);
   FC_STATIC_ASSERT(sizeof(x) == 4, uint32_not_4_bytes);
 
-  if ((int) ntohl(x) != value) {
-    log_error("Trying to put %d into 32 bits; "
-              "it will result %d at receiving side.",
-              value, (int) ntohl(x));
-  }
+  FIELD_RANGE_TEST((int) ntohl(x) != value, ,
+                   "Trying to put %d into 32 bits; "
+                   "it will result %d at receiving side.",
+                   value, (int) ntohl(x));
 
   if (enough_space(dout, 4)) {
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
@@ -346,10 +363,9 @@ void dio_put_sint32(struct data_out *dout, int value)
 **************************************************************************/
 void dio_put_bool8(struct data_out *dout, bool value)
 {
-  if (value != TRUE && value != FALSE) {
-    log_error("Trying to put a non-boolean: %d", (int) value);
-    value = (value != FALSE);
-  }
+  FIELD_RANGE_TEST(value != TRUE && value != FALSE,
+                   value = (value != FALSE);,
+                   "Trying to put a non-boolean: %d", (int) value);
 
   dio_put_uint8(dout, value ? 1 : 0);
 }
@@ -359,10 +375,10 @@ void dio_put_bool8(struct data_out *dout, bool value)
 **************************************************************************/
 void dio_put_bool32(struct data_out *dout, bool value)
 {
-  if (value != TRUE && value != FALSE) {
-    log_error("Trying to put a non-boolean: %d", (int) value);
-    value = (value != FALSE);
-  }
+  FIELD_RANGE_TEST(value != TRUE && value != FALSE,
+                   value = (value != FALSE);,
+                   "Trying to put a non-boolean: %d",
+                   (int) value);
 
   dio_put_uint32(dout, value ? 1 : 0);
 }
@@ -375,11 +391,10 @@ void dio_put_ufloat(struct data_out *dout, float value, int float_factor)
 {
   uint32_t v = value * float_factor;
 
-  if (fabsf((float) v / float_factor - value) >= 1.0 / float_factor) {
-    log_error("Trying to put %f with factor %d in 32 bits; "
-              "it will result %f at receiving side.",
-              value, float_factor, (float) v / float_factor);
-  }
+  FIELD_RANGE_TEST(fabsf((float) v / float_factor - value) >= 1.0 / float_factor, ,
+                   "Trying to put %f with factor %d in 32 bits; "
+                   "it will result %f at receiving side.",
+                   value, float_factor, (float) v / float_factor);
 
   dio_put_uint32(dout, v);
 }
@@ -392,11 +407,10 @@ void dio_put_sfloat(struct data_out *dout, float value, int float_factor)
 {
   int32_t v = value * float_factor;
 
-  if (fabsf((float) v / float_factor - value) >= 1.0 / float_factor) {
-    log_error("Trying to put %f with factor %d in 32 bits; "
-              "it will result %f at receiving side.",
-              value, float_factor, (float) v / float_factor);
-  }
+  FIELD_RANGE_TEST(fabsf((float) v / float_factor - value) >= 1.0 / float_factor, ,
+                   "Trying to put %f with factor %d in 32 bits; "
+                   "it will result %f at receiving side.",
+                   value, float_factor, (float) v / float_factor);
 
   dio_put_sint32(dout, v);
 }
