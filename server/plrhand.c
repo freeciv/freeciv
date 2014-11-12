@@ -715,6 +715,9 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   if (old_type == DS_ALLIANCE) {
     pplayer_seen_units = get_seen_units(pplayer, pplayer2);
     pplayer2_seen_units = get_seen_units(pplayer2, pplayer);
+  } else {
+    pplayer_seen_units = NULL;
+    pplayer2_seen_units = NULL;
   }
 
   /* do the change */
@@ -729,6 +732,10 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
+
+    fc_assert(pplayer_seen_units != NULL);
+    fc_assert(pplayer2_seen_units != NULL);
+
     update_players_after_alliance_breakup(pplayer, pplayer2,
                                           pplayer_seen_units,
                                           pplayer2_seen_units);
