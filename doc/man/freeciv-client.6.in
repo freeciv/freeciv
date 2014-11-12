@@ -11,10 +11,10 @@
 .\"
 .TH FREECIV 6 "December 10th 2011"
 .SH NAME
-freeciv-gtk2, freeciv-gtk3, freeciv-sdl, freeciv-xaw \
+freeciv-gtk2, freeciv-gtk3, freeciv-sdl, freeciv-qt, freeciv-xaw \
 \- The clients for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-gtk2|freeciv-gtk3|freeciv-sdl|freeciv-xaw \
+.B freeciv-gtk2|freeciv-gtk3|freeciv-sdl|freeciv-qt|freeciv-xaw \
 [ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
@@ -70,8 +70,9 @@ This is the client program used to connect to a Freeciv server - see also
 spawn their own local server for single-player games.
 
 This manual page only lists the command line arguments. For more details
-about using \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-sdl\fP, or
-\fBfreeciv-xaw\fP, see the Client Manual which can be found at
+about using \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-sdl\fP,
+\fBfreeciv-qt\fP, or \fBfreeciv-xaw\fP, see the Client Manual which
+can be found at
 .UR @WIKI_URL@
 the Freeciv website
 .UE
