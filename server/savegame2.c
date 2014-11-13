@@ -1708,6 +1708,7 @@ static void sg_load_game(struct loaddata *loading)
 {
   int game_version;
   const char *string;
+  int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1819,6 +1820,29 @@ static void sg_load_game(struct loaddata *loading)
   game.info.coolinglevel
     = secfile_lookup_int_default(loading->file, 0, "game.coolinglevel");
 
+  /* Global advances. */
+  string = secfile_lookup_str_default(loading->file, NULL,
+                                      "game.global_advances");
+  if (string != NULL) {
+    sg_failure_ret(strlen(string) == loading->technology.size,
+                   "Invalid length of 'game.global_advances' (%lu ~= %lu).",
+                   (unsigned long) strlen(string),
+                   (unsigned long) loading->technology.size);
+    for (i = 0; i < loading->technology.size; i++) {
+      sg_failure_ret(string[i] == '1' || string[i] == '0',
+                     "Undefined value '%c' within 'game.global_advances'.",
+                     string[i]);
+      if (string[i] == '1') {
+        struct advance *padvance =
+            advance_by_rule_name(loading->technology.order[i]);
+
+        if (padvance != NULL) {
+          game.info.global_advances[advance_number(padvance)] = TRUE;
+        }
+      }
+    }
+  }
+
   game.info.is_new_game
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
 }
@@ -1831,6 +1855,8 @@ static void sg_save_game(struct savedata *saving)
   int game_version;
   const char *user_message;
   enum server_states srv_state;
+  char global_advances[game.control.num_tech_types + 1];
+  int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1902,6 +1928,13 @@ static void sg_save_game(struct savedata *saving)
                      "game.cooling");
   secfile_insert_int(saving->file, game.info.coolinglevel,
                      "game.coolinglevel");
+
+  /* Global advances. */
+  for (i = 0; i < game.control.num_tech_types; i++) {
+    global_advances[i] = game.info.global_advances[i] ? '1' : '0';
+  }
+  global_advances[i] = '\0';
+  secfile_insert_str(saving->file, global_advances, "game.global_advances");
 
   if (!game_was_started()) {
     saving->save_players = FALSE;
