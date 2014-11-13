@@ -596,7 +596,7 @@ static void timeout_action(const struct setting *pset)
   if (S_S_RUNNING == server_state()) {
     int timeout = *pset->integer.pvalue;
     /* This may cause the current turn to end immediately. */
-    game.info.seconds_to_phasedone = timeout;
+    game.tinfo.seconds_to_phasedone = timeout;
     send_game_info(NULL);
   }
 }

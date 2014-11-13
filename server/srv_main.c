@@ -1046,9 +1046,9 @@ static void begin_phase(bool is_new_phase)
   sanity_check();
 
   if (game.info.turn == 0 && game.server.first_timeout != -1) {
-    game.info.seconds_to_phasedone = (double)game.server.first_timeout;
+    game.tinfo.seconds_to_phasedone = (double)game.server.first_timeout;
   } else {
-    game.info.seconds_to_phasedone = (double)game.info.timeout;
+    game.tinfo.seconds_to_phasedone = (double)game.info.timeout;
   }
   game.server.phase_timer = timer_renew(game.server.phase_timer,
                                         TIMER_USER, TIMER_ACTIVE);
