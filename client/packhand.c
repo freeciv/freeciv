@@ -2528,12 +2528,14 @@ which is left.
 static bool spaceship_autoplace(struct player *pplayer,
 			       struct player_spaceship *ship)
 {
-  struct spaceship_component place;
+  if (can_client_issue_orders()) {
+    struct spaceship_component place;
 
-  if (next_spaceship_component(pplayer, ship, &place)) {
-    dsend_packet_spaceship_place(&client.conn, place.type, place.num);
+    if (next_spaceship_component(pplayer, ship, &place)) {
+      dsend_packet_spaceship_place(&client.conn, place.type, place.num);
 
-    return TRUE;
+      return TRUE;
+    }
   }
 
   return FALSE;
