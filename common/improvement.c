@@ -471,6 +471,10 @@ bool can_player_build_improvement_later(const struct player *p,
   if (improvement_obsolete(p, pimprove)) {
     return FALSE;
   }
+  if (is_great_wonder(pimprove) && !great_wonder_is_available(pimprove)) {
+    /* Can't build wonder if already built */
+    return FALSE;
+  }
 
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
