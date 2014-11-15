@@ -2,6 +2,10 @@
 THE FREECIV AI
 ==============
 
+This document is about freeciv's default AI. Freeciv supports also
+using custom AI modules, though at the time of writing none exist.
+See README.AI_modules about support of custom modules.
+
 
 CONTENTS
 ========
@@ -49,6 +53,9 @@ Go to
   http://www.freeciv.org/wiki/Community_Forums
 
 to read the archives.
+
+Currently freeciv-dev@gna.org is used for all discussion about freeciv
+development.
 
 
 LONG-TERM AI DEVELOPMENT GOALS
@@ -241,8 +248,7 @@ DIPLOMACY
 The AI's diplomatic behaviour is current only regulated by the 
 'diplomacy' server setting.
 
-In default rules, the AI starts out in NO_CONTACT mode, and proceeds 
-to NEUTRAL on first-contact.
+AI proposes cease-fire on first contact.
 
 AI is not very trusting for NEUTRAL and PEACE modes, but once it hits 
 ALLIANCE, this changes completely, and it will happily hand over 
@@ -272,11 +278,13 @@ whom, set from rulesets.  The latter is not yet well implemented.
 DIFFICULTY LEVELS
 =================
 
-There are currently five difficulty levels: 'novice', 'easy', 'normal',
-'hard' and 'experimental'.  The 'hard' level is no-holds-barred,
-while 'normal' has a number of handicaps.  In 'easy', the AI
-also does random stupid things through the ai_fuzzy function. The
-'experimental' level is only for coding - you can gate new code
+There are currently seven difficulty levels: 'handicapped, 'novice',
+'easy', 'normal', 'hard', 'cheating', and 'experimental'.
+The 'hard' level is no-holds-barred. 'Cheating' is the same
+except that it has ruleset defined extra bonuses, while 'normal'
+has a number of handicaps. In 'easy', the AI also does random stupid
+things through the ai_fuzzy function. The 'experimental' level is
+only for coding - you can gate new code
 with the H_EXPERIMENTAL handicap and test 'experimental' level
 AIs against 'hard' level AIs. In 'novice' the AI researches slower
 than normal players.
@@ -297,7 +305,7 @@ Other handicaps used are:
   H_DANGER       Always thinks its city is in danger
 
 For an up-to-date list of all handicaps and their use for each
-difficulty level see ./common/players.h.
+difficulty level see ./ai/handicaps.h.
 
 
 THINGS THAT NEED TO BE FIXED
@@ -309,9 +317,6 @@ THINGS THAT NEED TO BE FIXED
 * Locally_zero_minimap is not implemented when wilderness tiles 
 change.
 * If no path to chosen victim is found, new victim should be chosen.
-* AI doesn't know how to make trade routes or when.  It should try to 
-build trade routes for its best cities (most building bonuses and 
-least corruption) by moving caravans there and changing homecity.
 * Emergencies in two cities at once aren't handled properly.
 * Explorers will not use ferryboats to get to new lands to explore.
 The AI will also not build units to explore new islands, leaving huts alone.
