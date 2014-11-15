@@ -900,7 +900,7 @@ static void begin_turn(bool is_new_turn)
 
     /* Retire useless barbarian units */
     players_iterate(pplayer) {
-      unit_list_iterate(pplayer->units, punit) {
+      unit_list_iterate_safe(pplayer->units, punit) {
         struct tile *ptile = punit->tile;
 
         if (unit_can_be_retired(punit)
@@ -924,7 +924,7 @@ static void begin_turn(bool is_new_turn)
             }
           }
         }
-      } unit_list_iterate_end;
+      } unit_list_iterate_safe_end;
     } players_iterate_end;
   }
 
