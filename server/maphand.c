@@ -1920,11 +1920,14 @@ void tile_claim_bases(struct tile *ptile, struct player *powner)
 {
   struct player *base_loser = base_owner(ptile);
 
+  /* This MUST be before potentially recursive call to map_claim_base(),
+   * so that the recursive call will get new owner == base_loser and
+   * abort recursion. */
+  ptile->extras_owner = powner;
+
   base_type_iterate(pbase) {
     map_claim_base(ptile, pbase, powner, base_loser);
   } base_type_iterate_end;
-
-  ptile->extras_owner = powner;
 }
 
 /*************************************************************************
