@@ -512,72 +512,6 @@ PODOMAINS="freeciv nations ruledit"
 
 AM_GNU_GETTEXT([external], [need-ngettext])
 
-if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
-  AC_MSG_CHECKING([for GNU xgettext version >= 0.14])
-  xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
-  AC_RUN_IFELSE([AC_LANG_SOURCE([[
-#include <stdio.h>
-
-const char *version = "$xgettext_version";
-int main()
-{
-  const char *p = version;
-  int major = 0, minor = 0, patch = 0;
-
-  while (*p != '\0' && (*p < '0' || *p > '9')) {
-    p++;
-  }
-  if (*p == '\0') {
-    return 1;
-  }
-  sscanf(p, "%d.%d.%d", &major, &minor, &patch);
-  if (major < 1 && (minor < 14 || (minor == 14 && patch < 0))) {
-    return 1;
-  }
-  return 0;
-}
-  ]])],[AC_MSG_RESULT([yes])
-  ],[
-   AC_MSG_RESULT([no])
-   AC_MSG_WARN([You may have problems with creating pox files. \
-Please update your gettext package.])
-  ],[echo error
-  ])
-
-  AC_MSG_CHECKING([for GNU msgfmt version >= 0.14])
-  msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | head -n 1 | $SED 's/"/ /g'`
-  AC_RUN_IFELSE([AC_LANG_SOURCE([[
-#include <stdio.h>
-
-const char *version = "$msgfmt_version";
-
-int main()
-{
-  const char *p = version;
-  int major = 0, minor = 0, patch = 0;
-
-  while (*p != '\0' && (*p < '0' || *p > '9')) {
-    p++;
-  }
-  if (*p == '\0') {
-    return 1;
-  }
-  sscanf(p, "%d.%d.%d", &major, &minor, &patch);
-  if (major < 0 && (minor < 14 || (minor == 14 && patch < 0))) {
-    return 1;
-  }
-  return 0;
-}
-  ]])],[AC_MSG_RESULT([yes])
-  ],[
-  AC_MSG_RESULT([no])
-  AC_MSG_ERROR([You are unable to create *.gmo files.
-This is development version which doesn't include them. Please update your
-gettext package. Or use --disable-nls instead.])
-  ],[echo error
-  ])
-fi
-
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([CURL], [libcurl >= 7.9.7],,
     [AC_MSG_ERROR([libcurl development files required])])
@@ -1607,39 +1541,6 @@ AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 if test "x$ruledit" = "xyes" ; then
   AC_CONFIG_FILES([fcruledit:bootstrap/fcruledit.in], [chmod +x fcruledit])
-fi
-
-if test "$USE_NLS" != "yes" ; then
-
-  dnl Produced config.status will have constant value of FORCE_DIST,
-  dnl but it still checks 'if test x$FORCE_DIST = xyes'. We cannot
-  dnl do that check in configure when producing config.status.
-  AC_CONFIG_COMMANDS([translations/freeciv/Makefile], [
-    for domain in $PODOMAINS ; do
-    dnl Usually glib-gettext.m4:AM_GLIB_GNU_GETTEXT outputs commands to
-    dnl generate translations/${domain}/Makefile.
-    dnl If NLS is disabled, we generate one here.
-    rm -f translations/${domain}/Makefile
-
-    dnl - Add nonls_warn as dependency to dist -target
-    dnl - Remove dependencies from update-po, so it is never rebuilt
-    dnl - Set list of distributed files (no generated files)
-    sed -e 's/^dist distdir:.*/dist distdir: nonls_warn/' \
-        -e 's/^update-po:.*/update-po:/' \
-        -e 's/^DISTFILES =.*/DISTFILES = Makefile.in.in POTFILES.in POTFILES.skip \$(POFILES)/' \
-        translations/${domain}/Makefile.in > translations/${domain}/Makefile
-
-    dnl Create nonls_warn target.
-    echo >> translations/${domain}/Makefile
-    echo nonls_warn: >> translations/${domain}/Makefile
-    if test "x$FORCE_DIST" = "xyes" ; then
-      echo "	@echo Building dist without generated localization files!" >> translations/${domain}/Makefile
-    else
-      echo "	@echo Cannot build dist with NLS disabled! && /bin/false" >> translations/${domain}/Makefile
-    fi
-    done
-  ], [FORCE_DIST=$FORCE_DIST
-PODOMAINS="$PODOMAINS"])
 fi
 
 AC_OUTPUT
