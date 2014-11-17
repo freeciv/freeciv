@@ -1596,7 +1596,7 @@ void identity_number_release(int id)
 }
 
 /**************************************************************************
-  Marko identity number allocated.
+  Mark identity number allocated.
 **************************************************************************/
 void identity_number_reserve(int id)
 {
