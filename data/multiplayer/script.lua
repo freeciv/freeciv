@@ -60,6 +60,24 @@ end
 signal.connect("building_built", "building_built_handler")
 
 
+-- Hack: record which players already got Philosophy, to avoid
+-- teams getting it multiple times with team_pooled_research.
+-- Stored as a string as this is a type simple enough to be included
+-- in savefiles.
+-- (It`s probably not necessary to test for existence as savefile
+-- data is loaded after this script is executed.)
+if philo_players == nil then
+  philo_players = ""
+end
+
+-- Record that a player got Philosophy in our hacky string.
+function record_philo(player)
+  local pos = player.id + 1
+  philo_players = string.sub(philo_players, 1, pos-1) ..
+                  string.rep(" ", math.max(0, pos - 1 - #philo_players)) ..
+                  "." .. string.sub(philo_players, pos+1)
+end
+
 -- Grant one tech when the tech Philosophy is researched.
 function tech_researched_handler(tech, player, how)
   local id
@@ -72,6 +90,19 @@ function tech_researched_handler(tech, player, how)
 
   id = tech.id
   if id == find.tech_type("Philosophy").id and how == "researched" then
+
+    -- Check potential teammates.
+    for p in players_iterate() do
+      if player:shares_research(p)
+         and string.sub(philo_players, p.id+1, p.id+1) == "." then
+        -- Another player in the same team already got Philosophy.
+        record_philo(player)
+        return
+      end
+    end
+
+    record_philo(player)
+
     -- Give the player a free advance.
     -- This will give a free advance for each player that shares research.
     gained = player:give_technology(nil, "researched")
