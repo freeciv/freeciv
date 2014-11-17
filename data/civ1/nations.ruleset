@@ -65,7 +65,7 @@ rule_name="all"
 ; It`s OK to not define any nation groups at all.
 ; name 		= name of the group (used adjectivally)
 ; hidden        = TRUE to not include this group in the "pick nation" dialog
-;                 (for instance if it's for use in a NationGroup requirement).
+;                 (for instance if it`s for use in a NationGroup requirement).
 ;                 Default FALSE.
 ; match		= How much the AI will try to select a nation in the same
 ;                 group
