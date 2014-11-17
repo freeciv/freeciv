@@ -432,16 +432,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                            nation_plural_for_player(pdest),
                            advance_name_for_player(pdest, pclause->value),
                            nation_plural_for_player(pgiver));
-
-          players_iterate(aplayer) {
-            if (player_research_get(pdest) == player_research_get(aplayer)) {
-              script_server_signal_emit("tech_researched", 3,
-                                        API_TYPE_TECH_TYPE,
-                                        advance_by_number(pclause->value),
-                                        API_TYPE_PLAYER, aplayer,
-                                        API_TYPE_STRING, "traded");
-            }
-          } players_iterate_end;
+          script_tech_learned(pdest, advance_by_number(pclause->value),
+                              "traded");
           do_dipl_cost(pdest, pclause->value);
           found_new_tech(pdest, pclause->value, FALSE, TRUE);
         }
