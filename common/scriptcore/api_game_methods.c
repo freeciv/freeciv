@@ -366,6 +366,19 @@ int api_methods_player_culture_get(lua_State *L, Player *pplayer)
 }
 
 /*****************************************************************************
+  Return TRUE if players share research.
+*****************************************************************************/
+bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
+                                        Player *aplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, aplayer, 3, Player, FALSE);
+
+  return research_get(pplayer) == research_get(aplayer);
+}
+
+/*****************************************************************************
   Return list head for unit list for Player
 *****************************************************************************/
 Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,

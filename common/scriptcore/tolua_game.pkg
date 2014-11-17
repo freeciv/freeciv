@@ -134,6 +134,8 @@ module Player {
     @ gold (lua_State *L, Player *self);
   bool api_methods_player_knows_tech
     @ knows_tech (lua_State *L, Player *self, Tech_Type *ptech);
+  bool api_methods_player_shares_research
+    @ shares_research (lua_State *L, Player *self, Player *other);
 
   int api_methods_player_culture_get
     @ culture(lua_State *L, Player *self);
