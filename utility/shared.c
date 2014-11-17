@@ -30,6 +30,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
