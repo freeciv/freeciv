@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-08 00:21+0100\n"
-"PO-Revision-Date: 2014-07-12 11:26+0100\n"
+"POT-Creation-Date: 2014-09-27 12:32+0300\n"
+"PO-Revision-Date: 2014-11-13 13:26+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
@@ -39,41 +39,70 @@ msgstr "Pokaż nazwę wersji"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:60
+#: tools/ruledit/ruledit_qt.cpp:62
 msgid "Freeciv ruleset editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:119
+#: tools/ruledit/ruledit_qt.cpp:127
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s"
+msgstr ""
+"%s%s\n"
+"łatka: %s"
+
+#: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
 msgstr "Podaj zestaw zasad będący punktem wyjścia"
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
 msgstr "Tryb edycji"
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr "Różne"
 
-#: tools/ruledit/ruledit_qt.cpp:137
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr "Technologia"
 
-#: tools/ruledit/ruledit_qt.cpp:139
-msgid "Nations"
-msgstr ""
+#: tools/ruledit/ruledit_qt.cpp:162
+msgid "Buildings"
+msgstr "Budynki"
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:164
+msgid "Nations"
+msgstr "Narody"
+
+#: tools/ruledit/ruledit_qt.cpp:173
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:210
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:199
+#: tools/ruledit/ruledit_qt.cpp:225
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
+
+#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
+msgid "Name"
+msgstr "Nazwa"
+
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
+msgid "Rule Name"
+msgstr "Nazwa zasady"
+
+#: tools/ruledit/tab_building.cpp:78
+msgid "Add Building"
+msgstr "Dodaj budynek"
+
+#: tools/ruledit/tab_building.cpp:83
+msgid "Remove this Building"
+msgstr "Usuń ten budynek"
 
 #: tools/ruledit/tab_misc.cpp:57
 msgid "Ruleset name"
@@ -97,41 +126,33 @@ msgstr "Zapisano zestaw zasad"
 
 #: tools/ruledit/tab_nation.cpp:49
 msgid "Use nationlist"
-msgstr ""
+msgstr "Użyj listy narodów"
 
 #: tools/ruledit/tab_nation.cpp:53
 msgid "Nationlist"
-msgstr ""
+msgstr "Lista narodów"
 
-#: tools/ruledit/tab_tech.cpp:61
-msgid "Name"
-msgstr "Nazwa"
-
-#: tools/ruledit/tab_tech.cpp:69
-msgid "Rule Name"
-msgstr "Nazwa zasady"
-
-#: tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
-msgstr ""
+msgstr "Wym1"
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
-msgstr ""
+msgstr "Wym2"
 
-#: tools/ruledit/tab_tech.cpp:94
+#: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:103
+#: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
 msgstr "Dodaj technologię"
 
-#: tools/ruledit/tab_tech.cpp:107
+#: tools/ruledit/tab_tech.cpp:109
 msgid "Remove this tech"
 msgstr "Usuń tą technologię"
 
-#: tools/ruledit/tab_tech.cpp:186
+#: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
 msgstr "Nigdy"
 
