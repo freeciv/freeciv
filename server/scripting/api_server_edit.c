@@ -252,35 +252,29 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                                     Tech_Type *ptech, const char *reason)
 {
-  struct player_research *presearch;
   Tech_type_id id;
   Tech_Type *result;
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
 
-  presearch = player_research_get(pplayer);
   if (ptech) {
     id = advance_number(ptech);
   } else {
-    if (presearch->researching == A_UNSET) {
+    if (player_research_get(pplayer)->researching == A_UNSET) {
       choose_random_tech(pplayer);
     }
-    id = presearch->researching;
+    id = player_research_get(pplayer)->researching;
   }
 
   if (player_invention_state(pplayer, id) != TECH_KNOWN) {
     do_free_cost(pplayer, id);
     found_new_tech(pplayer, id, FALSE, TRUE);
     result = advance_by_number(id);
-    players_iterate(aplayer) {
-      if (presearch == player_research_get(aplayer)) {
-        script_server_signal_emit("tech_researched", 3,
-                                  API_TYPE_TECH_TYPE, result,
-                                  API_TYPE_PLAYER, aplayer,
-                                  API_TYPE_STRING, reason);
-      }
-    } players_iterate_end;
+    script_server_signal_emit("tech_researched", 3,
+                              API_TYPE_TECH_TYPE, result,
+                              API_TYPE_PLAYER, pplayer,
+                              API_TYPE_STRING, reason);
     return result;
   } else {
     return NULL;
