@@ -58,6 +58,7 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/mkinstalldirs		\
 		m4/ac_path_lib.m4		\
 		m4/c99.m4			\
+		m4/c++11.m4			\
 		m4/codeset.m4			\
 		m4/compiler.m4			\
 		m4/debug.m4			\

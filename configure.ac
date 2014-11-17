@@ -618,6 +618,8 @@ AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
 AC_C99_STDINT_H
 
+FC_CXX11_NULLPTR
+
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
   AC_DEFINE([SOCKET_ZERO_ISNT_STDIN], [1], [BeOS-specific setting])
