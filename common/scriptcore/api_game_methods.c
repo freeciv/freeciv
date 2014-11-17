@@ -23,6 +23,7 @@
 #include "map.h"
 #include "movement.h"
 #include "nation.h"
+#include "research.h"
 #include "tech.h"
 #include "terrain.h"
 #include "tile.h"
@@ -336,6 +337,19 @@ bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
   LUASCRIPT_CHECK_ARG_NIL(L, ptech, 3, Tech_Type, FALSE);
 
   return player_invention_state(pplayer, advance_number(ptech)) == TECH_KNOWN;
+}
+
+/*****************************************************************************
+  Return TRUE if players share research.
+*****************************************************************************/
+bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
+                                        Player *aplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, aplayer, 3, Player, FALSE);
+
+  return player_research_get(pplayer) == player_research_get(aplayer);
 }
 
 /*****************************************************************************

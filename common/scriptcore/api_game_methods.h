@@ -73,6 +73,8 @@ int api_methods_player_num_units(lua_State *L, Player *pplayer);
 int api_methods_player_gold(lua_State *L, Player *pplayer);
 bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
                                    Tech_Type *ptech);
+bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
+                                        Player *aplayer);
 Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
                                                           Player *pplayer);
 City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
