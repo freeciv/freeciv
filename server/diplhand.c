@@ -456,13 +456,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                  advance_name,
                  nation_plural_for_player(pgiver));
 
-            research_players_iterate(presearch, member) {
-              script_server_signal_emit("tech_researched", 3,
-                                        API_TYPE_TECH_TYPE,
-                                        advance_by_number(pclause->value),
-                                        API_TYPE_PLAYER, member,
-                                        API_TYPE_STRING, "traded");
-            } research_players_iterate_end;
+            script_tech_learned(presearch, pdest,
+                                advance_by_number(pclause->value), "traded");
             research_apply_penalty(presearch, pclause->value,
                                    game.server.diplbulbcost);
             found_new_tech(presearch, pclause->value, FALSE, TRUE);

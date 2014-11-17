@@ -282,12 +282,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
     research_apply_penalty(presearch, id, game.server.freecost);
     found_new_tech(presearch, id, FALSE, TRUE);
     result = advance_by_number(id);
-    research_players_iterate(presearch, member) {
-      script_server_signal_emit("tech_researched", 3,
-                                API_TYPE_TECH_TYPE, result,
-                                API_TYPE_PLAYER, member,
-                                API_TYPE_STRING, reason);
-    } research_players_iterate_end;
+    script_tech_learned(presearch, pplayer, result, reason);
     return result;
   } else {
     return NULL;

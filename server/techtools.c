@@ -72,6 +72,36 @@ void research_apply_penalty(struct research *presearch, Tech_type_id tech,
 }
 
 /****************************************************************************
+  Emit script signal(s) for player/team learning new tech.
+  originating_plr is the player whose action caused this; may be NULL, and
+  is only used to order the emission of the signals.
+****************************************************************************/
+void script_tech_learned(struct research *presearch,
+                         struct player *originating_plr, struct advance *tech,
+                         const char *reason)
+{
+  /* Emit signal for individual player whose action triggered the
+   * tech first */
+  if (originating_plr) {
+    fc_assert(research_get(originating_plr) == presearch);
+    script_server_signal_emit("tech_researched", 3,
+                              API_TYPE_TECH_TYPE, tech,
+                              API_TYPE_PLAYER, originating_plr,
+                              API_TYPE_STRING, reason);
+  }
+
+  /* Emit signal to remaining research teammates, if any */
+  research_players_iterate(presearch, member) {
+    if (member != originating_plr) {
+      script_server_signal_emit("tech_researched", 3,
+                                API_TYPE_TECH_TYPE, tech,
+                                API_TYPE_PLAYER, member,
+                                API_TYPE_STRING, reason);
+    }
+  } research_players_iterate_end;
+}
+
+/****************************************************************************
   Players have researched a new technology.
 ****************************************************************************/
 static void tech_researched(struct research *research)
@@ -96,13 +126,7 @@ static void tech_researched(struct research *research)
   /* Do all the updates needed after finding new tech. */
   found_new_tech(research, tech, TRUE, TRUE);
 
-  research_players_iterate(research, member) {
-    script_server_signal_emit("tech_researched", 3,
-                              API_TYPE_TECH_TYPE,
-                              advance_by_number(tech),
-                              API_TYPE_PLAYER, member,
-                              API_TYPE_STRING, "researched");
-  } research_players_iterate_end;
+  script_tech_learned(research, NULL, advance_by_number(tech), "researched");
 }
 
 /****************************************************************************
@@ -1157,17 +1181,10 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
   if (tech_transfer(pplayer, victim, stolen_tech)) {
     research_apply_penalty(presearch, stolen_tech, game.server.conquercost);
     found_new_tech(presearch, stolen_tech, FALSE, TRUE);
-
-    research_players_iterate(presearch, member) {
-      script_server_signal_emit("tech_researched", 3,
-                                API_TYPE_TECH_TYPE,
-                                advance_by_number(stolen_tech),
-                                API_TYPE_PLAYER, member,
-                                API_TYPE_STRING, "stolen");
-    } research_players_iterate_end;
-
+    script_tech_learned(presearch, pplayer, advance_by_number(stolen_tech),
+                        "stolen");
     return stolen_tech;
-  };
+  }
 
   return A_NONE;
 }
