@@ -2292,6 +2292,7 @@ static void initworld(struct gen234_state *pstate)
     map_set_placed(ptile); /* not a land tile */
     BV_CLR_ALL(ptile->extras);
     tile_set_owner(ptile, NULL, NULL);
+    ptile->extras_owner = NULL;
   } whole_map_iterate_end;
 
   if (HAS_POLES) {
@@ -3536,6 +3537,7 @@ static bool map_generate_fair_islands(void)
     tile_set_continent(ptile, 0);
     BV_CLR_ALL(ptile->extras);
     tile_set_owner(ptile, NULL, NULL);
+    ptile->extras_owner = NULL;
   } whole_map_iterate_end;
 
   i = 0;

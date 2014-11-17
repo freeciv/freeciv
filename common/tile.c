@@ -68,7 +68,6 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
 {
   if (BORDERS_DISABLED != game.info.borders) {
     ptile->owner = pplayer;
-    ptile->extras_owner = pplayer;
     ptile->claimer = claimer;
   }
 }
