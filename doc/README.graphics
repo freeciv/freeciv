@@ -97,12 +97,12 @@ options include:
                           height in isometric tileset
   small_tile_width      : the width of icon sprites
   small_tile_height     : the height of icon sprites
-  fogstyle              : Specifies how fog is drawn.
-                          0 : Code automatically adds fog.
-                          1 : A single fog sprite is drawn on top of all
-                              other sprites for fogged tiles. The
-                              tx.fog sprite is used for this.
-                          2 : No fog, or fog from darkness_style = 4.
+  fog_style             : Specifies how fog is drawn.
+                          "Auto" :     Code automatically adds fog.
+                          "Sprite :    A single fog sprite is drawn on top of all
+                                       other sprites for fogged tiles. The
+                                       tx.fog sprite is used for this.
+                          "Darkness" : No fog, or fog from darkness_style = 4.
   darkness_style        : Specifies how "encroaching darkness" is drawn.
                           0 : No darkness.
                           1 : A single sprite can be split into 4 parts, each

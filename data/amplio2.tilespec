@@ -21,8 +21,8 @@ small_tile_height  = 20
 type = "isometric"
 is_hex = FALSE
 
-; Fogstyle 2, darkness_style 4 : blended fog
-fogstyle = 2
+; Blended fog
+fog_style      = "Darkness"
 darkness_style = 4
 ; Which terrain layer darkness is drawn top of (0-2)
 darkness_layer = 0

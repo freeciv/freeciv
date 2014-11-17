@@ -51,6 +51,18 @@ struct resource;
 #define SPECENUM_VALUE1NAME N_("Isometric")
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME fog_style
+/* Fog is automatically appended by the code. */
+#define SPECENUM_VALUE0 FOG_AUTO
+#define SPECENUM_VALUE0NAME "Auto"
+/* A single fog sprite is provided by the tileset (tx.fog). */
+#define SPECENUM_VALUE1 FOG_SPRITE
+#define SPECENUM_VALUE1NAME "Sprite"
+/* No fog, or fog derived from darkness style. */
+#define SPECENUM_VALUE2 FOG_DARKNESS
+#define SPECENUM_VALUE2NAME "Darkness"
+#include "specenum_gen.h"
+
 /* An edge is the border between two tiles.  This structure represents one
  * edge.  The tiles are given in the same order as the enumeration name. */
 enum edge_type {

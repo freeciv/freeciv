@@ -22,8 +22,8 @@ type = "overhead"
 hex_side = 24
 is_hex = TRUE
 
-; Use fogstyle 0 (old iso style)
-fogstyle = 0
+; Use old iso style
+fog_style      = "Auto"
 
 ; Was darkness style 1 (single-sprite)
 darkness_style = 2

@@ -383,13 +383,6 @@ struct named_sprites {
   struct drawing_data *drawing[MAX_NUM_ITEMS];
 };
 
-/* Don't reorder this enum since tilesets depend on it. */
-enum fog_style {
-  FOG_AUTO, /* Fog is automatically appended by the code. */
-  FOG_SPRITE, /* A single fog sprite is provided by the tileset (tx.fog). */
-  FOG_NONE /* No fog. */
-};
-
 /* Darkness style.  Don't reorder this enum since tilesets depend on it. */
 enum darkness_style {
   /* No darkness sprites are drawn. */
@@ -1528,7 +1521,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   enum direction8 dir;
   const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = NULL;
-  int ei1, ei2;
+  int ei2;
   const char *extraname;
   const char *tstr;
 
@@ -1664,15 +1657,25 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
               t->full_tile_width, t->full_tile_height,
               t->small_sprite_width, t->small_sprite_height);
 
-  /* FIXME: use specenum to load these. */
-  if (!secfile_lookup_int(file, &ei1,
-                          "tilespec.fogstyle")
-      || !secfile_lookup_int(file, &ei2,
-                             "tilespec.darkness_style")) {
-    log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
+  tstr = secfile_lookup_str(file, "tilespec.fog_style");
+  if (tstr == NULL) {
+    log_error("Tileset \"%s\": no fog_style", t->name);
     goto ON_ERROR;
   }
-  t->fogstyle = ei1;
+
+  t->fogstyle = fog_style_by_name(tstr, fc_strcasecmp);
+  if (!fog_style_is_valid(t->fogstyle)) {
+    log_error("Tileset \"%s\": unknown fogstyle \"%s\"", t->name, tstr);
+    goto ON_ERROR;
+  }
+
+  /* FIXME: use specenum to load this. */
+  if (!secfile_lookup_int(file, &ei2,
+                             "tilespec.darkness_style")) {
+    log_error("Tileset \"%s\" invalid darkness_style: %s", t->name, secfile_error());
+    goto ON_ERROR;
+  }
+
   t->darkness_style = ei2;
 
   if (t->darkness_style < DARKNESS_NONE

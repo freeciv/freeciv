@@ -21,8 +21,8 @@ small_tile_height  = 20
 type = "overhead"
 is_hex = FALSE
 
-; Was fogstyle 0 (old iso style)
-fogstyle = 2
+; Was old iso style
+fog_style      = "Darkness"
 
 ; Was darkness style 3 (15 sprites)
 darkness_style = 4
