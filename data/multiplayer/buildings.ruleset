@@ -1474,7 +1474,7 @@ sabotage	= 0
 sound		= "w_magellans_expedition"
 sound_alt	= "w_generic"
 helptext	= _("\
-All your new sea units built in cities on the same continent start with
+All your new sea units built in cities on the same continent start with\
  an additional veteran level (this is cumulative with any Port Facility\
  in a city; with both, units are created as Hardened).\
 ")
