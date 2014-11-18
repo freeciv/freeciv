@@ -78,3 +78,47 @@ Direction api_utilities_str2dir(lua_State *L, const char *dir)
 
   return direction8_by_name(dir, fc_strcasecmp);
 }
+
+/**************************************************************************
+  Previous (counter-clockwise) valid direction
+**************************************************************************/
+Direction api_utilities_dir_ccw(lua_State *L, Direction dir)
+{
+  Direction new_dir = dir;
+
+  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+
+  do {
+    new_dir = dir_ccw(new_dir);
+  } while (!is_valid_dir(new_dir));
+
+  return new_dir;
+}
+
+/**************************************************************************
+  Next (clockwise) valid direction
+**************************************************************************/
+Direction api_utilities_dir_cw(lua_State *L, Direction dir)
+{
+  Direction new_dir = dir;
+
+  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+
+  do {
+    new_dir = dir_cw(new_dir);
+  } while (!is_valid_dir(new_dir));
+
+  return new_dir;
+}
+
+/**************************************************************************
+  Opposite direction - validity not checked, but it's valid iff
+  original direction is.
+**************************************************************************/
+Direction api_utilities_opposite_dir(lua_State *L, Direction dir)
+{
+  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+
+  return opposite_direction(dir);
+}
+

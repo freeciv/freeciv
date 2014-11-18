@@ -215,7 +215,6 @@ end
 function Unit:get_homecity()
   return find.city(self.owner, self.homecity)
 end
-
 $]
 
 /* Module Tile. */
@@ -459,7 +458,13 @@ module effects {
 /* Direction module */
 module direction {
  Direction api_utilities_str2dir
-   @ str2dir (lua_State *L, const char *str);
+   @ str2dir(lua_State *L, const char *str);
+ Direction api_utilities_dir_ccw
+   @ next_ccw(lua_State *L, Direction self);
+ Direction api_utilities_dir_cw
+   @ next_cw(lua_State *L, Direction self);
+ Direction api_utilities_opposite_dir
+   @ opposite(lua_State *L, Direction self);
 }
 
 $[
