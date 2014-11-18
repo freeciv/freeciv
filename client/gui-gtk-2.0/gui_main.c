@@ -202,7 +202,7 @@ static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
 static void set_wait_for_writable_socket(struct connection *pc,
                                          bool socket_writable);
 
-static void print_usage(const char *argv0);
+static void print_usage(void);
 static void parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
@@ -270,7 +270,7 @@ static gboolean timer_callback(gpointer data)
   Print extra usage information, including one line help on each option,
   to stderr. 
 **************************************************************************/
-static void print_usage(const char *argv0)
+static void print_usage(void)
 {
   /* add client-specific usage information here */
   fc_fprintf(stderr,
@@ -282,8 +282,8 @@ static void print_usage(const char *argv0)
 }
 
 /**************************************************************************
- search for command line options. right now, it's just help
- semi-useless until we have options that aren't the same across all clients.
+  Search for command line options. right now, it's just help
+  semi-useless until we have options that aren't the same across all clients.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
@@ -291,7 +291,7 @@ static void parse_options(int argc, char **argv)
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {
-      print_usage(argv[0]);
+      print_usage();
       exit(EXIT_SUCCESS);
     }
     i++;

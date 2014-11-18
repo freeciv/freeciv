@@ -118,7 +118,7 @@ static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
 static SDL_Event *pMap_Scroll_User_Event = NULL;
 
-static void print_usage(const char *argv0);
+static void print_usage(void);
 static void parse_options(int argc, char **argv);
 static int check_scroll_area(int x, int y);
       
@@ -161,7 +161,7 @@ void set_city_names_font_sizes(int my_city_names_font_size,
   Print extra usage information, including one line help on each option,
   to stderr. 
 **************************************************************************/
-static void print_usage(const char *argv0)
+static void print_usage(void)
 {
   /* add client-specific usage information here */
   fc_fprintf(stderr,
@@ -175,8 +175,8 @@ static void print_usage(const char *argv0)
 }
 
 /**************************************************************************
- search for command line options. right now, it's just help
- semi-useless until we have options that aren't the same across all clients.
+  Search for command line options. right now, it's just help
+  semi-useless until we have options that aren't the same across all clients.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
@@ -185,7 +185,7 @@ static void parse_options(int argc, char **argv)
     
   while (i < argc) {
     if (is_option("--help", argv[i])) {
-      print_usage(argv[0]);
+      print_usage();
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen",argv[i])) {
       options.gui_sdl_fullscreen = TRUE;

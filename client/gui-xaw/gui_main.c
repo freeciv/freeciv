@@ -246,7 +246,7 @@ static int myerr(Display *p, XErrorEvent *e)
   Print extra usage information, including one line help on each option,
   to stderr.
 **************************************************************************/
-static void print_usage(const char *argv0)
+static void print_usage(void)
 {
   /* add client-specific usage information here */
   fc_fprintf(stderr,
@@ -259,18 +259,16 @@ static void print_usage(const char *argv0)
 }
 
 /**************************************************************************
-...
+  Handle commandline options specific to this gui
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
   int i;
 
   i = 1;
-  while (i < argc)
-  {
-    if (is_option("--help", argv[i]))
-    {
-      print_usage(argv[0]);
+  while (i < argc) {
+    if (is_option("--help", argv[i])) {
+      print_usage();
       exit(EXIT_SUCCESS);
     }
     i += 1;
