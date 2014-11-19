@@ -1103,6 +1103,11 @@ void info_label::paint(QPainter *painter, QPaintEvent *event)
   int h = 0;
   int w;
   QFontMetrics *fm;
+
+  if (indicator_icons == nullptr) {
+    return;
+  }
+
   ufont->setPixelSize(14);
 
   fm = new QFontMetrics(*ufont);
