@@ -2603,6 +2603,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   bool known_changed = FALSE;
   bool tile_changed = FALSE;
   struct player *powner = player_by_number(packet->owner);
+  struct player *eowner = player_by_number(packet->extras_owner);
   struct resource *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
@@ -2641,6 +2642,10 @@ void handle_tile_info(const struct packet_tile_info *packet)
 
   if (tile_owner(ptile) != powner) {
     tile_set_owner(ptile, powner, NULL);
+    tile_changed = TRUE;
+  }
+  if (base_owner(ptile) != eowner) {
+    ptile->extras_owner = eowner;
     tile_changed = TRUE;
   }
 
