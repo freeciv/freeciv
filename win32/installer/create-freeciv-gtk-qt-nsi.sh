@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3> <GTK+2|GTK+3>
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3|qt> <GTK+2|GTK+3|Qt>
 
 cat <<EOF
 ; Freeciv Windows installer script

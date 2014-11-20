@@ -36,6 +36,9 @@ gtk2-installer:
 sdl-installer:
 	make GUI=sdl FCMP=gtk3 wrap-sdl
 
+qt-installer:
+	make GUI=qt FCMP=qt wrap-qt
+
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
 	make EXTRA_CONFIG="--enable-svnrev" all
@@ -57,6 +60,7 @@ build-freeciv-gtk2: build-freeciv-common
 
 build-freeciv-sdl: build-freeciv-common
 
+build-freeciv-qt: build-freeciv-common
 
 # install Freeciv
 
@@ -90,6 +94,7 @@ install-freeciv-sdl: install-freeciv-common
 	cp /opt/un-fonts/UnDotum.ttf install-sdl/data/themes/gui-sdl/human/
 	cp /opt/un-fonts/COPYING install-sdl/data/themes/gui-sdl/human/COPYING.UnDotum
 
+install-freeciv-qt: install-freeciv-common
 
 # install Freeciv environment
 
@@ -183,6 +188,17 @@ install-env-sdl: install-env-default-fcmp
 	# add DLLs
 	cp -R $(addprefix /bin/, $(SDL_DLLS)) install-$(GUI)
 
+QT_DLLS := \
+	libstdc++-6.dll \
+	Qt5Core.dll \
+	Qt5Gui.dll \
+	Qt5Widgets.dll
+
+install-env-qt: install-env-default-fcmp
+	# add DLLs
+	cp -R $(addprefix /bin/, $(QT_DLLS)) install-$(GUI)
+	# add additional Qt files
+	cp -R /plugins install-$(GUI)/
 
 # build installer
 	
@@ -201,6 +217,8 @@ wrap-gtk2: build-freeciv-gtk2 installer-common
 
 wrap-sdl: build-freeciv-sdl installer-common
 
+wrap-qt: build-freeciv-qt installer-common
+
 
 # cleanup
 
@@ -218,3 +236,4 @@ clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl clean-build-common clean-install-common clean-installer-common
+	make GUI=qt clean-build-common clean-install-common clean-installer-common
