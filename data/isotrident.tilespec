@@ -24,8 +24,8 @@ is_hex = FALSE
 ; Was old iso style
 fog_style      = "Darkness"
 
-; Was darkness style 1 (single-sprite)
-darkness_style = 4
+; Was darkness style "IsoRect" (single-sprite)
+darkness_style = "Corner"
 ; Which terrain layer darkness is drawn top of (0-2)
 darkness_layer = 0
  

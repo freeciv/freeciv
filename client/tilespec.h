@@ -63,6 +63,27 @@ struct resource;
 #define SPECENUM_VALUE2NAME "Darkness"
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME darkness_style
+/* No darkness sprites are drawn. */
+#define SPECENUM_VALUE0 DARKNESS_NONE
+#define SPECENUM_VALUE0NAME "None"
+/* 1 sprite that is split into 4 parts and treated as a darkness4.  Only
+ * works in iso-view. */
+#define SPECENUM_VALUE1 DARKNESS_ISORECT
+#define SPECENUM_VALUE1NAME "IsoRect"
+/* 4 sprites, one per direction.  More than one sprite per tile may be
+ * drawn. */
+#define SPECENUM_VALUE2 DARKNESS_CARD_SINGLE
+#define SPECENUM_VALUE2NAME "CardinalSingle"
+/* 15=2^4-1 sprites.  A single sprite is drawn, chosen based on whether
+ * there's darkness in _each_ of the cardinal directions. */
+#define SPECENUM_VALUE3 DARKNESS_CARD_FULL
+#define SPECENUM_VALUE3NAME "CardinalFull"
+/* Corner darkness & fog.  3^4 = 81 sprites. */
+#define SPECENUM_VALUE4 DARKNESS_CORNER
+#define SPECENUM_VALUE4NAME "Corner"
+#include "specenum_gen.h"
+
 /* An edge is the border between two tiles.  This structure represents one
  * edge.  The tiles are given in the same order as the enumeration name. */
 enum edge_type {

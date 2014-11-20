@@ -104,17 +104,20 @@ options include:
                                        tx.fog sprite is used for this.
                           "Darkness" : No fog, or fog from darkness_style = 4.
   darkness_style        : Specifies how "encroaching darkness" is drawn.
-                          0 : No darkness.
-                          1 : A single sprite can be split into 4 parts, each
-                              containing the darkness for that particular
-                              cardinal direction. (Iso-view only.)
-                          2 : Four different sprites exist, each holding the
-                              darkness for a particular direction. Any or all
-                              of the sprites may be drawn.
-                          3 : The sprite is chosen based on the vector sum of
-                              the darkness in all 4 cardinal directions. 15
-                              different sprites are needed.
-                          4 : Corner darkness & fog, 81 sprites needed.
+                          "None"           : No darkness.
+                          "IsoRect"        : A single sprite can be split into 4
+                                             parts, each containing the darkness
+                                             for that particular cardinal direction.
+                                             (Iso-view only.)
+                          "CardinalSingle" : Four different sprites exist, each
+                                             holding the darkness for a particular
+                                             direction. Any or all of the sprites
+                                             may be drawn.
+                          "CardinalFull"   : The sprite is chosen based on the vector
+                                             sum of the darkness in all 4 cardinal
+                                             directions. 15 different sprites are
+                                             needed.
+                          "Corner"         : Corner darkness & fog, 81 sprites needed.
   unit_flag_offset_x   : Gives an offset from the tile origin at which to
   unit_flag_offset_y     draw flags behind units or cities. With isometric
   city_flag_offset_x     tilesets this should be non-zero so that the flag

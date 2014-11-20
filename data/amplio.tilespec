@@ -23,7 +23,7 @@ is_hex = FALSE
 
 ; Blended fog
 fog_style      = "Darkness"
-darkness_style = 4
+darkness_style = "Corner"
 ; Which terrain layer darkness is drawn top of (0-2)
 darkness_layer = 0
 

@@ -383,27 +383,6 @@ struct named_sprites {
   struct drawing_data *drawing[MAX_NUM_ITEMS];
 };
 
-/* Darkness style.  Don't reorder this enum since tilesets depend on it. */
-enum darkness_style {
-  /* No darkness sprites are drawn. */
-  DARKNESS_NONE = 0,
-
-  /* 1 sprite that is split into 4 parts and treated as a darkness4.  Only
-   * works in iso-view. */
-  DARKNESS_ISORECT = 1,
-
-  /* 4 sprites, one per direction.  More than one sprite per tile may be
-   * drawn. */
-  DARKNESS_CARD_SINGLE = 2,
-
-  /* 15=2^4-1 sprites.  A single sprite is drawn, chosen based on whether
-   * there's darkness in _each_ of the cardinal directions. */
-  DARKNESS_CARD_FULL = 3,
-
-  /* Corner darkness & fog.  3^4 = 81 sprites. */
-  DARKNESS_CORNER = 4
-};
-
 struct specfile {
   struct sprite *big_sprite;
   char *file_name;
@@ -1521,7 +1500,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   enum direction8 dir;
   const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = NULL;
-  int ei2;
   const char *extraname;
   const char *tstr;
 
@@ -1665,23 +1643,24 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   t->fogstyle = fog_style_by_name(tstr, fc_strcasecmp);
   if (!fog_style_is_valid(t->fogstyle)) {
-    log_error("Tileset \"%s\": unknown fogstyle \"%s\"", t->name, tstr);
+    log_error("Tileset \"%s\": unknown fog_style \"%s\"", t->name, tstr);
     goto ON_ERROR;
   }
 
-  /* FIXME: use specenum to load this. */
-  if (!secfile_lookup_int(file, &ei2,
-                             "tilespec.darkness_style")) {
-    log_error("Tileset \"%s\" invalid darkness_style: %s", t->name, secfile_error());
+  tstr = secfile_lookup_str(file, "tilespec.darkness_style");
+  if (tstr == NULL) {
+    log_error("Tileset \"%s\": no darkness_style", t->name);
     goto ON_ERROR;
   }
 
-  t->darkness_style = ei2;
+  t->darkness_style = darkness_style_by_name(tstr, fc_strcasecmp);
+  if (!darkness_style_is_valid(t->darkness_style)) {
+    log_error("Tileset \"%s\": unknown darkness_style \"%s\"", t->name, tstr);
+    goto ON_ERROR;
+  }
 
-  if (t->darkness_style < DARKNESS_NONE
-      || t->darkness_style > DARKNESS_CORNER
-      || (t->darkness_style == DARKNESS_ISORECT
-          && (t->type == TS_OVERHEAD || t->hex_width > 0 || t->hex_height > 0))) {
+  if (t->darkness_style == DARKNESS_ISORECT
+      && (t->type == TS_OVERHEAD || t->hex_width > 0 || t->hex_height > 0)) {
     log_error("Invalid darkness style set in tileset \"%s\".", t->name);
     goto ON_ERROR;
   }
