@@ -15,14 +15,15 @@
 #include <fc_config.h>
 #endif
 
+/* SDL */
 #include "SDL.h"
+#include "SDL_ttf.h"
 
 /* utility */
 #include "log.h"
 #include "mem.h"
 
 /* client/gui-sdl2 */
-#include "SDL_ttf.h"
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -64,15 +65,15 @@ void canvas_free(struct canvas *store)
 ****************************************************************************/
 void canvas_set_zoom(struct canvas *store, float zoom)
 {
-  /* gtk2-client has no zoom support */
+  /* sdl2-client has no zoom support */
 }
 
 /**************************************************************************
   Copies an area from the source canvas to the destination canvas.
 **************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,
-		     int src_x, int src_y, int dest_x, int dest_y, int width,
-		     int height)
+                 int src_x, int src_y, int dest_x, int dest_y, int width,
+                 int height)
 {
   SDL_Rect src_rect = {src_x, src_y, width, height};
   SDL_Rect dest_rect = {dest_x, dest_y, width, height};
@@ -84,9 +85,9 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
   Draw some or all of a sprite onto the canvas.
 ****************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
-		    int canvas_x, int canvas_y,
-		    struct sprite *sprite,
-		    int offset_x, int offset_y, int width, int height)
+                       int canvas_x, int canvas_y,
+                       struct sprite *sprite,
+                       int offset_x, int offset_y, int width, int height)
 {
   SDL_Rect src = {offset_x, offset_y, width, height};
   SDL_Rect dst = {canvas_x + offset_x, canvas_y + offset_y, 0, 0};
@@ -98,8 +99,8 @@ void canvas_put_sprite(struct canvas *pcanvas,
   Draw a full sprite onto the canvas.
 ****************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
-			 int canvas_x, int canvas_y,
-			 struct sprite *sprite)
+                            int canvas_x, int canvas_y,
+                            struct sprite *sprite)
 {
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
 
@@ -111,9 +112,9 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
   fog.
 ****************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
-			      int canvas_x, int canvas_y,
-			      struct sprite *psprite,
-			      bool fog, int fog_x, int fog_y)
+                              int canvas_x, int canvas_y,
+                              struct sprite *psprite,
+                              bool fog, int fog_x, int fog_y)
 {
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
 
@@ -128,10 +129,10 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   Draw a filled-in colored rectangle onto canvas.
 ****************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
-		          int canvas_x, int canvas_y, int width, int height)
+                          int canvas_x, int canvas_y, int width, int height)
 {
   SDL_Rect dst = {canvas_x, canvas_y, width, height};
-  
+
   SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
                                                 pcolor->color->r,
                                                 pcolor->color->g,
@@ -143,16 +144,17 @@ void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct sprite *psprite, struct color *pcolor,
- 			     int canvas_x, int canvas_y)
+                             struct sprite *psprite, struct color *pcolor,
+                             int canvas_x, int canvas_y)
 {
-  SDL_Rect dst = {canvas_x, canvas_y, GET_SURF(psprite)->w,
-                                      GET_SURF(psprite)->h};
-                  
+  SDL_Rect dst = {canvas_x, canvas_y,
+                  GET_SURF(psprite)->w,
+                  GET_SURF(psprite)->h};
+
   SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
                                                 pcolor->color->r,
                                                 pcolor->color->g,
-		                                pcolor->color->b,
+                                                pcolor->color->b,
                                                 pcolor->color->a));
 }
 
@@ -160,10 +162,10 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   Draw a 1-pixel-width colored line onto the canvas.
 ****************************************************************************/
 void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
-		  enum line_type ltype, int start_x, int start_y,
-		  int dx, int dy)
+                     enum line_type ltype, int start_x, int start_y,
+                     int dx, int dy)
 {
-  //  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color);
+  /*  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color); */
 }
 
 /****************************************************************************
@@ -183,7 +185,7 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
 void get_text_size(int *width, int *height,
-		   enum client_font font, const char *text)
+                   enum client_font font, const char *text)
 {
   SDL_String16 *pText = create_string16(NULL, 0, *fonts[font]);
   copy_chars_to_string16(pText, text);
@@ -194,7 +196,7 @@ void get_text_size(int *width, int *height,
   if (height) {
     *height = str16size(pText).h;
   }
-  
+
   FREESTRING16(pText);
 }
 
@@ -204,20 +206,20 @@ void get_text_size(int *width, int *height,
   take care of this manually.  The text will not be NULL but may be empty.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, struct color *pcolor,
-		     const char *text)
+                     enum client_font font, struct color *pcolor,
+                     const char *text)
 {
   SDL_Surface *pTmp;
   SDL_String16 *pText = create_string16(NULL, 0, *fonts[font]);
   copy_chars_to_string16(pText, text);
-    
+
   pText->fgcol = *pcolor->color;
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
- 
+
   pTmp = create_text_surf_from_str16(pText);
-  
+
   blit_entire_src(pTmp, pcanvas->surf, canvas_x, canvas_y);
 
-  FREESTRING16(pText);  
+  FREESTRING16(pText);
   FREESURFACE(pTmp);
 }

@@ -15,14 +15,15 @@
 #include <fc_config.h>
 #endif
 
+/* SDL */
 #include "SDL.h"
+#include "SDL_ttf.h"
 
 /* utility */
 #include "log.h"
 #include "mem.h"
 
 /* client/gui-sdl */
-#include "SDL_ttf.h"
 #include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
