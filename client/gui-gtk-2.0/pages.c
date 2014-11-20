@@ -274,7 +274,7 @@ GtkWidget *create_main_page(void)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(connect_network_game_callback), NULL);
 
-  button = gtk_button_new_with_mnemonic(_("Local Settings"));
+  button = gtk_button_new_with_mnemonic(_("Client Settings"));
   gtk_size_group_add_widget(size, button);
   gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
   g_signal_connect(button, "clicked", open_settings, NULL);
