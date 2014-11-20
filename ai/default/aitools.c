@@ -253,7 +253,7 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
 #define LOGLEVEL_GOTHERE LOG_DEBUG
 /****************************************************************************
   This is ferry-enabled goto.  Should not normally be used for non-ferried 
-  units (i.e. planes or ships), use ai_unit_goto instead.
+  units (i.e. planes or ships), use dai_unit_goto instead.
 
   Return values: TRUE if got to or next to our destination, FALSE otherwise. 
 
@@ -627,7 +627,7 @@ bool dai_unit_goto(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   struct pf_parameter parameter;
   struct adv_risk_cost risk_cost;
 
-  UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", TILE_XY(ptile));
+  UNIT_LOG(LOG_DEBUG, punit, "dai_unit_goto to %d,%d", TILE_XY(ptile));
   dai_fill_unit_param(ait, &parameter, &risk_cost, punit, ptile);
 
   return dai_unit_goto_constrained(ait, punit, ptile, &parameter);
