@@ -50,7 +50,7 @@ bool api_server_was_started(lua_State *L)
 }
 
 /*****************************************************************************
-  Save the game (a manual save is triggert).
+  Save the game (a manual save is triggered).
 *****************************************************************************/
 bool api_server_save(lua_State *L, const char *filename)
 {
