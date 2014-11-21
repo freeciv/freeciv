@@ -1105,6 +1105,9 @@ static bool save_nations_ruleset(const char *filename, const char *name,
       save_name_translation(sfile, &(pgroup->name), path);
 
       secfile_insert_int(sfile, pgroup->server.match, "%s.match", path);
+      if (pgroup->hidden) {
+        secfile_insert_bool(sfile, pgroup->hidden, "%s.hidden", path);
+      }
     } nation_groups_iterate_end;
 
     sect_idx = 0;
