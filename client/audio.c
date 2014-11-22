@@ -493,7 +493,7 @@ void audio_play_music(const char *const tag, char *const alt_tag)
   current_track = audio_play_music_tag(tag, TRUE);
 
   if (current_track < 0) {
-    current_track = audio_play_music_tag(tag, TRUE);
+    current_track = audio_play_music_tag(alt_tag, TRUE);
 
     if (current_track < 0) {
       log_verbose("Neither of tags %s or %s found", tag, pretty_alt_tag);
