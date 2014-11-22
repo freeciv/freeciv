@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-17 22:40+0000\n"
+"POT-Creation-Date: 2014-11-22 13:50+0000\n"
 "PO-Revision-Date: 2014-11-17 22:50+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -3667,7 +3667,7 @@ msgid "Show _All Cities"
 msgstr "Show _All Cities"
 
 #: client/gui-gtk-2.0/gotodlg.c:333 client/gui-gtk-3.0/gotodlg.c:338
-#: client/gui-qt/mapview.cpp:1705 client/text.c:1130
+#: client/gui-qt/mapview.cpp:1710 client/text.c:1130
 msgid "No units selected."
 msgstr "No units selected."
 
@@ -6157,7 +6157,7 @@ msgid "MP:"
 msgstr "MP:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:2259 client/gui-qt/mapview.cpp:1576
+#: client/gui-qt/dialogs.cpp:2259 client/gui-qt/mapview.cpp:1581
 msgid "%1 HP:%2/%3"
 msgstr "%1 HP:%2/%3"
 
@@ -6247,20 +6247,20 @@ msgid ""
 msgstr ""
 "Shows your current luxury/science/tax rates. Use mouse wheel to change them"
 
-#: client/gui-qt/mapview.cpp:1200
+#: client/gui-qt/mapview.cpp:1205
 msgid "%1 (Turn:%2)"
 msgstr "%1 (Turn:%2)"
 
-#: client/gui-qt/mapview.cpp:1208
+#: client/gui-qt/mapview.cpp:1213
 msgid "Gold:%1 (+%2)"
 msgstr "Gold:%1 (+%2)"
 
-#: client/gui-qt/mapview.cpp:1212
+#: client/gui-qt/mapview.cpp:1217
 msgid "Gold:%1 (%2)"
 msgstr "Gold:%1 (%2)"
 
 #. TRANS: unitX from cityZ
-#: client/gui-qt/mapview.cpp:1572
+#: client/gui-qt/mapview.cpp:1577
 msgid "%1 from %2"
 msgstr "%1 from %2"
 
@@ -38329,7 +38329,8 @@ msgstr "Your %s has invalid orders."
 #: server/unittools.c:4082
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
-msgstr "Your unit may not act for another %s this turn. See /help unitwaittime."
+msgstr ""
+"Your unit may not act for another %s this turn. See /help unitwaittime."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..."
 #: server/voting.c:551
