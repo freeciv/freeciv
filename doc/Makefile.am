@@ -28,7 +28,6 @@ docs =				\
 	README.ruleset_civ2civ3	\
 	README.rulesets		\
 	README.scorelog		\
-	README.SDLClient	\
 	README.sound		\
 	TODO
 
