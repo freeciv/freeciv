@@ -580,6 +580,9 @@ modular, so there are some observations to do:
   in header files. It also means casts on void pointers (which should be
   avoided in C files) must be used in headers.
 
+- To assign null pointer, or to compare against one, use 'NULL' in C code,
+  and 'nullptr' in C++ code.
+
 - If you send patches, use "diff -u" (or "diff -r -u"). "svn diff" works
   correctly without extra parameters.
 
