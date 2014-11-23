@@ -1528,6 +1528,7 @@ AC_CONFIG_FILES([Makefile
 	  tools/freeciv-mp-gtk3.desktop:bootstrap/freeciv-mp-gtk3.desktop.in
 	  tools/freeciv-mp-gtk2.desktop:bootstrap/freeciv-mp-gtk2.desktop.in
 	  tools/freeciv-mp-qt.desktop:bootstrap/freeciv-mp-qt.desktop.in
+	  tools/ruledit/freeciv-ruledit.desktop:bootstrap/freeciv-ruledit.desktop.in
           client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
           client/freeciv-sdl.appdata.xml:bootstrap/freeciv-sdl.appdata.xml.in
@@ -1536,7 +1537,8 @@ AC_CONFIG_FILES([Makefile
           server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
           tools/freeciv-mp-gtk2.appdata.xml:bootstrap/freeciv-mp-gtk2.appdata.xml.in
           tools/freeciv-mp-gtk3.appdata.xml:bootstrap/freeciv-mp-gtk3.appdata.xml.in
-          tools/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in])
+          tools/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in
+          tools/ruledit/freeciv-ruledit.appdata.xml:bootstrap/freeciv-ruledit.appdata.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 if test "x$ruledit" = "xyes" ; then

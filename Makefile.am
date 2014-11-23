@@ -50,6 +50,7 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/freeciv-mp-gtk2.desktop.in	\
 		bootstrap/freeciv-mp-gtk3.desktop.in	\
 		bootstrap/freeciv-mp-qt.desktop.in	\
+		bootstrap/freeciv-ruledit.desktop.in	\
 		bootstrap/freeciv-gtk2.appdata.xml.in \
 		bootstrap/freeciv-gtk3.appdata.xml.in \
 		bootstrap/freeciv-sdl.appdata.xml.in \
@@ -59,6 +60,7 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/freeciv-mp-gtk2.appdata.xml.in \
 		bootstrap/freeciv-mp-gtk3.appdata.xml.in \
 		bootstrap/freeciv-mp-qt.appdata.xml.in \
+		bootstrap/freeciv-ruledit.appdata.xml.in \
 		bootstrap/freeciv.spec.in	\
 		bootstrap/config.rpath		\
 		bootstrap/Makerules.mk		\
