@@ -671,6 +671,9 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct unit_type *unit_type
            = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
   Continent_id place = tile_continent(pcenter);
+  struct ai_city *city_data = def_ai_city_data(pcity, ait);
+
+  city_data->settler_want = 0; /* Make sure old want does not stay if we don't want now */
 
   if (unit_type == NULL) {
     log_debug("No UTYF_SETTLERS role unit available");
@@ -712,7 +715,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
            adv->stats.cities[place]);
   fc_assert(want >= 0);
 
-  def_ai_city_data(pcity, ait)->settler_want = want;
+  city_data->settler_want = want;
 }
 
 /**************************************************************************
