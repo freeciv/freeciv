@@ -645,6 +645,9 @@ static void contemplate_terrain_improvements(struct city *pcity)
   struct adv_data *ai = adv_data_get(pplayer, NULL);
   struct unit_type *unit_type = best_role_unit(pcity, F_SETTLERS);
   Continent_id place = tile_continent(pcenter);
+  struct ai_city *city_data = def_ai_city_data(pcity);
+
+  city_data->settler_want = 0; /* Make sure old want does not stay if we don't want now */
 
   if (unit_type == NULL) {
     log_debug("No F_SETTLERS role unit available");
@@ -686,7 +689,7 @@ static void contemplate_terrain_improvements(struct city *pcity)
            ai->stats.cities[place]);
   fc_assert(want >= 0);
 
-  def_ai_city_data(pcity)->settler_want = want;
+  city_data->settler_want = want;
 }
 
 /**************************************************************************
