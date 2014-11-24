@@ -72,13 +72,10 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
     cairo_save(cr);
   }
 
-  cairo_rectangle(cr,
-                  dest_x * dest->zoom / src->zoom, dest_y * dest->zoom / src->zoom,
-                  width, height);
   cairo_scale(cr, dest->zoom / src->zoom, dest->zoom / src->zoom);
-  cairo_clip(cr);
-  cairo_set_source_surface(cr, src->surface, dest_x-src_x, dest_y-src_y);
-  cairo_paint(cr);
+  cairo_set_source_surface(cr, src->surface, dest_x - src_x, dest_y - src_y);
+  cairo_rectangle(cr, dest_x, dest_y, width, height);
+  cairo_fill(cr);
 
   if (!dest->drawable) {
     cairo_destroy(cr);
@@ -110,15 +107,12 @@ void canvas_put_sprite(struct canvas *pcanvas,
     cairo_save(cr);
   }
 
-  cairo_rectangle(cr,
-                  offset_x + canvas_x * pcanvas->zoom,
-                  offset_y + canvas_y * pcanvas->zoom,
-                  MIN(width, MAX(0, sswidth - offset_x)) * pcanvas->zoom,
-                  MIN(height, MAX(0, ssheight - offset_y)) * pcanvas->zoom);
-  cairo_clip(cr);
   cairo_scale(cr, pcanvas->zoom, pcanvas->zoom);
-  cairo_set_source_surface(cr, sprite->surface, canvas_x, canvas_y);
-  cairo_paint(cr);
+  cairo_set_source_surface(cr, sprite->surface, canvas_x - offset_x, canvas_y - offset_y);
+  cairo_rectangle(cr, canvas_x - offset_x, canvas_y - offset_y,
+                  MIN(width, MAX(0, sswidth - offset_x)),
+                  MIN(height, MAX(0, ssheight - offset_y)));
+  cairo_fill(cr);
 
   if (!pcanvas->drawable) {
     cairo_destroy(cr);
@@ -173,10 +167,9 @@ void canvas_put_rectangle(struct canvas *pcanvas,
     cairo_save(cr);
   }
 
-  gdk_cairo_set_source_rgba(cr, &pcolor->color);
-  cairo_rectangle(cr, canvas_x * pcanvas->zoom, canvas_y * pcanvas->zoom,
-                  width, height);
   cairo_scale(cr, pcanvas->zoom, pcanvas->zoom);
+  gdk_cairo_set_source_rgba(cr, &pcolor->color);
+  cairo_rectangle(cr, canvas_x, canvas_y, width, height);
   cairo_fill(cr);
 
   if (!pcanvas->drawable) {
