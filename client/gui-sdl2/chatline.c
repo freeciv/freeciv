@@ -89,6 +89,7 @@ static int move_load_game_dlg_callback(struct widget *pWindow)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     move_window_group(pLoadDialog->pBeginWidgetList, pWindow);
   }
+
   return -1;
 }
 
@@ -102,7 +103,7 @@ void popdown_load_game_dialog(void)
     FC_FREE(pLoadDialog->pScroll);
     FC_FREE(pLoadDialog);
 
-    /* enable buttons */  
+    /* enable buttons */
     set_wstate(pConnDlg->pBackButton, FC_WS_NORMAL);
     widget_redraw(pConnDlg->pBackButton);
     widget_mark_dirty(pConnDlg->pBackButton);
@@ -129,6 +130,7 @@ static int exit_load_dlg_callback(struct widget *pWidget)
       popdown_load_game_dialog();
     }
   }
+
   return -1;
 }
 
@@ -142,7 +144,7 @@ static int load_selected_game_callback(struct widget *pWidget)
 
     if (is_server_running()) {
       send_chat_printf("/load %s", filename);
-      
+
       if (get_client_page() == PAGE_LOAD) {
         set_client_page(PAGE_START);
       } else if (get_client_page() == PAGE_START) {
@@ -152,6 +154,7 @@ static int load_selected_game_callback(struct widget *pWidget)
       set_client_page(PAGE_MAIN);
     }
   }
+
   return -1;
 }
 
@@ -165,19 +168,19 @@ static void popup_load_game_dialog(void)
   struct widget *pFilenameLabel = NULL;
   struct widget *pFirstLabel = NULL;
   struct widget *pLastLabel = NULL;
-  struct widget *pNextLabel = NULL; 
+  struct widget *pNextLabel = NULL;
   SDL_String16 *pTitle, *pFilename;
   SDL_Rect area;
   struct fileinfo_list *files;
   int count = 0;
   int scrollbar_width = 0;
   int max_label_width = 0;
-  
+
   if (pLoadDialog) {
     return;
   }
 
-  /* disable buttons */  
+  /* disable buttons */
   set_wstate(pConnDlg->pBackButton, FC_WS_DISABLED);
   widget_redraw(pConnDlg->pBackButton);
   widget_mark_dirty(pConnDlg->pBackButton);
@@ -190,13 +193,13 @@ static void popup_load_game_dialog(void)
   set_wstate(pConnDlg->pStartButton, FC_WS_DISABLED);
   widget_redraw(pConnDlg->pStartButton);
   widget_mark_dirty(pConnDlg->pStartButton);
-  
+
   /* create dialog */
   pLoadDialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   pTitle = create_str16_from_char(_("Choose Saved Game to Load"), adj_font(12));
   pTitle->style |= TTF_STYLE_BOLD;
-  
+
   pWindow = create_window_skeleton(NULL, pTitle, 0);
   pWindow->action = move_load_game_dlg_callback; 
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -206,7 +209,7 @@ static void popup_load_game_dialog(void)
   pLoadDialog->pEndWidgetList = pWindow;
 
   area = pWindow->area;
-  
+
   /* close button */
   pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
@@ -216,7 +219,7 @@ static void popup_load_game_dialog(void)
   pCloseButton->action = exit_load_dlg_callback;
   set_wstate(pCloseButton, FC_WS_NORMAL);
   pCloseButton->key = SDLK_ESCAPE;
-  
+
   add_to_gui_list(ID_BUTTON, pCloseButton);
 
   area.w += pCloseButton->size.w;
@@ -236,19 +239,19 @@ static void popup_load_game_dialog(void)
     pFilename->style |= SF_CENTER;
     pFilenameLabel = create_iconlabel(NULL, pWindow->dst, pFilename,
       (WF_FREE_DATA | WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
-     
+
     /* store filename */
     pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
     fc_strlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
-    
+
     pFilenameLabel->action = load_selected_game_callback;
-     
+
     set_wstate(pFilenameLabel, FC_WS_NORMAL);
-    
+
     /* FIXME: this was supposed to be add_widget_to_vertical_scroll_widget_list(), but
      * add_widget_to_vertical_scroll_widget_list() needs the scrollbar area to be defined
      * for updating the scrollbar position, but the area is not known yet (depends on
-     * maximum label width) */ 
+     * maximum label width) */
     add_to_gui_list(ID_LABEL, pFilenameLabel);
 
     if (count == 1) {
@@ -262,7 +265,7 @@ static void popup_load_game_dialog(void)
   pLastLabel = pFilenameLabel;
 
   area.w = MAX(area.w, max_label_width + scrollbar_width + 1);
-  
+
   if (count > 0) {
     area.h = (pLoadDialog->pScroll->active * pFilenameLabel->size.h) + adj_size(5);
   }
@@ -271,13 +274,13 @@ static void popup_load_game_dialog(void)
                 NULL,
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
-      
+
   area = pWindow->area;
-      
+
   setup_vertical_scrollbar_area(pLoadDialog->pScroll,
-    area.x + area.w - 1,
-    area.y + 1,
-    area.h - adj_size(2), TRUE);
+                                area.x + area.w - 1,
+                                area.y + 1,
+                                area.h - adj_size(2), TRUE);
 
   /* add filename labels to list */
   pFilenameLabel = pFirstLabel;
@@ -301,11 +304,11 @@ static void popup_load_game_dialog(void)
           area.x + 1,
           area.y + adj_size(2));
     }
-    
+
     if (pFilenameLabel == pLastLabel) {
       break;
     }
-         
+
     pFilenameLabel = pNextLabel;
   }
 
@@ -328,26 +331,27 @@ static void popup_load_game_dialog(void)
 }
 
 /**************************************************************************
-  Sent msg/command from imput dlg to server
+  Sent msg/command from input dlg to server
 **************************************************************************/
 static int inputline_return_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *theinput = NULL;
-  
+
     if (!pWidget->string16->text) {
       return -1;
     }
-  
+
     theinput = convert_to_chars(pWidget->string16->text);
-  
+
     if (theinput && *theinput) {
       send_chat(theinput);
-  
+
       output_window_append(ftc_any, theinput);
       FC_FREE(theinput);
     }
-  }  
+  }
+
   return -1;
 }
 
@@ -357,21 +361,21 @@ static int inputline_return_callback(struct widget *pWidget)
 void popup_input_line(void)
 {
   struct widget *pInput_Edit;
-  
+
   pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 0, adj_font(12),
                                           adj_size(400), 0);
-  
+
   pInput_Edit->size.x = (main_window_width() - pInput_Edit->size.w) / 2;
   pInput_Edit->size.y = (main_window_height() - pInput_Edit->size.h) / 2;
-  
-  if(edit(pInput_Edit) != ED_ESC) {
+
+  if (edit(pInput_Edit) != ED_ESC) {
     inputline_return_callback(pInput_Edit);
   }
-  
+
   widget_undraw(pInput_Edit);
   widget_mark_dirty(pInput_Edit);
   FREEWIDGET(pInput_Edit);
-  
+
   flush_dirty();
 }
 
@@ -387,7 +391,7 @@ void real_output_window_append(const char *astring,
   if (pConnDlg) {
     Uint16 *pUniStr;
     size_t n = strlen(astring);
-    
+
     n += 1;
     n *= 2;
     pUniStr = fc_calloc(1, n);
@@ -435,6 +439,7 @@ static int disconnect_conn_callback(struct widget *pWidget)
     flush_dirty();
     disconnect_from_server();
   }
+
   return -1;
 }
 
@@ -450,44 +455,44 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
   fc_assert_ret(n_alloc != 0);
 
   pStr = create_string16(pUniStr, n_alloc, adj_font(12));
-   
+
   if (convert_string_to_const_surface_width(pStr, pConnDlg->text_width - adj_size(5))) {
     SDL_String16 *pStr2;
     int count = 0;
     Uint16 **UniTexts = create_new_line_unistrings(pStr->text);
-    
+
     while (UniTexts[count]) {
       pStr2 = create_string16(UniTexts[count],
-      					unistrlen(UniTexts[count]) + 1, adj_font(12));
+                              unistrlen(UniTexts[count]) + 1, adj_font(12));
       pStr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf = create_themelabel2(NULL, pWindow->dst,
-  		pStr2, pConnDlg->text_width, 0,
-		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-      
+                                pStr2, pConnDlg->text_width, 0,
+                                (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+
       pBuf->size.w = pConnDlg->text_width;
       add_widget_to_vertical_scroll_widget_list(pConnDlg->pChat_Dlg, pBuf,
-			pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
-			pWindow->size.x + adj_size(10 + 60 + 10),
-		      	pWindow->size.y + adj_size(14));
+                        pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
+                        pWindow->size.x + adj_size(10 + 60 + 10),
+                        pWindow->size.y + adj_size(14));
       count++;
     }
     redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
-    			pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
+                 pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
     FREESTRING16(pStr);
   } else {
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_themelabel2(NULL, pWindow->dst,
-  		pStr, pConnDlg->text_width, 0,
-		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    
+                              pStr, pConnDlg->text_width, 0,
+                              (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+
     pBuf->size.w = pConnDlg->text_width;
-  
+
     if (add_widget_to_vertical_scroll_widget_list(pConnDlg->pChat_Dlg, pBuf,
-			pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
-			pWindow->size.x + adj_size(10 + 60 + 10),
-		      	pWindow->size.y + adj_size(14))) {
+                        pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
+                        pWindow->size.x + adj_size(10 + 60 + 10),
+                        pWindow->size.y + adj_size(14))) {
       redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
-    			pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
+                   pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
     } else {
       widget_redraw(pBuf);
       widget_mark_dirty(pBuf);
@@ -495,29 +500,28 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
   }
 
   flush_dirty();
-
 }
 
 /**************************************************************************
-  User interacted with connection dialog inptu field.
+  User interacted with connection dialog input field.
 **************************************************************************/
 static int input_edit_conn_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) { 
     if (pWidget->string16->text) {
       char theinput[256];
-      
+
       convertcopy_to_chars(theinput, sizeof(theinput), pWidget->string16->text);
 
       if (*theinput != '\0') {
         send_chat(theinput);
-        /*real_output_window_append(theinput);*/
       }
 
       FC_FREE(pWidget->string16->text);
       pWidget->string16->n_alloc = 0;
     }
   }
+
   return -1;
 }
 
@@ -529,6 +533,7 @@ static int start_game_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     send_chat("/start");
   }
+
   return -1;
 }
 
@@ -539,7 +544,8 @@ static int select_nation_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popup_races_dialog(client.conn.playing);
-  }  
+  }
+
   return -1;
 }
 
@@ -560,16 +566,17 @@ static int server_config_callback(struct widget *pWidget)
 static int load_game_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-//    set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);
-//    widget_redraw(pConnDlg->pLoadGameButton);        
-//    flush_dirty();
+    /* set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);
+     * widget_redraw(pConnDlg->pLoadGameButton);        
+     * flush_dirty(); */
     popup_load_game_dialog();
-  }  
+  }
+
   return -1;
 }
 
 /**************************************************************************
- Update the connected users list at pregame state.
+  Update the connected users list at pregame state.
 **************************************************************************/
 void real_conn_list_dialog_update(void)
 {
@@ -578,15 +585,15 @@ void real_conn_list_dialog_update(void)
       struct widget *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
       SDL_String16 *pStr = create_string16(NULL, 0, adj_font(12));
       bool create;
-      
+
       pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-    
+
       if (pConnDlg->pUsers_Dlg) {
         del_group(pConnDlg->pUsers_Dlg->pBeginActiveWidgetList,
-				pConnDlg->pUsers_Dlg->pEndActiveWidgetList);
+                  pConnDlg->pUsers_Dlg->pEndActiveWidgetList);
         pConnDlg->pUsers_Dlg->pActiveWidgetList = NULL;
         pConnDlg->pUsers_Dlg->pBeginWidgetList =
-      				pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
+          pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
       } else {
         pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -594,55 +601,53 @@ void real_conn_list_dialog_update(void)
         pConnDlg->pUsers_Dlg->pBeginWidgetList = pConnDlg->pBeginWidgetList;
 
         create_vertical_scrollbar(pConnDlg->pUsers_Dlg, 1,
-					pConnDlg->active, TRUE, TRUE);	
+                                  pConnDlg->active, TRUE, TRUE);
         pConnDlg->pUsers_Dlg->pEndWidgetList =
-				pConnDlg->pUsers_Dlg->pEndWidgetList->prev;
+          pConnDlg->pUsers_Dlg->pEndWidgetList->prev;
         setup_vertical_scrollbar_area(pConnDlg->pUsers_Dlg->pScroll,
-	  pWindow->size.x + pWindow->size.w - adj_size(30),
+          pWindow->size.x + pWindow->size.w - adj_size(30),
           pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
       }
-    
+
       hide_scrollbar(pConnDlg->pUsers_Dlg->pScroll);
       create = TRUE;
       conn_list_iterate(game.est_connections, pconn) {
-      
         copy_chars_to_string16(pStr, pconn->username);
-      
+
         pBuf = create_themelabel2(NULL, pWindow->dst, pStr, adj_size(100), 0,
-		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         clear_wflag(pBuf, WF_FREE_STRING);
-      
+
         pBuf->ID = ID_LABEL;
-      
+
         /* add to widget list */
-        if(create) {
+        if (create) {
           add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
             pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
             pWindow->area.x + pWindow->area.w - adj_size(130),
-		      		pWindow->size.y + adj_size(14));
-	  create = FALSE;
+            pWindow->size.y + adj_size(14));
+          create = FALSE;
         } else {
 	  add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
-		pBuf, pConnDlg->pUsers_Dlg->pBeginActiveWidgetList, FALSE,
-		pWindow->area.x + pWindow->area.w - adj_size(130),
-	      		pWindow->size.y + adj_size(14));
+                pBuf, pConnDlg->pUsers_Dlg->pBeginActiveWidgetList, FALSE,
+                pWindow->area.x + pWindow->area.w - adj_size(130),
+                pWindow->size.y + adj_size(14));
         }
-            
       } conn_list_iterate_end;
-  
+
       pConnDlg->pBeginWidgetList = pConnDlg->pUsers_Dlg->pBeginWidgetList;
       FREESTRING16(pStr);
 
 /* FIXME: implement the server settings dialog and then reactivate this part */
 #if 0
       if (ALLOW_CTRL == client.conn.access_level
-         || ALLOW_HACK == client.conn.access_level) {
-	set_wstate(pConnDlg->pConfigure, FC_WS_NORMAL);
+          || ALLOW_HACK == client.conn.access_level) {
+        set_wstate(pConnDlg->pConfigure, FC_WS_NORMAL);
       } else {
-	set_wstate(pConnDlg->pConfigure, FC_WS_DISABLED);
+        set_wstate(pConnDlg->pConfigure, FC_WS_DISABLED);
       }
 #endif
-          
+
       /* redraw */
       redraw_group(pConnDlg->pBeginWidgetList, pConnDlg->pEndWidgetList, 0);
 
@@ -650,9 +655,9 @@ void real_conn_list_dialog_update(void)
     } else {
       popup_conn_list_dialog();
     }
-    
+
     /* PAGE_LOAD -> the server was started from the main page to load a game */
-    if ((get_client_page() == PAGE_LOAD)) {
+    if (get_client_page() == PAGE_LOAD) {
       popup_load_game_dialog();
     }
   } else {
@@ -674,7 +679,6 @@ static void popup_conn_list_dialog(void)
   struct widget *pStartGameButton = NULL;
   struct widget *pSelectNationButton = NULL;
 /*  struct widget *pServerSettingsButton = NULL;*/
-
   SDL_String16 *pStr = NULL;
   int n;
   SDL_Rect area;
@@ -730,33 +734,34 @@ static void popup_conn_list_dialog(void)
            area.x - 1, area.y - 1, area.x + area.w, area.y + area.h,
            get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
 #endif
-  
+
   draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
-    
+
   /* -------------------------------- */
-  
+
   /* chat area */
-  
+
   pConnDlg->pChat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
-    
+
   n = conn_list_size(game.est_connections);
-  
-  {  
-    char cBuf[256];   
+
+  {
+    char cBuf[256];
+
     fc_snprintf(cBuf, sizeof(cBuf), _("Total users logged in : %d"), n);
     pStr = create_str16_from_char(cBuf, adj_font(12));
   }
-  
-  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  
-  pLabel = create_themelabel2(NULL, pWindow->dst,
-  		pStr, pConnDlg->text_width, 0,
-		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
-  widget_set_position(pLabel, adj_size(10), adj_size(14));  
-  
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+
+  pLabel = create_themelabel2(NULL, pWindow->dst,
+                              pStr, pConnDlg->text_width, 0,
+                              (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+
+  widget_set_position(pLabel, adj_size(10), adj_size(14));
+
   add_to_gui_list(ID_LABEL, pLabel);
-      
+
   pConnDlg->pChat_Dlg->pBeginWidgetList = pLabel;
   pConnDlg->pChat_Dlg->pEndWidgetList = pLabel;
   pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->pBeginWidgetList;
@@ -764,22 +769,22 @@ static void popup_conn_list_dialog(void)
 
   n = (pWindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
   pConnDlg->active = n;
-  
+
   create_vertical_scrollbar(pConnDlg->pChat_Dlg, 1,
-  					pConnDlg->active, TRUE, TRUE);	
-      
+                            pConnDlg->active, TRUE, TRUE);
+
   setup_vertical_scrollbar_area(pConnDlg->pChat_Dlg->pScroll,
-  		adj_size(10) + pConnDlg->text_width + 1,
-		adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
-  hide_scrollbar(pConnDlg->pChat_Dlg->pScroll);  
-  
+                adj_size(10) + pConnDlg->text_width + 1,
+                adj_size(14), pWindow->size.h - adj_size(44) - adj_size(40), FALSE);
+  hide_scrollbar(pConnDlg->pChat_Dlg->pScroll);
+
   /* -------------------------------- */
 
   /* input field */
 
   pBuf = create_edit_from_unichars(NULL, pWindow->dst,
-  		NULL, 0, adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
-			(WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
+                        NULL, 0, adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
+                        (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
 
   pBuf->size.x = adj_size(10);
   pBuf->size.y = pWindow->size.h - adj_size(40) - adj_size(5) - pBuf->size.h;
@@ -791,7 +796,7 @@ static void popup_conn_list_dialog(void)
   /* buttons */
 
   pBuf = create_themeicon_button_from_chars(pTheme->BACK_Icon, pWindow->dst,
-  				_("Back"), adj_font(12), 0);
+                                            _("Back"), adj_font(12), 0);
   pBuf->size.x = adj_size(10);
   pBuf->size.y = pWindow->size.h - adj_size(10) - pBuf->size.h;
   pConnDlg->pBackButton = pBuf;
@@ -802,7 +807,7 @@ static void popup_conn_list_dialog(void)
   pBackButton = pBuf;
 
   pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-  				_("Start"), adj_font(12), 0);
+                                            _("Start"), adj_font(12), 0);
   pBuf->size.x = pWindow->size.w - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pBackButton->size.y;
   pConnDlg->pStartButton = pBuf;
@@ -810,9 +815,9 @@ static void popup_conn_list_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
   pStartGameButton = pBuf;
-  
+
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-  				_("Pick Nation"), adj_font(12), 0);
+                                            _("Pick Nation"), adj_font(12), 0);
   pBuf->size.h = pStartGameButton->size.h;
   pBuf->size.x = pStartGameButton->size.x - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pStartGameButton->size.y;
@@ -823,7 +828,7 @@ static void popup_conn_list_dialog(void)
   pSelectNationButton = pBuf;
 
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-                                _("Load Game"), adj_font(12), 0);
+                                            _("Load Game"), adj_font(12), 0);
   pBuf->size.h = pSelectNationButton->size.h;
   pBuf->size.x = pSelectNationButton->size.x - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pSelectNationButton->size.y;
@@ -832,32 +837,33 @@ static void popup_conn_list_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
 
-  /* not implemented yet */ 
+  /* not implemented yet */
 #if 0
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst,
-  				_("Server Settings"), adj_font(12), 0);
+                                            _("Server Settings"),
+                                            adj_font(12), 0);
   pBuf->size.h = pSelectNationButton->size.h;
   pBuf->size.x = pSelectNationButton->size.x - adj_size(10) - pBuf->size.w;
   pBuf->size.y = pSelectNationButton->size.y;
   pConnDlg->pConfigure = pBuf;
   pBuf->action = server_config_callback;
-  set_wstate(pBuf, FC_WS_DISABLED);  
+  set_wstate(pBuf, FC_WS_DISABLED);
   add_to_gui_list(ID_BUTTON, pBuf);
   pServerSettingsButton = pBuf;
-#endif 
- 
+#endif
+
   /* not implemented yet */
-#if 0  
+#if 0
   pBuf = create_themeicon_button_from_chars(NULL, pWindow->dst->surface,
-  				"?", adj_font(12), 0);
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + 7); 
+                                            "?", adj_font(12), 0);
+  pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + 7);
   pBuf->size.x = pWindow->size.x + pWindow->size.w - (pBuf->size.w + 10) - 5;
-  
+
   pBuf->action = client_config_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
 #endif
-    
+
   pConnDlg->pBeginWidgetList = pBuf;
   /* ------------------------------------------------------------ */
 
@@ -870,27 +876,27 @@ static void popup_conn_list_dialog(void)
 bool popdown_conn_list_dialog(void)
 {
   if (pConnDlg) {
-    
     if (get_wstate(pConnDlg->pEdit) == FC_WS_PRESSED) {
       force_exit_from_event_loop();
     }
-    
+
     popdown_window_group_dialog(pConnDlg->pBeginWidgetList,
-			                pConnDlg->pEndWidgetList);
+                                pConnDlg->pEndWidgetList);
     if (pConnDlg->pUsers_Dlg) {
       FC_FREE(pConnDlg->pUsers_Dlg->pScroll);
       FC_FREE(pConnDlg->pUsers_Dlg);
     }
-    
+
     if (pConnDlg->pChat_Dlg) {
       FC_FREE(pConnDlg->pChat_Dlg->pScroll);
       FC_FREE(pConnDlg->pChat_Dlg);
     }
-    
+
     FC_FREE(pConnDlg);
+
     return TRUE;
   }
-  
+
   return FALSE;
 }
 
