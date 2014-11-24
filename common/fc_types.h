@@ -424,8 +424,6 @@ struct universal {
   enum universals_n kind;		/* formerly .type and .is_unit */
 };
 
-struct ai_choice;			/* incorporates universals_u */
-
 /* Used in the network protocol. */
 BV_DEFINE(bv_extras, MAX_EXTRA_TYPES);
 BV_DEFINE(bv_special, MAX_EXTRA_TYPES);
