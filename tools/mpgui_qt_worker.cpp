@@ -46,7 +46,7 @@ void mpqt_worker::run()
   errmsg = download_modpack(URL.toUtf8().data(),
 			    fcmp, msg_callback, pb_callback);
 
-  if (errmsg != NULL) {
+  if (errmsg != nullptr) {
     msg_callback(errmsg);
   } else {
     msg_callback(_("Ready"));
