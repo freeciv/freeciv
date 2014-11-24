@@ -49,7 +49,7 @@ struct fcmp_params fcmp = { MODPACK_LIST_URL, NULL, NULL };
 
 static mpgui *gui;
 
-static mpqt_worker *worker = NULL;
+static mpqt_worker *worker = nullptr;
 
 static int mpcount = 0;
 
@@ -113,13 +113,13 @@ int main(int argc, char **argv)
     main_window->setVisible(true);
 
     errmsg = download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
-    if (errmsg != NULL) {
+    if (errmsg != nullptr) {
       gui->display_msg(errmsg);
     }
 
     qapp->exec();
 
-    if (worker != NULL) {
+    if (worker != nullptr) {
       if (worker->isRunning()) {
         worker->wait();
       }
@@ -170,10 +170,10 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   char verbuf[2048];
   const char *rev_ver = fc_svn_revision();
 
-  if (rev_ver == NULL) {
+  if (rev_ver == nullptr) {
     rev_ver = fc_git_revision();
 
-    if (rev_ver == NULL) {
+    if (rev_ver == nullptr) {
       fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
     } else {
       fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
@@ -213,7 +213,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   hl->addWidget(URL_label);
 
   URLedit = new QLineEdit(central);
-  if (fcmp->autoinstall == NULL) {
+  if (fcmp->autoinstall == nullptr) {
     URLedit->setText(DEFAULT_URL_START);
   } else {
     URLedit->setText(QString::fromUtf8(fcmp->autoinstall));
@@ -262,7 +262,7 @@ void mpgui::progress(int downloaded, int max)
 **************************************************************************/
 static void gui_download_modpack(QString URL)
 {
-  if (worker != NULL) {
+  if (worker != nullptr) {
     if (worker->isRunning()) {
       gui->display_msg(_("Another download already active"));
       return;
@@ -298,7 +298,7 @@ void mpgui::refresh_list_versions()
     type = (enum modpack_type) type_int;
     new_inst = get_installed_version(name_str.toUtf8().data(), type);
 
-    if (new_inst == NULL) {
+    if (new_inst == nullptr) {
       new_inst = _("Not installed");
     }
 
@@ -329,7 +329,7 @@ void mpgui::setup_list(const char *name, const char *URL,
     type_str = _("?");
   }
 
-  if (license != NULL) {
+  if (license != nullptr) {
     lic_str = license;
   } else {
     /* TRANS: License of modpack is not known */
@@ -337,7 +337,7 @@ void mpgui::setup_list(const char *name, const char *URL,
   }
 
   inst_str = get_installed_version(name, type);
-  if (inst_str == NULL) {
+  if (inst_str == nullptr) {
     inst_str = _("Not installed");
   }
 
