@@ -108,6 +108,10 @@ If a AI type wants to add its own data associated with some code structure, it n
 to make sure data needed by default AI is in the beginning of the allocated data blocks.
 For example, see threaded AI: tai_player_alloc(), tai_player_free(), and struct tai_plr.
 
+Default AI code is usually built in freeciv only if some AI type using it has been built;
+either 'classic' or 'threaded'. If no such ai type has been built, you can still force
+it in for custom ai types to use by passing configure option --with-ai-lib
+
 
 6. Callback interface ChangeLog
 -------------------------------
