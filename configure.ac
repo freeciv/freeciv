@@ -414,6 +414,10 @@ AC_ARG_WITH([default-ai],
   [default_ai_set="${withval}"],
   [])
 
+AC_ARG_WITH([ai-lib],
+  AS_HELP_STRING([--with-ai-lib], [build in default AI code [if needed]]),
+  [ai_mod_default_needed=yes], [])
+
 AM_CONDITIONAL([AI_MOD_DEFAULT_NEEDED],
 [test  "x${ai_mod_default_needed}" = "xyes" || test "x${default_ai_set}" = "x"])
 

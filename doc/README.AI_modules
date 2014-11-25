@@ -91,6 +91,10 @@ bool fc_ai_<modulename>_setup(struct ai_type *ai)
 For "--LoadAI <modulename>" to find the AI module, it must reside in ${libdir}/fcai/
 (/usr/lib/fcai by default) under name fc_ai_<modulename>.so
 
+Default AI code is usually built in freeciv only if some AI type using it has been built;
+either 'classic' or 'threaded'. If no such ai type has been built, you can still force
+it in for custom ai types to use by passing configure option --with-ai-lib
+
 
 5. Using default AI as part of new AI module
 --------------------------------------------
