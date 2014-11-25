@@ -22,7 +22,9 @@
 #ifndef FC__COLORS_H
 #define FC__COLORS_H
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
+
 #include "themecolors.h"
 
 #include "colors_g.h"

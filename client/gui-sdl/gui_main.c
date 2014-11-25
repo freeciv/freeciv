@@ -37,7 +37,8 @@
 #include <winsock.h>
 #endif
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
 
 /* utility */
 #include "fciconv.h"

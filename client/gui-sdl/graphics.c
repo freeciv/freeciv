@@ -25,8 +25,10 @@
 #include <fc_config.h>
 #endif
 
-#include "SDL_image.h"
-#include "SDL_syswm.h"
+/* SDL */
+#include <SDL_image.h>
+#include <SDL_syswm.h>
+#include <SDL_ttf.h>
 
 /* utility */
 #include "fcintl.h"
@@ -36,7 +38,6 @@
 #include "tilespec.h"
 
 /* gui-sdl */
-#include "SDL_ttf.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "themebackgrounds.h"

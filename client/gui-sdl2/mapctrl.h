@@ -22,7 +22,8 @@
 #ifndef FC__MAPCTRL_H
 #define FC__MAPCTRL_H
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
 
 /* common */
 #include "fc_types.h"

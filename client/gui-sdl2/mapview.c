@@ -24,7 +24,7 @@
 #endif
 
 /* SDL */
-#include "SDL.h"
+#include <SDL.h>
 
 /* utility */
 #include "astring.h"

@@ -15,8 +15,9 @@
 #include <fc_config.h>
 #endif
 
-#include "SDL.h"
-#include "SDL_image.h"
+/* SDL */
+#include <SDL.h>
+#include <SDL_image.h>
 
 /* utility */
 #include "fcintl.h"

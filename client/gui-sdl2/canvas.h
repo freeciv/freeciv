@@ -14,12 +14,13 @@
 #ifndef FC__CANVAS_H
 #define FC__CANVAS_H
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
 
 #include "canvas_g.h"
 
 struct canvas {
   SDL_Surface *surf;
 };
-    
-#endif				/* FC__CANVAS_H */
+
+#endif /* FC__CANVAS_H */

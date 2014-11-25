@@ -23,7 +23,8 @@
 #include <fc_config.h>
 #endif
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
 
 #include "log.h"
 

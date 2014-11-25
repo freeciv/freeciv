@@ -25,12 +25,12 @@
 
 #include <string.h>
 
-#include "SDL_types.h"
+/* SDL */
+#include <SDL_types.h>
 
 /* utility */
 #include "mem.h"
 
-/* gui-sdl */
 
 #include "unistring.h"
 

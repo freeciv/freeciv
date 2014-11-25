@@ -24,10 +24,10 @@
 #ifndef FC__GRAPHICS_H
 #define FC__GRAPHICS_H
 
-#include "graphics_g.h"
+#include <SDL2_gfxPrimitives.h>
+#include <SDL2_rotozoom.h>
 
-#include "SDL2_gfxPrimitives.h"
-#include "SDL2_rotozoom.h"
+#include "graphics_g.h"
 #include "canvas.h"
 #include "gui_main.h"
 
