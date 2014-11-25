@@ -4308,3 +4308,11 @@ void handle_vote_resolve(int vote_no, bool passed)
 
   voteinfo_gui_update();
 }
+
+/**************************************************************************
+  Play suitable music
+**************************************************************************/
+void handle_play_music(const char *tag)
+{
+  play_single_track(tag);
+}

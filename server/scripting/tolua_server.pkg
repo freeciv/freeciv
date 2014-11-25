@@ -43,6 +43,8 @@ module server {
     @ started (lua_State *L);
   int api_server_player_civilization_score
     @ civilization_score (lua_State *L, Player *pplayer);
+  bool api_play_music
+    @ play_music (lua_State *L, Player *pplayer, const char *tag);
 
   module setting {
     const char *api_server_setting_get

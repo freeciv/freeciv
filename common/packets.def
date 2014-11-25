@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 244
+Max id: 245
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -2076,4 +2076,10 @@ end
 PACKET_EDIT_OBJECT_CREATED = 219; sc, dsend
   SINT32 tag;
   SINT32 id;
+end
+
+/************** Client Activity Requests **********************/
+
+PACKET_PLAY_MUSIC = 245; sc, lsend
+  STRING tag[MAX_LEN_NAME];
 end

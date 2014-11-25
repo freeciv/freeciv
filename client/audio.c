@@ -61,7 +61,7 @@ static struct mfcb_data
 
 static int audio_play_tag(struct section_file *sfile,
                           const char *tag, bool repeat,
-                          int exclude);
+                          int exclude, bool keepstyle);
 
 /**********************************************************************
   Returns a static string vector of all sound plugins
@@ -364,7 +364,8 @@ void audio_restart(const char *soundset_name, const char *musicset_name)
 **************************************************************************/
 static void music_finished_callback(void)
 {
-  current_track = audio_play_tag(mfcb.sfile, mfcb.tag, TRUE, current_track);
+  current_track = audio_play_tag(mfcb.sfile, mfcb.tag, TRUE, current_track,
+                                 FALSE);
 }
 
 /**************************************************************************
@@ -372,7 +373,8 @@ static void music_finished_callback(void)
   there's no alternative tags, or negative value in case of error.
 **************************************************************************/
 static int audio_play_tag(struct section_file *sfile,
-                          const char *tag, bool repeat, int exclude)
+                          const char *tag, bool repeat, int exclude,
+                          bool keepstyle)
 {
   const char *soundfile;
   const char *fullpath = NULL;
@@ -419,8 +421,10 @@ static int audio_play_tag(struct section_file *sfile,
           ret++;
         }
         if (repeat) {
-          mfcb.sfile = sfile;
-          mfcb.tag = tag;
+          if (!keepstyle) {
+            mfcb.sfile = sfile;
+            mfcb.tag = tag;
+          }
           cb = music_finished_callback;
         }
       }
@@ -447,15 +451,16 @@ static int audio_play_tag(struct section_file *sfile,
 **************************************************************************/
 static bool audio_play_sound_tag(const char *tag, bool repeat)
 {
-  return (audio_play_tag(ss_tagfile, tag, repeat, -1) >= 0);
+  return (audio_play_tag(ss_tagfile, tag, repeat, -1, FALSE) >= 0);
 }
 
 /**************************************************************************
   Play tag from music set
 **************************************************************************/
-static int audio_play_music_tag(const char *tag, bool repeat)
+static int audio_play_music_tag(const char *tag, bool repeat,
+                                bool keepstyle)
 {
-  return audio_play_tag(ms_tagfile, tag, repeat, -1);
+  return audio_play_tag(ms_tagfile, tag, repeat, -1, keepstyle);
 }
 
 /**************************************************************************
@@ -479,9 +484,11 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 }
 
 /**************************************************************************
-  Loop sound sample as suggested by sound tags
+  Play music, either in loop or just one track in the middle of the style
+  music.
 **************************************************************************/
-void audio_play_music(const char *const tag, char *const alt_tag)
+static void real_audio_play_music(const char *const tag, char *const alt_tag,
+                                  bool keepstyle)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
@@ -490,15 +497,31 @@ void audio_play_music(const char *const tag, char *const alt_tag)
   log_debug("audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 
   /* try playing primary tag first, if not go to alternative tag */
-  current_track = audio_play_music_tag(tag, TRUE);
+  current_track = audio_play_music_tag(tag, TRUE, keepstyle);
 
   if (current_track < 0) {
-    current_track = audio_play_music_tag(alt_tag, TRUE);
+    current_track = audio_play_music_tag(alt_tag, TRUE, keepstyle);
 
     if (current_track < 0) {
       log_verbose("Neither of tags %s or %s found", tag, pretty_alt_tag);
     }
   }
+}
+
+/**************************************************************************
+  Loop music as suggested by sound tags
+**************************************************************************/
+void audio_play_music(const char *const tag, char *const alt_tag)
+{
+  real_audio_play_music(tag, alt_tag, FALSE);
+}
+
+/**************************************************************************
+  Play single track as suggested by sound tags
+**************************************************************************/
+void audio_play_track(const char *const tag, char *const alt_tag)
+{
+  real_audio_play_music(tag, alt_tag, TRUE);
 }
 
 /**************************************************************************

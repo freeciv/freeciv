@@ -103,6 +103,19 @@ void stop_menu_music(void)
 }
 
 /**************************************************************************
+  Play single track before continuing normal style music
+**************************************************************************/
+void play_single_track(const char *const tag)
+{
+  if (client_state() != C_S_RUNNING) {
+    /* Only in running game */
+    return;
+  }
+
+  audio_play_track(tag, NULL);
+}
+
+/**************************************************************************
   Musicset changed in options.
 **************************************************************************/
 void musicspec_reread_callback(struct option *poption)
