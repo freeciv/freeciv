@@ -177,32 +177,58 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
               > 0));
 }
 
-/**************************************************************************
-  Find the worst (minimum) trade route the city has.  The value of the
-  trade route is returned and its position (slot) is put into the slot
-  variable.
-**************************************************************************/
-int get_city_min_trade_route(const struct city *pcity, int *slot)
+/****************************************************************************
+  Return the minimum value of the sum of trade routes which could be
+  replaced by a new one. The target cities of the concerned trade routes
+  are will be put into 'would_remove', if set.
+****************************************************************************/
+int city_trade_removable(const struct city *pcity,
+                         struct city_list *would_remove)
 {
-  int i;
-  int value = 0;
-  bool found = FALSE;
+  int sorted[MAX_TRADE_ROUTES];
+  int num, i, j;
 
-  if (slot) {
-    *slot = 0;
-  }
-  /* find min */
+  FC_STATIC_ASSERT(ARRAY_SIZE(sorted) == ARRAY_SIZE(pcity->trade),
+                   incompatible_trade_array_size);
+  FC_STATIC_ASSERT(ARRAY_SIZE(sorted) == ARRAY_SIZE(pcity->trade_value),
+                   incompatible_trade_value_array_size);
+
+  /* Sort trade route values. */
+  num = 0;
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pcity->trade[i] && (!found || value > pcity->trade_value[i])) {
-      if (slot) {
-	*slot = i;
-      }
-      value = pcity->trade_value[i];
-      found = TRUE;
+    if (0 == pcity->trade[i]) {
+      continue;
+    }
+    for (j = num; j > 0 && (pcity->trade_value[i]
+                            < pcity->trade_value[sorted[j - 1]]); j--) {
+      sorted[j] = sorted[j - 1];
+    }
+    sorted[j] = i;
+    num++;
+  }
+
+  /* No trade routes at all. */
+  if (0 == num) {
+    return 0;
+  }
+
+  /* Adjust number of concerned trade routes. */
+  num += 1 - max_trade_routes(pcity);
+  if (0 >= num) {
+    num = 1;
+  }
+
+  /* Return values. */
+  for (i = j = 0; i < num; i++) {
+    j += pcity->trade_value[sorted[i]];
+    if (NULL != would_remove) {
+      struct city *pother = game_city_by_number(pcity->trade[sorted[i]]);
+
+      fc_assert(NULL != pother);
+      city_list_append(would_remove, pother);
     }
   }
-
-  return value;
+  return j;
 }
 
 /**************************************************************************
@@ -233,20 +259,20 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
     return FALSE;
   }
     
-  if (city_num_trade_routes(pc1) == maxpc1) {
+  if (city_num_trade_routes(pc1) >= maxpc1) {
     trade = trade_between_cities(pc1, pc2);
     /* can we replace trade route? */
-    if (get_city_min_trade_route(pc1, NULL) >= trade) {
+    if (city_trade_removable(pc1, NULL) >= trade) {
       return FALSE;
     }
   }
   
-  if (city_num_trade_routes(pc2) == maxpc2) {
+  if (city_num_trade_routes(pc2) >= maxpc2) {
     if (trade == -1) {
       trade = trade_between_cities(pc1, pc2);
     }
     /* can we replace trade route? */
-    if (get_city_min_trade_route(pc2, NULL) >= trade) {
+    if (city_trade_removable(pc2, NULL) >= trade) {
       return FALSE;
     }
   }  

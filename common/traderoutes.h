@@ -20,6 +20,7 @@ extern "C" {
 #include "support.h" /* bool */
 
 struct city;
+struct city_list;
 
 /* What to do with previously established traderoutes that are now illegal.
  * Used in the network protocol. */
@@ -66,7 +67,8 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2);
 int city_num_trade_routes(const struct city *pcity);
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
                                        const struct city *pc2);
-int get_city_min_trade_route(const struct city *pcity, int *slot);
+int city_trade_removable(const struct city *pcity,
+                         struct city_list *would_remove);
 
 #define trade_routes_iterate(c, t)                          \
 do {                                                        \

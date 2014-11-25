@@ -2507,19 +2507,18 @@ void remove_trade_route(struct city *pc1, struct city *pc2,
   }
 }
 
-/**************************************************************************
-  Remove/cancel the city's least valuable trade route.
-**************************************************************************/
-static void remove_smallest_trade_route(struct city *pcity)
+/****************************************************************************
+  Remove/cancel the city's least valuable trade routes.
+****************************************************************************/
+static void remove_smallest_trade_routes(struct city *pcity)
 {
-  int slot;
+  struct city_list *remove = city_list_new();
 
-  if (get_city_min_trade_route(pcity, &slot) <= 0) {
-    return;
-  }
-
-  remove_trade_route(pcity, game_city_by_number(pcity->trade[slot]),
-                     TRUE, FALSE);
+  (void) city_trade_removable(pcity, remove);
+  city_list_iterate(remove, pother_city) {
+    remove_trade_route(pcity, pother_city, TRUE, FALSE);
+  } city_list_iterate_end;
+  city_list_destroy(remove);
 }
 
 /**************************************************************************
@@ -2530,12 +2529,12 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
-  if (city_num_trade_routes(pc1) == max_trade_routes(pc1)) {
-    remove_smallest_trade_route(pc1);
+  if (city_num_trade_routes(pc1) >= max_trade_routes(pc1)) {
+    remove_smallest_trade_routes(pc1);
   }
 
-  if (city_num_trade_routes(pc2) == max_trade_routes(pc2)) {
-    remove_smallest_trade_route(pc2);
+  if (city_num_trade_routes(pc2) >= max_trade_routes(pc2)) {
+    remove_smallest_trade_routes(pc2);
   }
 
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
@@ -2544,12 +2543,14 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
       break;
     }
   }
+  fc_assert(i < MAX_TRADE_ROUTES);
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pc2->trade[i] == 0) {
       pc2->trade[i] = pc1->id;
       break;
     }
   }
+  fc_assert(i < MAX_TRADE_ROUTES);
 
   /* recalculate illness due to trade */
   if (game.info.illness_on) {
