@@ -4868,7 +4868,13 @@ int fill_sprite_array(struct tileset *t,
     pterrain = tile_terrain(ptile);
 
     if (NULL != pterrain) {
-      build_tile_data(ptile, pterrain, tterrain_near, textras_near);
+      if (layer == LAYER_TERRAIN1
+          || layer == LAYER_TERRAIN2
+          || layer == LAYER_TERRAIN2
+          || layer == LAYER_WATER
+          || layer == LAYER_ROADS) {
+        build_tile_data(ptile, pterrain, tterrain_near, textras_near);
+      }
     } else {
       log_error("fill_sprite_array() tile (%d,%d) has no terrain!",
                 TILE_XY(ptile));
