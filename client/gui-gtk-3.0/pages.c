@@ -1550,25 +1550,11 @@ static void ruleset_entry_changed(GtkWidget *w, gpointer data)
 {
   const char *name = NULL;
 
-  if (gtk_combo_box_get_active(GTK_COMBO_BOX(ruleset_combo)) != -1) {
-    name = 
-      gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ruleset_combo))));
+  name = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(ruleset_combo));
+
+  if (name != NULL) {
+    ruleset_selected(name);
   }
-
-  ruleset_selected(name);
-}
-
-/**************************************************************************
-  Ruleset name has been typed in completely
-**************************************************************************/
-static void ruleset_enter(GtkWidget *w, gpointer data)
-{
-  const char *name = NULL;
-
-  name =
-      gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ruleset_combo))));
-
-  ruleset_selected(name);
 }
 
 /**************************************************************************
@@ -2521,7 +2507,6 @@ GtkWidget *create_start_page(void)
   GtkWidget *box, *sbox, *table, *vbox;
   GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *ai_lvl_combobox;
   GtkWidget *label;
-  GtkWidget *rs_entry;
   GtkTreeSelection *selection;
   enum ai_level level;
   /* There's less than AI_LEVEL_COUNT entries as not all levels have
@@ -2607,26 +2592,15 @@ GtkWidget *create_start_page(void)
                        NULL);
   gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 
-  {
-    GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
-    ruleset_combo = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(model));
-    gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(ruleset_combo), 0);
-    g_object_unref(G_OBJECT(model));
-  }
-
+  ruleset_combo = gtk_combo_box_text_new();
   g_signal_connect(G_OBJECT(ruleset_combo), "changed",
                    G_CALLBACK(ruleset_entry_changed), NULL);
-  
-  rs_entry = gtk_bin_get_child(GTK_BIN(ruleset_combo));
-  g_signal_connect(GTK_ENTRY(rs_entry), "activate",
-                   G_CALLBACK(ruleset_enter),
-                   NULL);
 
   gtk_grid_attach(GTK_GRID(table), ruleset_combo, 1, 2, 1, 1);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
-		       "mnemonic-widget", GTK_COMBO_BOX(ruleset_combo),
+		       "mnemonic-widget", GTK_COMBO_BOX_TEXT(ruleset_combo),
                        "label", _("Ruleset _Version:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
@@ -3339,13 +3313,11 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   int i;
   int def_idx = -1;
-  GtkListStore *model =
-      GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(ruleset_combo)));
 
-  gtk_list_store_clear(model);
+  gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(ruleset_combo));
   for (i = 0; i < num_rulesets; i++){
-    GtkTreeIter iter; /* unused */
-    gtk_list_store_insert_with_values(model, &iter, i, 0, rulesets[i], -1);
+
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ruleset_combo), rulesets[i]);
     if (!strcmp("default", rulesets[i])) {
       def_idx = i;
     }
