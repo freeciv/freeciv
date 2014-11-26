@@ -727,7 +727,8 @@ static void action_entry(const enum gen_action act,
     return;
   }
 
-  ui_name = action_prepare_ui_name(act, "", action_probabilities[act]);
+  ui_name = action_prepare_ui_name(act, "",
+                                   action_probabilities[act], NULL);
 
   create_active_iconlabel(pBuf, pWindow->dst, pStr,
                           ui_name, af_map[act]);

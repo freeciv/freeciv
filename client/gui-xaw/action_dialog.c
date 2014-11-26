@@ -823,7 +823,7 @@ static void action_entry(Widget w, int action_id,
 
   XtSetArg(arglist[0], "label",
            action_prepare_ui_name(action_id, "",
-                                  action_probabilities[action_id]));
+                                  action_probabilities[action_id], NULL));
   XtSetValues(w, arglist, XtNumber(arglist));
 }
 

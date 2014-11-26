@@ -998,7 +998,7 @@ static void action_entry(GtkWidget *shl,
   }
 
   label = action_prepare_ui_name(action_id, "_",
-                                 action_probabilities[action_id]);
+                                 action_probabilities[action_id], NULL);
 
   tooltip = action_get_tool_tip(action_id,
                                 action_probabilities[action_id]);
@@ -1026,7 +1026,7 @@ static void action_entry_update(GtkWidget *shl,
 
   /* The probability may have changed. */
   label = action_prepare_ui_name(action_id, "_",
-                                 act_prob[action_id]);
+                                 act_prob[action_id], NULL);
 
   tooltip = action_get_tool_tip(action_id,
                                 act_prob[action_id]);

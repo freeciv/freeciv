@@ -1419,7 +1419,7 @@ static void action_entry(choice_dialog *cd,
   }
 
   title = QString(action_prepare_ui_name(act, "&",
-                                         action_probabilities[act]));
+                                         action_probabilities[act], NULL));
 
   tool_tip = QString(action_get_tool_tip(act, action_probabilities[act]));
 
@@ -1443,7 +1443,7 @@ static void action_entry_update(QPushButton *button,
 
   /* The probability may have changed. */
   title = QString(action_prepare_ui_name(act, "&",
-                                         act_prob[act]));
+                                         act_prob[act], NULL));
 
   tool_tip = QString(action_get_tool_tip(act, act_prob[act]));
 
