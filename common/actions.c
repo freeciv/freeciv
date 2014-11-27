@@ -391,6 +391,12 @@ static bool is_action_possible(const enum gen_action wanted_action,
 			       const struct output_type *target_output,
 			       const struct specialist *target_specialist)
 {
+  fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
+                 && target_city != NULL)
+                || (action_get_target_kind(wanted_action) == ATK_UNIT
+                    && target_unit != NULL),
+                "Missing target!");
+
   if (action_get_actor_kind(wanted_action) == AAK_UNIT) {
     /* The Freeciv code for all actions controlled by enablers assumes that
      * an acting unit is on the same tile as its target or on the tile next
