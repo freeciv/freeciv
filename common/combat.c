@@ -133,7 +133,7 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
   }
 
   /* 3. Can't attack with ground unit from ocean, except for marines */
-  if (!can_exist_at_tile(unit_type(punit), unit_tile(punit))
+  if (!is_native_tile(unit_type(punit), unit_tile(punit))
       && !can_attack_from_non_native(unit_type(punit))) {
     return ATT_NONNATIVE_SRC;
   }

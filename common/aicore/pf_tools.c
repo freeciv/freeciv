@@ -131,7 +131,7 @@ static bool pf_action_possible(const struct tile *src,
                                const struct pf_parameter *param)
 {
   if (PF_ACTION_ATTACK == action) {
-    return ((PF_MS_NATIVE | PF_MS_CITY) & src_scope
+    return (PF_MS_NATIVE & src_scope
             || can_attack_from_non_native(param->utype));
             
   } else if (PF_ACTION_DIPLOMAT == action) {
