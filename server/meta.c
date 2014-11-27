@@ -275,8 +275,8 @@ static bool send_to_metaserver(enum meta_flag flag)
   }
 
   /* get hostname */
-  if (srvarg.metaserver_name[0] != '\0') {
-    sz_strlcpy(host, srvarg.metaserver_name);
+  if (srvarg.identity_name[0] != '\0') {
+    sz_strlcpy(host, srvarg.identity_name);
   } else if (fc_gethostname(host, sizeof(host)) != 0) {
     sz_strlcpy(host, "unknown");
   }

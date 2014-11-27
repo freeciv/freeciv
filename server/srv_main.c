@@ -223,7 +223,7 @@ void srv_init(void)
 
   srvarg.metaserver_no_send = DEFAULT_META_SERVER_NO_SEND;
   sz_strlcpy(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR);
-  srvarg.metaserver_name[0] = '\0';
+  srvarg.identity_name[0] = '\0';
   srvarg.serverid[0] = '\0';
 
   srvarg.bind_addr = NULL;

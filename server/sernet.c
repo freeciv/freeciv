@@ -1498,7 +1498,9 @@ static void send_lanserver_response(void)
   }
 
   /* Create a description of server state to send to clients.  */
-  if (fc_gethostname(hostname, sizeof(hostname)) != 0) {
+  if (srvarg.identity_name[0] != '\0') {
+    sz_strlcpy(hostname, srvarg.identity_name);
+  } else if (fc_gethostname(hostname, sizeof(hostname)) != 0) {
     sz_strlcpy(hostname, "none");
   }
 

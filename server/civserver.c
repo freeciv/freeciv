@@ -233,7 +233,7 @@ int main(int argc, char *argv[])
       srvarg.metaserver_no_send = FALSE;      /* --Metaserver implies --meta */
     } else if ((option = get_option_malloc("--identity",
 					   argv, &inx, argc))) {
-      sz_strlcpy(srvarg.metaserver_name, option);
+      sz_strlcpy(srvarg.identity_name, option);
       free(option);
     } else if ((option = get_option_malloc("--port", argv, &inx, argc))) {
       if (!str_to_int(option, &srvarg.port)) {
@@ -377,7 +377,7 @@ int main(int argc, char *argv[])
     cmdhelp_add(help, "i",
                 /* TRANS: "identity" is exactly what user must type, do not translate. */
                 _("identity ADDR"),
-                _("Be known as ADDR at metaserver"));
+                _("Be known as ADDR at metaserver or LAN client"));
     cmdhelp_add(help, "l",
                 /* TRANS: "log" is exactly what user must type, do not translate. */
                 _("log FILE"),
