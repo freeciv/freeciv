@@ -1308,7 +1308,7 @@ bool pplayers_non_attack(const struct player *pplayer,
 bool players_on_same_team(const struct player *pplayer1,
                           const struct player *pplayer2)
 {
-  return (pplayer1->team && pplayer1->team == pplayer2->team);
+  return pplayer1->team == pplayer2->team;
 }
 
 /**************************************************************************
