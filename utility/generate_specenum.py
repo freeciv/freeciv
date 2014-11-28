@@ -254,6 +254,7 @@ def make_is_bitwise(file):
 /**************************************************************************
   Returns TRUE if this enumeration is in bitwise mode.
 **************************************************************************/
+fc__attribute((const))
 static inline bool SPECENUM_FOO(_is_bitwise)(void)
 {
 #ifdef SPECENUM_BITWISE
@@ -269,6 +270,7 @@ def make_min(file):
 /**************************************************************************
   Returns the value of the minimal enumerator.
 **************************************************************************/
+fc__attribute((const))
 static inline enum SPECENUM_NAME SPECENUM_FOO(_min)(void)
 {
   return SPECENUM_MIN_VALUE;
@@ -280,6 +282,7 @@ def make_max(file):
 /**************************************************************************
   Returns the value of the maximal enumerator.
 **************************************************************************/
+fc__attribute((const))
 static inline enum SPECENUM_NAME SPECENUM_FOO(_max)(void)
 {
   return SPECENUM_MAX_VALUE;
@@ -291,6 +294,7 @@ def make_is_valid(file):
 /**************************************************************************
   Returns TRUE if this enumerator was defined.
 **************************************************************************/
+fc__attribute((const))
 static inline bool SPECENUM_FOO(_is_valid)(enum SPECENUM_NAME enumerator)
 {
 #ifdef SPECENUM_BITWISE
@@ -346,6 +350,7 @@ def make_invalid(file):
 /**************************************************************************
   Returns an invalid enumerator value.
 **************************************************************************/
+fc__attribute((const))
 static inline enum SPECENUM_NAME SPECENUM_FOO(_invalid)(void)
 {
   fc_assert(!SPECENUM_FOO(_is_valid(SPECENUM_INVALID)));
@@ -358,6 +363,7 @@ def make_begin(file):
 /**************************************************************************
   Beginning of the iteration of the enumerators.
 **************************************************************************/
+fc__attribute((const))
 static inline enum SPECENUM_NAME SPECENUM_FOO(_begin)(void)
 {
   return SPECENUM_FOO(_min)();
@@ -369,6 +375,7 @@ def make_end(file):
 /**************************************************************************
   End of the iteration of the enumerators.
 **************************************************************************/
+fc__attribute((const))
 static inline enum SPECENUM_NAME SPECENUM_FOO(_end)(void)
 {
   return SPECENUM_FOO(_invalid)();
@@ -380,6 +387,7 @@ def make_next(file):
 /**************************************************************************
   Find the next valid enumerator value.
 **************************************************************************/
+fc__attribute((const))
 static inline enum SPECENUM_NAME SPECENUM_FOO(_next)(enum SPECENUM_NAME e)
 {
   do {
@@ -408,6 +416,9 @@ const char *SPECENUM_FOO(_name_cb)(enum SPECENUM_NAME value);
 /**************************************************************************
   Returns the name of the enumerator.
 **************************************************************************/
+#ifndef SPECENUM_NAMEOVERRIDE
+fc__attribute((const))
+#endif
 static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
 {
 #ifdef SPECENUM_COUNT
@@ -511,6 +522,9 @@ def make_translated_name(file):
 /**************************************************************************
   Returns the translated name of the enumerator.
 **************************************************************************/
+#ifndef SPECENUM_NAMEOVERRIDE
+fc__attribute((const))
+#endif
 static inline const char *
 SPECENUM_FOO(_translated_name)(enum SPECENUM_NAME enumerator)
 {
