@@ -51,10 +51,8 @@
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_MOVE
 #define BUTTON_CANCEL BUTTON_MOVE + 1
-#define BUTTON_TRADE_ROUTE BUTTON_MOVE + 2
-#define BUTTON_MARKET_PLACE BUTTON_MOVE + 3
-#define BUTTON_HELP_WONDER BUTTON_MOVE + 4
-#define BUTTON_COUNT BUTTON_MOVE + 5
+#define BUTTON_HELP_WONDER BUTTON_MOVE + 2
+#define BUTTON_COUNT BUTTON_MOVE + 3
 
 #define BUTTON_NOT_THERE -1
 
@@ -130,11 +128,13 @@ static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  dsend_packet_unit_establish_trade(&client.conn,
-                                    args->actor_unit_id,
-                                    args->target_city_id,
-                                    FALSE);
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_MARKETPLACE, args->actor_unit_id,
+                      args->target_city_id, 0);
+  }
 
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -145,11 +145,13 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  dsend_packet_unit_establish_trade(&client.conn,
-                                    args->actor_unit_id,
-                                    args->target_city_id,
-                                    TRUE);
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_TRADE_ROUTE, args->actor_unit_id,
+                      args->target_city_id, 0);
+  }
 
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
@@ -975,6 +977,8 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SPY_STEAL_TECH] = (GCallback)diplomat_steal_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = (GCallback)spy_steal_popup,
   [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,
+  [ACTION_TRADE_ROUTE] = (GCallback)caravan_establish_trade_callback,
+  [ACTION_MARKETPLACE] = (GCallback)caravan_marketplace_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
@@ -1056,8 +1060,6 @@ void popup_action_selection(struct unit *actor_unit,
   int button_id;
 
   bool can_wonder;
-  bool can_marketplace;
-  bool can_traderoute;
 
   struct action_data *data =
       act_data(actor_unit->id,
@@ -1090,12 +1092,6 @@ void popup_action_selection(struct unit *actor_unit,
                          IDENTITY_NUMBER_ZERO;
 
   can_wonder = is_help_build_possible(actor_unit, target_city);
-  can_marketplace = unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
-                    && target_city
-                    && can_cities_trade(actor_homecity, target_city);
-  can_traderoute = can_marketplace
-                    && can_establish_trade_route(actor_homecity,
-                                                 target_city);
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1179,21 +1175,15 @@ void popup_action_selection(struct unit *actor_unit,
                act_probs,
                data);
 
-  if (can_traderoute) {
-    action_button_map[BUTTON_TRADE_ROUTE] =
-        choice_dialog_get_number_of_buttons(shl);
-    choice_dialog_add(shl, _("Establish Trade route"),
-                      (GCallback)caravan_establish_trade_callback,
-                      data, NULL);
-  }
+  action_entry(shl,
+               ACTION_TRADE_ROUTE,
+               act_probs,
+               data);
 
-  if (can_marketplace) {
-    action_button_map[BUTTON_MARKET_PLACE] =
-        choice_dialog_get_number_of_buttons(shl);
-    choice_dialog_add(shl, _("Enter Marketplace"),
-                      (GCallback)caravan_marketplace_callback,
-                      data, NULL);
-  }
+  action_entry(shl,
+               ACTION_MARKETPLACE,
+               act_probs,
+               data);
 
   if (can_wonder) {
     gchar *wonder = get_help_build_wonder_button_label(can_wonder,

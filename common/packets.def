@@ -944,13 +944,6 @@ PACKET_UNIT_CHANGE_HOMECITY = 69; cs, dsend
   CITY city_id;
 end
 
-PACKET_UNIT_ESTABLISH_TRADE = 70; cs, dsend
-  UNIT unit_id;
-  CITY city_id;
-
-  BOOL est_if_able;
-end
-
 PACKET_UNIT_BATTLEGROUP = 71; cs, dsend
   UNIT unit_id;
   SINT8 battlegroup;

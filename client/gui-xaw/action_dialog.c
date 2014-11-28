@@ -79,13 +79,14 @@ int diplomat_target_id[ATK_COUNT];
 static void caravan_marketplace_callback(Widget w, XtPointer client_data,
                                              XtPointer call_data)
 {
-  dsend_packet_unit_establish_trade(&client.conn,
-                                    diplomat_id,
-                                    diplomat_target_id[ATK_CITY],
-                                    FALSE);
-
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
+
+  if (NULL != game_city_by_number(diplomat_target_id[ATK_CITY])
+      && NULL != game_unit_by_number(diplomat_id)) {
+    request_do_action(ACTION_MARKETPLACE, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
+  }
 
   choose_action_queue_next();
 }
@@ -96,13 +97,14 @@ static void caravan_marketplace_callback(Widget w, XtPointer client_data,
 static void caravan_establish_trade_callback(Widget w, XtPointer client_data,
                                              XtPointer call_data)
 {
-  dsend_packet_unit_establish_trade(&client.conn,
-                                    diplomat_id,
-                                    diplomat_target_id[ATK_CITY],
-                                    TRUE);
-
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
+
+  if (NULL != game_city_by_number(diplomat_target_id[ATK_CITY])
+      && NULL != game_unit_by_number(diplomat_id)) {
+    request_do_action(ACTION_TRADE_ROUTE, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
+  }
 
   choose_action_queue_next();
 }
@@ -841,11 +843,6 @@ void popup_action_selection(struct unit *actor_unit,
 
   struct city *actor_homecity = game_city_by_number(actor_unit->homecity);
 
-  bool can_marketplace = target_city
-      && unit_has_type_flag(actor_unit, UTYF_TRADE_ROUTE)
-      && can_cities_trade(actor_homecity, target_city);
-  bool can_traderoute = can_marketplace
-      && can_establish_trade_route(actor_homecity, target_city);
   bool can_wonder = target_city
       && unit_can_help_build_wonder(actor_unit, target_city);
 
@@ -891,8 +888,8 @@ void popup_action_selection(struct unit *actor_unit,
                            diplomat_steal_callback, 0, 1,
                            spy_steal_popup, 0, 1,
                            diplomat_incite_callback, 0, 1,
-                           caravan_marketplace_callback, 0, 0,
                            caravan_establish_trade_callback, 0, 0,
+                           caravan_marketplace_callback, 0, 0,
                            caravan_help_build_wonder_callback, 0, 0,
                            diplomat_bribe_callback, 0, 0,
                            spy_sabotage_unit_callback, 0, 0,
@@ -933,13 +930,13 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_SPY_INCITE_CITY,
                act_probs);
 
-  if (!can_marketplace) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button8"), FALSE);
-  }
+  action_entry(XtNameToWidget(diplomat_dialog, "*button8"),
+               ACTION_TRADE_ROUTE,
+               act_probs);
 
-  if (!can_traderoute) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button9"), FALSE);
-  }
+  action_entry(XtNameToWidget(diplomat_dialog, "*button9"),
+               ACTION_MARKETPLACE,
+               act_probs);
 
   if (!can_wonder) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button10"), FALSE);

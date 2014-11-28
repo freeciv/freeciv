@@ -1095,7 +1095,7 @@ static void build_road_callback(GtkAction *action, gpointer data)
     }
 
     if (!building_road && unit_can_est_trade_route_here(punit)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
+      request_unit_caravan_action(punit, PACKET_UNIT_DO_ACTION);
     }
   } unit_list_iterate_end;
 }

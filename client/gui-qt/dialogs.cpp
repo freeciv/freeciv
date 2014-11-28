@@ -52,10 +52,8 @@
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_MOVE
 #define BUTTON_CANCEL BUTTON_MOVE + 1
-#define BUTTON_TRADE_ROUTE BUTTON_MOVE + 2
-#define BUTTON_MARKET_PLACE BUTTON_MOVE + 3
-#define BUTTON_HELP_WONDER BUTTON_MOVE + 4
-#define BUTTON_COUNT BUTTON_MOVE + 5
+#define BUTTON_HELP_WONDER BUTTON_MOVE + 2
+#define BUTTON_COUNT BUTTON_MOVE + 3
 
 static void diplomat_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
@@ -106,6 +104,8 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_STEAL_TECH] = diplomat_steal;
   action_function[ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal;
   action_function[ACTION_SPY_INCITE_CITY] = diplomat_incite;
+  action_function[ACTION_TRADE_ROUTE] = caravan_establish_trade;
+  action_function[ACTION_MARKETPLACE] = caravan_marketplace;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -1126,9 +1126,14 @@ void choice_dialog::unstack_all_buttons()
 ***************************************************************************/
 static void caravan_marketplace(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_establish_trade(&client.conn,
-                                    data1.toInt(), data2.toInt(), FALSE);
-  process_caravan_arrival(NULL);
+  int actor_unit_id = data1.toInt();
+  int target_city_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_unit_id)
+      && NULL != game_city_by_number(target_city_id)) {
+    request_do_action(ACTION_MARKETPLACE, actor_unit_id,
+                      target_city_id, 0);
+  }
 }
 
 /***************************************************************************
@@ -1136,9 +1141,14 @@ static void caravan_marketplace(QVariant data1, QVariant data2)
 ***************************************************************************/
 static void caravan_establish_trade(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_establish_trade(&client.conn,
-                                    data1.toInt(), data2.toInt(), TRUE);
-  process_caravan_arrival(NULL);
+  int actor_unit_id = data1.toInt();
+  int target_city_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_unit_id)
+      && NULL != game_city_by_number(target_city_id)) {
+    request_do_action(ACTION_TRADE_ROUTE, actor_unit_id,
+                      target_city_id, 0);
+  }
 }
 
 /***************************************************************************
@@ -1220,8 +1230,6 @@ void popup_action_selection(struct unit *actor_unit,
   pfcn_void func;
   struct city *actor_homecity;
 
-  bool can_marketplace;
-  bool can_traderoute;
   bool can_wonder;
 
   /* Could be caused by the server failing to reply to a request for more
@@ -1234,13 +1242,6 @@ void popup_action_selection(struct unit *actor_unit,
 
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
-  can_marketplace = unit_has_type_flag(actor_unit,
-                                       UTYF_TRADE_ROUTE)
-      && target_city
-      && can_cities_trade(actor_homecity, target_city);
-  can_traderoute = can_marketplace
-                  && can_establish_trade_route(actor_homecity,
-                                               target_city);
   can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
       && target_city
       && unit_can_help_build_wonder(actor_unit, target_city);
@@ -1348,17 +1349,15 @@ void popup_action_selection(struct unit *actor_unit,
                act_probs,
                qv1, qv2);
 
-  if (can_traderoute) {
-    func = caravan_establish_trade;
-    cd->add_item(QString(_("Establish Trade route")), func, qv1, qv2,
-                 "", BUTTON_TRADE_ROUTE);
-  }
+  action_entry(cd,
+               ACTION_TRADE_ROUTE,
+               act_probs,
+               qv1, qv2);
 
-  if (can_marketplace) {
-    func = caravan_marketplace;
-    cd->add_item(QString(_("Enter Marketplace")), func, qv1, qv2,
-                 "", BUTTON_MARKET_PLACE);
-  }
+  action_entry(cd,
+               ACTION_MARKETPLACE,
+               act_probs,
+               qv1, qv2);
 
   if (can_wonder) {
     QString title;

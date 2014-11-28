@@ -725,6 +725,32 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_TRADE_ROUTE:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        base_handle_unit_establish_trade(pplayer, actor_unit->id, pcity,
+                                         TRUE);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
+    }
+    break;
+  case ACTION_MARKETPLACE:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        base_handle_unit_establish_trade(pplayer, actor_unit->id, pcity,
+                                         FALSE);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
+    }
+    break;
   }
 }
 
@@ -1733,14 +1759,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /*** Phase 2: Special abilities checks ***/
 
-  /* Caravans.  If city is allied (inc. ours) we would have a popup
-   * asking if we are moving on. */
-  if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE) && pcity
-      && !pplayers_allied(city_owner(pcity), pplayer) ) {
-    return base_handle_unit_establish_trade(pplayer, punit->id, pcity,
-                                            TRUE);
-  }
-
   /* Diplomats. Pop up a diplomat action dialog in the client.
    * If the AI has used a goto to send a diplomat to a target do not
    * pop up a dialog in the client.
@@ -2327,19 +2345,6 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
   city_list_destroy(cities_out_of_dest);
 
   return TRUE;
-}
-
-/**************************************************************************
-  Handle request to establish traderoute between unit homecity and the
-  city its currently in.
-**************************************************************************/
-void handle_unit_establish_trade(struct player *pplayer,
-                                 int unit_id, int city_id,
-                                 bool est_if_able)
-{
-  (void) base_handle_unit_establish_trade(pplayer, unit_id,
-                                          game_city_by_number(city_id),
-                                          est_if_able);
 }
 
 /**************************************************************************

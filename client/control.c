@@ -924,8 +924,7 @@ void process_caravan_arrival(struct unit *punit)
     genlist_remove(caravan_arrival_queue, data);
     punit = game_unit_by_number(FC_PTR_TO_INT(data));
 
-    if (punit && (unit_can_help_build_wonder_here(punit)
-                  || unit_can_est_trade_route_here(punit))
+    if (punit && unit_can_help_build_wonder_here(punit)
         && (NULL == client.conn.playing
             || (unit_owner(punit) == client.conn.playing
                 && !client.conn.playing->ai_controlled))) {
@@ -1751,10 +1750,11 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
     return;
   }
 
-  if (action == PACKET_UNIT_ESTABLISH_TRADE) {
-    dsend_packet_unit_establish_trade(&client.conn,
-                                      punit->id, IDENTITY_NUMBER_ZERO,
-                                      TRUE);
+  /* FIXME: Change the type of action to gen_action when Help Build Wonder
+   * becomes action enabler controlled. */
+  if (action == PACKET_UNIT_DO_ACTION) {
+    request_do_action(ACTION_TRADE_ROUTE, punit->id,
+                      target_city->id, 0);
   } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
     dsend_packet_unit_help_build_wonder(&client.conn,
                                         punit->id,
@@ -2886,7 +2886,7 @@ void key_unit_trade_route(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
+      request_unit_caravan_action(punit, PACKET_UNIT_DO_ACTION);
     }
   } unit_list_iterate_end;
 }

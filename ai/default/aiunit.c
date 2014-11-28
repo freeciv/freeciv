@@ -1939,7 +1939,8 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                punit->id,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
-      handle_unit_establish_trade(pplayer, punit->id, dest_city->id, TRUE);
+      handle_unit_do_action(pplayer, punit->id, dest_city->id,
+                            0, ACTION_TRADE_ROUTE);
     }
   }
 }

@@ -1569,8 +1569,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
             && !client_player()->ai_controlled
             && can_client_issue_orders()
             && !unit_has_orders(punit)
-            && (unit_can_help_build_wonder_here(punit)
-                || unit_can_est_trade_route_here(punit))) {
+            && unit_can_help_build_wonder_here(punit)) {
           /* Open caravan dialog only if 'punit' and all its transporters
            * (recursively) don't have orders. */
           struct unit *ptrans;
@@ -1595,7 +1594,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
              /* the server handles non transported units */
             && NULL != unit_transport_get(punit)
             && is_actor_unit(punit)) {
-          /* Open diplomat dialog only if 'punit' and all its transporters
+          /* Open action dialog only if 'punit' and all its transporters
            * (recursively) don't have orders. */
           struct unit *ptrans;
 

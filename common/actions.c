@@ -100,6 +100,14 @@ void actions_init(void)
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
                  /* TRANS: Steal _Gold (100% chance of success). */
                  N_("Steal %sGold%s"));
+  actions[ACTION_TRADE_ROUTE] =
+      action_new(ACTION_TRADE_ROUTE, ATK_CITY,
+                 /* TRANS: Establish Trade _Route (100% chance of success). */
+                 N_("Establish Trade %sRoute%s"));
+  actions[ACTION_MARKETPLACE] =
+      action_new(ACTION_MARKETPLACE, ATK_CITY,
+                 /* TRANS: Enter _Marketplace (100% chance of success). */
+                 N_("Enter %sMarketplace%s"));
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -340,12 +348,25 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                                            FALSE, "Has real embassy"));
   }
 
-  /* The Freeciv code assumes that all spy actions have foreign targets.
-   * TODO: Move this restriction to the ruleset to prepare for false flag
-   * operations. */
-  requirement_vector_append(&enabler->actor_reqs,
-                            req_from_str("DiplRel", "Local", FALSE,
-                                         TRUE, "Is foreign"));
+  if (enabler->action != ACTION_TRADE_ROUTE &&
+      enabler->action != ACTION_MARKETPLACE) {
+    /* The Freeciv code assumes that all spy actions have foreign targets.
+     * TODO: Move this restriction to the ruleset to prepare for false flag
+     * operations. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           TRUE, "Is foreign"));
+  }
+
+  if (enabler->action == ACTION_TRADE_ROUTE ||
+      enabler->action == ACTION_MARKETPLACE) {
+    /* There are still places that assumes that units that can establish a
+     * traderoute or enter the market place have the TradeRoute flag. */
+    /* TODO: Move this restriction to the ruleset. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("Unitflag", "Local", FALSE,
+                                           TRUE, "TradeRoute"));
+  }
 }
 
 /**************************************************************************
@@ -420,6 +441,33 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * gold target_player have. Not requireing it is therefore pointless.
      */
     if (target_player->economic.gold <= 0) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_TRADE_ROUTE ||
+      wanted_action == ACTION_MARKETPLACE) {
+    const struct city *actor_homecity;
+
+    /* It isn't possible to establish a trade route from a non existing
+     * city. The Freeciv code assumes this applies to Enter Marketplace
+     * too. */
+    if (!(actor_homecity = game_city_by_number(actor_unit->homecity))) {
+      return FALSE;
+    }
+
+    /* Can't establish a trade route or enter the market place if the
+     * cities can't trade at all. */
+    /* TODO: Should this restriction (and the above restriction that the
+     * actor unit must have a home city) be kept for Enter Marketplace? */
+    if (!can_cities_trade(actor_homecity, target_city)) {
+      return FALSE;
+    }
+
+    /* There are more restrictions on establishing a trade route than on
+     * entering the market place. */
+    if (wanted_action == ACTION_TRADE_ROUTE &&
+        !can_establish_trade_route(actor_homecity, target_city)) {
       return FALSE;
     }
   }
@@ -901,6 +949,13 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
     /* There is no risk that the city won't get investigated. */
+    chance = 200;
+    break;
+  case ACTION_TRADE_ROUTE:
+    /* TODO */
+    break;
+  case ACTION_MARKETPLACE:
+    /* Possible when not blocked by is_action_possible() */
     chance = 200;
     break;
   case ACTION_COUNT:
