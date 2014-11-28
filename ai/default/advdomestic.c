@@ -277,7 +277,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   trade_routes = city_num_trade_routes(pcity);
   /* Count also caravans enroute to establish traderoutes */
   unit_list_iterate(pcity->units_supported, punit) {
-    if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
+    if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {
       trade_routes++;
     }
   } unit_list_iterate_end;
