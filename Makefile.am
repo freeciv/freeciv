@@ -55,7 +55,6 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/config.rpath		\
 		bootstrap/Makerules.mk		\
 		bootstrap/langnames.txt		\
-		bootstrap/mkinstalldirs		\
 		m4/ac_path_lib.m4		\
 		m4/c99.m4			\
 		m4/c++11.m4			\
