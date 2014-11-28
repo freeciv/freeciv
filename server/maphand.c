@@ -1109,6 +1109,8 @@ void remove_player_from_maps(struct player *pplayer)
   whole_map_iterate(ptile) {
     /* Clear all players' knowledge about the removed player, and free
      * data structures (including those in removed player's player map). */
+    bool reality_changed = FALSE;
+
     players_iterate(aplayer) {
       struct player_tile *aplrtile;
       bool changed = FALSE;
@@ -1151,6 +1153,14 @@ void remove_player_from_maps(struct player *pplayer)
     /* Free all claimed tiles. */
     if (tile_owner(ptile) == pplayer) {
       tile_set_owner(ptile, NULL, NULL);
+      reality_changed = TRUE;
+    }
+    if (base_owner(ptile) == pplayer) {
+      ptile->extras_owner = NULL;
+      reality_changed = TRUE;
+    }
+
+    if (reality_changed) {
       /* Update anyone who can see the tile (e.g. global observers) */
       send_tile_info(NULL, ptile, FALSE);
     }
