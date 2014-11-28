@@ -548,7 +548,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   struct player *pplayer2 = player_by_number(other_player_id);
   struct player_diplstate *ds_plrplr2, *ds_plr2plr;
 
-  if (NULL == pplayer2) {
+  if (NULL == pplayer2 || players_on_same_team(pplayer, pplayer2)) {
     return;
   }
 
