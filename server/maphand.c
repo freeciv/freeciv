@@ -2258,7 +2258,7 @@ void destroy_base(struct tile *ptile, struct base_type *pbase)
      * bases as well. */
     map_clear_border(ptile);
   } else {
-    struct player *owner = tile_owner(ptile);
+    struct player *owner = base_owner(ptile);
 
     if (NULL != owner
         && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
