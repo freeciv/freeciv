@@ -329,7 +329,7 @@ void set_user_tech_flag_name(enum tech_flag_id id, const char *name,
 /**************************************************************************
   Tech flag name callback, called from specenum code.
 **************************************************************************/
-char *tech_flag_id_name_cb(enum tech_flag_id flag)
+const char *tech_flag_id_name_cb(enum tech_flag_id flag)
 {
   if (flag < TECH_USER_1 || flag > TECH_USER_LAST) {
     return NULL;

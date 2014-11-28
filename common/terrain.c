@@ -908,7 +908,7 @@ void set_user_terrain_flag_name(enum terrain_flag_id id, const char *name,
 /**************************************************************************
   Terrain flag name callback, called from specenum code.
 **************************************************************************/
-char *terrain_flag_id_name_cb(enum terrain_flag_id flag)
+const char *terrain_flag_id_name_cb(enum terrain_flag_id flag)
 {
   if (flag < TER_USER_1 || flag > TER_USER_LAST) {
     return NULL;

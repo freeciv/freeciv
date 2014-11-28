@@ -816,7 +816,7 @@ void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
 /**************************************************************************
   Unit type flag name callback, called from specenum code.
 **************************************************************************/
-char *unit_type_flag_id_name_cb(enum unit_type_flag_id flag)
+const char *unit_type_flag_id_name_cb(enum unit_type_flag_id flag)
 {
   if (flag < UTYF_USER_FLAG_1 || flag > UTYF_LAST_USER_FLAG) {
     return NULL;
