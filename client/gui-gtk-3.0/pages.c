@@ -2560,7 +2560,8 @@ GtkWidget *create_start_page(void)
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", spin,
-                       "label", _("Number of _Players (including AI):"),
+                       /* TRANS: Keep individual lines short */
+                       "label", _("Number of _Players\n(including AI):"),
                        "xalign", 0.0,
                        "yalign", 0.5,
                        NULL);
