@@ -109,6 +109,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 
   cairo_scale(cr, pcanvas->zoom, pcanvas->zoom);
   cairo_set_source_surface(cr, sprite->surface, canvas_x - offset_x, canvas_y - offset_y);
+  cairo_pattern_set_filter(cairo_get_source(cr), CAIRO_FILTER_NEAREST);
   cairo_rectangle(cr, canvas_x - offset_x, canvas_y - offset_y,
                   MIN(width, MAX(0, sswidth - offset_x)),
                   MIN(height, MAX(0, ssheight - offset_y)));
