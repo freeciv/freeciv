@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 17:51+0200\n"
-"PO-Revision-Date: 2014-09-14 13:02+0200\n"
+"PO-Revision-Date: 2014-11-30 12:53+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11106,8 +11106,8 @@ msgstr[0] ""
 "* Cadascuna de les teves ciutats evitarà %d punts del descontentament "
 "provocat per les unitats.\n"
 msgstr[1] ""
-"* Cadascuna de les teves ciutats evitarà %d punts del descontentament "
-"provocat per les unitats.\n"
+"* Cadascuna de les teves ciutats evitarà %d de descontentament, sense "
+"incloure el que provoquen les unitats.\n"
 
 #: client/helpdata.c:4610
 #, c-format
@@ -21771,13 +21771,13 @@ msgstr ""
 #: data/classic/game.ruleset:385 data/experimental/game.ruleset:391
 #: data/civ2civ3/game.ruleset:396 data/multiplayer/game.ruleset:389
 msgid "CE"
-msgstr "E.C."
+msgstr "d.C."
 
 #. TRANS: year label (Before Common Era)
 #: data/classic/game.ruleset:387 data/experimental/game.ruleset:393
 #: data/civ2civ3/game.ruleset:398 data/multiplayer/game.ruleset:391
 msgid "BCE"
-msgstr "a.E.C."
+msgstr "a.C."
 
 #: data/classic/game.ruleset:424 data/civ2civ3/game.ruleset:447
 msgid "Nuclear Accident"
@@ -23813,14 +23813,13 @@ msgid "Radiation Resistor increases maximum city size by 3."
 msgstr ""
 
 #: data/alien/buildings.ruleset:422
-#, fuzzy
 msgid "Research Nest"
-msgstr "Recerca"
+msgstr "Niu de Recerca"
 
 #: data/alien/buildings.ruleset:439
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the science production of a city by 100%."
-msgstr "Augmenta en un 100% l'aportació a ciència de la ciutat."
+msgstr "Augmenta en un 100% la producció de ciència d'una ciutat."
 
 #: data/alien/buildings.ruleset:443
 msgid "Secret Police"
@@ -24271,7 +24270,6 @@ msgid "Communication"
 msgstr "Comunicació"
 
 #: data/alien/techs.ruleset:168
-#, fuzzy
 msgid ""
 "Conventional radio does not work here. Develop working alternative that "
 "takes advantage of the local radiation. You'll get contact to other "
@@ -24282,7 +24280,10 @@ msgid ""
 msgstr ""
 "La ràdio convencional no funciona aquí. Desenvolupa una alternativa "
 "funcional que aprofiti la radiació local. Podràs contactar amb altres "
-"faccions."
+"faccions.\n"
+"\n"
+"A més les teves bases podran comunicar-se entre elles de forma més eficient, "
+"i per tant el nombre de bases que tens no causa tanta infelicitat com abans."
 
 #: data/alien/techs.ruleset:174
 msgid "Composites"
@@ -24293,9 +24294,8 @@ msgid "Stronger materials mean stronger armors."
 msgstr "Materials més forts impliquen blindatges més forts."
 
 #: data/alien/techs.ruleset:183
-#, fuzzy
 msgid "Controlled Biomass"
-msgstr "Controls"
+msgstr "Biomassa Controlada"
 
 #: data/alien/techs.ruleset:189
 msgid ""
@@ -25570,9 +25570,8 @@ msgid "Math Club"
 msgstr ""
 
 #: data/alien/nation/mathclub.ruleset:6
-#, fuzzy
 msgid "?plural:Mathematicians"
-msgstr "Jamaicans"
+msgstr "Matemàtics"
 
 #: data/alien/nation/mathclub.ruleset:7
 msgid ""
@@ -25584,12 +25583,11 @@ msgstr ""
 
 #: data/alien/nation/secretsociety.ruleset:5
 msgid "Secret Society"
-msgstr ""
+msgstr "Societat Secreta"
 
 #: data/alien/nation/secretsociety.ruleset:6
-#, fuzzy
 msgid "?plural:Billionaries"
-msgstr "Britans"
+msgstr "Bilionaris"
 
 #: data/alien/nation/secretsociety.ruleset:7
 msgid ""
@@ -25600,15 +25598,20 @@ msgid ""
 "* Has 50% spy resistance bonus\n"
 "* 20% bonus to trade"
 msgstr ""
+"Són els rics de veritat de qui ningú no en sap res perquè només es relacionen "
+"dins dels seus cercles.\n"
+"\n"
+"* Construeix Espies Ocults veterans\n"
+"* Té una bonificació del 50% de resistència dels espies\n"
+"* 20% de bonificació per al comerç"
 
 #: data/alien/nation/teamgladiators.ruleset:5
 msgid "Team Gladiators"
 msgstr ""
 
 #: data/alien/nation/teamgladiators.ruleset:6
-#, fuzzy
 msgid "?plural:Athletes"
-msgstr "Aleutians"
+msgstr "Atletes"
 
 #: data/alien/nation/teamgladiators.ruleset:7
 msgid ""
@@ -26691,14 +26694,12 @@ msgstr ""
 "irrigant-la una segona vegada."
 
 #: data/helpdata.txt:357
-#, fuzzy
 msgid ""
 "Mines can be built on some types of terrain, which increases the number of "
 "production points (shields) produced by that tile."
 msgstr ""
 "En alguns tipus de terrenys es poden construir mines, que incrementen el "
-"nombre de punts de producció (escuts) que produeix aquesta casella. No "
-"obstant, no és possible de tenir regadiu i una mina a la mateixa casella."
+"nombre de punts de producció (escuts) que produeix aquesta casella."
 
 #: data/helpdata.txt:360
 msgid ""
@@ -27237,9 +27238,9 @@ msgid ""
 "canceled."
 msgstr ""
 "La ruta comercial contínua que s'estableix beneficia tant la ciutat origen "
-"com la de destí de manera igual, generant punts de comerç per a cada ciutat a "
-"cada torn. La quantitat d'aquest comerç continu augmenta amb la mida de cada "
-"ciutat i la distància entre elles, i també pot dependre dels factors "
+"com la de destí de manera igual, generant punts de comerç per a cada ciutat "
+"a cada torn. La quantitat d'aquest comerç continu augmenta amb la mida de "
+"cada ciutat i la distància entre elles, i també pot dependre dels factors "
 "mencionats abans. Si una ruta comercial esdevé insostenible -- per exemple, "
 "si comença una guerra en un joc de regles on els enemics no puguin comerciar "
 "-- es pot cancel·lar de forma permanent."
@@ -27929,7 +27930,7 @@ msgid ""
 "of their build cost)."
 msgstr ""
 " - La presència de qualsevol meravella en una ciutat n'augmentarà enormement "
-"la desitjabilitat (les meravelles addicionals no hi contribueixen excepten "
+"la desitjabilitat (les meravelles addicionals no hi contribueixen excepte "
 "per l'efecte menys important del seu cost de construcció)."
 
 #: data/helpdata.txt:964
@@ -28632,17 +28633,16 @@ msgid ""
 "an Alliance pact with that nation. Adjacency means any of the eight tiles "
 "surrounding a unit for rectangular grids, or six tiles for hexagonal grids."
 msgstr ""
-"Les zones de control només es poden mantenir en alguns tipus de terreny -- en "
-"el reglament clàssic, només en caselles terrestres. Quan s'aplica la ZDC, la "
-"regla general és que una unitat que es troba adjacent a una "
-"casella ocupada per un enemic no es pot moure directament a una altra "
-"casella que també sigui adjacent a una casella ocupada per un enemic. "
-"S'entén per casella ocupada per un enemic una que contingui una "
-"unitat estrangera d'un tipus que imposi ZDC, a no ser que tinguis un pacte "
-"d'aliança amb la seva nació. Adjacència es refereix a qualsevol de les vuit "
-"caselles "
-"que hi ha al voltant d'una unitat per graelles rectangulars, o sis caselles "
-"per graelles hexagonals."
+"Les zones de control només es poden mantenir en alguns tipus de terreny -- "
+"en el reglament clàssic, només en caselles terrestres. Quan s'aplica la ZDC, "
+"la regla general és que una unitat que es troba adjacent a una casella "
+"ocupada per un enemic no es pot moure directament a una altra casella que "
+"també sigui adjacent a una casella ocupada per un enemic. S'entén per "
+"casella ocupada per un enemic una que contingui una unitat estrangera d'un "
+"tipus que imposi ZDC, a no ser que tinguis un pacte d'aliança amb la seva "
+"nació. Adjacència es refereix a qualsevol de les vuit caselles que hi ha al "
+"voltant d'una unitat per graelles rectangulars, o sis caselles per graelles "
+"hexagonals."
 
 #: data/helpdata.txt:1331
 msgid ""
@@ -28655,8 +28655,8 @@ msgid ""
 "- A unit type which explicitly ignores ZOC, such as Diplomats and Spies in "
 "the classic rules."
 msgstr ""
-"En els següents casos especials, les unitats es poden moure sense importar la "
-"ZDC:\n"
+"En els següents casos especials, les unitats es poden moure sense importar "
+"la ZDC:\n"
 "- una unitat que es mogui directament des de o cap a una ciutat.\n"
 "- una unitat que es mogui cap a una casella que ja estigui ocupada per una "
 "unitat amiga.\n"
@@ -28681,8 +28681,8 @@ msgid ""
 "for the special case where they are in a city."
 msgstr ""
 "- Les unitats només poden imposar ZDC quan són en un terreny que ho permet. "
-"Així, les unitats que no són natives del terreny no poden imposar ZDC excepte "
-"en el cas especial que siguin en una ciutat."
+"Així, les unitats que no són natives del terreny no poden imposar ZDC "
+"excepte en el cas especial que siguin en una ciutat."
 
 #: data/helpdata.txt:1348
 msgid ""
@@ -28691,8 +28691,8 @@ msgid ""
 "any other tile.)"
 msgstr ""
 "- Una ciutat enemiga compta com a casella ocupada per l'enemic si hi ha "
-"unitats a dins, però no si la ciutat és buida. (És la mateixa regla que per a "
-"qualsevol altra casella)."
+"unitats a dins, però no si la ciutat és buida. (És la mateixa regla que per "
+"a qualsevol altra casella)."
 
 #: data/helpdata.txt:1352
 msgid ""
@@ -35548,7 +35548,7 @@ msgstr "El teu %s ha enverinat l'aigua de %s."
 #: server/diplomats.c:119
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr "Se sospita que %s ha enverinat el subministre d'aigua de %s."
+msgstr "%s està sota sospita d'haver enverinat l'aigua de %s."
 
 #: server/diplomats.c:128
 #, c-format
@@ -35811,7 +35811,7 @@ msgstr "Has provocat un incident en subornar el %2$s %1$s."
 #: server/diplomats.c:1362
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
-msgstr "%s ha provocat un incident en subornar els teus %s."
+msgstr "%s ha causat un incident en subornar els teus %s."
 
 #: server/diplomats.c:1368
 #, c-format
@@ -35826,22 +35826,22 @@ msgstr "Els %s han provocat un incident en sabotejar el teu %s."
 #: server/diplomats.c:1383
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
-msgstr "Has provocat un incident en intentar robar tecnologia de %s."
+msgstr "Has causat un incident en intentar robar tecnologia de %s."
 
 #: server/diplomats.c:1387
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
-msgstr "%s ha provocat un incident en intentar robar-te tecnologia."
+msgstr "%s ha causat un incident en intentar robar-te tecnologia."
 
 #: server/diplomats.c:1393
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
-msgstr "Has provocat un incident en incitar una revolta a %s."
+msgstr "Has causat un incident en incitar una revolta a %s."
 
 #: server/diplomats.c:1397
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
-msgstr "Els %s han provocat un incident en incitar una revolta a %s."
+msgstr "Els %s han causat un incident en incitar una revolta a %s."
 
 #: server/diplomats.c:1404
 #, c-format
@@ -37295,11 +37295,11 @@ msgstr "Per jugador, en ordre"
 
 #: server/settings.c:321
 msgid "Per-player, random"
-msgstr "Per jugador, a l'atzar"
+msgstr "Per jugador, en ordre aleatori"
 
 #: server/settings.c:322
 msgid "Set manually"
-msgstr "Seleccionar manualment"
+msgstr "Fixar manualment"
 
 #: server/settings.c:323
 msgid "Per-team, in order"
@@ -38900,8 +38900,8 @@ msgstr ""
 "condicions de victòria:\n"
 "- \"Carrera espacial\" (SPACERACE): es construeix la nau espacial i arriba a "
 "Alpha Centauri.\n"
-"- \"Aliada\" (ALLIED): després de derrotar els enemics, tots els jugadors que "
-"queden són aliats.\n"
+"- \"Aliada\" (ALLIED): després de derrotar els enemics, tots els jugadors "
+"que queden són aliats.\n"
 "- \"Cultural\" (CULTURE): el jugador aconsegueix els criteris de dominació "
 "cultural definits al joc de regles.\n"
 
@@ -39530,8 +39530,8 @@ msgstr ""
 "- \"Sense connexions de jugador\" (QUITIDLE): Desa abans que el servidor es "
 "reiniciï per manca de jugadors.\n"
 "- \"Servidor interromput\" (INTERRUPT): Desar quan el servidor plega degut a "
-"una interrupció. "
-"- \"Temporitzador\" (TIMER): Desar cada 'savefrequency' minuts."
+"una interrupció. - \"Temporitzador\" (TIMER): Desar cada 'savefrequency' "
+"minuts."
 
 #: server/settings.c:2410
 msgid "Savegame compression level"
@@ -42869,6 +42869,12 @@ msgstr "error %ld (Missatge de format fallat)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compilat sense strerror)"
 
+#~ msgid "-f/--file and -a/--autoconnect options are incompatible\n"
+#~ msgstr "Les opcions -f/--file i -a/--autoconnect són incompatibles\n"
+
+#~ msgid "Failed to start local server; aborting."
+#~ msgstr "No s'ha pogut engegar el servidor local; avortant."
+
 #~ msgid "You must select your city style."
 #~ msgstr "Has d'escollir un estil de ciutat."
 
@@ -42924,6 +42930,13 @@ msgstr "error %d (compilat sense strerror)"
 #~ "versió: %s\n"
 #~ "client %s"
 
+#~ msgid ""
+#~ "Number of _Players\n"
+#~ "(including AI):"
+#~ msgstr ""
+#~ "Nombre de _Jugadors\n"
+#~ "(comptant IA):"
+
 #~ msgid "%s%s(%s), %s client"
 #~ msgstr "%s%s(%s), client %s"
 
@@ -42975,6 +42988,12 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Nation has been chosen by other player"
 #~ msgstr "La nació l'ha triada un altre jugador"
 
+#~ msgid "Goto Location"
+#~ msgstr "Anar a Lloc"
+
+#~ msgid "Inspect City"
+#~ msgstr "Inspeccionar Ciutat"
+
 #~ msgid "Help build Wonder (%d remaining)"
 #~ msgstr "Ajudar a construir la Meravella (en queden %d)"
 
@@ -42998,6 +43017,9 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Disband units"
 #~ msgstr "Desmobilitzar unitats"
 
+#~ msgid "Help build Wonder (%1 remaining)"
+#~ msgstr "Ajudar a construir la Meravella (en queden %1)"
+
 #~ msgid "%1 HP:%2/%3"
 #~ msgstr "%1 PV:%2/%3"
 
@@ -43006,8 +43028,29 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr[0] "%1 unitat"
 #~ msgstr[1] "%1 unitats"
 
+#~ msgid ""
+#~ "This client accepts the standard Qt command-line options\n"
+#~ "after '--'. See the Qt documentation.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Aquest client accepta les opcions estàndard de línia de comandes\n"
+#~ "del Qt després de '--'. Vegeu la documentació de Qt.\n"
+#~ "\n"
+
 #~ msgid "Quit?"
 #~ msgstr "Sortir?"
+
+#~ msgid "&Goto"
+#~ msgstr "&Anar a"
+
+#~ msgid "&Airlift"
+#~ msgstr "&Aerotransportar"
+
+#~ msgid "&Close"
+#~ msgstr "&Tancar"
+
+#~ msgid "Show All Cities"
+#~ msgstr "Mostrar Totes les Ciutats"
 
 #~ msgid "%1 (Turn:%2)"
 #~ msgstr "%1 (Torn:%2)"
@@ -43020,6 +43063,27 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "%1 from %2"
 #~ msgstr "%1 de %2"
+
+#~ msgid "Roger that"
+#~ msgstr "Entesos"
+
+#~ msgid "Units Filter"
+#~ msgstr "Filtre d'unitats"
+
+#~ msgid "Any activity"
+#~ msgstr "Qualsevol activitat"
+
+#~ msgid "Sentried"
+#~ msgstr "Amb vigilància"
+
+#~ msgid "Any unit"
+#~ msgstr "Qualsevol unitat"
+
+#~ msgid "Full HP"
+#~ msgstr "PV sencers"
+
+#~ msgid "Full MP"
+#~ msgstr "PM sencers"
 
 #~ msgid "Build Farmland"
 #~ msgstr "Construir Horta"
@@ -43036,14 +43100,29 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "<b>Techs unknown by you :</b>"
 #~ msgstr "<b>Tecnologies desconegudes per tu:</b>"
 
+#~ msgid "<b>Techs known by %1:</b>"
+#~ msgstr "<b>Tecnologies conegudes per %1:</b>"
+
 #~ msgid "%1 - max rate: %2%"
 #~ msgstr "%1 - taxa màxima: %2%"
 
 #~ msgid "Find Nearest"
 #~ msgstr "Trobar el Més Proper"
 
+#~ msgid "Abstain"
+#~ msgstr "Abstenció"
+
+#~ msgid "<b>%1 called a vote for:</b>"
+#~ msgstr "<b>%1 ha convocat una votació per:</b>"
+
 #~ msgid "Commit: %s"
 #~ msgstr "Versió: %s"
+
+#~ msgid "Requires that someone has discovered the technology %s.\n"
+#~ msgstr "Requereix que algú hagi descobert la tecnologia %s.\n"
+
+#~ msgid "Requires that no-one has yet discovered the technology %s.\n"
+#~ msgstr "Requereix que ningú no hagi descobert encara la tecnologia %s.\n"
 
 #~ msgid "?special:Requires %s on the tile.\n"
 #~ msgstr "Requereix %s a la casella.\n"
@@ -43409,8 +43488,38 @@ msgstr "error %d (compilat sense strerror)"
 #~ "- Les ciutats enemigues sense unitats a dins ja no imposen ZDC.\n"
 #~ "- El cas especial d'unitats terrestres que desembarquen és nou."
 
+#~ msgid ""
+#~ "All your new sea units built in cities on the same continent start with "
+#~ "an additional veteran level (this is cumulative with any Port Facility in "
+#~ "a city; with both, units are created as Hardened)."
+#~ msgstr ""
+#~ "Totes les teves noves unitats marítimes que construeixis en ciutats del "
+#~ "mateix continent comencen amb un nivell addicional de veterania (això "
+#~ "s'acumula amb qualsevol Instal·lació de Port d'una ciutat; amb tots dos, "
+#~ "les unitats es creen com a Endurides)."
+
 #~ msgid "Buoys cannot be built in the multiplayer ruleset."
 #~ msgstr "Les boies no es poden construir en el joc de regles multijugador."
+
+#~ msgid "%s boosts research; you gain the immediate advances %s and %s."
+#~ msgstr "%s dispara la recerca; obtens immediatament els avenços %s i %s."
+
+#~ msgid "The %s gain %s and %s from %s."
+#~ msgstr "Els %s aconsegueixen %s i %s dels %s."
+
+#~ msgid ""
+#~ "Great philosophers from all the world join your civilization: you get the "
+#~ "immediate advance %s."
+#~ msgstr ""
+#~ "Grans filòsofs de tot el món s'uneixen a la teva civilització: obtens "
+#~ "immediatament  l'avenç %s."
+
+#~ msgid ""
+#~ "Great philosophers from all the world join the %s: they get %s as an "
+#~ "immediate advance."
+#~ msgstr ""
+#~ "Grans filòsofs de tot el món s'uneixen als %s: obtenen %s com a  avenç "
+#~ "immediat."
 
 #~ msgid "?vertag:S2_4"
 #~ msgstr "S2_4"
@@ -43433,6 +43542,15 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Workers spontaneously gather and upgrade %s bases."
 #~ msgstr "Els treballadors s'apleguen espontàniament i milloren %s bases."
+
+#~ msgid "Trade between %s and %s lost along with city."
+#~ msgstr "El comerç entre %s i %s s'ha perdut amb la ciutat."
+
+#~ msgid "Trade between %s city %s and %s lost along with their city."
+#~ msgstr "El comerç entre la ciutat del %s %s i %s es perd amb la ciutat."
+
+#~ msgid "A recent plague outbreak prevents growth in %s."
+#~ msgstr "Un brot epidèmic recent evita el creixement a %s."
 
 #~ msgid ""
 #~ "%s can't build %s from the worklist; tech not yet available.  "
@@ -43542,6 +43660,9 @@ msgstr "error %d (compilat sense strerror)"
 #~ "%s no pot construir %s de la llista de treball, raó desconeguda!.  "
 #~ "S'ajorna..."
 
+#~ msgid "Be known as ADDR at metaserver or LAN client"
+#~ msgstr "Ser conegut com a ADDR al metaservidor o al client de LAN"
+
 #~ msgid "Your %s could not poison the water supply in %s."
 #~ msgstr "El teu %s no ha pogut enverinar l'aigua de %s."
 
@@ -43556,6 +43677,13 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "You can't subvert this city."
 #~ msgstr "No pots subvertir aquesta ciutat."
+
+#~ msgid ""
+#~ "Cannot change nation for player %d (%s) to nation %d (%s) because that "
+#~ "nation is unsuitable for this player."
+#~ msgstr ""
+#~ "No es pot canviar la nació del jugador %d (%s) a la nació %d (%s) perquè "
+#~ "aquesta nació no és adequada per a aquest jugador."
 
 #~ msgid "Sea moving start units are not yet supported. Nobody gets %s."
 #~ msgstr ""
@@ -43607,6 +43735,13 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr ""
 #~ "Els treballadors s'apleguen espontàniament i milloren totes les ciutats "
 #~ "possibles amb bases millors."
+
+#~ msgid ""
+#~ "Research Speed\n"
+#~ "(bulbs)"
+#~ msgstr ""
+#~ "Velocitat de Recerca\n"
+#~ "(bombetes)"
 
 #~ msgid "%s had invalid researching technology."
 #~ msgstr "%s tenia una tecnologia de recerca no vàlida."
@@ -43736,6 +43871,21 @@ msgstr "error %d (compilat sense strerror)"
 #~ "    a   = Unitat d'atac ràpida (p.ex., Genets)\n"
 #~ "    A   = Unitat d'atac forta (p.ex., Catapulta)\n"
 
+#~ msgid "Percentage food lost when city can't grow"
+#~ msgstr "Percentatge de menjar que es perd quan la ciutat no pot créixer"
+
+#~ msgid ""
+#~ "If a city would expand, but it can't because it lacks some prerequisite "
+#~ "(traditionally an Aqueduct or Sewer System), this is the base percentage "
+#~ "of its foodbox that is lost each turn; the penalty may be reduced by "
+#~ "buildings or other circumstances, depending on the ruleset."
+#~ msgstr ""
+#~ "Si una ciutat anés a créixer, però no ho pot fer perquè necessita algun "
+#~ "prerequisit (tradicionalment un Aqüeducte o Clavegueram), això és el "
+#~ "percentatge base del seu caixetí de menjar que es perd a cada torn; la "
+#~ "penalització es pot reduir amb edificis o altres circumstàncies, depenent "
+#~ "del joc de regles."
+
 #~ msgid ""
 #~ "If this is set, units will not cause unhappiness when inside your own "
 #~ "borders."
@@ -43773,6 +43923,24 @@ msgstr "error %d (compilat sense strerror)"
 #~ "encara poden guanyar la partida estan aliats, i almenys un jugador "
 #~ "derrotat no és part d'aquesta aliança, llavors la partida acabarà "
 #~ "immediatament amb victòria compartida per aquests jugadors."
+
+#~ msgid "Time between unit actions over turn change"
+#~ msgstr "Temps entre accions d'unitat en canvis de torn"
+
+#~ msgid ""
+#~ "This setting gives the minimum amount of time in seconds between unit "
+#~ "moves and other significant actions (such as building cities) after a "
+#~ "turn change occurs. For example, if this setting is set to 20 and a unit "
+#~ "moves 5 seconds before the turn change, it will not be able to move or "
+#~ "act in the next turn for at least 15 seconds. This value is limited to a "
+#~ "maximum value of 2/3 'timeout'."
+#~ msgstr ""
+#~ "Aquesta opció dóna la mínima quantitat de temps en segons entre moviments "
+#~ "d'unitat i altres accions significatives (com ara fundar ciutats) després "
+#~ "d'un canvi de torn. Per exemple, si aquesta opció està a 20, i una unitat "
+#~ "es mou 5 segons abans del canvi de torn, no podrà moure's ni fer res dins "
+#~ "del següent torn durant almenys 15 segons. Aquest valor està limitat a un "
+#~ "valor màxim de 2/3 de 'timeout'."
 
 #~ msgid ""
 #~ "This should be a string of characters, each of which specifies the "
@@ -43842,118 +44010,36 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Setting '%s' has been adjusted from %s to %s."
 #~ msgstr "L'opció '%s' s'ha modificat de %s a %s."
 
+#~ msgid "You have already conceded the game."
+#~ msgstr "Ja has donat la partida per perduda."
+
 #~ msgid "The %s have researched Future Tech. %d."
 #~ msgstr "Els %s descobreixen la tecnologia del futur %d."
 
-#~ msgid "&Refresh"
-#~ msgstr "&Refrescar"
-
-#~ msgid "&Cancel"
-#~ msgstr "&Cancel·lar"
-
-#~ msgid "&Connect"
-#~ msgstr "&Connectar"
-
-#~ msgid "Time"
-#~ msgstr "Hora"
-
-#~ msgid "Browse"
-#~ msgstr "Navega"
-
-#~ msgid "* Can build farmland.\n"
-#~ msgstr "* Pot fer hortes.\n"
+#~ msgid "      The city of %s already has %d better trade route!"
+#~ msgid_plural "      The city of %s already has %d better trade routes!"
+#~ msgstr[0] "      La ciutat de %s ja té %d ruta comercial millor!"
+#~ msgstr[1] "      La ciutat de %s ja té %d rutes comercials millors!"
 
 #~ msgid ""
-#~ "Settlers are one of the key units in the game. As well as building new "
-#~ "cities, they can also improve terrain, for instance by building "
-#~ "irrigation, mines, and roads. See the Terrain Alterations section of the "
-#~ "help for more details."
+#~ "Your unit may not act for another %s this turn. See /help unitwaittime."
 #~ msgstr ""
-#~ "Els Colons són una de les unitats clau del joc. A més de construir noves "
-#~ "ciutats, poden també millorar el terreny, per exemple fent regadius, "
-#~ "mines i camins. Veure la secció d'Alteracions del Terreny de l'ajuda per "
-#~ "més detalls."
+#~ "La teva unitat no pot fer res durant %s aquest torn. Vegeu /help "
+#~ "unitwaittime."
 
 #~ msgid ""
-#~ "Workers are similar to Settlers in that they can improve terrain -- see "
-#~ "the Terrain Alterations section of the help for more details of the "
-#~ "available improvements. However, Workers cannot build new cities."
+#~ "You are running Freeciv without using iconv. Unless\n"
+#~ "you are using the UTF-8 character set, some characters\n"
+#~ "may not be displayed properly. You can download iconv\n"
+#~ "at http://gnu.org/.\n"
 #~ msgstr ""
-#~ "Els Treballadors són semblants als Colons en el fet que poden millorar el "
-#~ "terreny -- veure la secció d'Alteracions del Terreny de l'ajuda per més "
-#~ "detalls de les millores possibles. No obstant, els Treballadors no poden "
-#~ "bastir ciutats noves."
+#~ "Estàs executant Freeciv sense fer servir iconv. Si no estàs fent\n"
+#~ "servir el joc de caràcters UTF-8, pot ser que alguns caràcters\n"
+#~ "no es mostrin correctament. Pots baixar iconv de\n"
+#~ "http://gnu.org/.\n"
 
-#~ msgid "A desert tile containing a river produces one extra food resource."
-#~ msgstr ""
-#~ "Una casella de desert que contingui un riu produeix un recurs addicional "
-#~ "de menjar."
-
-#~ msgid ""
-#~ "Any land terrain type may have a River on it. A River adds 1 trade to the "
-#~ "resources produced by that tile, and 1 food to Desert tiles. It also "
-#~ "increases a tile's defense factor by 25%."
-#~ msgstr ""
-#~ "Qualsevol tipus de terreny pot tenir-hi un Riu. Un Riu afegeix 1 punt de "
-#~ "comerç als recursos produïts per aquesta casella. També augmenta el "
-#~ "factor defensiu de la casella en un 25%."
-
-#~ msgid ""
-#~ "Settlers are one of the key units in the game. As well as building new "
-#~ "cities, they can also improve terrain, for instance by building "
-#~ "irrigation, mines, and roads. See the Terrain Alterations section of the "
-#~ "help for more details.  Settlers reduce the population of the city by 2 "
-#~ "when they are built."
-#~ msgstr ""
-#~ "Els Colons són una de les unitats clau del joc. A més de construir noves "
-#~ "ciutats, poden també millorar el terreny, per exemple fent regadius, "
-#~ "mines i camins. Vegeu la secció d'Alteracions del Terreny de l'ajuda per "
-#~ "més detalls. Els Colons redueixen la població de la ciutat en 2 quan es "
-#~ "construeixen."
-
-#~ msgid ""
-#~ "Migrants are like Workers in that they can improve terrain. However, "
-#~ "Migrants reduce the population by 1 when they are built, and can be used "
-#~ "to migrate population to other cities."
-#~ msgstr ""
-#~ "Els emigrants són com Treballadors en el fet que poden millorar el "
-#~ "terreny. No obstant, els Emigrants redueixen la població en 1 quan es "
-#~ "construeixen, i es poden utilitzar per fer emigrar població a d'altres "
-#~ "ciutats."
-
-#~ msgid ""
-#~ "Irrigation systems can be built on suitable types of terrain. Irrigation "
-#~ "causes a tile to produce some extra food each turn. In the classic "
-#~ "ruleset, building irrigation requires a nearby source of water: an Ocean, "
-#~ "Lake, or River tile, or another tile with an irrigation system, must "
-#~ "share an edge (not just a corner) with the target tile. Once irrigated, "
-#~ "land remains so even if the water source is removed. Given sufficient "
-#~ "technology, you may upgrade the irrigation system on a tile into even "
-#~ "more productive Farmland by irrigating it a second time."
-#~ msgstr ""
-#~ "Als tipus de terreny adequats es pot fer regadiu. Irrigar una casella fa "
-#~ "que produeixi menjar addicional a cada torn. En el joc de regles clàssic, "
-#~ "fer un regadiu requereix una font d'aigua propera: una casella d'Oceà, de "
-#~ "Llac o de Riu, o una altra casella que estigui irrigada, ha de compartir "
-#~ "una vora (no n'hi ha prou amb una cantonada) amb la casella que es vol "
-#~ "irrigar. Un cop convertit en regadiu, el terreny s'hi queda així encara "
-#~ "que es tregui la font d'aigua. A més, quan tens suficient tecnologia, "
-#~ "pots millorar el sistema de regadiu d'una casella i convertir-la en "
-#~ "Horta, que encara és més productiva, irrigant-la una segona vegada."
-
-#, fuzzy
-#~ msgid ""
-#~ " - Settlers and Workers have a limited range of terrain conversions "
-#~ "available to them, initiated by issuing the \"irrigate\" or \"mine\" "
-#~ "orders when on terrain unsuitable for such improvements. (Converting one "
-#~ "kind of terrain into another with the \"irrigate\" order does not require "
-#~ "a water source.)"
-#~ msgstr ""
-#~ " - Els Colons i els Treballadors poden fer un rang limitat de conversions "
-#~ "de terreny, que es comencen donant les ordres d'\"irrigar\" o de \"fer "
-#~ "mina\" en terrenys que no permeten la millora sol·licitada; veure la "
-#~ "taula inferior. (Convertir un tipus de terreny en un altre amb l'ordre "
-#~ "d'\"irrigar\" no requereix una font d'aigua)."
+#~ msgid "Could not convert text from %s to %s: %s.\n"
+#~ msgstr "No s'ha pogut convertir text de %s a %s: %s.\n"
 
 #~ msgid ""
 #~ "Place a start position which allows any nation to start at the tile. To "
@@ -44105,6 +44191,17 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr "Fallada en buscar el host del metaservidor"
 
 #~ msgid ""
+#~ "Settlers are one of the key units in the game. As well as building new "
+#~ "cities, they can also improve terrain, for instance by building "
+#~ "irrigation, mines, and roads. See the Terrain Alterations section of the "
+#~ "help for more details."
+#~ msgstr ""
+#~ "Els Colons són una de les unitats clau del joc. A més de construir noves "
+#~ "ciutats, poden també millorar el terreny, per exemple fent regadius, "
+#~ "mines i camins. Veure la secció d'Alteracions del Terreny de l'ajuda per "
+#~ "més detalls."
+
+#~ msgid ""
 #~ "Any land terrain type may have a River on it.  A River adds 1 trade to "
 #~ "the resources produced by that tile.  It also increases a tile's defense "
 #~ "factor by 50%.  Finally, land units may move along a River (but not "
@@ -44134,6 +44231,29 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr ""
 #~ "Estàs jugant al Freeciv amb les regles predeterminades per a partides "
 #~ "d'un sol jugador."
+
+#~ msgid ""
+#~ "Workers are similar to Settlers in that they can improve terrain -- see "
+#~ "the Terrain Alterations section of the help for more details of the "
+#~ "available improvements. However, Workers cannot build new cities."
+#~ msgstr ""
+#~ "Els Treballadors són semblants als Colons en el fet que poden millorar el "
+#~ "terreny -- veure la secció d'Alteracions del Terreny de l'ajuda per més "
+#~ "detalls de les millores possibles. No obstant, els Treballadors no poden "
+#~ "bastir ciutats noves."
+
+#~ msgid ""
+#~ "Engineers are similar to Workers, but they work twice as fast and move "
+#~ "twice as fast.  Engineers may also perform major terrain transformations "
+#~ "(for example, converting Tundra into Desert) which are beyond the "
+#~ "capabilities of Workers and Settlers; see the Terrain Alterations section "
+#~ "for more details."
+#~ msgstr ""
+#~ "Els Enginyers són semblants als Treballadors, però treballen el doble de "
+#~ "ràpid i es mouen el doble de ràpid. Els Enginyers també poden realitzar "
+#~ "transformacions de terreny importants (per exemple, convertir Tundra en "
+#~ "Desert), que estan més enllà de les possibilitats dels Treballadors i "
+#~ "Colons; veure la secció d'Alteracions del Terreny per més detalls."
 
 #~ msgid ""
 #~ "You are playing with the experimental ruleset. This showcases new or "
@@ -44191,6 +44311,33 @@ msgstr "error %d (compilat sense strerror)"
 #~ "sobre Ciutats per més detalls."
 
 #~ msgid ""
+#~ "Settlers, Workers, and Engineers have the ability to alter terrain tiles "
+#~ "in several ways."
+#~ msgstr ""
+#~ "Els Colons, els Treballadors i els Enginyers tenen la capacitat d'alterar "
+#~ "el terreny de diverses maneres."
+
+#~ msgid ""
+#~ "Irrigation systems can be built on suitable types of terrain. Irrigation "
+#~ "causes a tile to produce some extra food each turn. Building irrigation "
+#~ "requires a nearby source of water: an Ocean, Lake, or River tile, or "
+#~ "another tile with an irrigation system, must share an edge (not just a "
+#~ "corner) with the target tile. Once irrigated, land remains so even if the "
+#~ "water source is removed. Given sufficient technology, you may upgrade the "
+#~ "irrigation system on a tile into even more productive Farmland by "
+#~ "irrigating it a second time."
+#~ msgstr ""
+#~ "Als tipus de terreny adequats es pot fer regadiu. Irrigar una casella fa "
+#~ "que produeixi menjar addicional a cada torn. Fer un regadiu requereix una "
+#~ "font d'aigua propera: una casella d'Oceà, de Llac o de Riu, o una altra "
+#~ "casella que estigui irrigada, ha de compartir una vora (no n'hi ha prou "
+#~ "amb una cantonada) amb la casella que es vol irrigar. Un cop convertit en "
+#~ "regadiu, el terreny s'hi queda així encara que es tregui la font d'aigua. "
+#~ "A més, quan tens suficient tecnologia, pots millorar el sistema de "
+#~ "regadiu d'una casella i convertir-la en Horta, que encara és més "
+#~ "productiva, irrigant-la una segona vegada."
+
+#~ msgid ""
 #~ "Terrain not suitable for irrigation systems or mines can often be "
 #~ "permanently converted into a type more suitable to the player's needs, "
 #~ "although this usually takes longer. Converting terrain from one type to "
@@ -44204,8 +44351,21 @@ msgstr "error %d (compilat sense strerror)"
 #~ "les necessitats del jugador, encara que aquesta operació sol requerir més "
 #~ "temps. Modificar el terreny d'un tipus a un altre d'aquesta manera pot "
 #~ "destruir una mina o sistema d'irrigació que ja existeixin, si el terreny "
-#~ "resultant no és apropiat per la millora, i també pot treure els recursos "
-#~ "especials, si eren específics del tipus de terreny original."
+#~ "resultant no és apropiat per la millora, i també pot treure'n els "
+#~ "recursos especials, si eren específics del tipus de terreny original."
+
+#~ msgid ""
+#~ " - Settlers and Workers have a limited range of terrain conversions "
+#~ "available to them, initiated by issuing the \"irrigate\" or \"mine\" "
+#~ "orders when on terrain which cannot support the requested improvement; "
+#~ "see the table below. (Converting one kind of terrain into another with "
+#~ "the \"irrigate\" order does not require a water source.)"
+#~ msgstr ""
+#~ " - Els Colons i els Treballadors poden fer un rang limitat de conversions "
+#~ "de terreny, que es comencen donant les ordres d'\"irrigar\" o de \"fer "
+#~ "mina\" en terrenys que no permeten la millora sol·licitada; veure la "
+#~ "taula inferior. (Convertir un tipus de terreny en un altre amb l'ordre "
+#~ "d'\"irrigar\" no requereix una font d'aigua)."
 
 #~ msgid ""
 #~ " - Engineers can perform a much wider range of transformations on almost "
@@ -44470,10 +44630,10 @@ msgstr "error %d (compilat sense strerror)"
 #~ "la ciutat que el produeix. Així, encara que seria pràctic que les ciutats "
 #~ "descontentes invertissin tot el seu comerç en luxes mentre d'altres "
 #~ "invertissin en ciència o impostos, hauràs de trobar un compromís entre "
-#~ "les necessitats de totes les teves ciutats (encara poden haver-hi maneres "
-#~ "de fer ajustos locals, com ara assignar ciutadans perquè facin d'artistes "
-#~ "en el joc de regles predeterminat). Veure la secció sobre Felicitat per "
-#~ "més detalls sobre els efectes del luxe."
+#~ "les necessitats de totes les teves ciutats (encara que poden haver-hi "
+#~ "maneres de fer ajustos locals, com ara assignar ciutadans perquè facin "
+#~ "d'artistes en el joc de regles predeterminat). Vegeu la secció sobre "
+#~ "Felicitat per més detalls sobre els efectes del luxe."
 
 #~ msgid ""
 #~ "Besides working terrain gifted with rare commodities, or with access to "
@@ -44781,7 +44941,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "ruleset contains no such effects.)"
 #~ msgstr ""
 #~ " - Segons el joc de regles, alguns altres factors com el tipus de govern "
-#~ "i les millores de la ciutat pot augmentar o disminuir la desitjabilitat "
+#~ "i les millores de la ciutat poden augmentar o disminuir la desitjabilitat "
 #~ "de les ciutats; aquests factors s'informen en altres seccions de l'ajuda. "
 #~ "(El joc de regles per defecte no conté aquests efectes)."
 
@@ -44811,7 +44971,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Freight in the default ruleset) can contribute their full cost in "
 #~ "production points towards the construction of a wonder in another city."
 #~ msgstr ""
-#~ "Les meravelles són edificis especials que només pot completar un jugadar "
+#~ "Les meravelles són edificis especials que només pot completar un jugador "
 #~ "en cada partida, i que sovint milloren tota la civilització sencera. Al "
 #~ "contrari de les millores de ciutat normals, que s'han de construir "
 #~ "exclusivament amb els punts de producció locals, alguns unitats especials "
@@ -44893,7 +45053,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "defenders, but few for attackers, aside from veteran status; an attacking "
 #~ "unit can mostly expect circumstance to work against it."
 #~ msgstr ""
-#~ "La descripció següent és per al joc de regles predeterminat, però es "
+#~ "La descripció següent és per al joc de regles predeterminat, però els "
 #~ "principis són semblants per a qualsevol joc de regles. Fixa't que hi ha "
 #~ "moltes bonificacions possibles per als defensors, però poques per als "
 #~ "atacants, apart de la seva pròpia veterania; una unitat atacant ha de "
@@ -44953,7 +45113,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ " - Finally, if the attacker is a fighter and the defender is a "
 #~ "helicopter, the defender's strength is halved."
 #~ msgstr ""
-#~ " - Finalment, si l'atacant és un caça i el defensor és un helicopter, la "
+#~ " - Finalment, si l'atacant és un caça i el defensor és un helicòpter, la "
 #~ "força del defensor es redueix a la meitat."
 
 #~ msgid ""
@@ -45089,7 +45249,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "(llistats a sota). Per poder canviar la teva forma de govern, has de "
 #~ "començar una revolució. Això farà que la teva civilització passi per un "
 #~ "període d'Anarquia (que durarà entre 1 i 5 torns); al final d'aquest "
-#~ "temps, podràs tenir el teu nou govern."
+#~ "temps, podràs triar el teu nou govern."
 
 #~ msgid ""
 #~ "TIP 1:  Offensive military campaigns are difficult under Republican and "
@@ -45232,7 +45392,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "nau: veure els textos d'ajuda per Estructura Espacial, Component "
 #~ "Espacial, i Mòdul Espacial, a la secció d'Edificis. (Si no hi ha textos "
 #~ "d'ajuda per aquests temes, segurament vol dir que l'opció de servidor "
-#~ "\"spacerace\" està inhabilitada per la teva partida)."
+#~ "\"spacerace\" està inhabilitada per a la teva partida)."
 
 #~ msgid ""
 #~ "When you have started building your spaceship, you can see it with the "
@@ -45388,6 +45548,9 @@ msgstr "error %d (compilat sense strerror)"
 #~ "Sumatra, fou una potència regional els segles XVI i XVII, controlant bona "
 #~ "part del comerç que passava per l'estret de Malaca. Aceh fou sotmès pels "
 #~ "holandesos en la sagnant guerra d'Aceh entre 1873 i 1903."
+
+#~ msgid "Governor %s"
+#~ msgstr "Governador %s"
 
 #~ msgid "?female:Governor %s"
 #~ msgstr "Governadora %s"
@@ -51537,14 +51700,14 @@ msgstr "error %d (compilat sense strerror)"
 #~ "smallest republic."
 #~ msgstr ""
 #~ "Anomenada Illa Agradable pels colonitzadors europeus, Nauru és una illa "
-#~ "del Pacífic Sud. L'illa fou poblada originalment per pobles austronesis "
+#~ "del Pacífic Sud. L'illa fou poblada originalment per pobles austronèsics "
 #~ "al voltant de l'any 1000 a.C. El contacte amb els europeus va provocar "
 #~ "guerres internes tribals que van delmar la població. Nauru fou "
 #~ "annexionada per l'Imperi Alemany el 1888, però Austràlia la va ocupar "
 #~ "durant la Primera Guerra Mundial. El 1968, la República de Nauru va "
 #~ "obtenir la independència. Gràcies a les seves enormes reserves de "
 #~ "fosfats, Nauru fou durant cert temps el país del tercer món més "
-#~ "desenvolupat, i un dels països del món amb una renda per càpita més alta. "
+#~ "desenvolupat, i un dels països del món amb una renda per capita més alta. "
 #~ "Amb l'esgotament de les reserves de fosfats, el país està patint una greu "
 #~ "crisi econòmica. S'han buscat fonts d'ingressos alternatives com la banca "
 #~ "\"offshore\", els centres de detenció d'immigrants i els teatres "
@@ -53073,7 +53236,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr ""
 #~ "Samoa és un país que ocupa la part occidental de l'arxipèlag de Samoa, al "
 #~ "Pacífic Central; la part oriental està governada pels Estats Units com a "
-#~ "Samoa Nord-americana. Samoa fou colonitzada per pobles austronesis al "
+#~ "Samoa Nord-americana. Samoa fou colonitzada per pobles austronèsics al "
 #~ "voltant de l'any 1500 AEC. Fou probablement des de Samoa que els "
 #~ "polinesis van començar la seva expansió per tot el Pacífic. Colonitzada "
 #~ "per Alemanya i Nova Zelanda, Samoa va obtenir la independència el 1962."
@@ -53481,7 +53644,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "of the continent."
 #~ msgstr ""
 #~ "Les Seychelles són un país-arxipèlag prop de la costa oriental d'Àfrica, "
-#~ "a l'Oceà Índic. Les illes foren visitades per mercaders austronesis, "
+#~ "a l'Oceà Índic. Les illes foren visitades per mercaders austronèsics, "
 #~ "maldius i àrabs a l'antiguitat, però a l'època dels descobriments "
 #~ "europeus, les Seychelles no tenien població indígena. Les Seychelles van "
 #~ "ser possessió alternativament dels francesos i els britànics, fins que "
@@ -53746,7 +53909,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "1978."
 #~ msgstr ""
 #~ "Les Illes Salomó són un país de Melanèsia, ubicat entre Papua Nova Guinea "
-#~ "i Vanuatu. Habitat per pobles austronesis des del 4000 AEC., les illes "
+#~ "i Vanuatu. Habitat per pobles austronèsics des del 4000 AEC., les illes "
 #~ "van convertir-se en protectorat britànic el segle XIX. Les illes van "
 #~ "viure batalles cruentes durant la Segona Guerra Mundial, inclosa la "
 #~ "famosa batalla de Guadalcanal. Les Illes Salomó han estat independents "
@@ -55732,7 +55895,7 @@ msgstr "error %d (compilat sense strerror)"
 #~ "This flag indicates whether city population is reduced after successful "
 #~ "attack of enemy unit, depending on its movement type."
 #~ msgstr ""
-#~ "Aquest valor indica si la població d'una ciutat es redueix després d'un "
+#~ "Aquesta opció indica si la població d'una ciutat es redueix després d'un "
 #~ "atac victoriós d'una unitat enemiga, segons per el seu tipus de moviment."
 
 #~ msgid ""
@@ -55792,6 +55955,9 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Cannot attack from sea."
 #~ msgstr "No pots atacar des del mar."
+
+#~ msgid "* Can build farmland.\n"
+#~ msgstr "* Pot fer hortes.\n"
 
 #~ msgid ""
 #~ "\n"
