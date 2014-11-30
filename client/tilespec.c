@@ -4870,7 +4870,7 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       if (layer == LAYER_TERRAIN1
           || layer == LAYER_TERRAIN2
-          || layer == LAYER_TERRAIN2
+          || layer == LAYER_TERRAIN3
           || layer == LAYER_WATER
           || layer == LAYER_ROADS) {
         build_tile_data(ptile, pterrain, tterrain_near, textras_near);
