@@ -1833,6 +1833,14 @@ void map_claim_border(struct tile *ptile, struct player *owner)
     return;
   }
 
+  if (owner == NULL) {
+    /* Clear the border instead of claiming. Code below this block
+     * cannot handle NULL owner. */
+    map_clear_border(ptile);
+
+    return;
+  }
+
   circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
     struct tile *dclaimer = tile_claimer(dtile);
 
