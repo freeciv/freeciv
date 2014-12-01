@@ -86,6 +86,7 @@ static void dai_incident_nuclear_not_target(struct player *violator,
 static void dai_incident_nuclear_self(struct player *violator,
 				      struct player *victim);
 static void dai_incident_pillage(struct player *violator, struct player *victim);
+static void clear_old_treaty(struct player *pplayer, struct player *aplayer);
 
 /**********************************************************************
   Send a diplomatic message. Use this instead of notify directly
@@ -909,6 +910,7 @@ void dai_diplomacy_first_contact(struct ai_type *ait, struct player *pplayer,
            "while we get to know each other better?"),
            player_name(pplayer),
            player_name(aplayer));
+    clear_old_treaty(pplayer, aplayer);
     dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
   }
 }
@@ -1124,12 +1126,35 @@ static void suggest_tech_exchange(struct player* player1,
   } advance_index_iterate_end;
 }
 
-/********************************************************************** 
+/**********************************************************************
+  Clear old clauses from the treaty between players
+***********************************************************************/
+static void clear_old_treaty(struct player *pplayer, struct player *aplayer)
+{
+  struct Treaty *old_treaty = find_treaty(pplayer, aplayer);
+
+  if (old_treaty != NULL) {
+    /* Remove existing clauses */
+    clause_list_iterate(old_treaty->clauses, pclause) {
+      dlsend_packet_diplomacy_remove_clause(aplayer->connections,
+                                            player_number(pplayer),
+                                            player_number(pclause->from),
+                                            pclause->type, pclause->value);
+      free(pclause);
+    } clause_list_iterate_end;
+    clause_list_destroy(old_treaty->clauses);
+    old_treaty->clauses = clause_list_new();
+  }
+}
+
+/**********************************************************************
   Offer techs and stuff to other player and ask for techs we need.
 ***********************************************************************/
 static void dai_share(struct player *pplayer, struct player *aplayer)
 {
   bool gives_vision;
+
+  clear_old_treaty(pplayer, aplayer);
 
   /* Only share techs with team mates */
   if (players_on_same_team(pplayer, aplayer)) {
@@ -1685,6 +1710,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
                                   FALSE, DS_ALLIANCE) < 0) {
         break;
       }
+      clear_old_treaty(pplayer, aplayer);
       dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, 0);
       adip->asked_about_alliance = !aplayer->ai_controlled ? 13 : 0;
       notify(aplayer, _("*%s (AI)* Greetings friend, may we suggest "
@@ -1700,6 +1726,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
                                   FALSE, DS_PEACE) < 0) {
         break;
       }
+      clear_old_treaty(pplayer, aplayer);
       dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
       adip->asked_about_peace = !aplayer->ai_controlled ? 12 : 0;
       notify(aplayer, _("*%s (AI)* Greetings neighbor, may we suggest "
@@ -1715,6 +1742,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
                                   FALSE, DS_CEASEFIRE) < 0) {
         break; /* Fight until the end! */
       }
+      clear_old_treaty(pplayer, aplayer);
       dai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
       adip->asked_about_ceasefire = !aplayer->ai_controlled ? 9 : 0;
       notify(aplayer, _("*%s (AI)* We grow weary of this constant "
