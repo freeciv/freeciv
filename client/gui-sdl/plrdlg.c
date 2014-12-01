@@ -15,7 +15,8 @@
 #include <fc_config.h>
 #endif
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
 
 /* utility */
 #include "astring.h"

@@ -16,8 +16,8 @@
 #endif
 
 /* SDL */
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 /* utility */
 #include "log.h"

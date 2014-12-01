@@ -22,7 +22,8 @@
 #ifndef FC__GUI_TILESPEC_H
 #define FC__GUI_TILESPEC_H
 
-#include "SDL.h"
+/* SDL */
+#include <SDL.h>
 
 #include "tilespec.h"
 
