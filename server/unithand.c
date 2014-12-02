@@ -2064,10 +2064,6 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
     return FALSE;
   }
 
-  if (!unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
-    return FALSE;
-  }
-
   /* if no destination city is passed in,
    *  check whether the unit is already in the city */
   if (!pcity_dest) { 
