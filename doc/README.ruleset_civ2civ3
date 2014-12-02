@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 18-Jul-2014)
+Civ2Civ3 Ruleset for Freeciv v2.6 (Updated 30-Nov-2014)
 ==========================================================
 
 
@@ -466,6 +466,7 @@ Terrain:
 - Re-enabled terraforming from Mountains to Hills, and from Grassland to Lake.
 It is still possible to transform any terrain to Hills by changing them to Forest first.
 - Deep ocean tiles must be mined in order to take advantage of the shield bonus from Offshore Platforms (buoys are no longer needed).
+- Readjusted transformations caused by global warming and nuclear winter. Ocean can no longer change to deep ocean.
 
 Units:
 - Units automatically move to the target tile after a successful attack. Units with remaining movement points can continue moving after the attack.
