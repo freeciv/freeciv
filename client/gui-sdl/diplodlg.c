@@ -1229,7 +1229,7 @@ static void popdown_diplomacy_dialog(int counterpart)
 /**************************************************************************
   Popdown all diplomacy dialogs
 **************************************************************************/
-static void popdown_diplomacy_dialogs()
+static void popdown_diplomacy_dialogs(void)
 {
   dialog_list_iterate(dialog_list, pdialog) {
     popdown_diplomacy_dialog(player_number(pdialog->treaty.plr1));
