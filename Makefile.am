@@ -126,7 +126,8 @@ docs =			\
 	ChangeLog	\
 	COPYING		\
 	INSTALL		\
-	NEWS
+	NEWS		\
+	NEWS-2.4
 
 doc_DATA = $(docs)
 
