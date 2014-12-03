@@ -1914,7 +1914,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
   }
 
   /* if moving didn't kill us, and we got to the destination, handle it. */
-  if (alive && same_pos(dest_city->tile, unit_tile(punit))) {
+  if (alive && real_map_distance(dest_city->tile, unit_tile(punit)) <= 1) {
     /* release the boat! */
     if (unit_transported(punit)) {
       aiferry_clear_boat(ait, punit);
