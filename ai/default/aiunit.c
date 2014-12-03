@@ -1942,6 +1942,17 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                city_name(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
                             0, ACTION_TRADE_ROUTE);
+    } else if (is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
+                                              punit, dest_city)) {
+      /* Get the one time bonus. */
+      log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) enters marketplace of %s",
+               nation_rule_name(nation_of_unit(punit)),
+               unit_rule_name(punit),
+               punit->id,
+               TILE_XY(unit_tile(punit)),
+               city_name(dest_city));
+      handle_unit_do_action(pplayer, punit->id, dest_city->id,
+                            0, ACTION_MARKETPLACE);
     } else {
       log_base(LOG_NORMAL, "%s %s[%d](%d,%d) unable to trade with %s",
                nation_rule_name(nation_of_unit(punit)),
