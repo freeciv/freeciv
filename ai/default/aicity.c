@@ -298,7 +298,9 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
     CITY_LOG(LOG_WANT, pcity, "Falling back - didn't want to build soldiers,"
 	     " workers, caravans, settlers, or buildings!");
     city_data->choice.want = 1;
-    if (best_role_unit(pcity, UTYF_TRADE_ROUTE)) {
+    if (best_role_unit(pcity, UTYF_TRADE_ROUTE)
+        && utype_can_do_action(best_role_unit(pcity, UTYF_TRADE_ROUTE),
+                               ACTION_TRADE_ROUTE)) {
       city_data->choice.value.utype
         = best_role_unit(pcity, UTYF_TRADE_ROUTE);
       city_data->choice.type = CT_CIVILIAN;

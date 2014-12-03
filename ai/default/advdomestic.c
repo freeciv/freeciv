@@ -274,6 +274,11 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     unit_type = get_role_unit(UTYF_TRADE_ROUTE, 0);
   }
 
+  if (!utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
+    /* This unit type isn't suitable for establishing trade routes. */
+    return;
+  }
+
   trade_routes = city_num_trade_routes(pcity);
   /* Count also caravans enroute to establish traderoutes */
   unit_list_iterate(pcity->units_supported, punit) {
