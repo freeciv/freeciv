@@ -18,7 +18,7 @@ d = Dir.new('.')
 results = []
 =begin Single-threaded version
 d.each do |file|
-  next unless file =~ /.po$/
+  next unless file =~ /\.po$/
   results << [file.split('.')[0], Open3.popen3("msgfmt --stat #{file}") {|sin, sout, serr| serr.readlines[0]}]
 end
 =end
@@ -30,7 +30,7 @@ end
 #separate threads. This still results in double speedups.
 thr = []
 d.each do |file|
-  next unless file =~ /.po$/
+  next unless file =~ /\.po$/
   name = file.split('.')[0]
   thr << Thread.new { results << [name, Open3.popen3("msgfmt --stat #{file}") {|sin, sout, serr| serr.readlines[0]}] }
 end
