@@ -111,6 +111,7 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/x.m4				\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh
+# On branch: add NEWS-x.x here and remove this comment (1 of 2)
 
 noinst_HEADERS= fc_version
 
@@ -121,6 +122,7 @@ docs =			\
 	COPYING		\
 	INSTALL		\
 	NEWS
+# On branch: add NEWS-x.x here and remove this comment (2 of 2)
 
 doc_DATA = $(docs)
 
