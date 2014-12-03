@@ -1932,7 +1932,8 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
       handle_unit_help_build_wonder(pplayer, punit->id, dest_city->id);
-    } else {
+    } else if (is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                              punit, dest_city)) {
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
                nation_rule_name(nation_of_unit(punit)),
                unit_rule_name(punit),
@@ -1941,6 +1942,13 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                city_name(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
                             0, ACTION_TRADE_ROUTE);
+    } else {
+      log_base(LOG_NORMAL, "%s %s[%d](%d,%d) unable to trade with %s",
+               nation_rule_name(nation_of_unit(punit)),
+               unit_rule_name(punit),
+               punit->id,
+               TILE_XY(unit_tile(punit)),
+               city_name(dest_city));
     }
   }
 }
@@ -2112,7 +2120,8 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
 
   CHECK_UNIT(punit);
 
-  if (!unit_has_type_flag(punit, UTYF_TRADE_ROUTE) &&
+  /* FIXME: Support the Enter Marketplace action. */
+  if (!unit_can_do_action(punit, ACTION_TRADE_ROUTE) &&
       !unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     /* we only want units that can establish trade or help build wonders */
     return;
@@ -2150,7 +2159,11 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
                  && can_establish_trade_route(homecity, city_dest)))
         || (unit_data->task == AIUNIT_WONDER
             && city_dest->production.kind == VUT_IMPROVEMENT
-            && !is_wonder(city_dest->production.value.building))) {
+            && !is_wonder(city_dest->production.value.building))
+        || (unit_data->task == AIUNIT_TRADE
+            && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
+            && !is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                               punit, city_dest))) {
       /* destination invalid! */
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) destination invalid!",
@@ -2497,7 +2510,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
 	     ||unit_has_type_flag(punit, UTYF_CITIES)) {
     dai_manage_settler(ait, pplayer, punit);
     return;
-  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+  } else if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)
              || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     TIMING_LOG(AIT_CARAVAN, TIMER_START);
     dai_manage_caravan(ait, pplayer, punit);
