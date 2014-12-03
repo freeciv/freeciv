@@ -837,7 +837,7 @@ void dai_manage_diplomat(struct ai_type *ait, struct player *pplayer,
         int dist  = real_map_distance(unit_tile(punit), punit->goto_tile);
         UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s",
                  dist, ctarget ? city_name(ctarget) : "(none)");
-        if (dist == 1) {
+        if (dist <= 1) {
           /* Do our stuff */
           dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
           dai_diplomat_city(ait, punit, ctarget);
