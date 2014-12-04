@@ -3886,9 +3886,10 @@ bool execute_orders(struct unit *punit)
         return TRUE;
       }
 
-      handle_unit_help_build_wonder(pplayer,
-                                    unitid,
-                                    tile_city(dst_tile)->id);
+      handle_unit_do_action(pplayer,
+                            unitid,
+                            tile_city(dst_tile)->id,
+                            0, ACTION_HELP_WONDER);
       if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no wonder city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,

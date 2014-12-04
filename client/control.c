@@ -895,65 +895,6 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 }
 
 /**************************************************************************
-  Add punit to queue of caravan arrivals, and popup a window for the
-  next arrival in the queue, if there is not already a popup, and
-  re-checking that a popup is appropriate.
-  If punit is NULL, just do for the next arrival in the queue.
-**************************************************************************/
-void process_caravan_arrival(struct unit *punit)
-{
-  if (NULL == caravan_arrival_queue) {
-    /* Can happen when the user left a game. */
-    return;
-  }
-
-  if (NULL != punit) {
-    genlist_prepend(caravan_arrival_queue, FC_INT_TO_PTR(punit->id));
-  }
-
-  /* There can only be one dialog at a time: */
-  if (have_asked_server_for_actions
-      || action_selection_actor_unit() != IDENTITY_NUMBER_ZERO) {
-    return;
-  }
-
-  while (0 < genlist_size(caravan_arrival_queue)) {
-    void *data;
-
-    data = genlist_get(caravan_arrival_queue, 0);
-    genlist_remove(caravan_arrival_queue, data);
-    punit = game_unit_by_number(FC_PTR_TO_INT(data));
-
-    if (punit && unit_can_help_build_wonder_here(punit)
-        && (NULL == client.conn.playing
-            || (unit_owner(punit) == client.conn.playing
-                && !client.conn.playing->ai_controlled))) {
-      struct city *pcity_dest = tile_city(unit_tile(punit));
-      struct city *pcity_homecity = game_city_by_number(punit->homecity);
-
-      if (pcity_dest && pcity_homecity) {
-        action_probability probabilities[ACTION_COUNT];
-
-        /* Caravan actions don't use action enablers yet. */
-        action_iterate(act) {
-          probabilities[act] = ACTPROB_IMPOSSIBLE;
-        } action_iterate_end;
-
-        popup_action_selection(punit, pcity_dest, NULL,
-                               city_tile(pcity_dest),
-                               probabilities);
-
-        return;
-      }
-    }
-  }
-
-  /* No more caravan action selections. Look in the other action selection
-   * queues. */
-  choose_action_queue_next();
-}
-
-/**************************************************************************
   Move along the queue of units that need player input about what action
   to take.
 **************************************************************************/
@@ -962,15 +903,7 @@ void choose_action_queue_next(void)
   /* This was called because the queue can move on. */
   have_asked_server_for_actions = FALSE;
 
-  if (diplomat_arrival_queue && genlist_size(diplomat_arrival_queue) > 0) {
-    process_diplomat_arrival(NULL, ACTION_CHOOSE_NEXT);
-    return;
-  }
-
-  if (caravan_arrival_queue && 0 < genlist_size(caravan_arrival_queue)) {
-    process_caravan_arrival(NULL);
-    return;
-  }
+  process_diplomat_arrival(NULL, ACTION_CHOOSE_NEXT);
 }
 
 /**************************************************************************
@@ -1035,10 +968,6 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
       return;
     }
   }
-
-  /* No more diplomat action selections. Look in the other action selection
-   * queues. */
-  choose_action_queue_next();
 }
 
 /**************************************************************************
@@ -1742,7 +1671,8 @@ void request_unit_unload(struct unit *pcargo)
   Send request to do caravan action - establishing traderoute or
   helping in wonder building - to server.
 **************************************************************************/
-void request_unit_caravan_action(struct unit *punit, enum packet_type action)
+void request_unit_caravan_action(struct unit *punit,
+                                 enum gen_action action)
 {
   struct city *target_city;
 
@@ -1750,15 +1680,12 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
     return;
   }
 
-  /* FIXME: Change the type of action to gen_action when Help Build Wonder
-   * becomes action enabler controlled. */
-  if (action == PACKET_UNIT_DO_ACTION) {
+  if (action == ACTION_TRADE_ROUTE) {
     request_do_action(ACTION_TRADE_ROUTE, punit->id,
                       target_city->id, 0);
-  } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
-    dsend_packet_unit_help_build_wonder(&client.conn,
-                                        punit->id,
-                                        tile_city(unit_tile(punit))->id);
+  } else if (action == ACTION_HELP_WONDER) {
+    request_do_action(ACTION_HELP_WONDER, punit->id,
+                      target_city->id, 0);
   } else {
     log_error("request_unit_caravan_action() Bad action (%d)", action);
   }
@@ -2809,7 +2736,7 @@ void key_unit_build_wonder(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
+      request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;
 }
@@ -2886,7 +2813,7 @@ void key_unit_trade_route(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_DO_ACTION);
+      request_unit_caravan_action(punit, ACTION_TRADE_ROUTE);
     }
   } unit_list_iterate_end;
 }

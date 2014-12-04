@@ -1919,7 +1919,8 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
     if (unit_transported(punit)) {
       aiferry_clear_boat(ait, punit);
     }
-    if (help_wonder) {
+    if (help_wonder && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                                      punit, dest_city)) {
         /*
          * We really don't want to just drop all caravans in immediately.
          * Instead, we want to aggregate enough caravans to build instantly.
@@ -1931,7 +1932,8 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                punit->id,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
-      handle_unit_help_build_wonder(pplayer, punit->id, dest_city->id);
+      handle_unit_do_action(pplayer, punit->id, dest_city->id,
+                            0, ACTION_HELP_WONDER);
     } else if (is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
                                               punit, dest_city)) {
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
@@ -1954,7 +1956,16 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
                             0, ACTION_MARKETPLACE);
     } else {
-      log_base(LOG_NORMAL, "%s %s[%d](%d,%d) unable to trade with %s",
+      enum log_level level = LOG_NORMAL;
+
+      if (help_wonder) {
+        /* A Caravan ordered to help build wonder may arrive after
+         * enough shields to build the wonder is produced. */
+        level = LOG_VERBOSE;
+      }
+
+      log_base(level,
+               "%s %s[%d](%d,%d) unable to trade with %s",
                nation_rule_name(nation_of_unit(punit)),
                unit_rule_name(punit),
                punit->id,

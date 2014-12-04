@@ -949,11 +949,6 @@ PACKET_UNIT_BATTLEGROUP = 71; cs, dsend
   SINT8 battlegroup;
 end
 
-PACKET_UNIT_HELP_BUILD_WONDER = 72; cs, dsend
-  UNIT unit_id;
-  CITY city_id;
-end
-
 # used for client orders: currently client-side goto and patrol
 PACKET_UNIT_ORDERS = 73; cs
   UNIT unit_id;

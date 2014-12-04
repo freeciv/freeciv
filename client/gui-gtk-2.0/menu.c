@@ -1053,7 +1053,7 @@ static void build_city_callback(GtkAction *action, gpointer data)
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
     } else if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
+      request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;
 }
@@ -1095,7 +1095,7 @@ static void build_road_callback(GtkAction *action, gpointer data)
     }
 
     if (!building_road && unit_can_est_trade_route_here(punit)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_DO_ACTION);
+      request_unit_caravan_action(punit, ACTION_TRADE_ROUTE);
     }
   } unit_list_iterate_end;
 }

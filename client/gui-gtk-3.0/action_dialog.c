@@ -51,8 +51,7 @@
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_MOVE
 #define BUTTON_CANCEL BUTTON_MOVE + 1
-#define BUTTON_HELP_WONDER BUTTON_MOVE + 2
-#define BUTTON_COUNT BUTTON_MOVE + 3
+#define BUTTON_COUNT BUTTON_MOVE + 2
 
 #define BUTTON_NOT_THERE -1
 
@@ -162,87 +161,26 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  dsend_packet_unit_help_build_wonder(&client.conn,
-                                      args->actor_unit_id,
-                                      args->target_city_id);
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_HELP_WONDER, args->actor_unit_id,
+                      args->target_city_id, 0);
+  }
 
+  gtk_widget_destroy(act_sel_dialog);
   free(args);
 }
 
 /**************************************************************************
-  Returns true iff actor_unit can help build a wonder in target_city.
+  Returns custom information for the help build wonder button about how
+  many shields remains of the current production.
 **************************************************************************/
-static bool is_help_build_possible(const struct unit *actor_unit,
-                                   const struct city *target_city)
+static const gchar *help_build_wonder_label_info(struct city* destcity)
 {
-  return actor_unit && target_city
-      && unit_can_help_build_wonder(actor_unit, target_city);
-}
-
-/**************************************************************************
-  Returns the proper text (g_strdup'd - must be g_free'd) which should
-  be displayed on the helpbuild wonder button.
-***************************************************************************/
-static gchar *get_help_build_wonder_button_label(bool help_build_possible,
-                                                 struct city* destcity)
-{
-  if (help_build_possible) {
-    return g_strdup_printf(_("Help build _Wonder (%d remaining)"),
-                           impr_build_shield_cost(destcity->production.value.building)
-                           - destcity->shield_stock);
-  } else {
-    return g_strdup(_("Help build _Wonder"));
-  }
-}
-
-/****************************************************************
-  Updates caravan dialog
-****************************************************************/
-void caravan_dialog_update(void)
-{
-  struct unit *actor_unit = game_unit_by_number(actor_unit_id);
-  struct city *target_city = game_city_by_number(target_ids[ATK_CITY]);
-
-  bool can_help = is_help_build_possible(actor_unit, target_city);
-
-  gchar *buf = get_help_build_wonder_button_label(can_help, target_city);
-
-  if (BUTTON_NOT_THERE != action_button_map[BUTTON_HELP_WONDER]) {
-    /* Update existing help build wonder button. */
-    choice_dialog_button_set_label(act_sel_dialog,
-                                   action_button_map[BUTTON_HELP_WONDER],
-                                   buf);
-    choice_dialog_button_set_sensitive(act_sel_dialog,
-        action_button_map[BUTTON_HELP_WONDER], can_help);
-  } else if (can_help) {
-    /* Help build wonder just became possible. */
-
-    /* Only actor unit and target city are relevant. */
-    struct action_data *data = act_data(actor_unit_id,
-                                        target_ids[ATK_CITY],
-                                        0, 0, 0);
-
-    action_button_map[BUTTON_HELP_WONDER] =
-        choice_dialog_get_number_of_buttons(act_sel_dialog);
-    choice_dialog_add(act_sel_dialog, buf,
-                      (GCallback)caravan_help_build_wonder_callback,
-                      data, NULL);
-    choice_dialog_end(act_sel_dialog);
-
-    if (BUTTON_NOT_THERE != action_button_map[BUTTON_CANCEL]) {
-      /* Move the cancel button below the recently added button. */
-      choice_dialog_button_move_to_the_end(act_sel_dialog,
-          action_button_map[BUTTON_CANCEL]);
-
-      /* DO NOT change action_button_map[BUTTON_CANCEL] or
-       * action_button_map[BUTTON_HELP_WONDER] to reflect the new
-       * positions. A button keeps its choice dialog internal name when its
-       * position changes. A button's id number is therefore based on when
-       * it was added, not on its current position. */
-    }
-  }
-
-  g_free(buf);
+    return g_strdup_printf(_("%d remaining"),
+                           impr_build_shield_cost(
+                             destcity->production.value.building)
+                               - destcity->shield_stock);
 }
 
 /**********************************************************************
@@ -989,6 +927,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,
   [ACTION_TRADE_ROUTE] = (GCallback)caravan_establish_trade_callback,
   [ACTION_MARKETPLACE] = (GCallback)caravan_marketplace_callback,
+  [ACTION_HELP_WONDER] = (GCallback)caravan_help_build_wonder_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
@@ -1001,6 +940,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 static void action_entry(GtkWidget *shl,
                          int action_id,
                          const action_probability *action_probabilities,
+                         const gchar *custom,
                          struct action_data *handler_args)
 {
   const gchar *label;
@@ -1012,7 +952,8 @@ static void action_entry(GtkWidget *shl,
   }
 
   label = action_prepare_ui_name(action_id, "_",
-                                 action_probabilities[action_id], NULL);
+                                 action_probabilities[action_id],
+                                 custom);
 
   tooltip = action_get_tool_tip(action_id,
                                 action_probabilities[action_id]);
@@ -1027,6 +968,7 @@ static void action_entry(GtkWidget *shl,
 static void action_entry_update(GtkWidget *shl,
                                 int action_id,
                                 const action_probability *act_prob,
+                                const gchar *custom,
                                 struct action_data *handler_args)
 {
   const gchar *label;
@@ -1040,7 +982,7 @@ static void action_entry_update(GtkWidget *shl,
 
   /* The probability may have changed. */
   label = action_prepare_ui_name(action_id, "_",
-                                 act_prob[action_id], NULL);
+                                 act_prob[action_id], custom);
 
   tooltip = action_get_tool_tip(action_id,
                                 act_prob[action_id]);
@@ -1068,8 +1010,6 @@ void popup_action_selection(struct unit *actor_unit,
   struct city *actor_homecity;
 
   int button_id;
-
-  bool can_wonder;
 
   struct action_data *data =
       act_data(actor_unit->id,
@@ -1100,8 +1040,6 @@ void popup_action_selection(struct unit *actor_unit,
   target_ids[ATK_UNIT] = target_unit ?
                          target_unit->id :
                          IDENTITY_NUMBER_ZERO;
-
-  can_wonder = is_help_build_possible(actor_unit, target_city);
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1143,71 +1081,77 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(shl,
                ACTION_ESTABLISH_EMBASSY,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_INVESTIGATE_CITY,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_POISON,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_STEAL_GOLD,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_SABOTAGE_CITY,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_TARGETED_SABOTAGE_CITY,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_STEAL_TECH,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_TARGETED_STEAL_TECH,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_INCITE_CITY,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_TRADE_ROUTE,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_MARKETPLACE,
                act_probs,
+               NULL,
                data);
 
-  if (can_wonder) {
-    gchar *wonder = get_help_build_wonder_button_label(can_wonder,
-                                                       target_city);
+  if (action_prob_possible(act_probs[ACTION_HELP_WONDER])) {
+    const gchar *wonder = help_build_wonder_label_info(target_city);
 
-    /* Used by caravan_dialog_update() */
-    action_button_map[BUTTON_HELP_WONDER] =
-        choice_dialog_get_number_of_buttons(shl);
-
-    choice_dialog_add(shl, wonder,
-                      (GCallback)caravan_help_build_wonder_callback,
-                      data, NULL);
-
-    g_free(wonder);
+    action_entry(shl,
+                 ACTION_HELP_WONDER,
+                 act_probs,
+                 wonder,
+                 data);
   }
 
   /* Spy/Diplomat acting against a unit */
@@ -1215,11 +1159,13 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(shl,
                ACTION_SPY_BRIBE_UNIT,
                act_probs,
+               NULL,
                data);
 
   action_entry(shl,
                ACTION_SPY_SABOTAGE_UNIT,
                act_probs,
+               NULL,
                data);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
@@ -1320,17 +1266,27 @@ void action_selection_refresh(struct unit *actor_unit,
                   0);
 
   action_iterate(act) {
+    const gchar *custom;
+
     if (action_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
     }
 
+    if (action_prob_possible(act_prob[act])
+        && act == ACTION_HELP_WONDER) {
+      /* Add information about how far along the wonder is. */
+      custom = help_build_wonder_label_info(target_city);
+    } else {
+      custom = NULL;
+    }
+
     if (BUTTON_NOT_THERE == action_button_map[act]) {
       /* Add the button (unless its probability is 0). */
-      action_entry(act_sel_dialog, act, act_prob, data);
+      action_entry(act_sel_dialog, act, act_prob, custom, data);
     } else {
       /* Update the existing button. */
-      action_entry_update(act_sel_dialog, act, act_prob, data);
+      action_entry_update(act_sel_dialog, act, act_prob, custom, data);
     }
   } action_iterate_end;
 

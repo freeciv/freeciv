@@ -1666,6 +1666,7 @@ static void maybe_cause_incident(enum gen_action action,
     case ACTION_SPY_INVESTIGATE_CITY:
     case ACTION_TRADE_ROUTE:
     case ACTION_MARKETPLACE:
+    case ACTION_HELP_WONDER:
       return; /* These are not considered offences */
     }
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel = 2;

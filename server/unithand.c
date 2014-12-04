@@ -80,6 +80,9 @@ static bool base_handle_unit_establish_trade(struct player *pplayer,
                                              int unit_id,
                                              struct city *pcity_dest,
                                              bool est_if_able);
+
+static void handle_unit_help_build_wonder(struct player *pplayer,
+                                          int unit_id, int city_id);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
 /**************************************************************************
@@ -751,6 +754,18 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_HELP_WONDER:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        handle_unit_help_build_wonder(pplayer, actor_unit->id, pcity->id);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type);
+      }
+    }
+    break;
   }
 }
 
@@ -891,13 +906,14 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
      * your ally receives those shields. Should it be like this? Why not?
      * That's why we must use city_owner instead of pplayer -- Zamar */
 
-    if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+    if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
       /* Count this just like a caravan that was added to a wonder.
        * However don't actually give the city the extra shields unless
        * they are building a wonder (but switching to a wonder later in
        * the turn will give the extra shields back). */
       pcity->caravan_shields += unit_build_shield_cost(punit);
-      if (unit_can_help_build_wonder(punit, pcity)) {
+      if (is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                         punit, pcity)) {
 	pcity->shield_stock += unit_build_shield_cost(punit);
       } else {
 	pcity->shield_stock += unit_disband_shields(punit);
@@ -1989,8 +2005,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 /**************************************************************************
   Handle request to help in wonder building.
 **************************************************************************/
-void handle_unit_help_build_wonder(struct player *pplayer,
-                                   int unit_id, int city_id)
+static void handle_unit_help_build_wonder(struct player *pplayer,
+                                          int unit_id, int city_id)
 {
   const char *text;
   struct city *pcity_dest;

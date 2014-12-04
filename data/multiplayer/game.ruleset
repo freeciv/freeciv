@@ -329,6 +329,9 @@ target_reqs    =
       "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
+[actionenabler_help_build_wonder]
+action = "Help Wonder"
+
 [borders]
 ; Base border radius from city.
 radius_sq_city = 17

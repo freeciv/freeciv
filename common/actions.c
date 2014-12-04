@@ -108,6 +108,10 @@ void actions_init(void)
       action_new(ACTION_MARKETPLACE, ATK_CITY,
                  /* TRANS: Enter _Marketplace (100% chance of success). */
                  N_("Enter %sMarketplace%s"));
+  actions[ACTION_HELP_WONDER] =
+      action_new(ACTION_HELP_WONDER, ATK_CITY,
+                 /* TRANS: Help build _Wonder (100% chance of success). */
+                 N_("Help build %sWonder%s"));
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -348,8 +352,9 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                                            FALSE, "Has real embassy"));
   }
 
-  if (enabler->action != ACTION_TRADE_ROUTE &&
-      enabler->action != ACTION_MARKETPLACE) {
+  if (enabler->action != ACTION_TRADE_ROUTE
+      && enabler->action != ACTION_MARKETPLACE
+      && enabler->action != ACTION_HELP_WONDER) {
     /* The Freeciv code assumes that all spy actions have foreign targets.
      * TODO: Move this restriction to the ruleset to prepare for false flag
      * operations. */
@@ -366,6 +371,22 @@ void action_enabler_append_hard(struct action_enabler *enabler)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("Unitflag", "Local", FALSE,
                                            TRUE, "TradeRoute"));
+  }
+
+  if (enabler->action == ACTION_HELP_WONDER) {
+    /* There are still places that assumes that units that can help build a
+     * wonder have the HelpWonder flag. */
+    /* TODO: Move this restriction to the ruleset. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("Unitflag", "Local", FALSE,
+                                           TRUE, "HelpWonder"));
+
+    /* The Freeciv code assumes that it it is impossible to help a foreign
+     * nation build a foreign wonder. */
+    /* TODO: Move this restriction to the ruleset. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, "Is foreign"));
   }
 }
 
@@ -468,6 +489,24 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * entering the market place. */
     if (wanted_action == ACTION_TRADE_ROUTE &&
         !can_establish_trade_route(actor_homecity, target_city)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_HELP_WONDER) {
+    /* It is only possible to help the production of a wonder. */
+    /* TODO: Do this rule belong in the ruleset? */
+    if (!(VUT_IMPROVEMENT == target_city->production.kind
+        && is_wonder(target_city->production.value.building))) {
+      return FALSE;
+    }
+
+    /* It is only possible to help the production if the production needs
+     * the help. (If not it would be possible to add shields for a non
+     * wonder if it is build after a wonder) */
+    if (!(target_city->shield_stock
+          < impr_build_shield_cost(
+            target_city->production.value.building))) {
       return FALSE;
     }
   }
@@ -955,6 +994,10 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_MARKETPLACE:
+    /* Possible when not blocked by is_action_possible() */
+    chance = 200;
+    break;
+  case ACTION_HELP_WONDER:
     /* Possible when not blocked by is_action_possible() */
     chance = 200;
     break;

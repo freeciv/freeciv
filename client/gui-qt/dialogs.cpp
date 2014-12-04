@@ -52,8 +52,7 @@
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_MOVE
 #define BUTTON_CANCEL BUTTON_MOVE + 1
-#define BUTTON_HELP_WONDER BUTTON_MOVE + 2
-#define BUTTON_COUNT BUTTON_MOVE + 3
+#define BUTTON_COUNT BUTTON_MOVE + 2
 
 static void diplomat_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
@@ -77,6 +76,7 @@ static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
                          gen_action act,
                          const action_probability *action_probabilities,
+                         QString custom,
                          QVariant data1, QVariant data2);
 
 
@@ -106,6 +106,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_INCITE_CITY] = diplomat_incite;
   action_function[ACTION_TRADE_ROUTE] = caravan_establish_trade;
   action_function[ACTION_MARKETPLACE] = caravan_marketplace;
+  action_function[ACTION_HELP_WONDER] = caravan_help_build;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -1156,10 +1157,14 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
 ***************************************************************************/
 static void caravan_help_build(QVariant data1, QVariant data2)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn,
-                                      data1.toInt(), data2.toInt());
+  int caravan_id = data1.toInt();
+  int caravan_target_id = data2.toInt();
 
-  process_caravan_arrival(NULL);
+  if (NULL != game_unit_by_number(caravan_id)
+      && NULL != game_city_by_number(caravan_target_id)) {
+    request_do_action(ACTION_HELP_WONDER,
+                      caravan_id, caravan_target_id, 0);
+  }
 }
 
 /***************************************************************************
@@ -1203,12 +1208,12 @@ static void diplomat_queue_handle_secondary(void)
 }
 
 /**************************************************************************
-  Returns the label for the help build wonder button when it is possible
-  to help build it.
+  Returns custom information for the help build wonder button about how
+  many shields remains of the current production.
 ***************************************************************************/
 static QString label_help_wonder_rem(struct city *target_city)
 {
-  QString label = QString(_("Help build Wonder (%1 remaining)")).arg(
+  QString label = QString(_("%1 remaining")).arg(
       impr_build_shield_cost(target_city->production.value.building)
       - target_city->shield_stock);
 
@@ -1230,8 +1235,6 @@ void popup_action_selection(struct unit *actor_unit,
   pfcn_void func;
   struct city *actor_homecity;
 
-  bool can_wonder;
-
   /* Could be caused by the server failing to reply to a request for more
    * information or a bug in the client code. */
   fc_assert_msg(!is_more_user_input_needed,
@@ -1241,10 +1244,6 @@ void popup_action_selection(struct unit *actor_unit,
   is_more_user_input_needed = FALSE;
 
   actor_homecity = game_city_by_number(actor_unit->homecity);
-
-  can_wonder = unit_has_type_flag(actor_unit, UTYF_HELP_WONDER)
-      && target_city
-      && unit_can_help_build_wonder(actor_unit, target_city);
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1307,64 +1306,75 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(cd,
                ACTION_ESTABLISH_EMBASSY,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_INVESTIGATE_CITY,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_POISON,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_STEAL_GOLD,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_SABOTAGE_CITY,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_TARGETED_SABOTAGE_CITY,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_STEAL_TECH,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_TARGETED_STEAL_TECH,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_INCITE_CITY,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_TRADE_ROUTE,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_MARKETPLACE,
                act_probs,
+               "",
                qv1, qv2);
 
-  if (can_wonder) {
-    QString title;
-
-    title = label_help_wonder_rem(target_city);
-    func = caravan_help_build;
-    cd->add_item(title, func, qv1, qv2, "", BUTTON_HELP_WONDER);
+  if (action_prob_possible(act_probs[ACTION_HELP_WONDER])) {
+    action_entry(cd,
+                 ACTION_HELP_WONDER,
+                 act_probs,
+                 label_help_wonder_rem(target_city),
+                 qv1, qv2);
   }
 
   /* Spy/Diplomat acting against a unit */
@@ -1375,11 +1385,13 @@ void popup_action_selection(struct unit *actor_unit,
   action_entry(cd,
                ACTION_SPY_BRIBE_UNIT,
                act_probs,
+               "",
                qv1, qv2);
 
   action_entry(cd,
                ACTION_SPY_SABOTAGE_UNIT,
                act_probs,
+               "",
                qv1, qv2);
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
@@ -1407,6 +1419,7 @@ void popup_action_selection(struct unit *actor_unit,
 static void action_entry(choice_dialog *cd,
                          gen_action act,
                          const action_probability *action_probabilities,
+                         QString custom,
                          QVariant data1, QVariant data2)
 {
   QString title;
@@ -1418,7 +1431,10 @@ static void action_entry(choice_dialog *cd,
   }
 
   title = QString(action_prepare_ui_name(act, "&",
-                                         action_probabilities[act], NULL));
+                                         action_probabilities[act],
+                                         custom != "" ?
+                                             custom.toUtf8().data() :
+                                             NULL));
 
   tool_tip = QString(action_get_tool_tip(act, action_probabilities[act]));
 
@@ -1431,6 +1447,7 @@ static void action_entry(choice_dialog *cd,
 static void action_entry_update(QPushButton *button,
                                 gen_action act,
                                 const action_probability *act_prob,
+                                QString custom,
                                 QVariant data1, QVariant data2)
 {
   QString title;
@@ -1442,7 +1459,10 @@ static void action_entry_update(QPushButton *button,
 
   /* The probability may have changed. */
   title = QString(action_prepare_ui_name(act, "&",
-                                         act_prob[act], NULL));
+                                         act_prob[act],
+                                         custom != "" ?
+                                             custom.toUtf8().data() :
+                                             NULL));
 
   tool_tip = QString(action_get_tool_tip(act, act_prob[act]));
 
@@ -2111,9 +2131,19 @@ void action_selection_refresh(struct unit *actor_unit,
   }
 
   action_iterate(act) {
+    QString custom;
+
     if (action_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
+    }
+
+    if (action_prob_possible(act_prob[act])
+        && act == ACTION_HELP_WONDER) {
+      /* Add information about how far along the wonder is. */
+      custom = label_help_wonder_rem(target_city);
+    } else {
+      custom = "";
     }
 
     /* Put the target id in qv2. */
@@ -2149,10 +2179,12 @@ void action_selection_refresh(struct unit *actor_unit,
     if (asd->get_identified_button(act)) {
       /* Update the existing button. */
       action_entry_update(asd->get_identified_button(act),
-                          (enum gen_action)act, act_prob, qv1, qv2);
+                          (enum gen_action)act, act_prob, custom,
+                          qv1, qv2);
     } else {
       /* Add the button (unless its probability is 0). */
-      action_entry(asd, (enum gen_action)act, act_prob, qv1, qv2);
+      action_entry(asd, (enum gen_action)act, act_prob, custom,
+                   qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2173,63 +2205,6 @@ void close_diplomat_dialog(void)
   cd = gui()->get_diplo_dialog();
   if (cd != NULL){
     cd->close();
-  }
-}
-
-/****************************************************************
-  Updates caravan dialog
-****************************************************************/
-void caravan_dialog_update(void)
-{
-  struct city *destcity;
-  struct unit *caravan;
-  QString wonder;
-  Choice_dialog_button *help_wonder_button;
-  bool can_wonder;
-  choice_dialog *asd = gui()->get_diplo_dialog();
-
-  if (asd == NULL) {
-    return;
-  }
-
-  destcity = game_city_by_number(asd->target_id[ATK_CITY]);
-  caravan = game_unit_by_number(asd->unit_id);
-  can_wonder = destcity && caravan
-               && unit_can_help_build_wonder(caravan, destcity);
-
-  help_wonder_button = asd->get_identified_button(BUTTON_HELP_WONDER);
-
-  if (help_wonder_button != NULL) {
-    if (can_wonder) {
-      wonder = label_help_wonder_rem(destcity);
-    } else {
-      wonder = QString(_("Help build Wonder"));
-    }
-
-    help_wonder_button->setText(wonder);
-    help_wonder_button->setEnabled(can_wonder);
-  } else if (can_wonder) {
-    Choice_dialog_button *keep_moving_button;
-    QString title;
-
-    keep_moving_button = asd->get_identified_button(BUTTON_CANCEL);
-
-    if (keep_moving_button != NULL) {
-      /* Temporary remove the Keep moving button so it won't end up above
-       * the Help build Wonder button. */
-      asd->stack_button(keep_moving_button);
-    }
-
-    title = label_help_wonder_rem(destcity);
-    asd->add_item(title, caravan_help_build,
-                  caravan->id, destcity->id,
-                  "", BUTTON_HELP_WONDER);
-
-    if (keep_moving_button != NULL) {
-      /* Reinsert the "Keep moving" button below the
-       * Help build Wonder button. */
-      asd->unstack_all_buttons();
-    }
   }
 }
 

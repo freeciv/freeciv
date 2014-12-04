@@ -122,21 +122,20 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    dsend_packet_unit_help_build_wonder(&client.conn,
-        pDiplomat_Dlg->actor_unit_id, pDiplomat_Dlg->target_ids[ATK_CITY]);
+    if (NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
+      request_do_action(ACTION_HELP_WONDER,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0);
+    }
 
     popdown_diplomat_dialog();
     choose_action_queue_next();
   }
-  return -1;
-}
 
-/**************************************************************************
-  Updates caravan dialog
-**************************************************************************/
-void caravan_dialog_update(void)
-{
-  /* PORT ME */
+  return -1;
 }
 
 /* ====================================================================== */
@@ -713,6 +712,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_SPY_INCITE_CITY] = diplomat_incite_callback,
   [ACTION_TRADE_ROUTE] = caravan_establish_trade_callback,
   [ACTION_MARKETPLACE] = caravan_marketplace_callback,
+  [ACTION_HELP_WONDER] = caravan_help_build_wonder_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
@@ -781,17 +781,13 @@ void popup_action_selection(struct unit *actor_unit,
   struct city *actor_homecity;
 
   char cBuf[128];
-  bool can_wonder;
-  
+
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
   is_unit_move_blocked = TRUE;
 
   actor_homecity = game_city_by_number(actor_unit->homecity);
 
-  can_wonder = target_city
-               && unit_can_help_build_wonder(actor_unit, target_city);
-  
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->actor_unit_id = actor_unit->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -928,18 +924,11 @@ void popup_action_selection(struct unit *actor_unit,
                  pWindow, &area);
   }
 
-  /* ---------- */
-  if (can_wonder) {
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
-        _("Help build Wonder"), caravan_help_build_wonder_callback);
-
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    add_to_gui_list(ID_LABEL, pBuf);
-
-    area.w = MAX(area.w, pBuf->size.w);
-    area.h += pBuf->size.h;
-  }
+  action_entry(ACTION_HELP_WONDER,
+               act_probs,
+               NULL,
+               actor_unit, target_city, NULL,
+               pWindow, &area);
 
   /* Spy/Diplomat acting against a unit */
 

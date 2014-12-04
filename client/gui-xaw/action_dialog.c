@@ -116,22 +116,16 @@ static void caravan_help_build_wonder_callback(Widget w,
 					       XtPointer client_data,
 					       XtPointer call_data)
 {
-  dsend_packet_unit_help_build_wonder(&client.conn,
-                                      diplomat_id,
-                                      diplomat_target_id[ATK_CITY]);
-
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
-  choose_action_queue_next();
-}
+  if (NULL != game_city_by_number(diplomat_target_id[ATK_CITY])
+      && NULL != game_unit_by_number(diplomat_id)) {
+    request_do_action(ACTION_HELP_WONDER, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0);
+  }
 
-/**************************************************************************
-  Updates caravan dialog
-**************************************************************************/
-void caravan_dialog_update(void)
-{
-/* PORT ME */
+  choose_action_queue_next();
 }
 
 /****************************************************************
@@ -843,9 +837,6 @@ void popup_action_selection(struct unit *actor_unit,
 
   struct city *actor_homecity = game_city_by_number(actor_unit->homecity);
 
-  bool can_wonder = target_city
-      && unit_can_help_build_wonder(actor_unit, target_city);
-
   diplomat_id = actor_unit->id;
 
   if (target_unit) {
@@ -938,9 +929,9 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_MARKETPLACE,
                act_probs);
 
-  if (!can_wonder) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button10"), FALSE);
-  }
+  action_entry(XtNameToWidget(diplomat_dialog, "*button10"),
+               ACTION_HELP_WONDER,
+               act_probs);
 
   action_entry(XtNameToWidget(diplomat_dialog, "*button11"),
                ACTION_SPY_BRIBE_UNIT,

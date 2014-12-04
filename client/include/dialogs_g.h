@@ -47,8 +47,6 @@ GUI_FUNC_PROTO(void, unit_select_dialog_update_real, void)
 GUI_FUNC_PROTO(void, races_toggles_set_sensitive, void)
 GUI_FUNC_PROTO(void, races_update_pickable, bool nationset_change)
 
-GUI_FUNC_PROTO(void, caravan_dialog_update, void)
-
 GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
                struct tile *target_tile,

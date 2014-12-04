@@ -843,8 +843,11 @@ void handle_city_info(const struct packet_city_info *packet)
   
   /* update caravan dialog */
   if ((production_changed || shield_stock_changed)
-      && action_selection_target_city() == pcity->id) {
-    caravan_dialog_update();
+      && action_selection_target_city() == pcity->id) {   
+    dsend_packet_unit_get_actions(&client.conn,
+                                  action_selection_actor_unit(),
+                                  city_tile(pcity)->index,
+                                  FALSE);
   }
 
   if (options.draw_city_trade_routes
@@ -1561,28 +1564,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           repaint_city = TRUE;
         } else {
           refresh_city_dialog(pcity);
-        }
-
-        if (options.popup_actor_arrival
-            && client_has_player()
-            && client_player() == unit_owner(punit)
-            && !client_player()->ai_controlled
-            && can_client_issue_orders()
-            && !unit_has_orders(punit)
-            && unit_can_help_build_wonder_here(punit)) {
-          /* Open caravan dialog only if 'punit' and all its transporters
-           * (recursively) don't have orders. */
-          struct unit *ptrans;
-
-          for (ptrans = unit_transport_get(punit);;
-               ptrans = unit_transport_get(ptrans)) {
-            if (NULL == ptrans) {
-              process_caravan_arrival(punit);
-              break;
-            } else if (unit_has_orders(ptrans)) {
-              break;
-            }
-          }
         }
 
         if (options.popup_actor_arrival

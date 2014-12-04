@@ -81,7 +81,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptransporter);
 void request_unit_unload(struct unit *pcargo);
 void request_unit_autosettlers(const struct unit *punit);
 void request_unit_build_city(struct unit *punit);
-void request_unit_caravan_action(struct unit *punit, enum packet_type action);
+void request_unit_caravan_action(struct unit *punit, enum gen_action action);
 void request_unit_change_homecity(struct unit *punit);
 void request_unit_connect(enum unit_activity activity,
                           struct extra_type *tgt);
@@ -179,7 +179,6 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 double blink_active_unit(void);
 double blink_turn_done_button(void);
 
-void process_caravan_arrival(struct unit *punit);
 void choose_action_queue_next(void);
 void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id);
 

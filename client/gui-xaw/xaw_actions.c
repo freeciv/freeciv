@@ -442,7 +442,7 @@ static void xaw_key_unit_build_city_or_wonder(Widget w, XEvent *event, String *a
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
     } else {
-      request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
+      request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;
 }

@@ -270,14 +270,6 @@ void close_diplomat_dialog(void)
 }
 
 /****************************************************************
-  Updates caravan dialog
-****************************************************************/
-void caravan_dialog_update(void)
-{
-  /* PORTME */
-}
-
-/****************************************************************
   Player has gained a new tech.
 *****************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)

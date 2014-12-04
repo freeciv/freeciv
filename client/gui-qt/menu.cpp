@@ -1246,7 +1246,7 @@ void mr_menu::slot_build_city()
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
     } else if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
+      request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;
 }
@@ -1405,7 +1405,7 @@ void mr_menu::slot_build_road()
     }
 
     if (!building_road && unit_can_est_trade_route_here(punit)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_DO_ACTION);
+      request_unit_caravan_action(punit, ACTION_TRADE_ROUTE);
     }
   } unit_list_iterate_end;
 }
