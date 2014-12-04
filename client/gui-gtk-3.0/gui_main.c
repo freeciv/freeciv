@@ -2139,3 +2139,31 @@ void insert_client_build_info(char *outbuf, size_t outlen)
                GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
                gtk_get_major_version(), gtk_get_minor_version(), gtk_get_micro_version());
 }
+
+/**************************************************************************
+  Return width of the default screen
+**************************************************************************/
+int screen_width(void)
+{
+  GdkScreen *screen = gdk_screen_get_default();
+
+  if (screen == NULL) {
+    return 0;
+  }
+
+  return gdk_screen_get_width(screen);
+}
+
+/**************************************************************************
+  Return height of the default screen
+**************************************************************************/
+int screen_height(void)
+{
+  GdkScreen *screen = gdk_screen_get_default();
+
+  if (screen == NULL) {
+    return 0;
+  }
+
+  return gdk_screen_get_height(screen);
+}
