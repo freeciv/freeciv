@@ -153,12 +153,16 @@ static void main_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   This is called whenever the intro graphic needs a graphics refresh.
 **************************************************************************/
-static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
+static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
 {
   static PangoLayout *layout;
   static int width, height;
   static bool left = FALSE;
   GtkAllocation allocation;
+  struct sprite *intro = (struct sprite *)data;
+
+  cairo_set_source_surface(cr, intro->surface, 0, 0);
+  cairo_paint(cr);
 
   if (!layout) {
     char msgbuf[128];
@@ -193,7 +197,7 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr)
     pango_layout_get_pixel_size(layout, &width, &height);
   }
   gtk_widget_get_allocation(w, &allocation);
- 
+
   cairo_set_source_rgb(cr, 0, 0, 0);
   cairo_move_to(cr, left ? 4 : allocation.width - width - 3,
                 allocation.height - height - 3);
@@ -223,8 +227,12 @@ static void ggz_login(void)
 **************************************************************************/
 GtkWidget *create_main_page(void)
 {
-  GtkWidget *widget, *vbox, *frame, *image, *button, *table;
+  GtkWidget *widget, *vbox, *frame, *darea, *button, *table;
   GtkSizeGroup *size;
+  struct sprite *intro_in, *intro;
+  int width, height;
+  int sh;
+  int space_needed;
 
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
@@ -239,10 +247,37 @@ GtkWidget *create_main_page(void)
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
   gtk_container_add(GTK_CONTAINER(vbox), frame);
 
-  image = gtk_image_new_from_file(tileset_main_intro_filename(tileset));
-  g_signal_connect_after(image, "draw",
-                         G_CALLBACK(intro_expose), NULL);
-  gtk_container_add(GTK_CONTAINER(frame), image);
+  intro_in = load_gfxfile(tileset_main_intro_filename(tileset));
+  get_sprite_dimensions(intro_in, &width, &height);
+  sh = screen_height();
+
+  space_needed = 250;
+#if IS_BETA_VERSION
+  /* Beta notice takes extra space */
+  space_needed += 50;
+#endif
+
+  if (sh - height < space_needed) {
+    float scale;
+
+    if (sh < (space_needed + 0.2 * height)) {
+      /* Screen is simply too small, use minimum scale */
+      scale = 0.2;
+    } else  {
+      scale = (double)(sh - space_needed) / height;
+    }
+    height *= scale;
+    width *= scale;
+    intro = sprite_scale(intro_in, width, height);
+    free_sprite(intro_in);
+  } else {
+    intro = intro_in;
+  }
+  darea = gtk_drawing_area_new();
+  gtk_widget_set_size_request(darea, width, height);
+  g_signal_connect(darea, "draw",
+                   G_CALLBACK(intro_expose), intro);
+  gtk_container_add(GTK_CONTAINER(frame), darea);
 
 #if IS_BETA_VERSION
   {

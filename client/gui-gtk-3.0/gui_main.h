@@ -75,4 +75,7 @@ void popup_quit_dialog(void);
 void quit_gtk_main(void);
 void refresh_chat_buttons(void);
 
+int screen_width(void);
+int screen_height(void);
+
 #endif  /* FC__GUI_MAIN_H */

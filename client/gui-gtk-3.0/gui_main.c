@@ -2218,3 +2218,31 @@ static void allied_chat_button_toggled(GtkToggleButton *button,
 {
   gui_gtk3_allied_chat_only = gtk_toggle_button_get_active(button);
 }
+
+/**************************************************************************
+  Return width of the default screen
+**************************************************************************/
+int screen_width(void)
+{
+  GdkScreen *screen = gdk_screen_get_default();
+
+  if (screen == NULL) {
+    return 0;
+  }
+
+  return gdk_screen_get_width(screen);
+}
+
+/**************************************************************************
+  Return height of the default screen
+**************************************************************************/
+int screen_height(void)
+{
+  GdkScreen *screen = gdk_screen_get_default();
+
+  if (screen == NULL) {
+    return 0;
+  }
+
+  return gdk_screen_get_height(screen);
+}
