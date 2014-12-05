@@ -2018,14 +2018,7 @@ static void handle_unit_help_build_wonder(struct player *pplayer,
     return;
   }
 
-  if (!unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-    return;
-  }
   pcity_dest = game_city_by_number(city_id);
-  
-  if (!pcity_dest || !unit_can_help_build_wonder(punit, pcity_dest)) {
-    return;
-  }
 
   pcity_dest->shield_stock += unit_build_shield_cost(punit);
   pcity_dest->caravan_shields += unit_build_shield_cost(punit);
