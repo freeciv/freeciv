@@ -70,9 +70,16 @@ static void calculate_city_clusters(struct player *pplayer)
   }
 
   punittype = best_role_unit_for_player(pplayer, UTYF_HELP_WONDER);
+
   if (!punittype) {
     punittype = get_role_unit(UTYF_HELP_WONDER, 0); /* simulate future unit */
   }
+
+  if (!utype_can_do_action(punittype, ACTION_HELP_WONDER)) {
+    /* This unit type isn't suitable for wonder building help. */
+    return;
+  }
+
   ghost = unit_virtual_create(pplayer, NULL, punittype, 0);
   range = unit_move_rate(ghost) * 4;
 
@@ -166,6 +173,14 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 #endif /* DEBUG */
 }
 
+/**************************************************************************
+  Returns TRUE iff the given unit type really can help build a wonder.
+**************************************************************************/
+static bool utype_hw_real(struct unit_type *putype, void *data)
+{
+  return utype_can_do_action(putype, ACTION_HELP_WONDER);
+}
+
 /************************************************************************** 
   Prime pcity->server.adv.building_want[]
 **************************************************************************/
@@ -197,7 +212,8 @@ void building_advisor(struct player *pplayer)
     int best_candidate_value = 0;
     struct city *best_candidate = NULL;
     /* Whether ruleset has a help wonder unit type */
-    bool has_help = (num_role_units(UTYF_HELP_WONDER) > 0);
+    bool has_help =
+        role_units_iterate(UTYF_HELP_WONDER, utype_hw_real, NULL) != NULL;
 
     calculate_city_clusters(pplayer);
 
