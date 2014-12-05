@@ -54,9 +54,12 @@ void caravan_parameter_init_from_unit(struct caravan_parameter *parameter,
                                       const struct unit *caravan)
 {
   caravan_parameter_init_default(parameter);
-  if (!unit_has_type_flag(caravan, UTYF_TRADE_ROUTE)) {
-    parameter->consider_windfall = FALSE;
+  if (!unit_can_do_action(caravan, ACTION_TRADE_ROUTE)) {
     parameter->consider_trade = FALSE;
+  }
+  if (!unit_can_do_action(caravan, ACTION_MARKETPLACE)
+      && !unit_can_do_action(caravan, ACTION_TRADE_ROUTE)) {
+    parameter->consider_windfall = FALSE;
   }
   if (!unit_has_type_flag(caravan, UTYF_HELP_WONDER)) {
     parameter->consider_wonders = FALSE;
@@ -229,7 +232,8 @@ static void caravan_search_from(const struct unit *caravan,
   When the caravan arrives, compute the benefit from the immediate windfall,
   taking into account the parameter's objective.
  ***************************************************************************/
-static double windfall_benefit(const struct city *src,
+static double windfall_benefit(const struct unit *caravan,
+                               const struct city *src,
                                const struct city *dest,
                                const struct caravan_parameter *param) {
   if (!param->consider_windfall || !can_cities_trade(src, dest)) {
@@ -237,7 +241,8 @@ static double windfall_benefit(const struct city *src,
   }
   else {
     int bonus = get_caravan_enter_city_trade_bonus(src, dest);
-    bool can_establish = can_establish_trade_route(src, dest);
+    bool can_establish = (unit_can_do_action(caravan, ACTION_TRADE_ROUTE)
+                          && can_establish_trade_route(src, dest));
 
     /* we get the full bonus only if this is a new trade route.
      * Really, g_c_e_c_t_b should compute this.  I copy from unithand.c */
@@ -434,7 +439,7 @@ static void get_discounted_reward(const struct unit *caravan,
   }
   
   trade = trade_benefit(pplayer_src, src, dest, parameter);
-  windfall = windfall_benefit(src, dest, parameter);
+  windfall = windfall_benefit(caravan, src, dest, parameter);
   wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
   /* we want to aid for wonder building */
   wonder *= 2;

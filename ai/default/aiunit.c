@@ -2142,10 +2142,11 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
 
   CHECK_UNIT(punit);
 
-  /* FIXME: Support the Enter Marketplace action. */
-  if (!unit_can_do_action(punit, ACTION_TRADE_ROUTE) &&
-      !unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-    /* we only want units that can establish trade or help build wonders */
+  if (!unit_can_do_action(punit, ACTION_TRADE_ROUTE)
+      && !unit_can_do_action(punit, ACTION_MARKETPLACE)
+      && !unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+    /* we only want units that can establish trade, enter marketplace or
+     * help build wonders */
     return;
   }
 
@@ -2184,8 +2185,10 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
             && !is_wonder(city_dest->production.value.building))
         || (unit_data->task == AIUNIT_TRADE
             && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
-            && !is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
-                                               punit, city_dest))) {
+            && !(is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                                punit, city_dest)
+                 || is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
+                                                   punit, city_dest)))) {
       /* destination invalid! */
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) destination invalid!",
@@ -2533,6 +2536,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     dai_manage_settler(ait, pplayer, punit);
     return;
   } else if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)
+             || unit_can_do_action(punit, ACTION_MARKETPLACE)
              || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
     TIMING_LOG(AIT_CARAVAN, TIMER_START);
     dai_manage_caravan(ait, pplayer, punit);

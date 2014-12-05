@@ -279,8 +279,10 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     unit_type = get_role_unit(UTYF_TRADE_ROUTE, 0);
   }
 
-  if (!utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
-    /* This unit type isn't suitable for establishing trade routes. */
+  if (!(utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)
+        || utype_can_do_action(unit_type, ACTION_MARKETPLACE))) {
+    /* This unit type isn't suitable for establishing trade routes or
+     * entering market places. */
     return;
   }
 
@@ -296,13 +298,19 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   /* We consider only initial benefit from establishing trade route.
    * We may actually get only initial benefit if both cities already
-   * have four trade routes, or if there already is route between them. */
+   * have four trade routes, if there already is route between them
+   * or if the Establish Trade Route action is illegal. */
 
   /* We assume that we are creating trade route to city with 75% of
    * pcitys trade 10 squares away. */
   income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24 * 3;
   bonus = get_city_bonus(pcity, EFT_TRADE_REVENUE_BONUS);
   income = (float)income * pow(2.0, (double)bonus / 1000.0);
+
+  if (!utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
+    /* Enter Marketplace has less initial income. */
+    income = (income + 2) / 3;
+  }
 
   if (dest_city_nat_same_cont) {
     pct = trade_route_type_trade_pct(TRT_NATIONAL);
@@ -346,15 +354,18 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
    * This method helps us out of deadlocks of completely stalled
    * scientific progress.
    */
-  if (pplayer->economic.science < 50 && trade_routes < max_routes) {
+  if (pplayer->economic.science < 50 && trade_routes < max_routes
+      && utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
     want *=
       (6 - pplayer->economic.science/10) * (6 - pplayer->economic.science/10);
   }
 
-  if (trade_routes == 0 && max_routes > 0) {
+  if (trade_routes == 0 && max_routes > 0
+      && utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
     /* If we have no trade routes at all, we are certainly creating a new one. */
     want += trader_trait;
-  } else if (trade_routes < max_routes) {
+  } else if (trade_routes < max_routes
+             && utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
     /* Possibly creating a new trade route */
     want += trader_trait / 4;
   }
