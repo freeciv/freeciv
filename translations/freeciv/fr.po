@@ -16366,7 +16366,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a River tile."
 msgstr ""
-"Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique ou "
+"Une ville ne peut avoir qu'une seule centrale thermique, hydroélectrique ou "
 "nucléaire. Une ville ne peut construire une centrale hydroélectrique que si "
 "elle est adjacente à - ou sur - une case de rivière."
 
@@ -16449,7 +16449,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:459 data/civ1/buildings.ruleset:528
 msgid "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique ou "
+"Une ville ne peut avoir qu'une seule centrale thermique, hydroélectrique ou "
 "nucléaire."
 
 # AR
@@ -16506,7 +16506,7 @@ msgstr ""
 #: data/classic/buildings.ruleset:705 data/experimental/buildings.ruleset:764
 #: data/civ2civ3/buildings.ruleset:762 data/multiplayer/buildings.ruleset:693
 msgid "Power Plant"
-msgstr "Centrale électrique"
+msgstr "Centrale thermique"
 
 #: data/civ1/buildings.ruleset:522 data/civ2/buildings.ruleset:669
 #, no-c-format
@@ -16517,8 +16517,8 @@ msgid ""
 "The extra production may lead to the city generating more pollution."
 msgstr ""
 "Augmente la production d'une Fabrique ou d'une Usine dans une ville : une "
-"Fabrique et une Centrale Électrique donnent ensemble un bonus de 100%. Une "
-"Fabrique, une Usine et une Centrale Électrique donnent ensemble un bonus de "
+"Fabrique et une Centrale Thermique donnent ensemble un bonus de 100%. Une "
+"Fabrique, une Usine et une Centrale Thermique donnent ensemble un bonus de "
 "150%. La production supplémentaire peut entraîner une augmentation de la "
 "pollution."
 
@@ -20006,7 +20006,7 @@ msgid ""
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a River "
 "tile."
 msgstr ""
-"Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique, "
+"Une ville ne peut avoir qu'une seule centrale thermique, hydroélectrique, "
 "nucléaire ou solaire. Une ville ne peut construire une centrale "
 "hydroélectrique que si elle est adjacente à - ou sur - une case de rivière."
 
@@ -20023,14 +20023,14 @@ msgstr ""
 "Avec une fabrique, une usine accroît de 100% la production d'une ville. Une "
 "usine seule augmente la production de 50%."
 
-# Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique, nucléaire ou solaire.
+# Une ville ne peut avoir qu'une seule centrale thermique, hydroélectrique, nucléaire ou solaire.
 #: data/civ2/buildings.ruleset:533 data/civ2/buildings.ruleset:675
 #: data/civ2/buildings.ruleset:826
 msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
-"Une ville ne peut avoir qu'une seule centrale électrique, hydroélectrique, "
+"Une ville ne peut avoir qu'une seule centrale thermique, hydroélectrique, "
 "nucléaire ou solaire."
 
 #: data/civ2/buildings.ruleset:542 data/classic/buildings.ruleset:589
@@ -20103,7 +20103,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:740 data/civ2civ3/buildings.ruleset:738
 #: data/multiplayer/buildings.ruleset:669
 msgid "Port Facility"
-msgstr "Service portuaire"
+msgstr "Complexe portuaire"
 
 # AR
 #: data/civ2/buildings.ruleset:644 data/classic/buildings.ruleset:698
@@ -22013,10 +22013,10 @@ msgstr ""
 "et réduit aussi la pollution générée par cette production. Une centrale "
 "hydroélectrique avec une fabrique ou une usine donne un bonus de la "
 "production de 75% par rapport à ce qu'elle aurait été sans ces bâtiments, "
-"tout en donnant seulement 75% de la pollution qu'une centrale électrique "
+"tout en donnant seulement 75% de la pollution qu'une centrale thermique "
 "aurait causée. Une ville dotée à la fois de centrale hydroélectrique, "
 "fabrique et usine a un bonus de production de 150%, en ne donnant seulement "
-"que 50% de la pollution que la Centrale électrique aurait causée."
+"que 50% de la pollution que la Centrale thermique aurait causée."
 
 #: data/classic/buildings.ruleset:449 data/classic/buildings.ruleset:578
 #: data/classic/buildings.ruleset:731 data/classic/buildings.ruleset:891
@@ -22033,7 +22033,7 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
-"Dans chaque ville, seulement une centrale électrique, hydroélectrique, "
+"Dans chaque ville, seulement une centrale thermique, hydroélectrique, "
 "nucléaire ou solaire peut être en effet à chaque instant."
 
 #: data/classic/buildings.ruleset:475 data/experimental/buildings.ruleset:529
@@ -22059,10 +22059,10 @@ msgstr ""
 "et réduit la pollution générée par la production. Une centrale nucléaire "
 "avec soit une fabrique, soit une usine, donne un bonus de la production de "
 "75% par rapport à ce qu'elle aurait été sans ces bâtiments, tout en ne "
-"donnant seulement 75% de la pollution que la centrale électrique aurait "
+"donnant seulement 75% de la pollution que la centrale thermique aurait "
 "causée. Une ville dotée à la fois de centrale nucléaire, fabrique et usine a "
 "un bonus de production de 150%, en donnant seulement 50% de la pollution que "
-"la centrale électrique aurait causée."
+"la centrale thermique aurait causée."
 
 #: data/classic/buildings.ruleset:648 data/experimental/buildings.ruleset:706
 #: data/multiplayer/buildings.ruleset:639
@@ -22086,10 +22086,10 @@ msgid ""
 "pollution."
 msgstr ""
 "Augmente l'effet d'une fabrique et d'une usine sur la production de la "
-"ville. Une Centrale électrique associée, soit à une fabrique, soit à une "
+"ville. Une Centrale thermique associée, soit à une fabrique, soit à une "
 "usine, donne un bonus de la production de 75% par rapport à ce qu'elle "
 "aurait été sans ces bâtiments. Une ville dotée à la fois d'une centrale "
-"électrique, d'une fabrique et d'une usine a un bonus de production de 150%. "
+"thermique, d'une fabrique et d'une usine a un bonus de production de 150%. "
 "La production supplémentaire peut entraîner la ville à générer plus de "
 "pollution."
 
@@ -22133,7 +22133,7 @@ msgstr ""
 "et réduit grandement la pollution générée par la production. Une centrale "
 "solaire associée, soit à une fabrique, soit à une usine, donne un bonus de "
 "la production de 75% par rapport à ce qu'elle aurait été sans ces bâtiments, "
-"tout en donnant seulement 50% de la pollution que la centrale électrique "
+"tout en donnant seulement 50% de la pollution que la centrale thermique "
 "aurait causée. Une ville dotée à la fois de centrale solaire, fabrique et "
 "usine a un bonus de production de 150% et élimine toute la pollution générée "
 "par la production de cette ville."
@@ -23210,7 +23210,7 @@ msgid ""
 msgstr ""
 "Une Centrale Hydroélectrique, combinée àla fois à une Fabrique et à une "
 "Usine, donnent un bonus total de production de 100%, avec une pollution à "
-"seulement 50% de la combinaison équivalente avec une Centre Électrique. La "
+"seulement 50% de la combinaison équivalente avec une Centre Thermique. La "
 "pollution est réduite à 25% si elle est combinée à une Usine de Recyclage."
 
 #: data/civ2civ3/buildings.ruleset:528
@@ -23254,7 +23254,7 @@ msgid ""
 msgstr ""
 "Une Centrale Nucléaire, combinée à la fois à une Fabrique et à une Usine, "
 "donnent un bonus total de production de 100%, avec une pollution à seulement "
-"50% de la combinaison équivalente avec une Centre Électrique. La pollution "
+"50% de la combinaison équivalente avec une Centre Thermique. La pollution "
 "est réduite à 25% si elle est combinée à une Usine de Recyclage."
 
 #: data/civ2civ3/buildings.ruleset:659
@@ -23333,10 +23333,10 @@ msgid ""
 "pollution."
 msgstr ""
 "Augmente de 25% l'effet d'une Fabrique et de 25% supplémentaires l'effet "
-"d'une Usine. Une Centrale Électrique associée, soit à une Fabrique, soit à "
+"d'une Usine. Une Centrale Thermique associée, soit à une Fabrique, soit à "
 "une Usine, donne un bonus de production de 50% par rapport à ce qu'elle "
 "aurait été sans ces bâtiments. Une ville dotée à la fois d'une Centrale "
-"Électrique, d'une Fabrique et d'une Usine a un bonus de production de 100%. "
+"Thermique, d'une Fabrique et d'une Usine a un bonus de production de 100%. "
 "La production supplémentaire peut entraîner une augmentation de la pollution "
 "générée par la ville."
 
@@ -23424,7 +23424,7 @@ msgid ""
 msgstr ""
 "Une Centrale Solaire, en combinaison avec à la fois une Fabrique et une "
 "Usine donne un bonus de production de 100%, avec une pollution limitée à 25% "
-"de la combinaison équivalente avec une Centrale Électrique. La Centrale "
+"de la combinaison équivalente avec une Centrale Thermique. La Centrale "
 "Solaire élimine toute pollution générée par la production d'une ville si "
 "elle est combinée à une Usine de Recyclage."
 
