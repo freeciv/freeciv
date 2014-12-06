@@ -43,6 +43,7 @@ config.cache
 config.guess
 fc_config.h
 fc_config.h.in
+freeciv_config.h
 config.log
 config.status
 config.sub

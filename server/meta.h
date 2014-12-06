@@ -13,10 +13,12 @@
 #ifndef FC__META_H
 #define FC__META_H
 
+#include "freeciv_config.h"
+
 #include "support.h"            /* bool type */
 
 #define DEFAULT_META_SERVER_NO_SEND  TRUE
-#define DEFAULT_META_SERVER_ADDR     META_URL /* fc_config.h */
+#define DEFAULT_META_SERVER_ADDR     FREECIV_META_URL
 #define METASERVER_REFRESH_INTERVAL   (3*60)
 #define METASERVER_MIN_UPDATE_INTERVAL 7   /* not too short, not too long */
 

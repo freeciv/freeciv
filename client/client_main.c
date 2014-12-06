@@ -629,7 +629,7 @@ int client_main(int argc, char *argv[])
                  DEFAULT_METASERVER_OPTION);
     }
     if (0 == strcmp(options.default_metaserver, DEFAULT_METASERVER_OPTION)) {
-      sz_strlcpy(metaserver, META_URL);
+      sz_strlcpy(metaserver, FREECIV_META_URL);
     } else {
       sz_strlcpy(metaserver, options.default_metaserver);
     }
