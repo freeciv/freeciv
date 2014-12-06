@@ -25,7 +25,7 @@
 
 
 # by default build all installers
-all: gtk3-installer gtk2-installer sdl-installer
+all: gtk3-installer gtk2-installer sdl-installer qt-installer
 
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 wrap-gtk3
