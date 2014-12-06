@@ -1504,7 +1504,7 @@ void military_advisor_choose_build(struct ai_type *ait,
         CITY_LOG(LOG_DEBUG, pcity,
                  "m_a_c_d wants defense building with " ADV_WANT_PRINTF,
                  choice->want);
-      } else if (danger > 0 && num_defenders <= urgency) {
+      } else if ((danger > 0 && num_defenders <= urgency) || martial_value > 0) {
         /* Consider building defensive units */
         if (process_defender_want(ait, pplayer, pcity, danger, choice)) {
           /* Potential defender found */
