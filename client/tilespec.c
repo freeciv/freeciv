@@ -5201,29 +5201,31 @@ int fill_sprite_array(struct tileset *t,
 
         /* Show base flag. Not part of previous iteration as
          * "extras of ESTYLE_3_LAYER" != "bases" */
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)
-              && base_has_flag(pbase, BF_SHOW_FLAG)) {
-            struct extra_type *basextra = base_extra_get(pbase);
-            bool hidden = FALSE;
+        if (owner != NULL) {
+          base_type_iterate(pbase) {
+            if (tile_has_base(ptile, pbase)
+                && base_has_flag(pbase, BF_SHOW_FLAG)) {
+              struct extra_type *basextra = base_extra_get(pbase);
+              bool hidden = FALSE;
 
-            extra_type_list_iterate(basextra->hiders, phider) {
-              if (BV_ISSET(textras, extra_index(phider))) {
-                hidden = TRUE;
-                break;
+              extra_type_list_iterate(basextra->hiders, phider) {
+                if (BV_ISSET(textras, extra_index(phider))) {
+                  hidden = TRUE;
+                  break;
+                }
+              } extra_type_list_iterate_end;
+
+              if (!hidden) {
+                show_flag = TRUE;
               }
-            } extra_type_list_iterate_end;
-
-            if (!hidden) {
-              show_flag = TRUE;
             }
-          }
-        } base_type_iterate_end;
+          } base_type_iterate_end;
 
-        if (show_flag && owner != NULL) {
-          ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
-                     FULL_TILE_X_OFFSET + t->city_flag_offset_x,
-                     FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
+          if (show_flag) {
+            ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
+                       FULL_TILE_X_OFFSET + t->city_flag_offset_x,
+                       FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
+          }
         }
       }
     }
