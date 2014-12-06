@@ -1,6 +1,8 @@
 Sources here are from lua-5.1.5 (http://www.lua.org/ftp/lua-5.1.5.tar.gz)
 All applicable official lua.org patches, as of 05-Aug-13, have been applied.
 That is patch 2.
+A patch is also included for CVE-2014-5461, originating from Debian
+(from lua5.1 5.1.5-4+deb7u1, author shown as Enrico Tassi).
 
 Not entire lua distribution directory hierarchy is included here, and
 some files needed for Freeciv usage have been added.
