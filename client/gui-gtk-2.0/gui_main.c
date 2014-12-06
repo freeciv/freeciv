@@ -2121,3 +2121,11 @@ void insert_client_build_info(char *outbuf, size_t outlen)
                GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
                gtk_major_version, gtk_minor_version, gtk_micro_version);
 }
+
+/**************************************************************************
+  Make dynamic adjustments to first-launch default options.
+**************************************************************************/
+void adjust_default_options(void)
+{
+  /* Nothing in case of this gui */
+}

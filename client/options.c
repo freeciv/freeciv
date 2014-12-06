@@ -1149,6 +1149,7 @@ static const char *client_option_help_text(const struct option *poption);
 static int client_option_category(const struct option *poption);
 static bool client_option_is_changeable(const struct option *poption);
 static struct option *client_option_next(const struct option *poption);
+static void client_option_adjust_defaults(void);
 
 static const struct option_common_vtable client_option_common_vtable = {
   .number = client_option_number,
@@ -5274,6 +5275,7 @@ void options_load(void)
   name = get_last_option_file_name(&allow_digital_boolean);
   if (!name) {
     log_normal(_("Didn't find the option file."));
+    client_option_adjust_defaults();
     options_fully_initialized = TRUE;
     create_default_cma_presets();
     return;
@@ -5680,4 +5682,12 @@ static void menu_music_enable_callback(struct option *poption)
       stop_menu_music();
     }
   }
+}
+
+/****************************************************************************
+  Make dynamic adjustments to first-launch default options.
+****************************************************************************/
+static void client_option_adjust_defaults(void)
+{
+  adjust_default_options();
 }

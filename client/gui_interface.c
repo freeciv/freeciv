@@ -93,11 +93,19 @@ enum gui_type get_gui_type(void)
 }
 
 /**************************************************************************
-  Call  callback
+  Call insert_client_build_info callback
 **************************************************************************/
 void insert_client_build_info(char *outbuf, size_t outlen)
 {
   funcs.insert_client_build_info(outbuf, outlen);
+}
+
+/**************************************************************************
+  Call adjust_default_options callback
+**************************************************************************/
+void adjust_default_options(void)
+{
+  funcs.adjust_default_options();
 }
 
 /**************************************************************************

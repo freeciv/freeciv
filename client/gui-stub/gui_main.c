@@ -278,3 +278,11 @@ void gui_insert_client_build_info(char *outbuf, size_t outlen)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+  Make dynamic adjustments to first-launch default options.
+**************************************************************************/
+void gui_adjust_default_options(void)
+{
+  /* Nothing in case of this gui */
+}

@@ -45,6 +45,7 @@ GUI_FUNC_PROTO(void, insert_client_build_info, char *outbuf, size_t outlen)
 
 GUI_FUNC_PROTO(void, gui_update_font, const char *font_name,
                const char *font_value)
+GUI_FUNC_PROTO(void, adjust_default_options, void)
 
 extern const char *client_string;
 

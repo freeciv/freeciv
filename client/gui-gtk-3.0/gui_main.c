@@ -2167,3 +2167,15 @@ int screen_height(void)
 
   return gdk_screen_get_height(screen);
 }
+
+/**************************************************************************
+  Make dynamic adjustments to first-launch default options.
+**************************************************************************/
+void adjust_default_options(void)
+{
+  if (screen_height() <= 480) {
+    /* Freeciv is practically unusable outside fullscreen mode in so
+     * small display */
+    options.fullscreen_mode = TRUE;
+  }
+}

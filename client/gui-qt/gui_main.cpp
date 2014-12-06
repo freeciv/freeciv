@@ -431,3 +431,11 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
                QT_VERSION_STR, qVersion());
   */
 }
+
+/**************************************************************************
+  Make dynamic adjustments to first-launch default options.
+**************************************************************************/
+void qtg_adjust_default_options(void)
+{
+  /* Nothing in case of this gui */
+}

@@ -29,6 +29,7 @@ void qtg_ui_exit();
 
 enum gui_type qtg_get_gui_type();
 void qtg_insert_client_build_info(char *outbuf, size_t outlen);
+void qtg_adjust_default_options();
 
 void qtg_version_message(char *vertext);
 void qtg_real_output_window_append(const char *astring,
