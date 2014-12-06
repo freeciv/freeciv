@@ -619,22 +619,35 @@ static int unit_food_upkeep(struct unit *punit)
 **************************************************************************/
 static int unit_foodbox_cost(struct unit *punit)
 {
-  int cost = 30;
+  int pop_cost = unit_type(punit)->pop_cost;
+
+  if (pop_cost <= 0) {
+    return 0;
+  }
 
   if (punit->id == 0) {
     /* It is a virtual unit, so must start in a city... */
     struct city *pcity = tile_city(unit_tile(punit));
+    int size = city_size_get(pcity);
+    int cost = 0;
+    int i;
 
     /* The default is to lose 100%.  The growth bonus reduces this. */
     int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
 
     foodloss_pct = CLIP(0, foodloss_pct, 100);
     fc_assert_ret_val(pcity != NULL, -1);
-    cost = city_granary_size(city_size_get(pcity));
+    fc_assert(size >= pop_cost);
+
+    for (i = pop_cost; i > 0 ; i--) {
+      cost += city_granary_size(size--);
+    }
     cost = cost * foodloss_pct / 100;
+
+    return cost;
   }
 
-  return cost;
+  return 30;
 }
 
 /**************************************************************************
@@ -654,26 +667,30 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
   struct adv_data *ai = adv_data_get(pplayer, NULL);
-  struct unit_type *unit_type = dai_role_utype_for_move_type(pcity, UTYF_SETTLERS,
-                                                             UMT_LAND);
+  struct unit_type *utype
+           = dai_role_utype_for_move_type(pcity, UTYF_SETTLERS, UMT_LAND);
   Continent_id place = tile_continent(pcenter);
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
   city_data->settler_want = 0; /* Make sure old want does not stay if we don't want now */
 
-  if (unit_type == NULL) {
+  if (utype == NULL) {
     log_debug("No UTYF_SETTLERS role unit available");
     return;
   }
 
   /* Create a localized "virtual" unit to do operations with. */
-  virtualunit = unit_virtual_create(pplayer, pcity, unit_type, 0);
+  virtualunit = unit_virtual_create(pplayer, pcity, utype, 0);
   /* Advisors data space not allocated as it's not needed in the
      lifetime of the virtualunit. */
   unit_tile_set(virtualunit, pcenter);
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_target,
                                        &best_tile,
                                        NULL, NULL);
+  if (unit_type(virtualunit)->pop_cost >= city_size_get(pcity)) {
+    /* We don't like disbanding the city as a side effect */
+    return;
+  }
   /* We consider unit_food_upkeep with only hald FOOD_WEIGHTING to
    * balance the fact that unit can improve many tiles during its
    * lifetime, and want is calculated for just one of them.
@@ -694,7 +711,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
            "we have %d workers and %d cities on the continent",
-	   utype_rule_name(unit_type),
+	   utype_rule_name(utype),
 	   want,
 	   get_activity_text(best_act),
 	   TILE_XY(best_tile),
