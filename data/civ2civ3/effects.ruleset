@@ -1514,14 +1514,15 @@ reqs    =
 ;      "Gov", "Democracy", "Player", FALSE
     }
 
-[effect_movement_tribal]
-type    = "Move_Bonus"
-value   = 1
+[effect_combat_tribal]
+type    = "Veteran_Combat"
+value   = 50
 reqs    =
     { "type", "name", "range", "present"
       "Gov", "Tribal", "Player", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
+      "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
 [effect_revolution_republic]
