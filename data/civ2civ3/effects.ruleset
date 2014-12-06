@@ -1482,9 +1482,9 @@ nreqs   =
 ;      "Gov", "Democracy", "Player"
     }
 
-[effect_movement_tribal]
-type    = "Move_Bonus"
-value   = 1
+[effect_combat_tribal]
+type    = "Veteran_Combat"
+value   = 50
 reqs    =
     { "type", "name", "range"
       "Gov", "Tribal", "Player"
@@ -1493,6 +1493,7 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_unbribable_republic]
