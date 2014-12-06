@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-15 21:45+0200\n"
+"POT-Creation-Date: 2014-12-06 12:58+0000\n"
 "PO-Revision-Date: 2014-11-15 21:12+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
@@ -392,7 +392,7 @@ msgstr "%s przerwali budowę cudu %s w mieście %s."
 msgid "The %s have started building The %s in %s."
 msgstr "%s rozpoczęli budowę %s w mieście %s."
 
-#: ai/default/aicity.c:787
+#: ai/default/aicity.c:790
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
 msgstr "%s sprzedaje niepotrzebne %s za %d sztuk złota."
@@ -3107,12 +3107,12 @@ msgid "?play:Game"
 msgstr "?Player:Gra"
 
 #: client/gui-gtk-2.0/editprop.c:857 client/gui-gtk-3.0/editprop.c:857
-#: utility/shared.c:2173
+#: utility/shared.c:2177
 msgid "TRUE"
 msgstr "PRAWDA"
 
 #: client/gui-gtk-2.0/editprop.c:857 client/gui-gtk-3.0/editprop.c:857
-#: utility/shared.c:2173
+#: utility/shared.c:2177
 msgid "FALSE"
 msgstr "FAŁSZ"
 
@@ -27940,8 +27940,8 @@ msgid ""
 "organized in a military manner."
 msgstr ""
 "Kozacy Zaporoscy zamieszkiwali Zaporoże na dzisiejszej środkowej Ukrainie. "
-"Byli oni społecznością wieloetniczną (w której większość stanowili "
-"Rusini)zorganizowaną na modłę wojskową."
+"Byli oni społecznością wieloetniczną (w której większość stanowili Rusini)"
+"zorganizowaną na modłę wojskową."
 
 #: data/nation/cossack.ruleset:31 data/nation/lipkatatar.ruleset:29
 #: data/nation/ukrainian.ruleset:39
@@ -39437,7 +39437,7 @@ msgstr[0] "%s przyspiesza badania, dostajesz natychmiast %d wynalazek."
 msgstr[1] "%s przyspiesza badania, dostajesz natychmiast %d wynalazki."
 msgstr[2] "%s przyspiesza badania, dostajesz natychmiast %d wynalazków."
 
-#: server/cityturn.c:1554 server/techtools.c:177
+#: server/cityturn.c:1554 server/techtools.c:173
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "%s otrzymali %s od %s."
@@ -41100,48 +41100,48 @@ msgstr "Ok. Ustawiony styl standardowy."
 msgid "For introductory help, type 'help'."
 msgstr "Aby uzyskać pomoc, wpisz 'help'."
 
-#: server/diplhand.c:197
+#: server/diplhand.c:196
 #, c-format
 msgid "The %s can't accept %s."
 msgstr "%s nie może przyjąć %s."
 
-#: server/diplhand.c:208
+#: server/diplhand.c:207
 #, c-format
 msgid "You don't have tech %s, you can't accept treaty."
 msgstr "Nie masz technologii %s, nie możesz przyjąć traktatu."
 
-#: server/diplhand.c:217
+#: server/diplhand.c:216
 msgid "City you are trying to give no longer exists, you can't accept treaty."
 msgstr ""
 "Miasto, które próbujesz przekazać już nie istnieje, nie możesz przyjąć "
 "traktatu."
 
-#: server/diplhand.c:223
+#: server/diplhand.c:222
 #, c-format
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr "Nie kontrolujesz miasta %s, nie możesz przyjąć traktatu."
 
-#: server/diplhand.c:229 server/diplhand.c:344
+#: server/diplhand.c:228 server/diplhand.c:343
 #, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr "Nie możesz przekazać stolicy (%s), nie możesz  przyjąć traktatu."
 
-#: server/diplhand.c:251
+#: server/diplhand.c:250
 #, c-format
 msgid "You cannot form an alliance because you are at war with an ally of %s."
 msgstr "Nie można zawrzeć sojuszu, gdyż prowadzisz wojnę z sojusznikiem %s."
 
-#: server/diplhand.c:256
+#: server/diplhand.c:255
 #, c-format
 msgid "You cannot form an alliance because %s is at war with an ally of yours."
 msgstr ""
 "Nie można zawrzeć sojuszu, ponieważ %s prowadzi wojnę z twoim sojusznikiem."
 
-#: server/diplhand.c:267
+#: server/diplhand.c:266
 msgid "You don't have enough gold, you can't accept treaty."
 msgstr "Masz za mało złota, nie możesz przyjąć traktatu."
 
-#: server/diplhand.c:299 server/diplhand.c:304
+#: server/diplhand.c:298 server/diplhand.c:303
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
@@ -41149,42 +41149,42 @@ msgstr[0] "Uchwalono traktat zawierający %d klauzulę."
 msgstr[1] "Uchwalono traktat zawierający %d klauzule."
 msgstr[2] "Uchwalono traktat zawierający %d klauzul."
 
-#: server/diplhand.c:320 server/diplhand.c:324
+#: server/diplhand.c:319 server/diplhand.c:323
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
 msgstr "%s przekazuje miasto, które zostało zniszczone! Traktat anulowany!"
 
-#: server/diplhand.c:331 server/diplhand.c:336
+#: server/diplhand.c:330 server/diplhand.c:335
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
 msgstr "%s nie kontroluje już miasta %s! Traktat anulowany!"
 
-#: server/diplhand.c:374 server/diplhand.c:378
+#: server/diplhand.c:373 server/diplhand.c:377
 #, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "%s nie mają zadeklarowanej ilości złota! Traktat anulowany!"
 
-#: server/diplhand.c:406
+#: server/diplhand.c:405
 #, c-format
 msgid "You gave an embassy to %s."
 msgstr "Pozwoliłeś/aś, by %s założył/a u ciebie ambasadę."
 
-#: server/diplhand.c:409
+#: server/diplhand.c:408
 #, c-format
 msgid "%s allowed you to create an embassy!"
 msgstr "%s pozwolił/a ci założyć ambasadę!"
 
-#: server/diplhand.c:425
+#: server/diplhand.c:424
 #, c-format
 msgid "You are taught the knowledge of %s."
 msgstr "Poznałeś/aś technologię %s."
 
-#: server/diplhand.c:430
+#: server/diplhand.c:429
 #, c-format
 msgid "The %s have acquired %s from the %s."
 msgstr "%s otrzymali %s od %s."
 
-#: server/diplhand.c:455
+#: server/diplhand.c:450
 #, c-format
 msgid "You get %d gold."
 msgid_plural "You get %d gold."
@@ -41193,34 +41193,34 @@ msgstr[1] "Dostałeś/aś %d sztuki złota."
 msgstr[2] "Dostałeś/aś %d sztuk złota."
 
 #. TRANS: ... Polish worldmap.
-#: server/diplhand.c:463
+#: server/diplhand.c:458
 #, c-format
 msgid "You receive the %s worldmap."
 msgstr "Otrzymałeś/aś mapę świata od %s."
 
 #. TRANS: ... Polish seamap.
-#: server/diplhand.c:472
+#: server/diplhand.c:467
 #, c-format
 msgid "You receive the %s seamap."
 msgstr "Otrzymałeś/aś mapę morską od %s."
 
-#: server/diplhand.c:488
+#: server/diplhand.c:483
 #, c-format
 msgid "You receive the city of %s from %s."
 msgstr "Otrzymałeś/aś miasto %s od %s."
 
-#: server/diplhand.c:492
+#: server/diplhand.c:487
 #, c-format
 msgid "You give the city of %s to %s."
 msgstr "Dajesz %2$s miasto %1$s."
 
-#: server/diplhand.c:505 server/diplhand.c:508
+#: server/diplhand.c:500 server/diplhand.c:503
 #, c-format
 msgid "You agree on a cease-fire with %s."
 msgstr "Zgodziłeś/aś się na zawieszenie broni z %s."
 
 #. TRANS: ... the Poles ... Polish territory.
-#: server/diplhand.c:525 server/diplhand.c:537
+#: server/diplhand.c:520 server/diplhand.c:532
 #, c-format
 msgid ""
 "You agree on an armistice with the %s. In %d turn, it will become a peace "
@@ -41238,32 +41238,32 @@ msgstr[2] ""
 "Zgodziłeś/aś się na rozejm z %s. W ciągu %d tur zmieni się on w pokój. Usuń "
 "swoje jednostki z terenów %s."
 
-#: server/diplhand.c:559 server/diplhand.c:562
+#: server/diplhand.c:554 server/diplhand.c:557
 #, c-format
 msgid "You agree on an alliance with %s."
 msgstr "Zgodziłeś/aś się na sojusz z %s."
 
-#: server/diplhand.c:572
+#: server/diplhand.c:567
 #, c-format
 msgid "You give shared vision to %s."
 msgstr "%s otrzymał/a od ciebie widok dzielony."
 
-#: server/diplhand.c:575
+#: server/diplhand.c:570
 #, c-format
 msgid "%s gives you shared vision."
 msgstr "%s przekazał/a ci widok dzielony."
 
-#: server/diplhand.c:718
+#: server/diplhand.c:713
 #, c-format
 msgid "%s canceled the meeting!"
 msgstr "%s zerwał/a spotkanie!"
 
-#: server/diplhand.c:725
+#: server/diplhand.c:720
 #, c-format
 msgid "Meeting with %s canceled."
 msgstr "Spotkanie z %s zerwane."
 
-#: server/diplhand.c:767
+#: server/diplhand.c:762
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Twoi wysłannicy zostali zabici!"
 
@@ -42002,8 +42002,8 @@ msgstr ""
 #: server/generator/mapgen_topology.c:307
 #, c-format
 msgid ""
-"Setting map size to %d (approx. %d (land) tiles for each of the %d "
-"player(s))."
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 "Ustawiam rozmiar mapy na %d (ok. %d (lądowych) pól na każdego z %d graczy)."
 
@@ -47275,12 +47275,12 @@ msgstr "%s odkryli %s."
 msgid "The %s have researched Future Tech. %d."
 msgstr "%s odkryli Technologię Przyszłości %d."
 
-#: server/techtools.c:173
+#: server/techtools.c:169
 #, c-format
 msgid "%s acquired from %s!"
 msgstr "%s otrzymali od %s."
 
-#: server/techtools.c:232
+#: server/techtools.c:223
 #, c-format
 msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
@@ -47289,37 +47289,37 @@ msgstr ""
 "Odkrycie %s sprawia, że dostępny jest ustrój %s. Być może zechcesz rozpocząć "
 "rewolucję."
 
-#: server/techtools.c:308
+#: server/techtools.c:299
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Odkrycie %s czyni PRZESTARZAŁYM %s w %s!"
 
-#: server/techtools.c:361
+#: server/techtools.c:352
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "Twoi naukowcy odkryli %s. Teraz skupiają się na %s; celem jest %s."
 
-#: server/techtools.c:378
+#: server/techtools.c:369
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
 msgstr "Twoi naukowcy odkryli %s. Jednak teraz nie wiedzą nad czym pracować."
 
-#: server/techtools.c:383
+#: server/techtools.c:374
 #, c-format
 msgid "Learned %s. Scientists choose to research %s."
 msgstr "Twoi naukowcy odkryli %s. Teraz skupiają się na %s."
 
-#: server/techtools.c:390
+#: server/techtools.c:381
 #, c-format
 msgid "Learned %s. "
 msgstr "Twoi naukowcy odkryli %s. "
 
-#: server/techtools.c:393
+#: server/techtools.c:384
 #, c-format
 msgid "Researching %s."
 msgstr "Badania nad %s."
 
-#: server/techtools.c:419
+#: server/techtools.c:410
 msgid ""
 "Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -47327,17 +47327,17 @@ msgstr ""
 "Wielcy naukowcy z całego świata przyłączyli się do twej cywilizacji; "
 "dostajesz natychmiastowy wynalazek."
 
-#: server/techtools.c:494
+#: server/techtools.c:485
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr "Za mała produkcja nauki. Straciliśmy Tech. Przysz. %d."
 
-#: server/techtools.c:504
+#: server/techtools.c:495
 #, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr "Za mała produkcja nauki. Straciliśmy %s."
 
-#: server/techtools.c:624
+#: server/techtools.c:615
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -47346,7 +47346,7 @@ msgstr ""
 "Utraciliśmy technologię, która pozwalała na nasz ustrój '%s'. Obywatele "
 "rozpoczęli rewolucję, w celu wporwadzenia '%s'."
 
-#: server/techtools.c:639
+#: server/techtools.c:630
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -47355,32 +47355,32 @@ msgstr ""
 "Utraciliśmy technologię, która pozwalała na nowy ustrój '%s'. Obywatele "
 "wybrali '%s' na nowy ustrój."
 
-#: server/techtools.c:670 server/techtools.c:683
+#: server/techtools.c:661 server/techtools.c:674
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s nie może zbudować %s. Wymagana technologia została utracona."
 
-#: server/techtools.c:804
+#: server/techtools.c:795
 #, c-format
 msgid "Technology goal is %s."
 msgstr "Cel badań to %s."
 
-#: server/techtools.c:1013
+#: server/techtools.c:1004
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Kradniesz %s od %s."
 
-#: server/techtools.c:1018
+#: server/techtools.c:1009
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr "%s ukradli ci %s!"
 
-#: server/techtools.c:1023
+#: server/techtools.c:1014
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr "%s ukradli %s od %s."
 
-#: server/techtools.c:1144
+#: server/techtools.c:1131
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -48199,32 +48199,32 @@ msgstr "Nie udało się pobrać %s"
 msgid "Could not open %s for writing"
 msgstr "Nie mogę otworzyć pliku %s w trybie zapisu"
 
-#: utility/shared.c:209
+#: utility/shared.c:213
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Pusty argument dla \"%s\".\n"
 
-#: utility/shared.c:213
+#: utility/shared.c:217
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Brak argumentu dla \"%s\".\n"
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:954 utility/shared.c:1000 utility/shared.c:1061
+#: utility/shared.c:958 utility/shared.c:1004 utility/shared.c:1065
 #, c-format
 msgid "\"%s\" is set but empty; trying \"%s\" instead."
 msgstr "\"%s\" jest ustawione, lecz puste; próbuję \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:960
+#: utility/shared.c:964
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr ""
 "\"%s\" jest ustawione, lecz puste; używam domyślnego folderu danych \"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1007
+#: utility/shared.c:1011
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
@@ -48232,7 +48232,7 @@ msgstr ""
 "\"%s\"."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1068
+#: utility/shared.c:1072
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
@@ -48241,66 +48241,66 @@ msgstr ""
 "\"%s\"."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1137
+#: utility/shared.c:1141
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Nie można odczytać katalogu danych %s: %s."
 
-#: utility/shared.c:1546
+#: utility/shared.c:1550
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Błąd: próbujesz mnie uruchomić jako administrator!\n"
 
-#: utility/shared.c:1548
+#: utility/shared.c:1552
 msgid "Use a non-privileged account instead.\n"
 msgstr "Użyj do tego konta normalnego użytkownika.\n"
 
-#: utility/shared.c:1564
+#: utility/shared.c:1568
 msgid "exact match"
 msgstr "dokładnie pasujące"
 
-#: utility/shared.c:1565
+#: utility/shared.c:1569
 msgid "only match"
 msgstr "tylko pasujące"
 
-#: utility/shared.c:1566
+#: utility/shared.c:1570
 msgid "ambiguous"
 msgstr "niejednoznaczne"
 
-#: utility/shared.c:1567
+#: utility/shared.c:1571
 msgid "empty"
 msgstr "puste"
 
-#: utility/shared.c:1568
+#: utility/shared.c:1572
 msgid "too long"
 msgstr "za długie"
 
-#: utility/shared.c:1569
+#: utility/shared.c:1573
 msgid "non-match"
 msgstr "nie pasujące"
 
-#: utility/shared.c:1890
+#: utility/shared.c:1894
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dzień"
 msgstr[1] "dni"
 msgstr[2] "dni"
 
-#: utility/shared.c:1895
+#: utility/shared.c:1899
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "godzina"
 msgstr[1] "godziny"
 msgstr[2] "godzin"
 
-#: utility/shared.c:1901
+#: utility/shared.c:1905
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuta"
 msgstr[1] "minuty"
 msgstr[2] "minut"
 
-#: utility/shared.c:1907
+#: utility/shared.c:1911
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekunda"
@@ -50389,8 +50389,8 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "tak rozmieścić mieszkańców, aby miasto wytwarzało nie mniej niż 3 złota "
 #~ "(po odjęciu kosztów utrzymania budynków). Po prawej możesz ustawić "
 #~ "priorytet danego zasobu. Ustawienie priorytetu nauki na 3, będzie "
-#~ "oznaczać, że jeden punkt odkryć będzie warty tyle co 3 "
-#~ "tarczki(produkcja).\n"
+#~ "oznaczać, że jeden punkt odkryć będzie warty tyle co 3 tarczki"
+#~ "(produkcja).\n"
 #~ "\n"
 #~ "Jeśli zarządca nie będzie w stanie spełnić postawionych mu wymagań, "
 #~ "przejęcie kontroli nad miastem nie będzie możliwe. Jeśli w mieście "

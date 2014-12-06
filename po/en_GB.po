@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-22 20:32+0000\n"
+"POT-Creation-Date: 2014-12-06 12:58+0000\n"
 "PO-Revision-Date: 2014-11-22 23:23+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -409,7 +409,7 @@ msgstr "The %s have stopped building The %s in %s."
 msgid "The %s have started building The %s in %s."
 msgstr "The %s have started building The %s in %s."
 
-#: ai/default/aicity.c:787
+#: ai/default/aicity.c:790
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
 msgstr "%s is selling %s (not needed) for %d."
@@ -47594,7 +47594,8 @@ msgstr "Your %s has invalid orders."
 #: server/unittools.c:3759
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
-msgstr "Your unit may not act for another %s this turn. See /help unitwaittime."
+msgstr ""
+"Your unit may not act for another %s this turn. See /help unitwaittime."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..."
 #: server/voting.c:551
