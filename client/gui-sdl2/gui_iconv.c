@@ -17,10 +17,10 @@
     begin                : Thu May 30 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
-	
+
     Based on "iconv_string(...)" function Copyright (C) 1999-2001 Bruno Haible.
     This function is put into the public domain.
-	
+
 ***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -32,18 +32,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL_types.h"
+/* SDL */
+#include <SDL_types.h>
 
 #ifdef HAVE_LIBCHARSET
 #include <libcharset.h>
 #else
 #ifdef HAVE_LANGINFO_CODESET
 #include <langinfo.h>
-#endif
-#endif
+#endif /* LANGINFO */
+#endif /* LIBCHARSET */
 
 #ifndef ICONV_CONST
-#define ICONV_CONST	const
+#define ICONV_CONST const
 #endif /* ICONV_CONST */
 
 /* utility */
@@ -81,16 +82,12 @@ static const char *get_display_encoding(void)
 Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
                              const char *pFromString)
 {
-  /* Start Parametrs */
+  /* Start Parameters */
   const char *pTocode = get_display_encoding();
   const char *pFromcode = get_internal_encoding();
-  const char *pStart = pFromString;
-  
+  const char *pStart = pFromString;  
   size_t length = strlen(pFromString) + 1;
-
   Uint16 *pResult = pToUniString;
-  /* ===== */
-
   iconv_t cd = iconv_open(pTocode, pFromcode);
 
   if (cd == (iconv_t) (-1)) {
@@ -98,30 +95,30 @@ Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
       return pToUniString;
     }
   }
-  
+
   if (!pResult) {
     /* From 8 bit code to UTF-16 (16 bit code) */
     ulength = length * 2;
     pResult = fc_calloc(1, ulength);
   }
 
-  iconv(cd, NULL, NULL, NULL, NULL);	/* return to the initial state */
+  iconv(cd, NULL, NULL, NULL, NULL); /* return to the initial state */
 
   /* Do the conversion for real. */
   {
     const char *pInptr = pStart;
     size_t Insize = length;
-
     char *pOutptr = (char *)pResult;
     size_t Outsize = ulength;
 
     while (Insize > 0 && Outsize > 0) {
       size_t Res =
         iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
+
       if (Res == (size_t) (-1)) {
         if (errno == EINVAL) {
           break;
-	} else {
+        } else {
           int saved_errno = errno;
 
           iconv_close(cd);
@@ -136,18 +133,18 @@ Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
 
     {
       size_t Res = iconv(cd, NULL, NULL, &pOutptr, &Outsize);
-      if (Res == (size_t) (-1)) {
-	int saved_errno = errno;
 
-	iconv_close(cd);
-	errno = saved_errno;
-	if (!pToUniString) {
-	  FC_FREE(pResult);
-	}
-	return pToUniString;
+      if (Res == (size_t) (-1)) {
+        int saved_errno = errno;
+
+        iconv_close(cd);
+        errno = saved_errno;
+        if (!pToUniString) {
+          FC_FREE(pResult);
+        }
+        return pToUniString;
       }
     }
-
   }
 
   iconv_close(cd);
@@ -158,22 +155,19 @@ Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
 /**************************************************************************
   Convert string from display encoding (16 bit unicode) to
   local encoding (8 bit char) and resut put in 'pToString'.
-  if 'pToString' == NULL then resulting string will be allocate automaticaly.
+  if 'pToString' == NULL then resulting string will be allocate automatically.
   'length' give real sizeof 'pToString' array.
 
   Function return (char *) pointer to (new) pToString.
 **************************************************************************/
 char *convertcopy_to_chars(char *pToString, size_t length,
-			    const Uint16 * pFromUniString)
+                           const Uint16 *pFromUniString)
 {
-  /* Start Parametrs */
+  /* Start Parameters */
   const char *pFromcode = get_display_encoding();
   const char *pTocode = get_internal_encoding();
   const char *pStart = (char *) pFromUniString;
   size_t ulength = (unistrlen(pFromUniString) + 1) * 2;
-
-  /* ===== */
-
   char *pResult;
   iconv_t cd;
 
@@ -196,8 +190,8 @@ char *convertcopy_to_chars(char *pToString, size_t length,
     length = ulength * 2; /* UTF-8: up to 4 bytes per char */
     pResult = fc_calloc(1, length);
   }
-  
-  iconv(cd, NULL, NULL, NULL, NULL);	/* return to the initial state */
+
+  iconv(cd, NULL, NULL, NULL, NULL); /* return to the initial state */
 
   /* Do the conversion for real. */
   {
@@ -208,36 +202,39 @@ char *convertcopy_to_chars(char *pToString, size_t length,
 
     while (Insize > 0 && Outsize > 0) {
       size_t Res =
-	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
+        iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
+
       if (Res == (size_t) (-1)) {
         log_error("iconv() error: %s", fc_strerror(fc_get_errno()));
-	if (errno == EINVAL) {
-	  break;
-	} else {
-	  int saved_errno = errno;
-	  iconv_close(cd);
-	  errno = saved_errno;
-	  if(!pToString) {
-	    FC_FREE(pResult);
-	  }
-	  return pToString;
-	}
+        if (errno == EINVAL) {
+          break;
+        } else {
+          int saved_errno = errno;
+
+          iconv_close(cd);
+          errno = saved_errno;
+          if (!pToString) {
+            FC_FREE(pResult);
+          }
+          return pToString;
+        }
       }
     }
 
     {
       size_t Res = iconv(cd, NULL, NULL, &pOutptr, &Outsize);
+
       if (Res == (size_t) (-1)) {
-	int saved_errno = errno;
-	iconv_close(cd);
-	errno = saved_errno;
-	if(!pToString) {
-	  FC_FREE(pResult);
-	}
-	return pToString;
+        int saved_errno = errno;
+
+        iconv_close(cd);
+        errno = saved_errno;
+        if (!pToString) {
+          FC_FREE(pResult);
+        }
+        return pToString;
       }
     }
-
   }
 
   iconv_close(cd);

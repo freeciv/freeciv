@@ -54,43 +54,44 @@ SDL_Color *get_game_color(enum color_std stdcolor)
   Allocate a color with alpha channel and return a pointer to it. Alpha
   channel is not really used yet.
 ****************************************************************************/
-struct color *color_alloc_rgba(int r, int g, int b, int a) {
-
-  struct color *result = fc_malloc(sizeof(*result));	
-	
+struct color *color_alloc_rgba(int r, int g, int b, int a)
+{
+  struct color *result = fc_malloc(sizeof(*result));
   SDL_Color *pcolor = fc_malloc(sizeof(*pcolor));
+
   pcolor->r = r;
   pcolor->g = g;
   pcolor->b = b;
   pcolor->a = a;
-	
+
   result->color = pcolor;
-  
+
   return result;
 }
 
 /****************************************************************************
   Allocate a solid color and return a pointer to it.
 ****************************************************************************/
-struct color *color_alloc(int r, int g, int b) {
-
-  struct color *result = fc_malloc(sizeof(*result));	
-	
+struct color *color_alloc(int r, int g, int b)
+{
+  struct color *result = fc_malloc(sizeof(*result));
   SDL_Color *pcolor = fc_malloc(sizeof(*pcolor));
+
   pcolor->r = r;
   pcolor->g = g;
   pcolor->b = b;
   pcolor->a = 255;
-	
+
   result->color = pcolor;
-  
+
   return result;
 }
 
 /****************************************************************************
   Free resources allocated for color.
 ****************************************************************************/
-void color_free(struct color *pcolor) {
+void color_free(struct color *pcolor)
+{
   if (!pcolor) {
     return;
   }
@@ -98,5 +99,6 @@ void color_free(struct color *pcolor) {
   if (pcolor->color) {
     free(pcolor->color);
   }
+
   free(pcolor);
 }

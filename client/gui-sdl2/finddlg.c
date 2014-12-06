@@ -53,6 +53,7 @@ static int find_city_window_dlg_callback(struct widget *pWindow)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     move_window_group(pFind_City_Dlg->pBeginWidgetList, pWindow);
   }
+
   return -1;
 }
 
@@ -71,6 +72,7 @@ static int exit_find_city_dlg_callback(struct widget *pWidget)
 
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -81,14 +83,16 @@ static int find_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct city *pCity = pWidget->data.city;
-    if(pCity) {
+
+    if (pCity) {
       center_tile_mapcanvas(pCity->tile);
-      if(Main.event.button.button == SDL_BUTTON_RIGHT) {
+      if (Main.event.button.button == SDL_BUTTON_RIGHT) {
         popdown_find_dialog();
       }
       flush_dirty();
     }
   }
+
   return -1;
 }
 
@@ -99,7 +103,7 @@ void popdown_find_dialog(void)
 {
   if (pFind_City_Dlg) {
     popdown_window_group_dialog(pFind_City_Dlg->pBeginWidgetList,
-			pFind_City_Dlg->pEndWidgetList);
+                                pFind_City_Dlg->pEndWidgetList);
     FC_FREE(pFind_City_Dlg->pScroll);
     FC_FREE(pFind_City_Dlg);
     enable_and_redraw_find_city_button();
@@ -134,7 +138,7 @@ void popup_find_dialog(void)
     return;
   }
 
-  original = canvas_pos_to_tile(Main.map->w/2, Main.map->h/2);
+  original = canvas_pos_to_tile(Main.map->w / 2, Main.map->h / 2);
 
   pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
@@ -171,7 +175,6 @@ void popup_find_dialog(void)
 
   players_iterate(pPlayer) {
     city_list_iterate(pPlayer->cities, pCity) {
-
       fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name(pCity),
                   city_size_get(pCity));
 
@@ -205,14 +208,14 @@ void popup_find_dialog(void)
       area.w = MAX(area.w, pBuf->size.w);
       area.h += pBuf->size.h;
 
-      if (n > 19)
-      {
+      if (n > 19) {
         set_wflag(pBuf , WF_HIDDEN);
       }
 
       n++;
     } city_list_iterate_end;
   } players_iterate_end;
+
   pFind_City_Dlg->pBeginWidgetList = pBuf;
   pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->pBeginWidgetList;
   pFind_City_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
@@ -220,9 +223,7 @@ void popup_find_dialog(void)
 
 
   /* ---------- */
-  if (n > 20)
-  {
-
+  if (n > 20) {
     units_h = create_vertical_scrollbar(pFind_City_Dlg, 1, 20, TRUE, TRUE);
     pFind_City_Dlg->pScroll->count = n;
 
@@ -245,7 +246,7 @@ void popup_find_dialog(void)
 
   area = pWindow->area;
 
-  if(!mouse) {  
+  if (!mouse) {
     window_x = adj_size(10);
     window_y = (main_window_height() - pWindow->size.h) / 2;
   } else {
@@ -255,15 +256,13 @@ void popup_find_dialog(void)
     window_y = (Main.event.motion.y - adj_size(2) + pWindow->size.h < main_window_height()) ?
              (Main.event.motion.y - adj_size(2)) :
              (main_window_height() - pWindow->size.h - adj_size(10));
-    
   }
 
   widget_set_position(pWindow, window_x, window_y);
 
   w = area.w;
 
-  if (pFind_City_Dlg->pScroll)
-  {
+  if (pFind_City_Dlg->pScroll) {
     w -= n;
   }
 
@@ -275,15 +274,14 @@ void popup_find_dialog(void)
 
   /* cities */
   pBuf = pBuf->prev;
-  setup_vertical_widgets_position(1,
-	area.x, area.y,
-	w, 0, pFind_City_Dlg->pBeginActiveWidgetList, pBuf);
+  setup_vertical_widgets_position(1, area.x, area.y, w, 0,
+                                  pFind_City_Dlg->pBeginActiveWidgetList,
+                                  pBuf);
 
-  if (pFind_City_Dlg->pScroll)
-  {
+  if (pFind_City_Dlg->pScroll) {
     setup_vertical_scrollbar_area(pFind_City_Dlg->pScroll,
-	area.x + area.w, area.y,
-    	area.h, TRUE);
+                                  area.x + area.w, area.y,
+                                  area.h, TRUE);
   }
 
   /* -------------------- */

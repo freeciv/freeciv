@@ -16,10 +16,10 @@
                              -------------------
     begin                : Mon Jul 1 2002
     copyright            : (C) 2000 by Michael Speck
-			 : (C) 2002 by Rafał Bursig
+                         : (C) 2002 by Rafał Bursig
     email                : Michael Speck <kulkanie@gmx.net>
-			 : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+                         : Rafał Bursig <bursig@poczta.fm>
+**********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -59,7 +59,7 @@ struct main Main;
 struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface)
 {
   struct gui_layer *result;
-    
+
   result = fc_calloc(1, sizeof(struct gui_layer));
 
   result->dest_rect = (SDL_Rect){x, y, 0, 0};
@@ -118,7 +118,7 @@ struct gui_layer *add_gui_layer(int width, int height)
     for (i = 0; i < Main.guis_count; i++) {
       if (!Main.guis[i]) {
         Main.guis[i] = gui_layer;
-	return gui_layer;
+        return gui_layer;
       }
     }
     Main.guis_count++;
@@ -162,7 +162,8 @@ void remove_gui_layer(struct gui_layer *gui_layer)
 /**************************************************************************
   Adjust dest_rect according to gui_layer.
 **************************************************************************/
-void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
+void screen_rect_to_layer_rect(struct gui_layer *gui_layer,
+                               SDL_Rect *dest_rect)
 {
   if (gui_layer) {
     dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
@@ -175,7 +176,7 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
 /**************************************************************************
   Execute alphablit.
 **************************************************************************/
-int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
+int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
               SDL_Surface *dst, SDL_Rect *dstrect,
               unsigned char alpha_mod)
 {
@@ -211,6 +212,7 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 
   if (alphablit(pSource, pRect, pNew, NULL, 255) != 0) {
     FREESURFACE(pNew);
+
     return NULL;
   }
 
@@ -230,8 +232,7 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y)
 {
   SDL_Surface *pDest = NULL;
-
-  int row, col;  
+  int row, col;
   //  bool free_pMask = FALSE;
   Uint32 *pSrc_Pixel = NULL;
   Uint32 *pDest_Pixel = NULL;
@@ -246,12 +247,12 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 
   pSrc = SDL_DisplayFormatAlpha(pSrc);
   pDest = SDL_DisplayFormatAlpha(pSrc);
-#endif
+#endif /* 0 */
 
   pDest = copy_surface(pSrc);
 
   lock_surf(pSrc);
-  lock_surf(pMask);  
+  lock_surf(pMask);
   lock_surf(pDest);
 
   pSrc_Pixel = (Uint32 *)pSrc->pixels;
@@ -283,7 +284,7 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
   }
 
   FREESURFACE(pSrc); /* result of SDL_DisplayFormatAlpha() */
-#endif
+#endif /* 0 */
 
   return pDest;
 }
@@ -295,7 +296,7 @@ SDL_Surface *load_surf(const char *pFname)
 {
   SDL_Surface *pBuf;
 
-  if(!pFname) {
+  if (!pFname) {
     return NULL;
   }
 
@@ -318,7 +319,7 @@ SDL_Surface *load_surf(const char *pFname)
       return pNew_sur;
     }
   }
-#endif
+#endif /* 0 */
 
   return pBuf;
 }
@@ -340,7 +341,6 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
     return NULL;
   }
 
-
   return pBuf;
 #if 0
   if ((pNew_sur = SDL_ConvertSurface(pBuf, pSpf, iFlags)) == NULL) {
@@ -352,7 +352,7 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
   FREESURFACE(pBuf);
 
   return pNew_sur;
-#endif
+#endif /* 0 */
 }
 
 /**************************************************************************
@@ -360,14 +360,14 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
    MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
-				     int iWidth, int iHeight,
-				     Uint32 iFlags)
+                                     int iWidth, int iHeight,
+                                     Uint32 iFlags)
 {
   SDL_Surface *pSurf = SDL_CreateRGBSurface(iFlags, iWidth, iHeight,
-					    pSpf->BitsPerPixel,
-					    pSpf->Rmask,
-					    pSpf->Gmask,
-					    pSpf->Bmask, pSpf->Amask);
+                                            pSpf->BitsPerPixel,
+                                            pSpf->Rmask,
+                                            pSpf->Gmask,
+                                            pSpf->Bmask, pSpf->Amask);
 
   if (!pSurf) {
     log_error(_("Unable to create Sprite (Surface) of size "
@@ -416,7 +416,8 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
   fill surface with (0, 0, 0, 0), so the next blitting operation can set
   the per pixel alpha
 **************************************************************************/
-int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect) {
+int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect)
+{
   /* SDL_FillRect might change the rectangle, so we create a copy */
   if (dstrect) {
     SDL_Rect _dstrect = *dstrect;
@@ -450,21 +451,23 @@ int center_main_window_on_screen(void)
 {
 #if 0
   SDL_SysWMinfo myinfo;
+
   SDL_VERSION(&myinfo.version);
   if (SDL_GetWMInfo(&myinfo) > 0)
   {
 #ifdef WIN32_NATIVE
-    
+
     /* Port ME - Write center window code with WinAPI instructions */
-    
+
     return 0;
 #else /* WIN32_NATIVE */
 
-#if 0 
-    /* this code is for X and is only example what should be write to other 
-       eviroments */
+#if 0
+    /* this code is for X and is only example what should be write to other
+       enviroments */
     Screen *defscr;
     Display *d = myinfo.info.x11.display;
+
     myinfo.info.x11.lock_func();
     defscr = DefaultScreenOfDisplay(d);
     XMoveWindow(d, myinfo.info.x11.wmwindow,
@@ -476,7 +479,7 @@ int center_main_window_on_screen(void)
 #endif /* WIN32_NATIVE */
   }
   return -1;
-#endif
+#endif /* 0 */
 
   return 0;
 }
@@ -486,9 +489,12 @@ int center_main_window_on_screen(void)
   Return the pixel value at (x, y)
   NOTE: The surface must be locked before calling this!
 **************************************************************************/
-Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
+Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y)
 {
-  if (!pSurface) return 0x0;
+  if (!pSurface) {
+    return 0x0;
+  }
+
   switch (pSurface->format->BytesPerPixel) {
   case 1:
     return *(Uint8 *) ((Uint8 *) pSurface->pixels + y * pSurface->pitch + x);
@@ -500,18 +506,19 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
     {
       /* Here ptr is the address to the pixel we want to retrieve */
       Uint8 *ptr =
-	  (Uint8 *) pSurface->pixels + y * pSurface->pitch + x * 3;
+        (Uint8 *) pSurface->pixels + y * pSurface->pitch + x * 3;
+
       if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	return ptr[0] << 16 | ptr[1] << 8 | ptr[2];
+        return ptr[0] << 16 | ptr[1] << 8 | ptr[2];
       } else {
-	return ptr[0] | ptr[1] << 8 | ptr[2] << 16;
+        return ptr[0] | ptr[1] << 8 | ptr[2] << 16;
       }
     }
   case 4:
     return *((Uint32 *)pSurface->pixels + y * pSurface->pitch / sizeof(Uint32) + x);
 
   default:
-    return 0;			/* shouldn't happen, but avoids warnings */
+    return 0; /* shouldn't happen, but avoids warnings */
   }
 }
 
@@ -522,7 +529,10 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
 **************************************************************************/
 Uint32 get_first_pixel(SDL_Surface *pSurface)
 {
-  if (!pSurface) return 0;
+  if (!pSurface) {
+    return 0;
+  }
+
   switch (pSurface->format->BytesPerPixel) {
   case 1:
     return *((Uint8 *)pSurface->pixels);
@@ -533,20 +543,20 @@ Uint32 get_first_pixel(SDL_Surface *pSurface)
   case 3:
     {
       if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	return (((Uint8 *)pSurface->pixels)[0] << 16)|
-		(((Uint8 *)pSurface->pixels)[1] << 8)|
-			((Uint8 *)pSurface->pixels)[2];
+        return (((Uint8 *)pSurface->pixels)[0] << 16)
+          | (((Uint8 *)pSurface->pixels)[1] << 8)
+          | ((Uint8 *)pSurface->pixels)[2];
       } else {
-	return ((Uint8 *)pSurface->pixels)[0]|
-		(((Uint8 *)pSurface->pixels)[1] << 8)|
-			(((Uint8 *)pSurface->pixels)[2] << 16);
+        return ((Uint8 *)pSurface->pixels)[0]
+          | (((Uint8 *)pSurface->pixels)[1] << 8)
+          | (((Uint8 *)pSurface->pixels)[2] << 16);
       }
     }
   case 4:
     return *((Uint32 *)pSurface->pixels);
 
   default:
-    return 0;			/* shouldn't happen, but avoids warnings */
+    return 0; /* shouldn't happen, but avoids warnings */
   }
 }
 
@@ -558,6 +568,7 @@ Uint32 get_first_pixel(SDL_Surface *pSurface)
 void init_sdl(int iFlags)
 {
   bool error;
+
   Main.screen = NULL;
   Main.guis = NULL;
   Main.gui = NULL;
@@ -611,17 +622,17 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   Main.mainsurf = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
 #if SDL_BYTEORDER != SDL_LIL_ENDIAN
-			0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
+                0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
 #else
-			0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
+                0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
 #endif
 );
 
   Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
 #if SDL_BYTEORDER != SDL_LIL_ENDIAN
-			0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
+                0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
 #else
-			0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
+                0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
 #endif
 );
 
@@ -639,10 +650,12 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   /*  if screen does exist check if this is mayby
      exactly the same resolution then return 1 */
   if (Main.screen) {
-    if (Main.screen->w == iWidth && Main.screen->h == iHeight)
+    if (Main.screen->w == iWidth && Main.screen->h == iHeight) {
       if ((Main.screen->flags & SDL_FULLSCREEN)
-	  && (iFlags & SDL_FULLSCREEN))
-	return 1;
+          && (iFlags & SDL_FULLSCREEN)) {
+        return 1;
+      }
+    }
   }
 
   /* Check to see if a particular video mode is supported */
@@ -704,16 +717,16 @@ void update_main_screen(void)
 /**************************************************************************
                            Fill Rect with RGBA color
 **************************************************************************/
-#define MASK565	0xf7de
-#define MASK555	0xfbde
+#define MASK565 0xf7de
+#define MASK555 0xfbde
 
 /* 50% alpha (128) */
-#define BLEND16_50( d, s , mask )	\
-	(((( s & mask ) + ( d & mask )) >> 1) + ( s & d & ( ~mask & 0xffff)))
+#define BLEND16_50( d, s , mask )       \
+        (((( s & mask ) + ( d & mask )) >> 1) + ( s & d & ( ~mask & 0xffff)))
 
-#define BLEND2x16_50( d, s , mask )	\
-	(((( s & (mask | mask << 16)) + ( d & ( mask | mask << 16 ))) >> 1) + \
-	( s & d & ( ~(mask | mask << 16))))
+#define BLEND2x16_50( d, s , mask )     \
+        (((( s & (mask | mask << 16)) + ( d & ( mask | mask << 16 ))) >> 1) + \
+        ( s & d & ( ~(mask | mask << 16))))
 
 #ifdef HAVE_MMX1
 
@@ -755,7 +768,7 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint16 *) pSurface->pixels;
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       S = S | S << 16;
       *(Uint64 *)load = MASK555;
       movq_m2r(*load, mm0); /* mask(000000MS) -> mm0 */
@@ -767,119 +780,118 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
       pxor_r2r(mm7, mm1); /* !mask -> mm1 */
       DUFFS_LOOP_QUATRO2(
       {
-	D = *pixel;
-	*pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK555);
+        D = *pixel;
+        *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK555);
       },{
-	D = *(Uint32 *) pixel;
-	*(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
-	pixel += 2;
+        D = *(Uint32 *) pixel;
+        *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
+        pixel += 2;
       },{
-	movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
-	movq_r2r(mm3, mm5); /* dst -> mm5 */
-	movq_r2r(mm2, mm4); /* src -> mm4 */
-	
-	pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
-	pand_r2r(mm0, mm4); /* src & mask -> mm4 */
-	paddw_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */
-	psrlq_i2r(1, mm4); /* mm4 >> 1 -> mm4 */
-	
-	pand_r2r(mm2, mm3); /* src & dst -> mm3 */
-	pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
-	paddw_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */
-	movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
-	pixel += 4;
+        movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+        movq_r2r(mm3, mm5); /* dst -> mm5 */
+        movq_r2r(mm2, mm4); /* src -> mm4 */
+
+        pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
+        pand_r2r(mm0, mm4); /* src & mask -> mm4 */
+        paddw_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */
+        psrlq_i2r(1, mm4); /* mm4 >> 1 -> mm4 */
+
+        pand_r2r(mm2, mm3); /* src & dst -> mm3 */
+        pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
+        paddw_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */
+        movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
+        pixel += 4;
       }, end);
       emms();
     } else {
       S = (S | S << 16) & 0x03e07c1f;
       DUFFS_LOOP_QUATRO2(
       {
-	D = *pixel;
-	D = (D | D << 16) & 0x03e07c1f;
-	D += (S - D) * A >> 5;
-	D &= 0x03e07c1f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x03e07c1f;
+        D += (S - D) * A >> 5;
+        D &= 0x03e07c1f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
       },{
-	D = *pixel;
-	D = (D | D << 16) & 0x03e07c1f;
-	D += (S - D) * A >> 5;
-	D &= 0x03e07c1f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
-	D = *pixel;
-	D = (D | D << 16) & 0x03e07c1f;
-	D += (S - D) * A >> 5;
-	D &= 0x03e07c1f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x03e07c1f;
+        D += (S - D) * A >> 5;
+        D &= 0x03e07c1f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x03e07c1f;
+        D += (S - D) * A >> 5;
+        D &= 0x03e07c1f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
       },{
-	movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
-	
-	/* RED */
-	movq_r2r(mm2, mm5); /* src -> mm5 */
-	pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
-	psrlq_i2r(10, mm5); /* mm5 >> 10 -> mm5 [000r 000r 000r 000r] */
-	
-	movq_r2r(mm3, mm6); /* dst -> mm6 */
-	pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
-	psrlq_i2r(10, mm6); /* mm6 >> 10 -> mm6 [000r 000r 000r 000r] */
-	
-	/* blend */
-	psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	psllq_i2r(10, mm6); /* mm6 << 10 -> mm6 */
-	pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
-	
-	movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
-	por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
-	por_r2r(mm6, mm3);  /* save new reds in dsts */
-	
-	/* green */
-	movq_r2r(mm2, mm5); /* src -> mm5 */
-	pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
-	psrlq_i2r(5, mm5); /* mm5 >> 5 -> mm5 [000g 000g 000g 000g] */
-	
-	movq_r2r(mm3, mm6); /* dst -> mm6 */
-	pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
-	psrlq_i2r(5, mm6); /* mm6 >> 5 -> mm6 [000g 000g 000g 000g] */
-	
-	/* blend */
-	psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
-	pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
-	
-	movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
-	por_r2r(mm6, mm3); /* save new greens in dsts */
-	
-	/* blue */
-	movq_r2r(mm2, mm5); /* src -> mm5 */
-	pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
-		
-	movq_r2r(mm3, mm6); /* dst -> mm6 */
-	pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
-	
-	/* blend */
-	psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
-	
-	movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
-	pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
-	por_r2r(mm6, mm3); /* save new blues in dsts */
-	
-	movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
-	
-	pixel += 4;
-	
+        movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+
+        /* RED */
+        movq_r2r(mm2, mm5); /* src -> mm5 */
+        pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
+        psrlq_i2r(10, mm5); /* mm5 >> 10 -> mm5 [000r 000r 000r 000r] */
+
+        movq_r2r(mm3, mm6); /* dst -> mm6 */
+        pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
+        psrlq_i2r(10, mm6); /* mm6 >> 10 -> mm6 [000r 000r 000r 000r] */
+
+        /* blend */
+        psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+        pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+        psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+        paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+        psllq_i2r(10, mm6); /* mm6 << 10 -> mm6 */
+        pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
+
+        movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
+        por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+        pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
+        por_r2r(mm6, mm3);  /* save new reds in dsts */
+
+        /* green */
+        movq_r2r(mm2, mm5); /* src -> mm5 */
+        pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
+        psrlq_i2r(5, mm5); /* mm5 >> 5 -> mm5 [000g 000g 000g 000g] */
+
+        movq_r2r(mm3, mm6); /* dst -> mm6 */
+        pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
+        psrlq_i2r(5, mm6); /* mm6 >> 5 -> mm6 [000g 000g 000g 000g] */
+
+        /* blend */
+        psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+        pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+        psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+        paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+        psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
+        pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
+
+        movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+        por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+        pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
+        por_r2r(mm6, mm3); /* save new greens in dsts */
+
+        /* blue */
+        movq_r2r(mm2, mm5); /* src -> mm5 */
+        pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
+
+        movq_r2r(mm3, mm6); /* dst -> mm6 */
+        pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
+
+        /* blend */
+        psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+        pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+        psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+        paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+        pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
+
+        movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+        por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
+        pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
+        por_r2r(mm6, mm3); /* save new blues in dsts */
+
+        movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
+
+        pixel += 4;
       }, end);
       emms();
     }
@@ -890,7 +902,7 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -899,14 +911,14 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint16 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 1)) + pRect->x;
+        (pRect->y * (pSurface->pitch >> 1)) + pRect->x;
 
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       S = S | S << 16;
       y = pRect->h;
       end = pRect->w;
@@ -916,128 +928,128 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
       punpcklwd_r2r(mm0, mm0); /* MSMSMSMS -> mm0 */
       movq_r2r(mm0, mm1); /* mask -> mm1 */
       pandn_r2r(mm1, mm1); /* !mask -> mm1 */
-      while(y--) {	
+      while (y--) {
         DUFFS_LOOP_QUATRO2(
         {
-	  D = *pixel;
- 	  *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK555);
+          D = *pixel;
+          *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK555);
         },{
-	  D = *(Uint32 *) pixel;
-	  *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
-	  pixel += 2;
+          D = *(Uint32 *) pixel;
+          *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
+          pixel += 2;
         },{
-	  movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
-	  movq_r2r(mm3, mm5); /* dst -> mm5 */
-	  movq_r2r(mm2, mm4); /* src -> mm4 */
-	
-	  pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
-	  pand_r2r(mm0, mm4); /* src & mask -> mm4 */
-	  paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ /*w*/
-	  psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ /*q*/
-	
-	  pand_r2r(mm2, mm3); /* src & dst -> mm3 */
-	  pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
-	  paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ /*w*/
-	  movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
-	  pixel += 4;
+          movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+          movq_r2r(mm3, mm5); /* dst -> mm5 */
+          movq_r2r(mm2, mm4); /* src -> mm4 */
+
+          pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
+          pand_r2r(mm0, mm4); /* src & mask -> mm4 */
+          paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ /*w*/
+          psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ /*q*/
+
+          pand_r2r(mm2, mm3); /* src & dst -> mm3 */
+          pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
+          paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ /*w*/
+          movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
+          pixel += 4;
         }, end);
-	pixel = start + (pSurface->pitch >> 1);
-	start = pixel;
+        pixel = start + (pSurface->pitch >> 1);
+        start = pixel;
       }/* while */
       emms();
     } else {
       S = (S | S << 16) & 0x03e07c1f;
       y = pRect->h;
       end = pRect->w;
-      
+
       while (y--) {
-	DUFFS_LOOP_QUATRO2(
+        DUFFS_LOOP_QUATRO2(
         {
-	  D = *pixel;
-	  D = (D | D << 16) & 0x03e07c1f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x03e07c1f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = *pixel;
+          D = (D | D << 16) & 0x03e07c1f;
+          D += (S - D) * A >> 5;
+          D &= 0x03e07c1f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
         },{
-	  D = *pixel;
-	  D = (D | D << 16) & 0x03e07c1f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x03e07c1f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
-	  D = *pixel;
-	  D = (D | D << 16) & 0x03e07c1f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x03e07c1f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = *pixel;
+          D = (D | D << 16) & 0x03e07c1f;
+          D += (S - D) * A >> 5;
+          D &= 0x03e07c1f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = *pixel;
+          D = (D | D << 16) & 0x03e07c1f;
+          D += (S - D) * A >> 5;
+          D &= 0x03e07c1f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
         },{
-	  movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+          movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
 
-	  /* RED */
-	  movq_r2r(mm2, mm5); /* src -> mm5 */
-	  pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
-	  psrlq_i2r(10, mm5); /* mm5 >> 10 -> mm5 [000r 000r 000r 000r] */
+          /* RED */
+          movq_r2r(mm2, mm5); /* src -> mm5 */
+          pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
+          psrlq_i2r(10, mm5); /* mm5 >> 10 -> mm5 [000r 000r 000r 000r] */
 
-	  movq_r2r(mm3, mm6); /* dst -> mm6 */
-	  pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
-	  psrlq_i2r(10, mm6); /* mm6 >> 10 -> mm6 [000r 000r 000r 000r] */
+          movq_r2r(mm3, mm6); /* dst -> mm6 */
+          pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
+          psrlq_i2r(10, mm6); /* mm6 >> 10 -> mm6 [000r 000r 000r 000r] */
 
-	  /* blend */
-	  psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	  pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	  psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	  paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	  psllq_i2r(10, mm6); /* mm6 << 10 -> mm6 */
-	  pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
+          /* blend */
+          psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+          pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+          psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+          paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+          psllq_i2r(10, mm6); /* mm6 << 10 -> mm6 */
+          pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
 
-	  movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
-	  por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	  pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
-	  por_r2r(mm6, mm3);  /* save new reds in dsts */
+          movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
+          por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+          pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
+          por_r2r(mm6, mm3);  /* save new reds in dsts */
 
-	  /* green */
-	  movq_r2r(mm2, mm5); /* src -> mm5 */
-	  pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
-	  psrlq_i2r(5, mm5); /* mm5 >> 5 -> mm5 [000g 000g 000g 000g] */
+          /* green */
+          movq_r2r(mm2, mm5); /* src -> mm5 */
+          pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
+          psrlq_i2r(5, mm5); /* mm5 >> 5 -> mm5 [000g 000g 000g 000g] */
 
-	  movq_r2r(mm3, mm6); /* dst -> mm6 */
-	  pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
-	  psrlq_i2r(5, mm6); /* mm6 >> 5 -> mm6 [000g 000g 000g 000g] */
+          movq_r2r(mm3, mm6); /* dst -> mm6 */
+          pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
+          psrlq_i2r(5, mm6); /* mm6 >> 5 -> mm6 [000g 000g 000g 000g] */
 
-	  /* blend */
-	  psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	  pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	  psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	  paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	  psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
-	  pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
+          /* blend */
+          psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+          pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+          psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+          paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+          psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
+          pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
 
-	  movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	  por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	  pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
-	  por_r2r(mm6, mm3); /* save new greens in dsts */
+          movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+          por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+          pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
+          por_r2r(mm6, mm3); /* save new greens in dsts */
 
-	  /* blue */
-	  movq_r2r(mm2, mm5); /* src -> mm5 */
-	  pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
+          /* blue */
+          movq_r2r(mm2, mm5); /* src -> mm5 */
+          pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
 
-	  movq_r2r(mm3, mm6); /* dst -> mm6 */
-	  pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
+          movq_r2r(mm3, mm6); /* dst -> mm6 */
+          pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
 
-	  /* blend */
-	  psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	  pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	  psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	  paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	  pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
+          /* blend */
+          psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+          pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+          psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+          paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+          pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
 
-	  movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	  por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
-	  pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
-	  por_r2r(mm6, mm3); /* save new blues in dsts */
+          movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+          por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
+          pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
+          por_r2r(mm6, mm3); /* save new blues in dsts */
 
-	  movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
+          movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
 
-	  pixel += 4;
+          pixel += 4;
 
         }, end);
 
@@ -1050,14 +1062,15 @@ static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
   }
 
   unlock_surf(pSurface);
+
   return 0;
 }
 
 /**************************************************************************
   Fill rectangle for "565" format surface
 **************************************************************************/
-static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
-			      SDL_Color * pColor)
+static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
+                              SDL_Color *pColor)
 {
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
@@ -1091,7 +1104,7 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint16 *) pSurface->pixels;
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       S = S | S << 16;
       *(Uint64 *)load = MASK565;
       movq_m2r(*load, mm0); /* mask(000000MS) -> mm0 */
@@ -1103,119 +1116,118 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
       pxor_r2r(mm7, mm1); /* !mask -> mm1 */
       DUFFS_LOOP_QUATRO2(
       {
-	D = *pixel;
-	*pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK565);
+        D = *pixel;
+        *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK565);
       },{
-	D = *(Uint32 *) pixel;
-	*(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
-	pixel += 2;
+        D = *(Uint32 *) pixel;
+        *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
+        pixel += 2;
       },{
-	movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
-	movq_r2r(mm3, mm5); /* dst -> mm5 */
-	movq_r2r(mm2, mm4); /* src -> mm4 */
-	
-	pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
-	pand_r2r(mm0, mm4); /* src & mask -> mm4 */
-	paddw_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */
-	psrlq_i2r(1, mm4); /* mm4 >> 1 -> mm4 */
-	
-	pand_r2r(mm2, mm3); /* src & dst -> mm3 */
-	pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
-	paddw_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */
-	movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
-	pixel += 4;
+        movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+        movq_r2r(mm3, mm5); /* dst -> mm5 */
+        movq_r2r(mm2, mm4); /* src -> mm4 */
+
+        pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
+        pand_r2r(mm0, mm4); /* src & mask -> mm4 */
+        paddw_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */
+        psrlq_i2r(1, mm4); /* mm4 >> 1 -> mm4 */
+
+        pand_r2r(mm2, mm3); /* src & dst -> mm3 */
+        pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
+        paddw_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */
+        movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
+        pixel += 4;
       }, end);
       emms();
     } else {
       S = (S | S << 16) & 0x07e0f81f;
       DUFFS_LOOP_QUATRO2(
       {
-	D = *pixel;
-	D = (D | D << 16) & 0x07e0f81f;
-	D += (S - D) * A >> 5;
-	D &= 0x07e0f81f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x07e0f81f;
+        D += (S - D) * A >> 5;
+        D &= 0x07e0f81f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
       },{
-	D = *pixel;
-	D = (D | D << 16) & 0x07e0f81f;
-	D += (S - D) * A >> 5;
-	D &= 0x07e0f81f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
-	D = *pixel;
-	D = (D | D << 16) & 0x07e0f81f;
-	D += (S - D) * A >> 5;
-	D &= 0x07e0f81f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x07e0f81f;
+        D += (S - D) * A >> 5;
+        D &= 0x07e0f81f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x07e0f81f;
+        D += (S - D) * A >> 5;
+        D &= 0x07e0f81f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
       },{
-	movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+        movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
 
-	/* RED */
-	movq_r2r(mm2, mm5); /* src -> mm5 */
-	pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
-	psrlq_i2r(11, mm5); /* mm5 >> 11 -> mm5 [000r 000r 000r 000r] */
+        /* RED */
+        movq_r2r(mm2, mm5); /* src -> mm5 */
+        pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
+        psrlq_i2r(11, mm5); /* mm5 >> 11 -> mm5 [000r 000r 000r 000r] */
 
-	movq_r2r(mm3, mm6); /* dst -> mm6 */
-	pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
-	psrlq_i2r(11, mm6); /* mm6 >> 11 -> mm6 [000r 000r 000r 000r] */
+        movq_r2r(mm3, mm6); /* dst -> mm6 */
+        pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
+        psrlq_i2r(11, mm6); /* mm6 >> 11 -> mm6 [000r 000r 000r 000r] */
 
-	/* blend */
-	psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	psllq_i2r(11, mm6); /* mm6 << 11 -> mm6 */
-	pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
+        /* blend */
+        psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+        pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+        psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+        paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+        psllq_i2r(11, mm6); /* mm6 << 11 -> mm6 */
+        pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
 
-	movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
-	por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
-	por_r2r(mm6, mm3);  /* save new reds in dsts */
+        movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
+        por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+        pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
+        por_r2r(mm6, mm3);  /* save new reds in dsts */
 
-	/* green */
-	movq_r2r(mm2, mm5); /* src -> mm5 */
-	pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
-	psrlq_i2r(5, mm5); /* mm5 >> 5 -> mm5 [000g 000g 000g 000g] */
+        /* green */
+        movq_r2r(mm2, mm5); /* src -> mm5 */
+        pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
+        psrlq_i2r(5, mm5); /* mm5 >> 5 -> mm5 [000g 000g 000g 000g] */
 
-	movq_r2r(mm3, mm6); /* dst -> mm6 */
-	pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
-	psrlq_i2r(5, mm6); /* mm6 >> 5 -> mm6 [000g 000g 000g 000g] */
+        movq_r2r(mm3, mm6); /* dst -> mm6 */
+        pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
+        psrlq_i2r(5, mm6); /* mm6 >> 5 -> mm6 [000g 000g 000g 000g] */
 
-	/* blend */
-	psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
-	pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
+        /* blend */
+        psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+        pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+        psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+        paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+        psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
+        pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
 
-	movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
-	por_r2r(mm6, mm3); /* save new greens in dsts */
+        movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+        por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+        pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
+        por_r2r(mm6, mm3); /* save new greens in dsts */
 
-	/* blue */
-	movq_r2r(mm2, mm5); /* src -> mm5 */
-	pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
+        /* blue */
+        movq_r2r(mm2, mm5); /* src -> mm5 */
+        pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
 
-	movq_r2r(mm3, mm6); /* dst -> mm6 */
-	pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
+        movq_r2r(mm3, mm6); /* dst -> mm6 */
+        pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
 
-	/* blend */
-	psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
+        /* blend */
+        psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+        pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+        psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+        paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+        pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
 
-	movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
-	pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
-	por_r2r(mm6, mm3); /* save new blues in dsts */
+        movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+        por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
+        pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
+        por_r2r(mm6, mm3); /* save new blues in dsts */
 
-	movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
+        movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
 
-	pixel += 4;
-
+        pixel += 4;
       }, end);
       emms();
     }
@@ -1226,7 +1238,7 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -1235,14 +1247,14 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint16 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 1)) + pRect->x;
+        (pRect->y * (pSurface->pitch >> 1)) + pRect->x;
 
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       S = S | S << 16;
       y = pRect->h;
       end = pRect->w;
@@ -1252,33 +1264,33 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
       punpcklwd_r2r(mm0, mm0); /* MSMSMSMS -> mm0 */
       movq_r2r(mm0, mm1); /* mask -> mm1 */
       pandn_r2r(mm1, mm1); /* !mask -> mm1 */
-      while(y--) {
+      while (y--) {
         DUFFS_LOOP_QUATRO2(
         {
-	  D = *pixel;
- 	  *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK565);
+          D = *pixel;
+          *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK565);
         },{
-	  D = *(Uint32 *) pixel;
-	  *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
-	  pixel += 2;
+          D = *(Uint32 *) pixel;
+          *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
+          pixel += 2;
         },{
-	  movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
-	  movq_r2r(mm3, mm5); /* dst -> mm5 */
-	  movq_r2r(mm2, mm4); /* src -> mm4 */
-	
-	  pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
-	  pand_r2r(mm0, mm4); /* src & mask -> mm4 */
-	  paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ /*w*/
-	  psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ /*q*/
-	
-	  pand_r2r(mm2, mm3); /* src & dst -> mm3 */
-	  pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
-	  paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ /*w*/
-	  movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
-	  pixel += 4;
+          movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+          movq_r2r(mm3, mm5); /* dst -> mm5 */
+          movq_r2r(mm2, mm4); /* src -> mm4 */
+
+          pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
+          pand_r2r(mm0, mm4); /* src & mask -> mm4 */
+          paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ /*w*/
+          psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ /*q*/
+
+          pand_r2r(mm2, mm3); /* src & dst -> mm3 */
+          pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
+          paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ /*w*/
+          movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
+          pixel += 4;
         }, end);
-	pixel = start + (pSurface->pitch >> 1);
-	start = pixel;
+        pixel = start + (pSurface->pitch >> 1);
+        start = pixel;
       }/* while */
       emms();
     } else {
@@ -1286,95 +1298,94 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
       y = pRect->h;
       end = pRect->w;
 
-      while(y--) {
-	DUFFS_LOOP_QUATRO2(
+      while (y--) {
+        DUFFS_LOOP_QUATRO2(
         {
-	  D = *pixel;
-	  D = (D | D << 16) & 0x07e0f81f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x07e0f81f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = *pixel;
+          D = (D | D << 16) & 0x07e0f81f;
+          D += (S - D) * A >> 5;
+          D &= 0x07e0f81f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
         },{
-	  D = *pixel;
-	  D = (D | D << 16) & 0x07e0f81f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x07e0f81f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
-	  D = *pixel;
-	  D = (D | D << 16) & 0x07e0f81f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x07e0f81f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = *pixel;
+          D = (D | D << 16) & 0x07e0f81f;
+          D += (S - D) * A >> 5;
+          D &= 0x07e0f81f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = *pixel;
+          D = (D | D << 16) & 0x07e0f81f;
+          D += (S - D) * A >> 5;
+          D &= 0x07e0f81f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
         },{
-	  movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
+          movq_m2r((*pixel), mm3);/* load 4 dst pixels -> mm2 */
 
-	  /* RED */
-	  movq_r2r(mm2, mm5); /* src -> mm5 */
-	  pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
-	  psrlq_i2r(11, mm5); /* mm5 >> 11 -> mm5 [000r 000r 000r 000r] */
+          /* RED */
+          movq_r2r(mm2, mm5); /* src -> mm5 */
+          pand_r2r(mm1 , mm5); /* src & MASKRED -> mm5 */
+          psrlq_i2r(11, mm5); /* mm5 >> 11 -> mm5 [000r 000r 000r 000r] */
 
-	  movq_r2r(mm3, mm6); /* dst -> mm6 */
-	  pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
-	  psrlq_i2r(11, mm6); /* mm6 >> 11 -> mm6 [000r 000r 000r 000r] */
+          movq_r2r(mm3, mm6); /* dst -> mm6 */
+          pand_r2r(mm1 , mm6); /* dst & MASKRED -> mm6 */
+          psrlq_i2r(11, mm6); /* mm6 >> 11 -> mm6 [000r 000r 000r 000r] */
 
-	  /* blend */
-	  psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	  pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	  psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	  paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	  psllq_i2r(11, mm6); /* mm6 << 11 -> mm6 */
-	  pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
+          /* blend */
+          psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+          pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+          psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+          paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+          psllq_i2r(11, mm6); /* mm6 << 11 -> mm6 */
+          pand_r2r(mm1, mm6); /* mm6 & MASKRED -> mm6 */
 
-	  movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
-	  por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	  pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
-	  por_r2r(mm6, mm3);  /* save new reds in dsts */
+          movq_r2r(mm4, mm5); /* MASKGREEN -> mm5 */
+          por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+          pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKRED) -> mm3 */
+          por_r2r(mm6, mm3);  /* save new reds in dsts */
 
-	  /* green */
-	  movq_r2r(mm2, mm5); /* src -> mm5 */
-	  pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
-	  psrlq_i2r(5, mm5); /* mm5 >> 11 -> mm5 [000g 000g 000g 000g] */
+          /* green */
+          movq_r2r(mm2, mm5); /* src -> mm5 */
+          pand_r2r(mm4 , mm5); /* src & MASKGREEN -> mm5 */
+          psrlq_i2r(5, mm5); /* mm5 >> 11 -> mm5 [000g 000g 000g 000g] */
 
-	  movq_r2r(mm3, mm6); /* dst -> mm6 */
-	  pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
-	  psrlq_i2r(5, mm6); /* mm6 >> 11 -> mm6 [000g 000g 000g 000g] */
+          movq_r2r(mm3, mm6); /* dst -> mm6 */
+          pand_r2r(mm4 , mm6); /* dst & MASKGREEN -> mm6 */
+          psrlq_i2r(5, mm6); /* mm6 >> 11 -> mm6 [000g 000g 000g 000g] */
 
-	  /* blend */
-	  psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	  pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	  psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	  paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	  psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
-	  pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
+          /* blend */
+          psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+          pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+          psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+          paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+          psllq_i2r(5, mm6); /* mm6 << 5 -> mm6 */
+          pand_r2r(mm4, mm6); /* mm6 & MASKGREEN -> mm6 */
 
-	  movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	  por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
-	  pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
-	  por_r2r(mm6, mm3); /* save new greens in dsts */
+          movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+          por_r2r(mm7, mm5);  /* MASKBLUE | mm5 -> mm5 */
+          pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKGREEN) -> mm3 */
+          por_r2r(mm6, mm3); /* save new greens in dsts */
 
-	  /* blue */
-	  movq_r2r(mm2, mm5); /* src -> mm5 */
-	  pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
+          /* blue */
+          movq_r2r(mm2, mm5); /* src -> mm5 */
+          pand_r2r(mm7 , mm5); /* src & MASKRED -> mm5[000b 000b 000b 000b] */
 
-	  movq_r2r(mm3, mm6); /* dst -> mm6 */
-	  pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
+          movq_r2r(mm3, mm6); /* dst -> mm6 */
+          pand_r2r(mm7 , mm6); /* dst & MASKBLUE -> mm6[000b 000b 000b 000b] */
 
-	  /* blend */
-	  psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
-	  pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
-	  psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
-	  paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
-	  pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
+          /* blend */
+          psubw_r2r(mm6, mm5);/* src - dst -> mm5 */
+          pmullw_r2r(mm0, mm5); /* mm5 * alpha -> mm5 */
+          psrlw_i2r(8, mm5); /* mm5 >> 8 -> mm5 */
+          paddw_r2r(mm5, mm6); /* mm1 + mm2(dst) -> mm2 */
+          pand_r2r(mm7, mm6); /* mm6 & MASKBLUE -> mm6 */
 
-	  movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
-	  por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
-	  pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
-	  por_r2r(mm6, mm3); /* save new blues in dsts */
+          movq_r2r(mm1, mm5); /* MASKRED -> mm5 */
+          por_r2r(mm4, mm5);  /* MASKGREEN | mm5 -> mm5 */
+          pand_r2r(mm5, mm3); /* mm3 & mm5(!MASKBLUE) -> mm3 */
+          por_r2r(mm6, mm3); /* save new blues in dsts */
 
-	  movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
+          movq_r2m(mm3, *pixel);/* mm2 -> 4 dst pixels */
 
-	  pixel += 4;
-
+          pixel += 4;
         }, end);
 
         pixel = start + (pSurface->pitch >> 1);
@@ -1382,30 +1393,29 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
       } /* while */
       emms();
     }
-
   }
 
   unlock_surf(pSurface);
+
   return 0;
 }
 
 /**************************************************************************
   Fill rectangle for 32bit "888" format surface
 **************************************************************************/
-static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
-			       SDL_Color * pColor)
+static int __FillRectAlpha888_32bit(SDL_Surface *pSurface, SDL_Rect *pRect,
+                                    SDL_Color *pColor)
 {
   Uint8 load[8] = {pColor->unused, pColor->unused,
-		    pColor->unused, pColor->unused,
-    			pColor->unused, pColor->unused,
-			pColor->unused, pColor->unused};
+                   pColor->unused, pColor->unused,
+                   pColor->unused, pColor->unused,
+                   pColor->unused, pColor->unused};
   Uint32 A = pColor->unused;
   register Uint32 sSIMD2 = SDL_MapRGB(pSurface->format,
-					    pColor->r, pColor->g,
-					    pColor->b);
+                                      pColor->r, pColor->g,
+                                      pColor->b);
   Uint32 y, end;
   Uint32 *start, *pixel;
-
 
   movq_m2r(*load, mm4); /* alpha -> mm4 */
 
@@ -1428,7 +1438,7 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint32 *) pSurface->pixels;
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       *(Uint64 *)load = 0x00fefefe00fefefe;/* alpha128 mask */
       movq_m2r(*load, mm4); /* alpha128 mask -> mm4 */
       *(Uint64 *)load = 0x0001010100010101;/* alpha128 mask */
@@ -1436,76 +1446,76 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       punpckldq_r2r(mm1, mm1); /* mm1(0000ARGB) -> mm1(ARGBARGB) */
       DUFFS_LOOP_DOUBLE2(
       {
-	A = *pixel;
-	*pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & A & 0x00010101)) | 0xFF000000;
+        A = *pixel;
+        *pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
+                    + (sSIMD2 & A & 0x00010101)) | 0xFF000000;
       },{
-	movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
-	movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
-		
-	pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
-	pand_r2r(mm4, mm5); /* src & mask -> mm4 */
-	paddw_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
-	psrlq_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+        movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+        movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
+        movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
 
-	pand_r2r(mm1, mm2); /* src & dst -> mm2 */
-	pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
-	paddw_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
-	por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
-	movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
-	pixel += 2;
+        pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
+        pand_r2r(mm4, mm5); /* src & mask -> mm4 */
+        paddw_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
+        psrlq_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+
+        pand_r2r(mm1, mm2); /* src & dst -> mm2 */
+        pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
+        paddw_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
+        por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+        movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
+        pixel += 2;
 
       }, end);
       emms();
     } else {
       DUFFS_LOOP_DOUBLE2(
       {
-	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+        movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 
-	movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
+        movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
         punpcklbw_r2r(mm2, mm2); /* AARRGGBB -> mm2 */
         pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
 
         psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
-	pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-        por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
-	movd_r2m(mm2, *pixel);/* mm2 -> pixel */
-	pixel++;
-      }, {
-	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
-	movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
-
-	movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
-        punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
-	punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+        pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+        psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+        paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
         pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+        packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+        por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+        movd_r2m(mm2, *pixel);/* mm2 -> pixel */
+        pixel++;
+      }, {
+        movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+        movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
+
+        movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+        movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
+        punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
+        punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+        pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+        pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
 
         psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
-	psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
+        psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
 
-	pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
-	psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
-	paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
-	pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
-	packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
-	psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
-	psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
-	por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
-	por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+        pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+        pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
+        psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+        psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
+        paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+        paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
+        pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+        pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+        packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+        packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
+        psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
+        psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
+        por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
+        por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
         movq_r2m(mm2, *pixel);/* mm2 -> pixel */
-	pixel += 2;
+        pixel += 2;
       },end);
       emms();
     } /* A != 128 */
@@ -1516,7 +1526,7 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -1525,14 +1535,14 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint32 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 2)) + pRect->x;
+        (pRect->y * (pSurface->pitch >> 2)) + pRect->x;
 
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       *(Uint64 *)load = 0x00fefefe00fefefe;/* alpha128 mask */
       movq_m2r(*load, mm4); /* alpha128 mask -> mm4 */
       *(Uint64 *)load = 0x0001010100010101;/* alpha128 mask */
@@ -1540,91 +1550,91 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       punpckldq_r2r(mm1, mm1); /* mm1(0000ARGB) -> mm1(ARGBARGB) */
       y = pRect->h;
       end = pRect->w;
-      while(y--) {
+      while (y--) {
         DUFFS_LOOP_DOUBLE2(
         {
-	  A = *pixel;
-	  *pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & A & 0x00010101)) | 0xFF000000;
+          A = *pixel;
+          *pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
+                      + (sSIMD2 & A & 0x00010101)) | 0xFF000000;
         },{
-	  movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
-	  movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
-		
-	  pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
-	  pand_r2r(mm4, mm5); /* src & mask -> mm4 */
-	  paddd_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
-	  psrld_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
-	
-	  pand_r2r(mm1, mm2); /* src & dst -> mm2 */
-	  pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
-	  paddd_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
-	  por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
-	  movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
-	  pixel += 2;
+          movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+          movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
+          movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
+
+          pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
+          pand_r2r(mm4, mm5); /* src & mask -> mm4 */
+          paddd_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
+          psrld_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+
+          pand_r2r(mm1, mm2); /* src & dst -> mm2 */
+          pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
+          paddd_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
+          por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+          movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
+          pixel += 2;
 
         }, end);
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
-      }/* while */
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
+      } /* while */
       emms();
 
     } else {
       y = pRect->h;
       end = pRect->w;
 
-      while(y--) {
-	DUFFS_LOOP_DOUBLE2(
+      while (y--) {
+        DUFFS_LOOP_DOUBLE2(
         {
           movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 
-	  movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
+          movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
           punpcklbw_r2r(mm2, mm2); /* AARRGGBB -> mm2 */
           pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
 
           psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
-	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	  por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
-	  movd_r2m(mm2, *pixel);/* mm2 -> pixel */
-	  pixel++;
-        }, {
-	  movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
-	  movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
-
-	  movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
-          punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
-	  punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+          pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+          psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+          paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
           pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+          packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+          por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+          movd_r2m(mm2, *pixel);/* mm2 -> pixel */
+          pixel++;
+        }, {
+          movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+          movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
+
+          movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+          movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
+          punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
+          punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
 
           psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
-	  psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
+          psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
 
-	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	  pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
-	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	  psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
-	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	  paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
-	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	  packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
-	  psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
-	  psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
-	  por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
-	  por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+          pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+          pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
+          psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+          psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
+          paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+          paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+          packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+          packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
+          psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
+          psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
+          por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
+          por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
           movq_r2m(mm2, *pixel);/* mm2 -> pixel */
-	  pixel += 2;
-	}, end);
+          pixel += 2;
+        }, end);
 
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
       } /* while */
       emms();
     }   
@@ -1637,17 +1647,17 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   Fill rectangle for 32bit "8888" format surface
 **************************************************************************/
-static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
-			       SDL_Color * pColor)
+static int __FillRectAlpha8888_32bit(SDL_Surface *pSurface, SDL_Rect *pRect,
+                                     SDL_Color *pColor)
 {
   Uint8 load[8] = {pColor->unused, pColor->unused,
-		    pColor->unused, pColor->unused,
-    			pColor->unused, pColor->unused,
-			pColor->unused, pColor->unused};
+                   pColor->unused, pColor->unused,
+                   pColor->unused, pColor->unused,
+                   pColor->unused, pColor->unused};
   Uint32 A = pColor->unused;
   Uint32 sSIMD2 = SDL_MapRGB(pSurface->format,
-					    pColor->r, pColor->g,
-					    pColor->b);
+                             pColor->r, pColor->g,
+                             pColor->b);
   Uint32 y, end, A_Dst, A_Mask = pSurface->format->Amask;
   Uint32 *start, *pixel;
 
@@ -1673,7 +1683,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint32 *) pSurface->pixels;
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       *(Uint64 *)load = 0x00fefefe00fefefe;/* alpha128 mask */
       movq_m2r(*load, mm4); /* alpha128 mask -> mm4 */
       *(Uint64 *)load = 0x0001010100010101;/* alpha128 mask */
@@ -1681,90 +1691,89 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       punpckldq_r2r(mm1, mm1); /* mm1(0000ARGB) -> mm1(ARGBARGB) */
       DUFFS_LOOP_DOUBLE2(
       {
-	A = *pixel;
-	A_Dst = A & A_Mask;
-	*pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & A & 0x00010101)) | A_Dst;
+        A = *pixel;
+        A_Dst = A & A_Mask;
+        *pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
+                    + (sSIMD2 & A & 0x00010101)) | A_Dst;
       },{
-	movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
-	movq_r2r(mm2, mm0); /* dst(ARGBARGB) -> mm0 */
-	pand_r2r(mm7, mm0); /* dst & alpha mask -> mm0 */
-	movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
+        movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+        movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
+        movq_r2r(mm2, mm0); /* dst(ARGBARGB) -> mm0 */
+        pand_r2r(mm7, mm0); /* dst & alpha mask -> mm0 */
+        movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
 
-	pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
-	pand_r2r(mm4, mm5); /* src & mask -> mm4 */
-	paddw_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
-	psrlq_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+        pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
+        pand_r2r(mm4, mm5); /* src & mask -> mm4 */
+        paddw_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
+        psrlq_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
 
-	pand_r2r(mm1, mm2); /* src & dst -> mm2 */
-	pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
-	paddw_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
+        pand_r2r(mm1, mm2); /* src & dst -> mm2 */
+        pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
+        paddw_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
 
-	por_r2r(mm0, mm2); /* mm0(dst alpha) | mm2 -> mm2 */
+        por_r2r(mm0, mm2); /* mm0(dst alpha) | mm2 -> mm2 */
 
-	movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
-	pixel += 2;
-
+        movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
+        pixel += 2;
       }, end);
       emms();
     } else {
       DUFFS_LOOP_DOUBLE2(
       {
-	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+        movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 
-	movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
-	movq_r2r(mm2, mm6);/* dst(ARGB) -> mm6 (0000ARGB)*/
+        movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
+        movq_r2r(mm2, mm6);/* dst(ARGB) -> mm6 (0000ARGB)*/
         punpcklbw_r2r(mm2, mm2); /* AARRGGBB -> mm2 */
         pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	pand_r2r(mm7, mm6); /* 0000A000 -> mm6 */
+        pand_r2r(mm7, mm6); /* 0000A000 -> mm6 */
         psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
-	pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	pcmpeqd_r2r(mm5,mm5); /* set mm5 high "1" */
-	pxor_r2r(mm7, mm5); /* make clear alpha mask */
-	pand_r2r(mm5, mm2); /* 0RGB0RGB -> mm2 */
-	por_r2r(mm6, mm2); /* mm6(dst alpha) | mm2 -> mm2 */
-	movd_r2m(mm2, *pixel);/* mm2 -> pixel */
-	pixel++;
-      }, {
-	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
-	movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
-
-	movq_m2r((*pixel), mm2);/* 2 x dst -> mm2(ARGBARGB) */
-	movq_r2r(mm2, mm6); /* 2 x dst -> mm1(ARGBARGB) */
-	movq_r2r(mm2, mm5); /* 2 x dst -> mm1(ARGBARGB) */
-	pand_r2r(mm7, mm5); /* save dst alpha -> mm5(A000A000) */
-        punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
-	punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+        pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+        psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+        paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
         pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+        packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+        pcmpeqd_r2r(mm5,mm5); /* set mm5 high "1" */
+        pxor_r2r(mm7, mm5); /* make clear alpha mask */
+        pand_r2r(mm5, mm2); /* 0RGB0RGB -> mm2 */
+        por_r2r(mm6, mm2); /* mm6(dst alpha) | mm2 -> mm2 */
+        movd_r2m(mm2, *pixel);/* mm2 -> pixel */
+        pixel++;
+      }, {
+        movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+        movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
+
+        movq_m2r((*pixel), mm2);/* 2 x dst -> mm2(ARGBARGB) */
+        movq_r2r(mm2, mm6); /* 2 x dst -> mm1(ARGBARGB) */
+        movq_r2r(mm2, mm5); /* 2 x dst -> mm1(ARGBARGB) */
+        pand_r2r(mm7, mm5); /* save dst alpha -> mm5(A000A000) */
+        punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
+        punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+        pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+        pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
 
         psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
-	psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
+        psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
 
-	pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
-	psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
-	paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
-	pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
-	packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
-	psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
-	psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
-	por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
-	pcmpeqd_r2r(mm1,mm1); /* set mm1 to "1" */
-	pxor_r2r(mm7, mm1); /* make clear alpha mask */
-	pand_r2r(mm1, mm2); /* 0RGB0RGB -> mm2 */
-	por_r2r(mm5, mm2); /* mm5(dst alpha) | mm2 -> mm2 */
+        pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+        pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
+        psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+        psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
+        paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+        paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
+        pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+        pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+        packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+        packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
+        psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
+        psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
+        por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
+        pcmpeqd_r2r(mm1,mm1); /* set mm1 to "1" */
+        pxor_r2r(mm7, mm1); /* make clear alpha mask */
+        pand_r2r(mm1, mm2); /* 0RGB0RGB -> mm2 */
+        por_r2r(mm5, mm2); /* mm5(dst alpha) | mm2 -> mm2 */
         movq_r2m(mm2, *pixel);/* mm2 -> pixel */
-	pixel += 2;
+        pixel += 2;
       },end);
       emms();
     } /* A != 128 */
@@ -1775,7 +1784,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -1784,14 +1793,14 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint32 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 2)) + pRect->x;
+        (pRect->y * (pSurface->pitch >> 2)) + pRect->x;
 
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       *(Uint64 *)load = 0x00fefefe00fefefe;/* alpha128 mask */
       movq_m2r(*load, mm4); /* alpha128 mask -> mm4 */
       *(Uint64 *)load = 0x0001010100010101;/* alpha128 mask */
@@ -1799,106 +1808,105 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       punpckldq_r2r(mm1, mm1); /* mm1(0000ARGB) -> mm1(ARGBARGB) */
       y = pRect->h;
       end = pRect->w;
-      while(y--) {
+      while (y--) {
         DUFFS_LOOP_DOUBLE2(
         {
-	  A = *pixel;
-	  A_Dst = A & A_Mask;
-	  *pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & A & 0x00010101)) | A_Dst;
+          A = *pixel;
+          A_Dst = A & A_Mask;
+          *pixel++ = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
+                      + (sSIMD2 & A & 0x00010101)) | A_Dst;
         },{
-	  movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
-	  movq_r2r(mm2, mm0); /* dst(ARGBARGB) -> mm0 */
-	  pand_r2r(mm7, mm0); /* dst & alpha mask -> mm0(A000A000) */
-	  movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
+          movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+          movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm6 */
+          movq_r2r(mm2, mm0); /* dst(ARGBARGB) -> mm0 */
+          pand_r2r(mm7, mm0); /* dst & alpha mask -> mm0(A000A000) */
+          movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
 
-	  pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
-	  pand_r2r(mm4, mm5); /* src & mask -> mm4 */
-	  paddd_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
-	  psrld_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+          pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
+          pand_r2r(mm4, mm5); /* src & mask -> mm4 */
+          paddd_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
+          psrld_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
 
-	  pand_r2r(mm1, mm2); /* src & dst -> mm2 */
-	  pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
-	  paddd_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
-	  por_r2r(mm0, mm2); /* mm0(dst alpha) | mm2 -> mm2 */
-	  movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
-	  pixel += 2;
-
+          pand_r2r(mm1, mm2); /* src & dst -> mm2 */
+          pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
+          paddd_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
+          por_r2r(mm0, mm2); /* mm0(dst alpha) | mm2 -> mm2 */
+          movq_r2m(mm2, (*pixel));/* mm2 -> 2 dst pixels */
+          pixel += 2;
         }, end);
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
-      }/* while */
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
+      } /* while */
       emms();
 
     } else {
       y = pRect->h;
       end = pRect->w;
 
-      while(y--) {
-	DUFFS_LOOP_DOUBLE2(
+      while (y--) {
+        DUFFS_LOOP_DOUBLE2(
         {
           movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 
-	  movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
-	  movq_r2r(mm2, mm6);/* dst(ARGB) -> mm6 (0000ARGB)*/
+          movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000ARGB)*/
+          movq_r2r(mm2, mm6);/* dst(ARGB) -> mm6 (0000ARGB)*/
           punpcklbw_r2r(mm2, mm2); /* AARRGGBB -> mm2 */
           pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  pand_r2r(mm7, mm6); /* 0000A000 -> mm6 */	
+          pand_r2r(mm7, mm6); /* 0000A000 -> mm6 */
           psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
-	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	  pcmpeqd_r2r(mm5,mm5); /* set mm5 high "1" */
-	  pxor_r2r(mm7, mm5); /* make clear alpha mask */
-	  pand_r2r(mm5, mm2); /* 0RGB0RGB -> mm2 */
-	  por_r2r(mm6, mm2); /* mm6(dst alpha) | mm2 -> mm2 */
-	  movd_r2m(mm2, *pixel);/* mm2 -> pixel */
-	  pixel++;
+          pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+          psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+          paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+          pcmpeqd_r2r(mm5,mm5); /* set mm5 high "1" */
+          pxor_r2r(mm7, mm5); /* make clear alpha mask */
+          pand_r2r(mm5, mm2); /* 0RGB0RGB -> mm2 */
+          por_r2r(mm6, mm2); /* mm6(dst alpha) | mm2 -> mm2 */
+          movd_r2m(mm2, *pixel);/* mm2 -> pixel */
+          pixel++;
         }, {
-	  movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
-	  movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
+          movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+          movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
 
-	  movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
-	  punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
-	  pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+          movq_m2r((*pixel), mm2);/* dst(ARGBARGB) -> mm2 */
+          movq_r2r(mm2, mm6); /* dst(ARGBARGB) -> mm1 */
+          punpckhbw_r2r(mm6, mm6); /* high - AARRGGBB -> mm6 */
+          pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
 
-	  psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
-	  pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */  
-	  psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
-	  paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
-	  packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
+          psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
+          pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */  
+          psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
+          paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
+          packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
 
-	  movq_r2r(mm2, mm0); /* 2 x dst -> mm0(ARGBARGB) */
-	  pand_r2r(mm7, mm0); /* save dst alpha -> mm0(A000A000) */
+          movq_r2r(mm2, mm0); /* 2 x dst -> mm0(ARGBARGB) */
+          pand_r2r(mm7, mm0); /* save dst alpha -> mm0(A000A000) */
           punpcklbw_r2r(mm2, mm2); /* low - AARRGGBB -> mm2 */
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
 
           psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
-	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+          pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
 
-	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+          psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+          paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
 
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
 
-	  psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
-	  pcmpeqd_r2r(mm1,mm1); /* set mm1 to "1" */
-	  psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
-	  por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
-	  pxor_r2r(mm7, mm1); /* make clear alpha mask */
-	  pand_r2r(mm1, mm2); /* 0RGB0RGB -> mm2 */
-	  por_r2r(mm0, mm2); /* mm5(dst alpha) | mm2 -> mm2 */
+          psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
+          pcmpeqd_r2r(mm1,mm1); /* set mm1 to "1" */
+          psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
+          por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
+          pxor_r2r(mm7, mm1); /* make clear alpha mask */
+          pand_r2r(mm1, mm2); /* 0RGB0RGB -> mm2 */
+          por_r2r(mm0, mm2); /* mm5(dst alpha) | mm2 -> mm2 */
           movq_r2m(mm2, *pixel);/* mm2 -> pixel */
-	  pixel += 2;
-	}, end);
+          pixel += 2;
+        }, end);
 
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
       } /* while */
       emms();
     }   
@@ -1911,17 +1919,17 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   Fill rectangle for 24bit "888" format surface
 **************************************************************************/
-static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
-			       SDL_Color * pColor)
+static int __FillRectAlpha888_24bit(SDL_Surface *pSurface, SDL_Rect *pRect,
+                                    SDL_Color *pColor)
 {
   Uint8 load[8] = {pColor->unused, pColor->unused,
-		    pColor->unused, pColor->unused,
-    			pColor->unused, pColor->unused,
-			pColor->unused, pColor->unused};
+                   pColor->unused, pColor->unused,
+                   pColor->unused, pColor->unused,
+                   pColor->unused, pColor->unused};
   Uint32 A = pColor->unused;
   register Uint32 sSIMD2 = SDL_MapRGB(pSurface->format,
-					    pColor->r, pColor->g,
-					    pColor->b);
+                                      pColor->r, pColor->g,
+                                      pColor->b);
   Uint32 y, end;
   Uint8 *start, *pixel;
 
@@ -1943,7 +1951,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint8 *) pSurface->pixels;
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       *(Uint64 *)load = 0x0000fefefefefefe;/* alpha128 mask */
       movq_m2r(*load, mm4); /* alpha128 mask -> mm4 */
       *(Uint64 *)load = 0x0000010101010101;/* alpha128 mask */
@@ -1953,91 +1961,91 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       por_r2r(mm7, mm1); /* (00RGBRGB) -> mm1 */
       DUFFS_LOOP_DOUBLE2(
       {
-	A = *pixel;
-	A = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & A & 0x00010101));
-	pixel[0] = A & 0xff;
+        A = *pixel;
+        A = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
+             + (sSIMD2 & A & 0x00010101));
+        pixel[0] = A & 0xff;
         pixel[1] = (A >> 8) & 0xff;
         pixel[2] = (A >> 16) & 0xff;
-	pixel += 3;
+        pixel += 3;
       },{
-	movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
-	movq_r2r(mm1, mm5); /* src(00RGBRGB) -> mm5 */
+        movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+        movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
+        movq_r2r(mm1, mm5); /* src(00RGBRGB) -> mm5 */
 
-	pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
-	pand_r2r(mm4, mm5); /* src & mask -> mm4 */
-	paddw_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
-	psrlq_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+        pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
+        pand_r2r(mm4, mm5); /* src & mask -> mm4 */
+        paddw_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
+        psrlq_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
 
-	pand_r2r(mm1, mm2); /* src & dst -> mm2 */
-	pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
-	paddw_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
-	movq_r2m(mm2, *load);/* mm2 -> 2 dst pixels */
-	pixel[0] = load[0];
-	pixel[1] = load[1];
-	pixel[2] = load[2];
-	pixel[3] = load[3];
-	pixel[4] = load[4];
-	pixel[5] = load[5];
-	pixel += 6;
+        pand_r2r(mm1, mm2); /* src & dst -> mm2 */
+        pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
+        paddw_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
+        movq_r2m(mm2, *load);/* mm2 -> 2 dst pixels */
+        pixel[0] = load[0];
+        pixel[1] = load[1];
+        pixel[2] = load[2];
+        pixel[3] = load[3];
+        pixel[4] = load[4];
+        pixel[5] = load[5];
+        pixel += 6;
       }, end);
       emms();
     } else {
       DUFFS_LOOP_DOUBLE2(
       {
-	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+        movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 
-	movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000bRGB)*/
+        movd_m2r((*pixel), mm2);/* dst(ARGB) -> mm2 (0000bRGB)*/
         punpcklbw_r2r(mm2, mm2); /* bbRRGGBB -> mm2 */
         pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
 
         psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
-	pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
-	packuswb_r2r(mm2, mm2);  /* bRGBbRGB -> mm2 */
-	movd_r2m(mm2, *load);/* mm2 -> pixel */
-	pixel[0] = load[0];
-	pixel[1] = load[1];
-	pixel[2] = load[2];
-	pixel += 3;
-      }, {
-	movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
-	movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
-
-	movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
-	movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
-	psllq_i2r(8, mm6); /* mm6 << 8 -> mm6(bRGBRGB0) */
-        punpcklbw_r2r(mm2, mm2); /* low - BBRRGGBB -> mm2 */
-	punpckhbw_r2r(mm6, mm6); /* high - bbRRGGBB -> mm6 */
+        pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+        psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+        paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
         pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
-	pand_r2r(mm3, mm6); /* 0b0R0G0B -> mm6 */
+        packuswb_r2r(mm2, mm2);  /* bRGBbRGB -> mm2 */
+        movd_r2m(mm2, *load);/* mm2 -> pixel */
+        pixel[0] = load[0];
+        pixel[1] = load[1];
+        pixel[2] = load[2];
+        pixel += 3;
+      }, {
+        movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+        movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
+
+        movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+        movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
+        psllq_i2r(8, mm6); /* mm6 << 8 -> mm6(bRGBRGB0) */
+        punpcklbw_r2r(mm2, mm2); /* low - BBRRGGBB -> mm2 */
+        punpckhbw_r2r(mm6, mm6); /* high - bbRRGGBB -> mm6 */
+        pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
+        pand_r2r(mm3, mm6); /* 0b0R0G0B -> mm6 */
 
         psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
-	psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
-	pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
-	psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
-	paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
-	pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
-	packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
-	psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
-	psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
-	por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
+        psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
+        pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+        pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
+        psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+        psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
+        paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+        paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
+        pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+        pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+        packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+        packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
+        psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
+        psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
+        por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
         movq_r2m(mm2, *load);/* mm2 -> pixel */
-	pixel[0] = load[0];
-	pixel[1] = load[1];
-	pixel[2] = load[2];
-	pixel[4] = load[4];
-	pixel[5] = load[5];
-	pixel[6] = load[6];
-	pixel += 6;
+        pixel[0] = load[0];
+        pixel[1] = load[1];
+        pixel[2] = load[2];
+        pixel[4] = load[4];
+        pixel[5] = load[5];
+        pixel[6] = load[6];
+        pixel += 6;
       },end);
       emms();
     } /* A != 128 */
@@ -2048,7 +2056,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -2057,14 +2065,14 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint8 *) pSurface->pixels +
       (pRect->y * pSurface->pitch ) + pRect->x * 3;
 
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       *(Uint64 *)load = 0x0000fefefefefefe;/* alpha128 mask */
       movq_m2r(*load, mm4); /* alpha128 mask -> mm4 */
       *(Uint64 *)load = 0x0000010101010101;/* alpha128 mask */
@@ -2074,38 +2082,38 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       por_r2r(mm7, mm1);
       y = pRect->h;
       end = pRect->w;
-      while(y--) {
+      while (y--) {
         DUFFS_LOOP_DOUBLE2(
         {
-	  A = *pixel;
-	  A = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & A & 0x00010101));
-	  pixel[0] = A & 0xff;
+          A = *pixel;
+          A = ((((sSIMD2 & 0x00fefefe) + (A & 0x00fefefe)) >> 1)
+               + (sSIMD2 & A & 0x00010101));
+          pixel[0] = A & 0xff;
           pixel[1] = (A >> 8) & 0xff;
           pixel[2] = (A >> 16) & 0xff;
-	  pixel += 3;
+          pixel += 3;
         },{
-	  movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
-	  movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
+          movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+          movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm6 */
+          movq_r2r(mm1, mm5); /* src(ARGBARGB) -> mm5 */
 
-	  pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
-	  pand_r2r(mm4, mm5); /* src & mask -> mm4 */
-	  paddd_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
-	  psrld_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
+          pand_r2r(mm4, mm6); /* dst & mask -> mm1 */
+          pand_r2r(mm4, mm5); /* src & mask -> mm4 */
+          paddd_r2r(mm6, mm5); /* mm5 + mm4 -> mm4 */
+          psrld_i2r(1, mm5); /* mm4 >> 1 -> mm4 */
 
-	  pand_r2r(mm1, mm2); /* src & dst -> mm2 */
-	  pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
-	  paddd_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
-	  por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
-	  movq_r2m(mm2, *load);/* mm2 -> 2 dst pixels */
-	  pixel[0] = load[0];
-	  pixel[1] = load[1];
-	  pixel[2] = load[2];
-	  pixel[3] = load[3];
-	  pixel[4] = load[4];
-	  pixel[5] = load[5];
-	  pixel += 6;
+          pand_r2r(mm1, mm2); /* src & dst -> mm2 */
+          pand_r2r(mm3, mm2); /* mm2 & !mask -> mm2 */
+          paddd_r2r(mm5, mm2); /* mm5 + mm2 -> mm2 */
+          por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+          movq_r2m(mm2, *load);/* mm2 -> 2 dst pixels */
+          pixel[0] = load[0];
+          pixel[1] = load[1];
+          pixel[2] = load[2];
+          pixel[3] = load[3];
+          pixel[4] = load[4];
+          pixel[5] = load[5];
+          pixel += 6;
         }, end);
 
         pixel = start + pSurface->pitch;
@@ -2117,72 +2125,72 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       y = pRect->h;
       end = pRect->w;
 
-      while(y--) {
-	DUFFS_LOOP_DOUBLE2(
+      while (y--) {
+        DUFFS_LOOP_DOUBLE2(
         {
           movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
 
-	  movd_m2r((*pixel), mm2);/* dst(bRGB) -> mm2 (0000bRGB)*/
+          movd_m2r((*pixel), mm2);/* dst(bRGB) -> mm2 (0000bRGB)*/
           punpcklbw_r2r(mm2, mm2); /* bbRRGGBB -> mm2 */
           pand_r2r(mm3, mm2); /* 0b0R0G0B -> mm2 */
 
           psubw_r2r(mm2, mm1);/* src - dst -> mm1 */
-	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	  por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
-	  movd_r2m(mm2, *load);/* mm2 -> pixel */
-	  pixel[0] = load[0];
-	  pixel[1] = load[1];
-	  pixel[2] = load[2];
+          pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+          psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+          paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+          por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+          movd_r2m(mm2, *load);/* mm2 -> pixel */
+          pixel[0] = load[0];
+          pixel[1] = load[1];
+          pixel[2] = load[2];
 
-	  pixel += 3;
+          pixel += 3;
         }, {
-	  movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
-	  movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
+          movq_r2r(mm5, mm1); /* src(0A0R0G0B) -> mm1 */
+          movq_r2r(mm5, mm0); /* src(0A0R0G0B) -> mm0 */
 
-	  movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
-	  movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm1 */
-	  psllq_i2r(8, mm6); /* mm6 << 8 -> mm6(bRGBRGB0) */
+          movq_m2r((*pixel), mm2);/* dst(gbRGBRGB) -> mm2 */
+          movq_r2r(mm2, mm6); /* dst(gbRGBRGB) -> mm1 */
+          psllq_i2r(8, mm6); /* mm6 << 8 -> mm6(bRGBRGB0) */
           punpcklbw_r2r(mm2, mm2); /* low - BBRRGGBB -> mm2 */
-	  punpckhbw_r2r(mm6, mm6); /* high - bbRRGGBB -> mm6 */
+          punpckhbw_r2r(mm6, mm6); /* high - bbRRGGBB -> mm6 */
           pand_r2r(mm3, mm2); /* 0B0R0G0B -> mm2 */
-	  pand_r2r(mm3, mm6); /* 0b0R0G0B -> mm6 */
+          pand_r2r(mm3, mm6); /* 0b0R0G0B -> mm6 */
 
           psubw_r2r(mm2, mm1);/* src - dst1 -> mm1 */
-	  psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
+          psubw_r2r(mm6, mm0);/* src - dst2 -> mm0 */
 
-	  pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
-	  pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
-	  psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
-	  psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
-	  paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
-	  paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
-	  pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
-	  pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
-	  packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
-	  packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
-	  psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
-	  psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
-	  por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
-	  por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
+          pmullw_r2r(mm4, mm1); /* mm1 * alpha -> mm1 */
+          pmullw_r2r(mm4, mm0); /* mm0 * alpha -> mm0 */
+          psrlw_i2r(8, mm1); /* mm1 >> 8 -> mm1 */
+          psrlw_i2r(8, mm0); /* mm0 >> 8 -> mm0 */
+          paddw_r2r(mm1, mm2); /* mm1 + mm2(dst) -> mm2 */
+          paddw_r2r(mm0, mm6); /* mm0 + mm6(dst) -> mm6 */
+          pand_r2r(mm3, mm2); /* 0A0R0G0B -> mm2 */
+          pand_r2r(mm3, mm6); /* 0A0R0G0B -> mm6 */
+          packuswb_r2r(mm2, mm2);  /* ARGBARGB -> mm2 */
+          packuswb_r2r(mm6, mm6);  /* ARGBARGB -> mm6 */
+          psrlq_i2r(32, mm2); /* mm2 >> 32 -> mm2 */
+          psllq_i2r(32, mm6); /* mm6 << 32 -> mm6 */
+          por_r2r(mm6, mm2); /* mm6 | mm2 -> mm2 */
+          por_r2r(mm7, mm2); /* mm7(dst alpha mask) | mm2 -> mm2 */
           movq_r2m(mm2, *load);/* mm2 -> pixel */
-	  pixel[0] = load[0];
-	  pixel[1] = load[1];
-	  pixel[2] = load[2];
-	  pixel[3] = load[4];
-	  pixel[4] = load[5];
-	  pixel[5] = load[6];
-	  pixel += 6;
-	}, end);
+          pixel[0] = load[0];
+          pixel[1] = load[1];
+          pixel[2] = load[2];
+          pixel[3] = load[4];
+          pixel[4] = load[5];
+          pixel[5] = load[6];
+          pixel += 6;
+        }, end);
 
         pixel = start + pSurface->pitch;
         start = pixel;
       } /* while */
       emms();
-    }   
+    }
   }
 
   unlock_surf(pSurface);
@@ -2198,10 +2206,8 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
                               SDL_Color *pColor)
 {
   Uint32 y, end;
-
   Uint32 *start;
   Uint32 *pixel;
-
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
   register Uint32 A = pColor->a >> 3;
@@ -2212,29 +2218,29 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = pSurface->pixels;
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       /* this code don't work (A == 128) */
-      if (end & 0x1) {		/* end % 2 */
-	D = *pixel;
-	*pixel++ = BLEND16_50(D, S, MASK565);
-	end--;
+      if (end & 0x1) { /* end % 2 */
+        D = *pixel;
+        *pixel++ = BLEND16_50(D, S, MASK565);
+        end--;
       }
 
       S = S | S << 16;
       for (y = 0; y < end; y += 2) {
-	D = *(Uint32 *) pixel;
-	*(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
-	pixel += 2;
+        D = *(Uint32 *) pixel;
+        *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
+        pixel += 2;
       }
     } else {
       S = (S | S << 16) & 0x07e0f81f;
       DUFFS_LOOP8(
       {
-	D = *pixel;
-	D = (D | D << 16) & 0x07e0f81f;
-	D += (S - D) * A >> 5;
-	D &= 0x07e0f81f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x07e0f81f;
+        D += (S - D) * A >> 5;
+        D &= 0x07e0f81f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
       }, end);
     }
   } else {
@@ -2244,7 +2250,7 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -2253,30 +2259,30 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint32 *) pSurface->pixels +
       (pRect->y * pSurface->pitch) + pRect->x / 2;
 
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       /* this code don't work (A == 128) */
       S = S | S << 16;
       for (y = 0; y < pRect->h; y++) {
-	end = 0;
+        end = 0;
 
-	if (pRect->w & 0x1) {
-	  D = *pixel;
-	  *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK565);
-	  end++;
-	}
+        if (pRect->w & 0x1) {
+          D = *pixel;
+          *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK565);
+          end++;
+        }
 
-	for (; end < pRect->w; end += 2) {
-	  D = *(Uint32 *) pixel;
-	  *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
-	  pixel += 2;
-	}
+        for (; end < pRect->w; end += 2) {
+          D = *(Uint32 *) pixel;
+          *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK565);
+          pixel += 2;
+        }
 
         pixel = start + pSurface->pitch;
         start = pixel;
@@ -2286,15 +2292,15 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
       S = (S | S << 16) & 0x07e0f81f;
       y = pRect->h;
       end = pRect->w;
-      
-      while(y--) {
-	DUFFS_LOOP8(
+
+      while (y--) {
+        DUFFS_LOOP8(
         {
           D = *pixel;
-	  D = (D | D << 16) & 0x07e0f81f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x07e0f81f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = (D | D << 16) & 0x07e0f81f;
+          D += (S - D) * A >> 5;
+          D &= 0x07e0f81f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
         }, end);
 
         pixel = start + pSurface->pitch;
@@ -2311,13 +2317,11 @@ static int __FillRectAlpha565(SDL_Surface *pSurface, SDL_Rect *pRect,
 /**************************************************************************
   Fill rectangle for "555" format surface
 **************************************************************************/
-static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
-			      SDL_Color * pColor)
+static int __FillRectAlpha555(SDL_Surface *pSurface, SDL_Rect *pRect,
+                              SDL_Color *pColor)
 {
   Uint32 y, end;
-
   Uint32 *start, *pixel;
-
   register Uint32 D, S =
       SDL_MapRGB(pSurface->format, pColor->r, pColor->g, pColor->b);
   register Uint32 A = pColor->a >> 3;
@@ -2329,28 +2333,28 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = pSurface->pixels;
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       if (end & 0x1) {
-	D = *pixel;
-	*pixel++ = BLEND16_50(D, S, MASK555);
-	end--;
+        D = *pixel;
+        *pixel++ = BLEND16_50(D, S, MASK555);
+        end--;
       }
 
       S = S | S << 16;
       for (y = 0; y < end; y += 2) {
-	D = *pixel;
-	*pixel = BLEND2x16_50(D, S, MASK555);
-	pixel += 2;
+        D = *pixel;
+        *pixel = BLEND2x16_50(D, S, MASK555);
+        pixel += 2;
       }
     } else {
       S = (S | S << 16) & 0x03e07c1f;
       DUFFS_LOOP8(
       {
-	D = *pixel;
-	D = (D | D << 16) & 0x03e07c1f;
-	D += (S - D) * A >> 5;
-	D &= 0x03e07c1f;
-	*pixel++ = (D | (D >> 16)) & 0xFFFF;
+        D = *pixel;
+        D = (D | D << 16) & 0x03e07c1f;
+        D += (S - D) * A >> 5;
+        D &= 0x03e07c1f;
+        *pixel++ = (D | (D >> 16)) & 0xFFFF;
       }, end);
     }
   } else {
@@ -2360,7 +2364,7 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -2369,29 +2373,29 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint32 *) pSurface->pixels +
       (pRect->y * pSurface->pitch) + pRect->x / 2;
 
-    if (A == 16) {		/* A == 128 >> 3 */
+    if (A == 16) { /* A == 128 >> 3 */
       S = S | S << 16;
       for (y = 0; y < pRect->h; y++) {
-	end = 0;
+        end = 0;
 
-	if (pRect->w & 0x1) {
-	  D = *pixel;
-	  *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK555);
-	  end++;
-	}
+        if (pRect->w & 0x1) {
+          D = *pixel;
+          *pixel++ = BLEND16_50(D, (S & 0xFFFF), MASK555);
+          end++;
+        }
 
-	for (; end < pRect->w; end += 2) {
-	  D = *(Uint32 *) pixel;
-	  *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
-	  pixel += 2;
-	}
+        for (; end < pRect->w; end += 2) {
+          D = *(Uint32 *) pixel;
+          *(Uint32 *) pixel = BLEND2x16_50(D, S, MASK555);
+          pixel += 2;
+        }
 
         pixel = start + pSurface->pitch;
         start = pixel;
@@ -2401,15 +2405,15 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
       S = (S | S << 16) & 0x03e07c1f;
       y = pRect->h;
       end = pRect->w;
-      
-      while(y--) {
-	DUFFS_LOOP8(
+
+      while( y--) {
+        DUFFS_LOOP8(
         {
           D = *pixel;
-	  D = (D | D << 16) & 0x03e07c1f;
-	  D += (S - D) * A >> 5;
-	  D &= 0x03e07c1f;
-	  *pixel++ = (D | (D >> 16)) & 0xFFFF;
+          D = (D | D << 16) & 0x03e07c1f;
+          D += (S - D) * A >> 5;
+          D &= 0x03e07c1f;
+          *pixel++ = (D | (D >> 16)) & 0xFFFF;
         }, end);
 
         pixel = start + pSurface->pitch;
@@ -2425,14 +2429,14 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   Fill rectangle for 32bit "8888" format surface
 **************************************************************************/
-static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
-			       SDL_Color * pColor)
+static int __FillRectAlpha8888_32bit(SDL_Surface *pSurface, SDL_Rect *pRect,
+                                     SDL_Color *pColor)
 {
   register Uint32 A = pColor->a;
   register Uint32 dSIMD1, dSIMD2;
   register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(pSurface->format,
-					    pColor->r, pColor->g,
-					    pColor->b);
+                                              pColor->r, pColor->g,
+                                              pColor->b);
   Uint32 y, end, A_Dst, A_Mask = pSurface->format->Amask;
   Uint32 *start, *pixel;
 
@@ -2443,48 +2447,48 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint32 *) pSurface->pixels;
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       DUFFS_LOOP8(
       {
-	dSIMD2 = *pixel;
-	A_Dst = dSIMD2 & A_Mask;
-	*pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
-		      + (sSIMD2 & dSIMD2 & 0x00010101)) | A_Dst;
+        dSIMD2 = *pixel;
+        A_Dst = dSIMD2 & A_Mask;
+        *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
+                    + (sSIMD2 & dSIMD2 & 0x00010101)) | A_Dst;
       }, end);
     } else {
       sSIMD2 &= 0xFF00;
       sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
       DUFFS_LOOP_DOUBLE2(
         {
-	  dSIMD2 = *pixel;
-	  A_Dst = dSIMD2 & A_Mask;
-	  dSIMD1 = dSIMD2 & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD2 &= 0xFF00;
-	  dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0xFF00;
-	  *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
+          dSIMD2 = *pixel;
+          A_Dst = dSIMD2 & A_Mask;
+          dSIMD1 = dSIMD2 & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD2 &= 0xFF00;
+          dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
+          dSIMD2 &= 0xFF00;
+          *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
       },{
-	  dSIMD1 = *pixel;
-	  A_Dst = dSIMD1 & A_Mask;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel;
+          A_Dst = dSIMD1 & A_Mask;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
-	  dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0x00FF00FF;
+          dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
+          dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
+          dSIMD2 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | A_Dst;
+          *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | A_Dst;
 
-	  dSIMD1 = *pixel;
-	  A_Dst = dSIMD1 & A_Mask;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel;
+          A_Dst = dSIMD1 & A_Mask;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | A_Dst;
+          *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | A_Dst;
       }, end);
     }
   } else {
@@ -2494,7 +2498,7 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -2503,26 +2507,26 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint32 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 2)) + pRect->x;
+      (pRect->y * (pSurface->pitch >> 2)) + pRect->x;
 
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       y = pRect->h;
       end = pRect->w;
-      while(y--) {
+      while (y--) {
         DUFFS_LOOP4(
-	{
-	  dSIMD2 = *pixel;
-	  A_Dst = dSIMD2 & A_Mask;
-	  *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
-		      + (sSIMD2 & dSIMD2 & 0x00010101)) | A_Dst;
-	}, end);
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
+        {
+          dSIMD2 = *pixel;
+          A_Dst = dSIMD2 & A_Mask;
+          *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
+                      + (sSIMD2 & dSIMD2 & 0x00010101)) | A_Dst;
+        }, end);
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
       }
     } else {
       y = pRect->h;
@@ -2530,48 +2534,47 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       
       sSIMD2 &= 0xFF00;
       sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
-      
-      while(y--) {
-	DUFFS_LOOP_DOUBLE2(
+
+      while (y--) {
+        DUFFS_LOOP_DOUBLE2(
         {
-	  dSIMD2 = *pixel;
-	  A_Dst = dSIMD2 & A_Mask;
-	  dSIMD1 = dSIMD2 & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD2 &= 0xFF00;
-	  dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0xFF00;
-	  *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
+          dSIMD2 = *pixel;
+          A_Dst = dSIMD2 & A_Mask;
+          dSIMD1 = dSIMD2 & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD2 &= 0xFF00;
+          dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
+          dSIMD2 &= 0xFF00;
+          *pixel++ = dSIMD1 | dSIMD2 | A_Dst;
         },{
-	  dSIMD1 = *pixel;
-	  A_Dst = dSIMD1 & A_Mask;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel;
+          A_Dst = dSIMD1 & A_Mask;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
-	  dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0x00FF00FF;
+          dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
+          dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
+          dSIMD2 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | A_Dst;
-	
-	  dSIMD1 = *pixel;
-	  A_Dst = dSIMD1 & A_Mask;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
-	
-	  *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | A_Dst;
+          *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | A_Dst;
+
+          dSIMD1 = *pixel;
+          A_Dst = dSIMD1 & A_Mask;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
+
+          *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | A_Dst;
         }, end);
-	
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
-	
+
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
       } /* while */
-    }   
+    }
   }
-  
+
   unlock_surf(pSurface);
   return 0;
 }
@@ -2579,14 +2582,14 @@ static int __FillRectAlpha8888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
 /**************************************************************************
   Fill rectangle for 32bit "888" format surface
 **************************************************************************/
-static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
-			       SDL_Color * pColor)
+static int __FillRectAlpha888_32bit(SDL_Surface *pSurface, SDL_Rect *pRect,
+                                    SDL_Color *pColor)
 {
   register Uint32 A = pColor->a;
   register Uint32 dSIMD1, dSIMD2;
   register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(pSurface->format,
-					    pColor->r, pColor->g,
-					    pColor->b);
+                                              pColor->r, pColor->g,
+                                              pColor->b);
   Uint32 y, end;
   Uint32 *start, *pixel;
 
@@ -2597,41 +2600,41 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
   if (pRect == NULL) {
     end = pSurface->w * pSurface->h;
     pixel = (Uint32 *) pSurface->pixels;
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
       for (y = 0; y < end; y++) {
-	dSIMD2 = *pixel;
-	*pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
-		    + (sSIMD2 & dSIMD2 & 0x00010101)) | 0xFF000000;
+        dSIMD2 = *pixel;
+        *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
+                    + (sSIMD2 & dSIMD2 & 0x00010101)) | 0xFF000000;
       }
     } else {
       sSIMD2 &= 0xFF00;
       sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
       DUFFS_LOOP_DOUBLE2(
         {
-	  dSIMD2 = *pixel;
-	  dSIMD1 = dSIMD2 & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD2 &= 0xFF00;
-	  dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0xFF00;
-	  *pixel++ = dSIMD1 | dSIMD2 | 0xFF000000;
+          dSIMD2 = *pixel;
+          dSIMD1 = dSIMD2 & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD2 &= 0xFF00;
+          dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
+          dSIMD2 &= 0xFF00;
+          *pixel++ = dSIMD1 | dSIMD2 | 0xFF000000;
       },{
-	  dSIMD1 = *pixel & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
-	  dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0x00FF00FF;
+          dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
+          dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
+          dSIMD2 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | 0xFF000000;
+          *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | 0xFF000000;
 
-	  dSIMD1 = *pixel & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | 0xFF000000;
+          *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | 0xFF000000;
       }, end);
     }
   } else {
@@ -2641,7 +2644,7 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -2650,88 +2653,84 @@ static int __FillRectAlpha888_32bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     start = pixel = (Uint32 *) pSurface->pixels +
-	(pRect->y * (pSurface->pitch >> 2)) + pRect->x;
+        (pRect->y * (pSurface->pitch >> 2)) + pRect->x;
 
-    if (A == 128) {		/* 50% A */
+    if (A == 128) { /* 50% A */
 
       for (y = 0; y < pRect->h; y++) {
 
-	for (end = 0; end < pRect->w; end++) {
-	  dSIMD2 = *pixel;
-	  *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
-		      + (sSIMD2 & dSIMD2 & 0x00010101)) | 0xFF000000;
-	}
+        for (end = 0; end < pRect->w; end++) {
+          dSIMD2 = *pixel;
+          *pixel++ = ((((sSIMD2 & 0x00fefefe) + (dSIMD2 & 0x00fefefe)) >> 1)
+                      + (sSIMD2 & dSIMD2 & 0x00010101)) | 0xFF000000;
+        }
 
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
       }
     } else {
       y = pRect->h;
       end = pRect->w;
-      
+
       sSIMD2 &= 0xFF00;
       sSIMD2 = sSIMD2 >> 8 | sSIMD2 << 8;
-      
-      while(y--) {
-	DUFFS_LOOP_DOUBLE2(
+
+      while (y--) {
+        DUFFS_LOOP_DOUBLE2(
         {
-	  dSIMD2 = *pixel;
-	  dSIMD1 = dSIMD2 & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
-	  dSIMD2 &= 0xFF00;
-	  dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0xFF00;
-	  *pixel++ = dSIMD1 | dSIMD2 | 0xFF000000;
+          dSIMD2 = *pixel;
+          dSIMD1 = dSIMD2 & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
+          dSIMD2 &= 0xFF00;
+          dSIMD2 += (((sSIMD2 << 8) & 0xFF00) - dSIMD2) * A >> 8;
+          dSIMD2 &= 0xFF00;
+          *pixel++ = dSIMD1 | dSIMD2 | 0xFF000000;
         },{
-	  dSIMD1 = *pixel & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
-	  dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
-	  dSIMD2 &= 0x00FF00FF;
+          dSIMD2 = ((*pixel & 0xFF00) >> 8)| ((pixel[1] & 0xFF00) << 8);
+          dSIMD2 += (sSIMD2 - dSIMD2) * A >> 8;
+          dSIMD2 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | 0xFF000000;
+          *pixel++ = dSIMD1 | ((dSIMD2 << 8) & 0xFF00) | 0xFF000000;
 
-	  dSIMD1 = *pixel & 0x00FF00FF;
-	  dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
-	  dSIMD1 &= 0x00FF00FF;
+          dSIMD1 = *pixel & 0x00FF00FF;
+          dSIMD1 += (sSIMD1 - dSIMD1) * A >> 8;
+          dSIMD1 &= 0x00FF00FF;
 
-	  *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | 0xFF000000;
+          *pixel++ = dSIMD1 | ((dSIMD2 >> 8) & 0xFF00) | 0xFF000000;
         }, end);
 
-	pixel = start + (pSurface->pitch >> 2);
-	start = pixel;
+        pixel = start + (pSurface->pitch >> 2);
+        start = pixel;
 
       } /* while */
-    }   
+    }
   }
 
   unlock_surf(pSurface);
   return 0;
 }
 
-
 /**************************************************************************
   Fill rectangle for 24bit "888" format surface
 **************************************************************************/
-static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
-			      SDL_Color * pColor)
+static int __FillRectAlpha888_24bit(SDL_Surface *pSurface, SDL_Rect *pRect,
+                                    SDL_Color *pColor)
 {
   Uint32 y, end;
-
   Uint8 *start, *pixel;
-
   register Uint32 P, D, S1, S2 = SDL_MapRGB(pSurface->format,
-					    pColor->r, pColor->g,
-					    pColor->b);
-
+                                            pColor->r, pColor->g,
+                                            pColor->b);
   register Uint32 A = pColor->a;
 
   S1 = S2 & 0x00FF00FF;
@@ -2773,7 +2772,7 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->x = 0;
     } else {
       if (pRect->x >= pSurface->w - pRect->w) {
-	pRect->w = pSurface->w - pRect->x;
+        pRect->w = pSurface->w - pRect->x;
       }
     }
 
@@ -2782,13 +2781,13 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pRect->y = 0;
     } else {
       if (pRect->y >= pSurface->h - pRect->h) {
-	pRect->h = pSurface->h - pRect->y;
+        pRect->h = pSurface->h - pRect->y;
       }
     }
 
     end = pRect->w * pRect->h;
     start = pixel = (Uint8 *) pSurface->pixels +
-	(pRect->y * pSurface->pitch) + pRect->x * 3;
+      (pRect->y * pSurface->pitch) + pRect->x * 3;
 
     y = 0;
     while (y != pRect->h) {
@@ -2811,15 +2810,13 @@ static int __FillRectAlpha888_24bit(SDL_Surface * pSurface, SDL_Rect * pRect,
       pixel[2] = (P >> 16) & 0xff;
 
       if ((pixel - start) == (pRect->w * 3)) {
-	pixel = start + pSurface->pitch;
-	start = pixel;
-	y++;
+        pixel = start + pSurface->pitch;
+        start = pixel;
+        y++;
       } else {
-	pixel += 3;
+        pixel += 3;
       }
-
     }
-
   }
 
   unlock_surf(pSurface);
@@ -2857,9 +2854,9 @@ int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *pRect,
       return __FillRectAlpha565(pSurface, pRect, pColor);
     } else {
       if (pSurface->format->Gmask == 0x3E0) {
-	return __FillRectAlpha555(pSurface, pRect, pColor);
+        return __FillRectAlpha555(pSurface, pRect, pColor);
       } else {
-	return -1;
+        return -1;
       }
     }
     break;
@@ -2881,7 +2878,7 @@ int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 /**************************************************************************
   Make rectangle region sane. Return TRUE if result is sane.
 **************************************************************************/
-bool correct_rect_region(SDL_Rect * pRect)
+bool correct_rect_region(SDL_Rect *pRect)
 {
   int ww = pRect->w, hh = pRect->h;
 
@@ -2906,7 +2903,7 @@ bool correct_rect_region(SDL_Rect * pRect)
   /* End Correction */
 
   if (ww <= 0 || hh <= 0) {
-    return FALSE;			/* suprise :) */
+    return FALSE; /* suprise :) */
   } else {
     pRect->w = ww;
     pRect->h = hh;
@@ -2921,7 +2918,7 @@ bool correct_rect_region(SDL_Rect * pRect)
 bool is_in_rect_area(int x, int y, SDL_Rect rect)
 {
   return ((x >= rect.x) && (x < rect.x + rect.w)
-	  && (y >= rect.y) && (y < rect.y + rect.h));
+          && (y >= rect.y) && (y < rect.y + rect.h));
 }
 
 /**************************************************************************
@@ -2930,35 +2927,33 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect)
   To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
   (first collor != 0 in 16 bit coding).
 **************************************************************************/
-bool correct_black(SDL_Surface * pSrc)
+bool correct_black(SDL_Surface *pSrc)
 {
 #if 0
   bool ret = 0;
   register int x;
+
   if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
-    
     register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
     Uint32 Amask = pSrc->format->Amask;
-    
     Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
     Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
-
     int end = pSrc->w * pSrc->h;
-    
+
     /* for 32 bit color coding */
 
     lock_surf(pSrc);
 
     for (x = 0; x < end; x++, pPixels++) {
       if (*pPixels == black) {
-	*pPixels = new_black;
+        *pPixels = new_black;
       } else {
-	if (!ret) {
-	  alpha = *pPixels & Amask;
-	  if (alpha && (alpha != Amask)) {
-	    ret = 1;
-	  }
-	}
+        if (!ret) {
+          alpha = *pPixels & Amask;
+          if (alpha && (alpha != Amask)) {
+            ret = 1;
+          }
+        }
       }
     }
 
@@ -2966,20 +2961,20 @@ bool correct_black(SDL_Surface * pSrc)
   } else {
     if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
       for(x = 0; x < pSrc->format->palette->ncolors; x++) {
-	if (x != pSrc->format->colorkey &&
-	  pSrc->format->palette->colors[x].r < 4 &&
-	  pSrc->format->palette->colors[x].g < 4 &&
-	  pSrc->format->palette->colors[x].b < 4) {
-	    pSrc->format->palette->colors[x].r = 4;
-	    pSrc->format->palette->colors[x].g = 4;
-	    pSrc->format->palette->colors[x].b = 4;
-	  }
+        if (x != pSrc->format->colorkey &&
+            pSrc->format->palette->colors[x].r < 4 &&
+            pSrc->format->palette->colors[x].g < 4 &&
+            pSrc->format->palette->colors[x].b < 4) {
+          pSrc->format->palette->colors[x].r = 4;
+          pSrc->format->palette->colors[x].g = 4;
+          pSrc->format->palette->colors[x].b = 4;
+        }
       }
     }
   }
 
   return ret;
-#endif
+#endif /* 0 */
 
   return TRUE;
 }
@@ -2992,7 +2987,6 @@ bool correct_black(SDL_Surface * pSrc)
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
 {
   SDL_Rect src;
-
   int w, h, x, y;
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
@@ -3016,54 +3010,54 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       y = 0;
       w = pSurface->w;
       h = pSurface->h;
-      while(h--) {
+      while (h--) {
         do {
-	  if (*pixel != colorkey) {
-	    if (minY > y) {
-	      minY = y;
-	    }
+          if (*pixel != colorkey) {
+            if (minY > y) {
+              minY = y;
+            }
 
-	    if (minX > x) {
-	      minX = x;
-	    }
+            if (minX > x) {
+              minX = x;
+            }
             break;
-	  }
-	  pixel++;
-	  x++;
+          }
+          pixel++;
+          x++;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = 0;
-	y++;
-	pixel = start + pSurface->pitch;
-	start = pixel;
+        w = pSurface->w;
+        x = 0;
+        y++;
+        pixel = start + pSurface->pitch;
+        start = pixel;
       }
-            
+
       w = pSurface->w;
       h = pSurface->h;
       x = w - 1;
       y = h - 1;
       pixel = (Uint8 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x);
       start = pixel;
-      while(h--) {
+      while (h--) {
         do {
-	  if(*pixel != colorkey) {
-	    if (maxY < y) {
-	      maxY = y;
-	    }
+          if (*pixel != colorkey) {
+            if (maxY < y) {
+              maxY = y;
+            }
 
-	    if (maxX < x) {
-	      maxX = x;
-	    }
+            if (maxX < x) {
+              maxX = x;
+            }
             break;
-	  }
-	  pixel--;
-	  x--;
+          }
+          pixel--;
+          x--;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = w - 1;
-	y--;
-	pixel = start - pSurface->pitch;
-	start = pixel;
+        w = pSurface->w;
+        x = w - 1;
+        y--;
+        pixel = start - pSurface->pitch;
+        start = pixel;
       }
     }
     break;
@@ -3071,58 +3065,59 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
     {
       Uint16 *pixel = (Uint16 *)pSurface->pixels;
       Uint16 *start = pixel;
+
       x = 0;
       y = 0;
       w = pSurface->w;
       h = pSurface->h;
-      while(h--) {
+      while (h--) {
         do {
-	  if(*pixel != colorkey) {
-	    if (minY > y) {
-	      minY = y;
-	    }
+          if (*pixel != colorkey) {
+            if (minY > y) {
+              minY = y;
+            }
 
-	    if (minX > x) {
-	      minX = x;
-	    }
+            if (minX > x) {
+              minX = x;
+            }
             break;
-	  }
-	  pixel++;
-	  x++;
+          }
+          pixel++;
+          x++;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = 0;
-	y++;
-	pixel = start + pSurface->pitch / 2;
-	start = pixel;
-      }
-            
+        w = pSurface->w;
+        x = 0;
+        y++;
+        pixel = start + pSurface->pitch / 2;
+        start = pixel;
+     }
+
       w = pSurface->w;
       h = pSurface->h;
       x = w - 1;
       y = h - 1;
       pixel = ((Uint16 *)pSurface->pixels + (y * pSurface->pitch / 2) + x);
       start = pixel;
-      while(h--) {
+      while (h--) {
         do {
-	  if(*pixel != colorkey) {
-	    if (maxY < y) {
-	      maxY = y;
-	    }
+          if (*pixel != colorkey) {
+            if (maxY < y) {
+              maxY = y;
+            }
 
-	    if (maxX < x) {
-	      maxX = x;
-	    }
+            if (maxX < x) {
+              maxX = x;
+            }
             break;
-	  }
-	  pixel--;
-	  x--;
+          }
+          pixel--;
+          x--;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = w - 1;
-	y--;
-	pixel = start - pSurface->pitch / 2;
-	start = pixel;
+        w = pSurface->w;
+        x = w - 1;
+        y--;
+        pixel = start - pSurface->pitch / 2;
+        start = pixel;
       }
     }
     break;
@@ -3131,132 +3126,134 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       Uint8 *pixel = (Uint8 *)pSurface->pixels;
       Uint8 *start = pixel;
       Uint32 color;
+
       x = 0;
       y = 0;
       w = pSurface->w;
       h = pSurface->h;
-      while(h--) {
+      while (h--) {
         do {
-	  if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	    color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
+          if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+            color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
           } else {
-	    color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
+            color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
           }
-	  if(color != colorkey) {
-	    if (minY > y) {
-	      minY = y;
-	    }
+          if (color != colorkey) {
+            if (minY > y) {
+              minY = y;
+            }
 
-	    if (minX > x) {
-	      minX = x;
-	    }
+            if (minX > x) {
+              minX = x;
+            }
             break;
-	  }
-	  pixel += 3;
-	  x++;
+          }
+          pixel += 3;
+          x++;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = 0;
-	y++;
-	pixel = start + pSurface->pitch / 3;
-	start = pixel;
+        w = pSurface->w;
+        x = 0;
+        y++;
+        pixel = start + pSurface->pitch / 3;
+        start = pixel;
       }
-            
+
       w = pSurface->w;
       h = pSurface->h;
       x = w - 1;
       y = h - 1;
       pixel = (Uint8 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x * 3);
       start = pixel;
-      while(h--) {
+      while (h--) {
         do {
-	  if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	    color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
+          if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+            color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
           } else {
-	    color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
+            color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
           }
-	  if(color != colorkey) {
-	    if (maxY < y) {
-	      maxY = y;
-	    }
+          if (color != colorkey) {
+            if (maxY < y) {
+              maxY = y;
+            }
 
-	    if (maxX < x) {
-	      maxX = x;
-	    }
+            if (maxX < x) {
+              maxX = x;
+            }
             break;
-	  }
-	  pixel -= 3;
-	  x--;
+          }
+          pixel -= 3;
+          x--;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = w - 1;
-	y--;
-	pixel = start - pSurface->pitch / 3;
-	start = pixel;
-      }
+        w = pSurface->w;
+        x = w - 1;
+        y--;
+        pixel = start - pSurface->pitch / 3;
+        start = pixel;
+     }
     }
     break;
     case 4:
     {
       Uint32 *pixel = (Uint32 *)pSurface->pixels;
       Uint32 *start = pixel;
+
       x = 0;
       y = 0;
       w = pSurface->w;
       h = pSurface->h;
       while(h--) {
         do {
-	  if(*pixel != colorkey) {
-	    if (minY > y) {
-	      minY = y;
-	    }
+          if (*pixel != colorkey) {
+            if (minY > y) {
+              minY = y;
+            }
 
-	    if (minX > x) {
-	      minX = x;
-	    }
+            if (minX > x) {
+              minX = x;
+            }
             break;
-	  }
-	  pixel++;
-	  x++;
+          }
+          pixel++;
+          x++;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = 0;
-	y++;
-	pixel = start + pSurface->pitch / 4;
-	start = pixel;
+        w = pSurface->w;
+        x = 0;
+        y++;
+        pixel = start + pSurface->pitch / 4;
+        start = pixel;
       }
-            
+
       w = pSurface->w;
       h = pSurface->h;
       x = w - 1;
       y = h - 1;
       pixel = ((Uint32 *)pSurface->pixels + (y * pSurface->pitch / 4) + x);
       start = pixel;
-      while(h--) {
+      while (h--) {
         do {
-	  if(*pixel != colorkey) {
-	    if (maxY < y) {
-	      maxY = y;
-	    }
+          if (*pixel != colorkey) {
+            if (maxY < y) {
+              maxY = y;
+            }
 
-	    if (maxX < x) {
-	      maxX = x;
-	    }
+            if (maxX < x) {
+              maxX = x;
+            }
             break;
-	  }
-	  pixel--;
-	  x--;
+          }
+          pixel--;
+          x--;
         } while( --w > 0 );
-	w = pSurface->w;
-	x = w - 1;
-	y--;
-	pixel = start - pSurface->pitch / 4;
-	start = pixel;
+        w = pSurface->w;
+        x = w - 1;
+        y--;
+        pixel = start - pSurface->pitch / 4;
+        start = pixel;
       }
     }
     break;
   }
-  
+
   unlock_surf(pSurface);
   src.x = minX;
   src.y = minY;
@@ -3269,22 +3266,23 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
 /**************************************************************************
   Create new surface that is just visible part of source surface.
 **************************************************************************/
-SDL_Surface *crop_visible_part_from_surface(SDL_Surface * pSrc)
+SDL_Surface *crop_visible_part_from_surface(SDL_Surface *pSrc)
 {
   SDL_Rect src = get_smaller_surface_rect(pSrc);
+
   return crop_rect_from_surface(pSrc, &src);
 }
 
 /**************************************************************************
   Scale surface.
 **************************************************************************/
-SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
-			   Uint16 new_height, int smooth)
+SDL_Surface *ResizeSurface(const SDL_Surface *pSrc, Uint16 new_width,
+                           Uint16 new_height, int smooth)
 {
   if (pSrc == NULL) {
     return NULL;
   }
-  
+
   return zoomSurface((SDL_Surface*)pSrc,
                      (double)new_width / pSrc->w,
                      (double)new_height / pSrc->h,
