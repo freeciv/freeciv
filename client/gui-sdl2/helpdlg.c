@@ -95,10 +95,9 @@ void popup_help_dialog_typed(const char *item, enum help_page_type eHPT)
 **************************************************************************/
 void popdown_help_dialog(void)
 {
-  if (pHelpDlg)
-  {
+  if (pHelpDlg) {
     popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
-                                           pHelpDlg->pEndWidgetList);
+                                pHelpDlg->pEndWidgetList);
     FC_FREE(pHelpDlg->pScroll);
     FC_FREE(pHelpDlg);
     current_help_dlg = HELP_LAST;
@@ -134,6 +133,7 @@ static int change_gov_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popup_gov_info(MAX_ID - pWidget->ID);
   }
+
   return -1;
 }
 
@@ -162,7 +162,6 @@ static int change_impr_callback(struct widget *pWidget)
 static void redraw_impr_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
   SDL_Rect dst;
@@ -192,10 +191,8 @@ static void redraw_impr_info_dlg(void)
 void popup_impr_info(Impr_type_id impr)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
-
   struct widget *pWindow;
   struct UNITS_BUTTONS *pStore;
-
   struct widget *pCloseButton = NULL;
   struct widget *pListToggleButton = NULL;
   struct widget *pImprovementButton = NULL;
@@ -207,7 +204,6 @@ void popup_impr_info(Impr_type_id impr)
   struct widget *pObsoleteByLabel = NULL;
   struct widget *pObsoleteByLabel2 = NULL;
   struct widget *pHelptextLabel = NULL;
-  
   struct widget *pDock;
   SDL_String16 *pTitle, *pStr;
   SDL_Surface *pSurf;
@@ -219,7 +215,7 @@ void popup_impr_info(Impr_type_id impr)
   SDL_Rect area;
   struct advance *obsTech = NULL;
 
-  if(current_help_dlg != HELP_IMPROVEMENT) {
+  if (current_help_dlg != HELP_IMPROVEMENT) {
     popdown_help_dialog();
   }
 
@@ -229,7 +225,7 @@ void popup_impr_info(Impr_type_id impr)
 
     current_help_dlg = HELP_IMPROVEMENT;
     created = TRUE;
-    
+
     /* create dialog */
     pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
@@ -243,7 +239,7 @@ void popup_impr_info(Impr_type_id impr)
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pWindow);
-    
+
     pHelpDlg->pEndWidgetList = pWindow;
 
     area = pWindow->area;
@@ -278,14 +274,14 @@ void popup_impr_info(Impr_type_id impr)
 
     impr_type_count = 0;
     improvement_iterate(pImprove) {
-      
+
       /* copy background surface */  
 #if 0
       pBackground = SDL_DisplayFormatAlpha(pBackgroundTmpl);
 #else
       pBackground = pBackgroundTmpl;
 #endif
-      
+
       /* blit improvement name */
       copy_chars_to_string16(pStr, improvement_name_translation(pImprove));
       pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
@@ -381,7 +377,7 @@ void popup_impr_info(Impr_type_id impr)
     pCostLabel->ID = ID_LABEL;
     DownAdd(pCostLabel, pDock);
     pDock = pCostLabel;
-    
+
     if (!is_wonder(pImpr_type)) {
       sprintf(buffer, "%s %d", _("Upkeep:"), pImpr_type->upkeep);
       pUpkeepLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
@@ -391,7 +387,7 @@ void popup_impr_info(Impr_type_id impr)
       pDock = pUpkeepLabel;
     }
   }
-  
+
   /* requirement */
   pRequirementLabel = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                   _("Requirement:"),
@@ -468,9 +464,9 @@ void popup_impr_info(Impr_type_id impr)
 
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), client.conn.playing, NULL, pImpr_type);
-  if (buffer[0] != '\0')
-  {
+  if (buffer[0] != '\0') {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+
     convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
     pHelptextLabel->ID = ID_LABEL;
@@ -507,9 +503,9 @@ void popup_impr_info(Impr_type_id impr)
 
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
-                                           area.y + pListToggleButton->size.h, 0, 0,
-                                           pHelpDlg->pBeginActiveWidgetList,
-                                           pHelpDlg->pEndActiveWidgetList);
+                                        area.y + pListToggleButton->size.h, 0, 0,
+                                        pHelpDlg->pBeginActiveWidgetList,
+                                        pHelpDlg->pEndActiveWidgetList);
 
     /* scrollbar */
     if (pHelpDlg->pScroll) {
@@ -575,6 +571,7 @@ static int change_unit_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popup_unit_info(MAX_ID - pWidget->ID);
   }
+
   return -1;
 }
 
@@ -584,7 +581,6 @@ static int change_unit_callback(struct widget *pWidget)
 static void redraw_unit_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
   SDL_Rect dst;
@@ -614,10 +610,8 @@ static void redraw_unit_info_dlg(void)
 void popup_unit_info(Unit_type_id type_id)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
-
   struct widget *pWindow;
   struct UNITS_BUTTONS *pStore;
-
   struct widget *pCloseButton = NULL;
   struct widget *pListToggleButton = NULL;
   struct widget *pUnitButton = NULL;
@@ -628,7 +622,6 @@ void popup_unit_info(Unit_type_id type_id)
   struct widget *pObsoleteByLabel = NULL;
   struct widget *pObsoleteByLabel2 = NULL;
   struct widget *pHelptextLabel = NULL;
-
   struct widget *pDock;
   SDL_String16 *pTitle, *pStr;
   SDL_Surface *pSurf;
@@ -799,8 +792,8 @@ void popup_unit_info(Unit_type_id type_id)
     char buf[2048];
 
     fc_snprintf(buf, sizeof(buf), "%s %d %s",
-              _("Cost:"), utype_build_shield_cost(pUnitType),
-              PL_("shield", "shields", utype_build_shield_cost(pUnitType)));
+                _("Cost:"), utype_build_shield_cost(pUnitType),
+                PL_("shield", "shields", utype_build_shield_cost(pUnitType)));
 
     if (pUnitType->pop_cost) {
       cat_snprintf(buf, sizeof(buf), " %d %s",
@@ -1008,6 +1001,7 @@ static int change_tech_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popup_tech_info(MAX_ID - pWidget->ID);
   }
+
   return -1;
 }
 
@@ -1026,6 +1020,7 @@ static int show_tech_tree_callback(struct widget *pWidget)
     }
     popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   }
+
   return -1;
 }
 
@@ -1035,7 +1030,6 @@ static int show_tech_tree_callback(struct widget *pWidget)
 static void redraw_tech_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   SDL_Surface *pText0, *pText1 = NULL;
@@ -1386,7 +1380,6 @@ static void redraw_tech_tree_dlg(void)
 {
   /*  SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE); */
   SDL_Color bg_color = {255, 255, 255, 64};
-
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
   struct widget *pSub0, *pSub1;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
@@ -1546,7 +1539,7 @@ static void redraw_tech_tree_dlg(void)
       pSub0 = pTech;
     } else {
       pSub0 = NULL;
-      for(j = 0; j < 6 && pStore->pSub_Targets[j]; j++) {
+      for (j = 0; j < 6 && pStore->pSub_Targets[j]; j++) {
         if (MAX_ID - pStore->pSub_Targets[j]->ID == advance_required(tech, AR_ONE)) {
           pSub0 = pStore->pSub_Targets[j];
           break;
@@ -1558,7 +1551,7 @@ static void redraw_tech_tree_dlg(void)
       pSub1 = pTech;
     } else {
       pSub1 = NULL;
-      for(j = 0; j < 6 && pStore->pSub_Targets[j]; j++) {
+      for (j = 0; j < 6 && pStore->pSub_Targets[j]; j++) {
         if (MAX_ID - pStore->pSub_Targets[j]->ID == advance_required(tech, AR_TWO)) {
           pSub1 = pStore->pSub_Targets[j];
           break;
@@ -1850,9 +1843,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         pStore->pSub_Targets[1]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[1]->size.w;
         pStore->pSub_Targets[1]->size.y = pTech->size.y + pTech->size.h + adj_size(10);
       }
-    }
-    else
-    {
+    } else {
       if (sub_targets_count < 5) {
         for(i = 0; i < MIN(sub_targets_count, 4); i++) {
           pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w;
@@ -1906,11 +1897,9 @@ void popup_tech_info(Tech_type_id tech)
 {
   struct widget *pWindow;
   struct TECHS_BUTTONS *pStore;
-
   struct widget *pCloseButton = NULL;
   struct widget *pAdvanceLabel = NULL;
   struct widget *pListToggleButton = NULL;
-
   struct widget *pDock;
   SDL_String16 *pTitle, *pStr;
   SDL_Surface *pSurf;

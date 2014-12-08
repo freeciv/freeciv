@@ -113,7 +113,7 @@ static bool is_map_scrolling = FALSE;
 static enum direction8 scroll_dir;
 
 static struct mouse_button_behavior button_behavior;
-  
+
 static SDL_Event *pNet_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
@@ -122,13 +122,13 @@ static SDL_Event *pMap_Scroll_User_Event = NULL;
 static void print_usage(void);
 static void parse_options(int argc, char **argv);
 static int check_scroll_area(int x, int y);
-      
+
 enum USER_EVENT_ID {
   EVENT_ERROR = 0,
   NET,
   ANIM,
   TRY_AUTO_CONNECT,
-  SHOW_WIDGET_INFO_LABBEL,
+  SHOW_WIDGET_INFO_LABEL,
   FLUSH,
   MAP_SCROLL,
   EXIT_FROM_EVENT_LOOP
@@ -152,7 +152,7 @@ struct callback_list *callbacks;
   draw the city names and productions.
 ****************************************************************************/
 void set_city_names_font_sizes(int my_city_names_font_size,
-			       int my_city_productions_font_size)
+                               int my_city_productions_font_size)
 {
   city_names_font_size = my_city_names_font_size;
   city_productions_font_size = my_city_productions_font_size;
@@ -160,15 +160,15 @@ void set_city_names_font_sizes(int my_city_names_font_size,
 
 /**************************************************************************
   Print extra usage information, including one line help on each option,
-  to stderr. 
+  to stderr.
 **************************************************************************/
 static void print_usage(void)
 {
   /* add client-specific usage information here */
   fc_fprintf(stderr,
-	     _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
+             _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
   fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
-		       "other thread (only Linux and BeOS)\n"));
+                       "other thread (only Linux and BeOS)\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
@@ -229,9 +229,9 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
             struct unit *pUnit;
             struct city *pCity;
 
-            if (NULL != (pUnit = head_of_units_in_focus()) && 
-                (pCity = tile_city(unit_tile(pUnit))) != NULL &&
-                city_owner(pCity) == client.conn.playing) {
+            if (NULL != (pUnit = head_of_units_in_focus())
+                && (pCity = tile_city(unit_tile(pUnit))) != NULL
+                && city_owner(pCity) == client.conn.playing) {
               popup_city_dialog(pCity);
             }
           }
@@ -275,12 +275,12 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
           return ID_ERROR;
 
         default:
-	  return ID_ERROR;
-	}
+          return ID_ERROR;
+        }
       }
     }
   }
-  
+
   return ID_ERROR;
 }
 
@@ -299,14 +299,15 @@ static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
 /**************************************************************************
   Main mouse click handler.
 **************************************************************************/
-static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
+                                             void *pData)
 {
   struct widget *pWidget;
 
   if ((pWidget = find_next_widget_at_pos(NULL,
                                          pButtonEvent->x,
                                          pButtonEvent->y)) != NULL) {
-    if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
+    if (get_wstate(pWidget) != FC_WS_DISABLED) {
       return widget_pressed_action(pWidget);
     }
   } else {
@@ -317,7 +318,7 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
     if (!button_behavior.counting) {
       /* start counting */
       button_behavior.counting = TRUE;
-      button_behavior.button_down_ticks = SDL_GetTicks();   
+      button_behavior.button_down_ticks = SDL_GetTicks();
       *button_behavior.event = *pButtonEvent;
       button_behavior.hold_state = MB_HOLD_SHORT;
       button_behavior.ptile = canvas_pos_to_tile(pButtonEvent->x, pButtonEvent->y);
@@ -332,19 +333,20 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 /**************************************************************************
   Main mouse button release handler.
 **************************************************************************/
-static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent,
+                                           void *pData)
 {
   if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
-     && !find_next_widget_at_pos(NULL, pButtonEvent->x, pButtonEvent->y)) {
+      && !find_next_widget_at_pos(NULL, pButtonEvent->x, pButtonEvent->y)) {
     *button_behavior.event = *pButtonEvent;
     button_up_on_map(&button_behavior);
   }
 
   button_behavior.counting = FALSE;
-  button_behavior.button_down_ticks = 0;  
-  
+  button_behavior.button_down_ticks = 0;
+
   is_map_scrolling = FALSE;
-  
+
   return ID_ERROR;
 }
 
@@ -357,7 +359,8 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
 /**************************************************************************
   Main handler for mouse movement handling.
 **************************************************************************/
-static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
+static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
+                                        void *pData)
 {
   static struct widget *pWidget;
   struct tile *ptile;
@@ -385,7 +388,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
                                          pMotionEvent->x,
                                          pMotionEvent->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
-    if (!(get_wstate(pWidget) == FC_WS_DISABLED)) {
+    if (get_wstate(pWidget) != FC_WS_DISABLED) {
       widget_selected_action(pWidget);
     }
   } else {
@@ -397,12 +400,12 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   }
 
   draw_mouse_cursor();
-  
+
   return ID_ERROR;
 }
 
 /**************************************************************************
- this is called every TIMER_INTERVAL milliseconds whilst we are in 
+ This is called every TIMER_INTERVAL milliseconds whilst we are in
  gui_main_loop() (which is all of the time) TIMER_INTERVAL needs to be .5s
 **************************************************************************/
 static void update_button_hold_state(void)
@@ -410,13 +413,13 @@ static void update_button_hold_state(void)
   /* button pressed */
   if (button_behavior.counting) {
     if (((SDL_GetTicks() - button_behavior.button_down_ticks) >= MB_MEDIUM_HOLD_DELAY)
-      && ((SDL_GetTicks() - button_behavior.button_down_ticks) < MB_LONG_HOLD_DELAY)) {
-      
+        && ((SDL_GetTicks() - button_behavior.button_down_ticks) < MB_LONG_HOLD_DELAY)) {
+
       if (button_behavior.hold_state != MB_HOLD_MEDIUM) {
         button_behavior.hold_state = MB_HOLD_MEDIUM;
         button_down_on_map(&button_behavior);
       }
-          
+
     } else if (((SDL_GetTicks() - button_behavior.button_down_ticks)
                                                     >= MB_LONG_HOLD_DELAY)) {
 
@@ -424,23 +427,22 @@ static void update_button_hold_state(void)
         button_behavior.hold_state = MB_HOLD_LONG;
         button_down_on_map(&button_behavior);
       }
-      
-    }    
+    }  
   }
-  
+
   return;
 }
 
 /**************************************************************************
   Check if coordinate is in scroll area.
 **************************************************************************/
-static int check_scroll_area(int x, int y) {
-  
+static int check_scroll_area(int x, int y)
+{  
   SDL_Rect rect_north = {0, 0, Main.map->w, SCROLL_MAP_AREA};
   SDL_Rect rect_east = {Main.map->w - SCROLL_MAP_AREA, 0, SCROLL_MAP_AREA, Main.map->h};
   SDL_Rect rect_south = {0, Main.map->h - SCROLL_MAP_AREA, Main.map->w, SCROLL_MAP_AREA};
   SDL_Rect rect_west = {0, 0, SCROLL_MAP_AREA, Main.map->h};
-  
+
   if (is_in_rect_area(x, y, rect_north)) {
     is_map_scrolling = TRUE;
     if (is_in_rect_area(x, y, rect_west)) {
@@ -480,7 +482,7 @@ static int check_scroll_area(int x, int y) {
 void force_exit_from_event_loop(void)
 {
   SDL_Event Event;
-  
+
   Event.type = SDL_USEREVENT;
   Event.user.code = EXIT_FROM_EVENT_LOOP;
   Event.user.data1 = NULL;
@@ -497,16 +499,17 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 {
   if (event->type == SDL_MOUSEMOTION) {
     static int x = 0, y = 0;
-    if ( ((MOVE_STEP_X > 0) && (abs(event->motion.x - x) >= MOVE_STEP_X)) ||
-         ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
+
+    if (((MOVE_STEP_X > 0) && (abs(event->motion.x - x) >= MOVE_STEP_X))
+        || ((MOVE_STEP_Y > 0) && (abs(event->motion.y - y) >= MOVE_STEP_Y)) ) {
       x = event->motion.x;
       y = event->motion.y;
-      return(1);    /* Catch it */
+      return 1;    /* Catch it */
     } else {
-      return(0);    /* Drop it, we've handled it */
+      return 0;    /* Drop it, we've handled it */
     }
   }
-  return(1);
+  return 1;
 }
 
 /**************************************************************************
@@ -560,13 +563,13 @@ Uint16 gui_event_loop(void *pData,
       SDL_Delay(10);
     }
     /* ========================================= */
-    
+
     t_current = SDL_GetTicks();
-    
+
     if (t_current > real_timer_next_call) {
       real_timer_next_call = t_current + (real_timer_callback() * 1000);
     }
-    
+
     if ((t_current - t_last_unit_anim) > UNITS_TIMER_INTERVAL) {
       if (autoconnect) {
         widget_info_counter++;
@@ -574,7 +577,7 @@ Uint16 gui_event_loop(void *pData,
       } else {
         SDL_PushEvent(pAnim_User_Event);
       }
-            
+
       t_last_unit_anim = SDL_GetTicks();
     }
 
@@ -586,20 +589,20 @@ Uint16 gui_event_loop(void *pData,
     } else {
       t_last_map_scrolling = SDL_GetTicks();
     }
-    
+
     if (widget_info_counter > 0) {
       SDL_PushEvent(pInfo_User_Event);
       widget_info_counter = 0;
     }
-    
+
     /* ========================================= */
-    
+
     if (loop_action) {
       loop_action(pData);
     }
-    
+
     /* ========================================= */
-    
+
     while (SDL_PollEvent(&Main.event) == 1) {
 
       switch (Main.event.type) {
@@ -705,12 +708,12 @@ Uint16 gui_event_loop(void *pData,
               animate_mouse_cursor();
               draw_mouse_cursor();
             break;
-            case SHOW_WIDGET_INFO_LABBEL:
+            case SHOW_WIDGET_INFO_LABEL:
               draw_widget_info_label();
             break;
             case TRY_AUTO_CONNECT:
               if (try_to_autoconnect()) {
-                pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
+                pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABEL;
                 autoconnect = FALSE;
               }
             break;
@@ -734,6 +737,7 @@ Uint16 gui_event_loop(void *pData,
     if (ID == ID_ERROR) {
       if (callbacks && callback_list_size(callbacks) > 0) {
         struct callback *cb = callback_list_get(callbacks, 0);
+
         callback_list_remove(callbacks, cb);
         (cb->callback)(cb->data);
         free(cb);
@@ -838,8 +842,9 @@ void gui_options_extra_init(void)
 static void clear_double_messages_call(void)
 {
   int i;
+
   /* clear double call */
-  for(i = 0; i <= event_type_max(); i++) {
+  for (i = 0; i <= event_type_max(); i++) {
     if (messages_where[i] & MW_MESSAGES) {
       messages_where[i] &= ~MW_OUTPUT;
     }
@@ -914,9 +919,9 @@ void ui_main(int argc, char *argv[])
   __Anim_User_Event.user.data1 = NULL;
   __Anim_User_Event.user.data2 = NULL;
   pAnim_User_Event = &__Anim_User_Event;
-  
+
   __Info_User_Event.type = SDL_USEREVENT;
-  __Info_User_Event.user.code = SHOW_WIDGET_INFO_LABBEL;
+  __Info_User_Event.user.code = SHOW_WIDGET_INFO_LABEL;
   __Info_User_Event.user.data1 = NULL;
   __Info_User_Event.user.data2 = NULL;
   pInfo_User_Event = &__Info_User_Event;
@@ -932,28 +937,28 @@ void ui_main(int argc, char *argv[])
   __pMap_Scroll_User_Event.user.data1 = NULL;
   __pMap_Scroll_User_Event.user.data2 = NULL;
   pMap_Scroll_User_Event = &__pMap_Scroll_User_Event;
-  
+
   is_unit_move_blocked = FALSE;
-  
-  SDL_Client_Flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS|
-  		       CF_DRAW_PLAYERS_WAR_STATUS|
-                       CF_DRAW_PLAYERS_CEASEFIRE_STATUS|
-                       CF_DRAW_PLAYERS_PEACE_STATUS|
-                       CF_DRAW_PLAYERS_ALLIANCE_STATUS);
+
+  SDL_Client_Flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
+                       |CF_DRAW_PLAYERS_WAR_STATUS
+                       |CF_DRAW_PLAYERS_CEASEFIRE_STATUS
+                       |CF_DRAW_PLAYERS_PEACE_STATUS
+                       |CF_DRAW_PLAYERS_ALLIANCE_STATUS);
 
   tileset_init(tileset);
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
-      
-  load_cursors();  
+
+  load_cursors();
 
   callbacks = callback_list_new();
-  
+
   diplomacy_dialog_init();
   intel_dialog_init();
 
   clear_double_messages_call();
-    
+
   setup_auxiliary_tech_icons();
 
   /* this need correct Main.screen size */

@@ -50,7 +50,8 @@ struct color_cursor current_color_cursor;
 /**************************************************************************
   convert SDL surface to SDL cursor format (code from SDL-dev mailing list)
 **************************************************************************/
-static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
+static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
+{
   int w, x, y;
   Uint8 *data, *mask, *d, *m, r, g, b, a;
   Uint32 color;
@@ -69,7 +70,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
     m = mask + y * w;
     for (x = 0; x < image->w; x++) {
       color = getpixel(image, x, y);
-      SDL_GetRGBA(color, image->format, &r, &g, &b, &a);                    
+      SDL_GetRGBA(color, image->format, &r, &g, &b, &a);
       if (a != 0) {
         color = (r + g + b) / 3;
         m[x / 8] |= 128 >> (x & 7);
@@ -79,20 +80,21 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
       }
     }
   }
-  
+
   unlock_surf(image);
-        
+
   cursor = SDL_CreateCursor(data, mask, w * 8, image->h, hx, hy);
-	
+
   FC_FREE(data);
-  
+
   return cursor;
 }
 
 /**************************************************************************
   Draw current cursor.
 **************************************************************************/
-void draw_mouse_cursor() {
+void draw_mouse_cursor(void)
+{
   int cursor_x = 0;
   int cursor_y = 0;
   static SDL_Rect area = {0, 0, 0, 0};
@@ -102,15 +104,15 @@ void draw_mouse_cursor() {
     if (area.w != 0) {
       flush_rect(area, TRUE);
     }
-    
+
     if (current_color_cursor.cursor != NULL) {
       SDL_GetMouseState(&cursor_x, &cursor_y);
       area.x = cursor_x - current_color_cursor.hot_x;
       area.y = cursor_y - current_color_cursor.hot_y;
       area.w = current_color_cursor.cursor->w;
       area.h = current_color_cursor.cursor->h;
-	
-      /* show cursor */    
+
+      /* show cursor */
       SDL_BlitSurface(current_color_cursor.cursor, NULL, Main.mainsurf, &area);
       /* update screen */
       update_main_screen();
@@ -120,9 +122,7 @@ void draw_mouse_cursor() {
     } else {
       area = (SDL_Rect){0, 0, 0, 0};
     }
-    
   } 
-   
 }
 
 /**************************************************************************
@@ -170,7 +170,6 @@ void unload_cursors(void)
 
   SDL_FreeCursor(pStd_Cursor);
   SDL_FreeCursor(pDisabledCursor);
-  return;
 }
 
 /**************************************************************************
@@ -194,11 +193,11 @@ void animate_mouse_cursor(void)
       current_color_cursor.cursor = GET_SURF(get_cursor_sprite(tileset,
                                     mouse_cursor_type,
                                     &current_color_cursor.hot_x,
-                                    &current_color_cursor.hot_y, cursor_frame));      
+                                    &current_color_cursor.hot_y, cursor_frame));
     } else {
-      SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame]);          
+      SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame]);
     }
-    
+
     cursor_frame++;
   }
 }
@@ -213,13 +212,13 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   }
 
   mouse_cursor_type = new_cursor_type;
-  
+
   if (mouse_cursor_type == CURSOR_DEFAULT) {
     SDL_SetCursor(pStd_Cursor);
     if (options.gui_sdl2_use_color_cursors) {
       current_color_cursor.cursor = NULL;
     }
-    mouse_cursor_changed = FALSE;    
+    mouse_cursor_changed = FALSE;
   } else {
     if (options.gui_sdl2_use_color_cursors) {
       SDL_SetCursor(pDisabledCursor);
