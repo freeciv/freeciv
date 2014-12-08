@@ -31,9 +31,10 @@
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
+#include "netintf.h"
 #include "registry.h"
 
-/* common */
+// common
 #include "version.h"
 
 // modinst
@@ -85,6 +86,7 @@ int main(int argc, char **argv)
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
   registry_module_init();
+  fc_init_network();
   log_init(NULL, loglevel, NULL, NULL, -1);
 
   /* This modifies argv! */
