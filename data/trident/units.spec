@@ -8,6 +8,7 @@ options = "+Freeciv-spec-Devel-2013.Feb.13"
 
 artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
+    The Square Cow (u.refugee)
 "
 
 [file]
@@ -76,4 +77,5 @@ tiles = { "row", "column", "tag"
   2, 13, "u.awacs"
   2, 14, "u.worker"
   2, 15, "u.leader"
+  2, 16, "u.refugee"
 }
