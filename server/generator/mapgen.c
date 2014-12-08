@@ -3071,6 +3071,7 @@ static void fair_map_make_resources(struct fair_tile *pmap)
     for (r = pftile->pterrain->resources; *r != NULL; r++) {
       if (fc_rand(++j) == 0) {
         pftile->presource = *r;
+        BV_SET(pftile->specials, S_RESOURCE_VALID);
       }
     }
     /* Note that 'pftile->presource' might be NULL if there is no suitable
@@ -3522,6 +3523,7 @@ static bool map_generate_fair_islands(void)
 
   whole_map_iterate(ptile) {
     tile_set_terrain(ptile, deepest_ocean);
+    tile_set_resource(ptile, NULL);
     tile_set_continent(ptile, 0);
     tile_clear_all_specials(ptile);
     tile_set_owner(ptile, NULL, NULL);
