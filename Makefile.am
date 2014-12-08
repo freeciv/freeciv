@@ -33,7 +33,6 @@ SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUB
 ## It should also install it automatically when running autogen.sh.
 EXTRA_DIST=	autogen.sh 			\
 		configure.ac			\
-		diff_ignore			\
 		bootstrap/fcgui.in		\
 		bootstrap/fcser.in		\
 		bootstrap/fcruledit.in		\
@@ -110,7 +109,8 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/xaw-client.m4		\
 		m4/x.m4				\
 		scripts/mapimg2anim		\
-		scripts/setup_auth_server.sh
+		scripts/setup_auth_server.sh	\
+		scripts/diff_ignore
 # On branch: add NEWS-x.x here and remove this comment (1 of 2)
 
 noinst_HEADERS= fc_version
