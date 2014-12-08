@@ -297,7 +297,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Fullscreen"));
   act->setShortcut(QKeySequence(tr("alt+return")));
   act->setCheckable(true);
-  act->setChecked(options.fullscreen_mode);
+  act->setChecked(options.gui_qt_fullscreen);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullscreen()));
   menu->addSeparator();
   minimap_status = menu->addAction(_("Minimap"));
@@ -1564,13 +1564,13 @@ void mr_menu::slot_center_view()
 ***************************************************************************/
 void mr_menu::slot_fullscreen()
 {
-  if (!options.fullscreen_mode) {
+  if (!options.gui_qt_fullscreen) {
     gui()->main_window->showFullScreen();
     gui()->mapview_wdg->showFullScreen();
   } else {
     gui()->main_window->showNormal();
   }
-  options.fullscreen_mode = !options.fullscreen_mode;
+  options.gui_qt_fullscreen = !options.gui_qt_fullscreen;
 }
 
 /***************************************************************************

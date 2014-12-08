@@ -98,11 +98,15 @@ struct client_options
   char default_chat_logfile[512];
 
   bool save_options_on_exit;
-  bool fullscreen_mode;
 
 /** Migrations **/
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_sdl2_migrated_from_sdl;
+  bool gui_gtk2_migrated_from_2_5;
+  bool gui_gtk3_migrated_from_2_5;
+  bool gui_qt_migrated_from_2_5;
+
+  bool migrate_fullscreen;
 
 /** Local Options: **/
 
@@ -182,6 +186,7 @@ struct client_options
 /* gui-gtk-2.0 client specific options. */
 #define FC_GTK2_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk2_default_theme_name[512];
+  bool gui_gtk2_fullscreen;
   bool gui_gtk2_map_scrollbars;
   bool gui_gtk2_dialogs_on_top;
   bool gui_gtk2_show_task_icons;
@@ -216,6 +221,7 @@ struct client_options
 /* gui-gtk-3.0 client specific options. */
 #define FC_GTK3_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk3_default_theme_name[512];
+  bool gui_gtk3_fullscreen;
   bool gui_gtk3_map_scrollbars;
   bool gui_gtk3_dialogs_on_top;
   bool gui_gtk3_show_task_icons;
@@ -264,6 +270,7 @@ struct client_options
   bool gui_sdl2_use_color_cursors;
 
 /* gui-qt client specific options. */
+  bool gui_qt_fullscreen;
   bool gui_qt_allied_chat_only;
   char gui_qt_font_city_label[512];
   char gui_qt_font_notify_label[512];

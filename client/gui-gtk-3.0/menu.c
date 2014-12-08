@@ -808,10 +808,10 @@ static void show_better_fog_of_war_callback(GtkToggleAction *action,
 *****************************************************************/
 static void full_screen_callback(GtkToggleAction *action, gpointer data)
 {
-  if (options.fullscreen_mode ^ gtk_toggle_action_get_active(action)) {
-    options.fullscreen_mode ^= 1;
+  if (options.gui_gtk3_fullscreen ^ gtk_toggle_action_get_active(action)) {
+    options.gui_gtk3_fullscreen ^= 1;
 
-    if (options.fullscreen_mode) {
+    if (options.gui_gtk3_fullscreen) {
       gtk_window_fullscreen(GTK_WINDOW(toplevel));
     } else {
       gtk_window_unfullscreen(GTK_WINDOW(toplevel));
@@ -2633,5 +2633,5 @@ void real_menus_init(void)
 
   view_menu_update_sensitivity();
 
-  menus_set_active(safe_group, "FULL_SCREEN", options.fullscreen_mode);
+  menus_set_active(safe_group, "FULL_SCREEN", options.gui_gtk3_fullscreen);
 }

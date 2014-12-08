@@ -79,11 +79,15 @@ struct client_options options = {
   .default_chat_logfile = GUI_DEFAULT_CHAT_LOGFILE,
 
   .save_options_on_exit = TRUE,
-  .fullscreen_mode = FALSE,
 
 /** Migrations **/
   .gui_gtk3_migrated_from_gtk2 = FALSE,
   .gui_sdl2_migrated_from_sdl = FALSE,
+  .gui_gtk2_migrated_from_2_5 = FALSE,
+  .gui_gtk3_migrated_from_2_5 = FALSE,
+  .gui_qt_migrated_from_2_5 = FALSE,
+
+  .migrate_fullscreen = FALSE,
 
 /** Local Options: **/
 
@@ -172,6 +176,7 @@ struct client_options options = {
 
 /* gui-gtk-2.0 client specific options. */
   .gui_gtk2_default_theme_name = FC_GTK2_DEFAULT_THEME_NAME,
+  .gui_gtk2_fullscreen = FALSE,
   .gui_gtk2_map_scrollbars = FALSE,
   .gui_gtk2_dialogs_on_top = TRUE,
   .gui_gtk2_show_task_icons = TRUE,
@@ -205,6 +210,7 @@ struct client_options options = {
 
 /* gui-gtk-3.0 client specific options. */
   .gui_gtk3_default_theme_name = FC_GTK3_DEFAULT_THEME_NAME,
+  .gui_gtk3_fullscreen = FALSE,
   .gui_gtk3_map_scrollbars = FALSE,
   .gui_gtk3_dialogs_on_top = TRUE,
   .gui_gtk3_show_task_icons = TRUE,
@@ -251,6 +257,7 @@ struct client_options options = {
   .gui_sdl2_use_color_cursors = TRUE,
 
 /* gui-qt client specific options. */
+  .gui_qt_fullscreen = FALSE,
   .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_notify_label = "Monospace,8,-1,5,75,0,0,0,0,0",
   .gui_qt_font_spaceship_label = "Monospace,8,-1,5,50,0,0,0,0,0",
@@ -2222,6 +2229,10 @@ static struct client_option client_options[] = {
                  COC_MAPIMG, GUI_STUB, GUI_DEFAULT_MAPIMG_FILENAME, NULL),
 
   /* gui-gtk-2.0 client specific options. */
+  GEN_BOOL_OPTION(gui_gtk2_fullscreen, N_("Fullscreen"),
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing."),
+                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_map_scrollbars, N_("Show map scrollbars"),
                   N_("Disable this option to hide the scrollbars on the "
                      "map view."),
@@ -2432,6 +2443,10 @@ static struct client_option client_options[] = {
                   "Serif 10", NULL),
 
   /* gui-gtk-3.0 client specific options. */
+  GEN_BOOL_OPTION(gui_gtk3_fullscreen, N_("Fullscreen"),
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing."),
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk3_map_scrollbars, N_("Show map scrollbars"),
                   N_("Disable this option to hide the scrollbars on the "
                      "map view."),
@@ -2678,6 +2693,10 @@ static struct client_option client_options[] = {
                   COC_INTERFACE, GUI_SDL2, TRUE, NULL),
 
   /* gui-qt client specific options. */
+  GEN_BOOL_OPTION(gui_qt_fullscreen, N_("Fullscreen"),
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing."),
+                  COC_INTERFACE, GUI_QT, FALSE, NULL),
   GEN_FONT_OPTION(gui_qt_font_city_label, "city_label",
                   N_("City Label"),
                   N_("This font is used to display the city labels on city "
@@ -5308,8 +5327,8 @@ void options_load(void)
   options.save_options_on_exit =
     secfile_lookup_bool_default(sf, options.save_options_on_exit,
                                 "%s.save_options_on_exit", prefix);
-  options.fullscreen_mode =
-    secfile_lookup_bool_default(sf, options.fullscreen_mode,
+  options.migrate_fullscreen =
+    secfile_lookup_bool_default(sf, options.migrate_fullscreen,
                                 "%s.fullscreen_mode", prefix);
 
   /* Settings migrations */
@@ -5319,6 +5338,15 @@ void options_load(void)
   options.gui_sdl2_migrated_from_sdl =
     secfile_lookup_bool_default(sf, options.gui_sdl2_migrated_from_sdl,
                                 "%s.migration_sdl2_from_sdl", prefix);
+  options.gui_gtk2_migrated_from_2_5 =
+    secfile_lookup_bool_default(sf, options.gui_gtk3_migrated_from_2_5,
+                                "%s.migration_gtk2_from_2_5", prefix);
+  options.gui_gtk3_migrated_from_2_5 =
+    secfile_lookup_bool_default(sf, options.gui_gtk2_migrated_from_2_5,
+                                "%s.migration_gtk3_from_2_5", prefix);
+  options.gui_qt_migrated_from_2_5 =
+    secfile_lookup_bool_default(sf, options.gui_qt_migrated_from_2_5,
+                                "%s.migration_qt_from_2_5", prefix);
 
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
@@ -5399,13 +5427,19 @@ void options_save(void)
   secfile_insert_str(sf, VERSION_STRING, "client.version");
 
   secfile_insert_bool(sf, options.save_options_on_exit, "client.save_options_on_exit");
-  secfile_insert_bool(sf, options.fullscreen_mode, "client.fullscreen_mode");
+  secfile_insert_bool_comment(sf, options.migrate_fullscreen, "deprecated", "client.fullscreen_mode");
 
   /* Migrations */
   secfile_insert_bool(sf, options.gui_gtk3_migrated_from_gtk2,
                       "client.migration_gtk3_from_gtk2");
   secfile_insert_bool(sf, options.gui_sdl2_migrated_from_sdl,
                       "client.migration_sdl2_from_sdl");
+  secfile_insert_bool(sf, options.gui_gtk2_migrated_from_2_5,
+                      "client.migration_gtk2_from_2_5");
+  secfile_insert_bool(sf, options.gui_gtk3_migrated_from_2_5,
+                      "client.migration_gtk3_from_2_5");
+  secfile_insert_bool(sf, options.gui_qt_migrated_from_2_5,
+                      "client.migration_qt_from_2_5");
 
   client_options_iterate_all(poption) {
     client_option_save(poption, sf);

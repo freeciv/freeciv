@@ -1556,6 +1556,18 @@ static void migrate_options_from_gtk2(void)
 }
 
 /**************************************************************************
+  Migrate gtk3 client specific options from freeciv-2.5 options
+**************************************************************************/
+static void migrate_options_from_2_5(void)
+{
+  log_normal("Migrating gtk3-client options from freeciv-2.5 options.");
+
+  options.gui_gtk3_fullscreen = options.migrate_fullscreen;
+
+  options.gui_gtk3_migrated_from_2_5 = TRUE; 
+}
+
+/**************************************************************************
   Called from client_main(), is what it's named.
 **************************************************************************/
 void ui_main(int argc, char **argv)
@@ -1585,8 +1597,11 @@ void ui_main(int argc, char **argv)
   if (!options.gui_gtk3_migrated_from_gtk2) {
     migrate_options_from_gtk2();
   }
+  if (!options.gui_gtk3_migrated_from_2_5) {
+    migrate_options_from_2_5();
+  }
 
-  if (options.fullscreen_mode) {
+  if (options.gui_gtk3_fullscreen) {
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
   }
   
@@ -2176,6 +2191,6 @@ void adjust_default_options(void)
   if (screen_height() <= 480) {
     /* Freeciv is practically unusable outside fullscreen mode in so
      * small display */
-    options.fullscreen_mode = TRUE;
+    options.gui_gtk3_fullscreen = TRUE;
   }
 }

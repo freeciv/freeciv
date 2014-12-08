@@ -285,7 +285,7 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
-    if (options.fullscreen_mode){
+    if (options.gui_qt_fullscreen){
       gui()->main_window->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
     } else {

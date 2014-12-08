@@ -129,6 +129,18 @@ static bool parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
+  Migrate Qt client specific options from freeciv-2.5 options
+**************************************************************************/
+static void migrate_options_from_2_5()
+{
+  log_normal("Migrating Qt-client options from freeciv-2.5 options.");
+
+  options.gui_qt_fullscreen = options.migrate_fullscreen;
+
+  options.gui_qt_migrated_from_2_5 = TRUE; 
+}
+
+/**************************************************************************
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
@@ -145,6 +157,11 @@ void qtg_ui_main(int argc, char *argv[])
     qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
+
+    if (!options.gui_qt_migrated_from_2_5) {
+      migrate_options_from_2_5();
+    }
+    
     freeciv_qt = new fc_client();
     freeciv_qt->main(qapp);
   }
