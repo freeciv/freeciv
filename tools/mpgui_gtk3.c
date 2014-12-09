@@ -25,6 +25,7 @@
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
+#include "rand.h"
 #include "registry.h"
 #include "shared.h"
 
@@ -579,6 +580,7 @@ int main(int argc, char *argv[])
   fc_init_network();
 
   log_init(NULL, loglevel, NULL, NULL, -1);
+  fc_srand(time(NULL)); /* Needed at least for Windows version of netfile_get_section_file() */
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
