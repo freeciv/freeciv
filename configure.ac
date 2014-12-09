@@ -1572,12 +1572,14 @@ AC_MSG_NOTICE([
     Gtk-2.0: $gui_gtk2
     SDL:     $gui_sdl
     QT:      $gui_qt
-    Xaw:     $gui_xaw
     Stub:    $gui_stub
 
   In-development client frontends:
   (these are not yet ready for general use)
     SDL2:    $gui_sdl2
+
+  Not maintained client frontends:
+    Xaw:     $gui_xaw
 
   == Server ==
   Build freeciv server:  $server
