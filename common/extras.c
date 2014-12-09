@@ -725,3 +725,11 @@ enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
 
   return ERM_NONE;
 }
+
+/**************************************************************************
+  Who owns extras on tile
+**************************************************************************/
+struct player *extra_owner(const struct tile *ptile)
+{
+  return ptile->extras_owner;
+}

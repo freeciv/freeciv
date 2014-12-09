@@ -2624,7 +2624,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
     tile_set_owner(ptile, powner, NULL);
     tile_changed = TRUE;
   }
-  if (base_owner(ptile) != eowner) {
+  if (extra_owner(ptile) != eowner) {
     ptile->extras_owner = eowner;
     tile_changed = TRUE;
   }

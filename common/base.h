@@ -114,7 +114,6 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct tile *ptile);
 
 bool territory_claiming_base(const struct base_type *pbase);
-struct player *base_owner(const struct tile *ptile);
 
 /* Initialization and iteration */
 void base_type_init(struct extra_type *pextra, int idx);

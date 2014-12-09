@@ -3038,11 +3038,11 @@ static void sg_save_map_owner(struct savedata *saving)
       char token[TOKEN_SIZE];
       struct tile *ptile = native_pos_to_tile(x, y);
 
-      if (!saving->save_players || base_owner(ptile) == NULL) {
+      if (!saving->save_players || extra_owner(ptile) == NULL) {
         strcpy(token, "-");
       } else {
         fc_snprintf(token, sizeof(token), "%d",
-                    player_number(base_owner(ptile)));
+                    player_number(extra_owner(ptile)));
       }
       strcat(line, token);
       if (x + 1 < map.xsize) {
@@ -4919,8 +4919,8 @@ static void sg_load_player_units(struct loaddata *loading,
     unit_list_prepend(unit_tile(punit)->units, punit);
 
     /* Claim ownership of fortress? */
-    if ((!base_owner(ptile)
-         || pplayers_at_war(base_owner(ptile), plr))
+    if ((extra_owner(ptile) == NULL
+         || pplayers_at_war(extra_owner(ptile), plr))
         && tile_has_claimable_base(ptile, unit_type(punit))) {
       tile_claim_bases(ptile, plr);
     }

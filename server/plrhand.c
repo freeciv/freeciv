@@ -224,7 +224,7 @@ void kill_player(struct player *pplayer)
     if (tile_owner(ptile) == pplayer) {
       map_claim_ownership(ptile, NULL, NULL, FALSE);
     }
-    if (base_owner(ptile) == pplayer) {
+    if (extra_owner(ptile) == pplayer) {
       ptile->extras_owner = NULL;
     }
   } whole_map_iterate_end;
@@ -624,7 +624,7 @@ void enter_war(struct player *pplayer, struct player *pplayer2)
 {
   /* Claim bases where units are already standing */
   whole_map_iterate(ptile) {
-    struct player *old_owner = base_owner(ptile);
+    struct player *old_owner = extra_owner(ptile);
 
     if (old_owner == pplayer2) {
       maybe_claim_base(ptile, pplayer, old_owner);

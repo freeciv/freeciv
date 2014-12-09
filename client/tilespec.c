@@ -5176,7 +5176,7 @@ int fill_sprite_array(struct tileset *t,
     if (NULL != pterrain) {
       if (ptile) {
         bool show_flag = FALSE;
-        struct player *owner = base_owner(ptile);
+        struct player *owner = extra_owner(ptile);
 
         extra_type_list_iterate(t->style_lists[ESTYLE_3LAYER], pextra) {
           if (is_extra_drawing_enabled(pextra)

@@ -1571,8 +1571,8 @@ static void player_load_units(struct player *plr, int plrno,
     unit_list_prepend(ptile->units, punit);
 
     /* Claim ownership of fortress? */
-    if ((!base_owner(ptile)
-         || pplayers_at_war(base_owner(ptile), plr))
+    if ((extra_owner(ptile) == NULL
+         || pplayers_at_war(extra_owner(ptile), plr))
         && tile_has_claimable_base(ptile, unit_type(punit))) {
       tile_claim_bases(ptile, plr);
     }

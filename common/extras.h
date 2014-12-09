@@ -191,6 +191,8 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile, enum extra_rmcau
 enum extra_cause activity_to_extra_cause(enum unit_activity act);
 enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act);
 
+struct player *extra_owner(const struct tile *ptile);
+
 #define extra_type_iterate(_p)                                \
 {                                                             \
   int _i_;                                                    \

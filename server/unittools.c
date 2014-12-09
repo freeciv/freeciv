@@ -3366,7 +3366,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   }
 
   /* Claim ownership of fortress? */
-  bowner = base_owner(pdesttile);
+  bowner = extra_owner(pdesttile);
   if ((bowner == NULL || pplayers_at_war(bowner, pplayer))
       && tile_has_claimable_base(pdesttile, unit_type(punit))) {
     /* Yes. We claim *all* bases if there's *any* claimable base(s).

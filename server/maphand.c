@@ -499,7 +499,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.known = TILE_KNOWN_SEEN;
       info.continent = tile_continent(ptile);
       owner = tile_owner(ptile);
-      eowner = base_owner(ptile);
+      eowner = extra_owner(ptile);
       info.owner = (owner ? player_number(owner) : MAP_TILE_OWNER_NULL);
       info.extras_owner = (eowner ? player_number(eowner) : MAP_TILE_OWNER_NULL);
       info.worked = (NULL != tile_worked(ptile))
@@ -921,7 +921,7 @@ void map_change_seen(struct player *pplayer,
     if (game.server.foggedborders) {
       plrtile->owner = tile_owner(ptile);
     }
-    plrtile->extras_owner = base_owner(ptile);
+    plrtile->extras_owner = extra_owner(ptile);
     send_tile_info(pplayer->connections, ptile, FALSE);
   }
 
@@ -1155,7 +1155,7 @@ void remove_player_from_maps(struct player *pplayer)
       tile_set_owner(ptile, NULL, NULL);
       reality_changed = TRUE;
     }
-    if (base_owner(ptile) == pplayer) {
+    if (extra_owner(ptile) == pplayer) {
       ptile->extras_owner = NULL;
       reality_changed = TRUE;
     }
@@ -1257,14 +1257,14 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
       || !BV_ARE_EQUAL(plrtile->extras, ptile->extras)
       || plrtile->resource != ptile->resource
       || owner != tile_owner(ptile)
-      || plrtile->extras_owner != base_owner(ptile)) {
+      || plrtile->extras_owner != extra_owner(ptile)) {
     plrtile->terrain = ptile->terrain;
     plrtile->extras = ptile->extras;
     plrtile->resource = ptile->resource;
     if (plrtile_owner_valid) {
       plrtile->owner = tile_owner(ptile);
     }
-    plrtile->extras_owner = base_owner(ptile);
+    plrtile->extras_owner = extra_owner(ptile);
 
     return TRUE;
   }
@@ -1928,7 +1928,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 *************************************************************************/
 void tile_claim_bases(struct tile *ptile, struct player *powner)
 {
-  struct player *base_loser = base_owner(ptile);
+  struct player *base_loser = extra_owner(ptile);
 
   /* This MUST be before potentially recursive call to map_claim_base(),
    * so that the recursive call will get new owner == base_loser and
@@ -2099,7 +2099,7 @@ void map_claim_base(struct tile *ptile, struct base_type *pbase,
       map_clear_border(ptile);
     }
 
-    /* We here first claim this tile ownership -> now on base_owner()
+    /* We here first claim this tile ownership -> now on extra_owner()
      * will return new owner. Then we claim border, which will recursively
      * lead to this tile and base being claimed. But at that point
      * ploser == powner and above check will abort the recursion. */
@@ -2161,7 +2161,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 
   /* Claim bases on tile */
   if (pplayer) {
-    struct player *old_owner = base_owner(ptile);
+    struct player *old_owner = extra_owner(ptile);
 
     /* Created base from NULL -> pplayer */
     map_claim_base(ptile, pbase, pplayer, NULL);
@@ -2178,7 +2178,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
     }
   } else {
     /* Player who already owns bases on tile claims new base */
-    map_claim_base(ptile, pbase, base_owner(ptile), NULL);
+    map_claim_base(ptile, pbase, extra_owner(ptile), NULL);
   }
 
   if (extras_removed) {
@@ -2225,7 +2225,7 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
        * bases as well. */
       map_clear_border(ptile);
     } else {
-      struct player *owner = base_owner(ptile);
+      struct player *owner = extra_owner(ptile);
 
       if (NULL != owner
           && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
