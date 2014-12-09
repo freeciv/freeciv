@@ -262,6 +262,12 @@ static void print_usage(void)
              _("This client accepts the standard Gtk command-line options\n"
                "after '--'. See the Gtk documentation.\n\n"));
 
+  fc_fprintf(stderr,
+             _("Other gui-specific options are:\n"));
+
+  fc_fprintf(stderr,
+             _("-z, --zoom LEVEL\tSet zoom level\n\n"));
+
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 }
@@ -275,10 +281,17 @@ static void parse_options(int argc, char **argv)
   int i = 1;
 
   while (i < argc) {
+    char *option = NULL;
+
     if (is_option("--help", argv[i])) {
       print_usage();
       exit(EXIT_SUCCESS);
+    } else if ((option = get_option_malloc("--zoom", argv, &i, argc))) {
+      char *endptr;
+
+      set_map_zoom(strtof(option, &endptr));
     }
+
     i++;
   }
 }
