@@ -28,13 +28,13 @@
 all: gtk3-installer gtk2-installer sdl-installer qt-installer
 
 gtk3-installer:
-	make GUI=gtk3 FCMP=gtk3 wrap-gtk3
+	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
 
 gtk2-installer:
-	make GUI=gtk2 FCMP=gtk2 wrap-gtk2
+	make GUI=gtk2 FCMP=gtk2 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk2
 
 sdl-installer:
-	make GUI=sdl FCMP=gtk3 wrap-sdl
+	make GUI=sdl FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl
 
 qt-installer:
 	make GUI=qt FCMP=qt wrap-qt
