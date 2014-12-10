@@ -134,7 +134,8 @@ static bool pf_action_possible(const struct tile *src,
     return (PF_MS_NATIVE & src_scope
             || can_attack_from_non_native(param->utype));
             
-  } else if (PF_ACTION_DIPLOMAT == action) {
+  } else if (PF_ACTION_DIPLOMAT == action
+             || PF_ACTION_TRADE_ROUTE == action) {
     /* Don't try to act when inside of a transport over non native terrain
      * when all actions the unit type can do requires the unit to be on
      * native terrain. */
@@ -690,6 +691,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
   if (utype_has_flag(parameter->utype, UTYF_TRADE_ROUTE)) {
     parameter->actions |= PF_AA_TRADE_ROUTE;
     parameter->get_action = pf_get_action;
+    parameter->is_action_possible = pf_action_possible;
   }
 }
 
