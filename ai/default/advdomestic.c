@@ -102,7 +102,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
 
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_has_type_flag(punit, UTYF_HELP_WONDER)
+    if (unit_can_do_action(punit, ACTION_HELP_WONDER)
         && tile_continent(unit_tile(punit)) == continent)
       caravans++;
   } unit_list_iterate_end;
@@ -110,7 +110,8 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   /* Count caravans being built */
   city_list_iterate(pplayer->cities, acity) {
     if (VUT_UTYPE == acity->production.kind
-        && utype_has_flag(acity->production.value.utype, UTYF_HELP_WONDER)
+        && utype_can_do_action(acity->production.value.utype,
+                               ACTION_HELP_WONDER)
         && tile_continent(acity->tile) == continent) {
       caravans++;
     }
