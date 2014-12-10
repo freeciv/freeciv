@@ -574,9 +574,11 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else if (unit_has_type_flag(punit, UTYF_CITIES)) {
     /* Short path */
     parameter->get_TB = no_fights;
-  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
-             || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
-    parameter->get_TB = no_fights;
+  } else if (is_actor_unit(punit)
+             && !utype_acts_hostile(unit_type(punit))) {
+    /* While the AI currently won't establish a trade route to a non ally
+     * it will establish an embassy. */
+    parameter->get_TB = no_intermediate_fights;
   } else if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
     /* Avoid capture */
     parameter->get_TB = no_fights;
