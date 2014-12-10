@@ -560,8 +560,8 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     parameter->get_zoc = NULL;
   }
 
-  if ((unit_has_type_flag(punit, UTYF_DIPLOMAT))
-      || (unit_has_type_flag(punit, UTYF_SPY))) {
+  if (is_actor_unit(punit)
+      && utype_acts_hostile(unit_type(punit))) {
     /* Default tile behaviour */
   } else if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
