@@ -15,6 +15,7 @@ AM_CXXFLAGS = $(gui_qt_cxxflags)
 
 MOC_FILES = \
 	meta_fc_client.cpp	\
+	meta_helpdlg.cpp	\
 	meta_ratesdlg.cpp	\
 	meta_mapview.cpp	\
 	meta_menu.cpp		\

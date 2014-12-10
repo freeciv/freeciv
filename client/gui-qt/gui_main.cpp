@@ -44,6 +44,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "helpdlg.h"
 #include "gui_main.h"
 #include "qtg_cxxside.h"
 
@@ -61,6 +62,7 @@ void reset_unit_table(void);
 static void populate_unit_pixmap_table(void);
 static void apply_font(struct option *poption);
 static void apply_city_font(struct option *poption);
+static void apply_help_font(struct option *poption);
 
 /****************************************************************************
   Return fc_client instance
@@ -173,6 +175,10 @@ void qtg_gui_options_extra_init()
                           apply_font);
   option_var_set_callback(gui_qt_font_city_label,
                           apply_city_font);
+  option_var_set_callback(gui_qt_font_help_label,
+                          apply_help_font);
+  option_var_set_callback(gui_qt_font_help_text,
+                          apply_help_font);
 #undef option_var_set_callback
 }
 
@@ -315,6 +321,25 @@ static void apply_font(struct option *poption)
     update_city_descriptions();
   }
 }
+
+static void apply_help_font(struct option *poption)
+{
+  QFont *f;
+  QFont *remove_old;
+  QString s;
+
+  if (gui()) {
+    f = new QFont;
+    s = option_font_get(poption);
+    f->fromString(s);
+    s = option_name(poption);
+    remove_old = gui()->fc_fonts.get_font(s);
+    delete remove_old;
+    gui()->fc_fonts.set_font(s, f);
+    update_help_fonts();
+  }
+}
+
 
 /****************************************************************************
   Changes city label font

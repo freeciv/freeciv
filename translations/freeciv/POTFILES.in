@@ -98,6 +98,7 @@ client/gui-qt/diplodlg.cpp
 client/gui-qt/fc_client.cpp
 client/gui-qt/gui_main.cpp
 client/gui-qt/gotodlg.cpp
+client/gui-qt/helpdlg.cpp
 client/gui-qt/mapctrl.cpp
 client/gui-qt/mapview.cpp
 client/gui-qt/menu.cpp

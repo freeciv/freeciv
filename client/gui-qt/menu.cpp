@@ -31,6 +31,9 @@
 #include "control.h"
 #include "helpdata.h"
 
+// client/include
+#include "helpdlg_g.h"
+
 // gui-qt
 #include "qtg_cxxside.h"
 #include "fc_client.h"
@@ -617,7 +620,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Players"));
   act->setShortcut(QKeySequence(tr("F3")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_show_nations()));
-  
+
   act = menu->addAction(_("Cities"));
   act->setShortcut(QKeySequence(tr("F4")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_show_cities()));
@@ -648,11 +651,118 @@ void mr_menu::setup_menus()
 
   /* Help Menu */
   menu = this->addMenu(_("Help"));
-  act = menu->addAction(_("Copying"));
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_menu_copying()));
 
-  act = menu->addAction(_("About Qt"));
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_about_qt()));
+  signal_help_mapper = new QSignalMapper(this);
+  connect(signal_help_mapper, SIGNAL(mapped(const QString &)),
+          this, SLOT(slot_help(const QString &)));
+
+  act = menu->addAction(Q_(HELP_OVERVIEW_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_OVERVIEW_ITEM);
+
+  act = menu->addAction(Q_(HELP_PLAYING_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_PLAYING_ITEM);
+
+  act = menu->addAction(Q_(HELP_TERRAIN_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_TERRAIN_ITEM);
+
+  act = menu->addAction(Q_(HELP_ECONOMY_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_ECONOMY_ITEM);
+
+  act = menu->addAction(Q_(HELP_CITIES_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_CITIES_ITEM);
+
+  act = menu->addAction(Q_(HELP_IMPROVEMENTS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_IMPROVEMENTS_ITEM);
+
+  act = menu->addAction(Q_(HELP_WONDERS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_WONDERS_ITEM);
+
+  act = menu->addAction(Q_(HELP_UNITS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_UNITS_ITEM);
+
+  act = menu->addAction(Q_(HELP_COMBAT_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_COMBAT_ITEM);
+
+  act = menu->addAction(Q_(HELP_ZOC_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_ZOC_ITEM);
+
+  act = menu->addAction(Q_(HELP_GOVERNMENT_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_GOVERNMENT_ITEM);
+
+  act = menu->addAction(Q_(HELP_ECONOMY_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_ECONOMY_ITEM);
+
+  act = menu->addAction(Q_(HELP_DIPLOMACY_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_DIPLOMACY_ITEM);
+
+  act = menu->addAction(Q_(HELP_TECHS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_TECHS_ITEM);
+
+  act = menu->addAction(Q_(HELP_SPACE_RACE_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_SPACE_RACE_ITEM);
+
+  act = menu->addAction(Q_(HELP_IMPROVEMENTS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_IMPROVEMENTS_ITEM);
+
+  act = menu->addAction(Q_(HELP_RULESET_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_RULESET_ITEM);
+
+  act = menu->addAction(Q_(HELP_NATIONS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_NATIONS_ITEM);
+
+  menu->addSeparator();
+
+  act = menu->addAction(Q_(HELP_CONNECTING_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_CONNECTING_ITEM);
+
+  act = menu->addAction(Q_(HELP_CONTROLS_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_CONTROLS_ITEM);
+
+  act = menu->addAction(Q_(HELP_CMA_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_CMA_ITEM);
+
+  act = menu->addAction(Q_(HELP_CHATLINE_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_CHATLINE_ITEM);
+
+  act = menu->addAction(Q_(HELP_WORKLIST_EDITOR_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_WORKLIST_EDITOR_ITEM);
+
+  menu->addSeparator();
+
+  act = menu->addAction(Q_(HELP_LANGUAGES_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_LANGUAGES_ITEM);
+
+  act = menu->addAction(Q_(HELP_COPYING_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_COPYING_ITEM);
+
+  act = menu->addAction(Q_(HELP_ABOUT_ITEM));
+  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
+  signal_help_mapper->setMapping(act, HELP_ABOUT_ITEM);
 
   this->setVisible(false);
 }
@@ -1106,27 +1216,6 @@ void mr_menu::slot_gov_change (const int &target)
 
   gov = government_by_number(target);
   popup_revolution_dialog(gov);
-}
-
-/****************************************************************************
-  Copying item selected from Help menu.
-****************************************************************************/
-void mr_menu::slot_menu_copying()
-{
-  fc_message_box *inf = new fc_message_box;
-  const struct help_item *pitem;
-  int idx;
-  QString s,ds;
-
-  if (!(pitem = get_help_item_spec(Q_(HELP_COPYING_ITEM),
-                                  HELP_ANY , &idx))) {
-    log_error("Failed to find %s entry in help", Q_(HELP_COPYING_ITEM));
-    return;
-  }
-  ds = QString(pitem->text);
-
-  s = QString(Q_(HELP_COPYING_ITEM));
-  inf->info(gui()->central_wdg, s, ds);
 }
 
 /***************************************************************************
@@ -1789,11 +1878,11 @@ void mr_menu::slot_popup_tax_rates()
 }
 
 /****************************************************************
-  Information about Qt version
+  Actions "HELP_*"
 *****************************************************************/
-void mr_menu::slot_about_qt()
+void mr_menu::slot_help(const QString &topic)
 {
-  qapp->aboutQt();
+  popup_help_dialog_typed(Q_(topic.toStdString().c_str()), HELP_ANY);
 }
 
 /****************************************************************
