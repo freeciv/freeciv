@@ -68,6 +68,7 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
     data->task.ptile = task.ptile;
     data->task.act = task.act;
     data->task.tgt = task.tgt;
+    data->task.want = task.want;
 
     tai_send_req(TAI_REQ_WORKER_TASK, pplayer, data);
   }
@@ -346,6 +347,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
     task->ptile = selected->ptile;
     task->act = selected->act;
     task->tgt = target;
+    task->want = selected->want;
 
     return TRUE;
   }
@@ -371,6 +373,7 @@ void tai_req_worker_task_rcv(struct tai_req *req)
     pcity->task_req.ptile = data->task.ptile;
     pcity->task_req.act   = data->task.act;
     pcity->task_req.tgt   = data->task.tgt;
+    pcity->task_req.want  = data->task.want;
 
     /* Send info to observers */
     package_and_send_worker_task(pcity);
