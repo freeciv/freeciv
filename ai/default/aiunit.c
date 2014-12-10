@@ -1492,9 +1492,11 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       }
 
       if ((unit_has_type_flag(aunit, UTYF_CIVILIAN)
-           || unit_has_type_flag(aunit, UTYF_TRADE_ROUTE))
+           || (is_actor_unit(aunit)
+               && !utype_acts_hostile(unit_type(aunit))))
           && 0 == punit->id) {
-        /* We will not build units just to chase caravans. */
+        /* We will not build units just to chase caravans and
+         * ambassadors. */
         continue;
       }
 
