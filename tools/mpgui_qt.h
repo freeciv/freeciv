@@ -46,7 +46,7 @@ class mpgui : public QObject
   private slots:
     void URL_given();
     void row_selected(int, int);
-    void row_download(int, int);
+    void row_download(const QModelIndex &);
 
   private:
     QLineEdit *URLedit;
