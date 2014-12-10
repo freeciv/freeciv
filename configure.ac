@@ -699,10 +699,10 @@ if test x$crosser != xyes ; then
   FC_LD_FLAGS([-pthread], [], [LIBS])
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
     [[return pthread_create(NULL, NULL, NULL, NULL);]])],
-    [AC_DEFINE([HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
+    [AC_DEFINE([FREECIV_HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
     thread_impl=pthreads
     AC_MSG_RESULT([pthreads])
-    AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
+    AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])])
     thread_cond=true
 fi
 
@@ -712,7 +712,7 @@ if test "x$thread_impl" = "xnone" ; then
 
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
     [[CreateThread(NULL, 0, NULL, NULL, 0, NULL);]])],
-    [AC_DEFINE([HAVE_WINTHREADS], [1], [Use Windows threads as thread implementation])
+    [AC_DEFINE([FREECIV_HAVE_WINTHREADS], [1], [Use Windows threads as thread implementation])
     thread_impl=windows
     AC_MSG_RESULT([windows])])
 fi

@@ -18,32 +18,36 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* gen_headers */
+#include "freeciv_config.h"
+
+/* utility */
 #include "support.h" /* bool */
 
-#ifdef HAVE_PTHREAD
+#ifdef FREECIV_HAVE_PTHREAD
 #include <pthread.h>
 
 #define fc_thread      pthread_t
 #define fc_mutex       pthread_mutex_t
 #define fc_thread_cond pthread_cond_t
 
-#elif defined (HAVE_WINTHREADS)
+#elif defined (FREECIV_HAVE_WINTHREADS)
 
 #include <windows.h>
 #define fc_thread      HANDLE *
 #define fc_mutex       HANDLE *
 
-#ifndef HAVE_THREAD_COND
+#ifndef FREECIV_HAVE_THREAD_COND
 #define fc_thread_cond char
-#else  /* HAVE_THREAD_COND */
-#warning HAVE_THREAD_COND defined but we have no real Windows implementation
-#endif /* HAVE_THREAD_COND */
+#else  /* FREECIV_HAVE_THREAD_COND */
+#warning FREECIV_HAVE_THREAD_COND defined but we have no real Windows implementation
+#endif /* FREECIV_HAVE_THREAD_COND */
 
 #else /* No pthreads nor winthreads */
 
 #error "No working thread implementation"
 
-#endif /* HAVE_PTHREAD */
+#endif /* FREECIV_HAVE_PTHREAD */
 
 int fc_thread_start(fc_thread *thread, void (*function) (void *arg), void *arg);
 void fc_thread_wait(fc_thread *thread);

@@ -15,14 +15,14 @@
 #include <fc_config.h>
 #endif
 
-// utility
+/* utility */
 #include "log.h"
 #include "mem.h"
 #include "support.h"
 
 #include "fcthread.h"
 
-#ifdef HAVE_PTHREAD
+#ifdef FREECIV_HAVE_PTHREAD
 
 struct fc_thread_wrap_data {
   void *arg;
@@ -152,7 +152,7 @@ void fc_thread_cond_signal(fc_thread_cond *cond)
   pthread_cond_signal(cond);
 }
 
-#elif defined(HAVE_WINTHREADS)
+#elif defined(FREECIV_HAVE_WINTHREADS)
 
 struct fc_thread_wrap_data {
   void *arg;
@@ -245,16 +245,16 @@ void fc_release_mutex(fc_mutex *mutex)
 
 /* TODO: Windows thread condition variable support.
  *       Currently related functions are always dummy ones below
- *       (see #ifndef HAVE_THREAD_COND) */
+ *       (see #ifndef FREECIV_HAVE_THREAD_COND) */
 
 #else /* No thread implementation */
 
 #error "No working thread implementation"
 
-#endif /* HAVE_PTHREAD || HAVE_WINTHREADS */
+#endif /* FREECIV_HAVE_PTHREAD || FREECIV_HAVE_WINTHREADS */
 
 
-#ifndef HAVE_THREAD_COND
+#ifndef FREECIV_HAVE_THREAD_COND
 
 /* Dummy thread condition variable functions */
 
@@ -282,14 +282,14 @@ void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex)
 void fc_thread_cond_signal(fc_thread_cond *cond)
 {}
 
-#endif /* !HAVE_THREAD_COND */
+#endif /* !FREECIV_HAVE_THREAD_COND */
 
 /**********************************************************************
   Has freeciv thread condition variable implementation
 ***********************************************************************/
 bool has_thread_cond_impl(void)
 {
-#ifdef HAVE_THREAD_COND
+#ifdef FREECIV_HAVE_THREAD_COND
   return TRUE;
 #else
   return FALSE;

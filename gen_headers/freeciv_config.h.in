@@ -23,4 +23,13 @@
 /* Metaserver URL */
 #undef FREECIV_META_URL
 
+/* Use pthreads as thread implementation */
+#undef FREECIV_HAVE_PTHREAD
+
+/* Use Windows threads as thread implementation */
+#undef FREECIV_HAVE_WINTHREADS
+
+/* Has thread condition variable implementation */
+#undef FREECIV_HAVE_THREAD_COND
+
 #endif /* FC__FREECIV_CONFIG_H */
