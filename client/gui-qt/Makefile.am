@@ -23,6 +23,7 @@ MOC_FILES = \
 	meta_optiondlg.cpp	\
 	meta_citydlg.cpp	\
 	meta_cityrep.cpp	\
+	meta_helpdlg.cpp	\
 	meta_plrdlg.cpp		\
 	meta_diplodlg.cpp	\
 	meta_spaceshipdlg.cpp	\

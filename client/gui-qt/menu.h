@@ -138,8 +138,7 @@ private slots:
   void quit_game();
 
   /* help menu */
-  void slot_menu_copying();
-  void slot_about_qt();
+  void slot_help(const QString &topic);
 
   /*used by work menu*/
   void slot_build_city();
@@ -232,6 +231,7 @@ private:
   int gov_count;
   int gov_target;
   QSignalMapper *signal_gov_mapper;
+  QSignalMapper *signal_help_mapper;
 };
 
 #endif /* FC__MENU_H */
