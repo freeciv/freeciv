@@ -491,7 +491,8 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
       return TB_IGNORE;
     }
   } else if (is_non_allied_city_tile(ptile, param->owner)) {
-    /* UTYF_TRADE_ROUTE units can travel to, but not through, enemy cities.
+    /* Units that can establish a trade route, enter a market place or
+     * establish an embassy can travel to, but not through, enemy cities.
      * FIXME: UTYF_HELP_WONDER units cannot.  */
     return TB_DONT_LEAVE;
   } else if (is_non_allied_unit_tile(ptile, param->owner)) {
@@ -794,10 +795,12 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
   fc_assert(parameter->omniscience == FALSE);
 
   parameter->get_EC = get_EC;
-  if (is_attack_unit(punit) || is_actor_unit(punit)) {
+  if (is_attack_unit(punit)
+      || (is_actor_unit(punit)
+          && utype_acts_hostile(unit_type(punit)))) {
     parameter->get_TB = get_TB_aggr;
-  } else if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
-             || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+  } else if (is_actor_unit(punit)
+             && !utype_acts_hostile(unit_type(punit))) {
     parameter->get_TB = get_TB_caravan;
   } else {
     parameter->get_TB = no_fights_or_unknown_goto;
