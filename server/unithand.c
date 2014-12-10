@@ -1775,8 +1775,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /*** Phase 2: Special abilities checks ***/
 
-  /* Diplomats. Pop up a diplomat action dialog in the client.
-   * If the AI has used a goto to send a diplomat to a target do not
+  /* Actors. Pop up an action selection dialog in the client.
+   * If the AI has used a goto to send an actor to a target do not
    * pop up a dialog in the client.
    * For tiles occupied by allied cities or units, keep moving if
    * move_diplomat_city tells us to, or if the unit is on goto and the tile
