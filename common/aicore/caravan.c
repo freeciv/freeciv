@@ -61,7 +61,7 @@ void caravan_parameter_init_from_unit(struct caravan_parameter *parameter,
       && !unit_can_do_action(caravan, ACTION_TRADE_ROUTE)) {
     parameter->consider_windfall = FALSE;
   }
-  if (!unit_has_type_flag(caravan, UTYF_HELP_WONDER)) {
+  if (!unit_can_do_action(caravan, ACTION_HELP_WONDER)) {
     parameter->consider_wonders = FALSE;
   }
 }

@@ -2146,7 +2146,7 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
 
   if (!unit_can_do_action(punit, ACTION_TRADE_ROUTE)
       && !unit_can_do_action(punit, ACTION_MARKETPLACE)
-      && !unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+      && !unit_can_do_action(punit, ACTION_HELP_WONDER)) {
     /* we only want units that can establish trade, enter marketplace or
      * help build wonders */
     return;
@@ -2539,7 +2539,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     return;
   } else if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)
              || unit_can_do_action(punit, ACTION_MARKETPLACE)
-             || unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+             || unit_can_do_action(punit, ACTION_HELP_WONDER)) {
     TIMING_LOG(AIT_CARAVAN, TIMER_START);
     dai_manage_caravan(ait, pplayer, punit);
     TIMING_LOG(AIT_CARAVAN, TIMER_STOP);
