@@ -2735,7 +2735,7 @@ void key_unit_build_city(void)
 void key_unit_build_wonder(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+    if (unit_can_do_action(punit, ACTION_HELP_WONDER)) {
       request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;
