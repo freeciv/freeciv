@@ -79,23 +79,27 @@ a game is in progress, there will be one server program running, and as many
 client programs as there are human players.  The server does not use a gui,
 but the clients do.  The clients come in many flavors:
 
-freeciv-gtk2:  This uses the X Window System along with GTK+ 2 libraries.  To
-  install, see section 1a of the INSTALL document.  This client is better
-  supported and more developed than the others, as such it is considered to be
-  the default interface throughout the rest of this document.
+freeciv-gtk2:  This uses the GTK+ 2 libraries. To install, see section 1a of
+  the INSTALL document.
+  This client is better supported and more developed than the others, as such
+  it is considered to be the default interface throughout the rest of this
+  document.
 
-freeciv-gtk3:  This uses the X Window System along with GTK+ 3 libraries.  To
-  install, see section 1a of the INSTALL document. This client will eventually
-  replace freeciv-gtk2.
+freeciv-gtk3:  This uses the GTK+ 3 libraries. To install, see section 1b of
+  the INSTALL document.
+  This client will eventually replace freeciv-gtk2.
 
-freeciv-qt:  This uses the QT library from TrollTech.  This client is currently
-  in an experimental state.
+freeciv-qt:  This uses the QT library. Development of this client has recently
+  reached the state where it's considered generally usable, but it still lacks
+  number of features gtk-clients have.
 
-freeciv-sdl:  This uses Simple DirectMedia Layer libraries.  This client is
-  currently unmaintained but is usable.
+freeciv-sdl:  This uses Simple DirectMedia Layer libraries version 1.2.
+  This client is currently unmaintained but is usable.
 
 freeciv-xaw:  This uses the X Window System along with its Athena Widget
- interface.  It is somewhat minimalistic compared to the others.
+  interface.
+  This client, somewhat minimalistic compared to the others, is currently
+  unmaintained.
 
 
 Starting a game:
@@ -261,7 +265,7 @@ Server:
 
 And the game is on!
 
-  NOTE: In this version of Freeciv, the GTK and SDL clients have the
+  NOTE: In this version of Freeciv, the GTK, Qt, and SDL clients have the
   capability to automagically start a freeciv-server session when the user
   selects "Start New Game" from the main menu. This reduces the steps
   needed to get started playing a game of Freeciv. On the other hand,
