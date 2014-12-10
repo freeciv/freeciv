@@ -262,10 +262,14 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
 /* Fake action representing any action at all. */
 #define ACTION_ANY ACTION_COUNT
 
+/* Fake action representing any hostile action. */
+#define ACTION_HOSTILE ACTION_COUNT + 1
+
 /* Cache of what generalized (ruleset defined) action enabler controlled
  * actions units of each type can perform. Checking if any action can be
- * done at all is done via the fake action ACTION_ANY. */
-static bv_unit_types unit_can_act_cache[ACTION_ANY + 1];
+ * done at all is done via the fake action ACTION_ANY. If any hostile
+ * action can be performed is done via ACTION_HOSTILE. */
+static bv_unit_types unit_can_act_cache[ACTION_HOSTILE + 1];
 
 /**************************************************************************
   Cache what generalized (ruleset defined) action enabler controlled
@@ -286,6 +290,9 @@ static void unit_can_act_cache_set(struct unit_type *putype)
                                            &(enabler->actor_reqs))) {
         BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
         BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
+        if (action_is_hostile(enabler->action)) {
+          BV_SET(unit_can_act_cache[ACTION_HOSTILE], utype_index(putype));
+        }
       }
   } action_enablers_iterate_end;
 }
@@ -307,6 +314,15 @@ bool utype_can_do_action(const struct unit_type *putype,
                          const int action_id)
 {
   return BV_ISSET(unit_can_act_cache[action_id], utype_index(putype));
+}
+
+/**************************************************************************
+  Return TRUE iff units of this type can do hostile actions controlled by
+  generalized (ruleset defined) action enablers.
+**************************************************************************/
+bool utype_acts_hostile(const struct unit_type *putype)
+{
+  return utype_can_do_action(putype, ACTION_HOSTILE);
 }
 
 /* Cache if any action at all may be possible when the actor unit's state

@@ -31,7 +31,8 @@ static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
-                                 const char *ui_name);
+                                 const char *ui_name,
+                                 bool hostile);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct player *actor_player,
@@ -59,59 +60,73 @@ void actions_init(void)
   /* Hard code the actions */
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
       /* TRANS: _Poison City (3% chance of success). */
-      N_("%sPoison City%s"));
+      N_("%sPoison City%s"),
+      TRUE);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
                  /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
-                 N_("%sSabotage Enemy Unit%s"));
+                 N_("%sSabotage Enemy Unit%s"),
+                 TRUE);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
                  /* TRANS: _Bribe Enemy Unit (3% chance of success). */
-                 N_("%sBribe Enemy Unit%s"));
+                 N_("%sBribe Enemy Unit%s"),
+                 TRUE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
                  /* TRANS: _Sabotage City (3% chance of success). */
-                 N_("%sSabotage City%s"));
+                 N_("%sSabotage City%s"),
+                 TRUE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
                  /* TRANS: Industrial _Sabotage (3% chance of success). */
-                 N_("Industrial %sSabotage%s"));
+                 N_("Industrial %sSabotage%s"),
+                 TRUE);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
                  /* TRANS: Incite a _Revolt (3% chance of success). */
-                 N_("Incite a %sRevolt%s"));
+                 N_("Incite a %sRevolt%s"),
+                 TRUE);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
                  /* TRANS: Establish _Embassy (100% chance of success). */
-                 N_("Establish %sEmbassy%s"));
+                 N_("Establish %sEmbassy%s"),
+                 FALSE);
   actions[ACTION_SPY_STEAL_TECH] =
       action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
                  /* TRANS: Steal _Technology (3% chance of success). */
-                 N_("Steal %sTechnology%s"));
+                 N_("Steal %sTechnology%s"),
+                 TRUE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
                  /* TRANS: Indus_trial Espionage (3% chance of success). */
-                 N_("Indus%strial Espionage%s"));
+                 N_("Indus%strial Espionage%s"),
+                 TRUE);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
                  /* TRANS: _Investigate City (100% chance of success). */
-                 N_("%sInvestigate City%s"));
+                 N_("%sInvestigate City%s"),
+                 TRUE);
   actions[ACTION_SPY_STEAL_GOLD] =
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
                  /* TRANS: Steal _Gold (100% chance of success). */
-                 N_("Steal %sGold%s"));
+                 N_("Steal %sGold%s"),
+                 TRUE);
   actions[ACTION_TRADE_ROUTE] =
       action_new(ACTION_TRADE_ROUTE, ATK_CITY,
                  /* TRANS: Establish Trade _Route (100% chance of success). */
-                 N_("Establish Trade %sRoute%s"));
+                 N_("Establish Trade %sRoute%s"),
+                 FALSE);
   actions[ACTION_MARKETPLACE] =
       action_new(ACTION_MARKETPLACE, ATK_CITY,
                  /* TRANS: Enter _Marketplace (100% chance of success). */
-                 N_("Enter %sMarketplace%s"));
+                 N_("Enter %sMarketplace%s"),
+                 FALSE);
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
                  /* TRANS: Help build _Wonder (100% chance of success). */
-                 N_("Help build %sWonder%s"));
+                 N_("Help build %sWonder%s"),
+                 FALSE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -142,7 +157,8 @@ void actions_free(void)
 **************************************************************************/
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
-                                 const char *ui_name)
+                                 const char *ui_name,
+                                 bool hostile)
 {
   struct action *action;
 
@@ -152,6 +168,7 @@ static struct action *action_new(enum gen_action id,
   action->actor_kind = AAK_UNIT;
   action->target_kind = target_kind;
   sz_strlcpy(action->ui_name, ui_name);
+  action->hostile = hostile;
 
   return action;
 }
@@ -184,6 +201,16 @@ enum action_target_kind action_get_target_kind(int action_id)
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->target_kind;
+}
+
+/**************************************************************************
+  Returns TRUE iff the specified action is hostile.
+**************************************************************************/
+bool action_is_hostile(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  return actions[action_id]->hostile;
 }
 
 /**************************************************************************
