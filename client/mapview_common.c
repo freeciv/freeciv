@@ -2234,8 +2234,8 @@ void move_unit_map_canvas(struct unit *punit,
     anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
     timer_start(anim_timer);
 
-    tuw = tileset_unit_width(tileset);
-    tuh = tileset_unit_height(tileset);
+    tuw = tileset_unit_width(tileset) * map_zoom;
+    tuh = tileset_unit_height(tileset) * map_zoom;
 
     do {
       int new_x, new_y;
