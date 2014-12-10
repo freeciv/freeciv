@@ -684,12 +684,27 @@ pft_enable_default_actions(struct pf_parameter *parameter)
   }
   if (is_actor_unit_type(parameter->utype)) {
     /* FIXME: it should consider action enablers. */
-    parameter->actions |= PF_AA_DIPLOMAT;
-    parameter->get_action = pf_get_action;
-    parameter->is_action_possible = pf_action_possible;
-  }
-  if (utype_has_flag(parameter->utype, UTYF_TRADE_ROUTE)) {
-    parameter->actions |= PF_AA_TRADE_ROUTE;
+    if (utype_can_do_action(parameter->utype, ACTION_TRADE_ROUTE)
+        || utype_can_do_action(parameter->utype, ACTION_MARKETPLACE)) {
+      parameter->actions |= PF_AA_TRADE_ROUTE;
+    }
+    if (utype_can_do_action(parameter->utype, ACTION_SPY_POISON)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_BRIBE_UNIT)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_CITY)
+        || utype_can_do_action(parameter->utype,
+                               ACTION_SPY_TARGETED_SABOTAGE_CITY)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_INCITE_CITY)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_TECH)
+        || utype_can_do_action(parameter->utype,
+                               ACTION_SPY_TARGETED_STEAL_TECH)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_GOLD)
+        || utype_can_do_action(parameter->utype,
+                               ACTION_SPY_INVESTIGATE_CITY)
+        || utype_can_do_action(parameter->utype,
+                               ACTION_ESTABLISH_EMBASSY)) {
+      parameter->actions |= PF_AA_DIPLOMAT;
+    }
     parameter->get_action = pf_get_action;
     parameter->is_action_possible = pf_action_possible;
   }
