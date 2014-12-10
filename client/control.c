@@ -2812,7 +2812,9 @@ void key_unit_patrol(void)
 void key_unit_trade_route(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)) {
+    /* TODO: Is falling back on ACTION_MARKETPLACE if not able to establish
+     * a trade route trade a good idea or an unplecant surprice? */
+    if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)) {
       request_unit_caravan_action(punit, ACTION_TRADE_ROUTE);
     }
   } unit_list_iterate_end;
