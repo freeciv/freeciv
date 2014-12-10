@@ -1596,6 +1596,11 @@ reqs    =
       "Tech", "Gunpowder", "Player"
       "Tech", "Guerilla Warfare", "World"
     }
+nreqs  =
+    { "type", "name", "range"
+      "Nation", "Barbarian", "Player"
+      "Nation", "Pirate", "Player"
+    }
 
 [effect_partisan_democracy]
 type    = "Inspire_Partisans"
@@ -1606,6 +1611,11 @@ reqs    =
       "Tech", "Communism", "Player"
       "Tech", "Gunpowder", "Player"
       "Tech", "Guerilla Warfare", "World"
+    }
+nreqs  =
+    { "type", "name", "range"
+      "Nation", "Barbarian", "Player"
+      "Nation", "Pirate", "Player"
     }
 
 [effect_bad_lux_anarchy]

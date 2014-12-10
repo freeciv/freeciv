@@ -689,7 +689,7 @@ reqs	=
       "Gov", "Democracy", "Player"
     }
 
-[effect_partisan_0]
+[effect_partisans_communism]
 type    = "Inspire_Partisans"
 value   = 1
 reqs	=
@@ -699,8 +699,13 @@ reqs	=
       "Tech", "Gunpowder", "Player"
       "Tech", "Guerilla Warfare", "World"
     }
+nreqs  =
+    { "type", "name", "range"
+      "Nation", "Barbarian", "Player"
+      "Nation", "Pirate", "Player"
+    }
 
-[effect_partisan_1]
+[effect_partisans_democracy]
 type    = "Inspire_Partisans"
 value   = 1
 reqs	=
@@ -709,6 +714,11 @@ reqs	=
       "Tech", "Communism", "Player"
       "Tech", "Gunpowder", "Player"
       "Tech", "Guerilla Warfare", "World"
+    }
+nreqs  =
+    { "type", "name", "range"
+      "Nation", "Barbarian", "Player"
+      "Nation", "Pirate", "Player"
     }
 
 [effect_airport]
