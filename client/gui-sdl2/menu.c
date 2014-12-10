@@ -57,10 +57,10 @@
 #include "menu.h"
 
 extern struct widget *pOptions_Button;
-  
+
 static struct widget *pBeginOrderWidgetList;
 static struct widget *pEndOrderWidgetList;
-  
+
 static struct widget *pOrder_Automate_Unit_Button;
 static struct widget *pOrder_Build_AddTo_City_Button;
 static struct widget *pOrder_Mine_Button;
@@ -68,14 +68,14 @@ static struct widget *pOrder_Irrigation_Button;
 static struct widget *pOrder_Road_Button;
 static struct widget *pOrder_Transform_Button;
 static struct widget *pOrder_Trade_Button;
-  
+
 #define local_show(ID)                                                \
   clear_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID, SCAN_FORWARD), \
-	      WF_HIDDEN)
+              WF_HIDDEN)
 
 #define local_hide(ID)                                             \
   set_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID, SCAN_FORWARD), \
-	    WF_HIDDEN )
+            WF_HIDDEN )
 
 
 /**************************************************************************
@@ -254,6 +254,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       break;
     }
   }
+
   return -1;
 }
 
@@ -308,7 +309,7 @@ static void set_new_order_widget_start_pos(void)
   w = (pInfoWind->dst->dest_rect.x - adj_size(10)) - xx;
 
   if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
-    if(pMiniMap->size.h == pInfoWind->size.h) {
+    if (pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
       w = main_window_width();
       yy = pInfoWind->size.h;
@@ -335,12 +336,11 @@ static void set_new_order_widget_start_pos(void)
       }
     }
   }
-    
+
   count_on_line = w / (pTmpWidget->size.w + adj_size(5));
 
   /* find how many to reposition */
   while (TRUE) {
-
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
       count++;
     }
@@ -350,17 +350,14 @@ static void set_new_order_widget_start_pos(void)
     }
 
     pTmpWidget = pTmpWidget->next;
-
   }
 
   pTmpWidget = pBeginOrderWidgetList;
 
   if (count - count_on_line > 0) {
-
     lines = (count + (count_on_line - 1)) / count_on_line;
-  
-    count = count_on_line - ((count_on_line * lines) - count);
 
+    count = count_on_line - ((count_on_line * lines) - count);
   }
 
   sx = xx + (w - count * (pTmpWidget->size.w + adj_size(5))) / 2;
@@ -368,9 +365,7 @@ static void set_new_order_widget_start_pos(void)
   sy = pTmpWidget->dst->surface->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
 
   while (TRUE) {
-
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
-
       pTmpWidget->size.x = sx;
       pTmpWidget->size.y = sy;
 
@@ -384,7 +379,6 @@ static void set_new_order_widget_start_pos(void)
 
 	sy = pTmpWidget->dst->surface->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
       }
-
     }
 
     if (pTmpWidget == pEndOrderWidgetList) {
@@ -392,7 +386,6 @@ static void set_new_order_widget_start_pos(void)
     }
 
     pTmpWidget = pTmpWidget->next;
-
   }
 }
 
@@ -409,7 +402,7 @@ void create_units_order_widgets(void)
   size_t len;
   struct road_type *proad;
   struct road_type *prail;
-  
+
   /* No orders */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("No Orders"),
               /* TRANS: "Space" refers to the space bar on a keyboard. */
@@ -422,8 +415,8 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_SPACE;
   add_to_gui_list(ID_UNIT_ORDER_DONE, pBuf);
-  /* --------- */  
-  
+  /* --------- */
+
   pEndOrderWidgetList = pBuf;
 
   /* Wait */
@@ -436,7 +429,7 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_w;
   add_to_gui_list(ID_UNIT_ORDER_WAIT, pBuf);
-  /* --------- */  
+  /* --------- */
 
   /* Explode Nuclear */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Explode Nuclear"), "Shift+N");
@@ -474,7 +467,7 @@ void create_units_order_widgets(void)
   pBuf->key = SDLK_d;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_DISBAND, pBuf);
-  /* --------- */  
+  /* --------- */
 
   /* Upgrade */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Upgrade Unit"), "Shift+U");
@@ -514,7 +507,7 @@ void create_units_order_widgets(void)
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_RETURN, pBuf);
   /* --------- */
-  
+
   /* Goto City */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Go to City"), "T");
   pBuf = create_themeicon(pTheme->OGotoCity_Icon, Main.gui,
@@ -538,7 +531,7 @@ void create_units_order_widgets(void)
   pBuf->key = SDLK_t;
   add_to_gui_list(ID_UNIT_ORDER_AIRLIFT, pBuf);
   /* --------- */
-  
+
   /* Goto location */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Go to Tile"), "G");
   pBuf = create_themeicon(pTheme->OGoto_Icon, Main.gui,
@@ -644,10 +637,10 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_a;
   add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, pBuf);
-  
+
   pOrder_Automate_Unit_Button = pBuf;
   /* --------- */    
-  
+
   /* Wake Up Others */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Unsentry All On Tile"), "Shift+S");
   pBuf = create_themeicon(pTheme->OWakeUp_Icon, Main.gui,
@@ -830,7 +823,7 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_m;
   add_to_gui_list(ID_UNIT_ORDER_MINE, pBuf);
-  
+
   pOrder_Mine_Button = pBuf;
   /* --------- */    
 
@@ -844,11 +837,11 @@ void create_units_order_widgets(void)
   pBuf->key = SDLK_i;
   pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   add_to_gui_list(ID_UNIT_ORDER_IRRIGATE, pBuf);
-  
+
   pOrder_Irrigation_Button = pBuf;
   /* --------- */    
 
-  /* Form Trade route */
+  /* Establish Trade route */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Establish Trade Route"), "R");
   pBuf = create_themeicon(pTheme->OTrade_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
@@ -891,8 +884,8 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_ROAD, pBuf);
 
   pOrder_Road_Button = pBuf;  
-  /* --------- */  
-  
+  /* --------- */
+
   /* Help Build Wonder */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Help Build Wonder"), "B");
   pBuf = create_themeicon(pTheme->OWonder_Icon, Main.gui,
@@ -924,7 +917,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_BUILD_CITY, pBuf);
 
   pOrder_Build_AddTo_City_Button = pBuf;
-  /* --------- */  
+  /* --------- */
 
   pBeginOrderWidgetList = pBuf;
 
@@ -937,7 +930,7 @@ void create_units_order_widgets(void)
 void delete_units_order_widgets(void)
 {
   del_group(pBeginOrderWidgetList, pEndOrderWidgetList);
-  
+
   pBeginOrderWidgetList = NULL;
   pEndOrderWidgetList = NULL;
   SDL_Client_Flags &= ~CF_ORDERS_WIDGETS_CREATED;
@@ -960,7 +953,6 @@ void undraw_order_widgets(void)
   struct widget *pTmpWidget = pBeginOrderWidgetList;
 
   while (TRUE) {
-
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN) && (pTmpWidget->gfx)) {
       widget_undraw(pTmpWidget);
       widget_mark_dirty(pTmpWidget);
@@ -982,7 +974,6 @@ void free_bcgd_order_widgets(void)
   struct widget *pTmpWidget = pBeginOrderWidgetList;
 
   while (TRUE) {
-
     FREESURFACE(pTmpWidget->gfx);
 
     if (pTmpWidget == pEndOrderWidgetList) {
@@ -992,7 +983,6 @@ void free_bcgd_order_widgets(void)
     pTmpWidget = pTmpWidget->next;
   }
 }
-
 
 /* ============================== Native =============================== */
 
@@ -1014,16 +1004,16 @@ void real_menus_update(void)
   struct unit_list *punits = NULL;
   struct unit *pUnit = NULL;
   static char cBuf[128];
-  
-  if ((C_S_RUNNING != client_state()) ||
-      (get_client_page() != PAGE_GAME)) {
+
+  if ((C_S_RUNNING != client_state())
+      || (get_client_page() != PAGE_GAME)) {
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
-	
+
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
       set_wflag(pOptions_Button, WF_HIDDEN);
-      hide_minimap_window_buttons();            
-      hide_unitinfo_window_buttons();      
+      hide_minimap_window_buttons();
+      hide_unitinfo_window_buttons();
     }
 
     if (SDL_Client_Flags & CF_ORDERS_WIDGETS_CREATED) {
@@ -1031,17 +1021,16 @@ void real_menus_update(void)
     }
 
   } else if (NULL == client.conn.playing) {
-    
     /* running state, but AI is playing */
-    
+
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
       /* show options button */
       clear_wflag(pOptions_Button, WF_HIDDEN);
       widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
-      /* show minimap buttons and unitinfo buttons */ 
+      /* show minimap buttons and unitinfo buttons */
       show_minimap_window_buttons();
-      show_unitinfo_window_buttons();      
+      show_unitinfo_window_buttons();
       /* disable minimap buttons and unitinfo buttons */
       disable_minimap_window_buttons();
       disable_unitinfo_window_buttons();
@@ -1050,13 +1039,12 @@ void real_menus_update(void)
     return;
 
   } else {
-      
     /* running state with human player */
-    
+
     if (get_wstate(pEndOrderWidgetList) == FC_WS_DISABLED) {
       enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
     }
-    
+
     if (counter) {
       undraw_order_widgets();
     }
@@ -1068,9 +1056,9 @@ void real_menus_update(void)
       clear_wflag(pOptions_Button, WF_HIDDEN);
       widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
-      
+
       /* show minimap buttons and unitinfo buttons */
-      show_minimap_window_buttons();      
+      show_minimap_window_buttons();
       show_unitinfo_window_buttons();
 
       counter = 0;
@@ -1141,13 +1129,13 @@ void real_menus_update(void)
       } else {
 	set_wflag(pOrder_Road_Button, WF_HIDDEN);
       }
-      
-	/* unit_can_est_trade_route_here(pUnit) */
+
+      /* unit_can_est_trade_route_here(pUnit) */
       if (pCity && unit_has_type_flag(pUnit, UTYF_TRADE_ROUTE)
           && (pHomecity = game_city_by_number(pUnit->homecity))
           && can_cities_trade(pHomecity, pCity)) {
-	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity);
-	
+        int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity);
+
         if (can_establish_trade_route(pHomecity, pCity)) {
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("Establish Trade Route With %s ( %d R&G + %d trade ) (R)"),
@@ -1170,80 +1158,79 @@ void real_menus_update(void)
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
         time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit), NULL);
 
-        if (!strcmp(terrain_rule_name(pTerrain), "Forest") ||
-          !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
-	  /* set Crop Forest Icon */
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-			_("Cut Down to"),
-                terrain_name_translation(pTerrain->irrigation_result)
-			,"I", time , PL_("turn", "turns", time));
-	  pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
-        }	else if (!strcmp(terrain_rule_name(pTerrain), "Swamp")) {
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-			_("Irrigate to"),
-                terrain_name_translation(pTerrain->irrigation_result)
-			,"I", time , PL_("turn", "turns", time));
-	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
+        if (!strcmp(terrain_rule_name(pTerrain), "Forest")
+            || !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
+          /* set Crop Forest Icon */
+          fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
+                      _("Cut Down to"),
+                      terrain_name_translation(pTerrain->irrigation_result),
+                      "I", time , PL_("turn", "turns", time));
+          pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
+        } else if (!strcmp(terrain_rule_name(pTerrain), "Swamp")) {
+          fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
+                      _("Irrigate to"),
+                      terrain_name_translation(pTerrain->irrigation_result),
+                      "I", time , PL_("turn", "turns", time));
+          pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
         } else {
-	  /* set Irrigation Icon */
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Build Irrigation"), "I", time , 
-			PL_("turn", "turns", time));
-	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
-	}
+          /* set Irrigation Icon */
+          fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+                      _("Build Irrigation"), "I", time , 
+                      PL_("turn", "turns", time));
+          pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
+        }
 
         copy_chars_to_string16(pOrder_Irrigation_Button->info_label, cBuf);
-	clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
+        clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
+        set_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
         time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), NULL);
 
-	/* FIXME: THIS CODE IS WRONG */
-   if (!strcmp(terrain_rule_name(pTerrain), "Forest")) {  
+        /* FIXME: THIS CODE IS WRONG */
+        if (!strcmp(terrain_rule_name(pTerrain), "Forest")) {
 	  /* set Irrigate Icon -> make swamp */
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-			_("Irrigate to"),
-			terrain_name_translation(pTerrain->mining_result)
-			,"M", time , PL_("turn", "turns", time));
-	  pOrder_Mine_Button->theme = pTheme->OIrrigation_Icon;
-   } else if (!strcmp(terrain_rule_name(pTerrain), "Jungle") ||
-              !strcmp(terrain_rule_name(pTerrain), "Plains") ||
-              !strcmp(terrain_rule_name(pTerrain), "Grassland") ||
-              !strcmp(terrain_rule_name(pTerrain), "Swamp")) {
-	  /* set Forest Icon -> plant Forrest*/
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Plant Forest"), "M", time , 
-			PL_("turn", "turns", time));
-	  pOrder_Mine_Button->theme = pTheme->OPlantForest_Icon;
-   
-   } else {
-	  /* set Mining Icon */
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Build Mine"), "M", time , 
-			PL_("turn", "turns", time));
-	  pOrder_Mine_Button->theme = pTheme->OMine_Icon;
-	}
+          fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
+                      _("Irrigate to"),
+                      terrain_name_translation(pTerrain->mining_result),
+                      "M", time , PL_("turn", "turns", time));
+          pOrder_Mine_Button->theme = pTheme->OIrrigation_Icon;
+        } else if (!strcmp(terrain_rule_name(pTerrain), "Jungle")
+                   || !strcmp(terrain_rule_name(pTerrain), "Plains")
+                   || !strcmp(terrain_rule_name(pTerrain), "Grassland")
+                   || !strcmp(terrain_rule_name(pTerrain), "Swamp")) {
+          /* set Forest Icon -> plant Forrest*/
+          fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+                      _("Plant Forest"), "M", time,
+                      PL_("turn", "turns", time));
+          pOrder_Mine_Button->theme = pTheme->OPlantForest_Icon;
+
+        } else {
+          /* set Mining Icon */
+          fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
+                      _("Build Mine"), "M", time,
+                      PL_("turn", "turns", time));
+          pOrder_Mine_Button->theme = pTheme->OMine_Icon;
+        }
 
         copy_chars_to_string16(pOrder_Mine_Button->info_label, cBuf);
-	clear_wflag(pOrder_Mine_Button, WF_HIDDEN);
+        clear_wflag(pOrder_Mine_Button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Mine_Button, WF_HIDDEN);
+        set_wflag(pOrder_Mine_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
         time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit), NULL);
-	fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-	  _("Transform to"),
-	  terrain_name_translation(pTerrain->transform_result),
-			"M", time , 
-			PL_("turn", "turns", time));
+        fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
+                    _("Transform to"),
+                    terrain_name_translation(pTerrain->transform_result),
+                    "M", time, PL_("turn", "turns", time));
         copy_chars_to_string16(pOrder_Transform_Button->info_label, cBuf);
-	clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
+        clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Transform_Button, WF_HIDDEN);
+        set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
       pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, unit_tile(pUnit));
@@ -1267,46 +1254,46 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_POLLUTION)) {
-	local_show(ID_UNIT_ORDER_POLLUTION);
+        local_show(ID_UNIT_ORDER_POLLUTION);
       } else {
-	local_hide(ID_UNIT_ORDER_POLLUTION);
+        local_hide(ID_UNIT_ORDER_POLLUTION);
       }
 
       if (can_unit_paradrop(pUnit)) {
-	local_show(ID_UNIT_ORDER_PARADROP);
+        local_show(ID_UNIT_ORDER_PARADROP);
       } else {
-	local_hide(ID_UNIT_ORDER_PARADROP);
+        local_hide(ID_UNIT_ORDER_PARADROP);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_FALLOUT)) {
-	local_show(ID_UNIT_ORDER_FALLOUT);
+        local_show(ID_UNIT_ORDER_FALLOUT);
       } else {
-	local_hide(ID_UNIT_ORDER_FALLOUT);
+        local_hide(ID_UNIT_ORDER_FALLOUT);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_SENTRY)) {
-	local_show(ID_UNIT_ORDER_SENTRY);
+        local_show(ID_UNIT_ORDER_SENTRY);
       } else {
-	local_hide(ID_UNIT_ORDER_SENTRY);
+        local_hide(ID_UNIT_ORDER_SENTRY);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_PILLAGE)) {
-	local_show(ID_UNIT_ORDER_PILLAGE);
+        local_show(ID_UNIT_ORDER_PILLAGE);
       } else {
-	local_hide(ID_UNIT_ORDER_PILLAGE);
+        local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
       if (pCity && can_unit_change_homecity(pUnit)
-	&& pCity->id != pUnit->homecity) {
-	local_show(ID_UNIT_ORDER_HOMECITY);
+          && pCity->id != pUnit->homecity) {
+        local_show(ID_UNIT_ORDER_HOMECITY);
       } else {
-	local_hide(ID_UNIT_ORDER_HOMECITY);
+        local_hide(ID_UNIT_ORDER_HOMECITY);
       }
 
       if (pUnit->client.occupied) {
-	local_show(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
+        local_show(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
       } else {
-	local_hide(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
+        local_hide(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
       }
 
       if (units_can_load(punits)) {
@@ -1320,38 +1307,38 @@ void real_menus_update(void)
       } else {
         local_hide(ID_UNIT_ORDER_UNLOAD);
       }
-      
+
       if (is_unit_activity_on_tile(ACTIVITY_SENTRY, unit_tile(pUnit))) {
-	local_show(ID_UNIT_ORDER_WAKEUP_OTHERS);
+        local_show(ID_UNIT_ORDER_WAKEUP_OTHERS);
       } else {
-	local_hide(ID_UNIT_ORDER_WAKEUP_OTHERS);
+        local_hide(ID_UNIT_ORDER_WAKEUP_OTHERS);
       }
 
       if (can_unit_do_autosettlers(pUnit)) {
-	if (unit_has_type_flag(pUnit, UTYF_SETTLERS)) {
-	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoSett_Icon) {
-	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
-	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoSett_Icon;
+        if (unit_has_type_flag(pUnit, UTYF_SETTLERS)) {
+          if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoSett_Icon) {
+            fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
+            pOrder_Automate_Unit_Button->theme = pTheme->OAutoSett_Icon;
             copy_chars_to_string16(pOrder_Automate_Unit_Button->info_label,
                                    cBuf);
-	  }
-	} else {
-	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoAtt_Icon) {
-	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Attack"), "A");
-	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoAtt_Icon;
+          }
+        } else {
+          if (pOrder_Automate_Unit_Button->theme != pTheme->OAutoAtt_Icon) {
+            fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Attack"), "A");
+            pOrder_Automate_Unit_Button->theme = pTheme->OAutoAtt_Icon;
             copy_chars_to_string16(pOrder_Automate_Unit_Button->info_label,
                                    cBuf);
-	  }
-	}
-	clear_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);
+          }
+        }
+        clear_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);
+        set_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_EXPLORE)) {
-	local_show(ID_UNIT_ORDER_AUTO_EXPLORE);
+        local_show(ID_UNIT_ORDER_AUTO_EXPLORE);
       } else {
-	local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);
+        local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);
       }
 
       {
@@ -1417,30 +1404,29 @@ void real_menus_update(void)
       }
 
      if (can_unit_act_against_own_tile(pUnit)) {
-	local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
+       local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
       } else {
-	local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
+       local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
       }
 
       if (unit_has_type_flag(pUnit, UTYF_NUCLEAR)) {
-	local_show(ID_UNIT_ORDER_NUKE);
+        local_show(ID_UNIT_ORDER_NUKE);
       } else {
-	local_hide(ID_UNIT_ORDER_NUKE);
+        local_hide(ID_UNIT_ORDER_NUKE);
       }
 
-/*      if (pCity && has_city_airport(pCity) && pCity->airlift) {*/
-      if (pCity && pCity->airlift) {      
-	local_show(ID_UNIT_ORDER_AIRLIFT);
-	hide(ID_UNIT_ORDER_GOTO_CITY);
+      if (pCity && pCity->airlift) {
+        local_show(ID_UNIT_ORDER_AIRLIFT);
+        hide(ID_UNIT_ORDER_GOTO_CITY);
       } else {
-	local_show(ID_UNIT_ORDER_GOTO_CITY);
-	local_hide(ID_UNIT_ORDER_AIRLIFT);
+        local_show(ID_UNIT_ORDER_GOTO_CITY);
+        local_hide(ID_UNIT_ORDER_AIRLIFT);
       }
 
       if (pCity && can_upgrade_unittype(client.conn.playing, unit_type(pUnit))) {
-	local_show(ID_UNIT_ORDER_UPGRADE);
+        local_show(ID_UNIT_ORDER_UPGRADE);
       } else {
-	local_hide(ID_UNIT_ORDER_UPGRADE);
+        local_hide(ID_UNIT_ORDER_UPGRADE);
       }
 
       if (unit_can_convert(pUnit)) {
@@ -1454,7 +1440,7 @@ void real_menus_update(void)
 
     } else {
       if (counter) {
-	hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+        hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
       }
 
       counter = 0;

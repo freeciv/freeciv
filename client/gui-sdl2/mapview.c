@@ -81,7 +81,7 @@ static struct canvas *terrain_canvas;
 
 /* ================================================================ */
 
-void update_map_canvas_scrollbars_size()
+void update_map_canvas_scrollbars_size(void)
 {
   /* No scrollbars */
 }
@@ -91,7 +91,7 @@ static bool is_flush_queued = FALSE;
 /**************************************************************************
   Flush the mapcanvas part of the buffer(s) to the screen.
 **************************************************************************/
-void flush_mapcanvas(int canvas_x, int canvas_y ,
+void flush_mapcanvas(int canvas_x, int canvas_y,
                      int pixel_width, int pixel_height)
 {
   SDL_Rect rect = {canvas_x, canvas_y, pixel_width, pixel_height};
@@ -249,7 +249,7 @@ void flush_dirty(void)
     static SDL_Rect src, dst;
 
     for (i = 0; i < Main.rects_count; i++) {
-      
+
       dst = Main.rects[i];
       if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
@@ -257,7 +257,7 @@ void flush_dirty(void)
       alphablit(Main.map, &Main.rects[i], Main.mainsurf, &dst, 255);
 
       if (Main.guis) {
-        while((j < Main.guis_count) && Main.guis[j]) {
+        while ((j < Main.guis_count) && Main.guis[j]) {
           src = Main.rects[i];
           screen_rect_to_layer_rect(Main.guis[j], &src);
           dst = Main.rects[i];
@@ -309,34 +309,34 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 {
   struct widget *pBuf = NULL;
   char cBuf[128];
-  
+
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   FREESURFACE(pBuf->theme);
   pBuf->theme = adj_surf(GET_SURF(sol));
   widget_redraw(pBuf);
-    
+
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   FREESURFACE(pBuf->theme);
   pBuf->theme = adj_surf(GET_SURF(flake));
   widget_redraw(pBuf);
-    
+
   pBuf = get_revolution_widget();
-  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);    
-  
+  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);
+
   if (NULL != client.conn.playing) {
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     government_name_for_player(client.conn.playing));
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     _("None"));
-  }        
+  }
   copy_chars_to_string16(pBuf->info_label, cBuf);
-      
+
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
 
   pBuf = get_tax_rates_widget();
-  if(!pBuf->theme) {
+  if (!pBuf->theme) {
     set_new_icon2_theme(pBuf, get_tax_surface(O_GOLD), TRUE);
   }
 
@@ -370,11 +370,10 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 
   copy_chars_to_string16(pBuf->info_label, cBuf);
 
-  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), TRUE);  
-  
+  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), TRUE);
+
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
-  
 }
 
 /****************************************************************************
@@ -385,13 +384,13 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 ****************************************************************************/
 void overview_size_changed(void)
 {
-  map_canvas_resized(main_window_width(), main_window_height());  	
-  
+  map_canvas_resized(main_window_width(), main_window_height());
+
   if (overview_canvas) {
     canvas_free(overview_canvas);
-  }      
+  }
   overview_canvas = canvas_create(options.overview.width, options.overview.height);
-  
+
   resize_minimap();
 }
 
@@ -403,7 +402,6 @@ void overview_size_changed(void)
 void update_info_label(void)
 {
   SDL_Color bg_color = {0, 0, 0, 80};
-
   SDL_Surface *pTmp = NULL;
   char buffer[512];
 #ifdef SMALL_SCREEN
@@ -416,7 +414,7 @@ void update_info_label(void)
   if (get_current_client_page() != PAGE_GAME) {
     return;
   }
-  
+
 #ifdef SMALL_SCREEN
   pText = create_string16(NULL, 0, 8);
 #else
@@ -459,7 +457,7 @@ void update_info_label(void)
 
     SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
 
-#if 0    
+#if 0
     /* Horizontal lines */
     putline(Main.gui->surface,
                area.x + 1, area.y, area.x + area.w - 2, area.y,
@@ -467,7 +465,7 @@ void update_info_label(void)
     putline(Main.gui->surface,
                area.x + 1, area.y + area.h - 1, area.x + area.w - 2, area.y + area.h - 1,
                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-  
+
     /* vertical lines */
     putline(Main.gui->surface,
                area.x + area.w - 1, area.y + 1, area.x + area.w - 1, area.y + area.h - 2,
@@ -476,24 +474,24 @@ void update_info_label(void)
                area.x, area.y + 1, area.x, area.y + area.h - 2,
                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 #endif
-  
-    /* blit text to screen */  
+
+    /* blit text to screen */
     blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
-    
+
     sdl_dirty_rect(area);
-    
+
     FREESURFACE(pTmp);
   }
 
   set_indicator_icons(client_research_sprite(),
-		      client_warming_sprite(),
-		      client_cooling_sprite(),
-		      client_government_sprite());
+                      client_warming_sprite(),
+                      client_cooling_sprite(),
+                      client_government_sprite());
 
   update_timeout_label();
 
   FREESTRING16(pText);
-  
+
   queue_flush();
 }
 
@@ -501,11 +499,13 @@ static int fucus_units_info_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pWidget->data.unit;
+
     if (pUnit) {
       request_new_unit_activity(pUnit, ACTIVITY_IDLE);
       unit_focus_set(pUnit);
     }
   }
+
   return -1;
 }
 
@@ -524,7 +524,6 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   struct unit *pUnit = unit_list_get(punitlist, 0);
 
   if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
-    
     pInfo_Window = get_unit_info_window_widget();
 
     /* blit theme surface */
@@ -590,6 +589,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                "" /* unused, DS_CEASEFIRE*/,
                Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
                Q_("?nation:Mysterious")};
+
             if (tile_owner(pTile) == client.conn.playing) {
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
@@ -607,8 +607,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                                nation_adjective_for_player(tile_owner(pTile)), turns);
                 } else {
                   cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
-                    diplo_nation_plural_adjectives[ds->type],
-                    nation_plural_for_player(tile_owner(pTile)));
+                               diplo_nation_plural_adjectives[ds->type],
+                               nation_plural_for_player(tile_owner(pTile)));
                 }
               } else { /* !tile_owner(pTile) */
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
@@ -620,20 +620,19 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             /* Look at city owner, not tile owner (the two should be the same, if
              * borders are in use). */
             struct player *pOwner = city_owner(pCity);
-/*            bool barrack = FALSE, airport = FALSE, port = FALSE;*/
 	    const char *diplo_city_adjectives[DS_LAST] =
     			{Q_("?city:Neutral"), Q_("?city:Hostile"),
-     			  "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
-			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
-			  
+                         "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
+                         Q_("?city:Friendly"), Q_("?city:Mysterious")};
+
 	    cat_snprintf(buffer, sizeof(buffer),
-			 _("\nCity of %s"),
-			 city_name(pCity));
-                          
-#if 0       
+                         _("\nCity of %s"),
+                         city_name(pCity));
+
+#if 0
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
              * provided by *building* named *Barracks*. Similar assumptions for
-             * other effects. */     
+             * other effects. */
 	    if (pplayers_allied(client.conn.playing, pOwner)) {
 	      barrack = (get_city_bonus(pCity, EFT_LAND_REGEN) > 0);
 	      airport = (get_city_bonus(pCity, EFT_AIR_VETERAN) > 0);
@@ -666,51 +665,51 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
               cat_snprintf(buffer, sizeof(buffer), Q_("?blistend:"));
 	    }
-#endif
-	    
-	    if (pOwner && pOwner != client.conn.playing) {
+#endif /* 0 */
+
+            if (pOwner && pOwner != client.conn.playing) {
               struct player_diplstate *ds
                 = player_diplstate_get(client.conn.playing, pOwner);
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-                nation_adjective_for_player(pOwner),
-                diplo_city_adjectives[ds->type]);
-	    }
-	    
-	  }
+                           nation_adjective_for_player(pOwner),
+                           diplo_city_adjectives[ds->type]);
+            }
+          }
         }
-		
-	if (pInfo_Window->size.h > 
+
+        if (pInfo_Window->size.h >
             4 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
-				get_tile_output_text(unit_tile(pUnit)));
-	}
-	
-	copy_chars_to_string16(pStr, buffer);
-      
-	pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCKU_W - adj_size(4));
-	
+                       get_tile_output_text(unit_tile(pUnit)));
+        }
+
+        copy_chars_to_string16(pStr, buffer);
+
+        pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCKU_W - adj_size(4));
       }
-      
+
       FREESTRING16(pStr);
-      
+
       /* ------------------------------------------- */
-      
+
       n = unit_list_size(pTile->units);
       y = 0;
-      
+
       if (n > 1 && ((!right && pInfo_II
-	 && (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) - pInfo_II->h > 52))
-         || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) > 52))) {
-	height = (pInfo_Window->size.h - pInfo_Window->area.h) + DEFAULT_UNITS_H;
+                     && (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) -
+                         pInfo_II->h > 52))
+                    || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h -
+                                                                            pInfo_Window->area.h)) > 52))) {
+        height = (pInfo_Window->size.h - pInfo_Window->area.h) + DEFAULT_UNITS_H;
       } else {
-	height = pInfo_Window->size.h;
+        height = pInfo_Window->size.h;
         if (pInfo_Window->size.h > (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h))) {
-	  y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) -
-	                 (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
+          y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) -
+               (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
         }
       }
-      
+
       sy = y + adj_size(3);
       area.y = pInfo_Window->area.y + sy;
       area.x = pInfo_Window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
@@ -718,10 +717,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       alphablit(pName, NULL, pInfo_Window->dst->surface, &dest, 255);
       sy += pName->h;
       if (pVet_Name) {
-	area.y += pName->h - adj_size(3);
+        area.y += pName->h - adj_size(3);
         area.x = pInfo_Window->area.x + BLOCKU_W + (width - pVet_Name->w - BLOCKU_W) / 2;
         alphablit(pVet_Name, NULL, pInfo_Window->dst->surface, &area, 255);
-	sy += pVet_Name->h - adj_size(3);
+        sy += pVet_Name->h - adj_size(3);
         FREESURFACE(pVet_Name);
       }
       FREESURFACE(pName);
@@ -733,16 +732,16 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       src = (SDL_Rect){0, 0, buf_surf->w, buf_surf->h};
 
-      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) + 
-               ((width - BLOCKU_W + adj_size(3) - src.w)/2);
-      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h)/2;
+      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) +
+               ((width - BLOCKU_W + adj_size(3) - src.w) / 2);
+      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h) / 2;
       alphablit(buf_surf, &src, pInfo_Window->dst->surface, &area, 32);
       FREESURFACE(buf_surf);
 
       /* blit unit info text */
-      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) + 
-                 ((width - BLOCKU_W + adj_size(4) - pInfo->w)/2);
-      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h)/2;
+      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) +
+                 ((width - BLOCKU_W + adj_size(4) - pInfo->w) / 2);
+      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h) / 2;
 
       alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area, 255);
       FREESURFACE(pInfo);
@@ -763,13 +762,13 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         if (right) {
           sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
         } else {
-	  sy = area.y - pInfo_Window->size.y + pInfo_II->h;
+          sy = area.y - pInfo_Window->size.y + pInfo_II->h;
         }
         FREESURFACE(pInfo_II);
       } else {
-	sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
+        sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
       }
-      
+
       if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
         struct ADVANCED_DLG *pDlg = pInfo_Window->private_data.adv_dlg;
         struct widget *pBuf = NULL, *pEnd = NULL, *pDock;
@@ -823,7 +822,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           canvas_free(destcanvas);
 
           if (buf_surf->w > 64) {
-            float zoom = 64.0 / buf_surf->w;    
+            float zoom = 64.0 / buf_surf->w;
             SDL_Surface *zoomed = zoomSurface(buf_surf, zoom, zoom, 1);
 
             FREESURFACE(buf_surf);
@@ -911,7 +910,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
 	del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
-	    		pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
+                  pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
       }
       if (pInfo_Window->private_data.adv_dlg->pScroll) {
 	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
@@ -927,8 +926,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
         buf_surf = create_text_surf_from_str16(pStr);
         area.x = pInfo_Window->size.x + BLOCKU_W +
-          (pInfo_Window->size.w - BLOCKU_W - buf_surf->w)/2;
-        area.y = pInfo_Window->size.y + (pInfo_Window->size.h - buf_surf->h)/2;
+          (pInfo_Window->size.w - BLOCKU_W - buf_surf->w) / 2;
+        area.y = pInfo_Window->size.y + (pInfo_Window->size.h - buf_surf->h) / 2;
         alphablit(buf_surf, NULL, pInfo_Window->dst->surface, &area, 255);
         FREESURFACE(buf_surf);
         FREESTRING16(pStr);
@@ -997,12 +996,12 @@ void update_unit_info_label(struct unit_list *punitlist)
   if (C_S_RUNNING != client_state()) {
     return;
   }
-  
+
   /* draw unit info window */
   redraw_unit_info_label(punitlist);
-  
+
   if (punitlist) {
-    if(!is_anim_enabled()) {
+    if (!is_anim_enabled()) {
       enable_focus_animation();
     }
   } else {
@@ -1031,7 +1030,7 @@ void update_city_descriptions(void)
 {
   /* redraw buffer */
   show_city_descriptions(0, 0, mapview.store_width, mapview.store_height);
-  dirty_all();  
+  dirty_all();
 }
 
 /* ===================================================================== */
@@ -1072,12 +1071,10 @@ void get_overview_area_dimensions(int *width, int *height)
      smaller than DEFAULT_OVERVIEW_H, increase OVERVIEW_TILE_SIZE
      by 1 until the height condition is met.
   */
-  
-  int overview_tile_size_bak = OVERVIEW_TILE_SIZE;
-  
+  int overview_tile_size_bak = OVERVIEW_TILE_SIZE;  
   int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
   int shift = (MAP_IS_ISOMETRIC && !current_topo_has_flag(TF_WRAPX)) ? -1 : 0;
-  
+
   OVERVIEW_TILE_SIZE = MIN((DEFAULT_OVERVIEW_W - 1) / (map.xsize * xfact),
                            (DEFAULT_OVERVIEW_H - 1) / map.ysize) + 1;
 
@@ -1088,8 +1085,8 @@ void get_overview_area_dimensions(int *width, int *height)
     }
   } while (*height < DEFAULT_OVERVIEW_H);
 
-  *width = OVERVIEW_TILE_WIDTH * map.xsize + shift * OVERVIEW_TILE_SIZE; 
-  
+  *width = OVERVIEW_TILE_WIDTH * map.xsize + shift * OVERVIEW_TILE_SIZE;
+
   OVERVIEW_TILE_SIZE = overview_tile_size_bak;
 }
 
@@ -1104,9 +1101,9 @@ void refresh_overview(void)
 
   if (SDL_Client_Flags & CF_OVERVIEW_SHOWN) {
     pMMap = get_minimap_window_widget();
-      
+
     overview_area = (SDL_Rect) {
-      pMMap->area.x + overview_start_x, pMMap->area.x + overview_start_y, 
+      pMMap->area.x + overview_start_x, pMMap->area.x + overview_start_y,
       overview_canvas->surf->w, overview_canvas->surf->h
     };
 
