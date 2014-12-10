@@ -111,3 +111,5 @@ This list is incomplete
   transport Earthly and Amphibious units through Radiating tiles
 
 - Water Engineer build_cost increased to 40, like other City Founding units
+
+- Hex topology is used by default
