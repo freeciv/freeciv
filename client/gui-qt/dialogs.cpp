@@ -1208,16 +1208,21 @@ static void diplomat_queue_handle_secondary(void)
 }
 
 /**************************************************************************
-  Returns custom information for the help build wonder button about how
-  many shields remains of the current production.
+  Returns a string with how many shields remains of the current production.
+  This is useful as custom information on the help build wonder button.
 ***************************************************************************/
-static QString label_help_wonder_rem(struct city *target_city)
+static QString city_prod_remaining(struct city *target_city)
 {
-  QString label = QString(_("%1 remaining")).arg(
-      impr_build_shield_cost(target_city->production.value.building)
-      - target_city->shield_stock);
+  if (target_city == nullptr
+      || city_owner(target_city) != client.conn.playing) {
+    /* Can't give remaining production for a foreign or non existing
+     * city. */
+    return "";
+  }
 
-  return label;
+  return QString(_("%1 remaining")).arg(
+        impr_build_shield_cost(target_city->production.value.building)
+        - target_city->shield_stock);
 }
 
 /**************************************************************************
@@ -1369,13 +1374,11 @@ void popup_action_selection(struct unit *actor_unit,
                "",
                qv1, qv2);
 
-  if (action_prob_possible(act_probs[ACTION_HELP_WONDER])) {
-    action_entry(cd,
-                 ACTION_HELP_WONDER,
-                 act_probs,
-                 label_help_wonder_rem(target_city),
-                 qv1, qv2);
-  }
+  action_entry(cd,
+               ACTION_HELP_WONDER,
+               act_probs,
+               city_prod_remaining(target_city),
+               qv1, qv2);
 
   /* Spy/Diplomat acting against a unit */
 
@@ -2141,7 +2144,7 @@ void action_selection_refresh(struct unit *actor_unit,
     if (action_prob_possible(act_prob[act])
         && act == ACTION_HELP_WONDER) {
       /* Add information about how far along the wonder is. */
-      custom = label_help_wonder_rem(target_city);
+      custom = city_prod_remaining(target_city);
     } else {
       custom = "";
     }
