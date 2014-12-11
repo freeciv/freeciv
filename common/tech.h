@@ -74,22 +74,22 @@ typedef int Tech_type_id;
 #define SPECENUM_NAME tech_flag_id
 /* player gets extra tech if rearched first */
 #define SPECENUM_VALUE0 TF_BONUS_TECH
-#define SPECENUM_VALUE0NAME "Bonus_Tech"
+#define SPECENUM_VALUE0NAME N_("Bonus_Tech")
 /* "Settler" unit types can build bridges over rivers */
 #define SPECENUM_VALUE1 TF_BRIDGE
-#define SPECENUM_VALUE1NAME "Bridge"
+#define SPECENUM_VALUE1NAME N_("Bridge")
 /* Increase the pollution factor created by population by one */
 #define SPECENUM_VALUE2 TF_POPULATION_POLLUTION_INC
-#define SPECENUM_VALUE2NAME "Population_Pollution_Inc"
+#define SPECENUM_VALUE2NAME N_("Population_Pollution_Inc")
 /* "Settler" unit types can build farmland */
 #define SPECENUM_VALUE3 TF_FARMLAND
-#define SPECENUM_VALUE3NAME "Farmland"
+#define SPECENUM_VALUE3NAME N_("Farmland")
 /* Player can build air units */
 #define SPECENUM_VALUE4 TF_BUILD_AIRBORNE
-#define SPECENUM_VALUE4NAME "Build_Airborne"
+#define SPECENUM_VALUE4NAME N_("Build_Airborne")
 /* Player can claim ocean tiles non-adjacent to border source */ 
 #define SPECENUM_VALUE5 TF_CLAIM_OCEAN
-#define SPECENUM_VALUE5NAME "Claim_Ocean"
+#define SPECENUM_VALUE5NAME N_("Claim_Ocean")
 #define SPECENUM_VALUE6 TECH_USER_1
 #define SPECENUM_VALUE7 TECH_USER_2
 #define SPECENUM_VALUE8 TECH_USER_3

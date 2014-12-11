@@ -112,28 +112,28 @@ struct resource {
 #define SPECENUM_NAME terrain_flag_id
 /* No barbarians summoned on this terrain. */
 #define SPECENUM_VALUE0 TER_NO_BARBS
-#define SPECENUM_VALUE0NAME "NoBarbs"
+#define SPECENUM_VALUE0NAME N_("NoBarbs")
 /* This terrain cannot be polluted. */
 #define SPECENUM_VALUE1 TER_NO_POLLUTION
-#define SPECENUM_VALUE1NAME "NoPollution"
+#define SPECENUM_VALUE1NAME N_("NoPollution")
 /* No cities on this terrain. */
 #define SPECENUM_VALUE2 TER_NO_CITIES
-#define SPECENUM_VALUE2NAME "NoCities"
+#define SPECENUM_VALUE2NAME N_("NoCities")
 /* Players will start on this terrain type. */
 #define SPECENUM_VALUE3 TER_STARTER
-#define SPECENUM_VALUE3NAME "Starter"
+#define SPECENUM_VALUE3NAME N_("Starter")
 /* Terrains with this type can have road with "River" flag on them. */
 #define SPECENUM_VALUE4 TER_CAN_HAVE_RIVER
-#define SPECENUM_VALUE4NAME "CanHaveRiver"
+#define SPECENUM_VALUE4NAME N_("CanHaveRiver")
 /*this tile is not safe as coast, (all ocean / ice) */
 #define SPECENUM_VALUE5 TER_UNSAFE_COAST
-#define SPECENUM_VALUE5NAME "UnsafeCoast"
+#define SPECENUM_VALUE5NAME N_("UnsafeCoast")
 /* Fresh water terrain */
 #define SPECENUM_VALUE6 TER_FRESHWATER
-#define SPECENUM_VALUE6NAME "FreshWater"
+#define SPECENUM_VALUE6NAME N_("FreshWater")
 /* Map generator does not place this terrain */
 #define SPECENUM_VALUE7 TER_NOT_GENERATED
-#define SPECENUM_VALUE7NAME "NotGenerated"
+#define SPECENUM_VALUE7NAME N_("NotGenerated")
 #define SPECENUM_VALUE8 TER_USER_1
 #define SPECENUM_VALUE9 TER_USER_2
 #define SPECENUM_VALUE10 TER_USER_3
