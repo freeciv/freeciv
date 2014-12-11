@@ -40,19 +40,19 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_NAME base_flag_id
 /* Unit inside are not considered aggressive if base is close to city */
 #define SPECENUM_VALUE0 BF_NOT_AGGRESSIVE
-#define SPECENUM_VALUE0NAME "NoAggressive"
+#define SPECENUM_VALUE0NAME N_("NoAggressive")
 /* Units inside will not die all at once */
 #define SPECENUM_VALUE1 BF_NO_STACK_DEATH
-#define SPECENUM_VALUE1NAME "NoStackDeath"
+#define SPECENUM_VALUE1NAME N_("NoStackDeath")
 /* Base provides bonus for defending diplomat */
 #define SPECENUM_VALUE2 BF_DIPLOMAT_DEFENSE
-#define SPECENUM_VALUE2NAME "DiplomatDefense"
+#define SPECENUM_VALUE2NAME N_("DiplomatDefense")
 /* Paratroopers can use base for paradrop */
 #define SPECENUM_VALUE3 BF_PARADROP_FROM
-#define SPECENUM_VALUE3NAME "ParadropFrom"
+#define SPECENUM_VALUE3NAME N_("ParadropFrom")
 /* Base will be built in cities automatically */
 #define SPECENUM_VALUE4 BF_SHOW_FLAG
-#define SPECENUM_VALUE4NAME "ShowFlag"
+#define SPECENUM_VALUE4NAME N_("ShowFlag")
 #define SPECENUM_COUNT BF_COUNT
 #define SPECENUM_BITVECTOR bv_base_flags
 #include "specenum_gen.h"

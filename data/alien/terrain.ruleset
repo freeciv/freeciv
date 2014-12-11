@@ -11,8 +11,8 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 ; helptxt       = displayed in the help for terrains with this flag (optional)
 flags =
   { "name", "helptxt"
-    "Radiating", _("Terrain has alien radiation.")
-    "NoPollution", _("No Pollution nor Fallout appear here.")
+    _("Radiating"), _("Terrain has alien radiation.")
+    _("NoPollution"), _("No Pollution nor Fallout appear here.")
   }
 
 [parameters]

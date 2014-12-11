@@ -99,31 +99,31 @@ struct resource {
 #define SPECENUM_NAME terrain_flag_id
 /* No barbarians summoned on this terrain. */
 #define SPECENUM_VALUE0 TER_NO_BARBS
-#define SPECENUM_VALUE0NAME "NoBarbs"
+#define SPECENUM_VALUE0NAME N_("NoBarbs")
 /* No cities on this terrain. */
 #define SPECENUM_VALUE1 TER_NO_CITIES
-#define SPECENUM_VALUE1NAME "NoCities"
+#define SPECENUM_VALUE1NAME N_("NoCities")
 /* Players will start on this terrain type. */
 #define SPECENUM_VALUE2 TER_STARTER
-#define SPECENUM_VALUE2NAME "Starter"
+#define SPECENUM_VALUE2NAME N_("Starter")
 /* Terrains with this type can have road with "River" flag on them. */
 #define SPECENUM_VALUE3 TER_CAN_HAVE_RIVER
-#define SPECENUM_VALUE3NAME "CanHaveRiver"
+#define SPECENUM_VALUE3NAME N_("CanHaveRiver")
 /*this tile is not safe as coast, (all ocean / ice) */
 #define SPECENUM_VALUE4 TER_UNSAFE_COAST
-#define SPECENUM_VALUE4NAME "UnsafeCoast"
+#define SPECENUM_VALUE4NAME N_("UnsafeCoast")
 /* Fresh water terrain */
 #define SPECENUM_VALUE5 TER_FRESHWATER
-#define SPECENUM_VALUE5NAME "FreshWater"
+#define SPECENUM_VALUE5NAME N_("FreshWater")
 /* Map generator does not place this terrain */
 #define SPECENUM_VALUE6 TER_NOT_GENERATED
-#define SPECENUM_VALUE6NAME "NotGenerated"
+#define SPECENUM_VALUE6NAME N_("NotGenerated")
 /* Units on this terrain are not generating or subject to zoc */
 #define SPECENUM_VALUE7 TER_NO_ZOC
-#define SPECENUM_VALUE7NAME "NoZoc"
+#define SPECENUM_VALUE7NAME N_("NoZoc")
 /* No unit can fortify on this terrain */
 #define SPECENUM_VALUE8 TER_NO_FORTIFY
-#define SPECENUM_VALUE8NAME "NoFortify"
+#define SPECENUM_VALUE8NAME N_("NoFortify")
 #define SPECENUM_VALUE9 TER_USER_1
 #define SPECENUM_VALUE10 TER_USER_2
 #define SPECENUM_VALUE11 TER_USER_3

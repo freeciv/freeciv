@@ -464,12 +464,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires knowledge of a technology with the "
                        "\"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by knowledge of any technology with the "
                        "\"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
     case REQ_RANGE_TEAM:
@@ -477,12 +477,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires that a player on your team knows "
                        "a technology with the \"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if any player on your team knows "
                        "any technology with the \"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
@@ -490,12 +490,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires that a player allied to you knows "
                        "a technology with the \"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented if any player allied to you knows "
                        "any technology with the \"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
     case REQ_RANGE_WORLD:
@@ -503,12 +503,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires that some player knows a technology "
                        "with the \"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Requires that no player knows any technology with "
                        "the \"%s\" flag.\n"),
-                     tech_flag_id_name(preq->source.value.techflag));
+                     tech_flag_id_translated_name(preq->source.value.techflag));
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
@@ -2196,12 +2196,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires terrain with the \"%s\" flag on the tile.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain with the \"%s\" flag on the "
                        "tile.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -2209,12 +2209,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires terrain with the \"%s\" flag on the "
                        "tile or a cardinally adjacent tile.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain with the \"%s\" flag on "
                        "the tile or any cardinally adjacent tile.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -2222,12 +2222,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires terrain with the \"%s\" flag on the "
                        "tile or an adjacent tile.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain with the \"%s\" flag on "
                        "the tile or any adjacent tile.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_CITY:
@@ -2235,12 +2235,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires terrain with the \"%s\" flag on a tile "
                        "within the city radius.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
@@ -2249,13 +2249,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      _("Requires terrain with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of "
                        "a trade partner.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by terrain with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of "
                        "a trade partner.\n"),
-                     terrain_flag_id_name(preq->source.value.terrainflag));
+                     terrain_flag_id_translated_name(preq->source.value.terrainflag));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:
@@ -2275,12 +2275,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires a base with the \"%s\" flag on the tile.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a base with the \"%s\" flag on the "
                        "tile.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -2288,12 +2288,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires a base with the \"%s\" flag on the "
                        "tile or a cardinally adjacent tile.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a base with the \"%s\" flag on "
                        "the tile or any cardinally adjacent tile.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -2301,12 +2301,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires a base with the \"%s\" flag on the "
                        "tile or an adjacent tile.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a base with the \"%s\" flag on "
                        "the tile or any adjacent tile.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
     case REQ_RANGE_CITY:
@@ -2314,12 +2314,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires a base with the \"%s\" flag on a tile "
                        "within the city radius.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a base with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
@@ -2328,13 +2328,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      _("Requires a base with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a base with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
-                     base_flag_id_name(preq->source.value.baseflag));
+                     base_flag_id_translated_name(preq->source.value.baseflag));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:
@@ -2354,12 +2354,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires a road with the \"%s\" flag on the tile.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a road with the \"%s\" flag on the "
                        "tile.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
@@ -2367,12 +2367,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires a road with the \"%s\" flag on the "
                        "tile or a cardinally adjacent tile.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a road with the \"%s\" flag on "
                        "the tile or any cardinally adjacent tile.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -2380,12 +2380,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires a road with the \"%s\" flag on the "
                        "tile or an adjacent tile.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a road with the \"%s\" flag on "
                        "the tile or any adjacent tile.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
     case REQ_RANGE_CITY:
@@ -2393,12 +2393,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
         cat_snprintf(buf, bufsz,
                      _("Requires a road with the \"%s\" flag on a tile "
                        "within the city radius.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a road with the \"%s\" flag on any tile "
                        "within the city radius.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
@@ -2407,13 +2407,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
                      _("Requires a road with the \"%s\" flag on a tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       } else {
         cat_snprintf(buf, bufsz,
                      _("Prevented by a road with the \"%s\" flag on any tile "
                        "within the city radius or the city radius of a "
                        "trade partner.\n"),
-                     road_flag_id_name(preq->source.value.roadflag));
+                     road_flag_id_translated_name(preq->source.value.roadflag));
       }
       return TRUE;
     case REQ_RANGE_CONTINENT:
@@ -4966,7 +4966,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is a unit type flag */
                          Q_("?unitflag:* New %s units will be veteran.\n"),
-                         unit_type_flag_id_name(unitflag));
+                         unit_type_flag_id_translated_name(unitflag));
           } else if (unittype != NULL) {
             if (world_value_valid && net_value > 0) {
               /* Here we can be specific about veteran level, and get

@@ -20,13 +20,13 @@ extern "C" {
 /* Used in the network protocol. */
 #define SPECENUM_NAME road_flag_id
 #define SPECENUM_VALUE0 RF_REQUIRES_BRIDGE
-#define SPECENUM_VALUE0NAME "RequiresBridge"
+#define SPECENUM_VALUE0NAME N_("RequiresBridge")
 #define SPECENUM_VALUE1 RF_PREVENTS_OTHER_ROADS
-#define SPECENUM_VALUE1NAME "PreventsOtherRoads"
+#define SPECENUM_VALUE1NAME N_("PreventsOtherRoads")
 #define SPECENUM_VALUE2 RF_RIVER
-#define SPECENUM_VALUE2NAME "River"
+#define SPECENUM_VALUE2NAME N_("River")
 #define SPECENUM_VALUE3 RF_UNRESTRICTED_INFRA
-#define SPECENUM_VALUE3NAME "UnrestrictedInfra"
+#define SPECENUM_VALUE3NAME N_("UnrestrictedInfra")
 #define SPECENUM_COUNT RF_COUNT
 #define SPECENUM_BITVECTOR bv_road_flags
 #include "specenum_gen.h"
