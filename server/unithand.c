@@ -2020,6 +2020,11 @@ static void handle_unit_help_build_wonder(struct player *pplayer,
 
   pcity_dest = game_city_by_number(city_id);
 
+  /* Sanity check: The target city still exists. */
+  if (NULL == pcity_dest) {
+    return;
+  }
+
   pcity_dest->shield_stock += unit_build_shield_cost(punit);
   pcity_dest->caravan_shields += unit_build_shield_cost(punit);
 
