@@ -2190,7 +2190,11 @@ static void dai_manage_caravan(struct ai_type *ait, struct player *pplayer,
             && !(is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
                                                 punit, city_dest)
                  || is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
-                                                   punit, city_dest)))) {
+                                                   punit, city_dest)))
+        || (unit_data->task == AIUNIT_WONDER
+            && real_map_distance(city_dest->tile, unit_tile(punit)) <= 1
+            && !is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                               punit, city_dest))) {
       /* destination invalid! */
       dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
       log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) destination invalid!",

@@ -437,7 +437,27 @@ static void get_discounted_reward(const struct unit *caravan,
       return;
     }
   }
-  
+
+  /* Make sure that the caravan gets a new target in cases were the old
+   * target turned out to be of no use because of action enablers. */
+  if (real_map_distance(dest->tile, unit_tile(caravan)) <= 1) {
+    /* The caravan is close enought to its target to do a full check.
+     * A caravan can be close enough to max 9 cities in the worst
+     * theoretically possible case. (More than one city is rare.) The
+     * computations are therefore worth it. */
+
+    if (!(is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
+                                         caravan, dest)
+          || is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                            caravan, dest)
+          || is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
+                                            caravan, dest))) {
+      /* No caravan action is possible against this target. */
+      caravan_result_init_zero(result);
+      return;
+    }
+  }
+
   trade = trade_benefit(pplayer_src, src, dest, parameter);
   windfall = windfall_benefit(caravan, src, dest, parameter);
   wonder = wonder_benefit(caravan, arrival_time, dest, parameter);
