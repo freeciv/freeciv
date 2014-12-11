@@ -124,8 +124,8 @@ void actions_init(void)
                  FALSE);
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
-                 /* TRANS: Help build _Wonder (100% chance of success). */
-                 N_("Help build %sWonder%s"),
+                 /* TRANS: Help _build Wonder (100% chance of success). */
+                 N_("Help %sbuild Wonder%s"),
                  FALSE);
 
   /* Initialize the action enabler list */
