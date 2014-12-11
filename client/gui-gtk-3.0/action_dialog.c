@@ -172,15 +172,22 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  Returns custom information for the help build wonder button about how
-  many shields remains of the current production.
+  Returns a string with how many shields remains of the current production.
+  This is useful as custom information on the help build wonder button.
 **************************************************************************/
-static const gchar *help_build_wonder_label_info(struct city* destcity)
+static const gchar *city_prod_remaining(struct city* destcity)
 {
-    return g_strdup_printf(_("%d remaining"),
-                           impr_build_shield_cost(
-                             destcity->production.value.building)
-                               - destcity->shield_stock);
+  if (destcity == NULL
+      || city_owner(destcity) != client.conn.playing) {
+    /* Can't give remaining production for a foreign or non existing
+     * city. */
+    return NULL;
+  }
+
+  return g_strdup_printf(_("%d remaining"),
+                         impr_build_shield_cost(
+                           destcity->production.value.building)
+                         - destcity->shield_stock);
 }
 
 /**********************************************************************
@@ -1144,15 +1151,11 @@ void popup_action_selection(struct unit *actor_unit,
                NULL,
                data);
 
-  if (action_prob_possible(act_probs[ACTION_HELP_WONDER])) {
-    const gchar *wonder = help_build_wonder_label_info(target_city);
-
-    action_entry(shl,
-                 ACTION_HELP_WONDER,
-                 act_probs,
-                 wonder,
-                 data);
-  }
+  action_entry(shl,
+               ACTION_HELP_WONDER,
+               act_probs,
+               city_prod_remaining(target_city),
+               data);
 
   /* Spy/Diplomat acting against a unit */
 
@@ -1276,7 +1279,7 @@ void action_selection_refresh(struct unit *actor_unit,
     if (action_prob_possible(act_prob[act])
         && act == ACTION_HELP_WONDER) {
       /* Add information about how far along the wonder is. */
-      custom = help_build_wonder_label_info(target_city);
+      custom = city_prod_remaining(target_city);
     } else {
       custom = NULL;
     }
