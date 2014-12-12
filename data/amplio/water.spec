@@ -49,17 +49,17 @@ tiles = { "row", "column", "tag"
 
 ; River outlets
 
- 10, 0, "road.river_outlet_n"
- 10, 1, "road.river_outlet_e"
- 10, 2, "road.river_outlet_s"
- 10, 3, "road.river_outlet_w"
+ 4,  0, "road.river_outlet_n"
+ 4,  1, "road.river_outlet_e"
+ 4,  2, "road.river_outlet_s"
+ 4,  3, "road.river_outlet_w"
 }
 
 
 [grid_coasts]
 
 x_top_left = 1
-y_top_left = 645
+y_top_left = 437
 dx = 48
 dy = 24
 pixel_border = 1
