@@ -143,7 +143,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
     longest[j] = MAX(longest[j], widget->size.w);
   }
 
-  fc_assert(0 == i % widgets_per_row);
+  fc_assert(0 == (i % widgets_per_row));
 
   if (-1 == rows_shown) {
     h = 30 * (i / widgets_per_row);
@@ -198,7 +198,6 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
   /* Set button position. */
   h = 30 * (i / widgets_per_row + 1);
   for (widget = begin, i = 0; widget != end; widget = widget->next, i++) {
-
     j = i % widgets_per_row;
     if (0 == j) {
       h -= 30;
@@ -226,6 +225,7 @@ static int main_optiondlg_callback(struct widget *pWindow)
     move_window_group(option_dialog->begin_widget_list,
                       option_dialog->end_widget_list);
   }
+
   return -1;
 }
 
@@ -267,7 +267,7 @@ static int back_callback(struct widget *pWidget)
     FC_FREE(option_dialog->advanced);
 
     del_group_of_widgets_from_gui_list(option_dialog->begin_widget_list,
-        option_dialog->optset.widget_list->prev);
+                                       option_dialog->optset.widget_list->prev);
 
     option_dialog->begin_widget_list = option_dialog->optset.widget_list;
 
@@ -313,6 +313,7 @@ static int client_options_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     option_dialog_popup(_("Local Options"), client_optset);
   }
+
   return -1;
 }
 
@@ -324,6 +325,7 @@ static int server_options_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     option_dialog_popup(_("Server options"), server_optset);
   }
+
   return -1;
 }
 
@@ -335,6 +337,7 @@ static int work_lists_callback(struct widget *widget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     option_dialog_worklist(option_dialog);
   }
+
   return -1;
 }
 
@@ -346,6 +349,7 @@ static int save_client_options_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     options_save();
   }
+
   return -1;
 }
 
@@ -358,6 +362,7 @@ static int save_game_callback(struct widget *pWidget)
     send_save_game(NULL);
     back_callback(NULL);
   }
+
   return -1;
 }
 
@@ -371,6 +376,7 @@ static int disconnect_callback(struct widget *pWidget)
     enable_options_button();
     disconnect_from_server();
   }
+
   return -1;
 }
 
@@ -383,6 +389,7 @@ static int exit_callback(struct widget *pWidget)
     popdown_optiondlg();
     force_exit_from_event_loop();
   }
+
   return 0;
 }
 
@@ -394,6 +401,7 @@ static int option_category_callback(struct widget *widget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     option_dialog_optset_category(option_dialog, MAX_ID - widget->ID);
   }
+
   return -1;
 }
 
@@ -412,6 +420,7 @@ static int apply_callback(struct widget *widget)
       }
     } options_iterate_end;
   }
+
   return back_callback(widget);
 }
 
@@ -627,7 +636,8 @@ static void option_widget_update(struct option *poption)
   widget = (struct widget *) option_get_gui_data(poption);
   fc_assert_ret(NULL != widget);
 
-  set_wstate(widget, option_is_changeable(poption)
+  set_wstate(widget,
+             option_is_changeable(poption)
              ? FC_WS_NORMAL : FC_WS_DISABLED);
 
   switch (option_type(poption)) {
@@ -913,6 +923,7 @@ static int optset_category_option_count(const struct option_set *poptset,
       count++;
     }
   } options_iterate_end;
+
   return count;
 }
 
@@ -1086,7 +1097,7 @@ static int edit_worklist_callback(struct widget *widget)
           widget = widget->prev;
           widget->size.w += len;
           FREESURFACE(widget->gfx);
-        } while(widget != advanced->pBeginActiveWidgetList);
+        } while (widget != advanced->pBeginActiveWidgetList);
       }
 
       redraw_group(option_dialog->begin_widget_list,
@@ -1096,6 +1107,7 @@ static int edit_worklist_callback(struct widget *widget)
     }
     break;
   }
+
   return -1;
 }
 
@@ -1143,7 +1155,7 @@ static int add_new_worklist_callback(struct widget *widget)
         window->size.w -= len;
         window->area.w -= len;
         FREESURFACE(window->gfx);
-      } while(window != advanced->pBeginActiveWidgetList);
+      } while (window != advanced->pBeginActiveWidgetList);
     }
 
     if (redraw_all) {
@@ -1167,6 +1179,7 @@ static int add_new_worklist_callback(struct widget *widget)
     }
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -1263,7 +1276,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   putframe(background->theme,
        	   0, 0, background->theme->w - 1, background->theme->h - 1,
            get_theme_color(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME));
-#endif
+#endif /* 0 */
 
   /* Create the Scrollbar. */
   scrollbar_width = create_vertical_scrollbar(pdialog->advanced,
@@ -1306,6 +1319,7 @@ int optiondlg_callback(struct widget *pButton)
 
     popup_optiondlg();
   }
+
   return -1;
 }
 
@@ -1336,11 +1350,11 @@ void init_options_button(void)
   pOptions_Button->key = SDLK_ESCAPE;
   set_wflag(pOptions_Button, WF_HIDDEN);
   widget_set_position(pOptions_Button, adj_size(5), adj_size(5));
-  
-  #ifndef SMALL_SCREEN
+
+#ifndef SMALL_SCREEN
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
-  #endif
-  
+#endif
+
   enable_options_button();
 }
 

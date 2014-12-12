@@ -63,6 +63,7 @@ static int start_new_game_callback(struct widget *pWidget)
       /* saved settings are sent in client/options.c load_settable_options() */
     }
   }
+
   return -1;
 }
 
@@ -74,6 +75,7 @@ static int load_game_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_client_page(PAGE_LOAD);
   }
+
   return -1;
 }
 
@@ -85,6 +87,7 @@ static int join_game_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     set_client_page(PAGE_NETWORK);
   }
+
   return -1;
 }
 
@@ -96,9 +99,10 @@ static int servers_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
 
-    popdown_start_menu();  
+    popdown_start_menu();
     popup_connection_dialog(lan_scan);
   }
+
   return -1;
 }
 
@@ -112,6 +116,7 @@ static int options_callback(struct widget *pWidget)
     popdown_start_menu();
     popup_optiondlg();
   }
+
   return -1;
 }
 
@@ -123,6 +128,7 @@ static int quit_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_start_menu();
   }
+
   return 0;/* exit from main game loop */
 }
 
@@ -132,8 +138,6 @@ static int quit_callback(struct widget *pWidget)
 static void show_main_page(void)
 {
   SDL_Color bg_color = {255, 255, 255, 96};
-  /*  SDL_Color *line_color = &(SDL_Color){128, 128, 128, 255}; */
-  
   int count = 0;
   struct widget *pWidget = NULL, *pWindow = NULL;
   SDL_Surface *pBackground;
@@ -330,7 +334,7 @@ static void show_main_page(void)
           area.x, area.y + (h * 2 - 1),
           area.x + area.w - 1, area.y + (h * 2 - 1),
           line_color);
-#endif
+#endif /* 0 */
 
   set_output_window_text(_("SDL2-client welcomes you..."));
 
