@@ -245,16 +245,17 @@ typedef int Unit_Class_id;
 
 #define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
 
-/*
- * pplayer->ai.barbarian_type and nations use this enum. Note that the values
- * have to stay since they are used in savegames.
- */
-enum barbarian_type {
-  NOT_A_BARBARIAN = 0,
-  LAND_BARBARIAN = 1,
-  SEA_BARBARIAN = 2,
-  ANIMAL_BARBARIAN = 3
-};
+/* pplayer->ai.barbarian_type and nations use this enum. */
+#define SPECENUM_NAME barbarian_type
+#define SPECENUM_VALUE0 NOT_A_BARBARIAN
+#define SPECENUM_VALUE0NAME "None"
+#define SPECENUM_VALUE1 LAND_BARBARIAN
+#define SPECENUM_VALUE1NAME "Land"
+#define SPECENUM_VALUE2 SEA_BARBARIAN
+#define SPECENUM_VALUE2NAME "Sea"
+#define SPECENUM_VALUE3 ANIMAL_BARBARIAN
+#define SPECENUM_VALUE3NAME "Animal"
+#include "specenum_gen.h"
 
 /*
  * Citytile requirement types. 

@@ -1640,12 +1640,16 @@ static void player_load_main(struct player *plr, int plrno,
   struct research *research;
   struct nation_type *pnation;
   struct nation_style *style;
+  int old_barb_type;
 
   research = research_get(plr);
 
-  plr->ai_common.barbarian_type = secfile_lookup_int_default(file, 0,
-                                                    "player%d.ai.is_barbarian",
-                                                    plrno);
+  old_barb_type = secfile_lookup_int_default(file, 0,
+                                             "player%d.ai.is_barbarian",
+                                             plrno);
+
+  plr->ai_common.barbarian_type = barb_type_convert(old_barb_type);
+
   if (is_barbarian(plr)) {
     server.nbarbarians++;
   }

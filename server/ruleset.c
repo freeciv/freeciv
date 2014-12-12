@@ -4040,18 +4040,10 @@ static bool load_ruleset_nations(struct section_file *file)
       /* Check barbarian type. Default is "None" meaning not a barbarian */
       barb_type = secfile_lookup_str_default(file, "None",
                                              "%s.barbarian_type", sec_name);
-      if (fc_strcasecmp(barb_type, "None") == 0) {
-        pnation->barb_type = NOT_A_BARBARIAN;
-      } else if (fc_strcasecmp(barb_type, "Land") == 0) {
-        pnation->barb_type = LAND_BARBARIAN;
-      } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
-        pnation->barb_type = SEA_BARBARIAN;
-      } else if (fc_strcasecmp(barb_type, "Animal") == 0) {
-        pnation->barb_type = ANIMAL_BARBARIAN;
-      } else {
+      pnation->barb_type = barbarian_type_by_name(barb_type, fc_strcasecmp);
+      if (!barbarian_type_is_valid(pnation->barb_type)) {
         ruleset_error(LOG_ERROR,
-                      "Nation %s, barbarian_type is \"%s\". Must be "
-                      "\"None\" or \"Land\" or \"Sea\" or \"Animal\".",
+                      "Nation %s, barbarian_type is invalid (\"%s\")",
                       nation_rule_name(pnation), barb_type);
         ok = FALSE;
         break;

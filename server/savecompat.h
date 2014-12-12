@@ -149,5 +149,6 @@ enum tile_special_type special_by_rule_name(const char *name);
 const char *special_rule_name(enum tile_special_type type);
 
 enum ai_level ai_level_convert(int old_level);
+enum barbarian_type barb_type_convert(int old_type);
 
 #endif /* FC__SAVECOMPAT_H */

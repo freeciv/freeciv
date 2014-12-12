@@ -3673,6 +3673,7 @@ static void sg_load_player_main(struct loaddata *loading,
   const char *string;
   struct government *gov;
   const char *level;
+  const char *barb_str;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3805,9 +3806,16 @@ static void sg_load_player_main(struct loaddata *loading,
                                                     plrno));
   }
 
-  plr->ai_common.barbarian_type
-    = secfile_lookup_int_default(loading->file, 0,
-                                 "player%d.ai.is_barbarian", plrno);
+  barb_str = secfile_lookup_str_default(loading->file, "None",
+                                        "player%d.ai.barb_type", plrno);
+  plr->ai_common.barbarian_type = barbarian_type_by_name(barb_str, fc_strcasecmp);
+
+  if (!barbarian_type_is_valid(plr->ai_common.barbarian_type)) {
+    log_sg("Player%d: Invalid barbarian type \"%s\". "
+           "Changed to \"None\".", plrno, barb_str);
+    plr->ai_common.barbarian_type = NOT_A_BARBARIAN;
+  }
+
   if (is_barbarian(plr)) {
     server.nbarbarians++;
   }
@@ -4135,8 +4143,8 @@ static void sg_save_player_main(struct savedata *saving,
 
   secfile_insert_str(saving->file, ai_level_name(plr->ai_common.skill_level),
                      "player%d.ai.level", plrno);
-  secfile_insert_int(saving->file, plr->ai_common.barbarian_type,
-                     "player%d.ai.is_barbarian", plrno);
+  secfile_insert_str(saving->file, barbarian_type_name(plr->ai_common.barbarian_type),
+                     "player%d.ai.barb_type", plrno);
   secfile_insert_int(saving->file, plr->economic.gold,
                      "player%d.gold", plrno);
   secfile_insert_int(saving->file, plr->economic.tax,

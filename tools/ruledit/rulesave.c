@@ -1120,7 +1120,6 @@ static bool save_nations_ruleset(const char *filename, const char *name,
       const char *list_items[max_items];
       int set_count;
       int subsect_idx;
-      char *barb_str = NULL;
 
       fc_snprintf(path, sizeof(path), "nation_%d", sect_idx++);
 
@@ -1176,23 +1175,9 @@ static bool save_nations_ruleset(const char *filename, const char *name,
         secfile_insert_bool(sfile, pnat->is_playable, "%s.is_playable", path);
       }
 
-      switch (pnat->barb_type) {
-      case NOT_A_BARBARIAN:
-        barb_str = NULL;
-        break;
-      case LAND_BARBARIAN:
-        barb_str = "Land";
-        break;
-      case SEA_BARBARIAN:
-        barb_str = "Sea";
-        break;
-      case ANIMAL_BARBARIAN:
-        barb_str = "Animal";
-        break;
-      }
-
-      if (barb_str != NULL) {
-        secfile_insert_str(sfile, barb_str, "%s.barbarian_type", path);
+      if (pnat->barb_type != NOT_A_BARBARIAN) {
+        secfile_insert_str(sfile, barbarian_type_name(pnat->barb_type),
+                           "%s.barbarian_type", path);
       }
 
       if (strcmp(pnat->flag_graphic_str, "-")) {

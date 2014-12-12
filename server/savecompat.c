@@ -751,14 +751,25 @@ static void compat_load_020600(struct loaddata *loading)
     }
   }
 
-  /* Renamed 'capital' to 'got_first_city'. */
   player_slots_iterate(pslot) {
     bool got_first_city;
+    int old_barb_type;
+    enum barbarian_type new_barb_type;
+    int plrno = player_slot_index(pslot);
+
+    /* Renamed 'capital' to 'got_first_city'. */
     if (secfile_lookup_bool(loading->file, &got_first_city, 
-                            "player%d.capital", player_slot_index(pslot))) {
+                            "player%d.capital", plrno)) {
       secfile_insert_bool(loading->file, got_first_city,
-                          "player%d.got_first_city", player_slot_index(pslot));
+                          "player%d.got_first_city", plrno);
     }
+
+    /* Convert numeric barbarian type to textual */
+    old_barb_type = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.ai.is_barbarian", plrno);
+    new_barb_type = barb_type_convert(old_barb_type);
+    secfile_insert_str(loading->file, barbarian_type_name(new_barb_type),
+                       "player%d.ai.barb_type", plrno);
   } player_slots_iterate_end;
 
   /* Units orders. */
@@ -959,4 +970,21 @@ enum ai_level ai_level_convert(int old_level)
   }
 
   return ai_level_invalid();
+}
+
+/****************************************************************************
+  Convert old barbarian type value to barbarian_type
+****************************************************************************/
+enum barbarian_type barb_type_convert(int old_type)
+{
+  switch (old_type) {
+  case 0:
+    return NOT_A_BARBARIAN;
+  case 1:
+    return LAND_BARBARIAN;
+  case 2:
+    return SEA_BARBARIAN;
+  }
+
+  return barbarian_type_invalid();
 }
