@@ -661,7 +661,8 @@ static void contemplate_terrain_improvements(struct city *pcity)
   unit_tile_set(virtualunit, pcenter);
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_tile,
                                        NULL, NULL);
-  /* We consider unit_food_upkeep with only hald FOOD_WEIGHTING to
+
+  /* We consider unit_food_upkeep with only half FOOD_WEIGHTING to
    * balance the fact that unit can improve many tiles during its
    * lifetime, and want is calculated for just one of them.
    * Having full FOOD_WEIGHT here would mean that tile improvement of
@@ -674,9 +675,13 @@ static void contemplate_terrain_improvements(struct city *pcity)
   /* Massage our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in
    * the ruleset */
-  want /= MAX(1, ai->stats.workers[place]
-                 / (ai->stats.cities[place] + 1));
-  want -= ai->stats.workers[place];
+  if (place >= 0) {
+    want /= MAX(1, ai->stats.workers[place]
+                / (ai->stats.cities[place] + 1));
+    want -= ai->stats.workers[place];
+  } else {
+    /* TODO: Handle Oceans with cities sensibly */
+  }
   want = MAX(want, 0);
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
