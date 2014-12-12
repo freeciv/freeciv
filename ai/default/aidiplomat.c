@@ -413,7 +413,7 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
     }
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer &&
-          is_actor_unit(punit)) {
+          utype_acts_hostile(unit_type(punit))) {
         return TRUE;
       }
     } unit_list_iterate_end;

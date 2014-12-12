@@ -385,7 +385,7 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
       *stackcost += 1000;
       *stackthreat += 5000;
     }
-    if (is_actor_unit(sucker)) {
+    if (utype_acts_hostile(unit_type(sucker))) {
       *stackthreat += 500; /* extra threatening */
     }
     *stackcost += unit_build_shield_cost(sucker);
@@ -461,7 +461,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
          * of each turn. */
         continue;
       }
-      if (!is_actor_unit(target)
+      if (!utype_acts_hostile(unit_type(target))
           && get_transporter_capacity(target) == 0
           && !unit_has_type_flag(target, UTYF_GAMELOSS)) {
         /* Won't hunt this one. */
