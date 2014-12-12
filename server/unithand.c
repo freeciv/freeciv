@@ -307,12 +307,12 @@ static void explain_why_no_action_enabled(struct unit *punit)
       || can_unit_act_when_ustate_is(unit_type(punit),
                                      USP_TRANSP_DEP, TRUE)) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("No diplomat action possible."));
+                  _("No action possible."));
   } else {
     struct terrain *pterrain = tile_terrain(unit_tile(punit));
 
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("Unit cannot perform diplomatic action from %s."),
+                  _("Unit cannot act from %s."),
                   terrain_name_translation(pterrain));
   }
 }
