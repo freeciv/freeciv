@@ -720,8 +720,12 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
   /* Massage our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in
    * the ruleset */
-  want /= MAX(1, ai->stats.workers[place] / (adv->stats.cities[place] + 1));
-  want -= ai->stats.workers[place];
+  if (place >= 0) {
+    want /= MAX(1, ai->stats.workers[place] / (adv->stats.cities[place] + 1));
+    want -= ai->stats.workers[place];
+  } else {
+    /* TODO: Handle Oceans with cities sensibly */
+  }
   want = MAX(want, 0);
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
