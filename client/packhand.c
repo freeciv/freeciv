@@ -333,7 +333,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     if (auto_connect) {
       log_normal(_("You were rejected from the game: %s"), message);
     }
-    gui_server_connect();
+    server_connect();
 
     set_client_page(PAGE_MAIN);
   }

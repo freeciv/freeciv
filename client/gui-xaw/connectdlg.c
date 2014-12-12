@@ -539,9 +539,9 @@ void handle_authentication_req(enum authentication_type type,
 }
 
 /****************************************************************
-...
+  Provide an interface for connecting to a Freeciv server.
 *****************************************************************/
-void gui_server_connect(void)
+void server_connect(void)
 {
   connection_status = LOGIN_TYPE;
 

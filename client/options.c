@@ -5499,7 +5499,7 @@ static void options_init_names(const struct copt_val_name *(*acc)(int),
 void options_init(void)
 {
   message_options_init();
-  gui_options_extra_init();
+  options_extra_init();
   global_worklists_init();
 
   settable_options_hash = settable_options_hash_new();

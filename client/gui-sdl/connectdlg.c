@@ -1135,8 +1135,8 @@ void handle_authentication_req(enum authentication_type type,
 
 /**************************************************************************
   Provide an interface for connecting to a Freeciv server.
-  SDLClient use it as popup main start menu which != connecting dlg.
+  sdl-client does it as popup main start menu which != connecting dlg.
 **************************************************************************/
-void gui_server_connect(void)
+void server_connect(void)
 {
 }

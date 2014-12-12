@@ -2103,7 +2103,7 @@ static void apply_reqtree_text_font(struct option *poption)
   Extra initializers for client options.  Here we make set the callback
   for the specific gui-gtk-3.0 options.
 ****************************************************************************/
-void gui_options_extra_init(void)
+void options_extra_init(void)
 {
 
   struct option *poption;

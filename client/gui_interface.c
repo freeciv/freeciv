@@ -314,27 +314,27 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 }
 
 /**************************************************************************
-  Call gui_set_rulesets callback
+  Call set_rulesets callback
 **************************************************************************/
-void gui_set_rulesets(int num_rulesets, char **rulesets)
+void set_rulesets(int num_rulesets, char **rulesets)
 {
-  funcs.gui_set_rulesets(num_rulesets, rulesets);
+  funcs.set_rulesets(num_rulesets, rulesets);
 }
 
 /**************************************************************************
-  Call gui_options_extra_init callback
+  Call options_extra_init callback
 **************************************************************************/
-void gui_options_extra_init(void)
+void options_extra_init(void)
 {
-  funcs.gui_options_extra_init();
+  funcs.options_extra_init();
 }
 
 /**************************************************************************
-  Call gui_server_connect callback
+  Call server_connect callback
 **************************************************************************/
-void gui_server_connect(void)
+void server_connect(void)
 {
-  funcs.gui_server_connect();
+  funcs.server_connect();
 }
 
 /**************************************************************************

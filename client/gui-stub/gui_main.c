@@ -115,7 +115,7 @@ void gui_ui_main(int argc, char *argv[])
 /****************************************************************************
   Extra initializers for client options.
 ****************************************************************************/
-void gui_gui_options_extra_init(void)
+void gui_options_extra_init(void)
 {
   /* Nothing to do. */
 }

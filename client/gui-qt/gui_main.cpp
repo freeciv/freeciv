@@ -172,7 +172,7 @@ void qtg_ui_main(int argc, char *argv[])
 /****************************************************************************
   Extra initializers for client options.
 ****************************************************************************/
-void qtg_gui_options_extra_init()
+void qtg_options_extra_init()
 {
     struct option *poption;
 

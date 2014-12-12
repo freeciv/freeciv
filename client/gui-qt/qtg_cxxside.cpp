@@ -64,9 +64,9 @@ void setup_gui_funcs()
   funcs->get_text_size = qtg_get_text_size;
   funcs->canvas_put_text = qtg_canvas_put_text;
 
-  funcs->gui_set_rulesets = qtg_gui_set_rulesets;
-  funcs->gui_options_extra_init = qtg_gui_options_extra_init;
-  funcs->gui_server_connect = qtg_gui_server_connect;
+  funcs->set_rulesets = qtg_set_rulesets;
+  funcs->options_extra_init = qtg_options_extra_init;
+  funcs->server_connect = qtg_server_connect;
   funcs->add_net_input = qtg_add_net_input;
   funcs->remove_net_input = qtg_remove_net_input;
   funcs->real_conn_list_dialog_update = qtg_real_conn_list_dialog_update;

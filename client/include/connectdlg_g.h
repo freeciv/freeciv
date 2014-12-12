@@ -18,8 +18,8 @@
 GUI_FUNC_PROTO(void, close_connection_dialog, void)
 GUI_FUNC_PROTO(void, really_close_connection_dialog, void)
 
-GUI_FUNC_PROTO(void, gui_server_connect, void)
+GUI_FUNC_PROTO(void, server_connect, void)
 
-GUI_FUNC_PROTO(void, gui_set_rulesets, int num_rulesets, char **rulesets)
+GUI_FUNC_PROTO(void, set_rulesets, int num_rulesets, char **rulesets)
 
 #endif  /* FC__CONNECTDLG_G_H */

@@ -77,9 +77,9 @@ void setup_gui_funcs()
   funcs->get_text_size = gui_get_text_size;
   funcs->canvas_put_text = gui_canvas_put_text;
 
-  funcs->gui_set_rulesets = gui_gui_set_rulesets;
-  funcs->gui_options_extra_init = gui_gui_options_extra_init;
-  funcs->gui_server_connect = gui_gui_server_connect;
+  funcs->set_rulesets = gui_set_rulesets;
+  funcs->options_extra_init = gui_options_extra_init;
+  funcs->server_connect = gui_server_connect;
   funcs->add_net_input = gui_add_net_input;
   funcs->remove_net_input = gui_remove_net_input;
   funcs->real_conn_list_dialog_update = gui_real_conn_list_dialog_update;

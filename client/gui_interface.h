@@ -94,9 +94,9 @@ struct gui_funcs {
                           enum client_font font, struct color *pcolor,
                           const char *text);
 
-  void (*gui_set_rulesets)(int num_rulesets, char **rulesets);
-  void (*gui_options_extra_init)(void);
-  void (*gui_server_connect)(void);
+  void (*set_rulesets)(int num_rulesets, char **rulesets);
+  void (*options_extra_init)(void);
+  void (*server_connect)(void);
   void (*add_net_input)(int sock);
   void (*remove_net_input)(void);
   void (*real_conn_list_dialog_update)(void);

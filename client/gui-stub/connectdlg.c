@@ -100,7 +100,7 @@ void handle_game_load(bool load_successful, const char *filename)
 /**************************************************************************
   Provide an interface for connecting to a Freeciv server.
 **************************************************************************/
-void gui_gui_server_connect(void)
+void gui_server_connect(void)
 {
   /* PORTME */
 }

@@ -86,9 +86,9 @@ void qtg_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                          enum client_font font, struct color *pcolor,
                          const char *text);
 
-void qtg_gui_set_rulesets(int num_rulesets, char **rulesets);
-void qtg_gui_options_extra_init();
-void qtg_gui_server_connect();
+void qtg_set_rulesets(int num_rulesets, char **rulesets);
+void qtg_options_extra_init();
+void qtg_server_connect();
 void qtg_add_net_input(int sock);
 void qtg_remove_net_input();
 void qtg_real_conn_list_dialog_update();

@@ -298,7 +298,7 @@ void ui_init(void)
 /****************************************************************************
   Extra initializers for client options.
 ****************************************************************************/
-void gui_options_extra_init(void)
+void options_extra_init(void)
 {
   /* Nothing to do. */
 }

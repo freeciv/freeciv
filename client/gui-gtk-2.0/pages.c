@@ -3279,7 +3279,7 @@ void mapimg_client_save(const char *filename)
   "default", and if the user changes this then set_ruleset() should be
   called.
 ****************************************************************************/
-void gui_set_rulesets(int num_rulesets, char **rulesets)
+void set_rulesets(int num_rulesets, char **rulesets)
 {
   int i;
   int def_idx = -1;

@@ -604,7 +604,7 @@ void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
       rulesets[i][len - suf_len] = '\0';
     }
   }
-  gui_set_rulesets(packet->ruleset_count, rulesets);
+  set_rulesets(packet->ruleset_count, rulesets);
 
   for (i = 0; i < packet->ruleset_count; i++) {
     free(rulesets[i]);
@@ -613,7 +613,7 @@ void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
 
 /**************************************************************************
   Called by the GUI code when the user sets the ruleset.  The ruleset
-  passed in here should match one of the strings given to gui_set_rulesets.
+  passed in here should match one of the strings given to set_rulesets().
 **************************************************************************/
 void set_ruleset(const char *ruleset)
 {
