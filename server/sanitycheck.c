@@ -358,6 +358,7 @@ static void check_units(const char *file, const char *function, int line)
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
       struct tile *ptile = unit_tile(punit);
+      struct terrain *pterr = tile_terrain(ptile);
       struct city *pcity;
       struct city *phome;
       struct unit *ptrans = unit_transport_get(punit);
@@ -382,6 +383,12 @@ static void check_units(const char *file, const char *function, int line)
                     TILE_XY(ptile), unit_rule_name(punit),
                     get_activity_text(punit->activity),
                     tile_get_info_text(ptile, TRUE, 0));
+      }
+
+      if (activity_requires_target(punit->activity)
+          && (punit->activity != ACTIVITY_IRRIGATE || pterr->irrigation_result == pterr)
+          && (punit->activity != ACTIVITY_MINE || pterr->mining_result == pterr)) {
+        SANITY_CHECK(punit->activity_target != NULL);
       }
 
       pcity = tile_city(ptile);
