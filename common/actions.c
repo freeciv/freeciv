@@ -373,12 +373,6 @@ void action_enabler_add(struct action_enabler *enabler)
 **************************************************************************/
 void action_enabler_append_hard(struct action_enabler *enabler)
 {
-  if (enabler->action == ACTION_ESTABLISH_EMBASSY) {
-    requirement_vector_append(&enabler->actor_reqs,
-                              req_from_str("DiplRel", "Local", FALSE,
-                                           FALSE, "Has real embassy"));
-  }
-
   if (enabler->action != ACTION_TRADE_ROUTE
       && enabler->action != ACTION_MARKETPLACE
       && enabler->action != ACTION_HELP_WONDER) {
@@ -480,6 +474,18 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * controlled by action enablers assumes that the acting player can see
      * the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_ESTABLISH_EMBASSY) {
+    /* Why this is a hard requirement: There is currently no point in
+     * establishing an embassy when a real embassy already exists.
+     * (Possible exception: crazy hack using the Lua callback
+     * action_started_callback() to make establish embassy do something
+     * else even if the UI still call the action Establish Embassy) */
+    /* Info leak: The actor player known who he has a real embassy to. */
+    if (player_has_real_embassy(actor_player, target_player)) {
       return FALSE;
     }
   }
