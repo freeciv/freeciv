@@ -208,7 +208,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   mplist_table->hideColumn(ML_TYPE);
 
   connect(mplist_table, SIGNAL(cellClicked(int, int)), this, SLOT(row_selected(int, int)));
-  connect(mplist_table, SIGNAL(cellActivated(int, int)), this, SLOT(row_download(int, int)));
+  connect(mplist_table, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(row_download(QModelIndex)));
 
   main_layout->addWidget(mplist_table);
 
@@ -403,9 +403,9 @@ void mpgui::row_selected(int row, int column)
 /**************************************************************************
   User activated another table row
 **************************************************************************/
-void mpgui::row_download(int row, int column)
+void mpgui::row_download(const QModelIndex &index)
 {
-  QString URL = mplist_table->item(row, ML_COL_URL)->text();
+  QString URL = mplist_table->item(index.row(), ML_COL_URL)->text();
 
   URLedit->setText(URL);
 
