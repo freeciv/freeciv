@@ -256,12 +256,12 @@ reqs    =
       "UnitClass", "Missile", "Local", FALSE
     }
 
-[effect_trench_defense]
+[effect_fort_defense]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Trench", "Local", TRUE
+      "Extra", "Fort", "Local", TRUE
 ;      "UnitClass", "Land", "Local", FALSE
 ;      "UnitClass", "Small Land", "Local", FALSE
 ;      "UnitClass", "Big Land", "Local", FALSE
@@ -296,7 +296,7 @@ type    = "HP_Regen"
 value   = 10
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Airfield", "Local", TRUE
+      "Extra", "Airstrip", "Local", TRUE
       "UnitClass", "Land", "Local", FALSE
       "UnitClass", "Small Land", "Local", FALSE
       "UnitClass", "Big Land", "Local", FALSE
@@ -330,7 +330,7 @@ type    = "Defend_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Airfield", "Local", TRUE
+      "Extra", "Airstrip", "Local", TRUE
       "UnitClass", "Land", "Local", FALSE
       "UnitClass", "Small Land", "Local", FALSE
       "UnitClass", "Big Land", "Local", FALSE

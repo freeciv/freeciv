@@ -1216,8 +1216,8 @@ reqs           =
 removal_time   = 0
 flags          = "NuclearWinter"
 
-[extra_trench]
-name           = _("Trench")
+[extra_fort]
+name           = _("Fort")
 category       = "Infra"
 causes         = "Base"
 rmcauses       = "Pillage"
@@ -1237,11 +1237,11 @@ reqs           =
 build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
-conflicts      = "Airfield", "Airbase"
+conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile"
 helptext       = _("\
-Trenches are fast-built fortifications providing some defense to land units. \
-The construction of fortresses can begin only after the underlaying trench \
+Forts are fast-built fortifications providing some defense to land units. \
+The construction of fortresses can begin only after the underlaying fort \
 is completed.\
 ")
 
@@ -1258,7 +1258,7 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
-      "Extra", "Trench", "Local", TRUE
+      "Extra", "Fort", "Local", TRUE
       "Tech", "Construction", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
@@ -1267,7 +1267,7 @@ reqs           =
 build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
-conflicts      = "Airfield", "Airbase"
+conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
@@ -1275,8 +1275,8 @@ unit remaining in a fortress for a whole turn without moving recovers \
 a quarter of its hit points.\
 ")
 
-[extra_airfield]
-name           = _("Airfield")
+[extra_airstrip]
+name           = _("Airstrip")
 category       = "Infra"
 causes         = "Base"
 rmcauses       = "Pillage"
@@ -1296,13 +1296,13 @@ reqs           =
 build_time     = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
-conflicts      = "Trench", "Fortress"
+conflicts      = "Fort", "Fortress"
 flags          = "Refuel"
 helptext       = _("\
-Airfields are fast-built airbases to allow air units to land and refuel, \
+Airstrips are fast-built airbases to allow air units to land and refuel, \
 and improve the defense against enemy air units. \
-Air units in an airfield may be attacked by land units. \
-The construction of an airbase can begin only after the underlaying airfield \
+Air units in an airstrip may be attacked by land units. \
+The construction of an airbase can begin only after the underlaying airstrip \
 is completed.\
 ")
 
@@ -1319,7 +1319,7 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
-      "Extra", "Airfield", "Local", TRUE
+      "Extra", "Airstrip", "Local", TRUE
       "Tech", "Radio", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Airbase", "Local", TRUE
@@ -1328,7 +1328,7 @@ reqs           =
 build_time     = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
-conflicts      = "Trench", "Fortress"
+conflicts      = "Fort", "Fortress"
 flags          = "Refuel"
 helptext       = _("\
 Airbases allow your air units to land and refuel, and improve the defense \
@@ -1547,8 +1547,8 @@ Roads and railroads can only be built on River tiles if your\
 ;
 ; */ <-- avoid gettext warnings
 
-[base_trench]
-name           = _("Trench")
+[base_fort]
+name           = _("Fort")
 gui_type       = "Fortress"
 border_sq      = -1
 flags          = "DiplomatDefense"
@@ -1559,8 +1559,8 @@ gui_type       = "Fortress"
 border_sq      = -1
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 
-[base_airfield]
-name           = _("Airfield")
+[base_airstrip]
+name           = _("Airstrip")
 gui_type       = "Airbase"
 border_sq      = -1
 flags          = "ParadropFrom"
