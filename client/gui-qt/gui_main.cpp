@@ -124,6 +124,8 @@ static bool parse_options(int argc, char **argv)
       print_usage();
       return false;
     }
+    // Can't check against unknown options, as those might be Qt options
+
     i++;
   }
 

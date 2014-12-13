@@ -263,15 +263,18 @@ static void print_usage(void)
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
-  int i;
+  int i = 1;
 
-  i = 1;
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage();
       exit(EXIT_SUCCESS);
+    } else {
+      fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      exit(EXIT_FAILURE);
     }
-    i += 1;
+
+    i++;
   }
 }
 

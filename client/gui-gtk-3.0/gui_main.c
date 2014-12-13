@@ -291,6 +291,7 @@ static void parse_options(int argc, char **argv)
 
       set_map_zoom(strtof(option, &endptr));
     }
+    /* Can't check against unknown options, as those might be gtk options */
 
     i++;
   }
