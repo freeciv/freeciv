@@ -285,6 +285,8 @@ static void parse_options(int argc, char **argv)
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
     }
+    /* Can't check against unknown options, as those might be gtk options */
+
     i++;
   }
 }

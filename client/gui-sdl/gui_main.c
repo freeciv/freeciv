@@ -192,17 +192,20 @@ static void parse_options(int argc, char **argv)
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
-    } else if (is_option("--fullscreen",argv[i])) {
+    } else if (is_option("--fullscreen", argv[i])) {
       gui_sdl_fullscreen = TRUE;
-    } else if (is_option("--eventthread",argv[i])) {
+    } else if (is_option("--eventthread", argv[i])) {
       /* init events in other thread ( only linux and BeOS ) */  
       SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
       sz_strlcpy(gui_sdl_default_theme_name, option);
+    } else {
+      fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      exit(EXIT_FAILURE);
     }
+
     i++;
   }
-  
 }
 
 /**************************************************************************

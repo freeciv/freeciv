@@ -86,18 +86,18 @@ static void print_usage(const char *argv0)
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
-  int i;
+  int i = 1;
 
-  i = 1;
-  while (i < argc)
-  {
-    if (is_option("--help", argv[i]))
-    {
+  while (i < argc) {
+    if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
+    } else {
+      fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      exit(EXIT_FAILURE);
     }
-    /* PORTME */
-    i += 1;
+
+    i++;
   }
 }
 
