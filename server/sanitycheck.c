@@ -465,15 +465,24 @@ static void check_players(const char *file, const char *function, int line)
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {
-      struct player_diplstate *state1 = player_diplstate_get(pplayer, pplayer2);
-      struct player_diplstate *state2 = player_diplstate_get(pplayer2, pplayer);
+      struct player_diplstate *state1, *state2;
 
+      if (pplayer2 == pplayer) {
+        break; /* Do diplomatic sanity check only once per player couple. */
+      }
+
+      state1 = player_diplstate_get(pplayer, pplayer2);
+      state2 = player_diplstate_get(pplayer2, pplayer);
       SANITY_CHECK(state1->type == state2->type);
       if (state1->type == DS_CEASEFIRE) {
         SANITY_CHECK(state1->turns_left == state2->turns_left);
       }
       if (state1->type == DS_TEAM) {
         SANITY_CHECK(players_on_same_team(pplayer, pplayer2));
+        SANITY_CHECK(player_has_real_embassy(pplayer, pplayer2));
+        SANITY_CHECK(player_has_real_embassy(pplayer2, pplayer));
+        SANITY_CHECK(really_gives_vision(pplayer, pplayer2));
+        SANITY_CHECK(really_gives_vision(pplayer2, pplayer));
       }
       if (pplayer->is_alive
           && pplayer2->is_alive
