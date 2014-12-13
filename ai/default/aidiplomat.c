@@ -210,7 +210,7 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
       return;
     }
     incite_cost = city_incite_cost(pplayer, acity);
-    if (HOSTILE_PLAYER(ait, pplayer, city_owner(acity))
+    if (POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, city_owner(acity))
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
         && (incite_cost < pplayer->economic.gold - expenses)) {
       /* incite gain (FIXME: we should count wonders too but need to
@@ -538,7 +538,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     }
 
     if (!pvictim
-        || !HOSTILE_PLAYER(ait, pplayer, unit_owner(pvictim))
+        || !POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
         || tile_city(ptile)
         || unit_has_type_flag(pvictim, UTYF_UNBRIBABLE)

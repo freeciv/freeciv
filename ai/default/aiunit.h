@@ -67,8 +67,8 @@ struct unit_type_ai
 #define IS_ATTACKER(punit) \
   (unit_type(punit)->attack_strength \
         > unit_type(punit)->transport_capacity)
-#define HOSTILE_PLAYER(ait, pplayer, aplayer)                            \
-  (WAR(pplayer, aplayer)                                                    \
+#define POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, aplayer)               \
+  (WAR(pplayer, aplayer) || NEVER_MET(pplayer, aplayer)                 \
    || dai_diplomacy_get(ait, pplayer, aplayer)->countdown >= 0)
 #define UNITTYPE_COSTS(ut)						\
   (ut->pop_cost * 3 + ut->happy_cost					\

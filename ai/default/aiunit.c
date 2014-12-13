@@ -954,7 +954,7 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
     struct city *pcity = tile_city(tile1);
 
     if (pcity
-        && HOSTILE_PLAYER(ait, pplayer, city_owner(pcity))
+        && POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
       int attacks;
       struct ai_city *city_data = def_ai_city_data(pcity, ait);
@@ -1126,8 +1126,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
 
   /* Reset enemy cities data. */
   players_iterate(aplayer) {
-    /* See comment below in next usage of HOSTILE_PLAYER. */
-    if ((punit->id == 0 && !HOSTILE_PLAYER(ait, pplayer, aplayer))
+    /* See comment below in next usage of POTENTIALLY_HOSTILE_PLAYER. */
+    if ((punit->id == 0 && !POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, aplayer))
         || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       continue;
     }
@@ -1243,7 +1243,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
      * which units to build, we want to calculate in danger and which
      * players we want to make war with in the future. We do _not_ want
      * to do this when actually making attacks. */
-    if ((punit->id == 0 && !HOSTILE_PLAYER(ait, pplayer, aplayer))
+    if ((punit->id == 0 && !POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, aplayer))
         || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       continue; /* Not an enemy. */
     }

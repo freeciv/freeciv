@@ -194,12 +194,12 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
 
   /* Estimate enemy attack power. */
   unit_list_iterate(dest_tile->units, aunit) {
-    if (HOSTILE_PLAYER(ait, pplayer, unit_owner(aunit))) {
+    if (POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, unit_owner(aunit))) {
       danger += adv_unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
   dcity = tile_city(dest_tile);
-  if (dcity && HOSTILE_PLAYER(ait, pplayer, city_owner(dcity))) {
+  if (dcity && POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     struct unit_type *d_type = dai_choose_defender_versus(dcity, punit);
 
