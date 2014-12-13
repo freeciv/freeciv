@@ -211,6 +211,7 @@ static void close_connection(struct connection *pconn)
   pconn->server.ignore_list = NULL;
 
   /* safe to do these even if not in lists: */
+  conn_list_remove(game.glob_observers, pconn);
   conn_list_remove(game.all_connections, pconn);
   conn_list_remove(game.est_connections, pconn);
 
@@ -228,16 +229,18 @@ static void close_connection(struct connection *pconn)
 void close_connections_and_socket(void)
 {
   int i;
+
   lsend_packet_server_shutdown(game.all_connections);
 
-  for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
-    if(connections[i].used) {
+  for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+    if (connections[i].used) {
       close_connection(&connections[i]);
     }
     conn_list_destroy(connections[i].self);
   }
 
   /* Remove the game connection lists and make sure they are empty. */
+  conn_list_destroy(game.glob_observers);
   conn_list_destroy(game.all_connections);
   conn_list_destroy(game.est_connections);
 
@@ -281,6 +284,7 @@ static void really_close_connections(void)
         closing[num++] = pconn;
         /* Remove closing connections from the lists (hard detach)
          * to avoid sending to closing connections. */
+        conn_list_remove(game.glob_observers, pconn);
         conn_list_remove(game.est_connections, pconn);
         conn_list_remove(game.all_connections, pconn);
         if (NULL != conn_get_player(pconn)) {
@@ -1287,6 +1291,7 @@ void init_connections(void)
 
   game.all_connections = conn_list_new();
   game.est_connections = conn_list_new();
+  game.glob_observers = conn_list_new();
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
     struct connection *pconn = &connections[i];

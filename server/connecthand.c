@@ -613,6 +613,25 @@ static bool connection_attach_real(struct connection *pconn,
     }
 
     send_player_info_c(pplayer, game.est_connections);
+
+    /* Remove from global observers list, if was there */
+    conn_list_remove(game.glob_observers, pconn);
+  } else if (pplayer == NULL) {
+    /* Global observer */
+    bool already = FALSE;
+
+    fc_assert(observing);
+
+    conn_list_iterate(game.glob_observers, pconn2) {
+      if (pconn2 == pconn) {
+        already = TRUE;
+        break;
+      }
+    } conn_list_iterate_end;
+
+    if (!already) {
+      conn_list_append(game.glob_observers, pconn);
+    }
   }
 
   /* We don't want the connection's username on another player. */

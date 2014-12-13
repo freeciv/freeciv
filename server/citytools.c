@@ -3039,7 +3039,7 @@ void clear_worker_task(struct city *pcity)
   packet.want = 0;
 
   lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
-  /* TODO: Send to global observers */
+  lsend_packet_worker_task(game.glob_observers, &packet);
 }
 
 /**************************************************************************
@@ -3064,5 +3064,5 @@ void package_and_send_worker_task(struct city *pcity)
   packet.want = pcity->task_req.want;
 
   lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
-  /* TODO: Send to global observers */
+  lsend_packet_worker_task(game.glob_observers, &packet);
 }

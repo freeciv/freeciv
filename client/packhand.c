@@ -1100,7 +1100,8 @@ void handle_worker_task(const struct packet_worker_task *packet)
 {
   struct city *pcity = game_city_by_number(packet->city_id);
 
-  if (pcity == NULL || pcity->owner != client.conn.playing) {
+  if (pcity == NULL
+      || (pcity->owner != client.conn.playing && !client_is_global_observer())) {
     return;
   }
 
