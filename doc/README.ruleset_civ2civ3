@@ -277,7 +277,7 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
 - Land units can capture enemy Migrants (as slaves) and Caravans/Freights (as loot).
 - Wheeled units (new unit class "Big land") can't move to Mountains, Jungles and Swamps, unless they are travelling on a road. They do not get defensive bonuses from the terrain, can not perform pillage, and need Galleons or Transports to travel by sea.
 - Added Elephants from civ2, available with Polytheism: (at/def/mov-hp,cost) = (3/2/2-10,30). Obsolete by Dragoons.
-- Added Crusaders from civ2, available with Monotheism: (5/1/2-10,40). Obsolete by Dragoons.
+- Added Crusaders from civ2, available with Monotheism: (5/1/2-10,40). Obsolete by Dragoons. They do not cause military unhappiness.
 - Added Fanatics from civ2, available with Guerrilla, under Fundamentalism government: (5/5/1-20,20). They cost 1 population, but do not cause unhappiness and do not need upkeep.
 
 - Archers defense reduced to 1 (was 2), and cost to 20 (was 30). Legion cost reduced to 30 (was 40). This way the ratio Attack/Cost of ancient units is more even to Catapults.
@@ -307,14 +307,14 @@ Musketeers      3    3    1    1    20  *40  *Marines
 Riflemen        5    4    1    1    20  *50  *Marines
 Alpine Troops  *7   *4    1    1    20  *60   IgTer
 Partisan        4   *5    1    1    20  *60   IgTer, IgZOC
-Fanatics       *5   *5    1    1    20   20  *1 Pop, No upkeep
+Fanatics       *5   *5    1    1    20   20  *1 Pop, No upkeep, No unhappy
 Marines         8    5    1    1    20   60   Marines
 Paratroopers    6    4    1    1    20   60   Paratroopers
                          
 Horsemen        2    1    2    1    10   20
 Chariot        *4    1    2    1    10   30  *Wheeled
 Elephants      *3   *2    2    1    10  *30
-Crusaders       5    1    2    1    10   40
+Crusaders       5    1    2    1    10   40  *No unhappy
 Knights         4   *3    2    1    10   40
 Dragoons        5    2    2    1    20   50
 Cavalry         8    3    2    1    20   60
