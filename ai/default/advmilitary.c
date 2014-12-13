@@ -1213,7 +1213,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     /* Rating of enemy defender */
     int vulnerability;
 
-    if (!HOSTILE_PLAYER(ait, pplayer, city_owner(acity))) {
+    if (!POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, city_owner(acity))) {
       /* Not a valid target */
       goto cleanup;
     }
