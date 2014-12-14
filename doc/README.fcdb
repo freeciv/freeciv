@@ -43,6 +43,17 @@ server):
   backend="sqlite"
   database="/my/path/to/freeciv.sqlite"
 
+If you have experimental xml registry backend built in to freeciv, above
+configuration can also be given as
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Freeciv options="+xml">
+  <fcdb>
+    <database>"/my/path/to/freeciv.sqlite"</database>
+    <backend>"sqlite"</backend>
+  </fcdb>
+</Freeciv>
+
 (For more information on the format of this file, see below. There are more
 settings available, but this file is entirely sufficient for a SQLite
 setup.)
