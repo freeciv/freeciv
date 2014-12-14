@@ -49,6 +49,9 @@ struct fcmp_params
 #define SPECENUM_VALUE5NAME N_("Musicset")
 #include "specenum_gen.h"
 
+void fcmp_init(int loglevel);
+void fcmp_deinit(void);
+
 void load_install_info_lists(struct fcmp_params *fcmp);
 void save_install_info_lists(struct fcmp_params *fcmp);
 void update_install_info_lists(const char *name,

@@ -16,9 +16,13 @@
 #endif
 
 /* utility */
+#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "netintf.h"
+#include "rand.h"
+#include "registry.h"
 
 /* modinst */
 #include "mpdb.h"
@@ -161,4 +165,30 @@ const char *get_installed_version(const char *name, enum modpack_type type)
   } install_info_list_iterate_end;
 
   return NULL;
+}
+
+/**************************************************************************
+  Initialize modpack installer
+**************************************************************************/
+void fcmp_init(int loglevel)
+{
+  init_nls();
+  init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+  registry_module_init();
+
+  fc_init_network();
+
+  log_init(NULL, loglevel, NULL, NULL, -1);
+  fc_srand(time(NULL)); /* Needed at least for Windows version of netfile_get_section_file() */
+}
+
+/**************************************************************************
+  Deinitialize modpack installer
+**************************************************************************/
+void fcmp_deinit(void)
+{
+  registry_module_close();
+  fc_shutdown_network();
+  log_close();
+  free_nls();
 }
