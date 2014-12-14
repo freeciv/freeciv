@@ -45,7 +45,7 @@
 #define dialog_list_iterate(dialoglist, pdialog) \
     TYPED_LIST_ITERATE(struct SMALL_DLG, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
-    
+
 static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
@@ -73,6 +73,7 @@ static int space_dialog_window_callback(struct widget *pWindow)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     move_window_group(pWindow->private_data.small_dlg->pBeginWidgetList, pWindow);
   }
+
   return -1;
 }
 
@@ -82,6 +83,7 @@ static int exit_space_dialog_callback(struct widget *pWidget)
     popdown_spaceship_dialog(pWidget->data.player);
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -90,6 +92,7 @@ static int launch_spaceship_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     send_packet_spaceship_launch(&client.conn);
   }
+
   return -1;
 }
 
@@ -100,11 +103,11 @@ void refresh_spaceship_dialog(struct player *pPlayer)
 {
   struct SMALL_DLG *pSpaceShp;
   struct widget *pBuf;
-    
+
   if (!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
     return;
   }
-  
+
   /* launch button */
   pBuf = pSpaceShp->pEndWidgetList->prev->prev;
   if (victory_enabled(VC_SPACERACE)
@@ -113,17 +116,17 @@ void refresh_spaceship_dialog(struct player *pPlayer)
       && pPlayer->spaceship.success_rate > 0.0) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
-  
+
   /* update text info */
   pBuf = pBuf->prev;
   copy_chars_to_string16(pBuf->string16,
-				get_spaceship_descr(&pPlayer->spaceship));
+                         get_spaceship_descr(&pPlayer->spaceship));
   /* ------------------------------------------ */
-  
-    /* redraw */
+
+  /* redraw */
   redraw_group(pSpaceShp->pBeginWidgetList, pSpaceShp->pEndWidgetList, 0);
   widget_mark_dirty(pSpaceShp->pEndWidgetList);
-  
+
   flush_dirty();
 }
 
@@ -134,21 +137,21 @@ void popup_spaceship_dialog(struct player *pPlayer)
 {
   struct SMALL_DLG *pSpaceShp;
 
-  if(!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
+  if (!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
     struct widget *pBuf, *pWindow;
     SDL_String16 *pStr;
     char cBuf[128];
     SDL_Rect area;
-  
+
     pSpaceShp = fc_calloc(1, sizeof(struct SMALL_DLG));
-    
+
     fc_snprintf(cBuf, sizeof(cBuf), _("The %s Spaceship"),
-				    nation_adjective_for_player(pPlayer));
+                nation_adjective_for_player(pPlayer));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
-  
+
     pWindow = create_window_skeleton(NULL, pStr, 0);
-  
+
     pWindow->action = space_dialog_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
     pWindow->data.player = pPlayer;
@@ -157,7 +160,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pSpaceShp->pEndWidgetList = pWindow;
 
     area = pWindow->area;
-    
+
     /* ---------- */
     /* create exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
@@ -170,17 +173,17 @@ void popup_spaceship_dialog(struct player *pPlayer)
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_ESCAPE;
     area.w = MAX(area.w, (pBuf->size.w + adj_size(10)));
-  
+
     add_to_gui_list(ID_BUTTON, pBuf);
-  
+
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-					      _("Launch"), adj_font(12), 0);
-        
+                                              _("Launch"), adj_font(12), 0);
+
     pBuf->action = launch_spaceship_callback;
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h + adj_size(20);
     add_to_gui_list(ID_BUTTON, pBuf);
-    
+
     pStr = create_str16_from_char(get_spaceship_descr(NULL), adj_font(12));
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
@@ -190,19 +193,19 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     pSpaceShp->pBeginWidgetList = pBuf;
     /* -------------------------------------------------------- */
-  
+
     area.w = MAX(area.w, adj_size(300) - (pWindow->size.w - pWindow->area.w));
 
     resize_window(pWindow, NULL, NULL,
                   (pWindow->size.w - pWindow->area.w) + area.w,
                   (pWindow->size.h - pWindow->area.h) + area.h);
-    
+
     area = pWindow->area;
-    
+
     widget_set_position(pWindow,
                         (main_window_width() - pWindow->size.w) / 2,
                         (main_window_height() - pWindow->size.h) / 2);
-    
+
     /* exit button */
     pBuf = pWindow->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
@@ -212,14 +215,14 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
     pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
-  
+
     /* info label */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
     pBuf->size.y = area.y + adj_size(7);
 
     dialog_list_prepend(dialog_list, pSpaceShp);
-    
+
     refresh_spaceship_dialog(pPlayer);
   } else {
     if (select_window_group_dialog(pSpaceShp->pBeginWidgetList,
@@ -227,7 +230,6 @@ void popup_spaceship_dialog(struct player *pPlayer)
       widget_flush(pSpaceShp->pEndWidgetList);
     }
   }
-  
 }
 
 /**************************************************************************
@@ -237,11 +239,10 @@ void popdown_spaceship_dialog(struct player *pPlayer)
 {
   struct SMALL_DLG *pSpaceShp;
 
-  if((pSpaceShp = get_spaceship_dialog(pPlayer))) {
+  if ((pSpaceShp = get_spaceship_dialog(pPlayer))) {
     popdown_window_group_dialog(pSpaceShp->pBeginWidgetList,
-					    pSpaceShp->pEndWidgetList);
+                                pSpaceShp->pEndWidgetList);
     dialog_list_remove(dialog_list, pSpaceShp);
     FC_FREE(pSpaceShp);
   }
-  
 }

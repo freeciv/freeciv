@@ -61,12 +61,12 @@ struct theme_background_system *theme_background_system_read(struct section_file
   struct theme_background_system *backgrounds = fc_malloc(sizeof(*backgrounds));
 
   fc_assert_ret_val(ARRAY_SIZE(background_names) == BACKGROUND_LAST, NULL);
-  
+
   for (i = 0; i < BACKGROUND_LAST; i++) {
-    backgrounds->backgrounds[i] = 
+    backgrounds->backgrounds[i] =
       themespec_gfx_filename(secfile_lookup_str(file, "backgrounds.%s", background_names[i]));
   }
-  
+
   return backgrounds;
 }
 
@@ -80,14 +80,15 @@ void theme_background_system_free(struct theme_background_system *backgrounds)
   for (i = 0; i < BACKGROUND_LAST; i++) {
     FC_FREE(backgrounds->backgrounds[i]);
   }
-  
+
   free(backgrounds);
 }
 
 /****************************************************************************
   Return a pointer to the given theme background.
 ****************************************************************************/
-SDL_Surface *theme_get_background(const struct theme *t, enum theme_background background)
+SDL_Surface *theme_get_background(const struct theme *t,
+                                  enum theme_background background)
 {
   return load_surf(theme_get_background_system(t)->backgrounds[background]);
 }

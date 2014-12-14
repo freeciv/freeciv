@@ -60,7 +60,7 @@ struct sprite * load_gfxfile(const char *filename)
 
   if ((pBuf = IMG_Load(filename)) == NULL) {
     log_error(_("load_gfxfile: Unable to load graphic file %s!"), filename);
-    return NULL;		/* Should I use abotr() ? */
+    return NULL; /* Should I use abort() ? */
   }
 
 #if 0
@@ -71,10 +71,10 @@ struct sprite * load_gfxfile(const char *filename)
     FREESURFACE(pBuf);
     pBuf = pNew;
   }
-#endif
+#endif /* 0 */
 
   pNew = pBuf;
-  
+
   return ctor_sprite(pNew);
 }
 
@@ -100,9 +100,9 @@ struct sprite * load_gfxfile(const char *filename)
   which is pixel (-x,-y) in the new image.
 ****************************************************************************/
 struct sprite *crop_sprite(struct sprite *source,
-			   int x, int y, int width, int height,
-			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y)
+                           int x, int y, int width, int height,
+                           struct sprite *mask,
+                           int mask_offset_x, int mask_offset_y)
 {
   SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
   SDL_Surface *pSrc = crop_rect_from_surface(GET_SURF(source), &src_rect);
@@ -110,7 +110,7 @@ struct sprite *crop_sprite(struct sprite *source,
 
   if (mask) {
     pDest = mask_surface(pSrc, mask->psurface, x - mask_offset_x, y - mask_offset_y);
-    FREESURFACE(pSrc);    
+    FREESURFACE(pSrc);
     return ctor_sprite(pDest);
   }
 
@@ -135,7 +135,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
 #if 0
   pmask = SDL_DisplayFormatAlpha(mypixbuf);
   SDL_FillRect(mypixbuf, NULL, map_rgba(pmask->format, *pcolor->color));
-#endif
+#endif /* 0 */
 
   return ctor_sprite(mypixbuf);
 }

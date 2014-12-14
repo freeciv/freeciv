@@ -69,7 +69,7 @@ void gui_clear_theme(void)
 char **get_gui_specific_themes_directories(int *count)
 {
   const struct strvec *data_dirs = get_data_dirs();
-  char **directories = fc_malloc(strvec_size(data_dirs) * sizeof(char *));  
+  char **directories = fc_malloc(strvec_size(data_dirs) * sizeof(char *));
   int i = 0;
 
   *count = strvec_size(data_dirs);
@@ -94,7 +94,6 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
 {
   DIR *dir;
   struct dirent *entry;
-  
   char **theme_names = fc_malloc(sizeof(char *) * 2);
   /* Allocated memory size */
   int t_size = 2;
@@ -113,17 +112,17 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
 
     fc_snprintf(buf, sizeof(buf),
 		"%s/%s/theme.themespec", directory, entry->d_name);
-    
+
     if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */
       continue;
     }
-    
+
     if (!S_ISREG(stat_result.st_mode)) {
       /* Not a regular file */
       continue;
     }
-    
+
     /* Otherwise it's ok */
 
     /* Increase array size if needed */
