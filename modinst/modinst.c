@@ -69,6 +69,8 @@ static gboolean quit_dialog_callback(void);
 ****************************************************************/
 static void modinst_quit(void)
 {
+  fc_shutdown_network();
+  log_close();
   free_nls();
 
   exit(EXIT_SUCCESS);
@@ -481,7 +483,9 @@ int main(int argc, char *argv[])
     gtk_main();
   }
 
+  fc_shutdown_network();
   log_close();
+  free_nls();
 
   return EXIT_SUCCESS;
 }
