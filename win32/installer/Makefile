@@ -194,11 +194,13 @@ QT_DLLS := \
 	Qt5Gui.dll \
 	Qt5Widgets.dll
 
-install-env-qt: install-env-default-fcmp
+install-env-qt: install-env-common
 	# add DLLs
 	cp -R $(addprefix /bin/, $(QT_DLLS)) install-$(GUI)
 	# add additional Qt files
 	cp -R /plugins install-$(GUI)/
+	cp -R /share/locale install-$(GUI)/share/
+	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
 # build installer
 	
