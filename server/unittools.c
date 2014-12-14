@@ -760,11 +760,17 @@ static void unit_convert(struct unit *punit)
 **************************************************************************/
 static void update_unit_activity(struct unit *punit)
 {
+  const enum unit_activity tile_changing_actions[] =
+    { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
+      ACTIVITY_BASE, ACTIVITY_TRANSFORM, ACTIVITY_POLLUTION,
+      ACTIVITY_FALLOUT, ACTIVITY_LAST };
+
   struct player *pplayer = unit_owner(punit);
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
   bool check_adjacent_units = FALSE;
+  int i;
   
   switch (activity) {
   case ACTIVITY_IDLE:
@@ -845,7 +851,6 @@ static void update_unit_activity(struct unit *punit)
       bounce_units_on_terrain_change(ptile);
 
       unit_activity_done = TRUE;
-      check_adjacent_units = TRUE;
 
       call_incident(INCIDENT_PILLAGE, unit_owner(punit), victim);
 
@@ -900,11 +905,6 @@ static void update_unit_activity(struct unit *punit)
       check_terrain_change(ptile, old);
 
       unit_activity_done = TRUE;
-      if (activity != ACTIVITY_IRRIGATE) {
-        /* May have destroyed irrigation that other activity was
-         * depending on. */
-        check_adjacent_units = TRUE;
-      }
     }
     break;
 
@@ -914,6 +914,13 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_AIRBASE:
     fc_assert(FALSE);
     break;
+  }
+
+  for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
+    if (tile_changing_actions[i] == activity) {
+      check_adjacent_units = TRUE;
+      break;
+    }
   }
 
   if (unit_activity_done) {
@@ -942,7 +949,9 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  /* Some units nearby may not be able to continue irrigating */
+  /* Some units nearby may not be able to continue their action,
+   * such as building irrigation if we removed the only source
+   * of water from them. */
   if (check_adjacent_units) {
     adjc_iterate(ptile, ptile2) {
       unit_list_iterate(ptile2->units, punit2) {
