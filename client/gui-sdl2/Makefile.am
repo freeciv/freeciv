@@ -43,12 +43,8 @@ libgui_sdl2_la_SOURCES = \
 	gui_string.h	\
 	gui_tilespec.c	\
 	gui_tilespec.h  \
-	happiness.c	\
-	happiness.h	\
 	helpdlg.c	\
 	helpdlg.h	\
-	inputdlg.c	\
-	inputdlg.h	\
 	inteldlg.c	\
 	inteldlg.h	\
 	luaconsole.c	\
