@@ -164,35 +164,27 @@ help_dialog::help_dialog(QWidget *parent) :
 void help_dialog::make_tree()
 {
   QTreeWidgetItem *item;
-  int d, depht = 0;
-  QStack<QTreeWidgetItem *> stack;
+  int dep;
   char *title;
+  QHash<int, QTreeWidgetItem*> hash;
 
   help_items_iterate(pitem) {
+    const char *s;
+    int last;
     title = pitem->topic;
-    for (d = 0; *title == ' '; ++title, ++d) {
-      // Do nothing
+    for (s = pitem->topic; *s == ' '; s++) {
+      /* nothing */
     }
     item = new QTreeWidgetItem(QStringList(title));
     topics_map[item] = pitem;
-    if (d > 0 && d == depht) {
-      // Same level in the tree
-      stack.pop();
-    } else if (d > 0 && d < depht) {
-      // Less deep
-      for ( ; d <= depht; --depht) {
-        stack.pop();
-      }
-      stack.top()->addChild(item);
-      stack.push(item);
-    }
-    depht = d;
-    if (depht > 0) {
-      stack.top()->addChild(item);
-    } else {
+    dep = s - pitem->topic;
+    hash.insert(dep, item);
+    if (dep == 0) {
       tree_wdg->addTopLevelItem(item);
+    } else {
+      last = dep - 1;
+      hash.value(last)->addChild(item);
     }
-    stack.push(item);
   } help_items_iterate_end;
 }
 
