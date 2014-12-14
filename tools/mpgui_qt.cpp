@@ -28,12 +28,8 @@
 #include <QVBoxLayout>
 
 // utility
-#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
-#include "netintf.h"
-#include "rand.h"
-#include "registry.h"
 
 // common
 #include "version.h"
@@ -84,12 +80,7 @@ int main(int argc, char **argv)
   enum log_level loglevel = LOG_NORMAL;
   int ui_options;
 
-  init_nls();
-  init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
-  registry_module_init();
-  fc_init_network();
-  log_init(NULL, loglevel, NULL, NULL, -1);
-  fc_srand(time(NULL)); // Needed at least for Windows version of netfile_get_section_file()
+  fcmp_init(loglevel);
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
@@ -136,9 +127,7 @@ int main(int argc, char **argv)
     save_install_info_lists(&fcmp);
   }
 
-  log_close();
-  registry_module_close();
-  free_nls();
+  fcmp_deinit();
 
   return EXIT_SUCCESS;
 }

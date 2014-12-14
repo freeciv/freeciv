@@ -43,6 +43,9 @@ struct fcmp_params
 #define SPECENUM_VALUE4NAME N_("Soundset")
 #include "specenum_gen.h"
 
+void fcmp_init(int loglevel);
+void fcmp_deinit(void);
+
 void load_install_info_lists(struct fcmp_params *fcmp);
 void save_install_info_lists(struct fcmp_params *fcmp);
 void update_install_info_lists(const char *name,
