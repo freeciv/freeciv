@@ -403,6 +403,7 @@ static struct command commands[] = {
       "argument, sets the skill level for that player only."), NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
+#ifdef DEBUG
   {"experimental",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("experimental\n"
@@ -415,6 +416,7 @@ static struct command commands[] = {
       "has no effect."), NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
+#endif /* DEBUG */
   {"cmdlevel",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("cmdlevel\n"

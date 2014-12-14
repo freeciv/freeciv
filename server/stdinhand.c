@@ -1858,7 +1858,9 @@ static enum command_id cmd_of_level(enum ai_level level)
     case AI_LEVEL_NORMAL       : return CMD_NORMAL;
     case AI_LEVEL_HARD         : return CMD_HARD;
     case AI_LEVEL_CHEATING     : return CMD_CHEATING;
+#ifdef DEBUG
     case AI_LEVEL_EXPERIMENTAL : return CMD_EXPERIMENTAL;
+#endif /* DEBUG */
     case AI_LEVEL_COUNT        : return CMD_NORMAL;
   }
   log_error("Unknown AI level variant: %d.", level);
@@ -4238,7 +4240,9 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_NORMAL:
   case CMD_HARD:
   case CMD_CHEATING:
+#ifdef DEBUG
   case CMD_EXPERIMENTAL:
+#endif
     return set_ai_level_named(caller, arg, command_name_by_number(cmd), check);
   case CMD_QUIT:
     return quit_game(caller, check);
@@ -6830,7 +6834,9 @@ static const int player_cmd[] = {
   CMD_NORMAL,
   CMD_HARD,
   CMD_CHEATING,
+#ifdef DEBUG
   CMD_EXPERIMENTAL,
+#endif
   CMD_REMOVE,
   CMD_TEAM,
   CMD_PLAYERCOLOR,

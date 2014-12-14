@@ -966,7 +966,11 @@ enum ai_level ai_level_convert(int old_level)
   case 8:
     return AI_LEVEL_CHEATING;
   case 10:
+#ifdef DEBUG
     return AI_LEVEL_EXPERIMENTAL;
+#else  /* DEBUG */
+    return AI_LEVEL_HARD;
+#endif /* DEBUG */
   }
 
   return ai_level_invalid();
