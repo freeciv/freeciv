@@ -3057,7 +3057,7 @@ void package_and_send_worker_task(struct city *pcity)
   }
   packet.activity = pcity->task_req.act;
   if (pcity->task_req.tgt == NULL) {
-    packet.tgt = 0;
+    packet.tgt = -1;
   } else {
     packet.tgt = extra_number(pcity->task_req.tgt);
   }

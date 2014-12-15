@@ -2632,27 +2632,41 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
   if (act == ACTIVITY_IDLE) {
     task.tile_id = -1;
     task.activity = ACTIVITY_IDLE;
-    task.tgt = 0;
+    task.tgt = -1;
     task.want = 0;
   } else {
     enum extra_cause cause = activity_to_extra_cause(act);
     struct extra_type *tgt;
 
-    fc_assert(cause != EC_NONE);
-
-    tgt = next_extra_for_tile(ptile, cause, city_owner(pcity), NULL);
-
-    if (tgt != NULL) {
-      task.tile_id = ptile->index;
-      task.activity = act;
-      task.tgt = extra_index(tgt);
-      task.want = 1;
+    if (cause != EC_NONE) {
+      tgt = next_extra_for_tile(ptile, cause, city_owner(pcity), NULL);
     } else {
-      /* No extra to order */
-      output_window_append(ftc_client, _("There's no suitable extra to order."));
-
-      return;
+      tgt = NULL;
     }
+
+    if (tgt == NULL) {
+      struct terrain *pterr = tile_terrain(ptile);
+
+      if ((act != ACTIVITY_TRANSFORM
+           || pterr->transform_result == NULL || pterr->transform_result == pterr)
+          && (act != ACTIVITY_IRRIGATE
+              || pterr->irrigation_result == NULL || pterr->irrigation_result == pterr)
+          && (act != ACTIVITY_MINE
+              || pterr->mining_result == NULL || pterr->mining_result == pterr)) {
+        /* No extra to order */
+        output_window_append(ftc_client, _("There's no suitable extra to order."));
+
+        return;
+      }
+
+      task.tgt = -1;
+    } else {
+      task.tgt = extra_index(tgt);
+    }
+
+    task.tile_id = ptile->index;
+    task.activity = act;
+    task.want = 1;
   }
 
   send_packet_worker_task(&client.conn, &task);
@@ -2693,6 +2707,9 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     choice_dialog_add(shl, _("Road"),
                       G_CALLBACK(set_city_workertask),
                       GINT_TO_POINTER(ACTIVITY_GEN_ROAD), NULL);
+    choice_dialog_add(shl, _("Transform"),
+                      G_CALLBACK(set_city_workertask),
+                      GINT_TO_POINTER(ACTIVITY_TRANSFORM), NULL);
 
     choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, NULL);
     choice_dialog_end(shl);

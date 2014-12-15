@@ -2783,7 +2783,11 @@ void handle_worker_task(struct player *pplayer,
     pcity->task_req.ptile = NULL;
   }
   pcity->task_req.act = packet->activity;
-  pcity->task_req.tgt = extra_by_number(packet->tgt);
+  if (packet->tgt >= 0) {
+    pcity->task_req.tgt = extra_by_number(packet->tgt);
+  } else {
+    pcity->task_req.tgt = NULL;
+  }
   pcity->task_req.want = packet->want;
 
   lsend_packet_worker_task(pplayer->connections, packet);

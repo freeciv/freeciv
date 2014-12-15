@@ -5321,6 +5321,9 @@ int fill_sprite_array(struct tileset *t,
         case ACTIVITY_GEN_ROAD:
           ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
           break;
+        case ACTIVITY_TRANSFORM:
+          ADD_SPRITE_SIMPLE(t->sprites.unit.transform);
+          break;
         default:
           break;
         }
