@@ -3051,7 +3051,7 @@ void package_and_send_worker_task(struct city *pcity)
 
   packet.city_id = pcity->id;
   if (pcity->task_req.ptile == NULL) {
-    packet.tile_id = 0;
+    packet.tile_id = -1;
   } else {
     packet.tile_id = tile_index(pcity->task_req.ptile);
   }
