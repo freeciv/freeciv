@@ -56,18 +56,7 @@ save_players=FALSE
 save_known=FALSE
 
 [random]
-save=TRUE
-index_J=32
-index_K=7
-index_X=31
-table0="785d4232 b7a4f412 e52af223 dc69cb88 71894119 46a9d4f2 cfd3f734"
-table1="7c01984b 35975f60 51dd426c 2c105b7b 442eb4e2 995b227a 396749bf"
-table2="7a337f2e fbbe34ee eb48d916 c299a3c4 832bfe64 df38857a 33f07e80"
-table3="b39c8d1d 8973b9ca b4a07b35 d2c8cabf cfd4c759 37c1ce68 d5202e7f"
-table4="73e246af 9c7d0b91 54fc6cf2 531048d7 595850bb  d24a776 5ebb409c"
-table5="5d631753 7b705455 27dffcc7 f69b35ac 6832ece7 ec5012d4 41049b4b"
-table6="4bfa8366 3fbcab51 36a6d84e  d9abc21 ff40023d 9be2312d 577d4981"
-table7="ac3e7f20  968b84e dbc552d3 4fb824bd 7861f261 8a56052f 1f82cd4e"
+save=FALSE
 
 [script]
 code=$$
@@ -76,43 +65,13 @@ vars=$$
 [settings]
 set={"name","value","gamestart"
 "aifill",10,10
-"borders","ENABLED","ENABLED"
-"citymindist",2,2
-"civilwarsize",10,10
-"contactturns",20,20
-"diplchance",80,80
-"endturn",5000,5000
-"fulltradesize",1,1
-"gameseed",1293042902,1293042902
 "generator","SCENARIO","SCENARIO"
-"gold",50,50
-"happyborders",TRUE,TRUE
-"homecaughtunits",TRUE,TRUE
-"killcitizen",FALSE,FALSE
-"landmass",34,34
-"mapseed",318483391,318483391
-"maxplayers",18,18
-"nuclearwinter",TRUE,TRUE
-"onsetbarbs",60,60
-"razechance",20,20
-"savename","freeciv-earth","freeciv-earth"
-"size",4,4
-"spacerace",FALSE,FALSE
-"specials",250,250
-"startpos","DEFAULT","DEFAULT"
-"startunits","ccxx","ccxx"
-"techlevel",3,3
-"techpenalty",100,100
-"temperature",50,50
-"tilesperplayer",100,100
-"timeaddenemymove",0,0
-"timeout",0,0
-"tinyisles",FALSE,FALSE
+"maxplayers",39,39
 "topology","WRAPX","WRAPX"
 "xsize",80,80
 "ysize",50,50
 }
-set_count=36
+set_count=6
 gamestart_valid=TRUE
 
 [map]
@@ -147,7 +106,7 @@ t0026="::::::::::  gp gggg  ::::::   fjf fgfgfmmpdp  :::   p      g  p :::::    
 t0027=":::::::::::   ggfjgg  :::::::     gjjjfhmpp  ::::::  : g  jf           j  ::::::"
 t0028=":::::::::::: ghhjjjfg    :::::::: ggjjjh+gg :::::::::: pf pg  j gfj       ::::::"
 t0029=":::::::::::: ghhjjjjfffg  :::::::  ggjjjgg  ::::::::::  g        fgp     :::::::"
-t0030=":::::::::::: ghfffjjfffgg :::::::: gpfggfg   ::::::::::   gg              ::::::"
+t0030=":::::::::::: ghfffjjfffgg :::::::: gpfggfg   ::::::::::  pgg              ::::::"
 t0031="::::::::::::  ghfjffffggp :::::::: gppgghg g ::::::::::::     gg  g    g  ::::::"
 t0032=":::::::::::::  gmgffggpg  :::::::: ppgpgf  f :::::::::::::   ppgggg       ::::::"
 t0033="::::::::::::::  pdgggpgg ::::::::: dpppgf gg ::::::::::::   pddppgf    p   :::::"
@@ -167,26 +126,72 @@ t0046="::::::::::::::::  t :::::::::::::::::::::::    :::::::                :::
 t0047="                 t   :::::::::::::          tt         aatttaaaaaaaa      ::::::"
 t0048=" aaataaatattaaataa                 aaaaaattaaataa  aaaaaaaaaaaaaaaaataata       "
 t0049="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-startpos_count=18
+startpos_count=50
 startpos={"x","y","exclude","nations"
-36,17,FALSE,"Roman"
-15,18,FALSE,"Iroquois"
-32,12,FALSE,"English"
-39,34,FALSE,"Zulu"
-38,21,FALSE,"Egyptian"
-39,25,FALSE,"Ethiopian"
-16,34,FALSE,"Inca"
-39,17,FALSE,"Greek"
-51,22,FALSE,"Indian"
-65,36,FALSE,"Australian Aboriginal"
-44,12,FALSE,"Russian"
-9,11,FALSE,"Inuit"
-59,18,FALSE,"Chinese"
-9,23,FALSE,"Aztec"
-34,14,FALSE,"French"
-49,16,FALSE,"Mongol"
-37,14,FALSE,"German"
-44,19,FALSE,"Babylonian"
+; EUROPE
+36,17,FALSE,"Roman#Italian"
+38,18,FALSE,"Greek#Hellenic"
+34,14,FALSE,"Celtic#Dutch#French"
+37,14,FALSE,"Germanic#Austrian#German"
+36,10,FALSE,"Viking#Swedish#Norwegian"
+32,12,FALSE,"Briton#English#British"
+31,16,FALSE,"Iberian#Spanish"
+29,17,FALSE,"Celtiberian#Portuguese"
+39,13,FALSE,"Slavic#Polish"
+35,12,FALSE,"Danish"
+
+; AFRICA
+38,21,FALSE,"Egyptian#Egyptian Arab"
+33,19,FALSE,"Carthaginian#Numidian#Algerian"
+40,25,FALSE,"Ethiopian"
+30,24,FALSE,"Mali#Songhai#Malian"
+36,29,FALSE,"Kongo#Congolese"
+39,34,FALSE,"Zulu#South African"
+
+; MIDDLE EAST
+41,17,FALSE,"Hittite#Byzantine#Turkish"
+44,19,FALSE,"Babylonian#Sumerian#Iraqi"
+43,22,FALSE,"Arab#Saudi"
+46,18,FALSE,"Persian#Iranian"
+
+; ASIA
+43,12,FALSE,"Soviet#Russian"
+50,10,FALSE,"Tatar#Siberian"
+50,21,FALSE,"Indian"
+53,20,FALSE,"Tibetan"
+49,14,FALSE,"Hunnic#Kazakh"
+56,12,FALSE,"Xiongnu#Mongol"
+59,17,FALSE,"Han#Chinese"
+62,13,FALSE,"Manchu"
+62,17,FALSE,"Korean"
+67,16,FALSE,"Japanese"
+56,24,FALSE,"Khmer#Thai#Cambodian"
+
+; OCEANIA
+57,30,FALSE,"Indonesian"
+66,36,FALSE,"Australian Aboriginal#Australian"
+67,29,FALSE,"Papuan#Polynesian"
+73,37,FALSE,"Maori#New Zealand"
+
+; NORTH AMERICA
+10,11,FALSE,"Inuit"
+15,18,FALSE,"American"
+15,15,FALSE,"Iroquois#Canadian"
+13,19,FALSE,"Cherokee"
+10,15,FALSE,"Sioux"
+7,19,FALSE,"Apache"
+
+; SOUTH AMERICA
+9,23,FALSE,"Aztec#Mexican"
+11,24,FALSE,"Mayan#Central American"
+15,31,FALSE,"Inca#Peruvian"
+17,32,FALSE,"Aymara#Bolivian"
+17,26,FALSE,"Taino#Venezuelan"
+21,32,FALSE,"Tupi#Brazilian"
+15,39,FALSE,"Mapuche#Chilean"
+19,35,FALSE,"Guarani#Paraguayan"
+19,38,FALSE,"Argentine"
+
 }
 b00_0000="00000000000000000000000000000000000000000000000000000000000000000000000000000000"
 b00_0001="00000000000000000000000000000000000000000000000000000000000000000000000000000000"
