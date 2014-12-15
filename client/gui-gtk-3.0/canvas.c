@@ -74,6 +74,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 
   cairo_scale(cr, dest->zoom / src->zoom, dest->zoom / src->zoom);
   cairo_set_source_surface(cr, src->surface, dest_x - src_x, dest_y - src_y);
+  cairo_pattern_set_filter(cairo_get_source(cr), CAIRO_FILTER_NEAREST);
   cairo_rectangle(cr, dest_x, dest_y, width, height);
   cairo_fill(cr);
 
@@ -170,6 +171,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 
   cairo_scale(cr, pcanvas->zoom, pcanvas->zoom);
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
+  cairo_pattern_set_filter(cairo_get_source(cr), CAIRO_FILTER_NEAREST);
   cairo_rectangle(cr, canvas_x, canvas_y, width, height);
   cairo_fill(cr);
 
