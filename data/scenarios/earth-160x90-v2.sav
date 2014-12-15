@@ -29,7 +29,7 @@ version=20500
 server_state="S_S_INITIAL"
 meta_patches="none"
 meta_usermessage=TRUE
-meta_meta_message="Scenario: Earth(Large)"
+meta_message="Scenario: Earth(Large)"
 meta_server="http://meta.freeciv.org/metaserver.php"
 id=""
 serverid=""
@@ -64,30 +64,15 @@ vars=$$
 
 [settings]
 set={"name","value","gamestart"
-"aifill",30,5
-"borders","ENABLED","ENABLED"
-"civilwarsize",10,10
-"conquercost",0,0
-"diplcost",0,0
-"foodbox",100,100
-"freecost",0,0
-"gameseed",0,0
-"generator","SCENARIO","RANDOM"
-"happyborders",TRUE,TRUE
-"huts",50,50
-"landmass",33,30
-"mapsize","FULLSIZE","FULLSIZE"
-"maxplayers",38,126
-"minplayers",1,1
-"size",14,4
-"startunits","cwx","ccwwx"
-"techlevel",3,0
+"aifill",32,32
+"generator","SCENARIO","SCENARIO"
+"maxplayers",39,39
 "topology","WRAPX","WRAPX"
-"xsize",160,64
-"ysize",90,64
+"xsize",160,160
+"ysize",90,90
 }
-set_count=21
-gamestart_valid=FALSE
+set_count=6
+gamestart_valid=TRUE
 
 [map]
 have_huts=TRUE
@@ -181,7 +166,7 @@ t0086="   ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 t0087="   ::::    ::    ::::    ::            ::::::::    ::::    ::::::    ::::        ::::::      ::      ::        ::::::::::::::    ::::::::      ::::::::         "
 t0088="aa      aa    aa      aa    aaaaaaaaaa          aa      aa        aa      aaaaaa        aaaa    aaaa    aa  aa                aa          aaaa          aaaaaa  "
 t0089="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-startpos_count=38
+startpos_count=39
 startpos={"x","y","exclude","nations"
 64,41,FALSE,"Indian"
 37,15,FALSE,"Viking"
@@ -204,13 +189,14 @@ startpos={"x","y","exclude","nations"
 95,35,FALSE,"Japanese"
 142,44,FALSE,"Aztec"
 41,40,FALSE,"Egyptian"
-156,33,FALSE,"Iroquois"
+154,29,FALSE,"Iroquois"
+150,35,FALSE,"Cherokee"
 147,46,FALSE,"Mayan"
 63,31,FALSE,"Turkish"
 56,36,FALSE,"Persian"
 45,47,FALSE,"Ethiopian"
 50,43,FALSE,"Arab"
-98,58,FALSE,"Papuan"
+98,58,FALSE,"Polynesian"
 29,22,FALSE,"English"
 82,24,FALSE,"Mongol"
 34,56,FALSE,"Kongo"
