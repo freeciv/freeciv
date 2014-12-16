@@ -276,7 +276,14 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target)
 **************************************************************************/
 static struct city *tgt_city(struct unit *actor, struct tile *target_tile)
 {
-  return tile_city(target_tile);
+  struct city *target = tile_city(target_tile);
+
+  if (target && may_unit_act_vs_city(actor, target)) {
+    /* It may be possible to act against this city. */
+    return target;
+  }
+
+  return NULL;
 }
 
 /**************************************************************************
@@ -1785,17 +1792,17 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     struct unit *tunit = tgt_unit(punit, pdesttile);
     struct city *tcity = tgt_city(punit, pdesttile);
 
-    if ((0 < unit_list_size(pdesttile->units) || tcity)
+    if ((0 < unit_list_size(pdesttile->units) || pcity)
         && !(move_diplomat_city
              && unit_can_move_to_tile(punit, pdesttile, igzoc))) {
       /* A target (unit or city) exists at the tile. If a target is an ally
        * it still looks like a target since move_diplomat_city isn't set.
        * Assume that the intention is to do an action. */
 
-      if (may_unit_act_vs_city(punit, tcity)
-          /* It must be possible to act against tunit since tgt_unit()
-           * wouldn't have targeted it otherwise. */
-          || tunit != NULL) {
+      /* If a tcity or a tunit exists it must be possible to act against it
+       * since tgt_city() or tgt_unit() wouldn't have targeted it
+       * otherwise. */
+      if (tcity || tunit) {
         if (pplayer->ai_controlled) {
           return FALSE;
         }
