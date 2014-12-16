@@ -1246,7 +1246,7 @@ graphic	= "b.colossus"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Automobile", "World", TRUE
+      "Tech", "Automobile", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1269,7 +1269,7 @@ graphic	= "b.copernicus_observatory"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Computers", "World", TRUE
+      "Tech", "Computers", "Player", FALSE
     }
 build_cost	= 300
 upkeep		= 0
@@ -1391,7 +1391,7 @@ graphic	= "b.great_wall"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Machine Tools", "World", TRUE
+      "Tech", "Machine Tools", "Player", FALSE
     }
 build_cost	= 300
 upkeep		= 0
@@ -1417,7 +1417,7 @@ graphic	= "b.hanging_gardens"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Electricity", "World", TRUE
+      "Tech", "Electricity", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1513,7 +1513,7 @@ graphic	= "b.king_richards_crusade"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Communism", "World", TRUE
+      "Tech", "Communism", "Player", FALSE
     }
 build_cost	= 300
 upkeep		= 0
@@ -1536,7 +1536,7 @@ graphic	= "b.leonardos_workshop"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Combustion", "World", TRUE
+      "Tech", "Combustion", "Player", FALSE
     }
 build_cost	= 400
 upkeep		= 0
@@ -1559,7 +1559,7 @@ graphic	= "b.lighthouse"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Engineering", "World", TRUE
+      "Tech", "Engineering", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1583,7 +1583,7 @@ graphic	= "b.magellans_expedition"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Nuclear Power", "World", TRUE
+      "Tech", "Nuclear Power", "Player", FALSE
     }
 build_cost	= 400
 upkeep		= 0
@@ -1627,7 +1627,7 @@ graphic	= "b.marco_polos_embassy"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Democracy", "World", TRUE
+      "Tech", "Democracy", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1673,7 +1673,7 @@ graphic         = "b.mausoleum"
 graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Sanitation", "World", TRUE
+      "Tech", "Sanitation", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1697,7 +1697,7 @@ graphic         = "b.statue_of_zeus"
 graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Conscription", "World", TRUE
+      "Tech", "Conscription", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1721,7 +1721,7 @@ graphic         = "b.temple_of_artemis"
 graphic_alt     = "b.oracle"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Theology", "World", TRUE
+      "Tech", "Theology", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1745,7 +1745,7 @@ graphic	= "b.pyramids"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Railroad", "World", TRUE
+      "Tech", "Railroad", "Player", FALSE
     }
 build_cost	= 200
 upkeep		= 0
@@ -1843,7 +1843,7 @@ graphic	= "b.sun_tzus_war_academy"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range", "survives"
-      "Tech", "Mobile Warfare", "World", TRUE
+      "Tech", "Mobile Warfare", "Player", FALSE
     }
 build_cost	= 300
 upkeep		= 0

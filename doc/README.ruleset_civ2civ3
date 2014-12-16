@@ -359,6 +359,7 @@ Readjusted effects for most wonders. Restored all civ2 costs.
 - Modified all effects that worked as if you had certain building in every city.
 - Replaced every effect Make_Happy, Force_content, and No_unhappy, by additional Luxury in the central city tile. Else they would allow a possible exploit to avoid unhappiness caused by Military units.
 - Replaced effect that gives a percentage bonus to Science output, by additional Science in the central city tile. This way, they do not multiply the effect of other wonders like Colossus, and it is not an advantage to build them all in the same city.
+- Wonders become obsolete by techs researched by the owner (not affected by the researches of other players).
 - Some Wonders require certain building in the city to be built.
 
 FULL LIST OF WONDERS
@@ -366,16 +367,16 @@ FULL LIST OF WONDERS
 
 - "Pyramids" 200, Obsolete by Railroad (that increases even more the Shield production):
 +1 Shield per worked tile in the city (already producing Shields). Disables tile penalty under Despotism/Tribal governments.
-- "Colossus" 200, Obsolete by Automobile (that allows building to increase Trade even more):
+- "Colossus" 200, Obsolete by Automobile (Super Highways):
 +1 Trade per worked tile in the city (already producing Trade).
-- "Copernicus' Observatory" 300, Obsolete by Computers (that increases even more the Science production):
+- "Copernicus' Observatory" 300, Obsolete by Computers (Research Lab):
 +1 Science per worked tile in the city.
 
 - "Hanging Gardens" 200, Obsolete by Electricity (that increases Colosseum effect):
 +1 Content in every city. +4 Luxury in the city where it is built.
-- "Mausoleum of Mausolos" 200, Obsolete by Sanitation (enables wonder with similar effect):
+- "Mausoleum of Mausolos" 200, Obsolete by Sanitation (that enables wonder with similar effect):
 +1 Content in every city with Walls, and +1 extra content in every city with Courthouse. Your cities cannot be incited to revolt.
-- "Temple of Artemis" 200, Requires Temple, Obsolete by Theology (enables wonder with similar effect):
+- "Temple of Artemis" 200, Requires Temple, Obsolete by Theology (that enables wonder with similar effect):
 +2 Content in every city with Temple.
 - "Michelangelo's Chapel" 400, Requires Cathedral:
 +3 Content in every city with Cathedral.
@@ -401,12 +402,12 @@ Doubles the effect of Research Lab for Every Nation. Gives an immediate technolo
 
 - "Lighthouse" 200, Obsolete by Engineering (Destroyer):
 +1 move, and Veteran built, for Trireme and Sea units.
-- "Magellan's Expedition" 400, Obsolete by Nuclear Power (that increases even more movement of sea units):
+- "Magellan's Expedition" 400, Obsolete by Nuclear Power (that increases even more the movement of sea units):
 +1 move, and +50% chance to become veteran, for Sea units (No triremes).
 - "Sun Tzu's War Academy" 300, Obsolete by Mobile Warfare:
 Veteran built, and +50% chance to become veteran, for Military Land units.
 
-- "Statue of Zeus" 200, Obsolete by Conscription (enables wonder with similar effect):
+- "Statue of Zeus" 200, Obsolete by Conscription (that enables wonder with similar effect):
 +1 Military Content, +1 free Shield per city for upkeep of units.
 - "King Richard's Crusade" 300, Obsolete by Communism (Police Station):
 +1 Military Content, +2 free Gold per city for upkeep of units.
@@ -456,6 +457,7 @@ Changes:
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
 - Added Fort and Airstrip bases, as pre-requisite for Fortress and Airbase, in order to prevent the construction of full bases in one single turn. Airbases and Fortresses can be built on river tiles again.
 - Introduced Maglev, available with Superconductors, that allows unlimited movement for Land units (except Big Land and Merchant classes).
+- Wonders become obsolete by techs researched by the owner (not affected by the researches of other players).
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations can be finished in 1 or 2 steps, and all effects from Global warming can be reversibly with terraforming.
