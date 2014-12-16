@@ -24,6 +24,7 @@
 
 // Qt
 #include <QTabWidget>
+#include <QMainWindow>
 #include <QMap>
 
 // client
@@ -116,7 +117,7 @@ public:
   void release_fonts();
 };
 
-class fc_client : public QObject
+class fc_client : public QMainWindow
 {
   Q_OBJECT
   QWidget *main_wdg;
@@ -196,7 +197,6 @@ public:
   void update_completer();
   choice_dialog *get_diplo_dialog();
 
-  QMainWindow *main_window;
   QCompleter *chat_completer;
   QStringList chat_history;
   int history_pos;
@@ -285,6 +285,7 @@ private:
 protected:
   void timerEvent(QTimerEvent *);
   bool eventFilter(QObject *obj, QEvent *event);
+  void closeEvent(QCloseEvent *event);
 
 signals:
   void keyCaught(QKeyEvent *e);

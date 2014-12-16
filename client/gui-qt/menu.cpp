@@ -1594,10 +1594,10 @@ void mr_menu::slot_center_view()
 void mr_menu::slot_fullscreen()
 {
   if (!fullscreen_mode){
-    gui()->main_window->showFullScreen();
+    gui()->showFullScreen();
     gui()->mapview_wdg->showFullScreen();
   } else {
-    gui()->main_window->showNormal();
+    gui()->showNormal();
   }
   fullscreen_mode = !fullscreen_mode;
 }

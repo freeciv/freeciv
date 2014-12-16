@@ -32,6 +32,7 @@
 
 // gui-qt
 #include "fc_client.h"
+#include "gui_main.h"
 #include "optiondlg.h"
 #include "sprite.h"
 
@@ -41,7 +42,7 @@ fc_icons* fc_icons::m_instance = 0;
 /****************************************************************************
   Constructor
 ****************************************************************************/
-fc_client::fc_client() : QObject()
+fc_client::fc_client() : QMainWindow()
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
@@ -53,7 +54,6 @@ fc_client::fc_client() : QObject()
    * were created.
    * After adding new QObjects null them here.
    */
-  main_window = NULL;
   main_wdg = NULL;
   chat_completer = NULL;
   connect_lan = NULL;
@@ -109,7 +109,6 @@ fc_client::fc_client() : QObject()
 
 void fc_client::init()
 {
-  main_window = new QMainWindow;
   central_wdg = new QWidget;
   central_layout = new QGridLayout;
   chat_completer = new QCompleter;
@@ -120,8 +119,8 @@ void fc_client::init()
   fc_fonts.init_fonts();
   menu_bar = new mr_menu();
   menu_bar->setup_menus();
-  main_window->setMenuBar(menu_bar);
-  status_bar = main_window->statusBar();
+  setMenuBar(menu_bar);
+  status_bar = statusBar();
   status_bar_label = new QLabel;
   status_bar_label->setAlignment(Qt::AlignCenter);
   status_bar->addWidget(status_bar_label, 1);
@@ -167,11 +166,11 @@ void fc_client::init()
   central_layout->addLayout(pages_layout[PAGE_START], 1, 1);
   central_layout->addLayout(pages_layout[PAGE_GAME], 1, 1);
   central_wdg->setLayout(central_layout);
-  main_window->setCentralWidget(central_wdg);
+  setCentralWidget(central_wdg);
 
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
-  main_window->setVisible(true);
+  setVisible(true);
 }
 
 /****************************************************************************
@@ -181,7 +180,6 @@ fc_client::~fc_client()
 {
   status_bar_queue.clear();
   fc_fonts.release_fonts();
-  delete main_window;
 }
 
 /****************************************************************************
@@ -270,7 +268,7 @@ void fc_client::switch_page(int new_pg)
   if (page == PAGE_NETWORK){
     destroy_server_scans();
   }
-  main_window->menuBar()->setVisible(false);
+  menuBar()->setVisible(false);
 
   for (int i = 0; i < PAGE_GGZ + 1; i++) {
     if (i == new_page) {
@@ -292,12 +290,12 @@ void fc_client::switch_page(int new_pg)
     break;
   case PAGE_GAME:
     if (fullscreen_mode){
-      gui()->main_window->showFullScreen();
+      gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
     } else {
-      main_window->showMaximized();
+      showMaximized();
     }
-    main_window->menuBar()->setVisible(true);
+    menuBar()->setVisible(true);
     mapview_wdg->setFocus();
     center_on_something();
     voteinfo_gui_update();
@@ -373,6 +371,14 @@ bool fc_client::eventFilter(QObject *obj, QEvent *event)
     }
   }
   return QObject::eventFilter(obj, event);
+}
+
+/****************************************************************************
+  Closes main window
+****************************************************************************/
+void fc_client::closeEvent(QCloseEvent *event) {
+  popup_quit_dialog();
+  event->ignore();
 }
 
 /****************************************************************************
