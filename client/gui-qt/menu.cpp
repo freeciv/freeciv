@@ -1651,10 +1651,10 @@ void mr_menu::slot_center_view()
 void mr_menu::slot_fullscreen()
 {
   if (!options.gui_qt_fullscreen) {
-    gui()->main_window->showFullScreen();
+    gui()->showFullScreen();
     gui()->mapview_wdg->showFullScreen();
   } else {
-    gui()->main_window->showNormal();
+    gui()->showNormal();
   }
   options.gui_qt_fullscreen = !options.gui_qt_fullscreen;
 }
