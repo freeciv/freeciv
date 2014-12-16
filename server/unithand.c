@@ -207,6 +207,48 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 
 /**************************************************************************
   Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to perform a non action
+  enabler controlled action against a unit or city on the target_tile by
+  "moving" to it.
+**************************************************************************/
+static bool may_non_act_move(struct unit *actor_unit,
+                             struct city *target_city,
+                             struct tile *target_tile,
+                             bool igzoc)
+{
+  if (unit_can_move_to_tile(actor_unit, target_tile, igzoc)) {
+    /* Move. Includes occupying a foreign city. */
+    return TRUE;
+  }
+
+  if (unit_attack_units_at_tile_result(actor_unit, target_tile)
+      == ATT_OK) {
+    /* Attack. Includes nuking. */
+    return TRUE;
+  }
+
+  if (!is_ocean_tile(target_tile) && can_unit_bombard(actor_unit)) {
+    /* Bombard. May be possible even if regular attack isn't. */
+    return TRUE;
+  }
+
+  if (!target_city && unit_has_type_flag(actor_unit, UTYF_CAPTURER)) {
+    /* Capture. May be possible even if regular attack isn't. */
+
+    unit_list_iterate(target_tile->units, to_capture) {
+      if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)) {
+        return FALSE;
+      }
+    } unit_list_iterate_end;
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target
   city.
 
@@ -693,7 +735,7 @@ void handle_unit_do_action(struct player *pplayer,
     break;
   case ACTION_MOVE:
     if (target_tile
-        && unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+        && may_non_act_move(actor_unit, pcity, target_tile, FALSE)) {
       (void) unit_move_handling(actor_unit, target_tile, FALSE, TRUE);
     }
     break;
@@ -1794,7 +1836,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
     if ((0 < unit_list_size(pdesttile->units) || pcity)
         && !(move_diplomat_city
-             && unit_can_move_to_tile(punit, pdesttile, igzoc))) {
+             && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
       /* A target (unit or city) exists at the tile. If a target is an ally
        * it still looks like a target since move_diplomat_city isn't set.
        * Assume that the intention is to do an action. */
@@ -1819,9 +1861,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                                 punit->id,
                                                 pdesttile->index);
         return FALSE;
-      } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
-        /* No action can be done. No regular move can be done. Try to
-         * explain it to the player. */
+      } else if (!may_non_act_move(punit, pcity, pdesttile, igzoc)) {
+        /* No action can be done. No regular move can be done. Attack isn't
+         * possible. Try to explain it to the player. */
         explain_why_no_action_enabled(punit);
 
         return FALSE;

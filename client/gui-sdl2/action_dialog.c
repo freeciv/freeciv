@@ -950,7 +950,10 @@ void popup_action_selection(struct unit *actor_unit,
                pWindow, &area);
 
   /* ---------- */
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
+  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
+      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
+      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))
+      || (!target_city && unit_has_type_flag(actor_unit, UTYF_CAPTURER))) {
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
                             _("Keep moving"),
                             diplomat_keep_moving_callback);
