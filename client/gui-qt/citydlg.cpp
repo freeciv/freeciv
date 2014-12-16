@@ -2479,7 +2479,7 @@ void city_dialog::update_title()
                                  population_to_text(city_population(pcity)));
   } else {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name(pcity),
+    buf = QString(_("%1 - %2 citizens")).arg(city_name(pcity),
                                  population_to_text(city_population(pcity)));
   }
 
