@@ -24,7 +24,17 @@ extern "C" {
 /* utility */
 #include "support.h" /* bool */
 
-#ifdef FREECIV_HAVE_PTHREAD
+
+#ifdef FREECIV_HAVE_C11_THREADS
+
+#include <threads.h>
+
+#define fc_thread      thrd_t
+#define fc_mutex       mtx_t
+#define fc_thread_cond cnd_t
+
+#elif defined(FREECIV_HAVE_PTHREAD)
+
 #include <pthread.h>
 
 #define fc_thread      pthread_t
