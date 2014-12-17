@@ -64,29 +64,31 @@ void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
 
   city_tile_iterate_index(city_map_radius_sq_get(pcity), city_tile(pcity),
                           ptile, cindex) {
-    bool consider = TRUE;
     int orig_value;
 
     if (!city_can_work_tile(pcity, ptile)) {
       continue;
     }
 
-    /* Do not go to tiles that already have workers there. */
-    unit_list_iterate(ptile->units, aunit) {
-      if (unit_owner(aunit) == pplayer
-          && unit_has_type_flag(aunit, UTYF_SETTLERS)) {
-        consider = FALSE;
-        break;
-      }
-    } unit_list_iterate_end;
-
-    if (!consider) {
-      continue;
-    }
-
     orig_value = city_tile_value(pcity, ptile, 0, 0);
 
     activity_type_iterate(act) {
+      bool consider = TRUE;
+
+      /* Do not request activities that already are under way. */
+      unit_list_iterate(ptile->units, punit) {
+        if (unit_owner(punit) == pplayer
+            && unit_has_type_flag(punit, UTYF_SETTLERS)
+            && punit->activity == act) {
+          consider = FALSE;
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (!consider) {
+        continue;
+      }
+
       if (act == ACTIVITY_IRRIGATE
           || act == ACTIVITY_MINE
           || act == ACTIVITY_POLLUTION
