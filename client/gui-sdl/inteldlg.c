@@ -61,7 +61,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p);
 /****************************************************************
 ...
 *****************************************************************/
-void intel_dialog_init()
+void intel_dialog_init(void)
 {
   dialog_list = dialog_list_new();
 }
@@ -69,7 +69,7 @@ void intel_dialog_init()
 /****************************************************************
 ...
 *****************************************************************/
-void intel_dialog_done()
+void intel_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
 }
@@ -192,7 +192,8 @@ void popdown_intel_dialog(struct player *p)
 /**************************************************************************
   Popdown all intelligence dialogs
 **************************************************************************/
-void popdown_intel_dialogs() {
+void popdown_intel_dialogs(void)
+{
   dialog_list_iterate(dialog_list, pdialog) {
     popdown_intel_dialog(pdialog->pplayer);
   } dialog_list_iterate_end;
