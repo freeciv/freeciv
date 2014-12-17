@@ -1370,19 +1370,29 @@ def get_packet_name(packets):
 def get_packet_has_game_info_flag(packets):
     intro='''bool packet_has_game_info_flag(enum packet_type type)
 {
-  switch (type) {
-
+  static const bool flag[PACKET_LAST] = {
 '''
-    body=""
+
+    mapping={}
     for p in packets:
-        body=body+'  case %(type)s:\n'%p.__dict__
-        if p.is_info != "game":
-            body=body+'    return FALSE;\n\n'
+        mapping[p.type_number]=p
+    sorted=list(mapping.keys())
+    sorted.sort()
+
+    last=-1
+    body=""
+    for n in sorted:
+        for i in range(last + 1, n):
+            body=body+'    FALSE,\n'
+        if mapping[n].is_info!="game":
+            body=body+'    FALSE, /* %s */\n'%mapping[n].type
         else:
-            body=body+'    return TRUE;\n\n'
-    extro='''  default:
-    return FALSE;
-  }
+            body=body+'    TRUE, /* %s */\n'%mapping[n].type
+        last=n
+
+    extro='''  };
+
+  return (type >= 0 && type < PACKET_LAST ? flag[type] : FALSE);
 }
 
 '''
