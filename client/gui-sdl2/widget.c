@@ -86,10 +86,8 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
   int iTile_width_len_end, iTile_width_len_mid, iTile_count_len_mid;
   int iTile_width_height_end, iTile_width_height_mid, iTile_count_height_mid;
   int i, j;
-
   SDL_Rect src, des;
   SDL_Surface *pBackground = NULL;
-
   int iStart_y = (pTheme->h / 4) * state;
 
   iTile_width_len_end = pTheme->w / 16;
@@ -225,7 +223,8 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
   pStartWidget that is drawn at position (x, y). If pStartWidget is NULL,
   the search starts with the first entry of the main widget list. 
 **************************************************************************/
-struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y)
+struct widget *find_next_widget_at_pos(struct widget *pStartWidget,
+                                       int x, int y)
 {
   SDL_Rect area = {0, 0, 0, 0};
   struct widget *pWidget;
@@ -243,6 +242,7 @@ struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y
     }
     pWidget = pWidget->next;
   }
+
   return NULL;
 }
 
@@ -272,6 +272,7 @@ struct widget *find_next_widget_for_key(struct widget *pStartWidget,
     }
     pWidget = pWidget->next;
   }
+
   return NULL;
 }
 
@@ -357,7 +358,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
           if (loop && change == ED_RETURN) {
             ret = TRUE;
           }
-        } while(ret);
+        } while (ret);
         ID = 0;
       }
       break;
@@ -529,7 +530,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     putframe(info_label,
              0, 0, info_label->w - 1, info_label->h - 1,
              get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));
-#endif
+#endif /* 0 */
 
   }
 
@@ -552,13 +553,13 @@ void redraw_widget_info_label(SDL_Rect *rect)
 #if 0
     SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
                    pInfo_Area->w, pInfo_Area->h);
-#endif
+#endif /* 0 */
   }
 }
 
 /**************************************************************************
   Find ID in Widget's List ('pGUI_List') and return pointer to this
-  Widgets.
+  Widget.
 **************************************************************************/
 struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
                                           Uint16 ID, enum scan_direction direction)
@@ -573,6 +574,7 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
       pGUI_List = pGUI_List->prev;
     }
   }
+
   return NULL;
 }
 
@@ -785,7 +787,7 @@ void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
   while (pTmpWidget) {
 
     widget_set_position(pTmpWidget, pTmpWidget->size.x + Xrel,
-                                    pTmpWidget->size.y + Yrel);
+                        pTmpWidget->size.y + Yrel);
 
     if (get_wtype(pTmpWidget) == WT_VSCROLLBAR
         && pTmpWidget->private_data.adv_dlg
@@ -853,7 +855,7 @@ void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
     while ((i < Main.guis_count - 1) && Main.guis[i]) {
       if (Main.guis[i] && Main.guis[i + 1] && (Main.guis[i] == gui_layer)) {
         Main.guis[i] = Main.guis[i + 1];
-	Main.guis[i + 1] = gui_layer;
+        Main.guis[i + 1] = gui_layer;
       }
       i++;
     }
@@ -1003,8 +1005,10 @@ bool select_window_group_dialog(struct widget *pBeginWidgetList,
 {
   if (!is_this_widget_first_on_list(pBeginWidgetList)) {
     move_group_to_front_of_gui_list(pBeginWidgetList, pWindow);
+
     return TRUE;
   }
+
   return FALSE;
 }
 
@@ -1035,7 +1039,7 @@ bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
   Standart Window Group Widget Callback (window)
   When Pressed check mouse move;
   if move then move window and redraw else
-  if not on fron then move window up to list and redraw;  
+  if not on fron then move window up to list and redraw.
 **************************************************************************/
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow)
 {
@@ -1096,7 +1100,7 @@ int setup_vertical_widgets_position(int step,
 /* =================================================== */
 
 /**************************************************************************
-  Window Menager Mechanism.
+  Window Manager Mechanism.
   Idea is simple each window/dialog has own buffer layer which is draw
   on screen during flush operations.
   This consume lots of memory but is extremly effecive.
@@ -1112,7 +1116,7 @@ int setup_vertical_widgets_position(int step,
 /**************************************************************************
   Draw Themed Frame.
 **************************************************************************/
-void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
+void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
   SDL_Surface *pTmpLeft = 

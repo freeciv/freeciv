@@ -78,7 +78,7 @@ static int combo_redraw(struct widget *combo)
       if (combo->string16->style & SF_CENTER_RIGHT) {
         dest.x += surface->w - text->w - adj_size(5);
       } else {
-        dest.x += adj_size(5);          /* center left */
+        dest.x += adj_size(5); /* center left */
       }
     }
 
@@ -110,6 +110,7 @@ static int combo_menu_callback(struct widget *window)
 
     move_window_group(menu->begin_widget_list, menu->end_widget_list);
   }
+
   return -1;
 }
 
@@ -130,6 +131,7 @@ static int combo_menu_item_callback(struct widget *label)
     widget_mark_dirty(combo);
   }
   combo_popdown(combo);
+
   return -1;
 }
 
@@ -163,7 +165,7 @@ void combo_popup(struct widget *combo)
   /* Labels. */
   strvec_iterate(combo->data.vector, string) {
     label = create_iconlabel_from_chars(NULL, window->dst, string,
-                                       adj_font(10), WF_RESTORE_BACKGROUND);
+                                        adj_font(10), WF_RESTORE_BACKGROUND);
     label->action = combo_menu_item_callback;
     label->data.widget = combo;
     set_wstate(label, FC_WS_NORMAL);

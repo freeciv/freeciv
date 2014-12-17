@@ -45,7 +45,7 @@ static int redraw_icon(struct widget *pIcon)
   if (ret != 0) {
     return ret;
   }
-  
+
   if (!pIcon->theme) {
     return -3;
   }
@@ -79,7 +79,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
     return ret;
   }
 
-  if(!pCBox->string16) {
+  if (!pCBox->string16) {
     return widget_redraw(pCBox);
   }
 
@@ -89,7 +89,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
   if (!pIcon) {
     return -3;
   }
-  
+
   pCBox->theme = pIcon;
 
   /* redraw icon label */
@@ -104,11 +104,12 @@ static int redraw_textcheckbox(struct widget *pCBox)
 /**************************************************************************
   ...
 **************************************************************************/
-struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags)
+struct widget *create_checkbox(struct gui_layer *pDest, bool state,
+                               Uint32 flags)
 {
   struct widget *pCBox = widget_new();
   struct CHECKBOX *pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
-    
+
   if (state) {
     pCBox->theme = pTheme->CBOX_Sell_Icon;
   } else {
@@ -127,7 +128,7 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags
 
   checkbox_baseclass_redraw = pCBox->redraw;
   pCBox->redraw = redraw_icon;
-  
+
   pCBox->size.w = pCBox->theme->w / 4;
   pCBox->size.h = pCBox->theme->h;
 
@@ -137,8 +138,8 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags
 /**************************************************************************
   ...
 **************************************************************************/
-struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
-		  SDL_String16 *pStr, Uint32 flags)
+struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
+                                   SDL_String16 *pStr, Uint32 flags)
 {
   struct widget *pCBox;
   struct CHECKBOX *pTmp;
@@ -148,15 +149,15 @@ struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
   if (!pStr) {
     return create_checkbox(pDest, state, flags);
   }
-  
+
   pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
-    
+
   if (state) {
     pSurf = pTheme->CBOX_Sell_Icon;
   } else {
     pSurf = pTheme->CBOX_Unsell_Icon;
   }
-    
+
   pIcon = create_icon_from_theme(pSurf, 0);
   pCBox = create_iconlabel(pIcon, pDest, pStr, (flags | WF_FREE_PRIVATE_DATA));
 
@@ -176,39 +177,40 @@ struct widget * create_textcheckbox(struct gui_layer *pDest, bool state,
   textcheckbox_baseclass_redraw = pTmpWidget->redraw;
   FREEWIDGET(pTmpWidget);
   pCBox->redraw = redraw_textcheckbox;
-  
+
   return pCBox;
 }
 
-int set_new_checkbox_theme(struct widget *pCBox ,
-				SDL_Surface *pTrue, SDL_Surface *pFalse)
+int set_new_checkbox_theme(struct widget *pCBox,
+                           SDL_Surface *pTrue, SDL_Surface *pFalse)
 {
   struct CHECKBOX *pTmp;
-  
-  if(!pCBox || (get_wtype(pCBox) != WT_CHECKBOX)) {
+
+  if (!pCBox || (get_wtype(pCBox) != WT_CHECKBOX)) {
     return -1;
   }
-  
-  if(!pCBox->private_data.cbox) {
+
+  if (!pCBox->private_data.cbox) {
     pCBox->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     set_wflag(pCBox, WF_FREE_PRIVATE_DATA);
     pCBox->private_data.cbox->state = FALSE;
   }
-  
+
   pTmp = pCBox->private_data.cbox;
   pTmp->pTRUE_Theme = pTrue;
   pTmp->pFALSE_Theme = pFalse;
-  if(pTmp->state) {
+  if (pTmp->state) {
     pCBox->theme = pTrue;
   } else {
     pCBox->theme = pFalse;
   }
+
   return 0;
 }
 
 void togle_checkbox(struct widget *pCBox)
 {
-  if(pCBox->private_data.cbox->state) {
+  if (pCBox->private_data.cbox->state) {
     pCBox->theme = pCBox->private_data.cbox->pFALSE_Theme;
     pCBox->private_data.cbox->state = FALSE;
   } else {

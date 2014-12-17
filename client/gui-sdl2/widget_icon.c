@@ -123,7 +123,7 @@ static int redraw_icon2(struct widget *pIcon)
              dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
              get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
   }
-#endif
+#endif /* 0 */
 
   dest.x += adj_size(2);
   dest.y += adj_size(2);
@@ -138,7 +138,7 @@ static int redraw_icon2(struct widget *pIcon)
 /**************************************************************************
   set new theme and callculate new size.
 **************************************************************************/
-void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface * pNew_Theme)
+void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme)
 {
   if ((pNew_Theme) && (pIcon_Widget)) {
     FREESURFACE(pIcon_Widget->theme);
@@ -154,7 +154,6 @@ void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface * pNew_Theme)
 SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
 {
   SDL_Color bg_color = { 255, 255, 255, 128 };
-
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
   SDL_Surface *pTheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
                                     SDL_SWSURFACE);
@@ -173,7 +172,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
            get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
-#endif
+#endif /* 0 */
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
@@ -188,7 +187,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
            dest.x - adj_size(2), dest.y - adj_size(2),
            dest.x + (src.w + 1), dest.y + (src.h + 1),
            get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
-#endif
+#endif /* 0 */
 
   /* disabled */
   dest.x += (src.w + adj_size(4));
@@ -204,7 +203,8 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
 /**************************************************************************
   Create ( malloc ) Icon Widget ( flat Button )
 **************************************************************************/
-struct widget *create_themeicon(SDL_Surface *pIcon_theme, struct gui_layer *pDest,
+struct widget *create_themeicon(SDL_Surface *pIcon_theme,
+                                struct gui_layer *pDest,
                                 Uint32 flags)
 {
   struct widget *pIcon_Widget = widget_new();
@@ -277,7 +277,7 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
 
 /**************************************************************************
   Create Icon image then return pointer to this image.
-  
+
   Graphic is take from pIcon_theme surface and blit to new created image.
 
   Type of Icon depend of "state" parametr.
@@ -327,7 +327,8 @@ void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
 /**************************************************************************
   Create ( malloc ) Icon2 Widget ( flat Button )
 **************************************************************************/
-struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags)
+struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest,
+                            Uint32 flags)
 {
   struct widget *pIcon_Widget = widget_new();
 

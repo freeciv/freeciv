@@ -36,11 +36,10 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   ...
 **************************************************************************/
 static inline int redraw_themelabel2(struct widget *pLabel)
-{
-    
+{    
   SDL_Rect src = {0,0, pLabel->size.w, pLabel->size.h};
   SDL_Rect dst = {pLabel->size.x, pLabel->size.y, 0, 0};
-/* 
+/*
   if (!pLabel) {
     return -3;
   }
@@ -103,7 +102,7 @@ static int redraw_label(struct widget *pLabel)
       if (pLabel->string16->render == 3) {
         pLabel->string16->bgcol = backup_color;
       }
-    } 
+    }
   }
 
   return ret;
@@ -129,20 +128,18 @@ void remake_label_size(struct widget *pLabel)
   if (pText) {
     bool without_box = ((get_wflags(pLabel) & WF_SELECT_WITHOUT_BAR) == WF_SELECT_WITHOUT_BAR);
     bool bold = TRUE;
-    
-    if (without_box)
-    {
+
+    if (without_box) {
       bold = ((pText->style & TTF_STYLE_BOLD) == TTF_STYLE_BOLD);
       pText->style |= TTF_STYLE_BOLD;
     }
-    
+
     buf = str16size(pText);
 
-    if (without_box && !bold)
-    {
+    if (without_box && !bold) {
       pText->style &= ~TTF_STYLE_BOLD;
     }
-    
+
     w = MAX(w, buf.w + space);
     h = MAX(h, buf.h);
   }
@@ -150,19 +147,19 @@ void remake_label_size(struct widget *pLabel)
   if (pIcon) {
     if (pText) {
       if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
-	w = MAX(w, pIcon->w + space);
-	h = MAX(h, buf.h + pIcon->h + adj_size(3));
+        w = MAX(w, pIcon->w + space);
+        h = MAX(h, buf.h + pIcon->h + adj_size(3));
       } else {
-	if (flags & WF_ICON_CENTER) {
-	  w = MAX(w, pIcon->w + space);
-	  h = MAX(h, pIcon->h);
-	} else {
-	  w = MAX(w, buf.w + pIcon->w + adj_size(5) + space);
-	  h = MAX(h, pIcon->h);
-	}
+        if (flags & WF_ICON_CENTER) {
+          w = MAX(w, pIcon->w + space);
+          h = MAX(h, pIcon->h);
+        } else {
+          w = MAX(w, buf.w + pIcon->w + adj_size(5) + space);
+          h = MAX(h, pIcon->h);
+        }
       }
-    } /* pText */
-    else {
+      /* pText */
+    } else {
       w = MAX(w, pIcon->w + space);
       h = MAX(h, pIcon->h);
     }
@@ -176,11 +173,12 @@ void remake_label_size(struct widget *pLabel)
 /**************************************************************************
   ThemeLabel is String16 with Background ( pIcon ).
 **************************************************************************/
-struct widget * create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
-  		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags)
+struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
+                                 SDL_String16 *pText, Uint16 w, Uint16 h,
+                                 Uint32 flags)
 {
   struct widget *pLabel = NULL;
-  
+
   if (!pIcon && !pText) {
     return NULL;
   }
@@ -198,20 +196,20 @@ struct widget * create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
 
   baseclass_redraw = pLabel->redraw;
   pLabel->redraw = redraw_label;
-  
+
   remake_label_size(pLabel);
 
   pLabel->size.w = MAX(pLabel->size.w, w);
   pLabel->size.h = MAX(pLabel->size.h, h);
-  
+
   return pLabel;
 }
 
 /**************************************************************************
   this Label is String16 with Icon.
 **************************************************************************/
-struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
-  		SDL_String16 *pText, Uint32 flags)
+struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
+                                SDL_String16 *pText, Uint32 flags)
 {
   struct widget *pILabel = NULL;
 
@@ -224,10 +222,10 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wtype(pILabel, WT_I_LABEL);
   pILabel->mod = KMOD_NONE;
   pILabel->dst = pDest;
-  
+
   baseclass_redraw = pILabel->redraw;
   pILabel->redraw = redraw_label;
-  
+
   remake_label_size(pILabel);
 
   return pILabel;
@@ -237,7 +235,8 @@ struct widget * create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   ThemeLabel is String16 with Background ( pIcon ).
 **************************************************************************/
 struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
-                                  SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags)
+                                  SDL_String16 *pText, Uint16 w, Uint16 h,
+                                  Uint32 flags)
 {
   struct widget *pLabel = NULL;
   SDL_Surface *pBuf = NULL, *pTheme = NULL;
@@ -245,7 +244,7 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   SDL_Color store = {0, 0, 0, 0};
   SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey;
-  
+
   if (!pIcon && !pText) {
     return NULL;
   }
@@ -271,22 +270,22 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
 #if 0
     pTheme = SDL_DisplayFormatAlpha(pBuf);
     FREESURFACE(pBuf);
-#else
+#else  /* 0 */
     pTheme = pBuf;
-#endif
+#endif /* 0 */
   } else {
     pTheme = pBuf;
   }
 
   colorkey = SDL_MapRGBA(pTheme->format, pText->bgcol.r,
-  		pText->bgcol.g, pText->bgcol.b, pText->bgcol.a);
+                         pText->bgcol.g, pText->bgcol.b, pText->bgcol.a);
   SDL_FillRect(pTheme, NULL, colorkey);
-    
+
   pLabel->size.x = 0;
   pLabel->size.y = 0;
   area = pLabel->size;
   pLabel->dst = gui_layer_new(0, 0, pTheme);
-  
+
   /* normal */
   redraw_iconlabel(pLabel);
 
@@ -336,9 +335,9 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   if (flags & WF_RESTORE_BACKGROUND) {
 #if 0
     pTheme = SDL_DisplayFormatAlpha(pBuf);
-#else
+#else  /* 0 */
     pTheme = pBuf;
-#endif
+#endif /* 0 */
     FREESURFACE(pBuf);
   } else {
     pTheme = pBuf;
@@ -442,7 +441,7 @@ static int redraw_themelabel(struct widget *pLabel)
 
   return ret;
 }
-#endif
+#endif /* 0 */
 
 /**************************************************************************
   ...
@@ -461,7 +460,7 @@ int redraw_iconlabel(struct widget *pLabel)
   }
 
   SDL_SetClipRect(pLabel->dst->surface, &pLabel->size);
-  
+
   flags = get_wflags(pLabel);
 
   if (flags & WF_DRAW_TEXT_LABEL_WITH_SPACE) {
@@ -472,37 +471,37 @@ int redraw_iconlabel(struct widget *pLabel)
 
   pText = create_text_surf_from_str16(pLabel->string16);
   
-  if (pLabel->theme) {		/* Icon */
+  if (pLabel->theme) { /* Icon */
     if (pText) {
       if (flags & WF_ICON_CENTER_RIGHT) {
-	xI = pLabel->size.w - pLabel->theme->w - space;
+        xI = pLabel->size.w - pLabel->theme->w - space;
       } else {
-	if (flags & WF_ICON_CENTER) {
-	  xI = (pLabel->size.w - pLabel->theme->w) / 2;
-	} else {
-	  xI = space;
-	}
+        if (flags & WF_ICON_CENTER) {
+          xI = (pLabel->size.w - pLabel->theme->w) / 2;
+        } else {
+          xI = space;
+        }
       }
 
       if (flags & WF_ICON_ABOVE_TEXT) {
-	yI = 0;
-	y = pLabel->theme->h + adj_size(3)
-	    + (pLabel->size.h - (pLabel->theme->h + adj_size(3)) - pText->h) / 2;
+        yI = 0;
+        y = pLabel->theme->h + adj_size(3)
+          + (pLabel->size.h - (pLabel->theme->h + adj_size(3)) - pText->h) / 2;
       } else {
-	if (flags & WF_ICON_UNDER_TEXT) {
-	  y = (pLabel->size.h - (pLabel->theme->h + adj_size(3)) - pText->h) / 2;
-	  yI = y + pText->h + adj_size(3);
-	} else {
-	  yI = (pLabel->size.h - pLabel->theme->h) / 2;
-	  y = (pLabel->size.h - pText->h) / 2;
-	}
+        if (flags & WF_ICON_UNDER_TEXT) {
+          y = (pLabel->size.h - (pLabel->theme->h + adj_size(3)) - pText->h) / 2;
+          yI = y + pText->h + adj_size(3);
+        } else {
+          yI = (pLabel->size.h - pLabel->theme->h) / 2;
+          y = (pLabel->size.h - pText->h) / 2;
+        }
       }
-    } /* pText */
-    else {
+      /* pText */
+    } else {
 #if 0
       yI = (pLabel->size.h - pLabel->theme->h) / 2;
       xI = (pLabel->size.w - pLabel->theme->w) / 2;
-#endif
+#endif /* 0 */
       yI = 0;
       xI = space;
     }
@@ -520,53 +519,53 @@ int redraw_iconlabel(struct widget *pLabel)
   if (pText) {
     if (pLabel->theme) { /* Icon */
       if (!(flags & WF_ICON_ABOVE_TEXT) && !(flags & WF_ICON_UNDER_TEXT)) {
-	if (flags & WF_ICON_CENTER_RIGHT) {
-	  if (pLabel->string16->style & SF_CENTER) {
-	    x = (pLabel->size.w - (pLabel->theme->w + 5 + space) -
-		 pText->w) / 2;
-	  } else {
-	    if (pLabel->string16->style & SF_CENTER_RIGHT) {
-	      x = pLabel->size.w - (pLabel->theme->w + 5 + space) - pText->w;
-	    } else {
-	      x = space;
-	    }
-	  }
-	} /* WF_ICON_CENTER_RIGHT */
-	else {
-	  if (flags & WF_ICON_CENTER) {
-	    /* text is blit on icon */
-	    goto Alone;
-	  } else {		/* WF_ICON_CENTER_LEFT */
-	    if (pLabel->string16->style & SF_CENTER) {
-	      x = space + pLabel->theme->w + adj_size(5) + ((pLabel->size.w -
-						   (space +
-						    pLabel->theme->w + adj_size(5)) -
-						   pText->w) / 2);
-	    } else {
-	      if (pLabel->string16->style & SF_CENTER_RIGHT) {
-		x = pLabel->size.w - pText->w - space;
-	      } else {
-		x = space + pLabel->theme->w + adj_size(5);
-	      }
-	    }
-	  }			/* WF_ICON_CENTER_LEFT */
-	}
-      } /* !WF_ICON_ABOVE_TEXT && !WF_ICON_UNDER_TEXT */
-      else {
-	goto Alone;
+        if (flags & WF_ICON_CENTER_RIGHT) {
+          if (pLabel->string16->style & SF_CENTER) {
+            x = (pLabel->size.w - (pLabel->theme->w + 5 + space) -
+                 pText->w) / 2;
+          } else {
+            if (pLabel->string16->style & SF_CENTER_RIGHT) {
+              x = pLabel->size.w - (pLabel->theme->w + 5 + space) - pText->w;
+            } else {
+              x = space;
+            }
+          }
+          /* WF_ICON_CENTER_RIGHT */
+        } else {
+          if (flags & WF_ICON_CENTER) {
+            /* text is blit on icon */
+            goto Alone;
+          } else { /* WF_ICON_CENTER_LEFT */
+            if (pLabel->string16->style & SF_CENTER) {
+              x = space + pLabel->theme->w + adj_size(5) + ((pLabel->size.w -
+                                                             (space +
+                                                              pLabel->theme->w + adj_size(5)) -
+                                                             pText->w) / 2);
+            } else {
+              if (pLabel->string16->style & SF_CENTER_RIGHT) {
+                x = pLabel->size.w - pText->w - space;
+              } else {
+                x = space + pLabel->theme->w + adj_size(5);
+              }
+            }
+          } /* WF_ICON_CENTER_LEFT */
+        }
+        /* !WF_ICON_ABOVE_TEXT && !WF_ICON_UNDER_TEXT */
+      } else {
+        goto Alone;
       }
-    } /* pLabel->theme == Icon */
-    else {
+      /* pLabel->theme == Icon */
+    } else {
       y = (pLabel->size.h - pText->h) / 2;
     Alone:
       if (pLabel->string16->style & SF_CENTER) {
-	x = (pLabel->size.w - pText->w) / 2;
+        x = (pLabel->size.w - pText->w) / 2;
       } else {
-	if (pLabel->string16->style & SF_CENTER_RIGHT) {
-	  x = pLabel->size.w - pText->w - space;
-	} else {
-	  x = space;
-	}
+        if (pLabel->string16->style & SF_CENTER_RIGHT) {
+          x = pLabel->size.w - pText->w - space;
+        } else {
+          x = space;
+        }
       }
     }
 
@@ -578,6 +577,7 @@ int redraw_iconlabel(struct widget *pLabel)
   }
 
   SDL_SetClipRect(pLabel->dst->surface, NULL);
+
   return ret;
 }
 
@@ -588,5 +588,6 @@ int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y)
 {
   pLabel->size.x = start_x;
   pLabel->size.y = start_y;
+
   return redraw_label(pLabel);
 }

@@ -22,7 +22,7 @@
 #endif
 
 #include <stdio.h>
-#include <stdlib.h>		/* exit */
+#include <stdlib.h> /* exit */
 #include <string.h>
 
 /* utility */
@@ -37,7 +37,7 @@
 
 /* client */
 #include "citydlg_common.h"
-#include "client_main.h"		/* for client_state() */
+#include "client_main.h" /* for client_state() */
 
 /* gui-sdl2 */
 #include "dialogs.h"
@@ -72,7 +72,7 @@
 struct named_sprites {
    ....
 };
-#endif
+#endif /* 0 */
 
 struct specfile {
   struct sprite *big_sprite;
@@ -87,7 +87,7 @@ struct specfile {
     TYPED_LIST_ITERATE(struct specfile, list, pitem)
 #define specfile_list_iterate_end  LIST_ITERATE_END
 
-/* 
+/*
  * Information about an individual sprite. All fields except 'sprite' are
  * filled at the time of the scan of the specfile. 'Sprite' is
  * set/cleared on demand in load_sprite/unload_sprite.
@@ -146,8 +146,8 @@ struct theme {
 
 /*  struct named_sprites sprites;*/
 
-  struct theme_background_system *background_system;  
-  struct theme_color_system *color_system;  
+  struct theme_background_system *background_system;
+  struct theme_color_system *color_system;
 };
 
 struct theme *theme;
@@ -165,15 +165,17 @@ const char *theme_get_name(const struct theme *t)
   Return the path within the data directories where the font file can be
   found.  (It is left up to the GUI code to load and unload this file.)
 ****************************************************************************/
-const char *theme_font_filename(const struct theme *t) {
+const char *theme_font_filename(const struct theme *t)
+{
   return t->font_filename;
 }
 
 /****************************************************************************
   Return the default font size.
 ****************************************************************************/
-int theme_default_font_size(const struct theme *t) {
-  return t->default_font_size;  
+int theme_default_font_size(const struct theme *t)
+{
+  return t->default_font_size;
 }
 
 /**************************************************************************
@@ -185,6 +187,7 @@ static struct theme *theme_new(void)
 
   t->specfiles = specfile_list_new();
   t->small_sprites = small_sprite_list_new();
+
   return t;
 }
 
@@ -262,12 +265,14 @@ static bool check_themespec_capabilities(struct section_file *file,
               filename, which);
     return FALSE;
   }
+
   if (!has_capabilities(us_capstr, file_capstr)) {
     log_debug("\"%s\": %s file appears incompatible:", filename, which);
     log_debug("  datafile options: %s", file_capstr);
     log_debug("  supported options: %s", us_capstr);
     return FALSE;
   }
+
   if (!has_capabilities(file_capstr, us_capstr)) {
     log_debug("\"%s\": %s file requires option(s)"
               " that client doesn't support:", filename, which);
@@ -289,14 +294,14 @@ static void theme_free_toplevel(struct theme *t)
   if (t->font_filename) {
     FC_FREE(t->font_filename);
   }
-  
+
   t->default_font_size = 0;
 
   if (t->background_system) {
     theme_background_system_free(t->background_system);
     t->background_system = NULL;
   }
-    
+
   if (t->color_system) {
     theme_color_system_free(t->color_system);
     t->color_system = NULL;
@@ -487,7 +492,7 @@ static void ensure_big_sprite(struct specfile *sf)
   }
 
   if (!check_themespec_capabilities(file, "spec",
-				   SPEC_CAPSTR, sf->file_name)) {
+                                    SPEC_CAPSTR, sf->file_name)) {
     exit(EXIT_FAILURE);
   }
 
@@ -509,7 +514,7 @@ static void ensure_big_sprite(struct specfile *sf)
   small_sprite structs.
 **************************************************************************/
 static void scan_specfile(struct theme *t, struct specfile *sf,
-			  bool duplicates_ok)
+                          bool duplicates_ok)
 {
   struct section_file *file;
   struct section_list *sections;
@@ -520,7 +525,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
     exit(EXIT_FAILURE);
   }
   if (!check_themespec_capabilities(file, "spec",
-				   SPEC_CAPSTR, sf->file_name)) {
+                                    SPEC_CAPSTR, sf->file_name)) {
     exit(EXIT_FAILURE);
   }
 
@@ -670,8 +675,7 @@ char *themespec_gfx_filename(const char *gfx_filename)
   const char  *gfx_current_fileext;
   const char **gfx_fileexts = gfx_fileextensions();
 
-  while((gfx_current_fileext = *gfx_fileexts++))
-  {
+  while ((gfx_current_fileext = *gfx_fileexts++)) {
     char *full_name =
        fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
     const char *real_full_name;
@@ -711,7 +715,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
 
   fname = themespec_fullname(theme_name);
   if (!fname) {
-    log_error("Can't find theme \"%s\".", theme_name); 
+    log_error("Can't find theme \"%s\".", theme_name);
     theme_free(t);
     return NULL;
   }
@@ -721,6 +725,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     log_error("Could not open '%s':\n%s", fname, secfile_error());
     FC_FREE(fname);
     theme_free(t);
+
     return NULL;
   }
 
@@ -729,9 +734,10 @@ struct theme *theme_read_toplevel(const char *theme_name)
     secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
+
     return NULL;
   }
-  
+
   file_capstr = secfile_lookup_str(file, "themespec.options");
   duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
 
@@ -739,7 +745,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
 
   sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int_default(file, 0, "themespec.priority");
-  
+
   langname = get_langname();
   if (langname) {
     if (strstr(langname, "zh_CN") != NULL) {
@@ -761,6 +767,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
+
     return NULL;
   }
   log_debug("theme font file %s", t->font_filename);
@@ -775,6 +782,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);
+
     return NULL;
   }
 
@@ -792,6 +800,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
       secfile_destroy(file);
       FC_FREE(fname);
       theme_free(t);
+
       return NULL;
     }
     sf->file_name = fc_strdup(filename);
@@ -802,10 +811,10 @@ struct theme *theme_read_toplevel(const char *theme_name)
   FC_FREE(spec_filenames);
 
   t->background_system = theme_background_system_read(file);
-  t->color_system = theme_color_system_read(file);  
-  
+  t->color_system = theme_color_system_read(file);
+
   secfile_check_unused(file);
-  
+
   secfile_destroy(file);
   log_verbose("finished reading \"%s\".", fname);
   FC_FREE(fname);
@@ -894,7 +903,7 @@ static void unload_sprite(struct theme *t, const char *tag_name)
     t->sprites.field = load_sprite(t, tag);			  \
     fc_assert_exit_msg(NULL != t->sprites.field,                  \
                        "Sprite tag '%s' missing.", tag);          \
-  } while(FALSE)
+  } while (FALSE)
 
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
 #define SET_SPRITE_ALT(field, tag, alt)					    \
@@ -906,7 +915,7 @@ static void unload_sprite(struct theme *t, const char *tag_name)
     fc_assert_exit_msg(NULL != t->sprites.field,                            \
                        "Sprite tag '%s' and alternate '%s' are "            \
                        "both missing.", tag, alt);                          \
-  } while(FALSE)
+  } while (FALSE)
 
 /* Sets sprites.field to tag, or NULL if not available */
 #define SET_SPRITE_OPT(field, tag) \
@@ -994,6 +1003,7 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
   if (LOG_FATAL >= level) {
     exit(EXIT_FAILURE);
   }
+
   return NULL;
 }
 
@@ -1059,13 +1069,13 @@ void theme_free_sprites(struct theme *t)
     FC_FREE(sf);
   } specfile_list_iterate_end;
 
-#if 0  
+#if 0
   /* TODO: may be useful for theme sprites, too */
   sprite_vector_iterate(&t->sprites.****, psprite) {
     free_sprite(*psprite);
   } sprite_vector_iterate_end;
   sprite_vector_free(&t->sprites.****);
-#endif  
+#endif /* 0 */
 
   /* the 'sprites' structure is currently not used, for now we call some
    * functions in gui_tilespec.c instead */

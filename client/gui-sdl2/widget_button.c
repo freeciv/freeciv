@@ -39,7 +39,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 
   Text with attributes is taken from pIButton->string16 parameter.
 
-  Graphic for button is taken from pIButton->theme surface 
+  Graphic for button is taken from pIButton->theme surface
   and blit to new created image.
 
   Graphic for Icon is taken from pIButton->theme2 surface and blit to new
@@ -56,14 +56,13 @@ static int redraw_ibutton(struct widget *pIButton)
   Uint16 Ix, Iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
-  
+
   ret = (*baseclass_redraw)(pIButton);
   if (ret != 0) {
     return ret;
   }
 
   if (pIButton->string16) {
-
     /* make copy of string16 */
     TMPString = *pIButton->string16;
 
@@ -93,32 +92,32 @@ static int redraw_ibutton(struct widget *pIButton)
   alphablit(pButton, NULL, pIButton->dst->surface, &pIButton->size, 255);
   FREESURFACE(pButton);
 
-  if (pIcon) {			/* Icon */
+  if (pIcon) { /* Icon */
     if (pText) {
       if (get_wflags(pIButton) & WF_ICON_CENTER_RIGHT) {
-	Ix = pIButton->size.w - pIcon->w - 5;
+        Ix = pIButton->size.w - pIcon->w - 5;
       } else {
-	if (get_wflags(pIButton) & WF_ICON_CENTER) {
-	  Ix = (pIButton->size.w - pIcon->w) / 2;
-	} else {
-	  Ix = 5;
-	}
+        if (get_wflags(pIButton) & WF_ICON_CENTER) {
+          Ix = (pIButton->size.w - pIcon->w) / 2;
+        } else {
+          Ix = 5;
+        }
       }
 
       if (get_wflags(pIButton) & WF_ICON_ABOVE_TEXT) {
-	Iy = 3;
-	y = 3 + pIcon->h + 3 + (pIButton->size.h -
-				(pIcon->h + 6) - pText->h) / 2;
+        Iy = 3;
+        y = 3 + pIcon->h + 3 + (pIButton->size.h -
+                                (pIcon->h + 6) - pText->h) / 2;
       } else {
-	if (get_wflags(pIButton) & WF_ICON_UNDER_TEXT) {
-	  y = 3 + (pIButton->size.h - (pIcon->h + 3) - pText->h) / 2;
-	  Iy = y + pText->h + 3;
-	} else {		/* center */
-	  Iy = (pIButton->size.h - pIcon->h) / 2;
-	  y = (pIButton->size.h - pText->h) / 2;
-	}
+        if (get_wflags(pIButton) & WF_ICON_UNDER_TEXT) {
+          y = 3 + (pIButton->size.h - (pIcon->h + 3) - pText->h) / 2;
+          Iy = y + pText->h + 3;
+        } else { /* center */
+          Iy = (pIButton->size.h - pIcon->h) / 2;
+          y = (pIButton->size.h - pText->h) / 2;
+        }
       }
-    } else {			/* no text */
+    } else { /* no text */
       Iy = (pIButton->size.h - pIcon->h) / 2;
       Ix = (pIButton->size.w - pIcon->w) / 2;
     }
@@ -127,7 +126,6 @@ static int redraw_ibutton(struct widget *pIButton)
       Ix += 1;
       Iy += 1;
     }
-
 
     dest.x = pIButton->size.x + Ix;
     dest.y = pIButton->size.y + Iy;
@@ -140,57 +138,54 @@ static int redraw_ibutton(struct widget *pIButton)
   }
 
   if (pText) {
-
     if (pIcon) {
-      if (!(get_wflags(pIButton) & WF_ICON_ABOVE_TEXT) &&
-	  !(get_wflags(pIButton) & WF_ICON_UNDER_TEXT)) {
-	if (get_wflags(pIButton) & WF_ICON_CENTER_RIGHT) {
-	  if (pIButton->string16->style & SF_CENTER) {
-	    x = (pIButton->size.w - (pIcon->w + 5) - pText->w) / 2;
-	  } else {
-	    if (pIButton->string16->style & SF_CENTER_RIGHT) {
-	      x = pIButton->size.w - (pIcon->w + 7) - pText->w;
-	    } else {
-	      x = 5;
-	    }
-	  }
-	} /* end WF_ICON_CENTER_RIGHT */
-	else {
-	  if (get_wflags(pIButton) & WF_ICON_CENTER) {
-	    /* text is blit on icon */
-	    goto Alone;
-	  } /* end WF_ICON_CENTER */
-	  else {		/* icon center left - default */
-	    if (pIButton->string16->style & SF_CENTER) {
-	      x = 5 + pIcon->w + ((pIButton->size.w -
-				   (pIcon->w + 5) - pText->w) / 2);
-	    } else {
-	      if (pIButton->string16->style & SF_CENTER_RIGHT) {
-		x = pIButton->size.w - pText->w - 5;
-	      } else {		/* text center left */
-		x = 5 + pIcon->w + 3;
-	      }
-	    }
-
-	  }			/* end icon center left - default */
-
-	}
-	/* 888888888888888888 */
+      if (!(get_wflags(pIButton) & WF_ICON_ABOVE_TEXT)
+          && !(get_wflags(pIButton) & WF_ICON_UNDER_TEXT)) {
+        if (get_wflags(pIButton) & WF_ICON_CENTER_RIGHT) {
+          if (pIButton->string16->style & SF_CENTER) {
+            x = (pIButton->size.w - (pIcon->w + 5) - pText->w) / 2;
+          } else {
+            if (pIButton->string16->style & SF_CENTER_RIGHT) {
+              x = pIButton->size.w - (pIcon->w + 7) - pText->w;
+            } else {
+              x = 5;
+            }
+          }
+          /* end WF_ICON_CENTER_RIGHT */
+        } else {
+          if (get_wflags(pIButton) & WF_ICON_CENTER) {
+            /* text is blit on icon */
+            goto Alone;
+            /* end WF_ICON_CENTER */
+          } else { /* icon center left - default */
+            if (pIButton->string16->style & SF_CENTER) {
+              x = 5 + pIcon->w + ((pIButton->size.w -
+                                   (pIcon->w + 5) - pText->w) / 2);
+            } else {
+              if (pIButton->string16->style & SF_CENTER_RIGHT) {
+                x = pIButton->size.w - pText->w - 5;
+              } else { /* text center left */
+                x = 5 + pIcon->w + 3;
+              }
+            }
+          } /* end icon center left - default */
+        }
+        /* 888888888888888888 */
       } else {
-	goto Alone;
+        goto Alone;
       }
     } else {
       /* !pIcon */
       y = (pIButton->size.h - pText->h) / 2;
     Alone:
       if (pIButton->string16->style & SF_CENTER) {
-	x = (pIButton->size.w - pText->w) / 2;
+        x = (pIButton->size.w - pText->w) / 2;
       } else {
-	if (pIButton->string16->style & SF_CENTER_RIGHT) {
-	  x = pIButton->size.w - pText->w - 5;
-	} else {
-	  x = 5;
-	}
+        if (pIButton->string16->style & SF_CENTER_RIGHT) {
+          x = pIButton->size.w - pText->w - 5;
+        } else {
+          x = 5;
+        }
       }
     }
 
@@ -218,10 +213,10 @@ static int redraw_ibutton(struct widget *pIButton)
 
   Text with atributes is taken from pTIButton->string16 parameter.
 
-  Graphic for button is taken from pTIButton->theme surface 
+  Graphic for button is taken from pTIButton->theme surface
   and blit to new created image.
 
-  Graphic for Icon Theme is taken from pTIButton->theme2 surface 
+  Graphic for Icon Theme is taken from pTIButton->theme2 surface
   and blit to new created image.
 
   function return (-1) if there are no Icon and Text.  Else return 0.
@@ -305,11 +300,11 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   if (pIcon) {
     if (pStr) {
       if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
-	w = MAX(w, pIcon->w + adj_size(2));
-	h = MAX(h, buf.h + pIcon->h + adj_size(4));
+        w = MAX(w, pIcon->w + adj_size(2));
+        h = MAX(h, buf.h + pIcon->h + adj_size(4));
       } else {
-	w = MAX(w, buf.w + pIcon->w + adj_size(20));
-	h = MAX(h, pIcon->h + adj_size(2));
+        w = MAX(w, buf.w + pIcon->w + adj_size(20));
+        h = MAX(h, pIcon->h + adj_size(2));
       }
     } else {
       w = MAX(w, pIcon->w + adj_size(2));
@@ -341,7 +336,8 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   function return pointer to allocated Button Widget.
 **************************************************************************/
 struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
-                                       struct gui_layer *pDest, SDL_String16 *pString16,
+                                       struct gui_layer *pDest,
+                                       SDL_String16 *pString16,
                                        Uint32 flags)
 {
   /* extract a single icon */
@@ -358,8 +354,8 @@ struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
 }
 
 /**************************************************************************
-  Steate Button image with text and Icon.  Then blit to Main.screen on
-  positon start_x , start_y.
+  Create Button image with text and Icon. Then blit to Main.screen on
+  position start_x, start_y.
 
   Text with atributes is taken from pButton->string16 parameter.
 
@@ -384,12 +380,12 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
   Create Button image with text and Icon.
   Then blit to Main.screen on positon start_x , start_y.
 
-   Text with atributes is taken from pButton->string16 parameter.
+  Text with atributes is taken from pButton->string16 parameter.
 
-   Graphic for button is taken from pButton->theme surface 
-   and blit to new created image.
+  Graphic for button is taken from pButton->theme surface
+  and blit to new created image.
 
-  Graphic for Icon is taken from pButton->theme2 surface 
+  Graphic for Icon is taken from pButton->theme2 surface
   and blit to new created image.
 
   function return (-1) if there are no Icon and Text.
@@ -399,5 +395,6 @@ int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
 {
   pButton->size.x = start_x;
   pButton->size.y = start_y;
+
   return redraw_ibutton(pButton);
 }

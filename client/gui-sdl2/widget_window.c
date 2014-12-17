@@ -48,7 +48,6 @@ static int redraw_window(struct widget *pWindow)
 {
   int ret;
   SDL_Color title_bg_color = {255, 255, 255, 200};
-  
   SDL_Surface *pTmp = NULL;
   SDL_Rect dst = pWindow->size;
 
@@ -86,7 +85,7 @@ static int redraw_window(struct widget *pWindow)
             dst.x, dst.y - 1,
             dst.x + dst.w - 1, dst.y - 1,
             get_theme_color(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
-#endif
+#endif /* 0 */
   }
 
   /* draw frame */
@@ -98,23 +97,23 @@ static int redraw_window(struct widget *pWindow)
 }
 
 /**************************************************************************
-	Window mechanism.
+  Window mechanism.
 
-	Active Window schould be first on list (All Widgets on this
-	Widndow that are on List must be above)
+  Active Window schould be first on list (All Widgets on this
+  Window that are on List must be above)
 
-	LIST:
+  LIST:
 
-	*pFirst_Widget_on_Active_Window.
+  *pFirst_Widget_on_Active_Window.
 
-	*pN__Widget_on_Active_Window.
-	*pActive_Window. <------
-	*pRest_Widgets.
+  *pN__Widget_on_Active_Window.
+  *pActive_Window. <------
+  *pRest_Widgets.
 
-	This trick give us:
-	-	if any Widget is under ( area of ) this Window and Mouse
-		cursor is above them, 'WidgetListScaner(...)' return
-		pointer to Active Window not to this Widget.
+  This trick give us:
+  - if any Widget is under ( area of ) this Window and Mouse
+    cursor is above them, 'WidgetListScaner(...)' return
+    pointer to Active Window not to this Widget.
 **************************************************************************/
 
 /**************************************************************************
@@ -126,7 +125,7 @@ static void window_set_position(struct widget *pWindow, int x, int y)
 
   pWindow->size.x = 0;
   pWindow->size.y = 0;
-  
+
   gui_layer = get_gui_layer(pWindow->dst->surface);
   gui_layer->dest_rect.x = x;
   gui_layer->dest_rect.y = y;
@@ -154,7 +153,7 @@ static void window_unselect(struct widget *pWindow)
 static void set_client_area(struct widget *pWindow)
 {
   SDL_Rect area;
-  
+
   if (get_wflags(pWindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
     area.x = pTheme->FR_Left->w;
     area.y = pTheme->FR_Top->h;
@@ -163,12 +162,12 @@ static void set_client_area(struct widget *pWindow)
   } else {
     area = pWindow->size;
   }
-    
+
   if (pWindow->string16) {
     area.y += (WINDOW_TITLE_HEIGHT + 1);
     area.h -= (WINDOW_TITLE_HEIGHT + 1);
   }
-  
+
   widget_set_area(pWindow, area);
 }
 
@@ -301,11 +300,12 @@ int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
 /**************************************************************************
 ...
 **************************************************************************/
-static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData)
+static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
+                                 void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
   int xrel, yrel;
-  
+
   if (!pMove->moved) {
     pMove->moved = TRUE;
   }
@@ -320,27 +320,27 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData
   widget_set_position(pMove->pWindow,
                       (pMove->pWindow->dst->dest_rect.x + pMove->pWindow->size.x) + xrel,
                       (pMove->pWindow->dst->dest_rect.y + pMove->pWindow->size.y) + yrel);
-  
+
   widget_mark_dirty(pMove->pWindow);
   flush_dirty();
-  
+
   return ID_ERROR;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent, void *pData)
+static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent,
+                                    void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
 
   if (pMove && pMove->moved) {
     return (Uint16)ID_MOVED_WINDOW;
   }
-  
+
   return (Uint16)ID_WINDOW;
 }
-
 
 /**************************************************************************
   ...
