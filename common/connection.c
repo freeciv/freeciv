@@ -98,7 +98,6 @@ void connection_close(struct connection *pconn, const char *reason)
   (*conn_close_callback) (pconn);
 }
 
-
 /**************************************************************************
   Make sure that there is at least extra_space bytes free space in buffer,
   allocating more memory if needed.
@@ -542,12 +541,11 @@ static void init_packet_hashs(struct connection *pc)
 
   pc->phs.sent = fc_malloc(sizeof(*pc->phs.sent) * PACKET_LAST);
   pc->phs.received = fc_malloc(sizeof(*pc->phs.received) * PACKET_LAST);
-  pc->phs.variant = fc_malloc(sizeof(*pc->phs.variant) * PACKET_LAST);
+  pc->phs.handlers = packet_handlers_initial();
 
   for (i = 0; i < PACKET_LAST; i++) {
     pc->phs.sent[i] = NULL;
     pc->phs.received[i] = NULL;
-    pc->phs.variant[i] = -1;
   }
 }
 
@@ -576,11 +574,6 @@ static void free_packet_hashes(struct connection *pc)
     }
     free(pc->phs.received);
     pc->phs.received = NULL;
-  }
-
-  if (pc->phs.variant) {
-    free(pc->phs.variant);
-    pc->phs.variant = NULL;
   }
 }
 
@@ -636,6 +629,16 @@ void connection_common_close(struct connection *pconn)
     free_compression_queue(pconn);
     free_packet_hashes(pconn);
   }
+}
+
+/****************************************************************************
+  Set the network capability string for 'pconn'.
+****************************************************************************/
+void conn_set_capability(struct connection *pconn, const char *capability)
+{
+  fc_assert(strlen(capability) < sizeof(pconn->capability));
+  sz_strlcpy(pconn->capability, capability);
+  pconn->phs.handlers = packet_handlers_get(capability);
 }
 
 /**************************************************************************

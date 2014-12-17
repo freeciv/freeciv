@@ -615,7 +615,7 @@ class Variant:
         self.negcaps=negcaps
         if self.poscaps or self.negcaps:
             def f(cap):
-                return '(has_capability("%s", pc->capability) && has_capability("%s", our_capability))'%(cap,cap)
+                return 'has_capability("%s", capability)'%(cap)
             t=(list(map(lambda x,f=f: f(x),self.poscaps))+
                list(map(lambda x,f=f: '!'+f(x),self.negcaps)))
             self.condition=" && ".join(t)
@@ -656,6 +656,15 @@ class Variant:
 
         self.receive_prototype='static struct %(packet_name)s *receive_%(name)s(struct connection *pc)'%self.__dict__
         self.send_prototype='static int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
+
+
+        if self.no_packet:
+            self.send_handler='phandlers->send[%(type)s].no_packet = (int(*)(struct connection *)) send_%(name)s;'%self.__dict__
+        elif self.want_force:
+            self.send_handler='phandlers->send[%(type)s].force_to_send = (int(*)(struct connection *, const void *, bool)) send_%(name)s;'%self.__dict__
+        else:
+            self.send_handler='phandlers->send[%(type)s].packet = (int(*)(struct connection *, const void *)) send_%(name)s;'%self.__dict__
+        self.receive_handler='phandlers->receive[%(type)s] = (void *(*)(struct connection *)) receive_%(name)s;'%self.__dict__
 
     # See Field.get_dict
     def get_dict(self,vars):
@@ -1005,7 +1014,6 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
         return body+extro
 
-
 # Class which represents a packet. A packet contains a list of fields.
 class Packet:
     def __init__(self,str, types):
@@ -1204,136 +1212,48 @@ class Packet:
         result=self.__dict__.copy()
         result.update(vars)
         return result
-    
-    # Returns a code fragment which is the implementation of the
-    # ensure_valid_variant function
-    def get_ensure_valid_variant(self):
-        result='''static void ensure_valid_variant_%(name)s(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[%(type)s] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-'''%self.get_dict(vars())
-        for v in self.variants:
-            cond=v.condition
-            name2=v.name
-            no=v.no
-            result=result+'  } else if(%(cond)s) {\n    variant = %(no)s;\n'%self.get_dict(vars())
-        if generate_variant_logs and len(self.variants)>1:
-            log='  %(log_macro)s("%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
-        else:
-            log=""
-        result=result+'''  } else {
-    log_error("Unknown %(type)s variant for connection %%s", conn_description(pc));
-    variant = -2;       /* Keep something invalid. */
-  }
-%(log)s  pc->phs.variant[%(type)s] = variant;
-}
-
-'''%self.get_dict(vars())
-        return result
-
 
     # Returns a code fragment which is the implementation of the
     # public visible receive function
     def get_receive(self):
-        only_client=len(self.dirs)==1 and self.dirs[0]=="sc"
-        only_server=len(self.dirs)==1 and self.dirs[0]=="cs"
-        if only_client:
-            restrict='''  if (is_server()) {
-    log_packet("Receiving %(name)s at the server.");
-    return NULL;
-  }
-'''%self.get_dict(vars())
-        elif only_server:
-            restrict='''  if (!is_server()) {
-    log_packet("Receiving %(name)s at the client.");
-    return NULL;
-  }
-'''%self.get_dict(vars())
-        else:
-            restrict=""
-
-        result='''%(receive_prototype)s
+        return '''%(receive_prototype)s
 {
   if(!pc->used) {
     log_error("WARNING: trying to read data from the closed connection %%s",
               conn_description(pc));
     return NULL;
   }
-  fc_assert_ret_val(NULL != pc->phs.variant, NULL);
-%(restrict)s  ensure_valid_variant_%(name)s(pc);
-
-  switch(pc->phs.variant[%(type)s]) {'''%self.get_dict(vars())
-        for v in self.variants:
-            name2=v.name
-            no=v.no
-            result=result+'''
-  case %(no)s:
-    return receive_%(name2)s(pc);'''%self.get_dict(vars())
-        result=result+'''
-  default:
-    log_debug("Unknown %(type)s variant for connection %%s", conn_description(pc));
-    return NULL;
-  }
+  fc_assert_ret_val_msg(pc->phs.handlers->receive[%(type)s] != NULL, NULL,
+                        "Handler for %(type)s not installed");
+  return (struct %(name)s *) pc->phs.handlers->receive[%(type)s](pc);
 }
+
 '''%self.get_dict(vars())
-        return result
 
     def get_send(self):
-        only_client=len(self.dirs)==1 and self.dirs[0]=="cs"
-        only_server=len(self.dirs)==1 and self.dirs[0]=="sc"
-        if only_client:
-            restrict='''  if (is_server()) {
-    log_error("Sending %(name)s from the server.");
-  }
-'''%self.get_dict(vars())
-        elif only_server:
-            restrict='''  if (!is_server()) {
-    log_error("Sending %(name)s from the client.");
-  }
-'''%self.get_dict(vars())
+        if self.no_packet:
+            func="no_packet"
+            args=""
+        elif self.want_force:
+            func="force_to_send"
+            args=", packet, force_to_send"
         else:
-            restrict=""
+            func="packet"
+            args=", packet"
 
-        result='''%(send_prototype)s
+        return '''%(send_prototype)s
 {
   if(!pc->used) {
     log_error("WARNING: trying to send data to the closed connection %%s",
               conn_description(pc));
     return -1;
   }
-  fc_assert_ret_val(NULL != pc->phs.variant, -1);
-%(restrict)s  ensure_valid_variant_%(name)s(pc);
-
-  switch(pc->phs.variant[%(type)s]) {
-'''%self.get_dict(vars())
-        args="pc"
-        if not self.no_packet:
-            args=args+", packet"
-        if self.want_force:
-            args=args+", force_to_send"
-        for v in self.variants:
-            name2=v.name
-            no=v.no
-
-
-
-            result=result+'''
-  case %(no)s:
-    return send_%(name2)s(%(args)s);'''%self.get_dict(vars())
-        result=result+'''
-  default:
-    log_debug("Unknown %(type)s variant for connection %%s", conn_description(pc));
-    return -1;
-  }
+  fc_assert_ret_val_msg(pc->phs.handlers->send[%(type)s].%(func)s != NULL, -1,
+                        "Handler for %(type)s not installed");
+  return pc->phs.handlers->send[%(type)s].%(func)s(pc%(args)s);
 }
+
 '''%self.get_dict(vars())
-        return result
 
     def get_variants(self):
         result=""
@@ -1344,7 +1264,6 @@ class Packet:
                 result=result+v.get_bitvector()
             result=result+v.get_receive()
             result=result+v.get_send()
-        result=result+self.get_ensure_valid_variant()
         return result
 
     # Returns a code fragement which is the implementation of the
@@ -1391,6 +1310,18 @@ class Packet:
 }
 
 '''%self.get_dict(vars())
+
+# Returns a code fragement which is the implementation of the
+# packet_functional_capability string.
+def get_packet_functional_capability(packets):
+    all_caps={}
+    for p in packets:
+        for f in p.fields:
+            if f.add_cap:  all_caps[f.add_cap]=1
+            if f.remove_cap:  all_caps[f.remove_cap]=1
+    return '''
+const char *const packet_functional_capability = "%s";
+'''%' '.join(all_caps.keys())
 
 # Returns a code fragement which is the implementation of the
 # delta_stats_report() function.
@@ -1485,6 +1416,156 @@ def get_packet_has_game_info_flag(packets):
   }
 }
 
+'''
+    return intro+body+extro
+
+# Returns a code fragement which is the implementation of the
+# packet_handlers_fill_initial() function.
+def get_packet_handlers_fill_initial(packets):
+    intro='''void packet_handlers_fill_initial(struct packet_handlers *phandlers)
+{
+'''
+    all_caps={}
+    for p in packets:
+        for f in p.fields:
+            if f.add_cap:  all_caps[f.add_cap]=1
+            if f.remove_cap:  all_caps[f.remove_cap]=1
+    for cap in all_caps.keys():
+        intro=intro+'''  fc_assert_msg(has_capability("%s", our_capability),
+                "Packets have support for unknown '%s' capability!");
+'''%(cap,cap)
+
+    sc_packets=[]
+    cs_packets=[]
+    unrestricted=[]
+    for p in packets:
+        if len(p.variants)==1:
+            # Packets with variants are correctly handled in
+            # packet_handlers_fill_capability(). They may remain without
+            # handler at connecting time, because it would be anyway wrong
+            # to use them before the network capability string would be
+            # known.
+            if len(p.dirs)==1 and p.dirs[0]=="sc":
+                sc_packets.append(p)
+            elif len(p.dirs)==1 and p.dirs[0]=="cs":
+                cs_packets.append(p)
+            else:
+                unrestricted.append(p)
+
+    body=""
+    for p in unrestricted:
+        body=body+'''  %(send_handler)s
+  %(receive_handler)s
+'''%p.variants[0].__dict__
+    body=body+'''  if (is_server()) {
+'''
+    for p in sc_packets:
+        body=body+'''    %(send_handler)s
+'''%p.variants[0].__dict__
+    for p in cs_packets:
+        body=body+'''    %(receive_handler)s
+'''%p.variants[0].__dict__
+    body=body+'''  } else {
+'''
+    for p in cs_packets:
+        body=body+'''    %(send_handler)s
+'''%p.variants[0].__dict__
+    for p in sc_packets:
+        body=body+'''    %(receive_handler)s
+'''%p.variants[0].__dict__
+
+    extro='''  }
+}
+
+'''
+    return intro+body+extro
+
+# Returns a code fragement which is the implementation of the
+# packet_handlers_fill_capability() function.
+def get_packet_handlers_fill_capability(packets):
+    intro='''void packet_handlers_fill_capability(struct packet_handlers *phandlers,
+                                     const char *capability)
+{
+'''
+
+    sc_packets=[]
+    cs_packets=[]
+    unrestricted=[]
+    for p in packets:
+        if len(p.variants)>1:
+            if len(p.dirs)==1 and p.dirs[0]=="sc":
+                sc_packets.append(p)
+            elif len(p.dirs)==1 and p.dirs[0]=="cs":
+                cs_packets.append(p)
+            else:
+                unrestricted.append(p)
+
+    body=""
+    for p in unrestricted:
+        body=body+"  "
+        for v in p.variants:
+            body=body+'''if (%(condition)s) {
+    %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
+    %(send_handler)s
+    %(receive_handler)s
+  } else '''%v.__dict__
+        body=body+'''{
+    log_error("Unknown %(type)s variant for cap %%s", capability);
+  }
+'''%v.__dict__
+    if len(cs_packets)>0 or len(sc_packets)>0:
+        body=body+'''  if (is_server()) {
+'''
+        for p in sc_packets:
+            body=body+"    "
+            for v in p.variants:
+                body=body+'''if (%(condition)s) {
+      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
+      %(send_handler)s
+    } else '''%v.__dict__
+            body=body+'''{
+      log_error("Unknown %(type)s variant for cap %%s", capability);
+    }
+'''%v.__dict__
+        for p in cs_packets:
+            body=body+"    "
+            for v in p.variants:
+                body=body+'''if (%(condition)s) {
+      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
+      %(receive_handler)s
+    } else '''%v.__dict__
+            body=body+'''{
+      log_error("Unknown %(type)s variant for cap %%s", capability);
+    }
+'''%v.__dict__
+        body=body+'''  } else {
+'''
+        for p in cs_packets:
+            body=body+"    "
+            for v in p.variants:
+                body=body+'''if (%(condition)s) {
+      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
+      %(send_handler)s
+    } else '''%v.__dict__
+            body=body+'''{
+      log_error("Unknown %(type)s variant for cap %%s", capability);
+    }
+'''%v.__dict__
+        for p in sc_packets:
+            body=body+"    "
+            for v in p.variants:
+                body=body+'''if (%(condition)s) {
+      %(log_macro)s("%(type)s: using variant=%(no)s cap=%%s", capability);
+      %(receive_handler)s
+    } else '''%v.__dict__
+            body=body+'''{
+      log_error("Unknown %(type)s variant for cap %%s", capability);
+    }
+'''%v.__dict__
+        body=body+'''  }
+'''
+
+    extro='''}
 '''
     return intro+body+extro
 
@@ -1640,7 +1721,9 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 #include "game.h"
 
 #include "packets.h"
-
+''')
+    output_c.write(get_packet_functional_capability(packets))
+    output_c.write('''
 static genhash_val_t hash_const(const void *vkey)
 {
   return 0;
@@ -1680,6 +1763,8 @@ static int stats_total_sent;
         output_c.write(p.get_dsend())
         output_c.write(p.get_dlsend())
 
+    output_c.write(get_packet_handlers_fill_initial(packets))
+    output_c.write(get_packet_handlers_fill_capability(packets))
     output_c.close()
 
     if lazy_overwrite:

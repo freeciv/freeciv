@@ -351,8 +351,8 @@ bool handle_login_request(struct connection *pconn,
              req->patch_version, req->version_label);
   log_verbose("Client caps: %s", req->capability);
   log_verbose("Server caps: %s", our_capability);
-  sz_strlcpy(pconn->capability, req->capability);
-  
+  conn_set_capability(pconn, req->capability);
+
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
     fc_snprintf(msg, sizeof(msg),

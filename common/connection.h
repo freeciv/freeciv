@@ -47,9 +47,10 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 
-struct genhash;
-struct timer_list;
 struct conn_pattern_list;
+struct genhash;
+struct packet_handlers;
+struct timer_list;
 
 /* Used in the network protocol. */
 #define MAX_LEN_PACKET   4096
@@ -259,7 +260,7 @@ struct connection {
   struct {
     struct genhash **sent;
     struct genhash **received;
-    int *variant;
+    const struct packet_handlers *handlers;
   } phs;
 
 #ifdef USE_COMPRESSION
@@ -298,6 +299,7 @@ struct connection *conn_by_number(int id);
 struct socket_packet_buffer *new_socket_packet_buffer(void);
 void connection_common_init(struct connection *pconn);
 void connection_common_close(struct connection *pconn);
+void conn_set_capability(struct connection *pconn, const char *capability);
 void free_compression_queue(struct connection *pconn);
 void conn_reset_delta_state(struct connection *pconn);
 

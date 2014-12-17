@@ -293,7 +293,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
 {
   const char *s_capability = client.conn.capability;
 
-  sz_strlcpy(client.conn.capability, capability);
+  conn_set_capability(&client.conn, capability);
   close_connection_dialog();
 
   if (you_can_join) {

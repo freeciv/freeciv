@@ -76,6 +76,16 @@ enum authentication_type {
 
 #include "packets_gen.h"
 
+struct packet_handlers {
+  union {
+    int (*no_packet)(struct connection *pconn);
+    int (*packet)(struct connection *pconn, const void *packet);
+    int (*force_to_send)(struct connection *pconn, const void *packet,
+                         bool force_to_send);
+  } send[PACKET_LAST];
+  void *(*receive[PACKET_LAST])(struct connection *pconn);
+};
+
 void *get_packet_from_connection(struct connection *pc,
                                  enum packet_type *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
@@ -86,6 +96,9 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 					   const struct
 					   packet_player_attribute_chunk
 					   *chunk);
+void packet_handlers_fill_initial(struct packet_handlers *phandlers);
+void packet_handlers_fill_capability(struct packet_handlers *phandlers,
+                                     const char *capability);
 const char *packet_name(enum packet_type type);
 bool packet_has_game_info_flag(enum packet_type type);
 
@@ -100,6 +113,9 @@ void post_receive_packet_server_join_reply(struct connection *pconn,
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
 					    *packet);
+
+const struct packet_handlers *packet_handlers_initial(void);
+const struct packet_handlers *packet_handlers_get(const char *capability);
 
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \

@@ -35,6 +35,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "shared.h"
 #include "support.h"
 
 /* commmon */
@@ -71,6 +72,16 @@
  * to 1 in generate_packets.py.
  */
 #define PACKET_SIZE_STATISTICS 0
+
+extern const char *const packet_functional_capability;
+
+#define SPECHASH_TAG packet_handler
+#define SPECHASH_ASTR_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct packet_handlers *
+#define SPECHASH_IDATA_FREE (packet_handler_hash_data_free_fn_t) free
+#include "spechash.h"
+
+static struct packet_handler_hash *packet_handlers = NULL;
 
 #ifdef USE_COMPRESSION
 static int stat_size_alone = 0;
@@ -766,4 +777,79 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
   log_packet("sending attribute chunk %d/%d %d",
              packet->offset, packet->total_length, packet->chunk_length);
 
+}
+
+/****************************************************************************
+  Destroy the packet handler hash table.
+****************************************************************************/
+static void packet_handlers_free(void)
+{
+  if (packet_handlers != NULL) {
+    packet_handler_hash_destroy(packet_handlers);
+    packet_handlers = NULL;
+  }
+}
+
+/****************************************************************************
+  Returns the packet handlers variant with no special capability.
+****************************************************************************/
+const struct packet_handlers *packet_handlers_initial(void)
+{
+  static struct packet_handlers default_handlers;
+  static bool initialized = FALSE;
+
+  if (!initialized) {
+    memset(&default_handlers, 0, sizeof(default_handlers));
+    packet_handlers_fill_initial(&default_handlers);
+    initialized = TRUE;
+  }
+
+  return &default_handlers;
+}
+
+/****************************************************************************
+  Returns the packet handlers variant for 'capability'.
+****************************************************************************/
+const struct packet_handlers *packet_handlers_get(const char *capability)
+{
+  struct packet_handlers *phandlers;
+  char functional_capability[MAX_LEN_CAPSTR] = "";
+  char *tokens[MAX_LEN_CAPSTR / 2];
+  int tokens_num;
+  int i;
+
+  fc_assert(strlen(capability) < sizeof(functional_capability));
+
+  /* Get functional network capability string. */
+  tokens_num = get_tokens(capability, tokens, ARRAY_SIZE(tokens), " \t\n,");
+  qsort(tokens, tokens_num, sizeof(*tokens), compare_strings_ptrs);
+  for (i = 0; i < tokens_num; i++) {
+    if (!has_capability(tokens[i], packet_functional_capability)) {
+      continue;
+    }
+    if (functional_capability[0] != '\0') {
+      sz_strlcat(functional_capability, " ");
+    }
+    sz_strlcat(functional_capability, tokens[i]);
+  }
+  free_tokens(tokens, tokens_num);
+
+  /* Ensure the hash table is created. */
+  if (packet_handlers == NULL) {
+    packet_handlers = packet_handler_hash_new();
+    atexit(packet_handlers_free);
+  }
+
+  /* Lookup handlers for the capabilities or create new handlers. */
+  if (!packet_handler_hash_lookup(packet_handlers, functional_capability,
+                                  &phandlers)) {
+    phandlers = fc_malloc(sizeof(*phandlers));
+    memcpy(phandlers, packet_handlers_initial(), sizeof(*phandlers));
+    packet_handlers_fill_capability(phandlers, functional_capability);
+    packet_handler_hash_insert(packet_handlers, functional_capability,
+                               phandlers);
+  }
+
+  fc_assert(phandlers != NULL);
+  return phandlers;
 }
