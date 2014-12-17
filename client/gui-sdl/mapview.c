@@ -80,7 +80,7 @@ static struct canvas *terrain_canvas;
 
 /* ================================================================ */
 
-void update_map_canvas_scrollbars_size()
+void update_map_canvas_scrollbars_size(void)
 {
   /* No scrollbars */
 }

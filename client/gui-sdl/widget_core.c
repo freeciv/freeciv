@@ -246,7 +246,7 @@ static void widget_core_unselect(struct widget *pwidget)
 /**************************************************************************
   ...
 **************************************************************************/
-struct widget *widget_new()
+struct widget *widget_new(void)
 {
   struct widget *pWidget = fc_calloc(1, sizeof(struct widget));
 

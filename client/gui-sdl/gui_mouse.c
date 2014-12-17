@@ -91,7 +91,8 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
 /**************************************************************************
   Draw current cursor.
 **************************************************************************/
-void draw_mouse_cursor() {
+void draw_mouse_cursor(void)
+{
   int cursor_x = 0;
   int cursor_y = 0;
   static SDL_Rect area = {0, 0, 0, 0};

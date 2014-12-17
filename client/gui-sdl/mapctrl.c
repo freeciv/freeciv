@@ -1358,7 +1358,7 @@ void set_new_minimap_window_pos(void)
                       area.y + area.h - pWidget->size.h - 2);
 }
 
-void popup_unitinfo_window() {
+void popup_unitinfo_window(void) {
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
   char buf[256];
@@ -1467,7 +1467,7 @@ void popup_unitinfo_window() {
   widget_redraw(pUnits_Info_Window);
 }
 
-void show_unitinfo_window_buttons()
+void show_unitinfo_window_buttons(void)
 {
   struct widget *pWidget = get_unit_info_window_widget();
     
@@ -1488,7 +1488,7 @@ void show_unitinfo_window_buttons()
   clear_wflag(pWidget, WF_HIDDEN);
 }
 
-void hide_unitinfo_window_buttons()
+void hide_unitinfo_window_buttons(void)
 {
   struct widget *pWidget = get_unit_info_window_widget();
     
@@ -1509,7 +1509,7 @@ void hide_unitinfo_window_buttons()
   set_wflag(pWidget, WF_HIDDEN);
 }
   
-void disable_unitinfo_window_buttons()
+void disable_unitinfo_window_buttons(void)
 {
   struct widget *pWidget = get_unit_info_window_widget();
     
@@ -1526,7 +1526,7 @@ void disable_unitinfo_window_buttons()
   set_wstate(pWidget, FC_WS_DISABLED);
 }
 
-void popdown_unitinfo_window()
+void popdown_unitinfo_window(void)
 {
   if (pUnitInfo_Dlg) {
     popdown_window_group_dialog(pUnitInfo_Dlg->pBeginWidgetList, pUnitInfo_Dlg->pEndWidgetList);
@@ -1535,7 +1535,8 @@ void popdown_unitinfo_window()
   }
 }
 
-void popup_minimap_window() {
+void popup_minimap_window(void)
+{
   struct widget *pWidget, *pWindow;
   SDL_Surface *pIcon_theme = NULL;
   SDL_Color black = {0, 0, 0, 255};
@@ -1687,7 +1688,7 @@ void popup_minimap_window() {
   widget_redraw(pMiniMap_Window);
 }
 
-void show_minimap_window_buttons()
+void show_minimap_window_buttons(void)
 {
   struct widget *pWidget = get_minimap_window_widget();
   
@@ -1726,7 +1727,7 @@ void show_minimap_window_buttons()
   clear_wflag(pWidget, WF_HIDDEN);
 }
 
-void hide_minimap_window_buttons()
+void hide_minimap_window_buttons(void)
 {
   struct widget *pWidget = get_minimap_window_widget();
   
@@ -1765,7 +1766,7 @@ void hide_minimap_window_buttons()
   set_wflag(pWidget, WF_HIDDEN);
 }
 
-void redraw_minimap_window_buttons()
+void redraw_minimap_window_buttons(void)
 {
   struct widget *pWidget = get_minimap_window_widget();
   
@@ -1803,7 +1804,7 @@ void redraw_minimap_window_buttons()
   widget_redraw(pWidget);
 }
 
-void disable_minimap_window_buttons()
+void disable_minimap_window_buttons(void)
 {
   struct widget *pWidget = get_minimap_window_widget();
   
@@ -1834,7 +1835,7 @@ void disable_minimap_window_buttons()
   #endif
 }
 
-void popdown_minimap_window()
+void popdown_minimap_window(void)
 {
   if (pMiniMap_Dlg) {
     popdown_window_group_dialog(pMiniMap_Dlg->pBeginWidgetList, pMiniMap_Dlg->pEndWidgetList);
@@ -1843,7 +1844,7 @@ void popdown_minimap_window()
   }
 }
 
-void show_game_page()
+void show_game_page(void)
 {
   struct widget *pWidget;
   SDL_Surface *pIcon_theme = NULL;
@@ -1903,7 +1904,7 @@ void show_game_page()
   enable_order_buttons();
 }
 
-void close_game_page()
+void close_game_page(void)
 {
   struct widget *pWidget;
 
@@ -1922,7 +1923,7 @@ void close_game_page()
   SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
 }
 
-static void disable_minimap_widgets()
+static void disable_minimap_widgets(void)
 {
   struct widget *pBuf, *pEnd;
 
@@ -1967,7 +1968,7 @@ static void disable_minimap_widgets()
   redraw_group(pBuf, pEnd, TRUE);
 }
 
-static void disable_unitinfo_widgets()
+static void disable_unitinfo_widgets(void)
 {
   struct widget *pBuf = pUnits_Info_Window->private_data.adv_dlg->pBeginWidgetList;
   struct widget *pEnd = pUnits_Info_Window->private_data.adv_dlg->pEndWidgetList;
@@ -1989,7 +1990,7 @@ void disable_main_widgets(void)
   }
 }
 
-static void enable_minimap_widgets()
+static void enable_minimap_widgets(void)
 {
   struct widget *pBuf, *pEnd;
 
@@ -2037,7 +2038,7 @@ static void enable_minimap_widgets()
   }
 }
 
-static void enable_unitinfo_widgets()
+static void enable_unitinfo_widgets(void)
 {
   struct widget *pBuf, *pEnd;
 
