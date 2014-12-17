@@ -516,6 +516,10 @@ PODOMAINS="freeciv nations ruledit"
 
 AM_GNU_GETTEXT([external], [need-ngettext])
 
+if test "x$USE_NLS" = "xyes" ; then
+  AC_DEFINE([FREECIV_ENABLE_NLS], [1], [Native language support enabled])
+fi
+
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([CURL], [libcurl >= 7.9.7],,
     [AC_MSG_ERROR([libcurl development files required])])
@@ -1071,8 +1075,10 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([fcntl.h sys/time.h sys/types.h unistd.h sys/utsname.h \
-                  sys/file.h libintl.h signal.h strings.h execinfo.h \
-                  libgen.h locale.h])
+                  sys/file.h signal.h strings.h execinfo.h \
+                  libgen.h])
+AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
+AC_CHECK_HEADERS([libintl.h], [AC_DEFINE([FREECIV_HAVE_LIBINTL_H], [1], [libint.h available])])
 AC_HEADER_STDBOOL
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes

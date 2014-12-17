@@ -17,24 +17,20 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#ifdef HAVE_CONFIG_H
-#ifndef FC_CONFIG_H             /* this should be defined in fc_config.h */
-#error Files including fcintl.h should also include fc_config.h directly
-#endif
-#endif
+#include "freeciv_config.h"
 
-#ifdef HAVE_LOCALE_H
+#ifdef FREECIV_HAVE_LOCALE_H
 #include <locale.h>
 #endif
 
 #include "shared.h" /* bool */
 
-#ifdef ENABLE_NLS
+#ifdef FREECIV_ENABLE_NLS
 
 /* Include libintl.h only if nls enabled.
  * It defines some wrapper macros that
  * we don't want defined when nls is disabled. */
-#ifdef HAVE_LIBINTL_H
+#ifdef FREECIV_HAVE_LIBINTL_H
 #include <libintl.h>
 #endif
 
@@ -48,7 +44,7 @@ extern "C" {
 /* Ruledit */
 #define R__(String) dgettext("freeciv-ruledit", String)
 
-#else  /* ENABLE_NLS */
+#else  /* FREECIV_ENABLE_NLS */
 
 /* Core freeciv */
 #define _(String) (String)
@@ -67,7 +63,7 @@ extern "C" {
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
 
-#endif /* ENABLE_NLS */
+#endif /* FREECIV_ENABLE_NLS */
 
 /* This provides an untranslated version of Q_ that allows the caller to
  * get access to the original string.  This may be needed for comparisons,

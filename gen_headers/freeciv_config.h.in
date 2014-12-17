@@ -32,4 +32,13 @@
 /* Has thread condition variable implementation */
 #undef FREECIV_HAVE_THREAD_COND
 
+/* Native language support enabled */
+#undef FREECIV_ENABLE_NLS
+
+/* locale.h available */
+#undef FREECIV_HAVE_LOCALE_H
+
+/* libintl.h available */
+#undef FREECIV_HAVE_LIBINTL_H
+
 #endif /* FC__FREECIV_CONFIG_H */
