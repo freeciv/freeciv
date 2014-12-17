@@ -91,8 +91,7 @@ static struct unit *punit_moving = NULL;
 static struct unit *punit_attacking = NULL;
 static struct unit *punit_defending = NULL;
 
-/* unit arrival lists */
-static struct genlist *caravan_arrival_queue = NULL;
+/* unit arrival list */
 static struct genlist *diplomat_arrival_queue = NULL;
 
 static bool have_asked_server_for_actions = FALSE;
@@ -117,7 +116,6 @@ void control_init(void)
 {
   int i;
 
-  caravan_arrival_queue = genlist_new();
   diplomat_arrival_queue = genlist_new_full(free);
 
   current_focus = unit_list_new();
@@ -136,9 +134,6 @@ void control_init(void)
 void control_free(void)
 {
   int i;
-
-  genlist_destroy(caravan_arrival_queue);
-  caravan_arrival_queue = NULL;
 
   genlist_destroy(diplomat_arrival_queue);
   diplomat_arrival_queue = NULL;
