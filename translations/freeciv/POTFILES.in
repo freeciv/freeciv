@@ -302,6 +302,7 @@ data/multiplayer/terrain.ruleset
 data/multiplayer/units.ruleset
 data/multiplayer/script.lua
 data/nation/american.ruleset
+data/nation/animals.ruleset
 data/nation/apache.ruleset
 data/nation/arab.ruleset
 data/nation/austrian.ruleset
