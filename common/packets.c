@@ -378,6 +378,7 @@ void *get_packet_from_connection(struct connection *pc,
   int header_size = 0;
 #endif
   void *data;
+  void *(*receive_handler)(struct connection *);
 
   if (!pc->used) {
     return NULL;		/* connection was closed, stop reading */
@@ -502,6 +503,16 @@ void *get_packet_from_connection(struct connection *pc,
   dio_get_type(&din, pc->packet_header.type, &utype.itype);
   utype.type = utype.itype;
 
+  if (utype.type < 0
+      || utype.type >= PACKET_LAST
+      || (receive_handler = pc->phs.handlers->receive[utype.type]) == NULL) {
+    log_verbose("Received unsupported packet type %d (%s). The connection "
+                "will be closed now.",
+                utype.type, packet_name(utype.type));
+    connection_close(pc, _("unsupported packet type"));
+    return NULL;
+  }
+
   log_packet("got packet type=(%s)%d len=%d from %s",
              packet_name(utype.type), utype.itype, whole_packet_len,
              is_server() ? pc->username : "server");
@@ -556,7 +567,7 @@ void *get_packet_from_connection(struct connection *pc,
     }
   }
 #endif /* PACKET_SIZE_STATISTICS */
-  data = get_packet_from_connection_helper(pc, utype.type);
+  data = receive_handler(pc);
   if (!data) {
     connection_close(pc, _("incompatible packet contents"));
     return NULL;

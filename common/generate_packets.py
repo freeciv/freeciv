@@ -1147,7 +1147,6 @@ class Packet:
             self.extra_send_args2=self.extra_send_args2+', force_to_send'
             self.extra_send_args3=self.extra_send_args3+', bool force_to_send'
 
-        self.receive_prototype='struct %(name)s *receive_%(name)s(struct connection *pc)'%self.__dict__
         self.send_prototype='int send_%(name)s(struct connection *pc%(extra_send_args)s)'%self.__dict__
         if self.want_lsend:
             self.lsend_prototype='void lsend_%(name)s(struct conn_list *dest%(extra_send_args)s)'%self.__dict__
@@ -1197,8 +1196,7 @@ class Packet:
     # Returns a code fragement which represents the prototypes of the
     # send and receive functions for the header file.
     def get_prototypes(self):
-        result=(self.receive_prototype+";\n"+
-                self.send_prototype+";\n")
+        result=self.send_prototype+";\n"
         if self.want_lsend:
             result=result+self.lsend_prototype+";\n"
         if self.want_dsend:
@@ -1212,23 +1210,6 @@ class Packet:
         result=self.__dict__.copy()
         result.update(vars)
         return result
-
-    # Returns a code fragment which is the implementation of the
-    # public visible receive function
-    def get_receive(self):
-        return '''%(receive_prototype)s
-{
-  if(!pc->used) {
-    log_error("WARNING: trying to read data from the closed connection %%s",
-              conn_description(pc));
-    return NULL;
-  }
-  fc_assert_ret_val_msg(pc->phs.handlers->receive[%(type)s] != NULL, NULL,
-                        "Handler for %(type)s not installed");
-  return (struct %(name)s *) pc->phs.handlers->receive[%(type)s](pc);
-}
-
-'''%self.get_dict(vars())
 
     def get_send(self):
         if self.no_packet:
@@ -1352,29 +1333,6 @@ void delta_stats_reset(void) {
 
     for p in packets:
         body=body+p.get_reset_part()
-    return intro+body+extro
-
-# Returns a code fragement which is the implementation of the
-# get_packet_from_connection_helper() function. This function is a big
-# switch case construct which calls the appropriate packet specific
-# receive function.
-def get_get_packet_helper(packets):
-    intro='''void *get_packet_from_connection_helper(struct connection *pc,\n    enum packet_type type)
-{
-  switch (type) {
-
-'''
-    body=""
-    for p in packets:
-        body=body+"  case %(type)s:\n    return receive_%(name)s(pc);\n\n"%p.__dict__
-    extro='''  default:
-    log_packet("unknown packet type %d received from %s",
-               type, conn_description(pc));
-    return NULL;
-  };
-}
-
-'''
     return intro+body+extro
 
 # Returns a code fragement which is the implementation of the
@@ -1684,7 +1642,6 @@ extern "C" {
     output_h.write('''
 void delta_stats_report(void);
 void delta_stats_reset(void);
-void *get_packet_from_connection_helper(struct connection *pc, enum packet_type type);
 
 #ifdef __cplusplus
 }
@@ -1750,14 +1707,12 @@ static int stats_total_sent;
     output_c.write(get_report(packets))
     output_c.write(get_reset(packets))
 
-    output_c.write(get_get_packet_helper(packets))
     output_c.write(get_packet_name(packets))
     output_c.write(get_packet_has_game_info_flag(packets))
 
     # write hash, cmp, send, receive
     for p in packets:
         output_c.write(p.get_variants())
-        output_c.write(p.get_receive())
         output_c.write(p.get_send())
         output_c.write(p.get_lsend())
         output_c.write(p.get_dsend())
