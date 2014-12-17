@@ -1340,15 +1340,26 @@ void delta_stats_reset(void) {
 def get_packet_name(packets):
     intro='''const char *packet_name(enum packet_type type)
 {
-  switch (type) {
-
+  static const char *const names[PACKET_LAST] = {
 '''
-    body=""
+
+    mapping={}
     for p in packets:
-        body=body+'  case %(type)s:\n    return "%(type)s";\n\n'%p.__dict__
-    extro='''  default:
-    return "unknown";
-  }
+        mapping[p.type_number]=p
+    sorted=list(mapping.keys())
+    sorted.sort()
+
+    last=-1
+    body=""
+    for n in sorted:
+        for i in range(last + 1, n):
+            body=body+'    "unknown",\n'
+        body=body+'    "%s",\n'%mapping[n].type
+        last=n
+
+    extro='''  };
+
+  return (type >= 0 && type < PACKET_LAST ? names[type] : "unknown");
 }
 
 '''
