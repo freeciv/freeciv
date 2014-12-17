@@ -433,7 +433,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 border_size_effect;
   BORDERS_MODE borders;
   UINT32 base_bribe_cost;
-  UINT16 culture_vic_points;
+  UINT32 culture_vic_points;
   UINT16 culture_vic_lead;
   UINT16 culture_migration_pct;
   BOOL calendar_skip_0;
