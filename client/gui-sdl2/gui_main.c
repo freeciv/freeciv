@@ -167,8 +167,6 @@ static void print_usage(void)
   /* add client-specific usage information here */
   fc_fprintf(stderr,
              _("  -f,  --fullscreen\tStart Client in Fullscreen mode\n"));
-  fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
-                       "other thread (only Linux and BeOS)\n"));
   fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 
   /* TRANS: No full stop after the URL, could cause confusion. */
@@ -190,11 +188,6 @@ static void parse_options(int argc, char **argv)
       exit(EXIT_SUCCESS);
     } else if (is_option("--fullscreen", argv[i])) {
       options.gui_sdl2_fullscreen = TRUE;
-#if 0
-    } else if (is_option("--eventthread", argv[i])) {
-      /* init events in other thread ( only linux and BeOS ) */
-      SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
-#endif
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
       sz_strlcpy(options.gui_sdl2_default_theme_name, option);
     } else {
