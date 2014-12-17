@@ -228,5 +228,6 @@ styles =
       "base.fortress", "3Layer"
       "base.airstrip", "3Layer"
       "base.airbase",  "3Layer"
+      "base.buoy",     "3layer"
       "base.ruins",    "3Layer"
     }
