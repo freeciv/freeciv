@@ -376,6 +376,8 @@ static void explain_why_no_action_enabled(struct unit *punit)
 **************************************************************************/
 void handle_unit_get_actions(struct connection *pc,
                              const int actor_unit_id,
+                             const int target_unit_id_client,
+                             const int target_city_id_client,
                              const int target_tile_id,
                              const bool disturb_player)
 {
@@ -414,9 +416,25 @@ void handle_unit_get_actions(struct connection *pc,
     return;
   }
 
-  /* Find targets. */
-  target_unit = tgt_unit(actor_unit, target_tile);
-  target_city = tgt_city(actor_unit, target_tile);
+  /* Select the targets. */
+
+  if (target_unit_id_client == IDENTITY_NUMBER_ZERO) {
+    /* Find a new target unit. */
+    target_unit = tgt_unit(actor_unit, target_tile);
+  } else {
+    /* Prepare the client selected target unit. */
+    target_unit = game_unit_by_number(target_unit_id_client);
+  }
+
+  if (target_city_id_client == IDENTITY_NUMBER_ZERO) {
+    /* Find a new target city. */
+    target_city = tgt_city(actor_unit, target_tile);
+  } else {
+    /* Prepare the client selected target city. */
+    target_city = game_city_by_number(target_city_id_client);
+  }
+
+  /* Find out what can be done to the targets. */
 
   /* Set the probability for the actions. */
   action_iterate(act) {

@@ -958,7 +958,10 @@ void process_diplomat_arrival(struct unit *pdiplomat, int target_tile_id)
     if (ptile && pdiplomat && is_actor_unit(pdiplomat)) {
       have_asked_server_for_actions = TRUE;
       dsend_packet_unit_get_actions(&client.conn,
-                                    diplomat_id, target_tile_id,
+                                    diplomat_id,
+                                    IDENTITY_NUMBER_ZERO,
+                                    IDENTITY_NUMBER_ZERO,
+                                    target_tile_id,
                                     TRUE);
       return;
     }

@@ -846,6 +846,8 @@ void handle_city_info(const struct packet_city_info *packet)
       && action_selection_target_city() == pcity->id) {   
     dsend_packet_unit_get_actions(&client.conn,
                                   action_selection_actor_unit(),
+                                  action_selection_target_unit(),
+                                  action_selection_target_city(),
                                   city_tile(pcity)->index,
                                   FALSE);
   }
@@ -2339,6 +2341,8 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
        * the set of available actions. */
       dsend_packet_unit_get_actions(&client.conn,
                                     action_selection_actor_unit(),
+                                    action_selection_target_unit(),
+                                    action_selection_target_city(),
                                     tgt_tile->index,
                                     FALSE);
     }
