@@ -25,7 +25,6 @@ flag_files =				\
 		andorra.png		\
 		angola.png		\
 		anhalt.png		\
-		animals.png		\
 		anishinaabe.png		\
 		antarctica.png		\
 		antarctica_alt.png	\
@@ -592,7 +591,6 @@ flag_files =				\
 		andorra-large.png		\
 		angola-large.png		\
 		anhalt-large.png		\
-		animals-large.png		\
 		anishinaabe-large.png		\
 		antarctica-large.png		\
 		antarctica_alt-large.png	\
@@ -1161,7 +1159,6 @@ shield_files =					\
 		andorra-shield.png		\
 		angola-shield.png		\
 		anhalt-shield.png		\
-		animals-shield.png		\
 		anishinaabe-shield.png		\
 		antarctica-shield.png		\
 		antarctica_alt-shield.png	\
@@ -1728,7 +1725,6 @@ shield_files =					\
 		andorra-shield-large.png		\
 		angola-shield-large.png		\
 		anhalt-shield-large.png			\
-		animals-shield-large.png		\
 		anishinaabe-shield-large.png		\
 		antarctica-shield-large.png		\
 		antarctica_alt-shield-large.png	\
@@ -2297,7 +2293,6 @@ svg_files = 				\
 		andorra.svg		\
 		angola.svg		\
 		anhalt.svg		\
-		animals.svg		\
 		anishinaabe.svg		\
 		antarctica.svg		\
 		antarctica_alt.svg	\
