@@ -64,13 +64,13 @@ void actions_init(void)
       TRUE);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
-                 /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
-                 N_("%sSabotage Enemy Unit%s"),
+                 /* TRANS: S_abotage Enemy Unit (3% chance of success). */
+                 N_("S%sabotage Enemy Unit%s"),
                  TRUE);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
-                 /* TRANS: _Bribe Enemy Unit (3% chance of success). */
-                 N_("%sBribe Enemy Unit%s"),
+                 /* TRANS: Bribe Enemy _Unit (3% chance of success). */
+                 N_("Bribe Enemy %sUnit%s"),
                  TRUE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
@@ -79,13 +79,13 @@ void actions_init(void)
                  TRUE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
-                 /* TRANS: Industrial _Sabotage (3% chance of success). */
-                 N_("Industrial %sSabotage%s"),
+                 /* TRANS: Industria_l Sabotage (3% chance of success). */
+                 N_("Industria%sl Sabotage%s"),
                  TRUE);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
-                 /* TRANS: Incite a _Revolt (3% chance of success). */
-                 N_("Incite a %sRevolt%s"),
+                 /* TRANS: Incite a Re_volt (3% chance of success). */
+                 N_("Incite a Re%svolt%s"),
                  TRUE);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
@@ -99,8 +99,8 @@ void actions_init(void)
                  TRUE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
-                 /* TRANS: Indus_trial Espionage (3% chance of success). */
-                 N_("Indus%strial Espionage%s"),
+                 /* TRANS: In_dustrial Espionage (3% chance of success). */
+                 N_("In%sdustrial Espionage%s"),
                  TRUE);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
