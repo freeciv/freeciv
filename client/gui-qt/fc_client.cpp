@@ -44,6 +44,7 @@ fc_icons* fc_icons::m_instance = 0;
 ****************************************************************************/
 fc_client::fc_client() : QMainWindow()
 {
+  QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
   /**
    * Somehow freeciv-client-common asks to switch to page when all widgets
    * haven't been created yet by Qt, even constructor finished job,
