@@ -57,10 +57,11 @@ bool ruledit_qt_setup(int argc, char **argv)
 {
   QMainWindow *main_window;
   QWidget *central;
+  const QString title = R__("Freeciv Ruleset Editor");
 
   qapp = new QApplication(argc, argv);
   main_window = new QMainWindow;
-  main_window->setWindowTitle(R__("Freeciv ruleset editor"));
+  main_window->setWindowTitle(title);
   central = new QWidget;
 
   gui = new ruledit_gui;
