@@ -69,7 +69,8 @@ enum munit {
   ORDER_DIPLOMAT_DLG,
   NUKE,
   UPGRADE,
-  SETTLER
+  SETTLER,
+  SAVE
 };
 
 /**************************************************************************
@@ -135,6 +136,9 @@ private slots:
   void local_options();
   void server_options();
   void messages_options();
+  void save_game();
+  void save_game_as();
+  void back_to_menu();
   void quit_game();
 
   /* help menu */
