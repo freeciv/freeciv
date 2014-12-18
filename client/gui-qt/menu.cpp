@@ -17,9 +17,13 @@
 
 // Qt
 #include <QApplication>
+#include <QFileDialog>
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QScrollArea>
+
+// utility 
+#include "string_vector.h"
 
 // common
 #include "game.h"
@@ -28,6 +32,7 @@
 #include "unit.h"
 
 // client
+#include "connectdlg_common.h"
 #include "control.h"
 #include "helpdata.h"
 
@@ -287,6 +292,20 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Messages"));
   connect(act, SIGNAL(triggered()), this, SLOT(messages_options()));
   menu = pr;
+  menu->addSeparator();
+  act = menu->addAction(_("Save Game"));
+  act->setShortcut(QKeySequence(tr("Ctrl+s")));
+  act->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+  menu_list.insertMulti(SAVE, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(save_game()));
+  act = menu->addAction(_("Save Game As..."));
+  menu_list.insertMulti(SAVE, act);
+  act->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+  connect(act, SIGNAL(triggered()), this, SLOT(save_game_as()));
+  menu->addSeparator();
+  act = menu->addAction(_("Leave game"));
+  act->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
+  connect(act, SIGNAL(triggered()), this, SLOT(back_to_menu()));
   act = menu->addAction(_("Quit"));
   act->setIcon(style()->standardIcon(QStyle::SP_TitleBarCloseButton));
   connect(act, SIGNAL(triggered()), this, SLOT(quit_game()));
@@ -1099,7 +1118,11 @@ void mr_menu::menus_sensitive()
           i.value()->setEnabled(true);
         }
         break;
-
+      case SAVE:
+        if (can_client_access_hack() && C_S_RUNNING <= client_state()) {
+          i.value()->setEnabled(true);
+        }
+        break;
       default:
         break;
       }
@@ -1916,3 +1939,65 @@ void mr_menu::quit_game()
 {
   popup_quit_dialog();
 }
+
+/***************************************************************************
+  Menu Save Game
+***************************************************************************/
+void mr_menu::save_game()
+{
+  send_save_game(NULL);
+}
+
+/***************************************************************************
+  Menu Save Game As...
+***************************************************************************/
+void mr_menu::save_game_as()
+{
+  QString str;
+  QString current_file;
+  QString location;
+
+  strvec_iterate(get_save_dirs(), dirname) {
+    location = dirname;
+    // choose last location
+  } strvec_iterate_end;
+
+  str = QString(_("Save Games"))
+        + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz)");
+  current_file = QFileDialog::getSaveFileName(gui()->central_wdg,
+                                              _("Save Game As..."),
+                                              location, str);
+  if (current_file.isEmpty() == false) {
+    send_save_game(current_file.toLocal8Bit().data());
+  }
+}
+
+/***************************************************************************
+  Back to Main Menu
+***************************************************************************/
+void mr_menu::back_to_menu()
+{
+  QMessageBox ask(gui()->central_wdg);
+  int ret;
+  if (is_server_running()) {
+    ask.setText(_("Leaving a local game will end it!"));
+    ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+    ask.setDefaultButton(QMessageBox::Cancel);
+    ask.setIcon(QMessageBox::Warning);
+    ask.setWindowTitle("Leave game");
+    ret = ask.exec();
+
+    switch (ret) {
+    case QMessageBox::Cancel:
+      break;
+    case QMessageBox::Ok:
+      if (client.conn.used) {
+        disconnect_from_server();
+      }
+      break;
+    }
+  } else {
+    disconnect_from_server();
+  }
+}
+
