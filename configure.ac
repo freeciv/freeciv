@@ -1468,7 +1468,7 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Tabs/Makefile
 	  data/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Toolbar/Makefile
 	  data/themes/gui-qt/Makefile
-	  data/themes/gui-qt/oxygen/Makefile
+	  data/themes/gui-qt/icons/Makefile
 	  data/themes/gui-sdl/Makefile
 	  data/themes/gui-sdl/human/Makefile
 	  data/wonders/Makefile
