@@ -3442,8 +3442,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype->pop_cost > 0) {
     cat_snprintf(buf, bufsz,
-                 PL_("* Requires %d population to build.\n",
-                     "* Requires %d population to build.\n", utype->pop_cost),
+                 PL_("* Costs %d population to build.\n",
+                     "* Costs %d population to build.\n", utype->pop_cost),
                  utype->pop_cost);
   }
   if (0 < utype->transport_capacity) {
