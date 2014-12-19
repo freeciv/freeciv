@@ -730,9 +730,10 @@ void fc_icons::drop()
 ****************************************************************************/
 QIcon fc_icons::get_icon(const QString &id)
 {
-  return QIcon(fileinfoname(get_data_dirs(),
-                            QString("themes/gui-qt/oxygen/"
+  QIcon fallback = QIcon(fileinfoname(get_data_dirs(),
+                            QString("themes/gui-qt/icons/"
                                     + id + ".png").toLocal8Bit().data()));
+  return QIcon::fromTheme(id, fallback);
 }
 
 /****************************************************************************
@@ -741,7 +742,7 @@ QIcon fc_icons::get_icon(const QString &id)
 QString fc_icons::get_path(const QString &id)
 {
   return fileinfoname(get_data_dirs(),
-                      QString("themes/gui-qt/oxygen/"
+                      QString("themes/gui-qt/icons/"
                               + id + ".png").toLocal8Bit().data());
 }
 
