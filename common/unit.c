@@ -230,7 +230,7 @@ bool unit_can_est_trade_route_here(const struct unit *punit)
 {
   struct city *phomecity, *pdestcity;
 
-  return (unit_has_type_flag(punit, UTYF_TRADE_ROUTE)
+  return (utype_can_do_action(unit_type(punit), ACTION_TRADE_ROUTE)
           && (pdestcity = tile_city(unit_tile(punit)))
           && (phomecity = game_city_by_number(punit->homecity))
           && can_cities_trade(phomecity, pdestcity));

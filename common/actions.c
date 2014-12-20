@@ -384,16 +384,6 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                                            TRUE, "Is foreign"));
   }
 
-  if (enabler->action == ACTION_TRADE_ROUTE ||
-      enabler->action == ACTION_MARKETPLACE) {
-    /* There are still places that assumes that units that can establish a
-     * traderoute or enter the market place have the TradeRoute flag. */
-    /* TODO: Move this restriction to the ruleset. */
-    requirement_vector_append(&enabler->actor_reqs,
-                              req_from_str("Unitflag", "Local", FALSE,
-                                           TRUE, "TradeRoute"));
-  }
-
   if (enabler->action == ACTION_HELP_WONDER) {
     /* There are still places that assumes that units that can help build a
      * wonder have the HelpWonder flag. */
