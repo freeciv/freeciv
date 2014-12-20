@@ -741,9 +741,9 @@ int dai_unit_attack_desirability(struct ai_type *ait,
   type in choice. Also sets the technology want for the units we can't 
   build yet.
 **************************************************************************/
-static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
-                                  struct city *pcity, unsigned int danger,
-                                  struct adv_choice *choice)
+bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
+                               struct city *pcity, unsigned int danger,
+                               struct adv_choice *choice)
 {
   const struct research *presearch = research_get(pplayer);
   /* FIXME: We check if the city has *some* defensive structure,
@@ -1467,7 +1467,7 @@ void military_advisor_choose_build(struct ai_type *ait,
     if (our_def == 0) {
       /* Build defensive unit first! Walls will help nothing if there's
        * nobody behind them. */
-      if (process_defender_want(ait, pplayer, pcity, danger, choice)) {
+      if (dai_process_defender_want(ait, pplayer, pcity, danger, choice)) {
         choice->want = 100 + danger;
         build_walls = FALSE;
 
@@ -1506,7 +1506,7 @@ void military_advisor_choose_build(struct ai_type *ait,
                  choice->want);
       } else if ((danger > 0 && num_defenders <= urgency) || martial_value > 0) {
         /* Consider building defensive units */
-        if (process_defender_want(ait, pplayer, pcity, danger, choice)) {
+        if (dai_process_defender_want(ait, pplayer, pcity, danger, choice)) {
           /* Potential defender found */
           if (urgency == 0
               && choice->value.utype->defense_strength == 1) {
