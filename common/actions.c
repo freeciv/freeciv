@@ -383,15 +383,6 @@ void action_enabler_append_hard(struct action_enabler *enabler)
                               req_from_str("DiplRel", "Local", FALSE,
                                            TRUE, "Is foreign"));
   }
-
-  if (enabler->action == ACTION_HELP_WONDER) {
-    /* There are still places that assumes that units that can help build a
-     * wonder have the HelpWonder flag. */
-    /* TODO: Move this restriction to the ruleset. */
-    requirement_vector_append(&enabler->actor_reqs,
-                              req_from_str("Unitflag", "Local", FALSE,
-                                           TRUE, "HelpWonder"));
-  }
 }
 
 /**************************************************************************

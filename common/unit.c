@@ -202,7 +202,7 @@ bool unit_can_help_build_wonder(const struct unit *punit,
     return FALSE;
   }
 
-  return (unit_has_type_flag(punit, UTYF_HELP_WONDER)
+  return (utype_can_do_action(unit_type(punit), ACTION_HELP_WONDER)
 	  && VUT_IMPROVEMENT == pcity->production.kind
 	  && is_wonder(pcity->production.value.building)
 	  && (pcity->shield_stock

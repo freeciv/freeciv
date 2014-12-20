@@ -187,7 +187,6 @@ Actions done by a unit against a city
  * trade route type (see Trade settings) can't be 0%.
 
 "Help Wonder" - Add the shields used to build the actor to the target city.
- * actor must have the "HelpWonder" unit flag.
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be building a wonder.
  * target city must still need the extra sheilds to build the wonder.
