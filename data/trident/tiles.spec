@@ -12,6 +12,7 @@ artists = "
     Eleazar (buoy)
     Vincent Croisier <vincent.croisier@advalvas.be> (ruins)
     Michael Johnson <justaguest> (nuke explosion)
+    The Square Cow (inaccessible terrain)
 "
 
 [file]
@@ -226,6 +227,8 @@ tiles = { "row", "column", "tag"
   9, 13, "t.l1.floor_n0e1s0w0"
   9, 14, "t.l1.floor_n1e0s0w0"
   9, 15, "t.l1.floor_n0e0s0w0"
+
+ 10, 14, "t.l0.inaccessible1"
 
 ; For hills, forest and mountains don't currently have a full set,
 ; re-use values but provide for future expansion; current sets

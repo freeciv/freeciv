@@ -124,6 +124,11 @@ mine_sprite = "tx.oil_mine"
 
 ; Land graphics referenced by terrain.ruleset
 ;
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "plains"
+
 [tile_arctic]
 blend_layer = 0
 num_layers = 1
