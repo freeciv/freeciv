@@ -41,6 +41,12 @@ int settler_evaluate_improvements(struct unit *punit,
                                   struct tile **best_tile,
                                   struct pf_path **path,
                                   struct settlermap *state);
+int settler_evaluate_city_requests(struct unit *punit,
+                                   enum unit_activity *best_act,
+                                   struct act_tgt *best_target,
+                                   struct tile **best_tile,
+                                   struct pf_path **path,
+                                   struct settlermap *state);
 
 void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
                        struct tile *ptile);

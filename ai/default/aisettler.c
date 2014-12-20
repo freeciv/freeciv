@@ -1077,12 +1077,27 @@ BUILD_CITY:
 
   if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
-    best_impr = settler_evaluate_improvements(punit, &best_act, &best_target,
-                                              &best_tile, &path, state);
-    UNIT_LOG(LOG_DEBUG, punit, "impr want %d", best_impr);
-    if (path) {
-      completion_time = pf_path_last_position(path)->turn;
+
+    /* Have nearby cities requests? */
+    best_impr = settler_evaluate_city_requests(punit, &best_act, &best_target,
+                                               &best_tile, &path, state);
+
+    if (best_impr > 0) {
+      if (path != NULL) {
+        completion_time = pf_path_last_position(path)->turn;
+      } else {
+        best_impr = 0;
+      }
     }
+
+    if (best_impr <= 0) {
+      best_impr = settler_evaluate_improvements(punit, &best_act, &best_target,
+                                                &best_tile, &path, state);
+      if (path) {
+        completion_time = pf_path_last_position(path)->turn;
+      }
+    }
+    UNIT_LOG(LOG_DEBUG, punit, "impr want %d", best_impr);
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
