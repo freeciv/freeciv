@@ -910,20 +910,6 @@ static void begin_turn(bool is_new_turn)
           wipe_unit(punit, ULR_RETIRED, NULL);
           continue;
         }
-        if (is_barbarian(pplayer)) {
-          if (unit_has_type_role(punit, L_BARBARIAN_LEADER)) {
-            /* Lone Leader past expected lifetime has extra 33% chance to disappear
-             * on coast */
-            if (unit_list_size(ptile->units) == 1
-                && is_terrain_class_near_tile(ptile, TC_OCEAN)
-                && (punit->server.birth_turn + BARBARIAN_MIN_LIFESPAN
-                    < game.info.turn)
-                && fc_rand(3) == 0) {
-              log_debug("Barbarian leader disappearing...");
-              wipe_unit(punit, ULR_RETIRED, NULL);
-            }
-          }
-        }
       } unit_list_iterate_safe_end;
     } players_iterate_end;
   }
