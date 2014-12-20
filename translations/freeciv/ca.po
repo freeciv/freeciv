@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-21 17:51+0200\n"
-"PO-Revision-Date: 2014-11-30 12:53+0100\n"
+"PO-Revision-Date: 2014-12-20 12:30+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -10199,25 +10199,24 @@ msgid "Does not apply to city centers.\n"
 msgstr "No s'aplica als centres de la ciutat.\n"
 
 #: client/helpdata.c:2343
-#, fuzzy
 msgid "Applies only to city centers and cardinally adjacent tiles.\n"
 msgstr ""
-"Requereix %s en una casella adjacent en el sentit dels punts cardinals.\n"
+"S'aplica només als centres de la ciutat i a les caselles adjacents en el "
+"sentit dels punts cardinals.\n"
 
 #: client/helpdata.c:2346
-#, fuzzy
 msgid "Does not apply to city centers or cardinally adjacent tiles.\n"
-msgstr "No s'aplica als centres de la ciutat.\n"
+msgstr ""
+"No s'aplica als centres de la ciutat ni a les caselles adjacents en el sentit "
+"dels punts cardinals.\n"
 
 #: client/helpdata.c:2352
-#, fuzzy
 msgid "Applies only to city centers and adjacent tiles.\n"
-msgstr "S'aplica només als centres de la ciutat.\n"
+msgstr "S'aplica només als centres de la ciutat i les caselles adjacents.\n"
 
 #: client/helpdata.c:2355
-#, fuzzy
 msgid "Does not apply to city centers or adjacent tiles.\n"
-msgstr "No s'aplica als centres de la ciutat.\n"
+msgstr "No s'aplica als centres de la ciutat ni a les caselles adjacents.\n"
 
 #: client/helpdata.c:2430 client/text.c:1584 client/text.c:1662
 #, c-format
@@ -10275,9 +10274,9 @@ msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* El descobriment de %s farà que %s sigui obsolet.\n"
 
 #: client/helpdata.c:3038
-#, fuzzy, c-format
+#, c-format
 msgid "* The presence of %s in the city will make %s obsolete.\n"
-msgstr "* El descobriment de %s farà que %s sigui obsolet.\n"
+msgstr "* La presència de %s a la ciutat farà que %s sigui obsolet.\n"
 
 #: client/helpdata.c:3047
 msgid ""
@@ -10349,9 +10348,8 @@ msgid "  * Not subject to zones of control.\n"
 msgstr "  * No està subjecte a les zones de control.\n"
 
 #: client/helpdata.c:3175
-#, fuzzy
 msgid "  * Subject to zones of control.\n"
-msgstr "  * No està subjecte a les zones de control.\n"
+msgstr "  * Subjecte a les zones de control.\n"
 
 #: client/helpdata.c:3178
 msgid "  * Slowed down while damaged.\n"
@@ -10400,9 +10398,8 @@ msgid "  * Can launch attack from non-native tiles.\n"
 msgstr "* Pot llançar un atac des de caselles que no siguin natives.\n"
 
 #: client/helpdata.c:3222
-#, fuzzy
 msgid "  * Can be airlifted from a suitable city.\n"
-msgstr "* Només es pot construir si hi ha %s a la ciutat.\n"
+msgstr " * Pot ser aerotransportat des d'una ciutat apropiada.\n"
 
 #: client/helpdata.c:3227
 #, c-format
@@ -10654,18 +10651,17 @@ msgstr ""
 "per casella).\n"
 
 #: client/helpdata.c:3585
-#, fuzzy
 msgid "* Never imposes a zone of control.\n"
-msgstr "* Ignora les zones de control.\n"
+msgstr "* No imposa mai zona de control.\n"
 
 #: client/helpdata.c:3587
 msgid "* May impose a zone of control on its adjacent tiles.\n"
-msgstr ""
+msgstr "* Pot imposar una zona de control a les caselles adjacents.\n"
 
 #: client/helpdata.c:3591
-#, fuzzy
 msgid "* Not subject to zones of control imposed by other units.\n"
-msgstr "  * No està subjecte a les zones de control.\n"
+msgstr ""
+"* No està subjecte a les zones de control imposades per altres unitats.\n"
 
 #: client/helpdata.c:3596
 msgid "* A non-military unit:\n"
@@ -10733,14 +10729,14 @@ msgstr[1] ""
 "torns.\n"
 
 #: client/helpdata.c:3678
-#, fuzzy, c-format
+#, c-format
 msgid "* Can do the action '%s' to some %s.\n"
-msgstr "Canviada la ciutat origen de %s a %s."
+msgstr "* Pot fer l'acció '%s' a alguns %s.\n"
 
 #: client/helpdata.c:3710
 #, c-format
 msgid "* Immune to the action '%s'.\n"
-msgstr ""
+msgstr "* Immune a l'acció '%s'.\n"
 
 #: client/helpdata.c:3717
 msgid "* Will never achieve veteran status.\n"
@@ -10872,12 +10868,16 @@ msgid ""
 "* Units on this terrain neither impose zones of control nor are restricted "
 "by them.\n"
 msgstr ""
+"* Les unitats que es troben en aquest terreny ni imposen zones de control ni "
+"poden ser-hi restringits per una altra.\n"
 
 #: client/helpdata.c:4026
 msgid ""
 "* Units on this terrain may impose a zone of control, or be restricted by "
 "one.\n"
 msgstr ""
+"* Les unitats que es troben en aquest terreny poden imposar una zona de "
+"control, o ser-hi restringits per una altra.\n"
 
 #: client/helpdata.c:4157
 msgid "Requirements to build:\n"
@@ -10943,9 +10943,8 @@ msgid "* Can be pillaged by units.\n"
 msgstr "* Pot ser sabotejat per unitats.\n"
 
 #: client/helpdata.c:4241
-#, fuzzy
 msgid "* Can be cleaned by units.\n"
-msgstr "* Pot ser sabotejat per unitats.\n"
+msgstr "* Pot ser netejat per unitats.\n"
 
 #: client/helpdata.c:4247
 msgid ""
@@ -11462,7 +11461,7 @@ msgstr "* Et permet de construir %s.\n"
 #: client/helpdata.c:5014
 #, c-format
 msgid "* Makes your %s immune to the action '%s'.\n"
-msgstr ""
+msgstr "* Fa que els teus %s siguin immunes a l'acció '%s'.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
 #: client/helpdata.c:5043
@@ -11637,16 +11636,16 @@ msgstr ""
 
 #: client/options.c:1768
 msgid "Musicset"
-msgstr ""
+msgstr "Joc de músiques"
 
 #: client/options.c:1769
-#, fuzzy
 msgid ""
 "This is the musicset that will be used.  Changing this is the same as using "
 "the -m command-line parameter."
 msgstr ""
-"Aquest és el joc de sons que es farà servir. Modificar això és el mateix que "
-"fer servir el paràmetre de línia de comandes -S."
+"Aquest és el joc de músiques que es farà servir. Modificar això és el mateix "
+"que "
+"fer servir el paràmetre de línia de comandes -m."
 
 #: client/options.c:1774
 msgid "Sound plugin"
@@ -12369,18 +12368,16 @@ msgstr ""
 "sons que suggereixi el joc de regles."
 
 #: client/options.c:2134
-#, fuzzy
 msgid "Autoaccept musicset suggestions"
-msgstr "Acceptar automàticament els suggeriments de joc de caselles"
+msgstr "Acceptar automàticament els suggeriments de joc de músiques"
 
 #: client/options.c:2135
-#, fuzzy
 msgid ""
 "If this option is enabled, any musicset suggested by the ruleset is "
 "automatically used."
 msgstr ""
 "Si se selecciona aquesta opció, s'utilitzarà automàticament qualsevol joc de "
-"sons que suggereixi el joc de regles."
+"músiques que suggereixi el joc de regles."
 
 #: client/options.c:2140
 msgid "Background layer"
@@ -13024,9 +13021,8 @@ msgid "Welcome"
 msgstr "Benvingut"
 
 #: client/packhand.c:1778 client/tilespec.c:1175
-#, fuzzy
 msgid "Map topology and tileset incompatible."
-msgstr "El fitxer de control del modpack és incompatible"
+msgstr "La topologia del mapa i el joc de caselles són incompatibles."
 
 #: client/packhand.c:2055
 msgid "AI mode is now ON."
@@ -13309,9 +13305,9 @@ msgid "A:%d D:%d FP:%d HP:%d/%d"
 msgstr "A:%d D:%d PF:%d PV:%d/%d"
 
 #: client/text.c:397
-#, fuzzy, c-format
+#, c-format
 msgid "Probable bribe cost: %d"
-msgstr "Cost del suborn: %d"
+msgstr "Cost probable del suborn: %d"
 
 #: client/text.c:401
 #, c-format
@@ -14008,7 +14004,7 @@ msgstr "No es pot carregar el riu \"%s\" ni \"%s\""
 #: client/tilespec.c:3260
 #, c-format
 msgid "No graphics for extra \"%s\" at all!"
-msgstr ""
+msgstr "No hi ha cap gràfic per l'extra \"%s\"!"
 
 #: client/tilespec.c:3284
 #, c-format
@@ -14055,66 +14051,66 @@ msgstr "Estil de ciutat \"%s\": no hi ha gràfic sobre ocupació."
 
 #: common/achievements.c:291
 msgid "You're the first one to launch spaceship towards Alpha Centauri!"
-msgstr ""
+msgstr "Ets el primer que llança una nau espacial cap a Alpha Centauri!"
 
 #: common/achievements.c:294
 msgid "You're the first one to have entire world mapped!"
-msgstr ""
+msgstr "Ets el primer que té el mapa del món sencer!"
 
 #: common/achievements.c:297
 #, c-format
 msgid "You're the first one to have %d%% of the world mapped!"
-msgstr ""
+msgstr "Ets el primer que té un mapa del %d%% de tot el món!"
 
 #: common/achievements.c:304
 #, c-format
 msgid "You're the first one to have %d different nationalities in your cities!"
-msgstr ""
+msgstr "Ets el primer que té %d nacionalitats diferents a les teves ciutats!"
 
 #: common/achievements.c:309
 #, c-format
 msgid "You're the first one to have city of at least %d culture points."
-msgstr ""
+msgstr "Ets el primer que té una ciutat amb almenys %d punts de cultura."
 
 #: common/achievements.c:314
 #, c-format
 msgid "You're the first one to have at least %d culture points."
-msgstr ""
+msgstr "Ets el primer que té com a mínim %d punts de cultura."
 
 #: common/achievements.c:319
 #, c-format
 msgid "You beat %d in 10000 odds! You're the first one to be so lucky."
 msgstr ""
+"Has superat unes probabilitats de %d contra 10000! Ets el primer que té tanta "
+"sort."
 
 #: common/achievements.c:324
 #, c-format
 msgid "You're the first one to have entered %d huts!"
-msgstr ""
+msgstr "Ets el primer que ha entrat en %d cabanes!"
 
 #: common/achievements.c:329
 #, c-format
 msgid "Your empire has the first size %d city in the world!"
-msgstr ""
+msgstr "El teu imperi té la primera ciutat de mida %d de tot el món!"
 
 #: common/achievements.c:350
-#, fuzzy
 msgid "You have launched spaceship towards Alpha Centauri!"
-msgstr "La nau espacial %s ha arribat a Alpha Centauri."
+msgstr "Has llançat la nau espacial cap a Alpha Centauri!"
 
 #: common/achievements.c:353
-#, fuzzy
 msgid "You have entire world mapped!"
-msgstr "Reps el mapa mundial %s."
+msgstr "Tens el mapa de tot el món sencer!"
 
 #: common/achievements.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "You have %d%% of the world mapped!"
-msgstr "Reps el mapa mundial %s."
+msgstr "Tens el mapa del %d%% de tot el món!"
 
 #: common/achievements.c:362
-#, fuzzy, c-format
+#, c-format
 msgid "You have %d different nationalities in your cities!"
-msgstr "Només es poden millorar unitats dins de les teves ciutats."
+msgstr "Tens %d nacionalitats diferents a les teves ciutats!"
 
 #: common/achievements.c:367
 #, fuzzy, c-format
@@ -14122,24 +14118,24 @@ msgid "You have city of %d culture points!"
 msgstr "Dónes la ciutat de %s a %s."
 
 #: common/achievements.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "You have %d culture points!"
-msgstr "Has alliberat %s!"
+msgstr "Tens %d punts de cultura!"
 
 #: common/achievements.c:377
 #, c-format
 msgid "You beat %d in 10000 odds!"
-msgstr ""
+msgstr "Has superat unes probabilitats de %d contra 10000!"
 
 #: common/achievements.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "You have entered %d huts!"
-msgstr "Has alliberat %s!"
+msgstr "Has entrat en %d cabanes!"
 
 #: common/achievements.c:387
 #, c-format
 msgid "You have your first size %d city!"
-msgstr ""
+msgstr "Has aconseguit la teva primera ciutat de mida %d!"
 
 #. TRANS: _Poison City (3% chance of success).
 #: common/actions.c:62
@@ -14223,14 +14219,12 @@ msgid "Poison City"
 msgstr "Enverinar ciutat"
 
 #: common/actions.h:46
-#, fuzzy
 msgid "Sabotage Unit"
-msgstr "Sabotejar la ciutat"
+msgstr "Sabotejar Unitat"
 
 #: common/actions.h:48
-#, fuzzy
 msgid "Bribe Unit"
-msgstr "Subornar unitat enemiga"
+msgstr "Subornar Unitat"
 
 #: common/actions.h:50
 msgid "Sabotage City"
@@ -14251,9 +14245,8 @@ msgid "Establish Embassy"
 msgstr "Establir una ambaixada"
 
 #: common/actions.h:58
-#, fuzzy
 msgid "Steal Tech"
-msgstr "Robar tecnologia"
+msgstr "Robar Tecnologia"
 
 #: common/actions.h:60
 #, fuzzy
@@ -15324,19 +15317,16 @@ msgid "?diplomatic_state:Team"
 msgstr "Equip"
 
 #: common/player.h:151
-#, fuzzy
 msgid "Gives shared vision"
-msgstr "Donar visió compartida"
+msgstr "Dóna visió compartida"
 
 #: common/player.h:153
-#, fuzzy
 msgid "Receives shared vision"
-msgstr "Donar visió compartida"
+msgstr "Rep visió compartida"
 
 #: common/player.h:155
-#, fuzzy
 msgid "Hosts embassy"
-msgstr "Establir una ambaixada"
+msgstr "Acull ambaixada"
 
 #: common/player.h:157
 #, fuzzy
@@ -15349,9 +15339,8 @@ msgid "Hosts real embassy"
 msgstr "Establir una ambaixada"
 
 #: common/player.h:161
-#, fuzzy
 msgid "Has real embassy"
-msgstr "Donar ambaixada"
+msgstr "Té ambaixada real"
 
 #: common/player.h:163
 msgid "Has Casus Belli"
@@ -15522,9 +15511,8 @@ msgid "Plant"
 msgstr "Planta de Fab."
 
 #: common/unit.c:748
-#, fuzzy
 msgid "Irrigate"
-msgstr "_Irrigar"
+msgstr "Irrigar"
 
 #: common/unit.c:750
 msgid "Fortifying"
@@ -17707,42 +17695,36 @@ msgstr ""
 #: data/civ1/styles.ruleset:25 data/civ2/styles.ruleset:25
 #: data/classic/styles.ruleset:25 data/experimental/styles.ruleset:25
 #: data/civ2civ3/styles.ruleset:25 data/multiplayer/styles.ruleset:25
-#, fuzzy
 msgid "?style:European"
 msgstr "Europeu"
 
 #: data/civ1/styles.ruleset:28 data/civ2/styles.ruleset:28
 #: data/classic/styles.ruleset:28 data/experimental/styles.ruleset:28
 #: data/civ2civ3/styles.ruleset:28 data/multiplayer/styles.ruleset:28
-#, fuzzy
 msgid "?style:Classical"
 msgstr "Clàssic"
 
 #: data/civ1/styles.ruleset:31 data/civ2/styles.ruleset:31
 #: data/classic/styles.ruleset:31 data/experimental/styles.ruleset:31
 #: data/civ2civ3/styles.ruleset:31 data/multiplayer/styles.ruleset:31
-#, fuzzy
 msgid "?style:Tropical"
 msgstr "Tropical"
 
 #: data/civ1/styles.ruleset:34 data/civ2/styles.ruleset:34
 #: data/classic/styles.ruleset:34 data/experimental/styles.ruleset:34
 #: data/civ2civ3/styles.ruleset:34 data/multiplayer/styles.ruleset:34
-#, fuzzy
 msgid "?style:Asian"
 msgstr "Asiàtic"
 
 #: data/civ1/styles.ruleset:37 data/civ2/styles.ruleset:37
 #: data/classic/styles.ruleset:37 data/experimental/styles.ruleset:37
 #: data/civ2civ3/styles.ruleset:37 data/multiplayer/styles.ruleset:37
-#, fuzzy
 msgid "?style:Babylonian"
 msgstr "Babilònic"
 
 #: data/civ1/styles.ruleset:40 data/civ2/styles.ruleset:40
 #: data/classic/styles.ruleset:40 data/experimental/styles.ruleset:40
 #: data/civ2civ3/styles.ruleset:40 data/multiplayer/styles.ruleset:40
-#, fuzzy
 msgid "?style:Celtic"
 msgstr "Cèltic"
 
@@ -18836,14 +18818,13 @@ msgid "Artillery"
 msgstr "Artilleria"
 
 #: data/civ1/units.ruleset:731
-#, fuzzy
 msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities. They can shoot over city walls, ignoring their "
 "effect."
 msgstr ""
 "L'artilleria és un canó millorat amb capacitats defensiva i ofensiva "
-"superiors."
+"superiors. Poden disparar per sobre de les muralles, ignorant-ne l'efecte."
 
 #: data/civ1/units.ruleset:738 data/civ2/units.ruleset:1187
 #: data/classic/units.ruleset:1256 data/experimental/units.ruleset:1281
@@ -21028,14 +21009,13 @@ msgstr "Obús"
 
 #: data/civ2/units.ruleset:1180 data/classic/units.ruleset:1249
 #: data/experimental/units.ruleset:1274 data/multiplayer/units.ruleset:1348
-#, fuzzy
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities. They can shoot over city walls, ignoring their "
 "effect."
 msgstr ""
 "Els Obusos són artilleria millorada amb capacitats defensiva i ofensiva "
-"superiors."
+"superiors. Poden disparar per sobre les muralles, ignorant-ne l'efecte."
 
 #. TRANS: unit type
 #: data/civ2/units.ruleset:1259 data/classic/units.ruleset:1328
@@ -21826,7 +21806,7 @@ msgstr "Permet als Treballadors i Enginyers de construir bases aèries i boies."
 #: data/classic/terrain.ruleset:24 data/experimental/terrain.ruleset:26
 #: data/civ2civ3/terrain.ruleset:24 data/multiplayer/terrain.ruleset:24
 msgid "Has Oil Well instead of Mine."
-msgstr ""
+msgstr "Té Pou de Petroli en comptes de Mina"
 
 #: data/classic/terrain.ruleset:176 data/experimental/terrain.ruleset:178
 #: data/civ2civ3/terrain.ruleset:176 data/alien/terrain.ruleset:167
@@ -21878,7 +21858,7 @@ msgstr ""
 #: data/classic/terrain.ruleset:1088 data/experimental/terrain.ruleset:1064
 #: data/civ2civ3/terrain.ruleset:1092 data/multiplayer/terrain.ruleset:1062
 msgid "Oil Well"
-msgstr ""
+msgstr "Pou de Petroli"
 
 #: data/classic/terrain.ruleset:1218 data/classic/terrain.ruleset:1366
 #: data/experimental/terrain.ruleset:1194
@@ -22226,7 +22206,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:532
 #: data/experimental/buildings.ruleset:710
 msgid "Adds 2 points of culture each turn."
-msgstr ""
+msgstr "Afegeix 2 punts de cultura a cada torn."
 
 #: data/experimental/buildings.ruleset:426 data/alien/buildings.ruleset:269
 msgid "Hospital"
@@ -22275,7 +22255,7 @@ msgstr ""
 
 #: data/experimental/buildings.ruleset:1172
 msgid "Adds 1 point of culture each turn."
-msgstr ""
+msgstr "Afegeix 1 punt de cultura a cada torn."
 
 #: data/experimental/game.ruleset:21
 msgid "Experimental ruleset"
@@ -22295,13 +22275,12 @@ msgstr ""
 "ruleset_experimental."
 
 #: data/experimental/game.ruleset:445
-#, fuzzy
 msgid "Spaceship Launch"
-msgstr "Etiqueta de Nau espacial"
+msgstr "Llançament de Nau espacial"
 
 #: data/experimental/game.ruleset:449
 msgid "Entire Map Known"
-msgstr ""
+msgstr "Tot el Mapa Conegut"
 
 #: data/experimental/game.ruleset:454
 msgid "Map Known 20 pct"
@@ -22635,7 +22614,6 @@ msgstr ""
 "contaminació es redueix al 25% si es combina amb un Centre de Reciclatge."
 
 #: data/civ2civ3/buildings.ruleset:659
-#, fuzzy
 msgid ""
 "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The "
 "city needs to be coastal to build this improvement.  Deep ocean tiles need "
@@ -22643,9 +22621,8 @@ msgid ""
 msgstr ""
 "Afegeix un escut extra a totes les caselles d'Oceà que treballa una ciutat. "
 "La ciutat ha de ser costanera per poder construir aquesta millora. Les "
-"caselles d'Oceà profund necessiten que hi hagi una boia a la casella per "
-"aprofitar la bonificació de l'escut (les boies són millores de casella que "
-"es poden crear a partir del descobriment de la Ràdio)."
+"caselles d'Oceà profund s'han de minar per "
+"aprofitar la bonificació de l'escut."
 
 #: data/civ2civ3/buildings.ruleset:665
 #, no-c-format
@@ -23257,20 +23234,20 @@ msgid "Reduces by 30% the chance of illness in your cities."
 msgstr "Redueix en un 30% la possibilitat de malaltia dins les teves ciutats."
 
 #: data/civ2civ3/techs.ruleset:667
-#, fuzzy
 msgid ""
 "Allows Settlers, Workers and Engineers to build railroads. Decreases one-"
 "time revenue from new trade routes."
-msgstr "Permet a Colons, Treballadors i Enginyers de construir fortificacions."
+msgstr ""
+"Permet a Colons, Treballadors i Enginyers de construir ferrocarrils. Redueix "
+"el pagament inicial de les rutes comercials noves."
 
 #: data/civ2civ3/techs.ruleset:713
 msgid "Doubles movement of nuclear units."
 msgstr "Duplica el moviment de les unitats nuclears."
 
 #: data/civ2civ3/techs.ruleset:777
-#, fuzzy
 msgid "Allows Settlers, Workers and Engineers to build maglevs."
-msgstr "Permet a Colons, Treballadors i Enginyers de construir fortificacions."
+msgstr "Permet a Colons, Treballadors i Enginyers de construir maglevs."
 
 #: data/civ2civ3/techs.ruleset:796
 msgid ""
@@ -23296,13 +23273,12 @@ msgstr ""
 "de menjar en comptes d'un."
 
 #: data/civ2civ3/terrain.ruleset:1176 data/civ2civ3/terrain.ruleset:1426
-#, fuzzy
 msgid "Trench"
-msgstr "Francès"
+msgstr "Trinxera"
 
 #: data/civ2civ3/terrain.ruleset:1225 data/civ2civ3/terrain.ruleset:1448
 msgid "Airfield"
-msgstr ""
+msgstr "Camp d'Aviació"
 
 #: data/civ2civ3/terrain.ruleset:1430
 msgid ""
@@ -23310,6 +23286,9 @@ msgid ""
 "The construction of fortresses can begin only after the underlaying trench "
 "is completed."
 msgstr ""
+"Les trinxeres són fortificacions de construcció ràpida que proporcionen una "
+"mica de defensa a les unitats terrestres. La construcció de fortaleses només "
+"pot començar quan s'ha completat la trinxera."
 
 #: data/civ2civ3/terrain.ruleset:1452
 msgid ""
@@ -23318,6 +23297,11 @@ msgid ""
 "attacked by land units. The construction of an airbase can begin only after "
 "the underlaying airfield is completed."
 msgstr ""
+"Els camps d'aviació són bases aèries de construcció ràpida que permeten a les "
+"unitats aèries d'aterrar i carregar combustible, i milloren la defensa contra "
+"unitats aèries enemigues. Les unitats aèries que es troben en un camp "
+"d'aviació poden ser atacades per unitats terrestres. La construcció d'una "
+"base aèria només pot començar quan s'ha completat el camp d'aviació."
 
 #: data/civ2civ3/terrain.ruleset:1465
 msgid ""
@@ -23364,14 +23348,14 @@ msgstr ""
 "enemics, també!)"
 
 #: data/civ2civ3/terrain.ruleset:1612
-#, fuzzy
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land and Merchant "
 "units for which the maglev system is unsuitable, and they continue to "
 "provide production and trade bonuses."
 msgstr ""
 "Els teus ferrocarrils normals encara es faran servir per portar unitats "
-"Terrestres Grans, que són massa pesades per al sistema maglev, i continuen "
+"Terrestres Grans i Mercants, que són massa pesades per al sistema maglev, i "
+"continuen "
 "donant bonificacions de producció i comerç."
 
 #: data/civ2civ3/terrain.ruleset:1628
@@ -25598,8 +25582,8 @@ msgid ""
 "* Has 50% spy resistance bonus\n"
 "* 20% bonus to trade"
 msgstr ""
-"Són els rics de veritat de qui ningú no en sap res perquè només es relacionen "
-"dins dels seus cercles.\n"
+"Són els rics de veritat de qui ningú no en sap res perquè només es "
+"relacionen dins dels seus cercles.\n"
 "\n"
 "* Construeix Espies Ocults veterans\n"
 "* Té una bonificació del 50% de resistència dels espies\n"
@@ -42979,6 +42963,9 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "%1 - %2 citizens - happy"
 #~ msgstr "%1 - %2 ciutadans - feliços"
 
+#~ msgid "%1 - %2 citizens"
+#~ msgstr "%1 - %2 ciutadans"
+
 #~ msgid "Buy ( Cost: %d )"
 #~ msgstr "Comprar ( Cost: %d )"
 
@@ -43067,6 +43054,12 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Roger that"
 #~ msgstr "Entesos"
 
+#~ msgid "Save Game As..."
+#~ msgstr "Desar Partida Com..."
+
+#~ msgid "Leave game"
+#~ msgstr "Deixar la Partida"
+
 #~ msgid "Units Filter"
 #~ msgstr "Filtre d'unitats"
 
@@ -43087,6 +43080,9 @@ msgstr "error %d (compilat sense strerror)"
 
 #~ msgid "Build Farmland"
 #~ msgstr "Construir Horta"
+
+#~ msgid "Save Games"
+#~ msgstr "Partides Desades"
 
 #~ msgid "commit: %s"
 #~ msgstr "versió: %s"
@@ -43215,6 +43211,11 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgstr ""
 #~ "No es pot fer si hi ha %s en alguna casella dins del radi de la ciutat.\n"
 
+#~ msgid "* Costs %d population to build.\n"
+#~ msgid_plural "* Costs %d population to build.\n"
+#~ msgstr[0] "* Costa %d de població per construir-se.\n"
+#~ msgstr[1] "* Costa %d de població per construir-se.\n"
+
 #~ msgid "* Can build irrigation on tiles.\n"
 #~ msgstr "* Pot fer irrigacions en caselles.\n"
 
@@ -43333,12 +43334,42 @@ msgstr "error %d (compilat sense strerror)"
 #~ msgid "Hut"
 #~ msgstr "Cabana"
 
+#~ msgid "NoBarbs"
+#~ msgstr "SenseBàrbars"
+
+#~ msgid "NoPollution"
+#~ msgstr "SenseContaminació"
+
+#~ msgid "NoCities"
+#~ msgstr "SenseCiutats"
+
+#~ msgid "Starter"
+#~ msgstr "Inicial"
+
+#~ msgid "CanHaveRiver"
+#~ msgstr "PotTenirRiu"
+
+#~ msgid "UnsafeCoast"
+#~ msgstr "CostaInsegura"
+
+#~ msgid "FreshWater"
+#~ msgstr "AiguaDolça"
+
+#~ msgid "NotGenerated"
+#~ msgstr "NoGenerat"
+
 #~ msgid ""
 #~ "The artillery is an upgraded cannon with improved defensive as well as "
 #~ "offensive capabilities."
 #~ msgstr ""
 #~ "L'artilleria és un canó millorat amb capacitats defensiva i ofensiva "
 #~ "superiors."
+
+#~ msgid "AirAttacker"
+#~ msgstr "AtacantAeri"
+
+#~ msgid "Horse"
+#~ msgstr "Cavall"
 
 #~ msgid ""
 #~ "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The "
@@ -47788,9 +47819,6 @@ msgstr "error %d (compilat sense strerror)"
 #~ "reclama Mayotte, que actualment és un departament d'ultramar francès. Amb "
 #~ "influència àrab des del segle VIII,  les Comores és el país de majoria "
 #~ "musulmana més meridional del món. "
-
-#~ msgid "Confederate"
-#~ msgstr "Confederat"
 
 #~ msgid "?plural:Confederates"
 #~ msgstr "Confederats"
