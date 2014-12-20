@@ -285,16 +285,18 @@ is already used by another nation in the game is not acceptable.
 An alternative flag does not have to be specified.
 
 
-City style
-==========
+Style
+=====
 
-A nation must specify a default city style. The available city styles 
-depends on the tileset used. Practically every tileset have four city 
-styles: "European", "Classical" (Graeco-Roman style), "Asian" (Pagoda
-style) and "Tropical" (African or Polynesian style). In Amplio tileset, 
-"Babylonian" and "Celtic" are also available. If the tileset used by 
-a client does not support a particular city style, a fallback style is 
-used. Selecting a style for your nation is not that strict. Just try 
+A nation must specify a default style. With the supplied rulesets
+each national style has direct relation to equivalent city style.
+The available city styles depends on the tileset used.
+Practically every tileset have four city  styles: "European",
+"Classical" (Graeco-Roman style), "Asian" (Pagoda style) and
+"Tropical" (African or Polynesian style). In Amplio tileset,
+"Babylonian" and "Celtic" are also available. If the tileset used by
+a client does not support a particular city style, a fallback style is
+used. Selecting a style for your nation is not that strict. Just try
 to keep it somewhat "realistic."
 
 
