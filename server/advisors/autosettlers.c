@@ -683,12 +683,12 @@ int settler_evaluate_improvements(struct unit *punit,
 /****************************************************************************
   Return best city request to fulfill.
 ****************************************************************************/
-static int settler_evaluate_city_requests(struct unit *punit,
-                                          enum unit_activity *best_act,
-                                          struct extra_type **best_target,
-                                          struct tile **best_tile,
-                                          struct pf_path **path,
-                                          struct settlermap *state)
+int settler_evaluate_city_requests(struct unit *punit,
+                                   enum unit_activity *best_act,
+                                   struct extra_type **best_target,
+                                   struct tile **best_tile,
+                                   struct pf_path **path,
+                                   struct settlermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
