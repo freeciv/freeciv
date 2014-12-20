@@ -53,8 +53,8 @@ int main(int argc, char **argv)
   (void) bindtextdomain("freeciv-ruledit", LOCALEDIR);
 #endif
 
-  registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+  registry_module_init();
 
   log_init(NULL, loglevel, NULL, NULL, -1);
 
@@ -76,8 +76,9 @@ int main(int argc, char **argv)
     ruledit_qt_close();
   }
 
-  log_close();
   registry_module_close();
+  log_close();
+  free_nls();
 
   return EXIT_SUCCESS;
 }
