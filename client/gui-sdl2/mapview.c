@@ -189,6 +189,7 @@ void sdl_dirty_rect(SDL_Rect Rect)
 {
   if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
     Main.rects[Main.rects_count++] = Rect;
+    queue_flush();
   }
 }
 
