@@ -2075,7 +2075,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 static void handle_unit_help_build_wonder(struct player *pplayer,
                                           int unit_id, int city_id)
 {
-  const char *text;
+  const char *work;
   struct city *pcity_dest;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
@@ -2098,16 +2098,26 @@ static void handle_unit_help_build_wonder(struct player *pplayer,
   conn_list_do_buffer(pplayer->connections);
 
   if (build_points_left(pcity_dest) >= 0) {
-    text = _("Your %s helps build the %s in %s (%d remaining).");
+    /* TRANS: Your Caravan helps build the Pyramids in Bergen (4
+     * remaining). */
+    work = _("remaining");
   } else {
-    text = _("Your %s helps build the %s in %s (%d surplus).");
+    /* TRANS: Your Caravan helps build the Pyramids in Bergen (4
+     * surplus). */
+    work = _("surplus");
   }
-  notify_player(pplayer, city_tile(pcity_dest), E_CARAVAN_ACTION, ftc_server,
-                text, /* Must match arguments below. */
+
+  notify_player(pplayer, city_tile(pcity_dest), E_CARAVAN_ACTION,
+                ftc_server,
+                /* TRANS: Your Caravan helps build the Pyramids in Bergen
+                 * (4 surplus). */
+                _("Your %s helps build the %s in %s (%d %s)."),
                 unit_link(punit),
-                improvement_name_translation(pcity_dest->production.value.building),
+                improvement_name_translation(
+                  pcity_dest->production.value.building),
                 city_link(pcity_dest), 
-                abs(build_points_left(pcity_dest)));
+                abs(build_points_left(pcity_dest)),
+                work);
 
   wipe_unit(punit, ULR_USED, NULL);
   send_player_info_c(pplayer, pplayer->connections);
