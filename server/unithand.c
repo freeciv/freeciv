@@ -2107,6 +2107,8 @@ static void handle_unit_help_build_wonder(struct player *pplayer,
     work = _("surplus");
   }
 
+  /* Let the player that just donated shields to the wonder building know
+   * the result of his donation. */
   notify_player(pplayer, city_tile(pcity_dest), E_CARAVAN_ACTION,
                 ftc_server,
                 /* TRANS: Your Caravan helps build the Pyramids in Bergen
@@ -2118,6 +2120,24 @@ static void handle_unit_help_build_wonder(struct player *pplayer,
                 city_link(pcity_dest), 
                 abs(build_points_left(pcity_dest)),
                 work);
+
+  if (city_owner(pcity_dest) != unit_owner(punit)) {
+    /* Tell the city owner about the gift he just received. */
+
+    notify_player(city_owner(pcity_dest), city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: Help building the Pyramids in Bergen received
+                   * from Persian Caravan (4 surplus). */
+                  _("Help building the %s in %s received from %s %s "
+                    "(%d %s)."),
+                  improvement_name_translation(
+                    pcity_dest->production.value.building),
+                  city_link(pcity_dest),
+                  nation_adjective_for_player(pplayer),
+                  unit_link(punit),
+                  abs(build_points_left(pcity_dest)),
+                  work);
+  }
 
   wipe_unit(punit, ULR_USED, NULL);
   send_player_info_c(pplayer, pplayer->connections);

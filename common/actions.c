@@ -401,13 +401,6 @@ void action_enabler_append_hard(struct action_enabler *enabler)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("Unitflag", "Local", FALSE,
                                            TRUE, "HelpWonder"));
-
-    /* The Freeciv code assumes that it it is impossible to help a foreign
-     * nation build a foreign wonder. */
-    /* TODO: Move this restriction to the ruleset. */
-    requirement_vector_append(&enabler->actor_reqs,
-                              req_from_str("DiplRel", "Local", FALSE,
-                                           FALSE, "Is foreign"));
   }
 }
 
@@ -528,6 +521,8 @@ static bool is_action_possible(const enum gen_action wanted_action,
 
   if (wanted_action == ACTION_HELP_WONDER) {
     /* It is only possible to help the production of a wonder. */
+    /* Info leak: It is already known when a foreign city is building a
+     * wonder. */
     /* TODO: Do this rule belong in the ruleset? */
     if (!(VUT_IMPROVEMENT == target_city->production.kind
         && is_wonder(target_city->production.value.building))) {
@@ -537,6 +532,11 @@ static bool is_action_possible(const enum gen_action wanted_action,
     /* It is only possible to help the production if the production needs
      * the help. (If not it would be possible to add shields for a non
      * wonder if it is build after a wonder) */
+    /* Info leak: No new information is sent with the old rules. When the
+     * ruleset is changed to make helping foreign wonders legal the
+     * information that a wonder have been hurried (bought, helped) leaks.
+     * That a foreign wonder will be ready next turn (from work) is already
+     * known. That it will be finished because of help is not. */
     if (!(target_city->shield_stock
           < impr_build_shield_cost(
             target_city->production.value.building))) {

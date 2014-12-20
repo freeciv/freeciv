@@ -203,7 +203,6 @@ bool unit_can_help_build_wonder(const struct unit *punit,
   }
 
   return (unit_has_type_flag(punit, UTYF_HELP_WONDER)
-	  && unit_owner(punit) == city_owner(pcity)
 	  && VUT_IMPROVEMENT == pcity->production.kind
 	  && is_wonder(pcity->production.value.building)
 	  && (pcity->shield_stock
