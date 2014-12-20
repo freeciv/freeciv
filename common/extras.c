@@ -186,7 +186,13 @@ const char *extra_rule_name(const struct extra_type *pextra)
 **************************************************************************/
 struct extra_type *extra_type_by_rule_name(const char *name)
 {
-  const char *qs = Qn_(name);
+  const char *qs;
+
+  if (name == NULL) {
+    return NULL;
+  }
+
+  qs = Qn_(name);
 
   extra_type_iterate(pextra) {
     if (!fc_strcasecmp(extra_rule_name(pextra), qs)) {
