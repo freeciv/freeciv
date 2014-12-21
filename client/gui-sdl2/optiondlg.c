@@ -163,7 +163,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
   area = window->area;
   area.w += window->size.x;
   area.h += window->size.y;
-  sdl_dirty_rect(area);
+  dirty_sdl_rect(&area);
 
   /* Resize window. */
   logo = theme_get_background(theme, BACKGROUND_OPTIONDLG);
@@ -1250,7 +1250,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   area = window->area;
   area.w += window->size.x;
   area.h += window->size.y;
-  sdl_dirty_rect(area);
+  dirty_sdl_rect(&area);
 
   /* Resize window. */
   resize_window(window, NULL, NULL,

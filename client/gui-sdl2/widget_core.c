@@ -191,7 +191,7 @@ static void widget_core_mark_dirty(struct widget *pwidget)
     pwidget->size.h
   };
 
-  sdl_dirty_rect(rect);
+  dirty_sdl_rect(&rect);
 }
 
 /**************************************************************************
@@ -206,7 +206,7 @@ static void widget_core_flush(struct widget *pwidget)
     pwidget->size.h
   };
 
-  flush_rect(rect, FALSE);
+  flush_rect(&rect, FALSE);
 }
 
 /**************************************************************************

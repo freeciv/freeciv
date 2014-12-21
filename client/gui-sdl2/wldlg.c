@@ -952,7 +952,7 @@ static void refresh_production_label(int stock)
   }
 
   widget_redraw(pEditor->pProduction_Name);
-  sdl_dirty_rect(area);
+  dirty_sdl_rect(&area);
 
   FREESURFACE(pEditor->pProduction_Progres->theme);
   pEditor->pProduction_Progres->theme =
@@ -991,7 +991,7 @@ static void refresh_worklist_count_label(void)
   area.y = pEditor->pWorkList_Counter->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pWorkList_Counter->size.h;
-  sdl_dirty_rect(area);
+  dirty_sdl_rect(&area);
 }
 
 /* ====================================================================== */

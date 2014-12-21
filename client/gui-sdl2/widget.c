@@ -306,7 +306,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
 
   widget_info_counter = 0;
   if (pInfo_Area) {
-    sdl_dirty_rect(*pInfo_Area);
+    dirty_sdl_rect(pInfo_Area);
     FC_FREE(pInfo_Area);
     FREESURFACE(info_label);
   }
@@ -440,7 +440,7 @@ void unselect_widget_action(void)
   }
 
   if (pInfo_Area) {
-    flush_rect(*pInfo_Area, FALSE);
+    flush_rect(pInfo_Area, FALSE);
     FC_FREE(pInfo_Area);
     FREESURFACE(info_label);    
   }

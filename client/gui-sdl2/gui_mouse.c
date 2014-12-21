@@ -102,7 +102,7 @@ void draw_mouse_cursor(void)
   if (options.gui_sdl2_use_color_cursors) {
     /* restore background */
     if (area.w != 0) {
-      flush_rect(area, TRUE);
+      flush_rect(&area, TRUE);
     }
 
     if (current_color_cursor.cursor != NULL) {

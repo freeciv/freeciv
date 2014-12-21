@@ -102,26 +102,26 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 /**************************************************************************
   Flush the given part of the buffer(s) to the screen.
 **************************************************************************/
-void flush_rect(SDL_Rect rect, bool force_flush)
+void flush_rect(SDL_Rect *rect, bool force_flush)
 {
   if (is_flush_queued && !force_flush) {
-    sdl_dirty_rect(rect);
+    dirty_sdl_rect(rect);
   } else {
     static SDL_Rect src, dst;
 
-    if (correct_rect_region(&rect)) {
+    if (correct_rect_region(rect)) {
       static int i = 0;
 
-      dst = rect;
+      dst = *rect;
       if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, &rect, Main.mainsurf, &dst, 255);
+      alphablit(Main.map, rect, Main.mainsurf, &dst, 255);
       if (Main.guis) {
         while ((i < Main.guis_count) && Main.guis[i]) {
-          src = rect;
+          src = *rect;
           screen_rect_to_layer_rect(Main.guis[i], &src);
-          dst = rect;
+          dst = *rect;
           alphablit(Main.guis[i++]->surface, &src, Main.mainsurf, &dst, 255);
         }
       }
@@ -129,8 +129,8 @@ void flush_rect(SDL_Rect rect, bool force_flush)
 
       /* flush main buffer to framebuffer */
 #if 0
-      SDL_UpdateRect(Main.screen, rect.x, rect.y, rect.w, rect.h);
-#endif
+      SDL_UpdateRect(Main.screen, rect->x, rect->y, rect->w, rect->h);
+#endif /* 0 */
     }
   }
 }
@@ -176,19 +176,16 @@ void dirty_rect(int canvas_x, int canvas_y,
 {
   SDL_Rect Rect = {canvas_x, canvas_y, pixel_width, pixel_height};
 
-  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
-    Main.rects[Main.rects_count++] = Rect;
-    queue_flush();
-  }
+  dirty_sdl_rect(&Rect);
 }
 
 /**************************************************************************
   Save Flush rect used by "end" flush.
 **************************************************************************/
-void sdl_dirty_rect(SDL_Rect Rect)
+void dirty_sdl_rect(SDL_Rect *Rect)
 {
-  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
-    Main.rects[Main.rects_count++] = Rect;
+  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(Rect)) {
+    Main.rects[Main.rects_count++] = *Rect;
     queue_flush();
   }
 }
@@ -474,12 +471,12 @@ void update_info_label(void)
     putline(Main.gui->surface,
                area.x, area.y + 1, area.x, area.y + area.h - 2,
                get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-#endif
+#endif /* 0 */
 
     /* blit text to screen */
     blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
 
-    sdl_dirty_rect(area);
+    dirty_sdl_rect(&area);
 
     FREESURFACE(pTmp);
   }
