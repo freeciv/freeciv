@@ -60,6 +60,7 @@ public:
   research_diagram(QWidget *parent = 0);
   ~research_diagram();
   void update_reqtree();
+  void reset();
   QSize size();
 
 private:
@@ -97,6 +98,7 @@ public:
   void update_report();
   void init(bool raise);
   void redraw();
+  void reset_tree();
 
 private:
   void update_reqtree();

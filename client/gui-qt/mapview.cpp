@@ -30,6 +30,7 @@
 #include "mapctrl_common.h"
 #include "overview_common.h"
 #include "sprite.h"
+#include "repodlgs.h"
 #include "text.h"
 
 // qui-qt
@@ -1464,8 +1465,22 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 ****************************************************************************/
 void tileset_changed(void)
 {
+  int i;
+  science_report *sci_rep;
+  QWidget *w;
+
   gui()->unitinfo_wdg->update_arrow_pix();
   destroy_city_dialog();
+  /* Update science report if open */
+  if (gui()->is_repo_dlg_open("SCI")) {
+    i = gui()->gimme_index_of("SCI");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    sci_rep = reinterpret_cast<science_report*>(w);
+    sci_rep->reset_tree();
+    sci_rep->update_report();
+    sci_rep->repaint();
+  }
 }
 
 /****************************************************************************
