@@ -590,7 +590,10 @@ void fc_client::update_unit_sel()
 ****************************************************************************/
 void fc_client::remove_repo_dlg(QString str)
 {
-  opened_repo_dlgs.remove(str);
+  /* if app is closing opened_repo_dlg is already deleted */
+  if (is_closing() == false) {
+    opened_repo_dlgs.remove(str);
+  }
 }
 
 /****************************************************************************

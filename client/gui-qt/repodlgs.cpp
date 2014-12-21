@@ -53,10 +53,9 @@ bool comp_less_than(const qlist_item &q1, const qlist_item &q2)
 ****************************************************************************/
 research_diagram::research_diagram(QWidget *parent): QWidget(parent)
 {
-  req = create_reqtree(client_player(), true);
-  get_reqtree_dimensions(req, &width, &height);
-  pcanvas = qtg_canvas_create(width, height);
-  pcanvas->map_pixmap.fill(Qt::transparent);
+  pcanvas = NULL;
+  req = NULL;
+  reset();
 }
 
 /****************************************************************************
@@ -78,6 +77,24 @@ void research_diagram::update_reqtree()
   draw_reqtree(req, pcanvas, 0, 0, 0, 0, width, height);
   update();
 }
+
+/****************************************************************************
+  Initializes research diagram
+****************************************************************************/
+void research_diagram::reset()
+{
+  if (req != NULL) {
+    destroy_reqtree(req);
+  }
+  if (pcanvas != NULL) {
+    qtg_canvas_free(pcanvas);
+  }
+  req = create_reqtree(client_player(), true);
+  get_reqtree_dimensions(req, &width, &height);
+  pcanvas = qtg_canvas_create(width, height);
+  pcanvas->map_pixmap.fill(Qt::transparent);
+}
+
 
 /****************************************************************************
   Mouse handler for research_diagram
@@ -207,6 +224,18 @@ void science_report::init(bool raise)
 ****************************************************************************/
 void science_report::redraw()
 {
+  update();
+}
+
+/****************************************************************************
+  Recalculates research diagram again and updates science report
+****************************************************************************/
+void science_report::reset_tree()
+{
+  QSize size;
+  res_diag->reset();
+  size = res_diag->size();
+  res_diag->setMinimumSize(size);
   update();
 }
 
