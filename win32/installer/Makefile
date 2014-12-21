@@ -76,8 +76,8 @@ install-freeciv-common:
 	mv install-$(GUI)/usr/local/share/doc install-$(GUI)/doc
 	# delete unneeded files
 	rm -r install-$(GUI)/usr
-	# strip 'freeciv-manual' and 'freeciv-mp-<gui>' executables
-	strip install-$(GUI)/freeciv-m*
+	# strip 'freeciv-manual', 'freeciv-mp-<gui>', and freeciv-ruledit executables
+	strip install-$(GUI)/freeciv-m* install-$(GUI)/freeciv-ruledit.exe
 	# add start menu files
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
 
@@ -95,6 +95,7 @@ install-freeciv-sdl: install-freeciv-common
 	cp /opt/un-fonts/COPYING install-sdl/data/themes/gui-sdl/human/COPYING.UnDotum
 
 install-freeciv-qt: install-freeciv-common
+	cp freeciv-ruledit.cmd install-$(GUI)/
 
 # install Freeciv environment
 

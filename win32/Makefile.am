@@ -20,6 +20,7 @@ dist_noinst_DATA = \
 		installer/freeciv-qt.cmd		\
 		installer/freeciv-sdl.cmd		\
 		installer/freeciv-server.cmd		\
+		installer/freeciv-ruledit.cmd		\
 		installer/Freeciv.url			\
 		installer/Makefile
 
