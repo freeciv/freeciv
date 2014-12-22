@@ -93,6 +93,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
   int uw_max = 0;
   int worst_worked = FC_INFINITY;
   int old_worst_worked = FC_INFINITY;
+  int orig_worst_worked = 0;
   struct unit_list *units = NULL;
 
   switch (limit) {
@@ -115,6 +116,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
     if (tile_worked(ptile) == pcity
         && orig_value < worst_worked) {
       worst_worked = orig_value;
+      orig_worst_worked = orig_value;
       potential_worst_worked = TRUE;
     }
 
@@ -319,7 +321,8 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
     }
   } city_tile_iterate_end;
 
-  if (old_worst_worked < uw_max || worked.ptile == NULL) {
+  if (worked.ptile == NULL
+      || (old_worst_worked < uw_max && uw_max - orig_worst_worked > worked.want)) {
     /* It's better to improve best yet unworked tile and take it to use after that,
        than to improve already worked tile. */
     selected = &unworked;
