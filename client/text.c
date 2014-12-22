@@ -291,7 +291,7 @@ const char *popup_info_text(struct tile *ptile)
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       struct city *hcity = game_city_by_number(pfocus_unit->homecity);
 
-      if (unit_has_type_flag(pfocus_unit, UTYF_TRADE_ROUTE)
+      if (utype_can_do_action(unit_type(pfocus_unit), ACTION_TRADE_ROUTE)
 	  && can_cities_trade(hcity, pcity)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
