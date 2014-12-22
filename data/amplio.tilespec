@@ -62,6 +62,7 @@ minimap_intro_file = "misc/radar"
 ; tag is used).
 files =
   "amplio/terrain1.spec",
+  "amplio/maglev.spec",
   "amplio/terrain2.spec",
   "amplio/ocean.spec",
   "amplio/water.spec",
@@ -202,6 +203,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadAllSeparate"
       "road.rail",     "RoadAllSeparate"
+      "road.maglev",   "RoadAllSeparate"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
