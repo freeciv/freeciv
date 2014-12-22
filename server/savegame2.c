@@ -2725,7 +2725,7 @@ static void sg_save_map_owner(struct savedata *saving)
 }
 
 /****************************************************************************
-  Save worked tiles information
+  Load worked tiles information
 ****************************************************************************/
 static void sg_load_map_worked(struct loaddata *loading)
 {
