@@ -24,16 +24,16 @@ do { 									 \
   pBuf = create_iconlabel(NULL, pDest, pStr, 				 \
     	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
   pBuf->action = pCallback;						 \
-} while(0)
+} while (FALSE)
 
 struct widget *create_themelabel(SDL_Surface *pBackground, struct gui_layer *pDest,
-			      SDL_String16 *pText, Uint16 w, Uint16 h,
-			      Uint32 flags);
-struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
-  		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags);
-struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest, 
-  	SDL_String16 *pText, Uint32 flags);
-struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel);
+                                 SDL_String16 *pText, Uint16 w, Uint16 h,
+                                 Uint32 flags);
+struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
+                                  SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags);
+struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
+                                SDL_String16 *pText, Uint32 flags);
+struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel);
 int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y);
 
 int redraw_iconlabel(struct widget *pLabel);

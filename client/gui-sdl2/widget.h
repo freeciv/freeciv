@@ -17,7 +17,7 @@
     begin                : June 30 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+**********************************************************************/
 
 #ifndef FC__WIDGET_H
 #define FC__WIDGET_H
@@ -38,7 +38,7 @@
 #define MAX_ID			0xFFFF
 
 /* Widget Types */
-enum widget_type {			/* allow 64 widgets type */
+enum widget_type {		/* allow 64 widgets type */
   WT_BUTTON	 = 4,		/* Button with Text (not use !!!)
 				   ( can be transparent ) */
   WT_I_BUTTON	 = 8,		/* Button with TEXT and ICON
@@ -108,7 +108,7 @@ struct CONTAINER {
 struct SMALL_DLG;
 struct ADVANCED_DLG;
 struct CHECKBOX;
-  
+
 struct widget {
   struct widget *next;
   struct widget *prev;
@@ -132,28 +132,28 @@ struct widget {
     struct widget *widget;
     void *ptr;
   } data;
-  
+
   union {
     struct CHECKBOX *cbox;
     struct SMALL_DLG *small_dlg;
     struct ADVANCED_DLG *adv_dlg;
     void *ptr;
   } private_data;
-  
+
   Uint32 state_types_flags;	/* "packed" widget info */
 
-  SDL_Rect size;		/* size.w and size.h are the size of widget   
+  SDL_Rect size;		/* size.w and size.h are the size of widget
 				   size.x and size.y are the draw pozitions. */
-  
+
   SDL_Rect area;                /* position and size of the area the widget resides in */
-  
+
   SDL_Keycode key;              /* key aliased with this widget */
   Uint16 mod;			/* SHIFT, CTRL, ALT, etc */
   Uint16 ID;			/* ID in widget list */
 
-  int (*action) (struct widget *);	/* default callback action */  
+  int (*action) (struct widget *);	/* default callback action */
 
-  void (*set_area) (struct widget *pwidget, SDL_Rect area);  
+  void (*set_area) (struct widget *pwidget, SDL_Rect area);
   void (*set_position) (struct widget *pwidget, int x, int y);
   void (*resize) (struct widget *pwidget, int w, int h);
   void (*draw_frame) (struct widget *pwidget);
@@ -177,7 +177,7 @@ struct SMALL_DLG {
 struct ADVANCED_DLG {
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList;/* window */
-    
+
   struct widget *pBeginActiveWidgetList;
   struct widget *pEndActiveWidgetList;
   struct widget *pActiveWidgetList; /* first seen widget */
@@ -192,7 +192,7 @@ enum scan_direction {
 void add_to_gui_list(Uint16 ID, struct widget *pGUI);
 void del_widget_pointer_from_gui_list(struct widget *pGUI);
 void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock);
-  
+
 bool is_this_widget_first_on_list(struct widget *pGUI);
 void move_widget_to_front_of_gui_list(struct widget *pGUI);
 
@@ -203,7 +203,7 @@ struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y
 struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_Keysym key);
 
 struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16 ID,
-                                       enum scan_direction direction);
+                                          enum scan_direction direction);
 
 struct widget *get_widget_pointer_form_main_list(Uint16 ID);
 
@@ -220,13 +220,13 @@ struct widget *get_widget_pointer_form_main_list(Uint16 ID);
 do {								\
   struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
   set_wstate(____pGUI, FC_WS_NORMAL);				\
-} while(0)
+} while (FALSE)
 
 #define disable(ID)						\
 do {								\
   struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
   set_wstate(____pGUI , FC_WS_DISABLED);				\
-} while(0)
+} while (FALSE)
 
 #define show(ID)	\
   clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
@@ -245,44 +245,52 @@ void redraw_widget_info_label(SDL_Rect *area);
 /* Widget */
 void set_wstate(struct widget *pWidget, enum widget_state state);
 enum widget_state get_wstate(const struct widget *pWidget);
-  
+
 void set_wtype(struct widget *pWidget, enum widget_type type);
 enum widget_type get_wtype(const struct widget *pWidget);
-  
+
 void set_wflag(struct widget *pWidget, enum widget_flag flag);
 void clear_wflag(struct widget *pWidget, enum widget_flag flag);
-  
+
 enum widget_flag get_wflags(const struct widget *pWidget);
 
-static inline void widget_set_area(struct widget *pwidget, SDL_Rect area) {
+static inline void widget_set_area(struct widget *pwidget, SDL_Rect area)
+{
   pwidget->set_area(pwidget, area);
 }
 
-static inline void widget_set_position(struct widget *pwidget, int x, int y) {
+static inline void widget_set_position(struct widget *pwidget, int x, int y)
+{
   pwidget->set_position(pwidget, x, y);
 }
 
-static inline void widget_resize(struct widget *pwidget, int w, int h) {
+static inline void widget_resize(struct widget *pwidget, int w, int h)
+{
   pwidget->resize(pwidget, w, h);
 }
 
-static inline int widget_redraw(struct widget *pWidget) {
+static inline int widget_redraw(struct widget *pWidget)
+{
   return pWidget->redraw(pWidget);
 }
 
-static inline void widget_draw_frame(struct widget *pwidget) {
+static inline void widget_draw_frame(struct widget *pwidget)
+{
   pwidget->draw_frame(pwidget);
 }
 
-static inline void widget_mark_dirty(struct widget *pwidget) {
+static inline void widget_mark_dirty(struct widget *pwidget)
+{
   pwidget->mark_dirty(pwidget);
 }
 
-static inline void widget_flush(struct widget *pwidget) {
+static inline void widget_flush(struct widget *pwidget)
+{
   pwidget->flush(pwidget);
 }
 
-static inline void widget_undraw(struct widget *pwidget) {
+static inline void widget_undraw(struct widget *pwidget)
+{
   pwidget->undraw(pwidget);
 }
 
@@ -293,12 +301,12 @@ void refresh_widget_background(struct widget *pWidget);
 #define FREEWIDGET(pWidget)					\
 do {								\
   widget_free(&pWidget);                                        \
-} while(0)
+} while (FALSE)
 
 #define draw_frame_inside_widget_on_surface(pWidget , pDest)		\
 do {                                                                    \
   draw_frame(pDest, pWidget->size.x, pWidget->size.y, pWidget->size.w, pWidget->size.h);  \
-} while(0);
+} while (FALSE);
 
 #define draw_frame_inside_widget(pWidget)				\
 	draw_frame_inside_widget_on_surface(pWidget , pWidget->dst->surface)
@@ -308,32 +316,32 @@ do {                                                                    \
   draw_frame(pDest, pWidget->size.x - pTheme->FR_Left->w, pWidget->size.y - pTheme->FR_Top->h, \
              pWidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
              pWidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
-} while(0);
+} while (FALSE);
 
 #define draw_frame_around_widget(pWidget)				\
 	draw_frame_around_widget_on_surface(pWidget , pWidget->dst->surface)
 
 /* Group */
 Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
-		    const struct widget *pEndGroupWidgetList,
-		    int add_to_update);
+                    const struct widget *pEndGroupWidgetList,
+                    int add_to_update);
 
 void undraw_group(struct widget *pBeginGroupWidgetList,
                   struct widget *pEndGroupWidgetList);
-		    
+
 void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
-			     const struct widget *pEndGroupWidgetList,
-			     Sint16 Xrel, Sint16 Yrel);
+                             const struct widget *pEndGroupWidgetList,
+                             Sint16 Xrel, Sint16 Yrel);
 void del_group_of_widgets_from_gui_list(struct widget *pBeginGroupWidgetList,
-					struct widget *pEndGroupWidgetList);
+                                        struct widget *pEndGroupWidgetList);
 void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
-				     struct widget *pEndGroupWidgetList);
+                                     struct widget *pEndGroupWidgetList);
 
 void set_group_state(struct widget *pBeginGroupWidgetList,
-		     struct widget *pEndGroupWidgetList, enum widget_state state);
+                     struct widget *pEndGroupWidgetList, enum widget_state state);
 
 void show_group(struct widget *pBeginGroupWidgetList,
-		struct widget *pEndGroupWidgetList);
+                struct widget *pEndGroupWidgetList);
 
 void hide_group(struct widget *pBeginGroupWidgetList,
 		struct widget *pEndGroupWidgetList);
@@ -344,30 +352,30 @@ void group_set_area(struct widget *pBeginGroupWidgetList,
 
 /* Window Group */
 void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
-				 struct widget *pEndGroupWidgetList);
+                                 struct widget *pEndGroupWidgetList);
 
 bool select_window_group_dialog(struct widget *pBeginWidgetList,
                                 struct widget *pWindow);
 bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
-			     struct widget *pEndGroupWidgetList);
+                              struct widget *pEndGroupWidgetList);
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow);
-				      
+
 int setup_vertical_widgets_position(int step,
-	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
-				struct widget *pBegin, struct widget *pEnd);
+                                    Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
+                                    struct widget *pBegin, struct widget *pEnd);
 
 #define del_widget_from_gui_list(__pGUI)	\
 do {						\
   del_widget_pointer_from_gui_list(__pGUI);	\
   FREEWIDGET(__pGUI);				\
-} while(0)
+} while (FALSE)
 
 #define del_ID_from_gui_list(ID)				\
 do {								\
   struct widget *___pTmp = get_widget_pointer_form_main_list(ID);	\
   del_widget_pointer_from_gui_list(___pTmp);			\
   FREEWIDGET(___pTmp);						\
-} while(0)
+} while (FALSE)
 
 #define move_ID_to_front_of_gui_list(ID)	\
 	move_widget_to_front_of_gui_list(       \
@@ -379,7 +387,7 @@ do {									\
 					   pEndGroupWidgetList);	\
   pBeginGroupWidgetList = NULL;						\
   pEndGroupWidgetList = NULL;						\
-} while(0)
+} while (FALSE)
 
 #define enable_group(pBeginGroupWidgetList, pEndGroupWidgetList)	\
 	set_group_state(pBeginGroupWidgetList, 				\
@@ -391,18 +399,18 @@ do {									\
 
 /* Advanced Dialog */
 bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
-				      struct widget *pNew_Widget,
-				      struct widget *pAdd_Dock, bool dir,
-					Sint16 start_x, Sint16 start_y);
-				      
+                                               struct widget *pNew_Widget,
+                                               struct widget *pAdd_Dock, bool dir,
+                                               Sint16 start_x, Sint16 start_y);
+
 bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
-  						struct widget *pWidget);
+                                                 struct widget *pWidget);
 
 /* misc */
 SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
                                Uint16 Width, Uint16 High);
 void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
-		Uint16 w, Uint16 h);
+                Uint16 w, Uint16 h);
 
 #include "widget_button.h"
 #include "widget_checkbox.h"

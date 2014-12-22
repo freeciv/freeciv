@@ -27,4 +27,4 @@
 void popup_connection_dialog(bool lan_scan);
 void popup_join_game_dialog(void);
 
-#endif				/* FC__CONNECTDLG_H */
+#endif /* FC__CONNECTDLG_H */

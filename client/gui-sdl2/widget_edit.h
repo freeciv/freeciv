@@ -21,9 +21,9 @@ enum Edit_Return_Codes {
   ED_FORCE_EXIT = 4
 };
 
-#define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags)                                                                 \
-	create_edit(pBackground, pDest,                                 \
-		    create_str16_from_char(pCharString, iPtsize), \
+#define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags) \
+	create_edit(pBackground, pDest,                                                 \
+		    create_str16_from_char(pCharString, iPtsize),                       \
 		    length, flags)
 
 #define create_edit_from_unichars(pBackground, pDest, pUniChar, pUniCharSize, iPtsize, length, flags) \
@@ -32,8 +32,8 @@ enum Edit_Return_Codes {
 #define edit(pEdit) edit_field(pEdit)
 
 struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
-			SDL_String16 *pString16, int length,
-			Uint32 flags);
+                           SDL_String16 *pString16, int length,
+                           Uint32 flags);
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);
 int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y);
 

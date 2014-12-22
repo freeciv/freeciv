@@ -19,7 +19,7 @@
 #define FC__THEMESPEC_H
 
 /* utility */
-#include "log.h"                /* enum log_level */
+#include "log.h" /* enum log_level */
 
 /* client */
 #include "options.h"
@@ -28,7 +28,7 @@
 #include "themebackgrounds.h"
 #include "themecolors.h"
 
-struct sprite;			/* opaque; gui-dep */
+struct sprite; /* opaque; gui-dep */
 
 struct theme;
 
@@ -54,7 +54,7 @@ struct theme_color_system;
 struct theme_color_system *theme_get_color_system(const struct theme *t);
 
 struct theme_background_system;
-struct theme_background_system *theme_get_background_system(const struct theme *t);  
+struct theme_background_system *theme_get_background_system(const struct theme *t);
 
 char *themespec_gfx_filename(const char *gfx_filename);
 

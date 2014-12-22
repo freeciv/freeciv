@@ -16,21 +16,20 @@
 
 /* ICON */
 void set_new_icon_theme(struct widget *pIcon_Widget,
-			SDL_Surface *pNew_Theme);
+                        SDL_Surface *pNew_Theme);
 SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon);
 struct widget *create_themeicon(SDL_Surface *pIcon_theme,
-			  struct gui_layer *pDest ,Uint32 flags);
+                                struct gui_layer *pDest, Uint32 flags);
 SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme,
-				    Uint8 state);
+                                    Uint8 state);
 int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
-			 struct gui_layer *pDest, Sint16 start_x,
-			 Sint16 start_y);
+                         struct gui_layer *pDest, Sint16 start_x,
+                         Sint16 start_y);
 int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y);
 
 /* ICON2 */
 void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
-			  bool free_old_theme);
+                         bool free_old_theme);
 struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest, Uint32 flags);
-
 
 #endif /* FC__WIDGET_ICON_H */

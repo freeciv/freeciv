@@ -21,4 +21,4 @@ void diplomacy_dialog_done(void);
 
 void popup_diplomacy_dialog(struct player *pPlayer);
 
-#endif				/* FC__DIPLODLG_H */
+#endif /* FC__DIPLODLG_H */

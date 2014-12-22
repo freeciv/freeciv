@@ -17,4 +17,4 @@
 #include "spaceshipdlg_g.h"
 
 
-#endif				/* FC__SPACESHIPDLG_H */
+#endif /* FC__SPACESHIPDLG_H */

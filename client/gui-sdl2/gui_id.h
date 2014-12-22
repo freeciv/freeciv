@@ -17,7 +17,7 @@
     begin                : Mon Jul 15 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+**********************************************************************/
 
 #ifndef FC__SDL2_GUI_ID_H
 #define FC__SDL2_GUI_ID_H

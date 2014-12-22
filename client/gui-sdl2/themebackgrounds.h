@@ -43,7 +43,7 @@ enum theme_background {
   BACKGROUND_UNITSREP,
   BACKGROUND_USERPASSWDDLG,
   BACKGROUND_WLDLG,
-  
+
   BACKGROUND_LAST
 };
 
@@ -51,7 +51,7 @@ struct theme_background_system;
 struct theme;
 
 SDL_Surface *theme_get_background(const struct theme *t, enum theme_background background);
-        
+
 /* Functions used by the theme to allocate the background system. */
 struct theme_background_system *theme_background_system_read(struct section_file *file);
 

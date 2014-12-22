@@ -21,4 +21,4 @@ void intel_dialog_done(void);
 void popdown_intel_dialog(struct player *p);
 void popdown_intel_dialogs(void);
 
-#endif				/* FC__INTELDLG_H */
+#endif /* FC__INTELDLG_H */

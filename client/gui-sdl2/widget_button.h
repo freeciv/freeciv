@@ -33,10 +33,12 @@
 				flags)
 
 struct widget *create_icon_button(SDL_Surface *pIcon,
-	  struct gui_layer *pDest, SDL_String16 *pString, Uint32 flags);
+                                  struct gui_layer *pDest, SDL_String16 *pString,
+                                  Uint32 flags);
 
 struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
-		struct gui_layer *pDest, SDL_String16 *pString, Uint32 flags);
+                                       struct gui_layer *pDest, SDL_String16 *pString,
+                                       Uint32 flags);
 
 int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y);
 int draw_ibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y);

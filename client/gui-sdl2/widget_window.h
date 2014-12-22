@@ -21,7 +21,7 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
                                       SDL_String16 *pTitle, Uint32 flags);
 
 int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
-		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
+                  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
 
 bool move_window(struct widget *pWindow);
 

@@ -20,4 +20,4 @@ void update_city_cma_dialog(void);
 void popup_city_cma_dialog(struct city *pCity);
 void popdown_city_cma_dialog(void);
 
-#endif
+#endif /* FC__SDL_CMA_H */

@@ -17,7 +17,7 @@
     begin                : Mon Jul 08 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+**********************************************************************/
 
 #ifndef FC__UNISTRING_H
 #define FC__UNISTRING_H
@@ -28,7 +28,7 @@
 size_t unistrlen(const Uint16 *pUniString);
 Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString);
 Uint16 *unistrcat(Uint16 *pToUniString,
-		  const Uint16 *pFromUniString);
+                  const Uint16 *pFromUniString);
 Uint16 *unistrdup(const Uint16 *pUniString);
 Uint16 **create_new_line_unistrings(const Uint16 *pUnistring);
 

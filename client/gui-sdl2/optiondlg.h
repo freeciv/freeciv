@@ -17,7 +17,7 @@
     begin                : Sun Aug 11 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+**********************************************************************/
 
 #ifndef FC__OPTIONDLG_H
 #define FC__OPTIONDLG_H
@@ -35,4 +35,4 @@ void disable_options_button(void);
 
 int optiondlg_callback(struct widget *pButton);
 
-#endif				/* FC__OPTIONDLG_H */
+#endif /* FC__OPTIONDLG_H */

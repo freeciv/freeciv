@@ -19,4 +19,4 @@
 void popdown_goto_airlift_dialog(void);
 void popup_airlift_dialog(void);
 
-#endif				/* FC__GOTODLG_H */
+#endif /* FC__GOTODLG_H */

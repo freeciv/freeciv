@@ -23,4 +23,4 @@ void popup_impr_info(Impr_type_id impr);
 void popup_unit_info(Unit_type_id unit_id);
 void popup_gov_info(int gov);
 
-#endif				/* FC__HELPDLG_H */
+#endif /* FC__HELPDLG_H */

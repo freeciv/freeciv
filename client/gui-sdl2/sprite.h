@@ -28,4 +28,4 @@ struct sprite {
 /* If m_sprite is NULL, return a dummy (small, empty) surface instead */
 #define GET_SURF(m_sprite)  ((m_sprite) ? GET_SURF_REAL(m_sprite) : Main.dummy)
 
-#endif				/* FC__SPRITE_H */
+#endif /* FC__SPRITE_H */

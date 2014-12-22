@@ -17,7 +17,7 @@
     begin                : Thu Sep 05 2002
     copyright            : (C) 2002 by Rafał Bursig
     email                : Rafał Bursig <bursig@poczta.fm>
- *********************************************************************/
+**********************************************************************/
 
 #ifndef FC__MAPCTRL_H
 #define FC__MAPCTRL_H

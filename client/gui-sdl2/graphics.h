@@ -19,19 +19,23 @@
 			 : (C) 2002 by Rafał Bursig
     email                : Michael Speck <kulkanie@gmx.net>
 			 : Rafał Bursig <bursig@poczta.fm>
- **********************************************************************/
+**********************************************************************/
 
 #ifndef FC__GRAPHICS_H
 #define FC__GRAPHICS_H
 
+/* SDL */
 #include <SDL2_gfxPrimitives.h>
 #include <SDL2_rotozoom.h>
 
+/* client */
 #include "graphics_g.h"
+
+/* gui-sdl2 */
 #include "canvas.h"
 #include "gui_main.h"
 
-#define	RECT_LIMIT	80
+#define	RECT_LIMIT  80
 /* #define	HAVE_MMX1 */
 
 /* DUFFS LOOPs come from SDL lib (LGPL) */
@@ -180,7 +184,7 @@
 #endif
 
 struct gui_layer;
-  
+
 struct main {
   int rects_count;		/* update rect. array counter */
   int guis_count;		/* gui buffers array counter */
@@ -212,14 +216,14 @@ void gui_layer_destroy(struct gui_layer **gui_layer);
 
 struct gui_layer *get_gui_layer(SDL_Surface *surface);
 
-struct gui_layer *add_gui_layer(int width, int height);  
+struct gui_layer *add_gui_layer(int width, int height);
 void remove_gui_layer(struct gui_layer *gui_layer);
 
 void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect);
 
 /* ---------- */
 
-int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
+int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
               SDL_Surface *dst, SDL_Rect *dstrect,
               unsigned char alpha_mod);
 
@@ -243,7 +247,7 @@ SDL_Surface *copy_surface(SDL_Surface *src);
 bool correct_black(SDL_Surface *pSrc);
 
 int blit_entire_src(SDL_Surface *pSrc,
-		    SDL_Surface *pDest, Sint16 iDest_x, Sint16 iDest_y);
+                    SDL_Surface *pDest, Sint16 iDest_x, Sint16 iDest_y);
 
 int center_main_window_on_screen(void);
 
@@ -295,10 +299,10 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
 
 /* ================================================================= */
 
-SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
-			   Uint16 new_height, int smooth);
+SDL_Surface *ResizeSurface(const SDL_Surface *pSrc, Uint16 new_width,
+                           Uint16 new_height, int smooth);
 
-SDL_Surface *ResizeSurfaceBox(const SDL_Surface * pSrc,
+SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
                               Uint16 new_width, Uint16 new_height, int smooth,
                               bool scale_up, bool absolute_dimensions);
 
@@ -309,10 +313,10 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
   create_surf_with_format(Main.mainsurf->format, w , h, f)
 
 #define map_rgba(format, color) \
-        SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
+  SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
 
 #define crop_rect_from_screen(rect) \
-		crop_rect_from_surface(Main.screen, &rect)
+  crop_rect_from_surface(Main.screen, &rect)
 
 /* free surface with check and clear pointer */
 #define FREESURFACE(ptr)		\
@@ -321,7 +325,7 @@ do {					\
     SDL_FreeSurface(ptr);		\
     ptr = NULL;				\
   }					\
-} while(0)
+} while (FALSE)
 
 /*
  *  lock surface
@@ -331,7 +335,7 @@ do {				\
   if (SDL_MUSTLOCK(pSurf)) {	\
     SDL_LockSurface(pSurf);	\
   }				\
-} while(0)
+} while (FALSE)
 
 
 /*
@@ -342,12 +346,12 @@ do {					\
     if (SDL_MUSTLOCK(pSurf)) {		\
 	SDL_UnlockSurface(pSurf);	\
     }                                   \
-} while(0)
+} while (FALSE)
 
 /*
  *	lock screen surface
  */
-#define lock_screen()	lock_surf(Main.screen)
+#define lock_screen() lock_surf(Main.screen)
 
 /*
  *	unlock screen surface
@@ -383,7 +387,7 @@ do {									  \
 			*((Uint32 *)buf_ptr) = pixel;			\
 		break;							\
     }									\
-} while(0)
+} while (FALSE)
 
 /* Blend the RGB values of two pixels based on a source alpha value */
 #define ALPHA_BLEND(sR, sG, sB, A, dR, dG, dB)	\
@@ -391,7 +395,7 @@ do {						\
 	dR = (((sR-dR)*(A))>>8)+dR;		\
 	dG = (((sG-dG)*(A))>>8)+dG;		\
 	dB = (((sB-dB)*(A))>>8)+dB;		\
-} while(0)
+} while (FALSE)
 
 #define ALPHA_BLEND128(sR, sG, sB, dR, dG, dB)	\
 do {						\
@@ -402,6 +406,6 @@ do {						\
   dR = (__Dst >> 16) & 0xFF;			\
   dG = (__Dst >> 8 ) & 0xFF;			\
   dB = (__Dst      ) & 0xFF;			\
-} while(0)
+} while (FALSE)
 
-#endif				/* FC__GRAPHICS_H */
+#endif /* FC__GRAPHICS_H */

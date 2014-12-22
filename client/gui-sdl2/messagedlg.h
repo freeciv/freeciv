@@ -17,4 +17,4 @@
 
 /* nothing to add */
 
-#endif				/* FC__MESSAGEDLG_H */
+#endif /* FC__MESSAGEDLG_H */

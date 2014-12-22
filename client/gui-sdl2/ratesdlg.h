@@ -17,4 +17,4 @@
 
 /* nothing to add */
 
-#endif				/* FC__RATESDLG_H */
+#endif /* FC__RATESDLG_H */
