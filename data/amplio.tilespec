@@ -58,6 +58,7 @@ minimap_intro_file = "misc/radar"
 ; tag is used).
 files =
   "amplio/terrain1.spec",
+  "amplio/maglev.spec",
   "amplio/terrain2.spec",
   "amplio/ocean.spec",
   "amplio/water.spec",
@@ -207,8 +208,9 @@ mine_sprite = "tx.oil_mine"
 
 [roads]
 styles =
-    { "name", "style"
-      "road.road",  "AllSeparate"
-      "road.rail",  "AllSeparate"
-      "road.river", "River"
+    { "name",        "style"
+      "road.road",   "AllSeparate"
+      "road.rail",   "AllSeparate"
+      "road.maglev", "AllSeparate"
+      "road.river",  "River"
     }
