@@ -165,7 +165,7 @@ void qtg_ui_main(int argc, char *argv[])
     if (!options.gui_qt_migrated_from_2_5) {
       migrate_options_from_2_5();
     }
-    
+
     freeciv_qt = new fc_client();
     freeciv_qt->main(qapp);
   }

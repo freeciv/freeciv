@@ -103,6 +103,9 @@ fc_client::fc_client() : QMainWindow()
   init();
 }
 
+/****************************************************************************
+  Initializes layouts for all pages
+****************************************************************************/
 void fc_client::init()
 {
   central_wdg = new QWidget;
@@ -165,7 +168,7 @@ void fc_client::init()
   connect(switch_page_mapper, SIGNAL(mapped( int)),
                 this, SLOT(switch_page(int)));
   setVisible(true);
-  
+
 }
 
 /****************************************************************************

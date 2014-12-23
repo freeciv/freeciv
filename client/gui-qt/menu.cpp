@@ -1332,11 +1332,17 @@ void mr_menu::slot_show_units_report()
   units_report_dialog_popup(false);
 }
 
+/***************************************************************************
+  Slot for showing nations report
+***************************************************************************/
 void mr_menu::slot_show_nations()
 {
   popup_players_dialog(false);
 }
 
+/***************************************************************************
+  Slot for showing cities report
+***************************************************************************/
 void mr_menu::slot_show_cities()
 {
   city_report_dialog_popup(false);
