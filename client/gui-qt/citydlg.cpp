@@ -1099,6 +1099,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   ::city_dlg_created = true;
 }
 
+/****************************************************************************
+  Updates buttons/widgets which should be enabled/disabled
+****************************************************************************/
 void city_dialog::update_disabled()
 {
   if (NULL == client.conn.playing

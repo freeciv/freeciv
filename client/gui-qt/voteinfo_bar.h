@@ -51,7 +51,7 @@ public slots:
 };
 
 /***************************************************************************
-  xvote class used for displaying vote bar in PAGE START
+  xvote class used for displaying vote bar in PAGE GAME
 ***************************************************************************/
 class xvote : public pregamevote
 {

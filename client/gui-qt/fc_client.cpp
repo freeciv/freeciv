@@ -108,6 +108,9 @@ fc_client::fc_client() : QMainWindow()
   init();
 }
 
+/****************************************************************************
+  Initializes layouts for all pages
+****************************************************************************/
 void fc_client::init()
 {
   central_wdg = new QWidget;
