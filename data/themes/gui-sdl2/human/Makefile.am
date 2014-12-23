@@ -10,29 +10,29 @@ pkgdata_DATA =          	\
 	bg.png			\
 	bg2.png			\
 	city.png		\
-	city.spec		\
+	city.tspec		\
 	city_fist.png		\
-	city_fist.spec		\
+	city_fist.tspec		\
 	colors.themespec	\
 	dip_icons.png		\
-	dip_icons.spec		\
+	dip_icons.tspec		\
 	icons.png		\
-	icons.spec		\
+	icons.tspec		\
 	intro.png		\
 	options_bg.png		\
 	small_theme_buttons.png		\
-	small_theme_buttons.spec	\
+	small_theme_buttons.tspec	\
 	tech_tree.png		\
-	tech_tree.spec		\
+	tech_tree.tspec		\
 	theme.themespec		\
 	theme_boxs.png		\
-	theme_boxs.spec		\
+	theme_boxs.tspec		\
 	theme_buttons.png	\
-	theme_buttons.spec	\
+	theme_buttons.tspec	\
 	theme_orders_buttons.png	\
-	theme_orders_buttons.spec	\
+	theme_orders_buttons.tspec	\
 	theme_scrolls.png	\
-	theme_scrolls.spec	\
+	theme_scrolls.tspec	\
 	world.png
 
 EXTRA_DIST = $(pkgdata_DATA)

@@ -47,7 +47,7 @@
 
 #include "themespec.h"
 
-#define THEMESPEC_CAPSTR "+Freeciv-2.3-themespec duplicates_ok"
+#define THEMESPEC_SDL2_CAPSTR "+Freeciv-2.6-sdl2-themespec duplicates_ok"
 /*
  * Themespec capabilities acceptable to this program:
  *
@@ -59,7 +59,7 @@
  *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+Freeciv-2.3-spec"
+#define SPEC_SDL2_CAPSTR "+Freeciv-2.6-sdl2-spec"
 /*
  * Individual spec file capabilities acceptable to this program:
  * +Freeciv-2.3-spec  -  basic format for Freeciv versions 2.3.x; required
@@ -492,7 +492,7 @@ static void ensure_big_sprite(struct specfile *sf)
   }
 
   if (!check_themespec_capabilities(file, "spec",
-                                    SPEC_CAPSTR, sf->file_name)) {
+                                    SPEC_SDL2_CAPSTR, sf->file_name)) {
     exit(EXIT_FAILURE);
   }
 
@@ -525,7 +525,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
     exit(EXIT_FAILURE);
   }
   if (!check_themespec_capabilities(file, "spec",
-                                    SPEC_CAPSTR, sf->file_name)) {
+                                    SPEC_SDL2_CAPSTR, sf->file_name)) {
     exit(EXIT_FAILURE);
   }
 
@@ -730,7 +730,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   }
 
   if (!check_themespec_capabilities(file, "themespec",
-                                    THEMESPEC_CAPSTR, fname)) {
+                                    THEMESPEC_SDL2_CAPSTR, fname)) {
     secfile_destroy(file);
     FC_FREE(fname);
     theme_free(t);

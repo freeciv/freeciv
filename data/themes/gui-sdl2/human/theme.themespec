@@ -1,7 +1,7 @@
 [themespec]
 
 ; Format and options of this themespec file:
-options = "+Freeciv-2.3-themespec"
+options = "+Freeciv-2.6-sdl2-themespec"
 
 ; A simple name for the themespec specified by this file:
 name = "human"
@@ -22,16 +22,16 @@ default_font_size = 18
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files = 
-  "themes/gui-sdl2/human/city.spec",
-  "themes/gui-sdl2/human/city_fist.spec",
-  "themes/gui-sdl2/human/dip_icons.spec",
-  "themes/gui-sdl2/human/icons.spec",
-  "themes/gui-sdl2/human/small_theme_buttons.spec",
-  "themes/gui-sdl2/human/tech_tree.spec",
-  "themes/gui-sdl2/human/theme_boxs.spec",
-  "themes/gui-sdl2/human/theme_buttons.spec",  
-  "themes/gui-sdl2/human/theme_orders_buttons.spec",  
-  "themes/gui-sdl2/human/theme_scrolls.spec"
+  "themes/gui-sdl2/human/city.tspec",
+  "themes/gui-sdl2/human/city_fist.tspec",
+  "themes/gui-sdl2/human/dip_icons.tspec",
+  "themes/gui-sdl2/human/icons.tspec",
+  "themes/gui-sdl2/human/small_theme_buttons.tspec",
+  "themes/gui-sdl2/human/tech_tree.tspec",
+  "themes/gui-sdl2/human/theme_boxs.tspec",
+  "themes/gui-sdl2/human/theme_buttons.tspec",  
+  "themes/gui-sdl2/human/theme_orders_buttons.tspec",  
+  "themes/gui-sdl2/human/theme_scrolls.tspec"
 
 ; Include background image definitions
 *include "themes/gui-sdl2/human/backgrounds.themespec"
