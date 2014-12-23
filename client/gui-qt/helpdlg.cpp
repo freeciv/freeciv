@@ -94,6 +94,8 @@ void popdown_help_dialog(void)
 {
   if (help_dlg) {
     help_dlg->setVisible(false);
+    help_dlg->deleteLater();
+    help_dlg = NULL;
   }
 }
 
