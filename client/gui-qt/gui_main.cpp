@@ -197,6 +197,8 @@ void qtg_options_extra_init()
                           apply_help_font);
   option_var_set_callback(gui_qt_font_help_text,
                           apply_help_font);
+  option_var_set_callback(gui_qt_font_help_title,
+                          apply_help_font);
 #undef option_var_set_callback
 }
 

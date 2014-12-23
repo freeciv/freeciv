@@ -278,6 +278,7 @@ struct client_options
   char gui_qt_font_help_label[512];
   char gui_qt_font_help_link[512];
   char gui_qt_font_help_text[512];
+  char gui_qt_font_help_title[512];
   char gui_qt_font_chatline[512];
   char gui_qt_font_beta_label[512];
   char gui_qt_font_small[512];

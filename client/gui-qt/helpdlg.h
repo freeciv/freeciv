@@ -17,6 +17,7 @@
 // Qt
 #include <QDialog>
 #include <QHash>
+#include <QList>
 
 extern "C" {
 #include "helpdlg_g.h"
@@ -58,8 +59,16 @@ class help_widget : public QWidget
   QTextBrowser *text_browser;
   QFrame *box_wdg;
   QLabel *title_label;
+  QWidget* main_widget;
+  QList<QLabel *> label_list;
 
   void setup_ui();
+  void set_main_widget(QWidget *main_widget);
+  QWidget *create_progress_widget(const QString& label,
+                                  int progress,
+                                  int min, int max,
+                                  const QString& value = QString()
+                                 );
 
   void set_topic_other(const help_item *item, const char *title);
 
@@ -81,6 +90,9 @@ public:
 
 public slots:
   void set_topic(const help_item *item);
+
+public:
+  struct unit_type *uclass_max_values(struct unit_class *uclass);
 };
 
 void update_help_fonts();

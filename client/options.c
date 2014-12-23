@@ -261,9 +261,10 @@ struct client_options options = {
   .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_notify_label = "Monospace,8,-1,5,75,0,0,0,0,0",
   .gui_qt_font_spaceship_label = "Monospace,8,-1,5,50,0,0,0,0,0",
-  .gui_qt_font_help_label = "Sans Serif,10,-1,5,75,0,0,0,0,0",
+  .gui_qt_font_help_label = "Sans Serif,9,-1,5,50,0,0,0,0,0",
   .gui_qt_font_help_link = "Sans Serif,9,-1,5,50,0,0,0,0,0",
   .gui_qt_font_help_text = "Monospace,8,-1,5,50,0,0,0,0,0",
+  .gui_qt_font_help_title = "Sans Serif,10,-1,5,75,0,0,0,0,0",
   .gui_qt_font_chatline = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_beta_label = "Sans Serif,10,-1,5,50,1,0,0,0,0",
   .gui_qt_font_small = "Sans Serif,9,-1,5,50,0,0,0,0,0",
@@ -2716,10 +2717,10 @@ static struct client_option client_options[] = {
                   "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_help_label, "help_label",
                   N_("Help Label"),
-                  N_("This font is used to display the help headers in the "
+                  N_("This font is used to display the help labels in the "
                      "help window."),
                   COC_FONT, GUI_QT,
-                  "Sans Serif,10,-1,5,75,0,0,0,0,0", font_changed_callback),
+                  "Sans Serif,9,-1,5,50,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_help_link, "help_link",
                   N_("Help Link"),
                   N_("This font is used to display the help links in the "
@@ -2732,6 +2733,12 @@ static struct client_option client_options[] = {
                      "the help window."),
                   COC_FONT, GUI_QT,
                   "Monospace,8,-1,5,50,0,0,0,0,0", font_changed_callback),
+  GEN_FONT_OPTION(gui_qt_font_help_title, "help_title",
+                  N_("Help Title"),
+                  N_("This font is used to display the help title in "
+                     "the help window."),
+                  COC_FONT, GUI_QT,
+                  "Sans Serif,10,-1,5,75,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_chatline, "chatline",
                   N_("Chatline Area"),
                   N_("This font is used to display the text in the "
