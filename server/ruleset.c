@@ -2308,7 +2308,7 @@ static bool load_terrain_names(struct section_file *file)
      * EC_BASE caused_by list. Have to get them by extra_type_by_rule_name() */
     for (idx = 0; idx < nval; idx++) {
       const char *sec_name = section_name(section_list_get(sec, idx));
-      const char *base_name = secfile_lookup_str(file, "%s.name", sec_name);
+      const char *base_name = secfile_lookup_str(file, "%s.extra", sec_name);
       struct extra_type *pextra = extra_type_by_rule_name(base_name);
 
       if (pextra != NULL) {
@@ -2352,7 +2352,7 @@ static bool load_terrain_names(struct section_file *file)
      * EC_ROAD caused_by list. Have to get them by extra_type_by_rule_name() */
     for (idx = 0; idx < nval; idx++) {
       const char *sec_name = section_name(section_list_get(sec, idx));
-      const char *road_name = secfile_lookup_str(file, "%s.name", sec_name);
+      const char *road_name = secfile_lookup_str(file, "%s.extra", sec_name);
       struct extra_type *pextra = extra_type_by_rule_name(road_name);
 
       if (pextra != NULL) {

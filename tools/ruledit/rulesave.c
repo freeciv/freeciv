@@ -1736,7 +1736,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     fc_snprintf(path, sizeof(path), "base_%d", sect_idx++);
 
     secfile_insert_str(sfile, extra_rule_name(base_extra_get(pbase)),
-                       "%s.name", path);
+                       "%s.extra", path);
 
     secfile_insert_str(sfile, base_gui_type_name(pbase->gui_type),
                        "%s.gui_type", path);
@@ -1771,7 +1771,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     fc_snprintf(path, sizeof(path), "road_%d", sect_idx++);
 
     secfile_insert_str(sfile, extra_rule_name(road_extra_get(proad)),
-                       "%s.name", path);
+                       "%s.extra", path);
 
     secfile_insert_int(sfile, proad->move_cost, "%s.move_cost", path);
 

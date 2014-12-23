@@ -1005,11 +1005,7 @@ Brown River increases also tile's shield production by 1.\
 ;
 ; Base types:
 ;
-; name                    = translatable name as seen by user
-; rule_name               = (optional) name for savegames, rulesets etc; if not
-;                           present, 'name' is used. Since the name used in
-;                           savegames must not change, use this when renaming a
-;                           base after a ruleset has been released.
+; extra                   = name of the extra this base section is part of
 ; gui_type                = How gui should handle this base.
 ;                           Fortress/Airbase/Other
 ; border_sq               = Base will claim land ownership up to this radius,
@@ -1026,17 +1022,17 @@ Brown River increases also tile's shield production by 1.\
 ; */ <-- avoid gettext warnings
 
 [base_tower]
-name          = _("Tower")
+extra         = "Tower"
 gui_type      = "Fortress"
 flags         = "NoAggressive", "NoStackDeath"
 
 [base_fortress]
-name          = _("Force Fortress")
+extra         = "Force Fortress"
 gui_type      = "Fortress"
 flags         = "NoAggressive"
 
 [base_antigrav_base]
-name         = _("Antigrav Base")
+extra        = "Antigrav Base"
 gui_type     = "Airbase"
 flags        = "ParadropFrom", "NoAggressive"
 
@@ -1045,11 +1041,7 @@ flags        = "ParadropFrom", "NoAggressive"
 ;
 ; Road types:
 ;
-; name                    = translatable name as seen by user
-; rule_name               = (optional) name for savegames, rulesets etc; if not
-;                           present, 'name' is used. Since the name used in
-;                           savegames must not change, use this when renaming a
-;                           road type after a ruleset has been released.
+; extra                   = name of the extra this road section is part of
 ; first_reqs              = additional requirements to build the first part of
 ;                           the road, when none of the adjacent tiles have any
 ;                           integrating roads (see effects.ruleset and
@@ -1098,7 +1090,7 @@ flags        = "ParadropFrom", "NoAggressive"
 ; */ <-- avoid gettext warnings
 
 [road_road]
-name           = _("Road")
+extra          = "Road"
 move_cost      = 2
 food_incr      = 0
 shield_incr    = 0
@@ -1109,7 +1101,7 @@ trade_bonus    = 0
 compat_special = "Road"
 
 [road_highway]
-name           = _("Highway")
+extra          = "Highway"
 move_cost      = 1
 food_incr      = 0
 shield_incr    = 0
@@ -1120,7 +1112,7 @@ trade_bonus    = 0
 compat_special = "Railroad"
 
 [road_maglev]
-name           = _("Maglev")
+extra          = "Maglev"
 move_cost      = 0
 food_incr      = 0
 shield_incr    = 0
@@ -1131,7 +1123,7 @@ trade_bonus    = 0
 compat_special = "None"
 
 [road_tunnel]
-name           = _("Tunnel")
+extra          = "Tunnel"
 move_cost      = -1
 move_mode      = "FastAlways"
 food_incr      = 0
@@ -1143,7 +1135,7 @@ trade_bonus    = 0
 compat_special = "None"
 
 [road_burrow_tube]
-name           = _("Burrow Tube")
+extra          = "Burrow Tube"
 first_reqs     =
     { "type", "name", "range"
       "TerrainClass", "Land", "CAdjacent"
@@ -1158,7 +1150,7 @@ trade_bonus    = 0
 compat_special = "None"
 
 [road_green_river]
-name           = _("Green River")
+extra          = "Green River"
 move_cost      = 2
 move_mode      = "Cardinal"
 food_incr_const  = 1
@@ -1167,7 +1159,7 @@ compat_special = "River"
 flags          = "River", "UnrestrictedInfra"
 
 [road_brown_river]
-name           = _("Brown River")
+extra          = "Brown River"
 move_cost      = 2
 move_mode      = "Cardinal"
 shield_incr_const = 1

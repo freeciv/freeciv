@@ -406,10 +406,7 @@ identifier  = "g"
 ;
 ; Base types:
 ;
-; name                    = Name of the base type.
-; buildable               = Can base be built? Defaults to TRUE
-; reqs 	                  = requirements to build the base (see effects.ruleset
-;                           and README.effects for help on requirements)
+; extra                   = name of the extra this base section is part of
 ; gui_type                = How gui should handle this base.
 ;                           Fortress/Airbase/Other
 ; border_sq               = Base will claim land ownership up to this radius,
@@ -429,18 +426,14 @@ identifier  = "g"
 ; example
 
 ;[base_gbase]
-;name         = _("Generic Base")
+;extra        = "Generic Base"
 ;gui_type     = "Fortress"
 
 ; /* <-- avoid gettext warnings
 ;
 ; Road types:
 ;
-; name                    = translatable name as seen by user
-; rule_name               = (optional) name for savegames, rulesets etc; if not
-;                           present, 'name' is used. Since the name used in
-;                           savegames must not change, use this when renaming a
-;                           road type after a ruleset has been released.
+; extra                   = name of the extra this road section is part of
 ; first_reqs              = additional requirements to build the first part of
 ;                           the road, when none of the adjacent tiles have any
 ;                           integrating roads (see effects.ruleset and
@@ -489,7 +482,7 @@ identifier  = "g"
 ; */ <-- avoid gettext warnings
 
 ; [road_groad]
-; name           = _("Generic Road")
+; extra          = "Generic Road"
 ; move_cost      = 1
 ; food_incr      = 0
 ; shield_incr    = 0
