@@ -2049,6 +2049,8 @@ void popdown_all_game_dialogs(void)
   for (i = 0; i < cd_list.count(); i++) {
       cd_list[i]->close();
   }
+
+  popdown_help_dialog();
 }
 
 /**************************************************************************
