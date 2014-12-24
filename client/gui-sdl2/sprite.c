@@ -53,7 +53,7 @@ const char **gfx_fileextensions(void)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 ****************************************************************************/
-struct sprite * load_gfxfile(const char *filename)
+struct sprite *load_gfxfile(const char *filename)
 {
   SDL_Surface *pNew = NULL;
   SDL_Surface *pBuf = NULL;
@@ -123,19 +123,25 @@ struct sprite *crop_sprite(struct sprite *source,
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
 {
   SDL_Surface *mypixbuf = NULL;
-  /*  SDL_Surface *pmask = NULL; */
 
   fc_assert_ret_val(width > 0, NULL);
   fc_assert_ret_val(height > 0, NULL);
   fc_assert_ret_val(pcolor != NULL, NULL);
 
   mypixbuf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
-                                  0x00ff0000, 0x0000ff00, 0x000000ff,
-                                  0xff000000);
-#if 0
-  pmask = SDL_DisplayFormatAlpha(mypixbuf);
-  SDL_FillRect(mypixbuf, NULL, map_rgba(pmask->format, *pcolor->color));
-#endif /* 0 */
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN
+                0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
+#else
+                0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
+#endif
+  );
+
+  SDL_FillRect(mypixbuf, NULL,
+               SDL_MapRGBA(mypixbuf->format,
+                           pcolor->color->r,
+                           pcolor->color->g,
+                           pcolor->color->b,
+                           255));
 
   return ctor_sprite(mypixbuf);
 }
@@ -164,7 +170,7 @@ void free_sprite(struct sprite *s)
 /**************************************************************************
   Create a sprite struct and fill it with SDL_Surface pointer
 **************************************************************************/
-static struct sprite * ctor_sprite(SDL_Surface *pSurface)
+static struct sprite *ctor_sprite(SDL_Surface *pSurface)
 {
   struct sprite *result = fc_malloc(sizeof(struct sprite));
 

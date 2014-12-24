@@ -38,6 +38,7 @@
 #include "tilespec.h"
 
 /* gui-sdl2 */
+#include "colors.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "themebackgrounds.h"
@@ -3390,4 +3391,35 @@ void load_intro_gfx(void)
 void free_intro_radar_sprites(void)
 {
   /* nothing */
+}
+
+/**************************************************************************
+  Create colored frame
+**************************************************************************/
+void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
+                  Sint16 width, Sint16 height,
+                  SDL_Color *pcolor)
+{
+  struct color gsdl2_color = { .color = pcolor };
+  struct sprite *vertical = create_sprite(1, height, &gsdl2_color);
+  struct sprite *horizontal = create_sprite(width, 1, &gsdl2_color);
+  SDL_Rect tmp,dst = { left, top, 0, 0 };
+
+  tmp = dst;
+  alphablit(vertical->psurface, NULL, dest, &tmp, 255);
+
+  dst.x += width - 1;
+  tmp = dst;
+  alphablit(vertical->psurface, NULL, dest, &tmp, 255);
+
+  dst.x = left;
+  tmp = dst;
+  alphablit(horizontal->psurface, NULL, dest, &tmp, 255);
+
+  dst.y += height - 1;
+  tmp = dst;
+  alphablit(horizontal->psurface, NULL, dest, &tmp, 255);
+
+  free_sprite(horizontal);
+  free_sprite(vertical);
 }

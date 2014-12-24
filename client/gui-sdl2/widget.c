@@ -1119,9 +1119,9 @@ int setup_vertical_widgets_position(int step,
 void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
-  SDL_Surface *pTmpLeft = 
+  SDL_Surface *pTmpLeft =
     ResizeSurface(pTheme->FR_Left, pTheme->FR_Left->w, h, 1);
-  SDL_Surface *pTmpRight = 
+  SDL_Surface *pTmpRight =
     ResizeSurface(pTheme->FR_Right, pTheme->FR_Right->w, h, 1);
   SDL_Surface *pTmpTop =
     ResizeSurface(pTheme->FR_Top, w, pTheme->FR_Top->h, 1);

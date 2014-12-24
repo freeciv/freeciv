@@ -75,7 +75,6 @@ static int redraw_icon2(struct widget *pIcon)
 {
   int ret;
   SDL_Rect dest;
-  /* Uint32 state; */
 
   ret = (*baseclass_redraw)(pIcon);
   if (ret != 0) {
@@ -90,40 +89,41 @@ static int redraw_icon2(struct widget *pIcon)
     return -4;
   }
 
-  /*  state = get_wstate(pIcon); */
-
   dest.x = pIcon->size.x;
   dest.y = pIcon->size.y;
   dest.w = pIcon->theme->w;
-  dest.h = pIcon->theme->h;
+  dest.h = pIcon->theme->h;  
 
-#if 0
-  if (state == FC_WS_SELECTED) {
-    putframe(pIcon->dst->surface,
-             dest.x + 1, dest.y + 1,
-             dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-             get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+  switch (get_wstate(pIcon)) {
+  case FC_WS_SELECTED:
+    create_frame(pIcon->dst->surface,
+                 dest.x + 1, dest.y + 1,
+                 dest.w + adj_size(2), dest.h + adj_size(2),
+                 get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+    break;
+
+  case FC_WS_PRESSED:
+    create_frame(pIcon->dst->surface,
+                 dest.x + 1, dest.y + 1,
+                 dest.w + adj_size(2), dest.h + adj_size(2),
+                 get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+
+    create_frame(pIcon->dst->surface,
+                 dest.x, dest.y,
+                 dest.w + adj_size(3), dest.h + adj_size(3),
+                 get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
+    break;
+
+  case FC_WS_DISABLED:
+    create_frame(pIcon->dst->surface,
+                 dest.x + 1, dest.y + 1,
+                 dest.w + adj_size(2), dest.h + adj_size(2),
+                 get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
+    break;
+  case FC_WS_NORMAL:
+    /* No frame by default */
+    break;
   }
-
-  if (state == FC_WS_PRESSED) {
-    putframe(pIcon->dst->surface,
-             dest.x + 1, dest.y + 1,
-             dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-             get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
-
-    putframe(pIcon->dst->surface,
-             dest.x, dest.y,
-             dest.x + dest.w + adj_size(3), dest.y + dest.h + adj_size(3),
-             get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
-  }
-
-  if (state == FC_WS_DISABLED) {
-    putframe(pIcon->dst->surface,
-             dest.x + 1, dest.y + 1,
-             dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-             get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
-  }
-#endif /* 0 */
 
   dest.x += adj_size(2);
   dest.y += adj_size(2);

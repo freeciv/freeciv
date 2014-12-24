@@ -278,6 +278,10 @@ static inline void putframe(SDL_Renderer *pDest,
                  ((Uint32) pcolor->a));
 }
 
+void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
+                  Sint16 right, Sint16 bottom,
+                  SDL_Color *pcolor);
+
 /* SDL */
 void init_sdl(int f);
 void quit_sdl(void);
