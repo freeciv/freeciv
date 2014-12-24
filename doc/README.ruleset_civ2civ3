@@ -177,7 +177,7 @@ Civil war %       99       90       80       70       60       40       30      
 Empire Size       0        /14      /10      /12      /20      /16      /32      /24      /28      
 Special          +NoUpkeep +Veteran +75%Gold +50%Gold +Tithes  +Bribe  +Brib/Sub +Subvert +NoUpkeep
                  -50%Lux  (Land/Mil)(Palace) (Palace) -50%Sci  -Revolt -Rev/Sen  -Senate  (Cost=1) 
-                 -NoTaxes                             +Fanatic         +Partisan          +Partisan 
+                 -NoTaxes                             +Fanatic         +Partisan +Luxury  +Partisan 
                                                                                 
 Base Corruption   0%       30%      20%      10%      15%      25%      5%       0%       30%      
 Corrup by Dist *  1        1        1        1        1        1        1        0        0        
@@ -200,10 +200,11 @@ Waste by Dist **  1        1        1        1        1        1        1       
 
 - The bonus "+1 Trade" under Republic and Democracy does not affect oceanic tiles. This way, oceanic tiles are more even to land tiles under any government.
 - Republic receives Revolution_When_Unhappy and has unbribable units, Federation receives Has_senate and has unincitable cities (Democracy receives all them).
-- Tribal government increases by half the chance of land units getting the next veteran level after a battle. They are tribal warriors, maintained with Shields instead of Gold.
+- Spies built under Communism or Federation will start at the first veteran level. Federation grants +1 Luxury per city.
 - Under Communism you do not pay upkeep for buildings that cost 1 Gold. Communism cancels the bonus from Mysticism and Theology (to Temples and Cathedrals).
 - Under Fundamentalism you receive extra Gold from Tithes, but -50% to Science.
 - The Bonus to production at Palace (under Despotism and Monarchy) switched from Shields to Gold.
+- Tribal government increases by half the chance of land units getting the next veteran level after a battle. They are tribal warriors, maintained with Shields instead of Gold.
 
 TIP: There is some hurry to get Monarchy or Republic (or to build Pyramids), in order to avoid the initial penalty to output per tile. However, the Corruption and Waste are evened for all governments, so there are no big differences, and every government could be used at any technological age. The choice depends on the role of your civilization.
 
@@ -458,6 +459,7 @@ Changes:
 - Added Fort and Airstrip bases, as pre-requisite for Fortress and Airbase, in order to prevent the construction of full bases in one single turn. Airbases and Fortresses can be built on river tiles again.
 - Introduced Maglev, available with Superconductors, that allows unlimited movement for Land units (except Big Land and Merchant classes).
 - Wonders become obsolete by techs researched by the owner (not affected by the researches of other players).
+- A little boost to Federation (+1 Luxury per city, so it is easier to celebrate), and Fundamentalism (-50% to science, instead of total science output halved).
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations can be finished in 1 or 2 steps, and all effects from Global warming can be reversibly with terraforming.

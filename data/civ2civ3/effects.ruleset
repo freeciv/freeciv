@@ -1617,8 +1617,18 @@ reqs    =
       "Nation", "Pirate", "Player", FALSE
     }
 
+[effect_lux_federation]
+type    = "Output_Add_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Federation", "Player"
+      "CityTile", "Center", "Local"
+      "OutputType", "Luxury", "Local"
+    }
+
 [effect_bad_lux_anarchy]
-type    = "Output_Bonus_2"
+type    = "Output_Bonus"
 value   = -50
 reqs    =
     { "type", "name", "range"
@@ -1627,7 +1637,7 @@ reqs    =
     }
 
 [effect_bad_sci_fundamentalism]
-type    = "Output_Bonus_2"
+type    = "Output_Bonus"
 value   = -50
 reqs    =
     { "type", "name", "range"
