@@ -1140,8 +1140,9 @@ void real_menus_update(void)
 	set_wflag(pOrder_Road_Button, WF_HIDDEN);
       }
       
-	/* unit_can_est_trade_route_here(pUnit) */
-      if (pCity && unit_has_type_flag(pUnit, UTYF_TRADE_ROUTE)
+      /* unit_can_est_trade_route_here(pUnit) */
+      if (pCity && utype_can_do_action(unit_type(pUnit),
+                                       ACTION_TRADE_ROUTE)
           && (pHomecity = game_city_by_number(pUnit->homecity))
           && can_cities_trade(pHomecity, pCity)) {
 	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity);
