@@ -36,7 +36,7 @@ extern bool keyboardless_goto_active;
 extern struct tile *keyboardless_goto_start_tile;
 
 void anchor_selection_rectangle(int canvas_x, int canvas_y);
-void update_selection_rectangle(int canvas_x, int canvas_y);
+void update_selection_rectangle(float canvas_x, float canvas_y);
 void redraw_selection_rectangle(void);
 void cancel_selection_rectangle(void);
 

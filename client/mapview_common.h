@@ -34,7 +34,7 @@ extern "C" {
 struct canvas_store;		/* opaque type, real type is gui-dep */
 
 struct view {
-  int gui_x0, gui_y0;
+  float gui_x0, gui_y0;
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
   int store_width, store_height;
@@ -249,19 +249,19 @@ void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 void unqueue_mapview_updates(bool write_to_screen);
 
 void map_to_gui_vector(const struct tileset *t, float zoom,
-		       int *gui_dx, int *gui_dy, int map_dx, int map_dy);
-bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
+		       float *gui_dx, float *gui_dy, int map_dx, int map_dy);
+bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile);
 struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y);
 struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y);
 
-void get_mapview_scroll_window(int *xmin, int *ymin,
-			       int *xmax, int *ymax,
-			       int *xsize, int *ysize);
+void get_mapview_scroll_window(float *xmin, float *ymin,
+                               float *xmax, float *ymax,
+                               int *xsize, int *ysize);
 void get_mapview_scroll_step(int *xstep, int *ystep);
 void get_mapview_scroll_pos(int *scroll_x, int *scroll_y);
 void set_mapview_scroll_pos(int scroll_x, int scroll_y);
 
-void set_mapview_origin(int gui_x0, int gui_y0);
+void set_mapview_origin(float gui_x0, float gui_y0);
 struct tile *get_center_tile_mapcanvas(void);
 void center_tile_mapcanvas(struct tile *ptile);
 

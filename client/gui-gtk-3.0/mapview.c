@@ -580,7 +580,7 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
 **************************************************************************/
 void put_cross_overlay_tile(struct tile *ptile)
 {
-  int canvas_x, canvas_y;
+  float canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas), map_zoom,
@@ -633,7 +633,8 @@ void update_map_canvas_scrollbars(void)
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
-  int xmin, ymin, xmax, ymax, xsize, ysize, xstep, ystep;
+  float xmin, ymin, xmax, ymax;
+  int xsize, ysize, xstep, ystep;
 
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_step(&xstep, &ystep);

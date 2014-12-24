@@ -653,7 +653,8 @@ void gui_flush(void)
 void update_map_canvas_scrollbars(void)
 {
   float shown_h, top_h, shown_v, top_v;
-  int xmin, ymin, xmax, ymax, xsize, ysize;
+  float xmin, ymin, xmax, ymax;
+  int xsize, ysize;
   int scroll_x, scroll_y;
 
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
@@ -781,7 +782,7 @@ static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
 **************************************************************************/
 void put_cross_overlay_tile(struct tile *ptile)
 {
-  int canvas_x, canvas_y;
+  float canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(XtWindow(map_canvas), canvas_x, canvas_y,
@@ -796,7 +797,8 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 			     XtPointer percent_ptr)
 {
   float percent=*(float*)percent_ptr;
-  int xmin, ymin, xmax, ymax, xsize, ysize;
+  float xmin, ymin, xmax, ymax;
+  int xsize, ysize;
   int scroll_x, scroll_y;
 
   if (!can_client_change_view()) {

@@ -104,7 +104,7 @@ static void queue_mapview_tile_update(struct tile *ptile,
 
 /* Helper struct for drawing trade routes. */
 struct trade_route_line {
-  int x, y, width, height;
+  float x, y, width, height;
 };
 
 /* A trade route line might need to be drawn in two parts. */
@@ -192,7 +192,7 @@ void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
   resulting map vector may differ based on the origin of the gui vector.
 ****************************************************************************/
 void map_to_gui_vector(const struct tileset *t, float zoom,
-		       int *gui_dx, int *gui_dy, int map_dx, int map_dy)
+		       float *gui_dx, float *gui_dy, int map_dx, int map_dy)
 {
   if (tileset_is_isometric(t)) {
     /*
@@ -221,7 +221,7 @@ void map_to_gui_vector(const struct tileset *t, float zoom,
   directions.  gui(0,0) == map(0,0).
 ****************************************************************************/
 static void map_to_gui_pos(const struct tileset *t,
-			   int *gui_x, int *gui_y, int map_x, int map_y)
+			   float *gui_x, float *gui_y, int map_x, int map_y)
 {
   /* Since the GUI origin is the same as the map origin we can just do a
    * vector conversion. */
@@ -336,7 +336,7 @@ static void gui_to_map_pos(const struct tileset *t,
   parts of the code assume tileset_tile_width(tileset) and tileset_tile_height(tileset)
   to be even numbers.
 **************************************************************************/
-bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
+bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
 {
   int center_map_x, center_map_y, dx, dy, tile_x, tile_y;
 
@@ -421,9 +421,10 @@ struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y)
   but in GUI coordinates so that pixel accuracy is preserved.
 ****************************************************************************/
 static void normalize_gui_pos(const struct tileset *t,
-			      int *gui_x, int *gui_y)
+			      float *gui_x, float *gui_y)
 {
-  int map_x, map_y, nat_x, nat_y, gui_x0, gui_y0, diff_x, diff_y;
+  int map_x, map_y, nat_x, nat_y, diff_x, diff_y;
+  float gui_x0, gui_y0;
 
   /* Convert the (gui_x, gui_y) into a (map_x, map_y) plus a GUI offset
    * from this tile. */
@@ -456,12 +457,12 @@ static void normalize_gui_pos(const struct tileset *t,
   This corresponds to map_to_distance_vector but works for GUI coordinates.
 ****************************************************************************/
 static void gui_distance_vector(const struct tileset *t,
-				int *gui_dx, int *gui_dy,
-				int gui_x0, int gui_y0,
-				int gui_x1, int gui_y1)
+				float *gui_dx, float *gui_dy,
+				float gui_x0, float gui_y0,
+				float gui_x1, float gui_y1)
 {
   int map_x0, map_y0, map_x1, map_y1;
-  int gui_x0_base, gui_y0_base, gui_x1_base, gui_y1_base;
+  float gui_x0_base, gui_y0_base, gui_x1_base, gui_y1_base;
   int gui_x0_diff, gui_y0_diff, gui_x1_diff, gui_y1_diff;
   int map_dx, map_dy;
 
@@ -499,9 +500,10 @@ static void gui_distance_vector(const struct tileset *t,
   Move the GUI origin to the given normalized, clipped origin.  This may
   be called many times when sliding the mapview.
 ****************************************************************************/
-static void base_set_mapview_origin(int gui_x0, int gui_y0)
+static void base_set_mapview_origin(float gui_x0, float gui_y0)
 {
-  int old_gui_x0, old_gui_y0, dx, dy;
+  float old_gui_x0, old_gui_y0;
+  float dx, dy;
   const int width = mapview.width, height = mapview.height;
   int common_x0, common_x1, common_y0, common_y1;
   int update_x0, update_x1, update_y0, update_y1;
@@ -597,9 +599,10 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
   Adjust mapview origin values. Returns TRUE iff values are different from
   current mapview.
 ****************************************************************************/
-static bool calc_mapview_origin(int *gui_x0, int *gui_y0)
+static bool calc_mapview_origin(float *gui_x0, float *gui_y0)
 {
-  int xmin, xmax, ymin, ymax, xsize, ysize;
+  float xmin, ymin, xmax, ymax;
+  int xsize, ysize;
 
   /* Normalize (wrap) the mapview origin. */
   normalize_gui_pos(tileset, gui_x0, gui_y0);
@@ -626,7 +629,7 @@ static bool calc_mapview_origin(int *gui_x0, int *gui_y0)
 /****************************************************************************
   Change the mapview origin, clip it, and update everything.
 ****************************************************************************/
-void set_mapview_origin(int gui_x0, int gui_y0)
+void set_mapview_origin(float gui_x0, float gui_y0)
 {
   if (!calc_mapview_origin(&gui_x0, &gui_y0)) {
     return;
@@ -634,7 +637,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
 
   if (can_slide && options.smooth_center_slide_msec > 0) {
     int start_x = mapview.gui_x0, start_y = mapview.gui_y0;
-    int diff_x, diff_y;
+    float diff_x, diff_y;
     double timing_sec = (double)options.smooth_center_slide_msec / 1000.0, currtime;
     static struct timer *anim_timer;
     int frames = 0;
@@ -721,7 +724,8 @@ void set_mapview_origin(int gui_x0, int gui_y0)
   Note that scroll coordinates, not map coordinates, are used.  Currently
   these correspond to native coordinates.
 ****************************************************************************/
-void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
+void get_mapview_scroll_window(float *xmin, float *ymin,
+                               float *xmax, float *ymax,
 			       int *xsize, int *ysize)
 {
   int diff;
@@ -760,7 +764,7 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
   } else {
     /* Otherwise it's hard.  Very hard.  Impossible, in fact.  This is just
      * an approximation - a huge bounding box. */
-    int gui_x1, gui_y1, gui_x2, gui_y2, gui_x3, gui_y3, gui_x4, gui_y4;
+    float gui_x1, gui_y1, gui_x2, gui_y2, gui_x3, gui_y3, gui_x4, gui_y4;
     int map_x, map_y;
 
     NATIVE_TO_MAP_POS(&map_x, &map_y, 0, 0);
@@ -796,7 +800,7 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
     *ymax += (diff + 1) / 2;
   }
 
-  log_debug("x: %d<-%d->%d; y: %d<-%d->%d",
+  log_debug("x: %f<-%d->%f; y: %f<-%f->%d",
             *xmin, *xsize, *xmax, *ymin, *ymax, *ysize);
 }
 
@@ -850,7 +854,8 @@ struct tile *get_center_tile_mapcanvas(void)
 **************************************************************************/
 void center_tile_mapcanvas(struct tile *ptile)
 {
-  int gui_x, gui_y, tile_x, tile_y;
+  float gui_x, gui_y;
+  int tile_x, tile_y;
   static bool first = TRUE;
 
   if (first && can_slide) {
@@ -876,7 +881,7 @@ void center_tile_mapcanvas(struct tile *ptile)
 **************************************************************************/
 bool tile_visible_mapcanvas(struct tile *ptile)
 {
-  int dummy_x, dummy_y;		/* well, it needs two pointers... */
+  float dummy_x, dummy_y; /* well, it needs two pointers... */
 
   return tile_to_canvas_pos(&dummy_x, &dummy_y, ptile);
 }
@@ -894,8 +899,9 @@ bool tile_visible_mapcanvas(struct tile *ptile)
 **************************************************************************/
 bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
 {
-  int canvas_x, canvas_y;
-  int xmin, ymin, xmax, ymax, xsize, ysize, scroll_x, scroll_y;
+  float canvas_x, canvas_y;
+  float xmin, ymin, xmax, ymax;
+  int xsize, ysize, scroll_x, scroll_y;
   const int border_x = (tileset_is_isometric(tileset) ? tileset_tile_width(tileset) / 2 * map_zoom
 			: 2 * tileset_tile_width(tileset) * map_zoom);
   const int border_y = (tileset_is_isometric(tileset) ? tileset_tile_height(tileset) / 2 * map_zoom
@@ -1136,7 +1142,7 @@ void toggle_unit_color(struct unit *punit)
 ****************************************************************************/
 void put_nuke_mushroom_pixmaps(struct tile *ptile)
 {
-  int canvas_x, canvas_y;
+  float canvas_x, canvas_y;
   struct sprite *mysprite = get_nuke_explode_sprite(tileset);
   int width, height;
 
@@ -2065,7 +2071,7 @@ bool show_unit_orders(struct unit *punit)
 ****************************************************************************/
 void draw_segment(struct tile *src_tile, enum direction8 dir)
 {
-  int canvas_x, canvas_y, canvas_dx, canvas_dy;
+  float canvas_x, canvas_y, canvas_dx, canvas_dy;
 
   /* Determine the source position of the segment. */
   (void) tile_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
@@ -2106,7 +2112,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   const struct sprite_vector *anim = get_unit_explode_animation(tileset);
   const int num_tiles_explode_unit = sprite_vector_size(anim);
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
-  int canvas_x, canvas_y, i;
+  float canvas_x, canvas_y;
+  int i;
 
   set_units_in_combat(punit0, punit1);
 
@@ -2138,7 +2145,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   if (num_tiles_explode_unit > 0
       && tile_to_canvas_pos(&canvas_x, &canvas_y,
-			   unit_tile(losing_unit))) {
+                            unit_tile(losing_unit))) {
     refresh_unit_mapcanvas(losing_unit, unit_tile(losing_unit), FALSE, FALSE);
     unqueue_mapview_updates(FALSE);
     canvas_copy(mapview.tmp_store, mapview.store,
@@ -2213,8 +2220,8 @@ void move_unit_map_canvas(struct unit *punit,
 
   if (tile_visible_mapcanvas(src_tile)
       || tile_visible_mapcanvas(dest_tile)) {
-    int start_x, start_y;
-    int canvas_dx, canvas_dy;
+    float start_x, start_y;
+    float canvas_dx, canvas_dy;
     double timing_sec = (double)options.smooth_move_unit_msec / 1000.0, mytime;
 
     fc_assert(options.smooth_move_unit_msec > 0);
@@ -2624,9 +2631,10 @@ void unqueue_mapview_updates(bool write_to_screen)
       int i;
 
       for (i = 0; i < TILE_UPDATE_COUNT; i++) {
-	if (my_tile_updates[i]) {
-	  tile_list_iterate(my_tile_updates[i], ptile) {
-	    int x0, y0, x1, y1;
+        if (my_tile_updates[i]) {
+          tile_list_iterate(my_tile_updates[i], ptile) {
+            float x0, y0;
+            int x1, y1;
 
 	    (void) tile_to_canvas_pos(&x0, &y0, ptile);
 
@@ -3122,7 +3130,7 @@ bool map_canvas_resized(int width, int height)
     if (tile_size_changed) {
       if (center_tile != NULL) {
         int x0, y0;
-        int gui_x, gui_y;
+        float gui_x, gui_y;
 
         index_to_map_pos(&x0, &y0, tile_index(center_tile));
         map_to_gui_pos(tileset, &gui_x, &gui_y, x0, y0);
@@ -3371,7 +3379,8 @@ static void link_mark_draw(const struct link_mark *pmark)
   int height = tileset_tile_height(tileset) * map_zoom;
   int xd = width / 20, yd = height / 20;
   int xlen = width / 3, ylen = height / 3;
-  int canvas_x, canvas_y, x0, x1, y0, y1;
+  float canvas_x, canvas_y;
+  int x0, x1, y0, y1;
   struct tile *ptile = link_mark_tile(pmark);
   struct color *pcolor = link_mark_color(pmark);
 

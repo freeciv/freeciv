@@ -67,7 +67,7 @@ void generate_citydlg_dimensions(void)
 
   /* use maximum possible squared city radius. */
   city_map_iterate_without_index(max_rad, city_x, city_y) {
-    int canvas_x, canvas_y;
+    float canvas_x, canvas_y;
 
     map_to_gui_vector(tileset, 1.0, &canvas_x, &canvas_y, CITY_ABS2REL(city_x),
                       CITY_ABS2REL(city_y));
@@ -86,7 +86,7 @@ void generate_citydlg_dimensions(void)
   Converts a (cartesian) city position to citymap canvas coordinates.
   Returns TRUE if the city position is valid.
 **************************************************************************/
-bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x,
+bool city_to_canvas_pos(float *canvas_x, float *canvas_y, int city_x,
                         int city_y, int city_radius_sq)
 {
   const int width = get_citydlg_canvas_width();
@@ -152,7 +152,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
  * painter's algorithm and can be used for drawing. */
 #define citydlg_iterate(pcity, ptile, pedge, pcorner, _x, _y)		\
 {									\
-  int _x##_0, _y##_0, _tile_x, _tile_y;                                 \
+  float _x##_0, _y##_0;                                                 \
+  int _tile_x, _tile_y;                                                 \
   const int _x##_w = get_citydlg_canvas_width();			\
   const int _y##_h = get_citydlg_canvas_height();			\
   index_to_map_pos(&_tile_x, &_tile_y, tile_index((pcity)->tile));      \
@@ -160,7 +161,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
   map_to_gui_vector(tileset, 1.0, &_x##_0, &_y##_0, _tile_x, _tile_y);  \
   _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;			\
   _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;		\
-  log_debug("citydlg: %d,%d + %dx%d",					\
+  log_debug("citydlg: %f,%f + %dx%d",					\
 	    _x##_0, _y##_0, _x##_w, _y##_h);				\
 									\
   gui_rect_iterate_coord(_x##_0, _y##_0, _x##_w, _y##_h,		\

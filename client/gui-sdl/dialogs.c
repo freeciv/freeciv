@@ -100,14 +100,14 @@ static void popdown_unit_disband_dlg(void);
   Place window near given tile on screen.
 ***********************************************************************/
 void put_window_near_map_tile(struct widget *pWindow,
-  		int window_width, int window_height, struct tile *ptile)
+                              int window_width, int window_height,
+                              struct tile *ptile)
 {
-  int canvas_x, canvas_y;
+  float canvas_x, canvas_y;
   int window_x = 0, window_y = 0;
-  
+
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    if (canvas_x + tileset_tile_width(tileset) + window_width >= Main.screen->w)
-    {
+    if (canvas_x + tileset_tile_width(tileset) + window_width >= Main.screen->w) {
       if (canvas_x - window_width < 0) {
 	window_x = (Main.screen->w - window_width) / 2;
       } else {

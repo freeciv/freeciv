@@ -76,7 +76,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
 					   gpointer data)
 {
   struct tmousepos *mousepos = data;
-  gint x, y;
+  float x, y;
   struct tile *ptile;
 
   ptile = canvas_pos_to_tile(mousepos->x, mousepos->y);

@@ -32,7 +32,7 @@ int get_citydlg_canvas_width(void);
 int get_citydlg_canvas_height(void);
 void generate_citydlg_dimensions(void);
 
-bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x,
+bool city_to_canvas_pos(float *canvas_x, float *canvas_y, int city_x,
                         int city_y, int city_radius_sq);
 bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
                         int canvas_x, int canvas_y);

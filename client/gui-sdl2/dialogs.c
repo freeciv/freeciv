@@ -103,7 +103,7 @@ void put_window_near_map_tile(struct widget *pWindow,
                               int window_width, int window_height,
                               struct tile *ptile)
 {
-  int canvas_x, canvas_y;
+  float canvas_x, canvas_y;
   int window_x = 0, window_y = 0;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {

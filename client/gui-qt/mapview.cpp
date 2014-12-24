@@ -1446,7 +1446,7 @@ void pixmap_put_overlay_tile(int canvas_x, int  canvas_y,
 ****************************************************************************/
 void put_cross_overlay_tile(struct tile *ptile)
 {
-  int canvas_x, canvas_y;
+  float canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(canvas_x, canvas_y,
@@ -1808,7 +1808,7 @@ void info_tile::calc_size()
   int hh = tileset_tile_height(tileset);
   int fin_x;
   int fin_y;
-  int x, y;
+  float x, y;
   int w = 0;
 
   str = popup_info_text(itile);
