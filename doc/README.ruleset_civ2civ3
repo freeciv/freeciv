@@ -102,18 +102,18 @@ This way, no matter the tile where you place your city, you never waste any reso
 
 TILE      F/P/T  IRRIG(t)   MINE(t)    ROAD   MAX1   MAX2   TRANSFORM
 Deep      1/0/2  NO         NO         NO     2/0/2  2/1/2  No
-Ocean     1/0/2  NO         NO         NO     2/0/2  2/1/2  Swamp
-Lake     *2/0/2  NO         NO         NO     2/0/2  2/0/2  Swamp
-Swamp     1/0/0 *+1(5)     *NO         +0(4)  2/0/0  3/0/0 *Grass
-Glacier   0/0/0  NO         +1(10)     +0(4)  0/1/0  0/1/0  Tundra
-Tundra    1/0/0 *NO        *+1(5)     *+1(2)  1/1/1  1/1/1 *Plains
-Desert    0/1/0  +1(5)      +1(5)      +1(2)  0/2/1  0/3/1  Plains
-Plains    1/1/0  +1(5)      Forest(10) +1(2)  2/1/1  3/1/1  Grass
-Grassland 2/0/0  +1(5)      Forest(15) +1(2)  3/0/1  4/0/1 *Lake
-Jungle   *1/1/0 *Swamp(10) *NO         +0(4)  1/1/0  1/1/0 *Forest
-Forest    1/2/0  Plain(10) *Grass(15)  +0(4)  1/2/0  1/3/0 *Hills
-Hills    *1/1/0  +1(10)    *+2(10)     +0(4)  1/3/0  1/4/0  Plains
-Mountains 0/1/0  NO         +1(10)     +0(6)  0/2/0  0/3/0  Hills
+Ocean     1/0/2  NO         NO         NO     2/0/2  2/1/2  Grass(36)
+Lake     *2/0/2  NO         NO         NO     2/0/2  2/0/2  Grass(36)
+Swamp     1/0/0 *+1(5)     *NO         +0(4)  2/0/0  3/0/0 *Grass(24)
+Glacier   0/0/0  NO         +1(10)     +0(4)  0/1/0  0/1/0 *Lake(24)
+Tundra    1/0/0 *NO        *+1(5)     *+1(2)  1/1/1  1/1/1 *Plains(24)
+Desert    0/1/0  +1(5)      +1(5)      +1(2)  0/2/1  0/3/1  Plains(24)
+Plains    1/1/0  +1(5)      Forest(10) +1(2)  2/1/1  3/1/1 *Lake(36)
+Grassland 2/0/0  +1(5)      Forest(15) +1(2)  3/0/1  4/0/1 *Lake(36)
+Jungle   *1/1/0 *Swamp(10) *NO         +0(4)  1/1/0  1/1/0 *Forest(24)
+Forest    1/2/0  Plain(10) *Grass(15)  +0(4)  1/2/0  1/3/0 *Hills(24)
+Hills    *1/1/0  +1(10)    *+2(10)     +0(4)  1/3/0  1/4/0  Plains(24)
+Mountains 0/1/0  NO         +1(10)     +0(6)  0/2/0  0/3/0  Hills(36)
 
 F/P/T = Food/Production/Trade; (t) = turns
 MAX1 = irrigated/mined/roaded/harbour; MAX2 = farmland/railroad/offshore.
@@ -466,7 +466,7 @@ Terrain:
 - Allowed early transformation from Forest to Grassland, so it is possible to transform Grass->Forest->Plain, and also Plain->Forest->Grass, with same working time (25).
 - Restored Food output of Deep oceans, so Global warming does not affect Oceans that much. Now oceans transformed to deep ocean would only lose their specials.
 - Harbors and Offshore Platform can be built adjacent to any oceanic tile again (same as classic rules), so Global warming does not affect them.
-- Reduced irrigation times in Swamps and Jungles. They represent the drainage of wetlands.
+- Reduced irrigation times in Swamps. They represent the drainage of wetlands.
 - Re-enabled terraforming from Mountains to Hills, and from Grassland to Lake.
 It is still possible to transform any terrain to Hills by changing them to Forest first.
 - Deep ocean tiles must be mined in order to take advantage of the shield bonus from Offshore Platforms (buoys are no longer needed).
