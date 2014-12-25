@@ -6173,8 +6173,8 @@ static bool load_rulesetdir(const char *rsdir, bool act)
 
     script_server_init();
 
-    ok = openload_script_file("default", rsdir)
-      && openload_script_file("script", rsdir);
+    ok = openload_script_file("script", rsdir)
+      && openload_script_file("default", rsdir);
   }
 
   if (ok) {
