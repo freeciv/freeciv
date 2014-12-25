@@ -6601,17 +6601,17 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
   }
 
   if (ok) {
+    char **buffer = save_script ? &script_buffer : NULL;
+
     script_server_free();
 
     script_server_init();
 
-    ok = openload_script_file("default", rsdir, NULL);
+    ok = openload_script_file("script", rsdir, buffer);
   }
 
   if (ok) {
-    char **buffer = save_script ? &script_buffer : NULL;
-
-    ok = openload_script_file("script", rsdir, buffer);
+    ok = openload_script_file("default", rsdir, NULL);
   }
 
   if (ok && act) {
