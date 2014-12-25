@@ -340,6 +340,20 @@ const char *action_get_tool_tip(const int action_id,
 }
 
 /**************************************************************************
+  Get the unit type role corresponding to the ability to do action.
+**************************************************************************/
+int action_get_role(int action_id)
+{
+  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
+
+  fc_assert_msg(AAK_UNIT == action_get_actor_kind(action_id),
+                "Action %s isn't performed by a unit",
+                action_get_rule_name(action_id));
+
+  return action_id + L_LAST;
+}
+
+/**************************************************************************
   Create a new action enabler.
 **************************************************************************/
 struct action_enabler *action_enabler_new(void)

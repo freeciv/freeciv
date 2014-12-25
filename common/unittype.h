@@ -657,6 +657,7 @@ void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
                        void *data);
 
 void unit_type_action_cache_set(struct unit_type *ptype);
+void unit_type_action_cache_init(void);
 
 /* Initialization and iteration */
 void unit_classes_init(void);

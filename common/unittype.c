@@ -38,6 +38,8 @@
 
 #include "unittype.h"
 
+#define MAX_UNIT_ROLES L_LAST + ACTION_COUNT
+
 static struct unit_type unit_types[U_LAST];
 static struct unit_class unit_classes[UCL_LAST];
 /* the unit_types and unit_classes arrays are now setup in:
@@ -317,6 +319,16 @@ bool utype_can_do_action(const struct unit_type *putype,
 }
 
 /**************************************************************************
+  Return TRUE iff the unit type can perform the action corresponding to
+  the unit type role.
+**************************************************************************/
+static bool utype_can_do_action_role(const struct unit_type *putype,
+                                     const int role)
+{
+  return utype_can_do_action(putype, role - L_LAST);
+}
+
+/**************************************************************************
   Return TRUE iff units of this type can do hostile actions controlled by
   generalized (ruleset defined) action enablers.
 **************************************************************************/
@@ -462,6 +474,17 @@ void unit_type_action_cache_set(struct unit_type *ptype)
   unit_can_act_cache_set(ptype);
   unit_state_action_cache_set(ptype);
   local_dipl_rel_action_cache_set(ptype);
+}
+
+/**************************************************************************
+  Cache what unit types may be allowed do what actions, both at all and
+  when certain properties are true.
+**************************************************************************/
+void unit_type_action_cache_init(void)
+{
+  unit_type_iterate(u) {
+    unit_type_action_cache_set(u);
+  } unit_type_iterate_end;
 }
 
 /**************************************************************************
@@ -999,8 +1022,8 @@ and any "role" argument can also be a "flag".
 Unit order is in terms of the order in the units ruleset.
 **************************************************************************/
 static bool first_init = TRUE;
-static int n_with_role[L_LAST];
-static struct unit_type **with_role[L_LAST];
+static int n_with_role[MAX_UNIT_ROLES];
+static struct unit_type **with_role[MAX_UNIT_ROLES];
 
 /**************************************************************************
 Do the real work for role_unit_precalcs, for one role (or flag), given by i.
@@ -1037,7 +1060,7 @@ void role_unit_precalcs_free(void)
 {
   int i;
 
-  for (i = 0; i < L_LAST; i++) {
+  for (i = 0; i < MAX_UNIT_ROLES; i++) {
     free(with_role[i]);
     with_role[i] = NULL;
     n_with_role[i] = 0;
@@ -1053,7 +1076,7 @@ void role_unit_precalcs(void)
   int i;
 
   if (first_init) {
-    for (i = 0; i < L_LAST; i++) {
+    for (i = 0; i < MAX_UNIT_ROLES; i++) {
       with_role[i] = NULL;
       n_with_role[i] = 0;
     }
@@ -1067,6 +1090,9 @@ void role_unit_precalcs(void)
   for (i = L_FIRST; i < L_LAST; i++) {
     precalc_one(i, utype_has_role);
   }
+  for (i = L_LAST; i < MAX_UNIT_ROLES; i++) {
+    precalc_one(i, utype_can_do_action_role);
+  }
   first_init = FALSE;
 }
 
@@ -1076,7 +1102,8 @@ How many unit types have specified role/flag.
 int num_role_units(int role)
 {
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
-                    || (role >= L_FIRST && role < L_LAST), -1);
+                    || (role >= L_FIRST && role < L_LAST)
+                    || (role >= L_LAST && role < MAX_UNIT_ROLES), -1);
   fc_assert_ret_val(!first_init, -1);
   return n_with_role[role];
 }
@@ -1125,7 +1152,8 @@ Index -1 means (n-1), ie last one.
 struct unit_type *get_role_unit(int role, int index)
 {
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
-                    || (role >= L_FIRST && role < L_LAST), NULL);
+                    || (role >= L_FIRST && role < L_LAST)
+                    || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
   if (index==-1) {
     index = n_with_role[role]-1;
@@ -1144,7 +1172,8 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   int j;
 
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
-                    || (role >= L_FIRST && role < L_LAST), NULL);
+                    || (role >= L_FIRST && role < L_LAST)
+                    || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
   for(j=n_with_role[role]-1; j>=0; j--) {
@@ -1170,7 +1199,8 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
   int j;
 
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
-                    || (role >= L_FIRST && role < L_LAST), NULL);
+                    || (role >= L_FIRST && role < L_LAST)
+                    || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
   for(j = n_with_role[role]-1; j >= 0; j--) {
@@ -1194,7 +1224,8 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
   int j;
 
   fc_assert_ret_val((role >= 0 && role <= UTYF_LAST_USER_FLAG)
-                    || (role >= L_FIRST && role < L_LAST), NULL);
+                    || (role >= L_FIRST && role < L_LAST)
+                    || (role >= L_LAST && role < MAX_UNIT_ROLES), NULL);
   fc_assert_ret_val(!first_init, NULL);
 
   for(j = 0; j < n_with_role[role]; j++) {

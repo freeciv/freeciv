@@ -6556,6 +6556,9 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     /* Init nations we just loaded. */
     update_nations_with_startpos();
 
+    /* Needed by role_unit_precalcs(). */
+    unit_type_action_cache_init();
+
     /* Prepare caches we want to sanity check. */
     role_unit_precalcs();
     road_integrators_cache_init();
@@ -6623,7 +6626,6 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     } unit_class_iterate_end;
     unit_type_iterate(u) {
       u->unknown_move_cost = utype_unknown_move_cost(u);
-      unit_type_action_cache_set(u);
     } unit_type_iterate_end;
 
     /* Build advisors unit class cache corresponding to loaded rulesets */
