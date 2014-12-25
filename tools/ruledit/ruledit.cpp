@@ -47,6 +47,17 @@ int main(int argc, char **argv)
   enum log_level loglevel = LOG_NORMAL;
   int ui_options;
 
+  /* Load win32 post-crash debugger */
+#ifdef WIN32_NATIVE
+# ifndef NDEBUG
+  if (LoadLibrary("exchndl.dll") == NULL) {
+#  ifdef DEBUG
+    fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
+#  endif /* DEBUG */
+  }
+# endif /* NDEBUG */
+#endif /* WIN32_NATIVE */
+
   init_nls();
 
 #ifdef ENABLE_NLS
