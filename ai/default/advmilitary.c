@@ -1407,10 +1407,6 @@ void military_advisor_choose_build(struct ai_type *ait,
   /* It has to be AFTER assess_danger thanks to wallvalue. */
   our_def = assess_defense_quadratic(ait, pcity); 
 
-  if (pcity->id == ai->wonder_city && city_data->grave_danger == 0) {
-    return; /* Other cities can build our defenders, thank you! */
-  }
-
   dai_choose_diplomat_defensive(ait, pplayer, pcity, choice, our_def);
 
   if (pcity->feel[CITIZEN_UNHAPPY][FEELING_NATIONALITY]
