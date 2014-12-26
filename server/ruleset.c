@@ -5067,6 +5067,109 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       = secfile_lookup_bool_default(file, RS_DEFAULT_SLOW_INVASIONS,
                                     "global_unit_options.slow_invasions");
 
+    /* section: actions */
+    if (ok) {
+      const char *text;
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Poison City (3% chance of success). */
+          N_("%sPoison City%s"),
+          "actions.ui_name_posion_city");
+      sz_strlcpy(action_by_number(ACTION_SPY_POISON)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          N_("S%sabotage Enemy Unit%s"),
+          "actions.ui_name_sabotage_unit");
+      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_UNIT)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Bribe Enemy _Unit (3% chance of success). */
+          N_("Bribe Enemy %sUnit%s"),
+          "actions.ui_name_bribe_unit");
+      sz_strlcpy(action_by_number(ACTION_SPY_BRIBE_UNIT)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Sabotage City (3% chance of success). */
+          N_("%sSabotage City%s"),
+          "actions.ui_name_sabotage_city");
+      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_CITY)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Industria_l Sabotage (3% chance of success). */
+          N_("Industria%sl Sabotage%s"),
+          "actions.ui_name_targeted_sabotage_city");
+      sz_strlcpy(
+            action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY)->ui_name,
+            text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Incite a Re_volt (3% chance of success). */
+          N_("Incite a Re%svolt%s"),
+          "actions.ui_name_incite_city");
+      sz_strlcpy(action_by_number(ACTION_SPY_INCITE_CITY)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Establish _Embassy (100% chance of success). */
+          N_("Establish %sEmbassy%s"),
+          "actions.ui_name_establish_embassy");
+      sz_strlcpy(action_by_number(ACTION_ESTABLISH_EMBASSY)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Steal _Technology (3% chance of success). */
+          N_("Steal %sTechnology%s"),
+          "actions.ui_name_steal_tech");
+      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_TECH)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: In_dustrial Espionage (3% chance of success). */
+          N_("In%sdustrial Espionage%s"),
+          "actions.ui_name_targeted_steal_tech");
+      sz_strlcpy(action_by_number(ACTION_SPY_TARGETED_STEAL_TECH)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Investigate City (100% chance of success). */
+          N_("%sInvestigate City%s"),
+          "actions.ui_name_investigate_city");
+      sz_strlcpy(action_by_number(ACTION_SPY_INVESTIGATE_CITY)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Steal _Gold (100% chance of success). */
+          N_("Steal %sGold%s"),
+          "actions.ui_name_steal_gold");
+      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_GOLD)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Establish Trade _Route (100% chance of success). */
+          N_("Establish Trade %sRoute%s"),
+          "actions.ui_name_establish_trade_route");
+      sz_strlcpy(action_by_number(ACTION_TRADE_ROUTE)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Enter _Marketplace (100% chance of success). */
+          N_("Enter %sMarketplace%s"),
+          "actions.ui_name_enter_marketplace");
+      sz_strlcpy(action_by_number(ACTION_MARKETPLACE)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Help _build Wonder (100% chance of success). */
+          N_("Help %sbuild Wonder%s"),
+          "actions.ui_name_help_wonder");
+      sz_strlcpy(action_by_number(ACTION_HELP_WONDER)->ui_name,
+                 text);
+    }
+
     if (ok) {
       sec = secfile_sections_by_name_prefix(file,
                                             ACTION_ENABLER_SECTION_PREFIX);
@@ -6049,6 +6152,21 @@ static void send_ruleset_achievements(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send action ruleset information to the specified connections.
+**************************************************************************/
+static void send_ruleset_actions(struct conn_list *dest)
+{
+  struct packet_ruleset_action packet;
+
+  action_iterate(act) {
+    packet.id = act;
+    sz_strlcpy(packet.ui_name, action_by_number(act)->ui_name);
+
+    lsend_packet_ruleset_action(dest, &packet);
+  } action_iterate_end;
+}
+
+/**************************************************************************
   Send the action enabler ruleset information to the specified connections.
 **************************************************************************/
 static void send_ruleset_action_enablers(struct conn_list *dest)
@@ -6677,6 +6795,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_achievements(dest);
   send_ruleset_trade_routes(dest);
   send_ruleset_team_names(dest);
+  send_ruleset_actions(dest);
   send_ruleset_action_enablers(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);

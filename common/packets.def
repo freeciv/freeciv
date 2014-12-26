@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 245
+Max id: 246
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1624,6 +1624,12 @@ PACKET_RULESET_TRADE = 227; sc, lsend
   UINT16        trade_pct;
   TRI           cancelling;
   TR_BONUS_TYPE bonus_type;
+end
+
+PACKET_RULESET_ACTION = 246; sc, lsend
+  GEN_ACTION id;
+
+  STRING ui_name[MAX_LEN_NAME];
 end
 
 PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend

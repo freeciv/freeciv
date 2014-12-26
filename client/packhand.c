@@ -3463,6 +3463,18 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->flags = p->flags;
 }
 
+/**************************************************************************
+  Handle a packet about a particular action.
+**************************************************************************/
+void handle_ruleset_action(const struct packet_ruleset_action *p)
+{
+  struct action *act;
+
+  act = action_by_number(p->id);
+
+  sz_strlcpy(act->ui_name, p->ui_name);
+}
+
 /****************************************************************************
   Handle a packet about a particular action enabler.
 ****************************************************************************/
