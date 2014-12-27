@@ -3039,6 +3039,9 @@ static void game_load_internal(struct section_file *file)
     }
     game.scenario.players
       = secfile_lookup_bool_default(file, TRUE, "scenario.save_players");
+
+    /* Assume any scenario from pre-editor time handmade with special settings. */
+    game.scenario.handmade = TRUE;
   } else {
     game.scenario.is_scenario = FALSE;
   }

@@ -2603,3 +2603,12 @@ choice_dialog* fc_client::get_diplo_dialog()
   return opened_dialog;
 }
 
+/****************************************************************
+  Give a warning when user is about to edit scenario with manually
+  set properties.
+*****************************************************************/
+bool qtg_handmade_scenario_warning()
+{
+  /* Just tell the client common code to handle this. */
+  return false;
+}

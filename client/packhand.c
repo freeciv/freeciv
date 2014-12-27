@@ -1850,6 +1850,17 @@ void handle_game_info(const struct packet_game_info *pinfo)
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
+
+    if (pinfo->is_edit_mode && game.scenario.handmade) {
+      if (!handmade_scenario_warning()) {
+        /* Gui didn't handle this */
+        output_window_append(ftc_client,
+                             _("This scenario may have manually set properties the editor "
+                               "cannot handle."));
+        output_window_append(ftc_client,
+                             _("They won't be saved when scenario is saved from the editor."));
+      }
+    }
   }
 
   game.info = *pinfo;
@@ -2799,6 +2810,7 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   sz_strlcpy(game.scenario.description, packet->description);
   game.scenario.players = packet->players;
   game.scenario.startpos_nations = packet->startpos_nations;
+  game.scenario.handmade = packet->handmade;
 
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
 }

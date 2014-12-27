@@ -1814,6 +1814,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   STRING description[MAX_LEN_PACKET];
   BOOL   players;
   BOOL   startpos_nations;
+  BOOL   handmade;
 end
 
 PACKET_SAVE_SCENARIO = 181; cs, handle-per-conn, dsend

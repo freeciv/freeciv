@@ -2341,6 +2341,9 @@ static void sg_load_scenario(struct loaddata *loading)
     game.scenario.startpos_nations
       = secfile_lookup_bool_default(loading->file, FALSE,
                                     "scenario.startpos_nations");
+    game.scenario.handmade
+      = secfile_lookup_bool_default(loading->file, FALSE,
+                                    "scenario.handmade");
 
     sg_failure_ret(loading->server_state == S_S_INITIAL
                    || (loading->server_state == S_S_RUNNING
@@ -2380,6 +2383,10 @@ static void sg_save_scenario(struct savedata *saving)
   secfile_insert_bool(saving->file, game.scenario.players, "scenario.players");
   secfile_insert_bool(saving->file, game.scenario.startpos_nations,
                       "scenario.startpos_nations");
+  if (game.scenario.handmade) {
+    secfile_insert_bool(saving->file, game.scenario.handmade,
+                        "scenario.handmade");
+  }
 }
 
 /* =======================================================================

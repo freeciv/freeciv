@@ -1522,3 +1522,13 @@ void show_tileset_error(const char *msg)
 
   gtk_widget_destroy(dialog);
 }
+
+/****************************************************************
+  Give a warning when user is about to edit scenario with manually
+  set properties.
+*****************************************************************/
+bool handmade_scenario_warning(void)
+{
+  /* Just tell the client common code to handle this. */
+  return FALSE;
+}

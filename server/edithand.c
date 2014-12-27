@@ -1595,5 +1595,8 @@ void handle_save_scenario(struct connection *pc, const char *name)
     return;
   }
 
+  /* Client initiated scenario saving is not handmade */
+  game.scenario.handmade = FALSE;
+
   save_game(name, "Scenario", TRUE);
 }

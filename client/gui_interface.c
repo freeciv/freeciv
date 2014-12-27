@@ -23,6 +23,7 @@
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "connectdlg_g.h"
+#include "dialogs_g.h"
 #include "editgui_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
@@ -529,6 +530,14 @@ void popdown_city_dialog(struct city *pcity)
 void popdown_all_city_dialogs()
 {
   funcs.popdown_all_city_dialogs();
+}
+
+/**************************************************************************
+  Call handmade_scenario_warning callback
+**************************************************************************/
+bool handmade_scenario_warning()
+{
+  return funcs.handmade_scenario_warning();
 }
 
 /**************************************************************************

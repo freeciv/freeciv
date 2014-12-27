@@ -118,6 +118,7 @@ void qtg_real_city_dialog_popup(struct city *pcity);
 void qtg_real_city_dialog_refresh(struct city *pcity);
 void qtg_popdown_city_dialog(struct city *pcity);
 void qtg_popdown_all_city_dialogs();
+bool qtg_handmade_scenario_warning();
 void qtg_refresh_unit_city_dialogs(struct unit *punit);
 bool qtg_city_dialog_is_open(struct city *pcity);
 

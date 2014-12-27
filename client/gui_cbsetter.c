@@ -25,6 +25,7 @@
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "connectdlg_g.h"
+#include "dialogs_g.h"
 #include "editgui_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
@@ -108,6 +109,7 @@ void setup_gui_funcs()
   funcs->real_city_dialog_refresh = gui_real_city_dialog_refresh;
   funcs->popdown_city_dialog = gui_popdown_city_dialog;
   funcs->popdown_all_city_dialogs = gui_popdown_all_city_dialogs;
+  funcs->handmade_scenario_warning = gui_handmade_scenario_warning;
   funcs->refresh_unit_city_dialogs = gui_refresh_unit_city_dialogs;
   funcs->city_dialog_is_open = gui_city_dialog_is_open;
 

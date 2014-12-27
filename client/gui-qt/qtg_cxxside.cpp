@@ -95,6 +95,7 @@ void setup_gui_funcs()
   funcs->real_city_dialog_refresh = qtg_real_city_dialog_refresh;
   funcs->popdown_city_dialog = qtg_popdown_city_dialog;
   funcs->popdown_all_city_dialogs = qtg_popdown_all_city_dialogs;
+  funcs->handmade_scenario_warning = qtg_handmade_scenario_warning;
   funcs->refresh_unit_city_dialogs = qtg_refresh_unit_city_dialogs;
   funcs->city_dialog_is_open = qtg_city_dialog_is_open;
 
