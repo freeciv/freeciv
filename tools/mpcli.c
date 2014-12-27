@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 /* utility */
+#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -102,6 +103,25 @@ int main(int argc, char *argv[])
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
+
+  if (ui_options != -1) {
+    int i;
+
+    for (i = 1; i <= ui_options; i++) {
+      if (is_option("--help", argv[i])) {
+        fc_fprintf(stderr,
+                   _("This modpack installer does not support any specific options\n\n"));
+
+        /* TRANS: No full stop after the URL, could cause confusion. */
+        fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
+
+        ui_options = -1;
+      } else {
+        log_error(_("Unknown option '--' '%s'"), argv[i]);
+        ui_options = -1;
+      }
+    }
+  }
 
   if (ui_options != -1) {
     const char *rev_ver = fc_svn_revision();
