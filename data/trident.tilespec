@@ -201,8 +201,9 @@ mine_sprite = "tx.oil_mine"
 
 [roads]
 styles =
-    { "name", "style"
-      "road.road",  "ParityCombined"
-      "road.rail",  "ParityCombined"
-      "road.river", "River"
+    { "name",        "style"
+      "road.road",   "ParityCombined"
+      "road.rail",   "ParityCombined"
+      "road.maglev", "ParityCombined"
+      "road.river",  "River"
     }
