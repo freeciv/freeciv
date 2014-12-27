@@ -39,6 +39,9 @@
 
 #include "taicity.h"
 
+/* Task Want Multiplier */
+#define TWMP 100
+
 struct tai_worker_task_req
 {
   int city_id;
@@ -164,8 +167,8 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
           int value = adv_city_worker_act_get(pcity, cindex, act);
 
           if (tile_worked(ptile) == pcity) {
-            if (value - orig_value > worked.want) {
-              worked.want  = value - orig_value;
+            if ((value - orig_value) * TWMP > worked.want) {
+              worked.want  = TWMP * (value - orig_value);
               worked.ptile = ptile;
               worked.act   = act;
               worked.tgt   = NULL;
@@ -179,7 +182,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
           } else {
             if (value > orig_value && value > uw_max) {
               uw_max = value;
-              unworked.want  = value - orig_value;
+              unworked.want  = TWMP * (value - orig_value);
               unworked.ptile = ptile;
               unworked.act   = act;
               unworked.tgt   = NULL;
@@ -247,8 +250,8 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
         value += extra;
 
         if (tile_worked(ptile) == pcity) {
-          if (value - orig_value > worked.want) {
-            worked.want  = value - orig_value;
+          if ((value - orig_value) * TWMP > worked.want) {
+            worked.want  = TWMP * (value - orig_value);
             worked.ptile = ptile;
             worked.act   = ACTIVITY_GEN_ROAD;
             worked.tgt   = NULL;
@@ -262,7 +265,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
         } else {
           if (value > orig_value && value > uw_max) {
             uw_max = value;
-            unworked.want  = value - orig_value;
+            unworked.want  = TWMP * (value - orig_value);
             unworked.ptile = ptile;
             unworked.act   = ACTIVITY_GEN_ROAD;
             unworked.tgt   = NULL;
@@ -291,8 +294,8 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
         value = adv_city_worker_extra_get(pcity, cindex, pextra);
 
         if (tile_worked(ptile) == pcity) {
-          if (value - orig_value > worked.want) {
-            worked.want  = value - orig_value;
+          if ((value - orig_value) * TWMP > worked.want) {
+            worked.want  = TWMP * (value - orig_value);
             worked.ptile = ptile;
             worked.act   = ACTIVITY_BASE;
             worked.tgt   = NULL;
@@ -306,7 +309,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
         } else {
           if (value > orig_value && value > uw_max) {
             uw_max = value;
-            unworked.want  = value - orig_value;
+            unworked.want  = TWMP * (value - orig_value);
             unworked.ptile = ptile;
             unworked.act   = ACTIVITY_BASE;
             unworked.tgt   = NULL;
@@ -322,7 +325,7 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
   } city_tile_iterate_end;
 
   if (worked.ptile == NULL
-      || (old_worst_worked < uw_max && uw_max - orig_worst_worked > worked.want)) {
+      || (old_worst_worked < uw_max && (uw_max - orig_worst_worked) * TWMP > worked.want)) {
     /* It's better to improve best yet unworked tile and take it to use after that,
        than to improve already worked tile. */
     selected = &unworked;

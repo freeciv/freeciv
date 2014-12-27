@@ -2664,7 +2664,7 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
 
     task.tile_id = ptile->index;
     task.activity = act;
-    task.want = 1;
+    task.want = 100;
   }
 
   send_packet_worker_task(&client.conn, &task);
