@@ -1,5 +1,5 @@
 /*
-** $Id: lobject.h,v 2.103 2014/10/01 11:52:33 roberto Exp $
+** $Id: lobject.h,v 2.105 2014/12/19 13:36:32 roberto Exp $
 ** Type definitions for Lua objects
 ** See Copyright Notice in lua.h
 */
@@ -154,6 +154,8 @@ typedef struct lua_TValue TValue;
 /* Macros to access values */
 #define ivalue(o)	check_exp(ttisinteger(o), val_(o).i)
 #define fltvalue(o)	check_exp(ttisfloat(o), val_(o).n)
+#define nvalue(o)	check_exp(ttisnumber(o), \
+	(ttisinteger(o) ? cast_num(ivalue(o)) : fltvalue(o)))
 #define gcvalue(o)	check_exp(iscollectable(o), val_(o).gc)
 #define pvalue(o)	check_exp(ttislightuserdata(o), val_(o).p)
 #define tsvalue(o)	check_exp(ttisstring(o), gco2ts(val_(o).gc))
@@ -345,7 +347,7 @@ typedef struct Udata {
 ** Ensures that address after this type is always fully aligned.
 */
 typedef union UUdata {
-  L_Umaxalign dummy;  /* ensures maximum alignment for `local' udata */
+  L_Umaxalign dummy;  /* ensures maximum alignment for 'local' udata */
   Udata uv;
 } UUdata;
 
@@ -399,10 +401,10 @@ typedef struct Proto {
   lu_byte is_vararg;
   lu_byte maxstacksize;  /* maximum stack used by this function */
   int sizeupvalues;  /* size of 'upvalues' */
-  int sizek;  /* size of `k' */
+  int sizek;  /* size of 'k' */
   int sizecode;
   int sizelineinfo;
-  int sizep;  /* size of `p' */
+  int sizep;  /* size of 'p' */
   int sizelocvars;
   int linedefined;
   int lastlinedefined;
@@ -486,8 +488,8 @@ typedef struct Node {
 typedef struct Table {
   CommonHeader;
   lu_byte flags;  /* 1<<p means tagmethod(p) is not present */
-  lu_byte lsizenode;  /* log2 of size of `node' array */
-  unsigned int sizearray;  /* size of `array' array */
+  lu_byte lsizenode;  /* log2 of size of 'node' array */
+  unsigned int sizearray;  /* size of 'array' array */
   TValue *array;  /* array part */
   Node *node;
   Node *lastfree;  /* any free position is before this position */
@@ -498,7 +500,7 @@ typedef struct Table {
 
 
 /*
-** `module' operation for hashing (size is always a power of 2)
+** 'module' operation for hashing (size is always a power of 2)
 */
 #define lmod(s,size) \
 	(check_exp((size&(size-1))==0, (cast(int, (s) & ((size)-1)))))

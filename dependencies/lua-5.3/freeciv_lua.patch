@@ -1,6 +1,6 @@
-diff -Nurd freeciv/dependencies/lua-5.3/src/luaconf.h freeciv/dependencies/lua-5.3/src/luaconf.h
---- freeciv/dependencies/lua-5.3/src/luaconf.h	2014-08-10 11:29:55.000000000 +0300
-+++ freeciv/dependencies/lua-5.3/src/luaconf.h	2014-08-10 11:39:58.251978597 +0300
+diff -Nurd lua-5.3/src/luaconf.h lua-5.3/src/luaconf.h
+--- lua-5.3/src/luaconf.h	2014-12-22 01:08:57.212407590 +0200
++++ lua-5.3/src/luaconf.h	2014-12-22 01:02:44.860415760 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
@@ -8,18 +8,18 @@ diff -Nurd freeciv/dependencies/lua-5.3/src/luaconf.h freeciv/dependencies/lua-5
 +#include "localluaconf.h"
  
  /*
- ** ==================================================================
+ ** ===================================================================
 @@ -61,14 +62,12 @@
- #define LUA_USE_C99
+ #if defined(LUA_USE_LINUX)
  #define LUA_USE_POSIX
  #define LUA_USE_DLOPEN		/* needs an extra library: -ldl */
 -#define LUA_USE_READLINE	/* needs some extra libraries */
  #endif
  
+ 
  #if defined(LUA_USE_MACOSX)
- #define LUA_USE_C99
  #define LUA_USE_POSIX
- #define LUA_USE_DLOPEN		/* does not need -ldl */
+ #define LUA_USE_DLOPEN		/* MacOS does not need -ldl */
 -#define LUA_USE_READLINE	/* needs an extra library: -lreadline */
  #endif
  
