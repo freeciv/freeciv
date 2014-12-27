@@ -777,6 +777,49 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_SLOW_INVASIONS,
                     "global_unit_options.slow_invasions", NULL);
 
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_POISON)->ui_name,
+                     "actions.ui_name_posion_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_SABOTAGE_UNIT)->ui_name,
+                     "actions.ui_name_sabotage_unit");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_BRIBE_UNIT)->ui_name,
+                     "actions.ui_name_bribe_unit");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_SABOTAGE_CITY)->ui_name,
+                     "actions.ui_name_sabotage_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY)->ui_name,
+                     "actions.ui_name_targeted_sabotage_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_INCITE_CITY)->ui_name,
+                     "actions.ui_name_incite_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_ESTABLISH_EMBASSY)->ui_name,
+                     "actions.ui_name_establish_embassy");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_STEAL_TECH)->ui_name,
+                     "actions.ui_name_steal_tech");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_TARGETED_STEAL_TECH)->ui_name,
+                     "actions.ui_name_targeted_steal_tech");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_INVESTIGATE_CITY)->ui_name,
+                     "actions.ui_name_investigate_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_STEAL_GOLD)->ui_name,
+                     "actions.ui_name_steal_gold");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_TRADE_ROUTE)->ui_name,
+                     "actions.ui_name_establish_trade_route");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_MARKETPLACE)->ui_name,
+                     "actions.ui_name_enter_marketplace");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_HELP_WONDER)->ui_name,
+                     "actions.ui_name_help_wonder");
+
   sect_idx = 0;
   action_enablers_iterate(pae) {
     char path[512];
