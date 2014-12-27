@@ -5248,8 +5248,9 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
                   _("Can't use definition: %s."), mapimg_error());
         ret = FALSE;
       } else {
-        int id = mapimg_count() - 1;
         char str[MAX_LEN_MAPDEF];
+
+        id = mapimg_count() - 1;
 
         mapimg_id2str(id, str, sizeof(str));
         cmd_reply(CMD_MAPIMG, caller, C_OK, _("Defined as map image "
@@ -5270,8 +5271,8 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
         goto cleanup;
       }
 
-      for (id = 0; id < mapimg_count(); id++) {
-        mapimg_delete(id);
+      while (mapimg_count() > 0) {
+        mapimg_delete(0);
       }
       cmd_reply(CMD_MAPIMG, caller, C_OK, _("All map image definitions "
                                             "deleted."));
