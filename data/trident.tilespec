@@ -197,6 +197,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadParityCombined"
       "road.rail",     "RoadParityCombined"
+      "road.maglev",   "RoadParityCombined"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
