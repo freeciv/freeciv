@@ -174,11 +174,10 @@ static void redraw_impr_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
-#if 0
-  putframe(pWindow->dst->surface,
-           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
-#endif
+
+  create_frame(pWindow->dst->surface,
+               dst.x, dst.y, dst.w, dst.h,
+               get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -266,11 +265,10 @@ void popup_impr_info(Impr_type_id impr)
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
-#if 0
-    putframe(pBackgroundTmpl,
-             0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
-             get_theme_color(COLOR_THEME_HELPDLG_FRAME));
-#endif
+
+    create_frame(pBackgroundTmpl,
+                 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+                 get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     impr_type_count = 0;
     improvement_iterate(pImprove) {
@@ -593,11 +591,10 @@ static void redraw_unit_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
-#if 0
-  putframe(pWindow->dst->surface,
-           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
-#endif
+
+  create_frame(pWindow->dst->surface,
+               dst.x, dst.y, dst.w, dst.h,
+               get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -687,11 +684,10 @@ void popup_unit_info(Unit_type_id type_id)
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
-#if 0
-    putframe(pBackgroundTmpl,
-             0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
-             get_theme_color(COLOR_THEME_HELPDLG_FRAME));
-#endif
+
+    create_frame(pBackgroundTmpl,
+                 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+                 get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     utype_count = 0;
     unit_type_iterate(ut) {
@@ -1044,11 +1040,10 @@ static void redraw_tech_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
-#if 0
-  putframe(pWindow->dst->surface,
-           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
-#endif
+
+  create_frame(pWindow->dst->surface,
+               dst.x, dst.y, dst.w, dst.h,
+               get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -1398,11 +1393,10 @@ static void redraw_tech_tree_dlg(void)
   dst.h = pWindow->area.h - (dst.y - pWindow->area.y) - adj_size(10);
 
   fill_rect_alpha(pWindow->dst->surface, &dst, &bg_color);
-#if 0
-  putframe(pWindow->dst->surface,
-           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
-#endif
+
+  create_frame(pWindow->dst->surface,
+               dst.x, dst.y, dst.w, dst.h,
+               get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /* Draw Req arrows */
   i = 0;

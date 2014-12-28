@@ -3056,9 +3056,11 @@ static void redraw_city_dialog(struct city *pCity)
 
     fill_rect_alpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_STOCKS));
 
+#if 0
     putframe(pWindow->dst->renderer,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
              get_theme_color(COLOR_THEME_CITYDLG_FRAME));
+#endif
 
     /* draw stocks icons */
     cost = city_granary_size(city_size_get(pCity));

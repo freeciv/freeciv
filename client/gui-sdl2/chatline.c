@@ -717,11 +717,10 @@ static void popup_conn_list_dialog(void)
   area.w = pConnDlg->text_width + adj_size(20);
   area.h = pWindow->size.h - adj_size(44) - adj_size(40);
   fill_rect_alpha(pWindow->theme, &area, &window_bg_color);
-#if 0
-  putframe(pWindow->theme,
-           area.x - 1, area.y - 1, area.x + area.w, area.y + area.h,
-           get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
-#endif
+
+  create_frame(pWindow->theme,
+               area.x - 1, area.y - 1, area.w + 1, area.h + 1,
+               get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
 
   /* user list background */
   area.x = pWindow->size.w - adj_size(130);
@@ -730,11 +729,9 @@ static void popup_conn_list_dialog(void)
   area.h = pWindow->size.h - adj_size(44) - adj_size(40);
   fill_rect_alpha(pWindow->theme, &area, &window_bg_color);
 
-#if 0
-  putframe(pWindow->theme,
-           area.x - 1, area.y - 1, area.x + area.w, area.y + area.h,
-           get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
-#endif
+  create_frame(pWindow->theme,
+               area.x - 1, area.y - 1, area.w + 1, area.h + 1,
+               get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
 
   draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
 

@@ -189,10 +189,10 @@ void tilespec_setup_city_icons(void)
   SDL_FillRect(pIcons->pWorklist, NULL,
                SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
 
+  create_frame(pIcons->pWorklist,
+               0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
+               get_theme_color(COLOR_THEME_CITYREP_FRAME));
 #if 0
-  putframe(pIcons->pWorklist,
-           0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
-           get_theme_color(COLOR_THEME_CITYREP_FRAME));
   putline(pIcons->pWorklist,
           3, 2, 5, 2,
           get_theme_color(COLOR_THEME_CITYREP_FRAME));

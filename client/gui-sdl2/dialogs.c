@@ -3208,11 +3208,9 @@ void popup_races_dialog(struct player *pplayer)
 
   SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
 
-#if 0
-  putframe(pMain_Bg,
-           0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
-           get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
-#endif
+  create_frame(pMain_Bg,
+               0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
+               get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
 
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -3479,11 +3477,10 @@ void popup_races_dialog(struct player *pplayer)
     area2.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
     area2.h = h;
     fill_rect_alpha(pWindow->theme, &area2, &bg_color);
-#if 0
-    putframe(pWindow->theme,
-             area2.x, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
-             get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
-#endif
+
+    create_frame(pWindow->theme,
+                 area2.x, area2.y - 1, area2.w, area2.h + 1,
+                 get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   }
 
   if (nationsets != NULL) {

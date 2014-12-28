@@ -526,11 +526,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     FREESURFACE(pText);
 
     /* draw frame */
-#if 0
-    putframe(info_label,
-             0, 0, info_label->w - 1, info_label->h - 1,
-             get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));
-#endif /* 0 */
+    create_frame(info_label,
+                 0, 0, info_label->w - 1, info_label->h - 1,
+                 get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));
 
   }
 

@@ -1135,11 +1135,9 @@ void put_cross_overlay_tile(struct tile *ptile)
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   /* PORTME */
-#if 0
-  putframe(Main.map,
-           canvas_x, canvas_y, canvas_x + w, canvas_y + h,
-           get_theme_color(COLOR_THEME_SELECTIONRECTANGLE));
-#endif
+  create_frame(Main.map,
+               canvas_x, canvas_y, w, h,
+               get_theme_color(COLOR_THEME_SELECTIONRECTANGLE));
 }
 
 /**************************************************************************

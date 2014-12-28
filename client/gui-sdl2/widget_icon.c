@@ -167,27 +167,25 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
   /* selected */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest, 255);
-#if 0
+
   /* draw selected frame */
-  putframe(pTheme,
-           dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
-           get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
-#endif /* 0 */
+  create_frame(pTheme,
+               dest.x - 1, dest.y - 1, src.w + 1, src.h + 1,
+               get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest, 255);
-#if 0
+
   /* draw selected frame */
-  putframe(pTheme,
-           dest.x - 1, dest.y - 1, dest.x + src.w, dest.y + src.h,
-           get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+  create_frame(pTheme,
+               dest.x - 1, dest.y - 1, src.w + 1, src.h + 1,
+               get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
   /* draw press frame */
-  putframe(pTheme,
-           dest.x - adj_size(2), dest.y - adj_size(2),
-           dest.x + (src.w + 1), dest.y + (src.h + 1),
-           get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
-#endif /* 0 */
+  create_frame(pTheme,
+               dest.x - adj_size(2), dest.y - adj_size(2),
+               src.w + adj_size(3), src.h + adj_size(3),
+               get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
 
   /* disabled */
   dest.x += (src.w + adj_size(4));

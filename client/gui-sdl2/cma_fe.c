@@ -1124,11 +1124,9 @@ void popup_city_cma_dialog(struct city *pCity)
   area.h = (O_LAST + 1) * (pText[0]->h + adj_size(6)) + adj_size(20);
   fill_rect_alpha(pWindow->theme, &area, &bg_color);
 
-#if 0
-  putframe(pWindow->theme,
-           area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-           get_theme_color(COLOR_THEME_CMA_FRAME));
-#endif
+  create_frame(pWindow->theme,
+               area.x, area.y, area.w - 1, area.h - 1,
+               get_theme_color(COLOR_THEME_CMA_FRAME));
 
   area.x = dst.x + text_w + adj_size(10);
   alphablit(pMinimal, NULL, pWindow->theme, &area, 255);
@@ -1159,11 +1157,10 @@ void popup_city_cma_dialog(struct city *pCity)
     area.w = adj_size(74);
     area.h = pBuf->size.h;
     fill_rect_alpha(pWindow->theme, &area, &bg_color);
-#if 0
-    putframe(pWindow->theme,
-             area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-             get_theme_color(COLOR_THEME_CMA_FRAME));
-#endif
+
+    create_frame(pWindow->theme,
+                 area.x, area.y, area.w - 1, area.h - 1,
+                 get_theme_color(COLOR_THEME_CMA_FRAME));
 
     /* factor label */
     pBuf = pBuf->prev;
@@ -1180,11 +1177,10 @@ void popup_city_cma_dialog(struct city *pCity)
     area.w = adj_size(58);
     area.h = pBuf->size.h;
     fill_rect_alpha(pWindow->theme, &area, &bg_color);
-#if 0
-    putframe(pWindow->theme,
-             area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-             get_theme_color(COLOR_THEME_CMA_FRAME));
-#endif
+
+    create_frame(pWindow->theme,
+                 area.x, area.y, area.w - 1, area.h - 1,
+                 get_theme_color(COLOR_THEME_CMA_FRAME));
 
     alphablit(pText[i], NULL, pWindow->theme, &dst, 255);
     dst.y += pText[i]->h + adj_size(6);
@@ -1206,11 +1202,10 @@ void popup_city_cma_dialog(struct city *pCity)
   area.w = adj_size(58);
   area.h = pBuf->size.h;
   fill_rect_alpha(pWindow->theme, &area, &bg_color);
-#if 0
-  putframe(pWindow->theme,
-           area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-           get_theme_color(COLOR_THEME_CMA_FRAME));
-#endif
+
+  create_frame(pWindow->theme,
+               area.x, area.y, area.w - 1, area.h - 1,
+               get_theme_color(COLOR_THEME_CMA_FRAME));
 
   /* celebrate cbox */
   pBuf = pBuf->prev;
@@ -1234,11 +1229,10 @@ void popup_city_cma_dialog(struct city *pCity)
   area.w = w;
   area.h = pBuf->size.h + adj_size(10);
   fill_rect_alpha(pWindow->theme, &area, &bg_color);
-#if 0
-  putframe(pWindow->theme,
-           area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-           get_theme_color(COLOR_THEME_CMA_FRAME));
-#endif
+
+  create_frame(pWindow->theme,
+               area.x, area.y, area.w - 1, area.h - 1,
+               get_theme_color(COLOR_THEME_CMA_FRAME));
 
   /* load */
   pBuf = pBuf->prev;
