@@ -4357,8 +4357,8 @@ void load_rulesets(bool act)
   script_server_free();
 
   script_server_init();
-  openload_script_file("default");
   openload_script_file("script");
+  openload_script_file("default");
 
   /* Build advisors unit class cache corresponding to loaded rulesets */
   adv_units_ruleset_init();
