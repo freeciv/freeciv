@@ -1007,7 +1007,7 @@ void put_one_element(struct canvas *pcanvas, float zoom,
 void put_unit(const struct unit *punit, struct canvas *pcanvas, float zoom,
               int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset));
+  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset)) * zoom;
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, zoom, layer, NULL, NULL, NULL,
                     punit, NULL, canvas_x, canvas_y, NULL, NULL);
@@ -1021,7 +1021,7 @@ void put_unit(const struct unit *punit, struct canvas *pcanvas, float zoom,
 void put_unittype(const struct unit_type *putype, struct canvas *pcanvas, float zoom,
                   int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset));
+  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset)) * zoom;
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, zoom, layer, NULL, NULL, NULL,
                     NULL, NULL, canvas_x, canvas_y, NULL, putype);
@@ -1036,7 +1036,7 @@ void put_unittype(const struct unit_type *putype, struct canvas *pcanvas, float 
 void put_city(struct city *pcity, struct canvas *pcanvas, float zoom,
               int canvas_x, int canvas_y)
 {
-  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset));
+  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset)) * zoom;
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, zoom, layer,
 		    NULL, NULL, NULL, NULL, pcity,
@@ -1054,7 +1054,7 @@ void put_terrain(struct tile *ptile, struct canvas *pcanvas, float zoom,
                  int canvas_x, int canvas_y)
 {
   /* Use full tile height, even for terrains. */
-  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset));
+  canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset)) * zoom;
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, zoom, layer, ptile, NULL, NULL, NULL, NULL,
 		    canvas_x, canvas_y, NULL, NULL);
