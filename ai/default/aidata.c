@@ -206,7 +206,15 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
-    if (is_actor_unit(punit)
+    if ((unit_can_do_action(punit, ACTION_SPY_POISON)
+         || unit_can_do_action(punit, ACTION_SPY_SABOTAGE_CITY)
+         || unit_can_do_action(punit, ACTION_SPY_TARGETED_SABOTAGE_CITY)
+         || unit_can_do_action(punit, ACTION_SPY_INCITE_CITY)
+         || unit_can_do_action(punit, ACTION_ESTABLISH_EMBASSY)
+         || unit_can_do_action(punit, ACTION_SPY_STEAL_TECH)
+         || unit_can_do_action(punit, ACTION_SPY_TARGETED_STEAL_TECH)
+         || unit_can_do_action(punit, ACTION_SPY_INVESTIGATE_CITY)
+         || unit_can_do_action(punit, ACTION_SPY_STEAL_GOLD))
         && def_ai_unit_data(punit, ait)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
       struct city *pcity = tile_city(punit->goto_tile);
