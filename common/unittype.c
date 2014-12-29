@@ -284,6 +284,7 @@ static void unit_can_act_cache_set(struct unit_type *putype)
     BV_CLR(unit_can_act_cache[act_id], utype_index(putype));
   } action_iterate_end;
   BV_CLR(unit_can_act_cache[ACTION_ANY], utype_index(putype));
+  BV_CLR(unit_can_act_cache[ACTION_HOSTILE], utype_index(putype));
 
   /* See if the unit type can do an action controlled by generalized action
    * enablers */
