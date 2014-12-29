@@ -217,6 +217,9 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
          || unit_can_do_action(punit, ACTION_SPY_STEAL_GOLD))
         && def_ai_unit_data(punit, ait)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
+
+      fc_assert_msg(punit->goto_tile, "No target city for spy action");
+
       struct city *pcity = tile_city(punit->goto_tile);
 
       if (pcity) {
