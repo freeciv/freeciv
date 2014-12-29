@@ -179,11 +179,11 @@ tired_attack = FALSE
 ; /* TRANS: _Poison City (3% chance of success). */
 ui_name_posion_city = _("%sPoison City%s")
 
-; /* TRANS: S_abotage Enemy Unit (3% chance of success). */
-ui_name_sabotage_unit = _("S%sabotage Enemy Unit%s")
+; /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
+ui_name_sabotage_unit = _("%sSabotage Enemy Unit%s")
 
-; /* TRANS: Bribe Enemy _Unit (3% chance of success). */
-ui_name_bribe_unit = _("Bribe Enemy %sUnit%s")
+; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
+ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 
 ; /* TRANS: _Sabotage City (3% chance of success). */
 ui_name_sabotage_city = _("%sSabotage City%s")
@@ -191,8 +191,8 @@ ui_name_sabotage_city = _("%sSabotage City%s")
 ; /* TRANS: Industria_l Sabotage (3% chance of success). */
 ui_name_targeted_sabotage_city = _("Industria%sl Sabotage%s")
 
-; /* TRANS: Incite a Re_volt (3% chance of success). */
-ui_name_incite_city = _("Incite a Re%svolt%s")
+; /* TRANS: Incite a _Revolt (3% chance of success). */
+ui_name_incite_city = _("Incite a %sRevolt%s")
 
 ; /* TRANS: Establish _Embassy (100% chance of success). */
 ui_name_establish_embassy = _("Establish %sEmbassy%s")
