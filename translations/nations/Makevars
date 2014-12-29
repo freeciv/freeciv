@@ -11,6 +11,7 @@ top_builddir = ../..
 XGETTEXT_OPTIONS = \
   --keyword=_ --flag=_:1:pass-c-format \
   --keyword=N_ --flag=N_:1:pass-c-format \
+  --keyword=--keyword=Q_ --keyword=PL_:1,2 \
   --flag=error:3:c-format --flag=error_at_line:5:c-format
 
 # This is the copyright holder that gets inserted into the header of the

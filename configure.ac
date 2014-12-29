@@ -1302,34 +1302,6 @@ TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.2/src/lib/libtolua.la"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 
-dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
-dnl translatable strings and macro PL_() to handle plural forms.
-dnl Since the Gettext supplied Autoconf support
-dnl doesn't seem to have a way to add new keywords to its xgettext call,
-dnl we do the following.
-dnl The Gettext supplied Autoconf support starts with
-dnl 'translations/<domain>/Makefile.in.in', and builds
-dnl 'translations/<domain>/Makefile.in' then 'translations/<domain>/Makefile'.
-dnl In order for the commonly used _() and N_() macros to work, there
-dnl should be somewhere in that 'translations/<domain>/Makefile' a call
-dnl to xgettext with "--keyword=_" and "--keyword=N_" as arguments.
-dnl To support Q_() and PL_(), the following simply replaces instances of 
-dnl "--keyword=N_" with "--keyword=N_ --keyword=Q_ --keyword=PL_:1,2"
-dnl in the 'translations/<domain>/Makefile' file.
-AC_CONFIG_COMMANDS([fc_default-1],[[for domain in $PODOMAINS ; do
-   if test -f translations/${domain}/Makefile ; then
-     if grep 'keyword=N_ --keyword=Q_ --keyword=PL_:1,2' translations/${domain}/Makefile >/dev/null 2>&1 ; then
-       # has already been extended
-       :
-     else
-       echo extending translations/${domain}/Makefile
-       mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
-       sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_ --keyword=PL_:1,2/g' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
-       rm translations/${domain}/Makefile.tmp
-     fi
-   fi
- done]],[PODOMAINS="$PODOMAINS"])
-
 dnl Vast quantities of meaningless errors from xgettext is also annoying.
 dnl We fix this by forcing xgettext to assume all files are C source files.
 AC_CONFIG_COMMANDS([fc_default-2],[[for domain in $PODOMAINS ; do
