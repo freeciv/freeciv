@@ -940,6 +940,24 @@ void real_city_report_update_city(struct city *pcity)
   }
 }
 
+/**************************************************************************
+  Closes city report
+**************************************************************************/
+void popdown_city_report()
+{
+  int i;
+  city_report *cr;
+  QWidget *w;
+
+  if (gui()->is_repo_dlg_open("CTS")) {
+    i = gui()->gimme_index_of("CTS");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    cr = reinterpret_cast<city_report *>(w);
+    cr->deleteLater();
+  }
+}
+
 /****************************************************************
  After a selection rectangle is defined, make the cities that
  are hilited on the canvas exclusively hilited in the

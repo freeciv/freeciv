@@ -57,5 +57,6 @@ private:
 };
 
 void popup_spaceship_dialog(struct player *pplayer);
+void popdown_all_spaceships_dialogs();
 
 #endif /* FC__SPACESHIPDLG_H */

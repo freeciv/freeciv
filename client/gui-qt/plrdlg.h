@@ -165,6 +165,7 @@ private slots:
 };
 
 void popup_players_dialog(bool raise);
+void popdown_players_report(void);
 
 
 #endif /* FC__PLRDLG_H */

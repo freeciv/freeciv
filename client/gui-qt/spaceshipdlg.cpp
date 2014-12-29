@@ -162,3 +162,25 @@ void refresh_spaceship_dialog(struct player *pplayer)
     ss_rep->update_report();
   }
 }
+
+/**************************************************************************
+  Close all spaceships dialogs
+**************************************************************************/
+void popdown_all_spaceships_dialogs()
+{
+  int i;
+  ss_report *ss_rep;
+  QWidget *w;
+
+  if (!gui()->is_repo_dlg_open("SPS")) {
+    return;
+  }
+  else {
+    i = gui()->gimme_index_of("SPS");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    ss_rep = reinterpret_cast<ss_report*>(w);
+    ss_rep->deleteLater();
+  }
+}
+

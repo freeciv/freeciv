@@ -196,5 +196,8 @@ private:
 
 
 bool comp_less_than(const qlist_item &q1, const qlist_item &q2);
+void popdown_economy_report();
+void popdown_units_report();
+void popdown_science_report();
 
 #endif /* FC__REPODLGS_H */

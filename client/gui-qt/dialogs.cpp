@@ -47,6 +47,13 @@
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
+extern void popdown_all_spaceships_dialogs();
+extern void popdown_players_report();
+extern void popdown_economy_report();
+extern void popdown_units_report();
+extern void popdown_science_report();
+extern void popdown_city_report();
+
 static void diplomat_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
 static void spy_request_sabotage_list(QVariant data1, QVariant data2);
@@ -1877,13 +1884,24 @@ void popdown_all_game_dialogs(void)
 {
   int i;
   QList <choice_dialog *> cd_list;
+  QList <notify_dialog *> nd_list;
 
   cd_list = gui()->game_tab_widget->findChildren <choice_dialog *>();
   for (i = 0; i < cd_list.count(); i++) {
       cd_list[i]->close();
   }
+  nd_list = gui()->game_tab_widget->findChildren <notify_dialog *>();
+  for (i = 0; i < nd_list.count(); i++) {
+      nd_list[i]->close();
+  }
 
   popdown_help_dialog();
+  popdown_players_report();
+  popdown_all_spaceships_dialogs();
+  popdown_economy_report();
+  popdown_units_report();
+  popdown_science_report();
+  popdown_city_report();
 }
 
 /****************************************************************

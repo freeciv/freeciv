@@ -1404,3 +1404,57 @@ void science_report_dialog_redraw(void)
     sci_rep->redraw();
   }
 }
+
+/****************************************************************************
+  Closes economy report
+****************************************************************************/
+void popdown_economy_report()
+{
+  int i;
+  eco_report *eco_rep;
+  QWidget *w;
+
+  if (gui()->is_repo_dlg_open("ECO")) {
+    i = gui()->gimme_index_of("ECO");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    eco_rep = reinterpret_cast<eco_report*>(w);
+    eco_rep->deleteLater();
+  }
+}
+
+/****************************************************************************
+  Closes science report
+****************************************************************************/
+void popdown_science_report()
+{
+  int i;
+  science_report *sci_rep;
+  QWidget *w;
+
+  if (gui()->is_repo_dlg_open("SCI")) {
+    i = gui()->gimme_index_of("SCI");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    sci_rep = reinterpret_cast<science_report*>(w);
+    sci_rep->deleteLater();
+  }
+}
+
+/****************************************************************************
+  Closes units report
+****************************************************************************/
+void popdown_units_report()
+{
+  int i;
+  units_report *units_rep;
+  QWidget *w;
+
+  if (gui()->is_repo_dlg_open("UNI")) {
+    i = gui()->gimme_index_of("UNI");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    units_rep = reinterpret_cast<units_report*>(w);
+    units_rep->deleteLater();
+  }
+}

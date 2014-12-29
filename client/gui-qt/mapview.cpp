@@ -231,13 +231,15 @@ void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
    * try position pos_x, pos_y,
    * check middle and borders if aren't  above other widget
    */
+
   for (i = 0; i < widgets.count(); i++) {
-    if (widgets[i]->was_destroyed == true) {
+    if (widgets[i]->isVisible() == false) {
       continue;
     }
     x = widgets[i]->pos().x();
     y = widgets[i]->pos().y();
-    if (x == 0 && y ==0) { 
+
+    if (x == 0 && y ==0) {
       continue;
     }
     xe = widgets[i]->pos().x() + widgets[i]->width();
