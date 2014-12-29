@@ -3,6 +3,7 @@
 name=_("Earth (classic/large)")
 description=_("Classic-style 160x90 map of the Earth.")
 players=FALSE
+handmade=TRUE
 
 [savefile]
 options=" +version2"

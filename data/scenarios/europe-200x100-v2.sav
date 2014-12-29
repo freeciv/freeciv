@@ -3,6 +3,7 @@
 name=_("Europe (classic/giant)")
 description=_("Classic-style 200x100 map of Europe.")
 players=FALSE
+handmade=TRUE
 
 [savefile]
 options=" +version2"

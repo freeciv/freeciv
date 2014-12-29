@@ -3,6 +3,7 @@
 name=_("Japan (classic/medium)")
 description=_("Classic-style 88x100 map of Japan.")
 players=FALSE
+handmade=TRUE
 
 [savefile]
 options=" +version2"

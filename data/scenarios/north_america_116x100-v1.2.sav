@@ -3,6 +3,7 @@
 name=_("North America (classic/medium)")
 description=_("Classic-style 116x100 map of North America.")
 players=FALSE
+handmade=TRUE
 
 [savefile]
 options=" +version2"

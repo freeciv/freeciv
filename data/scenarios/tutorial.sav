@@ -2,6 +2,7 @@
 [scenario]
 name=_("Tutorial")
 description=_("Play this tutorial scenario to get an introduction to Freeciv.")
+handmade=TRUE
 
 [savefile]
 options=" +version2"
