@@ -201,4 +201,6 @@ private:
   int index;
 };
 
+void popdown_city_report();
+
 #endif /* FC__CITYREP_H */

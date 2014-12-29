@@ -710,3 +710,21 @@ void real_players_dialog_update(void)
     pr->update_report();
   }
 }
+
+/**************************************************************************
+  Closes players report
+**************************************************************************/
+void popdown_players_report()
+{
+  int i;
+  plr_report *pr;
+  QWidget *w;
+
+  if (gui()->is_repo_dlg_open("PLR")) {
+    i = gui()->gimme_index_of("PLR");
+    fc_assert(i != -1);
+    w = gui()->game_tab_widget->widget(i);
+    pr = reinterpret_cast<plr_report *>(w);
+    pr->deleteLater();
+  }
+}
