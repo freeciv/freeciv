@@ -193,7 +193,8 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     return;
   }
 
-  if (num_role_units(UTYF_TRADE_ROUTE) == 0) {
+  if (num_role_units(action_get_role(ACTION_TRADE_ROUTE)) == 0
+      && num_role_units(action_get_role(ACTION_MARKETPLACE)) == 0) {
     /* No such units available in the ruleset */
     return;
   }
@@ -272,20 +273,32 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     return;
   }
 
-  unit_type = best_role_unit(pcity, UTYF_TRADE_ROUTE);
+  unit_type = best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE));
+
+  if (!unit_type) {
+    /* Can't establish trade route yet. What about entering a market
+     * place? */
+    /* TODO: Should a future unit capable of establishing trade routes be
+     * prioritized above a present unit capable of entering a market place?
+     * In that case this should be below the check for a future unit
+     * capable of establishing a trade route. */
+    unit_type = best_role_unit(pcity, action_get_role(ACTION_MARKETPLACE));
+  }
 
   if (!unit_type) {
     /* We cannot build such units yet
      * but we will consider it to stimulate science */
-    unit_type = get_role_unit(UTYF_TRADE_ROUTE, 0);
+    unit_type = get_role_unit(action_get_role(ACTION_TRADE_ROUTE), 0);
   }
 
-  if (!(utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)
-        || utype_can_do_action(unit_type, ACTION_MARKETPLACE))) {
-    /* This unit type isn't suitable for establishing trade routes or
-     * entering market places. */
-    return;
+  if (!unit_type) {
+    /* We'll never be able to establish a trade route. Consider a unit that
+     * can enter the market place in stead to stimulate science. */
+    unit_type = get_role_unit(action_get_role(ACTION_MARKETPLACE), 0);
   }
+
+  fc_assert_msg(unit_type,
+                "Non existance of trade unit not caught");
 
   trade_routes = city_num_trade_routes(pcity);
   /* Count also caravans enroute to establish traderoutes */
@@ -381,7 +394,16 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   if (want > choice->want) {
     /* This sets our tech want in cases where we cannot actually build
      * the unit. */
-    unit_type = dai_wants_role_unit(ait, pplayer, pcity, UTYF_TRADE_ROUTE, want);
+    unit_type = dai_wants_role_unit(ait, pplayer, pcity,
+                                    action_get_role(ACTION_TRADE_ROUTE),
+                                    want);
+
+    if (unit_type == NULL) {
+      unit_type = dai_wants_role_unit(ait, pplayer, pcity,
+                                      action_get_role(ACTION_MARKETPLACE),
+                                      want);
+    }
+
     if (unit_type != NULL) {
       choice->want = want;
       choice->type = CT_CIVILIAN;
