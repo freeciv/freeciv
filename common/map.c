@@ -181,7 +181,6 @@ void map_init(void)
     map.server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
     map.server.temperature = MAP_DEFAULT_TEMPERATURE;
     map.server.have_resources = FALSE;
-    map.server.have_rivers_overlay = FALSE;
     map.server.have_huts = FALSE;
     map.server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
   }

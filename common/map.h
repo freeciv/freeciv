@@ -105,7 +105,6 @@ struct civ_map {
       bool have_resources;
       bool ocean_resources;         /* Resources in the middle of the ocean */
       bool have_huts;
-      bool have_rivers_overlay;	/* only applies if !have_resources */
       enum team_placement team_placement;
     } server;
 

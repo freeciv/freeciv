@@ -679,9 +679,6 @@ static void map_load_rivers_overlay(struct section_file *file,
   /* used by set_savegame_special */
   load_river_overlay = TRUE;
 
-  /* Is it still as specials overlay after loading? */
-  map.server.have_rivers_overlay = (road_by_compat_special(ROCO_RIVER) == NULL);
-
   if (special_order) {
     special_halfbyte_iterate(j, num_special_types) {
       char buf[16]; /* enough for sprintf() below */
