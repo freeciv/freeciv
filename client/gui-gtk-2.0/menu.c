@@ -2294,7 +2294,7 @@ void real_menus_update(void)
     }
   }
 
-  if (units_have_type_flag(punits, UTYF_TRADE_ROUTE, TRUE)) {
+  if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
     menus_rename(unit_group, "BUILD_ROAD", _("Establish Trade _Route"));
   } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
     char road_item[500];

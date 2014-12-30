@@ -191,6 +191,25 @@ bool units_have_type_flag(const struct unit_list *punits,
   return FALSE;
 }
 
+/**************************************************************************
+  If has_flag is true, returns true iff any of the units are able to do
+  the specified action.
+
+  If has_flag is false, returns true iff any of the units are unable do
+  the specified action.
+**************************************************************************/
+bool units_can_do_action(const struct unit_list *punits,
+                         int action_id, bool can_do)
+{
+  unit_list_iterate(punits, punit) {
+    if (EQ(can_do, unit_can_do_action(punit, action_id))) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
 /****************************************************************************
   Return TRUE iff any of the units is a transporter that is occupied.
 ****************************************************************************/
