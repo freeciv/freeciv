@@ -291,12 +291,14 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   action_enablers_iterate(enabler) {
     if (requirement_fulfilled_by_unit_type(putype,
                                            &(enabler->actor_reqs))) {
-        BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
-        BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
-        if (action_is_hostile(enabler->action)) {
-          BV_SET(unit_can_act_cache[ACTION_HOSTILE], utype_index(putype));
-        }
+      log_debug("act_cache: %s can %s",
+                utype_rule_name(putype), gen_action_name(enabler->action));
+      BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
+      BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
+      if (action_is_hostile(enabler->action)) {
+        BV_SET(unit_can_act_cache[ACTION_HOSTILE], utype_index(putype));
       }
+    }
   } action_enablers_iterate_end;
 }
 
