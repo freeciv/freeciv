@@ -1052,7 +1052,8 @@ static void build_city_callback(GtkAction *action, gpointer data)
        get an eventual error message from the server if we try. */
     if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
-    } else if (unit_has_type_flag(punit, UTYF_HELP_WONDER)) {
+    } else if (utype_can_do_action(unit_type(punit),
+                                   ACTION_HELP_WONDER)) {
       request_unit_caravan_action(punit, ACTION_HELP_WONDER);
     }
   } unit_list_iterate_end;
