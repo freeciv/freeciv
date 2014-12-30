@@ -3513,16 +3513,15 @@ bool settings_ruleset(struct section_file *file, const char *section,
     /* no settings in ruleset file */
     log_verbose("no [%s] section for game settings in %s", section,
                 secfile_name(file));
-    return FALSE;
-  }
+  } else {
+    for (j = 0; (name = secfile_lookup_str_default(file, NULL, "%s.set%d.name",
+                                                   section, j)); j++) {
+      char path[256];
+      fc_snprintf(path, sizeof(path), "%s.set%d", section, j);
 
-  for (j = 0; (name = secfile_lookup_str_default(file, NULL, "%s.set%d.name",
-                                                 section, j)); j++) {
-    char path[256];
-    fc_snprintf(path, sizeof(path), "%s.set%d", section, j);
-
-    if (!setting_ruleset_one(file, name, path)) {
-      log_error("unknown setting in '%s': %s", secfile_name(file), name);
+      if (!setting_ruleset_one(file, name, path)) {
+        log_error("unknown setting in '%s': %s", secfile_name(file), name);
+      }
     }
   }
 
