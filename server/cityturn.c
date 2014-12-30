@@ -3403,7 +3403,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
-  bool had_effect = FALSE;
+  bool had_internal_effect = FALSE;
 
   log_debug("%s at %s", disaster_rule_name(pdis), city_name(pcity));
 
@@ -3417,7 +3417,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     if (place_pollution(pcity, EC_POLLUTION)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Tile polluted"));
-      had_effect = TRUE;
+      had_internal_effect = TRUE;
     }
   }
 
@@ -3425,7 +3425,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     if (place_pollution(pcity, EC_FALLOUT)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Fallout contaminated tile."));
-      had_effect = TRUE;
+      had_internal_effect = TRUE;
     }
   }
 
@@ -3441,7 +3441,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
                     _("Some population lost."));
     }
 
-    had_effect = TRUE;
+    had_internal_effect = TRUE;
   }
 
   if (pcity && disaster_has_effect(pdis, DE_DESTROY_BUILDING)) {
@@ -3463,7 +3463,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
                     _("%s destroyed."),
                     improvement_name_translation(imprs[num]));
 
-      had_effect = TRUE;
+      had_internal_effect = TRUE;
     }
   }
 
@@ -3474,7 +3474,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Foodbox emptied."));
 
-      had_effect = TRUE;
+      had_internal_effect = TRUE;
     }
   }
 
@@ -3485,19 +3485,15 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Production box emptied."));
 
-      had_effect = TRUE;
+      had_internal_effect = TRUE;
 
     }
   }
 
-  if (!had_effect) {
-    notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                  _("We survived the disaster without serious damages."));
-  }
-
-  script_server_signal_emit("disaster", 2,
+  script_server_signal_emit("disaster", 3,
                             API_TYPE_DISASTER, pdis,
-                            API_TYPE_CITY, pcity);
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_BOOL, had_internal_effect);
 }
 
 /**************************************************************************
