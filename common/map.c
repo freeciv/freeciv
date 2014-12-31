@@ -836,7 +836,10 @@ bool is_tiles_adjacent(const struct tile *tile0, const struct tile *tile1)
 bool same_pos(const struct tile *tile1, const struct tile *tile2)
 {
   fc_assert_ret_val(tile1 != NULL && tile2 != NULL, FALSE);
-  return (tile1 == tile2);
+
+  /* In case of virtual tile, tile1 can be different from tile2,
+   * but they have same index */
+  return (tile1->index == tile2->index);
 }
 
 /***************************************************************
