@@ -233,6 +233,10 @@ Thiefs_Share_Pct
 action that is lost before it reaches the player ordering it. Evaluated
 against the actor unit.
 
+Illegal_Action_Move_Cost
+    The number of move fragments lost when the player tries to do an action
+that turns out to be illegal.
+
 Size_Adj
     Increase maximum size of a city by amount.
 

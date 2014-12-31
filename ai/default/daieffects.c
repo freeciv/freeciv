@@ -512,6 +512,7 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_HISTORY:
   case EFT_NATION_PERFORMANCE:
   case EFT_NATION_HISTORY:
+  case EFT_ILLEGAL_ACTION_MOVE_COST:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

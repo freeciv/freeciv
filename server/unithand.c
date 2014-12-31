@@ -71,8 +71,10 @@
 
 #include "unithand.h"
 
-static void illegal_action(struct player *pplayer, struct unit *actor,
-                           enum gen_action stopped_action);
+static void illegal_action(struct player *pplayer,
+                           struct unit *actor,
+                           enum gen_action stopped_action,
+                           struct player *tgt_player);
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
@@ -506,11 +508,24 @@ void handle_unit_get_actions(struct connection *pc,
   Remember to stop using E_MY_DIPLOMAT_FAILED if non diplomat actions start
   using it.
 **************************************************************************/
-static void illegal_action(struct player *pplayer, struct unit *actor,
-                           enum gen_action stopped_action)
+static void illegal_action(struct player *pplayer,
+                           struct unit *actor,
+                           enum gen_action stopped_action,
+                           struct player *tgt_player)
 {
-  /* The mistake has a cost */
-  actor->moves_left = MAX(0, actor->moves_left -1);
+  /* The mistake may have a cost. */
+  actor->moves_left = MAX(0, actor->moves_left
+      - get_target_bonus_effects(NULL,
+                                 unit_owner(actor),
+                                 tgt_player,
+                                 NULL,
+                                 NULL,
+                                 NULL,
+                                 actor,
+                                 unit_type(actor),
+                                 NULL,
+                                 NULL,
+                                 EFT_ILLEGAL_ACTION_MOVE_COST));
   send_unit_info(NULL, actor);
 
   notify_player(pplayer, unit_tile(actor),
@@ -576,7 +591,7 @@ void handle_unit_action_query(struct connection *pc,
                                         unit_bribe_cost(punit, pplayer),
                                         action_type);
       } else {
-        illegal_action(pplayer, pactor, action_type);
+        illegal_action(pplayer, pactor, action_type, unit_owner(punit));
         unit_query_impossible(pc, actor_id, target_id);
         return;
       }
@@ -591,7 +606,7 @@ void handle_unit_action_query(struct connection *pc,
                                         city_incite_cost(pplayer, pcity),
                                         action_type);
       } else {
-        illegal_action(pplayer, pactor, action_type);
+        illegal_action(pplayer, pactor, action_type, city_owner(pcity));
         unit_query_impossible(pc, actor_id, target_id);
         return;
       }
@@ -603,7 +618,7 @@ void handle_unit_action_query(struct connection *pc,
                                          pactor, pcity)) {
         spy_send_sabotage_list(pc, pactor, pcity);
       } else {
-        illegal_action(pplayer, pactor, action_type);
+        illegal_action(pplayer, pactor, action_type, city_owner(pcity));
         unit_query_impossible(pc, actor_id, target_id);
         return;
       }
@@ -664,7 +679,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         diplomat_bribe(pplayer, actor_unit, punit);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       unit_owner(punit));
       }
     }
     break;
@@ -676,7 +692,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         spy_sabotage_unit(pplayer, actor_unit, punit);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       unit_owner(punit));
       }
     }
     break;
@@ -687,7 +704,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -699,7 +717,8 @@ void handle_unit_do_action(struct player *pplayer,
         /* packet value is improvement ID + 1 (or some special codes) */
         diplomat_sabotage(pplayer, actor_unit, pcity, value - 1);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -711,7 +730,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         spy_poison(pplayer, actor_unit, pcity);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -723,7 +743,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         diplomat_investigate(pplayer, actor_unit, pcity);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -735,7 +756,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         diplomat_embassy(pplayer, actor_unit, pcity);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -747,7 +769,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         diplomat_incite(pplayer, actor_unit, pcity);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -766,7 +789,8 @@ void handle_unit_do_action(struct player *pplayer,
         /* packet value is technology ID (or some special codes) */
         diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -779,7 +803,8 @@ void handle_unit_do_action(struct player *pplayer,
         /* packet value is technology ID (or some special codes) */
         diplomat_get_tech(pplayer, actor_unit, pcity, value);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -791,7 +816,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         spy_steal_gold(pplayer, actor_unit, pcity);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -804,7 +830,8 @@ void handle_unit_do_action(struct player *pplayer,
         base_handle_unit_establish_trade(pplayer, actor_unit->id, pcity,
                                          TRUE);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -817,7 +844,8 @@ void handle_unit_do_action(struct player *pplayer,
         base_handle_unit_establish_trade(pplayer, actor_unit->id, pcity,
                                          FALSE);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;
@@ -829,7 +857,8 @@ void handle_unit_do_action(struct player *pplayer,
 
         handle_unit_help_build_wonder(pplayer, actor_unit->id, pcity->id);
       } else {
-        illegal_action(pplayer, actor_unit, action_type);
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
       }
     }
     break;

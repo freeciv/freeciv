@@ -3716,3 +3716,7 @@ reqs	=
     { "type", "name", "range"
       "UnitFlag", "Cities", "Local"
     }
+
+[effect_illegal_action_move_cost_base]
+type	= "Illegal_Action_Move_Cost"
+value	= 1
