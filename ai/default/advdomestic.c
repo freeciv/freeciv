@@ -574,16 +574,15 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
     return;
   }
 
-  punittype = best_role_unit_for_player(pplayer, UTYF_HELP_WONDER);
+  punittype = best_role_unit_for_player(pplayer,
+      action_get_role(ACTION_HELP_WONDER));
 
   if (!punittype) {
     return;
   }
 
-  if (!utype_can_do_action(punittype, ACTION_HELP_WONDER)) {
-    /* This unit type isn't suitable for wonder building help. */
-    return;
-  }
+  fc_assert_msg(utype_can_do_action(punittype, ACTION_HELP_WONDER),
+                "Non existence of wonder helper unit not caught");
 
   ghost = unit_virtual_create(pplayer, wonder_city, punittype, 0);
   maxrange = unit_move_rate(ghost) * 7;
