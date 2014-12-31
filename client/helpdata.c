@@ -3603,10 +3603,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       astr_free(&dlist);
     }
   }
-  if (utype_has_flag(utype, UTYF_TRADE_ROUTE)) {
-    CATLSTR(buf, bufsz,
-            _("* Can establish trade routes (must travel to target city).\n"));
-  }
   if (utype_has_flag(utype, UTYF_HELP_WONDER)) {
     cat_snprintf(buf, bufsz,
 		 _("* Can help build wonders (adds %d production).\n"),

@@ -25,6 +25,7 @@ flags =
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Horse"), _("Attack value halved when attacking Pikemen.")
     _("Helicopter"), _("Defends very badly against Fighters.")
+    _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
   }
 
 [veteran_system]
