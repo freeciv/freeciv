@@ -363,7 +363,6 @@ void tilespec_free_theme(void)
 **************************************************************************/
 void setup_auxiliary_tech_icons(void)
 {
-#if 0
   SDL_Color bg_color = {255, 255, 255, 136};
   SDL_Surface *pSurf;
   SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
@@ -373,15 +372,13 @@ void setup_auxiliary_tech_icons(void)
   /* create icons */
   pSurf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
-  putframe(pSurf,
-           0 , 0, pSurf->w - 1, pSurf->h - 1,
-           get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
+  create_frame(pSurf,
+               0 , 0, pSurf->w - 1, pSurf->h - 1,
+               get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
-  pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
-  pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
-  pFuture_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
-
-  FREESURFACE(pSurf);
+  pNeutral_Tech_Icon = copy_surface(pSurf);
+  pNone_Tech_Icon = copy_surface(pSurf);
+  pFuture_Tech_Icon = pSurf;
 
   /* None */
   pSurf = create_text_surf_from_str16(pStr);
@@ -399,7 +396,6 @@ void setup_auxiliary_tech_icons(void)
   FREESURFACE(pSurf);
 
   FREESTRING16(pStr);
-#endif /* 0 */
 }
 
 /**************************************************************************
@@ -417,24 +413,22 @@ void free_auxiliary_tech_icons(void)
 **************************************************************************/
 SDL_Surface *get_tech_icon(Tech_type_id tech)
 {
-#if 0
   switch(tech)
   {
     case A_NONE:
     case A_UNSET:
     case A_UNKNOWN:
     case A_LAST:
-      return SDL_DisplayFormatAlpha(pNone_Tech_Icon);
+      return pNone_Tech_Icon;
     case A_FUTURE:
-      return SDL_DisplayFormatAlpha(pFuture_Tech_Icon);
+      return pFuture_Tech_Icon;
     default:
       if (get_tech_sprite(tileset, tech)) {
         return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
       } else {
-        return SDL_DisplayFormatAlpha(pNeutral_Tech_Icon);
+        return pNeutral_Tech_Icon;
       }
   }
-#endif /* 0 */
 
   return NULL;
 }
