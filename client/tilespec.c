@@ -506,6 +506,8 @@ struct tileset {
 
   struct extra_type_list *style_lists[ESTYLE_COUNT];
 
+  struct extra_type_list *flagged_bases_list;
+
   int num_prefered_themes;
   char** prefered_themes;
 };
@@ -993,6 +995,11 @@ static void tileset_free_toplevel(struct tileset *t)
       extra_type_list_destroy(t->style_lists[i]);
       t->style_lists[i] = NULL;
     }
+  }
+
+  if (t->flagged_bases_list != NULL) {
+    extra_type_list_destroy(t->flagged_bases_list);
+    t->flagged_bases_list = NULL;
   }
  
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
@@ -1902,6 +1909,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   for (i = 0; i < ESTYLE_COUNT; i++) {
     t->style_lists[i] = extra_type_list_new();
   }
+  t->flagged_bases_list = extra_type_list_new();
 
   for (i = 0; (extraname = secfile_lookup_str_default(file, NULL,
                                                       "extras.styles%d.name",
@@ -2970,6 +2978,7 @@ void tileset_setup_extra(struct tileset *t,
 {
   const int id = extra_index(pextra);
   enum extrastyle_id extrastyle;
+  struct base_type *pbase;
 
   if (!estyle_hash_lookup(t->estyle_hash, pextra->graphic_str,
                           &extrastyle)
@@ -2983,6 +2992,11 @@ void tileset_setup_extra(struct tileset *t,
   t->sprites.extras[id].extrastyle = extrastyle;
 
   extra_type_list_append(t->style_lists[extrastyle], pextra);
+
+  pbase = extra_base_get(pextra);
+  if (pbase != NULL && base_has_flag(pbase, BF_SHOW_FLAG)) {
+    extra_type_list_append(t->flagged_bases_list, pextra);
+  }
 
   switch (extrastyle) {
   case ESTYLE_3LAYER:
@@ -5202,13 +5216,11 @@ int fill_sprite_array(struct tileset *t,
         /* Show base flag. Not part of previous iteration as
          * "extras of ESTYLE_3_LAYER" != "bases" */
         if (owner != NULL) {
-          base_type_iterate(pbase) {
-            if (tile_has_base(ptile, pbase)
-                && base_has_flag(pbase, BF_SHOW_FLAG)) {
-              struct extra_type *basextra = base_extra_get(pbase);
+          extra_type_list_iterate(t->flagged_bases_list, pextra) {
+            if (tile_has_extra(ptile, pextra)) {
               bool hidden = FALSE;
 
-              extra_type_list_iterate(basextra->hiders, phider) {
+              extra_type_list_iterate(pextra->hiders, phider) {
                 if (BV_ISSET(textras, extra_index(phider))) {
                   hidden = TRUE;
                   break;
@@ -5219,7 +5231,7 @@ int fill_sprite_array(struct tileset *t,
                 show_flag = TRUE;
               }
             }
-          } base_type_iterate_end;
+          } extra_type_list_iterate_end;
 
           if (show_flag) {
             ADD_SPRITE(get_nation_flag_sprite(t, nation_of_player(owner)), TRUE,
