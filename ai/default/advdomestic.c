@@ -85,7 +85,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   struct unit_type *unit_type;
   struct city *wonder_city = game_city_by_number(ai->wonder_city);
 
-  if (num_role_units(UTYF_HELP_WONDER) == 0) {
+  if (num_role_units(action_get_role(ACTION_HELP_WONDER)) == 0) {
     /* No such units available in the ruleset */
     return;
   }
@@ -117,18 +117,16 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     }
   } city_list_iterate_end;
 
-  unit_type = best_role_unit(pcity, UTYF_HELP_WONDER);
+  unit_type = best_role_unit(pcity, action_get_role(ACTION_HELP_WONDER));
 
   if (!unit_type) {
     /* We cannot build such units yet
      * but we will consider it to stimulate science */
-    unit_type = get_role_unit(UTYF_HELP_WONDER, 0);
+    unit_type = get_role_unit(action_get_role(ACTION_HELP_WONDER), 0);
   }
 
-  if (!utype_can_do_action(unit_type, ACTION_HELP_WONDER)) {
-    /* This unit type isn't suitable for wonder building help. */
-    return;
-  }
+  fc_assert_msg(utype_can_do_action(unit_type, ACTION_HELP_WONDER),
+                "Non existence of wonder helper unit not caught");
 
   /* Check if wonder needs a little help. */
   if (build_points_left(wonder_city) 
@@ -148,14 +146,17 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */
-      unit_type = dai_wants_role_unit(ait, pplayer, pcity, UTYF_HELP_WONDER, want);
+      unit_type = dai_wants_role_unit(ait, pplayer, pcity,
+                                      action_get_role(ACTION_HELP_WONDER),
+                                      want);
       if (unit_type != NULL) {
         choice->want = want;
         choice->type = CT_CIVILIAN;
         choice->value.utype = unit_type;
       } else {
         CITY_LOG(LOG_DEBUG, pcity,
-                 "would but could not build UTYF_HELP_WONDER unit, bumped reqs");
+                 "would but could not build ACTION_HELP_WONDER unit, "
+                 "bumped reqs");
       }
     }
   }
