@@ -28,11 +28,13 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, 
 		    struct unit *pvictim);
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *pcity, int technology);
+                       struct city  *pcity, int technology,
+                       const enum gen_action action_id);
 void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, 
 		     struct city *pcity);
-void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city *pcity, Impr_type_id improvement);
+void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
+                       struct city *pcity, Impr_type_id improvement,
+                       const enum gen_action action_id);
 void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 		    struct city *tgt_city);
 

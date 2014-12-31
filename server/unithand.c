@@ -702,7 +702,8 @@ void handle_unit_do_action(struct player *pplayer,
       if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST);
+        diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST,
+                          action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity));
@@ -715,7 +716,8 @@ void handle_unit_do_action(struct player *pplayer,
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
         /* packet value is improvement ID + 1 (or some special codes) */
-        diplomat_sabotage(pplayer, actor_unit, pcity, value - 1);
+        diplomat_sabotage(pplayer, actor_unit, pcity, value - 1,
+                          action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity));
@@ -787,7 +789,8 @@ void handle_unit_do_action(struct player *pplayer,
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
         /* packet value is technology ID (or some special codes) */
-        diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET);
+        diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET,
+                          action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity));
@@ -801,7 +804,8 @@ void handle_unit_do_action(struct player *pplayer,
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
         /* packet value is technology ID (or some special codes) */
-        diplomat_get_tech(pplayer, actor_unit, pcity, value);
+        diplomat_get_tech(pplayer, actor_unit, pcity, value,
+                          action_type);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity));

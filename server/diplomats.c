@@ -549,7 +549,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   not at war with
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *pcity, Tech_type_id technology)
+                       struct city  *pcity, Tech_type_id technology,
+                       const enum gen_action action_id)
 {
   struct research *presearch, *cresearch;
   struct player *cplayer;
@@ -658,7 +659,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                   unit_tile_link(pdiplomat),
                   city_link(pcity));
     /* this may cause a diplomatic incident */
-    maybe_cause_incident(ACTION_SPY_STEAL_TECH, pplayer, cplayer,
+    maybe_cause_incident(action_id, pplayer, cplayer,
                          city_tile(pcity), city_link(pcity));
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return;
@@ -683,7 +684,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   (pcity->server.steal)++;
 
   /* this may cause a diplomatic incident */
-  maybe_cause_incident(ACTION_SPY_STEAL_TECH, pplayer, cplayer,
+  maybe_cause_incident(action_id, pplayer, cplayer,
                        city_tile(pcity), city_link(pcity));
 
   /* Check if a spy survives her mission. Diplomats never do. */
@@ -830,7 +831,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   - The saboteur may be captured and executed, or escape to its home town.
 **************************************************************************/
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
-		       struct city *pcity, Impr_type_id improvement)
+                       struct city *pcity, Impr_type_id improvement,
+                       const enum gen_action action_id)
 {
   struct player *cplayer;
   struct impr_type *ptarget;
@@ -1069,7 +1071,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   send_city_info(NULL, pcity);
 
   /* this may cause a diplomatic incident */
-  maybe_cause_incident(ACTION_SPY_SABOTAGE_CITY, pplayer, cplayer,
+  maybe_cause_incident(action_id, pplayer, cplayer,
                        city_tile(pcity), city_link(pcity));
 
   /* Check if a spy survives her mission. Diplomats never do. */
