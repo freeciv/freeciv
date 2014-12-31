@@ -618,6 +618,10 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(FALLOUT, act);
   act->setShortcut(QKeySequence(tr("n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clean_fallout()));
+  act = menu->addAction(_("Help build Wonder"));
+  act->setShortcut(QKeySequence(tr("b")));
+  menu_list.insertMulti(BUILD_WONDER, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
 
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
