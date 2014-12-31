@@ -212,9 +212,6 @@ ui_name_targeted_steal_tech = _("In%sdustrial Espionage%s")
 ; /* TRANS: _Investigate City (100% chance of success). */
 ui_name_investigate_city = _("%sInvestigate City%s")
 
-; /* TRANS: Steal _Gold (100% chance of success). */
-ui_name_steal_gold = _("Steal %sGold%s")
-
 ; /* TRANS: Establish Trade _Route (100% chance of success). */
 ui_name_establish_trade_route = _("Establish Trade %sRoute%s")
 
