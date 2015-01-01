@@ -116,7 +116,8 @@ static char *extra_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
 
-static bool load_rulesetdir(const char *rsdir, bool act, bool save_script);
+static bool load_rulesetdir(const char *rsdir, bool compat_mode,
+                            bool act, bool save_script);
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
 static const char *check_ruleset_capabilities(struct section_file *file,
@@ -145,7 +146,7 @@ static bool load_ruleset_governments(struct section_file *file);
 static bool load_ruleset_terrain(struct section_file *file);
 static bool load_ruleset_styles(struct section_file *file);
 static bool load_ruleset_cities(struct section_file *file);
-static bool load_ruleset_effects(struct section_file *file);
+static bool load_ruleset_effects(struct section_file *file, bool compat_mode);
 
 static bool load_ruleset_game(struct section_file *file, bool act);
 
@@ -4582,7 +4583,7 @@ static bool load_ruleset_cities(struct section_file *file)
 /**************************************************************************
 Load effects.ruleset file
 **************************************************************************/
-static bool load_ruleset_effects(struct section_file *file)
+static bool load_ruleset_effects(struct section_file *file, bool compat_mode)
 {
   struct section_list *sec;
   const char *type;
@@ -4607,12 +4608,12 @@ static bool load_ruleset_effects(struct section_file *file)
     struct requirement_vector *reqs;
 
     type = secfile_lookup_str(file, "%s.type", sec_name);
-    if (type == NULL) {
+    if (type == NULL && compat_mode) {
       /* Backward compatibility. Field used to be named "name" */
       type = secfile_lookup_str(file, "%s.name", sec_name);
     }
     if (type == NULL) {
-      ruleset_error(LOG_ERROR, "\"%s\" [%s] missing effect name.", filename, sec_name);
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] missing effect type.", filename, sec_name);
       ok = FALSE;
       break;
     }
@@ -6525,15 +6526,16 @@ static void notify_ruleset_fallback(const char *msg)
 /**************************************************************************
   Loads the rulesets.
 **************************************************************************/
-bool load_rulesets(const char *restore, bool act, bool save_script)
+bool load_rulesets(const char *restore, bool compat_mode,
+                   bool act, bool save_script)
 {
-  if (load_rulesetdir(game.server.rulesetdir, act, save_script)) {
+  if (load_rulesetdir(game.server.rulesetdir, compat_mode, act, save_script)) {
     return TRUE;
   }
 
   /* Fallback to previous one. */
   if (restore != NULL) {
-    if (load_rulesetdir(restore, act, save_script)) {
+    if (load_rulesetdir(restore, compat_mode, act, save_script)) {
       sz_strlcpy(game.server.rulesetdir, restore);
 
       notify_ruleset_fallback(_("Ruleset couldn't be loaded. Keeping previous one."));
@@ -6548,7 +6550,7 @@ bool load_rulesets(const char *restore, bool act, bool save_script)
   /* Fallback to default one, but not if that's what we tried already */
   if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
       && (restore == NULL || strcmp(GAME_DEFAULT_RULESETDIR, restore))) {
-    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, act, save_script)) {
+    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, FALSE, act, save_script)) {
       /* We're in sane state as fallback ruleset loading succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
@@ -6583,7 +6585,8 @@ static void nullcheck_secfile_destroy(struct section_file *file)
   Loads the rulesets from directory.
   This may be called more than once and it will free any stale data.
 **************************************************************************/
-static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
+static bool load_rulesetdir(const char *rsdir, bool compat_mode,
+                            bool act, bool save_script)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *stylefile, *cityfile, *nationfile, *effectfile, *gamefile;
@@ -6664,7 +6667,7 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     ok = load_ruleset_nations(nationfile);
   }
   if (ok) {
-    ok = load_ruleset_effects(effectfile);
+    ok = load_ruleset_effects(effectfile, compat_mode);
   }
   if (ok) {
     ok = load_ruleset_game(gamefile, act);

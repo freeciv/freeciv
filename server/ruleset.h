@@ -31,7 +31,8 @@ extern "C" {
 struct conn_list;
 
 /* functions */
-bool load_rulesets(const char *restore, bool act, bool save_script);
+bool load_rulesets(const char *restore, bool compat_mode,
+                   bool act, bool save_script);
 bool reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
 

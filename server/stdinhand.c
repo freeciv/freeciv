@@ -3754,7 +3754,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 
     /* load the ruleset (and game settings defined in the ruleset) */
     player_info_freeze();
-    if (!load_rulesets(old, TRUE, FALSE)) {
+    if (!load_rulesets(old, FALSE, TRUE, FALSE)) {
       success = FALSE;
 
       /* While loading of the requested ruleset failed, we might
