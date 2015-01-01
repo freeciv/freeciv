@@ -550,7 +550,7 @@ extern struct civ_game game;
 #ifdef FREECIV_WEB
 #define GAME_DEFAULT_RULESETDIR      "fcweb"
 #else  /* FREECIV_WEB */
-#define GAME_DEFAULT_RULESETDIR      "classic"
+#define GAME_DEFAULT_RULESETDIR      "civ2civ3"
 #endif /* FREECIV_WEB */
 
 #define GAME_DEFAULT_SAVE_NAME       "freeciv"

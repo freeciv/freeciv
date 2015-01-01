@@ -4,6 +4,4 @@
 # rules after they've been changed.
 #
 
-rulesetdir classic
-
-# changed game settings are defined in game.ruleset
+rulesetdir civ2civ3
