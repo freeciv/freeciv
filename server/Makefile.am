@@ -93,6 +93,8 @@ libfreeciv_srv_la_SOURCES = \
 		savegame.h	\
 		savegame2.c	\
 		savegame2.h	\
+		savegame3.c	\
+		savegame3.h	\
 		score.c		\
 		score.h		\
 		sernet.c	\

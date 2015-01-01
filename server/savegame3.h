@@ -10,11 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__SAVEGAME2_H
-#define FC__SAVEGAME2_H
+#ifndef FC__SAVEGAME3_H
+#define FC__SAVEGAME3_H
 
 struct section_file;
 
-void savegame2_load(struct section_file *file);
+void savegame_load(struct section_file *file);
+void savegame_save(struct section_file *file, const char *save_reason,
+                   bool scenario);
 
-#endif /* FC__SAVEGAME2_H */
+#endif /* FC__SAVEGAME3_H */

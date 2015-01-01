@@ -112,7 +112,7 @@
 #include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
-#include "savegame2.h"
+#include "savegame3.h"
 #include "score.h"
 #include "sernet.h"
 #include "settings.h"
@@ -1352,7 +1352,7 @@ void save_game(const char *orig_filename, const char *save_reason,
   /* Allowing duplicates shouldn't be allowed. However, it takes very too
    * long time for huge game saving... */
   file = secfile_new(TRUE);
-  savegame2_save(file, save_reason, scenario);
+  savegame_save(file, save_reason, scenario);
 
   /* Append ".sav" to filename. */
   sz_strlcat(filepath, ".sav");

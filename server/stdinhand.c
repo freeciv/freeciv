@@ -65,7 +65,7 @@
 #include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
-#include "savegame2.h"
+#include "savegame3.h"
 #include "score.h"
 #include "sernet.h"
 #include "settings.h"
@@ -3632,7 +3632,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   sz_strlcpy(srvarg.load_filename, arg);
 
-  savegame2_load(file);
+  savegame_load(file);
   secfile_check_unused(file);
   secfile_destroy(file);
 
