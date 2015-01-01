@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 ACLOCAL_AMFLAGS = -I m4 -I dependencies/m4
-AM_DIST_FORMATS = gzip bzip2 zip
+AM_DIST_FORMATS = gzip xz zip
 
 if CLIENT
 CSUBDIRS = client
