@@ -3,7 +3,7 @@
 if SYS_LUA
 LUASUBDIR =
 else
-LUASUBDIR = lua-5.2
+LUASUBDIR = lua-5.3
 endif
 
 SUBDIRS = $(LUASUBDIR) tolua-5.2 cvercmp
