@@ -45,6 +45,7 @@ liblua_la_SOURCES = 	\
 	loslib.c	\
 	lparser.c	\
 	lparser.h	\
+	lprefix.h	\
 	lstate.c	\
 	lstate.h	\
 	lstring.c	\
