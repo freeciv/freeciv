@@ -1446,32 +1446,12 @@ void unit_upkeep_astr(const struct unit *punit, struct astring *astr)
 }
 
 /**************************************************************************
-  Return the owner of the unit.
-**************************************************************************/
-struct player *unit_owner(const struct unit *punit)
-{
-  fc_assert_ret_val(NULL != punit, NULL);
-  fc_assert(NULL != punit->owner);
-  return punit->owner;
-}
-
-/**************************************************************************
   Return the nationality of the unit.
 **************************************************************************/
 struct player *unit_nationality(const struct unit *punit)
 {
   fc_assert_ret_val(NULL != punit, NULL);
   return punit->nationality;
-}
-
-/**************************************************************************
-  Return the tile location of the unit.
-  Not (yet) always used, mostly for debugging.
-**************************************************************************/
-struct tile *unit_tile(const struct unit *punit)
-{
-  fc_assert_ret_val(NULL != punit, NULL);
-  return punit->tile;
 }
 
 /*****************************************************************************

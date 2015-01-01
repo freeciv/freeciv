@@ -309,9 +309,9 @@ const char *unit_activity_text(const struct unit *punit);
 
 int get_transporter_capacity(const struct unit *punit);
 
-struct player *unit_owner(const struct unit *punit);
+#define unit_owner(_pu) ((_pu)->owner)
+#define unit_tile(_pu) ((_pu)->tile)
 struct player *unit_nationality(const struct unit *punit);
-struct tile *unit_tile(const struct unit *punit);
 void unit_tile_set(struct unit *punit, struct tile *ptile);
 
 struct unit *is_allied_unit_tile(const struct tile *ptile,
