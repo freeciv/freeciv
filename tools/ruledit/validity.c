@@ -122,7 +122,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (universal_in_req_vec(uni, &(enabler->actor_reqs))
           || universal_in_req_vec(uni, &(enabler->target_reqs))) {
-        cb("Action Enabler");
+        cb(R__("Action Enabler"));
         needed = TRUE;
       }
     } action_enabler_list_iterate_end;
