@@ -36,7 +36,11 @@
 #include "rulesave.h"
 
 /* Ruleset format version */
-#define FORMAT_VERSION 1
+/*
+ * 1  - Freeciv-2.6 
+ * 10 - Freeciv-3.0
+ */
+#define FORMAT_VERSION 10
 
 /**************************************************************************
   Create new ruleset section file with common header.

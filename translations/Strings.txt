@@ -11,10 +11,11 @@ These are sent by metaserver
 /* TRANS: Version tag name received from metaserver */
 _("?vertag:stable")
 _("?vertag:win32")
-_("?vertag:S2_5")
 _("?vertag:S2_6")
+_("?vertag:S3_0")
 _("?vertag:crosser")
 _("?vertag:win32-S2_6")
+_("?vertag:win32-S3_0")
 
 
 Generated version header
