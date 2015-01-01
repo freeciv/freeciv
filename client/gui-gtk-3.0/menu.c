@@ -2274,7 +2274,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "EXPLODE_NUKE",
                       units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
 
-  if (units_have_type_flag(punits, UTYF_HELP_WONDER, TRUE)) {
+  if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename(unit_group, "BUILD_CITY", _("Help _Build Wonder"));
   } else {
     bool city_on_tile = FALSE;
