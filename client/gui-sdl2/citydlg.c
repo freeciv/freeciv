@@ -3044,11 +3044,9 @@ static void redraw_city_dialog(struct city *pCity)
 
     fill_rect_alpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_GRANARY));
 
-#if 0
-    putframe(pWindow->dst->renderer,
-             dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-             get_theme_color(COLOR_THEME_CITYDLG_FRAME));
-#endif
+    create_frame(pWindow->dst->surface,
+                 dest.x - 1, dest.y - 1, dest.w, dest.h,
+                 get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
     /* draw bcgd stocks*/
     dest.x = pWindow->size.x + adj_size(550);
@@ -3056,11 +3054,9 @@ static void redraw_city_dialog(struct city *pCity)
 
     fill_rect_alpha(pWindow->dst->surface, &dest, get_theme_color(COLOR_THEME_CITYDLG_STOCKS));
 
-#if 0
-    putframe(pWindow->dst->renderer,
-             dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-             get_theme_color(COLOR_THEME_CITYDLG_FRAME));
-#endif
+    create_frame(pWindow->dst->surface,
+                 dest.x - 1, dest.y - 1, dest.w, dest.h,
+                 get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
     /* draw stocks icons */
     cost = city_granary_size(city_size_get(pCity));
@@ -3151,11 +3147,9 @@ static void redraw_city_dialog(struct city *pCity)
     fill_rect_alpha(pWindow->dst->surface, &dest,
                     get_theme_color(COLOR_THEME_CITYDLG_FOODSTOCK));
 
-#if 0
-    putframe(pWindow->dst->renderer,
-             dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-             get_theme_color(COLOR_THEME_CITYDLG_FRAME));
-#endif
+    create_frame(pWindow->dst->surface,
+                 dest.x - 1, dest.y - 1, dest.w, dest.h,
+                 get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
     /* draw icons */
     cost = city_granary_size(city_size_get(pCity));
@@ -3295,11 +3289,9 @@ static void redraw_city_dialog(struct city *pCity)
     fill_rect_alpha(pWindow->dst->surface, &dest,
                     get_theme_color(COLOR_THEME_CITYDLG_SHIELDSTOCK));
 
-#if 0
-    putframe(pWindow->dst->renderer,
-             dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-             get_theme_color(COLOR_THEME_CITYDLG_FRAME));
-#endif
+    create_frame(pWindow->dst->surface,
+                 dest.x - 1, dest.y - 1, dest.w, dest.h,
+                 get_theme_color(COLOR_THEME_CITYDLG_FRAME));
 
     /* draw production progres text */
     dest.y = pWindow->size.y + adj_size(270) + dest.h + 1;

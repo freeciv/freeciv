@@ -445,20 +445,16 @@ void popup_connection_dialog(bool lan_scan)
 
   fill_rect_alpha(pWindow->dst->surface, &area2, &bg_color);
 
-#if 0
-  putframe(pWindow->dst->renderer,
-           area2.x - 1, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
-           get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
-#endif
+  create_frame(pWindow->dst->surface,
+               area2.x - 1, area2.y - 1, area2.w, area2.h,
+               get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
 
   redraw_group(pMeta_Server->pBeginWidgetList, pWindow->prev, 0);
 
-#if 0
-  putframe(pWindow->dst->renderer,
-           pWindow->size.x, pWindow->size.y,
-           area.x + area.w - 1, area.y + area.h - 1,
-           get_theme_color(COLOR_THEME_CONNECTDLG_FRAME));
-#endif
+  create_frame(pWindow->dst->surface,
+               pWindow->size.x, pWindow->size.y,
+               area.w - 1, area.h - 1,
+               get_theme_color(COLOR_THEME_CONNECTDLG_FRAME));
 
   widget_flush(pWindow);
 }
