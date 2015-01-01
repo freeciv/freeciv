@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"POT-Creation-Date: 2015-01-02 00:08+0200\n"
 "PO-Revision-Date: 2011-03-26 15:29+0100\n"
 "Last-Translator: Paolo Sammicheli <paolo@sammiche.li>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
@@ -289,21 +289,21 @@ msgstr "Informazioni su"
 #: data/nation/galician.ruleset:22 data/nation/genoese.ruleset:50
 #: data/nation/germanbelgian.ruleset:27 data/nation/greaterpolish.ruleset:21
 #: data/nation/honduran.ruleset:30 data/nation/irish.ruleset:42
-#: data/nation/latin.ruleset:44 data/nation/leonese.ruleset:22
-#: data/nation/liechtensteiner.ruleset:32 data/nation/luxembourgish.ruleset:29
-#: data/nation/maltese.ruleset:26 data/nation/mazovian.ruleset:24
-#: data/nation/milanese.ruleset:27 data/nation/monegasque.ruleset:30
-#: data/nation/norman.ruleset:25 data/nation/northumbrian.ruleset:39
-#: data/nation/palatinate.ruleset:30 data/nation/panamanian.ruleset:30
-#: data/nation/paraguayan.ruleset:38 data/nation/peruvian.ruleset:27
-#: data/nation/piedmontese.ruleset:33 data/nation/quebecois.ruleset:21
-#: data/nation/riograndense.ruleset:21 data/nation/romansh.ruleset:29
-#: data/nation/saintlucian.ruleset:24 data/nation/salvadoran.ruleset:41
-#: data/nation/sammarinese.ruleset:25 data/nation/sardinian.ruleset:33
-#: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
-#: data/nation/slovenian.ruleset:19 data/nation/teutonic.ruleset:29
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/yucatecan.ruleset:31
+#: data/nation/langobardic.ruleset:38 data/nation/latin.ruleset:44
+#: data/nation/leonese.ruleset:22 data/nation/liechtensteiner.ruleset:32
+#: data/nation/luxembourgish.ruleset:29 data/nation/maltese.ruleset:26
+#: data/nation/mazovian.ruleset:24 data/nation/milanese.ruleset:27
+#: data/nation/monegasque.ruleset:30 data/nation/norman.ruleset:25
+#: data/nation/northumbrian.ruleset:39 data/nation/palatinate.ruleset:30
+#: data/nation/panamanian.ruleset:30 data/nation/paraguayan.ruleset:38
+#: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
+#: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
+#: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
+#: data/nation/salvadoran.ruleset:41 data/nation/sammarinese.ruleset:25
+#: data/nation/sardinian.ruleset:33 data/nation/savoyard.ruleset:32
+#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
+#: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/yucatecan.ruleset:31
 #, fuzzy, c-format
 msgid "Mother Superior %s"
 msgstr "Madre Superiore"
@@ -365,10 +365,11 @@ msgstr "Governatore"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
-#: data/nation/greenlander.ruleset:27 data/nation/kuna.ruleset:23
-#: data/nation/miskito.ruleset:35 data/nation/puertorican.ruleset:30
-#: data/nation/quebecois.ruleset:22 data/nation/siberian.ruleset:24
-#: data/nation/vermont.ruleset:26 data/nation/westindian.ruleset:25
+#: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
+#: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
+#: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
+#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/westindian.ruleset:25
 #, fuzzy, c-format
 msgid "?female:Governor %s"
 msgstr "Governatrice"
@@ -605,7 +606,7 @@ msgstr "Sceicco"
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/qatari.ruleset:20
 #: data/nation/somaliland.ruleset:25 data/nation/somali.ruleset:36
-#: data/nation/tuareg.ruleset:37
+#: data/nation/syrian.ruleset:20 data/nation/tuareg.ruleset:37
 #, fuzzy, c-format
 msgid "Shaykha %s"
 msgstr "Shaykhah"
@@ -749,11 +750,11 @@ msgstr "Principessa"
 #: data/nation/moldovan.ruleset:23 data/nation/monegasque.ruleset:31
 #: data/nation/montenegrin.ruleset:27 data/nation/mordvin.ruleset:20
 #: data/nation/nepali.ruleset:29 data/nation/novgorodian.ruleset:40
-#: data/nation/romanian.ruleset:31 data/nation/ruthenian.ruleset:29
-#: data/nation/silesian.ruleset:22 data/nation/sinhalese.ruleset:25
-#: data/nation/sorbian.ruleset:26 data/nation/transylvanian.ruleset:27
-#: data/nation/ukrainian.ruleset:37 data/nation/urartian.ruleset:37
-#: data/nation/westernpomeranian.ruleset:29
+#: data/nation/romanian.ruleset:31 data/nation/rusyn.ruleset:33
+#: data/nation/ruthenian.ruleset:29 data/nation/silesian.ruleset:22
+#: data/nation/sinhalese.ruleset:25 data/nation/sorbian.ruleset:26
+#: data/nation/transylvanian.ruleset:27 data/nation/ukrainian.ruleset:37
+#: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
 #, fuzzy, c-format
 msgid "Princess %s"
 msgstr "Principessa"
@@ -850,6 +851,12 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Secretary General %s"
 msgstr "Segretario generale"
+
+#: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
+#: data/nation/santomean.ruleset:33
+#, fuzzy, c-format
+msgid "?female:Secretary General %s"
+msgstr "?female:Segretaria generale"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, fuzzy, c-format
@@ -1406,15 +1413,16 @@ msgstr "Usurpatore"
 #: data/nation/elamite.ruleset:32 data/nation/epirote.ruleset:28
 #: data/nation/etruscan.ruleset:31 data/nation/frankish.ruleset:39
 #: data/nation/gepid.ruleset:41 data/nation/israelite.ruleset:31
-#: data/nation/latin.ruleset:39 data/nation/median.ruleset:29
-#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
-#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
-#: data/nation/palmyrene.ruleset:19 data/nation/parthian.ruleset:33
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/pontic.ruleset:33
-#: data/nation/sabine.ruleset:26 data/nation/samnite.ruleset:26
-#: data/nation/seleucid.ruleset:28 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/italiangreek.ruleset:45 data/nation/latin.ruleset:39
+#: data/nation/median.ruleset:29 data/nation/mitanni.ruleset:30
+#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
+#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
+#: data/nation/parthian.ruleset:33 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/pontic.ruleset:33 data/nation/sabine.ruleset:26
+#: data/nation/samnite.ruleset:26 data/nation/seleucid.ruleset:28
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, fuzzy, c-format
 msgid "?female:Usurper %s"
 msgstr "Usurpatrice"
@@ -2078,6 +2086,12 @@ msgstr ""
 msgid "High Druid %s"
 msgstr "Druido"
 
+#: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
+#: data/nation/helvetian.ruleset:29
+#, fuzzy, c-format
+msgid "?female:High Druid %s"
+msgstr "Druida"
+
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
@@ -2134,9 +2148,10 @@ msgstr "Portavoce"
 
 #: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
-#: data/nation/gepid.ruleset:44 data/nation/liberian.ruleset:30
-#: data/nation/marshallese.ruleset:23 data/nation/nauruan.ruleset:32
-#: data/nation/toltec.ruleset:33 data/nation/urartian.ruleset:40
+#: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
+#: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
+#: data/nation/nauruan.ruleset:32 data/nation/toltec.ruleset:33
+#: data/nation/urartian.ruleset:40
 #, fuzzy, c-format
 msgid "?female:Speaker %s"
 msgstr "Portavoce"
@@ -2861,7 +2876,7 @@ msgid ""
 "Rome. Their first kingdom was founded in Worms, but after its destruction by "
 "the Huns they moved to what is today Savoy and Burgundy, where they founded "
 "their second kingdom. Eventually they were subordinated by the Frankish "
-"Kingdom. The Bugundians gave their name to the later Romance nation and "
+"Kingdom. The Burgundians gave their name to the later Romance nation and "
 "region of Burgundy."
 msgstr ""
 
@@ -3294,7 +3309,7 @@ msgid "People's Commissar %s"
 msgstr "Alta commissario"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
-#: data/nation/volgagerman.ruleset:37
+#: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, fuzzy, c-format
 msgid "?female:People's Commissar %s"
 msgstr "Reso"
@@ -4809,7 +4824,8 @@ msgstr "Emira"
 msgid "Captain %s"
 msgstr "Capitano Generale"
 
-#: data/nation/florentine.ruleset:42 data/nation/milanese.ruleset:29
+#: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
+#: data/nation/milanese.ruleset:29
 #, fuzzy, c-format
 msgid "?female:Captain %s"
 msgstr "Capo"
@@ -5731,11 +5747,6 @@ msgid ""
 "Helvetians succumbed to the Romans and became Romanized during the following "
 "centuries."
 msgstr ""
-
-#: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
-msgid "?female:High Druid %s"
-msgstr "Druida"
 
 #: data/nation/hephthalite.ruleset:3
 #, fuzzy
@@ -6755,6 +6766,12 @@ msgstr ""
 msgid "Guru %s"
 msgstr "utente %s, "
 
+#: data/nation/kushan.ruleset:43 data/nation/sikh.ruleset:33
+#: data/nation/vedic.ruleset:24
+#, fuzzy, c-format
+msgid "?female:Guru %s"
+msgstr "Druida"
+
 #: data/nation/kuwaiti.ruleset:3
 #, fuzzy
 msgid "Kuwaiti"
@@ -6813,11 +6830,6 @@ msgid ""
 "Italia in 568. They founded a new kingdom with its capital in Pavia. The "
 "modern region of Lombardy derives its name from the Lombards."
 msgstr ""
-
-#: data/nation/langobardic.ruleset:38
-#, fuzzy, c-format
-msgid "?female:Mother Superior %s"
-msgstr "Madre Superiore"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
@@ -6933,11 +6945,6 @@ msgid ""
 "of the Ottoman Empire for over four centuries and became a French mandate "
 "after World War I. Lebanon proclaimed its independence in 1943."
 msgstr ""
-
-#: data/nation/lebanese.ruleset:27 data/nation/santomean.ruleset:33
-#, fuzzy, c-format
-msgid "?female:Secretary General %s"
-msgstr "?female:Segretaria generale"
 
 #: data/nation/lendian.ruleset:3
 #, fuzzy
@@ -10426,11 +10433,6 @@ msgid ""
 "Empire existed in the region."
 msgstr ""
 
-#: data/nation/sikh.ruleset:33 data/nation/vedic.ruleset:24
-#, fuzzy, c-format
-msgid "?female:Guru %s"
-msgstr "Druida"
-
 #: data/nation/sikkimese.ruleset:3
 #, fuzzy
 msgid "Sikkimese"
@@ -10967,11 +10969,6 @@ msgstr ""
 "La moderna repubblica Siriana è stata formata da una colonia Francese e "
 "gradualmente ha guadagnato indipendenza durante gli anni 40 del "
 "diciannovesimo secolo."
-
-#: data/nation/syrian.ruleset:20
-#, fuzzy, c-format
-msgid "?female:Shaykha %s"
-msgstr "Sciamana"
 
 #: data/nation/tahitian.ruleset:3
 #, fuzzy
@@ -12461,3 +12458,11 @@ msgid ""
 "1980 the country has been governed by Robert Mugabe, who has received an "
 "equally poor reputation internationally as the previous regime."
 msgstr ""
+
+#, fuzzy
+#~ msgid "?female:Mother Superior %s"
+#~ msgstr "Madre Superiore"
+
+#, fuzzy
+#~ msgid "?female:Shaykha %s"
+#~ msgstr "Sciamana"

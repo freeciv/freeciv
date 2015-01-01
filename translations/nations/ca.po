@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-21 17:53+0200\n"
+"POT-Creation-Date: 2015-01-02 00:08+0200\n"
 "PO-Revision-Date: 2014-08-21 18:00+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -280,7 +280,7 @@ msgid "Abbot %s"
 msgstr "Abat %s"
 
 #: data/nation/acadian.ruleset:32 data/nation/aragonese.ruleset:30
-#: data/nation/argentine.ruleset:30 data/nation/asturian.ruleset:33
+#: data/nation/argentine.ruleset:30 data/nation/asturian.ruleset:30
 #: data/nation/badian.ruleset:24 data/nation/bavarian.ruleset:24
 #: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:41
 #: data/nation/brandenburgian.ruleset:28 data/nation/burgundian.ruleset:30
@@ -749,7 +749,7 @@ msgstr ""
 "Durant bona part del segle XX, el dictador comunista Enver Hoxha va dirigir "
 "Albània."
 
-#: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:32
+#: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
@@ -767,7 +767,7 @@ msgstr ""
 msgid "Prince %s"
 msgstr "Príncep %s"
 
-#: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:32
+#: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
@@ -965,7 +965,7 @@ msgstr "Prebost %s"
 
 #: data/nation/alsatian.ruleset:27 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
-#: data/nation/aragonese.ruleset:30 data/nation/asturian.ruleset:33
+#: data/nation/aragonese.ruleset:30 data/nation/asturian.ruleset:30
 #: data/nation/australian.ruleset:26 data/nation/badian.ruleset:24
 #: data/nation/bahamian.ruleset:27 data/nation/barbadian.ruleset:27
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
@@ -1590,19 +1590,26 @@ msgstr "Asturià"
 msgid "?plural:Asturians"
 msgstr "Asturians"
 
-#. TRANS: The e in "Uvieu" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
-#: data/nation/asturian.ruleset:9
+#: data/nation/asturian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The Astures were a Celtic people which occupied most of the northern "
+#| "coast of Spain. They battled against the Roman Empire until their defeat "
+#| "by Caesar Augustus' legions between 29 and 19 BCE. Under the Visigothic "
+#| "kingdom of Toledo, there were uneasy relations between Visigoths and "
+#| "Asturians. In 722 CE, king Pelayo defeated the Umayyad Muslim troops at "
+#| "Cuadonga, establishing the Asturian Kingdom, which lasted until 910 CE, "
+#| "when the capital town was moved from Oviedo to Leon. Nowadays, Asturias "
+#| "is an autonomous community of Spain."
 msgid ""
 "The Astures were a Celtic people which occupied most of the northern coast "
 "of Spain. They battled against the Roman Empire until their defeat by Caesar "
 "Augustus' legions between 29 and 19 BCE. Under the Visigothic kingdom of "
 "Toledo, there were uneasy relations between Visigoths and Asturians. In 722 "
-"CE, king Pelayo defeated the Umayyad Muslim troops at Cuadonga, establishing "
-"the Asturian Kingdom, which lasted until 910 CE, when the capital town was "
-"moved from Oviedo to Leon. Nowadays, Asturias is an autonomous community of "
-"Spain."
+"CE, king Pelayo defeated the Umayyad Muslim troops at Covadonga, "
+"establishing the Asturian Kingdom, which lasted until 910 CE, when the "
+"capital town was moved from Oviedo to Leon. Nowadays, Asturias is an "
+"autonomous community of Spain."
 msgstr ""
 "Els asturs eren un poble cèltic que ocupava la major part de la costa "
 "septentrional d'Espanya. Van batallar contra l'Imperi Romà fins la seva "

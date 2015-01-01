@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"POT-Creation-Date: 2015-01-02 00:08+0200\n"
 "PO-Revision-Date: 2012-08-24 23:47+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -16,122 +16,245 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: tools/ruledit/ruledit.cpp:102
-msgid "Print a summary of the options"
+#: tools/ruledit/requirers_dlg.cpp:43
+msgid "Close"
 msgstr ""
-
-#: tools/ruledit/ruledit.cpp:104
-msgid "Print the version number"
-msgstr ""
-
-#: tools/ruledit/ruledit.cpp:118
-#, c-format
-msgid "Unrecognized option: \"%s\"\n"
-msgstr ""
-
-#: tools/ruledit/ruledit_qt.cpp:58
-#, fuzzy
-msgid "Freeciv ruleset editor"
-msgstr "Freeciv 版本 %s"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
+#: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:119
+#: tools/ruledit/ruledit.cpp:114
+msgid "Print a summary of the options"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:116
+msgid "Print the version number"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:130
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:60
+#, fuzzy
+msgid "Freeciv Ruleset Editor"
+msgstr "Freeciv 版本 %s"
+
+#: tools/ruledit/ruledit_qt.cpp:127
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:148
 #, fuzzy
 msgid "Start editing"
 msgstr "起始點"
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:137
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
+msgid "Buildings"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:164
+msgid "Units"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
+msgid "Nations"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:175
 #, fuzzy
 msgid "Welcome to freeciv-ruledit"
 msgstr "歡迎來到 Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:195
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "重設"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:211
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:53
-#, fuzzy
-msgid "Ruleset name"
-msgstr "重設"
-
-#: tools/ruledit/tab_misc.cpp:58
-#, fuzzy
-msgid "Ruleset version"
-msgstr "規則版本(_V)："
-
-#: tools/ruledit/tab_misc.cpp:63
-msgid "Save to directory"
-msgstr ""
-
-#: tools/ruledit/tab_misc.cpp:70
-#, fuzzy
-msgid "Save now"
-msgstr "儲存劇情"
-
-#: tools/ruledit/tab_misc.cpp:106
-#, fuzzy
-msgid "Ruleset saved"
-msgstr "重設"
-
-#: tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
+#: tools/ruledit/tab_unit.cpp:62
 msgid "Name"
 msgstr "名稱"
 
-#: tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
+#: tools/ruledit/tab_unit.cpp:70
 #, fuzzy
 msgid "Rule Name"
 msgstr "重設"
 
-#: tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_building.cpp:78
+msgid "Add Building"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:83
+#, fuzzy
+msgid "Remove this Building"
+msgstr "重設這個選項"
+
+#: tools/ruledit/tab_building.cpp:148
+msgid "Building with that rule name already exist!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:62
+#, fuzzy
+msgid "Ruleset name"
+msgstr "重設"
+
+#: tools/ruledit/tab_misc.cpp:67
+#, fuzzy
+msgid "Ruleset version"
+msgstr "規則版本(_V)："
+
+#: tools/ruledit/tab_misc.cpp:72
+msgid "Save to directory"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:79
+#, fuzzy
+msgid "Save now"
+msgstr "儲存劇情"
+
+#: tools/ruledit/tab_misc.cpp:86
+msgid "Terrains"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:90
+msgid "Resources"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:94
+msgid "Techs"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:98
+msgid "Unit Classes"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:102
+msgid "Unit Types"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
+msgid "Styles"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:118
+msgid "Specialists"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:122
+msgid "Governments"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:126
+msgid "Disasters"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:130
+msgid "Achievements"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:134
+msgid "Extras"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:138
+msgid "Bases"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:142
+msgid "Roads"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:150
+msgid "Refresh Stats"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:206
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "重設"
+
+#: tools/ruledit/tab_nation.cpp:49
+msgid "Use nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:53
+msgid "Nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:94
+#: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:103
+#: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:107
+#: tools/ruledit/tab_tech.cpp:109
 #, fuzzy
 msgid "Remove this tech"
 msgstr "重設這個選項"
 
-#: tools/ruledit/tab_tech.cpp:186
+#: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:311
+msgid "Tech with that rule name already exist!"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:78
+msgid "Add Unit"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:83
+#, fuzzy
+msgid "Remove this Unit"
+msgstr "重設這個選項"
+
+#: tools/ruledit/tab_unit.cpp:148
+msgid "Unit type with that rule name already exist!"
 msgstr ""
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:125
+msgid "Action Enabler"
 msgstr ""
 
 #: tools/ruledit/validity.c:145

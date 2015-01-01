@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-25 06:43+0200\n"
+"POT-Creation-Date: 2015-01-02 00:08+0200\n"
 "PO-Revision-Date: 2014-08-29 12:29+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,8 @@ msgstr ""
 msgid "Close"
 msgstr "Zamknij"
 
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
 #: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
@@ -247,6 +249,10 @@ msgstr ""
 #: tools/ruledit/validity.c:64
 msgid "Effect"
 msgstr "Efekt"
+
+#: tools/ruledit/validity.c:125
+msgid "Action Enabler"
+msgstr ""
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"

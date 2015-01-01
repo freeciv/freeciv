@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-12 19:10+0100\n"
+"POT-Creation-Date: 2015-01-02 00:08+0200\n"
 "PO-Revision-Date: 2014-09-14 12:42+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -22,115 +22,245 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: tools/ruledit/ruledit.cpp:102
-msgid "Print a summary of the options"
-msgstr "Mostrar un resum de les opcions"
-
-#: tools/ruledit/ruledit.cpp:104
-msgid "Print the version number"
-msgstr "Mostrar la versió"
-
-#: tools/ruledit/ruledit.cpp:118
-#, c-format
-msgid "Unrecognized option: \"%s\"\n"
-msgstr "Opció no reconeguda: \"%s\"\n"
-
-#: tools/ruledit/ruledit_qt.cpp:58
-msgid "Freeciv ruleset editor"
-msgstr "Editor de jocs de regles de Freeciv"
+#: tools/ruledit/requirers_dlg.cpp:43
+msgid "Close"
+msgstr ""
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
-#: tools/ruledit/ruledit_qt.cpp:96
+#: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
 msgstr "El necessita %s"
 
-#: tools/ruledit/ruledit_qt.cpp:119
+#: tools/ruledit/ruledit.cpp:114
+msgid "Print a summary of the options"
+msgstr "Mostrar un resum de les opcions"
+
+#: tools/ruledit/ruledit.cpp:116
+msgid "Print the version number"
+msgstr "Mostrar la versió"
+
+#: tools/ruledit/ruledit.cpp:130
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Opció no reconeguda: \"%s\"\n"
+
+#: tools/ruledit/ruledit_qt.cpp:60
+#, fuzzy
+#| msgid "Freeciv ruleset editor"
+msgid "Freeciv Ruleset Editor"
+msgstr "Editor de jocs de regles de Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:127
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
 msgstr "Donar un joc de regles per utilitzar com a punt de partida."
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
 msgstr "Començar a editar"
 
-#: tools/ruledit/ruledit_qt.cpp:135
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr "Diversos"
 
-#: tools/ruledit/ruledit_qt.cpp:137
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr "Tecnologia"
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
+msgid "Buildings"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:164
+msgid "Units"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
+msgid "Nations"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:175
 msgid "Welcome to freeciv-ruledit"
 msgstr "Benvingut a freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:195
 msgid "Ruleset loaded"
 msgstr "Joc de regles carregat"
 
-#: tools/ruledit/ruledit_qt.cpp:186
+#: tools/ruledit/ruledit_qt.cpp:211
 msgid "Ruleset loading failed!"
 msgstr "Ha fallat la càrrega del joc de regles!"
 
-#: tools/ruledit/tab_misc.cpp:53
-msgid "Ruleset name"
-msgstr "Nom del Joc de Regles"
-
-#: tools/ruledit/tab_misc.cpp:58
-msgid "Ruleset version"
-msgstr "Versió del Joc de Regles:"
-
-#: tools/ruledit/tab_misc.cpp:63
-msgid "Save to directory"
-msgstr "Desar al directori"
-
-#: tools/ruledit/tab_misc.cpp:70
-msgid "Save now"
-msgstr "Desar ara"
-
-#: tools/ruledit/tab_misc.cpp:106
-msgid "Ruleset saved"
-msgstr "Joc de regles desat"
-
-#: tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
+#: tools/ruledit/tab_unit.cpp:62
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
+#: tools/ruledit/tab_unit.cpp:70
 msgid "Rule Name"
 msgstr "Nom de Regla"
 
-#: tools/ruledit/tab_tech.cpp:77
+#: tools/ruledit/tab_building.cpp:78
+msgid "Add Building"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:83
+#, fuzzy
+#| msgid "Remove this tech"
+msgid "Remove this Building"
+msgstr "Treure aquesta tecnologia"
+
+#: tools/ruledit/tab_building.cpp:148
+msgid "Building with that rule name already exist!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:62
+msgid "Ruleset name"
+msgstr "Nom del Joc de Regles"
+
+#: tools/ruledit/tab_misc.cpp:67
+msgid "Ruleset version"
+msgstr "Versió del Joc de Regles:"
+
+#: tools/ruledit/tab_misc.cpp:72
+msgid "Save to directory"
+msgstr "Desar al directori"
+
+#: tools/ruledit/tab_misc.cpp:79
+msgid "Save now"
+msgstr "Desar ara"
+
+#: tools/ruledit/tab_misc.cpp:86
+msgid "Terrains"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:90
+msgid "Resources"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:94
+#, fuzzy
+#| msgid "Tech"
+msgid "Techs"
+msgstr "Tecnologia"
+
+#: tools/ruledit/tab_misc.cpp:98
+msgid "Unit Classes"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:102
+msgid "Unit Types"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
+msgid "Styles"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:118
+msgid "Specialists"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:122
+msgid "Governments"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:126
+msgid "Disasters"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:130
+msgid "Achievements"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:134
+msgid "Extras"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:138
+msgid "Bases"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:142
+msgid "Roads"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:150
+msgid "Refresh Stats"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:206
+msgid "Ruleset saved"
+msgstr "Joc de regles desat"
+
+#: tools/ruledit/tab_nation.cpp:49
+msgid "Use nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:53
+msgid "Nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
 msgstr "Req1"
 
-#: tools/ruledit/tab_tech.cpp:86
+#: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
 msgstr "Req2"
 
-#: tools/ruledit/tab_tech.cpp:94
+#: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
 msgstr "Req Arrel"
 
-#: tools/ruledit/tab_tech.cpp:103
+#: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
 msgstr "Afegir tecnologia"
 
-#: tools/ruledit/tab_tech.cpp:107
+#: tools/ruledit/tab_tech.cpp:109
 msgid "Remove this tech"
 msgstr "Treure aquesta tecnologia"
 
-#: tools/ruledit/tab_tech.cpp:186
+#: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
 msgstr "Mai"
+
+#: tools/ruledit/tab_tech.cpp:311
+msgid "Tech with that rule name already exist!"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:78
+#, fuzzy
+#| msgid "Add tech"
+msgid "Add Unit"
+msgstr "Afegir tecnologia"
+
+#: tools/ruledit/tab_unit.cpp:83
+#, fuzzy
+#| msgid "Remove this tech"
+msgid "Remove this Unit"
+msgstr "Treure aquesta tecnologia"
+
+#: tools/ruledit/tab_unit.cpp:148
+msgid "Unit type with that rule name already exist!"
+msgstr ""
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
 msgstr "Efecte"
 
+#: tools/ruledit/validity.c:125
+msgid "Action Enabler"
+msgstr ""
+
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
 msgstr "Estil Musical"
-
