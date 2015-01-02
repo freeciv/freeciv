@@ -131,33 +131,16 @@ type    = "No_Diplomacy"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "Nation", "Barbarian", "Player"
-    }
-
-[effect_barb2]
-type    = "No_Diplomacy"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Nation", "Pirate", "Player"
+      "NationGroup", "Barbarian", "Player"
     }
 
 ; Barbarian no waste by distance
-[effect_barb3]
+[effect_barb2]
 type    = "Output_Waste_By_Distance"
 value   = -2
 reqs    =
     { "type", "name", "range"
-      "Nation", "Barbarian", "Player"
-    }
-
-; Pirate no waste by distance
-[effect_barb4]
-type    = "Output_Waste_By_Distance"
-value   = -2
-reqs    =
-    { "type", "name", "range"
-      "Nation", "Pirate", "Player"
+      "NationGroup", "Barbarian", "Player"
     }
 
 ; Barbarian disappearance
@@ -167,17 +150,7 @@ type    = "Retire_Pct"
 value   = 10
 reqs    =
     { "type", "name", "range", "present"
-      "Nation", "Barbarian", "Player", TRUE
-      "Age", "5", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
-
-[effect_pirate_disappear]
-type    = "Retire_Pct"
-value   = 10
-reqs    =
-    { "type", "name", "range", "present"
-      "Nation", "Pirate", "Player", TRUE
+      "NationGroup", "Barbarian", "Player", TRUE
       "Age", "5", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
@@ -1600,8 +1573,7 @@ reqs    =
       "Tech", "Communism", "Player", TRUE
       "Tech", "Gunpowder", "Player", TRUE
       "Tech", "Guerilla Warfare", "World", TRUE
-      "Nation", "Barbarian", "Player", FALSE
-      "Nation", "Pirate", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [effect_partisan_democracy]
@@ -1613,8 +1585,7 @@ reqs    =
       "Tech", "Communism", "Player", TRUE
       "Tech", "Gunpowder", "Player", TRUE
       "Tech", "Guerilla Warfare", "World", TRUE
-      "Nation", "Barbarian", "Player", FALSE
-      "Nation", "Pirate", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [effect_lux_federation]

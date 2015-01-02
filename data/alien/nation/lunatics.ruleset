@@ -4,6 +4,7 @@ translation_domain="freeciv"
 
 name = _("Lunatic")
 plural = _("?plural:Lunatics")
+groups = "Barbarian"
 legend = _("Something drove them crazy, made them escape the society to seas.")
 
 leaders = {

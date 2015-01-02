@@ -24,56 +24,30 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 ; Effects for nations are in separate file
 *include "alien/nation_effects.ruleset"
 
-[effect_madmen1]
+[effect_barbarian1]
 type    = "No_Diplomacy"
 value   = 1
 reqs    =
     { "type",   "name", "range"
-      "Nation", "Madmen", "Player"
+      "NationGroup", "Barbarian", "Player"
     }
 
-[effect_madmen2]
+[effect_barbarian2]
 type    = "Not_Tech_Source"
 value   = 1
 reqs    =
     { "type",   "name", "range"
-      "Nation", "Madmen", "Player"
-    }
-
-[effect_lunatic1]
-type    = "No_Diplomacy"
-value   = 1
-reqs    =
-    { "type",   "name", "range"
-      "Nation", "Lunatic", "Player"
-    }
-
-[effect_lunatic2]
-type    = "Not_Tech_Source"
-value   = 1
-reqs    =
-    { "type",   "name", "range"
-      "Nation", "Lunatic", "Player"
+      "NationGroup", "Barbarian", "Player"
     }
 
 ; Barbarian disappearance
 
-[effect_madmen_disappear]
+[effect_barbarian_disappear]
 type    = "Retire_Pct"
 value   = 10
 reqs    =
     { "type", "name", "range", "present"
-      "Nation", "Madmen", "Player", TRUE
-      "Age", "5", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
-
-[effect_lunatic_disappear]
-type    = "Retire_Pct"
-value   = 10
-reqs    =
-    { "type", "name", "range", "present"
-      "Nation", "Lunatic", "Player", TRUE
+      "NationGroup", "Barbarian", "Player", TRUE
       "Age", "5", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
@@ -81,24 +55,12 @@ reqs    =
 ; Lone Leader might escape on coast (33% chance)
 ; Complement of the two effects should be 0.9 * 0.66 = 0.594
 ; (100 - 59) - 10 = 31
-[effect_madmen_cyborg_escape]
+[effect_barbarian_cyborg_escape]
 type    = "Retire_Pct"
 value   = 31
 reqs    =
     { "type", "name", "range"
-      "Nation", "Madmen", "Player"
-      "UnitType", "Cyborgs", "Local"
-      "Age", "5", "Local"
-      "TerrainClass", "Oceanic", "Adjacent"
-      "MaxUnitsOnTile", "1", "Local"
-    }
-
-[effect_lunatic_cyborg_escape]
-type    = "Retire_Pct"
-value   = 31
-reqs    =
-    { "type", "name", "range"
-      "Nation", "Lunatic", "Player"
+      "NationGroup", "Barbarian", "Player"
       "UnitType", "Cyborgs", "Local"
       "Age", "5", "Local"
       "TerrainClass", "Oceanic", "Adjacent"

@@ -78,6 +78,10 @@ match=0
 [ngroup_modern]
 name=_("?nationgroup:Modern")
 match=0
+[ngroup_barbarian]
+name=_("?nationgroup:Barbarian")
+match=0
+hidden=true
 
 [nation_american]
 
@@ -2041,6 +2045,7 @@ translation_domain="freeciv"
 
 name=_("Barbarian")
 plural=_("?plural:Barbarians")
+groups="Barbarian"
 legend=_("Since the dawn of civilization, barbarians have been a threat to\
  cultured peoples everywhere.")
 
@@ -2075,6 +2080,7 @@ translation_domain="freeciv"
 
 name=_("Pirate")
 plural=_("?plural:Pirates")
+groups="Barbarian"
 legend=_("As long as honest men have sailed the seas, pirates have been a\
  scourge of them and of all coastal dwelling peoples.")
 

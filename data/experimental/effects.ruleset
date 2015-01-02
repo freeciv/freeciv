@@ -44,15 +44,7 @@ type    = "No_Diplomacy"
 value   = 1
 reqs    =
     { "type",   "name", "range"
-      "Nation", "Barbarian", "Player"
-    }
-
-[effect_barb2]
-type    = "No_Diplomacy"
-value   = 1
-reqs    =
-    { "type",   "name", "range"
-      "Nation", "Pirate", "Player"
+      "NationGroup", "Barbarian", "Player"
     }
 
 ; Barbarian disappearance
@@ -62,17 +54,7 @@ type    = "Retire_Pct"
 value   = 10
 reqs    =
     { "type", "name", "range", "present"
-      "Nation", "Barbarian", "Player", TRUE
-      "Age", "5", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
-
-[effect_pirate_disappear]
-type    = "Retire_Pct"
-value   = 10
-reqs    =
-    { "type", "name", "range", "present"
-      "Nation", "Pirate", "Player", TRUE
+      "NationGroup", "Barbarian", "Player", TRUE
       "Age", "5", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
@@ -783,8 +765,7 @@ reqs	=
       "Tech", "Communism", "Player", TRUE
       "Tech", "Gunpowder", "Player", TRUE
       "Tech", "Guerilla Warfare", "World", TRUE
-      "Nation", "Barbarian", "Player", FALSE
-      "Nation", "Pirate", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [effect_partisans_democracy]
@@ -796,8 +777,7 @@ reqs	=
       "Tech", "Communism", "Player", TRUE
       "Tech", "Gunpowder", "Player", TRUE
       "Tech", "Guerilla Warfare", "World", TRUE
-      "Nation", "Barbarian", "Player", FALSE
-      "Nation", "Pirate", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [effect_airport]

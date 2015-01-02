@@ -86,6 +86,10 @@ match=0
 [ngroup_imaginary]
 name=_("?nationgroup:Imaginary")
 match=2
+[ngroup_barbarian]
+name=_("?nationgroup:Barbarian")
+match=0
+hidden=true
 
 [compatibility]
 
