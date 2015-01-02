@@ -56,6 +56,22 @@ default_government = "Despotism"
 name=_("All nations")
 rule_name="all"
 
+; Descriptions of nation groups
+; These are more cosmetic than sets; they affect the "pick nation" dialog,
+; random nation selection, and possibly ruleset behaviour.
+; It`s OK to not define any nation groups at all.
+; name 		= name of the group (used adjectivally)
+; hidden        = TRUE to not include this group in the "pick nation" dialog
+;                 (for instance if it`s for use in a NationGroup requirement).
+;                 Default FALSE.
+; match		= How much the AI will try to select a nation in the same
+;                 group
+
+[ngroup_barbarian]
+name=_("?nationgroup:Barbarian")
+match=0
+hidden=true
+
 *include "alien/nation/mathclub.ruleset"
 *include "alien/nation/secretsociety.ruleset"
 *include "alien/nation/kindergarden.ruleset"

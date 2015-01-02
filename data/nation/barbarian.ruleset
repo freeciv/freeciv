@@ -4,7 +4,7 @@ translation_domain="freeciv"
 
 name=_("Barbarian")
 plural=_("?plural:Barbarians")
-groups="Core"
+groups="Core", "Barbarian"
 legend=_("Since the dawn of civilization, barbarians have been a threat to\
  cultured peoples everywhere.")
 

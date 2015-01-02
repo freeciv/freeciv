@@ -203,15 +203,7 @@ type    = "No_Diplomacy"
 value   = 1
 reqs    =
     { "type",   "name", "range"
-      "Nation", "Barbarian", "Player"
-    }
-
-[effect_pirate]
-type    = "No_Diplomacy"
-value   = 1
-reqs    =
-    { "type",   "name", "range"
-      "Nation", "Pirate", "Player"
+      "NationGroup", "Barbarian", "Player"
     }
 
 ; Barbarian disappearance
@@ -221,17 +213,7 @@ type    = "Retire_Pct"
 value   = 10
 reqs    =
     { "type", "name", "range", "present"
-      "Nation", "Barbarian", "Player", TRUE
-      "Age", "5", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-    }
-
-[effect_pirate_disappear]
-type    = "Retire_Pct"
-value   = 10
-reqs    =
-    { "type", "name", "range", "present"
-      "Nation", "Pirate", "Player", TRUE
+      "NationGroup", "Barbarian", "Player", TRUE
       "Age", "5", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
