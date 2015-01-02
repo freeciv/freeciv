@@ -1637,7 +1637,7 @@ static void maybe_cause_incident(enum gen_action action,
                     victim_link);
       notify_player(victim_player, victim_tile,
                     E_DIPLOMATIC_INCIDENT, ftc_server,
-                    _("The %s have caused an incident while posioning %s."),
+                    _("The %s have caused an incident while poisoning %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
     case ACTION_SPY_SABOTAGE_CITY:
