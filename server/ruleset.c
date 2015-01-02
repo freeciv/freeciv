@@ -5074,7 +5074,7 @@ static bool load_ruleset_game(struct section_file *file, bool act)
       text = secfile_lookup_str_default(file,
           /* TRANS: _Poison City (3% chance of success). */
           N_("%sPoison City%s"),
-          "actions.ui_name_posion_city");
+          "actions.ui_name_poison_city");
       sz_strlcpy(action_by_number(ACTION_SPY_POISON)->ui_name,
                  text);
 
