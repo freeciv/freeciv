@@ -1007,19 +1007,28 @@ static void create_races_dialog(struct player *pplayer)
                     0, 2, 2, 1);
 
     /* Suppress notebook tabs if there will be only one ("All") */
-    if (nation_group_count() == 0) {
-      gtk_notebook_set_show_tabs(GTK_NOTEBOOK(races_notebook), FALSE);
-    } else {
-      label = g_object_new(GTK_TYPE_LABEL,
-          "use-underline", TRUE,
-          "label", _("Nation _Groups:"),
-          "xalign", 0.0,
-          "yalign", 0.5,
-          NULL);
-      gtk_label_set_mnemonic_widget(GTK_LABEL(label), races_notebook);
-      gtk_grid_attach(GTK_GRID(nation_selection_list), label,
-                      0, 1, 2, 1);
-      gtk_notebook_set_show_tabs(GTK_NOTEBOOK(races_notebook), TRUE);
+    {
+      bool show_groups = FALSE;
+      nation_groups_iterate(pgroup) {
+        if (!is_nation_group_hidden(pgroup)) {
+          show_groups = TRUE;
+          break;
+        }
+      } nation_groups_iterate_end;
+      if (!show_groups) {
+        gtk_notebook_set_show_tabs(GTK_NOTEBOOK(races_notebook), FALSE);
+      } else {
+        label = g_object_new(GTK_TYPE_LABEL,
+            "use-underline", TRUE,
+            "label", _("Nation _Groups:"),
+            "xalign", 0.0,
+            "yalign", 0.5,
+            NULL);
+        gtk_label_set_mnemonic_widget(GTK_LABEL(label), races_notebook);
+        gtk_grid_attach(GTK_GRID(nation_selection_list), label,
+                        0, 1, 2, 1);
+        gtk_notebook_set_show_tabs(GTK_NOTEBOOK(races_notebook), TRUE);
+      }
     }
 
     /* Populate treeview */
