@@ -49,7 +49,7 @@
 /**************************************************************************
   Calculate walking distance to nearest friendly cities from every city.
 
-  The hidden assumption here is that a UTYF_HELP_WONDER unit is like any
+  The hidden assumption here is that a ACTION_HELP_WONDER unit is like any
   other unit that will use this data.
 
   pcity->server.adv->downtown is set to the number of cities within 4 turns of
@@ -65,20 +65,20 @@ static void calculate_city_clusters(struct player *pplayer)
     pcity->server.adv->downtown = 0;
   } city_list_iterate_end;
 
-  if (num_role_units(UTYF_HELP_WONDER) == 0) {
+  if (num_role_units(action_get_role(ACTION_HELP_WONDER)) == 0) {
     return; /* ruleset has no help wonder unit */
   }
 
-  punittype = best_role_unit_for_player(pplayer, UTYF_HELP_WONDER);
+  punittype = best_role_unit_for_player(pplayer,
+      action_get_role(ACTION_HELP_WONDER));
 
   if (!punittype) {
-    punittype = get_role_unit(UTYF_HELP_WONDER, 0); /* simulate future unit */
+    /* simulate future unit */
+    punittype = get_role_unit(action_get_role(ACTION_HELP_WONDER), 0);
   }
 
-  if (!utype_can_do_action(punittype, ACTION_HELP_WONDER)) {
-    /* This unit type isn't suitable for wonder building help. */
-    return;
-  }
+  fc_assert_msg(utype_can_do_action(punittype, ACTION_HELP_WONDER),
+                "Non existence of wonder helper unit not caught");
 
   ghost = unit_virtual_create(pplayer, NULL, punittype, 0);
   range = unit_move_rate(ghost) * 4;
@@ -173,14 +173,6 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 #endif /* DEBUG */
 }
 
-/**************************************************************************
-  Returns TRUE iff the given unit type really can help build a wonder.
-**************************************************************************/
-static bool utype_hw_real(struct unit_type *putype, void *data)
-{
-  return utype_can_do_action(putype, ACTION_HELP_WONDER);
-}
-
 /************************************************************************** 
   Prime pcity->server.adv.building_want[]
 **************************************************************************/
@@ -213,7 +205,7 @@ void building_advisor(struct player *pplayer)
     struct city *best_candidate = NULL;
     /* Whether ruleset has a help wonder unit type */
     bool has_help =
-        role_units_iterate(UTYF_HELP_WONDER, utype_hw_real, NULL) != NULL;
+        (num_role_units(action_get_role(ACTION_HELP_WONDER)) > 0);
 
     calculate_city_clusters(pplayer);
 
@@ -239,7 +231,8 @@ void building_advisor(struct player *pplayer)
       /* Downtown is the number of cities within a certain pf range.
        * These may be able to help with caravans. Also look at the whole
        * continent. */
-      if (first_role_unit_for_player(pplayer, UTYF_HELP_WONDER)) {
+      if (first_role_unit_for_player(pplayer,
+              action_get_role(ACTION_HELP_WONDER))) {
         value += city_data->downtown;
         value += adv->stats.cities[place] / 8;
       }
