@@ -69,9 +69,9 @@ AC_DEFINE_UNQUOTED([FREECIV_DISTRIBUTOR], ["$FREECIV_DISTRIBUTOR"],
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE([subdir-objects dist-zip dist-xz])
 
-dnl Use Automake 1.11 silent rules by default if available
+dnl Use silent rules by default
 dnl verbose build using  make V=1
-ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AM_SILENT_RULES([yes])
 
 UTILITY_LIBS=
 
