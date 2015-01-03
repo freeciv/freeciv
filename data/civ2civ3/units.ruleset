@@ -30,6 +30,7 @@ flags =
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Submarine"), _("Attack value halved when attacking Destroyer.")
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
+    _("HelpWonder"), _("Can help build wonders (adding its full shield cost).")
   }
 
 [veteran_system]
@@ -287,7 +288,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ;
 ; ** Flags **
 ;
-; "HelpWonder"	= can help build wonders
 ; "IgZOC"       = ignore Zones of Control (ZOC) even if unit class has
 ;                 "ZOC" flag
 ; "HasNoZOC"	= unit has no Zone of Control (ZOC), thus any unit can move

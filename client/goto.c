@@ -493,7 +493,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
   } else if (is_non_allied_city_tile(ptile, param->owner)) {
     /* Units that can establish a trade route, enter a market place or
      * establish an embassy can travel to, but not through, enemy cities.
-     * FIXME: UTYF_HELP_WONDER units cannot.  */
+     * FIXME: ACTION_HELP_WONDER units cannot.  */
     return TB_DONT_LEAVE;
   } else if (is_non_allied_unit_tile(ptile, param->owner)) {
     /* Note this must be below the city check. */
