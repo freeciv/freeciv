@@ -717,7 +717,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         if len(self.key_fields)==0:
             return "#define hash_%(name)s hash_const\n\n"%self.__dict__
         else:
-            intro='''static genhash_val_t hash_%(name)s(const void *vkey, size_t num_buckets)
+            intro='''static genhash_val_t hash_%(name)s(const void *vkey)
 {
 '''%self.__dict__
 
@@ -732,7 +732,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
                 a="(%s << 8) ^ %s"%(keys[0], keys[1])
             else:
                 assert 0
-            body=body+('  return ((%s) %% num_buckets);\n'%a)
+            body=body+('  return %s;\n'%a)
             extro="}\n\n"
             return intro+body+extro
 
@@ -1640,7 +1640,7 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 
 #include "packets.h"
 
-static genhash_val_t hash_const(const void *vkey, size_t num_buckets)
+static genhash_val_t hash_const(const void *vkey)
 {
   return 0;
 }

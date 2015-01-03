@@ -43,30 +43,6 @@ struct genlist {
   genlist_free_fn_t free_data_func;
 };
 
-/****************************************************************************
-  Default function of type genlist_free_fn_t.
-****************************************************************************/
-static void genlist_default_free_data_func(void *data)
-{
-  /* Do nothing. */
-}
-
-/****************************************************************************
-  Default function of type genlist_copy_fn_t.
-****************************************************************************/
-static void *genlist_default_copy_data_func(const void *data)
-{
-  return (void *) data; /* Returns the data. */
-}
-
-/****************************************************************************
-  Default function of type genlist_comp_fn_t.
-****************************************************************************/
-static bool genlist_default_comp_data_func(const void *data1,
-                                           const void *data2)
-{
-  return data1 == data2;
-}
 
 /****************************************************************************
   Create a new empty genlist.
@@ -89,8 +65,7 @@ struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
   pgenlist->tail_link = NULL;
 #endif /* ZERO_VARIABLES_FOR_SEARCHING */
   fc_init_mutex(&pgenlist->mutex);
-  pgenlist->free_data_func = (free_data_func ? free_data_func
-                              : genlist_default_free_data_func);
+  pgenlist->free_data_func = free_data_func;
 
   return pgenlist;
 }
@@ -156,7 +131,9 @@ static void genlist_link_destroy(struct genlist *pgenlist,
 
   /* NB: detach the link before calling the free function for avoiding
    * re-entrant code. */
-  pgenlist->free_data_func(plink->dataptr);
+  if (NULL != pgenlist->free_data_func) {
+    pgenlist->free_data_func(plink->dataptr);
+  }
   free(plink);
 }
 
@@ -213,12 +190,15 @@ struct genlist *genlist_copy_full(const struct genlist *pgenlist,
   if (pgenlist) {
     struct genlist_link *plink;
 
-    if (NULL == copy_data_func) {
-      copy_data_func = genlist_default_copy_data_func;
-    }
-    for (plink = pgenlist->head_link; plink; plink = plink->next) {
-      genlist_link_new(pcopy, copy_data_func(plink->dataptr),
-                       pcopy->tail_link, NULL);
+    if (NULL != copy_data_func) {
+      for (plink = pgenlist->head_link; plink; plink = plink->next) {
+        genlist_link_new(pcopy, copy_data_func(plink->dataptr),
+                         pcopy->tail_link, NULL);
+      }
+    } else {
+      for (plink = pgenlist->head_link; plink; plink = plink->next) {
+        genlist_link_new(pcopy, plink->dataptr, pcopy->tail_link, NULL);
+      }
     }
   }
 
@@ -306,11 +286,18 @@ void genlist_clear(struct genlist *pgenlist)
 
     pgenlist->nelements = 0;
 
-    do {
-      plink2 = plink->next;
-      free_data_func(plink->dataptr);
-      free(plink);
-    } while ((plink = plink2) != NULL);
+    if (NULL != free_data_func) {
+      do {
+        plink2 = plink->next;
+        free_data_func(plink->dataptr);
+        free(plink);
+      } while (NULL != (plink = plink2));
+    } else {
+      do {
+        plink2 = plink->next;
+        free(plink);
+      } while (NULL != (plink = plink2));
+    }
   }
 }
 
@@ -336,17 +323,24 @@ void genlist_unique_full(struct genlist *pgenlist,
   if (2 <= pgenlist->nelements) {
     struct genlist_link *plink = pgenlist->head_link, *plink2;
 
-    if (NULL == comp_data_func) {
-      comp_data_func = genlist_default_comp_data_func;
+    if (NULL != comp_data_func) {
+      do {
+        plink2 = plink->next;
+        if (NULL != plink2 && comp_data_func(plink->dataptr,
+                                             plink2->dataptr)) {
+          /* Remove this element. */
+          genlist_link_destroy(pgenlist, plink);
+        }
+      } while ((plink = plink2) != NULL);
+    } else {
+      do {
+        plink2 = plink->next;
+        if (NULL != plink2 && plink->dataptr == plink2->dataptr) {
+          /* Remove this element. */
+          genlist_link_destroy(pgenlist, plink);
+        }
+      } while ((plink = plink2) != NULL);
     }
-    do {
-      plink2 = plink->next;
-      if (NULL != plink2 && comp_data_func(plink->dataptr,
-                                           plink2->dataptr)) {
-        /* Remove this element. */
-        genlist_link_destroy(pgenlist, plink);
-      }
-    } while ((plink = plink2) != NULL);
   }
 }
 

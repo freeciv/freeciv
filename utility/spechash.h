@@ -42,7 +42,7 @@
  *    struct foo_hash_iter;
  *
  * function typedefs:
- *    typedef genhash_val_t (*foo_hash_key_val_fn_t) (const key_t, size_t);
+ *    typedef genhash_val_t (*foo_hash_key_val_fn_t) (const key_t);
  *    typedef bool (*foo_hash_key_comp_fn_t) (const key_t, const key_t);
  *    typedef key_t (*foo_hash_key_copy_fn_t) (const key_t);
  *    typedef void (*foo_hash_key_free_fn_t) (key_t);
@@ -139,10 +139,10 @@ extern "C" {
 
 /* Default functions. */
 #ifndef SPECHASH_KEY_VAL
-#define SPECHASH_KEY_VAL genhash_ptr_val_func
+#define SPECHASH_KEY_VAL NULL
 #endif
 #ifndef SPECHASH_KEY_COMP
-#define SPECHASH_KEY_COMP genhash_ptr_comp_func
+#define SPECHASH_KEY_COMP NULL
 #endif
 #ifndef SPECHASH_KEY_COPY
 #define SPECHASH_KEY_COPY NULL
@@ -189,7 +189,7 @@ SPECHASH_ITER;
 
 /* Function related typedefs. */
 typedef genhash_val_t
-(*SPECHASH_FOO(_hash_key_val_fn_t)) (const SPECHASH_KEY_TYPE, size_t);
+(*SPECHASH_FOO(_hash_key_val_fn_t)) (const SPECHASH_KEY_TYPE);
 typedef bool (*SPECHASH_FOO(_hash_key_comp_fn_t)) (const SPECHASH_KEY_TYPE,
                                                    const SPECHASH_KEY_TYPE);
 typedef SPECHASH_KEY_TYPE
