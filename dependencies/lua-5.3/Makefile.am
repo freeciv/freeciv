@@ -7,4 +7,4 @@ EXTRA_DIST = Version \
 	doc/readme.html \
 	doc/logo.gif \
 	doc/alert.png \
-	osi-certified-72x60.png
+	doc/osi-certified-72x60.png
