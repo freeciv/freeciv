@@ -186,7 +186,6 @@ flags         = ""
 ;
 ; ** Flags **
 ;
-; "HelpWonder"	= can help build wonders
 ; "IgZOC"       = ignore Zones of Control (ZOC) even if unit class has
 ;                 "ZOC" flag
 ; "HasNoZOC"    = unit has no Zone of Control (ZOC), thus any unit can move
