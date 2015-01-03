@@ -13,8 +13,8 @@
 #ifndef FC__ADVTOOLS_H
 #define FC__ADVTOOLS_H
 
-typedef int adv_want;
-#define ADV_WANT_PRINTF "%d"
+typedef float adv_want;
+#define ADV_WANT_PRINTF "%f"
 
 #define MORT 24
 
