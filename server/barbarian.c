@@ -73,7 +73,8 @@
 **************************************************************************/
 bool is_land_barbarian(struct player *pplayer)
 {
-  return (pplayer->ai_common.barbarian_type == LAND_BARBARIAN);
+  return (pplayer->ai_common.barbarian_type == LAND_BARBARIAN
+          || pplayer->ai_common.barbarian_type == LAND_AND_SEA_BARBARIAN);
 }
 
 /**************************************************************************
@@ -81,7 +82,8 @@ bool is_land_barbarian(struct player *pplayer)
 **************************************************************************/
 bool is_sea_barbarian(struct player *pplayer)
 {
-  return (pplayer->ai_common.barbarian_type == SEA_BARBARIAN);
+  return (pplayer->ai_common.barbarian_type == SEA_BARBARIAN
+          || pplayer->ai_common.barbarian_type == LAND_AND_SEA_BARBARIAN);
 }
 
 /**************************************************************************
@@ -94,7 +96,7 @@ bool is_sea_barbarian(struct player *pplayer)
 struct player *create_barbarian_player(enum barbarian_type type)
 {
   struct player *barbarians;
-  struct nation_type *nation;
+  struct nation_type *nation = NULL;
   struct research *presearch;
 
   players_iterate(barbarians) {
@@ -129,7 +131,19 @@ struct player *create_barbarian_player(enum barbarian_type type)
   }
   server_player_init(barbarians, TRUE, TRUE);
 
-  nation = pick_a_nation(NULL, FALSE, FALSE, type);
+  if (type == LAND_BARBARIAN || type == SEA_BARBARIAN) {
+    /* Try LAND_AND_SEA *FIRST*, so that we don't end up
+     * with one of the Land/Sea barbarians created first and
+     * then LAND_AND_SEA created instead of the second. */
+    nation = pick_a_nation(NULL, FALSE, FALSE, LAND_AND_SEA_BARBARIAN);
+    if (nation != NULL) {
+      type = LAND_AND_SEA_BARBARIAN;
+    }
+  }
+
+  if (nation == NULL) {
+    nation = pick_a_nation(NULL, FALSE, FALSE, type);
+  }
 
   /* Ruleset loading time checks should guarantee that there always is
      suitable nation available */

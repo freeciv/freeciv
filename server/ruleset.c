@@ -4266,7 +4266,8 @@ static bool load_ruleset_nations(struct section_file *file)
     
     /* Sanity checks on all sets */
     nation_sets_iterate(pset) {
-      int num_playable = 0, barb_land_count = 0, barb_sea_count = 0;
+      int num_playable = 0, barb_land_count = 0, barb_sea_count = 0, barb_both_count = 0;
+
       nations_iterate(pnation) {
         if (nation_is_in_set(pnation, pset)) {
           switch (nation_barbarian_type(pnation)) {
@@ -4284,6 +4285,9 @@ static bool load_ruleset_nations(struct section_file *file)
           case ANIMAL_BARBARIAN:
             /* Animals are optional */
             break;
+          case LAND_AND_SEA_BARBARIAN:
+            barb_both_count++;
+            break;
           default:
             fc_assert_ret_val(FALSE, FALSE);
           }
@@ -4296,14 +4300,14 @@ static bool load_ruleset_nations(struct section_file *file)
         ok = FALSE;
         break;
       }
-      if (barb_land_count == 0) {
+      if (barb_land_count == 0 && barb_both_count == 0) {
         ruleset_error(LOG_ERROR,
                       "No land barbarian nation defined in set \"%s\". "
                       "At least one required!", nation_set_rule_name(pset));
         ok = FALSE;
         break;
       }
-      if (barb_sea_count == 0) {
+      if (barb_sea_count == 0 && barb_both_count == 0) {
         ruleset_error(LOG_ERROR,
                       "No sea barbarian nation defined in set \"%s\". "
                       "At least one required!", nation_set_rule_name(pset));

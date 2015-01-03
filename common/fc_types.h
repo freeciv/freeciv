@@ -259,6 +259,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE2NAME "Sea"
 #define SPECENUM_VALUE3 ANIMAL_BARBARIAN
 #define SPECENUM_VALUE3NAME "Animal"
+#define SPECENUM_VALUE4 LAND_AND_SEA_BARBARIAN
+#define SPECENUM_VALUE4NAME "LandAndSea"
 #include "specenum_gen.h"
 
 /*
