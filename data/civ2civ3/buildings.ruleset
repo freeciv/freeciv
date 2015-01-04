@@ -423,7 +423,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Seafaring", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic	= "b.harbour"
 graphic_alt	= "-"
@@ -599,7 +599,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Miniaturization", "Player"
-      "Terrain", "Ocean", "Adjacent"
+      "TerrainClass", "Oceanic", "Adjacent"
     }
 graphic	= "b.offshore_platform"
 graphic_alt	= "-"
