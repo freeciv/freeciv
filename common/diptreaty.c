@@ -147,7 +147,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
   enum diplstate_type ds
     = player_diplstate_get(ptreaty->plr0, ptreaty->plr1)->type;
 
-  if (type < 0 || type >= CLAUSE_LAST) {
+  if (!clause_type_is_valid(type)) {
     log_error("Illegal clause type encountered.");
     return FALSE;
   }

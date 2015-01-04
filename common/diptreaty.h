@@ -19,11 +19,29 @@ extern "C" {
 
 #include "support.h"            /* bool type */
 
-/* Used in the network protocol. */
-enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
-		   CLAUSE_SEAMAP, CLAUSE_CITY, 
-		   CLAUSE_CEASEFIRE, CLAUSE_PEACE, CLAUSE_ALLIANCE,
-		   CLAUSE_VISION, CLAUSE_EMBASSY, CLAUSE_LAST };
+/* Used in the network protocol */
+#define SPECENUM_NAME clause_type
+#define SPECENUM_VALUE0 CLAUSE_ADVANCE
+#define SPECENUM_VALUE0NAME "Advance"
+#define SPECENUM_VALUE1 CLAUSE_GOLD
+#define SPECENUM_VALUE1NAME "Gold"
+#define SPECENUM_VALUE2 CLAUSE_MAP
+#define SPECENUM_VALUE2NAME "Map"
+#define SPECENUM_VALUE3 CLAUSE_SEAMAP
+#define SPECENUM_VALUE3NAME "Seamap"
+#define SPECENUM_VALUE4 CLAUSE_CITY
+#define SPECENUM_VALUE4NAME "City"
+#define SPECENUM_VALUE5 CLAUSE_CEASEFIRE
+#define SPECENUM_VALUE5NAME "Ceasefire"
+#define SPECENUM_VALUE6 CLAUSE_PEACE
+#define SPECENUM_VALUE6NAME "Peace"
+#define SPECENUM_VALUE7 CLAUSE_ALLIANCE
+#define SPECENUM_VALUE7NAME "Alliance"
+#define SPECENUM_VALUE8 CLAUSE_VISION
+#define SPECENUM_VALUE8NAME "Vision"
+#define SPECENUM_VALUE9 CLAUSE_EMBASSY
+#define SPECENUM_VALUE9NAME "Embassy"
+#include "specenum_gen.h"
 
 #define is_pact_clause(x)                                                   \
   ((x == CLAUSE_CEASEFIRE) || (x == CLAUSE_PEACE) || (x == CLAUSE_ALLIANCE))
