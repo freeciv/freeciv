@@ -205,6 +205,11 @@ blend_layer = 1
 num_layers = 1
 layer0_match_type = "land"
 
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "land"
+
 [extras]
 styles =
     { "name",          "style"
