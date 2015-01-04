@@ -55,14 +55,6 @@
 
 #include "diplhand.h"
 
-#define SPECLIST_TAG treaty
-#define SPECLIST_TYPE struct Treaty
-#include "speclist.h"
-
-#define treaty_list_iterate(list, p) \
-    TYPED_LIST_ITERATE(struct Treaty, list, p)
-#define treaty_list_iterate_end  LIST_ITERATE_END
-
 static struct treaty_list *treaties = NULL;
 
 /* FIXME: Should this be put in a ruleset somewhere? */
@@ -614,9 +606,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
          * within radius of our own city. */
         worker_refresh_required = TRUE;
 	break;
-      case CLAUSE_LAST:
-        log_error("Received bad clause type");
-        break;
       }
 
     } clause_list_iterate_end;
@@ -893,4 +882,12 @@ void reject_all_treaties(struct player *pplayer)
 					  FALSE,
 					  FALSE);
   } players_iterate_end;
+}
+
+/**************************************************************************
+  Get treaty list
+**************************************************************************/
+struct treaty_list *get_all_treaties(void)
+{
+  return treaties;
 }

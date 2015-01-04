@@ -445,6 +445,8 @@ static void sg_save_researches(struct savedata *saving);
 static void sg_load_event_cache(struct loaddata *loading);
 static void sg_save_event_cache(struct savedata *saving);
 
+static void sg_save_treaties(struct savedata *saving);
+
 static void sg_load_mapimg(struct loaddata *loading);
 static void sg_save_mapimg(struct savedata *saving);
 
@@ -616,6 +618,8 @@ static void savegame2_save_real(struct section_file *file,
   sg_save_researches(saving);
   /* [event_cache] */
   sg_save_event_cache(saving);
+  /* [treaty<i>] */
+  sg_save_treaties(saving);
   /* [mapimg] */
   sg_save_mapimg(saving);
 
@@ -6498,6 +6502,41 @@ static void sg_save_event_cache(struct savedata *saving)
   }
 
   event_cache_save(saving->file, "event_cache");
+}
+
+/* =======================================================================
+ * Load / save the open treaties
+ * ======================================================================= */
+
+/****************************************************************************
+  Save '[treaty_xxx]'.
+****************************************************************************/
+static void sg_save_treaties(struct savedata *saving)
+{
+  struct treaty_list *treaties = get_all_treaties();
+  int tidx = 0;
+
+  treaty_list_iterate(treaties, ptr) {
+    char tpath[512];
+    int cidx = 0;
+
+    fc_snprintf(tpath, sizeof(tpath), "treaty%d", tidx++);
+
+    secfile_insert_str(saving->file, player_name(ptr->plr0), "%s.plr0", tpath);
+    secfile_insert_str(saving->file, player_name(ptr->plr1), "%s.plr1", tpath);
+    secfile_insert_bool(saving->file, ptr->accept0, "%s.accept0", tpath);
+    secfile_insert_bool(saving->file, ptr->accept1, "%s.accept1", tpath);
+
+    clause_list_iterate(ptr->clauses, pclaus) {
+      char cpath[512];
+
+      fc_snprintf(cpath, sizeof(cpath), "%s.clause%d", tpath, cidx++);
+
+      secfile_insert_str(saving->file, clause_type_name(pclaus->type), "%s.type", tpath);
+      secfile_insert_str(saving->file, player_name(pclaus->from), "%s.from", tpath);
+      secfile_insert_int(saving->file, pclaus->value, "%s.value", tpath);
+    } clause_list_iterate_end;
+  } treaty_list_iterate_end;
 }
 
 /* =======================================================================

@@ -566,9 +566,6 @@ static int dai_goldequiv_clause(struct ai_type *ait,
     DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "embassy clause worth %d",
               worth);
     break;
-
-  case CLAUSE_LAST:
-    break;
   } /* end of switch */
 
   if (close) {
@@ -1298,7 +1295,7 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
                 "was unable to.");
       return;
     }
-    handle_diplomacy_cancel_pact(pplayer, player_number(target), CLAUSE_LAST);
+    handle_diplomacy_cancel_pact(pplayer, player_number(target), clause_type_invalid());
   }
 
   /* Throw a tantrum */
