@@ -980,6 +980,14 @@ reqs    =
 type    = "Max_Trade_Routes"
 value   = 4
 
+[effect_incite_cost_empty]
+type = "Incite_Cost_Pct"
+value = -50
+reqs    =
+    { "type", "name", "range"
+      "MaxUnitsOnTile", "0", "Local"
+    }
+
 [effect_unit_bribe_cost_settlers]
 type	= "Unit_Bribe_Cost_Pct"
 value	= -50

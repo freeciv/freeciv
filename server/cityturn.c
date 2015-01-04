@@ -2710,11 +2710,6 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
     cost *= 2;
   }
 
-  /* City is empty */
-  if (unit_list_size(pcity->tile->units) == 0) {
-    cost /= 2;
-  }
-
   /* Buy back is cheap, conquered cities are also cheap */
   if (!game.info.citizen_nationality) {
     if (city_owner(pcity) != pcity->original) {
