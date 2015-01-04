@@ -40,6 +40,11 @@ accept the standard Gtk parameters following \fB\-\-\fP; see the Gtk
 documentation. They also accept
 .B [ \-h|\-\-help ]
 
+.B freeciv-qt
+accept the standard Qt parameters following \fB\-\-\fP; see the Qt
+documentation. It also accepts
+.B [ \-h|\-\-help ]
+
 .B freeciv-sdl
 accepts the following parameters following \fB\-\-\fP:
 .B [ \-e|\-\-eventthread ] \
@@ -66,8 +71,9 @@ easily one of the most fun and addictive network games out there!
 
 This is the client program used to connect to a Freeciv server - see also
 .IR freeciv-server (6)
-\&. \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, and \fBfreeciv-sdl\fP can also
-spawn their own local server for single-player games.
+\&. \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-qt\fP,
+and \fBfreeciv-sdl\fP
+can also spawn their own local server for single-player games.
 
 This manual page only lists the command line arguments. For more details
 about using \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-sdl\fP,
