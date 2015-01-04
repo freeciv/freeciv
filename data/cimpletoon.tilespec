@@ -213,6 +213,12 @@ num_layers = 1
 layer0_match_type = "land"
 mine_sprite = "tx.oil_mine"
 
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "land"
+mine_sprite = "tx.mine"
+
 [roads]
 styles =
     { "name",  "style"
