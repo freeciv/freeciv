@@ -1085,91 +1085,30 @@ void popup_action_selection(struct unit *actor_unit,
 
   /* Spy/Diplomat acting against a city */
 
-  action_entry(shl,
-               ACTION_ESTABLISH_EMBASSY,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_INVESTIGATE_CITY,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_POISON,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_STEAL_GOLD,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_SABOTAGE_CITY,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_TARGETED_SABOTAGE_CITY,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_STEAL_TECH,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_TARGETED_STEAL_TECH,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_INCITE_CITY,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_TRADE_ROUTE,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_MARKETPLACE,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_HELP_WONDER,
-               act_probs,
-               city_prod_remaining(target_city),
-               data);
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_CITY) {
+      action_entry(shl,
+                   (enum gen_action)act,
+                   act_probs,
+                   act == ACTION_HELP_WONDER ?
+                     city_prod_remaining(target_city) : NULL,
+                   data);
+    }
+  } action_iterate_end;
 
   /* Spy/Diplomat acting against a unit */
 
-  action_entry(shl,
-               ACTION_SPY_BRIBE_UNIT,
-               act_probs,
-               NULL,
-               data);
-
-  action_entry(shl,
-               ACTION_SPY_SABOTAGE_UNIT,
-               act_probs,
-               NULL,
-               data);
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNIT) {
+      action_entry(shl,
+                   (enum gen_action)act,
+                   act_probs,
+                   NULL,
+                   data);
+    }
+  } action_iterate_end;
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
