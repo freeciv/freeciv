@@ -1383,7 +1383,6 @@ static void spy_steal(QVariant data1, QVariant data2)
   struct city *pvcity = game_city_by_number(diplomat_target_id);
   struct player *pvictim = NULL;
   choice_dialog *cd;
-  int nr = 0;
 
   if (pvcity) {
     pvictim = city_owner(pvcity);
@@ -1405,7 +1404,6 @@ static void spy_steal(QVariant data1, QVariant data2)
         func = spy_steal_something;
         str = advance_name_for_player(client.conn.playing, i);
         cd->add_item(str, func, qv1, i);
-        nr++;
       }
     } advance_index_iterate_end;
     astr_set(&stra, _("At %s's Discretion"),
