@@ -103,10 +103,39 @@ bool script_server_do_string(struct connection *caller, const char *str)
 }
 
 /*****************************************************************************
+  Load script to a buffer
+*****************************************************************************/
+bool script_server_load_file(const char *filename, char **buf)
+{
+  FILE *ffile;
+  struct stat stats;
+  char *buffer;
+
+  fc_stat(filename, &stats);
+  ffile = fc_fopen(filename, "r");
+
+  if (ffile != NULL) {
+    int len;
+
+    buffer = fc_malloc(stats.st_size + 1);
+
+    len = fread(buffer, 1, stats.st_size, ffile);
+
+    if (len == stats.st_size) {
+      buffer[len] = '\0';
+
+      *buf = buffer;
+    }
+    fclose(ffile);
+  }
+
+  return 1;
+}  
+
+/*****************************************************************************
   Parse and execute the script at filename.
 *****************************************************************************/
-bool script_server_do_file(struct connection *caller, const char *filename,
-                           char **buf)
+bool script_server_do_file(struct connection *caller, const char *filename)
 {
   int status = 1;
   struct connection *save_caller;
@@ -119,32 +148,7 @@ bool script_server_do_file(struct connection *caller, const char *filename,
   fcl->output_fct = script_server_cmd_reply;
   fcl->caller = caller;
 
-  if (buf == NULL) {
-    status = luascript_do_file(fcl, filename);
-  } else {
-    FILE *ffile;
-    struct stat stats;
-    char *buffer;
-
-    fc_stat(filename, &stats);
-    ffile = fc_fopen(filename, "r");
-
-    if (ffile != NULL) {
-      int len;
-
-      buffer = fc_malloc(stats.st_size + 1);
-
-      len = fread(buffer, 1, stats.st_size, ffile);
-
-      if (len == stats.st_size) {
-        buffer[len] = '\0';
-        status = luascript_do_string(fcl, buffer, filename);
-
-        *buf = buffer;
-      }
-      fclose(ffile);
-    }
-  }
+  status = luascript_do_file(fcl, filename);
 
   /* Reset the changes. */
   fcl->caller = save_caller;

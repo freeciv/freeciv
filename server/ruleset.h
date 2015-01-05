@@ -32,7 +32,7 @@ struct conn_list;
 
 /* functions */
 bool load_rulesets(const char *restore, bool compat_mode,
-                   bool act, bool save_script);
+                   bool act, bool buffer_script);
 bool reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
 
