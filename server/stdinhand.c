@@ -4633,7 +4633,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
 
     if (is_reg_file_for_access(real_filename, FALSE)
         && (script_file = fc_fopen(real_filename, "r"))) {
-      ret = script_server_do_file(caller, real_filename, NULL);
+      ret = script_server_do_file(caller, real_filename);
       goto cleanup;
     } else {
       cmd_reply(CMD_LUA, caller, C_FAIL,

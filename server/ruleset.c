@@ -116,7 +116,7 @@ static char *extra_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
 
-static bool load_rulesetdir(const char *rsdir, bool act, bool save_script);
+static bool load_rulesetdir(const char *rsdir, bool act, bool buffer_script);
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
 static const char *check_ruleset_capabilities(struct section_file *file,
@@ -286,11 +286,15 @@ static bool openload_script_file(const char *whichset, const char *rsdir,
     return FALSE;
   }
 
-  if (!script_server_do_file(NULL, dfilename, buffer)) {
-    ruleset_error(LOG_ERROR, "\"%s\": could not load ruleset script.",
-                  dfilename);
+  if (buffer == NULL) {
+    if (!script_server_do_file(NULL, dfilename)) {
+      ruleset_error(LOG_ERROR, "\"%s\": could not load ruleset script.",
+                    dfilename);
 
-    return FALSE;
+      return FALSE;
+    }
+  } else {
+    script_server_load_file(dfilename, buffer);
   }
 
   return TRUE;
@@ -6525,15 +6529,15 @@ static void notify_ruleset_fallback(const char *msg)
 /**************************************************************************
   Loads the rulesets.
 **************************************************************************/
-bool load_rulesets(const char *restore, bool act, bool save_script)
+bool load_rulesets(const char *restore, bool act, bool buffer_script)
 {
-  if (load_rulesetdir(game.server.rulesetdir, act, save_script)) {
+  if (load_rulesetdir(game.server.rulesetdir, act, buffer_script)) {
     return TRUE;
   }
 
   /* Fallback to previous one. */
   if (restore != NULL) {
-    if (load_rulesetdir(restore, act, save_script)) {
+    if (load_rulesetdir(restore, act, buffer_script)) {
       sz_strlcpy(game.server.rulesetdir, restore);
 
       notify_ruleset_fallback(_("Ruleset couldn't be loaded. Keeping previous one."));
@@ -6548,7 +6552,7 @@ bool load_rulesets(const char *restore, bool act, bool save_script)
   /* Fallback to default one, but not if that's what we tried already */
   if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
       && (restore == NULL || strcmp(GAME_DEFAULT_RULESETDIR, restore))) {
-    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, act, save_script)) {
+    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, act, buffer_script)) {
       /* We're in sane state as fallback ruleset loading succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
@@ -6583,7 +6587,7 @@ static void nullcheck_secfile_destroy(struct section_file *file)
   Loads the rulesets from directory.
   This may be called more than once and it will free any stale data.
 **************************************************************************/
-static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
+static bool load_rulesetdir(const char *rsdir, bool act, bool buffer_script)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *stylefile, *cityfile, *nationfile, *effectfile, *gamefile;
@@ -6722,7 +6726,7 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
   }
 
   if (ok) {
-    char **buffer = save_script ? &script_buffer : NULL;
+    char **buffer = buffer_script ? &script_buffer : NULL;
 
     script_server_free();
 
@@ -6731,7 +6735,7 @@ static bool load_rulesetdir(const char *rsdir, bool act, bool save_script)
     ok = openload_script_file("script", rsdir, buffer);
   }
 
-  if (ok) {
+  if (ok && buffer_script) {
     ok = openload_script_file("default", rsdir, NULL);
   }
 
