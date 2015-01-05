@@ -1175,7 +1175,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
      /* AI used to build frigates to attack and then use them as ferries 
       * -- Syela */
-    dai_unit_new_task(ait, punit, AIUNIT_ATTACK, NULL);
+    dai_unit_new_task(ait, punit, AIUNIT_NONE, NULL);
     UNIT_LOG(LOGLEVEL_FERRY, punit, "passing ferry over to attack code");
     dai_manage_military(ait, pplayer, punit);
     return;
