@@ -1465,7 +1465,6 @@ static void spy_steal(QVariant data1, QVariant data2)
   struct city *pvcity = game_city_by_number(diplomat_target_id);
   struct player *pvictim = NULL;
   choice_dialog *cd;
-  int nr = 0;
   QList<QVariant> actor_and_target;
 
   /* Wait for the player's reply before moving on to the next queued diplomat. */
@@ -1501,7 +1500,6 @@ static void spy_steal(QVariant data1, QVariant data2)
         func = spy_steal_something;
         str = research_advance_name_translation(presearch, i);
         cd->add_item(str, func, qv1, i);
-        nr++;
       }
     } advance_index_iterate_end;
     astr_set(&stra, _("At %s's Discretion"),
