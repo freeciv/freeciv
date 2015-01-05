@@ -1111,7 +1111,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
      /* AI used to build frigates to attack and then use them as ferries 
       * -- Syela */
-     ai_unit_new_task(punit, AIUNIT_ATTACK, NULL);
+     ai_unit_new_task(punit, AIUNIT_NONE, NULL);
      UNIT_LOG(LOGLEVEL_FERRY, punit, "passing ferry over to attack code");
      ai_manage_military(pplayer, punit);
      return;

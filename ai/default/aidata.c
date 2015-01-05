@@ -244,6 +244,9 @@ void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
     if (unit_has_type_flag(punit, F_DIPLOMAT)
         && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
+
+      fc_assert_msg(punit->goto_tile, "No target city for spy action");
+
       struct city *pcity = tile_city(punit->goto_tile);
 
       if (pcity) {
