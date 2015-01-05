@@ -161,6 +161,12 @@ slow_invasions = TRUE
 ; have only fractional moves left.
 tired_attack = FALSE
 
+[actions]
+; What each action should be called when showing them to the player.
+; The first %s should be before the mnemonic of the action.
+; The second %s marks were extra details should be insterted.
+
+
 ; /* <-- avoid gettext warnings
 ;
 ; Action enablers:
