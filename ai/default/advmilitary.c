@@ -742,9 +742,10 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
                                   struct city *pcity, unsigned int danger,
                                   struct adv_choice *choice)
 {
-  /* FIXME: We check if city got defense effect against *some*
-   * unit type. Sea unit danger might cause us to build defenses
-   * against air units... */
+  /* FIXME: We check if the city has *some* defensive structure,
+   * but not whether the city has a defensive structure against
+   * any specific attacker.  The actual danger may not be mitigated
+   * by the defense selected... */
   bool walls = city_got_defense_effect(pcity, NULL);
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
@@ -758,7 +759,6 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
 
   simple_ai_unit_type_iterate(punittype) {
     int desire; /* How much we want the unit? */
-    int move_type = utype_move_type(punittype);
 
     /* Only consider proper defenders - otherwise waste CPU and
      * bump tech want needlessly. */
@@ -788,12 +788,11 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
       int build_cost = utype_build_shield_cost(punittype);
       int limit_cost = pcity->shield_stock + 40;
 
-      if (walls && move_type == UMT_LAND) {
+      if (walls && !utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
 	desire *= city_data->wallvalue;
 	/* TODO: More use of POWER_FACTOR ! */
 	desire /= POWER_FACTOR;
       }
-
 
       if ((best_unit_cost > limit_cost
            && build_cost < best_unit_cost)
@@ -818,7 +817,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
 
       /* Contrary to the above, we don't care if walls are actually built 
        * - we're looking into the future now. */
-      if (move_type == UMT_LAND) {
+      if (!utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
 	desire *= city_data->wallvalue;
 	desire /= POWER_FACTOR;
       }
@@ -835,7 +834,7 @@ static bool process_defender_want(struct ai_type *ait, struct player *pplayer,
   }
 
   if (best_unit_type) {
-    if (!walls && utype_move_type(best_unit_type) == UMT_LAND) {
+    if (!walls && !utype_has_flag(best_unit_type, UTYF_BADCITYDEFENDER)) {
       best *= city_data->wallvalue;
       best /= POWER_FACTOR;
     }
