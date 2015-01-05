@@ -1305,22 +1305,6 @@ TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.2/src/lib/libtolua.la"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 
-dnl Vast quantities of meaningless errors from xgettext is also annoying.
-dnl We fix this by forcing xgettext to assume all files are C source files.
-AC_CONFIG_COMMANDS([fc_default-2],[[for domain in $PODOMAINS ; do
-   if test -f translations/freeciv/Makefile ; then
-     if grep 'language=C --files-from=\$(srcdir)/POTFILES.in' translations/${domain}/Makefile >/dev/null 2>&1 ; then
-       # has already been silenced
-       :
-     else
-       echo silencing translations/${domain}/Makefile
-       mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
-       sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--language=C --files-from=$(srcdir)\/POTFILES.in/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
-       rm translations/${domain}/Makefile.tmp
-     fi
-   fi
- done]],[PODOMAINS="$PODOMAINS"])
-
 dnl Most of the C comments copied to freeciv.pot are spurious; 
 dnl change to only copy those with prefix "TRANS:"
 dnl Also add --escape to the arguments to convert extended
