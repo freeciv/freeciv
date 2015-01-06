@@ -290,7 +290,8 @@ static void unit_can_act_cache_set(struct unit_type *putype)
    * enablers */
   action_enablers_iterate(enabler) {
     if (requirement_fulfilled_by_unit_type(putype,
-                                           &(enabler->actor_reqs))) {
+                                           &(enabler->actor_reqs))
+        && action_get_actor_kind(enabler->action) == AAK_UNIT) {
       log_debug("act_cache: %s can %s",
                 utype_rule_name(putype), gen_action_name(enabler->action));
       BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
@@ -386,7 +387,8 @@ static void unit_state_action_cache_set(struct unit_type *putype)
      * implies or conflicts with another so the tests can be simple. */
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
-                                             &(enabler->actor_reqs))) {
+                                             &(enabler->actor_reqs))
+          && action_get_actor_kind(enabler->action) == AAK_UNIT) {
         /* Not required to be absent, so OK if present */
         req.present = FALSE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
@@ -448,7 +450,8 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
      * relationship property value. */
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
-                                             &(enabler->actor_reqs))) {
+                                             &(enabler->actor_reqs))
+          && action_get_actor_kind(enabler->action) == AAK_UNIT) {
         req.present = TRUE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
