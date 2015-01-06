@@ -1922,12 +1922,11 @@ void aifill(int amount)
 ****************************************************************************/
 #define SPECHASH_TAG startpos
 #define SPECHASH_KEY_TYPE struct startpos *
-#define SPECHASH_DATA_TYPE int
-#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
-#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#define SPECHASH_DATA_TYPE int *
+#define SPECHASH_DATA_FREE free
 #include "spechash.h"
-#define startpos_hash_iterate(hash, psp, c)                                 \
-  TYPED_HASH_ITERATE(struct startpos *, intptr_t, hash, psp, c)
+#define startpos_hash_iterate(hash, psp, pc)                                \
+  TYPED_HASH_ITERATE(struct startpos *, int *, hash, psp, pc)
 #define startpos_hash_iterate_end HASH_ITERATE_END
 
 /****************************************************************************
@@ -2073,8 +2072,9 @@ static void generate_players(void)
      * Prefer nations assigned to those positions. */
     struct startpos_hash *hash = startpos_hash_new();
     struct nation_type *picked;
-    int c, max = -1;
+    int max = -1;
     int i, min;
+    int *pc;
 
     /* Initialization. */
     map_startpos_iterate(psp) {
@@ -2084,17 +2084,18 @@ static void generate_players(void)
 
       /* Count the already-assigned players whose nations can use this
        * start position. */
-      c = 0;
+      pc = fc_malloc(sizeof(*pc));
+      *pc = 0;
       players_iterate(pplayer) {
         if (NO_NATION_SELECTED != pplayer->nation
             && startpos_nation_allowed(psp, pplayer->nation)) {
-          c++;
+          (*pc)++;
         }
       } players_iterate_end;
 
-      startpos_hash_insert(hash, psp, c);
-      if (c > max) {
-        max = c;
+      startpos_hash_insert(hash, psp, pc);
+      if (*pc > max) {
+        max = *pc;
       }
     } map_startpos_iterate_end;
 
@@ -2118,18 +2119,18 @@ static void generate_players(void)
           continue;
         }
 
-        startpos_hash_iterate(hash, psp, c) {
+        startpos_hash_iterate(hash, psp, pc) {
           if (!startpos_nation_allowed(psp, pnation)) {
             continue;
           }
 
-          if (c < min) {
+          if (*pc < min) {
             /* Pick this nation, as fewer nations already in the game
              * can use this start position. */
             picked = pnation;
-            min = c;
+            min = *pc;
             i = 1;
-          } else if (c == min && 0 == fc_rand(++i)) {
+          } else if (*pc == min && 0 == fc_rand(++i)) {
             /* More than one nation is equally desirable. Pick one at
              * random. */
             picked = pnation;
@@ -2142,9 +2143,9 @@ static void generate_players(void)
         nations_to_assign--;
         announce_player(pplayer);
         /* Update the counts for the newly assigned nation. */
-        startpos_hash_iterate(hash, psp, c) {
+        startpos_hash_iterate(hash, psp, pc) {
           if (startpos_nation_allowed(psp, picked)) {
-            startpos_hash_replace(hash, psp, c + 1);
+            (*pc)++;
           }
         } startpos_hash_iterate_end;
       } else {
