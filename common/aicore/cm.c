@@ -1930,6 +1930,8 @@ static void cm_find_best_solution(struct cm_state *state,
     max_count = CM_MAX_LOOP;
   }
 
+  result->aborted = FALSE;
+
   /* search until we find a feasible solution */
   while (!bb_next(state)) {
     /* Limit the number of loops. */
@@ -1938,6 +1940,7 @@ static void cm_find_best_solution(struct cm_state *state,
     if (loop_count > max_count) {
       log_error("Did not find a cm solution in %d iterations for %s.",
                 max_count, city_name(state->pcity));
+      result->aborted = TRUE;
       break;
     }
   }

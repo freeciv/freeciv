@@ -45,6 +45,7 @@ struct cm_parameter {
 
 /* A result which can examined. */
 struct cm_result {
+  bool aborted;
   bool found_a_valid, disorder, happy;
 
   int surplus[O_LAST];
