@@ -256,7 +256,8 @@ void tai_refresh(struct ai_type *ait, struct player *pplayer)
 }
 
 /**************************************************************************
-  Send message to thread.
+  Send message to thread. Be sure that thread is running so that messages
+  are not just piling up to the list without anybody reading them.
 **************************************************************************/
 void tai_msg_to_thr(struct tai_msg *msg)
 {
@@ -274,4 +275,12 @@ void tai_req_from_thr(struct tai_req *req)
   taireq_list_allocate_mutex(thrai.reqs_from.reqlist);
   taireq_list_append(thrai.reqs_from.reqlist, req);
   taireq_list_release_mutex(thrai.reqs_from.reqlist);
+}
+
+/**************************************************************************
+  Return whether player thread is running
+**************************************************************************/
+bool tai_thread_running(void)
+{
+  return thrai.thread_running;
 }

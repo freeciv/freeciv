@@ -26,7 +26,14 @@
 void tai_send_msg(enum taimsgtype type, struct player *pplayer,
                   void *data)
 {
-  struct tai_msg *msg = fc_malloc(sizeof(*msg));
+  struct tai_msg *msg;
+
+  if (!tai_thread_running()) {
+    /* No player thread to send messages to */
+    return;
+  }
+
+  msg = fc_malloc(sizeof(*msg));
 
   msg->type = type;
   msg->plr = pplayer;
