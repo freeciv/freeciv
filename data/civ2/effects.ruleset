@@ -417,6 +417,14 @@ reqs    =
       "OutputType", "Food", "Local"
     }
 
+[effect_fundamentalism_free_fanatics]
+type  = "Fanatics"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
+    }
+
 [effect_republic_unit_upkeep]
 type    = "Upkeep_Factor"
 value   = 1
@@ -489,7 +497,7 @@ reqs    =
 
 [effect_upkeep_free_units_fundamentalism]
 type    = "Unit_Upkeep_Free_Per_City"
-value   = 10
+value   = 8
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
