@@ -440,6 +440,12 @@ void handle_unit_get_actions(struct connection *pc,
 
   /* Set the probability for the actions. */
   action_iterate(act) {
+    if (action_get_actor_kind(act) != AAK_UNIT) {
+      /* Not relevant. */
+      probabilities[act] = ACTPROB_IMPOSSIBLE;
+      continue;
+    }
+
     if (target_city && action_get_target_kind(act) == ATK_CITY) {
       probabilities[act] = action_prob_vs_city(actor_unit, act,
                                                target_city);
