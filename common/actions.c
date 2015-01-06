@@ -618,16 +618,18 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
-                        FALSE, "Action %s is performed by %s not units",
+                        FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)));
+                          action_get_actor_kind(wanted_action)),
+                        action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(wanted_action),
-                        FALSE, "Action %s is against %s not cities",
+                        FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)));
+                          action_get_target_kind(wanted_action)),
+                        action_target_kind_name(ATK_CITY));
 
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
@@ -654,16 +656,18 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
-                        FALSE, "Action %s is performed by %s not units",
+                        FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(wanted_action),
                         action_actor_kind_name(
-                          action_get_actor_kind(wanted_action)));
+                          action_get_actor_kind(wanted_action)),
+                        action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(wanted_action),
-                        FALSE, "Action %s is against %s not units",
+                        FALSE, "Action %s is against %s not %s",
                         gen_action_name(wanted_action),
                         action_target_kind_name(
-                          action_get_target_kind(wanted_action)));
+                          action_get_target_kind(wanted_action)),
+                        action_target_kind_name(ATK_UNIT));
 
   return is_action_enabled(wanted_action,
                            unit_owner(actor_unit), NULL, NULL,
@@ -1036,16 +1040,18 @@ action_probability action_prob_vs_city(struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not units",
+                        FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)));
+                          action_get_actor_kind(action_id)),
+                        action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_CITY == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not cities",
+                        FALSE, "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)));
+                          action_get_target_kind(action_id)),
+                        action_target_kind_name(ATK_CITY));
 
   return action_prob(action_id,
                      unit_owner(actor_unit), NULL, NULL,
@@ -1069,16 +1075,18 @@ action_probability action_prob_vs_unit(struct unit* actor_unit,
   }
 
   fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
-                        FALSE, "Action %s is performed by %s not units",
+                        FALSE, "Action %s is performed by %s not %s",
                         gen_action_name(action_id),
                         action_actor_kind_name(
-                          action_get_actor_kind(action_id)));
+                          action_get_actor_kind(action_id)),
+                        action_actor_kind_name(AAK_UNIT));
 
   fc_assert_ret_val_msg(ATK_UNIT == action_get_target_kind(action_id),
-                        FALSE, "Action %s is against %s not units",
+                        FALSE, "Action %s is against %s not %s",
                         gen_action_name(action_id),
                         action_target_kind_name(
-                          action_get_target_kind(action_id)));
+                          action_get_target_kind(action_id)),
+                        action_target_kind_name(ATK_UNIT));
 
   return action_prob(action_id,
                      unit_owner(actor_unit), NULL, NULL,
