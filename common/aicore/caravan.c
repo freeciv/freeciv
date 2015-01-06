@@ -240,16 +240,10 @@ static double windfall_benefit(const struct unit *caravan,
     return 0;
   }
   else {
-    int bonus = get_caravan_enter_city_trade_bonus(src, dest);
     bool can_establish = (unit_can_do_action(caravan, ACTION_TRADE_ROUTE)
                           && can_establish_trade_route(src, dest));
-
-    /* we get the full bonus only if this is a new trade route.
-     * Really, g_c_e_c_t_b should compute this.  I copy from unithand.c */
-    if (!can_establish) {
-      bonus += 2;
-      bonus /= 3;
-    }
+    int bonus = get_caravan_enter_city_trade_bonus(src, dest,
+                                                   can_establish);
 
     /* bonus goes to both sci and gold. */
     bonus *= 2;

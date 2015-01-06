@@ -895,7 +895,8 @@ void popup_action_selection(struct unit *actor_unit,
   /* ---------- */
   if (action_prob_possible(act_probs[ACTION_TRADE_ROUTE])) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                     target_city);
+                                                     target_city,
+                                                     TRUE);
 
     fc_snprintf(cBuf, sizeof(cBuf),
                 /* TRANS: Estimated one time bonus and recurring revenue
@@ -914,9 +915,9 @@ void popup_action_selection(struct unit *actor_unit,
   /* ---------- */
   if (action_prob_possible(act_probs[ACTION_MARKETPLACE])) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                     target_city);
+                                                     target_city,
+                                                     FALSE);
 
-    revenue = (revenue + 2) / 3;
     fc_snprintf(cBuf, sizeof(cBuf),
                 /* TRANS: Estimated one time bonus for the
                  * Enter Marketplace action. */

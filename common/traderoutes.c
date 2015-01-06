@@ -365,11 +365,12 @@ int city_num_trade_routes(const struct city *pcity)
   trade route and also when you simply sell your trade goods at the
   new city.
 
-  Note if you trade with a city you already have a trade route with,
-  you'll only get 1/3 of this value.
+  If you change this calculation remember to also update its duplication
+  in dai_choose_trade_route()
 **************************************************************************/
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
-                                       const struct city *pc2)
+                                       const struct city *pc2,
+                                       const bool establish_trade)
 {
   int tb, bonus;
 
@@ -385,6 +386,13 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   bonus = get_city_bonus(pc1, EFT_TRADE_REVENUE_BONUS);
   
   tb = (float)tb * pow(2.0, (double)bonus / 1000.0);
+
+  if (!establish_trade) {
+    /* There will only be a full bonus if a new trade route is
+     * established. The one time bonus from Enter Marketplace is about one
+     * third of the one time bonus from Establish Trade Route. */
+    tb = (tb + 2) / 3;
+  }
 
   return tb;
 }

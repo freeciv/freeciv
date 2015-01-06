@@ -83,8 +83,9 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2);
 bool have_cities_trade_route(const struct city *pc1, const struct city *pc2);
 int trade_between_cities(const struct city *pc1, const struct city *pc2);
 int city_num_trade_routes(const struct city *pcity);
-int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
-                                       const struct city *pc2);
+int get_caravan_enter_city_trade_bonus(const struct city *pc1,
+                                       const struct city *pc2,
+                                       const bool establish_trade);
 int city_trade_removable(const struct city *pcity,
                          struct city_list *would_remove);
 
