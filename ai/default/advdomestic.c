@@ -316,6 +316,9 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
    * have four trade routes, if there already is route between them
    * or if the Establish Trade Route action is illegal. */
 
+  /* The calculations of get_caravan_enter_city_trade_bonus() have to be
+   * duplicated here because the city traded with is imaginary. */
+
   /* We assume that we are creating trade route to city with 75% of
    * pcitys trade 10 squares away. */
   income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24 * 3;
