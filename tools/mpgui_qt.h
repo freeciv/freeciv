@@ -35,13 +35,21 @@ class mpgui : public QObject
 
   public:
     void setup(QWidget *central, struct fcmp_params *fcmp);
-    void display_msg(const char *msg);
-    void progress(int downloaded, int max);
+    void display_msg_thr(const char *msg);
+    void progress_thr(int downloaded, int max);
     void setup_list(const char *name, const char *URL,
                     const char *version, const char *license,
                     enum modpack_type type, const char *subtype,
                     const char *notes);
     void refresh_list_versions();
+
+  signals:
+    void display_msg_thr_signal(const char *msg);
+    void progress_thr_signal(int downloaded, int max);
+
+  public slots:
+    void display_msg(const char *msg);
+    void progress(int downloaded, int max);
 
   private slots:
     void URL_given();

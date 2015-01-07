@@ -69,7 +69,8 @@ static void setup_modpack_list(const char *name, const char *URL,
                                enum modpack_type type, const char *subtype,
                                const char *notes);
 static void msg_callback(const char *msg);
-static void progress_callback(int downloaded, int max);
+static void msg_callback_thr(const char *msg);
+static void progress_callback_thr(int downloaded, int max);
 
 static void gui_download_modpack(QString URL);
 
@@ -159,11 +160,19 @@ static void msg_callback(const char *msg)
 }
 
 /**************************************************************************
+  Progress indications from downloader thread
+**************************************************************************/
+static void msg_callback_thr(const char *msg)
+{
+  gui->display_msg_thr(msg);
+}
+
+/**************************************************************************
   Progress indications from downloader
 **************************************************************************/
-static void progress_callback(int downloaded, int max)
+static void progress_callback_thr(int downloaded, int max)
 {
-  gui->progress(downloaded, max);
+  gui->progress_thr(downloaded, max);
 }
 
 /**************************************************************************
@@ -216,6 +225,8 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
 
   connect(mplist_table, SIGNAL(cellClicked(int, int)), this, SLOT(row_selected(int, int)));
   connect(mplist_table, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(row_download(QModelIndex)));
+  connect(this, SIGNAL(display_msg_thr_signal(const char *)), this, SLOT(display_msg(const char *)));
+  connect(this, SIGNAL(progress_thr_signal(int, int)), this, SLOT(progress(int, int)));
 
   main_layout->addWidget(mplist_table);
 
@@ -260,12 +271,28 @@ void mpgui::display_msg(const char *msg)
 }
 
 /**************************************************************************
+  Display status message from another thread
+**************************************************************************/
+void mpgui::display_msg_thr(const char *msg)
+{
+  emit display_msg_thr_signal(msg);
+}
+
+/**************************************************************************
   Update progress bar
 **************************************************************************/
 void mpgui::progress(int downloaded, int max)
 {
   bar->setMaximum(max);
   bar->setValue(downloaded);
+}
+
+/**************************************************************************
+  Update progress bar from another thread
+**************************************************************************/
+void mpgui::progress_thr(int downloaded, int max)
+{
+  emit progress_thr_signal(downloaded, max);
 }
 
 /**************************************************************************
@@ -282,7 +309,7 @@ static void gui_download_modpack(QString URL)
     worker = new mpqt_worker;
   }
 
-  worker->download(URL, gui, &fcmp, msg_callback, progress_callback);
+  worker->download(URL, gui, &fcmp, msg_callback_thr, progress_callback_thr);
 }
 
 /**************************************************************************
