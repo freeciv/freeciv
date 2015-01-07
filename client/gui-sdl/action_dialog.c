@@ -766,6 +766,57 @@ static void action_entry(const enum gen_action act,
 }
 
 /**************************************************************************
+  Return custom text for the specified action (given that the aciton is
+  possible).
+**************************************************************************/
+static const char *action_custom_text(const int action_id,
+                                      const action_probability act_prob,
+                                      const struct city *actor_homecity,
+                                      const struct city *target_city)
+{
+  static struct astring custom = ASTRING_INIT;
+
+  if (!action_prob_possible(act_prob)) {
+    /* No info since impossible. */
+    return NULL;
+  }
+
+  switch (action_id) {
+  case ACTION_TRADE_ROUTE:
+    {
+      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                       target_city,
+                                                       TRUE);
+
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus and recurring revenue for
+                * the Establish Trade _Route action. */
+               _("%d R&G + %d trade"),
+               revenue,
+               trade_between_cities(actor_homecity, target_city));
+      break;
+    }
+  case ACTION_MARKETPLACE:
+    {
+      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                       target_city,
+                                                       FALSE);
+
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus for the Enter Marketplace
+                * action. */
+               _("%d R&G bonus"), revenue);
+      break;
+    }
+  default:
+    /* No info to add. */
+    return NULL;
+  }
+
+  return astr_str(&custom);
+}
+
+/**************************************************************************
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
@@ -779,8 +830,6 @@ void popup_action_selection(struct unit *actor_unit,
   SDL_String16 *pStr;
   SDL_Rect area;
   struct city *actor_homecity;
-
-  char cBuf[128];
 
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
@@ -833,117 +882,28 @@ void popup_action_selection(struct unit *actor_unit,
   /* ---------- */
   /* Spy/Diplomat acting against a city */
 
-  action_entry(ACTION_ESTABLISH_EMBASSY,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_INVESTIGATE_CITY,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_POISON,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_STEAL_GOLD,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_SABOTAGE_CITY,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_STEAL_TECH,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_TARGETED_STEAL_TECH,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_INCITE_CITY,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
-
-  /* ---------- */
-  if (action_prob_possible(act_probs[ACTION_TRADE_ROUTE])) {
-    int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                     target_city,
-                                                     TRUE);
-
-    fc_snprintf(cBuf, sizeof(cBuf),
-                /* TRANS: Estimated one time bonus and recurring revenue
-                 * for the Establish Trade _Route action. */
-                _("%d R&G + %d trade"),
-                revenue,
-                trade_between_cities(actor_homecity, target_city));
-
-    action_entry(ACTION_TRADE_ROUTE,
-                 act_probs,
-                 cBuf,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-  }
-
-  /* ---------- */
-  if (action_prob_possible(act_probs[ACTION_MARKETPLACE])) {
-    int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                     target_city,
-                                                     FALSE);
-
-    fc_snprintf(cBuf, sizeof(cBuf),
-                /* TRANS: Estimated one time bonus for the
-                 * Enter Marketplace action. */
-                _("%d R&G bonus"), revenue);
-
-    action_entry(ACTION_MARKETPLACE,
-                 act_probs,
-                 cBuf,
-                 actor_unit, target_city, NULL,
-                 pWindow, &area);
-  }
-
-  action_entry(ACTION_HELP_WONDER,
-               act_probs,
-               NULL,
-               actor_unit, target_city, NULL,
-               pWindow, &area);
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_CITY) {
+      action_entry(act, act_probs,
+                   action_custom_text(act, act_probs[act],
+                                      actor_homecity, target_city),
+                   actor_unit, target_city, NULL,
+                   pWindow, &area);
+    }
+  } action_iterate_end;
 
   /* Spy/Diplomat acting against a unit */
 
-  action_entry(ACTION_SPY_BRIBE_UNIT,
-               act_probs,
-               NULL,
-               actor_unit, NULL, target_unit,
-               pWindow, &area);
-
-  action_entry(ACTION_SPY_SABOTAGE_UNIT,
-               act_probs,
-               NULL,
-               actor_unit, NULL, target_unit,
-               pWindow, &area);
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNIT) {
+      action_entry(act, act_probs,
+                   NULL,
+                   actor_unit, NULL, target_unit,
+                   pWindow, &area);
+    }
+  } action_iterate_end;
 
   /* ---------- */
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)) {
