@@ -4744,7 +4744,6 @@ static bool load_ruleset_game(struct section_file *file, bool act)
 
   /* section: datafile */
   if (check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename) == NULL) {
-    secfile_destroy(file);
     return FALSE;
   }
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
