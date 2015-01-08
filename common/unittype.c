@@ -132,8 +132,8 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
 {
   int val = ut->upkeep[otype], gold_upkeep_factor;
 
-  if (get_player_bonus(pplayer, EFT_FANATICS)
-      && BV_ISSET(ut->flags, UTYF_FANATIC)) {
+  if (BV_ISSET(ut->flags, UTYF_FANATIC)
+      && get_player_bonus(pplayer, EFT_FANATICS) > 0) {
     /* Special case: fanatics have no upkeep under fanaticism. */
     return 0;
   }
