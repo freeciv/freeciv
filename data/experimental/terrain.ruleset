@@ -15,6 +15,7 @@
 [datafile]
 description="Experimental terrain data for Freeciv"
 options="+Freeciv-ruleset-Devel-2014.September.14c"
+format_version=10
 
 [control]
 ; Names for custom terrain flags. There can be up to 8 of these.

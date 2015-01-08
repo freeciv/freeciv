@@ -13,6 +13,7 @@
 [datafile]
 description="Civ2 buildings data for Freeciv (incomplete)"
 options="+Freeciv-ruleset-Devel-2014.September.14c"
+format_version=10
 
 ; Below: The individual buildings, one per section.
 ; (Buildings = City Improvements and Wonders)
