@@ -499,15 +499,6 @@ reqs    =
       "OutputType", "Trade", "Local"
     }
 
-[effect_corruption_anarchy]
-type    = "Output_Waste"
-value   = 0
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "OutputType", "Trade", "Local"
-    }
-
 [effect_corruption_tribal]
 type    = "Output_Waste"
 value   = 30
@@ -550,15 +541,6 @@ value   = 15
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
-      "OutputType", "Trade", "Local"
-    }
-
-[effect_corruption_federation]
-type    = "Output_Waste"
-value   = 0
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
       "OutputType", "Trade", "Local"
     }
 
@@ -627,15 +609,6 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-[effect_waste_tribal]
-type    = "Output_Waste"
-value   = 0
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Tribal", "Player"
-      "OutputType", "Shield", "Local"
-    }
-
 [effect_waste_despotism]
 type    = "Output_Waste"
 value   = 10
@@ -651,15 +624,6 @@ value   = 20
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
-      "OutputType", "Shield", "Local"
-    }
-
-[effect_waste_communism]
-type    = "Output_Waste"
-value   = 0
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
       "OutputType", "Shield", "Local"
     }
 
