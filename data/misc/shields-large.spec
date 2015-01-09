@@ -34,6 +34,7 @@ sprites =
 		"f.shield.amazigh", "flags/amazigh-shield-large"
 		"f.shield.amazon", "flags/amazon-shield-large"
 		"f.shield.angola", "flags/angola-shield-large"
+                "f.shield.animals", "flags/animals-shield-large"
 		"f.shield.anishinaabe", "flags/anishinaabe-shield-large"
 		"f.shield.antarctica", "flags/antarctica-shield-large"
 ;		"f.shield.antarctica_alt", "flags/antarctica_alt-shield-large"
