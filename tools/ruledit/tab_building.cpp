@@ -59,7 +59,7 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
 
   bldg_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-  label = new QLabel(R__("Name"));
+  label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
   name = new QLineEdit(this);
   name->setText("None");
@@ -67,7 +67,7 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   bldg_layout->addWidget(label, 0, 0);
   bldg_layout->addWidget(name, 0, 1);
 
-  label = new QLabel(R__("Rule Name"));
+  label = new QLabel(QString::fromUtf8(R__("Rule Name")));
   label->setParent(this);
   rname = new QLineEdit(this);
   rname->setText("None");
@@ -75,12 +75,12 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   bldg_layout->addWidget(label, 1, 0);
   bldg_layout->addWidget(rname, 1, 1);
 
-  add_button = new QPushButton(R__("Add Building"), this);
+  add_button = new QPushButton(QString::fromUtf8(R__("Add Building")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
   bldg_layout->addWidget(add_button, 5, 0);
   show_experimental(add_button);
 
-  delete_button = new QPushButton(R__("Remove this Building"), this);
+  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Building")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   bldg_layout->addWidget(delete_button, 5, 1);
   show_experimental(delete_button);
@@ -116,8 +116,8 @@ void tab_building::update_bldg_info(struct impr_type *pimpr)
   selected = pimpr;
 
   if (selected != 0) {
-    name->setText(untranslated_name(&(pimpr->name)));
-    rname->setText(improvement_rule_name(pimpr));
+    name->setText(QString::fromUtf8(untranslated_name(&(pimpr->name))));
+    rname->setText(QString::fromUtf8(improvement_rule_name(pimpr)));
   } else {
     name->setText("None");
     rname->setText("None");
