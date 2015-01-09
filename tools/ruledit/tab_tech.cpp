@@ -59,7 +59,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
 
   tech_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-  label = new QLabel(R__("Name"));
+  label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
   name = new QLineEdit(this);
   name->setText("None");
@@ -67,7 +67,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   tech_layout->addWidget(label, 0, 0);
   tech_layout->addWidget(name, 0, 1);
 
-  label = new QLabel(R__("Rule Name"));
+  label = new QLabel(QString::fromUtf8(R__("Rule Name")));
   label->setParent(this);
   rname = new QLineEdit(this);
   rname->setText("None");
@@ -75,7 +75,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   tech_layout->addWidget(label, 1, 0);
   tech_layout->addWidget(rname, 1, 1);
 
-  label = new QLabel(R__("Req1"));
+  label = new QLabel(QString::fromUtf8(R__("Req1")));
   label->setParent(this);
   req1_button = new QToolButton();
   req1_button->setParent(this);
@@ -84,7 +84,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   tech_layout->addWidget(label, 2, 0);
   tech_layout->addWidget(req1_button, 2, 1);
 
-  label = new QLabel(R__("Req2"));
+  label = new QLabel(QString::fromUtf8(R__("Req2")));
   label->setParent(this);
   req2_button = new QToolButton();
   req2 = prepare_req_button(req2_button, AR_TWO);
@@ -92,7 +92,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   tech_layout->addWidget(label, 3, 0);
   tech_layout->addWidget(req2_button, 3, 1);
 
-  label = new QLabel(R__("Root Req"));
+  label = new QLabel(QString::fromUtf8(R__("Root Req")));
   label->setParent(this);
   root_req_button = new QToolButton();
   root_req_button->setParent(this);
@@ -101,12 +101,12 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   tech_layout->addWidget(label, 4, 0);
   tech_layout->addWidget(root_req_button, 4, 1);
 
-  add_button = new QPushButton(R__("Add tech"), this);
+  add_button = new QPushButton(QString::fromUtf8(R__("Add tech")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
   tech_layout->addWidget(add_button, 5, 0);
   show_experimental(add_button);
 
-  delete_button = new QPushButton(R__("Remove this tech"), this);
+  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this tech")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   tech_layout->addWidget(delete_button, 5, 1);
   show_experimental(delete_button);
@@ -186,10 +186,10 @@ void tab_tech::techs_to_menu(QMenu *fill_menu)
 QString tab_tech::tech_name(struct advance *padv)
 {
   if (padv == A_NEVER) {
-    return R__("Never");
+    return QString::fromUtf8(R__("Never"));
   }
 
-  return advance_rule_name(padv);
+  return QString::fromUtf8(advance_rule_name(padv));
 }
 
 /**************************************************************************

@@ -40,7 +40,7 @@ requirers_dlg::requirers_dlg(ruledit_gui *ui_in) : QDialog()
   area->setReadOnly(true);
   main_layout->addWidget(area, row++, 0);
 
-  close_button = new QPushButton(R__("Close"), this);
+  close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
   connect(close_button, SIGNAL(pressed()), this, SLOT(close_now()));
   main_layout->addWidget(close_button, row++, 0);
 
@@ -52,7 +52,7 @@ requirers_dlg::requirers_dlg(ruledit_gui *ui_in) : QDialog()
 **************************************************************************/
 void requirers_dlg::clear(const char *title)
 {
-  setWindowTitle(title);
+  setWindowTitle(QString::fromUtf8(title));
   area->clear();
 }
 
@@ -67,7 +67,7 @@ void requirers_dlg::add(const char *msg)
    * unit type, ... */
   fc_snprintf(buffer, sizeof(buffer), R__("Needed by %s"), msg);
 
-  area->append(buffer);
+  area->append(QString::fromUtf8(buffer));
 }
 
 /**************************************************************************

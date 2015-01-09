@@ -59,7 +59,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
 
   unit_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-  label = new QLabel(R__("Name"));
+  label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
   name = new QLineEdit(this);
   name->setText("None");
@@ -67,7 +67,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   unit_layout->addWidget(label, 0, 0);
   unit_layout->addWidget(name, 0, 1);
 
-  label = new QLabel(R__("Rule Name"));
+  label = new QLabel(QString::fromUtf8(R__("Rule Name")));
   label->setParent(this);
   rname = new QLineEdit(this);
   rname->setText("None");
@@ -75,12 +75,12 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   unit_layout->addWidget(label, 1, 0);
   unit_layout->addWidget(rname, 1, 1);
 
-  add_button = new QPushButton(R__("Add Unit"), this);
+  add_button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
   unit_layout->addWidget(add_button, 5, 0);
   show_experimental(add_button);
 
-  delete_button = new QPushButton(R__("Remove this Unit"), this);
+  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   unit_layout->addWidget(delete_button, 5, 1);
   show_experimental(delete_button);
@@ -116,8 +116,8 @@ void tab_unit::update_utype_info(struct unit_type *ptype)
   selected = ptype;
 
   if (selected != 0) {
-    name->setText(untranslated_name(&(ptype->name)));
-    rname->setText(utype_rule_name(ptype));
+    name->setText(QString::fromUtf8(untranslated_name(&(ptype->name))));
+    rname->setText(QString::fromUtf8(utype_rule_name(ptype)));
   } else {
     name->setText("None");
     rname->setText("None");

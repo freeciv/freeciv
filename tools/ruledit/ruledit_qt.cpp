@@ -57,7 +57,7 @@ bool ruledit_qt_setup(int argc, char **argv)
 {
   QMainWindow *main_window;
   QWidget *central;
-  const QString title = R__("Freeciv Ruleset Editor");
+  const QString title = QString::fromUtf8(R__("Freeciv Ruleset Editor"));
 
   qapp = new QApplication(argc, argv);
   main_window = new QMainWindow;
@@ -139,13 +139,13 @@ void ruledit_gui::setup(QWidget *central_in)
   version_label->setAlignment(Qt::AlignHCenter);
   version_label->setParent(central);
   preload_layout->addWidget(version_label);
-  rs_label = new QLabel(R__("Give ruleset to use as starting point."));
+  rs_label = new QLabel(QString::fromUtf8(R__("Give ruleset to use as starting point.")));
   rs_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   preload_layout->addWidget(rs_label);
   ruleset_select = new QLineEdit(central);
   ruleset_select->setText("classic");
   preload_layout->addWidget(ruleset_select);
-  ruleset_accept = new QPushButton(R__("Start editing"));
+  ruleset_accept = new QPushButton(QString::fromUtf8(R__("Start editing")));
   connect(ruleset_accept, SIGNAL(pressed()), this, SLOT(launch_now()));
   preload_layout->addWidget(ruleset_accept);
 
@@ -155,15 +155,15 @@ void ruledit_gui::setup(QWidget *central_in)
   stack = new QTabWidget(central);
 
   misc = new tab_misc(this);
-  stack->addTab(misc, R__("Misc"));
+  stack->addTab(misc, QString::fromUtf8(R__("Misc")));
   tech = new tab_tech(this);
-  stack->addTab(tech, R__("Tech"));
+  stack->addTab(tech, QString::fromUtf8(R__("Tech")));
   bldg = new tab_building(this);
-  stack->addTab(bldg, R__("Buildings"));
+  stack->addTab(bldg, QString::fromUtf8(R__("Buildings")));
   unit = new tab_unit(this);
-  stack->addTab(unit, R__("Units"));
+  stack->addTab(unit, QString::fromUtf8(R__("Units")));
   nation = new tab_nation(this);
-  stack->addTab(nation, R__("Nations"));
+  stack->addTab(nation, QString::fromUtf8(R__("Nations")));
 
   edit_layout->addWidget(stack);
 
@@ -172,7 +172,7 @@ void ruledit_gui::setup(QWidget *central_in)
 
   full_layout->addLayout(main_layout);
 
-  msg_dspl = new QLabel(R__("Welcome to freeciv-ruledit"));
+  msg_dspl = new QLabel(QString::fromUtf8(R__("Welcome to freeciv-ruledit")));
   msg_dspl->setParent(central);
 
   msg_dspl->setAlignment(Qt::AlignHCenter);
@@ -217,7 +217,7 @@ void ruledit_gui::launch_now()
 **************************************************************************/
 void ruledit_gui::display_msg(const char *msg)
 {
-  msg_dspl->setText(msg);
+  msg_dspl->setText(QString::fromUtf8(msg));
 }
 
 /**************************************************************************
