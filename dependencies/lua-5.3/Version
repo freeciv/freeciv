@@ -1,4 +1,4 @@
-Sources here are from lua-5.3.0-rc3 (http://www.lua.org/ftp/lua-5.3.0-rc3-tar.gz)
+Sources here are from lua-5.3.0-rc4 (http://www.lua.org/ftp/lua-5.3.0-rc4-tar.gz)
 
 Not entire lua distribution directory hierarchy is included here, and
 some files needed for Freeciv usage have been added.
