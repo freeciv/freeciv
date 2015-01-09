@@ -512,12 +512,16 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
   SDL2-client main loop.
 **************************************************************************/
 Uint16 gui_event_loop(void *pData,
-       void (*loop_action)(void *pData),
-       Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
-       Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
-       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
-       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
-       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
+                      void (*loop_action)(void *pData),
+                      Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
+                      Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
+                      Uint16 (*textinput_handler)(char *text, void *pData),
+                      Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent,
+                                                          void *pData),
+                      Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent,
+                                                        void *pData),
+                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent,
+                                                     void *pData))
 {
   Uint16 ID;
   static struct timeval tv;
@@ -673,6 +677,12 @@ Uint16 gui_event_loop(void *pData,
                 ID = key_down_handler(Main.event.key.keysym, pData);
               }
             break;
+          }
+        break;
+
+        case SDL_TEXTINPUT:
+          if (textinput_handler) {
+            ID = textinput_handler(Main.event.text.text, pData);
           }
         break;
 
@@ -963,7 +973,7 @@ void ui_main(int argc, char *argv[])
   set_client_state(C_S_DISCONNECTED);
 
   /* Main game loop */
-  gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
+  gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler, NULL,
                  main_mouse_button_down_handler, main_mouse_button_up_handler,
                  main_mouse_motion_handler);
 }

@@ -552,64 +552,73 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
       }
     }
     break;
-    default:
-    {
-
-      /* add new element of chain (and move cursor right) */
-      if (pEdt->pInputChain != pEdt->pBeginTextChain) {
-        pInputChain_TMP = pEdt->pInputChain->prev;
-        pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
-        pEdt->pInputChain->prev->next = pEdt->pInputChain;
-        pEdt->pInputChain->prev->prev = pInputChain_TMP;
-        pInputChain_TMP->next = pEdt->pInputChain->prev;
-      } else {
-        pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
-        pEdt->pInputChain->prev->next = pEdt->pInputChain;
-        pEdt->pBeginTextChain = pEdt->pInputChain->prev;
-      }
-
-      if (LSHIFT || RSHIFT) {
-        pEdt->pInputChain->prev->chr[0] = toupper(key.sym);
-      } else {
-        pEdt->pInputChain->prev->chr[0] = key.sym;
-      }
-      pEdt->pInputChain->prev->chr[1] = '\0';
-
-      if (pEdt->pInputChain->prev->chr) {
-        if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
-          Uint16 passwd_chr[2] = {'*', '\0'};
-
-          pEdt->pInputChain->prev->pTsurf =
-            TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
-                                      passwd_chr,
-                                      pEdt->pWidget->string16->fgcol);
-        } else {
-          pEdt->pInputChain->prev->pTsurf =
-            TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
-                                      pEdt->pInputChain->prev->chr,
-                                      pEdt->pWidget->string16->fgcol);
-        }
-        pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
-      }
-
-      if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
-        if (pEdt->pInputChain == pEdt->pEndTextChain) {
-          pEdt->Start_X = pEdt->pBg->w - adj_size(5) - pEdt->Truelength;
-        } else {
-          pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
-            (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
-        }
-      }
-
-      pEdt->ChainLen++;
-      Redraw = TRUE;
-    }
+  default:
     break;
   } /* key pressed switch */
 
   if (Redraw) {
     redraw_edit_chain(pEdt);
   }
+
+  return ID_ERROR;
+}
+
+/**************************************************************************
+  Handle textinput strings coming to the edit widget
+**************************************************************************/
+static Uint16 edit_textinput(char *text, void *pData)
+{
+  struct EDIT *pEdt = (struct EDIT *)pData;
+  struct UniChar *pInputChain_TMP;
+  int i;
+
+  for (i = 0; text[i] != '\0'; i++) {
+    /* add new element of chain (and move cursor right) */
+    if (pEdt->pInputChain != pEdt->pBeginTextChain) {
+      pInputChain_TMP = pEdt->pInputChain->prev;
+      pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
+      pEdt->pInputChain->prev->next = pEdt->pInputChain;
+      pEdt->pInputChain->prev->prev = pInputChain_TMP;
+      pInputChain_TMP->next = pEdt->pInputChain->prev;
+    } else {
+      pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
+      pEdt->pInputChain->prev->next = pEdt->pInputChain;
+      pEdt->pBeginTextChain = pEdt->pInputChain->prev;
+    }
+
+    pEdt->pInputChain->prev->chr[0] = text[i];
+    pEdt->pInputChain->prev->chr[1] = '\0';
+
+    if (pEdt->pInputChain->prev->chr) {
+      if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
+        Uint16 passwd_chr[2] = {'*', '\0'};
+
+        pEdt->pInputChain->prev->pTsurf =
+          TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+                                    passwd_chr,
+                                    pEdt->pWidget->string16->fgcol);
+      } else {
+        pEdt->pInputChain->prev->pTsurf =
+          TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+                                    pEdt->pInputChain->prev->chr,
+                                    pEdt->pWidget->string16->fgcol);
+      }
+      pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
+    }
+
+    if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
+      if (pEdt->pInputChain == pEdt->pEndTextChain) {
+        pEdt->Start_X = pEdt->pBg->w - adj_size(5) - pEdt->Truelength;
+      } else {
+        pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
+          (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
+      }
+    }
+
+    pEdt->ChainLen++;
+  }
+
+  redraw_edit_chain(pEdt);
 
   return ID_ERROR;
 }
@@ -720,7 +729,7 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   {
     /* local loop */  
     Uint16 rety = gui_event_loop((void *)&pEdt, NULL,
-                                 edit_key_down, NULL,
+                                 edit_key_down, NULL, edit_textinput,
                                  edit_mouse_button_down, NULL, NULL);
 
     if (pEdt.pBeginTextChain == pEdt.pEndTextChain) {
