@@ -143,10 +143,11 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
        conversion factor in percent) and
      - the unit has the corresponding flag set (UTYF_SHIELD2GOLD)
      FIXME: Should the ai know about this? */
-  gold_upkeep_factor = get_player_bonus(pplayer, EFT_SHIELD2GOLD_FACTOR);
-  gold_upkeep_factor = (gold_upkeep_factor > 0) ? gold_upkeep_factor : 0;
-  if (gold_upkeep_factor > 0 && utype_has_flag(ut, UTYF_SHIELD2GOLD)) {
-    switch (otype) {
+  if (utype_has_flag(ut, UTYF_SHIELD2GOLD)
+      && (otype == O_GOLD || otype == O_SHIELD)) {
+    gold_upkeep_factor = get_player_bonus(pplayer, EFT_SHIELD2GOLD_FACTOR);
+    if (gold_upkeep_factor > 0) {
+      switch (otype) {
       case O_GOLD:
         val = ceil((0.01 * gold_upkeep_factor) * ut->upkeep[O_SHIELD]);
         break;
@@ -154,8 +155,9 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
         val = 0;
         break;
       default:
-        /* fall through */
+        fc_assert(otype == O_GOLD || otype == O_SHIELD);
         break;
+      }
     }
   }
 
