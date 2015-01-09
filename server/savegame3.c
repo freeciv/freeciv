@@ -1208,35 +1208,12 @@ static void sg_special_set(bv_extras *extras, char ch,
     }
 
     if (bin & (1 << i)) {
-      if (sp == S_OLD_ROAD) {
-        struct road_type *proad;
+      struct extra_type *pextra;
 
-        proad = road_by_compat_special(ROCO_ROAD);
-        if (proad) {
-          BV_SET(*extras, extra_index(road_extra_get(proad)));
-        }
-      } else if (sp == S_OLD_RAILROAD) {
-        struct road_type *proad;
+      pextra = extra_type_by_rule_name(special_rule_name(sp));
 
-        proad = road_by_compat_special(ROCO_RAILROAD);
-        if (proad) {
-          BV_SET(*extras, extra_index(road_extra_get(proad)));
-        }
-      } else if (sp == S_OLD_RIVER) {
-        struct road_type *proad;
-
-        proad = road_by_compat_special(ROCO_RIVER);
-        if (proad) {
-          BV_SET(*extras, extra_index(road_extra_get(proad)));
-        }
-      } else {
-        struct extra_type *pextra;
-
-        pextra = extra_type_by_rule_name(special_rule_name(sp));
-
-        if (pextra) {
-          BV_SET(*extras, extra_index(pextra));
-        }
+      if (pextra) {
+        BV_SET(*extras, extra_index(pextra));
       }
     }
   }
@@ -5089,22 +5066,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
       }
     }
 
-    if (target == S_OLD_ROAD) {
-      target = S_LAST;
-      proad = road_by_compat_special(ROCO_ROAD);
-    } else if (target == S_OLD_RAILROAD) {
-      target = S_LAST;
-      proad = road_by_compat_special(ROCO_RAILROAD);
-    }
-
-    if (activity == ACTIVITY_OLD_ROAD) {
-      activity = ACTIVITY_GEN_ROAD;
-      proad = road_by_compat_special(ROCO_ROAD);
-    } else if (activity == ACTIVITY_OLD_RAILROAD) {
-      activity = ACTIVITY_GEN_ROAD;
-      proad = road_by_compat_special(ROCO_RAILROAD);
-    }
-
     /* We need changed_from == ACTIVITY_IDLE by now so that
      * set_unit_activity() and friends don't spuriously restore activity
      * points -- unit should have been created this way */
@@ -5216,20 +5177,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
     road_id =
       secfile_lookup_int_default(loading->file, -1,
                                  "%s.changed_from_road", unitstr);
-
-    if (road_id == -1) {
-      if (cfspe == S_OLD_ROAD) {
-        proad = road_by_compat_special(ROCO_ROAD);
-        if (proad) {
-          road_id = road_index(proad);
-        }
-      } else if (cfspe == S_OLD_RAILROAD) {
-        proad = road_by_compat_special(ROCO_RAILROAD);
-        if (proad) {
-          road_id = road_index(proad);
-        }
-      }
-    }
 
     if (base_id >= 0 && base_id < loading->base.size) {
       punit->changed_from_target = base_extra_get(loading->base.order[base_id]);
@@ -5381,8 +5328,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
       const char *tgt_unitstr;
       const char *base_unitstr = NULL;
       const char *road_unitstr = NULL;
-      int road_idx = road_index(road_by_compat_special(ROCO_ROAD));
-      int rail_idx = road_index(road_by_compat_special(ROCO_RAILROAD));
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -5483,16 +5428,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
               = extra_number(road_extra_get(road_by_number(road_id)));
           } else {
             order->target = EXTRA_NONE;
-          }
-
-          if (order->activity == ACTIVITY_OLD_ROAD) {
-            order->activity = ACTIVITY_GEN_ROAD;
-            order->target
-              = extra_number(road_extra_get(road_by_number(road_idx)));
-          } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
-            order->activity = ACTIVITY_GEN_ROAD;
-            order->target
-              = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
         }
       }
