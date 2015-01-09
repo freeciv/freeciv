@@ -1337,7 +1337,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL, NULL,
                    report_scroll_mouse_button_up,
                    report_scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */

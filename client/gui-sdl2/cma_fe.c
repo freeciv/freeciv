@@ -162,7 +162,7 @@ static int min_horiz_cma_callback(struct widget *pWidget)
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL, NULL,
                    scroll_mouse_button_up, scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);
@@ -201,7 +201,7 @@ static int factor_horiz_cma_callback(struct widget *pWidget)
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL, NULL,
                    scroll_mouse_button_up, scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);

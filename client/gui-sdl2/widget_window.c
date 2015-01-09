@@ -355,7 +355,7 @@ bool move_window(struct widget *pWindow)
   SDL_GetMouseState(&pMove.prev_x, &pMove.prev_y);
   /* Filter mouse motion events */
   SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-  ret = (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL,
+  ret = (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL, NULL,
 	  move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
   /* Turn off Filter mouse motion events */
   SDL_SetEventFilter(NULL, NULL);

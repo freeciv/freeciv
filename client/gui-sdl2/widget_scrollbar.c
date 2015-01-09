@@ -1082,7 +1082,7 @@ static struct widget *down_scroll_widget_list(struct ScrollBar *pVscroll,
   pDown.pVscroll = pVscroll;
 
   gui_event_loop((void *)&pDown, inside_scroll_down_loop,
-                 NULL, NULL, NULL, scroll_mouse_button_up, NULL);
+                 NULL, NULL, NULL, NULL, scroll_mouse_button_up, NULL);
 
   return pDown.pBegin;
 }
@@ -1104,7 +1104,7 @@ static struct widget *up_scroll_widget_list(struct ScrollBar *pVscroll,
   pUp.pVscroll = pVscroll;
 
   gui_event_loop((void *)&pUp, inside_scroll_up_loop,
-                 NULL, NULL, NULL, scroll_mouse_button_up, NULL);
+                 NULL, NULL, NULL, NULL, scroll_mouse_button_up, NULL);
 
   return pUp.pBegin;
 }
@@ -1132,7 +1132,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
   MOVE_STEP_Y = 3;
   /* Filter mouse motion events */
   SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-  gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL,
+  gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL, NULL,
                  scroll_mouse_button_up, scroll_mouse_motion_handler);
   /* Turn off Filter mouse motion events */
   SDL_SetEventFilter(NULL, NULL);
