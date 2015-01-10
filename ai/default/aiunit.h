@@ -116,10 +116,10 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                            int *pmove_time);
 
 int build_cost_balanced(const struct unit_type *punittype);
-int unittype_def_rating_sq(const struct unit_type *att_type,
-			   const struct unit_type *def_type,
-			   const struct player *def_player,
-                           struct tile *ptile, bool fortified, int veteran);
+int unittype_def_rating_squared(const struct unit_type *att_type,
+                                const struct unit_type *def_type,
+                                const struct player *def_player,
+                                struct tile *ptile, bool fortified, int veteran);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
 bool is_on_unit_upgrade_path(const struct unit_type *test,

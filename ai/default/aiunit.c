@@ -104,8 +104,8 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
                                 struct unit *punit);
 
 static bool unit_role_defender(const struct unit_type *punittype);
-static int unit_def_rating_sq(const struct unit *punit,
-                              const struct unit *pdef);
+static int unit_def_rating_squared(const struct unit *punit,
+                                   const struct unit *pdef);
 
 /*
  * Cached values. Updated by update_simple_ai_types.
@@ -259,9 +259,10 @@ static int unit_att_rating_now(const struct unit *punit)
 /****************************************************************************
   Square of the adv_unit_att_rating() function - used in actual computations.
 ****************************************************************************/
-static int unit_att_rating_sq(const struct unit *punit)
+static int unit_att_rating_squared(const struct unit *punit)
 {
   int v = adv_unit_att_rating(punit);
+
   return v * v;
 }
 
@@ -279,10 +280,11 @@ static int unit_def_rating(const struct unit *attacker,
 /****************************************************************************
   Square of the previous function - used in actual computations.
 ****************************************************************************/
-static int unit_def_rating_sq(const struct unit *attacker,
-                              const struct unit *defender)
+static int unit_def_rating_squared(const struct unit *attacker,
+                                   const struct unit *defender)
 {
   int v = unit_def_rating(attacker, defender);
+
   return v * v;
 }
 
@@ -291,10 +293,11 @@ static int unit_def_rating_sq(const struct unit *attacker,
   See get_virtual_defense_power for the arguments att_type, def_type,
   x, y, fortified and veteran.
 **************************************************************************/
-int unittype_def_rating_sq(const struct unit_type *att_type,
-			   const struct unit_type *def_type,
-			   const struct player *def_player,
-                           struct tile *ptile, bool fortified, int veteran)
+int unittype_def_rating_squared(const struct unit_type *att_type,
+                                const struct unit_type *def_type,
+                                const struct player *def_player,
+                                struct tile *ptile, bool fortified,
+                                int veteran)
 {
   int v = get_virtual_defense_power(att_type, def_type, def_player, ptile,
                                     fortified, veteran)
@@ -699,7 +702,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
   struct pf_map *pfm;
   struct city *pcity;
   struct ai_city *data, *best_data = NULL;
-  const int toughness = adv_unit_def_rating_basic_sq(punit);
+  const int toughness = adv_unit_def_rating_basic_squared(punit);
   int def, best_def = -1;
   /* Arbitrary: 3 turns. */
   const int max_move_cost = 3 * unit_move_rate(punit);
@@ -740,7 +743,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
         continue;
       }
 
-      def = (toughness - adv_unit_def_rating_basic_sq(buddy));
+      def = (toughness - adv_unit_def_rating_basic_squared(buddy));
       if (0 >= def) {
         continue;
       }
@@ -1329,7 +1332,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
 
       if (can_unit_attack_tile(punit, city_tile(acity))
           && (pdefender = get_defender(punit, city_tile(acity)))) {
-        vulnerability = unit_def_rating_sq(punit, pdefender);
+        vulnerability = unit_def_rating_squared(punit, pdefender);
         benefit = unit_build_shield_cost(pdefender);
       } else {
         pdefender = NULL;
@@ -1341,10 +1344,10 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         struct unit_type *def_type = dai_choose_defender_versus(acity, punit);
 
         if (def_type) {
-          int v = unittype_def_rating_sq(punit_type, def_type, aplayer,
-                                         atile, FALSE,
-                                         do_make_unit_veteran(acity,
-                                                              def_type));
+          int v = unittype_def_rating_squared(punit_type, def_type, aplayer,
+                                              atile, FALSE,
+                                              do_make_unit_veteran(acity,
+                                                                   def_type));
           if (v > vulnerability) {
             /* They can build a better defender! */
             vulnerability = v;
@@ -1474,7 +1477,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       }
     } city_list_iterate_end;
 
-    attack = unit_att_rating_sq(punit);
+    attack = unit_att_rating_squared(punit);
     /* I'm not sure the following code is good but it seems to be adequate.
      * I am deliberately not adding ferryboat code to the unit_list_iterate.
      * -- Syela */
@@ -1514,7 +1517,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         continue;
       }
 
-      vulnerability = unit_def_rating_sq(punit, aunit);
+      vulnerability = unit_def_rating_squared(punit, aunit);
       benefit = unit_build_shield_cost(aunit);
 
       move_time = pos.turn;
@@ -2926,7 +2929,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
   extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
 
   db += (db * extras_bonus) / 100;
-  d = adv_unit_def_rating_basic_sq(punit) * db;
+  d = adv_unit_def_rating_basic_squared(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
     if (has_handicap(pplayer, H_FOG)

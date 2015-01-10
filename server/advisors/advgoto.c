@@ -243,9 +243,10 @@ int adv_unit_def_rating_basic(const struct unit *punit)
 /****************************************************************************
   Square of the previous function - used in actual computations.
 ****************************************************************************/
-int adv_unit_def_rating_basic_sq(const struct unit *punit)
+int adv_unit_def_rating_basic_squared(const struct unit *punit)
 {
   int v = adv_unit_def_rating_basic(punit);
+
   return v * v;
 }
 
@@ -278,7 +279,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   db = 10 + tile_terrain(ptile)->defense_bonus / 10;
   extras_bonus += tile_extras_defense_bonus(ptile, unit_type(punit));
   db += (db * extras_bonus) / 100;
-  d = adv_unit_def_rating_basic_sq(punit) * db;
+  d = adv_unit_def_rating_basic_squared(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
     if (!map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {

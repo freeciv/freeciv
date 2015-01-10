@@ -1026,9 +1026,9 @@ static void process_attacker_want(struct ai_type *ait,
       /* Estimate strength of the enemy. */
 
       if (victim_unit_type) {
-        vuln = unittype_def_rating_sq(punittype, victim_unit_type,
-                                      victim_player,
-                                      ptile, FALSE, veteran);
+        vuln = unittype_def_rating_squared(punittype, victim_unit_type,
+                                           victim_player,
+                                           ptile, FALSE, veteran);
       } else {
         vuln = 0;
       }
@@ -1222,9 +1222,9 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     def_owner = city_owner(acity);
     if (1 < move_time && def_type) {
       def_vet = do_make_unit_veteran(acity, def_type);
-      vulnerability = unittype_def_rating_sq(unit_type(myunit), def_type,
-                                             city_owner(acity), ptile,
-                                             FALSE, def_vet);
+      vulnerability = unittype_def_rating_squared(unit_type(myunit), def_type,
+                                                  city_owner(acity), ptile,
+                                                  FALSE, def_vet);
       benefit = utype_build_shield_cost(def_type);
     } else {
       vulnerability = 0;
@@ -1234,9 +1234,9 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
 
     pdef = get_defender(myunit, ptile);
     if (pdef) {
-      int m = unittype_def_rating_sq(unit_type(myunit), unit_type(pdef),
-                                     city_owner(acity), ptile, FALSE,
-                                     pdef->veteran);
+      int m = unittype_def_rating_squared(unit_type(myunit), unit_type(pdef),
+                                          city_owner(acity), ptile, FALSE,
+                                          pdef->veteran);
       if (vulnerability < m) {
         vulnerability = m;
         benefit = unit_build_shield_cost(pdef);
