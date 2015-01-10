@@ -721,17 +721,21 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   ri = restrict_infra(pplayer, t1, t2);
   cardinal_move = is_move_cardinal(t1, t2);
 
-  road_type_iterate(proad) {
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
+
     if ((!ri || road_has_flag(proad, RF_UNRESTRICTED_INFRA))
-        && tile_has_road(t1, proad)
+        && tile_has_extra(t1, pextra)
         && (!pclass
-            || is_native_extra_to_uclass(road_extra_get(proad), pclass))) {
+            || is_native_extra_to_uclass(pextra, pclass))) {
       road_type_list_iterate(proad->integrators, iroad) {
+        struct extra_type *iextra = road_extra_get(iroad);
+
         if (road_provides_move_bonus(iroad)
             && cost > iroad->move_cost 
-            && tile_has_road(t2, iroad)
+            && tile_has_extra(t2, iextra)
             && (!pclass
-                || is_native_extra_to_uclass(road_extra_get(iroad), pclass))) {
+                || is_native_extra_to_uclass(iextra, pclass))) {
           switch (iroad->move_mode) {
           case RMM_CARDINAL:
             if (cardinal_move) {
@@ -762,7 +766,7 @@ static int tile_move_cost_ptrs(const struct unit *punit,
         }
       } road_type_list_iterate_end;
     }
-  } road_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   /* UTYF_IGTER units have a maximum move cost per step. */
   if (utype_has_flag(punittype, UTYF_IGTER) && MOVE_COST_IGTER < cost) {
