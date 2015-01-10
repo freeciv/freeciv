@@ -31,17 +31,18 @@
 #include "widget.h"
 #include "widget_p.h"
 
-struct UniChar {
-  struct UniChar *next;
-  struct UniChar *prev;
-  Uint16 chr[2];
+struct Utf8Char {
+  struct Utf8Char *next;
+  struct Utf8Char *prev;
+  int bytes;
+  char chr[7];
   SDL_Surface *pTsurf;
 };
 
 struct EDIT {
-  struct UniChar *pBeginTextChain;
-  struct UniChar *pEndTextChain;
-  struct UniChar *pInputChain;
+  struct Utf8Char *pBeginTextChain;
+  struct Utf8Char *pEndTextChain;
+  struct Utf8Char *pInputChain;
   SDL_Surface *pBg;
   struct widget *pWidget;
   int ChainLen;
@@ -50,10 +51,10 @@ struct EDIT {
   int InputChain_X;
 };
 
-static size_t chainlen(const struct UniChar *pChain);
-static void del_chain(struct UniChar *pChain);
-static struct UniChar * text2chain(const Uint16 *pInText);
-static Uint16 * chain2text(const struct UniChar *pInChain, size_t len);
+static size_t chainlen(const struct Utf8Char *pChain);
+static void del_chain(struct Utf8Char *pChain);
+static struct Utf8Char *text2chain(const Uint16 *pInText);
+static Uint16 *chain2text(const struct Utf8Char *pInChain, size_t len);
 
 static int (*baseclass_redraw)(struct widget *pwidget);
 
@@ -62,7 +63,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 **************************************************************************/
 static int redraw_edit_chain(struct EDIT *pEdt)
 {
-  struct UniChar *pInputChain_TMP;
+  struct Utf8Char *pInputChain_TMP;
   SDL_Rect Dest, Dest_Copy = {0, 0, 0, 0};
   int iStart_Mod_X;
   int ret;
@@ -212,11 +213,11 @@ static int redraw_edit(struct widget *pEdit_Widget)
 }
 
 /**************************************************************************
-  Return length of UniChar chain.
-  WARRNING: if struct UniChar has 1 member and UniChar->chr == 0 then
+  Return length of Utf8Char chain.
+  WARRNING: if struct Utf8Char has 1 member and Utf8Char->chr == 0 then
   this function return 1 ( not 0 like in strlen )
 **************************************************************************/
-static size_t chainlen(const struct UniChar *pChain)
+static size_t chainlen(const struct Utf8Char *pChain)
 {
   size_t length = 0;
 
@@ -234,9 +235,9 @@ static size_t chainlen(const struct UniChar *pChain)
 }
 
 /**************************************************************************
-  Delete UniChar structure.
+  Delete Utf8Char structure.
 **************************************************************************/
-static void del_chain(struct UniChar *pChain)
+static void del_chain(struct Utf8Char *pChain)
 {
   int i, len = 0;
 
@@ -259,14 +260,14 @@ static void del_chain(struct UniChar *pChain)
 }
 
 /**************************************************************************
-  Convert Unistring ( Uint16[] ) to UniChar structure.
+  Convert Unistring ( Uint16[] ) to Utf8Char structure.
   Memmory alocation -> after all use need call del_chain(...) !
 **************************************************************************/
-static struct UniChar *text2chain(const Uint16 *pInText)
+static struct Utf8Char *text2chain(const Uint16 *pInText)
 {
   int i, len;
-  struct UniChar *pOutChain = NULL;
-  struct UniChar *chr_tmp = NULL;
+  struct Utf8Char *pOutChain = NULL;
+  struct Utf8Char *chr_tmp = NULL;
 
   len = unistrlen(pInText);
 
@@ -274,15 +275,17 @@ static struct UniChar *text2chain(const Uint16 *pInText)
     return pOutChain;
   }
 
-  pOutChain = fc_calloc(1, sizeof(struct UniChar));
+  pOutChain = fc_calloc(1, sizeof(struct Utf8Char));
   pOutChain->chr[0] = pInText[0];
   pOutChain->chr[1] = 0;
+  pOutChain->bytes = 1;
   chr_tmp = pOutChain;
 
   for (i = 1; i < len; i++) {
-    chr_tmp->next = fc_calloc(1, sizeof(struct UniChar));
+    chr_tmp->next = fc_calloc(1, sizeof(struct Utf8Char));
     chr_tmp->next->chr[0] = pInText[i];
     chr_tmp->next->chr[1] = 0;
+    chr_tmp->next->bytes  = 1;
     chr_tmp->next->prev = chr_tmp;
     chr_tmp = chr_tmp->next;
   }
@@ -291,10 +294,10 @@ static struct UniChar *text2chain(const Uint16 *pInText)
 }
 
 /**************************************************************************
-  Convert UniChar structure to Unistring ( Uint16[] ).
-  WARRING: Do not free UniChar structure but allocate new Unistring.
+  Convert Utf8Char structure to Unistring ( Uint16[] ).
+  WARRING: Do not free Utf8Char structure but allocate new Unistring.
 **************************************************************************/
-static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
+static Uint16 *chain2text(const struct Utf8Char *pInChain, size_t len)
 {
   int i;
   Uint16 *pOutText = NULL;
@@ -304,8 +307,17 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
   }
 
   pOutText = fc_calloc(len + 1, sizeof(Uint16));
-  for (i = 0; i < len; i++) {
-    pOutText[i] = pInChain->chr[0];
+  for (i = 0; i < len;) {
+    pOutText[i++] = pInChain->chr[0];
+
+#if 0
+    int j;
+
+    for (j = 0; j < pInChain->bytes && i < len; j++) {
+      pOutText[i++] = pInChain->chr[j];
+    }
+#endif
+
     pInChain = pInChain->next;
   }
 
@@ -403,7 +415,7 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
 static Uint16 edit_key_down(SDL_Keysym key, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
-  struct UniChar *pInputChain_TMP;
+  struct Utf8Char *pInputChain_TMP;
   bool Redraw = FALSE;
 
   /* find which key is pressed */
@@ -569,25 +581,37 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
 static Uint16 edit_textinput(char *text, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
-  struct UniChar *pInputChain_TMP;
+  struct Utf8Char *pInputChain_TMP;
   int i;
 
-  for (i = 0; text[i] != '\0'; i++) {
+  for (i = 0; text[i] != '\0';) {
+    int charlen = 1;
+    unsigned char leading = text[i++];
+    int sum = 128 + 64;
+    int addition = 32;
+
     /* add new element of chain (and move cursor right) */
     if (pEdt->pInputChain != pEdt->pBeginTextChain) {
       pInputChain_TMP = pEdt->pInputChain->prev;
-      pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
+      pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct Utf8Char));
       pEdt->pInputChain->prev->next = pEdt->pInputChain;
       pEdt->pInputChain->prev->prev = pInputChain_TMP;
       pInputChain_TMP->next = pEdt->pInputChain->prev;
     } else {
-      pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
+      pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct Utf8Char));
       pEdt->pInputChain->prev->next = pEdt->pInputChain;
       pEdt->pBeginTextChain = pEdt->pInputChain->prev;
     }
 
-    pEdt->pInputChain->prev->chr[0] = text[i];
-    pEdt->pInputChain->prev->chr[1] = '\0';
+    pEdt->pInputChain->prev->chr[0] = leading;
+    /* UTF-8 multibyte handling */
+    while (leading >= sum) {
+      pEdt->pInputChain->prev->chr[charlen++] = text[i++];
+      sum += addition;
+      addition /= 2;
+    }
+    pEdt->pInputChain->prev->chr[charlen] = '\0';
+    pEdt->pInputChain->prev->bytes = charlen;
 
     if (pEdt->pInputChain->prev->chr) {
       if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
@@ -599,9 +623,9 @@ static Uint16 edit_textinput(char *text, void *pData)
                                     pEdt->pWidget->string16->fgcol);
       } else {
         pEdt->pInputChain->prev->pTsurf =
-          TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
-                                    pEdt->pInputChain->prev->chr,
-                                    pEdt->pWidget->string16->fgcol);
+          TTF_RenderUTF8_Blended(pEdt->pWidget->string16->font,
+                                 pEdt->pInputChain->prev->chr,
+                                 pEdt->pWidget->string16->fgcol);
       }
       pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
     }
@@ -643,8 +667,8 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *p
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
 {
   struct EDIT pEdt;
-  struct UniChar ___last;
-  struct UniChar *pInputChain_TMP = NULL;
+  struct Utf8Char ___last;
+  struct Utf8Char *pInputChain_TMP = NULL;
   enum Edit_Return_Codes ret;
   void *backup = pEdit_Widget->data.ptr;
 
@@ -682,9 +706,9 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   }
 
   pEdt.pEndTextChain->pTsurf =
-      TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-			      pEdt.pEndTextChain->chr,
-			      pEdit_Widget->string16->fgcol);
+      TTF_RenderUTF8_Blended(pEdit_Widget->string16->font,
+                             pEdt.pEndTextChain->chr,
+                             pEdit_Widget->string16->fgcol);
 
   /* create surface for each font in chain and find chain length */
   if (pEdt.pBeginTextChain) {
@@ -702,9 +726,9 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
                                       pEdit_Widget->string16->fgcol);
       } else {
         pInputChain_TMP->pTsurf =
-            TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-                                      pInputChain_TMP->chr,
-                                      pEdit_Widget->string16->fgcol);
+            TTF_RenderUTF8_Blended(pEdit_Widget->string16->font,
+                                   pInputChain_TMP->chr,
+                                   pEdit_Widget->string16->fgcol);
       }
 
       pEdt.Truelength += pInputChain_TMP->pTsurf->w;
