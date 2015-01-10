@@ -2960,6 +2960,7 @@ void server_game_free(void)
 void srv_main(void)
 {
   fc_interface_init_server();
+  advisors_init();
 
   srv_prepare();
 

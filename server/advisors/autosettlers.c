@@ -72,6 +72,27 @@ struct settlermap {
   int eta; /* estimated number of turns until enroute arrives */
 };
 
+Activity_type_id as_activities_transform[ACTIVITY_LAST];
+
+/**************************************************************************
+  Initialize advisor systems.
+**************************************************************************/
+void advisors_init(void)
+{
+  int i = 0;
+
+  as_activities_transform[i++] = ACTIVITY_IRRIGATE;
+  as_activities_transform[i++] = ACTIVITY_MINE;
+  as_activities_transform[i++] = ACTIVITY_TRANSFORM;
+
+  /* TODO: Pollution and Fallout are not transform type of activities,
+   *       but the autosettlers code currently expects them to be in this list */
+  as_activities_transform[i++] = ACTIVITY_POLLUTION;
+  as_activities_transform[i++] = ACTIVITY_FALLOUT;
+
+  as_activities_transform[i++] = ACTIVITY_LAST;
+}
+
 /**************************************************************************
   Calculate the attractiveness of building a road/rail at the given tile.
 
@@ -451,7 +472,7 @@ int settler_evaluate_improvements(struct unit *punit,
           oldv = city_tile_value(pcity, ptile, 0, 0);
 
           /* Now, consider various activities... */
-          activity_type_iterate(act) {
+          as_transform_activity_iterate(act) {
             struct extra_type *target = NULL;
             enum extra_cause cause = activity_to_extra_cause(act);
             enum extra_rmcause rmcause = activity_to_extra_rmcause(act);
@@ -466,8 +487,6 @@ int settler_evaluate_improvements(struct unit *punit,
 
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
                 /* These need separate implementations. */
-                && act != ACTIVITY_BASE
-                && act != ACTIVITY_GEN_ROAD
                 && can_unit_do_activity_targeted_at(punit, act, target,
                                                     ptile)) {
               int extra = 0;
@@ -496,7 +515,7 @@ int settler_evaluate_improvements(struct unit *punit,
                                       best_tile, ptile);
 
             } /* endif: can the worker perform this action */
-          } activity_type_iterate_end;
+          } as_transform_activity_iterate_end;
 
           road_type_iterate(proad) {
             struct extra_type *target = road_extra_get(proad);
