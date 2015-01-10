@@ -119,6 +119,9 @@ bool territory_claiming_base(const struct base_type *pbase);
 void base_type_init(struct extra_type *pextra, int idx);
 void base_types_free(void);
 
+/* TODO: Change users to use extra_type_by_cause_iterate(EC_BASE...)
+ * directly instead. Especially if they need the 'extra' again and
+ * get it back from the _p with base_extra_get() */
 #define base_type_iterate(_p)			 \
 {                                                \
   extra_type_by_cause_iterate(EC_BASE, _e_) {    \

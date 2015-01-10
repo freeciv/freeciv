@@ -138,6 +138,9 @@ void road_type_init(struct extra_type *pextra, int idx);
 void road_integrators_cache_init(void);
 void road_types_free(void);
 
+/* TODO: Change users to use extra_type_by_cause_iterate(EC_ROAD...)
+ * directly instead. Especially if they need the 'extra' again and
+ * get it back from the _p with road_extra_get() */
 #define road_type_iterate(_p)                    \
 {                                                \
   extra_type_by_cause_iterate(EC_ROAD, _e_) {    \
