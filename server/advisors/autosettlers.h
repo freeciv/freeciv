@@ -17,6 +17,8 @@
 #include "fc_types.h"
 #include "map.h"
 
+void advisors_init(void);
+
 struct settlermap;
 struct pf_path;
 
@@ -56,5 +58,15 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
                            struct tile *ptile);
 
 int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad);
+
+extern Activity_type_id as_activities_transform[ACTIVITY_LAST];
+
+#define as_transform_activity_iterate(_act_)                                \
+{                                                                           \
+  activity_type_list_iterate(as_activities_transform, _act_)
+
+#define as_transform_activity_iterate_end                                   \
+  activity_type_list_iterate_end                                            \
+}
 
 #endif   /* FC__AUTOSETTLERS_H */

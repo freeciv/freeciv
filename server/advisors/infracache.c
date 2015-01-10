@@ -27,6 +27,7 @@
 
 /* server/advisors */
 #include "advbuilding.h"
+#include "autosettlers.h"
 
 #include "infracache.h"
 
@@ -414,9 +415,9 @@ void initialize_infrastructure_cache(struct player *pplayer)
     int best = best_worker_tile_value(pcity);
 
     city_map_iterate(radius_sq, city_index, city_x, city_y) {
-      activity_type_iterate(act) {
+      as_transform_activity_iterate(act) {
         adv_city_worker_act_set(pcity, city_index, act, -1);
-      } activity_type_iterate_end;
+      } as_transform_activity_iterate_end;
     } city_map_iterate_end;
 
     city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {

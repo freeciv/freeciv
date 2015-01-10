@@ -223,16 +223,23 @@ void setup_real_activities_array(void);
 
 extern Activity_type_id real_activities[ACTIVITY_LAST];
 
-/* Iterates over the types of unit activity. */
-#define activity_type_iterate(act)					    \
-{									    \
-  int _act_i_;                                                              \
-									    \
-  for (_act_i_ = 0; real_activities[_act_i_] != ACTIVITY_LAST; _act_i_++) { \
-    Activity_type_id act = real_activities[_act_i_];
+#define activity_type_list_iterate(_act_list_, _act_)                        \
+{                                                                            \
+  int _act_i_;                                                               \
+  for (_act_i_ = 0; _act_list_[_act_i_] != ACTIVITY_LAST; _act_i_++) {       \
+    Activity_type_id _act_ = _act_list_[_act_i_];
 
-#define activity_type_iterate_end     					    \
-  }									    \
+#define activity_type_list_iterate_end                                       \
+  }                                                                          \
+}
+
+/* Iterates over the types of unit activity. */
+#define activity_type_iterate(_act_)					    \
+{									    \
+  activity_type_list_iterate(real_activities, _act_)
+
+#define activity_type_iterate_end                                           \
+  activity_type_list_iterate_end                                            \
 }
 
 bool unit_can_help_build_wonder(const struct unit *punit,

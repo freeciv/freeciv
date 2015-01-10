@@ -123,8 +123,11 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
       potential_worst_worked = TRUE;
     }
 
-    activity_type_iterate(act) {
+    as_transform_activity_iterate(act) {
       bool consider = TRUE;
+      bool possible = FALSE;
+      enum extra_cause cause;
+      enum extra_rmcause rmcause;
 
       /* Do not request activities that already are under way. */
       unit_list_iterate(ptile->units, punit) {
@@ -140,57 +143,51 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
         continue;
       }
 
-      if (act == ACTIVITY_IRRIGATE
-          || act == ACTIVITY_MINE
-          || act == ACTIVITY_POLLUTION
-          || act == ACTIVITY_FALLOUT) {
-        bool possible = FALSE;
-        enum extra_cause cause = activity_to_extra_cause(act);
-        enum extra_rmcause rmcause = activity_to_extra_rmcause(act);
+      cause = activity_to_extra_cause(act);
+      rmcause = activity_to_extra_rmcause(act);
 
-        unit_list_iterate(units, punit) {
-          struct extra_type *tgt = NULL;
+      unit_list_iterate(units, punit) {
+        struct extra_type *tgt = NULL;
 
-          if (cause != EC_NONE) {
-            tgt = next_extra_for_tile(ptile, cause, pplayer, punit);
-          } else if (rmcause != ERM_NONE) {
-            tgt = prev_extra_in_tile(ptile, rmcause, pplayer, punit);
+        if (cause != EC_NONE) {
+          tgt = next_extra_for_tile(ptile, cause, pplayer, punit);
+        } else if (rmcause != ERM_NONE) {
+          tgt = prev_extra_in_tile(ptile, rmcause, pplayer, punit);
+        }
+
+        if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+          possible = TRUE;
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (possible) {
+        int value = adv_city_worker_act_get(pcity, cindex, act);
+
+        if (tile_worked(ptile) == pcity) {
+          if ((value - orig_value) * TWMP > worked.want) {
+            worked.want  = TWMP * (value - orig_value);
+            worked.ptile = ptile;
+            worked.act   = act;
+            worked.tgt   = NULL;
           }
-
-          if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
-            possible = TRUE;
-            break;
-          }
-        } unit_list_iterate_end;
-
-        if (possible) {
-          int value = adv_city_worker_act_get(pcity, cindex, act);
-
-          if (tile_worked(ptile) == pcity) {
-            if ((value - orig_value) * TWMP > worked.want) {
-              worked.want  = TWMP * (value - orig_value);
-              worked.ptile = ptile;
-              worked.act   = act;
-              worked.tgt   = NULL;
-            }
-            if (value > old_worst_worked) {
-              /* After improvement it would not be the worst */
-              potential_worst_worked = FALSE;
-            } else {
-              worst_worked = value;
-            }
+          if (value > old_worst_worked) {
+            /* After improvement it would not be the worst */
+            potential_worst_worked = FALSE;
           } else {
-            if (value > orig_value && value > uw_max) {
-              uw_max = value;
-              unworked.want  = TWMP * (value - orig_value);
-              unworked.ptile = ptile;
-              unworked.act   = act;
-              unworked.tgt   = NULL;
-            }
+            worst_worked = value;
+          }
+        } else {
+          if (value > orig_value && value > uw_max) {
+            uw_max = value;
+            unworked.want  = TWMP * (value - orig_value);
+            unworked.ptile = ptile;
+            unworked.act   = act;
+            unworked.tgt   = NULL;
           }
         }
       }
-    } activity_type_iterate_end;
+    } as_transform_activity_iterate_end;
 
     road_type_iterate(proad) {
       bool possible = FALSE;
