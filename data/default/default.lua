@@ -190,7 +190,7 @@ end
 signal.connect("city_lost", "default_make_partisans_callback")
 
 
--- Notify player about the fact that disaster had no effect if that's
+-- Notify player about the fact that disaster had no effect if that is
 -- the case
 function harmless_disaster_message(disaster, city, had_internal_effect)
   if not had_internal_effect then
