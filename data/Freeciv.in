@@ -2305,14 +2305,11 @@ Freeciv*diplomatdialog.*.button6.fromVert:  button4
 Freeciv*diplomatdialog.*.button7.fromVert:  button5
 Freeciv*diplomatdialog.*.button7.fromHoriz: button6
 
-Freeciv*diplomatdialog.*.button8.label:     _("Enter Marketplace")
 Freeciv*diplomatdialog.*.button8.fromVert:  button6
 
-Freeciv*diplomatdialog.*.button9.label:     _("Establish trade route")
 Freeciv*diplomatdialog.*.button9.fromVert:  button7
 Freeciv*diplomatdialog.*.button9.fromHoriz: button8
 
-Freeciv*diplomatdialog.*.button10.label:     _("Help build Wonder")
 Freeciv*diplomatdialog.*.button10.fromVert:  button8
 
 Freeciv*diplomatdialog.*.button11.fromVert:  button9
