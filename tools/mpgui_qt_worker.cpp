@@ -52,7 +52,7 @@ void mpqt_worker::run()
     msg_callback(_("Ready"));
   }
 
-  gui->refresh_list_versions();
+  gui->refresh_list_versions_thr();
 }
 
 /**************************************************************************

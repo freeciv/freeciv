@@ -227,6 +227,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   connect(mplist_table, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(row_download(QModelIndex)));
   connect(this, SIGNAL(display_msg_thr_signal(const char *)), this, SLOT(display_msg(const char *)));
   connect(this, SIGNAL(progress_thr_signal(int, int)), this, SLOT(progress(int, int)));
+  connect(this, SIGNAL(refresh_list_versions_thr_signal()), this, SLOT(refresh_list_versions()));
 
   main_layout->addWidget(mplist_table);
 
@@ -344,6 +345,14 @@ void mpgui::refresh_list_versions()
   }
 
   mplist_table->resizeColumnsToContents();
+}
+
+/**************************************************************************
+  Refresh display of modpack list modpack versions from another thread
+**************************************************************************/
+void mpgui::refresh_list_versions_thr()
+{
+  emit refresh_list_versions_thr_signal();
 }
 
 /**************************************************************************
