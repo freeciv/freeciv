@@ -41,15 +41,17 @@ class mpgui : public QObject
                     const char *version, const char *license,
                     enum modpack_type type, const char *subtype,
                     const char *notes);
-    void refresh_list_versions();
+    void refresh_list_versions_thr();
 
   signals:
     void display_msg_thr_signal(const char *msg);
     void progress_thr_signal(int downloaded, int max);
+    void refresh_list_versions_thr_signal();
 
   public slots:
     void display_msg(const char *msg);
     void progress(int downloaded, int max);
+    void refresh_list_versions();
 
   private slots:
     void URL_given();
