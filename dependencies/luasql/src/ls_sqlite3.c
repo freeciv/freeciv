@@ -382,7 +382,11 @@ static int conn_execute(lua_State *L)
   int numcols;
   const char *tail;
 
+#if SQLITE_VERSION_NUMBER > 3006013
+  res = sqlite3_prepare_v2(conn->sql_conn, statement, -1, &vm, &tail);
+#else
   res = sqlite3_prepare(conn->sql_conn, statement, -1, &vm, &tail);
+#endif
   if (res != SQLITE_OK)
     {
       errmsg = sqlite3_errmsg(conn->sql_conn);
@@ -544,7 +548,11 @@ static int env_connect(lua_State *L)
 
   sourcename = luaL_checkstring(L, 2);
 
+#if SQLITE_VERSION_NUMBER > 3006013
+  res = sqlite3_open_v2(sourcename, &conn, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+#else
   res = sqlite3_open(sourcename, &conn);
+#endif
   if (res != SQLITE_OK)
     {
       errmsg = sqlite3_errmsg(conn);

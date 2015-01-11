@@ -1,2 +1,5 @@
 Sources here are fron luasql git tag v2.3.0
 (https://github.com/keplerproject/luasql/tree/v2.3.0)
+
+Following commits since the release have been backported:
+7a099cfa0eb582bdf0e641bd8e869655ef8e7f02 Use _v2 APIs for SQLite version 3.6.13 and above.
