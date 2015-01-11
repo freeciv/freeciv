@@ -4569,7 +4569,7 @@ bool unit_drawn_with_city_outline(const struct unit *punit, bool check_focus)
    * But suppress the outline if the unit has orders (likely it is in
    * transit to somewhere else and this will just slow down redraws). */
   return options.draw_city_outlines
-         && unit_has_type_flag(punit, UTYF_CITIES)
+         && unit_is_cityfounder(punit)
          && !unit_has_orders(punit)
          && (client_tile_get_known(unit_tile(punit)) != TILE_UNKNOWN
              && city_can_be_built_here(unit_tile(punit), punit))

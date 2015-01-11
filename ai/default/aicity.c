@@ -528,7 +528,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
     }
 
     if (is_unit_choice_type(bestchoice.type)
-        && utype_has_flag(bestchoice.value.utype, UTYF_CITIES)) {
+        && utype_is_cityfounder(bestchoice.value.utype)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
           && bestchoice.value.utype->pop_cost > 0
           && city_size_get(pcity) <= bestchoice.value.utype->pop_cost) {

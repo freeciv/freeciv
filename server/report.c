@@ -589,12 +589,14 @@ static int get_settlers(const struct player *pplayer)
 {
   int result = 0;
 
-  /* count up settlers */
-  unit_list_iterate(pplayer->units, punit) {
-    if (unit_has_type_flag(punit, UTYF_CITIES)) {
-      result++;
-    }
-  } unit_list_iterate_end;
+  if (!game.scenario.prevent_new_cities) {
+    /* count up settlers */
+    unit_list_iterate(pplayer->units, punit) {
+      if (unit_has_type_flag(punit, UTYF_CITIES)) {
+        result++;
+      }
+    } unit_list_iterate_end;
+  }
 
   return result;
 }

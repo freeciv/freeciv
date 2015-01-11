@@ -1169,7 +1169,7 @@ static void end_turn(void)
       continue;
     }
     unit_list_iterate(pplayer->units, punit) {
-      if (unit_has_type_flag(punit, UTYF_CITIES)) {
+      if (unit_is_cityfounder(punit)) {
         settlers++;
       }
     } unit_list_iterate_end;

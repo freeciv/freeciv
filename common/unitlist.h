@@ -78,6 +78,7 @@ bool can_units_do_base_gui(const struct unit_list *punits,
                            enum base_gui_type base_gui);
 bool units_have_type_flag(const struct unit_list *punits,
                           enum unit_type_flag_id flag, bool has_flag);
+bool units_contain_cityfounder(const struct unit_list *punits);
 bool units_can_do_action(const struct unit_list *punits,
                          int action_id, bool can_do);
 bool units_are_occupied(const struct unit_list *punits);

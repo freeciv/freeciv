@@ -1076,7 +1076,10 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     {
       struct astring astr = ASTRING_INIT;
 
-      if (role_units_translations(&astr, UTYF_CITIES, TRUE)) {
+      if (game.scenario.prevent_new_cities) {
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                      _("Cities cannot be built on this scenario."));
+      } else if (role_units_translations(&astr, UTYF_CITIES, TRUE)) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can build a city."), astr_str(&astr));

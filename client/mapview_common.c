@@ -2349,29 +2349,31 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
     return closest_city;
   }
 
-  /* check within maximum (squared) city radius */
-  city_tile_iterate(max_rad, ptile, tile1) {
-    unit_list_iterate(tile1->units, psettler) {
-      if ((NULL == client.conn.playing
-           || unit_owner(psettler) == client.conn.playing)
-          && unit_has_type_flag(psettler, UTYF_CITIES)
-          && city_can_be_built_here(unit_tile(psettler), psettler)) {
-        if (!closest_settler) {
-          closest_settler = psettler;
+  if (!game.scenario.prevent_new_cities) {
+    /* check within maximum (squared) city radius */
+    city_tile_iterate(max_rad, ptile, tile1) {
+      unit_list_iterate(tile1->units, psettler) {
+        if ((NULL == client.conn.playing
+             || unit_owner(psettler) == client.conn.playing)
+            && unit_has_type_flag(psettler, UTYF_CITIES)
+            && city_can_be_built_here(unit_tile(psettler), psettler)) {
+          if (!closest_settler) {
+            closest_settler = psettler;
+          }
+          if (!best_settler && psettler->client.colored) {
+            best_settler = psettler;
+          }
         }
-        if (!best_settler && psettler->client.colored) {
-          best_settler = psettler;
-        }
-      }
-    } unit_list_iterate_end;
-  } city_tile_iterate_end;
+      } unit_list_iterate_end;
+    } city_tile_iterate_end;
 
-  if (best_settler) {
-    /* Rule e */
-    *punit = best_settler;
-  } else if (closest_settler) {
-    /* Rule f */
-    *punit = closest_settler;
+    if (best_settler) {
+      /* Rule e */
+      *punit = best_settler;
+    } else if (closest_settler) {
+      /* Rule f */
+      *punit = closest_settler;
+    }
   }
 
   /* rule g */

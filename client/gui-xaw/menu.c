@@ -509,14 +509,14 @@ void real_menus_update(void)
       tinfo = tile_terrain(ptile);
       can_build = !(tile_city(ptile));
 
-      if (units_have_type_flag(punits, UTYF_CITIES, TRUE)) {
-	if (!can_build) {
-	  menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
-			  TEXT_ORDER_CITY_ADD_TO, NULL);
-	} else {
-	  menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
-			  TEXT_ORDER_CITY_BUILD, NULL);
-	}
+      if (units_contain_cityfounder(punits)) {
+        if (!can_build) {
+          menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
+                            TEXT_ORDER_CITY_ADD_TO, NULL);
+        } else {
+          menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
+                            TEXT_ORDER_CITY_BUILD, NULL);
+        }
       }
 
       if ((tinfo->irrigation_result != T_NONE)

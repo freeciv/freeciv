@@ -386,7 +386,7 @@ unit_add_or_build_city_test(const struct unit *punit)
 {
   struct tile *ptile = unit_tile(punit);
   struct city *pcity = tile_city(ptile);
-  bool is_build = unit_has_type_flag(punit, UTYF_CITIES);
+  bool is_build = unit_is_cityfounder(punit);
   bool is_add = unit_has_type_flag(punit, UTYF_ADD_TO_CITY);
   int new_pop;
 
@@ -2553,4 +2553,12 @@ struct iterator *cargo_iter_init(struct cargo_iter *iter,
   iter->depth = (NULL != iter->links[0] ? 1 : 0);
 
   return it;
+}
+
+/****************************************************************************
+  Is a cityfounder unit?
+****************************************************************************/
+bool unit_is_cityfounder(const struct unit *punit)
+{
+  return utype_is_cityfounder(unit_type(punit));
 }

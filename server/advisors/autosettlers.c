@@ -826,7 +826,7 @@ void auto_settler_findwork(struct player *pplayer,
   CHECK_UNIT(punit);
 
   fc_assert_ret(pplayer && punit);
-  fc_assert_ret(unit_has_type_flag(punit, UTYF_CITIES)
+  fc_assert_ret(unit_is_cityfounder(punit)
                 || unit_has_type_flag(punit, UTYF_SETTLERS));
 
   /* Have nearby cities requests? */
@@ -1056,7 +1056,7 @@ void auto_settlers_player(struct player *pplayer)
   unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ai_controlled || pplayer->ai_controlled)
         && (unit_has_type_flag(punit, UTYF_SETTLERS)
-            || unit_has_type_flag(punit, UTYF_CITIES))
+            || unit_is_cityfounder(punit))
         && !unit_has_orders(punit)
         && punit->moves_left > 0) {
       log_debug("%s settler at (%d, %d) is ai controlled.",

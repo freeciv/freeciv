@@ -1549,6 +1549,10 @@ static void sg_load_scenario(struct loaddata *loading)
     game.scenario.startpos_nations
       = secfile_lookup_bool_default(loading->file, FALSE,
                                     "scenario.startpos_nations");
+
+    game.scenario.prevent_new_cities
+      = secfile_lookup_bool_default(loading->file, FALSE,
+                                    "scenario.prevent_new_cities");
     game.scenario.handmade
       = secfile_lookup_bool_default(loading->file, FALSE,
                                     "scenario.handmade");

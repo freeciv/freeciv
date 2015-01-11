@@ -1571,6 +1571,11 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
+  if (packet->prevent_new_cities != game.scenario.prevent_new_cities) {
+    game.scenario.prevent_new_cities = packet->prevent_new_cities;
+    changed = TRUE;
+  }
+
   if (changed) {
     send_scenario_info(NULL);
     send_game_info(NULL);

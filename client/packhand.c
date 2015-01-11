@@ -2810,6 +2810,7 @@ void handle_scenario_info(const struct packet_scenario_info *packet)
   sz_strlcpy(game.scenario.description, packet->description);
   game.scenario.players = packet->players;
   game.scenario.startpos_nations = packet->startpos_nations;
+  game.scenario.prevent_new_cities = packet->prevent_new_cities;
   game.scenario.handmade = packet->handmade;
 
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
