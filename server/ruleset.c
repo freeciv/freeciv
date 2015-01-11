@@ -2862,6 +2862,9 @@ static bool load_ruleset_terrain(struct section_file *file)
       pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
                                                           "%s.defense_bonus",
                                                           section);
+      if (pextra->defense_bonus != 0) { 
+        extra_to_caused_by_list(pextra, EC_DEFENSIVE);
+      }
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pextra->native_to);

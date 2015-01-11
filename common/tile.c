@@ -244,12 +244,12 @@ int tile_extras_class_defense_bonus(const struct tile *ptile,
 {
   int bonus = 0;
 
-  extra_type_iterate(pextra) {
+  extra_type_by_cause_iterate(EC_DEFENSIVE, pextra) {
     if (tile_has_extra(ptile, pextra)
         && is_native_extra_to_uclass(pextra, pclass)) {
       bonus += pextra->defense_bonus;
     }
-  } extra_type_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   return bonus;
 }
