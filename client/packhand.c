@@ -3950,7 +3950,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   bool valid = FALSE;
 
   /* The dead can't act */
-  if (actor_unit && target_tile && (target_city || target_unit)) {
+  if (actor_unit && (target_tile || target_city || target_unit)) {
     /* At least one action must be possible */
     action_iterate(act) {
       if (action_prob_possible(act_prob[act])) {

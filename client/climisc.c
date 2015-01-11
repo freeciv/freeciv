@@ -1300,6 +1300,51 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
     } action_iterate_end;
   } unit_list_iterate_end;
 
+  /* Check the all units on tile target. An action against all units at a
+   * tile that the actor does to him self too may be added in the future.
+   * (Example: "Heal Tile Units")
+   * Remembering to add code here if that should happend will be hard.
+   * Discovering the bug that the client don't know it can be done against
+   * a unit that is alone at its tile will be even harder. */
+  action_iterate(act) {
+    /* Must check action by action since an action with an all units at
+     * tile target only is legal when it is legal to do to *all* target
+     * units at the target tile. */
+
+    bool legal;
+
+    if (action_get_actor_kind(act) != AAK_UNIT
+        || action_get_target_kind(act) != ATK_UNITS) {
+      /* Not relevant. */
+      continue;
+    }
+
+    /* No proof of illegality yet... */
+    legal = TRUE;
+
+    unit_list_iterate(tgt_tile->units, tgt_unit) {
+      /* Check the relationship to the owner of this potential target
+       * unit. */
+
+      tgt_player = unit_owner(tgt_unit);
+      fc_assert(tgt_player);
+
+      /* Can't return yet. Another action may be possible against this
+       * unit. Another unit may make this action impossible. */
+      if (!can_unit_act_diplstate(unit_type(act_unit), act,
+                                  act_player, tgt_player)) {
+        /* Impossible for one unit and therefore impossible at all. */
+        legal = FALSE;
+        break;
+      }
+    } unit_list_iterate_end;
+
+    if (legal) {
+      /* Actiong against all units on this tile confirmed possible. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
   /* No action against any kind of target possible. */
   return FALSE;
 }

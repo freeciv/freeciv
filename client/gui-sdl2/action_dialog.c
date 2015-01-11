@@ -721,7 +721,9 @@ static const act_func af_map[ACTION_COUNT] = {
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
-  [ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit_callback
+  [ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit_callback,
+
+  /* Unit acting against all units at a tile. */
 };
 
 /**************************************************************************
@@ -731,6 +733,7 @@ static void action_entry(const enum gen_action act,
                          const int *action_probabilities,
                          const char *custom,
                          struct unit *act_unit,
+                         struct tile *tgt_tile,
                          struct city *tgt_city,
                          struct unit *tgt_unit,
                          struct widget *pWindow,
@@ -758,6 +761,8 @@ static void action_entry(const enum gen_action act,
   case ATK_UNIT:
     pBuf->data.unit = tgt_unit;
     break;
+  case ATK_UNITS:
+    pBuf->data.tile = tgt_tile;
   case ATK_COUNT:
     fc_assert_msg(FALSE, "Unsupported target kind");
   }
@@ -894,7 +899,7 @@ void popup_action_selection(struct unit *actor_unit,
       action_entry(act, act_probs,
                    action_custom_text(act, act_probs[act],
                                       actor_homecity, target_city),
-                   actor_unit, target_city, NULL,
+                   actor_unit, NULL, target_city, NULL,
                    pWindow, &area);
     }
   } action_iterate_end;
@@ -906,7 +911,19 @@ void popup_action_selection(struct unit *actor_unit,
         && action_get_target_kind(act) == ATK_UNIT) {
       action_entry(act, act_probs,
                    NULL,
-                   actor_unit, NULL, target_unit,
+                   actor_unit, NULL, NULL, target_unit,
+                   pWindow, &area);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against all units at a tile */
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNITS) {
+      action_entry(act, act_probs,
+                   NULL,
+                   actor_unit, target_tile, NULL, NULL,
                    pWindow, &area);
     }
   } action_iterate_end;

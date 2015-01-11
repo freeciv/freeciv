@@ -119,6 +119,8 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
   action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
 
+  /* Unit acting against all units at a tile. */
+
   return action_function;
 }
 
@@ -982,6 +984,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   unit_id = IDENTITY_NUMBER_ZERO;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
+  target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
 
   /* No buttons are added yet. */
   for (int i = 0; i < BUTTON_COUNT; i++) {
@@ -1281,8 +1284,8 @@ void popup_action_selection(struct unit *actor_unit,
              nation_adjective_for_player(unit_owner(target_unit)),
              unit_name_translation(target_unit));
   } else {
-    fc_assert_msg(target_unit || target_city,
-                  "No target unit or target city specified.");
+    fc_assert_msg(target_unit || target_city || target_tile,
+                  "No target specified.");
 
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
@@ -1310,6 +1313,12 @@ void popup_action_selection(struct unit *actor_unit,
     cd->target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
+  if (target_tile) {
+    cd->target_id[ATK_UNITS] = tile_index(target_tile);
+  } else {
+    cd->target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
+  }
+
   /* Spy/Diplomat acting against a city */
 
   /* Set the correct target for the following actions. */
@@ -1335,6 +1344,22 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_UNIT) {
+      action_entry(cd,
+                   (enum gen_action)act,
+                   act_probs,
+                   "",
+                   qv1, qv2);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against all units at a tile */
+
+  /* Set the correct target for the following actions. */
+  qv2 = cd->target_id[ATK_UNITS];
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNITS) {
       action_entry(cd,
                    (enum gen_action)act,
                    act_probs,
@@ -2129,6 +2154,18 @@ void action_selection_refresh(struct unit *actor_unit,
         fc_assert_msg(!action_prob_possible(act_prob[act])
                       || target_city != NULL,
                       "Action enabled against non existing city!");
+
+        qv2 = IDENTITY_NUMBER_ZERO;
+      }
+      break;
+    case ATK_UNITS:
+      if (target_tile != NULL) {
+        qv2 = tile_index(target_tile);
+      } else {
+        fc_assert_msg(!action_prob_possible(act_prob[act])
+                      || target_tile != NULL,
+                      "Action enabled against all units on "
+                      "non existing tile!");
 
         qv2 = IDENTITY_NUMBER_ZERO;
       }

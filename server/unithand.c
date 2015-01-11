@@ -300,6 +300,38 @@ static bool may_non_act_move(struct unit *actor_unit,
 
 /**************************************************************************
   Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to do any action to all units at
+  the target tile.
+
+  If the owner of the actor unit don't have the knowledge needed to know
+  for sure if the unit can act TRUE will be returned.
+**************************************************************************/
+static bool may_unit_act_vs_tile_units(struct unit *actor,
+                                       struct tile *target)
+{
+  if (actor == NULL || target == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (!(action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNITS)) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_units(actor, act, target))) {
+      /* One action is enough. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target
   city.
 
@@ -501,6 +533,9 @@ void handle_unit_get_actions(struct connection *pc,
     } else if (target_unit && action_get_target_kind(act) == ATK_UNIT) {
       probabilities[act] = action_prob_vs_unit(actor_unit, act,
                                                target_unit);
+    } else if (target_tile && action_get_target_kind(act) == ATK_UNITS) {
+      probabilities[act] = action_prob_vs_units(actor_unit, act,
+                                                target_tile);
     } else {
       probabilities[act] = ACTPROB_IMPOSSIBLE;
     }
@@ -527,6 +562,9 @@ void handle_unit_get_actions(struct connection *pc,
         fc_assert(target_unit != NULL);
         target_unit_id = target_unit->id;
         break;
+      case ATK_UNITS:
+        /* The target tile aren't selected here so it haven't changed. */
+        fc_assert(target_tile != NULL);
       case ATK_COUNT:
         fc_assert_msg(action_get_target_kind(act) != ATK_COUNT,
                       "Invalid action target kind.");
@@ -724,6 +762,12 @@ void handle_unit_do_action(struct player *pplayer,
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_UNIT, target);
+
+#define ACTION_STARTED_UNIT_UNITS(action, actor, target)                  \
+  script_server_signal_emit("action_started_unit_units", 3,               \
+                            API_TYPE_ACTION, action_by_number(action),    \
+                            API_TYPE_UNIT, actor,                         \
+                            API_TYPE_TILE, target);
 
   switch(action_type) {
   case ACTION_SPY_BRIBE_UNIT:
@@ -1953,7 +1997,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       /* If a tcity or a tunit exists it must be possible to act against it
        * since tgt_city() or tgt_unit() wouldn't have targeted it
        * otherwise. */
-      if (tcity || tunit) {
+      if (tcity || tunit
+          || may_unit_act_vs_tile_units(punit, pdesttile)) {
         if (pplayer->ai_controlled) {
           return FALSE;
         }

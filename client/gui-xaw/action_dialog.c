@@ -254,8 +254,8 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void spy_sabotage_unit_callback(Widget w, XtPointer client_data, 
-				       XtPointer call_data)
+static void spy_sabotage_unit_callback(Widget w, XtPointer client_data,
+                                       XtPointer call_data)
 {
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id,
                     diplomat_target_id[ATK_UNIT], 0);
@@ -849,6 +849,12 @@ void popup_action_selection(struct unit *actor_unit,
     diplomat_target_id[ATK_CITY] = target_city->id;
   } else {
     diplomat_target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
+  }
+
+  if (target_tile) {
+    diplomat_target_id[ATK_UNITS] = tile_index(target_tile);
+  } else {
+    diplomat_target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
   }
 
   if (target_city && actor_homecity) {

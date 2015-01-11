@@ -938,7 +938,9 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
-  [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)spy_sabotage_unit_callback
+  [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)spy_sabotage_unit_callback,
+
+  /* Unit acting against all units at a tile. */
 };
 
 /******************************************************************
@@ -1047,6 +1049,9 @@ void popup_action_selection(struct unit *actor_unit,
   target_ids[ATK_UNIT] = target_unit ?
                          target_unit->id :
                          IDENTITY_NUMBER_ZERO;
+  target_ids[ATK_UNITS] = target_tile ?
+                          tile_index(target_tile) :
+                          IDENTITY_NUMBER_ZERO;
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1072,8 +1077,8 @@ void popup_action_selection(struct unit *actor_unit,
              nation_adjective_for_player(unit_owner(target_unit)),
              unit_name_translation(target_unit));
   } else {
-    fc_assert_msg(target_unit || target_city,
-                  "No target unit or target city specified.");
+    fc_assert_msg(target_unit || target_city || target_tile,
+                  "No target specified.");
     astr_set(&text,
              /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
              _("Your %s is waiting for your command."),
@@ -1102,6 +1107,19 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_UNIT) {
+      action_entry(shl,
+                   (enum gen_action)act,
+                   act_probs,
+                   NULL,
+                   data);
+    }
+  } action_iterate_end;
+
+  /* Spy/Diplomat acting against all units at a tile */
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_UNITS) {
       action_entry(shl,
                    (enum gen_action)act,
                    act_probs,

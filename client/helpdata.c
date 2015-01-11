@@ -3806,7 +3806,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     bool vulnerable;
 
     /* Not relevant */
-    if (action_get_target_kind(act) != ATK_UNIT) {
+    if (action_get_target_kind(act) != ATK_UNIT
+        && action_get_target_kind(act) != ATK_UNITS) {
       continue;
     }
 

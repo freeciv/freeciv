@@ -417,6 +417,9 @@ static bool is_action_possible(const enum gen_action wanted_action,
   fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
                 || (action_get_target_kind(wanted_action) == ATK_UNIT
+                    && target_unit != NULL)
+                || (action_get_target_kind(wanted_action) == ATK_UNITS
+                    /* At this level each individual unit is tested. */
                     && target_unit != NULL),
                 "Missing target!");
 
@@ -429,10 +432,11 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  if (action_get_target_kind(wanted_action) == ATK_UNIT) {
-    /* The Freeciv code for all actions with a unit target that is
-     * controlled by action enablers assumes that the acting player can see
-     * the target unit. */
+  if (action_get_target_kind(wanted_action) == ATK_UNIT
+      || action_get_target_kind(wanted_action) == ATK_UNITS) {
+    /* The Freeciv code for all actions that targets a unit or all units at
+     * a tile that is controlled by action enablers assumes that the acting
+     * player can see the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
       return FALSE;
     }
@@ -679,6 +683,56 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            unit_tile(target_unit),
                            target_unit, unit_type(target_unit),
                            NULL, NULL);
+}
+
+/**************************************************************************
+  Returns TRUE if actor_unit can do wanted_action to all units on the
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
+                                     const struct unit *actor_unit,
+                                     const struct tile *target_tile)
+{
+  if (actor_unit == NULL || target_tile == NULL
+      || unit_list_size(target_tile->units) == 0) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+                        FALSE, "Action %s is performed by %s not %s",
+                        gen_action_name(wanted_action),
+                        action_actor_kind_name(
+                          action_get_actor_kind(wanted_action)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_UNITS == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not %s",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)),
+                        action_target_kind_name(ATK_UNITS));
+
+  unit_list_iterate(target_tile->units, target_unit) {
+    if (!is_action_enabled(wanted_action,
+                           unit_owner(actor_unit), NULL, NULL,
+                           unit_tile(actor_unit),
+                           actor_unit, unit_type(actor_unit),
+                           NULL, NULL,
+                           unit_owner(target_unit),
+                           tile_city(unit_tile(target_unit)), NULL,
+                           unit_tile(target_unit),
+                           target_unit, unit_type(target_unit),
+                           NULL, NULL)) {
+      /* One unit makes it impossible for all units. */
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  /* Not impossible for any of the units at the tile. */
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1096,6 +1150,76 @@ action_probability action_prob_vs_unit(struct unit* actor_unit,
                      tile_city(unit_tile(target_unit)), NULL,
                      unit_tile(target_unit),
                      target_unit, NULL, NULL);
+}
+
+/**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on all units at the target tile.
+**************************************************************************/
+action_probability action_prob_vs_units(struct unit* actor_unit,
+                                        int action_id,
+                                        struct tile* target_tile)
+{
+  int sum;
+
+  if (actor_unit == NULL || target_tile == NULL
+      || unit_list_size(target_tile->units) == 0) {
+    /* Can't do an action when actor or target are missing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+                        FALSE, "Action %s is performed by %s not %s",
+                        gen_action_name(action_id),
+                        action_actor_kind_name(
+                          action_get_actor_kind(action_id)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_UNITS == action_get_target_kind(action_id),
+                        FALSE, "Action %s is against %s not %s",
+                        gen_action_name(action_id),
+                        action_target_kind_name(
+                          action_get_target_kind(action_id)),
+                        action_target_kind_name(ATK_UNITS));
+
+  sum = 200;
+  unit_list_iterate(target_tile->units, target_unit) {
+    switch (action_prob(action_id,
+                        unit_owner(actor_unit), NULL, NULL,
+                        unit_tile(actor_unit),
+                        actor_unit,
+                        NULL, NULL,
+                        unit_owner(target_unit),
+                        tile_city(unit_tile(target_unit)), NULL,
+                        unit_tile(target_unit),
+                        target_unit,
+                        NULL, NULL)) {
+    case ACTPROB_IMPOSSIBLE:
+      /* One unit makes it impossible for all units. */
+      return ACTPROB_IMPOSSIBLE;
+    case ACTPROB_NOT_IMPLEMENTED:
+      /* Not implemented domiantes all except impossible. */
+      sum = ACTPROB_NOT_IMPLEMENTED;
+    case ACTPROB_NOT_KNOWN:
+      if (sum != ACTPROB_NOT_IMPLEMENTED) {
+        /* Not known dominates all except not implemented and
+         * impossible. */
+        sum = ACTPROB_NOT_KNOWN;
+      }
+    case 200:
+      /* TODO: Join regular probabilities and remove this. */
+      if (sum == 200) {
+        /* The chance is still 100% */
+      }
+    default:
+      /* TODO: Join regular probabilities (multiply above and below,
+       * then normalize. Normalize quickly because of integer overflow) */
+      sum = ACTPROB_NOT_IMPLEMENTED;
+    }
+  } unit_list_iterate_end;
+
+  /* Not impossible for any of the units at the tile. */
+  return TRUE;
 }
 
 /**************************************************************************
