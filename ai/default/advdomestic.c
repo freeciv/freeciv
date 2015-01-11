@@ -470,61 +470,63 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
 
   /* Find out desire for city founders */
   /* Basically, copied from above and adjusted. -- jjm */
-  founder_type = best_role_unit(pcity, UTYF_CITIES);
+  if (!game.scenario.prevent_new_cities) {
+    founder_type = best_role_unit(pcity, UTYF_CITIES);
 
-  /* founder_want calculated in aisettlers.c */
-  founder_want = city_data->founder_want;
+    /* founder_want calculated in aisettlers.c */
+    founder_want = city_data->founder_want;
 
-  if (ai->wonder_city == pcity->id) {
-    founder_want /= 5;
-  }
-    
-  if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
-    founder_want /= 100;
-  }
-
-  /* Adjust founder want by traits */
-  founder_want *= ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer)
-    / TRAIT_DEFAULT_VALUE;
-
-  if (founder_type
-      && (pcity->id != ai->wonder_city
-          || founder_type->pop_cost == 0)
-      && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type,
-                                                     pplayer, O_FOOD)) {
-
-    if (founder_want > choice->want) {
-      CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
-               founder_want);
-      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
-                           UTYF_CITIES, founder_want,
-                           city_data->founder_boat);
-
-    } else if (founder_want < -choice->want) {
-      /* We need boats to colonize! */
-      /* We might need boats even if there are boats free,
-       * if they are blockaded or in inland seas. */
-      struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
-
-      CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
-	       " for a new boat (%d of %d free)",
-	       -founder_want, ai->stats.available_boats, ai->stats.boats);
-
-      /* First fill choice with founder information */
-      choice->want = 0 - founder_want;
-      choice->type = CT_CIVILIAN;
-      choice->value.utype = founder_type; /* default */
-      choice->need_boat = TRUE;
-
-      /* Then try to overwrite it with ferryboat information
-       * If no ferryboat is found, above founder choice stays. */
-      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
-                           L_FERRYBOAT, -founder_want, TRUE);
+    if (ai->wonder_city == pcity->id) {
+      founder_want /= 5;
     }
-  } else if (!founder_type
-             && (founder_want > choice->want || founder_want < -choice->want)) {
-    /* Can't build founders. Lets stimulate science */
-    dai_wants_role_unit(ait, pplayer, pcity, UTYF_CITIES, founder_want);
+    
+    if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
+      founder_want /= 100;
+    }
+
+    /* Adjust founder want by traits */
+    founder_want *= ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer)
+      / TRAIT_DEFAULT_VALUE;
+
+    if (founder_type
+        && (pcity->id != ai->wonder_city
+            || founder_type->pop_cost == 0)
+        && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type,
+                                                       pplayer, O_FOOD)) {
+
+      if (founder_want > choice->want) {
+        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
+                 founder_want);
+        dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
+                             UTYF_CITIES, founder_want,
+                             city_data->founder_boat);
+
+      } else if (founder_want < -choice->want) {
+        /* We need boats to colonize! */
+        /* We might need boats even if there are boats free,
+         * if they are blockaded or in inland seas. */
+        struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
+
+        CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
+                 " for a new boat (%d of %d free)",
+                 -founder_want, ai->stats.available_boats, ai->stats.boats);
+
+        /* First fill choice with founder information */
+        choice->want = 0 - founder_want;
+        choice->type = CT_CIVILIAN;
+        choice->value.utype = founder_type; /* default */
+        choice->need_boat = TRUE;
+
+        /* Then try to overwrite it with ferryboat information
+         * If no ferryboat is found, above founder choice stays. */
+        dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
+                             L_FERRYBOAT, -founder_want, TRUE);
+      }
+    } else if (!founder_type
+               && (founder_want > choice->want || founder_want < -choice->want)) {
+      /* Can't build founders. Lets stimulate science */
+      dai_wants_role_unit(ait, pplayer, pcity, UTYF_CITIES, founder_want);
+    }
   }
 
   {

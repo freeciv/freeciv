@@ -336,6 +336,7 @@ static void game_defaults(void)
   game.scenario.name[0] = '\0';
   game.scenario.players = TRUE;
   game.scenario.startpos_nations = FALSE;
+  game.scenario.prevent_new_cities = FALSE;
 
   /* Veteran system. */
   game.veteran = NULL;

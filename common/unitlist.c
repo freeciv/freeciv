@@ -191,6 +191,24 @@ bool units_have_type_flag(const struct unit_list *punits,
   return FALSE;
 }
 
+/****************************************************************************
+  Does the list contain any cityfounder units
+****************************************************************************/
+bool units_contain_cityfounder(const struct unit_list *punits)
+{
+  if (game.scenario.prevent_new_cities) {
+    return FALSE;
+  }
+
+  unit_list_iterate(punits, punit) {
+    if (EQ(TRUE, unit_has_type_flag(punit, UTYF_CITIES))) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
   If has_flag is true, returns true iff any of the units are able to do
   the specified action.

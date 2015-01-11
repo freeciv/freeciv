@@ -1814,6 +1814,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   STRING description[MAX_LEN_PACKET];
   BOOL   players;
   BOOL   startpos_nations;
+  BOOL   prevent_new_cities;
   BOOL   handmade;
 end
 
@@ -2066,6 +2067,7 @@ PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   STRING scenario_desc[MAX_LEN_PACKET];
   BOOL scenario_players;
   BOOL startpos_nations;
+  BOOL prevent_new_cities;
 end
 
 /************** Server Editor Packets **********************/

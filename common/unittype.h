@@ -629,6 +629,8 @@ bool can_player_build_unit_now(const struct player *p,
 
 #define utype_fuel(ptype) (ptype)->fuel
 
+bool utype_is_cityfounder(struct unit_type *utype);
+
 /* Initialization and iteration */
 void unit_types_init(void);
 void unit_types_free(void);

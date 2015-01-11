@@ -1094,7 +1094,7 @@ BUILD_CITY:
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
-  if (unit_has_type_flag(punit, UTYF_CITIES)) {
+  if (unit_is_cityfounder(punit)) {
     struct cityresult *result;
 
     /* may use a boat: */
@@ -1266,7 +1266,13 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
   struct unit *virtualunit;
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
-  struct unit_type *unit_type = best_role_unit(pcity, UTYF_CITIES); 
+  struct unit_type *unit_type;
+
+  if (game.scenario.prevent_new_cities) {
+    return;
+  }
+
+  unit_type = best_role_unit(pcity, UTYF_CITIES); 
 
   if (unit_type == NULL) {
     log_debug("No UTYF_CITIES role unit available");

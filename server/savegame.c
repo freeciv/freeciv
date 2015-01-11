@@ -3037,6 +3037,9 @@ static void game_load_internal(struct section_file *file)
     game.scenario.players
       = secfile_lookup_bool_default(file, TRUE, "scenario.save_players");
 
+    /* Old scenarios couldn't prevent cities */
+    game.scenario.prevent_new_cities = FALSE;
+
     /* Assume any scenario from pre-editor time handmade with special settings. */
     game.scenario.handmade = TRUE;
   } else {

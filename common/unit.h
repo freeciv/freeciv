@@ -384,6 +384,8 @@ bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans);
 int unit_cargo_depth(const struct unit *pcargo);
 int unit_transport_depth(const struct unit *ptrans);
 
+bool unit_is_cityfounder(const struct unit *punit);
+
 /* Iterate all transporters carrying '_pcargo', directly or indirectly. */
 #define unit_transports_iterate(_pcargo, _ptrans) {                         \
   struct unit *_ptrans;                                                     \

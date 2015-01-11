@@ -792,7 +792,7 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
     fear += ATTACK_POWER(punit);
 
     /* Fear enemy expansionism */
-    if (unit_has_type_flag(punit, UTYF_CITIES)) {
+    if (unit_is_cityfounder(punit)) {
       want += 100;
     }
   } unit_list_iterate_end;
@@ -800,14 +800,14 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
     fear -= ATTACK_POWER(punit) / 2;
 
     /* Our own expansionism reduces want for war */
-    if (unit_has_type_flag(punit, UTYF_CITIES)) {
+    if (unit_is_cityfounder(punit)) {
       want -= 200;
       settlers++;
     }
   } unit_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity) {
     if (VUT_UTYPE == pcity->production.kind
-        && utype_has_flag(pcity->production.value.utype, UTYF_CITIES)) {
+        && utype_is_cityfounder(pcity->production.value.utype)) {
       want -= 150;
       settlers++;
     }

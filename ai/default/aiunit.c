@@ -2538,7 +2538,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
     TIMING_LOG(AIT_DIPLOMAT, TIMER_STOP);
     return;
   } else if (unit_has_type_flag(punit, UTYF_SETTLERS)
-	     ||unit_has_type_flag(punit, UTYF_CITIES)) {
+             || unit_is_cityfounder(punit)) {
     dai_manage_settler(ait, pplayer, punit);
     return;
   } else if (unit_can_do_action(punit, ACTION_TRADE_ROUTE)

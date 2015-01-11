@@ -86,7 +86,7 @@ void citymap_turn_init(struct player *pplayer)
   } players_iterate_end;
 
   unit_list_iterate(pplayer->units, punit) {
-    if (unit_has_type_flag(punit, UTYF_CITIES)
+    if (unit_is_cityfounder(punit)
         && punit->server.adv->task == AUT_BUILD_CITY) {
 
       /* use default (squared) city radius */

@@ -3611,7 +3611,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("* May be disbanded in a city to recover 50% of the"
 	      " production cost.\n"));
   }
-  if (utype_has_flag(utype, UTYF_CITIES)) {
+  if (utype_is_cityfounder(utype)) {
     cat_snprintf(buf, bufsz,
                  PL_("* Can build new cities (initial population %d).\n",
                      "* Can build new cities (initial population %d).\n",

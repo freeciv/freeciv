@@ -1729,3 +1729,16 @@ void set_unit_move_type(struct unit_class *puclass)
     puclass->move_type = UMT_LAND;
   }
 }
+
+/****************************************************************************
+  Is cityfounder type
+****************************************************************************/
+bool utype_is_cityfounder(struct unit_type *utype)
+{
+  if (game.scenario.prevent_new_cities) {
+    /* No unit is allowed to found new cities */
+    return FALSE;
+  }
+
+  return utype_has_flag(utype, UTYF_CITIES);
+}

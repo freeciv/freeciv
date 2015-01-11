@@ -564,13 +564,13 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
     /* Default tile behaviour */
   } else if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
     parameter->get_TB = no_fights;
-  } else if (long_path && unit_has_type_flag(punit, UTYF_CITIES)) {
+  } else if (long_path && unit_is_cityfounder(punit)) {
     /* Default tile behaviour;
      * move as far along the path to the destination as we can;
      * that is, ignore the presence of enemy units when computing the
      * path.
      */
-  } else if (unit_has_type_flag(punit, UTYF_CITIES)) {
+  } else if (unit_is_cityfounder(punit)) {
     /* Short path */
     parameter->get_TB = no_fights;
   } else if (is_actor_unit(punit)

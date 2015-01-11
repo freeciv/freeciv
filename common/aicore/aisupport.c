@@ -110,10 +110,13 @@ int city_gold_worth(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int worth = 0, i;
-  struct unit_type *u
-    = best_role_unit_for_player(city_owner(pcity), UTYF_CITIES);
+  struct unit_type *u = NULL;
 
-  if (u) {
+  if (!game.scenario.prevent_new_cities) {
+    u = best_role_unit_for_player(city_owner(pcity), UTYF_CITIES);
+  }
+
+  if (u != NULL) {
     worth += utype_buy_gold_cost(u, 0); /* cost of settler */
   }
   for (i = 1; i < city_size_get(pcity); i++) {

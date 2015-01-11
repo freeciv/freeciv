@@ -2182,7 +2182,7 @@ void real_menus_update(void)
             (can_units_do(punits, unit_can_add_or_build_city)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
   menus_set_sensitive(unit_group, "GO_BUILD_CITY",
-                      units_have_type_flag(punits, UTYF_CITIES, TRUE));
+                      units_contain_cityfounder(punits));
   menus_set_sensitive(unit_group, "BUILD_ROAD",
                       (can_units_do_any_road(punits)
                        || can_units_do(punits,
