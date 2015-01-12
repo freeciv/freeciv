@@ -21,6 +21,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "support.h"
+
 /* Section structure. */
 struct section {
   struct section_file *secfile; /* Parent structure. */

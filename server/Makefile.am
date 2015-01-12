@@ -81,6 +81,8 @@ libfreeciv_srv_la_SOURCES = \
 		plrhand.h	\
 		report.c	\
 		report.h	\
+		rscompat.c	\
+		rscompat.h	\
 		rssanity.c	\
 		rssanity.h	\
 		ruleset.c	\
