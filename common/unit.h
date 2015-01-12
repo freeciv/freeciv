@@ -28,6 +28,7 @@ extern "C" {
 #include "vision.h"
 
 struct road_type;
+struct unit_move_data; /* Actually defined in "server/unittools.c". */
 
 /* Changing this enum will break network compatability. */
 enum unit_orders {
@@ -203,6 +204,7 @@ struct unit {
       struct vision *vision;
       time_t action_timestamp;
       int action_turn;
+      struct unit_move_data *moving;
     } server;
   };
 };
