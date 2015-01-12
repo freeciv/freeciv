@@ -32,9 +32,9 @@ If the player don't have the knowledge required to find out if an action is
 enabled or not the action is shown to the player in case it is possible. The
 client will indicate the uncertainty to the player.
 
-Should the player order a unit to do an illegal action the unit will loose a bit
-movement and the server will inform the player that his unit was unable to
-perform the action.
+Should the player order a unit to do an illegal action the server will
+inform the player that his unit was unable to perform the action. The actor
+unit may also lose a ruleset configurable amount of move fragments.
 
 Example
 =======
