@@ -187,7 +187,7 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
     return 1;
   }
 
-  SDL_SetSurfaceAlphaMod(dst, alpha_mod);
+  SDL_SetSurfaceAlphaMod(src, alpha_mod);
 
   ret = SDL_BlitSurface(src, srcrect, dst, dstrect);
 
