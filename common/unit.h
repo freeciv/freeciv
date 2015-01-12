@@ -216,6 +216,7 @@ struct unit {
       struct vision *vision;
       time_t action_timestamp;
       int action_turn;
+      struct unit_move_data *moving;
 
       bool last_order_move_is_safe;
     } server;
