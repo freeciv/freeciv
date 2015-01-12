@@ -334,6 +334,9 @@ int client_main(int argc, char *argv[])
   registry_module_init();
   audio_init();
   init_character_encodings(gui_character_encoding, gui_use_transliteration);
+#ifdef ENABLE_NLS
+  bind_textdomain_codeset("freeciv-nations", get_internal_encoding());
+#endif
 
   i = 1;
 
