@@ -109,8 +109,8 @@ void vision_site_update_from_city(struct vision_site *psite,
                                   const struct city *pcity)
 {
   /* should be same identity and location */
-  fc_assert_ret(psite->identity = pcity->id);
-  fc_assert_ret(psite->location = pcity->tile);
+  fc_assert_ret(psite->identity == pcity->id);
+  fc_assert_ret(psite->location == pcity->tile);
 
   psite->owner = city_owner(pcity);
 
