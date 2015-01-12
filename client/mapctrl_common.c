@@ -121,7 +121,7 @@ static void define_tiles_within_rectangle(bool append)
   const int inc_y = (rec_h > 0 ? half_H : -half_H);
   int x, y, x2, y2, xx, yy;
   struct unit_list *units = unit_list_new();
-
+  const struct city *pcity;
   bool found_any_cities = FALSE;
 
   if (!append) {
@@ -156,8 +156,8 @@ static void define_tiles_within_rectangle(bool append)
 
       /*  Tile passed all tests; process it.
        */
-      if (NULL != tile_city(ptile)
-          && tile_owner(ptile) == client.conn.playing) {
+      pcity = tile_city(ptile);
+      if (pcity != NULL && city_owner(pcity) == client_player()) {
         mapdeco_set_highlight(ptile, TRUE);
         found_any_cities = tiles_hilited_cities = TRUE;
       }
