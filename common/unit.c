@@ -1790,6 +1790,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     /* Must be an invalid turn number, and an invalid previous turn
      * number. */
     punit->server.action_turn = -2;
+    /* punit->server.moving = NULL; set by fc_calloc(). */
 
     punit->server.adv = fc_calloc(1, sizeof(*punit->server.adv));
 
