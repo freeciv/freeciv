@@ -30,7 +30,7 @@ Here's what to do:
    If you get any GDK/GTK messages, as for example:
 
      Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
-     assertion oject->ref_count > 0' failed.
+     assertion object->ref_count > 0' failed.
 
    please restart your client and append "-- --g-fatal-warnings" to
    the command line. You will get a core dump this way. Please include
