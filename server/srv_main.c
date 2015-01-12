@@ -254,6 +254,9 @@ void srv_init(void)
 
   /* init character encodings. */
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+#ifdef ENABLE_NLS
+  bind_textdomain_codeset("freeciv-nations", get_internal_encoding());
+#endif
 
   /* Initialize callbacks. */
   game.callbacks.unit_deallocate = identity_number_release;

@@ -65,6 +65,10 @@ int main(int argc, char **argv)
 #endif
 
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+#ifdef ENABLE_NLS
+  bind_textdomain_codeset("freeciv-ruledit", get_internal_encoding());
+#endif
+
   registry_module_init();
 
   log_init(NULL, loglevel, NULL, NULL, -1);
