@@ -1216,12 +1216,12 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
-	time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit));
-	fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-	  _("Transform to"),
-	  terrain_name_translation(pTerrain->transform_result),
-			"M", time , 
-			PL_("turn", "turns", time));
+        time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit));
+        fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
+                    _("Transform to"),
+                    terrain_name_translation(pTerrain->transform_result),
+                    "O", time,
+                    PL_("turn", "turns", time));
         copy_chars_to_string16(pOrder_Transform_Button->info_label, cBuf);
 	clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
       } else {
