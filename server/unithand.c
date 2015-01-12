@@ -214,12 +214,14 @@ static void do_capture_units(struct player *pplayer,
                              struct unit *punit,
                              struct tile *pdesttile)
 {
+  struct city *pcity;
   char capturer_link[MAX_LEN_LINK];
   const char *capturer_nation = nation_plural_for_player(pplayer);
 
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(capturer_link, unit_link(punit));
 
+  pcity = tile_city(pdesttile);
   unit_list_iterate(pdesttile->units, to_capture) {
     struct player *uplayer = unit_owner(to_capture);
     const char *victim_link;
@@ -245,6 +247,11 @@ static void do_capture_units(struct player *pplayer,
                   /* TRANS: <unit> ... <Poles> */
                   _("Your %s was captured by the %s."),
                   victim_link, capturer_nation);
+
+    if (NULL != pcity) {
+      /* The captured unit is in a city. Bounce it. */
+      bounce_unit(to_capture, TRUE);
+    }
   } unit_list_iterate_end;
 
   /* Subtract movement point from capturer */
