@@ -737,6 +737,28 @@ static void unit_convert(struct unit *punit)
 }
 
 /**************************************************************************
+  Cancel all illegal activities done by units at the specified tile.
+**************************************************************************/
+void unit_activities_cancel_all_illegal(const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit2) {
+    if (!can_unit_continue_current_activity(punit2)) {
+      if (unit_has_orders(punit2)) {
+        notify_player(unit_owner(punit2), unit_tile(punit2),
+                      E_UNIT_ORDERS, ftc_server,
+                      _("Orders for %s aborted because activity "
+                        "is no longer available."),
+                      unit_link(punit2));
+        free_unit_orders(punit2);
+      }
+
+      set_unit_activity(punit2, ACTIVITY_IDLE);
+      send_unit_info(NULL, punit2);
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -934,20 +956,7 @@ static void update_unit_activity(struct unit *punit)
          * such as building irrigation if we removed the only source
          * of water from them. */
         adjc_iterate(ptile, ptile2) {
-          unit_list_iterate(ptile2->units, punit2) {
-            if (!can_unit_continue_current_activity(punit2)) {
-              if (unit_has_orders(punit2)) {
-                notify_player(unit_owner(punit2), unit_tile(punit2),
-                              E_UNIT_ORDERS, ftc_server,
-                              _("Orders for %s aborted because activity "
-                                "is no longer available."),
-                              unit_link(punit2));
-                free_unit_orders(punit2);
-              }
-              set_unit_activity(punit2, ACTIVITY_IDLE);
-              send_unit_info(NULL, punit2);
-            }
-          } unit_list_iterate_end;
+          unit_activities_cancel_all_illegal(ptile2);
         } adjc_iterate_end;
         break;
       }

@@ -156,4 +156,6 @@ void unit_did_action(struct unit *punit);
 
 bool unit_can_be_retired(struct unit *punit);
 
+void unit_activities_cancel_all_illegal(const struct tile *ptile);
+
 #endif  /* FC__UNITTOOLS_H */
