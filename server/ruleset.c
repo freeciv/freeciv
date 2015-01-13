@@ -1078,7 +1078,7 @@ static bool load_ruleset_techs(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_techs = rscompat_check_capabilities(file, filename);
+  compat->ver_techs = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_techs <= 0) {
     return FALSE;
   }
@@ -1465,7 +1465,7 @@ static bool load_ruleset_units(struct section_file *file,
   char msg[MAX_LEN_MSG];
   bool ok = TRUE;
 
-  compat->ver_units = rscompat_check_capabilities(file, filename);
+  compat->ver_units = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_units <= 0) {
     return FALSE;
   }
@@ -1992,7 +1992,7 @@ static bool load_ruleset_buildings(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_buildings = rscompat_check_capabilities(file, filename);
+  compat->ver_buildings = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_buildings <= 0) {
     return FALSE;
   }
@@ -2367,7 +2367,7 @@ static bool load_ruleset_terrain(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_terrain = rscompat_check_capabilities(file, filename);
+  compat->ver_terrain = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_terrain <= 0) {
     return FALSE;
   }
@@ -3230,7 +3230,7 @@ static bool load_ruleset_governments(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_governments = rscompat_check_capabilities(file, filename);
+  compat->ver_governments = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_governments <= 0) {
     return FALSE;
   }
@@ -3711,7 +3711,7 @@ static bool load_ruleset_nations(struct section_file *file,
   size_t agcount, atcount, ascount;
   bool ok = TRUE;
 
-  compat->ver_nations = rscompat_check_capabilities(file, filename);
+  compat->ver_nations = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_nations <= 0) {
     return FALSE;
   }
@@ -4374,7 +4374,7 @@ static bool load_ruleset_styles(struct section_file *file,
   int i;
   bool ok = TRUE;
 
-  compat->ver_styles = rscompat_check_capabilities(file, filename);
+  compat->ver_styles = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_styles <= 0) {
     return FALSE;
   }
@@ -4459,7 +4459,7 @@ static bool load_ruleset_cities(struct section_file *file,
   struct section_list *sec;
   bool ok = TRUE;
 
-  compat->ver_cities = rscompat_check_capabilities(file, filename);
+  compat->ver_cities = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_cities <= 0) {
     return FALSE;
   }
@@ -4590,7 +4590,7 @@ static bool load_ruleset_effects(struct section_file *file,
 
   filename = secfile_name(file);
 
-  compat->ver_effects = rscompat_check_capabilities(file, filename);
+  compat->ver_effects = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_effects <= 0) {
     return FALSE;
   }
@@ -4740,7 +4740,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   filename = secfile_name(file);
 
   /* section: datafile */
-  compat->ver_game = rscompat_check_capabilities(file, filename);
+  compat->ver_game = rscompat_check_capabilities(file, filename, compat);
   if (compat->ver_game <= 0) {
     return FALSE;
   }

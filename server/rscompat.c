@@ -43,9 +43,11 @@ void rscompat_init_info(struct rscompat_info *info)
   This checks the string and that the required capabilities are satisified.
 **************************************************************************/
 int rscompat_check_capabilities(struct section_file *file,
-                                const char *filename)
+                                const char *filename,
+                                struct rscompat_info *info)
 {
   const char *datafile_options;
+  bool ok = FALSE;
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
     log_fatal("\"%s\": ruleset capability problem:", filename);
@@ -53,22 +55,36 @@ int rscompat_check_capabilities(struct section_file *file,
 
     return 0;
   }
-  if (!has_capabilities(RULESET_CAPABILITIES, datafile_options)) {
-    log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
-    log_fatal("  datafile options: %s", datafile_options);
-    log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-    ruleset_error(LOG_ERROR, "Capability problem");
 
-    return 0;
+  if (info->compat_mode) {
+    /* Check alternative capstr first, so that when we do the main capstr check,
+     * we already know that failures there are fatal (error message correct, can return
+     * immediately) */
+
+    if (has_capabilities(RULESET_COMPAT_CAP, datafile_options)
+        && has_capabilities(datafile_options, RULESET_COMPAT_CAP)) {
+      ok = TRUE;
+    }
   }
-  if (!has_capabilities(datafile_options, RULESET_CAPABILITIES)) {
-    log_fatal("\"%s\": ruleset datafile claims required option(s)"
-              " that we don't support:", filename);
-    log_fatal("  datafile options: %s", datafile_options);
-    log_fatal("  supported options: %s", RULESET_CAPABILITIES);
-    ruleset_error(LOG_ERROR, "Capability problem");
 
-    return 0;
+  if (!ok) {
+    if (!has_capabilities(RULESET_CAPABILITIES, datafile_options)) {
+      log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
+      log_fatal("  datafile options: %s", datafile_options);
+      log_fatal("  supported options: %s", RULESET_CAPABILITIES);
+      ruleset_error(LOG_ERROR, "Capability problem");
+
+      return 0;
+    }
+    if (!has_capabilities(datafile_options, RULESET_CAPABILITIES)) {
+      log_fatal("\"%s\": ruleset datafile claims required option(s)"
+                " that we don't support:", filename);
+      log_fatal("  datafile options: %s", datafile_options);
+      log_fatal("  supported options: %s", RULESET_CAPABILITIES);
+      ruleset_error(LOG_ERROR, "Capability problem");
+
+      return 0;
+    }
   }
 
   return secfile_lookup_int_default(file, 1, "datafile.format_version");

@@ -20,6 +20,8 @@ extern "C" {
 /* utility */
 #include "support.h"
 
+#define RULESET_COMPAT_CAP "+Freeciv-ruleset-Devel-2014.September.14c"
+
 struct rscompat_info
 {
   bool compat_mode;
@@ -37,7 +39,8 @@ struct rscompat_info
 
 void rscompat_init_info(struct rscompat_info *info);
 
-int rscompat_check_capabilities(struct section_file *file, const char *filename);
+int rscompat_check_capabilities(struct section_file *file, const char *filename,
+                                struct rscompat_info *info);
 
 void rscompat_postprocess(struct rscompat_info *info);
 
