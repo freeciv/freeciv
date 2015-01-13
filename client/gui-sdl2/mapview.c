@@ -493,7 +493,10 @@ void update_info_label(void)
   queue_flush();
 }
 
-static int fucus_units_info_callback(struct widget *pWidget)
+/**************************************************************************
+  Set unit to focus
+**************************************************************************/
+static int focus_units_info_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pWidget->data.unit;
@@ -851,7 +854,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             set_wstate(pBuf, FC_WS_NORMAL);
           }
 
-          pBuf->action = fucus_units_info_callback;
+          pBuf->action = focus_units_info_callback;
 
 	} unit_list_iterate_end;
 
