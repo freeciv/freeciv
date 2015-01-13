@@ -132,7 +132,8 @@ void fc_assert_fail(const char *file, const char *function, int line,
     fc_assert_fail(file, function, line, #condition,                        \
                    message, ## __VA_ARGS__);                                \
     action;                                                                 \
-  }
+  }                                                                         \
+  (void) 0 /* Force the usage of ';' at the end of the call. */
 
 #ifdef NDEBUG
 /* Disabled. */
@@ -178,7 +179,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
 /* Exit on failure with extra message. */
 #define fc_assert_exit_msg(condition, message, ...)                         \
   fc_assert_action(condition,                                               \
-                   log_fatal(message, ## __VA_ARGS__); exit(EXIT_FAILURE));
+                   log_fatal(message, ## __VA_ARGS__); exit(EXIT_FAILURE))
 
 #ifdef __cplusplus
 #ifdef CXX11_STATIC_ASSERT
