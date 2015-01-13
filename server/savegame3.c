@@ -5491,7 +5491,9 @@ static void sg_load_player_units_transport(struct loaddata *loading,
     fc_assert_action(id_trans == -1 || ptrans != NULL, continue);
 
     if (ptrans) {
-      fc_assert_action(unit_transport_load(punit, ptrans, TRUE), continue);
+      bool load_success = unit_transport_load(punit, ptrans, TRUE);
+
+      fc_assert_action(load_success == TRUE, continue);
     }
   }
 }
