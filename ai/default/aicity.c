@@ -689,6 +689,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
                                        NULL, NULL);
   if (unit_type(virtualunit)->pop_cost >= city_size_get(pcity)) {
     /* We don't like disbanding the city as a side effect */
+    unit_virtual_destroy(virtualunit);
+
     return;
   }
   /* We consider unit_food_upkeep with only half FOOD_WEIGHTING to
