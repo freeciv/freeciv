@@ -207,7 +207,7 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   if (player_by_number(initiated_from) == client.conn.playing) {
     /* we have to raise the diplomacy meeting tab as well as the selected
      * meeting. */
-    fc_assert_ret(dipl_main)
+    fc_assert_ret(dipl_main != NULL);
     gui_dialog_raise(dipl_main->dialog);
     gui_dialog_raise(pdialog->dialog);
 

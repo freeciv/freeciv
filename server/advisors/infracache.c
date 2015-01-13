@@ -63,7 +63,7 @@ static int adv_calc_irrigate(const struct city *pcity,
   int goodness;
   struct terrain *old_terrain, *new_terrain;
 
-  fc_assert_ret_val(ptile != NULL, -1)
+  fc_assert_ret_val(ptile != NULL, -1);
 
   old_terrain = tile_terrain(ptile);
   new_terrain = old_terrain->irrigation_result;
@@ -143,7 +143,7 @@ static int adv_calc_mine(const struct city *pcity, const struct tile *ptile)
   int goodness;
   struct terrain *old_terrain, *new_terrain;
 
-  fc_assert_ret_val(ptile != NULL, -1)
+  fc_assert_ret_val(ptile != NULL, -1);
 
   old_terrain = tile_terrain(ptile);
   new_terrain = old_terrain->mining_result;
@@ -225,7 +225,7 @@ static int adv_calc_transform(const struct city *pcity,
   struct tile *vtile;
   struct terrain *old_terrain, *new_terrain;
 
-  fc_assert_ret_val(ptile != NULL, -1)
+  fc_assert_ret_val(ptile != NULL, -1);
 
   old_terrain = tile_terrain(ptile);
   new_terrain = old_terrain->transform_result;

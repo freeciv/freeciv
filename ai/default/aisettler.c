@@ -285,7 +285,7 @@ static struct cityresult *cityresult_fill(struct ai_type *ait,
   struct cityresult *result;
 
   fc_assert_ret_val(ai != NULL, NULL);
-  fc_assert_ret_val(ptile != NULL, NULL)
+  fc_assert_ret_val(ptile != NULL, NULL);
 
   pplayer->government = adv->goal.govt.gov;
 
@@ -542,7 +542,7 @@ static void tdc_plr_set(struct ai_type *ait, struct player *plr, int tindex,
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
   fc_assert_ret(ai->settler->tdc_hash != NULL);
-  fc_assert_ret(ptdc)
+  fc_assert_ret(ptdc != NULL);
 
 #ifdef DEBUG
     ai->settler->cache.save++;
