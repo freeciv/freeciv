@@ -5688,12 +5688,20 @@ static void font_changed_callback(struct option *poption)
 static void mapimg_changed_callback(struct option *poption)
 {
   if (!mapimg_client_define()) {
+    bool success;
+
     log_normal("Error setting the value for %s (%s). Restoring the default "
                "value.", option_name(poption), mapimg_error());
 
     /* Reset the value to the default value. */
-    fc_assert_ret(TRUE == option_reset(poption));
-    fc_assert_ret(TRUE == mapimg_client_define());
+    success = option_reset(poption);
+    fc_assert_msg(success == TRUE,
+                  "Failed to reset the option \"%s\".",
+                  option_name(poption));
+    success = mapimg_client_define();
+    fc_assert_msg(success == TRUE,
+                  "Failed to restore mapimg definition for option \"%s\".",
+                  option_name(poption));
   }
 }
 
