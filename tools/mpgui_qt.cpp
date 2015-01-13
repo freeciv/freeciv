@@ -117,7 +117,7 @@ int main(int argc, char **argv)
     central = new QWidget;
 
     main_window->setGeometry(0, 30, 640, 60);
-    main_window->setWindowTitle(_("Freeciv modpack installer (Qt)"));
+    main_window->setWindowTitle(QString::fromUtf8(_("Freeciv modpack installer (Qt)")));
 
     gui = new mpgui;
 
@@ -180,10 +180,10 @@ static void progress_callback_thr(int downloaded, int max)
 **************************************************************************/
 void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
 {
-#define URL_LABEL_TEXT "Modpack URL"
+#define URL_LABEL_TEXT N_("Modpack URL")
   QVBoxLayout *main_layout = new QVBoxLayout();
   QHBoxLayout *hl = new QHBoxLayout();
-  QPushButton *install_button = new QPushButton(_("Install modpack"));
+  QPushButton *install_button = new QPushButton(QString::fromUtf8(_("Install modpack")));
   QStringList headers;
   QLabel *URL_label;
   QLabel *version_label;
@@ -204,7 +204,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
                 rev_ver);
   }
 
-  version_label = new QLabel(verbuf);
+  version_label = new QLabel(QString::fromUtf8(verbuf));
   version_label->setAlignment(Qt::AlignHCenter);
   version_label->setParent(central);
   version_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
@@ -213,9 +213,10 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   mplist_table = new QTableWidget();
   mplist_table->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
   mplist_table->setColumnCount(ML_COL_COUNT);
-  headers << _("Name") << _("Version") << _("Installed");
-  headers << Q_("?modpack:Type") << _("Subtype") << _("License");
-  headers << _("URL") << "typeint";
+  headers << QString::fromUtf8(_("Name")) << QString::fromUtf8(_("Version"));
+  headers << QString::fromUtf8(_("Installed")) << QString::fromUtf8(Q_("?modpack:Type"));
+  headers << QString::fromUtf8(_("Subtype")) << QString::fromUtf8(_("License"));
+  headers << QString::fromUtf8(_("URL")) << "typeint";
   mplist_table->setHorizontalHeaderLabels(headers);
   mplist_table->verticalHeader()->setVisible(false);
   mplist_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -231,7 +232,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
 
   main_layout->addWidget(mplist_table);
 
-  URL_label = new QLabel(_(URL_LABEL_TEXT));
+  URL_label = new QLabel(QString::fromUtf8(_(URL_LABEL_TEXT)));
   URL_label->setParent(central);
   hl->addWidget(URL_label);
 
@@ -254,7 +255,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   bar = new QProgressBar(central);
   main_layout->addWidget(bar);
 
-  msg_dspl = new QLabel(_("Select modpack to install"));
+  msg_dspl = new QLabel(QString::fromUtf8(_("Select modpack to install")));
   msg_dspl->setParent(central);
   main_layout->addWidget(msg_dspl);
 
@@ -268,7 +269,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
 **************************************************************************/
 void mpgui::display_msg(const char *msg)
 {
-  msg_dspl->setText(msg);
+  msg_dspl->setText(QString::fromUtf8(msg));
 }
 
 /**************************************************************************
@@ -391,25 +392,25 @@ void mpgui::setup_list(const char *name, const char *URL,
   mplist_table->setRowCount(mpcount+1);
 
   item = new QTableWidgetItem(QString::fromUtf8(name));
-  item->setToolTip(notes);
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_NAME, item);
-  item = new QTableWidgetItem(version);
-  item->setToolTip(notes);
+  item = new QTableWidgetItem(QString::fromUtf8(version));
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_VER, item);
-  item = new QTableWidgetItem(inst_str);
-  item->setToolTip(notes);
+  item = new QTableWidgetItem(QString::fromUtf8(inst_str));
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_INST, item);
-  item = new QTableWidgetItem(type_str);
-  item->setToolTip(notes);
+  item = new QTableWidgetItem(QString::fromUtf8(type_str));
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_TYPE, item);
-  item = new QTableWidgetItem(subtype);
-  item->setToolTip(notes);
+  item = new QTableWidgetItem(QString::fromUtf8(subtype));
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_SUBTYPE, item);
-  item = new QTableWidgetItem(lic_str);
-  item->setToolTip(notes);
+  item = new QTableWidgetItem(QString::fromUtf8(lic_str));
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_LIC, item);
-  item = new QTableWidgetItem(URL);
-  item->setToolTip(notes);
+  item = new QTableWidgetItem(QString::fromUtf8(URL));
+  item->setToolTip(QString::fromUtf8(notes));
   mplist_table->setItem(mpcount, ML_COL_URL, item);
 
   type_nbr.setNum(type);
