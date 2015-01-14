@@ -14,7 +14,7 @@
 
 [datafile]
 description="Civilization I governments data for Freeciv"
-options="+Freeciv-ruleset-Devel-2014.September.14c"
+options="+Freeciv-ruleset-Devel-2015.January.14"
 format_version=10
 
 [governments]
