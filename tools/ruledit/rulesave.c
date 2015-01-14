@@ -1362,11 +1362,15 @@ static bool save_techs_ruleset(const char *filename, const char *name)
   }
 
   for (i = 0; i < MAX_NUM_USER_TECH_FLAGS; i++) {
-    const char *flagname = tech_flag_id_name(i + TECH_USER_1);
+    const char *flagname = tech_flag_id_name_cb(i + TECH_USER_1);
     const char *helptxt = tech_flag_helptxt(i + TECH_USER_1);
 
-    if (flagname != NULL && helptxt != NULL) {
+    if (flagname != NULL) {
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formating code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
   }
@@ -1434,11 +1438,15 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   }
 
   for (i = 0; i < MAX_NUM_USER_TER_FLAGS; i++) {
-    const char *flagname = terrain_flag_id_name(i + TER_USER_1);
+    const char *flagname = terrain_flag_id_name_cb(i + TER_USER_1);
     const char *helptxt = terrain_flag_helptxt(i + TER_USER_1);
 
-    if (flagname != NULL && helptxt != NULL) {
+    if (flagname != NULL) {
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formating code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
   }
@@ -1948,11 +1956,15 @@ static bool save_units_ruleset(const char *filename, const char *name)
   }
 
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
-    const char *flagname = unit_type_flag_id_name(i + UTYF_USER_FLAG_1);
+    const char *flagname = unit_type_flag_id_name_cb(i + UTYF_USER_FLAG_1);
     const char *helptxt = unit_type_flag_helptxt(i + UTYF_USER_FLAG_1);
 
-    if (flagname != NULL && helptxt != NULL) {
+    if (flagname != NULL) {
       secfile_insert_str(sfile, flagname, "control.flags%d.name", i);
+
+      /* Save the user flag help text even when it is undefined. That makes
+       * the formating code happy. The resulting "" is ignored when the
+       * ruleset is loaded. */
       secfile_insert_str(sfile, helptxt, "control.flags%d.helptxt", i);
     }
   }
