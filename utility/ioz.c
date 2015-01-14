@@ -253,6 +253,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
                                          XZ_DECODER_MEMLIMIT,
                                          LZMA_CONCATENATED);
     if (fp->u.xz.error != LZMA_OK) {
+      free(fp);
       return NULL;
     }
     fp->u.xz.plain = fc_fopen(filename, test_mode);
@@ -294,6 +295,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       lzma_end(&fp->u.xz.stream);
       free(fp->u.xz.in_buf);
     } else {
+      free(fp);
       return NULL;
     }
 #endif /* HAVE_LIBLZMA */
@@ -319,6 +321,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       ret = lzma_easy_encoder(&fp->u.xz.stream, compress_level, LZMA_CHECK_CRC32);
       fp->u.xz.error = ret;
       if (ret != LZMA_OK) {
+        free(fp);
         return NULL;
       }
       fp->u.xz.in_buf = fc_malloc(PLAIN_FILE_BUF_SIZE);
