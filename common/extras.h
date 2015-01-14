@@ -47,6 +47,9 @@ extern "C" {
 /* Counts towards Nuclear Winter */
 #define SPECENUM_VALUE7 EF_NUCLEAR_WINTER
 #define SPECENUM_VALUE7NAME "NuclearWinter"
+/* May spread to neighbor tiles. */
+#define SPECENUM_VALUE8 EF_SPREADS
+#define SPECENUM_VALUE8NAME "Spreads"
 #define SPECENUM_COUNT EF_COUNT
 #define SPECENUM_BITVECTOR bv_extra_flags
 #include "specenum_gen.h"
@@ -172,6 +175,8 @@ bool is_native_extra_to_utype(const struct extra_type *pextra,
                               const struct unit_type *punittype);
 bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
+bool extra_conflicting_on_tile(const struct extra_type *pextra,
+                               const struct tile *ptile);
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
 

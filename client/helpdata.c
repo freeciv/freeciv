@@ -4270,6 +4270,11 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("* Placed by mapgenerator.\n"));
   }
 
+  if (extra_has_flag(pextra, EF_SPREADS)) {
+    CATLSTR(buf, bufsz,
+            _(" * May spread to neighbor tiles.\n"));
+  }
+
   /* XXX Non-zero requirement vector is not a good test of whether
    * insert_requirement() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {

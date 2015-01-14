@@ -1046,6 +1046,7 @@ shield      = 3 ; glacier used to have 4
 ;                           Global Warming
 ;   - "NuclearWinter"     = Instances of this extra on map count towards
 ;                           Nuclear Winter
+;   - "Spreads"           = This extra may spread to neighbor tiles.
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;

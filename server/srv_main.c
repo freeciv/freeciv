@@ -1260,6 +1260,63 @@ static void end_turn(void)
                                &game.info.coolinglevel, nuclear_winter);
   }
 
+  extra_type_iterate(pextra) {
+    if (extra_has_flag(pextra, EF_SPREADS)) {
+      whole_map_iterate(src_tile) {
+        if (tile_has_extra(src_tile, pextra)
+            /* Each spreading extra has a 1,5% chance of spreading each
+             * turn. This extra spreading speed makes it relatively rare
+             * but not unheard of. */
+            /* TODO: Put probability that an extra will spread in an
+             * effect ("Extra_Spread_Pm") on the source tile.
+             * With a cache of what extra types that has any chance of
+             * spreading at all it could replace the EF_SPREADS extra flag
+             * without killing performance. */
+            && fc_rand(1000) < 15) {
+          struct tile *tgt_tile;
+
+          /* Select tile to spread to. */
+          tgt_tile = mapstep(src_tile, rand_direction());
+
+          if (!tgt_tile) {
+            /* Non existing target tile. */
+            continue;
+          }
+
+          if (tile_has_extra(tgt_tile, pextra)
+              || !is_native_tile_to_extra(pextra, tgt_tile)
+              /* TODO: Make it ruleset configurable if an extra should
+               * spread to a tile and replace any conflicting extras or if
+               * it shouldn't spread to a tile with a conflicting extra. */
+              || extra_conflicting_on_tile(pextra, tgt_tile)) {
+            /* Can't spread to target tile. */
+            continue;
+          }
+
+          tile_add_extra(tgt_tile, pextra);
+
+          update_tile_knowledge(tgt_tile);
+
+          if (tile_owner(tgt_tile) != NULL) {
+            notify_player(tile_owner(tgt_tile), tgt_tile,
+                          E_EXTRA_SPREAD, ftc_server,
+                          /* TRANS: Small Fish spreads to (32, 72). */
+                          _("%s spreads to %s."),
+                          extra_name_translation(pextra),
+                          tile_link(tgt_tile));
+          }
+
+          /* Unit activities at the target tile and its neighbors may now
+           * be illegal because of !present reqs. */
+          unit_activities_cancel_all_illegal(tgt_tile);
+          adjc_iterate(tgt_tile, n_tile) {
+            unit_activities_cancel_all_illegal(n_tile);
+          } adjc_iterate_end;
+        }
+      } whole_map_iterate_end;
+    }
+  } extra_type_iterate_end;
+
   update_diplomatics();
   make_history_report();
   settings_turn();
