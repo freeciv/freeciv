@@ -91,6 +91,22 @@ int rscompat_check_capabilities(struct section_file *file,
 }
 
 /**************************************************************************
+  Do compatibility things with names before they are referred to. Runs
+  after names are loaded from the ruleset but before the ruleset objects
+  that may refer to them are loaded.
+
+  This is needed when previously hard coded items that are referred to in
+  the ruleset them self becomes ruleset defined.
+
+  Returns FALSE if an error occurs.
+**************************************************************************/
+bool rscompat_names(struct rscompat_info *info)
+{
+  /* No errors encountered. */
+  return TRUE;
+}
+
+/**************************************************************************
   Do compatibility things after regular ruleset loading.
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)

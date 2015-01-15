@@ -42,6 +42,8 @@ void rscompat_init_info(struct rscompat_info *info);
 int rscompat_check_capabilities(struct section_file *file, const char *filename,
                                 struct rscompat_info *info);
 
+bool rscompat_names(struct rscompat_info *info);
+
 void rscompat_postprocess(struct rscompat_info *info);
 
 #ifdef __cplusplus

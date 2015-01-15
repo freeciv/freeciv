@@ -122,14 +122,22 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
 
-static bool load_game_names(struct section_file *file);
-static bool load_tech_names(struct section_file *file);
-static bool load_unit_names(struct section_file *file);
-static bool load_building_names(struct section_file *file);
-static bool load_government_names(struct section_file *file);
-static bool load_terrain_names(struct section_file *file);
-static bool load_style_names(struct section_file *file);
-static bool load_nation_names(struct section_file *file);
+static bool load_game_names(struct section_file *file,
+                            struct rscompat_info *compat);
+static bool load_tech_names(struct section_file *file,
+                            struct rscompat_info *compat);
+static bool load_unit_names(struct section_file *file,
+                            struct rscompat_info *compat);
+static bool load_building_names(struct section_file *file,
+                                struct rscompat_info *compat);
+static bool load_government_names(struct section_file *file,
+                                  struct rscompat_info *compat);
+static bool load_terrain_names(struct section_file *file,
+                               struct rscompat_info *compat);
+static bool load_style_names(struct section_file *file,
+                             struct rscompat_info *compat);
+static bool load_nation_names(struct section_file *file,
+                              struct rscompat_info *compat);
 static bool load_city_name_list(struct section_file *file,
                                 struct nation_type *pnation,
                                 const char *secfile_str1,
@@ -959,12 +967,22 @@ static void ruleset_load_traits(struct trait_limits *out,
   Load names from game.ruleset so other rulesets can refer to objects
   with their name.
 **************************************************************************/
-static bool load_game_names(struct section_file *file)
+static bool load_game_names(struct section_file *file,
+                            struct rscompat_info *compat)
 {
   struct section_list *sec;
   int nval;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+
+  /* section: datafile */
+  compat->ver_game = rscompat_check_capabilities(file, filename, compat);
+  if (compat->ver_game <= 0) {
+    return FALSE;
+  }
+
+  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
+  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
 
   sec = secfile_sections_by_name_prefix(file, ACHIEVEMENT_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
@@ -1001,7 +1019,8 @@ static bool load_game_names(struct section_file *file)
   Load names of technologies so other rulesets can refer to techs with
   their name.
 **************************************************************************/
-static bool load_tech_names(struct section_file *file)
+static bool load_tech_names(struct section_file *file,
+                            struct rscompat_info *compat)
 {
   struct section_list *sec = NULL;
   /* Number of techs in the ruleset (means without A_NONE). */
@@ -1010,6 +1029,11 @@ static bool load_tech_names(struct section_file *file)
   const char *filename = secfile_name(file);
   bool ok = TRUE;
   const char *flag;
+
+  compat->ver_techs = rscompat_check_capabilities(file, filename, compat);
+  if (compat->ver_techs <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -1078,10 +1102,6 @@ static bool load_ruleset_techs(struct section_file *file,
   const char *filename = secfile_name(file);
   bool ok = TRUE;
 
-  compat->ver_techs = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_techs <= 0) {
-    return FALSE;
-  }
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
 
   i = 0;
@@ -1234,7 +1254,8 @@ restart:
   Load names of units so other rulesets can refer to units with
   their name.
 **************************************************************************/
-static bool load_unit_names(struct section_file *file)
+static bool load_unit_names(struct section_file *file,
+                            struct rscompat_info *compat)
 {
   struct section_list *sec = NULL;
   int nval = 0;
@@ -1242,6 +1263,11 @@ static bool load_unit_names(struct section_file *file)
   const char *filename = secfile_name(file);
   const char *flag;
   bool ok = TRUE;
+
+  compat->ver_units = rscompat_check_capabilities(file, filename, compat);
+  if (compat->ver_units <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -1464,11 +1490,6 @@ static bool load_ruleset_units(struct section_file *file,
   const char *filename = secfile_name(file);
   char msg[MAX_LEN_MSG];
   bool ok = TRUE;
-
-  compat->ver_units = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_units <= 0) {
-    return FALSE;
-  }
 
   if (!load_ruleset_veteran(file, "veteran_system", &game.veteran, msg,
                             sizeof(msg)) || game.veteran == NULL) {
@@ -1938,12 +1959,19 @@ static bool load_ruleset_units(struct section_file *file,
   Load names of buildings so other rulesets can refer to buildings with
   their name.
 **************************************************************************/
-static bool load_building_names(struct section_file *file)
+static bool load_building_names(struct section_file *file,
+                                struct rscompat_info *compat)
 {
   struct section_list *sec;
   int i, nval = 0;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+
+  compat->ver_buildings = rscompat_check_capabilities(file, filename,
+                                                      compat);
+  if (compat->ver_buildings <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -1991,11 +2019,6 @@ static bool load_ruleset_buildings(struct section_file *file,
   int i, nval;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
-
-  compat->ver_buildings = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_buildings <= 0) {
-    return FALSE;
-  }
 
   sec = secfile_sections_by_name_prefix(file, BUILDING_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
@@ -2105,7 +2128,8 @@ static bool load_ruleset_buildings(struct section_file *file,
   Load names of terrain types so other rulesets can refer to terrains with
   their name.
 **************************************************************************/
-static bool load_terrain_names(struct section_file *file)
+static bool load_terrain_names(struct section_file *file,
+                               struct rscompat_info *compat)
 {
   int nval = 0;
   struct section_list *sec = NULL;
@@ -2113,6 +2137,12 @@ static bool load_terrain_names(struct section_file *file)
   int i;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+
+  compat->ver_terrain = rscompat_check_capabilities(file, filename,
+                                                    compat);
+  if (compat->ver_terrain <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -2366,11 +2396,6 @@ static bool load_ruleset_terrain(struct section_file *file,
   const char **res;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
-
-  compat->ver_terrain = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_terrain <= 0) {
-    return FALSE;
-  }
 
   /* parameters */
 
@@ -3148,12 +3173,19 @@ static bool load_ruleset_terrain(struct section_file *file,
   Load names of governments so other rulesets can refer to governments with
   their name.
 **************************************************************************/
-static bool load_government_names(struct section_file *file)
+static bool load_government_names(struct section_file *file,
+                                  struct rscompat_info *compat)
 {
   int nval = 0;
   struct section_list *sec;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
+
+  compat->ver_governments = rscompat_check_capabilities(file, filename,
+                                                        compat);
+  if (compat->ver_governments <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -3229,11 +3261,6 @@ static bool load_ruleset_governments(struct section_file *file,
   struct section_list *sec;
   const char *filename = secfile_name(file);
   bool ok = TRUE;
-
-  compat->ver_governments = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_governments <= 0) {
-    return FALSE;
-  }
 
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
 
@@ -3419,11 +3446,19 @@ static const char *check_leader_names(struct nation_type *pnation,
   Load names of nations so other rulesets can refer to nations with
   their name.
 **************************************************************************/
-static bool load_nation_names(struct section_file *file)
+static bool load_nation_names(struct section_file *file,
+                              struct rscompat_info *compat)
 {
   struct section_list *sec;
   int j;
   bool ok = TRUE;
+  const char *filename = secfile_name(file);
+
+  compat->ver_nations = rscompat_check_capabilities(file, filename,
+                                                    compat);
+  if (compat->ver_nations <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -3710,11 +3745,6 @@ static bool load_ruleset_nations(struct section_file *file,
   const char **allowed_styles = NULL;
   size_t agcount, atcount, ascount;
   bool ok = TRUE;
-
-  compat->ver_nations = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_nations <= 0) {
-    return FALSE;
-  }
 
   name = secfile_lookup_str_default(file, NULL, "ruledit.nationlist");
   if (name != NULL) {
@@ -4312,10 +4342,17 @@ static bool load_ruleset_nations(struct section_file *file,
   Load names of nation styles so other rulesets can refer to styles with
   their name.
 **************************************************************************/
-static bool load_style_names(struct section_file *file)
+static bool load_style_names(struct section_file *file,
+                             struct rscompat_info *compat)
 {
   bool ok = TRUE;
   struct section_list *sec;
+  const char *filename = secfile_name(file);
+
+  compat->ver_styles = rscompat_check_capabilities(file, filename, compat);
+  if (compat->ver_styles <= 0) {
+    return FALSE;
+  }
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
   (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
@@ -4369,15 +4406,9 @@ static bool load_style_names(struct section_file *file)
 static bool load_ruleset_styles(struct section_file *file,
                                 struct rscompat_info *compat)
 {
-  const char *filename = secfile_name(file);
   struct section_list *sec;
   int i;
   bool ok = TRUE;
-
-  compat->ver_styles = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_styles <= 0) {
-    return FALSE;
-  }
 
   /* City Styles ... */
 
@@ -4738,14 +4769,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     return FALSE;
   }
   filename = secfile_name(file);
-
-  /* section: datafile */
-  compat->ver_game = rscompat_check_capabilities(file, filename, compat);
-  if (compat->ver_game <= 0) {
-    return FALSE;
-  }
-  (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
-  (void) secfile_entry_by_path(file, "datafile.ruledit");       /* unused */
 
   /* section: tileset */
   text = secfile_lookup_str_default(file, "", "tileset.prefered");
@@ -6636,14 +6659,18 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
-    ok = load_game_names(gamefile)
-      && load_tech_names(techfile)
-      && load_building_names(buildfile)
-      && load_government_names(govfile)
-      && load_unit_names(unitfile)
-      && load_terrain_names(terrfile)
-      && load_style_names(stylefile)
-      && load_nation_names(nationfile);
+    ok = load_game_names(gamefile, &compat_info)
+      && load_tech_names(techfile, &compat_info)
+      && load_building_names(buildfile, &compat_info)
+      && load_government_names(govfile, &compat_info)
+      && load_unit_names(unitfile, &compat_info)
+      && load_terrain_names(terrfile, &compat_info)
+      && load_style_names(stylefile, &compat_info)
+      && load_nation_names(nationfile, &compat_info);
+  }
+
+  if (ok) {
+    ok = rscompat_names(&compat_info);
   }
 
   if (ok) {
