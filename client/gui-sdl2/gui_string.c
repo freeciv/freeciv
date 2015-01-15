@@ -38,6 +38,7 @@
 #include "gui_main.h"
 #include "themespec.h"
 #include "unistring.h"
+#include "utf8string.h"
 
 #include "gui_string.h"
 
@@ -57,6 +58,9 @@ static TTF_Font *load_font(Uint16 ptsize);
 
 static SDL_Surface *create_str16_surf(SDL_String16 *pString);
 static SDL_Surface *create_str16_multi_surf(SDL_String16 *pString);
+
+static SDL_Surface *create_utf8_surf(utf8_str *pstr);
+static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 
 /**************************************************************************
   Adjust font sizes for small screen.
@@ -154,6 +158,71 @@ SDL_Rect str16size(SDL_String16 *pString16)
 }
 
 /**************************************************************************
+  Calculate display size of string.
+**************************************************************************/
+SDL_Rect utf8_str_size(utf8_str *pstr)
+{
+  SDL_Rect ret = {0, 0, 0, 0};
+
+  if (pstr != NULL && pstr->text != NULL && pstr->text != '\0') {
+    char *current = pstr->text;
+    char c = *current;
+    bool new_line = FALSE;
+    int w, h;
+
+    /* find '\n' */
+    while (c != '\0') {
+      if (c == '\n') {
+	new_line = TRUE;
+	break;
+      }
+      current++;
+      c = *current;
+    }
+
+    if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
+      TTF_SetFontStyle(pstr->font, (pstr->style & 0x0F));
+    }
+
+    if (new_line) {
+      int ww, hh, count = 0;
+      char **utf8_texts = create_new_line_utf8strs(pstr->text);
+
+      w = 0;
+      h = 0;
+      while (utf8_texts[count]) {
+        if (TTF_SizeUTF8(pstr->font, utf8_texts[count], &ww, &hh) < 0) {
+          do {
+            FC_FREE(utf8_texts[count]);
+            count++;
+          } while (utf8_texts[count]);
+          log_error("TTF_SizeUTF8() return ERROR !");
+        }
+        w = MAX(w, ww);
+        h += hh;
+        FC_FREE(utf8_texts[count]);
+        count++;
+      }
+    } else {
+      if (TTF_SizeUTF8(pstr->font, pstr->text, &w, &h) < 0) {
+        log_error("TTF_SizeUTF8() return ERROR !");
+      }
+    }
+
+    if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
+      TTF_SetFontStyle(pstr->font, TTF_STYLE_NORMAL);
+    }
+
+    ret.w = w;
+    ret.h = h;
+  } else {
+    ret.h = (pstr ? TTF_FontHeight(pstr->font) : 0);
+  }
+
+  return ret;
+}
+
+/**************************************************************************
   Create string16 struct with ptsize font.
   Font will be loaded or aliased with existing font of that size.
   pInTextString must be allocated in memory (MALLOC/fc_calloc)
@@ -235,6 +304,27 @@ int write_text16(SDL_Surface *pDest, Sint16 x, Sint16 y,
 }
 
 /**************************************************************************
+  Blit text to surface.
+**************************************************************************/
+int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
+               utf8_str *pstr)
+{
+  SDL_Rect dst_rect = { x, y, 0, 0 };
+  SDL_Surface *text = create_text_surf_from_utf8(pstr);
+
+  if (alphablit(text, NULL, dest, &dst_rect, 255) < 0) {
+    log_error("write_utf8(): couldn't blit text to display: %s",
+              SDL_GetError());
+    FREESURFACE(text);
+    return -1;
+  }
+
+  FREESURFACE(text);
+
+  return 0;
+}
+
+/**************************************************************************
   Create Text Surface from SDL_String16
 **************************************************************************/
 static SDL_Surface *create_str16_surf(SDL_String16 *pString)
@@ -293,6 +383,51 @@ static SDL_Surface *create_str16_surf(SDL_String16 *pString)
   }
 
   return pText;
+}
+
+/**************************************************************************
+  Create Text Surface from utf8_str
+**************************************************************************/
+static SDL_Surface *create_utf8_surf(utf8_str *pstr)
+{
+  SDL_Surface *text = NULL;
+
+  if (pstr == NULL) {
+    return NULL;
+  }
+
+  if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
+    TTF_SetFontStyle(pstr->font, (pstr->style & 0x0F));
+  }
+
+  switch (pstr->render) {
+  case 0:
+    text = TTF_RenderUTF8_Shaded(pstr->font,
+                                 pstr->text, pstr->fgcol,
+                                 pstr->bgcol);
+    break;
+  case 1:
+    text = TTF_RenderUTF8_Solid(pstr->font, pstr->text, pstr->fgcol);
+    break;
+  case 2:
+    text = TTF_RenderUTF8_Blended(pstr->font, pstr->text, pstr->fgcol);
+    break;
+  }
+
+  if (text != NULL) {
+    log_debug("create_utf8_surf: Font is generally %d big, and "
+              "string is %d big", TTF_FontHeight(pstr->font), text->h);
+    log_debug("create_utf8_surf: String is %d length", text->w);
+  } else {
+    log_debug("create_utf8_surf: text NULL");
+    text = create_surf(0, 0, SDL_SWSURFACE);
+  }
+
+  if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
+    TTF_SetFontStyle(pstr->font, TTF_STYLE_NORMAL);
+  }
+
+  return text;
 }
 
 /**************************************************************************
@@ -377,6 +512,85 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 *pString)
 }
 
 /**************************************************************************
+  Create surface with multiline text drawn.
+**************************************************************************/
+static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
+{
+  SDL_Rect des = {0, 0, 0, 0};
+  SDL_Surface *text = NULL, **tmp = NULL;
+  Uint16 i, w = 0, count = 0;
+  Uint32 color;
+  char *buf = pstr->text;
+  char **utf8_texts = create_new_line_utf8strs(pstr->text);
+
+  while (utf8_texts[count]) {
+    count++;
+  }
+
+  tmp = fc_calloc(count, sizeof(SDL_Surface *));
+
+  for (i = 0; i < count; i++) {
+    pstr->text = utf8_texts[i];
+    tmp[i] = create_utf8_surf(pstr);
+
+    /* find max len */
+    if (tmp[i]->w > w) {
+      w = tmp[i]->w;
+    }
+  }
+
+  pstr->text = buf;
+
+  /* create and fill surface */
+
+  SDL_GetColorKey(tmp[0], &color);
+
+  switch (pstr->render) {
+  case 1:
+    text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
+    SDL_FillRect(text, NULL, color);
+    SDL_SetColorKey(text, SDL_TRUE, color);
+    break;
+  case 2:
+      text = create_surf_with_format(tmp[0]->format,
+                                     w, count * tmp[0]->h, tmp[0]->flags);
+      SDL_FillRect(text, NULL, color);
+    break;
+  default:
+    text = create_surf(w, count * tmp[0]->h, SDL_SWSURFACE);
+    SDL_FillRect(text, NULL, color);
+    break;
+  }
+
+  /* blit (default: center left) */
+  for (i = 0; i < count; i++) {
+    if (pstr->style & SF_CENTER) {
+      des.x = (w - tmp[i]->w) / 2;
+    } else {
+      if (pstr->style & SF_CENTER_RIGHT) {
+	des.x = w - tmp[i]->w;
+      } else {
+	des.x = 0;
+      }
+    }
+
+    alphablit(tmp[i], NULL, text, &des, 255);
+    des.y += tmp[i]->h;
+  }
+
+
+  /* Free Memmory */
+  for (i = 0; i < count; i++) {
+    FC_FREE(utf8_texts[i]);
+    FREESURFACE(tmp[i]);
+  }
+
+  FC_FREE(tmp);
+
+  return text;
+}
+
+/**************************************************************************
   Generic function to create surface with any kind of text, single line or
   multiline, drawn.
 **************************************************************************/
@@ -396,6 +610,31 @@ SDL_Surface *create_text_surf_from_str16(SDL_String16 *pString)
     }
 
     return create_str16_surf(pString);
+  }
+
+  return NULL;
+}
+
+/**************************************************************************
+  Generic function to create surface with any kind of text, single line or
+  multiline, drawn.
+**************************************************************************/
+SDL_Surface *create_text_surf_from_utf8(utf8_str *pstr)
+{
+  if (pstr != NULL && pstr->text != NULL) {
+    char *current = pstr->text;
+    char c = *(pstr->text);
+
+    /* find '\n' */
+    while (c != '\0') {
+      if (c == '\n') {
+        return create_utf8_multi_surf(pstr);
+      }
+      current++;
+      c = *current;
+    }
+
+    return create_utf8_surf(pstr);
   }
 
   return NULL;
@@ -541,6 +780,87 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
 }
 
 /**************************************************************************
+  Wrap text to make it fit to given screen width.
+**************************************************************************/
+bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
+{  
+  int w;
+  bool converted = FALSE;
+
+  fc_assert_ret_val(pstr != NULL, FALSE);
+  fc_assert_ret_val(pstr->text != NULL, FALSE);
+
+  w = utf8_str_size(pstr).w;
+  if (w > width) {
+    /* cut string length to w length by replacing space " " with new line "\n" */
+    bool resize = FALSE;
+    int len = 0, adv;
+    char *ptr_rev, *ptr = pstr->text;
+
+    converted = TRUE;
+
+    do {
+      if (!resize) {
+
+        if (*ptr == '\0') {
+          resize = TRUE;
+          continue;
+        }
+
+        if (*ptr == '\n') {
+          len = 0;
+          ptr++;
+          continue;
+        }
+
+        if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
+          TTF_SetFontStyle(pstr->font, (pstr->style & 0x0F));
+        }
+        TTF_GlyphMetrics(pstr->font, *ptr, NULL, NULL, NULL, NULL, &adv);
+        if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
+          TTF_SetFontStyle(pstr->font, TTF_STYLE_NORMAL);
+        }
+
+        len += adv;
+
+        if (len > width) {
+          ptr_rev = ptr;
+          while (ptr_rev != pstr->text) {
+            if (*ptr_rev == ' ') {
+              *ptr_rev = '\n';
+              w = utf8_str_size(pstr).w;
+              len = 0;
+              break;
+            }
+            if (*ptr_rev == '\n') {
+              resize = TRUE;
+              break;
+            }
+            ptr_rev--;
+          }
+          if (ptr_rev == pstr->text) {
+            resize = TRUE;
+          }
+        }
+
+        ptr++;
+      } else {
+        if (pstr->ptsize > 8) {
+          change_ptsize_utf8(pstr, pstr->ptsize - 1);
+          w = utf8_str_size(pstr).w;
+        } else {
+          log_error("Can't convert string to const width");
+          break;
+        }
+     }
+
+    } while (w > width);
+  }
+
+  return converted;
+}
+
+/**************************************************************************
   Create surface with text drawn to it. Wrap text as needed to make it
   fit in given width.
 **************************************************************************/
@@ -562,6 +882,27 @@ SDL_Surface *create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
 }
 
 /**************************************************************************
+  Create surface with text drawn to it. Wrap text as needed to make it
+  fit in given width.
+**************************************************************************/
+SDL_Surface *create_text_surf_smaller_than_w(utf8_str *pstr, int w)
+{
+  int ptsize;
+  SDL_Surface *text;
+
+  fc_assert_ret_val(pstr != NULL, NULL);
+
+  ptsize = pstr->ptsize;
+  convert_utf8_str_to_const_surface_width(pstr, w);
+  text = create_text_surf_from_utf8(pstr);
+  if (pstr->ptsize != ptsize) {
+    change_ptsize_utf8(pstr, ptsize);
+  }
+
+  return text;
+}
+
+/**************************************************************************
   Change font size of text.
 **************************************************************************/
 void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
@@ -580,6 +921,27 @@ void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
   unload_font(pString->ptsize);
   pString->ptsize = new_ptsize;
   pString->font = pBuf;
+}
+
+/**************************************************************************
+  Change font size of text.
+**************************************************************************/
+void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
+{
+  TTF_Font *buf;
+
+  if (pstr->ptsize == new_ptsize) {
+    return;
+  }
+
+  if ((buf = load_font(new_ptsize)) == NULL) {
+    log_error("change_ptsize: load_font() failed");
+    return;
+  }
+
+  unload_font(pstr->ptsize);
+  pstr->ptsize = new_ptsize;
+  pstr->font = buf;
 }
 
 /* =================================================== */
