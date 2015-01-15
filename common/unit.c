@@ -1206,6 +1206,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                  * not been here if conflicting one is. */
                 cannot_pillage = TRUE;
               }
+
+              tile_virtual_destroy(vtile);
             }
           }
 
@@ -1237,6 +1239,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                  * not been here if conflicting one is. */
                 cannot_pillage = TRUE;
               }
+
+              tile_virtual_destroy(vtile);
             }
           }
 
