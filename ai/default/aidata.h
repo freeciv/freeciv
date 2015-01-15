@@ -18,6 +18,7 @@
 
 /* common */
 #include "fc_types.h"
+#include "tech.h"
 
 /* server/advisors */
 #include "advtools.h"
