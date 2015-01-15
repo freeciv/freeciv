@@ -189,27 +189,44 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
       }
     } as_transform_activity_iterate_end;
 
-    road_type_iterate(proad) {
-      bool possible = FALSE;
+    extra_type_iterate(tgt) {
+      enum unit_activity act = ACTIVITY_LAST;
 
       unit_list_iterate(units, punit) {
-        struct extra_type *tgt = road_extra_get(proad);
-
-        if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD, tgt, ptile)) {
-          possible = TRUE;
-          break;
-        }
+        as_extra_activity_iterate(try_act) {
+          if (is_extra_caused_by_action(tgt, try_act)
+              && can_unit_do_activity_targeted_at(punit, try_act, tgt, ptile)) {
+            act = try_act;
+            break;
+          }
+        } as_extra_activity_iterate_end;
       } unit_list_iterate_end;
 
-      if (possible) {
+      if (act != ACTIVITY_LAST) {
         int value;
         int extra;
-        struct extra_type *pextra;
+        bool consider = TRUE;
+        struct road_type *proad;
 
-        pextra = road_extra_get(proad);
-        value = adv_city_worker_extra_get(pcity, cindex, pextra);
+        /* Do not request activities that already are under way. */
+        unit_list_iterate(ptile->units, punit) {
+          if (unit_owner(punit) == pplayer
+              && unit_has_type_flag(punit, UTYF_SETTLERS)
+              && punit->activity == act) {
+            consider = FALSE;
+            break;
+          }
+        } unit_list_iterate_end;
 
-        if (road_provides_move_bonus(proad)) {
+        if (!consider) {
+          continue;
+        }
+
+        proad = extra_road_get(tgt);
+
+        value = adv_city_worker_extra_get(pcity, cindex, tgt);
+
+        if (proad != NULL && road_provides_move_bonus(proad)) {
           int old_move_cost;
           int mc_multiplier = 1;
           int mc_divisor = 1;
@@ -250,8 +267,8 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
           if ((value - orig_value) * TWMP > worked.want) {
             worked.want  = TWMP * (value - orig_value);
             worked.ptile = ptile;
-            worked.act   = ACTIVITY_GEN_ROAD;
-            worked.tgt   = NULL;
+            worked.act   = act;
+            worked.tgt   = tgt;
           }
           if (value > old_worst_worked) {
             /* After improvement it would not be the worst */
@@ -264,56 +281,12 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
             uw_max = value;
             unworked.want  = TWMP * (value - orig_value);
             unworked.ptile = ptile;
-            unworked.act   = ACTIVITY_GEN_ROAD;
-            unworked.tgt   = NULL;
+            unworked.act   = act;
+            unworked.tgt   = tgt;
           }
         }
       }
-    } road_type_iterate_end;
-
-    base_type_iterate(pbase) {
-      bool possible = FALSE;
-
-      unit_list_iterate(units, punit) {
-        struct extra_type *tgt = base_extra_get(pbase);
-
-        if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, tgt, ptile)) {
-          possible = TRUE;
-          break;
-        }
-      } unit_list_iterate_end;
-
-      if (possible) {
-        int value;
-        struct extra_type *pextra;
-
-        pextra = base_extra_get(pbase);
-        value = adv_city_worker_extra_get(pcity, cindex, pextra);
-
-        if (tile_worked(ptile) == pcity) {
-          if ((value - orig_value) * TWMP > worked.want) {
-            worked.want  = TWMP * (value - orig_value);
-            worked.ptile = ptile;
-            worked.act   = ACTIVITY_BASE;
-            worked.tgt   = NULL;
-          }
-          if (value > old_worst_worked) {
-            /* After improvement it would not be the worst */
-            potential_worst_worked = FALSE;
-          } else {
-            worst_worked = value;
-          }
-        } else {
-          if (value > orig_value && value > uw_max) {
-            uw_max = value;
-            unworked.want  = TWMP * (value - orig_value);
-            unworked.ptile = ptile;
-            unworked.act   = ACTIVITY_BASE;
-            unworked.tgt   = NULL;
-          }
-        }
-      }
-    } base_type_iterate_end;
+    } extra_type_iterate_end;
 
     if (potential_worst_worked) {
       /* Would still be worst worked even if we improved *it*. */
