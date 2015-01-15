@@ -694,6 +694,15 @@ if test x$crosser = xyes && test x$MINGW32 != xyes ; then
   AC_MSG_ERROR([--enable-crosser is Windows build specific option])
 fi
 
+AC_ARG_WITH([tinycthread],
+  AS_HELP_STRING([--with-tinycthread], [build and use tinycthread as thread implementation]),
+  [fctinycthr=${withval}], [fctinycthr=no])
+AM_CONDITIONAL([TINYCTHREAD], [test "x$fctinycthr" = "xyes"])
+
+AC_ARG_WITH([freeciv-manual],
+  AS_HELP_STRING([--without-freeciv-manual], [do not build freeciv-manual]),
+  [fcmanual=${withval}], [fcmanual=yes])
+
 dnl Check thread implementation
 AC_MSG_CHECKING([for threads implementation])
 thread_impl=none
@@ -701,7 +710,17 @@ thread_impl=none
 CFLAGS_SAVE="${CFLAGS}"
 LIBS_SAVE="${LIBS}"
 
-if test x$crosser != xyes ; then
+if test "x$fctinycthr" = "xyes" ; then
+  AC_DEFINE([FREECIV_HAVE_TINYCTHR], [1], [Use tinycthread as thread implementation])
+  thread_impl=tinycthread
+  AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
+  thread_cond=true
+
+  TINYCTHR_LIBS="\$(top_builddir)/dependencies/tinycthread/libtinycthread.la"
+  AC_SUBST([TINYCTHR_LIBS])
+fi
+
+if test x$crosser != xyes && test "x$thread_impl" = "xnone" ; then
   FC_C_FLAGS([-pthread], [], [CFLAGS])
   FC_LD_FLAGS([-pthread], [], [LIBS])
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
@@ -1440,7 +1459,8 @@ AC_CONFIG_FILES([Makefile
           dependencies/tolua-5.2/src/bin/Makefile
           dependencies/luasql/Makefile
           dependencies/luasql/src/Makefile
-          dependencies/cvercmp/Makefile  
+          dependencies/cvercmp/Makefile
+          dependencies/tinycthread/Makefile
 	  common/Makefile
           common/aicore/Makefile
           common/scriptcore/Makefile

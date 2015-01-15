@@ -81,7 +81,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/scriptcore \
 	-I$(srcdir)/luascript -I$(srcdir)/agents \
 	$(CLIENT_CFLAGS) $(SOUND_CFLAGS) \
-	-I$(top_srcdir)/dependencies/cvercmp
+	-I$(top_srcdir)/dependencies/cvercmp \
+	-I$(top_srcdir)/dependencies/tinycthread
 
 # Build client common functionality in to library
 # instead linking them directly to civclient. This is necessary
@@ -196,7 +197,7 @@ freeciv_gtk2_LDADD = \
  libfcgui-gtk2.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_gtk2_libs)
 endif
 
@@ -212,7 +213,7 @@ freeciv_gtk3_LDADD = \
  libfcgui-gtk3.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_gtk3_libs)
 endif
 
@@ -228,7 +229,7 @@ freeciv_sdl_LDADD = \
  libfcgui-sdl.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_sdl_libs)
 endif
 
@@ -244,7 +245,7 @@ freeciv_sdl2_LDADD = \
  libfcgui-sdl2.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_sdl2_libs)
 endif
 
@@ -259,7 +260,7 @@ freeciv_xaw_LDADD = \
  libfcgui-xaw.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_xaw_libs)
 endif
 
@@ -275,7 +276,7 @@ freeciv_qt_LDADD = \
  libfcgui-qt.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_qt_libs)
 endif
 
@@ -290,6 +291,6 @@ freeciv_stub_LDADD = \
  libfcgui-stub.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_stub_libs)
 endif

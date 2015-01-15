@@ -4,6 +4,7 @@ noinst_LTLIBRARIES = libgui-sdl2.la
 
 AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
         -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents \
+	-I$(top_srcdir)/dependencies/tinycthread \
         $(gui_sdl2_cflags)
 
 libgui_sdl2_la_SOURCES = \

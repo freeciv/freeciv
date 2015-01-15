@@ -2,7 +2,10 @@
 
 noinst_LTLIBRARIES = libdefaultai.la
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/ai -I$(top_srcdir)/server/generator
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore \
+ -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/ai \
+ -I$(top_srcdir)/server/generator \
+ -I$(top_srcdir)/dependencies/tinycthread
 
 libdefaultai_la_SOURCES = \
 		advdomestic.c	\

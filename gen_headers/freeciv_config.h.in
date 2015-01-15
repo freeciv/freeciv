@@ -29,6 +29,9 @@
 /* Use Windows threads as thread implementation */
 #undef FREECIV_HAVE_WINTHREADS
 
+/* Use tinycthread as thread implementation */
+#undef FREECIV_HAVE_TINYCTHR
+
 /* Has thread condition variable implementation */
 #undef FREECIV_HAVE_THREAD_COND
 

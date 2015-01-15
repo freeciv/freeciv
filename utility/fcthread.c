@@ -22,7 +22,7 @@
 
 #include "fcthread.h"
 
-#ifdef FREECIV_HAVE_C11_THREADS
+#ifdef FREECIV_C11_THR
 
 struct fc_thread_wrap_data {
   void *arg;

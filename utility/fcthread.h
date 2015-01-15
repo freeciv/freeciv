@@ -24,10 +24,17 @@ extern "C" {
 /* utility */
 #include "support.h" /* bool */
 
-
+#ifdef FREECIV_HAVE_TINYCTHR
+#include "tinycthread.h"
+#define FREECIV_C11_THR
+#else
 #ifdef FREECIV_HAVE_C11_THREADS
-
 #include <threads.h>
+#define FREECIV_C11_THR
+#endif /* FREECIV_HAVE_C11_THREADS */
+#endif /* FREECIV_hAVE_TINYCTHR */
+
+#ifdef FREECIV_C11_THR
 
 #define fc_thread      thrd_t
 #define fc_mutex       mtx_t

@@ -3,6 +3,7 @@
 noinst_LTLIBRARIES = libgui-xaw.la
 AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility \
         -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents \
+	-I$(top_srcdir)/dependencies/tinycthread \
         $(gui_xaw_cflags) $(SOUND_CFLAGS)
 
 # The AM_CPPFLAGS "-I." is so resources.c includes the locally generated 

@@ -23,6 +23,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/advisors \
 	-I$(srcdir)/generator \
 	-I$(srcdir)/scripting \
+	-I$(top_srcdir)/dependencies/tinycthread \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 
 if MINGW32
@@ -161,6 +162,7 @@ exe_ldadd = \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) \
+ $(TINYCTHR_LIBS) \
  $(SERVER_LIBS) $(SERVERICON)
 
 if FREECIV_WEB

@@ -6,7 +6,13 @@ else
 LUASUBDIR = lua-5.3
 endif
 
-SUBDIRS = $(LUASUBDIR) tolua-5.2 cvercmp
+if TINYCTHREAD
+TINYCTHRDIR = tinycthread
+else
+TINYCTHRDIR =
+endif
+
+SUBDIRS = $(LUASUBDIR) tolua-5.2 cvercmp $(TINYCTHRDIR)
 
 if FCDB_DB
 SUBDIRS += luasql

@@ -16,7 +16,8 @@ AM_CPPFLAGS = \
 	$(ruledit_cppflags) \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
-	-I$(top_srcdir)/server
+	-I$(top_srcdir)/server \
+	-I$(top_srcdir)/dependencies/tinycthread
 
 freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
@@ -57,6 +58,6 @@ freeciv_ruledit_LDADD = \
  $(ruledit_libs) \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
- $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
+ $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 CLEANFILES = $(MOC_FILES)

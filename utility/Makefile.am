@@ -2,6 +2,8 @@
 
 noinst_LTLIBRARIES = libcivutility.la
 
+AM_CPPFLAGS = -I$(top_srcdir)/dependencies/tinycthread
+
 AM_CFLAGS = $(UTILITY_CFLAGS)
 
 libcivutility_la_SOURCES = \

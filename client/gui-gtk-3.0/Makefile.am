@@ -5,6 +5,7 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include \
 	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/aicore -I$(top_srcdir)/common/scriptcore \
 	-I$(srcdir)/../agents  -I$(srcdir)/../luascript \
+	-I$(top_srcdir)/dependencies/tinycthread \
 	$(gui_gtk3_cflags) $(SOUND_CFLAGS)
 
 libgui_gtk3_la_SOURCES = \

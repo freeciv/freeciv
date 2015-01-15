@@ -41,7 +41,8 @@ common_cppflags = \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/server \
 	-I$(top_srcdir)/client \
-	-I$(top_srcdir)/client/include
+	-I$(top_srcdir)/client/include \
+	-I$(top_srcdir)/dependencies/tinycthread
 
 AM_CPPFLAGS = $(common_cppflags)
 
@@ -89,7 +90,7 @@ freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS)  $(MAPIMG_WAND_LIBS) \
+ $(INTLLIBS) $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD)
 endif
 
@@ -114,7 +115,7 @@ freeciv_mp_cli_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(MAPIMG_WAND_LIBS) \
+		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
 		$(mp_cli_libs)
 endif
 
@@ -129,7 +130,7 @@ freeciv_mp_gtk2_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(MAPIMG_WAND_LIBS) \
+		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
 		$(mp_gtk2_libs) \
 		$(MPICON)
 endif
@@ -145,7 +146,7 @@ freeciv_mp_gtk3_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(MAPIMG_WAND_LIBS) \
+		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
 		$(mp_gtk3_libs) \
 		$(MPICON)
 endif
@@ -173,7 +174,7 @@ freeciv_mp_qt_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
-		$(MAPIMG_WAND_LIBS) \
+		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
 		$(mp_qt_libs) \
 		$(MPICON)
 endif
