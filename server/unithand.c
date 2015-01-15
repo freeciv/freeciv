@@ -279,8 +279,7 @@ static bool may_non_act_move(struct unit *actor_unit,
     return TRUE;
   }
 
-  if (unit_attack_units_at_tile_result(actor_unit, target_tile)
-      == ATT_OK) {
+  if (can_unit_attack_tile(actor_unit, target_tile)) {
     /* Attack. Includes nuking. */
     return TRUE;
   }
