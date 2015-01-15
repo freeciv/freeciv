@@ -45,6 +45,9 @@ min_city_center_food	= 1
 min_city_center_shield	= 1
 min_city_center_trade	= 0
 
+; Square of initial city radius
+init_city_radius_sq     = 5
+
 ; Square of initially visible radius (true distance).
 init_vis_radius_sq	= 5
 
