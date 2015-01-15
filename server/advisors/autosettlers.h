@@ -69,4 +69,14 @@ extern Activity_type_id as_activities_transform[ACTIVITY_LAST];
   activity_type_list_iterate_end                                            \
 }
 
+extern Activity_type_id as_activities_extra[ACTIVITY_LAST];
+
+#define as_extra_activity_iterate(_act_)                                    \
+{                                                                           \
+  activity_type_list_iterate(as_activities_extra, _act_)
+
+#define as_extra_activity_iterate_end                                       \
+  activity_type_list_iterate_end                                            \
+}
+
 #endif   /* FC__AUTOSETTLERS_H */

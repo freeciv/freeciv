@@ -73,6 +73,7 @@ struct settlermap {
 };
 
 Activity_type_id as_activities_transform[ACTIVITY_LAST];
+Activity_type_id as_activities_extra[ACTIVITY_LAST];
 
 /**************************************************************************
   Initialize advisor systems.
@@ -91,6 +92,13 @@ void advisors_init(void)
   as_activities_transform[i++] = ACTIVITY_FALLOUT;
 
   as_activities_transform[i++] = ACTIVITY_LAST;
+
+  i = 0;
+  as_activities_extra[i++] = ACTIVITY_IRRIGATE;
+  as_activities_extra[i++] = ACTIVITY_MINE;
+  as_activities_extra[i++] = ACTIVITY_GEN_ROAD;
+  as_activities_extra[i++] = ACTIVITY_BASE;
+  as_activities_extra[i++] = ACTIVITY_LAST;
 }
 
 /**************************************************************************

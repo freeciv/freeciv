@@ -693,6 +693,15 @@ bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
 }
 
 /**************************************************************************
+  Is the extra caused by specific worker action?
+**************************************************************************/
+bool is_extra_caused_by_action(const struct extra_type *pextra,
+                               enum unit_activity act)
+{
+  return is_extra_caused_by(pextra, activity_to_extra_cause(act));
+}
+
+/**************************************************************************
   What extra cause activity is considered to be?
 **************************************************************************/
 enum extra_cause activity_to_extra_cause(enum unit_activity act)
