@@ -23,6 +23,7 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "requirements.h"
+#include "unittype.h"
 
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 

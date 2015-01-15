@@ -18,11 +18,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
 #include "fc_types.h"
-
-#include "tech.h"
-#include "terrain.h"
-#include "unittype.h"
 
 /* Range of requirements.
  * Used in the network protocol.
