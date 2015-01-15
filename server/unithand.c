@@ -442,17 +442,29 @@ static void explain_why_no_action_enabled(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
 
-  if (can_unit_exist_at_tile(punit, unit_tile(punit))
-      || can_unit_act_when_ustate_is(unit_type(punit),
-                                     USP_TRANSP_DEP, TRUE)) {
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("No action possible."));
-  } else {
+  if (!can_unit_exist_at_tile(punit, unit_tile(punit))
+      && !can_unit_act_when_ustate_is(unit_type(punit),
+                                      USP_TRANSP_DEP, TRUE)) {
+    /* Explaination: bad terrain. */
+
     struct terrain *pterrain = tile_terrain(unit_tile(punit));
 
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
                   terrain_name_translation(pterrain));
+  } else if (unit_transported(punit)
+             && !can_unit_act_when_ustate_is(unit_type(punit),
+                                             USP_TRANSPORTED, TRUE)) {
+    /* Explaination: being transported. */
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit is being transported, and"
+                    " so cannot act."));
+  } else {
+    /* Explaination not detected. */
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("No action possible."));
   }
 }
 
