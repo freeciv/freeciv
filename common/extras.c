@@ -457,6 +457,8 @@ static bool can_extra_be_removed(const struct extra_type *pextra,
          * not been here if conflicting one is. */
         return FALSE;
       }
+
+      tile_virtual_destroy(vtile);
     }
   }
 
