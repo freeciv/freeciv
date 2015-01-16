@@ -314,7 +314,6 @@ void city_model::all_changed()
 void city_widget::restore_selection()
 {
   QItemSelection selection;
-  QItemSelection s;
   QModelIndex i;
   struct city *pcity;
   QVariant qvar;
@@ -458,6 +457,8 @@ void city_widget::display_list_menu(const QPoint &)
   QMessageBox ask(this);
   QVariant qvar, qvar2;
   bool sell_ask;
+  bool need_clear = true;
+  bool select_only = false;
   char buf[200];
   cid cid;
   const char *imprname;
@@ -474,7 +475,7 @@ void city_widget::display_list_menu(const QPoint &)
                    Q_("?verb:View"), 0);
   sell_gold = 0;
   if (selected_cities.isEmpty()) {
-    return;
+    select_only = true;
   }
   foreach (pcity, selected_cities) {
     sell_gold = sell_gold + city_production_buy_gold_cost(pcity);
@@ -490,49 +491,55 @@ void city_widget::display_list_menu(const QPoint &)
   if (!can_client_issue_orders()) {
     return;
   }
-  some_menu = list_menu.addMenu(_("Production"));
-  tmp_menu = some_menu->addMenu(_("Change"));
-  fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now,
-                        tmp_menu);
-  tmp_menu = some_menu->addMenu(_("Add next"));
-  fill_production_menus(CHANGE_PROD_NEXT, custom_labels, can_city_build_now,
-                        tmp_menu);
-  tmp_menu = some_menu->addMenu(_("Add before last"));
-  fill_production_menus(CHANGE_PROD_BEF_LAST, custom_labels,
-                        can_city_build_now, tmp_menu);
-  tmp_menu = some_menu->addMenu(_("Add last"));
-  fill_production_menus(CHANGE_PROD_LAST, custom_labels, can_city_build_now,
-                        tmp_menu);
+  if (select_only == false) {
+    some_menu = list_menu.addMenu(_("Production"));
+    tmp_menu = some_menu->addMenu(_("Change"));
+    fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now,
+                          tmp_menu);
+    tmp_menu = some_menu->addMenu(_("Add next"));
+    fill_production_menus(CHANGE_PROD_NEXT, custom_labels, can_city_build_now,
+                          tmp_menu);
+    tmp_menu = some_menu->addMenu(_("Add before last"));
+    fill_production_menus(CHANGE_PROD_BEF_LAST, custom_labels,
+                          can_city_build_now, tmp_menu);
+    tmp_menu = some_menu->addMenu(_("Add last"));
+    fill_production_menus(CHANGE_PROD_LAST, custom_labels, can_city_build_now,
+                          tmp_menu);
 
-  tmp_menu = some_menu->addMenu(_("Worklist"));
-  tmp_menu->addAction(&wl_clear);
-  connect(&wl_clear, SIGNAL(triggered()), this, SLOT(clear_worlist()));
-  tmp2_menu = tmp_menu->addMenu(_("Add"));
-  gen_worklist_labels(cma_labels);
-  if (cma_labels.count() == 0) {
-    tmp2_menu->addAction(&wl_empty);
-    worklist_defined = false;
+    tmp_menu = some_menu->addMenu(_("Worklist"));
+    tmp_menu->addAction(&wl_clear);
+    connect(&wl_clear, SIGNAL(triggered()), this, SLOT(clear_worlist()));
+    tmp2_menu = tmp_menu->addMenu(_("Add"));
+    gen_worklist_labels(cma_labels);
+    if (cma_labels.count() == 0) {
+      tmp2_menu->addAction(&wl_empty);
+      worklist_defined = false;
+    }
+    fill_data(WORKLIST_ADD, cma_labels, tmp2_menu);
+    tmp2_menu = tmp_menu->addMenu(_("Change"));
+    if (cma_labels.count() == 0) {
+      tmp2_menu->addAction(&wl_empty);
+      worklist_defined = false;
+    }
+    fill_data(WORKLIST_CHANGE, cma_labels, tmp2_menu);
+    some_menu = list_menu.addMenu(_("Governor"));
+    gen_cma_labels(cma_labels);
+    fill_data(CMA, cma_labels, some_menu);
+    some_menu = list_menu.addMenu(_("Sell"));
+    gen_production_labels(SELL, custom_labels, false, false,
+                          can_city_sell_universal);
+    fill_data(SELL, custom_labels, some_menu);
   }
-  fill_data(WORKLIST_ADD, cma_labels, tmp2_menu);
-  tmp2_menu = tmp_menu->addMenu(_("Change"));
-  if (cma_labels.count() == 0) {
-    tmp2_menu->addAction(&wl_empty);
-    worklist_defined = false;
+  some_menu = list_menu.addMenu(_("Select"));
+  gen_select_labels(some_menu);
+  if (select_only == false) {
+    list_menu.addAction(&cty_view);
+    connect(&cty_view, SIGNAL(triggered()), this, SLOT(city_view()));
+    list_menu.addAction(&cty_buy);
+    connect(&cty_buy, SIGNAL(triggered()), this, SLOT(buy()));
+    list_menu.addAction(&cty_center);
+    connect(&cty_center, SIGNAL(triggered()), this, SLOT(center()));
   }
-  fill_data(WORKLIST_CHANGE, cma_labels, tmp2_menu);
-  some_menu = list_menu.addMenu(_("Governor"));
-  gen_cma_labels(cma_labels);
-  fill_data(CMA, cma_labels, some_menu);
-  some_menu = list_menu.addMenu(_("Sell"));
-  gen_production_labels(SELL, custom_labels, false, false,
-                        can_city_sell_universal);
-  fill_data(SELL, custom_labels, some_menu);
-  list_menu.addAction(&cty_view);
-  connect(&cty_view, SIGNAL(triggered()), this, SLOT(city_view()));
-  list_menu.addAction(&cty_buy);
-  connect(&cty_buy, SIGNAL(triggered()), this, SLOT(buy()));
-  list_menu.addAction(&cty_center);
-  connect(&cty_center, SIGNAL(triggered()), this, SLOT(center()));
   act = 0;
   sell_count = 0;
   sell_gold = 0;
@@ -544,6 +551,79 @@ void city_widget::display_list_menu(const QPoint &)
     qvar = act->data();
     cid = qvar.toInt();
     target = cid_decode(cid);
+
+    city_list_iterate(client_player()->cities, pcity) {
+      if (NULL != pcity) {
+        switch (m_state) {
+        case SELECT_IMPR:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (city_building_present(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        case SELECT_WONDERS:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (city_building_present(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        case SELECT_SUPP_UNITS:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (city_unit_supported(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        case SELECT_PRES_UNITS:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (city_unit_present(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        case SELECT_AVAIL_UNITS:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (can_city_build_now(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        case SELECT_AVAIL_IMPR:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (can_city_build_now(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        case SELECT_AVAIL_WONDERS:
+          if (need_clear) {
+            clearSelection();
+          }
+          need_clear = false;
+          if (can_city_build_now(pcity, target)) {
+            select_city(pcity);
+          }
+          break;
+        default:
+          break;
+        }
+      }
+    } city_list_iterate_end;
+
     foreach (pcity, selected_cities) {
       if (NULL != pcity) {
         switch (m_state) {
@@ -652,7 +732,180 @@ void city_widget::fill_data(menu_labels which,
     action->setProperty("FC", which);
     map_iter++;
   }
+  if (custom_labels.isEmpty()) {
+    menu->setDisabled(true);
+  }
 }
+
+/***************************************************************************
+  Selects all cities on report
+***************************************************************************/
+void city_widget::select_all()
+{
+  selectAll();
+}
+
+/***************************************************************************
+  Selects no cities on report
+***************************************************************************/
+void city_widget::select_none()
+{
+  clearSelection();
+}
+
+/***************************************************************************
+  Inverts selection on report
+***************************************************************************/
+void city_widget::invert_selection()
+{
+  QItemSelection selection;
+  QModelIndex i;
+  struct city *pcity;
+  QVariant qvar;
+
+
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pcity = reinterpret_cast<city *>(qvar.value<void *>());
+    if (!selected_cities.contains(pcity)) {
+      selection.append(QItemSelectionRange(i));
+    }
+  }
+  clearSelection();
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::SelectCurrent);
+
+}
+
+/***************************************************************************
+  Marks given city selected
+***************************************************************************/
+void city_widget::select_city(city *spcity)
+{
+  QItemSelection selection;
+  QModelIndex i;
+  struct city *pcity;
+  QVariant qvar;
+
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pcity = reinterpret_cast<city *>(qvar.value<void *>());
+    if (pcity == spcity) {
+      selection.append(QItemSelectionRange(i));
+    }
+  }
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::Select);
+
+}
+
+/***************************************************************************
+  Selects coastal cities on report
+***************************************************************************/
+void city_widget::select_coastal()
+{
+  QItemSelection selection;
+  QModelIndex i;
+  struct city *pcity;
+  QVariant qvar;
+
+  clearSelection();
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pcity = reinterpret_cast<city *>(qvar.value<void *>());
+    if (NULL != pcity && is_terrain_class_near_tile(pcity->tile, TC_OCEAN)) {
+      selection.append(QItemSelectionRange(i));
+    }
+  }
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::SelectCurrent);
+}
+
+/***************************************************************************
+  Selects same cities on the same island
+***************************************************************************/
+void city_widget::select_same_island()
+{
+  QItemSelection selection;
+  QModelIndex i;
+  struct city *pcity;
+  struct city *pscity;
+  QVariant qvar;
+
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pcity = reinterpret_cast<city *>(qvar.value<void *>());
+    foreach (pscity, selected_cities) {
+      if (NULL != pcity
+          && (tile_continent(pcity->tile)
+              == tile_continent(pscity->tile))) {
+        selection.append(QItemSelectionRange(i));
+      }
+    }
+  }
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::SelectCurrent);
+}
+
+/***************************************************************************
+  Selects cities building units or buildings or wonders
+  depending on data stored in QAction
+***************************************************************************/
+void city_widget::select_building_something()
+{
+  QItemSelection selection;
+  QModelIndex i;
+  struct city *pcity;
+  QVariant qvar;
+  QAction *act;
+  QString str;
+
+  clearSelection();
+  for (int j = 0; j < filter_model->rowCount(); j++) {
+    i = filter_model->index(j, 0);
+    qvar = i.data(Qt::UserRole);
+    if (qvar.isNull()) {
+      continue;
+    }
+    pcity = reinterpret_cast<city *>(qvar.value<void *>());
+    act = qobject_cast<QAction *>(sender());
+    qvar = act->data();
+    str = qvar.toString();
+    if (NULL != pcity) {
+      if (str == "impr" && VUT_IMPROVEMENT == pcity->production.kind
+          && !is_wonder(pcity->production.value.building)
+          && !improvement_has_flag(pcity->production.value.building,
+                                  IF_GOLD)) {
+        selection.append(QItemSelectionRange(i));
+      } else if (str == "unit" && VUT_UTYPE == pcity->production.kind) {
+        selection.append(QItemSelectionRange(i));
+      } else if (str == "wonder"
+                 && VUT_IMPROVEMENT == pcity->production.kind
+                 && is_wonder(pcity->production.value.building)) {
+        selection.append(QItemSelectionRange(i));
+      }
+    }
+  }
+  selectionModel()->select(selection, QItemSelectionModel::Rows
+                           | QItemSelectionModel::SelectCurrent);
+}
+
 
 /***************************************************************************
   Creates menu labels and id of available cma, stored in list
@@ -663,6 +916,73 @@ void city_widget::gen_cma_labels(QMap<QString, int> &list)
   for (int i = 0; i < cmafec_preset_num(); i++) {
     list.insert(cmafec_preset_get_descr(i), i);
   }
+}
+
+/***************************************************************************
+  Creates menu labels for selecting cities
+***************************************************************************/
+void city_widget::gen_select_labels(QMenu *menu)
+{
+  QAction *act;
+  QMenu *tmp_menu;
+  QMap<QString, cid> custom_labels;
+
+  act = menu->addAction(_("All Cities"));
+  connect(act, SIGNAL(triggered()), this, SLOT(select_all()));
+  act = menu->addAction(_("No Cities"));
+  connect(act, SIGNAL(triggered()), this, SLOT(select_none()));
+  act = menu->addAction(_("Invert Selection"));
+  connect(act, SIGNAL(triggered()), this, SLOT(invert_selection()));
+  menu->addSeparator();
+  act = menu->addAction(_("Coastal Cities"));
+  connect(act, SIGNAL(triggered()), this, SLOT(select_coastal()));
+  act = menu->addAction(_("Same Island"));
+  connect(act, SIGNAL(triggered()), this, SLOT(select_same_island()));
+  if (selected_cities.isEmpty()){
+    act->setDisabled(true);
+  }
+  menu->addSeparator();
+  act = menu->addAction(_("Building Units"));
+  act->setData("unit");
+  connect(act, SIGNAL(triggered()), this, SLOT(select_building_something()));
+  act = menu->addAction(_("Building Improvements"));
+  act->setData("impr");
+  connect(act, SIGNAL(triggered()), this, SLOT(select_building_something()));
+  act = menu->addAction(_("Building Wonders"));
+  act->setData("wonder");
+  connect(act, SIGNAL(triggered()), this, SLOT(select_building_something()));
+  menu->addSeparator();
+  tmp_menu = menu->addMenu(_("Improvements in City"));
+  gen_production_labels(SELECT_IMPR, custom_labels, false, false,
+                        city_building_present, true);
+  fill_data(SELECT_IMPR, custom_labels, tmp_menu);
+  tmp_menu = menu->addMenu(_("Wonders in City"));
+  gen_production_labels(SELECT_WONDERS, custom_labels, false, true,
+                        city_building_present, true);
+  fill_data(SELECT_WONDERS, custom_labels, tmp_menu);
+  menu->addSeparator();
+  tmp_menu = menu->addMenu(_("Supported Units"));
+  gen_production_labels(SELECT_SUPP_UNITS, custom_labels, true, false,
+                        city_unit_supported, true);
+  fill_data(SELECT_SUPP_UNITS, custom_labels, tmp_menu);
+  tmp_menu = menu->addMenu(_("Units Present"));
+  gen_production_labels(SELECT_PRES_UNITS, custom_labels, true, false,
+                        city_unit_present, true);
+  fill_data(SELECT_PRES_UNITS, custom_labels, tmp_menu);
+  menu->addSeparator();
+  tmp_menu = menu->addMenu(_("Available Units"));
+  gen_production_labels(SELECT_AVAIL_UNITS, custom_labels, true, false,
+                        can_city_build_now, true);
+  fill_data(SELECT_AVAIL_UNITS, custom_labels, tmp_menu);
+  tmp_menu = menu->addMenu(_("Available Improvements"));
+  gen_production_labels(SELECT_AVAIL_IMPR, custom_labels, false, false,
+                        can_city_build_now, true);
+  fill_data(SELECT_AVAIL_IMPR, custom_labels, tmp_menu);
+  tmp_menu = menu->addMenu(_("Available Wonders"));
+  gen_production_labels(SELECT_AVAIL_WONDERS, custom_labels, false, true,
+                        can_city_build_now, true);
+  fill_data(SELECT_AVAIL_WONDERS, custom_labels, tmp_menu);
+
 }
 
 /***************************************************************************
@@ -683,7 +1003,8 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
                                         QMap<QString, cid> &list,
                                         bool append_units,
                                         bool append_wonders,
-                                        TestCityFunc test_func)
+                                        TestCityFunc test_func,
+                                        bool global)
 {
 
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
@@ -693,11 +1014,24 @@ void city_widget::gen_production_labels(city_widget::menu_labels what,
   char *row[4];
   char buf[4][64];
   struct city **data;
-  int num_sel = selected_cities.count();
+  int num_sel = 0;
+  if (global) {
+    num_sel = list_model->rowCount();
+  } else {
+    num_sel = selected_cities.count();
+  }
   struct city *array[num_sel];
 
-  for (i = 0; i < num_sel; i++) {
-    array[i] = selected_cities.at(i);
+  if (global) {
+    i = 0;
+    city_list_iterate(client.conn.playing->cities, pcity) {
+      array[i] = pcity;
+      i++;
+    } city_list_iterate_end;
+  } else {
+    for (i = 0; i < num_sel; i++) {
+      array[i] = selected_cities.at(i);
+    }
   }
   data = &array[0];
   targets_used

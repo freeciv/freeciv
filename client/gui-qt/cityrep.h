@@ -139,8 +139,6 @@ class city_widget: public QTreeView
   QSortFilterProxyModel *filter_model;
   city_item_delegate *c_i_d;
   city_report *cr;
-  QMenu select_menu;
-  QMenu production_menu;
   enum menu_labels {
     CHANGE_PROD_NOW = 1,
     CHANGE_PROD_NEXT,
@@ -150,6 +148,13 @@ class city_widget: public QTreeView
     SELL,
     WORKLIST_ADD,
     WORKLIST_CHANGE,
+    SELECT_IMPR,
+    SELECT_WONDERS,
+    SELECT_SUPP_UNITS,
+    SELECT_PRES_UNITS,
+    SELECT_AVAIL_UNITS,
+    SELECT_AVAIL_IMPR,
+    SELECT_AVAIL_WONDERS
     };
 public:
   city_widget(city_report *ctr);
@@ -168,19 +173,26 @@ public slots:
   void display_list_menu(const QPoint&);
   void buy();
   void center();
-
+  void select_all();
+  void select_none();
+  void invert_selection();
+  void select_coastal();
+  void select_building_something();
+  void select_same_island();
 private:
   void restore_selection();
+  void select_city(struct city *pcity);
   void gen_cma_labels(QMap<QString, int> &list);
+  void gen_select_labels(QMenu *menu);
   void gen_worklist_labels(QMap<QString, int> &list);
-  void gen_production_labels(menu_labels which, QMap<QString, cid> &list, 
-                             bool append_units, bool append_wonders, 
-                             TestCityFunc test_func);
-  void fill_data(menu_labels which,QMap<QString, cid> &custom_labels, QMenu *menu);
+  void gen_production_labels(menu_labels which, QMap<QString, cid> &list,
+                             bool append_units, bool append_wonders,
+                             TestCityFunc test_func, bool global = false);
+  void fill_data(menu_labels which,QMap<QString, cid> &custom_labels,
+                 QMenu *menu);
   void fill_production_menus(city_widget::menu_labels what,
                   QMap<QString, cid> &custom_labels,
                   TestCityFunc test_func, QMenu *menu);
-
 };
 
 /***************************************************************************
