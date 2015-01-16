@@ -202,6 +202,9 @@ ui_name_enter_marketplace = _("Enter %sMarketplace%s")
 ; /* TRANS: Help _build Wonder (100% chance of success). */
 ui_name_help_wonder = _("Help %sbuild Wonder%s")
 
+; /* TRANS: _Capture Units (100% chance of success). */
+ui_name_capture_units = _("%sCapture Units%s")
+
 ; /* <-- avoid gettext warnings
 ;
 ; Action enablers:
@@ -317,6 +320,20 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "HelpWonder", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
+    }
+
+[actionenabler_capture]
+action = "Capture Units"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "Unitflag", "Capturer", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "Unitflag", "Capturable", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 
 [borders]

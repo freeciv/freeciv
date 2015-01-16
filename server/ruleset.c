@@ -5192,6 +5192,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_name_help_wonder");
       sz_strlcpy(action_by_number(ACTION_HELP_WONDER)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Capture Units (100% chance of success). */
+          N_("%sCapture Units%s"),
+          "actions.ui_name_capture_units");
+      sz_strlcpy(action_by_number(ACTION_CAPTURE_UNITS)->ui_name,
+                 text);
     }
 
     if (ok) {

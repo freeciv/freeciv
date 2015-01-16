@@ -32,6 +32,8 @@ flags =
     _("Submarine"), _("Attack value halved when attacking Destroyer.")
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
     _("HelpWonder"), _("Can help build wonders (adding its full shield cost).")
+    _("Capturer"),   _("Can capture some enemy units.")
+    _("Capturable"), _("Can be captured by some enemy units.")
   }
 
 [veteran_system]
@@ -349,9 +351,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ;                 rule)
 ; "BarbarianOnly" = only barbarians can build this unit
 ; "Shield2Gold" = Switch from shield upkeep to gold upkeep possible
-; "Capturable"  = can be captured by units with "Capturer" flag
-; "Capturer"    = can capture units with flag "Capturable" instead of
-;                 fighting them
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"

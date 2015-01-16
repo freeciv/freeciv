@@ -265,6 +265,19 @@ static void spy_sabotage_unit_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
+  Capture units action was chosen
+*****************************************************************/
+static void capture_units_callback(Widget w, XtPointer client_data,
+                                   XtPointer call_data)
+{
+  request_do_action(ACTION_CAPTURE_UNITS, diplomat_id,
+                    diplomat_target_id[ATK_UNITS], 0);
+
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void spy_poison_callback(Widget w, XtPointer client_data, 
@@ -891,6 +904,7 @@ void popup_action_selection(struct unit *actor_unit,
                            diplomat_bribe_callback, 0, 0,
                            spy_sabotage_unit_callback, 0, 0,
                            spy_steal_gold_callback, 0, 0,
+                           capture_units_callback, 0, 0,
                            diplomat_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
@@ -951,11 +965,13 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_SPY_STEAL_GOLD,
                act_probs);
 
+  action_entry(XtNameToWidget(diplomat_dialog, "*button14"),
+               ACTION_CAPTURE_UNITS,
+               act_probs);
+
   if (!(unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
-      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))
-      || (!target_city && unit_has_type_flag(actor_unit,
-                                             UTYF_CAPTURER)))) {
+      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile)))) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button14"), FALSE);
   }
 

@@ -673,6 +673,24 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Capture Units"
+*****************************************************************/
+static int capture_units_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = tile_index(pWidget->data.tile);
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_CAPTURE_UNITS, actor_id, target_id, 0);
+
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   Close diplomat dialog.
 *****************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
@@ -724,6 +742,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit_callback,
 
   /* Unit acting against all units at a tile. */
+  [ACTION_CAPTURE_UNITS] = capture_units_callback
 };
 
 /**************************************************************************
@@ -931,8 +950,7 @@ void popup_action_selection(struct unit *actor_unit,
   /* ---------- */
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
-      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))
-      || (!target_city && unit_has_type_flag(actor_unit, UTYF_CAPTURER))) {
+      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))) {
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
                             _("Keep moving"),
                             diplomat_keep_moving_callback);

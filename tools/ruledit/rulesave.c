@@ -827,6 +827,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_HELP_WONDER)->ui_name,
                      "actions.ui_name_help_wonder");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_CAPTURE_UNITS)->ui_name,
+                     "actions.ui_name_capture_units");
 
   sect_idx = 0;
   action_enablers_iterate(pae) {

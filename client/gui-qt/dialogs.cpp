@@ -78,6 +78,7 @@ static void diplomat_bribe(QVariant data1, QVariant data2);
 static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
+static void capture_units(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -120,6 +121,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
 
   /* Unit acting against all units at a tile. */
+  action_function[ACTION_CAPTURE_UNITS] = capture_units;
 
   return action_function;
 }
@@ -1370,8 +1372,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
-      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))
-      || (!target_city && unit_has_type_flag(actor_unit, UTYF_CAPTURER))) {
+      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))) {
     qv2 = target_tile->index;
 
     func = diplomat_keep_moving;
@@ -1475,6 +1476,18 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
 
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id,
                     diplomat_target_id, 0);
+}
+
+/**************************************************************************
+  Action capture units for choice dialog
+**************************************************************************/
+static void capture_units(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_CAPTURE_UNITS, actor_id,
+                    target_id, 0);
 }
 
 /***************************************************************************

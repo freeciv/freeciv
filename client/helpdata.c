@@ -3727,12 +3727,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* A field unit: one unhappiness applies even when non-aggressive.\n"));
   }
-  if (utype_has_flag(utype, UTYF_CAPTURER)) {
-    CATLSTR(buf, bufsz, _("* Can capture some enemy units.\n"));
-  }
-  if (utype_has_flag(utype, UTYF_CAPTURABLE)) {
-    CATLSTR(buf, bufsz, _("* Can be captured by some enemy units.\n"));
-  }
   if (utype_has_flag(utype, UTYF_SHIELD2GOLD)) {
     /* FIXME: the conversion shield => gold is activated if
      *        EFT_SHIELD2GOLD_FACTOR is not equal null; how to determine

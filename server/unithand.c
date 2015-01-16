@@ -289,18 +289,6 @@ static bool may_non_act_move(struct unit *actor_unit,
     return TRUE;
   }
 
-  if (!target_city && unit_has_type_flag(actor_unit, UTYF_CAPTURER)) {
-    /* Capture. May be possible even if regular attack isn't. */
-
-    unit_list_iterate(target_tile->units, to_capture) {
-      if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)) {
-        return FALSE;
-      }
-    } unit_list_iterate_end;
-
-    return TRUE;
-  }
-
   return FALSE;
 }
 
@@ -974,6 +962,19 @@ void handle_unit_do_action(struct player *pplayer,
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity));
+      }
+    }
+    break;
+  case ACTION_CAPTURE_UNITS:
+    if (target_tile) {
+      if (is_action_enabled_unit_on_units(action_type,
+                                          actor_unit, target_tile)) {
+        ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile);
+
+        do_capture_units(pplayer, actor_unit, target_tile);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       NULL);
       }
     }
     break;
@@ -2060,23 +2061,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                     ? player_name(city_owner(pcity))
                     : player_name(unit_owner(victim)));
       return FALSE;
-    }
-
-    if (unit_has_type_flag(punit, UTYF_CAPTURER) && pcity == NULL) {
-      bool capture_possible = TRUE;
-
-      unit_list_iterate(pdesttile->units, to_capture) {
-        if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)) {
-          capture_possible = FALSE;
-          break;
-        }
-      } unit_list_iterate_end;
-
-      if (capture_possible) {
-        do_capture_units(pplayer, punit, pdesttile);
-
-        return TRUE;
-      }
     }
 
     /* Are we a bombarder? */

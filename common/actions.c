@@ -98,6 +98,9 @@ void actions_init(void)
   actions[ACTION_HELP_WONDER] =
       action_new(ACTION_HELP_WONDER, ATK_CITY,
                  FALSE);
+  actions[ACTION_CAPTURE_UNITS] =
+      action_new(ACTION_CAPTURE_UNITS, ATK_UNITS,
+                 TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1057,6 +1060,10 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_HELP_WONDER:
     /* Possible when not blocked by is_action_possible() */
+    chance = 200;
+    break;
+  case ACTION_CAPTURE_UNITS:
+    /* No battle is fought first. */
     chance = 200;
     break;
   case ACTION_COUNT:

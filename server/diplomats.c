@@ -1663,6 +1663,10 @@ static void maybe_cause_incident(enum gen_action action,
                       " stealing gold from %s."),
                     nation_plural_for_player(offender), victim_link);
       break;
+    case ACTION_CAPTURE_UNITS:
+      /* TODO: Should cause an incident in rulesets were units can be
+       * captured in peace time. If units from more than one nation
+       * were captured each victim nation should now have casus beli. */
     case ACTION_MOVE:
     case ACTION_ESTABLISH_EMBASSY:
     case ACTION_SPY_INVESTIGATE_CITY:

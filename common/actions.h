@@ -69,6 +69,8 @@ extern "C" {
 #define SPECENUM_VALUE12NAME N_("Bribe Unit")
 #define SPECENUM_VALUE13 ACTION_SPY_SABOTAGE_UNIT
 #define SPECENUM_VALUE13NAME N_("Sabotage Unit")
+#define SPECENUM_VALUE14 ACTION_CAPTURE_UNITS
+#define SPECENUM_VALUE14NAME N_("Capture Units")
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
