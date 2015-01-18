@@ -3827,7 +3827,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     if (!vulnerable) {
       cat_snprintf(buf, bufsz,
-                   _("* Immune to the action \'%s\'.\n"),
+                   _("* Doing the action \'%s\' to this unit"
+                     " is impossible.\n"),
                    action_get_ui_name(act));
     }
   } action_iterate_end;
@@ -5129,9 +5130,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
   action_iterate(act) {
     if (action_immune_government(gov, act)) {
       cat_snprintf(buf, bufsz,
-                   _("* Makes your %s immune to the action \'%s\'.\n"),
-                   _(action_target_kind_name(action_get_target_kind(act))),
-                   action_get_ui_name(act));
+                   _("* Makes it impossible to do the action \'%s\'"
+                     " to your %s.\n"),
+                   action_get_ui_name(act),
+                   _(action_target_kind_name(action_get_target_kind(act))));
     }
   } action_iterate_end;
 
