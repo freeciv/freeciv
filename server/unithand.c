@@ -423,11 +423,85 @@ static struct unit *tgt_unit(struct unit *actor, struct tile *target_tile)
 }
 
 /**************************************************************************
+  Returns the first player that may enable an action if war is declared.
+**************************************************************************/
+static struct player *need_war_player(const struct unit *actor,
+                                      const struct tile *target_tile,
+                                      const struct city *target_city,
+                                      const struct unit *target_unit)
+{
+  action_iterate(act) {
+    if (action_get_actor_kind(act) != AAK_UNIT) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (!unit_can_do_action(actor, act)) {
+      /* The unit can't do the action no matter if there is war or not. */
+      continue;
+    }
+
+    if (can_utype_do_act_if_tgt_diplrel(unit_type(actor),
+                                        act, DS_WAR, FALSE)) {
+      /* The unit can do the action even if there isn't war. */
+      continue;
+    }
+
+    switch (action_get_target_kind(act)) {
+    case ATK_CITY:
+      if (target_city == NULL) {
+        /* No target city. */
+        continue;
+      }
+
+      if (player_diplstate_get(unit_owner(actor),
+                               city_owner(target_city))->type != DS_WAR) {
+        return city_owner(target_city);
+      }
+      break;
+    case ATK_UNIT:
+      if (target_unit == NULL) {
+        /* No target city. */
+        continue;
+      }
+
+      if (player_diplstate_get(unit_owner(actor),
+                               unit_owner(target_unit))->type != DS_WAR) {
+        return unit_owner(target_unit);
+      }
+      break;
+    case ATK_UNITS:
+      if (target_tile == NULL) {
+        /* No target city. */
+        continue;
+      }
+
+      unit_list_iterate(target_tile->units, tunit) {
+        if (player_diplstate_get(unit_owner(actor),
+                                 unit_owner(tunit))->type != DS_WAR) {
+          return unit_owner(tunit);
+        }
+      } unit_list_iterate_end;
+      break;
+    case ATK_COUNT:
+      /* Nothing to check. */
+      continue;
+    }
+  } action_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
   Explain why punit can't perform any actions based on its current state.
 **************************************************************************/
-static void explain_why_no_action_enabled(struct unit *punit)
+static void explain_why_no_action_enabled(struct unit *punit,
+                                          const struct tile *target_tile,
+                                          const struct city *target_city,
+                                          const struct unit *target_unit)
 {
   struct player *pplayer = unit_owner(punit);
+  struct player *must_war_player;
 
   if (!can_unit_exist_at_tile(punit, unit_tile(punit))
       && !can_unit_act_when_ustate_is(unit_type(punit),
@@ -447,6 +521,16 @@ static void explain_why_no_action_enabled(struct unit *punit)
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit is being transported, and"
                     " so cannot act."));
+  } else if ((must_war_player = need_war_player(punit,
+                                                target_tile,
+                                                target_city,
+                                                target_unit))) {
+    /* Explaination: must declare war first. */
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("You must declare war on %s first.  Try using "
+                    "the Nations report (F3)."),
+                  player_name(must_war_player));
   } else {
     /* Explaination not detected. */
 
@@ -595,7 +679,8 @@ void handle_unit_get_actions(struct connection *pc,
 
   if (disturb_player && !at_least_one_action) {
     /* The user should get an explanation why no action is possible. */
-    explain_why_no_action_enabled(actor_unit);
+    explain_why_no_action_enabled(actor_unit,
+                                  target_tile, target_city, target_unit);
   }
 }
 
@@ -2037,7 +2122,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       } else if (!may_non_act_move(punit, pcity, pdesttile, igzoc)) {
         /* No action can be done. No regular move can be done. Attack isn't
          * possible. Try to explain it to the player. */
-        explain_why_no_action_enabled(punit);
+        explain_why_no_action_enabled(punit, pdesttile, pcity,
+                                      is_non_attack_unit_tile(pdesttile,
+                                                              pplayer));
 
         return FALSE;
       }
