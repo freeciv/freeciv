@@ -236,6 +236,11 @@ capital is captured is increased by this amount. This percentage is in-
 creased by 5 for each city in civil disorder and reduced by 5 for each one
 celebrating.
 
+City_Unhappy_Size
+    The maximum number of citizens in each city that are naturally content;
+in larger cities, new citizens above this limit start out unhappy. (Before
+Empire_Size_Base/Step are applied.)
+
 Empire_Size_Base
     Once your civilization has more cities than the value of this effect,
 each city gets one more unhappy citizen. If the sum of this effect and
