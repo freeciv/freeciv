@@ -23,6 +23,7 @@ pkgdata_DATA =          		\
 	magellans_expedition.png	\
 	manhattan_project.png		\
 	marco_polos_embassy.png		\
+	mausoleum_of_halicarnassus.png	\
 	michelangelos_chapel.png	\
 	oracle.png			\
 	pyramids.png			\
@@ -31,6 +32,7 @@ pkgdata_DATA =          		\
 	statue_of_liberty.png		\
 	statue_of_zeus.png		\
 	sun_tzus_war_academy.png	\
+	temple_of_artemis.png		\
 	united_nations.png		\
 	womens_suffrage.png
 
