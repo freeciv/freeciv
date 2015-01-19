@@ -36,7 +36,7 @@ Updating from 2.5 to 2.6
   still possible to build completely without translation support
   with configure option --disable-nls
 * SDL2-mixer is now the default. To build clients to still use
-  SDL1.2-mixer, configure with --enable-sdlmixer=sdl1.2. sdl-client
+  SDL1.2-mixer, configure with --enable-sdl-mixer=sdl1.2. sdl-client
   cannot be built with SDL2-mixer, nor can sdl2-client be built with
   SDL1.2-mixer
 * Server now saves its readline history to file
