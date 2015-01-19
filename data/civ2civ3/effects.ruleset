@@ -1396,36 +1396,35 @@ reqs    =
       "Gov", "Communism", "Player"
     }
 
+; Railroad because makes Pyramids obsolete
 [effect_gov_tile_penalty_anarchy]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present", "survives"
-      "Gov", "Anarchy", "Player", TRUE, FALSE
-      "Building", "Pyramids", "Player", FALSE, FALSE
-      "Tech", "Railroad", "World", FALSE, TRUE
+    { "type", "name", "range", "present"
+      "Gov", "Anarchy", "Player", TRUE
+      "Building", "Pyramids", "Player", FALSE
+      "Tech", "Railroad", "Player", FALSE
     }
 
-; Railroad because makes Pyramids obsolete
 [effect_gov_tile_penalty_tribal]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present", "survives"
-      "Gov", "Tribal", "Player", TRUE, FALSE
-      "Building", "Pyramids", "Player", FALSE, FALSE
-      "Tech", "Railroad", "World", FALSE, TRUE
+    { "type", "name", "range", "present"
+      "Gov", "Tribal", "Player", TRUE
+      "Building", "Pyramids", "Player", FALSE
+      "Tech", "Railroad", "Player", FALSE
     }
 
-; Railroad because makes Pyramids obsolete
 [effect_gov_tile_penalty_despotism]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present", "survives"
-      "Gov", "Despotism", "Player", TRUE, FALSE
-      "Building", "Pyramids", "Player", FALSE, FALSE
-      "Tech", "Railroad", "World", FALSE, TRUE
+    { "type", "name", "range", "present"
+      "Gov", "Despotism", "Player", TRUE
+      "Building", "Pyramids", "Player", FALSE
+      "Tech", "Railroad", "Player", FALSE
     }
 
 [effect_gov_tile_bonus_republic]
