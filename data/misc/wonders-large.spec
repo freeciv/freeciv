@@ -50,6 +50,8 @@ artists = "
   b.oracle
   b.statue_of_liberty
   b.statue_of_zeus
+  b.temple_of_artemis
+  b.mausoleum
 "
 
 [extra]
@@ -74,6 +76,7 @@ sprites =
 		"b.magellans_expedition", "wonders/magellans_expedition"
 		"b.manhattan_project", "wonders/manhattan_project"
 		"b.marco_polos_embassy", "wonders/marco_polos_embassy"
+                "b.mausoleum", "wonders/mausoleum_of_halicarnassus"
 		"b.michelangelos_chapel", "wonders/michelangelos_chapel"
 		"b.oracle", "wonders/oracle"
 		"b.pyramids", "wonders/pyramids"
@@ -82,6 +85,7 @@ sprites =
 		"b.statue_of_liberty", "wonders/statue_of_liberty"
                 "b.statue_of_zeus", "wonders/statue_of_zeus"
 		"b.sun_tzus_war_academy", "wonders/sun_tzus_war_academy"
+                "b.temple_of_artemis", "wonders/temple_of_artemis"
 		"b.united_nations", "wonders/united_nations"
 		"b.womens_suffrage", "wonders/womens_suffrage"
 	}
