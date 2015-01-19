@@ -20,6 +20,8 @@ bool load_rulesets(const char *restore, bool act);
 bool reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
 
+void rulesets_deinit(void);
+
 void ruleset_error_real(const char *file, const char *function,
                         int line, enum log_level level,
                         const char *format, ...)

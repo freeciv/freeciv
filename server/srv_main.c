@@ -1408,6 +1408,7 @@ void server_quit(void)
   edithand_free();
   voting_free();
   close_connections_and_socket();
+  rulesets_deinit();
   registry_module_close();
   fc_destroy_mutex(&game.server.mutexes.city_list);
   free_nls();
