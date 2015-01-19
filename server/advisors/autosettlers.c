@@ -525,23 +525,43 @@ int settler_evaluate_improvements(struct unit *punit,
             } /* endif: can the worker perform this action */
           } as_transform_activity_iterate_end;
 
-          road_type_iterate(proad) {
-            struct extra_type *target = road_extra_get(proad);
-            int base_value = adv_city_worker_extra_get(pcity, cindex, target);
+          extra_type_iterate(pextra) {
+            enum unit_activity act = ACTIVITY_LAST;
+            enum unit_activity eval_act = ACTIVITY_LAST;
+            int base_value;
+
+            as_extra_activity_iterate(try_act) {
+              if (is_extra_caused_by_action(pextra, try_act)) {
+                eval_act = try_act;
+                if (can_unit_do_activity_targeted_at(punit, try_act, pextra,
+                                                     ptile)) {
+                  act = try_act;
+                  break;
+                }
+              }
+            } as_extra_activity_iterate_end;
+
+            if (eval_act == ACTIVITY_LAST) {
+              /* No activity can provide the extra */
+              continue;
+            }
+
+            base_value = adv_city_worker_extra_get(pcity, cindex, pextra);
 
             if (base_value >= 0) {
               int extra;
+              struct road_type *proad;
 
-              time = pos.turn + get_turns_for_activity_at(punit,
-                                                          ACTIVITY_GEN_ROAD,
-                                                          ptile,
-                                                          target);
+              time = pos.turn + get_turns_for_activity_at(punit, eval_act,
+                                                          ptile, pextra);
               if (pos.moves_left == 0) {
                 /* We need moves left to begin activity immediately. */
                 time++;
               }
 
-              if (road_provides_move_bonus(proad)) {
+              proad = extra_road_get(pextra);
+
+              if (proad != NULL && road_provides_move_bonus(proad)) {
                 int mc_multiplier = 1;
                 int mc_divisor = 1;
                 int old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
@@ -574,18 +594,13 @@ int settler_evaluate_improvements(struct unit *punit,
                 extra = 0;
               }
 
-              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD, target,
-                                                   ptile)) {
-                consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, target, extra, base_value,
+              if (act != ACTIVITY_LAST) {
+                consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, pextra, extra, base_value,
                                         oldv, in_use, time,
                                         &best_newv, &best_oldv, &improve_worked,
                                         &best_delay, best_act, best_target,
                                         best_tile, ptile);
               } else {
-                struct extra_type *pextra;
-
-                pextra = road_extra_get(proad);
-
                 road_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
 
@@ -593,12 +608,12 @@ int settler_evaluate_improvements(struct unit *punit,
 
                   if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD,
                                                        dep_tgt, ptile)) {
-                    /* Consider building dependency road for later upgrade to target road.
+                    /* Consider building dependency road for later upgrade to target extra.
                      * Here we set value to be sum of dependency
-                     * road and target road values, which increases want, and time is sum
+                     * road and target extra values, which increases want, and time is sum
                      * of dependency and target build times, which decreases want. This can
                      * result in either bigger or lesser want than when checkin dependency
-                     * road for the sake of itself when its turn in road_type_iterate() is. */
+                     * road for the sake of itself when its turn in extra_type_iterate() is. */
                     int dep_time = time + get_turns_for_activity_at(punit,
                                                                     ACTIVITY_GEN_ROAD,
                                                                     ptile,
@@ -613,36 +628,6 @@ int settler_evaluate_improvements(struct unit *punit,
                                             best_tile, ptile);
                   }
                 } road_deps_iterate_end;
-              }
-            }
-          } road_type_iterate_end;
-
-          base_type_iterate(pbase) {
-            struct extra_type *target = base_extra_get(pbase);
-            int base_value = adv_city_worker_extra_get(pcity, cindex, target);
-
-            if (base_value > 0) {
-
-              time = pos.turn + get_turns_for_activity_at(punit,
-                                                          ACTIVITY_BASE,
-                                                          ptile,
-                                                          target);
-              if (pos.moves_left == 0) {
-                /* We need moves left to begin activity immediately. */
-                time++;
-              }
-
-              if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE, target,
-                                                   ptile)) {
-                consider_settler_action(pplayer, ACTIVITY_BASE, target, 0, base_value,
-                                        oldv, in_use, time,
-                                        &best_newv, &best_oldv, &improve_worked,
-                                        &best_delay, best_act, best_target,
-                                        best_tile, ptile);
-              } else {
-                struct extra_type *pextra;
-
-                pextra = base_extra_get(pbase);
 
                 base_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
@@ -652,7 +637,7 @@ int settler_evaluate_improvements(struct unit *punit,
                   if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE,
                                                        dep_tgt, ptile)) {
                     /* Consider building dependency base for later upgrade to
-                     * target base.  See similar road implementation above for
+                     * target extra. See similar road implementation above for
                      * extended commentary. */
                     int dep_time = time + get_turns_for_activity_at(punit,
                                                                     ACTIVITY_BASE,
@@ -672,8 +657,8 @@ int settler_evaluate_improvements(struct unit *punit,
                 } base_deps_iterate_end;
               }
             }
-          } base_type_iterate_end;
-        } /* endif: can we finish sooner than current worker, if any? */
+          } extra_type_iterate_end;
+        } /* endif: can we arrive sooner than current worker, if any? */
       } /* endif: are we travelling to a legal destination? */
     } city_tile_iterate_index_end;
   } city_list_iterate_end;
