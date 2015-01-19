@@ -19,4 +19,4 @@ init_units=""
 cities = "Barbaricum"
 
 is_playable = FALSE
-barbarian_type = "Land"
+barbarian_type = "LandAndSea"
