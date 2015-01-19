@@ -31,9 +31,9 @@ extern "C" {
 
 #define SPECENUM_NAME action_target_kind
 #define SPECENUM_VALUE0 ATK_CITY
-#define SPECENUM_VALUE0NAME N_("a city")
+#define SPECENUM_VALUE0NAME N_("individual cities")
 #define SPECENUM_VALUE1 ATK_UNIT
-#define SPECENUM_VALUE1NAME N_("a unit")
+#define SPECENUM_VALUE1NAME N_("individual units")
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
