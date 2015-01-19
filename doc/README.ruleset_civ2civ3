@@ -186,7 +186,7 @@ Waste by Dist **  1        1        1        1        1        1        1       
 
 * Corruption by Distance is increased by 1 until The Corporation is researched by the player.
 ** Waste by Distance is increased by 1 until Trade is researched by the player.
-# This penalty is negated by The Pyramids wonder, and the penalty disappears for everybody when The Pyramids become obsolete.
+# This penalty is negated by The Pyramids wonder, or when Railroad is researched by the player.
 + Partisans appear in conquered cities (democratic or communist) if Guerrilla Warfare has been researched by any player.
 
 - Added Fundamentalism (available with Theology), Tribal (available at start) and Federation (available with Economics).
