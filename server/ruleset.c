@@ -6612,6 +6612,15 @@ static void nullcheck_secfile_destroy(struct section_file *file)
 }
 
 /**************************************************************************
+  Completely deinitialize ruleset system. Server is not in usable
+  state after this.
+**************************************************************************/
+void rulesets_deinit(void)
+{
+  script_server_free();
+}
+
+/**************************************************************************
   Loads the rulesets from directory.
   This may be called more than once and it will free any stale data.
 **************************************************************************/
