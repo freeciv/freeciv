@@ -595,7 +595,7 @@ int settler_evaluate_improvements(struct unit *punit,
               }
 
               if (act != ACTIVITY_LAST) {
-                consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, pextra, extra, base_value,
+                consider_settler_action(pplayer, act, pextra, extra, base_value,
                                         oldv, in_use, time,
                                         &best_newv, &best_oldv, &improve_worked,
                                         &best_delay, best_act, best_target,
