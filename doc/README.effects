@@ -228,9 +228,9 @@ No_Unhappy
     No citizens in the city are ever unhappy.
 
 Veteran_Build
-    New land units of this type have veteran class 1. The amount value is 
-ignored, so that you can have multiple Veteran_Build effects, and units will 
-only get 1 free veterancy level. This is considered a feature at the moment.
+    Increases the veteran class of newly created units of this type. The
+total amount determines the veteran class (clipped at the maximum for the
+unit).
 
 Veteran_Combat
     Increases the chance of units of this type becoming veteran after combat 
