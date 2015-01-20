@@ -50,6 +50,12 @@ static double techcoststyle1[A_LAST];
 
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 
+#define SPECVEC_TAG string
+#define SPECVEC_TYPE char *
+#include "specvec.h"
+
+static struct string_vector future;
+
 /**************************************************************************
   Return the last item of advances/technologies.
 **************************************************************************/
@@ -972,10 +978,6 @@ bool is_future_tech(Tech_type_id tech)
   return tech == A_FUTURE;
 }
 
-#define SPECVEC_TAG string
-#define SPECVEC_TYPE char *
-#include "specvec.h"
-
 /**************************************************************************
   Return the rule name of the given tech (including A_FUTURE). 
   You don't have to free the return pointer.
@@ -987,7 +989,6 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
   /* We don't return a static buffer because that would break anything that
    * needed to work with more than one name at a time.
    * FIXME: The caller should provide a buffer to write that name. */
-  static struct string_vector future;
 
   switch (tech) {
   case A_FUTURE:
@@ -1031,7 +1032,6 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
   /* We don't return a static buffer because that would break anything that
    * needed to work with more than one name at a time.
    * FIXME: The caller should provide a buffer to write that name. */
-  static struct string_vector future;
 
   switch (tech) {
   case A_FUTURE:
@@ -1205,6 +1205,8 @@ void techs_init(void)
   /* Initialize dummy tech A_UNKNOWN */
   /* TRANS: "Unknown" advance/technology */
   name_set(&advances[A_UNKNOWN].name, NULL, N_("(Unknown)"));
+
+  string_vector_init(&future);
 }
 
 /***************************************************************
@@ -1233,4 +1235,6 @@ void techs_free(void)
   advance_index_iterate(A_FIRST, i) {
     tech_free(i);
   } advance_index_iterate_end;
+
+  string_vector_free(&future);
 }
