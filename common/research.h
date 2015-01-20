@@ -101,6 +101,7 @@ struct research {
 
 /* Common functions. */
 void researches_init(void);
+void researches_free(void);
 
 int research_number(const struct research *presearch);
 const char *research_rule_name(const struct research *presearch);
