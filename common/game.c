@@ -474,6 +474,7 @@ void game_free(void)
   idex_free();
   team_slots_free();
   game_ruleset_free();
+  researches_free();
   cm_free();
 }
 

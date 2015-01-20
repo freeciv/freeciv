@@ -52,6 +52,11 @@ static struct name_translation advance_unset_name = NAME_INIT;
 static struct name_translation advance_future_name = NAME_INIT;
 static struct name_translation advance_unknown_name = NAME_INIT;
 
+#define SPECVEC_TAG string
+#define SPECVEC_TYPE char *
+#include "specvec.h"
+
+static struct string_vector future;
 
 /****************************************************************************
   Initializes all player research structure.
@@ -81,6 +86,16 @@ void researches_init(void)
   name_set(&advance_future_name, NULL, N_("Future Tech."));
   /* TRANS: "Unknown" advance/technology */
   name_set(&advance_unknown_name, NULL, N_("(Unknown)"));
+
+  string_vector_init(&future);
+}
+
+/****************************************************************************
+  Free all resources allocated for the research system
+****************************************************************************/
+void researches_free(void)
+{
+  string_vector_free(&future);
 }
 
 /****************************************************************************
@@ -169,10 +184,6 @@ int research_pretty_name(const struct research *presearch, char *buf,
   return fc_strlcpy(buf, nation_plural_for_player(pplayer), buf_len);
 }
 
-#define SPECVEC_TAG string
-#define SPECVEC_TYPE char *
-#include "specvec.h"
-
 /****************************************************************************
   Return the name translation for 'tech'. Utility for
   research_advance_rule_name() and research_advance_translated_name().
@@ -204,7 +215,6 @@ const char *research_advance_rule_name(const struct research *presearch,
                                        Tech_type_id tech)
 {
   if (A_FUTURE == tech && NULL != presearch) {
-    static struct string_vector future;
     const int no = presearch->future_tech;
     int i;
 
@@ -237,7 +247,6 @@ research_advance_name_translation(const struct research *presearch,
                                   Tech_type_id tech)
 {
   if (A_FUTURE == tech && NULL != presearch) {
-    static struct string_vector future;
     const int no = presearch->future_tech;
     int i;
 
