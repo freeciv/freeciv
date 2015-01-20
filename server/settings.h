@@ -159,7 +159,7 @@ bool setting_bitwise_validate(const struct setting *pset, const char *val,
 
 void setting_action(const struct setting *pset);
 
-bool setting_changed(const struct setting *pset);
+bool setting_non_default(const struct setting *pset);
 bool setting_locked(const struct setting *pset);
 void setting_lock_set(struct setting *pset, bool lock);
 
@@ -206,6 +206,9 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset);
 void send_server_settings(struct conn_list *dest);
 void send_server_hack_level_settings(struct conn_list *dest);
 void send_server_setting_control(struct connection *pconn);
+
+void setting_changed(struct setting *pset);
+void settings_consider_all_changed(void);
 
 #ifdef __cplusplus
 }

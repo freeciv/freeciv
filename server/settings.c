@@ -157,6 +157,9 @@ struct setting {
 
   /* ruleset lock for game settings */
   bool locked;
+
+  /* It's not "default", even if value is the same as default */
+  bool changed;
 };
 
 static struct {
@@ -3481,6 +3484,8 @@ static void setting_set_to_default(struct setting *pset)
     (*pset->bitwise.pvalue) = pset->bitwise.default_value;
     break;
   }
+
+  pset->changed = FALSE;
 }
 
 /********************************************************************
@@ -3696,9 +3701,9 @@ static bool setting_ruleset_one(struct section_file *file,
 }
 
 /**************************************************************************
-  Returns whether the setting has been changed (is not default).
+  Returns whether the setting has non-default value.
 **************************************************************************/
-bool setting_changed(const struct setting *pset)
+bool setting_non_default(const struct setting *pset)
 {
   switch (setting_type(pset)) {
   case SSET_BOOL:
@@ -4097,6 +4102,8 @@ void settings_game_load(struct section_file *file, const char *section)
                   pset, "%s.set%d.gamestart", section, i);
           break;
         }
+
+        pset->changed = TRUE;
       }
     } settings_iterate_end;
   }
@@ -4443,7 +4450,7 @@ void settings_list_update(void)
 
   /* Refill them. */
   for (i = 0; (pset = setting_by_number(i)); i++) {
-    if (setting_changed(pset)) {
+    if (setting_non_default(pset)) {
       setting_list_append(setting_sorted.level[SSET_CHANGED], pset);
     }
     if (setting_locked(pset)) {
@@ -4496,4 +4503,24 @@ static void settings_list_free(void)
   }
 
   setting_sorted.init = FALSE;
+}
+
+/*****************************************************************************
+  Mark setting changed
+*****************************************************************************/
+void setting_changed(struct setting *pset)
+{
+  pset->changed = TRUE;
+}
+
+/*****************************************************************************
+  Compatibility function. In the very old times there was no concept of
+  'default' value outside setting initialization, all values were handled
+  like we now want to handle non-default ones.
+*****************************************************************************/
+void settings_consider_all_changed(void)
+{
+  settings_iterate(SSET_ALL, pset) {
+    pset->changed = TRUE;
+  } settings_iterate_end;
 }

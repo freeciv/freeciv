@@ -256,7 +256,7 @@ static bool manual_command(void)
           fprintf(doc, "<p class=\"bounds\">%s %s</p>\n\n",
                   _("Default:"), buf);
         }
-        if (setting_changed(pset)) {
+        if (setting_non_default(pset)) {
           fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
                   setting_value_name(pset, TRUE, buf, sizeof(buf)));
         }
