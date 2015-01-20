@@ -3826,6 +3826,8 @@ static void game_load_internal(struct section_file *file)
                                sizeof(server.game_identifier));
   }
 
+  settings_consider_all_changed();
+
   map_load(file, tmp_server_state, savefile_options,
            special_order, num_special_types,
            base_order, num_base_types);

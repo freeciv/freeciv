@@ -2204,7 +2204,7 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
 
   fc_assert_ret(pset != NULL);
 
-  is_changed = setting_changed(pset);
+  is_changed = setting_non_default(pset);
   setting_value_name(pset, TRUE, value, sizeof(value));
 
   /* Wrap long option values, such as bitwise options */
@@ -2947,6 +2947,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     /* Notify the console. */
     con_write(C_OK, "%s", packet.message);
 
+    setting_changed(pset);
     setting_action(pset);
     send_server_setting(NULL, pset);
     /* 
