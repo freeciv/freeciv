@@ -1539,11 +1539,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
 **************************************************************************/
 void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 {
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  dsend_packet_unit_change_activity(&client.conn, punit->id, act, EXTRA_NONE);
+  request_new_unit_activity_targeted(punit, act, NULL);
 }
 
 /**************************************************************************
