@@ -241,7 +241,8 @@ SDL_String16 *create_string16(Uint16 *pInTextString,
   if ((str->font = load_font(str->ptsize)) == NULL) {
     log_error("create_string16: load_font failed");
     FC_FREE(str);
-    return str;
+
+    return NULL;
   }
 
   str->style = TTF_STYLE_NORMAL;
