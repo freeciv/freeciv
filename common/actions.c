@@ -1167,7 +1167,7 @@ action_probability action_prob_vs_units(struct unit* actor_unit,
                                         int action_id,
                                         struct tile* target_tile)
 {
-  int sum;
+  int prob_all;
 
   if (actor_unit == NULL || target_tile == NULL
       || unit_list_size(target_tile->units) == 0) {
@@ -1189,44 +1189,48 @@ action_probability action_prob_vs_units(struct unit* actor_unit,
                           action_get_target_kind(action_id)),
                         action_target_kind_name(ATK_UNITS));
 
-  sum = 200;
+  prob_all = 200;
   unit_list_iterate(target_tile->units, target_unit) {
-    switch (action_prob(action_id,
-                        unit_owner(actor_unit), NULL, NULL,
-                        unit_tile(actor_unit),
-                        actor_unit,
-                        NULL, NULL,
-                        unit_owner(target_unit),
-                        tile_city(unit_tile(target_unit)), NULL,
-                        unit_tile(target_unit),
-                        target_unit,
-                        NULL, NULL)) {
+    int prob_unit = action_prob(action_id,
+                                unit_owner(actor_unit), NULL, NULL,
+                                unit_tile(actor_unit),
+                                actor_unit,
+                                NULL, NULL,
+                                unit_owner(target_unit),
+                                tile_city(unit_tile(target_unit)), NULL,
+                                unit_tile(target_unit),
+                                target_unit,
+                                NULL, NULL);
+
+    switch (prob_unit) {
     case ACTPROB_IMPOSSIBLE:
       /* One unit makes it impossible for all units. */
       return ACTPROB_IMPOSSIBLE;
     case ACTPROB_NOT_IMPLEMENTED:
       /* Not implemented domiantes all except impossible. */
-      sum = ACTPROB_NOT_IMPLEMENTED;
+      prob_all = ACTPROB_NOT_IMPLEMENTED;
     case ACTPROB_NOT_KNOWN:
-      if (sum != ACTPROB_NOT_IMPLEMENTED) {
+      if (prob_all != ACTPROB_NOT_IMPLEMENTED) {
         /* Not known dominates all except not implemented and
          * impossible. */
-        sum = ACTPROB_NOT_KNOWN;
-      }
-    case 200:
-      /* TODO: Join regular probabilities and remove this. */
-      if (sum == 200) {
-        /* The chance is still 100% */
+        prob_all = ACTPROB_NOT_KNOWN;
       }
     default:
-      /* TODO: Join regular probabilities (multiply above and below,
-       * then normalize. Normalize quickly because of integer overflow) */
-      sum = ACTPROB_NOT_IMPLEMENTED;
+      fc_assert_msg(prob_unit <= 200, "Invalid probability %d", prob_unit);
+
+      if (200 < prob_all) {
+        /* Special values dominate regual values. */
+        continue;
+      }
+
+      /* Probability against all target units considered until this moment
+       * and the probability against this target unit. */
+      prob_all = (prob_all * prob_unit) / 200;
     }
   } unit_list_iterate_end;
 
   /* Not impossible for any of the units at the tile. */
-  return TRUE;
+  return prob_all;
 }
 
 /**************************************************************************
