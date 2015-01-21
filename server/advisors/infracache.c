@@ -37,9 +37,9 @@ struct worker_activity_cache {
   int extra[MAX_EXTRA_TYPES];
 };
 
-static int adv_calc_irrigate(const struct city *pcity,
-                             const struct tile *ptile);
-static int adv_calc_mine(const struct city *pcity, const struct tile *ptile);
+static int adv_calc_irrigate_transform(const struct city *pcity,
+                                       const struct tile *ptile);
+static int adv_calc_mine_transform(const struct city *pcity, const struct tile *ptile);
 static int adv_calc_transform(const struct city *pcity,
                               const struct tile *ptile);
 static int adv_calc_pollution(const struct city *pcity,
@@ -57,8 +57,8 @@ static int adv_calc_extra(const struct city *pcity, const struct tile *ptile,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int adv_calc_irrigate(const struct city *pcity,
-                             const struct tile *ptile)
+static int adv_calc_irrigate_transform(const struct city *pcity,
+                                       const struct tile *ptile)
 {
   int goodness;
   struct terrain *old_terrain, *new_terrain;
@@ -84,47 +84,6 @@ static int adv_calc_irrigate(const struct city *pcity,
     tile_virtual_destroy(vtile);
 
     return goodness;
-  } else if (old_terrain == new_terrain) {
-    struct extra_type *pextra = next_extra_for_tile(ptile, EC_IRRIGATION,
-                                                    city_owner(pcity), NULL);
-
-    if (pextra != NULL) {
-      struct tile *vtile = tile_virtual_new(ptile);
-
-      /* Try to add extra, and to remove conflicting ones. */
-      if (tile_extra_apply(vtile, pextra)) {
-        struct extra_type *pextra2 = next_extra_for_tile(vtile, EC_IRRIGATION,
-                                                         city_owner(pcity), NULL);
-
-        goodness = city_tile_value(pcity, vtile, 0, 0);
-
-        if (pextra2 != NULL) {
-          struct tile *vtile2 = tile_virtual_new(vtile);
-
-          /* If the player can further irrigate to make farmland, consider the
-           * potentially greater benefit.  Note the hack: autosettler ordinarily
-           * discounts benefits by the time it takes to make them; farmland takes
-           * twice as long, so make it look half as good. */
-          if (tile_extra_apply(vtile2, pextra2)) {
-            int second_goodness = city_tile_value(pcity, vtile2, 0, 0);
-            int oldv = city_tile_value(pcity, ptile, 0, 0);
-
-            second_goodness = oldv + (second_goodness - oldv) / 2;
-
-            if (second_goodness > goodness) {
-              goodness = second_goodness;
-            }
-          }
-          tile_virtual_destroy(vtile2);
-        }
-        tile_virtual_destroy(vtile);
-
-        return goodness;
-      }
-    }
-
-    /* Cannot build irrigation extra */
-    return -1;
   } else {
     return -1;
   }
@@ -138,7 +97,7 @@ static int adv_calc_irrigate(const struct city *pcity,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int adv_calc_mine(const struct city *pcity, const struct tile *ptile)
+static int adv_calc_mine_transform(const struct city *pcity, const struct tile *ptile)
 {
   int goodness;
   struct terrain *old_terrain, *new_terrain;
@@ -164,47 +123,6 @@ static int adv_calc_mine(const struct city *pcity, const struct tile *ptile)
     tile_virtual_destroy(vtile);
 
     return goodness;
-  } else if (old_terrain == new_terrain) {
-    struct extra_type *pextra = next_extra_for_tile(ptile, EC_MINE,
-                                                    city_owner(pcity), NULL);
-
-    if (pextra != NULL) {
-      struct tile *vtile = tile_virtual_new(ptile);
-
-      /* Try to add extra, and to remove conflicting ones. */
-      if (tile_extra_apply(vtile, pextra)) {
-        struct extra_type *pextra2 = next_extra_for_tile(vtile, EC_MINE,
-                                                         city_owner(pcity), NULL);
-
-        goodness = city_tile_value(pcity, vtile, 0, 0);
-
-        if (pextra2 != NULL) {
-          struct tile *vtile2 = tile_virtual_new(vtile);
-
-          /* If the player can further mine, consider the
-           * potentially greater benefit.  Note the hack: autosettler ordinarily
-           * discounts benefits by the time it takes to make them; second level mine
-           * takes twice as long, so make it look half as good. */
-          if (tile_extra_apply(vtile2, pextra2)) {
-            int second_goodness = city_tile_value(pcity, vtile2, 0, 0);
-            int oldv = city_tile_value(pcity, ptile, 0, 0);
-
-            second_goodness = oldv + (second_goodness - oldv) / 2;
-
-            if (second_goodness > goodness) {
-              goodness = second_goodness;
-            }
-          }
-          tile_virtual_destroy(vtile2);
-        }
-        tile_virtual_destroy(vtile);
-
-        return goodness;
-      }
-    }
-
-    /* Cannot build mine extra */
-    return -1;
   } else {
     return -1;
   }
@@ -426,9 +344,9 @@ void initialize_infrastructure_cache(struct player *pplayer)
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_FALLOUT,
                               adv_calc_fallout(pcity, ptile, best));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
-                              adv_calc_mine(pcity, ptile));
+                              adv_calc_mine_transform(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
-                              adv_calc_irrigate(pcity, ptile));
+                              adv_calc_irrigate_transform(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_TRANSFORM,
                               adv_calc_transform(pcity, ptile));
 
