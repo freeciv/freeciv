@@ -3,7 +3,7 @@
 noinst_LTLIBRARIES = libagents.la
 
 AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(top_srcdir)/common/aicore -I$(srcdir)/../include \
- -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(srcdir)/../gui-gtk $(CLIENT_CFLAGS) \
+ -I$(top_srcdir)/utility -I$(top_srcdir)/common $(CLIENT_CFLAGS) \
  -I$(top_srcdir)/dependencies/tinycthread
 
 libagents_la_SOURCES = 		\
