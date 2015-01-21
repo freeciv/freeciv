@@ -5103,6 +5103,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: S_abotage Enemy Unit (3% chance of success). */
           N_("S%sabotage Enemy Unit%s"),
           "actions.ui_name_sabotage_unit");
       sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_UNIT)->ui_name,
