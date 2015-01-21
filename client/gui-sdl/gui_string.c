@@ -158,8 +158,8 @@ SDL_Rect str16size(SDL_String16 *pString16)
   Font will be loaded or aliased with existing font of that size.
   pInTextString must be allocated in memory (MALLOC/fc_calloc)
 **************************************************************************/
-SDL_String16 * create_string16(Uint16 *pInTextString,
-					size_t n_alloc, Uint16 ptsize)
+SDL_String16 *create_string16(Uint16 *pInTextString,
+                              size_t n_alloc, Uint16 ptsize)
 {
   SDL_String16 *str = fc_calloc(1, sizeof(SDL_String16));
 
@@ -172,7 +172,8 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
   if ((str->font = load_font(str->ptsize)) == NULL) {
     log_error("create_string16: load_font failed");
     FC_FREE(str);
-    return str;
+
+    return NULL;
   }
 
   str->style = TTF_STYLE_NORMAL;
