@@ -4265,7 +4265,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("* Placed by mapgenerator.\n"));
   }
 
-  if (extra_has_flag(pextra, EF_SPREADS)) {
+  if (is_extra_caused_by(pextra, EC_SPONTANEOUS)) {
     CATLSTR(buf, bufsz,
             _(" * May spread to neighbor tiles.\n"));
   }

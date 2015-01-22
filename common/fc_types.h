@@ -571,6 +571,8 @@ enum diplomacy_mode {
 #define SPECENUM_VALUE5NAME "Base"
 #define SPECENUM_VALUE6 EC_ROAD
 #define SPECENUM_VALUE6NAME "Road"
+#define SPECENUM_VALUE7 EC_SPONTANEOUS
+#define SPECENUM_VALUE7NAME "Spontaneous"
 #define SPECENUM_COUNT EC_COUNT
 #include "specenum_gen.h"
 #define EC_NONE EC_COUNT
