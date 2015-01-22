@@ -167,7 +167,6 @@ static struct {
   struct setting_list *level[OLEVELS_NUM];
 } setting_sorted = { .init = FALSE };
 
-static void setting_set_to_default(struct setting *pset);
 static bool setting_ruleset_one(struct section_file *file,
                                 const char *name, const char *path);
 static void setting_game_set(struct setting *pset, bool init);
@@ -3464,7 +3463,7 @@ const char *setting_default_name(const struct setting *pset, bool pretty,
 /****************************************************************************
   Update the setting to the default value
 ****************************************************************************/
-static void setting_set_to_default(struct setting *pset)
+void setting_set_to_default(struct setting *pset)
 {
   switch (pset->stype) {
   case SSET_BOOL:
