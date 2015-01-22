@@ -761,6 +761,6 @@ packages. For using Cygwin version, you need Cygwin environment installed.
 Build instructions for MinGW versions are documented on top of file
 win32/installer/Makefile
 
-Cygwin specific installation notes can be found in doc/INSTALL-Cygwin.
+Cygwin specific installation notes can be found in doc/INSTALL.Cygwin.
 
 ** END **
