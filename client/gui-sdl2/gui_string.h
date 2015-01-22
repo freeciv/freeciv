@@ -79,6 +79,8 @@ SDL_Surface *create_text_surf_smaller_that_w(SDL_String16 *pString, int w);
 SDL_Rect str16size(SDL_String16 *pString16);
 void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize);
 
+utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize);
+utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars);
 bool convert_utf8_str_to_const_surface_width(utf8_str *pstr,
                                              int width);
 int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
@@ -101,8 +103,10 @@ void free_font_system(void);
 #define str16len(pString16) str16size(pString16).w
 #define str16height(pString16) str16size(pString16).h
 
+#define utf8_str_height(pstr) utf8_str_size(pstr).h
+
 /*
- *	here we use ordinary free( ... ) becouse check is made 
+ *	here we use ordinary free( ... ) because check is made 
  *	on start.
  */
 #define FREESTRING16( pString16 )		\
@@ -115,7 +119,27 @@ do {						\
 	}					\
 } while (FALSE)
 
+/*
+ *	here we use ordinary free( ... ) because check is made 
+ *	on start.
+ */
+#define FREEUTF8STR( pstr )             \
+  do {                                  \
+    if (pstr != NULL) {                 \
+      FC_FREE(pstr->text);              \
+      unload_font(pstr->ptsize);        \
+      free(pstr);                       \
+      pstr = NULL;                      \
+    }                                   \
+} while (FALSE)
+
 #define create_str16_from_char(pInCharString, iPtsize) \
-  copy_chars_to_string16(create_string16(NULL, 0,iPtsize), pInCharString)
+  copy_chars_to_string16(create_string16(NULL, 0, iPtsize), pInCharString)
+
+#define create_utf8_from_char(string_in, ptsize) \
+  (string_in) == NULL ?                          \
+    create_utf8_str(NULL, 0, ptsize) :           \
+    copy_chars_to_utf8_str(create_utf8_str(NULL, 0, ptsize), string_in)
+      
 
 #endif /* FC__GUISTRING_H */

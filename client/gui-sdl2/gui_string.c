@@ -258,11 +258,45 @@ SDL_String16 *create_string16(Uint16 *pInTextString,
 }
 
 /**************************************************************************
+  Create utf8_str struct with ptsize font.
+  Font will be loaded or aliased with existing font of that size.
+  pInTextString must be allocated in memory (MALLOC/fc_calloc)
+**************************************************************************/
+utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize)
+{
+  utf8_str *str = fc_calloc(1, sizeof(utf8_str));
+
+  if (!ptsize) {
+    str->ptsize = theme_default_font_size(theme);
+  } else {
+    str->ptsize = ptsize;
+  }
+
+  if ((str->font = load_font(str->ptsize)) == NULL) {
+    log_error("create_utf8_str(): load_font failed");
+    FC_FREE(str);
+
+    return NULL;
+  }
+
+  str->style = TTF_STYLE_NORMAL;
+  str->bgcol = (SDL_Color) {0, 0, 0, 0};
+  str->fgcol = *get_theme_color(COLOR_THEME_TEXT);
+  str->render = 2;
+
+  /* pInTextString must be allocated in memory (MALLOC/fc_calloc) */
+  str->text = in_text;
+  str->n_alloc = n_alloc;
+
+  return str;
+}
+
+/**************************************************************************
   Convert char array to SDL_String16. Pointer to target string is needed
   as parameter, but also returned for convenience.
 **************************************************************************/
-SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
-                                      const char *pCharString)
+SDL_String16 *copy_chars_to_string16(SDL_String16 *pString,
+                                     const char *pCharString)
 {
   size_t n;
 
@@ -282,6 +316,32 @@ SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
   convertcopy_to_utf16(pString->text, pString->n_alloc, pCharString);
 
   return pString;
+}
+
+/**************************************************************************
+  Convert char array to utf8_str. Pointer to target string is needed
+  as parameter, but also returned for convenience.
+**************************************************************************/
+utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars)
+{
+  size_t n;
+
+  fc_assert_ret_val(pstr != NULL, NULL);
+  fc_assert_ret_val(pchars != NULL, NULL);
+
+  n = (strlen(pchars) + 1) * 2;
+
+  if (n > pstr->n_alloc) {
+    /* allocated more if this is only a small increase on before: */
+    size_t n1 = (3 * pstr->n_alloc) / 2;
+
+    pstr->n_alloc = (n > n1) ? n : n1;
+    pstr->text = fc_realloc(pstr->text, pstr->n_alloc);
+  }
+
+  fc_snprintf(pstr->text, pstr->n_alloc, "%s", pchars);
+
+  return pstr;
 }
 
 /**************************************************************************
