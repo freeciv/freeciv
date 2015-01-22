@@ -111,6 +111,8 @@ const char *setting_value_name(const struct setting *pset, bool pretty,
 const char *setting_default_name(const struct setting *pset, bool pretty,
                                  char *buf, size_t buf_len);
 
+void setting_set_to_default(struct setting *pset);
+
 /* Type SSET_BOOL setting functions. */
 bool setting_bool_set(struct setting *pset, const char *val,
                       struct connection *caller, char *reject_msg,

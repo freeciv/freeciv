@@ -609,6 +609,14 @@ static struct command commands[] = {
       "  default  - using default values\n"), NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
+  {"default",	ALLOW_CTRL,
+   /* no translatable parameters */
+   SYN_ORIG_("default <option name>"),
+   N_("Set option to its default value"),
+   N_("Set option to its default value, and track it as 'default' instead\n"
+      "of real value."), NULL,
+   CMD_ECHO_ALL, VCF_NONE, 50
+  },
   {"lua", ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("lua cmd <script line>\n"

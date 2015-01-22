@@ -142,6 +142,7 @@ static bool read_init_script_real(struct connection *caller,
                                   bool check, int read_recursion);
 static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
+static bool default_command(struct connection *caller, char *arg, bool check);
 static bool lua_command(struct connection *caller, char *arg, bool check);
 static bool kick_command(struct connection *caller, char *name, bool check);
 static bool delegate_command(struct connection *caller, char *arg,
@@ -4275,6 +4276,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return write_command(caller, arg, check);
   case CMD_RESET:
     return reset_command(caller, arg, check, read_recursion);
+  case CMD_DEFAULT:
+    return default_command(caller, arg, check);
   case CMD_LUA:
     return lua_command(caller, arg, check);
   case CMD_KICK:
@@ -4504,6 +4507,37 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
 
   /* show ruleset description and list changed values */
   show_ruleset_info(caller, CMD_RESET, check, read_recursion);
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Set a setting to its default value
+**************************************************************************/
+static bool default_command(struct connection *caller, char *arg, bool check)
+{
+  int cmd;
+  struct setting *pset;
+  char reject_msg[256] = "";
+
+  cmd = lookup_option(arg);
+
+  if (cmd <= 0) {
+    cmd_reply(CMD_DEFAULT, caller, C_FAIL, _("Unknown option %s"), arg);
+  }
+
+  pset = setting_by_number(cmd);
+
+  if (!setting_is_changeable(pset, caller, reject_msg, sizeof(reject_msg))) {
+    cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+
+    return FALSE;
+  }
+
+  if (!check) {
+    setting_set_to_default(pset);
+    cmd_reply(CMD_DEFAULT, caller, C_OK, _("Setting %s set to default value."), arg);
+  }
 
   return TRUE;
 }
