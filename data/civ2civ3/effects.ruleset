@@ -2815,9 +2815,10 @@ reqs    =
 type    = "Upkeep_Free"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Building", "A.Smith's Trading Co.", "Player"
-      "Building", "Stock Exchange", "City"
+    { "type", "name", "range", "present"
+      "Building", "A.Smith's Trading Co.", "Player", TRUE
+      "Building", "Stock Exchange", "City", TRUE
+      "Gov", "Communism", "Player", FALSE
     }
 
 ;2 + 1 = 3
