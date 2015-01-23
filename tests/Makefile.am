@@ -17,8 +17,7 @@ src-check:
 
 CLEANFILES = check-output
 
-EXTRA_DIST =	all_tests.sh			\
-		check_macros.sh			\
+EXTRA_DIST =	check_macros.sh			\
 		copyright.sh			\
 		fcintl.sh			\
 		header_guard.sh			\
