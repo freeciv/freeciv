@@ -2932,6 +2932,10 @@ reqs    =
       "Building", "A.Smith's Trading Co.", "Player"
       "Building", "Stock Exchange", "City"
     }
+nreqs    =
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+    }
 
 ;2 + 1 = 3
 [effect_asmiths_trading_co_1]
