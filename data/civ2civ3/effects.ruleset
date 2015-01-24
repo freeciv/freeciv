@@ -3331,28 +3331,6 @@ reqs    =
       "UnitFlag", "NoVeteran", "Local", FALSE
     }
 
-[effect_sun_tzus_war_academy_2]
-type    = "Veteran_Combat"
-value   = 50
-reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Sun Tzu's War Academy", "Player", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
-[effect_sun_tzus_war_academy_3]
-type    = "Veteran_Combat"
-value   = 50
-reqs    =
-    { "type", "name", "range", "present"
-      "Building", "Sun Tzu's War Academy", "Player", TRUE
-      "UnitClass", "Big Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
-    }
-
 [effect_united_nations]
 type    = "Has_Senate"
 value   = 1
