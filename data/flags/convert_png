@@ -2,6 +2,11 @@
 
 files="$@"
 
+if test "x$1" = "x-h" || test "x$1" = "x--help" ; then
+    echo "Usage: $(basename $0) [list of svg-files]"
+    exit 0
+fi
+
 # Renderer: inkscape or sodipodi.  Inkscape seems slightly better.
 #SODIPODI="sodipodi"
 RENDERER="inkscape"
