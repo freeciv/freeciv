@@ -26,13 +26,13 @@ extern "C" {
 #include <sys/time.h>
 #endif
 
-#ifdef JSON_CONNECTION
+#ifdef FREECIV_JSON_CONNECTION
 #include <jansson.h>
-#endif  /* JSON_CONNECTION */
+#endif  /* FREECIV_JSON_CONNECTION */
 
-#ifndef JSON_CONNECTION
+#ifndef FREECIV_JSON_CONNECTION
 #define USE_COMPRESSION
-#endif  /* JSON_CONNECTION */
+#endif  /* FREECIV_JSON_CONNECTION */
 
 /**************************************************************************
   The connection struct and related stuff.
@@ -157,9 +157,9 @@ struct connection {
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
   struct timer *last_write;
-#ifdef JSON_CONNECTION
+#ifdef FREECIV_JSON_CONNECTION
   json_t *json_packet;
-#endif /* JSON_CONNECTION */
+#endif /* FREECIV_JSON_CONNECTION */
 
   double ping_time;
 

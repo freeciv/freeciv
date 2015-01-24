@@ -44,4 +44,7 @@
 /* libintl.h available */
 #undef FREECIV_HAVE_LIBINTL_H
 
+/* jansson network protocol in use */
+#undef FREECIV_JSON_CONNECTION
+
 #endif /* FC__FREECIV_CONFIG_H */
