@@ -2484,7 +2484,23 @@ value   = 1
 
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
-value   = 4
+value   = 2
+
+[effect_trade_routes_magnetism]
+type    = "Max_Trade_Routes"
+value   = 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Magnetism", "Player"
+    }
+
+[effect_trade_routes_corporation]
+type    = "Max_Trade_Routes"
+value   = 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "The Corporation", "Player"
+    }
 
 ; Base vision range - radius of vision is sqrt(2) = 1.41
 [effect_city_vision_0]
