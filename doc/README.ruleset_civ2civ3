@@ -406,7 +406,7 @@ Doubles the effect of Research Lab for Every Nation. Gives an immediate technolo
 - "Magellan's Expedition" 400, Obsolete by Nuclear Power (that increases even more the movement of sea units):
 +1 move, and +50% chance to become veteran, for Sea units (No triremes).
 - "Sun Tzu's War Academy" 300, Obsolete by Mobile Warfare:
-Veteran built, and +50% chance to become veteran, for Military Land units.
+Veteran built, cumulative to barracks, for Military Land units.
 
 - "Statue of Zeus" 200, Obsolete by Conscription (that enables wonder with similar effect):
 +1 Military Content, +1 free Shield per city for upkeep of units.
