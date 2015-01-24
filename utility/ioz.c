@@ -472,6 +472,7 @@ int fz_fclose(fz_FILE *fp)
     free(fp->u.xz.in_buf);
     free(fp->u.xz.out_buf);
     fclose(fp->u.xz.plain);
+    free(fp);
     return error;
 #endif /* HAVE_LIBLZMA */
 #ifdef HAVE_LIBBZ2
