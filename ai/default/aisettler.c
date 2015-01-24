@@ -1016,6 +1016,7 @@ void dai_auto_settler_run(struct ai_type *ait, struct player *pplayer,
   struct extra_type *best_target;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
+  struct city *pcity = NULL;
 
   /* time it will take worker to complete its given task */
   int completion_time = 0;
@@ -1072,18 +1073,19 @@ BUILD_CITY:
     TIMING_LOG(AIT_WORKERS, TIMER_START);
 
     /* Have nearby cities requests? */
-    best_impr = settler_evaluate_city_requests(punit, &best_act, &best_target,
+    pcity = settler_evaluate_city_requests(punit, &best_act, &best_target,
                                            &best_tile, &path, state);
 
-    if (best_impr > 0) {
+    if (pcity != NULL) {
       if (path != NULL) {
         completion_time = pf_path_last_position(path)->turn;
+        best_impr = 1;
       } else {
-        best_impr = 0;
+        pcity = NULL;
       }
     }
 
-    if (best_impr <= 0) {
+    if (pcity == NULL) {
       best_impr = settler_evaluate_improvements(punit, &best_act, &best_target,
                                                 &best_tile, &path, state);
       if (path) {
@@ -1149,9 +1151,13 @@ BUILD_CITY:
     adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
   }
 
-  auto_settler_setup_work(pplayer, punit, state, 0, path,
-                          best_tile, best_act, &best_target,
-                          completion_time);
+  if (auto_settler_setup_work(pplayer, punit, state, 0, path,
+                              best_tile, best_act, &best_target,
+                              completion_time)) {
+    if (pcity != NULL) {
+      clear_worker_task(pcity);
+    }
+  }
 
 CLEANUP:
 
