@@ -836,6 +836,7 @@ static bool create_command(struct connection *caller, const char *str,
   } else {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
               _("Wrong number of arguments to create command."));
+    free_tokens(arg, ntokens);
     return FALSE;
   }
 
@@ -846,6 +847,8 @@ static bool create_command(struct connection *caller, const char *str,
     status = create_command_pregame(arg[0], ai_type_name, check,
                                     NULL, buf, sizeof(buf));
   }
+
+  free_tokens(arg, ntokens);
 
   if (status != C_OK) {
     /* No player created. */
