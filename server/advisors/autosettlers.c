@@ -41,6 +41,7 @@
 #include "pf_tools.h"
 
 /* server */
+#include "citytools.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "srv_log.h"
@@ -695,12 +696,12 @@ int settler_evaluate_improvements(struct unit *punit,
 /****************************************************************************
   Return best city request to fulfill.
 ****************************************************************************/
-int settler_evaluate_city_requests(struct unit *punit,
-                                   enum unit_activity *best_act,
-                                   struct extra_type **best_target,
-                                   struct tile **best_tile,
-                                   struct pf_path **path,
-                                   struct settlermap *state)
+struct city *settler_evaluate_city_requests(struct unit *punit,
+                                            enum unit_activity *best_act,
+                                            struct extra_type **best_target,
+                                            struct tile **best_tile,
+                                            struct pf_path **path,
+                                            struct settlermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
@@ -708,6 +709,7 @@ int settler_evaluate_city_requests(struct unit *punit,
   struct pf_position pos;
   int best_value = -1;
   struct worker_task *best = NULL;
+  struct city *taskcity = NULL;
   int dist = FC_INFINITY;
 
   pft_fill_unit_parameter(&parameter, punit);
@@ -764,6 +766,7 @@ int settler_evaluate_city_requests(struct unit *punit,
               dist = pos.turn;
               best = ptask;
               best_value = value;
+              taskcity = pcity;
             }
           }
         }
@@ -783,11 +786,7 @@ int settler_evaluate_city_requests(struct unit *punit,
 
   pf_map_destroy(pfm);
 
-  if (best != NULL) {
-    return 1;
-  }
-
-  return 0;
+  return taskcity;
 }
 
 /**************************************************************************
@@ -803,7 +802,7 @@ void auto_settler_findwork(struct player *pplayer,
   struct tile *best_tile = NULL;
   struct extra_type *best_target;
   struct pf_path *path = NULL;
-  int value;
+  struct city *taskcity;
 
   /* time it will take worker to complete its given task */
   int completion_time = 0;
@@ -824,19 +823,22 @@ void auto_settler_findwork(struct player *pplayer,
 
   /* Have nearby cities requests? */
 
-  value = settler_evaluate_city_requests(punit, &best_act, &best_target,
-                                         &best_tile, &path, state);
+  taskcity = settler_evaluate_city_requests(punit, &best_act, &best_target,
+                                            &best_tile, &path, state);
 
-  if (value > 0) {
+  if (taskcity != NULL) {
     if (path != NULL) {
       completion_time = pf_path_last_position(path)->turn;
     }
 
     adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
 
-    auto_settler_setup_work(pplayer, punit, state, recursion,
-                            path, best_tile, best_act,
-                            &best_target, completion_time);
+    if (auto_settler_setup_work(pplayer, punit, state, recursion,
+                                path, best_tile, best_act,
+                                &best_target, completion_time)) {
+      clear_worker_task(taskcity);
+    }
+
     if (path != NULL) {
       pf_path_destroy(path);
     }
@@ -868,9 +870,10 @@ void auto_settler_findwork(struct player *pplayer,
 }
 
 /**************************************************************************
-  Setup our settler to do the work it has found
+  Setup our settler to do the work it has found. Returns TRUE if
+  started actual work.
 **************************************************************************/
-void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
+bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                              struct settlermap *state, int recursion,
                              struct pf_path *path,
                              struct tile *best_tile,
@@ -882,12 +885,12 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
   if (punit->server.adv->task == AUT_AUTO_SETTLER) {
     struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
-
+    bool working = FALSE;
     struct unit *displaced;
 
     if (!best_tile) {
       UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
-      return; /* We cannot do anything */
+      return FALSE; /* We cannot do anything */
     }
 
     /* Mark the square as taken. */
@@ -924,7 +927,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
         /* Actions of the displaced settler somehow caused this settler
          * to die. (maybe by recursively giving control back to this unit)
          */
-        return;
+        return FALSE;
       }
       if (goto_tile != punit->goto_tile || old_pos != unit_tile(punit)
           || punit->activity != ACTIVITY_IDLE) {
@@ -939,7 +942,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                  punit->id,
                  TILE_XY(old_pos), TILE_XY(goto_tile),
                  TILE_XY(unit_tile(punit)), TILE_XY(punit->goto_tile));
-        return;
+        return FALSE;
       }
     }
 
@@ -965,6 +968,8 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
           unit_activity_handling(punit, best_act);
         }
         send_unit_info(NULL, punit); /* FIXME: probably duplicate */
+
+        working = TRUE;
       }
     } else {
       log_debug("Autosettler does not find path (%d, %d) -> (%d, %d)",
@@ -975,8 +980,10 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
       pf_map_destroy(pfm);
     }
 
-    return;
+    return working;
   }
+
+  return FALSE;
 }
 #undef LOG_SETTLER
 
