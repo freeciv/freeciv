@@ -54,7 +54,7 @@ size_t utf8_strlen(const char *pstr)
 }
 
 /**************************************************************************
-  Don't free return array, only arrays members. This is not re-entrant.
+  Don't free return array, only array's members. This is not re-entrant.
 **************************************************************************/
 char **create_new_line_utf8strs(const char *pstr)
 {
@@ -63,7 +63,7 @@ char **create_new_line_utf8strs(const char *pstr)
   size_t len = 0, count = 0;
 
   while (*start != '\0') {
-    if (*pstr == '\n') { /* find a new line char */
+    if (*pstr == '\n' || *pstr == '\0') { /* find a new line char */
       if (len) {
         buf[count] = fc_calloc(len + 1, 1);
         memcpy(buf[count], start, len);
