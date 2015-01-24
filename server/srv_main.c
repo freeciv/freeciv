@@ -1417,6 +1417,7 @@ void save_game(const char *orig_filename, const char *save_reason,
   if (!secfile_save(file, filepath, game.server.save_compress_level,
                     game.server.save_compress_type)) {
     con_write(C_FAIL, _("Failed saving game as %s"), filepath);
+    log_error("Game saving failed: %s", secfile_error());
   } else {
     con_write(C_OK, _("Game saved as %s"), filepath);
   }
