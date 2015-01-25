@@ -254,6 +254,7 @@ void close_connections_and_socket(void)
   for (i = 0; i < listen_count; i++) {
     fc_closesocket(listen_socks[i]);
   }
+  FC_FREE(listen_socks);
 
   if (srvarg.announce != ANNOUNCE_NONE) {
     fc_closesocket(socklan);
