@@ -189,7 +189,8 @@ void setting_lock_set(struct setting *pset, bool lock);
 }
 
 void settings_game_start(void);
-void settings_game_save(struct section_file *file, const char *section);
+void settings_game_save(struct section_file *file, const char *section,
+                        bool scenario);
 void settings_game_load(struct section_file *file, const char *section);
 bool settings_game_reset(void);
 
@@ -210,6 +211,7 @@ void send_server_hack_level_settings(struct conn_list *dest);
 void send_server_setting_control(struct connection *pconn);
 
 void setting_changed(struct setting *pset);
+bool setting_is_changed(struct setting *pset);
 void settings_consider_all_changed(void);
 
 #ifdef __cplusplus

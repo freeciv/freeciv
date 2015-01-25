@@ -2434,7 +2434,7 @@ static void sg_save_settings(struct savedata *saving)
   if (saving->scenario) {
     map.server.generator = MAPGEN_SCENARIO; /* We want a scenario. */
   }
-  settings_game_save(saving->file, "settings");
+  settings_game_save(saving->file, "settings", saving->scenario);
   /* Restore real map generator. */
   map.server.generator = real_generator;
 

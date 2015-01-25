@@ -3851,50 +3851,61 @@ void settings_game_start(void)
 /********************************************************************
   Save game settings.
 *********************************************************************/
-void settings_game_save(struct section_file *file, const char *section)
+void settings_game_save(struct section_file *file, const char *section,
+                        bool scenario)
 {
   int set_count = 0;
 
   settings_iterate(SSET_ALL, pset) {
-    secfile_insert_str(file, setting_name(pset),
-                       "%s.set%d.name", section, set_count);
-    switch (setting_type(pset)) {
-    case SSET_BOOL:
-      secfile_insert_bool(file, *pset->boolean.pvalue,
-                          "%s.set%d.value", section, set_count);
-      secfile_insert_bool(file, pset->boolean.game_value,
-                          "%s.set%d.gamestart", section, set_count);
-      break;
-    case SSET_INT:
-      secfile_insert_int(file, *pset->integer.pvalue,
-                          "%s.set%d.value", section, set_count);
-      secfile_insert_int(file, pset->integer.game_value,
-                          "%s.set%d.gamestart", section, set_count);
-      break;
-    case SSET_STRING:
-      secfile_insert_str(file, pset->string.value,
-                          "%s.set%d.value", section, set_count);
-      secfile_insert_str(file, pset->string.game_value,
-                          "%s.set%d.gamestart", section, set_count);
-      break;
-    case SSET_ENUM:
-      secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
-                               setting_enum_secfile_str, pset,
-                               "%s.set%d.value", section, set_count);
-      secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
-                               setting_enum_secfile_str, pset,
-                               "%s.set%d.gamestart", section, set_count);
-      break;
-    case SSET_BITWISE:
-      secfile_insert_enum_data(file, *pset->bitwise.pvalue, TRUE,
-                               setting_bitwise_secfile_str, pset,
-                               "%s.set%d.value", section, set_count);
-      secfile_insert_enum_data(file, pset->bitwise.game_value, TRUE,
-                               setting_bitwise_secfile_str, pset,
-                               "%s.set%d.gamestart", section, set_count);
-      break;
+    char errbuf[200];
+
+    if ( /* Normal save always has all settings saved */
+        !scenario
+         /* It's explicitly set to some value to save */
+        || setting_is_changed(pset)
+         /* It must be same at loading time as it was saving time, even if
+          * freeciv's default has changed. */
+        || !setting_is_changeable(pset, NULL, errbuf, sizeof(errbuf))) {
+      secfile_insert_str(file, setting_name(pset),
+                         "%s.set%d.name", section, set_count);
+      switch (setting_type(pset)) {
+      case SSET_BOOL:
+        secfile_insert_bool(file, *pset->boolean.pvalue,
+                            "%s.set%d.value", section, set_count);
+        secfile_insert_bool(file, pset->boolean.game_value,
+                            "%s.set%d.gamestart", section, set_count);
+        break;
+      case SSET_INT:
+        secfile_insert_int(file, *pset->integer.pvalue,
+                           "%s.set%d.value", section, set_count);
+        secfile_insert_int(file, pset->integer.game_value,
+                           "%s.set%d.gamestart", section, set_count);
+        break;
+      case SSET_STRING:
+        secfile_insert_str(file, pset->string.value,
+                           "%s.set%d.value", section, set_count);
+        secfile_insert_str(file, pset->string.game_value,
+                           "%s.set%d.gamestart", section, set_count);
+        break;
+      case SSET_ENUM:
+        secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
+                                 setting_enum_secfile_str, pset,
+                                 "%s.set%d.value", section, set_count);
+        secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
+                                 setting_enum_secfile_str, pset,
+                                 "%s.set%d.gamestart", section, set_count);
+        break;
+      case SSET_BITWISE:
+        secfile_insert_enum_data(file, *pset->bitwise.pvalue, TRUE,
+                                 setting_bitwise_secfile_str, pset,
+                                 "%s.set%d.value", section, set_count);
+        secfile_insert_enum_data(file, pset->bitwise.game_value, TRUE,
+                                 setting_bitwise_secfile_str, pset,
+                                 "%s.set%d.gamestart", section, set_count);
+        break;
+      }
+      set_count++;
     }
-    set_count++;
   } settings_iterate_end;
 
   secfile_insert_int(file, set_count, "%s.set_count", section);
@@ -4510,6 +4521,14 @@ static void settings_list_free(void)
 void setting_changed(struct setting *pset)
 {
   pset->changed = TRUE;
+}
+
+/*****************************************************************************
+  Is the setting in changed state, or the default
+*****************************************************************************/
+bool setting_is_changed(struct setting *pset)
+{
+  return pset->changed;
 }
 
 /*****************************************************************************
