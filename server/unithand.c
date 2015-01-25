@@ -1438,54 +1438,6 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 }
 
 /**************************************************************************
-  Handle unit move request.
-**************************************************************************/
-void handle_unit_move(struct player *pplayer, int unit_id, int tile)
-{
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  struct tile *ptile = index_to_tile(tile);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_move() invalid unit %d", unit_id);
-    return;
-  }
-
-  if (NULL == ptile) {
-    /* Shouldn't happen */
-    log_error("handle_unit_move() invalid tile index (%d) for %s (%d)",
-              tile, unit_rule_name(punit), unit_id);
-    return;
-  }
-
-  if (!is_tiles_adjacent(unit_tile(punit), ptile)) {
-    /* Client is out of sync, ignore */
-    log_verbose("handle_unit_move() invalid %s (%d) move "
-                "from (%d, %d) to (%d, %d).",
-                unit_rule_name(punit), unit_id,
-                TILE_XY(unit_tile(punit)), TILE_XY(ptile));
-    return;
-  }
-
-  if (!is_player_phase(unit_owner(punit), game.info.phase)) {
-    /* Client is out of sync, ignore */
-    log_verbose("handle_unit_move() invalid %s (%d) %s != phase %d",
-                unit_rule_name(punit),
-                unit_id,
-                nation_rule_name(nation_of_unit(punit)),
-                game.info.phase);
-    return;
-  }
-
-  if (ACTIVITY_IDLE != punit->activity) {
-    /* Else, the unit cannot move. */
-    unit_activity_handling(punit, ACTIVITY_IDLE);
-  }
-
-  (void) unit_move_handling(punit, ptile, FALSE, FALSE);
-}
-
-/**************************************************************************
  Make sure everyone who can see combat does.
 **************************************************************************/
 static void see_combat(struct unit *pattacker, struct unit *pdefender)
