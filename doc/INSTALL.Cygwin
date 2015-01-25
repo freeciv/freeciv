@@ -47,7 +47,8 @@ a) Install or update your Cygwin using the "Install Cygwin Now!" link
   - xlaunch (X11)
   - fontconfig (X11)
 
-b) Get a Freeciv source tree (this file is in its top directory).
+b) Get a Freeciv source tree (the doc/ subdirectory this file is in, is in source
+   tree's top directory).
    Put it in a temporary place like /tmp.
 
       ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
