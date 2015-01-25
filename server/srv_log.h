@@ -112,7 +112,15 @@ void real_unit_log(const char *file, const char *function, int line,
   }                                                                         \
 }
 
-void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);
-void TIMING_RESULTS(void);
+void timing_log_real(enum ai_timer timer, enum ai_timer_activity activity);
+void timing_results_real(void);
+
+#ifdef DEBUG
+#define TIMING_LOG(timer, activity) timing_log_real(timer, activity)
+#define TIMING_RESULTS() timing_results_real()
+#else  /* DEBUG */
+#define TIMING_LOG(timer, activity)
+#define TIMING_RESULTS()
+#endif /* DEBUG */
 
 #endif  /* FC__SRV_LOG_H */
