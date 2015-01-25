@@ -1517,6 +1517,7 @@ void request_unit_build_city(struct unit *punit)
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dir)
 {
+  struct packet_unit_orders p;
   struct tile *dest_tile;
 
   /* Catches attempts to move off map */
@@ -1525,12 +1526,29 @@ void request_move_unit_direction(struct unit *punit, int dir)
     return;
   }
 
-  if (punit->moves_left > 0) {
-    dsend_packet_unit_move(&client.conn, punit->id, tile_index(dest_tile));
-  } else {
-    /* Initiate a "goto" with direction keys for exhausted units. */
-    send_goto_tile(punit, dest_tile);
-  }
+  /* The goto system isn't used to send the order because that would
+   * prevent direction movement from overriding it.
+   * Example of a situation when overriding the goto system is useful:
+   * The goto system creates a longer path to make a move legal. The player
+   * wishes to order the illegal move so the server will explain why the
+   * short move is illegal. */
+
+  memset(&p, 0, sizeof(p));
+
+  p.repeat = FALSE;
+  p.vigilant = FALSE;
+
+  p.unit_id = punit->id;
+  p.src_tile = tile_index(unit_tile(punit));
+  p.dest_tile = tile_index(dest_tile);
+
+  p.length = 1;
+  p.orders[0] = ORDER_ACTION_MOVE;
+  p.dir[0] = dir;
+  p.activity[0] = ACTIVITY_LAST;
+  p.target[0] = EXTRA_NONE;
+
+  send_packet_unit_orders(&client.conn, &p);
 }
 
 /**************************************************************************
