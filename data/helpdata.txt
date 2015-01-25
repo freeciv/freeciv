@@ -626,7 +626,10 @@ limit is set by ruleset and circumstance). If you attempt to establish \
 more, the trade route with the smallest ongoing revenue is canceled if \
 it would be less than the new route. (Otherwise, the origin civilization \
 can still gain initial revenue by entering the marketplace and selling \
-trade goods, but it is reduced to a third.)\
+trade goods, but it is reduced to a third.) \
+The maximum number of trade routes is forced only when attempting to \
+establish a new ones. If you temporarily lose the ability to establish \
+as many trade routes as city already has, existing ones are not affected.\
 "), _("\
 Beware: in rulesets where plague is enabled, it can travel \
 along trade routes. See the section on Plague for more details.\
