@@ -269,11 +269,13 @@ server/maphand.c
 server/meta.c
 server/plrhand.c
 server/report.c
+server/rscompat.c
 server/ruleset.c
 server/sanitycheck.c
 server/savecompat.c
-server/savegame2.c
 server/savegame.c
+server/savegame2.c
+server/savegame3.c
 server/sernet.c
 server/settings.c
 server/settings.h
