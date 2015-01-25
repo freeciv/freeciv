@@ -156,7 +156,7 @@ void real_unit_log(const char *file, const char *function, int line,
   Measure the time between the calls.  Used to see where in the AI too
   much CPU is being used.
 **************************************************************************/
-void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
+void timing_log_real(enum ai_timer timer, enum ai_timer_activity activity)
 {
   static int turn = -1;
   int i;
@@ -191,7 +191,7 @@ void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
 /**************************************************************************
   Print results
 **************************************************************************/
-void TIMING_RESULTS(void)
+void timing_results_real(void)
 {
   char buf[200];
 
