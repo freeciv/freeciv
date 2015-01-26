@@ -2217,31 +2217,46 @@ void create_road(struct tile *ptile, struct road_type *proad)
 ****************************************************************************/
 void destroy_extra(struct tile *ptile, struct extra_type *pextra)
 {
+  bv_player base_seen;
+
+  /* Remember what play was able to see the base. */
+  BV_CLR_ALL(base_seen);
+  players_iterate(pplayer) {
+    if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+      BV_SET(base_seen, player_index(pplayer));
+    }
+  } players_iterate_end;
+
   if (is_extra_caused_by(pextra, EC_BASE)) {
     struct base_type *pbase = extra_base_get(pextra);
+    struct player *owner = extra_owner(ptile);
 
     if (territory_claiming_base(pbase)) {
-      /* Clearing borders will take care of the vision providing
-       * bases as well. */
       map_clear_border(ptile);
-    } else {
-      struct player *owner = extra_owner(ptile);
+    }
 
-      if (NULL != owner
-          && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
-        /* Base provides vision, but no borders. */
-        const v_radius_t old_radius_sq =
-          V_RADIUS(0 <= pbase->vision_main_sq ? pbase->vision_main_sq : -1,
-                   0 <= pbase->vision_invis_sq ? pbase->vision_invis_sq : -1);
-        const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
+    if (NULL != owner
+        && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
+      /* Base provides vision, but no borders. */
+      const v_radius_t old_radius_sq =
+        V_RADIUS(0 <= pbase->vision_main_sq ? pbase->vision_main_sq : -1,
+                 0 <= pbase->vision_invis_sq ? pbase->vision_invis_sq : -1);
+      const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
 
-        map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
-                          game.server.vision_reveal_tiles);
-      }
+      map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
+                        game.server.vision_reveal_tiles);
     }
   }
 
   tile_remove_extra(ptile, pextra);
+
+  /* Remove base from vision of players which were able to see the base. */
+  players_iterate(pplayer) {
+    if (BV_ISSET(base_seen, player_index(pplayer))
+        && update_player_tile_knowledge(pplayer, ptile)) {
+      send_tile_info(pplayer->connections, ptile, FALSE);
+    }
+  } players_iterate_end;
 }
 
 /****************************************************************************
