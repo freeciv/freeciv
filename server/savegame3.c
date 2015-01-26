@@ -6475,9 +6475,9 @@ static void sg_save_treaties(struct savedata *saving)
 
       fc_snprintf(cpath, sizeof(cpath), "%s.clause%d", tpath, cidx++);
 
-      secfile_insert_str(saving->file, clause_type_name(pclaus->type), "%s.type", tpath);
-      secfile_insert_str(saving->file, player_name(pclaus->from), "%s.from", tpath);
-      secfile_insert_int(saving->file, pclaus->value, "%s.value", tpath);
+      secfile_insert_str(saving->file, clause_type_name(pclaus->type), "%s.type", cpath);
+      secfile_insert_str(saving->file, player_name(pclaus->from), "%s.from", cpath);
+      secfile_insert_int(saving->file, pclaus->value, "%s.value", cpath);
     } clause_list_iterate_end;
   } treaty_list_iterate_end;
 }
