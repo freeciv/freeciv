@@ -2170,7 +2170,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
       /* Existing bases from old_owner -> pplayer */
       base_type_iterate(oldbase) {
         if (oldbase != pbase) {
-          map_claim_base(ptile, pbase, pplayer, old_owner);
+          map_claim_base(ptile, oldbase, pplayer, old_owner);
         }
       } base_type_iterate_end;
 
