@@ -56,6 +56,10 @@ static struct name_translation advance_unknown_name = NAME_INIT;
 #define SPECVEC_TYPE char *
 #include "specvec.h"
 
+#define string_vector_iterate(str_vec, str) \
+  TYPED_VECTOR_ITERATE(char *, str_vec, str)
+#define string_vector_iterate_end VECTOR_ITERATE_END
+
 static struct string_vector future;
 
 /****************************************************************************
@@ -95,6 +99,10 @@ void researches_init(void)
 ****************************************************************************/
 void researches_free(void)
 {
+  string_vector_iterate(&future, str) {
+    free(str);
+  } string_vector_iterate_end;
+
   string_vector_free(&future);
 }
 
