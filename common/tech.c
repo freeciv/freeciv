@@ -54,6 +54,10 @@ static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 #define SPECVEC_TYPE char *
 #include "specvec.h"
 
+#define string_vector_iterate(str_vec, str) \
+  TYPED_VECTOR_ITERATE(char *, str_vec, str)
+#define string_vector_iterate_end VECTOR_ITERATE_END
+
 static struct string_vector future;
 
 /**************************************************************************
@@ -1235,6 +1239,10 @@ void techs_free(void)
   advance_index_iterate(A_FIRST, i) {
     tech_free(i);
   } advance_index_iterate_end;
+
+  string_vector_iterate(&future, str) {
+    free(str);
+  } string_vector_iterate_end;
 
   string_vector_free(&future);
 }
