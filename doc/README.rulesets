@@ -56,7 +56,8 @@ are to be found.
 The ruleset files in the data directory are user-editable, so you can
 modify them to create modified or custom rulesets (without having to
 recompile Freeciv). It is suggested that you _don't_ edit the 
-existing files in the "default", "classic", "civ1" and "civ2"
+existing files in the "default", "experimental",
+"multiplayer", "civ1", or "civ2"
 directories, but rather copy them to another directory and edit the
 copies. This is so that its clear when you are using modified rules
 and not the standard ones.
