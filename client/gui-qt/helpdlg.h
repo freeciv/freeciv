@@ -24,13 +24,16 @@ extern "C" {
 }
 
 // Forward declarations
+struct canvas;
 struct help_item;
 
 class QFrame;
 class QLabel;
+class QSplitter;
 class QTextBrowser;
 class QTreeWidget;
 class QTreeWidgetItem;
+class QVBoxLayout;
 
 class help_widget;
 
@@ -56,19 +59,36 @@ private slots:
 class help_widget : public QWidget
 {
   Q_OBJECT
-  QTextBrowser *text_browser;
   QFrame *box_wdg;
   QLabel *title_label;
-  QWidget* main_widget;
   QList<QLabel *> label_list;
+  QList<QLabel *> title_list;
+
+  QWidget *main_widget;
+  QTextBrowser *text_browser;
+  QWidget *bottom_panel;
+  QWidget *info_panel;
+  QSplitter *splitter;
+  QVBoxLayout *info_layout;
+  QList<int> splitter_sizes;
 
   void setup_ui();
   void set_main_widget(QWidget *main_widget);
-  QWidget *create_progress_widget(const QString& label,
-                                  int progress,
-                                  int min, int max,
-                                  const QString& value = QString()
-                                 );
+
+  void do_layout();
+  void undo_layout();
+
+  void show_info_panel();
+  void add_info_canvas(struct canvas *canvas, bool shadow = false);
+  void add_info_label(const QString &text);
+  void add_info_progress(const QString& label, int progress,
+                         int min, int max,
+                         const QString& value = QString());
+  void add_info_separator();
+  void add_info_widget(QWidget *widget);
+  void info_panel_done();
+
+  void set_bottom_panel(QWidget *widget);
 
   void set_topic_other(const help_item *item, const char *title);
 
@@ -86,6 +106,7 @@ class help_widget : public QWidget
 public:
   help_widget(QWidget *parent = 0);
   help_widget(const help_item *item, QWidget *parent = 0);
+  ~help_widget();
   void update_fonts();
 
 public slots:
