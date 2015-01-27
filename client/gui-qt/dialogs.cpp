@@ -90,7 +90,12 @@ static void action_entry(choice_dialog *cd,
 static bool is_showing_pillage_dialog = false;
 static races_dialog* race_dialog;
 static bool is_race_dialog_open = false;
+
+/* Information used in action selection follow up questions. Can't be
+ * stored in the action selection dialog since it is closed before the
+ * follow up question is asked. */
 static bool is_more_user_input_needed = FALSE;
+static action_probability follow_up_act_probs[ACTION_COUNT];
 
 /**********************************************************************
   Initialize a mapping between an action and the function to call if
@@ -1361,6 +1366,11 @@ void popup_action_selection(struct unit *actor_unit,
   cd->set_layout();
   cd->show_me();
 
+  /* Give follow up questions access to action probabilities. */
+  action_iterate(act) {
+    follow_up_act_probs[act] = act_probs[act];
+  } action_iterate_end;
+
   astr_free(&title);
   astr_free(&text);
 }
@@ -1502,11 +1512,15 @@ static void spy_steal(QVariant data1, QVariant data2)
         cd->add_item(str, func, qv1, i);
       }
     } advance_index_iterate_end;
-    astr_set(&stra, _("At %s's Discretion"),
-             unit_name_translation(game_unit_by_number(diplomat_id)));
-    func = spy_steal_something;
-    str = astr_str(&stra);
-    cd->add_item(str, func, qv1, A_UNSET);
+
+    if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+      astr_set(&stra, _("At %s's Discretion"),
+               unit_name_translation(game_unit_by_number(diplomat_id)));
+      func = spy_steal_something;
+      str = astr_str(&stra);
+      cd->add_item(str, func, qv1, A_UNSET);
+    }
+
     cd->set_layout();
     cd->show_me();
   }
@@ -1523,8 +1537,15 @@ static void spy_steal_something(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
-    request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
-                      diplomat_target_id, data2.toInt());
+    if (data2.toInt() == A_UNSET) {
+      /* This is the untargeted version. */
+      request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
+                        diplomat_target_id, data2.toInt());
+    } else {
+      /* This is the targeted version. */
+      request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
+                        diplomat_target_id, data2.toInt());
+    }
   }
 }
 

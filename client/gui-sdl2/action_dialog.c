@@ -68,6 +68,7 @@ void popdown_bribe_dialog(void);
 
 
 static struct diplomat_dialog *pDiplomat_Dlg = NULL;
+static action_probability follow_up_act_probs[ACTION_COUNT];
 
 /* ====================================================================== */
 /* ============================ CARAVAN DIALOG ========================== */
@@ -325,10 +326,19 @@ static int spy_steal_callback(struct widget *pWidget)
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
-      request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
-                        pDiplomat_Dlg->actor_unit_id,
-                        pDiplomat_Dlg->target_ids[ATK_CITY],
-                        steal_advance);
+      if (steal_advance == A_UNSET) {
+        /* This is the untargeted version. */
+        request_do_action(ACTION_SPY_STEAL_TECH,
+                          pDiplomat_Dlg->actor_unit_id,
+                          pDiplomat_Dlg->target_ids[ATK_CITY],
+                          steal_advance);
+      } else {
+        /* This is the targeted version. */
+        request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
+                          pDiplomat_Dlg->actor_unit_id,
+                          pDiplomat_Dlg->target_ids[ATK_CITY],
+                          steal_advance);
+      }
     }
 
     popdown_diplomat_dialog();
@@ -385,7 +395,7 @@ static int spy_steal_popup(struct widget *pWidget)
      * send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
-    request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
+    request_do_action(ACTION_SPY_STEAL_TECH,
                       id, target_id, A_UNSET);
 
     choose_action_queue_next();
@@ -430,7 +440,11 @@ static int spy_steal_popup(struct widget *pWidget)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ------------------------- */
 
-  count++; /* count + at Spy's Discretion */
+  if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+     /* count + at Spy's Discretion */
+    count++;
+  }
+
   /* max col - 104 is steal tech widget width */
   max_col = (main_window_width() - (pWindow->size.w - pWindow->area.w) - adj_size(2)) / adj_size(104);
   /* max row - 204 is steal tech widget height */
@@ -486,25 +500,29 @@ static int spy_steal_popup(struct widget *pWidget)
   /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
    * side effect of displaying the unit's icon */
   i = advance_number(unit_type(game_unit_by_number(id))->require_advance);
-  {
-    struct astring str = ASTRING_INIT;
 
-    /* TRANS: %s is a unit name, e.g., Spy */
-    astr_set(&str, _("At %s's Discretion"),
-             unit_name_translation(game_unit_by_number(id)));
-    copy_chars_to_string16(pStr, astr_str(&str));
-    astr_free(&str);
+  if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+    {
+      struct astring str = ASTRING_INIT;
+
+      /* TRANS: %s is a unit name, e.g., Spy */
+      astr_set(&str, _("At %s's Discretion"),
+               unit_name_translation(game_unit_by_number(id)));
+      copy_chars_to_string16(pStr, astr_str(&str));
+      astr_free(&str);
+    }
+    pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
+
+    pBuf = create_icon2(pSurf, pWindow->dst,
+                        (WF_FREE_THEME | WF_RESTORE_BACKGROUND
+                         | WF_FREE_DATA));
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->action = spy_steal_callback;
+    pBuf->data.cont = pCont;
+
+    add_to_gui_list(MAX_ID - A_UNSET, pBuf);
+    count++;
   }
-  pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
-
-  pBuf = create_icon2(pSurf, pWindow->dst,
-    	(WF_FREE_THEME | WF_RESTORE_BACKGROUND| WF_FREE_DATA));
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->action = spy_steal_callback;
-  pBuf->data.cont = pCont;
-
-  add_to_gui_list(MAX_ID - A_UNSET, pBuf);
-  count++;
 
   /* --------------------------------------------------------- */
   FREESTRING16(pStr);
@@ -970,6 +988,11 @@ void popup_action_selection(struct unit *actor_unit,
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
   widget_flush(pWindow);
+
+  /* Give follow up questions access to action probabilities. */
+  action_iterate(act) {
+    follow_up_act_probs[act] = act_probs[act];
+  } action_iterate_end;
 }
 
 /**************************************************************************

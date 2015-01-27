@@ -311,6 +311,40 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
 }
 
 /**************************************************************************
+  Pick a tech for actor_player to steal from target_player.
+
+  TODO: Make a smarter choice than picking the first stealable tech found.
+**************************************************************************/
+static Tech_type_id
+choose_tech_to_steal(const struct player *actor_player,
+                     const struct player *target_player)
+{
+  const struct research *actor_research = research_get(actor_player);
+  const struct research *target_research = research_get(target_player);
+
+  if (actor_research != target_research) {
+    if (can_see_techs_of_target(actor_player, target_player)) {
+      advance_iterate(A_FIRST, padvance) {
+        Tech_type_id i = advance_number(padvance);
+
+        if (research_invention_state(target_research, i) == TECH_KNOWN
+            && research_invention_gettable(actor_research, i,
+                                           game.info.tech_steal_allow_holes)
+            && (research_invention_state(actor_research, i) == TECH_UNKNOWN
+                || (research_invention_state(actor_research, i)
+                    == TECH_PREREQS_KNOWN))) {
+
+          return i;
+        }
+      } advance_iterate_end;
+    }
+  }
+
+  /* Unable to find a target. */
+  return A_UNSET;
+}
+
+/**************************************************************************
   Check if something is on our receiving end for some nasty diplomat
   business! Note that punit may die or be moved during this function. We
   must be adjacent to target city.
@@ -353,11 +387,19 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   }
 
   if (count_tech > 0 
-      && (ctarget->server.steal == 0 || unit_has_type_flag(punit, UTYF_SPY))) {
+      && (ctarget->server.steal == 0
+          || unit_has_type_flag(punit, UTYF_SPY))) {
+    Tech_type_id tgt_tech;
+
+    /* Picking a random tech has better odds. */
     T(ACTION_SPY_STEAL_TECH, 0);
 
-    /* In case untargeted isn't there. TODO: choose target */
-    T(ACTION_SPY_TARGETED_STEAL_TECH, A_UNSET);
+    /* Not able to steal a random tech. This means worse odds. */
+    tgt_tech = choose_tech_to_steal(pplayer, tplayer);
+    if (tgt_tech != A_UNSET) {
+      /* A tech target can be identified. */
+      T(ACTION_SPY_TARGETED_STEAL_TECH, tgt_tech);
+    }
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "We have already stolen from %s!",
              city_name(ctarget));

@@ -62,6 +62,7 @@ static int action_button_map[BUTTON_COUNT];
 static int actor_unit_id;
 static int target_ids[ATK_COUNT];
 static bool is_more_user_input_needed = FALSE;
+static action_probability follow_up_act_probs[ACTION_COUNT];
 
 static GtkWidget  *spy_tech_shell;
 
@@ -393,9 +394,17 @@ static void spy_advances_response(GtkWidget *w, gint response,
   if (response == GTK_RESPONSE_ACCEPT && args->value > 0) {
     if (NULL != game_unit_by_number(args->actor_unit_id)
         && NULL != game_city_by_number(args->target_city_id)) {
-      request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
-                        args->actor_unit_id, args->target_city_id,
-                        args->value);
+      if (args->value == A_UNSET) {
+        /* This is the untargeted version. */
+        request_do_action(ACTION_SPY_STEAL_TECH,
+                          args->actor_unit_id, args->target_city_id,
+                          args->value);
+      } else {
+        /* This is the targeted version. */
+        request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
+                          args->actor_unit_id, args->target_city_id,
+                          args->value);
+      }
     }
   }
 
@@ -517,21 +526,23 @@ static void create_advances_list(struct player *pplayer,
       }
     } advance_index_iterate_end;
 
-    gtk_list_store_append(store, &it);
+    if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
+      gtk_list_store_append(store, &it);
 
-    g_value_init(&value, G_TYPE_STRING);
-    {
-      struct astring str = ASTRING_INIT;
-      /* TRANS: %s is a unit name, e.g., Spy */
-      astr_set(&str, _("At %s's Discretion"),
-               unit_name_translation(game_unit_by_number(
+      g_value_init(&value, G_TYPE_STRING);
+      {
+        struct astring str = ASTRING_INIT;
+        /* TRANS: %s is a unit name, e.g., Spy */
+        astr_set(&str, _("At %s's Discretion"),
+                 unit_name_translation(game_unit_by_number(
                                          args->actor_unit_id)));
-      g_value_set_string(&value, astr_str(&str));
-      astr_free(&str);
+        g_value_set_string(&value, astr_str(&str));
+        astr_free(&str);
+      }
+      gtk_list_store_set_value(store, &it, 0, &value);
+      g_value_unset(&value);
+      gtk_list_store_set(store, &it, 1, A_UNSET, -1);
     }
-    gtk_list_store_set_value(store, &it, 0, &value);
-    g_value_unset(&value);
-    gtk_list_store_set(store, &it, 1, A_UNSET, -1);
   }
 
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
@@ -1125,6 +1136,12 @@ void popup_action_selection(struct unit *actor_unit,
                    G_CALLBACK(act_sel_destroy_callback), NULL);
   g_signal_connect(shl, "delete_event",
                    G_CALLBACK(act_sel_close_callback), data);
+
+  /* Give follow up questions access to action probabilities. */
+  action_iterate(act) {
+    follow_up_act_probs[act] = act_probs[act];
+  } action_iterate_end;
+
   astr_free(&title);
   astr_free(&text);
 }

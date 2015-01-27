@@ -450,6 +450,15 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
+  if (wanted_action == ACTION_SPY_TARGETED_STEAL_TECH) {
+    /* Reason: The Freeciv code don't support selecting a target tech
+     * unless it is known that the victim player has it. */
+    /* Info leak: The actor player knowns who's techs he can see. */
+    if (!can_see_techs_of_target(actor_player, target_player)) {
+      return FALSE;
+    }
+  }
+
   if (wanted_action == ACTION_SPY_STEAL_GOLD) {
     /* If actor_unit can do the action the actor_player can see how much
      * gold target_player have. Not requireing it is therefore pointless.

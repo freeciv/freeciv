@@ -397,8 +397,17 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
-                      diplomat_target_id[ATK_CITY], steal_advance);
+    if (steal_advance == A_UNSET) {
+      /* This is the untargeted version. */
+      /* FIXME: Don't give the user the untargeted option unless it is
+       * allowed. */
+      request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
+                        diplomat_target_id[ATK_CITY], steal_advance);
+    } else {
+      /* This is the targeted version. */
+      request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
+                        diplomat_target_id[ATK_CITY], steal_advance);
+    }
   }
 
   choose_action_queue_next();
