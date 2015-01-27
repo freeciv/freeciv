@@ -48,6 +48,7 @@
 #include <QGroupBox>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QSplitter>
 #include <QStack>
 #include <QStringList>
@@ -55,7 +56,9 @@
 #include <QVBoxLayout>
 
 static help_dialog *help_dlg = NULL;
-
+canvas *terrain_canvas(struct terrain *terrain,
+                       const struct resource *resource,
+                       enum extra_cause cause);
 /**************************************************************************
   Popup the help dialog to get help on the given string topic.  Note
   that the topic may appear in multiple sections of the help (it may
@@ -702,18 +705,230 @@ void help_widget::set_topic_tech(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/****************************************************************************
+  Creates a terrain image on the given canvas.
+****************************************************************************/
+canvas *terrain_canvas(struct terrain *terrain,
+                       const struct resource *resource = NULL,
+                       enum extra_cause cause = EC_COUNT)
+{
+  struct canvas *canvas;
+  struct drawn_sprite sprs[80];
+  int canvas_y, count, i, width, height;
+  struct extra_type *pextra;
+  struct sprite *sprite;
+
+  width = tileset_full_tile_width(tileset);
+  height = tileset_full_tile_height(tileset);
+  canvas_y = height - tileset_tile_height(tileset);
+
+  canvas = qtg_canvas_create(width, height);
+  canvas->map_pixmap.fill(Qt::transparent);
+  for (i = 0; i < 3; ++i) {
+    count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
+                                                  i, terrain);
+    put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
+  }
+
+  pextra = NULL;
+  if (cause != EC_COUNT) {
+    extra_type_by_cause_iterate(cause, e) {
+      pextra = e;
+      break;
+    } extra_type_by_cause_iterate_end;
+
+    count = fill_basic_extra_sprite_array(tileset, sprs, pextra);
+    put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
+  }
+
+  if (resource != NULL) {
+    sprite = get_resource_sprite(tileset, resource);
+    canvas_put_sprite(canvas, 0, canvas_y, sprite, 0, 0, width, height);
+  }
+
+  return canvas;
+}
+
+/****************************************************************************
+  Creates a terrain widget with title, terrain image, legend. An optional
+  tooltip can be given to explain the legend.
+****************************************************************************/
+QLayout *help_widget::create_terrain_widget(const QString &title,
+                                            const struct canvas *image,
+                                            const QString &legend,
+                                            const QString &tooltip)
+{
+  QGraphicsDropShadowEffect *effect;
+  QLabel *label;
+  QGridLayout *layout = new QGridLayout();
+
+  label = new QLabel();
+  effect = new QGraphicsDropShadowEffect(label);
+  effect->setBlurRadius(3);
+  effect->setOffset(0, 2);
+  label->setGraphicsEffect(effect);
+  label->setPixmap(image->map_pixmap);
+  layout->addWidget(label, 0, 0, 2, 1);
+
+  label = new QLabel(title);
+  title_list << label;
+  layout->addWidget(label, 0, 1, Qt::AlignBottom);
+
+  label = new QLabel(legend);
+  label_list << label;
+  layout->addWidget(label, 1, 1, Qt::AlignTop);
+
+  if (!tooltip.isEmpty()) {
+    label->setToolTip(tooltip);
+    label->setCursor(Qt::WhatsThisCursor);
+  }
+
+  layout->setColumnStretch(0, 0);
+  layout->setColumnStretch(1, 100);
+
+  return layout;
+}
+
+/****************************************************************************
   Creates terrain help pages.
-**************************************************************************/
+****************************************************************************/
 void help_widget::set_topic_terrain(const help_item *topic,
                                       const char *title)
 {
   char buffer[MAX_HELP_TEXT_SIZE];
-  struct terrain *pterrain = terrain_by_translated_name(title);
+  struct terrain *pterrain, *max;
+  canvas *canvas;
+  QVBoxLayout *vbox;
+  bool show_panel = false;
+  QScrollArea *area;
+  QWidget *panel;
+
+  pterrain = terrain_by_translated_name(title);
   if (pterrain) {
     helptext_terrain(buffer, sizeof(buffer), client.conn.playing,
-                    topic->text, pterrain);
+                     topic->text, pterrain);
     text_browser->setText(buffer);
+
+    // Create information panel
+    show_info_panel();
+    max = terrain_max_values();
+
+    // Create terrain icon. Use shadow to help distinguish terrain.
+    canvas = terrain_canvas(pterrain);
+    add_info_canvas(canvas, true);
+    qtg_canvas_free(canvas);
+
+    add_info_progress(_("Food:"), pterrain->output[O_FOOD],
+                      0, max->output[O_FOOD]);
+    add_info_progress(_("Production:"), pterrain->output[O_SHIELD],
+                      0, max->output[O_SHIELD]);
+    add_info_progress(_("Trade:"), pterrain->output[O_TRADE],
+                      0, max->output[O_TRADE]);
+
+    add_info_separator();
+
+    add_info_progress(_("Move cost:"), pterrain->movement_cost,
+                      0, max->movement_cost);
+    add_info_progress(_("Defense bonus:"), MIN(100, pterrain->defense_bonus),
+                      0, 100,
+                      /// TRANS: Display a percentage, eg "50%".
+                      QString(_("%1%")).arg(pterrain->defense_bonus));
+
+    add_info_separator();
+
+    if (pterrain->irrigation_result == pterrain) {
+      add_info_label(
+        /// TRANS: When irrigated, terrain gets a bonus of %1 food;
+        ///        irrigating takes %2 turns
+        QString(_(ngettext(
+          "Irrigation: +%1 food in %2 turn",
+          "Irrigation: +%1 food in %2 turns",
+          pterrain->irrigation_time)))
+        .arg(pterrain->irrigation_food_incr)
+        .arg(pterrain->irrigation_time));
+    } else if (pterrain->irrigation_result) {
+      add_info_label(
+        /// TRANS: When irrigated, terrain gets changed to other terrain %1
+        ///        in %2 turns
+        QString(_(ngettext(
+          "Irrigation: %1 in %2 turn",
+          "Irrigation: %1 in %2 turns",
+          pterrain->irrigation_time)))
+        .arg(terrain_name_translation(pterrain->irrigation_result))
+        .arg(pterrain->irrigation_time));
+    }
+
+    if (pterrain->mining_result == pterrain) {
+      add_info_label(
+        /// TRANS: When mined, terrain gets a bonus of %1 food; mining takes
+        ///        %2 turns
+        QString(_(ngettext(
+          "Mining: +%1 food in %2 turn",
+          "Mining: +%1 food in %2 turns",
+          pterrain->mining_time)))
+        .arg(pterrain->mining_shield_incr)
+        .arg(pterrain->mining_time));
+    } else if (pterrain->mining_result) {
+      add_info_label(
+        /// TRANS: When mined, terrain gets changed to other terrain %1
+        ///        in %2 turns
+        QString(_(ngettext(
+          "Mining: %1 in %2 turn",
+          "Mining: %1 in %2 turns",
+          pterrain->mining_time)))
+        .arg(terrain_name_translation(pterrain->mining_result))
+        .arg(pterrain->mining_time));
+    }
+
+    if (pterrain->transform_result &&
+        pterrain->transform_result != pterrain) {
+      add_info_label(
+        /// TRANS: When transformed, terrain gets changed to other terrain %1
+        ///        in %2 turns
+        QString(_(ngettext(
+          "Transform: %1 in %2 turn",
+          "Transform: %1 in %2 turns",
+          pterrain->transform_time)))
+        .arg(terrain_name_translation(pterrain->transform_result))
+        .arg(pterrain->transform_time));
+    }
+
+    info_panel_done();
+
+    // Create bottom widget
+    panel = new QWidget();
+    vbox = new QVBoxLayout(panel);
+
+    if (*(pterrain->resources)) {
+      struct resource **r;
+      for (r = pterrain->resources; *r; r++) {
+        canvas = terrain_canvas(pterrain, *r);
+        vbox->addLayout(create_terrain_widget(
+          resource_name_translation(*r),
+          canvas,
+          /// TRANS: %1 food, %2 shields, %3 trade
+          QString(_("Tile output becomes %1, %2, %3."))
+            .arg(pterrain->output[O_FOOD]   + (*r)->output[O_FOOD])
+            .arg(pterrain->output[O_SHIELD] + (*r)->output[O_SHIELD])
+            .arg(pterrain->output[O_TRADE]  + (*r)->output[O_TRADE]),
+          /// TRANS: Tooltip decorating strings like "1, 2, 3".
+          _("Output (Food, Shields, Trade) of a tile where the resource is "
+            "present.")));
+        qtg_canvas_free(canvas);
+        show_panel = true;
+      }
+    }
+
+    vbox->addStretch(100);
+    if (show_panel) {
+      area = new QScrollArea();
+      area->setWidget(panel);
+      set_bottom_panel(area);
+    } else {
+      panel->deleteLater();
+    }
+
+    delete max;
   } else {
     set_topic_other(topic, title);
   }
@@ -784,6 +999,79 @@ void help_widget::set_topic_nation(const help_item *topic,
   } else {
     set_topic_other(topic, title);
   }
+}
+
+/****************************************************************************
+  Retrieves the maximum values any terrain will ever have.
+  Supported fields:
+    base_time, clean_fallout_time, clean_pollution_time, defense_bonus,
+    irrigation_food_incr, irrigation_time, mining_shield_incr, mining_time,
+    movement_cost, output, pillage_time, road_output_incr_pct, road_time,
+    transform_time
+  Other fields in returned value are undefined. Especially, all pointers are
+  invalid.
+****************************************************************************/
+struct terrain *help_widget::terrain_max_values()
+{
+  Terrain_type_id i, count;
+  struct terrain *terrain;
+  struct terrain *max = new struct terrain;
+  max->base_time = 0;
+  max->clean_fallout_time = 0;
+  max->clean_pollution_time = 0;
+  max->defense_bonus = 0;
+  max->irrigation_food_incr = 0;
+  max->irrigation_time = 0;
+  max->mining_shield_incr = 0;
+  max->mining_time = 0;
+  max->movement_cost = 0;
+  max->output[O_FOOD] = 0;
+  max->output[O_GOLD] = 0;
+  max->output[O_LUXURY] = 0;
+  max->output[O_SCIENCE] = 0;
+  max->output[O_SHIELD] = 0;
+  max->output[O_TRADE] = 0;
+  max->pillage_time = 0;
+  max->road_output_incr_pct[O_FOOD] = 0;
+  max->road_output_incr_pct[O_GOLD] = 0;
+  max->road_output_incr_pct[O_LUXURY] = 0;
+  max->road_output_incr_pct[O_SCIENCE] = 0;
+  max->road_output_incr_pct[O_SHIELD] = 0;
+  max->road_output_incr_pct[O_TRADE] = 0;
+  max->road_time = 0;
+  max->transform_time = 0;
+  count = terrain_count();
+  for (i = 0; i < count; ++i) {
+    terrain = terrain_by_number(i);
+#define SET_MAX(v) \
+    max->v = max->v > terrain->v ? max->v : terrain->v
+    SET_MAX(base_time);
+    SET_MAX(clean_fallout_time);
+    SET_MAX(clean_pollution_time);
+    SET_MAX(defense_bonus);
+    SET_MAX(irrigation_food_incr);
+    SET_MAX(irrigation_time);
+    SET_MAX(mining_shield_incr);
+    SET_MAX(mining_time);
+    SET_MAX(movement_cost);
+    SET_MAX(output[O_FOOD]);
+    SET_MAX(output[O_GOLD]);
+    SET_MAX(output[O_LUXURY]);
+    SET_MAX(output[O_SCIENCE]);
+    SET_MAX(output[O_SHIELD]);
+    SET_MAX(output[O_TRADE]);
+    SET_MAX(pillage_time);
+    SET_MAX(road_output_incr_pct[O_FOOD]);
+    SET_MAX(road_output_incr_pct[O_GOLD]);
+    SET_MAX(road_output_incr_pct[O_LUXURY]);
+    SET_MAX(road_output_incr_pct[O_SCIENCE]);
+    SET_MAX(road_output_incr_pct[O_SHIELD]);
+    SET_MAX(road_output_incr_pct[O_TRADE]);
+    SET_MAX(road_time);
+    SET_MAX(transform_time);
+#undef SET_MAX
+  }
+  return max;
 }
 
 /**************************************************************************
