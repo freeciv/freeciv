@@ -87,6 +87,11 @@ class help_widget : public QWidget
 
   void set_bottom_panel(QWidget *widget);
 
+  QLayout *create_terrain_widget(const QString& title,
+                                 const struct canvas* image,
+                                 const QString& legend,
+                                 const QString& tooltip = QString());
+
   void set_topic_other(const help_item *item, const char *title);
 
   void set_topic_any(const help_item *item, const char *title);
@@ -112,6 +117,7 @@ public slots:
   void set_topic(const help_item *item);
 
 public:
+  struct terrain *terrain_max_values();
   struct unit_type *uclass_max_values(struct unit_class *uclass);
 };
 
