@@ -277,6 +277,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
                 || state == HOVER_NONE);
   fc_assert_ret(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
   fc_assert_ret(state == HOVER_GOTO || order == ORDER_LAST);
+  exit_goto_state();
   hover_state = state;
   connect_activity = activity;
   if (tgt) {
@@ -285,7 +286,6 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
     connect_tgt = NULL;
   }
   goto_last_order = order;
-  exit_goto_state();
 }
 
 /****************************************************************************
