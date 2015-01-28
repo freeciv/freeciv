@@ -17,9 +17,18 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "map.h"
-#include "path_finding.h"
-#include "unitlist.h"
+struct pf_path;
+struct tile;
+struct unit;
+struct unit_list;
+
+enum goto_tile_state {
+  GTS_TURN_STEP,
+  GTS_MP_LEFT,
+  GTS_EXHAUSTED_MP,
+
+  GTS_COUNT
+};
 
 void init_client_goto(void);
 void free_client_goto(void);
@@ -31,6 +40,8 @@ void goto_unit_killed(struct unit *punit);
 
 bool goto_is_active(void);
 bool goto_get_turns(int *min, int *max);
+bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
+                     int *turns, bool *waypoint);
 bool goto_add_waypoint(void);
 bool goto_pop_waypoint(void);
 

@@ -52,7 +52,6 @@
 struct part {
   struct tile *start_tile, *end_tile;
   int end_moves_left, end_fuel_left;
-  int mp; /* scaled by SINGLE_MOVE */
   struct pf_path *path;
   struct pf_map *map;
 };
@@ -61,7 +60,7 @@ struct goto_map {
   struct unit *focus;
   struct part *parts;
   int num_parts;
-  int initial_mp;     /* scaled by SINGLE_MOVE */
+  int initial_turns;
   int connect_speed;  /* scaled by ACTIVITY_FACTOR */
   struct pf_parameter template;
 };
@@ -105,7 +104,7 @@ static struct goto_map *goto_map_new(void)
   goto_map->focus = NULL;
   goto_map->parts = NULL;
   goto_map->num_parts = 0;
-  goto_map->initial_mp = 0;
+  goto_map->initial_turns = 0;
   goto_map->connect_speed = 0;
 
   return goto_map;
@@ -183,7 +182,6 @@ static bool update_last_part(struct goto_map *goto_map,
 {
   struct pf_path *new_path;
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
-  struct tile *old_tile = p->start_tile;
   int i, start_index = 0;
 
   log_debug("update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
@@ -254,8 +252,6 @@ static bool update_last_part(struct goto_map *goto_map,
     }
     pf_path_destroy(p->path);
     p->path = NULL;
-
-    old_tile = p->end_tile;
   }
 
   /* Draw the new path */
@@ -274,17 +270,9 @@ static bool update_last_part(struct goto_map *goto_map,
   p->end_moves_left = pf_path_last_position(p->path)->moves_left;
   p->end_fuel_left = pf_path_last_position(p->path)->fuel_left;
 
-  p->mp = pf_path_last_position(p->path)->total_MC;
-  if (goto_map->num_parts == 1) {
-    p->mp += goto_map->initial_mp;
-  }
-  log_goto_path("To (%d,%d) part %d: total_MC: %d, mp: %d",
+  log_goto_path("To (%d,%d) part %d: total_MC: %d",
                 TILE_XY(ptile), goto_map->num_parts,
-                pf_path_last_position(p->path)->total_MC, p->mp);
-
-  /* Refresh tiles so turn information is shown. */
-  refresh_tile_mapcanvas(old_tile, FALSE, FALSE);
-  refresh_tile_mapcanvas(ptile, FALSE, FALSE);
+                pf_path_last_position(p->path)->total_MC);
   return TRUE;
 }
 
@@ -360,7 +348,6 @@ static void add_part(struct goto_map *goto_map)
    }
   p->path = NULL;
   p->end_tile = p->start_tile;
-  p->mp = 0;
   parameter.start_tile = p->start_tile;
   p->map = pf_map_new(&parameter);
 }
@@ -414,6 +401,8 @@ bool goto_add_waypoint(void)
   goto_map_list_iterate(goto_maps, goto_map) {
     add_part(goto_map);
   } goto_map_list_iterate_end;
+
+  refresh_tile_mapcanvas(goto_destination, FALSE, FALSE);
   return TRUE;
 }
 
@@ -819,7 +808,7 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
 ****************************************************************************/
 static void goto_fill_parameter_full(struct pf_parameter *parameter,
                                      struct unit *punit,
-                                     int *initial_mp, int *connect_speed)
+                                     int *initial_turns, int *connect_speed)
 {
   goto_fill_parameter_base(parameter, punit);
 
@@ -843,19 +832,15 @@ static void goto_fill_parameter_full(struct pf_parameter *parameter,
                                                unit_owner(punit));
       if (activity_initial > 0) {
         /* First action is activity */
-        parameter->moves_left_initially = 0;
+        parameter->moves_left_initially = parameter->move_rate;
         /* Number of turns, rounding up */
-        *initial_mp = ((activity_initial * ACTIVITY_FACTOR)
-                       + (*connect_speed - 1)) / *connect_speed;
+        *initial_turns = ((activity_initial * ACTIVITY_FACTOR)
+                          + (*connect_speed - 1)) / *connect_speed;
         if (punit->moves_left == 0) {
-          *initial_mp += 1;
+          (*initial_turns)++;
         }
-        *initial_mp *= parameter->move_rate;
-      } else {
-        /* First action is a move */
-        /* moves_left_initially = punit->moves_left (default) */
-        *initial_mp = parameter->move_rate - parameter->moves_left_initially;
       }
+      /* Else '*initial_turns = 0' is done in goto_map_new(). */
     }
     break;
   case HOVER_NUKE:
@@ -864,18 +849,15 @@ static void goto_fill_parameter_full(struct pf_parameter *parameter,
     /* ...then we don't need to deal with dangers or refuel points. */
     parameter->is_pos_dangerous = NULL;
     parameter->get_moves_left_req = NULL;
-    *initial_mp = -parameter->moves_left_initially;
     break;
   case HOVER_GOTO:
   case HOVER_PATROL:
-    *initial_mp = parameter->move_rate - parameter->moves_left_initially;
     break;
   case HOVER_NONE:
   case HOVER_PARADROP:
     fc_assert_msg(hover_state != HOVER_NONE, "Goto with HOVER_NONE?");
     fc_assert_msg(hover_state != HOVER_PARADROP,
                   "Goto with HOVER_PARADROP?");
-    *initial_mp = 0;
     break;
   };
 }
@@ -898,7 +880,7 @@ void enter_goto_state(struct unit_list *punits)
     goto_map_list_append(goto_maps, goto_map);
 
     goto_fill_parameter_full(&goto_map->template, punit,
-                             &goto_map->initial_mp,
+                             &goto_map->initial_turns,
                              &goto_map->connect_speed);
     add_part(goto_map);
   } unit_list_iterate_end;
@@ -958,12 +940,12 @@ bool goto_is_active(void)
 ***************************************************************************/
 bool goto_get_turns(int *min, int *max)
 {
-  if (min) {
-    *min = FC_INFINITY;
-  }
-  if (max) {
-    *max = -1;
-  }
+  fc_assert_ret_val(min != NULL, FALSE);
+  fc_assert_ret_val(max != NULL, FALSE);
+
+  *min = FC_INFINITY;
+  *max = -1;
+
   if (!goto_is_active()) {
     return FALSE;
   }
@@ -972,34 +954,208 @@ bool goto_get_turns(int *min, int *max)
     return FALSE;
   }
 
-  goto_map_list_iterate(goto_maps, goto_map) {
-    int i, mp = 0, turns;
+  if (hover_state == HOVER_CONNECT) {
+    /* In connect mode, we want to know the turn number the activity will
+     * be finished. */
+    int activity_time = get_activity_time(goto_destination, client_player());
 
-    for (i = 0; i < goto_map->num_parts; i++) {
-      mp += goto_map->parts[i].mp;
-    }
+    goto_map_list_iterate(goto_maps, goto_map) {
+      bool moved = FALSE;
+      int turns = goto_map->initial_turns;
+      int i;
 
-    if (goto_map->template.move_rate > 0) {
-      /* Round down -- if we can get there this turn with MP left, report 0,
-       * if we get there with 0 MP, report 1 */
-      turns = MAX(mp, 0) / goto_map->template.move_rate;
-    } else if (goto_map->template.moves_left_initially > 0) {
-      turns = (mp == 0);
-    } else {
-      /* Immobile unit: it is current position, or it would have returned
-       * when testing 'goto_destination'. */
-      turns = 0;
-    }
+      for (i = 0; i < goto_map->num_parts; i++) {
+        const struct pf_path *path = goto_map->parts[i].path;
 
-    if (min) {
-      *min = MIN(*min, turns);
-    }
-    if (max) {
-      *max = MAX(*max, turns);
-    }
-  } goto_map_list_iterate_end;
+        turns += pf_path_last_position(goto_map->parts[i].path)->turn;
+        if (!moved && path->length > 1) {
+          moved = TRUE;
+        }
+      }
+
+      if (moved && activity_time > 0) {
+        turns++;
+      }
+
+      if (turns < *min) {
+        *min = turns;
+      }
+      if (turns > *max) {
+        *max = turns;
+      }
+    } goto_map_list_iterate_end;
+  } else {
+    /* In other modes, we want to know the turn number to reach the tile. */
+    goto_map_list_iterate(goto_maps, goto_map) {
+      int turns = 0;
+      int i;
+
+      for (i = 0; i < goto_map->num_parts; i++) {
+        turns += pf_path_last_position(goto_map->parts[i].path)->turn;
+      }
+
+      if (turns < *min) {
+        *min = turns;
+      }
+      if (turns > *max) {
+        *max = turns;
+      }
+    } goto_map_list_iterate_end;
+  }
 
   return TRUE;
+}
+
+/****************************************************************************
+  Returns the state of 'ptile': turn number to print, and whether 'ptile'
+  is a waypoint.
+****************************************************************************/
+bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
+                     int *turns, bool *waypoint)
+{
+  fc_assert_ret_val(ptile != NULL, FALSE);
+  fc_assert_ret_val(turns != NULL, FALSE);
+  fc_assert_ret_val(waypoint != NULL, FALSE);
+
+  if (!goto_is_active()) {
+    return FALSE;
+  }
+
+  *state = -1;
+  *turns = -1;
+  *waypoint = FALSE;
+
+  if (hover_state == HOVER_CONNECT) {
+    /* In connect mode, we want to know the turn number the activity will
+     * be finished. */
+    int activity_time;
+
+    if (tile_get_known(ptile, client_player()) == TILE_UNKNOWN) {
+      return FALSE; /* We never connect on unknown tiles. */
+    }
+
+    activity_time = get_activity_time(ptile, client_player());
+
+    goto_map_list_iterate(goto_maps, goto_map) {
+      const struct pf_path *path;
+      const struct pf_position *pos = NULL; /* Keep compiler happy! */
+      int map_turns = goto_map->initial_turns;
+      int turns_for_map = -2;
+      bool moved = FALSE;
+      int i, j;
+
+      for (i = 0; i < goto_map->num_parts; i++) {
+        if (i > 0 && goto_map->parts[i].start_tile == ptile) {
+          *waypoint = TRUE;
+        }
+
+        path = goto_map->parts[i].path;
+        if (path == NULL) {
+          continue;
+        }
+
+        for (j = 0; j < path->length; j++) {
+          pos = path->positions + j;
+          if (!moved && j > 0) {
+            moved = TRUE;
+          }
+          if (pos->tile != ptile) {
+            continue;
+          }
+          if (activity_time > 0) {
+            if (map_turns + pos->turn + moved > turns_for_map) {
+              turns_for_map = map_turns + pos->turn + moved;
+            }
+          } else if (pos->moves_left == 0) {
+            if (map_turns + pos->turn > turns_for_map) {
+              turns_for_map = map_turns + pos->turn + moved;
+            }
+          }
+        }
+        map_turns += pos->turn;
+      }
+
+      if (ptile == goto_destination) {
+        fc_assert_ret_val(pos != NULL, FALSE);
+        if (moved && activity_time > 0) {
+          map_turns++;
+        }
+        if (map_turns > *turns) {
+          *state = (activity_time > 0 || pos->moves_left == 0
+                    ? GTS_EXHAUSTED_MP : GTS_MP_LEFT);
+          *turns = map_turns;
+        } else if (map_turns == *turns
+                   && *state == GTS_MP_LEFT
+                   && (activity_time > 0 || pos->moves_left == 0)) {
+          *state = GTS_EXHAUSTED_MP;
+        }
+      } else {
+        if (activity_time > 0) {
+          if (turns_for_map > *turns) {
+            *state = GTS_TURN_STEP;
+            *turns = turns_for_map;
+          }
+        } else {
+          if (turns_for_map + 1 > *turns) {
+            *state = GTS_TURN_STEP;
+            *turns = turns_for_map + 1;
+          }
+        }
+      }
+    } goto_map_list_iterate_end;
+  } else {
+    /* In other modes, we want to know the turn number to reach the tile. */
+    goto_map_list_iterate(goto_maps, goto_map) {
+      const struct pf_path *path;
+      const struct pf_position *pos = NULL; /* Keep compiler happy! */
+      int map_turns = 0;
+      int turns_for_map = -2;
+      int i, j;
+
+      for (i = 0; i < goto_map->num_parts; i++) {
+        if (i > 0 && goto_map->parts[i].start_tile == ptile) {
+          *waypoint = TRUE;
+        }
+
+        path = goto_map->parts[i].path;
+        if (path == NULL) {
+          continue;
+        }
+
+        for (j = 0; j < path->length; j++) {
+          pos = path->positions + j;
+          if (pos->tile == ptile
+              /* End turn case. */
+              && (pos->moves_left == 0
+                  /* Waiting case. */
+                  || (j < path->length - 1 && (pos + 1)->tile == ptile))
+              && map_turns + pos->turn > turns_for_map) {
+            turns_for_map = map_turns + pos->turn;
+          }
+        }
+        map_turns += pos->turn;
+      }
+
+      if (ptile == goto_destination) {
+        fc_assert_ret_val(pos != NULL, FALSE);
+        if (map_turns > *turns) {
+          *state = (pos->moves_left == 0 ? GTS_EXHAUSTED_MP : GTS_MP_LEFT);
+          *turns = map_turns;
+        } else if (map_turns == *turns
+                   && *state == GTS_MP_LEFT
+                   && pos->moves_left == 0) {
+          *state = GTS_EXHAUSTED_MP;
+        }
+      } else {
+        if (turns_for_map + 1 > *turns) {
+          *state = GTS_TURN_STEP;
+          *turns = turns_for_map + 1;
+        }
+      }
+    } goto_map_list_iterate_end;
+  }
+
+  return (*turns != -1 || *waypoint);
 }
 
 /********************************************************************** 

@@ -29,6 +29,9 @@
 #include "movement.h"
 #include "unitlist.h"
 
+/* common/aicore */
+#include "path_finding.h"
+
 /* client/include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
