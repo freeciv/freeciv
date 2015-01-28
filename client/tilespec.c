@@ -307,10 +307,13 @@ struct named_sprites {
   struct citybar_sprites citybar;
   struct editor_sprites editor;
   struct {
-    struct sprite
-      *turns[NUM_TILES_DIGITS],
-      *turns_tens[NUM_TILES_DIGITS],
-      *turns_hundreds[NUM_TILES_DIGITS];
+    struct {
+      struct sprite *specific;
+      struct sprite *turns[NUM_TILES_DIGITS];
+      struct sprite *turns_tens[NUM_TILES_DIGITS];
+      struct sprite *turns_hundreds[NUM_TILES_DIGITS];
+    } s[GTS_COUNT];
+    struct sprite *waypoint;
   } path;
   struct {
     struct sprite *attention;
@@ -2560,21 +2563,35 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   SET_SPRITE(city.disorder, "city.disorder");
 
+#define SET_GOTO_TURN_SPRITE(state, state_name, factor, factor_name)        \
+  fc_snprintf(buffer, sizeof(buffer), "path." state_name "_%d" #factor, i); \
+  SET_SPRITE_OPT(path.s[state].turns ## factor_name [i], buffer);           \
+  if (t->sprites.path.s[state].turns ## factor_name [i] == NULL) {          \
+    t->sprites.path.s[state].turns ## factor_name [i] =                     \
+        t->sprites.path.s[GTS_MP_LEFT].turns ## factor_name [i];            \
+  }
   for(i=0; i<NUM_TILES_DIGITS; i++) {
     fc_snprintf(buffer, sizeof(buffer), "city.size_%d", i);
     SET_SPRITE(city.size[i], buffer);
     fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i);
-    SET_SPRITE_ALT(path.turns[i], buffer2, buffer);
+    SET_SPRITE_ALT(path.s[GTS_MP_LEFT].turns[i], buffer2, buffer);
+    SET_GOTO_TURN_SPRITE(GTS_TURN_STEP, "step",,);
+    SET_GOTO_TURN_SPRITE(GTS_EXHAUSTED_MP, "exhausted_mp",,);
 
     fc_snprintf(buffer, sizeof(buffer), "city.size_%d0", i);
     SET_SPRITE(city.size_tens[i], buffer);
     fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d0", i);
-    SET_SPRITE_ALT(path.turns_tens[i], buffer2, buffer);
+    SET_SPRITE_ALT(path.s[GTS_MP_LEFT].turns_tens[i], buffer2, buffer);
+    SET_GOTO_TURN_SPRITE(GTS_TURN_STEP, "step", 0, _tens);
+    SET_GOTO_TURN_SPRITE(GTS_EXHAUSTED_MP, "exhausted_mp", 0, _tens);
 
     fc_snprintf(buffer, sizeof(buffer), "city.size_%d00", i);
     SET_SPRITE_OPT(city.size_hundreds[i], buffer);
     fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d00", i);
-    SET_SPRITE_ALT_OPT(path.turns_hundreds[i], buffer2, buffer);
+    SET_SPRITE_ALT_OPT(path.s[GTS_MP_LEFT].turns_hundreds[i], buffer2,
+                       buffer);
+    SET_GOTO_TURN_SPRITE(GTS_TURN_STEP, "step", 00, _hundreds);
+    SET_GOTO_TURN_SPRITE(GTS_EXHAUSTED_MP, "exhausted_mp", 00, _hundreds);
 
     fc_snprintf(buffer, sizeof(buffer), "city.t_food_%d", i);
     SET_SPRITE(city.tile_foodnum[i], buffer);
@@ -2583,6 +2600,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     fc_snprintf(buffer, sizeof(buffer), "city.t_trade_%d", i);
     SET_SPRITE(city.tile_tradenum[i], buffer);
   }
+#undef SET_GOTO_TURN_SPRITE
 
   /* Must have at least one upkeep sprite per output type (and unhappy) */
   /* The rest are optional; we copy the previous sprite for unspecified ones */
@@ -2615,6 +2633,25 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   } output_type_iterate_end;
   
   SET_SPRITE(user.attention, "user.attention");
+  SET_SPRITE_OPT(path.s[GTS_MP_LEFT].specific, "path.normal");
+  if (t->sprites.path.s[GTS_TURN_STEP].turns[0]
+      == t->sprites.path.s[GTS_MP_LEFT].turns[0]) {
+    /* No specific sprites for step turn numbers. */
+    SET_SPRITE_ALT(path.s[GTS_TURN_STEP].specific, "path.step",
+                   "user.attention");
+  } else {
+    SET_SPRITE_OPT(path.s[GTS_TURN_STEP].specific, "path.step");
+  }
+  if (t->sprites.path.s[GTS_EXHAUSTED_MP].turns[0]
+      == t->sprites.path.s[GTS_MP_LEFT].turns[0]) {
+    /* No specific sprites for exhausted move points turn numbers. */
+    SET_SPRITE_ALT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp",
+                   "unit.tired");
+  } else {
+    SET_SPRITE_OPT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp");
+  }
+  SET_SPRITE_ALT(path.waypoint, "path.waypoint", "editor.startpos");
+
 
   SET_SPRITE(tx.fog,        "tx.fog");
 
@@ -4722,34 +4759,45 @@ static int fill_goto_sprite_array(const struct tileset *t,
 				  const struct tile_corner *pcorner)
 {
   struct drawn_sprite *saved_sprs = sprs;
+  struct sprite *sprite;
+  bool warn = FALSE;
+  enum goto_tile_state state;
+  int length;
+  bool waypoint;
 
-  if (is_valid_goto_destination(ptile)) {
-    bool warn= FALSE;
-    int length;
+  if (goto_tile_state(ptile, &state, &length, &waypoint)) {
+    if (length >= 0) {
+      fc_assert(state >= 0);
+      fc_assert(state < ARRAY_SIZE(t->sprites.path.s));
 
-    goto_get_turns(NULL, &length);
+      sprite = t->sprites.path.s[state].specific;
+      if (sprite != NULL) {
+        ADD_SPRITE_SIMPLE(sprite);
+      }
 
-    if (0 > length) {
-      ADD_SPRITE_SIMPLE(t->sprites.path.turns[0]);
-      warn = TRUE;
-    } else {
-      ADD_SPRITE_SIMPLE(t->sprites.path.turns[length % 10]);
-      if (10 <= length) {
-        ADD_SPRITE_SIMPLE(t->sprites.path.turns_tens[(length / 10) % 10]);
-        if (100 <= length) {
-          struct sprite *sprite =
-              t->sprites.path.turns_hundreds[(length / 100) % 10];
+      sprite = t->sprites.path.s[state].turns[length % 10];
+      ADD_SPRITE_SIMPLE(sprite);
+      if (length >= 10) {
+        sprite = t->sprites.path.s[state].turns_tens[(length / 10) % 10];
+        ADD_SPRITE_SIMPLE(sprite);
+        if (length >= 100) {
+          sprite = t->sprites.path.s[state].turns_hundreds[(length / 100)
+                                                           % 10];
 
-          if (NULL != sprite) {
+          if (sprite != NULL) {
             ADD_SPRITE_SIMPLE(sprite);
+            if (length >= 1000) {
+              warn = TRUE;
+            }
           } else {
-            warn = TRUE;
-          }
-          if (1000 <= length) {
             warn = TRUE;
           }
         }
       }
+    }
+
+    if (waypoint) {
+      ADD_SPRITE_SIMPLE(t->sprites.path.waypoint);
     }
 
     if (warn) {
