@@ -84,6 +84,7 @@ void load_intro_gfx(void)
   const char *motto = freeciv_motto();
   XFontSetExtents *exts;
   const char *rev_ver = fc_svn_revision();
+  const char *radar_name;
 
   /* metrics */
 
@@ -116,7 +117,18 @@ void load_intro_gfx(void)
 
   /* Minimap graphic */
 
-  radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename(tileset));
+  radar_name = tileset_mini_intro_filename(tileset);
+
+  if (radar_name != NULL) {
+    radar_gfx_sprite = load_gfxfile(radar_name);
+  } else {
+    struct color *pcol = color_alloc(0, 0, 0);
+
+    radar_gfx_sprite = create_sprite(200, 75, pcol);
+
+    color_free(pcol);
+  }
+
   tot = radar_gfx_sprite->width;
 
   y = radar_gfx_sprite->height - (2 * lin +

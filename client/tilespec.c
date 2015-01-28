@@ -1713,9 +1713,13 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   t->main_intro_filename = tilespec_gfx_filename(c);
   log_debug("intro file %s", t->main_intro_filename);
 
-  c = secfile_lookup_str(file, "tilespec.minimap_intro_file");
-  t->minimap_intro_filename = tilespec_gfx_filename(c);
-  log_debug("radar file %s", t->minimap_intro_filename);
+  c = secfile_lookup_str_default(file, NULL, "tilespec.minimap_intro_file");
+  if (c == NULL) {
+    t->minimap_intro_filename = NULL;
+  } else {
+    t->minimap_intro_filename = tilespec_gfx_filename(c);
+    log_debug("radar file %s", t->minimap_intro_filename);
+  }
 
   /* Terrain layer info. */
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
