@@ -2124,7 +2124,8 @@ static bool show_settings(struct connection *caller,
   cmd_reply_show(_("In the column '##' the status of the option is shown:"));
   cmd_reply_show(_(" - a '!' means the option is locked by the ruleset."));
   cmd_reply_show(_(" - a '+' means you may change the option."));
-  cmd_reply_show(_(" - a '=' means the option is on its default value."));
+  cmd_reply_show(_(" - a '~' means that option follows default value."));
+  cmd_reply_show(_(" - a '=' means the value is same as default."));
   cmd_reply_show(horiz_line);
   cmd_reply(called_as, caller, C_COMMENT, _("%-*s ## value (min, max)"),
             OPTION_NAME_SPACE, _("Option"));
@@ -2194,10 +2195,11 @@ static bool show_settings(struct connection *caller,
 
   [OPTION_NAME_SPACE length for name] ## [value] ([min], [max])
 
-  where '##' is a combination of ' ', '!' or '+' followed by ' ' or '=' with
+  where '##' is a combination of ' ', '!' or '+' followed by ' ', '*', or '=' with
    - '!': the option is locked by the ruleset
    - '+': you may change the option
-   - '=': the option is on its default value
+   - '~': the option follows default value
+   - '=': the value is same as default
 *****************************************************************************/
 static void show_settings_one(struct connection *caller, enum command_id cmd,
                               struct setting *pset)
@@ -2205,6 +2207,7 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
   char buf[MAX_LEN_CONSOLE_LINE] = "", value[MAX_LEN_CONSOLE_LINE] = "";
   bool is_changed;
   static char prefix[OPTION_NAME_SPACE + 4 + 1] = "";
+  char defaultness;
 
   fc_assert_ret(pset != NULL);
 
@@ -2243,9 +2246,17 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
                  setting_int_min(pset), setting_int_max(pset));
   }
 
+  if (!setting_is_changed(pset)) {
+    defaultness = '~';
+  } else if (is_changed) {
+    defaultness = ' ';
+  } else {
+    defaultness = '=';
+  }
+
   cmd_reply_prefix(cmd, caller, C_COMMENT, prefix, "%-*s %c%c %s",
                    OPTION_NAME_SPACE, setting_name(pset),
-                   setting_status(caller, pset), is_changed ? ' ' : '=',
+                   setting_status(caller, pset), defaultness,
                    value);
 }
 
