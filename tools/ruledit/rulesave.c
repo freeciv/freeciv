@@ -32,6 +32,7 @@
 
 /* server */
 #include "ruleset.h"
+#include "settings.h"
 
 #include "rulesave.h"
 
@@ -625,6 +626,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                                 * safety margin here. */
   enum trade_route_type trt;
   int i;
+  bool locks;
 
   if (sfile == NULL) {
     return FALSE;
@@ -984,7 +986,52 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
-  /* TODO: Settings */
+  locks = FALSE;
+  settings_iterate(SSET_ALL, pset) {
+    if (setting_locked(pset)) {
+      locks = TRUE;
+      break;
+    }
+  } settings_iterate_end;
+
+  set_count = 0;
+  settings_iterate(SSET_ALL, pset) {
+    /* TODO: Save also those that should get the same value at loading time
+     * even if it's current default, and default is different at loading time. */
+    if (setting_non_default(pset) || setting_locked(pset)) {
+      secfile_insert_str(sfile, setting_name(pset), "settings.name%d", set_count);
+      switch (setting_type(pset)) {
+      case SSET_BOOL:
+        secfile_insert_bool(sfile, setting_bool_get(pset),
+                            "settings.value%d", set_count);
+        break;
+      case SSET_INT:
+        secfile_insert_int(sfile, setting_int_get(pset),
+                           "settings.value%d", set_count);
+        break;
+      case SSET_STRING:
+        secfile_insert_str(sfile, setting_str_get(pset),
+                           "settings.value%d", set_count);
+        break;
+      case SSET_ENUM:
+        secfile_insert_enum_data(sfile, read_enum_value(pset), FALSE,
+                                 setting_enum_secfile_str, pset,
+                                 "settings.value%d", set_count);
+        break;
+      case SSET_BITWISE:
+        secfile_insert_enum_data(sfile, setting_bitwise_get(pset), FALSE,
+                                 setting_bitwise_secfile_str, pset,
+                                 "settings.value%d", set_count);
+        break;
+      }
+
+      if (locks) {
+        secfile_insert_bool(sfile, setting_locked(pset), "settings.lock%d", set_count);
+      }
+
+      set_count++;
+    }
+  } settings_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }

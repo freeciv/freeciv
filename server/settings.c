@@ -184,7 +184,6 @@ int settings_list_cmp(const struct setting *const *pset1,
   }
 
 static bool set_enum_value(struct setting *pset, int val);
-static int read_enum_value(const struct setting *pset);
 
 /****************************************************************************
   Enumerator name accessors.
@@ -2868,6 +2867,16 @@ bool setting_bool_set(struct setting *pset, const char *val,
 }
 
 /****************************************************************************
+  Get value of boolean setting
+****************************************************************************/
+bool setting_bool_get(struct setting *pset)
+{
+  fc_assert(setting_type(pset) == SSET_BOOL);
+
+  return *pset->boolean.pvalue;
+}
+
+/****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
   the reason of the failure is available in the optionnal parameter
   'reject_msg'.
@@ -2970,6 +2979,16 @@ bool setting_int_validate(const struct setting *pset, int val,
 }
 
 /****************************************************************************
+  Get value of integer setting
+****************************************************************************/
+int setting_int_get(struct setting *pset)
+{
+  fc_assert(setting_type(pset) == SSET_INT);
+
+  return *pset->integer.pvalue;
+}
+
+/****************************************************************************
   Compute the string representation of the value for this string setting.
 ****************************************************************************/
 static const char *setting_str_to_str(const struct setting *pset,
@@ -3031,10 +3050,20 @@ bool setting_str_validate(const struct setting *pset, const char *val,
 }
 
 /****************************************************************************
+  Get value of string setting
+****************************************************************************/
+char *setting_str_get(struct setting *pset)
+{
+  fc_assert(setting_type(pset) == SSET_STRING);
+
+  return pset->string.value;
+}             
+
+/****************************************************************************
   Convert the integer to the long support string representation of an
   enumerator. This function must match the secfile_enum_name_data_fn_t type.
 ****************************************************************************/
-static const char *setting_enum_secfile_str(secfile_data_t data, int val)
+const char *setting_enum_secfile_str(secfile_data_t data, int val)
 {
   const struct sset_val_name *name =
       ((const struct setting *) data)->enumerator.name(val);
@@ -3149,7 +3178,7 @@ static bool set_enum_value(struct setting *pset, int val)
 /****************************************************************************
   Helper function to read value from enumerator setting 
 ****************************************************************************/
-static int read_enum_value(const struct setting *pset)
+int read_enum_value(const struct setting *pset)
 {
   int val;
 
@@ -3219,7 +3248,7 @@ bool setting_enum_validate(const struct setting *pset, const char *val,
   Convert the integer to the long support string representation of an
   enumerator. This function must match the secfile_enum_name_data_fn_t type.
 ****************************************************************************/
-static const char *setting_bitwise_secfile_str(secfile_data_t data, int bit)
+const char *setting_bitwise_secfile_str(secfile_data_t data, int bit)
 {
   const struct sset_val_name *name =
       ((const struct setting *) data)->bitwise.name(bit);
@@ -3395,6 +3424,16 @@ bool setting_bitwise_validate(const struct setting *pset, const char *val,
 
   return setting_bitwise_validate_base(pset, val, &int_val, caller,
                                        reject_msg, reject_msg_len);
+}
+
+/****************************************************************************
+  Get value of bitwise setting
+****************************************************************************/
+int setting_bitwise_get(struct setting *pset)
+{
+  fc_assert(setting_type(pset) == SSET_BITWISE);
+
+  return *pset->bitwise.pvalue;
 }
 
 /****************************************************************************

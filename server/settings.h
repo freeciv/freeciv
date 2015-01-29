@@ -113,6 +113,10 @@ const char *setting_default_name(const struct setting *pset, bool pretty,
 
 void setting_set_to_default(struct setting *pset);
 
+int read_enum_value(const struct setting *pset);
+const char *setting_enum_secfile_str(secfile_data_t data, int val);
+const char *setting_bitwise_secfile_str(secfile_data_t data, int bit);
+
 /* Type SSET_BOOL setting functions. */
 bool setting_bool_set(struct setting *pset, const char *val,
                       struct connection *caller, char *reject_msg,
@@ -120,6 +124,7 @@ bool setting_bool_set(struct setting *pset, const char *val,
 bool setting_bool_validate(const struct setting *pset, const char *val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len);
+bool setting_bool_get(struct setting *pset);
 
 /* Type SSET_INT setting functions. */
 int setting_int_min(const struct setting *pset);
@@ -130,6 +135,7 @@ bool setting_int_set(struct setting *pset, int val,
 bool setting_int_validate(const struct setting *pset, int val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len);
+int setting_int_get(struct setting *pset);
 
 /* Type SSET_STRING setting functions. */
 bool setting_str_set(struct setting *pset, const char *val,
@@ -138,6 +144,7 @@ bool setting_str_set(struct setting *pset, const char *val,
 bool setting_str_validate(const struct setting *pset, const char *val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len);
+char *setting_str_get(struct setting *pset);
 
 /* Type SSET_ENUM setting functions. */
 const char *setting_enum_val(const struct setting *pset, int val,
@@ -158,6 +165,7 @@ bool setting_bitwise_set(struct setting *pset, const char *val,
 bool setting_bitwise_validate(const struct setting *pset, const char *val,
                               struct connection *caller, char *reject_msg,
                               size_t reject_msg_len);
+int setting_bitwise_get(struct setting *pset);
 
 void setting_action(const struct setting *pset);
 
