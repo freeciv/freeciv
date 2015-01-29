@@ -74,6 +74,8 @@ typedef int Tech_type_id;
 #define SPECENUM_NAME tech_flag_id
 /* player gets extra tech if rearched first */
 #define SPECENUM_VALUE0 TF_BONUS_TECH
+/* TRANS: this and following strings are 'tech flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("Bonus_Tech")
 /* "Settler" unit types can build bridges over rivers */
 #define SPECENUM_VALUE1 TF_BRIDGE

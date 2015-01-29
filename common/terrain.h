@@ -112,6 +112,8 @@ struct resource {
 #define SPECENUM_NAME terrain_flag_id
 /* No barbarians summoned on this terrain. */
 #define SPECENUM_VALUE0 TER_NO_BARBS
+/* TRANS: this and following strings are 'terrain flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("NoBarbs")
 /* This terrain cannot be polluted. */
 #define SPECENUM_VALUE1 TER_NO_POLLUTION

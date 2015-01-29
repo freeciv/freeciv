@@ -123,6 +123,8 @@ struct unit_class {
  */
 #define SPECENUM_NAME unit_type_flag_id
 #define SPECENUM_VALUE0 UTYF_TRADE_ROUTE
+/* TRANS: this and following strings are 'unit type flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("TradeRoute")
 #define SPECENUM_VALUE1 UTYF_HELP_WONDER
 #define SPECENUM_VALUE1NAME N_("HelpWonder")
