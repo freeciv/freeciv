@@ -18,6 +18,7 @@
 #include "iterator.h"
 #include "log.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -52,15 +53,8 @@ static struct name_translation advance_unset_name = NAME_INIT;
 static struct name_translation advance_future_name = NAME_INIT;
 static struct name_translation advance_unknown_name = NAME_INIT;
 
-#define SPECVEC_TAG string
-#define SPECVEC_TYPE char *
-#include "specvec.h"
-
-#define string_vector_iterate(str_vec, str) \
-  TYPED_VECTOR_ITERATE(char *, str_vec, str)
-#define string_vector_iterate_end VECTOR_ITERATE_END
-
-static struct string_vector future;
+static struct strvec *future_rule_name;
+static struct strvec *future_name_translation;
 
 /****************************************************************************
   Initializes all player research structure.
@@ -91,7 +85,8 @@ void researches_init(void)
   /* TRANS: "Unknown" advance/technology */
   name_set(&advance_unknown_name, NULL, N_("(Unknown)"));
 
-  string_vector_init(&future);
+  future_rule_name = strvec_new();
+  future_name_translation = strvec_new();
 }
 
 /****************************************************************************
@@ -99,11 +94,8 @@ void researches_init(void)
 ****************************************************************************/
 void researches_free(void)
 {
-  string_vector_iterate(&future, str) {
-    free(str);
-  } string_vector_iterate_end;
-
-  string_vector_free(&future);
+  strvec_destroy(future_rule_name);
+  strvec_destroy(future_name_translation);
 }
 
 /****************************************************************************
@@ -214,6 +206,25 @@ research_advance_name(Tech_type_id tech)
 }
 
 /****************************************************************************
+  Set a new future tech name in the string vector, and return the string
+  duplicate stored inside the vector.
+****************************************************************************/
+static const char *research_future_set_name(struct strvec *psv, int no,
+                                            const char *new_name)
+{
+  if (strvec_size(psv) <= no) {
+    /* Increase the size of the vector if needed. */
+    strvec_reserve(psv, no + 1);
+  }
+
+  /* Set in vector. */
+  strvec_set(psv, no, new_name);
+
+  /* Return duplicate of 'new_name'. */
+  return strvec_get(psv, no);
+}
+
+/****************************************************************************
   Store the rule name of the given tech (including A_FUTURE) in 'buf'.
   'presearch' may be NULL.
   We don't return a static buffer because that would break anything that
@@ -224,21 +235,23 @@ const char *research_advance_rule_name(const struct research *presearch,
 {
   if (A_FUTURE == tech && NULL != presearch) {
     const int no = presearch->future_tech;
-    int i;
+    char buffer[256];
+    const char *name;
 
-    /* research->future_tech == 0 means "Future Tech. 1". */
-    for (i = future.size; i <= no; i++) {
-      string_vector_append(&future, NULL);
+    name = strvec_get(future_rule_name, no);
+    if (name != NULL) {
+      /* Already stored in string vector. */
+      return name;
     }
-    if (NULL == future.p[no]) {
-      char buffer[256];
 
-      fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                  rule_name(&advance_future_name),
-                  no + 1);
-      future.p[no] = fc_strdup(buffer);
-    }
-    return future.p[no];
+    /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
+    fc_snprintf(buffer, sizeof(buffer), "%s %d",
+                rule_name(&advance_future_name),
+                no + 1);
+    name = research_future_set_name(future_rule_name, no, buffer);
+    fc_assert(name != NULL);
+    fc_assert(name != buffer);
+    return name;
   }
 
   return rule_name(research_advance_name(tech));
@@ -256,21 +269,23 @@ research_advance_name_translation(const struct research *presearch,
 {
   if (A_FUTURE == tech && NULL != presearch) {
     const int no = presearch->future_tech;
-    int i;
+    char buffer[256];
+    const char *name;
 
-    /* research->future_tech == 0 means "Future Tech. 1". */
-    for (i = future.size; i <= no; i++) {
-      string_vector_append(&future, NULL);
+    name = strvec_get(future_name_translation, no);
+    if (name != NULL) {
+      /* Already stored in string vector. */
+      return name;
     }
-    if (NULL == future.p[no]) {
-      char buffer[256];
 
-      fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                  name_translation(&advance_future_name),
-                  no + 1);
-      future.p[no] = fc_strdup(buffer);
-    }
-    return future.p[no];
+    /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
+    fc_snprintf(buffer, sizeof(buffer), "%s %d",
+                name_translation(&advance_future_name),
+                no + 1);
+    name = research_future_set_name(future_name_translation, no, buffer);
+    fc_assert(name != NULL);
+    fc_assert(name != buffer);
+    return name;
   }
 
   return name_translation(research_advance_name(tech));
