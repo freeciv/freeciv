@@ -48,15 +48,8 @@ struct advance advances[A_LAST];
  * the sciencebox multiplier. */
 static double techcoststyle1[A_LAST];
 
-#define SPECVEC_TAG string
-#define SPECVEC_TYPE char *
-#include "specvec.h"
-
-#define string_vector_iterate(str_vec, str) \
-  TYPED_VECTOR_ITERATE(char *, str_vec, str)
-#define string_vector_iterate_end VECTOR_ITERATE_END
-
-static struct string_vector future;
+static struct strvec *future_rule_name;
+static struct strvec *future_name_translation;
 
 /**************************************************************************
   Return the last item of advances/technologies.
@@ -967,6 +960,25 @@ bool is_future_tech(Tech_type_id tech)
   return tech == A_FUTURE;
 }
 
+/****************************************************************************
+  Set a new future tech name in the string vector, and return the string
+  duplicate stored inside the vector.
+****************************************************************************/
+static const char *future_set_name(struct strvec *psv, int no,
+                                   const char *new_name)
+{
+  if (strvec_size(psv) <= no) {
+    /* Increase the size of the vector if needed. */
+    strvec_reserve(psv, no + 1);
+  }
+
+  /* Set in vector. */
+  strvec_set(psv, no, new_name);
+
+  /* Return duplicate of 'new_name'. */
+  return strvec_get(psv, no);
+}
+
 /**************************************************************************
   Return the rule name of the given tech (including A_FUTURE). 
   You don't have to free the return pointer.
@@ -982,22 +994,24 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
   switch (tech) {
   case A_FUTURE:
     if (pplayer) {
-      struct player_research *research = player_research_get(pplayer);
-      int i;
-  
-      /* pplayer->future_tech == 0 means "Future Tech. 1". */
-      for (i = future.size; i <= research->future_tech; i++) {
-        string_vector_append(&future, NULL);
-      }
-      if (!future.p[research->future_tech]) {
-        char buffer[1024];
+      const int no = player_research_get(pplayer)->future_tech;
+      char buffer[256];
+      const char *name;
 
-        fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                    advance_rule_name(&advances[tech]),
-                    research->future_tech + 1);
-        future.p[research->future_tech] = fc_strdup(buffer);
+      name = strvec_get(future_rule_name, no);
+      if (name != NULL) {
+        /* Already stored in string vector. */
+        return name;
       }
-      return future.p[research->future_tech];
+
+      /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
+      fc_snprintf(buffer, sizeof(buffer), "%s %d",
+                  advance_rule_name(&advances[tech]),
+                  no + 1);
+      name = future_set_name(future_rule_name, no, buffer);
+      fc_assert(name != NULL);
+      fc_assert(name != buffer);
+      return name;
     } else {
       return advance_rule_name(&advances[tech]);
     }
@@ -1025,21 +1039,22 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
   switch (tech) {
   case A_FUTURE:
     if (pplayer) {
-      struct player_research *research = player_research_get(pplayer);
-      int i;
-  
-      /* pplayer->future_tech == 0 means "Future Tech. 1". */
-      for (i = future.size; i <= research->future_tech; i++) {
-        string_vector_append(&future, NULL);
-      }
-      if (!future.p[research->future_tech]) {
-        char buffer[1024];
+      const int no = player_research_get(pplayer)->future_tech;
+      char buffer[256];
+      const char *name;
 
-        fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-                    research->future_tech + 1);
-        future.p[research->future_tech] = fc_strdup(buffer);
+      name = strvec_get(future_name_translation, no);
+      if (name != NULL) {
+        /* Already stored in string vector. */
+        return name;
       }
-      return future.p[research->future_tech];
+
+      /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
+      fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"), no + 1);
+      name = future_set_name(future_name_translation, no, buffer);
+      fc_assert(name != NULL);
+      fc_assert(name != buffer);
+      return name;
     } else {
       return advance_name_translation(&advances[tech]);
     }
@@ -1120,7 +1135,8 @@ void techs_init(void)
   /* TRANS: "Unknown" advance/technology */
   name_set(&advances[A_UNKNOWN].name, N_("(Unknown)"));
 
-  string_vector_init(&future);
+  future_rule_name = strvec_new();
+  future_name_translation = strvec_new();
 }
 
 /***************************************************************
@@ -1150,9 +1166,6 @@ void techs_free(void)
     tech_free(i);
   } advance_index_iterate_end;
 
-  string_vector_iterate(&future, str) {
-    free(str);
-  } string_vector_iterate_end;
-
-  string_vector_free(&future);
+  strvec_destroy(future_rule_name);
+  strvec_destroy(future_name_translation);
 }
