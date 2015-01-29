@@ -142,6 +142,7 @@ flags    = "Bridge"
 graphic     = "a.bridge_building"
 graphic_alt = "-"
 cost     = 70
+helptext = _("Allows roads to be built on river tiles.")
 
 [advance_bronze_working]
 name     = _("Bronze Working")
