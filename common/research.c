@@ -279,9 +279,7 @@ research_advance_name_translation(const struct research *presearch,
     }
 
     /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
-    fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                name_translation(&advance_future_name),
-                no + 1);
+    fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"), no + 1);
     name = research_future_set_name(future_name_translation, no, buffer);
     fc_assert(name != NULL);
     fc_assert(name != buffer);
