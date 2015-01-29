@@ -2863,9 +2863,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_POLLUTION:
       case ACTIVITY_MINE:
       case ACTIVITY_IRRIGATE:
-      case ACTIVITY_FORTRESS:
       case ACTIVITY_TRANSFORM:
-      case ACTIVITY_AIRBASE:
 	/* Simple activities. */
 	break;
       case ACTIVITY_SENTRY:
