@@ -139,6 +139,8 @@ struct unit_class {
 #define SPECENUM_NAME unit_type_flag_id
 /* Cannot fortify even if class can */
 #define SPECENUM_VALUE0 UTYF_CANT_FORTIFY
+/* TRANS: this and following strings are 'unit type flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("Cant_Fortify")
 /* Unit has no ZOC */
 #define SPECENUM_VALUE1 UTYF_NOZOC

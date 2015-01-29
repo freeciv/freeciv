@@ -20,6 +20,8 @@ extern "C" {
 /* Used in the network protocol. */
 #define SPECENUM_NAME road_flag_id
 #define SPECENUM_VALUE0 RF_REQUIRES_BRIDGE
+/* TRANS: this and following strings are 'road flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("RequiresBridge")
 #define SPECENUM_VALUE1 RF_PREVENTS_OTHER_ROADS
 #define SPECENUM_VALUE1NAME N_("PreventsOtherRoads")
