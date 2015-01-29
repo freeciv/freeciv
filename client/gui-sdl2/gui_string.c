@@ -844,7 +844,7 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
   Wrap text to make it fit to given screen width.
 **************************************************************************/
 bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
-{  
+{
   int w;
   bool converted = FALSE;
 
@@ -855,13 +855,16 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
   if (w > width) {
     /* cut string length to w length by replacing space " " with new line "\n" */
     bool resize = FALSE;
-    int len = 0, adv;
+    int len = 0;
     char *ptr_rev, *ptr = pstr->text;
 
     converted = TRUE;
 
     do {
       if (!resize) {
+        char utf8char[9];
+        int i;
+        int fw, fh;
 
         if (*ptr == '\0') {
           resize = TRUE;
@@ -874,15 +877,20 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
           continue;
         }
 
+        utf8char[0] = ptr[0];
+        for (i = 1; i < 8 && (ptr[i] & (128 + 64)) == 128; i++) {
+          utf8char[i] = ptr[i];
+        }
+        utf8char[i] = '\0';
         if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
           TTF_SetFontStyle(pstr->font, (pstr->style & 0x0F));
         }
-        TTF_GlyphMetrics(pstr->font, *ptr, NULL, NULL, NULL, NULL, &adv);
+        TTF_SizeUTF8(pstr->font, utf8char, &fw, &fh);
         if (!((pstr->style & 0x0F) & TTF_STYLE_NORMAL)) {
           TTF_SetFontStyle(pstr->font, TTF_STYLE_NORMAL);
         }
 
-        len += adv;
+        len += fw;
 
         if (len > width) {
           ptr_rev = ptr;
@@ -904,7 +912,7 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
           }
         }
 
-        ptr++;
+        ptr += i;
       } else {
         if (pstr->ptsize > 8) {
           change_ptsize_utf8(pstr, pstr->ptsize - 1);
@@ -913,7 +921,7 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
           log_error("Can't convert string to const width");
           break;
         }
-     }
+      }
 
     } while (w > width);
   }
