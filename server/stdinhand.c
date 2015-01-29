@@ -6964,6 +6964,7 @@ static bool is_cmdlevel_arg1(int start)
 static const int server_option_cmd[] = {
   CMD_EXPLAIN,
   CMD_SET,
+  CMD_DEFAULT,
   -1
 };
 
