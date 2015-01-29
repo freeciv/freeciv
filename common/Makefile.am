@@ -40,6 +40,8 @@ libfreeciv_la_SOURCES = \
 		culture.h	\
 		dataio.c	\
 		dataio.h	\
+		dataio_json.c	\
+		dataio_json.h	\
 		diptreaty.c	\
 		diptreaty.h	\
 		disaster.c	\
@@ -82,6 +84,8 @@ libfreeciv_la_SOURCES = \
 		packets.h	\
 		packets_gen.c	\
 		packets_gen.h	\
+		packets_json.h	\
+		packets_json.c	\
 		player.c	\
 		player.h	\
 		requirements.c	\

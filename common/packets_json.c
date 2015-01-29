@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-#ifndef FREECIV_JSON_CONNECTION
+#ifdef FREECIV_JSON_CONNECTION
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +32,8 @@
 #include <winsock.h>
 #endif
 
+#include <jansson.h>
+
 /* utility */
 #include "capability.h"
 #include "fcintl.h"
@@ -46,7 +48,7 @@
 #include "events.h"
 #include "map.h"
 
-#include "packets.h"
+#include "packets_json.h"
 
 #ifdef USE_COMPRESSION
 #include <zlib.h>
@@ -392,7 +394,7 @@ void *get_packet_from_connection(struct connection *pc,
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
-  dio_get_type(&din, pc->packet_header.length, &len_read);
+  dio_get_uint16_old(&din, &len_read);
 
   /* The non-compressed case */
   whole_packet_len = len_read;
@@ -502,8 +504,28 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;
   }
 
-  dio_get_type(&din, pc->packet_header.type, &utype.itype);
-  utype.type = utype.itype;
+  /* Parse JSON packet. */
+  json_error_t error;
+
+  pc->json_packet = json_loadb((char*)pc->buffer->data + 4, whole_packet_len, 0, &error);
+
+  memmove(pc->buffer->data, pc->buffer->data, pc->buffer->ndata);
+  pc->buffer->ndata = 0;
+
+  if (!pc->json_packet) {
+    log_error("ERROR: Unable to parse packet: %s", pc->buffer->data);
+    return NULL;
+  }
+
+  json_t *pint = json_object_get(pc->json_packet, "type");
+
+  if (!pint) {
+    log_error("ERROR: Unable to get packet type.");
+    return NULL;
+  } 
+
+  json_int_t packet_type = json_integer_value(pint);
+  utype.type = packet_type;
 
   if (utype.type < 0
       || utype.type >= PACKET_LAST
@@ -515,8 +537,8 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;
   }
 
-  log_packet("got packet type=(%s)%d len=%d from %s",
-             packet_name(utype.type), utype.itype, whole_packet_len,
+  log_packet("got packet type=(%s) len=%d from %s",
+             packet_name(utype.type), whole_packet_len,
              is_server() ? pc->username : "server");
 
   *ptype = utype.type;
@@ -585,9 +607,9 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 {
   struct data_in din;
   int len;
-
+ 
   dio_input_init(&din, buffer->data, buffer->ndata);
-  dio_get_uint16(&din, &len);
+  dio_get_uint16_old(&din, &len);
   memmove(buffer->data, buffer->data + len, buffer->ndata - len);
   buffer->ndata -= len;
   log_debug("remove_packet_from_buffer: remove %d; remaining %d",
@@ -642,31 +664,6 @@ void post_receive_packet_server_join_reply(struct connection *pconn,
   if (packet->you_can_join) {
     packet_header_set(&pconn->packet_header);
   }
-}
-
-
-/**************************************************************************
-  Sanity check packet
-**************************************************************************/
-bool packet_check(struct data_in *din, struct connection *pc)
-{
-  size_t rem = dio_input_remaining(din);
-
-  if (rem > 0) {
-    int type, len;
-
-    dio_input_rewind(din);
-    dio_get_type(din, pc->packet_header.length, &len);
-    dio_get_type(din, pc->packet_header.type, &type);
-
-    log_packet("received long packet (type %d, len %d, rem %lu) from %s",
-               type,
-               len,
-               (unsigned long) rem,
-               conn_description (pc));
-    return FALSE;
-  }
-  return TRUE;
 }
 
 /**************************************************************************

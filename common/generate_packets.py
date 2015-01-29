@@ -392,7 +392,9 @@ class Field:
 
       for (i = 0; i < %(array_size1_u)s; i++) {
         for (j = 0; j < %(array_size2_u)s; j++) {
+#ifndef FREECIV_JSON_CONNECTION
           %(c)s
+#endif /* FREECIV_JSON_CONNECTION */
         }
       }
     } '''%self.get_dict(vars())
@@ -402,23 +404,27 @@ class Field:
       int i;
 
       for (i = 0; i < %(array_size_u)s; i++) {
+#ifndef FREECIV_JSON_CONNECTION
         %(c)s
+#endif /* FREECIV_JSON_CONNECTION */
       }
     } '''%self.get_dict(vars())
         else:
             return '''
     {
+#ifndef FREECIV_JSON_CONNECTION
       int i;
 
       fc_assert(%(array_size_u)s < 255);
 
       for (i = 0; i < %(array_size_u)s; i++) {
-        if(old->%(name)s[i] != real_packet->%(name)s[i]) {
+        if (old->%(name)s[i] != real_packet->%(name)s[i]) {
           dio_put_uint8(&dout, i);
           %(c)s
         }
       }
       dio_put_uint8(&dout, 255);
+#endif /* FREECIV_JSON_CONNECTION */
     } '''%self.get_dict(vars())
 
     # Returns a code fragement which will get the field if the
@@ -544,7 +550,7 @@ class Field:
                 extra=""
             if self.dataio_type=="memory":
                 return '''%(extra)s
-  if (!dio_get_%(dataio_type)s(&din, real_packet->%(name)s, %(array_size_u)s)){
+  if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", real_packet->%(name)s, %(array_size_u)s)){
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }'''%self.get_dict(vars())
             elif self.is_array==2 and self.dataio_type!="string":

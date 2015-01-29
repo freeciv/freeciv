@@ -128,7 +128,10 @@ static void connection_ping(struct connection *pconn);
 static void send_ping_times_to_all(void);
 
 static void get_lanserver_announcement(void);
+
+#ifndef FREECIV_JSON_CONNECTION
 static void send_lanserver_response(void);
+#endif
 
 static bool no_input = FALSE;
 
@@ -1404,11 +1407,13 @@ static void send_ping_times_to_all(void)
 ********************************************************************/
 static void get_lanserver_announcement(void)
 {
+  fd_set readfs, exceptfs;
+  struct timeval tv;
+#ifndef FREECIV_JSON_CONNECTION
   char msgbuf[128];
   struct data_in din;
   int type;
-  fd_set readfs, exceptfs;
-  struct timeval tv;
+#endif /* FREECIV_JSON_CONNECTION */
 
   if (srvarg.announce == ANNOUNCE_NONE) {
     return;
@@ -1431,6 +1436,8 @@ static void get_lanserver_announcement(void)
      * Generally we just want to run select again. */
   }
 
+    /* We would need a raw network connection for broadcast messages */
+#ifndef FREECIV_JSON_CONNECTION
   if (FD_ISSET(socklan, &readfs)) {
     if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
       dio_input_init(&din, msgbuf, 1);
@@ -1443,12 +1450,15 @@ static void get_lanserver_announcement(void)
       }
     }
   }
+#endif /* FREECIV_JSON_CONNECTION */
 }
 
 /********************************************************************
   This function broadcasts an UDP packet to clients with
   that requests information about the server state.
 ********************************************************************/
+  /* We would need a raw network connection for broadcast messages */
+#ifndef FREECIV_JSON_CONNECTION
 static void send_lanserver_response(void)
 {
 #ifndef HAVE_WINSOCK
@@ -1563,3 +1573,4 @@ static void send_lanserver_response(void)
 
   fc_closesocket(socksend);
 }
+#endif /* FREECIV_JSON_CONNECTION */

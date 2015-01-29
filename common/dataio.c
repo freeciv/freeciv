@@ -23,6 +23,8 @@
 #include <fc_config.h>
 #endif
 
+#ifndef FREECIV_JSON_CONNECTION
+
 #include <limits.h>
 #include <math.h>
 #include <stdint.h>
@@ -1028,3 +1030,5 @@ void dio_put_requirement(struct data_out *dout, const struct requirement *preq)
   dio_put_bool8(dout, survives);
   dio_put_bool8(dout, present);
 }
+
+#endif /* FREECIV_JSON_CONNECTION */

@@ -10,17 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__PACKETS_H
-#define FC__PACKETS_H
-
-#ifdef FREECIV_JSON_CONNECTION
-#include "packets_json.h"
-#else
+#ifndef FC__PACKETS_JSON_H
+#define FC__PACKETS_JSON_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
+#include <jansson.h>
+  
 struct connection;
 struct data_in;
 
@@ -123,42 +121,36 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
 
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \
+  char *json_buffer = NULL; \
   struct data_out dout; \
+  dout.json = json_object(); \
   \
   dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_type(&dout, pc->packet_header.length, 0); \
-  dio_put_type(&dout, pc->packet_header.type, packet_type);
+  dio_put_uint16_old(&dout, 0); \
+  dio_put_uint16_old(&dout, packet_type); \
+  dio_put_uint8(&dout, "pid", packet_type);
 
 #define SEND_PACKET_END(packet_type) \
   { \
+    json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
+    if (json_buffer) { \
+      dio_put_string_old(&dout, json_buffer); \
+    } \
     size_t size = dio_output_used(&dout); \
     \
     dio_output_rewind(&dout); \
-    dio_put_type(&dout, pc->packet_header.length, size); \
+    dio_put_uint16_old(&dout, size); \
+    free(json_buffer); \
+    json_decref(dout.json); \
     fc_assert(!dout.too_short); \
     return send_packet_data(pc, buffer, size, packet_type); \
   }
 
 #define RECEIVE_PACKET_START(packet_type, result) \
-  struct data_in din; \
-  struct packet_type packet_buf, *result = &packet_buf; \
-  \
-  dio_input_init(&din, pc->buffer->data, \
-                 data_type_size(pc->packet_header.length)); \
-  { \
-    int size; \
-  \
-    dio_get_type(&din, pc->packet_header.length, &size); \
-    dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
-  } \
-  dio_input_skip(&din, (data_type_size(pc->packet_header.length) \
-                        + data_type_size(pc->packet_header.type)));
+  struct packet_type packet_buf, *result = &packet_buf;
 
 #define RECEIVE_PACKET_END(result) \
-  if (!packet_check(&din, pc)) { \
-    return NULL; \
-  } \
-  remove_packet_from_buffer(pc->buffer); \
+  json_decref(pc->json_packet); \
   result = fc_malloc(sizeof(*result)); \
   *result = packet_buf; \
   return result;
@@ -169,7 +161,6 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
 
 int send_packet_data(struct connection *pc, unsigned char *data, int len,
                      enum packet_type packet_type);
-bool packet_check(struct data_in *din, struct connection *pc);
 
 /* Utilities to exchange strings and string vectors. */
 #define PACKET_STRVEC_SEPARATOR '\3'
@@ -191,5 +182,4 @@ bool packet_check(struct data_in *din, struct connection *pc);
 }
 #endif /* __cplusplus */
 
-#endif  /* FREECIV_JSON_CONNECTION */
-#endif  /* FC__PACKETS_H */
+#endif  /* FC__PACKETS_JSON_H */

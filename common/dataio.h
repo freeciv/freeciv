@@ -13,6 +13,10 @@
 #ifndef FC__DATAIO_H
 #define FC__DATAIO_H
 
+#ifdef FREECIV_JSON_CONNECTION
+#include "dataio_json.h"
+#else
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -158,4 +162,5 @@ void dio_put_uint16_vec8(struct data_out *dout, int *values, int stop_value);
 }
 #endif /* __cplusplus */
 
+#endif  /* FREECIV_JSON_CONNECTION */
 #endif  /* FC__DATAIO_H */
