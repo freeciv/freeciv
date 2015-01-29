@@ -4041,14 +4041,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                  advance_name_translation(vap));
   }
 
-  if (advance_has_flag(i, TF_BRIDGE)
-      && role_units_translations(&astr, UTYF_SETTLERS, FALSE)) {
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: %s is list of units separated by "and". */
-                 _("* Allows %s to build roads on river tiles.\n"),
-                 astr_str(&astr));
-  }
-
   for (flagid = TECH_USER_1 ; flagid <= TECH_USER_LAST; flagid++) {
     if (advance_has_flag(i, flagid)) {
       const char *helptxt = tech_flag_helptxt(flagid);
@@ -4422,15 +4414,6 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz,
               _("* Allows the owner to see normally invisible units in an "
                 "area around the tile.\n"));
-    }
-  }
-
-  if (proad != NULL) {
-    if (road_has_flag(proad, RF_REQUIRES_BRIDGE)) {
-      /* TODO: List actual technologies. */
-      CATLSTR(buf, bufsz,
-              _("* Cannot be built to river tiles unless some technology "
-                "allowing bridge building is knowns.\n"));
     }
   }
 
