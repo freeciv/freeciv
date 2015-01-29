@@ -2950,19 +2950,19 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
                 ftc_server,
                 /* TRANS: Disasters such as Earthquake */
                 _("%s was hit by %s."), city_name(pcity),
-                disaster_rule_name(pdis));
+                disaster_name_translation(pdis));
 
   if (disaster_has_effect(pdis, DE_POLLUTION)) {
     if (place_pollution(pcity, S_POLLUTION)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Tile polluted"));
+                    _("Pollution near %s."), city_link(pcity));
     }
   }
 
   if (disaster_has_effect(pdis, DE_FALLOUT)) {
     if (place_pollution(pcity, S_FALLOUT)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Fallout contaminated tile."));
+                    _("Fallout near %s."), city_link(pcity));
     }
   }
 
@@ -2973,7 +2973,9 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
       pcity = NULL;
     } else {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Some population lost."));
+                    /* TRANS: "Nuclear Accident ... Montreal." */
+                    _("%s causes population loss in %s."),
+                    disaster_name_translation(pdis), city_link(pcity));
     }
   }
 
@@ -2993,8 +2995,11 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
       building_lost(pcity, imprs[num]);
 
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("%s destroyed."),
-                    improvement_name_translation(imprs[num]));
+                    /* TRANS: second %s is the name of a city improvement */
+                    _("%s destroys %s in %s."),
+                    disaster_name_translation(pdis),
+                    improvement_name_translation(imprs[num]),
+                    city_link(pcity));
     }
   }
 
@@ -3003,16 +3008,22 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
       pcity->food_stock = 0;
 
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Foodbox emptied."));
+                    /* TRANS: %s is a city name */
+                    _("All stored food destroyed in %s."), city_link(pcity));
     }
   }
 
   if (pcity && disaster_has_effect(pdis, DE_EMPTY_PRODSTOCK)) {
     if (pcity->shield_stock > 0) {
+      char prod[256];
+
       pcity->shield_stock = 0;
 
+      universal_name_translation(&pcity->production, prod, sizeof(prod));
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
-                    _("Production box emptied."));
+                    /* TRANS: "Production of Colossus in Rhodes destroyed." */
+                    _("Production of %s in %s destroyed."),
+                    prod, city_link(pcity));
     }
   }
 

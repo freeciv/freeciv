@@ -1702,7 +1702,10 @@ static struct setting settings[] = {
   GEN_INT("disasters", game.info.disasters,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Frequency of disasters"),
-          N_("Sets frequency of disasters occurring to cities."),
+          N_("Affects how often random disasters happen to cities, "
+             "if any are defined by the ruleset. The relative frequency "
+             "of disaster types is set by the ruleset. Zero prevents "
+             "any random disasters from occurring."),
           NULL, NULL,
           GAME_MIN_DISASTERS, GAME_MAX_DISASTERS,
           GAME_DEFAULT_DISASTERS)
