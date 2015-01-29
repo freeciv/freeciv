@@ -40,6 +40,8 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_NAME base_flag_id
 /* Unit inside are not considered aggressive if base is close to city */
 #define SPECENUM_VALUE0 BF_NOT_AGGRESSIVE
+/* TRANS: this and following strings are 'base flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("NoAggressive")
 /* Units inside will not die all at once */
 #define SPECENUM_VALUE1 BF_NO_STACK_DEATH

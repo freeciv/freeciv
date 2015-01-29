@@ -86,6 +86,9 @@ struct resource {
 #define SPECENUM_NAME terrain_alteration
 /* Can build irrigation without changing terrain */
 #define SPECENUM_VALUE0 TA_CAN_IRRIGATE
+/* TRANS: this and following strings may rarely be presented to the player
+ * in ruleset help text, to denote the set of terrains which can be altered
+ * in a particular way */
 #define SPECENUM_VALUE0NAME N_("CanIrrigate")
 /* Can build mine without changing terrain */
 #define SPECENUM_VALUE1 TA_CAN_MINE
@@ -99,6 +102,8 @@ struct resource {
 #define SPECENUM_NAME terrain_flag_id
 /* No barbarians summoned on this terrain. */
 #define SPECENUM_VALUE0 TER_NO_BARBS
+/* TRANS: this and following strings are 'terrain flags', which may rarely
+ * be presented to the player in ruleset help text */
 #define SPECENUM_VALUE0NAME N_("NoBarbs")
 /* No cities on this terrain. */
 #define SPECENUM_VALUE1 TER_NO_CITIES
