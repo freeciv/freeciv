@@ -2307,7 +2307,7 @@ static struct setting settings[] = {
 
   GEN_INT("unitwaittime", game.server.unitwaittime,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
-          N_("Time between unit actions over turn change"),
+          N_("Minimum time between unit actions over turn change"),
           /* TRANS: The string between single quotes is a setting name and
            * should not be translated. */
           N_("This setting gives the minimum amount of time in seconds "
