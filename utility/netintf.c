@@ -295,6 +295,9 @@ void sockaddr_debug(union fc_sockaddr *addr)
 ***************************************************************************/
 int sockaddr_size(union fc_sockaddr *addr)
 {
+#ifdef WIN32_NATIVE
+  return sizeof(*addr);
+#else
 #ifdef IPV6_SUPPORT
   if (addr->saddr.sa_family == AF_INET6) {
     return sizeof(addr->saddr_in6);
@@ -305,10 +308,11 @@ int sockaddr_size(union fc_sockaddr *addr)
   } else {
     fc_assert(FALSE);
 
-    log_error("Unsupported address family in socaddr_size()");
+    log_error("Unsupported address family in sockaddr_size()");
 
     return 0;
   }
+#endif /* WIN32_NATIVE */
 }
 
 /***************************************************************************
