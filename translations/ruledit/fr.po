@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2014-10-09 21:32+0200\n"
+"PO-Revision-Date: 2015-01-03 11:02+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -42,8 +42,6 @@ msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:60
-#, fuzzy
-#| msgid "Freeciv ruleset editor"
 msgid "Freeciv Ruleset Editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
@@ -248,7 +246,7 @@ msgstr "Effet"
 
 #: tools/ruledit/validity.c:125
 msgid "Action Enabler"
-msgstr ""
+msgstr "Activateur d'action"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
