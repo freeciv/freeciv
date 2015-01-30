@@ -141,22 +141,24 @@ Hardened                 +75%     (=)
 Elite                    +100%    (=)
 
 BASE
+Fort     (vs Land\Sea)   +50%
 Fortress (vs Land\Sea)   +100%    (=)
+Airstrip (vs Air)        +50%
 Airbase  (vs Air)        +100%    +0%
 
 - Every City receives an inherent Defend_Bonus = +50% against Land units
-- Every City with Pop>=8 receives an additional free Defend_Bonus = +50% against Land units, and against Sea units.
+- Every City with Pop>8 receives an additional free Defend_Bonus = +50% against Land and Sea units.
 - Walls effect reduced from 200% to 100%, and cost reduced from 60 to 30.
 - Great Wall gives additional Defend_Bonus = +50% against Land units, and the effect Unit_No_Lose_Pop in every city.
 The total city defense is similar to classic ruleset, but here cities receive some wall bonus for free, and large cities receive an extra bonus, as in civ3:
 
-CITY VS LAND     NEW    (+WALL)  (+GREAT WALL)
-Town (Pop<8)     +50%    +150%(-) +200%(=)
-City (Pop>=8)    +100%   +200%(=) +250%(+)
+CITY             VS LAND  VS SEA   VS AIR
+Town (Pop<=8)    +50%     +0%      +0%
+City (Pop>8)     +100%    +50%     +0%
 
-CITY VS SEA      NEW    (+COASTAL DEFENSE)
-Town (Pop<8)     +0%     +100%(=)
-City (Pop>=8)    +50%    +150%(+)
+Walls            +100%    +0%      +0%
+Coastal Defense  +0%      +100%    +0%
+Sam Battery      +0%      +0%      +100%
 
 Total Defense (%) = (100+TERRAIN) * (100+RIVER) * (100+CITY+BASE) * (100+FORTIFIED) * (100+VETERAN), same as classic rules.
 
@@ -460,6 +462,7 @@ Changes:
 - Introduced Maglev, available with Superconductors, that allows unlimited movement for Land units (except Big Land and Merchant classes).
 - Wonders become obsolete by techs researched by the owner (not affected by the researches of other players).
 - A little boost to Federation (+1 Luxury per city, so it is easier to celebrate), and Fundamentalism (-50% to science, instead of total science output halved).
+- The bonus to defense moved to cities with pop>8 (instead of pop>=8), so Aqueduct is a prerequisite.
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations can be finished in 1 or 2 steps, and all effects from Global warming can be reversibly with terraforming.
