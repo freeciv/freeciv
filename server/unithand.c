@@ -2882,8 +2882,26 @@ void handle_unit_orders(struct player *pplayer,
           return;
         }
         break;
-      default:
-	return;
+      /* Not supported yet. */
+      case ACTIVITY_PILLAGE:
+      case ACTIVITY_FALLOUT:
+      case ACTIVITY_FORTIFYING:
+      case ACTIVITY_CONVERT:
+      case ACTIVITY_EXPLORE:
+      case ACTIVITY_GOTO:
+      case ACTIVITY_IDLE:
+      /* Allowing this to be set from the client would be cheating. */
+      case ACTIVITY_FORTIFIED:
+      /* Compatiblity, used in savegames. */
+      case ACTIVITY_OLD_ROAD:
+      case ACTIVITY_OLD_RAILROAD:
+      case ACTIVITY_FORTRESS:
+      case ACTIVITY_AIRBASE:
+      /* Unused. */
+      case ACTIVITY_PATROL_UNUSED:
+      case ACTIVITY_LAST:
+      case ACTIVITY_UNKNOWN:
+        return;
       }
       break;
     case ORDER_FULL_MP:
