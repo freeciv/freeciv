@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-30 05:02+0100\n"
-"PO-Revision-Date: 2015-01-30 04:56+0100\n"
+"PO-Revision-Date: 2015-01-30 20:14+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -2055,7 +2055,7 @@ msgstr "La prochaine fois ouvrir"
 
 #: client/gui-gtk-2.0/citydlg.c:1220 client/gui-gtk-3.0/citydlg.c:1275
 msgid "R_ename..."
-msgstr "Renommer..."
+msgstr "_Renommer..."
 
 #: client/gui-gtk-2.0/citydlg.c:1375 client/gui-gtk-3.0/citydlg.c:1434
 msgid "_List present units..."
@@ -2293,7 +2293,7 @@ msgstr "Ajouter une liste de travail"
 
 #: client/gui-gtk-2.0/cityrep.c:1081 client/gui-gtk-3.0/cityrep.c:1091
 msgid "Clear _Worklist"
-msgstr "Effacer les listes de travail"
+msgstr "Effacer les _listes de travail"
 
 #: client/gui-gtk-2.0/cityrep.c:1086 client/gui-gtk-3.0/cityrep.c:1096
 msgid "Gover_nor"
@@ -2440,11 +2440,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:265 client/gui-gtk-3.0/cma_fe.c:275
 msgid "Prese_ts:"
-msgstr "Préréglages :"
+msgstr "_Préréglages :"
 
 #: client/gui-gtk-2.0/cma_fe.c:281 client/gui-gtk-3.0/cma_fe.c:291
 msgid "Ne_w"
-msgstr "Nouveau"
+msgstr "_Nouveau"
 
 # AR
 #: client/gui-gtk-2.0/cma_fe.c:301 client/gui-gtk-3.0/cma_fe.c:314
@@ -2528,7 +2528,7 @@ msgstr "Choisissez ce que vous voulez piller :"
 
 #: client/gui-gtk-2.0/dialogs.c:515 client/gui-gtk-3.0/dialogs.c:521
 msgid "Nation _Groups:"
-msgstr "Groupes de nations :"
+msgstr "_Groupes de nations :"
 
 #: client/gui-gtk-2.0/dialogs.c:533 client/gui-gtk-3.0/dialogs.c:539
 #: server/settings.h:61
@@ -2551,7 +2551,7 @@ msgstr "Prendre une nation"
 
 #: client/gui-gtk-2.0/dialogs.c:576 client/gui-gtk-3.0/dialogs.c:582
 msgid "_Random Nation"
-msgstr "Nation aléatoire"
+msgstr "Nation _aléatoire"
 
 #: client/gui-gtk-2.0/dialogs.c:588 client/gui-gtk-3.0/dialogs.c:594
 msgid "Select a nation"
@@ -4072,7 +4072,7 @@ msgstr "_Merveilles du monde"
 
 #: client/gui-gtk-2.0/menu.c:1355 client/gui-gtk-3.0/menu.c:1355
 msgid "Top _Five Cities"
-msgstr "Top 5 des villes"
+msgstr "Top _5 des villes"
 
 #: client/gui-gtk-2.0/menu.c:1357 client/gui-gtk-3.0/menu.c:1357
 msgid "_Messages"
@@ -4211,7 +4211,7 @@ msgstr "C_ontours des villes"
 
 #: client/gui-gtk-2.0/menu.c:1428 client/gui-gtk-3.0/menu.c:1428
 msgid "City Output"
-msgstr "Collectes _des villes"
+msgstr "Collectes des villes"
 
 #: client/gui-gtk-2.0/menu.c:1430 client/gui-gtk-3.0/menu.c:1430
 msgid "Map _Grid"
@@ -4223,11 +4223,11 @@ msgstr "_Frontières nationales"
 
 #: client/gui-gtk-2.0/menu.c:1435 client/gui-gtk-3.0/menu.c:1435
 msgid "Native Tiles"
-msgstr "Cases _accessibles"
+msgstr "Cases accessibles"
 
 #: client/gui-gtk-2.0/menu.c:1438 client/gui-gtk-3.0/menu.c:1438
 msgid "City Full Bar"
-msgstr "_Barre complète des villes"
+msgstr "Barre complète des villes"
 
 #: client/gui-gtk-2.0/menu.c:1440 client/gui-gtk-3.0/menu.c:1440
 msgid "City _Names"
@@ -4235,7 +4235,7 @@ msgstr "_Noms des ville"
 
 #: client/gui-gtk-2.0/menu.c:1442 client/gui-gtk-3.0/menu.c:1442
 msgid "City G_rowth"
-msgstr "Croissance de la ville"
+msgstr "_Croissance de la ville"
 
 # AR
 #: client/gui-gtk-2.0/menu.c:1444 client/gui-gtk-3.0/menu.c:1444
@@ -4244,7 +4244,7 @@ msgstr "Production d_e la ville"
 
 #: client/gui-gtk-2.0/menu.c:1447 client/gui-gtk-3.0/menu.c:1447
 msgid "City Buy Cost"
-msgstr "Co_ût total"
+msgstr "Coût total"
 
 #: client/gui-gtk-2.0/menu.c:1449 client/gui-gtk-3.0/menu.c:1449
 msgid "City Tra_deroutes"
@@ -4260,7 +4260,7 @@ msgstr "_Littoral"
 
 #: client/gui-gtk-2.0/menu.c:1458 client/gui-gtk-3.0/menu.c:1458
 msgid "_Roads & Rails"
-msgstr "Routes & Chemins de Fer"
+msgstr "_Routes & Chemins de Fer"
 
 #: client/gui-gtk-2.0/menu.c:1460 client/gui-gtk-3.0/menu.c:1460
 msgid "_Irrigation"
@@ -4292,7 +4292,7 @@ msgstr "Couleur de fond des unités"
 
 #: client/gui-gtk-2.0/menu.c:1477 client/gui-gtk-3.0/menu.c:1477
 msgid "Unit shields"
-msgstr "Blason des un_ités"
+msgstr "Blason des unités"
 
 #: client/gui-gtk-2.0/menu.c:1479 client/gui-gtk-3.0/menu.c:1479
 msgid "Focu_s Unit"
@@ -4320,12 +4320,12 @@ msgstr "Basculer le _brouillard de guerre"
 
 #: client/gui-gtk-2.0/menu.c:1517 client/gui-gtk-3.0/menu.c:1517
 msgid "Game/Scenario Properties"
-msgstr "_Propriétés de la partie/du scenario"
+msgstr "Propriétés de la partie/du scenario"
 
 #: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/pages.c:3266
 #: client/gui-gtk-3.0/menu.c:1519 client/gui-gtk-3.0/pages.c:3323
 msgid "Save Scenario"
-msgstr "_Sauvegarder le scenario"
+msgstr "Sauvegarder le scenario"
 
 #: client/gui-gtk-2.0/menu.c:1542 client/gui-gtk-3.0/menu.c:1542
 msgid "_Unit"
@@ -4365,7 +4365,7 @@ msgstr "Toutes les _unités du même type sur la carte"
 
 #: client/gui-gtk-2.0/menu.c:1562 client/gui-gtk-3.0/menu.c:1562
 msgid "Unit selection dialog"
-msgstr "_Dialogue de sélection de l'unité"
+msgstr "Dialogue de sélection de l'unité"
 
 #: client/gui-gtk-2.0/menu.c:1565 client/gui-gtk-3.0/menu.c:1565
 msgid "_Wait"
@@ -4437,7 +4437,7 @@ msgstr "_Bâtir une ville"
 
 #: client/gui-gtk-2.0/menu.c:1606 client/gui-gtk-3.0/menu.c:1606
 msgid "Go _to and Build city"
-msgstr "Aller et bâtir une ville"
+msgstr "Aller et bâ_tir une ville"
 
 #: client/gui-gtk-2.0/menu.c:1608 client/gui-gtk-3.0/menu.c:1608
 msgid "_Auto Settler"
@@ -4462,15 +4462,15 @@ msgstr "Creuser une _mine"
 
 #: client/gui-gtk-2.0/menu.c:1618 client/gui-gtk-3.0/menu.c:1618
 msgid "Connect With Roa_d"
-msgstr "Connecter route"
+msgstr "Connecter par r_oute"
 
 #: client/gui-gtk-2.0/menu.c:1620 client/gui-gtk-3.0/menu.c:1620
 msgid "Connect With Rai_l"
-msgstr "Connecter chemin de fer"
+msgstr "Connecter par _chemin de fer"
 
 #: client/gui-gtk-2.0/menu.c:1622 client/gui-gtk-3.0/menu.c:1622
 msgid "Connect With Irri_gation"
-msgstr "Connecter irrigation"
+msgstr "Connecter irri_gation"
 
 #: client/gui-gtk-2.0/menu.c:1625 client/gui-gtk-2.0/menu.c:2254
 #: client/gui-gtk-2.0/menu.c:2259 client/gui-gtk-3.0/menu.c:1625
@@ -4490,11 +4490,11 @@ msgstr "Retombées _nucléaires propres"
 #: client/gui-gtk-2.0/menu.c:1633 client/gui-gtk-2.0/menu.c:2269
 #: client/gui-gtk-3.0/menu.c:1633 client/gui-gtk-3.0/menu.c:2268
 msgid "Build Type A Base"
-msgstr "Construire une base de type _A"
+msgstr "Construire une base de type A"
 
 #: client/gui-gtk-2.0/menu.c:1635 client/gui-gtk-3.0/menu.c:1635
 msgid "Build Type B Base"
-msgstr "Construire une base de type _B"
+msgstr "Construire une base de type B"
 
 #: client/gui-gtk-2.0/menu.c:1638 client/gui-gtk-3.0/menu.c:1638
 msgid "_Pillage"
@@ -4598,7 +4598,7 @@ msgstr "Re_trancher"
 
 #: client/gui-gtk-2.0/menu.c:2273 client/gui-gtk-3.0/menu.c:2272
 msgid "Drop _Paratrooper"
-msgstr "Parachuter"
+msgstr "_Parachuter"
 
 #. TRANS: %s is a government name
 #: client/gui-gtk-2.0/menu.c:2348 client/gui-gtk-3.0/menu.c:2347
@@ -4867,7 +4867,7 @@ msgstr "_Démarrage"
 #: client/gui-gtk-2.0/pages.c:2127 client/gui-gtk-3.0/pages.c:2152
 #, c-format
 msgid "_Take %s"
-msgstr "Prendre %s"
+msgstr "_Prendre %s"
 
 #: client/gui-gtk-2.0/pages.c:2131 client/gui-gtk-2.0/pages.c:2716
 #: client/gui-gtk-3.0/pages.c:2156 client/gui-gtk-3.0/pages.c:2752
@@ -6676,7 +6676,7 @@ msgstr "Connecter par %s (%s)"
 
 #: client/gui-sdl/menu.c:575 client/gui-xaw/menu.c:201
 msgid "Auto Explore"
-msgstr "Auto-e_xplorer"
+msgstr "Auto-explorer"
 
 #: client/gui-sdl/menu.c:587 client/gui-sdl/menu.c:1292
 #: client/gui-xaw/menu.c:200
@@ -6702,7 +6702,7 @@ msgstr "Embarquer"
 
 #: client/gui-sdl/menu.c:646 client/gui-xaw/menu.c:196
 msgid "Unload Unit"
-msgstr "Débarq_uer"
+msgstr "Débarquer"
 
 #: client/gui-sdl/menu.c:658
 msgid "Find Home City"
@@ -7552,11 +7552,11 @@ msgstr "Production de la ville"
 
 #: client/gui-xaw/menu.c:154
 msgid "Coastline"
-msgstr "_Littoral"
+msgstr "Littoral"
 
 #: client/gui-xaw/menu.c:155
 msgid "Roads & Rails"
-msgstr "_Routes & Chemins de Fer"
+msgstr "Routes & Chemins de Fer"
 
 #: client/gui-xaw/menu.c:156 common/terrain.c:512 common/terrain.c:820
 #: common/unit.c:699 manual/civmanual.c:285
@@ -7565,11 +7565,11 @@ msgstr "Irrigation"
 
 #: client/gui-xaw/menu.c:157
 msgid "Mines"
-msgstr "_Mines"
+msgstr "Mines"
 
 #: client/gui-xaw/menu.c:160
 msgid "Pollution & Fallout"
-msgstr "_Pollution & Radiations"
+msgstr "Pollution & Radiations"
 
 #: client/gui-xaw/menu.c:163
 msgid "Focus Unit"
@@ -10765,7 +10765,7 @@ msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
-"Si cette option est désactivée, le curseur sera toujours affiché en noir & "
+"Si cette option est désactivée, le curseur sera toujours affiché en noir et "
 "blanc."
 
 #: client/options.c:2619
@@ -19901,7 +19901,7 @@ msgstr "Nom               Prêt  Chef            Nation          Équipe"
 
 #: data/Freeciv.in:3436
 msgid "Take Player"
-msgstr "Prendre un _joueur"
+msgstr "Prendre un joueur"
 
 #: data/helpdata.txt:41
 msgid ""
@@ -22620,8 +22620,8 @@ msgstr ""
 "case) ;\n"
 "\n"
 "- un déplacement à partir d'une case d'océan est un cas spécial ; un "
-"déplacement VERS une case d'océan (embarquement) est aussi permis, grâce au "
-"cas spécial du déplacement vers une unité amie (ici, un bateau)."
+"déplacement _vers_ une case d'océan (embarquement) est aussi permis, grâce "
+"au cas spécial du déplacement vers une unité amie (ici, un bateau)."
 
 #: data/helpdata.txt:1350
 msgid ""
@@ -40931,7 +40931,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:320
 msgid "create <player-name> [ai type]"
-msgstr "create <nom_de_joueur> [type_d'IA]"
+msgstr "create <nom de joueur> [type d'IA]"
 
 #: server/commands.c:321
 msgid "Create an AI player with a given name."
@@ -41286,8 +41286,8 @@ msgid ""
 "playercolor <player-name> <color>\n"
 "playercolor <player-name> reset"
 msgstr ""
-"playercolor <nom_de_joueur> <couleur>\n"
-"playercolor <nom_de_joueur> reset"
+"playercolor <nom de joueur> <couleur>\n"
+"playercolor <nom de joueur> reset"
 
 #: server/commands.c:494
 msgid "Define the color of a player."
@@ -41459,9 +41459,9 @@ msgid ""
 "lua file <script file>\n"
 "lua <script line> (deprecated)"
 msgstr ""
-"lua cmd <ligne_de_script>\n"
-"lua file <fichier_de_script>\n"
-"lua <ligne_de_script> (obsolète)"
+"lua cmd <ligne de script>\n"
+"lua file <fichier de script>\n"
+"lua <ligne de script> (obsolète)"
 
 #: server/commands.c:586
 msgid ""
@@ -41503,11 +41503,11 @@ msgid ""
 "delegate restore\n"
 "delegate show <player-name>"
 msgstr ""
-"delegate to <nom_d_utilisateur> [nom_de_joueur]\n"
-"delegate cancel [nom_de_joueur]\n"
-"delegate take <nom_de_joueur>\n"
+"delegate to <nom d'utilisateur> [nom de joueur]\n"
+"delegate cancel [nom de joueur]\n"
+"delegate take <nom de joueur>\n"
 "delegate restore\n"
-"delegate show <nom_de_joueur>"
+"delegate show <nom de joueur>"
 
 #: server/commands.c:615
 msgid "Delegate control to another user."
@@ -41533,10 +41533,10 @@ msgstr ""
 "La délégation permet à un utilisateur de nommer un autre utilisateur qui "
 "peut temporairement prendre le contrôle de leur joueur pendant qu'ils sont "
 "partis.\n"
-"'delegate to <nom_utilisateur>' : permet à <nom_utilisateur> de faire un "
+"'delegate to <nom d'utilisateur>' : permet à <nom d'utilisateur> de faire un "
 "'delegate take' sur votre joueur.\n"
 "'delegate cancel' : le joueur nommé ne peut plus contrôler votre joueur.\n"
-"'delegate take <nom_joueur>' : prend contrôle d'un joueur qui vous a été "
+"'delegate take <nom de joueur>' : prend contrôle d'un joueur qui vous a été "
 "délégué (se comporte comme 'take', sauf que les restrictions de 'allowtake' "
 "ne s'appliquent pas).\n"
 "'delegate restore' : rend le contrôle d'un joueur qui vous a été délégué "
@@ -41545,7 +41545,7 @@ msgstr ""
 "reconnecte). \n"
 "'delegate show' : montre à qui le contrôle de votre joueur est délégué, s'il "
 "existe.\n"
-"L'argument [nom_joueur] ne peut être utilisé que par des connexions de "
+"L'argument [nom de joueur] ne peut être utilisé que par des connexions de "
 "niveau de commande 'admin' ou supérieur, pour forcer le changement d'état "
 "correspondant dans la délégation."
 
@@ -43048,7 +43048,7 @@ msgstr "Le contrôle du joueur '%s' vous a été délégué."
 #: server/plrhand.c:2599
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
-"Utilisez '/delegate take <nom_de_joueur>' pour prendre le contrôle d'un "
+"Utilisez '/delegate take <nom de joueur>' pour prendre le contrôle d'un "
 "joueur délégué."
 
 #. TRANS: year <name> reports ...
