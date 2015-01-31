@@ -561,7 +561,6 @@ static struct command commands[] = {
       "and use the 'start' command once players have reconnected."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
-#ifdef DEBUG
   {"scensave",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("scensave\n"
@@ -575,7 +574,6 @@ static struct command commands[] = {
       "and use the 'start' command once players have reconnected."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
-#endif /* DEBUG */
   {"load",      ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("load\n"

@@ -648,7 +648,6 @@ static bool save_command(struct connection *caller, char *arg, bool check)
   For command "scensave foo";
   Save the game, with filename=arg, provided server state is ok.
 **************************************************************************/
-#ifdef DEBUG
 static bool scensave_command(struct connection *caller, char *arg, bool check)
 {
   if (is_restricted(caller)) {
@@ -661,7 +660,6 @@ static bool scensave_command(struct connection *caller, char *arg, bool check)
   }
   return TRUE;
 }
-#endif /* DEBUG */
 
 /**************************************************************************
   Handle ai player ai toggling.
@@ -4218,10 +4216,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return remove_player_command(caller, arg, check);
   case CMD_SAVE:
     return save_command(caller, arg, check);
-#ifdef DEBUG
   case CMD_SCENSAVE:
     return scensave_command(caller, arg, check);
-#endif
   case CMD_LOAD:
     return load_command(caller, arg, check);
   case CMD_METAPATCHES:
