@@ -112,6 +112,9 @@ void real_unit_log(const char *file, const char *function, int line,
   }                                                                         \
 }
 
+void timing_log_init(void);
+void timing_log_free(void);
+
 void timing_log_real(enum ai_timer timer, enum ai_timer_activity activity);
 void timing_results_real(void);
 
