@@ -114,6 +114,7 @@
 #include "sernet.h"
 #include "settings.h"
 #include "spacerace.h"
+#include "srv_log.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unithand.h"
@@ -206,6 +207,9 @@ void srv_init(void)
   /* This is before ai module initializations so that if ai module
    * wants to use registry files, it can. */
   registry_module_init();
+
+  /* We want this before any AI stuff */
+  timing_log_init();
 
   /* This must be before command line argument parsing.
      This allocates default ai, and we want that to take place before
@@ -1410,6 +1414,7 @@ void server_quit(void)
   voting_free();
   close_connections_and_socket();
   rulesets_deinit();
+  timing_log_free();
   registry_module_close();
   fc_destroy_mutex(&game.server.mutexes.city_list);
   free_nls();

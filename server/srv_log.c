@@ -159,17 +159,10 @@ void real_unit_log(const char *file, const char *function, int line,
 void timing_log_real(enum ai_timer timer, enum ai_timer_activity activity)
 {
   static int turn = -1;
-  int i;
-
-  if (turn == -1) {
-    for (i = 0; i < AIT_LAST; i++) {
-      aitimer[i][0] = timer_new(TIMER_CPU, TIMER_ACTIVE);
-      aitimer[i][1] = timer_new(TIMER_CPU, TIMER_ACTIVE);
-      recursion[i] = 0;
-    }
-  }
 
   if (game.info.turn != turn) {
+    int i;
+
     turn = game.info.turn;
     for (i = 0; i < AIT_LAST; i++) {
       timer_clear(aitimer[i][0]);
@@ -247,4 +240,31 @@ void timing_results_real(void)
   AILOG_OUT(" - Settler want", AIT_CITY_SETTLERS);
   AILOG_OUT("Citizen arrange", AIT_CITIZEN_ARRANGE);
   AILOG_OUT("Tech", AIT_TECH);
+}
+
+/**************************************************************************
+  Initialize AI timing system
+**************************************************************************/
+void timing_log_init(void)
+{
+  int i;
+
+  for (i = 0; i < AIT_LAST; i++) {
+    aitimer[i][0] = timer_new(TIMER_CPU, TIMER_ACTIVE);
+    aitimer[i][1] = timer_new(TIMER_CPU, TIMER_ACTIVE);
+    recursion[i] = 0;
+  }
+}
+
+/**************************************************************************
+  Free AI timing system resources
+**************************************************************************/
+void timing_log_free(void)
+{
+  int i;
+
+  for (i = 0; i < AIT_LAST; i++) {
+    timer_destroy(aitimer[i][0]);
+    timer_destroy(aitimer[i][1]);
+  }
 }
