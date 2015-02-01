@@ -324,9 +324,12 @@ static void usdlg_tile(struct unit_select_dialog *pdialog,
     pdialog->ptile = ptile;
   } else if (pdialog->ptile == NULL) {
     struct unit *punit = head_of_units_in_focus();
+
     if (punit) {
       pdialog->ptile = unit_tile(punit);
       center_tile_mapcanvas(pdialog->ptile);
+    } else {
+      pdialog->ptile = get_center_tile_mapcanvas();
     }
   }
 }
