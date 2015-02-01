@@ -84,13 +84,13 @@
 
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
-/* FIXME: should this include REQ_RANGE_ALLIANCE/WORLD? Gna bug #21415. */
 #define city_range_iterate(city_here, list, range, city)		\
 {									\
   city_list_iterate(list, city) {					\
     if (range == REQ_RANGE_PLAYER					\
-     || range == REQ_RANGE_TEAM						\
-     || (range == REQ_RANGE_TRADEROUTE                                  \
+        || range == REQ_RANGE_TEAM					\
+        || range == REQ_RANGE_ALLIANCE                                  \
+        || (range == REQ_RANGE_TRADEROUTE                               \
          && (city == city_here                                          \
              || have_cities_trade_route(city, city_here)))              \
      || ((range == REQ_RANGE_CITY || range == REQ_RANGE_LOCAL)		\
