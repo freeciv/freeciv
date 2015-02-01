@@ -1500,8 +1500,9 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     SDL_String16 *pStr;
     SDL_Surface *pText;
     SDL_Rect dst;
-    bool shared = FALSE;
+    bool shared;
     SDL_Rect area;
+    int buttons = 0;
 
     if (pSDip_Dlg) {
       return;
@@ -1566,25 +1567,27 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->next->size.w = pBuf->size.w;
       button_w = MAX(button_w , pBuf->size.w);
       button_h = MAX(button_h , pBuf->size.h);
+      buttons++;
+    }
 
-      shared = gives_shared_vision(client.conn.playing, pPlayer);
+    shared = gives_shared_vision(client.conn.playing, pPlayer);
 
-      if (shared) {
-        /* shared vision */
-        pBuf = create_themeicon_button_from_chars(pTheme->UNITS2_Icon, pWindow->dst,
-                                                  _("Withdraw vision"), adj_font(12), 0);
+    if (shared) {
+      /* shared vision */
+      pBuf = create_themeicon_button_from_chars(pTheme->UNITS2_Icon, pWindow->dst,
+                                                _("Withdraw vision"), adj_font(12), 0);
 
-        pBuf->action = withdraw_vision_dlg_callback;
-        set_wstate(pBuf, FC_WS_NORMAL);
-        pBuf->data.player = pPlayer;
-        pBuf->key = SDLK_w;
-	pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
-        add_to_gui_list(ID_BUTTON, pBuf);
-        pBuf->size.w = MAX(pBuf->next->size.w, pBuf->size.w);
-        pBuf->next->size.w = pBuf->size.w;
-        button_w = MAX(button_w , pBuf->size.w);
-        button_h = MAX(button_h , pBuf->size.h);
-      }
+      pBuf->action = withdraw_vision_dlg_callback;
+      set_wstate(pBuf, FC_WS_NORMAL);
+      pBuf->data.player = pPlayer;
+      pBuf->key = SDLK_w;
+      pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
+      add_to_gui_list(ID_BUTTON, pBuf);
+      pBuf->size.w = MAX(pBuf->next->size.w, pBuf->size.w);
+      pBuf->next->size.w = pBuf->size.w;
+      button_w = MAX(button_w , pBuf->size.w);
+      button_h = MAX(button_h , pBuf->size.h);
+      buttons++;
     }
 
     /* meet */
@@ -1601,6 +1604,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pBuf->next->size.w = pBuf->size.w;
     button_w = MAX(button_w , pBuf->size.w);
     button_h = MAX(button_h , pBuf->size.h);
+    buttons++;
 
     pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
                                               pWindow->dst, _("Send him back"),
@@ -1612,19 +1616,12 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pBuf->key = SDLK_ESCAPE;
     button_w = MAX(button_w , pBuf->size.w);
     button_h = MAX(button_h , pBuf->size.h);
+    buttons++;
 
     button_h += adj_size(4);
     area.w = MAX(area.w, button_w + adj_size(20));
 
-    if (type != DS_WAR) {
-      if (shared) {
-	area.h += 4 * (button_h + adj_size(10));
-      } else {
-        area.h += 3 * (button_h + adj_size(10));
-      }
-    } else {
-      area.h += 2 * (button_h + adj_size(10));
-    }
+    area.h += buttons * (button_h + adj_size(10));
 
     add_to_gui_list(ID_BUTTON, pBuf);
 
@@ -1657,38 +1654,29 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     pBuf = pWindow;
 
-    if (type != DS_WAR) {
-      /* cancel treaty */
+    /* war: meet, peace: cancel treaty */
+    pBuf = pBuf->prev;
+    pBuf->size.w = button_w;
+    pBuf->size.h = button_h;
+    pBuf->size.x = area.x + (area.w - (pBuf->size.w)) / 2;
+    pBuf->size.y = dst.y;
+
+    if (shared) {
+      /* vision */
       pBuf = pBuf->prev;
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
-      pBuf->size.x = area.x + (area.w - (pBuf->size.w)) / 2;
-      pBuf->size.y = dst.y;
+      pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
+      pBuf->size.x = pBuf->next->size.x;
+    }
 
-      if (shared) {
-        /* vision */
-        pBuf = pBuf->prev;
-        pBuf->size.w = button_w;
-        pBuf->size.h = button_h;
-        pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
-        pBuf->size.x = pBuf->next->size.x;
-      }
-
+    if (type != DS_WAR) {
       /* meet */
       pBuf = pBuf->prev;
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(10);
       pBuf->size.x = pBuf->next->size.x;
-
-    } else {
-
-      /* meet */
-      pBuf = pBuf->prev;
-      pBuf->size.w = button_w;
-      pBuf->size.h = button_h;
-      pBuf->size.x = area.x + (area.w - (pBuf->size.w)) / 2;
-      pBuf->size.y = dst.y;
     }
 
     /* cancel */
