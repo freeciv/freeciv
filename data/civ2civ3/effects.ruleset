@@ -1357,6 +1357,14 @@ reqs    =
       "Gov", "Monarchy", "Player"
     }
 
+[effect_martial_law_each_tribal]
+type    = "Martial_Law_Each"
+value   = 2
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Tribal", "Player"
+    }
+
 [effect_martial_law_each_communism]
 type    = "Martial_Law_Each"
 value   = 2
@@ -1365,36 +1373,20 @@ reqs    =
       "Gov", "Communism", "Player"
     }
 
-[effect_martial_law_max_anarchy]
+[effect_martial_law_max]
 type    = "Martial_Law_Max"
 value   = 3
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-    }
-
-[effect_martial_law_max_despotism]
-type    = "Martial_Law_Max"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-    }
-
-[effect_martial_law_max_monarchy]
-type    = "Martial_Law_Max"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-    }
-
-[effect_martial_law_max_communism]
-type    = "Martial_Law_Max"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
+    { "type", "name", "range", "present"
+;      "Gov", "Anarchy", "Player", FALSE
+;      "Gov", "Tribal", "Player", FALSE
+;      "Gov", "Communism", "Player", FALSE
+;      "Gov", "Despotism", "Player", FALSE
+;      "Gov", "Monarchy", "Player", FALSE
+      "Gov", "Fundamentalism", "Player", FALSE
+      "Gov", "Federation", "Player", FALSE
+      "Gov", "Republic", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
     }
 
 ; Railroad because makes Pyramids obsolete
