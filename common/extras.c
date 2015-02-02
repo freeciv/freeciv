@@ -455,6 +455,8 @@ static bool can_extra_be_removed(const struct extra_type *pextra,
       if (player_can_build_extra(pextra, city_owner(pcity), vtile)) {
         /* No need to worry about conflicting extras - extra would had
          * not been here if conflicting one is. */
+        tile_virtual_destroy(vtile);
+
         return FALSE;
       }
 
