@@ -127,18 +127,6 @@ tiles = { "row", "column", "tag"
   6, 18, "city.t_trade_8"
   6, 19, "city.t_trade_9"
 
-; Unit upkeep in city dialog:
-; These should probably be handled differently and have
-; a different size...
-
-  7, 12, "upkeep.gold"
-  7, 13, "upkeep.gold2"
-  7, 15, "upkeep.food"
-  7, 16, "upkeep.food2"
-  7, 17, "upkeep.unhappy"
-  7, 18, "upkeep.unhappy2"
-  7, 19, "upkeep.shield"
-
 ; Base building activities
   8, 15, "unit.fortress"
   8, 16, "unit.airbase"

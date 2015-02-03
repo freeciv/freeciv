@@ -37,6 +37,8 @@ pkgdata_DATA =          	\
 	tiles.spec		\
 	units.png		\
 	units.spec		\
+	upkeep.png		\
+	upkeep.spec		\
 	veterancy.png		\
 	veterancy.spec		\
 	water.png		\
