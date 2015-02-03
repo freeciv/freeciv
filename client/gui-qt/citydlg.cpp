@@ -811,8 +811,8 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
                                     "go-up"), "");
     work_add_but = new QPushButton(fc_icons::instance()->get_icon(
                                     "list-add"), "");
-    work_rem_but = new QPushButton(fc_icons::instance()->get_icon(
-                                    "edit-delete"), "");
+    work_rem_but = new QPushButton(style()->standardIcon(
+                                    QStyle::SP_DialogDiscardButton), "");
     work_but_layout->addWidget(work_add_but);
     work_but_layout->addWidget(work_next_but);
     work_but_layout->addWidget(work_prev_but);

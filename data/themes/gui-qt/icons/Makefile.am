@@ -3,24 +3,13 @@
 ## Override automake so that "make install" puts these in proper place:
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-qt/icons
 
-## Uncomment those once we have icons
-# pkgdata_DATA =          	\
-# 	configure.png    	\
-# 	edit-find.png		\
-# 	flag.png     		\
-# 	go-up.png        	\
-# 	list-remove.png       	\
-# 	network-disconnect.png  \
-# 	preferences-other.png	\
-# 	edit-delete.png  	\
-# 	fork.png     		\
-# 	help-donate.png  	\
-# 	meeting-chair.png     	\
-# 	network-server.png      \
-# 	preferences-system.png	\
-# 	go-down.png  		\
-# 	list-add.png     	\
-# 	meeting-observer.png  	\
-# 	object-locked.png
+pkgdata_DATA =          	\
+	flag.png     		\
+	go-down.png  		\
+	go-up.png        	\
+	help-donate.png  	\
+	list-add.png		\
+	meeting-observer.png	\
+	preferences-other.png
 
 EXTRA_DIST = $(pkgdata_DATA)
