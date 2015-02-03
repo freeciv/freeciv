@@ -16,9 +16,14 @@
 #endif
 
 // Qt
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPixmap>
 #include <QToolTip>
+#include <QWheelEvent>
 
 // utility
+#include "log.h"
 #include "support.h"
 
 // common
@@ -276,6 +281,7 @@ void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
 void map_view::resizeEvent(QResizeEvent* event)
 {
   QSize size;
+  QSize delta;
 
   size = event->size();
 
@@ -285,10 +291,9 @@ void map_view::resizeEvent(QResizeEvent* event)
                           gui()->game_info_label->height() + 50);
     gui()->infotab->move(0 , size.height() - gui()->infotab->height());
     gui()->unitinfo_wdg->move(width() - gui()->unitinfo_wdg->width(), 0);
-    gui()->game_info_label->move(size.width()
-                                 -gui()->game_info_label->width(),
-                                 size.height()
-                                 -gui()->game_info_label->height());
+    delta = size - gui()->game_info_label->sizeHint();
+    gui()->game_info_label->move(delta.width(), delta.height());
+    gui()->game_info_label->resize(gui()->game_info_label->sizeHint());
     gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
   }
 }
@@ -386,10 +391,11 @@ void close_widget::notify_parent()
 minimap_view::minimap_view(QWidget *parent) : fcwidget()
 {
   setParent(parent);
-  setScaledContents(true);
-  w_ratio = 1.0;
-  h_ratio = 1.0;
+  w_ratio = 0.0;
+  h_ratio = 0.0;
   move(4, 4);
+  // Dark magic: This call is required for the widget to work.
+  resize(0, 0);
   background = QBrush(QColor (0, 0, 0));
   setCursor(Qt::CrossCursor);
   rw = new resize_widget(this);
@@ -759,22 +765,190 @@ void minimap_view::mouseReleaseEvent(QMouseEvent* event)
   setCursor(Qt::CrossCursor);
 }
 
+/****************************************************************************
+  Creates a sprite widget.
+****************************************************************************/
+sprite_widget::sprite_widget(QWidget *parent) :
+  QPushButton(parent),
+  pixmap(NULL),
+  user_id(-1)
+{
+  setFixedSize(0, 0);
+}
+
+/****************************************************************************
+  Destructor.
+****************************************************************************/
+sprite_widget::~sprite_widget()
+{
+  // Don't delete pixmap, the tileset owns it.
+}
+
+/****************************************************************************
+  Sets the sprite this widget represents.
+****************************************************************************/
+void sprite_widget::set_sprite(const struct sprite *sprite)
+{
+  if (sprite) {
+    // Don't delete pixmap, the tileset owns it.
+    pixmap = sprite->pm;
+  } else {
+    pixmap = new QPixmap();
+  }
+  // We don't want to be resized.
+  setFixedSize(pixmap->size());
+  repaint();
+}
+
+/****************************************************************************
+  Sets an user-defined identifier. It will be passed as argument to signals.
+****************************************************************************/
+void sprite_widget::set_user_id(int id)
+{
+  user_id = id;
+}
+
+/****************************************************************************
+  Emits button_clicked().
+****************************************************************************/
+void sprite_widget::mouseReleaseEvent(QMouseEvent *ev)
+{
+  QPushButton::mouseReleaseEvent(ev);
+  emit button_clicked(ev->button(), user_id);
+  ev->accept();
+}
+
+/****************************************************************************
+  Draws the sprite.
+****************************************************************************/
+void sprite_widget::paintEvent(QPaintEvent *ev) {
+  if (pixmap) {
+    QPainter painter;
+    painter.begin(this);
+    painter.drawPixmap(0, 0, *pixmap);
+    painter.end();
+  }
+}
+
+/****************************************************************************
+  Emits wheel_rolled().
+****************************************************************************/
+void sprite_widget::wheelEvent(QWheelEvent *ev)
+{
+  int pixels = ev->pixelDelta().y();
+  int degrees = ev->angleDelta().y() / 8;
+
+  if (pixels != 0) {
+    emit wheel_rolled(pixels, user_id);
+    ev->accept();
+  } else if (degrees != 0) {
+    emit wheel_rolled(degrees / 15, user_id);
+    ev->accept();
+  } else {
+    ev->ignore();
+  }
+}
+
+/****************************************************************************
+  Stylesheets for the 'Turn Done' button.
+****************************************************************************/
+static const char *end_turn_button_stylesheet =
+  "QPushButton {"
+    "background-color: transparent;"
+    "border: none;"
+    "color: rgb(30, 175, 30);"
+    "font-size: %1pt;"
+  "}"
+  "QPushButton:hover {"
+    "color: rgb(38, 225, 38);" // Lighter green
+  "}"
+  "QPushButton:disabled {"
+    "color: rgb(172, 175, 175);" // Gray
+  "}";
+// Highlighted version, inverts hover/not hover
+static const char *end_turn_button_stylesheet_hl =
+  "QPushButton {"
+    "background-color: transparent;"
+    "border: none;"
+    "color: rgb(38, 225, 38);"
+    "font-size: %1pt;"
+  "}"
+  "QPushButton:hover {"
+    "color: rgb(30, 175, 30);" // Darker green
+  "}"
+  "QPushButton:disabled {"
+    "color: rgb(172, 175, 175);" // Gray
+  "}";
+
+/****************************************************************************
+  Stylesheets for the information labels.
+****************************************************************************/
+static const char *info_label_stylesheet =
+  "color: rgb(232, 255, 0); background: transparent;";
 
 /**************************************************************************
   Constructor for information label
 **************************************************************************/
 info_label::info_label(QWidget *parent) : fcwidget()
 {
+  QVBoxLayout *layout;
+  QHBoxLayout *hbox;
+  int i;
+
+  setStyleSheet("background-color: rgba(0, 0, 0, 135);");
+
   setParent(parent);
-  indicator_icons = NULL;
-  rates_label = NULL;
-  setMouseTracking(true);
-  ufont = new QFont;
-  create_end_turn_pixmap();
-  highlight_end_button = false;
-  end_button_area.setWidth(0);
-  rates_area.setWidth(0);
-  indicator_area.setWidth(0);
+  layout = new QVBoxLayout(this);
+
+  turn_info = new QLabel();
+  turn_info->setStyleSheet(info_label_stylesheet);
+  layout->addWidget(turn_info, 0, Qt::AlignCenter);
+
+  time_label = new QLabel();
+  time_label->setStyleSheet(info_label_stylesheet);
+  layout->addWidget(time_label, 0, Qt::AlignCenter);
+
+  eco_info = new QLabel();
+  eco_info->setStyleSheet(info_label_stylesheet);
+  layout->addWidget(eco_info, 0, Qt::AlignCenter);
+
+  hbox = new QHBoxLayout();
+  hbox->setSpacing(0);
+  hbox->addStretch(50);
+  research_indicator = new sprite_widget();
+  hbox->addWidget(research_indicator);
+  connect(research_indicator, &QPushButton::clicked,
+          &science_report_dialog_popup);
+  government_indicator = new sprite_widget();
+  hbox->addWidget(government_indicator);
+  pollution_indicator = new sprite_widget();
+  hbox->addWidget(pollution_indicator);
+  nuclear_indicator = new sprite_widget();
+  hbox->addWidget(nuclear_indicator);
+  hbox->addStretch(50);
+  layout->addLayout(hbox);
+
+  hbox = new QHBoxLayout();
+  hbox->setSpacing(0);
+  hbox->addStretch(50);
+  for (i = 0; i < 10; ++i) {
+    tax_indicators[i] = new sprite_widget();
+    tax_indicators[i]->set_user_id(i);
+    connect(tax_indicators[i], &sprite_widget::button_clicked,
+            this, &info_label::change_tax_rate_click);
+    connect(tax_indicators[i], &sprite_widget::wheel_rolled,
+            this, &info_label::change_tax_rate_wheel);
+    hbox->addWidget(tax_indicators[i]);
+  }
+  hbox->addStretch(50);
+  layout->addLayout(hbox);
+
+  end_turn_font_size = 1.5 * turn_info->font().pointSizeF();
+  end_turn = new QPushButton(_("Turn Done"));
+  end_turn->setStyleSheet(
+    QString(end_turn_button_stylesheet).arg(end_turn_font_size));
+  connect(end_turn, &QPushButton::clicked, &key_end_turn);
+  layout->addWidget(end_turn, 0, Qt::AlignCenter);
 }
 
 /**************************************************************************
@@ -782,35 +956,51 @@ info_label::info_label(QWidget *parent) : fcwidget()
 **************************************************************************/
 info_label::~info_label()
 {
-  if (end_turn_pix)
-    delete end_turn_pix;
-  if (rates_label)
-    delete rates_label;
 }
 
 /**************************************************************************
   Sets information about current turn
 **************************************************************************/
-void info_label::set_turn_info(QString str)
+void info_label::set_turn_info(const QString &info)
 {
-  turn_info = str;
+  turn_info->setText(info);
 }
 
 /**************************************************************************
   Sets information about current time
 **************************************************************************/
-void info_label::set_time_info(QString str)
+void info_label::set_time_info(const QString &info)
 {
-  time_label = str;
-  update();
+  time_label->setText(info);
 }
 
 /**************************************************************************
   Sets information about current economy
 **************************************************************************/
-void info_label::set_eco_info(QString str)
+void info_label::set_eco_info(const QString &info)
 {
-  eco_info = str;
+  eco_info->setText(info);
+}
+
+/****************************************************************************
+  Highlights (or not) the 'End Turn' button. One can create a blinking effect
+  using a timer.
+****************************************************************************/
+void info_label::set_highlight_turn_button(bool highlight) {
+  if (highlight) {
+    end_turn->setStyleSheet(
+      QString(end_turn_button_stylesheet_hl).arg(end_turn_font_size));
+  } else {
+    end_turn->setStyleSheet(
+      QString(end_turn_button_stylesheet).arg(end_turn_font_size));
+  }
+}
+
+/****************************************************************************
+  Enables/Disables the 'End Turn' button.
+****************************************************************************/
+void info_label::set_turn_button_enabled(bool enabled) {
+  end_turn->setEnabled(enabled);
 }
 
 /**************************************************************************
@@ -822,357 +1012,81 @@ void info_label::update_menu()
    *  PORTME , if needed */
 }
 
-/**************************************************************************
-  Creates end turn pixmap, to use at painting.
-  It searches for optimal pixel size for font to get optimal size.
-  Pixmap size is 80% width of rates pixmap
-**************************************************************************/
-void info_label::create_end_turn_pixmap()
+/****************************************************************************
+  Slot for sprite_widget::wheel_rolled
+****************************************************************************/
+void info_label::change_tax_rate_wheel(int delta, int id)
 {
-  int w, s, r;
-  QString str(_("Turn Done"));
-  QFontMetrics *fm;
-  QPainter p;
-  QPen pen;
-  struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
-
-  w = 8 * sprite->pm->width();
-  r = 8;
-  for (s = 8; s < 30; s++) {
-    ufont->setPixelSize(s);
-    fm = new QFontMetrics(*ufont);
-    if (fm->width(str) < w) {
-      r = s;
-    }
-    delete fm;
-  }
-  ufont->setPixelSize(r);
-  fm = new QFontMetrics(*ufont);
-  pen.setColor(QColor(30, 175, 30));
-  end_turn_pix = new QPixmap(w, fm->height() + 5);
-  end_turn_pix->fill(Qt::transparent);
-  p.begin(end_turn_pix);
-  p.setPen(pen);
-  p.setFont(*ufont);
-  p.drawText(0, fm->height() - 4, str);
-  p.end();
-  delete fm;
-}
-
-/**************************************************************************
-  Sets pixmap about current rates
-**************************************************************************/
-void info_label::set_rates_pixmap()
-{
-  QString eco_info;
-  int d;
-  QPainter p;
-  struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
-  int w = sprite->pm->width();
-  int h = sprite->pm->height();
-  QRect source_rect;
-  QRect dest_rect;
-
-  if (rates_label == NULL) {
-    rates_label = new QPixmap(10 * w, h);
-  }
-
-  source_rect = QRect(0, 0, w, h);
-  dest_rect = QRect(0, 0, w, h);
-  rates_label->fill(Qt::transparent);
-  d = 0;
-
-  if (client_is_global_observer()){
-    return;
-  }
-
-  for (; d < client.conn.playing->economic.luxury / 10; d++) {
-    dest_rect.moveTo(d * w, 0);
-    p.begin(rates_label);
-    p.drawPixmap(dest_rect, *sprite->pm, source_rect);
-    p.end();
-  }
-  sprite = get_tax_sprite(tileset, O_SCIENCE);
-
-  for (; d < (client.conn.playing->economic.science
-              + client.conn.playing->economic.luxury) / 10; d++) {
-    dest_rect.moveTo(d * w, 0);
-    p.begin(rates_label);
-    p.drawPixmap(dest_rect, *sprite->pm, source_rect);
-    p.end();
-  }
-  sprite = get_tax_sprite(tileset, O_GOLD);
-
-  for (; d < 10; d++) {
-    dest_rect.moveTo(d * w, 0);
-    p.begin(rates_label);
-    p.drawPixmap(dest_rect, *sprite->pm, source_rect);
-
-    p.end();
-  }
-}
-
-/**************************************************************************
-  Highligts end turn button and shows tooltips
-**************************************************************************/
-void info_label::mouseMoveEvent(QMouseEvent *event)
-{
-  QPoint p(event->x(), event->y());
-  p = this->mapToGlobal(p);
-  bool redraw = false;
-  struct sprite *sprite;
-  int w;
-
-  if (client_is_global_observer()){
-    return;
-  }
-
-  if (end_button_area.contains(event->x(), event->y())) {
-    if (highlight_end_button == false) {
-      redraw = true;
-    }
-    highlight_end_button = true;
+  if (id < client.conn.playing->economic.luxury / 10) {
+    change_tax_rate(O_LUXURY, delta);
+  } else if (id < (client.conn.playing->economic.science / 10
+                  + client.conn.playing->economic.luxury / 10)) {
+    change_tax_rate(O_SCIENCE, delta);
   } else {
-    if (highlight_end_button == true) {
-      redraw = true;
-    }
-    highlight_end_button = false;
-  }
-
-  if (indicator_area.contains(event->x(), event->y())) {
-    sprite = get_tax_sprite(tileset, O_LUXURY);
-    w = sprite->pm->width();
-    switch (event->x() / w) {
-    case 3:
-      QToolTip::showText(p, QString(get_bulb_tooltip()));
-      break;
-    case 4:
-      QToolTip::showText(p, QString(get_global_warming_tooltip()));
-      break;
-    case 5:
-      QToolTip::showText(p, QString(get_nuclear_winter_tooltip()));
-      break;
-    case 6:
-      QToolTip::showText(p, QString(get_government_tooltip()));
-      break;
-    default:
-      QToolTip::hideText();
-      break;
-    }
-  }
-
-  if (rates_area.contains(event->x(), event->y())) {
-    QToolTip::showText(p,
-                       QString(_("Shows your current luxury/science/tax "
-                                 "rates. Use mouse wheel to change them")));
-  } else if (!indicator_area.contains(event->x(), event->y())) {
-    QToolTip::hideText();
-  }
-
-  if (redraw) {
-    update();
+    change_tax_rate(O_GOLD, delta);
   }
 }
 
-/**************************************************************************
-  Mouse has left widget
-**************************************************************************/
-void info_label::leaveEvent(QEvent *event)
+/****************************************************************************
+  Slot for sprite_widget::button_clicked
+****************************************************************************/
+void info_label::change_tax_rate_click(Qt::MouseButton button, int id)
 {
-  highlight_end_button = false;
-  update();
-  QWidget::leaveEvent(event);
-}
+  int delta;
 
-/**************************************************************************
-  Mouse wheel event, used for changing tax rates
-**************************************************************************/
-void info_label::wheelEvent(QWheelEvent *event)
-{
-  int a, b, c;
-  QPoint p(event->x(), event->y());
-  int delta = event->delta();
-  int pos;
-  int p2;
-
-  p = this->mapToGlobal(p);
-  pos = rates_label->width() / 10;
-  p2 = event->x() - rates_area.left();
-  if (client_is_global_observer()){
-    return;
-  }
-  a = client.conn.playing->economic.luxury / 10;
-  b = client.conn.playing->economic.science / 10;
-  c = 10 - a - b;
-  if (rates_area.contains(event->x(), event->y())) {
-    if (a * pos > p2) {
-      /* luxury icon */
-      if (delta > 0) {
-        a++;
-        a = qMin(a, 10);
-        b--;
-        b = qMax(b, 0);
-        c = 10 - a - b;
-      } else {
-        a--;
-        a = qMax(a, 0);
-        b++;
-        b = qMin(b, 10);
-        c = 10 - a - b;
-      };
-    } else if ((a + b) * pos > p2) {
-      /* science icon */
-      if (delta > 0) {
-        b++;
-        b = qMin(b, 10);
-        a--;
-        a = qMax(a, 0);
-        c = 10 - a - b;
-      } else {
-        b--;
-        b = qMax(b, 0);
-        c++;
-        c = qMin(c, 10);
-        a = 10 - c - b;
-      };
-    } else {
-      /* tax icon */
-      if (delta > 0) {
-        c++;
-        c = qMin(c, 10);
-        b--;
-        b = qMax(b, 0);
-        a = 10 - b - c;
-      } else {
-        c--;
-        c = qMax(c, 0);
-        b++;
-        b = qMin(b, 10);
-        a = 10 - b - c;
-      };
-    }
-
-    if (a + b + c == 10) {
-      dsend_packet_player_rates(&client.conn, qMax(c, 0) * 10,
-                                qMax(a, 0) * 10, qMax(b, 0) * 10);
-    }
-  }
-}
-
-/**************************************************************************
-  Mouse press event for information label.
-  Checks if end turn has been clicked or rates dialog
-  (in rates dialog raises luxury only, rest can be easily changed by wheel)
-**************************************************************************/
-void info_label::mousePressEvent(QMouseEvent *event)
-{
-
-  QPoint p(event->x(), event->y());
-  int pos = rates_label->width() / 10;
-  int p2 = event->x() - rates_area.left();
-  int a;
-  int b;
-  int c;
-
-  p = this->mapToGlobal(p);
-  if (client_is_global_observer()){
+  if (button == Qt::LeftButton) {
+    delta = -1;
+  } else if (button == Qt::RightButton) {
+    delta = +1;
+  } else {
     return;
   }
 
-  b = client.conn.playing->economic.science / 10;
-  if (event->button() == Qt::LeftButton) {
-    if (end_button_area.contains(event->x(), event->y())) {
-      key_end_turn();
-      end_turn_button = true;
-    }
-    if (rates_area.contains(event->x(), event->y())) {
-      a = p2 / pos + 1;
-      c = 10 - a - b;
-      if (c < 0) {
-        c = 0;
-        b = 10 - a;
-      }
-      dsend_packet_player_rates(&client.conn, (10 - a - b) * 10,
-                                a * 10, b * 10);
-    }
+  if (id < client.conn.playing->economic.luxury / 10) {
+    change_tax_rate(O_LUXURY, delta);
+  } else if (id < (client.conn.playing->economic.science / 10
+                  + client.conn.playing->economic.luxury / 10)) {
+    change_tax_rate(O_SCIENCE, delta);
+  } else {
+    change_tax_rate(O_GOLD, delta);
   }
 }
 
-/**************************************************************************
-  Paint event for information label
-**************************************************************************/
-void info_label::paint(QPainter *painter, QPaintEvent *event)
+/****************************************************************************
+  Change the given tax rate by delta.
+****************************************************************************/
+void info_label::change_tax_rate(output_type_id type, int delta)
 {
-  int h = 0;
-  int w;
-  QFontMetrics *fm;
+  int l, s; // Luxury, science
 
-  if (indicator_icons == nullptr) {
+  l = client.conn.playing->economic.luxury / 10;
+  s = client.conn.playing->economic.science / 10;
+
+  switch(type) {
+  case O_LUXURY:
+    l += delta;
+    s -= delta;
+    break;
+  case O_SCIENCE:
+    s += delta;
+    break;
+  case O_GOLD:
+    l -= delta;
+    break;
+  default:
+    log_error("Cannot change tax rate different from luxury, science,"
+              " and gold.");
     return;
   }
 
-  ufont->setPixelSize(14);
+  // Normalize
+  l = qMax(qMin(l, 10), 0);
+  s = qMax(qMin(s, 10), 0);
 
-  fm = new QFontMetrics(*ufont);
-  QPainter::CompositionMode comp_mode = painter->compositionMode();
-  QPen pen;
-
-  pen.setWidth(1);
-  pen.setColor(QColor(232, 255, 0));
-  painter->setBrush(QColor(0, 0, 0, 135));
-  painter->drawRect(0, 0, width(), height());
-  painter->setPen(pen);
-  painter->setFont(*ufont);
-  h = h + fm->height() + 5;
-  w = fm->width(turn_info);
-  w = (width() - w) / 2;
-  painter->drawText(w, h, turn_info);
-  h = h + fm->height() + 5;
-  w = fm->width(time_label);
-  w = (width() - w) / 2;
-  painter->drawText(w, h, time_label);
-  w = fm->width(eco_info);
-  w = (width() - w) / 2;
-  h = h + fm->height() + 5;
-  painter->drawText(w, h, eco_info);
-  h = h + indicator_icons->height();
-  w = rates_label->width();
-  w = (width() - w) / 2;
-  indicator_area.setRect(w, h, indicator_icons->width(),
-                         indicator_icons->height());
-  painter->drawPixmap(w, h, *indicator_icons);
-  h = h + rates_label->height() + 6;
-  rates_area.setRect(w, h, rates_label->width(), rates_label->height());
-  painter->drawPixmap(w, h, *rates_label);
-  h = height() - h - rates_label->height();
-  h = (h - end_turn_pix->height()) / 2;
-  h = height() - h - end_turn_pix->height();
-  
-  w = end_turn_pix->width();
-  w = (width() - w) / 2;
-  end_button_area.setRect(w, h, end_turn_pix->width(),
-                          end_turn_pix->height());
-  if (highlight_end_button == true) {
-    painter->setCompositionMode(QPainter::CompositionMode_HardLight);
+  if (l + s <= 10) {
+    dsend_packet_player_rates(&client.conn, (10 - l - s) * 10,
+                              l * 10, s * 10);
   }
-  if (end_turn_button == false) {
-    painter->setCompositionMode(QPainter::CompositionMode_DestinationOver);
-  }
-  painter->drawPixmap(w, h, *end_turn_pix);
-  painter->setCompositionMode(comp_mode);
-  delete fm;
-}
-
-/**************************************************************************
-  Paint event for information label, redirects event to paint(...)
-**************************************************************************/
-void info_label::paintEvent(QPaintEvent *event)
-{
-  QPainter painter;
-
-  painter.begin(this);
-  paint(&painter, event);
-  painter.end();
 }
 
 /**************************************************************************
@@ -1180,24 +1094,37 @@ void info_label::paintEvent(QPaintEvent *event)
 **************************************************************************/
 void info_label::info_update()
 {
-  int w = 0, h = 0;
-  QFontMetrics *fm;
+  int d;
+  const struct sprite *sprite;
 
-  ufont->setPixelSize(14);
-  fm = new QFontMetrics(*ufont);
-  w = qMax(w, fm->width(eco_info));
-  w = qMax(w, fm->width(turn_info));
-  w = qMax(w, fm->width(time_label));
-  if (rates_label != NULL && indicator_icons != NULL) {
-    h = 3 * (fm->height() + 5) + rates_label->height() +
-        indicator_icons->height() + end_turn_pix->height();
-    w = qMax(w, rates_label->width());
-    w = qMax(w, indicator_icons->width());
+  if (client_is_global_observer()){
+    return;
   }
-  setFixedWidth(h + 20);
-  setFixedHeight(w + 20);
-  update();
-  delete fm;
+
+  // Update tax rates
+  sprite = get_tax_sprite(tileset, O_LUXURY);
+  for (d = 0; d < client.conn.playing->economic.luxury / 10; ++d) {
+    tax_indicators[d]->set_sprite(sprite);
+  }
+  sprite = get_tax_sprite(tileset, O_SCIENCE);
+  for ( ; d < (client.conn.playing->economic.science
+              + client.conn.playing->economic.luxury) / 10; ++d) {
+    tax_indicators[d]->set_sprite(sprite);
+  }
+  sprite = get_tax_sprite(tileset, O_GOLD);
+  for ( ; d < 10; ++d) {
+    tax_indicators[d]->set_sprite(sprite);
+  }
+
+  // Set tooltips
+  government_indicator->setToolTip(get_government_tooltip());
+  nuclear_indicator->setToolTip(get_nuclear_winter_tooltip());
+  pollution_indicator->setToolTip(get_global_warming_tooltip());
+  research_indicator->setToolTip(get_bulb_tooltip());
+  for (d = 0; d < 10; ++d) {
+    tax_indicators[d]->setToolTip(_("Shows your current luxury/science/tax "
+                                   "rates. Use mouse wheel to change them"));
+  }
 }
 
 /****************************************************************************
@@ -1226,7 +1153,6 @@ void update_info_label(void)
     }
     gui()->game_info_label->set_eco_info(eco_info);
   }
-  gui()->game_info_label->set_rates_pixmap();
   gui()->game_info_label->info_update();
 }
 
@@ -1278,38 +1204,21 @@ void update_turn_done_button(bool do_restore)
     return;
   }
 
-  if (do_restore) {
-    gui()->game_info_label->end_turn_button = true;
-  }
-
+  gui()->game_info_label->set_highlight_turn_button(!do_restore);
 }
 
 /**************************************************************************
-  Sets indicator icons in information label
-  It assumes all icons have the same size
+  Sets indicator icons in information label.
 **************************************************************************/
-void info_label::set_indicator_icons(QPixmap* bulb, QPixmap* sol,
-                                     QPixmap* flake, QPixmap* gov)
+void info_label::set_indicator_icons(const struct sprite *bulb,
+                                     const struct sprite *sol,
+                                     const struct sprite *flake,
+                                     const struct sprite *gov)
 {
-  QPainter p;
-  QRect source_rect(0, 0, bulb->width(), bulb->height());
-  QRect dest_rect(0, 0, bulb->width(), bulb->height());
-
-  if (indicator_icons == NULL) {
-    indicator_icons = new QPixmap(7 * bulb->width(), bulb->height());
-  }
-  indicator_icons->fill(Qt::transparent);
-
-  p.begin(indicator_icons);
-  dest_rect.setLeft(3 * bulb->width());
-  p.drawPixmap(dest_rect, *bulb, source_rect);
-  dest_rect.setLeft(4 * bulb->width());
-  p.drawPixmap(dest_rect, *sol, source_rect);
-  dest_rect.setLeft(5 * bulb->width());
-  p.drawPixmap(dest_rect, *flake, source_rect);
-  dest_rect.setLeft(6 * bulb->width());
-  p.drawPixmap(dest_rect, *gov, source_rect);
-  p.end();
+  research_indicator->set_sprite(bulb);
+  government_indicator->set_sprite(gov);
+  nuclear_indicator->set_sprite(flake);
+  pollution_indicator->set_sprite(sol);
 }
 
 /****************************************************************************
@@ -1320,8 +1229,7 @@ void info_label::set_indicator_icons(QPixmap* bulb, QPixmap* sol,
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
-  gui()->game_info_label->set_indicator_icons(bulb->pm, sol->pm, flake->pm,
-                                              gov->pm);
+  gui()->game_info_label->set_indicator_icons(bulb, sol, flake, gov);
 }
 
 /****************************************************************************
@@ -1512,8 +1420,8 @@ void overview_size_changed(void)
   float ratio;
   map_width = gui()->mapview_wdg->width();
   map_height = gui()->mapview_wdg->height();
-  over_width = options.overview.width;
-  over_height = options.overview.height;
+  over_width = 2 * options.overview.width;
+  over_height = 2 * options.overview.height;
 
   /* lower overview width size to max 20% of map width, keep aspect ratio*/
   if (map_width/over_width < 5){

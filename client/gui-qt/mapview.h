@@ -36,6 +36,9 @@ extern "C" {
 #include <QVariant>
 #include <QWidget>
 
+// Forward declarations
+class QPixmap;
+
 class minimap_view;
 /* pixmap of resize button */
 const char *const resize_button[] = {
@@ -176,7 +179,7 @@ private:
   Abstract class for widgets wanting to do custom action
   when closing widgets is called (eg. update menu)
 **************************************************************************/
-class fcwidget : public QLabel
+class fcwidget : public QFrame
 {
   Q_OBJECT
 public:
@@ -201,7 +204,7 @@ protected:
 /**************************************************************************
   QLabel used for displaying overview (minimap)
 **************************************************************************/
-class minimap_view:public fcwidget 
+class minimap_view: public fcwidget
 {
   Q_OBJECT 
 public:
@@ -240,44 +243,66 @@ private:
   double scale_factor;
 };
 
+/****************************************************************************
+  Widget to display a sprite. Inherits QPushButton so it can have a drop-down
+  menu etc.
+****************************************************************************/
+class sprite_widget : public QPushButton
+{
+  Q_OBJECT
+  const QPixmap *pixmap;
+  int user_id;
+public:
+  sprite_widget(QWidget* parent = 0);
+  virtual ~sprite_widget();
+  void set_sprite(const struct sprite *sprite);
+  void set_user_id(int id);
+signals:
+  void button_clicked(Qt::MouseButton button, int id);
+  void wheel_rolled(int delta, int id);
+protected:
+  virtual void mouseReleaseEvent(QMouseEvent *ev);
+  virtual void paintEvent(QPaintEvent *ev);
+  virtual void wheelEvent(QWheelEvent *ev);
+};
+
 /**************************************************************************
   Information label about civilization, turn, time etc
 **************************************************************************/
 class info_label : public fcwidget
 {
   Q_OBJECT
-  QString turn_info;
-  QString time_label;
-  QPixmap *indicator_icons;
-  QString eco_info;
-  QPixmap *rates_label;
-  QFont *ufont;
-  QPixmap *end_turn_pix;
+  QLabel *turn_info;
+  QLabel *eco_info;
+  QLabel *time_label;
+  sprite_widget *government_indicator;
+  sprite_widget *nuclear_indicator;
+  sprite_widget *pollution_indicator;
+  sprite_widget *research_indicator;
+  sprite_widget *tax_indicators[10];
+  QPushButton *end_turn;
+  double end_turn_font_size;
 
 public:
   info_label(QWidget *parent);
-  ~info_label();
-  void set_turn_info(QString);
-  void set_time_info(QString);
-  void set_eco_info(QString);
+  virtual ~info_label();
+
+  void set_turn_info(const QString &info);
+  void set_time_info(const QString &info);
+  void set_eco_info(const QString &info);
+  void set_highlight_turn_button(bool highlight);
+  void set_turn_button_enabled(bool enabled);
   void info_update();
-  bool end_turn_button;
   void update_menu();
-  void set_rates_pixmap();
-  void set_indicator_icons(QPixmap*, QPixmap*, QPixmap*, QPixmap*);
-protected:
-  void paint(QPainter *painter, QPaintEvent *event);
-  void paintEvent(QPaintEvent *event);
-  void mousePressEvent(QMouseEvent *event);
-  void mouseMoveEvent(QMouseEvent *event);
-  void wheelEvent(QWheelEvent *event);
-  void leaveEvent (QEvent *event);
+  void set_indicator_icons(const struct sprite *bulb,
+                           const struct sprite *sol,
+                           const struct sprite *flake,
+                           const struct sprite *gov);
+protected slots:
+  void change_tax_rate_wheel(int delta, int id);
+  void change_tax_rate_click(Qt::MouseButton button, int id);
 private:
-  void create_end_turn_pixmap();
-  QRect end_button_area;
-  QRect rates_area;
-  QRect indicator_area;
-  bool highlight_end_button;
+  void change_tax_rate(output_type_id type, int delta);
 };
 
 /**************************************************************************
