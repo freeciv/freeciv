@@ -355,5 +355,7 @@ void tai_req_worker_task_rcv(struct tai_req *req)
 
     /* Send info to observers */
     package_and_send_worker_task(pcity);
+
+    free(data);
   }
 }
