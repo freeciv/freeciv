@@ -212,5 +212,7 @@ void tai_req_worker_task_rcv(struct tai_req *req)
     pcity->server.task_req.ptile = data->task.ptile;
     pcity->server.task_req.act   = data->task.act;
     pcity->server.task_req.tgt   = data->task.tgt;
+
+    free(data);
   }
 }
