@@ -744,10 +744,10 @@ void fc_icons::drop()
 ****************************************************************************/
 QIcon fc_icons::get_icon(const QString &id)
 {
-  QIcon fallback = QIcon(fileinfoname(get_data_dirs(),
+  QIcon icon = QIcon(fileinfoname(get_data_dirs(),
                             QString("themes/gui-qt/icons/"
                                     + id + ".png").toLocal8Bit().data()));
-  return QIcon::fromTheme(id, fallback);
+  return QIcon(icon);
 }
 
 /****************************************************************************

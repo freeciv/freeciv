@@ -542,7 +542,7 @@ void fc_client::create_start_page()
   pages_layout[PAGE_START]->addWidget(start_players_tree, 0, 0, 2, 8);
   but = new QPushButton;
   but->setText(_("Disconnect"));
-  but->setIcon(fc_icons::instance()->get_icon("network-disconnect"));
+  but->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
   QObject::connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
   pages_layout[PAGE_START]->addWidget(but, 5, 4);
   but = new QPushButton;
@@ -560,7 +560,7 @@ void fc_client::create_start_page()
                    SLOT(slot_pregame_observe()));
   but = new QPushButton;
   but->setText(_("Start"));
-  but->setIcon(fc_icons::instance()->get_icon("fork"));
+  but->setIcon(style()->standardPixmap(QStyle::SP_DialogOkButton));
   pages_layout[PAGE_START]->addWidget(but, 5, 7);
   QObject::connect(but, SIGNAL(clicked()), this,
                    SLOT(slot_pregame_start()));
