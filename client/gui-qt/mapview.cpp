@@ -33,6 +33,7 @@
 // client
 #include "climisc.h"
 #include "mapctrl_common.h"
+#include "menu.h" // gov_menu
 #include "overview_common.h"
 #include "sprite.h"
 #include "repodlgs.h"
@@ -917,6 +918,7 @@ info_label::info_label(QWidget *parent) : fcwidget()
   connect(research_indicator, &QPushButton::clicked,
           &science_report_dialog_popup);
   government_indicator = new sprite_widget();
+  government_indicator->setMenu(new gov_menu());
   hbox->addWidget(government_indicator);
   pollution_indicator = new sprite_widget();
   hbox->addWidget(pollution_indicator);

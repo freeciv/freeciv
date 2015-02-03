@@ -106,6 +106,32 @@ private:
   QPushButton *ok_button;
 };
 
+/****************************************************************************
+  Instantiable government menu.
+****************************************************************************/
+class gov_menu : public QMenu
+{
+  Q_OBJECT
+  static QSet<gov_menu *> instances;
+
+  QSignalMapper *gov_mapper;
+  QVector<QAction *> actions;
+
+public:
+  gov_menu(QWidget* parent = 0);
+  virtual ~gov_menu();
+
+  static void create_all();
+  static void update_all();
+
+public slots:
+  void revolution();
+  void change_gov(int target_gov);
+
+  void create();
+  void update();
+};
+
 /**************************************************************************
   Class representing global menus in gameview
 **************************************************************************/
@@ -113,9 +139,7 @@ class mr_menu : public QMenuBar
 {
   Q_OBJECT
   QMenu *menu;
-  QMenu *gov_menu;
   QMenu *filter_menu;
-  QList<QAction*> gov_list;
   QActionGroup *filter_act;
   QActionGroup *filter_any;;
   QHash<munit, QAction*> menu_list;
@@ -123,10 +147,7 @@ class mr_menu : public QMenuBar
 public:
   mr_menu();
   void setup_menus();
-  void setup_gov_menu();
-  void gov_menu_sensitive();
   void menus_sensitive();
-  void rm_gov_menu();
   QAction *minimap_status;
   QAction *chat_status;
   QAction *messages_status;
@@ -214,8 +235,6 @@ private slots:
   void slot_show_nations();
   void slot_show_cities();
   void slot_show_research_tab();
-  void slot_gov_change(const int &target);
-  void revolution();
   void slot_spaceship();
   void slot_demographics();
   void slot_top_five();
@@ -229,9 +248,6 @@ private:
                    enum unit_select_location_mode selloc);
   void apply_filter(struct unit *punit);
   void apply_2nd_filter(struct unit *punit);
-  int gov_count;
-  int gov_target;
-  QSignalMapper *signal_gov_mapper;
   QSignalMapper *signal_help_mapper;
 };
 
