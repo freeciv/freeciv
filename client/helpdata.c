@@ -3669,8 +3669,21 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     /* Roads, rail, mines, irrigation. */
     CATLSTR(buf, bufsz, _("* Can build roads and railroads.\n"));
-    CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
-    CATLSTR(buf, bufsz, _("* Can build irrigation and farmland on tiles.\n"));
+
+    /* TODO: Check also that specific unit fulfills the requirements of the effects */
+    if (effect_cumulative_max(EFT_MINING_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
+    }
+    if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can mine terrain to another.\n"));
+    }
+
+    if (effect_cumulative_max(EFT_IRRIG_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can build irrigation and farmland on tiles.\n"));
+    }
+    if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
+    }
 
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
