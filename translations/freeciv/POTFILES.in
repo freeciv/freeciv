@@ -189,10 +189,12 @@ common/player.c
 common/requirements.c
 common/team.c
 common/tech.c
+common/tech.h
 common/terrain.c
 common/terrain.h
 common/unit.c
 common/unittype.c
+common/unittype.h
 common/version.c
 data/civ1/buildings.ruleset
 data/civ1/cities.ruleset
