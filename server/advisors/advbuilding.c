@@ -221,16 +221,18 @@ void building_advisor(struct player *pplayer)
        * continent. */
       if (first_role_unit_for_player(pplayer, UTYF_HELP_WONDER)) {
         value += city_data->downtown;
-        value += adv->stats.cities[place] / 8;
+        if (place >= 0) {
+          value += adv->stats.cities[place] / 8;
+        }
       }
-      if (adv->threats.continent[place] > 0) {
+      if (place >= 0 && adv->threats.continent[place] > 0) {
         /* We have threatening neighbours: -25% */
         value -= value / 4;
       }
       /* Require that there is at least some neighbors for wonder helpers,
        * if ruleset supports it. */
       if (value > best_candidate_value
-          && (!has_help || adv->stats.cities[place] > 5)
+          && (!has_help || (place >= 0 && adv->stats.cities[place] > 5))
           && (!has_help || city_data->downtown > 3)) {
         best_candidate = pcity;
         best_candidate_value = value;
