@@ -539,6 +539,8 @@ static void savegame3_load_real(struct section_file *file)
   /* Load the savegame data. */
   /* [compat] */
   sg_load_compat(loading);
+  /* [scenario] */
+  sg_load_scenario(loading);
   /* [savefile] */
   sg_load_savefile(loading);
   /* [game] */
@@ -547,8 +549,6 @@ static void savegame3_load_real(struct section_file *file)
   sg_load_random(loading);
   /* [script] */
   sg_load_script(loading);
-  /* [scenario] */
-  sg_load_scenario(loading);
   /* [settings] */
   sg_load_settings(loading);
   /* [ruldata] */
