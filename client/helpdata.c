@@ -2593,23 +2593,35 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     /* Roads, rail, mines, irrigation. */
     CATLSTR(buf, bufsz, _("* Can build roads and railroads.\n"));
-    CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
-    CATLSTR(buf, bufsz, _("* Can build irrigation on tiles.\n"));
 
-    /* Farmland. */
-    switch (techs_with_flag_string(buf2, sizeof(buf2), pplayer, TF_FARMLAND)) {
-    case 0:
-      /* Can never build farmland */
-      break;
-    case 1:
-      cat_snprintf(buf, bufsz,
-		   _("* Can build farmland (if %s is known).\n"), buf2);
-      break;
-    default:
-      cat_snprintf(buf, bufsz,
-		   _("* Can build farmland (if any of the following are"
-		     " known: %s).\n"), buf2);
-      break;
+    /* TODO: Check also that specific unit fulfills the requirements of the effects */
+    if (effect_cumulative_max(EFT_MINING_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
+    }
+    if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can mine terrain to another.\n"));
+    }
+
+    if (effect_cumulative_max(EFT_IRRIG_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can build irrigation on tiles.\n"));
+      /* Farmland. */
+      switch (techs_with_flag_string(buf2, sizeof(buf2), pplayer, TF_FARMLAND)) {
+      case 0:
+        /* Can never build farmland */
+        break;
+      case 1:
+        cat_snprintf(buf, bufsz,
+                     _("* Can build farmland (if %s is known).\n"), buf2);
+        break;
+      default:
+        cat_snprintf(buf, bufsz,
+                     _("* Can build farmland (if any of the following are"
+                       " known: %s).\n"), buf2);
+        break;
+      }
+    }
+    if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE) > 0) {
+      CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
     }
 
     /* Pollution, fallout. */
