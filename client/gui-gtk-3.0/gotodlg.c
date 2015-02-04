@@ -60,6 +60,7 @@ static GtkWidget *all_toggle;
 static GtkListStore *store;
 static GtkTreeSelection *selection;
 struct tile *original_tile;
+static bool gotodlg_updating = FALSE;
 
 static void update_goto_dialog(GtkToggleButton *button);
 static void update_source_label(void);
@@ -423,12 +424,14 @@ static void update_source_label(void)
 **************************************************************************/
 static void update_goto_dialog(GtkToggleButton *button)
 {
-  gtk_list_store_clear(store);
-
   if (!client_has_player()) {
     /* Case global observer. */
     return;
   }
+
+  gotodlg_updating = TRUE;
+
+  gtk_list_store_clear(store);
 
   if (gtk_toggle_button_get_active(button)) {
     players_iterate(pplayer) {
@@ -437,6 +440,9 @@ static void update_goto_dialog(GtkToggleButton *button)
   } else {
     list_store_append_player_cities(store, client_player());
   }
+
+  gotodlg_updating = FALSE;
+
   refresh_airlift_column();
 }
 
@@ -498,7 +504,14 @@ static void refresh_airlift_button(void)
 static void goto_selection_callback(GtkTreeSelection *selection,
                                     gpointer data)
 {
-  struct city *pdestcity = get_selected_city();
+  struct city *pdestcity;
+
+  if (gotodlg_updating) {
+    return;
+  }
+
+  pdestcity = get_selected_city();
+
   if (NULL != pdestcity) {
     center_tile_mapcanvas(city_tile(pdestcity));
   }
