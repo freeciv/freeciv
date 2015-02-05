@@ -91,7 +91,9 @@ Government changes
 ------------------
 
 The Fundamentalism government is added. This is similar to the one in
-the civ2 ruleset.
+the civ2 ruleset, with following exceptions:
+- Food upkeep for Settlers is 3
+- Free unit upkeep is worth 10 shields in each city
 
 Technology changes
 ------------------
