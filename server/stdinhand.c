@@ -2244,7 +2244,7 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
                  setting_int_min(pset), setting_int_max(pset));
   }
 
-  if (!setting_is_changed(pset)) {
+  if (setting_get_setdef(pset) == SETDEF_INTERNAL) {
     defaultness = '~';
   } else if (is_changed) {
     defaultness = ' ';
