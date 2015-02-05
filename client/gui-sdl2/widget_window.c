@@ -61,7 +61,7 @@ static int redraw_window(struct widget *pWindow)
   alphablit(pWindow->theme, NULL, pWindow->dst->surface, &dst, 255);
 
   /* window has title string == has title bar */
-  if (pWindow->string16) {
+  if (pWindow->string_utf8 != NULL) {
 
     /* Draw Window's TitleBar */
     dst = pWindow->area;
@@ -70,7 +70,7 @@ static int redraw_window(struct widget *pWindow)
     fill_rect_alpha(pWindow->dst->surface, &dst, &title_bg_color);
 
     /* Draw Text on Window's TitleBar */
-    pTmp = create_text_surf_from_str16(pWindow->string16);
+    pTmp = create_text_surf_from_utf8(pWindow->string_utf8);
     dst.x += adj_size(4);
     if (pTmp) {
       dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
@@ -163,7 +163,7 @@ static void set_client_area(struct widget *pWindow)
     area = pWindow->size;
   }
 
-  if (pWindow->string16) {
+  if (pWindow->string_utf8 != NULL) {
     area.y += (WINDOW_TITLE_HEIGHT + 1);
     area.h -= (WINDOW_TITLE_HEIGHT + 1);
   }
@@ -176,7 +176,7 @@ static void set_client_area(struct widget *pWindow)
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
 struct widget *create_window_skeleton(struct gui_layer *pDest,
-                                      SDL_String16 *pTitle, Uint32 flags)
+                                      utf8_str *title, Uint32 flags)
 {
   int w = 0, h = 0;
   struct widget *pWindow = widget_new();
@@ -188,7 +188,7 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
   pWindow->select = window_select;
   pWindow->unselect = window_unselect;
 
-  pWindow->string16 = pTitle;
+  pWindow->string_utf8 = title;
   set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME |
             WF_DRAW_FRAME_AROUND_WIDGET| flags);
   set_wstate(pWindow, FC_WS_DISABLED);
@@ -200,8 +200,8 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
     h += pTheme->FR_Top->h + pTheme->FR_Bottom->h;
   }
 
-  if (pTitle) {
-    SDL_Rect size = str16size(pTitle);
+  if (title != NULL) {
+    SDL_Rect size = utf8_str_size(title);
 
     w += size.w + adj_size(10);
     h += MAX(size.h, WINDOW_TITLE_HEIGHT + 1);
@@ -224,10 +224,10 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
 /**************************************************************************
   Create window widget
 **************************************************************************/
-struct widget *create_window(struct gui_layer *pDest, SDL_String16 *pTitle, 
+struct widget *create_window(struct gui_layer *pDest, utf8_str *title, 
                              Uint16 w, Uint16 h, Uint32 flags)
 {
-  struct widget *pWindow = create_window_skeleton(pDest, pTitle, flags);
+  struct widget *pWindow = create_window_skeleton(pDest, title, flags);
 
   resize_window(pWindow, NULL, NULL, w, h);
 

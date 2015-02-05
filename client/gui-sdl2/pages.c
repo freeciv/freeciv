@@ -167,7 +167,7 @@ static void show_main_page(void)
                                         adj_font(12),
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
-  pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
+  pWidget->string_utf8->style |= SF_CENTER | TTF_STYLE_BOLD;
 
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
@@ -181,7 +181,7 @@ static void show_main_page(void)
                                         adj_font(12),
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
-  pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
+  pWidget->string_utf8->style |= SF_CENTER | TTF_STYLE_BOLD;
 
   area.w = MAX(area.w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
@@ -195,7 +195,7 @@ static void show_main_page(void)
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   pWidget->action = start_new_game_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
 
   area.w = MAX(area.w, pWidget->size.w);
@@ -210,7 +210,7 @@ static void show_main_page(void)
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
 
   pWidget->action = load_game_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
 
   add_to_gui_list(ID_LOAD_GAME, pWidget);
@@ -225,7 +225,7 @@ static void show_main_page(void)
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = join_game_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
 
   add_to_gui_list(ID_JOIN_GAME, pWidget);
@@ -240,7 +240,7 @@ static void show_main_page(void)
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = servers_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
 
   add_to_gui_list(ID_JOIN_META_GAME, pWidget);
@@ -255,7 +255,7 @@ static void show_main_page(void)
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = servers_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
 
   add_to_gui_list(ID_JOIN_GAME, pWidget);
@@ -270,7 +270,7 @@ static void show_main_page(void)
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = options_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   set_wstate(pWidget, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CLIENT_OPTIONS_BUTTON, pWidget);
@@ -285,7 +285,7 @@ static void show_main_page(void)
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
   pWidget->action = quit_callback;
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->string_utf8->style |= SF_CENTER;
   pWidget->key = SDLK_ESCAPE;
   set_wstate(pWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_QUIT, pWidget);

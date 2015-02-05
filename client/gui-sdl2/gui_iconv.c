@@ -154,8 +154,8 @@ Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
 
 /**************************************************************************
   Convert string from display encoding (16 bit unicode) to
-  local encoding (8 bit char) and resut put in 'pToString'.
-  if 'pToString' == NULL then resulting string will be allocate automatically.
+  local encoding (8 bit char) and result put in 'pToString'.
+  if 'pToString' == NULL then resulting string will be allocated automatically.
   'length' give real sizeof 'pToString' array.
 
   Function return (char *) pointer to (new) pToString.

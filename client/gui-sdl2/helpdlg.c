@@ -204,7 +204,8 @@ void popup_impr_info(Impr_type_id impr)
   struct widget *pObsoleteByLabel2 = NULL;
   struct widget *pHelptextLabel = NULL;
   struct widget *pDock;
-  SDL_String16 *pTitle, *pStr;
+  utf8_str *title;
+  SDL_String16 *pStr;
   SDL_Surface *pSurf;
   int h, start_x, start_y, impr_type_count;
   bool created, text = FALSE;
@@ -230,10 +231,10 @@ void popup_impr_info(Impr_type_id impr)
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
     /* create window */
-    pTitle = create_str16_from_char(_("Help : Improvements"), adj_font(12));
-    pTitle->style |= TTF_STYLE_BOLD;
+    title = create_utf8_from_char(_("Help : Improvements"), adj_font(12));
+    title->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pTitle, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, title, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
@@ -249,7 +250,7 @@ void popup_impr_info(Impr_type_id impr)
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     pCloseButton->info_label =
-        create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+        create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -333,7 +334,7 @@ void popup_impr_info(Impr_type_id impr)
 #endif
 
     widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string16->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
     add_to_gui_list(ID_BUTTON, pListToggleButton);
 
@@ -415,7 +416,7 @@ void popup_impr_info(Impr_type_id impr)
         break; /* FIXME */
       }
       pRequirementLabel2->ID = MAX_ID - advance_number(preq->source.value.advance);
-      pRequirementLabel2->string16->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
+      pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
       pRequirementLabel2->action = change_tech_callback;
       set_wstate(pRequirementLabel2, FC_WS_NORMAL);
       break;
@@ -449,7 +450,7 @@ void popup_impr_info(Impr_type_id impr)
                                                     advance_name_translation(obsTech),
                                                     adj_font(12), WF_RESTORE_BACKGROUND);
     pObsoleteByLabel2->ID = MAX_ID - advance_number(obsTech);
-    pObsoleteByLabel2->string16->fgcol = *get_tech_color(advance_number(obsTech));
+    pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(obsTech));
     pObsoleteByLabel2->action = change_tech_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
@@ -463,10 +464,10 @@ void popup_impr_info(Impr_type_id impr)
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), client.conn.playing, NULL, pImpr_type);
   if (buffer[0] != '\0') {
-    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    utf8_str *pstr = create_utf8_from_char(buffer, adj_font(12));
 
-    convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
-    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    convert_utf8_str_to_const_surface_width(pstr, adj_size(640) - start_x - adj_size(20));
+    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pstr, 0);
     pHelptextLabel->ID = ID_LABEL;
     DownAdd(pHelptextLabel, pDock);
     pDock = pHelptextLabel;
@@ -620,7 +621,8 @@ void popup_unit_info(Unit_type_id type_id)
   struct widget *pObsoleteByLabel2 = NULL;
   struct widget *pHelptextLabel = NULL;
   struct widget *pDock;
-  SDL_String16 *pTitle, *pStr;
+  utf8_str *title;
+  SDL_String16 *pStr;
   SDL_Surface *pSurf;
   int h, start_x, start_y, utype_count;
   bool created, text = FALSE;
@@ -646,10 +648,10 @@ void popup_unit_info(Unit_type_id type_id)
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
     /* create window */
-    pTitle = create_str16_from_char(_("Help : Units"), adj_font(12));
-    pTitle->style |= TTF_STYLE_BOLD;
+    title = create_utf8_from_char(_("Help : Units"), adj_font(12));
+    title->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pTitle, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, title, WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
@@ -666,7 +668,7 @@ void popup_unit_info(Unit_type_id type_id)
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     pCloseButton->info_label =
-        create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+        create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -750,7 +752,7 @@ void popup_unit_info(Unit_type_id type_id)
 #endif
 
     widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string16->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
     add_to_gui_list(ID_BUTTON, pListToggleButton);
 
@@ -854,7 +856,7 @@ void popup_unit_info(Unit_type_id type_id)
           adj_font(12),
           WF_RESTORE_BACKGROUND);
     pRequirementLabel2->ID = MAX_ID - advance_number(pUnitType->require_advance);
-    pRequirementLabel2->string16->fgcol = *get_tech_color(advance_number(pUnitType->require_advance));
+    pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(pUnitType->require_advance));
     pRequirementLabel2->action = change_tech_callback;
     set_wstate(pRequirementLabel2, FC_WS_NORMAL);
   }
@@ -882,7 +884,7 @@ void popup_unit_info(Unit_type_id type_id)
                                                     utype_name_translation(utype),
                                                     adj_font(12),
                                                     WF_RESTORE_BACKGROUND);
-    pObsoleteByLabel2->string16->fgcol = *get_tech_color(advance_number(utype->require_advance));
+    pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
     pObsoleteByLabel2->ID = MAX_ID - utype_number(pUnitType->obsoleted_by);
     pObsoleteByLabel2->action = change_unit_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
@@ -897,10 +899,10 @@ void popup_unit_info(Unit_type_id type_id)
   buffer[0] = '\0';
   helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id));
   if (buffer[0] != '\0') {
-    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    utf8_str *pstr = create_utf8_from_char(buffer, adj_font(12));
 
-    convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
-    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    convert_utf8_str_to_const_surface_width(pstr, adj_size(640) - start_x - adj_size(20));
+    pHelptextLabel = create_iconlabel(NULL, pWindow->dst, pstr, 0);
     pHelptextLabel->ID = ID_LABEL;
     DownAdd(pHelptextLabel, pDock);
     pDock = pHelptextLabel;
@@ -1140,7 +1142,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
               advance_name_translation(advance_by_number(i)),
               adj_font(12),
               WF_RESTORE_BACKGROUND);
-      pWidget->string16->fgcol = *get_tech_color(i);
+      pWidget->string_utf8->fgcol = *get_tech_color(i);
       max_width = MAX(max_width, pWidget->size.w);
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_tech_callback;
@@ -1173,7 +1175,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
               advance_name_translation(advance_by_number(sub_tech)),
               adj_font(12),
               WF_RESTORE_BACKGROUND);
-      pWidget->string16->fgcol = *get_tech_color(sub_tech);
+      pWidget->string_utf8->fgcol = *get_tech_color(sub_tech);
       set_wstate(pWidget, FC_WS_NORMAL);
       pWidget->action = change_tech_callback;
       pWidget->ID = MAX_ID - sub_tech;
@@ -1229,7 +1231,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                 WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR);
         set_wstate(pWidget, FC_WS_NORMAL);
         if (is_wonder(pImprove)) {
-          pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+          pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
         }
         pWidget->action = change_impr_callback;
         pWidget->ID = MAX_ID - improvement_number(pImprove);
@@ -1264,10 +1266,10 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   buffer[0] = '\0';
   helptext_advance(buffer, sizeof(buffer), client.conn.playing, "", tech);
   if (buffer[0] != '\0') {
-    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    utf8_str *pstr = create_utf8_from_char(buffer, adj_font(12));
 
-    convert_string_to_const_surface_width(pStr, adj_size(640) - start_x - adj_size(20));
-    pWidget = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    convert_utf8_str_to_const_surface_width(pstr, adj_size(640) - start_x - adj_size(20));
+    pWidget = create_iconlabel(NULL, pWindow->dst, pstr, 0);
     pWidget->ID = ID_LABEL;
     DownAdd(pWidget, pDock);
     pDock = pWidget;
@@ -1652,15 +1654,15 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   int i, w, h, req_count , targets_count, sub_req_count, sub_targets_count;
   struct widget *pWidget;
   struct widget *pTech;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   struct widget *pDock = pStore->pDock;
 
-  pStr = create_string16(NULL, 0, adj_font(10));
-  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
-  copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(tech)));
-  pSurf = create_select_tech_icon(pStr, tech, FULL_MODE);
+  copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(tech)));
+  pSurf = create_select_tech_icon(pstr, tech, FULL_MODE);
   pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -1677,8 +1679,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     struct advance *vap = valid_advance_by_number(ar);
 
     if (NULL != vap && A_NONE != ar) {
-      copy_chars_to_string16(pStr, advance_name_translation(vap));
-      pSurf = create_select_tech_icon(pStr, ar, SMALL_MODE);
+      copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
+      pSurf = create_select_tech_icon(pstr, ar, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pWidget, FC_WS_NORMAL);
@@ -1705,8 +1707,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         struct advance *vap = valid_advance_by_number(ar);
 
         if (NULL != vap && A_NONE != ar) {
-          copy_chars_to_string16(pStr, advance_name_translation(vap));
-          pSurf = create_select_tech_icon(pStr, ar, SMALL_MODE);
+          copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
+          pSurf = create_select_tech_icon(pstr, ar, SMALL_MODE);
           pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
           set_wstate(pWidget, FC_WS_NORMAL);
@@ -1729,8 +1731,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     if ((targets_count < 6)
         && (advance_required(i, AR_ONE) == tech
             || advance_required(i, AR_TWO) == tech)) {
-      copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-      pSurf = create_select_tech_icon(pStr, i, SMALL_MODE);
+      copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(i)));
+      pSurf = create_select_tech_icon(pstr, i, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -1762,8 +1764,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         continue;
       }
 
-      copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(sub_tech)));
-      pSurf = create_select_tech_icon(pStr, sub_tech, SMALL_MODE);
+      copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(sub_tech)));
+      pSurf = create_select_tech_icon(pstr, sub_tech, SMALL_MODE);
       pWidget = create_icon2(pSurf, pWindow->dst,
         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pWidget, FC_WS_NORMAL);
@@ -1778,7 +1780,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     pStore->pSub_Targets[sub_targets_count] = NULL;
   }
 
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   /* ------------------------------------------ */
   if (sub_req_count) {
@@ -1895,7 +1897,8 @@ void popup_tech_info(Tech_type_id tech)
   struct widget *pAdvanceLabel = NULL;
   struct widget *pListToggleButton = NULL;
   struct widget *pDock;
-  SDL_String16 *pTitle, *pStr;
+  utf8_str *title;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   int h, tech_count;
   bool created;
@@ -1919,10 +1922,10 @@ void popup_tech_info(Tech_type_id tech)
     pStore->show_full_tree = FALSE;
 
     /* create window */
-    pTitle = create_str16_from_char(_("Help : Advances Tree"), adj_font(12));
-    pTitle->style |= TTF_STYLE_BOLD;
+    title = create_utf8_from_char(_("Help : Advances Tree"), adj_font(12));
+    title->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pTitle, WF_FREE_DATA);
+    pWindow = create_window_skeleton(NULL, title, WF_FREE_DATA);
     pWindow->data.ptr = (void *)pStore;
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
@@ -1940,7 +1943,7 @@ void popup_tech_info(Tech_type_id tech)
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     pCloseButton->info_label =
-        create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+        create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -1951,16 +1954,16 @@ void popup_tech_info(Tech_type_id tech)
     pDock = pCloseButton;
 
     /* --- create scrollable advance list on the left side ---*/
-    pStr = create_string16(NULL, 0, adj_font(10));
-    pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     tech_count = 0;
     advance_index_iterate(A_FIRST, i) {
       struct advance *vap = valid_advance_by_number(i);
 
       if (vap) {
-        copy_chars_to_string16(pStr, advance_name_translation(vap));
-        pSurf = create_select_tech_icon(pStr, i, SMALL_MODE);
+        copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
+        pSurf = create_select_tech_icon(pstr, i, SMALL_MODE);
         pAdvanceLabel = create_icon2(pSurf, pWindow->dst,
                                      WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -1974,7 +1977,7 @@ void popup_tech_info(Tech_type_id tech)
       }
     } advance_index_iterate_end;
 
-    FREESTRING16(pStr);
+    FREEUTF8STR(pstr);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
     pHelpDlg->pBeginWidgetList = pAdvanceLabel ? pAdvanceLabel : pCloseButton;
@@ -1995,7 +1998,7 @@ void popup_tech_info(Tech_type_id tech)
       set_wstate(pListToggleButton, FC_WS_NORMAL);
     }
     widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string16->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
     add_to_gui_list(ID_BUTTON, pListToggleButton);
 

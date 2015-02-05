@@ -246,7 +246,7 @@ void real_players_dialog_update(void)
         }
       }
 
-      copy_chars_to_string16(pPlayer0->info_label, astr_str(&astr));
+      copy_chars_to_utf8_str(pPlayer0->info_label, astr_str(&astr));
 
       astr_free(&astr);
 
@@ -330,7 +330,7 @@ void popup_players_dialog(bool raise)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Rect dst;
   int i, n, h;
   double a, b, r;
@@ -354,10 +354,10 @@ void popup_players_dialog(bool raise)
 
   pPlayers_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pStr = create_str16_from_char(_("Players"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Players"), adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = players_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -368,8 +368,8 @@ void popup_players_dialog(bool raise)
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                           adj_font(12));
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -429,8 +429,8 @@ void popup_players_dialog(bool raise)
       continue;
     }
 
-    pStr = create_string16(NULL, 0, adj_font(10));
-    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+    pstr = create_utf8_str(NULL, 0, adj_font(10));
+    pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
     pLogo = get_nation_flag_surface(nation_of_player(pPlayer));
     {
@@ -444,14 +444,14 @@ void popup_players_dialog(bool raise)
     pBuf = create_icon2(pZoomed, pWindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
-    pBuf->info_label = pStr;
+    pBuf->info_label = pstr;
 
     if (!pPlayer->is_alive) {
-      pStr = create_str16_from_char(_("R.I.P.") , adj_font(10));
-      pStr->style |= TTF_STYLE_BOLD;
-      pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_TEXT);
-      pLogo = create_text_surf_from_str16(pStr);
-      FREESTRING16(pStr);
+      pstr = create_utf8_from_char(_("R.I.P.") , adj_font(10));
+      pstr->style |= TTF_STYLE_BOLD;
+      pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_TEXT);
+      pLogo = create_text_surf_from_utf8(pstr);
+      FREEUTF8STR(pstr);
 
       dst.x = (pZoomed->w - pLogo->w) / 2;
       dst.y = (pZoomed->h - pLogo->h) / 2;
@@ -493,26 +493,26 @@ void popup_players_dialog(bool raise)
   pBuf->size.y = pWindow->size.y + adj_size(2);
 
   n = area.y;
-  pStr = create_string16(NULL, 0, adj_font(10));
-  pStr->style |= TTF_STYLE_BOLD;
-  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr->style |= TTF_STYLE_BOLD;
+  pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   for (i = 0; i < DS_LAST; i++) {
     switch (i) {
     case DS_ARMISTICE:
-      pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE);
+      pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE);
       break;
     case DS_WAR:
-      pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_WAR);
+      pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_WAR);
       break;
     case DS_CEASEFIRE:
-      pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE);
+      pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE);
       break;
     case DS_PEACE:
-      pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_PEACE);
+      pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_PEACE);
       break;
     case DS_ALLIANCE:
-      pStr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE);
+      pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE);
       break;
     default:
       /* no contact */
@@ -520,8 +520,8 @@ void popup_players_dialog(bool raise)
       break;
     }
 
-    copy_chars_to_string16(pStr, diplstate_type_translated_name(i));
-    pLogo = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, diplstate_type_translated_name(i));
+    pLogo = create_text_surf_from_utf8(pstr);
 
     pBuf = pBuf->prev;
     h = MAX(pBuf->size.h, pLogo->h);
@@ -534,7 +534,7 @@ void popup_players_dialog(bool raise)
     n += h;
     FREESURFACE(pLogo);
   }
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   /* first player shield */
   pBuf = pBuf->prev;
@@ -624,7 +624,7 @@ void popup_players_nations_dialog(void)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   char cBuf[128], *state;
   int n = 0, w = 0, units_h = 0;
   const struct player_diplstate *pDS;
@@ -637,10 +637,10 @@ void popup_players_nations_dialog(void)
   pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   /* TRANS: Nations report title */
-  pStr = create_str16_from_char(_("Nations") , adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Nations") , adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = players_nations_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -654,8 +654,8 @@ void popup_players_nations_dialog(void)
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                           adj_font(12));
   area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -697,49 +697,49 @@ void popup_players_nations_dialog(void)
                     state);
       }
 
-      pStr = create_str16_from_char(cBuf, adj_font(10));
-      pStr->style |= TTF_STYLE_BOLD;
+      pstr = create_utf8_from_char(cBuf, adj_font(10));
+      pstr->style |= TTF_STYLE_BOLD;
 
       pLogo = get_nation_flag_surface(nation_of_player(pPlayer));
 
-      pBuf = create_iconlabel(pLogo, pWindow->dst, pStr,
+      pBuf = create_iconlabel(pLogo, pWindow->dst, pstr,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       /* now add some eye candy ... */
       switch (pDS->type) {
       case DS_ARMISTICE:
-        pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE);
+        pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE);
         set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_WAR:
         if (can_meet_with_player(pPlayer) || can_intel_with_player(pPlayer)) {
           set_wstate(pBuf, FC_WS_NORMAL);
-          pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_WAR);
+          pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_WAR);
         } else {
-          pBuf->string16->fgcol = *(get_theme_color(COLOR_THEME_PLRDLG_WAR_RESTRICTED));
+          pBuf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_PLRDLG_WAR_RESTRICTED));
         }
         break;
       case DS_CEASEFIRE:
-        pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE);
+        pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE);
         set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_PEACE:
-        pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_PEACE);
+        pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_PEACE);
         set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_ALLIANCE:
-        pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE);
+        pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE);
         set_wstate(pBuf, FC_WS_NORMAL);
         break;
       case DS_NO_CONTACT:
-        pBuf->string16->fgcol = *(get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
+        pBuf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
 	break;
       default:
         set_wstate(pBuf, FC_WS_NORMAL);
         break;
       }
 
-      pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
+      pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
       pBuf->data.player = pPlayer;
 

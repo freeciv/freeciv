@@ -329,7 +329,7 @@ utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars)
   fc_assert_ret_val(pstr != NULL, NULL);
   fc_assert_ret_val(pchars != NULL, NULL);
 
-  n = (strlen(pchars) + 1) * 2;
+  n = (strlen(pchars) + 1);
 
   if (n > pstr->n_alloc) {
     /* allocated more if this is only a small increase on before: */

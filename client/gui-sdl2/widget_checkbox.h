@@ -21,7 +21,7 @@ struct CHECKBOX {
 };
 
 struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
-                                   SDL_String16 *pStr, Uint32 flags);
+                                   utf8_str *pstr, Uint32 flags);
 struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags);
 void togle_checkbox(struct widget *pCBox);
 bool get_checkbox_state(struct widget *pCBox);

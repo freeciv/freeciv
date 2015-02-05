@@ -42,6 +42,7 @@
 #include "mapview.h"
 #include "themespec.h"
 #include "unistring.h"
+#include "utf8string.h"
 #include "widget.h"
 
 #include "messagewin.h"
@@ -65,7 +66,7 @@ static int msg_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int message_index = *(int*)pWidget->data.ptr;
 
-    pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+    pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
     unselect_widget_action();
 
     meswin_double_click(message_index);
@@ -100,7 +101,7 @@ void real_meswin_dialog_update(void)
   int current_count;
   const struct message *pMsg = NULL;
   struct widget *pBuf = NULL, *pWindow = NULL;
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   SDL_Rect area = {0, 0, 0, 0};
   bool create;
   int label_width;
@@ -131,24 +132,24 @@ void real_meswin_dialog_update(void)
   if (msg_count > 0) {
     for (; current_count < msg_count; current_count++) {
       pMsg = meswin_get_message(current_count);
-      pStr = create_str16_from_char(pMsg->descr, PTSIZE_LOG_FONT);
+      pstr = create_utf8_from_char(pMsg->descr, PTSIZE_LOG_FONT);
 
-      if (convert_string_to_const_surface_width(pStr, label_width - adj_size(10))) {
+      if (convert_utf8_str_to_const_surface_width(pstr, label_width - adj_size(10))) {
         /* string must be divided to fit into the given area */
-        SDL_String16 *pStr2;
-        Uint16 **UniTexts = create_new_line_unistrings(pStr->text);
+        utf8_str *pstr2;
+        char **utf8_texts = create_new_line_utf8strs(pstr->text);
         int count = 0;
 
-        while (UniTexts[count]) {
-          pStr2 = create_string16(UniTexts[count],
-                                  unistrlen(UniTexts[count]) + 1, PTSIZE_LOG_FONT);
+        while (utf8_texts[count]) {
+          pstr2 = create_utf8_str(utf8_texts[count],
+                                  strlen(utf8_texts[count]) + 1, PTSIZE_LOG_FONT);
 
-          pBuf = create_iconlabel(NULL, pWindow->dst, pStr2,
+          pBuf = create_iconlabel(NULL, pWindow->dst, pstr2,
                    (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
           /* this block is duplicated in the "else" branch */
           {
-            pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
+            pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
             pBuf->size.w = label_width;
             pBuf->data.ptr = fc_calloc(1, sizeof(int));
@@ -157,9 +158,9 @@ void real_meswin_dialog_update(void)
             if (pMsg->tile) {
               set_wstate(pBuf, FC_WS_NORMAL);
               if (pMsg->visited) {
-                pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+                pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
               } else {
-                pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+                pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
               }
             }
 
@@ -180,14 +181,14 @@ void real_meswin_dialog_update(void)
           }
           count++;
         } /* while */
-        FREESTRING16(pStr);
+        FREEUTF8STR(pstr);
       } else {
-        pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
+        pBuf = create_iconlabel(NULL, pWindow->dst, pstr,
                   (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
         /* duplicated block */
         {
-          pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
+          pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
           pBuf->size.w = label_width;
           pBuf->data.ptr = fc_calloc(1, sizeof(int));
@@ -196,9 +197,9 @@ void real_meswin_dialog_update(void)
           if (pMsg->tile) {
             set_wstate(pBuf, FC_WS_NORMAL);
             if (pMsg->visited) {
-              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+              pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
             } else {
-              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+              pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
             }
           }
 
@@ -231,7 +232,7 @@ void real_meswin_dialog_update(void)
 **************************************************************************/
 void meswin_dialog_popup(bool raise)
 {
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   struct widget *pWindow = NULL;
   SDL_Surface *pBackground;
   SDL_Rect area;
@@ -243,10 +244,10 @@ void meswin_dialog_popup(bool raise)
   pMsg_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   /* create window */
-  pStr = create_str16_from_char(_("Messages"), adj_font(12));
-  pStr->style = TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Messages"), adj_font(12));
+  pstr->style = TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -260,13 +261,13 @@ void meswin_dialog_popup(bool raise)
   /* create scrollbar */
   create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
 
-  pStr = create_str16_from_char("sample text", PTSIZE_LOG_FONT);
+  pstr = create_utf8_from_char("sample text", PTSIZE_LOG_FONT);
 
   /* define content area */
   area.w = (adj_size(520) - (pWindow->size.w - pWindow->area.w));
-  area.h = (N_MSG_VIEW + 1) * str16height(pStr);
+  area.h = (N_MSG_VIEW + 1) * utf8_str_height(pstr);
 
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
 
   /* create window background */
   pBackground = theme_get_background(theme, BACKGROUND_MESSAGEWIN);

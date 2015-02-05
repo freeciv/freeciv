@@ -27,6 +27,7 @@
 #include "mapview.h"
 #include "themespec.h"
 #include "unistring.h"
+#include "utf8string.h"
 
 #include "widget.h"
 #include "widget_p.h"
@@ -53,8 +54,8 @@ struct EDIT {
 
 static size_t chainlen(const struct Utf8Char *pChain);
 static void del_chain(struct Utf8Char *pChain);
-static struct Utf8Char *text2chain(const Uint16 *pInText);
-static Uint16 *chain2text(const struct Utf8Char *pInChain, size_t len);
+static struct Utf8Char *text2chain(const char *text_in);
+static char *chain2text(const struct Utf8Char *pInChain, size_t len, size_t *size);
 
 static int (*baseclass_redraw)(struct widget *pwidget);
 
@@ -156,21 +157,20 @@ static int redraw_edit(struct widget *pEdit_Widget)
       return ret;
     }
 
-    if (pEdit_Widget->string16->text
+    if (pEdit_Widget->string_utf8->text != NULL
         && get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
-      Uint16 *backup = pEdit_Widget->string16->text;
-      size_t len = unistrlen(backup) + 1;
-      char *cBuf = fc_calloc(1, len);
+      char *backup = pEdit_Widget->string_utf8->text;
+      size_t len = strlen(backup) + 1;
+      char *cbuf = fc_calloc(1, len);
 
-      memset(cBuf, '*', len - 1);
-      cBuf[len - 1] = '\0';
-      pEdit_Widget->string16->text = convert_to_utf16(cBuf);
-      pText = create_text_surf_from_str16(pEdit_Widget->string16);
-      FC_FREE(pEdit_Widget->string16->text);
-      FC_FREE(cBuf);
-      pEdit_Widget->string16->text = backup;
+      memset(cbuf, '*', len - 1);
+      cbuf[len - 1] = '\0';
+      pEdit_Widget->string_utf8->text = cbuf;
+      pText = create_text_surf_from_utf8(pEdit_Widget->string_utf8);
+      FC_FREE(cbuf);
+      pEdit_Widget->string_utf8->text = backup;
     } else {
-      pText = create_text_surf_from_str16(pEdit_Widget->string16);
+      pText = create_text_surf_from_utf8(pEdit_Widget->string_utf8);
     }
 
     pEdit = create_bcgnd_surf(pEdit_Widget->theme, get_wstate(pEdit_Widget),
@@ -187,10 +187,10 @@ static int redraw_edit(struct widget *pEdit_Widget)
     if (pText) {
       rDest.y += (pEdit->h - pText->h) / 2;
       /* blit centred text to botton */
-      if (pEdit_Widget->string16->style & SF_CENTER) {
+      if (pEdit_Widget->string_utf8->style & SF_CENTER) {
         rDest.x += (pEdit->w - pText->w) / 2;
       } else {
-        if (pEdit_Widget->string16->style & SF_CENTER_RIGHT) {
+        if (pEdit_Widget->string_utf8->style & SF_CENTER_RIGHT) {
           rDest.x += pEdit->w - pText->w - adj_size(5);
         } else {
           rDest.x += adj_size(5); /* center left */
@@ -260,32 +260,37 @@ static void del_chain(struct Utf8Char *pChain)
 }
 
 /**************************************************************************
-  Convert Unistring ( Uint16[] ) to Utf8Char structure.
-  Memmory alocation -> after all use need call del_chain(...) !
+  Convert utf8 string to Utf8Char structure.
+  Memory alocation -> after all use need call del_chain(...) !
 **************************************************************************/
-static struct Utf8Char *text2chain(const Uint16 *pInText)
+static struct Utf8Char *text2chain(const char *text_in)
 {
   int i, len;
   struct Utf8Char *pOutChain = NULL;
   struct Utf8Char *chr_tmp = NULL;
+  int j;
 
-  len = unistrlen(pInText);
+  len = strlen(text_in);
 
   if (len == 0) {
     return pOutChain;
   }
 
   pOutChain = fc_calloc(1, sizeof(struct Utf8Char));
-  pOutChain->chr[0] = pInText[0];
-  pOutChain->chr[1] = 0;
-  pOutChain->bytes = 1;
+  pOutChain->chr[0] = text_in[0];
+  for (j = 1; (text_in[j] & (128 + 64)) == 128; j++) {
+    pOutChain->chr[j] = text_in[j];
+  }
+  pOutChain->bytes = j;
   chr_tmp = pOutChain;
 
-  for (i = 1; i < len; i++) {
+  for (i = 1; i < len; i += j) {
     chr_tmp->next = fc_calloc(1, sizeof(struct Utf8Char));
-    chr_tmp->next->chr[0] = pInText[i];
-    chr_tmp->next->chr[1] = 0;
-    chr_tmp->next->bytes  = 1;
+    chr_tmp->next->chr[0] = text_in[i];
+    for (j = 1; (text_in[i + j] & (128 + 64)) == 128; j++) {
+      chr_tmp->next->chr[j] = text_in[i + j];
+    }
+    chr_tmp->next->bytes  = j;
     chr_tmp->next->prev = chr_tmp;
     chr_tmp = chr_tmp->next;
   }
@@ -294,32 +299,34 @@ static struct Utf8Char *text2chain(const Uint16 *pInText)
 }
 
 /**************************************************************************
-  Convert Utf8Char structure to Unistring ( Uint16[] ).
-  WARRING: Do not free Utf8Char structure but allocate new Unistring.
+  Convert Utf8Char structure to chars
+  WARNING: Do not free Utf8Char structure but allocates new char array.
 **************************************************************************/
-static Uint16 *chain2text(const struct Utf8Char *pInChain, size_t len)
+static char *chain2text(const struct Utf8Char *pInChain, size_t len,
+                        size_t *size)
 {
   int i;
-  Uint16 *pOutText = NULL;
+  char *pOutText = NULL;
+  int oi = 0;
+  int total_size = 0;
 
   if (!(len && pInChain)) {
     return pOutText;
   }
 
-  pOutText = fc_calloc(len + 1, sizeof(Uint16));
-  for (i = 0; i < len;) {
-    pOutText[i++] = pInChain->chr[0];
-
-#if 0
+  pOutText = fc_calloc(8, len + 1);
+  for (i = 0; i < len; i++) {
     int j;
 
     for (j = 0; j < pInChain->bytes && i < len; j++) {
-      pOutText[i++] = pInChain->chr[j];
+      pOutText[oi++] = pInChain->chr[j];
     }
-#endif
 
+    total_size += pInChain->bytes;
     pInChain = pInChain->next;
   }
+
+  *size = total_size;
 
   return pOutText;
 }
@@ -340,14 +347,14 @@ static Uint16 *chain2text(const struct Utf8Char *pInChain, size_t len)
   function return pointer to allocated Edit Widget.
 **************************************************************************/
 struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
-                           SDL_String16 *pString16, int length, Uint32 flags)
+                           utf8_str *pstr, int length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
   struct widget *pEdit = widget_new();
 
   pEdit->theme = pTheme->Edit;
   pEdit->theme2 = pBackground; /* FIXME: make somewhere use of it */
-  pEdit->string16 = pString16;
+  pEdit->string_utf8 = pstr;
   set_wflag(pEdit, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pEdit, FC_WS_DISABLED);
   set_wtype(pEdit, WT_EDIT);
@@ -356,9 +363,9 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   baseclass_redraw = pEdit->redraw;
   pEdit->redraw = redraw_edit;
 
-  if (pString16) {
-    pEdit->string16->style |= SF_CENTER;
-    buf = str16size(pString16);
+  if (pstr != NULL) {
+    pEdit->string_utf8->style |= SF_CENTER;
+    buf = utf8_str_size(pstr);
     buf.h += adj_size(4);
   }
 
@@ -615,17 +622,17 @@ static Uint16 edit_textinput(char *text, void *pData)
 
     if (pEdt->pInputChain->prev->chr) {
       if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
-        Uint16 passwd_chr[2] = {'*', '\0'};
+        char passwd_chr[2] = {'*', '\0'};
 
         pEdt->pInputChain->prev->pTsurf =
-          TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
-                                    passwd_chr,
-                                    pEdt->pWidget->string16->fgcol);
+          TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
+                                 passwd_chr,
+                                 pEdt->pWidget->string_utf8->fgcol);
       } else {
         pEdt->pInputChain->prev->pTsurf =
-          TTF_RenderUTF8_Blended(pEdt->pWidget->string16->font,
+          TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
                                  pEdt->pInputChain->prev->chr,
-                                 pEdt->pWidget->string16->fgcol);
+                                 pEdt->pWidget->string_utf8->fgcol);
       }
       pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
     }
@@ -689,7 +696,7 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
                                pEdit_Widget->size.w, pEdit_Widget->size.h);
 
   /* Creating Chain */
-  pEdt.pBeginTextChain = text2chain(pEdit_Widget->string16->text);
+  pEdt.pBeginTextChain = text2chain(pEdit_Widget->string_utf8->text);
 
   /* Creating Empty (Last) pice of Chain */
   pEdt.pInputChain = &___last;
@@ -700,15 +707,15 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   pEdt.pEndTextChain->prev = NULL;
 
   /* set font style (if any ) */
-  if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
-    TTF_SetFontStyle(pEdit_Widget->string16->font,
-                     (pEdit_Widget->string16->style & 0x0F));
+  if (!((pEdit_Widget->string_utf8->style & 0x0F) & TTF_STYLE_NORMAL)) {
+    TTF_SetFontStyle(pEdit_Widget->string_utf8->font,
+                     (pEdit_Widget->string_utf8->style & 0x0F));
   }
 
   pEdt.pEndTextChain->pTsurf =
-      TTF_RenderUTF8_Blended(pEdit_Widget->string16->font,
+      TTF_RenderUTF8_Blended(pEdit_Widget->string_utf8->font,
                              pEdt.pEndTextChain->chr,
-                             pEdit_Widget->string16->fgcol);
+                             pEdit_Widget->string_utf8->fgcol);
 
   /* create surface for each font in chain and find chain length */
   if (pEdt.pBeginTextChain) {
@@ -718,17 +725,17 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
       pEdt.ChainLen++;
 
       if (get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
-        const Uint16 passwd_chr[2] = {'*', '\0'};
+        const char passwd_chr[2] = {'*', '\0'};
 
         pInputChain_TMP->pTsurf =
-            TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-                                      passwd_chr,
-                                      pEdit_Widget->string16->fgcol);
+          TTF_RenderUTF8_Blended(pEdit_Widget->string_utf8->font,
+                                 passwd_chr,
+                                 pEdit_Widget->string_utf8->fgcol);
       } else {
         pInputChain_TMP->pTsurf =
-            TTF_RenderUTF8_Blended(pEdit_Widget->string16->font,
-                                   pInputChain_TMP->chr,
-                                   pEdit_Widget->string16->fgcol);
+          TTF_RenderUTF8_Blended(pEdit_Widget->string_utf8->font,
+                                 pInputChain_TMP->chr,
+                                 pEdit_Widget->string_utf8->fgcol);
       }
 
       pEdt.Truelength += pInputChain_TMP->pTsurf->w;
@@ -769,15 +776,17 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
          or nor in force exit mode from gui loop */
 
       /* reset font settings */
-      if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
-        TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
+      if (!((pEdit_Widget->string_utf8->style & 0x0F) & TTF_STYLE_NORMAL)) {
+        TTF_SetFontStyle(pEdit_Widget->string_utf8->font, TTF_STYLE_NORMAL);
       }
 
       if (ret != ED_ESC) {
-        FC_FREE(pEdit_Widget->string16->text);
-        pEdit_Widget->string16->text =
-          chain2text(pEdt.pBeginTextChain, pEdt.ChainLen);
-        pEdit_Widget->string16->n_alloc = (pEdt.ChainLen + 1) * sizeof(Uint16);
+        size_t len = 0;
+
+        FC_FREE(pEdit_Widget->string_utf8->text);
+        pEdit_Widget->string_utf8->text =
+          chain2text(pEdt.pBeginTextChain, pEdt.ChainLen, &len);
+        pEdit_Widget->string_utf8->n_alloc = len + 1;
       }
 
       pEdit_Widget->data.ptr = backup;
