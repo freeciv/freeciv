@@ -195,7 +195,7 @@ struct city_dialog {
 static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
 
 static struct dialog_list *dialog_list;
-static bool city_dialogs_have_been_initialised;
+static bool city_dialogs_have_been_initialised = FALSE;
 static int canvas_width, canvas_height;
 static int new_dialog_def_page = OVERVIEW_PAGE;
 static int last_page = OVERVIEW_PAGE;
@@ -356,8 +356,9 @@ void reset_city_dialogs(void)
 *****************************************************************/
 static struct city_dialog *get_city_dialog(struct city *pcity)
 {
-  if (!city_dialogs_have_been_initialised)
+  if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
+  }
 
   dialog_list_iterate(dialog_list, pdialog) {
     if (pdialog->pcity == pcity)
@@ -547,6 +548,7 @@ void popdown_all_city_dialogs(void)
     close_city_dialog(dialog_list_get(dialog_list, 0));
   }
   dialog_list_destroy(dialog_list);
+  
   city_dialogs_have_been_initialised = FALSE;
 }
 
