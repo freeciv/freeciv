@@ -3018,6 +3018,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
       char prod[256];
 
       pcity->shield_stock = 0;
+      nullify_prechange_production(pcity); /* Make it impossible to recover */
 
       universal_name_translation(&pcity->production, prod, sizeof(prod));
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
