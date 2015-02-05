@@ -3911,7 +3911,20 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case EFT_FANATICS:
         if (playerwide && net_value > 0) {
-          CATLSTR(buf, bufsz, _("* Pays no upkeep for fanatics.\n"));
+          struct strvec *fanatics = strvec_new();
+          struct astring fanaticstr = ASTRING_INIT;
+
+          unit_type_iterate(putype) {
+            if (utype_has_flag(putype, UTYF_FANATIC)) {
+              strvec_append(fanatics, utype_name_translation(putype));
+            }
+          } unit_type_iterate_end;
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: %s is list of unit types separated by 'or' */
+                       _("* Pays no upkeep for %s.\n"),
+                       strvec_to_or_list(fanatics, &fanaticstr));
+          strvec_destroy(fanatics);
+          astr_free(&fanaticstr);
         }
         break;
       case EFT_NO_UNHAPPY:
