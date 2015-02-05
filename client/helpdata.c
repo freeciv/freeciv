@@ -2297,7 +2297,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("  * Can attack units on non-native tiles.\n"));
   }
   /* Must use flag to distinguish from UTYF_MARINES text. */
-  if (uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)) {
+  if (utype->attack_strength > 0
+      && uclass_has_flag(utype_class(utype), UCF_ATT_FROM_NON_NATIVE)) {
     CATLSTR(buf, bufsz,
             _("  * Can launch attack from non-native tiles.\n"));
   }
