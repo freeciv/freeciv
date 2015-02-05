@@ -1516,8 +1516,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
           /* Notify players */
           notify_player(pplayer, pdesttile, E_MY_DIPLOMAT_BRIBE, ftc_server,
                         /* TRANS: <unit> ... <unit> */
-                        _("Your %s succeeded in capturing the %s."),
-                        capturer_link, victim_link);
+                        _("Your %s succeeded in capturing the %s %s."),
+                        capturer_link, nation_adjective_for_player(uplayer),
+                        victim_link);
           notify_player(uplayer, pdesttile,
                         E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
                         /* TRANS: <unit> ... <Poles> */
