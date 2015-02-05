@@ -86,6 +86,8 @@ struct sset_val_name {
 #define SPECENUM_VALUE4 SSET_BITWISE
 #include "specenum_gen.h"
 
+enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
+
 /* forward declaration */
 struct setting;
 
@@ -219,7 +221,7 @@ void send_server_hack_level_settings(struct conn_list *dest);
 void send_server_setting_control(struct connection *pconn);
 
 void setting_changed(struct setting *pset);
-bool setting_is_changed(struct setting *pset);
+enum setting_default_level setting_get_setdef(struct setting *pset);
 void settings_consider_all_changed(void);
 
 #ifdef __cplusplus

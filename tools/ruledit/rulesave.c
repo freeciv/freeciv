@@ -996,9 +996,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   set_count = 0;
   settings_iterate(SSET_ALL, pset) {
-    /* TODO: Save also those that should get the same value at loading time
-     * even if it's current default, and default is different at loading time. */
-    if (setting_non_default(pset) || setting_locked(pset)) {
+    if (setting_get_setdef(pset) == SETDEF_RULESET || setting_locked(pset)) {
       secfile_insert_str(sfile, setting_name(pset), "settings.name%d", set_count);
       switch (setting_type(pset)) {
       case SSET_BOOL:

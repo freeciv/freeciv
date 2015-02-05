@@ -159,7 +159,7 @@ struct setting {
   bool locked;
 
   /* It's not "default", even if value is the same as default */
-  bool changed;
+  enum setting_default_level setdef;
 };
 
 static struct {
@@ -3526,7 +3526,7 @@ void setting_set_to_default(struct setting *pset)
     break;
   }
 
-  pset->changed = FALSE;
+  pset->setdef = SETDEF_INTERNAL;
 }
 
 /********************************************************************
@@ -3728,6 +3728,8 @@ static bool setting_ruleset_one(struct section_file *file,
     break;
   }
 
+  pset->setdef = SETDEF_RULESET;
+
   /* set lock */
   lock = secfile_lookup_bool_default(file, FALSE, "%s.lock", path);
 
@@ -3904,7 +3906,7 @@ void settings_game_save(struct section_file *file, const char *section,
     if ( /* Normal save always has all settings saved */
         !scenario
          /* It's explicitly set to some value to save */
-        || setting_is_changed(pset)
+        || setting_get_setdef(pset) == SETDEF_CHANGED
          /* It must be same at loading time as it was saving time, even if
           * freeciv's default has changed. */
         || !setting_is_changeable(pset, NULL, errbuf, sizeof(errbuf))) {
@@ -4155,7 +4157,7 @@ void settings_game_load(struct section_file *file, const char *section)
           break;
         }
 
-        pset->changed = TRUE;
+        pset->setdef = SETDEF_CHANGED;
       }
     } settings_iterate_end;
   }
@@ -4562,15 +4564,15 @@ static void settings_list_free(void)
 *****************************************************************************/
 void setting_changed(struct setting *pset)
 {
-  pset->changed = TRUE;
+  pset->setdef = SETDEF_CHANGED;
 }
 
 /*****************************************************************************
   Is the setting in changed state, or the default
 *****************************************************************************/
-bool setting_is_changed(struct setting *pset)
+enum setting_default_level setting_get_setdef(struct setting *pset)
 {
-  return pset->changed;
+  return pset->setdef;
 }
 
 /*****************************************************************************
@@ -4581,6 +4583,6 @@ bool setting_is_changed(struct setting *pset)
 void settings_consider_all_changed(void)
 {
   settings_iterate(SSET_ALL, pset) {
-    pset->changed = TRUE;
+    pset->setdef = SETDEF_CHANGED;
   } settings_iterate_end;
 }
