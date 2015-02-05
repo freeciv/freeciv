@@ -18,11 +18,11 @@ struct strvec;
 
 #define combo_new_from_chars(background, dest, font_size,                   \
                              char_string, vector, length, flags)            \
-  combo_new(background, dest, create_str16_from_char(char_string,           \
+  combo_new(background, dest, create_utf8_from_char(char_string,            \
             font_size), vector, length, flags)
 
 struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
-                         SDL_String16 *string16, const struct strvec *vector,
+                         utf8_str *pstr, const struct strvec *vector,
                          int length, Uint32 flags);
 void combo_popup(struct widget *combo);
 void combo_popdown(struct widget *combo);

@@ -117,7 +117,7 @@ void popup_find_dialog(void)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   char cBuf[128];
   int h = 0, n = 0, w = 0, units_h = 0;
   struct player *owner = NULL;
@@ -142,10 +142,10 @@ void popup_find_dialog(void)
 
   pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pStr = create_str16_from_char(_("Find City") , adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Find City") , adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = find_city_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -160,8 +160,8 @@ void popup_find_dialog(void)
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
                           | WF_FREE_DATA);
-  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                           adj_font(12));
   area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -178,15 +178,15 @@ void popup_find_dialog(void)
       fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name(pCity),
                   city_size_get(pCity));
 
-      pStr = create_str16_from_char(cBuf, adj_font(10));
-      pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+      pstr = create_utf8_from_char(cBuf, adj_font(10));
+      pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
       if (!player_owns_city(owner, pCity)) {
         pLogo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
 
-      pBuf = create_iconlabel(pLogo, pWindow->dst, pStr,
+      pBuf = create_iconlabel(pLogo, pWindow->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {
@@ -194,9 +194,9 @@ void popup_find_dialog(void)
         owner = city_owner(pCity);
       }
 
-      pBuf->string16->style &= ~SF_CENTER;
-      pBuf->string16->fgcol = *(get_player_color(tileset, city_owner(pCity))->color);
-      pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
+      pBuf->string_utf8->style &= ~SF_CENTER;
+      pBuf->string_utf8->fgcol = *(get_player_color(tileset, city_owner(pCity))->color);
+      pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
       pBuf->data.city = pCity;
 

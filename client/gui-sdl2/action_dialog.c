@@ -360,7 +360,7 @@ static int spy_steal_popup(struct widget *pWidget)
   struct CONTAINER *pCont;
   struct widget *pBuf = NULL;
   struct widget *pWindow;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pSurf;
   int max_col, max_row, col, i, count = 0;
   SDL_Rect area;
@@ -412,10 +412,10 @@ static int spy_steal_popup(struct widget *pWidget)
   pDiplomat_Dlg->target_ids[ATK_CITY] = pVcity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pStr = create_str16_from_char(_("Select Advance to Steal"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Select Advance to Steal"), adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = spy_steal_dlg_window_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -430,8 +430,8 @@ static int spy_steal_popup(struct widget *pWidget)
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                           adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_spy_steal_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -469,8 +469,8 @@ static int spy_steal_popup(struct widget *pWidget)
     }
   }
 
-  pStr = create_string16(NULL, 0, adj_font(10));
-  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+  pstr = create_utf8_str(NULL, 0, adj_font(10));
+  pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   count = 0;
   advance_index_iterate(A_FIRST, i) {
@@ -480,8 +480,8 @@ static int spy_steal_popup(struct widget *pWidget)
         && TECH_KNOWN != research_invention_state(presearch, i)) {
       count++;
 
-      copy_chars_to_string16(pStr, advance_name_translation(advance_by_number(i)));
-      pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
+      copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(i)));
+      pSurf = create_select_tech_icon(pstr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
@@ -502,16 +502,15 @@ static int spy_steal_popup(struct widget *pWidget)
   i = advance_number(unit_type(game_unit_by_number(id))->require_advance);
 
   if (action_prob_possible(follow_up_act_probs[ACTION_SPY_STEAL_TECH])) {
-    {
-      struct astring str = ASTRING_INIT;
+    struct astring str = ASTRING_INIT;
 
-      /* TRANS: %s is a unit name, e.g., Spy */
-      astr_set(&str, _("At %s's Discretion"),
-               unit_name_translation(game_unit_by_number(id)));
-      copy_chars_to_string16(pStr, astr_str(&str));
-      astr_free(&str);
-    }
-    pSurf = create_select_tech_icon(pStr, i, FULL_MODE);
+    /* TRANS: %s is a unit name, e.g., Spy */
+    astr_set(&str, _("At %s's Discretion"),
+             unit_name_translation(game_unit_by_number(id)));
+    copy_chars_to_utf8_str(pstr, astr_str(&str));
+    astr_free(&str);
+
+    pSurf = create_select_tech_icon(pstr, i, FULL_MODE);
 
     pBuf = create_icon2(pSurf, pWindow->dst,
                         (WF_FREE_THEME | WF_RESTORE_BACKGROUND
@@ -525,7 +524,7 @@ static int spy_steal_popup(struct widget *pWidget)
   }
 
   /* --------------------------------------------------------- */
-  FREESTRING16(pStr);
+  FREEUTF8STR(pstr);
   pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
   pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pDiplomat_Dlg->pdialog->pBeginWidgetList;
   pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pDiplomat_Dlg->pdialog->pEndWidgetList->prev->prev;
@@ -755,7 +754,7 @@ static void action_entry(const enum gen_action act,
                          SDL_Rect *area)
 {
   struct widget *pBuf;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   const char *ui_name;
 
   /* Don't show disabled actions */
@@ -766,7 +765,7 @@ static void action_entry(const enum gen_action act,
   ui_name = action_prepare_ui_name(act, "",
                                    action_probabilities[act], custom);
 
-  create_active_iconlabel(pBuf, pWindow->dst, pStr,
+  create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           ui_name, af_map[act]);
 
   switch(action_get_target_kind(act)) {
@@ -850,7 +849,7 @@ void popup_action_selection(struct unit *actor_unit,
                             const action_probability *act_probs)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Rect area;
   struct city *actor_homecity;
 
@@ -871,15 +870,15 @@ void popup_action_selection(struct unit *actor_unit,
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&title, _("Choose Your %s's Strategy"),
              unit_name_translation(actor_unit));
-    pStr = create_str16_from_char(astr_str(&title), adj_font(12));
+    pstr = create_utf8_from_char(astr_str(&title), adj_font(12));
     astr_free(&title);
   } else {
-    pStr = create_str16_from_char(_("Subvert Enemy Unit"), adj_font(12));
+    pstr = create_utf8_from_char(_("Subvert Enemy Unit"), adj_font(12));
   }
 
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
   
   pWindow->action = diplomat_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -934,7 +933,7 @@ void popup_action_selection(struct unit *actor_unit,
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
       || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))
       || (!target_city && unit_has_type_flag(actor_unit, UTYF_CAPTURER))) {
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Keep moving"),
                             diplomat_keep_moving_callback);
 
@@ -950,7 +949,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   /* ---------- */
 
-  create_active_iconlabel(pBuf, pWindow->dst, pStr,
+  create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           _("Cancel"), diplomat_close_callback);
 
   set_wstate(pBuf , FC_WS_NORMAL);
@@ -1099,7 +1098,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
 {
   struct widget *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0, y;
 
@@ -1121,10 +1120,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   pCont->id0 = pCity->id;
   pCont->id1 = actor->id; /* spy id */
 
-  pStr = create_str16_from_char(_("Select Improvement to Sabotage") , adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Select Improvement to Sabotage") , adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = diplomat_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1139,8 +1138,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                           adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = diplomat_close_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1149,7 +1148,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  create_active_iconlabel(pBuf, pWindow->dst, pStr,
+  create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           _("City Production"), sabotage_impr_callback);
   pBuf->data.cont = pCont;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1171,7 +1170,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   n = 0;
   city_built_iterate(pCity, pImprove) {
     if (pImprove->sabotage > 0) {
-      create_active_iconlabel(pBuf, pWindow->dst, pStr,
+      create_active_iconlabel(pBuf, pWindow->dst, pstr,
 	      (char *) city_improvement_name_translation(pCity, pImprove),
 				      sabotage_impr_callback);
       pBuf->data.cont = pCont;
@@ -1207,7 +1206,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
 
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"), unit_name_translation(actor));
-    create_active_iconlabel(pBuf, pWindow->dst, pStr, astr_str(&str),
+    create_active_iconlabel(pBuf, pWindow->dst, pstr, astr_str(&str),
                             sabotage_impr_callback);
     astr_free(&str);
   }
@@ -1387,7 +1386,7 @@ void popdown_incite_dialog(void)
 void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   char tBuf[255], cBuf[255];
   bool exit = FALSE;
   SDL_Rect area;
@@ -1414,11 +1413,11 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
               client_player()->economic.gold);
 
   /* window */
-  pStr = create_str16_from_char(_("Incite a Revolt!"), adj_font(12));
+  pstr = create_utf8_from_char(_("Incite a Revolt!"), adj_font(12));
 
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = incite_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1435,8 +1434,8 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                              adj_font(12));
+    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                             adj_font(12));
     area.w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1449,14 +1448,14 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     fc_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
 		city_name(pCity));
 
-    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+    create_active_iconlabel(pBuf, pWindow->dst, pstr, cBuf, NULL);
 
     add_to_gui_list(ID_LABEL , pBuf);
 
     area.w = MAX(area.w , pBuf->size.w);
     area.h += pBuf->size.h;
     /*------------*/
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("City can't be incited!"), NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1470,7 +1469,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
                 PL_("Incite a revolt for %d gold?\n%s",
                     "Incite a revolt for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+    create_active_iconlabel(pBuf, pWindow->dst, pstr, cBuf, NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);
 
@@ -1478,7 +1477,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     area.h += pBuf->size.h;
 
     /*------------*/
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Yes") , diplomat_incite_yes_callback);
 
     pBuf->data.city = pCity;
@@ -1489,7 +1488,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
     /* ------- */
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("No") , exit_incite_dlg_callback);
 
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1505,8 +1504,8 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                              adj_font(12));
+    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                             adj_font(12));
     area.w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1521,7 +1520,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
                 PL_("Inciting a revolt costs %d gold.\n%s",
                     "Inciting a revolt costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+    create_active_iconlabel(pBuf, pWindow->dst, pstr, cBuf, NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);
 
@@ -1529,7 +1528,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
     area.h += pBuf->size.h;
 
     /*------------*/
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Traitors Demand Too Much!"), NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1645,7 +1644,7 @@ void popdown_bribe_dialog(void)
 void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   char tBuf[255], cBuf[255];
   bool exit = FALSE;
   SDL_Rect area;
@@ -1672,11 +1671,11 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
               client_player()->economic.gold);
 
   /* window */
-  pStr = create_str16_from_char(_("Bribe Enemy Unit"), adj_font(12));
+  pstr = create_utf8_from_char(_("Bribe Enemy Unit"), adj_font(12));
 
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = bribe_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1694,7 +1693,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
                 PL_("Bribe unit for %d gold?\n%s",
                     "Bribe unit for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+    create_active_iconlabel(pBuf, pWindow->dst, pstr, cBuf, NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);
 
@@ -1702,7 +1701,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
     area.h += pBuf->size.h;
 
     /*------------*/
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Yes"), diplomat_bribe_yes_callback);
     pBuf->data.unit = pUnit;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1712,7 +1711,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
     /* ------- */
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("No") , exit_bribe_dlg_callback);
 
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1728,8 +1727,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                              adj_font(12));
+    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                             adj_font(12));
     area.w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_bribe_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1744,7 +1743,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
                 PL_("Bribing the unit costs %d gold.\n%s",
                     "Bribing the unit costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
+    create_active_iconlabel(pBuf, pWindow->dst, pstr, cBuf, NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);
 
@@ -1752,7 +1751,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
     area.h += pBuf->size.h;
 
     /*------------*/
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
                             _("Traitors Demand Too Much!"), NULL);
 
     add_to_gui_list(ID_LABEL, pBuf);

@@ -280,7 +280,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       /* new button direction */
       alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
 
-      copy_chars_to_string16(pIcon_Widget->info_label,
+      copy_chars_to_utf8_str(pIcon_Widget->info_label,
                              _("Show Unit Info Window"));
 
       SDL_Client_Flags &= ~CF_UNITINFO_SHOWN;
@@ -339,7 +339,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
         selected_widget = NULL;
 
         /* SHOW */
-        copy_chars_to_string16(pIcon_Widget->info_label,
+        copy_chars_to_utf8_str(pIcon_Widget->info_label,
                                _("Hide Unit Info Window"));
 
         alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
@@ -395,7 +395,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       set_wstate(pMap_Button, FC_WS_NORMAL);
       selected_widget = NULL;
 
-      copy_chars_to_string16(pMap_Button->info_label, _("Show Mini Map"));
+      copy_chars_to_utf8_str(pMap_Button->info_label, _("Show Mini Map"));
 
       /* make new map icon */
       alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
@@ -474,7 +474,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         selected_widget = NULL;
 
         /* show MiniMap */
-        copy_chars_to_string16(pMap_Button->info_label, _("Hide Mini Map"));
+        copy_chars_to_utf8_str(pMap_Button->info_label, _("Hide Mini Map"));
 
         alphablit(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
         SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
@@ -527,10 +527,10 @@ static int toggle_msg_window_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (meswin_dialog_is_open()) {
       meswin_dialog_popdown();
-      copy_chars_to_string16(pWidget->info_label, _("Show Messages (F9)"));
+      copy_chars_to_utf8_str(pWidget->info_label, _("Show Messages (F9)"));
     } else {
       meswin_dialog_popup(TRUE);
-      copy_chars_to_string16(pWidget->info_label, _("Hide Messages (F9)"));
+      copy_chars_to_utf8_str(pWidget->info_label, _("Hide Messages (F9)"));
     }
 
     selected_widget = pWidget;
@@ -1420,7 +1420,7 @@ void popup_unitinfo_window() {
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Economy"), "F5");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = economy_callback;
   pWidget->key = SDLK_F5;
 
@@ -1435,7 +1435,7 @@ void popup_unitinfo_window() {
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   /* TRANS: Research report action */
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
 
@@ -1449,7 +1449,7 @@ void popup_unitinfo_window() {
                          WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
   pWidget->mod = KMOD_CTRL | KMOD_SHIFT;
@@ -1470,8 +1470,8 @@ void popup_unitinfo_window() {
                              WF_FREE_GFX | WF_FREE_THEME
                              | WF_RESTORE_BACKGROUND
                              | WF_WIDGET_HAS_INFO_LABEL);
-  pWidget->info_label = create_str16_from_char(_("Hide Unit Info Window"),
-                                               adj_font(12));
+  pWidget->info_label = create_utf8_from_char(_("Hide Unit Info Window"),
+                                              adj_font(12));
 
   pWidget->action = toggle_unit_info_window_callback;
 
@@ -1592,7 +1592,7 @@ void popup_minimap_window(void) {
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = end_turn_callback;
   pWidget->key = SDLK_RETURN;
   pWidget->mod = KMOD_SHIFT;
@@ -1607,7 +1607,7 @@ void popup_minimap_window(void) {
                              | WF_RESTORE_BACKGROUND);
   /* TRANS: Nations report action */
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Nations"), "F3");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;
 
@@ -1619,7 +1619,7 @@ void popup_minimap_window(void) {
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
                                 "F4", _("or"), _("Find City"), "Ctrl+F");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->info_label->style |= SF_CENTER;
   pWidget->action = cities_action_callback;
   pWidget->key = SDLK_f;
@@ -1634,7 +1634,7 @@ void popup_minimap_window(void) {
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = units_action_callback;
   pWidget->key = SDLK_F2;
 
@@ -1645,7 +1645,7 @@ void popup_minimap_window(void) {
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = toggle_msg_window_callback;
   pWidget->key = SDLK_F9;
 
@@ -1656,7 +1656,7 @@ void popup_minimap_window(void) {
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->action = toggle_minimap_mode_callback;
   pWidget->key = SDLK_BACKSLASH;
   pWidget->mod = KMOD_SHIFT;
@@ -1690,7 +1690,7 @@ void popup_minimap_window(void) {
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
 
-  pWidget->info_label = create_str16_from_char(_("Hide Mini Map"),
+  pWidget->info_label = create_utf8_from_char(_("Hide Mini Map"),
                                                adj_font(12));
   pWidget->action = toggle_map_window_callback;
 
@@ -2526,14 +2526,9 @@ bool map_event_handler(SDL_Keysym key)
 static int newcity_ok_edit_callback(struct widget *pEdit)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    char *input =
-            convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
-
-    if (input) {
-      FC_FREE(input);
-    } else {
+    if (pNewCity_Dlg->pBeginWidgetList->string_utf8->text == NULL) {
       /* empty input -> restore previous content */
-      copy_chars_to_string16(pEdit->string16, pSuggestedCityName);
+      copy_chars_to_utf8_str(pEdit->string_utf8, pSuggestedCityName);
       widget_redraw(pEdit);
       widget_mark_dirty(pEdit);
       flush_dirty();
@@ -2549,12 +2544,8 @@ static int newcity_ok_edit_callback(struct widget *pEdit)
 static int newcity_ok_callback(struct widget *pOk_Button)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    char *input =
-            convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
 
-    finish_city(pOk_Button->data.tile, input);
-
-    FC_FREE(input);
+    finish_city(pOk_Button->data.tile, pNewCity_Dlg->pBeginWidgetList->string_utf8->text);
 
     popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
                                 pNewCity_Dlg->pEndWidgetList);
@@ -2611,7 +2602,7 @@ static int move_new_city_dlg_callback(struct widget *pWindow)
 void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
 {
   SDL_Surface *pBackground;
-  struct SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   struct widget *pLabel = NULL;
   struct widget *pWindow = NULL;
   struct widget *pCancel_Button = NULL;
@@ -2631,9 +2622,9 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   pNewCity_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* create window */
-  pStr = create_str16_from_char(_("Build City"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pstr = create_utf8_from_char(_("Build City"), adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
+  pWindow = create_window_skeleton(NULL, pstr, 0);
   pWindow->action = move_new_city_dlg_callback;
 
   area = pWindow->area;
@@ -2661,14 +2652,14 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   pOK_Button->size.w = pCancel_Button->size.w;
 
   /* create text label */
-  pStr = create_str16_from_char(_("What should we call our new city?"), adj_font(10));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_theme_color(COLOR_THEME_NEWCITYDLG_TEXT);
-  pLabel = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
+  pstr = create_utf8_from_char(_("What should we call our new city?"), adj_font(10));
+  pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+  pstr->fgcol = *get_theme_color(COLOR_THEME_NEWCITYDLG_TEXT);
+  pLabel = create_iconlabel(NULL, pWindow->dst, pstr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
 
   area.h += pLabel->size.h;
 
-  pEdit = create_edit(NULL, pWindow->dst, create_str16_from_char(pSuggestname, adj_font(12)),
+  pEdit = create_edit(NULL, pWindow->dst, create_utf8_from_char(pSuggestname, adj_font(12)),
      (pOK_Button->size.w + pCancel_Button->size.w + adj_size(15)), WF_RESTORE_BACKGROUND);
   pEdit->action = newcity_ok_edit_callback;
 

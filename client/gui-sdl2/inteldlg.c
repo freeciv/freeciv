@@ -225,7 +225,7 @@ void update_intel_dialog(struct player *p)
   struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
   SDL_Surface *pLogo = NULL, *pTmpSurf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Rect dst;
   char cBuf[256], plr_buf[4 * MAX_LEN_NAME];
   int n = 0, count = 0, col;
@@ -243,10 +243,10 @@ void update_intel_dialog(struct player *p)
                                   pdialog->pdialog->pEndWidgetList);
     }
 
-    pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
-    pStr->style |= TTF_STYLE_BOLD;
+    pstr = create_utf8_from_char(_("Foreign Intelligence Report") , adj_font(12));
+    pstr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pStr, 0);
+    pWindow = create_window_skeleton(NULL, pstr, 0);
 
     pWindow->action = intel_window_dlg_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
@@ -262,8 +262,8 @@ void update_intel_dialog(struct player *p)
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                              adj_font(12));
+    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                             adj_font(12));
     area.w = MAX(area.w, pBuf->size.w + adj_size(10));
     pBuf->action = exit_intel_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -292,7 +292,7 @@ void update_intel_dialog(struct player *p)
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information about the %s Spaceship"),
                 nation_adjective_for_player(p));
-    pBuf->info_label = create_str16_from_char(cBuf, adj_font(12));
+    pBuf->info_label = create_utf8_from_char(cBuf, adj_font(12));
 
     add_to_gui_list(ID_ICON, pBuf);
 
@@ -301,11 +301,11 @@ void update_intel_dialog(struct player *p)
                 _("Intelligence Information for the %s Empire"),
                 nation_adjective_for_player(p));
 
-    pStr = create_str16_from_char(cBuf, adj_font(14));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+    pstr = create_utf8_from_char(cBuf, adj_font(14));
+    pstr->style |= TTF_STYLE_BOLD;
+    pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-    pText1 = create_text_surf_from_str16(pStr);
+    pText1 = create_text_surf_from_utf8(pstr);
     area.w = MAX(area.w, pText1->w + adj_size(20));
     area.h += pText1->h + adj_size(20);
 
@@ -313,8 +313,8 @@ void update_intel_dialog(struct player *p)
 
     pCapital = player_capital(p);
     research = research_get(p);
-    change_ptsize16(pStr, adj_font(10));
-    pStr->style &= ~TTF_STYLE_BOLD;
+    change_ptsize_utf8(pstr, adj_font(10));
+    pstr->style &= ~TTF_STYLE_BOLD;
 
     /* FIXME: these should use common gui code, and avoid duplication! */
     switch (research->researching) {
@@ -351,8 +351,8 @@ void update_intel_dialog(struct player *p)
       break;
     };
 
-    copy_chars_to_string16(pStr, cBuf);
-    pInfo = create_text_surf_from_str16(pStr);
+    copy_chars_to_utf8_str(pstr, cBuf);
+    pInfo = create_text_surf_from_utf8(pstr);
     area.w = MAX(area.w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
     area.h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
 
@@ -376,8 +376,8 @@ void update_intel_dialog(struct player *p)
         set_wstate(pBuf, FC_WS_NORMAL);
 
         pBuf->info_label =
-            create_str16_from_char(advance_name_translation
-                                   (advance_by_number(i)), adj_font(12));
+            create_utf8_from_char(advance_name_translation
+                                  (advance_by_number(i)), adj_font(12));
 
         add_to_gui_list(ID_ICON, pBuf);
 
@@ -409,12 +409,12 @@ void update_intel_dialog(struct player *p)
       area.w = MAX(area.w, col * pBuf->size.w + count);
 
       fc_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
-      copy_chars_to_string16(pStr, cBuf);
-      pStr->style |= TTF_STYLE_BOLD;
-      pText2 = create_text_surf_from_str16(pStr);
+      copy_chars_to_utf8_str(pstr, cBuf);
+      pstr->style |= TTF_STYLE_BOLD;
+      pText2 = create_text_surf_from_utf8(pstr);
     }
 
-    FREESTRING16(pStr);
+    FREEUTF8STR(pstr);
 
     resize_window(pWindow, NULL, NULL,
                   (pWindow->size.w - pWindow->area.w) + area.w,

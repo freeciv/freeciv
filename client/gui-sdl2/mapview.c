@@ -328,7 +328,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     _("None"));
   }
-  copy_chars_to_string16(pBuf->info_label, cBuf);
+  copy_chars_to_utf8_str(pBuf->info_label, cBuf);
 
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
@@ -366,7 +366,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     }
   }
 
-  copy_chars_to_string16(pBuf->info_label, cBuf);
+  copy_chars_to_utf8_str(pBuf->info_label, cBuf);
 
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), TRUE);
 
@@ -517,7 +517,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   SDL_Rect src, area;
   SDL_Rect dest;
   SDL_Surface *buf_surf;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   struct canvas *destcanvas;
   struct unit *pUnit = unit_list_get(punitlist, 0);
 
@@ -536,12 +536,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       const char *vetname;
 
       /* get and draw unit name (with veteran status) */
-      pStr = create_str16_from_char(unit_name_translation(pUnit), adj_font(12));
-      pStr->style |= TTF_STYLE_BOLD;
-      pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-      pName = create_text_surf_from_str16(pStr);
+      pstr = create_utf8_from_char(unit_name_translation(pUnit), adj_font(12));
+      pstr->style |= TTF_STYLE_BOLD;
+      pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
+      pName = create_text_surf_from_utf8(pstr);
 
-      pStr->style &= ~TTF_STYLE_BOLD;
+      pstr->style &= ~TTF_STYLE_BOLD;
 
       if (pInfo_Window->size.w > 1.8 *
           ((pInfo_Window->size.w - pInfo_Window->area.w) + DEFAULT_UNITS_W)) {
@@ -552,27 +552,26 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         right = FALSE;
       }
 
+      change_ptsize_utf8(pstr, adj_font(10));
       vetname = utype_veteran_name_translation(unit_type(pUnit), pUnit->veteran);
       if (vetname != NULL) {
-        copy_chars_to_string16(pStr, vetname);
-        change_ptsize16(pStr, adj_font(10));
-        pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
-        pVet_Name = create_text_surf_from_str16(pStr);
-        pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
+        copy_chars_to_utf8_str(pstr, vetname);
+        pstr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
+        pVet_Name = create_text_surf_from_utf8(pstr);
+        pstr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
       }
 
-      /* get and draw other info (MP, terran, city, etc.) */
-      change_ptsize16(pStr, adj_font(10));
-      pStr->style |= SF_CENTER;
+      /* get and draw other info (MP, terrain, city, etc.) */
+      pstr->style |= SF_CENTER;
 
-      copy_chars_to_string16(pStr,
+      copy_chars_to_utf8_str(pstr,
                              get_unit_info_label_text2(punitlist,
                                                        TILE_LB_RESOURCE_POLL));
-      pInfo = create_text_surf_from_str16(pStr);
+      pInfo = create_text_surf_from_utf8(pstr);
 
       if (pInfo_Window->size.h >
           (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
-        int h = TTF_FontHeight(pInfo_Window->string16->font);
+        int h = TTF_FontHeight(pInfo_Window->string_utf8->font);
 
         fc_snprintf(buffer, sizeof(buffer), "%s",
                     sdl_get_tile_defense_info_text(pTile));
@@ -682,12 +681,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                        get_tile_output_text(unit_tile(pUnit)));
         }
 
-        copy_chars_to_string16(pStr, buffer);
+        copy_chars_to_utf8_str(pstr, buffer);
 
-        pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCKU_W - adj_size(4));
+        pInfo_II = create_text_surf_smaller_than_w(pstr, width - BLOCKU_W - adj_size(4));
       }
 
-      FREESTRING16(pStr);
+      FREEUTF8STR(pstr);
 
       /* ------------------------------------------- */
 
@@ -827,13 +826,13 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             buf_surf = zoomed;
           }
 
-	  pStr = create_str16_from_char(buffer, 10);
-          pStr->style |= SF_CENTER;
+	  pstr = create_utf8_from_char(buffer, 10);
+          pstr->style |= SF_CENTER;
 
           pBuf = create_icon2(buf_surf, pInfo_Window->dst,
                               WF_FREE_THEME | WF_RESTORE_BACKGROUND
                               | WF_WIDGET_HAS_INFO_LABEL);
-          pBuf->info_label = pStr;
+          pBuf->info_label = pstr;
           pBuf->data.unit = aunit;
 	  pBuf->ID = ID_ICON;
 	  DownAdd(pBuf, pDock);
@@ -919,16 +918,16 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
         fc_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
                     _("End of Turn"), _("Press"), _("Shift+Return"));
-        pStr = create_str16_from_char(buf, adj_font(14));
-        pStr->style = SF_CENTER;
-        pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-        buf_surf = create_text_surf_from_str16(pStr);
+        pstr = create_utf8_from_char(buf, adj_font(14));
+        pstr->style = SF_CENTER;
+        pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
+        buf_surf = create_text_surf_from_utf8(pstr);
         area.x = pInfo_Window->size.x + BLOCKU_W +
           (pInfo_Window->size.w - BLOCKU_W - buf_surf->w) / 2;
         area.y = pInfo_Window->size.y + (pInfo_Window->size.h - buf_surf->h) / 2;
         alphablit(buf_surf, NULL, pInfo_Window->dst->surface, &area, 255);
         FREESURFACE(buf_surf);
-        FREESTRING16(pStr);
+        FREEUTF8STR(pstr);
       }
     }
 
@@ -947,7 +946,7 @@ static bool is_anim_enabled(void)
 
 /**************************************************************************
   Set one of the unit icons in the information area based on punit.
-  NULL will be pased to clear the icon. idx==-1 will be passed to
+  NULL will be passed to clear the icon. idx==-1 will be passed to
   indicate this is the active unit, or idx in [0..num_units_below-1] for
   secondary (inactive) units on the same tile.
 **************************************************************************/

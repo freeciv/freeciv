@@ -131,7 +131,7 @@ static void update_goto_dialog(void)
 {
   struct widget *pBuf = NULL, *pAdd_Dock, *pLast;
   SDL_Surface *pLogo = NULL;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   char cBuf[128];
   int n = 0;
   struct player *owner = NULL;
@@ -162,15 +162,15 @@ static void update_goto_dialog(void)
       fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name(pCity),
                   city_size_get(pCity));
 
-      pStr = create_str16_from_char(cBuf, adj_font(12));
-      pStr->style |= TTF_STYLE_BOLD;
+      pstr = create_utf8_from_char(cBuf, adj_font(12));
+      pstr->style |= TTF_STYLE_BOLD;
 
       if (!player_owns_city(owner, pCity)) {
         pLogo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
         pLogo = crop_visible_part_from_surface(pLogo);
       }
 
-      pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pStr,
+      pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {
@@ -178,7 +178,7 @@ static void update_goto_dialog(void)
         owner = city_owner(pCity);
       }
 
-      pBuf->string16->fgcol =
+      pBuf->string_utf8->fgcol =
 	    *(get_player_color(tileset, city_owner(pCity))->color);
       pBuf->action = goto_city_callback;
 
@@ -241,7 +241,7 @@ static void popup_goto_airlift_dialog(void)
 {
   SDL_Color bg_color = {0, 0, 0, 96};
   struct widget *pBuf, *pWindow;
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   SDL_Surface *pFlag, *pEnabled, *pDisabled;
   SDL_Rect dst;
   int i, col, block_x, x, y;
@@ -253,10 +253,10 @@ static void popup_goto_airlift_dialog(void)
 
   pGotoDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pStr = create_str16_from_char(_("Select destination"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  pstr = create_utf8_from_char(_("Select destination"), adj_font(12));
+  pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pStr, 0);
+  pWindow = create_window_skeleton(NULL, pstr, 0);
 
   pWindow->action = goto_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -270,8 +270,8 @@ static void popup_goto_airlift_dialog(void)
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                            adj_font(12));
+  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                           adj_font(12));
   pBuf->action = exit_goto_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -302,7 +302,7 @@ static void popup_goto_airlift_dialog(void)
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
 
     pBuf->info_label =
-        create_str16_from_char(nation_adjective_for_player(pPlayer),
+        create_utf8_from_char(nation_adjective_for_player(pPlayer),
                                adj_font(12));
     pBuf->info_label->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);

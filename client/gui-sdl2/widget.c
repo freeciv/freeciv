@@ -494,7 +494,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pWidget->info_label->fgcol = *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
 
     /* create string and bcgd theme */
-    pText = create_text_surf_from_str16(pWidget->info_label);
+    pText = create_text_surf_from_utf8(pWidget->info_label);
 
     pWidget->info_label->fgcol = color;
 

@@ -79,7 +79,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
     return ret;
   }
 
-  if (!pCBox->string16) {
+  if (pCBox->string_utf8 == NULL) {
     return widget_redraw(pCBox);
   }
 
@@ -139,14 +139,14 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state,
   ...
 **************************************************************************/
 struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
-                                   SDL_String16 *pStr, Uint32 flags)
+                                   utf8_str *pstr, Uint32 flags)
 {
   struct widget *pCBox;
   struct CHECKBOX *pTmp;
   SDL_Surface *pSurf, *pIcon;
   struct widget *pTmpWidget;
 
-  if (!pStr) {
+  if (pstr == NULL) {
     return create_checkbox(pDest, state, flags);
   }
 
@@ -159,9 +159,9 @@ struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
   }
 
   pIcon = create_icon_from_theme(pSurf, 0);
-  pCBox = create_iconlabel(pIcon, pDest, pStr, (flags | WF_FREE_PRIVATE_DATA));
+  pCBox = create_iconlabel(pIcon, pDest, pstr, (flags | WF_FREE_PRIVATE_DATA));
 
-  pStr->style &= ~SF_CENTER;
+  pstr->style &= ~SF_CENTER;
 
   pCBox->theme = pSurf;
   FREESURFACE(pIcon);

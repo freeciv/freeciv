@@ -516,8 +516,8 @@ static struct widget *option_widget_new(struct option *poption,
                                        option_description(poption),
                                        adj_font(12),
                                        flags | WF_WIDGET_HAS_INFO_LABEL);
-  widget->string16->style |= TTF_STYLE_BOLD;
-  widget->info_label = create_str16_from_char(help_text, adj_font(12));
+  widget->string_utf8->style |= TTF_STYLE_BOLD;
+  widget->info_label = create_utf8_from_char(help_text, adj_font(12));
   widget->action = none_callback;
   set_wstate(widget, FC_WS_NORMAL);
   remake_label_size(widget);
@@ -610,7 +610,7 @@ static struct widget *option_widget_new(struct option *poption,
     widget = create_iconlabel_from_chars(NULL, window->dst, "",
                                          adj_font(12), flags);
   } else {
-    widget->info_label = create_str16_from_char(help_text, adj_font(12));
+    widget->info_label = create_utf8_from_char(help_text, adj_font(12));
     widget->action = none_callback;
     if (option_is_changeable(poption)) {
       set_wstate(widget, FC_WS_NORMAL);
@@ -652,16 +652,16 @@ static void option_widget_update(struct option *poption)
       char buf[64];
 
       fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
-      copy_chars_to_string16(widget->string16, buf);
+      copy_chars_to_utf8_str(widget->string_utf8, buf);
     }
     break;
 
   case OT_STRING:
-    copy_chars_to_string16(widget->string16, option_str_get(poption));
+    copy_chars_to_utf8_str(widget->string_utf8, option_str_get(poption));
     break;
 
   case OT_ENUM:
-    copy_chars_to_string16(widget->string16,
+    copy_chars_to_utf8_str(widget->string_utf8,
                            _(option_enum_get_str(poption)));
     break;
 
@@ -672,7 +672,7 @@ static void option_widget_update(struct option *poption)
 
       vmod = option_video_mode_get(poption);
       if (video_mode_to_string(buf, sizeof(buf), &vmod)) {
-        copy_chars_to_string16(widget->string16, buf);
+        copy_chars_to_utf8_str(widget->string_utf8, buf);
       } else {
         /* Always fails. */
         fc_assert(video_mode_to_string(buf, sizeof(buf), &vmod));
@@ -711,54 +711,43 @@ static void option_widget_apply(struct option *poption)
 
   case OT_INTEGER:
     {
-      char *str = convert_to_chars(widget->string16->text);
       int value;
 
-      if (str_to_int(str, &value)) {
+      if (str_to_int(widget->string_utf8->text, &value)) {
         (void) option_int_set(poption, value);
       }
-      free(str);
     }
     break;
 
   case OT_STRING:
-    {
-      char *str = convert_to_chars(widget->string16->text);
-
-      (void) option_str_set(poption, str);
-      free(str);
-    }
+    (void) option_str_set(poption, widget->string_utf8->text);
     break;
 
   case OT_ENUM:
     {
-      char *str = convert_to_chars(widget->string16->text);
       int i;
 
       /* 'str' is translated, so we cannot use directly
        * option_enum_set_str(). */
       for (i = 0; i < strvec_size(widget->data.vector); i++) {
-        if (0 == strcmp(strvec_get(widget->data.vector, i), str)) {
+        if (!strcmp(strvec_get(widget->data.vector, i), widget->string_utf8->text)) {
           (void) option_enum_set_int(poption, i);
           break;
         }
       }
-      free(str);
     }
     break;
 
   case OT_VIDEO_MODE:
     {
-      char *str = convert_to_chars(widget->string16->text);
       struct video_mode mode;
 
-      if (string_to_video_mode(str, &mode)) {
+      if (string_to_video_mode(widget->string_utf8->text, &mode)) {
         option_video_mode_set(poption, mode);
       } else {
         /* Always fails. */
-        fc_assert(string_to_video_mode(str, &mode));
+        fc_assert(string_to_video_mode(widget->string_utf8->text, &mode));
       }
-      free(str);
     }
     break;
 
@@ -779,12 +768,12 @@ static struct option_dialog *option_dialog_new(void)
 {
   struct option_dialog *pdialog = fc_calloc(1, sizeof(*pdialog));
   struct widget *window, *close_button, *widget;
-  SDL_String16 *str;
+  utf8_str *str;
 
   pdialog->mode = ODM_MAIN;
 
   /* Create window widget. */
-  str = create_str16_from_char(_("Options"), adj_font(12));
+  str = create_utf8_from_char(_("Options"), adj_font(12));
   str->style |= TTF_STYLE_BOLD;
 
   window = create_window_skeleton(NULL, str, 0);
@@ -798,8 +787,8 @@ static struct option_dialog *option_dialog_new(void)
   close_button = create_themeicon(pTheme->Small_CANCEL_Icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  close_button->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                                    adj_font(12));
+  close_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                                   adj_font(12));
   close_button->action = back_callback;
   set_wstate(close_button, FC_WS_NORMAL);
   close_button->key = SDLK_ESCAPE;
@@ -1008,8 +997,8 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   apply_button = create_themeicon(pTheme->Small_OK_Icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  apply_button->info_label = create_str16_from_char(_("Apply changes"),
-                                                    adj_font(12));
+  apply_button->info_label = create_utf8_from_char(_("Apply changes"),
+                                                   adj_font(12));
   apply_button->action = apply_callback;
   set_wstate(apply_button, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_APPLY_BUTTON, apply_button);
@@ -1134,7 +1123,7 @@ static int add_new_worklist_callback(struct widget *widget)
                                   global_worklist_name(pgwl),
                                   adj_font(12), WF_RESTORE_BACKGROUND);
     new_worklist_widget->ID = MAX_ID - global_worklist_id(pgwl);
-    new_worklist_widget->string16->style |= SF_CENTER;
+    new_worklist_widget->string_utf8->style |= SF_CENTER;
     set_wstate(new_worklist_widget, FC_WS_NORMAL);
     new_worklist_widget->size.w = widget->size.w;
     new_worklist_widget->action = edit_worklist_callback;
@@ -1214,7 +1203,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
     set_wstate(widget, FC_WS_NORMAL);
     add_to_gui_list(MAX_ID - global_worklist_id(pgwl), widget);
     widget->action = edit_worklist_callback;
-    widget->string16->style |= SF_CENTER;
+    widget->string_utf8->style |= SF_CENTER;
     longest = MAX(longest, widget->size.w);
     count++;
 
@@ -1230,7 +1219,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   set_wstate(widget, FC_WS_NORMAL);
   add_to_gui_list(ID_ADD_NEW_WORKLIST, widget);
   widget->action = add_new_worklist_callback;
-  widget->string16->style |= SF_CENTER;
+  widget->string_utf8->style |= SF_CENTER;
   longest = MAX(longest, widget->size.w);
   count++;
 
@@ -1345,7 +1334,7 @@ void init_options_button(void)
                                      | WF_RESTORE_BACKGROUND);
   pOptions_Button->action = optiondlg_callback;
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  pOptions_Button->info_label = create_str16_from_char(buf, adj_font(12));
+  pOptions_Button->info_label = create_utf8_from_char(buf, adj_font(12));
   pOptions_Button->key = SDLK_ESCAPE;
   set_wflag(pOptions_Button, WF_HIDDEN);
   widget_set_position(pOptions_Button, adj_size(5), adj_size(5));
@@ -1371,7 +1360,7 @@ void update_worklist_report_dialog(void)
                                  - option_dialog->worklist.edited_name->ID);
 
     if (NULL != pgwl) {
-      copy_chars_to_string16(option_dialog->worklist.edited_name->string16,
+      copy_chars_to_utf8_str(option_dialog->worklist.edited_name->string_utf8,
                              global_worklist_name(pgwl));
       option_dialog->worklist.edited_name = NULL;
     }

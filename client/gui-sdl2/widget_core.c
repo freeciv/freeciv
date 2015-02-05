@@ -86,17 +86,17 @@ enum widget_flag get_wflags(const struct widget *pWidget)
 }
 
 /**************************************************************************
-   ...
+   Free resources allocated for the widget.
 **************************************************************************/
 void widget_free(struct widget **pWidget)
 {
   struct widget *pGUI = *pWidget;
 
   if (get_wflags(pGUI) & WF_FREE_STRING) {
-    FREESTRING16(pGUI->string16);
+    FREEUTF8STR(pGUI->string_utf8);
   }
   if (get_wflags(pGUI) & WF_WIDGET_HAS_INFO_LABEL) {
-    FREESTRING16(pGUI->info_label);
+    FREEUTF8STR(pGUI->info_label);
   }
   if (get_wflags(pGUI) & WF_FREE_GFX) {
     FREESURFACE(pGUI->gfx);

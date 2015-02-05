@@ -52,6 +52,7 @@
 #include "pages.h"
 #include "themespec.h"
 #include "unistring.h"
+#include "utf8string.h"
 #include "widget.h"
 
 #include "chatline.h"
@@ -74,7 +75,7 @@ struct CONNLIST {
 } *pConnDlg = NULL;
 
 static void popup_conn_list_dialog(void);
-static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc);
+static void add_to_chat_list(char *msg, size_t n_alloc);
 
 /**************************************************************************
                                   LOAD GAME
@@ -170,7 +171,7 @@ static void popup_load_game_dialog(void)
   struct widget *pFirstLabel = NULL;
   struct widget *pLastLabel = NULL;
   struct widget *pNextLabel = NULL;
-  SDL_String16 *pTitle, *pFilename;
+  utf8_str *title, *filename;
   SDL_Rect area;
   struct fileinfo_list *files;
   int count = 0;
@@ -198,10 +199,10 @@ static void popup_load_game_dialog(void)
   /* create dialog */
   pLoadDialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pTitle = create_str16_from_char(_("Choose Saved Game to Load"), adj_font(12));
-  pTitle->style |= TTF_STYLE_BOLD;
+  title = create_utf8_from_char(_("Choose Saved Game to Load"), adj_font(12));
+  title->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pTitle, 0);
+  pWindow = create_window_skeleton(NULL, title, 0);
   pWindow->action = move_load_game_dlg_callback; 
   set_wstate(pWindow, FC_WS_NORMAL);
 
@@ -215,8 +216,8 @@ static void popup_load_game_dialog(void)
   pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  pCloseButton->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                                    adj_font(12));
+  pCloseButton->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+                                                   adj_font(12));
   pCloseButton->action = exit_load_dlg_callback;
   set_wstate(pCloseButton, FC_WS_NORMAL);
   pCloseButton->key = SDLK_ESCAPE;
@@ -236,9 +237,9 @@ static void popup_load_game_dialog(void)
   fileinfo_list_iterate(files, pfile) {
     count++;
 
-    pFilename = create_str16_from_char(pfile->name, adj_font(13));
-    pFilename->style |= SF_CENTER;
-    pFilenameLabel = create_iconlabel(NULL, pWindow->dst, pFilename,
+    filename = create_utf8_from_char(pfile->name, adj_font(13));
+    filename->style |= SF_CENTER;
+    pFilenameLabel = create_iconlabel(NULL, pWindow->dst, filename,
       (WF_FREE_DATA | WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
 
     /* store filename */
@@ -337,19 +338,15 @@ static void popup_load_game_dialog(void)
 static int inputline_return_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    char *theinput = NULL;
 
-    if (!pWidget->string16->text) {
+    if (pWidget->string_utf8->text == NULL) {
       return -1;
     }
 
-    theinput = convert_to_chars(pWidget->string16->text);
+    if (pWidget->string_utf8->text[0] != '\0') {
+      send_chat(pWidget->string_utf8->text);
 
-    if (theinput && *theinput) {
-      send_chat(theinput);
-
-      output_window_append(ftc_any, theinput);
-      FC_FREE(theinput);
+      output_window_append(ftc_any, pWidget->string_utf8->text);
     }
   }
 
@@ -363,8 +360,8 @@ void popup_input_line(void)
 {
   struct widget *pInput_Edit;
 
-  pInput_Edit = create_edit_from_unichars(NULL, Main.gui, NULL, 0, adj_font(12),
-                                          adj_size(400), 0);
+  pInput_Edit = create_edit_from_chars(NULL, Main.gui, NULL, adj_font(12),
+                                       adj_size(400), 0);
 
   pInput_Edit->size.x = (main_window_width() - pInput_Edit->size.w) / 2;
   pInput_Edit->size.y = (main_window_height() - pInput_Edit->size.h) / 2;
@@ -390,14 +387,10 @@ void real_output_window_append(const char *astring,
 {
   /* Currently this is a wrapper to the message subsystem. */
   if (pConnDlg) {
-    Uint16 *pUniStr;
     size_t n = strlen(astring);
+    char *buffer = fc_strdup(astring);
 
-    n += 1;
-    n *= 2;
-    pUniStr = fc_calloc(1, n);
-    convertcopy_to_utf16(pUniStr, n, astring);
-    add_to_chat_list(pUniStr, n);
+    add_to_chat_list(buffer, n);
   } else {
     meswin_add(astring, tags, NULL, E_CHAT_MSG);
   }
@@ -447,27 +440,27 @@ static int disconnect_conn_callback(struct widget *pWidget)
 /**************************************************************************
   Handle chat messages when connection dialog open.
 **************************************************************************/
-static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
+static void add_to_chat_list(char *msg, size_t n_alloc)
 {
-  SDL_String16 *pStr;
+  utf8_str *pstr;
   struct widget *pBuf, *pWindow = pConnDlg->pEndWidgetList;
 
-  fc_assert_ret(pUniStr != NULL);
+  fc_assert_ret(msg != NULL);
   fc_assert_ret(n_alloc != 0);
 
-  pStr = create_string16(pUniStr, n_alloc, adj_font(12));
+  pstr = create_utf8_str(msg, n_alloc, adj_font(12));
 
-  if (convert_string_to_const_surface_width(pStr, pConnDlg->text_width - adj_size(5))) {
-    SDL_String16 *pStr2;
+  if (convert_utf8_str_to_const_surface_width(pstr, pConnDlg->text_width - adj_size(5))) {
+    utf8_str *pstr2;
     int count = 0;
-    Uint16 **UniTexts = create_new_line_unistrings(pStr->text);
+    char **utf8_texts = create_new_line_utf8strs(pstr->text);
 
-    while (UniTexts[count]) {
-      pStr2 = create_string16(UniTexts[count],
-                              unistrlen(UniTexts[count]) + 1, adj_font(12));
-      pStr2->bgcol = (SDL_Color) {0, 0, 0, 0};
+    while (utf8_texts[count] != NULL) {
+      pstr2 = create_utf8_str(utf8_texts[count],
+                              strlen(utf8_texts[count]) + 1, adj_font(12));
+      pstr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf = create_themelabel2(NULL, pWindow->dst,
-                                pStr2, pConnDlg->text_width, 0,
+                                pstr2, pConnDlg->text_width, 0,
                                 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       pBuf->size.w = pConnDlg->text_width;
@@ -479,11 +472,11 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
     }
     redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
                  pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
-    FREESTRING16(pStr);
+    FREEUTF8STR(pstr);
   } else {
-    pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+    pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_themelabel2(NULL, pWindow->dst,
-                              pStr, pConnDlg->text_width, 0,
+                              pstr, pConnDlg->text_width, 0,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
     pBuf->size.w = pConnDlg->text_width;
@@ -509,17 +502,12 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 static int input_edit_conn_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) { 
-    if (pWidget->string16->text) {
-      char theinput[256];
-
-      convertcopy_to_chars(theinput, sizeof(theinput), pWidget->string16->text);
-
-      if (*theinput != '\0') {
-        send_chat(theinput);
+    if (pWidget->string_utf8->text != NULL) {
+      if (pWidget->string_utf8->text[0] != '\0') {
+        send_chat(pWidget->string_utf8->text);
       }
 
-      FC_FREE(pWidget->string16->text);
-      pWidget->string16->n_alloc = 0;
+      pWidget->string_utf8->n_alloc = 0;
     }
   }
 
@@ -584,10 +572,10 @@ void real_conn_list_dialog_update(void)
   if (C_S_PREPARING == client_state()) {
     if (pConnDlg) {
       struct widget *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
-      SDL_String16 *pStr = create_string16(NULL, 0, adj_font(12));
+      utf8_str *pstr = create_utf8_str(NULL, 0, adj_font(12));
       bool create;
 
-      pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+      pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
       if (pConnDlg->pUsers_Dlg) {
         del_group(pConnDlg->pUsers_Dlg->pBeginActiveWidgetList,
@@ -613,9 +601,9 @@ void real_conn_list_dialog_update(void)
       hide_scrollbar(pConnDlg->pUsers_Dlg->pScroll);
       create = TRUE;
       conn_list_iterate(game.est_connections, pconn) {
-        copy_chars_to_string16(pStr, pconn->username);
+        copy_chars_to_utf8_str(pstr, pconn->username);
 
-        pBuf = create_themelabel2(NULL, pWindow->dst, pStr, adj_size(100), 0,
+        pBuf = create_themelabel2(NULL, pWindow->dst, pstr, adj_size(100), 0,
                 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         clear_wflag(pBuf, WF_FREE_STRING);
 
@@ -637,7 +625,7 @@ void real_conn_list_dialog_update(void)
       } conn_list_iterate_end;
 
       pConnDlg->pBeginWidgetList = pConnDlg->pUsers_Dlg->pBeginWidgetList;
-      FREESTRING16(pStr);
+      FREEUTF8STR(pstr);
 
 /* FIXME: implement the server settings dialog and then reactivate this part */
 #if 0
@@ -680,7 +668,7 @@ static void popup_conn_list_dialog(void)
   struct widget *pStartGameButton = NULL;
   struct widget *pSelectNationButton = NULL;
 /*  struct widget *pServerSettingsButton = NULL;*/
-  SDL_String16 *pStr = NULL;
+  utf8_str *pstr = NULL;
   int n;
   SDL_Rect area;
   SDL_Surface *pSurf;
@@ -744,16 +732,16 @@ static void popup_conn_list_dialog(void)
   n = conn_list_size(game.est_connections);
 
   {
-    char cBuf[256];
+    char cbuf[256];
 
-    fc_snprintf(cBuf, sizeof(cBuf), _("Total users logged in : %d"), n);
-    pStr = create_str16_from_char(cBuf, adj_font(12));
+    fc_snprintf(cbuf, sizeof(cbuf), _("Total users logged in : %d"), n);
+    pstr = create_utf8_from_char(cbuf, adj_font(12));
   }
 
-  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+  pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   pLabel = create_themelabel2(NULL, pWindow->dst,
-                              pStr, pConnDlg->text_width, 0,
+                              pstr, pConnDlg->text_width, 0,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
   widget_set_position(pLabel, adj_size(10), adj_size(14));
@@ -780,9 +768,9 @@ static void popup_conn_list_dialog(void)
 
   /* input field */
 
-  pBuf = create_edit_from_unichars(NULL, pWindow->dst,
-                        NULL, 0, adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
-                        (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
+  pBuf = create_edit_from_chars(NULL, pWindow->dst, NULL,
+                                adj_font(12), pWindow->size.w - adj_size(10) - adj_size(10),
+                                (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
 
   pBuf->size.x = adj_size(10);
   pBuf->size.y = pWindow->size.h - adj_size(40) - adj_size(5) - pBuf->size.h;

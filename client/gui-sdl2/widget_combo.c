@@ -68,14 +68,14 @@ static int combo_redraw(struct widget *combo)
   alphablit(surface, NULL, combo->dst->surface, &dest, 255);
 
   /* Set position and blit text. */
-  text = create_text_surf_from_str16(combo->string16);
+  text = create_text_surf_from_utf8(combo->string_utf8);
   if (NULL != text) {
     dest.y += (surface->h - surface->h) / 2;
     /* Blit centred text to botton. */
-    if (combo->string16->style & SF_CENTER) {
+    if (combo->string_utf8->style & SF_CENTER) {
       dest.x += (surface->w - text->w) / 2;
     } else {
-      if (combo->string16->style & SF_CENTER_RIGHT) {
+      if (combo->string_utf8->style & SF_CENTER_RIGHT) {
         dest.x += surface->w - text->w - adj_size(5);
       } else {
         dest.x += adj_size(5); /* center left */
@@ -122,11 +122,7 @@ static int combo_menu_item_callback(struct widget *label)
   struct widget *combo = label->data.widget;
 
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    char *str;
-
-    str = convert_to_chars(label->string16->text);
-    copy_chars_to_string16(combo->string16, str);
-    free(str);
+    copy_chars_to_utf8_str(combo->string_utf8, label->string_utf8->text);
     widget_redraw(combo);
     widget_mark_dirty(combo);
   }
@@ -236,7 +232,7 @@ void combo_popdown(struct widget *combo)
   Create a combo box widget.
 ****************************************************************************/
 struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
-                         SDL_String16 *string16, const struct strvec *vector,
+                         utf8_str *pstr, const struct strvec *vector,
                          int length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
@@ -244,7 +240,7 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
 
   combo->theme = pTheme->Edit;
   combo->theme2 = background;
-  combo->string16 = string16;
+  combo->string_utf8 = pstr;
   set_wflag(combo, WF_FREE_STRING | WF_FREE_GFX | flags);
   set_wstate(combo, FC_WS_DISABLED);
   set_wtype(combo, WT_COMBO);
@@ -254,9 +250,9 @@ struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,
   combo->redraw = combo_redraw;
   combo->destroy = combo_popdown;
 
-  if (NULL != string16) {
-    combo->string16->style |= SF_CENTER;
-    buf = str16size(string16);
+  if (NULL != pstr) {
+    combo->string_utf8->style |= SF_CENTER;
+    buf = utf8_str_size(pstr);
     buf.h += adj_size(4);
   }
 
