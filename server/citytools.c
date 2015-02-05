@@ -954,8 +954,27 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   const citizens old_taker_content_citizens = player_content_citizens(ptaker);
   const citizens old_giver_content_citizens = player_content_citizens(pgiver);
   bool taker_had_no_cities = (city_list_size(ptaker->cities) == 0);
+  const int units_num = unit_list_size(pcenter->units);
+  bv_player *could_see_unit = (units_num > 0
+                               ? fc_malloc(sizeof(*could_see_unit)
+                                           * units_num)
+                               : NULL);
+  int i;
 
   fc_assert_ret(pgiver != ptaker);
+
+  /* Remember what player see what unit. */
+  i = 0;
+  unit_list_iterate(pcenter->units, aunit) {
+    BV_CLR_ALL(could_see_unit[i]);
+    players_iterate(aplayer) {
+      if (can_player_see_unit(aplayer, aunit)) {
+        BV_SET(could_see_unit[i], player_index(aplayer));
+      }
+    } players_iterate_end;
+    i++;
+  } unit_list_iterate_end;
+  fc_assert(i == units_num);
 
   /* Remove AI control of the old owner. */
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
@@ -1024,6 +1043,29 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   pcity->owner = ptaker;
   map_claim_ownership(pcenter, ptaker, pcenter);
   city_list_prepend(ptaker->cities, pcity);
+
+  /* Hide/reveal units. Do it after vision have been given to taker, city
+   * owner has been changed, and before any script could be spawned. */
+  i = 0;
+  unit_list_iterate(pcenter->units, aunit) {
+    players_iterate(aplayer) {
+      if (can_player_see_unit(aplayer, aunit)) {
+        if (!BV_ISSET(could_see_unit[i], player_index(aplayer))) {
+          /* Reveal 'aunit'. */
+          send_unit_info(aplayer, aunit);
+        }
+      } else {
+        if (BV_ISSET(could_see_unit[i], player_index(aplayer))) {
+          /* Hide 'aunit'. */
+          unit_goes_out_of_sight(aplayer, aunit);
+        }
+      }
+    } players_iterate_end;
+    i++;
+  } unit_list_iterate_end;
+  fc_assert(i == units_num);
+  free(could_see_unit);
+  could_see_unit = NULL;
 
   transfer_city_units(ptaker, pgiver, old_city_units,
 		      pcity, NULL,
@@ -1622,7 +1664,6 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
-  bv_player saw_entering;
 
   /* If not at war, may peacefully enter city. Or, if we cannot occupy
    * the city, this unit entering will not trigger the effects below. */
@@ -1638,15 +1679,6 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
      - Kris Bubendorfer
      Also check spaceships --dwp
   */
-
-  /* Store information who saw unit entering city.
-   * This means old owner + allies + shared vision */
-  BV_CLR_ALL(saw_entering);
-  players_iterate(pplayer) {
-    if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)) {
-      BV_SET(saw_entering, player_index(pplayer));
-    }
-  } players_iterate_end;
 
   if (is_capital(pcity)
       && (cplayer->spaceship.state == SSHIP_STARTED
@@ -1756,20 +1788,6 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */
   transfer_city(pplayer, pcity, 0, TRUE, TRUE, TRUE, !is_barbarian(pplayer));
-
-  /* After city has been transferred, some players may no longer see inside. */
-  players_iterate(pplayer) {
-    if (BV_ISSET(saw_entering, player_index(pplayer))
-        && !can_player_see_unit_at(pplayer, punit, pcity->tile)) {
-      /* Player saw unit entering, but now unit is hiding inside city */
-      unit_goes_out_of_sight(pplayer, punit);
-    } else if (!BV_ISSET(saw_entering, player_index(pplayer))
-               && can_player_see_unit_at(pplayer, punit, pcity->tile)) {
-      /* Player sees inside cities of new owner */
-      send_unit_info_to_onlookers(pplayer->connections, punit,
-                                  pcity->tile, FALSE, TRUE);
-    }
-  } players_iterate_end;
 
   /* reduce size should not destroy this city */
   fc_assert(city_size_get(pcity) > 1);
