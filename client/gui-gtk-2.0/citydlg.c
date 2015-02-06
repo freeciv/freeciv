@@ -785,8 +785,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_set_name(view, "small_font");
   pdialog->overview.improvement_list = view;
 
-  gtk_widget_set_tooltip_text(view,
-                     _("Press ENTER or double-click to sell an improvement."));
+  gtk_widget_set_tooltip_markup(view,
+                     _("Press <b>ENTER</b> or double-click to sell an improvement."));
 
   rend = gtk_cell_renderer_pixbuf_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
