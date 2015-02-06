@@ -1017,7 +1017,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                                  "settings.value%d", set_count);
         break;
       case SSET_BITWISE:
-        secfile_insert_enum_data(sfile, setting_bitwise_get(pset), FALSE,
+        secfile_insert_enum_data(sfile, setting_bitwise_get(pset), TRUE,
                                  setting_bitwise_secfile_str, pset,
                                  "settings.value%d", set_count);
         break;
