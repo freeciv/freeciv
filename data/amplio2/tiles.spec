@@ -9,6 +9,7 @@ options = "+Freeciv-2.5-spec"
 artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
+    GriffonSpade
 "
 
 [file]
@@ -30,14 +31,15 @@ tiles = { "row", "column", "tag"
   1, 17, "unit.loaded"
   1, 18, "unit.connect"
   1, 19, "unit.auto_explore"
-  2, 12, "unit.transform"
-  2, 13, "unit.sentry"
-  2, 14, "unit.goto"
-  2, 15, "unit.mine"
+  0, 16, "unit.transform"
+  0, 17, "unit.sentry"
+  4, 16, "unit.goto"
+  4, 17, "unit.mine"
   2, 16, "unit.pollution"
   2, 17, "unit.road"
   2, 18, "unit.irrigate"
   2, 19, "unit.fortifying"
+;  1, 16, "unit.fortifying"
 ;  2, 19, "unit.fortress"
 ;  3, 16, "unit.airbase"
   3, 17, "unit.pillage"
@@ -127,24 +129,12 @@ tiles = { "row", "column", "tag"
   6, 18, "city.t_trade_8"
   6, 19, "city.t_trade_9"
 
-; Unit upkeep in city dialog:
-; These should probably be handled differently and have
-; a different size...
-
-  7, 12, "upkeep.gold"
-  7, 13, "upkeep.gold2"
-  7, 15, "upkeep.food"
-  7, 16, "upkeep.food2"
-  7, 17, "upkeep.unhappy"
-  7, 18, "upkeep.unhappy2"
-  7, 19, "upkeep.shield"
-
 ; Base building activities
   8, 15, "unit.fortress"
   8, 16, "unit.airbase"
   8, 17, "unit.buoy"
 
-; Nuclear explosion: this could maybe now be handled as one 
+; Nuclear explosion: this could maybe now be handled as one
 ; big graphic (?), but for now is done old way as 3 by 3:
 
   0,  0, "explode.nuke_00"
@@ -157,4 +147,55 @@ tiles = { "row", "column", "tag"
   2,  1, "explode.nuke_21"
   2,  2, "explode.nuke_22"
 
+}
+
+
+[grid_unitcost]
+
+x_top_left = 576
+y_top_left = 0
+dx = 96
+dy = 19
+
+tiles = { "row", "column", "tag"
+  0, 0, "upkeep.shield"
+  0, 1, "upkeep.shield2"
+  0, 2, "upkeep.shield3"
+  0, 3, "upkeep.shield4"
+  0, 4, "upkeep.shield5"
+  0, 5, "upkeep.shield6"
+  0, 6, "upkeep.shield7"
+  0, 7, "upkeep.shield8"
+  0, 8, "upkeep.shield9"
+  0, 9, "upkeep.shield10"
+  1, 0, "upkeep.gold"
+  1, 1, "upkeep.gold2"
+  1, 2, "upkeep.gold3"
+  1, 3, "upkeep.gold4"
+  1, 4, "upkeep.gold5"
+  1, 5, "upkeep.gold6"
+  1, 6, "upkeep.gold7"
+  1, 7, "upkeep.gold8"
+  1, 8, "upkeep.gold9"
+  1, 9, "upkeep.gold10"
+  2, 0, "upkeep.food"
+  2, 1, "upkeep.food2"
+  2, 2, "upkeep.food3"
+  2, 3, "upkeep.food4"
+  2, 4, "upkeep.food5"
+  2, 5, "upkeep.food6"
+  2, 6, "upkeep.food7"
+  2, 7, "upkeep.food8"
+  2, 8, "upkeep.food9"
+  2, 9, "upkeep.food10"
+  3, 0, "upkeep.unhappy"
+  3, 1, "upkeep.unhappy2"
+  3, 2, "upkeep.unhappy3"
+  3, 3, "upkeep.unhappy4"
+  3, 4, "upkeep.unhappy5"
+  3, 5, "upkeep.unhappy6"
+  3, 6, "upkeep.unhappy7"
+  3, 7, "upkeep.unhappy8"
+  3, 8, "upkeep.unhappy9"
+  3, 9, "upkeep.unhappy10"
 }
