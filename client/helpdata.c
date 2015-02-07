@@ -2219,6 +2219,36 @@ static int techs_with_flag_string(char *buf, size_t bufsz,
 }
 
 /****************************************************************
+  Is unit type ever able to build an road
+*****************************************************************/
+static bool help_is_road_buildable(struct road_type *proad,
+                                   struct unit_type *ptype)
+{
+  if (!proad->buildable) {
+    return FALSE;
+  }
+
+  return are_reqs_active(NULL, NULL, NULL, NULL, ptype,
+                         NULL, NULL, &proad->reqs,
+                         RPT_POSSIBLE);
+}
+
+/****************************************************************
+  Is unit type ever able to build an base
+*****************************************************************/
+static bool help_is_base_buildable(struct base_type *pbase,
+                                   struct unit_type *ptype)
+{
+  if (!pbase->buildable) {
+    return FALSE;
+  }
+
+  return are_reqs_active(NULL, NULL, NULL, NULL, ptype,
+                         NULL, NULL, &pbase->reqs,
+                         RPT_POSSIBLE);
+}
+
+/****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
 
@@ -2593,7 +2623,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     char buf2[1024];
 
     /* Roads, rail, mines, irrigation. */
-    CATLSTR(buf, bufsz, _("* Can build roads and railroads.\n"));
+    road_type_iterate(proad) {
+      if (help_is_road_buildable(proad, utype)) {
+        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                     road_name_translation(proad));
+      }
+    } road_type_iterate_end;
 
     /* TODO: Check also that specific unit fulfills the requirements of the effects */
     if (effect_cumulative_max(EFT_MINING_POSSIBLE) > 0) {
@@ -2625,12 +2660,18 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
     }
 
+    base_type_iterate(pbase) {
+      if (help_is_base_buildable(pbase, utype)) {
+        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                     base_name_translation(pbase));
+      }
+    } base_type_iterate_end;
+
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
     CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
   }
-  /* FIXME: bases -- but there is no good way to find out which bases a unit
-   * can conceivably build currently, so we have to remain silent. */
+
   if (utype_has_flag(utype, UTYF_DIPLOMAT)) {
     if (utype_has_flag(utype, UTYF_SPY)) {
       CATLSTR(buf, bufsz, _("* Can perform diplomatic actions,"
