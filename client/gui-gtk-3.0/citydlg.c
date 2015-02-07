@@ -101,8 +101,6 @@ enum { OVERVIEW_PAGE, WORKLIST_PAGE,
   HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
 };
 
-enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
-
 #define NUM_CITIZENS_SHOWN 30
 #define NUM_INFO_FIELDS 12      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
@@ -307,8 +305,6 @@ static void initialize_city_dialogs(void)
 
   dialog_list = dialog_list_new();
   init_citydlg_dimensions();
-
-  /* make the styles */
 
   city_dialogs_have_been_initialised = TRUE;
 }
@@ -1641,8 +1637,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   color = (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) ? &red : NULL;
   gtk_widget_override_color(info_label[GROWTH], GTK_STATE_FLAG_NORMAL, color);
 
-  /* someone could add the info_label_style[ORANGE]
-   * style for better granularity here */
+  /* someone could add the color &orange for better granularity here */
 
   color = (pcity->pollution >= 10) ? &red : NULL;
   gtk_widget_override_color(info_label[POLLUTION], GTK_STATE_FLAG_NORMAL, color);
