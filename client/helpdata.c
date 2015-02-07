@@ -3300,6 +3300,21 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 }
 
 /****************************************************************
+  Is unit type ever able to build an extra
+*****************************************************************/
+static bool help_is_extra_buildable(struct extra_type *pextra,
+                                    struct unit_type *ptype)
+{
+  if (!pextra->buildable) {
+    return FALSE;
+  }
+
+  return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
+                         NULL, ptype, NULL, NULL, &pextra->reqs,
+                         RPT_POSSIBLE);
+}
+
+/****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
 
@@ -3669,29 +3684,50 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     /* Roads, rail, mines, irrigation. */
-    CATLSTR(buf, bufsz, _("* Can build roads and railroads.\n"));
+    extra_type_by_cause_iterate(EC_ROAD, pextra) {
+      if (help_is_extra_buildable(pextra, utype)) {
+        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                     extra_name_translation(pextra));
+      }
+    } extra_type_by_cause_iterate_end;
 
     /* TODO: Check also that specific unit fulfills the requirements of the effects */
     if (effect_cumulative_max(EFT_MINING_POSSIBLE) > 0) {
-      CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
+      extra_type_by_cause_iterate(EC_MINE, pextra) {
+        if (help_is_extra_buildable(pextra, utype)) {
+          cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                       extra_name_translation(pextra));
+        }
+      } extra_type_by_cause_iterate_end;
     }
     if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE) > 0) {
       CATLSTR(buf, bufsz, _("* Can mine terrain to another.\n"));
     }
 
     if (effect_cumulative_max(EFT_IRRIG_POSSIBLE) > 0) {
-      CATLSTR(buf, bufsz, _("* Can build irrigation and farmland on tiles.\n"));
+      extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
+        if (help_is_extra_buildable(pextra, utype)) {
+          cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                       extra_name_translation(pextra));
+        }
+      } extra_type_by_cause_iterate_end;
     }
     if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE) > 0) {
       CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
     }
 
+    extra_type_by_cause_iterate(EC_BASE, pextra) {
+      if (help_is_extra_buildable(pextra, utype)) {
+        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                     extra_name_translation(pextra));
+      }
+    } extra_type_by_cause_iterate_end;
+
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
     CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
   }
-  /* FIXME: bases -- but there is no good way to find out which bases a unit
-   * can conceivably build currently, so we have to remain silent. */
+
   if (utype_has_flag(utype, UTYF_SPY)) {
     CATLSTR(buf, bufsz, _("* Performs better diplomatic actions.\n"));
   }
