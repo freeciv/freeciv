@@ -32,7 +32,7 @@ extern "C" {
 /* Timing logging happens so often only in debug builds that it makes
    sense to have macro defined for it once here and to have all the
    checks against that single macro instead of two separate. */
-#if defined(LOG_TIMERS) && defined(DEBUG)
+#if defined(LOG_TIMERS) && defined(FREECIV_DEBUG)
 #define DEBUG_TIMERS
 #endif
 
@@ -53,7 +53,7 @@ enum timer_use {
  * Also note TIMER_DEBUG below.
  */
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define TIMER_DEBUG TIMER_ACTIVE
 #else
 #define TIMER_DEBUG TIMER_IGNORE

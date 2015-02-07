@@ -25,9 +25,9 @@ extern "C" {
 #define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2014.Oct.09"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #  undef DEBUG_AITIMERS
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 struct Treaty;
 struct player;

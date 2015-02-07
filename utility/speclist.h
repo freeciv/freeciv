@@ -555,12 +555,12 @@ SPECLIST_FOO(_list_link_next) (const SPECLIST_LINK *plink)
 #ifndef FC__SPECLIST_H  /* Defines this only once, no multiple inclusions. */
 #define FC__SPECLIST_H
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #  define TYPED_LIST_CHECK(ARG_list)                                       \
   fc_assert_action(NULL != ARG_list, break)
 #else
 #  define TYPED_LIST_CHECK(ARG_list) /* Nothing. */
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /* Speclist data iterator.
  * 

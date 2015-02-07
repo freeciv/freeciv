@@ -239,10 +239,10 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE6 AI_LEVEL_CHEATING
 #define SPECENUM_VALUE6NAME N_("Cheating")
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define SPECENUM_VALUE7 AI_LEVEL_EXPERIMENTAL
 #define SPECENUM_VALUE7NAME N_("Experimental")
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 #define SPECENUM_COUNT AI_LEVEL_COUNT
 #include "specenum_gen.h"

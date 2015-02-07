@@ -67,7 +67,7 @@ enum command_id {
   CMD_NORMAL,
   CMD_HARD,
   CMD_CHEATING,
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
   CMD_EXPERIMENTAL,
 #endif
   CMD_CMDLEVEL,

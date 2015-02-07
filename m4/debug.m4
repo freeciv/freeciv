@@ -36,7 +36,8 @@ fi
 dnl ==========================================================================
 dnl debug level >= yes
 if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
-  AC_DEFINE([DEBUG], [1], [Extra debugging support])
+  AC_DEFINE([FREECIV_DEBUG], [1], [Extra debugging support])
+  AC_DEFINE([DEBUG], [1], [Extra debugging support, backward compatibility macro])
   AC_DEFINE([LUA_USE_APICHECK], [1], [Lua Api checks])
 
   FC_C_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
