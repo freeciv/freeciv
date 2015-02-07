@@ -209,7 +209,7 @@ struct unit {
   };
 };
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define CHECK_UNIT(punit)                                                   \
   (fc_assert(punit != NULL),                                                \
    fc_assert(unit_type(punit) != NULL),                                     \
@@ -217,9 +217,9 @@ struct unit {
    fc_assert(player_by_number(player_index(unit_owner(punit)))              \
              == unit_owner(punit)),                                         \
    fc_assert(game_unit_by_number(punit->id) != NULL))
-#else
+#else  /* FREECIV_DEBUG */
 #define CHECK_UNIT(punit) /* Do nothing */
-#endif
+#endif /* FREECIV_DEBUG */
 
 void setup_real_activities_array(void);
 

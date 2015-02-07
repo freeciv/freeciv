@@ -16,7 +16,7 @@
 #include "fc_types.h"
 
 #if ((IS_BETA_VERSION || IS_DEVEL_VERSION) && !defined NDEBUG) \
-  || defined DEBUG
+  || defined(FREECIV_DEBUG)
 #  define SANITY_CHECKING
 #endif
 

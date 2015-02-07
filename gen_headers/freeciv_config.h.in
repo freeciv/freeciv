@@ -47,4 +47,7 @@
 /* jansson network protocol in use */
 #undef FREECIV_JSON_CONNECTION
 
+/* Extra debugging support */
+#undef FREECIV_DEBUG
+
 #endif /* FC__FREECIV_CONFIG_H */

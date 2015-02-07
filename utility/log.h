@@ -64,7 +64,7 @@ log_callback_fn log_set_callback(log_callback_fn callback);
 log_prefix_fn log_set_prefix(log_prefix_fn prefix);
 void log_set_level(enum log_level level);
 enum log_level log_get_level(void);
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 bool log_do_output_for_level_at_location(enum log_level level,
                                          const char *file, int line);
 #endif
@@ -77,12 +77,12 @@ void do_log(const char *file, const char *function, int line,
             const char *message, ...)
             fc__attribute((__format__ (__printf__, 6, 7)));
 
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define log_do_output_for_level(level) \
   log_do_output_for_level_at_location(level, __FILE__, __FC_LINE__)
 #else
 #define log_do_output_for_level(level) (log_get_level() >= level)
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 
 /* The log macros */
@@ -101,12 +101,12 @@ void do_log(const char *file, const char *function, int line,
   log_base(LOG_NORMAL, message, ## __VA_ARGS__)
 #define log_verbose(message, ...)                                           \
   log_base(LOG_VERBOSE, message, ## __VA_ARGS__)
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #  define log_debug(message, ...)                                           \
   log_base(LOG_DEBUG, message, ## __VA_ARGS__)
 #else
 #  define log_debug(message, ...) /* Do nothing. */
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
 
 /* Used by game debug command */
 #define log_test log_normal

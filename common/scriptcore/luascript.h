@@ -98,7 +98,7 @@ void luascript_vars_load(struct fc_lua *fcl, struct section_file *file,
 #define LUASCRIPT_ASSERT_CAT(str1, str2) str1 ## str2
 
 /* Script assertion (for debugging only) */
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #define LUASCRIPT_ASSERT(L, check, ...)                                      \
   if (!(check)) {                                                            \
     luascript_error(L, "in %s() [%s::%d]: the assertion '%s' failed.",       \

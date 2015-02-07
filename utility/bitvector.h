@@ -61,7 +61,7 @@ void dbv_debug(struct dbv *pdbv);
 #define _BV_BYTES(bits)        ((((bits) - 1) / 8) + 1)
 #define _BV_BYTE_INDEX(bits)   ((bits) / 8)
 #define _BV_BITMASK(bit)       (1u << ((bit) & 0x7))
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
 #  define _BV_ASSERT(bv, bit)  fc_assert((bit) >= 0                         \
                                          && (bit) < (signed int) sizeof((bv).vec) * 8)
 #else
