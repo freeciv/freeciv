@@ -1811,6 +1811,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   startpos_nations;
   BOOL   prevent_new_cities;
   BOOL   handmade;
+  BOOL   ruleset_locked;
 end
 
 PACKET_SAVE_SCENARIO = 181; cs, handle-per-conn, dsend

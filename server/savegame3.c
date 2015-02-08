@@ -1453,16 +1453,18 @@ static void sg_load_savefile(struct loaddata *loading)
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
 
-  /* Load ruleset. */
-  sz_strlcpy(game.server.rulesetdir,
-             secfile_lookup_str_default(loading->file, "classic",
-                                        "savefile.rulesetdir"));
-  if (!strcmp("default", game.server.rulesetdir)) {
-    sz_strlcpy(game.server.rulesetdir, "classic");
-  }
-  if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
-    /* Failed to load correct ruleset */
-    sg_failure_ret(TRUE, "Failed to load ruleset");
+  if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
+    /* Load ruleset. */
+    sz_strlcpy(game.server.rulesetdir,
+               secfile_lookup_str_default(loading->file, "classic",
+                                          "savefile.rulesetdir"));
+    if (!strcmp("default", game.server.rulesetdir)) {
+      sz_strlcpy(game.server.rulesetdir, "classic");
+    }
+    if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
+      /* Failed to load correct ruleset */
+      sg_failure_ret(TRUE, "Failed to load ruleset");
+    }
   }
 
   /* Load improvements. */
@@ -2327,6 +2329,10 @@ static void sg_load_scenario(struct loaddata *loading)
     game.scenario.handmade
       = secfile_lookup_bool_default(loading->file, FALSE,
                                     "scenario.handmade");
+
+    game.scenario.ruleset_locked
+      = secfile_lookup_bool_default(loading->file, TRUE,
+                                    "scenario.ruleset_locked");
 
     sg_failure_ret(loading->server_state == S_S_INITIAL
                    || (loading->server_state == S_S_RUNNING
