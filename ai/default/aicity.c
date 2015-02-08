@@ -1339,6 +1339,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   };
   const bool is_coinage = improvement_has_flag(pimprove, IF_GOLD);
   int turns = 9999;
+  int place = tile_continent(pcity->tile);
 
   /* Remove team members from the equation */
   players_iterate(aplayer) {
@@ -1381,7 +1382,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_ALLIANCE] = cities[REQ_RANGE_TEAM]
     = cities[REQ_RANGE_PLAYER];
 
-  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];
+  if (place < 0) {
+    cities[REQ_RANGE_CONTINENT] = 1;
+  } else {
+    cities[REQ_RANGE_CONTINENT] = ai->stats.cities[place];
+  }
 
   /* All the trade partners and the city being considered. */
   cities[REQ_RANGE_TRADEROUTE] = city_num_trade_routes(pcity)+1;
