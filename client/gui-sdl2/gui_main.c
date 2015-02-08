@@ -123,6 +123,8 @@ static void print_usage(void);
 static void parse_options(int argc, char **argv);
 static int check_scroll_area(int x, int y);
 
+int user_event_type;
+
 enum USER_EVENT_ID {
   EVENT_ERROR = 0,
   NET,
@@ -479,7 +481,7 @@ void force_exit_from_event_loop(void)
 {
   SDL_Event Event;
 
-  Event.type = SDL_USEREVENT;
+  Event.type = user_event_type;
   Event.user.code = EXIT_FROM_EVENT_LOOP;
   Event.user.data1 = NULL;
   Event.user.data2 = NULL;
@@ -605,11 +607,45 @@ Uint16 gui_event_loop(void *pData,
 
     while (SDL_PollEvent(&Main.event) == 1) {
 
-      switch (Main.event.type) {
+      if (Main.event.type == user_event_type) {
+        switch(Main.event.user.code) {
+        case NET:
+          input_from_server(net_socket);
+          break;
+        case ANIM:
+          update_button_hold_state();
+          animate_mouse_cursor();
+          draw_mouse_cursor();
+          break;
+        case SHOW_WIDGET_INFO_LABEL:
+          draw_widget_info_label();
+          break;
+        case TRY_AUTO_CONNECT:
+          if (try_to_autoconnect()) {
+            pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABEL;
+            autoconnect = FALSE;
+          }
+          break;
+        case FLUSH:
+          unqueue_flush();
+          break;
+        case MAP_SCROLL:
+          scroll_mapview(scroll_dir);
+          break;
+        case EXIT_FROM_EVENT_LOOP:
+          return MAX_ID;
+          break;
+        default:
+          break;
+        }
+
+      } else {
+
+        switch (Main.event.type) {
 
         case SDL_QUIT:
           return MAX_ID;
-        break;
+          break;
 
         case SDL_KEYUP:
           switch (Main.event.key.keysym.sym) {
@@ -678,65 +714,32 @@ Uint16 gui_event_loop(void *pData,
               }
             break;
           }
-        break;
+          break;
 
         case SDL_TEXTINPUT:
           if (textinput_handler) {
             ID = textinput_handler(Main.event.text.text, pData);
           }
-        break;
+          break;
 
         case SDL_MOUSEBUTTONDOWN:
           if (mouse_button_down_handler) {
             ID = mouse_button_down_handler(&Main.event.button, pData);
           }
-        break;
+          break;
 
         case SDL_MOUSEBUTTONUP:
           if (mouse_button_up_handler) {
             ID = mouse_button_up_handler(&Main.event.button, pData);
           }
-        break;
+          break;
 
         case SDL_MOUSEMOTION:
           if (mouse_motion_handler) {
             ID = mouse_motion_handler(&Main.event.motion, pData);
           }	
-        break;
-
-        case SDL_USEREVENT:
-          switch(Main.event.user.code) {
-            case NET:
-              input_from_server(net_socket);
-            break;
-            case ANIM:
-              update_button_hold_state();
-              animate_mouse_cursor();
-              draw_mouse_cursor();
-            break;
-            case SHOW_WIDGET_INFO_LABEL:
-              draw_widget_info_label();
-            break;
-            case TRY_AUTO_CONNECT:
-              if (try_to_autoconnect()) {
-                pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABEL;
-                autoconnect = FALSE;
-              }
-            break;
-            case FLUSH:
-              unqueue_flush();
-            break;
-            case MAP_SCROLL:
-                scroll_mapview(scroll_dir);
-            break;
-            case EXIT_FROM_EVENT_LOOP:
-              return MAX_ID;
-            break;
-            default:
-            break;
-          }
-        break;
-
+          break;
+        }
       }
     }
 
@@ -914,31 +917,38 @@ void ui_main(int argc, char *argv[])
   log_normal(_("Using Video Output: %s"), SDL_GetCurrentVideoDriver());
   set_video_mode(options.gui_sdl2_screen.width, options.gui_sdl2_screen.height, flags);
 
-  __Net_User_Event.type = SDL_USEREVENT;
+  user_event_type = SDL_RegisterEvents(1);
+
+  SDL_zero(__Net_User_Event);
+  __Net_User_Event.type = user_event_type;
   __Net_User_Event.user.code = NET;
   __Net_User_Event.user.data1 = NULL;
   __Net_User_Event.user.data2 = NULL;
   pNet_User_Event = &__Net_User_Event;
 
-  __Anim_User_Event.type = SDL_USEREVENT;
+  SDL_zero(__Anim_User_Event);
+  __Anim_User_Event.type = user_event_type;
   __Anim_User_Event.user.code = EVENT_ERROR;
   __Anim_User_Event.user.data1 = NULL;
   __Anim_User_Event.user.data2 = NULL;
   pAnim_User_Event = &__Anim_User_Event;
 
-  __Info_User_Event.type = SDL_USEREVENT;
+  SDL_zero(__Info_User_Event);
+  __Info_User_Event.type = user_event_type;
   __Info_User_Event.user.code = SHOW_WIDGET_INFO_LABEL;
   __Info_User_Event.user.data1 = NULL;
   __Info_User_Event.user.data2 = NULL;
   pInfo_User_Event = &__Info_User_Event;
 
-  __Flush_User_Event.type = SDL_USEREVENT;
+  SDL_zero(__Flush_User_Event);
+  __Flush_User_Event.type = user_event_type;
   __Flush_User_Event.user.code = FLUSH;
   __Flush_User_Event.user.data1 = NULL;
   __Flush_User_Event.user.data2 = NULL;
   flush_event = &__Flush_User_Event;
 
-  __pMap_Scroll_User_Event.type = SDL_USEREVENT;
+  SDL_zero(__pMap_Scroll_User_Event);
+  __pMap_Scroll_User_Event.type = user_event_type;
   __pMap_Scroll_User_Event.user.code = MAP_SCROLL;
   __pMap_Scroll_User_Event.user.data1 = NULL;
   __pMap_Scroll_User_Event.user.data2 = NULL;
