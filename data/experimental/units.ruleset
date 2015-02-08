@@ -2146,7 +2146,7 @@ Spies built under a Communist government will start at the first\
 name          = _("Caravan")
 class         = "Land"
 tech_req      = "Trade"
-obsolete_by   = "Freight"
+obsolete_by   = "None"
 graphic       = "u.caravan"
 graphic_alt   = "-"
 sound_move    = "m_caravan"
@@ -2218,7 +2218,8 @@ uk_gold       = 0
 flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "HasNoZOC"
 roles         = ""
 helptext      = _("\
-The Freight unit replaces the Caravan, and moves at twice the speed.\
+The Freight is twice as fast alternative to the Caravan, but unable to\
+ move at all outside flat terrains and roads.\
 ")
 
 [unit_explorer]
