@@ -2,6 +2,7 @@
 /Makefile
 /.deps
 /meta_fc_client.cpp
+/meta_helpdlg.cpp
 /meta_ratesdlg.cpp
 /meta_mapview.cpp
 /meta_menu.cpp
@@ -11,3 +12,10 @@
 /meta_citydlg.cpp
 /meta_cityrep.cpp
 /meta_plrdlg.cpp
+/meta_diplodlg.cpp
+/meta_spaceshipdlg.cpp
+/meta_messagewin.cpp
+/meta_chatline.cpp
+/meta_messagedlg.cpp
+/meta_voteinfo_bar.cpp
+/meta_gotodlg.cpp
