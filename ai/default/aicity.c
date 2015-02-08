@@ -1786,6 +1786,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     .value = {.building = pimprove}
   };
   const bool is_coinage = improvement_has_flag(pimprove, IF_GOLD);
+  int place = tile_continent(pcity->tile);
 
   /* Remove team members from the equation */
   players_iterate(aplayer) {
@@ -1826,7 +1827,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   cities[REQ_RANGE_PLAYER] = city_list_size(pplayer->cities);
   cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_PLAYER]; /* kludge. */
 
-  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[tile_continent(pcity->tile)];
+  if (place < 0) {
+    cities[REQ_RANGE_CONTINENT] = 1;
+  } else {
+    cities[REQ_RANGE_CONTINENT] = ai->stats.cities[place];
+  }
 
   cities[REQ_RANGE_CITY] = cities[REQ_RANGE_LOCAL] = 1;
 
