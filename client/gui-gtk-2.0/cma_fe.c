@@ -177,12 +177,16 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
 			   GtkTreeModel *model, GtkTreeIter *it, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
-  const char *s1, *s2;
+  char *s1;
+  const char *s2;
   int i1, i2;
   struct cm_parameter param;
   GtkTreePath *path;
 
-  gtk_tree_model_get(model, it, 0, &s1, -1); 
+  gtk_tree_model_get(model, it, 0, &s1, -1);
+  if (s1 == NULL) {
+    return;
+  }
   path = gtk_tree_model_get_path(model, it);
   i1 = gtk_tree_path_get_indices(path) [0];
   gtk_tree_path_free(path);
@@ -198,6 +202,8 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
     g_object_set(G_OBJECT(cell), "style", PANGO_STYLE_NORMAL,
 		 "weight", PANGO_WEIGHT_NORMAL, NULL);
   }
+
+  free(s1);
 }
 
 /**************************************************************************
