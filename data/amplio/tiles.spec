@@ -131,13 +131,13 @@ tiles = { "row", "column", "tag"
 ; These should probably be handled differently and have
 ; a different size...
 
-  7, 12, "upkeep.gold"
-  7, 13, "upkeep.gold2"
-  7, 15, "upkeep.food"
-  7, 16, "upkeep.food2"
-  7, 17, "upkeep.unhappy"
-  7, 18, "upkeep.unhappy2"
-  7, 19, "upkeep.shield"
+;  7, 12, "upkeep.gold"
+;  7, 13, "upkeep.gold2"
+;  7, 15, "upkeep.food"
+;  7, 16, "upkeep.food2"
+;  7, 17, "upkeep.unhappy"
+;  7, 18, "upkeep.unhappy2"
+;  7, 19, "upkeep.shield"
 
 ; Nuclear explosion: this could maybe now be handled as one 
 ; big graphic (?), but for now is done old way as 3 by 3:
