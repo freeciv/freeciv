@@ -44,6 +44,8 @@ this file.
   to flat terrain and cannot move into difficult terrain such as hills
   and forest, unless roads are built; nor can they ride maglevs (they
   ride the railroad instead).
+  Freight does not obsolete Caravan so player does not lose ability
+  to build units to establish traderoutes to remote cities.
 
 - Triremes can move on rivers (but later ships cannot).
 
