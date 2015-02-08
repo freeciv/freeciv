@@ -67,6 +67,7 @@ files =
   "amplio/ocean.spec",
   "amplio/water.spec",
   "amplio/tiles.spec",
+  "amplio/upkeep.spec",
   "amplio/fog.spec",
   "misc/small.spec",
   "misc/events.spec",
