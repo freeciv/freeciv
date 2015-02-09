@@ -1769,8 +1769,8 @@ reqs	=
       "Tech", "Computers", "Player"
       "Building", "Research Lab", "City"
     }
-graphic	= "b.seti_program"
-graphic_alt	= "-"
+graphic		= "b.internet"
+graphic_alt	= "b.seti_program"
 obsolete_by	=
     { "type", "name", "range"
     }
