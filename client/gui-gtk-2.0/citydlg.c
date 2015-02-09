@@ -541,14 +541,21 @@ popdown all dialogs
 *****************************************************************/
 void popdown_all_city_dialogs(void)
 {
+  int i;
+
   if (!city_dialogs_have_been_initialised) {
     return;
   }
+
   while (dialog_list_size(dialog_list)) {
     close_city_dialog(dialog_list_get(dialog_list, 0));
   }
   dialog_list_destroy(dialog_list);
-  
+
+  for (i = 0; i < NUM_INFO_STYLES; i++) {
+    g_object_unref(info_label_style[i]);
+  }
+
   city_dialogs_have_been_initialised = FALSE;
 }
 
