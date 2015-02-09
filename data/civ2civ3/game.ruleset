@@ -269,7 +269,7 @@ effects        = "EmptyFoodStock"
 name           = _("Fire")
 reqs           =
     { "type", "name", "range"
-      "MinSize", "8", "City"
+      "MinSize", "9", "City"
     }
 frequency      = 100
 effects        = "DestroyBuilding"
