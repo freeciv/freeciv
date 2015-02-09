@@ -2299,7 +2299,8 @@ Caravans can only travel on roads, railroads, rivers or ships, and\
 "), _("\
 Caravans can establish trade routes with the cities of other nations\
  (even your enemies). A trade route's ongoing revenue is doubled if the\
- two cities involved are on different continents.\
+ two cities involved are on different continents. Each city can support a
+ maximum of two trade routes.\
 "), _("\
 Every Caravan that is used to build a wonder will add 50 shields\
  towards the production of the wonder.\

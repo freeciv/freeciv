@@ -1267,7 +1267,8 @@ Earth technology unit that can establish trade routes and transfer goods \
 to help build wonders in other cities.\
 "), _("\
 Trade routes with other factions provide three times as much ongoing \
-trade as routes within your faction.\
+trade as routes within your faction. Each city can support up to four \
+trade routes.\
 ");
 
 [unit_caravan]
@@ -1301,7 +1302,8 @@ helptext      = _("\
 Native caravan unit, that can move on all land terrains.\
 "), _("\
 Trade routes with other factions provide three times as much ongoing \
-trade as routes within your faction.\
+trade as routes within your faction. Each city can support up to four \
+trade routes.\
 ");
 
 [unit_stealth_spy]
