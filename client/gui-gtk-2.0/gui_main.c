@@ -2135,9 +2135,12 @@ static void allied_chat_button_toggled(GtkToggleButton *button,
 **************************************************************************/
 void insert_client_build_info(char *outbuf, size_t outlen)
 {
-  cat_snprintf(outbuf, outlen, _("\nBuilt against gtk+ %d.%d.%d, using %d.%d.%d"),
+  cat_snprintf(outbuf, outlen, _("\nBuilt against gtk+ %d.%d.%d, using %d.%d.%d"
+                                 "\nBuilt against glib %d.%d.%d, using %d.%d.%d"),
                GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
-               gtk_major_version, gtk_minor_version, gtk_micro_version);
+               gtk_major_version, gtk_minor_version, gtk_micro_version,
+               GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
+               glib_major_version, glib_minor_version, glib_micro_version);
 }
 
 /**************************************************************************
