@@ -1,6 +1,6 @@
 
 ==========================================================
-Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 27-Jun-2014)
+Civ2Civ3 Ruleset for Freeciv v2.5 (Updated 07-Feb-2015)
 ==========================================================
 
 
@@ -144,18 +144,18 @@ Fortress (vs Land\Sea)   +100%    (=)
 Airbase  (vs Air)        +100%    +0%
 
 - Every City receives an inherent Defend_Bonus = +50% against Land units
-- Every City with Pop>=8 receives an additional free Defend_Bonus = +50% against Land units, and against Sea units.
+- Every City with Pop>8 receives an additional free Defend_Bonus = +50% against Land and Sea units.
 - Walls effect reduced from 200% to 100%, and cost reduced from 60 to 30.
 - Great Wall gives additional Defend_Bonus = +50% against Land units, and the effect Unit_No_Lose_Pop in every city.
 The total city defense is similar to classic ruleset, but here cities receive some wall bonus for free, and large cities receive an extra bonus, as in civ3:
 
 CITY VS LAND     NEW    (+WALL)  (+GREAT WALL)
-Town (Pop<8)     +50%    +150%(-) +200%(=)
-City (Pop>=8)    +100%   +200%(=) +250%(+)
+Town (Pop<=8)    +50%    +150%(-) +200%(=)
+City (Pop>8)     +100%   +200%(=) +250%(+)
 
 CITY VS SEA      NEW    (+COASTAL DEFENSE)
-Town (Pop<8)     +0%     +100%(=)
-City (Pop>=8)    +50%    +150%(+)
+Town (Pop<=8)    +0%     +100%(=)
+City (Pop>8)     +50%    +150%(+)
 
 Total Defense (%) = (100+TERRAIN) * (100+RIVER) * (100+CITY+BASE) * (100+FORTIFIED) * (100+VETERAN), same as classic rules.
 
@@ -440,6 +440,7 @@ SINCE PREVIOUS VERSION:
 Changes:
 - Enabled Tech Upkeep, and multiplied by number of Cities. Random Tech is lost when balance of Bulbs is negative.
 - If a city supports more Military Units than its population size, each extra unit will waste one Food, no matter the government.
+- The bonus to defense moved to cities with pop>8 (instead of pop>=8), so Aqueduct is a prerequisite.
 - Large cities (Pop>=8) no longer get extra units free of upkeep or military unhappiness. The result is 1, 2, or 3 free units per city, depending on the government.
 - Disabled happyborders: Units cause military unhappiness if they end the turn outside cities or fortresses, no matter if they are inside national borders.
 - Readjusted effect of some wonders: Mausoleum of Mausolos, Statue of Liberty, and those related to military unhappiness. Marco Polo's Embassy obsolete by Democracy.

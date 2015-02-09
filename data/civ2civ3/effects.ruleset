@@ -1984,7 +1984,7 @@ type    = "Defend_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range"
-      "MinSize", "8", "City"
+      "MinSize", "9", "City"
       "CityTile", "Center", "Local"
     }
 nreqs   =
@@ -3663,7 +3663,7 @@ type    = "City_Image"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "MinSize", "4", "City"
+      "MinSize", "5", "City"
     }
 
 [effect_city_image_2]
@@ -3671,7 +3671,7 @@ type    = "City_Image"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "MinSize", "8", "City"
+      "MinSize", "9", "City"
     }
 
 [effect_city_image_3]
@@ -3679,7 +3679,7 @@ type    = "City_Image"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "MinSize", "12", "City"
+      "MinSize", "13", "City"
     }
 
 [effect_city_image_4]
@@ -3687,7 +3687,7 @@ type    = "City_Image"
 value   = 1
 reqs    =
     { "type", "name", "range"
-      "MinSize", "16", "City"
+      "MinSize", "17", "City"
     }
 
 [effect_irrigate_src_tech]
