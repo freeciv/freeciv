@@ -2042,7 +2042,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
  note: we still need the sensitivity code in create_city_dialog()
  for the spied dialogs.
 *****************************************************************/
-static void city_dialog_update_prev_next()
+static void city_dialog_update_prev_next(void)
 {
   int count = 0;
   int city_number;
