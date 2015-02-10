@@ -758,25 +758,26 @@ reqs   =
 ;      "Gov", "Fundamentalism", "Player", FALSE
 ;      "Gov", "Federation", "Player", FALSE
 ;      "Gov", "Republic", "Player", FALSE
-;      "Gov", "Democracy", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
     }
 
+; exclusive with above
 [effect_unit_unhappiness_democracy]
 type    = "Unhappy_Factor"
-value   = 1
+value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Democracy", "Player", TRUE
-      "Building", "Women's Suffrage", "Player", FALSE
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
     }
 
-[effect_unit_unhappiness_democracy_1]
-type    = "Make_Content_Mil"
-value   = 1
+; ...except Women's Suffrage reduces it back to Republic levels
+[effect_womens_suffrage_1]
+type    = "Unhappy_Factor"
+value   = -1
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Democracy", "Player", TRUE
-      "Building", "Women's Suffrage", "Player", FALSE
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
+      "Gov", "Democracy", "Player"
     }
 
 [effect_upkeep_free_mil_1]
@@ -792,7 +793,7 @@ reqs   =
       "Gov", "Fundamentalism", "Player", FALSE
       "Gov", "Federation", "Player", FALSE
 ;      "Gov", "Republic", "Player", FALSE
-;      "Gov", "Democracy", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
     }
 
 [effect_upkeep_free_mil_2]
@@ -808,7 +809,7 @@ reqs   =
 ;      "Gov", "Fundamentalism", "Player", FALSE
 ;      "Gov", "Federation", "Player", FALSE
       "Gov", "Republic", "Player", FALSE
-      "Gov", "Democracy", "Player", FALSE
+;      "Gov", "Democracy", "Player", FALSE
     }
 
 [effect_upkeep_free_mil_3]
@@ -825,6 +826,17 @@ reqs   =
       "Gov", "Federation", "Player", FALSE
       "Gov", "Republic", "Player", FALSE
       "Gov", "Democracy", "Player", FALSE
+    }
+
+; normally 2 for Democracy, but 1 of these not needed with Women's Suffrage
+; due to reduced Unhappy_Factor
+[effect_womens_suffrage_2]
+type    = "Make_Content_Mil"
+value   = -1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Women's Suffrage", "Player"
+      "Gov", "Democracy", "Player"
     }
 
 [effect_upkeep_free_units_anarchy]
