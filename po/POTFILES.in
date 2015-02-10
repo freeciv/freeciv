@@ -120,8 +120,6 @@ client/gui-sdl/sprite.c
 client/gui-sdl/themes.c
 client/gui-sdl/themespec.c
 client/gui-sdl/wldlg.c
-client/gui-stub/chatline.c
-client/gui-stub/mapview.c
 client/gui-xaw/chatline.c
 client/gui-xaw/citydlg.c
 client/gui-xaw/cityrep.c
