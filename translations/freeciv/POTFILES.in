@@ -164,8 +164,6 @@ client/gui-sdl2/sprite.c
 client/gui-sdl2/themes.c
 client/gui-sdl2/themespec.c
 client/gui-sdl2/wldlg.c
-client/gui-stub/chatline.c
-client/gui-stub/mapview.c
 client/gui-xaw/chatline.c
 client/gui-xaw/citydlg.c
 client/gui-xaw/cityrep.c
