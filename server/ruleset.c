@@ -6790,7 +6790,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     ok = openload_script_file("script", rsdir, buffer);
   }
 
-  if (ok && buffer_script) {
+  if (ok && !buffer_script) {
     ok = openload_script_file("default", rsdir, NULL);
   }
 
