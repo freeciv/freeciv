@@ -4,6 +4,8 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/amplio2
 
 pkgdata_DATA =          	\
+	activities.png		\
+	activities.spec		\
 	ancientcities.png	\
 	ancientcities.spec	\
 	explosions.png		\

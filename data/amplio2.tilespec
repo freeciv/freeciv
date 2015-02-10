@@ -70,6 +70,7 @@ files =
   "amplio2/water.spec",
   "amplio2/tiles.spec",
   "amplio2/upkeep.spec",
+  "amplio2/activities.spec",
   "amplio2/fog.spec",
   "misc/small.spec",
   "misc/events.spec",
