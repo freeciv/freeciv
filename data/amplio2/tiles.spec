@@ -28,25 +28,26 @@ tiles = { "row", "column", "tag"
   0, 18, "unit.auto_attack",
          "unit.auto_settler"
   0, 19, "unit.stack"
+  1, 16, "unit.fortifying"
   1, 17, "unit.loaded"
   1, 18, "unit.connect"
   1, 19, "unit.auto_explore"
   0, 16, "unit.transform"
   0, 17, "unit.sentry"
+  4, 15, "unit.convert"
   4, 16, "unit.goto"
   4, 17, "unit.mine"
   2, 16, "unit.pollution"
-  2, 17, "unit.road"
+;  2, 17, "unit.road"
   2, 18, "unit.irrigate"
-  2, 19, "unit.fortifying"
-;  1, 16, "unit.fortifying"
+;  2, 19, "unit.fortifying"
 ;  2, 19, "unit.fortress"
 ;  3, 16, "unit.airbase"
   3, 17, "unit.pillage"
   3, 18, "unit.fortified"
   3, 19, "unit.fallout"
   4, 19, "unit.patrol"
-  1, 18, "unit.convert"
+;  1, 18, "unit.convert"
 
 ; Unit hit-point bars: approx percent of hp remaining
 
@@ -130,9 +131,13 @@ tiles = { "row", "column", "tag"
   6, 19, "city.t_trade_9"
 
 ; Base building activities
+  8, 13, "unit.fort"
+  8, 14, "unit.maglev"
   8, 15, "unit.fortress"
   8, 16, "unit.airbase"
   8, 17, "unit.buoy"
+  8, 18, "unit.road"
+  8, 19, "unit.rail"
 
 ; Nuclear explosion: this could maybe now be handled as one
 ; big graphic (?), but for now is done old way as 3 by 3:
