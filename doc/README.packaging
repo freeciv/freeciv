@@ -46,6 +46,7 @@ Updating from 2.4 to 2.5
 * New configure option --without-freeciv-manual to disable build
   of freeciv-manual tool that's mostly useless for normal users.
 * Qt-client is now supported client, no longer just "in-development"
+* Xaw-client is no longer considered maintained client
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
