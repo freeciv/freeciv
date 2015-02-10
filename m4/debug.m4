@@ -15,6 +15,7 @@ dnl ==========================================================================
 dnl debug level == no
 if test "x$enable_debug" = "xno"; then
   AC_DEFINE([NDEBUG], [1], [No debugging support at all])
+  AC_DEFINE([FREECIV_NDEBUG], [1], [No freeciv specific debugging support at all])
   FC_C_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CXXFLAGS])

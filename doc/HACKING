@@ -1204,10 +1204,10 @@ Debugging has to be activated on compile time by adding the option
 '--enable-debug=no/some/yes/checks' to the configure script. The different
 options have the following meaning:
 
-  no:     no debugging enabled(NDEBUG is defined)
+  no:     no debugging enabled(FREECIV_NDEBUG and NDEBUG are defined)
           additional compiler flags for optimisation (-O3 -fomit-frame-pointer)
-  some:   default build (neither NDEBUG nor DEBUG is defined)
-  yes:    debugging enable (DEBUG is defined)
+  some:   default build (neither FREECIV_NDEBUG nor FREECIV_DEBUG is defined)
+  yes:    debugging enable (FREECIV_DEBUG is defined)
           debugging log level available (4, log_debug())
           additional compiler flags:
             -Werror -Wmissing-prototypes -Wmissing-declarations

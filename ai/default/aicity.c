@@ -108,9 +108,9 @@
  (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)			\
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
 
-#ifdef NDEBUG
+#ifdef FREECIV_NDEBUG
 #define ASSERT_CHOICE(c) /* Do nothing. */
-#else
+#else  /* FREECIV_NDEBUG */
 #define ASSERT_CHOICE(c)                                                 \
   do {                                                                   \
     if ((c).want > 0) {                                                  \
@@ -124,7 +124,7 @@
       }                                                                  \
     }                                                                    \
   } while(FALSE);
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
 
 static void dai_sell_obsolete_buildings(struct city *pcity);
 static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,

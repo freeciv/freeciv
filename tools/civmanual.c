@@ -528,7 +528,7 @@ int main(int argc, char **argv)
       showvers = TRUE;
     } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
       srvarg.log_filename = option; /* Never freed. */
-#ifndef NDEBUG
+#ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[inx])) {
       if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
         srvarg.fatal_assertions = SIGABRT;
@@ -540,7 +540,7 @@ int main(int argc, char **argv)
         inx++;
         showhelp = TRUE;
       }
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
     } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
       if (!log_parse_level_str(option, &srvarg.loglevel)) {
         showhelp = TRUE;
@@ -593,12 +593,12 @@ int main(int argc, char **argv)
                 _("Set debug log level (%d to %d)"),
                 LOG_FATAL, LOG_VERBOSE);
 #endif /* DEBUG */
-#ifndef NDEBUG
+#ifndef FREECIV_NDEBUG
     cmdhelp_add(help, "F",
                   /* TRANS: "Fatal" is exactly what user must type, do not translate. */
                 _("Fatal [SIGNAL]"),
                 _("Raise a signal on failed assertion"));
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
     cmdhelp_add(help, "h", "help",
                 _("Print a summary of the options"));
     cmdhelp_add(help, "l",

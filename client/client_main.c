@@ -319,13 +319,13 @@ int client_main(int argc, char *argv[])
 
   /* Load win32 post-crash debugger */
 #ifdef WIN32_NATIVE
-# ifndef NDEBUG
+# ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
-#  ifdef DEBUG
+#  ifdef FREECIV_DEBUG
     fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif /* DEBUG */
+#  endif /* FREECIV_DEBUG */
   }
-# endif /* NDEBUG */
+# endif /* FREECIV_NDEBUG */
 #endif /* WIN32_NATIVE */
 
   i_am_client(); /* Tell to libfreeciv that we are client */
@@ -373,26 +373,26 @@ int client_main(int argc, char *argv[])
                     "(IPv4/IPv6/none)"));
       cmdhelp_add(help, "a", "autoconnect",
                   _("Skip connect dialog"));
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
                   _("debug NUM"),
                   _("Set debug log level (%d to %d, or "
                     "%d:file1,min,max:...)"), LOG_FATAL, LOG_DEBUG,
                   LOG_DEBUG);
-#else
+#else  /* FREECIV_DEBUG */
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
                   _("debug NUM"),
                   _("Set debug log level (%d to %d)"),
                   LOG_FATAL, LOG_VERBOSE);
-#endif /* DEBUG */
-#ifndef NDEBUG
+#endif /* FREECIV_DEBUG */
+#ifndef FREECIV_NDEBUG
       cmdhelp_add(help, "F",
                   /* TRANS: "Fatal" is exactly what user must type, do not translate. */
                   _("Fatal [SIGNAL]"),
                   _("Raise a signal on failed assertion"));
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
       cmdhelp_add(help, "f",
                   /* TRANS: "file" is exactly what user must type, do not translate. */
                   _("file FILE"),
@@ -456,13 +456,13 @@ int client_main(int argc, char *argv[])
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
       exit(EXIT_SUCCESS);
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     } else if (is_option("--Hackless", argv[i])) {
       hackless = TRUE;
-#endif /* DEBUG */
+#endif /* FREECIV_DEBUG */
     } else if ((option = get_option_malloc("--log", argv, &i, argc))) {
       logfile = option; /* never free()d */
-#ifndef NDEBUG
+#ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[i])) {
       if (i + 1 >= argc || '-' == argv[i + 1][0]) {
         fatal_assertions = SIGABRT;
@@ -474,7 +474,7 @@ int client_main(int argc, char *argv[])
         fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
     } else  if ((option = get_option_malloc("--read", argv, &i, argc))) {
       scriptfile = option; /* never free()d */
     } else if ((option = get_option_malloc("--file", argv, &i, argc))) {
