@@ -2759,9 +2759,9 @@ static void srv_ready(void)
         /* Restore the settings. */
         for (i = 0; i < ARRAY_SIZE(mapgen_settings); i++) {
           struct setting *pset = setting_by_name(mapgen_settings[i].name);
-#ifdef NDEBUG
+#ifdef FREECIV_NDEBUG
           setting_enum_set(pset, mapgen_settings[i].value, NULL, NULL, 0);
-#else
+#else  /* FREECIV_NDEBUG */
           char error[128];
           bool success;
 
@@ -2772,7 +2772,7 @@ static void srv_ready(void)
                         "Failed to restore '%s': %s",
                         mapgen_settings[i].name,
                         error);
-#endif
+#endif /* FREECIV_NDEBUG */
         }
         map_allocate(); /* NOT map_init() as that would overwrite settings */
       }

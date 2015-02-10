@@ -49,13 +49,13 @@ int main(int argc, char **argv)
 
   /* Load win32 post-crash debugger */
 #ifdef WIN32_NATIVE
-# ifndef NDEBUG
+# ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
-#  ifdef DEBUG
+#  ifdef FREECIV_DEBUG
     fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif /* DEBUG */
+#  endif /* FREECIV_DEBUG */
   }
-# endif /* NDEBUG */
+# endif /* FREECIV_NDEBUG */
 #endif /* WIN32_NATIVE */
 
   init_nls();

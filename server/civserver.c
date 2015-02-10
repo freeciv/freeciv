@@ -139,14 +139,14 @@ int main(int argc, char *argv[])
 
   /* Load win32 post-crash debugger */
 #ifdef WIN32_NATIVE
-# ifndef NDEBUG
+# ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
-#  ifdef DEBUG
+#  ifdef FREECIV_DEBUG
     fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif
+#  endif /* FREECIV_DEBUG */
   }
-# endif
-#endif
+# endif /* FREECIV_NDEBUG */
+#endif /* WIN32_NATIVE */
 
 #ifdef USE_INTERRUPT_HANDLERS
   if (SIG_ERR == signal(SIGINT, signal_handler)) {
@@ -205,7 +205,7 @@ int main(int argc, char *argv[])
       break;
     } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
       srvarg.log_filename = option; /* Never freed. */
-#ifndef NDEBUG
+#ifndef FREECIV_NDEBUG
     } else if (is_option("--Fatal", argv[inx])) {
       if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
         srvarg.fatal_assertions = SIGABRT;
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
         inx++;
         showhelp = TRUE;
       }
-#endif /* NDEBUG */
+#endif /* FREECIV_NDEBUG */
     } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
       srvarg.ranklog_filename = option; /* Never freed. */
     } else if (is_option("--nometa", argv[inx])) {
@@ -350,24 +350,24 @@ int main(int argc, char *argv[])
                 _("Listen for clients on ADDR"));
     cmdhelp_add(help, "B", "Bind-meta ADDR",
                 _("Connect to metaserver from this address"));
-#ifdef DEBUG
+#ifdef FREECIV_DEBUG
     cmdhelp_add(help, "d",
                 /* TRANS: "debug" is exactly what user must type, do not translate. */
                 _("debug NUM"),
                 _("Set debug log level (%d to %d, or %d:file1,min,max:...)"),
                 LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
-#else  /* DEBUG */
+#else  /* FREECIV_DEBUG */
     cmdhelp_add(help, "d",
                 /* TRANS: "debug" is exactly what user must type, do not translate. */
                 _("debug NUM"),
                 _("Set debug log level (%d to %d)"), LOG_FATAL, LOG_VERBOSE);
-#endif /* DEBUG */
-#ifndef NDEBUG
+#endif /* FREECIV_DEBUG */
+#ifndef FREECIV_NDEBUG
     cmdhelp_add(help, "F",
                 /* TRANS: "Fatal" is exactly what user must type, do not translate. */
                 _("Fatal [SIGNAL]"),
                 _("Raise a signal on failed assertion"));
-#endif
+#endif /* FREECIV_NDEBUG */
     cmdhelp_add(help, "f",
                 /* TRANS: "file" is exactly what user must type, do not translate. */
                 _("file FILE"),
