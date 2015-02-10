@@ -560,6 +560,7 @@ int main(int argc, char **argv)
   FC_FREE(ruleset);
 
   con_log_close();
+  free_nls();
 
   return EXIT_SUCCESS;
 }
