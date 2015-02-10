@@ -161,7 +161,8 @@ static struct dem_row {
   {'A', N_("Land Area"),        get_landarea,    area_to_text,        TRUE },
   {'S', N_("Settled Area"),     get_settledarea, area_to_text,        TRUE },
   {'R', N_("Research Speed"),   get_research,    science_to_text,     TRUE },
-  {'L', N_("Literacy"),         get_literacy,    percent_to_text,     TRUE },
+  /* TRANS: How literate people are. */
+  {'L', N_("?ability:Literacy"), get_literacy,    percent_to_text,     TRUE },
   {'P', N_("Production"),       get_production,  production_to_text,  TRUE },
   {'E', N_("Economics"),        get_economics,   economics_to_text,   TRUE },
   {'M', N_("Military Service"), get_mil_service, mil_service_to_text, FALSE },
@@ -1035,7 +1036,7 @@ void report_demographics(struct connection *pconn)
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
     if (strchr(game.server.demography, rowtable[i].key)) {
-      const char *name = _(rowtable[i].name);
+      const char *name = Q_(rowtable[i].name);
 
       cat_snprintf(buffer, sizeof(buffer), "%s", name);
       cat_snprintf(buffer, sizeof(buffer), "%*s",
