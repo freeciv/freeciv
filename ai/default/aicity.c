@@ -1417,14 +1417,16 @@ static int improvement_effect_value(struct player *pplayer,
     }
     v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
     if (capital || uclass == NULL || move != UMT_SEA) {
-      if (ai->threats.continent[tile_continent(pcity->tile)]
+      Continent_id place = tile_continent(pcity->tile);
+
+      if ((place > 0 && ai->threats.continent[place])
           || capital
           || (ai->threats.invasions
               /* FIXME: This ignores riverboats on some rulesets.
                         We should analyze rulesets when game starts
                         and have relevant checks here. */
               && is_terrain_class_near_tile(pcity->tile, TC_OCEAN))) {
-        if (ai->threats.continent[tile_continent(pcity->tile)]) {
+        if (place > 0 && ai->threats.continent[place]) {
           v += amount;
         } else {
           v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
