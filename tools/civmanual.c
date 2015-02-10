@@ -628,6 +628,7 @@ int main(int argc, char **argv)
 
   con_log_close();
   registry_module_close();
+  free_nls();
 
   return retval;
 }
