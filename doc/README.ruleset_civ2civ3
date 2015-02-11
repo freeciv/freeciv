@@ -170,7 +170,7 @@ Celebration Bonus (no -1)  (no -1)  (no -1) (+1Trade) 0       (+1Trade)(+1Trade)
 Unit Upkeep       Shield   Shield   Gold     Gold     Gold(x2) Shield   Gold(x2) Gold(x2) Shield   
 Free Units        2\2      2\2      2\2      3\3      2\2      1\1      1\1      2\2      3\3      
 Mil Unhappiness   0        0        0        -1       -1       -1       -2       -1       -1       
-Martial Law       +1       0        +1       +1       0        0        0        0        +2       
+Martial Law       +1       +2       +1       +1       0        0        0        0        +2       
                                                                                 
 Civil war %       99       90       80       70       60       40       30       20       50       
 Empire Size       0        /14      /10      /12      /20      /16      /32      /24      /28      
@@ -454,6 +454,7 @@ Changes:
 - Removed effect that prevented extra output from cities where Irrigation and Mine were present at same time (no longer possible).
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port Facility and SDI Defense.
 - Airbases and Fortresses cannot be built on river tiles.
+- Tribal government increases by half the chance of land units getting the next veteran level after a battle (instead of the extra movement), and increases the effect of martial law to 2.
 
 Terrain:
 - Allowed early transformation from Forest to Grassland, so it is possible to transform Grass->Forest->Plain, and also Plain->Forest->Grass, with same working time (25).

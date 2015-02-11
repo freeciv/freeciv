@@ -1325,6 +1325,14 @@ reqs    =
       "Gov", "Monarchy", "Player"
     }
 
+[effect_martial_law_each_tribal]
+type    = "Martial_Law_Each"
+value   = 2
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Tribal", "Player"
+    }
+
 [effect_martial_law_each_communism]
 type    = "Martial_Law_Each"
 value   = 2
@@ -1355,6 +1363,14 @@ value   = 3
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
+    }
+
+[effect_martial_law_max_tribal]
+type    = "Martial_Law_Max"
+value   = 3
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Tribal", "Player"
     }
 
 [effect_martial_law_max_communism]
