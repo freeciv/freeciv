@@ -50,10 +50,14 @@ Here's what to do:
        - The version number of Freeciv.
 
        - If you are using the GTK+ client, the version numbers
-         (if you know them) of your GTK+, GLib, and imlib libraries.
+         (if you know them) of your GTK+ and GLib libraries.
+
+       - If you are using Qt client, the version number of Qt libraries.
+         In Qt-client that can be find by opening 'About Freeciv' dialog
+         from under 'Help' menu and clicking 'About Qt' button there.
 
        - If you are using the SDL client, the version numbers (if you
-         know them) of the SDL, SDL_image, PNG, and freetype libraries.
+         know them) of the SDL, SDL_image, SDL_gfx, and SDL_ttf libraries.
 
        - If you are using the Xaw client, the version numbers (if you
          know them) of the X libraries, the PNG library, the Z library,
