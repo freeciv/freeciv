@@ -285,9 +285,10 @@ void ruleset_cache_free(void)
 }
 
 /****************************************************************************
-  Get the maximum effect value in this ruleset.
+  Get the maximum effect value in this ruleset for the universal.
+  Universal can be NULL to get overall max
 ****************************************************************************/
-int effect_cumulative_max(enum effect_type type)
+int effect_cumulative_max(enum effect_type type, struct universal *for_uni)
 {
   struct effect_list *plist = ruleset_cache.tracker;
   int value = 0;
@@ -295,7 +296,10 @@ int effect_cumulative_max(enum effect_type type)
   if (plist) {
     effect_list_iterate(plist, peffect) {
       if (peffect->type == type && peffect->value > 0) {
-        value += peffect->value;
+        if (for_uni == NULL
+            || universal_fulfills_requirement(FALSE, &(peffect->reqs), for_uni)) {
+          value += peffect->value;
+        }
       }
     } effect_list_iterate_end;
   }
@@ -304,9 +308,10 @@ int effect_cumulative_max(enum effect_type type)
 }
 
 /****************************************************************************
-  Get the minimum effect value in this ruleset.
+  Get the minimum effect value in this ruleset for the universal.
+  Universal can be NULL for the overall minimum
 ****************************************************************************/
-int effect_cumulative_min(enum effect_type type)
+int effect_cumulative_min(enum effect_type type, struct universal *for_uni)
 {
   struct effect_list *plist = ruleset_cache.tracker;
   int value = 0;
@@ -314,7 +319,10 @@ int effect_cumulative_min(enum effect_type type)
   if (plist) {
     effect_list_iterate(plist, peffect) {
       if (peffect->type == type && peffect->value < 0) {
-        value += peffect->value;
+        if (for_uni == NULL
+            || universal_fulfills_requirement(FALSE, &(peffect->reqs), for_uni)) {
+          value += peffect->value;
+        }
       }
     } effect_list_iterate_end;
   }

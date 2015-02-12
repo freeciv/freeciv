@@ -321,8 +321,8 @@ void ruleset_cache_free(void);
 void recv_ruleset_effect(const struct packet_ruleset_effect *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
-int effect_cumulative_max(enum effect_type type);
-int effect_cumulative_min(enum effect_type type);
+int effect_cumulative_max(enum effect_type type, struct universal *for_uni);
+int effect_cumulative_min(enum effect_type type, struct universal *for_uni);
 
 bool is_building_replaced(const struct city *pcity,
 			  struct impr_type *pimprove,
