@@ -240,7 +240,7 @@ void flush_dirty(void)
 
     draw_mouse_cursor();
 
-    /* flush main buffer to framebuffer */
+    /* Render to screen */
     update_main_screen();
   } else {
     static int i;
@@ -276,7 +276,7 @@ void flush_dirty(void)
 
     draw_mouse_cursor();
 
-    /* flush main buffer to framebuffer */
+    /* Render to screen */
     update_main_screen();
 #if 0
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
