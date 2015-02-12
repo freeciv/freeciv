@@ -8,6 +8,7 @@ options = "+Freeciv-spec-Devel-2013.Feb.13"
 artists = "
     Alexandre Beraud <a_beraud@lemel.fr>
     Enrico Bini <e.bini@sssup.it> (fundamentalism icon)
+    GriffonSpade (tribal and federation)
 "
 
 [file]
@@ -31,5 +32,7 @@ tiles = { "row", "column", "tag"
   0,  4, "gov.fundamentalism"
   0,  5, "gov.republic"
   0,  6, "gov.democracy"
+  0,  7, "gov.tribal"
+  0,  8, "gov.federation"
 
 }
