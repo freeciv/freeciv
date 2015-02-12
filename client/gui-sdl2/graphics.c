@@ -615,6 +615,8 @@ void quit_sdl(void)
 **************************************************************************/
 int set_video_mode(int iWidth, int iHeight, int iFlags)
 {
+  unsigned int flags;
+
   Main.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
                                  SDL_WINDOWPOS_UNDEFINED,
                                  SDL_WINDOWPOS_UNDEFINED,
@@ -637,7 +639,13 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 #endif
 );
 
-  Main.renderer = SDL_CreateRenderer(Main.screen, -1, 0);
+  if (options.gui_sdl2_swrenderer) {
+    flags = SDL_RENDERER_SOFTWARE;
+  } else {
+    flags = 0;
+  }
+
+  Main.renderer = SDL_CreateRenderer(Main.screen, -1, flags);
 
   Main.maintext = SDL_CreateTexture(Main.renderer,
                                     SDL_PIXELFORMAT_ARGB8888,
