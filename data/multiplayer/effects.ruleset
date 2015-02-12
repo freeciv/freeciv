@@ -28,7 +28,7 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 ; */ <-- avoid gettext warnings
 
 ; Cheating AI effects are in separate file
-*include "multiplayer/ai_effects.ruleset"
+*include "default/ai_effects.ruleset"
 
 [effect_unhappysize]
 type    = "City_Unhappy_Size"
