@@ -2630,15 +2630,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       }
     } road_type_iterate_end;
 
-    /* TODO: Check also that specific unit fulfills the requirements of the effects */
-    if (effect_cumulative_max(EFT_MINING_POSSIBLE) > 0) {
+    if (effect_cumulative_max(EFT_MINING_POSSIBLE, utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
     }
-    if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE) > 0) {
+    if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can mine terrain to another.\n"));
     }
 
-    if (effect_cumulative_max(EFT_IRRIG_POSSIBLE) > 0) {
+    if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can build irrigation on tiles.\n"));
       /* Farmland. */
       switch (techs_with_flag_string(buf2, sizeof(buf2), pplayer, TF_FARMLAND)) {
@@ -2656,7 +2655,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
       }
     }
-    if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE) > 0) {
+    if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
     }
 

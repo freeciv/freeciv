@@ -294,17 +294,63 @@ void ruleset_cache_free(void)
 }
 
 /****************************************************************************
-  Get the maximum effect value in this ruleset.
+  Get the maximum effect value in this ruleset for the unit type.
+  Universal can be NULL to get overall max
 ****************************************************************************/
-int effect_cumulative_max(enum effect_type type)
+int effect_cumulative_max(enum effect_type type, struct unit_type *for_unit)
 {
   struct effect_list *plist = ruleset_cache.tracker;
   int value = 0;
 
   if (plist) {
+    struct unit_class *pclass = NULL;
+
+    if (for_unit != NULL) {
+      pclass = utype_class(for_unit);
+    }
+
     effect_list_iterate(plist, peffect) {
       if (peffect->type == type && peffect->value > 0) {
-        value += peffect->value;
+        if (for_unit == NULL) {
+          value += peffect->value;
+        } else {
+          bool failed = FALSE;
+
+          requirement_list_iterate(peffect->reqs, preq) {
+            if (preq->source.kind == VUT_UTYPE) {
+              if (preq->source.value.utype == for_unit) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
+            } else if (preq->source.kind == VUT_UCLASS) {
+              if (preq->source.value.uclass == pclass) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
+            }
+          } requirement_list_iterate_end;
+          requirement_list_iterate(peffect->nreqs, preq) {
+            if (preq->source.kind == VUT_UTYPE) {
+              if (preq->source.value.utype == for_unit) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
+            } else if (preq->source.kind == VUT_UCLASS) {
+              if (preq->source.value.uclass == pclass) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
+            }
+          } requirement_list_iterate_end;
+
+          if (!failed) {
+            value += peffect->value;
+          }
+        }
       }
     } effect_list_iterate_end;
   }
@@ -313,17 +359,63 @@ int effect_cumulative_max(enum effect_type type)
 }
 
 /****************************************************************************
-  Get the minimum effect value in this ruleset.
+  Get the minimum effect value in this ruleset for the unit type.
+  Universal can be NULL for the overall minimum
 ****************************************************************************/
-int effect_cumulative_min(enum effect_type type)
+int effect_cumulative_min(enum effect_type type, struct unit_type *for_unit)
 {
   struct effect_list *plist = ruleset_cache.tracker;
   int value = 0;
 
   if (plist) {
+    struct unit_class *pclass = NULL;
+
+    if (for_unit != NULL) {
+      pclass = utype_class(for_unit);
+    }
+
     effect_list_iterate(plist, peffect) {
       if (peffect->type == type && peffect->value < 0) {
-        value += peffect->value;
+        if (for_unit == NULL) {
+          value += peffect->value;
+        } else {
+          bool failed = FALSE;
+
+          requirement_list_iterate(peffect->reqs, preq) {
+            if (preq->source.kind == VUT_UTYPE) {
+              if (preq->source.value.utype == for_unit) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
+            } else if (preq->source.kind == VUT_UCLASS) {
+              if (preq->source.value.uclass == pclass) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
+            }
+          } requirement_list_iterate_end;
+          requirement_list_iterate(peffect->nreqs, preq) {
+            if (preq->source.kind == VUT_UTYPE) {
+              if (preq->source.value.utype == for_unit) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
+            } else if (preq->source.kind == VUT_UCLASS) {
+              if (preq->source.value.uclass == pclass) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
+            }
+          } requirement_list_iterate_end;
+
+          if (!failed) {
+            value += peffect->value;
+          }
+        }
       }
     } effect_list_iterate_end;
   }

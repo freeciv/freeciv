@@ -153,7 +153,7 @@ void city_map_radius_sq_set(struct city *pcity, int radius_sq)
 int rs_max_city_radius_sq(void)
 {
   int max_rad = game.info.init_city_radius_sq
-    + effect_cumulative_max(EFT_CITY_RADIUS_SQ);
+    + effect_cumulative_max(EFT_CITY_RADIUS_SQ, NULL);
 
   return MIN(max_rad, CITY_MAP_MAX_RADIUS_SQ);
 }

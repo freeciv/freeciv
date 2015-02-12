@@ -294,8 +294,8 @@ void recv_ruleset_effect(const struct packet_ruleset_effect *packet);
 void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
-int effect_cumulative_max(enum effect_type type);
-int effect_cumulative_min(enum effect_type type);
+int effect_cumulative_max(enum effect_type type, struct unit_type *for_unit);
+int effect_cumulative_min(enum effect_type type, struct unit_type *for_unit);
 
 bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_pcity,
