@@ -50,7 +50,7 @@ Here's what to do:
        - The version number of Freeciv.
 
        - If you are using the GTK+ client, the version numbers
-         (if you know them) of your GTK+, GLib, and imlib libraries.
+         (if you know them) of your GTK+ and GLib libraries.
 
        - If you are using the SDL client, the version numbers (if you
          know them) of the SDL, SDL_image, PNG, and freetype libraries.
