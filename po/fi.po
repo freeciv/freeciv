@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-10 20:39+0200\n"
-"PO-Revision-Date: 2015-01-25 08:57+0200\n"
+"PO-Revision-Date: 2015-02-13 04:35+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -8731,11 +8731,11 @@ msgstr "· Taisteluyksikkö: aiheuttaa tyytymättömyyttä puolustusasemissakin.
 #  Only diplomats/spys can capture at the moment
 #: client/helpdata.c:2210
 msgid "* Can capture some enemy units.\n"
-msgstr "· Voi lahjoa vihollisen yksiköitä.\n"
+msgstr "· Voi vangita vihollisen yksiköitä.\n"
 
 #: client/helpdata.c:2213
 msgid "* Can be captured by some enemy units.\n"
-msgstr "· Voi joutua vihollisen lahjomaksi.\n"
+msgstr "· Voi joutua vihollisen vangitsemaksi.\n"
 
 #: client/helpdata.c:2220
 msgid ""
@@ -9214,9 +9214,9 @@ msgstr ""
 
 #. TRANS: %s is list of unit types separated by 'or'
 #: client/helpdata.c:3117
-#, fuzzy, c-format
+#, c-format
 msgid "* Pays no upkeep for %s.\n"
-msgstr "· Fanaatikkojen ylläpito ei maksa mitään.\n"
+msgstr "· %s eivät aiheuta ylläpitokustannuksia.\n"
 
 #: client/helpdata.c:3125
 msgid "* Has no unhappy citizens.\n"
@@ -15268,7 +15268,7 @@ msgstr "Kehittynyt ilmailu"
 #: data/default/techs.ruleset:69 data/experimental/techs.ruleset:71
 #: data/multiplayer/techs.ruleset:69
 msgid "Alphabet"
-msgstr "Aakkoset"
+msgstr "Kirjoitusmerkit"
 
 #: data/civ1/techs.ruleset:66 data/civ2/techs.ruleset:74
 #: data/default/techs.ruleset:85 data/experimental/techs.ruleset:87
@@ -15459,7 +15459,7 @@ msgstr "Ammattiyhdistys"
 #: data/default/techs.ruleset:394 data/experimental/techs.ruleset:396
 #: data/multiplayer/techs.ruleset:403
 msgid "Literacy"
-msgstr "Lukutaito"
+msgstr "Kirjallisuus"
 
 #: data/civ1/techs.ruleset:324 data/civ2/techs.ruleset:406
 #: data/default/techs.ruleset:410 data/experimental/techs.ruleset:412
@@ -18120,7 +18120,7 @@ msgid ""
 "directly to any tile in range, and be immediately ready to act there. "
 "(Beware dropping into unseen territory, as Paratroopers landing on a tile "
 "occupied by enemy units are easy targets!)"
-msgstr ""
+msgstr "Laskuvarjojääkärit pääsevät hyökkäysasemiin ilmateitse. Laskuvarjojääkärit, jotka eivät ole vielä kuluttanut yhtään liikepistettä, voivat lähteä ystävällismielisestä kaupungista tai lentotukikohdasta suorittamaan laskuvarjohyppyä. He voivat tiputtautua mille hyvänsä ruudulle kantaman sisällä, ja ovat heti valmiita toimimaan (Varo pudottautumasta alueelle johon sinulla ei ole näköyhteyttä, sillä vihollisyksiköiden miehittämään ruutuun hypätessään laskuvarjojoukot ovat helppoja kohteita!)"
 
 #: data/civ2/units.ruleset:714 data/default/units.ruleset:828
 #: data/experimental/units.ruleset:865 data/multiplayer/units.ruleset:864
@@ -41726,7 +41726,6 @@ msgstr "Tutkimuksen nopeus"
 
 #. TRANS: How literate people are.
 #: server/report.c:162
-#, fuzzy
 msgid "?ability:Literacy"
 msgstr "Lukutaito"
 
@@ -44122,7 +44121,6 @@ msgstr ""
 "siirtoaikaa korotetaan tähän arvoon."
 
 #: server/settings.c:2048
-#, fuzzy
 msgid "Minimum time between unit actions over turn change"
 msgstr "Vähimmäisaika yksikön siirtojen välillä vuoronvaihdon molemmin puolin"
 
@@ -46881,15 +46879,15 @@ msgstr ""
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1477
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in capturing the %s %s."
-msgstr "Lähettämäsi %s onnistui lahjomaan yksikön %s."
+msgstr "Lähettämäsi %s onnistui vangitsemaan %s yksikön %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:1483
 #, c-format
 msgid "Your %s was captured by the %s."
-msgstr "Petolliset %2$s lahjoivat yksikkösi %1$s puolelleen."
+msgstr "Petolliset %2$s vangitsivat yksikkösi %1$s."
 
 #: server/unithand.c:1508
 msgid "This unit is being transported, and so cannot bombard."
