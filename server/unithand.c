@@ -464,9 +464,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct player *must_war_player;
 
-  if (!can_unit_exist_at_tile(punit, unit_tile(punit))
-      && !can_unit_act_when_ustate_is(unit_type(punit),
-                                      USP_TRANSP_DEP, TRUE)) {
+  if ((!can_unit_exist_at_tile(punit, unit_tile(punit))
+       && !can_unit_act_when_ustate_is(unit_type(punit),
+                                       USP_TRANSP_DEP, TRUE))
+      || (can_unit_exist_at_tile(punit, unit_tile(punit))
+          && !can_unit_act_when_ustate_is(unit_type(punit),
+                                          USP_TRANSP_DEP, FALSE))) {
     /* Explaination: bad terrain. */
 
     struct terrain *pterrain = tile_terrain(unit_tile(punit));
