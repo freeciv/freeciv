@@ -126,20 +126,20 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
   dout.json = json_object(); \
   \
   dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_uint16_old(&dout, 0); \
-  dio_put_uint16_old(&dout, packet_type); \
-  dio_put_uint8(&dout, "pid", packet_type);
+  dio_put_uint16_raw(&dout, 0); \
+  dio_put_uint16_raw(&dout, packet_type); \
+  dio_put_uint8_json(&dout, "pid", packet_type);
 
 #define SEND_PACKET_END(packet_type) \
   { \
     json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
     if (json_buffer) { \
-      dio_put_string_old(&dout, json_buffer); \
+      dio_put_string_raw(&dout, json_buffer); \
     } \
     size_t size = dio_output_used(&dout); \
     \
     dio_output_rewind(&dout); \
-    dio_put_uint16_old(&dout, size); \
+    dio_put_uint16_raw(&dout, size); \
     free(json_buffer); \
     json_decref(dout.json); \
     fc_assert(!dout.too_short); \

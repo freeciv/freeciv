@@ -366,23 +366,23 @@ class Field:
             return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", real_packet->%(name)s);"%self.__dict__
         if self.is_struct:
             if self.is_array==2:
-                c="dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s[i][j]);"%self.__dict__
+                c="dio_put_%(dataio_type)s_raw(&dout, &real_packet->%(name)s[i][j]);"%self.__dict__
             else:
-                c="dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s[i]);"%self.__dict__
+                c="dio_put_%(dataio_type)s_raw(&dout, &real_packet->%(name)s[i]);"%self.__dict__
         elif self.dataio_type=="string":
-            c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i]);"%self.__dict__
+            c="dio_put_%(dataio_type)s_raw(&dout, real_packet->%(name)s[i]);"%self.__dict__
             array_size_u=self.array_size1_u
 
         elif self.struct_type=="float":
             if self.is_array==2:
-                c="  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
+                c="  dio_put_%(dataio_type)s_raw(&dout, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
             else:
-                c="  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
+                c="  dio_put_%(dataio_type)s_raw(&dout, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
         else:
             if self.is_array==2:
-                c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i][j]);"%self.__dict__
+                c="dio_put_%(dataio_type)s_raw(&dout, real_packet->%(name)s[i][j]);"%self.__dict__
             else:
-                c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i]);"%self.__dict__
+                c="dio_put_%(dataio_type)s_raw(&dout, real_packet->%(name)s[i]);"%self.__dict__
 
         if not self.diff:
             if self.is_array==2 and self.dataio_type!="string":
@@ -419,11 +419,11 @@ class Field:
 
       for (i = 0; i < %(array_size_u)s; i++) {
         if (old->%(name)s[i] != real_packet->%(name)s[i]) {
-          dio_put_uint8(&dout, i);
+          DIO_PUT(uint8, &dout, "index", i);
           %(c)s
         }
       }
-      dio_put_uint8(&dout, 255);
+      dio_put_uint8_raw(&dout, 255);
 #endif /* FREECIV_JSON_CONNECTION */
     } '''%self.get_dict(vars())
 

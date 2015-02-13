@@ -126,15 +126,15 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
   struct data_out dout; \
   \
   dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_type(&dout, pc->packet_header.length, 0); \
-  dio_put_type(&dout, pc->packet_header.type, packet_type);
+  dio_put_type_raw(&dout, pc->packet_header.length, 0); \
+  dio_put_type_raw(&dout, pc->packet_header.type, packet_type);
 
 #define SEND_PACKET_END(packet_type) \
   { \
     size_t size = dio_output_used(&dout); \
     \
     dio_output_rewind(&dout); \
-    dio_put_type(&dout, pc->packet_header.length, size); \
+    dio_put_type_raw(&dout, pc->packet_header.length, size); \
     fc_assert(!dout.too_short); \
     return send_packet_data(pc, buffer, size, packet_type); \
   }
@@ -148,7 +148,7 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
   { \
     int size; \
   \
-    dio_get_type(&din, pc->packet_header.length, &size); \
+    dio_get_type_raw(&din, pc->packet_header.length, &size); \
     dio_input_init(&din, pc->buffer->data, MIN(size, pc->buffer->ndata)); \
   } \
   dio_input_skip(&din, (data_type_size(pc->packet_header.length) \

@@ -1441,7 +1441,7 @@ static void get_lanserver_announcement(void)
   if (FD_ISSET(socklan, &readfs)) {
     if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
       dio_input_init(&din, msgbuf, 1);
-      dio_get_uint8(&din, &type);
+      dio_get_uint8_raw(&din, &type);
       if (type == SERVER_LAN_VERSION) {
         log_debug("Received request for server LAN announcement.");
         send_lanserver_response();
@@ -1553,14 +1553,14 @@ static void send_lanserver_response(void)
               srvarg.port );
 
   dio_output_init(&dout, buffer, sizeof(buffer));
-  dio_put_uint8(&dout, SERVER_LAN_VERSION);
-  dio_put_string(&dout, hostname);
-  dio_put_string(&dout, port);
-  dio_put_string(&dout, version);
-  dio_put_string(&dout, status);
-  dio_put_string(&dout, players);
-  dio_put_string(&dout, humans);
-  dio_put_string(&dout, get_meta_message_string());
+  dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
+  dio_put_string_raw(&dout, hostname);
+  dio_put_string_raw(&dout, port);
+  dio_put_string_raw(&dout, version);
+  dio_put_string_raw(&dout, status);
+  dio_put_string_raw(&dout, players);
+  dio_put_string_raw(&dout, humans);
+  dio_put_string_raw(&dout, get_meta_message_string());
   size = dio_output_used(&dout);
 
   /* Sending packet to client with the information gathered above. */

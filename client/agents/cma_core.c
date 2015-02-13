@@ -574,7 +574,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
 
   dio_input_init(&din, buffer, len);
 
-  dio_get_uint8(&din, &version);
+  dio_get_uint8_raw(&din, &version);
   fc_assert_ret_val(version == 2, FALSE);
 
   /* Initialize the parameter (includes some AI-only fields that aren't
@@ -582,13 +582,13 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   cm_init_parameter(parameter);
 
   output_type_iterate(i) {
-    dio_get_sint16(&din, &parameter->minimal_surplus[i]);
-    dio_get_sint16(&din, &parameter->factor[i]);
+    dio_get_sint16_raw(&din, &parameter->minimal_surplus[i]);
+    dio_get_sint16_raw(&din, &parameter->factor[i]);
   } output_type_iterate_end;
 
-  dio_get_sint16(&din, &parameter->happy_factor);
-  dio_get_uint8(&din, &dummy); /* Dummy value; used to be factor_target. */
-  dio_get_bool8(&din, &parameter->require_happy);
+  dio_get_sint16_raw(&din, &parameter->happy_factor);
+  dio_get_uint8_raw(&din, &dummy); /* Dummy value; used to be factor_target. */
+  dio_get_bool8_raw(&din, &parameter->require_happy);
 
   return TRUE;
 }
@@ -607,16 +607,16 @@ void cma_set_parameter(enum attr_city attr, int city_id,
 
   dio_output_init(&dout, buffer, sizeof(buffer));
 
-  dio_put_uint8(&dout, 2);
+  dio_put_uint8_raw(&dout, 2);
 
   output_type_iterate(i) {
-    dio_put_sint16(&dout, parameter->minimal_surplus[i]);
-    dio_put_sint16(&dout, parameter->factor[i]);
+    dio_put_sint16_raw(&dout, parameter->minimal_surplus[i]);
+    dio_put_sint16_raw(&dout, parameter->factor[i]);
   } output_type_iterate_end;
 
-  dio_put_sint16(&dout, parameter->happy_factor);
-  dio_put_uint8(&dout, 0); /* Dummy value; used to be factor_target. */
-  dio_put_bool8(&dout, parameter->require_happy);
+  dio_put_sint16_raw(&dout, parameter->happy_factor);
+  dio_put_uint8_raw(&dout, 0); /* Dummy value; used to be factor_target. */
+  dio_put_bool8_raw(&dout, parameter->require_happy);
 
   fc_assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
 

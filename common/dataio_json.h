@@ -72,90 +72,91 @@ bool dio_input_skip(struct data_in *din, size_t size);
 size_t data_type_size(enum data_type type);
 
 /* gets */
-bool dio_get_type(struct data_in *din, enum data_type type, int *dest)
+bool dio_get_type_json(struct data_in *din, enum data_type type, int *dest)
     fc__attribute((nonnull (3)));
 
-bool dio_get_uint8(json_t *json_packet, char *key, int *dest);
-bool dio_get_uint16(json_t *json_packet, char *key, int *dest);
-bool dio_get_uint32(json_t *json_packet, char *key, int *dest);
+bool dio_get_uint8_json(json_t *json_packet, char *key, int *dest);
+bool dio_get_uint16_json(json_t *json_packet, char *key, int *dest);
+bool dio_get_uint32_json(json_t *json_packet, char *key, int *dest);
 
-bool dio_get_uint16_old(struct data_in *din, int *dest);
-bool dio_get_uint8_old(struct data_in *din, int *dest);
-bool dio_get_sint8(json_t *json_packet, char *key, int *dest);
-bool dio_get_sint16(json_t *json_packet, char *key, int *dest);
-#define dio_get_sint32(d,v,x) dio_get_uint32(d,v,x)
+bool dio_get_uint16_raw(struct data_in *din, int *dest);
+bool dio_get_uint8_raw(struct data_in *din, int *dest);
+bool dio_get_sint8_json(json_t *json_packet, char *key, int *dest);
+bool dio_get_sint16_json(json_t *json_packet, char *key, int *dest);
+#define dio_get_sint32_json(d,v,x) dio_get_uint32_json(d,v,x)
 
 
-bool dio_get_bool8(json_t *json_packet, char *key, bool *dest);
-bool dio_get_bool32(json_t *json_packet, char *key, bool *dest);
-bool dio_get_ufloat(json_t *json_packet, char *key, float *dest, int float_factor);
-bool dio_get_sfloat(json_t *json_packet, char *key, float *dest, int float_factor);
-bool dio_get_memory(json_t *json_packet, char *key, void *dest, size_t dest_size);
-bool dio_get_string(json_t *json_packet, char *key, char *dest, size_t max_dest_size);
-bool dio_get_string_old(struct data_in *din, char *dest, size_t max_dest_size);
-bool dio_get_bit_string(json_t *json_packet, char *key, char *dest,
- 			size_t max_dest_size);
-bool dio_get_tech_list(json_t *json_packet, char *key, int *dest);
-bool dio_get_unit_list(json_t *json_packet, char *key, int *dest);
-bool dio_get_building_list(json_t *json_packet, char *key, int *dest);
-bool dio_get_worklist(json_t *json_packet, char *key, struct worklist *pwl);
-bool dio_get_requirement(json_t *json_packet, char *key, struct requirement *preq);
+bool dio_get_bool8_json(json_t *json_packet, char *key, bool *dest);
+bool dio_get_bool32_json(json_t *json_packet, char *key, bool *dest);
+bool dio_get_ufloat_json(json_t *json_packet, char *key, float *dest, int float_factor);
+bool dio_get_sfloat_json(json_t *json_packet, char *key, float *dest, int float_factor);
+bool dio_get_memory_json(json_t *json_packet, char *key, void *dest, size_t dest_size);
+bool dio_get_string_json(json_t *json_packet, char *key, char *dest, size_t max_dest_size);
+bool dio_get_string_raw(struct data_in *din, char *dest, size_t max_dest_size);
+bool dio_get_bit_string_json(json_t *json_packet, char *key, char *dest,
+                             size_t max_dest_size);
+bool dio_get_tech_list_json(json_t *json_packet, char *key, int *dest);
+bool dio_get_unit_list_json(json_t *json_packet, char *key, int *dest);
+bool dio_get_building_list_json(json_t *json_packet, char *key, int *dest);
+bool dio_get_worklist_json(json_t *json_packet, char *key, struct worklist *pwl);
+bool dio_get_requirement_json(json_t *json_packet, char *key, struct requirement *preq);
 
-bool dio_get_uint8_vec8(json_t *json_packet, char *key, int **values, int stop_value);
-bool dio_get_uint16_vec8(json_t *json_packet, char *key, int **values, int stop_value);
+bool dio_get_uint8_vec8_json(json_t *json_packet, char *key, int **values, int stop_value);
+bool dio_get_uint16_vec8_json(json_t *json_packet, char *key, int **values, int stop_value);
 
 /* Should be a function but we need some macro magic. */
 #define DIO_BV_GET(pdin, bv) \
-  dio_get_memory(pc->json_packet, "mem", (bv).vec, sizeof((bv).vec))
+  dio_get_memory_json(pc->json_packet, "mem", (bv).vec, sizeof((bv).vec))
 
-#define DIO_GET(f, d, k, ...) dio_get_##f(pc->json_packet, k, ## __VA_ARGS__)
+#define DIO_GET(f, d, k, ...) dio_get_##f##_json(pc->json_packet, k, ## __VA_ARGS__)
 
 /* puts */
-void dio_put_type(struct data_out *dout, enum data_type type, char *key, int value);
+void dio_put_type_json(struct data_out *dout, enum data_type type, char *key, int value);
 
-void dio_put_uint8(struct data_out *dout, char *key, int value);
-void dio_put_uint8_old(struct data_out *dout, int value);
-void dio_put_uint16(struct data_out *dout, char *key, int value);
-void dio_put_uint32(struct data_out *dout, char *key, int value);
-void dio_put_uint16_old(struct data_out *dout, int value);
+void dio_put_uint8_json(struct data_out *dout, char *key, int value);
+void dio_put_uint8_raw(struct data_out *dout, int value);
+void dio_put_uint16_json(struct data_out *dout, char *key, int value);
+void dio_put_uint32_json(struct data_out *dout, char *key, int value);
+void dio_put_uint16_raw(struct data_out *dout, int value);
 
-void dio_put_array_uint8(struct data_out *dout, char *key, int *values, int size);
-void dio_put_array_uint32(struct data_out *dout, char *key, int *values, int size);
-void dio_put_array_sint8(struct data_out *dout, char *key, int *values, int size);
-void dio_put_array_sint16(struct data_out *dout, char *key, int *values, int size);
-void dio_put_array_sint32(struct data_out *dout, char *key, int *values, int size);
-void dio_put_array_bool8(struct data_out *dout, char *key, bool *values, int size);
+void dio_put_array_uint8_json(struct data_out *dout, char *key, int *values, int size);
+void dio_put_array_uint32_json(struct data_out *dout, char *key, int *values, int size);
+void dio_put_array_sint8_json(struct data_out *dout, char *key, int *values, int size);
+void dio_put_array_sint16_json(struct data_out *dout, char *key, int *values, int size);
+void dio_put_array_sint32_json(struct data_out *dout, char *key, int *values, int size);
+void dio_put_array_bool8_json(struct data_out *dout, char *key, bool *values, int size);
 
-#define dio_put_sint8(d,k,v) dio_put_uint8(d,k,v)
-#define dio_put_sint16(d,k,v) dio_put_uint16(d,k,v)
-#define dio_put_sint32(d,k,v) dio_put_uint32(d,k,v)
+#define dio_put_sint8_json(d,k,v) dio_put_uint8_json(d,k,v)
+#define dio_put_sint16_json(d,k,v) dio_put_uint16_json(d,k,v)
+#define dio_put_sint32_json(d,k,v) dio_put_uint32_json(d,k,v)
 
-void dio_put_bool8(struct data_out *dout, char *key, bool value);
-void dio_put_bool32(struct data_out *dout, char *key, bool value);
-void dio_put_ufloat(struct data_out *dout, char *key, float value, int float_factor);
-void dio_put_sfloat(struct data_out *dout, char *key, float value, int float_factor);
+void dio_put_bool8_json(struct data_out *dout, char *key, bool value);
+void dio_put_bool32_json(struct data_out *dout, char *key, bool value);
+void dio_put_ufloat_json(struct data_out *dout, char *key, float value, int float_factor);
+void dio_put_sfloat_json(struct data_out *dout, char *key, float value, int float_factor);
 
-void dio_put_memory(struct data_out *dout, char *key, const void *value, size_t size);
-void dio_put_string(struct data_out *dout, char *key, const char *value);
-void dio_put_bit_string(struct data_out *dout, char *key, const char *value);
-void dio_put_city_map(struct data_out *dout, char *key, const char *value);
-void dio_put_tech_list(struct data_out *dout, char *key, const int *value);
-void dio_put_unit_list(struct data_out *dout, char *key, const int *value);
-void dio_put_building_list(struct data_out *dout, char *key, const int *value);
-void dio_put_worklist(struct data_out *dout, char *key, const struct worklist *pwl);
-void dio_put_requirement(struct data_out *dout, char *key, const struct requirement *preq, int size);
+void dio_put_memory_json(struct data_out *dout, char *key, const void *value, size_t size);
+void dio_put_string_json(struct data_out *dout, char *key, const char *value);
+void dio_put_bit_string_json(struct data_out *dout, char *key, const char *value);
+void dio_put_city_map_json(struct data_out *dout, char *key, const char *value);
+void dio_put_tech_list_json(struct data_out *dout, char *key, const int *value);
+void dio_put_unit_list_json(struct data_out *dout, char *key, const int *value);
+void dio_put_building_list_json(struct data_out *dout, char *key, const int *value);
+void dio_put_worklist_json(struct data_out *dout, char *key, const struct worklist *pwl);
+void dio_put_requirement_json(struct data_out *dout, char *key,
+                              const struct requirement *preq, int size);
 
-void dio_put_uint8_vec8(struct data_out *dout, char *key, int *values, int stop_value);
-void dio_put_uint16_vec8(struct data_out *dout, char *key, int *values, int stop_value);
-void dio_put_string_old(struct data_out *dout, const char *value);
-void dio_put_memory_old(struct data_out *dout, const void *value, size_t size);
-void dio_put_string_array(struct data_out *dout, char *key, const char *value, int size);
+void dio_put_uint8_vec8_json(struct data_out *dout, char *key, int *values, int stop_value);
+void dio_put_uint16_vec8_json(struct data_out *dout, char *key, int *values, int stop_value);
+void dio_put_string_raw(struct data_out *dout, const char *value);
+void dio_put_memory_raw(struct data_out *dout, const void *value, size_t size);
+void dio_put_string_array_json(struct data_out *dout, char *key, const char *value, int size);
 
 /* Should be a function but we need some macro magic. */
 #define DIO_BV_PUT(pdout, type, bv) \
-  dio_put_memory((pdout), type, (bv).vec, sizeof((bv).vec))
+  dio_put_memory_json((pdout), type, (bv).vec, sizeof((bv).vec))
 
-#define DIO_PUT(f, d, k, ...) dio_put_##f(d, k, ## __VA_ARGS__)
+#define DIO_PUT(f, d, k, ...) dio_put_##f##_json(d, k, ## __VA_ARGS__)
 
 #ifdef __cplusplus
 }

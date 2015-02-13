@@ -433,7 +433,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
 
   dio_output_init(&dout, buffer, sizeof(buffer));
-  dio_put_uint8(&dout, SERVER_LAN_VERSION);
+  dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
   size = dio_output_used(&dout);
  
 
@@ -561,18 +561,18 @@ get_lan_server_list(struct server_scan *scan)
       break;
     }
 
-    dio_get_uint8(&din, &type);
+    dio_get_uint8_raw(&din, &type);
     if (type != SERVER_LAN_VERSION) {
       continue;
     }
-    dio_get_string(&din, servername, sizeof(servername));
-    dio_get_string(&din, portstr, sizeof(portstr));
+    dio_get_string_raw(&din, servername, sizeof(servername));
+    dio_get_string_raw(&din, portstr, sizeof(portstr));
     port = atoi(portstr);
-    dio_get_string(&din, version, sizeof(version));
-    dio_get_string(&din, status, sizeof(status));
-    dio_get_string(&din, players, sizeof(players));
-    dio_get_string(&din, humans, sizeof(humans));
-    dio_get_string(&din, message, sizeof(message));
+    dio_get_string_raw(&din, version, sizeof(version));
+    dio_get_string_raw(&din, status, sizeof(status));
+    dio_get_string_raw(&din, players, sizeof(players));
+    dio_get_string_raw(&din, humans, sizeof(humans));
+    dio_get_string_raw(&din, message, sizeof(message));
 
     if (!fc_strcasecmp("none", servername)) {
       bool nameinfo = FALSE;

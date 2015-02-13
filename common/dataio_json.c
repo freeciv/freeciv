@@ -247,7 +247,7 @@ bool dio_input_skip(struct data_in *din, size_t size)
 /**************************************************************************
   Insert 8 bit value with json.
 **************************************************************************/
-void dio_put_uint8(struct data_out *dout, char *key, int value)
+void dio_put_uint8_json(struct data_out *dout, char *key, int value)
 {
   json_object_set_new(dout->json, key, json_integer(value));
 }
@@ -255,7 +255,7 @@ void dio_put_uint8(struct data_out *dout, char *key, int value)
 /**************************************************************************
   Insert value using 8 bits. May overflow.
 **************************************************************************/
-void dio_put_uint8_old(struct data_out *dout, int value)
+void dio_put_uint8_raw(struct data_out *dout, int value)
 {
   uint8_t x = value;
   FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_1_byte);
@@ -274,7 +274,7 @@ void dio_put_uint8_old(struct data_out *dout, int value)
 /**************************************************************************
   Insert value using 16 bits. May overflow.
 **************************************************************************/
-void dio_put_uint16_old(struct data_out *dout, int value)
+void dio_put_uint16_raw(struct data_out *dout, int value)
 {
   uint16_t x = htons(value);
   FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
@@ -293,7 +293,7 @@ void dio_put_uint16_old(struct data_out *dout, int value)
 /**************************************************************************
   Insert value using 32 bits. May overflow.
 **************************************************************************/
-void dio_put_uint16(struct data_out *dout, char *key, int value)
+void dio_put_uint16_json(struct data_out *dout, char *key, int value)
 {
   json_object_set_new(dout->json, key, json_integer(value));
 }
@@ -301,7 +301,7 @@ void dio_put_uint16(struct data_out *dout, char *key, int value)
 /**************************************************************************
   Insert block directly from memory.
 **************************************************************************/
-void dio_put_memory_old(struct data_out *dout, const void *value, size_t size)
+void dio_put_memory_raw(struct data_out *dout, const void *value, size_t size)
 {
   if (enough_space(dout, size)) {
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), value, size);
@@ -312,18 +312,18 @@ void dio_put_memory_old(struct data_out *dout, const void *value, size_t size)
 /**************************************************************************
   Insert NULL-terminated string. Conversion callback is used if set.
 **************************************************************************/
-void dio_put_string_old(struct data_out *dout, const char *value)
+void dio_put_string_raw(struct data_out *dout, const char *value)
 {
   if (put_conv_callback) {
     size_t length;
     char *buffer;
 
     if ((buffer = (*put_conv_callback) (value, &length))) {
-      dio_put_memory_old(dout, buffer, length + 1);
+      dio_put_memory_raw(dout, buffer, length + 1);
       free(buffer);
     }
   } else {
-    dio_put_memory_old(dout, value, strlen(value) + 1);
+    dio_put_memory_raw(dout, value, strlen(value) + 1);
   }
 }
 
@@ -331,7 +331,7 @@ void dio_put_string_old(struct data_out *dout, const char *value)
   Insert unit type numbers from value array as 8 bit values until there is
   value U_LAST or MAX_NUM_UNIT_LIST numbers have been inserted.
 **************************************************************************/
-void dio_put_unit_list(struct data_out *dout, char *key, const int *value)
+void dio_put_unit_list_json(struct data_out *dout, char *key, const int *value)
 {
   /* TODO: implement */
 }
@@ -340,7 +340,8 @@ void dio_put_unit_list(struct data_out *dout, char *key, const int *value)
   Insert building type numbers from value array as 8 bit values until there
   is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
 **************************************************************************/
-void dio_put_building_list(struct data_out *dout, char *key, const int *value)
+void dio_put_building_list_json(struct data_out *dout, char *key,
+                                const int *value)
 {
   /* TODO: implement */
 }
@@ -348,7 +349,8 @@ void dio_put_building_list(struct data_out *dout, char *key, const int *value)
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_worklist(struct data_out *dout, char *key, const struct worklist *pwl)
+void dio_put_worklist_json(struct data_out *dout, char *key,
+                           const struct worklist *pwl)
 {
   /* TODO: implement */
 }
@@ -356,7 +358,8 @@ void dio_put_worklist(struct data_out *dout, char *key, const struct worklist *p
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_array_uint8(struct data_out *dout, char *key, int *values, int size)
+void dio_put_array_uint8_json(struct data_out *dout, char *key,
+                              int *values, int size)
 {
   int i;
   json_t *array = json_array();
@@ -370,7 +373,8 @@ void dio_put_array_uint8(struct data_out *dout, char *key, int *values, int size
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_array_uint32(struct data_out *dout, char *key, int *values, int size)
+void dio_put_array_uint32_json(struct data_out *dout, char *key,
+                               int *values, int size)
 {
   int i;
   json_t *array = json_array();
@@ -385,7 +389,8 @@ void dio_put_array_uint32(struct data_out *dout, char *key, int *values, int siz
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_array_sint8(struct data_out *dout, char *key, int *values, int size)
+void dio_put_array_sint8_json(struct data_out *dout, char *key,
+                              int *values, int size)
 {
   int i;
   json_t *array = json_array();
@@ -399,7 +404,8 @@ void dio_put_array_sint8(struct data_out *dout, char *key, int *values, int size
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_array_sint16(struct data_out *dout, char *key, int *values, int size)
+void dio_put_array_sint16_json(struct data_out *dout, char *key,
+                               int *values, int size)
 {
   int i;
   json_t *array = json_array();
@@ -413,7 +419,8 @@ void dio_put_array_sint16(struct data_out *dout, char *key, int *values, int siz
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_array_sint32(struct data_out *dout, char *key, int *values, int size)
+void dio_put_array_sint32_json(struct data_out *dout, char *key,
+                               int *values, int size)
 {
   int i;
   json_t *array = json_array();
@@ -427,7 +434,8 @@ void dio_put_array_sint32(struct data_out *dout, char *key, int *values, int siz
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_array_bool8(struct data_out *dout, char *key, bool *values, int size)
+void dio_put_array_bool8_json(struct data_out *dout, char *key,
+                              bool *values, int size)
 {
   int i;
   json_t *array = json_array();
@@ -441,7 +449,7 @@ void dio_put_array_bool8(struct data_out *dout, char *key, bool *values, int siz
 /**************************************************************************
  Receive uint8 value to dest.
 **************************************************************************/
-bool dio_get_uint8_old(struct data_in *din, int *dest)
+bool dio_get_uint8_raw(struct data_in *din, int *dest)
 {
   uint8_t x;
 
@@ -462,7 +470,7 @@ bool dio_get_uint8_old(struct data_in *din, int *dest)
 /**************************************************************************
  Receive uint8 value to dest with json.
 **************************************************************************/
-bool dio_get_uint8(json_t *json_packet, char *key, int *dest)
+bool dio_get_uint8_json(json_t *json_packet, char *key, int *dest)
 {
   json_t *pint = json_object_get(json_packet, key);
 
@@ -483,7 +491,7 @@ bool dio_get_uint8(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
  Receive uint16 value to dest with json.
 **************************************************************************/
-bool dio_get_uint16(json_t *json_packet, char *key, int *dest)
+bool dio_get_uint16_json(json_t *json_packet, char *key, int *dest)
 {
   json_t *pint = json_object_get(json_packet, key);
 
@@ -504,7 +512,7 @@ bool dio_get_uint16(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_uint32(json_t *json_packet, char *key, int *dest)
+bool dio_get_uint32_json(json_t *json_packet, char *key, int *dest)
 {
   json_t *pint = json_object_get(json_packet, key);
 
@@ -525,17 +533,17 @@ bool dio_get_uint32(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_tech_list(json_t *json_packet, char *key, int *dest)
+bool dio_get_tech_list_json(json_t *json_packet, char *key, int *dest)
 {
   /* TODO: implement */
   return TRUE;
 }
 
 /**************************************************************************
-  Take unit type numbers until U_LAST encountered, or MAX_NUM_UNIT_LIST
+  Take unit type numbers until UTYF_LAST encountered, or MAX_NUM_UNIT_LIST
   types retrieved.
 **************************************************************************/
-bool dio_get_unit_list(json_t *json_packet, char *key, int *dest)
+bool dio_get_unit_list_json(json_t *json_packet, char *key, int *dest)
 {
   /* TODO: implement */
   return TRUE;
@@ -544,7 +552,7 @@ bool dio_get_unit_list(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_building_list(json_t *json_packet, char *key, int *dest)
+bool dio_get_building_list_json(json_t *json_packet, char *key, int *dest)
 {
   /* TODO: implement */
   return TRUE;
@@ -553,7 +561,7 @@ bool dio_get_building_list(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
  ..
 **************************************************************************/
-bool dio_get_worklist(json_t *json_packet, char *key, struct worklist *pwl)
+bool dio_get_worklist_json(json_t *json_packet, char *key, struct worklist *pwl)
 {
   /* TODO: implement */
   return TRUE;
@@ -562,7 +570,7 @@ bool dio_get_worklist(json_t *json_packet, char *key, struct worklist *pwl)
 /**************************************************************************
  Receive uint16 value to dest.
 **************************************************************************/
-bool dio_get_uint16_old(struct data_in *din, int *dest)
+bool dio_get_uint16_raw(struct data_in *din, int *dest)
 {
   uint16_t x;
 
@@ -583,7 +591,7 @@ bool dio_get_uint16_old(struct data_in *din, int *dest)
 /**************************************************************************
   Take string. Conversion callback is used.
 **************************************************************************/
-bool dio_get_string_old(struct data_in *din, char *dest, size_t max_dest_size)
+bool dio_get_string_raw(struct data_in *din, char *dest, size_t max_dest_size)
 {
   char *c;
   size_t offset, remaining;
@@ -620,7 +628,8 @@ bool dio_get_string_old(struct data_in *din, char *dest, size_t max_dest_size)
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_uint8_vec8(json_t *json_packet, char *key, int **values, int stop_value)
+bool dio_get_uint8_vec8_json(json_t *json_packet, char *key,
+                             int **values, int stop_value)
 {
   /* TODO: implement */
   return TRUE;
@@ -629,8 +638,8 @@ bool dio_get_uint8_vec8(json_t *json_packet, char *key, int **values, int stop_v
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_uint16_vec8(json_t *json_packet, char *key, int **values,
-                         int stop_value)
+bool dio_get_uint16_vec8_json(json_t *json_packet, char *key, int **values,
+                              int stop_value)
 {
   /* TODO: implement */
   return TRUE;
@@ -639,7 +648,8 @@ bool dio_get_uint16_vec8(json_t *json_packet, char *key, int **values,
 /**************************************************************************
   ..
 **************************************************************************/
-bool dio_get_requirement(json_t *json_packet, char *key, struct requirement *preq)
+bool dio_get_requirement_json(json_t *json_packet, char *key,
+                              struct requirement *preq)
 {
   /* TODO: implement */
   return TRUE;
@@ -648,7 +658,7 @@ bool dio_get_requirement(json_t *json_packet, char *key, struct requirement *pre
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_uint32(struct data_out *dout, char *key, int value)
+void dio_put_uint32_json(struct data_out *dout, char *key, int value)
 {
   json_object_set_new(dout->json, key, json_integer(value));
 }
@@ -656,7 +666,7 @@ void dio_put_uint32(struct data_out *dout, char *key, int value)
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_bool8(struct data_out *dout, char *key, bool value)
+void dio_put_bool8_json(struct data_out *dout, char *key, bool value)
 {
   json_object_set_new(dout->json, key, value ? json_true() : json_false());
 }
@@ -664,7 +674,7 @@ void dio_put_bool8(struct data_out *dout, char *key, bool value)
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_bool32(struct data_out *dout, char *key, bool value)
+void dio_put_bool32_json(struct data_out *dout, char *key, bool value)
 {
   json_object_set_new(dout->json, key, value ? json_true() : json_false());
 }
@@ -672,7 +682,8 @@ void dio_put_bool32(struct data_out *dout, char *key, bool value)
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_ufloat(struct data_out *dout, char *key, float value, int float_factor)
+void dio_put_ufloat_json(struct data_out *dout, char *key,
+                         float value, int float_factor)
 {
   json_object_set_new(dout->json, key, json_real(value));
 }
@@ -680,7 +691,8 @@ void dio_put_ufloat(struct data_out *dout, char *key, float value, int float_fac
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_sfloat(struct data_out *dout, char *key, float value, int float_factor)
+void dio_put_sfloat_json(struct data_out *dout, char *key,
+                         float value, int float_factor)
 {
   json_object_set_new(dout->json, key, json_real(value));
 }
@@ -688,7 +700,8 @@ void dio_put_sfloat(struct data_out *dout, char *key, float value, int float_fac
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_uint8_vec8(struct data_out *dout, char *key, int *values, int stop_value)
+void dio_put_uint8_vec8_json(struct data_out *dout, char *key,
+                             int *values, int stop_value)
 {
   /* TODO: implement. */
 }
@@ -696,8 +709,8 @@ void dio_put_uint8_vec8(struct data_out *dout, char *key, int *values, int stop_
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_uint16_vec8(struct data_out *dout, char *key, int *values,
-                         int stop_value)
+void dio_put_uint16_vec8_json(struct data_out *dout, char *key, int *values,
+                              int stop_value)
 {
   /* TODO: implement. */
 }
@@ -705,7 +718,8 @@ void dio_put_uint16_vec8(struct data_out *dout, char *key, int *values,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_memory(struct data_out *dout, char *key, const void *value, size_t size)
+void dio_put_memory_json(struct data_out *dout, char *key, const void *value,
+                         size_t size)
 {
   /* TODO: implement */
 }
@@ -713,7 +727,7 @@ void dio_put_memory(struct data_out *dout, char *key, const void *value, size_t 
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_string(struct data_out *dout, char *key, const char *value)
+void dio_put_string_json(struct data_out *dout, char *key, const char *value)
 {
   json_object_set_new(dout->json, key, json_string(value));
 }
@@ -721,8 +735,8 @@ void dio_put_string(struct data_out *dout, char *key, const char *value)
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_string_array(struct data_out *dout, char *key, 
-		          const char *value, int size)
+void dio_put_string_array_json(struct data_out *dout, char *key, 
+                               const char *value, int size)
 {
   int i;
 
@@ -739,7 +753,7 @@ void dio_put_string_array(struct data_out *dout, char *key,
 /**************************************************************************
 ...
 **************************************************************************/
-void dio_put_tech_list(struct data_out *dout, char *key, const int *value)
+void dio_put_tech_list_json(struct data_out *dout, char *key, const int *value)
 {
   /* TODO: implement */
 }
@@ -747,7 +761,8 @@ void dio_put_tech_list(struct data_out *dout, char *key, const int *value)
 /**************************************************************************
   ..
 **************************************************************************/
-void dio_put_requirement(struct data_out *dout, char *key, const struct requirement *preq, int size)
+void dio_put_requirement_json(struct data_out *dout, char *key,
+                              const struct requirement *preq, int size)
 {
   /* TODO: implement */
 }
@@ -755,7 +770,7 @@ void dio_put_requirement(struct data_out *dout, char *key, const struct requirem
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_bool8(json_t *json_packet, char *key, bool * dest)
+bool dio_get_bool8_json(json_t *json_packet, char *key, bool *dest)
 {
   json_t *pbool = json_object_get(json_packet, key);
 
@@ -776,7 +791,7 @@ bool dio_get_bool8(json_t *json_packet, char *key, bool * dest)
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_bool32(json_t *json_packet, char *key, bool *dest)
+bool dio_get_bool32_json(json_t *json_packet, char *key, bool *dest)
 {
   json_t *pbool = json_object_get(json_packet, key);
 
@@ -797,7 +812,8 @@ bool dio_get_bool32(json_t *json_packet, char *key, bool *dest)
 /**************************************************************************
   ...
 **************************************************************************/
-bool dio_get_ufloat(json_t *json_packet, char *key, float *dest, int float_factor)
+bool dio_get_ufloat_json(json_t *json_packet, char *key, float *dest,
+                         int float_factor)
 {
   json_t *preal = json_object_get(json_packet, key);
 
@@ -813,7 +829,8 @@ bool dio_get_ufloat(json_t *json_packet, char *key, float *dest, int float_facto
 /**************************************************************************
   ...
 **************************************************************************/
-bool dio_get_sfloat(json_t *json_packet, char *key, float *dest, int float_factor)
+bool dio_get_sfloat_json(json_t *json_packet, char *key, float *dest,
+                         int float_factor)
 {
   json_t *preal = json_object_get(json_packet, key);
 
@@ -829,7 +846,7 @@ bool dio_get_sfloat(json_t *json_packet, char *key, float *dest, int float_facto
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_sint8(json_t *json_packet, char *key, int *dest)
+bool dio_get_sint8_json(json_t *json_packet, char *key, int *dest)
 {
   json_t *pint = json_object_get(json_packet, key);
 
@@ -850,7 +867,7 @@ bool dio_get_sint8(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_sint16(json_t *json_packet, char *key, int *dest)
+bool dio_get_sint16_json(json_t *json_packet, char *key, int *dest)
 {
   json_t *pint = json_object_get(json_packet, key);
 
@@ -871,7 +888,8 @@ bool dio_get_sint16(json_t *json_packet, char *key, int *dest)
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_memory(json_t *json_packet, char *key, void *dest, size_t dest_size)
+bool dio_get_memory_json(json_t *json_packet, char *key, void *dest,
+                         size_t dest_size)
 {
   /* TODO: implement */ 
   return TRUE;
@@ -880,7 +898,8 @@ bool dio_get_memory(json_t *json_packet, char *key, void *dest, size_t dest_size
 /**************************************************************************
 ...
 **************************************************************************/
-bool dio_get_string(json_t *json_packet, char *key, char *dest, size_t max_dest_size)
+bool dio_get_string_json(json_t *json_packet, char *key, char *dest,
+                         size_t max_dest_size)
 {
   json_t *pstring = json_object_get(json_packet, key);
 

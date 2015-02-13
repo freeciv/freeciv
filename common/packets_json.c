@@ -394,7 +394,7 @@ void *get_packet_from_connection(struct connection *pc,
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
-  dio_get_uint16_old(&din, &len_read);
+  dio_get_uint16_raw(&din, &len_read);
 
   /* The non-compressed case */
   whole_packet_len = len_read;
@@ -609,7 +609,7 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
   int len;
  
   dio_input_init(&din, buffer->data, buffer->ndata);
-  dio_get_uint16_old(&din, &len);
+  dio_get_uint16_raw(&din, &len);
   memmove(buffer->data, buffer->data + len, buffer->ndata - len);
   buffer->ndata -= len;
   log_debug("remove_packet_from_buffer: remove %d; remaining %d",

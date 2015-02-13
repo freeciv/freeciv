@@ -152,7 +152,7 @@ static bool conn_compression_flush(struct connection *pconn)
       log_compress("COMPRESS: sending %ld as normal", compressed_size);
 
       dio_output_init(&dout, header, sizeof(header));
-      dio_put_uint16(&dout, 2 + compressed_size + COMPRESSION_BORDER);
+      dio_put_uint16_raw(&dout, 2 + compressed_size + COMPRESSION_BORDER);
       connection_send_data(pconn, header, sizeof(header));
       connection_send_data(pconn, compressed, compressed_size);
     } else {
@@ -162,8 +162,8 @@ static bool conn_compression_flush(struct connection *pconn)
 
       log_compress("COMPRESS: sending %ld as jumbo", compressed_size);
       dio_output_init(&dout, header, sizeof(header));
-      dio_put_uint16(&dout, JUMBO_SIZE);
-      dio_put_uint32(&dout, 6 + compressed_size);
+      dio_put_uint16_raw(&dout, JUMBO_SIZE);
+      dio_put_uint32_raw(&dout, 6 + compressed_size);
       connection_send_data(pconn, header, sizeof(header));
       connection_send_data(pconn, compressed, compressed_size);
     }
@@ -392,7 +392,7 @@ void *get_packet_from_connection(struct connection *pc,
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
-  dio_get_type(&din, pc->packet_header.length, &len_read);
+  dio_get_type_raw(&din, pc->packet_header.length, &len_read);
 
   /* The non-compressed case */
   whole_packet_len = len_read;
@@ -405,7 +405,7 @@ void *get_packet_from_connection(struct connection *pc,
     compressed_packet = TRUE;
     header_size = 6;
     if (dio_input_remaining(&din) >= 4) {
-      dio_get_uint32(&din, &whole_packet_len);
+      dio_get_uint32_raw(&din, &whole_packet_len);
       log_compress("COMPRESS: got a jumbo packet of size %d",
                    whole_packet_len);
     } else {
@@ -502,7 +502,7 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;
   }
 
-  dio_get_type(&din, pc->packet_header.type, &utype.itype);
+  dio_get_type_raw(&din, pc->packet_header.type, &utype.itype);
   utype.type = utype.itype;
 
   if (utype.type < 0
@@ -587,7 +587,7 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
   int len;
 
   dio_input_init(&din, buffer->data, buffer->ndata);
-  dio_get_uint16(&din, &len);
+  dio_get_uint16_raw(&din, &len);
   memmove(buffer->data, buffer->data + len, buffer->ndata - len);
   buffer->ndata -= len;
   log_debug("remove_packet_from_buffer: remove %d; remaining %d",
@@ -656,8 +656,8 @@ bool packet_check(struct data_in *din, struct connection *pc)
     int type, len;
 
     dio_input_rewind(din);
-    dio_get_type(din, pc->packet_header.length, &len);
-    dio_get_type(din, pc->packet_header.type, &type);
+    dio_get_type_raw(din, pc->packet_header.length, &len);
+    dio_get_type_raw(din, pc->packet_header.type, &type);
 
     log_packet("received long packet (type %d, len %d, rem %lu) from %s",
                type,
