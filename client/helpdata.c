@@ -2621,14 +2621,22 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     char buf2[1024];
+    struct astring extras_and = ASTRING_INIT;
+    struct strvec *extras_vec = strvec_new();
 
     /* Roads, rail, mines, irrigation. */
     road_type_iterate(proad) {
       if (help_is_road_buildable(proad, utype)) {
-        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                     road_name_translation(proad));
+        strvec_append(extras_vec, road_name_translation(proad));
       }
     } road_type_iterate_end;
+    if (strvec_size(extras_vec) > 0) {
+      strvec_to_and_list(extras_vec, &extras_and);
+      /* TRANS: %s is list of extra types separated by ',' and 'and' */
+      cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                   astr_str(&extras_and));
+      strvec_clear(extras_vec);
+    }
 
     if (effect_cumulative_max(EFT_MINING_POSSIBLE, utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
@@ -2663,10 +2671,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     base_type_iterate(pbase) {
       if (help_is_base_buildable(pbase, utype)) {
-        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                     base_name_translation(pbase));
+        strvec_append(extras_vec, base_name_translation(pbase));
       }
     } base_type_iterate_end;
+    if (strvec_size(extras_vec) > 0) {
+      strvec_to_and_list(extras_vec, &extras_and);
+      cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                   astr_str(&extras_and));
+      strvec_clear(extras_vec);
+    }
 
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
