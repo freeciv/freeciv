@@ -279,7 +279,10 @@ req2     = "Theory of Gravity"
 flags    = ""
 graphic     = "a.electricity"
 graphic_alt = "-"
-helptext = _("Allows irrigation without adjacent water, improves the effect of Amphitheatres, and increases city vision radius.")
+helptext = _("\
+Allows irrigation without an adjacent water source, improves the \
+effect of Amphitheaters, and increases city vision radius.\
+")
 cost     = 310
 
 [advance_electronics]
@@ -406,7 +409,7 @@ req2     = "Literacy"
 flags    = ""
 graphic     = "a.invention"
 graphic_alt = "-"
-helptext = _("Halves upgrade cost of your units.")
+helptext = _("Halves the upgrade cost of your units.")
 cost     = 120
 
 [advance_iron_working]
@@ -516,7 +519,10 @@ flags    = ""
 graphic     = "a.medicine"
 graphic_alt = "-"
 ; /* xgettext:no-c-format */
-helptext = _("Reduces by 30% the chance of illness in your cities.")
+helptext = _("\
+Reduces the risk of plague in your cities by 30% of the base chance \
+(this is additive with the benefits of any buildings).\
+")
 cost     = 120
 
 [advance_metallurgy]
@@ -666,7 +672,13 @@ req2     = "Metallurgy"
 flags    = ""
 graphic     = "a.railroad"
 graphic_alt = "-"
-helptext = _("Decreases one-time revenue from new trade routes.")
+helptext = _("\
+Halves one-time revenue from new trade routes.\
+"), _("\
+For Despotism or Tribal governments, cancels the penalty to worked \
+tiles with output greater than 2 (as if all your cities were always \
+celebrating).\
+")
 cost     = 350
 
 [advance_recycling]
@@ -794,7 +806,10 @@ req2     = "Industrialization"
 flags    = ""
 graphic     = "a.the_corporation"
 graphic_alt = "-"
-helptext = _("Decreases one-time the Corruption of trade caused by distance to Capital.")
+helptext = _("\
+Halves the corruption of trade related to distance from the capital \
+(or eliminates it for Federation governments).\
+")
 cost     = 400
 
 [advance_the_republic]
@@ -841,7 +856,9 @@ req2     = "Pottery"
 flags    = ""
 graphic     = "a.trade"
 graphic_alt = "-"
-helptext = _("Decreases one-time the Waste of shields caused by distance to Capital.")
+helptext = _("\
+Halves the waste of production related to distance from the capital.\
+")
 cost     = 40
 
 [advance_university]

@@ -560,6 +560,9 @@ color.b              = 5
 helptext             = _("\
 In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
+"), _("\
+Cities built in hills are at risk of earthquakes, which can interrupt\
+ a city's current project.\
 ")
 
 [terrain_jungle]
@@ -603,7 +606,8 @@ color.g              = 156
 color.b              = 38
 helptext             = _("\
 Jungles are densely overgrown, making agriculture somewhat\
- problematic.\
+ problematic. Big Land units may not move into jungle without\
+ a road.\
 ")
 
 [terrain_mountains]
@@ -646,6 +650,11 @@ color.b              = 118
 helptext             = _("\
 Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
+"), _("\
+Land units that move into mountains can see an extra space, but a\
+ fast land unit ending its turn in mountains will start its next turn\
+ with one fewer movement point. Big Land units may not move into\
+ mountains without a road.\
 ")
 
 [terrain_plains]
@@ -733,7 +742,8 @@ color.g              = 85
 color.b              = 97
 helptext             = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
- somewhat problematic.\
+ somewhat problematic. Big Land units may not move in swamps without\
+ a road.\
 ")
 
 [terrain_tundra]
@@ -1048,9 +1058,10 @@ conflicts      = "Airbase"
 native_to      = "Land", "Small Land", "Big Land"
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense", "NativeTile"
 helptext       = _("\
-Fortresses improve defense for land units. Among other effects, a land \
-unit remaining in a fortress for a whole turn without moving recovers \
-a quarter of its hit points.\
+Units in a fortress receive double defense against land units and boats. \
+Any kind of land unit remaining in a fortress for a whole turn without \
+moving recovers a quarter of its hit points. With Astronomy, fortresses gain \
+watchtowers from which units can see further afield.\
 ")
 
 [base_airbase]
@@ -1074,8 +1085,8 @@ conflicts      = "Fortress"
 native_to      = "Air", "Helicopter", "Missile"
 flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
 helptext       = _("\
-Airbases allow your air units to land and refuel, and improve the defense \
-against enemy air units. \
+Airbases allow your air units to land and refuel. Units in an airbase \
+receive double defense against enemy air units. \
 An air unit remaining in an airbase for a whole turn without moving \
 recovers a quarter of its hit points. \
 Air units in an airbase may be attacked by land units.\
@@ -1100,6 +1111,9 @@ border_sq      = 0
 vision_main_sq = 5
 helptext       = _("\
 Buoys may be built in the ocean (by units on a sea-going vessel).\
+"), _("\
+As well as granting vision, a buoy in deep ocean yields a shield \
+resource to cities with an Offshore Platform.\
 ")
 
 [base_ruins]
@@ -1290,6 +1304,7 @@ trade_incr_const = 1
 compat_special = "River"
 native_to      = "Land", "Small Land", "Merchant", "Trireme"
 flags          = "River", "PreventsOtherRoads", "NativeTile", "Natural"
+; /* xgettext:no-c-format */
 helptext       = _("\
 Any land terrain type may have a River on it. A River adds 1\
  trade to the resources produced by that tile. It also increases a\
@@ -1303,4 +1318,7 @@ Land units may move along rivers for faster travel (but not diagonally),\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology. Fortresses and\
  Airbases cannot be built on River tiles.\
+"), _("\
+Cities built on or next to rivers incur a small risk of flooding,\
+ which will destroy stored food.\
 ")

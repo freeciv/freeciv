@@ -34,10 +34,11 @@ CORE CHANGES:
 - A city can support as many Military units as its population size (min 4, max 20). Additional units cause waste of Food. If the city shrinks due to starvation, one of those extra units will be disbanded.
 - Units lose one Veteran level when upgraded.
 - No infinite movement: Railroads x6, Roads x3, Rivers x3 (non diagonal).
+- The 'restrictinfra' server setting applies to rivers as well as to roads/railroads.
 - Specialists output reduced to 2 (same as civ2). There are wonders that increase it to 3 for all players.
 - Enabled Tech Leakage: technologies are cheaper if already discovered by other nations you have Embassy with.
 - The cost of each Tech is equal to the number of steps needed to get the tech (Tech Cost = Base Cost * Number of Parents). It is a linear formula more similar to civ2, and it fits better the new reduced bonuses from Trade and Science.
-- Tech Upkeep asigned to Cities: it is required some Science from each city to keep the same technological level. The upkeep grows from 0 during the middle ages, up to 10 Bulbs per city when the whole tech tree was researched. If the global balance of Bulbs ends negative, one random technology is lost, and half of his value is restored to the count of Bulbs.
+- Tech Upkeep assigned to Cities: some science is required from each city to maintain a given technological level. The upkeep grows from 0 during the middle ages, up to 10 Bulbs per city when the whole tech tree was researched. If the global balance of Bulbs ends negative, one random technology is lost, and half of its value is restored to the count of Bulbs.
 - Enabled risk of Plague at cities with pop greater than 4. Chances reduced by the buildings Aqueduct and Sewer System, the tech Medicine, and the wonder Cure for Cancer.
 - Added other random disasters: Earthquake, Fire, Flood, and Nuclear Accident.
 - Increased AI_love for AI players, in order to reduce the amount of wars between them.
@@ -46,7 +47,7 @@ OPTIONAL RULES:
 - Every player starts with 1 free Tech, 1 Settler, 1 Worker and 1 Explorer.
 - Minimum Distance between cities set to 3.
 - Initial National Border equal to city radius (2 tiles).
-- Restricted the use of infrastructure (Roads/Railroads) for enemy units.
+- Restricted the use of infrastructure (roads, railroads, and rivers) for enemy units.
 - Unreachable units do not protect reachable ones.
 - Set Occupy Chance to 100%: Units automatically move to the target tile if the attack is successful and ZoC rules allow the movement.
 - Disabled Happy Borders: Military Units cause unhappiness if they end the turn outside cities or fortresses, no matter if they are inside national borders.
@@ -130,40 +131,51 @@ Forest\Jungle\Swamp      +25%     +50%
 Hills                    +50%     +100%
 Mountains                +100%    +200%
 
-RIVER                    +25%     +50
+multiplied by
+RIVER                    +25%     +50%
 
-FORTIFIED                +50%     (=)
+multiplied by
+FORTIFIED or IN CITY     +50%     (=)
+(for Land and Big Land units only)
 
+multiplied by
 VETERAN
 Veteran                  +50%     (=)
 Hardened                 +75%     (=)
 Elite                    +100%    (=)
 
+multiplied by
 BASE
 Fortress (vs Land\Sea)   +100%    (=)
 Airbase  (vs Air)        +100%    +0%
+or extra city/buildings bonuses (see below)
 
-- Every City receives an inherent Defend_Bonus = +50% against Land units
-- Every City with Pop>8 receives an additional free Defend_Bonus = +50% against Land and Sea units.
+- Every City of any size receives an inherent Defend_Bonus = +50% against all kinds of land units.
+- Every City with Pop>8 receives an additional free Defend_Bonus = +50% against both land and sea units.
 - Walls effect reduced from 200% to 100%, and cost reduced from 60 to 30.
-- Great Wall gives additional Defend_Bonus = +50% against Land units, and the effect Unit_No_Lose_Pop in every city.
+- Great Wall gives additional Defend_Bonus = +50% against Land units, and prevents population loss in any city when a defending unit loses.
 The total city defense is similar to classic ruleset, but here cities receive some wall bonus for free, and large cities receive an extra bonus, as in civ3:
 
-CITY VS LAND     NEW    (+WALL)  (+GREAT WALL)
-Town (Pop<=8)    +50%    +150%(-) +200%(=)
-City (Pop>8)     +100%   +200%(=) +250%(+)
+CITY             VS LAND  VS SEA   VS AIR   VS MISSILE
+Town (Pop<=8)    +50%(+)  +0%(=)   +0%(=)   +0%(=)
+City (Pop>8)     +100%(+) +50%(+)  +0%(=)   +0%(=)
 
-CITY VS SEA      NEW    (+COASTAL DEFENSE)
-Town (Pop<=8)    +0%     +100%(=)
-City (Pop>8)     +50%    +150%(+)
+Buildings each add:
+Walls            +100%    +0%      +0%      +0%
+Great Wall(W)    +50%     +0%      +0%      +0%
+Coastal Defense  +0%      +100%    +0%      +0%
+SAM Battery      +0%      +0%      +100%    +0%
+SDI Defense      +0%      +0%      +0%      +100%
 
-Total Defense (%) = (100+TERRAIN) * (100+RIVER) * (100+CITY+BASE) * (100+FORTIFIED) * (100+VETERAN), same as classic rules.
+(Remember that Land and Big Land units, which can fortify, get an additional +50% defense multiplied by the bonuses above. So Warriors in a size 1 town with no buildings receive a total +125% bonus; Riflemen in a size 10 city with Walls and the Great Wall receive a total of +425%, that is their defense strength is 5.25x normal.)
+
+Total Defense (%) = (100+TERRAIN) * (100+RIVER) * (100+CITY+BASE) * (100+FORTIFIED) * (100+VETERAN).
 
 
 GOVERNMENTS:
 ------------
                   Anarch   Tribal   Despot   Monarc   Fundam   Republ   Democr   Federat  Commun   
-Tax/Lux/Cie Rate  0        60       60       70       70       80       90       90       80       
+Tax/Lux/Sci Rate  0        60       60       70       70       80       90       90       80       
 Output per tile # -1(if>2) -1(if>2) -1(if>2) 0        0        +1Trade  +1Trade  0        0        
 Celebration Bonus (no -1)  (no -1)  (no -1) (+1Trade) 0       (+1Trade)(+1Trade)(+1Trade) 0        
                                                                                 
@@ -183,8 +195,8 @@ Corrup by Dist *  1        1        1        1        1        1        1       
 Base Waste        30%      0%       10%      20%      15%      5%       25%      30%      0%       
 Waste by Dist **  1        1        1        1        1        1        1        0        0        
 
-* Corruption by Distance is increased by 1 until The Corporation is researched by the player.
-** Waste by Distance is increased by 1 until Trade is researched by the player.
+* Corruption by Distance is doubled until The Corporation is researched by the player (or increased to 1 for Federation).
+** Waste by Distance is doubled until Trade is researched by the player.
 # This penalty is negated by The Pyramids wonder, and the penalty disappears for everybody when The Pyramids become obsolete.
 + Partisans appear in conquered cities (democratic or communist) if Guerrilla Warfare has been researched by any player.
 
@@ -210,10 +222,10 @@ TIP: There is some hurry to get Monarchy or Republic (or to build Pyramids), in 
 TECHS:
 ------
 - Added new wonders: Mausoleum of Mausolos (available with Ceremonial Burial), and Statue of Zeus (available with Polytheism). Oracle of Delphi renamed to Temple of Artemis (in order to allow all 7 wonders).
-- Moved Great Wall to Construction (was Masonry). Moved King Richard's Crusade to Chivalry, so it requires Monarchy and Knights. Women Suffrage moved to Conscription, so it requires Democracy. Switched Darwin's Voyage and Eiffel Tower (Darwin was earlier than Eiffel). Shakespeare's Theatre available with Sanitation (was Medicine).
+- Moved Great Wall to Construction (was Masonry). Moved King Richard's Crusade to Chivalry, so it requires Monarchy and Knights. Women's Suffrage moved to Conscription, so it requires Democracy. Switched Darwin's Voyage and Eiffel Tower (Darwin was earlier than Eiffel). Shakespeare's Theatre available with Sanitation (was Medicine).
 
 - Diplomats available with Alphabet (was Writing), and Migrants with Pottery, so every initial tech allows some unit or building.
-- Coastal defense moved to Magnetism*. AI likes defense improvements and this change encourages them to develop Frigates/Galleons early in game.
+- Coastal Defense moved to Magnetism*. AI likes defense improvements and this change encourages them to develop Frigates/Galleons early in game.
 (*) The labels and icons for "Magnetism" and "Navigation" were switched, because compass was already used by historical Caravels, while sextants were not invented until the age of Galleons/Frigates.
 - Bridge Building merged to old Engineering in the tech tree. Added modern "Engineering" in the Industrial Ages that allows Destroyers (was Electricity) and Transports (was Industrialization), and it is required for Steel (Cruiser), Amphibious Warfare (Ports), and Combustion (Submarines).
 - Battleship available with Mass Production instead of Automobile. Mfg Plant available with Plastics (was Robotics).
@@ -225,14 +237,14 @@ Special effects:
 - Invention: Halves upgrade cost of your units.
 - Medicine: Reduces by 30% the chance of illness in your cities.
 - Electricity: Allows irrigation without adjacent water, increases city vision radius, and the effect of Colosseums.
-- Trade: Decreases one-time the corruption of Trade caused by distance to capital.
+- Trade: Decreases one-time the waste of Shields caused by distance to capital.
 - The Corporation: Decreases one-time the corruption of Trade caused by distance to capital.
 
 The Techs, Buildings, Wonders and Units are the same as civ2, but some requirements have been changed to improve a bit the historical accuracy, to encourage the use of every military unit, and to avoid units or wonders becoming obsolete too soon. The following is a list of some inaccuracies from classic tech tree that were addressed in the new tree:
 - It was possible to research Pikemen before Phalanxs; Musketeers before Pikemen; Ironclads before Frigates; Destroyers before Ironclads; Armors before Artillery; Mech Infantry without Barracks III.
 - Cathedrals did not require Construction nor Masonry. Ironclads and Eiffel Tower were available without Iron Working. Chivalry and Pikemen did not need Iron nor Bronze.
 - Pottery was not needed to research Trade, Economics, Explosives, Invention, or Sanitation.
-- Chemistry was not related to Athomic theory, Refrigeration, Gunpowder, Steam engine, or Steel.
+- Chemistry was not related to Atomic theory, Refrigeration, Gunpowder, Steam Engine, or Steel.
 - Theory of Gravity did not need Physics, Invention, or even The Wheel, and it was not needed for Automobile, Robotics, or Miniaturization.
 - Offshore Platforms did not require Refining, Combustion or Explosives. Miniaturization was not needed for Rocketry or Laser.
 
@@ -248,7 +260,7 @@ For example, cities at distance 20 of the Palace lose -10% Food (-5% with courth
 - Granary halves the waste of food caused by distance to Palace. Together with a Courthouse, it eliminates completely the waste of food.
 - Police Station: Make_Content = 2, and reduces unhappiness caused by 1 Military unit.
 - Science bonus by buildings (Library, University and Research Lab) restored to civ2 values (+50%). There are wonders that double the effect later.
-- Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%), so the Power Plants are as important as the Factories. Mfg Plants allows the construction of 2 items per turn. 
+- Production bonus by Factory and Mfg Plant reduced to +25% each (was +50%), so the Power Plants are as important as the Factories. Mfg Plants allows the construction of 2 units per turn. 
 - Super Highways double the effect of Stock Exchange (+50% to Gold/Luxuries), and they produce extra Trade at tiles with roads but without farmlands (the classic effect was overpowered under Democracy/Republic).
 - Space Components and Modules require Library, University, Research Lab and Factory present in the city.
 - Reduced by one the gold upkeep of Aqueduct, Colosseum (renamed to Amphitheatre), University, Bank, Stock Exchange, Port Facility, SDI Defense, Factory and Mfg Plant.
