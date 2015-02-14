@@ -1,6 +1,18 @@
+diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
+--- lua-5.3/src/loslib.c	2015-02-12 21:13:58.132496638 +0200
++++ lua-5.3/src/loslib.c	2015-02-12 21:12:52.020498089 +0200
+@@ -58,7 +58,7 @@
+ ** uses mkstemp.
+ */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_MKSTEMP)	/* { */
+ 
+ #include <unistd.h>
+ 
 diff -Nurd lua-5.3/src/luaconf.h lua-5.3/src/luaconf.h
---- lua-5.3/src/luaconf.h	2014-12-22 01:08:57.212407590 +0200
-+++ lua-5.3/src/luaconf.h	2014-12-22 01:02:44.860415760 +0200
+--- lua-5.3/src/luaconf.h	2015-02-12 21:13:58.132496638 +0200
++++ lua-5.3/src/luaconf.h	2015-02-12 21:12:25.356498674 +0200
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
