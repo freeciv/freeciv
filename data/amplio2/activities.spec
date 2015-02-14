@@ -27,6 +27,7 @@ tiles = { "row", "column", "tag"
  0,  2, "unit.maglev"
 
  1,  0, "unit.fort"
+ 1,  1, "unit.airstrip"
 
  2,  0, "unit.convert"
  2,  1, "unit.fortifying"
