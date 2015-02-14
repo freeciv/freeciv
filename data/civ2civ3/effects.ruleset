@@ -401,6 +401,7 @@ reqs    =
       "OutputType", "Food", "Local"
     }
 
+; base -1% trade each tile
 [effect_corruption_distance]
 type    = "Output_Waste_By_Distance"
 value   = 1
@@ -409,7 +410,7 @@ reqs    =
       "OutputType", "Trade", "Local"
     }
 
-; 1 + 1 = 2
+; 1 + 1 => -2% each tile without advanced tech / govs
 [effect_corruption_distance_ancient]
 type    = "Output_Waste_By_Distance"
 value   = 1
@@ -423,7 +424,7 @@ nreqs   =
       "Gov", "Communism", "Player"
     }
 
-; Total = 0
+; Total = 0 for Communism
 [effect_corruption_distance_communism]
 type    = "Output_Waste_By_Distance"
 value   = -1
@@ -433,7 +434,7 @@ reqs    =
       "OutputType", "Trade", "Local"
     }
 
-; Total = 0
+; Total = 0 for Federation with The Corporation, -1% for Federation alone
 [effect_corruption_distance_federation]
 type    = "Output_Waste_By_Distance"
 value   = -1
@@ -506,6 +507,7 @@ reqs    =
       "OutputType", "Trade", "Local"
     }
 
+; base -1% shields each tile
 [effect_waste_distance]
 type    = "Output_Waste_By_Distance"
 value   = 1
@@ -514,7 +516,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-; 1 + 1 = 2
+; 1 + 1 => -2% each tile without Trade or advanced govs
 [effect_waste_distance_ancient]
 type    = "Output_Waste_By_Distance"
 value   = 1
@@ -525,9 +527,11 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "Tech", "Trade", "Player"
+      "Gov", "Communism", "Player"
+      "Gov", "Federation", "Player"
     }
 
-; 1 - 1 = 0
+; 1 - 1 = 0% with Communism
 [effect_waste_distance_communism]
 type    = "Output_Waste_By_Distance"
 value   = -1
@@ -537,7 +541,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-; 1 - 1 = 0
+; 1 - 1 = 0% with Federation
 [effect_waste_distance_federation]
 type    = "Output_Waste_By_Distance"
 value   = -1
