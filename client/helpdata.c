@@ -2634,7 +2634,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz, _("* Can build mines on tiles.\n"));
     }
     if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, utype) > 0) {
-      CATLSTR(buf, bufsz, _("* Can mine terrain to another.\n"));
+      CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
+                            "mining.\n"));
     }
 
     if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, utype) > 0) {
@@ -2656,7 +2657,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       }
     }
     if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, utype) > 0) {
-      CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
+      CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
+                            "irrigation.\n"));
     }
 
     base_type_iterate(pbase) {
