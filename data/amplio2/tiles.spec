@@ -131,6 +131,7 @@ tiles = { "row", "column", "tag"
   6, 19, "city.t_trade_9"
 
 ; Base building activities
+  8, 12, "unit.airstrip"
   8, 13, "unit.fort"
   8, 14, "unit.maglev"
   8, 15, "unit.fortress"
