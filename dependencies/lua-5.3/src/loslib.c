@@ -58,7 +58,7 @@
 ** uses mkstemp.
 */
 
-#if defined(LUA_USE_POSIX)	/* { */
+#if defined(LUA_USE_MKSTEMP)	/* { */
 
 #include <unistd.h>
 
