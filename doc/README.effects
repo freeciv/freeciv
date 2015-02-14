@@ -439,7 +439,7 @@ Shield2Gold_Factor
     "Shield2Gold" flag will be affected by this.
 
 Tile_Workable
-    If value != 0, city can work target tile.
+    If value > 0, city can work target tile.
 
 Irrig_Possible
     If value > 0, unit can build irrigation to target tile. In addition to

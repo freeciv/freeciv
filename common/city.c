@@ -1357,7 +1357,7 @@ bool base_city_can_work_tile(const struct player *restriction,
     return FALSE;
   }
 
-  if (!get_city_tile_output_bonus(pcity, ptile, NULL, EFT_TILE_WORKABLE)) {
+  if (get_city_tile_output_bonus(pcity, ptile, NULL, EFT_TILE_WORKABLE) <= 0) {
     return FALSE;
   }
 
