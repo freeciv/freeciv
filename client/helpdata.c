@@ -3684,22 +3684,36 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     struct universal for_utype = { .kind = VUT_UTYPE, .value = { .utype = utype }};
+    struct astring extras_and = ASTRING_INIT;
+    struct strvec *extras_vec = strvec_new();
 
     /* Roads, rail, mines, irrigation. */
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       if (help_is_extra_buildable(pextra, utype)) {
-        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                     extra_name_translation(pextra));
+        strvec_append(extras_vec, extra_name_translation(pextra));
       }
     } extra_type_by_cause_iterate_end;
+    if (strvec_size(extras_vec) > 0) {
+      strvec_to_and_list(extras_vec, &extras_and);
+      /* TRANS: %s is list of extra types separated by ',' and 'and' */
+      cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                   astr_str(&extras_and));
+      strvec_clear(extras_vec);
+    }
 
     if (effect_cumulative_max(EFT_MINING_POSSIBLE, &for_utype) > 0) {
       extra_type_by_cause_iterate(EC_MINE, pextra) {
         if (help_is_extra_buildable(pextra, utype)) {
-          cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                       extra_name_translation(pextra));
+          strvec_append(extras_vec, extra_name_translation(pextra));
         }
       } extra_type_by_cause_iterate_end;
+
+      if (strvec_size(extras_vec) > 0) {
+        strvec_to_and_list(extras_vec, &extras_and);
+        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                     astr_str(&extras_and));
+        strvec_clear(extras_vec);
+      }
     }
     if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can mine terrain to another.\n"));
@@ -3708,10 +3722,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_utype) > 0) {
       extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
         if (help_is_extra_buildable(pextra, utype)) {
-          cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                       extra_name_translation(pextra));
+          strvec_append(extras_vec, extra_name_translation(pextra));
         }
       } extra_type_by_cause_iterate_end;
+
+      if (strvec_size(extras_vec) > 0) {
+        strvec_to_and_list(extras_vec, &extras_and);
+        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                     astr_str(&extras_and));
+        strvec_clear(extras_vec);
+      }
     }
     if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_utype) > 0) {
       CATLSTR(buf, bufsz, _("* Can irrigate terrain to another.\n"));
@@ -3719,14 +3739,22 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (help_is_extra_buildable(pextra, utype)) {
-        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                     extra_name_translation(pextra));
+        strvec_append(extras_vec, extra_name_translation(pextra));
       }
     } extra_type_by_cause_iterate_end;
+
+    if (strvec_size(extras_vec) > 0) {
+      strvec_to_and_list(extras_vec, &extras_and);
+      cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
+                   astr_str(&extras_and));
+      strvec_clear(extras_vec);
+    }
 
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
     CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
+
+    strvec_destroy(extras_vec);
   }
 
   if (utype_has_flag(utype, UTYF_SPY)) {
