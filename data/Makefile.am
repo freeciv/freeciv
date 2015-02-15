@@ -49,11 +49,9 @@ endif
 pkgsysconf_DATA = $(SERVER_CONF)
 pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
-# Freeciv.rc was originally for gui-gtk but is also used by gui-sdl
 EXTRA_DIST = \
 	Freeciv	\
 	freeciv-client.png \
-	freeciv.rc	\
 	freeciv.rc-2.0	\
 	gtk_menus.xml	\
 	civserver.dsc.in	\
