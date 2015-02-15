@@ -426,7 +426,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
   gtk_container_add(GTK_CONTAINER(pdialog->active_command), align);
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_container_add(GTK_CONTAINER(align), vbox);
 
   pdialog->active_image = gtk_image_new();
