@@ -277,7 +277,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
     }
   }
 
-  if (player_invention_state(pplayer, id) != TECH_KNOWN) {
+  if (id == A_FUTURE || player_invention_state(pplayer, id) != TECH_KNOWN) {
     do_free_cost(pplayer, id);
     found_new_tech(pplayer, id, FALSE, TRUE);
     result = advance_by_number(id);
