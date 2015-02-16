@@ -1127,6 +1127,11 @@ static void end_phase(void)
     flush_packets();
   } phase_players_iterate_end;
 
+  /* Some player/global effect may have changed cities' vision range */
+  phase_players_iterate(pplayer) {
+    refresh_player_cities_vision(pplayer);
+  } phase_players_iterate_end;
+
   kill_dying_players();
 
   /* Unfreeze sending of cities. */

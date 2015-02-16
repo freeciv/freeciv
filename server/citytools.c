@@ -2914,6 +2914,17 @@ void city_refresh_vision(struct city *pcity)
   ASSERT_VISION(pcity->server.vision);
 }
 
+/****************************************************************************
+  Refresh the vision of all cities owned by a player, for empire-wide
+  effects.
+****************************************************************************/
+void refresh_player_cities_vision(struct player *pplayer)
+{
+  city_list_iterate(pplayer->cities, pcity) {
+    city_refresh_vision(pcity);
+  } city_list_iterate_end;
+}
+
 /**************************************************************************
   Updates the squared city radius. Returns if the radius is changed.
 **************************************************************************/

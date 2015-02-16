@@ -436,6 +436,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
     city_list_iterate(aplayer->cities, pcity) {
       /* Refresh the city data; this also updates the squared city radius. */
       city_refresh(pcity);
+      city_refresh_vision(pcity);
       send_city_info(aplayer, pcity);
     } city_list_iterate_end;
 
