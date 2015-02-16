@@ -107,6 +107,7 @@ bool city_map_update_radius_sq(struct city *pcity);
 
 void city_landlocked_sell_coastal_improvements(struct tile *ptile);
 void city_refresh_vision(struct city *pcity);
+void refresh_player_cities_vision(struct player *pplayer);
 
 void sync_cities(void);
 

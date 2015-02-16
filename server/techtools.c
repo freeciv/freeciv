@@ -441,6 +441,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   cities_iterate(pcity) {
     /* Refresh the city data; this als updates the squared city radius. */
     city_refresh(pcity);
+    city_refresh_vision(pcity);
     send_city_info(city_owner(pcity), pcity);
   } cities_iterate_end;
   
