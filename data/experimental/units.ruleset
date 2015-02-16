@@ -1496,7 +1496,8 @@ roles         = "Ferryboat"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
  as a transport ship and has rudimentary offensive\
- capabilities, but may not enter deep ocean tiles.\
+ capabilities, and unlike later boats can travel on\
+ rivers, but it may not enter deep ocean tiles.\
 ")
 
 [unit_caravel]
