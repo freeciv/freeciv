@@ -713,12 +713,33 @@ bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
 }
 
 /**************************************************************************
+  Is the extra removed by some kind of worker action?
+**************************************************************************/
+bool is_extra_removed_by_worker_action(const struct extra_type *pextra)
+{
+  /* Is any of the worker remove action bits set? */
+  return (pextra->rmcauses
+          & (1 << ERM_CLEANPOLLUTION
+             | 1 << ERM_CLEANFALLOUT
+             | 1 << ERM_PILLAGE));
+}
+
+/**************************************************************************
   Is the extra caused by specific worker action?
 **************************************************************************/
 bool is_extra_caused_by_action(const struct extra_type *pextra,
                                enum unit_activity act)
 {
   return is_extra_caused_by(pextra, activity_to_extra_cause(act));
+}
+
+/**************************************************************************
+  Is the extra removed by specific worker action?
+**************************************************************************/
+bool is_extra_removed_by_action(const struct extra_type *pextra,
+                                enum unit_activity act)
+{
+  return is_extra_removed_by(pextra, activity_to_extra_rmcause(act));
 }
 
 /**************************************************************************

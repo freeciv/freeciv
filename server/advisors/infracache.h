@@ -53,5 +53,9 @@ void adv_city_worker_extra_set(struct city *pcity, int city_tile_index,
                                const struct extra_type *pextra, int value);
 int adv_city_worker_extra_get(const struct city *pcity, int city_tile_index,
                               const struct extra_type *pextra);
+void adv_city_worker_rmextra_set(struct city *pcity, int city_tile_index,
+                                 const struct extra_type *pextra, int value);
+int adv_city_worker_rmextra_get(const struct city *pcity, int city_tile_index,
+                                const struct extra_type *pextra);
 
 #endif   /* FC__INFRACACHE_H */
