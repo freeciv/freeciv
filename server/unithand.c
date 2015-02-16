@@ -2110,9 +2110,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
     /* Are we a bombarder? */
     if (unit_has_type_flag(punit, UTYF_BOMBARDER)) {
-      /* Only land can be bombarded, if the target is on ocean, fall
-       * through to attack. */
-      if (!is_ocean_tile(pdesttile)) {
+      /* Only land can be bombarded; if the target is on ocean (or is
+       * an empty city), fall through to attack/conquer. */
+      if (!is_ocean_tile(pdesttile) && unit_list_size(pdesttile->units) > 0) {
 	if (can_unit_bombard(punit)) {
 	  unit_bombard(punit, pdesttile);
 	  return TRUE;
