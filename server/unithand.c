@@ -1662,8 +1662,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       punit->hp = att_hp;
       pdefender->hp = def_hp;
 
-      combat_veterans(punit, pdefender);
-
       send_combat(punit, pdefender, 0, 1);
   
       send_unit_info(NULL, pdefender);
@@ -1683,10 +1681,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
     city_reduce_size(pcity, 1, pplayer);
     city_refresh(pcity);
     send_city_info(NULL, pcity);
-  }
-
-  if (maybe_make_veteran(punit)) {
-    notify_unit_experience(punit);
   }
 
   send_unit_info(NULL, punit);
