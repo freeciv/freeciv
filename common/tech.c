@@ -98,7 +98,8 @@ Tech_type_id advance_number(const struct advance *padvance)
 **************************************************************************/
 struct advance *advance_by_number(const Tech_type_id atype)
 {
-  if (atype < 0 || atype >= game.control.num_tech_types) {
+  if (atype != A_FUTURE
+      && (atype < 0 || atype >= game.control.num_tech_types)) {
     /* This isn't an error; some callers depend on it. */
     return NULL;
   }
