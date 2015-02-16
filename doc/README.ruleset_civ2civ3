@@ -300,7 +300,7 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
 - Battleship hit points reduced to 30 (was 40), Ironclad and Submarine to 20 (was 30). Doubled the defense of Destroyers against Submarines. Now there is a Rock-paper-scissors relation between Destroyer-Cruiser-Submarine.
 - All units that had Firepower 2 now have Firepower 1, in order to even the power of naval, air, and artillery units, and to simplify the mental calculation to compare them.
 - Artillery and Howitzer receive the ability CityBuster, so their firepower is 1 in open field, and 2 against cities. Removed Ignore Walls for Howitzer (that would bypass the new city defense bonuses), and reduced movement to 1.
-- Bombers and Helicopters receive the Bombarder ability, so they can damage Land units, but they can not kill them, and can not be damaged while attacking. Note they still can kill or die against Sea units.
+- Bombers and Helicopters receive the Bombarder ability: when they attack land units, they can only damage (not kill) them, but damage every unit in a stack or city; and are never damaged while attacking. Note they have a normal attack against sea units (they still can kill or die).
 Halved the attack so it is harder to bombard land enemies successfully. Increased hit points so it is still possible to kill naval units.
 - Air units can perform pillage (representing bombardment of infrastructure). Increased defense of all Air units, in order to discourage the use of Land units to protect them.
 - Helicopters can carry 1 infantry unit, and can only be attacked by Fighters (with no extra attack bonuses).
