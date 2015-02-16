@@ -65,7 +65,7 @@ vars=$$
 
 [settings]
 set={"name","value","gamestart"
-"aifill",12,5
+"aifill",10,5
 "borders","DISABLED","ENABLED"
 "civilwarsize",6,10
 "diplcost",100,0
