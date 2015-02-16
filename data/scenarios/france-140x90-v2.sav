@@ -64,7 +64,7 @@ vars=$$
 
 [settings]
 set={"name","value","gamestart"
-"aifill",18,5
+"aifill",15,5
 "borders","EXPAND","ENABLED"
 "citynames","GLOBAL_UNIQUE","PLAYER_UNIQUE"
 "civilwarsize",6,10
