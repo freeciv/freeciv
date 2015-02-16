@@ -75,6 +75,7 @@ struct settlermap {
 
 Activity_type_id as_activities_transform[ACTIVITY_LAST];
 Activity_type_id as_activities_extra[ACTIVITY_LAST];
+Activity_type_id as_activities_rmextra[ACTIVITY_LAST];
 
 /**************************************************************************
   Initialize advisor systems.
@@ -86,12 +87,6 @@ void advisors_init(void)
   as_activities_transform[i++] = ACTIVITY_IRRIGATE;
   as_activities_transform[i++] = ACTIVITY_MINE;
   as_activities_transform[i++] = ACTIVITY_TRANSFORM;
-
-  /* TODO: Pollution and Fallout are not transform type of activities,
-   *       but the autosettlers code currently expects them to be in this list */
-  as_activities_transform[i++] = ACTIVITY_POLLUTION;
-  as_activities_transform[i++] = ACTIVITY_FALLOUT;
-
   as_activities_transform[i++] = ACTIVITY_LAST;
 
   i = 0;
@@ -100,6 +95,12 @@ void advisors_init(void)
   as_activities_extra[i++] = ACTIVITY_GEN_ROAD;
   as_activities_extra[i++] = ACTIVITY_BASE;
   as_activities_extra[i++] = ACTIVITY_LAST;
+
+  i = 0;
+  as_activities_rmextra[i++] = ACTIVITY_POLLUTION;
+  as_activities_rmextra[i++] = ACTIVITY_FALLOUT;
+  /* We could have ACTIVITY_PILLAGE here, but currently we don't */
+  as_activities_rmextra[i++] = ACTIVITY_LAST;
 }
 
 /**************************************************************************
@@ -508,15 +509,6 @@ int settler_evaluate_improvements(struct unit *punit,
                 time++;
               }
 
-              if (rmcause != ERM_NONE && target != NULL) {
-                if (extra_has_flag(target, EF_GLOBAL_WARMING)) {
-                  extra = pplayer->ai_common.warmth;
-                }
-                if (extra_has_flag(target, EF_NUCLEAR_WINTER)) {
-                  extra = pplayer->ai_common.frost;
-                }
-              }
-
               consider_settler_action(pplayer, act, target, extra, base_value,
                                       oldv, in_use, time,
                                       &best_newv, &best_oldv, &improve_worked,
@@ -530,24 +522,44 @@ int settler_evaluate_improvements(struct unit *punit,
             enum unit_activity act = ACTIVITY_LAST;
             enum unit_activity eval_act = ACTIVITY_LAST;
             int base_value;
+            bool removing = tile_has_extra(ptile, pextra);
 
-            as_extra_activity_iterate(try_act) {
-              if (is_extra_caused_by_action(pextra, try_act)) {
-                eval_act = try_act;
-                if (can_unit_do_activity_targeted_at(punit, try_act, pextra,
-                                                     ptile)) {
-                  act = try_act;
-                  break;
+            if (removing) {
+              as_rmextra_activity_iterate(try_act) {
+                if (is_extra_removed_by_action(pextra, try_act)) {
+                  /* We do not even evaluate actions we can't do.
+                   * Removal is not considered prerequisite for anything */
+                  if (can_unit_do_activity_targeted_at(punit, try_act, pextra,
+                                                       ptile)) {
+                    act = try_act;
+                    eval_act = act;
+                    break;
+                  }
                 }
-              }
-            } as_extra_activity_iterate_end;
+              } as_rmextra_activity_iterate_end;
+            } else {
+              as_extra_activity_iterate(try_act) {
+                if (is_extra_caused_by_action(pextra, try_act)) {
+                  eval_act = try_act;
+                  if (can_unit_do_activity_targeted_at(punit, try_act, pextra,
+                                                       ptile)) {
+                    act = try_act;
+                    break;
+                  }
+                }
+              } as_extra_activity_iterate_end;
+            }
 
             if (eval_act == ACTIVITY_LAST) {
-              /* No activity can provide the extra */
+              /* No activity can provide (or remove) the extra */
               continue;
             }
 
-            base_value = adv_city_worker_extra_get(pcity, cindex, pextra);
+            if (removing) {
+              base_value = adv_city_worker_rmextra_get(pcity, cindex, pextra);
+            } else {
+              base_value = adv_city_worker_extra_get(pcity, cindex, pextra);
+            }
 
             if (base_value >= 0) {
               int extra;
@@ -567,8 +579,11 @@ int settler_evaluate_improvements(struct unit *punit,
                 int mc_divisor = 1;
                 int old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
 
+                /* Here 'old' means actually 'without the evaluated': In case of
+                 * removal activity it's the value after the removal. */
+
                 road_type_iterate(pold) {
-                  if (tile_has_road(ptile, pold)) {
+                  if (tile_has_road(ptile, pold) && pold != proad) {
                     /* This ignores the fact that new road may be native to units that
                      * old road is not. */
                     if (pold->move_cost < old_move_cost) {
@@ -591,8 +606,23 @@ int settler_evaluate_improvements(struct unit *punit,
                 }
 
                 extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
+
+                if (removing) {
+                  extra = -extra;
+                }
               } else {
                 extra = 0;
+              }
+
+              if (extra_has_flag(pextra, EF_GLOBAL_WARMING)) {
+                extra -= pplayer->ai_common.warmth;
+              }
+              if (extra_has_flag(pextra, EF_NUCLEAR_WINTER)) {
+                extra -= pplayer->ai_common.frost;
+              }
+
+              if (removing) {
+                extra = -extra;
               }
 
               if (act != ACTIVITY_LAST) {
@@ -602,6 +632,8 @@ int settler_evaluate_improvements(struct unit *punit,
                                         &best_delay, best_act, best_target,
                                         best_tile, ptile);
               } else {
+                fc_assert(!removing);
+
                 road_deps_iterate(&(pextra->reqs), pdep) {
                   struct extra_type *dep_tgt;
 

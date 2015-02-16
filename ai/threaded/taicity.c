@@ -191,15 +191,26 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
 
     extra_type_iterate(tgt) {
       enum unit_activity act = ACTIVITY_LAST;
+      bool removing = tile_has_extra(ptile, tgt);
 
       unit_list_iterate(units, punit) {
-        as_extra_activity_iterate(try_act) {
-          if (is_extra_caused_by_action(tgt, try_act)
-              && can_unit_do_activity_targeted_at(punit, try_act, tgt, ptile)) {
-            act = try_act;
-            break;
-          }
-        } as_extra_activity_iterate_end;
+        if (removing) {
+          as_rmextra_activity_iterate(try_act) {
+            if (is_extra_removed_by_action(tgt, try_act)
+                && can_unit_do_activity_targeted_at(punit, try_act, tgt, ptile)) {
+              act = try_act;
+              break;
+            }
+          } as_rmextra_activity_iterate_end;
+        } else {
+          as_extra_activity_iterate(try_act) {
+            if (is_extra_caused_by_action(tgt, try_act)
+                && can_unit_do_activity_targeted_at(punit, try_act, tgt, ptile)) {
+              act = try_act;
+              break;
+            }
+          } as_extra_activity_iterate_end;
+        }
       } unit_list_iterate_end;
 
       if (act != ACTIVITY_LAST) {
@@ -231,10 +242,12 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
           int mc_multiplier = 1;
           int mc_divisor = 1;
 
+          /* Here 'old' means actually 'without the evaluated': In case of
+           * removal activity it's the value after the removal. */
           old_move_cost = tile_terrain(ptile)->movement_cost * SINGLE_MOVE;
 
           road_type_iterate(pold) {
-            if (tile_has_road(ptile, pold)) {
+            if (tile_has_road(ptile, pold) && pold != proad) {
               if (road_provides_move_bonus(pold)
                   && pold->move_cost < old_move_cost) {
                 old_move_cost = pold->move_cost;
@@ -257,6 +270,9 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
 
           extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
 
+          if (removing) {
+            extra = -extra;
+          }
         } else {
           extra = 0;
         }

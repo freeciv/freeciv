@@ -35,6 +35,7 @@
 struct worker_activity_cache {
   int act[ACTIVITY_LAST];
   int extra[MAX_EXTRA_TYPES];
+  int rmextra[MAX_EXTRA_TYPES];
 };
 
 static int adv_calc_irrigate_transform(const struct city *pcity,
@@ -42,12 +43,10 @@ static int adv_calc_irrigate_transform(const struct city *pcity,
 static int adv_calc_mine_transform(const struct city *pcity, const struct tile *ptile);
 static int adv_calc_transform(const struct city *pcity,
                               const struct tile *ptile);
-static int adv_calc_pollution(const struct city *pcity,
-                              const struct tile *ptile, int best);
-static int adv_calc_fallout(const struct city *pcity,
-                            const struct tile *ptile, int best);
 static int adv_calc_extra(const struct city *pcity, const struct tile *ptile,
                           const struct extra_type *pextra);
+static int adv_calc_rmextra(const struct city *pcity, const struct tile *ptile,
+                            const struct extra_type *pextra);
 
 /**************************************************************************
   Calculate the benefit of irrigating the given tile.
@@ -176,88 +175,6 @@ static int adv_calc_transform(const struct city *pcity,
 }
 
 /**************************************************************************
-  Calculates the value of removing pollution at the given tile.
-
-  The return value is the goodness of the tile after the cleanup.  This
-  should be compared to the goodness of the tile currently (see
-  city_tile_value(); note that this depends on the AI's weighting
-  values).
-**************************************************************************/
-static int adv_calc_pollution(const struct city *pcity,
-                              const struct tile *ptile, int best)
-{
-  int goodness;
-  struct tile *vtile;
-  bool polluted = FALSE;
-
-  fc_assert_ret_val(ptile != NULL, -1);
-
-  vtile = tile_virtual_new(ptile);
-
-  extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-    if (tile_has_extra(ptile, pextra)) {
-      polluted = TRUE;
-      tile_remove_extra(vtile, pextra);
-    }
-  } extra_type_by_rmcause_iterate_end;
-
-  if (!polluted) {
-    goodness = -1;
-  } else {
-    goodness = city_tile_value(pcity, vtile, 0, 0);
-
-    /* FIXME: need a better way to guarantee pollution is cleaned up. */
-    goodness = (goodness + best + 50) * 2;
-  }
-
-  tile_virtual_destroy(vtile);
-
-  return goodness;
-}
-
-/**************************************************************************
-  Calculates the value of removing fallout at the given tile.
-
-  The return value is the goodness of the tile after the cleanup.  This
-  should be compared to the goodness of the tile currently (see
-  city_tile_value(); note that this depends on the AI's weighting
-  values).
-**************************************************************************/
-static int adv_calc_fallout(const struct city *pcity,
-                            const struct tile *ptile, int best)
-{
-  int goodness;
-  struct tile *vtile;
-  bool polluted = FALSE;
-
-  fc_assert_ret_val(ptile != NULL, -1);
-
-  vtile = tile_virtual_new(ptile);
-
-  extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-    if (tile_has_extra(ptile, pextra)) {
-      tile_remove_extra(vtile, pextra);
-      polluted = TRUE;
-    }
-  } extra_type_by_rmcause_iterate_end;
-
-  if (!polluted) {
-    goodness = -1;
-  } else {
-    goodness = city_tile_value(pcity, vtile, 0, 0);
-
-    /* FIXME: need a better way to guarantee fallout is cleaned up. */
-    if (!city_owner(pcity)->ai_controlled) {
-      goodness = (goodness + best + 50) * 2;
-    }
-  }
-
-  tile_virtual_destroy(vtile);
-
-  return goodness;
-}
-
-/**************************************************************************
   Calculate the benefit of building an extra at the given tile.
 
   The return value is the goodness of the tile after the extra is built.
@@ -296,26 +213,30 @@ static int adv_calc_extra(const struct city *pcity, const struct tile *ptile,
 }
 
 /**************************************************************************
-  Returns city_tile_value of the best tile worked by or available to pcity.
+  Calculate the benefit of removing an extra from the given tile.
+
+  The return value is the goodness of the tile after the extra is removed.
+  This should be compared to the goodness of the tile currently (see
+  city_tile_value(); note that this depends on the AI's weighting
+  values).
 **************************************************************************/
-static int best_worker_tile_value(struct city *pcity)
+static int adv_calc_rmextra(const struct city *pcity, const struct tile *ptile,
+                            const struct extra_type *pextra)
 {
-  struct tile *pcenter = city_tile(pcity);
-  int best = 0;
+  int goodness = -1;
 
-  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
-    if (is_free_worked(pcity, ptile)
-	|| tile_worked(ptile) == pcity /* quick test */
-	|| city_can_work_tile(pcity, ptile)) {
-      int tmp = city_tile_value(pcity, ptile, 0, 0);
+  fc_assert_ret_val(ptile != NULL, -1);
 
-      if (best < tmp) {
-	best = tmp;
-      }
-    }
-  } city_tile_iterate_end;
+  if (player_can_remove_extra(pextra, city_owner(pcity), ptile)) {
+    struct tile *vtile = tile_virtual_new(ptile);
 
-  return best;
+    tile_remove_extra(vtile, pextra);
+
+    goodness = city_tile_value(pcity, vtile, 0, 0);
+    tile_virtual_destroy(vtile);
+  }
+
+  return goodness;
 }
 
 /**************************************************************************
@@ -330,7 +251,6 @@ void initialize_infrastructure_cache(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);
     int radius_sq = city_map_radius_sq_get(pcity);
-    int best = best_worker_tile_value(pcity);
 
     city_map_iterate(radius_sq, city_index, city_x, city_y) {
       as_transform_activity_iterate(act) {
@@ -339,10 +259,6 @@ void initialize_infrastructure_cache(struct player *pplayer)
     } city_map_iterate_end;
 
     city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {
-      adv_city_worker_act_set(pcity, cindex, ACTIVITY_POLLUTION,
-                              adv_calc_pollution(pcity, ptile, best));
-      adv_city_worker_act_set(pcity, cindex, ACTIVITY_FALLOUT,
-                              adv_calc_fallout(pcity, ptile, best));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
                               adv_calc_mine_transform(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
@@ -362,6 +278,12 @@ void initialize_infrastructure_cache(struct player *pplayer)
                                     adv_calc_extra(pcity, ptile, pextra));
         } else {
           adv_city_worker_extra_set(pcity, cindex, pextra, 0);
+        }
+        if (tile_has_extra(ptile, pextra) && is_extra_removed_by_worker_action(pextra)) {
+          adv_city_worker_rmextra_set(pcity, cindex, pextra,
+                                      adv_calc_rmextra(pcity, ptile, pextra));
+        } else {
+          adv_city_worker_rmextra_set(pcity, cindex, pextra, 0);
         }
       } extra_type_iterate_end;
     } city_tile_iterate_index_end;
@@ -470,6 +392,32 @@ void adv_city_worker_extra_set(struct city *pcity, int city_tile_index,
 }
 
 /**************************************************************************
+  Set the value for extra removal on tile 'city_tile_index' of
+  city 'pcity'.
+**************************************************************************/
+void adv_city_worker_rmextra_set(struct city *pcity, int city_tile_index,
+                                 const struct extra_type *pextra, int value)
+{
+  if (pcity->server.adv->act_cache_radius_sq
+      != city_map_radius_sq_get(pcity)) {
+    log_debug("update activity cache for %s: radius_sq changed from "
+              "%d to %d", city_name(pcity),
+              pcity->server.adv->act_cache_radius_sq,
+              city_map_radius_sq_get(pcity));
+    adv_city_update(pcity);
+  }
+
+  fc_assert_ret(NULL != pcity);
+  fc_assert_ret(NULL != pcity->server.adv);
+  fc_assert_ret(NULL != pcity->server.adv->act_cache);
+  fc_assert_ret(pcity->server.adv->act_cache_radius_sq
+                == city_map_radius_sq_get(pcity));
+  fc_assert_ret(city_tile_index < city_map_tiles_from_city(pcity));
+
+  (pcity->server.adv->act_cache[city_tile_index]).rmextra[extra_index(pextra)] = value;
+}
+
+/**************************************************************************
   Return the value for extra on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -484,6 +432,23 @@ int adv_city_worker_extra_get(const struct city *pcity, int city_tile_index,
   fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
 
   return (pcity->server.adv->act_cache[city_tile_index]).extra[extra_index(pextra)];
+}
+
+/**************************************************************************
+  Return the value for extra removal on tile 'city_tile_index' of
+  city 'pcity'.
+**************************************************************************/
+int adv_city_worker_rmextra_get(const struct city *pcity, int city_tile_index,
+                                const struct extra_type *pextra)
+{
+  fc_assert_ret_val(NULL != pcity, 0);
+  fc_assert_ret_val(NULL != pcity->server.adv, 0);
+  fc_assert_ret_val(NULL != pcity->server.adv->act_cache, 0);
+  fc_assert_ret_val(pcity->server.adv->act_cache_radius_sq
+                     == city_map_radius_sq_get(pcity), 0);
+  fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
+
+  return (pcity->server.adv->act_cache[city_tile_index]).rmextra[extra_index(pextra)];
 }
 
 /**************************************************************************
