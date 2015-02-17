@@ -1401,6 +1401,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "w_hoover_dam"
 sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Acts as a Hydro Plant in the city where it is built, and reduces \
 pollution from shield production by a further 25% in all cities \

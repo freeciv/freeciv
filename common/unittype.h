@@ -129,21 +129,24 @@ struct unit_class {
 #define SPECENUM_VALUE1 UTYF_HELP_WONDER
 #define SPECENUM_VALUE1NAME N_("HelpWonder")
 #define SPECENUM_VALUE2 UTYF_IGZOC
+/* TRANS: unit type flag (rarely shown): "ignore zones of control" */
 #define SPECENUM_VALUE2NAME N_("IgZOC")
 #define SPECENUM_VALUE3 UTYF_CIVILIAN
 #define SPECENUM_VALUE3NAME N_("NonMil")
 #define SPECENUM_VALUE4 UTYF_IGTER
+/* TRANS: unit type flag (rarely shown): "ignore terrain" */
 #define SPECENUM_VALUE4NAME N_("IgTer")
 #define SPECENUM_VALUE5 UTYF_ONEATTACK
 #define SPECENUM_VALUE5NAME N_("OneAttack")
 /* Ignores EFT_DEFEND_BONUS (for example city walls) */
+/* TRANS: unit type flag (rarely shown): "ignore walls */
 #define SPECENUM_VALUE6 UTYF_IGWALL
 #define SPECENUM_VALUE6NAME N_("IgWall")
 #define SPECENUM_VALUE7 UTYF_FIELDUNIT
 #define SPECENUM_VALUE7NAME N_("FieldUnit")
 #define SPECENUM_VALUE8 UTYF_MARINES
 #define SPECENUM_VALUE8NAME N_("Marines")
-/* Invisibile except when adjacent (Submarine) */
+/* Invisible except when adjacent (Submarine) */
 #define SPECENUM_VALUE9 UTYF_PARTIAL_INVIS
 #define SPECENUM_VALUE9NAME N_("Partial_Invis")
 /* Does not include ability to found cities */
