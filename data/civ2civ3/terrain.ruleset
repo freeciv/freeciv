@@ -1106,6 +1106,7 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present"
       "TerrainFlag", "Oil", "Local", FALSE
+      "UnitClass", "Sea", "Local", FALSE
     }
 build_time     = 0
 removal_time   = 0
@@ -1232,6 +1233,7 @@ reqs           =
       "Tech", "Construction", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
+      "UnitClass", "Sea", "Local", FALSE
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 2
@@ -1262,6 +1264,7 @@ reqs           =
       "Tech", "Construction", "Player", TRUE
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Settlers", "Local", TRUE
+      "UnitClass", "Sea", "Local", FALSE
       "CityTile", "Center", "Local", FALSE
     }
 build_time     = 2
@@ -1398,9 +1401,10 @@ act_gfx_alt    = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+    { "type", "name", "range", "present"
+      "UnitFlag", "Settlers", "Local", TRUE
+      "UnitClass", "Sea", "Local", FALSE
+      "TerrainClass", "Land", "Local", TRUE
     }
 build_time     = 0
 removal_time   = 0
@@ -1433,11 +1437,12 @@ act_gfx_alt    = "unit.road"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Railroad", "Player"
-      "Extra", "Road", "Local"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+    { "type", "name", "range", "present"
+      "Tech", "Railroad", "Player", TRUE
+      "Extra", "Road", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "UnitClass", "Sea", "Local", FALSE
+      "TerrainClass", "Land", "Local", TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1469,11 +1474,12 @@ act_gfx_alt    = "unit.road"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Superconductors", "Player"
-      "Extra", "Railroad", "Local"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+    { "type", "name", "range", "present"
+      "Tech", "Superconductors", "Player", TRUE
+      "Extra", "Railroad", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "UnitClass", "Sea", "Local", FALSE
+      "TerrainClass", "Land", "Local", TRUE
     }
 build_time     = 3
 removal_time   = 0
