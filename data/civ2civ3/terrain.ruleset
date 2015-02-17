@@ -1048,6 +1048,7 @@ reqs           =
       "Tech", "Construction", "Player", FALSE
       "TerrainClass", "Land", "Local", FALSE
       "UnitFlag", "Settlers", "Local", FALSE
+      "UnitClass", "Sea", "Local", TRUE
       "CityTile", "Center", "Local", TRUE
       "Road", "River", "Local", TRUE
     }
@@ -1222,9 +1223,10 @@ graphic_alt    = "-"
 activity_gfx   = "unit.road"
 act_gfx_alt    = "-"
 reqs           =
-    { "type", "name", "range"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+    { "type", "name", "range", "negated"
+      "UnitFlag", "Settlers", "Local", FALSE
+      "UnitClass", "Sea", "Local", TRUE
+      "TerrainClass", "Land", "Local", FALSE
     }
 move_cost      = 2
 build_time     = 0
@@ -1259,11 +1261,12 @@ graphic_alt    = "-"
 activity_gfx   = "unit.rail"
 act_gfx_alt    = "unit.road"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Railroad", "Player"
-      "Road", "Road", "Local"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+    { "type", "name", "range", "negated"
+      "Tech", "Railroad", "Player", FALSE
+      "Road", "Road", "Local", FALSE
+      "UnitFlag", "Settlers", "Local", FALSE
+      "UnitClass", "Sea", "Local", TRUE
+      "TerrainClass", "Land", "Local", FALSE
     }
 move_cost      = 1
 build_time     = 3
