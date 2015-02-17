@@ -243,15 +243,8 @@ dnl checks for MagickWand mapimg support
 dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
 FC_MAPIMG_MAGICKWAND
 
-AC_ARG_ENABLE([fcweb],
-  AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
-[case "${enableval}" in
-  yes)
-    fcweb=true ;;
-  no)
-    fcweb=false ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcweb]) ;;
-esac], [fcweb=false])
+dnl Option not available in stable branch
+fcweb=false
 
 FC_WEB_CLIENT
 
