@@ -23,10 +23,7 @@
 #ifdef HAVE_MKSTEMP
 #define LUA_USE_MKSTEMP
 #endif
-#ifdef HAVE_ISATTY
-#define LUA_USE_ISATTY
-#endif
-#ifdef HAVE_POPEN
+#if defined(HAVE_POPEN) && defined(HAVE_PCLOSE)
 #define LUA_USE_POPEN
 #endif
 #if defined(HAVE__LONGJMP) && defined(HAVE__SETJMP)
