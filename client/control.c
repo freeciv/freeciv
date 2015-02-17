@@ -779,9 +779,18 @@ double blink_turn_done_button(void)
       && !client.conn.playing->phase_done) {
     if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;
+      bool blocking_mode;
+      struct option *opt;
+
+      opt = optset_option_by_name(server_optset, "turnblock");
+      if (opt != NULL) {
+        blocking_mode = option_bool_get(opt);
+      } else {
+        blocking_mode = FALSE;
+      }
 
       players_iterate_alive(pplayer) {
-        if (pplayer->is_connected) {
+        if (pplayer->is_connected || blocking_mode) {
           if (pplayer->phase_done) {
             is_waiting++;
           } else {
