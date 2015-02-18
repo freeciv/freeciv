@@ -1602,6 +1602,7 @@ void server_quit(void)
   timing_log_free();
   registry_module_close();
   fc_destroy_mutex(&game.server.mutexes.city_list);
+  free_libfreeciv();
   free_nls();
   con_log_close();
   exit(EXIT_SUCCESS);

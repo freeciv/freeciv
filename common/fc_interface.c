@@ -63,3 +63,11 @@ void fc_interface_init(void)
 
   setup_real_activities_array();
 }
+
+/**************************************************************************
+  Free misc resources allocated for libfreeciv.
+**************************************************************************/
+void free_libfreeciv(void)
+{
+  free_data_dir_names();
+}

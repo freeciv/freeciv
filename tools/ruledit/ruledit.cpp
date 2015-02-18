@@ -26,6 +26,7 @@
 
 /* common */
 #include "fc_cmdhelp.h"
+#include "fc_interface.h"
 #include "version.h"
 
 /* server */
@@ -93,6 +94,7 @@ int main(int argc, char **argv)
 
   registry_module_close();
   log_close();
+  free_libfreeciv();
   free_nls();
 
   return EXIT_SUCCESS;

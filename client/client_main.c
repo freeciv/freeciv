@@ -696,6 +696,7 @@ void client_exit(void)
   conn_list_destroy(game.est_connections);
 
   registry_module_close();
+  free_libfreeciv();
   free_nls();
 
   backtrace_deinit();
