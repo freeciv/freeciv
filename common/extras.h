@@ -71,6 +71,12 @@ struct extra_type
 
   struct requirement_vector reqs;
   struct requirement_vector rmreqs;
+
+  /* 'buildable' is unclean. Clean solution would be to rely solely on extra_cause:
+   * if the extra cannot be built, it's not in the cause's list.
+   * But we currently rely on actually-not-buildable extras to be on the lists,
+   * for example for the editor to list non-buildable but editor-placeable
+   * extras. */
   bool buildable;
   int build_time;
   int build_time_factor;

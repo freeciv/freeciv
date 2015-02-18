@@ -3315,6 +3315,17 @@ static bool help_is_extra_buildable(struct extra_type *pextra,
 }
 
 /****************************************************************
+  Is unit type ever able to clean out an extra
+*****************************************************************/
+static bool help_is_extra_cleanable(struct extra_type *pextra,
+                                    struct unit_type *ptype)
+{
+  return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
+                         NULL, ptype, NULL, NULL, &pextra->rmreqs,
+                         RPT_POSSIBLE);
+}
+
+/****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
 
@@ -3753,8 +3764,31 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     /* Pollution, fallout. */
-    CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
-    CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
+    extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+      if (help_is_extra_cleanable(pextra, utype)) {
+        strvec_append(extras_vec, extra_name_translation(pextra));
+     }
+    } extra_type_by_rmcause_iterate_end;
+
+    if (strvec_size(extras_vec) > 0) {
+      strvec_to_and_list(extras_vec, &extras_and);
+      cat_snprintf(buf, bufsz, _("* Can clean %s from tiles.\n"),
+                   astr_str(&extras_and));
+      strvec_clear(extras_vec);
+    }
+    
+    extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
+      if (help_is_extra_cleanable(pextra, utype)) {
+        strvec_append(extras_vec, extra_name_translation(pextra));
+      }
+    } extra_type_by_rmcause_iterate_end;
+
+    if (strvec_size(extras_vec) > 0) {
+      strvec_to_and_list(extras_vec, &extras_and);
+      cat_snprintf(buf, bufsz, _("* Can clean %s from tiles.\n"),
+                   astr_str(&extras_and));
+      strvec_clear(extras_vec);
+    }
 
     strvec_destroy(extras_vec);
   }
