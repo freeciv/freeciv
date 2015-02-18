@@ -485,6 +485,14 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit is being transported, and"
                     " so cannot act."));
+  } else if (!unit_transported(punit)
+             && !can_unit_act_when_ustate_is(unit_type(punit),
+                                             USP_TRANSPORTED, FALSE)) {
+    /* Explaination: not being transported. */
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act when it isn't being "
+                    "transported."));
   } else if ((must_war_player = need_war_player(punit,
                                                 target_tile,
                                                 target_city,
