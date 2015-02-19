@@ -80,13 +80,15 @@ void update_turn_done_button(bool do_restore)
   }
 
   if ((do_restore && flip) || !do_restore) {
-    GdkColor *fore = &gtk_widget_get_style(turn_done_button)->bg[GTK_STATE_NORMAL];
-    GdkColor *back = &gtk_widget_get_style(turn_done_button)->light[GTK_STATE_NORMAL];
+    GdkRGBA fore;
+    GdkRGBA back;
+    GtkStyleContext *context = gtk_widget_get_style_context(turn_done_button);
 
-    gtk_widget_get_style(turn_done_button)->bg[GTK_STATE_NORMAL] = *back;
-    gtk_widget_get_style(turn_done_button)->light[GTK_STATE_NORMAL] = *fore;
+    gtk_style_context_get_color(context, GTK_STATE_FLAG_NORMAL, &fore);
+    gtk_style_context_get_background_color(context, GTK_STATE_FLAG_NORMAL, &back);
 
-    gtk_expose_now(turn_done_button);
+    gtk_widget_override_color(turn_done_button, GTK_STATE_FLAG_NORMAL, &back);
+    gtk_widget_override_background_color(turn_done_button, GTK_STATE_FLAG_NORMAL, &fore);
 
     flip = !flip;
   }
