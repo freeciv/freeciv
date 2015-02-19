@@ -152,7 +152,7 @@ static void inclinenumber (LexState *ls) {
   if (currIsNewline(ls) && ls->current != old)
     next(ls);  /* skip `\n\r' or `\r\n' */
   if (++ls->linenumber >= MAX_INT)
-    luaX_syntaxerror(ls, "chunk has too many lines");
+    lexerror(ls, "chunk has too many lines", 0);
 }
 
 
