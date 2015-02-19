@@ -31,7 +31,7 @@ tiles = { "row", "column", "tag"
   0, 1, "unit.rail"
   0, 2, "unit.maglev"
 
-  1, 0, "unit.fort"
+  1, 0, "unit.outpost"
   1, 1, "unit.airstrip"
   1, 2, "unit.fortress"
   1, 3, "unit.airbase"
