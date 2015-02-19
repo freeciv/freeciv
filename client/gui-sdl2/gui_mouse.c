@@ -113,7 +113,7 @@ void draw_mouse_cursor(void)
       area.h = current_color_cursor.cursor->h;
 
       /* show cursor */
-      alphablit(current_color_cursor.cursor, NULL, Main.mainsurf, &area, 255);
+      screen_blit(current_color_cursor.cursor, NULL, &area, 255);
       /* update screen */
       update_main_screen();
 #if 0

@@ -54,6 +54,8 @@
 
 struct main Main;
 
+static SDL_Surface *main_surface;
+
 /**************************************************************************
   Allocate new gui_layer.
 **************************************************************************/
@@ -196,6 +198,15 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
   }
 
   return ret;
+}
+
+/**************************************************************************
+  Execute alphablit to the main surface
+**************************************************************************/
+int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
+                unsigned char alpha_mod)
+{
+  return alphablit(src, srcrect, main_surface, dstrect, alpha_mod);
 }
 
 /**************************************************************************
@@ -360,24 +371,32 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
    create an surface with format
    MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
-SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
-                                     int iWidth, int iHeight,
-                                     Uint32 iFlags)
+SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
+                                     int width, int height,
+                                     Uint32 flags)
 {
-  SDL_Surface *pSurf = SDL_CreateRGBSurface(iFlags, iWidth, iHeight,
-                                            pSpf->BitsPerPixel,
-                                            pSpf->Rmask,
-                                            pSpf->Gmask,
-                                            pSpf->Bmask, pSpf->Amask);
+  SDL_Surface *surf = SDL_CreateRGBSurface(flags, width, height,
+                                           pf->BitsPerPixel,
+                                           pf->Rmask,
+                                           pf->Gmask,
+                                           pf->Bmask, pf->Amask);
 
-  if (!pSurf) {
+  if (surf == NULL) {
     log_error(_("Unable to create Sprite (Surface) of size "
                 "%d x %d %d Bits in format %d"),
-              iWidth, iHeight, pSpf->BitsPerPixel, iFlags);
+              width, height, pf->BitsPerPixel, flags);
     return NULL;
   }
 
-  return pSurf;
+  return surf;
+}
+
+/**************************************************************************
+  Create surface with the same format as main window
+**************************************************************************/
+SDL_Surface *create_surf(int width, int height, Uint32 flags)
+{
+  return create_surf_with_format(main_surface->format, width, height, flags);
 }
 
 /**************************************************************************
@@ -623,7 +642,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                  iWidth, iHeight,
                                  0);
 
-  Main.mainsurf = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+  main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
 #if SDL_BYTEORDER != SDL_LIL_ENDIAN
                 0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
 #else
@@ -717,10 +736,26 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 void update_main_screen(void)
 {
   SDL_UpdateTexture(Main.maintext, NULL,
-                    Main.mainsurf->pixels, Main.mainsurf->pitch);
+                    main_surface->pixels, main_surface->pitch);
   SDL_RenderClear(Main.renderer);
   SDL_RenderCopy(Main.renderer, Main.maintext, NULL, NULL);
   SDL_RenderPresent(Main.renderer);
+}
+
+/**************************************************************************
+  Return width of the main window
+**************************************************************************/
+int main_window_width(void)
+{
+  return main_surface->w;
+}
+
+/**************************************************************************
+  Return height of the main window
+**************************************************************************/
+int main_window_height(void)
+{
+  return main_surface->h;
 }
 
 /**************************************************************************

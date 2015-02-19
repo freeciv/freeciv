@@ -541,9 +541,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
     srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
 
-    alphablit(info_label, &srcrect, Main.mainsurf, &dstrect, 255);
+    screen_blit(info_label, &srcrect, &dstrect, 255);
   } else {
-    alphablit(info_label, NULL, Main.mainsurf, pInfo_Area, 255);
+    screen_blit(info_label, NULL, pInfo_Area, 255);
   }
 
   if (correct_rect_region(pInfo_Area)) {

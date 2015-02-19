@@ -116,13 +116,13 @@ void flush_rect(SDL_Rect *rect, bool force_flush)
       if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, rect, Main.mainsurf, &dst, 255);
+      screen_blit(Main.map, rect, &dst, 255);
       if (Main.guis) {
         while ((i < Main.guis_count) && Main.guis[i]) {
           src = *rect;
           screen_rect_to_layer_rect(Main.guis[i], &src);
           dst = *rect;
-          alphablit(Main.guis[i++]->surface, &src, Main.mainsurf, &dst, 255);
+          screen_blit(Main.guis[i++]->surface, &src, &dst, 255);
         }
       }
       i = 0;
@@ -228,12 +228,12 @@ void flush_dirty(void)
       flush_mapcanvas(0, 0, main_window_width(), main_window_height());
       refresh_overview();
     }
-    alphablit(Main.map, NULL, Main.mainsurf, NULL, 255);
+    screen_blit(Main.map, NULL, NULL, 255);
     if (Main.guis) {
       while((j < Main.guis_count) && Main.guis[j]) {
         SDL_Rect dst = Main.guis[j]->dest_rect;
 
-        alphablit(Main.guis[j++]->surface, NULL, Main.mainsurf, &dst, 255);
+        screen_blit(Main.guis[j++]->surface, NULL, &dst, 255);
       }
     }
     j = 0;
@@ -252,14 +252,14 @@ void flush_dirty(void)
       if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      alphablit(Main.map, &Main.rects[i], Main.mainsurf, &dst, 255);
+      screen_blit(Main.map, &Main.rects[i], &dst, 255);
 
       if (Main.guis) {
         while ((j < Main.guis_count) && Main.guis[j]) {
           src = Main.rects[i];
           screen_rect_to_layer_rect(Main.guis[j], &src);
           dst = Main.rects[i];
-          alphablit(Main.guis[j++]->surface, &src, Main.mainsurf, &dst, 255);
+          screen_blit(Main.guis[j++]->surface, &src, &dst, 255);
         }
       }
       j = 0;
