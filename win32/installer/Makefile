@@ -115,7 +115,6 @@ COMMON_DLLS := \
 	libogg-0.dll \
 	libpango-1.0-0.dll \
 	libpangocairo-1.0-0.dll \
-	libpangoft2-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
 	libpixman-1-0.dll \
 	libpng14-14.dll \
