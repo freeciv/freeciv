@@ -190,7 +190,6 @@ struct main {
   int guis_count;		/* gui buffers array counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
   SDL_Window *screen;           /* main screen buffer */
-  SDL_Surface *mainsurf;
   SDL_Surface *map;		/* map buffer */
   SDL_Surface *dummy;           /* dummy surface for missing sprites */
   SDL_Texture *maintext;
@@ -226,12 +225,15 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect)
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
               SDL_Surface *dst, SDL_Rect *dstrect,
               unsigned char alpha_mod);
+int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
+                unsigned char alpha_mod);
 
 SDL_Surface *load_surf(const char *pFname);
 SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags);
 
-SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
-                                     int w, int h, Uint32 f);
+SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
+                                     int width, int height, Uint32 flags);
+SDL_Surface *create_surf(int width, int height, Uint32 flags);
 
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
                                    SDL_Color *pColor);
@@ -289,8 +291,8 @@ int set_video_mode(int iWidth, int iHeight, int iFlags);
 
 void update_main_screen(void);
 
-#define main_window_width() Main.mainsurf->w
-#define main_window_height() Main.mainsurf->h
+int main_window_width(void);
+int main_window_height(void);
 
 /* Rect */
 bool correct_rect_region(SDL_Rect *pRect);
@@ -312,9 +314,6 @@ SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
 
 SDL_Surface *crop_visible_part_from_surface(SDL_Surface *pSrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
-
-#define create_surf(w, h, f) \
-  create_surf_with_format(Main.mainsurf->format, w , h, f)
 
 #define map_rgba(format, color) \
   SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
