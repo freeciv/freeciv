@@ -18,131 +18,34 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <jansson.h>
-  
-struct connection;
-struct data_in;
 
-#include "connection.h"		/* struct connection, MAX_LEN_* */
-#include "diptreaty.h"
-#include "effects.h"
-#include "events.h"
-#include "improvement.h"	/* bv_imprs */
-#include "map.h"
-#include "player.h"
-#include "requirements.h"
-#include "shared.h"		/* MAX_LEN_ADDR */
-#include "spaceship.h"
-#include "team.h"
-#include "traderoutes.h"
-#include "unittype.h"
-#include "worklist.h"
-
-
-/* Used in network protocol. */
-#define MAX_LEN_MSG             1536
-#define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET/2 - header */
-
-/* The size of opaque (void *) data sent in the network packet.  To avoid
- * fragmentation issues, this SHOULD NOT be larger than the standard
- * ethernet or PPP 1500 byte frame size (with room for headers).
- *
- * Do not spend much time optimizing, you have no idea of the actual dynamic
- * path characteristics between systems, such as VPNs and tunnels.
- *
- * Used in network protocol.
- */
-#define ATTRIBUTE_CHUNK_SIZE    (1400)
-
-/* Used in network protocol. */
-enum report_type {
-  REPORT_WONDERS_OF_THE_WORLD,
-  REPORT_TOP_5_CITIES,
-  REPORT_DEMOGRAPHIC,
-  REPORT_ACHIEVEMENTS
-};
-
-/* Used in network protocol. */
-enum unit_info_use {
-  UNIT_INFO_IDENTITY,
-  UNIT_INFO_CITY_SUPPORTED,
-  UNIT_INFO_CITY_PRESENT
-};
-
-/* Used in network protocol. */
-enum authentication_type {
-  AUTH_LOGIN_FIRST,   /* request a password for a returning user */
-  AUTH_NEWUSER_FIRST, /* request a password for a new user */
-  AUTH_LOGIN_RETRY,   /* inform the client to try a different password */
-  AUTH_NEWUSER_RETRY  /* inform the client to try a different [new] password */
-};
-
-#include "packets_gen.h"
-
-struct packet_handlers {
-  union {
-    int (*no_packet)(struct connection *pconn);
-    int (*packet)(struct connection *pconn, const void *packet);
-    int (*force_to_send)(struct connection *pconn, const void *packet,
-                         bool force_to_send);
-  } send[PACKET_LAST];
-  void *(*receive[PACKET_LAST])(struct connection *pconn);
-};
-
-void *get_packet_from_connection(struct connection *pc,
-                                 enum packet_type *ptype);
-void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
-
-void send_attribute_block(const struct player *pplayer,
-			  struct connection *pconn);
-void generic_handle_player_attribute_chunk(struct player *pplayer,
-					   const struct
-					   packet_player_attribute_chunk
-					   *chunk);
-void packet_handlers_fill_initial(struct packet_handlers *phandlers);
-void packet_handlers_fill_capability(struct packet_handlers *phandlers,
-                                     const char *capability);
-const char *packet_name(enum packet_type type);
-bool packet_has_game_info_flag(enum packet_type type);
-
-void packet_header_init(struct packet_header *packet_header);
-void post_send_packet_server_join_reply(struct connection *pconn,
-                                        const struct packet_server_join_reply
-                                        *packet);
-void post_receive_packet_server_join_reply(struct connection *pconn,
-                                           const struct
-                                           packet_server_join_reply *packet);
-
-void pre_send_packet_player_attribute_chunk(struct connection *pc,
-					    struct packet_player_attribute_chunk
-					    *packet);
-
-const struct packet_handlers *packet_handlers_initial(void);
-const struct packet_handlers *packet_handlers_get(const char *capability);
+void *get_packet_from_connection_json(struct connection *pc,
+                                      enum packet_type *ptype);
 
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \
   char *json_buffer = NULL; \
-  struct data_out dout; \
+  struct json_data_out dout; \
   dout.json = json_object(); \
   \
-  dio_output_init(&dout, buffer, sizeof(buffer)); \
-  dio_put_uint16_raw(&dout, 0); \
-  dio_put_uint16_raw(&dout, packet_type); \
+  dio_output_init(&(dout.raw), buffer, sizeof(buffer)); \
+  dio_put_uint16_raw(&(dout.raw), 0);                   \
+  dio_put_uint16_raw(&(dout.raw), packet_type);         \
   dio_put_uint8_json(&dout, "pid", packet_type);
 
 #define SEND_PACKET_END(packet_type) \
   { \
     json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
     if (json_buffer) { \
-      dio_put_string_raw(&dout, json_buffer); \
+      dio_put_string_raw(&(dout.raw), json_buffer);     \
     } \
-    size_t size = dio_output_used(&dout); \
+    size_t size = dio_output_used(&(dout.raw)); \
     \
-    dio_output_rewind(&dout); \
-    dio_put_uint16_raw(&dout, size); \
+    dio_output_rewind(&(dout.raw));  \
+    dio_put_uint16_raw(&(dout.raw), size);      \
     free(json_buffer); \
     json_decref(dout.json); \
-    fc_assert(!dout.too_short); \
+    fc_assert(!dout.raw.too_short); \
     return send_packet_data(pc, buffer, size, packet_type); \
   }
 
@@ -158,9 +61,6 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
 #define RECEIVE_PACKET_FIELD_ERROR(field, ...) \
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
   return NULL
-
-int send_packet_data(struct connection *pc, unsigned char *data, int len,
-                     enum packet_type packet_type);
 
 /* Utilities to exchange strings and string vectors. */
 #define PACKET_STRVEC_SEPARATOR '\3'

@@ -1728,28 +1728,28 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
    */
   if (type == 0) {
     unsigned char buffer[4096];
-    struct data_out dout;
+    struct raw_data_out dout;
 
     log_normal(_("Warning: rejecting old client %s"),
                conn_description(pconn));
 
     dio_output_init(&dout, buffer, sizeof(buffer));
-    DIO_PUT(uint16, &dout, "msg", 0);
+    dio_put_uint16_raw(&dout, 0);
 
     /* 1 == PACKET_LOGIN_REPLY in the old client */
-    DIO_PUT(uint8, &dout, "msg", 1);
+    dio_put_uint8_raw(&dout, 1);
 
-    DIO_PUT(bool32, &dout, "msg", FALSE);
-    DIO_PUT(string, &dout, "msg",
+    dio_put_bool32_raw(&dout, FALSE);
+    dio_put_string_raw(&dout,
             _("Your client is too old. To use this server, "
               "please upgrade your client to a "
               "Freeciv 2.2 or later."));
-    DIO_PUT(string, &dout, "msg", "");
+    dio_put_string_raw(&dout, "");
 
     {
       size_t size = dio_output_used(&dout);
       dio_output_rewind(&dout);
-      DIO_PUT(uint16, &dout, "size", size);
+      dio_put_uint16_raw(&dout, size);
 
       /* 
        * Use send_connection_data instead of send_packet_data to avoid

@@ -13,10 +13,6 @@
 #ifndef FC__PACKETS_H
 #define FC__PACKETS_H
 
-#ifdef FREECIV_JSON_CONNECTION
-#include "packets_json.h"
-#else
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -90,8 +86,15 @@ struct packet_handlers {
   void *(*receive[PACKET_LAST])(struct connection *pconn);
 };
 
-void *get_packet_from_connection(struct connection *pc,
-                                 enum packet_type *ptype);
+void *get_packet_from_connection_raw(struct connection *pc,
+                                     enum packet_type *ptype);
+
+#ifdef FREECIV_JSON_CONNECTION
+#define get_packet_from_connection(pc, ptype) get_packet_from_connection_json(pc, ptype)
+#else
+#define get_packet_from_connection(pc, ptype) get_packet_from_connection_raw(pc, ptype)
+#endif
+
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
 void send_attribute_block(const struct player *pplayer,
@@ -121,9 +124,13 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 const struct packet_handlers *packet_handlers_initial(void);
 const struct packet_handlers *packet_handlers_get(const char *capability);
 
+#ifdef FREECIV_JSON_CONNECTION
+#include "packets_json.h"
+#else
+
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET]; \
-  struct data_out dout; \
+  struct raw_data_out dout; \
   \
   dio_output_init(&dout, buffer, sizeof(buffer)); \
   dio_put_type_raw(&dout, pc->packet_header.length, 0); \
@@ -167,6 +174,8 @@ const struct packet_handlers *packet_handlers_get(const char *capability);
   log_packet("Error on field '" #field "'" __VA_ARGS__); \
   return NULL
 
+#endif /* FREECIV_JSON_PROTOCOL */
+
 int send_packet_data(struct connection *pc, unsigned char *data, int len,
                      enum packet_type packet_type);
 bool packet_check(struct data_in *din, struct connection *pc);
@@ -191,5 +200,4 @@ bool packet_check(struct data_in *din, struct connection *pc);
 }
 #endif /* __cplusplus */
 
-#endif  /* FREECIV_JSON_CONNECTION */
 #endif  /* FC__PACKETS_H */

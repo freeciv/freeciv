@@ -15,8 +15,6 @@
 #include <fc_config.h>
 #endif
 
-#ifndef FREECIV_JSON_CONNECTION
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -136,7 +134,7 @@ static bool conn_compression_flush(struct connection *pconn)
 
   compressed_packet_len = compressed_size + (jumbo ? 6 : 2);
   if (compressed_packet_len < pconn->compression.queue.size) {
-    struct data_out dout;
+    struct raw_data_out dout;
 
     log_compress("COMPRESS: compressed %lu bytes to %ld (level %d)",
                  (unsigned long) pconn->compression.queue.size,
@@ -365,8 +363,8 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
   packet is written in 'ptype'. On error, the connection is closed and
   the function returns NULL.
 **************************************************************************/
-void *get_packet_from_connection(struct connection *pc,
-                                 enum packet_type *ptype)
+void *get_packet_from_connection_raw(struct connection *pc,
+                                     enum packet_type *ptype)
 {
   int len_read;
   int whole_packet_len;
@@ -866,5 +864,3 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
   fc_assert(phandlers != NULL);
   return phandlers;
 }
-
-#endif /* FREECIV_JSON_CONNECTION */

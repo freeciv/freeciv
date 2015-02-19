@@ -600,7 +600,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
 		       const struct cm_parameter *parameter)
 {
   char buffer[SAVED_PARAMETER_SIZE];
-  struct data_out dout;
+  struct raw_data_out dout;
 
   /* Changing this function is likely to break compatability with old
    * savegames that store these values. */

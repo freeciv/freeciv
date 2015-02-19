@@ -345,7 +345,7 @@ static void delete_server_list(struct server_list *server_list)
 static bool begin_lanserver_scan(struct server_scan *scan)
 {
   union fc_sockaddr addr;
-  struct data_out dout;
+  struct raw_data_out dout;
   int sock, opt = 1;
 #ifndef HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];

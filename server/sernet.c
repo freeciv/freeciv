@@ -1473,7 +1473,7 @@ static void send_lanserver_response(void)
   int nhumans;
   char humans[256];
   char status[256];
-  struct data_out dout;
+  struct raw_data_out dout;
   union fc_sockaddr addr;
   int socksend, setting = 1;
   const char *group;

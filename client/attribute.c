@@ -152,7 +152,7 @@ serialize_hash(const struct attribute_hash *hash,
   const size_t entries = attribute_hash_size(hash);
   int total_length, value_lengths[entries];
   void *result;
-  struct data_out dout;
+  struct raw_data_out dout;
   int i;
 
   /*
@@ -267,7 +267,7 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
     struct attr_key key;
     void *pvalue;
     int value_length;
-    struct data_out dout;
+    struct raw_data_out dout;
 
     if (!dio_get_uint32_raw(&din, &value_length)) {
       log_verbose("attribute.c unserialize_hash() "
@@ -393,7 +393,7 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
 
   if (0 != data_length) {
     void *pvalue = fc_malloc(data_length + 4);
-    struct data_out dout;
+    struct raw_data_out dout;
 
     dio_output_init(&dout, pvalue, data_length + 4);
     dio_put_uint32_raw(&dout, data_length);
