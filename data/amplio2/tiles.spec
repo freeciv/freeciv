@@ -132,7 +132,7 @@ tiles = { "row", "column", "tag"
 
 ; Base building activities
   8, 12, "unit.airstrip"
-  8, 13, "unit.fort"
+  8, 13, "unit.outpost"
   8, 14, "unit.maglev"
   8, 15, "unit.fortress"
   8, 16, "unit.airbase"
