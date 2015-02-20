@@ -156,15 +156,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-22 13:51+0000\n"
-"PO-Revision-Date: 2013-09-09 10:52+0300\n"
-"Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
+"POT-Creation-Date: 2015-02-20 20:11+0000\n"
+"PO-Revision-Date: 2015-02-17 22:53+0900\n"
+"Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: G:\\Desktop\\freeciv-2.4.3\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -244,7 +246,7 @@ msgstr ""
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:23
 #, c-format
 msgid "Principal Chief %s"
-msgstr "大族長 %s"
+msgstr "首長 %s"
 
 #: data/nation/aborigines.ruleset:27 data/nation/akwe.ruleset:25
 #: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:29
@@ -258,7 +260,7 @@ msgstr "大族長 %s"
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:23
 #, c-format
 msgid "?female:Principal Chief %s"
-msgstr "大族長 %s"
+msgstr "首長 %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/maori.ruleset:26 data/nation/pelasgian.ruleset:26
@@ -266,9 +268,9 @@ msgstr "大族長 %s"
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Elder %s"
-msgstr "選帝侯"
+msgstr "長老 %s"
 
 # clefs
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
@@ -277,9 +279,9 @@ msgstr "選帝侯"
 #: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
 #: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Elder %s"
-msgstr "指導者"
+msgstr "長老 %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
 #: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:27
@@ -313,14 +315,12 @@ msgstr "大族長 %s"
 
 # clefs
 #: data/nation/abyssinian.ruleset:3
-#, fuzzy
 msgid "Abyssinian"
-msgstr "アルメニア人"
+msgstr "アビシニア人"
 
 #: data/nation/abyssinian.ruleset:4
-#, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "イラン人"
+msgstr "アビシニア人"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -328,6 +328,11 @@ msgid ""
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"アビシニアは19世紀頃までヨーロッパ人が用いたエチオピアの旧称です。これは元々"
+"アラブ人がこの地域に住む人々を「ハバシャ」と呼んだのが語源です。現在では，エ"
+"チオピア高原・エリトリア高原に住み南方セム語に属する言語を話す民族を総称して"
+"ハバシャ族，あるいはアビシニア人といいます。アムハラ人やティグレ人が含まれ，"
+"エチオピア連邦民主共和国の人口の1/3を占めています。"
 
 # clefs
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
@@ -429,7 +434,7 @@ msgstr "%s首相"
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
 #, fuzzy, c-format
 msgid "Premiere %s"
-msgstr "首相"
+msgstr "   %sあり。"
 
 #: data/nation/acadian.ruleset:32 data/nation/germanbelgian.ruleset:27
 #: data/nation/paraguayan.ruleset:38 data/nation/sammarinese.ruleset:25
@@ -549,14 +554,12 @@ msgid "?female:Governor %s"
 msgstr "%s総督"
 
 #: data/nation/acrean.ruleset:3
-#, fuzzy
 msgid "Acrean"
-msgstr "朝鮮人"
+msgstr "アクレ人"
 
 #: data/nation/acrean.ruleset:4
-#, fuzzy
 msgid "?plural:Acreans"
-msgstr "アラム人"
+msgstr "アクレ人"
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -566,16 +569,22 @@ msgid ""
 "Petropolis of 1903, after which Acre was annexed to Brazil. Acre is one of "
 "the world's most important rubber producing regions."
 msgstr ""
+"アクレ州はブラジル連邦共和国を構成する州の一つで北西部に位置します。かつては"
+"ボリビア領でしたが1899年に分離独立を図ってアクレ紛争が勃発し，「アクレ共和"
+"国」の独立宣言が2度行われました。1903年にブラジルとボリビアは互いの領土の一部"
+"を交換する形で合意し，ペトロポリス条約が結ばれました。この結果アクレ共和国は"
+"ブラジルに併合され，連邦準州となりました。アクレ州は、世界で最も重要なゴム生"
+"産地域の一つです。"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baron %s"
-msgstr "%sに駐留"
+msgstr " %s男爵"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
-msgstr "王女"
+msgstr " %s男爵"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -688,20 +697,20 @@ msgid "?female:Mullah %s"
 msgstr "ムラー %s"
 
 #: data/nation/african.ruleset:3
-#, fuzzy
 msgid "African"
-msgstr "アメリカ人"
+msgstr "アフリカ人"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:African"
-msgstr "アメリカ人"
+msgstr "アフリカ人"
 
 #: data/nation/african.ruleset:6
 msgid ""
 "Africa: the cradle of humanity. It is the world's second largest continent "
 "and also its second most populous."
 msgstr ""
+"アフリカ――そこは人類発祥の地。世界第2位の面積を持つ広大な大陸であり，また総人"
+"口も2番目に多い。"
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
@@ -731,7 +740,6 @@ msgstr "アクウェ人"
 # Belgae
 # ring villageは環村でいいのでしょうか
 #: data/nation/akwe.ruleset:7
-#, fuzzy
 msgid ""
 "The Akwe are also known by three different tribal names in Portuguese, "
 "Xavante, Xakriaba and Xerente. They have a patrilineal clan system and live "
@@ -744,18 +752,17 @@ msgstr ""
 "アクウェ人は，シャヴァンテ，シャクリアバ，シェレンテという3部族名でも知られて"
 "います。彼らは父系制の氏族制度を持ち，ブラジルのマットグロッソ州およびトカン"
 "ティンス州に暮らしていますが，彼らはしばしばブラジル人によって強制移住させら"
-"れてきました。伝統的に，彼らは長老会議で選ばれた長によって統治され，大きな環"
-"村での暮らしを9世紀ごろより続けてきました。彼らはジェ語を使用し，トウモロコ"
-"シ，キャッサバ，サツマイモ，ヤムイモを栽培しています。"
+"れてきました。伝統的に，彼らは長老会議で選ばれた長によって統治され，大きな三"
+"日月形の村での生活を9世紀頃から続けてきました。彼らはジェ語を使用し，トウモロ"
+"コシ，キャッサバ，サツマイモ，ヤムイモを栽培しています。"
 
 #: data/nation/alandalus.ruleset:3
 msgid "Andalusi"
-msgstr ""
+msgstr "アンダルス人"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Andalusis"
-msgstr "アイヌ人"
+msgstr "アンダルス人"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -828,9 +835,9 @@ msgstr "カリファ %s"
 #: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Vizier %s"
-msgstr "レーザー工学"
+msgstr "ワズィール %s"
 
 # clefs
 #: data/nation/alandalus.ruleset:34 data/nation/bahraini.ruleset:28
@@ -838,22 +845,20 @@ msgstr "レーザー工学"
 #: data/nation/kuwaiti.ruleset:30 data/nation/moroccan.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/ottoman.ruleset:30
 #: data/nation/qatari.ruleset:23 data/nation/saudi.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vizier %s"
-msgstr "指導者"
+msgstr "ワズィール %s"
 
 #. TRANS: The first letter in "Aland" should be
 #. TRANS: U+00C5 LATIN CAPITAL A WITH RING if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 197.
 #: data/nation/alander.ruleset:6
-#, fuzzy
 msgid "Alander"
-msgstr "同盟"
+msgstr "オーランド人"
 
 #: data/nation/alander.ruleset:7
-#, fuzzy
 msgid "?plural:Alanders"
-msgstr "アイスランド人"
+msgstr "オーランド人"
 
 #: data/nation/alander.ruleset:9
 msgid ""
@@ -863,33 +868,37 @@ msgid ""
 "long period in which the islands were contested between Sweden and Finland. "
 "Aland's special and demilitarized status is protected by international law."
 msgstr ""
+"オーランド諸島はバルト海に浮かぶ島々で，スウェーデンとフィンランドの間に位置"
+"します。公用語はスウェーデン語ですが，両国の間で長きにわたって領有が争われた"
+"結果，1921年にフィンランドの自治領となりました。国際法によりオーランド諸島は"
+"非武装地帯に指定されています。"
 
 # clefs
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Earl %s"
-msgstr "枢機卿"
+msgstr " %s伯爵"
 
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Earl %s"
-msgstr "将軍"
+msgstr " %s伯爵"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Vicar %s"
-msgstr "フリゲート艦"
+msgstr "司教代理 %s"
 
 # Belgae
 # 夫人はDatinが正しいらしい
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vicar %s"
-msgstr "ダティン"
+msgstr "司教代理 %s"
 
 #: data/nation/albanian.ruleset:3
 msgid "Albanian"
@@ -983,11 +992,11 @@ msgstr "%s第一書記"
 # アリュートとも(Belgae)
 #: data/nation/aleut.ruleset:3
 msgid "Aleut"
-msgstr "アレウト人"
+msgstr "アレウト族"
 
 #: data/nation/aleut.ruleset:4
 msgid "?plural:Aleuts"
-msgstr "アレウト人"
+msgstr "アレウト族"
 
 # エリザヴェータ要塞でよい？
 #: data/nation/aleut.ruleset:6
@@ -1000,12 +1009,13 @@ msgid ""
 "Russians to their other colonial entrepots such as Ft. Ross in northern "
 "California and Ft. Elizabeth in Hawai'i."
 msgstr ""
-"ウナンガン人（アレウト人）は，地下に恒久的な家を作り，狩猟と漁労のための村を"
-"つくっていました。彼らはヨーロッパ人が接触する以前の数千年にわたり，アリュー"
-"シャン諸島に暮らしてきました。ウナンガン人とロシア人の宣教師や交易商人たちと"
-"の結びつきが深まるにつれ，彼らの多くはロシア正教に改宗し，ロシア人との通婚も"
-"進みました。また，一部はロシア人に随行して，ロシア人の植民交易集散地，例えば"
-"北カリフォルニアのロス要塞やハワイのエリザヴェータ要塞まで訪れています。"
+"アレウト族はアリューシャン列島の先住民族で，彼ら自身は自らをウナンガンと呼び"
+"ます。半地下の家を建て，狩猟と漁労による自給自足の生活を送ってきましたが，ロ"
+"シア人との接触は同時に伝染病を持ち込み，人口が1/10まで減少しました。また宣教"
+"師や交易商人たちとの結びつきが深まるにつれ，彼らの多くはロシア正教に改宗し，"
+"ロシア人との通婚も進みました。一部はロシア人に随行して，他の植民交易集散地，"
+"例えば北カリフォルニアのロス要塞やハワイのエリザヴェータ要塞まで訪れていま"
+"す。"
 
 # clefs
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
@@ -1055,13 +1065,13 @@ msgstr ""
 #: data/nation/santomean.ruleset:33
 #, c-format
 msgid "Secretary General %s"
-msgstr "事務総長 %s"
+msgstr " %s事務総長"
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
 #: data/nation/santomean.ruleset:33
 #, c-format
 msgid "?female:Secretary General %s"
-msgstr "事務総長 %s"
+msgstr " %s事務総長"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
@@ -1074,14 +1084,12 @@ msgid "?female:%s Dey"
 msgstr "%s デイ"
 
 #: data/nation/alsatian.ruleset:3
-#, fuzzy
 msgid "Alsatian"
-msgstr "ハワイ人"
+msgstr "アルザス人"
 
 #: data/nation/alsatian.ruleset:4
-#, fuzzy
 msgid "?plural:Alsatians"
-msgstr "イラン人"
+msgstr "アルザス人"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -1175,7 +1183,7 @@ msgstr "代官 %s"
 #: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
-msgstr "司教 %s"
+msgstr " %s司教"
 
 #: data/nation/alsatian.ruleset:27 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
@@ -1196,7 +1204,7 @@ msgstr "司教 %s"
 #: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "?female:Bishop %s"
-msgstr "司教 %s"
+msgstr " %s司教"
 
 #: data/nation/alsatian.ruleset:28 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:43 data/nation/rhenish.ruleset:40
@@ -1236,8 +1244,8 @@ msgstr ""
 "や部族に対しては親切かつ寛大で，思いやりを忘れませんでした。部族ごとに独自の"
 "慣習と文化を持ち，それが現代のモロッコ，アルジェリア，チュニジアにおけるさま"
 "ざまな慣習の違いにつながっています。アマジグ人はタマズィグト，タシュリヒー"
-"ト，タリフィートなど（総称してベルベル語と呼ばれる）の古い言語を話し，ティ"
-"フィナグと呼ばれる古代文字を使います。"
+"ト，タリフィートなど(総称してベルベル語と呼ばれる)の古い言語を話し，ティフィ"
+"ナグと呼ばれる古代文字を使います。"
 
 #: data/nation/amazonian.ruleset:3
 msgid "Amazonian"
@@ -1278,8 +1286,7 @@ msgstr ""
 "アンドラはピレネー山脈東部にある小さな国です。1278年，ウルヘル司教とフォワ伯"
 "爵とのあいだの争論の結果，アンドラを共同統治する宗主契約が結ばれました。この"
 "契約は現在もその後継者である現在のウルヘル司教およびフランス共和国大統領に引"
-"き継がれ，彼らは（ほとんど儀礼的ながら）アンドラ共同大公の称号を持っていま"
-"す。"
+"き継がれ，彼らはほとんど儀礼的ながらもアンドラ共同大公の称号を持っています。"
 
 #: data/nation/andorran.ruleset:23 data/nation/palmyrene.ruleset:20
 #: data/nation/paraguayan.ruleset:37 data/nation/ugandan.ruleset:32
@@ -1293,14 +1300,14 @@ msgid "?female:Dictator %s"
 msgstr "独裁官 %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Prince %s"
-msgstr "王女"
+msgstr "共同大公 %s"
 
 #: data/nation/andorran.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Co-Princess %s"
-msgstr "王女"
+msgstr "共同大公 %s"
 
 #: data/nation/angolan.ruleset:3
 msgid "Angolan"
@@ -1328,14 +1335,12 @@ msgstr ""
 "協定が結ばれたのは2002年のことです。"
 
 #: data/nation/anhaltian.ruleset:3
-#, fuzzy
 msgid "Anhaltian"
-msgstr "ハワイ人"
+msgstr "アンハルト人"
 
 #: data/nation/anhaltian.ruleset:4
-#, fuzzy
 msgid "?plural:Anhaltians"
-msgstr "マリ人"
+msgstr "アンハルト人"
 
 #: data/nation/anhaltian.ruleset:6
 msgid ""
@@ -1359,7 +1364,7 @@ msgstr ""
 #: data/nation/vampire.ruleset:50 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Count %s"
-msgstr "伯 %s"
+msgstr " %s伯"
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -1371,7 +1376,7 @@ msgstr "伯 %s"
 #: data/nation/vampire.ruleset:50 data/nation/walloon.ruleset:27
 #, c-format
 msgid "Countess %s"
-msgstr "女伯 %s"
+msgstr " %s伯"
 
 # clefs
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
@@ -1385,7 +1390,7 @@ msgstr "女伯 %s"
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duke %s"
-msgstr "大公 %s"
+msgstr " %s大公"
 
 # clefs
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
@@ -1399,15 +1404,15 @@ msgstr "大公 %s"
 #: data/nation/thuringian.ruleset:44 data/nation/westphalian.ruleset:33
 #, c-format
 msgid "Grand Duchess %s"
-msgstr "女公 %s"
+msgstr " %s女公"
 
 #: data/nation/anishinaabe.ruleset:3
 msgid "Anishinaabe"
-msgstr "アニシナアベ人"
+msgstr "アニシナベ人"
 
 #: data/nation/anishinaabe.ruleset:4
 msgid "?plural:Anishinaabeg"
-msgstr "アニシナアベ人"
+msgstr "アニシナベ人"
 
 #: data/nation/anishinaabe.ruleset:6
 msgid ""
@@ -1416,10 +1421,10 @@ msgid ""
 "Algonkin and Potawatomi. They speak Algonquian languages. Together they are "
 "one of the most numerous indigenous peoples of North America."
 msgstr ""
-"アニシナアベ人とは，北アメリカ五大湖地方に暮らす互いに密接なつながりを持つネ"
-"イティブ・アメリカン諸部族の集団です。この中にはオタワ族，オジブワ族，アルゴ"
-"ンキン族，ポタワトミ族が含まれます。彼らはアルゴンキン語を話します。彼らは北"
-"アメリカ先住民のうちで最大級の人口を持つ民族集団です。"
+"アニシナベ人は，北アメリカ五大湖地方に暮らし互いに密接な関係を持ったインディ"
+"アン諸部族の集団です。この中にはオタワ族，オジブワ族，アルゴンキン族，ポタワ"
+"トミ族が含まれます。彼らはアルゴンキン語を話します。彼らは北アメリカ先住民の"
+"うちで最大級の人口を持つ民族集団です。"
 
 # clefs
 #: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:46
@@ -1452,12 +1457,11 @@ msgstr "独立国・南極，ペンギンの大地。"
 
 #: data/nation/antiguan.ruleset:3
 msgid "Antiguan and Barbudan"
-msgstr ""
+msgstr "アンティグア・バーブーダ人"
 
 #: data/nation/antiguan.ruleset:4
-#, fuzzy
 msgid "?plural:Antiguans and Barbudans"
-msgstr "ルワンダ人"
+msgstr "アンティグア・バーブーダ人"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -1465,18 +1469,17 @@ msgid ""
 "two eponymous islands as well as a number of smaller islets. The country has "
 "been independent from the United Kingdom since 1981."
 msgstr ""
+"アンティグア・バーブーダはカリブ海東部，アンティグア島とバーブーダ島，その他"
+"の小島からなる国です。1981年にイギリスから独立し，現在はイギリス連邦の加盟国"
+"です。"
 
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "大砲"
+msgstr "オランダ領アンティル人"
 
-# was 「インド民族」、そんなものはない
-# "Bengali" はどうするんだ (clefs)
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "インド人"
+msgstr "オランダ領アンティル人"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -1488,6 +1491,14 @@ msgid ""
 "Kingdom of the Netherlands; the other three islands have been directly "
 "integrated into the Netherlands as special municipalities."
 msgstr ""
+"カリブ海に浮かぶ小アンティル諸島のうち，アルバ，ボネール，キュラソー，サバ，"
+"シント・マールテン，シント・ユースタティウスは17世紀にオランダの植民地とされ"
+"ました。これら6島は1948年にオランダ王国の海外領土「オランダ領アンティル」に改"
+"められ，さらに1954年には自治領になりました。1986年にアルバが分離して単独で自"
+"治領となった後，2010年にはオランダ領アンティルは完全に解体されました。アル"
+"バ，キュラソー，シント・マールテンはそれぞれ単独で自治領になり，残る3島はオラ"
+"ンダ直属の特別自治体になりました。住民の8割をムラート(ヨーロッパ人とアフリカ"
+"系黒人の混血)が占めています。"
 
 #: data/nation/aragonese.ruleset:3
 msgid "Aragonese"
@@ -1563,7 +1574,7 @@ msgstr ""
 #: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
 #, c-format
 msgid "Comandante %s"
-msgstr "司令官 %s"
+msgstr " %s司令官"
 
 #: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
@@ -1574,7 +1585,7 @@ msgstr "司令官 %s"
 #: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
 #, c-format
 msgid "Comandanta %s"
-msgstr "司令官 %s"
+msgstr " %s司令官"
 
 # clefs
 # "大統領""独裁者"
@@ -1582,14 +1593,14 @@ msgstr "司令官 %s"
 #: data/nation/southamerican.ruleset:20
 #, c-format
 msgid "Caudillo %s"
-msgstr "総統 %s"
+msgstr " %s総統"
 
 # clefs
 #: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:23
 #: data/nation/southamerican.ruleset:20
 #, c-format
 msgid "Caudilla %s"
-msgstr "総統 %s"
+msgstr " %s総統"
 
 #: data/nation/argentine.ruleset:30 data/nation/castilian.ruleset:32
 #: data/nation/cuban.ruleset:24 data/nation/filipino.ruleset:22
@@ -1682,7 +1693,6 @@ msgid "?plural:Ashantis"
 msgstr "アシャンティ人"
 
 #: data/nation/ashanti.ruleset:6
-#, fuzzy
 msgid ""
 "The Ashanti were an ancient kingdom in a region that is currently a part of "
 "Ghana. The first Ashanti kingdom was founded in the 11th century."
@@ -1718,12 +1728,11 @@ msgstr "アサンテヘネ %s"
 
 #: data/nation/assamese.ruleset:3
 msgid "Assamese"
-msgstr ""
+msgstr "アホム族"
 
 #: data/nation/assamese.ruleset:4
-#, fuzzy
 msgid "?plural:Assamese"
-msgstr "アラム人"
+msgstr "アホム族"
 
 #: data/nation/assamese.ruleset:6
 msgid ""
@@ -1761,7 +1770,6 @@ msgid "?plural:Asturians"
 msgstr "アストゥリアス人"
 
 #: data/nation/asturian.ruleset:6
-#, fuzzy
 msgid ""
 "The Astures were a Celtic people which occupied most of the northern coast "
 "of Spain. They battled against the Roman Empire until their defeat by Caesar "
@@ -1791,7 +1799,7 @@ msgstr "アトランティス人"
 
 #: data/nation/atlantean.ruleset:6
 msgid "The mythical continent of Atlantis"
-msgstr "伝説の大陸アトランティス"
+msgstr "伝説の大陸アトランティス。"
 
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
 #: data/nation/canari.ruleset:30 data/nation/cornish.ruleset:21
@@ -1820,26 +1828,24 @@ msgstr "オーストラリア人"
 
 # clefs
 #: data/nation/australian.ruleset:6
-#, fuzzy
 msgid ""
 "Australia was founded as a British penal colony in 1788 CE. Originally "
 "comprising several colonies (New South Wales, Victoria, Queensland, South "
 "Australia, Western Australia and Tasmania) it became a single country in "
 "1902. It is the only country on Earth to occupy an entire continent."
 msgstr ""
-"オーストラリアは西暦1788年にイギリスの流刑植民地として設立されました。当初は"
-"複数の植民地(ニューサウスウェールズ，ビクトリア，クイーンズランド，南オースト"
-"ラリア，西オーストラリア，タスマニア)から成っていましたが，1902年に一つの国と"
-"なりました。これは単独の国家が一つの大陸を丸ごと占めている唯一のものです。"
+"オーストラリアは1788年にイギリスの流刑植民地として設立されました。当初は複数"
+"の植民地(ニューサウスウェールズ，ビクトリア，クイーンズランド，南オーストラリ"
+"ア，西オーストラリア，タスマニア)から成っていましたが，1902年に一つの国となり"
+"ました。これは単独の国家が一つの大陸を丸ごと占めている唯一のものです。"
 
 #: data/nation/avar.ruleset:3
 msgid "Avar"
-msgstr ""
+msgstr "アヴァール"
 
 #: data/nation/avar.ruleset:4
-#, fuzzy
 msgid "?plural:Avars"
-msgstr "アイマラ人"
+msgstr "アヴァール"
 
 #: data/nation/avar.ruleset:6
 msgid ""
@@ -1909,11 +1915,11 @@ msgstr "%s ハーン"
 # clefs
 #: data/nation/aymara.ruleset:3
 msgid "Aymara"
-msgstr "アイマラ人"
+msgstr "アイマラ族"
 
 #: data/nation/aymara.ruleset:4
 msgid "?plural:Aymaras"
-msgstr "アイマラ人"
+msgstr "アイマラ族"
 
 # clefs
 #: data/nation/aymara.ruleset:6
@@ -1943,12 +1949,12 @@ msgid ""
 "Islamic republic in history. Then Azerbaijan became part of the Soviet Union "
 "until its dissolution in 1991."
 msgstr ""
-"アゼリー人（アゼルバイジャン人）はアゼルバイジャンに住む人々です。コーカサス"
-"地方の現在アゼルバイジャン領となっている地域では，かつてはさまざまな古代国家"
-"が攻防を繰り返してきました。1813年にアゼルバイジャンはロシア帝国の一部とな"
-"り，その後1918年から1920年までの短い期間独立を果たしました（歴史上最初のイス"
-"ラム共和国）。再びアゼルバイジャンはソビエト連邦の一部となり，ソビエト崩壊の"
-"1991年まで続くこととなります。"
+"アゼリー人(アゼルバイジャン人)はアゼルバイジャンに住む人々です。コーカサス地"
+"方の現在アゼルバイジャン領となっている地域では，かつてはさまざまな古代国家が"
+"攻防を繰り返してきました。1813年にアゼルバイジャンはロシア帝国の一部となり，"
+"その後1918年から1920年までの短い期間独立を果たしました(歴史上最初のイスラム共"
+"和国)。再びアゼルバイジャンはソビエト連邦の一部となり，ソビエト崩壊の1991年ま"
+"で続くこととなります。"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
 #: data/nation/khwarezmian.ruleset:28
@@ -1997,14 +2003,12 @@ msgstr "女辺境伯 %s"
 
 # Belgae
 #: data/nation/bahamian.ruleset:3
-#, fuzzy
 msgid "Bahamian"
-msgstr "ホラズム人"
+msgstr "バハマ人"
 
 #: data/nation/bahamian.ruleset:4
-#, fuzzy
 msgid "?plural:Bahamians"
-msgstr "バイエルン人"
+msgstr "バハマ人"
 
 #: data/nation/bahamian.ruleset:6
 msgid ""
@@ -2017,15 +2021,23 @@ msgid ""
 "The Bahamas are the most developed country of Latin America and the "
 "Caribbean as well as the world's wealthiest black-majority country."
 msgstr ""
+"バハマ国は北大西洋とメキシコ湾を隔てるバハマ諸島のうち，タークス・カイコス諸"
+"島を除いた700あまりの島々からなる群島国家です。中でもサン・サルバドル島は，"
+"1492年にコロンブスが最初に足を踏み入れたアメリカの地として有名です。しかし奴"
+"隷として連れ去られ，また持ち込まれた疾病で次々に命を落としていった先住民たち"
+"は絶滅し，その後17世紀にイギリスが入植を開始するまでのおよそ130年間，バハマは"
+"放棄されほとんど忘れ去られていました。1973年に英連邦王国の一員として独立しま"
+"した。今日では美しい砂浜を持つリゾートとしてよく知られ，多くの観光客を集めて"
+"います。経済は観光業と金融業を中心に発展しており，ラテンアメリカ諸国，カリブ"
+"海諸国，さらに黒人が大多数を占める国家の中で最も裕福です。"
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
-msgstr ""
+msgstr "バーレーン人"
 
 #: data/nation/bahraini.ruleset:4
-#, fuzzy
 msgid "?plural:Bahrainis"
-msgstr "バーバリアン"
+msgstr "バーレーン人"
 
 #: data/nation/bahraini.ruleset:6
 msgid ""
@@ -2035,33 +2047,39 @@ msgid ""
 "became a constitutional monarchy in 2001 but a pro-democracy uprising in "
 "2011 was violently crushed."
 msgstr ""
+"バーレーン王国はペルシャ湾に浮かぶ島国です。中東で最も面積が小さい国でもあり"
+"ます。18世紀にザンド朝から独立しましたが，1880年からにイギリスの保護国となり"
+"ました。1971年に独立し，2002年に絶対君主制から立憲君主制に移行しました。2011"
+"年のバーレーン騒乱(アラブの春)は武力を行使してこれを鎮圧しました。"
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "Mahdi %s"
-msgstr "%sに駐留"
+msgstr "救世主 %s"
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahdi %s"
-msgstr "ムワミ"
+msgstr "救世主 %s"
 
 #: data/nation/bangladeshi.ruleset:3
-#, fuzzy
 msgid "Bangladeshi"
-msgstr "戦艦"
+msgstr "バングラデシュ人"
 
 # clefs
 #: data/nation/bangladeshi.ruleset:4
-#, fuzzy
 msgid "?plural:Bangladeshis"
-msgstr "バスク人"
+msgstr "バングラデシュ人"
 
 #: data/nation/bangladeshi.ruleset:6
 msgid ""
 "The People's Republic of Bangladesh was formed from the former Pakistani "
 "territory of East Bengal following a war of independence."
 msgstr ""
+"ベンガル地方のパキスタン共和国領(東パキスタン)における独立運動はバングラデ"
+"シュ独立戦争に発展し，さらにこれを支援するインドとパキスタンの間で第三次印パ"
+"戦争も勃発しました。パキスタンは敗北し，1971年にバングラデシュ人民共和国が独"
+"立を宣言しました。"
 
 # yasu
 #: data/nation/bangladeshi.ruleset:21 data/nation/bengali.ruleset:25
@@ -2126,14 +2144,12 @@ msgid "?female:Nabob %s"
 msgstr "太守 %s"
 
 #: data/nation/barbadian.ruleset:3
-#, fuzzy
 msgid "Barbadian"
-msgstr "バーバリアン"
+msgstr "バルバドス人"
 
 #: data/nation/barbadian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbadians"
-msgstr "バーバリアン"
+msgstr "バルバドス人"
 
 #: data/nation/barbadian.ruleset:6
 msgid ""
@@ -2144,6 +2160,12 @@ msgid ""
 "been independent since 1966. Barbados is a major international tourist "
 "destination and one of the most developed countries of the Caribbean."
 msgstr ""
+"バルバドスはカリブ海の島国で，西インド諸島の東端に位置します。元々アラワク族"
+"が住んでいたこの島は1500年頃にスペイン人に発見されました。先住民たちが奴隷と"
+"して連行され，人口が急激に減少しました。そして1627年にイギリスが入植を開始し"
+"たとき，バルバドス島は既に無人島になっていました。自治領を経て，1966年に独立"
+"を果たしました。現在バルバドスは国際的な観光地であると共に，カリブ海諸国の中"
+"で最も裕福かつ政治・経済が発展した国の一つです。"
 
 #: data/nation/bashkir.ruleset:3
 msgid "Bashkir"
@@ -2194,9 +2216,9 @@ msgstr ""
 # イメージはスターリン? (clefs)
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Leader %s"
-msgstr "偉大なる指導者"
+msgstr "指導者 %s"
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
 #: data/nation/iranian.ruleset:40
@@ -2206,15 +2228,15 @@ msgstr "指導者 %s"
 
 # clefs
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "Lehendakari %s"
-msgstr "レエンダカリ"
+msgstr "レンダカリ %s"
 
 # clefs
 #: data/nation/basque.ruleset:33
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Lehendakari %s"
-msgstr "レエンダカリ"
+msgstr "レンダカリ %s"
 
 # clefs
 # was "ババリア人"
@@ -2229,13 +2251,13 @@ msgstr "バイエルン人"
 
 # clefs
 #: data/nation/bavarian.ruleset:6
-#, fuzzy
 msgid ""
 "Bavaria, before national unification in 1870 CE, was one of the largest of "
 "the German kingdoms."
 msgstr ""
-"1870年の国家統合[訳註:ドイツ帝国の]までは，バイエルンはゲルマン諸王国のうち最"
-"大のものの一つでした。"
+"バイエルン州はドイツ連邦共和国を構成する16連邦州の一つで，南部の面積が最も広"
+"い州です。1871年にドイツ統一がなされた後も，ドイツ帝国を構成する国の一つとし"
+"てバイエルン王国は強い力を持っていました。"
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
@@ -2343,7 +2365,7 @@ msgstr "%s首相"
 #: data/nation/walloon.ruleset:28
 #, c-format
 msgid "Stadtholder %s"
-msgstr "統領 %s"
+msgstr " %s統領"
 
 #: data/nation/belgian.ruleset:26 data/nation/burgundian.ruleset:31
 #: data/nation/flemish.ruleset:32 data/nation/frisian.ruleset:37
@@ -2351,17 +2373,15 @@ msgstr "統領 %s"
 #: data/nation/walloon.ruleset:28
 #, c-format
 msgid "Stadtholdress %s"
-msgstr "統領 %s"
+msgstr " %s統領"
 
 #: data/nation/belgic.ruleset:3
-#, fuzzy
 msgid "Belgic"
-msgstr "ベルギー人"
+msgstr "ベルガエ人"
 
 #: data/nation/belgic.ruleset:4
-#, fuzzy
 msgid "?plural:Belgae"
-msgstr "ベルギー人"
+msgstr "ベルガエ人"
 
 #: data/nation/belgic.ruleset:6
 msgid ""
@@ -2377,15 +2397,15 @@ msgstr ""
 
 #: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
 #: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "High Druid %s"
-msgstr "ドルイド"
+msgstr "高位ドルイド %s"
 
 #: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
 #: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Druid %s"
-msgstr "ドルイド"
+msgstr "高位ドルイド %s"
 
 # カンボジアの共産主義時の称号。クメール語があると思われるのですが不明なので。
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
@@ -2460,12 +2480,11 @@ msgstr "%s議長"
 
 #: data/nation/belizean.ruleset:3
 msgid "Belizean"
-msgstr ""
+msgstr "ベリーズ人"
 
 #: data/nation/belizean.ruleset:4
-#, fuzzy
 msgid "?plural:Belizeans"
-msgstr "ベルギー人"
+msgstr "ベリーズ人"
 
 #: data/nation/belizean.ruleset:6
 msgid ""
@@ -2476,16 +2495,22 @@ msgid ""
 "diverse, its population consisting of Creoles, Mayans, Spanish-speaking "
 "mestizos, Garifunas, Chinese, Mennonites, and Indians."
 msgstr ""
+"ベリーズはカリブ海に面する中米の小国です。古来マヤ人が支配していましたが，"
+"16-17世紀にスペインの植民地となりました。ところが実際にはスペインによる支配が"
+"完全には行き届いていなかったためにイギリスが入植を開始し，1862年には王領植民"
+"地英領ホンジュラスとなりました。1981年にベリーズは独立しました。多民族国家で"
+"あり，メスティーソ，ベリーズ・クレオール，マヤ人，ガリフナ，華人などから構成"
+"されます。"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Superintendent %s"
-msgstr "セルビア人"
+msgstr " %s副総督"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Superintendent %s"
-msgstr "牧師"
+msgstr " %s副総督"
 
 # clefs
 #: data/nation/bengali.ruleset:3
@@ -2499,7 +2524,6 @@ msgstr "ベンガル人"
 
 # clefs
 #: data/nation/bengali.ruleset:6
-#, fuzzy
 msgid ""
 "Bengal is a region in the easternmost part of the Indian subcontinent. The "
 "first recorded independent king of the Bengali is Shashanka who reigned "
@@ -2512,14 +2536,12 @@ msgstr ""
 "この地域の東側を占め，西側の地域はインドの西ベンガル州となっています。"
 
 #: data/nation/beninese.ruleset:3
-#, fuzzy
 msgid "Beninese"
-msgstr "銀行制度"
+msgstr "ベナン人"
 
 #: data/nation/beninese.ruleset:4
-#, fuzzy
 msgid "?plural:Beninese"
-msgstr "ベルギー人"
+msgstr "ベナン人"
 
 #: data/nation/beninese.ruleset:6
 msgid ""
@@ -2528,6 +2550,16 @@ msgid ""
 "in 1972 and renamed the country Benin three years later. Multiparty rule "
 "returned in 1990."
 msgstr ""
+"ベナン共和国は西アフリカに位置し，ベニン湾(ギニア湾の一部)に面しています。か"
+"つてこの一帯は17世紀からダホメ王国が支配しており，彼らはヨーロッパ人から輸入"
+"した火器を用いて頻繁に奴隷狩りを行っていました。19世紀には王国はフランスに征"
+"服され，フランス領西アフリカの一部となりました。1960年にダホメ共和国として独"
+"立しますが，民族紛争による政情不安が続き，5度目のクーデターでマチュー・ケレク"
+"が大統領になりました。彼はマルクス・レーニン主義に基づいて一党独裁体制のもと"
+"社会主義国家建設を目指し，国名もベナン人民共和国に変更しましたが，経済の低迷"
+"と政情不安は続きました。1989年からの社会主義陣営崩壊を受けて民主化を求める声"
+"が強まり，国名をベナン共和国に改称すると共に複数政党制を定めた新たな憲法が制"
+"定されました。"
 
 #: data/nation/benin.ruleset:3
 msgid "Benin"
@@ -2551,10 +2583,10 @@ msgstr ""
 "の面するベニン湾から命名。発音はフランス語読み]，ベニン王国はエド語を話す人々"
 "が12世紀から14世紀にかけてのある時期に建国されました。ベニンはニジェール川デ"
 "ルタの西側の広い地域を統合し，16世紀に最盛期を迎えました。エウェカ1世は新たな"
-"オバ（王）を選出するためのウザマ（諮問機関）を設立しました。繁栄が衰えを見せ"
-"たのは，ヨーロッパ人が交易対象として別の王国を選んだことが原因です。これは，"
-"ベニン王国の主要港が土砂の堆積で埋まってしまったためでした。王国は最終的に"
-"1897年にイギリスによって滅ぼされました。"
+"オバ(王)を選出するためのウザマ(諮問機関)を設立しました。繁栄が衰えを見せたの"
+"は，ヨーロッパ人が交易対象として別の王国を選んだことが原因です。これは，ベニ"
+"ン王国の主要港が土砂の堆積で埋まってしまったためでした。王国は最終的に1897年"
+"にイギリスによって滅ぼされました。"
 
 #: data/nation/bhutanese.ruleset:3
 msgid "Bhutanese"
@@ -2639,41 +2671,41 @@ msgstr "%s大佐"
 
 #: data/nation/bissauguinean.ruleset:3
 msgid "Bissau-Guinean"
-msgstr ""
+msgstr "ギニアビサウ人"
 
 #: data/nation/bissauguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Bissau-Guineans"
-msgstr "バイエルン人"
+msgstr "ギニアビサウ人"
 
 #: data/nation/bissauguinean.ruleset:6
 msgid ""
 "Guinea-Bissau is a country in West Africa. Formerly known as Portuguese "
 "Guinea, it declared independence in 1973."
 msgstr ""
+"ギニアビサウ共和国は西アフリカの小さな国です。かつてはポルトガルの植民地でし"
+"たが，ギニアビサウ独立戦争を経て1973年に独立を宣言しました。"
 
 # ntaka
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Major %s"
-msgstr "総司令官"
+msgstr "カピタン・モール %s"
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Major %s"
-msgstr "族長"
+msgstr "カピタン・モール %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "ボーア人"
+msgstr "アフリカーナー"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "ボーア人"
+msgstr "アフリカーナー"
 
 # clefs
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were descendants of Dutch colonists who settled in South Africa "
 "after 1650 CE. After migrating into the hinterland after the British "
@@ -2681,9 +2713,15 @@ msgid ""
 "including the Transvaal and the Orange Free State, before being defeated by "
 "the British in the war of 1899-1902."
 msgstr ""
-"ボーア人は，1650年以降イギリスに支配された南アフリカの，オランダ人入植者でし"
-"た。彼らは1899-1902年の戦争でイギリスに敗れるまでの短期間，トランスヴァールと"
-"オレンジ自由国の2つの共和国を支配していました。"
+"アフリカーナーは17世紀から南アフリカに入植したオランダ人や，宗教的自由を求め"
+"て海を渡った他のヨーロッパ系プロテスタント移民たちが合流して形成されました。"
+"かつてはブール人やボーア人(オランダ語で「農民」)とも呼ばれました。母語はオラ"
+"ンダ語と他の様々な言語が融合して生まれたアフリカーンス語です。1795年にケープ"
+"植民地はイギリスに占領され，多くのイギリス人が入植しました。アフリカーナーは"
+"あまり英語を話せないために差別され，また奴隷解放を進めるイギリス人の政策を"
+"嫌って，内陸部へと移住しました(グレート・トレック)。先住民たちを退けナタール"
+"共和国・トランスヴァール共和国・オレンジ自由国を建国しましたが，結局19世紀末"
+"のボーア戦争で敗れ，イギリスに併合されました。"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:40
 #: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
@@ -2737,24 +2775,22 @@ msgid "?female:Reverend %s"
 msgstr "%s師"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "State President %s"
-msgstr "大統領"
+msgstr " %s大統領"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:State President %s"
-msgstr "大統領"
+msgstr " %s大統領"
 
 #: data/nation/boian.ruleset:3
-#, fuzzy
 msgid "Boian"
-msgstr "ボリビア人"
+msgstr "ボイイ族"
 
 #: data/nation/boian.ruleset:4
-#, fuzzy
 msgid "?plural:Boii"
-msgstr "ボリビア人"
+msgstr "ボイイ族"
 
 #: data/nation/boian.ruleset:6
 msgid ""
@@ -2762,6 +2798,9 @@ msgid ""
 "Central Europe and Northern Italy. The names of both Bohemia and Bavaria "
 "probably derive from this people."
 msgstr ""
+"ボイイ族は中央ヨーロッパと北イタリアに住んでいた古代ケルト部族，あるいは部族"
+"連合です。ボヘミアとバイエルンという地名は，おそらく「ボイイ」という名に由来"
+"すると考えられています。"
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
@@ -2964,7 +3003,6 @@ msgstr "ブルトン人"
 # Belgae
 # Wikipediaには併合年は1532年とあります。
 #: data/nation/breton.ruleset:6
-#, fuzzy
 msgid ""
 "Known to the Romans as Armorica, Brittany had been Celtic speaking for many "
 "centuries before Britons arrived in the peninsula as mercenaries, colonists "
@@ -3005,16 +3043,16 @@ msgstr ""
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/urartian.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "Pretender %s"
-msgstr "大統領"
+msgstr "王位僭称者 %s"
 
 #: data/nation/british.ruleset:23 data/nation/holyroman.ruleset:32
 #: data/nation/scottishgaelic.ruleset:36 data/nation/scottish.ruleset:23
 #: data/nation/urartian.ruleset:36
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Pretender %s"
-msgstr "首相"
+msgstr "王位僭称者 %s"
 
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/frisian.ruleset:36 data/nation/galician.ruleset:21
@@ -3100,12 +3138,11 @@ msgstr "ドルイド %s"
 
 #: data/nation/bruneian.ruleset:3
 msgid "Bruneian"
-msgstr ""
+msgstr "ブルネイ人"
 
 #: data/nation/bruneian.ruleset:4
-#, fuzzy
 msgid "?plural:Bruneians"
-msgstr "ブルグント人"
+msgstr "ブルネイ人"
 
 #: data/nation/bruneian.ruleset:6
 msgid ""
@@ -3173,7 +3210,6 @@ msgid "?plural:Burgundians"
 msgstr "ブルグント人"
 
 #: data/nation/burgundian.ruleset:6
-#, fuzzy
 msgid ""
 "After the fall of the Western Roman Empire, a Germanic people known as the "
 "Burgundians settled in the river valleys of eastern Gaul, lending their name "
@@ -3182,10 +3218,10 @@ msgid ""
 "of the regions of France."
 msgstr ""
 "西ローマ帝国の滅亡後，ゲルマン系の一派であるブルグント人がライン峡谷に移住"
-"し，その名が地名（ブルグント，ブルゴーニュ）へとなりました。何世紀も経ち，ブ"
-"ルゴーニュ公国は非常に繁栄し，宮廷の置かれたディジョンはパリに勝るとも劣らな"
-"い都でした。今日この地方はフランスの一地方となっています。[訳注:ブルグント人"
-"の築いたブルグント王国とその後のブルゴーニュ公国（カペー家傍流）とは無関係で"
+"し，その名が地名(ブルグント，ブルゴーニュ)へとなりました。何世紀も経ち，ブル"
+"ゴーニュ公国は非常に繁栄し，宮廷の置かれたディジョンはパリに勝るとも劣らない"
+"都でした。今日この地方はフランスの一地方となっています。[訳注:ブルグント人の"
+"築いたブルグント王国とその後のブルゴーニュ公国（カペー家傍流）とは無関係で"
 "す。]"
 
 #: data/nation/burgundian.ruleset:28 data/nation/cantonese.ruleset:29
@@ -3253,26 +3289,25 @@ msgid ""
 "Formerly Upper Volta, Burkina Faso is a country in inland West Africa. It "
 "achieved its independence from France in 1960."
 msgstr ""
-"ブルキナファソ（旧名：オートボルタ）は西アフリカ内陸にある国です。1960年にフ"
-"ランスからの独立を達成しました。"
+"ブルキナファソ(旧名：オートボルタ)は西アフリカ内陸にある国です。1960年にフラ"
+"ンスからの独立を達成しました。"
 
 # clefs
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "ビルマ人"
+msgstr "ミャンマー人"
 
 # clefs
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr "ビルマ人"
+msgstr "ミャンマー人"
 
 # clefs
 #: data/nation/burmese.ruleset:6
 msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
-msgstr ""
-"ビルマ連邦(公式には「ミャンマー」)は東南アジア大陸部で最も大きな国です。"
+msgstr "ミャンマー連邦共和国は東南アジア大陸部で最も大きな国です。"
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundian"
@@ -3294,21 +3329,20 @@ msgid ""
 "independent nation in January 1962."
 msgstr ""
 "1100年代に，東アフリカの大湖沼地帯に君主政国家が現れました。この国は1人のムワ"
-"ミ（王）と数人のガンワ（諸侯）によって支配されていました。成長期を終えた1600"
-"年代までには，現在のブルンジ領をほぼ網羅する地域にまで拡大していました。1700"
-"年代後半から1800年代前半にかけて，王位継承問題が王国を弱体化させ，1800年代末"
-"までにドイツの植民地となりました。第一次世界大戦の結果として，植民地はベル"
-"ギーのものとなりました。第二次世界大戦後の国際的な圧力の助けを借り，1962年1月"
-"にブルンジは独立国となりました。"
+"ミ(王)と数人のガンワ(諸侯)によって支配されていました。成長期を終えた1600年代"
+"までには，現在のブルンジ領をほぼ網羅する地域にまで拡大していました。1700年代"
+"後半から1800年代前半にかけて，王位継承問題が王国を弱体化させ，1800年代末まで"
+"にドイツの植民地となりました。第一次世界大戦の結果として，植民地はベルギーの"
+"ものとなりました。第二次世界大戦後の国際的な圧力の助けを借り，1962年1月にブル"
+"ンジは独立国となりました。"
 
 #: data/nation/buryat.ruleset:3
 msgid "Buryat"
-msgstr ""
+msgstr "ブリヤート人"
 
 #: data/nation/buryat.ruleset:4
-#, fuzzy
 msgid "?plural:Buryats"
-msgstr "アラブ人"
+msgstr "ブリヤート人"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -3342,12 +3376,12 @@ msgid ""
 "center of the world's entertainment and technology industries."
 msgstr ""
 "カリフォルニアはアメリカ合衆国において人口・経済規模ともに最大の州です。最初"
-"に定住したのはネイティブ・アメリカンですが，18世紀にはスペインの宣教師が植民"
-"地化しました。カリフォルニアはメキシコが独立した際にその一地方となりました。"
-"米墨戦争中に，アメリカ人の入植者が熊の絵柄の国旗を掲げ「カリフォルニア共和"
-"国」独立を宣言しましたが，すぐ後にアメリカ合衆国に吸収されました。1848年の"
-"ゴールドラッシュに伴い，大量の移住者がカリフォルニアに訪れました。20世紀には"
-"この州は世界のエンターテインメントおよびハイテク産業の中心地となりました。"
+"に定住したのはインディアンですが，18世紀にはスペインの宣教師が植民地化しまし"
+"た。カリフォルニアはメキシコが独立した際にその一地方となりました。米墨戦争中"
+"にアメリカ人の入植者が熊の絵柄の国旗を掲げ，「カリフォルニア共和国」独立を宣"
+"言しましたが，すぐ後にアメリカ合衆国に吸収されました。1848年のゴールドラッ"
+"シュに伴い，大量の移住者がカリフォルニアに訪れました。20世紀にはこの州は世界"
+"のエンターテインメントおよびハイテク産業の中心地となりました。"
 
 #: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
 #: data/nation/vermont.ruleset:25
@@ -3377,8 +3411,8 @@ msgid ""
 "the mighty Khmer Empire, which ruled most of the Indochinese Peninsula "
 "between the 11th and 14th centuries."
 msgstr ""
-"カンプチャ（日本語表記はカンボジア）は，11から14世紀にかけてインドシナ半島の"
-"ほぼ全域を支配した強大なクメール帝国の現代の末裔です。"
+"カンプチャ(日本語表記はカンボジア)は，11から14世紀にかけてインドシナ半島のほ"
+"ぼ全域を支配した強大なクメール帝国の現代の末裔です。"
 
 #: data/nation/cameroonian.ruleset:3
 msgid "Cameroonian"
@@ -3419,14 +3453,12 @@ msgstr ""
 #. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/canari.ruleset:6
-#, fuzzy
 msgid "Canari"
-msgstr "カナダ人"
+msgstr "カニャーリ族"
 
 #: data/nation/canari.ruleset:7
-#, fuzzy
 msgid "?plural:Canaris"
-msgstr "カナダ人"
+msgstr "カニャーリ族"
 
 #: data/nation/canari.ruleset:9
 msgid ""
@@ -3443,14 +3475,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cantonese.ruleset:3
-#, fuzzy
 msgid "Cantonese"
-msgstr "スーダン人"
+msgstr "広東人"
 
 #: data/nation/cantonese.ruleset:4
-#, fuzzy
 msgid "?plural:Cantonese"
-msgstr "スーダン人"
+msgstr "広東人"
 
 #: data/nation/cantonese.ruleset:6
 msgid ""
@@ -3467,12 +3497,11 @@ msgstr ""
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
-msgstr ""
+msgstr "カーボベルデ人"
 
 #: data/nation/capeverdean.ruleset:4
-#, fuzzy
 msgid "?plural:Cape Verdean"
-msgstr "カナダ人"
+msgstr "カーボベルデ人"
 
 #: data/nation/capeverdean.ruleset:6
 msgid ""
@@ -3482,16 +3511,21 @@ msgid ""
 "Atlantic slave trade. The islands declared independence from Portugal in "
 "1975. The Cape Verdean population is of mixed European and African descent."
 msgstr ""
+"カーボベルデ共和国は，西アフリカ沖のバルラヴェント諸島とソタヴェント諸島から"
+"なります。15世紀にポルトガル人が入植するまでは，無人島だったとみられます。そ"
+"の後は大西洋奴隷貿易の拠点として繁栄しました。1975年にポルトガルから独立を果"
+"たしました。カーボベルデ人はその多くがヨーロッパ系白人とアフリカ系黒人の混血"
+"(ムラート)です。"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "Admiral %s"
-msgstr "首長"
+msgstr "%s提督"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Admiral %s"
-msgstr "マイ"
+msgstr "%s提督"
 
 #: data/nation/carantanian.ruleset:3
 #, fuzzy
@@ -3575,7 +3609,6 @@ msgid "?plural:Celtiberians"
 msgstr "ケルティベリア人"
 
 #: data/nation/celtiberian.ruleset:6
-#, fuzzy
 msgid ""
 "The Celtiberians were a people from East-Central Spain that lived during the "
 "last millennium BCE. They were of mixed Celtic and Iberian descent and were "
@@ -3583,7 +3616,7 @@ msgid ""
 msgstr ""
 "ケルティベリア人は現在のスペイン中東部を中心とし，紀元前数世紀にわたって栄え"
 "た民族です。彼らはケルト人とイベリア人が混交した末裔であり，ヌマンティア戦争"
-"戦争でローマに敗れました。"
+"でローマに敗れました。"
 
 #: data/nation/centralafrican.ruleset:3
 msgid "Central African"
@@ -3641,14 +3674,12 @@ msgid "Supreme Directrice %s"
 msgstr "最高指導者 %s"
 
 #: data/nation/centrallithuanian.ruleset:3
-#, fuzzy
 msgid "Central Lithuanian"
-msgstr "リトアニア人"
+msgstr "中部リトアニア人"
 
 #: data/nation/centrallithuanian.ruleset:4
-#, fuzzy
 msgid "?plural:Central Lithuanians"
-msgstr "リトアニア人"
+msgstr "中部リトアニア人"
 
 #. TRANS: The second and seventh letter in "Wladyslaw" should be
 #. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
@@ -3678,25 +3709,23 @@ msgstr ""
 # clefs
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "高等弁務官"
+msgstr "人民委員 %s"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "レソス"
+msgstr "人民委員 %s"
 
 #: data/nation/chadian.ruleset:3
-#, fuzzy
 msgid "Chadian"
-msgstr "カナダ人"
+msgstr "チャド人"
 
 #: data/nation/chadian.ruleset:4
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "カナダ人"
+msgstr "チャド人"
 
 #. TRANS: The last letter in "Habre" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -3708,6 +3737,12 @@ msgid ""
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
 "Habre led a notoriously brutal dictatorship."
 msgstr ""
+"チャド共和国は中部アフリカ諸国の中で最も北に位置する内陸国です。7世紀頃から19"
+"世紀末までカネム・ボルヌ帝国の支配下にありましたが，1900年にフランスの植民地"
+"とされました。1960年に独立を果たしたものの，2度の内戦やクーデター，紛争などに"
+"より経済は疲弊し，世界で最も貧しい国の一つです。第6代大統領のイッセン・ハブレ"
+"は1982年から1990年にわたって独裁体制を敷き，反体制派に対する多数の拷問・殺"
+"害，また少数民族に対する民族浄化を行ったことでよく知られます。"
 
 # Belgae
 # チャンパ人の方がいいでしょうか
@@ -3740,11 +3775,11 @@ msgstr ""
 # 読み方不詳。「犬頭人」といった意訳がよいか。
 #: data/nation/chananean.ruleset:3
 msgid "Chananean"
-msgstr "カナニア人"
+msgstr "犬頭人"
 
 #: data/nation/chananean.ruleset:4
 msgid "?plural:Chananeans"
-msgstr "カナニア人"
+msgstr "犬頭人"
 
 #: data/nation/chananean.ruleset:6
 msgid ""
@@ -3757,14 +3792,14 @@ msgid ""
 "comes from the German poet Walter of Speyer. In the account by Sir John "
 "Mandeville, the people were known as the Nacumerians."
 msgstr ""
-"犬頭人の記録は古代ギリシャの時代にまで遡ることができます。医師クテシアスおよ"
-"び旅行家メガステネスは彼らの国がインドにあるとしています。中世，プラノ・カル"
-"ピニおよびマルコ・ポーロが彼らについて言及する一方，神学者ラトラムヌスは彼ら"
-"を人間とみなすべきかどうかを論じています。さまざまな物語で，彼らの地としてス"
-"コットランド，カナン，キレナイカ，アンダマン諸島などが挙げられています。「カ"
-"ナニア(Chananea)」という国名はドイツ人の詩人ウォルター・フォン・シュパイアー"
-"に由来します。ジョン・マンデヴィル卿の旅行記では，彼らのことをナクメラ人と呼"
-"んでいました。"
+"犬頭人，すなわち犬やジャッカルの頭を持つ獣人の記録は古代ギリシア時代にまで遡"
+"ることができます。医師クテシアスおよび旅行家メガステネスは彼らの国がインドに"
+"あるとしています。中世，プラノ・カルピニおよびマルコ・ポーロが彼らについて言"
+"及する一方，神学者ラトラムヌスは彼らを人間とみなすべきかどうかを論じていま"
+"す。さまざまな物語で，彼らの地としてスコットランド，カナン，キレナイカ，アン"
+"ダマン諸島などが挙げられています。「カナニア(Chananea)」という国名はドイツ人"
+"の詩人ウォルター・フォン・シュパイアーに由来します。ジョン・マンデヴィル卿の"
+"旅行記では，彼らのことをナクメラ人と呼んでいました。"
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
 #, c-format
@@ -3809,7 +3844,7 @@ msgstr ""
 #: data/nation/chiapanec.ruleset:4
 #, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "中国人"
+msgstr "アンティル人"
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -3824,12 +3859,11 @@ msgstr ""
 
 #: data/nation/chickasaw.ruleset:3
 msgid "Chickasaw"
-msgstr ""
+msgstr "チカソー"
 
 #: data/nation/chickasaw.ruleset:4
-#, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "チョーラ人"
+msgstr "チカソー"
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -3838,6 +3872,10 @@ msgid ""
 "of first contact with Europeans. The name \"Mississippi\" itself originates "
 "from a Chickasaw word meaning \"Without Source.\""
 msgstr ""
+"チカソーはいわゆる「文明化五部族」の1つに数えられたインディアンです。元々はミ"
+"シシッピ川の西岸地域で生活していましたが東へ移動し，ヨーロッパ人と初めて接触"
+"した頃には東岸である現在のミシシッピ州やサウスカロライナ州にいました。1830年"
+"代にそのほとんどがインディアン准州へと移住させられました。"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -3848,7 +3886,6 @@ msgid "?plural:Chileans"
 msgstr "チリ人"
 
 #: data/nation/chilean.ruleset:6
-#, fuzzy
 msgid ""
 "Chile is located on the south-western coast of South America. Chile declared "
 "its independence from Spain in 1810. At the expense of Bolivia, Peru and the "
@@ -3866,13 +3903,13 @@ msgstr ""
 #: data/nation/yucatecan.ruleset:30
 #, c-format
 msgid "Captain General %s"
-msgstr "総司令官 %s"
+msgstr " %s総司令官"
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
 #: data/nation/yucatecan.ruleset:30
 #, c-format
 msgid "?female:Captain General %s"
-msgstr "総司令官 %s"
+msgstr " %s総司令官"
 
 #: data/nation/chimu.ruleset:3
 msgid "Chimu"
@@ -3901,15 +3938,11 @@ msgstr ""
 
 #: data/nation/chinook.ruleset:3
 msgid "Chinook"
-msgstr ""
+msgstr "チヌーク"
 
-# was "中国民族"
-# 漢民族ってのはあるけど、中国民族ってのはないかなあと。
-# 民族が国を作るのか、国が民族を作るのか。(clefs)
 #: data/nation/chinook.ruleset:4
-#, fuzzy
 msgid "?plural:Chinooks"
-msgstr "中国人"
+msgstr "チヌーク"
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -3921,15 +3954,19 @@ msgid ""
 "Whites throughout Oregon, Washington, British Columbia and all the way to "
 "Alaska."
 msgstr ""
+"チヌークはチヌーク語族の言語を話すインディアン部族の総称です。現在のアメリ"
+"カ・オレゴン州及びワシントン州のコロンビア川中・下流域に定住していました。彼"
+"らの言語と英語・フランス語の混成語であるチヌーク=ジャーゴンは，白人とインディ"
+"アンの貿易や意思疎通に用いられ，オレゴン州やワシントン州，カナダ・ブリティッ"
+"シュコロンビア州，アラスカ州にまで広まりました。"
 
 #: data/nation/choctaw.ruleset:3
 msgid "Choctaw"
-msgstr ""
+msgstr "チョクトー"
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "チョーラ人"
+msgstr "チョクトー"
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -3943,6 +3980,18 @@ msgid ""
 "managed to escape removal and stay behind. The word \"Oklahoma\" itself is "
 "derived from a Choctaw language term meaning \"red people\"."
 msgstr ""
+"チョクトーはいわゆる文明化五部族に数えられたインディアンで，古くからアメリカ"
+"南東部，現在のミシシッピ州周辺に住んでいました。彼らと最初に接触したヨーロッ"
+"パ人は，16世紀のスペインの探検家です。アメリカ大陸に進出したヨーロッパ列強と"
+"は友好的な関係を結び，交易を行いました。1754年にイギリスとフランスの植民地戦"
+"争であるフレンチ・インディアン戦争が起こり，フランスと同盟したチョクトーはイ"
+"ギリス側についた別のインディアン部族と戦いました。しかし結局フランスはイギリ"
+"スに敗れて北米植民地を失い，チョクトーを含むインディアンたちはイギリスや独立"
+"を果たしたアメリカから邪魔者とみなされるようになりました。1831年からオクラホ"
+"マ州への強制移住が始まり，徒歩での移動を強いられて多くの者が命を落としまし"
+"た。またミシシッピに留まることを選んだ人々は偏見と迫害に晒されました。現在も"
+"多くのチョクトーがオクラホマ州に暮らしています。「オクラホマ」はチョクトーの"
+"言葉でインディアン全体を指す，「赤い人々」という意味です。"
 
 #: data/nation/chola.ruleset:3
 msgid "Chola"
@@ -3977,7 +4026,7 @@ msgstr "クロアチア人"
 #: data/nation/chrobatian.ruleset:4
 #, fuzzy
 msgid "?plural:Chrobatians"
-msgstr "クロアチア人"
+msgstr "アンティル人"
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -4044,11 +4093,11 @@ msgstr "女大公 %s"
 
 #: data/nation/chumash.ruleset:3
 msgid "Chumash"
-msgstr "チュマシュ人"
+msgstr "チュマシュ族"
 
 #: data/nation/chumash.ruleset:4
 msgid "?plural:Chumash"
-msgstr "チュマシュ人"
+msgstr "チュマシュ族"
 
 #: data/nation/chumash.ruleset:6
 msgid ""
@@ -4063,21 +4112,20 @@ msgid ""
 msgstr ""
 "サンタバーバラ海峡のチャネル諸島，および南カリフォルニア海岸地帯のマリブから"
 "パソロブレスにかけて，内陸方面ではサンワーキンバレーまでの範囲にいたチュマ"
-"シュ人は，大きい定住村落に暮らし，半貨幣化経済を維持していました。彼らの村落"
-"は世襲（男女問わず）の族長によって統治されるようになりました。西洋文明との接"
-"触が行われたときの人口は，およそ8千から1万8千人と考えられていますが，最大では"
-"2万2千人程度まで達したものと思われます。スペイン人はチュマシュの地に5つの伝道"
-"所を建てました。病気を始めとする，植民地支配のいろいろな副産物の結果，彼らの"
-"人口は1831年には3千人以下に減少しました。"
+"シュ族は，大きい定住村落に暮らし，半貨幣化経済を維持していました。彼らの村落"
+"は男女問わず世襲の族長によって統治されるようになりました。西洋文明との接触が"
+"行われたときの人口はおよそ8,000~18,000人と考えられていますが，最大では22,000"
+"人程度まで達したものと思われます。スペイン人はチュマシュの地に5つの伝道所を建"
+"てました。病気を始めとする，植民地支配のいろいろな副産物の結果，彼らの人口は"
+"1831年には3,000人以下に減少しました。"
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "チュヴァシ人"
 
 #: data/nation/chuvash.ruleset:4
-#, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "チョーラ人"
+msgstr "チュヴァシ人"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -4088,14 +4136,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/circassian.ruleset:3
-#, fuzzy
 msgid "Circassian"
-msgstr "プロイセン人"
+msgstr "チェルケス人"
 
 #: data/nation/circassian.ruleset:4
-#, fuzzy
 msgid "?plural:Circassians"
-msgstr "プロイセン人"
+msgstr "チェルケス人"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -4149,11 +4195,11 @@ msgstr ""
 
 #: data/nation/comanche.ruleset:3
 msgid "Comanche"
-msgstr "コマンチェ人"
+msgstr "コマンチェ族"
 
 #: data/nation/comanche.ruleset:4
 msgid "?plural:Comanches"
-msgstr "コマンチェ人"
+msgstr "コマンチェ族"
 
 #: data/nation/comanche.ruleset:6
 msgid ""
@@ -4162,22 +4208,20 @@ msgid ""
 "southern Colorado, northeastern Arizona, southern Kansas, all of Oklahoma, "
 "and most of northwest Texas."
 msgstr ""
-"コマンチェ人（ヌムヌー人）はアメリカ先住民の民族グループの1つです。彼らの歴史"
-"的領域（コマンチェリア）は現在のニューメキシコ州東部，コロラド州南部，アリゾ"
-"ナ州北東部，カンザス州南部，オクラホマ州全域，およびテキサス州の北西部の大部"
-"分にわたります。"
+"コマンチェ族はアメリカ先住民の民族グループの1つで，彼ら自身は自らをヌムヌーと"
+"呼びます。彼らの歴史的領域(コマンチェリア)は現在のニューメキシコ州東部，コロ"
+"ラド州南部，アリゾナ州北東部，カンザス州南部，オクラホマ州全域，およびテキサ"
+"ス州の北西部の大部分にわたります。"
 
 #: data/nation/comorian.ruleset:3
-#, fuzzy
 msgid "Comorian"
-msgstr "イラン人"
+msgstr "コモロ人"
 
 # Daniel
 # なんでpluralだとヘルツェゴヴィナが落ちるんでしょう (clefs)
 #: data/nation/comorian.ruleset:4
-#, fuzzy
 msgid "?plural:Comorians"
-msgstr "ボスニア人"
+msgstr "コモロ人"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -4187,6 +4231,11 @@ msgid ""
 "been under Arab influence since the 8th century, the Comoros is the "
 "southernmost Muslim-majority country in the world."
 msgstr ""
+"コモロ連合はアフリカ大陸とマダガスカル島の間(モザンビーク海峡)に位置する島国"
+"で，グランドコモロ島，モヘリ島，アンジュアン島からなります。また同じくコモロ"
+"諸島に属し，現在はフランスの海外県であるマヨット島の領有権も主張しています。"
+"イスラム教を国教と定めており，ムスリムが多数派を占める国としては最も南に位置"
+"します。政治は不安定で，世界最貧国の一つです。"
 
 #: data/nation/comorian.ruleset:24 data/nation/congolesebrazzaville.ruleset:27
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
@@ -4210,7 +4259,7 @@ msgstr "議長 %s"
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
 #, c-format
 msgid "Chairwoman %s"
-msgstr "議長 %s"
+msgstr " %s議長"
 
 # "南部人"でもいいんだけど (clefs)
 #: data/nation/confederate.ruleset:3
@@ -4238,14 +4287,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:3
-#, fuzzy
 msgid "Brazzaville-Congolese"
-msgstr "モンゴル人"
+msgstr "コンゴ・ブラザヴィル人"
 
 #: data/nation/congolesebrazzaville.ruleset:4
-#, fuzzy
 msgid "?plural:Brazzaville-Congolese"
-msgstr "モンゴル人"
+msgstr "コンゴ・ブラザヴィル人"
 
 #: data/nation/congolesebrazzaville.ruleset:6
 msgid ""
@@ -4256,14 +4303,20 @@ msgid ""
 "Republic of the Congo. The country's economy relies heavily on the export of "
 "petroleum."
 msgstr ""
+"コンゴ共和国は中部アフリカの赤道直下に位置します。隣国のコンゴ民主共和国と区"
+"別するため，首都の名を付けてコンゴ・ブラザヴィルとも呼ばれます。フランスから"
+"独立したのは1960年のことです。1970年にはマリアン・ングアビ大統領の下，国名を"
+"「コンゴ人民共和国」と改め，マルクス・レーニン主義に基づいた政策を推し進めま"
+"した。しかし汚職や粛清もあって経済は低迷し，1991年には共産主義を放棄すると共"
+"に国名を元に戻しました。経済は石油の輸出に大きく依存しています。"
 
 #: data/nation/congolese.ruleset:3
 msgid "Congolese"
-msgstr "コンゴ人"
+msgstr "コンゴ・キンシャサ人"
 
 #: data/nation/congolese.ruleset:4
 msgid "?plural:Congolese"
-msgstr "コンゴ人"
+msgstr "コンゴ・キンシャサ人"
 
 #. TRANS: The second letter in "Leopold" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -4281,14 +4334,15 @@ msgid ""
 "civil war, causing five million deaths, the bloodiest event since World War "
 "II."
 msgstr ""
-"コンゴ民主共和国は中央アフリカに位置する大きな国です。天然資源に恵まれていな"
-"がら（あるいはそれゆえに），この国は現代史のほとんどの間，荒廃の中にありまし"
-"た。1885年，コンゴはベルギー国王レオポルト2世の私有地「コンゴ自由国」とされ，"
-"暴虐非道な支配が行われました。少なくとも人口の20%が死に追いやられる事態に国際"
-"的に激しい非難が沸き起こったため，1906年にはベルギーの植民地となりました。独"
-"立を達成したのは1960年のことです。モブツ独裁政権による新たな略奪の幕が上がり"
-"ました。モブツ政権崩壊後は国内は内戦に陥り，500万人もの死者が出ました。これは"
-"第二次世界大戦以来最大の流血事件です。"
+"コンゴ民主共和国は中央アフリカに位置し，アフリカでは2番目に広い国土を持ちま"
+"す。隣り合うコンゴ共和国と区別するため，首都の名を取ってコンゴ・キンシャサと"
+"も呼ばれます。天然資源に恵まれていながら(あるいはそれゆえに)，この国は現代史"
+"のほとんどの間，荒廃の中にありました。1885年，コンゴはベルギー国王レオポルト2"
+"世の私有地「コンゴ自由国」とされ，暴虐非道な支配が行われました。少なくとも人"
+"口の20%が死に追いやられる事態に国際的に激しい非難が沸き起こったため，1906年に"
+"はベルギーの植民地となりました。独立を達成したのは1960年のことですが，モブツ"
+"独裁政権による新たな略奪の幕が上がりました。政権崩壊後は内戦に陥り，500万人も"
+"の死者が出ました。これは第二次世界大戦以来最大の流血事件です。"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -4336,12 +4390,12 @@ msgstr ""
 #: data/nation/corsican.ruleset:32
 #, c-format
 msgid "General-in-Chief %s"
-msgstr "将軍 %s"
+msgstr " %s将軍"
 
 #: data/nation/corsican.ruleset:32
 #, c-format
 msgid "?female:General-in-Chief %s"
-msgstr "将軍 %s"
+msgstr " %s将軍"
 
 #: data/nation/cossack.ruleset:3
 msgid "Cossack"
@@ -4393,11 +4447,11 @@ msgstr ""
 # これも日本語表記が見当たらなかったのでそのままで
 #: data/nation/cree.ruleset:3
 msgid "Cree"
-msgstr "クリー人"
+msgstr "クリー族"
 
 #: data/nation/cree.ruleset:4
 msgid "?plural:Cree"
-msgstr "クリー人"
+msgstr "クリー族"
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -4406,21 +4460,19 @@ msgid ""
 "\"Iinuu,\" meaning \"people.\" They originally inhabited much of Quebec, "
 "Labrador, Alberta, Saskatchewan, Ontario and Manitoba."
 msgstr ""
-"クリー人はカナダ先住民の中で最大のグループです。人口は20万人以上で，アルゴン"
-"キン語族に属するクリー語を話し，自民族をしばしば「IiYiyuu」「Iinuu」"
-"（「人々」の意）などと呼びます。彼らの多くが居住する区域は，ケベック州，ラブ"
-"ラドール地方，アルバータ州，サスカチュワン州，オンタリオ州，マニトバ州にわ"
-"たっています。"
+"クリー族はカナダ先住民の中で最大のグループです。人口は20万人以上で，アルゴン"
+"キン語族に属するクリー語を話し，自民族をしばしば「IiYiyuu」「Iinuu」(「人々」"
+"の意)などと呼びます。彼らの多くが居住する区域は，ケベック州，ラブラドール地"
+"方，アルバータ州，サスカチュワン州，オンタリオ州，マニトバ州にわたっていま"
+"す。"
 
 #: data/nation/cretan.ruleset:3
-#, fuzzy
 msgid "Cretan"
-msgstr "クロアチア人"
+msgstr "クレタ人"
 
 #: data/nation/cretan.ruleset:4
-#, fuzzy
 msgid "?plural:Cretans"
-msgstr "クロアチア人"
+msgstr "クレタ人"
 
 #: data/nation/cretan.ruleset:6
 msgid ""
@@ -4432,6 +4484,15 @@ msgid ""
 "Byzantines, Venetians and Ottoman Turks. After having been a semi-"
 "independent state for 15 years, Crete finally became part of Greece in 1913."
 msgstr ""
+"クレタ島は地中海で5番目に大きな島で，エーゲ海との境をなすギリシャ最大の島で"
+"す。紀元前2700年から紀元前1400年頃にかけて，高度に発展した青銅器文明であるミ"
+"ノア文明が栄えました。ギリシア神話に登場する，ミノタウロス(迷宮に閉じ込められ"
+"た怪物)やイカロス(太陽に近付き過ぎたために人工の翼が溶け墜落死した)の物語は，"
+"クレタ島が舞台になっています。しかしミノア文明はサントリーニ火山の噴火や，森"
+"林資源の減少が原因で衰退したと考えられています。クレタ島は古代ギリシアの一部"
+"として組み込まれましたが，その後は古代ローマ，アラブ人，ビザンツ帝国，ヴェネ"
+"ツィア，オスマン帝国に支配されました。第一次バルカン戦争の結果，1913年にクレ"
+"タ島はギリシャ王国領となりました。"
 
 #: data/nation/crimeantatar.ruleset:3
 msgid "Crimean Tatar"
@@ -4472,14 +4533,12 @@ msgstr ""
 "間，ユーゴスラビア連邦の一部となっていまいた。"
 
 #: data/nation/crusader.ruleset:3
-#, fuzzy
 msgid "Crusader"
 msgstr "十字軍"
 
 #: data/nation/crusader.ruleset:4
-#, fuzzy
 msgid "?plural:Crusaders"
-msgstr "キューバ人"
+msgstr "十字軍"
 
 #: data/nation/crusader.ruleset:6
 msgid ""
@@ -4494,6 +4553,15 @@ msgid ""
 "push back the Crusaders and the last Crusader controlled city, Acre, fell to "
 "the Mamluks in 1291."
 msgstr ""
+"十字軍は中世の西ヨーロッパ諸国による，イスラーム勢力からの聖地エルサレム奪還"
+"を目的とした一連の遠征軍です。第1回十字軍は1095年のローマ教皇ウルバヌス2世に"
+"よる呼びかけで始まりました。彼らはコンスタンティノープルに集結した後，小アジ"
+"アからシリアを経て1099年にエルサレムを征服しました。また同時に東地中海沿岸に"
+"はエデッサ伯国・アンティオキア公国・トリポリ伯国などの，十字軍国家と呼ばれる"
+"キリスト教諸侯国が生まれました。しかし以降の十字軍は内紛や戦費の不足などによ"
+"り失敗を重ね，結局これが最初で最後の成功となりました。やがてイスラーム勢力が"
+"反攻に転じ，十字軍最後の拠点であったアッコン(十字軍国家の中で最も力を持ってい"
+"たエルサレム王国の首都)は1291年に陥落しました。"
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
@@ -4534,14 +4602,12 @@ msgstr ""
 "アメリカおよびアフリカの植民地化を試みましたが失敗に終わりました。"
 
 #: data/nation/cuyavian.ruleset:3
-#, fuzzy
 msgid "Cuyavian"
-msgstr "キャラバン"
+msgstr "クヤヴィ人"
 
 #: data/nation/cuyavian.ruleset:4
-#, fuzzy
 msgid "?plural:Cuyavians"
-msgstr "カナダ人"
+msgstr "クヤヴィ人"
 
 #: data/nation/cuyavian.ruleset:6
 msgid ""
@@ -4567,14 +4633,12 @@ msgstr ""
 "東地中海にあり，トルコの南，シリアおよびレバノンの西に位置しています。"
 
 #: data/nation/cyrenaican.ruleset:3
-#, fuzzy
 msgid "Cyrenaican"
-msgstr "グレナダ人"
+msgstr "キレナイカ人"
 
 #: data/nation/cyrenaican.ruleset:4
-#, fuzzy
 msgid "?plural:Cyrenaicans"
-msgstr "グレナダ人"
+msgstr "キレナイカ人"
 
 #: data/nation/cyrenaican.ruleset:6
 msgid ""
@@ -4587,16 +4651,24 @@ msgid ""
 "the Gaddafi regime. The site of much of Libya's oil reserves, Cyrenaica has "
 "seen renewed calls for autonomy following the overthrow of Gaddafi."
 msgstr ""
+"キレナイカはリビア東部地域を指す歴史的な名称で，紀元前7世紀頃に建設された古代"
+"ギリシアの植民都市キュレネに由来します。古来様々な国家の支配下に置かれ，1517"
+"年からはオスマン帝国が支配しました。伊土戦争の結果，1912年にイタリアへ割譲さ"
+"れ，第二次世界大戦では北アフリカ戦線における激戦地となりました。戦後キレナイ"
+"カ首長国の独立が宣言されましたが，翌々年の1951年にはトリポリタニア・フェザー"
+"ンと共にリビア連合王国となりました。1969年以降のカッザーフィー(カダフィ)政権"
+"下でキレナイカの部族は冷遇され，反カダフィ派の勢力が強まってゆきました。2011"
+"年のリビア内戦もキレナイカでの抗議デモが発端です。カダフィ政権崩壊後は自治権"
+"の確立を宣言し，他地域の反発を生んでいます。キレナイカにはリビア国内の埋蔵石"
+"油資源の大半が集中しており，これも無関係ではないでしょう。"
 
 #: data/nation/czechoslovak.ruleset:3
-#, fuzzy
 msgid "Czechoslovakian"
-msgstr "スロヴァキア人"
+msgstr "チェコスロヴァキア人"
 
 #: data/nation/czechoslovak.ruleset:4
-#, fuzzy
 msgid "?plural:Czechoslovakians"
-msgstr "スロヴァキア人"
+msgstr "チェコスロヴァキア人"
 
 #: data/nation/czechoslovak.ruleset:6
 msgid ""
@@ -4605,6 +4677,14 @@ msgid ""
 "Union in 1948. Four years after the fall of communism it was split into the "
 "Czech and Slovak republics."
 msgstr ""
+"第一次世界大戦末期の1918年に，敗色濃厚となったオーストリア=ハンガリー帝国から"
+"チェコスロヴァキア共和国が独立を宣言しました。1938年9月に開かれたミュンヘン会"
+"談でナチス・ドイツへのズデーテン地方割譲を強いられ，これ以降各地で民族運動が"
+"激化しました。宥和政策を取るイギリスとフランスに見捨てられた格好となったチェ"
+"コスロヴァキアはナチス・ドイツに抵抗する術を持たず，翌1939年に解体されまし"
+"た。戦後はソ連の影響が強まり社会主義共和国となりましたが，1989年のビロード革"
+"命で共産党政権は崩壊しました。1993年1月1日に連邦制が解消され，チェコ共和国と"
+"スロヴァキア共和国に分離しました。"
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -4620,18 +4700,18 @@ msgid ""
 "until 1918 part of the Austro-Hungarian Empire."
 msgstr ""
 "今日のチェコ共和国は，1918年までオーストリア-ハンガリー帝国の一部であり，また"
-"1993年まではチェコスロバキアの一部を構成していました。"
+"1993年まではチェコスロヴァキアの一部を構成していました。"
 
 #: data/nation/czech.ruleset:34 data/nation/xhosa.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Prophet %s"
-msgstr "女予言者"
+msgstr "預言者 %s"
 
 #: data/nation/czech.ruleset:34 data/nation/moravian.ruleset:35
 #: data/nation/xhosa.ruleset:27
 #, c-format
 msgid "Prophetess %s"
-msgstr "女予言者 %s"
+msgstr "預言者 %s"
 
 #: data/nation/dacian.ruleset:3
 #, fuzzy
@@ -4673,21 +4753,20 @@ msgid ""
 "an army of women who were the king's official bodyguards and celibate wives."
 msgstr ""
 "今日のベナンの南部3分の1に当たる地域にはかつて１つの王国がありました。この王"
-"国はアグボメ（1600-1700年頃），ダンホメ（1700-1730年頃），ダホメー（1730-1894"
-"年）と，さまざまな名前で知られています。1730年にこの国は隣り合うオヨ王国に貢"
-"納するようになりました。第二次フランス＝ダホメ戦争（1892-1894年）にフランスに"
-"征服され，アグボメとアラダに分割されました。18世紀から19世紀にかけて，ダホ"
-"メーは勇猛果敢なるアホシ（グベト）戦士で有名でした。彼女らは女性の軍隊で，王"
-"の公的なボディーガードであるとともに妻でもあった（性的な関係はない）。"
+"国はアグボメ(1600-1700年頃)，ダンホメ(1700-1730年頃)，ダホメー(1730-1894年)"
+"と，さまざまな名前で知られています。1730年にこの国は隣り合うオヨ王国に貢納す"
+"るようになりました。第二次フランス＝ダホメ戦争(1892-1894年)にフランスに征服さ"
+"れ，アグボメとアラダに分割されました。18世紀から19世紀にかけて，ダホメーは勇"
+"猛果敢なるアホシ(グベト)戦士で有名でした。彼女らは女性の軍隊で，王の公的なボ"
+"ディーガードであるとともに妻でもあった（性的な関係はない）。"
 
 #: data/nation/darfuri.ruleset:3
 msgid "Darfuri"
-msgstr ""
+msgstr "ダルフール人"
 
 #: data/nation/darfuri.ruleset:4
-#, fuzzy
 msgid "?plural:Darfuris"
-msgstr "バーバリアン"
+msgstr "ダルフール人"
 
 #: data/nation/darfuri.ruleset:7
 msgid ""
@@ -4700,15 +4779,25 @@ msgid ""
 "established a long-lasting sultanate. The word Darfur means the Land of the "
 "Fur."
 msgstr ""
+"ダルフールは北アフリカのマッラ山を中心とする一帯で，砂漠から半砂漠の大地が広"
+"がっています。記録に残る中でこの地域に最初に定住を始めたのはダジュ族で，次い"
+"で14世紀頃アラブ系のトゥンジュル族がこれに替わり，イスラム教が広まりました。"
+"やがて南から移住してきたフール族の母を持つ王が現れて以降，彼らがこの地域を支"
+"配するようになりました。ダルフールとは，フール族の土地という意味です。17世紀"
+"初めにスレイマン・ソロンが興したダルフール王国はサハラ交易の拠点として繁栄"
+"し，周辺の遊牧民をも支配する強大な帝国となりました。しかし19世紀後半からはエ"
+"ジプト(ムハンマド・アリー朝)とイギリスに支配されました。1956年にダルフールは"
+"スーダン共和国の一部として独立を果たし，現在は北・南・西ダルフール州となって"
+"います。2003年には民族対立からダルフール紛争が勃発し，30-40万人の死者と250万"
+"人の難民が発生しています。"
 
 #: data/nation/djiboutian.ruleset:3
 msgid "Djiboutian"
-msgstr ""
+msgstr "ジブチ人"
 
 #: data/nation/djiboutian.ruleset:4
-#, fuzzy
 msgid "?plural:Djiboutians"
-msgstr "ハワイ人"
+msgstr "ジブチ人"
 
 #: data/nation/djiboutian.ruleset:6
 msgid ""
@@ -4717,6 +4806,10 @@ msgid ""
 "groups are the Afar and the Somalis. The country has one of the hottest "
 "climates in the world."
 msgstr ""
+"ジブチ共和国はアフリカの小さな国で，紅海とアデン湾の境であるバブ・エル・マン"
+"デブ海峡に面しています。1977年に独立する以前はフランスの植民地・海外県でし"
+"た。国民の60%がイッサ人，35%がアファル人です。世界で最も暑い国の一つで，首都"
+"ジブチ市の年間平均気温は33.4℃に達します。"
 
 #: data/nation/dominicano.ruleset:3
 msgid "Dominicano"
@@ -4754,10 +4847,10 @@ msgid ""
 "Caribbean nation."
 msgstr ""
 "ドミニカ島にクリストファー・コロンブス達ヨーロッパ人が初めて発見したのは1493"
-"年のことです。伝説によると，この島の名前の由来は，発見した日が日曜日（ドミン"
-"ゴ）だったからだといいます。正式名は「ドミニカ国」（Commonwealth of "
-"Dominica）といいます。別のカリブ国家「ドミニカ共和国」（Dominican Republic）"
-"と混同しないでください。"
+"年のことです。伝説によると，この島の名前の由来は，発見した日が日曜日(ドミン"
+"ゴ)だったからだといいます。正式名は「ドミニカ国」（Commonwealth of Dominica）"
+"といいます。別のカリブ国家「ドミニカ共和国」（Dominican Republic）と混同しな"
+"いでください。"
 
 # フランス語読み。日本で一般的なので。(Belgae)
 #: data/nation/dryad.ruleset:3
@@ -4774,9 +4867,9 @@ msgid ""
 "trees. Dryads were generally considered to be shy and long-lived. They are "
 "usually female and are often depicted as beautiful young women."
 msgstr ""
-"ドリアードはギリシャ神話に登場する精霊です。彼らはニンフの一種で，木を司りま"
-"す。ドリアードは一般に，人目に付くのを好まず，長命だと考えられてきました。彼"
-"らはたいていは女性の姿で現れ，美しく若い女性として描かれます。"
+"ドリアードはギリシャ神話に登場する木の精霊です。彼らはニンフの一種で，人目に"
+"付くのを好まず，長命だと考えられています。大抵は女性の姿をしており，しばしば"
+"若く美しい女性として描かれます。"
 
 #: data/nation/eastgerman.ruleset:3
 msgid "East German"
@@ -4802,37 +4895,37 @@ msgstr ""
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy of the People %s"
-msgstr "新しいプレイヤー %sの作成に失敗しました。"
+msgstr "人民の敵 %s"
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Enemy of the People %s"
-msgstr "首相"
+msgstr "人民の敵 %s"
 
 # clefs
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Commissar %s"
-msgstr "高等弁務官"
+msgstr "政治委員 %s"
 
 # clefs
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Commissar %s"
-msgstr "高等弁務官"
+msgstr "政治委員 %s"
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
-msgstr "東チモール"
+msgstr "東ティモール人"
 
 #: data/nation/easttimorese.ruleset:4
 msgid "?plural:East Timorese"
-msgstr "東チモール人"
+msgstr "東ティモール人"
 
 #: data/nation/easttimorese.ruleset:6
 msgid ""
@@ -4869,20 +4962,20 @@ msgid ""
 "producing countries of South America."
 msgstr ""
 "エクアドルは南アメリカ西部の国です。この国は，海岸部の低地，アンデス山脈の高"
-"地，東部のジャングル（オリエンテ）という地形的に大きく異なる3つの地域に分かれ"
-"ています。ガラパゴス諸島もエクアドルの一部です。この国がスペインから独立を獲"
-"得したのは1821年のことで，さらに1830年にはコロンビアからも分離独立しました。"
-"エクアドルの歴史は海岸部（グアヤキル）と山岳部（キト）とのライバル関係が特徴"
-"です。またコロンビアおよびペルーとの間で数多くの国境紛争も戦われました。今日"
-"エクアドルは南アメリカにおける主要産油国の一つです。"
+"地，東部のジャングル(オリエンテ)という地形的に大きく異なる3つの地域に分かれて"
+"います。ガラパゴス諸島もエクアドルの一部です。この国がスペインから独立を獲得"
+"したのは1821年のことで，さらに1830年にはコロンビアからも分離独立しました。エ"
+"クアドルの歴史は海岸部（グアヤキル）と山岳部（キト）とのライバル関係が特徴で"
+"す。またコロンビアおよびペルーとの間で数多くの国境紛争も戦われました。今日エ"
+"クアドルは南アメリカにおける主要産油国の一つです。"
 
 #: data/nation/egyptianarab.ruleset:3
 msgid "Egyptian Arab"
-msgstr "エジブト・アラブ共和国人"
+msgstr "エジブト人"
 
 #: data/nation/egyptianarab.ruleset:4
 msgid "?plural:Egyptian Arabs"
-msgstr "エジブト・アラブ共和国人"
+msgstr "エジブト人"
 
 #: data/nation/egyptianarab.ruleset:6
 msgid ""
@@ -4890,8 +4983,9 @@ msgid ""
 "the most populous in Africa. It is located on the site of one of the world's "
 "most ancient civilizations."
 msgstr ""
-"現在のエジプトは，中東諸国の中で最も人口の多い国であり，またアフリカ諸国の中"
-"でも上位になります。この国はかつて古代文明の1つが栄えた地にあります。"
+"現在のエジプト・アラブ共和国は，中東諸国の中で最も人口の多い国であり，またア"
+"フリカ諸国の中でも上位になります。この国はかつて古代文明の1つが栄えた地にあり"
+"ます。"
 
 #: data/nation/elamite.ruleset:3
 msgid "Elamite"
@@ -4902,7 +4996,6 @@ msgid "?plural:Elamites"
 msgstr "エラム人"
 
 #: data/nation/elamite.ruleset:6
-#, fuzzy
 msgid ""
 "Elam was an ancient civilization located in the area of modern southwest "
 "Iran, which arose around 3100 BCE. The Elamite language, written in "
@@ -4937,12 +5030,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "エペイロス人"
 
 #: data/nation/epirote.ruleset:4
-#, fuzzy
 msgid "?plural:Epirotes"
-msgstr "海賊"
+msgstr "エペイロス人"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4950,26 +5042,32 @@ msgid ""
 "northwestern Greece. Their most powerful ruler Pyrrhus launched a campaign "
 "against Rome in Italy, which ended in the famous \"Pyrrhic Victory\"."
 msgstr ""
+"イピロス(古代ギリシア語でエペイロス)は現在のギリシャ北西部，ピンドス山脈以西"
+"のイオニア海沿岸地域を指します。古代ギリシアにおいては小さな村しかない後進地"
+"域でしたが，紀元前4世紀頃に王国が成立しました。紀元前3世紀初頭に王となった"
+"ピュロスは戦術の天才として有名で，当時新興国であった共和制ローマ軍をヘラクレ"
+"アの戦いとアスクルムの戦いで破りました。しかしピュロスの軍勢の損害もまた大き"
+"かったため，このような犠牲が大きすぎる勝利を「ピュロスの勝利(\"Pyrrhic "
+"Victory\")」と呼ぶようになりました。"
 
 #: data/nation/epirote.ruleset:30 data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyrant %s"
-msgstr "ランツァ"
+msgstr "僭主 %s"
 
 #: data/nation/epirote.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tyrant %s"
-msgstr "ハカン"
+msgstr "僭主 %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
-msgstr ""
+msgstr "赤道ギニア人"
 
 # clefs
 #: data/nation/equatoguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Equatoguineans"
-msgstr "ブルガリア人"
+msgstr "赤道ギニア人"
 
 #: data/nation/equatoguinean.ruleset:6
 msgid ""
@@ -4978,6 +5076,12 @@ msgid ""
 "the country achieved independence in 1968. Equatorial Guinea is one of the "
 "wealthier countries of Africa but also one of the most unequal."
 msgstr ""
+"赤道ギニア共和国は西アフリカの小さな国です。ギニア湾に浮かぶビオコ島，アンノ"
+"ボン島，エロベイ諸島，及び大陸地域(リオ・ムニ)からなります。首都マラボはビオ"
+"コ島にあり，このような大陸に領土を持つにも関わらず島に首都を置く国は珍しく，"
+"他の例はデンマークしかありません。1900年にスペイン領ギニアとされましたが，"
+"1968年に独立を果たしました。油田開発によりアフリカ有数の豊かな国へと成長しま"
+"したが，同時に経済格差も非常に大きなものとなっています。"
 
 #: data/nation/eritrean.ruleset:3
 msgid "Eritrean"
@@ -5080,12 +5184,12 @@ msgstr ""
 # ?を使って分けられているので「ヨーロッパ人」に変えました。
 #: data/nation/european.ruleset:3
 msgid "European"
-msgstr "ヨーロッパ人"
+msgstr "欧州連合"
 
 # 統合の進むヨーロッパを一つの新しい単位と見ているわけです (clefs)
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
-msgstr "ヨーロッパ人"
+msgstr "欧州連合"
 
 # clefs
 # "super state" (力を持つ)「超大国」？　(理念的な)「超国家」？
@@ -5106,36 +5210,34 @@ msgstr ""
 #: data/nation/slovakian.ruleset:24 data/nation/westernroman.ruleset:31
 #, c-format
 msgid "Pope %s"
-msgstr "教皇 %s"
+msgstr " %s教皇"
 
 #: data/nation/european.ruleset:23 data/nation/frankish.ruleset:42
 #: data/nation/holyroman.ruleset:34 data/nation/holysee.ruleset:31
 #: data/nation/westernroman.ruleset:31
 #, c-format
 msgid "Popess %s"
-msgstr "女教皇 %s"
+msgstr " %s教皇"
 
 #: data/nation/european.ruleset:24 data/nation/frisian.ruleset:35
 #: data/nation/micronesian.ruleset:21
 #, c-format
 msgid "Commissioner %s"
-msgstr "弁務官 %s"
+msgstr " %s弁務官"
 
 #: data/nation/european.ruleset:24 data/nation/frisian.ruleset:35
 #: data/nation/micronesian.ruleset:21
 #, c-format
 msgid "?female:Commissioner %s"
-msgstr "弁務官 %s"
+msgstr " %s弁務官"
 
 #: data/nation/evenki.ruleset:3
-#, fuzzy
 msgid "Evenki"
-msgstr "イベント"
+msgstr "エヴェンキ族"
 
 #: data/nation/evenki.ruleset:4
-#, fuzzy
 msgid "?plural:Evenks"
-msgstr "ギリシア人"
+msgstr "エヴェンキ族"
 
 #: data/nation/evenki.ruleset:7
 msgid ""
@@ -5148,12 +5250,11 @@ msgstr ""
 
 #: data/nation/faroese.ruleset:3
 msgid "Faroese"
-msgstr ""
+msgstr "フェロー人"
 
 #: data/nation/faroese.ruleset:4
-#, fuzzy
 msgid "?plural:Faroese"
-msgstr "クリー人"
+msgstr "フェロー人"
 
 #: data/nation/faroese.ruleset:6
 msgid ""
@@ -5163,6 +5264,11 @@ msgid ""
 "possession in 1035 and passed to Denmark in 1814. The Faroes have home rule "
 "since 1948."
 msgstr ""
+"フェロー諸島は北大西洋，ノルウェーとアイスランドの中間に位置する諸島です。サ"
+"ガ(古代北欧の叙事詩)によると，最初に入植したのは9世紀頃にハーラル1世の圧政か"
+"ら逃れてきたノース人だとされています。1035年にノルウェー王国が併合し，1814年"
+"のキール条約でデンマーク王国に譲渡されました。現在もフェロー諸島はグリーンラ"
+"ンドと共に同国の一部ですが，1948年から自治政府が行政を担当しています。"
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
@@ -5196,7 +5302,7 @@ msgstr ""
 #: data/nation/xhosa.ruleset:28
 #, c-format
 msgid "Paramount Chief %s"
-msgstr "大族長 %s"
+msgstr "最高首長 %s"
 
 #: data/nation/fijian.ruleset:24 data/nation/maasai.ruleset:21
 #: data/nation/maori.ruleset:23 data/nation/marshallese.ruleset:24
@@ -5207,7 +5313,7 @@ msgstr "大族長 %s"
 #: data/nation/xhosa.ruleset:28
 #, c-format
 msgid "?female:Paramount Chief %s"
-msgstr "大族長 %s"
+msgstr "最高首長 %s"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -5277,14 +5383,12 @@ msgstr ""
 "される地域に当てられています。"
 
 #: data/nation/florentine.ruleset:3
-#, fuzzy
 msgid "Florentine"
-msgstr "アルゼンチン人"
+msgstr "フィレンツェ人"
 
 #: data/nation/florentine.ruleset:4
-#, fuzzy
 msgid "?plural:Florentines"
-msgstr "アルゼンチン人"
+msgstr "フィレンツェ人"
 
 #: data/nation/florentine.ruleset:6
 msgid ""
@@ -5300,22 +5404,22 @@ msgstr ""
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiere %s"
-msgstr "不思議: %s"
+msgstr " %s傭兵隊長"
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiera %s"
-msgstr "不思議: %s"
+msgstr " %s傭兵隊長"
 
 #: data/nation/florentine.ruleset:40 data/nation/milanese.ruleset:27
 #: data/nation/piedmontese.ruleset:33 data/nation/sardinian.ruleset:33
 #: data/nation/sicilian.ruleset:30
 #, fuzzy, c-format
 msgid "Fra %s"
-msgstr "首長"
+msgstr "\"%s\""
 
 # ミラノ人が民主主義の時に使用するのですが，いわれはあるのでしょうかねえ？イタリア語Capitanoの音をそのまま。(Belgae)
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
@@ -5370,7 +5474,7 @@ msgid ""
 msgstr ""
 "フランケンは神聖ローマ帝国の部族公国のひとつでした。9世紀に成立したこの公国は"
 "他の部族公国とは異なり，領域統合が進まずに12世紀には完全に消滅しました。フラ"
-"ンケン地方は文化圏として現在もバイエルン州，チューリンゲン州，バーデン・ヴュ"
+"ンケン地方は文化圏として現在もバイエルン州，テューリンゲン州，バーデン・ヴュ"
 "ルテンベルク州にまたがって存在し続けています。"
 
 #: data/nation/franconian.ruleset:25 data/nation/hanoverian.ruleset:23
@@ -5380,17 +5484,15 @@ msgstr ""
 #: data/nation/westphalian.ruleset:32
 #, c-format
 msgid "Prince-Bishop %s"
-msgstr "司教 %s"
+msgstr " %s司教"
 
 #: data/nation/frankish.ruleset:3
-#, fuzzy
 msgid "Frankish"
-msgstr "デンマーク人"
+msgstr "フランク人"
 
 #: data/nation/frankish.ruleset:4
-#, fuzzy
 msgid "?plural:Franks"
-msgstr "フリース人"
+msgstr "フランク人"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -5409,14 +5511,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "Mayor of the Palace %s"
-msgstr "新しいプレイヤー %sの作成に失敗しました。"
+msgstr "宮宰 %s"
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mayor of the Palace %s"
-msgstr "首相"
+msgstr "宮宰 %s"
 
 #: data/nation/frisian.ruleset:3
 msgid "Frisian"
@@ -5447,14 +5549,12 @@ msgstr ""
 "として初めてアメリカ合衆国の独立を承認しました。"
 
 #: data/nation/friulian.ruleset:3
-#, fuzzy
 msgid "Friulian"
-msgstr "ブラジル人"
+msgstr "フリウリ人"
 
 #: data/nation/friulian.ruleset:4
-#, fuzzy
 msgid "?plural:Friulian"
-msgstr "ペルシア人"
+msgstr "フリウリ人"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -5466,14 +5566,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/fulani.ruleset:3
-#, fuzzy
 msgid "Fulani"
-msgstr "ブラジル人"
+msgstr "フラニ族"
 
 #: data/nation/fulani.ruleset:4
-#, fuzzy
 msgid "?plural:Fulani"
-msgstr "ペルシア人"
+msgstr "フラニ族"
 
 #: data/nation/fulani.ruleset:6
 msgid ""
@@ -5485,16 +5583,23 @@ msgid ""
 "the European conquest and colonization. The caliphate remained extant "
 "through the colonial period and afterwards, though with reduced power."
 msgstr ""
+"フラニ族，またはフラベ族(他にも多くの呼び名があります)は、西アフリカを中心に"
+"極めて広い範囲にわたって住んでいます。伝統的に牛や羊を飼う遊牧生活を営んでい"
+"たためです。18-19世紀にはジハードを宣言し，西アフリカ各地にいくつかの国家を築"
+"きました。その中の一つが1804年からのフラニ戦争に勝利してウスマン・ダン・フォ"
+"ディオが築いたソコト帝国です。ヨーロッパ諸国による殖民地化が行われるまでの"
+"間，サハラ砂漠以南のアフリカ地域において最も強大な帝国のひとつでした。ソコト"
+"帝国は20世紀初頭にイギリスによって滅ぼされましたが，そのスルターンは殖民地時"
+"代を通して現在に至るまで，ナイジェリアにおけるイスラム教の最高指導者として影"
+"響力を保っています。"
 
 #: data/nation/gabonese.ruleset:3
-#, fuzzy
 msgid "Gabonese"
-msgstr "スーダン人"
+msgstr "ガボン人"
 
 #: data/nation/gabonese.ruleset:4
-#, fuzzy
 msgid "?plural:Gabonese"
-msgstr "スーダン人"
+msgstr "ガボン人"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -5504,6 +5609,13 @@ msgid ""
 "one of the most developed countries of Sub-Saharan Africa, in part because "
 "of its position as a major oil exporter."
 msgstr ""
+"ガボン共和国は中部アフリカに位置し，ギニア湾に面した赤道直下の国です。古来バ"
+"ントゥー系民族が住んでおり，ヨーロッパ人が渡来してからは奴隷・象牙貿易の拠点"
+"となり繁栄しました。19世紀からフランスが支配し、その後20世紀初頭にフランス領"
+"赤道アフリカの一部となりました。独立したのは1960年のことです(いわゆる「アフリ"
+"カの年」)。ガボンは産油国であり，ギニア湾で産出される石油は輸出の80%を占めて"
+"います。アフリカ諸国の中でも特に豊かな国の一つですが，国民の経済格差は未だ大"
+"きいままです。"
 
 #: data/nation/gaelic.ruleset:3
 msgid "Gaelic"
@@ -5564,7 +5676,6 @@ msgid "?plural:Gauls"
 msgstr "ガリア人"
 
 #: data/nation/gallic.ruleset:6
-#, fuzzy
 msgid ""
 "The Gauls were a Celtic people occupying what is now France and Belgium. "
 "They lived in chiefdom-level societies that grew increasingly centralized "
@@ -5587,20 +5698,21 @@ msgstr ""
 # Belgae
 # 自称は「マッシュリー」だったようですが。
 #: data/nation/gambian.ruleset:3
-#, fuzzy
 msgid "Gambian"
-msgstr "ヌミディア人"
+msgstr "ガンビア人"
 
 #: data/nation/gambian.ruleset:4
-#, fuzzy
 msgid "?plural:Gambians"
-msgstr "ヌミディア人"
+msgstr "ガンビア人"
 
 #: data/nation/gambian.ruleset:6
 msgid ""
 "The Gambia is a small country in West Africa, straddling both banks of the "
 "Gambia river. It achieved independence from the United Kingdom in 1965."
 msgstr ""
+"ガンビア共和国は西アフリカに位置し，大西洋に流れ込むガンビア川流域を領土とし"
+"ています。アフリカ大陸において最も面積が小さい国です。1965年にイギリスから独"
+"立しました。"
 
 # clefs これも訳せば「王」になってしまいますが
 #: data/nation/gambian.ruleset:19 data/nation/malian.ruleset:20
@@ -5617,15 +5729,14 @@ msgstr "マンサ %s"
 
 #: data/nation/genoese.ruleset:3
 msgid "Genoese"
-msgstr ""
+msgstr "ジェノヴァ人"
 
 # clefs
 # スリランカ人はシンハリ族やタミル族などからなり、
 # 「スリランカ（民）族」と訳すのは不適切でしょう
 #: data/nation/genoese.ruleset:4
-#, fuzzy
 msgid "?plural:Genoese"
-msgstr "スリランカ人"
+msgstr "ジェノヴァ人"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -5661,13 +5772,11 @@ msgid "?plural:Georgians"
 msgstr "グルジア人"
 
 #: data/nation/georgian.ruleset:6
-#, fuzzy
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s CE."
 msgstr ""
-"グルジア人は，西暦300年代にキリスト教を受け入れた最初の諸民族のうちの一つで"
-"す。"
+"グルジア人は，300年代にキリスト教を受け入れた最初の諸民族のうちの一つです。"
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
@@ -5710,14 +5819,14 @@ msgid "?female:Presbyter %s"
 msgstr "長老 %s"
 
 #: data/nation/gepid.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Great Warrior %s"
-msgstr "偉大なファラオ %s"
+msgstr "偉大な戦士 %s"
 
 #: data/nation/gepid.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Warrior %s"
-msgstr "偉大なファラオ %s"
+msgstr "偉大な戦士 %s"
 
 #: data/nation/germanbelgian.ruleset:3
 #, fuzzy
@@ -5743,14 +5852,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/germanic.ruleset:3
-#, fuzzy
 msgid "Germanic"
-msgstr "ドイツ人"
+msgstr "ゲルマン人"
 
 #: data/nation/germanic.ruleset:4
-#, fuzzy
 msgid "?plural:Germanics"
-msgstr "ドイツ人"
+msgstr "ゲルマン人"
 
 #: data/nation/germanic.ruleset:6
 msgid ""
@@ -5790,12 +5897,12 @@ msgstr ""
 #: data/nation/ghana.ruleset:3
 #, fuzzy
 msgid "Ghana"
-msgstr "カナダ人"
+msgstr "ガーナ %s"
 
 #: data/nation/ghana.ruleset:4
 #, fuzzy
 msgid "?plural:Ghana"
-msgstr "カナダ人"
+msgstr "ガーナ %s"
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -5808,23 +5915,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Ghana %s"
-msgstr "%sに駐留"
+msgstr "ガーナ %s"
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ghana %s"
-msgstr "マンサ"
+msgstr "ガーナ %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
-msgstr ""
+msgstr "ガズナ人"
 
 #: data/nation/ghaznavid.ruleset:4
-#, fuzzy
 msgid "?plural:Ghaznavids"
-msgstr "カナダ人"
+msgstr "ガズナ人"
 
 #: data/nation/ghaznavid.ruleset:6
 msgid ""
@@ -5832,6 +5938,9 @@ msgid ""
 "977 to 1186 CE in Afghanistan and Northern India, and at the peak of their "
 "power also in eastern Iran and Central Asia."
 msgstr ""
+"ガズナ朝は977年に成立したスンニ派のテュルク系イスラム王朝です。その勢力は現在"
+"のアフガニスタンを中心に，最盛期にはイラン東部から中央アジアやインド北部にま"
+"で及びました。1186年にゴール朝によって滅ぼされました。"
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
@@ -5855,20 +5964,18 @@ msgid ""
 "the creators of a vast military empire, which covered the steppe areas from "
 "the Kuban river in the West to Korea in the East."
 msgstr ""
-"突厥（突厥可汗国）を支配した阿史那氏族は，神話における雌狼の息子アセナをその"
-"由来としています。突厥人は現在アジアや東ヨーロッパにいるテュルク系民族の祖先"
-"です。彼らは広大な軍事帝国を築き上げ，ステップの地を西はクバン川，東は朝鮮に"
-"まで拡がりました。"
+"突厥(突厥可汗国)を支配した阿史那氏族は，神話における雌狼の息子アセナをその由"
+"来としています。突厥人は現在アジアや東ヨーロッパにいるテュルク系民族の祖先で"
+"す。彼らは広大な軍事帝国を築き上げ，ステップの地を西はクバン川，東は朝鮮にま"
+"で拡がりました。"
 
 #: data/nation/goldenhorde.ruleset:3
-#, fuzzy
 msgid "Golden Horde"
-msgstr "金: %d"
+msgstr "ジョチ・ウルス人"
 
 #: data/nation/goldenhorde.ruleset:4
-#, fuzzy
 msgid "?plural:Golden Horde"
-msgstr "ボーア人"
+msgstr "ジョチ・ウルス人"
 
 #: data/nation/goldenhorde.ruleset:6
 msgid ""
@@ -5883,14 +5990,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gothic.ruleset:3
-#, fuzzy
 msgid "Gothic"
-msgstr "拡大"
+msgstr "ゴート族"
 
 #: data/nation/gothic.ruleset:4
-#, fuzzy
 msgid "?plural:Goths"
-msgstr "スコットランド人"
+msgstr "ゴート族"
 
 #: data/nation/gothic.ruleset:6
 msgid ""
@@ -5914,9 +6019,9 @@ msgid ""
 "Greater Poland or Wielkopolska is a historic and geographic region of "
 "central-western Poland."
 msgstr ""
-"ヴィエルコポルスカ（大ポーランド）とは，ポーランド中西部の歴史的・地理的地域"
-"名です。（訳注:ここでの「大」とは「ローマからより遠い」という意味です。「より"
-"近い」マウォポルスカ地域との対比です。）"
+"ヴィエルコポルスカ(大ポーランド)とは，ポーランド中西部の歴史的・地理的地域名"
+"です。（訳注:ここでの「大」とは「ローマからより遠い」という意味です。「より近"
+"い」マウォポルスカ地域との対比です。）"
 
 #: data/nation/greenlander.ruleset:3
 msgid "Greenlander"
@@ -5935,10 +6040,10 @@ msgid ""
 "Kingdom of Denmark with mixed Inuit and Scaninavian population."
 msgstr ""
 "伝説によれば，大シャーマンQitdlarssuaqがイヌイットの民を引き連れてグリーンラ"
-"ンド西岸の地トゥーレ（カーナーク）に移住したといいます。ほぼ同時期に，スカン"
-"ジナビアからの入植者が島の南西端のフィヨルドに到達しました。今日，グリーンラ"
-"ンドはデンマーク王国の自治領であり，イヌイットとスカンジナビア人が混住してい"
-"ます。"
+"ンド西岸の地トゥーレ(カーナーク)に移住したといいます。ほぼ同時期に，スカンジ"
+"ナビアからの入植者が島の南西端のフィヨルドに到達しました。今日，グリーンラン"
+"ドはデンマーク王国の自治領であり，イヌイットとスカンジナビア人が混住していま"
+"す。"
 
 #: data/nation/grenadian.ruleset:3
 msgid "Grenadian"
@@ -5978,11 +6083,11 @@ msgstr ""
 
 #: data/nation/guarani.ruleset:3
 msgid "Guarani"
-msgstr "グアラニー人"
+msgstr "グアラニー族"
 
 #: data/nation/guarani.ruleset:4
 msgid "?plural:Guarani"
-msgstr "グアラニー人"
+msgstr "グアラニー族"
 
 #: data/nation/guarani.ruleset:6
 msgid ""
@@ -5991,10 +6096,10 @@ msgid ""
 "Paraguay in agricultural villages. Today their Guarani language is spoken by "
 "over 4 million people and is an official language of the nation of Paraguay."
 msgstr ""
-"ヨーロッパ人との接触時におよそ40万人を数えたと思われるアバ人（より一般的には"
-"グアラニー人として知られる）は主に現在のパラグアイに当たる地で農村に暮らして"
-"いました。今日，グアラニー語は400万人を超える話者がいて，パラグアイの公用語の"
-"ひとつとなっています。"
+"ヨーロッパ人との接触時におよそ40万人を数えたと思われるアバ人(より一般的にはグ"
+"アラニー族として知られる)は主に現在のパラグアイに当たる地で農村に暮らしていま"
+"した。今日，グアラニー語は400万人を超える話者がいて，パラグアイの公用語のひと"
+"つとなっています。"
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
@@ -6020,12 +6125,11 @@ msgstr ""
 
 #: data/nation/guinean.ruleset:3
 msgid "Guinean"
-msgstr ""
+msgstr "ギニア人"
 
 #: data/nation/guinean.ruleset:4
-#, fuzzy
 msgid "?plural:Guinean"
-msgstr "ブルンジ人"
+msgstr "ギニア人"
 
 #. TRANS: The second letter in "Sekou" and last in "Toure" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -6036,6 +6140,14 @@ msgid ""
 "Sekou Toure continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
+"ギニア共和国は西アフリカに位置し，大西洋に面しています。19世紀末にフランスの"
+"植民地となりましたが，1958年に独立を宣言しました。しかしフランスはこれに強く"
+"反発し，国交を断絶すると共に公共施設や道路などのインフラを破壊する報復措置を"
+"取りました。開発が最初から行き詰まったギニアは貧困にあえぎ，初代大統領セク・"
+"トゥーレは一党独裁体制の下で計画経済を推進し，復興を図りました。彼がこの世を"
+"去る1984年まで25年以上にわたって独裁政治が続き，その間反体制派に対する弾圧や"
+"少数民族への迫害も行われました。近隣のギニアビサウや赤道ギニアと混同しないよ"
+"うに，首都の名を付けてギニア・コナクリとも呼ばれます。"
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -6048,13 +6160,12 @@ msgstr "グプタ人"
 # Belgae
 # グプタ紀元は320年のようですが...
 #: data/nation/gupta.ruleset:7
-#, fuzzy
 msgid ""
 "The Gupta Empire was one of the great classical empires. It ruled northern "
 "India from around 240 to 550 CE."
 msgstr ""
-"グプタ朝は古代に栄えた大帝国の1つです。北部インドを紀元240年頃から550年頃まで"
-"支配しました。"
+"グプタ朝は古代に栄えた大帝国の1つです。インド北部を320年から550年頃まで支配し"
+"ました。"
 
 #: data/nation/guyanese.ruleset:3
 msgid "Guyanese"
@@ -6173,15 +6284,15 @@ msgstr ""
 #: data/nation/westphalian.ruleset:32
 #, c-format
 msgid "Princess-Bishop %s"
-msgstr "司教 %s"
+msgstr " %s司教"
 
 #: data/nation/han.ruleset:3
 msgid "Han"
-msgstr "漢人"
+msgstr "漢族"
 
 #: data/nation/han.ruleset:4
 msgid "?plural:Han"
-msgstr "漢人"
+msgstr "漢族"
 
 #: data/nation/han.ruleset:6
 msgid ""
@@ -6189,7 +6300,7 @@ msgid ""
 "back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the Yellow Emperor), "
 "legendary god-kings of prehistory."
 msgstr ""
-"漢人は中国の主要民族集団で，彼らの血統は有史以前の伝説的神王の神農や黄帝に遡"
+"漢族は中国の主要民族集団で，彼らの血統は有史以前の伝説的神王の神農や黄帝に遡"
 "ります。"
 
 # clefs
@@ -6203,7 +6314,7 @@ msgstr "太后 %s"
 # ハンザ同盟人というのも微妙なので
 #: data/nation/hansa.ruleset:3
 msgid "Hanseatic"
-msgstr "ハンザ商人"
+msgstr "ハンザ同盟"
 
 #: data/nation/hansa.ruleset:4
 msgid "?plural:Hanseatic League"
@@ -6222,11 +6333,11 @@ msgstr ""
 
 #: data/nation/hasinay.ruleset:3
 msgid "Hasinay"
-msgstr "ハシナイ人"
+msgstr "ハシナイ族"
 
 #: data/nation/hasinay.ruleset:4
 msgid "?plural:Hasinay"
-msgstr "ハシナイ人"
+msgstr "ハシナイ族"
 
 #: data/nation/hasinay.ruleset:6
 msgid ""
@@ -6271,11 +6382,11 @@ msgstr ""
 # (Belgae)
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr "エリニキ人"
+msgstr "ギリシャ人"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr "エリニキ人"
+msgstr "ギリシャ人"
 
 # clefs
 # 苦しいなあ
@@ -6289,14 +6400,12 @@ msgstr ""
 "nationとして設定したということのようです]"
 
 #: data/nation/helvetian.ruleset:3
-#, fuzzy
 msgid "Helvetian"
-msgstr "ベテラン"
+msgstr "ヘルウェティイ族"
 
 #: data/nation/helvetian.ruleset:4
-#, fuzzy
 msgid "?plural:Helvetians"
-msgstr "ベネズエラ人"
+msgstr "ヘルウェティイ族"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -6311,15 +6420,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/hephthalite.ruleset:3
-#, fuzzy
 msgid "Hephthalite"
-msgstr "エリート"
+msgstr "エフタル"
 
 # Daniel
 #: data/nation/hephthalite.ruleset:4
-#, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "ベンガル人"
+msgstr "エフタル"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -6332,6 +6439,13 @@ msgid ""
 "subcontinent some Hephthalite successor kingdoms survived until the late 7th "
 "century."
 msgstr ""
+"エフタルは中央アジアの遊牧諸部族の連合で，5-6世紀頃に強大な遊牧国家を築きまし"
+"た。イラン系かテュルク系遊牧民だとする説が有力ですが，正確な起源や構成，言語"
+"はよく分かっていません。また \"White Huns\"，すなわち白フン族とも呼ばれます"
+"が，フン族と直接の関連はないと考えられています。グプタ朝やサーサーン朝に侵入"
+"を繰り返して脅かしましたが，突厥とサーサーン朝の挟撃を受け滅びました。その後"
+"もインド亜大陸では，エフタルの子孫による諸王朝が7世紀後半まで存在していまし"
+"た。"
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
@@ -6375,7 +6489,6 @@ msgstr "ヒムヤル人"
 # 525年のあたりは原文が変？
 # サーサーン朝をマンダ教としているけれど国教はゾロアスター教のはず。
 #: data/nation/himyarite.ruleset:7
-#, fuzzy
 msgid ""
 "The Himyar were originally a mountain tribe in what is now Yemen that "
 "conquered the other South Arabian kingdoms, including Sabaea in 115 BCE, "
@@ -6440,7 +6553,6 @@ msgstr "教皇領人"
 # Belgae
 # "by the pious and the wealthy"の部分の意味がよくわかりません。
 #: data/nation/holysee.ruleset:6
-#, fuzzy
 msgid ""
 "The Papal States were the territories on the Italian Peninsula and elsewhere "
 "under the direct sovereign rule by the Roman Catholic popes. Established in "
@@ -6497,11 +6609,11 @@ msgstr ""
 # Belgae
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
-msgstr "ホピ人"
+msgstr "ホピ族"
 
 #: data/nation/hopi.ruleset:4
 msgid "?plural:Hopis"
-msgstr "ホピ人"
+msgstr "ホピ族"
 
 #: data/nation/hopi.ruleset:7
 msgid ""
@@ -6509,9 +6621,9 @@ msgid ""
 "Hisatsinom. The Hopi live today on the Hopi Reservation in northeastern "
 "Arizona."
 msgstr ""
-"ホピ人は北アメリカにおける母系文化の民で，Hisatsinom[訳注:「太古の人」の意]の"
-"子孫であると主張しています。ホピ人は現在，アリゾナ州北東部のホピ保留地に暮ら"
-"しています。"
+"ホピ族は北アメリカにおける母系文化の民で，Hisatsinom[訳注:「太古の人」の意]の"
+"子孫であると主張しています。現在，アリゾナ州北東部のホピ保留地に暮らしていま"
+"す。"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -6534,7 +6646,6 @@ msgid "?plural:Iberians"
 msgstr "イベリア人"
 
 #: data/nation/iberian.ruleset:6
-#, fuzzy
 msgid ""
 "The Iberians were non-Indo-European inhabitants of the ancient Iberian "
 "Peninsula. Very little is known about their history. They were subjugated by "
@@ -6576,7 +6687,6 @@ msgstr "イリュリア人"
 
 # clefs
 #: data/nation/illyrian.ruleset:6
-#, fuzzy
 msgid ""
 "Illyrians were Indo-European tribes who appeared in the western part of the "
 "Balkan Peninsula before 1000 BCE, including Corcyra island and Ambracia bay "
@@ -6587,8 +6697,8 @@ msgstr ""
 "イリュリア人はインドヨーロッパ語族に属し，紀元前1000年以前にバルカン半島の西"
 "部に出現しました。北はダルマチア，南はコルシカ島や前史エピラスのアンブラキア"
 "湾を含み，東はダルダニアのトラキア人と混淆し，アドリア海を渡ってメッサピアに"
-"入植しました。イリュリアの諸王国は数世紀に亙って独立を保ちましたが，ローマ共"
-"和国によって征服されました。"
+"入植しました。イリュリアの諸王国は数世紀にわたって独立を保ちましたが，ローマ"
+"共和国によって征服されました。"
 
 # clefs
 # ほとんどの場合は「ヨーロッパ」でいいのだけれど，nationとしての
@@ -6596,15 +6706,13 @@ msgstr ""
 # Belgae
 # ?を使って分けられているので「ヨーロッパ人」に変えました。
 #: data/nation/indoeuropean.ruleset:3
-#, fuzzy
 msgid "Indo-European"
-msgstr "ヨーロッパ人"
+msgstr "原インド・ヨーロッパ人"
 
 # 統合の進むヨーロッパを一つの新しい単位と見ているわけです (clefs)
 #: data/nation/indoeuropean.ruleset:4
-#, fuzzy
 msgid "?plural:Indo-Europeans"
-msgstr "ヨーロッパ人"
+msgstr "原インド・ヨーロッパ人"
 
 #: data/nation/indoeuropean.ruleset:6
 msgid ""
@@ -6617,6 +6725,14 @@ msgid ""
 "have been made. One of the first scientists who noted the similarities "
 "between these languages was Sir William Jones."
 msgstr ""
+"原インド・ヨーロッパ人は仮説上の民族で，現代のヨーロッパと西・南アジアの言語"
+"の起源であるインド・ヨーロッパ祖語を用いていました。およそ6000年前の黒海周辺"
+"に住んでいたという説が有力ですが，正確な時代と場所は依然として謎に包まれてい"
+"ます。インド・ヨーロッパ語族に属する各言語の類似性について最初に指摘した科学"
+"者の一人がウィリアム・ジョーンズです。その後これらの言語に関する分析や，イン"
+"ド・ヨーロッパ祖語を再建する試みから彼らの存在が推測されました。また原イン"
+"ド・ヨーロッパ人は単一民族「アーリア人」であるという学説が発表され，後にナチ"
+"ス・ドイツと結びつきましたが，これは現在ではほとんど支持されていません。"
 
 # clefs
 #: data/nation/inuit.ruleset:3
@@ -6720,25 +6836,24 @@ msgstr "イスラエル人"
 
 # clefs
 #: data/nation/israeli.ruleset:6
-#, fuzzy
 msgid ""
 "The nation of Israel was founded in 1948 as a scattered collection of "
 "cantons in British Palestine, and has gradually expanded through winning "
 "wars in 1948, 1967 and 1973."
 msgstr ""
-"イスラエルは英領パレスチナ諸州の散在した集まりとして1948年に建国され，その後"
-"イスラエルに対して起こされた1948，1967，1973年の一連の戦争の勝利により徐々に"
-"その領域を拡大してきました。"
+"イスラエル国は英領パレスチナ諸州の散在した集まりとして1948年に建国され，その"
+"後イスラエルに対して起こされた1948，1967，1973年の一連の戦争の勝利により徐々"
+"にその領域を拡大してきました。"
 
 #: data/nation/israeli.ruleset:22
 #, c-format
 msgid "Kibbutznik %s"
-msgstr ""
+msgstr "キブツニック %s"
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kibbutznik %s"
-msgstr "閣下"
+msgstr "キブツニック %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -6751,14 +6866,12 @@ msgid "?female:Rabbi %s"
 msgstr "ラビ %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "イスラエル人"
+msgstr "古代イスラエル人"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "イスラエル人"
+msgstr "古代イスラエル人"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -6768,18 +6881,24 @@ msgid ""
 "in the 1st century CE, leaving the Jews scattered around the world for "
 "nineteen centuries."
 msgstr ""
+"イスラエル王国は紀元前10世紀頃，地中海東岸(いわゆるレバント)に成立したユダヤ"
+"人の王国です。その歴史の多くは旧約聖書の記述によるものです。紀元前922年に南北"
+"分裂した後は周辺国家の侵略に晒され続け，1世紀にはローマ帝国の属州となりまし"
+"た。2度の反乱が鎮圧されてからは民族的弾圧が厳しさを増したため，多くのユダヤ人"
+"たちが世界中に離散してゆきました。そしてこの離散と迫害は以後2000年近くにわ"
+"たって続きました。"
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Judge %s"
-msgstr "終了"
+msgstr "司法官 %s"
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Judge %s"
-msgstr "デイ"
+msgstr "司法官 %s"
 
 #: data/nation/italiangreek.ruleset:3
 #, fuzzy
@@ -6808,17 +6927,17 @@ msgstr ""
 #: data/nation/italiangreek.ruleset:48
 #, fuzzy, c-format
 msgid "Tyranne %s"
-msgstr "ランツァ"
+msgstr "僭主 %s"
 
 # Belgae
 # Côte d'Ivoire（コートジボワール）国民。Ivoireはフランス語で「象牙」の意味。
 #: data/nation/ivoirian.ruleset:3
 msgid "Ivoirian"
-msgstr "イボワール人"
+msgstr "コートジボワール人"
 
 #: data/nation/ivoirian.ruleset:4
 msgid "?plural:Ivoirian"
-msgstr "イボワール人"
+msgstr "コートジボワール人"
 
 #. TRANS: The second letter in "Cote" should be
 #. TRANS: U+00F4 LATIN SMALL LETTER O WITH CIRCUMFLEX if available in
@@ -6829,17 +6948,17 @@ msgid ""
 "relatively stable compared to other West African countries, but in the 2000s "
 "it lived through a civil war."
 msgstr ""
-"コートジボワール（象牙海岸）は1960年に独立を達成しました。他の西アフリカ諸国"
-"と比べて相対的には安定していましたが，2000年代には内戦に陥りました。"
+"コートジボワール共和国は1960年に独立しました。他の西アフリカ諸国と比べて政"
+"治・経済が安定していましたが，2000年代に内戦が勃発しました。国名は「象牙の海"
+"岸」を意味するフランス語です。"
 
 #: data/nation/jaffna.ruleset:3
 msgid "Jaffna"
-msgstr ""
+msgstr "ジャフナ人"
 
 #: data/nation/jaffna.ruleset:4
-#, fuzzy
 msgid "?plural:Jaffnas"
-msgstr "ルワンダ人"
+msgstr "ジャフナ人"
 
 #: data/nation/jaffna.ruleset:7
 msgid ""
@@ -6853,9 +6972,8 @@ msgid "Jamaican"
 msgstr "ジャマイカ人"
 
 #: data/nation/jamaican.ruleset:4
-#, fuzzy
 msgid "?plural:Jamaicans"
-msgstr "アメリカ人"
+msgstr "ジャマイカ人"
 
 #: data/nation/jamaican.ruleset:6
 msgid ""
@@ -6904,24 +7022,22 @@ msgid ""
 "in large part by anti-European sentiment."
 msgstr ""
 "ウォロフとも呼ばれるこの王国は，セネガル川とガンビア川の間に14世紀に建国され"
-"ました。王（ブルバ・ジョロフ）は血縁関係にある少数の有力貴族に支持されていま"
-"したが，貴族たち自身は自らの勢力基盤もまた拡大していました。1500年代初頭に"
-"は，ブルバ・ヨロフはおよそ10万人の歩兵および1万人の騎兵を展開する力を持ってい"
-"ました。フラニ人やベルベル人の侵入と政治的な弱さがブルバ・ヨロフの権力を蝕ん"
-"でいきました。ウォロフ語話者による諸国家はたがいに連合を組み，これらの国々の"
-"首長によってブルバ・ヨロフの権力は奪われていきました。19世紀におけるフランス"
-"による植民地化と，イスラム教への改宗が相まって，この地域の人々の大半に反ヨー"
-"ロッパ感情が根付きました。"
+"ました。ブルバ・ジョロフ王は血縁関係にある少数の有力貴族に支持されていました"
+"が，貴族たち自身は自らの勢力基盤もまた拡大していました。1500年代初頭には，ブ"
+"ルバ・ヨロフはおよそ10万人の歩兵および1万人の騎兵を展開する力を持っていまし"
+"た。フラニ人やベルベル人の侵入と政治的な弱さがブルバ・ヨロフの権力を蝕んでい"
+"きました。ウォロフ語話者による諸国家はたがいに連合を組み，これらの国々の首長"
+"によってブルバ・ヨロフの権力は奪われていきました。19世紀におけるフランスによ"
+"る植民地化と，イスラム教への改宗が相まって，この地域の人々の大半に反ヨーロッ"
+"パ感情が根付きました。"
 
 #: data/nation/jordanian.ruleset:3
-#, fuzzy
 msgid "Jordanian"
-msgstr "イラン人"
+msgstr "ヨルダン人"
 
 #: data/nation/jordanian.ruleset:4
-#, fuzzy
 msgid "?plural:Jordanian"
-msgstr "イラン人"
+msgstr "ヨルダン人"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -6934,6 +7050,15 @@ msgid ""
 "established as Jordan's ruling dynasty. The country finally became "
 "independent in 1946."
 msgstr ""
+"ヨルダン・ハシミテ王国は中東の立憲君主国で，国名の由来となったヨルダン川の東"
+"に位置します。この地域には旧石器時代から人が住んでおり，人類が最初に農業を営"
+"んだ地域の一つと考えられています。紀元前2世紀から1世紀頃にはナバテア王国が栄"
+"え，ペトラ遺跡が世界文化遺産に指定されています。7世紀からイスラーム勢力に支配"
+"された後，1519年にオスマン帝国のセリム1世に征服されました。第一次世界大戦の結"
+"果イギリスの委任統治領になり，その下でトランスヨルダン王国が成立しました。"
+"1946年に独立した後，現在の国名に改められました。ハシミテとはハーシム家のこと"
+"で，ヨルダン王家がイスラム教の開祖ムハンマドに連なる家系であることを示してい"
+"ます。"
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
@@ -6957,28 +7082,28 @@ msgstr ""
 # Belgae
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
-msgstr "カネム＝ボルヌ人"
+msgstr "カネム・ボルヌ人"
 
 #: data/nation/kanem-bornu.ruleset:4
 msgid "?plural:Kanem-Bornu"
-msgstr "カネム＝ボルヌ人"
+msgstr "カネム・ボルヌ人"
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid ""
 "This empire lasted in some form from the 9th-century until 1893 in modern "
 "Chad and Nigeria and controlled much of the trans-Saharan trade."
 msgstr ""
-"この帝国は何らかの形で9世紀から1893年まで存続しました。現在のチャドおよびナイ"
-"ジェリアにあり，サハラ砂漠を横断する交易の大部分を支配していました。"
+"現在のチャドにあたる地域を支配したカネム帝国(7世紀頃-1376年)と，ニジェール東"
+"部を支配したボルヌ帝国(1396-1893年)を併せてカネム・ボルヌ帝国と呼びます。サハ"
+"ラ交易の要衝として繁栄しました。"
 
 #: data/nation/karabakhi.ruleset:3
 msgid "Karabakhi"
-msgstr ""
+msgstr "ナゴルノ・カラバフ人"
 
 #: data/nation/karabakhi.ruleset:4
-#, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "カザフ人"
+msgstr "ナゴルノ・カラバフ人"
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -7013,14 +7138,12 @@ msgstr ""
 
 # Belgae
 #: data/nation/karen.ruleset:3
-#, fuzzy
 msgid "Karen"
-msgstr "ホラズム人"
+msgstr "カレン族"
 
 #: data/nation/karen.ruleset:4
-#, fuzzy
 msgid "?plural:Karens"
-msgstr "朝鮮人"
+msgstr "カレン族"
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -7050,14 +7173,12 @@ msgstr ""
 "の地は，ヒンドゥー，チベット，イスラムの各文化の坩堝となっています。"
 
 #: data/nation/kashubian.ruleset:3
-#, fuzzy
 msgid "Kashubian"
-msgstr "ヌビア人"
+msgstr "カシューブ人"
 
 #: data/nation/kashubian.ruleset:4
-#, fuzzy
 msgid "?plural:Kashubians"
-msgstr "ヌビア人"
+msgstr "カシューブ人"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -7073,12 +7194,11 @@ msgstr ""
 
 #: data/nation/katangan.ruleset:3
 msgid "Katangan"
-msgstr ""
+msgstr "カタンガ人"
 
 #: data/nation/katangan.ruleset:4
-#, fuzzy
 msgid "?plural:Katangans"
-msgstr "カタルーニャ人"
+msgstr "カタンガ人"
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -7089,6 +7209,14 @@ msgid ""
 "was led by Moise Tshombe. Katanga was reincorporated into Congo after a "
 "Congolese and UN military campaign."
 msgstr ""
+"コンゴ民主共和国の南端に位置するカタンガ州は鉱物資源に恵まれており、かつて19"
+"世紀にはイェケ王国が繁栄しました。1960年にベルギー領コンゴはコンゴ共和国とし"
+"て独立しましたが，数日後に起きた兵士の反乱に乗じてカタンガ州はカタンガ共和国"
+"として分離独立を宣言しました。この独立直後の内乱(コンゴ動乱)は更に南カサイ鉱"
+"山国の分離独立や国連軍の介入，陸軍によるクーデターと続き，事態は混迷を極めま"
+"した。モイーズ・チョンベ大統領の下カタンガ共和国はベルギーの支援を受け，また"
+"外国人傭兵を雇ってコンゴ共和国軍に対抗しました。しかし1963年初めの国連軍の攻"
+"撃によりチョンベは亡命し，カタンガ共和国は消滅しました。"
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
@@ -7156,7 +7284,7 @@ msgstr ""
 #: data/nation/khoisan.ruleset:4
 #, fuzzy
 msgid "?plural:Khoisan"
-msgstr "ボリビア人"
+msgstr "朝鮮人"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -7212,12 +7340,11 @@ msgstr "サトラップ %s"
 
 #: data/nation/kiribati.ruleset:3
 msgid "Kiribati"
-msgstr ""
+msgstr "キリバス人"
 
 #: data/nation/kiribati.ruleset:4
-#, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "イラン人"
+msgstr "キリバス人"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -7229,15 +7356,20 @@ msgid ""
 "people of the Gilbert Islands adopted Kiribati (the Gilbertese rendering of "
 "\"Gilberts\") as the name of the newly established republic."
 msgstr ""
+"キリバス共和国は太平洋のギルバート諸島・フェニックス諸島・ライン諸島などから"
+"なる，ミクロネシアとポリネシアにまたがった島国です。ギルバート諸島には紀元前"
+"からミクロネシア人が住んでおり，彼らは島をツンガルと呼んでいました。1892年に"
+"エリス諸島(現在のツバル)と共にイギリスの保護領となり，第二次世界大戦中に日本"
+"軍に占領されました。1979年に独立を果たし，国名としてキリバス(「ギルバート」の"
+"キリバス語読み)が選ばれました。"
 
 #: data/nation/kittitian.ruleset:3
 msgid "Kittitian and Nevisian"
-msgstr ""
+msgstr "セントクリストファー・ネイビス人"
 
 #: data/nation/kittitian.ruleset:4
-#, fuzzy
 msgid "?plural:Kittitians and Nevisians"
-msgstr "カナダ人"
+msgstr "セントクリストファー・ネイビス人"
 
 #: data/nation/kittitian.ruleset:6
 msgid ""
@@ -7246,6 +7378,10 @@ msgid ""
 "smallest federation. Saint Kitts was the site of some of the earliest French "
 "and English colonization attempts in the New World."
 msgstr ""
+"セントクリストファー・ネイビス連邦はカリブ海の島国で，セントクリストファー島"
+"とネイビス島からなります。面積と人口は西半球で最小で，また世界最小の連邦制国"
+"家でもあります。フランスとイギリスが入植を始めたのは17世紀初めのことで，これ"
+"は新世界への入植としては最も早い時期に行われたものの一つです。"
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
@@ -7254,7 +7390,7 @@ msgstr ""
 #: data/nation/komi.ruleset:4
 #, fuzzy
 msgid "?plural:Komi"
-msgstr "ボリビア人"
+msgstr "ボイイ族"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -7273,7 +7409,6 @@ msgid "?plural:Kongo"
 msgstr "コンゴ人"
 
 #: data/nation/kongo.ruleset:7
-#, fuzzy
 msgid ""
 "This Kingdom, lasting from roughly 1400 CE until the late 19th century, "
 "existed in the present-day countries of Angola and the Democratic Republic "
@@ -7305,12 +7440,11 @@ msgstr ""
 
 #: data/nation/kuna.ruleset:3
 msgid "Kuna"
-msgstr ""
+msgstr "クナ族"
 
 #: data/nation/kuna.ruleset:4
-#, fuzzy
 msgid "?plural:Kunas"
-msgstr "ケニア人"
+msgstr "クナ族"
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -7360,7 +7494,7 @@ msgstr "アシャンティ人"
 #: data/nation/kushan.ruleset:4
 #, fuzzy
 msgid "?plural:Kushans"
-msgstr "ケニア人"
+msgstr "クナ族"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7387,14 +7521,12 @@ msgid "?female:Guru %s"
 msgstr "グル %s"
 
 #: data/nation/kuwaiti.ruleset:3
-#, fuzzy
 msgid "Kuwaiti"
-msgstr "待機中"
+msgstr "クウェート人"
 
 #: data/nation/kuwaiti.ruleset:4
-#, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "ハワイ人"
+msgstr "クウェート人"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -7406,6 +7538,12 @@ msgid ""
 "East. Despite its relatively small size, the country has about ten percent "
 "of the world's proven oil reserves."
 msgstr ""
+"クウェート国はペルシャ湾に面した中東の国で，イラクとサウジアラビアに隣接して"
+"います。オスマン帝国の下，現在の首長家であるサバーハ家による統治が始まったの"
+"は1756年のことです。その後イギリスの保護国となり，1961年に独立しました。1990"
+"年に全土がイラク軍により占領され，多国籍軍による軍事介入(湾岸戦争)に発展しま"
+"した。国土面積は小さく人口も少ないですが，石油の埋蔵量は世界第4位を誇り，豊富"
+"なオイルマネーにより中東で最も豊かな国の一つに数えられます。"
 
 #: data/nation/kyrgyz.ruleset:3
 msgid "Kyrgyz"
@@ -7458,7 +7596,6 @@ msgstr "スリランカ人"
 
 # clefs
 #: data/nation/lankese.ruleset:6
-#, fuzzy
 msgid ""
 "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India, during "
 "the 6th century BCE and founded the Sinhalese kingdom there. During British "
@@ -7471,12 +7608,12 @@ msgstr ""
 #: data/nation/lankese.ruleset:23
 #, c-format
 msgid "Supreme Commander %s"
-msgstr "最高司令官 %s"
+msgstr " %s最高司令官"
 
 #: data/nation/lankese.ruleset:23
 #, c-format
 msgid "?female:Supreme Commander %s"
-msgstr "最高司令官 %s"
+msgstr " %s最高司令官"
 
 # Belgae
 # ラオスの主要民族ラーオ族ではなくラオス国民という意味でこの名称を使用しました。
@@ -7498,23 +7635,19 @@ msgid ""
 "However, in 1986 the liberalization and a gradual return to private "
 "enterprise started."
 msgstr ""
-"ラオスの歴史は，14世紀に生まれ，18世紀末にシャム（タイ王国）の侵略で滅亡した"
+"ラオスの歴史は，14世紀に生まれ，18世紀末にシャム(タイ王国)の侵略で滅亡した"
 "ラーンサーン王国から始まります。19世紀の終りに，ラオスはフランス領インドシナ"
 "の一部となりました。フランスの支配は1946年の独立で終りましたが，その後は30年"
 "間の内戦が続きました。1975年，共産主義勢力パテート・ラーオが厳格な社会主義化"
 "を進めましたが，1986年には自由化と段階的な私企業容認の政策が開始しました。"
 
-# Belgae
-# ラオスの主要民族ラーオ族ではなくラオス国民という意味でこの名称を使用しました。
 #: data/nation/latin.ruleset:3
-#, fuzzy
 msgid "Latin"
-msgstr "ラオス人"
+msgstr "ラテン帝国人"
 
 #: data/nation/latin.ruleset:4
-#, fuzzy
 msgid "?plural:Latins"
-msgstr "ラオス人"
+msgstr "ラテン帝国人"
 
 #: data/nation/latin.ruleset:6
 msgid ""
@@ -7525,6 +7658,12 @@ msgid ""
 "realms is known as the \"Frankokratia\", rule of the Franks. The Empire "
 "ceased to exist when Constantinople was recaptured by the Byzantines in 1261."
 msgstr ""
+"ラテン帝国は正式にはロマニア帝国といい，第4回十字軍が1204年に東ローマ帝国の首"
+"都であるコンスタンティノープルを陥落させた後に建国されました。ギリシャ史では"
+"この時代をフランコクラティア(\"Frankokratia\"…フランク人の支配)、あるいはラテ"
+"ノクラティア(\"Latinokratia\"…ラテン人の支配)と呼びます。しかし1261年に亡命政"
+"権であるニカイア帝国が首都を奪還し，ラテン帝国はわずか60年足らずでその歴史に"
+"幕を下ろしました。"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -7563,11 +7702,11 @@ msgid ""
 "of the Ottoman Empire for over four centuries and became a French mandate "
 "after World War I. Lebanon proclaimed its independence in 1943."
 msgstr ""
-"レバント（地中海東岸地方）に位置するレバノンには，人類の文明における最古に近"
-"い痕跡が残っています。フェニキア人のかつての故郷であるレバノンは，その後多数"
-"の帝国によって支配されました。4世紀以上にわたってオスマン帝国の一部であったこ"
-"の地は，第一次世界大戦の後にフランスの委任統治領となりました。レバノンは1943"
-"年に独立を宣言しました。"
+"レバント(地中海東岸地方)に位置するレバノンには，人類の文明における最古に近い"
+"痕跡が残っています。フェニキア人のかつての故郷であるレバノンは，その後多数の"
+"帝国によって支配されました。4世紀以上にわたってオスマン帝国の一部であったこの"
+"地は，第一次世界大戦の後にフランスの委任統治領となりました。レバノンは1943年"
+"に独立を宣言しました。"
 
 #: data/nation/lendian.ruleset:3
 msgid "Lendian"
@@ -7610,13 +7749,12 @@ msgstr ""
 
 #: data/nation/lesothoan.ruleset:3
 msgid "Lesothoan"
-msgstr ""
+msgstr "レソト人"
 
 # Daniel
 #: data/nation/lesothoan.ruleset:4
-#, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "オーストリア人"
+msgstr "レソト人"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -7627,16 +7765,21 @@ msgid ""
 "all sides, that country's apartheid policies prevented its integration into "
 "South Africa. In 1966 Basutoland became the independent Kingdom of Lesotho."
 msgstr ""
+"レソト王国は周囲を南アフリカ共和国に囲まれた内陸国で，19世紀初頭にモショエ"
+"ショエ1世がソト族をまとめ上げ建国しました。しかしオレンジ自由国との戦争に敗"
+"れ，1869年にやむなくイギリスの保護領(英領バストランド)となることを決定しまし"
+"た。1910年に南アフリカ連邦が成立しましたが，バストランドの人々は加盟に断固と"
+"して反対しました。黒人に対する差別的な政策(アパルトヘイト)が始まりつつあった"
+"ためです。1966年に独立を果たしました。国旗の中央に描かれているのは，モコロト"
+"ロという伝統的な麦わら帽子です。"
 
 #: data/nation/liberian.ruleset:3
-#, fuzzy
 msgid "Liberian"
-msgstr "ナイジェリア人"
+msgstr "リベリア人"
 
 #: data/nation/liberian.ruleset:4
-#, fuzzy
 msgid "?plural:Liberians"
-msgstr "セルビア人"
+msgstr "リベリア人"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -7650,16 +7793,23 @@ msgid ""
 "overthrown in 1980, which led to a period of instability and civil wars. A "
 "fragile peace returned in 2003."
 msgstr ""
+"リベリア共和国は西アフリカに位置する国です。初めアメリカの黒人解放奴隷のため"
+"の植民地として築かれ，1847年に独立を宣言しました。リベリアの歴史は，アメリカ"
+"から「帰還」した少数派の解放奴隷たち(アメリコ・ライベリアン)と多数派の先住諸"
+"部族との不和と対立の歴史です。自らを文明人だと考えたアメリコ・ライベリアンは"
+"真正ホイッグ党を結党し，実に100年以上に渡り一党独裁を続ける一方，先住諸部族に"
+"対しては1960年代に至るまで参政権を認めませんでした。1980年のクーデターにより"
+"真正ホイッグ党は倒されましたが，今度は先住諸部族間の対立が激化して2度の内戦へ"
+"と陥りました。第二次リベリア内戦は2003年に終結しましたが，政情不安は未だに続"
+"いています。"
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "リトアニア人"
+msgstr "リブルニア人"
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "リトアニア人"
+msgstr "リブルニア人"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -7712,12 +7862,12 @@ msgstr ""
 #: data/nation/ligurian.ruleset:3
 #, fuzzy
 msgid "Ligurian"
-msgstr "ナイジェリア人"
+msgstr "リベリア人"
 
 #: data/nation/ligurian.ruleset:4
 #, fuzzy
 msgid "?plural:Ligurians"
-msgstr "リトアニア人"
+msgstr "リブルニア人"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7729,12 +7879,12 @@ msgstr ""
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, fuzzy, c-format
 msgid "Paramount Ruler %s"
-msgstr "大族長"
+msgstr "最高首長 %s"
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, fuzzy, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "大族長"
+msgstr "最高首長 %s"
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
@@ -7759,20 +7909,21 @@ msgstr ""
 "を今日も保持しています。"
 
 #: data/nation/lippe.ruleset:3
-#, fuzzy
 msgid "Lippian"
-msgstr "エチオピア人"
+msgstr "リッペ人"
 
 #: data/nation/lippe.ruleset:4
-#, fuzzy
 msgid "?plural:Lippians"
-msgstr "リビア人"
+msgstr "リッペ人"
 
 #: data/nation/lippe.ruleset:6
 msgid ""
 "Lippe was a historical state in Germany. It was located between the Weser "
 "River and the southeast part of the Teutoburg forest."
 msgstr ""
+"リッペ侯国は，かつてドイツに存在した領邦国家です。ヴェーザー川とトイトブルク"
+"の森南東部の間に位置していました。現在のドイツ連邦共和国ノルトライン=ヴェスト"
+"ファーレン州デトモルト行政管区リッペ郡にあたります。"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -7795,11 +7946,11 @@ msgstr ""
 # Belgae
 #: data/nation/lojbanistani.ruleset:3
 msgid "Lojbanistani"
-msgstr "ロジバン人"
+msgstr "ロジバニスト"
 
 #: data/nation/lojbanistani.ruleset:4
 msgid "?plural:Lojbanistanis"
-msgstr "ロジバン人"
+msgstr "ロジバニスト"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -7808,10 +7959,10 @@ msgid ""
 "unambiguous (\"Time flies like an arrow. Fruit flies like a banana.\"), "
 "culturally neutral and simple to learn."
 msgstr ""
-"ロジバニスタンはロジバンを話す人々の住む架空の土地です。ロジバンは人々のコ"
-"ミュニケーションを目的として作られた人工言語です。ロジバンには統語的な曖昧さ"
+"ロジバニスタンはロジバンを話す人々(ロジバニスト)が住む架空の国家です。ロジバ"
+"ンは人々のコミュニケーションを目的として創られた人工言語です。統語的な曖昧さ"
 "(\"Time flies like an arrow. Fruit flies like a banana.\")がなく，文化的に中"
-"立で，簡明で学習しやすい言語です。"
+"立で，簡明で学習しやすいのが特徴です。"
 
 # Belgae
 # ドイツ語のロートリンゲンや，初期のロタリンギアという呼び方もありますが，民族名ではないので微妙です。
@@ -7832,21 +7983,19 @@ msgid ""
 "that both France and Germany were continuously eyeing for. Lorraine became a "
 "province of France in 1766."
 msgstr ""
-"ロレーヌ（ロートリンゲン）はフランク帝国が3つに分裂した際に誕生した中世の王国"
-"です。初期には北海から地中海まで広がっていた領域は，さまざまなフランク王朝間"
-"の角逐によりばらばらになりました。ロレーヌが公国となった後もフランスとドイツ"
-"との間での注視は続きました。ロレーヌがフランスの一地方となったのは1766年のこ"
-"とです。"
+"ロレーヌ(ロートリンゲン)はフランク帝国が3つに分裂した際に誕生した中世の王国で"
+"す。初期には北海から地中海まで広がっていた領域は，さまざまなフランク王朝間の"
+"角逐によりばらばらになりました。ロレーヌが公国となった後もフランスとドイツと"
+"の間での注視は続きました。ロレーヌがフランスの一地方となったのは1766年のこと"
+"です。"
 
 #: data/nation/luwian.ruleset:3
-#, fuzzy
 msgid "Luwian"
-msgstr "リトアニア人"
+msgstr "ルウィ族"
 
 #: data/nation/luwian.ruleset:4
-#, fuzzy
 msgid "?plural:Luwians"
-msgstr "リビア人"
+msgstr "ルウィ族"
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -7881,7 +8030,7 @@ msgstr ""
 #: data/nation/lycian.ruleset:4
 #, fuzzy
 msgid "?plural:Lycians"
-msgstr "リビア人"
+msgstr "ルウィ族"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -7893,11 +8042,11 @@ msgstr ""
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
-msgstr "マサイ人"
+msgstr "マサイ族"
 
 #: data/nation/maasai.ruleset:4
 msgid "?plural:Maasais"
-msgstr "マサイ人"
+msgstr "マサイ族"
 
 #: data/nation/maasai.ruleset:6
 msgid ""
@@ -7906,7 +8055,7 @@ msgid ""
 "dress and residence near the many game parks of East Africa, they are among "
 "the most well known of African ethnic groups."
 msgstr ""
-"マサイ人は勇猛果敢なアフリカの民族集団です。半遊牧民であり，ケニアおよびタン"
+"マサイ族は勇猛果敢なアフリカの民族集団です。半遊牧民であり，ケニアおよびタン"
 "ザニア北部に生活しています。彼らは特有の文化や服装を持ち，東アフリカにある多"
 "数の自然動物保護区の近くで暮らしていることから，アフリカの民族集団の中でも特"
 "によく知られています。"
@@ -7915,11 +8064,11 @@ msgstr ""
 # 現在のマケドニア共和国民
 #: data/nation/macedonian.ruleset:3
 msgid "Macedonian"
-msgstr "現代マケドニア人"
+msgstr "マケドニア人"
 
 #: data/nation/macedonian.ruleset:4
 msgid "?plural:Macedonians"
-msgstr "現代マケドニア人"
+msgstr "マケドニア人"
 
 #: data/nation/macedonian.ruleset:6
 msgid ""
@@ -7933,23 +8082,22 @@ msgstr ""
 # 現在のマケドニア共和国民とは別です。
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
-msgstr "マケドニア人"
+msgstr "古代マケドニア人"
 
 #: data/nation/macedon.ruleset:4
 msgid "?plural:Macedons"
-msgstr "マケドニア人"
+msgstr "古代マケドニア人"
 
 #: data/nation/macedon.ruleset:6
-#, fuzzy
 msgid ""
 "The Kingdom of Macedonia was located in the southern Balkans. Under "
 "Alexander the Great it became one of the most powerful states in the world "
 "but it splintered into several states after Alexander's death. Macedonia was "
 "eventually conquered by Rome in 146 BCE."
 msgstr ""
-"マケドニア王国はバルカン地方南部にありました。アレキサンダー大王の治世，この"
-"王国は世界有数の強国となりましたが，大王の死後はいくつかの国に分裂しました。"
-"結局マケドニアは紀元前146年にローマによって征服されました。"
+"マケドニア王国はバルカン地方南部にありました。アレキサンダー大王の治世に世界"
+"有数の強国となりましたが，彼の死後はいくつかの国に分裂しました。結局マケドニ"
+"アは紀元前146年にローマによって征服されました。"
 
 #: data/nation/macedon.ruleset:23
 #, c-format
@@ -7971,7 +8119,6 @@ msgid "?plural:Majapahit"
 msgstr "マジャパヒト人"
 
 #: data/nation/majapahit.ruleset:7
-#, fuzzy
 msgid ""
 "This empire began in 1293 CE when a local prince used invading Yuan dynasty "
 "troops to his own advantage by having them defeat his enemies and then "
@@ -8015,13 +8162,13 @@ msgstr ""
 #: data/nation/malagasy.ruleset:22
 #, c-format
 msgid "High Commissioner %s"
-msgstr "高等弁務官 %s"
+msgstr " %s高等弁務官"
 
 # clefs
 #: data/nation/malagasy.ruleset:22
 #, c-format
 msgid "?female:High Commissioner %s"
-msgstr "高等弁務官 %s"
+msgstr " %s高等弁務官"
 
 #: data/nation/malawian.ruleset:3
 msgid "Malawian"
@@ -8062,14 +8209,12 @@ msgstr ""
 "しています。"
 
 #: data/nation/maldivian.ruleset:3
-#, fuzzy
 msgid "Maldivian"
-msgstr "ベルギー人"
+msgstr "モルディブ人"
 
 #: data/nation/maldivian.ruleset:4
-#, fuzzy
 msgid "?plural:Maldivians"
-msgstr "マリ人"
+msgstr "モルディブ人"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -8080,6 +8225,13 @@ msgid ""
 "independence. Today, the Maldives are above all known as a tourist "
 "destination."
 msgstr ""
+"モルディブ共和国はインド洋北部のモルディブ諸島を占める島国で，およそ1200の"
+"島々からなります。インドの南西約500km沖に位置し，アジア諸国の中で最も面積が小"
+"さい国です。12世紀にイスラム教が伝わって以降，モルディブはスルターン国となり"
+"ました。1887年にイギリスの保護国となり，1965年にモルディブ・スルターン国とし"
+"て独立しました。3年後に国民投票によって君主制は廃止され，共和制に移行しまし"
+"た。今日では，モルディブは世界に名立たるリゾートとして多くの観光客を集めてい"
+"ます。"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -8106,7 +8258,6 @@ msgid "?plural:Maltese"
 msgstr "マルタ人"
 
 #: data/nation/maltese.ruleset:6
-#, fuzzy
 msgid ""
 "Malta was first settled around 5200 BCE. Over the centuries, the islands "
 "have been ruled by the Phoenicians, Romans, Fatimids, Sicilians, Knights "
@@ -8123,22 +8274,21 @@ msgstr ""
 #: data/nation/teutonic.ruleset:30
 #, c-format
 msgid "Master %s"
-msgstr "団長 %s"
+msgstr " %s団長"
 
 #: data/nation/maltese.ruleset:27 data/nation/templar.ruleset:40
 #: data/nation/teutonic.ruleset:30
 #, c-format
 msgid "Mistress %s"
-msgstr "団長 %s"
+msgstr " %s団長"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
-msgstr ""
+msgstr "マムルーク"
 
 #: data/nation/mamluk.ruleset:4
-#, fuzzy
 msgid "?plural:Mamluks"
-msgstr "マリ人"
+msgstr "マムルーク"
 
 #: data/nation/mamluk.ruleset:6
 msgid ""
@@ -8148,20 +8298,26 @@ msgid ""
 "their own state in Egypt. The Mamluk Sultanate was ruled by two dynasties "
 "Mamluks until it was conquered by the Ottoman Turks in 1517."
 msgstr ""
+"マムルークは9世紀から19世紀の長きにわたってイスラム世界で活躍した，軍人となっ"
+"た解放奴隷たちです。その多くはテュルク系，あるいはコーカサス系の騎馬民族出身"
+"で，幼少期より徹底的な教育を受けたエリート軍人でした。有力者の私兵からやがて"
+"社会的に大きな役割を果たすようになった彼らは，エジプトでマムルーク朝"
+"(1250-1517年)を興しました。また北インドでも，元マムルークが君主となった奴隷王"
+"朝が興りました。"
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "%s Pasha"
-msgstr "基地"
+msgstr " %s・パシャ"
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Pasha"
-msgstr "マンサ"
+msgstr " %s・パシャ"
 
 # clefs
 #: data/nation/manchu.ruleset:3
@@ -8198,7 +8354,6 @@ msgid "?plural:Manx"
 msgstr "マン人"
 
 #: data/nation/manx.ruleset:6
-#, fuzzy
 msgid ""
 "The Isle of Man is an island in the British Isles located between Britain "
 "and Ireland. Formally not a part of United Kingdom, it is a self-governing "
@@ -8249,11 +8404,11 @@ msgstr ""
 
 #: data/nation/mapuche.ruleset:3
 msgid "Mapuche"
-msgstr "マプチェ人"
+msgstr "マプチェ族"
 
 #: data/nation/mapuche.ruleset:4
 msgid "?plural:Mapuche"
-msgstr "マプチェ人"
+msgstr "マプチェ族"
 
 #: data/nation/mapuche.ruleset:7
 msgid ""
@@ -8262,19 +8417,17 @@ msgid ""
 "be stubborn opponents of the Spanish, too, who, along with their Chilean "
 "successors, took 300 years to conquer them."
 msgstr ""
-"マプチェ人は拡大するインカ帝国への抵抗に成功し，帝国を現在のチリ中部にあるマ"
+"マプチェ族は拡大するインカ帝国への抵抗に成功し，帝国を現在のチリ中部にあるマ"
 "ウレ川で押し留めました。彼らはスペインにとって，そしてそれに引き続くチリに"
 "とっての不屈の敵対者であり，征服されるまでに300年を要しました。"
 
 #: data/nation/marathi.ruleset:3
-#, fuzzy
 msgid "Marathi"
-msgstr "火星人"
+msgstr "マラーティー人"
 
 #: data/nation/marathi.ruleset:4
-#, fuzzy
 msgid "?plural:Marathis"
-msgstr "火星人"
+msgstr "マラーティー人"
 
 #: data/nation/marathi.ruleset:6
 msgid ""
@@ -8287,17 +8440,17 @@ msgstr ""
 #: data/nation/marathi.ruleset:37
 #, fuzzy, c-format
 msgid "High Brahmin %s"
-msgstr "上王 %s"
+msgstr "大祭司 %s"
 
 #: data/nation/marathi.ruleset:37
 #, fuzzy, c-format
 msgid "?female:High Brahmin %s"
-msgstr "ドルイド"
+msgstr "高位ドルイド %s"
 
 #: data/nation/marshallese.ruleset:3
 #, fuzzy
 msgid "Marshallese"
-msgstr "鯨"
+msgstr "シンハラ人"
 
 #: data/nation/marshallese.ruleset:4
 #, fuzzy
@@ -8323,19 +8476,16 @@ msgstr "火星人"
 
 # clefs
 #: data/nation/martian.ruleset:6
-#, fuzzy
 msgid "Marsmen landed on Earth in 4000 BCE!"
-msgstr "火星人は紀元前4000年に地球に降り立ちました！"
+msgstr "火星人は紀元前4000年の地球に降り立ちました！"
 
 #: data/nation/mauritanian.ruleset:3
-#, fuzzy
 msgid "Mauritanian"
-msgstr "カルタゴ人"
+msgstr "モーリタニア人"
 
 #: data/nation/mauritanian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritanians"
-msgstr "火星人"
+msgstr "モーリタニア人"
 
 #: data/nation/mauritanian.ruleset:6
 msgid ""
@@ -8344,16 +8494,18 @@ msgid ""
 "onwards. Colonized by France in the 19th century, the country became an "
 "independent republic in 1960."
 msgstr ""
+"モーリタニア・イスラム共和国はアフリカ北西部に位置する国で，大西洋に面してい"
+"ます。20世紀初めにフランスによって植民地化され，フランス領西アフリカの一部と"
+"なりました。独立したのは1960年のことです。11世紀以降広まったイスラム教は，現"
+"在では国教と定められています。"
 
 #: data/nation/mauritian.ruleset:3
-#, fuzzy
 msgid "Mauritian"
-msgstr "火星人"
+msgstr "モーリシャス人"
 
 #: data/nation/mauritian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritians"
-msgstr "火星人"
+msgstr "モーリシャス人"
 
 #: data/nation/mauritian.ruleset:6
 msgid ""
@@ -8366,6 +8518,14 @@ msgid ""
 "1968. Nowadays, Mauritius is one of the most developed countries of Africa. "
 "The population is mostly of Indian, African and European origin."
 msgstr ""
+"モーリシャス共和国はインド洋の島国で，マダガスカル島から900km東にあるモーリ"
+"シャス島とその他の島々からなります。1638年にオランダ人が最初に入植し，オラニ"
+"エ公マウリッツの名に因んで命名しました。ドードーという飛べない鳥の唯一の生息"
+"地であったことでも有名です(乱獲により1681年に絶滅しました)。1710年にオランダ"
+"が島を放棄した後は1715年にフランス領となり，ナポレオン戦争中の1810年にイギリ"
+"スにより占領されました。1968年に独立して以降着実に経済成長を続け，今日ではア"
+"フリカで最も豊かな国の一つとなっています。国民のほとんどがインド系かヨーロッ"
+"パ系民族です。"
 
 #: data/nation/mazovian.ruleset:3
 msgid "Mazovian"
@@ -8407,14 +8567,12 @@ msgstr ""
 "の西部3分の2の地域に当たります。"
 
 #: data/nation/median.ruleset:3
-#, fuzzy
 msgid "Median"
-msgstr "レンディア人"
+msgstr "メディア人"
 
 #: data/nation/median.ruleset:4
-#, fuzzy
 msgid "?plural:Medians"
-msgstr "レンディア人"
+msgstr "メディア人"
 
 #: data/nation/median.ruleset:6
 msgid ""
@@ -8430,19 +8588,17 @@ msgstr ""
 # とりあえずカタカナ化で
 # 単なる王妃の意味のようです(Belgae)
 #: data/nation/median.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shahanshah"
-msgstr "%s シャーバヌ"
+msgstr "シャーハンシャー %s"
 
 #: data/nation/messapian.ruleset:3
-#, fuzzy
 msgid "Messapian"
-msgstr "ヘッセン人"
+msgstr "メサピ人"
 
 #: data/nation/messapian.ruleset:4
-#, fuzzy
 msgid "?plural:Messapians"
-msgstr "ヘッセン人"
+msgstr "メサピ人"
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -8450,17 +8606,20 @@ msgid ""
 "Apulia, the south-eastern peninsula of Italy, before being absorbed by the "
 "Romans."
 msgstr ""
+"メサピ人はイタリア半島南東部，現在のプッリャ州に定住していた民族で，インド·"
+"ヨーロッパ語族に属するメサピ語を話していました。後に古代ローマに征服されまし"
+"た。"
 
 #. TRANS: The second letter in "Metis" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233.
 #: data/nation/metis.ruleset:6
 msgid "Metis"
-msgstr "メティ人"
+msgstr "メティ"
 
 #: data/nation/metis.ruleset:7
 msgid "?plural:Metis"
-msgstr "メティ人"
+msgstr "メティ"
 
 #: data/nation/metis.ruleset:9
 msgid ""
@@ -8470,11 +8629,11 @@ msgid ""
 "indigenous groups of Canada. In the 19th century the Metis repeatedly "
 "rebelled against the British and Canadian authorities."
 msgstr ""
-"メティ人はファースト・ネーション（ネイティブアメリカン）とヨーロッパ人（大部"
-"分がフランス人）の間の混血子孫の人々です。主にカナダプレーリー地方の各州に暮"
-"らしています。ファースト・ネーションおよびイヌイットと並んで，カナダの3大先住"
-"民族の1つにあたります。19世紀にメティ人は，イギリスおよびカナダ当局に対して"
-"度々叛乱を起こしました。"
+"メティはファースト・ネーション(イヌイット以外のカナダ先住民)とヨーロッパ人(大"
+"部分がフランス人)の混血を祖先とする人々です。現在の人口は30万人程度で，主にカ"
+"ナダプレーリー地方の各州に暮らしています。ファースト・ネーションおよびイヌ"
+"イットと並んで，カナダの三大先住民族の1つにあたります。19世紀にはイギリスおよ"
+"びカナダ当局に対して度々叛乱を起こしました。"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -8500,29 +8659,28 @@ msgid ""
 "party state in 1929. Only in 2000 did Mexico see its first democratic "
 "transfer of power."
 msgstr ""
-"メキシコはその名をメシーカ（アステカ人の自称）から借りています。スペインから"
-"の独立を達成したのは1821年のことです。19世紀の大部分において，この国は叛乱と"
-"外国の侵略により傷めつけられ，その領域の半分以上がアメリカ合衆国のものとなり"
-"ました。自由主義憲法が1857年に公布されると，10年にわたる自由主義者と保守主義"
-"者の間の内戦が起こり，後者はフランス占領下でオーストリアのマクシミリアンを皇"
-"帝に戴きました。フランスと保守派はベニート・フアレス率いる自由派によって1867"
-"年に完膚なきまでに打ち破られました。メキシコは1876年から1911年までのポルフィ"
-"リオ・ディアスの政権下で近代化が始まりましたが，社会的不平等と政治弾圧により"
+"メキシコはその名をメシーカ(アステカ人の自称)から借りています。スペインからの"
+"独立を達成したのは1821年のことです。19世紀の大部分において，この国は叛乱と外"
+"国の侵略により傷めつけられ，その領域の半分以上がアメリカ合衆国のものとなりま"
+"した。自由主義憲法が1857年に公布されると，10年にわたる自由主義者と保守主義者"
+"の間の内戦が起こり，後者はフランス占領下でオーストリアのマクシミリアンを皇帝"
+"に戴きました。フランスと保守派はベニート・フアレス率いる自由派によって1867年"
+"に完膚なきまでに打ち破られました。メキシコは1876年から1911年までのポルフィリ"
+"オ・ディアスの政権下で近代化が始まりましたが，社会的不平等と政治弾圧により"
 "1910年にはメキシコ革命が起こり，100万人以上の死者が出ました。革命により，1929"
-"年に協同組合主義者による政党（後の制度的革命党）の一党独裁体制が確立されまし"
+"年に協同組合主義者による政党(後の制度的革命党)の一党独裁体制が確立されまし"
 "た。2000年になってようやく，メキシコで初めての民主的な政権交代が行われまし"
 "た。"
 
 #: data/nation/miao.ruleset:3
 msgid "Miao"
-msgstr "ミャオ人"
+msgstr "ミャオ族"
 
 #: data/nation/miao.ruleset:4
 msgid "?plural:Miao"
-msgstr "ミャオ人"
+msgstr "ミャオ族"
 
 #: data/nation/miao.ruleset:6
-#, fuzzy
 msgid ""
 "According to Chinese legend, the Yellow Emperor of Huaxia battled and "
 "defeated Chi You, leader of the Nine Li tribe, at the Battle of Zhuolu in "
@@ -8557,11 +8715,11 @@ msgstr ""
 
 #: data/nation/mikmaq.ruleset:3
 msgid "Mi'kmaq"
-msgstr "ミクマク人"
+msgstr "ミクマク族"
 
 #: data/nation/mikmaq.ruleset:4
 msgid "?plural:Mi'kmaq"
-msgstr "ミクマク人"
+msgstr "ミクマク族"
 
 #: data/nation/mikmaq.ruleset:6
 msgid ""
@@ -8570,8 +8728,8 @@ msgid ""
 "under French suzerainty. French rule gave way to English and English to "
 "Canadian."
 msgstr ""
-"今日ではおよそ25000人がいるミクマク人は，かつてノバスコシアに暮らしていまし"
-"た。そして現在に至るまでその多くの地に居住しています。ミクマク人初のキリスト"
+"今日ではおよそ25000人がいるミクマク族は，かつてノバスコシアに暮らしていまし"
+"た。そして現在に至るまでその多くの地に居住しています。ミクマク族初のキリスト"
 "教への改宗は，1610年のフランス植民地でのことでした。フランスの支配はイギリス"
 "に移され，さらにカナダへと移譲されました。"
 
@@ -8595,11 +8753,11 @@ msgstr ""
 
 #: data/nation/miskito.ruleset:3
 msgid "Miskito"
-msgstr "ミスキート人"
+msgstr "ミスキート族"
 
 #: data/nation/miskito.ruleset:4
 msgid "?plural:Miskito"
-msgstr "ミスキート人"
+msgstr "ミスキート族"
 
 # Belgae
 # Wikipediaでは1万５千人，あるサイトでは7万人などとさまざま。
@@ -8615,7 +8773,7 @@ msgid ""
 "later and in 1894 the Nicaraguan government incorporated the territory."
 msgstr ""
 "ニカラグアとホンジュラスにまたがり，民族名の由来でもあるミスキート海岸沿いに"
-"暮らすミスキート人は，現在およそ20万人を数えます。1625年，ミスキートは長期に"
+"暮らすミスキート族は，現在およそ20万人を数えます。1625年，ミスキートは長期に"
 "渡る政治的関係を大英帝国と結びました。大英帝国はスペイン帝国とカリブ海の権益"
 "を巡って対立していたのです。この年にモスキート「王国」が結成されたものの，結"
 "束は緩やかなものでしかなく，王朝が立ちましたが彼らの名前は英語名でしか知られ"
@@ -8624,13 +8782,12 @@ msgstr ""
 
 #: data/nation/mitanni.ruleset:3
 msgid "Mitanni"
-msgstr ""
+msgstr "ミタンニ人"
 
 # clefs
 #: data/nation/mitanni.ruleset:4
-#, fuzzy
 msgid "?plural:Mitanni"
-msgstr "マオリ人"
+msgstr "ミタンニ人"
 
 #: data/nation/mitanni.ruleset:6
 msgid ""
@@ -8638,6 +8795,8 @@ msgid ""
 "Iraq. Mitanni was at the height of its power during the 14th century BCE, "
 "during which it rivalled Egypt."
 msgstr ""
+"ミタンニ王国は紀元前16世紀頃，現在のイラク共和国北部にフルリ人が建国しまし"
+"た。古代エジプトやバビロニアと対立し，紀元前14世紀に最盛期を迎えました。"
 
 #: data/nation/mixtec.ruleset:3
 msgid "Mixtec"
@@ -8651,7 +8810,6 @@ msgstr "ミシュテカ人"
 #. TRANS: U+00D1 LATIN CAPITAL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/mixtec.ruleset:9
-#, fuzzy
 msgid ""
 "The Mixtecs or Nuu Savi were one of the major Mesoamerican civilizations. "
 "The Mixtec territory was formed by a large number of city states. The Mixtec "
@@ -8662,14 +8820,13 @@ msgid ""
 "living in the Mexican states of Oaxaca, Guerrero and Puebla, as well as in "
 "emigrant communities in Northern Mexico and the US."
 msgstr ""
-"ミシュテカ人（Nuu Savi）はメソアメリカの主要文明の一つを築いた人々です。ミ"
-"シュテカ人の版図は多数の都市連合からなっていました。紀元1100年前後にティラン"
-"トンゴを統治したミシュテカの支配者「八の鹿・ジャガーの爪」は，古代メキシコ全"
-"体の中でも特に有名です。15世紀末に，ミシュテカの版図のほとんどはアステカ人に"
-"占領されましたが，残った地域はスペイン人の到来まで独立を保っていました。今"
-"日，およそ70万人のミシュテカ人がメキシコのオアハカ州，ゲレーロ州，プエブラ州"
-"に暮らしており，また移民のコミュニティが北メキシコおよびアメリカ合衆国にあり"
-"ます。"
+"ミシュテカ人(Nuu Savi)はメソアメリカの主要文明の一つを築いた人々です。ミシュ"
+"テカ人の版図は多数の都市連合からなっていました。紀元1100年前後にティラントン"
+"ゴを統治したミシュテカの支配者「八の鹿・ジャガーの爪」は，古代メキシコ全体の"
+"中でも特に有名です。15世紀末に，ミシュテカの版図のほとんどはアステカ人に占領"
+"されましたが，残った地域はスペイン人の到来まで独立を保っていました。今日，お"
+"よそ70万人のミシュテカ人がメキシコのオアハカ州，ゲレーロ州，プエブラ州に暮ら"
+"しており，また移民のコミュニティが北メキシコおよびアメリカ合衆国にあります。"
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
@@ -8689,17 +8846,15 @@ msgstr ""
 "モルドバは16世紀にオスマン帝国に支配されました。その後1812年にモルドバはロシ"
 "ア帝国の一部となりました。1918年よりモルドバはルーマニアの一部となり，1940年"
 "にはソビエト連邦に参加しました。現在のモルドバ共和国がソビエト連邦から独立し"
-"たのは1001年のことです。"
+"たのは1991年のことです。"
 
 #: data/nation/moluccan.ruleset:3
-#, fuzzy
 msgid "Moluccan"
-msgstr "モルドバ人"
+msgstr "モルッカ人"
 
 #: data/nation/moluccan.ruleset:4
-#, fuzzy
 msgid "?plural:Moluccans"
-msgstr "モルドバ人"
+msgstr "モルッカ人"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -8732,11 +8887,11 @@ msgid ""
 "percent of the population. In terms of GDP per capita Monaco is the "
 "wealthiest country in the world by a large margin."
 msgstr ""
-"わずか2平方kmしかないモナコは，世界で2番目に小さい国です。建国された1297年よ"
-"り，グリマルディ家が統治しています。1861年にモナコは領土の95%以上をフランスに"
-"割譲しました。モナコ公国は所得税が無く，またカジノやF1レースでも知られていま"
-"す。外国人が人口の80%以上を占めています。1人当たりGDPで見ると，モナコは圧倒的"
-"大差で世界一です。"
+"国土面積がわずか2平方kmしかないモナコ公国は，世界で2番目に小さい国です。建国"
+"された1297年より，グリマルディ家が統治しています。1861年にモナコは領土の95%以"
+"上をフランスに割譲しました。所得税がないため世界中から数多くの富裕層が移住し"
+"ており，人口の80%以上を外国人が占めています。1人当たりGDPで見ると，モナコは圧"
+"倒的大差で世界一です。主要な産業は観光で，カジノやF1レースも有名です。"
 
 # Belgae
 #: data/nation/monegasque.ruleset:29
@@ -8750,20 +8905,20 @@ msgid "?female:Minister of State %s"
 msgstr "%s国務大臣"
 
 #: data/nation/mon.ruleset:3
-#, fuzzy
 msgid "Mon"
-msgstr "ドン"
+msgstr "モン族"
 
 #: data/nation/mon.ruleset:4
-#, fuzzy
 msgid "?plural:Mons"
-msgstr "モンゴル人"
+msgstr "モン族"
 
 #: data/nation/mon.ruleset:6
 msgid ""
 "The Mon people were among the earliest inhabitants of Southeast Asia and "
 "instrumental in the spread of Buddhism in the region."
 msgstr ""
+"モン族は，東南アジアに古くから住む民族です。彼らによってこの地域に上座部仏教"
+"が広まりました。"
 
 #: data/nation/montenegrin.ruleset:3
 msgid "Montenegrin"
@@ -8803,12 +8958,12 @@ msgid ""
 "union with Bohemia for most of its history."
 msgstr ""
 "大モラヴィア王国は中世に栄えたスラブ系の国です。その中心部は現在のチェコ共和"
-"国モラヴィア地方にありました。モラヴィアはボヘミア，スロバキア，パンノニア，"
-"および南部ポーランドからラウジッツにかけての大部分を征服しました。建国者にし"
-"て初代君主となったのはモイミール１世公です。大モラヴィア王国は東のステップ地"
-"帯から到来したマジャール人の侵入により崩壊しました。ハンガリー王国が神聖ロー"
-"マ帝国に敗れた後，モラヴィアは公領になり，その後の歴史の大半がボヘミア公領と"
-"の同君連合のもとにありました。"
+"国モラヴィア地方にありました。モラヴィアはボヘミア，スロヴァキア，パンノニ"
+"ア，および南部ポーランドからラウジッツにかけての大部分を征服しました。建国者"
+"にして初代君主となったのはモイミール１世公です。大モラヴィア王国は東のステッ"
+"プ地帯から到来したマジャール人の侵入により崩壊しました。ハンガリー王国が神聖"
+"ローマ帝国に敗れた後，モラヴィアは公領になり，その後の歴史の大半がボヘミア公"
+"領との同君連合のもとにありました。"
 
 # Belgae
 # ルーマニア系のモルドバ人と紛らわしい。ｌとrの違いが日本語では区別できないので。
@@ -8839,7 +8994,6 @@ msgid "?plural:Moroccans"
 msgstr "モロッコ人"
 
 #: data/nation/moroccan.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Morocco gained independence in 1956. However, the area has been "
 "inhabited since at least 8000 BCE. In classical times the region was known "
@@ -8881,12 +9035,11 @@ msgstr "ムガール帝国は，インド亜大陸の大半を近世の間支配
 
 #: data/nation/muscovite.ruleset:3
 msgid "Muscovite"
-msgstr ""
+msgstr "モスクワ大公国人"
 
 #: data/nation/muscovite.ruleset:4
-#, fuzzy
 msgid "?plural:Muscovites"
-msgstr "アステカ人"
+msgstr "モスクワ大公国人"
 
 #: data/nation/muscovite.ruleset:6
 msgid ""
@@ -8900,11 +9053,11 @@ msgstr ""
 # Belgae
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
-msgstr "マスコギ人"
+msgstr "マスコギー"
 
 #: data/nation/muskogee.ruleset:4
 msgid "?plural:Muskogee"
-msgstr "マスコギ人"
+msgstr "マスコギー"
 
 #: data/nation/muskogee.ruleset:5
 msgid "American"
@@ -8918,10 +9071,10 @@ msgid ""
 "tribes briefly formed a sovereign state known as the \"State of Muskogee\" "
 "during the early 1800s."
 msgstr ""
-"マスコギ人は，北アメリカのクリーク族，セミノール族，チョクトー族，チカソー族"
+"マスコギーは，北アメリカのクリーク族，セミノール族，チョクトー族，チカソー族"
 "の部族連合体です。彼らは今日のアメリカ合衆国ジョージア州およびアラバマ州にま"
 "たがる地域を根拠としていました。クリーク族およびセミノール族は1800年代初頭の"
-"短期間，共同で「マスコギの国」として知られる自治領を持ちました。"
+"短期間，共同で「マスコギーの国」として知られる自治領を持ちました。"
 
 #: data/nation/mwiska.ruleset:3
 msgid "Mwiska"
@@ -8949,14 +9102,14 @@ msgstr ""
 
 # スペイン語表記がCaciqueなのでおそらくこのように発音（Belgae）
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Cacique %s"
-msgstr "カキケ"
+msgstr "カシケ %s"
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Cacique %s"
-msgstr "カキケ"
+msgstr "カシケ %s"
 
 #: data/nation/namibian.ruleset:3
 msgid "Namibian"
@@ -8975,19 +9128,17 @@ msgid ""
 "in 1990, under the name of Namibia."
 msgstr ""
 "ヨーロッパ列強は長い間砂漠地帯である南西アフリカを無視してきましたが，ドイツ"
-"帝国あ19世紀末になってこの地に植民地を設置しました。第一次世界大戦の敗戦によ"
-"り，この地は南アフリカ連邦が受任する委任統治領となりました。最終的に独立した"
-"のは1990年のことで，国名をナミビアとしました。"
+"帝国が19世紀末に植民地を設置しました。第一次世界大戦の敗戦により，この地は南"
+"アフリカ連邦が受任する委任統治領となりました。最終的に独立したのは1990年のこ"
+"とで，国名をナミビアとしました。"
 
 #: data/nation/nauruan.ruleset:3
-#, fuzzy
 msgid "Nauruan"
-msgstr "ニカラグア人"
+msgstr "ナウル人"
 
 #: data/nation/nauruan.ruleset:4
-#, fuzzy
 msgid "?plural:Nauruans"
-msgstr "ニカラグア人"
+msgstr "ナウル人"
 
 #: data/nation/nauruan.ruleset:6
 msgid ""
@@ -9005,14 +9156,25 @@ msgid ""
 "second smallest by population. It is the smallest country in the Southern "
 "Hemisphere and the world's smallest republic."
 msgstr ""
+"南太平洋に浮かぶナウル島に最初に入植したのは，紀元前1000年頃のオーストロネシ"
+"ア人たちです。この島はヨーロッパの入植者からは快適な島(プレザント島)と呼ばれ"
+"ましたが，彼らとの邂逅は部族間の争いを引き起こし，人口が激減する結果となりま"
+"した。1888年にドイツ帝国領となりましたが，第一次世界大戦中にオーストラリアに"
+"占領されました。その後1968年にナウル共和国として独立を果たしました。莫大な量"
+"のリン鉱石を産出したおかげで，第三世界において最も発展した国，あるいは世界で"
+"最も国民1人あたりの収入が多い国の1つといわれました。しかしリン鉱石が枯渇した"
+"ことで，経済的に極めて厳しい状況に陥りました。オフショア銀行や移民の受け入"
+"れ，ミュージカルはリン鉱石に取って代わる収入源とはなりませんでした。ナウル共"
+"和国は世界で3番目に国土面積が小さく，人口は2番目に少ない国です。南半球で最も"
+"小さい国であり，世界で最も小さい共和国でもあります。"
 
 #: data/nation/navajo.ruleset:3
 msgid "Navajo"
-msgstr "ナバホ人"
+msgstr "ナバホ族"
 
 #: data/nation/navajo.ruleset:4
 msgid "?plural:Navajo"
-msgstr "ナバホ人"
+msgstr "ナバホ族"
 
 # Belgae
 # Dineは南北アサバスカ語族全体を指すようです。
@@ -9025,9 +9187,9 @@ msgid ""
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
-"ナバホ人は自称をディネといい，アメリカ合衆国で最も人口の多いネイティブアメリ"
-"カン民族です。彼らはアパッチ人と密接な関係があります。彼らの言語は世界的にも"
-"特に複雑な言語として有名です。"
+"ナバホ族は自称をディネといい，アメリカ合衆国で最も人口の多いインディアン部族"
+"です。彼らはアパッチ族と密接な関係があります。彼らの言語は極めて複雑なことで"
+"有名です。"
 
 #: data/nation/neapolitan.ruleset:3
 msgid "Neapolitan"
@@ -9050,18 +9212,19 @@ msgstr ""
 
 #: data/nation/nenets.ruleset:3
 msgid "Nenets"
-msgstr ""
+msgstr "ネネツ人"
 
 #: data/nation/nenets.ruleset:4
-#, fuzzy
 msgid "?plural:Nenets"
-msgstr "ベネズエラ人"
+msgstr "ネネツ人"
 
 #: data/nation/nenets.ruleset:6
 msgid ""
 "The Nenets are a people living in north-western Russia and the most populous "
 "among the Samoyed peoples."
 msgstr ""
+"ネネツ人はロシアの先住民族です。現在ではほとんどが北極海に面するヤマロ・ネネ"
+"ツ自治管区に住んでおり，人口はおよそ4万人です。"
 
 #: data/nation/nepali.ruleset:3
 msgid "Nepali"
@@ -9120,7 +9283,6 @@ msgid "?plural:Newfoundlanders"
 msgstr "ニューファンドランド人"
 
 #: data/nation/newfoundland.ruleset:7
-#, fuzzy
 msgid ""
 "In precolumbian times Newfoundland and Labrador were settled by the Beothuk, "
 "though around 1000 CE for a short time Vikings also settled there. From the "
@@ -9132,13 +9294,13 @@ msgid ""
 "the Province of Newfoundland and Labrador."
 msgstr ""
 "コロンブスのアメリカ「発見」以前，ニューファンドランドおよびラブラドールには"
-"ベオスーク人が居住していました。西暦1000年ごろ，ヴァイキングがこの地に入植し"
-"ましたが，これは短期間にとどまりました。15世紀終わり以降，ニューファンドラン"
-"ドにはポルトガル人とイギリス人が訪れました。イギリスとフランスはこの地の争奪"
-"戦を続けましたが，1713年にフランスは領有権の主張を取り下げました。ニューファ"
-"ンドランドは1907年に自治国となりましたが，大恐慌の打撃を受け，1934年に自ら自"
-"治権を英国に返上しました。ニューファンドランドは1949年にカナダに加入し，現在"
-"はニューファンドランド・ラブラドール州として知られています。"
+"ベオスーク人が居住していました。1000年ごろ，ヴァイキングがこの地に入植しまし"
+"たが，これは短期間にとどまりました。15世紀終わり以降，ニューファンドランドに"
+"はポルトガル人とイギリス人が訪れました。イギリスとフランスはこの地の争奪戦を"
+"続けましたが，1713年にフランスは領有権の主張を取り下げました。ニューファンド"
+"ランドは1907年に自治国となりましたが，大恐慌の打撃を受け，1934年に自ら自治権"
+"を英国に返上しました。ニューファンドランドは1949年にカナダに加入し，現在は"
+"ニューファンドランド・ラブラドール州として知られています。"
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
@@ -9223,8 +9385,8 @@ msgstr ""
 "す。フランスから独立を達成したのは1960年のことです。独立後は民政と軍政との交"
 "代が続いています。世界最貧国のひとつであるニジェールは，人間開発指数などのさ"
 "まざまな国際的指標においても底辺にあります。ニジェールは出生率と乳幼児死亡率"
-"のいずれも世界的に見て大変高い値になっています。ニジェール（Niger）とナイジェ"
-"リア（Nigeria）を混同しないようにしてください。"
+"のいずれも世界的に見て大変高い値になっています。ニジェール(Niger)とナイジェリ"
+"ア(Nigeria)を混同しないようにしてください。"
 
 # Belgae
 # 一般には「ネズ・パース族」と書かれるようですが。
@@ -9233,11 +9395,11 @@ msgstr ""
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00ED.
 #: data/nation/nimiipuu.ruleset:6
 msgid "Nimiipuu"
-msgstr "ニミプー人"
+msgstr "ネズ・パース族"
 
 #: data/nation/nimiipuu.ruleset:7
 msgid "?plural:Nimiipuu"
-msgstr "ニミプー人"
+msgstr "ネズ・パース族"
 
 #. TRANS: The last letter in "Perce" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -9252,12 +9414,12 @@ msgid ""
 "reservations. The elected Nez Perce Tribal Executive Committee now governs "
 "tribal affairs."
 msgstr ""
-"ニミプー（真の人）と自称する彼らは，一般には「ネズ・パース人」として知られて"
-"います。彼らはネイティブ・アメリカンで，その居住地はワシントン州，オレゴン"
-"州，モンタナ州，アイダホ州にわたり，1800念には70以上の定住村落がありました。"
-"この頃の人口は約6万人を数えました。1877年10月5日，アメリカの騎兵隊に敗れたニ"
-"ミプーの人々は保留地へと移動させられました。現在は選挙により選ばれたネズ・"
-"パース部族評議会が民族内の問題について自治を行なっています。"
+"ネズ・パース族はインディアンの一部族で，自らをニミプー(真の人)と呼びます。ア"
+"イダホ州を中心にワシントン州，オレゴン州，モンタナ州などの高原地帯に定住して"
+"いました。1800年には70以上の定住村落があり，人口は約6万人を数えました。1877年"
+"10月5日，アメリカの騎兵隊に敗れた彼らは保留地へと移住させられました。現在は選"
+"挙により選ばれたネズ・パース部族評議会が部族内の問題について自治を行っていま"
+"す。"
 
 #: data/nation/norman.ruleset:3
 msgid "Norman"
@@ -9275,11 +9437,11 @@ msgid ""
 "Normandy, of which the most famous duke is William II \"the Conqueror\" who "
 "invaded England in 1066."
 msgstr ""
-"現在のフランス北部の地は，バイキングがたびたび襲来し，国土が荒廃していまし"
+"現在のフランス北部の地にはヴァイキングがたびたび襲来し，国土が荒廃していまし"
 "た。さらにパリが包囲される事態となり，西フランク王国の「単純王」シャルル3世は"
-"バイキングの指導者ロロにこの地域を所領として認めました。この領地がノルマン"
-"ディー公国へと発展しました。最も著名なノルマンディー公はギヨーム2世で，1066年"
-"にイングランドに侵攻し，「征服王」ウィリアム1世となりました。"
+"ヴァイキングの指導者ロロ(Rollo)にこの地域を所領として認めました。この領地がノ"
+"ルマンディー公国へと発展しました。最も著名なノルマンディー公はギヨーム2世で，"
+"1066年にイングランドに侵攻し，「征服王」ウィリアム1世となりました。"
 
 # Belgae
 #: data/nation/northkorean.ruleset:3
@@ -9296,20 +9458,20 @@ msgid ""
 "states along the 38th parallel, forming North Korea and South Korea. 60 "
 "years on, North Korea remains a communist state of the Stalinist type."
 msgstr ""
-"1945年，朝鮮はソビエト連邦とアメリカ合衆国によって，38度線において2つの国，北"
-"朝鮮（朝鮮民主主義人民共和国）と南朝鮮（大韓民国）に分割されました。それから"
-"60年以上経過してもなお，北朝鮮はスターリン主義の共産主義国家のままです。"
+"1945年，朝鮮はソビエト連邦とアメリカ合衆国によって，北緯38度線において2つの"
+"国，朝鮮民主主義人民共和国(北朝鮮)と大韓民国に分割されました。それから60年以"
+"上経過してもなお，北朝鮮はスターリン主義の共産主義国家のままです。"
 
 # イメージはスターリン? (clefs)
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Dear Leader %s"
-msgstr "偉大なる指導者"
+msgstr "我らが親愛なる指導者 %s"
 
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Dear Leader %s"
-msgstr "偉大なる指導者"
+msgstr "我らが親愛なる指導者 %s"
 
 # イメージはスターリン? (clefs)
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
@@ -9355,7 +9517,6 @@ msgstr "ノルウェー人"
 
 # clefs
 #: data/nation/norwegian.ruleset:6
-#, fuzzy
 msgid ""
 "After centuries of Danish rule, the Norwegians made their own constitution "
 "in Eidsvoll, 1814 CE. Finally, in 1905 CE the Norwegians got their "
@@ -9390,7 +9551,6 @@ msgid "?plural:Nubians"
 msgstr "ヌビア人"
 
 #: data/nation/nubian.ruleset:6
-#, fuzzy
 msgid ""
 "A succession of kingdoms stretching roughly from the 1st to the 6th "
 "cataracts of the Nile river in modern Sudan and Egypt, Nubia was ancient "
@@ -9415,9 +9575,9 @@ msgstr ""
 "しまいました。紀元前24年には，ローマ帝国との間で短い紛争が起きました。ヌビア"
 "軍が名高い弓兵によってローマ駐屯部隊を攻めたことがきっかけでした。ヌビアはと"
 "いう国は地中海世界とアフリカ内陸部との中間にあるというその位置により形作られ"
-"てきました。広大なヌビア諸王国は当初はナパタ，後にメロエをを中心としていまし"
-"たが，後にはより小規模のキリスト教諸王国へと分裂し，中世まで残存しました。し"
-"かしそれもイスラム教化されたアラブ人によって滅ぼされました。"
+"てきました。広大なヌビア諸王国は当初はナパタ，後にメロエを中心としていました"
+"が，後にはより小規模のキリスト教諸王国へと分裂し，中世まで残存しました。しか"
+"しそれもイスラム教化されたアラブ人によって滅ぼされました。"
 
 # yasu
 #: data/nation/nubian.ruleset:33
@@ -9475,11 +9635,11 @@ msgstr ""
 # ヌートカ族という呼び名が一般的なようなので，そちらの方がいいですかね。ヌーチャヌルスには「人々」の意味が既に含まれているようですし。
 #: data/nation/nuu-chah-nulth.ruleset:3
 msgid "Nuu-chah-nulth"
-msgstr "ヌーチャヌルス人"
+msgstr "ヌートカ族"
 
 #: data/nation/nuu-chah-nulth.ruleset:4
 msgid "?plural:Nuu-chah-nulth"
-msgstr "ヌーチャヌルス人"
+msgstr "ヌートカ族"
 
 #: data/nation/nuu-chah-nulth.ruleset:7
 msgid ""
@@ -9489,10 +9649,11 @@ msgid ""
 "individuals. Like other people of the Pacific Northwest, they built large "
 "wooden canoes and houses and lived in clan systems."
 msgstr ""
-"ヌーチャヌルスはアメリカ先住民の1部族で，北アメリカの太平洋岸北西部に住み，外"
-"洋に出て捕鯨をして生活しています。彼らの居住地は今日のバンクーバー島西部が大"
-"半を占め，現在の人口は8,000人以上になります。太平洋岸北西部に暮らす他の民族と"
-"同様に，彼らは木製の大きなカヌーと家を作り，氏族制度の下で生活しています。"
+"ヌートカ族、またはヌーチャヌルスはアメリカ先住民の1部族で，北アメリカの太平洋"
+"岸北西部に住み，外洋に出て捕鯨をして生活しています。彼らの居住地は今日のバン"
+"クーバー島西部が大半を占め，現在の人口は8,000人以上になります。太平洋岸北西部"
+"に暮らす他の民族と同様に，木製の大きなカヌーと家を建て，氏族制度の下で生活し"
+"ています。"
 
 #: data/nation/occitan.ruleset:3
 msgid "Occitan"
@@ -9512,31 +9673,31 @@ msgid ""
 "French kings took advantage of the subsequent crusade to annex its territory."
 msgstr ""
 "今日のフランス南部にあたるオクシタニアは，いくつかの政治的統一を果たしたこと"
-"は一度もありませんが（いくつかの公領，伯領に分かれていました），11世紀から13"
-"世紀にかけてトルバドゥールの言葉としてオック語がヨーロッパ中に広まり，その文"
-"化が高い評価を得てきました。宗教的自由がもたらしたのがカタリ派の隆盛です。カ"
-"タリ派は教皇より異端と認定され，そのことはフランス王がその後の十字軍でこの地"
-"域を併合する根拠となりました。"
+"は一度もありませんが(いくつかの公領，伯領に分かれていました)，11世紀から13世"
+"紀にかけてトルバドゥールの言葉としてオック語がヨーロッパ中に広まり，その文化"
+"が高い評価を得てきました。宗教的自由がもたらしたのがカタリ派の隆盛です。カタ"
+"リ派は教皇より異端と認定され，そのことはフランス王がその後の十字軍でこの地域"
+"を併合する根拠となりました。"
 
 # Belgae
 # 伯，公などとのバランスから考えると「子」なのですが，紛らわしいので
 #: data/nation/occitan.ruleset:28
 #, c-format
 msgid "Viscount %s"
-msgstr "子爵 %s"
+msgstr " %s子爵"
 
 #: data/nation/occitan.ruleset:28
 #, c-format
 msgid "Viscountess %s"
-msgstr "女子爵 %s"
+msgstr " %s子爵"
 
 #: data/nation/ohlone.ruleset:2
 msgid "Ohlone"
-msgstr "オーロネ人"
+msgstr "オーロネ族"
 
 #: data/nation/ohlone.ruleset:3
 msgid "?plural:Ohlone"
-msgstr "オーロネ人"
+msgstr "オーロネ族"
 
 #: data/nation/ohlone.ruleset:5
 msgid ""
@@ -9550,14 +9711,13 @@ msgid ""
 "speaker of an Ohlone language died in 1939, the Ohlone are today federally "
 "recognized as 7 tribes."
 msgstr ""
-"採集，狩猟，漁労など，オーロネ人の40以上のバンドはサンフランシスコ湾から南に"
-"サリナスバレーまで広がっていました。彼らは8種類に分かれたたがいに関連のある言"
-"語を話していました。カリフォルニアの他の先住民にも一般的な文化的特色を多数"
-"持っていましたが，幾つかの面では大きく異なる特徴もありました。彼らの生活はス"
-"ペイン人が1769年に到来したことにより劇的に変化し，病気や宣教師の不正によりか"
-"つての暮らしはすっかり置き換えられてしまいました。最後のオーロネ語の流暢な話"
-"者は1939年に亡くなりましたが，オーロネ人は今日7部族の連合として認められていま"
-"す。"
+"採集，狩猟，漁労など，オーロネ族の40以上のバンドはサンフランシスコ湾から南に"
+"サリナスバレーまで広がっていました。彼らは8種類に分かれた互いに関連のある言語"
+"を話していました。カリフォルニアの他の先住民にも一般的な文化的特色を多数持っ"
+"ていましたが，幾つかの面では大きく異なる特徴もありました。彼らの生活はスペイ"
+"ン人が1769年に到来したことにより劇的に変化し，病気や宣教師の不正によりかつて"
+"の暮らしはすっかり置き換えられてしまいました。最後のオーロネ語の流暢な話者は"
+"1939年に亡くなりましたが，オーロネ族は今日7部族の連合として認められています。"
 
 #: data/nation/oldenburgian.ruleset:3
 msgid "Oldenburgian"
@@ -9590,14 +9750,12 @@ msgstr ""
 "ダーザクセン州となりました。"
 
 #: data/nation/oldprussian.ruleset:3
-#, fuzzy
 msgid "Old Prussian"
-msgstr "プロイセン人"
+msgstr "古プロイセン人"
 
 #: data/nation/oldprussian.ruleset:4
-#, fuzzy
 msgid "?plural:Old Prussians"
-msgstr "プロイセン人"
+msgstr "古プロイセン人"
 
 #: data/nation/oldprussian.ruleset:6
 msgid ""
@@ -9646,7 +9804,6 @@ msgid "?plural:Ossetians"
 msgstr "オセット人"
 
 #: data/nation/ossetian.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Ossetians are the successors of the Alans of Ancient history, who "
 "fled into the mountains during the Hunnic invasions. Around 800 CE an Alanic "
@@ -9657,8 +9814,8 @@ msgid ""
 msgstr ""
 "現代のオセット人は，古代の歴史においてフン人の侵攻の中で山岳地に逃れたアラン"
 "人の後裔です。紀元800年ごろにアラン人の王国が北カフカスに現れ，モンゴル侵攻ま"
-"で存続しました。今日のオセット人は北オセチア共和国（ロシア連邦の一部）および"
-"一部の国から承認を受けている南オセチア共和国に暮らしています。"
+"で存続しました。今日のオセット人は北オセチア共和国(ロシア連邦の一部)および一"
+"部の国から承認を受けている南オセチア共和国に暮らしています。"
 
 #: data/nation/ostrogothic.ruleset:3
 msgid "Ostrogothic"
@@ -9677,22 +9834,22 @@ msgid ""
 "kingdom was crushed by the Byzantines in a war that depopulated much of "
 "Italy."
 msgstr ""
-"東ゴート人はグルツンギ（ステップに住む人々という意味。西ゴート人の呼称テル"
-"ヴィンギが森がちな地域に住む人々という意味であるのと対照的）とも呼ばれる東ゲ"
-"ルマン系の民族で，ゴート人の2部族の1つです。彼らはオドアケルを破ってイタリア"
-"を征服し，そこに彼らの王国を建設しました。5世紀に東ゴート王国はビザンツとの戦"
-"争で崩壊し，その際にイタリアの人口は大きく減少しました。"
+"東ゴート人はグルツンギ(ステップに住む人々という意味。西ゴート人の呼称テルヴィ"
+"ンギが森がちな地域に住む人々という意味であるのと対照的)とも呼ばれる東ゲルマン"
+"系の民族で，ゴート人の2部族の1つです。彼らはオドアケルを破ってイタリアを征服"
+"し，そこに彼らの王国を建設しました。5世紀に東ゴート王国はビザンツとの戦争で崩"
+"壊し，その際にイタリアの人口は大きく減少しました。"
 
 #. TRANS: The fifth letter in "Otomi" and "Otomies" should be
 #. TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237.
 #: data/nation/otomi.ruleset:6
 msgid "Otomi"
-msgstr "オトミ人"
+msgstr "オトミ族"
 
 #: data/nation/otomi.ruleset:7
 msgid "?plural:Otomies"
-msgstr "オトミ人"
+msgstr "オトミ族"
 
 #. TRANS: The second and fifth letters in "Hnahnu" should be
 #. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
@@ -9710,12 +9867,12 @@ msgid ""
 "language they are called Hnahnu. With more than half a million people the "
 "Otomi are still one of the biggest indigenous groups of Mexico."
 msgstr ""
-"オトミ人はメキシコに古代から居住する民族です。彼らは農業技術が開発されたこ"
+"オトミ族はメキシコに古代から居住する民族です。彼らは農業技術が開発されたこ"
 "ろ，あるいはそれ以前から中央メキシコに暮らしてきました。好戦的な彼らは，多数"
 "のメソアメリカ文明に傭兵として仕えてきました。彼らの民族名も，彼らの多くが仕"
 "えたアステカ文明において精鋭の軍事階級を意味する「オトミトル」に由来します。"
 "彼ら自身の言語では，自分たちのことを「ニャニュ」と呼んでいます。50万人以上の"
-"人口を抱えるオトミ人は，メキシコの先住民族の中でも特に規模の大きいグループで"
+"人口を抱えるオトミ族は，メキシコの先住民族の中でも特に規模の大きいグループで"
 "す。"
 
 # オスマン帝国を形成していたのはオスマン人でもオスマン族でもないんですが
@@ -9797,7 +9954,7 @@ msgstr "アルメニア人"
 #: data/nation/paeonian.ruleset:4
 #, fuzzy
 msgid "?plural:Paeonians"
-msgstr "バイエルン人"
+msgstr "ヴィスワ族"
 
 #: data/nation/paeonian.ruleset:6
 msgid ""
@@ -9887,7 +10044,6 @@ msgid "?plural:Palmyrenes"
 msgstr "パルミラ人"
 
 #: data/nation/palmyrene.ruleset:6
-#, fuzzy
 msgid ""
 "Palmyra was a breakaway Roman state in Asia governed by queen Zenobia. In "
 "273 CE Aurelian brought it back under Roman control."
@@ -9927,12 +10083,11 @@ msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr ""
+msgstr "パプアニューギニア人"
 
 #: data/nation/papuanewguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Papua New Guineans"
-msgstr "パプア人"
+msgstr "パプアニューギニア人"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -9942,6 +10097,10 @@ msgid ""
 "War I Papua New Guinea was transferred to Australia. It became an "
 "independent country in 1975."
 msgstr ""
+"パプアニューギニア独立国はニューギニア島の東部に位置する国です。有史以前より"
+"パプア人が住んでいましたが，19世紀後半にイギリス人とドイツ人が入植しました。"
+"第一次世界対戦の結果，オーストラリアがドイツ領ニューギニアを獲得しました。そ"
+"して1975年に独立国となりました。"
 
 #: data/nation/papuanewguinean.ruleset:22
 #, c-format
@@ -9979,6 +10138,16 @@ msgid ""
 "of the Dutch in 1963, though indigenous activists have been struggling for "
 "independence ever since."
 msgstr ""
+"パプア人はニューギニア島の先住民で，4万年前に初めて移住した人々の子孫です。約"
+"6000年前にニューギニア高地で農業が始められましたが，海岸付近に住んでいた部族"
+"をはじめとする多くのパプア系部族は狩猟採取生活を続けていました。パプア系部族"
+"の中には現在でも未接触部族がいます。一口にパプア人といっても，彼らは民族的・"
+"文化的・言語的に非常に多様です。ニューギニア島には世界の言語の4分の1が存在す"
+"るともいわれています。ニューギニア島東部はドイツ人，イギリス人，日本人，そし"
+"て最終的にはオーストラリア人が進出しましたが，1975年にパプアニューギニア独立"
+"国となりました。西部のオランダ領ニューギニアは西パプア共和国として独立しまし"
+"たが，1963年にインドネシアが侵攻しインドネシア領パプア州・西イリアンジャヤ州"
+"となりました。西パプアの独立運動は現在も続いています。"
 
 #: data/nation/paraguayan.ruleset:3
 msgid "Paraguayan"
@@ -10018,14 +10187,12 @@ msgstr ""
 "政治システムを指向するようになり，目覚しい経済成長を始めています。"
 
 #: data/nation/parthian.ruleset:3
-#, fuzzy
 msgid "Parthian"
-msgstr "パルチザン"
+msgstr "パルティア人"
 
 #: data/nation/parthian.ruleset:4
-#, fuzzy
 msgid "?plural:Parthians"
-msgstr "火星人"
+msgstr "パルティア人"
 
 #: data/nation/parthian.ruleset:6
 msgid ""
@@ -10034,17 +10201,21 @@ msgid ""
 "the satrap Arsakes they drove the Seleucids from Iran, where they created "
 "their own strong empire. Their culture was Hellenistic."
 msgstr ""
+"パルティア人は元々は中央アジアの遊牧民で，セレウコス朝支配下のパルティア地方"
+"に定着していました。紀元前247年頃，アルサケス1世の下でセレウコス朝から独立"
+"し，自らの帝国であるアルサケス朝パルティアを築きました。彼らの文化はヘレニズ"
+"ム文化を継承したものです。"
 
 #: data/nation/parthian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Shah %s"
-msgstr "シャイハ %s"
+msgstr "シャー %s"
 
 # clefs
 #: data/nation/parthian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Shahbanu %s"
-msgstr "シャーマン %s"
+msgstr "シャーバヌ %s"
 
 #: data/nation/pashtun.ruleset:3
 msgid "Pashtun"
@@ -10072,7 +10243,7 @@ msgstr "ペルシア人"
 #: data/nation/pelasgian.ruleset:4
 #, fuzzy
 msgid "?plural:Pelasgians"
-msgstr "ペルシア人"
+msgstr "アンティル人"
 
 #: data/nation/pelasgian.ruleset:6
 msgid ""
@@ -10126,19 +10297,17 @@ msgstr ""
 "ており，この2種の文字からはエトルリア文字やラテン文字が生まれました。ギリシャ"
 "人およびローマ人からは，シリアツブリガイから作る紫の染料で有名で，彼らの民族"
 "名はギリシャ語やラテン語で「紫色」を意味する言葉に由来すると言われています。"
-"彼らは自らのことをカナニ（Kan'ani，カナン人）と呼び，彼らの末裔であるポエニ人"
-"（カルタゴ人）も，アウグスティヌスが生きていた頃には，自らのことをカナニ"
-"（Chanani）と呼んでいました。"
+"彼らは自らのことをカナニ(Kan'ani，カナン人)と呼び，彼らの末裔であるポエニ人"
+"(カルタゴ人)も，アウグスティヌスが生きていた頃には，自らのことをカナニ"
+"(Chanani)と呼んでいました。"
 
 #: data/nation/phrygian.ruleset:3
-#, fuzzy
 msgid "Phrygian"
-msgstr "ペルシア人"
+msgstr "フリギア人"
 
 #: data/nation/phrygian.ruleset:4
-#, fuzzy
 msgid "?plural:Phrygians"
-msgstr "ペルシア人"
+msgstr "フリギア人"
 
 #: data/nation/phrygian.ruleset:6
 msgid ""
@@ -10152,14 +10321,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/pictish.ruleset:3
-#, fuzzy
 msgid "Pictish"
-msgstr "イギリス人"
+msgstr "ピクト人"
 
 #: data/nation/pictish.ruleset:4
-#, fuzzy
 msgid "?plural:Picts"
-msgstr "海賊"
+msgstr "ピクト人"
 
 #: data/nation/pictish.ruleset:6
 msgid ""
@@ -10199,14 +10366,12 @@ msgstr ""
 
 # Daniel
 #: data/nation/pontic.ruleset:3
-#, fuzzy
 msgid "Pontic"
-msgstr "フェニキア人"
+msgstr "ポントス人"
 
 #: data/nation/pontic.ruleset:4
-#, fuzzy
 msgid "?plural:Pontians"
-msgstr "バイエルン人"
+msgstr "ポントス人"
 
 #: data/nation/pontic.ruleset:6
 msgid ""
@@ -10281,7 +10446,6 @@ msgstr "プレペチャ人"
 #. TRANS: 00E1 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is E1.
 #: data/nation/purhepecha.ruleset:10
-#, fuzzy
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
 "of Michoacan, the heart of a former empire known to them as Irechikua "
@@ -10296,7 +10460,7 @@ msgid ""
 "smooth and devolved into violence. The empire, founded around 1450 CE, "
 "collapsed in 1530."
 msgstr ""
-"プレペチャ人（タラスコ人とも）は現在のメキシコ合衆国ミチョアカン州の先住民で"
+"プレペチャ人(タラスコ人とも)は現在のメキシコ合衆国ミチョアカン州の先住民で"
 "す。この地はかつてイレチクア・ツィンツンツァニと彼らが呼んでいた帝国の中心地"
 "でした。帝国の名前は「ツィンツンツァンの地」という意味で，ツィンツンツァンと"
 "は帝国の首都の名前です。彼らの王はアステカ帝国にとっての宿敵であり，アステカ"
@@ -10305,18 +10469,16 @@ msgstr ""
 "めてアステカ帝国から使者が送られましたが，プレペチャは拒否しました。コンキス"
 "タドールたちの噂に彼らは自ら頭を垂れ，かつての敵であるアステカ帝国と同じ運命"
 "になるよりはと，スペイン王への服従を申し出ました。しかしながら，スペイン支配"
-"への移行はスムーズには行かず，暴力が横行しました。プレペチャの帝国は西暦1450"
-"年に建国され，1530年に滅亡しました。"
+"への移行はスムーズには行かず，暴力が横行しました。プレペチャの帝国は1450年に"
+"建国され，1530年に滅亡しました。"
 
 #: data/nation/qatari.ruleset:3
-#, fuzzy
 msgid "Qatari"
-msgstr "ツァー"
+msgstr "カタール人"
 
 #: data/nation/qatari.ruleset:4
-#, fuzzy
 msgid "?plural:Qataris"
-msgstr "マヤ人"
+msgstr "カタール人"
 
 #: data/nation/qatari.ruleset:6
 msgid ""
@@ -10324,6 +10486,8 @@ msgid ""
 "the wealthiest countries of the world in terms of GDP per capita. Qatar is "
 "one of the world's few absolute monarchies."
 msgstr ""
+"カタール国はペルシャ湾に突き出したカタール半島を占める首長国です。1人当たりの"
+"GDPが世界で最も多い国の一つです。また，数少ない絶対君主国の一つでもあります。"
 
 # Daniel
 #: data/nation/quebecois.ruleset:3
@@ -10346,12 +10510,11 @@ msgstr ""
 
 #: data/nation/rapanui.ruleset:3
 msgid "Rapa Nui"
-msgstr ""
+msgstr "ラパ・ヌイ人"
 
 #: data/nation/rapanui.ruleset:4
-#, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "バーバリアン"
+msgstr "ラパ・ヌイ人"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -10361,17 +10524,22 @@ msgid ""
 "destroyed due to internal conflicts; in 1888 the island was annexed by "
 "Chile. Their script Rongorongo has never been deciphered."
 msgstr ""
+"ラパ・ヌイ人はイースター島(現地語名「ラパ・ヌイ」)に住むポリネシア人の先住民"
+"です。彼らは4-5世紀頃に島に到達し，住み始めたとされています。モアイという巨大"
+"な石像を数多く作ったことで有名です。しかしこの文明は部族間抗争が激化してほと"
+"んど滅びてしまいました。その後イースター島は1888年にチリに併合されました。彼"
+"らの用いたロンゴロンゴという文字らしき記号は，未だ解読されていません。"
 
 #. TRANS: The fourth letter in "Raramuri" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1.
 #: data/nation/raramuri.ruleset:6
 msgid "Raramuri"
-msgstr "ララムリ人"
+msgstr "タラフマラ族"
 
 #: data/nation/raramuri.ruleset:7
 msgid "?plural:Raramuris"
-msgstr "ララムリ人"
+msgstr "タラフマラ族"
 
 #: data/nation/raramuri.ruleset:9
 msgid ""
@@ -10381,11 +10549,10 @@ msgid ""
 "in races that last up to several days. In 1891 a Raramuri uprising in "
 "Tomochi was brutally repressed by the Mexican authorities."
 msgstr ""
-"ララムリ人（タラウマラ人とも）はメキシコ北部，西シエラマドレ山脈の峡谷地帯に"
-"住んでいます。彼らは持久力があることで有名です。彼らの伝統的な競技に長距離走"
-"があります。木製のボールを蹴りながら数日間にわたって続くレースを行います。"
-"1891年，ララムリ人がトモチで起こした反乱は，メキシコ政府により無残に鎮圧され"
-"ました。"
+"タラフマラ族，またはララムリはメキシコ北部，西シエラマドレ山脈の峡谷地帯に住"
+"んでいます。彼らは持久力があることで有名です。彼らの伝統的な競技に長距離走が"
+"あります。木製のボールを蹴りながら数日間にわたって続くレースを行います。1891"
+"年にトモチで起こした反乱は，メキシコ政府により無残に鎮圧されました。"
 
 #: data/nation/rhenish.ruleset:3
 #, fuzzy
@@ -10395,7 +10562,7 @@ msgstr "リトアニア人"
 #: data/nation/rhenish.ruleset:4
 #, fuzzy
 msgid "?plural:Rhenish"
-msgstr "ロシア人"
+msgstr "スワヒリ人"
 
 #: data/nation/rhenish.ruleset:6
 msgid ""
@@ -10444,9 +10611,9 @@ msgid ""
 "against the Brazilian Imperial Army and was supported by Giuseppe Garibaldi "
 "amongst others."
 msgstr ""
-"リオグランデンセ共和国（ピラティニ共和国とも）はブラジルのリオグランデ・ド・"
-"スル州に1836年から1845年まで存在しました。彼らはブラジル帝国軍との間でボロ衣"
-"戦争を戦い，ジュゼッペ・ガルバルディ他の支援を受けました。"
+"リオグランデンセ共和国(ピラティニ共和国とも)はブラジルのリオグランデ・ド・ス"
+"ル州に1836年から1845年まで存在しました。彼らはブラジル帝国軍との間でボロ衣戦"
+"争を戦い，ジュゼッペ・ガルバルディ他の支援を受けました。"
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -10490,7 +10657,7 @@ msgstr "ローマ人"
 #: data/nation/romansh.ruleset:4
 #, fuzzy
 msgid "?plural:Romansh"
-msgstr "ローマ人"
+msgstr "スワヒリ人"
 
 #: data/nation/romansh.ruleset:6
 msgid ""
@@ -10576,14 +10743,12 @@ msgstr ""
 "よって侵略され，占領され，併合されてしまいました。"
 
 #: data/nation/sabine.ruleset:3
-#, fuzzy
 msgid "Sabine"
-msgstr "飢饉"
+msgstr "サビニ人"
 
 #: data/nation/sabine.ruleset:4
-#, fuzzy
 msgid "?plural:Sabines"
-msgstr "デンマーク人"
+msgstr "サビニ人"
 
 #: data/nation/sabine.ruleset:6
 msgid ""
@@ -10595,14 +10760,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/sabine.ruleset:27 data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Tribune %s"
-msgstr "王女"
+msgstr "護民官 %s"
 
 #: data/nation/sabine.ruleset:27 data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tribune %s"
-msgstr "トゥン"
+msgstr "護民官 %s"
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
@@ -10625,14 +10790,12 @@ msgstr ""
 "ています。"
 
 #: data/nation/saintlucian.ruleset:3
-#, fuzzy
 msgid "Saint Lucian"
-msgstr "カルタゴ人"
+msgstr "セントルシア人"
 
 #: data/nation/saintlucian.ruleset:4
-#, fuzzy
 msgid "?plural:Saint Lucian"
-msgstr "シリア人"
+msgstr "セントルシア人"
 
 #: data/nation/saintlucian.ruleset:6
 msgid ""
@@ -10642,15 +10805,19 @@ msgid ""
 "became independent in 1979. It a member both of the Commonwealth and La "
 "Francophonie. The economy is based on tourism, bananas and sugar."
 msgstr ""
+"セントルシアはカリブ海の小アンティル諸島に位置する島国です。植民地時代にはイ"
+"ギリスとフランスが島の領有を巡って対立し，1814年のパリ条約でイギリス領となる"
+"までに，実に14回も領有権が移り変わりました。1979年に独立し，イギリス連邦とフ"
+"ランコフォニー国際機関の両方に加盟しています。経済の中心はバナナ栽培と観光業"
+"です。"
 
 #: data/nation/saka.ruleset:3
 msgid "Saka"
-msgstr ""
+msgstr "サカ族"
 
 #: data/nation/saka.ruleset:4
-#, fuzzy
 msgid "?plural:Saka"
-msgstr "サーミ人"
+msgstr "サカ族"
 
 #: data/nation/saka.ruleset:6
 msgid ""
@@ -10666,7 +10833,7 @@ msgstr ""
 #: data/nation/salishan.ruleset:4
 #, fuzzy
 msgid "?plural:Salishans"
-msgstr "マリ人"
+msgstr "ヴィスワ族"
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -10683,11 +10850,11 @@ msgstr ""
 # エルサルバドル人？
 #: data/nation/salvadoran.ruleset:3
 msgid "Salvadoran"
-msgstr "サルバドル人"
+msgstr "エルサルバドル人"
 
 #: data/nation/salvadoran.ruleset:4
 msgid "?plural:Salvadorans"
-msgstr "サルバドル人"
+msgstr "エルサルバドル人"
 
 #. TRANS: The fifth letter in "Hernandez" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -10746,7 +10913,6 @@ msgid "?plural:Sammarinese"
 msgstr "サンマリノ人"
 
 #: data/nation/sammarinese.ruleset:6
-#, fuzzy
 msgid ""
 "San Marino is a tiny landlocked country on the Italian Peninsula. It is the "
 "oldest independent republic in the world. According to legend, it was "
@@ -10774,7 +10940,7 @@ msgstr "サーミ人"
 #: data/nation/samnite.ruleset:4
 #, fuzzy
 msgid "?plural:Samnites"
-msgstr "エラム人"
+msgstr "アホム人"
 
 #: data/nation/samnite.ruleset:6
 msgid ""
@@ -10786,14 +10952,12 @@ msgstr ""
 
 # clefs
 #: data/nation/samoan.ruleset:3
-#, fuzzy
 msgid "Samoan"
-msgstr "サモギティア人"
+msgstr "サモア人"
 
 #: data/nation/samoan.ruleset:4
-#, fuzzy
 msgid "?plural:Samoans"
-msgstr "ザクセン人"
+msgstr "サモア人"
 
 #: data/nation/samoan.ruleset:6
 msgid ""
@@ -10804,17 +10968,24 @@ msgid ""
 "throughout the Pacific. Colonized by Germany and New Zealand, Samoa became "
 "independent in 1962."
 msgstr ""
+"サモア独立国は南太平洋のサモア諸島の西側を占める島国です。東側はアメリカ合衆"
+"国の自治州であるアメリカ領サモアです。紀元前1500年頃にはポリネシア人が定住し"
+"ていたことから，おそらく彼らはサモア諸島から太平洋の島々へと広がっていったと"
+"考えられています。ヨーロッパ人に知られるようになったのは18世紀からで，1899年"
+"にサモア諸島はアメリカとドイツによって東西に分割されました。第一次大戦後にド"
+"イツ領だった西側はニュージーランドの保護国となり，1962年に独立を果たしまし"
+"た。"
 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Chief of the Government %s"
-msgstr "新しい政治体制の選択"
+msgstr "国家元首 %s"
 
 # Daniel
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief of the Government %s"
-msgstr "総督"
+msgstr "国家元首 %s"
 
 # clefs
 #: data/nation/samogitian.ruleset:3
@@ -10835,14 +11006,12 @@ msgstr ""
 "の異教徒の居住地でした。今日では，サモギティアはリトアニアの一地方です。"
 
 #: data/nation/santomean.ruleset:3
-#, fuzzy
 msgid "Santomean"
-msgstr "アラム人"
+msgstr "サントメ・プリンシペ人"
 
 #: data/nation/santomean.ruleset:4
-#, fuzzy
 msgid "?plural:Santomeans"
-msgstr "アラム人"
+msgstr "サントメ・プリンシペ人"
 
 #. TRANS: The second letter in "Sao" should be
 #. TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in
@@ -10862,16 +11031,20 @@ msgid ""
 "Slavery was abolished in the 19th century and the country became independent "
 "in 1975. The islands' economy remains dependent on the export of cocoa."
 msgstr ""
+"サントメ・プリンシペ民主共和国はアフリカ西海岸の大西洋上，ギニア湾に浮かぶ赤"
+"道直下の島国です。首都サントメのあるサントメ島は，1470年頃にポルトガル人のペ"
+"ロ・デ・エスコラールが初めて発見し，発見した日(聖トマスの日)に因んでサントメ"
+"と命名されました。肥沃な火山性土壌は農業に適しており，ヨーロッパ人による最初"
+"のプランテーション植民地となりました。1975年に独立しましたが，カカオ輸出に依"
+"存した経済は非常に脆弱で，世界最貧国の一つでもあります。"
 
 #: data/nation/sardinian.ruleset:3
-#, fuzzy
 msgid "Sardinian"
-msgstr "カルタゴ人"
+msgstr "サルデーニャ人"
 
 #: data/nation/sardinian.ruleset:4
-#, fuzzy
 msgid "?plural:Sardinians"
-msgstr "シリア人"
+msgstr "サルデーニャ人"
 
 #: data/nation/sardinian.ruleset:6
 msgid ""
@@ -10903,7 +11076,7 @@ msgid ""
 "from the 15th to the 18th century."
 msgstr ""
 "サルマタイ人は中央アジアおよび南西シベリアから到来したイラン系遊牧民族です。"
-"彼らはサカ人およびスキタイ人と密接な関係にあります。サルマタイ起源説は15世紀"
+"彼らはサカ族およびスキタイ人と密接な関係にあります。サルマタイ起源説は15世紀"
 "から18世紀にかけてポーランド文化の基礎となりました。"
 
 #: data/nation/saudi.ruleset:3
@@ -10971,20 +11144,19 @@ msgid ""
 "The Electorate of Saxony was an independent hereditary electorate of the "
 "Holy Roman Empire from 1356-1806."
 msgstr ""
-"ザクセン選帝侯領は，1356年より1806年まで続く，神聖ローマ帝国内の独立した領邦"
-"でした。"
+"ザクセン選帝侯領は，1356年から1806年まで続いた，神聖ローマ帝国内の独立した領"
+"邦です。"
 
 #: data/nation/scanian.ruleset:3
-#, fuzzy
 msgid "Scanian"
-msgstr "イラン人"
+msgstr "スコーネ人"
 
 #: data/nation/scanian.ruleset:4
-#, fuzzy
 msgid "?plural:Scanians"
-msgstr "イラン人"
+msgstr "スコーネ人"
 
 #: data/nation/scanian.ruleset:6
+#, fuzzy
 msgid ""
 "Scania is the southernmost region of Sweden. Historically one of many petty "
 "kingdoms in Viking age Scandinavia, it became in medieval times part of "
@@ -10992,6 +11164,10 @@ msgid ""
 "Scania saw something of a national revival in the late 20th century with "
 "calls for greater autonomy within the Kingdom of Sweden."
 msgstr ""
+"スカニアはスウェーデンの最南端領域である。歴史的にはヴァイキング時代スカンジ"
+"ナビアの多くのささいな王国の一つは、それがデンマークの中世部になったが、1658"
+"年にロスキレ条約を通じてスウェーデンに割譲された。スカニアはスウェーデン王国"
+"内でより大きな自治権を求める声に、20世紀後半に国家の復活のようなものを見た。"
 
 #: data/nation/schleswig-holsteinian.ruleset:3
 msgid "Schleswig-Holsteinian"
@@ -11027,7 +11203,7 @@ msgstr "スコットランド人"
 #: data/nation/scottishgaelic.ruleset:4
 #, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "スコットランド人"
+msgstr "ゲール人"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -11047,15 +11223,15 @@ msgstr ""
 # チェロキー・イロコイ・マリ・マオリ・スー・南アフリカ・スワジ・ズールー
 # 全部「族長」で大丈夫かしらん
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
-msgstr "族長"
+msgstr "氏族長 %s"
 
 # clefs
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
-msgstr "族長"
+msgstr "氏族長 %s"
 
 # clefs
 # was "最初の首相" (# yasu)
@@ -11101,7 +11277,6 @@ msgid "?plural:Scythians"
 msgstr "スキタイ人"
 
 #: data/nation/scythian.ruleset:6
-#, fuzzy
 msgid ""
 "The Scythians or Scyths were an Ancient Iranian people of horse-riding "
 "nomadic pastoralists who throughout Classical Antiquity dominated the Pontic-"
@@ -11129,7 +11304,6 @@ msgid "?plural:Seleucids"
 msgstr "セレウコス人"
 
 #: data/nation/seleucid.ruleset:6
-#, fuzzy
 msgid ""
 "The Seleucid Empire was one of the diadochi states founded when Alexander "
 "the Great's generals carved up his empire after his death. It was named "
@@ -11144,12 +11318,11 @@ msgstr ""
 
 #: data/nation/seljuk.ruleset:3
 msgid "Seljuk"
-msgstr ""
+msgstr "セルジューク族"
 
 #: data/nation/seljuk.ruleset:4
-#, fuzzy
 msgid "?plural:Seljuks"
-msgstr "スウェーデン人"
+msgstr "セルジューク族"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -11165,13 +11338,12 @@ msgstr ""
 
 #: data/nation/seminole.ruleset:3
 msgid "Seminole"
-msgstr ""
+msgstr "セミノール"
 
 # Daniel
 #: data/nation/seminole.ruleset:4
-#, fuzzy
 msgid "?plural:Seminoles"
-msgstr "ベンガル人"
+msgstr "セミノール"
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -11188,6 +11360,17 @@ msgid ""
 "\"Five Civilized Tribes\" for their relatively amiable relationships with "
 "White European settlers during the early era of U.S. expansion."
 msgstr ""
+"セミノールはチェロキー・チョクトー・チカソー・マスコギーと共に，いわゆる文明"
+"化五部族に数えられる北アメリカのインディアンです。18世紀にジョージア州やミシ"
+"シッピ州，アラバマ州などからマスコギーの一部やアフリカ系黒人逃亡奴隷がフロリ"
+"ダ半島に移動し，元々住んでいた別のインディアンたちと合流して多民族の集団であ"
+"るセミノールを形成しました。名前の由来はスペイン語で「逃亡」や「野生」を意味"
+"する \"cimarrón\" とされています。19世紀にはアメリカ合衆国と三次に渡るセミ"
+"ノール戦争が起こり，多くがオクラホマ州へと強制的に移住させられました。しかし"
+"装備に優れるアメリカ陸軍はゲリラ戦を展開するセミノールに苦戦し，多大な戦費を"
+"費やしたにも関わらず全員を移住させることはついにできませんでした。現在の人口"
+"は15,000人程で，この中にはフロリダ州で征服されなかったことを誇りに生きる人々"
+"が含まれます。"
 
 #: data/nation/senegalese.ruleset:3
 msgid "Senegalese"
@@ -11228,12 +11411,11 @@ msgstr ""
 
 #: data/nation/seychellois.ruleset:3
 msgid "Seychellois"
-msgstr ""
+msgstr "セーシェル人"
 
 #: data/nation/seychellois.ruleset:4
-#, fuzzy
 msgid "?plural:Seychellois"
-msgstr "スコットランド人"
+msgstr "セーシェル人"
 
 #: data/nation/seychellois.ruleset:6
 msgid ""
@@ -11247,15 +11429,23 @@ msgid ""
 "populated country of Africa and have the highest human development of the "
 "continent."
 msgstr ""
+"セーシェル共和国はインド洋の島国で，115の島々からなります。オーストロネシア人"
+"やアラブ商人に古くから発見されていたとみられますが，ヨーロッパ人が入植するま"
+"では無人島のままでした。その後1815年のパリ条約締結まで，イギリスとフランスは"
+"領有権を巡って争いました。独立したのは1976年です。民族構成は多様で，アフリカ"
+"系を始めとして中国系、ヨーロッパ系、インド系，マルガシュ系などからなります。"
+"現在ではインド洋の真珠と称されるリゾートとして発展し，多くの観光客を集めてい"
+"ます。この結果，アフリカ諸国の中で人口は最も少ない一方で，国民一人あたりの収"
+"入は最も高い水準にあります。また人間の豊かさを表す人間開発指数はアフリカ諸国"
+"の中で最も高く，世界的に見ても「非常に高い」と評価されている国の一つです。"
 
 #: data/nation/shan.ruleset:3
 msgid "Shan"
-msgstr ""
+msgstr "シャン族"
 
 #: data/nation/shan.ruleset:4
-#, fuzzy
 msgid "?plural:Shans"
-msgstr "ザクセン人"
+msgstr "シャン族"
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -11268,11 +11458,11 @@ msgstr ""
 
 #: data/nation/shawnee.ruleset:3
 msgid "Shawnee"
-msgstr "ショーニー人"
+msgstr "ショーニー族"
 
 #: data/nation/shawnee.ruleset:4
 msgid "?plural:Shawnee"
-msgstr "ショーニー人"
+msgstr "ショーニー族"
 
 #: data/nation/shawnee.ruleset:6
 msgid ""
@@ -11281,20 +11471,18 @@ msgid ""
 "alliance against American expansionism but were ultimately unsuccessful and "
 "made to resettle in the Indian Territory (modern Oklahoma)."
 msgstr ""
-"アルゴンキン語族のショーニー人は，テカムシ（テクムセとも）および彼の兄弟テン"
-"スクワタワが先頭に立ち，アメリカ拡張主義に抗するために部族同盟を結成しようと"
-"しました。しかし最終的には失敗に終わり，インディアン準州（現在のオクラホマ"
-"州）に再定住させられました。"
+"アルゴンキン語族のショーニー族は，テカムシ(テクムセとも)および彼の兄弟テンス"
+"クワタワが先頭に立ち，アメリカ拡張主義に抗するために部族同盟を結成しようとし"
+"ました。しかし最終的には失敗に終わり，インディアン準州(現在のオクラホマ州)に"
+"再定住させられました。"
 
 #: data/nation/sherpa.ruleset:3
-#, fuzzy
 msgid "Sherpa"
-msgstr "サハラ人"
+msgstr "シェルパ"
 
 #: data/nation/sherpa.ruleset:4
-#, fuzzy
 msgid "?plural:Sherpas"
-msgstr "ザクセン人"
+msgstr "シェルパ"
 
 #: data/nation/sherpa.ruleset:6
 msgid ""
@@ -11353,12 +11541,11 @@ msgstr ""
 
 #: data/nation/sierraleonean.ruleset:3
 msgid "Sierra Leonean"
-msgstr ""
+msgstr "シエラレオネ人"
 
 #: data/nation/sierraleonean.ruleset:4
-#, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "セルビア人"
+msgstr "シエラレオネ人"
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -11368,6 +11555,12 @@ msgid ""
 "country passed through a civil war. Today, Sierra Leone remains one of the "
 "poorest countries in the world."
 msgstr ""
+"シエラレオネ共和国は西アフリカに位置し，大西洋に面しています。首都フリータウ"
+"ンはグランヴィル・シャープによる計画の下，1792年に解放奴隷の定住地として建設"
+"されました。1808年にイギリス王領植民地となり，独立を果たしたのは1961年のこと"
+"です。しかし1990年から約10年間にわたって内戦が続いた結果，国民の平均寿命が世"
+"界で最も短い国になりました。また世界で最も貧しい国の一つでもあります。シエラ"
+"レオネ経済を支えるのは内戦の原因にもなったダイヤモンド採掘です。"
 
 # Belgae
 # シク教国人？
@@ -11405,7 +11598,7 @@ msgid ""
 "22nd state of India in 1975."
 msgstr ""
 "ネパールとブータンの間にくさびを打つように存在したヒマラヤのシッキム王国は，"
-"チョギェル（法王）と呼ばれる世襲君主によって数世紀の間統治されてきましたが，"
+"チョギェル(法王)と呼ばれる世襲君主によって数世紀の間統治されてきましたが，"
 "1975年にはインドの22番目の州となりました。"
 
 #: data/nation/silesian.ruleset:3
@@ -11439,15 +11632,13 @@ msgid ""
 msgstr "シンガポールはマレーシア半島の最南端に位置する商業的な都市国家です。"
 
 #: data/nation/sinhalese.ruleset:3
-#, fuzzy
 msgid "Sinhalese"
-msgstr "鯨"
+msgstr "シンハラ人"
 
 # Daniel
 #: data/nation/sinhalese.ruleset:4
-#, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "ベンガル人"
+msgstr "シンハラ人"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -11455,14 +11646,18 @@ msgid ""
 "Prince Vijaya who settled the island of Sri Lanka together with 700 "
 "followers in 543 BCE."
 msgstr ""
+"シンハラ人はスリランカ民主社会主義共和国の人口の3/4を占める民族です。マハーワ"
+"ンサという叙事詩によれば，ライオンの血を引くスリランカ最初の王ウィジャヤは700"
+"人の家臣と共にインドからセイロン島へ移り住み，彼らがシンハラ人の祖先であると"
+"しています。"
 
 #: data/nation/slavic.ruleset:3
 msgid "Slavic"
-msgstr "スラブ人"
+msgstr "スラヴ人"
 
 #: data/nation/slavic.ruleset:4
 msgid "?plural:Slavs"
-msgstr "スラブ人"
+msgstr "スラヴ人"
 
 #: data/nation/slavic.ruleset:6
 msgid ""
@@ -11493,8 +11688,8 @@ msgid ""
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
 "スロヴァキア共和国はヨーロッパの中心部にあたる国です。1918年までオーストリア-"
-"ハンガリー帝国の一部であり，また1993年まではチェコスロバキアの一部を構成して"
-"いました。"
+"ハンガリー帝国の一部であり，また1993年まではチェコスロヴァキアの一部を構成し"
+"ていました。"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -11514,14 +11709,12 @@ msgstr ""
 "する共和国です。"
 
 #: data/nation/solomonislander.ruleset:3
-#, fuzzy
 msgid "Solomon Islander"
-msgstr "同じ島"
+msgstr "ソロモン諸島人"
 
 #: data/nation/solomonislander.ruleset:4
-#, fuzzy
 msgid "?plural:Solomon Islanders"
-msgstr "アイスランド人"
+msgstr "ソロモン諸島人"
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -11531,18 +11724,24 @@ msgid ""
 "of some fierce fighting during World War II, including the famous battle of "
 "Guadalcanal. Solomon Islands has been independent since 1978."
 msgstr ""
+"ソロモン諸島は南太平洋のメラネシアに属する島国で，パプアニューギニアとバヌア"
+"ツの間に位置します。島に到達した最初の人々は，3万年前にニューギニア島から渡っ"
+"てきたと考えられています。紀元前4000年頃からオーストロネシア人が進出しまし"
+"た。14世紀にはスペイン人が渡来し，ガダルカナル島で発見した砂金をソロモン王の"
+"秘宝だと考え，ソロモン諸島と名付けました。19世紀にイギリスの保護国となりまし"
+"たが，第二次世界大戦中に日本軍に占領されました。太平洋における有数の激戦地と"
+"なり，中でもガダルカナル島の戦いが特によく知られています。ソロモン諸島は1978"
+"年に独立しました。"
 
 # Belgae
 # <%s AI>とCity: %sに代入されます。別の訳語を当てたいところです。普通AIと都市: 平常など。
 #: data/nation/somaliland.ruleset:3
-#, fuzzy
 msgid "Somaliland"
-msgstr "普通"
+msgstr "ソマリランド人"
 
 #: data/nation/somaliland.ruleset:4
-#, fuzzy
 msgid "?plural:Somalilanders"
-msgstr "ローマ人"
+msgstr "ソマリランド人"
 
 #: data/nation/somaliland.ruleset:6
 msgid ""
@@ -11552,6 +11751,11 @@ msgid ""
 "a somewhat higher standard of living than the rest of Somalia it remains "
 "internationally unrecognized."
 msgstr ""
+"かつてのソマリア共和国は北部の旧イギリス領ソマリランドと，南部の旧イタリア領"
+"ソマリランドが統合して発足しました。しかし南部優遇の経済政策に対し北部地域は"
+"反感を強め，ソマリア内戦中の1991年に「ソマリランド共和国」の分離独立を宣言し"
+"ました。政治・経済はソマリアの他地域よりも安定し，生活水準もいくらか高いもの"
+"となっていますが，未だ国際的には国家として承認されていません。"
 
 #: data/nation/somali.ruleset:3
 msgid "Somali"
@@ -11597,13 +11801,12 @@ msgstr ""
 
 #: data/nation/sotho.ruleset:3
 msgid "Sotho"
-msgstr ""
+msgstr "ソト族"
 
 # clefs
 #: data/nation/sotho.ruleset:4
-#, fuzzy
 msgid "?plural:Basotho"
-msgstr "バスク人"
+msgstr "ソト族"
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -11613,6 +11816,10 @@ msgid ""
 "Moshoeshoe I. Today, there are about 2 million Sotho in the Kingdom of "
 "Lesotho and almost twice that number in South Africa."
 msgstr ""
+"ソト族はバントゥー系民族の一つで，南ソト語を話す人々です。彼ら自身は自らをバ"
+"ソトと呼びます。ソト族の祖先が南アフリカに定住を始めたのは2-5世紀頃と考えられ"
+"ています。19世紀初めにモショエショエ1世の元で統一国家を築きました。今日ではレ"
+"ソト王国に約150万人，南アフリカ共和国に約400万人が暮らしています。"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
@@ -11635,20 +11842,20 @@ msgid ""
 "prisoner Nelson Mandela became the first truly democratically elected "
 "president of South Africa."
 msgstr ""
-"オランダ人の入植者が17世紀に南アフリカの植民地化を開始しました。まずボーア人"
-"(オランダ人入植者の末裔)との，それからイギリス軍とズールー人との数多くの戦争"
-"を経て，1910年に南アフリカ連合が創設されました。南アフリカ政府は，市民の肌の"
-"色に基づく合法的な不平等政策「アパルトヘイト」によって悪名高くなります。1994"
-"年，この国はじめての非人種主義憲法の採択に続いて，長年政治囚となっていたネル"
-"ソン・マンデラが南アフリカ初の民主的に選ばれた大統領となりました。"
+"オランダ人の入植者が17世紀に南アフリカの植民地化を開始しました。まずアフリ"
+"カーナー(ボーア人)との，それからイギリス軍とズールー人との数多くの戦争を経"
+"て，1910年に南アフリカ連合が創設されました。南アフリカ政府は，市民の肌の色に"
+"基づく合法的な不平等政策「アパルトヘイト」によって悪名高くなります。1994年，"
+"この国はじめての非人種主義憲法の採択に続いて，長年政治囚となっていたネルソ"
+"ン・マンデラが南アフリカ初の民主的に選ばれた大統領となりました。"
 
 #: data/nation/southamerican.ruleset:3
 msgid "South American"
-msgstr "南アメリカ人"
+msgstr "南米諸国連合"
 
 #: data/nation/southamerican.ruleset:4
 msgid "?plural:South Americans"
-msgstr "南アメリカ人"
+msgstr "南米諸国連合"
 
 #: data/nation/southamerican.ruleset:6
 msgid ""
@@ -11656,8 +11863,8 @@ msgid ""
 "European Union, but panamericanism has already existed since the 19th "
 "century."
 msgstr ""
-"南米諸国連合はヨーロッパ連合をモデルとして2008年に設立されましたが，汎アメリ"
-"カ主義はすでに19世紀より存在しました。"
+"南米諸国連合は欧州連合をモデルとして2008年に設立されましたが，汎アメリカ主義"
+"は既に19世紀から存在します。"
 
 # Belgae
 # こちらは「南朝鮮人」である必要はないですよね。
@@ -11678,19 +11885,17 @@ msgid ""
 "the Republic of Korea\" in 1948."
 msgstr ""
 "かつては統一された朝鮮人国家の地であった朝鮮半島も，朝鮮戦争が1953年に膠着状"
-"態に陥った結果，今日では北朝鮮（朝鮮民主主義人民共和国）と韓国（大韓民国）と"
-"いう2つの国家に分断されています。韓国政府は，民族主義者および反共主義者からな"
-"る組織「大韓民国臨時政府」を基盤に1948年に形成されました。"
+"態に陥った結果，今日では朝鮮民主主義人民共和国と大韓民国(韓国)という2つの国家"
+"に分断されています。韓国政府は，民族主義者および反共主義者からなる組織「大韓"
+"民国臨時政府」を基盤に1948年に形成されました。"
 
 #: data/nation/southsudanese.ruleset:3
-#, fuzzy
 msgid "South Sudanese"
-msgstr "スーダン人"
+msgstr "南スーダン人"
 
 #: data/nation/southsudanese.ruleset:4
-#, fuzzy
 msgid "?plural:South Sudanese"
-msgstr "スーダン人"
+msgstr "南スーダン人"
 
 #: data/nation/southsudanese.ruleset:6
 msgid ""
@@ -11699,6 +11904,11 @@ msgid ""
 "The war left two million dead and many more displaced until a ceasefire was "
 "signed in 2005. Southern Sudan achieved full independence in 2011."
 msgstr ""
+"北アフリカのスーダンでは，北部のアラブ系イスラム教徒と南部の黒人アニミスト・"
+"キリスト教徒の間で長きにわたって内戦が続きました。死者は200万人，家を失った人"
+"も400万人以上に上りましたが，2005年にようやく和平合意が行われました。住民投票"
+"の結果，2011年にスーダン共和国の南部10州が南スーダン共和国として分離独立を果"
+"たしました。"
 
 #: data/nation/southvietnamese.ruleset:3
 msgid "South Vietnamese"
@@ -11714,9 +11924,9 @@ msgid ""
 "state during the Vietnam War. The country was reunited with North Vietnam "
 "after it was conquered by communist forces in 1975."
 msgstr ""
-"南ベトナム（正式にはベトナム共和国）はベトナム戦争中にアメリカが後ろ盾となっ"
-"た国家です。この国が北ベトナムに再統合されたのは，共産軍に征服された1975年の"
-"ことです。"
+"南ベトナム(正式にはベトナム共和国)はベトナム戦争中にアメリカが後ろ盾となった"
+"国家です。この国が北ベトナムに再統合されたのは，共産軍に征服された1975年のこ"
+"とです。"
 
 #: data/nation/southvietnamese.ruleset:23
 #, c-format
@@ -11777,7 +11987,6 @@ msgid "?plural:Sri Vijaya"
 msgstr "シュリーヴィジャヤ人"
 
 #: data/nation/srivijaya.ruleset:7
-#, fuzzy
 msgid ""
 "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and "
 "extended its control through much of the coastal regions of Sumatra, Java, "
@@ -11809,14 +12018,12 @@ msgstr ""
 "スーダンが独立するのは1956年です。"
 
 #: data/nation/suebian.ruleset:3
-#, fuzzy
 msgid "Suebian"
-msgstr "セルビア人"
+msgstr "スエビ族"
 
 #: data/nation/suebian.ruleset:4
-#, fuzzy
 msgid "?plural:Suebians"
-msgstr "セルビア人"
+msgstr "スエビ族"
 
 #: data/nation/suebian.ruleset:6
 msgid ""
@@ -11852,8 +12059,8 @@ msgid ""
 msgstr ""
 "スリナムは南アメリカ最小の独立国です。元々はアラワク・インディアンが暮らして"
 "いました。最初に植民地を築いたのはイギリスですが，1667年にオランダとの間で"
-"ニューアムステルダム（現在のニューヨーク）と交換されました。スリナムは1954年"
-"に自治政府が認められ，1975年に完全に独立しました。"
+"ニューアムステルダム(現在のニューヨーク)と交換されました。スリナムは1954年に"
+"自治政府が認められ，1975年に完全に独立しました。"
 
 # Belgae
 # Sergeant MajorだったDesi Bouterseがクーデターで政権を獲ったことが元ネタと思われるのでこう訳しました。
@@ -11868,14 +12075,12 @@ msgid "?female:Sergeant %s"
 msgstr "%s曹長"
 
 #: data/nation/swahili.ruleset:3
-#, fuzzy
 msgid "Swahili"
-msgstr "帆船"
+msgstr "スワヒリ族"
 
 #: data/nation/swahili.ruleset:4
-#, fuzzy
 msgid "?plural:Swahili"
-msgstr "スワジ人"
+msgstr "スワヒリ族"
 
 #: data/nation/swahili.ruleset:6
 msgid ""
@@ -11891,6 +12096,16 @@ msgid ""
 "official language of Kenya, Tanzania, Uganda, the Comoros and the African "
 "Union."
 msgstr ""
+"スワヒリ族，またはワスワヒリはバントゥー系民族の内スワヒリ語を母語とする人々"
+"で，その多くが東アフリカに住んでいます。ケニアからモザンビーク北部に至るアフ"
+"リカ東海岸(スワヒリ地方)には，7-8世紀には既にアラブ人やペルシア人が季節風を利"
+"用し到達していました。彼らの持ち込んだ外来の言語・文化の影響を受けスワヒリ語"
+"が形成されました。またザンジバルやキルワ・キシワニ，モザンビーク，ソファラな"
+"どのスワヒリ都市も象牙や金，香辛料，そして奴隷貿易の拠点として繁栄しました。"
+"16世紀以降はポルトガルに始まるヨーロッパ諸国の進出が強まり，これらの都市は衰"
+"退してゆきましたが，スワヒリ文化は東アフリカの重要な文化の一部として残りまし"
+"た。現在スワヒリ語は東アフリカの共通語として5千万人以上の人々に使われ，ケニ"
+"ア・タンザニア・ウガンダ・アフリカ連合の公用語に定められています。"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
@@ -11908,9 +12123,9 @@ msgid ""
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
 msgstr ""
-"スワジ人は南部アフリカのバンツー語族に含まれる一部族です。ムスワティ2世の指揮"
-"の下で，スワジ人は領域を拡大し，南に位置するズールー人との境界線を固定させま"
-"した。"
+"スワジ人は南部アフリカのバントゥー系民族に含まれる一部族です。ムスワティ2世の"
+"指揮の下で，スワジ人は領域を拡大し，南に位置するズールー人との境界線を固定さ"
+"せました。"
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -11935,12 +12150,12 @@ msgstr ""
 #: data/nation/swiss.ruleset:38
 #, c-format
 msgid "Federal Councillor %s"
-msgstr "連邦大統領 %s"
+msgstr " %s連邦大統領"
 
 #: data/nation/swiss.ruleset:38
 #, c-format
 msgid "?female:Federal Councillor %s"
-msgstr "連邦大統領 %s"
+msgstr " %s連邦大統領"
 
 #: data/nation/syrian.ruleset:3
 msgid "Syrian"
@@ -11959,14 +12174,12 @@ msgstr ""
 "第に独立を勝ち取ってきました。"
 
 #: data/nation/tahitian.ruleset:3
-#, fuzzy
 msgid "Tahitian"
-msgstr "ハワイ人"
+msgstr "タヒチ人"
 
 #: data/nation/tahitian.ruleset:4
-#, fuzzy
 msgid "?plural:Tahitians"
-msgstr "ハワイ人"
+msgstr "タヒチ人"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -11978,6 +12191,11 @@ msgid ""
 "vegetation and Polynesian culture, Tahiti has become the archetypical exotic "
 "island."
 msgstr ""
+"現在のフランス領ポリネシアの島々に最初に入植したのは，3世紀のポリネシア人たち"
+"です。1842年にフランスは，ソシエテ諸島で最大の島であるタヒチ島を保護領としま"
+"した。その後1880年には全域がフランスの植民地となりました。島々は今日フランス"
+"の海外準県に留まっていますが，大きな自治権を持っています。豊富な植物とポリネ"
+"シア文化のおかげで，タヒチはかつての姿を残す異国情緒溢れる島となっています。"
 
 # Belgae
 #: data/nation/tairona.ruleset:3
@@ -11989,7 +12207,6 @@ msgid "?plural:Tairona"
 msgstr "タイロナ人"
 
 #: data/nation/tairona.ruleset:7
-#, fuzzy
 msgid ""
 "A Chibchan-speaking people related to the Kuna of Panama and the Muisca of "
 "central Colombia, the Tairona inhabit the modern Magdalena and La Guajira "
@@ -12048,12 +12265,11 @@ msgstr ""
 
 #: data/nation/tanganyikan.ruleset:3
 msgid "Tanganyikan"
-msgstr ""
+msgstr "タンガニーカ人"
 
 #: data/nation/tanganyikan.ruleset:4
-#, fuzzy
 msgid "?plural:Tanganyikans"
-msgstr "カナダ人"
+msgstr "タンガニーカ人"
 
 #: data/nation/tanganyikan.ruleset:6
 msgid ""
@@ -12062,6 +12278,12 @@ msgid ""
 "British during World War I and declared independence in 1961. Three years "
 "later it merged with Zanzibar to form the Union of Tanzania."
 msgstr ""
+"タンガニーカ共和国は，かつて東アフリカのタンガニーカ湖とインド洋の間に位置し"
+"ていました。古来バントゥー系民族が定住していましたが，19世紀後半にドイツ帝国"
+"の植民地(ドイツ領東アフリカ)となりました。その後イギリス植民地時代を経て，"
+"1961年に英連邦王国タンガニーカとして独立しました。翌年共和制へ移行し，タンガ"
+"ニーカ共和国が成立しました。ただしその歴史は短く，2年後にはザンジバル人民共和"
+"国と合併し，現在ではタンザニア連合共和国となっています。"
 
 #: data/nation/tanzanian.ruleset:3
 msgid "Tanzanian"
@@ -12122,7 +12344,7 @@ msgid ""
 "immense power and wealth in the next 200 years, and were the innovators of "
 "many modern concepts such as Banking."
 msgstr ""
-"テンプル騎士団は第1次十字軍の後，聖地への巡礼者を保護する目的で設立されまし"
+"テンプル騎士団は第1回十字軍の後，聖地への巡礼者を保護する目的で設立されまし"
 "た。その後の200年間，組織の力と富は大きく拡大し，また銀行制度のようなさまざま"
 "な現代的概念をもたらしました。"
 
@@ -12150,11 +12372,11 @@ msgstr ""
 # 薩摩隼人も追加しますかね :-)
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr "テキサス人"
+msgstr "テクサン"
 
 #: data/nation/texan.ruleset:4
 msgid "?plural:Texans"
-msgstr "テキサス人"
+msgstr "テクサン"
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -12164,6 +12386,13 @@ msgid ""
 "six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
 "and the USA - as expressed in the slogan \"six flags over Texas\"."
 msgstr ""
+"アメリカ合衆国テキサス州は，面積・人口・経済力において全米第2位の規模を誇りま"
+"す。\"ローン・スター・ステイト\"の愛称を持ち，これは白い1つ星があしらわれた州"
+"旗に由来します。\"シックス・フラッグス・オーバー・テキサス\"というスローガン"
+"が示すとおり，テキサス州はこれまで異なる6カ国に支配されてきました(フランス・"
+"スペイン・メキシコ・テキサス共和国・アメリカ連合国・アメリカ合衆国)。19世紀後"
+"半に活躍したカウボーイたちは今や「古き良きアメリカ」の象徴です。テキサス州民"
+"(テクサン)は南部訛りの英語を話し，保守的で，愛州心が高いことで知られます。"
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -12179,12 +12408,11 @@ msgstr "古代西洋において2番目に人口の多かった民族です。"
 
 #: data/nation/thuringian.ruleset:3
 msgid "Thuringian"
-msgstr ""
+msgstr "テューリンゲン族"
 
 #: data/nation/thuringian.ruleset:4
-#, fuzzy
 msgid "?plural:Thuringians"
-msgstr "トラキア人"
+msgstr "テューリンゲン族"
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -12360,9 +12588,9 @@ msgstr ""
 "裂して都市国家が競合するようになりました。トルテカ文化の影響はアメリカの"
 "ニューメキシコ州からニカラグアまで見られますが，トルテカの政治史について歴史"
 "学者の合意はなされていません。トルテカの歴史のほとんどはアステカ神話を根拠と"
-"しているため，学者の中にはそもそもトルテカ帝国というもの自体が実在せず，アス"
-"テカ神話において言及されているトルテカは文明についての寓話にすぎないと主張す"
-"る人もいます。"
+"しているため，学者の中にはそもそもトルテカ帝国自体が実在せず，アステカ神話に"
+"おいて言及されているトルテカは文明についての寓話にすぎないと主張する人もいま"
+"す。"
 
 #: data/nation/tongan.ruleset:3
 msgid "Tongan"
@@ -12373,7 +12601,6 @@ msgid "?plural:Tongans"
 msgstr "トンガ人"
 
 #: data/nation/tongan.ruleset:6
-#, fuzzy
 msgid ""
 "An island group in the Southern Pacific, Tonga was settled by Polynesians "
 "around 1000 BCE. Although the islands became a British protectorate in the "
@@ -12385,15 +12612,13 @@ msgstr ""
 "な植民地化から逃れることの出来た唯一の国です。"
 
 #: data/nation/transnistrian.ruleset:3
-#, fuzzy
 msgid "Transnistrian"
-msgstr "カナダ人"
+msgstr "沿ドニエストル人"
 
 # clefs
 #: data/nation/transnistrian.ruleset:4
-#, fuzzy
 msgid "?plural:Transnistrians"
-msgstr "チュニジア人"
+msgstr "沿ドニエストル人"
 
 #: data/nation/transnistrian.ruleset:6
 msgid ""
@@ -12403,6 +12628,18 @@ msgid ""
 "the country is de facto independent, it is not recognized by any UN member. "
 "Power is still in the hands of the old communist elite."
 msgstr ""
+"黒海に注ぐドニエストル川の東岸地域(トランスニストリア)は，かつてリトアニア大"
+"公国やロシア帝国が支配していました。住民の多くがウクライナ人やロシア人だった"
+"にも関わらず，モルドバ人が多数派を占めるベッサラビア(モルダヴィア公国領のうち"
+"プルート川以東地域)と共に，1940年に設置されたモルダヴィア・ソビエト社会主義共"
+"和国(モルダヴィアSSR)に再編されました。冷戦終結後の1990年9月，モルドバ人の民"
+"族主義的な政策に反発してトランスニストリアは「沿ドニエストル・モルドバ・ソビ"
+"エト社会主義共和国」として分離独立を宣言しました。後に国名は沿ドニエストル・"
+"モルドバ共和国に改められました。1992年に勃発したトランスニストリア戦争でモル"
+"ドバ共和国(前年にモルダヴィアSSRがソ連から独立し改名)は敗れ，現在トランスニス"
+"トリアは事実上独立した地域となっています。しかし独立を正式に承認した国連加盟"
+"国はありません。国旗はモルダヴィアSSRと同じものを使用しており，未だに古い共産"
+"主義エリートが権力を握っています。"
 
 #: data/nation/transylvanian.ruleset:3
 msgid "Transylvanian"
@@ -12430,12 +12667,11 @@ msgstr ""
 
 #: data/nation/trinidadian.ruleset:3
 msgid "Trinidadian and Tobagonian"
-msgstr ""
+msgstr "トリニダード・トバゴ人"
 
 #: data/nation/trinidadian.ruleset:4
-#, fuzzy
 msgid "?plural:Trinidadians and Tobagonians"
-msgstr "カナダ人"
+msgstr "トリニダード・トバゴ人"
 
 #: data/nation/trinidadian.ruleset:6
 msgid ""
@@ -12449,19 +12685,24 @@ msgid ""
 "compared to its Caribbean neighbors. Trinidad and Tobago is famous for its "
 "music and its Carnival."
 msgstr ""
+"トリニダード・トバゴ共和国はカリブ海の島国で，トリニダード島とトバゴ島の2島か"
+"らなります。小アンティル諸島の中では人口が最も多い国です。1498年にクリスト"
+"ファー・コロンブスによって発見され，スペインの植民地となりました。その後はオ"
+"ランダ，フランス，スウェーデンなど，支配者が次々に入れ替わりましたが，最終的"
+"に両島ともイギリス領となりました。1962年に独立を果たした後，共和政へと移行し"
+"ました。石油と天然ガスが産出するため，カリブ海諸国の中では比較的経済が発展し"
+"ています。また音楽やカーニバルも有名です。"
 
 # clefs これも訳せば「王」になってしまいますが
 #: data/nation/tswana.ruleset:3
-#, fuzzy
 msgid "Tswana"
-msgstr "マンサ"
+msgstr "ツワナ族"
 
 # Daniel
 # なんでpluralだとヘルツェゴヴィナが落ちるんでしょう (clefs)
 #: data/nation/tswana.ruleset:4
-#, fuzzy
 msgid "?plural:Batswana"
-msgstr "ボスニア人"
+msgstr "ツワナ族"
 
 #: data/nation/tswana.ruleset:7
 #, no-c-format
@@ -12471,16 +12712,20 @@ msgid ""
 "them. In South Africa they count about four million Batswana and in the "
 "Apartheid era they had the Bantustan of Bophuthatswana."
 msgstr ""
+"ツワナ族は南部アフリカのバントゥー系民族で，ボツワナ共和国に人口の80％を占め"
+"る150万人が暮らしています。またそもそも「ボツワナ」とは「ツワナ族の国」を意味"
+"します。南アフリカ共和国にも400万人以上が住んでおり，かつて1972年から1994年に"
+"かけてはアパルトヘイトの一環として，ツワナ族のバントゥースタンであるボプタツ"
+"ワナ共和国が存在しました。プラチナ鉱山によって経済は潤っていましたが，その利"
+"益が住民に還元されることはありませんでした。"
 
 #: data/nation/tuareg.ruleset:3
-#, fuzzy
 msgid "Tuareg"
-msgstr "トルクメン人"
+msgstr "トゥアレグ族"
 
 #: data/nation/tuareg.ruleset:4
-#, fuzzy
 msgid "?plural:Tuaregs"
-msgstr "トルコ人"
+msgstr "トゥアレグ族"
 
 #: data/nation/tuareg.ruleset:6
 msgid ""
@@ -12490,6 +12735,11 @@ msgid ""
 "centuries they engaged in slave hunting, even influencing the slave trade to "
 "the Americas."
 msgstr ""
+"トゥアレグ族またはイマッハ(彼ら自身の呼び名)は，現在のアルジェリア，ニジェー"
+"ル，マリにわたるサハラ砂漠西部地域(アザワド)に住むベルベル系遊牧民です。彼ら"
+"の宗教はイスラム教と伝統的なアニミズムが一体化したものです。また母系社会であ"
+"り，女性の地位が比較的高いのも特徴です。彼らは何世紀もの間奴隷狩りを行ってお"
+"り、アメリカとの奴隷貿易に影響を及ぼしました。"
 
 # clefs
 #: data/nation/tunisian.ruleset:3
@@ -12502,7 +12752,6 @@ msgid "?plural:Tunisians"
 msgstr "チュニジア人"
 
 #: data/nation/tunisian.ruleset:6
-#, fuzzy
 msgid ""
 "The Phoenicians founded Carthage in the area where Tunisia is today. "
 "Carthage later became a major power in the Mediterranean region until it was "
@@ -12523,14 +12772,12 @@ msgstr ""
 
 # 「二輪戦車」
 #: data/nation/turkishcypriot.ruleset:3
-#, fuzzy
 msgid "Turkish Cypriot"
-msgstr "チャリオット"
+msgstr "北キプロス人"
 
 #: data/nation/turkishcypriot.ruleset:4
-#, fuzzy
 msgid "?plural:Turkish Cypriots"
-msgstr "クロアチア人"
+msgstr "北キプロス人"
 
 #: data/nation/turkishcypriot.ruleset:6
 msgid ""
@@ -12541,6 +12788,15 @@ msgid ""
 "Currently, the only country that recognizes the independence of the TRNC is "
 "Turkey."
 msgstr ""
+"北キプロス・トルコ共和国は，地中海東端に位置するキプロス島の北部地域を支配す"
+"るトルコ系国家です。ただし国家承認しているのはトルコ共和国のみなので、事実上"
+"独立した地域と呼ぶのが正確でしょう。古来キプロス島には多くのギリシャ人が定住"
+"していましたが，1571年にオスマン帝国が占領して以降はトルコ人が流入しました。"
+"第一次世界大戦中にイギリスが併合し王領植民地となり，その後1960年にキプロス共"
+"和国として独立しました。しかし多数派のギリシャ系住民と少数派のトルコ系住民の"
+"緊張と対立は，内戦と北部の独立宣言，そしてトルコ軍による軍事介入に繋がりまし"
+"た。このキプロス紛争は現在も続いており，国際連合キプロス平和維持軍が監視して"
+"います。"
 
 #: data/nation/turkmen.ruleset:3
 msgid "Turkmen"
@@ -12551,7 +12807,6 @@ msgid "?plural:Turkmens"
 msgstr "トルクメン人"
 
 #: data/nation/turkmen.ruleset:6
-#, fuzzy
 msgid ""
 "Turkmen tribes were first united in the 11th century CE under Togrul Beg, "
 "second ruler of the Seljuk Empire. As the Seljuk state broke down under the "
@@ -12623,14 +12878,14 @@ msgstr ""
 "ました。"
 
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Count %s"
-msgstr "王女"
+msgstr " %s伯爵"
 
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Countess %s"
-msgstr "数"
+msgstr " %s伯爵"
 
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
@@ -12678,7 +12933,6 @@ msgstr "ウクライナ人"
 
 # clefs
 #: data/nation/ukrainian.ruleset:6
-#, fuzzy
 msgid ""
 "Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
@@ -12690,11 +12944,11 @@ msgstr ""
 # 国連「人」はさすがにないですかね
 #: data/nation/un.ruleset:3
 msgid "UN"
-msgstr "国連人"
+msgstr "国際連合"
 
 #: data/nation/un.ruleset:4
 msgid "?plural:UN"
-msgstr "国連人"
+msgstr "国際連合"
 
 #: data/nation/un.ruleset:6
 msgid ""
@@ -12704,12 +12958,12 @@ msgstr "国際連合は人権と弱者保護に信を置いています。"
 #: data/nation/un.ruleset:24
 #, c-format
 msgid "Secretary-General %s"
-msgstr "事務総長 %s"
+msgstr " %s事務総長"
 
 #: data/nation/un.ruleset:24
 #, c-format
 msgid "?female:Secretary-General %s"
-msgstr "事務総長 %s"
+msgstr " %s事務総長"
 
 #: data/nation/urartian.ruleset:3
 #, fuzzy
@@ -12760,7 +13014,6 @@ msgstr "ウイグル人"
 
 # clefs
 #: data/nation/uyghur.ruleset:6
-#, fuzzy
 msgid ""
 "Uyghur was an east Turk empire and civilization. At its height in 820 CE it "
 "controlled most of Central and North Asia. After clashing with the Chinese "
@@ -12808,14 +13061,13 @@ msgstr "伝説上の吸血鬼たち。"
 
 #: data/nation/vandalic.ruleset:3
 msgid "Vandalic"
-msgstr "ヴァンダル人"
+msgstr "ヴァンダル族"
 
 #: data/nation/vandalic.ruleset:4
 msgid "?plural:Vandals"
-msgstr "ヴァンダル人"
+msgstr "ヴァンダル族"
 
 #: data/nation/vandalic.ruleset:6
-#, fuzzy
 msgid ""
 "The Vandals were an East Germanic people originating from what is now "
 "Southern Poland and Slovakia. They entered the Roman Empire in the early 5th "
@@ -12823,20 +13075,20 @@ msgid ""
 "The Vandals are perhaps best known for their sack of Rome in 455 CE. In 534 "
 "CE Belisarius conquered the Vandalic kingdom for the Byzantine Empire."
 msgstr ""
-"ヴァンダル人は東部ゲルマン系の民族で，現在のポーランド南部およびスロバキアに"
-"当たる地域を起源とします。彼らは紀元5世紀初頭にローマ帝国に侵入しました。ゲイ"
-"セリックに率いられた彼らは，最終的にカルタゴに王国を建国しました。彼らについ"
-"ておそらく最も有名なのは，紀元455年のローマ略奪でしょう。紀元534年，ビザンツ"
-"帝国の将軍ベリサリウスはヴァンダル王国を征服しました。"
+"ヴァンダル族は東部ゲルマン系の民族で，現在のポーランド南部およびスロヴァキア"
+"に当たる地域を起源とします。彼らは5世紀初頭に西ローマ帝国のガリア・ヒスパニア"
+"へ侵入しました。そしてガイセリックが王になった後にアフリカへ渡り，カルタゴに"
+"王国を築きました。455年にローマへ侵攻し，略奪の限りを尽くしたことで有名です。"
+"ガイセリック亡き後は徐々に衰退し，534年に東ローマ帝国のベリサリウス将軍によっ"
+"て滅ぼされました。"
 
 #: data/nation/vanuatuan.ruleset:3
 msgid "Vanuatuan"
-msgstr ""
+msgstr "バヌアツ人"
 
 #: data/nation/vanuatuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ni-Vanuatu"
-msgstr "アイヌ人"
+msgstr "バヌアツ人"
 
 #: data/nation/vanuatuan.ruleset:6
 msgid ""
@@ -12846,6 +13098,11 @@ msgid ""
 "both colonial powers agreed to rule the New Hebrides together as a "
 "condominium. The Republic of Vanuatu declared its independence in 1980."
 msgstr ""
+"バヌアツ共和国は83の島々からなり，メラネシアに属する国の一つです。かつては"
+"ニューヘブリディーズ諸島と呼ばれていました。最初に定住したのはメラネシア人で"
+"すが，19世紀終わりにイギリス人とフランス人によって領有が争われました。1906"
+"年、両国はニューヘブリディーズ諸島を共同統治領とすることで合意しました。バヌ"
+"アツ共和国は1980年に独立を宣言しました。"
 
 #: data/nation/vedic.ruleset:3
 #, fuzzy
@@ -12855,7 +13112,7 @@ msgstr "医学"
 #: data/nation/vedic.ruleset:4
 #, fuzzy
 msgid "?plural:Vedics"
-msgstr "メキシコ人"
+msgstr "スワヒリ人"
 
 # clefs
 #: data/nation/vedic.ruleset:6
@@ -12875,14 +13132,12 @@ msgid "?female:Mahatma %s"
 msgstr "マハトマ %s"
 
 #: data/nation/veletian.ruleset:3
-#, fuzzy
 msgid "Veletian"
-msgstr "ヴェネツィア人"
+msgstr "ヴェレティ族"
 
 #: data/nation/veletian.ruleset:4
-#, fuzzy
 msgid "?plural:Veletians"
-msgstr "ヴェネツィア人"
+msgstr "ヴェレティ族"
 
 #: data/nation/veletian.ruleset:6
 msgid ""
@@ -12898,12 +13153,11 @@ msgstr ""
 
 #: data/nation/venda.ruleset:3
 msgid "Venda"
-msgstr ""
+msgstr "ヴェンダ族"
 
 #: data/nation/venda.ruleset:4
-#, fuzzy
 msgid "?plural:Vhavenda"
-msgstr "ルワンダ人"
+msgstr "ヴェンダ族"
 
 #: data/nation/venda.ruleset:6
 msgid ""
@@ -12912,6 +13166,11 @@ msgid ""
 "mostly in the province of Limpopo. During the Apartheid Era there existed a "
 "Bantustan of Venda."
 msgstr ""
+"ヴェンダ族は南アフリカとジンバブエの国境周辺地域に住むバントゥー系民族です。"
+"マプングブエ遺跡はかつて先祖が築いた王国の首都だったとも語り継がれています。"
+"現在ではヴェンダ語の話者はおよそ100万人で，その大部分は南アフリカ共和国リンポ"
+"ポ州で暮らしています。またかつて南アフリカではアパルトヘイトの一環として，"
+"ヴェンダ族のバントゥースタンであるヴェンダ共和国が存在しました。"
 
 #: data/nation/venetian.ruleset:3
 msgid "Venetian"
@@ -12939,14 +13198,12 @@ msgstr ""
 "間の後，ついに1796年にナポレオン軍に滅ぼされました。"
 
 #: data/nation/venetic.ruleset:3
-#, fuzzy
 msgid "Venetic"
-msgstr "ヴェネツィア人"
+msgstr "ウェネティ族"
 
 #: data/nation/venetic.ruleset:4
-#, fuzzy
 msgid "?plural:Veneti"
-msgstr "ヴェネツィア人"
+msgstr "ウェネティ族"
 
 #: data/nation/venetic.ruleset:6
 msgid ""
@@ -12971,7 +13228,6 @@ msgstr "ベネズエラ人"
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/venezuelan.ruleset:9
-#, fuzzy
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -13016,21 +13272,21 @@ msgstr "ベトナム人"
 # このような場合のnationをどう訳すかはとても難しい
 # ナシオンはナシオンだよなあ
 #: data/nation/vietnamese.ruleset:6
-#, fuzzy
 msgid ""
 "The Vietnamese nation was founded in the first century CE by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
 msgstr ""
-"ベトナムは中国の軍事支配への叛乱の戦争指導者となった双子の姉妹により1世紀に設"
-"立されました。"
+"ベトナムの歴史において，1世紀に後漢の支配に対抗して反乱を起こした徴側と徴弐の"
+"姉妹は特に有名です。現在のベトナム社会主義共和国は，1976年に南北統一を経て誕"
+"生しました。"
 
 #: data/nation/vincentian.ruleset:3
 msgid "Vincentian"
-msgstr "ビンセント人"
+msgstr "セントビンセント・グレナディーン人"
 
 #: data/nation/vincentian.ruleset:4
 msgid "?plural:Vincentians"
-msgstr "ビンセント人"
+msgstr "セントビンセント・グレナディーン人"
 
 #: data/nation/vincentian.ruleset:6
 msgid ""
@@ -13042,11 +13298,11 @@ msgid ""
 "1979 and are currently a Commonwealth realm."
 msgstr ""
 "セントビンセント・グレナディーンはカリブ諸島の中で植民地化されるのが最も遅"
-"かった地域です。これは，先住民のカリブ・インディアンが逃亡奴隷と通婚し，ヨー"
-"ロッパ人の植民者を撃退したからです。18世紀，この島々はフランスとイギリスの争"
-"奪戦の場となりました。1783年にフランスは領有権の主張を放棄しました。セントビ"
-"ンセント・グレナディーンは1979年にイギリスから独立し，現在は英連邦王国[訳注："
-"イギリス国王を自国の国王とする国家]となっています。"
+"かった地域です。これは先住民のカリブ・インディアンが逃亡奴隷と通婚し，ヨー"
+"ロッパ人の入植者たちを撃退したからです。18世紀，この島々はフランスとイギリス"
+"の争奪戦の場となりました。1783年にフランスは領有権の主張を放棄しました。セン"
+"トビンセント・グレナディーンは1979年にイギリスから独立し，現在は英連邦王国[訳"
+"注：イギリス国王を自国の国王とする国家]となっています。"
 
 #: data/nation/visigothic.ruleset:3
 msgid "Visigothic"
@@ -13057,7 +13313,6 @@ msgid "?plural:Visigoths"
 msgstr "西ゴート人"
 
 #: data/nation/visigothic.ruleset:6
-#, fuzzy
 msgid ""
 "The Thervingi or Visigoths were an East Germanic people, one of the two "
 "tribes of the Goths. They probably originated from Scandinavia. In the 3rd "
@@ -13074,22 +13329,23 @@ msgstr ""
 "います[訳注:通説はそうでしたが，現在の学説では否定的です]。3世紀に彼らは南方"
 "に移住しました。現在のウクライナに当たります。その後彼らはドナウ川を渡り，紀"
 "元410年にはローマを略奪しました。フォエデラティ[訳注:ローマと同盟を組み，傭兵"
-"を提供する代わりに援助を受ける部族]として認められた彼らは，最終的にトロサ（現"
-"在のトゥールーズ）一帯に定住して王国を建国しました。西ゴート王国はイベリア半"
-"島全体の征服を成し遂げ，首都をトレドに遷しました。ピレネー山脈の北側地域をす"
-"べてフランク王国に奪われたものの，西ゴート王はローマ化されたイベリア人を統治"
-"し続けました。しかし最終的に，この半島はムスリムの侵略者によって蹂躙されまし"
+"を提供する代わりに援助を受ける部族]として認められた彼らは，最終的にトロサ(現"
+"在のトゥールーズ)一帯に定住して王国を建国しました。西ゴート王国はイベリア半島"
+"全体の征服を成し遂げ，首都をトレドに遷しました。ピレネー山脈の北側地域をすべ"
+"てフランク王国に奪われたものの，西ゴート王はローマ化されたイベリア人を統治し"
+"続けました。しかし最終的に，この半島はムスリムの侵略者によって蹂躙されまし"
 "た。紀元711年のことです。"
 
 #: data/nation/vistulan.ruleset:3
+#, fuzzy
 msgid "Vistulan"
-msgstr ""
+msgstr "ヴィスワ族"
 
 # Daniel
 #: data/nation/vistulan.ruleset:4
 #, fuzzy
 msgid "?plural:Vistulans"
-msgstr "オーストリア人"
+msgstr "ヴィスワ族"
 
 #: data/nation/vistulan.ruleset:6
 msgid ""
@@ -13107,12 +13363,11 @@ msgstr ""
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 252.
 #: data/nation/volapuk.ruleset:6
 msgid "Volapukan"
-msgstr ""
+msgstr "ヴォラピュカン"
 
 #: data/nation/volapuk.ruleset:7
-#, fuzzy
 msgid "?plural:Volapukans"
-msgstr "パプア人"
+msgstr "ヴォラピュカン"
 
 #: data/nation/volapuk.ruleset:9
 msgid ""
@@ -13123,16 +13378,20 @@ msgid ""
 "displaced Volapuk by the turn of the century. Today only a few dozen Volapuk "
 "speakers remain."
 msgstr ""
+"ヴォラピュクは1879年に，ドイツの神父であるヨハン・マルティン・シュライヤーに"
+"よって創られた国際補助語(人工言語)です。19世紀末に僅かな広がりを見せました"
+"が，不必要なまでに複雑だと考えられたため，20世紀になった頃にはほとんどエスペ"
+"ラントなどに取って代わられました。今日ではヴォラピュクを話す人々(ヴォラピュカ"
+"ン)はほんの数十人しか残っていません。"
 
 #: data/nation/volgabulgar.ruleset:3
 msgid "Volga Bulgar"
-msgstr ""
+msgstr "ヴォルガ・ブルガール人"
 
 # clefs
 #: data/nation/volgabulgar.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Bulgars"
-msgstr "ブルガリア人"
+msgstr "ヴォルガ・ブルガール人"
 
 #: data/nation/volgabulgar.ruleset:6
 msgid ""
@@ -13141,16 +13400,19 @@ msgid ""
 "the Ukrainian Steppe to the North. Their descendants are the modern "
 "Chuvashes and Volga Tatars."
 msgstr ""
+"ヴォルガ・ブルガールはヴォルガ中流域に存在したテュルク系国家です。フン族とも"
+"関連があったブルガール人の部族連合が分裂し，この内の一派が築きました。イスラ"
+"ム教を国教とし，7世紀から13世紀にかけて交易の拠点となり栄えましたが，最終的に"
+"モンゴル帝国に征服されました。現在のヴォルガ・タタール人とチュヴァシ人は彼ら"
+"の子孫です。"
 
 #: data/nation/volgagerman.ruleset:3
-#, fuzzy
 msgid "Volga German"
-msgstr "ドイツ人"
+msgstr "ヴォルガ・ドイツ人"
 
 #: data/nation/volgagerman.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Germans"
-msgstr "ドイツ人"
+msgstr "ヴォルガ・ドイツ人"
 
 #: data/nation/volgagerman.ruleset:6
 msgid ""
@@ -13203,12 +13465,11 @@ msgstr ""
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "ウェアウルフ"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "ウェールズ人"
+msgstr "ウェアウルフ"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
@@ -13217,6 +13478,10 @@ msgid ""
 "to terrorize villages in search of human flesh and were often blamed for "
 "unexplained or particularly brutal killings."
 msgstr ""
+"ウェアウルフはある状況下において，狼のような獣に変身する人のことです。狼男や"
+"人狼，狼人間とも呼ばれます。中世ヨーロッパでは彼らは村々を襲って人肉を食らう"
+"と恐れられました。また残忍であったり，犯人が分からない殺人もウェアウルフの仕"
+"業だとされることがありました。"
 
 # Belgae
 # 西ポモージェ？
@@ -13254,7 +13519,6 @@ msgid "?plural:West Romans"
 msgstr "西ローマ人"
 
 #: data/nation/westernroman.ruleset:6
-#, fuzzy
 msgid ""
 "The Roman Empire was first divided by Diocletian in 286 and split for good "
 "upon Theodosius' death in 395. Unlike its Eastern counterpart, the Byzantine "
@@ -13345,12 +13609,11 @@ msgstr ""
 
 #: data/nation/xhosa.ruleset:3
 msgid "Xhosa"
-msgstr ""
+msgstr "コーサ族"
 
 #: data/nation/xhosa.ruleset:4
-#, fuzzy
 msgid "?plural:amaXhosa"
-msgstr "アラム人"
+msgstr "コーサ族"
 
 #: data/nation/xhosa.ruleset:6
 msgid ""
@@ -13359,16 +13622,20 @@ msgid ""
 "two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
 "apartheid activists, including Nelson Mandela and Desmond Tutu, where Xhosa."
 msgstr ""
+"コーサ族はバントゥー系民族の中で最も南に位置する民族で，現在は南アフリカ共和"
+"国に800万人以上が住んでいます。彼らの祖先は17世紀にアフリカ大湖沼地域(タンザ"
+"ニア周辺)から移住してきたと考えられています。アパルトヘイト時代にはコーサ族の"
+"バントゥースタンとして，トランスカイ共和国とシスカイ共和国が存在しました。ネ"
+"ルソン・マンデラやデズモンド・ツツなど，反アパルトヘイト活動家の多くはコーサ"
+"族です。"
 
 #: data/nation/xiongnu.ruleset:3
-#, fuzzy
 msgid "Xiongnu"
-msgstr "トンガ人"
+msgstr "匈奴"
 
 #: data/nation/xiongnu.ruleset:4
-#, fuzzy
 msgid "?plural:Xiongnu"
-msgstr "アイヌ人"
+msgstr "匈奴"
 
 #: data/nation/xiongnu.ruleset:6
 msgid ""
@@ -13380,6 +13647,13 @@ msgid ""
 "of the Xiongnu was known as Xianbei, while another group of the Xiongnu "
 "emigrated to the west."
 msgstr ""
+"匈奴は紀元前3世紀から1世紀にかけて，モンゴル高原を中心に勢力を広げた遊牧騎馬"
+"民族です。紀元前209年に冒頓が単于(君主)に即位し，周辺諸部族を服属させ東アジア"
+"で最初の遊牧国家を築きました。当時中国を支配していた秦・漢王朝に対してもたび"
+"たび侵入し，大きな脅威となりました。しかし戦乱や内紛，飢饉により徐々に衰退"
+"し，48年には北匈奴と南匈奴に分裂しました。西方へ移住した匈奴の子孫がフン族と"
+"なったという説がありますが，確かな証拠はありません。またどのような言語を用い"
+"たかも分かっていません。"
 
 #: data/nation/yakut.ruleset:3
 msgid "Yakut"
@@ -13402,13 +13676,13 @@ msgid ""
 "make up roughly half of the population of the vast Sakha Republic of "
 "Russia's Far Eastern district."
 msgstr ""
-"言い伝えによれば，ヤクート人（自称する民族名はサハ）は紀元10世紀に中央アジア"
-"のステップから北のバイカル湖畔へと移住してきました。彼らは現地の人々と通婚"
-"し，レナ川沿いに国を建て，少なくとも中国，モンゴル，さまざまなテュルク系民族"
-"との間で外交関係を持ちました。1620年ごろ，拡張主義を採るロシアの尖兵としてコ"
-"サックがヤクートの領域を訪れ，やがてヤクートの王たちを屈服させてヤクートの地"
-"にロシアの覇権を確立しました。今日約100万人を数えるヤクート人の内大雑把に言っ"
-"て半数が，ロシアの極東地域にある広大なサハ共和国を形成しています。"
+"言い伝えによれば，ヤクート人(自称する民族名はサハ)は紀元10世紀に中央アジアの"
+"ステップから北のバイカル湖畔へと移住してきました。彼らは現地の人々と通婚し，"
+"レナ川沿いに国を建て，少なくとも中国，モンゴル，さまざまなテュルク系民族との"
+"間で外交関係を持ちました。1620年ごろ，拡張主義を採るロシアの尖兵としてコサッ"
+"クがヤクートの領域を訪れ，やがてヤクートの王たちを屈服させてヤクートの地にロ"
+"シアの覇権を確立しました。今日約100万人を数えるヤクート人の内大雑把に言って半"
+"数が，ロシアの極東地域にある広大なサハ共和国を形成しています。"
 
 #: data/nation/yemeni.ruleset:3
 msgid "Yemeni"
@@ -13473,17 +13747,13 @@ msgstr ""
 "した共産主義者はその後も1980年代まで統治を続けました。1990年代に流血を伴って"
 "ユーゴスラビアは解体し，多数の共和国が独立することとなりました。"
 
-# Belgae
-# 自称は「マッシュリー」だったようですが。
 #: data/nation/zambian.ruleset:3
-#, fuzzy
 msgid "Zambian"
-msgstr "ヌミディア人"
+msgstr "ザンビア人"
 
 #: data/nation/zambian.ruleset:4
-#, fuzzy
 msgid "?plural:Zambians"
-msgstr "ヌミディア人"
+msgstr "ザンビア人"
 
 #: data/nation/zambian.ruleset:6
 msgid ""
@@ -13491,15 +13761,17 @@ msgid ""
 "in the 19th century. Governed as Northern Rhodesia by the British, Zambia "
 "gained its independence in 1964."
 msgstr ""
+"ザンビア共和国は南アフリカの内陸国で，1964年に独立しました。古来バントゥー系"
+"民族が住んでいましたが，19世紀にイギリスが進出，1924年に北ローデシア保護領と"
+"なりました。"
 
 #: data/nation/zanzibari.ruleset:3
 msgid "Zanzibari"
-msgstr ""
+msgstr "ザンジバル人"
 
 #: data/nation/zanzibari.ruleset:4
-#, fuzzy
 msgid "?plural:Zanzibaris"
-msgstr "カザフ人"
+msgstr "ザンジバル人"
 
 #: data/nation/zanzibari.ruleset:6
 msgid ""
@@ -13512,14 +13784,22 @@ msgid ""
 "thereafter, the last sultan was overthrown and Zanzibar joined with "
 "Tanganyika to form the United Republic of Tanzania."
 msgstr ""
+"アフリカ東海岸の沖合25-50kmに位置するザンジバル諸島には，旧石器時代から人が住"
+"んでいたとみられています。1世紀頃には既にインド洋における交易拠点になってお"
+"り，象牙やサイの角，次いで香辛料，そして奴隷が季節風を利用して海を渡りまし"
+"た。ザンジバルを支配したのはペルシア人，ポルトガル人，オマーン人，そしてイギ"
+"リス人です。1963年にザンジバル王国として独立しましたが，わずか1ヶ月後にクーデ"
+"ター(ザンジバル革命)が勃発しました。その後すぐタンガニーカ共和国と合併し，現"
+"在のタンザニア連合共和国になりました。ザンジバル革命政府は大きな自治権を与え"
+"られ，マフィア島を除いたザンジバル諸島を統治しています。"
 
 #: data/nation/zapotec.ruleset:3
 msgid "Zapotec"
-msgstr "サポテカ人"
+msgstr "サポテカ族"
 
 #: data/nation/zapotec.ruleset:4
 msgid "?plural:Zapotecs"
-msgstr "サポテカ人"
+msgstr "サポテカ族"
 
 # razedをraisedのスペリングミスと解釈しました（Belgae）
 #. TRANS: The last letter in "Binniza", the fourth letter in
@@ -13533,19 +13813,18 @@ msgid ""
 "notable Zapotec center, Monte Alban, was built on a razed mountain top. "
 "Benito Juarez, Mexico's first indigenous president, was a Zapotec."
 msgstr ""
-"サポテカ人はBinnizaとも言い，メキシコのオアハカ州に暮らしています。彼らはかつ"
+"サポテカ族はBinnizaとも言い，メキシコのオアハカ州に暮らしています。彼らはかつ"
 "てメソアメリカの中でも特に古く活発であった文明を築きました。とりわけ有名なサ"
 "ポテカ文化の祭祀センターであるモンテ・アルバンは，小高い山の上に建設されまし"
 "た。先住民で初めてメキシコ大統領となったベニート・フアレスはザポテカ人です。"
 
 #: data/nation/zhuang.ruleset:3
 msgid "Zhuang"
-msgstr ""
+msgstr "チワン族"
 
 #: data/nation/zhuang.ruleset:4
-#, fuzzy
 msgid "?plural:Zhuang"
-msgstr "タイロナ人"
+msgstr "チワン族"
 
 #: data/nation/zhuang.ruleset:6
 msgid ""
@@ -13584,12 +13863,3 @@ msgstr ""
 "アン・スミスは黒人を権力から除外する人種差別政策を推し進めました。内戦を受け"
 "てスミスは1979年に少数白人支配を終わらせました。1980年からこの国はロバート・"
 "ムガベが統治していますが，彼は以前の政権と同様の悪評を国際的に受けています。"
-
-# 「女子修道院長」だそうだけど，本当にそれでいいのかしらん (clefs)
-# Happiness is a warm gun?
-#~ msgid "?female:Mother Superior %s"
-#~ msgstr "女子修道院長 %s"
-
-#, fuzzy
-#~ msgid "?female:Shaykha %s"
-#~ msgstr "シャーマン"
