@@ -242,6 +242,10 @@ static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer 
   gint hadjustment_value;
   gint vadjustment_value;
 
+  if (!tileset_is_fully_loaded()) {
+    return TRUE;
+  }
+
   hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(widget));
   vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(widget));
 
