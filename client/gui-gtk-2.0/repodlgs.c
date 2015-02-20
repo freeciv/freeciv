@@ -235,6 +235,10 @@ static void science_diagram_update(GtkWidget *widget, gpointer data)
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int width, height;
 
+  if (!tileset_is_fully_loaded()) {
+    return;
+  }
+
   get_reqtree_dimensions(reqtree, &width, &height);
   draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, width, height);
 }
