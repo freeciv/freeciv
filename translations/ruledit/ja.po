@@ -156,19 +156,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2013-09-09 09:58+0300\n"
-"Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
+"POT-Creation-Date: 2015-02-20 20:28+0000\n"
+"PO-Revision-Date: 2015-02-17 22:53+0900\n"
+"Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: G:\\Desktop\\freeciv-2.4.3\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
-msgstr ""
+msgstr "閉じる"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
@@ -177,17 +179,15 @@ msgstr ""
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:114
-#, fuzzy
+#: tools/ruledit/ruledit.cpp:120
 msgid "Print a summary of the options"
-msgstr "  -h, --help\t\tオプションの一覧を表示する\n"
+msgstr "オプションの一覧を表示する"
 
-#: tools/ruledit/ruledit.cpp:116
-#, fuzzy
+#: tools/ruledit/ruledit.cpp:122
 msgid "Print the version number"
-msgstr "  -v, --version\t\tバージョン番号を表示する\n"
+msgstr "バージョンを表示する"
 
-#: tools/ruledit/ruledit.cpp:130
+#: tools/ruledit/ruledit.cpp:136
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "認識できないオプション: \"%s\"\n"
@@ -196,7 +196,7 @@ msgstr "認識できないオプション: \"%s\"\n"
 #: tools/ruledit/ruledit_qt.cpp:60
 #, fuzzy
 msgid "Freeciv Ruleset Editor"
-msgstr "Freeciv サーバ一覧"
+msgstr "Freeciv サーバー一覧"
 
 #: tools/ruledit/ruledit_qt.cpp:127
 #, c-format
@@ -225,24 +225,19 @@ msgstr "技術(_T)"
 
 #: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
 msgid "Buildings"
-msgstr ""
+msgstr "建造物"
 
 #: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
-msgstr ""
+msgstr "ユニット"
 
 #: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
 msgid "Nations"
-msgstr ""
+msgstr "民族"
 
-# cf. http://www.freeciv.org/index.php/Localization#Should_I_try_to_translate_.22Freeciv.22.3F
-# Should I try to translate "Freeciv"?
-# No, just leave it "Freeciv" wherever you find it.
-# (Also, note that the "c" in "Freeciv" is not capitalized.)
 #: tools/ruledit/ruledit_qt.cpp:175
-#, fuzzy
 msgid "Welcome to freeciv-ruledit"
-msgstr "Freecivについて"
+msgstr ""
 
 #: tools/ruledit/ruledit_qt.cpp:195
 #, fuzzy
@@ -266,8 +261,9 @@ msgid "Rule Name"
 msgstr "プレイヤー名 :"
 
 #: tools/ruledit/tab_building.cpp:78
+#, fuzzy
 msgid "Add Building"
-msgstr ""
+msgstr "建造物"
 
 #: tools/ruledit/tab_building.cpp:83
 #, fuzzy
@@ -292,7 +288,7 @@ msgstr "ルールセット(_V):"
 #: tools/ruledit/tab_misc.cpp:72
 #, fuzzy
 msgid "Save to directory"
-msgstr "  -s, --saves DIR\tディレクトリDIRにゲームを保存する\n"
+msgstr "ディレクトリDIRにゲームを保存する"
 
 # Daniel
 #: tools/ruledit/tab_misc.cpp:79
@@ -301,12 +297,13 @@ msgid "Save now"
 msgstr "シナリオの保存"
 
 #: tools/ruledit/tab_misc.cpp:86
+#, fuzzy
 msgid "Terrains"
-msgstr ""
+msgstr "地形"
 
 #: tools/ruledit/tab_misc.cpp:90
 msgid "Resources"
-msgstr ""
+msgstr "資源"
 
 #: tools/ruledit/tab_misc.cpp:94
 #, fuzzy
@@ -314,28 +311,34 @@ msgid "Techs"
 msgstr "技術(_T)"
 
 #: tools/ruledit/tab_misc.cpp:98
+#, fuzzy
 msgid "Unit Classes"
-msgstr ""
+msgstr "ユニット被撃破数\n"
 
 #: tools/ruledit/tab_misc.cpp:102
+#, fuzzy
 msgid "Unit Types"
-msgstr ""
+msgstr "ユニット名"
 
 #: tools/ruledit/tab_misc.cpp:114
+#, fuzzy
 msgid "Styles"
-msgstr ""
+msgstr "建築様式(_S):"
 
 #: tools/ruledit/tab_misc.cpp:118
+#, fuzzy
 msgid "Specialists"
-msgstr ""
+msgstr " 専門家"
 
 #: tools/ruledit/tab_misc.cpp:122
+#, fuzzy
 msgid "Governments"
-msgstr ""
+msgstr "政治体制"
 
 #: tools/ruledit/tab_misc.cpp:126
+#, fuzzy
 msgid "Disasters"
-msgstr ""
+msgstr "環境災害"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Achievements"
@@ -347,15 +350,17 @@ msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "Bases"
-msgstr ""
+msgstr "基地"
 
 #: tools/ruledit/tab_misc.cpp:142
+#, fuzzy
 msgid "Roads"
-msgstr ""
+msgstr "道路"
 
 #: tools/ruledit/tab_misc.cpp:150
+#, fuzzy
 msgid "Refresh Stats"
-msgstr ""
+msgstr "再表示"
 
 #: tools/ruledit/tab_misc.cpp:206
 #, fuzzy
@@ -363,12 +368,14 @@ msgid "Ruleset saved"
 msgstr "ルールセット"
 
 #: tools/ruledit/tab_nation.cpp:49
+#, fuzzy
 msgid "Use nationlist"
-msgstr ""
+msgstr "国際連合"
 
 #: tools/ruledit/tab_nation.cpp:53
+#, fuzzy
 msgid "Nationlist"
-msgstr ""
+msgstr "民族"
 
 #: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
@@ -395,13 +402,16 @@ msgstr "このプリセットを削除していいですか?"
 msgid "Never"
 msgstr "なし"
 
+# Daniel
 #: tools/ruledit/tab_tech.cpp:311
+#, fuzzy
 msgid "Tech with that rule name already exist!"
-msgstr ""
+msgstr "%sと呼ばれる都市は既に存在します。"
 
 #: tools/ruledit/tab_unit.cpp:78
+#, fuzzy
 msgid "Add Unit"
-msgstr ""
+msgstr "積載する"
 
 #: tools/ruledit/tab_unit.cpp:83
 #, fuzzy
