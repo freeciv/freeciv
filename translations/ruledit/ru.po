@@ -7,16 +7,16 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2014.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2015.
 #
 #  Email all translators at: <freeciv.ru@freelists.org>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv-ru-2.6r\n"
+"Project-Id-Version: Freeciv-3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2014-02-02 23:50+0600\n"
+"POT-Creation-Date: 2015-02-20 17:57+0500\n"
+"PO-Revision-Date: 2015-02-20 17:26+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -30,31 +30,29 @@ msgstr ""
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
 #: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "Требуется для %s"
 
-#: tools/ruledit/ruledit.cpp:114
+#: tools/ruledit/ruledit.cpp:120
 msgid "Print a summary of the options"
 msgstr "Выдать список возможных ключей командной строки"
 
-#: tools/ruledit/ruledit.cpp:116
+#: tools/ruledit/ruledit.cpp:122
 msgid "Print the version number"
 msgstr "Вывести номер версии"
 
-#: tools/ruledit/ruledit.cpp:130
+#: tools/ruledit/ruledit.cpp:136
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
 
 #: tools/ruledit/ruledit_qt.cpp:60
-#, fuzzy
-#| msgid "Freeciv ruleset editor"
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
@@ -64,14 +62,16 @@ msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
+"%s%s\n"
+"commit: %s"
 
 #: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Набор правил, от которого будем отталкиваться."
 
 #: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
-msgstr ""
+msgstr "Начать редактирование"
 
 #: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
@@ -83,31 +83,27 @@ msgstr "Открытия"
 
 #: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
 msgid "Buildings"
-msgstr ""
+msgstr "Здания"
 
 #: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
-msgstr ""
+msgstr "Соединения"
 
 #: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
 msgid "Nations"
-msgstr ""
+msgstr "Народы"
 
 #: tools/ruledit/ruledit_qt.cpp:175
 msgid "Welcome to freeciv-ruledit"
-msgstr "Добро пожаловать в Freeciv-ruledit"
+msgstr "Добро пожаловать в редактор наборов правил Freeciv"
 
 #: tools/ruledit/ruledit_qt.cpp:195
-#, fuzzy
-#| msgid "Ruleset saved"
 msgid "Ruleset loaded"
-msgstr "Набор правил сохранён"
+msgstr "Набор правил загружен"
 
 #: tools/ruledit/ruledit_qt.cpp:211
-#, fuzzy
-#| msgid "Ruleset name"
 msgid "Ruleset loading failed!"
-msgstr "Имя набора правил"
+msgstr "Ошибка загрузки набора правил!"
 
 #: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
 #: tools/ruledit/tab_unit.cpp:62
@@ -121,25 +117,23 @@ msgstr "Название Правила"
 
 #: tools/ruledit/tab_building.cpp:78
 msgid "Add Building"
-msgstr ""
+msgstr "Добавить Здание"
 
 #: tools/ruledit/tab_building.cpp:83
 msgid "Remove this Building"
-msgstr ""
+msgstr "Удалить это Здание"
 
 #: tools/ruledit/tab_building.cpp:148
 msgid "Building with that rule name already exist!"
-msgstr ""
+msgstr "Здание с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_misc.cpp:62
 msgid "Ruleset name"
 msgstr "Имя набора правил"
 
 #: tools/ruledit/tab_misc.cpp:67
-#, fuzzy
-#| msgid "Ruleset saved"
 msgid "Ruleset version"
-msgstr "Набор правил сохранён"
+msgstr "Версия набора правил"
 
 #: tools/ruledit/tab_misc.cpp:72
 msgid "Save to directory"
@@ -151,61 +145,59 @@ msgstr "Сохранить"
 
 #: tools/ruledit/tab_misc.cpp:86
 msgid "Terrains"
-msgstr ""
+msgstr "Рельефы"
 
 #: tools/ruledit/tab_misc.cpp:90
 msgid "Resources"
-msgstr ""
+msgstr "Ресурсы"
 
 #: tools/ruledit/tab_misc.cpp:94
-#, fuzzy
-#| msgid "Tech"
 msgid "Techs"
 msgstr "Открытия"
 
 #: tools/ruledit/tab_misc.cpp:98
 msgid "Unit Classes"
-msgstr ""
+msgstr "Классы Соединений"
 
 #: tools/ruledit/tab_misc.cpp:102
 msgid "Unit Types"
-msgstr ""
+msgstr "Типы Соединений"
 
 #: tools/ruledit/tab_misc.cpp:114
 msgid "Styles"
-msgstr ""
+msgstr "Стили"
 
 #: tools/ruledit/tab_misc.cpp:118
 msgid "Specialists"
-msgstr ""
+msgstr "Специалисты"
 
 #: tools/ruledit/tab_misc.cpp:122
 msgid "Governments"
-msgstr ""
+msgstr "Формы правления"
 
 #: tools/ruledit/tab_misc.cpp:126
 msgid "Disasters"
-msgstr ""
+msgstr "Бедствия"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Achievements"
-msgstr ""
+msgstr "Достижения"
 
 #: tools/ruledit/tab_misc.cpp:134
 msgid "Extras"
-msgstr ""
+msgstr "Сооружения"
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "Bases"
-msgstr ""
+msgstr "Базы"
 
 #: tools/ruledit/tab_misc.cpp:142
 msgid "Roads"
-msgstr ""
+msgstr "Дороги"
 
 #: tools/ruledit/tab_misc.cpp:150
 msgid "Refresh Stats"
-msgstr ""
+msgstr "Обновить статистику"
 
 #: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
@@ -213,11 +205,11 @@ msgstr "Набор правил сохранён"
 
 #: tools/ruledit/tab_nation.cpp:49
 msgid "Use nationlist"
-msgstr ""
+msgstr "Использовать набор народов"
 
 #: tools/ruledit/tab_nation.cpp:53
 msgid "Nationlist"
-msgstr ""
+msgstr "Наборы Народов"
 
 #: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
@@ -233,11 +225,11 @@ msgstr "Базовое требование (Root Req)"
 
 #: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
-msgstr ""
+msgstr "Добавить технологию"
 
 #: tools/ruledit/tab_tech.cpp:109
 msgid "Remove this tech"
-msgstr ""
+msgstr "Удалить эту технологию"
 
 #: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
@@ -245,34 +237,28 @@ msgstr "Никогда"
 
 #: tools/ruledit/tab_tech.cpp:311
 msgid "Tech with that rule name already exist!"
-msgstr ""
+msgstr "Технология с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_unit.cpp:78
 msgid "Add Unit"
-msgstr ""
+msgstr "Добавить Соединение"
 
 #: tools/ruledit/tab_unit.cpp:83
 msgid "Remove this Unit"
-msgstr ""
+msgstr "Удалить это Соединение"
 
 #: tools/ruledit/tab_unit.cpp:148
 msgid "Unit type with that rule name already exist!"
-msgstr ""
+msgstr "Тип соединения с этим названием правила уже существует!"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "Эффект"
 
 #: tools/ruledit/validity.c:125
 msgid "Action Enabler"
-msgstr ""
+msgstr "Включатель Действия"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
-msgstr ""
-
-#~ msgid "source RULESET"
-#~ msgstr "source НАБОРПРАВИЛ"
-
-#~ msgid "Load given ruleset"
-#~ msgstr "Загрузить выбранный набор правил"
+msgstr "Стиль музыки"
