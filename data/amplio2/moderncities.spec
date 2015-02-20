@@ -61,8 +61,8 @@ tiles = { "row", "column", "tag"
  0,  8, "base.buoy_mg"
  0,  9, "base.ruins_mg"
  1,  1, "base.airstrip_mg"
- 1,  4, "base.fort_fg"
- 1,  5, "base.fort_bg"
+ 1,  4, "base.outpost_fg"
+ 1,  5, "base.outpost_bg"
 ;
 ; city tiles
 ;
