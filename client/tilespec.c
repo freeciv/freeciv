@@ -519,6 +519,8 @@ struct tileset *tileset;
 
 int focus_unit_state = 0;
 
+static bool tileset_update = FALSE;
+
 
 static int fill_unit_type_sprite_array(const struct tileset *t,
                                        struct drawn_sprite *sprs,
@@ -1219,7 +1221,9 @@ void tilespec_reread_callback(struct option *poption)
   const char *tileset_name = option_str_get(poption);
 
   fc_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
+  tileset_update = TRUE;
   tilespec_reread(tileset_name, client.conn.established);
+  tileset_update = FALSE;
   menus_init();
 }
 
@@ -6311,4 +6315,12 @@ void tileset_ruleset_reset(struct tileset *t)
       t->style_lists[i] = extra_type_list_new();
     }
   }
+}
+
+/****************************************************************************
+  Is tileset in sane state?
+****************************************************************************/
+bool tileset_is_fully_loaded(void)
+{
+  return !tileset_update;
 }

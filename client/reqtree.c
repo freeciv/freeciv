@@ -1070,7 +1070,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	 * node_rectangle_minimum_size(). If you change something here,
 	 * change also node_rectangle_minimum_size().
 	 */
-			     
+
 	get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
 
 	canvas_put_text(pcanvas,
