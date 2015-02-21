@@ -45,7 +45,7 @@ veteran_raise_chance = 50, 33, 20, 0
 
 ; The percentage chance of a settler/engineer increasing level through
 ; performing useful work (per turn)
-veteran_work_raise_chance = 5, 3, 1, 0
+veteran_work_raise_chance = 3, 2, 1, 0
 
 ; Power factors are as a percentage.
 ; +50% is represented by 150
@@ -565,6 +565,11 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
 flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "Airbase", "Transform"
+veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
+veteran_raise_chance      = 50, 33, 20, 0
+veteran_work_raise_chance = 3, 2, 1, 0
+veteran_power_fact        = 100, 150, 175, 200
+veteran_move_bonus        = 0, 0, 0, 0
 roles         = "Settlers"
 helptext      = _("\
 Engineers are similar to Workers, but they work twice as fast, \
@@ -1984,6 +1989,11 @@ uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
 flags         = "Settlers", "BadCityDefender", "HasNoZOC"
+veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
+veteran_raise_chance      = 50, 33, 20, 0
+veteran_work_raise_chance = 0, 0, 0, 0
+veteran_power_fact        = 100, 150, 175, 200
+veteran_move_bonus        = 0, 0, 0, 0
 roles         = "Ferryboat"
 helptext      = _("\
 The Transport cannot attack on its own but\
