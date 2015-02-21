@@ -113,3 +113,6 @@ This list is incomplete
 - Water Engineer build_cost increased to 40, like other City Founding units
 
 - Hex topology is used by default
+
+- Stealth Spies cannot establish embassies. They are already granted by
+  "Communication" tech
