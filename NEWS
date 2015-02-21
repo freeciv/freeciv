@@ -32,15 +32,16 @@ Changes affecting players (supplied rulesets)
    and for the AI to play well. It is suitable for single-player and
    multiplayer games. See doc/README.ruleset_civ2civ3 for more
    information. GNAPATCH#3366
-     * This version of the ruleset is similar to previous versions but
-       does have some changes, including taking advantage of new
-       facilities in the game engine. civ2_3 games started in previous
-       versions of Freeciv cannot be continued with this version.
-     * This is planned to become the default ruleset in a future release.
-       The current default ruleset has been renamed to 'classic' and will
-       continue to be available. From now on the name 'default' will refer
-       to whatever ruleset the running version of Freeciv defaults to.
-       GNAPATCH#3216
+     * This version of the ruleset is similar to previous versions
+       available as modpacks, but does have some changes, including taking
+       advantage of new facilities in the game engine. civ2civ3 or civ2_3
+       games started in previous versions of Freeciv cannot be continued
+       with this version.
+     * civ2civ3 is planned to become the default ruleset in a future
+       release. The current default ruleset has been renamed to 'classic'
+       and will continue to be available. From now on the name 'default'
+       will refer to whatever ruleset the running version of Freeciv
+       defaults to. GNAPATCH#3216
 
    Rules changes affecting all or most rulesets:
      * (not civ1/civ2) City tiles are no longer an exception to the rule
@@ -53,6 +54,13 @@ Changes affecting players (supplied rulesets)
      * (not civ1/civ2) 'Barracks' buildings and 'Sun Tzu's War Academy'
        are now cumulative: if you have both, new units are created at the
        Hardened veteran level. GNAPATCH#3062
+     * Bombarder units (such as bombers and helicopters in civ2civ3) no
+       longer gain veterancy from bombardment. GNAPATCH#5835
+     * The maximum number of trade routes per city is now
+       ruleset-dependent. In the classic and (of as RC1) experimental
+       rulesets, the limit on trade routes now depends on what technology
+       you have. You start with 2 per city, and can add one more with each
+       of 'Magnetism' and 'The Corporation'.
      * In rulesets with nationality tracking (classic, experimental,
        civ2civ3):
           + Citizens now gradually convert to the nationality of the city
@@ -74,19 +82,18 @@ Changes affecting players (supplied rulesets)
             controlled by the new server setting 'techlossrestore'. The
             old behavior, where any bulb debt was completely cancelled,
             can be restored by setting this to -1. GNA#21623
+     * A tile with both a river and a fortress now has a lower defensive
+       bonus, as the bonuses are now added rather than multiplied.
      * When a freshwater terrain (lake) and an oceanic terrain type become
        adjacent due to terrain change, the ocean now floods the whole
-       lake. GNAPATCH#3478 In rulesets which support it, transforming a
-       swamp bordering a lake now results in lake, not ocean. GNA#20043
+       lake. GNAPATCH#3478 In rulesets with lakes, transforming a swamp
+       bordering a lake now results in lake, not ocean. GNA#20043
      * In games where 'startunits' includes a k)ing unit, such units are
        also given to new players created as a result of civil war.
        GNAPATCH#3812
 
    Rule changes to specific rulesets:
      * classic:
-          + The limit on trade routes now depends on what technology you
-            have. You start with 2 per city, and can add one more with
-            each of 'Magnetism' and 'The Corporation'.
           + Tracking of citizen nationality is now enabled. See the help
             for what this means. GNAPATCH#3624
      * experimental:
@@ -102,6 +109,8 @@ Changes affecting players (supplied rulesets)
             rather than the original city owner. GNAPATCH#3762
           + Paratroopers can now paradrop directly to a transport in the
             ocean. GNAPATCH#3805
+          + (as of RC1) Caravans are no longer obsoleted by Freight, since
+            they can travel on more terrain. GNAPATCH#5791
           + Most technologies now have 'root_req' requirements, preventing
             acquisition of the technology by any means (such as trading)
             unless some key earlier technology is known.
@@ -115,8 +124,8 @@ Changes affecting players (supplied rulesets)
 
    New game options:
      * 'killstack', which controls whether all units on a tile die
-       simultaneously, is now a game setting (previously it was controlled
-       by the ruleset). GNA#18698
+       simultaneously, is now a server setting (previously it was
+       controlled by the ruleset). GNA#18698
      * 'killcitizen' is now a boolean setting rather than a bitfield;
        exactly which units can reduce city population is now controlled by
        the ruleset. GNAPATCH#3613
@@ -137,9 +146,10 @@ Changes affecting players (supplied rulesets)
             the total to 555.
           + The set of 50 'core' nations introduced in 2.4 are now by
             default the only nations that will appear in games. To play
-            with the full set of (possibly untranslated) nations, change
-            the nation set in the 'pick nation' dialog, or with the server
-            'nationset' option. GNAPATCH#3448
+            with the full ('extended') set of nations (which might not be
+            translated into your language), change the nation set in the
+            'pick nation' dialog, or with the server 'nationset' option.
+            GNAPATCH#3448
           + The pirate and barbarian flags be swapped, so that pirates now
             have the Jolly Roger, as they should. GNA#22236
      * In the classic and civ2civ3 rulesets, maps are now generated with
@@ -204,10 +214,10 @@ Changes affecting other rulesets / modders
                  terrain-dependent. GNAPATCH#3152
                o Owned bases can now display their owner's flag.
                  GNAPATCH#3450
-          + Rulesets can now change when any of the built-in terrain
-            alterations and transformations can be performed by units (in
-            2.4, it was only possible to affect irrigation). The full set
-            is:
+          + Rulesets can now use effects to change when any of the
+            built-in terrain alterations and transformations can be
+            performed by units (in 2.4, it was only possible to affect
+            irrigation). The full set is:
                o Irrig_Possible: is building irrigation possible?
                o Mining_Possible: is building a mine possible?
                o Irrig_TF_Possible: is changing terrain type with
@@ -243,9 +253,9 @@ Changes affecting other rulesets / modders
             as ability to attack non-native terrain, and controllable at
             unit class and type level ('AttackNonNative' and
             'Only_Native_Attack' respectively). GNAPATCH#3264
-          + Sea units' attack from harbor is generalised as unit class
-            ability to attack from city or transport in non-native terrain
-            ('AttFromNonNative'). GNA#3333
+          + Sea units' ability to attack from harbor is generalized as
+            unit class ability to attack from city or transport in
+            non-native terrain ('AttFromNonNative'). GNAPATCH#3333
      * Cities
           + Cities can suffer ruleset-defined random disasters, whose
             effects can be mediated by the requirements system, and whose
@@ -415,11 +425,18 @@ AI
                  land units.
                o Military units which can't attack are no longer
                  considered threats.
-          + Cities needing defense are less prone to building walls before
-            units. GNAPATCH#4798
           + The AI now considers non-land units that can conquer cities
             (such as Helicopters) a threat to continents it controls.
             GNA#22225
+          + Cities needing defense are less prone to building walls before
+            units. GNAPATCH#4798
+          + (as of RC1) The city the AI has nominated to build wonders is
+            now permitted to build defensive units instead if necessary.
+            GNAPATCH#5588
+          + (as of RC1) The AI now treats players it has never met as
+            potentially hostile; this should make it harder for human
+            players to sneak forces into place before first diplomatic
+            contact. GNAPATCH#5441
      * Unit handling
           + Some fixes to AI's handling of boats as transports.
      * Terrain improvement
@@ -465,7 +482,7 @@ AI
        script. GNAPATCH#3001
      * The 'Cheating' level AI no longer intrinsically ignores tax rate
        limitations. This is instead left up to the ruleset. The supplied
-       rulesets give cheating AIs this bonus, so there no functional
+       rulesets give cheating AIs this bonus, so there is no functional
        change. GNA#18232
 
    The following changes are only relevant to AI developers:
@@ -516,18 +533,21 @@ Tilesets / Art
 
      * The icons for entertainers, scientists, and tax collectors now have
        both male and female versions. GNAPATCH#4506
-     * The base building icons in Amplio2 are now small versions of the
-       bases themselves. GNAPATCH#4059
+     * The activity icons shown near units building roads and bases in
+       Cimpletoon and Amplio2 are now small versions of the extras
+       themselves. GNAPATCH#4059 GNA#20032
      * Improve colors for global warming / nuclear winter progress
        indicators. GNAPATCH#4827
      * Made a few specialist icons available for custom rulesets (worker,
-       farmer, merchant). These are not used in the supplied rulesets.
-       GNAPATCH#4467
+       farmer, merchant) for use by modpacks. These are not used in the
+       supplied rulesets. GNAPATCH#4467
+     * (as of RC1) The Cimpletoon and Amplio2 tilesets have 'outpost' and
+       'airstrip' graphics for use by modpacks. GNAPATCH#5027
 
 Translations
 
      * Updated French, Polish, Catalan, Russian, Korean, Scottish Gaelic,
-       British English, traditional Chinese, Spanish, and German
+       British English, traditional Chinese, Spanish, German, and Japanese
        localizations.
 
 Build/portability
