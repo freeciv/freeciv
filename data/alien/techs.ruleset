@@ -168,7 +168,8 @@ flags       = ""
 graphic     = "a.communication"
 graphic_alt = "-"
 helptext    = _("Conventional radio does not work here. Develop working alternative \
-that takes advantage of the local radiation. You'll get contact to other factions.\n\n\
+that takes advantage of the local radiation. You'll get contact to other factions and \
+much more information about them.\n\n\
 Also your own bases can communicate more efficiently with each other, so number of \
 bases you have is not causing as much unhappiness as before.")
 
