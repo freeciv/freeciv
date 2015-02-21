@@ -7,7 +7,7 @@
 MAJOR_VERSION="2"
 MINOR_VERSION="5"
 PATCH_VERSION="0"
-VERSION_LABEL="-beta2+"
+VERSION_LABEL="-RC1+"
 
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
@@ -34,7 +34,7 @@ VERSION_LABEL="-beta2+"
 
 IS_DEVEL_VERSION=0
 IS_FREEZE_VERSION=0
-IS_BETA_VERSION=1
+IS_BETA_VERSION=0
 
 NEXT_STABLE_VERSION="2.5.0"
 
@@ -42,7 +42,7 @@ NEXT_STABLE_VERSION="2.5.0"
 RELEASE_MONTH=3
 
 DATASUBDIR=2.5
-DEFAULT_FOLLOW_TAG=S2_5
+DEFAULT_FOLLOW_TAG=stable
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
