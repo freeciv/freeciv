@@ -653,7 +653,7 @@ void help_widget::set_topic_unit(const help_item *topic,
     // Tech requirement
     tech = utype->require_advance;
     if (tech && tech != advance_by_number(0)) {
-      /// TRANS: Unit requires technology
+      // TRANS: Unit requires technology
       add_info_label(QString(_("Requires %1."))
                      .arg(advance_name_translation(tech)));
     } else {
@@ -665,14 +665,14 @@ void help_widget::set_topic_unit(const help_item *topic,
     if (obsolete) {
       tech = obsolete->require_advance;
       if (tech && tech != advance_by_number(0)) {
-        /// TRANS: Current unit obsoleted by other unit (technology
-        ///        required to build other unit)
+        // TRANS: Current unit obsoleted by other unit (technology
+        //        required to build other unit)
         add_info_label(QString(_("Obsoleted by %1 (%2)."))
                        .arg(utype_name_translation(obsolete))
                        .arg(advance_name_translation(tech)));
       } else {
         add_info_label(
-          /// TRANS: Current unit obsoleted by other unit
+          // TRANS: Current unit obsoleted by other unit
           QString(_("Obsoleted by %1."))
           .arg(utype_name_translation(obsolete)));
       }
@@ -838,15 +838,15 @@ void help_widget::set_topic_terrain(const help_item *topic,
                       0, max->movement_cost);
     add_info_progress(_("Defense bonus:"), MIN(100, pterrain->defense_bonus),
                       0, 100,
-                      /// TRANS: Display a percentage, eg "50%".
+                      // TRANS: Display a percentage, eg "50%".
                       QString(_("%1%")).arg(pterrain->defense_bonus));
 
     add_info_separator();
 
     if (pterrain->irrigation_result == pterrain) {
       add_info_label(
-        /// TRANS: When irrigated, terrain gets a bonus of %1 food;
-        ///        irrigating takes %2 turns
+        // TRANS: When irrigated, terrain gets a bonus of %1 food;
+        //        irrigating takes %2 turns
         QString(_(ngettext(
           "Irrigation: +%1 food in %2 turn",
           "Irrigation: +%1 food in %2 turns",
@@ -855,8 +855,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
         .arg(pterrain->irrigation_time));
     } else if (pterrain->irrigation_result) {
       add_info_label(
-        /// TRANS: When irrigated, terrain gets changed to other terrain %1
-        ///        in %2 turns
+        // TRANS: When irrigated, terrain gets changed to other terrain %1
+        //        in %2 turns
         QString(_(ngettext(
           "Irrigation: %1 in %2 turn",
           "Irrigation: %1 in %2 turns",
@@ -867,8 +867,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->mining_result == pterrain) {
       add_info_label(
-        /// TRANS: When mined, terrain gets a bonus of %1 food; mining takes
-        ///        %2 turns
+        // TRANS: When mined, terrain gets a bonus of %1 food; mining takes
+        //        %2 turns
         QString(_(ngettext(
           "Mining: +%1 food in %2 turn",
           "Mining: +%1 food in %2 turns",
@@ -877,8 +877,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
         .arg(pterrain->mining_time));
     } else if (pterrain->mining_result) {
       add_info_label(
-        /// TRANS: When mined, terrain gets changed to other terrain %1
-        ///        in %2 turns
+        // TRANS: When mined, terrain gets changed to other terrain %1
+        //        in %2 turns
         QString(_(ngettext(
           "Mining: %1 in %2 turn",
           "Mining: %1 in %2 turns",
@@ -890,8 +890,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->transform_result &&
         pterrain->transform_result != pterrain) {
       add_info_label(
-        /// TRANS: When transformed, terrain gets changed to other terrain %1
-        ///        in %2 turns
+        // TRANS: When transformed, terrain gets changed to other terrain %1
+        //        in %2 turns
         QString(_(ngettext(
           "Transform: %1 in %2 turn",
           "Transform: %1 in %2 turns",
@@ -913,12 +913,12 @@ void help_widget::set_topic_terrain(const help_item *topic,
         vbox->addLayout(create_terrain_widget(
           resource_name_translation(*r),
           canvas,
-          /// TRANS: %1 food, %2 shields, %3 trade
+          // TRANS: %1 food, %2 shields, %3 trade
           QString(_("Tile output becomes %1, %2, %3."))
             .arg(pterrain->output[O_FOOD]   + (*r)->output[O_FOOD])
             .arg(pterrain->output[O_SHIELD] + (*r)->output[O_SHIELD])
             .arg(pterrain->output[O_TRADE]  + (*r)->output[O_TRADE]),
-          /// TRANS: Tooltip decorating strings like "1, 2, 3".
+          // TRANS: Tooltip decorating strings like "1, 2, 3".
           _("Output (Food, Shields, Trade) of a tile where the resource is "
             "present.")));
         qtg_canvas_free(canvas);
