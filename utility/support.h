@@ -24,6 +24,8 @@ extern "C" {
   See also mem.h, netintf.h, rand.h, and see support.c for more comments.
 ***********************************************************************/
 
+#include <freeciv_config.h>
+
 #include <dirent.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -50,7 +52,7 @@ extern "C" {
 #include <posix/be_prim.h>
 #define __bool_true_false_are_defined 1
 #else
-#ifdef HAVE_STDBOOL_H
+#ifdef FREECIV_HAVE_STDBOOL_H
 #include <stdbool.h>
 #else /* Implement <stdbool.h> ourselves */
 #undef bool
@@ -60,7 +62,7 @@ extern "C" {
 #define true  1
 #define false 0
 #define __bool_true_false_are_defined 1
-#endif /* ! HAVE_STDBOOL_H */
+#endif /* ! FREECIV_HAVE_STDBOOL_H */
 #endif /* ! __BEOS__ */
 #endif /* __cplusplus */
 
