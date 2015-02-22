@@ -1112,8 +1112,15 @@ static int sabotage_impr_callback(struct widget *pWidget)
 
     if (NULL != game_unit_by_number(diplomat_id)
         && NULL != game_city_by_number(diplomat_target_id)) {
-      request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
-                        diplomat_target_id, sabotage_improvement + 1);
+      if (sabotage_improvement == B_LAST) {
+        /* This is the untargeted version. */
+        request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
+                          diplomat_target_id, sabotage_improvement + 1);
+      } else {
+        /* This is the targeted version. */
+        request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+                          diplomat_target_id, sabotage_improvement + 1);
+      }
     }
 
     choose_action_queue_next();
@@ -1224,8 +1231,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   } city_built_iterate_end;
 
   pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
-  
-  if (n > 0) {
+
+  if (n > 0 && action_prob_possible(
+        follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
     
@@ -1233,22 +1241,26 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
     area.h += pBuf->next->size.h;
   /* ------------------ */
   }
-  
-  {
+
+  if (action_prob_possible(
+        follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
     struct astring str = ASTRING_INIT;
+
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"), unit_name_translation(actor));
     create_active_iconlabel(pBuf, pWindow->dst, pStr, astr_str(&str),
                             sabotage_impr_callback);
     astr_free(&str);
+
+    pBuf->data.cont = pCont;
+    set_wstate(pBuf, FC_WS_NORMAL);
+
+    add_to_gui_list(MAX_ID - B_LAST, pBuf);
+
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
   }
-  pBuf->data.cont = pCont;  
-  set_wstate(pBuf, FC_WS_NORMAL);
-  
-  add_to_gui_list(MAX_ID - B_LAST, pBuf);
-    
-  area.w = MAX(area.w, pBuf->size.w);
-  area.h += pBuf->size.h;
+
   /* ----------- */
   
   pLast = pBuf;

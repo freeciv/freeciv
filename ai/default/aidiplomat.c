@@ -423,9 +423,14 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     T(ACTION_SPY_SABOTAGE_CITY, 0);
   }
 
-  /* In case untargeted isn't there. TODO: choose target */
+  /* Sabotage a specific city improvement. This has worse odds than
+   * sabotaging a random city improvement. */
   if (count_impr > 0) {
-    T(ACTION_SPY_TARGETED_SABOTAGE_CITY, B_LAST + 1);
+    /* TODO: consider target improvements in stead of always going after
+     * the current production. */
+    int tgt_impr = -1;
+
+    T(ACTION_SPY_TARGETED_SABOTAGE_CITY, tgt_impr + 1);
   }
 
   T(ACTION_SPY_STEAL_GOLD, 0);

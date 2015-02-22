@@ -589,10 +589,19 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   if (response == GTK_RESPONSE_ACCEPT && args->value > -2) {
     if (NULL != game_unit_by_number(args->actor_unit_id)
         && NULL != game_city_by_number(args->target_city_id)) {
-      request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                        args->actor_unit_id,
-                        args->target_city_id,
-                        args->value + 1);
+      if (args->value == B_LAST) {
+        /* This is the untargeted version. */
+        request_do_action(ACTION_SPY_SABOTAGE_CITY,
+                          args->actor_unit_id,
+                          args->target_city_id,
+                          args->value + 1);
+      } else {
+        /* This is the targeted version. */
+        request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                          args->actor_unit_id,
+                          args->target_city_id,
+                          args->value + 1);
+      }
     }
   }
 
@@ -710,13 +719,17 @@ static void create_improvements_list(struct player *pplayer,
     }  
   } city_built_iterate_end;
 
-  gtk_list_store_append(store, &it);
-  {
+  if (action_prob_possible(
+        follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
     struct astring str = ASTRING_INIT;
+
+    gtk_list_store_append(store, &it);
+
     /* TRANS: %s is a unit name, e.g., Spy */
     astr_set(&str, _("At %s's Discretion"),
              unit_name_translation(game_unit_by_number(args->actor_unit_id)));
     gtk_list_store_set(store, &it, 0, astr_str(&str), 1, B_LAST, -1);
+
     astr_free(&str);
   }
 

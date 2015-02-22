@@ -443,9 +443,17 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
-    request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
-                      diplomat_target_id[ATK_CITY],
-                      sabotage_improvement + 1);
+    if (sabotage_improvement == B_LAST) {
+      /* This is the untargeted version. */
+      request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
+                        diplomat_target_id[ATK_CITY],
+                        sabotage_improvement + 1);
+    } else {
+      /* This is the targeted version. */
+      request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+                        diplomat_target_id[ATK_CITY],
+                        sabotage_improvement + 1);
+    }
   }
 
   choose_action_queue_next();
