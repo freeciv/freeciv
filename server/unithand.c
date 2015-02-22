@@ -2955,6 +2955,9 @@ void handle_unit_orders(struct player *pplayer,
 
   if (!packet->repeat) {
     punit->goto_tile = index_to_tile(packet->dest_tile);
+  } else {
+    /* Make sure that no old goto_tile remains. */
+    punit->goto_tile = NULL;
   }
 
 #ifdef DEBUG
