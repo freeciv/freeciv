@@ -6,15 +6,12 @@ could find):
 name  = "Output_Bonus"
 value = 25
 reqs  =
-    { "type", "name", "range"
-      "Building", "Factory", "City"
-      "Building", "Hydro Plant", "City"
-      "OutputType", "Shield", "Local"
-    }
-nreqs =
-    { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
-      "Building", "Nuclear Plant", "City"
+    { "type", "name", "range", "present"
+      "Building", "Factory", "City", TRUE
+      "Building", "Hydro Plant", "City", TRUE
+      "OutputType", "Shield", "Local", TRUE
+      "Building", "Hoover Dam", "Player", FALSE
+      "Building", "Nuclear Plant", "City", FALSE
     }
 
 The text in the brackets is the entry name, which just has to be unique, but 
@@ -22,10 +19,8 @@ is otherwise not used. The name field tells Freeciv which effect you are
 defining.  The value is the effect's value, which depends on which effect it 
 is. The reqs table contain a list of requirements for this effect being in 
 effect. You need to satisfy all requirements listed here for this effect to 
-take effect in the game.  Lastly there is the nreqs table which is the 
-opposite of the reqs field, these are conditions which prevent the effect from 
-taking place. Any one of the nreq conditions will prevent the effect from 
-taking effect.
+take effect in the game. Requirements with present = TRUE must be present,
+those with present = FALSE must not be present.
 
 Value is integral amount parameter for many effects (must be in the range 
 -32767 to 32767).
