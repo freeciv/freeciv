@@ -1836,10 +1836,17 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   int diplomat_target_id = data1.toList().at(1).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
-        && NULL != game_city_by_number(diplomat_target_id)) {
+      && NULL != game_city_by_number(diplomat_target_id)) {
+    if (data2.toInt() == B_LAST) {
+      /* This is the untargeted version. */
+      request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
+                        diplomat_target_id, data2.toInt() + 1);
+    } else {
+      /* This is the targeted version. */
       request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
-                        diplomat_target_id,  data2.toInt()+1);
+                        diplomat_target_id, data2.toInt() + 1);
     }
+  }
 }
 
 /**************************************************************************
@@ -1881,11 +1888,15 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity)
       nr++;
     }
   } city_built_iterate_end;
-  astr_set(&stra, _("At %s's Discretion"),
-           unit_name_translation(game_unit_by_number(diplomat_id)));
-  func = spy_sabotage;
-  str = astr_str(&stra);
-  cd->add_item(str, func, qv1, B_LAST);
+
+  if (action_prob_possible(follow_up_act_probs[ACTION_SPY_SABOTAGE_CITY])) {
+    astr_set(&stra, _("At %s's Discretion"),
+             unit_name_translation(game_unit_by_number(diplomat_id)));
+    func = spy_sabotage;
+    str = astr_str(&stra);
+    cd->add_item(str, func, qv1, B_LAST);
+  }
+
   cd->set_layout();
   cd->show_me();
   astr_free(&stra);
