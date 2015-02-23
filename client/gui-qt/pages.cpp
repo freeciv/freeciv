@@ -497,7 +497,7 @@ void fc_client::create_scenario_page()
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 3);
 
   but = new QPushButton;
-  but->setText(_("Load Scenario"));
+  but->setText(_("Load"));
   but->setIcon(QApplication::style()->standardIcon(
                                         QStyle::SP_DialogOkButton));
   connect(but, SIGNAL(clicked()), this, SLOT(start_scenario()));
