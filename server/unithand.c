@@ -2935,6 +2935,10 @@ void handle_unit_orders(struct player *pplayer,
   /* If we waited on a tile, reset punit->done_moving */
   punit->done_moving = (punit->moves_left <= 0);
 
+  /* Make sure that the unit won't keep its old ai_controlled state after
+   * it has recieved new orders from the client. */
+  punit->ai_controlled = FALSE;
+
   if (length == 0) {
     fc_assert(!unit_has_orders(punit));
     send_unit_info(NULL, punit);
