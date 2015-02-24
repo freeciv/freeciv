@@ -126,8 +126,13 @@ mine_sprite = "tx.oil_mine"
 ;
 [tile_inaccessible]
 blend_layer = 0
-num_layers = 1
-layer0_match_type = "plains"
+num_layers = 3
+layer0_match_type = "water"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer2_match_type = "water"
+layer2_match_with = "water"
+layer2_sprite_type = "corner"
 
 [tile_arctic]
 blend_layer = 0
