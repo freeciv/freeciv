@@ -17,130 +17,158 @@ gfx = "amplio2/tiles"
 
 [grid_main]
 
-x_top_left = 0
-y_top_left = 0
+x_top_left = 1
+y_top_left = 1
 dx = 96
 dy = 48
+pixel_border = 1
+
+tiles = { "row", "column", "tag"
+
+; Unit hit-point bars: approx percent of hp remaining
+
+  0,  0, "unit.hp_100"
+  0,  1, "unit.hp_90"
+  0,  2, "unit.hp_80"
+  0,  3, "unit.hp_70"
+  0,  4, "unit.hp_60"
+  0,  5, "unit.hp_50"
+  0,  6, "unit.hp_40"
+  0,  7, "unit.hp_30"
+  0,  8, "unit.hp_20"
+  0,  9, "unit.hp_10"
+  0, 10, "unit.hp_0"
+
+; Numbers: city size: (also used for goto)
+
+
+  1,  0, "city.size_000"
+  1,  1, "city.size_100"
+  1,  2, "city.size_200"
+  1,  3, "city.size_300"
+  1,  4, "city.size_400"
+  1,  5, "city.size_500"
+  1,  6, "city.size_600"
+  1,  7, "city.size_700"
+  1,  8, "city.size_800"
+  1,  9, "city.size_900"
+
+  2, 0, "city.size_00"
+  2, 1, "city.size_10"
+  2, 2, "city.size_20"
+  2, 3, "city.size_30"
+  2, 4, "city.size_40"
+  2, 5, "city.size_50"
+  2, 6, "city.size_60"
+  2, 7, "city.size_70"
+  2, 8, "city.size_80"
+  2, 9, "city.size_90"
+
+  3,  0, "city.size_0"
+  3,  1, "city.size_1"
+  3,  2, "city.size_2"
+  3,  3, "city.size_3"
+  3,  4, "city.size_4"
+  3,  5, "city.size_5"
+  3,  6, "city.size_6"
+  3,  7, "city.size_7"
+  3,  8, "city.size_8"
+  3,  9, "city.size_9"
+
+; Numbers: city tile food/shields/trade y/g/b
+
+  4,  0, "city.t_food_0"
+  4,  1, "city.t_food_1"
+  4,  2, "city.t_food_2"
+  4,  3, "city.t_food_3"
+  4,  4, "city.t_food_4"
+  4,  5, "city.t_food_5"
+  4,  6, "city.t_food_6"
+  4,  7, "city.t_food_7"
+  4,  8, "city.t_food_8"
+  4,  9, "city.t_food_9"
+
+  5,  0, "city.t_shields_0"
+  5,  1, "city.t_shields_1"
+  5,  2, "city.t_shields_2"
+  5,  3, "city.t_shields_3"
+  5,  4, "city.t_shields_4"
+  5,  5, "city.t_shields_5"
+  5,  6, "city.t_shields_6"
+  5,  7, "city.t_shields_7"
+  5,  8, "city.t_shields_8"
+  5,  9, "city.t_shields_9"
+
+  6, 0, "city.t_trade_0"
+  6, 1, "city.t_trade_1"
+  6, 2, "city.t_trade_2"
+  6, 3, "city.t_trade_3"
+  6, 4, "city.t_trade_4"
+  6, 5, "city.t_trade_5"
+  6, 6, "city.t_trade_6"
+  6, 7, "city.t_trade_7"
+  6, 8, "city.t_trade_8"
+  6, 9, "city.t_trade_9"
+
+}
+
+[grid_activities]
+
+x_top_left = 1
+y_top_left = 344
+dx = 96
+dy = 48
+pixel_border = 1
 
 tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
-  0, 18, "unit.auto_attack",
+
+  0, 0, "unit.road"
+  0, 1, "unit.rail"
+  0, 2, "unit.maglev"
+
+  1, 0, "unit.outpost"
+  1, 1, "unit.airstrip"
+  1, 2, "unit.fortress"
+  1, 3, "unit.airbase"
+  1, 4, "unit.buoy"
+
+  2, 0, "unit.fortified"
+  2, 1, "unit.fortifying"
+  2, 2, "unit.sentry"
+  2, 3, "unit.patrol"
+  2, 4, "unit.pillage"
+
+  3, 0, "unit.connect"
+  3, 1, "unit.auto_attack",
          "unit.auto_settler"
-  0, 19, "unit.stack"
-  1, 16, "unit.fortifying"
-  1, 17, "unit.loaded"
-  1, 18, "unit.connect"
-  1, 19, "unit.auto_explore"
-  0, 16, "unit.transform"
-  0, 17, "unit.sentry"
-  4, 15, "unit.convert"
-  4, 16, "unit.goto"
-  4, 17, "unit.mine"
-  2, 16, "unit.pollution"
-;  2, 17, "unit.road"
-  2, 18, "unit.irrigate"
-;  2, 19, "unit.fortifying"
-;  2, 19, "unit.fortress"
-;  3, 16, "unit.airbase"
-  3, 17, "unit.pillage"
-  3, 18, "unit.fortified"
-  3, 19, "unit.fallout"
-  4, 19, "unit.patrol"
-;  1, 18, "unit.convert"
+  3, 2, "unit.stack"
+  3, 3, "unit.loaded"
 
-; Unit hit-point bars: approx percent of hp remaining
+  4, 0, "unit.irrigate"
+  4, 1, "unit.mine"
+  4, 2, "unit.transform"
+  4, 3, "unit.pollution"
+  4, 4, "unit.fallout"
 
-  7,  0, "unit.hp_100"
-  7,  1, "unit.hp_90"
-  7,  2, "unit.hp_80"
-  7,  3, "unit.hp_70"
-  7,  4, "unit.hp_60"
-  7,  5, "unit.hp_50"
-  7,  6, "unit.hp_40"
-  7,  7, "unit.hp_30"
-  7,  8, "unit.hp_20"
-  7,  9, "unit.hp_10"
-  7, 10, "unit.hp_0"
+  5, 0, "unit.goto"
+  5, 1, "unit.convert"
+  5, 2, "unit.auto_explore"
 
-; Numbers: city size: (also used for goto)
+}
 
-  5,  0, "city.size_0"
-  5,  1, "city.size_1"
-  5,  2, "city.size_2"
-  5,  3, "city.size_3"
-  5,  4, "city.size_4"
-  5,  5, "city.size_5"
-  5,  6, "city.size_6"
-  5,  7, "city.size_7"
-  5,  8, "city.size_8"
-  5,  9, "city.size_9"
-  5, 10, "city.size_00"
-  5, 11, "city.size_10"
-  5, 12, "city.size_20"
-  5, 13, "city.size_30"
-  5, 14, "city.size_40"
-  5, 15, "city.size_50"
-  5, 16, "city.size_60"
-  5, 17, "city.size_70"
-  5, 18, "city.size_80"
-  5, 19, "city.size_90"
-  4,  1, "city.size_100"
-  4,  2, "city.size_200"
-  4,  3, "city.size_300"
-  4,  4, "city.size_400"
-  4,  5, "city.size_500"
-  4,  6, "city.size_600"
-  4,  7, "city.size_700"
-  4,  8, "city.size_800"
-  4,  9, "city.size_900"
+[grid_nuclear]
 
-; Numbers: city tile food/shields/trade y/g/b
+x_top_left = 486
+y_top_left = 344
+dx = 96
+dy = 48
+pixel_border = 1
 
-  8,  0, "city.t_food_0"
-  8,  1, "city.t_food_1"
-  8,  2, "city.t_food_2"
-  8,  3, "city.t_food_3"
-  8,  4, "city.t_food_4"
-  8,  5, "city.t_food_5"
-  8,  6, "city.t_food_6"
-  8,  7, "city.t_food_7"
-  8,  8, "city.t_food_8"
-  8,  9, "city.t_food_9"
+tiles = { "row", "column", "tag"
 
-  6,  0, "city.t_shields_0"
-  6,  1, "city.t_shields_1"
-  6,  2, "city.t_shields_2"
-  6,  3, "city.t_shields_3"
-  6,  4, "city.t_shields_4"
-  6,  5, "city.t_shields_5"
-  6,  6, "city.t_shields_6"
-  6,  7, "city.t_shields_7"
-  6,  8, "city.t_shields_8"
-  6,  9, "city.t_shields_9"
-
-  6, 10, "city.t_trade_0"
-  6, 11, "city.t_trade_1"
-  6, 12, "city.t_trade_2"
-  6, 13, "city.t_trade_3"
-  6, 14, "city.t_trade_4"
-  6, 15, "city.t_trade_5"
-  6, 16, "city.t_trade_6"
-  6, 17, "city.t_trade_7"
-  6, 18, "city.t_trade_8"
-  6, 19, "city.t_trade_9"
-
-; Base building activities
-  8, 12, "unit.airstrip"
-  8, 13, "unit.outpost"
-  8, 14, "unit.maglev"
-  8, 15, "unit.fortress"
-  8, 16, "unit.airbase"
-  8, 17, "unit.buoy"
-  8, 18, "unit.road"
-  8, 19, "unit.rail"
-
-; Nuclear explosion: this could maybe now be handled as one
+; Nuclear explosion: this could maybe now be handled as one 
 ; big graphic (?), but for now is done old way as 3 by 3:
 
   0,  0, "explode.nuke_00"
@@ -155,13 +183,13 @@ tiles = { "row", "column", "tag"
 
 }
 
-
 [grid_unitcost]
 
-x_top_left = 576
-y_top_left = 0
+x_top_left = 1
+y_top_left = 638
 dx = 96
 dy = 19
+pixel_border = 1
 
 tiles = { "row", "column", "tag"
   0, 0, "upkeep.shield"
