@@ -12,7 +12,6 @@ artists = "
     Eleazar (buoy)
     Vincent Croisier <vincent.croisier@advalvas.be> (ruins)
     Michael Johnson <justaguest> (nuke explosion)
-    The Square Cow (inaccessible terrain)
 "
 
 [file]
@@ -230,6 +229,23 @@ tiles = { "row", "column", "tag"
 
  10, 14, "t.l0.inaccessible1"
 
+  9,  0, "t.l1.inaccessible_n1e1s1w1"
+  9,  1, "t.l1.inaccessible_n0e1s1w1"
+  9,  2, "t.l1.inaccessible_n1e0s1w1"
+  9,  3, "t.l1.inaccessible_n0e0s1w1"
+  9,  4, "t.l1.inaccessible_n1e1s0w1"
+  9,  5, "t.l1.inaccessible_n0e1s0w1"
+  9,  6, "t.l1.inaccessible_n1e0s0w1"
+  9,  7, "t.l1.inaccessible_n0e0s0w1"
+  9,  8, "t.l1.inaccessible_n1e1s1w0"
+  9,  9, "t.l1.inaccessible_n0e1s1w0"
+  9, 10, "t.l1.inaccessible_n1e0s1w0"
+  9, 11, "t.l1.inaccessible_n0e0s1w0"
+  9, 12, "t.l1.inaccessible_n1e1s0w0"
+  9, 13, "t.l1.inaccessible_n0e1s0w0"
+  9, 14, "t.l1.inaccessible_n1e0s0w0"
+  9, 15, "t.l1.inaccessible_n0e0s0w0"
+
 ; For hills, forest and mountains don't currently have a full set,
 ; re-use values but provide for future expansion; current sets
 ; effectively ignore N/S terrain.
@@ -349,6 +365,13 @@ tiles = { "row", "column", "tag"
   7, 18, "ts.silk"
   7, 19, "ts.wine"
 
+; Terrain Strategic Resources
+
+ 12,  0, "ts.aluminum"
+ 12,  1, "ts.uranium"
+ 12,  2, "ts.saltpeter"
+ 12,  3, "ts.elephant"
+
 ; Terrain improvements and similar:
 
  12,  7, "tx.farmland"
@@ -365,23 +388,27 @@ tiles = { "row", "column", "tag"
  13, 17, "tx.fog"
  13, 18, "tx.fallout"
 
+ 15, 10, "base.airstrip_mg"
+ 15, 11, "base.outpost_mg"
+
+
 ; Unit activity letters:  (note unit icons have just "u.")
 
   9, 18, "unit.auto_attack",
          "unit.auto_settler"
   9, 19, "unit.stack"
- 10, 18, "unit.connect"
+; 10, 18, "unit.connect"
  10, 19, "unit.auto_explore"
  11, 12, "unit.transform"
  11, 13, "unit.sentry"
  11, 14, "unit.goto"
  11, 15, "unit.mine"
  11, 16, "unit.pollution"
- 11, 17, "unit.road"
+; 11, 17, "unit.road"
  11, 18, "unit.irrigate"
- 11, 19, "unit.fortifying",
-         "unit.fortress"
- 12, 16, "unit.airbase"
+; 11, 19, "unit.fortifying",
+;         "unit.fortress"
+; 12, 16, "unit.airbase"
  12, 17, "unit.pillage"
  12, 18, "unit.fortified"
  12, 19, "unit.fallout"
@@ -389,7 +416,24 @@ tiles = { "row", "column", "tag"
  19, 16, "unit.lowfuel"
  19, 16, "unit.tired"
  19, 17, "unit.loaded"
- 10, 18, "unit.convert"
+; 10, 18, "unit.convert"
+
+; Unit Activities
+
+ 15, 12, "unit.airstrip"
+ 15, 13, "unit.outpost"
+ 15, 14, "unit.airbase"
+ 15, 15, "unit.fortress"
+ 15, 16, "unit.buoy"
+ 15, 17, "unit.fortifying"
+ 15, 18, "unit.convert"
+ 15, 19, "unit.connect"
+
+; Road Activities
+
+ 12,  4, "unit.road"
+ 12,  5, "unit.rail"
+ 12,  6, "unit.maglev"
 
 ; Unit hit-point bars: approx percent of hp remaining
 
@@ -488,13 +532,57 @@ tiles = { "row", "column", "tag"
 ; These should probably be handled differently and have
 ; a different size...
 
- 17, 12, "upkeep.gold"
- 17, 13, "upkeep.gold2"
- 17, 15, "upkeep.food"
- 17, 16, "upkeep.food2"
- 17, 17, "upkeep.unhappy"
- 17, 18, "upkeep.unhappy2"
- 17, 19, "upkeep.shield"
+; 17, 12, "upkeep.gold"
+; 17, 13, "upkeep.gold2"
+; 17, 15, "upkeep.food"
+; 17, 16, "upkeep.food2"
+; 17, 17, "upkeep.unhappy"
+; 17, 18, "upkeep.unhappy2"
+; 17, 19, "upkeep.shield"
+
+ 20,  0, "upkeep.shield"
+ 20,  1, "upkeep.shield2"
+ 20,  2, "upkeep.shield3"
+ 20,  3, "upkeep.shield4"
+ 20,  4, "upkeep.shield5"
+ 20,  5, "upkeep.shield6"
+ 20,  6, "upkeep.shield7"
+ 20,  7, "upkeep.shield8"
+ 20,  8, "upkeep.shield9"
+ 20,  9, "upkeep.shield10"
+
+ 20, 10, "upkeep.unhappy"
+ 20, 11, "upkeep.unhappy2"
+ 20, 12, "upkeep.unhappy3"
+ 20, 13, "upkeep.unhappy4"
+ 20, 14, "upkeep.unhappy5"
+ 20, 15, "upkeep.unhappy6"
+ 20, 16, "upkeep.unhappy7"
+ 20, 17, "upkeep.unhappy8"
+ 20, 18, "upkeep.unhappy9"
+ 20, 19, "upkeep.unhappy10"
+
+ 21,  0, "upkeep.food"
+ 21,  1, "upkeep.food2"
+ 21,  2, "upkeep.food3"
+ 21,  3, "upkeep.food4"
+ 21,  4, "upkeep.food5"
+ 21,  5, "upkeep.food6"
+ 21,  6, "upkeep.food7"
+ 21,  7, "upkeep.food8"
+ 21,  8, "upkeep.food9"
+ 21,  9, "upkeep.food10"
+
+ 21, 10, "upkeep.gold"
+ 21, 11, "upkeep.gold2"
+ 21, 12, "upkeep.gold3"
+ 21, 13, "upkeep.gold4"
+ 21, 14, "upkeep.gold5"
+ 21, 15, "upkeep.gold6"
+ 21, 16, "upkeep.gold7"
+ 21, 17, "upkeep.gold8"
+ 21, 18, "upkeep.gold9"
+ 21, 19, "upkeep.gold10"
 
 ; Misc:
 
@@ -597,4 +685,41 @@ tiles = {"row", "column", "tag"
   0,  2, "t.l2.floor_cell_d110"
   0,  2, "t.l2.floor_cell_d111"
 
+; Inaccessible fallback to Ocean tiles
+  0,  0, "t.l2.inaccessible_cell_u010"
+  0,  1, "t.l2.inaccessible_cell_r010"
+  1,  0, "t.l2.inaccessible_cell_l010"
+  1,  1, "t.l2.inaccessible_cell_d010"
+
+  0,  2, "t.l2.inaccessible_cell_u000"
+  0,  2, "t.l2.inaccessible_cell_u001"
+  0,  2, "t.l2.inaccessible_cell_u011"
+  0,  2, "t.l2.inaccessible_cell_u100"
+  0,  2, "t.l2.inaccessible_cell_u101"
+  0,  2, "t.l2.inaccessible_cell_u110"
+  0,  2, "t.l2.inaccessible_cell_u111"
+
+  0,  2, "t.l2.inaccessible_cell_l000"
+  0,  2, "t.l2.inaccessible_cell_l001"
+  0,  2, "t.l2.inaccessible_cell_l011"
+  0,  2, "t.l2.inaccessible_cell_l100"
+  0,  2, "t.l2.inaccessible_cell_l101"
+  0,  2, "t.l2.inaccessible_cell_l110"
+  0,  2, "t.l2.inaccessible_cell_l111"
+
+  0,  2, "t.l2.inaccessible_cell_r000"
+  0,  2, "t.l2.inaccessible_cell_r001"
+  0,  2, "t.l2.inaccessible_cell_r011"
+  0,  2, "t.l2.inaccessible_cell_r100"
+  0,  2, "t.l2.inaccessible_cell_r101"
+  0,  2, "t.l2.inaccessible_cell_r110"
+  0,  2, "t.l2.inaccessible_cell_r111"
+
+  0,  2, "t.l2.inaccessible_cell_d000"
+  0,  2, "t.l2.inaccessible_cell_d001"
+  0,  2, "t.l2.inaccessible_cell_d011"
+  0,  2, "t.l2.inaccessible_cell_d100"
+  0,  2, "t.l2.inaccessible_cell_d101"
+  0,  2, "t.l2.inaccessible_cell_d110"
+  0,  2, "t.l2.inaccessible_cell_d111"
 }
