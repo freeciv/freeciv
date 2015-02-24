@@ -252,24 +252,20 @@ Forest/Jungle/Swamp      +25%     +50%
 Hills                    +50%     +100%
 Mountains                +100%    +200%
 
-multiplied by
 RIVER                    +25%     +50%
 
-multiplied by
-FORTIFIED or IN CITY     +50%     (=)
-(for Land and Big Land units only)
+FORTIFIED                +50%     (=)
+(only Land and Big Land units can fortify; inside cities, they are
+always considered fortified)
 
-multiplied by
 VETERAN
 Veteran                  +50%     (=)
 Hardened                 +75%     (=)
 Elite                    +100%    (=)
 
-multiplied by
 BASE
 Fortress (vs Land/Sea)   +100%    (=)
 Airbase  (vs Air)        +100%    +0%
-or extra city/buildings bonuses (see below)
 
 - Every City of any size receives an inherent Defend_Bonus = +50%
   against all kinds of land units.
@@ -298,14 +294,25 @@ Coastal Defense  +0%      +100%    +0%      +0%
 SAM Battery      +0%      +0%      +100%    +0%
 SDI Defense      +0%      +0%      +0%      +100%
 
-(Remember that Land and Big Land units, which can fortify, get an
-additional +50% defense multiplied by the bonuses above. So Warriors in
-a size 1 town with no buildings receive a total +125% bonus; Riflemen in
-a size 10 city with Walls and the Great Wall receive a total of +425%,
-that is their defense strength is 5.25x normal.)
+Total Defense = (UNIT DEFENSE) * (100+TERRAIN)/100 * (100+RIVER)/100
+ * (100+CITY+BASE)/100 * (100+FORTIFIED)/100 * (100+VETERAN)/100
+(Same as classic rules).
 
-Total Defense (%) = (100+TERRAIN) * (100+RIVER) * (100+CITY+BASE)
-                    * (100+FORTIFIED) * (100+VETERAN).
+EXAMPLE: Riflemen fortified in a fortress, on mountains, with a river,
+         will get a total defense of 30 against land attacks:
+
+         Riflemen: defense 4
+         Fortified (+50%): 4 + 2 = 6
+         In Fortress (+100%):      6 + 6 = 12
+         On Mountains (+100%):             12 + 12 = 24
+         With River (+25%):                          24 + 6 = 30.
+
+EXAMPLE: Riflemen in a size 9 city, with walls, on hills,
+         will get a total defense of 27 against land attacks:
+
+         Fortified (+50%): 4 + 2 = 6
+         On Hills (+50%):          6 + 3 = 9
+         In City with Walls (+200%):       9 + 18 = 27.
 
 
 GOVERNMENTS:
@@ -903,4 +910,4 @@ THANKS:
 To every people who collaborated to create this wonderful Freeciv game.
 Specially to those who programmed the Ruleset modding capabilities and
 the AI capable to play with them.
-Original developer David Fernandez, aka Bardo.
+Original developer David Fernandez (Bardo).
