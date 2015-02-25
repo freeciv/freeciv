@@ -353,7 +353,7 @@ static const struct sset_val_name *plrcol_name(int plrcol)
 static const struct sset_val_name *happyborders_name(int happyborders)
 {
   switch (happyborders) {
-  NAME_CASE(HB_DISABLED, "DISABLE", N_("Borders are not helping"));
+  NAME_CASE(HB_DISABLED, "DISABLED", N_("Borders are not helping"));
   NAME_CASE(HB_NATIONAL, "NATIONAL", N_("Happy within own borders"));
   NAME_CASE(HB_ALLIANCE, "ALLIED", N_("Happy within allied borders"));
   }
