@@ -1,5 +1,7 @@
 [nation_austrian]
 
+translation_domain="freeciv"
+
 name=_("Austrian")
 plural=_("?plural:Austrians")
 groups="Medieval", "Early Modern", "Modern", "European", "Core"
