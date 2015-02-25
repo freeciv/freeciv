@@ -201,6 +201,8 @@ void *get_packet_from_connection_json(struct connection *pc,
 #endif
   void *data;
   void *(*receive_handler)(struct connection *);
+  json_error_t error;
+  json_t *pint;
 
   if (!pc->used) {
     return NULL;		/* connection was closed, stop reading */
@@ -323,7 +325,6 @@ void *get_packet_from_connection_json(struct connection *pc,
   }
 
   /* Parse JSON packet. */
-  json_error_t error;
 
   pc->json_packet = json_loadb((char*)pc->buffer->data + 4, whole_packet_len, 0, &error);
 
@@ -335,7 +336,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     return NULL;
   }
 
-  json_t *pint = json_object_get(pc->json_packet, "type");
+  pint = json_object_get(pc->json_packet, "pid");
 
   if (!pint) {
     log_error("ERROR: Unable to get packet type.");
