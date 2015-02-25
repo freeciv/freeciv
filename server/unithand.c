@@ -2919,6 +2919,7 @@ void handle_unit_orders(struct player *pplayer,
       switch (packet->activity[i]) {
       case ACTIVITY_FALLOUT:
       case ACTIVITY_POLLUTION:
+      case ACTIVITY_PILLAGE:
       case ACTIVITY_MINE:
       case ACTIVITY_IRRIGATE:
       case ACTIVITY_TRANSFORM:
@@ -2941,7 +2942,6 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       /* Not supported yet. */
-      case ACTIVITY_PILLAGE:
       case ACTIVITY_FORTIFYING:
       case ACTIVITY_CONVERT:
       case ACTIVITY_EXPLORE:
