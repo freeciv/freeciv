@@ -1241,7 +1241,7 @@ int server_open_socket(void)
   if (addr.saddr.sa_family == AF_INET) {
 #ifdef HAVE_INET_ATON
     inet_aton(group, &mreq4.imr_multiaddr);
-#else  /* HEVE_INET_ATON */
+#else  /* HAVE_INET_ATON */
     mreq4.imr_multiaddr.s_addr = inet_addr(group);
 #endif /* HAVE_INET_ATON */
 #else  /* IPv6 support */
