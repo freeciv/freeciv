@@ -1485,6 +1485,17 @@ static void handle_unit_change_activity_real(struct player *pplayer,
   punit->ai_controlled = FALSE;
   punit->goto_tile = NULL;
 
+  if (activity == ACTIVITY_GOTO) {
+    /* Don't permit a client to set a unit's activity to ACTIVITY_GOTO.
+     * Setting ACTIVITY_GOTO from the client results in a unit indicating
+     * it is going somewhere while it is standing still. The appearance of
+     * the unit doing something can trick the user to not make use of it.
+     *
+     * Handled here because adv_follow_path() uses unit_activity_handling()
+     * to set a unit's activity to ACTIVITY_GOTO. */
+    return;
+  }
+
   if (activity == ACTIVITY_EXPLORE) {
     unit_activity_handling_targeted(punit, activity, &activity_target);
 
@@ -2945,9 +2956,9 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_FORTIFYING:
       case ACTIVITY_CONVERT:
       case ACTIVITY_EXPLORE:
-      case ACTIVITY_GOTO:
       case ACTIVITY_IDLE:
-      /* Allowing this to be set from the client would be cheating. */
+      /* Not set from the client. */
+      case ACTIVITY_GOTO:
       case ACTIVITY_FORTIFIED:
       /* Compatiblity, used in savegames. */
       case ACTIVITY_OLD_ROAD:
