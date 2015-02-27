@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-21 12:48+0000\n"
-"PO-Revision-Date: 2015-02-27 18:44+0100\n"
+"PO-Revision-Date: 2015-02-28 00:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
@@ -14847,7 +14847,7 @@ msgstr "Insubornable"
 
 #: common/unittype.h:191
 msgid "Undisbandable"
-msgstr ""
+msgstr "No desmobilitzable"
 
 #: common/unittype.h:194
 msgid "SuperSpy"
@@ -21703,6 +21703,9 @@ msgid ""
 "units; however, such large settlements have a small risk of fire, which can "
 "destroy buildings in the city."
 msgstr ""
+"Aquestes ciutats més grans gaudeixen d'una defensa augmentada (+50%) tant "
+"contra unitats marítimes com terrestres; no obstant, poblacions tan grans "
+"tenen un petit risc d'incendi, que pot destruir edificis de la ciutat."
 
 #: data/civ2civ3/buildings.ruleset:114 data/civ2civ3/buildings.ruleset:148
 #: data/civ2civ3/buildings.ruleset:183
@@ -21711,12 +21714,17 @@ msgid ""
 "Starting at size 5, growing cities incur an increasing risk of plague due to "
 "overcrowding; an Aqueduct reduces that base chance by 30%."
 msgstr ""
+"A partir de la mida 5, les ciutats en creixement tenen un risc creixent "
+"d'epidèmia deguda a la superpoblació; un Aqüeducte redueix aquest risc de "
+"base en un 30%."
 
 #: data/civ2civ3/buildings.ruleset:117
 msgid ""
 "Building an Aqueduct in a city without access to a lake or river requires "
 "knowledge of Construction, and it costs more to build and maintain."
 msgstr ""
+"Construir un Aqüeducte en una ciutat que no tingui accés a un llac o un riu "
+"requereix el coneixement de Construcció, i costa més de construir i mantenir."
 
 #: data/civ2civ3/buildings.ruleset:123
 msgid "Aqueduct, Lake"
@@ -21727,6 +21735,8 @@ msgid ""
 "Aqueducts in cities with access to a lake require no special technology and "
 "are cheap to build and maintain."
 msgstr ""
+"Els Aqüeductes de les ciutats que tenen accés a un llac no necessiten cap "
+"tecnologia en especial i són barats de construir i mantenir."
 
 #: data/civ2civ3/buildings.ruleset:157
 msgid "Aqueduct, River"
@@ -21737,19 +21747,20 @@ msgid ""
 "Aqueducts in cities with access to a river require no special technology and "
 "are cheap to build and maintain."
 msgstr ""
+"Els Aqüeductes de les ciutats que tenen accés a un riu no necessiten cap "
+"tecnologia en especial i són barats de construir i mantenir."
 
 #: data/civ2civ3/buildings.ruleset:208
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the luxury and tax output in a city by an additional 50%. With "
 "both a Bank and a Marketplace in a city, the total bonus is 100%."
 msgstr ""
-"Augmenta el luxe i la recaptació d'impostos en una ciutat en un 50% "
-"addicional. El bonus total és del 100% si hi ha Mercat i Banc junts a la "
-"mateixa ciutat."
+"Augmenta en un 50% addicional el luxe i la recaptació d'impostos en una "
+"ciutat. Amb un Banc i un Mercat junts en una ciutat, la bonificació total és "
+"del 100%."
 
 #: data/civ2civ3/buildings.ruleset:303
-#, fuzzy
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city; however, it does not affect citizens made "
@@ -21759,11 +21770,12 @@ msgid ""
 msgstr ""
 "Una Catedral fa contents a 3 ciutadans descontents d'una ciutat, fent que "
 "sigui més fàcil mantenir-hi l'ordre; no obstant, no afecta els ciutadans "
-"fets descontents per activitats militars. El descobriment de la Teologia "
-"augmenta l'efecte d'una Catedral, fent content un altre ciutadà descontent. "
+"fets descontents per agressions. El descobriment de la Teologia "
+"augmenta l'efecte d'una Catedral, fent content un altre ciutadà descontent, "
+"amb l'excepció del Comunisme."
 
 #: data/civ2civ3/buildings.ruleset:328
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "City Walls make it easier to defend a city. They add a +100% bonus to the "
 "intrinsic defense strength of units within the city against land units (that "
@@ -21772,10 +21784,14 @@ msgid ""
 "City Walls also prevent the loss of population which occurs when a defending "
 "unit is defeated by a land unit."
 msgstr ""
-"Les Muralles fan que sigui més fàcil de defensar una ciutat. Dupliquen la "
-"força defensiva de les unitats que estiguin dins de la ciutat contra unitats "
-"terrestres. No són efectives contra avions, helicòpters, míssils ni "
-"unitatsmarítimes. Les Muralles també eviten la pèrdua de població que ocorre "
+"Les Muralles fan que sigui més fàcil de defensar una ciutat. Afegeixen un 100%"
+" de bonificació a la "
+"força defensiva intrínseca de les unitats que estiguin dins de la ciutat "
+"contra unitats "
+"terrestres (això vol dir un augment de dos terços per a ciutats petites, o un "
+"augment de mig punt per a ciutats més grans de mida 8), però no són efectives "
+"contra unitats aerotransportades ni marítimes. Les Muralles també eviten la "
+"pèrdua de població que ocorre "
 "quan una unitat defensiva és destruïda per una unitat terrestre."
 
 #: data/civ2civ3/buildings.ruleset:354
@@ -21786,6 +21802,10 @@ msgid ""
 "doubled by this improvement; for cities larger than size 8, it is increased "
 "by two-thirds."
 msgstr ""
+"Dóna un 100% de bonificació a la força defensiva intrínseca de les unitats "
+"que estiguin dins de la ciutat quan es defensen contra vaixells enemics. Per "
+"a ciutats petites, la força defensiva es duplica amb aquesta millora; per a "
+"ciutats més grans de mida 8, augmenta en dos terços."
 
 #: data/civ2civ3/buildings.ruleset:362 data/multiplayer/buildings.ruleset:89
 msgid "Amphitheater"
@@ -21897,32 +21917,33 @@ msgstr ""
 "Hoover, el seu efecte arriba a ser al d'una Central Solar)."
 
 #: data/civ2civ3/buildings.ruleset:536
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by 50%, or by 100% once the Great "
 "Library has been built by any player."
 msgstr ""
-"Augmenta en un 50% l'aportació a la ciència de la ciutat (en un 100% si "
-"qualsevol jugador ha construït la Gran Biblioteca)."
+"Augmenta en un 50% l'aportació a la ciència de la ciutat, o en un 100% si "
+"qualsevol jugador ha construït la Gran Biblioteca."
 
 #: data/civ2civ3/buildings.ruleset:576
-#, fuzzy
 msgid ""
 "Reduces the pollution generated by the population in a city; this building "
 "counteracts the additional pollution associated with any two other buildings."
 msgstr ""
-"Neutralitza la contaminació generada per la població. La població deixa de "
-"tenir influència sobre la contaminació generada per la ciutat."
+"Redueix la contaminació generada per la població d'una ciutat; aquest edifici "
+"contraresta la contaminació addicional associada amb qualssevol altres dos "
+"edificis."
 
 #: data/civ2civ3/buildings.ruleset:599
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production in a city by an additional 25%, or 50% with "
 "an electrical plant of any kind in the same city; this effect is cumulative "
 "with that of a Factory."
 msgstr ""
-"Incrementa la producció d'escuts d'una ciutat en un 25%. La bonificació és "
-"del 50% si hi ha alguna Central energètica a la mateixa ciutat."
+"Incrementa la producció d'escuts d'una ciutat en un 25%, o un 50% amb una "
+"central elèctrica de qualsevol tipus a la mateixa ciutat; aquest efecte es "
+"pot acumular amb el d'una Fàbrica."
 
 #: data/civ2civ3/buildings.ruleset:603
 msgid ""
@@ -21930,18 +21951,20 @@ msgid ""
 "produce up to two units each turn (but only single units of types which cost "
 "population)."
 msgstr ""
+"Amb prou producció d'escuts, les ciutats amb Planta de Fabricació poden "
+"produir fins a dues unitats a cada torn (però només poden anar d'un en un per "
+"als tipus d'unitat que costin població)."
 
 #: data/civ2civ3/buildings.ruleset:607
-#, fuzzy
 msgid ""
 "This increase in shield production may contribute significantly to "
 "pollution; a Manufacturing Plant also increases the pollution caused by the "
 "population of the city."
 msgstr ""
-"Incrementa la producció d'escuts d'una ciutat en un 25%. Aquest augment pot "
-"contribuir de forma significativa a la contaminació provocada per la "
-"producció d'escuts. La Fàbrica també augmenta la contaminació provocada per "
-"la població de la ciutat (+25%)."
+"Aquest augment en producció d'escuts pot "
+"contribuir de forma significativa a la contaminació; una Planta de Fabricació "
+"també augmenta la contaminació provocada per "
+"la població de la ciutat."
 
 #: data/civ2civ3/buildings.ruleset:630
 #, no-c-format
@@ -21949,6 +21972,8 @@ msgid ""
 "Similar to a Power Plant, a Nuclear Plant increases the shield production "
 "effects of any Factory or Mfg. Plant in its city by 25% each."
 msgstr ""
+"Semblant a una Central Tèrmica, una Central Nuclear augmenta en un 25% els "
+"efectes en producció d'escuts de qualsevol Fàbrica o Planta de Fabricació."
 
 #: data/civ2civ3/buildings.ruleset:635
 #, no-c-format
@@ -21957,34 +21982,38 @@ msgid ""
 "production to 50% of its normal value, or 25% in combination with a "
 "Recycling Center. (Its effect is the same as that of a Hydro Plant.)"
 msgstr ""
+"No obstant, una Central Nuclear també redueix la contaminació associada amb "
+"la producció d'escuts a un 50% del seu valor normal, o un 25% en combinació "
+"amb un Centre de Reciclatge. (L'efecte és el mateix que el d'una Central "
+"Hidroelèctrica)."
 
 #: data/civ2civ3/buildings.ruleset:642
 msgid ""
 "A Nuclear Plant has a small risk of suffering a nuclear accident, which can "
 "lead to fallout and reduce the city's population."
 msgstr ""
+"Una Central Nuclear té un petit risc de patir un accident nuclear, que pot "
+"provocar radioactivitat i reduir la població de la ciutat."
 
 #: data/civ2civ3/buildings.ruleset:663
-#, fuzzy
 msgid ""
 "Every Ocean tile worked by the city yields one extra shield resource, as "
 "well as any Deep Ocean tile containing a Buoy. The city needs to be coastal "
 "to build this improvement."
 msgstr ""
-"Afegeix un escut extra a totes les caselles d'Oceà que treballa una ciutat. "
-"La ciutat ha de ser costanera per poder construir aquesta millora."
+"Cada casella d'Oceà que treballa la ciutat dóna un escut extra, així com les "
+"caselles d'Oceà Profund que continguin una Boia. La ciutat ha de ser "
+"costanera per poder construir aquesta millora."
 
 #: data/civ2civ3/buildings.ruleset:667
-#, fuzzy
 msgid ""
 "Offshore Platforms also increase the pollution caused by the population of "
 "the city."
 msgstr ""
 "Les Plataformes Petrolíferes també augmenten la contaminació generada per la "
-"població de la ciutat (+25%)."
+"població de la ciutat."
 
 #: data/civ2civ3/buildings.ruleset:688
-#, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government. Waste in other "
 "cities (corruption, production waste, and food waste) is often related to "
@@ -21994,9 +22023,10 @@ msgid ""
 msgstr ""
 "Fa que una ciutat sigui la capital i el centre del teu govern. El "
 "malbaratament de les altres ciutats (corrupció, malbarataments de producció  "
-"i de menjar) estan relacionats sovint amb la distància que les separa de la "
+"i de menjar) està relacionat sovint amb la distància que les separa de la "
 "capital. A més, la corrupció i el malbaratament de producció en la pròpia "
-"capital és la meitat del que seria altrament."
+"capital és la meitat del que seria altrament (i un Jutjat els eliminarà "
+"completament)."
 
 #: data/civ2civ3/buildings.ruleset:708
 #, no-c-format
@@ -22014,9 +22044,12 @@ msgid ""
 "its city. It also makes up to 2 more unhappy citizens content provided they "
 "are not unhappy about aggression."
 msgstr ""
+"Una Comissaria neutralitza qualsevol infelicitat provocada per una unitat "
+"militar a la seva ciutat. També fa contents dos ciutadans descontents més, si "
+"la causa del seu descontentament no és una agressió."
 
 #: data/civ2civ3/buildings.ruleset:775
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "A Power Plant increases the shield production effects of any Factory or Mfg. "
 "Plant in its city by 25% each. Thus, a Power Plant in combination with "
@@ -22025,15 +22058,17 @@ msgid ""
 "together give a 100% production bonus. The extra production may lead to the "
 "city generating more pollution."
 msgstr ""
-"Augmenta l'efecte de la Fàbrica i Planta de Fabricació sobre la producció "
-"d'escuts d'una ciutat. Una Central Tèrmica combinada amb una Fàbrica o bé "
-"una Planta de Fabricació dóna una bonificació de producció del 75% sobre el "
+"Una Central Tèrmica augmenta l'efecte de la Fàbrica i Planta de Fabricació "
+"sobre la producció "
+"d'escuts d'una ciutat en un 25% per cadascuna. Així, una Central Tèrmica "
+"combinada amb una Fàbrica o bé "
+"una Planta de Fabricació dóna una bonificació de producció del 50% sobre el "
 "nivell base sense cap d'aquestes millores; una Central Tèrmica, una Fàbrica, "
 "i una Planta de Fabricació juntes donen una bonificació de producció del "
-"150%. La producció addicional pot fer que la ciutat generi més contaminació."
+"100%. La producció addicional pot fer que la ciutat generi més contaminació."
 
 #: data/civ2civ3/buildings.ruleset:804
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "shield production in a city by 50%, or by an additional 25% in cities with "
@@ -22041,39 +22076,41 @@ msgid ""
 "Solar Plant)."
 msgstr ""
 "Construir un Centre de Reciclatge redueix la quantitat de contaminació "
-"generada per la producció d'una ciutat en un 50%."
+"generada per la producció d'una ciutat en un 50%, o en un 25% addicional en "
+"ciutats que tinguin un altre edifici que redueixi la contaminació (Central "
+"Nuclear, Central Hidroelèctrica, o Central Solar)."
 
 #: data/civ2civ3/buildings.ruleset:828
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by an additional 50%, or by 100% once "
 "the Internet wonder has been built by any player."
 msgstr ""
-"Augmenta en un 50% addicional l'aportació a ciència de la ciutat (en un 100% "
-"si qualsevol jugador ha construït la meravella Internet)."
+"Augmenta en un 50% addicional l'aportació a ciència de la ciutat, o en un 100%"
+" "
+"si qualsevol jugador ha construït la meravella Internet."
 
 #: data/civ2civ3/buildings.ruleset:833
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "The total bonus is 150% if a Library, a University and a Research Lab are "
 "all present in the same city, increasing to 300% once the Great Library, "
 "Isaac Newton's College, and the Internet have all been built."
 msgstr ""
 "La bonificació total és del 150% si en una mateixa ciutat hi ha una "
-"Biblioteca, una Universitat i un Laboratori de Recerca. (300% si la Gran "
-"Biblioteca, la Facultat d'Isaac Newton i Internet ja han estat construïts)."
+"Biblioteca, una Universitat i un Laboratori de Recerca, pujant al 300% si la "
+"Gran "
+"Biblioteca, la Facultat d'Isaac Newton i Internet ja han estat construïts."
 
 #: data/civ2civ3/buildings.ruleset:855
-#, fuzzy
 msgid ""
 "Doubles the intrinsic defense strength of units within a city when defending "
 "against aircraft (including helicopters)."
 msgstr ""
-"Duplica la defensa de totes les unitats de dins de la ciutat en ser atacades "
-"per avions (inclosos helicòpters)."
+"Duplica la força defensiva intrínseca de les unitats de dins de la ciutat "
+"quan es defensen contra avions (inclosos helicòpters)."
 
 #: data/civ2civ3/buildings.ruleset:875
-#, fuzzy
 msgid ""
 "Protects a city and its environs (up to 2 tiles away) from attacks by "
 "Nuclear units. A Nuclear unit attacking a city with SDI Defense, or "
@@ -22085,18 +22122,19 @@ msgstr ""
 "d'atacs de Míssils Nuclears. Una unitat Nuclear que ataqui una ciutat amb "
 "Defensa SDI, o que ataqui una unitat (o que es faci explotar expressament) "
 "dins del seu radi d'acció, és abatuda i senzillament no té cap efecte. A "
-"més, duplica la capacitat defensiva de les unitats de la ciutat contra "
-"Míssils no nuclears."
+"més, duplica la força defensiva intrínseca de les unitats de la ciutat quan "
+"es defensen contra "
+"Míssils convencionals."
 
 #: data/civ2civ3/buildings.ruleset:901
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with an Aqueduct, allows a city to grow larger than size 16, and "
 "further reduces the chance of a plague (by 30% of the base chance)."
 msgstr ""
-"Permet que una ciutat creixi més enllà de 16. Un pre-requisit és un "
-"Aqüeducte perquè la ciutat pugui créixer a més de 8. El Clavegueram redueix "
-"encara més la probabilitat d'epidèmia (-30%)."
+"Juntament amb un Aqüeducte, permet que una ciutat creixi a més de mida 16, i "
+"redueix "
+"encara més la probabilitat d'epidèmia (en un 30% de la probabilitat bàsica)."
 
 #: data/civ2civ3/buildings.ruleset:923
 #, no-c-format
@@ -22104,6 +22142,8 @@ msgid ""
 "Similar to a Power Plant, a Solar Plant increases the shield production "
 "effects of any Factory or Mfg. Plant in its city by 25% each."
 msgstr ""
+"Semblant a una Central Tèrmica, una Central Solar augmenta en un 25% els "
+"efectes en producció d'escuts de qualsevol Fàbrica o Planta de Fabricació."
 
 #: data/civ2civ3/buildings.ruleset:928
 #, no-c-format
@@ -22112,9 +22152,12 @@ msgid ""
 "production to 25% of its normal value, or eliminates it entirely in "
 "combination with a Recycling Center."
 msgstr ""
+"No obstant, una Central Solar també redueix la contaminació associada amb la "
+"producció d'escuts a un 25% del seu valor normal, o l'elimina totalment en "
+"combinació amb un Centre de Reciclatge."
 
 #: data/civ2civ3/buildings.ruleset:1047
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the luxury and tax output in a city by an additional 50%, or 100% "
 "if Super Highways are also in the city. A Marketplace, Bank, and Stock "
@@ -22122,8 +22165,9 @@ msgid ""
 "Highways yields a total of 200%."
 msgstr ""
 "Augmenta el luxe i la recaptació d'impostos en una ciutat en un 50% "
-"addicional. El bonus total és del 100% si hi ha Mercat i Banc junts a la "
-"mateixa ciutat."
+"addicional, o en un 100% si també hi ha Autopistes a la ciutat. Un Mercat, un "
+"Banc, i una Borsa junts en una ciutat donen una bonificació total del 150%; "
+"afegint-hi Autopistes s'obté un total del 200%."
 
 #: data/civ2civ3/buildings.ruleset:1069
 msgid ""
@@ -22139,18 +22183,18 @@ msgid ""
 "Also doubles the effect of any Stock Exchange in the city (increasing luxury "
 "and tax output by an additional 50%)."
 msgstr ""
+"També duplica l'efecte de la Borsa en la ciutat (augmentant el luxe i la "
+"recaptació d'impostos en un 50% addicional)."
 
 #: data/civ2civ3/buildings.ruleset:1077
-#, fuzzy
 msgid ""
 "Super Highways also increase the pollution caused by the population of the "
 "city."
 msgstr ""
 "Les Autopistes també incrementen la contaminació generada per la població de "
-"la ciutat (+25%)."
+"la ciutat."
 
 #: data/civ2civ3/buildings.ruleset:1119
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content. The Mysticism advance doubles this effect "
 "(except under a Communist government). With both Mysticism and the Temple of "
@@ -22158,28 +22202,31 @@ msgid ""
 "citizens made unhappy by aggression."
 msgstr ""
 "Fa content un ciutadà descontent. L'avenç del Misticisme duplica aquest "
-"efecte. Tenint Misticisme i el Temple d'Àrtemis, es fan contents quatre "
-"ciutadans. No afecta els ciutadans fets descontents per activitats militars."
+"efecte (excepte amb govern Comunista). Tenint Misticisme i el Temple "
+"d'Àrtemis, es fan contents quatre "
+"ciutadans (3 amb Comunisme). No afecta els ciutadans fets descontents per "
+"agressió."
 
 #: data/civ2civ3/buildings.ruleset:1143
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the science output in a city by an additional 50%, or by 100% once "
 "Isaac Newton's College has been built by any player."
 msgstr ""
-"Augmenta en un 50% addicional l'aportació a ciència de la ciutat (en un 100% "
-"si qualsevol jugador ha construït la meravella Internet)."
+"Augmenta en un 50% addicional l'aportació a ciència de la ciutat, o en un 100%"
+" quan qualsevol jugador hagi construït la Facultat d'Isaac Newton."
 
 #: data/civ2civ3/buildings.ruleset:1148
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "The total bonus is 100% if a Library and a University are present together "
 "in the same city, increasing to 200% once the Great Library and Isaac "
 "Newton's College have both been built."
 msgstr ""
 "La bonificació total és del 100% si en una mateixa ciutat hi ha una "
-"Biblioteca i una Universitat. (200% si la Gran Biblioteca i la Facultat "
-"d'Isaac Newton ja han estat construïts)."
+"Biblioteca i una Universitat, augmentant al 200% un cop la Gran Biblioteca i "
+"la Facultat "
+"d'Isaac Newton ja hagin estat construïts."
 
 #: data/civ2civ3/buildings.ruleset:1169
 msgid ""
@@ -22201,35 +22248,41 @@ msgid ""
 "and AI players will no longer be friendly towards the owner of the United "
 "Nations or the Eiffel Tower."
 msgstr ""
+"La finalització del Programa Apollo també permet a les potències "
+"nuclears declarar la guerra sense provocació, encara que existeixin les "
+"Nacions Unides, i els jugadors IA deixaran de tenir una actitud amistosa amb "
+"el propietari de les Nacions Unides o de la Torre Eiffel."
 
 #: data/civ2civ3/buildings.ruleset:1198
-#, fuzzy
 msgid ""
 "In every city with a Stock Exchange, city improvements which would normally "
 "have an upkeep of 1 become free of upkeep. (Communist governments inherently "
 "give this benefit, so there is no bonus under Communism.)"
 msgstr ""
-"Fa que les millores de les ciutats que normalment tenen un cost de "
-"manteniment d'1 or, no requereixin cap manteniment, per a totes les ciutats "
-"del mateix continent."
+"A cada ciutat amb Borsa, les millores de la ciutat que normalment tindrien un "
+"cost de "
+"manteniment d'1 passen a tenir manteniment gratuït (els governs comunistes ja "
+"donen aquest benefici de forma inherent; per tant no hi ha cap bonificació "
+"sota el Comunisme)."
 
 #: data/civ2civ3/buildings.ruleset:1203
 msgid ""
 "Upon completion of this wonder, tax collector specialists' gold output "
 "increases to 3 permanently for every nation."
 msgstr ""
+"Quan es completa aquesta meravella, la producció d'or dels especialistes "
+"recaptadors d'impostos augmenta a 3 de forma permanent per a cada nació."
 
 #: data/civ2civ3/buildings.ruleset:1243
-#, fuzzy
 msgid ""
 "Each tile worked by the city where this wonder is built produces one extra "
 "research point."
 msgstr ""
-"Cada casella treballada del voltant de la ciutat on es construeix aquesta "
-"meravella produeix una bombeta de ciència addicional."
+"Cada casella treballada per la ciutat on es construeix aquesta "
+"meravella produeix un punt de recerca addicional."
 
 #: data/civ2civ3/buildings.ruleset:1264
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "This stunning technological achievement makes one content citizen happy in "
 "each of your cities (2 extra luxury per city). It further reduces the risk "
@@ -22239,24 +22292,27 @@ msgid ""
 msgstr ""
 "Aquesta fantàstica fita tecnològica converteix un ciutadà content en feliç a "
 "cadascuna de les teves ciutats (2 punts de luxe addicionals per ciutat). "
-"Redueix encara més la possibilitat de malaltia dins de la ciutat (-10%)."
+"Redueix encara més el risc d'epidèmia dins de la ciutat (en un 10% de la "
+"probabilitat bàsica); juntament amb un Aqüeducte, un Clavegueram, i el "
+"coneixement de Medicina, elimina completament el risc d'epidèmia."
 
 #: data/civ2civ3/buildings.ruleset:1287
-#, fuzzy
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. All your cities "
 "generate 1 extra science bulb."
 msgstr ""
 "El viatge de Charles Darwin va estimular el descobriment de l'evolució de "
-"les espècies, cosa que va inspirar més confiança en la ciència. Dóna dos "
-"avenços tecnològics immediats."
+"les espècies, cosa que va inspirar més confiança en la ciència. Totes les "
+"teves ciutats generen una bombeta de ciència addicional."
 
 #: data/civ2civ3/buildings.ruleset:1291
 msgid ""
 "Upon completion of this wonder, scientist specialists' research output "
 "increases to 3 permanently for every nation."
 msgstr ""
+"Quan es completa aquesta meravella, la producció de recerca dels "
+"especialistes científics augmenta a 3 de forma permanent per a cada nació."
 
 #: data/civ2civ3/buildings.ruleset:1311
 msgid ""
@@ -22265,14 +22321,18 @@ msgid ""
 "pollution caused by the population; it counteracts the pollution associated "
 "with a single building in each of your cities."
 msgstr ""
+"Les nacions IA tenen més tendència a ser amistoses i condescendents amb el "
+"propietari d'aquesta meravella (fins que s'acaba el Programa Apollo). També "
+"redueix la contaminació provocada per la població; contraresta la "
+"contaminació associada amb un sol edifici a cadascuna de les teves ciutats."
 
 #: data/civ2civ3/buildings.ruleset:1334
-#, fuzzy
 msgid ""
 "Gives an immediate technology advance to the player that builds it, and "
 "thereafter 4 extra research points every turn to its city."
 msgstr ""
-"Dóna un avenç tecnològic immediat. I 4 bombetes de ciència addicionals a la "
+"Dóna un avenç tecnològic immediat al jugador que la construeix, i 4 punts de "
+"ciència addicionals a la "
 "ciutat on es construeix. També duplica l'efecte de les Biblioteques per a "
 "totes les nacions."
 
@@ -22281,31 +22341,35 @@ msgid ""
 "Completion of this wonder permanently doubles the effect of Libraries for "
 "every player."
 msgstr ""
+"La finalització d'aquesta meravella duplica de forma permanent l'efecte de "
+"les Biblioteques per a cada jugador."
 
 #: data/civ2civ3/buildings.ruleset:1358
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the defense of all your cities by adding a +50% bonus to its "
 "units' intrinsic defense strength against land units (this is cumulative "
 "with any City Walls), and preventing the loss of population which occurs "
 "when a defending unit is defeated by a land unit."
 msgstr ""
-"Les Muralles fan que sigui més fàcil de defensar una ciutat. Dupliquen la "
-"força defensiva de les unitats que estiguin dins de la ciutat contra unitats "
-"terrestres. No són efectives contra avions, helicòpters, míssils ni "
-"unitatsmarítimes. Les Muralles també eviten la pèrdua de població que ocorre "
+"Augmenta la defensa de totes les teves ciutats afegint una bonificació de +50%"
+" a la "
+"força defensiva intrínseca de les unitats contra unitats "
+"terrestres (això es pot acumular amb Muralles), i evitant la pèrdua de "
+"població que ocorre "
 "quan una unitat defensiva és destruïda per una unitat terrestre."
 
 #: data/civ2civ3/buildings.ruleset:1380
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content in every city of the player that owns it "
 "(not including citizens unhappy about aggression). This wonder also makes "
 "two content citizens happy in the city where it is located (4 extra luxury "
 "points)."
 msgstr ""
-"Converteix dos ciutadans descontents a contents a cada ciutat del mateix "
-"continent (inclosos els ciutadans descontents per activitats militars)."
+"Converteix un ciutadà descontent en content a cada ciutat del jugador que la "
+"tingui (sense incloure els ciutadans descontents per agressió). Aquesta "
+"meravella també fa feliços dos  "
+"ciutadans contents a la ciutat on està situada (4 punts extres de luxe)."
 
 #: data/civ2civ3/buildings.ruleset:1405
 #, fuzzy, no-c-format
@@ -22334,6 +22398,8 @@ msgid ""
 "Completion of this wonder permanently doubles the effect of Universities for "
 "every player."
 msgstr ""
+"La finalització d'aquesta meravella duplica de forma permanent l'efecte de "
+"les Universitats per a cada jugador."
 
 #: data/civ2civ3/buildings.ruleset:1450
 #, fuzzy
@@ -22811,12 +22877,11 @@ msgid "Enables movement of nuclear units."
 msgstr "Permet el moviment d'unitats nuclears."
 
 #: data/civ2civ3/techs.ruleset:282
-#, fuzzy
 msgid ""
 "Allows irrigation without an adjacent water source, improves the effect of "
 "Amphitheaters, and increases city vision radius."
 msgstr ""
-"Permet regadiu sense tenir aigua al costat, millora l'efecte dels "
+"Permet regadiu sense tenir una font d'aigua al costat, millora l'efecte dels "
 "Amfiteatres, i augmenta el radi de visió de la ciutat."
 
 #: data/civ2civ3/techs.ruleset:358
@@ -22824,7 +22889,6 @@ msgid "Makes it possible for Engineers to transform terrains."
 msgstr "Possibilita que els Enginyers transformin el terreny."
 
 #: data/civ2civ3/techs.ruleset:412
-#, fuzzy
 msgid "Halves the upgrade cost of your units."
 msgstr "Redueix a la meitat el cost de millora de les teves unitats."
 
@@ -22834,6 +22898,8 @@ msgid ""
 "Reduces the risk of plague in your cities by 30% of the base chance (this is "
 "additive with the benefits of any buildings)."
 msgstr ""
+"Redueix el risc d'epidèmia a les teves ciutats en un 30% de la probabilitat "
+"bàsica (això es pot acumular amb els beneficis de qualssevol altres edificis)."
 
 #: data/civ2civ3/techs.ruleset:675
 #, fuzzy
