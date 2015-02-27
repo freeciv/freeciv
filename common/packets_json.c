@@ -326,7 +326,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 
   /* Parse JSON packet. */
 
-  pc->json_packet = json_loadb((char*)pc->buffer->data + 4, whole_packet_len, 0, &error);
+  pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len, 0, &error);
 
   memmove(pc->buffer->data, pc->buffer->data, pc->buffer->ndata);
   pc->buffer->ndata = 0;

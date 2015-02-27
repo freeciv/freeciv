@@ -30,7 +30,6 @@ void *get_packet_from_connection_json(struct connection *pc,
   \
   dio_output_init(&(dout.raw), buffer, sizeof(buffer)); \
   dio_put_uint16_raw(&(dout.raw), 0);                   \
-  dio_put_uint16_raw(&(dout.raw), packet_type);         \
   dio_put_uint8_json(&dout, "pid", packet_type);
 
 #define SEND_PACKET_END(packet_type) \
