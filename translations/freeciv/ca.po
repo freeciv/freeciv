@@ -6,21 +6,21 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-21 12:48+0000\n"
-"PO-Revision-Date: 2014-12-20 11:40+0100\n"
-"Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
-"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"PO-Revision-Date: 2015-02-27 18:44+0100\n"
+"Last-Translator: \n"
+"Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.4\n"
 
 #: ai/default/advdiplomacy.c:341
 #, c-format
@@ -1983,9 +1983,8 @@ msgid "City map"
 msgstr "Mapa de la ciutat"
 
 #: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:826
-#, fuzzy
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
-msgstr "Polsa Intro o fes doble clic per vendre un edifici."
+msgstr "Polsa <b>Intro</b> o fes doble clic per vendre una millora."
 
 #: client/gui-gtk-2.0/citydlg.c:814 client/gui-gtk-2.0/citydlg.c:1003
 #: client/gui-gtk-2.0/citydlg.c:1700 client/gui-gtk-3.0/citydlg.c:844
@@ -6249,103 +6248,93 @@ msgid "About Qt"
 msgstr "Quant a Qt"
 
 #: client/gui-qt/helpdlg.cpp:628
-#, fuzzy
 msgid "Moves:"
-msgstr "Moviments"
+msgstr "Moviments:"
 
 #: client/gui-qt/helpdlg.cpp:636 data/Freeciv.in:877
 msgid "Firepower:"
 msgstr "Potència de Foc:"
 
 #: client/gui-qt/helpdlg.cpp:648
-#, fuzzy
 msgid "Basic upkeep:"
 msgstr "Manteniment bàsic:"
 
 #. TRANS: Unit requires technology
 #: client/gui-qt/helpdlg.cpp:657
-#, fuzzy
 msgid "Requires %1."
-msgstr "Requereix %s.\n"
+msgstr "Requereix %1."
 
 #: client/gui-qt/helpdlg.cpp:660
-#, fuzzy
 msgid "No technology required."
-msgstr "Cal %d peça d'or."
+msgstr "No cal tecnologia."
 
 #. TRANS: Current unit obsoleted by other unit (technology
 #. required to build other unit)
 #: client/gui-qt/helpdlg.cpp:670
-#, fuzzy
 msgid "Obsoleted by %1 (%2)."
-msgstr "Ho fa obsolet "
+msgstr "Ho fa obsolet %1 (%2)."
 
 #. TRANS: Current unit obsoleted by other unit
 #: client/gui-qt/helpdlg.cpp:676
-#, fuzzy
 msgid "Obsoleted by %1."
-msgstr "Ho fa obsolet "
+msgstr "Ho fa obsolet %1"
 
 #: client/gui-qt/helpdlg.cpp:680
-#, fuzzy
 msgid "Never obsolete."
-msgstr "Feta obsoleta"
+msgstr "No és mai obsolet."
 
 #: client/gui-qt/helpdlg.cpp:837
-#, fuzzy
 msgid "Move cost:"
-msgstr "Cost de moviment"
+msgstr "Cost de moviment:"
 
 #: client/gui-qt/helpdlg.cpp:839
-#, fuzzy
 msgid "Defense bonus:"
-msgstr "Bonificació defensiva"
+msgstr "Bonificació defensiva:"
 
 #. TRANS: Display a percentage, eg "50%".
 #: client/gui-qt/helpdlg.cpp:842
 msgid "%1%"
-msgstr ""
+msgstr "%1%"
 
 #: client/gui-qt/helpdlg.cpp:851
 msgid "Irrigation: +%1 food in %2 turn"
 msgid_plural "Irrigation: +%1 food in %2 turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Irrigació: +%1 de menjar en %2 torn"
+msgstr[1] "Irrigació: +%1 de menjar en %2 torns"
 
 #: client/gui-qt/helpdlg.cpp:861
 msgid "Irrigation: %1 in %2 turn"
 msgid_plural "Irrigation: %1 in %2 turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Irrigació: %1 en %2 torn"
+msgstr[1] "Irrigació: %1 en %2 torns"
 
 #: client/gui-qt/helpdlg.cpp:873
 msgid "Mining: +%1 food in %2 turn"
 msgid_plural "Mining: +%1 food in %2 turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mina: +%1 de menjar en %2 torn"
+msgstr[1] "Mina: +%1 de menjar en %2 torns"
 
 #: client/gui-qt/helpdlg.cpp:883
 msgid "Mining: %1 in %2 turn"
 msgid_plural "Mining: %1 in %2 turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mina: %1 en %2 torn"
+msgstr[1] "Mina: %1 en %2 torns"
 
 #: client/gui-qt/helpdlg.cpp:896
-#, fuzzy
 msgid "Transform: %1 in %2 turn"
 msgid_plural "Transform: %1 in %2 turns"
-msgstr[0] "Transformar en %1"
-msgstr[1] "Transformar en %1"
+msgstr[0] "Transformació: %1 en %2 torn"
+msgstr[1] "Transformació: %1 en %2 torns"
 
 #. TRANS: %1 food, %2 shields, %3 trade
 #: client/gui-qt/helpdlg.cpp:917
 msgid "Tile output becomes %1, %2, %3."
-msgstr ""
+msgstr "La producció de la casella es converteix en %1, %2, %3"
 
 #. TRANS: Tooltip decorating strings like "1, 2, 3".
 #: client/gui-qt/helpdlg.cpp:922
 msgid "Output (Food, Shields, Trade) of a tile where the resource is present."
-msgstr ""
+msgstr "Producció (Menjar, Escuts, Comerç) d'una casella on hi ha el recurs."
 
 #: client/gui-qt/mapview.cpp:1124
 msgid ""
@@ -9964,9 +9953,9 @@ msgstr[1] "* Pot afegir %d població a ciutats de mida no superior a %d.\n"
 
 #. TRANS: %s is list of extra types separated by ',' and 'and'
 #: client/helpdata.c:2636 client/helpdata.c:2679
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build %s on tiles.\n"
-msgstr "* Pot construir mines en caselles.\n"
+msgstr "* Pot construir %s en caselles.\n"
 
 #: client/helpdata.c:2642
 msgid "* Can build mines on tiles.\n"
@@ -9974,7 +9963,7 @@ msgstr "* Pot construir mines en caselles.\n"
 
 #: client/helpdata.c:2645
 msgid "* Can convert terrain to another type by mining.\n"
-msgstr ""
+msgstr "* Pot convertir terreny d'un tipus en un altre amb mineria.\n"
 
 #: client/helpdata.c:2650
 msgid "* Can build irrigation on tiles.\n"
@@ -9992,7 +9981,7 @@ msgstr "* Pot fer hortes (si es coneix alguna de les següents: %s).\n"
 
 #: client/helpdata.c:2668
 msgid "* Can convert terrain to another type by irrigation.\n"
-msgstr ""
+msgstr "* Pot convertir terreny d'un tipus en un altre amb irrigació.\n"
 
 #: client/helpdata.c:2685
 msgid "* Can clean pollution from tiles.\n"
@@ -10700,9 +10689,9 @@ msgstr ""
 
 #. TRANS: %s is list of unit types separated by 'or'
 #: client/helpdata.c:3980
-#, fuzzy, c-format
+#, c-format
 msgid "* Pays no upkeep for %s.\n"
-msgstr "* No paga manteniment pels fanàtics.\n"
+msgstr "* No paga manteniment pels %s.\n"
 
 #: client/helpdata.c:3988
 msgid "* Has no unhappy citizens.\n"
@@ -12266,22 +12255,19 @@ msgstr ""
 "Si es desactiva aquesta opció, el cursor sempre es mostrarà en blanc i negre."
 
 #: client/options.c:2629
-#, fuzzy
 msgid "This font is used to display the help labels in the help window."
 msgstr ""
-"Aquest tipus de lletra s'utilitza per mostrar les capçaleres d'ajuda a la "
+"Aquest tipus de lletra s'utilitza per mostrar les etiquetes d'ajuda a la "
 "finestra d'ajuda."
 
 #: client/options.c:2646
-#, fuzzy
 msgid "Help Title"
-msgstr "Text d'Ajuda"
+msgstr "Títol d'Ajuda"
 
 #: client/options.c:2647
-#, fuzzy
 msgid "This font is used to display the help title in the help window."
 msgstr ""
-"Aquest tipus de lletra s'utilitza per mostrar els enllaços d'ajuda a la "
+"Aquest tipus de lletra s'utilitza per mostrar el títol d'ajuda a la "
 "finestra d'ajuda."
 
 #: client/options.c:2766
@@ -14575,32 +14561,28 @@ msgstr "Tecnologia del futur"
 #. TRANS: this and following strings are 'tech flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/tech.h:79
-#, fuzzy
 msgid "Bonus_Tech"
-msgstr "_Tecnologies"
+msgstr "Tecnologia_Bonus"
 
 #: common/tech.h:82
 msgid "Bridge"
-msgstr ""
+msgstr "Pont"
 
 #: common/tech.h:85
-#, fuzzy
 msgid "Population_Pollution_Inc"
-msgstr "De_purar la Contaminació"
+msgstr "Contaminació_Població_S.A."
 
 #: common/tech.h:88 common/terrain.c:553 common/terrain.c:834
 msgid "Farmland"
 msgstr "Horta"
 
 #: common/tech.h:91
-#, fuzzy
 msgid "Build_Airborne"
-msgstr "Construir Base aèria"
+msgstr "Construir aeri"
 
 #: common/tech.h:94
-#, fuzzy
 msgid "Claim_Ocean"
-msgstr "Oceà"
+msgstr "Recuperar Oceà"
 
 #: common/terrain.c:550 common/terrain.c:840 common/unit.c:762
 msgid "Mine"
@@ -14755,43 +14737,38 @@ msgstr "%s i unitats similars"
 #. TRANS: this and following strings are 'unit type flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/unittype.h:128
-#, fuzzy
 msgid "TradeRoute"
-msgstr "Rutes comercials"
+msgstr "RutaComercial"
 
 #: common/unittype.h:130
-#, fuzzy
 msgid "HelpWonder"
-msgstr "Meravella"
+msgstr "AjudaMeravella"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
 #: common/unittype.h:133
 msgid "IgZOC"
-msgstr ""
+msgstr "IgZDC"
 
 #: common/unittype.h:135
 msgid "NonMil"
-msgstr ""
+msgstr "NoMil"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
 #: common/unittype.h:138
 msgid "IgTer"
-msgstr ""
+msgstr "IgTerr"
 
 #: common/unittype.h:140
-#, fuzzy
 msgid "OneAttack"
-msgstr "Atac:"
+msgstr "UnAtac"
 
 #: common/unittype.h:144
-#, fuzzy
 msgid "IgWall"
-msgstr "Való"
+msgstr "IgMur"
 
 #: common/unittype.h:146
-#, fuzzy
 msgid "FieldUnit"
-msgstr "Construint Unitat"
+msgstr "UnitatCamp"
 
 #: common/unittype.h:148 data/civ2/units.ruleset:703
 #: data/classic/units.ruleset:836 data/experimental/units.ruleset:860
@@ -14800,9 +14777,8 @@ msgid "Marines"
 msgstr "Marines"
 
 #: common/unittype.h:151
-#, fuzzy
 msgid "Partial_Invis"
-msgstr "Guerriller"
+msgstr "Parcial_Invis"
 
 #: common/unittype.h:154 common/unittype.h:334 data/civ1/units.ruleset:260
 #: data/civ2/units.ruleset:264 data/classic/units.ruleset:378
@@ -14847,99 +14823,83 @@ msgstr "Paracaigudistes"
 
 #: common/unittype.h:173
 msgid "Only_Native_Attack"
-msgstr ""
+msgstr "Només_Atac_Nadiu"
 
 #: common/unittype.h:176
-#, fuzzy
 msgid "AddToCity"
-msgstr "Afegir a Ciutat"
+msgstr "AfegirACiutat"
 
 #: common/unittype.h:179
-#, fuzzy
 msgid "Fanatic"
-msgstr "Fanàtics"
+msgstr "Fanàtic"
 
 #: common/unittype.h:182 common/unittype.h:337
-#, fuzzy
 msgid "GameLoss"
-msgstr "Joc"
+msgstr "DerrotaPartida"
 
 #: common/unittype.h:185
 msgid "Unique"
-msgstr ""
+msgstr "Únic"
 
 #: common/unittype.h:188
-#, fuzzy
 msgid "Unbribable"
-msgstr "Activar"
+msgstr "Insubornable"
 
 #: common/unittype.h:191
-#, fuzzy
 msgid "Undisbandable"
-msgstr "desactivat"
+msgstr ""
 
 #: common/unittype.h:194
 msgid "SuperSpy"
-msgstr ""
+msgstr "SuperEspia"
 
 #: common/unittype.h:197
 msgid "NoHome"
-msgstr ""
+msgstr "SenseCasa"
 
 #: common/unittype.h:200
-#, fuzzy
 msgid "NoVeteran"
-msgstr "Veterà"
+msgstr "NoVeterà"
 
 #: common/unittype.h:203
-#, fuzzy
 msgid "Bombarder"
-msgstr "Frontera"
+msgstr "Bombarder"
 
 #: common/unittype.h:206
-#, fuzzy
 msgid "CityBuster"
-msgstr "Cost de Compra de la Ciutat"
+msgstr "DestrossaCiutats"
 
 #: common/unittype.h:209
-#, fuzzy
 msgid "NoBuild"
-msgstr "Construcció:"
+msgstr "SenseConstrucció"
 
 #: common/unittype.h:213
-#, fuzzy
 msgid "BadWallAttacker"
-msgstr "AtacantAeri"
+msgstr "MalAtacMuralla"
 
 #: common/unittype.h:216
-#, fuzzy
 msgid "BadCityDefender"
-msgstr "Centre de la ciutat"
+msgstr "MalDefensorCiutat"
 
 #: common/unittype.h:219
-#, fuzzy
 msgid "BarbarianOnly"
-msgstr "Bàrbar"
+msgstr "NomésBàrbar"
 
 #: common/unittype.h:222
-#, fuzzy
 msgid "Shield2Gold"
-msgstr "Menjar/Escuts/Or:"
+msgstr "EscutsAOr"
 
 #: common/unittype.h:225
-#, fuzzy
 msgid "Capturable"
-msgstr "Millorable"
+msgstr "Capturable"
 
 #: common/unittype.h:228
-#, fuzzy
 msgid "Capturer"
-msgstr "Capturada/Destruïda"
+msgstr "Capturador"
 
 #: common/unittype.h:277
-#, fuzzy
 msgid "FirstBuild"
-msgstr "Construcció:"
+msgstr "PrimeraConstrucció"
 
 #: common/unittype.h:280 data/civ2/units.ruleset:2102
 #: data/classic/units.ruleset:2203 data/experimental/units.ruleset:2230
@@ -14948,9 +14908,8 @@ msgid "Explorer"
 msgstr "Explorador"
 
 #: common/unittype.h:286
-#, fuzzy
 msgid "HutTech"
-msgstr "Tecnologia del futur"
+msgstr "TecnologiaDeCabana"
 
 #: common/unittype.h:289 data/civ2/units.ruleset:599
 #: data/classic/units.ruleset:732 data/experimental/units.ruleset:756
@@ -14959,27 +14918,24 @@ msgid "Partisan"
 msgstr "Guerriller"
 
 #: common/unittype.h:292
-#, fuzzy
 msgid "DefendOk"
-msgstr "Defensa:"
+msgstr "DefensaNormal"
 
 #: common/unittype.h:295
 msgid "DefendGood"
-msgstr ""
+msgstr "DefensaBona"
 
 #: common/unittype.h:298
-#, fuzzy
 msgid "AttackFast"
-msgstr "Atac:"
+msgstr "AtacRàpid"
 
 #: common/unittype.h:301
-#, fuzzy
 msgid "AttackStrong"
-msgstr "Atac:"
+msgstr "AtacFort"
 
 #: common/unittype.h:304
 msgid "FerryBoat"
-msgstr ""
+msgstr "VaixellTransport"
 
 #: common/unittype.h:307 data/civ1/nations.ruleset:1461
 #: data/civ2/nations.ruleset:2028 data/nation/barbarian.ruleset:5
@@ -14988,44 +14944,36 @@ msgid "Barbarian"
 msgstr "Bàrbar"
 
 #: common/unittype.h:310
-#, fuzzy
 msgid "BarbarianTech"
-msgstr "Bàrbar"
+msgstr "TecnologiaBàrbar"
 
 #: common/unittype.h:313
-#, fuzzy
 msgid "BarbarianBoat"
-msgstr "Bàrbar"
+msgstr "VaixellBàrbar"
 
 #: common/unittype.h:316
-#, fuzzy
 msgid "BarbarianBuild"
-msgstr "Bàrbar"
+msgstr "ConstruccióBàrbar"
 
 #: common/unittype.h:319
-#, fuzzy
 msgid "BarbarianBuildTech"
-msgstr "Bàrbar"
+msgstr "TecnoConstruccióBàrbar"
 
 #: common/unittype.h:322
-#, fuzzy
 msgid "BarbarianLeader"
-msgstr "Líder bàrbar"
+msgstr "LíderBàrbar"
 
 #: common/unittype.h:325
-#, fuzzy
 msgid "BarbarianSea"
-msgstr "Bàrbar"
+msgstr "MarBàrbar"
 
 #: common/unittype.h:328
-#, fuzzy
 msgid "BarbarianSeaTech"
-msgstr "Líder bàrbar"
+msgstr "TecnoMarBàrbar"
 
 #: common/unittype.h:343
-#, fuzzy
 msgid "Hunter"
-msgstr "Centrar"
+msgstr "Caçador"
 
 #: common/version.c:44
 #, c-format
@@ -17186,9 +17134,8 @@ msgstr "Construcció de Ponts"
 #: data/civ1/techs.ruleset:113 data/civ2/techs.ruleset:121
 #: data/classic/techs.ruleset:135 data/experimental/techs.ruleset:144
 #: data/civ2civ3/techs.ruleset:145 data/multiplayer/techs.ruleset:135
-#, fuzzy
 msgid "Allows roads to be built on river tiles."
-msgstr "* Permet als %s construir camins en caselles de riu.\n"
+msgstr "Permet que es construeixin camins en caselles de riu."
 
 #: data/civ1/techs.ruleset:116 data/civ2/techs.ruleset:124
 #: data/classic/techs.ruleset:138 data/experimental/techs.ruleset:147
@@ -18552,7 +18499,6 @@ msgstr ""
 "països estrangers, o per ajudar a construir meravelles a les teves ciutats."
 
 #: data/civ1/units.ruleset:1284 data/civ2/units.ruleset:2051
-#, fuzzy
 msgid ""
 "Caravans can establish trade routes with your own cities or those of other "
 "nations (even enemies) by traveling to them. A route's ongoing revenue is "
@@ -18572,7 +18518,8 @@ msgstr ""
 "net per a la teva civilització d'una ruta comercial és el mateix tant si les "
 "dues ciutats són teves com si només ho és una; si només en tens una, el "
 "comerç de cada ciutat es duplica, però només obtens el benefici d'una banda "
-"de la ruta comercial."
+"de la ruta comercial. Cada ciutat pot sostenir com a màxim tres rutes "
+"comercials."
 
 #: data/civ1/units.ruleset:1294 data/civ2/units.ruleset:2061
 #: data/classic/units.ruleset:2162 data/experimental/units.ruleset:2188
@@ -20211,6 +20158,12 @@ msgid ""
 "(Beware dropping into unseen territory, as Paratroopers landing on a tile "
 "occupied by enemy units are easy targets!)"
 msgstr ""
+"Els Paracaigudistes són expertsen atacs aerotransportats. Des d'una ciutat o "
+"base aèria amigues, els Paracaigudistes que no hagin gastat punts de moviment "
+"poden llançar-se en paracaigudes directament a qualsevol casella dins del seu "
+"rang, i estaran preparats immediatament per actuar-hi. (Vigileu si els "
+"llanceu en territori desconegut, perquè els Paracaigudistes que aterren en "
+"una casella ocupada per unitats enemigues són objectius fàcils!)"
 
 #: data/civ2/units.ruleset:800 data/classic/units.ruleset:933
 #: data/experimental/units.ruleset:958 data/civ2civ3/units.ruleset:1034
@@ -21132,7 +21085,6 @@ msgstr ""
 
 #: data/classic/terrain.ruleset:1045 data/experimental/terrain.ruleset:1021
 #: data/multiplayer/terrain.ruleset:1019
-#, fuzzy
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -21143,7 +21095,7 @@ msgstr ""
 "efectes, una unitat terrestre que es quedi en una fortificació un torn "
 "sencer sense moure's recupera una quarta part dels seus punts de vida. Amb "
 "Invenció, les fortificacions obtenen torres de guaita des de les quals les "
-"unitats poden veure més lluny."
+"unitats terrestres poden veure-hi més lluny."
 
 #: data/classic/terrain.ruleset:1075 data/experimental/terrain.ruleset:1051
 #: data/civ2civ3/terrain.ruleset:1097 data/multiplayer/terrain.ruleset:1053
@@ -21448,6 +21400,10 @@ msgid ""
 "technologies Magnetism and The Corporation each increase this limit by one; "
 "knowing both allows cities to support four trade routes each."
 msgstr ""
+"Al principi, les ciutats poden sostenir un màxim de dues rutes comercials. El "
+"coneixement de les tecnologies Magnetisme i La Corporació fa que cadascuna "
+"augmente aquest límit en una unitat; el coneixement de les dues permet a les "
+"ciutats de sostenir quatre rutes comercials cadascuna."
 
 #: data/classic/units.ruleset:2235 data/experimental/units.ruleset:2262
 #: data/civ2civ3/units.ruleset:2413 data/multiplayer/units.ruleset:2321
@@ -21703,33 +21659,41 @@ msgid ""
 "act there. (Beware dropping into unseen territory, as Paratroopers landing "
 "on a tile occupied by enemy units are easy targets!)"
 msgstr ""
+"Els Paracaigudistes són expertsen atacs aerotransportats. Des d'una ciutat o "
+"base aèria amigues, els Paracaigudistes que no hagin gastat punts de moviment "
+"poden llançar-se en paracaigudes directament a qualsevol casella dins del seu "
+"rang (fins i tot aterrant en vaixells), i estaran preparats immediatament per "
+"actuar-hi. (Vigileu si els llanceu en territori desconegut, perquè els "
+"Paracaigudistes que aterren en una casella ocupada per unitats enemigues són "
+"objectius fàcils!)"
 
 #: data/experimental/units.ruleset:1495 data/civ2civ3/units.ruleset:1634
-#, fuzzy
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, and unlike later boats can travel on "
 "rivers, but it may not enter deep ocean tiles."
 msgstr ""
 "El Trirrem és la primera unitat marítima que pots tenir. Pot fer de vaixell "
-"de transport i té una capacitat ofensiva rudimentària, però no pot aventurar-"
-"se cap a caselles oceàniques."
+"de transport i té una capacitat ofensiva rudimentària, i al contrari de "
+"vaixells posteriors pot remuntar rius, però no pot aventurar-"
+"se cap a caselles oceàniques profundes."
 
 #: data/experimental/units.ruleset:2224
 msgid ""
 "The Freight is twice as fast alternative to the Caravan, but unable to move "
 "at all outside flat terrains and roads."
 msgstr ""
+"El Comboi és una alternativa a la Caravana el doble de ràpida, però que no es "
+"pot moure fora de terrenys plans i camins."
 
 #: data/civ2civ3/buildings.ruleset:103 data/civ2civ3/buildings.ruleset:137
 #: data/civ2civ3/buildings.ruleset:172
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8. (A Sewer System is required for a "
 "city to grow larger than size 16.)"
 msgstr ""
-"Permet que una ciutat creixi més enllà de 8. Cal un sistema de Clavegueram "
-"perquè una ciutat creixi a més de mida 12."
+"Permet que una ciutat creixi a més de mida 8. (Cal un sistema de Clavegueram "
+"perquè una ciutat creixi a més de mida 16)."
 
 #: data/civ2civ3/buildings.ruleset:108 data/civ2civ3/buildings.ruleset:142
 #: data/civ2civ3/buildings.ruleset:177
@@ -21828,15 +21792,15 @@ msgid "Amphitheater"
 msgstr "Amfiteatre"
 
 #: data/civ2civ3/buildings.ruleset:398
-#, fuzzy
 msgid ""
 "Halves all kinds of waste in a city (corruption, production waste, and food "
 "waste). In your capital, corruption and production waste is eliminated. A "
 "Granary together with a Courthouse in a city will eliminate food waste."
 msgstr ""
-"Redueix tota mena de malbaratament en una ciutat (corrupció, malbaratament "
-"de producció, i malbaratament de menjar) en un 50%. A la teva capital, la "
-"corrupció i el malbaratament de producció s'elimina del tot. Un Graner "
+"Redueix a la meitat tota mena de malbaratament en una ciutat (corrupció, "
+"malbaratament "
+"de producció, i malbaratament de menjar). A la teva capital, la "
+"corrupció i el malbaratament de producció s'eliminen del tot. Un Graner "
 "juntament amb un Jutjat en una mateixa ciutat eliminen el malbaratament de "
 "menjar."
 
@@ -21850,24 +21814,23 @@ msgstr ""
 "ciutat sigui 4 vegades superior."
 
 #: data/civ2civ3/buildings.ruleset:425
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the shield production in a city by 25%, or 50% with an electrical "
 "plant of any kind in the same city."
 msgstr ""
-"Incrementa la producció d'escuts d'una ciutat en un 25%. La bonificació és "
-"del 50% si hi ha alguna Central energètica a la mateixa ciutat."
+"Incrementa la producció d'escuts d'una ciutat en un 25%, o un 50% si hi ha "
+"alguna central elèctrica de qualsevol tipus a la mateixa ciutat."
 
 #: data/civ2civ3/buildings.ruleset:428
-#, fuzzy
 msgid ""
 "This increase in production may contribute significantly to pollution; a "
 "Factory also increases the pollution caused by the population of the city."
 msgstr ""
-"Incrementa la producció d'escuts d'una ciutat en un 25%. Aquest augment pot "
-"contribuir de forma significativa a la contaminació provocada per la "
-"producció d'escuts. La Fàbrica també augmenta la contaminació provocada per "
-"la població de la ciutat (+25%)."
+"Aquest augment de producció pot "
+"contribuir de forma significativa a la contaminació; una Fàbrica també "
+"augmenta la contaminació provocada per "
+"la població de la ciutat.."
 
 #: data/civ2civ3/buildings.ruleset:449
 msgid ""
@@ -21876,30 +21839,36 @@ msgid ""
 "is extended to cities of size 4 and above. (10 food points is half what a "
 "small city needs to grow, but more points are needed for later growth steps.)"
 msgstr ""
+"Quan qualsevol ciutat petita creix o s'encongeix, es guarden 10 punts de "
+"menjar; això ajuda les ciutats a créixer més ràpid i a superar millor la fam. "
+"Amb un Graner, aquest comportament s'estén a les ciutats de mida 4 o "
+"superiors. (10 punts de menjar és la meitat del que necessita una ciutat "
+"petita per créixer, però en calen més per als següents passos de creixement)."
 
 #: data/civ2civ3/buildings.ruleset:455
-#, fuzzy
 msgid ""
 "A Granary also halves the food wasted in cities far from your capital. "
 "Together with a Courthouse it eliminates food waste."
 msgstr ""
-"El Graner també redueix a la meitat el malbaratament de menjar provocat per "
-"la distància respecte el Palau. Juntament amb un Jutjat, elimina "
-"completament el malbaratament de menjar."
+"El Graner també redueix a la meitat el menjar que es malbarata en ciutats que "
+"són lluny de la teva capital. Juntament amb un Jutjat, elimina "
+"el malbaratament de menjar."
 
 #: data/civ2civ3/buildings.ruleset:458
 msgid ""
 "TIP: to maximise the speed with which a city grows, you should build a "
 "Granary before it grows larger than size 4."
 msgstr ""
+"CONSELL: per maximitzar la velocitat a què creix una ciutat, cal comprar un "
+"Graner abans no creixi a més de mida 4."
 
 #: data/civ2civ3/buildings.ruleset:480
-#, fuzzy
 msgid ""
 "Gives one extra food resource on all Ocean or Deep Ocean tiles (but not "
 "Lakes). The city needs to be coastal to build this improvement."
 msgstr ""
-"Augmenta en un el menjar produït per totes les caselles d'Oceà. La ciutat ha "
+"Dóna un recurs addicional de menjar a totes les caselles d'Oceà o d'Oceà "
+"Profund (als Llacs no). La ciutat ha "
 "de ser costanera per poder construir aquesta millora."
 
 #: data/civ2civ3/buildings.ruleset:503
@@ -21908,6 +21877,8 @@ msgid ""
 "Similar to a Power Plant, a Hydro Plant increases the shield production "
 "effects of any Factory or Mfg. Plant in its city by 25% each."
 msgstr ""
+"Semblant a una Central Tèrmica, una Central Hidroelèctrica augmenta en un 25% "
+"els efectes en producció d'escuts de qualsevol Fàbrica o Planta de Fabricació."
 
 #: data/civ2civ3/buildings.ruleset:508
 #, no-c-format
@@ -21918,6 +21889,12 @@ msgid ""
 "Hoover Dam. (A Hydro Plant's effect is the same as that of a Nuclear Plant; "
 "with the Hoover Dam, its effect is increased to that of a Solar Plant.)"
 msgstr ""
+"No obstant, una Planta Hidroelèctrica també redueix la contaminació associada "
+"amb la producció d'escuts a un 50% del seu valor normal, o un 25% en "
+"combinació amb un Centre de Reciclatge: la contaminació es redueix encara més "
+"per al jugador que tingui la Presa de Hoover. (L'efecte d'una Central "
+"Hidroelèctrica és el mateix que el d'una Central Nuclear; amb la Presa de "
+"Hoover, el seu efecte arriba a ser al d'una Central Solar)."
 
 #: data/civ2civ3/buildings.ruleset:536
 #, fuzzy, no-c-format
