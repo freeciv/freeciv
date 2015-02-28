@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-21 12:48+0000\n"
-"PO-Revision-Date: 2015-02-28 00:04+0100\n"
+"PO-Revision-Date: 2015-02-28 18:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
@@ -22372,26 +22372,23 @@ msgstr ""
 "ciutadans contents a la ciutat on està situada (4 punts extres de luxe)."
 
 #: data/civ2civ3/buildings.ruleset:1405
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Acts as a Hydro Plant in the city where it is built, and reduces pollution "
 "from shield production by a further 25% in all cities with Hydro Plants, "
 "making them equivalent to Solar Plants."
 msgstr ""
-"Funciona com si tinguessis una Central Hidroelèctrica a la ciutat on està "
-"ubicada, i redueix la contaminació causada per les Centrals Hidroelèctriques "
-"a totes les teves ciutats al mateix nivell que les Centrals Solars (-25% de "
-"contaminació)."
+"Funciona com una Central Hidroelèctrica a la ciutat on es construeix, i "
+"redueix la contaminació per producció d'escuts en un 25% a totes les ciutats "
+"amb Central Hidroelèctrica, fent que siguin equivalents a una Central Solar."
 
 #: data/civ2civ3/buildings.ruleset:1427
-#, fuzzy
 msgid ""
 "Gives an immediate technology advance to the player that builds it, and "
 "thereafter 6 extra research points every turn to its city."
 msgstr ""
-"Dóna un avenç tecnològic immediat. I 4 bombetes de ciència addicionals a la "
-"ciutat on es construeix. També duplica l'efecte de les Biblioteques per a "
-"totes les nacions."
+"Dóna un avenç tecnològic immediat al jugador que la construeix, i a partir de "
+"llavors, 6 punts extra de recerca a cada torn per a la seva ciutat."
 
 #: data/civ2civ3/buildings.ruleset:1430
 msgid ""
@@ -22402,16 +22399,15 @@ msgstr ""
 "les Universitats per a cada jugador."
 
 #: data/civ2civ3/buildings.ruleset:1450
-#, fuzzy
 msgid ""
 "Makes one content citizen happy in every city of the player that owns it (2 "
 "extra luxury points per city)."
 msgstr ""
-"Converteix un ciutadà content en feliç a cada ciutat (2 luxes addicionals "
+"Converteix un ciutadà content en feliç a cada ciutat del jugador que la té (2 "
+"punts de luxe addicionals "
 "per ciutat)."
 
 #: data/civ2civ3/buildings.ruleset:1470
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 1 -- in other words, it neutralizes the unhappiness caused by "
@@ -22419,19 +22415,21 @@ msgid ""
 "two citizens unhappy). Under governments where unit upkeep is paid in gold, "
 "it gives two free gold per city towards upkeep every turn."
 msgstr ""
-"Redueix la infelicitat causada per unitats militars de la ciutat desplegades "
-"de forma agressiva en 2 sota Democràcia i en 1 sota República  -- en altres "
-"paraules, neutralitza la infelicitat provocada per una única unitat militar. "
-"Aquesta millora no té cap efecte sota altres tipus de govern."
+"Redueix en 1 la infelicitat causada per unitats militars de la ciutat "
+"desplegades "
+"de forma agressiva -- dit d'una altra manera, neutralitza la infelicitat "
+"provocada per una única unitat militar (excepte en Democràcia, on una unitat "
+"fa infeliços dos ciutadans). Amb governs on el manteniment de les unitats es "
+"paga en or, dóna dues peces d'or per ciutat per a manteniment a cada torn."
 
 #: data/civ2civ3/buildings.ruleset:1514
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point (except Triremes while "
 "moving on rivers). Makes all your new sea units veterans (for all your "
 "cities)."
 msgstr ""
-"Dóna a totes les teves unitats marítimes 1 punt addicional de moviment. Fa "
+"Dóna a totes les teves unitats marítimes 1 punt addicional de moviment "
+"(excepte als Trirrems quan es mouen pels rius). Fa "
 "que totes les teves unitats marítimes noves siguin veteranes (per totes les "
 "teves ciutats)."
 
@@ -22449,65 +22447,68 @@ msgid ""
 "TIP: if you're behind in research, this can help you catch up, by reducing "
 "the cost of technologies that other players already know."
 msgstr ""
+"CONSELL: si vas endarrerit en recerca, això et pot ajudar a recuperar "
+"posicions, reduint el cost de les tecnologies que els altres jugadors ja "
+"coneixen."
 
 #: data/civ2civ3/buildings.ruleset:1598
-#, fuzzy
 msgid ""
 "Doubles the base effect of Cathedrals. This makes 3 additional unhappy "
 "citizens content in each city with a Cathedral; however, it does not affect "
 "citizens made unhappy by aggression."
 msgstr ""
-"Duplica l'efecte de les Catedrals. Això fa que tres ciutadans descontents "
-"més passin a contents a cada ciutat; no obstant, no afecta els ciutadans "
-"descontents per activitats militars."
+"Duplica l'efecte bàsic de les Catedrals. Això fa que tres ciutadans "
+"descontents "
+"més passin a contents a cada ciutat amb Catedral; no obstant, no afecta els "
+"ciutadans "
+"descontents per agressió."
 
 #: data/civ2civ3/buildings.ruleset:1605
 msgid "Mausoleum of Mausolos"
 msgstr "Mausoleu d'Halicarnàs"
 
 #: data/civ2civ3/buildings.ruleset:1619
-#, fuzzy
 msgid ""
 "With this wonder, City Walls and Courthouses each make one unhappy citizen "
 "content in their city, unless that citizens is unhappy about aggression. "
 "Also, none of the owner's cities can be incited to revolt."
 msgstr ""
-"Fa content un ciutadà descontent a cada ciutat amb Muralles, i un altre "
-"d'addicional a cada ciutat amb Jutjat. A més, cap de les teves ciutats no es "
-"pot incitar a la revolta."
+"Amb aquesta meravella, tant les Muralles com els Jutjats fan content un "
+"ciutadà descontent a la seva ciutat, a no ser que el ciutadà estigui "
+"descontent per agressió. A més, cap de les teves ciutats no es pot incitar a "
+"la revolta."
 
 #: data/civ2civ3/buildings.ruleset:1626
 msgid "Statue of Zeus"
 msgstr "Estàtua de Zeus"
 
 #: data/civ2civ3/buildings.ruleset:1640
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 1 -- in other words, it neutralizes the unhappiness caused by "
 "a single military unit (except under Democracy, where a single unit makes "
 "two citizens unhappy). Each city also avoids one shield of upkeep for units."
 msgstr ""
-"Redueix la infelicitat causada per unitats militars de la ciutat desplegades "
-"de forma agressiva en 2 sota Democràcia i en 1 sota República  -- en altres "
-"paraules, neutralitza la infelicitat provocada per una única unitat militar. "
-"Aquesta millora no té cap efecte sota altres tipus de govern."
+"Redueix en 1 la infelicitat causada per unitats militars de la ciutat "
+"desplegades "
+"de forma agressiva -- dit d'una altra manera, neutralitza la infelicitat "
+"provocada per una única unitat militar (excepte en Democràcia, on una unitat "
+"fa infeliços dos ciutadans). Cada ciutat també s'estalvia un escut de "
+"manteniment per les unitats."
 
 #: data/civ2civ3/buildings.ruleset:1649
 msgid "Temple of Artemis"
 msgstr "Temple d'Àrtemis"
 
 #: data/civ2civ3/buildings.ruleset:1664
-#, fuzzy
 msgid ""
 "Makes 2 additional unhappy citizens content in every city with a Temple. "
 "Does not affect citizens made unhappy by aggression."
 msgstr ""
 "Fa contents dos ciutadans infeliços més a totes les ciutats que tinguin "
-"Temple. No afecta els ciutadans descontents per activitats militars."
+"Temple. No afecta els ciutadans descontents per agressió."
 
 #: data/civ2civ3/buildings.ruleset:1684
-#, fuzzy
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some shield output produces one extra shield resource. Under "
@@ -22516,9 +22517,11 @@ msgid ""
 "cities were always celebrating."
 msgstr ""
 "Cada casella del voltant de la ciutat on es construeix aquesta meravella que "
+"ja"
 "estigui generant algun escut, genera un escut addicional. Sota els governs "
 "en Despotisme o Tribals, les Piràmides cancel·len la penalització de les "
-"caselles treballades amb producció superior a 2."
+"caselles treballades amb producció superior a 2 (per a tots els tipus de "
+"producció), com si totes les teves ciutats estiguessin sempre en celebració."
 
 #: data/civ2civ3/buildings.ruleset:1693
 msgid "Internet"
@@ -22530,34 +22533,35 @@ msgid ""
 "thereafter all cities on the map are continuously visible to its owner "
 "despite fog-of-war."
 msgstr ""
+"Dóna un avenç tecnològic immediat al jugador que la construeix, i a partir "
+"d'aquell moment, totes les ciutats del mapa són visibles contínuament per al "
+"seu propietari ignorant la penombra de guerra."
 
 #: data/civ2civ3/buildings.ruleset:1712
-#, fuzzy
 msgid ""
 "Completion of this wonder permanently doubles the effect of Research Labs "
 "for every player."
 msgstr ""
-"Revela totes les ciutats al mapa. Dóna un avanç tecnològic immediatament. I "
-"duplica l'efecte dels Laboratoris de Recerca per a totes les nacions."
+"La finalització d'aquesta meravella duplica de forma permanent l'efecte dels "
+"Laboratoris de Recerca per a tots els jugadors."
 
 #: data/civ2civ3/buildings.ruleset:1733
-#, fuzzy
 msgid ""
 "Gives 1 additional luxury to every city, and 6 luxuries to the city where it "
 "is located."
 msgstr ""
 "Dóna 1 punt addicional de luxe a cada ciutat, i 6 punts de luxe a la ciutat "
-"on està ubicat. També augmenta a 3 la contribució dels especialistes Elvis "
-"per a totes les nacions."
+"on està ubicat."
 
 #: data/civ2civ3/buildings.ruleset:1736
 msgid ""
 "Upon completion of this wonder, entertainer specialists' luxury output "
 "increases to 3 permanently for every nation."
 msgstr ""
+"La finalització d'aquesta meravella fa que la producció de luxe dels "
+"especialistes artistes augmenti a 3 de forma permanent per a cada nació."
 
 #: data/civ2civ3/buildings.ruleset:1756
-#, fuzzy
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -22567,18 +22571,18 @@ msgid ""
 msgstr ""
 "Permet de triar qualsevol govern, fins i tot els que encara no han estat "
 "descoberts per la teva civilització, i sense el període de transició "
-"d'Anarquia. També permet de trencar qualsevol acord diplomàtic, fins i tot "
-"quan el teu govern té senat."
+"d'Anarquia. També permet de declarar la guerra sense provocació prèvia "
+"ignorant qualsevol senat instituït per un govern en Democràcia o Federació o "
+"per les Nacions Unides."
 
 #: data/civ2civ3/buildings.ruleset:1779
-#, fuzzy
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
 "are created as Hardened)."
 msgstr ""
-"Totes les unitats militars terrestres noves que construeixis en ciutats del "
-"mateix continent comencen amb un nivell addicional de veterania (això "
+"Totes les unitats militars terrestres noves comencen amb un nivell addicional "
+"de veterania (això "
 "s'acumula amb qualsevol Caserna d'una ciutat; amb tots dos, les unitats es "
 "creen com a Endurides)."
 
@@ -22590,54 +22594,63 @@ msgid ""
 "inclined to be friendly and forgiving toward the owner of this wonder. These "
 "effects last until the Apollo Program is completed."
 msgstr ""
+"Crea un senat mundial que evita declaracions de guerra sense provocació per "
+"qualsevol nació amb capacitat nuclear (és a dir, qualsevol nació que conegui "
+"la Fissió Nuclear, quan s'hagi construït el Projecte Manhattan). Els jugadors "
+"IA tenen més tendència a ser amistosos i condescendents envers l'amo "
+"d'aquesta meravella. Aquests efectes duren fins que es completa el Programa "
+"Apollo."
 
 #: data/civ2civ3/buildings.ruleset:1807
-#, fuzzy
 msgid ""
 "Also, if any player's city is in disorder for more than two turns in a row, "
 "that player's government falls (even for governments other than Republic and "
 "Democracy)."
 msgstr ""
-"* Si qualsevol ciutat roman en desordre durant més de dos torns seguits, el "
-"govern caurà en l'anarquia.\n"
+"A més, si una ciutat de qualsevol jugador roman en desordre durant més de dos "
+"torns seguits, el "
+"govern d'aquest jugador cau (fins i tot en governs diferents de República i "
+"Democràcia)."
 
 #: data/civ2civ3/buildings.ruleset:1828
-#, fuzzy
 msgid ""
 "Neutralizes the unhappiness caused by one aggressively deployed military "
 "unit per city. Under Democracy, it additionally halves the unhappiness "
 "caused by military units (reducing it to the same level as a Republic)."
 msgstr ""
 "Neutralitza la infelicitat causada per una unitat militar de cada ciutat "
-"desplegada de forma agressiva. Sota un govern en Democràcia, redueix a la "
-"meitat la infelicitat causada per unitats militars."
+"desplegada de forma agressiva. Sota un govern en Democràcia, a més, redueix a "
+"la "
+"meitat la infelicitat causada per unitats militars (deixant-la al mateix "
+"nivell que la República)."
 
 #: data/civ2civ3/cities.ruleset:54
-#, fuzzy
 msgid ""
 "Each entertainer produces two luxury points for their city per turn, "
 "increasing to three once any player has built Shakespeare's Theater. See the "
 "section on Happiness for the effects of luxury points."
 msgstr ""
-"Cada artista produeix dos punts de luxe per a la seva ciutat a cada torn. "
-"Veure la secció sobre Felicitat per als efectes dels punts de luxe."
+"Cada artista produeix dos punts de luxe per a la seva ciutat a cada torn, "
+"augmentant a tres quan qualsevol jugador hagi construït el Teatre de "
+"Shakespeare. "
+"Vegeu la secció sobre Felicitat per als efectes dels punts de luxe."
 
 #: data/civ2civ3/cities.ruleset:68
-#, fuzzy
 msgid ""
 "Each scientist adds two points to your empire's research output per turn, "
 "increasing to three once any player has built Darwin's Voyage."
 msgstr ""
-"Cada científic afegeix dos punts a la recerca del teu imperi a cada torn."
+"Cada científic afegeix dos punts a la recerca del teu imperi a cada torn, "
+"augmentant a tres un cop qualsevol jugador hagi construït el Viatge de Darwin."
 
 #: data/civ2civ3/cities.ruleset:82
-#, fuzzy
 msgid ""
 "Each tax collector produces two extra gold for your treasury per turn, "
 "increasing to three once any player has built A.Smith's Trading Co."
 msgstr ""
 "Cada recaptador d'impostos genera dues peces d'or addicionals per al teu "
-"tresor a cada torn."
+"tresor a cada torn, augmentant a tres un cop qualsevol jugador hagi construït "
+"la Companyia Comercial A.Smith"
 
 #: data/civ2civ3/game.ruleset:18
 msgid "Civ2Civ3 ruleset"
@@ -22679,18 +22692,28 @@ msgid ""
 "* Base production waste is 30%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Els edificis i les tecnologies no requereixen manteniment.\n"
+"* Cada ciutat pot suportar fins a 2 unitats de franc; les unitats addicionals "
+"costen 1 escut per torn cadascuna.\n"
+"* Les unitats militars no provoquen infelicitat ni que estiguin desplegades "
+"de forma agressiva.\n"
+"* No tens cap control sobre la taxa d'impostos. La meitat dels ingressos per "
+"comerç es perden del tot per a la teva economia, i la resta va a luxes. La "
+"corrupció convencional augmenta amb la distància des de la capital (la meitat "
+"de ràpid quan coneixes la Corporació).\n"
+"* El malbaratament de producció bàsic és del 30%. Això augmenta amb la "
+"distància des de la capital (la meitat de ràpid quan coneixes Comerç)."
 
 #: data/civ2civ3/governments.ruleset:90
 msgid "Tribal"
 msgstr "Tribal"
 
 #: data/civ2civ3/governments.ruleset:98
-#, fuzzy
 msgid ""
 "Under a Tribal government, you are part ruler of your people. Your control "
 "over your citizens is maintained largely by spiritual counsel."
 msgstr ""
-"Sota el govern Tribal, ets governant en part de la teva gent. El teu control "
+"Sota un govern Tribal, ets governant en part de la teva gent. El teu control "
 "sobre els ciutadans es manté principalment pel consell espiritual."
 
 #: data/civ2civ3/governments.ruleset:101
@@ -22698,6 +22721,9 @@ msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy and strong martial law can be an advantage in wartime."
 msgstr ""
+"En comparació amb el Despotisme, una economia Tribal està més orientada als "
+"escuts. Les bonificacions en veterania i la forta llei marcial poden ser "
+"avantatjoses en temps de guerra."
 
 #: data/civ2civ3/governments.ruleset:107
 #, no-c-format
@@ -22714,10 +22740,23 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Augmenta en un 50% la probabilitat que les unitats terrestres passin al "
+"següent nivell de veterania després d'una batalla.\n"
+"* Cada ciutat pot mantenir fins a 2 unitats de franc; les unitats addicionals "
+"costen cadascuna 1 escut per torn.\n"
+"* Al contrari de governs posteriors, les unitats militars no provoquen "
+"infelicitat, ni tan sols quan es despleguen agressivament.\n"
+"* La corrupció base és del 30% (més alta que cap altre govern). Això augmenta "
+"amb la distància des de la capital (la meitat de ràpid amb coneixement de La "
+"Corporació).\n"
+"* No hi ha un nivell mínim de malbaratament de producció, però augmenta amb "
+"la distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/governments.ruleset:135
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
 msgstr ""
+"En comparació amb el Tribalisme, una economia Despòtica està més orientada al "
+"comerç."
 
 #: data/civ2civ3/governments.ruleset:139
 #, no-c-format
@@ -22732,10 +22771,19 @@ msgid ""
 "* Base production waste is 10%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* La teva capital obté una bonificació del +75% en producció d'or.\n"
+"* Cada ciutat pot suportar fins a 2 unitats de franc; les unitats addicionals "
+"costen cadascuna 1 peça d'or per torn.\n"
+"* Al contrari de governs posteriors, les unitats militars no provoquen "
+"infelicitat ni quan estan desplegades de forma agressiva.\n"
+"* La corrupció base és del 20%. Això augmenta amb la distància des de la "
+"capital (la meitat de ràpid amb coneixement de La Corporació).\n"
+"* El malbaratament de producció base és del 10%. Això augmenta amb la "
+"distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/governments.ruleset:167
 msgid "Monarchy gives low unit upkeep costs."
-msgstr ""
+msgstr "La Monarquia dóna costos baixos de manteniment d'unitats."
 
 #: data/civ2civ3/governments.ruleset:171
 #, no-c-format
@@ -22752,12 +22800,26 @@ msgid ""
 "* Base production waste is 20%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* La teva capital obté una bonificació del +50% en producció d'or.\n"
+"* Les ciutats en celebració produeixen un punt addicional de comerç per cada "
+"casella que ja estigui produint comerç. (Les ciutats de menys de mida 3 no "
+"fan celebracions).\n"
+"* Cada ciutat pot suportar fins a 3 unitats de franc (el màxim possible); les "
+"unitats addicionals costen cadascuna 1 peça d'or per torn.\n"
+"* Cada ciutat tolera fins a 3 unitats militars desplegades de forma "
+"agressiva; cada unitat addicional provoca 1 ciutadà descontent.\n"
+"* La corrupció base és del 10%. Això augmenta amb la distància des de la "
+"capital (la meitat de ràpid amb coneixement de La Corporació).\n"
+"* El malbaratament de producció base és del 20%. Això augmenta amb la "
+"distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/governments.ruleset:203
 msgid ""
 "Communism is a good government for maximizing shield production, and for "
 "large empires."
 msgstr ""
+"El Comunisme és un govern bo per a maximitzar la producció d'escuts, i per a "
+"imperis grans."
 
 #: data/civ2civ3/governments.ruleset:208
 #, no-c-format
@@ -22771,12 +22833,24 @@ msgid ""
 "* Base corruption is 30%, but is not affected by distance to the capital.\n"
 "* There is no production waste."
 msgstr ""
+"* Les millores de ciutat que normalment tindrien un manteniment de 1 peça "
+"d'or són de franc.\n"
+"* Cada ciutat pot suportar fins a 3 unitats de franc (el màxim possible); les "
+"unitats addicionals costen cadascuna 1 escut per torn.\n"
+"* Cada ciutat tolera fins a 3 unitats militars desplegades de forma "
+"agressiva; cada unitat addicional provoca 1 ciutadà descontent.\n"
+"* La corrupció base és del 30%, però no li afecta la distància des de la "
+"capital.\n"
+"* No hi ha malbaratament de producció."
 
 #: data/civ2civ3/governments.ruleset:245
 msgid ""
 "Fundamentalism is a good government for maximizing gold, and its Fanatics "
 "are useful in wartime, but it has a heavy penalty to technological progress."
 msgstr ""
+"El Fonamentalisme és un bon govern per a maximitzar l'or, i els seus Fanàtics "
+"són útils en temps de guerra, però té una penalització molt gran per al "
+"progrés tecnològic."
 
 #: data/civ2civ3/governments.ruleset:251
 #, no-c-format
@@ -22791,6 +22865,15 @@ msgid ""
 "* Base production waste is 15%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* La producció de ciència és la meitat que en els altres governs.\n"
+"* Cada ciutat pot suportar fins a 2 unitats de franc; les unitats addicionals "
+"costen cadascuna 2 peces d'or per torn (excepte els Fanàtics).\n"
+"* Cada ciutat tolera fins a 2 unitats militars desplegades de forma "
+"agressiva; cada unitat addicional provoca 1 ciutadà descontent.\n"
+"* La corrupció base és del 15%. Això augmenta amb la distància des de la "
+"capital (la meitat de ràpid amb coneixement de La Corporació).\n"
+"* El malbaratament de producció base és del 15%. Això augmenta amb la "
+"distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/governments.ruleset:266
 msgid "Federation"
@@ -22805,7 +22888,7 @@ msgid ""
 msgstr ""
 "El Federalisme és un sistema on el poder del govern està compartit entre els "
 "governs nacional i provincial. Aquesta descentralització minimitza la "
-"corrupció i el malbaratament causat per la distància respecte la capita, i "
+"corrupció i el malbaratament causat per la distància respecte la capital, i "
 "evita els moviments separatistes."
 
 #: data/civ2civ3/governments.ruleset:283
@@ -22823,6 +22906,18 @@ msgid ""
 "* Base production waste is 30%, but is not affected by distance to the "
 "capital."
 msgstr ""
+"* Les ciutats en celebració produeixen un punt addicional de comerç per a "
+"cada casella que ja estigui produint comerç. (Les ciutats de menys de mida 3 "
+"no fan celebracions).\n"
+"* Cada ciutat pot suportar fins a 2 unitats de franc; les unitats addicionals "
+"costen cadascuna 2 peces d'or per torn.\n"
+"* Cada ciutat tolera fins a 2 unitats militars desplegades de forma "
+"agressiva; cada unitat addicional provoca 1 ciutadà descontent.\n"
+"* No hi ha un nivell bàsic de corrupció, però va augmentant amb la distància "
+"des de la capital (la meitat que amb la majoria de tipus de govern). El "
+"coneixement de La Corporació elimina aquesta corrupció.\n"
+"* El malbaratament de producció base és del 30%, però no li afecta la "
+"distància des de la capital."
 
 #: data/civ2civ3/governments.ruleset:319
 #, no-c-format
@@ -22841,9 +22936,21 @@ msgid ""
 "* Base production waste is 5%. This increases with distance from the capital "
 "(half as fast with knowledge of Trade)."
 msgstr ""
+"* Les ciutats produeixen un punt addicional de comerç per cada casella de "
+"terra treballada que ja estigui produint comerç.\n"
+"* Les ciutats en celebració produeixen un punt addicional de comerç per cada "
+"casella (terra o aigua) que s'estigui treballant. (Les ciutats de menys de "
+"mida 3 no fan celebracions).\n"
+"* Cada ciutat pot suportar una unitat de franc; les unitats addicionals "
+"costen cadascuna 1 escut per torn.\n"
+"* Cada ciutat tolera una única unitat militar desplegada de forma agressiva; "
+"cada unitat addicional provoca 1 ciutadà descontent.\n"
+"* La corrupció base és del 25%.  Això augmenta amb la distància des de la "
+"capital (la meitat de ràpid amb coneixement de La Corporació).\n"
+"* El malbaratament de producció base és del 5%. Això augmenta amb la "
+"distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/governments.ruleset:348
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -22851,8 +22958,8 @@ msgid ""
 msgstr ""
 "Sota la Democràcia, els ciutadans governen directament votant sobre els "
 "temes. La Democràcia ofereix el nivell de comerç més alt possible, però "
-"també té el potencial d'infelicitat més alt. No hi ha corrupció en "
-"Democràcia, però els ciutadans es preocupen molt per les guerres."
+"també té el potencial d'infelicitat més alt; els ciutadans s'enfaden molt "
+"durant les guerres."
 
 #: data/civ2civ3/governments.ruleset:355
 #, no-c-format
