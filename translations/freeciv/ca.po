@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-21 12:48+0000\n"
-"PO-Revision-Date: 2015-02-28 18:26+0100\n"
+"PO-Revision-Date: 2015-02-28 19:31+0100\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
 "Language: ca\n"
@@ -14863,7 +14863,7 @@ msgstr "NoVeterà"
 
 #: common/unittype.h:203
 msgid "Bombarder"
-msgstr "Bombarder"
+msgstr "Bombardejador"
 
 #: common/unittype.h:206
 msgid "CityBuster"
@@ -22939,8 +22939,8 @@ msgstr ""
 "* Les ciutats produeixen un punt addicional de comerç per cada casella de "
 "terra treballada que ja estigui produint comerç.\n"
 "* Les ciutats en celebració produeixen un punt addicional de comerç per cada "
-"casella (terra o aigua) que s'estigui treballant. (Les ciutats de menys de "
-"mida 3 no fan celebracions).\n"
+"casella (terra o aigua) que ja estigui produint comerç. (Les ciutats de menys "
+"de mida 3 no fan celebracions).\n"
 "* Cada ciutat pot suportar una unitat de franc; les unitats addicionals "
 "costen cadascuna 1 escut per torn.\n"
 "* Cada ciutat tolera una única unitat militar desplegada de forma agressiva; "
@@ -22978,6 +22978,19 @@ msgid ""
 "* Base production waste is 25%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
+"* Les ciutats produeixen un punt addicional de comerç per cada casella de "
+"terra treballada que ja estigui produint comerç.\n"
+"* Les ciutats en celebració produeixen un punt addicional de comerç per cada "
+"casella (terra o aigua) que ja estigui produint comerç. (Les ciutats de menys "
+"de mida 3 no fan celebracions).\n"
+"* Cada ciutat pot suportar una unitat de franc; les unitats addicionals "
+"costen cadascuna 2 peces d'or per torn.\n"
+"* Cada ciutat tolera una única unitat militar desplegada de forma agressiva; "
+"cada unitat addicional provoca 2 ciutadans descontents.\n"
+"* La corrupció base és del 5%.  Això augmenta amb la distància des de la "
+"capital (la meitat de ràpid amb coneixement de La Corporació).\n"
+"* El malbaratament de producció base és del 25%. Això augmenta amb la "
+"distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/techs.ruleset:79
 msgid "Enables movement of nuclear units."
@@ -23009,15 +23022,17 @@ msgstr ""
 "bàsica (això es pot acumular amb els beneficis de qualssevol altres edificis)."
 
 #: data/civ2civ3/techs.ruleset:675
-#, fuzzy
 msgid "Halves one-time revenue from new trade routes."
-msgstr "Redueix el pagament inicial de les rutes comercials noves."
+msgstr "Redueix a la meitat el pagament inicial de les rutes comercials noves."
 
 #: data/civ2civ3/techs.ruleset:677
 msgid ""
 "For Despotism or Tribal governments, cancels the penalty to worked tiles "
 "with output greater than 2 (as if all your cities were always celebrating)."
 msgstr ""
+"Per als governs en Despotisme o Tribal, cancel·la la penalització a les "
+"caselles treballades amb producció més gran de 2 (com si totes les teves "
+"ciutats estiguessin sempre en celebració)."
 
 #: data/civ2civ3/techs.ruleset:727
 msgid "Doubles movement of nuclear units."
@@ -23028,12 +23043,14 @@ msgid ""
 "Halves the corruption of trade related to distance from the capital (or "
 "eliminates it for Federation governments)."
 msgstr ""
+"Redueix a la meitat la corrupció del comerç relacionada amb la distància des "
+"de la capital (o l'elimina en governs en Federació)."
 
 #: data/civ2civ3/techs.ruleset:859
-#, fuzzy
 msgid "Halves the waste of production related to distance from the capital."
 msgstr ""
-"Redueix un cop la Corrupció del comerç provocada per la distància a la "
+"Redueix a la meitat el malbaratament de producció relacionat amb la distància "
+"des de la "
 "capital."
 
 #: data/civ2civ3/terrain.ruleset:429
@@ -23051,14 +23068,16 @@ msgid ""
 "Cities built in hills are at risk of earthquakes, which can interrupt a "
 "city's current project."
 msgstr ""
+"Les ciutats situades en turons tenen risc de terratrèmols, que poden "
+"interrompre el projecte actual de la ciutat."
 
 #: data/civ2civ3/terrain.ruleset:607
-#, fuzzy
 msgid ""
 "Jungles are densely overgrown, making agriculture somewhat problematic. Big "
 "Land units may not move into jungle without a road."
 msgstr ""
-"Les Jungles tenen molta vegetació, fent que l'agricultura sigui problemàtica."
+"Les Jungles tenen molta vegetació, fent que l'agricultura sigui problemàtica. "
+"Les unitats Terrestres Grans no poden entrar a la jungla si no hi ha camí."
 
 #: data/civ2civ3/terrain.ruleset:653
 msgid ""
@@ -23066,32 +23085,35 @@ msgid ""
 "unit ending its turn in mountains will start its next turn with one fewer "
 "movement point. Big Land units may not move into mountains without a road."
 msgstr ""
+"Les unitats terretres que es mouen cap a muntanyes poden veure un espai "
+"addicional, però una unitat terrestre ràpida que acabi el seu torn en "
+"muntanyes començarà el següent torn amb un punt de moviment menys. Les "
+"unitats Terrestres Grans no poden moure's cap a muntanyes si no hi ha camí."
 
 #: data/civ2civ3/terrain.ruleset:743
-#, fuzzy
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic. Big Land units may not move in swamps without a road."
 msgstr ""
 "Els aiguamolls sofreixen un excés d'aigua, fent que l'agricultura hi sigui "
-"una mica problemàtica."
+"una mica problemàtica. Les unitats Terrestres Grans no es poden moure per "
+"aiguamolls si no hi ha camí."
 
 #: data/civ2civ3/terrain.ruleset:1061
-#, fuzzy
 msgid ""
 "Units in a fortress receive double defense against land units and boats. Any "
 "kind of land unit remaining in a fortress for a whole turn without moving "
 "recovers a quarter of its hit points. With Astronomy, fortresses gain "
 "watchtowers from which units can see further afield."
 msgstr ""
-"Les fortificacions milloren la defensa per unitats terrestres. Entre altres "
-"efectes, una unitat terrestre que es quedi en una fortificació un torn "
+"Les unitats de dins d'una fortificació reben defensa doble contra unitats "
+"terrestres i vaixells. Qualsevol tipus d'unitat terrestre que es quedi en una "
+"fortificació un torn "
 "sencer sense moure's recupera una quarta part dels seus punts de vida. Amb "
-"Invenció, les fortificacions obtenen torres de guaita des de les quals les "
+"Astronomia, les fortificacions obtenen torres de guaita des de les quals les "
 "unitats poden veure més lluny."
 
 #: data/civ2civ3/terrain.ruleset:1088
-#, fuzzy
 msgid ""
 "Airbases allow your air units to land and refuel. Units in an airbase "
 "receive double defense against enemy air units. An air unit remaining in an "
@@ -23099,16 +23121,19 @@ msgid ""
 "points. Air units in an airbase may be attacked by land units."
 msgstr ""
 "Les bases aèries permeten que les teves unitats aèries aterrin i carreguin "
-"combustible, i en milloren la defensa contra unitats aèries enemigues. Una "
+"combustible. Les unitats que són en una base aèria reben defensa doble contra "
+"unitats aèries enemigues. Una "
 "unitat aèria que es quedi dins d'una base aèria durant un torn sencer sense "
 "moure's recupera una quarta part dels seus punts de vida. Les unitats aèries "
-"d'una base aèria poden ser atacades per unitats terrestres."
+"que siguin en una base aèria poden ser atacades per unitats terrestres."
 
 #: data/civ2civ3/terrain.ruleset:1115
 msgid ""
 "As well as granting vision, a buoy in deep ocean yields a shield resource to "
 "cities with an Offshore Platform."
 msgstr ""
+"A més de donar visibilitat, una boia en oceà profund dóna un recurs d'escut a "
+"les ciutats que tingui Plataforma Petrolífera."
 
 #: data/civ2civ3/terrain.ruleset:1243
 msgid ""
@@ -23167,6 +23192,8 @@ msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
 msgstr ""
+"Les ciutats construïdes sobre rius, o al seu costat, tenen un petit perill "
+"d'inundacions, que destruiran el menjar emmagatzemat."
 
 #: data/civ2civ3/units.ruleset:31
 msgid "Attack value halved when attacking Destroyer."
@@ -23187,6 +23214,8 @@ msgid ""
 "TIP: optimal production of Settlers occurs in cities of at most size 4, or "
 "cities with a Granary of at most size 6."
 msgstr ""
+"CONSELL: la producció òptima de Colons es fa en ciutats de mida 4 com a "
+"màxim, o en ciutats amb Graner de mida 6 com a màxim."
 
 #: data/civ2civ3/units.ruleset:445
 msgid "Migrants"
@@ -23249,7 +23278,6 @@ msgstr ""
 "cosa que els permet de treballar encara més ràpid."
 
 #: data/civ2civ3/units.ruleset:583
-#, fuzzy
 msgid ""
 "With knowledge of Fusion Power, Engineers may also perform more radical "
 "terrain transformations than Workers, Settlers, or Migrants, with the "
@@ -23260,7 +23288,7 @@ msgid ""
 msgstr ""
 "Amb el coneixement de l'Energia de Fusió, els Enginyers també poden dur a "
 "terme transformacions de terreny més radicals que els Treballadors, Colons, "
-"i Emigrants, amb l'ordre \"transformar\". Alguns exemples inclouen la "
+"o els Emigrants, amb l'ordre \"transformar\". Alguns exemples inclouen la "
 "conversió de Tundra en Planes, o fins i tot Oceà en Aiguamolls en algunes "
 "circumstàncies (quan són a bord d'un vaixell a l'oceà, en una casella "
 "rodejada per suficient terra ja existent). Vegeu la secció d'Alteracions del "
@@ -23293,12 +23321,16 @@ msgid ""
 "A Bomber's attack against units on land is a bombard attack; against units "
 "on water it has a regular attack."
 msgstr ""
+"L'atac d'un Bombarder contra unitats sobre terra és un atac de bombardeig; "
+"contra unitats d'aigua és un atac normal."
 
 #: data/civ2civ3/units.ruleset:1526
 msgid ""
 "A Helicopter's attack against units on land is a bombard attack; against "
 "units on water it has a regular attack."
 msgstr ""
+"L'atac d'un Helicòpter contra unitats sobre terra és un bombardeig; contra "
+"unitats d'aigua és un atac normal."
 
 #: data/civ2civ3/units.ruleset:1529
 msgid ""
@@ -23307,18 +23339,20 @@ msgid ""
 "(Paratroopers, Alpine Troops, Marines, Partisans, and Fanatics) can embark "
 "or disembark at any time."
 msgstr ""
+"Els Helicòpters també poden transportar una unitat d'infanteria; mentre que "
+"la majoria de tropes han de pujar o baixar en una ciutat o base aèria, les "
+"unitats especialitzades en mobilitat (Paracaigudistes, Tropes Alpines, "
+"Marines, Guerrillers, i Fanàtics) poden embarcar o desembarcar en qualsevol "
+"moment."
 
 #: data/civ2civ3/units.ruleset:1534
-#, fuzzy
 msgid ""
 "Care must be exercised, because Helicopters lose a small amount of health "
 "for every turn not spent in a city or airbase or on a Carrier."
 msgstr ""
-"L'Helicòpter pot transportar una unitat d'infanteria, i pot bombardejar "
-"unitats enemigues. S'ha de tenir cura, perquè els Helicòpters perden una "
+"S'ha de tenir cura, perquè els Helicòpters perden una "
 "petita quantitat de salut per cada torn que no estan dins d'una ciutat ni "
-"una base aèria ni un Portaavions, i a més els Helicòpters poden ser atacats "
-"per unitats terrestres."
+"una base aèria ni un Portaavions."
 
 #: data/civ2civ3/units.ruleset:1669
 msgid "The Caravel is a sailing ship that can enter any ocean tile."
@@ -23327,22 +23361,22 @@ msgstr ""
 "d'oceà."
 
 #: data/civ2civ3/units.ruleset:1702
-#, fuzzy
 msgid ""
 "The Galleon is a pure transport ship, the first which can transport large "
 "wheeled units. It cannot attack other ships, though it may still defend "
 "itself when attacked."
 msgstr ""
-"El Galió és purament un vaixell de transport i no pot atacar d'altres "
+"El Galió és purament un vaixell de transport, el primer que pot transportar "
+"unitats grosses amb rodes. No pot atacar d'altres "
 "vaixells, encara que pot defensar-se si l'ataquen."
 
 #: data/civ2civ3/units.ruleset:1735
-#, fuzzy
 msgid ""
 "The Frigate is a specialized ship with a strong offensive value, and can "
 "attack units on land, but it cannot transport units."
 msgstr ""
-"La Fragata és una unitat marítima fortament ofensiva, però no pot "
+"La Fragata és una unitat marítima especialitzada amb un valor ofensiu potent, "
+"i pot atacar unitats en terra, però no pot "
 "transportar cap unitat."
 
 #: data/civ2civ3/units.ruleset:1767
@@ -23350,13 +23384,12 @@ msgid "The Ironclad is an armored ship, more sturdy than the Frigate."
 msgstr "La Patrullera és un vaixell blindat, més robust que la Fragata."
 
 #: data/civ2civ3/units.ruleset:1803
-#, fuzzy
 msgid ""
 "An improved Ironclad, with better move rate and vision. Anti-submarine "
 "weapons double its defense against Submarines."
 msgstr ""
-"Una patrullera millorada, amb millors moviment i visió. Equipat amb armes "
-"antisubmarins."
+"Una patrullera millorada, amb millors moviment i visió. Les armes "
+"antisubmarins dupliquen la seva defensa contra Submarins."
 
 #: data/civ2civ3/units.ruleset:1806
 msgid ""
@@ -23367,12 +23400,10 @@ msgstr ""
 "Submarins enemics."
 
 #: data/civ2civ3/units.ruleset:2016
-#, fuzzy
 msgid "Transports can also clean pollution on water tiles."
-msgstr "* Pot netejar contaminació de les caselles.\n"
+msgstr "Els transports també poden netejar contaminació en caselles d'aigua."
 
 #: data/civ2civ3/units.ruleset:2089
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player. However, without "
@@ -23380,16 +23411,18 @@ msgid ""
 msgstr ""
 "Pots començar a construir unitats Nuclears quan tens l'avenç requerit, i la "
 "meravella Projecte Manhattan ha estat construïda per qualsevol jugador. "
-"Necessites Vol Avançat o Míssils per començar a utilitzar-les."
+"Però sense més tecnologia, no poden moure's per si soles."
 
 #: data/civ2civ3/units.ruleset:2093
 msgid ""
 "With Advanced Flight, all Nuclear units (including those already built) gain "
 "a range of 8 movement points, and Rocketry increases this to 16."
 msgstr ""
+"Amb Vol Avançat, totes les unitats Nuclears (incloses les que ja s'havien "
+"construït) obtenen un rang de 8 punts de moviment, i Míssils augmenta aquest "
+"valor a 16."
 
 #: data/civ2civ3/units.ruleset:2169
-#, fuzzy
 msgid ""
 "Many covert actions may be attempted even in peacetime, but the more "
 "aggressive actions will be discovered and cause diplomatic incidents, giving "
@@ -23397,11 +23430,11 @@ msgid ""
 "nuclear-armed regime otherwise restrained by the United Nations."
 msgstr ""
 "Moltes accions encobertes es poden intentar fins i tot en temps de pau, però "
-"les més agressives es descobriran i provocaran incidents diplomàtics, que "
-"poden permetre a les Repúbliques i Democràcies de trencar tractats."
+"les accions més agressives es descobriran i provocaran incidents diplomàtics, "
+"donant una excusa per trencar tractats a una Federació o Democràcia, o a un "
+"règim amb capacitat nuclear que ho tingués restringit per les Nacions Unides."
 
 #: data/civ2civ3/units.ruleset:2175
-#, fuzzy
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -23413,11 +23446,11 @@ msgstr ""
 "la amb el teu Diplomàtic. Pagant-li una quantitat d'or, la unitat passarà a "
 "ser teva immediatament; la suma exacta depèn de l'estatus de la unitat i de "
 "la civilització a què pertany. No obstant, les unitats que pertanyin a "
-"governs Democràtics no es poden subornar. El suborn quan no s'estigui en "
+"governs Republicans o Democràtics no es poden subornar. El suborn quan no "
+"s'estigui en "
 "guerra provocarà un incident diplomàtic."
 
 #: data/civ2civ3/units.ruleset:2191
-#, fuzzy
 msgid ""
 " - \"Establish Embassy\": This action always succeeds, and gives permanent "
 "contact with the city's owner, as well as intelligence on their tax rates "
@@ -23426,10 +23459,11 @@ msgid ""
 msgstr ""
 " - \"Establir Ambaixada\": Aquesta acció sempre té èxit, i dóna un contacte "
 "permanent amb el propietari de la ciutat, així com intel·ligència sobre les "
-"seves proporcions d'impostos i tecnologies."
+"seves proporcions d'impostos i tecnologies. Per cada jugador amb qui tinguis "
+"una ambaixada que conegui una tecnologia, se't reduirà el cost de recerca "
+"d'aquesta tecnologia."
 
 #: data/civ2civ3/units.ruleset:2214
-#, fuzzy
 msgid ""
 " - \"Incite a Revolt\": In return for gold a foreign city will change "
 "allegiance and join your empire, bringing along all nearby units that call "
@@ -23445,9 +23479,10 @@ msgstr ""
 "properes que la tinguin com a base, però reduint-ne la mida en 1. Les "
 "unitats que siguin en altres ciutats continuaran sota el control de "
 "l'enemic, però les unitats fora de les ciutats es perdran per tots dos "
-"jugadors. La suma exacta depèn de l'estatus de la ciutat i de la "
+"jugadors. La quantitat exacta depèn de l'estatus de la ciutat i de la "
 "civilització a què pertany. No és possible d'incitar una rebel·lió en una "
-"capital, ni en cap ciutat governada per una democràcia. Es pot intentar en "
+"capital, ni en cap ciutat governada per una Federació o Democràcia. Es pot "
+"intentar en "
 "temps de pau, però provocarà un incident diplomàtic."
 
 #: data/civ2civ3/units.ruleset:2228
@@ -23467,12 +23502,11 @@ msgstr ""
 "primer nivell de veterania (oficial d'intel·ligència)."
 
 #: data/civ2civ3/units.ruleset:2329
-#, fuzzy
 msgid ""
 "A Caravan carries goods or material for trading with foreign countries, or "
 "to help build wonders in your own cities."
 msgstr ""
-"Una Caravana porta béns o material per comerciar amb ciutats estrangeres, o "
+"Una Caravana porta béns o material per comerciar amb països estrangers, o "
 "per ajudar a construir meravelles a les teves ciutats."
 
 #: data/civ2civ3/units.ruleset:2332
@@ -23484,7 +23518,6 @@ msgstr ""
 "i no els afecten els modificadors de moviment."
 
 #: data/civ2civ3/units.ruleset:2335
-#, fuzzy
 msgid ""
 "Caravans can establish trade routes with the cities of other nations (even "
 "your enemies). A trade route's ongoing revenue is doubled if the two cities "
@@ -23494,7 +23527,7 @@ msgstr ""
 "Les Caravanes poden establir rutes comercials amb les ciutats d'altres "
 "nacions (fins i tot els teus enemics). La renda que proporciona una ruta "
 "comercial es duplica si les dues ciutats implicades es troben en continents "
-"diferents."
+"diferents. Cada ciutat pot suportar un màxim de dues rutes comercials."
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -25143,6 +25176,9 @@ msgid ""
 "temporarily lose the ability to establish as many trade routes as a city "
 "already has, existing ones are not affected."
 msgstr ""
+"Aquest límit només és en vigor quan s'intenta d'establir una nova ruta. Si "
+"perds temporalment la capacitat d'establir tantes rutes comercials com ja té "
+"una ciutat, les que ja existeixen no quedaran afectades."
 
 #: data/helpdata.txt:634
 msgid ""
@@ -30568,11 +30604,13 @@ msgid ""
 "This modpack installer does not support any specific options\n"
 "\n"
 msgstr ""
+"Aquest instal·lador de modpacks no permet cap opció específica\n"
+"\n"
 
 #: tools/mpcli.c:120
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '--' '%s'"
-msgstr "Opció desconeguda '%s'."
+msgstr "Opció desconeguda '--' '%s'"
 
 #: tools/mpcli.c:131
 msgid "Freeciv modpack installer (command line version)"
@@ -30665,13 +30703,13 @@ msgid "Select modpack to install"
 msgstr "Seleccionar quin modpack s'ha d'instal·lar"
 
 #: tools/mpgui_gtk2.c:577 tools/mpgui_gtk3.c:583
-#, fuzzy
 msgid ""
 "This modpack installer accepts the standard Gtk command-line options\n"
 "after '--'. See the Gtk documentation.\n"
 "\n"
 msgstr ""
-"Aquest client accepta les opcions estàndard de línia de comandes\n"
+"Aquest instal·lador de modpacks accepta les opcions estàndard de línia de "
+"comandes\n"
 "del Gtk després de '--'. Vegeu la documentació de Gtk.\n"
 "\n"
 
@@ -30684,13 +30722,13 @@ msgid "Freeciv modpack installer (gtk3)"
 msgstr "Instal·lador de modpacks de Freeciv (gtk3)"
 
 #: tools/mpgui_qt.cpp:96
-#, fuzzy
 msgid ""
 "This modpack installer accepts the standard Qt command-line options\n"
 "after '--'. See the Qt documentation.\n"
 "\n"
 msgstr ""
-"Aquest client accepta les opcions estàndard de línia de comandes\n"
+"Aquest instal·lador de modpacks accepta les opcions estàndard de línia de "
+"comandes\n"
 "del Qt després de '--'. Vegeu la documentació de Qt.\n"
 "\n"
 
@@ -31592,33 +31630,33 @@ msgid "%s was hit by %s."
 msgstr "%s ha patit un %s."
 
 #: server/cityturn.c:2965
-#, fuzzy, c-format
+#, c-format
 msgid "Fallout near %s."
-msgstr "Contaminació a prop de %s."
+msgstr "Contaminació radioactiva a prop de %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
 #: server/cityturn.c:2977
-#, fuzzy, c-format
+#, c-format
 msgid "%s causes population loss in %s."
-msgstr "La fam causa pèrdua de població a %s."
+msgstr "%s causa pèrdua de població a %s."
 
 #. TRANS: second %s is the name of a city improvement
 #: server/cityturn.c:2999
-#, fuzzy, c-format
+#, c-format
 msgid "%s destroys %s in %s."
-msgstr "Els %s han destruït %s a %s."
+msgstr "%s destrueix %s a %s."
 
 #. TRANS: %s is a city name
 #: server/cityturn.c:3012
-#, fuzzy, c-format
+#, c-format
 msgid "All stored food destroyed in %s."
-msgstr "El teu %s ha destruït %s a %s."
+msgstr "Tot el menjar emmagatzemat ha quedat destruït a %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
 #: server/cityturn.c:3026
-#, fuzzy, c-format
+#, c-format
 msgid "Production of %s in %s destroyed."
-msgstr "La construcció de %s s'ha millorat a %s a %s."
+msgstr "La producció de %s a %s ha quedat destruïda."
 
 #: server/cityturn.c:3193
 #, c-format
@@ -34521,9 +34559,8 @@ msgstr "Velocitat de Recerca"
 
 #. TRANS: How literate people are.
 #: server/report.c:162
-#, fuzzy
 msgid "?ability:Literacy"
-msgstr "Educació"
+msgstr "Alfabetització"
 
 #: server/report.c:165
 msgid "Military Service"
@@ -36343,6 +36380,9 @@ msgid ""
 "the ruleset. The relative frequency of disaster types is set by the ruleset. "
 "Zero prevents any random disasters from occurring."
 msgstr ""
+"Afecta cada quan ocorren desastres aleatoris a les ciutats, si n'hi ha de "
+"definits al joc de regles. La freqüència relativa de cada tipus de desastre "
+"la fixa el joc de regles. Un zero evita que ocorrin desastres aleatoris."
 
 #: server/settings.c:1715
 msgid "Chance for conquered building destruction"
@@ -37092,9 +37132,8 @@ msgstr ""
 "el temps restant augmenta fins aquest valor."
 
 #: server/settings.c:2219
-#, fuzzy
 msgid "Minimum time between unit actions over turn change"
-msgstr "Temps entre accions d'unitat en canvis de torn"
+msgstr "Temps mínim entre accions d'unitat en un canvi de torn"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -39874,9 +39913,9 @@ msgstr ""
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1513
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in capturing the %s %s."
-msgstr "El teu %s ha reeixit a capturar el %s."
+msgstr "El teu %s ha reeixit a capturar el %s %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:1519
