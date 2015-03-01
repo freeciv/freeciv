@@ -97,11 +97,6 @@ units.ruleset:
       - "BarbarianBoat"    (Must be able to move at sea)
       - "BarbarianSea"
 
-  Limitations:
-
-    - These unit flag combinations won't work:
-      - "Diplomat" and "Caravan"
-
 ----------------------------------------------------------------------
 Implementation details:
 -----------------------
