@@ -835,13 +835,14 @@ void send_diplomatic_meetings(struct connection *dest)
                                              pclause->type,
                                              pclause->value);
       } clause_list_iterate_end;
+
       if (ptreaty->plr0 == pplayer) {
         dsend_packet_diplomacy_accept_treaty(dest, player_number(other),
-                                             ptreaty->accept0, 
+                                             ptreaty->accept0,
                                              ptreaty->accept1);
       } else {
         dsend_packet_diplomacy_accept_treaty(dest, player_number(other),
-                                             ptreaty->accept1, 
+                                             ptreaty->accept1,
                                              ptreaty->accept0);
       }
     }

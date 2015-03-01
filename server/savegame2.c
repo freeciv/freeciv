@@ -370,6 +370,8 @@ static void sg_load_researches(struct loaddata *loading);
 
 static void sg_load_event_cache(struct loaddata *loading);
 
+static void sg_load_treaties(struct loaddata *loading);
+
 static void sg_load_mapimg(struct loaddata *loading);
 
 static void sg_load_sanitycheck(struct loaddata *loading);
@@ -450,6 +452,8 @@ static void savegame2_load_real(struct section_file *file)
   sg_load_researches(loading);
   /* [event_cache] */
   sg_load_event_cache(loading);
+  /* [treaties] */
+  sg_load_treaties(loading);
   /* [mapimg] */
   sg_load_mapimg(loading);
 
@@ -4391,6 +4395,86 @@ static void sg_load_event_cache(struct loaddata *loading)
   sg_check_ret();
 
   event_cache_load(loading->file, "event_cache");
+}
+
+/* =======================================================================
+ * Load  the open treaties
+ * ======================================================================= */
+
+/****************************************************************************
+  Load '[treaty_xxx]'.
+****************************************************************************/
+static void sg_load_treaties(struct loaddata *loading)
+{
+  int tidx;
+  const char *plr0;
+  struct treaty_list *treaties = get_all_treaties();
+
+  for (tidx = 0; (plr0 = secfile_lookup_str_default(loading->file, NULL,
+                                                    "treaty%d.plr0", tidx)) != NULL ;
+       tidx++) {
+    const char *plr1;
+    const char *ct;
+    int cidx;
+    struct player *p0, *p1;
+
+    plr1 = secfile_lookup_str(loading->file, "treaty%d.plr1", tidx);
+
+    p0 = player_by_name(plr0);
+    p1 = player_by_name(plr1);
+
+    if (p0 == NULL || p1 == NULL) {
+      log_error("Treaty between unknown players %s and %s", plr0, plr1);
+    } else {
+      struct Treaty *ptreaty = fc_malloc(sizeof(*ptreaty));
+
+      init_treaty(ptreaty, p0, p1);
+      treaty_list_prepend(treaties, ptreaty);
+
+      for (cidx = 0; (ct = secfile_lookup_str_default(loading->file, NULL,
+                                                      "treaty%d.clause%d.type",
+                                                      tidx, cidx)) != NULL ;
+           cidx++ ) {
+        enum clause_type type = clause_type_by_name(ct, fc_strcasecmp);
+        const char *plrx;
+
+        if (!clause_type_is_valid(type)) {
+          log_error("Invalid clause type \"%s\"", ct);
+        } else {
+          struct player *pgiver = NULL;
+
+          plrx = secfile_lookup_str(loading->file, "treaty%d.clause%d.from",
+                                    tidx, cidx);
+
+          if (!fc_strcasecmp(plrx, plr0)) {
+            pgiver = p0;
+          } else if (!fc_strcasecmp(plrx, plr1)) {
+            pgiver = p1;
+          } else {
+            log_error("Clause giver %s is not participant of the treaty"
+                      "between %s and %s", plrx, plr0, plr1);
+          }
+
+          if (pgiver != NULL) {
+            int value;
+
+            value = secfile_lookup_int_default(loading->file, 0,
+                                               "treaty%d.clause%d.value",
+                                               tidx, cidx);
+
+            add_clause(ptreaty, pgiver, type, value);
+          }
+        }
+
+        /* These must be after clauses have been added so that acceptance
+         * does not get cleared by what seems like changes to the treaty. */
+        ptreaty->accept0 = secfile_lookup_bool_default(loading->file, FALSE,
+                                                       "treaty%d.accept0", tidx);
+        ptreaty->accept1 = secfile_lookup_bool_default(loading->file, FALSE,
+                                                       "treaty%d.accept1", tidx);
+      }
+    }
+  }
 }
 
 /* =======================================================================
