@@ -973,6 +973,12 @@ static void begin_phase(bool is_new_phase)
 
   dlsend_packet_start_phase(game.est_connections, game.info.phase);
 
+  if (!is_new_phase) {
+    conn_list_iterate(game.est_connections, pconn) {
+      send_diplomatic_meetings(pconn);
+    } conn_list_iterate_end;
+  }
+
   /* Must be the first thing as it is needed for lots of functions below! */
   phase_players_iterate(pplayer) {
     /* human players also need this for building advice */
