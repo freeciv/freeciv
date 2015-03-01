@@ -56,6 +56,8 @@ struct main Main;
 
 static SDL_Surface *main_surface;
 
+static bool render_dirty = TRUE;
+
 /**************************************************************************
   Allocate new gui_layer.
 **************************************************************************/
@@ -206,6 +208,7 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
 int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
                 unsigned char alpha_mod)
 {
+  render_dirty = TRUE;
   return alphablit(src, srcrect, main_surface, dstrect, alpha_mod);
 }
 
@@ -735,11 +738,15 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 **************************************************************************/
 void update_main_screen(void)
 {
-  SDL_UpdateTexture(Main.maintext, NULL,
-                    main_surface->pixels, main_surface->pitch);
-  SDL_RenderClear(Main.renderer);
-  SDL_RenderCopy(Main.renderer, Main.maintext, NULL, NULL);
-  SDL_RenderPresent(Main.renderer);
+  if (render_dirty) {
+    SDL_UpdateTexture(Main.maintext, NULL,
+                      main_surface->pixels, main_surface->pitch);
+    SDL_RenderClear(Main.renderer);
+    SDL_RenderCopy(Main.renderer, Main.maintext, NULL, NULL);
+    SDL_RenderPresent(Main.renderer);
+
+    render_dirty = FALSE;
+  }
 }
 
 /**************************************************************************
