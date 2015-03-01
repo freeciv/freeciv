@@ -700,9 +700,6 @@ void handle_unit_get_actions(struct connection *pc,
   Tell the client that the action it requested is illegal. This can be
   caused by the player (and therefore the client) not knowing that some
   condition of an action no longer is true.
-
-  Remember to stop using E_MY_DIPLOMAT_FAILED if non diplomat actions start
-  using it.
 **************************************************************************/
 static void illegal_action(struct player *pplayer,
                            struct unit *actor,
@@ -725,7 +722,7 @@ static void illegal_action(struct player *pplayer,
   send_unit_info(NULL, actor);
 
   notify_player(pplayer, unit_tile(actor),
-                E_MY_DIPLOMAT_FAILED, ftc_server,
+                E_UNIT_ILLEGAL_ACTION, ftc_server,
                 _("Your %s was unable to %s."),
                 unit_name_translation(actor),
                 gen_action_translated_name(stopped_action));

@@ -152,6 +152,7 @@ extern "C" {
 #define SPECENUM_VALUE114 E_MY_SPY_STEAL_GOLD
 #define SPECENUM_VALUE115 E_ENEMY_SPY_STEAL_GOLD
 #define SPECENUM_VALUE116 E_EXTRA_SPREAD
+#define SPECENUM_VALUE117 E_UNIT_ILLEGAL_ACTION
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to
