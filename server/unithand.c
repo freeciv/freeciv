@@ -2968,6 +2968,13 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_UNKNOWN:
         return;
       }
+
+      if (activity_requires_target(packet->activity[i])
+          && packet->target[i] == EXTRA_NONE) {
+        /* The orders system can't do server side target assignment. */
+        return;
+      }
+
       break;
     case ORDER_FULL_MP:
     case ORDER_BUILD_CITY:
