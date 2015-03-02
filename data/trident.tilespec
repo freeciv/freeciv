@@ -95,10 +95,10 @@ files =
 ; Terrain info - see README.graphics
 
 [layer0]
-match_types = "arctic", "desert", "forest", "grassland", "hills", "jungle", "mountains", "water", "plains", "swamp", "tundra"
+match_types = "desert", "forest", "grassland", "hills", "jungle", "mountains", "water", "plains", "swamp", "tundra"
 
 [layer1]
-match_types = "water"
+match_types = "water", "arctic"
 
 [layer2]
 match_types = "water"
@@ -109,6 +109,7 @@ match_types = "water"
 blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
+layer0_match_with = "water"
 layer1_match_type = "water"
 layer1_match_with = "water"
 layer2_match_type = "water"
@@ -119,6 +120,29 @@ layer2_sprite_type = "corner"
 blend_layer = 0
 num_layers = 3
 layer0_match_type = "water"
+layer0_match_with = "water"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer2_match_type = "water"
+layer2_match_with = "water"
+layer2_sprite_type = "corner"
+
+[tile_lake]
+blend_layer = 0
+num_layers = 3
+layer0_match_type = "water"
+layer0_match_with = "water"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer2_match_type = "water"
+layer2_match_with = "water"
+layer2_sprite_type = "corner"
+
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 3
+layer0_match_type = "water"
+layer0_match_with = "water"
 layer1_match_type = "water"
 layer1_match_with = "water"
 layer2_match_type = "water"
@@ -127,75 +151,74 @@ layer2_sprite_type = "corner"
 
 ; Land graphics referenced by terrain.ruleset
 ;
-[tile_inaccessible]
-blend_layer = 0
-num_layers = 3
-layer0_match_type = "water"
-layer1_match_type = "water"
-layer1_match_with = "water"
-layer2_match_type = "water"
-layer2_match_with = "water"
-layer2_sprite_type = "corner"
-
 [tile_arctic]
 blend_layer = 0
-num_layers = 1
-layer0_match_type = "arctic"
-layer0_match_with = "arctic"
+num_layers = 2
+layer0_match_type = "water"
+layer0_match_with = "water"
+layer1_match_type = "arctic"
 
 [tile_desert]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "desert"
 layer0_match_with = "desert"
+layer1_match_type = "water"
 
 [tile_forest]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "forest"
 layer0_match_with = "forest"
+layer1_match_type = "water"
 
 [tile_grassland]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "grassland"
-layer0_match_with = "grassland"
+layer1_match_type = "water"
 
 [tile_hills]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "hills"
 layer0_match_with = "hills"
+layer1_match_type = "water"
 
 [tile_jungle]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "jungle"
 layer0_match_with = "jungle"
+layer1_match_type = "water"
 
 [tile_mountains]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "mountains"
 layer0_match_with = "mountains"
+layer1_match_type = "water"
 
 [tile_plains]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "plains"
 layer0_match_with = "plains"
+layer1_match_type = "water"
 
 [tile_swamp]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "swamp"
 layer0_match_with = "swamp"
+layer1_match_type = "water"
 
 [tile_tundra]
 blend_layer = 0
-num_layers = 1
+num_layers = 2
 layer0_match_type = "tundra"
 layer0_match_with = "tundra"
+layer1_match_type = "water"
 
 [extras]
 styles =
