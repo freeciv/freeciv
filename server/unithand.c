@@ -851,6 +851,11 @@ void handle_unit_do_action(struct player *pplayer,
     return;
   }
 
+  if (!unit_can_do_action_now(actor_unit)) {
+    /* Action not possible due to unitwaittime setting. */
+    return;
+  }
+
 #define ACTION_STARTED_UNIT_CITY(action, actor, target)                   \
   script_server_signal_emit("action_started_unit_city", 3,                \
                             API_TYPE_ACTION, action_by_number(action),    \
