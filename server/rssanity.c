@@ -302,7 +302,7 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
 /**************************************************************************
   Sanity check callback for iterating effects cache.
 **************************************************************************/
-static bool effect_list_sanity_cb(const struct effect *peffect, void *data)
+static bool effect_list_sanity_cb(struct effect *peffect, void *data)
 {
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */

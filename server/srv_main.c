@@ -637,13 +637,13 @@ static void do_reveal_effects(void)
 }
 
 /**************************************************************************
-  Give contact to players with the EFT_HAVE_EMBASSIES effect (traditionally
+  Give contact to players with the EFT_HAVE_CONTACTS effect (traditionally
   from Marco Polo's Embassy).
 **************************************************************************/
-static void do_have_embassies_effect(void)
+static void do_have_contacts_effect(void)
 {
   phase_players_iterate(pplayer) {
-    if (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0) {
+    if (get_player_bonus(pplayer, EFT_HAVE_CONTACTS) > 0) {
       players_iterate(pother) {
 	/* Note this gives pplayer contact with pother, but doesn't give
 	 * pother contact with pplayer.  This may cause problems in other
@@ -1149,7 +1149,7 @@ static void end_phase(void)
   flush_packets();  /* to curb major city spam */
 
   do_reveal_effects();
-  do_have_embassies_effect();
+  do_have_contacts_effect();
 
   phase_players_iterate(pplayer) {
     CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);

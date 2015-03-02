@@ -273,6 +273,8 @@ extern "C" {
 #define SPECENUM_VALUE105NAME "Retire_Pct"
 #define SPECENUM_VALUE106 EFT_ILLEGAL_ACTION_MOVE_COST
 #define SPECENUM_VALUE106NAME "Illegal_Action_Move_Cost"
+#define SPECENUM_VALUE107 EFT_HAVE_CONTACTS
+#define SPECENUM_VALUE107NAME "Have_Contacts"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
@@ -305,6 +307,7 @@ struct effect {
 #define effect_list_iterate_end LIST_ITERATE_END
 
 struct effect *effect_new(enum effect_type type, int value);
+struct effect *effect_copy(struct effect *old);
 void effect_req_append(struct effect *peffect, struct requirement req);
 
 struct astring;
@@ -392,7 +395,7 @@ int get_potential_improvement_bonus(struct impr_type *pimprove,
 
 struct effect_list *get_effects(enum effect_type effect_type);
 
-typedef bool (*iec_cb)(const struct effect*, void *data);
+typedef bool (*iec_cb)(struct effect*, void *data);
 bool iterate_effect_cache(iec_cb cb, void *data);
 
 #ifdef __cplusplus

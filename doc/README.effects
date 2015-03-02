@@ -156,8 +156,12 @@ Growth_Food
     Food left after cities grow or shrink is amount percent of the capacity of 
 the city's foodbox. This also affects the 'aqueductloss' penalty.
 
+Have_Contact
+    If value > 0, gives contact to all the other players.
+
 Have_Embassies
-    Like having embassies with all other players.
+    If value > 0, gives an embassy with all the other players owner has ever
+    had contact with.
 
 Irrigation_Pct
     Irrigation output of the tile is value %.

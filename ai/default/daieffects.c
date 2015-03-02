@@ -315,8 +315,11 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
       v += amount * (game.info.sciencebox + 1);
     }
     break;
+  case EFT_HAVE_CONTACTS:
+    v += 3 * nplayers;
+    break; 
   case EFT_HAVE_EMBASSIES:
-    v += 5 * nplayers;
+    v += 2 * nplayers;
     break;
   case EFT_REVEAL_CITIES:
   case EFT_NO_ANARCHY:

@@ -198,6 +198,7 @@ bool player_has_embassy_from_effect(const struct player *pplayer,
                                     const struct player *pplayer2)
 {
   return (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
+          && player_diplstate_get(pplayer, pplayer2)->type != DS_NO_CONTACT
           && !is_barbarian(pplayer2));
 }
 

@@ -428,7 +428,15 @@ reqs	=
       "Building", "Training Facility", "City"
     }
 
-[effect_communication]
+[effect_communication_contact]
+type    = "Have_Contacts"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Communication", "Player"
+    }
+
+[effect_communication_embassy]
 type    = "Have_Embassies"
 value	= 1
 reqs	=

@@ -27,6 +27,7 @@
 
 /* common */
 #include "actions.h"
+#include "effects.h"
 #include "requirements.h"
 #include "unittype.h"
 
@@ -159,6 +160,21 @@ bool rscompat_names(struct rscompat_info *info)
 }
 
 /**************************************************************************
+  Adjust effects
+**************************************************************************/
+static bool effect_list_compat_cb(struct effect *peffect, void *data)
+{
+  if (peffect->type == EFT_HAVE_EMBASSIES) {
+    /* Create "Have_Contacts" effect matching each "Have_Embassies" */
+    struct effect *contacts = effect_copy(peffect);
+
+    contacts->type = EFT_HAVE_CONTACTS;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Do compatibility things after regular ruleset loading.
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
@@ -206,4 +222,6 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     action_enabler_add(capture);
   }
+
+  iterate_effect_cache(effect_list_compat_cb, NULL);
 }

@@ -576,7 +576,7 @@ typedef struct {
 /**************************************************************************
   Save one effect. Callback called for each effect in cache.
 **************************************************************************/
-static bool effect_save(const struct effect *peffect, void *data)
+static bool effect_save(struct effect *peffect, void *data)
 {
   effect_cb_data *cbdata = (effect_cb_data *)data;
   char path[512];

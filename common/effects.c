@@ -183,7 +183,24 @@ struct effect *effect_new(enum effect_type type, int value)
   /* Now add the effect to the ruleset cache. */
   effect_list_append(ruleset_cache.tracker, peffect);
   effect_list_append(get_effects(type), peffect);
+
   return peffect;
+}
+
+/**************************************************************************
+  Return new copy of the effect
+**************************************************************************/
+struct effect *effect_copy(struct effect *old)
+{
+  struct effect *new_eff = effect_new(old->type, old->value);
+
+  new_eff->multiplier = old->multiplier;
+
+  requirement_vector_iterate(&old->reqs, preq) {
+    effect_req_append(new_eff, *preq);
+  } requirement_vector_iterate_end;
+
+  return new_eff;
 }
 
 /**************************************************************************

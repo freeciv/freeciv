@@ -55,7 +55,7 @@ struct effect_list_cb_data
 /**************************************************************************
   Callback to check if effect needs universal.
 **************************************************************************/
-static bool effect_list_universal_needed_cb(const struct effect *peffect,
+static bool effect_list_universal_needed_cb(struct effect *peffect,
                                             void *data)
 {
   struct effect_list_cb_data *cbdata = (struct effect_list_cb_data *)data;
