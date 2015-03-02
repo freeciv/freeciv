@@ -1246,14 +1246,7 @@ int server_open_socket(void)
     log_error("Lan bind failed: %s", fc_strerror(fc_get_errno()));
   }
 
-#ifndef IPV6_SUPPORT
-  if (addr.saddr.sa_family == AF_INET) {
-#ifdef HAVE_INET_ATON
-    inet_aton(group, &mreq4.imr_multiaddr);
-#else  /* HAVE_INET_ATON */
-    mreq4.imr_multiaddr.s_addr = inet_addr(group);
-#endif /* HAVE_INET_ATON */
-#else  /* IPv6 support */
+#ifdef IPV6_SUPPORT
   if (addr.saddr.sa_family == AF_INET6) {
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
@@ -1262,9 +1255,10 @@ int server_open_socket(void)
       log_error("FC_IPV6_ADD_MEMBERSHIP (%s) failed: %s",
                 group, fc_strerror(fc_get_errno()));
     }
-  } else if (addr.saddr.sa_family == AF_INET) {
-    inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
-#endif /* IPv6 support */
+  } else
+#endif /* IPV6 Support */
+  if (addr.saddr.sa_family == AF_INET) {
+    fc_inet_aton(group, &mreq4.imr_multiaddr, FALSE);
     mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
 
     if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP,

@@ -427,19 +427,12 @@ struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
     return addrs;
   }
 
-#if defined(HAVE_INET_ATON)
-  if (inet_aton(name, &sock4->sin_addr) != 0) {
+  if (fc_inet_aton(name, &sock4->sin_addr, FALSE)) {
     fc_sockaddr_list_append(addrs, result);
 
     return addrs;
   }
-#else  /* HAVE_INET_ATON */
-  if ((sock4->sin_addr.s_addr = inet_addr(name)) != INADDR_NONE) {
-    fc_sockaddr_list_append(addrs, result);
 
-    return addrs;
-  }
-#endif /* HAVE_INET_ATON */
   hp = gethostbyname(name);
   if (!hp || hp->h_addrtype != AF_INET) {
     FC_FREE(result);
@@ -454,6 +447,34 @@ struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
 
 #endif /* !HAVE_GETADDRINFO */
 
+}
+
+/*************************************************************************
+  Convert internet IPv4 host address to binary form and store it to inp.
+  Return FALSE on failure if possible, i.e., FALSE is guarantee that it
+  failed but TRUE is not guarantee that it succeeded.
+*************************************************************************/
+bool fc_inet_aton(const char *cp, struct in_addr *inp, bool addr_none_ok)
+{
+#ifdef IPV6_SUPPORT
+  /* Use inet_pton() */
+  if (!inet_pton(AF_INET, cp, &inp->s_addr)) {
+    return FALSE;
+  }
+#else  /* IPv6 Support */
+#ifdef HAVE_INET_ATON
+  if (!inet_aton(cp, inp)) {
+    return FALSE;
+  }
+#else  /* HAVE_INET_ATON */
+  inp->s_addr = inet_addr(cp);
+  if (!addr_none_ok && inp->s_addr == INADDR_NONE) {
+    return FALSE;
+  }
+#endif /* HAVE_INET_ATON */
+#endif /* IPv6 Support */
+
+  return TRUE;
 }
 
 /*************************************************************************
@@ -603,12 +624,7 @@ int find_next_free_port(int starting_port, enum fc_addr_family family,
     sock4->sin_family = AF_INET;
     sock4->sin_port = htons(port);
     if (net_interface != NULL) {
-#if defined(HAVE_INET_ATON)
-      if (inet_aton(net_interface, &sock4->sin_addr) == 0) {
-#else /* HAVE_INET_ATON */
-      sock4->sin_addr.s_addr = inet_addr(net_interface);
-      if (sock4->sin_addr.s_addr == INADDR_NONE) {
-#endif /* HAVE_INET_ATON */
+      if (!fc_inet_aton(net_interface, &sock4->sin_addr, FALSE)) {
         struct hostent *hp;
 
         hp = gethostbyname(net_interface);

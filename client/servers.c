@@ -389,21 +389,15 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   group = get_multicast_group(announce == ANNOUNCE_IPV6);
   memset(&addr, 0, sizeof(addr));
 
-#ifndef IPV6_SUPPORT
-  if (family == AF_INET) {
-#ifdef HAVE_INET_ATON
-    inet_aton(group, &addr.saddr_in4.sin_addr);
-#else  /* HAVE_INET_ATON */
-    addr.saddr_in4.sin_addr.s_addr = inet_addr(group);
-#endif /* HAVE_INET_ATON */
-#else  /* IPv6 support */
+#ifdef IPV6_SUPPORT
   if (family == AF_INET6) {
     addr.saddr.sa_family = AF_INET6;
     inet_pton(AF_INET6, group, &addr.saddr_in6.sin6_addr);
     addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
-  } else if (family == AF_INET) {
-    inet_pton(AF_INET, group, &addr.saddr_in4.sin_addr);
-#endif /* IPv6 support */
+  } else
+#endif /* IPv6 Support */
+  if (family == AF_INET) {
+    fc_inet_aton(group, &addr.saddr_in4.sin_addr, FALSE);
     addr.saddr.sa_family = AF_INET;
     addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
   } else {
@@ -490,14 +484,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-#ifndef IPV6_SUPPORT
-  {
-#ifdef HAVE_INET_ATON
-    inet_aton(group, &mreq4.imr_multiaddr);
-#else  /* HAVE_INET_ATON */
-    mreq4.imr_multiaddr.s_addr = inet_addr(group);
-#endif /* HAVE_INET_ATON */
-#else  /* IPv6 support */
+#ifdef IPV6_SUPPORT
   if (family == AF_INET6) {
     inet_pton(AF_INET6, group, &mreq6.ipv6mr_multiaddr.s6_addr);
     mreq6.ipv6mr_interface = 0; /* TODO: Interface selection */
@@ -506,9 +493,10 @@ static bool begin_lanserver_scan(struct server_scan *scan)
                    (const char*)&mreq6, sizeof(mreq6)) < 0) {
       scan->error_func(scan, fc_strerror(fc_get_errno()));
     }
-  } else {
-    inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
+  } else
 #endif /* IPv6 support */
+  {
+    fc_inet_aton(group, &mreq4.imr_multiaddr, FALSE);
     mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
 
     if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
