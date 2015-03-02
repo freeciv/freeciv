@@ -3271,6 +3271,7 @@ void tileset_setup_tile_type(struct tileset *t,
 	}
 	/* check for base sprite, allowing missing sprites above base */
 	if (0 == i  &&  0 == l) {
+          /* TRANS: 'base' means 'base of terrain gfx', not 'military base' */ 
           tileset_error(LOG_FATAL, _("Missing base sprite tag \"%s\"."), buffer);
 	}
 	break;
