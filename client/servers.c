@@ -452,7 +452,13 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   /* Create a socket for listening for server packets. */
   if ((scan->sock = socket(family, SOCK_DGRAM, 0)) < 0) {
-    scan->error_func(scan, fc_strerror(fc_get_errno()));
+    char errstr[2048];
+
+    fc_snprintf(errstr, sizeof(errstr),
+                _("Opening socket to listen LAN announcements failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+    scan->error_func(scan, errstr);
+
     return FALSE;
   }
 
@@ -486,7 +492,13 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   }
 
   if (bind(scan->sock, &addr.saddr, sockaddr_size(&addr)) < 0) {
-    scan->error_func(scan, fc_strerror(fc_get_errno()));
+    char errstr[2048];
+
+    fc_snprintf(errstr, sizeof(errstr),
+                _("Binding socket to listen LAN announcements failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+    scan->error_func(scan, errstr);
+
     return FALSE;
   }
 
@@ -504,7 +516,12 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
     if (setsockopt(scan->sock, IPPROTO_IPV6, FC_IPV6_ADD_MEMBERSHIP,
                    (const char*)&mreq6, sizeof(mreq6)) < 0) {
-      scan->error_func(scan, fc_strerror(fc_get_errno()));
+      char errstr[2048];
+
+      fc_snprintf(errstr, sizeof(errstr),
+                  _("Adding membership for IPv6 LAN announcement group failed:\n%s"),
+                fc_strerror(fc_get_errno()));
+      scan->error_func(scan, errstr);
     }
   } else {
     inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
@@ -513,7 +530,13 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
     if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
                    (const char*)&mreq4, sizeof(mreq4)) < 0) {
-      scan->error_func(scan, fc_strerror(fc_get_errno()));
+      char errstr[2048];
+
+      fc_snprintf(errstr, sizeof(errstr),
+                  _("Adding membership for IPv4 LAN announcement group failed:\n%s"),
+                  fc_strerror(fc_get_errno()));
+      scan->error_func(scan, errstr);
+
       return FALSE;
     }
   }
