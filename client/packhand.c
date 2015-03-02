@@ -1620,6 +1620,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->upkeep[o] = packet_unit->upkeep[o];
     } output_type_iterate_end;
 
+    punit->nationality = packet_unit->nationality;
     punit->veteran = packet_unit->veteran;
     punit->moves_left = packet_unit->moves_left;
     punit->fuel = packet_unit->fuel;
