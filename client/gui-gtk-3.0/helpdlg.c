@@ -1119,6 +1119,8 @@ static void help_update_terrain(const struct help_item *pitem,
   create_help_page(HELP_TERRAIN);
 
   if (pterrain) {
+    struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
+
     sprintf(buf, "%d/%d.%d",
 	    pterrain->movement_cost,
 	    (int)((pterrain->defense_bonus + 100) / 100),
@@ -1152,38 +1154,47 @@ static void help_update_terrain(const struct help_item *pitem,
 
     strcpy(buf, _("n/a"));
     if (pterrain->irrigation_result == pterrain) {
-      if (pterrain->irrigation_food_incr > 0) {
-	sprintf(buf, _("+%d Food / %d"),
-		pterrain->irrigation_food_incr,
-		pterrain->irrigation_time);
+      if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+        if (pterrain->irrigation_food_incr > 0) {
+          sprintf(buf, _("+%d Food / %d"),
+                  pterrain->irrigation_food_incr,
+                  pterrain->irrigation_time);
+        }
       }
     } else if (pterrain->irrigation_result != T_NONE) {
-      sprintf(buf, "%s / %d",
-	      terrain_name_translation(pterrain->irrigation_result),
-	      pterrain->irrigation_time);
+      if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+        sprintf(buf, "%s / %d",
+                terrain_name_translation(pterrain->irrigation_result),
+                pterrain->irrigation_time);
+      }
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[2][1]), buf);
 
     strcpy(buf, _("n/a"));
     if (pterrain->mining_result == pterrain) {
-      if (pterrain->mining_shield_incr > 0) {
-	sprintf(buf, _("+%d Res. / %d"),
-		pterrain->mining_shield_incr,
-		pterrain->mining_time);
+      if (effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
+        if (pterrain->mining_shield_incr > 0) {
+          sprintf(buf, _("+%d Res. / %d"),
+                  pterrain->mining_shield_incr,
+                  pterrain->mining_time);
+        }
       }
     } else if (pterrain->mining_result != T_NONE) {
-      sprintf(buf, "%s / %d",
-	      terrain_name_translation(pterrain->mining_result),
-	      pterrain->mining_time);
+      if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+        sprintf(buf, "%s / %d",
+                terrain_name_translation(pterrain->mining_result),
+                pterrain->mining_time);
+      }
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[2][4]), buf);
 
+    strcpy(buf, "n/a");
     if (pterrain->transform_result != T_NONE) {
-      sprintf(buf, "%s / %d",
-	      terrain_name_translation(pterrain->transform_result),
-	      pterrain->transform_time);
-    } else {
-      strcpy(buf, "n/a");
+      if (effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+        sprintf(buf, "%s / %d",
+                terrain_name_translation(pterrain->transform_result),
+                pterrain->transform_time);
+      }
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[3][1]), buf);
   }

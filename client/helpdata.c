@@ -221,6 +221,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         char irrigation_time[4], mining_time[4], transform_time[4];
         const char *terrain, *irrigation_result,
                    *mining_result,*transform_result;
+        struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
 
         fc_snprintf(irrigation_time, sizeof(irrigation_time),
                     "%d", pterrain->irrigation_time);
@@ -231,15 +232,18 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         terrain = terrain_name_translation(pterrain);
         irrigation_result = 
           (pterrain->irrigation_result == pterrain
-           || pterrain->irrigation_result == T_NONE) ? ""
+           || pterrain->irrigation_result == T_NONE
+           || effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) <= 0) ? ""
           : terrain_name_translation(pterrain->irrigation_result);
         mining_result =
           (pterrain->mining_result == pterrain
-           || pterrain->mining_result == T_NONE) ? ""
+           || pterrain->mining_result == T_NONE
+           || effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) <= 0) ? ""
           : terrain_name_translation(pterrain->mining_result);
         transform_result =
           (pterrain->transform_result == pterrain
-           || pterrain->transform_result == T_NONE) ? ""
+           || pterrain->transform_result == T_NONE
+           || effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) <= 0) ? ""
           : terrain_name_translation(pterrain->transform_result);
         /* Use get_internal_string_length() for correct alignment with
          * multibyte character encodings */
@@ -2721,7 +2725,7 @@ void boot_help_texts(struct player *pplayer)
   /* need to do something like this or bad things happen */
   popdown_help_dialog();
 
-  if(!booted) {
+  if (!booted) {
     log_verbose("Booting help texts");
   } else {
     /* free memory allocated last time booted */
@@ -2757,8 +2761,8 @@ void boot_help_texts(struct player *pplayer)
         if (!booted) {
           continue; /* on initial boot data tables are empty */
         }
-        for(i=2; help_type_names[i]; i++) {
-          if(strcmp(gen_str, help_type_names[i])==0) {
+        for (i = 2; help_type_names[i]; i++) {
+          if (strcmp(gen_str, help_type_names[i]) == 0) {
             current_type = i;
             break;
           }

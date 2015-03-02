@@ -3346,6 +3346,29 @@ static enum item_found unit_type_found(const struct requirement *preq,
   };
 }
 
+/*************************************************************************
+  Find if a terrain type fulfills a requirement
+**************************************************************************/
+static enum item_found terrain_type_found(const struct requirement *preq,
+                                          const struct universal *source)
+{
+  fc_assert(source->value.terrain);
+
+  switch (preq->source.kind) {
+  case VUT_TERRAIN:
+    return source->value.terrain == preq->source.value.terrain ? ITF_YES : ITF_NO;
+  case VUT_TERRAINCLASS:
+    return terrain_type_terrain_class(source->value.terrain) == preq->source.value.terrainclass
+      ? ITF_YES : ITF_NO;
+  case VUT_TERRFLAG:
+    return terrain_has_flag(source->value.terrain,
+                            preq->source.value.terrainflag) ? ITF_YES : ITF_NO;
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  };
+}
+
 /************************************************************************
   Initialise universal_found_callbacks array.
 *************************************************************************/
@@ -3355,6 +3378,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_IMPROVEMENT] = &improvement_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
+  universal_found_function[VUT_TERRAIN] = &terrain_type_found;
 }
 
 /**************************************************************************
