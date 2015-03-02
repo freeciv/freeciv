@@ -5655,6 +5655,10 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
     graphic = &t->sprites.specialist[type - CITIZEN_SPECIALIST];
   }
 
+  if (graphic->count == 0) {
+    return NULL;
+  }
+
   return graphic->sprite[gfx_index % graphic->count];
 }
 
