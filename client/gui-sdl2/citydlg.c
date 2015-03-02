@@ -34,6 +34,7 @@
 /* common */
 #include "game.h"
 #include "movement.h"
+#include "specialist.h"
 #include "unitlist.h"
 
 /* client */
@@ -96,12 +97,9 @@ static struct city_dialog {
   struct widget *pResource_Map;
   struct widget *pCity_Name_Edit;
 
-  SDL_Rect specs_area[3];  /* active area of specialist
-                              0 - elvis
-                              1 - taxman
-                              2 - scientists
-                              change when pressed on this area */
-  bool specs[3];
+  int citizen_step;
+
+  SDL_Rect spec_area;
 
   bool lock;
 } *pCityDlg = NULL;
@@ -193,8 +191,8 @@ static void del_city_dialog(void)
 }
 
 /**************************************************************************
-  Main Citu Dlg. window callback.
-  Here was implemented change specialist ( Elvis, Taxman, Scientist ) code. 
+  Main City Dlg. window callback.
+  This implements specialist change ( Elvis, Taxman, Scientist )
 **************************************************************************/
 static int city_dlg_callback(struct widget *pWindow)
 {
@@ -202,27 +200,12 @@ static int city_dlg_callback(struct widget *pWindow)
     if (!cma_is_city_under_agent(pCityDlg->pCity, NULL)
         && city_owner(pCityDlg->pCity) == client.conn.playing) {
 
-      /* check elvis area */
-      if (pCityDlg->specs[0]
-          && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
-                             pCityDlg->specs_area[0])) {
-        city_change_specialist(pCityDlg->pCity, SP_ELVIS, SP_TAXMAN);
-        return -1;
-      }
+      if (is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
+                          pCityDlg->spec_area)) {
+        city_rotate_specialist(pCityDlg->pCity,
+                               (Main.event.motion.x - pCityDlg->spec_area.x)
+                               / pCityDlg->citizen_step);
 
-      /* check TAXMANs area */
-      if (pCityDlg->specs[1]
-          && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
-                             pCityDlg->specs_area[1])) {
-        city_change_specialist(pCityDlg->pCity, SP_TAXMAN, SP_SCIENTIST);
-        return -1;
-      }
-
-      /* check SCIENTISTs area */
-      if (pCityDlg->specs[2]
-          && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
-                             pCityDlg->specs_area[2])) {
-        city_change_specialist(pCityDlg->pCity, SP_SCIENTIST, SP_ELVIS);
         return -1;
       }
     }
@@ -2071,8 +2054,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 
   count = (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]
            + pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]
-           + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
-           + pCity->specialists[SP_TAXMAN]);
+           + city_specialists(pCity));
 
   if (count * pIcons->pMale_Happy->w > adj_size(166)) {
     step = (adj_size(166) - pIcons->pMale_Happy->w) / (count - 1);
@@ -2085,6 +2067,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
         || pCity->feel[CITIZEN_CONTENT][j - 1] != pCity->feel[CITIZEN_CONTENT][j]
         || pCity->feel[CITIZEN_UNHAPPY][j - 1] != pCity->feel[CITIZEN_UNHAPPY][j]
         || pCity->feel[CITIZEN_ANGRY][j - 1] != pCity->feel[CITIZEN_ANGRY][j]) {
+      int spe, spe_max;
 
       if (j != 0) {
         putline(pCityWindow->dst->renderer,
@@ -2145,24 +2128,13 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
         }
       }
 
-      if (pCity->specialists[SP_ELVIS]) {
-        for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
-          alphablit(pIcons->pSpec_Lux, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.x += step;
-        }
-      }
-
-      if (pCity->specialists[SP_TAXMAN]) {
-        for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
-          alphablit(pIcons->pSpec_Tax, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.x += step;
-        }
-      }
-
-      if (pCity->specialists[SP_SCIENTIST]) {
-        for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
-          alphablit(pIcons->pSpec_Sci, NULL, pCityWindow->dst->surface, &dest, 255);
-          dest.x += step;
+      spe_max = specialist_count();
+      for (spe = 0 ; spe < spe_max; spe++) {
+        if (pCity->specialists[spe]) {
+          for (i = 0; i < pCity->specialists[spe]; i++) {
+            alphablit(pIcons->specialists[spe], NULL, pCityWindow->dst->surface, &dest, 255);
+            dest.x += step;
+          }
         }
       }
 
@@ -2492,6 +2464,7 @@ static void redraw_city_dialog(struct city *pCity)
   struct widget *pWindow = pCityDlg->pEndCityWidgetList;
   SDL_Surface *pBuf = NULL, *pBuf2 = NULL;
   SDL_String16 *pStr = NULL;
+  int spe, spe_max;
 
   refresh_city_names(pCity);
 
@@ -3276,7 +3249,7 @@ static void redraw_city_dialog(struct city *pCity)
       i = count * step;
     }
 
-    /* draw sheild stock background */
+    /* draw shield stock background */
     dest.x = pWindow->size.x + adj_size(28);
     dest.y = pWindow->size.y + adj_size(270);
     dest.w = adj_size(144);
@@ -3349,10 +3322,9 @@ static void redraw_city_dialog(struct city *pCity)
   /* Draw Citizens */
   count = (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]
 	   + pCity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_ANGRY][FEELING_FINAL]
-	   + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
-	   + pCity->specialists[SP_TAXMAN]);
+	   + city_specialists(pCity));
 
-  pBuf = get_tax_surface(O_LUXURY);
+  pBuf = get_citizen_surface(CITIZEN_HAPPY, 0);
 
   if (count > 13) {
     step = (adj_size(440) - pBuf->w) / (adj_size(12 + count - 13));
@@ -3360,10 +3332,14 @@ static void redraw_city_dialog(struct city *pCity)
     step = pBuf->w;
   }
 
+  pCityDlg->citizen_step = step;
+
   dest.x = pWindow->size.x + adj_size(198);
   dest.y = pWindow->size.y + pWindow->area.y + adj_size(1) + (adj_size(22) - pBuf->h) / 2;
-
-  FREESURFACE(pBuf);
+  pCityDlg->spec_area.x = pWindow->dst->dest_rect.x + dest.x;
+  pCityDlg->spec_area.y = pWindow->dst->dest_rect.y + dest.y;
+  pCityDlg->spec_area.w = count * step;
+  pCityDlg->spec_area.h = pBuf->h;
 
   if (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL]) {
     for (i = 0; i < pCity->feel[CITIZEN_HAPPY][FEELING_FINAL]; i++) {
@@ -3405,59 +3381,17 @@ static void redraw_city_dialog(struct city *pCity)
     }
   }
 
-  pCityDlg->specs[0] = FALSE;
-  pCityDlg->specs[1] = FALSE;
-  pCityDlg->specs[2] = FALSE;
+  spe_max = specialist_count();
+  for (spe = 0; spe < spe_max; spe++) {
+    if (pCity->specialists[spe] > 0) {
+      pBuf = adj_surf(get_citizen_surface(CITIZEN_SPECIALIST + spe, i));
 
-  if (pCity->specialists[SP_ELVIS]) {
-    pBuf = get_tax_surface(O_LUXURY);
-
-    pCityDlg->specs_area[0].x = pWindow->dst->dest_rect.x + dest.x;
-    pCityDlg->specs_area[0].y = pWindow->dst->dest_rect.y + dest.y;
-    pCityDlg->specs_area[0].w = pBuf->w;
-    pCityDlg->specs_area[0].h = pBuf->h;
-    for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
-      alphablit(pBuf, NULL, pWindow->dst->surface, &dest, 255);
-      dest.x += step;
-      pCityDlg->specs_area[0].w += step;
+      for (i = 0; i < pCity->specialists[spe]; i++) {
+        alphablit(pBuf, NULL, pWindow->dst->surface, &dest, 255);
+        dest.x += step;
+      }
+      FREESURFACE(pBuf);
     }
-    FREESURFACE(pBuf);
-    pCityDlg->specs_area[0].w -= step;
-    pCityDlg->specs[0] = TRUE;
-  }
-
-  if (pCity->specialists[SP_TAXMAN]) {
-    pBuf = get_tax_surface(O_GOLD);
-
-    pCityDlg->specs_area[1].x = pWindow->dst->dest_rect.x + dest.x;
-    pCityDlg->specs_area[1].y = pWindow->dst->dest_rect.y + dest.y;
-    pCityDlg->specs_area[1].w = pBuf->w;
-    pCityDlg->specs_area[1].h = pBuf->h;
-    for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
-      alphablit(pBuf, NULL, pWindow->dst->surface, &dest, 255);
-      dest.x += step;
-      pCityDlg->specs_area[1].w += step;
-    }
-    FREESURFACE(pBuf);
-    pCityDlg->specs_area[1].w -= step;
-    pCityDlg->specs[1] = TRUE;
-  }
-
-  if (pCity->specialists[SP_SCIENTIST]) {
-    pBuf = get_tax_surface(O_SCIENCE);
-
-    pCityDlg->specs_area[2].x = pWindow->dst->dest_rect.x + dest.x;
-    pCityDlg->specs_area[2].y = pWindow->dst->dest_rect.y + dest.y;
-    pCityDlg->specs_area[2].w = pBuf->w;
-    pCityDlg->specs_area[2].h = pBuf->h;
-    for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
-      alphablit(pBuf, NULL, pWindow->dst->surface, &dest, 255);
-      dest.x += step;
-      pCityDlg->specs_area[2].w += step;
-    }
-    FREESURFACE(pBuf);
-    pCityDlg->specs_area[2].w -= step;
-    pCityDlg->specs[2] = TRUE;
   }
 
   /* ==================================================== */
