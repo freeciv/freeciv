@@ -805,6 +805,11 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
   pterrain = terrain_by_translated_name(title);
   if (pterrain) {
+    struct universal for_terr;
+
+    for_terr.kind = VUT_TERRAIN;
+    for_terr.value.terrain = pterrain;
+
     helptext_terrain(buffer, sizeof(buffer), client.conn.playing,
                      topic->text, pterrain);
     text_browser->setText(buffer);
@@ -837,60 +842,70 @@ void help_widget::set_topic_terrain(const help_item *topic,
     add_info_separator();
 
     if (pterrain->irrigation_result == pterrain) {
-      add_info_label(
-        // TRANS: When irrigated, terrain gets a bonus of %1 food;
-        //        irrigating takes %2 turns
-        QString(_(ngettext(
-          "Irrigation: +%1 food in %2 turn",
-          "Irrigation: +%1 food in %2 turns",
-          pterrain->irrigation_time)))
-        .arg(pterrain->irrigation_food_incr)
-        .arg(pterrain->irrigation_time));
+      if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+        add_info_label(
+          // TRANS: When irrigated, terrain gets a bonus of %1 food;
+          //        irrigating takes %2 turns
+          QString(_(ngettext(
+            "Irrigation: +%1 food in %2 turn",
+            "Irrigation: +%1 food in %2 turns",
+            pterrain->irrigation_time)))
+          .arg(pterrain->irrigation_food_incr)
+          .arg(pterrain->irrigation_time));
+      }
     } else if (pterrain->irrigation_result) {
-      add_info_label(
-        // TRANS: When irrigated, terrain gets changed to other terrain %1
-        //        in %2 turns
-        QString(_(ngettext(
-          "Irrigation: %1 in %2 turn",
-          "Irrigation: %1 in %2 turns",
-          pterrain->irrigation_time)))
-        .arg(terrain_name_translation(pterrain->irrigation_result))
-        .arg(pterrain->irrigation_time));
+      if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+        add_info_label(
+          // TRANS: When irrigated, terrain gets changed to other terrain %1
+          //        in %2 turns
+          QString(_(ngettext(
+            "Irrigation: %1 in %2 turn",
+            "Irrigation: %1 in %2 turns",
+            pterrain->irrigation_time)))
+          .arg(terrain_name_translation(pterrain->irrigation_result))
+          .arg(pterrain->irrigation_time));
+      }
     }
 
     if (pterrain->mining_result == pterrain) {
-      add_info_label(
-        // TRANS: When mined, terrain gets a bonus of %1 food; mining takes
-        //        %2 turns
-        QString(_(ngettext(
-          "Mining: +%1 food in %2 turn",
-          "Mining: +%1 food in %2 turns",
-          pterrain->mining_time)))
-        .arg(pterrain->mining_shield_incr)
-        .arg(pterrain->mining_time));
+      if (effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
+        add_info_label(
+          // TRANS: When mined, terrain gets a bonus of %1 food; mining takes
+          //        %2 turns
+          QString(_(ngettext(
+            "Mining: +%1 food in %2 turn",
+            "Mining: +%1 food in %2 turns",
+            pterrain->mining_time)))
+          .arg(pterrain->mining_shield_incr)
+          .arg(pterrain->mining_time));
+      }
     } else if (pterrain->mining_result) {
-      add_info_label(
-        // TRANS: When mined, terrain gets changed to other terrain %1
-        //        in %2 turns
-        QString(_(ngettext(
-          "Mining: %1 in %2 turn",
-          "Mining: %1 in %2 turns",
-          pterrain->mining_time)))
-        .arg(terrain_name_translation(pterrain->mining_result))
-        .arg(pterrain->mining_time));
+      if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+        add_info_label(
+          // TRANS: When mined, terrain gets changed to other terrain %1
+          //        in %2 turns
+          QString(_(ngettext(
+            "Mining: %1 in %2 turn",
+            "Mining: %1 in %2 turns",
+            pterrain->mining_time)))
+          .arg(terrain_name_translation(pterrain->mining_result))
+          .arg(pterrain->mining_time));
+      }
     }
 
     if (pterrain->transform_result &&
         pterrain->transform_result != pterrain) {
-      add_info_label(
-        // TRANS: When transformed, terrain gets changed to other terrain %1
-        //        in %2 turns
-        QString(_(ngettext(
-          "Transform: %1 in %2 turn",
-          "Transform: %1 in %2 turns",
-          pterrain->transform_time)))
-        .arg(terrain_name_translation(pterrain->transform_result))
-        .arg(pterrain->transform_time));
+      if (effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+        add_info_label(
+          // TRANS: When transformed, terrain gets changed to other terrain %1
+          //        in %2 turns
+          QString(_(ngettext(
+            "Transform: %1 in %2 turn",
+            "Transform: %1 in %2 turns",
+            pterrain->transform_time)))
+          .arg(terrain_name_translation(pterrain->transform_result))
+          .arg(pterrain->transform_time));
+      }
     }
 
     info_panel_done();
