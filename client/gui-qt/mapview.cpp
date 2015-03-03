@@ -1398,6 +1398,7 @@ void tileset_changed(void)
 
   gui()->unitinfo_wdg->update_arrow_pix();
   gui()->game_info_label->update_tileset();
+  update_unit_info_label(get_units_in_focus());
   destroy_city_dialog();
   /* Update science report if open */
   if (gui()->is_repo_dlg_open("SCI")) {
