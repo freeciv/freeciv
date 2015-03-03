@@ -166,7 +166,8 @@ static void update_players_menu(void)
       default:
 	gtk_widget_set_sensitive(players_war_command,
 				 can_client_issue_orders()
-				 && player_by_number(plrno) != client.conn.playing);
+                                 && !players_on_same_team(player_by_number(plrno),
+                                                          client.conn.playing));
       }
     } else {
       gtk_widget_set_sensitive(players_war_command, FALSE);
@@ -174,7 +175,8 @@ static void update_players_menu(void)
 
     gtk_widget_set_sensitive(players_vision_command,
 			     can_client_issue_orders()
-			     && gives_shared_vision(client.conn.playing, plr));
+			     && gives_shared_vision(client.conn.playing, plr)
+                             && !players_on_same_team(client.conn.playing, plr));
 
     gtk_widget_set_sensitive(players_meet_command, can_meet_with_player(plr));
     gtk_widget_set_sensitive(players_int_command, can_intel_with_player(plr));
