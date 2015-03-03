@@ -2891,6 +2891,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_TRANSFORM:
 	/* Simple activities. */
 	break;
+      case ACTIVITY_FORTIFYING:
       case ACTIVITY_SENTRY:
         if (i != length - 1) {
           /* Only allowed as the last order. */
@@ -2908,7 +2909,6 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       /* Not supported yet. */
-      case ACTIVITY_FORTIFYING:
       case ACTIVITY_CONVERT:
       case ACTIVITY_EXPLORE:
       case ACTIVITY_IDLE:

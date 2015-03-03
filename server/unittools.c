@@ -3815,7 +3815,9 @@ bool execute_orders(struct unit *punit)
     case ORDER_ACTIVITY:
       activity = order.activity;
       {
-        struct extra_type *pextra = extra_by_number(order.target);
+        struct extra_type *pextra = (order.target == EXTRA_NONE ?
+                                       NULL :
+                                       extra_by_number(order.target));
 
         if (can_unit_do_activity_targeted(punit, activity, pextra)) {
           punit->done_moving = TRUE;
