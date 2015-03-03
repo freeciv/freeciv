@@ -2927,9 +2927,10 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
-      if (activity_requires_target(packet->activity[i])
-          && packet->target[i] == EXTRA_NONE) {
-        /* The orders system can't do server side target assignment. */
+      if (packet->target[i] == EXTRA_NONE
+          && unit_activity_needs_target_from_client(packet->activity[i])) {
+        /* The orders system can't do server side target assignment for
+         * this activity. */
         return;
       }
 

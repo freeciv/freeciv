@@ -978,10 +978,28 @@ void unit_forget_last_activity(struct unit *punit)
 }
 
 /**************************************************************************
+  Return TRUE iff activity requires some sort of target to be specified by
+  the client.
+**************************************************************************/
+bool unit_activity_needs_target_from_client(enum unit_activity activity)
+{
+  switch (activity) {
+  case ACTIVITY_PILLAGE:
+    /* Can be set server side. */
+    return FALSE;
+  default:
+    return activity_requires_target(activity);
+  }
+}
+
+/**************************************************************************
   For some activities (currently only pillaging), the precise target can
   be assigned by the server rather than explicitly requested by the client.
   This function assigns a specific activity+target if the current
   settings are open-ended (otherwise leaves them unchanged).
+
+  Please update unit_activity_needs_target_from_client() if you add server
+  side unit activity target setting to more activities.
 **************************************************************************/
 void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
@@ -3818,6 +3836,45 @@ bool execute_orders(struct unit *punit)
         struct extra_type *pextra = (order.target == EXTRA_NONE ?
                                        NULL :
                                        extra_by_number(order.target));
+
+        if (pextra == NULL && activity_requires_target(order.activity)) {
+          /* Try to find a target extra before giving up this order or, if
+           * serious enough, all orders. */
+
+          enum unit_activity new_activity = order.activity;
+
+          unit_assign_specific_activity_target(punit,
+                                               &new_activity, &pextra);
+
+          if (new_activity != order.activity) {
+            /* At the time this code was written the only possible activity
+             * change from unit_assign_specific_activity_target() was from
+             * ACTIVITY_PILLAGE to ACTIVITY_IDLE. That would only happen
+             * when a target extra couldn't be found. -- Sveinung */
+            fc_assert_msg((order.activity == ACTIVITY_PILLAGE
+                           && new_activity == ACTIVITY_IDLE),
+                          "Skipping an order when canceling all orders may"
+                          " have been the correct thing to do.");
+
+            /* Already removed, let's continue. */
+            break;
+          }
+
+          /* Should have given up or, if supported, changed the order's
+           * activity to the activity suggested by
+           * unit_activity_handling_targeted() before this line was
+           * reached.
+           * Remember that unit_activity_handling_targeted() has the power
+           * to change the order's target extra directly. */
+          fc_assert_msg(new_activity == order.activity,
+                        "Activity not updated. Target may have changed.");
+
+          /* Should have found a target or given up before reaching this
+           * line. */
+          fc_assert_msg((pextra != NULL
+                         || !activity_requires_target(order.activity)),
+                        "Activity requires a target. No target found.");
+        }
 
         if (can_unit_do_activity_targeted(punit, activity, pextra)) {
           punit->done_moving = TRUE;
