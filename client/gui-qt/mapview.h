@@ -294,6 +294,7 @@ public:
   void set_turn_button_enabled(bool enabled);
   void info_update();
   void update_menu();
+  void update_tileset();
   void set_indicator_icons(const struct sprite *bulb,
                            const struct sprite *sol,
                            const struct sprite *flake,

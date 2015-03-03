@@ -1011,6 +1011,18 @@ void info_label::update_menu()
    *  PORTME , if needed */
 }
 
+/**************************************************************************
+  Updates indicator sprites from tileset
+**************************************************************************/
+void info_label::update_tileset()
+{
+  info_update(); // Updates tax rate indicators
+  set_indicator_icons(client_research_sprite(),
+                      client_warming_sprite(),
+                      client_cooling_sprite(),
+                      client_government_sprite());
+}
+
 /****************************************************************************
   Slot for sprite_widget::wheel_rolled
 ****************************************************************************/
@@ -1382,6 +1394,7 @@ void tileset_changed(void)
   QWidget *w;
 
   gui()->unitinfo_wdg->update_arrow_pix();
+  gui()->game_info_label->update_tileset();
   destroy_city_dialog();
   /* Update science report if open */
   if (gui()->is_repo_dlg_open("SCI")) {
