@@ -2681,7 +2681,8 @@ void city_production_delegate::paint(QPainter *painter,
   rect1.setWidth(pix_scaled.width() + 4);
   rect2 = option.rect;
   rect2.setLeft(option.rect.left() + rect1.width());
-  rect2.setTop(rect2.top() + 4);
+  rect2.setTop(rect2.top() + (rect2.height()
+               - painter->fontMetrics().height()) / 2 );
   QItemDelegate::drawDisplay(painter, opt, rect2, name);
   if (is_unit) {
     if (is_sea) {
@@ -2826,7 +2827,7 @@ void city_production_model::populate()
 
   QFont f = QApplication::font();
   QFontMetrics fm(f);
-  sh.setY(fm.height() + 8);
+  sh.setY(fm.height() * 2);
   sh.setX(0);
 
   qDeleteAll(city_target_list);
