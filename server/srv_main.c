@@ -1284,7 +1284,7 @@ static void end_turn(void)
           /* TODO: Put probability that an extra will spread in an
            * effect ("Extra_Spread_Pm") on the source tile.
            * With a cache of what extra types that has any chance of
-           * spreading at all it could replace the EF_SPREADS extra flag
+           * spreading at all it could replace the EF_APPEARS extra flag
            * without killing performance. */
           && fc_rand(1000) < 15) {
         struct tile *tgt_tile;
@@ -1313,9 +1313,9 @@ static void end_turn(void)
 
         if (tile_owner(tgt_tile) != NULL) {
           notify_player(tile_owner(tgt_tile), tgt_tile,
-                        E_EXTRA_SPREAD, ftc_server,
-                        /* TRANS: Small Fish spreads to (32, 72). */
-                        _("%s spreads to %s."),
+                        E_EXTRA_APPEARS, ftc_server,
+                        /* TRANS: Small Fish appears to (32, 72). */
+                        _("%s appears to %s."),
                         extra_name_translation(pextra),
                         tile_link(tgt_tile));
         }
