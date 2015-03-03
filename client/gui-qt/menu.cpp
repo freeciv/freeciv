@@ -74,9 +74,10 @@ void real_menus_init(void)
 **************************************************************************/
 void real_menus_update(void)
 {
-  /* PORTME */
-  gui()->menu_bar->menus_sensitive();
-  gov_menu::update_all();
+  if (C_S_RUNNING == client_state()) {
+    gui()->menu_bar->menus_sensitive();
+    gov_menu::update_all();
+  }
 }
 
 /****************************************************************************
