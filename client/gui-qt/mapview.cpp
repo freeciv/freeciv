@@ -893,7 +893,7 @@ info_label::info_label(QWidget *parent) : fcwidget()
   QHBoxLayout *hbox;
   int i;
 
-  setStyleSheet("background-color: rgba(0, 0, 0, 135);");
+  setStyleSheet("QFrame { background-color: rgba(0, 0, 0, 135); }");
 
   setParent(parent);
   layout = new QVBoxLayout(this);
