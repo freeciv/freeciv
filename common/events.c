@@ -204,6 +204,7 @@ static struct {
   GEN_EV(E_SCRIPT,		E_S_XYZZY,	N_("Scenario/ruleset script message")),
   /* TRANS: Event name for when the game year changes. */
   GEN_EV(E_NEXT_YEAR,		E_S_XYZZY,	N_("Year Advance")),
+  GEN_EV(E_UNIT_ILLEGAL_ACTION, E_S_UNIT,       N_("Unit Illegal Action"))
   /* The sound system also generates "e_game_quit", although there's no
    * corresponding identifier E_GAME_QUIT. */
 };
@@ -293,6 +294,7 @@ bool is_city_event(enum event_type event)
   case E_UNIT_WIN_ATT:
   case E_UPRISING:
   case E_UNIT_RELOCATED:
+  case E_UNIT_ILLEGAL_ACTION:
     return FALSE;
 
   default:

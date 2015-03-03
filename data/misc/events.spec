@@ -88,6 +88,7 @@ tiles = { "row", "column", "tag"
   3, 10, "e_enemy_spy_steal_gold"
 ;  3, 16, "e_enemy_diplomatic_incident"
 ;  3, 17, "e_enemy_diplomat_escape" ; base sprite for enemy diplomats
+  1,  4, "e_unit_illegal_action"
 
   4,  0, "e_achievement"
   4,  1, "e_uprising"
