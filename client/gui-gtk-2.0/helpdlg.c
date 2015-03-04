@@ -603,23 +603,23 @@ static void create_help_dialog(void)
   help_ttable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);
 
-  for (j=0; j<4; j++) {
-    for (i=0; i<5; i++) {
+  for (j = 0; j < 4; j++) {
+    for (i = 0; i < 5; i++) {
       help_tlabel[j][i] =
 	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
       gtk_widget_set_name(help_tlabel[j][i], "help_label");
 
       /* Ugly (but these numbers are hardcoded in help_update_terrain() too) */
-      if (j==1 && i==1) {
-          /* Extra wide cell for terrain specials */
-          gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-                                    help_tlabel[j][i], i, i+4, j, j+1);
-          gtk_widget_show(help_tlabel[j][i]);
-          break; /* skip rest of row */
+      if (j == 1 && i == 1) {
+        /* Extra wide cell for terrain specials */
+        gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+                                  help_tlabel[j][i], i, i+4, j, j+1);
+        gtk_widget_show(help_tlabel[j][i]);
+        break; /* skip rest of row */
       } else {
-          gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-                                    help_tlabel[j][i], i, i+1, j, j+1);
-          gtk_widget_show(help_tlabel[j][i]);
+        gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+                                  help_tlabel[j][i], i, i+1, j, j+1);
+        gtk_widget_show(help_tlabel[j][i]);
       }
     }
   }
@@ -639,7 +639,7 @@ static void create_help_dialog(void)
   help_vbox = gtk_vbox_new(FALSE, 1);
   gtk_container_set_border_width(GTK_CONTAINER(help_vbox), 5);
   gtk_box_pack_start(GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0);
-					     
+
   text = gtk_text_view_new();
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(text), FALSE);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
@@ -713,10 +713,7 @@ static void create_help_dialog(void)
   gtk_widget_show_all(help_tree_buttons_hbox);
 
   create_help_page(HELP_TEXT);
-  return;
 }
-
-
 
 /**************************************************************************
   Create page for help type
@@ -1083,6 +1080,30 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 }
 
 /**************************************************************************
+  Create widgets about all extras of one cause buildable to the terrain.
+**************************************************************************/
+static void help_extras_of_cause_for_terrain(struct terrain *pterr, enum extra_cause cause,
+                                             char *label)
+{
+  struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterr }};
+
+  extra_type_by_cause_iterate(cause, pextra) {
+    if (pextra->buildable && universal_fulfills_requirement(FALSE, &(pextra->reqs), &for_terr)) {
+      GtkWidget *w;
+      GtkWidget *hbox;
+
+      hbox = gtk_hbox_new(FALSE, 0);
+      gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+      w = gtk_label_new((label));
+      gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+      w = help_slink_new(extra_name_translation(pextra), HELP_EXTRA);
+      gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+      gtk_widget_show_all(hbox);
+    }
+  } extra_type_by_cause_iterate_end;
+}
+
+/**************************************************************************
   Display updated help about terrain
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
@@ -1128,50 +1149,44 @@ static void help_update_terrain(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
 
     strcpy(buf, _("n/a"));
-    if (pterrain->irrigation_result == pterrain) {
-      if (effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
-        if (pterrain->irrigation_food_incr > 0) {
-          sprintf(buf, _("+%d Food / %d"),
-                  pterrain->irrigation_food_incr,
-                  pterrain->irrigation_time);
-        }
-      }
-    } else if (pterrain->irrigation_result != T_NONE) {
-      if (effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
-        sprintf(buf, "%s / %d",
-                terrain_name_translation(pterrain->irrigation_result),
-                pterrain->irrigation_time);
-      }
+    if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
+        && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+      sprintf(buf, "%s / %d",
+              terrain_name_translation(pterrain->irrigation_result),
+              pterrain->irrigation_time);
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[2][1]), buf);
 
     strcpy(buf, _("n/a"));
-    if (pterrain->mining_result == pterrain) {
-      if (effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
-        if (pterrain->mining_shield_incr > 0) {
-          sprintf(buf, _("+%d Res. / %d"),
-                  pterrain->mining_shield_incr,
-                  pterrain->mining_time);
-        }
-      }
-    } else if (pterrain->mining_result != T_NONE) {
-      if (effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
-        sprintf(buf, "%s / %d",
-                terrain_name_translation(pterrain->mining_result),
-                pterrain->mining_time);
-      }
+    if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
+        && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+      sprintf(buf, "%s / %d",
+              terrain_name_translation(pterrain->mining_result),
+              pterrain->mining_time);
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[2][4]), buf);
 
     strcpy(buf, "n/a");
-    if (pterrain->transform_result != T_NONE) {
-      if (effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
-        sprintf(buf, "%s / %d",
-                terrain_name_translation(pterrain->transform_result),
-                pterrain->transform_time);
-      }
+    if (pterrain->transform_result != T_NONE
+        && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+      sprintf(buf, "%s / %d",
+              terrain_name_translation(pterrain->transform_result),
+              pterrain->transform_time);
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[3][1]), buf);
+
+    gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
+    if (pterrain->irrigation_result == pterrain
+        && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+      help_extras_of_cause_for_terrain(pterrain, EC_IRRIGATION, _("Build as irrigation"));
+    }
+    if (pterrain->mining_result == pterrain
+        && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
+      help_extras_of_cause_for_terrain(pterrain, EC_MINE, _("Build as mine"));
+    }
+    help_extras_of_cause_for_terrain(pterrain, EC_ROAD, _("Build as road"));
+    help_extras_of_cause_for_terrain(pterrain, EC_BASE, _("Build as base"));
+    gtk_widget_show(help_vbox);
   }
 
   helptext_terrain(buf, sizeof(buf), client.conn.playing, pitem->text, pterrain);
