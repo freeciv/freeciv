@@ -2839,7 +2839,7 @@ static int change_research_goal_dialog_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  Popup dialog to change current research.
 **************************************************************************/
 static void popup_change_research_dialog(void)
 {
@@ -2856,7 +2856,7 @@ static void popup_change_research_dialog(void)
   }
     
   advance_index_iterate(A_FIRST, i) {
-    if (!research_invention_gettable(presearch, i, TRUE)) {
+    if (!research_invention_gettable(presearch, i, FALSE)) {
       continue;
     }
     count++;
@@ -2924,7 +2924,7 @@ static void popup_change_research_dialog(void)
   count = 0;
   h = col * max_row;
   advance_index_iterate(A_FIRST, i) {
-    if (!research_invention_gettable(presearch, i, TRUE)) {
+    if (!research_invention_gettable(presearch, i, FALSE)) {
       continue;
     }
     
@@ -3025,7 +3025,7 @@ static int change_research_goal_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Popup dialog to change research goal.
 **************************************************************************/
 static void popup_change_research_goal_dialog(void)
 {
@@ -3329,7 +3329,7 @@ void science_report_dialog_popup(bool raise)
   /* current research goal icon */
   pTechIcon = get_tech_icon(presearch->tech_goal);
   pChangeResearchGoalButton = create_icon2(pTechIcon, pWindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
-  
+
   pChangeResearchGoalButton->action = popup_change_research_goal_dialog_callback;
   if (count > 0) {
     set_wstate(pChangeResearchGoalButton, FC_WS_NORMAL);
