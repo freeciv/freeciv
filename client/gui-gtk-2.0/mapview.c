@@ -874,7 +874,6 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 **************************************************************************/
 void tileset_changed(void)
 {
-  science_report_dialog_redraw();
   reset_city_dialogs();
   reset_unit_table();
   blank_max_unit_size();
@@ -885,4 +884,6 @@ void tileset_changed(void)
   gtk_window_set_icon(GTK_WINDOW(toplevel),
 		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
 #endif
+
+  science_report_dialog_redraw();
 }
