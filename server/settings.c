@@ -663,6 +663,13 @@ static bool startunits_callback(const char *value,
   int len = strlen(value), i;
   bool have_founder = FALSE;
 
+  if (len == 0) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Starting units string cannot be empty."));
+
+    return FALSE;
+  }
+
   /* We check each character individually to see if it's valid, and
    * also make sure there is at least one city founder. */
 
