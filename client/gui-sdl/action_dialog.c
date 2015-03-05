@@ -757,6 +757,8 @@ static const act_func af_map[ACTION_COUNT] = {
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = capture_units_callback
+
+  /* Unit acting against a tile. */
 };
 
 /**************************************************************************
@@ -794,6 +796,7 @@ static void action_entry(const enum gen_action act,
   case ATK_UNIT:
     pBuf->data.unit = tgt_unit;
     break;
+  case ATK_TILE:
   case ATK_UNITS:
     pBuf->data.tile = tgt_tile;
   case ATK_COUNT:
@@ -922,6 +925,8 @@ void popup_action_selection(struct unit *actor_unit,
     pDiplomat_Dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
+  pDiplomat_Dlg->target_ids[ATK_TILE] = tile_index(target_tile);
+
   /* ---------- */
   /* Spy/Diplomat acting against a city */
 
@@ -953,6 +958,18 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_UNITS) {
+      action_entry(act, act_probs,
+                   NULL,
+                   actor_unit, target_tile, NULL, NULL,
+                   pWindow, &area);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against a tile. */
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_TILE) {
       action_entry(act, act_probs,
                    NULL,
                    actor_unit, target_tile, NULL, NULL,

@@ -128,6 +128,8 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   /* Unit acting against all units at a tile. */
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
 
+  /* Unit acting against a tile. */
+
   return action_function;
 }
 
@@ -992,6 +994,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
+  target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
 
   /* No buttons are added yet. */
   for (int i = 0; i < BUTTON_COUNT; i++) {
@@ -1326,6 +1329,12 @@ void popup_action_selection(struct unit *actor_unit,
     cd->target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
   }
 
+  if (target_tile) {
+    cd->target_id[ATK_TILE] = tile_index(target_tile);
+  } else {
+    cd->target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+  }
+
   /* Spy/Diplomat acting against a city */
 
   /* Set the correct target for the following actions. */
@@ -1367,6 +1376,22 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_get_actor_kind(act) == AAK_UNIT
         && action_get_target_kind(act) == ATK_UNITS) {
+      action_entry(cd,
+                   (enum gen_action)act,
+                   act_probs,
+                   "",
+                   qv1, qv2);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against a tile. */
+
+  /* Set the correct target for the following actions. */
+  qv2 = cd->target_id[ATK_TILE];
+
+  action_iterate(act) {
+    if (action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_TILE) {
       action_entry(cd,
                    (enum gen_action)act,
                    act_probs,
@@ -2203,6 +2228,7 @@ void action_selection_refresh(struct unit *actor_unit,
         qv2 = IDENTITY_NUMBER_ZERO;
       }
       break;
+    case ATK_TILE:
     case ATK_UNITS:
       if (target_tile != NULL) {
         qv2 = tile_index(target_tile);

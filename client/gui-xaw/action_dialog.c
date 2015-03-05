@@ -887,6 +887,12 @@ void popup_action_selection(struct unit *actor_unit,
     diplomat_target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
   }
 
+  if (target_tile) {
+    diplomat_target_id[ATK_TILE] = tile_index(target_tile);
+  } else {
+    diplomat_target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+  }
+
   if (target_city && actor_homecity) {
     astr_set(&text,
              _("Your %s from %s reaches the city of %s.\nWhat now?"),

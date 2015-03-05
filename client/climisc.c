@@ -1217,6 +1217,9 @@ static bool can_unit_act_diplstate(struct unit_type *act_unit_type,
     /* The actor player is the target player. */
     return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
                                            DRO_FOREIGN, FALSE);
+  } else if (NULL == tgt_player) {
+    /* No target player. */
+    return utype_can_do_action(act_unit_type, action_id);
   } else {
     /* The actor player and the target player are different. */
     struct player_diplstate *diplstate;
@@ -1251,6 +1254,29 @@ bool can_unit_act_against_own_tile(struct unit *act_unit)
 
   tgt_tile = unit_tile(act_unit);
   fc_assert(tgt_tile);
+
+  {
+    /* Check target tile. */
+
+    tgt_player = tile_owner(tgt_tile);
+
+    action_iterate(act) {
+      if (action_get_actor_kind(act) != AAK_UNIT
+          || action_get_target_kind(act) != ATK_TILE) {
+        /* Not relevant. */
+        continue;
+      }
+
+      /* Can't return yet unless TRUE. Another action vs the tile may be
+       * possible. It may also be possible to act against a target on the
+       * tile. */
+      if (can_unit_act_diplstate(unit_type(act_unit), act,
+                                 act_player, tgt_player)) {
+        /* Tile target confirmed possible. */
+        return TRUE;
+      }
+    } action_iterate_end;
+  }
 
   if ((tgt_city = tile_city(tgt_tile))) {
     /* Target city detected. */

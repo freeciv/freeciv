@@ -419,6 +419,8 @@ static bool is_action_possible(const enum gen_action wanted_action,
 {
   fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
+                || (action_get_target_kind(wanted_action) == ATK_TILE
+                    && target_tile != NULL)
                 || (action_get_target_kind(wanted_action) == ATK_UNIT
                     && target_unit != NULL)
                 || (action_get_target_kind(wanted_action) == ATK_UNITS
@@ -745,6 +747,44 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
 
   /* Not impossible for any of the units at the tile. */
   return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE if actor_unit can do wanted_action to the target_tile as far
+  as action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
+                                    const struct unit *actor_unit,
+                                    const struct tile *target_tile)
+{
+  if (actor_unit == NULL || target_tile == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(wanted_action),
+                        FALSE, "Action %s is performed by %s not %s",
+                        gen_action_name(wanted_action),
+                        action_actor_kind_name(
+                          action_get_actor_kind(wanted_action)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_TILE == action_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not %s",
+                        gen_action_name(wanted_action),
+                        action_target_kind_name(
+                          action_get_target_kind(wanted_action)),
+                        action_target_kind_name(ATK_TILE));
+
+  return is_action_enabled(wanted_action,
+                           unit_owner(actor_unit), NULL, NULL,
+                           unit_tile(actor_unit),
+                           actor_unit, unit_type(actor_unit),
+                           NULL, NULL,
+                           tile_owner(target_tile), NULL, NULL,
+                           target_tile, NULL, NULL, NULL, NULL);
 }
 
 /**************************************************************************
@@ -1240,6 +1280,42 @@ action_probability action_prob_vs_units(struct unit* actor_unit,
 
   /* Not impossible for any of the units at the tile. */
   return prob_all;
+}
+
+/**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on the target tile.
+**************************************************************************/
+action_probability action_prob_vs_tile(struct unit* actor_unit,
+                                       int action_id,
+                                       struct tile* target_tile)
+{
+  if (actor_unit == NULL || target_tile == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_get_actor_kind(action_id),
+                        FALSE, "Action %s is performed by %s not %s",
+                        gen_action_name(action_id),
+                        action_actor_kind_name(
+                          action_get_actor_kind(action_id)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_TILE == action_get_target_kind(action_id),
+                        FALSE, "Action %s is against %s not %s",
+                        gen_action_name(action_id),
+                        action_target_kind_name(
+                          action_get_target_kind(action_id)),
+                        action_target_kind_name(ATK_TILE));
+
+  return action_prob(action_id,
+                     unit_owner(actor_unit), NULL, NULL,
+                     unit_tile(actor_unit),
+                     actor_unit,
+                     NULL, NULL,
+                     tile_owner(target_tile), NULL, NULL,
+                     target_tile, NULL, NULL, NULL);
 }
 
 /**************************************************************************

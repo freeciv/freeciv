@@ -360,6 +360,39 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target)
 /**************************************************************************
   Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target
+  tile.
+
+  If the owner of the actor unit don't have the knowledge needed to know
+  for sure if the unit can act TRUE will be returned.
+**************************************************************************/
+static bool may_unit_act_vs_tile(struct unit *actor,
+                                 struct tile *target)
+{
+  if (actor == NULL || target == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (!(action_get_actor_kind(act) == AAK_UNIT
+        && action_get_target_kind(act) == ATK_TILE)) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_tile(actor, act, target))) {
+      /* The actor unit may be able to do this action to the target
+       * tile. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to do any action to the target
   unit.
 
   If the owner of the actor unit don't have the knowledge needed to know
@@ -483,6 +516,17 @@ static struct player *need_war_player(const struct unit *actor,
           return unit_owner(tunit);
         }
       } unit_list_iterate_end;
+      break;
+    case ATK_TILE:
+      if (target_tile == NULL) {
+        /* No target tile. */
+        continue;
+      }
+
+      if (player_diplstate_get(unit_owner(actor),
+                               tile_owner(target_tile))->type != DS_WAR) {
+        return tile_owner(target_tile);
+      }
       break;
     case ATK_COUNT:
       /* Nothing to check. */
@@ -638,6 +682,9 @@ void handle_unit_get_actions(struct connection *pc,
     } else if (target_tile && action_get_target_kind(act) == ATK_UNITS) {
       probabilities[act] = action_prob_vs_units(actor_unit, act,
                                                 target_tile);
+    } else if (target_tile && action_get_target_kind(act) == ATK_TILE) {
+      probabilities[act] = action_prob_vs_tile(actor_unit, act,
+                                               target_tile);
     } else {
       probabilities[act] = ACTPROB_IMPOSSIBLE;
     }
@@ -664,6 +711,7 @@ void handle_unit_get_actions(struct connection *pc,
         fc_assert(target_unit != NULL);
         target_unit_id = target_unit->id;
         break;
+      case ATK_TILE:
       case ATK_UNITS:
         /* The target tile aren't selected here so it haven't changed. */
         fc_assert(target_tile != NULL);
@@ -869,6 +917,12 @@ void handle_unit_do_action(struct player *pplayer,
 
 #define ACTION_STARTED_UNIT_UNITS(action, actor, target)                  \
   script_server_signal_emit("action_started_unit_units", 3,               \
+                            API_TYPE_ACTION, action_by_number(action),    \
+                            API_TYPE_UNIT, actor,                         \
+                            API_TYPE_TILE, target);
+
+#define ACTION_STARTED_UNIT_TILE(action, actor, target)                   \
+  script_server_signal_emit("action_started_unit_tile", 3,                \
                             API_TYPE_ACTION, action_by_number(action),    \
                             API_TYPE_UNIT, actor,                         \
                             API_TYPE_TILE, target);
@@ -2065,6 +2119,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     struct unit *tunit = tgt_unit(punit, pdesttile);
     struct city *tcity = tgt_city(punit, pdesttile);
 
+    /* Consider to pop up the action selection dialog if a potential city,
+     * unit or units target exists at the destination tile. A tile target
+     * alone isn't enough. */
     if ((0 < unit_list_size(pdesttile->units) || pcity)
         && !(move_diplomat_city
              && may_non_act_move(punit, pcity, pdesttile, igzoc))) {
@@ -2076,7 +2133,13 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * since tgt_city() or tgt_unit() wouldn't have targeted it
        * otherwise. */
       if (tcity || tunit
-          || may_unit_act_vs_tile_units(punit, pdesttile)) {
+          || may_unit_act_vs_tile_units(punit, pdesttile)
+          /* Pop up the action selection dialog even if the tile target is
+           * the only target that, from the point of view of the player,
+           * may be acted against. This is to avoid confusion for players
+           * that don't remember the rules or aren't looking at the data
+           * the rules depend on. */
+          || may_unit_act_vs_tile(punit, pdesttile)) {
         if (pplayer->ai_controlled) {
           return FALSE;
         }

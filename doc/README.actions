@@ -222,3 +222,6 @@ Actions done by a unit against all units at a tile
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign.
  * target must be visible to the actor.
+
+Actions done by a unit against a tile
+=====================================
