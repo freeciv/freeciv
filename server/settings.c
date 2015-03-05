@@ -703,6 +703,10 @@ static bool startunits_callback(const char *value,
 {
   int len = strlen(value), i;
 
+  if (len == 0) {
+    return FALSE;
+  }
+
   /* We check each character individually to see if it's valid, and
    * also make sure there is at least one city founder. */
 
