@@ -2262,14 +2262,17 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 void destroy_base(struct tile *ptile, struct base_type *pbase)
 {
   bv_player base_seen;
+  bool virtual = tile_virtual_check(ptile);
 
-  /* Remember what play was able to see the base. */
-  BV_CLR_ALL(base_seen);
-  players_iterate(pplayer) {
-    if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-      BV_SET(base_seen, player_index(pplayer));
-    }
-  } players_iterate_end;
+  /* Remember what players were able to see the base. */
+  if (!virtual) {
+    BV_CLR_ALL(base_seen);
+    players_iterate(pplayer) {
+      if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+        BV_SET(base_seen, player_index(pplayer));
+      }
+    } players_iterate_end;
+  }
 
   if (territory_claiming_base(pbase)) {
     /* Clearing borders will take care of the vision providing
@@ -2292,13 +2295,15 @@ void destroy_base(struct tile *ptile, struct base_type *pbase)
   }
   tile_remove_base(ptile, pbase);
 
-  /* Remove base from vision of players which were able to see the base. */
-  players_iterate(pplayer) {
-    if (BV_ISSET(base_seen, player_index(pplayer))
-        && update_player_tile_knowledge(pplayer, ptile)) {
-      send_tile_info(pplayer->connections, ptile, FALSE);
-    }
-  } players_iterate_end;
+  if (!virtual) {
+    /* Remove base from vision of players which were able to see the base. */
+    players_iterate(pplayer) {
+      if (BV_ISSET(base_seen, player_index(pplayer))
+          && update_player_tile_knowledge(pplayer, ptile)) {
+        send_tile_info(pplayer->connections, ptile, FALSE);
+      }
+    } players_iterate_end;
+  }
 }
 
 /****************************************************************************
