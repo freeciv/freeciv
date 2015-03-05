@@ -770,6 +770,13 @@ static bool startunits_callback(const char *value,
   Unit_Class_id  first_role;
   bool firstnative = FALSE;
 
+  if (len == 0) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Starting units string cannot be empty."));
+
+    return FALSE;
+  }
+
   /* We check each character individually to see if it's valid. */
   for (i = 0; i < len; i++) {
     if (strchr("cwxksfdDaA", value[i])) {
