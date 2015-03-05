@@ -2546,7 +2546,7 @@ void real_science_report_dialog_update(void)
   if (pScienceDlg) {
     const struct research *presearch = research_get(client_player());
     char cBuf[128];
-    SDL_String16 *pStr;
+    utf8_str *pStr;
     SDL_Surface *pSurf;
     SDL_Surface *pColb_Surface = pIcons->pBIG_Colb;
     int step, i, cost;
@@ -2579,11 +2579,11 @@ void real_science_report_dialog_update(void)
     /* ------------------------------------- */
 
     /* research progress text */
-    pStr = create_str16_from_char(science_dialog_text(), adj_font(12));
+    pStr = create_utf8_from_char(science_dialog_text(), adj_font(12));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_theme_color(COLOR_THEME_SCIENCEDLG_TEXT);
 
-    pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_utf8(pStr);
 
     dest.x = area.x + (area.w - pSurf->w) / 2;
     dest.y = area.y + adj_size(2);
@@ -2612,9 +2612,9 @@ void real_science_report_dialog_update(void)
                                                   presearch->researching),
                 get_science_target_text(NULL));
 
-    copy_chars_to_string16(pStr, cBuf);
+    copy_chars_to_utf8_str(pStr, cBuf);
 
-    pSurf = create_text_surf_from_str16(pStr);
+    pSurf = create_text_surf_from_utf8(pStr);
 
     dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
 
@@ -2718,9 +2718,9 @@ void real_science_report_dialog_update(void)
     /* Goals */
     if (A_UNSET != presearch->tech_goal) {
       /* current goal text */
-      copy_chars_to_string16(pStr, research_advance_name_translation
+      copy_chars_to_utf8_str(pStr, research_advance_name_translation
                              (presearch, presearch->tech_goal));
-      pSurf = create_text_surf_from_str16(pStr);
+      pSurf = create_text_surf_from_utf8(pStr);
 
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
       alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
@@ -2729,9 +2729,9 @@ void real_science_report_dialog_update(void)
 
       FREESURFACE(pSurf);
 
-      copy_chars_to_string16(pStr, get_science_goal_text
+      copy_chars_to_utf8_str(pStr, get_science_goal_text
                              (presearch->tech_goal));
-      pSurf = create_text_surf_from_str16(pStr);
+      pSurf = create_text_surf_from_utf8(pStr);
 
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
       alphablit(pSurf, NULL, pWindow->dst->surface, &dest, 255);
@@ -2783,7 +2783,7 @@ void real_science_report_dialog_update(void)
     redraw_group(pScienceDlg->pBeginWidgetList, pWindow->prev, 1);
     flush_dirty();
 
-    FREESTRING16(pStr);
+    FREEUTF8STR(pStr);
   }
 }
 
