@@ -2935,6 +2935,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_MINE:
       case ACTIVITY_IRRIGATE:
       case ACTIVITY_TRANSFORM:
+      case ACTIVITY_CONVERT:
 	/* Simple activities. */
 	break;
       case ACTIVITY_FORTIFYING:
@@ -2955,7 +2956,6 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       /* Not supported yet. */
-      case ACTIVITY_CONVERT:
       case ACTIVITY_EXPLORE:
       case ACTIVITY_IDLE:
       /* Not set from the client. */
