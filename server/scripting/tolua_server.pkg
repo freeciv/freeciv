@@ -98,6 +98,9 @@ module edit {
                         int moves_left, int hp_left, Unit *ptransport);
   bool api_edit_unit_teleport
     @ unit_teleport(lua_State *L, Unit *self, Tile *dest);
+  void api_edit_unit_kill
+    @ unit_kill(lua_State *L, Unit *self, const char *reason,
+                Player *killer);
   void api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
@@ -253,6 +256,10 @@ end
 
 function Unit:turn(direction)
   edit.unit_turn(self, direction)
+end
+
+function Unit:kill(reason, killer)
+  edit.unit_kill(self, reason, killer)
 end
 
 function Unit:move(moveto, movecost)
