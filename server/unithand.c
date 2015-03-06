@@ -218,6 +218,11 @@ static void do_capture_units(struct player *pplayer,
   char capturer_link[MAX_LEN_LINK];
   const char *capturer_nation = nation_plural_for_player(pplayer);
 
+  /* Sanity check: The actor is still alive. */
+  if (!unit_alive(punit->id)) {
+    return;
+  }
+
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(capturer_link, unit_link(punit));
 
@@ -2198,6 +2203,11 @@ static void do_unit_help_build_wonder(struct player *pplayer,
     return;
   }
 
+  /* Sanity check: The actor is still alive. */
+  if (!unit_alive(punit->id)) {
+    return;
+  }
+
   pcity_dest = game_city_by_number(city_id);
 
   /* Sanity check: The target city still exists. */
@@ -2290,6 +2300,11 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* Probably died or bribed. */
     log_verbose("do_unit_establish_trade() invalid unit %d",
                 unit_id);
+    return FALSE;
+  }
+
+  /* Sanity check: The actor is still alive. */
+  if (!unit_alive(punit->id)) {
     return FALSE;
   }
 
