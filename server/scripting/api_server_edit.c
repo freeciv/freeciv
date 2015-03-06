@@ -182,6 +182,27 @@ void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir)
 }
 
 /*****************************************************************************
+  Kill the unit.
+*****************************************************************************/
+void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
+                        Player *killer)
+{
+  enum unit_loss_reason loss_reason;
+
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit);
+  LUASCRIPT_CHECK_ARG_NIL(L, reason, 3, string);
+  LUASCRIPT_CHECK_ARG_NIL(L, killer, 4, Player);
+
+  loss_reason = unit_loss_reason_by_name(reason, fc_strcasecmp);
+
+  LUASCRIPT_CHECK_ARG(L, unit_loss_reason_is_valid(loss_reason), 3,
+                      "Invalid unit loss reason");
+
+  wipe_unit(punit, loss_reason, killer);
+}
+
+/*****************************************************************************
   Create a new city.
 *****************************************************************************/
 void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,

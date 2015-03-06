@@ -39,6 +39,9 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest);
 
 void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir);
 
+void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
+                        Player *killer);
+
 void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
                           const char *name);
 Player *api_edit_create_player(lua_State *L, const char *username,
