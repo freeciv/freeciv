@@ -34,6 +34,8 @@ exe_sources = \
 		civserver.c
 
 libfreeciv_srv_la_SOURCES = \
+		actiontools.c	\
+		actiontools.h	\
 		aiiface.c	\
 		aiiface.h	\
 		animals.c	\

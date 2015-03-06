@@ -48,6 +48,7 @@
 #include "luascript_types.h"
 
 /* server */
+#include "actiontools.h"
 #include "barbarian.h"
 #include "citizenshand.h"
 #include "citytools.h"
@@ -248,6 +249,11 @@ static void do_capture_units(struct player *pplayer,
                   /* TRANS: <unit> ... <Poles> */
                   _("Your %s was captured by the %s."),
                   victim_link, capturer_nation);
+
+    /* May cause an incident */
+    action_consequence_success(ACTION_CAPTURE_UNITS, pplayer,
+                               unit_owner(to_capture),
+                               pdesttile, victim_link);
 
     if (NULL != pcity) {
       /* The captured unit is in a city. Bounce it. */
@@ -2345,6 +2351,11 @@ static void do_unit_help_build_wonder(struct player *pplayer,
                 abs(build_points_left(pcity_dest)),
                 work);
 
+  /* May cause an incident */
+  action_consequence_success(ACTION_HELP_WONDER, pplayer,
+                             city_owner(pcity_dest),
+                             city_tile(pcity_dest), city_link(pcity_dest));
+
   if (city_owner(pcity_dest) != unit_owner(punit)) {
     /* Tell the city owner about the gift he just received. */
 
@@ -2665,6 +2676,14 @@ static bool do_unit_establish_trade(struct player *pplayer,
       }
     } city_list_iterate_end;
   }
+
+  /* May cause an incident */
+  action_consequence_success(est_if_able ?
+                               ACTION_TRADE_ROUTE :
+                               ACTION_MARKETPLACE,
+                             pplayer, city_owner(pcity_dest),
+                             city_tile(pcity_dest),
+                             city_link(pcity_dest));
 
   conn_list_do_unbuffer(pplayer->connections);
 
