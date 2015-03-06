@@ -25,6 +25,8 @@
 
 #include "sprite.h"
 
+#define MAX_FILE_EXTENSIONS 50
+
 /****************************************************************************
   Create a new sprite by cropping and taking only the given portion of
   the image.
@@ -202,12 +204,37 @@ struct sprite *ctor_sprite(GdkPixbuf *pixbuf)
 ****************************************************************************/
 const char **gfx_fileextensions(void)
 {
-  static const char *ext[] =
+  /* Includes space for termination NULL */
+  static const char *ext[MAX_FILE_EXTENSIONS + 1] =
   {
-    "png",
-    "xpm",
     NULL
   };
+
+  if (ext[0] == NULL) {
+    int count = 0;
+    GSList *formats = gdk_pixbuf_get_formats();
+    GSList *next = formats;
+
+    while ((next = g_slist_next(next)) != NULL && count < MAX_FILE_EXTENSIONS) {
+      GdkPixbufFormat *format = g_slist_nth_data(next, 0);
+      gchar **mimes = gdk_pixbuf_format_get_mime_types(format);
+      int i;
+
+      for (i = 0; mimes[i] != NULL && count < MAX_FILE_EXTENSIONS; i++) {
+        char *end = strstr(mimes[i], "/");
+
+        if (end != NULL) {
+          ext[count++] = fc_strdup(end + 1);
+        }
+      }
+
+      g_strfreev(mimes);
+    }
+
+    g_slist_free(formats);
+
+    ext[count] = NULL;
+  }
 
   return ext;
 }
