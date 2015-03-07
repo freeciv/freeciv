@@ -1082,15 +1082,19 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 /**************************************************************************
   Create widgets about all extras of one cause buildable to the terrain.
 **************************************************************************/
-static void help_extras_of_cause_for_terrain(struct terrain *pterr, enum extra_cause cause,
-                                             char *label)
+static void help_extras_of_act_for_terrain(struct terrain *pterr,
+                                           enum unit_activity act,
+                                           char *label)
 {
   struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterr }};
+  enum extra_cause cause = activity_to_extra_cause(act);
 
   extra_type_by_cause_iterate(cause, pextra) {
     if (pextra->buildable && universal_fulfills_requirement(FALSE, &(pextra->reqs), &for_terr)) {
       GtkWidget *w;
       GtkWidget *hbox;
+      char buffer[1024];
+      int btime;
 
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
@@ -1098,6 +1102,12 @@ static void help_extras_of_cause_for_terrain(struct terrain *pterr, enum extra_c
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       w = help_slink_new(extra_name_translation(pextra), HELP_EXTRA);
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+
+      btime = terrain_extra_build_time(pterr, act, pextra);
+      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime), btime);
+      w = gtk_label_new(buffer);
+      gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+
       gtk_widget_show_all(hbox);
     }
   } extra_type_by_cause_iterate_end;
@@ -1178,14 +1188,14 @@ static void help_update_terrain(const struct help_item *pitem,
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
     if (pterrain->irrigation_result == pterrain
         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
-      help_extras_of_cause_for_terrain(pterrain, EC_IRRIGATION, _("Build as irrigation"));
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain
         && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
-      help_extras_of_cause_for_terrain(pterrain, EC_MINE, _("Build as mine"));
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }
-    help_extras_of_cause_for_terrain(pterrain, EC_ROAD, _("Build as road"));
-    help_extras_of_cause_for_terrain(pterrain, EC_BASE, _("Build as base"));
+    help_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
+    help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
     gtk_widget_show(help_vbox);
   }
 
