@@ -524,6 +524,10 @@ void game_ruleset_init(void)
   user_terrain_flags_init();
   user_tech_flags_init();
   multipliers_init();
+
+  if (is_server()) {
+    game.server.ruledit.nationlist = NULL;
+  }
 }
 
 /***************************************************************
