@@ -1,10 +1,49 @@
-==============================
-Welcome to Freeciv 2.5.0-beta2
-==============================
+============================
+Welcome to Freeciv 2.5.0-RC2
+============================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.0-RC1 TO 2.5.0-RC2
+-----------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.0-RC2>)
+
+   Since RC1 there have been some bugfixes and improvements:
+     * When autosettlers were considering improving terrain, their
+       thoughts could accidentally be sent to the client, so the client
+       would display tiles with the wrong terrain temporarily. GNA#23286
+     * Various bugfixes to the Qt client:
+          + Changing ruleset caused the Qt client to crash. GNA#23322
+          + Changing tileset could cause the Qt client to crash and other
+            misbehavior. GNA#23326 GNA#23327
+          + Fix some black-text-on-black-background tooltips. GNA#23325
+          + Avoid scrollbars in the city production popup on Windows.
+            GNA#23032
+     * Clients failed to display unit nationality. GNA#23311
+     * Fix a remaining crash in the Gtk2 client if the tileset is changed
+       with the science dialog open. GNA#22625
+     * An empty 'startunits' setting will now be rejected rather than
+       causing a crash. GNA#23346
+     * The Austrian nation was not being localized. GNA#23309
+     * Updated Trident tileset with support for new game elements: lake,
+       maglev, unit upkeep >2, unit activity icons, plus extras for
+       modpacks (outpost, airstrip, aluminum, uranium, saltpeter,
+       elephant). GNAPATCH#5856 GNAPATCH#5877
+     * Fix minor misalignment of some city food/production/trade numbers
+       in many supplied tilesets. GNA#23332
+     * Other very minor tweaks to Cimpletoon and Amplio2 graphics.
+       GNAPATCH#5855
+     * Correct comment about gnuwin package used for Windows builds to
+       match actual RC1 build. GNATASK#7887
+     * Minor update to README.ruleset_civ2civ3 description of defense
+       bonuses. GNAPATCH#5860
+     * Invisible changes to assist localization. GNAPATCH#5854
+     * Updated translations: Catalan (complete), Finnish (95.6% core, 87%
+       nations).
 
 
 CHANGES FROM 2.5.0-beta2 TO 2.5.0-RC1
