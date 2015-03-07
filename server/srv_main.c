@@ -1278,15 +1278,7 @@ static void end_turn(void)
   extra_type_by_cause_iterate(EC_SPONTANEOUS, pextra) {
     whole_map_iterate(src_tile) {
       if (tile_has_extra(src_tile, pextra)
-          /* Each spreading extra has a 1,5% chance of spreading each
-           * turn. This extra spreading speed makes it relatively rare
-           * but not unheard of. */
-          /* TODO: Put probability that an extra will spread in an
-           * effect ("Extra_Spread_Pm") on the source tile.
-           * With a cache of what extra types that has any chance of
-           * spreading at all it could replace the EF_APPEARS extra flag
-           * without killing performance. */
-          && fc_rand(1000) < 15) {
+          && fc_rand(1000) < pextra->appearance_chance) {
         struct tile *tgt_tile;
 
         /* Select tile to spread to. */

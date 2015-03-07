@@ -84,6 +84,7 @@ struct extra_type
   int removal_time_factor;
 
   int defense_bonus;
+  int appearance_chance;
 
   bv_unit_classes native_to;
 
