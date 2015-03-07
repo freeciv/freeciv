@@ -7,7 +7,7 @@
 MAJOR_VERSION="2"
 MINOR_VERSION="5"
 PATCH_VERSION="0"
-VERSION_LABEL="-RC2+"
+VERSION_LABEL="-RC2"
 
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
