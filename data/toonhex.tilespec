@@ -305,7 +305,7 @@ styles =
       "tx.pollution",  "Single2"
       "tx.fallout",    "Single2"
       "tx.village",    "Single1"
-      "base.fort",     "3Layer"
+      "base.outpost",  "3Layer"
       "base.fortress", "3Layer"
       "base.airfield", "3Layer"
       "base.airbase",  "3layer"
