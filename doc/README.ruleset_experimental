@@ -118,6 +118,9 @@ this file.
 
 - Being part of a unit stack won't protect against spy actions.
 
+- Marco Polo's Embassy does not grant new connections, nor embassies, to players
+  one has never met. It grants embassy with already met players only.
+
 
 2. Use the new ruleset
    -------------------
