@@ -332,7 +332,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   pc->buffer->ndata = 0;
 
   if (!pc->json_packet) {
-    log_error("ERROR: Unable to parse packet: %s", pc->buffer->data);
+    log_error("ERROR: Unable to parse packet: %s", pc->buffer->data + 2);
     return NULL;
   }
 
