@@ -8,7 +8,7 @@ handmade=TRUE
 options=" +version2"
 version=20
 reason="Scenario"
-rulesetdir="classic"
+rulesetdir="civ2civ3"
 improvement_size=68
 improvement_vector="Airport","Aqueduct","Bank","Barracks","Barracks II","Barracks III","Cathedral","City Walls","Coastal Defense","Colosseum","Courthouse","Factory","Granary","Harbour","Hydro Plant","Library","Marketplace","Mass Transit","Mfg. Plant","Nuclear Plant","Offshore Platform","Palace","Police Station","Port Facility","Power Plant","Recycling Center","Research Lab","SAM Battery","SDI Defense","Sewer System","Solar Plant","Space Component","Space Module","Space Structural","Stock Exchange","Super Highways","Supermarket","Temple","University","Apollo Program","A.Smith's Trading Co.","Colossus","Copernicus' Observatory","Cure For Cancer","Darwin's Voyage","Eiffel Tower","Great Library","Great Wall","Hanging Gardens","Hoover Dam","Isaac Newton's College","J.S. Bach's Cathedral","King Richard's Crusade","Leonardo's Workshop","Lighthouse","Magellan's Expedition","Manhattan Project","Marco Polo's Embassy","Michelangelo's Chapel","Oracle","Pyramids","SETI Program","Shakespeare's Theatre","Statue of Liberty","Sun Tzu's War Academy","United Nations","Women's Suffrage","Coinage"
 technology_size=88
@@ -126,12 +126,12 @@ _("Now your city has grown to size five.  As cities get larger unrest\nbecomes a
       growth5msg = true
     elseif size == 8 and not growth8msg then
       notify.event(city.owner, city.tile, E.SCRIPT,
-_("Finally you have grown a city to size eight.  A size eight city can\nprovide substantial output provided you have enough luxuries to keep\nyour population content.\n\nTo grow a city beyond size eight requires an aqueduct.  If your city is\ngoing to continue to grow you should start building one soon.  Building\nan aqueduct requires the Construction technology."))
+_("Finally you have grown a city to size eight.  A size eight city can\nprovide substantial output provided you have enough luxuries to keep\nyour population content.\n\nTo grow a city beyond size eight requires an aqueduct.  If your city is\ngoing to continue to grow you should start building one soon.  Building\nan aqueduct requires the Construction technology, unless your city is next to lake or river."))
       growth8msg = true
-    elseif size == 12 and not growth12msg then
+    elseif size == 16 and not growth16msg then
       notify.event(city.owner, city.tile, E.SCRIPT,
-_("You have grown a city to size twelve.  To grow\nit larger, however, you will need to build a Sewer System.  This\nrequires the Sanitation technology."))
-      growth12msg = true
+_("You have grown a city to size 16.  To grow\nit larger, however, you will need to build a Sewer System.  This\nrequires the Sanitation technology."))
+      growth16msg = true
     elseif size == 13 and not growth13msg then
       notify.event(city.owner, city.tile, E.TUTURIAL,
 _("Congratulations, you have grown a city to size 13.  A city this\nlarge can provide a tremendous amount of output if properly upgraded.\nMake sure you have enough taxes and cultural buildings to keep your\ncitizens content.  You should also make sure the city is upgraded\nwith buildings that provide bonuses to its output.  Library, Marketplace,\nFactory, and Offshore Platform are four good buildings that provide a\nlarge bonus to big cities.  Consider how much benefit each building\nwill provide and weigh this against its cost - for very large cities\nalmost all buildings are worthwhile.  Such large cities will also\nprovide enough taxable revenue (gold) to allow you to purchase some\nbuildings to accelerate their productions."))
@@ -143,7 +143,7 @@ growth2msg = false
 growth3msg = false
 growth5msg = false
 growth8msg = false
-growth12msg = false
+growth16msg = false
 growth13msg = false
 signal.connect('city_growth', 'city_growth_callback')
 
@@ -184,7 +184,7 @@ function unit_cant_be_built_callback(unittype, city, reason)
   end
   if unittype.id == find.unit_type('Settlers').id and not nosettlermsg then
     notify.event(city.owner, city.tile, E.SCRIPT,
-_("Your city cannot build a settler.  Settlers take one unit of\npopulation to build, so a city of size one cannot build one without\ndisbanding the city.\n\nTo remedy this, you need to adjust the citizens in the city to\nprovide more food so as to grow the city faster.  Cities that\ndo not have much food should not try to build settlers.  When\nfounding a new city, make sure it is built on terrain that provides\nenough food - grassland is best; plains or hills are almost as good."))
+_("Your city cannot build a settler.  Settlers take two units of\npopulation to build, so a city of size one or two cannot build one without\ndisbanding the city.\n\nTo remedy this, you need to adjust the citizens in the city to\nprovide more food so as to grow the city faster.  Cities that\ndo not have much food should not try to build settlers.  When\nfounding a new city, make sure it is built on terrain that provides\nenough food - grassland is best; plains or hills are almost as good."))
     nosettlermsg = true
   elseif not unittype:has_flag('NonMil') and not nomilmsg then
 notify.event(city.owner, city.tile, E.SCRIPT,
