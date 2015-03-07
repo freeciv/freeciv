@@ -762,7 +762,7 @@ bool sanity_check_ruleset_data(void)
   achievements_iterate(pach) {
     if (!pach->unique && pach->cons_msg == NULL) {
       ruleset_error(LOG_ERROR,
-                    "Achievement %s has no message for consecutive gainers thouugh "
+                    "Achievement %s has no message for consecutive gainers though "
                     "it's possible to be gained by multiple players",
                     achievement_rule_name(pach));
       ok = FALSE;
