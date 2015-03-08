@@ -156,8 +156,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-20 20:43+0000\n"
-"PO-Revision-Date: 2015-02-17 22:53+0900\n"
+"POT-Creation-Date: 2015-03-08 13:44+0000\n"
+"PO-Revision-Date: 2015-03-02 11:39+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "Language: ja\n"
@@ -1101,6 +1101,14 @@ msgid ""
 "and France 4 times in less than a century. Since 1944 it has been in French "
 "hands."
 msgstr ""
+"アルザスはフランス北東部の，ライン川とヴォージュ山脈の間に位置する地方です。"
+"中世においては神聖ローマ帝国の一部で，いくつかの豊かな都市国家で構成されてい"
+"ました。フランスは1618年から始まる三十年戦争に介入し，この地方の大部分を手に"
+"入れました。さらに｢自然国境説｣を唱えてライン川以西の領有を主張し，1681年に要"
+"衝であるストラスブールを占領しました。住民の多くがドイツ系であり，また石炭と"
+"鉄鉱石を産出することも相まって，フランスとドイツはこの地方を巡りヨーロッパに"
+"おいて特に激しい領有争いを繰り広げました。普仏戦争以降の100年間で，支配国は実"
+"に4度も変わりました。現在はフランス領となっています。"
 
 # ntaka 大統領でいいのだろうか?
 # 首相に変更しました(Belgae)
@@ -3203,11 +3211,11 @@ msgstr ""
 # ブルグントとブルゴーニュが区別されていません
 #: data/nation/burgundian.ruleset:3
 msgid "Burgundian"
-msgstr "ブルグント人"
+msgstr "ブルゴーニュ人"
 
 #: data/nation/burgundian.ruleset:4
 msgid "?plural:Burgundians"
-msgstr "ブルグント人"
+msgstr "ブルゴーニュ人"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -3251,14 +3259,12 @@ msgstr "%s首相"
 # Belgae
 # ブルグントとブルゴーニュが区別されていません
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
-msgstr "ブルグント人"
+msgstr "ブルグント族"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
-msgstr "ブルグント人"
+msgstr "ブルグント族"
 
 #: data/nation/burgundic.ruleset:6
 msgid ""
@@ -3528,14 +3534,12 @@ msgid "?female:Admiral %s"
 msgstr "%s提督"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "カルタゴ人"
+msgstr "カランタニア人"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "カルタゴ人"
+msgstr "カランタニア人"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3842,9 +3846,8 @@ msgstr ""
 # 漢民族ってのはあるけど、中国民族ってのはないかなあと。
 # 民族が国を作るのか、国が民族を作るのか。(clefs)
 #: data/nation/chiapanec.ruleset:4
-#, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "アンティル人"
+msgstr ""
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -4019,14 +4022,12 @@ msgstr ""
 "に滅亡しました。"
 
 #: data/nation/chrobatian.ruleset:3
-#, fuzzy
 msgid "Chrobatian"
-msgstr "クロアチア人"
+msgstr ""
 
 #: data/nation/chrobatian.ruleset:4
-#, fuzzy
 msgid "?plural:Chrobatians"
-msgstr "アンティル人"
+msgstr ""
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -4714,14 +4715,12 @@ msgid "Prophetess %s"
 msgstr "預言者 %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "トラキア人"
+msgstr "ダキア人"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "トラキア人"
+msgstr "ダキア人"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -5436,12 +5435,11 @@ msgstr "カピタノ %s"
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "台湾原住民"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "ノルマン人"
+msgstr "台湾原住民"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -5780,12 +5778,11 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "ゲピード族"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "ネパール人"
+msgstr "ゲピード族"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5829,14 +5826,12 @@ msgid "?female:Great Warrior %s"
 msgstr "偉大な戦士 %s"
 
 #: data/nation/germanbelgian.ruleset:3
-#, fuzzy
 msgid "German Belgian"
-msgstr "ベルギー人"
+msgstr ""
 
 #: data/nation/germanbelgian.ruleset:4
-#, fuzzy
 msgid "?plural:German Belgians"
-msgstr "ベルギー人"
+msgstr ""
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -5895,14 +5890,12 @@ msgstr ""
 "にクワメ・ンクルマはガーナの独立を宣言しました。"
 
 #: data/nation/ghana.ruleset:3
-#, fuzzy
 msgid "Ghana"
-msgstr "ガーナ %s"
+msgstr ""
 
 #: data/nation/ghana.ruleset:4
-#, fuzzy
 msgid "?plural:Ghana"
-msgstr "ガーナ %s"
+msgstr ""
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -6901,14 +6894,12 @@ msgid "?female:Judge %s"
 msgstr "司法官 %s"
 
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "イタリア人"
+msgstr ""
 
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "イタリア人"
+msgstr ""
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -7279,12 +7270,11 @@ msgstr "タルカン %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
-msgstr ""
+msgstr "コイサン"
 
 #: data/nation/khoisan.ruleset:4
-#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "朝鮮人"
+msgstr "コイサン"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -7385,12 +7375,11 @@ msgstr ""
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "コミ人"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "ボイイ族"
+msgstr "コミ人"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -7487,14 +7476,12 @@ msgstr ""
 "統治政治実体です。"
 
 #: data/nation/kushan.ruleset:3
-#, fuzzy
 msgid "Kushan"
-msgstr "アシャンティ人"
+msgstr ""
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "クナ族"
+msgstr ""
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7563,12 +7550,11 @@ msgstr ""
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "ランゴバルド人"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "サヴォイア人"
+msgstr "ランゴバルド人"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -7860,14 +7846,12 @@ msgstr ""
 "レンベルク男爵領が合併することで1719年に成立しました。"
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "リベリア人"
+msgstr "リグリア人"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "リブルニア人"
+msgstr "リグリア人"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -8025,12 +8009,11 @@ msgstr ""
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
-msgstr ""
+msgstr "リュキア人"
 
 #: data/nation/lycian.ruleset:4
-#, fuzzy
 msgid "?plural:Lycians"
-msgstr "ルウィ族"
+msgstr "リュキア人"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -8448,14 +8431,12 @@ msgid "?female:High Brahmin %s"
 msgstr "高位ドルイド %s"
 
 #: data/nation/marshallese.ruleset:3
-#, fuzzy
 msgid "Marshallese"
-msgstr "シンハラ人"
+msgstr "マーシャル諸島人"
 
 #: data/nation/marshallese.ruleset:4
-#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "マルタ人"
+msgstr "マーシャル諸島人"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -9528,12 +9509,11 @@ msgstr ""
 
 #: data/nation/novgorodian.ruleset:3
 msgid "Novgorodian"
-msgstr ""
+msgstr "ノヴゴロド人"
 
 #: data/nation/novgorodian.ruleset:4
-#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "ナイジェリア人"
+msgstr "ノヴゴロド人"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -9947,14 +9927,12 @@ msgstr "魔女 %s"
 
 # clefs
 #: data/nation/paeonian.ruleset:3
-#, fuzzy
 msgid "Paeonian"
-msgstr "アルメニア人"
+msgstr "パエオニア人"
 
 #: data/nation/paeonian.ruleset:4
-#, fuzzy
 msgid "?plural:Paeonians"
-msgstr "ヴィスワ族"
+msgstr "パエオニア人"
 
 #: data/nation/paeonian.ruleset:6
 msgid ""
@@ -10236,14 +10214,12 @@ msgstr ""
 "いう古来からの部族掟にしたがって生活しています。"
 
 #: data/nation/pelasgian.ruleset:3
-#, fuzzy
 msgid "Pelasgian"
-msgstr "ペルシア人"
+msgstr "ペラスゴイ人"
 
 #: data/nation/pelasgian.ruleset:4
-#, fuzzy
 msgid "?plural:Pelasgians"
-msgstr "アンティル人"
+msgstr "ペラスゴイ人"
 
 #: data/nation/pelasgian.ruleset:6
 msgid ""
@@ -10555,14 +10531,12 @@ msgstr ""
 "年にトモチで起こした反乱は，メキシコ政府により無残に鎮圧されました。"
 
 #: data/nation/rhenish.ruleset:3
-#, fuzzy
 msgid "Rhenish"
-msgstr "リトアニア人"
+msgstr ""
 
 #: data/nation/rhenish.ruleset:4
-#, fuzzy
 msgid "?plural:Rhenish"
-msgstr "スワヒリ人"
+msgstr ""
 
 #: data/nation/rhenish.ruleset:6
 msgid ""
@@ -10650,14 +10624,12 @@ msgid "?female:Director-President %s"
 msgstr "最高指導者 %s"
 
 #: data/nation/romansh.ruleset:3
-#, fuzzy
 msgid "Romansh"
-msgstr "ローマ人"
+msgstr ""
 
 #: data/nation/romansh.ruleset:4
-#, fuzzy
 msgid "?plural:Romansh"
-msgstr "スワヒリ人"
+msgstr ""
 
 #: data/nation/romansh.ruleset:6
 msgid ""
@@ -10672,12 +10644,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr ""
+msgstr "ルシン人"
 
 #: data/nation/rusyn.ruleset:4
-#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "ロシア人"
+msgstr "ルシン人"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -10694,9 +10665,8 @@ msgid "Kievan Rus'"
 msgstr ""
 
 #: data/nation/ruthenian.ruleset:4
-#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "ケニア人"
+msgstr ""
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -10831,9 +10801,8 @@ msgid "Salishan"
 msgstr ""
 
 #: data/nation/salishan.ruleset:4
-#, fuzzy
 msgid "?plural:Salishans"
-msgstr "ヴィスワ族"
+msgstr ""
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -11196,14 +11165,12 @@ msgstr ""
 "ンはドイツ連邦共和国の連邦州になっています。"
 
 #: data/nation/scottishgaelic.ruleset:3
-#, fuzzy
 msgid "Scottish Gaelic"
-msgstr "スコットランド人"
+msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "ゲール人"
+msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -11258,7 +11225,6 @@ msgstr "スコットランド人"
 # clefs
 # "originally" はよくわからない: ピクト人が先ならoriginじゃないじゃん
 #: data/nation/scottish.ruleset:6
-#, fuzzy
 msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034 CE "
@@ -12966,14 +12932,12 @@ msgid "?female:Secretary-General %s"
 msgstr " %s事務総長"
 
 #: data/nation/urartian.ruleset:3
-#, fuzzy
 msgid "Urartian"
-msgstr "火星人"
+msgstr "ウラルトゥ人"
 
 #: data/nation/urartian.ruleset:4
-#, fuzzy
 msgid "?plural:Urartians"
-msgstr "火星人"
+msgstr "ウラルトゥ人"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
@@ -13105,14 +13069,12 @@ msgstr ""
 "アツ共和国は1980年に独立を宣言しました。"
 
 #: data/nation/vedic.ruleset:3
-#, fuzzy
 msgid "Vedic"
-msgstr "医学"
+msgstr ""
 
 #: data/nation/vedic.ruleset:4
-#, fuzzy
 msgid "?plural:Vedics"
-msgstr "スワヒリ人"
+msgstr ""
 
 # clefs
 #: data/nation/vedic.ruleset:6
