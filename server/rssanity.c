@@ -430,6 +430,13 @@ static bool rs_common_units(void)
     }
   }
 
+  if (num_role_units(L_PARTISAN) == 0
+      && effect_cumulative_max(EFT_INSPIRE_PARTISANS, NULL) > 0) {
+    ruleset_error(LOG_ERROR,
+                  "Inspire_Partisans effect present, but no units with partisan role.");
+    return FALSE;
+  }
+
   return TRUE;
 }
 
