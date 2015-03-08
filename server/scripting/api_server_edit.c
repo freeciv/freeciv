@@ -192,7 +192,6 @@ void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit);
   LUASCRIPT_CHECK_ARG_NIL(L, reason, 3, string);
-  LUASCRIPT_CHECK_ARG_NIL(L, killer, 4, Player);
 
   loss_reason = unit_loss_reason_by_name(reason, fc_strcasecmp);
 
