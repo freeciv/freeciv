@@ -1303,17 +1303,15 @@ AC_SUBST([TOLUA_LIBS])
 
 dnl Most of the C comments copied to freeciv.pot are spurious; 
 dnl change to only copy those with prefix "TRANS:"
-dnl Also add --escape to the arguments to convert extended
-dnl characters to escape characters.
 AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PODOMAINS ; do
    if test -f translations/${domain}/Makefile ; then
-     if grep 'add-comments="TRANS:" --escape' translations/${domain}/Makefile >/dev/null 2>&1 ; then
+     if grep 'add-comments="TRANS:"' translations/${domain}/Makefile >/dev/null 2>&1 ; then
        # has already been modified
        :
      else
        echo modifying translations/${domain}/Makefile add-comments/escape
        mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
-       sed -e 's/add-comments=TRANSLATORS:/add-comments="TRANS:" --escape/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
+       sed -e 's/add-comments=TRANSLATORS:/add-comments="TRANS:"/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
        rm translations/${domain}/Makefile.tmp
      fi
    fi
