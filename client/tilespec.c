@@ -4687,20 +4687,23 @@ static int fill_grid_sprite_array(const struct tileset *t,
 	       && (is_ocean_tile(pedge->tile[0])
 		   ^ is_ocean_tile(pedge->tile[1]))) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.coastline[pedge->type]);
-    } else if (options.draw_map_grid) {
-      if (worked[0] || worked[1]) {
-	ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
-      } else if (city[0] || city[1]) {
-	ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
-      } else if (known[0] || known[1]) {
-	ADD_SPRITE_SIMPLE(t->sprites.grid.main[pedge->type]);
+    } else {
+      if (options.draw_map_grid) {
+        if (worked[0] || worked[1]) {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
+        } else if (city[0] || city[1]) {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
+        } else if (known[0] || known[1]) {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.main[pedge->type]);
+        }
       }
-    } else if (options.draw_city_outlines) {
-      if (XOR(city[0], city[1])) {
-	ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
-      }
-      if (XOR(unit[0], unit[1])) {
-	ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
+      if (options.draw_city_outlines) {
+        if (XOR(city[0], city[1])) {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
+        }
+        if (XOR(unit[0], unit[1])) {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
+        }
       }
     }
 
