@@ -178,17 +178,19 @@ functions like dio_get_uint32().
 
 A packet is constituted by header followed by the serialized structure
 data. The header contains the following fields (the sizes are defined in
-common/packets.c:packet_header_set()):
+common/packets.c:packet_header_set()). Currently this header is
+identical to one used in initial handshake protocol, but this can
+change in future versions.
 
 uint16	:	length		(the length of the entire packet)
 uint8	:	type		(e.g. PACKET_TILE_INFO)
 
 For backward compatibility reasons, packets used for the initial protocol
-(notably before checking the capabilities) have different header fields
+(notably before checking the capabilities) have unchanging header fields
 sizes (defined in common/packets.c:packet_header_init()):
 
 uint16	:	length		(the length of the entire packet)
-uint8	:	type		(e.g. PACKET_TILE_INFO)
+uint8	:	type		(e.g. PACKET_SERVER_JOIN_REQ)
 
 To demonstrate the route for a packet through the system, here's how
 a unit disband is performed:
