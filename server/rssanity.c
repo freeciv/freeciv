@@ -776,6 +776,23 @@ bool sanity_check_ruleset_data(void)
     }
   } achievements_iterate_end;
 
+  if (game.server.ruledit.embedded_nations != NULL) {
+    int i;
+
+    for (i = 0; i < game.server.ruledit.embedded_nations_count; i++) {
+      struct nation_type *pnat
+        = nation_by_rule_name(game.server.ruledit.embedded_nations[i]);
+
+      if (pnat == NULL) {
+        ruleset_error(LOG_ERROR,
+                      "There's nation %s listed in embedded nations, but there's "
+                      "no such nation.",
+                      game.server.ruledit.embedded_nations[i]);
+        ok = FALSE;
+      }
+    }
+  }
+
   if (ok) {
     ok = rs_common_units();
   }

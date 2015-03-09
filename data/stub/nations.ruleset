@@ -14,6 +14,10 @@ format_version=10
 ; will be saved to nations.ruleset itself.
 ;nationlist = ""
 
+; List of nations to embed to main nations.ruleset despite separate nationlist
+; being used for other nations.
+; embedded_nations = ""
+
 [default_traits]
 ;expansionist_min = 50
 ;expansionist_max = 50
