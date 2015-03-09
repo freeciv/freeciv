@@ -188,7 +188,7 @@ For backward compatibility reasons, packets used for the initial protocol
 sizes (defined in common/packets.c:packet_header_init()):
 
 uint16	:	length		(the length of the entire packet)
-uint8	:	type		(e.g. PACKET_TILE_INFO)
+uint8	:	type		(e.g. PACKET_SERVER_JOIN_REQ)
 
 To demonstrate the route for a packet through the system, here's how
 a unit disband is performed:
