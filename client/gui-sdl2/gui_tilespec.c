@@ -429,14 +429,14 @@ SDL_Surface *get_tech_icon(Tech_type_id tech)
     case A_UNSET:
     case A_UNKNOWN:
     case A_LAST:
-      return pNone_Tech_Icon;
+      return adj_surf(pNone_Tech_Icon);
     case A_FUTURE:
-      return pFuture_Tech_Icon;
+      return adj_surf(pFuture_Tech_Icon);
     default:
       if (get_tech_sprite(tileset, tech)) {
         return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
       } else {
-        return pNeutral_Tech_Icon;
+        return adj_surf(pNeutral_Tech_Icon);
       }
   }
 
