@@ -398,7 +398,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
           /* Choose capture. */
           handle_unit_do_action(unit_owner(punit),
                                 punit->id, tile_index(dst_tile),
-                                0, ACTION_CAPTURE_UNITS);
+                                0, "", ACTION_CAPTURE_UNITS);
         } else {
           (void) unit_move_handling(punit, dst_tile, TRUE, FALSE);
         }

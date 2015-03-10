@@ -1482,7 +1482,8 @@ void request_do_action(enum gen_action action, int actor_id,
                        int target_id, int value)
 {
   dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, value, action);
+                              actor_id, target_id, value, "",
+                              action);
 }
 
 /**************************************************************************

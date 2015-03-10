@@ -847,7 +847,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                                       punit, ptile)) {
     /* Choose capture. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                          0, ACTION_CAPTURE_UNITS);
+                          0, "", ACTION_CAPTURE_UNITS);
   } else {
     /* Regular attack. */
     (void) unit_move_handling(punit, ptile, FALSE, FALSE);

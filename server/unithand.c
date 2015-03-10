@@ -888,6 +888,7 @@ void handle_unit_do_action(struct player *pplayer,
 			   const int actor_id,
 			   const int target_id,
 			   const int value,
+                           const char *name,
 			   const enum gen_action action_type)
 {
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);

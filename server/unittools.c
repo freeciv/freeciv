@@ -3994,7 +3994,7 @@ bool execute_orders(struct unit *punit)
 
       handle_unit_do_action(pplayer,
                             unitid, tile_city(dst_tile)->id,
-                            0, ACTION_TRADE_ROUTE);
+                            0, "", ACTION_TRADE_ROUTE);
       if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no trade route city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
@@ -4022,7 +4022,7 @@ bool execute_orders(struct unit *punit)
       handle_unit_do_action(pplayer,
                             unitid,
                             tile_city(dst_tile)->id,
-                            0, ACTION_HELP_WONDER);
+                            0, "", ACTION_HELP_WONDER);
       if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no wonder city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,

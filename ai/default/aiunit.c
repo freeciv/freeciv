@@ -1938,7 +1938,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
-                            0, ACTION_HELP_WONDER);
+                            0, "", ACTION_HELP_WONDER);
     } else if (is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
                                               punit, dest_city)) {
       log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
@@ -1948,7 +1948,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
-                            0, ACTION_TRADE_ROUTE);
+                            0, "", ACTION_TRADE_ROUTE);
     } else if (is_action_enabled_unit_on_city(ACTION_MARKETPLACE,
                                               punit, dest_city)) {
       /* Get the one time bonus. */
@@ -1959,7 +1959,7 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
                TILE_XY(unit_tile(punit)),
                city_name(dest_city));
       handle_unit_do_action(pplayer, punit->id, dest_city->id,
-                            0, ACTION_MARKETPLACE);
+                            0, "", ACTION_MARKETPLACE);
     } else {
       enum log_level level = LOG_NORMAL;
 
