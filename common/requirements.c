@@ -275,7 +275,7 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_CITYTILE:
-    source.value.citytile = citytile_by_rule_name(value);
+    source.value.citytile = citytile_type_by_name(value, fc_strcasecmp);
     if (source.value.citytile != CITYT_LAST) {
       return source;
     }
@@ -2908,11 +2908,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_NONE:
     return "(none)";
   case VUT_CITYTILE:
-    if (psource->value.citytile == CITYT_CENTER) {
-      return "Center";
-    } else {
-      return "(none)";
-    }
+    return citytile_type_name(psource->value.citytile);
   case VUT_MINYEAR:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minyear);
 
