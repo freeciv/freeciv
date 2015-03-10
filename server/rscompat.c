@@ -199,7 +199,6 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The actor unit must have the unit type flag Capturer, belong to a
      * player that is at war with each player that owns a target unit and
      * have at least one move fragment left. */
-    requirement_vector_init(&(capture->actor_reqs));
     requirement_vector_append(&capture->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Capturer"));
@@ -212,7 +211,6 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     /* The target unit(s) must all have the Capturable unit type flag and
      * can't be inside a city. */
-    requirement_vector_init(&(capture->target_reqs));
     requirement_vector_append(&capture->target_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Capturable"));
