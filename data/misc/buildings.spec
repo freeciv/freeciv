@@ -108,4 +108,5 @@ tiles = { "row", "column", "tag"
   9,  0, "b.statue_of_zeus"
   9,  1, "b.temple_of_artemis"
   9,  2, "b.mausoleum"
+  9,  3, "b.internet"
 }

@@ -68,6 +68,7 @@ sprites =
 		"b.great_wall", "wonders/great_wall"
 		"b.hanging_gardens", "wonders/hanging_gardens"
 		"b.hoover_dam", "wonders/hoover_dam"
+                "b.internet", "wonders/internet"
 		"b.isaac_newtons_college", "wonders/isaac_newtons_college"
 		"b.js_bachs_cathedral", "wonders/js_bachs_cathedral"
 		"b.king_richards_crusade", "wonders/king_richards_crusade"
