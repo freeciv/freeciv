@@ -268,10 +268,11 @@ typedef int Unit_Class_id;
  *
  * Used in the network protocol
  */
-enum citytile_type {
-  CITYT_CENTER,
-  CITYT_LAST
-};
+#define SPECENUM_NAME citytile_type
+#define SPECENUM_VALUE0 CITYT_CENTER
+#define SPECENUM_VALUE0NAME "Center"
+#define SPECENUM_COUNT CITYT_LAST
+#include "specenum_gen.h"
 
 /*
  * UnitState requirement property types.

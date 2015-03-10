@@ -3181,18 +3181,6 @@ bool is_free_worked(const struct city *pcity, const struct tile *ptile)
 }
 
 /**************************************************************************
-  Return citytile type for a given rule name
-**************************************************************************/
-enum citytile_type citytile_by_rule_name(const char *name)
-{
-  if (!fc_strcasecmp(name, "Center")) {
-    return CITYT_CENTER;
-  }
-
-  return CITYT_LAST;
-}
-
-/**************************************************************************
   Return pointer to ai data of given city and ai type.
 **************************************************************************/
 void *city_ai_data(const struct city *pcity, const struct ai_type *ai)
