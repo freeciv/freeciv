@@ -398,7 +398,6 @@ void create_units_order_widgets(void)
 {
   struct widget *pBuf = NULL;
   char cBuf[128];
-  size_t len;
   struct road_type *proad;
   struct road_type *prail;
 
@@ -620,18 +619,14 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Auto-Attack / Auto-Settler */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Attack"), "A");
-  len = strlen(cBuf);
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
-  len = MAX(len, strlen(cBuf));
   
   pBuf = create_themeicon(pTheme->OAutoSett_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  len++;
-  pBuf->info_label = create_utf8_str(cBuf, len, adj_font(10));
+  pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_a;
   add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, pBuf);
 
@@ -852,22 +847,19 @@ void create_units_order_widgets(void)
   pOrder_Trade_Button = pBuf;
   /* --------- */
 
-  len = 0;
-
   /* Build (Rail-)Road */
-  /* TRANS: "Build Railroad (R) 999 turns" */
-  if (prail != NULL) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                road_name_translation(prail), "R", 999, 
-                PL_("turn", "turns", 999));
-    len = strlen(cBuf);
-  }
   /* TRANS: "Build Road (R) 999 turns" */
   if (proad != NULL) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                 road_name_translation(proad), "R", 999, 
                 PL_("turn", "turns", 999));
-    len = MAX(len, strlen(cBuf));
+  } else if (prail != NULL) {
+    /* TRANS: "Build Railroad (R) 999 turns" */
+    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                road_name_translation(prail), "R", 999, 
+                PL_("turn", "turns", 999));
+  } else {
+    cBuf[0] = '\0';
   }
 
   pBuf = create_themeicon(pTheme->ORoad_Icon, Main.gui,
@@ -875,8 +867,7 @@ void create_units_order_widgets(void)
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  len++;
-  pBuf->info_label = create_utf8_str(cBuf, len, adj_font(10));
+  pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_r;
   add_to_gui_list(ID_UNIT_ORDER_ROAD, pBuf);
 
@@ -896,18 +887,15 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Add to City / Build New City */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
-  len = strlen(cBuf);
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build City"), "B");
-  len = MAX(len, strlen(cBuf));
+  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Add to City"), "B");
+  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Build City"), "B");
 
   pBuf = create_themeicon(pTheme->OBuildCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  len++;
-  pBuf->info_label = create_utf8_str(cBuf, len, adj_font(10));
+  pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_CITY, pBuf);
 
