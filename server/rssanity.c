@@ -440,6 +440,59 @@ static bool rs_common_units(void)
   return TRUE;
 }
 
+
+/**************************************************************************
+  Check that boolean effect types have sensible effects.
+**************************************************************************/
+static bool sanity_check_boolean_effects(void)
+{
+  enum effect_type boolean_effects[] =
+    {
+      EFT_ANY_GOVERNMENT,
+      EFT_CAPITAL_CITY,
+      EFT_ENABLE_NUKE,
+      EFT_ENABLE_SPACE,
+      EFT_HAVE_EMBASSIES,
+      EFT_NO_ANARCHY,
+      EFT_NUKE_PROOF,
+      EFT_REVEAL_CITIES,
+      EFT_REVEAL_MAP,
+      EFT_SIZE_UNLIMIT,
+      EFT_SS_STRUCTURAL,
+      EFT_SS_COMPONENT,
+      EFT_NO_UNHAPPY,
+      EFT_RAPTURE_GROW,
+      EFT_HAS_SENATE,
+      EFT_INSPIRE_PARTISANS,
+      EFT_HAPPINESS_TO_GOLD,
+      EFT_FANATICS,
+      EFT_NO_DIPLOMACY,
+      EFT_IRRIG_POSSIBLE,
+      EFT_GOV_CENTER,
+      EFT_TRANSFORM_POSSIBLE,
+      EFT_MINING_POSSIBLE,
+      EFT_IRRIG_TF_POSSIBLE,
+      EFT_MINING_TF_POSSIBLE,
+      EFT_NOT_TECH_SOURCE,
+      EFT_VICTORY,
+      EFT_HAVE_CONTACTS,
+      EFT_COUNT
+    };
+  int i;
+  bool ret = TRUE;
+
+  for (i = 0; boolean_effects[i] != EFT_COUNT; i++) {
+    if (effect_cumulative_min(boolean_effects[i], NULL) < 0
+        && effect_cumulative_max(boolean_effects[i], NULL) >= 0) {
+      ruleset_error(LOG_ERROR, "Boolean effect %s can get disabled, but it can't get "
+                    "enabled before that.", effect_type_name(boolean_effects[i]));
+      ret = FALSE;
+    }
+  }
+
+  return ret;
+}
+
 /**************************************************************************
   Some more sanity checking once all rulesets are loaded. These check
   for some cross-referencing which was impossible to do while only one
@@ -595,6 +648,10 @@ bool sanity_check_ruleset_data(void)
   if (!iterate_effect_cache(effect_list_sanity_cb, NULL)) {
     ruleset_error(LOG_ERROR,
                   "Effects have conflicting or invalid requirements!");
+    ok = FALSE;
+  }
+
+  if (!sanity_check_boolean_effects()) {
     ok = FALSE;
   }
 
