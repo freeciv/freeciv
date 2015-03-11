@@ -12,7 +12,7 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 flags =
   { "name", "helptxt"
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
-    _("HelpWonder"), _("Can help build wonders (adding its full shield cost).")
+    _("HelpWonder")
   }
 
 [veteran_system]
