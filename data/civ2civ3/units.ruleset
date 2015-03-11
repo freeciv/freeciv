@@ -31,7 +31,7 @@ flags =
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Submarine"), _("Attack value halved when attacking Destroyer.")
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
-    _("HelpWonder"), _("Can help build wonders (adding its full shield cost).")
+    _("HelpWonder")
     _("Capturer"),   _("Can capture some enemy units.")
     _("Capturable"), _("Can be captured by some enemy units.")
   }

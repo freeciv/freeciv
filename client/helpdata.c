@@ -3942,13 +3942,40 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (requirement_fulfilled_by_unit_type(utype,
                                              &(enabler->actor_reqs))) {
-        const char *target_kind
-            = _(action_target_kind_name(action_get_target_kind(act)));
+        switch (act) {
+        case ACTION_HELP_WONDER:
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the first %s is the ruleset defined ui
+                        * name of the "Help Wonder" action, the next %s is
+                        * the name of its target kind ("individual cities")
+                        * and the %d is the number of shields the unit can
+                        * contribute. */
+                       _("* Can do the action \'%s\' to some %s"
+                         " (adds %d production).\n"),
+                       /* The action may have a ruleset defined ui name. */
+                       action_get_ui_name(act),
+                       /* Keep the style consistent with the help for the
+                        * other actions. */
+                       _(action_target_kind_name(
+                           action_get_target_kind(act))),
+                       /* The custom information. */
+                       utype_build_shield_cost(utype));
+          break;
+        default:
+          /* Generic action information. */
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the first %s is the action's ruleset
+                        * defined ui name and the next %s is the name of
+                        * its target kind. */
+                       _("* Can do the action \'%s\' to some %s.\n"),
+                       action_get_ui_name(act),
+                       _(action_target_kind_name(
+                           action_get_target_kind(act))));
+          break;
+        }
 
-        cat_snprintf(buf, bufsz,
-                     _("* Can do the action \'%s\' to some %s.\n"),
-                     action_get_ui_name(act),
-                     target_kind);
+        /* The unit's ability to perform this action was just documented.
+         * Move on to check if the unit can perform the next action too. */
         break;
       }
     } action_enabler_list_iterate_end;
