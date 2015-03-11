@@ -316,23 +316,27 @@ void *get_packet_from_connection_json(struct connection *pc,
    * At this point the packet is a plain uncompressed one. These have
    * to have to be at least the header bytes in size.
    */
-  if (whole_packet_len < (data_type_size(pc->packet_header.length)
-                          + data_type_size(pc->packet_header.type))) {
+  if (whole_packet_len < (data_type_size(pc->packet_header.length))) {
     log_verbose("The packet stream is corrupt. The connection "
                 "will be closed now.");
     connection_close(pc, _("decoding error"));
     return NULL;
   }
 
-  /* Parse JSON packet. */
+  /* Parse JSON packet. Note that json string has '\0' */
+  pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
 
-  pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len, 0, &error);
-
-  memmove(pc->buffer->data, pc->buffer->data, pc->buffer->ndata);
-  pc->buffer->ndata = 0;
-
+  /* Log errors before we scrap the data */
   if (!pc->json_packet) {
     log_error("ERROR: Unable to parse packet: %s", pc->buffer->data + 2);
+    log_error("%s", error.text);
+  }
+
+  /* Shift remaining data to the front */
+  pc->buffer->ndata -= whole_packet_len;
+  memmove(pc->buffer->data, pc->buffer->data + whole_packet_len, pc->buffer->ndata);
+
+  if (!pc->json_packet) {
     return NULL;
   }
 
