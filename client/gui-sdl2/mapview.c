@@ -154,7 +154,7 @@ void unqueue_flush(void)
 void queue_flush(void)
 {
   if (!is_flush_queued) {
-    if (SDL_PushEvent(flush_event) == 0) {
+    if (SDL_PushEvent(flush_event) >= 0) {
       is_flush_queued = TRUE;
     } else {
       /* We don't want to set is_flush_queued in this case, since then
