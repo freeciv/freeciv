@@ -24,6 +24,10 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 ; will be saved to nations.ruleset itself.
 ;nationlist = ""
 
+; List of nations to embed to main nations.ruleset despite separate nationlist
+; being used for other nations.
+; embedded_nations = ""
+
 [compatibility]
 ; Initial government for all the nations that do not
 ; have it explicitly defined

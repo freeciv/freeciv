@@ -527,6 +527,8 @@ void game_ruleset_init(void)
 
   if (is_server()) {
     game.server.ruledit.nationlist = NULL;
+    game.server.ruledit.embedded_nations = NULL;
+    game.server.ruledit.embedded_nations_count = 0;
   }
 }
 
@@ -579,9 +581,19 @@ void game_ruleset_free(void)
     game.plr_bg_color = NULL;
   }
 
-  if (is_server() && game.server.ruledit.nationlist != NULL) {
-    free(game.server.ruledit.nationlist);
-    game.server.ruledit.nationlist = NULL;
+  if (is_server()) {
+    if (game.server.ruledit.nationlist != NULL) {
+      free(game.server.ruledit.nationlist);
+      game.server.ruledit.nationlist = NULL;
+    }
+    if (game.server.ruledit.embedded_nations != NULL) {
+      for (i = 0; i < game.server.ruledit.embedded_nations_count; i++) {
+        free(game.server.ruledit.embedded_nations[i]);
+      }
+      free(game.server.ruledit.embedded_nations);
+      game.server.ruledit.embedded_nations = NULL;
+      game.server.ruledit.embedded_nations_count = 0;
+    }
   }
 
   for (i = 0; i < MAX_CALENDAR_FRAGMENTS; i++) {

@@ -247,6 +247,8 @@ struct civ_game {
 
       struct {
         char *nationlist;
+        char **embedded_nations;
+        size_t embedded_nations_count;
       } ruledit;
     } server;
   };

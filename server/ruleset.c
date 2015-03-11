@@ -3738,6 +3738,18 @@ static bool load_ruleset_nations(struct section_file *file)
   if (name != NULL) {
     game.server.ruledit.nationlist = fc_strdup(name);
   }
+  vec  = secfile_lookup_str_vec(file, &game.server.ruledit.embedded_nations_count,
+                                "ruledit.embedded_nations");
+
+  if (vec != NULL) {
+    /* Copy to persistent vector */
+    game.server.ruledit.embedded_nations
+      = fc_malloc(game.server.ruledit.embedded_nations_count * sizeof(char *));
+
+    for (j = 0; j < game.server.ruledit.embedded_nations_count; j++) {
+      game.server.ruledit.embedded_nations[j] = fc_strdup(vec[j]);
+    }
+  }
 
   game.server.default_government = NULL;
 
