@@ -180,7 +180,7 @@ flags         = "ZOC", "DamageSlows", "AttFromNonNative"
 name          = _("?unitclass:Helicopter")
 min_speed     = 1
 hp_loss_pct   = 10
-flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom"
+flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRansom", "Airliftable"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
