@@ -1480,6 +1480,7 @@ AC_CONFIG_FILES([Makefile
 	  doc/ja/Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
+          bootstrap/Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
