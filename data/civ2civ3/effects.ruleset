@@ -122,7 +122,7 @@ reqs    =
       "CityTile", "Center", "Local", FALSE
       "Extra", "Fortress", "Local", FALSE
       "Extra", "Airbase", "Local", FALSE
-      "TerrainClass", "Oceanic", "Local"; FALSE
+      "TerrainClass", "Oceanic", "Local", FALSE
     }
 
 [effect_ai_handicapped_science]
