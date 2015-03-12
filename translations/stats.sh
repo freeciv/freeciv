@@ -53,11 +53,19 @@ do
 done
 }
 
-for domain in freeciv nations ruledit
+if test "x$1" = "xrelease" ; then
+    DOMAINLIST="freeciv"
+else
+    DOMAINLIST="freeciv nations ruledit"
+fi
+
+for domain in $DOMAINLIST
 do
-  echo
-  echo "$domain"
-  echo "----------"
+  if test "x$1" != "xrelease" ; then
+    echo
+    echo "$domain"
+    echo "----------"
+  fi
   ( cd "$SRCDIR/$domain"
     dir_stats *.po
     rm messages.mo )

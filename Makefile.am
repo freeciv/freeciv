@@ -25,45 +25,14 @@ else
 DSUBDIRS =
 endif
 
-SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) translations doc tools gen_headers
+SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) translations doc tools gen_headers bootstrap
 
 ## Automake should distribute config.rpath automatically - and new
 ## versions probably do. We still support versions that do not, so
 ## it's in the list below.
 ## It should also install it automatically when running autogen.sh.
-EXTRA_DIST=	autogen.sh 			\
+EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\
-		bootstrap/fcgui.in		\
-		bootstrap/fcser.in		\
-		bootstrap/fcruledit.in		\
-		bootstrap/fc_svnrev_gen.h.tmpl	\
-		bootstrap/generate_svnrev.sh	\
-		bootstrap/fc_gitrev_gen.h.tmpl	\
-		bootstrap/generate_gitrev.sh	\
-		bootstrap/freeciv.desktop.in	\
-		bootstrap/freeciv-gtk2.desktop.in \
-		bootstrap/freeciv-sdl.desktop.in \
-		bootstrap/freeciv-sdl2.desktop.in \
-		bootstrap/freeciv-qt.desktop.in \
-		bootstrap/freeciv-server.desktop.in	\
-		bootstrap/freeciv-mp-gtk2.desktop.in	\
-		bootstrap/freeciv-mp-gtk3.desktop.in	\
-		bootstrap/freeciv-mp-qt.desktop.in	\
-		bootstrap/freeciv-ruledit.desktop.in	\
-		bootstrap/freeciv-gtk2.appdata.xml.in \
-		bootstrap/freeciv-gtk3.appdata.xml.in \
-		bootstrap/freeciv-sdl.appdata.xml.in \
-		bootstrap/freeciv-sdl2.appdata.xml.in \
-		bootstrap/freeciv-qt.appdata.xml.in \
-		bootstrap/freeciv-server.appdata.xml.in \
-		bootstrap/freeciv-mp-gtk2.appdata.xml.in \
-		bootstrap/freeciv-mp-gtk3.appdata.xml.in \
-		bootstrap/freeciv-mp-qt.appdata.xml.in \
-		bootstrap/freeciv-ruledit.appdata.xml.in \
-		bootstrap/freeciv.spec.in	\
-		bootstrap/config.rpath		\
-		bootstrap/Makerules.mk		\
-		bootstrap/langnames.txt		\
 		m4/c99.m4			\
 		m4/c11.m4			\
 		m4/c++11.m4			\
