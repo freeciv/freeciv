@@ -265,23 +265,6 @@ reqs    =
       "UnitClass", "Missile", "Local", FALSE
     }
 
-[effect_fortress_defense]
-type    = "Defend_Bonus"
-value   = 50
-reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Fortress", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
-    }
-
 [effect_fort_defense]
 type    = "Defend_Bonus"
 value   = 50
@@ -299,25 +282,27 @@ reqs    =
       "UnitClass", "Missile", "Local", FALSE
     }
 
-; Airbase HP regen (Every Air units)
-[effect_airbase_hp_regen]
-type    = "HP_Regen"
-value   = 25
+; Cumulative with fort
+; 50 + 50 = 100
+[effect_fortress_defense]
+type    = "Defend_Bonus"
+value   = 50
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "Airbase", "Local", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
+      "Extra", "Fortress", "Local", TRUE
+;      "UnitClass", "Land", "Local", FALSE
+;      "UnitClass", "Small Land", "Local", FALSE
+;      "UnitClass", "Big Land", "Local", FALSE
+;      "UnitClass", "Merchant", "Local", FALSE
+;      "UnitClass", "Sea", "Local", FALSE
+;      "UnitClass", "Trireme", "Local", FALSE
+      "UnitClass", "Helicopter", "Local", FALSE
+      "UnitClass", "Air", "Local", FALSE
       "UnitClass", "Missile", "Local", FALSE
     }
 
-[effect_airfield_hp_regen]
+; Airstrip HP regen (Every Air unit)
+[effect_airstrip_hp_regen]
 type    = "HP_Regen"
 value   = 10
 reqs    =
@@ -334,9 +319,12 @@ reqs    =
       "UnitClass", "Missile", "Local", FALSE
     }
 
-[effect_airbase_defense]
-type    = "Defend_Bonus"
-value   = 50
+; Airbase HP regen: cumulative with airstrip
+; 10 + 24 = 34% (this approximation to 1/3 is exact for units <50HP;
+; 1/3 is equivalent to a city without Airport)
+[effect_airbase_hp_regen]
+type    = "HP_Regen"
+value   = 24
 reqs    =
     { "type", "name", "range", "present"
       "Extra", "Airbase", "Local", TRUE
@@ -348,15 +336,34 @@ reqs    =
       "UnitClass", "Trireme", "Local", FALSE
 ;      "UnitClass", "Helicopter", "Local", FALSE
 ;      "UnitClass", "Air", "Local", FALSE
-;      "UnitClass", "Missile", "Local", FALSE
+      "UnitClass", "Missile", "Local", FALSE
     }
 
-[effect_airfield_defense]
+[effect_airstrip_defense]
 type    = "Defend_Bonus"
 value   = 50
 reqs    =
     { "type", "name", "range", "present"
       "Extra", "Airstrip", "Local", TRUE
+      "UnitClass", "Land", "Local", FALSE
+      "UnitClass", "Small Land", "Local", FALSE
+      "UnitClass", "Big Land", "Local", FALSE
+      "UnitClass", "Merchant", "Local", FALSE
+      "UnitClass", "Sea", "Local", FALSE
+      "UnitClass", "Trireme", "Local", FALSE
+;      "UnitClass", "Helicopter", "Local", FALSE
+;      "UnitClass", "Air", "Local", FALSE
+;      "UnitClass", "Missile", "Local", FALSE
+    }
+
+; Cumulative with airstrip
+; 50 + 50 = 100
+[effect_airbase_defense]
+type    = "Defend_Bonus"
+value   = 50
+reqs    =
+    { "type", "name", "range", "present"
+      "Extra", "Airbase", "Local", TRUE
       "UnitClass", "Land", "Local", FALSE
       "UnitClass", "Small Land", "Local", FALSE
       "UnitClass", "Big Land", "Local", FALSE
