@@ -10,7 +10,7 @@ AC_DEFUN([FC_QT5],
     AS_HELP_STRING([--with-qt5-includes], [path to Qt5 includes]),
               [FC_QT5_COMPILETEST([$withval])
                qt5_hdr_check_finish=true],
-[POTENTIAL_PATHS="/usr/include /usr/include/qt5"
+[POTENTIAL_PATHS="/usr/include /usr/include/qt5 /usr/include/qt"
 
   if test "x$qt5_hdr_check_finish" != "xtrue" ; then
     # search multiarch paths too (if the multiarch tuple can be found)
@@ -36,7 +36,7 @@ AC_DEFUN([FC_QT5],
       AS_HELP_STRING([--with-qt5-libs], [path to Qt5 libraries]),
                 [FC_QT5_LINKTEST([$withval])
                  qt5_lib_check_finish=true],
-[POTENTIAL_PATHS="/usr/lib/qt5"
+[POTENTIAL_PATHS="/usr/lib/qt5 /usr/lib/qt"
 
     if test "x$qt5_lib_check_finish" != "xtrue" ; then
       # search multiarch paths too (if the multiarch tuple can be found)
