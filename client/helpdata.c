@@ -2528,45 +2528,64 @@ static bool insert_requirement(char *buf, size_t bufsz,
     break;
 
   case VUT_CITYTILE:
-    if (preq->source.value.citytile != CITYT_CENTER) {
+    if (preq->source.value.citytile == CITYT_LAST) {
       break;
-    }
-    switch (preq->range) {
-    case REQ_RANGE_LOCAL:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Applies only to city centers.\n"));
-      } else {
-        cat_snprintf(buf, bufsz, _("Does not apply to city centers.\n"));
+    } else {
+      static char *tile_property = NULL;
+
+      switch (preq->source.value.citytile) {
+      case CITYT_CENTER:
+        tile_property = "city centers";
+        break;
+      case CITYT_CLAIMED:
+        tile_property = "claimed tiles";
+        break;
+      case CITYT_LAST:
+        fc_assert(preq->source.value.citytile != CITYT_LAST);
+        break;
       }
-      return TRUE;
-    case REQ_RANGE_CADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Applies only to city centers and "
-                                   "cardinally adjacent tiles.\n"));
-      } else {
-        cat_snprintf(buf, bufsz, _("Does not apply to city centers or "
-                                   "cardinally adjacent tiles.\n"));
+
+      switch (preq->range) {
+      case REQ_RANGE_LOCAL:
+        if (preq->present) {
+          cat_snprintf(buf, bufsz,
+                       _("Applies only to %s.\n"), tile_property);
+        } else {
+          cat_snprintf(buf, bufsz,
+                       _("Does not apply to %s.\n"), tile_property);
+        }
+        return TRUE;
+      case REQ_RANGE_CADJACENT:
+        if (preq->present) {
+          cat_snprintf(buf, bufsz, _("Applies only to %s and "
+                                     "cardinally adjacent tiles.\n"),
+                       tile_property);
+        } else {
+          cat_snprintf(buf, bufsz, _("Does not apply to %s or "
+                                     "cardinally adjacent tiles.\n"),
+                       tile_property);
+        }
+        return TRUE;
+      case REQ_RANGE_ADJACENT:
+        if (preq->present) {
+          cat_snprintf(buf, bufsz, _("Applies only to %s and "
+                                     "adjacent tiles.\n"), tile_property);
+        } else {
+          cat_snprintf(buf, bufsz, _("Does not apply to %s or "
+                                     "adjacent tiles.\n"), tile_property);
+        }
+        return TRUE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_TRADEROUTE:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
       }
-      return TRUE;
-    case REQ_RANGE_ADJACENT:
-      if (preq->present) {
-        cat_snprintf(buf, bufsz, _("Applies only to city centers and "
-                                   "adjacent tiles.\n"));
-      } else {
-        cat_snprintf(buf, bufsz, _("Does not apply to city centers or "
-                                   "adjacent tiles.\n"));
-      }
-      return TRUE;
-    case REQ_RANGE_CITY:
-    case REQ_RANGE_TRADEROUTE:
-    case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_PLAYER:
-    case REQ_RANGE_TEAM:
-    case REQ_RANGE_ALLIANCE:
-    case REQ_RANGE_WORLD:
-    case REQ_RANGE_COUNT:
-      /* Not supported. */
-      break;
     }
 
   case VUT_COUNT:
