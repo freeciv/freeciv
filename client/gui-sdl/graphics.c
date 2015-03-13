@@ -505,7 +505,7 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
       /* Here ptr is the address to the pixel we want to retrieve */
       Uint8 *ptr =
 	  (Uint8 *) pSurface->pixels + y * pSurface->pitch + x * 3;
-      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+      if (is_bigendian()) {
 	return ptr[0] << 16 | ptr[1] << 8 | ptr[2];
       } else {
 	return ptr[0] | ptr[1] << 8 | ptr[2] << 16;
@@ -536,7 +536,7 @@ Uint32 get_first_pixel(SDL_Surface *pSurface)
 
   case 3:
     {
-      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+      if (is_bigendian()) {
 	return (((Uint8 *)pSurface->pixels)[0] << 16)|
 		(((Uint8 *)pSurface->pixels)[1] << 8)|
 			((Uint8 *)pSurface->pixels)[2];
@@ -3094,7 +3094,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
       h = pSurface->h;
       while(h--) {
         do {
-	  if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+	  if (is_bigendian()) {
 	    color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
           } else {
 	    color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
@@ -3127,7 +3127,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
       start = pixel;
       while(h--) {
         do {
-	  if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+	  if (is_bigendian()) {
 	    color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
           } else {
 	    color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);

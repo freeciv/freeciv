@@ -531,7 +531,7 @@ Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y)
       Uint8 *ptr =
         (Uint8 *) pSurface->pixels + y * pSurface->pitch + x * 3;
 
-      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+      if (is_bigendian()) {
         return ptr[0] << 16 | ptr[1] << 8 | ptr[2];
       } else {
         return ptr[0] | ptr[1] << 8 | ptr[2] << 16;
@@ -565,7 +565,7 @@ Uint32 get_first_pixel(SDL_Surface *pSurface)
 
   case 3:
     {
-      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+      if (is_bigendian()) {
         return (((Uint8 *)pSurface->pixels)[0] << 16)
           | (((Uint8 *)pSurface->pixels)[1] << 8)
           | ((Uint8 *)pSurface->pixels)[2];
@@ -645,21 +645,25 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                  iWidth, iHeight,
                                  0);
 
-  main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
-#if SDL_BYTEORDER != SDL_LIL_ENDIAN
-                0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
-#else
-                0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
-#endif
-);
+  if (is_bigendian()) {
+      main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+                                          0x0000FF00, 0x00FF0000,
+                                          0xFF000000, 0x000000FF);
+  } else {
+    main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+                                        0x00FF0000, 0x0000FF00,
+                                        0x000000FF, 0xFF000000);
+  }
 
-  Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
-#if SDL_BYTEORDER != SDL_LIL_ENDIAN
-                0x0000FF00, 0x00FF0000, 0xFF000000, 0x000000FF
-#else
-                0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000
-#endif
-);
+  if (is_bigendian()) {
+    Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+                                    0x0000FF00, 0x00FF0000,
+                                    0xFF000000, 0x000000FF);
+  } else {
+    Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+                                    0x00FF0000, 0x0000FF00,
+                                    0x000000FF, 0xFF000000);
+  }
 
   if (options.gui_sdl2_swrenderer) {
     flags = SDL_RENDERER_SOFTWARE;
@@ -3184,7 +3188,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       h = pSurface->h;
       while (h--) {
         do {
-          if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+          if (is_bigendian()) {
             color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
           } else {
             color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
@@ -3217,7 +3221,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
       start = pixel;
       while (h--) {
         do {
-          if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+          if (is_bigendian()) {
             color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
           } else {
             color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);

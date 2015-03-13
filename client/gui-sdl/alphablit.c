@@ -237,7 +237,7 @@ do {                                                                       \
                 break;                                                           \
                 default:        {/* case 3: FIXME: broken code (no alpha) */                   \
                         Uint8 *b = (Uint8 *)buf;                           \
-                        if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {                   \
+                        if (!is_bigendian()) {                          \
                                 pixel = b[0] + (b[1] << 8) + (b[2] << 16); \
                         } else {                                           \
                                 pixel = (b[0] << 16) + (b[1] << 8) + b[2]; \
@@ -259,14 +259,14 @@ do {                                                              \
   } else {                                                        \
     switch (bpp) {                                                \
     case 2:                                                       \
-      if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                      \
+      if (!is_bigendian()) {                                      \
         pixel = b[0] + (b[1] << 8);                               \
       } else {                                                    \
         pixel = (b[0] << 8) + b[1];                               \
       }                                                           \
       break;                                                      \
     case 4:                                                       \
-      if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                      \
+      if (!is_bigendian()) {                                      \
         pixel = b[0] + (b[1] << 8) + (b[2] << 16) + (b[3] << 24); \
       } else {                                                    \
         pixel = (b[0] << 24) + (b[1] << 16) + (b[2] << 8) + b[3]; \
@@ -274,7 +274,7 @@ do {                                                              \
       break;                                                      \
     default:                                                      \
       { /* case 3: FIXME: broken code (no alpha) */               \
-        if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                    \
+        if (!is_bigendian()) {                                    \
           pixel = b[0] + (b[1] << 8) + (b[2] << 16);              \
         } else {                                                  \
           pixel = (b[0] << 16) + (b[1] << 8) + b[2];              \
@@ -313,7 +313,7 @@ do {                                                              \
   {                                                               \
     Uint16 pixel;                                                 \
     PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);                      \
-    if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                        \
+    if (!is_bigendian()) {                                        \
       buf[0] = (pixel & 0x00ff);                                  \
       buf[1] = (pixel & 0xff00) >> 8;                             \
     } else {                                                      \
@@ -326,7 +326,7 @@ do {                                                              \
   {                                                               \
     Uint32 pixel;                                                 \
     PIXEL_FROM_RGBA(pixel, fmt, r, g, b, a);                      \
-    if (SDL_BYTEORDER == SDL_LIL_ENDIAN) {                        \
+    if (!is_bigendian()) {                                        \
       buf[0] = (pixel & 0x000000ff);                              \
       buf[1] = (pixel & 0x0000ff00) >> 8;                         \
       buf[2] = (pixel & 0x00ff0000) >> 16;                        \

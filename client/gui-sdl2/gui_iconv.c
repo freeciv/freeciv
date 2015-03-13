@@ -64,11 +64,11 @@
 **************************************************************************/
 static const char *get_display_encoding(void)
 {
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-  return "UTF-16LE";
-#else
-  return "UTF-16BE";
-#endif
+  if (is_bigendian()) {
+    return "UTF-16BE";
+  } else {
+    return "UTF-16LE";
+  }
 }
 
 /**************************************************************************

@@ -172,21 +172,21 @@ struct sprite *load_gfxfile(const char *filename)
 
     for (i = 0; i < width; i++) {
       for (j = 0; j < height; j++) {
-#ifndef WORDS_BIGENDIAN
-        /* Add alpha channel */
-        new_data[(j * width + i) * 4 + 3] = 0xff;
-        /* Copy RGB */
-        new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
-        new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
-        new_data[(j * width + i) * 4 + 0] = old_data[(j * width + i) * 4 + 0];
-#else  /* WORDS_BIGENDIAN */
-        /* Add alpha channel */
-        new_data[(j * width + i) * 4] = 0xff;
-        /* Copy RGB */
-        new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
-        new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
-        new_data[(j * width + i) * 4 + 3] = old_data[(j * width + i) * 4 + 3];
-#endif  /* WORDS_BIGENDIAN */
+        if (!is_bigendian()) {
+          /* Add alpha channel */
+          new_data[(j * width + i) * 4 + 3] = 0xff;
+          /* Copy RGB */
+          new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
+          new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
+          new_data[(j * width + i) * 4 + 0] = old_data[(j * width + i) * 4 + 0];
+        } else {
+          /* Add alpha channel */
+          new_data[(j * width + i) * 4] = 0xff;
+          /* Copy RGB */
+          new_data[(j * width + i) * 4 + 1] = old_data[(j * width + i) * 4 + 1];
+          new_data[(j * width + i) * 4 + 2] = old_data[(j * width + i) * 4 + 2];
+          new_data[(j * width + i) * 4 + 3] = old_data[(j * width + i) * 4 + 3];
+        }
       }
     }
 
@@ -258,11 +258,11 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   int i, j;
   int endian;
 
-#ifdef WORDS_BIGENDIAN
-  endian = 0;
-#else
-  endian = 3;
-#endif
+  if (is_bigendian()) {
+    endian = 0;
+  } else {
+    endian = 3;
+  }
 
   fc_assert(cairo_image_surface_get_format(sprite->surface) == CAIRO_FORMAT_ARGB32);
 
@@ -380,24 +380,24 @@ GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height)
     while (p < end) {
       tmp = p[0];
 
-#ifdef WORDS_BIGENDIAN
-      if (tmp != 0) {
-        p[0] = DIV_UNc(p[1], tmp);
-        p[1] = DIV_UNc(p[2], tmp);
-        p[2] = DIV_UNc(p[3], tmp);
-        p[3] = tmp;
+      if (is_bigendian()) {
+        if (tmp != 0) {
+          p[0] = DIV_UNc(p[1], tmp);
+          p[1] = DIV_UNc(p[2], tmp);
+          p[2] = DIV_UNc(p[3], tmp);
+          p[3] = tmp;
+        } else {
+          p[1] = p[2] = p[3] = 0;
+        }
       } else {
-        p[1] = p[2] = p[3] = 0;
+        if (p[3] != 0) {
+          p[0] = DIV_UNc(p[2], p[3]);
+          p[1] = DIV_UNc(p[1], p[3]);
+          p[2] = DIV_UNc(tmp, p[3]);
+        } else {
+          p[0] = p[1] = p[2] = 0;
+        }
       }
-#else  /* WORDS_BIGENDIAN */
-      if (p[3] != 0) {
-        p[0] = DIV_UNc(p[2], p[3]);
-        p[1] = DIV_UNc(p[1], p[3]);
-        p[2] = DIV_UNc(tmp, p[3]);
-      } else {
-        p[0] = p[1] = p[2] = 0;
-      }
-#endif /* WORDS_BIGENDIAN */
 
       p += 4;
     }

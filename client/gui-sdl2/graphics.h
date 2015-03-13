@@ -375,7 +375,7 @@ do {									  \
 		break;							  \
 		case 3:							  \
 			buf_ptr += (x << 1) + x;			  \
-			if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {		  \
+			if (is_bigendian()) {                           \
 				buf_ptr[0] = (pixel >> 16) & 0xff;	\
 				buf_ptr[1] = (pixel >> 8) & 0xff;	\
 				buf_ptr[2] = pixel & 0xff;		\

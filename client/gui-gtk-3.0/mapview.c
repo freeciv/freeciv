@@ -543,11 +543,13 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
 
     for (i = 0; i < sswidth; i++) {
       for (j = 0; j < ssheight; j++) {
-#ifndef WORDS_BIGENDIAN
-        mask_out[(j * sswidth + i) * 4 + 3] = 0.65 * mask_in[(j * sswidth + i) * 4 + 3];
-#else  /* WORDS_BIGENDIAN */
-        mask_out[(j * sswidth + i) * 4 + 0] = 0.65 * mask_in[(j * sswidth + i) * 4 + 0];
-#endif /* WORDS_BIGENDIAN */
+        if (!is_bigendian()) {
+          mask_out[(j * sswidth + i) * 4 + 3]
+            = 0.65 * mask_in[(j * sswidth + i) * 4 + 3];
+        } else {
+          mask_out[(j * sswidth + i) * 4 + 0]
+            = 0.65 * mask_in[(j * sswidth + i) * 4 + 0];
+        }
       }
     }
 

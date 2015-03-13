@@ -177,6 +177,15 @@ void fc_uname(char *buf, size_t len);
 
 const char *fc_basename(const char *path);
 
+static bool inline is_bigendian(void)
+{
+#ifdef WORDS_BIGENDIAN 
+  return TRUE;
+#else  /* WORDS_BIGENDIAN */
+  return FALSE;
+#endif /* WORDS_BIGENDIAN */
+}
+
 int fc_at_quick_exit(void (*func)(void));
 
 #ifdef __cplusplus
