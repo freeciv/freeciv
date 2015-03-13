@@ -39,7 +39,7 @@ EXTRA_DIST =    fcgui.in		\
 		langnames.txt
 
 langstat.txt:
-	"$(top_srcdir)/bootstrap/generate_langstat.sh" "$(top_srcdir)" "$(top_builddir)"
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" "$(top_srcdir)" "$(top_srcdir)"
 
 .PHONY: langstat.txt
 
