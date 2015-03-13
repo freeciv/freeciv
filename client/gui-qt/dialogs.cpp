@@ -1153,7 +1153,7 @@ static void caravan_marketplace(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_unit_id)
       && NULL != game_city_by_number(target_city_id)) {
     request_do_action(ACTION_MARKETPLACE, actor_unit_id,
-                      target_city_id, 0);
+                      target_city_id, 0, "");
   }
 }
 
@@ -1168,7 +1168,7 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_unit_id)
       && NULL != game_city_by_number(target_city_id)) {
     request_do_action(ACTION_TRADE_ROUTE, actor_unit_id,
-                      target_city_id, 0);
+                      target_city_id, 0, "");
   }
 }
 
@@ -1183,7 +1183,7 @@ static void caravan_help_build(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(caravan_id)
       && NULL != game_city_by_number(caravan_target_id)) {
     request_do_action(ACTION_HELP_WONDER,
-                      caravan_id, caravan_target_id, 0);
+                      caravan_id, caravan_target_id, 0, "");
   }
 }
 
@@ -1510,7 +1510,7 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
   int diplomat_target_id = data2.toInt();
 
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, diplomat_id,
-                    diplomat_target_id, 0);
+                    diplomat_target_id, 0, "");
 }
 
 /**************************************************************************
@@ -1522,7 +1522,7 @@ static void capture_units(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_CAPTURE_UNITS, actor_id,
-                    target_id, 0);
+                    target_id, 0, "");
 }
 
 /***************************************************************************
@@ -1603,11 +1603,11 @@ static void spy_steal_something(QVariant data1, QVariant data2)
     if (data2.toInt() == A_UNSET) {
       /* This is the untargeted version. */
       request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
-                        diplomat_target_id, data2.toInt());
+                        diplomat_target_id, data2.toInt(), "");
     } else {
       /* This is the targeted version. */
       request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
-                        diplomat_target_id, data2.toInt());
+                        diplomat_target_id, data2.toInt(), "");
     }
   }
 }
@@ -1641,7 +1641,7 @@ static void spy_poison(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_POISON,
-                      diplomat_id, diplomat_target_id, 0);
+                      diplomat_id, diplomat_target_id, 0, "");
   }
 }
 
@@ -1656,7 +1656,7 @@ static void spy_steal_gold(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_STEAL_GOLD,
-                      diplomat_id, diplomat_target_id, 0);
+                      diplomat_id, diplomat_target_id, 0, "");
   }
 }
 
@@ -1671,7 +1671,7 @@ static void diplomat_embassy(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_ESTABLISH_EMBASSY, diplomat_id,
-                      diplomat_target_id, 0);
+                      diplomat_target_id, 0, "");
   }
 }
 
@@ -1686,7 +1686,7 @@ static void diplomat_investigate(QVariant data1, QVariant data2)
   if (NULL != game_city_by_number(diplomat_target_id)
       && NULL != game_unit_by_number(diplomat_id)) {
     request_do_action(ACTION_SPY_INVESTIGATE_CITY, diplomat_id,
-                      diplomat_target_id, 0);
+                      diplomat_target_id, 0, "");
   }
 }
 
@@ -1701,7 +1701,7 @@ static void diplomat_sabotage(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
-                      diplomat_target_id, B_LAST + 1);
+                      diplomat_target_id, B_LAST + 1, "");
   }
 }
 
@@ -1716,7 +1716,7 @@ static void diplomat_steal(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
-                      diplomat_target_id, A_UNSET);
+                      diplomat_target_id, A_UNSET, "");
   }
 }
 
@@ -1752,7 +1752,7 @@ static void diplomat_keep_moving(QVariant data1, QVariant data2)
       && (ptile = index_to_tile(diplomat_target_id))
       && !same_pos(unit_tile(punit), ptile)) {
     request_do_action(ACTION_MOVE, diplomat_id,
-                      diplomat_target_id, 0);
+                      diplomat_target_id, 0, "");
   }
 }
 
@@ -1800,7 +1800,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
       break;
     case QMessageBox::Ok:
       request_do_action(ACTION_SPY_INCITE_CITY, diplomat_id,
-                        diplomat_target_id, 0);
+                        diplomat_target_id, 0, "");
       break;
     }
   } else {
@@ -1854,7 +1854,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
       break;
     case QMessageBox::Ok:
       request_do_action(ACTION_SPY_BRIBE_UNIT, diplomat_id,
-                        diplomat_target_id, 0);
+                        diplomat_target_id, 0, "");
       break;
     default:
       break;
@@ -1903,11 +1903,11 @@ static void spy_sabotage(QVariant data1, QVariant data2)
     if (data2.toInt() == B_LAST) {
       /* This is the untargeted version. */
       request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
-                        diplomat_target_id, data2.toInt() + 1);
+                        diplomat_target_id, data2.toInt() + 1, "");
     } else {
       /* This is the targeted version. */
       request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
-                        diplomat_target_id, data2.toInt() + 1);
+                        diplomat_target_id, data2.toInt() + 1, "");
     }
   }
 }

@@ -124,7 +124,7 @@ void request_unit_select(struct unit_list *punits,
                          enum unit_select_location_mode selloc);
 
 void request_do_action(enum gen_action action, int actor_id,
-		       int target_id, int value);
+                       int target_id, int value, const char *name);
 void request_action_details(enum gen_action action, int actor_id,
 			    int target_id);
 void request_toggle_city_outlines(void);

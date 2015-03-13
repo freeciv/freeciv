@@ -131,7 +131,7 @@ static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_MARKETPLACE, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -148,7 +148,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_TRADE_ROUTE, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -165,7 +165,7 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_HELP_WONDER, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -200,7 +200,7 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
 
   if (response == GTK_RESPONSE_YES) {
     request_do_action(ACTION_SPY_BRIBE_UNIT, args->actor_unit_id,
-                      args->target_unit_id, 0);
+                      args->target_unit_id, 0, "");
   }
 
   gtk_widget_destroy(w);
@@ -277,7 +277,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_SPY_SABOTAGE_CITY, args->actor_unit_id,
-                      args->target_city_id, B_LAST + 1);
+                      args->target_city_id, B_LAST + 1, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -294,7 +294,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
   if (NULL != game_city_by_number(args->target_city_id)
       && NULL != game_unit_by_number(args->actor_unit_id)) {
     request_do_action(ACTION_SPY_INVESTIGATE_CITY, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -309,7 +309,7 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, args->actor_unit_id,
-                    args->target_unit_id, 0);
+                    args->target_unit_id, 0, "");
 
   gtk_widget_destroy(act_sel_dialog);
   free(args);
@@ -323,7 +323,7 @@ static void capture_units_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   request_do_action(ACTION_CAPTURE_UNITS, args->actor_unit_id,
-                    args->target_tile_id, 0);
+                    args->target_tile_id, 0, "");
 
   gtk_widget_destroy(act_sel_dialog);
   free(args);
@@ -339,7 +339,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_ESTABLISH_EMBASSY, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -356,7 +356,7 @@ static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_SPY_STEAL_GOLD, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -373,7 +373,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_SPY_POISON, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -390,7 +390,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_SPY_STEAL_TECH, args->actor_unit_id,
-                      args->target_city_id, A_UNSET);
+                      args->target_city_id, A_UNSET, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -412,12 +412,12 @@ static void spy_advances_response(GtkWidget *w, gint response,
         /* This is the untargeted version. */
         request_do_action(ACTION_SPY_STEAL_TECH,
                           args->actor_unit_id, args->target_city_id,
-                          args->value);
+                          args->value, "");
       } else {
         /* This is the targeted version. */
         request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
                           args->actor_unit_id, args->target_city_id,
-                          args->value);
+                          args->value, "");
       }
     }
   }
@@ -594,13 +594,13 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
         request_do_action(ACTION_SPY_SABOTAGE_CITY,
                           args->actor_unit_id,
                           args->target_city_id,
-                          args->value + 1);
+                          args->value + 1, "");
       } else {
         /* This is the targeted version. */
         request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY,
                           args->actor_unit_id,
                           args->target_city_id,
-                          args->value + 1);
+                          args->value + 1, "");
       }
     }
   }
@@ -848,7 +848,7 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
 
   if (response == GTK_RESPONSE_YES) {
     request_do_action(ACTION_SPY_INCITE_CITY, args->actor_unit_id,
-                      args->target_city_id, 0);
+                      args->target_city_id, 0, "");
   }
 
   gtk_widget_destroy(w);
@@ -920,7 +920,7 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
       && (ptile = index_to_tile(args->target_tile_id))
       && !same_pos(unit_tile(punit), ptile)) {
     request_do_action(ACTION_MOVE, args->actor_unit_id,
-                      args->target_tile_id, 0);
+                      args->target_tile_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);

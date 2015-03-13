@@ -1477,12 +1477,13 @@ void request_unit_select(struct unit_list *punits,
   - target_id : The ID of the target unit, city or tile.
   - value : For DIPLOMAT_STEAL or DIPLOMAT_SABOTAGE, the technology
             or building to aim for (spies only).
+  - name : Used by ACTION_FOUND_CITY to specify city name.
 **************************************************************************/
 void request_do_action(enum gen_action action, int actor_id,
-                       int target_id, int value)
+                       int target_id, int value, const char *name)
 {
   dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, value, "",
+                              actor_id, target_id, value, name,
                               action);
 }
 
@@ -1707,10 +1708,10 @@ void request_unit_caravan_action(struct unit *punit,
 
   if (action == ACTION_TRADE_ROUTE) {
     request_do_action(ACTION_TRADE_ROUTE, punit->id,
-                      target_city->id, 0);
+                      target_city->id, 0, "");
   } else if (action == ACTION_HELP_WONDER) {
     request_do_action(ACTION_HELP_WONDER, punit->id,
-                      target_city->id, 0);
+                      target_city->id, 0, "");
   } else {
     log_error("request_unit_caravan_action() Bad action (%d)", action);
   }
