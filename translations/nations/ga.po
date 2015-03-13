@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 00:08+0200\n"
+"POT-Creation-Date: 2015-03-13 10:16+0000\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -147,14 +147,12 @@ msgid "?female:Great Chief %s"
 msgstr "?female:Flaith Mór %s"
 
 #: data/nation/abyssinian.ruleset:3
-#, fuzzy
 msgid "Abyssinian"
-msgstr "Albánach"
+msgstr "Aibisíneach"
 
 #: data/nation/abyssinian.ruleset:4
-#, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "?plural:hAlbánaigh"
+msgstr "?plural:hAibisínigh"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -360,14 +358,12 @@ msgid "?female:Governor %s"
 msgstr "?female:Gobharnóir %s"
 
 #: data/nation/acrean.ruleset:3
-#, fuzzy
 msgid "Acrean"
-msgstr "Cóiréach"
+msgstr ""
 
 #: data/nation/acrean.ruleset:4
-#, fuzzy
 msgid "?plural:Acreans"
-msgstr "?plural:hAramaigh"
+msgstr ""
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -379,14 +375,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baron %s"
-msgstr "Cathaoirleach %s"
+msgstr "Barún %s"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
-msgstr "Banphrionsa %s"
+msgstr "Banbharún %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -488,14 +484,12 @@ msgid "?female:Mullah %s"
 msgstr "?female:Mulla %s"
 
 #: data/nation/african.ruleset:3
-#, fuzzy
 msgid "African"
-msgstr "Meiriceánach"
+msgstr "Afracach"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:African"
-msgstr "?plural:Meiriceánaigh"
+msgstr "?plural:hAfracaigh"
 
 #: data/nation/african.ruleset:6
 msgid ""
@@ -537,14 +531,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/alandalus.ruleset:3
-#, fuzzy
 msgid "Andalusi"
-msgstr "Al-Andalásach"
+msgstr "Andalúiseach"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Andalusis"
-msgstr "?plural:hAl-Andalásaigh"
+msgstr "?plural:hAndalúisigh"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -629,14 +621,12 @@ msgstr "?female:Visír %s"
 #. TRANS: U+00C5 LATIN CAPITAL A WITH RING if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 197.
 #: data/nation/alander.ruleset:6
-#, fuzzy
 msgid "Alander"
-msgstr "Graonlannach"
+msgstr "Alaindeach"
 
 #: data/nation/alander.ruleset:7
-#, fuzzy
 msgid "?plural:Alanders"
-msgstr "?plural:hÍoslannaigh"
+msgstr "?plural:hAlaindigh"
 
 #: data/nation/alander.ruleset:9
 msgid ""
@@ -662,14 +652,14 @@ msgid "?female:Earl %s"
 msgstr "?female:Iarla %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Vicar %s"
-msgstr "Bráthair %s"
+msgstr "Biocaire %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Vicar %s"
-msgstr "?female:Deachtóir %s"
+msgstr "?female:Ban-Bhiocaire %s"
 
 #: data/nation/albanian.ruleset:3
 msgid "Albanian"
@@ -833,14 +823,12 @@ msgid "?female:%s Dey"
 msgstr "?female:Dey %s"
 
 #: data/nation/alsatian.ruleset:3
-#, fuzzy
 msgid "Alsatian"
-msgstr "Háitíoch"
+msgstr "Alsáiseach"
 
 #: data/nation/alsatian.ruleset:4
-#, fuzzy
 msgid "?plural:Alsatians"
-msgstr "?plural:hAlbánaigh"
+msgstr "?plural:hAlsáisigh"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -1060,14 +1048,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/anhaltian.ruleset:3
-#, fuzzy
 msgid "Anhaltian"
-msgstr "Háitíoch"
+msgstr "Anháltach"
 
 #: data/nation/anhaltian.ruleset:4
-#, fuzzy
 msgid "?plural:Anhaltians"
-msgstr "?plural:Mailígh"
+msgstr "?plural:hAnháltaigh"
 
 #: data/nation/anhaltian.ruleset:6
 msgid ""
@@ -1178,9 +1164,8 @@ msgid "Antiguan and Barbudan"
 msgstr ""
 
 #: data/nation/antiguan.ruleset:4
-#, fuzzy
 msgid "?plural:Antiguans and Barbudans"
-msgstr "?plural:hUgandaigh"
+msgstr ""
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -1189,16 +1174,13 @@ msgid ""
 "been independent from the United Kingdom since 1981."
 msgstr ""
 
-# "bataire" just to make it masculine
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "Bataire Airtléire"
+msgstr "Aintillíoch"
 
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "?plural:hAngólaigh"
+msgstr "?plural:hAintillígh"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -1415,12 +1397,11 @@ msgstr "?female:Asantehene %s"
 
 #: data/nation/assamese.ruleset:3
 msgid "Assamese"
-msgstr ""
+msgstr "Asaimeach"
 
 #: data/nation/assamese.ruleset:4
-#, fuzzy
 msgid "?plural:Assamese"
-msgstr "?plural:hAramaigh"
+msgstr "?plural:hAsaimigh"
 
 #: data/nation/assamese.ruleset:6
 msgid ""
@@ -1510,12 +1491,11 @@ msgstr ""
 
 #: data/nation/avar.ruleset:3
 msgid "Avar"
-msgstr ""
+msgstr "Avárach"
 
 #: data/nation/avar.ruleset:4
-#, fuzzy
 msgid "?plural:Avars"
-msgstr "?plural:hAdhmaraigh"
+msgstr "?plural:hAváraigh"
 
 #: data/nation/avar.ruleset:6
 msgid ""
@@ -1651,14 +1631,12 @@ msgid "Margravine %s"
 msgstr "Banmhargraf %s"
 
 #: data/nation/bahamian.ruleset:3
-#, fuzzy
 msgid "Bahamian"
-msgstr "Khwarezmiach"
+msgstr "Bahámaíoch"
 
 #: data/nation/bahamian.ruleset:4
-#, fuzzy
 msgid "?plural:Bahamians"
-msgstr "?plural:Baváraigh"
+msgstr "?plural:Bahámaígh"
 
 #: data/nation/bahamian.ruleset:6
 msgid ""
@@ -1674,12 +1652,11 @@ msgstr ""
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
-msgstr ""
+msgstr "Bairéanach"
 
 #: data/nation/bahraini.ruleset:4
-#, fuzzy
 msgid "?plural:Bahrainis"
-msgstr "?plural:Barbaraigh"
+msgstr "?plural:Bairéanaigh"
 
 #: data/nation/bahraini.ruleset:6
 msgid ""
@@ -1691,25 +1668,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "Mahdi %s"
-msgstr "Mwami %s"
+msgstr ""
 
 #: data/nation/bahraini.ruleset:26 data/nation/sudanese.ruleset:19
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mahdi %s"
-msgstr "?female:Mwami %s"
+msgstr ""
 
-# was "Cathlong" - want masculine tho
 #: data/nation/bangladeshi.ruleset:3
-#, fuzzy
 msgid "Bangladeshi"
-msgstr "Soitheach Cogaidh"
+msgstr "Banglaidéiseach"
 
 #: data/nation/bangladeshi.ruleset:4
-#, fuzzy
 msgid "?plural:Bangladeshis"
-msgstr "?plural:Baiscírigh"
+msgstr "?plural:Banglaidéisigh"
 
 #: data/nation/bangladeshi.ruleset:6
 msgid ""
@@ -1776,14 +1750,12 @@ msgid "?female:Nabob %s"
 msgstr "?female:Nabob %s"
 
 #: data/nation/barbadian.ruleset:3
-#, fuzzy
 msgid "Barbadian"
-msgstr "Barbarach"
+msgstr "Barbadach"
 
 #: data/nation/barbadian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbadians"
-msgstr "?plural:Barbaraigh"
+msgstr "?plural:Barbadaigh"
 
 #: data/nation/barbadian.ruleset:6
 msgid ""
@@ -1967,14 +1939,12 @@ msgid "Stadtholdress %s"
 msgstr ""
 
 #: data/nation/belgic.ruleset:3
-#, fuzzy
 msgid "Belgic"
-msgstr "Beilgeach"
+msgstr "Beilgiceach"
 
 #: data/nation/belgic.ruleset:4
-#, fuzzy
 msgid "?plural:Belgae"
-msgstr "?plural:Beilgigh"
+msgstr "?plural:Beilgicigh"
 
 #: data/nation/belgic.ruleset:6
 msgid ""
@@ -1990,15 +1960,15 @@ msgstr ""
 
 #: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
 #: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "High Druid %s"
-msgstr "Draoi %s"
+msgstr "Ard-Draoi %s"
 
 #: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
 #: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Druid %s"
-msgstr "?female:Draoi %s"
+msgstr "?female:Ard-Bhandraoi %s"
 
 #: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
@@ -2066,12 +2036,11 @@ msgstr "?female:Ceann Comhairle %s"
 
 #: data/nation/belizean.ruleset:3
 msgid "Belizean"
-msgstr ""
+msgstr "Beilíseach"
 
 #: data/nation/belizean.ruleset:4
-#, fuzzy
 msgid "?plural:Belizeans"
-msgstr "?plural:Beilgigh"
+msgstr "?plural:Beilísigh"
 
 #: data/nation/belizean.ruleset:6
 msgid ""
@@ -2084,14 +2053,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Superintendent %s"
-msgstr "Sáirsint %s"
+msgstr "Maoirseoir %s"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Superintendent %s"
-msgstr "?female:Sáirsint %s"
+msgstr "?female:Ban-Mhaoirseoir %s"
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
@@ -2111,12 +2080,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/beninese.ruleset:3
-#, fuzzy
 msgid "Beninese"
 msgstr "Beinineach"
 
 #: data/nation/beninese.ruleset:4
-#, fuzzy
 msgid "?plural:Beninese"
 msgstr "?plural:Beininigh"
 
@@ -2220,9 +2187,8 @@ msgid "Bissau-Guinean"
 msgstr ""
 
 #: data/nation/bissauguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Bissau-Guineans"
-msgstr "?plural:Bádanaigh"
+msgstr ""
 
 #: data/nation/bissauguinean.ruleset:6
 msgid ""
@@ -2231,14 +2197,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Major %s"
-msgstr "Captaen %s"
+msgstr "Captaen-Maor %s"
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Major %s"
-msgstr "?female:Captaen %s"
+msgstr "?female:Captaen-Maor %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -2322,9 +2288,8 @@ msgid "Boian"
 msgstr ""
 
 #: data/nation/boian.ruleset:4
-#, fuzzy
 msgid "?plural:Boii"
-msgstr "?plural:Bolavaigh"
+msgstr ""
 
 #: data/nation/boian.ruleset:6
 msgid ""
@@ -2622,12 +2587,11 @@ msgstr "?female:Draoi %s"
 
 #: data/nation/bruneian.ruleset:3
 msgid "Bruneian"
-msgstr ""
+msgstr "Brúinéach"
 
 #: data/nation/bruneian.ruleset:4
-#, fuzzy
 msgid "?plural:Bruneians"
-msgstr "?plural:Burúnaigh"
+msgstr "?plural:Brúinéaigh"
 
 #: data/nation/bruneian.ruleset:6
 msgid ""
@@ -2794,12 +2758,11 @@ msgstr ""
 
 #: data/nation/buryat.ruleset:3
 msgid "Buryat"
-msgstr ""
+msgstr "Buiriáiteach"
 
 #: data/nation/buryat.ruleset:4
-#, fuzzy
 msgid "?plural:Buryats"
-msgstr "?plural:Driada"
+msgstr "?plural:Buiriáitigh"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -2893,14 +2856,12 @@ msgstr ""
 #. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/canari.ruleset:6
-#, fuzzy
 msgid "Canari"
-msgstr "Ceanadach"
+msgstr "Canaireach"
 
 #: data/nation/canari.ruleset:7
-#, fuzzy
 msgid "?plural:Canaris"
-msgstr "?plural:Ceanadaigh"
+msgstr "?plural:Canairigh"
 
 #: data/nation/canari.ruleset:9
 msgid ""
@@ -2917,14 +2878,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cantonese.ruleset:3
-#, fuzzy
 msgid "Cantonese"
-msgstr "Aragónach"
+msgstr "Cantaineach"
 
 #: data/nation/cantonese.ruleset:4
-#, fuzzy
 msgid "?plural:Cantonese"
-msgstr "?plural:hAragónaigh"
+msgstr "?plural:Cantainigh"
 
 #: data/nation/cantonese.ruleset:6
 msgid ""
@@ -2944,9 +2903,8 @@ msgid "Cape Verdean"
 msgstr ""
 
 #: data/nation/capeverdean.ruleset:4
-#, fuzzy
 msgid "?plural:Cape Verdean"
-msgstr "?plural:Ceanadaigh"
+msgstr ""
 
 #: data/nation/capeverdean.ruleset:6
 msgid ""
@@ -2958,14 +2916,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "Admiral %s"
-msgstr "Éimír %s"
+msgstr "Aimiréal %s"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Admiral %s"
-msgstr "?female:Mirza %s"
+msgstr "?female:Aimiréal %s"
 
 #: data/nation/carantanian.ruleset:3
 #, fuzzy
@@ -3089,14 +3047,12 @@ msgid "Supreme Directrice %s"
 msgstr "Ard-Banstiúrthóir %s"
 
 #: data/nation/centrallithuanian.ruleset:3
-#, fuzzy
 msgid "Central Lithuanian"
-msgstr "Liotuánach"
+msgstr "Lár-Liotuánach"
 
 #: data/nation/centrallithuanian.ruleset:4
-#, fuzzy
 msgid "?plural:Central Lithuanians"
-msgstr "?plural:Liotuánaigh"
+msgstr "?plural:Lár-Liotuánaigh"
 
 #. TRANS: The second and seventh letter in "Wladyslaw" should be
 #. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
@@ -3125,25 +3081,23 @@ msgstr ""
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "?female:Coimeasár %s"
+msgstr "Coimeasár an Phobail %s"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "?female:Coimeasár %s"
+msgstr "?female:Coimeasár an Phobail %s"
 
 #: data/nation/chadian.ruleset:3
-#, fuzzy
 msgid "Chadian"
-msgstr "Ceanadach"
+msgstr "Seadach"
 
 #: data/nation/chadian.ruleset:4
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "?plural:Ceanadaigh"
+msgstr "?plural:Seadaigh"
 
 #. TRANS: The last letter in "Habre" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -3228,9 +3182,8 @@ msgid "Chiapanec"
 msgstr ""
 
 #: data/nation/chiapanec.ruleset:4
-#, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "?plural:Sínigh"
+msgstr ""
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -3248,9 +3201,8 @@ msgid "Chickasaw"
 msgstr ""
 
 #: data/nation/chickasaw.ruleset:4
-#, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "?plural:Siligh"
+msgstr ""
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -3313,9 +3265,8 @@ msgid "Chinook"
 msgstr ""
 
 #: data/nation/chinook.ruleset:4
-#, fuzzy
 msgid "?plural:Chinooks"
-msgstr "?plural:Sínigh"
+msgstr ""
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -3333,9 +3284,8 @@ msgid "Choctaw"
 msgstr ""
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "?plural:Cholaí"
+msgstr ""
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -3370,14 +3320,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chrobatian.ruleset:3
-#, fuzzy
 msgid "Chrobatian"
-msgstr "Crótach"
+msgstr ""
 
 #: data/nation/chrobatian.ruleset:4
-#, fuzzy
 msgid "?plural:Chrobatians"
-msgstr "?plural:Crótaigh"
+msgstr ""
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -3458,12 +3406,11 @@ msgstr ""
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "Suvaiseach"
 
 #: data/nation/chuvash.ruleset:4
-#, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "?plural:Seisniaigh"
+msgstr "?plural:Suvaisigh"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -3474,14 +3421,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/circassian.ruleset:3
-#, fuzzy
 msgid "Circassian"
-msgstr "Prúiseach"
+msgstr "Siorcásach"
 
 #: data/nation/circassian.ruleset:4
-#, fuzzy
 msgid "?plural:Circassians"
-msgstr "?plural:Prúisigh"
+msgstr "?plural:Siorcásaigh"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -3545,14 +3490,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/comorian.ruleset:3
-#, fuzzy
 msgid "Comorian"
-msgstr "Eabharach"
+msgstr "Comórach"
 
 #: data/nation/comorian.ruleset:4
-#, fuzzy
 msgid "?plural:Comorians"
-msgstr "?plural:Corsacaigh"
+msgstr "?plural:Comóraigh"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -3612,14 +3555,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:3
-#, fuzzy
 msgid "Brazzaville-Congolese"
-msgstr "?plural:Congólaigh"
+msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:4
-#, fuzzy
 msgid "?plural:Brazzaville-Congolese"
-msgstr "?plural:Congólaigh"
+msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:6
 msgid ""
@@ -3759,14 +3700,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cretan.ruleset:3
-#, fuzzy
 msgid "Cretan"
-msgstr "Tibéadach"
+msgstr "Créatach"
 
 #: data/nation/cretan.ruleset:4
-#, fuzzy
 msgid "?plural:Cretans"
-msgstr "?plural:Crótaigh"
+msgstr "?plural:Créataigh"
 
 #: data/nation/cretan.ruleset:6
 msgid ""
@@ -3810,16 +3749,13 @@ msgid ""
 "Federation."
 msgstr ""
 
-# was msgstr "Crosáidithe"
 #: data/nation/crusader.ruleset:3
-#, fuzzy
 msgid "Crusader"
-msgstr "Lucht Croise"
+msgstr "Crosáidí"
 
 #: data/nation/crusader.ruleset:4
-#, fuzzy
 msgid "?plural:Crusaders"
-msgstr "?plural:Cúbaigh"
+msgstr "?plural:Crosáidithe"
 
 #: data/nation/crusader.ruleset:6
 msgid ""
@@ -3867,14 +3803,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cuyavian.ruleset:3
-#, fuzzy
 msgid "Cuyavian"
-msgstr "Laitviach"
+msgstr ""
 
 #: data/nation/cuyavian.ruleset:4
-#, fuzzy
 msgid "?plural:Cuyavians"
-msgstr "?plural:Laitviaigh"
+msgstr ""
 
 #: data/nation/cuyavian.ruleset:6
 msgid ""
@@ -3898,14 +3832,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cyrenaican.ruleset:3
-#, fuzzy
 msgid "Cyrenaican"
-msgstr "Greanádach"
+msgstr ""
 
 #: data/nation/cyrenaican.ruleset:4
-#, fuzzy
 msgid "?plural:Cyrenaicans"
-msgstr "?plural:Greanádaigh"
+msgstr ""
 
 #: data/nation/cyrenaican.ruleset:6
 msgid ""
@@ -3920,14 +3852,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/czechoslovak.ruleset:3
-#, fuzzy
 msgid "Czechoslovakian"
-msgstr "Slóvacach"
+msgstr "Seicslóvacach"
 
 #: data/nation/czechoslovak.ruleset:4
-#, fuzzy
 msgid "?plural:Czechoslovakians"
-msgstr "?plural:Slóvacaigh"
+msgstr "?plural:Seicslóvacaigh"
 
 #: data/nation/czechoslovak.ruleset:6
 msgid ""
@@ -4007,9 +3937,8 @@ msgid "Darfuri"
 msgstr ""
 
 #: data/nation/darfuri.ruleset:4
-#, fuzzy
 msgid "?plural:Darfuris"
-msgstr "?plural:Raramúraigh"
+msgstr ""
 
 #: data/nation/darfuri.ruleset:7
 msgid ""
@@ -4028,9 +3957,8 @@ msgid "Djiboutian"
 msgstr ""
 
 #: data/nation/djiboutian.ruleset:4
-#, fuzzy
 msgid "?plural:Djiboutians"
-msgstr "?plural:Háítígh"
+msgstr ""
 
 #: data/nation/djiboutian.ruleset:6
 msgid ""
@@ -4108,15 +4036,15 @@ msgstr ""
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy of the People %s"
-msgstr " Náisiún an imreora nua: %s."
+msgstr "Namhaid an Phobail %s"
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Enemy of the People %s"
-msgstr "?female:Aire Stáit %s"
+msgstr "?female:Namhaid an Phobail %s"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
@@ -4221,9 +4149,8 @@ msgid "Epirote"
 msgstr ""
 
 #: data/nation/epirote.ruleset:4
-#, fuzzy
 msgid "?plural:Epirotes"
-msgstr "?plural:Foghlaithe Mara"
+msgstr ""
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4247,9 +4174,8 @@ msgid "Equatoguinean"
 msgstr ""
 
 #: data/nation/equatoguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Equatoguineans"
-msgstr "?plural:hEacuadóraigh"
+msgstr ""
 
 #: data/nation/equatoguinean.ruleset:6
 msgid ""
@@ -4376,14 +4302,12 @@ msgid "?female:Commissioner %s"
 msgstr "?female:Coimisinéir %s"
 
 #: data/nation/evenki.ruleset:3
-#, fuzzy
 msgid "Evenki"
-msgstr "Imeacht"
+msgstr ""
 
 #: data/nation/evenki.ruleset:4
-#, fuzzy
 msgid "?plural:Evenks"
-msgstr "?plural:Gréagaigh"
+msgstr ""
 
 #: data/nation/evenki.ruleset:7
 msgid ""
@@ -4396,12 +4320,11 @@ msgstr ""
 
 #: data/nation/faroese.ruleset:3
 msgid "Faroese"
-msgstr ""
+msgstr "Faróch"
 
 #: data/nation/faroese.ruleset:4
-#, fuzzy
 msgid "?plural:Faroese"
-msgstr "?plural:Craígh"
+msgstr "?plural:Faróigh"
 
 #: data/nation/faroese.ruleset:6
 msgid ""
@@ -4506,14 +4429,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/florentine.ruleset:3
-#, fuzzy
 msgid "Florentine"
-msgstr "Airgintíneach"
+msgstr ""
 
 #: data/nation/florentine.ruleset:4
-#, fuzzy
 msgid "?plural:Florentines"
-msgstr "?plural:hAirgintínigh"
+msgstr ""
 
 #: data/nation/florentine.ruleset:6
 msgid ""
@@ -4529,22 +4450,22 @@ msgstr ""
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiere %s"
-msgstr "Ceannfort %s"
+msgstr ""
 
 #: data/nation/florentine.ruleset:39 data/nation/genoese.ruleset:49
 #: data/nation/milanese.ruleset:26 data/nation/venetian.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Condottiera %s"
-msgstr "Ceannfort %s"
+msgstr ""
 
 #: data/nation/florentine.ruleset:40 data/nation/milanese.ruleset:27
 #: data/nation/piedmontese.ruleset:33 data/nation/sardinian.ruleset:33
 #: data/nation/sicilian.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "Fra %s"
-msgstr "Éimír %s"
+msgstr ""
 
 #: data/nation/florentine.ruleset:42 data/nation/italiangreek.ruleset:49
 #: data/nation/milanese.ruleset:29
@@ -4607,14 +4528,12 @@ msgid "Prince-Bishop %s"
 msgstr "Prionsa-Easpag %s"
 
 #: data/nation/frankish.ruleset:3
-#, fuzzy
 msgid "Frankish"
-msgstr "Turcach"
+msgstr ""
 
 #: data/nation/frankish.ruleset:4
-#, fuzzy
 msgid "?plural:Franks"
-msgstr "?plural:Freaslannaigh"
+msgstr ""
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -4633,14 +4552,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "Mayor of the Palace %s"
-msgstr " Náisiún an imreora nua: %s."
+msgstr "Maor an Pháláis %s"
 
 #: data/nation/frankish.ruleset:43
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Mayor of the Palace %s"
-msgstr "?female:Aire Stáit %s"
+msgstr "?female:Maor an Pháláis %s"
 
 #: data/nation/frisian.ruleset:3
 msgid "Frisian"
@@ -4664,14 +4583,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/friulian.ruleset:3
-#, fuzzy
 msgid "Friulian"
-msgstr "Brasaíleach"
+msgstr "Friúileach"
 
 #: data/nation/friulian.ruleset:4
-#, fuzzy
 msgid "?plural:Friulian"
-msgstr "?plural:Freaslannaigh"
+msgstr "?plural:Friúiligh"
 
 #: data/nation/friulian.ruleset:6
 msgid ""
@@ -4684,12 +4601,11 @@ msgstr ""
 
 #: data/nation/fulani.ruleset:3
 msgid "Fulani"
-msgstr ""
+msgstr "Fulánach"
 
 #: data/nation/fulani.ruleset:4
-#, fuzzy
 msgid "?plural:Fulani"
-msgstr "?plural:Guaránaigh"
+msgstr "?plural:Fulánaigh"
 
 #: data/nation/fulani.ruleset:6
 msgid ""
@@ -4703,14 +4619,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gabonese.ruleset:3
-#, fuzzy
 msgid "Gabonese"
-msgstr "Guánach"
+msgstr "Gabúnach"
 
 #: data/nation/gabonese.ruleset:4
-#, fuzzy
 msgid "?plural:Gabonese"
-msgstr "?plural:Guánaigh"
+msgstr "?plural:Gabúnaigh"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -4782,14 +4696,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gambian.ruleset:3
-#, fuzzy
 msgid "Gambian"
-msgstr "Namabach"
+msgstr "Gaimbiach"
 
 #: data/nation/gambian.ruleset:4
-#, fuzzy
 msgid "?plural:Gambians"
-msgstr "?plural:Namabaigh"
+msgstr "?plural:Gaimbiaigh"
 
 #: data/nation/gambian.ruleset:6
 msgid ""
@@ -4814,9 +4726,8 @@ msgid "Genoese"
 msgstr ""
 
 #: data/nation/genoese.ruleset:4
-#, fuzzy
 msgid "?plural:Genoese"
-msgstr "?plural:Leonaigh"
+msgstr ""
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -4905,14 +4816,12 @@ msgid "?female:Great Warrior %s"
 msgstr "?female:Faró Mór %s"
 
 #: data/nation/germanbelgian.ruleset:3
-#, fuzzy
 msgid "German Belgian"
-msgstr "Beilgeach"
+msgstr "Gearmánach-Beilgeach"
 
 #: data/nation/germanbelgian.ruleset:4
-#, fuzzy
 msgid "?plural:German Belgians"
-msgstr "?plural:Beilgigh"
+msgstr "?plural:Gearmánach-Beilgigh"
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -4928,14 +4837,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/germanic.ruleset:3
-#, fuzzy
 msgid "Germanic"
-msgstr "Gearmánach"
+msgstr ""
 
 #: data/nation/germanic.ruleset:4
-#, fuzzy
 msgid "?plural:Germanics"
-msgstr "?plural:Gearmánaigh"
+msgstr ""
 
 #: data/nation/germanic.ruleset:6
 msgid ""
@@ -4969,12 +4876,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:3
-#, fuzzy
 msgid "Ghana"
 msgstr "Gánach"
 
 #: data/nation/ghana.ruleset:4
-#, fuzzy
 msgid "?plural:Ghana"
 msgstr "?plural:Gánaigh"
 
@@ -4989,23 +4894,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Ghana %s"
-msgstr "Mansa %s"
+msgstr "Gána %s"
 
 #: data/nation/ghana.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ghana %s"
-msgstr "?female:Mansa %s"
+msgstr "?female:Gána %s"
 
 #: data/nation/ghaznavid.ruleset:3
 msgid "Ghaznavid"
 msgstr ""
 
 #: data/nation/ghaznavid.ruleset:4
-#, fuzzy
 msgid "?plural:Ghaznavids"
-msgstr "?plural:Gánaigh"
+msgstr ""
 
 #: data/nation/ghaznavid.ruleset:6
 msgid ""
@@ -5038,14 +4942,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/goldenhorde.ruleset:3
-#, fuzzy
 msgid "Golden Horde"
-msgstr "Ór: %d"
+msgstr ""
 
 #: data/nation/goldenhorde.ruleset:4
-#, fuzzy
 msgid "?plural:Golden Horde"
-msgstr "?plural:Bóraigh"
+msgstr ""
 
 #: data/nation/goldenhorde.ruleset:6
 msgid ""
@@ -5060,14 +4962,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gothic.ruleset:3
-#, fuzzy
 msgid "Gothic"
-msgstr "Viseagotach"
+msgstr "Gotach"
 
 #: data/nation/gothic.ruleset:4
-#, fuzzy
 msgid "?plural:Goths"
-msgstr "?plural:hAlbanaigh"
+msgstr "?plural:Gotaigh"
 
 #: data/nation/gothic.ruleset:6
 msgid ""
@@ -5175,12 +5075,11 @@ msgstr ""
 
 #: data/nation/guinean.ruleset:3
 msgid "Guinean"
-msgstr ""
+msgstr "Guineach"
 
 #: data/nation/guinean.ruleset:4
-#, fuzzy
 msgid "?plural:Guinean"
-msgstr "?plural:Guaránaigh"
+msgstr "?plural:Guinigh"
 
 #. TRANS: The second letter in "Sekou" and last in "Toure" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -5397,14 +5296,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/helvetian.ruleset:3
-#, fuzzy
 msgid "Helvetian"
-msgstr "Veinéiseach"
+msgstr "Eilvéiseach"
 
 #: data/nation/helvetian.ruleset:4
-#, fuzzy
 msgid "?plural:Helvetians"
-msgstr "?plural:Veinéisigh"
+msgstr "?plural:hEilvéisigh"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -5419,14 +5316,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hephthalite.ruleset:3
-#, fuzzy
 msgid "Hephthalite"
-msgstr "scothaonad"
+msgstr ""
 
 #: data/nation/hephthalite.ruleset:4
-#, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "?plural:Neipealaigh"
+msgstr ""
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -5641,14 +5536,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/indoeuropean.ruleset:3
-#, fuzzy
 msgid "Indo-European"
-msgstr "Eorpach"
+msgstr "Ind-Eorpach"
 
 #: data/nation/indoeuropean.ruleset:4
-#, fuzzy
 msgid "?plural:Indo-Europeans"
-msgstr "?plural:hEorpaigh"
+msgstr "?plural:hInd-Eorpaigh"
 
 #: data/nation/indoeuropean.ruleset:6
 msgid ""
@@ -5756,9 +5649,9 @@ msgid "Kibbutznik %s"
 msgstr ""
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kibbutznik %s"
-msgstr "?female:Saoránach %s"
+msgstr ""
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -5771,14 +5664,12 @@ msgid "?female:Rabbi %s"
 msgstr "?female:Raibí %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "Iosraelach"
+msgstr "Iosraeiliteach"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "?plural:hIosraelaigh"
+msgstr "?plural:hIosraeilitigh"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -5791,15 +5682,15 @@ msgstr ""
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Judge %s"
-msgstr "Diúc %s"
+msgstr "Breitheamh %s"
 
 #: data/nation/israelite.ruleset:32 data/nation/miskito.ruleset:33
 #: data/nation/sardinian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Judge %s"
-msgstr "?female:Bandiúc %s"
+msgstr "?female:Breitheamh %s"
 
 #: data/nation/italiangreek.ruleset:3
 #, fuzzy
@@ -5853,9 +5744,8 @@ msgid "Jaffna"
 msgstr ""
 
 #: data/nation/jaffna.ruleset:4
-#, fuzzy
 msgid "?plural:Jaffnas"
-msgstr "?plural:Vandalaigh"
+msgstr ""
 
 #: data/nation/jaffna.ruleset:7
 msgid ""
@@ -5915,14 +5805,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/jordanian.ruleset:3
-#, fuzzy
 msgid "Jordanian"
-msgstr "Iaránach"
+msgstr "Iordánach"
 
 #: data/nation/jordanian.ruleset:4
-#, fuzzy
 msgid "?plural:Jordanian"
-msgstr "?plural:hIaránaigh"
+msgstr "?plural:hIordánaigh"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -5971,9 +5859,8 @@ msgid "Karabakhi"
 msgstr ""
 
 #: data/nation/karabakhi.ruleset:4
-#, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "?plural:Casaicigh"
+msgstr ""
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -6004,14 +5891,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/karen.ruleset:3
-#, fuzzy
 msgid "Karen"
-msgstr "Cairéalach"
+msgstr ""
 
 #: data/nation/karen.ruleset:4
-#, fuzzy
 msgid "?plural:Karens"
-msgstr "?plural:Cairéalaigh"
+msgstr ""
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -6039,14 +5924,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kashubian.ruleset:3
-#, fuzzy
 msgid "Kashubian"
-msgstr "Núibiach"
+msgstr "Caisiúbach"
 
 #: data/nation/kashubian.ruleset:4
-#, fuzzy
 msgid "?plural:Kashubians"
-msgstr "?plural:Núibiaigh"
+msgstr "?plural:Caisiúbaigh"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -6065,9 +5948,8 @@ msgid "Katangan"
 msgstr ""
 
 #: data/nation/katangan.ruleset:4
-#, fuzzy
 msgid "?plural:Katangans"
-msgstr "?plural:Catalónaigh"
+msgstr ""
 
 #: data/nation/katangan.ruleset:6
 msgid ""
@@ -6139,7 +6021,7 @@ msgstr ""
 #: data/nation/khoisan.ruleset:4
 #, fuzzy
 msgid "?plural:Khoisan"
-msgstr "?plural:Sáimigh"
+msgstr "?plural:Cóiréigh"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -6186,12 +6068,11 @@ msgstr "?female:Satrap %s"
 
 #: data/nation/kiribati.ruleset:3
 msgid "Kiribati"
-msgstr ""
+msgstr "Cireabaitíoch"
 
 #: data/nation/kiribati.ruleset:4
-#, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "?plural:hEabharaigh"
+msgstr "?plural:Cireabaitígh"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -6209,9 +6090,8 @@ msgid "Kittitian and Nevisian"
 msgstr ""
 
 #: data/nation/kittitian.ruleset:4
-#, fuzzy
 msgid "?plural:Kittitians and Nevisians"
-msgstr "?plural:Ceanadaigh"
+msgstr ""
 
 #: data/nation/kittitian.ruleset:6
 msgid ""
@@ -6275,9 +6155,8 @@ msgid "Kuna"
 msgstr ""
 
 #: data/nation/kuna.ruleset:4
-#, fuzzy
 msgid "?plural:Kunas"
-msgstr "?plural:Céiniaigh"
+msgstr ""
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -6319,7 +6198,7 @@ msgstr "Asantaech"
 #: data/nation/kushan.ruleset:4
 #, fuzzy
 msgid "?plural:Kushans"
-msgstr "?plural:hAsantaeigh"
+msgstr "?plural:Caisiúbaigh"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -6346,14 +6225,12 @@ msgid "?female:Guru %s"
 msgstr "?female:Gúrú %s"
 
 #: data/nation/kuwaiti.ruleset:3
-#, fuzzy
 msgid "Kuwaiti"
-msgstr "fanacht"
+msgstr "Cuátach"
 
 #: data/nation/kuwaiti.ruleset:4
-#, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "?plural:Háítígh"
+msgstr "?plural:Cuátaigh"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -6446,14 +6323,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/latin.ruleset:3
-#, fuzzy
 msgid "Latin"
-msgstr "Rátáil"
+msgstr "Laidineach"
 
 #: data/nation/latin.ruleset:4
-#, fuzzy
 msgid "?plural:Latins"
-msgstr "?plural:Laitviaigh"
+msgstr "?plural:Laidinigh"
 
 #: data/nation/latin.ruleset:6
 msgid ""
@@ -6532,12 +6407,11 @@ msgstr ""
 
 #: data/nation/lesothoan.ruleset:3
 msgid "Lesothoan"
-msgstr ""
+msgstr "Leosótach"
 
 #: data/nation/lesothoan.ruleset:4
-#, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "?plural:Neastóraigh"
+msgstr "?plural:Leosótaigh"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -6550,14 +6424,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liberian.ruleset:3
-#, fuzzy
 msgid "Liberian"
-msgstr "Sibéarach"
+msgstr "Libéarach"
 
 #: data/nation/liberian.ruleset:4
-#, fuzzy
 msgid "?plural:Liberians"
-msgstr "?plural:Sibéaraigh"
+msgstr "?plural:Libéaraigh"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -6573,14 +6445,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "Liotuánach"
+msgstr ""
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "?plural:Liotuánaigh"
+msgstr ""
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -6625,12 +6495,12 @@ msgstr ""
 #: data/nation/ligurian.ruleset:3
 #, fuzzy
 msgid "Ligurian"
-msgstr "Sibéarach"
+msgstr "Libéarach"
 
 #: data/nation/ligurian.ruleset:4
 #, fuzzy
 msgid "?plural:Ligurians"
-msgstr "?plural:Liotuánaigh"
+msgstr "?plural:Libéaraigh"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -6640,12 +6510,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Paramount Ruler %s"
 msgstr "Ardtaoiseach %s"
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Paramount Ruler %s"
 msgstr "?female:Ardtaoiseach %s"
 
@@ -6667,14 +6537,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lippe.ruleset:3
-#, fuzzy
 msgid "Lippian"
-msgstr "Aetópach"
+msgstr ""
 
 #: data/nation/lippe.ruleset:4
-#, fuzzy
 msgid "?plural:Lippians"
-msgstr "?plural:Libiaigh"
+msgstr ""
 
 #: data/nation/lippe.ruleset:6
 msgid ""
@@ -6736,9 +6604,8 @@ msgid "Luwian"
 msgstr ""
 
 #: data/nation/luwian.ruleset:4
-#, fuzzy
 msgid "?plural:Luwians"
-msgstr "?plural:Libiaigh"
+msgstr ""
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -6911,14 +6778,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/maldivian.ruleset:3
-#, fuzzy
 msgid "Maldivian"
-msgstr "Bolavach"
+msgstr "Maildíveach"
 
 #: data/nation/maldivian.ruleset:4
-#, fuzzy
 msgid "?plural:Maldivians"
-msgstr "?plural:Mailígh"
+msgstr "?plural:Maildívigh"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -6974,12 +6839,11 @@ msgstr "Máistreás %s"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
-msgstr ""
+msgstr "Mamalúcach"
 
 #: data/nation/mamluk.ruleset:4
-#, fuzzy
 msgid "?plural:Mamluks"
-msgstr "?plural:Mailígh"
+msgstr "?plural:Mamalúcaigh"
 
 #: data/nation/mamluk.ruleset:6
 msgid ""
@@ -6993,16 +6857,16 @@ msgstr ""
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "%s Pasha"
-msgstr "%s Basha"
+msgstr ""
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
 #: data/nation/turkishcypriot.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Pasha"
-msgstr "?female:%s Basha"
+msgstr ""
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -7083,12 +6947,11 @@ msgstr ""
 
 #: data/nation/marathi.ruleset:3
 msgid "Marathi"
-msgstr ""
+msgstr "Maraiteach"
 
 #: data/nation/marathi.ruleset:4
-#, fuzzy
 msgid "?plural:Marathis"
-msgstr "?plural:Marsaigh"
+msgstr "?plural:Maraitigh"
 
 #: data/nation/marathi.ruleset:6
 msgid ""
@@ -7099,18 +6962,19 @@ msgid ""
 msgstr ""
 
 #: data/nation/marathi.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "High Brahmin %s"
-msgstr "Ard-Rí %s"
+msgstr "Ard-Bhráman %s"
 
 #: data/nation/marathi.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Brahmin %s"
-msgstr "?female:Bandiúc %s"
+msgstr "?female:Ard-Bhráman %s"
 
 #: data/nation/marshallese.ruleset:3
+#, fuzzy
 msgid "Marshallese"
-msgstr ""
+msgstr "Siolónach"
 
 #: data/nation/marshallese.ruleset:4
 #, fuzzy
@@ -7139,14 +7003,12 @@ msgid "Marsmen landed on Earth in 4000 BCE!"
 msgstr ""
 
 #: data/nation/mauritanian.ruleset:3
-#, fuzzy
 msgid "Mauritanian"
-msgstr "Cartagach"
+msgstr "Máratánach"
 
 #: data/nation/mauritanian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritanians"
-msgstr "?plural:Marsaigh"
+msgstr "?plural:Máratánaigh"
 
 #: data/nation/mauritanian.ruleset:6
 msgid ""
@@ -7157,14 +7019,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mauritian.ruleset:3
-#, fuzzy
 msgid "Mauritian"
-msgstr "Marsach"
+msgstr "Muiríseach"
 
 #: data/nation/mauritian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritians"
-msgstr "?plural:Marsaigh"
+msgstr "?plural:Muiríseach"
 
 #: data/nation/mauritian.ruleset:6
 msgid ""
@@ -7211,14 +7071,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/median.ruleset:3
-#, fuzzy
 msgid "Median"
-msgstr "Leigheas"
+msgstr ""
 
 #: data/nation/median.ruleset:4
-#, fuzzy
 msgid "?plural:Medians"
-msgstr "?plural:Meicsicigh"
+msgstr ""
 
 #: data/nation/median.ruleset:6
 msgid ""
@@ -7231,19 +7089,17 @@ msgid ""
 msgstr ""
 
 #: data/nation/median.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "%s Shahanshah"
-msgstr "%s Shahbanu"
+msgstr ""
 
 #: data/nation/messapian.ruleset:3
-#, fuzzy
 msgid "Messapian"
-msgstr "Roghanna Teachtaireachta"
+msgstr ""
 
 #: data/nation/messapian.ruleset:4
-#, fuzzy
 msgid "?plural:Messapians"
-msgstr "?plural:Heiseánaigh"
+msgstr ""
 
 #: data/nation/messapian.ruleset:6
 msgid ""
@@ -7387,9 +7243,8 @@ msgid "Mitanni"
 msgstr ""
 
 #: data/nation/mitanni.ruleset:4
-#, fuzzy
 msgid "?plural:Mitanni"
-msgstr "?plural:Manannaigh"
+msgstr ""
 
 #: data/nation/mitanni.ruleset:6
 msgid ""
@@ -7438,14 +7293,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/moluccan.ruleset:3
-#, fuzzy
 msgid "Moluccan"
-msgstr "Maracach"
+msgstr "Molacaíoch"
 
 #: data/nation/moluccan.ruleset:4
-#, fuzzy
 msgid "?plural:Moluccans"
-msgstr "?plural:Maracaigh"
+msgstr "?plural:Molacaígh"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -7490,14 +7343,12 @@ msgid "?female:Minister of State %s"
 msgstr "?female:Aire Stáit %s"
 
 #: data/nation/mon.ruleset:3
-#, fuzzy
 msgid "Mon"
-msgstr "Uasal"
+msgstr ""
 
 #: data/nation/mon.ruleset:4
-#, fuzzy
 msgid "?plural:Mons"
-msgstr "?plural:Mongólaigh"
+msgstr ""
 
 #: data/nation/mon.ruleset:6
 msgid ""
@@ -7600,12 +7451,11 @@ msgstr ""
 
 #: data/nation/muscovite.ruleset:3
 msgid "Muscovite"
-msgstr ""
+msgstr "Moscóch"
 
 #: data/nation/muscovite.ruleset:4
-#, fuzzy
 msgid "?plural:Muscovites"
-msgstr "?plural:Sóivéidigh"
+msgstr "?plural:Moscóigh"
 
 #: data/nation/muscovite.ruleset:6
 msgid ""
@@ -7657,14 +7507,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "Cacique %s"
-msgstr "Comrádaí %s"
+msgstr ""
 
 #: data/nation/mwiska.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Cacique %s"
-msgstr "?female:Taoiseach %s"
+msgstr ""
 
 #: data/nation/namibian.ruleset:3
 msgid "Namibian"
@@ -7685,12 +7535,11 @@ msgstr ""
 
 #: data/nation/nauruan.ruleset:3
 msgid "Nauruan"
-msgstr ""
+msgstr "Nárúch"
 
 #: data/nation/nauruan.ruleset:4
-#, fuzzy
 msgid "?plural:Nauruans"
-msgstr "?plural:Nicearaguaigh"
+msgstr "?plural:Nárúigh"
 
 #: data/nation/nauruan.ruleset:6
 msgid ""
@@ -7748,9 +7597,8 @@ msgid "Nenets"
 msgstr ""
 
 #: data/nation/nenets.ruleset:4
-#, fuzzy
 msgid "?plural:Nenets"
-msgstr "?plural:Veinéisigh"
+msgstr ""
 
 #: data/nation/nenets.ruleset:6
 msgid ""
@@ -7938,14 +7786,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Dear Leader %s"
-msgstr "Ceannaire Mór %s"
+msgstr "Ceannaire Dílis %s"
 
 #: data/nation/northkorean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Dear Leader %s"
-msgstr "?female:Ceannaire Mór %s"
+msgstr "?female:Ceannaire Dílis %s"
 
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
 #, c-format
@@ -8319,14 +8167,12 @@ msgid "Witch %s"
 msgstr "Cailleach %s"
 
 #: data/nation/paeonian.ruleset:3
-#, fuzzy
 msgid "Paeonian"
-msgstr "Macadónach"
+msgstr ""
 
 #: data/nation/paeonian.ruleset:4
-#, fuzzy
 msgid "?plural:Paeonians"
-msgstr "?plural:Macadónaigh"
+msgstr ""
 
 #: data/nation/paeonian.ruleset:6
 msgid ""
@@ -8435,12 +8281,11 @@ msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr ""
+msgstr "Nua-Ghuineach Papua"
 
 #: data/nation/papuanewguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Papua New Guineans"
-msgstr "?plural:Papuaigh"
+msgstr "?plural:Nua-Ghuinigh Phapua"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -8513,14 +8358,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/parthian.ruleset:3
-#, fuzzy
 msgid "Parthian"
-msgstr "Páirtíneach"
+msgstr "Pairtiach"
 
 #: data/nation/parthian.ruleset:4
-#, fuzzy
 msgid "?plural:Parthians"
-msgstr "?plural:Marsaigh"
+msgstr "?plural:Pairtiaigh"
 
 #: data/nation/parthian.ruleset:6
 msgid ""
@@ -8530,15 +8373,16 @@ msgid ""
 "their own strong empire. Their culture was Hellenistic."
 msgstr ""
 
+# sic
 #: data/nation/parthian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Shah %s"
-msgstr "Síc %s"
+msgstr "Sea %s"
 
 #: data/nation/parthian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Shahbanu %s"
-msgstr "%s Shahbanu"
+msgstr ""
 
 #: data/nation/pashtun.ruleset:3
 msgid "Pashtun"
@@ -8555,15 +8399,14 @@ msgid ""
 "by an age-old code of honor known as Pashtunwali."
 msgstr ""
 
+# Ó Dónaill
 #: data/nation/pelasgian.ruleset:3
-#, fuzzy
 msgid "Pelasgian"
-msgstr "Beilgeach"
+msgstr "Peileascach"
 
 #: data/nation/pelasgian.ruleset:4
-#, fuzzy
 msgid "?plural:Pelasgians"
-msgstr "?plural:Peirsigh"
+msgstr "?plural:Peileascaigh"
 
 #: data/nation/pelasgian.ruleset:6
 msgid ""
@@ -8607,14 +8450,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/phrygian.ruleset:3
-#, fuzzy
 msgid "Phrygian"
-msgstr "Seoirseach"
+msgstr "Frigiach"
 
 #: data/nation/phrygian.ruleset:4
-#, fuzzy
 msgid "?plural:Phrygians"
-msgstr "?plural:Peirsigh"
+msgstr "?plural:Frigiaigh"
 
 #: data/nation/phrygian.ruleset:6
 msgid ""
@@ -8628,14 +8469,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/pictish.ruleset:3
-#, fuzzy
 msgid "Pictish"
-msgstr "Briotanach"
+msgstr "Piochtach"
 
 #: data/nation/pictish.ruleset:4
-#, fuzzy
 msgid "?plural:Picts"
-msgstr "?plural:Foghlaithe Mara"
+msgstr "?plural:Piochtaigh"
 
 #: data/nation/pictish.ruleset:6
 msgid ""
@@ -8668,12 +8507,11 @@ msgstr ""
 
 #: data/nation/pontic.ruleset:3
 msgid "Pontic"
-msgstr ""
+msgstr "Pontach"
 
 #: data/nation/pontic.ruleset:4
-#, fuzzy
 msgid "?plural:Pontians"
-msgstr "?plural:Laosaigh"
+msgstr "?plural:Pontaigh"
 
 #: data/nation/pontic.ruleset:6
 msgid ""
@@ -8754,14 +8592,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/qatari.ruleset:3
-#, fuzzy
 msgid "Qatari"
-msgstr "Tatarach"
+msgstr "Catarach"
 
 #: data/nation/qatari.ruleset:4
-#, fuzzy
 msgid "?plural:Qataris"
-msgstr "?plural:Tataraigh"
+msgstr "?plural:Cataraigh"
 
 #: data/nation/qatari.ruleset:6
 msgid ""
@@ -8789,9 +8625,8 @@ msgid "Rapa Nui"
 msgstr ""
 
 #: data/nation/rapanui.ruleset:4
-#, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "?plural:Raramúraigh"
+msgstr ""
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -8823,14 +8658,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/rhenish.ruleset:3
-#, fuzzy
 msgid "Rhenish"
-msgstr "Rúitéineach"
+msgstr "Réineach"
 
 #: data/nation/rhenish.ruleset:4
-#, fuzzy
 msgid "?plural:Rhenish"
-msgstr "?plural:Rúitéinigh"
+msgstr "?plural:Réinigh"
 
 #: data/nation/rhenish.ruleset:6
 msgid ""
@@ -8904,14 +8737,12 @@ msgid "?female:Director-President %s"
 msgstr "?female:Stiúrthóir-Uachtarán %s"
 
 #: data/nation/romansh.ruleset:3
-#, fuzzy
 msgid "Romansh"
-msgstr "Rómhánach"
+msgstr "Rómaineach"
 
 #: data/nation/romansh.ruleset:4
-#, fuzzy
 msgid "?plural:Romansh"
-msgstr "?plural:Rómhánaigh"
+msgstr "?plural:Rómainigh"
 
 #: data/nation/romansh.ruleset:6
 msgid ""
@@ -8990,12 +8821,11 @@ msgstr ""
 
 #: data/nation/sabine.ruleset:3
 msgid "Sabine"
-msgstr ""
+msgstr "Saibíneach"
 
 #: data/nation/sabine.ruleset:4
-#, fuzzy
 msgid "?plural:Sabines"
-msgstr "?plural:Danmhargaigh"
+msgstr "?plural:Saibínigh"
 
 #: data/nation/sabine.ruleset:6
 msgid ""
@@ -9007,14 +8837,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/sabine.ruleset:27 data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Tribune %s"
-msgstr "Prionsa %s"
+msgstr "Treabhann %s"
 
 #: data/nation/sabine.ruleset:27 data/nation/samnite.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tribune %s"
-msgstr "?female:Tun %s"
+msgstr "?female:Treabhann %s"
 
 #: data/nation/sahrawi.ruleset:3
 msgid "Sahrawi"
@@ -9033,14 +8863,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/saintlucian.ruleset:3
-#, fuzzy
 msgid "Saint Lucian"
-msgstr "Gailíseach"
+msgstr ""
 
 #: data/nation/saintlucian.ruleset:4
-#, fuzzy
 msgid "?plural:Saint Lucian"
-msgstr "?plural:Háítígh"
+msgstr ""
 
 #: data/nation/saintlucian.ruleset:6
 msgid ""
@@ -9056,9 +8884,8 @@ msgid "Saka"
 msgstr ""
 
 #: data/nation/saka.ruleset:4
-#, fuzzy
 msgid "?plural:Saka"
-msgstr "?plural:Sáimigh"
+msgstr ""
 
 #: data/nation/saka.ruleset:6
 msgid ""
@@ -9072,9 +8899,8 @@ msgid "Salishan"
 msgstr ""
 
 #: data/nation/salishan.ruleset:4
-#, fuzzy
 msgid "?plural:Salishans"
-msgstr "?plural:Mailígh"
+msgstr ""
 
 #: data/nation/salishan.ruleset:6
 msgid ""
@@ -9159,9 +8985,8 @@ msgid "Samnite"
 msgstr ""
 
 #: data/nation/samnite.ruleset:4
-#, fuzzy
 msgid "?plural:Samnites"
-msgstr "?plural:hÉalámaigh"
+msgstr ""
 
 #: data/nation/samnite.ruleset:6
 msgid ""
@@ -9172,14 +8997,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/samoan.ruleset:3
-#, fuzzy
 msgid "Samoan"
-msgstr "Sámóigíseach"
+msgstr "Samóch"
 
 #: data/nation/samoan.ruleset:4
-#, fuzzy
 msgid "?plural:Samoans"
-msgstr "?plural:Sacsanaigh"
+msgstr "?plural:Samóigh"
 
 #: data/nation/samoan.ruleset:6
 msgid ""
@@ -9192,14 +9015,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Chief of the Government %s"
-msgstr "Roghnaigh Do Rialtas Nua"
+msgstr "Ceann an Rialtais %s"
 
 #: data/nation/samoan.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chief of the Government %s"
-msgstr "?female:Príomh-Aire %s"
+msgstr "?female:Ceann an Rialtais %s"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
@@ -9216,14 +9039,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/santomean.ruleset:3
-#, fuzzy
 msgid "Santomean"
-msgstr "Dahómach"
+msgstr ""
 
 #: data/nation/santomean.ruleset:4
-#, fuzzy
 msgid "?plural:Santomeans"
-msgstr "?plural:Dahómaigh"
+msgstr ""
 
 #. TRANS: The second letter in "Sao" should be
 #. TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in
@@ -9245,14 +9066,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sardinian.ruleset:3
-#, fuzzy
 msgid "Sardinian"
-msgstr "Cartagach"
+msgstr "Sairdíneach"
 
 #: data/nation/sardinian.ruleset:4
-#, fuzzy
 msgid "?plural:Sardinians"
-msgstr "?plural:Siriaigh"
+msgstr "?plural:Sairdínigh"
 
 #: data/nation/sardinian.ruleset:6
 msgid ""
@@ -9335,14 +9154,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/scanian.ruleset:3
-#, fuzzy
 msgid "Scanian"
-msgstr "Iaránach"
+msgstr ""
 
 #: data/nation/scanian.ruleset:4
-#, fuzzy
 msgid "?plural:Scanians"
-msgstr "?plural:hIaránaigh"
+msgstr ""
 
 #: data/nation/scanian.ruleset:6
 msgid ""
@@ -9373,14 +9190,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:3
-#, fuzzy
 msgid "Scottish Gaelic"
-msgstr "Albanach"
+msgstr "Gael-Albanach"
 
 #: data/nation/scottishgaelic.ruleset:4
-#, fuzzy
 msgid "?plural:Scottish Gaels"
-msgstr "?plural:hAlbanaigh"
+msgstr "?plural:Gael-Albanaigh"
 
 #: data/nation/scottishgaelic.ruleset:6
 msgid ""
@@ -9396,12 +9211,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
 msgstr "Taoiseach %s"
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
 msgstr "?female:Taoiseach %s"
 
@@ -9469,12 +9284,11 @@ msgstr ""
 
 #: data/nation/seljuk.ruleset:3
 msgid "Seljuk"
-msgstr ""
+msgstr "Seilsiúcach"
 
 #: data/nation/seljuk.ruleset:4
-#, fuzzy
 msgid "?plural:Seljuks"
-msgstr "?plural:Seiliúcaigh"
+msgstr "?plural:Seilsiúcaigh"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -9493,9 +9307,8 @@ msgid "Seminole"
 msgstr ""
 
 #: data/nation/seminole.ruleset:4
-#, fuzzy
 msgid "?plural:Seminoles"
-msgstr "?plural:Seineagálaigh"
+msgstr ""
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -9545,12 +9358,11 @@ msgstr ""
 
 #: data/nation/seychellois.ruleset:3
 msgid "Seychellois"
-msgstr ""
+msgstr "Séiséalach"
 
 #: data/nation/seychellois.ruleset:4
-#, fuzzy
 msgid "?plural:Seychellois"
-msgstr "?plural:hAlbanaigh"
+msgstr "?plural:Séiséalaigh"
 
 #: data/nation/seychellois.ruleset:6
 msgid ""
@@ -9570,9 +9382,8 @@ msgid "Shan"
 msgstr ""
 
 #: data/nation/shan.ruleset:4
-#, fuzzy
 msgid "?plural:Shans"
-msgstr "?plural:Sacsanaigh"
+msgstr ""
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -9604,9 +9415,8 @@ msgid "Sherpa"
 msgstr ""
 
 #: data/nation/sherpa.ruleset:4
-#, fuzzy
 msgid "?plural:Sherpas"
-msgstr "?plural:Seirbiaigh"
+msgstr ""
 
 #: data/nation/sherpa.ruleset:6
 msgid ""
@@ -9660,9 +9470,8 @@ msgid "Sierra Leonean"
 msgstr ""
 
 #: data/nation/sierraleonean.ruleset:4
-#, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "?plural:Sibéaraigh"
+msgstr ""
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -9733,14 +9542,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sinhalese.ruleset:3
-#, fuzzy
 msgid "Sinhalese"
-msgstr "Seineagálach"
+msgstr "Siolónach"
 
 #: data/nation/sinhalese.ruleset:4
-#, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "?plural:Seineagálaigh"
+msgstr "?plural:Siolónaigh"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -9795,14 +9602,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/solomonislander.ruleset:3
-#, fuzzy
 msgid "Solomon Islander"
-msgstr "An tOileán Céanna"
+msgstr ""
 
 #: data/nation/solomonislander.ruleset:4
-#, fuzzy
 msgid "?plural:Solomon Islanders"
-msgstr "?plural:hÍoslannaigh"
+msgstr ""
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -9814,12 +9619,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/somaliland.ruleset:3
-#, fuzzy
 msgid "Somaliland"
 msgstr "Somálach"
 
 #: data/nation/somaliland.ruleset:4
-#, fuzzy
 msgid "?plural:Somalilanders"
 msgstr "?plural:Somálaigh"
 
@@ -9870,9 +9673,8 @@ msgid "Sotho"
 msgstr ""
 
 #: data/nation/sotho.ruleset:4
-#, fuzzy
 msgid "?plural:Basotho"
-msgstr "?plural:Baiscírigh"
+msgstr ""
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -9936,14 +9738,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/southsudanese.ruleset:3
-#, fuzzy
 msgid "South Sudanese"
-msgstr "Súdánach"
+msgstr ""
 
 #: data/nation/southsudanese.ruleset:4
-#, fuzzy
 msgid "?plural:South Sudanese"
-msgstr "?plural:Súdánaigh"
+msgstr ""
 
 #: data/nation/southsudanese.ruleset:6
 msgid ""
@@ -10038,14 +9838,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/suebian.ruleset:3
-#, fuzzy
 msgid "Suebian"
-msgstr "Seirbiach"
+msgstr ""
 
 #: data/nation/suebian.ruleset:4
-#, fuzzy
 msgid "?plural:Suebians"
-msgstr "?plural:Seirbiaigh"
+msgstr ""
 
 #: data/nation/suebian.ruleset:6
 msgid ""
@@ -10091,12 +9889,11 @@ msgstr "?female:Sáirsint %s"
 
 #: data/nation/swahili.ruleset:3
 msgid "Swahili"
-msgstr ""
+msgstr "Svahaíleach"
 
 #: data/nation/swahili.ruleset:4
-#, fuzzy
 msgid "?plural:Swahili"
-msgstr "?plural:Suasalannaigh"
+msgstr "?plural:Svahaíligh"
 
 #: data/nation/swahili.ruleset:6
 msgid ""
@@ -10169,14 +9966,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tahitian.ruleset:3
-#, fuzzy
 msgid "Tahitian"
-msgstr "Háitíoch"
+msgstr "Taihítíoch"
 
 #: data/nation/tahitian.ruleset:4
-#, fuzzy
 msgid "?plural:Tahitians"
-msgstr "?plural:Háítígh"
+msgstr "?plural:Taihítígh"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -10247,9 +10042,8 @@ msgid "Tanganyikan"
 msgstr ""
 
 #: data/nation/tanganyikan.ruleset:4
-#, fuzzy
 msgid "?plural:Tanganyikans"
-msgstr "?plural:Tansánaigh"
+msgstr ""
 
 #: data/nation/tanganyikan.ruleset:6
 msgid ""
@@ -10355,12 +10149,11 @@ msgstr ""
 
 #: data/nation/thuringian.ruleset:3
 msgid "Thuringian"
-msgstr ""
+msgstr "Túraingeach"
 
 #: data/nation/thuringian.ruleset:4
-#, fuzzy
 msgid "?plural:Thuringians"
-msgstr "?plural:Tráiciaigh"
+msgstr "?plural:Túraingigh"
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -10512,14 +10305,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/transnistrian.ruleset:3
-#, fuzzy
 msgid "Transnistrian"
-msgstr "Trasalvánach"
+msgstr ""
 
 #: data/nation/transnistrian.ruleset:4
-#, fuzzy
 msgid "?plural:Transnistrians"
-msgstr "?plural:Túinéisigh"
+msgstr ""
 
 #: data/nation/transnistrian.ruleset:6
 msgid ""
@@ -10553,9 +10344,8 @@ msgid "Trinidadian and Tobagonian"
 msgstr ""
 
 #: data/nation/trinidadian.ruleset:4
-#, fuzzy
 msgid "?plural:Trinidadians and Tobagonians"
-msgstr "?plural:Trasalvánaigh"
+msgstr ""
 
 #: data/nation/trinidadian.ruleset:6
 msgid ""
@@ -10571,14 +10361,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/tswana.ruleset:3
-#, fuzzy
 msgid "Tswana"
-msgstr "Botsuánach"
+msgstr "Suánach"
 
 #: data/nation/tswana.ruleset:4
-#, fuzzy
 msgid "?plural:Batswana"
-msgstr "?plural:Botsuánaigh"
+msgstr "?plural:Suánaigh"
 
 #: data/nation/tswana.ruleset:7
 #, no-c-format
@@ -10594,9 +10382,8 @@ msgid "Tuareg"
 msgstr ""
 
 #: data/nation/tuareg.ruleset:4
-#, fuzzy
 msgid "?plural:Tuaregs"
-msgstr "?plural:Turcaigh"
+msgstr ""
 
 #: data/nation/tuareg.ruleset:6
 msgid ""
@@ -10628,14 +10415,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/turkishcypriot.ruleset:3
-#, fuzzy
 msgid "Turkish Cypriot"
-msgstr "Cipireach"
+msgstr "Cipireach Turcach"
 
 #: data/nation/turkishcypriot.ruleset:4
-#, fuzzy
 msgid "?plural:Turkish Cypriots"
-msgstr "?plural:Cipirigh"
+msgstr "?plural:Cipirigh Thurcacha"
 
 #: data/nation/turkishcypriot.ruleset:6
 msgid ""
@@ -10709,14 +10494,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Count %s"
-msgstr "Prionsa %s"
+msgstr "Cunta Prionsúil %s"
 
 #: data/nation/tyrolian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Princely Countess %s"
-msgstr "Cuntaois %s"
+msgstr "Cuntaois Phrionsúil %s"
 
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
@@ -10887,12 +10672,11 @@ msgstr ""
 
 #: data/nation/vanuatuan.ruleset:3
 msgid "Vanuatuan"
-msgstr ""
+msgstr "Vanuatúach"
 
 #: data/nation/vanuatuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ni-Vanuatu"
-msgstr "?plural:hAghaidhnithe"
+msgstr "?plural:Vanuatúaigh"
 
 #: data/nation/vanuatuan.ruleset:6
 msgid ""
@@ -10904,14 +10688,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/vedic.ruleset:3
-#, fuzzy
 msgid "Vedic"
-msgstr "Leigheas"
+msgstr "Véideach"
 
 #: data/nation/vedic.ruleset:4
-#, fuzzy
 msgid "?plural:Vedics"
-msgstr "?plural:Meicsicigh"
+msgstr "?plural:Véidigh"
 
 #: data/nation/vedic.ruleset:6
 msgid ""
@@ -10930,14 +10712,12 @@ msgid "?female:Mahatma %s"
 msgstr "?female:Mahatma %s"
 
 #: data/nation/veletian.ruleset:3
-#, fuzzy
 msgid "Veletian"
-msgstr "Veinéiseach"
+msgstr ""
 
 #: data/nation/veletian.ruleset:4
-#, fuzzy
 msgid "?plural:Veletians"
-msgstr "?plural:Veinéisigh"
+msgstr ""
 
 #: data/nation/veletian.ruleset:6
 msgid ""
@@ -10953,12 +10733,11 @@ msgstr ""
 
 #: data/nation/venda.ruleset:3
 msgid "Venda"
-msgstr ""
+msgstr "Veindeach"
 
 #: data/nation/venda.ruleset:4
-#, fuzzy
 msgid "?plural:Vhavenda"
-msgstr "?plural:Vandalaigh"
+msgstr "?plural:Veindigh"
 
 #: data/nation/venda.ruleset:6
 msgid ""
@@ -10988,12 +10767,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/venetic.ruleset:3
-#, fuzzy
 msgid "Venetic"
 msgstr "Veinéiseach"
 
 #: data/nation/venetic.ruleset:4
-#, fuzzy
 msgid "?plural:Veneti"
 msgstr "?plural:Veinéisigh"
 
@@ -11103,9 +10880,8 @@ msgid "Vistulan"
 msgstr ""
 
 #: data/nation/vistulan.ruleset:4
-#, fuzzy
 msgid "?plural:Vistulans"
-msgstr "?plural:hAstúraigh"
+msgstr ""
 
 #: data/nation/vistulan.ruleset:6
 msgid ""
@@ -11126,9 +10902,8 @@ msgid "Volapukan"
 msgstr ""
 
 #: data/nation/volapuk.ruleset:7
-#, fuzzy
 msgid "?plural:Volapukans"
-msgstr "?plural:Papuaigh"
+msgstr ""
 
 #: data/nation/volapuk.ruleset:9
 msgid ""
@@ -11145,9 +10920,8 @@ msgid "Volga Bulgar"
 msgstr ""
 
 #: data/nation/volgabulgar.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Bulgars"
-msgstr "?plural:Bulgáraigh"
+msgstr ""
 
 #: data/nation/volgabulgar.ruleset:6
 msgid ""
@@ -11158,14 +10932,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/volgagerman.ruleset:3
-#, fuzzy
 msgid "Volga German"
-msgstr "Oir-Ghearmánach"
+msgstr ""
 
 #: data/nation/volgagerman.ruleset:4
-#, fuzzy
 msgid "?plural:Volga Germans"
-msgstr "?plural:Gearmánaigh"
+msgstr ""
 
 #: data/nation/volgagerman.ruleset:6
 msgid ""
@@ -11211,12 +10983,11 @@ msgstr ""
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "Conriocht"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "?plural:Breatnaigh"
+msgstr "?plural:Conriochtaí"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
@@ -11322,12 +11093,11 @@ msgstr ""
 
 #: data/nation/xhosa.ruleset:3
 msgid "Xhosa"
-msgstr ""
+msgstr "Cóiseach"
 
 #: data/nation/xhosa.ruleset:4
-#, fuzzy
 msgid "?plural:amaXhosa"
-msgstr "?plural:hAmasónaigh"
+msgstr "?plural:Cóisigh"
 
 #: data/nation/xhosa.ruleset:6
 msgid ""
@@ -11342,9 +11112,8 @@ msgid "Xiongnu"
 msgstr ""
 
 #: data/nation/xiongnu.ruleset:4
-#, fuzzy
 msgid "?plural:Xiongnu"
-msgstr "?plural:hAghaidhnithe"
+msgstr ""
 
 #: data/nation/xiongnu.ruleset:6
 msgid ""
@@ -11432,14 +11201,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/zambian.ruleset:3
-#, fuzzy
 msgid "Zambian"
-msgstr "Namabach"
+msgstr "Saimbiach"
 
 #: data/nation/zambian.ruleset:4
-#, fuzzy
 msgid "?plural:Zambians"
-msgstr "?plural:Namabaigh"
+msgstr "?plural:Saimbiaigh"
 
 #: data/nation/zambian.ruleset:6
 msgid ""
@@ -11450,12 +11217,11 @@ msgstr ""
 
 #: data/nation/zanzibari.ruleset:3
 msgid "Zanzibari"
-msgstr ""
+msgstr "Sainsibeárach"
 
 #: data/nation/zanzibari.ruleset:4
-#, fuzzy
 msgid "?plural:Zanzibaris"
-msgstr "?plural:Barbaraigh"
+msgstr "?plural:Sainsibeáraigh"
 
 #: data/nation/zanzibari.ruleset:6
 msgid ""
@@ -11494,9 +11260,8 @@ msgid "Zhuang"
 msgstr ""
 
 #: data/nation/zhuang.ruleset:4
-#, fuzzy
 msgid "?plural:Zhuang"
-msgstr "?plural:Han"
+msgstr ""
 
 #: data/nation/zhuang.ruleset:6
 msgid ""
@@ -11529,10 +11294,3 @@ msgid ""
 "1980 the country has been governed by Robert Mugabe, who has received an "
 "equally poor reputation internationally as the previous regime."
 msgstr ""
-
-# de Bhaldraithe
-#~ msgid "?female:Mother Superior %s"
-#~ msgstr "?female:An Mháthair-Uachtarán %s"
-
-#~ msgid "?female:Shaykha %s"
-#~ msgstr "?female:Shaykha %s"
