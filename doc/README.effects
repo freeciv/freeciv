@@ -84,7 +84,7 @@ MinHitPoints:  Local
 MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
-Only "Center" is supported as CityTile type.
+CityTile is either "Center" (city center) or "Claimed" (owned).
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported" or "TransportDependent".
