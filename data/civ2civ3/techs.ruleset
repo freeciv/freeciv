@@ -242,7 +242,9 @@ req2     = "Currency"
 flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
-helptext = _("Allows Settlers, Workers and Engineers to build fortresses.")
+helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to build fortresses.\
+")
 cost     = 40
 
 [advance_currency]

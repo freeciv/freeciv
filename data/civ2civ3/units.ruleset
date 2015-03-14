@@ -2117,7 +2117,7 @@ On impact, the blast will destroy any unit in an area 3 tiles wide\
 Similar to pollution and global warming, the risk of global nuclear\
  winter increases with fallout. If nuclear winter occurs, terrain\
  across the globe changes into desert, tundra, and ice. Settlers,\
- Workers, and Engineers can clean up nuclear fallout.\
+ Migrants, Workers, and Engineers can clean up nuclear fallout.\
 "), _("\
 TIP 1:  Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\
@@ -2125,10 +2125,10 @@ TIP 1:  Nuking the ocean will not generate fallout, and is a most\
 "), _("\
 TIP 2:  You may be involved in a situation where you've invaded an\
  enemy country en masse, but the enemy cities are too strong.\
- Before using a Nuclear unit, assemble a gang of Settlers, Workers,\
- and/or Engineers next to the city and have them ready to fix\
- the fallout on the same turn it occurs!  This minimizes the\
- chance of nuclear winter.  Eco-friendly nukes!\
+ Before using a Nuclear unit, assemble a gang of cleanup units\
+ next to the city and have them ready to fix the fallout on the\
+ same turn it occurs! This minimizes the chance of nuclear winter.\
+ Eco-friendly nukes!\
 ")
 
 [unit_diplomat]
