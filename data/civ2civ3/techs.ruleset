@@ -241,7 +241,8 @@ flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
 helptext = _("\
-Allows Settlers, Migrants, Workers and Engineers to build fortresses.\
+Allows Settlers, Migrants, Workers and Engineers to build forts and \
+fortresses.\
 ")
 cost     = 40
 
@@ -655,7 +656,9 @@ req2     = "Electronics"
 flags    = ""
 graphic     = "a.radio"
 graphic_alt = "-"
-helptext = _("Allows Workers and Engineers to build airbases and buoys.")
+helptext = _("\
+Allows Workers and Engineers to build airstrips, airbases and buoys.\
+")
 cost     = 540
 
 [advance_railroad]
@@ -699,6 +702,10 @@ flags    = ""
 graphic     = "a.refrigeration"
 graphic_alt = "-"
 cost     = 350
+helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to upgrade \
+irrigation systems to farmland.\
+")
 
 [advance_robotics]
 name     = _("Robotics")
