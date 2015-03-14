@@ -1119,9 +1119,12 @@ name = _("Combat")
 text = _("\
 In standard combat, when one unit attacks another unit, either the \
 attacker will be destroyed, or the defender will be destroyed -- \
-never both (unless the attacker was a missile). (Bombardment, in \
-rulesets which have it, works rather differently: the attacker \
-sustains no damage, and the defender cannot be completely destroyed.)\
+never both (unless the attacker was a missile).\
+"), _("\
+(In some rulesets, certain units sometimes use a different style of \
+attack called 'bombardment', which works rather differently: the \
+attacker sustains no damage, and damages every unit in the target \
+tile or city, but defenders are never completely destroyed.)\
 "), _("\
 The outcome of combat depends on several factors, including chance.\
 "), _("\
