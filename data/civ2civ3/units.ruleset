@@ -1542,7 +1542,7 @@ A Helicopter's attack against units on land is a bombard attack; against \
 units on water it has a regular attack.\
 "), _("\
 Helicopters can also transport one unit of infantry; while most troops \
-must load or unload in a city or airbase units specialising in mobility \
+must load or unload in a city or airbase units specializing in mobility \
 (Paratroopers, Alpine Troops, Marines, Partisans, and Fanatics) can \
 embark or disembark at any time.\
 "), _("\

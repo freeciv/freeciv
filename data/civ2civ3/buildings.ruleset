@@ -1618,7 +1618,7 @@ sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
 With this wonder, City Walls and Courthouses each make one unhappy \
-citizen content in their city, unless that citizens is unhappy about \
+citizen content in their city, unless that citizen is unhappy about \
 aggression. Also, none of the owner's cities can be incited to revolt.\
 ")
 
