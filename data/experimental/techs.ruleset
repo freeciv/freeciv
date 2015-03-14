@@ -660,7 +660,11 @@ root_req = "Steam Engine"
 flags    = ""
 graphic     = "a.railroad"
 graphic_alt = "-"
-helptext = _("Decreases one-time revenue from new trade routes.")
+helptext = _("\
+Allows Settlers, Workers and Engineers to upgrade roads to railroads.\
+"), _("\
+Decreases one-time revenue from new trade routes.\
+")
 
 [advance_recycling]
 name     = _("Recycling")
@@ -769,6 +773,9 @@ root_req = "Laser"
 flags    = ""
 graphic     = "a.superconductors"
 graphic_alt = "-"
+helptext = _("\
+Allows Settlers, Workers and Engineers to upgrade railroads with maglev.\
+")
 
 [advance_tactics]
 name     = _("Tactics")

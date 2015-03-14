@@ -675,6 +675,9 @@ flags    = ""
 graphic     = "a.railroad"
 graphic_alt = "-"
 helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to upgrade roads to \
+railroads.\
+"), _("\
 Halves one-time revenue from new trade routes.\
 "), _("\
 For Despotism or Tribal governments, cancels the penalty to worked \
