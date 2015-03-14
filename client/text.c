@@ -142,13 +142,13 @@ const char *popup_info_text(struct tile *ptile)
   struct city *pcity = tile_city(ptile);
   struct unit *punit = find_visible_unit(ptile);
   const char *diplo_nation_plural_adjectives[DS_LAST] =
-    {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
-     Q_("?nation:Neutral"),
+    {"" /* unused, DS_ARMISTICE */, Q_("?nation:Hostile"),
+     "" /* unused, DS_CEASEFIRE */,
      Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
      Q_("?nation:Mysterious"), Q_("?nation:Friendly(team)")};
   const char *diplo_city_adjectives[DS_LAST] =
-    {Q_("?city:Neutral"), Q_("?city:Hostile"),
-     Q_("?nation:Neutral"),
+    {"" /* unused, DS_ARMISTICE */, Q_("?city:Hostile"),
+     "" /* unused, DS_CEASEFIRE */,
      Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious"),
      Q_("?city:Friendly(team)")};
   static struct astring str = ASTRING_INIT;
@@ -208,6 +208,16 @@ const char *popup_info_text(struct tile *ptile)
                           "Territory of %s (%s) (%d turn cease-fire)",
                           turns),
                       username, nation, turns);
+      } else if (ds->type == DS_ARMISTICE) {
+        int turns = ds->turns_left;
+
+        astr_add_line(&str,
+                      /* TRANS: "Territory of <username> (<nation + team>)
+                       * (<number> turn armistice)" */
+                      PL_("Territory of %s (%s) (%d turn armistice)",
+                          "Territory of %s (%s) (%d turn armistice)",
+                          turns),
+                      username, nation, turns);
       } else {
         int type = ds->type;
 
@@ -245,6 +255,15 @@ const char *popup_info_text(struct tile *ptile)
          * (<nation + team>, <number> turn cease-fire)" */
         astr_add_line(&str, PL_("City: %s | %s (%s, %d turn cease-fire)",
                                 "City: %s | %s (%s, %d turn cease-fire)",
+                                turns),
+                      city_name(pcity), username, nation, turns);
+      } else if (ds->type == DS_ARMISTICE) {
+        int turns = ds->turns_left;
+
+        /* TRANS:  "City: <city name> | <username>
+         * (<nation + team>, <number> turn armistice)" */
+        astr_add_line(&str, PL_("City: %s | %s (%s, %d turn armistice)",
+                                "City: %s | %s (%s, %d turn armistice)",
                                 turns),
                       city_name(pcity), username, nation, turns);
       } else {
@@ -342,6 +361,16 @@ const char *popup_info_text(struct tile *ptile)
          * <number> turn cease-fire)" */
         astr_add_line(&str, PL_("Unit: %s | %s (%s, %d turn cease-fire)",
                                 "Unit: %s | %s (%s, %d turn cease-fire)",
+                                turns),
+                      utype_name_translation(ptype),
+                      username, nation, turns);
+      } else if (ds->type == DS_ARMISTICE) {
+        int turns = ds->turns_left;
+
+        /* TRANS:  "Unit: <unit type> | <username> (<nation + team>,
+         * <number> turn armistice)" */
+        astr_add_line(&str, PL_("Unit: %s | %s (%s, %d turn armistice)",
+                                "Unit: %s | %s (%s, %d turn armistice)",
                                 turns),
                       utype_name_translation(ptype),
                       username, nation, turns);
