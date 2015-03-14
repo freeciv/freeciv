@@ -19,6 +19,8 @@ extern "C" {
 
 #include <jansson.h>
 
+#define log_packet_json log_debug
+
 void *get_packet_from_connection_json(struct connection *pc,
                                       enum packet_type *ptype);
 
@@ -36,7 +38,8 @@ void *get_packet_from_connection_json(struct connection *pc,
   { \
     json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
     if (json_buffer) { \
-      dio_put_string_raw(&(dout.raw), json_buffer);     \
+      dio_put_string_raw(&(dout.raw), json_buffer); \
+      log_packet_json("Json out: %s", json_buffer); \
     } \
     size_t size = dio_output_used(&(dout.raw)); \
     \

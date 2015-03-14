@@ -332,6 +332,8 @@ void *get_packet_from_connection_json(struct connection *pc,
     log_error("%s", error.text);
   }
 
+  log_packet_json("Json in: %s", pc->buffer->data + 2);
+
   /* Shift remaining data to the front */
   pc->buffer->ndata -= whole_packet_len;
   memmove(pc->buffer->data, pc->buffer->data + whole_packet_len, pc->buffer->ndata);
