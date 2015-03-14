@@ -1032,9 +1032,11 @@ uk_gold       = 1
 flags         = ""
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
-The Mechanized Infantry has the strongest defensive strength\
- of any land unit, but is only available near the end of the\
- technology tree.\
+The Mechanized Infantry has the strongest inherent defensive strength \
+of any land unit, and is very fast on roads and easy terrain, but it is \
+hindered rather than helped by rough terrain (it cannot move into \
+mountains, swamps, or jungles), and it is only available near the end \
+of the technology tree.\
 ")
 
 [unit_horsemen]
@@ -1098,8 +1100,12 @@ uk_gold       = 1
 flags         = "Capturer"
 roles         = "AttackFast"
 helptext      = _("\
-Chariots are horse-pulled war wagons, stronger\
- but more expensive than horsemen.\
+Chariots are horse-pulled war wagons. They have a stronger attack than \
+Horsemen, but their speed comes at a cost: they are more expensive \
+to build, they cannot take advantage of terrain to defend themselves, \
+they cannot move in rough terrain (mountains, swamps, and jungles) \
+without roads, and they cannot be transported by sea using early ships \
+(Triremes and Caravels).\
 ")
 
 [unit_elephants]
@@ -1288,9 +1294,11 @@ uk_gold       = 1
 flags         = ""
 roles         = "DefendOk", "AttackFast", "Hunter"
 helptext      = _("\
-Armors are motorized war wagons that are faster,\
- stronger, and can take more damage than any\
- mounted unit.\
+Armors are motorized war wagons that are faster, stronger, and can take \
+more damage than any mounted unit. However, they are less adaptable to \
+very rough terrain (they cannot move into mountains, swamps, or jungles \
+without roads), and unable to use less rough terrain to improve their \
+defense.\
 ")
 
 [unit_catapult]
@@ -1324,6 +1332,11 @@ helptext      = _("\
 Catapults are large rock-throwing machines of war.\
  They are very strong attackers but equally weak\
  defenders and will need an escort to be effective.\
+"), _("\
+While powerful, Catapults (and their successors) are bulky and awkward; \
+they require roads to move in rough terrain (mountains, swamps, and \
+jungles), are difficult to defend, and are too big for early ships \
+(Triremes and Caravels).\
 ")
 
 [unit_cannon]
@@ -1354,10 +1367,10 @@ uk_gold       = 1
 flags         = ""
 roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
 helptext      = _("\
-Cannons are large firearms that can fire heavy\
- projectiles over long distances. They are very\
- strong attackers but equally weak defenders and\
- will need an escort to be effective.\
+Cannons are large firearms that can fire heavy projectiles over long \
+distances. As with the catapults they replace, they are very strong \
+attackers but equally weak defenders and will need an escort to be \
+effective, and have limited mobility.\
 ")
 
 [unit_artillery]
@@ -1388,9 +1401,9 @@ uk_gold       = 1
 flags         = "CityBuster"
 roles         = "AttackStrong"
 helptext      = _("\
-The artillery is an upgraded cannon. It is a very\
- strong attacker but equally weak defender and\
- will need an escort to be effective.\
+The artillery is an upgraded cannon. As with its predecessors, it is a \
+very strong attacker but equally weak defender and will need an escort \
+to be effective, and has limited mobility.\
 ")
 
 [unit_howitzer]
@@ -1421,8 +1434,9 @@ uk_gold       = 1
 flags         = "CityBuster"
 roles         = "AttackStrong"
 helptext      = _("\
-Howitzers are upgraded artillery with improved\
- defensive as well as offensive capabilities.\
+Howitzers are upgraded artillery with improved defensive as well as \
+offensive capabilities. However, they still have the limited mobility \
+of their predecessors.\
 ")
 
 [unit_fighter]
