@@ -3863,10 +3863,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("* Gets double firepower when attacking cities.\n"));
   }
   if (utype_has_flag(utype, UTYF_BOMBARDER)) {
+    /* FIXME: also they only happen against land units. We leave the
+     * ruleset author to document this. */
     cat_snprintf(buf, bufsz,
-		 _("* Does bombard attacks (%d per turn).  These attacks will"
-		   " only damage (never kill) the defender, but have no risk"
-		   " for the attacker.\n"),
+		 _("* Does bombard attacks (%d per turn). These attacks will"
+		   " only damage (never kill) defenders, but damage all"
+                   " defenders on a tile, and have no risk for the"
+                   " attacker.\n"),
 		 utype->bombard_rate);
   }
   if (utype_has_flag(utype, UTYF_IGTER)) {
