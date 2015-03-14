@@ -15,6 +15,7 @@ pkgdata_DATA =          		\
 	great_wall.png			\
 	hanging_gardens.png		\
 	hoover_dam.png			\
+	internet.png			\
 	isaac_newtons_college.png	\
 	js_bachs_cathedral.png		\
 	king_richards_crusade.png	\
