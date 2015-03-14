@@ -402,34 +402,34 @@ Changes affecting server operators
      * Failure to load a ruleset no longer causes the server to quit; it
        now reverts to the previously loaded ruleset, or failing that the
        default ruleset. GNAPATCH#1449
+     * On Windows, the server no longer sets the socket option
+       SO_REUSEADDR on its listening socket. This may fix some issues with
+       clients connecting to the wrong server. GNA#21583
+     * The default database backend for authentication has changed from
+       MySQL to SQLite. GNA#19909
      * There's no longer support for attempting to save games in formats
        compatible with previous major releases of Freeciv. The
        'saveversion' server option has been removed. GNAPATCH#3188
        GNAPATCH#3026
-     * On Windows, the server no longer sets the socket option
-       SO_REUSEADDR on its listening socket. This may fix some issues with
-       clients connecting to the wrong server. GNA#21583
-     * The default database backend has changed from MySQL to SQLite.
-       GNA#19909
 
 AI
 
    There have been some improvements to the standard AI's behavior:
      * Defense
-          + The AI should more correctly account for travel time when
-            assessing danger to cities from enemy units; previously it
-            treated them as its own, which could be wrong for ZoC,
-            restrictinfra etc. GNAPATCH#3729
           + Autosettlers are smarter about spotting danger: GNAPATCH#3854
                o Sea and air units are now considered threats, not just
                  land units.
                o Military units which can't attack are no longer
                  considered threats.
+          + Cities needing defense are less prone to building walls before
+            units. GNAPATCH#4798
           + The AI now considers non-land units that can conquer cities
             (such as Helicopters) a threat to continents it controls.
             GNA#22225
-          + Cities needing defense are less prone to building walls before
-            units. GNAPATCH#4798
+          + The AI should more correctly account for travel time when
+            assessing danger to cities from enemy units; previously it
+            treated them as its own, which could be wrong for ZoC,
+            restrictinfra etc. GNAPATCH#3729
           + (as of RC1) The city the AI has nominated to build wonders is
             now permitted to build defensive units instead if necessary.
             GNAPATCH#5588
@@ -531,8 +531,6 @@ Modpack installer
 
 Tilesets / Art
 
-     * The icons for entertainers, scientists, and tax collectors now have
-       both male and female versions. GNAPATCH#4506
      * The activity icons shown near units building roads and bases in
        Cimpletoon, Amplio2, and Trident are now small versions of the
        extras themselves. GNAPATCH#4059 GNA#20032 GNAPATCH#5856
@@ -541,6 +539,8 @@ Tilesets / Art
        GNAPATCH#5856 GNAPATCH#5877
      * Improve colors for global warming / nuclear winter progress
        indicators. GNAPATCH#4827
+     * The icons for entertainers, scientists, and tax collectors now have
+       both male and female versions. GNAPATCH#4506
      * Made a few specialist icons available for custom rulesets (worker,
        farmer, merchant) for use by modpacks. These are not used in the
        supplied rulesets. GNAPATCH#4467
@@ -552,7 +552,7 @@ Translations
 
      * Updated French, Polish, Catalan, Russian, Korean, Scottish Gaelic,
        British English, traditional Chinese, Spanish, German, Japanese,
-       and Finnish localizations.
+       Finnish, and Irish localizations.
 
 Build/portability
 
