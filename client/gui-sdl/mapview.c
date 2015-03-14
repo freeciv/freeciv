@@ -562,8 +562,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
           if (BORDERS_DISABLED != game.info.borders && !pCity) {
 	    const char *diplo_nation_plural_adjectives[DS_LAST] =
-                        {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
-     			"" /* unused, DS_CEASEFIRE*/,
+                       {"" /* unused, DS_ARMISTICE */, Q_("?nation:Hostile"),
+                        "" /* unused, DS_CEASEFIRE */,
      			Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
      			Q_("?nation:Mysterious")};
             if (tile_owner(pTile) == client.conn.playing) {
@@ -573,12 +573,18 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                 struct player_diplstate *ds
                   = player_diplstate_get(client.conn.playing,
                                          tile_owner(pTile));
-                if (DS_CEASEFIRE == ds->type){
+                if (DS_CEASEFIRE == ds->type) {
                   int turns = ds->turns_left;
-		  cat_snprintf(buffer, sizeof(buffer),
-		  	PL_("\n%s territory (%d turn ceasefire)",
-				"\n%s territory (%d turn ceasefire)", turns),
-		 		nation_adjective_for_player(tile_owner(pTile)), turns);
+                  cat_snprintf(buffer, sizeof(buffer),
+                        PL_("\n%s territory (%d turn ceasefire)",
+                            "\n%s territory (%d turn ceasefire)", turns),
+                        nation_adjective_for_player(tile_owner(pTile)), turns);
+                } else if (DS_ARMISTICE == ds->type) {
+                  int turns = ds->turns_left;
+                  cat_snprintf(buffer, sizeof(buffer),
+                        PL_("\n%s territory (%d turn armistice)",
+                            "\n%s territory (%d turn armistice)", turns),
+                        nation_adjective_for_player(tile_owner(pTile)), turns);
                 } else {
                   cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
                     diplo_nation_plural_adjectives[ds->type],
@@ -596,8 +602,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             struct player *pOwner = city_owner(pCity);
 /*            bool barrack = FALSE, airport = FALSE, port = FALSE;*/
 	    const char *diplo_city_adjectives[DS_LAST] =
-    			{Q_("?city:Neutral"), Q_("?city:Hostile"),
-     			  "" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
+			{Q_("?city:Neutral"), Q_("?city:Hostile"),
+			  Q_("?city:Neutral"), Q_("?city:Peaceful"),
 			  Q_("?city:Friendly"), Q_("?city:Mysterious")};
 			  
 	    cat_snprintf(buffer, sizeof(buffer),
