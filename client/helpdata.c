@@ -2351,22 +2351,34 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 
   if (player_invention_state(pplayer, i) != TECH_KNOWN) {
     if (player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
+      int bulbs = base_total_bulbs_required(pplayer, i);
+
       cat_snprintf(buf, bufsz,
-		   _("Starting now, researching %s would need %d bulbs."),
-		   advance_name_for_player(pplayer, i),
-		   base_total_bulbs_required(pplayer, i));
+		   PL_("Starting now, researching %s would need %d bulb.",
+                       "Starting now, researching %s would need %d bulbs.",
+                       bulbs),
+		   advance_name_for_player(pplayer, i), bulbs);
     } else if (player_invention_reachable(pplayer, i, TRUE)) {
+      /* Split string into two to allow localization of two pluralizations. */
+      char buf2[MAX_LEN_MSG];
+      int bulbs = total_bulbs_required_for_goal(pplayer, i);
+
+      fc_snprintf(buf2, ARRAY_SIZE(buf2),
+                  /* TRANS: appended to another sentence. Preserve the
+                   * leading space. */
+                  PL_(" The whole project will require %d bulb to complete.",
+                      " The whole project will require %d bulbs to complete.",
+                      bulbs),
+                  bulbs);
       cat_snprintf(buf, bufsz,
+                   /* TRANS: last %s is a sentence pluralized separately. */
                    PL_("To reach %s you need to obtain %d other"
-                       " technology first. The whole project"
-                       " will require %d bulbs to complete.",
+                       " technology first.%s",
                        "To reach %s you need to obtain %d other"
-                       " technologies first. The whole project"
-                       " will require %d bulbs to complete.",
+                       " technologies first.%s",
                        num_unknown_techs_for_goal(pplayer, i) - 1),
 		   advance_name_for_player(pplayer, i),
-		   num_unknown_techs_for_goal(pplayer, i) - 1,
-		   total_bulbs_required_for_goal(pplayer, i));
+		   num_unknown_techs_for_goal(pplayer, i) - 1, buf2);
     } else {
       CATLSTR(buf, bufsz,
 	      _("You cannot research this technology."));
@@ -2374,6 +2386,8 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     if (!techs_have_fixed_costs()
      && player_invention_reachable(pplayer, i, FALSE)) {
       CATLSTR(buf, bufsz,
+              /* TRANS: Appended to another sentence. Preserve the
+               * leading space. */
 	      _(" This number may vary depending on what "
 		"other players research.\n"));
     } else {
