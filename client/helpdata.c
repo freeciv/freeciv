@@ -4125,22 +4125,34 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 
     if (research_invention_state(presearch, i) != TECH_KNOWN) {
       if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
+        int bulbs = research_total_bulbs_required(presearch, i, FALSE);
+
         cat_snprintf(buf, bufsz,
-                     _("Starting now, researching %s would need %d bulbs."),
-                     advance_name_translation(vap),
-                     research_total_bulbs_required(presearch, i, FALSE));
+                     PL_("Starting now, researching %s would need %d bulb.",
+                         "Starting now, researching %s would need %d bulbs.",
+                         bulbs),
+                     advance_name_translation(vap), bulbs);
       } else if (research_invention_reachable(presearch, i)) {
+        /* Split string into two to allow localization of two pluralizations. */
+        char buf2[MAX_LEN_MSG];
+        int bulbs = research_goal_bulbs_required(presearch, i);
+
+        fc_snprintf(buf2, ARRAY_SIZE(buf2),
+                    /* TRANS: appended to another sentence. Preserve the
+                     * leading space. */
+                    PL_(" The whole project will require %d bulb to complete.",
+                        " The whole project will require %d bulbs to complete.",
+                        bulbs),
+                    bulbs);
         cat_snprintf(buf, bufsz,
+                     /* TRANS: last %s is a sentence pluralized separately. */
                      PL_("To reach %s you need to obtain %d other"
-                         " technology first. The whole project"
-                         " will require %d bulbs to complete.",
+                         " technology first.%s",
                          "To reach %s you need to obtain %d other"
-                         " technologies first. The whole project"
-                         " will require %d bulbs to complete.",
+                         " technologies first.%s",
                          research_goal_unknown_techs(presearch, i) - 1),
                      advance_name_translation(vap),
-                     research_goal_unknown_techs(presearch, i) - 1,
-                     research_goal_bulbs_required(presearch, i));
+                     research_goal_unknown_techs(presearch, i) - 1, buf2);
       } else {
         CATLSTR(buf, bufsz,
                 _("You cannot research this technology."));
