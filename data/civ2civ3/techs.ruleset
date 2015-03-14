@@ -241,7 +241,9 @@ req2     = "Currency"
 flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
-helptext = _("Allows Settlers, Workers and Engineers to build fortresses.")
+helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to build fortresses.\
+")
 cost     = 40
 
 [advance_currency]
@@ -664,7 +666,12 @@ req2     = "Metallurgy"
 flags    = ""
 graphic     = "a.railroad"
 graphic_alt = "-"
-helptext = _("Allows Settlers, Workers and Engineers to build railroads. Decreases one-time revenue from new trade routes.")
+helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to upgrade roads to \
+railroads.\
+"), _("\
+Decreases one-time revenue from new trade routes.\
+")
 cost     = 350
 
 [advance_recycling]
@@ -774,7 +781,10 @@ req2     = "Laser"
 flags    = ""
 graphic     = "a.superconductors"
 graphic_alt = "-"
-helptext = _("Allows Settlers, Workers and Engineers to build maglevs.")
+helptext = _("\
+Allows Settlers, Migrants, Workers and Engineers to upgrade railroads \
+with maglev.\
+")
 cost     = 700
 
 [advance_tactics]
