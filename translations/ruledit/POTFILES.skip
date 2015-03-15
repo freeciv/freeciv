@@ -236,6 +236,7 @@ tools/mpgui_gtk2.c
 tools/mpgui_gtk3.c
 tools/mpgui_qt.cpp
 tools/mpgui_qt_worker.cpp
+server/actiontools.c
 server/aiiface.c
 server/auth.c
 server/barbarian.c

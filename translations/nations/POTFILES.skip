@@ -246,6 +246,7 @@ tools/ruledit/tab_nation.cpp
 tools/ruledit/tab_tech.cpp
 tools/ruledit/tab_unit.cpp
 tools/ruledit/validity.c
+server/actiontools.c
 server/aiiface.c
 server/auth.c
 server/barbarian.c
