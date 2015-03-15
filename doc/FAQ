@@ -349,8 +349,9 @@ games?
    to get help on a particular setting, or
 /set <setting> <value>
 
-   to change a setting to a particular value (see article on set). After
-   the game begins you may still change some settings (but not others).
+   to change a setting to a particular value (see article on server
+   options). After the game begins you may still change some settings (but
+   not others).
 
    World maps can be created using the built-in map editor. It is also
    possible to edit running games: Just enable Editing Mode from the Edit
@@ -648,15 +649,17 @@ freeciv-gtk2 -t hex2t
    To start your local server, run freeciv-server. Then type start at the
    server prompt to begin!
 mike@localhost:/usr/local/bin$ ./freeciv-server
-This is the server for Freeciv version 2.2.3
+This is the server for Freeciv version 2.5.0
 You can learn a lot about Freeciv at http://www.freeciv.org/
 2: Loading rulesets
-2: AI*1 has been added as Easy level AI-controlled player.
-2: AI*2 has been added as Easy level AI-controlled player.
-2: AI*3 has been added as Easy level AI-controlled player.
-2: AI*4 has been added as Easy level AI-controlled player.
-2: AI*5 has been added as Easy level AI-controlled player.
+2: AI*1 has been added as Easy level AI-controlled player (classic).
+2: AI*2 has been added as Easy level AI-controlled player (classic).
+2: AI*3 has been added as Easy level AI-controlled player (classic).
+2: AI*4 has been added as Easy level AI-controlled player (classic).
+2: AI*5 has been added as Easy level AI-controlled player (classic).
 2: Now accepting new client connections.
+
+For introductory help, type 'help'.
 
 > start
 Starting game.
@@ -956,6 +959,9 @@ freeciv-gtk2 --tiles trident
    client you use.
 
    The recommended client is the Gtk client. This has the most features.
+
+   The Qt client is a newer client using the Qt toolkit. It has a more
+   immersive main map screen, but still lacks some features.
 
    The SDL client provides a more immersive experience, but lags behind
    somewhat in features.
