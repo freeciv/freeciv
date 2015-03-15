@@ -825,7 +825,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
       
-    popdown_advanced_terrain_dialog();
+    popdown_diplomat_dialog();
     
     if(sabotage_improvement == 1000)
     {
