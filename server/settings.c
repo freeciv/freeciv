@@ -704,6 +704,9 @@ static bool startunits_callback(const char *value,
   int len = strlen(value), i;
 
   if (len == 0) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Starting units string cannot be empty."));
+
     return FALSE;
   }
 
