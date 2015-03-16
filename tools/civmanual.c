@@ -39,6 +39,7 @@
 #include "connection.h"
 #include "events.h"
 #include "fc_cmdhelp.h"
+#include "fc_interface.h"
 #include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
 #include "government.h"
@@ -618,6 +619,7 @@ int main(int argc, char **argv)
 
   con_log_close();
   registry_module_close();
+  free_libfreeciv();
   free_nls();
 
   return retval;

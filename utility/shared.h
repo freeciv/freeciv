@@ -161,6 +161,8 @@ const struct strvec *get_data_dirs(void);
 const struct strvec *get_save_dirs(void);
 const struct strvec *get_scenario_dirs(void);
 
+void free_data_dir_names(void);
+
 struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix);
 struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
                                          const char *infix, bool nodups);

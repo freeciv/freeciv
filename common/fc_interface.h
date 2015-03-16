@@ -40,6 +40,7 @@ const extern struct functions *fc_funcs;
 
 struct functions *fc_interface_funcs(void);
 void fc_interface_init(void);
+void free_libfreeciv(void);
 
 #ifdef __cplusplus
 }
