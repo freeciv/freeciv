@@ -15,7 +15,7 @@ priority = 3
 ; eg, description, authors, colors, etc.
 
 ; Basic tile sizes:
-normal_tile_width  = 128
+normal_tile_width  = 126
 normal_tile_height = 64
 small_tile_width   = 15
 small_tile_height  = 20
@@ -102,9 +102,6 @@ files =
   "amplio2/moderncities.spec",
   "hexemplio/terrain1.spec",
   "hexemplio/terrain2.spec",
-  "hexemplio/terrain3.spec",
-  "hexemplio/terrain4.spec",
-  "hexemplio/terrain5.spec",
   "hexemplio/tiles.spec",
   "hexemplio/grid.spec",
   "hexemplio/rivers.spec",
@@ -112,7 +109,9 @@ files =
   "hexemplio/unitextras.spec",
   "hexemplio/unitcost.spec",
   "hexemplio/select.spec",
-  "hexemplio/void.spec"
+  "hexemplio/water1.spec",
+  "hexemplio/water2.spec",
+  "hexemplio/water3.spec"
 
 
 ; Include color definitions
@@ -121,174 +120,112 @@ files =
 ; Terrain info - see README.graphics
 
 [layer0]
-match_types = "land", "water"
+match_types = "floor", "coast", "lake"
 
 [layer1]
-match_types = "notice", "ice", "void"
+match_types = "water", "land"
 
 [layer2]
-match_types = "floor", "coast", "woods", "hills"
+match_types = "hills", "foliage"
 
 ; Water graphics referenced by terrain.ruleset
 ;
 
 [tile_lake]
-blend_layer = 1
+blend_layer = 2
 num_layers = 2
-layer0_match_type = "water"
-layer0_match_with = "water"
+layer0_match_type = "lake"
+layer0_match_with = "lake"
 layer0_sprite_type = "corner"
-layer1_match_type = "notice"
-layer1_match_with = "ice"
+layer1_match_type = "water"
+layer1_match_with = "water"
 layer1_sprite_type = "corner"
 
 [tile_coast]
-blend_layer = 1
-num_layers = 3
-layer0_match_type = "water"
-layer0_match_with = "water"
-layer0_sprite_type = "corner"
-layer1_match_type = "notice"
-layer1_match_with = "ice"
+blend_layer = 2
+num_layers = 2
+layer0_match_type = "coast"
+layer1_match_type = "water"
+layer1_match_with = "water"
 layer1_sprite_type = "corner"
-layer2_match_type = "coast"
-layer2_match_with = "floor"
-layer2_sprite_type = "corner"
 
 [tile_floor]
-blend_layer = 1
-num_layers = 3
-layer0_match_type = "water"
-layer0_match_with = "water"
+blend_layer = 2
+num_layers = 2
+layer0_match_type = "floor"
+layer0_match_with = "floor"
 layer0_sprite_type = "corner"
-layer1_match_type = "notice"
-layer1_match_with = "ice"
-layer1_sprite_type = "corner"
-layer2_match_type = "floor"
-layer2_match_with = "coast"
-layer2_sprite_type = "corner"
-
-[tile_void]
-blend_layer = 0
-num_layers = 2
-layer0_match_type = "water"
-layer1_match_type = "void"
-layer1_match_with = "void"
-
-[tile_void2]
-blend_layer = 0
-num_layers = 2
-layer0_match_type = "land"
-layer0_match_with = "land"
-layer1_match_type = "void"
-layer1_match_with = "void"
+layer1_match_type = "water"
+layer1_match_with = "water"
 layer1_sprite_type = "corner"
 
 [tile_inaccessible]
 blend_layer = 0
-num_layers = 3
-layer0_match_type = "water"
-layer1_match_type = "void"
+num_layers = 2
+layer0_match_type = "floor"
+layer1_match_type = "land"
 
 ; Land graphics referenced by terrain.ruleset
 ;
-[tile_dirt]
-blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
 
 [tile_arctic]
 blend_layer = 0
 num_layers = 2
-layer0_match_type = "land"
-layer1_match_type = "ice"
+layer0_match_type = "lake"
+layer1_match_type = "water"
 
 [tile_desert]
 blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
+num_layers = 2
+layer1_match_type = "land"
 
 [tile_forest]
 blend_layer = 1
 num_layers = 3
-layer0_match_type = "land"
-layer2_match_type = "woods"
-layer2_match_with = "woods"
+layer1_match_type = "land"
+layer2_match_type = "foliage"
+layer2_match_with = "foliage"
 
 [tile_grassland]
 blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
+num_layers = 2
+layer1_match_type = "land"
 
 [tile_hills]
 blend_layer = 1
 num_layers = 3
-layer0_match_type = "land"
-layer2_match_type = "hills"
-layer2_match_with = "hills"
-
-[tile_dryhills]
-blend_layer = 1
-num_layers = 3
-layer0_match_type = "land"
-layer2_match_type = "hills"
-layer2_match_with = "hills"
-
-[tile_highlands]
-blend_layer = 1
-num_layers = 3
-layer0_match_type = "land"
-layer2_match_type = "hills"
-layer2_match_with = "hills"
-
-[tile_icyhills]
-blend_layer = 1
-num_layers = 3
-layer0_match_type = "land"
-layer1_match_type = "ice"
+layer1_match_type = "land"
 layer2_match_type = "hills"
 layer2_match_with = "hills"
 
 [tile_jungle]
 blend_layer = 1
 num_layers = 3
-layer0_match_type = "land"
-layer2_match_type = "woods"
-layer2_match_with = "woods"
+layer1_match_type = "land"
+layer2_match_type = "foliage"
+layer2_match_with = "foliage"
 
 [tile_mountains]
 blend_layer = 1
 num_layers = 3
-layer0_match_type = "land"
+layer1_match_type = "land"
 layer2_match_type = "hills"
 layer2_match_with = "hills"
 
 [tile_plains]
 blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
-
-[tile_rock]
-blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
+num_layers = 2
+layer1_match_type = "land"
 
 [tile_swamp]
 blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
-
-[tile_taiga]
-blend_layer = 1
-num_layers = 3
-layer0_match_type = "land"
-layer2_match_type = "woods"
-layer2_match_with = "woods"
+num_layers = 2
+layer1_match_type = "land"
 
 [tile_tundra]
 blend_layer = 1
-num_layers = 1
-layer0_match_type = "land"
+num_layers = 2
+layer1_match_type = "land"
 
 [extras]
 styles =
