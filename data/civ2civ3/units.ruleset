@@ -429,11 +429,14 @@ veteran_power_fact = 100
 veteran_move_bonus = 0
 roles         = "Cities"
 helptext      = _("\
-Settlers are one of the key units in the game, as they are your main\
- means of founding new cities.\
+Settlers are one of the key units in the game, as they are your main \
+means of founding new cities.\
 "), _("\
-Settlers can also perform the same terrain alterations as Workers,\
- except for building airfields, airbases, or buoys.\
+Settlers can also perform some of the same terrain alterations as \
+Workers.\
+"), _("\
+TIP: optimal production of Settlers occurs in cities of at most \
+size 4, or cities with a Granary of at most size 6.\
 ")
 
 [unit_migrants]
@@ -471,8 +474,8 @@ veteran_move_bonus = 0
 roles         = "Settlers"
 helptext      = _("\
 Migrants can be used to transfer population to other cities, but \
-may not found new cities. They can also perform the same terrain \
-alterations as Settlers.\
+may not found new cities. They can also perform some of the same \
+terrain alterations as Workers.\
 ")
 
 [unit_worker]
@@ -511,7 +514,7 @@ roles         = "Settlers"
 helptext      = _("\
 Workers have the ability to improve terrain tiles.\
 "), _("\
-On terrain which supports it, they may build an irrigation system to \
+Building an irrigation system on a suitable tile causes it to \
 produce some extra food each turn. Without knowledge of Electricity, \
 this requires a nearby source of water: an ocean, lake, or river tile, \
 or another tile with an irrigation system, must share an edge (not \
@@ -522,7 +525,7 @@ When Refrigeration is known, irrigation systems can be upgraded to \
 Farmland by irrigating them a second time; this provides more food \
 to a city if it has a Supermarket.\
 "), _("\
-Workers can build mines on some types of terrain, which increases the \
+Building a mine on suitable terrain increases the \
 number of production points produced by that tile. However, it is not \
 possible to have an irrigation system and a mine on the same tile.\
 "), _("\
@@ -532,8 +535,8 @@ to another type; this is usually more expensive. For instance, Forest \
 may be \"irrigated\" to yield Plains. (Terrain conversion with \
 the \"irrigate\" order does not require a water source.)\
 "), _("\
-Workers can also build roads, railroads, trenches, fortresses, \
-airfields, airbases, or buoys (when on board a ship).\
+Workers can build airstrips, airbases, and buoys, which Settlers \
+and Migrants cannot. Workers must be on board a ship to build buoys.\
 "), _("\
 See the help on Terrain and Terrain Alterations for the effects of \
 these actions.\
@@ -577,8 +580,8 @@ move twice as fast, and may gain experience from work enabling \
 them to work even faster.\
 "), _("\
 With knowledge of Fusion Power, Engineers may also perform more \
-radical terrain transformations than Workers, Settlers, and Migrants, \
-with the \"transform\"\ order. Examples include conversion of \
+radical terrain transformations than Workers, Settlers, or Migrants, \
+with the \"transform\" order. Examples include conversion of \
 Tundra into Plains, or even Ocean into Swamp in some circumstances \
 (when on board an ocean-going vessel, on a tile surrounded by \
 sufficient existing land). See the Terrain Alterations section \
@@ -987,8 +990,8 @@ disembarks    = "Helicopter"
 flags         = "Paratroopers", "Capturer"
 roles         = "DefendOk"
 helptext      = _("\
-Paratroopers are experts at airborne attacks. \
-From a friendly city or airbase, Paratroopers who have not expended any \
+Paratroopers are experts at airborne attacks. From a friendly city, \
+airbase, or airstrip, Paratroopers who have not expended any \
 movement points can paradrop directly to any tile in range, and be \
 immediately ready to act there. (Beware dropping into unseen territory, \
 as Paratroopers landing on a tile occupied by enemy units are easy \
@@ -1027,9 +1030,11 @@ uk_gold       = 1
 flags         = ""
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
-The Mechanized Infantry has the strongest defensive strength\
- of any land unit, but is only available near the end of the\
- technology tree.\
+The Mechanized Infantry has the strongest inherent defensive strength \
+of any land unit, and is very fast on roads and easy terrain, but it is \
+hindered rather than helped by rough terrain (it cannot move into \
+mountains, swamps, or jungles), and it is only available near the end \
+of the technology tree.\
 ")
 
 [unit_horsemen]
@@ -1093,8 +1098,12 @@ uk_gold       = 1
 flags         = "Capturer"
 roles         = "AttackFast"
 helptext      = _("\
-Chariots are horse-pulled war wagons, stronger\
- but more expensive than horsemen.\
+Chariots are horse-pulled war wagons. They have a stronger attack than \
+Horsemen, but their speed comes at a cost: they are more expensive \
+to build, they cannot take advantage of terrain to defend themselves, \
+they cannot move in rough terrain (mountains, swamps, and jungles) \
+without roads, and they cannot be transported by sea using early ships \
+(Triremes and Caravels).\
 ")
 
 [unit_elephants]
@@ -1283,9 +1292,11 @@ uk_gold       = 1
 flags         = ""
 roles         = "DefendOk", "AttackFast", "Hunter"
 helptext      = _("\
-Armors are motorized war wagons that are faster,\
- stronger, and can take more damage than any\
- mounted unit.\
+Armors are motorized war wagons that are faster, stronger, and can take \
+more damage than any mounted unit. However, they are less adaptable to \
+very rough terrain (they cannot move into mountains, swamps, or jungles \
+without roads), and unable to use less rough terrain to improve their \
+defense.\
 ")
 
 [unit_catapult]
@@ -1319,6 +1330,11 @@ helptext      = _("\
 Catapults are large rock-throwing machines of war.\
  They are very strong attackers but equally weak\
  defenders and will need an escort to be effective.\
+"), _("\
+While powerful, Catapults (and their successors) are bulky and awkward; \
+they require roads to move in rough terrain (mountains, swamps, and \
+jungles), are difficult to defend, and are too big for early ships \
+(Triremes and Caravels).\
 ")
 
 [unit_cannon]
@@ -1349,10 +1365,10 @@ uk_gold       = 1
 flags         = ""
 roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
 helptext      = _("\
-Cannons are large firearms that can fire heavy\
- projectiles over long distances. They are very\
- strong attackers but equally weak defenders and\
- will need an escort to be effective.\
+Cannons are large firearms that can fire heavy projectiles over long \
+distances. As with the catapults they replace, they are very strong \
+attackers but equally weak defenders and will need an escort to be \
+effective, and have limited mobility.\
 ")
 
 [unit_artillery]
@@ -1383,9 +1399,9 @@ uk_gold       = 1
 flags         = "CityBuster"
 roles         = "AttackStrong"
 helptext      = _("\
-The artillery is an upgraded cannon. It is a very\
- strong attacker but equally weak defender and\
- will need an escort to be effective.\
+The artillery is an upgraded cannon. As with its predecessors, it is a \
+very strong attacker but equally weak defender and will need an escort \
+to be effective, and has limited mobility.\
 ")
 
 [unit_howitzer]
@@ -1416,8 +1432,9 @@ uk_gold       = 1
 flags         = "CityBuster"
 roles         = "AttackStrong"
 helptext      = _("\
-Howitzers are upgraded artillery with improved\
- defensive as well as offensive capabilities.\
+Howitzers are upgraded artillery with improved defensive as well as \
+offensive capabilities. However, they still have the limited mobility \
+of their predecessors.\
 ")
 
 [unit_fighter]
@@ -1451,6 +1468,11 @@ roles         = "DefendOk"
 helptext      = _("\
 Fighters are your first airborne units. They can\
  move anywhere and attack any unit.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Fighters and other aircraft lose 10% of their hitpoints for every \
+turn not spent in a city, airstrip, or airbase, or on a Carrier.\
 ")
 
 [unit_bomber]
@@ -1484,6 +1506,14 @@ helptext      = _("\
 Bombers are specialized airborne units that may\
  only attack ground targets, not other airborne\
  units.\
+"), _("\
+A Bomber's attack against units on land is a bombard attack; against\
+ units on water it has a regular attack.\
+"),
+; /* xgettext:no-c-format */
+_("\
+As with other aircraft, Bombers lose 10% of their hitpoints for every \
+turn not spent in a city, airstrip, or airbase, or on a Carrier.\
 ")
 bombard_rate = 3
 
@@ -1516,10 +1546,17 @@ cargo         = "Land"
 flags         = "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
 roles         = ""
 helptext      = _("\
-The Helicopter can transport one unit of infantry, and it can bombard\
- to enemy units.  Care must be exercised, because Helicopters lose\
- a small amount of health for every turn not spent in a city or airbase\
- or on a Carrier.\
+A Helicopter's attack against units on land is a bombard attack; against \
+units on water it has a regular attack.\
+"), _("\
+Helicopters can also transport one unit of infantry; while most troops \
+must load or unload in a city or airbase units specializing in mobility \
+(Paratroopers, Alpine Troops, Marines, Partisans, and Fanatics) can \
+embark or disembark at any time.\
+"), _("\
+Unlike other aircraft, Helicopters are not required to return to a city, \
+base, or Carrier to refuel after a set number of turns; however, care \
+must be exercised, due to the health they lose every turn.\
 ")
 bombard_rate = 2
 
@@ -1620,7 +1657,8 @@ roles         = "Ferryboat"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
  as a transport ship and has rudimentary offensive\
- capabilities, but may not enter deep ocean tiles.\
+ capabilities, and unlike later boats can travel on\
+ rivers, but it may not enter deep ocean tiles.\
 ")
 
 [unit_caravel]
@@ -1685,9 +1723,9 @@ cargo         = "Land", "Small Land", "Big Land", "Merchant"
 flags         = "BadCityDefender", "HasNoZOC"
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
-The Galleon is a pure transport ship and cannot\
- attack other ships, though it may still defend\
- itself when attacked.\
+The Galleon is a pure transport ship, the first which can\
+ transport large wheeled units. It cannot attack other ships, though\
+ it may still defend itself when attacked.\
 ")
 
 [unit_frigate]
@@ -1718,8 +1756,8 @@ uk_gold       = 1
 flags         = "BadCityDefender"
 roles         = "Hunter"
 helptext      = _("\
-The Frigate is a strong offensive ship,\
- but it can not transport any unit.\
+The Frigate is a specialized ship with a strong offensive value,\
+ and can attack units on land, but it cannot transport units.\
 ")
 
 [unit_ironclad]
@@ -1787,7 +1825,7 @@ flags         = "BadCityDefender"
 roles         = "Hunter"
 helptext      = _("\
 An improved Ironclad, with better move rate and vision.\
- Equiped with anti-submarine weapons.\
+ Anti-submarine weapons double its defense against Submarines.\
 "), _("\
 TIP:  A very fast unit, which is very useful for hunting down enemy\
  Transports and Submarines.\
@@ -1998,7 +2036,13 @@ roles         = "Ferryboat"
 helptext      = _("\
 The Transport cannot attack on its own but\
  may defend itself when under attack.\
+"), _("\
+Transports can also clean pollution and fallout on water tiles, and \
+with knowledge of Miniaturization, may build Oil Wells on deep ocean \
+tiles (for use by Offshore Platforms).\
 ")
+; FIXME: also cleans pollution/fallout in coastal cities (and faster
+; than Engineers)
 
 [unit_cruise_missile]
 name          = _("Cruise Missile")
@@ -2069,9 +2113,13 @@ veteran_power_fact = 100
 veteran_move_bonus = 0
 roles         = ""
 helptext      = _("\
-You can start building Nuclear units when you have the required\
- advance, and the Manhattan Project wonder has been built by any\
- player.  You need Advanced Flight or Rocketry to start using them.\
+You can build Nuclear units when you have the required advance, and\
+ the Manhattan Project wonder has been built by any player.\
+ However, without further technology they cannot move on their own.\
+"), _("\
+With Advanced Flight, all Nuclear units (including those already\
+ built) gain a range of 8 movement points, and Rocketry increases\
+ this to 16.\
 "), _("\
 On impact, the blast will destroy any unit in an area 3 tiles wide\
  (3x3 squares for rectangular grids), including friendly units.\
@@ -2147,14 +2195,16 @@ A Diplomat is an official that carries your dispatches and\
 "), _("\
 Many covert actions may be attempted even in peacetime, but the more\
  aggressive actions will be discovered and cause diplomatic incidents,\
- which can allow Republics and Democracies to break treaties.\
+ giving an excuse for the breaking of treaties by a Federation or\
+ Democracy, or a nuclear-armed regime otherwise restrained by the\
+ United Nations.\
 "), _("\
 If a foreign unit is alone on a tile, you may attempt to bribe it\
  with your Diplomat. By paying a sum of gold the unit will immediately\
  become yours; the exact sum depends on the status of the unit and\
  that of the civilization owning it. However, units belonging to\
- Democratic governments cannot be bribed. Bribery when not at war\
- will cause a diplomatic incident.\
+ Republican or Democratic governments cannot be bribed. Bribery when\
+ not at war will cause a diplomatic incident.\
 "), _("\
 Diplomats can also perform a number of actions in another player's\
  city, although each Diplomat may attempt only one action. Most of\
@@ -2167,7 +2217,9 @@ The actions available to Diplomats in a city are:\
 "), _("\
  - \"Establish Embassy\": This action always succeeds, and gives\
  permanent contact with the city's owner, as well as intelligence\
- on their tax rates and technology.\
+ on their tax rates and technology. Each player you have an embassy\
+ with that knows a technology reduces that technology's research\
+ cost to you.\
 "), _("\
  - \"Investigate City\": Your unit attempts to report detailed\
  information about the city: its status, what buildings and units are\
@@ -2192,8 +2244,8 @@ The actions available to Diplomats in a city are:\
  remain in the enemy's control, but units outside cities are lost to\
  both players. The exact sum depends on the status of the city and\
  that of the civilization that owns it. It is not possible to incite\
- a rebellion in a capital, or in any city governed by a democracy.\
- Incitement may be attempted in peacetime, but will cause a\
+ a rebellion in a capital, or in any city governed by a Federation or\
+ Democracy. Incitement may be attempted in peacetime, but will cause a\
  diplomatic incident.\
 "), _("\
 In some game strategies, hordes of Diplomats can be used to wreak\
@@ -2301,7 +2353,7 @@ uk_gold       = 1
 flags         = "TradeRoute", "HelpWonder", "NonMil", "HasNoZOC", "Capturable"
 roles         = ""
 helptext      = _("\
-A Caravan carries goods or material for trading with foreign countries, \
+A Caravan carries goods or material for trading with foreign countries,\
  or to help build wonders in your own cities.\
 "), _("\
 Caravans can only travel on roads, railroads, rivers or ships, and\
@@ -2309,11 +2361,15 @@ Caravans can only travel on roads, railroads, rivers or ships, and\
 "), _("\
 Caravans can establish trade routes with the cities of other nations\
  (even your enemies). A trade route's ongoing revenue is doubled if the\
- two cities involved are on different continents. Each city can support a
+ two cities involved are on different continents. Each city can support a\
  maximum of two trade routes.\
 "), _("\
 Every Caravan that is used to build a wonder will add 50 shields\
  towards the production of the wonder.\
+"), _("\
+TIP:  You can stockpile a stack of Caravans in advance and bring\
+ them all into a city where you have started to build a wonder,\
+ and finish it in only one turn!\
 ")
 
 [unit_freight]
