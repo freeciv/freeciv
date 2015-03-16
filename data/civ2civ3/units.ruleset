@@ -2028,9 +2028,10 @@ helptext      = _("\
 The Transport cannot attack on its own but\
  may defend itself when under attack.\
 "), _("\
-Transports can also clean pollution on water tiles.\
+Transports can also clean pollution and fallout on water tiles.\
 ")
-; FIXME: also cleans pollution in coastal cities (and faster than Engineers)
+; FIXME: also cleans pollution/fallout in coastal cities (and faster
+; than Engineers)
 
 [unit_cruise_missile]
 name          = _("Cruise Missile")
