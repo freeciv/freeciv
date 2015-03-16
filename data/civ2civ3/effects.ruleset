@@ -494,7 +494,7 @@ reqs    =
       "OutputType", "Food", "Local"
     }
 
-; Base 0% food with Anarchy
+; Base 0% food waste with Anarchy
 [effect_food_waste_distance_2]
 type    = "Output_Waste_By_Distance"
 value   = -1
@@ -543,6 +543,8 @@ reqs    =
       "Gov", "Federation", "Player"
       "OutputType", "Trade", "Local"
     }
+
+; Corruption + waste = 30% for all govs
 
 [effect_corruption_tribal]
 type    = "Output_Waste"
@@ -752,6 +754,7 @@ reqs    =
 ;      "Gov", "Democracy", "Player", FALSE
     }
 
+; additive with previous => x2 for Fundamentalism, Federation, Democracy
 [effect_base_unit_upkeep_gold_2]
 type    = "Upkeep_Factor"
 value   = 1
@@ -829,6 +832,7 @@ reqs    =
       "Gov", "Democracy", "Player"
     }
 
+; Govs with 1 free unit
 [effect_upkeep_free_mil_1]
 type    = "Make_Content_Mil"
 value   = 1
@@ -845,6 +849,7 @@ reqs   =
       "Gov", "Democracy", "Player", FALSE
     }
 
+; Govs with 2 free units (exclusive with previous)
 [effect_upkeep_free_mil_2]
 type    = "Make_Content_Mil"
 value   = 2
@@ -861,6 +866,7 @@ reqs   =
 ;      "Gov", "Democracy", "Player", FALSE
     }
 
+; Govs with 3 free units (exclusive with previous)
 [effect_upkeep_free_mil_3]
 type    = "Make_Content_Mil"
 value   = 3
@@ -969,6 +975,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
+; Any city can support up to four units...
 [effect_upkeep_free_units_food_base]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 4
@@ -977,6 +984,8 @@ reqs    =
       "OutputType", "Food", "Local"
     }
 
+; ...or its size, whichever is bigger. Units above this limit have a
+; food penalty.
 [effect_upkeep_free_units_food_5]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 1
@@ -2059,6 +2068,7 @@ reqs    =
       "OutputType", "Shield", "local"
     }
 
+; effect always has value>=50, so this halves food waste
 [effect_courthouse_2]
 type    = "Output_Waste_Pct"
 value   = 25
@@ -2120,6 +2130,7 @@ reqs    =
       "Building", "Factory", "City"
     }
 
+; effect always has value>=50, so this halves food waste
 [effect_granary]
 type    = "Output_Waste_Pct"
 value   = 25
@@ -2129,7 +2140,7 @@ reqs    =
       "OutputType", "Food", "local"
     }
 
-; Free Granary effect
+; Free Granary effect in small cities
 [effect_granary_base]
 type    = "Growth_Food"
 value   = 50
@@ -2264,6 +2275,7 @@ reqs    =
       "OutputType", "Luxury", "Local"
     }
 
+; Counteracts population pollution from any 2 other buildings
 [effect_mass_transit]
 type    = "Pollu_Pop_Pct"
 value   = -50
@@ -2445,6 +2457,7 @@ reqs    =
       "Building", "Police Station", "City"
     }
 
+; Net effect is to neutralize one unit's unhappiness
 [effect_police_station_democracy]
 type    = "Make_Content_Mil"
 value   = 1
@@ -2523,6 +2536,7 @@ reqs    =
       "Building", "Hoover Dam", "City", FALSE
     }
 
+; Recycling Center gives a lesser additional bonus with plants
 [effect_recycling_center]
 type    = "Pollu_Prod_Pct"
 value   = -50
@@ -3031,6 +3045,7 @@ reqs    =
       "OutputType", "Luxury", "Local"
     }
 
+; Hoover Dam behaves like a (self-enhanced) Hydro Plant in its own city
 [effect_hoover_dam]
 type    = "Output_Bonus"
 value   = 25
@@ -3253,6 +3268,7 @@ reqs    =
       "Building", "Mausoleum of Mausolos", "Player"
     }
 
+; Note that this doesn't cancel a whole unit's unhappiness in Democracy
 [effect_statue_of_zeus]
 type    = "Make_Content_Mil"
 value   = 1
@@ -3548,6 +3564,7 @@ reqs   =
       "Building", "Mfg. Plant", "City", FALSE
     }
 
+; Mfg. Plant => 2 slots total
 [effect_city_build_slots_mfg_plant]
 type    = "City_Build_Slots"
 value   = 2
@@ -3556,6 +3573,7 @@ reqs    =
       "Building", "Mfg. Plant", "City"
     }
 
+; free granary, etc, runs out
 [effect_city_image_1]
 type    = "City_Image"
 value   = 1
@@ -3564,6 +3582,7 @@ reqs    =
       "MinSize", "5", "City"
     }
 
+; needs Aqueduct
 [effect_city_image_2]
 type    = "City_Image"
 value   = 1
@@ -3580,6 +3599,7 @@ reqs    =
       "MinSize", "13", "City"
     }
 
+; needs Sewer System
 [effect_city_image_4]
 type    = "City_Image"
 value   = 1
@@ -3588,6 +3608,7 @@ reqs    =
       "MinSize", "17", "City"
     }
 
+; "Sea" nreq is for Transports, which are only supposed to clean pollution
 [effect_irrigate_src_tech]
 type    = "Irrig_Possible"
 value   = 1

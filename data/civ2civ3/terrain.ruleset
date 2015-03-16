@@ -573,6 +573,9 @@ color.b              = 5
 helptext             = _("\
 In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
+"), _("\
+Cities built in hills are at risk of earthquakes, which can interrupt\
+ a city's current project.\
 ")
 
 [terrain_jungle]
@@ -618,7 +621,8 @@ color.g              = 156
 color.b              = 38
 helptext             = _("\
 Jungles are densely overgrown, making agriculture somewhat\
- problematic.\
+ problematic. Big Land units may not move into jungle without\
+ a road.\
 ")
 
 [terrain_mountains]
@@ -663,6 +667,11 @@ color.b              = 118
 helptext             = _("\
 Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
+"), _("\
+Land units that move into mountains can see an extra space, but a\
+ fast land unit ending its turn in mountains will start its next turn\
+ with one fewer movement point. Big Land units may not move into\
+ mountains without a road.\
 ")
 
 [terrain_plains]
@@ -754,7 +763,8 @@ color.g              = 85
 color.b              = 97
 helptext             = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
- somewhat problematic.\
+ somewhat problematic. Big Land units may not move in swamps without\
+ a road.\
 ")
 
 [terrain_tundra]
@@ -1241,10 +1251,11 @@ removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile"
+; /* xgettext:no-c-format */
 helptext       = _("\
-Forts are fast-built fortifications providing some defense to land units. \
-The construction of fortresses can begin only after the underlaying fort \
-is completed.\
+Forts are rapidly-built fortifications providing some defense (+50%) \
+against land units and boats. A fort is also necessary to start building \
+a fortress.\
 ")
 
 [extra_fortress]
@@ -1273,9 +1284,17 @@ native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile"
 helptext       = _("\
-Fortresses improve defense for land units. Among other effects, a land \
-unit remaining in a fortress for a whole turn without moving recovers \
-a quarter of its hit points.\
+Fortresses are more permanent forts; construction on them can only begin \
+once the underlying fort is complete.\
+"), _("\
+Compared to a fort, units in a fortress receive extra defense against \
+land units and boats (in total, their defense is doubled), must be \
+defeated one at a time, and do not count as aggressive if near a friendly \
+city. Any kind of land unit remaining in a fortress for a whole turn \
+without moving recovers a quarter of its hit points.\
+"), _("\
+With Astronomy, fortresses gain watchtowers from which units can see \
+further afield.\
 ")
 
 [extra_airstrip]
@@ -1302,11 +1321,18 @@ native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
 flags          = "Refuel"
 helptext       = _("\
-Airstrips are fast-built airbases to allow air units to land and refuel, \
-and improve the defense against enemy air units. \
-Air units in an airstrip may be attacked by land units. \
-The construction of an airbase can begin only after the underlaying airstrip \
-is completed.\
+Airstrips are rapidly-built runways allowing air units to land, refuel, \
+and recover; an aircraft remaining on an airstrip for a whole turn \
+without moving recovers a tenth of its hit points (that is, the amount \
+it loses each turn while airborne). However, air units on an airstrip \
+are vulnerable to attack by land units.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Any units on an airstrip receive extra defense (+50%) against enemy \
+aircraft.\
+"), _("\
+An airstrip is necessary to start building an airbase.\
 ")
 
 [extra_airbase]
@@ -1334,11 +1360,14 @@ native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
 flags          = "Refuel"
 helptext       = _("\
-Airbases allow your air units to land and refuel, and improve the defense \
-against enemy air units. \
-An air unit remaining in an airbase for a whole turn without moving \
-recovers a quarter of its hit points. \
-Air units in an airbase may be attacked by land units.\
+Airbases are more permanent airstrips; construction on them can only \
+begin once the underlying airstrip is complete.\
+"), _("\
+Compared to an airstrip, units in an airbase receive extra defense \
+against enemy air units (in total, their defense is doubled), must be \
+defeated one at a time, and do not count as aggressive if near a \
+friendly city. Also, air units recover more hit points (a third \
+per turn, the same as in a city without an Airport).\
 ")
 
 [extra_buoy]
@@ -1527,6 +1556,9 @@ Land units may move along rivers for faster travel (but not diagonally),\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
+"), _("\
+Cities built on or next to rivers incur a small risk of flooding,\
+ which will destroy stored food.\
 ")
 
 ; /* <-- avoid gettext warnings
