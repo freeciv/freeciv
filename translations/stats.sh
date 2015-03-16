@@ -25,7 +25,7 @@ declare -i PRCT
 for POFILE in $@
 do
   if test "x$POFILE" != "x" ; then
-    CODE=$(echo "$POFILE" | sed 's/.po//')
+    CODE=$(echo "$POFILE" | sed -e 's/.po//' -e 's,.*/,,' -e 's,.*\\,,')
     FSTR="$(LANG=C msgfmt --stat "$POFILE" 2>&1)"
     if echo $FSTR | grep translated >/dev/null ; then
       TRANS=$(echo $FSTR | sed 's/ translated.*//')
@@ -66,7 +66,7 @@ do
     echo "$domain"
     echo "----------"
   fi
-  ( cd "$SRCDIR/$domain"
-    dir_stats *.po
-    rm messages.mo )
+
+  dir_stats "$SRCDIR/$domain/*.po"
+  rm messages.mo
 done
