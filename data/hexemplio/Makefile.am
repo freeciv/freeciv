@@ -16,19 +16,17 @@ pkgdata_DATA =          \
 	terrain1.spec	\
 	terrain2.png	\
 	terrain2.spec	\
-	terrain3.png	\
-	terrain3.spec	\
-	terrain4.png	\
-	terrain4.spec	\
-	terrain5.png	\
-	terrain5.spec	\
 	tiles.png	\
 	tiles.spec	\
 	unitcost.png	\
 	unitcost.spec	\
 	unitextras.png	\
-	unitextras.spec	\
-	void.png	\
-	void.spec
+	unitextras.spec \
+	water1.png	\
+	water1.spec	\
+	water2.png	\
+	water2.spec	\
+	water3.png	\
+	water3.spec
 
 EXTRA_DIST = $(pkgdata_DATA)
