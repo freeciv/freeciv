@@ -74,8 +74,8 @@ bool dio_get_uint8_vec8_json(json_t *json_packet, char *key, int **values, int s
 bool dio_get_uint16_vec8_json(json_t *json_packet, char *key, int **values, int stop_value);
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_GET(pdin, bv) \
-  dio_get_memory_json(pc->json_packet, "mem", (bv).vec, sizeof((bv).vec))
+#define DIO_BV_GET(pdin, basekey, bv)                                        \
+  dio_get_memory_json(pc->json_packet, basekey, (bv).vec, sizeof((bv).vec))
 
 #define DIO_GET(f, d, k, ...) dio_get_##f##_json(pc->json_packet, k, ## __VA_ARGS__)
 

@@ -436,12 +436,19 @@ void dio_put_uint16_vec8_json(struct json_data_out *dout, char *key, int *values
 }
 
 /**************************************************************************
-...
+  Send block of memory as byte array
 **************************************************************************/
 void dio_put_memory_json(struct json_data_out *dout, char *key, const void *value,
                          size_t size)
 {
-  /* TODO: implement */
+  int i;
+  char fullkey[512];
+
+  for (i = 0; i < size; i++) {
+    fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
+
+    dio_put_uint8_json(dout, fullkey, ((unsigned char *)value)[i]);
+  }
 }
 
 /**************************************************************************
@@ -606,12 +613,25 @@ bool dio_get_sint16_json(json_t *json_packet, char *key, int *dest)
 }
 
 /**************************************************************************
-...
+  Receive block of memory as byte array
 **************************************************************************/
 bool dio_get_memory_json(json_t *json_packet, char *key, void *dest,
                          size_t dest_size)
 {
-  /* TODO: implement */ 
+   int i;
+  char fullkey[512];
+
+  for (i = 0; i < dest_size; i++) {
+    int val;
+
+    fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
+
+    if (!dio_get_uint8_json(json_packet, fullkey, &val)) {
+      return FALSE;
+    }
+    ((unsigned char *)dest)[i] = val;
+  }
+
   return TRUE;
 }
 

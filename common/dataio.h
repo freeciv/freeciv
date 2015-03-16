@@ -121,7 +121,7 @@ bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_GET(pdin, bv)                          \
+#define DIO_BV_GET(pdin, basekey, bv)                         \
   dio_get_memory_raw((pdin), (bv).vec, sizeof((bv).vec))
 
 #define DIO_GET(f, d, k, ...) dio_get_##f##_raw(d, ## __VA_ARGS__)

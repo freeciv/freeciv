@@ -452,7 +452,7 @@ class Field:
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type=="bitvector":
-            return '''if (!DIO_BV_GET(&din, real_packet->%(name)s)) {
+            return '''if (!DIO_BV_GET(&din, \"%s(name)s\", real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type in ["string","bit_string","city_map"] and \
@@ -937,7 +937,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   struct %(packet_name)s *old;
   struct genhash **hash = pc->phs.received + %(type)s;
 '''
-            delta_body1="\n  DIO_BV_GET(&din, fields);\n"
+            delta_body1="\n  DIO_BV_GET(&din, \"fields\", fields);\n"
             body1=""
             for field in self.key_fields:
                 body1=body1+prefix("  ",field.get_get())+"\n"
