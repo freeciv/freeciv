@@ -1946,8 +1946,8 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   ds_plr1plr2 = player_diplstate_get(pplayer1, pplayer2);
   ds_plr2plr1 = player_diplstate_get(pplayer2, pplayer1);
 
-  if (get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) == 0
-      && get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) == 0) {
+  if (get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) <= 0
+      && get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) <= 0) {
     ds_plr1plr2->contact_turns_left = game.server.contactturns;
     ds_plr2plr1->contact_turns_left = game.server.contactturns;
   }
@@ -2408,7 +2408,7 @@ static struct player *split_player(struct player *pplayer)
     struct player_diplstate *ds_oc
       = player_diplstate_get(other_player, cplayer);
 
-    if (get_player_bonus(other_player, EFT_NO_DIPLOMACY)) {
+    if (get_player_bonus(other_player, EFT_NO_DIPLOMACY) > 0) {
       ds_co->type = DS_WAR;
       ds_oc->type = DS_WAR;
     } else {

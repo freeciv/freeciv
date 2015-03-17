@@ -787,8 +787,8 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
     return;
   }
 
-  if (get_player_bonus(pplayer, EFT_NO_DIPLOMACY)
-      || get_player_bonus(pother, EFT_NO_DIPLOMACY)) {
+  if (get_player_bonus(pplayer, EFT_NO_DIPLOMACY) > 0
+      || get_player_bonus(pother, EFT_NO_DIPLOMACY) > 0) {
     notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                   _("Your diplomatic envoy was decapitated!"));
     return;
