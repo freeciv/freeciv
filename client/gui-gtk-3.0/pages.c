@@ -189,7 +189,7 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
       }
     } else {
       /* TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client" */
-      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s(%s), %s client"),
+      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), %s client"),
                   word_version(), VERSION_STRING, rev_ver, client_string);
     }
     pango_layout_set_text(layout, msgbuf, -1);
