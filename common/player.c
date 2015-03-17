@@ -141,8 +141,8 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
   if (p1 == p2) {
     return DIPL_ERROR; /* duh! */
   }
-  if (get_player_bonus(p1, EFT_NO_DIPLOMACY)
-      || get_player_bonus(p2, EFT_NO_DIPLOMACY)) {
+  if (get_player_bonus(p1, EFT_NO_DIPLOMACY) > 0
+      || get_player_bonus(p2, EFT_NO_DIPLOMACY) > 0) {
     return DIPL_ERROR;
   }
   if (treaty == DS_WAR 
