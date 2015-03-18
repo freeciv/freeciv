@@ -229,7 +229,6 @@ e_bad_command = "stdsounds/illegal.ogg" ; [fcol]
 ;e_destroyed = ""
 ;e_diplomacy = ""
 ;e_diplomatic_incident = ""
-;e_disaster = ""
 ;e_enemy_diplomat_bribe = ""
 ;e_enemy_diplomat_embassy = ""
 ;e_enemy_diplomat_failed = ""
