@@ -29,6 +29,9 @@
 #include "fcintl.h"
 #include "log.h"
 
+/* common */
+#include "specialist.h"
+
 /* client */
 #include "client_main.h"
 
@@ -75,6 +78,9 @@ do {							\
  *******************************************************************************/
 static void reload_small_citizens_icons(int style)
 {
+  int i;
+  int spe_max;
+
   /* free info icons */
   FREESURFACE(pIcons->pMale_Content);
   FREESURFACE(pIcons->pFemale_Content);
@@ -84,11 +90,12 @@ static void reload_small_citizens_icons(int style)
   FREESURFACE(pIcons->pFemale_Unhappy);
   FREESURFACE(pIcons->pMale_Angry);
   FREESURFACE(pIcons->pFemale_Angry);
-  
-  FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
-  FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
-  FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
-  
+
+  spe_max = specialist_count();
+  for (i = 0; i < spe_max; i++) {
+    FREESURFACE(pIcons->specialists[i]);
+  }
+
   /* allocate icons */
   pIcons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
   pIcons->pFemale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
@@ -98,9 +105,10 @@ static void reload_small_citizens_icons(int style)
   pIcons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
   pIcons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
   pIcons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
-  pIcons->pSpec_Lux = get_tax_surface(O_LUXURY);
-  pIcons->pSpec_Tax = get_tax_surface(O_GOLD);
-  pIcons->pSpec_Sci = get_tax_surface(O_SCIENCE);
+
+  for (i = 0; i < spe_max; i++) {
+    pIcons->specialists[i] = adj_surf(get_citizen_surface(CITIZEN_SPECIALIST + i, 0));
+  }
 }
 
 /* ================================================================================= */
@@ -201,6 +209,9 @@ void tilespec_setup_city_icons(void)
 ***********************************************************************/
 void tilespec_free_city_icons(void)
 {
+  int i;
+  int spe_max;
+
   if (!pIcons) {
     return;
   }
@@ -215,9 +226,10 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pMale_Angry);
   FREESURFACE(pIcons->pFemale_Angry);
 
-  FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
-  FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
-  FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
+  spe_max = specialist_count();
+  for (i = 0; i < spe_max; i++) {
+    FREESURFACE(pIcons->specialists[i]);
+  }
 
   FC_FREE(pIcons);
 }
