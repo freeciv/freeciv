@@ -30,7 +30,7 @@
 
 #include "log.h"
 
-#define MAX_LEN_LOG_LINE 512
+#define MAX_LEN_LOG_LINE 5120
 
 static void log_write(FILE *fs, enum log_level level, bool print_from_where,
                       const char *where, const char *message);
