@@ -217,6 +217,13 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
     }
   }
 
+  if (num_role_units(L_PARTISAN) == 0
+      && effect_cumulative_max(EFT_INSPIRE_PARTISANS, NULL) > 0) {
+    ruleset_error(LOG_ERROR,
+                  "Inspire_Partisans effect present, but no units with partisan role.");
+    return FALSE;
+  }
+
   return TRUE;
 }
 
