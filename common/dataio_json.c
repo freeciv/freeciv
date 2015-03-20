@@ -489,7 +489,7 @@ void dio_put_tech_list_json(struct json_data_out *dout, char *key, const int *va
   ..
 **************************************************************************/
 void dio_put_requirement_json(struct json_data_out *dout, char *key,
-                              const struct requirement *preq, int size)
+                              const struct requirement *preq)
 {
   /* TODO: implement */
 }

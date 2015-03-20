@@ -111,7 +111,7 @@ void dio_put_unit_list_json(struct json_data_out *dout, char *key, const int *va
 void dio_put_building_list_json(struct json_data_out *dout, char *key, const int *value);
 void dio_put_worklist_json(struct json_data_out *dout, char *key, const struct worklist *pwl);
 void dio_put_requirement_json(struct json_data_out *dout, char *key,
-                              const struct requirement *preq, int size);
+                              const struct requirement *preq);
 
 void dio_put_uint8_vec8_json(struct json_data_out *dout, char *key, int *values, int stop_value);
 void dio_put_uint16_vec8_json(struct json_data_out *dout, char *key, int *values, int stop_value);
