@@ -44,6 +44,12 @@
 /* libintl.h available */
 #undef FREECIV_HAVE_LIBINTL_H
 
+/* inttypes.h available */
+#undef FREECIV_HAVE_INTTYPES_H
+
+/* stdint.h available */
+#undef FREECIV_HAVE_STDINT_H
+
 /* Have standard compliant stdbool.h */
 #undef FREECIV_HAVE_STDBOOL_H
 

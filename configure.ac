@@ -1131,7 +1131,10 @@ AC_CHECK_TYPES(socklen_t, [], [],
 ])
 AC_TYPE_INTPTR_T
 dnl Headers that might contain the intptr_t definition found earlier
-AC_CHECK_HEADERS([inttypes.h stdint.h])
+AC_CHECK_HEADERS([inttypes.h],
+  [AC_DEFINE([FREECIV_HAVE_INTTYPES_H], [1], [inttypes.h available])])
+AC_CHECK_HEADERS([stdint.h],
+  [AC_DEFINE([FREECIV_HAVE_STDINT_H], [1], [stdint.h available])])
 
 dnl Checks for library functions.
 AC_FUNC_FORK
