@@ -18,5 +18,5 @@ Icon=freeciv-client
 StartupNotify=true
 Terminal=false
 Type=Application
-Categories=SDL;Game;StrategyGame;
+Categories=Game;StrategyGame;
 Keywords=strategy;simulation;civilization;tiles;history;mankind;multiplayer;
