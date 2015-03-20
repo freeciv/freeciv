@@ -196,6 +196,8 @@ bool extra_causes_env_upset(struct extra_type *pextra,
 bool can_extras_coexist(const struct extra_type *pextra1,
                         const struct extra_type *pextra2);
 
+bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile);
+
 struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_cause cause,
                                        const struct player *pplayer,
                                        const struct unit *punit);

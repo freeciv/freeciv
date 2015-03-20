@@ -789,3 +789,15 @@ struct player *extra_owner(const struct tile *ptile)
 {
   return ptile->extras_owner;
 }
+
+/**************************************************************************
+  Are all the requirements for extra to appear on tile fulfilled. Does not
+  check if extra is of appearing type (has EC_SPONTANEOUS cause).
+**************************************************************************/
+bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
+{
+  return !tile_has_extra(ptile, pextra)
+    && is_native_tile_to_extra(pextra, ptile)
+    && !extra_conflicting_on_tile(pextra, ptile)
+    && is_extra_near_tile(ptile, pextra);
+}

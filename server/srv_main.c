@@ -1276,46 +1276,29 @@ static void end_turn(void)
   }
 
   extra_type_by_cause_iterate(EC_SPONTANEOUS, pextra) {
-    whole_map_iterate(src_tile) {
-      if (tile_has_extra(src_tile, pextra)
-          && fc_rand(1000) < pextra->appearance_chance) {
-        struct tile *tgt_tile;
+    whole_map_iterate(ptile) {
+      if (fc_rand(1000) < pextra->appearance_chance
+          && can_extra_appear(pextra, ptile)) {
 
-        /* Select tile to spread to. */
-        tgt_tile = mapstep(src_tile, rand_direction());
+        tile_add_extra(ptile, pextra);
 
-        if (!tgt_tile) {
-          /* Non existing target tile. */
-          continue;
-        }
+        update_tile_knowledge(ptile);
 
-        if (tile_has_extra(tgt_tile, pextra)
-            || !is_native_tile_to_extra(pextra, tgt_tile)
-            /* TODO: Make it ruleset configurable if an extra should
-             * spread to a tile and replace any conflicting extras or if
-             * it shouldn't spread to a tile with a conflicting extra. */
-            || extra_conflicting_on_tile(pextra, tgt_tile)) {
-          /* Can't spread to target tile. */
-          continue;
-        }
-
-        tile_add_extra(tgt_tile, pextra);
-
-        update_tile_knowledge(tgt_tile);
-
-        if (tile_owner(tgt_tile) != NULL) {
-          notify_player(tile_owner(tgt_tile), tgt_tile,
+        if (tile_owner(ptile) != NULL) {
+          /* TODO: Should notify players nearby even when borders disabled,
+           *       like in case of barbarian uprising */
+          notify_player(tile_owner(ptile), ptile,
                         E_EXTRA_APPEARS, ftc_server,
                         /* TRANS: Small Fish appears to (32, 72). */
                         _("%s appears to %s."),
                         extra_name_translation(pextra),
-                        tile_link(tgt_tile));
+                        tile_link(ptile));
         }
 
         /* Unit activities at the target tile and its neighbors may now
          * be illegal because of !present reqs. */
-        unit_activities_cancel_all_illegal(tgt_tile);
-        adjc_iterate(tgt_tile, n_tile) {
+        unit_activities_cancel_all_illegal(ptile);
+        adjc_iterate(ptile, n_tile) {
           unit_activities_cancel_all_illegal(n_tile);
         } adjc_iterate_end;
       }
