@@ -2581,14 +2581,14 @@ void unqueue_mapview_updates(bool write_to_screen)
    * the citymap area itself plus an extra half-tile in each direction (for
    * edge/corner graphics).
    */
-  const int W = tileset_tile_width(tileset) * map_zoom;
-  const int H = tileset_tile_height(tileset) * map_zoom;
-  const int UW = tileset_unit_width(tileset) * map_zoom;
-  const int UH = tileset_unit_height(tileset) * map_zoom;
-  const int city_width = get_citydlg_canvas_width() + W;
-  const int city_height = get_citydlg_canvas_height() + H;
+  const float W = tileset_tile_width(tileset) * map_zoom;
+  const float H = tileset_tile_height(tileset) * map_zoom;
+  const float UW = tileset_unit_width(tileset) * map_zoom;
+  const float UH = tileset_unit_height(tileset) * map_zoom;
+  const float city_width = get_citydlg_canvas_width() * map_zoom + W;
+  const float city_height = get_citydlg_canvas_height() * map_zoom + H;
   const struct {
-    int dx, dy, w, h;
+    float dx, dy, w, h;
   } area[TILE_UPDATE_COUNT] = {
     {0, 0, W, H},
     {-W / 2, -H / 2, 2 * W, 2 * H},
