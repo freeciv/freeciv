@@ -1,6 +1,4 @@
-Sources here are from lua-5.2.3 (http://www.lua.org/ftp/lua-5.2.3.tar.gz)
-All applicable official lua.org patches, as of 17-Feb-15, have been applied.
-That is patches 2 and 3.
+Sources here are from lua-5.2.4 (http://www.lua.org/ftp/lua-5.2.4.tar.gz)
 
 Not entire lua distribution directory hierarchy is included here, and
 some files needed for Freeciv usage have been added.
