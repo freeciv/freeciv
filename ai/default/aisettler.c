@@ -1242,8 +1242,9 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
               player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
-  handle_unit_build_city(pplayer, punit->id,
-                         city_name_suggestion(pplayer, ptile));
+  handle_unit_do_action(pplayer, punit->id, ptile->index,
+                        0, city_name_suggestion(pplayer, ptile),
+                        ACTION_FOUND_CITY);
   pcity = tile_city(ptile);
   if (!pcity) {
     log_error("%s: Failed to build city at (%d, %d)",
@@ -1278,10 +1279,10 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
     return;
   }
 
-  unit_type = best_role_unit(pcity, UTYF_CITIES); 
+  unit_type = best_role_unit(pcity, action_get_role(ACTION_FOUND_CITY));
 
   if (unit_type == NULL) {
-    log_debug("No UTYF_CITIES role unit available");
+    log_debug("No ACTION_FOUND_CITY role unit available");
     return;
   }
 

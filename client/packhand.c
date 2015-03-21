@@ -3862,7 +3862,9 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
         popup_newcity_dialog(punit, name);
       }
     } else {
-      dsend_packet_unit_build_city(&client.conn, unit_id, name);
+      request_do_action(ACTION_FOUND_CITY,
+                        unit_id, tile_index(unit_tile(punit)),
+                        0, name);
     }
   }
 }

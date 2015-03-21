@@ -201,6 +201,16 @@ Actions done by a unit against a city
  * target must be building a wonder.
  * target city must still need the extra sheilds to build the wonder.
 
+"Join City" - Add the actor to the target city's population.
+ * UI name can be set using ui_name_join_city
+ * actor must be on the same tile as the target.
+ * actor must have movement left.
+ * target city population must not become higher that the add_to_size_limit
+   setting permits.
+ * target must not be owned by a foreign player.
+ * target must be able to grow to the size that adding the unit would
+   result in.
+
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.
@@ -225,3 +235,13 @@ Actions done by a unit against all units at a tile
 
 Actions done by a unit against a tile
 =====================================
+"Found City" - Found a city at the target tile.
+ * UI name can be set using ui_name_found_city
+ * city name must be legal
+ * the scenario setting prevent_new_cities must be false.
+ * actor must be on the same tile as the target.
+ * actor must have movement left.
+ * actor must not be transport dependent.
+ * target must not have the NoCities terrain flag.
+ * target must not be owned by a foreign player.
+ * target must not be closer than citymindist to nearest city.

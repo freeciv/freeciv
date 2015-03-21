@@ -2355,7 +2355,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
       unit_list_iterate(tile1->units, psettler) {
         if ((NULL == client.conn.playing
              || unit_owner(psettler) == client.conn.playing)
-            && unit_has_type_flag(psettler, UTYF_CITIES)
+            && unit_can_do_action(psettler, ACTION_FOUND_CITY)
             && city_can_be_built_here(unit_tile(psettler), psettler)) {
           if (!closest_settler) {
             closest_settler = psettler;

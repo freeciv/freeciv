@@ -471,7 +471,8 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   /* Find out desire for city founders */
   /* Basically, copied from above and adjusted. -- jjm */
   if (!game.scenario.prevent_new_cities) {
-    founder_type = best_role_unit(pcity, UTYF_CITIES);
+    founder_type = best_role_unit(pcity,
+                                  action_get_role(ACTION_FOUND_CITY));
 
     /* founder_want calculated in aisettlers.c */
     founder_want = city_data->founder_want;
@@ -498,7 +499,8 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
         CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d",
                  founder_want);
         dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
-                             UTYF_CITIES, founder_want,
+                             action_get_role(ACTION_FOUND_CITY),
+                             founder_want,
                              city_data->founder_boat);
 
       } else if (founder_want < -choice->want) {
@@ -525,7 +527,9 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     } else if (!founder_type
                && (founder_want > choice->want || founder_want < -choice->want)) {
       /* Can't build founders. Lets stimulate science */
-      dai_wants_role_unit(ait, pplayer, pcity, UTYF_CITIES, founder_want);
+      dai_wants_role_unit(ait, pplayer, pcity,
+                          action_get_role(ACTION_FOUND_CITY),
+                          founder_want);
     }
   }
 

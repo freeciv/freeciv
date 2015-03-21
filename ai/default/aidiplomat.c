@@ -662,7 +662,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     }
     /* Don't bribe settlers! */
     if (unit_has_type_flag(pvictim, UTYF_SETTLERS)
-        || unit_has_type_flag(pvictim, UTYF_CITIES)) {
+        || unit_can_do_action(pvictim, ACTION_FOUND_CITY)) {
       continue;
     }
     /* Should we make the expense? */

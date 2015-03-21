@@ -79,6 +79,8 @@ static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
+static void found_city(QVariant data1, QVariant data2);
+static void join_city(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -120,6 +122,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_TRADE_ROUTE] = caravan_establish_trade;
   action_function[ACTION_MARKETPLACE] = caravan_marketplace;
   action_function[ACTION_HELP_WONDER] = caravan_help_build;
+  action_function[ACTION_JOIN_CITY] = join_city;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -129,6 +132,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
 
   /* Unit acting against a tile. */
+  action_function[ACTION_FOUND_CITY] = found_city;
 
   return action_function;
 }
@@ -1523,6 +1527,32 @@ static void capture_units(QVariant data1, QVariant data2)
 
   request_do_action(ACTION_CAPTURE_UNITS, actor_id,
                     target_id, 0, "");
+}
+
+/**************************************************************************
+  Action build city for choice dialog
+**************************************************************************/
+static void found_city(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+
+  dsend_packet_city_name_suggestion_req(&client.conn,
+                                        actor_id);
+}
+
+/**************************************************************************
+  Action join city for choice dialog
+**************************************************************************/
+static void join_city(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != game_city_by_number(target_id)) {
+    request_do_action(ACTION_JOIN_CITY,
+                      actor_id, target_id, 0, "");
+  }
 }
 
 /***************************************************************************

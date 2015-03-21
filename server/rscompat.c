@@ -128,16 +128,16 @@ static int first_free_unit_type_user_flag(void)
 bool rscompat_names(struct rscompat_info *info)
 {
   if (info->ver_units < 10) {
-    /* The unit type flags Capturer and Capturable have moved to the
-     * ruleset. Add them. */
+    /* Some unit type flags have moved to the ruleset. Add them back as
+     * user flags. */
 
     int unit_flag_position = first_free_unit_type_user_flag();
 
-    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 2) {
+    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 4) {
       /* Can't add the user unit type flags. */
       log_error("Can't upgrade the ruleset. Not enough free unit type "
-                "user flags to add the user unit type flags Capturer and "
-                "Capturable.");
+                "user flags to add user flags for the unit type flags "
+                "that used to be hard coded");
       return FALSE;
     }
 
@@ -152,6 +152,18 @@ bool rscompat_names(struct rscompat_info *info)
                                  N_("Capturable"),
                                  N_("Can be captured by some enemy "
                                     "units."));
+    unit_flag_position++;
+
+    /* Add the unit type flag Cities. */
+    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
+                                 N_("Cities"),
+                                 N_("Can found cities."));
+    unit_flag_position++;
+
+    /* Add the unit type flag AddToCity. */
+    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
+                                 N_("AddToCity"),
+                                 N_("Can join cities."));
     unit_flag_position++;
   }
 
@@ -186,39 +198,69 @@ void rscompat_postprocess(struct rscompat_info *info)
   }
 
   if (info->ver_game < 10) {
+    struct action_enabler *enabler;
+
     /* Unit capture is now action enabler controlled. Add the old rule that
      * units with the Capturer unit type flag can capture units with the
      * Capturable unit type flag. */
 
-    struct action_enabler *capture;
+    enabler = action_enabler_new();
 
-    capture = action_enabler_new();
-
-    capture->action = ACTION_CAPTURE_UNITS;
+    enabler->action = ACTION_CAPTURE_UNITS;
 
     /* The actor unit must have the unit type flag Capturer, belong to a
      * player that is at war with each player that owns a target unit and
      * have at least one move fragment left. */
-    requirement_vector_append(&capture->actor_reqs,
+    requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Capturer"));
-    requirement_vector_append(&capture->actor_reqs,
+    requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,
                                            TRUE, "War"));
-    requirement_vector_append(&capture->actor_reqs,
+    requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("MinMoveFrags", "Local", FALSE,
                                            TRUE, "1"));
 
     /* The target unit(s) must all have the Capturable unit type flag and
      * can't be inside a city. */
-    requirement_vector_append(&capture->target_reqs,
+    requirement_vector_append(&enabler->target_reqs,
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Capturable"));
-    requirement_vector_append(&capture->target_reqs,
+    requirement_vector_append(&enabler->target_reqs,
                               req_from_str("CityTile", "Local", FALSE,
                                            FALSE, "Center"));
 
-    action_enabler_add(capture);
+    action_enabler_add(enabler);
+
+    /* City founding is now action enabler controlled. Add the old rule
+     * that units with the Cities unit type flag can found a city.
+     * Other requirements are still hard coded. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_FOUND_CITY;
+
+    /* The actor unit must have the unit type flag Cities. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, "Cities"));
+
+    action_enabler_add(enabler);
+
+    /* City joining is now action enabler controlled. Add the old rule
+     * that units with the AddToCity unit type flag can join a city.
+     * Other requirements are still hard coded. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_JOIN_CITY;
+
+    /* The actor unit must have the unit type flag AddToCity. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, "AddToCity"));
+
+    action_enabler_add(enabler);
   }
 
   iterate_effect_cache(effect_list_compat_cb, NULL);

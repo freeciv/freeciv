@@ -23,6 +23,8 @@ flags =
   { "name", "helptxt"
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
     _("HelpWonder")
+    _("Cities")
+    _("AddToCity")
   }
 
 [veteran_system]
@@ -172,7 +174,7 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;                 "None" => available from start
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; build_cost    = production shields required to build
-; pop_cost      = population removed from city when built; for 'AddToCity'
+; pop_cost      = population removed from city when built; for 'Join City'
 ;                 units this is also the population added to the destination
 ; attack        = base attack strength (0 = cannot attack)
 ; defense       = base defense strength (0 = cannot defend)
@@ -189,8 +191,8 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; cargo         = Unit classes this unit can transport
-; city_size     = Initial size of the cities built by 'Cities' type units
-;                 (but 'AddToCity' uses pop_cost)
+; city_size     = Initial size of the cities built by 'Found City' type units
+;                 (but 'Join City' uses pop_cost)
 ; targets       = list of unit classes this unit can attack against even
 ;                 if they have Unreachable unit class flag
 ; embarks       = list of unit classes this unit may load into while not in

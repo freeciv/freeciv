@@ -1133,6 +1133,28 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_JOIN_CITY:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        city_add_unit(pplayer, actor_unit);
+      } else if (!unit_can_add_to_city(actor_unit)) {
+        /* Keep the rules like they was before action enabler control:
+         *  - !unit_can_add_to_city() won't punish the player.
+         *  - detailed explanation of why something is illegal. */
+        /* TODO: make punishment pr action (possible solution: action type
+         * requirement + effect) and move to ruleset. */
+        /* TODO: improve explanation about why an action failed. */
+        city_add_or_build_error(pplayer, actor_unit,
+                                unit_add_or_build_city_test(actor_unit));
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity));
+      }
+    }
+    break;
   case ACTION_CAPTURE_UNITS:
     if (target_tile) {
       if (is_action_enabled_unit_on_units(action_type,
@@ -1140,6 +1162,28 @@ void handle_unit_do_action(struct player *pplayer,
         ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile);
 
         do_capture_units(pplayer, actor_unit, target_tile);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       NULL);
+      }
+    }
+    break;
+  case ACTION_FOUND_CITY:
+    if (target_tile) {
+      if (is_action_enabled_unit_on_tile(action_type,
+                                          actor_unit, target_tile)) {
+        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
+
+        city_build(pplayer, actor_unit, name);
+      } else if (!unit_can_build_city(actor_unit)) {
+        /* Keep the rules like they was before action enabler control:
+         *  - !unit_can_build_city() won't punish the player.
+         *  - detailed explanation of why something is illegal. */
+        /* TODO: make punishment pr action (possible solution: action type
+         * requirement + effect) and move to ruleset. */
+        /* TODO: improve explanation about why an action failed. */
+        city_add_or_build_error(pplayer, actor_unit,
+                                unit_add_or_build_city_test(actor_unit));
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        NULL);
@@ -1359,7 +1403,8 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       if (game.scenario.prevent_new_cities) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       _("Cities cannot be built on this scenario."));
-      } else if (role_units_translations(&astr, UTYF_CITIES, TRUE)) {
+      } else if (role_units_translations(&astr,
+            action_get_role(ACTION_FOUND_CITY), TRUE)) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can build a city."), astr_str(&astr));
@@ -1374,7 +1419,8 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     {
       struct astring astr = ASTRING_INIT;
 
-      if (role_units_translations(&astr, UTYF_ADD_TO_CITY, TRUE)) {
+      if (role_units_translations(&astr, action_get_role(ACTION_JOIN_CITY),
+                                  TRUE)) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can add to a city."), astr_str(&astr));
@@ -1415,6 +1461,13 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                   city_link(pcity), unit_link(punit));
     break;
   case UAB_BUILD_OK:
+    /* No action enabler allowed building the city. Happens when called
+     * from handle_city_name_suggestion_req() because no enabler allowed
+     * city founding. */
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  _("%s can't found city because of the rules."),
+                  unit_link(punit));
+    break;
   case UAB_ADD_OK:
     /* Shouldn't happen */
     log_error("Cannot add %s to %s for unknown reason (%d)",
@@ -1435,6 +1488,11 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
 
+  /* Sanity check: The actor is still alive. */
+  if (!unit_alive(punit->id)) {
+    return;
+  }
+
   fc_assert_ret(unit_pop_value(punit) > 0);
   city_size_add(pcity, unit_pop_value(punit));
   /* Make the new people something, otherwise city fails the checks */
@@ -1446,6 +1504,8 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
                 _("%s added to aid %s in growing."),
                 unit_tile_link(punit),
                 city_link(pcity));
+  action_consequence_success(ACTION_JOIN_CITY, pplayer, city_owner(pcity),
+                             city_tile(pcity), city_link(pcity));
   wipe_unit(punit, ULR_USED, NULL);
 
   sanity_check_city(pcity);
@@ -1465,56 +1525,38 @@ static void city_build(struct player *pplayer, struct unit *punit,
   char message[1024];
   int size;
   struct player *nationality;
+  struct tile *ptile;
+  struct player *towner;
+
+  /* Sanity check: The actor is still alive. */
+  if (!unit_alive(punit->id)) {
+    return;
+  }
+
+  ptile = unit_tile(punit);
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   "%s", message);
     return;
   }
 
   nationality = unit_nationality(punit);
 
-  create_city(pplayer, unit_tile(punit), name, nationality);
+  create_city(pplayer, ptile, name, nationality);
   size = unit_type(punit)->city_size;
   if (size > 1) {
-    struct city *pcity = tile_city(unit_tile(punit));
+    struct city *pcity = tile_city(ptile);
 
     fc_assert_ret(pcity != NULL);
 
     city_change_size(pcity, size, nationality);
   }
   wipe_unit(punit, ULR_USED, NULL);
-}
 
-/**************************************************************************
-  Handle city building request. Can result in adding to existing city
-  also.
-**************************************************************************/
-void handle_unit_build_city(struct player *pplayer, int unit_id,
-                            const char *name)
-{
-  enum unit_add_build_city_result res;
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_build_city() invalid unit %d", unit_id);
-    return;
-  }
-
-  if (!unit_can_do_action_now(punit)) {
-    /* Building a city not possible due to unitwaittime setting. */
-    return;
-  }
-
-  res = unit_add_or_build_city_test(punit);
-
-  if (UAB_BUILD_OK == res) {
-    city_build(pplayer, punit, name);
-  } else if (UAB_ADD_OK == res) {
-    city_add_unit(pplayer, punit);
-  } else {
-    city_add_or_build_error(pplayer, punit, res);
+  if ((towner = tile_owner(ptile))) {
+    action_consequence_success(ACTION_FOUND_CITY, pplayer, towner,
+                               ptile, tile_link(ptile));
   }
 }
 

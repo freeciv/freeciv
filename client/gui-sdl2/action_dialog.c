@@ -710,6 +710,46 @@ static int capture_units_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Join City"
+*****************************************************************/
+static int join_city_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
+      request_do_action(ACTION_JOIN_CITY,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
+/****************************************************************
+  User clicked "Found City"
+*****************************************************************/
+static int found_city_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+
+    popdown_diplomat_dialog();
+    dsend_packet_city_name_suggestion_req(&client.conn,
+                                          actor_id);
+
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   Close diplomat dialog.
 *****************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
@@ -755,15 +795,17 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_TRADE_ROUTE] = caravan_establish_trade_callback,
   [ACTION_MARKETPLACE] = caravan_marketplace_callback,
   [ACTION_HELP_WONDER] = caravan_help_build_wonder_callback,
+  [ACTION_JOIN_CITY] = join_city_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,
   [ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit_callback,
 
   /* Unit acting against all units at a tile. */
-  [ACTION_CAPTURE_UNITS] = capture_units_callback
+  [ACTION_CAPTURE_UNITS] = capture_units_callback,
 
   /* Unit acting against a tile. */
+  [ACTION_FOUND_CITY] = found_city_callback,
 };
 
 /**************************************************************************

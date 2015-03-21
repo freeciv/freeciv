@@ -118,12 +118,16 @@ static void maybe_cause_incident(const enum gen_action action,
       /* TODO: Should cause an incident in rulesets were units can be
        * captured in peace time. If units from more than one nation
        * were captured each victim nation should now have casus belli. */
+    case ACTION_FOUND_CITY:
+      /* TODO: Should cause an incident if building on the terrain of
+       * another player in peace time. (Currently not possible) */
     case ACTION_MOVE:
     case ACTION_ESTABLISH_EMBASSY:
     case ACTION_SPY_INVESTIGATE_CITY:
     case ACTION_TRADE_ROUTE:
     case ACTION_MARKETPLACE:
     case ACTION_HELP_WONDER:
+    case ACTION_JOIN_CITY:
       return; /* These are not considered offences */
     }
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel = 2;

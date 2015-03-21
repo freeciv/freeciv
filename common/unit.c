@@ -387,7 +387,7 @@ unit_add_or_build_city_test(const struct unit *punit)
   struct tile *ptile = unit_tile(punit);
   struct city *pcity = tile_city(ptile);
   bool is_build = unit_is_cityfounder(punit);
-  bool is_add = unit_has_type_flag(punit, UTYF_ADD_TO_CITY);
+  bool is_add = unit_can_do_action(punit, ACTION_JOIN_CITY);
   int new_pop;
 
   /* Test if we can build. */

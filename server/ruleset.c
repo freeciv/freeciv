@@ -5218,6 +5218,20 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_name_capture_units");
       sz_strlcpy(action_by_number(ACTION_CAPTURE_UNITS)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Found City (100% chance of success). */
+          N_("%sFound City%s"),
+          "actions.ui_name_found_city");
+      sz_strlcpy(action_by_number(ACTION_FOUND_CITY)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Join City (100% chance of success). */
+          N_("%sJoin City%s"),
+          "actions.ui_name_join_city");
+      sz_strlcpy(action_by_number(ACTION_JOIN_CITY)->ui_name,
+                 text);
     }
 
     if (ok) {

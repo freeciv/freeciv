@@ -3699,23 +3699,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 	    _("* May be disbanded in a city to recover 50% of the"
 	      " production cost.\n"));
   }
-  if (utype_is_cityfounder(utype)) {
-    cat_snprintf(buf, bufsz,
-                 PL_("* Can build new cities (initial population %d).\n",
-                     "* Can build new cities (initial population %d).\n",
-                     utype->city_size),
-                 utype->city_size);
-  }
-  if (utype_has_flag(utype, UTYF_ADD_TO_CITY)) {
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: Plural in "%d population", not "size %d". */
-		 PL_("* Can add on %d population to cities of no more than"
-                     " size %d.\n",
-		     "* Can add on %d population to cities of no more than"
-                     " size %d.\n", utype_pop_value(utype)),
-		 utype_pop_value(utype),
-		 game.info.add_to_size_limit - utype_pop_value(utype));
-  }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     struct universal for_utype = { .kind = VUT_UTYPE, .value = { .utype = utype }};
     struct astring extras_and = ASTRING_INIT;
@@ -3982,6 +3965,53 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                            action_get_target_kind(act))),
                        /* The custom information. */
                        utype_build_shield_cost(utype));
+          break;
+        case ACTION_FOUND_CITY:
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the first %s is the ruleset defined ui
+                        * name of the "Found City" action, the next %s is
+                        * the name of its target kind ("tiles"), the %d
+                        * is initial population and the third %s is if city
+                        * founding is disabled in the current game. */
+                       PL_("* Can do the action \'%s\' to some %s (initial"
+                           " population %d).%s\n",
+                           "* Can do the action \'%s\' to some %s (initial"
+                           " population %d).%s\n",
+                           utype->city_size),
+                       /* The action may have a ruleset defined ui name. */
+                       action_get_ui_name(act),
+                       /* Keep the style consistent with the help for the
+                        * other actions. */
+                       _(action_target_kind_name(
+                           action_get_target_kind(act))),
+                       /* Custom information. */
+                       utype->city_size,
+                       !utype_is_cityfounder(utype) ?
+                         _(" (Disabled in the current game)") :
+                         "");
+          break;
+        case ACTION_JOIN_CITY:
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: the first %s is the ruleset defined ui
+                        * name of the "Join City" action, the next %s is
+                        * the name of its target kind ("individual cities")
+                        * the first %d is population and the last %d, the
+                        * value the plural is about, is the population
+                        * added. */
+                       PL_("* Can do the action \'%s\' to some %s of no"
+                           " more than size %d (adds %d population).\n",
+                           "* Can do the action \'%s\' to some %s of no"
+                           " more than size %d (adds %d population).\n",
+                           utype_pop_value(utype)),
+                       /* The action may have a ruleset defined ui name. */
+                       action_get_ui_name(act),
+                       /* Keep the style consistent with the help for the
+                        * other actions. */
+                       _(action_target_kind_name(
+                           action_get_target_kind(act))),
+                       /* Custom information. */
+                       game.info.add_to_size_limit - utype_pop_value(utype),
+                       utype_pop_value(utype));
           break;
         default:
           /* Generic action information. */

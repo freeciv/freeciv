@@ -1511,12 +1511,14 @@ all the server checks and messages here.)
 **************************************************************************/
 void request_unit_build_city(struct unit *punit)
 {
-  if (unit_can_build_city(punit)) {
-    dsend_packet_city_name_suggestion_req(&client.conn, punit->id);
-    /* the reply will trigger a dialog to name the new city */
+  struct city *pcity;
+
+  if ((pcity = tile_city(unit_tile(punit)))) {
+    /* Try to join the city. */
+    request_do_action(ACTION_JOIN_CITY, punit->id, pcity->id, 0, "");
   } else {
-    char name[] = "";
-    dsend_packet_unit_build_city(&client.conn, punit->id, name);
+    /* The reply will trigger a dialog to name the new city. */
+    dsend_packet_city_name_suggestion_req(&client.conn, punit->id);
   }
 }
 
@@ -3406,7 +3408,8 @@ void finish_city(struct tile *ptile, const char *name)
        * to prevent city building in the meanwhile and unit will remain
        * alive. */
       punit->client.asking_city_name = FALSE;
-      dsend_packet_unit_build_city(&client.conn, punit->id, name);
+      request_do_action(ACTION_FOUND_CITY, punit->id, ptile->index,
+                        0, name);
     }
   } unit_list_iterate_end;
 }

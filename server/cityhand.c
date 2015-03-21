@@ -63,16 +63,19 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     return;
   }
 
-  res = unit_add_or_build_city_test(punit);
-
-  switch (res) {
-  case UAB_BUILD_OK:
+  if (action_prob_possible(action_prob_vs_tile(punit, ACTION_FOUND_CITY,
+                                               unit_tile(punit)))) {
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));
     dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,
         city_name_suggestion(pplayer, unit_tile(punit)));
-    break;
+  }
 
+  res = unit_add_or_build_city_test(punit);
+
+  switch (res) {
+  case UAB_BUILD_OK:
+    /* No action enabler permitted the city to be built. */
   case UAB_BAD_CITY_TERRAIN:
   case UAB_BAD_UNIT_TERRAIN:
   case UAB_BAD_BORDERS:

@@ -122,6 +122,37 @@ static void diplomat_queue_handle_secondary(void)
 }
 
 /****************************************************************
+  User selected build city from the choice dialog
+*****************************************************************/
+static void found_city_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  dsend_packet_city_name_suggestion_req(&client.conn,
+                                        args->actor_unit_id);
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
+  User selected join city from caravan dialog
+*****************************************************************/
+static void join_city_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_JOIN_CITY, args->actor_unit_id,
+                      args->target_city_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected enter market place from caravan dialog
 *****************************************************************/
 static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
@@ -963,15 +994,17 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_TRADE_ROUTE] = (GCallback)caravan_establish_trade_callback,
   [ACTION_MARKETPLACE] = (GCallback)caravan_marketplace_callback,
   [ACTION_HELP_WONDER] = (GCallback)caravan_help_build_wonder_callback,
+  [ACTION_JOIN_CITY] = (GCallback)join_city_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
   [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)spy_sabotage_unit_callback,
 
   /* Unit acting against all units at a tile. */
-  [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback
+  [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback,
 
   /* Unit acting against a tile. */
+  [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
 };
 
 /******************************************************************

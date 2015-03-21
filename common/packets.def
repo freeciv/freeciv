@@ -925,11 +925,6 @@ PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
   BOOL make_winner_veteran;
 end
 
-PACKET_UNIT_BUILD_CITY = 67; cs, dsend
-  UNIT unit_id;
-  STRING name[MAX_LEN_NAME];
-end
-
 PACKET_UNIT_DISBAND = 68; cs, dsend
   UNIT unit_id;
 end

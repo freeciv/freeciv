@@ -1740,5 +1740,5 @@ bool utype_is_cityfounder(struct unit_type *utype)
     return FALSE;
   }
 
-  return utype_has_flag(utype, UTYF_CITIES);
+  return utype_can_do_action(utype, ACTION_FOUND_CITY);
 }

@@ -201,7 +201,7 @@ bool units_contain_cityfounder(const struct unit_list *punits)
   }
 
   unit_list_iterate(punits, punit) {
-    if (EQ(TRUE, unit_has_type_flag(punit, UTYF_CITIES))) {
+    if (EQ(TRUE, unit_can_do_action(punit, ACTION_FOUND_CITY))) {
       return TRUE;
     }
   } unit_list_iterate_end;

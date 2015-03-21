@@ -3824,9 +3824,21 @@ bool execute_orders(struct unit *punit)
       }
       break;
     case ORDER_BUILD_CITY:
-      handle_unit_build_city(pplayer, unitid,
-			     city_name_suggestion(pplayer, unit_tile(punit)));
-      log_debug("  building city");
+      if (tile_city(unit_tile(punit))) {
+        handle_unit_do_action(pplayer, unitid,
+                              tile_city(unit_tile(punit))->id,
+                              0, city_name_suggestion(pplayer,
+                                                      unit_tile(punit)),
+                              ACTION_JOIN_CITY);
+        log_debug("  joining city");
+      } else {
+        handle_unit_do_action(pplayer, unitid, unit_tile(punit)->index,
+                              0, city_name_suggestion(pplayer,
+                                                      unit_tile(punit)),
+                              ACTION_FOUND_CITY);
+        log_debug("  building city");
+      }
+
       if (player_unit_by_number(pplayer, unitid)) {
 	/* Build failed. */
 	cancel_orders(punit, " orders canceled; failed to build city");

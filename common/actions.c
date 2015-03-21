@@ -101,6 +101,12 @@ void actions_init(void)
   actions[ACTION_CAPTURE_UNITS] =
       action_new(ACTION_CAPTURE_UNITS, ATK_UNITS,
                  TRUE);
+  actions[ACTION_FOUND_CITY] =
+      action_new(ACTION_FOUND_CITY, ATK_TILE,
+                 FALSE);
+  actions[ACTION_JOIN_CITY] =
+      action_new(ACTION_JOIN_CITY, ATK_CITY,
+                 FALSE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -364,7 +370,9 @@ void action_enabler_append_hard(struct action_enabler *enabler)
 {
   if (enabler->action != ACTION_TRADE_ROUTE
       && enabler->action != ACTION_MARKETPLACE
-      && enabler->action != ACTION_HELP_WONDER) {
+      && enabler->action != ACTION_HELP_WONDER
+      && enabler->action != ACTION_JOIN_CITY
+      && enabler->action != ACTION_FOUND_CITY) {
     /* The Freeciv code assumes that all spy actions have foreign targets.
      * TODO: Move this restriction to the ruleset to prepare for false flag
      * operations. */
@@ -525,6 +533,34 @@ static bool is_action_possible(const enum gen_action wanted_action,
     if (!(target_city->shield_stock
           < impr_build_shield_cost(
             target_city->production.value.building))) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_FOUND_CITY) {
+    /* Reason: The Freeciv code assumes that the city founding unit is
+     * located the the tile were the new city is founded. */
+    /* Info leak: The actor player knows where his unit is. */
+    if (unit_tile(actor_unit) != target_tile) {
+      return FALSE;
+    }
+
+    /* TODO: Move more individual requirements to the action enabler. */
+    if (!unit_can_build_city(actor_unit)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_JOIN_CITY) {
+    /* Reason: The Freeciv code assumes that the migrant unit is located
+     * inside the city it is trying to join. */
+    /* Info leak: The actor player knows where his unit is. */
+    if (unit_tile(actor_unit) != target_tile) {
+      return FALSE;
+    }
+
+    /* TODO: Move more individual requirements to the action enabler. */
+    if (!unit_can_add_to_city(actor_unit)) {
       return FALSE;
     }
   }
@@ -1113,6 +1149,14 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_CAPTURE_UNITS:
     /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_FOUND_CITY:
+    /* Possible when not blocked by is_action_possible() */
+    chance = 200;
+    break;
+  case ACTION_JOIN_CITY:
+    /* Possible when not blocked by is_action_possible() */
     chance = 200;
     break;
   case ACTION_COUNT:

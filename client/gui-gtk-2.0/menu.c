@@ -2287,7 +2287,8 @@ void real_menus_update(void)
       }
     } unit_list_iterate_end;
     
-    if (city_on_tile && units_have_type_flag(punits, UTYF_ADD_TO_CITY, TRUE)) {
+    if (city_on_tile && units_can_do_action(punits, ACTION_JOIN_CITY,
+                                            TRUE)) {
       menus_rename(unit_group, "BUILD_CITY", _("Add to City"));
     } else {
       /* refresh default order */

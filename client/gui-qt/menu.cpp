@@ -1125,7 +1125,7 @@ void mr_menu::menus_sensitive()
           break;
         }
         if (city_on_tile
-            && units_have_type_flag(punits, UTYF_ADD_TO_CITY, true)) {
+            && units_can_do_action(punits, ACTION_JOIN_CITY, true)) {
           i.value()->setText(_("Add to City"));
         } else {
           i.value()->setText(_("Build City"));
