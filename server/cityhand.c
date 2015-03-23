@@ -69,6 +69,9 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
                 TILE_XY(unit_tile(punit)));
     dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,
         city_name_suggestion(pplayer, unit_tile(punit)));
+
+    /* The rest of this function is error handling. */
+    return;
   }
 
   res = unit_add_or_build_city_test(punit);
