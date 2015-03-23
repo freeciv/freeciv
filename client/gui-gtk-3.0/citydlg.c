@@ -358,7 +358,11 @@ static gboolean canvas_exposed_cb(GtkWidget *w, cairo_t *cr,
 
   cairo_scale(cr, CITYMAP_SCALE, CITYMAP_SCALE);
   cairo_set_source_surface(cr, pdialog->map_canvas_store_unscaled, 0, 0);
-  cairo_paint(cr);
+  if (!gtk_widget_get_sensitive(pdialog->overview.map_canvas.ebox)) {
+    cairo_paint_with_alpha(cr, 0.5);
+  } else {
+    cairo_paint(cr);
+  }
 
   return TRUE;
 }
@@ -1566,9 +1570,6 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
                        get_citizen_sprite(tileset, citizens[i], i, pcity),
                        i * width, 0);
   }
-
-/*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
-/*                           !cma_is_city_under_agent(pcity, NULL));*/
 }
 
 /****************************************************************

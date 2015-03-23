@@ -1518,9 +1518,6 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
                        i * width, 0);
   }
   gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->citizen_pixmap));
-
-/*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
-/*                           !cma_is_city_under_agent(pcity, NULL));*/
 }
 
 /****************************************************************
