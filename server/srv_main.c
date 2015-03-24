@@ -2408,6 +2408,11 @@ static void announce_player(struct player *pplayer)
   notify_conn(game.est_connections, NULL, E_GAME_START,
               ftc_server, _("%s rules the %s."),
               player_name(pplayer), nation_plural_for_player(pplayer));
+
+  /* Let the clients knows the nation of the players as soon as possible.
+   * When a player's nation is server assigned its client will think of it
+   * as NULL until informed about the assigned nation. */
+  send_player_info_c(pplayer, NULL);
 }
 
 /**************************************************************************
