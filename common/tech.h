@@ -24,6 +24,7 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
+#include "requirements.h"
 
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
@@ -115,6 +116,11 @@ struct advance {
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
 
   struct advance *require[AR_SIZE];
+
+  /* Required to start researching this tech. For shared research it must
+   * be fulfilled for at least one player that shares the research. */
+  struct requirement_vector research_reqs;
+
   bv_tech_flags flags;
   struct strvec *helptext;
 

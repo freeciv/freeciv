@@ -41,6 +41,15 @@ format_version=10
 ; root_req      = advance required before acquiring this one, inherited
 ;                 by all techs that require this tech in turn unless
 ;                 "None" is given explicitly
+; research_reqs = requirements before researching this one. Can have non
+;                 tech requirements because it is a requirement vector.
+;                 See doc/README.effects to learn more about requirement
+;                 vectors.
+;                 Requireing a tech here in stead of in req1, req2 or
+;                 root_req is not supported yet.
+;                 Requirements that may become fulfilled during the game
+;                 when they weren't at the start of the game is not
+;                 supported yet.
 ; flags         = special flag strings (see classic/techs.ruleset)
 ; graphic       = icon for technology
 ; graphic_alt   = alternate icon

@@ -289,6 +289,41 @@ research_advance_name_translation(const struct research *presearch,
   return name_translation(research_advance_name(tech));
 }
 
+/**************************************************************************
+  Returns TRUE iff researching the given tech is allowed according to its
+  research_reqs.
+
+  Helper for research_update().
+**************************************************************************/
+static bool research_is_allowed(const struct research *presearch,
+                                Tech_type_id tech)
+{
+  struct advance *adv;
+
+  adv = valid_advance_by_number(tech);
+
+  if (adv == NULL) {
+    /* Not a valid advance. */
+    return FALSE;
+  }
+
+  research_players_iterate(presearch, pplayer) {
+    if (are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                        NULL, &(adv->research_reqs), RPT_CERTAIN)) {
+      /* It is enough that one player that shares research is allowed to
+       * research it.
+       * Reasoning: Imagine a tech with that requires a nation in the
+       * player range. If the requirement applies to all players sharing
+       * research it will be illegal in research sharing games. To require
+       * that the player that fulfills the requirement must order it to be
+       * researched creates unnecessary bureaucracy. */
+      return TRUE;
+    }
+  } research_players_iterate_end;
+
+  return FALSE;
+}
+
 /****************************************************************************
   Returns TRUE iff the given tech is ever reachable by the players sharing
   the research by checking tech tree limitations.
@@ -300,9 +335,9 @@ static bool research_get_reachable(const struct research *presearch,
 {
   if (valid_advance_by_number(tech) == NULL) {
     return FALSE;
-  } else if (advance_required(tech, AR_ROOT) != A_NONE) {
-    /* 'tech' has at least one root requirement. We need to check them
-     * all. */
+  } else {
+    /* Check that all recursive requirements have their root reqs and
+     * research_reqs in order. */
     bv_techs done;
     Tech_type_id techs[game.control.num_tech_types];
     enum tech_req req;
@@ -316,6 +351,12 @@ static bool research_get_reachable(const struct research *presearch,
     techs_num = 1;
 
     for (i = 0; i < techs_num; i++) {
+      if (!research_is_allowed(presearch, techs[i])) {
+        /* It is currently illegal to start researching this tech. Since
+         * only unchanging requirements are allowed the situation will
+         * continue. */
+        return FALSE;
+      }
       if (advance_required(techs[i], AR_ROOT) == techs[i]) {
         /* This tech requires itself; it can only be reached by special
          * means (init_techs, lua script, ...).
@@ -333,11 +374,10 @@ static bool research_get_reachable(const struct research *presearch,
           if (valid_advance_by_number(req_tech) == NULL) {
             return FALSE;
           } else if (!BV_ISSET(done, req_tech)) {
-            if (advance_required(req_tech, AR_ROOT) != A_NONE) {
-              fc_assert(techs_num < ARRAY_SIZE(techs));
-              techs[techs_num] = req_tech;
-              techs_num++;
-            }
+            fc_assert(techs_num < ARRAY_SIZE(techs));
+            techs[techs_num] = req_tech;
+            techs_num++;
+
             BV_SET(done, req_tech);
           }
         }
@@ -425,7 +465,8 @@ void research_update(struct research *presearch)
                      == TECH_KNOWN)
                  && (presearch->inventions[advance_required(i, AR_TWO)].state
                      == TECH_KNOWN)
-                 ? TECH_PREREQS_KNOWN : TECH_UNKNOWN);
+                 && (research_is_allowed(presearch, i)
+                     ? TECH_PREREQS_KNOWN : TECH_UNKNOWN));
       }
     } else {
       fc_assert(state == TECH_UNKNOWN);

@@ -1110,6 +1110,7 @@ static bool load_ruleset_techs(struct section_file *file,
     const char *sval, **slist;
     size_t nval;
     int j, ival;
+    struct requirement_vector *research_reqs;
 
     if (!lookup_tech(file, &a->require[AR_ONE], sec_name, "req1",
                      filename, rule_name(&a->name))
@@ -1134,6 +1135,15 @@ static bool load_ruleset_techs(struct section_file *file,
       ok = FALSE;
       break;
     }
+
+    research_reqs = lookup_req_list(file, sec_name, "research_reqs",
+                                    rule_name(&a->name));
+    if (research_reqs == NULL) {
+      ok = FALSE;
+      break;
+    }
+
+    requirement_vector_copy(&a->research_reqs, research_reqs);
 
     BV_CLR_ALL(a->flags);
 
@@ -5904,6 +5914,12 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.root_req = a->require[AR_ROOT]
                       ? advance_number(a->require[AR_ROOT])
                       : advance_count();
+
+    i = 0;
+    requirement_vector_iterate(&a->research_reqs, req) {
+      packet.research_reqs[i++] = *req;
+    } requirement_vector_iterate_end;
+    packet.research_reqs_count = i;
 
     packet.flags = a->flags;
     packet.cost = a->cost;

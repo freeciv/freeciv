@@ -3074,6 +3074,7 @@ void handle_ruleset_unit_flag(const struct packet_ruleset_unit_flag *p)
 ****************************************************************************/
 void handle_ruleset_tech(const struct packet_ruleset_tech *p)
 {
+  int i;
   struct advance *a = advance_by_number(p->id);
 
   fc_assert_ret_msg(NULL != a, "Bad advance %d.", p->id);
@@ -3081,9 +3082,16 @@ void handle_ruleset_tech(const struct packet_ruleset_tech *p)
   names_set(&a->name, NULL, p->name, p->rule_name);
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
+
   a->require[AR_ONE] = advance_by_number(p->req[AR_ONE]);
   a->require[AR_TWO] = advance_by_number(p->req[AR_TWO]);
   a->require[AR_ROOT] = advance_by_number(p->root_req);
+  for (i = 0; i < p->research_reqs_count; i++) {
+    requirement_vector_append(&a->research_reqs, p->research_reqs[i]);
+  }
+
+  fc_assert(a->research_reqs.size == p->research_reqs_count);
+
   a->flags = p->flags;
   a->cost = p->cost;
   a->num_reqs = p->num_reqs;

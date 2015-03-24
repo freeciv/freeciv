@@ -546,6 +546,32 @@ bool sanity_check_ruleset_data(void)
         }
       } advance_req_iterate_end;
     }
+
+    requirement_vector_iterate(&(padvance->research_reqs), preq) {
+      if (preq->source.kind == VUT_ADVANCE) {
+        /* Don't allow this even if allowing changing reqs. Players will
+         * expect all tech reqs to appear in the client tech tree. That
+         * should be taken care of first. */
+        ruleset_error(LOG_ERROR,
+                      "Tech \"%s\" requires a tech in its research_reqs."
+                      " This isn't supported yet. Please keep using req1"
+                      " and req2 like before.",
+                      advance_rule_name(padvance));
+        ok = FALSE;
+      } else if (!is_req_unchanging(preq)) {
+        /* Only support unchanging requirements until the reachability code
+         * can handle it and the tech tree can display changing
+         * requirements. */
+        ruleset_error(LOG_ERROR,
+                      "Tech \"%s\" has the requirement %s in its"
+                      " research_reqs. This requirement may change during"
+                      " the game. Changing requirments aren't supported"
+                      " yet.",
+                      advance_rule_name(padvance),
+                      req_to_fstring(preq));
+        ok = FALSE;
+      }
+    } requirement_vector_iterate_end;
   } advance_iterate_end;
 
   /* Check that all players can have their initial techs */

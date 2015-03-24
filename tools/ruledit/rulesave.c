@@ -1489,6 +1489,9 @@ static bool save_techs_ruleset(const char *filename, const char *name)
         save_tech_ref(sfile, pa->require[AR_ROOT], path, "root_req");
       }
 
+      save_reqs_vector(sfile, &(pa->research_reqs), path,
+                       "research_reqs");
+
       secfile_insert_str(sfile, pa->graphic_str, "%s.graphic", path);
       if (strcmp("-", pa->graphic_alt)) {
         secfile_insert_str(sfile, pa->graphic_alt, "%s.graphic_alt", path);
