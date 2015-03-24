@@ -1526,7 +1526,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     area.w = MAX(area.w , pText->w);
     area.h += pText->h + adj_size(15);
 
-    if (type != DS_WAR && can_client_issue_orders()) {
+    if (type != DS_WAR && can_client_issue_orders()
+        && !players_on_same_team(client.conn.playing, pPlayer)) {
       if (type == DS_ARMISTICE) {
         fc_snprintf(cBuf, sizeof(cBuf), _("Declare WAR"));
       } else {

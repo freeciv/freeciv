@@ -652,11 +652,13 @@ void plr_report::update_report()
   if (NULL != client.conn.playing
       && other_player != client.conn.playing) {
     ds = player_diplstate_get(client_player(), other_player);
-    if (ds->type != DS_WAR && ds->type != DS_NO_CONTACT) {
-        cancel_but->setEnabled(true);
+    if (ds->type != DS_WAR && ds->type != DS_NO_CONTACT
+        && !players_on_same_team(client_player(), other_player)) {
+      cancel_but->setEnabled(true);
     }
   }
-  if (gives_shared_vision(client_player(), other_player)) {
+  if (gives_shared_vision(client_player(), other_player)
+      && !players_on_same_team(client_player(), other_player)) {
     withdraw_but->setEnabled(true);
   }
   if (can_meet_with_player(other_player) == true) {
