@@ -615,7 +615,7 @@ static inline void packet_header_set(struct packet_header *packet_header)
   fc_assert(packet_header->type == DIOT_UINT8);
 
   packet_header->length = DIOT_UINT16;
-  packet_header->type = DIOT_UINT16;
+  packet_header->type = DIOT_UINT8;
 }
 
 /****************************************************************************
