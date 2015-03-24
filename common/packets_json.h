@@ -25,7 +25,7 @@ void *get_packet_from_connection_json(struct connection *pc,
                                       enum packet_type *ptype);
 
 #define SEND_PACKET_START(packet_type) \
-  unsigned char buffer[MAX_LEN_PACKET]; \
+  unsigned char buffer[MAX_LEN_PACKET * 5]; \
   char *json_buffer = NULL; \
   struct json_data_out dout; \
   dout.json = json_object(); \
