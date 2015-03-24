@@ -3561,6 +3561,30 @@ static bool load_nation_names(struct section_file *file,
 
   section_list_destroy(sec);
 
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
+    if (sec) {
+      section_list_iterate(sec, psection) {
+        struct nation_group *pgroup;
+        const char *name;
+
+        name = secfile_lookup_str(file, "%s.name", section_name(psection));
+        if (NULL == name) {
+          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+          ok = FALSE;
+          break;
+        }
+        pgroup = nation_group_new(name);
+        if (pgroup == NULL) {
+          ok = FALSE;
+          break;
+        }
+      } section_list_iterate_end;
+      section_list_destroy(sec);
+      sec = NULL;
+    }
+  }
+
   return ok;
 }
 
@@ -3871,12 +3895,7 @@ static bool load_ruleset_nations(struct section_file *file,
         bool hidden;
 
         name = secfile_lookup_str(file, "%s.name", section_name(psection));
-        if (NULL == name) {
-          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-          ok = FALSE;
-          break;
-        }
-        pgroup = nation_group_new(name);
+        pgroup = nation_group_by_rule_name(name);
         if (pgroup == NULL) {
           ok = FALSE;
           break;
