@@ -71,6 +71,7 @@ struct extra_type
 
   struct requirement_vector reqs;
   struct requirement_vector rmreqs;
+  struct requirement_vector spontaneous_reqs;
 
   /* 'buildable' is unclean. Clean solution would be to rely solely on extra_cause:
    * if the extra cannot be built, it's not in the cause's list.

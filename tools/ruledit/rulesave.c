@@ -1813,6 +1813,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     save_reqs_vector(sfile, &(pextra->reqs), path, "reqs");
     save_reqs_vector(sfile, &(pextra->rmreqs), path, "rmreqs");
+    save_reqs_vector(sfile, &(pextra->spontaneous_reqs), path, "spontaneous_reqs");
 
     if (!pextra->buildable) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
