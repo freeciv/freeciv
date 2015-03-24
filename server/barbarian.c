@@ -488,12 +488,14 @@ static void try_summon_barbarians(void)
 {
   struct tile *ptile, *utile;
   int i, dist;
-  int uprise = 1;
+  int uprise;
   struct city *pc;
   struct player *barbarians, *victim;
   struct unit_type *leader_type;
   int barb_count, really_created = 0;
   bool hut_present = FALSE;
+  int city_count;
+  int city_max;
 
   /* We attempt the summons on a particular, random position.  If this is
    * an invalid position then the summons simply fails this time.  This means
@@ -532,9 +534,8 @@ static void try_summon_barbarians(void)
   fc_assert(1 < game.server.barbarianrate);
 
   /* do not harass small civs - in practice: do not uprise at the beginning */
-  if ((int)fc_rand(UPRISE_CIV_MORE) >
-           (int)city_list_size(victim->cities) -
-                UPRISE_CIV_SIZE/(game.server.barbarianrate-1)
+  if ((int)fc_rand(30) + 1 >
+      (int)city_list_size(victim->cities) * (game.server.barbarianrate - 1)
       || fc_rand(100) > get_player_bonus(victim, EFT_CIVIL_WAR_CHANCE)) {
     return;
   }
@@ -552,6 +553,15 @@ static void try_summon_barbarians(void)
     update_tile_knowledge(utile);
   }
 
+  city_count = city_list_size(victim->cities);
+  city_max = UPRISE_CIV_SIZE;
+  uprise = 1;
+
+  while (city_max <= city_count) {
+    uprise++;
+    city_max *= 1.2 + UPRISE_CIV_SIZE;
+  }
+
   barb_count = fc_rand(3) + uprise * game.server.barbarianrate;
   leader_type = get_role_unit(L_BARBARIAN_LEADER, 0);
 
@@ -560,9 +570,6 @@ static void try_summon_barbarians(void)
     barbarians = create_barbarian_player(LAND_BARBARIAN);
     if (!barbarians) {
       return;
-    }
-    if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {
-      uprise = 3;
     }
     for (i = 0; i < barb_count; i++) {
       struct unit_type *punittype

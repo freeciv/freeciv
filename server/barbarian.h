@@ -22,8 +22,6 @@
 #define MAX_UNREST_DIST   8
 
 #define UPRISE_CIV_SIZE  10
-#define UPRISE_CIV_MORE  30
-#define UPRISE_CIV_MOST  50
 
 #define MAP_FACTOR     2000  /* adjust this to get a good uprising frequency */
 
