@@ -90,7 +90,7 @@
  *      "duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+Freeciv-spec-Devel-2013.Feb.13"
+#define SPEC_CAPSTR "+Freeciv-spec-Devel-2015-Mar-25"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
@@ -1318,11 +1318,16 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     section_list_iterate(sections, psection) {
       int j, k;
       int x_top_left, y_top_left, dx, dy;
-      int pixel_border;
+      int pixel_border_x;
+      int pixel_border_y;
       const char *sec_name = section_name(psection);
 
-      pixel_border = secfile_lookup_int_default(file, 0, "%s.pixel_border",
-                                                sec_name);
+      pixel_border_x = secfile_lookup_int_default(file, 0, "%s.pixel_border",
+                                                  sec_name);
+      pixel_border_y = secfile_lookup_int_default(file, pixel_border_x, "%s.pixel_border_y",
+                                                  sec_name);
+      pixel_border_x = secfile_lookup_int_default(file, pixel_border_x, "%s.pixel_border_x",
+                                                  sec_name);
 
       if (!secfile_lookup_int(file, &x_top_left, "%s.x_top_left", sec_name)
           || !secfile_lookup_int(file, &y_top_left,
@@ -1361,8 +1366,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
         /* there must be at least 1 because of the while(): */
         fc_assert_action(num_tags > 0, continue);
 
-        x1 = x_top_left + (dx + pixel_border) * column;
-        y1 = y_top_left + (dy + pixel_border) * row;
+        x1 = x_top_left + (dx + pixel_border_x) * column;
+        y1 = y_top_left + (dy + pixel_border_y) * row;
 
         ss = fc_malloc(sizeof(*ss));
         ss->ref_count = 0;
