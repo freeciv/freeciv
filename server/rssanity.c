@@ -486,7 +486,7 @@ static bool sanity_check_boolean_effects(void)
 
   for (i = 0; boolean_effects[i] != EFT_LAST; i++) {
     if (effect_cumulative_min(boolean_effects[i], NULL) < 0
-        && effect_cumulative_max(boolean_effects[i], NULL) >= 0) {
+        && effect_cumulative_max(boolean_effects[i], NULL) == 0) {
       ruleset_error(LOG_ERROR, "Boolean effect %s can get disabled, but it can't get "
                     "enabled before that.", effect_type_name(boolean_effects[i]));
       ret = FALSE;
