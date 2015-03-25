@@ -43,9 +43,9 @@ extern "C" {
 #define MAX_LEN_VET_SHORT_NAME 8
 /* Used in the network protocol. See diplomat_success_vs_defender() */
 #define MAX_VET_LEVELS 20
-#define MAX_BASE_TYPES 32 /* Used in the network protocol. */
-#define MAX_ROAD_TYPES 16 /* Used in the network protocol. */
-#define MAX_EXTRA_TYPES (16 + MAX_BASE_TYPES + MAX_ROAD_TYPES)
+#define MAX_EXTRA_TYPES 64 /* Used in the network protocol. */
+#define MAX_BASE_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
+#define MAX_ROAD_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 10
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
