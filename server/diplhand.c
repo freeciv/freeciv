@@ -169,7 +169,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity = NULL;
 
-      if (pclause->from == pplayer) {
+      if (pclause->from == pplayer || is_pact_clause(pclause->type)) {
 	switch(pclause->type) {
 	case CLAUSE_EMBASSY:
           if (player_has_real_embassy(pother, pplayer)) {
