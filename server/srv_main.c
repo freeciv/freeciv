@@ -1404,6 +1404,7 @@ void server_quit(void)
   server_game_free();
   diplhand_free();
   voting_free();
+  adv_settlers_free();
   ai_timer_free();
 
 #ifdef HAVE_FCDB

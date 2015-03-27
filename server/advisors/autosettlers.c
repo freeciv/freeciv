@@ -68,6 +68,17 @@ struct settlermap {
   int eta; /* estimated number of turns until enroute arrives */
 };
 
+static struct timer *as_timer = NULL;
+
+/**************************************************************************
+  Free resources allocated for autosettlers system
+**************************************************************************/
+void adv_settlers_free(void)
+{
+  timer_destroy(as_timer);
+  as_timer = NULL;
+}
+
 /**************************************************************************
   Calculate the attractiveness of building a road/rail at the given tile.
 
@@ -880,13 +891,12 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
 **************************************************************************/
 void auto_settlers_player(struct player *pplayer) 
 {
-  static struct timer *t = NULL;      /* alloc once, never free */
   struct settlermap *state;
 
   state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
-  t = timer_renew(t, TIMER_CPU, TIMER_DEBUG);
-  timer_start(t);
+  as_timer = timer_renew(as_timer, TIMER_CPU, TIMER_DEBUG);
+  timer_start(as_timer);
 
   if (pplayer->ai_controlled) {
     /* Set up our city map. */
@@ -959,12 +969,12 @@ void auto_settlers_player(struct player *pplayer)
     CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
   }
 
-  if (timer_in_use(t)) {
+  if (timer_in_use(as_timer)) {
 
 #ifdef LOG_TIMERS
     log_verbose("%s autosettlers consumed %g milliseconds.",
                 nation_rule_name(nation_of_player(pplayer)),
-                1000.0 * timer_read_seconds(t));
+                1000.0 * timer_read_seconds(as_timer));
 #else
     log_verbose("%s autosettlers finished",
                 nation_rule_name(nation_of_player(pplayer)));

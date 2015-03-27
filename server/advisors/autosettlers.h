@@ -20,6 +20,8 @@
 struct settlermap;
 struct pf_path;
 
+void adv_settlers_free(void);
+
 void auto_settlers_player(struct player *pplayer);
 
 void auto_settler_findwork(struct player *pplayer, 
