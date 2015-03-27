@@ -231,7 +231,11 @@ void srv_init(void)
   srvarg.serverid[0] = '\0';
 
   srvarg.bind_addr = NULL;
+#ifdef FREECIV_JSON_CONNECTION
+  srvarg.port = FREECIV_JSON_PORT;
+#else  /* FREECIV_JSON_CONNECTION */
   srvarg.port = DEFAULT_SOCK_PORT;
+#endif /* FREECIV_JSON_CONNECTION */
 
   srvarg.bind_meta_addr = NULL;
 

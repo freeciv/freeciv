@@ -22,7 +22,8 @@ AC_DEFINE_UNQUOTED([BUG_URL], ["$BUG_URL"], [Bug reporting URL])
 AC_DEFINE([FREECIV_META_URL], ["http://meta.freeciv.org/metaserver.php"], [Metaserver URL])
 AC_DEFINE_UNQUOTED([WIKI_URL], ["$WIKI_URL"], [Informational URL])
 
-AC_DEFINE(DEFAULT_SOCK_PORT, 5556, [Connection TCP Port])
+AC_DEFINE([DEFAULT_SOCK_PORT], [5556], [Connection TCP Port])
+AC_DEFINE([FREECIV_JSON_PORT], [6556], [Json Connection TCP Port]) dnl raw default + 1000
 
 AC_SUBST([BUG_URL])
 AC_SUBST([WIKI_URL])

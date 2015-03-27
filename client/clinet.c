@@ -150,7 +150,11 @@ static int get_server_address(const char *hostname, int port,
                               char *errbuf, int errbufsize)
 {
   if (port == 0) {
+#ifdef FREECIV_JSON_CONNECTION
+    port = FREECIV_JSON_PORT;
+#else  /* FREECIV_JSON_CONNECTION */
     port = DEFAULT_SOCK_PORT;
+#endif /* FREECIV_JSON_CONNECTION */
   }
 
   /* use name to find TCP/IP address of server */
