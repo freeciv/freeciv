@@ -244,6 +244,27 @@ defines an origin (top left) and spacing, both in terms of pixels, and
 then refers to individual tiles of the grid by row and column. The
 origin, and rows and columns, are counted as (0,0) = top left.
 
+x_top_left     : x-coordinate of the leftmost pixel of the leftomost cell
+y_top_left     : y-coordinate of the topmost pixel of the topmost cell
+dx             : cell width
+dy             : cell height
+pixel_border   : Number of pixels between cells
+tiles          : Table of tags, each line having "row", "column", and "tag"
+
+[grid_example]
+x_top_left   = 1   ; Border (in x=0) also in left side of the entire grid
+y_top_left   = 1   ; Border (in y=0) also in top side of the entire grid
+dx           = 96
+dy           = 48
+pixel_border = 1
+tiles = { "row", "column", "tag"
+ 0, 0, "tag1"
+ 0, 1, "tag2"
+ 1, 0, "tag3"
+ 1, 1, "tag4"
+}
+
+
 Each individual tile is given a "tag", which is a string which is
 referenced in the code and/or from ruleset files. A grid may be
 sparse, with some elements unused (simply don't mention their row and
