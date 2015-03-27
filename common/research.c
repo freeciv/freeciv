@@ -348,10 +348,12 @@ static bool research_get_reachable_rreqs(const struct research *presearch,
   /* Check that all recursive requirements have their research_reqs
    * in order. */
   for (i = 0; i < techs_num; i++) {
-    if (!research_is_allowed(presearch, techs[i])) {
+    if (presearch->inventions[techs[i]].state != TECH_KNOWN
+        && !research_is_allowed(presearch, techs[i])) {
       /* It is currently illegal to start researching this tech. Since
        * only unchanging requirements are allowed the situation will
-       * continue. */
+       * continue. Since it isn't already known and can't be researched
+       * it must be unreachable. */
       return FALSE;
     }
 
