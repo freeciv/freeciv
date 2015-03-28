@@ -43,6 +43,7 @@ extern "C" {
 
 /* Ruledit */
 #define R__(String) dgettext("freeciv-ruledit", String)
+#define RQ_(String) skip_intl_qualifier_prefix(dgettext("freeciv-ruledit", String))
 
 #else  /* FREECIV_ENABLE_NLS */
 
@@ -56,6 +57,7 @@ extern "C" {
 
 /* Ruledit */
 #define R__(String) (String)
+#define RQ_(String) skip_intl_qualifier_prefix(String)
 
 #undef textdomain
 #undef bindtextdomain
