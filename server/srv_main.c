@@ -2235,6 +2235,10 @@ static void generate_players(void)
    * on player names. */
   players_iterate(pplayer) {
     if (pplayer->nation != NO_NATION_SELECTED) {
+      /* Traits are initialized here, and not already when nation gets picked,
+       * as player may change his/her mind after picking one nation, and picks
+       * another and we want to init traits only once, for the correct nation. */
+      ai_traits_init(pplayer);
       announce_player(pplayer);
       continue;
     }
