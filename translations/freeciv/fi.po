@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 06:23+0200\n"
-"PO-Revision-Date: 2015-03-24 08:00+0200\n"
+"POT-Creation-Date: 2015-03-29 15:13+0300\n"
+"PO-Revision-Date: 2015-03-29 17:22+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -408,7 +408,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2643 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2644 utility/log.c:516
 #: utility/netintf.c:93 utility/registry_ini.c:745
 #, c-format
 msgid "Please report this message at %s"
@@ -1101,7 +1101,7 @@ msgstr "Tuottaa parhaillaan"
 
 #: client/cityrepdata.c:767
 msgid "Specialists: "
-msgstr "Erikoistujat: "
+msgstr "Erikoisosaajat: "
 
 # TODO: Hmm, consider using some handy UTF-8 symbols for some of these.
 #: client/cityrepdata.c:773
@@ -1111,7 +1111,7 @@ msgstr "E"
 #: client/cityrepdata.c:776
 #, c-format
 msgid "Specialists: %s"
-msgstr "Erikoistujat: %s"
+msgstr "Erikoisosaajat: %s"
 
 #: client/cityrepdata.c:793
 msgid "Special"
@@ -10459,6 +10459,9 @@ msgid ""
 "Yields an output bonus with some terrains:\n"
 "\n"
 msgstr ""
+"\n"
+"Antaa bonuksen joillakin maastotyypeillä:\n"
+"\n"
 
 #: client/helpdata.c:3504
 msgid ""
@@ -12489,6 +12492,9 @@ msgid ""
 "Opening socket to listen LAN announcements failed:\n"
 "%s"
 msgstr ""
+"Pistokkeen avaaminen paikallisverkon kuulutusten kuuntelemiseksi "
+"epäonnistui:\n"
+"%s"
 
 #: client/servers.c:521
 #, c-format
@@ -12496,6 +12502,9 @@ msgid ""
 "Binding socket to listen LAN announcements failed:\n"
 "%s"
 msgstr ""
+"Pistokkeen liittäminen paikallisverkon kuuulutusten kuuntelemiseksi "
+"epäonnistui:\n"
+"%s"
 
 #: client/servers.c:545
 #, c-format
@@ -12503,6 +12512,8 @@ msgid ""
 "Adding membership for IPv6 LAN announcement group failed:\n"
 "%s"
 msgstr ""
+"Jäsenyyden hakeminen paikallisverkon IPv6 kuulutusryhmään epäonnistui:\n"
+"%s"
 
 #: client/servers.c:559
 #, c-format
@@ -12510,6 +12521,8 @@ msgid ""
 "Adding membership for IPv4 LAN announcement group failed:\n"
 "%s"
 msgstr ""
+"Jäsenyyden hakeminen paikallisverkon IPv4 kuulutusryhmään epäonnistui:\n"
+"%s"
 
 #. TRANS: "AI <player name>"
 #: client/text.c:102
@@ -13325,7 +13338,7 @@ msgstr "Asiakasohjelma ei tue ylhäältä nähtävää kuvitusta."
 #: client/tilespec.c:1740
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
-msgstr ""
+msgstr "[layer%d] match_types: \"%s\" aloittava ('%c') ei ole yksilöivä."
 
 #: client/tilespec.c:1752
 #, c-format
@@ -13434,7 +13447,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5094
+#: client/tilespec.c:5092
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -13443,18 +13456,18 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5169
+#: client/tilespec.c:5167
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:5173
+#: client/tilespec.c:5171
 #, c-format
 msgid "City style \"%s\": no wall graphics."
 msgstr ""
 "Kaupunkityylille \"%s\" ei löydy grafiikkaversiota, jossa olisi muurit."
 
-#: client/tilespec.c:5177
+#: client/tilespec.c:5175
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -14911,9 +14924,8 @@ msgid "AddToCity"
 msgstr "Kaupungin kasvattaja"
 
 #: common/unittype.h:179
-#, fuzzy
 msgid "Fanatic"
-msgstr "Fanaatikkolauma"
+msgstr "Fanaattinen"
 
 #: common/unittype.h:182 common/unittype.h:337
 msgid "GameLoss"
@@ -18341,7 +18353,7 @@ msgid ""
 "Manhattan Project wonder has been built by any player."
 msgstr ""
 "Voit rakentaa ydinaseyksiköitä, kun olet saavuttanut tarvittavan "
-"edistysaskeleen ja mikä tahansa pelaaja on saanut Manhattan-projektin "
+"edistysaskeleen ja kuka tahansa pelaaja on saanut Manhattan-projektin "
 "valmiiksi."
 
 #: data/civ1/units.ruleset:1134 data/civ2/units.ruleset:1841
@@ -18565,8 +18577,8 @@ msgid ""
 "foreign countries, or to help build wonders in your cities."
 msgstr ""
 "Karavaani toimittaa tuotteita tai raaka-aineita kaukaisiin kaupunkeihin ja "
-"vieraille maille kaupiteltaviksi tai käytettäväksi ihmeen rakennusaineina "
-"omissa kaupungeissasi."
+"vieraille maille myytäviksi tai käytettäväksi ihmeen rakennusaineina omissa "
+"kaupungeissasi."
 
 #: data/civ1/units.ruleset:1282 data/civ2/units.ruleset:2049
 msgid ""
@@ -21264,6 +21276,9 @@ msgid ""
 "Workers can build airbases and buoys, which Settlers cannot. Workers must be "
 "on board a ship to build buoys."
 msgstr ""
+"Työläiset voivat rakentaa lentotukikohtia ja poijuja, toisin kuin "
+"uudisasukkaat. Työläisten täytyy olla laivan kyydissä voidakseen rakentaa "
+"poijuja."
 
 #: data/classic/units.ruleset:517 data/experimental/units.ruleset:541
 #: data/multiplayer/units.ruleset:517
@@ -21792,6 +21807,8 @@ msgid ""
 "Increases the luxury and tax output in a city by an additional 50%. With "
 "both a Bank and a Marketplace in a city, the total bonus is 100%."
 msgstr ""
+"Lisää kaupungin luksus- ja verotuloja 50%. Sekä pankin että torin kanssa "
+"kaupungin kokonaisbonus on 100%."
 
 #: data/civ2civ3/buildings.ruleset:303
 msgid ""
@@ -21823,7 +21840,7 @@ msgstr ""
 "vaikutuksesta kokonaispuolustusarvo kasvaa 2/3, ja 1/2 yli koon 8 "
 "kaupungeissa). Sillä ei ole vaikutusta puolustautumiseen ilmasta tai mereltä "
 "tulevaa iskua tai Haupitseja vastaan. Muuri suojaa kaupungin asukkaita jos "
-"hyökkäävät maajoukot tuhoavat puolustavan yksikön, eikä kaupungin väkiluku "
+"hyökkäävät maajoukot tuhoavat puolustavan yksikön. Kaupungin väkiluku ei "
 "vähene."
 
 #: data/civ2civ3/buildings.ruleset:354
@@ -21834,6 +21851,10 @@ msgid ""
 "doubled by this improvement; for cities larger than size 8, it is increased "
 "by two-thirds."
 msgstr ""
+"Antaa 100% bonuksen verrattuna puolustavien yksiköiden peruspuolustusarvoon "
+"vihollisen laivojen tekemiä hyökkäyksiä vastaan (pienissä kaupungeissa tämän "
+"bonuksen vaikutuksesta kokonaispuolustusarvo kasvaa kaksinkertaiseksi, ja "
+"2/3 yli koon 8 kaupungeissa)."
 
 #: data/civ2civ3/buildings.ruleset:362 data/multiplayer/buildings.ruleset:89
 msgid "Amphitheater"
@@ -21884,6 +21905,8 @@ msgid ""
 "A Granary also halves the food wasted in cities far from your capital. "
 "Together with a Courthouse it eliminates food waste."
 msgstr ""
+"Viljasiilot myös puolittavat ruokahävikin kaupungeissa kaukana "
+"pääkaupungistasi. Yhdessä käräjätalon kanssa poistaa ruokahävikin kokonaan."
 
 #: data/civ2civ3/buildings.ruleset:458
 msgid ""
@@ -22257,6 +22280,8 @@ msgid ""
 "Gives an immediate technology advance to the player that builds it, and "
 "thereafter 4 extra research points every turn to its city."
 msgstr ""
+"Välittömästi valmistuttuaan antaa rakentajalleen teknologian, ja siitä "
+"lähtien 4 tutkimuspistettä jokaisella kierroksella kaupungilleen."
 
 #: data/civ2civ3/buildings.ruleset:1337
 msgid ""
@@ -22267,31 +22292,29 @@ msgstr ""
 "kaikkien kirjastojen vaikutuksen."
 
 #: data/civ2civ3/buildings.ruleset:1358
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the defense of all your cities by adding a +50% bonus to its "
 "units' intrinsic defense strength against land units (this is cumulative "
 "with any City Walls), and preventing the loss of population which occurs "
 "when a defending unit is defeated by a land unit."
 msgstr ""
-"Kaupunginmuuri helpottaa kaupungin puolustusta. Se kolminkertaistaa "
-"kaupungissa olevien yksiköiden puolustuskyvyn maajoukkoja ja helikoptereita "
-"vastaan. Sillä ei ole vaikutusta puolustautumiseen ilmasta tai mereltä "
-"tulevaa iskua tai Haupitseja vastaan. Muuri suojaa kaupungin asukkaita jos "
-"hyökkäävät maajoukot tuhoavat puolustavan yksikön, eikä kaupungin väkiluku "
-"vähene."
+"Parantaa kaupungin puolustusta antamalla 50%, kaupunginmuurien kanssa "
+"kumulatiivisen, bonuksen verrattuna puolustavien yksiköiden "
+"peruspuolustusarvoon maayksiköiden tekemiä hyökkäyksiä vastaan. Se suojaa "
+"kaupungin asukkaita jos hyökkäävät maajoukot tuhoavat puolustavan yksikön. "
+"Kaupungin väkiluku ei vähene."
 
 #: data/civ2civ3/buildings.ruleset:1380
-#, fuzzy
 msgid ""
 "Makes one unhappy citizen content in every city of the player that owns it "
 "(not including citizens unhappy about aggression). This wonder also makes "
 "two content citizens happy in the city where it is located (4 extra luxury "
 "points)."
 msgstr ""
-"Rauhoittaa kaksi tyytymätöntä asukkasta rauhalliseksi kaikissa saman "
-"maanosan kaupungeissa (mukaanlukien sotatoimien takia tyytymättömät "
-"asukkaat)."
+"Rauhoittaa tyytymättömän asukkaan rauhalliseksi kaikissa omistajansa "
+"kaupungeissa, paitsi jos tyytymättömyys johtuu aggressiivisista yksiköistä. "
+"Tämän lisäksi ihmeen omassa kaupungissa kahdesta asukkaasta tulee onnellisia."
 
 #: data/civ2civ3/buildings.ruleset:1405
 #, no-c-format
@@ -22306,6 +22329,8 @@ msgid ""
 "Gives an immediate technology advance to the player that builds it, and "
 "thereafter 6 extra research points every turn to its city."
 msgstr ""
+"Välittömästi valmistuttuaan antaa rakentajalleen teknologian, ja siitä "
+"lähtien 6 tutkimuspistettä jokaisella kierroksella kaupungilleen."
 
 #: data/civ2civ3/buildings.ruleset:1430
 msgid ""
@@ -22320,9 +22345,10 @@ msgid ""
 "Makes one content citizen happy in every city of the player that owns it (2 "
 "extra luxury points per city)."
 msgstr ""
+"Tekee yhdestä tyytyväisestä asukkaasta onnellisen jokaisessa omistajansa "
+"kaupungissa."
 
 #: data/civ2civ3/buildings.ruleset:1470
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 1 -- in other words, it neutralizes the unhappiness caused by "
@@ -22331,9 +22357,11 @@ msgid ""
 "it gives two free gold per city towards upkeep every turn."
 msgstr ""
 "Vähentää kaupungin aggressiivisesti sijoitetuista sotilasyksiköistä johtuvaa "
-"tyytymättömyyttä kahdella Demokratiassa ja yhdellä Tasavallassa, eli "
-"molemmissa tapauksissa neutraloi yhden sotilasyksikön aiheuttaman "
-"tyytymättömyyden. Ei vaikutusta muissa hallitusmuodoissa."
+"tyytymättömyyttä yhdellä pisteellä, eli kumoaa yhden yksikön aiheuttaman "
+"tyytymättömyyden (paitsi Demokratiassa, jossa aggressiviset yksiköt "
+"aiheuttavat kahden pisteen edestä tyytymättömyyttä). Sellaisissa "
+"hallitusmuodoissa, joissa yksiköiden ylläpito maksetaan rahalla, se antaa "
+"kahden kultapalan edestä ylläpitoa anteeksi."
 
 #: data/civ2civ3/buildings.ruleset:1514
 msgid ""
@@ -22375,21 +22403,21 @@ msgid "Mausoleum of Mausolos"
 msgstr "Mausoloksen mausoleumi"
 
 #: data/civ2civ3/buildings.ruleset:1619
-#, fuzzy
 msgid ""
 "With this wonder, City Walls and Courthouses each make one unhappy citizen "
 "content in their city, unless that citizen is unhappy about aggression. "
 "Also, none of the owner's cities can be incited to revolt."
 msgstr ""
-"Demokratiassa käräjätalo myös tekee yhden tyytymättömän asukkaan "
-"tyytyväiseksi, paitsi jos asukkaan tyytymättömyys johtuu sotatoimista."
+"Tämän ihmeen kanssa kaupunginmuurit ja käräjätalot kumpikin tekevät yhden "
+"tyytymättömän asukkaan tyytyväiseksi, paitsi jos tyytymättömyys johtuu "
+"aggressiivisista yksiköistä. Sen lisäksi yhtäkään omistajan kaupungeista ei "
+"voida yllyttää kapinaan."
 
 #: data/civ2civ3/buildings.ruleset:1626
 msgid "Statue of Zeus"
 msgstr "Zeuksen patsas"
 
 #: data/civ2civ3/buildings.ruleset:1640
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 1 -- in other words, it neutralizes the unhappiness caused by "
@@ -22397,9 +22425,10 @@ msgid ""
 "two citizens unhappy). Each city also avoids one shield of upkeep for units."
 msgstr ""
 "Vähentää kaupungin aggressiivisesti sijoitetuista sotilasyksiköistä johtuvaa "
-"tyytymättömyyttä kahdella Demokratiassa ja yhdellä Tasavallassa, eli "
-"molemmissa tapauksissa neutraloi yhden sotilasyksikön aiheuttaman "
-"tyytymättömyyden. Ei vaikutusta muissa hallitusmuodoissa."
+"tyytymättömyyttä yhdellä pisteellä, eli kumoaa yhden yksikön aiheuttaman "
+"tyytymättömyyden (paitsi Demokratiassa, jossa aggressiviset yksiköt "
+"aiheuttavat kahden pisteen edestä tyytymättömyyttä). Lisäksi kukin kaupunki "
+"saa yhden pisteen edestä yksiköiden ylläpitoa anteeksi."
 
 #: data/civ2civ3/buildings.ruleset:1649
 msgid "Temple of Artemis"
@@ -22433,6 +22462,8 @@ msgid ""
 "thereafter all cities on the map are continuously visible to its owner "
 "despite fog-of-war."
 msgstr ""
+"Välittömästi valmistuttuaan antaa rakentajalleen teknologian, ja siitä "
+"lähtien omistaja jatkuvasti näkee kaikki maailman kaupungit kartallaan."
 
 #: data/civ2civ3/buildings.ruleset:1712
 msgid ""
@@ -22486,37 +22517,34 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/buildings.ruleset:1807
-#, fuzzy
 msgid ""
 "Also, if any player's city is in disorder for more than two turns in a row, "
 "that player's government falls (even for governments other than Republic and "
 "Democracy)."
 msgstr ""
-"· Hallintosi vajoaa anarkiaan jos yksikin kaupunki on rauhaton pidempään "
-"kuin kaksi vuoroa peräkkäin.\n"
+"Aiheuttaa hallintosi vajoamisen anarkiaan jos yksikin kaupunki on rauhaton "
+"pidempään kuin kaksi vuoroa peräkkäin, riippumatta hallitusmuodosta."
 
 #: data/civ2civ3/buildings.ruleset:1828
-#, fuzzy
 msgid ""
 "Neutralizes the unhappiness caused by one aggressively deployed military "
 "unit per city. Under Democracy, it additionally halves the unhappiness "
 "caused by military units (reducing it to the same level as a Republic)."
 msgstr ""
-"Vähentää kentällä olevista sotilasyksiköistä johtuvaa tyytymättömyyttä 4:llä "
-"Demokratiassa ja 2:lla Tasavallassa – toisin sanoen, se neutraloi kahden "
-"sotilasyksikön aiheuttaman tyytymättömyyden. Ei vaikutusta muissa "
-"hallitusmuodoissa."
+"Vähentää aggressiivisesti sijoitetuista sotilasyksiköistä johtuvaa "
+"tyytymättömyyttä yhdellä pisteellä kussakin kaupunigssa. Demokratian alla "
+"lisäksi puolittaa aggressiivisista yksiköistä johtuvan tyytymättömyyden, "
+"laskien sen samalle tasolle kuin tasavallassa."
 
 #: data/civ2civ3/cities.ruleset:54
-#, fuzzy
 msgid ""
 "Each entertainer produces two luxury points for their city per turn, "
 "increasing to three once any player has built Shakespeare's Theater. See the "
 "section on Happiness for the effects of luxury points."
 msgstr ""
 "Jokainen viihdyttäjä tuottaa joka vuoro kaksi pistettä luksusta "
-"kaupungilleen. Katso Onnellisuutta koskeva kappale luksuspisteiden "
-"vaikutuksista."
+"kaupungilleen, kolme sen jälkeen kun joku on rakentanut Shakespearen "
+"teatterin. Katso onnellisuutta koskeva kappale luksuspisteiden vaikutuksista."
 
 #: data/civ2civ3/cities.ruleset:68
 msgid ""
@@ -22524,7 +22552,7 @@ msgid ""
 "increasing to three once any player has built Darwin's Voyage."
 msgstr ""
 "Jokainen tutkija lisää joka vuorolla kaksi pistettä valtakuntasi "
-"tutkimustuloksiin, 3 sen jälkeen kun joku on rakentanut Darwinin "
+"tutkimustuloksiin, kolme sen jälkeen kun joku on rakentanut Darwinin "
 "tutkimusmatkat -ihmeen."
 
 #: data/civ2civ3/cities.ruleset:82
@@ -22532,8 +22560,8 @@ msgid ""
 "Each tax collector produces two extra gold for your treasury per turn, "
 "increasing to three once any player has built A.Smith's Trading Co."
 msgstr ""
-"Jokainen verottaja tuottaa joka vuoro kaksi lisäkultaa valtiosi kassaan, 3 "
-"sen jälkeen kun joku on rakentanut A. Smithin kauppakomppania -ihmeen."
+"Jokainen verottaja tuottaa joka vuoro kaksi lisäkultaa valtiosi kassaan, "
+"kolme sen jälkeen kun joku on rakentanut A. Smithin kauppakomppania -ihmeen."
 
 #: data/civ2civ3/game.ruleset:18
 msgid "Civ2Civ3 ruleset"
@@ -22734,7 +22762,6 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/governments.ruleset:348
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -22742,8 +22769,7 @@ msgid ""
 msgstr ""
 "Demokratiassa kansalaiset hallitsevat suoraan äänestämällä käsiteltävistä "
 "asioista. Demokratia tarjoaa korkeimman mahdollisen kaupan tason, mutta myös "
-"suurimman tyytymättömyyden uhan. Demokratiassa ei esiinny korruptiota, mutta "
-"sotiminen korpeaa kansalaisia mitä suurimmassa määrin."
+"suurimman tyytymättömyyden; kansalaiset eivät alkuunkaan pidä sotatilasta."
 
 #: data/civ2civ3/governments.ruleset:355
 #, no-c-format
@@ -22872,18 +22898,17 @@ msgstr ""
 "liikkua tiettömällä suolla."
 
 #: data/civ2civ3/terrain.ruleset:1061
-#, fuzzy
 msgid ""
 "Units in a fortress receive double defense against land units and boats. Any "
 "kind of land unit remaining in a fortress for a whole turn without moving "
 "recovers a quarter of its hit points. With Astronomy, fortresses gain "
 "watchtowers from which units can see further afield."
 msgstr ""
-"Linnoitukset antavat lisää pontta maavoimien yksiköiden puolustuskyvylle. "
-"Muiden vaikutusten ohessa linnoituksessa vuoron ajan liikkumatta elpyvä "
-"maavoimien yksikkö saa takaisin neljäsosan voimapisteistään. "
-"Keksintötoiminnan myötä yksiköiden näkökenttä laajenee linnoitusten "
-"vartiotorneista käsin."
+"Linnoituksessa olevien yksiköiden puolustus maavoimien yksiköitä ja laivoja "
+"vastaan tuplaantuu. Linnoituksessa vuoron ajan liikkumatta elpyvä maavoimien "
+"yksikkö saa takaisin neljäsosan osumapisteistään. Tähtitieteen keksimisen "
+"myötä linnoitukset saavat vartiotornit, jotka mahdollistavat sisällä olevien "
+"yksiköiden nähdä kauemmaksi."
 
 #: data/civ2civ3/terrain.ruleset:1088
 msgid ""
@@ -22892,12 +22917,20 @@ msgid ""
 "airbase for a whole turn without moving recovers a quarter of its hit "
 "points. Air units in an airbase may be attacked by land units."
 msgstr ""
+"Lentotukikohdat mahdollistavat ilmayksiköiden laskeutua ja tankata. "
+"Lentotukikohdassa olevien yksiköiden puolustusarvo tuplaantuu vihollisden "
+"ilmayksiköiden tekemiä hyökkäyksiä vastaan. Lentotukikohdassa liikkumatta "
+"kokonaisen vuoron oleva ilmayksikkö saa neljänneksen osumapisteistään "
+"takaisin. Lentotukikohtaan laskeutuneiden ilmayksiköiden kimppuun on "
+"mahdollista hyökätä maayksiköillä."
 
 #: data/civ2civ3/terrain.ruleset:1115
 msgid ""
 "As well as granting vision, a buoy in deep ocean yields a shield resource to "
 "cities with an Offshore Platform."
 msgstr ""
+"Näkökyvyn tarjoamisen lisäksi syvän meren ruudussa oleva poiju lisää ruudun "
+"tuotantoa yhdellä, mikäli sitä käyttävässä kaupungissa on porauslautta."
 
 #: data/civ2civ3/terrain.ruleset:1243
 msgid ""
@@ -22960,7 +22993,6 @@ msgstr ""
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2civ3/units.ruleset:141
-#, fuzzy
 msgid "?unitclass:Small Land"
 msgstr "maavoimien"
 
@@ -22974,6 +23006,9 @@ msgid ""
 "TIP: optimal production of Settlers occurs in cities of at most size 4, or "
 "cities with a Granary of at most size 6."
 msgstr ""
+"VIHJE: Uudisasukkaiden tuotanto on optimaalista korkeintaan koon neljä, tai "
+"viljosiilon sisältävien kaupunkien tapauksessa korkeintaan koon kuusi, "
+"kaupungeissa."
 
 #: data/civ2civ3/units.ruleset:445
 msgid "Migrants"
@@ -23012,7 +23047,6 @@ msgstr ""
 "Supermarketti."
 
 #: data/civ2civ3/units.ruleset:533
-#, fuzzy
 msgid ""
 "On terrain unsuitable for irrigation systems or mines, issuing the \"irrigate"
 "\" or \"mine\" order may permanently convert the terrain to another type; "
@@ -23020,12 +23054,12 @@ msgid ""
 "yield Plains. (Terrain conversion with the \"irrigate\" order does not "
 "require a water source.)"
 msgstr ""
-" – Uudisraivaajat ja Työläiset voivat muuntaa maastotyyppiä vain "
-"rajoitetusti. Maastonmuunnos käynnistetään antamalla komento I (\"kaiva "
-"kasteluverkosto\") tai M (\"louhi kaivos\") kun yksikkö on ruudulla johon "
-"kyseistä parannusta ei voi tehdä. Katso edempänä olevaa taulukkoa. "
-"(Maastotyypin muuttaminen toiseksi komennolla I (\"kaiva kasteluverkko\") "
-"voidaan tehdä ilman että saatavilla on vettä.)"
+"Maastotyypeillä, joille ei voi rakentaa kasteluverkostoa tai louhia "
+"kaivosta, annettu vastaava kasteluverkoston tai kaivoksen rakentamiskäsky "
+"voi muuttaa maastotyypin itsensä toiseksi. Tämä on yleensä pelkkää "
+"rakennusoperaatiota kalliimpi toimenpide. Esimerkiksi metsä voidaan "
+"kasteluverkon rakentamiskäskyllä muuttaa tasangoksi (maaston muuttaminen "
+"kasteluverkoston rakentamiskäskyllä ei vaadi vettä saataville)."
 
 #: data/civ2civ3/units.ruleset:539
 msgid ""
@@ -23071,15 +23105,16 @@ msgstr ""
 "ylläpidosta. Sen sijaan jokainen yksikkö pienentää kaupungin kokoa yhdellä."
 
 #: data/civ2civ3/units.ruleset:1034
-#, fuzzy
 msgid ""
 "The Mechanized Infantry has the strongest inherent defensive strength of any "
 "land unit, and is very fast on roads and easy terrain, but it is hindered "
 "rather than helped by rough terrain (it cannot move into mountains, swamps, "
 "or jungles), and it is only available near the end of the technology tree."
 msgstr ""
-"Moottoroidun panssarijalkaväen puolustuskyky on maavoimien suurin, mutta se "
-"on käytettävissä vasta aivan pelin loppuvaiheessa."
+"Moottoroidun panssarijalkaväen puolustuskyky on maavoimien suurin, ja se on "
+"nopea teitä pitkin tai helpossa maastossa liikkuessaan. Vaikeassa maastossa "
+"(vuoret, suot, viidakot) se ei voi liikkua ja se on käytettävissä vasta "
+"aivan pelin loppuvaiheessa."
 
 #: data/civ2civ3/units.ruleset:1102
 msgid ""
@@ -23178,10 +23213,9 @@ msgstr ""
 "jota ne eivät vietä kaupungissa, lentotukikohdassa tai tukialuksella."
 
 #: data/civ2civ3/units.ruleset:1683
-#, fuzzy
 msgid "The Caravel is a sailing ship that can enter any ocean tile."
 msgstr ""
-"Karaveli korvaa kaleerin ja kykenee liikkumaan myös avomeren ruuduilla."
+"Karaveli on purjealus, joka kykenee liikkumaan millaisella merellä hyvänsä."
 
 #: data/civ2civ3/units.ruleset:1716
 msgid ""
@@ -23227,15 +23261,15 @@ msgid "Transports can also clean pollution and fallout on water tiles."
 msgstr "· Kuljetusalukset voivat myös puhdistaa saasteita meriruuduista."
 
 #: data/civ2civ3/units.ruleset:2104
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player. However, without "
 "further technology they cannot move on their own."
 msgstr ""
 "Voit rakentaa ydinaseyksiköitä, kun olet saavuttanut tarvittavan "
-"edistysaskeleen ja mikä tahansa pelaaja on saanut Manhattan-projektin "
-"valmiiksi."
+"edistysaskeleen ja kuka tahansa pelaaja on saanut Manhattan-projektin "
+"valmiiksi. Ilman lisäteknologiaa ne eivät voi kuitenkaan liikkua "
+"itsenäisesti."
 
 #: data/civ2civ3/units.ruleset:2108
 msgid ""
@@ -23244,7 +23278,6 @@ msgid ""
 msgstr ""
 
 #: data/civ2civ3/units.ruleset:2117
-#, fuzzy
 msgid ""
 "Similar to pollution and global warming, the risk of global nuclear winter "
 "increases with fallout. If nuclear winter occurs, terrain across the globe "
@@ -23254,10 +23287,9 @@ msgstr ""
 "Aivan kuten saastuminen ja ilmastonmuutos, ydintalven riski lisääntyy "
 "ydinlaskeumien myötä. Ydintalven saapuessa osa maastosta muuttuu "
 "maailmanlaajuisesti aavikoksi, tundraksi ja jäätiköksi. Uudisraivaajat, "
-"Työläiset ja Teknikot voivat neutraloida ydinlaskeumia."
+"siirtolaiset, työläiset ja teknikot voivat neutraloida ydinlaskeumia."
 
 #: data/civ2civ3/units.ruleset:2126
-#, fuzzy
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -23267,13 +23299,12 @@ msgid ""
 msgstr ""
 "VIHJE 2: Saatat joutua tilanteeseen, jossa olet miehittänyt laajalti "
 "vihollisen maa-alueita, mutta kaupungit ovat liian vahvoja. Ennen "
-"ydinaseiskua järjestä kaupungin lähelle useita Uudisraivaajaryhmiä, jotka "
-"puhdistavat laskeuman samalla pelivuorolla kuin se syntyy! Minimoit "
-"ydintalven syntymahdollisuuden ja käytät ydinaseitasi "
+"ydinaseiskua järjestä kaupungin lähelle useita ydinlaskeuman neutralointiin "
+"kykeneviä yksiköitä, jotka puhdistavat laskeuman samalla pelivuorolla kuin "
+"se syntyy! Minimoit ydintalven syntymahdollisuuden ja käytät ydinaseitasi "
 "ympäristöystävällisesti!"
 
 #: data/civ2civ3/units.ruleset:2184
-#, fuzzy
 msgid ""
 "Many covert actions may be attempted even in peacetime, but the more "
 "aggressive actions will be discovered and cause diplomatic incidents, giving "
@@ -23282,11 +23313,11 @@ msgid ""
 msgstr ""
 "Monia peiteoperaatioita on mahdollista koettaa rauhanaikana, mutta "
 "vihamielisimmät operaatiot voivat paljastua ja aiheuttaa diplomaattisen "
-"selkkauksen, minkä seurauksena myös Tasavallat ja Demokratiat voivat purkaa "
-"niitä sitovat sopimukset."
+"selkkauksen, minkä seurauksena myös federaatiot ja demokratiat voivat purkaa "
+"niitä sitovat sopimukset. Myös ydinasevallat vapautuvat Yhdistyneiden "
+"Kansakuntien asettamista rajoituksista."
 
 #: data/civ2civ3/units.ruleset:2190
-#, fuzzy
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -23297,9 +23328,9 @@ msgstr ""
 "Jos vihollisyksikkö on yksin ruudulla, voit yrittää lahjoa sen "
 "diplomaatillasi. Maksamalla tietyn määrän kultaa, yksikkö siirtyy "
 "välittömästi sinulle; tarvittava määrä riippuu yksikön ja sen omistavan "
-"kansakunnan tilasta. Demokraattisten kansakuntien yksiköitä ei voi "
-"kuitenkaan lahjoa. Lahjonta rauhan aikana aiheuttaa diplomaatisen "
-"selkkauksen."
+"kansakunnan tilasta. Demokraattisten kansakuntien tai tasavaltojen yksiköitä "
+"ei voi kuitenkaan lahjoa. Lahjonta muutoin kuin sodan osana aiheuttaa "
+"diplomaatisen selkkauksen."
 
 #: data/civ2civ3/units.ruleset:2206
 msgid ""
@@ -23315,7 +23346,6 @@ msgstr ""
 "teknologia itsekin."
 
 #: data/civ2civ3/units.ruleset:2229
-#, fuzzy
 msgid ""
 " - \"Incite a Revolt\": In return for gold a foreign city will change "
 "allegiance and join your empire, bringing along all nearby units that call "
@@ -23332,8 +23362,8 @@ msgstr ""
 "olevat yksiköt jäävät vihollisen hallintaan, kaupunkien ulkopuolella olevat "
 "yksiköt häviävät. Tarvittava summa riippuu kaupungin ja sitä hallitsevan "
 "kansakunnan tilasta. Pääkaupungissa ei voi lietsoa kapinaa eikä missään "
-"demokratialle kuuluvassa kaupungissa. Kapinan lietsontaa voi yrittää rauhan "
-"aikana, mutta se aiheuttaa diplomaattisen selkkauksen."
+"federaatiolle tai demokratialle kuuluvassa kaupungissa. Kapinan lietsontaa "
+"voi yrittää rauhan aikana, mutta se aiheuttaa diplomaattisen selkkauksen."
 
 #: data/civ2civ3/units.ruleset:2243
 msgid ""
@@ -23352,14 +23382,12 @@ msgstr ""
 "valmiiksi ylennettynä ensimmäiselle kokemustasolle (toimija)."
 
 #: data/civ2civ3/units.ruleset:2344
-#, fuzzy
 msgid ""
 "A Caravan carries goods or material for trading with foreign countries, or "
 "to help build wonders in your own cities."
 msgstr ""
-"Karavaani toimittaa tuotteita tai raaka-aineita kaukaisiin kaupunkeihin ja "
-"vieraille maille kaupiteltaviksi tai käytettäväksi ihmeen rakennusaineina "
-"omissa kaupungeissasi."
+"Karavaani toimittaa tuotteita tai raaka-aineita vieraille maille myytäväksi, "
+"tai käytettäväksi ihmeen rakennusaineina omissa kaupungeissasi."
 
 #: data/civ2civ3/units.ruleset:2347
 msgid ""
@@ -24137,7 +24165,6 @@ msgstr ""
 "mitään ja ovat taipuvaisia kansannousuun."
 
 #: data/helpdata.txt:197
-#, fuzzy
 msgid ""
 " 7. Interacting with other players (diplomacy).\n"
 "\n"
@@ -24170,7 +24197,6 @@ msgstr ""
 "eikä niitä voida perua perustamisen jälkeen."
 
 #: data/helpdata.txt:212
-#, fuzzy
 msgid ""
 "    If you are in contact with another player, then you can arrange a "
 "diplomatic meeting.  From the 'Nations' report, this is done by clicking on "
@@ -24180,9 +24206,9 @@ msgid ""
 msgstr ""
 "    Jos olet ollut toisen pelaajan kanssa yhteydessä, voit järjestää "
 "diplomaattisen tapaamisen. Tämä tapahtuu valitsemalla raportista "
-"\"Kansakunnat\" pelaajaa, jonka haluat tavata ja valitsemalla \"Tapaa\". Jos "
+"\"Kansakunnat\" pelaajan, jonka haluat tavata ja valitsemalla \"Tapaa\". Jos "
 "merkintä lähetystösarakkeessa ei ole tyhjä ja toinen pelaaja on yhdistetty "
-"palvelimeen (tai on palvelimen hallitsema AI-pelaaja), valtiosopimusdialogi "
+"palvelimeen (tai on palvelimen hallitsema AI-pelaaja), neuvotteluruutu "
 "avautuu."
 
 #: data/helpdata.txt:219
@@ -24386,14 +24412,13 @@ msgstr ""
 "kuin kaupungissa toteutetuista rakennushankkeista ja ihmeistäkin."
 
 #: data/helpdata.txt:319
-#, fuzzy
 msgid ""
 "It is possible for your units to change the terrain and hence its effects; "
 "see the section on Terrain Alterations for more details. City centers (the "
 "tile a city is on) may get some of these benefits for free; see the section "
 "on Cities for more detail."
 msgstr ""
-"Yksikkösi voivat muokata maastoa ja siten sen vaikutusta peliin: lisätietoja "
+"Yksiköt voivat muokata maastoa ja siten sen vaikutusta peliin: lisätietoja "
 "saa kappaleesta Maastotyypin muunnokset. Kaupungin keskusta (ruutu jolle "
 "kaupunki on rakennettu) saa joitain näistä eduista ilman muokkausta: "
 "lisätietoja kappaleesta Kaupungit."
@@ -24448,7 +24473,6 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:363
-#, fuzzy
 msgid ""
 "Terrain can sometimes be permanently converted into a type more suitable to "
 "the player's needs, although this usually takes longer than adding an "
@@ -24460,15 +24484,17 @@ msgstr ""
 "Kaivoksille tai kastelujärjestelmille sopimaton maasto voidaan usein "
 "pysyvästi muuntaa sopivammaksi pelaajan tarkoituksiin, vaikkakin se usein "
 "vie kauemmin aikaa. Maaston muuntaminen tyypistä toiseen voi kuitenkin "
-"tuhota olemassaolevan kaivoksen tai kastelujärjestelmän, jos ne eivät "
-"sovellu tuloksena olevaan maastotyyppiin. Maaston erityisluonnonvarat voivat "
-"myös kadota jos ne olivat ominaisia vain alkuperäiselle maastotyypille."
+"tuhota olemassaolevaa infrastruktuuria, mikäli se ei sovellu tuloksena "
+"olevaan maastotyyppiin. Maaston erityisluonnonvarat voivat myös kadota jos "
+"ne olivat ominaisia vain alkuperäiselle maastotyypille."
 
 #: data/helpdata.txt:370
 msgid ""
 "The requirements for terrain conversion are set by the ruleset. It can be "
 "initiated in several ways:"
 msgstr ""
+"Sääntökokoelma asettaa rajat ja ehdot maastonmuokkauksille. On muutama eri "
+"tapa käynnistää maastonmuokkaus:"
 
 #: data/helpdata.txt:373
 msgid ""
@@ -24645,7 +24671,6 @@ msgid " Food"
 msgstr " Ruoka"
 
 #: data/helpdata.txt:472
-#, fuzzy
 msgid ""
 "Your population needs food to survive. Each citizen requires two food points "
 "per turn; in addition, some units (such as Settlers in the classic ruleset) "
@@ -24653,11 +24678,10 @@ msgid ""
 msgstr ""
 "Väestösi tarvitsee ruokaa selvitäkseen. Kukin kaupungin asukas vaatii kaksi "
 "ruokapistettä vuoroa kohden, lisäksi jotkin yksiköt (kuten Uudisraivaajat "
-"oletussäännöissä) voivat kuluttaa ruokapisteitä niitä ylläpitävästä "
+"klassisissa säännöissä) voivat kuluttaa ruokapisteitä niitä ylläpitävästä "
 "kaupungista."
 
 #: data/helpdata.txt:477
-#, fuzzy
 msgid ""
 "Every city has a granary for storing food points (the building called a "
 "Granary in the classic ruleset only enhances this capability). Cities "
@@ -24668,12 +24692,12 @@ msgid ""
 "ends."
 msgstr ""
 "Kussakin kaupungissa on varasto ruokapisteiden tallettamista varten "
-"(oletussääntöjen rakennushanke nimeltään Viljasiilo tehostaa varastointia). "
-"Ruokaa kulutusta enemmän tuottavat kaupungit tallettavat ylijäämän "
-"varastoonsa, kulutusta vähemmän tuottavat kaupungit kuluttavat "
-"ruokavarastojaan. Jos ruuantarve ylittää varaston, kaupungin väestö näkee "
+"(klassisten sääntöjen rakennushanke nimeltään Viljasiilo tehostaa "
+"varastointia). Ruokaa kulutustaan enemmän tuottavat kaupungit tallettavat "
+"ylijäämän varastoonsa, kulutustaan vähemmän tuottavat kaupungit kuluttavat "
+"ruokavarastojaan. Jos ruoantarve ylittää varaston, kaupungin väestö näkee "
 "nälkää. Ensin nääntyvät ruokaa kuluttavat yksiköt, sitten kaupungin "
-"asukkaat, kunnes ruuan tuotanto ylittää kulutuksen."
+"asukkaat, kunnes ruoan tuotanto ylittää kulutuksen."
 
 #: data/helpdata.txt:485
 msgid ""
@@ -24735,7 +24759,6 @@ msgstr ""
 "voidaan käyttää seuraavaan hankkeeseen."
 
 #: data/helpdata.txt:517
-#, fuzzy
 msgid ""
 "In the classic ruleset, a city can build at most one product per turn, "
 "regardless of its production surplus. However, in some rulesets, factors "
@@ -24746,17 +24769,17 @@ msgid ""
 "number of slots. Units which cost city population to build are an exception "
 "to this rule; they can only be built singly, as can buildings."
 msgstr ""
-"Oletussääntöjen mukaan kaupunki voi saada valmiiksi korkeintaan yhden "
-"hankkeen vuoroa kohden riippumatta sen tuotannon ylijäämästä. Joidenkin "
-"sääntökokoelmien mukaan  riittävän iso ja teknologisesti edistynyt kaupunki "
-"voi tietyissä olosuhteissa tuottaa useamman yksikön. Useamman "
-"\"rakennusikkunan\" kaupunki voi tuottaa yhden yksikön kutakin ikkunaa "
-"kohden tuotantoylijäämän sen salliessa. Yksiköitä, joiden tuottaminen "
-"vähentää kaupungin asukaslukua, ei voi kuitenkaan tuottaa useita vuoroa "
-"kohden, niitä voi valmistua vain yksi kerrallaan kuten rakennuksiakin."
+"Klassisten sääntöjen mukaan kaupunki voi saada valmiiksi korkeintaan yhden "
+"hankkeen vuoroa kohden riippumatta sen tuotannon ylijäämästä. Joissakin "
+"sääntökokoelmissa tämä riippuu esimerkiksi kaupungin koosta ja "
+"teknologisesta kehittyneisyydestä, ja kaupunki voi tietyissä olosuhteissa "
+"tuottaa useamman yksikön. Useamman \"rakennusikkunan\" kaupunki voi tuottaa "
+"yhden yksikön kutakin ikkunaa kohden tuotantoylijäämän sen salliessa. "
+"Yksiköitä, joiden tuottaminen vähentää kaupungin asukaslukua, ei voi "
+"kuitenkaan tuottaa useita vuoroa kohden, niitä voi valmistua vain yksi "
+"kerrallaan kuten rakennuksiakin."
 
 #: data/helpdata.txt:527
-#, fuzzy
 msgid ""
 "A city can be given a list of several products to build in its \"worklist\", "
 "avoiding the need to pay attention to it every few turns. Each item on the "
@@ -24777,7 +24800,7 @@ msgstr ""
 "esittää yhtä tuotetta (kuten yksikköä), kaupunki tuottaa ne järjestyksessä. "
 "Kun kaupunki on päässyt listan loppuun, se tuottaa uudelleen viimeisen "
 "kohteen jos mahdollista, muutoin se valitsee itse uuden kohteen. Jos "
-"kaupunki tuottaa kultaa (oletussäännöissä kohde \"Kotiuta tulot\") – "
+"kaupunki tuottaa kultaa (klassisissa säännöissä kohde \"Kotiuta tulot\") – "
 "toimenpide joka ei koskaan lopu – lisättäessä uusi kohde työlistalle kullan "
 "tuotanto lopetetaan seuraavalla vuorolla ja uusi kohde otetaan työn alle. "
 "Jos säännöt sen sallivat, samalla vuorolla voidaan koota useampi "
@@ -24815,14 +24838,13 @@ msgstr ""
 "kaupunkiraportin tai kaupunki-ikkunan tuotantovälilehden nappia \"Osta\"."
 
 #: data/helpdata.txt:555
-#, fuzzy
 msgid ""
 "Some production points may be lost to waste, although there is no waste in "
 "the classic rules. Waste can result in your cities not building anything."
 msgstr ""
-"Voit menettää tuotantopisteitä tuotantohukkaan, tosin oletussäännöissä näin "
-"ei käy. Tuotantohukan seurauksena kaupunkisi voivat olla kykenemättömiä "
-"rakentamaan mitään."
+"Tuotantopisteitä saateetaa menettää tuotantohukkaan, tosin klassisilla "
+"säännöillä näin ei käy. Tuotantohukan seurauksena kaupunkisi voivat olla "
+"kykenemättömiä rakentamaan mitään."
 
 #: data/helpdata.txt:559
 msgid ""
@@ -24908,6 +24930,12 @@ msgid ""
 "between the two cities, controlled by the 'trademindist' server option "
 "(default nine tiles)."
 msgstr ""
+"Sääntökokoelma voi rajoittaa kaupunkien kykyä käydä kauppaa, tai muuttaa "
+"kaupunkäynnistä saatavaa tuottoa sen mukaan ovatko keskenään kauppaa käyvät "
+"kaupungit eri mantereilla tai onko niillä eri omistaja. Saman omistajan "
+"kaupungit eivät voi käydä keskenään kauppaa, mikäli niiden etäisyys "
+"toisistaan ei ole vähintään palvelimen asetuksen 'trademindist' mukainen "
+"(oletuksena yhdeksän ruutua)."
 
 #: data/helpdata.txt:603
 msgid ""
@@ -24917,6 +24945,11 @@ msgid ""
 "creates a trade route between the unit's home city (which might be different "
 "from the city that originally produced it) and the destination."
 msgstr ""
+"Kauppareitti avataan kun sopiva yksikkö (klassisissa säännöissä karavaani "
+"tai rekka) saapuu sopivaan kohdekaupunkiin. Perustaaksesi kauppareitin omaan "
+"tai liittolaisesi kaupunkiin, sinun täytyy antaa \"Perusta kauppareitti\" "
+"käsky. Tämä avaa kauppoareitin yksikön kotikaupungin (joka ei välttämättä "
+"ole sama kuin alunperin rakentanut kaupunki) ja kohdekaupungin välille."
 
 #: data/helpdata.txt:610
 #, fuzzy
@@ -24972,6 +25005,9 @@ msgid ""
 "temporarily lose the ability to establish as many trade routes as a city "
 "already has, existing ones are not affected."
 msgstr ""
+"Tämä rajoitus pätee vain perustettaessa uusia kauppareittejä. Menetettäessä "
+"(väliaikaisesti) kyky perustaa niin monia kauppareittejä kuin kaupungilla jo "
+"on, kaikki olemassa olevat kauppareitit säilyvät."
 
 #: data/helpdata.txt:634
 msgid ""
@@ -25096,7 +25132,7 @@ msgstr ""
 "Kaupunki-ikkunasta asukkaille voi jakaa eri tehtäviä. Eri ruutuja työstäviä "
 "asukkaita esittää työstettävän ruudun tuottoa edustavat kolme lukua. Lukuja "
 "sisältävän ruudun napsauttaminen poistaa asukkaan ruudulta ja tekee tästä "
-"erikoistujan (lisätietoa kohdasta Erikoistujat), mikä näkyy myös asukkaita "
+"erikoistujan (lisätietoa kohdasta Erikoisosaajat), mikä näkyy myös asukkaita "
 "kuvaavien kuvakkeiden rivillä. Voit napsauttaa toista ruutua antaaksesi sen "
 "työstämisen asukkaan tehtäväksi tai erikoistujan asukaskuvaketta "
 "vaihtaaksesi tämän erikoistumisalaa."
@@ -25161,7 +25197,7 @@ msgstr ""
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:732
 msgid " Specialists"
-msgstr " Erikoistujat"
+msgstr " Erikoisosaajat"
 
 #: data/helpdata.txt:733
 msgid ""
@@ -25185,7 +25221,7 @@ msgid ""
 "do not contribute to unhappiness or to celebration. See the section on "
 "Happiness for more details."
 msgstr ""
-"Erikoistujat nauttivat asemastaan riittävästi ollakseen pysyvästi "
+"Erikoisosaajat nauttivat asemastaan riittävästi ollakseen pysyvästi "
 "tyytyväisiä - he eivät vaikuta tyytymättömyyteen tai juhlimiseen. Katso "
 "lisätietoja kohdasta Onnellisuus."
 
@@ -26651,7 +26687,6 @@ msgstr ""
 "oman kansasi ponnistelulla."
 
 #: data/helpdata.txt:1480
-#, fuzzy
 msgid ""
 "Most technology progress comes from trade (see the Trade section) and, in "
 "the classic ruleset, from scientist specialists (see the Specialists "
@@ -26659,13 +26694,12 @@ msgid ""
 "researching, by default all progress is lost by doing so."
 msgstr ""
 "Isoin osa tieteen edistyksestä tulee kaupasta (lisätietoja kohdasta Kauppa) "
-"ja oletussääntöjen mukaan tutkijoiksi erikoistuneista asukkaista "
-"(lisätietoja kohdasta Erikoistujat). Vaikka työn alla olevaa "
+"ja klassisia sääntöjä käytettäessä tutkijoiksi erikoistuneista asukkaista "
+"(lisätietoja kohdasta Erikoisosaajat). Vaikka työn alla olevaa "
 "tutkimuskohdetta on mahdollista vaihtaa, edistys kohteen suhteen menetetään "
 "vaihdossa oletusarvoisesti."
 
 #: data/helpdata.txt:1485
-#, fuzzy
 msgid ""
 "While the majority of the resulting research output (\"bulbs\") usually goes "
 "toward advancing technology, in some rulesets (but not the classic rules), "
@@ -26678,13 +26712,14 @@ msgid ""
 "again."
 msgstr ""
 "Vaikka suurin osa tutkimustuloksista (\"lampuista\") tavallisesti menee "
-"teknologian kehittämiseen, joissain säännöissä (mutta ei oletussäännöissä) "
-"osa suunnataan olemassaolevien teknologioiden ylläpitoon, ylläpitoon "
-"tarvittavan tutkimuksen määrän kasvaessa tunnettujen teknologioiden määrän "
-"kasvaessa. Kehityksen vaihe jossa ylläpitoa aletaan tarvita riippuu myös "
-"muista tekijöistä kuten hallintomallistasi. Jos tutkimuksen määrä jää alle "
-"ylläpitoon tarvittavan, sivilisaatiosi voi unohtaa jonkun satunnaisen "
-"edistysaskeleen, jolloin se täytyy tutkia uudelleen."
+"teknologian kehittämiseen, joissain säännöissä (mutta ei klassisissa "
+"säännöissä) osa suunnataan olemassaolevien teknologioiden ylläpitoon, "
+"ylläpitoon tarvittavan tutkimuksen määrän kasvaessa tunnettujen "
+"teknologioiden määrän kasvaessa. Kehityksen vaihe jossa ylläpitoa aletaan "
+"tarvita riippuu myös muista tekijöistä kuten hallintomallistasi. Jos "
+"tutkimuksen määrä jää alle ylläpitoon tarvittavan, sivilisaatiosi voi "
+"unohtaa jonkun satunnaisen edistysaskeleen, jolloin se täytyy tutkia "
+"uudelleen."
 
 #: data/helpdata.txt:1495
 msgid ""
@@ -26728,7 +26763,6 @@ msgstr ""
 "on mahdollisuus voittaa peli tällä tavalla ilmeisesti kytketty pois päältä."
 
 #: data/helpdata.txt:1521
-#, fuzzy
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu. To see spaceships of other "
@@ -26736,7 +26770,7 @@ msgid ""
 msgstr ""
 "Aloitettuasi avaruusaluksen rakentamisen voit nähdä sen komennolla "
 "\"Avaruusalus\" valikossa Raportit. Nähdäksesi toisten pelaajien "
-"avaruusalukset, valitse pelaaja valikosta Peli/Pelaajat ja napsauta kohtaa "
+"avaruusalukset, valitse pelaaja Kansakunnat-raportista ja napsauta kohtaa "
 "\"Avaruusalus\"."
 
 #: data/helpdata.txt:1526
@@ -28132,6 +28166,8 @@ msgstr ""
 #: data/multiplayer/units.ruleset:477
 msgid "Workers can build airbases, which Settlers cannot."
 msgstr ""
+"Työläiset voivat rakentaa lentotukikohtia, mitä uudisasukkaat eivät voi "
+"tehdä."
 
 #: data/multiplayer/units.ruleset:1462
 msgid ""
@@ -30096,7 +30132,7 @@ msgstr "Kaivos"
 #: tools/civmanual.c:310
 #, no-c-format
 msgid "% of Road bonus"
-msgstr ""
+msgstr "% tien bonuksesta"
 
 #: tools/civmanual.c:310
 msgid "turns"
@@ -30402,6 +30438,8 @@ msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
+"%s%s\n"
+"revisiotunniste: %s"
 
 #: tools/mpgui_gtk2.c:474 tools/mpgui_gtk3.c:477 tools/mpgui_qt.cpp:217
 msgid "Installed"
@@ -30892,6 +30930,8 @@ msgstr "Kauppareitti kaupunkien %s ja %s välillä on peruttu."
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
+"Kauppareitti %s kaupungin %s ja kaupungin %s välillä menetetty kaupungin "
+"myötä."
 
 #: server/citytools.c:2471
 #, c-format
@@ -30990,7 +31030,7 @@ msgstr "%s kasvaa kokoon %d."
 #: server/cityturn.c:918
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
-msgstr ""
+msgstr "Äskettäisen ruttoepidemian takia %s ei kasva."
 
 #: server/cityturn.c:940
 #, c-format
@@ -34632,8 +34672,8 @@ msgstr ""
 "tallennettu peli on vanha, tai tiedosto voi olla viallinen. Jatka omalla "
 "vastuullasi."
 
-#: server/savegame2.c:3478 server/savegame.c:4233 server/srv_main.c:1966
-#: server/srv_main.c:1971
+#: server/savegame2.c:3478 server/savegame.c:4233 server/srv_main.c:1967
+#: server/srv_main.c:1972
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
@@ -34818,14 +34858,12 @@ msgid "Depending on size of continents"
 msgstr "Mantereen koosta riippuva"
 
 #: server/settings.c:278
-#, fuzzy
 msgid "As close as possible"
-msgstr "%s mahdollinen"
+msgstr "Mahdollisimman lähekkäin"
 
 #: server/settings.c:280
-#, fuzzy
 msgid "On the same continent"
-msgstr "Yksi pelaaja mannerta kohden"
+msgstr "Samalla mantereella"
 
 #: server/settings.c:282
 msgid "Horizontal placement"
@@ -35040,7 +35078,7 @@ msgstr ""
 
 #: server/settings.c:708
 msgid "Starting units string cannot be empty."
-msgstr ""
+msgstr "Aloitusyksiköiden lista ei voi olla tyhjä."
 
 #: server/settings.c:724
 #, c-format
@@ -35084,6 +35122,8 @@ msgstr ""
 #, c-format
 msgid "Unknown nation set \"%s\". See '%slist nationsets' for possible values."
 msgstr ""
+"Tuntematon kansavalikoima \"%s\". Listaa mahdolliset arvot käskyllä '%slist "
+"nationsets'."
 
 #: server/settings.c:815
 msgid "You are not allowed to set timeout values less than 30 seconds."
@@ -35134,6 +35174,8 @@ msgstr "Kartan koon (%d × %d = %d) pitää olla %d ruutua pienempi."
 #: server/settings.c:981
 msgid "No nations in the currently loaded ruleset have associated colors."
 msgstr ""
+"Käytössä olevassa sääntökokoelmassa yhdellekään kansalle ei ole määritetty "
+"tunnusväriä."
 
 #: server/settings.c:1038
 msgid "Map size definition"
@@ -35889,6 +35931,8 @@ msgstr ""
 #: server/settings.c:1571
 msgid "Research point debt threshold for losing tech"
 msgstr ""
+"Kuinka paljon tutkimuspisteet saavat olla alle nollan ennen kuin teknologia "
+"menetetään"
 
 #: server/settings.c:1572
 msgid ""
@@ -35898,10 +35942,15 @@ msgid ""
 "The special value -1 prevents loss of technology regardless of research "
 "points."
 msgstr ""
+"Kun tutkimuspisteitä on varastossa negatiivinen määrä, ja tämä vajaus on "
+"suurempi kuin annettu prosenttimäärä nykyisen tutkimuksen hinnasta, jo "
+"tunnettu teknologia menetetään.\n"
+"Arvo '-1' poistaa teknologioiden menettämisen kokonaan käytöstä."
 
 #: server/settings.c:1583
 msgid "Research points restored after losing a tech"
 msgstr ""
+"Paljonko tutkimuspisteitä palautetaan teknologian menettämisen yhteydessä"
 
 #: server/settings.c:1584
 msgid ""
@@ -35911,6 +35960,11 @@ msgid ""
 "The special value -1 means that your research balance is always restored to "
 "zero, regardless of your previous shortfall."
 msgstr ""
+"Kun teknologia menetetään tutkimuspistevajauksen takia (katso "
+"'techlossforgiveness'), tämä prosenttiosuus sen arvosta palautuu käyttöön "
+"(tämä ei ehkä riitä tekemään tutkimuspisteiden määrää positiiviseksi).\n"
+"Arvo '-1' aiheuttaa tutkimuspisteiden määrän palauttamisen aina arvoon 0, "
+"riippumatta siitä kuinka paljon vajausta oli."
 
 #: server/settings.c:1596
 msgid "Food required for a city to grow"
@@ -36066,7 +36120,7 @@ msgstr ""
 
 #: server/settings.c:1711
 msgid "Frequency of disasters"
-msgstr ""
+msgstr "Katastrofien esiintymistiheys"
 
 #: server/settings.c:1712
 msgid ""
@@ -36074,6 +36128,10 @@ msgid ""
 "the ruleset. The relative frequency of disaster types is set by the ruleset. "
 "Zero prevents any random disasters from occurring."
 msgstr ""
+"Tämä vaikuttaa siihen kuinka usein katastrofit iskevät kaupunkeihin, mikäli "
+"niitä on\n"
+"sääntökokoelmassa määritetty. Katastrofien suhteellinen esiintymistiheys on "
+"asetettu sääntökokoelmassa. Arvo '0' poistaa katastrofit kokonaan käytöstä."
 
 #: server/settings.c:1722
 msgid "Chance for conquered building destruction"
@@ -36120,7 +36178,7 @@ msgstr ""
 
 #: server/settings.c:1748
 msgid "Do all units in tile die with defender"
-msgstr ""
+msgstr "Kuolevatko kaikki ruudun yksiköt puolustajan mukana"
 
 #: server/settings.c:1749
 msgid ""
@@ -36130,7 +36188,7 @@ msgid ""
 "destroyed."
 msgstr ""
 "Jos tämä on asetettu, puolustajan hävitessä kaupunkien ja sille soveltuvien "
-"tukikohtien ulkopuolella kaikki muut yksiköt samassa ruudussa tuhoutuvat "
+"tukikohtien ulkopuolella, kaikki muut yksiköt samassa ruudussa tuhoutuvat "
 "kerralla. Jos tätä ei ole asetettu, vain puolustustaistelun käynyt yksikkö "
 "tuhoutuu."
 
@@ -37445,17 +37503,17 @@ msgstr ""
 msgid "Starting game."
 msgstr "Aloitan pelin."
 
-#: server/srv_main.c:1461
+#: server/srv_main.c:1462
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "tuntemattoman raporttityypin pyyntö (tyyppi %d)"
 
-#: server/srv_main.c:1550
+#: server/srv_main.c:1551
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Varoitus: hylättiin vanha asiakasohjelma %s"
 
-#: server/srv_main.c:1560
+#: server/srv_main.c:1561
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -37463,37 +37521,37 @@ msgstr ""
 "Asiakasohjelmasi on liian vanha. Ole hyvä ja päivitä ohjelmasi vähintään "
 "Freeciv-versioon 2.2."
 
-#: server/srv_main.c:1618
+#: server/srv_main.c:1619
 msgid "You are not allowed to edit."
 msgstr "Sinulla ei ole tarvittavia oikeuksia muokkaamiseen."
 
-#: server/srv_main.c:1820
+#: server/srv_main.c:1821
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Kansakunta (%s) ei ole käyttäjän valittavissa."
 
-#: server/srv_main.c:1826
+#: server/srv_main.c:1827
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Kansakunta (%s) on jo käytössä."
 
 # Johndoe on suomalaisten hallitsija Tarja Halonen.
-#: server/srv_main.c:1842
+#: server/srv_main.c:1843
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s on %s hallitsija %s."
 
-#: server/srv_main.c:1896
+#: server/srv_main.c:1897
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Odotetaan pelin alkamista: %d / %d pelaajaa valmiina aloittamaan."
 
-#: server/srv_main.c:2237 server/srv_main.c:2241
+#: server/srv_main.c:2238 server/srv_main.c:2242
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s sai johtaakseen %s."
 
-#: server/srv_main.c:2407
+#: server/srv_main.c:2408
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -37501,34 +37559,34 @@ msgstr ""
 "Tämä civ-palvelinohjelma tukee käyttäjien kirjautumista (autentikaatiota), "
 "mutta se ei ole tällä hetkellä käytössä."
 
-#: server/srv_main.c:2476
+#: server/srv_main.c:2477
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Lähetän tietoa metapalvelimelle <%s>"
 
-#: server/srv_main.c:2480
+#: server/srv_main.c:2481
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "En käynnisty ilman erikseen pyydettyä metapalvelinyhteyttä."
 
-#: server/srv_main.c:2501
+#: server/srv_main.c:2502
 msgid "The game is over..."
 msgstr "Peli päättyy..."
 
-#: server/srv_main.c:2608
+#: server/srv_main.c:2609
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 "Epäonnistuin luomaan sopivaa karttaa, yritän uudelleen uudella siemenluvulla."
 
-#: server/srv_main.c:2641
+#: server/srv_main.c:2642
 msgid "Cannot create suitable map with given settings."
 msgstr "En onnistunut luomaan sopivaa karttaa annetuilla asetuksilla."
 
-#: server/srv_main.c:2664 server/srv_main.c:2668
+#: server/srv_main.c:2665 server/srv_main.c:2669
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Asetus '%s' on muutettu arvosta %s arvoon %s."
 
-#: server/srv_main.c:2862
+#: server/srv_main.c:2863
 msgid "Now accepting new client connections."
 msgstr "Vastaanotan nyt uusia asiakasohjelmien yhteydenottoja."
 
@@ -39228,8 +39286,8 @@ msgstr "Asetukselle 'nationset' mahdollisten kansavalikoimien lista:"
 #, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " %-10s  %s (%d pelattava)"
+msgstr[1] " %-10s  %s (%d pelattavaa)"
 
 #: server/stdinhand.c:6367
 msgid "List of teams:"
@@ -39536,10 +39594,14 @@ msgstr "Tämäntyyppinen yksikkö ei voi valloittaa kaupunkia."
 #, c-format
 msgid "Only %s can conquer from a non-native tile."
 msgstr ""
+"Vain %s voi hyökätä sellaisesta maastosta käsin, jossa se ei voi itse "
+"liikkua."
 
 #: server/unithand.c:1306
 msgid "Cannot conquer from a non-native tile."
 msgstr ""
+"Ei voi vallata kaupunkia sellaisesta maastosta käsin, jossa se ei voi itse "
+"liikkua."
 
 #: server/unithand.c:1313 server/unittools.c:2765 server/unittools.c:2773
 #: server/unittools.c:2803
