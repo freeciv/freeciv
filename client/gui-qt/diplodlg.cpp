@@ -352,19 +352,19 @@ void diplo_wdg::show_menu(int player)
     some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
     connect(some_action, SIGNAL(triggered()), this, SLOT(pact_ceasfire()));
     pacts_menu->addAction(some_action);
-    if (ds == DS_CEASEFIRE) {
+    if (ds == DS_CEASEFIRE || ds == DS_TEAM) {
       some_action->setDisabled(true);
     }
     some_action = new QAction(Q_("?diplomatic_state:Peace"), this);
     connect(some_action, SIGNAL(triggered()), this, SLOT(pact_peace()));
     pacts_menu->addAction(some_action);
-    if (ds == DS_PEACE) {
+    if (ds == DS_PEACE || ds == DS_TEAM) {
       some_action->setDisabled(true);
     }
     some_action = new QAction(Q_("?diplomatic_state:Alliance"), this);
     connect(some_action, SIGNAL(triggered()), this, SLOT(pact_allianze()));
     pacts_menu->addAction(some_action);
-    if (ds == DS_ALLIANCE) {
+    if (ds == DS_ALLIANCE || ds == DS_TEAM) {
       some_action->setDisabled(true);
     }
   }
