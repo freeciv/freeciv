@@ -492,9 +492,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     height = pBuf->size.h;
     add_to_gui_list(ID_LABEL, pBuf);
     count++;
-    
-    /*if(type == DS_WAR || type == DS_NEUTRAL) {*/
-    if(type != DS_CEASEFIRE) {
+
+    if (type != DS_CEASEFIRE && type != DS_TEAM) {
       fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Cease-fire"));
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -507,10 +506,10 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       add_to_gui_list(MAX_ID - 2, pBuf);
       count++;
     }
-    
-    if(type != DS_PEACE) {
+
+    if (type != DS_PEACE && type != DS_TEAM) {
       fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Peace"));
-  
+
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
@@ -522,8 +521,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       add_to_gui_list(MAX_ID - 1, pBuf);
       count++;
     }
-    
-    if(pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE)) {
+
+    if (pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE)) {
       fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Alliance"));
       
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
