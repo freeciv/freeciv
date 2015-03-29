@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-08 14:34+0200\n"
-"PO-Revision-Date: 2015-03-25 08:38+0200\n"
+"POT-Creation-Date: 2015-03-29 11:07+0300\n"
+"PO-Revision-Date: 2015-03-29 11:11+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -41,8 +41,6 @@ msgid "Close"
 msgstr "Sulje"
 
 # Todo: requested TRANS comment to clarify what this (needed by %s) is
-#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
-#. * unit type, ...
 #: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
@@ -90,7 +88,7 @@ msgstr "Sekalaiset"
 msgid "Tech"
 msgstr "Teknologiat"
 
-#: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Buildings"
 msgstr "Rakennukset"
 
@@ -98,7 +96,7 @@ msgstr "Rakennukset"
 msgid "Units"
 msgstr "Yksiköt"
 
-#: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Nations"
 msgstr "Kansat"
 
@@ -153,55 +151,63 @@ msgid "Save now"
 msgstr "Tallenna nyt"
 
 #: tools/ruledit/tab_misc.cpp:86
-msgid "Terrains"
+msgid "?stat:Terrains"
 msgstr "Maastotyyppejä"
 
 #: tools/ruledit/tab_misc.cpp:90
-msgid "Resources"
+msgid "?stat:Resources"
 msgstr "Resursseja"
 
 #: tools/ruledit/tab_misc.cpp:94
-msgid "Techs"
+msgid "?stat:Techs"
 msgstr "Teknologioita"
 
 #: tools/ruledit/tab_misc.cpp:98
-msgid "Unit Classes"
+msgid "?stat:Unit Classes"
 msgstr "Yksikköluokkia"
 
 #: tools/ruledit/tab_misc.cpp:102
-msgid "Unit Types"
+msgid "?stat:Unit Types"
 msgstr "Yksikkötyyppejä"
 
+#: tools/ruledit/tab_misc.cpp:106
+msgid "?stat:Buildings"
+msgstr "Rakennuksia"
+
+#: tools/ruledit/tab_misc.cpp:110
+msgid "?stat:Nations"
+msgstr "Kansoja"
+
 #: tools/ruledit/tab_misc.cpp:114
-msgid "Styles"
+msgid "?stat:Styles"
 msgstr "Tyylejä"
 
 #: tools/ruledit/tab_misc.cpp:118
-msgid "Specialists"
+msgid "?stat:Specialists"
 msgstr "Spesialisteja"
 
 #: tools/ruledit/tab_misc.cpp:122
-msgid "Governments"
+msgid "?stat:Governments"
 msgstr "Hallitusmuotoja"
 
 #: tools/ruledit/tab_misc.cpp:126
-msgid "Disasters"
+msgid "?stat:Disasters"
 msgstr "Katastrofeja"
 
 #: tools/ruledit/tab_misc.cpp:130
-msgid "Achievements"
+msgid "?stat:Achievements"
 msgstr "Saavutuksia"
 
 #: tools/ruledit/tab_misc.cpp:134
-msgid "Extras"
-msgstr "Extroja"
+msgid "?stat:Extras"
+msgstr "Ekstroja"
 
 #: tools/ruledit/tab_misc.cpp:138
-msgid "Bases"
+msgid "?stat:Bases"
 msgstr "Tukikohtia"
 
 #: tools/ruledit/tab_misc.cpp:142
-msgid "Roads"
+msgid "?stat:Roads"
 msgstr "Kulkuväyliä"
 
 #: tools/ruledit/tab_misc.cpp:150
