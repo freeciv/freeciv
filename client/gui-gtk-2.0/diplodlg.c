@@ -425,19 +425,19 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_ceasefire_callback), pdialog);
-    gtk_widget_set_sensitive(item, ds != DS_CEASEFIRE);
+    gtk_widget_set_sensitive(item, ds != DS_CEASEFIRE && ds != DS_TEAM);
 
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Peace"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_peace_callback), pdialog);
-    gtk_widget_set_sensitive(item, ds != DS_PEACE);
+    gtk_widget_set_sensitive(item, ds != DS_PEACE && ds != DS_TEAM);
 
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Alliance"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
-    gtk_widget_set_sensitive(item, ds != DS_ALLIANCE);
+    gtk_widget_set_sensitive(item, ds != DS_ALLIANCE && ds != DS_TEAM);
 
     item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);

@@ -131,8 +131,9 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
 {
   enum diplstate_type existing = player_diplstate_get(p1, p2)->type;
 
-  if (p1 == p2) {
-    return DIPL_ERROR; /* duh! */
+  if (players_on_same_team(p1, p2)) {
+    /* This includes the case p1 == p2 */
+    return DIPL_ERROR;
   }
   if (get_player_bonus(p1, EFT_NO_DIPLOMACY) > 0
       || get_player_bonus(p2, EFT_NO_DIPLOMACY) > 0) {
