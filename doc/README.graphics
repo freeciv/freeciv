@@ -124,6 +124,10 @@ options include:
   city_flag_offset_y     is placed correctly behind the unit/city.
   unit_offset_x        : Gives an offset from the tile origin at which to
   unit_offset_y          draw units.
+  activity_offset_x    : Gives an offset from the tile origin at which to
+                         draw normal unit activity icons. "Auto" icons are not
+                         affected by this as they are usually wanted in different
+                         offset than real activity icons for both to appear simultaneously
   citybar_offset_y     : Gives an offset from city tile origin at which to
                          draw city bar text.
   hex_side             : When is_hex is specified (see is_hex, below), this
