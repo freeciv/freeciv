@@ -39,6 +39,9 @@ city_flag_offset_y = 0
 unit_offset_x = 0
 unit_offset_y = 0
 
+; offset of the normal activity icons
+activity_offset_x = 0
+
 ; offset the cities by this amount
 city_offset_x = 0
 city_offset_y = 0
