@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2012-08-24 23:47+0800\n"
+"PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
 "Language: zh_TW\n"
@@ -18,32 +18,31 @@ msgstr ""
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
 #: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "%s需要"
 
 #: tools/ruledit/ruledit.cpp:114
 msgid "Print a summary of the options"
-msgstr ""
+msgstr "顯示選項的摘要"
 
 #: tools/ruledit/ruledit.cpp:116
 msgid "Print the version number"
-msgstr ""
+msgstr "顯示版本號碼"
 
 #: tools/ruledit/ruledit.cpp:130
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr ""
+msgstr "未確認的選項：「%s」\n"
 
 #: tools/ruledit/ruledit_qt.cpp:60
-#, fuzzy
 msgid "Freeciv Ruleset Editor"
-msgstr "Freeciv 版本 %s"
+msgstr "Freeciv 劇本編輯器"
 
 #: tools/ruledit/ruledit_qt.cpp:127
 #, c-format
@@ -51,49 +50,48 @@ msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
+"%s%s\n"
+"提交：%s"
 
 #: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "設為劇本的起點。"
 
 #: tools/ruledit/ruledit_qt.cpp:148
-#, fuzzy
 msgid "Start editing"
-msgstr "起始點"
+msgstr "開始編輯"
 
 #: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
-msgstr ""
+msgstr "雜項"
 
 #: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
-msgstr ""
+msgstr "科技"
 
 #: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
 msgid "Buildings"
-msgstr ""
+msgstr "建築"
 
 #: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
-msgstr ""
+msgstr "單位"
 
 #: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
 msgid "Nations"
-msgstr ""
+msgstr "國族"
 
 #: tools/ruledit/ruledit_qt.cpp:175
-#, fuzzy
 msgid "Welcome to freeciv-ruledit"
-msgstr "歡迎來到 Freeciv"
+msgstr "歡迎來到 Freeciv 劇本編輯器"
 
 #: tools/ruledit/ruledit_qt.cpp:195
-#, fuzzy
 msgid "Ruleset loaded"
-msgstr "重設"
+msgstr "已載入劇本"
 
 #: tools/ruledit/ruledit_qt.cpp:211
 msgid "Ruleset loading failed!"
-msgstr ""
+msgstr "載入劇本失敗！"
 
 #: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
 #: tools/ruledit/tab_unit.cpp:62
@@ -102,161 +100,153 @@ msgstr "名稱"
 
 #: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
 #: tools/ruledit/tab_unit.cpp:70
-#, fuzzy
 msgid "Rule Name"
-msgstr "重設"
+msgstr "規則名稱"
 
 #: tools/ruledit/tab_building.cpp:78
 msgid "Add Building"
-msgstr ""
+msgstr "加入建築"
 
 #: tools/ruledit/tab_building.cpp:83
-#, fuzzy
 msgid "Remove this Building"
-msgstr "重設這個選項"
+msgstr "移除這個建築"
 
 #: tools/ruledit/tab_building.cpp:148
 msgid "Building with that rule name already exist!"
-msgstr ""
+msgstr "已存在以此命名的建築！"
 
 #: tools/ruledit/tab_misc.cpp:62
-#, fuzzy
 msgid "Ruleset name"
-msgstr "重設"
+msgstr "劇本名稱"
 
 #: tools/ruledit/tab_misc.cpp:67
-#, fuzzy
 msgid "Ruleset version"
-msgstr "規則版本(_V)："
+msgstr "劇本版本"
 
 #: tools/ruledit/tab_misc.cpp:72
 msgid "Save to directory"
-msgstr ""
+msgstr "儲存至目錄"
 
 #: tools/ruledit/tab_misc.cpp:79
-#, fuzzy
 msgid "Save now"
-msgstr "儲存劇情"
+msgstr "立即儲存"
 
 #: tools/ruledit/tab_misc.cpp:86
 msgid "Terrains"
-msgstr ""
+msgstr "地形"
 
 #: tools/ruledit/tab_misc.cpp:90
 msgid "Resources"
-msgstr ""
+msgstr "資源"
 
 #: tools/ruledit/tab_misc.cpp:94
 msgid "Techs"
-msgstr ""
+msgstr "科技"
 
 #: tools/ruledit/tab_misc.cpp:98
 msgid "Unit Classes"
-msgstr ""
+msgstr "單位類別"
 
 #: tools/ruledit/tab_misc.cpp:102
 msgid "Unit Types"
-msgstr ""
+msgstr "單位類型"
 
 #: tools/ruledit/tab_misc.cpp:114
 msgid "Styles"
-msgstr ""
+msgstr "樣式"
 
 #: tools/ruledit/tab_misc.cpp:118
 msgid "Specialists"
-msgstr ""
+msgstr "專家"
 
 #: tools/ruledit/tab_misc.cpp:122
 msgid "Governments"
-msgstr ""
+msgstr "政府"
 
 #: tools/ruledit/tab_misc.cpp:126
 msgid "Disasters"
-msgstr ""
+msgstr "天災"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Achievements"
-msgstr ""
+msgstr "成就"
 
 #: tools/ruledit/tab_misc.cpp:134
 msgid "Extras"
-msgstr ""
+msgstr "額外"
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "Bases"
-msgstr ""
+msgstr "基礎"
 
 #: tools/ruledit/tab_misc.cpp:142
 msgid "Roads"
-msgstr ""
+msgstr "道路"
 
 #: tools/ruledit/tab_misc.cpp:150
 msgid "Refresh Stats"
-msgstr ""
+msgstr "更新狀態"
 
 #: tools/ruledit/tab_misc.cpp:206
-#, fuzzy
 msgid "Ruleset saved"
-msgstr "重設"
+msgstr "已儲存劇本"
 
 #: tools/ruledit/tab_nation.cpp:49
 msgid "Use nationlist"
-msgstr ""
+msgstr "使用國族列表"
 
 #: tools/ruledit/tab_nation.cpp:53
 msgid "Nationlist"
-msgstr ""
+msgstr "國族列表"
 
 #: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
-msgstr ""
+msgstr "需求一"
 
 #: tools/ruledit/tab_tech.cpp:87
 msgid "Req2"
-msgstr ""
+msgstr "需求二"
 
 #: tools/ruledit/tab_tech.cpp:95
 msgid "Root Req"
-msgstr ""
+msgstr "基本需求"
 
 #: tools/ruledit/tab_tech.cpp:104
 msgid "Add tech"
-msgstr ""
+msgstr "加入科技"
 
 #: tools/ruledit/tab_tech.cpp:109
-#, fuzzy
 msgid "Remove this tech"
-msgstr "重設這個選項"
+msgstr "移除這項科技"
 
 #: tools/ruledit/tab_tech.cpp:189
 msgid "Never"
-msgstr ""
+msgstr "從未"
 
 #: tools/ruledit/tab_tech.cpp:311
 msgid "Tech with that rule name already exist!"
-msgstr ""
+msgstr "已存在以此命名的科技！"
 
 #: tools/ruledit/tab_unit.cpp:78
 msgid "Add Unit"
-msgstr ""
+msgstr "加入單位"
 
 #: tools/ruledit/tab_unit.cpp:83
-#, fuzzy
 msgid "Remove this Unit"
-msgstr "重設這個選項"
+msgstr "移除這個單位"
 
 #: tools/ruledit/tab_unit.cpp:148
 msgid "Unit type with that rule name already exist!"
-msgstr ""
+msgstr "已存在以此命名的單位類型！"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "有效"
 
 #: tools/ruledit/validity.c:125
 msgid "Action Enabler"
-msgstr ""
+msgstr "行為啟用者"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
-msgstr ""
+msgstr "音樂風格"
