@@ -111,7 +111,7 @@ bv_extras get_tile_infrastructure_set(const struct tile *ptile,
       extra_type_iterate(pdependant) {
         if (tile_has_extra(ptile, pdependant)) {
           if (!are_reqs_active(NULL, NULL, NULL, NULL, missingset,
-                               NULL, NULL, NULL, NULL,
+                               NULL, NULL, NULL, NULL, NULL,
                                &pdependant->reqs, RPT_POSSIBLE)) {
             dependency = TRUE;
             break;

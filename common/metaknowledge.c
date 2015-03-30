@@ -555,7 +555,7 @@ mke_eval_req(const struct player *pow_player,
 
   if (is_req_active(target_player, other_player, target_city,
                     target_building, target_tile, target_unit, target_unittype,
-                    target_output, target_specialist, req, RPT_CERTAIN)) {
+                    target_output, target_specialist, NULL, req, RPT_CERTAIN)) {
     return TRI_YES;
   } else {
     return TRI_NO;

@@ -466,7 +466,7 @@ void dai_gov_value(struct ai_type *ait, struct player *pplayer,
           continue;
         }
         if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
-                           NULL, NULL, preq, RPT_POSSIBLE)) {
+                           NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
           active = FALSE;
           break; /* presence doesn't matter for inactive effects. */
         }

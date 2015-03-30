@@ -160,6 +160,7 @@ struct terrain;
 struct tile;
 struct unit;
 struct achievement;
+struct action;
 
 
 /* Changing these will break network compatibility. */

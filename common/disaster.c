@@ -123,6 +123,6 @@ bool can_disaster_happen(const struct disaster_type *pdis,
                          const struct city *pcity)
 {
   return are_reqs_active(city_owner(pcity), NULL, pcity, NULL,
-                         city_tile(pcity), NULL, NULL, NULL, NULL,
+                         city_tile(pcity), NULL, NULL, NULL, NULL, NULL,
                          &pdis->reqs, RPT_POSSIBLE);
 }

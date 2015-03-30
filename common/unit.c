@@ -2269,6 +2269,7 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
                                       game_city_by_number(punit->homecity),
                                       NULL, unit_tile(punit),
                                       punit, unit_type(punit), NULL, NULL,
+                                      NULL,
                                       EFT_UNIT_BRIBE_COST_PCT))
        / 100;
 

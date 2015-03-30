@@ -2430,15 +2430,16 @@ is_achievement_in_range(const struct player *target_player,
   player as well as the city itself as the target city.
 ****************************************************************************/
 bool is_req_active(const struct player *target_player,
-		   const struct player *other_player,
-		   const struct city *target_city,
-		   const struct impr_type *target_building,
-		   const struct tile *target_tile,
+                   const struct player *other_player,
+                   const struct city *target_city,
+                   const struct impr_type *target_building,
+                   const struct tile *target_tile,
                    const struct unit *target_unit,
                    const struct unit_type *target_unittype,
-		   const struct output_type *target_output,
-		   const struct specialist *target_specialist,
-		   const struct requirement *req,
+                   const struct output_type *target_output,
+                   const struct specialist *target_specialist,
+                   const struct action *target_action,
+                   const struct requirement *req,
                    const enum   req_problem_type prob_type)
 {
   enum fc_tristate eval = TRI_NO;
@@ -2740,22 +2741,23 @@ bool is_req_active(const struct player *target_player,
   player as well as the city itself as the target city.
 ****************************************************************************/
 bool are_reqs_active(const struct player *target_player,
-		     const struct player *other_player,
-		     const struct city *target_city,
-		     const struct impr_type *target_building,
-		     const struct tile *target_tile,
+                     const struct player *other_player,
+                     const struct city *target_city,
+                     const struct impr_type *target_building,
+                     const struct tile *target_tile,
                      const struct unit *target_unit,
-		     const struct unit_type *target_unittype,
-		     const struct output_type *target_output,
-		     const struct specialist *target_specialist,
-		     const struct requirement_vector *reqs,
+                     const struct unit_type *target_unittype,
+                     const struct output_type *target_output,
+                     const struct specialist *target_specialist,
+                     const struct action *target_action,
+                     const struct requirement_vector *reqs,
                      const enum   req_problem_type prob_type)
 {
   requirement_vector_iterate(reqs, preq) {
     if (!is_req_active(target_player, other_player, target_city,
                        target_building, target_tile,
                        target_unit, target_unittype,
-                       target_output, target_specialist,
+                       target_output, target_specialist, target_action,
 		       preq, prob_type)) {
       return FALSE;
     }

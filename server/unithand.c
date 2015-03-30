@@ -776,6 +776,7 @@ static void illegal_action(struct player *pplayer,
                                  unit_type(actor),
                                  NULL,
                                  NULL,
+                                 action_by_number(stopped_action),
                                  EFT_ILLEGAL_ACTION_MOVE_COST));
   send_unit_info(NULL, actor);
 

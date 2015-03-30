@@ -381,6 +381,7 @@ int get_target_bonus_effects(struct effect_list *plist,
                              const struct unit_type *target_unittype,
                              const struct output_type *target_output,
                              const struct specialist *target_specialist,
+                             const struct action *target_action,
                              enum effect_type effect_type);
 
 bool building_has_effect(const struct impr_type *pimprove,

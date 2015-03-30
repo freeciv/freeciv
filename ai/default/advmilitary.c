@@ -956,7 +956,7 @@ static void process_attacker_want(struct ai_type *ait,
                                                    pplayer, NULL, pcity,
                                                    NULL, city_tile(pcity),
                                                    NULL, punittype, NULL,
-                                                   NULL,
+                                                   NULL, NULL,
                                                    EFT_VETERAN_BUILD);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big

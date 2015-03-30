@@ -441,7 +441,7 @@ static bool is_effect_prevented(const struct player *target_player,
         && !is_req_active(target_player, other_player, target_city,
                           target_building, target_tile,
                           target_unit, target_unittype,
-                          target_output, target_specialist,
+                          target_output, target_specialist, NULL,
                           preq, REVERSED_RPT(prob_type))) {
       return TRUE;
     }
@@ -509,6 +509,7 @@ int get_target_bonus_effects(struct effect_list *plist,
                              const struct unit_type *target_unittype,
                              const struct output_type *target_output,
                              const struct specialist *target_specialist,
+                             const struct action *target_action,
                              enum effect_type effect_type)
 {
   int bonus = 0;
@@ -519,7 +520,7 @@ int get_target_bonus_effects(struct effect_list *plist,
     if (are_reqs_active(target_player, other_player, target_city,
                         target_building, target_tile,
                         target_unit, target_unittype,
-                        target_output, target_specialist,
+                        target_output, target_specialist, target_action,
 			&peffect->reqs, RPT_CERTAIN)) {
       /* This code will add value of effect. If there's multiplier for 
        * effect and target_player aren't null, then value is multiplied
@@ -552,7 +553,7 @@ int get_world_bonus(enum effect_type effect_type)
 
   return get_target_bonus_effects(NULL,
                                   NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                                  NULL, NULL,
+                                  NULL, NULL, NULL,
 				  effect_type);
 }
 
@@ -568,7 +569,7 @@ int get_player_bonus(const struct player *pplayer,
 
   return get_target_bonus_effects(NULL,
                                   pplayer, NULL, NULL, NULL,
-                                  NULL, NULL, NULL, NULL,
+                                  NULL, NULL, NULL, NULL, NULL,
                                   NULL, effect_type);
 }
 
@@ -583,7 +584,7 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 
   return get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
-                                  city_tile(pcity), NULL, NULL, NULL,
+                                  city_tile(pcity), NULL, NULL, NULL, NULL,
                                   NULL, effect_type);
 }
 
@@ -601,6 +602,7 @@ int get_city_specialist_output_bonus(const struct city *pcity,
   return get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
                                   NULL, NULL, NULL, poutput, pspecialist,
+                                  NULL,
 				  effect_type);
 }
 
@@ -621,7 +623,7 @@ int get_city_tile_output_bonus(const struct city *pcity,
   fc_assert_ret_val(pcity != NULL, 0);
   return get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
-                                  ptile, NULL, NULL, poutput, NULL,
+                                  ptile, NULL, NULL, poutput, NULL, NULL,
 				  effect_type);
 }
 
@@ -640,7 +642,8 @@ int get_player_output_bonus(const struct player *pplayer,
   fc_assert_ret_val(poutput != NULL, 0);
   fc_assert_ret_val(effect_type != EFT_COUNT, 0);
   return get_target_bonus_effects(NULL, pplayer, NULL, NULL, NULL, NULL,
-                                  NULL, NULL, poutput, NULL, effect_type);
+                                  NULL, NULL, poutput, NULL, NULL,
+                                  effect_type);
 }
 
 /**************************************************************************
@@ -659,6 +662,7 @@ int get_city_output_bonus(const struct city *pcity,
   fc_assert_ret_val(effect_type != EFT_COUNT, 0);
   return get_target_bonus_effects(NULL, city_owner(pcity), NULL, pcity,
                                   NULL, NULL, NULL, NULL, poutput, NULL,
+                                  NULL,
                                   effect_type);
 }
 
@@ -678,7 +682,7 @@ int get_building_bonus(const struct city *pcity,
                                   city_owner(pcity), NULL, pcity,
 				  building,
 				  NULL, NULL, NULL, NULL,
-                                  NULL, effect_type);
+                                  NULL, NULL, effect_type);
 }
 
 /**************************************************************************
@@ -711,7 +715,7 @@ int get_unittype_bonus(const struct player *pplayer,
   return get_target_bonus_effects(NULL,
                                   pplayer, NULL, pcity, NULL, ptile,
                                   NULL, punittype, NULL,
-                                  NULL, effect_type);
+                                  NULL, NULL, effect_type);
 }
 
 /**************************************************************************
@@ -731,6 +735,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
                                     ? tile_city(unit_tile(punit)) : NULL,
                                   NULL, unit_tile(punit),
                                   punit, unit_type(punit), NULL, NULL,
+                                  NULL,
                                   effect_type);
 }
 
@@ -762,7 +767,7 @@ int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
                                   ptile,
                                   punit,
                                   utype,
-                                  NULL, NULL,
+                                  NULL, NULL, NULL,
                                   etype);
 }
 
@@ -783,7 +788,7 @@ int get_player_bonus_effects(struct effect_list *plist,
   fc_assert_ret_val(pplayer != NULL, 0);
   return get_target_bonus_effects(plist,
                                   pplayer, NULL, NULL, NULL,
-                                  NULL, NULL, NULL, NULL, NULL,
+                                  NULL, NULL, NULL, NULL, NULL, NULL,
 				  effect_type);
 }
 
@@ -805,7 +810,7 @@ int get_city_bonus_effects(struct effect_list *plist,
   fc_assert_ret_val(pcity != NULL, 0);
   return get_target_bonus_effects(plist,
                                   city_owner(pcity), NULL, pcity, NULL,
-                                  NULL, NULL, NULL, poutput, NULL,
+                                  NULL, NULL, NULL, poutput, NULL, NULL,
 				  effect_type);
 }
 
@@ -868,7 +873,7 @@ int get_potential_improvement_bonus(struct impr_type *pimprove,
         }
 
         if (!is_req_active(city_owner(pcity), NULL, pcity, pimprove,
-                           NULL, NULL, NULL, NULL, NULL,
+                           NULL, NULL, NULL, NULL, NULL, NULL,
                            preq, prob_type)) {
           useful = FALSE;
           break;

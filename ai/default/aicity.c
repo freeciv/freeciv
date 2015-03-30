@@ -1114,6 +1114,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   requirement_vector_iterate(&pimprove->reqs, preq) {
     const bool active = is_req_active(pplayer, NULL, pcity, pimprove,
                                       pcity->tile, NULL, NULL, NULL, NULL,
+                                      NULL,
                                       preq, RPT_POSSIBLE);
 
     if (VUT_ADVANCE == preq->source.kind && preq->present && !active) {
@@ -1432,7 +1433,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
         continue;
       }
       if (!is_req_active(pplayer, NULL, pcity, pimprove, NULL, NULL, NULL,
-                         NULL, NULL, preq, RPT_POSSIBLE)) {
+                         NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
 	active = FALSE;
 	if (VUT_ADVANCE == preq->source.kind && preq->present) {
           /* This missing requirement is a missing tech requirement.
@@ -1528,6 +1529,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
         if (!is_req_active(pplayer, NULL, pcity, pimprove,
                            city_tile(pcity), NULL, NULL, NULL, NULL,
+                           NULL,
                            preq, RPT_POSSIBLE)) {
           active = FALSE;
           break;
@@ -1806,7 +1808,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
           }
         } else if (utype != NULL
                    && !is_req_active(city_owner(pcity), NULL, pcity, NULL, city_tile(pcity),
-                                     NULL, utype, NULL, NULL, preq, RPT_POSSIBLE)) {
+                                     NULL, utype, NULL, NULL, NULL, preq, RPT_POSSIBLE)) {
           /* Effect requires other kind of unit than what we are interested about */
           wrong_unit = TRUE;
           break;

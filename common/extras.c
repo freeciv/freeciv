@@ -414,7 +414,7 @@ bool player_can_build_extra(const struct extra_type *pextra,
   }
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, &pextra->reqs,
+                         NULL, NULL, NULL, NULL, NULL, &pextra->reqs,
                          RPT_POSSIBLE);
 }
 
@@ -432,7 +432,7 @@ bool can_build_extra(struct extra_type *pextra,
   }
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, unit_type(punit), NULL, NULL, &pextra->reqs,
+                         punit, unit_type(punit), NULL, NULL, NULL, &pextra->reqs,
                          RPT_CERTAIN);
 }
 
@@ -481,7 +481,7 @@ bool player_can_remove_extra(const struct extra_type *pextra,
   }
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, &pextra->rmreqs,
+                         NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
                          RPT_POSSIBLE);
 }
 
@@ -501,7 +501,7 @@ bool can_remove_extra(struct extra_type *pextra,
   pplayer = unit_owner(punit);
 
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, unit_type(punit), NULL, NULL,
+                         punit, unit_type(punit), NULL, NULL, NULL,
                          &pextra->rmreqs, RPT_CERTAIN);
 }
 
@@ -545,7 +545,7 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
   }
 
   return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL,
+                         NULL, NULL, NULL, NULL, NULL,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
@@ -802,6 +802,6 @@ bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
     && is_native_tile_to_extra(pextra, ptile)
     && !extra_conflicting_on_tile(pextra, ptile)
     && are_reqs_active(NULL, tile_owner(ptile), NULL, NULL, ptile,
-                       NULL, NULL, NULL, NULL,
+                       NULL, NULL, NULL, NULL, NULL,
                        &pextra->spontaneous_reqs, RPT_CERTAIN);
 }

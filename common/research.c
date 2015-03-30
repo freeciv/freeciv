@@ -309,7 +309,7 @@ static bool research_is_allowed(const struct research *presearch,
 
   research_players_iterate(presearch, pplayer) {
     if (are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                        NULL, &(adv->research_reqs), RPT_CERTAIN)) {
+                        NULL, NULL, &(adv->research_reqs), RPT_CERTAIN)) {
       /* It is enough that one player that shares research is allowed to
        * research it.
        * Reasoning: Imagine a tech with that requires a nation in the

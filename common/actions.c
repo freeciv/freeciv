@@ -592,12 +592,12 @@ static bool is_enabler_active(const struct action_enabler *enabler,
   return are_reqs_active(actor_player, target_player, actor_city,
                          actor_building, actor_tile,
                          actor_unit, actor_unittype,
-                         actor_output, actor_specialist,
+                         actor_output, actor_specialist, NULL,
                          &enabler->actor_reqs, RPT_CERTAIN)
       && are_reqs_active(target_player, actor_player, target_city,
                          target_building, target_tile,
                          target_unit, target_unittype,
-                         target_output, target_specialist,
+                         target_output, target_specialist, NULL,
                          &enabler->target_reqs, RPT_CERTAIN);
 }
 
@@ -1409,7 +1409,7 @@ static bool is_target_possible(const enum gen_action wanted_action,
     if (are_reqs_active(target_player, actor_player, target_city,
                         target_building, target_tile,
                         target_unit, target_unittype,
-                        target_output, target_specialist,
+                        target_output, target_specialist, NULL,
                         &enabler->target_reqs, RPT_POSSIBLE)) {
       return TRUE;
     }
