@@ -2075,10 +2075,12 @@ init_units=""
 cities = "Barbaricum"
 
 is_playable = FALSE
-barbarian_type = "Land"
+barbarian_type = "LandAndSea"
 
 ; nothing more needed for barbarians
 
+; Pirate nation exist for backward compatibility with old savegames, where it might be present, only.
+; Freeciv should always pick the one "LandAndSea" barbarian in new games.
 [nation_pirate]
 
 translation_domain="freeciv"
