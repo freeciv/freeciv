@@ -923,7 +923,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   /* bottom: info, units */
   bottom = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 6);
+  gtk_grid_set_column_spacing(GTK_GRID(bottom), 6);
   gtk_container_add(GTK_CONTAINER(page), bottom);
 
   /* info */
