@@ -71,6 +71,7 @@ files =
   "isotrident/terrain1.spec",
   "isotrident/terrain2.spec",
   "isotrident/tiles.spec",
+  "isotrident/unitcost.spec",
   "isotrident/grid.spec",
   "misc/small.spec",
   "misc/events.spec",
@@ -124,6 +125,11 @@ layer0_sprite_type = "corner"
 
 ; Land graphics referenced by terrain.ruleset
 ;
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "land"
+
 [tile_arctic]
 blend_layer = 1
 num_layers = 1
@@ -185,6 +191,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadAllSeparate"
       "road.rail",     "RoadAllSeparate"
+      "road.maglev",   "RoadAllSeparate"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
