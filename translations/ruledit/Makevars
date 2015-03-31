@@ -12,7 +12,7 @@ XGETTEXT_OPTIONS = \
   --keyword=_ --flag=_:1:pass-c-format \
   --keyword=N_ --flag=N_:1:pass-c-format \
   --keyword=--keyword=Q_ --keyword=PL_:1,2 \
-  --keyword=R__ \
+  --keyword=R__ --keyword=RQ_ \
   --flag=error:3:c-format --flag=error_at_line:5:c-format \
   --language=C --escape
 
