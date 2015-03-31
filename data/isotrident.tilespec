@@ -64,6 +64,7 @@ files =
   "isotrident/terrain1.spec",
   "isotrident/terrain2.spec",
   "isotrident/tiles.spec",
+  "isotrident/unitcost.spec",
   "isotrident/grid.spec",
   "misc/small.spec",
   "misc/governments.spec",
@@ -118,6 +119,12 @@ mine_sprite = "tx.oil_mine"
 
 ; Land graphics referenced by terrain.ruleset
 ;
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "land"
+mine_sprite = "tx.oil_mine"
+
 [tile_arctic]
 blend_layer = 1
 num_layers = 1
@@ -189,5 +196,6 @@ styles =
     { "name", "style"
       "road.road",  "AllSeparate"
       "road.rail",  "AllSeparate"
+      "road.maglev",  "AllSeparate"
       "road.river", "River"
     }
