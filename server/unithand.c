@@ -1143,10 +1143,7 @@ void handle_unit_do_action(struct player *pplayer,
         city_add_unit(pplayer, actor_unit);
       } else if (!unit_can_add_to_city(actor_unit)) {
         /* Keep the rules like they was before action enabler control:
-         *  - !unit_can_add_to_city() won't punish the player.
          *  - detailed explanation of why something is illegal. */
-        /* TODO: make punishment pr action (possible solution: action type
-         * requirement + effect) and move to ruleset. */
         /* TODO: improve explanation about why an action failed. */
         city_add_or_build_error(pplayer, actor_unit,
                                 unit_add_or_build_city_test(actor_unit));
@@ -1178,10 +1175,7 @@ void handle_unit_do_action(struct player *pplayer,
         city_build(pplayer, actor_unit, name);
       } else if (!unit_can_build_city(actor_unit)) {
         /* Keep the rules like they was before action enabler control:
-         *  - !unit_can_build_city() won't punish the player.
          *  - detailed explanation of why something is illegal. */
-        /* TODO: make punishment pr action (possible solution: action type
-         * requirement + effect) and move to ruleset. */
         /* TODO: improve explanation about why an action failed. */
         city_add_or_build_error(pplayer, actor_unit,
                                 unit_add_or_build_city_test(actor_unit));

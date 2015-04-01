@@ -3735,3 +3735,8 @@ reqs	=
 [effect_illegal_action_move_cost_base]
 type	= "Illegal_Action_Move_Cost"
 value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Found City", "Local", FALSE
+      "Action", "Join City", "Local", FALSE
+    }
