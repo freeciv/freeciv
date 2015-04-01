@@ -517,6 +517,11 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_OTYPE) {
+    /* This requirement type is intended to specify the situation. */
+    return TRUE;
+  }
+
   /* Uncertain or no support added yet. */
   return FALSE;
 }
