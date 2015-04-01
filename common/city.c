@@ -1405,9 +1405,14 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
     return CB_BAD_CITY_TERRAIN;
   }
 
-  if (punit && !can_unit_exist_at_tile(punit, ptile)) {
-    /* We allow land units to build land cities and sea units to build
-     * ocean cities. Air units can build cities anywhere. */
+  if (punit && !can_unit_exist_at_tile(punit, ptile)
+      /* TODO: remove CB_BAD_UNIT_TERRAIN and CB_BAD_UNIT_TERRAIN when it
+       * can be done without regressions. */
+      /* The ruleset may allow founding cities on non native terrain. */
+      && !utype_can_do_act_when_ustate(unit_type(punit), ACTION_FOUND_CITY,
+                                       USP_TRANSP_DEP, TRUE)) {
+    /* Many rulesets allow land units to build land cities and sea units to
+     * build ocean cities. Air units can build cities anywhere. */
     return CB_BAD_UNIT_TERRAIN;
   }
 

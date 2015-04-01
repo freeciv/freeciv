@@ -245,6 +245,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Cities"));
 
+    /* The actor must be on native terrain. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitState", "Local", FALSE,
+                                           FALSE, "TransportDependent"));
+
     action_enabler_add(enabler);
 
     /* City joining is now action enabler controlled. Add the old rule

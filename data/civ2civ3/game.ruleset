@@ -429,6 +429,7 @@ action = "Found City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "Cities", "Local", TRUE
+      "UnitState", "TransportDependent", "Local", FALSE
     }
 
 [actionenabler_join_city]
