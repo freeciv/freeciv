@@ -535,6 +535,11 @@ bool utype_acts_hostile(const struct unit_type *putype);
 bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
                                  const enum ustate_prop prop,
                                  const bool is_there);
+bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
+                                  const int action_id,
+                                  const enum ustate_prop prop,
+                                  const bool is_there);
+
 bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
                                      const int action_id,
                                      const int prop,

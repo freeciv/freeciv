@@ -269,11 +269,14 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
 /* Fake action representing any hostile action. */
 #define ACTION_HOSTILE ACTION_COUNT + 1
 
+/* Number of real and fake actions. */
+#define ACTION_AND_FAKES ACTION_HOSTILE + 1
+
 /* Cache of what generalized (ruleset defined) action enabler controlled
  * actions units of each type can perform. Checking if any action can be
  * done at all is done via the fake action ACTION_ANY. If any hostile
  * action can be performed is done via ACTION_HOSTILE. */
-static bv_unit_types unit_can_act_cache[ACTION_HOSTILE + 1];
+static bv_unit_types unit_can_act_cache[ACTION_AND_FAKES];
 
 /**************************************************************************
   Cache what generalized (ruleset defined) action enabler controlled
@@ -349,10 +352,10 @@ bool utype_acts_hostile(const struct unit_type *putype)
  * bit USP_COUNT to ((USP_COUNT - 1) * 2): Possible when the corresponding
  * property is FALSE
  */
-BV_DEFINE(bv_unit_state_action_cache, ((USP_COUNT - 1) * 2));
+BV_DEFINE(bv_ustate_act_cache, ((USP_COUNT - 1) * 2));
 
 /* Caches for each unit type */
-static bv_unit_state_action_cache unit_state_action_cache[U_LAST];
+static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
 static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_COUNT];
 
 /**************************************************************************
@@ -366,7 +369,11 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 
   /* The unit is not yet known to be allowed to perform any actions no
    * matter what its unit state is. */
-  BV_CLR_ALL(unit_state_action_cache[utype_index(putype)]);
+  action_iterate(action_id) {
+    BV_CLR_ALL(ustate_act_cache[utype_index(putype)][action_id]);
+  } action_iterate_end;
+  BV_CLR_ALL(ustate_act_cache[utype_index(putype)][ACTION_ANY]);
+  BV_CLR_ALL(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE]);
 
   if (!is_actor_unit_type(putype)) {
     /* Not an actor unit. */
@@ -394,7 +401,10 @@ static void unit_state_action_cache_set(struct unit_type *putype)
         /* Not required to be absent, so OK if present */
         req.present = FALSE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-          BV_SET(unit_state_action_cache[utype_index(putype)],
+          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
+              requirement_unit_state_ereq(req.source.value.unit_state,
+                                         TRUE));
+          BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
               requirement_unit_state_ereq(req.source.value.unit_state,
                                          TRUE));
         }
@@ -402,7 +412,10 @@ static void unit_state_action_cache_set(struct unit_type *putype)
         /* Not required to be present, so OK if absent */
         req.present = TRUE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-          BV_SET(unit_state_action_cache[utype_index(putype)],
+          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
+                 requirement_unit_state_ereq(req.source.value.unit_state,
+                                            FALSE));
+          BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
                  requirement_unit_state_ereq(req.source.value.unit_state,
                                             FALSE));
         }
@@ -504,7 +517,20 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
                                  const enum ustate_prop prop,
                                  const bool is_there)
 {
-  return BV_ISSET(unit_state_action_cache[utype_index(punit_type)],
+  return utype_can_do_act_when_ustate(punit_type, ACTION_ANY, prop, is_there);
+}
+
+/**************************************************************************
+  Return TRUE iff the unit type can do the specified (action enabler
+  controlled) action while its unit state property prop has the value
+  is_there.
+**************************************************************************/
+bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
+                                  const int action_id,
+                                  const enum ustate_prop prop,
+                                  const bool is_there)
+{
+  return BV_ISSET(ustate_act_cache[utype_index(punit_type)][action_id],
       requirement_unit_state_ereq(prop, is_there));
 }
 
