@@ -4218,6 +4218,14 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n");
   }
 
+  if (requirement_vector_size(&vap->research_reqs) > 0) {
+    CATLSTR(buf, bufsz, _("Requirements to research:\n"));
+    requirement_vector_iterate(&vap->research_reqs, preq) {
+      (void) insert_requirement(buf, bufsz, pplayer, preq);
+    } requirement_vector_iterate_end;
+    CATLSTR(buf, bufsz, "\n");
+  }
+
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   {
