@@ -210,6 +210,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
+  case VUT_ACTION:
+    source.value.action = action_by_rule_name(value);
+    if (source.value.action != NULL) {
+      return source;
+    }
+    break;
   case VUT_OTYPE:
     source.value.outputtype = output_type_by_identifier(value);
     if (source.value.outputtype != O_LAST) {
@@ -415,6 +421,12 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_AGE:
     source.value.age = value;
     return source;
+  case VUT_ACTION:
+    source.value.action = action_by_number(value);
+    if (source.value.action != NULL) {
+      return source;
+    }
+    break;
   case VUT_OTYPE:
     source.value.outputtype = value;
     return source;
@@ -528,6 +540,8 @@ int universal_number(const struct universal *source)
     return source->value.min_hit_points;
   case VUT_AGE:
     return source->value.age;
+  case VUT_ACTION:
+    return action_number(source->value.action);
   case VUT_OTYPE:
     return source->value.outputtype;
   case VUT_SPECIALIST:
@@ -619,6 +633,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINMOVES:
     case VUT_MINHP:
     case VUT_AGE:
+    case VUT_ACTION:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_TERRAINCLASS:
@@ -720,6 +735,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_UNITSTATE:
   case VUT_MINMOVES:
   case VUT_MINHP:
+  case VUT_ACTION:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
@@ -776,6 +792,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINMOVES:
     case VUT_MINHP:
     case VUT_AGE:
+    case VUT_ACTION:
     case VUT_OTYPE:
     case VUT_SPECIALIST:
     case VUT_MINSIZE:
@@ -2625,6 +2642,11 @@ bool is_req_active(const struct player *target_player,
       break;
     }
     break;
+  case VUT_ACTION:
+    eval = BOOL_TO_TRISTATE(target_action
+                            && action_number(target_action)
+                               == action_number(req->source.value.action));
+    break;
   case VUT_OTYPE:
     eval = BOOL_TO_TRISTATE(target_output
                             && target_output->index == req->source.value.outputtype);
@@ -2779,6 +2801,7 @@ bool is_req_unchanging(const struct requirement *req)
 {
   switch (req->source.kind) {
   case VUT_NONE:
+  case VUT_ACTION:
   case VUT_OTYPE:
   case VUT_SPECIALIST:	/* Only so long as it's at local range only */
   case VUT_AI_LEVEL:
@@ -2906,6 +2929,9 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.min_hit_points == psource2->value.min_hit_points;
   case VUT_AGE:
     return psource1->value.age == psource2->value.age;
+  case VUT_ACTION:
+    return (action_number(psource1->value.action)
+            == action_number(psource2->value.action));
   case VUT_OTYPE:
     return psource1->value.outputtype == psource2->value.outputtype;
   case VUT_SPECIALIST:
@@ -3009,6 +3035,8 @@ const char *universal_rule_name(const struct universal *psource)
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.age);
 
     return buffer;
+  case VUT_ACTION:
+    return action_rule_name(psource->value.action);
   case VUT_OTYPE:
     return get_output_name(psource->value.outputtype);
   case VUT_SPECIALIST:
@@ -3168,6 +3196,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_AGE:
     cat_snprintf(buf, bufsz, _("Age %d"),
                  psource->value.age);
+    return buf;
+  case VUT_ACTION:
+    fc_strlcat(buf, action_name_translation(psource->value.action),
+               bufsz);
     return buf;
   case VUT_OTYPE:
     /* FIXME */

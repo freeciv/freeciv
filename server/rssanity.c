@@ -153,6 +153,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_GOVERNMENT:
      case VUT_UTYPE:
      case VUT_UCLASS:
+     case VUT_ACTION:
      case VUT_OTYPE:
      case VUT_SPECIALIST:
      case VUT_MINSIZE: /* Breaks nothing, but has no sense either */

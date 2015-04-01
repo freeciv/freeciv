@@ -605,6 +605,24 @@ static bool insert_requirement(char *buf, size_t bufsz,
     }
     break;
 
+  case VUT_ACTION:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      if (preq->present) {
+        cat_snprintf(buf, bufsz, _("Applies to the \"%s\" action.\n"),
+                     action_name_translation(preq->source.value.action));
+      } else {
+        cat_snprintf(buf, bufsz, _("Doesn't apply to the \"%s\""
+                                   " action.\n"),
+                     action_name_translation(preq->source.value.action));
+      }
+      return TRUE;
+    default:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_IMPROVEMENT:
     switch (preq->range) {
     case REQ_RANGE_WORLD:

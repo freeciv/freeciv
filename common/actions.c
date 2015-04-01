@@ -165,6 +165,21 @@ struct action *action_by_number(int action_id)
 }
 
 /**************************************************************************
+  Return the action with the given name.
+**************************************************************************/
+struct action *action_by_rule_name(const char *name)
+{
+  /* Actions are still hard coded in the gen_action enum. */
+  int action_id = gen_action_by_name(name, fc_strcasecmp);
+
+  if (!gen_action_is_valid(action_id)) {
+    return NULL;
+  }
+
+  return action_by_number(action_id);
+}
+
+/**************************************************************************
   Get the actor kind of an action.
 **************************************************************************/
 enum action_actor_kind action_get_actor_kind(int action_id)
@@ -192,6 +207,33 @@ bool action_is_hostile(int action_id)
   fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
 
   return actions[action_id]->hostile;
+}
+
+/**************************************************************************
+  Get the universal number of the action.
+**************************************************************************/
+int action_number(const struct action *action)
+{
+  return action->id;
+}
+
+/**************************************************************************
+  Get the rule name of the action.
+**************************************************************************/
+const char *action_rule_name(const struct action *action)
+{
+  /* Rule name is still hard coded. */
+  return action_get_rule_name(action->id);
+}
+
+/**************************************************************************
+  Get the action name used when displaying the action in the UI. Nothing
+  is added to the UI name.
+**************************************************************************/
+const char *action_name_translation(const struct action *action)
+{
+  /* Use action_get_ui_name() to format the UI name. */
+  return action_get_ui_name(action->id);
 }
 
 /**************************************************************************

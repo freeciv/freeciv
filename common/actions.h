@@ -178,9 +178,15 @@ void actions_init(void);
 void actions_free(void);
 
 struct action *action_by_number(int action_id);
+struct action *action_by_rule_name(const char *name);
 
 enum action_actor_kind action_get_actor_kind(int action_id);
 enum action_target_kind action_get_target_kind(int action_id);
+
+int action_number(const struct action *action);
+const char *action_rule_name(const struct action *action);
+
+const char *action_name_translation(const struct action *action);
 
 bool action_is_hostile(int action_id);
 

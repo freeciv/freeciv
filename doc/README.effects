@@ -62,6 +62,7 @@ Nation:        World, Alliance, Team, Player
 NationGroup:   World, Alliance, Team, Player
 Nationality:   Traderoute, City
 DiplRel:       World, Alliance, Team, Player, Local
+Action:        Local
 OutputType:    Local
 Specialist:    Local
 MinYear:       World
