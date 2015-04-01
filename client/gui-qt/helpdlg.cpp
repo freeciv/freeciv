@@ -847,10 +847,10 @@ void help_widget::set_topic_terrain(const help_item *topic,
         add_info_label(
           // TRANS: When irrigated, terrain gets a bonus of %1 food;
           //        irrigating takes %2 turns
-          QString(_(ngettext(
+          QString(PL_(
             "Irrigation: +%1 food in %2 turn",
             "Irrigation: +%1 food in %2 turns",
-            pterrain->irrigation_time)))
+            pterrain->irrigation_time))
           .arg(pterrain->irrigation_food_incr)
           .arg(pterrain->irrigation_time));
       }
@@ -859,10 +859,10 @@ void help_widget::set_topic_terrain(const help_item *topic,
         add_info_label(
           // TRANS: When irrigated, terrain gets changed to other terrain %1
           //        in %2 turns
-          QString(_(ngettext(
+          QString(PL_(
             "Irrigation: %1 in %2 turn",
             "Irrigation: %1 in %2 turns",
-            pterrain->irrigation_time)))
+            pterrain->irrigation_time))
           .arg(terrain_name_translation(pterrain->irrigation_result))
           .arg(pterrain->irrigation_time));
       }
@@ -873,10 +873,10 @@ void help_widget::set_topic_terrain(const help_item *topic,
         add_info_label(
           // TRANS: When mined, terrain gets a bonus of %1 food; mining takes
           //        %2 turns
-          QString(_(ngettext(
+          QString(PL_(
             "Mining: +%1 food in %2 turn",
             "Mining: +%1 food in %2 turns",
-            pterrain->mining_time)))
+            pterrain->mining_time))
           .arg(pterrain->mining_shield_incr)
           .arg(pterrain->mining_time));
       }
@@ -885,10 +885,10 @@ void help_widget::set_topic_terrain(const help_item *topic,
         add_info_label(
           // TRANS: When mined, terrain gets changed to other terrain %1
           //        in %2 turns
-          QString(_(ngettext(
+          QString(PL_(
             "Mining: %1 in %2 turn",
             "Mining: %1 in %2 turns",
-            pterrain->mining_time)))
+            pterrain->mining_time))
           .arg(terrain_name_translation(pterrain->mining_result))
           .arg(pterrain->mining_time));
       }
@@ -900,10 +900,10 @@ void help_widget::set_topic_terrain(const help_item *topic,
         add_info_label(
           // TRANS: When transformed, terrain gets changed to other terrain %1
           //        in %2 turns
-          QString(_(ngettext(
+          QString(PL_(
             "Transform: %1 in %2 turn",
             "Transform: %1 in %2 turns",
-            pterrain->transform_time)))
+            pterrain->transform_time))
           .arg(terrain_name_translation(pterrain->transform_result))
           .arg(pterrain->transform_time));
       }
