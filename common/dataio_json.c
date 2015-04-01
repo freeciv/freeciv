@@ -366,12 +366,57 @@ bool dio_get_uint16_vec8_json(json_t *json_packet, char *key, int **values,
 }
 
 /**************************************************************************
-  ..
+  Read a single requirement.
 **************************************************************************/
 bool dio_get_requirement_json(json_t *json_packet, char *key,
                               struct requirement *preq)
 {
-  /* TODO: implement */
+  int kind, range, value;
+  bool survives, present;
+
+  json_t *sub_field;
+
+  /* Find the requirement object. */
+  json_t *requirement = json_object_get(json_packet, key);
+  if (!requirement) {
+    log_error("ERROR: Unable to get requirement with key: %s", key);
+    return FALSE;
+  }
+
+  /* Find the requirement object fields and translate their values. */
+  if (!dio_get_uint8_json(requirement, "kind", &kind)) {
+    log_error("ERROR: Unable to get part of requirement with key: %s",
+              key);
+    return FALSE;
+  }
+
+  if (!dio_get_sint32_json(requirement, "value", &value)) {
+    log_error("ERROR: Unable to get part of requirement with key: %s",
+              key);
+    return FALSE;
+  }
+
+  if (!dio_get_uint8_json(requirement, "range", &range)) {
+    log_error("ERROR: Unable to get part of requirement with key: %s",
+              key);
+    return FALSE;
+  }
+
+  if (!dio_get_bool8_json(requirement, "survives", &survives)) {
+    log_error("ERROR: Unable to get part of requirement with key: %s",
+              key);
+    return FALSE;
+  }
+
+  if (!dio_get_bool8_json(requirement, "present", &present)) {
+    log_error("ERROR: Unable to get part of requirement with key: %s",
+              key);
+    return FALSE;
+  }
+
+  /* Create a requirement with the values sent over the network. */
+  *preq = req_from_values(kind, range, survives, present, value);
+
   return TRUE;
 }
 
@@ -486,12 +531,32 @@ void dio_put_tech_list_json(struct json_data_out *dout, char *key, const int *va
 }
 
 /**************************************************************************
-  ..
+  Insert a single requirement.
 **************************************************************************/
 void dio_put_requirement_json(struct json_data_out *dout, char *key,
                               const struct requirement *preq)
 {
-  /* TODO: implement */
+  int kind, range, value;
+  bool survives, present;
+
+  /* Create the requirement object. */
+  json_t *requirement = json_object();
+
+  /* Read the requirment values. */
+  req_get_values(preq, &kind, &range, &survives, &present, &value);
+
+  /* Write the requirement values to the fields of the requirment
+   * object. */
+  json_object_set(requirement, "kind", json_integer(kind));
+  json_object_set(requirement, "value", json_integer(value));
+
+  json_object_set(requirement, "range", json_integer(range));
+
+  json_object_set(requirement, "survives", json_boolean(survives));
+  json_object_set(requirement, "present", json_boolean(present));
+
+  /* Put the requirement object in the packet. */
+  json_object_set_new(dout->json, key, requirement);
 }
 
 /**************************************************************************
