@@ -92,9 +92,11 @@ void ruledit_qt_close()
 /**************************************************************************
   Display requirer list.
 **************************************************************************/
-void ruledit_qt_display_requirers(const char *msg)
+void ruledit_qt_display_requirers(const char *msg, void *data)
 {
-  gui->show_required(msg);
+  requirers_dlg *requirers = (requirers_dlg *)data;
+
+  gui->show_required(requirers, msg);
 }
 
 /**************************************************************************
@@ -179,8 +181,6 @@ void ruledit_gui::setup(QWidget *central_in)
 
   full_layout->addWidget(msg_dspl);
 
-  requirers = new requirers_dlg(this);
-
   central->setLayout(full_layout);
 }
 
@@ -221,17 +221,23 @@ void ruledit_gui::display_msg(const char *msg)
 }
 
 /**************************************************************************
-  Clear requirers dlg.
+  Create requirers dlg.
 **************************************************************************/
-void ruledit_gui::clear_required(const char *title)
+requirers_dlg *ruledit_gui::create_requirers(const char *title)
 {
+  requirers_dlg *requirers;
+
+  requirers = new requirers_dlg(this);
+
   requirers->clear(title);
+
+  return requirers;
 }
 
 /**************************************************************************
   Add entry to requirers dlg.
 **************************************************************************/
-void ruledit_gui::show_required(const char *msg)
+void ruledit_gui::show_required(requirers_dlg *requirers, const char *msg)
 {
   requirers->add(msg);
 

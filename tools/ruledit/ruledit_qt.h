@@ -40,8 +40,8 @@ class ruledit_gui : public QObject
   public:
     void setup(QWidget *central_in);
     void display_msg(const char *msg);
-    void clear_required(const char *title);
-    void show_required(const char *msg);
+    requirers_dlg *create_requirers(const char *title);
+    void show_required(requirers_dlg *requirers, const char *msg);
     void flush_widgets();
 
     struct rule_data data;
@@ -52,8 +52,6 @@ class ruledit_gui : public QObject
     QLineEdit *ruleset_select;
     QWidget *central;
     QStackedLayout *main_layout;
-
-    requirers_dlg *requirers;
 
     tab_building *bldg;
     tab_misc *misc;
@@ -68,6 +66,6 @@ class ruledit_gui : public QObject
 bool ruledit_qt_setup(int argc, char **argv);
 int ruledit_qt_run();
 void ruledit_qt_close();
-void ruledit_qt_display_requirers(const char *msg);
+void ruledit_qt_display_requirers(const char *msg, void *data);
 
 #endif // FC__RULEDIT_QT_H

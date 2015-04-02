@@ -162,8 +162,10 @@ void tab_building::name_given()
 **************************************************************************/
 void tab_building::delete_now()
 {
-  ui->clear_required(improvement_rule_name(selected));
-  if (is_building_needed(selected, &ruledit_qt_display_requirers)) {
+  requirers_dlg *requirers;
+
+  requirers = ui->create_requirers(improvement_rule_name(selected));
+  if (is_building_needed(selected, &ruledit_qt_display_requirers, requirers)) {
     return;
   }
 

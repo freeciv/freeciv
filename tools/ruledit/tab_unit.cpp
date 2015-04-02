@@ -163,8 +163,10 @@ void tab_unit::name_given()
 **************************************************************************/
 void tab_unit::delete_now()
 {
-  ui->clear_required(utype_rule_name(selected));
-  if (is_utype_needed(selected, &ruledit_qt_display_requirers)) {
+  requirers_dlg *requirers;
+
+  requirers = ui->create_requirers(utype_rule_name(selected));
+  if (is_utype_needed(selected, &ruledit_qt_display_requirers, requirers)) {
     return;
   }
 

@@ -50,6 +50,7 @@ struct effect_list_cb_data
   bool needed;
   struct universal *uni;
   requirers_cb cb;
+  void *requirers_data;
 };
 
 /**************************************************************************
@@ -61,7 +62,7 @@ static bool effect_list_universal_needed_cb(struct effect *peffect,
   struct effect_list_cb_data *cbdata = (struct effect_list_cb_data *)data;
 
   if (universal_in_req_vec(cbdata->uni, &peffect->reqs)) {
-    cbdata->cb(R__("Effect"));
+    cbdata->cb(R__("Effect"), cbdata->requirers_data);
     cbdata->needed = TRUE;
   }
 
@@ -72,7 +73,8 @@ static bool effect_list_universal_needed_cb(struct effect *peffect,
 /**************************************************************************
   Check if anything in ruleset needs universal
 **************************************************************************/
-static bool is_universal_needed(struct universal *uni, requirers_cb cb)
+static bool is_universal_needed(struct universal *uni, requirers_cb cb,
+                                void *data)
 {
   bool needed = FALSE;
   bool needed_by_music_style = FALSE;
@@ -81,7 +83,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
 
   disaster_type_iterate(pdis) {
     if (universal_in_req_vec(uni, &pdis->reqs)) {
-      cb(disaster_rule_name(pdis));
+      cb(disaster_rule_name(pdis), data);
       needed = TRUE;
     }
   } disaster_type_iterate_end;
@@ -89,14 +91,14 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
   improvement_iterate(pimprove) {
     if (universal_in_req_vec(uni, &pimprove->reqs)
         || universal_in_req_vec(uni, &pimprove->obsolete_by)) {
-      cb(improvement_rule_name(pimprove));
+      cb(improvement_rule_name(pimprove), data);
       needed = TRUE;
     }
   } improvement_iterate_end;
 
   governments_iterate(pgov) {
     if (universal_in_req_vec(uni, &pgov->reqs)) {
-      cb(government_rule_name(pgov));
+      cb(government_rule_name(pgov), data);
       needed = TRUE;
     }
   } governments_iterate_end;
@@ -105,7 +107,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
     struct specialist *psp = specialist_by_number(sp);
 
     if (universal_in_req_vec(uni, &psp->reqs)) {
-      cb(specialist_rule_name(psp));
+      cb(specialist_rule_name(psp), data);
       needed = TRUE;
     }
   } specialist_type_iterate_end;
@@ -113,7 +115,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
   extra_type_iterate(pextra) {
     if (universal_in_req_vec(uni, &pextra->reqs)
         || universal_in_req_vec(uni, &pextra->rmreqs)) {
-      cb(extra_rule_name(pextra));
+      cb(extra_rule_name(pextra), data);
       needed = TRUE;
     }
   } extra_type_iterate_end;
@@ -122,7 +124,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
       if (universal_in_req_vec(uni, &(enabler->actor_reqs))
           || universal_in_req_vec(uni, &(enabler->target_reqs))) {
-        cb(R__("Action Enabler"));
+        cb(R__("Action Enabler"), data);
         needed = TRUE;
       }
     } action_enabler_list_iterate_end;
@@ -130,7 +132,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
 
   for (i = 0; i < game.control.styles_count; i++) {
     if (universal_in_req_vec(uni, &city_styles[i].reqs)) {
-      cb(city_style_rule_name(i));
+      cb(city_style_rule_name(i), data);
       needed = TRUE;
     }
   }
@@ -142,13 +144,14 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
   } music_styles_iterate_end;
 
   if (needed_by_music_style) {
-    cb(R__("Music Style"));
+    cb(R__("Music Style"), data);
     needed = TRUE;
   }
 
   cb_data.needed = FALSE;
   cb_data.uni = uni;
   cb_data.cb = cb;
+  cb_data.requirers_data = data;
 
   iterate_effect_cache(effect_list_universal_needed_cb, &cb_data);
   needed |= cb_data.needed;
@@ -159,7 +162,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb)
 /**************************************************************************
   Check if anything in ruleset needs tech
 **************************************************************************/
-bool is_tech_needed(struct advance *padv, requirers_cb cb)
+bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
 {
   struct universal uni = { .value.advance = padv, .kind = VUT_ADVANCE };
   bool needed = FALSE;
@@ -168,19 +171,19 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb)
     if (pdependant->require[AR_ONE] == padv
         || pdependant->require[AR_TWO] == padv
         || pdependant->require[AR_ROOT] == padv) {
-      cb(advance_rule_name(pdependant));
+      cb(advance_rule_name(pdependant), data);
       needed = TRUE;
     }
   } advance_iterate_end;
 
   unit_type_iterate(ptype) {
     if (ptype->require_advance == padv) {
-      cb(utype_rule_name(ptype));
+      cb(utype_rule_name(ptype), data);
       needed = TRUE;
     }
   } unit_type_iterate_end;
 
-  needed |= is_universal_needed(&uni, cb);
+  needed |= is_universal_needed(&uni, cb, data);
 
   return needed;
 }
@@ -188,12 +191,13 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb)
 /**************************************************************************
   Check if anything in ruleset needs building
 **************************************************************************/
-bool is_building_needed(struct impr_type *pimpr, requirers_cb cb)
+bool is_building_needed(struct impr_type *pimpr, requirers_cb cb,
+                        void *data)
 {
   struct universal uni = { .value.building = pimpr, .kind = VUT_IMPROVEMENT };
   bool needed = FALSE;
 
-  needed |= is_universal_needed(&uni, cb);
+  needed |= is_universal_needed(&uni, cb, data);
 
   return needed;
 }
@@ -201,12 +205,13 @@ bool is_building_needed(struct impr_type *pimpr, requirers_cb cb)
 /**************************************************************************
   Check if anything in ruleset needs unit type
 **************************************************************************/
-bool is_utype_needed(struct unit_type *ptype, requirers_cb cb)
+bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
+                     void *data)
 {
   struct universal uni = { .value.utype = ptype, .kind = VUT_UTYPE };
   bool needed = FALSE;
 
-  needed |= is_universal_needed(&uni, cb);
+  needed |= is_universal_needed(&uni, cb, data);
 
   return needed;
 }

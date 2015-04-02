@@ -17,11 +17,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
-typedef void (*requirers_cb)(const char *msg);
+typedef void (*requirers_cb)(const char *msg, void *data);
 
-bool is_tech_needed(struct advance *padv, requirers_cb cb);
-bool is_building_needed(struct impr_type *pimpr, requirers_cb cb);
-bool is_utype_needed(struct unit_type *ptype, requirers_cb cb);
+bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data);
+bool is_building_needed(struct impr_type *pimpr, requirers_cb cb, void *data);
+bool is_utype_needed(struct unit_type *ptype, requirers_cb cb, void *data);
 
 #ifdef __cplusplus
 }

@@ -52,7 +52,11 @@ requirers_dlg::requirers_dlg(ruledit_gui *ui_in) : QDialog()
 **************************************************************************/
 void requirers_dlg::clear(const char *title)
 {
-  setWindowTitle(QString::fromUtf8(title));
+  char buffer[256];
+
+  fc_snprintf(buffer, sizeof(buffer), R__("Removing %s"), title);
+
+  setWindowTitle(QString::fromUtf8(buffer));
   area->clear();
 }
 
