@@ -1087,6 +1087,7 @@ shield      = 3 ; glacier used to have 4
 ;                           Global Warming
 ;   - "NuclearWinter"     = Instances of this extra on map count towards
 ;                           Nuclear Winter
+;   - "ShowFlag"          = Draw owner's flag
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -1396,6 +1397,7 @@ reqs           =
     }
 build_time     = 3
 removal_time   = 0
+flags          = "ShowFlag"
 helptext       = _("\
 Buoys may be built in the ocean (by units on a sea-going vessel).\
 ")
@@ -1583,7 +1585,6 @@ Cities built on or next to rivers incur a small risk of flooding,\
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
-;   - "ShowFlag"          = Draw owner's flag
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1615,7 +1616,6 @@ flags          = "NoAggressive", "NoStackDeath", "ParadropFrom"
 extra          = "Buoy"
 gui_type       = "Fortress"
 vision_main_sq = 5
-flags          = "ShowFlag"
 
 [base_ruins]
 extra          = "Ruins"

@@ -52,9 +52,6 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 /* Paratroopers can use base for paradrop */
 #define SPECENUM_VALUE3 BF_PARADROP_FROM
 #define SPECENUM_VALUE3NAME N_("ParadropFrom")
-/* Base will be built in cities automatically */
-#define SPECENUM_VALUE4 BF_SHOW_FLAG
-#define SPECENUM_VALUE4NAME N_("ShowFlag")
 #define SPECENUM_COUNT BF_COUNT
 #define SPECENUM_BITVECTOR bv_base_flags
 #include "specenum_gen.h"
