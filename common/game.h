@@ -62,6 +62,11 @@ enum autosave_type {
   AS_TIMER
 };
 
+enum scorelog_level {
+  SL_ALL = 0,
+  SL_HUMANS
+};
+
 struct user_flag
 {
   char *name;
@@ -196,6 +201,7 @@ struct civ_game {
       char connectmsg[MAX_LEN_MSG];
       char save_name[MAX_LEN_NAME];
       bool scorelog;
+      enum scorelog_level scoreloglevel;
       char scorefile[MAX_LEN_NAME];
       int scoreturn;    /* next make_history_report() */
       int seed;
@@ -471,6 +477,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_REVEALMAP       REVEAL_MAP_NONE
 
 #define GAME_DEFAULT_SCORELOG        FALSE
+#define GAME_DEFAULT_SCORELOGLEVEL   SL_ALL
 #define GAME_DEFAULT_SCOREFILE       "freeciv-score.log"
 #define GAME_DEFAULT_SCORETURN       20
 
