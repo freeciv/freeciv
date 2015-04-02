@@ -3027,7 +3027,6 @@ void tileset_setup_extra(struct tileset *t,
 {
   const int id = extra_index(pextra);
   enum extrastyle_id extrastyle;
-  struct base_type *pbase;
 
   if (!estyle_hash_lookup(t->estyle_hash, pextra->graphic_str,
                           &extrastyle)
@@ -3042,8 +3041,7 @@ void tileset_setup_extra(struct tileset *t,
 
   extra_type_list_append(t->style_lists[extrastyle], pextra);
 
-  pbase = extra_base_get(pextra);
-  if (pbase != NULL && base_has_flag(pbase, BF_SHOW_FLAG)) {
+  if (extra_has_flag(pextra, EF_SHOW_FLAG)) {
     extra_type_list_append(t->flagged_bases_list, pextra);
   }
 
