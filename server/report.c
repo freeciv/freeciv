@@ -146,6 +146,7 @@ static const char *pollution_to_text(int value);
 static const char *culture_to_text(int value);
 
 #define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p))
+#define AI_PLAYER(p) ((p)->ai_controlled)
 
 /*
  * Describes a row.
@@ -1450,30 +1451,47 @@ void log_civ_score_now(void)
   players_iterate(pplayer) {
     struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
     if (plrdata->name == NULL && GOOD_PLAYER(pplayer)) {
-      fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
+      switch (game.server.scoreloglevel) {
+      case SL_HUMANS:
+        if (AI_PLAYER(pplayer)) {
+          break;
+        }
+      case SL_ALL:
+        fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
               player_number(pplayer), player_name(pplayer));
-      plrdata_slot_init(plrdata, player_name(pplayer));
+        plrdata_slot_init(plrdata, player_name(pplayer));
+      }
     }
   } players_iterate_end;
 
   players_iterate(pplayer) {
     struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
 
-    if (GOOD_PLAYER(pplayer)
-        && strcmp(plrdata->name, player_name(pplayer)) != 0) {
-      log_debug("player names does not match '%s' != '%s'", plrdata->name,
-                player_name(pplayer));
-      fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1,
-              player_number(pplayer));
-      fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
-              player_number(pplayer), player_name(pplayer));
-      plrdata_slot_replace(plrdata, player_name(pplayer));
+    if (GOOD_PLAYER(pplayer)) {
+      switch (game.server.scoreloglevel) {
+      case SL_HUMANS:
+        if (AI_PLAYER(pplayer) && plrdata->name == NULL) {
+          /* If a human player toggled into AI mode, don't break. */
+          break;
+        }
+      case SL_ALL:
+        if (strcmp(plrdata->name, player_name(pplayer)) != 0) {
+          log_debug("player names does not match '%s' != '%s'", plrdata->name,
+                  player_name(pplayer));
+          fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1,
+                  player_number(pplayer));
+          fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
+                  player_number(pplayer), player_name(pplayer));
+          plrdata_slot_replace(plrdata, player_name(pplayer));
+        }
+      }
     }
   } players_iterate_end;
 
   for (i = 0; i < ARRAY_SIZE(score_tags); i++) {
     players_iterate(pplayer) {
-      if (!GOOD_PLAYER(pplayer)) {
+      if (!GOOD_PLAYER(pplayer) ||
+         (game.server.scoreloglevel == SL_HUMANS && AI_PLAYER(pplayer))) {
         continue;
       }
 

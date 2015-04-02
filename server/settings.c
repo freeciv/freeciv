@@ -466,6 +466,19 @@ static const struct sset_val_name *phasemode_name(int phasemode)
 }
 
 /****************************************************************************
+  Scorelog level names accessor.
+****************************************************************************/
+static const struct sset_val_name *
+scoreloglevel_name(enum scorelog_level sl_level) 
+{
+  switch (sl_level) {
+  NAME_CASE(SL_ALL, "ALL", N_("Scorelog all players, AI included"));
+  NAME_CASE(SL_HUMANS, "HUMANS", N_("Scorelog only human players"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Savegame compress type names accessor.
 ****************************************************************************/
 static const struct sset_val_name *
@@ -2511,6 +2524,13 @@ static struct setting settings[] = {
               "the file defined by the option 'scorefile' every turn. "
               "These statistics can be used to create power graphs after "
               "the game."), NULL, scorelog_action, GAME_DEFAULT_SCORELOG)
+
+  GEN_ENUM("scoreloglevel", game.server.scoreloglevel,
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
+           N_("Scorelog level"),
+           N_("Whether scores are logged from all players, AI included, "
+              "or only from human players."), NULL, NULL,
+           scoreloglevel_name, GAME_DEFAULT_SCORELOGLEVEL)
 
   GEN_STRING("scorefile", game.server.scorefile,
              SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
