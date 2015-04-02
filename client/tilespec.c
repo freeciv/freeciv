@@ -481,6 +481,7 @@ struct tileset {
   int citybar_offset_y;
   int tilelabel_offset_y;
   int activity_offset_x;
+  int activity_offset_y;
 
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
@@ -1705,6 +1706,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                              "tilespec.unit_offset_y")
       || !secfile_lookup_int(file, &t->activity_offset_x,
                              "tilespec.activity_offset_x")
+      || !secfile_lookup_int(file, &t->activity_offset_y,
+                             "tilespec.activity_offset_y")
       || !secfile_lookup_int(file, &t->city_offset_x,
                              "tilespec.city_offset_x")
       || !secfile_lookup_int(file, &t->city_offset_y,
@@ -3796,7 +3799,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
 
     if (s != NULL) {
-      ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x, FULL_TILE_Y_OFFSET);
+      ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                 FULL_TILE_Y_OFFSET + t->activity_offset_y);
     }
   }
 

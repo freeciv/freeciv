@@ -45,6 +45,7 @@ unit_offset_y = 38
 
 ; offset of the normal activity icons
 activity_offset_x = 0
+activity_offset_y = 0
 
 ; offset the cities by this amount
 city_offset_x = 0
