@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-29 11:07+0300\n"
-"PO-Revision-Date: 2015-03-29 11:11+0300\n"
+"POT-Creation-Date: 2015-04-04 01:49+0300\n"
+"PO-Revision-Date: 2015-04-04 01:49+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -40,8 +40,15 @@ msgstr ""
 msgid "Close"
 msgstr "Sulje"
 
+#: tools/ruledit/requirers_dlg.cpp:57
+#, c-format
+msgid "Removing %s"
+msgstr ""
+
 # Todo: requested TRANS comment to clarify what this (needed by %s) is
-#: tools/ruledit/requirers_dlg.cpp:68
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:72
 #, c-format
 msgid "Needed by %s"
 msgstr "%s tarvitsee"
@@ -63,7 +70,7 @@ msgstr "Tunnistamaton asetus: \"%s\"\n"
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:129
 #, c-format
 msgid ""
 "%s%s\n"
@@ -72,35 +79,35 @@ msgstr ""
 "%s%s\n"
 "revisiotunniste: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:142
+#: tools/ruledit/ruledit_qt.cpp:144
 msgid "Give ruleset to use as starting point."
 msgstr "Anna sääntökokoelma lähtökohdaksi."
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Start editing"
 msgstr "Aloita muokkaus"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Misc"
 msgstr "Sekalaiset"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Tech"
 msgstr "Teknologiat"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Buildings"
 msgstr "Rakennukset"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Units"
 msgstr "Yksiköt"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Nations"
 msgstr "Kansat"
 
-#: tools/ruledit/ruledit_qt.cpp:175
+#: tools/ruledit/ruledit_qt.cpp:177
 msgid "Welcome to freeciv-ruledit"
 msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
 
@@ -156,7 +163,7 @@ msgstr "Maastotyyppejä"
 
 #: tools/ruledit/tab_misc.cpp:90
 msgid "?stat:Resources"
-msgstr "Resursseja"
+msgstr "Luonnonvaroja"
 
 #: tools/ruledit/tab_misc.cpp:94
 msgid "?stat:Techs"
@@ -266,14 +273,14 @@ msgstr "Poista tämä yksikkö"
 msgid "Unit type with that rule name already exist!"
 msgstr "Yksikkötyyppi samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/validity.c:64
+#: tools/ruledit/validity.c:65
 msgid "Effect"
 msgstr "Vaikutus"
 
-#: tools/ruledit/validity.c:125
+#: tools/ruledit/validity.c:127
 msgid "Action Enabler"
 msgstr "Toiminnan mahdollistin"
 
-#: tools/ruledit/validity.c:145
+#: tools/ruledit/validity.c:147
 msgid "Music Style"
 msgstr "Musiikkityyli"
