@@ -52,6 +52,8 @@ tiles = { "row", "column","tag"
 
   9,    0, "t.l0.jungle1"
 
+ 10,    0, "t.l0.inaccessible1"
+
 ;currently blank?
 ; 10,   0, "t.l0.ocean1"
 
@@ -62,6 +64,9 @@ tiles = { "row", "column","tag"
 
  1,   2, "ts.buffalo"
  1,   3, "ts.wheat"
+
+ 2,  2, "ts.fish"
+ 2,  3, "ts.whales"
 
  7,   7, "ts.grassland_resources", "ts.river_resources"
 
@@ -85,12 +90,19 @@ tiles = { "row", "column","tag"
 
  9,   2, "ts.gems"
  9,   3, "ts.fruit"
+ 9,   4, "ts.horses"
  9,   5, "ts.seals"
  9,   6, "ts.forest_game"
 
- 10,  2, "ts.fish"
- 10,  3, "ts.whales"
- 10,  5, "ts.horses"
+; Maglevs
+ 12, 1, "road.maglev_n"
+ 12, 2, "road.maglev_ne"
+ 12, 3, "road.maglev_e"
+ 12, 4, "road.maglev_se"
+ 12, 5, "road.maglev_s"
+ 12, 6, "road.maglev_sw"
+ 12, 7, "road.maglev_w"
+ 12, 8, "road.maglev_nw"
 
 ; Roads
  11, 1, "road.road_n"
@@ -154,4 +166,5 @@ pixel_border = 1
 tiles = { "row", "column","tag"
   0, 0, "road.road_isolated"
   1, 0, "road.rail_isolated"
+  2, 0, "road.maglev_isolated"
 }
