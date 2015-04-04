@@ -18,11 +18,11 @@ gfx = "hex2t/tiles"
 
 [grid_main]
 
-x_top_left = 2
-y_top_left = 2
+x_top_left = 1
+y_top_left = 1
 dx = 40
 dy = 72
-pixel_border = 2
+pixel_border = 1
 
 tiles = { "row", "column","tag"
 
@@ -53,103 +53,130 @@ tiles = { "row", "column","tag"
  1, 8, "road.rail_isolated"
 
 
+; Maglevs
+
+ 2, 0, "road.maglev_n"
+ 2, 1, "road.maglev_ne"
+ 2, 2, "road.maglev_e"
+ 2, 7, "road.maglev_se"
+ 2, 3, "road.maglev_s"
+ 2, 4, "road.maglev_sw"
+ 2, 5, "road.maglev_w"
+ 2, 6, "road.maglev_nw"
+
+ 2, 8, "road.maglev_isolated"
+
 ; terrain : if more t.whateverN are given it picks one randomly for each tile.
 ;  for example with t.desert1 and t.desert2.
 ;  ... actually in this tileset it doesn't even use these
 ;      as the second ocean layer is drawn over the top of them
 ;      but it's useful to know ...
 
-  2, 0, "t.l0.desert1"
-  6, 6, "t.l0.desert2"
-  6, 7, "t.l0.desert3"
+  3, 0, "t.l0.desert1"
+  7, 6, "t.l0.desert2"
+  7, 7, "t.l0.desert3"
 
-  2, 1, "t.l0.plains1"
-  2, 2, "t.l0.grassland1"
-  2, 3, "t.l0.forest1"
-  2, 4, "t.l0.hills1"
-  2, 5, "t.l0.mountains1"
-  2, 6, "t.l0.tundra1"
-  2, 7, "t.l0.arctic1"
-  2, 8, "t.l0.swamp1"
+  3, 1, "t.l0.plains1"
+  3, 2, "t.l0.grassland1"
+  3, 3, "t.l0.forest1"
+  3, 4, "t.l0.hills1"
+  3, 5, "t.l0.mountains1"
+  3, 6, "t.l0.tundra1"
+  3, 7, "t.l0.arctic1"
+  3, 8, "t.l0.swamp1"
+
+  7, 9, "t.l0.inaccessible1"
 
 ; FIXME: The same sprite is drawn twice on top of each other here.
-  2, 9, "t.l0.jungle1"
-  2, 9, "t.l1.jungle1"
+  3, 3, "t.l0.jungle1"
+  3, 9, "t.l1.jungle1"
 
 ; more ocean in overlays
-;  2, 10, "t.l0.coast1"
-;  6, 8,  "t.l0.coast2"
-;  2, 11, "t.l0.floor1"
+;  3, 10, "t.l0.coast1"
+;  7, 8,  "t.l0.coast2"
+;  3, 11, "t.l0.floor1"
 
 ; Terrain special resources:
 
-  3, 0, "ts.oasis"
-  4, 0, "ts.oil"
-  3, 1, "ts.buffalo"
-  4, 1, "ts.wheat"
-  4, 2, "ts.grassland_resources", "ts.river_resources"
-  3, 3, "ts.pheasant"
-  4, 3, "ts.silk"
-  3, 4, "ts.coal"
-  4, 4, "ts.wine"
-  3, 5, "ts.gold"
-  4, 5, "ts.iron"
-  3, 6, "ts.tundra_game"
-  4, 6, "ts.furs"
-  3, 7, "ts.arctic_ivory"
-  4, 7, "ts.arctic_oil"
-  3, 8, "ts.peat"
-  4, 8, "ts.spice"
-  3, 9, "ts.gems"
-  4, 9, "ts.fruit"
-  3, 10, "ts.fish"
-  4, 10, "ts.whales"
+  4, 0, "ts.oasis"
+  5, 0, "ts.oil"
+  4, 1, "ts.buffalo"
+  5, 1, "ts.wheat"
+  5, 2, "ts.grassland_resources", "ts.river_resources"
+  4, 3, "ts.pheasant"
+  5, 3, "ts.silk"
+  4, 4, "ts.coal"
+  5, 4, "ts.wine"
+  4, 5, "ts.gold"
+  5, 5, "ts.iron"
+  4, 6, "ts.tundra_game"
+  5, 6, "ts.furs"
+  4, 7, "ts.arctic_ivory"
+  5, 7, "ts.arctic_oil"
+  4, 8, "ts.peat"
+  5, 8, "ts.spice"
+  4, 9, "ts.gems"
+  5, 9, "ts.fruit"
+  4, 10, "ts.fish"
+  5, 10, "ts.whales"
 
-  5, 7, "ts.seals"
-  5, 8, "ts.forest_game"
-  5, 9, "ts.horses"
+  6, 7, "ts.seals"
+  6, 8, "ts.forest_game"
+  6, 9, "ts.horses"
 
 
 ; extras
 
-  5, 0, "tx.oil_mine" 
-  5, 1, "tx.mine"
-  5, 2, "tx.irrigation"
-  5, 3, "tx.farmland"
-  5, 4, "tx.pollution"
-  5, 5, "tx.fallout"
-  5, 6, "tx.village"
+  6, 0, "tx.oil_mine" 
+  6, 1, "tx.mine"
+  6, 2, "tx.irrigation"
+  6, 3, "tx.farmland"
+  6, 4, "tx.pollution"
+  6, 5, "tx.fallout"
+  6, 6, "tx.village"
 
 ; random stuff
 
-  6, 0, "t.dither_tile"
-  6, 0, "tx.darkness"
-  6, 2, "mask.tile"
-  6, 3, "t.coast_color"
+  7, 0, "t.dither_tile"
+  7, 0, "tx.darkness"
+  7, 2, "mask.tile"
+  7, 3, "t.coast_color"
 
-  6, 4, "user.attention"
-  6, 5, "tx.fog"
+  7, 4, "user.attention"
+  7, 5, "tx.fog"
 
 ; darkness
 
-  7, 0, "tx.darkness_n"
-  7, 1, "tx.darkness_ne"
-  7, 2, "tx.darkness_e"
-  7, 3, "tx.darkness_s"
-  7, 4, "tx.darkness_sw"
-  7, 5, "tx.darkness_w"
+  8, 0, "tx.darkness_n"
+  8, 1, "tx.darkness_ne"
+  8, 2, "tx.darkness_e"
+  8, 3, "tx.darkness_s"
+  8, 4, "tx.darkness_sw"
+  8, 5, "tx.darkness_w"
+
+}
+
+[grid_upkeep]
+
+x_top_left = 452
+y_top_left = 455
+dx = 40
+dy = 28
+pixel_border = 1
+
+tiles = { "row", "column","tag"
 
 ; Unit upkeep in city dialog:
 ; These should probably be handled differently and have
 ; a different size...
 
-  8, 0, "upkeep.gold"
-  8, 1, "upkeep.gold2"
-  8, 2, "upkeep.shield"
-  8, 3, "upkeep.food"
-  8, 4, "upkeep.food2"
-  8, 5, "upkeep.unhappy"
-  8, 6, "upkeep.unhappy2"
+  0, 0, "upkeep.shield"
+  1, 0, "upkeep.gold"
+  2, 0, "upkeep.gold2"
+  3, 0, "upkeep.food"
+  4, 0, "upkeep.food2"
+  5, 0, "upkeep.unhappy"
+  6, 0, "upkeep.unhappy2"
 
 }
 

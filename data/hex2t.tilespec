@@ -80,6 +80,7 @@ files =
   "misc/overlays.spec",
   "misc/citybar.spec",
   "hex2t/tiles.spec",
+  "hex2t/unitcost.spec",
   "hex2t/overlays.spec",
   "trident/units.spec",
   "hex2t/select.spec",
@@ -130,6 +131,11 @@ layer0_sprite_type = "corner"
 
 ; Land graphics referenced by terrain.ruleset
 ;
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 1
+layer0_match_type = "land"
+
 [tile_arctic]
 blend_layer = 1
 num_layers = 1
@@ -192,6 +198,7 @@ styles =
     { "name",          "style"
       "road.road",     "RoadAllSeparate"
       "road.rail",     "RoadAllSeparate"
+      "road.maglev",   "RoadAllSeparate"
       "road.river",    "River"
       "tx.irrigation", "Cardinals"
       "tx.farmland",   "Cardinals"
