@@ -13,6 +13,8 @@ pkgdata_DATA =          \
 	select.png	\
 	select.spec	\
 	tiles.png	\
-	tiles.spec
+	tiles.spec	\
+	unitcost.png	\
+	unitcost.spec
 
 EXTRA_DIST = $(pkgdata_DATA)
