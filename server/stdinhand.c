@@ -1039,7 +1039,7 @@ enum rfc_status create_command_pregame(const char *name,
   send_player_info_c(pplayer, game.est_connections);
 
   aifill(game.info.aifill);
-  reset_all_start_commands();
+  reset_all_start_commands(TRUE);
   (void) send_server_info_to_metaserver(META_INFO);
 
   if (newplayer != NULL) {
@@ -2969,7 +2969,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
      * in client/packhand.c#handle_game_info() 
      */
     send_game_info(NULL);
-    reset_all_start_commands();
+    reset_all_start_commands(FALSE);
     send_server_info_to_metaserver(META_INFO);
   }
 

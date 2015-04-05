@@ -2351,15 +2351,30 @@ void fit_nationset_to_players(void)
 /****************************************************************************
   Called when something is changed; this resets everyone's readiness.
 ****************************************************************************/
-void reset_all_start_commands(void)
+void reset_all_start_commands(bool plrchange)
 {
   if (S_S_INITIAL != server_state()) {
     return;
   }
   players_iterate(pplayer) {
     if (pplayer->is_ready) {
-      pplayer->is_ready = FALSE;
-      send_player_info_c(pplayer, game.est_connections);
+      bool persistent = FALSE;
+
+      if (plrchange) {
+        switch (game.info.persistent_ready)
+          {
+          case PERSISTENTR_DISABLED:
+            persistent = FALSE;
+            break;
+          case PERSISTENTR_CONNECTED:
+            persistent = pplayer->is_connected;
+          }
+      }
+
+      if (!persistent) {
+        pplayer->is_ready = FALSE;
+        send_player_info_c(pplayer, game.est_connections);
+      }
     }
   } players_iterate_end;
 }
