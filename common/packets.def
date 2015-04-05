@@ -204,6 +204,7 @@ type WORKLIST           = worklist(struct worklist)
 # typedefs for enums
 type ACTIVITY           = uint8(enum unit_activity)
 type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
+type PERSISTENT_READY   = uint8(enum persistent_ready)
 type VICTORY_CONDITIONS = uint8(enum victory_condition_type)
 type TECH_UPKEEP_STYLE  = uint8(enum tech_upkeep_style)
 type AUTH_TYPE          = uint8(enum authentication_type)
@@ -425,6 +426,7 @@ end
 PACKET_GAME_INFO = 16; sc, is-info
   UINT8 add_to_size_limit;
   UINT8 aifill;
+  PERSISTENT_READY persistent_ready;
   AIRLIFTING_STYLE airlifting_style;
   UINT8 angrycitizen;
   SINT16 base_pollution;

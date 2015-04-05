@@ -287,6 +287,21 @@ static const struct sset_val_name *teamplacement_name(int team_placement)
 }
 
 /****************************************************************************
+  Persistentready setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *persistentready_name(int persistent_ready)
+{
+  switch (persistent_ready) {
+  NAME_CASE(PERSISTENTR_DISABLED, "DISABLED",
+            N_("Disabled"));
+  NAME_CASE(PERSISTENTR_CONNECTED, "CONNECTED",
+            N_("As long as connected"));
+  }
+
+  return NULL;
+}
+
+/****************************************************************************
   Victory conditions setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *victory_conditions_name(int condition_bit)
@@ -1467,6 +1482,15 @@ static struct setting settings[] = {
              "all AI players will be removed."), NULL,
           aifill_action, GAME_MIN_AIFILL, GAME_MAX_AIFILL,
           GAME_DEFAULT_AIFILL)
+
+  GEN_ENUM("persistentready", game.info.persistent_ready,
+           SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
+	  N_("When the Readiness of a player gets autotoggled off"),
+	  N_("In pre-game, usually when new players join or old ones leave, "
+             "those who have already accepted game to start by toggling \"Ready\" "
+             "get that autotoggled off in the changed situation. This setting "
+             "can be used to make readiness more persistent."),
+           NULL, NULL, persistentready_name, GAME_DEFAULT_PERSISTENTREADY)
 
   GEN_STRING("nationset", game.server.nationset,
              SSET_PLAYERS, SSET_INTERNAL, SSET_RARE, SSET_TO_CLIENT,

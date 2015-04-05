@@ -483,6 +483,14 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE3 AIRLIFTING_UNLIMITED_DEST
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME persistent_ready
+#define SPECENUM_VALUE0  PERSISTENTR_DISABLED
+#define SPECENUM_VALUE0NAME "Disabled"
+#define SPECENUM_VALUE1  PERSISTENTR_CONNECTED
+#define SPECENUM_VALUE1NAME "Connected"
+#include "specenum_gen.h"
+
 #define SPECENUM_NAME reveal_map
 #define SPECENUM_BITWISE
 /* Reveal only the area around the first units at the beginning. */

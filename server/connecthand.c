@@ -300,7 +300,7 @@ void establish_new_connection(struct connection *pconn)
 
   if (NULL != pplayer) {
     /* Else, no need to do anything. */
-    reset_all_start_commands();
+    reset_all_start_commands(TRUE);
     (void) send_server_info_to_metaserver(META_INFO);
   }
   conn_compression_thaw(pconn);
@@ -765,7 +765,7 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
         /* Actually do the removal. */
         server_remove_player(pplayer);
         aifill(game.info.aifill);
-        reset_all_start_commands();
+        reset_all_start_commands(TRUE);
       } else {
         /* Aitoggle the player if no longer connected. */
         if (game.server.auto_ai_toggle && !pplayer->ai_controlled) {
@@ -780,7 +780,7 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
           log_verbose("connection_detach() calls send_player_info_c()");
           send_player_info_c(pplayer, NULL);
 
-          reset_all_start_commands();
+          reset_all_start_commands(TRUE);
         }
       }
     }

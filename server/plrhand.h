@@ -84,7 +84,7 @@ struct conn_list *player_reply_dest(struct player *pplayer);
 void shuffle_players(void);
 void set_shuffled_players(int *shuffled_players);
 struct player *shuffled_player(int i);
-void reset_all_start_commands(void);
+void reset_all_start_commands(bool plrchange);
 
 #define shuffled_players_iterate(NAME_pplayer)\
 do {\
