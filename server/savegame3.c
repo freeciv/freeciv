@@ -277,8 +277,6 @@ struct savedata {
 
 #define TOKEN_SIZE 10
 
-#define log_worker      log_verbose
-
 static const char savefile_options_default[] =
   " +version3";
 /* The following savefile option are added if needed:

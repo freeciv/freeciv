@@ -280,8 +280,6 @@ extern bool sg_success;
 
 #define TOKEN_SIZE 10
 
-#define log_worker      log_verbose
-
 static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
