@@ -209,7 +209,7 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
 /**************************************************************************
  instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
-struct cma_dialog *create_cma_dialog(struct city *pcity)
+struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 {
   struct cma_dialog *pdialog;
   struct cm_parameter param;
@@ -316,17 +316,20 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_container_add(GTK_CONTAINER(page), vbox);
 
   /* Result */
+  if (!tiny) {
+    frame = gtk_frame_new(_("Results"));
+    gtk_widget_set_vexpand(frame, TRUE);
+    gtk_widget_set_valign(frame, GTK_ALIGN_CENTER);
+    gtk_container_add(GTK_CONTAINER(vbox), frame);
 
-  frame = gtk_frame_new(_("Results"));
-  gtk_widget_set_vexpand(frame, TRUE);
-  gtk_widget_set_valign(frame, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(vbox), frame);
-
-  pdialog->result_label =
+    pdialog->result_label =
       gtk_label_new("food\n prod\n trade\n\n people\n grow\n prod\n name");
-  gtk_widget_set_name(pdialog->result_label, "city_label");
-  gtk_container_add(GTK_CONTAINER(frame), pdialog->result_label);
-  gtk_label_set_justify(GTK_LABEL(pdialog->result_label), GTK_JUSTIFY_LEFT);
+    gtk_widget_set_name(pdialog->result_label, "city_label");
+    gtk_container_add(GTK_CONTAINER(frame), pdialog->result_label);
+    gtk_label_set_justify(GTK_LABEL(pdialog->result_label), GTK_JUSTIFY_LEFT);
+  } else {
+    pdialog->result_label = NULL;
+  }
 
   /* Minimal Surplus and Factor */
 
@@ -454,10 +457,12 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
 
   cmafec_get_fe_parameter(pcity, &param);
 
-  /* fill in result label */
-  cm_result_from_main_map(result, pcity);
-  gtk_label_set_text(GTK_LABEL(pdialog->result_label),
-                     cmafec_get_result_descr(pcity, result, &param));
+  if (pdialog->result_label != NULL) {
+    /* fill in result label */
+    cm_result_from_main_map(result, pcity);
+    gtk_label_set_text(GTK_LABEL(pdialog->result_label),
+                       cmafec_get_result_descr(pcity, result, &param));
+  }
 
   /* if called from a hscale, we _don't_ want to do this */
   if (refresh != DONT_REFRESH_HSCALES) {
@@ -490,7 +495,10 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
                          _("Governor Disabl_ed"));
   }
   gtk_button_set_always_show_image(GTK_BUTTON(pdialog->active_command), TRUE);
-  gtk_widget_set_sensitive(pdialog->result_label, controlled);
+
+  if (pdialog->result_label != NULL) {
+    gtk_widget_set_sensitive(pdialog->result_label, controlled);
+  }
 
   cm_result_destroy(result);
 }
