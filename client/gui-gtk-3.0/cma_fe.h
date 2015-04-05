@@ -16,8 +16,10 @@
 
 #include <gtk/gtk.h>
 
+/* common */
 #include "fc_types.h"
 
+/* client/agents */
 #include "cma_core.h"
 
 enum cma_refresh {
@@ -48,8 +50,8 @@ struct cma_dialog {
 
 void cma_fe_init(void);
 void cma_fe_done(void);
-struct cma_dialog *create_cma_dialog(struct city *pcity);
+struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny);
 void close_cma_dialog(struct city *pcity);
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh);
 
-#endif
+#endif /* FC__GTK_CMA_H */
