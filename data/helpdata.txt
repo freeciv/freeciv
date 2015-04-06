@@ -664,8 +664,9 @@ always produces at least one food and one production point regardless \
 of terrain; gains whatever advantages the terrain offers with an \
 irrigation system (because cities come with water systems built-in), \
 although this may not be used as a basis for irrigating other tiles; \
-and is developed with roads (because cities come with transportation \
-built-in). Other rulesets may differ in detail.\
+and is usually developed with roads (unless on a river and you do not \
+yet know Bridge Building; upon learning it, river cities will also \
+acquire roads). Other rulesets may differ in detail.\
 "), _("\
 The roles of citizens are controlled from the City dialog. Citizens \
 working the land are represented by three numbers showing their output \
