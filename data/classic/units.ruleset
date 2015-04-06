@@ -26,7 +26,7 @@ options="+Freeciv-2.5-ruleset"
 flags =
   { "name", "helptxt"
     _("Airbase")
-    _("Transform"), _("Can transform terrain.")
+    _("Transform")
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Horse"), _("Attack value halved when attacking Pikemen.")
     _("Helicopter"), _("Defends very badly against Fighters.")
