@@ -470,6 +470,11 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 {
   struct player_research *research = player_research_get(plr);
 
+  if (!plr->is_alive) {
+    /* Dead players do not produce research */
+    return FALSE;
+  }
+
   /* count our research contribution this turn */
   plr->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
