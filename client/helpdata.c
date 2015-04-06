@@ -3772,6 +3772,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
                             "irrigation.\n"));
     }
+    if (effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_utype) > 0) {
+      CATLSTR(buf, bufsz, _("* Can transform terrain to another type.\n"));
+    }
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (help_is_extra_buildable(pextra, utype)) {

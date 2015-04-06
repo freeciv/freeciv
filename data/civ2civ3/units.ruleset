@@ -26,7 +26,7 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 flags =
   { "name", "helptxt"
     _("Airbase")
-    _("Transform"), _("Can transform terrain.")
+    _("Transform")
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Submarine"), _("Attack value halved when attacking Destroyer.")
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
