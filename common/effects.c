@@ -285,8 +285,11 @@ void ruleset_cache_free(void)
 }
 
 /****************************************************************************
-  Get the maximum effect value in this ruleset for the universal.
-  Universal can be NULL to get overall max
+  Get the maximum effect value in this ruleset for the universal
+  (that is, the sum of all positive effects clauses that apply specifically
+  to this universal -- this can be an overestimate in the case of
+  mutually exclusive effects).
+  for_uni can be NULL to get max effect value ignoring requirements.
 ****************************************************************************/
 int effect_cumulative_max(enum effect_type type, struct universal *for_uni)
 {
@@ -308,8 +311,11 @@ int effect_cumulative_max(enum effect_type type, struct universal *for_uni)
 }
 
 /****************************************************************************
-  Get the minimum effect value in this ruleset for the universal.
-  Universal can be NULL for the overall minimum
+  Get the minimum effect value in this ruleset for the universal
+  (that is, the sum of all negative effects clauses that apply specifically
+  to this universal -- this can be an overestimate in the case of
+  mutually exclusive effects).
+  for_uni can be NULL to get min effect value ignoring requirements.
 ****************************************************************************/
 int effect_cumulative_min(enum effect_type type, struct universal *for_uni)
 {
