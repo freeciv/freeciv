@@ -294,8 +294,11 @@ void ruleset_cache_free(void)
 }
 
 /****************************************************************************
-  Get the maximum effect value in this ruleset for the unit type.
-  Universal can be NULL to get overall max
+  Get the maximum effect value in this ruleset for the unit type for_unit
+  (that is, the sum of all positive effects clauses that apply specifically
+  to this type of unit -- this can be an overestimate in the case of
+  mutually exclusive effects).
+  for_unit can be NULL to get max effect value ignoring requirements.
 ****************************************************************************/
 int effect_cumulative_max(enum effect_type type, struct unit_type *for_unit)
 {
@@ -323,8 +326,20 @@ int effect_cumulative_max(enum effect_type type, struct unit_type *for_unit)
               } else {
                 failed |= (!preq->negated);
               }
+            } else if (preq->source.kind == VUT_UTFLAG) {
+              if (utype_has_flag(for_unit, preq->source.value.unitflag)) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
             } else if (preq->source.kind == VUT_UCLASS) {
               if (preq->source.value.uclass == pclass) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
+            } else if (preq->source.kind == VUT_UCFLAG) {
+              if (uclass_has_flag(pclass, preq->source.value.unitclassflag)) {
                 failed |= preq->negated;
               } else {
                 failed |= (!preq->negated);
@@ -338,8 +353,20 @@ int effect_cumulative_max(enum effect_type type, struct unit_type *for_unit)
               } else {
                 failed |= preq->negated;
               }
+            } else if (preq->source.kind == VUT_UTFLAG) {
+              if (utype_has_flag(for_unit, preq->source.value.unitflag)) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
             } else if (preq->source.kind == VUT_UCLASS) {
               if (preq->source.value.uclass == pclass) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
+            } else if (preq->source.kind == VUT_UCFLAG) {
+              if (uclass_has_flag(pclass, preq->source.value.unitclassflag)) {
                 failed |= (!preq->negated);
               } else {
                 failed |= preq->negated;
@@ -359,8 +386,11 @@ int effect_cumulative_max(enum effect_type type, struct unit_type *for_unit)
 }
 
 /****************************************************************************
-  Get the minimum effect value in this ruleset for the unit type.
-  Universal can be NULL for the overall minimum
+  Get the minimum effect value in this ruleset for the unit type for_unit
+  (that is, the sum of all negative effects clauses that apply specifically
+  to this type of unit -- this can be an overestimate in the case of
+  mutually exclusive effects).
+  for_unit can be NULL to get min effect value ignoring requirements.
 ****************************************************************************/
 int effect_cumulative_min(enum effect_type type, struct unit_type *for_unit)
 {
@@ -388,8 +418,20 @@ int effect_cumulative_min(enum effect_type type, struct unit_type *for_unit)
               } else {
                 failed |= (!preq->negated);
               }
+            } else if (preq->source.kind == VUT_UTFLAG) {
+              if (utype_has_flag(for_unit, preq->source.value.unitflag)) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
             } else if (preq->source.kind == VUT_UCLASS) {
               if (preq->source.value.uclass == pclass) {
+                failed |= preq->negated;
+              } else {
+                failed |= (!preq->negated);
+              }
+            } else if (preq->source.kind == VUT_UCFLAG) {
+              if (uclass_has_flag(pclass, preq->source.value.unitclassflag)) {
                 failed |= preq->negated;
               } else {
                 failed |= (!preq->negated);
@@ -403,8 +445,20 @@ int effect_cumulative_min(enum effect_type type, struct unit_type *for_unit)
               } else {
                 failed |= preq->negated;
               }
+            } else if (preq->source.kind == VUT_UTFLAG) {
+              if (utype_has_flag(for_unit, preq->source.value.unitflag)) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
             } else if (preq->source.kind == VUT_UCLASS) {
               if (preq->source.value.uclass == pclass) {
+                failed |= (!preq->negated);
+              } else {
+                failed |= preq->negated;
+              }
+            } else if (preq->source.kind == VUT_UCFLAG) {
+              if (uclass_has_flag(pclass, preq->source.value.unitclassflag)) {
                 failed |= (!preq->negated);
               } else {
                 failed |= preq->negated;
