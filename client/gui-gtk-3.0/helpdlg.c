@@ -1021,9 +1021,25 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     gtk_container_add(GTK_CONTAINER(help_vbox), w);
     gtk_widget_show(w);
 
-    improvement_iterate(pimprove) {
+    governments_iterate(pgov) {
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
+      requirement_vector_iterate(&pgov->reqs, preq) {
+	if (VUT_ADVANCE == preq->source.kind
+	    && preq->source.value.advance == padvance) {
+	  hbox = gtk_grid_new();
+	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+	  w = gtk_label_new(_("Allows"));
+	  gtk_container_add(GTK_CONTAINER(hbox), w);
+	  w = help_slink_new(government_name_translation(pgov),
+                             HELP_GOVERNMENT);
+	  gtk_container_add(GTK_CONTAINER(hbox), w);
+	  gtk_widget_show_all(hbox);
+	}
+      } requirement_vector_iterate_end;
+    } governments_iterate_end;
+
+    improvement_iterate(pimprove) {
       requirement_vector_iterate(&pimprove->reqs, preq) {
 	if (VUT_ADVANCE == preq->source.kind
 	    && preq->source.value.advance == padvance) {

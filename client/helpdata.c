@@ -1499,6 +1499,79 @@ static bool insert_requirement(char *buf, size_t bufsz,
 }
 
 /****************************************************************************
+  Append text to 'buf' if the given requirements list 'subjreqs' contains
+  'psource', implying that ability to build the subject 'subjstr' is
+  affected by 'psource'.
+  'strs' is an array of (possibly i18n-qualified) format strings covering
+  the various cases where additional requirements apply.
+****************************************************************************/
+static void insert_allows_single(struct universal *psource,
+                                 struct requirement_vector *psubjreqs,
+                                 const char *subjstr,
+                                 const char *const *strs,
+                                 char *buf, size_t bufsz) {
+  struct strvec *coreqs = strvec_new();
+  struct strvec *conoreqs = strvec_new();
+  struct astring coreqstr = ASTRING_INIT;
+  struct astring conoreqstr = ASTRING_INIT;
+  char buf2[bufsz];
+
+  /* FIXME: show other data like range and survives. */
+
+  requirement_vector_iterate(psubjreqs, req) {
+    if (are_universals_equal(psource, &req->source)) {
+      if (!req->negated) {
+        /* psource enables the subject, but other sources may
+         * also be required (or required to be absent). */
+        requirement_vector_iterate(psubjreqs, coreq) {
+          if (!are_universals_equal(psource, &coreq->source)) {
+            universal_name_translation(&coreq->source, buf2, sizeof(buf2));
+            strvec_append(coreq->negated ? conoreqs : coreqs, buf2);
+          }
+        } requirement_vector_iterate_end;
+
+        if (0 < strvec_size(coreqs)) {
+          if (0 < strvec_size(conoreqs)) {
+            cat_snprintf(buf, bufsz,
+                         Q_(strs[0]), /* "Allows %s (with %s but no %s)." */
+                         subjstr,
+                         strvec_to_and_list(coreqs, &coreqstr),
+                         strvec_to_or_list(conoreqs, &conoreqstr));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         Q_(strs[1]), /* "Allows %s (with %s)." */
+                         subjstr,
+                         strvec_to_and_list(coreqs, &coreqstr));
+          }
+        } else {
+          if (0 < strvec_size(conoreqs)) {
+            cat_snprintf(buf, bufsz,
+                         Q_(strs[2]), /* "Allows %s (absent %s)." */
+                         subjstr,
+                         strvec_to_and_list(conoreqs, &conoreqstr));
+          } else {
+            cat_snprintf(buf, bufsz,
+                         Q_(strs[3]), /* "Allows %s." */
+                         subjstr);
+          }
+        }
+      } else {
+        /* psource can, on its own, prevent the subject. */
+        cat_snprintf(buf, bufsz,
+                     Q_(strs[4]), /* "Prevents %s." */
+                     subjstr);
+      }
+      cat_snprintf(buf, bufsz, "\n");
+    }
+  } requirement_vector_iterate_end;
+
+  strvec_destroy(coreqs);
+  strvec_destroy(conoreqs);
+  astr_free(&coreqstr);
+  astr_free(&conoreqstr);
+}
+
+/****************************************************************************
   Generate text for what this requirement source allows.  Something like
 
     "Allows Communism (with University).\n"
@@ -1507,8 +1580,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
     "Prevents Harbor.\n"
 
   This should be called to generate helptext for every possible source
-  type.  Note this doesn't handle effects but rather production
-  requirements (currently only building reqs).
+  type.  Note this doesn't handle effects but rather requirements to
+  create/maintain things (currently only building/government reqs).
 
   NB: This function overwrites any existing buffer contents by writing the
   generated text to the start of the given 'buf' pointer (i.e. it does
@@ -1517,67 +1590,43 @@ static bool insert_requirement(char *buf, size_t bufsz,
 static void insert_allows(struct universal *psource,
 			  char *buf, size_t bufsz)
 {
-  struct strvec *coreqs = strvec_new();
-  struct strvec *conoreqs = strvec_new();
-  struct astring coreqstr = ASTRING_INIT;
-  struct astring conoreqstr = ASTRING_INIT;
-  char buf2[bufsz];
-
   buf[0] = '\0';
 
-  /* FIXME: show other data like range and survives. */
+  governments_iterate(pgov) {
+    static const char *const govstrs[] = {
+      /* TRANS: First %s is a government name. */
+      N_("?gov:* Allows %s (with %s but no %s)."),
+      /* TRANS: First %s is a government name. */
+      N_("?gov:* Allows %s (with %s)."),
+      /* TRANS: First %s is a government name. */
+      N_("?gov:* Allows %s (absent %s)."),
+      /* TRANS: %s is a government name. */
+      N_("?gov:* Allows %s."),
+      /* TRANS: %s is a government name. */
+      N_("?gov:* Prevents %s.")
+    };
+    insert_allows_single(psource, &pgov->reqs,
+                         government_name_translation(pgov), govstrs,
+                         buf, bufsz);
+  } governments_iterate_end;
 
   improvement_iterate(pimprove) {
-    requirement_vector_iterate(&pimprove->reqs, req) {
-      if (are_universals_equal(psource, &req->source)) {
-        if (!req->negated) {
-          /* This source enables a building, but other sources may
-           * also be required (or required to be absent). */
-          strvec_clear(coreqs);
-          strvec_clear(conoreqs);
-
-          requirement_vector_iterate(&pimprove->reqs, coreq) {
-            if (!are_universals_equal(psource, &coreq->source)) {
-              universal_name_translation(&coreq->source, buf2, sizeof(buf2));
-              strvec_append(coreq->negated ? conoreqs : coreqs, buf2);
-            }
-          } requirement_vector_iterate_end;
-
-          if (0 < strvec_size(coreqs)) {
-            if (0 < strvec_size(conoreqs)) {
-              cat_snprintf(buf, bufsz, _("Allows %s (with %s but no %s)."),
-                           improvement_name_translation(pimprove),
-                           strvec_to_and_list(coreqs, &coreqstr),
-                           strvec_to_or_list(conoreqs, &conoreqstr));
-            } else {
-              cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
-                           improvement_name_translation(pimprove),
-                           strvec_to_and_list(coreqs, &coreqstr));
-            }
-          } else {
-            if (0 < strvec_size(conoreqs)) {
-              cat_snprintf(buf, bufsz, _("Allows %s (absent %s)."),
-                           improvement_name_translation(pimprove),
-                           strvec_to_and_list(conoreqs, &conoreqstr));
-            } else {
-              cat_snprintf(buf, bufsz, _("Allows %s."),
-                           improvement_name_translation(pimprove));
-            }
-          }
-        } else {
-          /* This source can, on its own, prevent a building. */
-          cat_snprintf(buf, bufsz, _("Prevents %s."),
-                       improvement_name_translation(pimprove));
-        }
-        cat_snprintf(buf, bufsz, "\n");
-      }
-    } requirement_vector_iterate_end;
+    static const char *const imprstrs[] = {
+      /* TRANS: First %s is a building name. */
+      N_("?improvement:* Allows %s (with %s but no %s)."),
+      /* TRANS: First %s is a building name. */
+      N_("?improvement:* Allows %s (with %s)."),
+      /* TRANS: First %s is a building name. */
+      N_("?improvement:* Allows %s (absent %s)."),
+      /* TRANS: %s is a building name. */
+      N_("?improvement:* Allows %s."),
+      /* TRANS: %s is a building name. */
+      N_("?improvement:* Prevents %s.")
+    };
+    insert_allows_single(psource, &pimprove->reqs,
+                         improvement_name_translation(pimprove), imprstrs,
+                         buf, bufsz);
   } improvement_iterate_end;
-
-  strvec_destroy(coreqs);
-  strvec_destroy(conoreqs);
-  astr_free(&coreqstr);
-  astr_free(&conoreqstr);
 }
 
 /****************************************************************
