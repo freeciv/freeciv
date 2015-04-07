@@ -60,7 +60,7 @@ struct sset_val_name {
 /* Levels allow options to be subdivided and thus easier to navigate */
 #define SPECENUM_NAME sset_level
 #define SPECENUM_VALUE0     SSET_NONE
-#define SPECENUM_VALUE0NAME N_("None")
+#define SPECENUM_VALUE0NAME N_("?ssetlevel:None")
 #define SPECENUM_VALUE1     SSET_ALL
 #define SPECENUM_VALUE1NAME N_("All")
 #define SPECENUM_VALUE2     SSET_VITAL

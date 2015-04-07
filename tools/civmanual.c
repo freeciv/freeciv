@@ -450,7 +450,7 @@ static bool manual_command(void)
                       VUT_NONE != req->source.kind
                       ? universal_name_translation(&req->source,
                                                    text, sizeof(text))
-                      : _("None"));
+                      : Q_("?req:None"));
           fprintf(doc, "%s<br/>", text2);
         } requirement_vector_iterate_end;
 
@@ -464,7 +464,7 @@ static bool manual_command(void)
         fprintf(doc, "<em>%s</em></td>\n",
                 obs_tech != NULL
                 ? advance_name_translation(obs_tech)
-                : _("None"));
+                : Q_("?tech:None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } improvement_iterate_end;
       break;
