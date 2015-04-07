@@ -3269,7 +3269,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		   "to build %s units.\n"),
                  advance_name_translation(u->require_advance),
 		 utype_name_translation(u));
-    cat_snprintf(buf, bufsz, "  ");
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
@@ -4491,6 +4490,10 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
 {
   struct base_type *pbase;
   struct road_type *proad;
+  struct universal source = {
+    .kind = VUT_EXTRA,
+    .value = {.extra = pextra}
+  };
 
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
@@ -4517,6 +4520,8 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }
+
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   if (is_extra_caused_by(pextra, EC_POLLUTION)) {
     CATLSTR(buf, bufsz,
@@ -5459,6 +5464,11 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
 void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
 		     const char *user_text)
 {
+  struct universal source = {
+    .kind = VUT_NATION,
+    .value = {.nation = pnation}
+  };
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -5579,8 +5589,15 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     astr_free(&list);
   }
 
-  if (user_text && user_text[0] != '\0') {
+  if (buf[0] != '\0') {
     CATLSTR(buf, bufsz, "\n");
+  }
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+
+  if (user_text && user_text[0] != '\0') {
+    if (buf[0] != '\0') {
+      CATLSTR(buf, bufsz, "\n");
+    }
     CATLSTR(buf, bufsz, user_text);
   }
 }
