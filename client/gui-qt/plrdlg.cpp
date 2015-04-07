@@ -494,13 +494,13 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       }
       if (a == 0) {
         techs_known = techs_known + QString("<i>") + sp
-                      + QString(_("None")) + QString("</i>");
+                      + QString(Q_("?tech:None")) + QString("</i>");
       } else {
         techs_known.replace(techs_known.lastIndexOf(","), 1, ".");
       }
       if (b == 0) {
         techs_unknown = techs_unknown + QString("<i>") + sp
-                        + QString(_("None")) + QString("</i>");
+                        + QString(Q_("?tech:None")) + QString("</i>");
       } else {
         techs_unknown.replace(techs_unknown.lastIndexOf(","), 1, ".");
       }

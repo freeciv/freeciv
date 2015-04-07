@@ -128,7 +128,7 @@ static const char *help_elabel_name[6] =
  * stats like "0/0/+1", "0/+50%/0" */
   N_("Bonus (F/P/T):"), NULL };
 
-#define REQ_LABEL_NONE _("None")
+#define REQ_LABEL_NONE _("?tech:None")
 #define REQ_LABEL_NEVER _("(Never)")
 
 static void create_help_dialog(void);
@@ -321,7 +321,7 @@ static void help_hyperlink_callback(GtkWidget *w)
      below, depending on which i18n is done elsewhere.
   */
   if (strcmp(s, REQ_LABEL_NEVER) != 0
-      && strcmp(s, REQ_LABEL_NONE) != 0
+      && strcmp(s, skip_intl_qualifier_prefix(REQ_LABEL_NONE)) != 0
       && strcmp(s, advance_name_translation(advance_by_number(A_NONE))) != 0)
     select_help_item_string(s, type);
 }
@@ -734,7 +734,7 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
 
   if (imp  &&  !is_great_wonder(imp)) {
-    const char *req = REQ_LABEL_NONE;
+    const char *req = skip_intl_qualifier_prefix(REQ_LABEL_NONE);
     char req_buf[512];
 
     sprintf(buf, "%d", impr_build_shield_cost(imp));
@@ -781,7 +781,7 @@ static void help_update_wonder(const struct help_item *pitem,
 
   create_help_page(HELP_WONDER);
 
-  if (imp  &&  is_great_wonder(imp)) {
+  if (imp && is_great_wonder(imp)) {
     int i;
     char req_buf[512];
 
@@ -814,12 +814,11 @@ static void help_update_wonder(const struct help_item *pitem,
       }
     } requirement_vector_iterate_end;
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
-  }
-  else {
+  } else {
     /* can't find wonder */
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_wlabel[3]), REQ_LABEL_NEVER);
-    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NONE);
+    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), skip_intl_qualifier_prefix(REQ_LABEL_NONE));
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
   gtk_widget_show(help_wtable);
@@ -865,7 +864,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     }
 /*    create_tech_tree(help_improvement_tree, 0, advance_number(utype->require_advance), 3);*/
     if (U_NOT_OBSOLETED == utype->obsoleted_by) {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_LABEL_NONE);
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), skip_intl_qualifier_prefix(REQ_LABEL_NONE));
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]),
 			 utype_name_translation(utype->obsoleted_by));
@@ -899,7 +898,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
     gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_LABEL_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
-    gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_LABEL_NONE);
+    gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), skip_intl_qualifier_prefix(REQ_LABEL_NONE));
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
@@ -1264,7 +1263,7 @@ static void help_update_extra(const struct help_item *pitem, char *title)
       }
       if (!bonus) {
         /* TRANS: No output bonus from a road */
-        bonus = _("None");
+        bonus = Q_("?bonus:None");
       }
       gtk_label_set_text(GTK_LABEL(help_elabel[5]), bonus);
     } else {

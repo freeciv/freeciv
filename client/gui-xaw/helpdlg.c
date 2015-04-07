@@ -834,7 +834,7 @@ static void help_update_wonder(const struct help_item *pitem,
     /* can't find wonder */
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
-    xaw_set_label(help_wonder_obsolete_data, _("None"));
+    xaw_set_label(help_wonder_obsolete_data, Q_("?tech:None"));
     create_tech_tree(help_tech_tree, 0, advance_count(), 3); 
   }
   set_title_topic(pitem);
@@ -880,7 +880,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     }
     create_tech_tree(help_tech_tree, 0, advance_number(punittype->require_advance), 3);
     if (U_NOT_OBSOLETED == punittype->obsoleted_by) {
-      xaw_set_label(help_wonder_obsolete_data, _("None"));
+      xaw_set_label(help_wonder_obsolete_data, Q_("?tech:None"));
     } else {
       xaw_set_label(help_wonder_obsolete_data,
 		    utype_name_translation(punittype->obsoleted_by));
@@ -899,7 +899,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_visrange_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
     create_tech_tree(help_tech_tree, 0, advance_count(), 3);
-    xaw_set_label(help_wonder_obsolete_data, _("None"));
+    xaw_set_label(help_wonder_obsolete_data, Q_("?tech:None"));
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
   xaw_set_bitmap(help_unit_tile, create_overlay_unit(punittype));

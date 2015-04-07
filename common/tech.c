@@ -270,7 +270,7 @@ const char *advance_name_translation(const struct advance *padvance)
 ****************************************************************************/
 const char *advance_rule_name(const struct advance *padvance)
 {
-  return rule_name(&padvance->name);
+  return skip_intl_qualifier_prefix(rule_name(&padvance->name));
 }
 
 /**************************************************************************
@@ -378,7 +378,7 @@ void techs_init(void)
 
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
-  name_set(&a_none->name, NULL, N_("None"));
+  name_set(&a_none->name, NULL, N_("?tech:None"));
   a_none->require[AR_ONE] = a_none;
   a_none->require[AR_TWO] = a_none;
   a_none->require[AR_ROOT] = A_NEVER;
