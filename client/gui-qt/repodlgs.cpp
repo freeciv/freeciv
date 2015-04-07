@@ -353,7 +353,7 @@ void science_report::update_report()
   qres = research->tech_goal;
 
   if (qres == A_UNSET) {
-    goal_combo->insertItem(0, _("None"), A_UNSET);
+    goal_combo->insertItem(0, Q_("?tech:None"), A_UNSET);
     goal_combo->setCurrentIndex(0);
   } else {
     for (int i = 0; i < goal_combo->count(); i++) {

@@ -368,10 +368,10 @@ void setup_auxiliary_tech_icons(void)
   SDL_Color bg_color = {255, 255, 255, 136};
 
   SDL_Surface *pSurf;
-  SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
-  
+  SDL_String16 *pStr = create_str16_from_char(Q_("?tech:None"), adj_font(10));
+
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
-    
+
   /* create icons */
   pSurf = create_surf_alpha(adj_size(50), adj_size(50), SDL_SWSURFACE);
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));

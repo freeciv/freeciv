@@ -1110,7 +1110,7 @@ const char *advance_name_translation(const struct advance *padvance)
 ****************************************************************************/
 const char *advance_rule_name(const struct advance *padvance)
 {
-  return rule_name(&padvance->name);
+  return skip_intl_qualifier_prefix(rule_name(&padvance->name));
 }
 
 /**************************************************************************
@@ -1214,10 +1214,10 @@ void techs_init(void)
 
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
-  name_set(&advances[A_NONE].name, NULL, N_("None"));
+  name_set(&advances[A_NONE].name, NULL, N_("?tech:None"));
 
   /* Initialize dummy tech A_UNSET */
-  name_set(&advances[A_UNSET].name, NULL, N_("None"));
+  name_set(&advances[A_UNSET].name, NULL, N_("?tech:None"));
 
   /* Initialize dummy tech A_FUTURE */
   name_set(&advances[A_FUTURE].name, NULL, N_("Future Tech."));

@@ -441,20 +441,21 @@ static bool manual_command(void)
 
         requirement_vector_iterate(&pimprove->reqs, req) {
           char text[512], text2[512];
+
           fc_snprintf(text2, sizeof(text2),
                       /* TRANS: improvement requires a feature to be absent. */
                       req->negated ? _("no %s") : "%s",
                       VUT_NONE != req->source.kind
                       ? universal_name_translation(&req->source,
                                                    text, sizeof(text))
-                      : _("None"));
+                      : Q_("?req:None"));
           fprintf(doc, "%s<br/>", text2);
         } requirement_vector_iterate_end;
 
         fprintf(doc, "<em>%s</em></td>\n",
                 valid_advance(pimprove->obsolete_by)
                 ? advance_name_translation(pimprove->obsolete_by)
-                : _("None"));
+                : Q_("?tech:None"));
         fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } improvement_iterate_end;
       break;

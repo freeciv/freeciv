@@ -371,9 +371,9 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
-  if (!(requirement_vector_size(&pImpr_type->reqs) > 0)) {
+  if (requirement_vector_size(&pImpr_type->reqs) == 0) {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                     _("None"),
+                                                     Q_("?req:None"),
                                                      adj_font(12), 0);
     pRequirementLabel2->ID = ID_LABEL;
   } else {
@@ -803,10 +803,10 @@ void popup_unit_info(Unit_type_id type_id)
   DownAdd(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
-  if(A_NEVER == pUnitType->require_advance ||
-     advance_by_number(A_NONE) == pUnitType->require_advance) {
+  if (A_NEVER == pUnitType->require_advance
+     || advance_by_number(A_NONE) == pUnitType->require_advance) {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                     _("None"), adj_font(12), 0);
+                                                     Q_("?tech:None"), adj_font(12), 0);
     pRequirementLabel2->ID = ID_LABEL;
   } else {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
@@ -832,7 +832,7 @@ void popup_unit_info(Unit_type_id type_id)
 
   if (pUnitType->obsoleted_by == U_NOT_OBSOLETED) {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                                    _("None"),
+                                                    Q_("?utype:None"),
                                                     adj_font(12), 0);
     pObsoleteByLabel2->ID = ID_LABEL;
   } else {

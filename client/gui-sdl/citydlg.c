@@ -712,7 +712,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
                 (vetname != NULL ? vetname : ""),
                 unit_activity_text(pUnit),
                 pUnit->hp, pUType->hp,
-                pHome_City ? pHome_City->name : _("None"));
+                pHome_City ? pHome_City->name : Q_("?homecity:None"));
 
     if (pCityDlg->page == SUPPORTED_UNITS_PAGE) {
       int pCity_near_dist;
