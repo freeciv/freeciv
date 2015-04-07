@@ -2105,7 +2105,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		 advance_name_for_player(pplayer,
 					 advance_number(u->require_advance)),
 		 utype_name_translation(u));
-    cat_snprintf(buf, bufsz, "  ");
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
@@ -3245,6 +3244,11 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
 void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                    const char *user_text, struct base_type *pbase)
 {
+  struct universal source = {
+    .kind = VUT_BASE,
+    .value = {.base = pbase}
+  };
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -3270,6 +3274,8 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
   }
+
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   {
     const char *classes[uclass_count()];
@@ -3390,6 +3396,11 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
                    const char *user_text, struct road_type *proad)
 {
+  struct universal source = {
+    .kind = VUT_ROAD,
+    .value = {.road = proad}
+  };
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -3415,6 +3426,8 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
   }
+
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   {
     const char *classes[uclass_count()];
@@ -4254,6 +4267,11 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
 void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
 		     const char *user_text)
 {
+  struct universal source = {
+    .kind = VUT_NATION,
+    .value = {.nation = pnation}
+  };
+
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
@@ -4374,8 +4392,15 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
     astr_free(&list);
   }
 
-  if (user_text && user_text[0] != '\0') {
+  if (buf[0] != '\0') {
     CATLSTR(buf, bufsz, "\n");
+  }
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+
+  if (user_text && user_text[0] != '\0') {
+    if (buf[0] != '\0') {
+      CATLSTR(buf, bufsz, "\n");
+    }
     CATLSTR(buf, bufsz, user_text);
   }
 }
