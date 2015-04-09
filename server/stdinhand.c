@@ -1649,6 +1649,7 @@ static void show_help_option(struct connection *caller,
 {
   char val_buf[256], def_buf[256];
   struct setting *pset = setting_by_number(id);
+  const char *sethelp;
 
   if (setting_short_help(pset)) {
     cmd_reply(help_cmd, caller, C_COMMENT,
@@ -1661,8 +1662,9 @@ static void show_help_option(struct connection *caller,
               _("Option: %s"), setting_name(pset));
   }
 
-  if (strlen(setting_extra_help(pset)) > 0) {
-    char *help = fc_strdup(_(setting_extra_help(pset)));
+  sethelp = setting_extra_help(pset, FALSE);
+  if (strlen(sethelp) > 0) {
+    char *help = fc_strdup(sethelp);
 
     fc_break_lines(help, LINE_BREAK);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
