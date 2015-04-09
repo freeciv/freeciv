@@ -15,10 +15,10 @@ docs =				\
 	README.AI		\
 	README.AI_modules	\
 	README.attributes 	\
-	README.cma		\
 	README.delta		\
 	README.effects		\
 	README.fcdb		\
+	README.governor		\
 	README.graphics		\
 	README.nations		\
 	README.packaging	\
