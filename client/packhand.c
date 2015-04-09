@@ -3494,6 +3494,18 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->flags = p->flags;
 }
 
+/****************************************************************************
+  Handle a packet about a particular goods type.
+****************************************************************************/
+void handle_ruleset_goods(const struct packet_ruleset_goods *p)
+{
+  struct goods_type *pgood = goods_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != pgood, "Bad goods %d.", p->id);
+
+  names_set(&pgood->name, NULL, p->name, p->rule_name);
+}
+
 /**************************************************************************
   Handle a packet about a particular action.
 **************************************************************************/

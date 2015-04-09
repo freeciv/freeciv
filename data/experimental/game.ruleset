@@ -647,6 +647,21 @@ settings =
     "TeamIC",     400,   "Cancel",     "Both"
   }
 
+; /* <-- avoid gettext warnings
+;
+; Goods
+;
+; name                    = translatable name as seen by user
+; rule_name               = (optional) name for savegames, rulesets etc; if not
+;                           present, 'name' is used. Since the name used in
+;                           savegames must not change, use this when renaming
+;                           an good after a ruleset has been released.
+;
+; */ <-- avoid gettext warnings
+
+[goods_good]
+name = _("Goods")
+
 [playercolors]
 background.r = 86
 background.g = 86

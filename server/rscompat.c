@@ -28,6 +28,7 @@
 /* common */
 #include "actions.h"
 #include "effects.h"
+#include "game.h"
 #include "requirements.h"
 #include "unittype.h"
 
@@ -269,4 +270,18 @@ void rscompat_postprocess(struct rscompat_info *info)
   }
 
   iterate_effect_cache(effect_list_compat_cb, NULL);
+}
+
+/**************************************************************************
+  Created one required good for rulesets lacking one.
+**************************************************************************/
+void rscompat_goods_3_0(void)
+{
+  struct goods_type *pgood;
+
+  game.control.num_goods_types = 1;
+
+  pgood = goods_by_number(0);
+
+  names_set(&pgood->name, NULL, "Goods", "Goods");
 }

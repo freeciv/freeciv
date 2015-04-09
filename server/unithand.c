@@ -2450,6 +2450,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   struct city_list *cities_out_of_home, *cities_out_of_dest;
   enum traderoute_bonus_type bonus_type;
   const char *bonus_str;
+  const char *goods_str;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -2592,28 +2593,33 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   conn_list_do_buffer(pplayer->connections);
 
+  /* Get name from the first (and currently only) goods type there is */
+  goods_str = goods_name_translation(goods_by_number(0));
+
   if (bonus_str != NULL) {
     notify_player(pplayer, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
-                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... gold and research. */
-                  PL_("Your %s from %s has arrived in %s,"
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... Goods... gold and research. */
+                  PL_("Your %s from %s has arrived in %s carrying %s,"
                       " and revenues amount to %d in %s.",
-                      "Your %s from %s has arrived in %s,"
+                      "Your %s from %s has arrived in %s carrying %s,"
                       " and revenues amount to %d in %s.",
                       revenue),
                   punit_link,
                   homecity_link,
                   destcity_link,
+                  goods_str,
                   revenue,
                   bonus_str);
   } else {
     notify_player(pplayer, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
-                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
-                  _("Your %s from %s has arrived in %s."),
+                  /* TRANS: ... Caravan ... Paris ... Stockholm ... Goods */
+                  _("Your %s from %s has arrived in %s carrying %s."),
                   punit_link,
                   homecity_link,
-                  destcity_link);
+                  destcity_link,
+                  goods_str);
   }
   wipe_unit(punit, ULR_USED, NULL);
 

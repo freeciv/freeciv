@@ -38,6 +38,8 @@ const char *traderoute_cancelling_type_names[] = {
 
 struct trade_route_settings trtss[TRT_LAST];
 
+static struct goods_type goods[MAX_GOODS_TYPES];
+
 /*************************************************************************
   Return current maximum number of trade routes city can have.
 *************************************************************************/
@@ -409,4 +411,72 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
   } trade_routes_iterate_end;
 
   return FALSE;
+}
+
+/****************************************************************************
+  Initialize goods structures.
+****************************************************************************/
+void goods_init(void)
+{
+  int i;
+
+  for (i = 0; i < MAX_GOODS_TYPES; i++) {
+    goods[i].id = i;
+  }
+}
+
+/****************************************************************************
+  Free the memory associated with goods
+****************************************************************************/
+void goods_free(void)
+{
+}
+
+/**************************************************************************
+  Return the goods id.
+**************************************************************************/
+Goods_type_id goods_number(const struct goods_type *pgood)
+{
+  fc_assert_ret_val(NULL != pgood, -1);
+
+  return pgood->id;
+}
+
+/**************************************************************************
+  Return the goods index.
+
+  Currently same as goods_number(), paired with goods_count()
+  indicates use as an array index.
+**************************************************************************/
+Goods_type_id goods_index(const struct goods_type *pgood)
+{
+  fc_assert_ret_val(NULL != pgood, -1);
+
+  return pgood - goods;
+}
+
+/****************************************************************************
+  Return goods type of given id.
+****************************************************************************/
+struct goods_type *goods_by_number(Goods_type_id id)
+{
+  fc_assert_ret_val(id >= 0 && id < game.control.num_goods_types, NULL);
+
+  return &goods[id];
+}
+
+/****************************************************************************
+  Return translated name of this goods type.
+****************************************************************************/
+const char *goods_name_translation(struct goods_type *pgood)
+{
+  return name_translation(&pgood->name);
+}
+
+/****************************************************************************
+  Return untranslated name of this goods type.
+****************************************************************************/
+const char *goods_rule_name(struct goods_type *pgood)
+{
+  return rule_name(&pgood->name);
 }

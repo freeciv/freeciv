@@ -46,6 +46,7 @@ extern "C" {
 #define MAX_EXTRA_TYPES 64 /* Used in the network protocol. */
 #define MAX_BASE_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
 #define MAX_ROAD_TYPES MAX_EXTRA_TYPES /* Used in the network protocol. */
+#define MAX_GOODS_TYPES 1
 #define MAX_DISASTER_TYPES 10
 #define MAX_ACHIEVEMENT_TYPES 10
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS /* Used in the network protocol. */
@@ -145,6 +146,7 @@ typedef int Unit_type_id;
 typedef int Base_type_id;
 typedef int Road_type_id;
 typedef int Disaster_type_id;
+typedef int Goods_type_id;
 typedef unsigned char citizens;
 
 struct advance;

@@ -516,6 +516,7 @@ void game_ruleset_init(void)
   trade_route_types_init();
   terrains_init();
   extras_init();
+  goods_init();
   improvements_init();
   techs_init();
   unit_classes_init();
@@ -558,6 +559,7 @@ void game_ruleset_free(void)
   unit_type_flags_free();
   role_unit_precalcs_free();
   improvements_free();
+  goods_free();
   extras_free();
   music_styles_free();
   city_styles_free();

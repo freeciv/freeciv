@@ -63,7 +63,7 @@ void disaster_types_free(void);
 /* General disaster type accessor functions. */
 Disaster_type_id disaster_count(void);
 Disaster_type_id disaster_index(const struct disaster_type *pdis);
-Disaster_type_id disaster_number(const struct disaster_type *proad);
+Disaster_type_id disaster_number(const struct disaster_type *pdis);
 
 struct disaster_type *disaster_by_number(Disaster_type_id id);
 

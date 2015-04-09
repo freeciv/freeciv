@@ -999,6 +999,16 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
+  /* Goods */
+  set_count = 0;
+  goods_type_iterate(pgood) {
+    char path[512];
+
+    fc_snprintf(path, sizeof(path), "goods_%d", sect_idx++);
+
+    save_name_translation(sfile, &(pgood->name), path);
+  } goods_type_iterate_end;
+
   locks = FALSE;
   settings_iterate(SSET_ALL, pset) {
     if (setting_locked(pset)) {

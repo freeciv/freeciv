@@ -101,6 +101,33 @@ do {                                                        \
   }                                                         \
 } while(FALSE)
 
+struct goods_type
+{
+  int id;
+  struct name_translation name;
+};
+  
+void goods_init(void);
+void goods_free(void);
+
+Goods_type_id goods_index(const struct goods_type *pgood);
+Goods_type_id goods_number(const struct goods_type *pgood);
+
+struct goods_type *goods_by_number(Goods_type_id id);
+
+const char *goods_name_translation(struct goods_type *pgood);
+const char *goods_rule_name(struct goods_type *pgood);
+
+#define goods_type_iterate(_p)                                \
+{                                                             \
+  int _i_;                                                    \
+  for (_i_ = 0; _i_ < game.control.num_goods_types ; _i_++) { \
+    struct goods_type *_p = goods_by_number(_i_);
+
+#define goods_type_iterate_end                       \
+  }                                                  \
+}
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

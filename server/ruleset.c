@@ -95,6 +95,7 @@
 #define EXTRA_SECTION_PREFIX "extra_"
 #define BASE_SECTION_PREFIX "base_"
 #define ROAD_SECTION_PREFIX "road_"
+#define GOODS_SECTION_PREFIX "goods_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
 #define TERRAIN_SECTION_PREFIX "terrain_"
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
@@ -173,6 +174,7 @@ static void send_ruleset_resources(struct conn_list *dest);
 static void send_ruleset_extras(struct conn_list *dest);
 static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_roads(struct conn_list *dest);
+static void send_ruleset_goods(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_styles(struct conn_list *dest);
 static void send_ruleset_musics(struct conn_list *dest);
@@ -5690,6 +5692,44 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     }
   }
 
+  if (compat->ver_game < 10) {
+    rscompat_goods_3_0();
+  } else {
+    if (ok) {
+      sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
+      nval = (NULL != sec ? section_list_size(sec) : 0);
+      if (nval > MAX_GOODS_TYPES) {
+        int num = nval; /* No "size_t" to printf */
+
+        ruleset_error(LOG_ERROR, "\"%s\": Too many goods types (%d, max %d)",
+                      filename, num, MAX_GOODS_TYPES);
+        section_list_destroy(sec);
+        ok = FALSE;
+      } else if (nval < 1) {
+        ruleset_error(LOG_ERROR, "\"%s\": At least one goods type needed",
+                      filename);
+        section_list_destroy(sec);
+        ok = FALSE;
+      } else {
+        game.control.num_goods_types = nval;
+      }
+    }
+
+    if (ok) {
+      goods_type_iterate(pgood) {
+        int id = goods_index(pgood);
+        const char *sec_name = section_name(section_list_get(sec, id));
+
+        if (!ruleset_load_names(&pgood->name, NULL, file, sec_name)) {
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load goods names",
+                        filename);
+          ok = FALSE;
+          break;
+        }
+      } goods_type_iterate_end;
+    }
+  }
+
   if (ok) {
     secfile_check_unused(file);
   }
@@ -6210,6 +6250,23 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     lsend_packet_ruleset_road(dest, &packet);
   } road_type_iterate_end;
+}
+
+/**************************************************************************
+  Send the goods ruleset information (all individual goods types) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_goods(struct conn_list *dest)
+{
+  struct packet_ruleset_goods packet;
+
+  goods_type_iterate(g) {
+    packet.id = goods_number(g);
+    sz_strlcpy(packet.name, untranslated_name(&g->name));
+    sz_strlcpy(packet.rule_name, rule_name(&g->name));
+
+    lsend_packet_ruleset_goods(dest, &packet);
+  } goods_type_iterate_end;
 }
 
 /**************************************************************************
@@ -6944,6 +7001,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_extras(dest);
   send_ruleset_bases(dest);
   send_ruleset_roads(dest);
+  send_ruleset_goods(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_styles(dest);
