@@ -78,6 +78,7 @@ typedef bool (*bitwise_validate_func_t) (unsigned value,
                                          size_t reject_msg_len);
 
 typedef void (*action_callback_func_t) (const struct setting *pset);
+typedef char *(*help_callback_func_t) (void);
 typedef const struct sset_val_name * (*val_name_func_t) (int value);
 
 struct setting {
@@ -98,6 +99,10 @@ struct setting {
    * etc, and should end with a "."
    */
   const char *extra_help;
+
+  /* help function */
+  const help_callback_func_t help_func;
+
   enum sset_type stype;
   enum sset_category scategory;
   enum sset_level slevel;
@@ -458,6 +463,27 @@ static const struct sset_val_name *bool_name(int enable)
 
 #undef NAME_CASE
 
+/*************************************************************************
+  Help callback functions.
+*************************************************************************/
+
+/*************************************************************************
+  Help about phasemode setting
+*************************************************************************/
+static char *phasemode_help(void)
+{
+  static char pmhelp[512];
+
+  /* Translated here */
+  fc_snprintf(pmhelp, sizeof(pmhelp),
+              _("This setting controls whether players may make "
+                "moves at the same time during a turn. Change "
+                "in setting takes effect next turn. Currently, at least "
+                "to the end of this turn, mode is \"%s\"."),
+              phasemode_name(game.info.phase_mode)->pretty);
+
+  return pmhelp;
+}
 
 /*************************************************************************
   Action callback functions.
@@ -988,7 +1014,7 @@ static bool plrcol_validate(int value, struct connection *caller,
 #define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,            \
                  short_help, extra_help, func_validate, func_action,        \
                  _default)                                                  \
-  {name, sclass, to_client, short_help, extra_help, SSET_BOOL,              \
+  {name, sclass, to_client, short_help, extra_help, NULL, SSET_BOOL,        \
       scateg, slevel,                                                       \
       {.boolean = {&value, _default, func_validate, bool_name,              \
                    FALSE}}, func_action, FALSE},
@@ -996,7 +1022,7 @@ static bool plrcol_validate(int value, struct connection *caller,
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
                 short_help, extra_help, func_validate, func_action,     \
                 _min, _max, _default)                                   \
-  {name, sclass, to_client, short_help, extra_help, SSET_INT,           \
+  {name, sclass, to_client, short_help, extra_help, NULL, SSET_INT,     \
       scateg, slevel,                                                   \
       {.integer = {(int *) &value, _default, _min, _max, func_validate, \
                    0}},                                                 \
@@ -1005,15 +1031,15 @@ static bool plrcol_validate(int value, struct connection *caller,
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
                    short_help, extra_help, func_validate, func_action,  \
                    _default)                                            \
-  {name, sclass, to_client, short_help, extra_help, SSET_STRING,        \
+  {name, sclass, to_client, short_help, extra_help, NULL, SSET_STRING,  \
       scateg, slevel,                                                   \
       {.string = {value, _default, sizeof(value), func_validate, ""}},  \
       func_action, FALSE},
 
 #define GEN_ENUM(name, value, sclass, scateg, slevel, to_client,            \
-                 short_help, extra_help, func_validate, func_action,        \
-                 func_name, _default)                                       \
-  { name, sclass, to_client, short_help, extra_help, SSET_ENUM,             \
+                 short_help, extra_help, func_help, func_validate,          \
+                 func_action, func_name, _default)                          \
+  { name, sclass, to_client, short_help, extra_help, func_help, SSET_ENUM,  \
       scateg, slevel,                                                       \
       { .enumerator = {  &value, sizeof(value), _default,                   \
                          func_validate,                                     \
@@ -1022,7 +1048,7 @@ static bool plrcol_validate(int value, struct connection *caller,
 #define GEN_BITWISE(name, value, sclass, scateg, slevel, to_client,         \
                    short_help, extra_help, func_validate, func_action,      \
                    func_name, _default)                                     \
-  { name, sclass, to_client, short_help, extra_help, SSET_BITWISE,          \
+  { name, sclass, to_client, short_help, extra_help, NULL, SSET_BITWISE,    \
     scateg, slevel,                                                         \
      { .bitwise = { (unsigned *) (void *) &value, _default, func_validate,  \
        func_name, 0 }}, func_action, FALSE},
@@ -1047,7 +1073,7 @@ static struct setting settings[] = {
              "- \"Tiles per player\" (PLAYER): Number of (land) tiles per "
              "player (option 'tilesperplayer').\n"
              "- \"Width and height\" (XYSIZE): Map width and height in "
-             "tiles (options 'xsize' and 'ysize')."),
+             "tiles (options 'xsize' and 'ysize')."), NULL,
           mapsize_callback, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
 
   GEN_INT("size", map.server.size, SSET_MAP_SIZE,
@@ -1169,7 +1195,7 @@ static struct setting settings[] = {
               "same island for every player or every team.\n"
               "If the requested generator is incompatible with other server "
               "settings, the server may fall back to another generator."),
-           generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
+           NULL, generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
 
   GEN_ENUM("startpos", map.server.startpos,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
@@ -1204,7 +1230,7 @@ static struct setting settings[] = {
               "create the right number of continents for the choice of this "
               "'startpos' setting and the number of players, so this is "
               "unlikely to occur.)"),
-           NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
+           NULL, NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
 
   GEN_ENUM("teamplacement", map.server.team_placement,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
@@ -1229,7 +1255,7 @@ static struct setting settings[] = {
               "team will be placed horizontally.\n"
               "- \"Vertical placement\" (VERTICAL): players of the same "
               "team will be placed vertically."),
-           NULL, NULL, teamplacement_name, MAP_DEFAULT_TEAM_PLACEMENT)
+           NULL, NULL, NULL, teamplacement_name, MAP_DEFAULT_TEAM_PLACEMENT)
 
   GEN_BOOL("tinyisles", map.server.tinyisles,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
@@ -1777,7 +1803,7 @@ static struct setting settings[] = {
            N_("National borders"),
            N_("If this is not disabled, then any land tiles around a "
               "fortress or city will be owned by that nation."),
-           NULL, NULL, borders_name, GAME_DEFAULT_BORDERS)
+           NULL, NULL, NULL, borders_name, GAME_DEFAULT_BORDERS)
 
   GEN_BOOL("happyborders", game.info.happyborders,
 	   SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL,
@@ -1792,7 +1818,7 @@ static struct setting settings[] = {
            N_("Ability to do diplomacy with other players"),
            N_("This setting controls the ability to do diplomacy with "
               "other players."),
-           NULL, NULL, diplomacy_name, GAME_DEFAULT_DIPLOMACY)
+           NULL, NULL, NULL, diplomacy_name, GAME_DEFAULT_DIPLOMACY)
 
   GEN_ENUM("citynames", game.server.allowed_city_names,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
@@ -1810,7 +1836,7 @@ static struct setting settings[] = {
               "\"Globally unique\", but a player isn't allowed to use a "
               "default city name of another nation unless it is a default "
               "for their nation also."),
-           NULL, NULL, citynames_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
+           NULL, NULL, NULL, citynames_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
 
   GEN_ENUM("plrcolormode", game.server.plrcolormode,
            SSET_RULES, SSET_INTERNAL, SSET_RARE, SSET_TO_CLIENT,
@@ -1842,7 +1868,7 @@ static struct setting settings[] = {
               "get a random color from the list in the ruleset.\n"
               "Regardless of this setting, individual player colors can be "
               "changed after the game starts with the 'playercolor' command."),
-           plrcol_validate, plrcol_action, plrcol_name,
+           NULL, plrcol_validate, plrcol_action, plrcol_name,
            GAME_DEFAULT_PLRCOLORMODE)
 
   /* Flexible rules: these can be changed after the game has started.
@@ -1865,7 +1891,7 @@ static struct setting settings[] = {
             * should not be translated. */
            N_("This setting controls how frequently the barbarians appear "
               "in the game. See also the 'onsetbarbs' setting."),
-           NULL, NULL, barbarians_name, GAME_DEFAULT_BARBARIANRATE)
+           NULL, NULL, NULL, barbarians_name, GAME_DEFAULT_BARBARIANRATE)
 
   GEN_INT("onsetbarbs", game.server.onsetbarbarian,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
@@ -2245,7 +2271,7 @@ static struct setting settings[] = {
            N_("This setting controls whether players may make "
               "moves at the same time during a turn. Change "
               "in setting takes effect next turn."),
-           NULL, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
+           phasemode_help, NULL, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.server.tcptimeout,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
@@ -2369,7 +2395,7 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
            N_("Savegame compression algorithm"),
            N_("Compression library to use for savegames."),
-           NULL, NULL, compresstype_name, GAME_DEFAULT_COMPRESS_TYPE)
+           NULL, NULL, NULL, compresstype_name, GAME_DEFAULT_COMPRESS_TYPE)
 
   GEN_STRING("savename", game.server.save_name,
              SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
@@ -2492,12 +2518,16 @@ const char *setting_short_help(const struct setting *pset)
 }
 
 /****************************************************************************
-  Access function for the long (extra) help (not translated yet) of
-  the setting.
+  Access function for the long (extra) help of the setting.
+  If 'constant' is TRUE, static, not-yet-translated string is always returned.
 ****************************************************************************/
-const char *setting_extra_help(const struct setting *pset)
+const char *setting_extra_help(const struct setting *pset, bool constant)
 {
-  return pset->extra_help;
+  if (!constant && pset->help_func != NULL) {
+    return pset->help_func();
+  }
+
+  return _(pset->extra_help);
 }
 
 /****************************************************************************
@@ -4266,7 +4296,7 @@ void send_server_setting_control(struct connection *pconn)
     sz_strlcpy(setting.name, setting_name(pset));
     /* Send untranslated strings to client */
     sz_strlcpy(setting.short_help, setting_short_help(pset));
-    sz_strlcpy(setting.extra_help, setting_extra_help(pset));
+    sz_strlcpy(setting.extra_help, setting_extra_help(pset, TRUE));
     setting.category = pset->scategory;
 
     send_packet_server_setting_const(pconn, &setting);

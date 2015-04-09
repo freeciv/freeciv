@@ -187,12 +187,14 @@ static bool manual_command(void)
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
       settings_iterate(SSET_ALL, pset) {
         char buf[256];
+        const char *sethelp;
 
         fprintf(doc, SEPARATOR);
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
                 _(setting_short_help(pset)), SECTION_END);
-        if (strlen(setting_extra_help(pset)) > 0) {
-          char *help = fc_strdup(_(setting_extra_help(pset)));
+        sethelp = _(setting_extra_help(pset, TRUE));
+        if (strlen(sethelp) > 0) {
+          char *help = fc_strdup(sethelp);
           size_t help_len = strlen(help) + 1;
 
           fc_break_lines(help, LINE_BREAK);
