@@ -1365,10 +1365,13 @@ static void sg_load_savefile(struct loaddata *loading)
   if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
     /* Load ruleset. */
     sz_strlcpy(game.server.rulesetdir,
-               secfile_lookup_str_default(loading->file, "classic",
+               secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
                                           "savefile.rulesetdir"));
+    /* In 'savegame3' saves 'default' really means current default.
+     * Saving happens with real ruleset name, so savegames containing this
+     * are special scenarios. */
     if (!strcmp("default", game.server.rulesetdir)) {
-      sz_strlcpy(game.server.rulesetdir, "classic");
+      sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
     }
     if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
       /* Failed to load correct ruleset */

@@ -1048,8 +1048,10 @@ static void sg_load_savefile(struct loaddata *loading)
 
   /* Load ruleset. */
   sz_strlcpy(game.server.rulesetdir,
-             secfile_lookup_str_default(loading->file, "classic",
+             secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
                                         "savefile.rulesetdir"));
+  /* In 'savegame2' saves 'default' means the old name of 'classic'
+   * ruleset. So load it as 'classic' ruleset, not the current default. */
   if (!strcmp("default", game.server.rulesetdir)) {
     sz_strlcpy(game.server.rulesetdir, "classic");
   }
