@@ -58,8 +58,7 @@ AC_ARG_ENABLE([gtktest],
 
   if test x"$no_gtk" = x ; then
     GTK3_CFLAGS=`$PKG_CONFIG $pkg_config_args --cflags`
-    GTK3_CFLAGS="$GTK3_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_8 -DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_8"
-    GTK3_CFLAGS="$GTK3_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_36 -DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_36"
+    GTK3_CFLAGS="$GTK3_CFLAGS $gtk3_cflags"
     GTK3_LIBS=`$PKG_CONFIG $pkg_config_args --libs`
     gtk_config_major_version=`$PKG_CONFIG --modversion gtk+-3.0 | \
            sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
