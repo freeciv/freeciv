@@ -40,12 +40,12 @@ class tab_tech : public QWidget
   public:
     explicit tab_tech(ruledit_gui *ui_in);
     void refresh();
+    static void techs_to_menu(QMenu *fill_menu);
+    static QString tech_name(struct advance *padv);
 
   private:
     ruledit_gui *ui;
     void update_tech_info(struct advance *adv);
-    QString tech_name(struct advance *padv);
-    void techs_to_menu(QMenu *fill_menu);
     QMenu *prepare_req_button(QToolButton *button, enum tech_req rn);
     void initialize_new_tech(struct advance *padv);
 

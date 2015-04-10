@@ -32,6 +32,7 @@
 #include "unittype.h"
 
 // ruledit
+#include "edit_utype.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -48,6 +49,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   QLabel *label;
   QPushButton *add_button;
   QPushButton *delete_button;
+  QPushButton *edit_button;
 
   ui = ui_in;
   selected = 0;
@@ -74,6 +76,10 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   connect(rname, SIGNAL(returnPressed()), this, SLOT(name_given()));
   unit_layout->addWidget(label, 1, 0);
   unit_layout->addWidget(rname, 1, 1);
+
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Unit")), this);
+  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  unit_layout->addWidget(edit_button, 2, 1);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
@@ -115,7 +121,7 @@ void tab_unit::update_utype_info(struct unit_type *ptype)
 {
   selected = ptype;
 
-  if (selected != 0) {
+  if (selected != nullptr) {
     name->setText(QString::fromUtf8(untranslated_name(&(ptype->name))));
     rname->setText(QString::fromUtf8(utype_rule_name(ptype)));
   } else {
@@ -174,6 +180,16 @@ void tab_unit::delete_now()
 
   refresh();
   update_utype_info(0);
+}
+
+/**************************************************************************
+  User requested unit edit dialog
+**************************************************************************/
+void tab_unit::edit_now()
+{
+  edit_utype *edit = new edit_utype(ui, selected);
+
+  edit->show();
 }
 
 /**************************************************************************

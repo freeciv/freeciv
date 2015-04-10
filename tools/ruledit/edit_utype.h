@@ -11,47 +11,36 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__TAB_UNIT_H
-#define FC__TAB_UNIT_H
+#ifndef FC__EDIT_UTYPE_H
+#define FC__EDIT_UTYPE_H
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
 
 // Qt
-#include <QWidget>
+#include <QDialog>
 
-class QLineEdit;
-class QListWidget;
+class QToolButton;
 
 class ruledit_gui;
 
-class tab_unit : public QWidget
+class edit_utype : public QDialog
 {
   Q_OBJECT
 
   public:
-    explicit tab_unit(ruledit_gui *ui_in);
+    explicit edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in);
     void refresh();
 
   private:
     ruledit_gui *ui;
-    void update_utype_info(struct unit_type *ptype);
-    void initialize_new_utype(struct unit_type *ptype);
-
-    QLineEdit *name;
-    QLineEdit *rname;
-    QListWidget *unit_list;
-
-    struct unit_type *selected;
+    struct unit_type *utype;
+    QToolButton *req_button;
 
   private slots:
-    void name_given();
-    void select_unit();
-    void add_now();
-    void delete_now();
-    void edit_now();
+    void req_menu(QAction *action);
 };
 
 
-#endif // FC__TAB_UNIT_H
+#endif // FC__EDIT_UTYPE_H
