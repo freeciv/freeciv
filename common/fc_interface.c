@@ -70,4 +70,5 @@ void fc_interface_init(void)
 void free_libfreeciv(void)
 {
   free_data_dir_names();
+  free_multicast_group();
 }
