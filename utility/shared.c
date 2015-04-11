@@ -116,6 +116,8 @@ static struct strvec *data_dir_names = NULL;
 static struct strvec *save_dir_names = NULL;
 static struct strvec *scenario_dir_names = NULL;
 
+static char *mc_group = NULL;
+
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
 
@@ -1681,31 +1683,41 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
 ***************************************************************************/
 char *get_multicast_group(bool ipv6_prefered)
 {
-  static bool init = FALSE;
-  static char *group = NULL;
   static char *default_multicast_group_ipv4 = "225.1.1.1";
 #ifdef IPV6_SUPPORT
   /* TODO: Get useful group (this is node local) */
   static char *default_multicast_group_ipv6 = "FF31::8000:15B4";
-#endif
+#endif /* IPv6 support */
 
-  if (!init) {
+  if (mc_group == NULL) {
     char *env = getenv("FREECIV_MULTICAST_GROUP");
+
     if (env) {
-      group = fc_strdup(env);
+      mc_group = fc_strdup(env);
     } else {
 #ifdef IPV6_SUPPORT
       if (ipv6_prefered) {
-        group = fc_strdup(default_multicast_group_ipv6);
+        mc_group = fc_strdup(default_multicast_group_ipv6);
       } else
 #endif /* IPv6 support */
       {
-        group = fc_strdup(default_multicast_group_ipv4);
+        mc_group = fc_strdup(default_multicast_group_ipv4);
       }
     }
-    init = TRUE;
   }
-  return group;
+
+  return mc_group;
+}
+
+/***************************************************************************
+  Free multicast group resources
+***************************************************************************/
+void free_multicast_group(void)
+{
+  if (mc_group != NULL) {
+    free(mc_group);
+    mc_group = NULL;
+  }
 }
 
 /***************************************************************************
