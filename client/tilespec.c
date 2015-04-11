@@ -2169,7 +2169,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
   do {								  \
     t->sprites.field = load_sprite(t, tag);			  \
     if (t->sprites.field == NULL) {                               \
-      tileset_error(LOG_FATAL, _("Sprite tag '%s' missing."), tag);    \
+      tileset_error(LOG_FATAL, _("Sprite for tag '%s' missing."), tag);    \
     }                                                             \
   } while(FALSE)
 
@@ -2181,7 +2181,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
       t->sprites.field = load_sprite(t, alt);				    \
     }									    \
     if (t->sprites.field == NULL) {                                         \
-      tileset_error(LOG_FATAL, _("Sprite tag '%s' and alternate '%s' are "  \
+      tileset_error(LOG_FATAL, _("Sprite for tags '%s' and alternate '%s' are "  \
                                  "both missing."), tag, alt);               \
     }                                                                       \
   } while(FALSE)
@@ -2954,7 +2954,7 @@ void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 
   if (!tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_str)
       && !tileset_setup_unit_type_from_tag(t, uidx, ut->graphic_alt)) {
-    tileset_error(LOG_FATAL, _("Missing %s unit tag \"%s\" and alternative \"%s\"."),
+    tileset_error(LOG_FATAL, _("Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."),
                   utype_rule_name(ut), ut->graphic_str, ut->graphic_alt);
   }
 }
@@ -3148,7 +3148,7 @@ void tileset_setup_road(struct tileset *t,
   if (t->sprites.roads[id].activity == NULL) {
     t->sprites.roads[id].activity = load_sprite(t, proad->act_gfx_alt);
     if (t->sprites.roads[id].activity == NULL) {
-      tileset_error(LOG_FATAL, _("Missing %s building activity tag \"%s\" and alternative \"%s\"."),
+      tileset_error(LOG_FATAL, _("Missing %s building activity sprite for tags \"%s\" and alternative \"%s\"."),
                     road_rule_name(proad), proad->activity_gfx, proad->act_gfx_alt);
     }
   }
@@ -3212,7 +3212,7 @@ void tileset_setup_base(struct tileset *t,
   if (t->sprites.bases[id].activity == NULL) {
     t->sprites.bases[id].activity = load_sprite(t, pbase->act_gfx_alt);
     if (t->sprites.bases[id].activity == NULL) {
-      tileset_error(LOG_FATAL, _("Missing %s building activity tag \"%s\" and alternative \"%s\"."),
+      tileset_error(LOG_FATAL, _("Missing %s building activity sprite for tags \"%s\" and alternative \"%s\"."),
                 base_rule_name(pbase), pbase->activity_gfx, pbase->act_gfx_alt);
     }
   }
@@ -3272,7 +3272,7 @@ void tileset_setup_tile_type(struct tileset *t,
 	/* check for base sprite, allowing missing sprites above base */
 	if (0 == i  &&  0 == l) {
           /* TRANS: 'base' means 'base of terrain gfx', not 'military base' */ 
-          tileset_error(LOG_FATAL, _("Missing base sprite tag \"%s\"."), buffer);
+          tileset_error(LOG_FATAL, _("Missing base sprite for tag \"%s\"."), buffer);
 	}
 	break;
       case MATCH_SAME:
@@ -3423,7 +3423,7 @@ void tileset_setup_tile_type(struct tileset *t,
                 sprite_vector_reserve(&dlp->allocated, vec_size + 1);
                 dlp->allocated.p[vec_size] = sprite;
 	      } else {
-                log_error("Terrain graphics tag \"%s\" missing.", buffer);
+                log_error("Terrain graphics sprite for tag \"%s\" missing.", buffer);
 	      }
 
 	      dlp->cells[i] = sprite;
