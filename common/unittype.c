@@ -407,6 +407,11 @@ static void unit_state_action_cache_set(struct unit_type *putype)
           BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
               requirement_unit_state_ereq(req.source.value.unit_state,
                                          TRUE));
+          if (action_is_hostile(enabler->action)) {
+            BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                requirement_unit_state_ereq(req.source.value.unit_state,
+                                           TRUE));
+          }
         }
 
         /* Not required to be present, so OK if absent */
@@ -418,6 +423,11 @@ static void unit_state_action_cache_set(struct unit_type *putype)
           BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
                  requirement_unit_state_ereq(req.source.value.unit_state,
                                             FALSE));
+          if (action_is_hostile(enabler->action)) {
+            BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                   requirement_unit_state_ereq(req.source.value.unit_state,
+                                              FALSE));
+          }
         }
       }
     } action_enablers_iterate_end;
