@@ -346,7 +346,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 {
   union fc_sockaddr addr;
   struct raw_data_out dout;
-  int sock, opt = 1;
+  int send_sock, opt = 1;
 #ifndef HAVE_WINSOCK
   unsigned char buffer[MAX_LEN_PACKET];
 #else  /* HAVE_WINSOCK */
@@ -379,70 +379,8 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     family = AF_INET;
   }
 
-  /* Create a socket for broadcasting to servers. */
-  if ((sock = socket(family, SOCK_DGRAM, 0)) < 0) {
-    log_error("socket failed: %s", fc_strerror(fc_get_errno()));
-    return FALSE;
-  }
-
   /* Set the UDP Multicast group IP address. */
   group = get_multicast_group(announce == ANNOUNCE_IPV6);
-  memset(&addr, 0, sizeof(addr));
-
-#ifdef IPV6_SUPPORT
-  if (family == AF_INET6) {
-    addr.saddr.sa_family = AF_INET6;
-    inet_pton(AF_INET6, group, &addr.saddr_in6.sin6_addr);
-    addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
-  } else
-#endif /* IPv6 Support */
-  if (family == AF_INET) {
-    fc_inet_aton(group, &addr.saddr_in4.sin_addr, FALSE);
-    addr.saddr.sa_family = AF_INET;
-    addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
-  } else {
-    fc_assert(FALSE);
-
-    log_error("Unsupported address family in begin_lanserver_scan()");
-
-    return FALSE;
-  }
-
-/* this setsockopt call fails on Windows 98, so we stick with the default
- * value of 1 on Windows, which should be fine in most cases */
-#ifndef HAVE_WINSOCK
-  /* Set the Time-to-Live field for the packet  */
-  ttl = SERVER_LAN_TTL;
-  if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
-                 sizeof(ttl))) {
-    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
-    return FALSE;
-  }
-#endif /* HAVE_WINSOCK */
-
-  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
-                 sizeof(opt))) {
-    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
-    return FALSE;
-  }
-
-  dio_output_init(&dout, buffer, sizeof(buffer));
-  dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
-  size = dio_output_used(&dout);
- 
-
-  if (sendto(sock, buffer, size, 0, &addr.saddr,
-             sockaddr_size(&addr)) < 0) {
-    /* This can happen when there's no network connection - it should
-     * give an in-game message. */
-    log_error("lanserver scan sendto failed: %s",
-              fc_strerror(fc_get_errno()));
-    return FALSE;
-  } else {
-    log_debug("Sending request for server announcement on LAN.");
-  }
-
-  fc_closesocket(sock);
 
   /* Create a socket for listening for server packets. */
   if ((scan->sock = socket(family, SOCK_DGRAM, 0)) < 0) {
@@ -528,6 +466,69 @@ static bool begin_lanserver_scan(struct server_scan *scan)
       return FALSE;
     }
   }
+
+  /* Create a socket for broadcasting to servers. */
+  if ((send_sock = socket(family, SOCK_DGRAM, 0)) < 0) {
+    log_error("socket failed: %s", fc_strerror(fc_get_errno()));
+    return FALSE;
+  }
+
+  memset(&addr, 0, sizeof(addr));
+
+#ifdef IPV6_SUPPORT
+  if (family == AF_INET6) {
+    addr.saddr.sa_family = AF_INET6;
+    inet_pton(AF_INET6, group, &addr.saddr_in6.sin6_addr);
+    addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
+  } else
+#endif /* IPv6 Support */
+  if (family == AF_INET) {
+    fc_inet_aton(group, &addr.saddr_in4.sin_addr, FALSE);
+    addr.saddr.sa_family = AF_INET;
+    addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
+  } else {
+    fc_assert(FALSE);
+
+    log_error("Unsupported address family in begin_lanserver_scan()");
+
+    return FALSE;
+  }
+
+/* this setsockopt call fails on Windows 98, so we stick with the default
+ * value of 1 on Windows, which should be fine in most cases */
+#ifndef HAVE_WINSOCK
+  /* Set the Time-to-Live field for the packet  */
+  ttl = SERVER_LAN_TTL;
+  if (setsockopt(send_sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
+                 sizeof(ttl))) {
+    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
+    return FALSE;
+  }
+#endif /* HAVE_WINSOCK */
+
+  if (setsockopt(send_sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
+                 sizeof(opt))) {
+    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
+    return FALSE;
+  }
+
+  dio_output_init(&dout, buffer, sizeof(buffer));
+  dio_put_uint8_raw(&dout, SERVER_LAN_VERSION);
+  size = dio_output_used(&dout);
+ 
+
+  if (sendto(send_sock, buffer, size, 0, &addr.saddr,
+             sockaddr_size(&addr)) < 0) {
+    /* This can happen when there's no network connection - it should
+     * give an in-game message. */
+    log_error("lanserver scan sendto failed: %s",
+              fc_strerror(fc_get_errno()));
+    return FALSE;
+  } else {
+    log_debug("Sending request for server announcement on LAN.");
+  }
+
+  fc_closesocket(send_sock);
 
   fc_allocate_mutex(&scan->srvrs.mutex);
   scan->srvrs.servers = server_list_new();
