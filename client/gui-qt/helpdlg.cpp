@@ -867,11 +867,11 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->mining_result == pterrain) {
       add_info_label(
-        // TRANS: When mined, terrain gets a bonus of %1 food; mining takes
-        //        %2 turns
+        // TRANS: When mined, terrain gets a bonus of %1 shields; mining
+        //        takes %2 turns
         QString(PL_(
-          "Mining: +%1 food in %2 turn",
-          "Mining: +%1 food in %2 turns",
+          "Mining: +%1 shields in %2 turn",
+          "Mining: +%1 shields in %2 turns",
           pterrain->mining_time))
         .arg(pterrain->mining_shield_incr)
         .arg(pterrain->mining_time));
