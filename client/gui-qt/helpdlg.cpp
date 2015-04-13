@@ -927,6 +927,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     vbox->addStretch(100);
+    vbox->setSizeConstraint(QLayout::SetMinimumSize);
     if (show_panel) {
       area = new QScrollArea();
       area->setWidget(panel);
