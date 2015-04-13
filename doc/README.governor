@@ -1,27 +1,26 @@
 
   Citizen Governor (aka Citizen Management Agent, or CMA)
-==================================
+=========================================================
 
-The CMA is a rather new tool built into the GTK+ client of Freeciv
-version 1.12.1. It is designed to help you manage your cities, i.e.
+The Citizen Governor is designed to help you manage your cities, i.e.
 deploy the workers on the available tiles around (or make them
 scientists, taxmen, or even entertainers), to get the most out of the
-city. You can switch the CMA on or off at any time for any city, but
-there are some handicaps (explained below), if you have CMA'd and
-non-CMA'd cities nearby. In any case you need an actual 1.12.1 or
-above server; the CMA won't run with server version 1.12.0.
+city. You can switch the Governor on or off at any time for any city,
+but there are some handicaps (explained below), if you have governor
+controlled and non-governor-controlled cities nearby.
 
-The heart of CMA is an optimizing algorithm, that tries to deploy the
-workers of a city in such a way, that a user-defined goal is achieved
-as much as possible. You know probably, there is already a kind of
-optimizing, when you open a city, and click on the center tile (the
-city symbol) of the mini map. This optimization tries to maximize
-mostly the science output; but it doesn't care about disorder.
+The heart of Governor system is an optimizing algorithm, that tries
+to deploy the workers of a city in such a way, that a user-defined
+goal is achieved as much as possible. You know probably, there is
+already a kind of optimizing, when you open a city, and click on
+the center tile (the city symbol) of the mini map. This optimization
+tries to maximize mostly the science output; but it doesn't care about
+disorder.
 
 The new City Management Agent goes far beyond this old form of
 optimizing. First, it performs this task every time anything changes
 with the city. If the city grows or shrinks, troops go in or out,
-tiles get irrigation or mining, or are occupied by an enemy, the CMA
+tiles get irrigation or mining, or are occupied by an enemy, the Governor
 becomes active. Second, it supports all kinds of optimizing, like
 production (shields), gold, science, or luxury. Third, it gives the
 player a fine-grained control over this, with the possibility of
@@ -35,8 +34,8 @@ preventing them from revolt.
   Usage
 =========
 
-You can set up the CMA for a city by opening the city window and
-clicking on the CMA tab. On the left side, you can choose a preset for
+You can set up the Governor for a city by opening the city window and
+clicking on the Governor tab. On the left side, you can choose a preset for
 a specified goal, on the right side you can specify more complex goals
 by moving the sliders. You can choose a preset at first, and then
 modify it. Once you have created a new setting, you can add a preset
@@ -56,38 +55,36 @@ surplus to 5. The most powerful constraint, though, is the Celebrate
 constraint, which makes the city celebrate at once (which usually takes
 effect the round after you change it).
 
-It is obvious that the CMA can't fulfill all these constraints in
-every case. Whenever the constraints can't be fulfilled, the CMA quits
-its service for that city, giving a message: "The agent can't fulfill
-the requirements for Berlin. Passing back control." You then have the
-choice of either managing the city on your own (which has some
+It is obvious that the Governor can't fulfill all these constraints in
+every case. Whenever the constraints can't be fulfilled, the Governor
+quits its service for that city, giving a message: "The agent can't
+fulfill the requirements for Berlin. Passing back control." You then
+have the choice of either managing the city on your own (which has some
 drawbacks, see below), or open that city and change the surplus
 requirements so that they can be fulfilled.
 
 When you have made a setup for a city, you need to click on 
-"Control city" to switch on the CMA. If this button's text is greyed,
-either the CMA is already active, or the task is impossible. In the
+"Control city" to switch on the Governor. If this button's text is greyed,
+either the Governor is already active, or the task is impossible. In the
 latter case you see dashes instead of numbers in the results block.
-If you ever want to switch off the CMA deliberately, click "Release
+If you ever want to switch off the Governor deliberately, click "Release
 city".
 
 
   Advanced Usage
 ==================
 
-There is not much experience using the CMA yet, but some common
-remarks may be helpful. Usually the goal(s) of your cities depend on
-the phase your game is in, whether you want to spread widely, grow
-quickly, research advanced techs or wage war. You may want to set up a
-high factor for science to research, or a high shields factor to
-produce units. The highest factor available is 25, that means: if the
-shields factor is set to 25, and other to 1, the CMA prefers a single
-shield over 25 gold (or trade also). This is pretty much because money
-can buy units too. That also means that the CMA is indifferent about
-producing gold, science, luxury, and food; but when you wage war, you
-usually prefer gold or luxury. So it's probably a good idea to set a
-second (or even third) preference for the city's output, e.g. gold
-factor 5. That still prefers 1 shield over 5 gold (and 1 gold over 5
+Usually the goal(s) of your cities depend on the phase your game is in,
+whether you want to spread widely, grow quickly, research advanced techs
+or wage war. You may want to set up a high factor for science to research,
+or a high shields factor to produce units. The highest factor available
+is 25, that means: if the shields factor is set to 25, and other to 1,
+the Governor prefers a single shield over 25 gold (or trade also). This is
+pretty much because money can buy units too. That also means that
+the Governor is indifferent about producing gold, science, luxury, and food;
+but when you wage war, you usually prefer gold or luxury. So it's probably
+a good idea to set a second (or even third) preference for the city's output,
+e.g. gold factor 5. That still prefers 1 shield over 5 gold (and 1 gold over 5
 food or anything else).
 
 Constraints aren't useful in all cases. If you want a high income,
@@ -105,7 +102,7 @@ before the city shrinks. Constraints can also have a warning function.
 Which constraints can be fulfilled depends widely on the global
 science, tax, and luxury rates. E.g. a gold surplus >= 0 is easier to
 fulfill with a higher tax rate than a lower one. You should always
-consider to change these rates, when you going to change the CMA
+consider to change these rates, when you going to change the Governor
 settings for the most of your cities.
 
 Hint: To avoid accidentally releasing your cities, when you change the
@@ -116,28 +113,28 @@ the rates display in the main window.
   Drawbacks
 =============
 
-The CMA is a very powerful tool, which not only releases you from the
+The Governor is a very powerful tool, which not only releases you from the
 micromanagement of your cities, but gives you more performance than
 you have ever seen (well, for most players).
 
-There are some drawbacks, though. Once you've switched on the CMA, it
+There are some drawbacks, though. Once you've switched on the Governor, it
 grabs any good tile it can get. So you encounter very hard times
-trying to manage a city nearby a CMA-controlled one. This is true for
+trying to manage a city nearby a Governor-controlled one. This is true for
 the city window and the main map worker's interface as well. If you
-want to have CMA-controlled and "handmade" cities, they probably
+want to have Governor-controlled and "handmade" cities, they probably
 should be on different islands.
 
-There are several situations where the CMA can't fulfill the
+There are several situations where the Governor can't fulfill the
 requirements just temporarily, e.g. when you move a ship from one city
-to another, or when an enemy walks through your country. The CMA
+to another, or when an enemy walks through your country. The Governor
 passes back control in these cases, and you have to reenable it
 manually. A general approach to prevent this might be, to set the
 minimal surpluses as low as possible (-20). Of course you must be
 careful with the food and shield surpluses.
 
-While the CMA does a really good job for a single city, no tile will
-ever be released for the good of another city. Also, the CMA'd cities
-are computed in a more random order; the results may depend on it and
+While the Governor does a really good job for a single city, no tile will
+ever be released for the good of another city. Also, the Governor controlled
+cities are computed in a more random order; the results may depend on it and
 change, when a recalculation is done (when tax changes e.g.). So, no
 guarantee is given that the overall results are always optimal.
 
@@ -148,9 +145,9 @@ guarantee is given that the overall results are always optimal.
 The client allows the user to load and save preset parameters for the
 agent. Choosing "Save Settings" from the "Game" menu will not only
 save your general options and message options, but it will save any
-changes you made to you CMA presets as well.
+changes you made to you Governor presets as well.
 
-The format for the options file (usually ~/.freeciv-client-rc-X.Y , where X.Y
+The format for the options file (usually ~/.freeciv/.freeciv-client-rc-X.Y , where X.Y
 is the version of freeciv in use) is as follows (in case you which to change
 these presets manually, i.e. with a text editor).
 
@@ -225,4 +222,4 @@ and even more, some with multiple goals:
 "shields and some research",0,1,0,25,0,1,-2,1,0,1,0,8,0,0,1
 "celebrate and grow at once",1,1,0,25,-20,1,-20,1,-20,1,-20,8,1,0,1
 
-Last updated: 9 Jan 2002
+Last updated: 10 Apr 2015
