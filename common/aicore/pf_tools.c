@@ -139,7 +139,7 @@ static bool pf_action_possible(const struct tile *src,
     /* Don't try to act when inside of a transport over non native terrain
      * when all actions the unit type can do requires the unit to be on
      * native terrain. */
-    if (can_unit_act_when_ustate_is(param->utype, USP_TRANSP_DEP, TRUE)) {
+    if (can_unit_act_when_ustate_is(param->utype, USP_LIVABLE_TILE, FALSE)) {
       return (PF_MS_NATIVE | PF_MS_CITY | PF_MS_TRANSPORT) & src_scope;
     } else {
       return (PF_MS_NATIVE | PF_MS_CITY) & src_scope;
