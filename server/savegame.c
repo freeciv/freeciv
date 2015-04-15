@@ -3377,7 +3377,7 @@ static void game_load_internal(struct section_file *file)
                  secfile_lookup_str_default(file, "foobar",
                                             "game.info.t.terrain")) == 0) {
         /* TRANS: Fatal error message. */
-        log_fatal(_("Saved game uses the ancient \"classic\" terrain"
+        log_fatal(_("Saved game uses the ancient format terrain"
                     " ruleset, and is no longer supported."));
         exit(EXIT_FAILURE);
       }
