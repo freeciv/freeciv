@@ -287,8 +287,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_NAME ustate_prop
 #define SPECENUM_VALUE0 USP_TRANSPORTED
 #define SPECENUM_VALUE0NAME "Transported"
-#define SPECENUM_VALUE1 USP_TRANSP_DEP
-#define SPECENUM_VALUE1NAME "TransportDependent"
+#define SPECENUM_VALUE1 USP_LIVABLE_TILE
+#define SPECENUM_VALUE1NAME "OnLivableTile"
 #define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 

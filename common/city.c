@@ -1410,7 +1410,7 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
        * can be done without regressions. */
       /* The ruleset may allow founding cities on non native terrain. */
       && !utype_can_do_act_when_ustate(unit_type(punit), ACTION_FOUND_CITY,
-                                       USP_TRANSP_DEP, TRUE)) {
+                                       USP_LIVABLE_TILE, FALSE)) {
     /* Many rulesets allow land units to build land cities and sea units to
      * build ocean cities. Air units can build cities anywhere. */
     return CB_BAD_UNIT_TERRAIN;

@@ -1725,15 +1725,13 @@ static bool insert_requirement(char *buf, size_t bufsz,
                          _("Requires that the unit isn't transported.\n"));
           }
           return TRUE;
-        case USP_TRANSP_DEP:
+        case USP_LIVABLE_TILE:
           if (preq->present) {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit can't exist at its tile"
-                           " without being inside a transport.\n"));
+                         _("Requires that the unit is on livable tile.\n"));
           } else {
             cat_snprintf(buf, bufsz,
-                         _("Requires that the unit can exist at its tile"
-                           " without being inside a transport.\n"));
+                         _("Requires that the unit isn't on livable tile.\n"));
           }
           return TRUE;
         case USP_COUNT:

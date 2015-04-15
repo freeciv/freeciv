@@ -239,30 +239,30 @@ ui_name_join_city = _("%sAdd to City%s")
 [actionenabler_sabotage_city]
 action = "Sabotage City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "DiplRel", "War", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "UnitFlag", "Diplomat", "Local"
+      "DiplRel", "War", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 
 [actionenabler_sabotage_city_target]
 action = "Targeted Sabotage City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "DiplRel", "War", "Local", TRUE
-      "UnitFlag", "Spy", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "DiplRel", "War", "Local"
+      "UnitFlag", "Spy", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 
 [actionenabler_establish_embassy]
 action       = "Establish Embassy"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "UnitFlag", "Diplomat", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -273,20 +273,20 @@ target_reqs  =
 [actionenabler_investigate_city]
 action       = "Investigate City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "UnitFlag", "Diplomat", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 
 [actionenabler_poison_city]
 action = "Poison City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Spy", "Local", TRUE
-      "DiplRel", "War", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "DiplRel", "War", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 target_reqs    =
     { "type",   "name", "range"
@@ -296,10 +296,10 @@ target_reqs    =
 [actionenabler_steal_tech_random]
 action = "Steal Tech"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "UnitFlag", "Diplomat", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -310,10 +310,10 @@ target_reqs  =
 [actionenabler_steal_tech_target]
 action = "Targeted Steal Tech"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Spy", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "UnitFlag", "Spy", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -328,7 +328,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local", TRUE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
-      "UnitState", "TransportDependent", "Local", FALSE
+      "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
@@ -344,7 +344,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local", TRUE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
-      "UnitState", "TransportDependent", "Local", FALSE
+      "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
@@ -359,11 +359,11 @@ target_reqs    =
 [actionenabler_sabotage_unit]
 action = "Sabotage Unit"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "Unitflag", "Spy", "Local", TRUE
-      "DiplRel", "War", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
+    { "type",   "name", "range"
+      "Unitflag", "Spy", "Local"
+      "DiplRel", "War", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -383,9 +383,9 @@ actor_reqs    =
 [actionenabler_build_city]
 action = "Found City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "Unitflag", "Cities", "Local", TRUE
-      "UnitState", "TransportDependent", "Local", FALSE
+    { "type",   "name", "range"
+      "Unitflag", "Cities", "Local"
+      "UnitState", "OnLivableTile", "Local"
     }
 
 [actionenabler_join_city]

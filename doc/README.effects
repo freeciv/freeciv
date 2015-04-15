@@ -88,7 +88,7 @@ TerrainClass is either "Land" or "Oceanic".
 CityTile is either "Center" (city center) or "Claimed" (owned).
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
-UnitState is "Transported" or "TransportDependent".
+UnitState is "Transported" or "OnLivableTile".
 MinMoveFargs is the minimum move fragments the unit must have left.
 
 Effect types

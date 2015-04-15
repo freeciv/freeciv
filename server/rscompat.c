@@ -249,7 +249,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The actor must be on native terrain. */
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("UnitState", "Local", FALSE,
-                                           FALSE, "TransportDependent"));
+                                           TRUE, "OnLivableTile"));
 
     action_enabler_add(enabler);
 
