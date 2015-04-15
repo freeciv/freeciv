@@ -55,8 +55,10 @@ options="+Freeciv-ruleset-Devel-2014.September.14c"
 ; "Bridge"   = "Settler" unit types can build roads with "RequiresBridge" flag
 ;              over roads with "PreventsOtherRoads" flag (rivers)
 ; "Build_Airborne" = from now on can build air units (for use by AI)
-; "Claim_Ocean"    = Player claims ocean tiles even if they are not
-;                    adjacent to border source
+; "Claim_Ocean"         = Player claims ocean tiles even if they are not
+;                         adjacent to border source
+; "Claim_Ocean_Limited" = Oceanic border sources claim ocean tiles even if
+;                         they are not adjacent to border source
 ;
 ; */ <-- avoid gettext warnings
 
