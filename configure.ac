@@ -513,6 +513,11 @@ if test "x$USE_NLS" = "xyes" ; then
   AC_DEFINE([FREECIV_ENABLE_NLS], [1], [Native language support enabled])
 fi
 
+AM_XGETTEXT_OPTION([--keyword=Q_])
+AM_XGETTEXT_OPTION([--keyword=PL_:1,2])
+AM_XGETTEXT_OPTION([--language=C])
+AM_XGETTEXT_OPTION([--escape])
+
 PKG_PROG_PKG_CONFIG
 if test "x$PKG_CONFIG" = "x" ; then
   AC_MSG_ERROR([pkg-config not found])
