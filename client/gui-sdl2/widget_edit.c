@@ -620,22 +620,20 @@ static Uint16 edit_textinput(char *text, void *pData)
     pEdt->pInputChain->prev->chr[charlen] = '\0';
     pEdt->pInputChain->prev->bytes = charlen;
 
-    if (pEdt->pInputChain->prev->chr) {
-      if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
-        char passwd_chr[2] = {'*', '\0'};
+    if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
+      char passwd_chr[2] = {'*', '\0'};
 
-        pEdt->pInputChain->prev->pTsurf =
-          TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
-                                 passwd_chr,
-                                 pEdt->pWidget->string_utf8->fgcol);
-      } else {
-        pEdt->pInputChain->prev->pTsurf =
-          TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
-                                 pEdt->pInputChain->prev->chr,
-                                 pEdt->pWidget->string_utf8->fgcol);
-      }
-      pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
+      pEdt->pInputChain->prev->pTsurf =
+        TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
+                               passwd_chr,
+                               pEdt->pWidget->string_utf8->fgcol);
+    } else {
+      pEdt->pInputChain->prev->pTsurf =
+        TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
+                               pEdt->pInputChain->prev->chr,
+                               pEdt->pWidget->string_utf8->fgcol);
     }
+    pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
 
     if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
       if (pEdt->pInputChain == pEdt->pEndTextChain) {
