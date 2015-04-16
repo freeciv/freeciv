@@ -121,8 +121,6 @@ reqs    =
     { "type", "name", "range", "present"
       "AI", "Cheating", "Player", TRUE
       "CityTile", "Center", "Local", FALSE
-      "Extra", "Fortress", "Local", FALSE
-      "Extra", "Airbase", "Local", FALSE
       "TerrainClass", "Oceanic", "Local", FALSE
     }
 
