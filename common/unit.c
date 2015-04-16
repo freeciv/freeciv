@@ -1375,8 +1375,6 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_FALLOUT:
   case ACTIVITY_OLD_ROAD:
   case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_MINE:
-  case ACTIVITY_IRRIGATE:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_FORTIFIED:
@@ -1387,6 +1385,15 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_EXPLORE:
   case ACTIVITY_CONVERT:
     astr_add_line(astr, "%s", get_activity_text(punit->activity));
+    return;
+  case ACTIVITY_MINE:
+  case ACTIVITY_IRRIGATE:
+    if (punit->activity_target == NULL) {
+      astr_add_line(astr, "%s", get_activity_text(punit->activity));
+    } else {
+      astr_add_line(astr, "Building %s",
+                    extra_name_translation(punit->activity_target));
+    }
     return;
   case ACTIVITY_PILLAGE:
     if (punit->activity_target != NULL) {
@@ -1401,22 +1408,12 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     }
     return;
   case ACTIVITY_BASE:
-    {
-      struct base_type *pbase;
-
-      pbase = extra_base_get(punit->activity_target);
-      astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                    base_name_translation(pbase));
-    }
+    astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                  extra_name_translation(punit->activity_target));
     return;
   case ACTIVITY_GEN_ROAD:
-    {
-      struct road_type *proad;
-
-      proad = extra_road_get(punit->activity_target);
-      astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                    road_name_translation(proad));
-    }
+    astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                  extra_name_translation(punit->activity_target));
     return;
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
