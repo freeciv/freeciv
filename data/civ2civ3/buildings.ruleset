@@ -538,8 +538,14 @@ sound		= "b_hydro_plant"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Similar to a Power Plant, a Hydro Plant increases the shield production \
-effects of any Factory or Mfg. Plant in its city by 25% each.\
+Any kind of electrical plant increases the shield production \
+effects of any Factory or Mfg. Plant in its city by 25% each. \
+Thus, an electrical plant in combination with either a Factory \
+or Mfg. Plant gives a 50% production bonus over \
+the level without any of these improvements; an electrical plant, \
+Factory, and Mfg. Plant together give a 100% production bonus. \
+The extra production may lead to the city generating more \
+pollution.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -678,8 +684,14 @@ sound		= "b_nuclear_plant"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Similar to a Power Plant, a Nuclear Plant increases the shield production \
-effects of any Factory or Mfg. Plant in its city by 25% each.\
+Any kind of electrical plant increases the shield production \
+effects of any Factory or Mfg. Plant in its city by 25% each. \
+Thus, an electrical plant in combination with either a Factory \
+or Mfg. Plant gives a 50% production bonus over \
+the level without any of these improvements; an electrical plant, \
+Factory, and Mfg. Plant together give a 100% production bonus. \
+The extra production may lead to the city generating more \
+pollution.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -833,10 +845,11 @@ sound		= "b_power_plant"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-A Power Plant increases the shield production effects of any Factory \
-or Mfg. Plant in its city by 25% each. Thus, a Power Plant in combination \
-with either a Factory or Mfg. Plant gives a 50% production bonus over \
-the level without any of these improvements; a Power Plant, \
+Any kind of electrical plant increases the shield production \
+effects of any Factory or Mfg. Plant in its city by 25% each. \
+Thus, an electrical plant in combination with either a Factory \
+or Mfg. Plant gives a 50% production bonus over \
+the level without any of these improvements; an electrical plant, \
 Factory, and Mfg. Plant together give a 100% production bonus. \
 The extra production may lead to the city generating more \
 pollution.\
@@ -993,8 +1006,14 @@ sound		= "b_solar_plant"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Similar to a Power Plant, a Solar Plant increases the shield production \
-effects of any Factory or Mfg. Plant in its city by 25% each.\
+Any kind of electrical plant increases the shield production \
+effects of any Factory or Mfg. Plant in its city by 25% each. \
+Thus, an electrical plant in combination with either a Factory \
+or Mfg. Plant gives a 50% production bonus over \
+the level without any of these improvements; an electrical plant, \
+Factory, and Mfg. Plant together give a 100% production bonus. \
+The extra production may lead to the city generating more \
+pollution.\
 "),
 ; /* xgettext:no-c-format */
 _("\
