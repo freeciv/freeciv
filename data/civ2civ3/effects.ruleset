@@ -123,8 +123,6 @@ reqs    =
 nreqs    =
     { "type", "name", "range"
       "CityTile", "Center", "Local"
-      "Base", "Fortress", "Local"
-      "Base", "Airbase", "Local"
       "TerrainClass", "Oceanic", "Local"
     }
 
