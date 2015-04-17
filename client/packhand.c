@@ -1657,7 +1657,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     repaint_unit = !unit_transported(punit);
     agents_unit_new(punit);
 
-    /* Check if we should link cargo units. */
+    /* Check if we should link cargo units.
+     * (This might be necessary if the cargo info was sent to us before
+     * this transporter.) */
     if (punit->client.occupied) {
       unit_list_iterate(unit_tile(punit)->units, aunit) {
         if (aunit->client.transported_by == punit->id) {
@@ -1682,9 +1684,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     struct unit *ptrans
       = game_unit_by_number(packet_unit->client.transported_by);
 
-    /* Load unit only if transporter is known by the client. For full
-     * unit info the transporter should be known. See recursive sending
-     * of transporter information in send_unit_info_to_onlookers(). */
+    /* Load unit only if transporter is known by the client.
+     * (If not, cargo will be loaded later when the transporter info is
+     * sent to the client.) */
     if (ptrans && ptrans != unit_transport_get(punit)) {
       /* First, we have to unload the unit from its old transporter. */
       unit_transport_unload(punit);
