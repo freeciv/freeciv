@@ -2595,7 +2595,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   conn_list_do_buffer(pplayer->connections);
 
   /* Get name from the first (and currently only) goods type there is */
-  goods_str = goods_name_translation(goods_by_number(0));
+  goods_str = goods_name_translation(goods_for_new_route(pcity_homecity, pcity_dest));
 
   if (bonus_str != NULL) {
     notify_player(pplayer, city_tile(pcity_dest),

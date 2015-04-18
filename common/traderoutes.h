@@ -118,6 +118,8 @@ struct goods_type *goods_by_number(Goods_type_id id);
 const char *goods_name_translation(struct goods_type *pgood);
 const char *goods_rule_name(struct goods_type *pgood);
 
+struct goods_type *goods_for_new_route(struct city *src, struct city *dest);
+
 #define goods_type_iterate(_p)                                \
 {                                                             \
   int _i_;                                                    \

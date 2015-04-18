@@ -17,6 +17,7 @@
 
 /* utility */
 #include "log.h"
+#include "rand.h"
 
 /* common */
 #include "city.h"
@@ -479,4 +480,12 @@ const char *goods_name_translation(struct goods_type *pgood)
 const char *goods_rule_name(struct goods_type *pgood)
 {
   return rule_name(&pgood->name);
+}
+
+/****************************************************************************
+  Return goods type for the new traderoute between given cities.
+****************************************************************************/
+struct goods_type *goods_for_new_route(struct city *src, struct city *dest)
+{
+  return goods_by_number(fc_rand(game.control.num_goods_types));
 }
