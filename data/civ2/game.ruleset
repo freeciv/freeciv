@@ -268,8 +268,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",   "name", "range", "present"
-      "Nation", "Barbarian", "Player", FALSE
-      "Nation", "Pirate", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_target]
@@ -282,8 +281,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",   "name", "range", "present"
-      "Nation", "Barbarian", "Player", FALSE
-      "Nation", "Pirate", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_incite_city]

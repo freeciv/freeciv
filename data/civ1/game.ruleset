@@ -223,7 +223,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",   "name", "range", "present"
-      "Nation", "Barbarian", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_investigate_city]
@@ -245,7 +245,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",   "name", "range", "present"
-      "Nation", "Barbarian", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_incite_city]

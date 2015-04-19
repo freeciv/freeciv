@@ -243,8 +243,7 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",   "name", "range", "present"
-      "Nation", "Lunatic", "Player", FALSE
-      "Nation", "Madmen", "Player", FALSE
+      "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_incite_city]
