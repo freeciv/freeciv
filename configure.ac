@@ -517,6 +517,7 @@ AM_XGETTEXT_OPTION([--keyword=Q_])
 AM_XGETTEXT_OPTION([--keyword=PL_:1,2])
 AM_XGETTEXT_OPTION([--language=C])
 AM_XGETTEXT_OPTION([--escape])
+AM_XGETTEXT_OPTION([--add-comments="TRANS:"])
 
 PKG_PROG_PKG_CONFIG
 if test "x$PKG_CONFIG" = "x" ; then
@@ -1308,22 +1309,6 @@ TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.2/include"
 TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.2/src/lib/libtolua.la"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
-
-dnl Most of the C comments copied to freeciv.pot are spurious; 
-dnl change to only copy those with prefix "TRANS:"
-AC_CONFIG_COMMANDS([fc_default-4],[[for domain in $PODOMAINS ; do
-   if test -f translations/${domain}/Makefile ; then
-     if grep 'add-comments="TRANS:"' translations/${domain}/Makefile >/dev/null 2>&1 ; then
-       # has already been modified
-       :
-     else
-       echo modifying translations/${domain}/Makefile add-comments/escape
-       mv -f translations/${domain}/Makefile translations/${domain}/Makefile.tmp
-       sed -e 's/add-comments=TRANSLATORS:/add-comments="TRANS:"/' translations/${domain}/Makefile.tmp > translations/${domain}/Makefile
-       rm translations/${domain}/Makefile.tmp
-     fi
-   fi
- done]],[PODOMAINS="$PODOMAINS"])
 
 dnl The BeOS sys/uio.h is broken.  This kludges it out of existence.
 dnl (This still causes lots of spurious changes to fc_config.h on BeOS.)
