@@ -62,8 +62,6 @@ bool dio_get_ufloat_json(json_t *json_packet, char *key, float *dest, int float_
 bool dio_get_sfloat_json(json_t *json_packet, char *key, float *dest, int float_factor);
 bool dio_get_memory_json(json_t *json_packet, char *key, void *dest, size_t dest_size);
 bool dio_get_string_json(json_t *json_packet, char *key, char *dest, size_t max_dest_size);
-bool dio_get_bit_string_json(json_t *json_packet, char *key, char *dest,
-                             size_t max_dest_size);
 bool dio_get_tech_list_json(json_t *json_packet, char *key, int *dest);
 bool dio_get_unit_list_json(json_t *json_packet, char *key, int *dest);
 bool dio_get_building_list_json(json_t *json_packet, char *key, int *dest);
@@ -104,7 +102,6 @@ void dio_put_sfloat_json(struct json_data_out *dout, char *key, float value, int
 
 void dio_put_memory_json(struct json_data_out *dout, char *key, const void *value, size_t size);
 void dio_put_string_json(struct json_data_out *dout, char *key, const char *value);
-void dio_put_bit_string_json(struct json_data_out *dout, char *key, const char *value);
 void dio_put_city_map_json(struct json_data_out *dout, char *key, const char *value);
 void dio_put_tech_list_json(struct json_data_out *dout, char *key, const int *value);
 void dio_put_unit_list_json(struct json_data_out *dout, char *key, const int *value);

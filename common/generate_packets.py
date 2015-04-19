@@ -266,7 +266,7 @@ class Field:
             return "  differ = (memcmp(old->%(name)s, real_packet->%(name)s, %(array_size_d)s) != 0);"%self.__dict__
         if self.dataio_type=="bitvector":
             return "  differ = !BV_ARE_EQUAL(old->%(name)s, real_packet->%(name)s);"%self.__dict__
-        if self.dataio_type in ["string","bit_string"] and self.is_array==1:
+        if self.dataio_type in ["string"] and self.is_array==1:
             return "  differ = (strcmp(old->%(name)s, real_packet->%(name)s) != 0);"%self.__dict__
         if self.is_struct and self.is_array==0:
             return "  differ = !are_%(dataio_type)ss_equal(&old->%(name)s, &real_packet->%(name)s);"%self.__dict__
@@ -359,7 +359,7 @@ class Field:
         if self.dataio_type in ["memory"]:
             return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
 
-        arr_types=["string","bit_string","city_map","tech_list",
+        arr_types=["string","city_map","tech_list",
                    "unit_list","building_list"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
@@ -459,7 +459,7 @@ class Field:
             return '''if (!DIO_BV_GET(&din, \"%(name)s\", real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
-        if self.dataio_type in ["string","bit_string","city_map"] and \
+        if self.dataio_type in ["string","city_map"] and \
            self.is_array!=2:
             return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
