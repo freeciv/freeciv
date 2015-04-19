@@ -2456,10 +2456,12 @@ void send_unit_info(struct conn_list *dest, struct unit *punit)
 
   powner = unit_owner(punit);
   package_unit(punit, &info[0]);
+  /* For cargo and transporters of the same player, the client relies on
+   * receiving the transporter info first, so we send it first here. */
   i = 1;
   unit_transports_iterate(punit, ptrans) {
     fc_assert_action(i < ARRAY_SIZE(info), break);
-    package_unit(punit, &info[i++]);
+    package_unit(ptrans, &info[i++]);
   } unit_transports_iterate_end;
   info_num = i;
   package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, 0, FALSE);
