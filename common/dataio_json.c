@@ -374,8 +374,6 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
   int kind, range, value;
   bool survives, present;
 
-  json_t *sub_field;
-
   /* Find the requirement object. */
   json_t *requirement = json_object_get(json_packet, key);
   if (!requirement) {
