@@ -155,97 +155,6 @@ void dio_put_worklist_json(struct json_data_out *dout, char *key,
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void dio_put_array_uint8_json(struct json_data_out *dout, char *key,
-                              int *values, int size)
-{
-  int i;
-  json_t *array = json_array();
-  for (i = 0; i < size; i++) {
-    json_array_append_new(array, json_integer(values[i]));
-  }
-  
-  json_object_set_new(dout->json, key, array);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_put_array_uint32_json(struct json_data_out *dout, char *key,
-                               int *values, int size)
-{
-  int i;
-  json_t *array = json_array();
-
-  for (i = 0; i < size; i++) {
-    json_array_append_new(array, json_integer(values[i]));
-  }
-  
-  json_object_set_new(dout->json, key, array);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_put_array_sint8_json(struct json_data_out *dout, char *key,
-                              int *values, int size)
-{
-  int i;
-  json_t *array = json_array();
-  for (i = 0; i < size; i++) {
-    json_array_append_new(array, json_integer(values[i]));
-  }
-  
-  json_object_set_new(dout->json, key, array);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_put_array_sint16_json(struct json_data_out *dout, char *key,
-                               int *values, int size)
-{
-  int i;
-  json_t *array = json_array();
-  for (i = 0; i < size; i++) {
-    json_array_append_new(array, json_integer(values[i]));
-  }
-  
-  json_object_set_new(dout->json, key, array);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_put_array_sint32_json(struct json_data_out *dout, char *key,
-                               int *values, int size)
-{
-  int i;
-  json_t *array = json_array();
-  for (i = 0; i < size; i++) {
-    json_array_append_new(array, json_integer(values[i]));
-  }
-  
-  json_object_set_new(dout->json, key, array);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_put_array_bool8_json(struct json_data_out *dout, char *key,
-                              bool *values, int size)
-{
-  int i;
-  json_t *array = json_array();
-  for (i = 0; i < size; i++) {
-    json_array_append_new(array, values[i] ? json_true() : json_false());
-  }
-  
-  json_object_set_new(dout->json, key, array);
-}
-
-/**************************************************************************
  Receive uint8 value to dest with json.
 **************************************************************************/
 bool dio_get_uint8_json(json_t *json_packet, char *key, int *dest)
@@ -500,24 +409,6 @@ void dio_put_memory_json(struct json_data_out *dout, char *key, const void *valu
 void dio_put_string_json(struct json_data_out *dout, char *key, const char *value)
 {
   json_object_set_new(dout->json, key, json_string(value));
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void dio_put_string_array_json(struct json_data_out *dout, char *key, 
-                               const char *value, int size)
-{
-  int i;
-
-  json_t *array = json_array();
-  for (i = 0; i < size; i++) {
-    if (value != NULL) {
-      json_array_append_new(array, json_string(value + i));
-    }
-  }
-  
-  json_object_set_new(dout->json, key, array);
 }
 
 /**************************************************************************
