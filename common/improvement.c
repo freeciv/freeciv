@@ -426,7 +426,7 @@ bool can_player_build_improvement_direct(const struct player *p,
     }
   }
   if (space_part &&
-      (!get_player_bonus(p, EFT_ENABLE_SPACE) > 0
+      (get_player_bonus(p, EFT_ENABLE_SPACE) <= 0
        || p->spaceship.state >= SSHIP_LAUNCHED)) {
     return FALSE;
   }

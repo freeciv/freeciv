@@ -1965,7 +1965,7 @@ int get_city_tithes_bonus(const struct city *pcity)
 {
   int tithes_bonus = 0;
 
-  if (!get_city_bonus(pcity, EFT_HAPPINESS_TO_GOLD) > 0) {
+  if (get_city_bonus(pcity, EFT_HAPPINESS_TO_GOLD) <= 0) {
     return 0;
   }
 
