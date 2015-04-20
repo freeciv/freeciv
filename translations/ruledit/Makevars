@@ -11,8 +11,12 @@ top_builddir = ../..
 XGETTEXT_OPTIONS = \
   --keyword=_ --flag=_:1:pass-c-format \
   --keyword=N_ --flag=N_:1:pass-c-format \
+  --flag=error:3:c-format --flag=error_at_line:5:c-format \
+  --flag=asprintf:2:c-format --flag=vasprintf:2:c-format \
+  --flag=xasprintf:1:c-format --flag=error_logger:1:c-format \
+  --flag=po_error:3:c-format --flag=po_error_at_line:5:c-format \
+  --flag=po_gram_error:1:c-format --flag=po_gram_error_at_line:2:c-format \
   --keyword=R__ --keyword=RQ_ \
-  --flag=error:3:c-format --flag=error_at_line:5:c-format
 
 # This is the copyright holder that gets inserted into the header of the
 # $(DOMAIN).pot file.  Set this to the copyright holder of the surrounding
