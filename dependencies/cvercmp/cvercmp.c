@@ -1,6 +1,6 @@
 /********************************************************
 *                                                       *
-* (c) 2011-2013 Marko Lindqvist                         *
+* (c) 2011-2015 Marko Lindqvist                         *
 *                                                       *
 * Licensed under Gnu General Public License version 2   *
 *                                                       *
@@ -22,8 +22,6 @@ static char **cvercmp_ver_tokenize(const char *ver);
 static int cvercmp_next_token(const char *str);
 static char **cvercmp_ver_subtokenize(const char *ver);
 static int cvercmp_next_subtoken(const char *str);
-
-static enum cvercmp_prever cvercmp_parse_prever(const char *ver);
 
 enum cvercmp_prever
 {
@@ -51,6 +49,8 @@ struct preverstr preverstrs[] =
   { "rc", CVERCMP_PRE_RC },
   { NULL, CVERCMP_PRE_NONE }
 };
+
+static enum cvercmp_prever cvercmp_parse_prever(const char *ver);
 
 bool cvercmp(const char *ver1, const char *ver2, enum cvercmp_type type)
 {
