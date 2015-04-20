@@ -1216,7 +1216,7 @@ _("\
 Whichever unit survives the fight has a chance of being promoted \
 a veteran level. In the classic ruleset, if the winner's \
 civilization has the Sun Tzu's War Academy (and if it isn't \
-obsolete), the chance is increased by half.\
+obsolete), the chance is increased by half in case of land units.\
 "), _("\
 If the attacker is a land unit and wins, and the defender is in a \
 city without City Walls, the city is reduced in size by 1.\
