@@ -1232,6 +1232,7 @@ static void help_update_extra(const struct help_item *pitem, char *title)
 
   create_help_page(HELP_EXTRA);
 
+  buf[0] = '\0';
   if (pextra == NULL) {
     strcat(buf, pitem->text);
   } else {

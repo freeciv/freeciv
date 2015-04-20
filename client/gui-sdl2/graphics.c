@@ -410,6 +410,7 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
                                    SDL_Color *pColor)
 {
   SDL_Surface *pNew;
+  SDL_Color color = {255, 255, 255, 128};
 
   pNew = create_surf(w, h, iFlags);
 
@@ -419,8 +420,6 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
 
   if (!pColor) {
     /* pColor->unused == ALPHA */
-    SDL_Color color = {255, 255, 255, 128};
-
     pColor = &color;
   }
 
