@@ -1087,6 +1087,7 @@ static void help_update_extra(const struct help_item *pitem,
   char buf[4096];
   struct extra_type *pextra = extra_type_by_translated_name(title);
 
+  buf[0] = '\0';
   if (pextra == NULL) {
     strcat(buf, pitem->text);
   } else {

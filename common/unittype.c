@@ -936,7 +936,7 @@ bool can_player_build_unit_direct(const struct player *p,
   }
 
   if (utype_has_flag(punittype, UTYF_NUCLEAR)
-      && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0) {
+      && get_player_bonus(p, EFT_ENABLE_NUKE) <= 0) {
     return FALSE;
   }
   if (utype_has_flag(punittype, UTYF_NOBUILD)) {
