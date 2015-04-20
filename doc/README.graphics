@@ -125,7 +125,7 @@ options include:
   unit_offset_x        : Gives an offset from the tile origin at which to
   unit_offset_y          draw units.
   activity_offset_x    : Gives an offset from the tile origin at which to
-                         draw normal unit activity icons. "Auto" icons are not
+  activity_offset_y      draw normal unit activity icons. "Auto" icons are not
                          affected by this as they are usually wanted in different
                          offset than real activity icons for both to appear simultaneously
   citybar_offset_y     : Gives an offset from city tile origin at which to
