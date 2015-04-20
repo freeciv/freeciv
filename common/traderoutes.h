@@ -57,6 +57,15 @@ enum trade_route_type {
 #define SPECENUM_VALUE3NAME "Both"
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME route_direction
+#define SPECENUM_VALUE0 RDIR_FROM
+#define SPECENUM_VALUE0NAME N_("?routedir:From")
+#define SPECENUM_VALUE1 RDIR_TO
+#define SPECENUM_VALUE1NAME N_("?routedir:To")
+#define SPECENUM_VALUE2 RDIR_BIDIRECTIONAL
+#define SPECENUM_VALUE2NAME N_("?routedir:Bidirectional")
+#include "specenum_gen.h"
+
 struct trade_route_settings {
   int trade_pct;
   enum traderoute_illegal_cancelling cancelling;

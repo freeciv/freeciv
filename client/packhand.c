@@ -680,6 +680,7 @@ void handle_city_info(const struct packet_city_info *packet)
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     pcity->trade[i] = packet->trade[i];
     pcity->trade_value[i] = packet->trade_value[i];
+    pcity->trade_direction[i] = packet->trade_direction[i];
   }
 
   if (pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]

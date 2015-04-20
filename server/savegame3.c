@@ -4239,8 +4239,16 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   }
 
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+    const char *dir;
+
     pcity->trade[i] = secfile_lookup_int_default(loading->file, 0,
                                                  "%s.traderoute%d", citystr, i);
+    dir = secfile_lookup_str(loading->file, "%s.route_direction%d", citystr, i);
+    sg_warn_ret_val(dir != NULL, FALSE,
+                    "No traderoute direction found for %s", citystr);
+    pcity->trade_direction[i] = route_direction_by_name(dir, fc_strcasecmp);
+    sg_warn_ret_val(route_direction_is_valid(pcity->trade_direction[i]), FALSE,
+                    "Illegal route direction %s", dir);
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->food_stock,
@@ -4589,6 +4597,8 @@ static void sg_save_player_cities(struct savedata *saving,
     for (j = 0; j < MAX_TRADE_ROUTES; j++) {
       secfile_insert_int(saving->file, pcity->trade[j], "%s.traderoute%d",
                          buf, j);
+      secfile_insert_str(saving->file, route_direction_name(pcity->trade_direction[i]),
+                         "%s.route_direction%d", buf, j);
     }
 
     secfile_insert_int(saving->file, pcity->food_stock, "%s.food_stock",

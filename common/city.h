@@ -25,6 +25,7 @@ extern "C" {
 #include "fc_types.h"
 #include "name_translation.h"
 #include "improvement.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 #include "vision.h"
 #include "workertask.h"
@@ -323,6 +324,7 @@ struct city {
 
   /* trade routes */
   int trade[MAX_TRADE_ROUTES], trade_value[MAX_TRADE_ROUTES];
+  enum route_direction trade_direction[MAX_TRADE_ROUTES];
 
   /* Tile output, regardless of if the tile is actually worked. It is used
    * as cache for the output of the tiles within the city map.

@@ -2259,6 +2259,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     packet->trade[i] = pcity->trade[i];
     packet->trade_value[i] = pcity->trade_value[i];
+    packet->trade_direction[i] = pcity->trade_direction[i];
   }
 
   output_type_iterate(o) {
@@ -2530,6 +2531,7 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pc1->trade[i] == 0) {
       pc1->trade[i] = pc2->id;
+      pc1->trade_direction[i] = RDIR_FROM;
       break;
     }
   }
@@ -2537,6 +2539,7 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pc2->trade[i] == 0) {
       pc2->trade[i] = pc1->id;
+      pc2->trade_direction[i] = RDIR_TO;
       break;
     }
   }

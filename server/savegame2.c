@@ -2954,6 +2954,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     pcity->trade[i] = secfile_lookup_int_default(loading->file, 0,
                                                  "%s.traderoute%d", citystr, i);
+    pcity->trade_direction[i] = RDIR_BIDIRECTIONAL;
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->food_stock,

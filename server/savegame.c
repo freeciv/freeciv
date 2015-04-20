@@ -2305,6 +2305,7 @@ static void player_load_cities(struct player *plr, int plrno,
       pcity->trade[j] = secfile_lookup_int_default(file, 0,
                                                    "player%d.c%d.traderoute%d",
                                                    plrno, i, j);
+      pcity->trade_direction[j] = RDIR_BIDIRECTIONAL;
     }
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->food_stock,

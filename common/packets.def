@@ -232,6 +232,7 @@ type GLS                = uint8(enum gameloss_style)
 type UTYF               = uint8(enum unit_type_flag_id)
 type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 type TRI                = uint8(enum traderoute_illegal_cancelling)
+type RDIR               = uint8(enum route_direction)
 type MOVE_MODE          = uint8(enum road_move_mode)
 type GEN_ACTION         = uint8(enum gen_action)
 type REVOLENTYPE        = uint8(enum revolen_type)
@@ -617,6 +618,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   UINT16 trade[MAX_TRADE_ROUTES];
   UINT8 trade_value[MAX_TRADE_ROUTES];
+  RDIR trade_direction[MAX_TRADE_ROUTES];
 
   UINT16 pollution;
   UINT16 illness_trade;
