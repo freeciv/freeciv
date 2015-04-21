@@ -47,6 +47,33 @@ enum data_type {
   DIOT_LAST
 };
 
+/* What a location inside a packet is. */
+enum plocation_kind {
+  /* A field. Addressed by its name. */
+  PADR_FIELD,
+  /* An array element. Addressed by its number. */
+  PADR_ELEMENT
+};
+
+/* Address of a location inside a packet. */
+struct plocation {
+  /* The location kind. */
+  enum plocation_kind kind;
+
+  union {
+    /* Used if this is an array element */
+    int number;
+
+    /* Used if this is a field. */
+    char *name;
+  };
+
+  /* If the full address is to a location inside this this field should
+   * point to it. If this location is the final location this field should
+   * be NULL. */
+  struct plocation *sub_location;
+};
+
 #ifdef FREECIV_JSON_CONNECTION
 #include "dataio_json.h"
 #endif
@@ -121,10 +148,10 @@ bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_GET(pdin, basekey, bv)                         \
+#define DIO_BV_GET(pdin, basekey, location, bv)               \
   dio_get_memory_raw((pdin), (bv).vec, sizeof((bv).vec))
 
-#define DIO_GET(f, d, k, ...) dio_get_##f##_raw(d, ## __VA_ARGS__)
+#define DIO_GET(f, d, k, l, ...) dio_get_##f##_raw(d, ## __VA_ARGS__)
 
 #endif /* FREECIV_JSON_CONNECTION */
 
@@ -159,10 +186,10 @@ void dio_put_uint16_vec8_raw(struct raw_data_out *dout, int *values, int stop_va
 #ifndef FREECIV_JSON_CONNECTION
 
 /* Should be a function but we need some macro magic. */
-#define DIO_BV_PUT(pdout, k, bv)                         \
+#define DIO_BV_PUT(pdout, k, location, bv)               \
   dio_put_memory_raw((pdout), (bv).vec, sizeof((bv).vec))
 
-#define DIO_PUT(f, d, k, ...) dio_put_##f##_raw(d, ## __VA_ARGS__)
+#define DIO_PUT(f, d, k, l, ...) dio_put_##f##_raw(d, ## __VA_ARGS__)
 
 #endif /* FREECIV_JSON_CONNECTION */
 
