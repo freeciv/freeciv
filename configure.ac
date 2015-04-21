@@ -565,6 +565,11 @@ if test "x$XMLREGISTRY" = "xyes" ; then
   AC_DEFINE([HAVE_XML_REGISTRY], [1], [Build xml-backend for registry])
 fi
 
+PKG_CHECK_MODULES([ICU], [icu-uc],,
+    [AC_MSG_ERROR([icu development files required])])
+UTILITY_CFLAGS="${UTILITY_CFLAGS} ${ICU_CFLAGS}"
+UTILITY_LIBS="${UTILITY_LIBS} ${ICU_LIBS}"
+
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
 EXTRA_DEBUG_CXXFLAGS=""
