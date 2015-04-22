@@ -253,16 +253,6 @@ extern bool sg_success;
   }                                                                         \
 }
 
-/* Iterate on the specials half-bytes */
-#define halfbyte_iterate_special(s, num_specials_types)                     \
-{                                                                           \
-  enum tile_special_type s;                                                 \
-  for(s = 0; 4 * s < (num_specials_types); s++) {
-
-#define halfbyte_iterate_special_end                                        \
-  }                                                                         \
-}
-
 struct savedata {
   struct section_file *file;
   char secfile_options[512];
@@ -281,7 +271,6 @@ static const char savefile_options_default[] =
   " +version3";
 /* The following savefile option are added if needed:
  *  - specials
- *  - riversoverlay
  * See also calls to sg_save_savefile_options(). */
 
 static const char num_chars[] =
@@ -317,8 +306,6 @@ static void unit_ordering_calc(void);
 static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **index);
 static char sg_extras_get(bv_extras extras, const int *index);
-static void sg_river_overlay_set(bv_extras *extras, char ch,
-                                 const enum tile_special_type *index);
 static struct resource *char2resource(char c);
 static char resource2char(const struct resource *presource);
 static char num2char(unsigned int num);
@@ -359,7 +346,6 @@ static void sg_load_map_tiles(struct loaddata *loading);
 static void sg_save_map_tiles(struct savedata *saving);
 static void sg_load_map_tiles_extras(struct loaddata *loading);
 static void sg_save_map_tiles_extras(struct savedata *saving);
-static void sg_load_map_tiles_river_overlay(struct loaddata *loading);
 static void sg_load_map_tiles_resources(struct loaddata *loading);
 static void sg_save_map_tiles_resources(struct savedata *saving);
 
@@ -1149,45 +1135,6 @@ static char sg_extras_get(bv_extras extras, const int *index)
   }
 
   return hex_chars[bin];
-}
-
-/****************************************************************************
-  Complicated helper function for loading specials from a savegame.
-
-  'ch' gives the character loaded from the savegame. Specials are packed
-  in four to a character in hex notation. 'index' is a mapping of
-  savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
-****************************************************************************/
-static void sg_river_overlay_set(bv_extras *extras, char ch,
-                                 const enum tile_special_type *index)
-{
-  int i, bin;
-  const char *pch = strchr(hex_chars, ch);
-
-  if (!pch || ch == '\0') {
-    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
-    bin = 0;
-  } else {
-    bin = pch - hex_chars;
-  }
-
-  for (i = 0; i < 4; i++) {
-    enum tile_special_type sp = index[i];
-
-    if (sp != S_OLD_RIVER) {
-      continue;
-    }
-
-    if (bin & (1 << i)) {
-      struct extra_type *pextra;
-
-      pextra = extra_type_by_rule_name(special_rule_name(sp));
-
-      if (pextra) {
-        BV_SET(*extras, extra_index(pextra));
-      }
-    }
-  }
 }
 
 /****************************************************************************
@@ -2362,9 +2309,6 @@ static void sg_load_map(struct loaddata *loading)
     if (has_capability("specials", loading->secfile_options)) {
       /* Load resources. */
       sg_load_map_tiles_resources(loading);
-    } else if (has_capability("riversoverlay", loading->secfile_options)) {
-      /* Load only rivers overlay. */
-      sg_load_map_tiles_river_overlay(loading);
     }
 
     /* Nothing more needed for a scenario. */
@@ -2519,34 +2463,6 @@ static void sg_save_map_tiles_extras(struct savedata *saving)
     SAVE_MAP_CHAR(ptile, sg_extras_get(ptile->extras, mod),
                   saving->file, "map.e%02d_%04d", j);
   } halfbyte_iterate_extras_end;
-}
-
-/****************************************************************************
-  Load information about specials on map
-****************************************************************************/
-static void sg_load_map_tiles_river_overlay(struct loaddata *loading)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  /* Load only the rivers overlay map from the savegame file.
-   *
-   * A scenario may define the terrain of the map but not list the specials
-   * on it (thus allowing users to control the placement of specials).
-   * However rivers are a special case and must be included in the map along
-   * with the scenario. Thus in those cases this function should be called
-   * to load the river information separate from any other special data.
-   *
-   * This does not need to be called from map_load(), because map_load()
-   * loads the rivers overlay along with the rest of the specials.  Call this
-   * only if you've already called map_load_tiles(), and want to load only
-   * the rivers overlay but no other specials. Scenarios that encode things
-   * this way should have the "riversoverlay" capability. */
-  halfbyte_iterate_special(j, loading->special.size) {
-    LOAD_MAP_CHAR(ch, ptile, sg_river_overlay_set(&ptile->extras, ch,
-                                                  loading->special.order + 4 * j),
-                  loading->file, "map.spe%02d_%04d", j);
-  } halfbyte_iterate_special_end;
 }
 
 /****************************************************************************
