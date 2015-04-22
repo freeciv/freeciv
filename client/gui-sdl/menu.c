@@ -957,6 +957,10 @@ void undraw_order_widgets(void)
 {
   struct widget *pTmpWidget = pBeginOrderWidgetList;
 
+  if (pTmpWidget == NULL) {
+    return;
+  }
+
   while (TRUE) {
 
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN) && (pTmpWidget->gfx)) {
