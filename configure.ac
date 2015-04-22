@@ -1377,13 +1377,15 @@ dnl Make sure that fc_config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here
 dnl since change in it should not cause recompilation, only relinking.
 dnl Note: Variables are named FC_STORE_* instead of FC_*_STORE in order to
-dnl make them appear next to each other in fc_config.h.  Also single-quotes are
-dnl used because some " may appear unescaped within the flag strings.
-AC_DEFINE_UNQUOTED([FC_STORE_CPPFLAGS], ['$CPPFLAGS'],
+dnl make them appear next to each other in fc_config.h.
+FC_STORE_CPPFLAGS="$(echo $CPPFLAGS | $SED 's/\\/\\\\/g' | $SED 's/\"/\\\"/g')"
+AC_DEFINE_UNQUOTED([FC_STORE_CPPFLAGS], ["$FC_STORE_CPPFLAGS"],
                    [These are the CPPFLAGS used in compilation])
-AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ['$CFLAGS'],
+FC_STORE_CFLAGS="$(echo $CFLAGS | $SED 's/\\/\\\\/g' | $SED 's/\"/\\\"/g')"
+AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ["$FC_STORE_CFLAGS"],
                    [These are the CFLAGS used in compilation])
-AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ['$CXXFLAGS'],
+FC_STORE_CXXFLAGS="$(echo $CXXFLAGS | $SED 's/\\/\\\\/g' | $SED 's/\"/\\\"/g')"
+AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$FC_STORE_CXXFLAGS"],
                    [These are the CXXFLAGS used in compilation])
 
 AC_CONFIG_FILES([Makefile
