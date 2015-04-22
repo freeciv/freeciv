@@ -2802,6 +2802,9 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
 {
   if (!is_showing_workertask_dialog) {
     GtkWidget *shl;
+    struct terrain *pterr = tile_terrain(ptile);
+    struct universal for_terr = { .kind = VUT_TERRAIN,
+                                  .value = { .terrain = pterr }};
 
     is_showing_workertask_dialog = TRUE;
     workertask_req.owner = pcity;
@@ -2810,21 +2813,39 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     shl = choice_dialog_start(GTK_WINDOW(toplevel),
 			       _("What Action to Request"),
 			       _("Select autosettler activity:"));
-    choice_dialog_add(shl, _("Clear request"),
-                      G_CALLBACK(set_city_workertask),
-                      GINT_TO_POINTER(ACTIVITY_IDLE), NULL);
-    choice_dialog_add(shl, _("Mine"),
-                      G_CALLBACK(set_city_workertask),
-                      GINT_TO_POINTER(ACTIVITY_MINE), NULL);
-    choice_dialog_add(shl, _("Irrigate"),
-                      G_CALLBACK(set_city_workertask),
-                      GINT_TO_POINTER(ACTIVITY_IRRIGATE), NULL);
-    choice_dialog_add(shl, _("Road"),
-                      G_CALLBACK(set_city_workertask),
-                      GINT_TO_POINTER(ACTIVITY_GEN_ROAD), NULL);
-    choice_dialog_add(shl, _("Transform"),
-                      G_CALLBACK(set_city_workertask),
-                      GINT_TO_POINTER(ACTIVITY_TRANSFORM), NULL);
+    if (pcity->task_req.ptile != NULL) {
+      choice_dialog_add(shl, _("Clear request"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_IDLE), NULL);
+    }
+
+    if ((pterr->mining_result == pterr
+         && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0)
+        || (pterr->mining_result != pterr && pterr->mining_result != NULL
+            && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0)) {
+      choice_dialog_add(shl, _("Mine"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_MINE), NULL);
+    }
+    if ((pterr->irrigation_result == pterr
+         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0)
+        || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
+            && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0)) {
+      choice_dialog_add(shl, _("Irrigate"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_IRRIGATE), NULL);
+    }
+    if (next_extra_for_tile(ptile, EC_ROAD, city_owner(pcity), NULL) != NULL) {
+      choice_dialog_add(shl, _("Road"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_GEN_ROAD), NULL);
+    }
+    if (pterr->transform_result != pterr && pterr->transform_result != NULL
+        && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+      choice_dialog_add(shl, _("Transform"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_TRANSFORM), NULL);
+    }
 
     choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0, NULL);
     choice_dialog_end(shl);
