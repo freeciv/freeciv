@@ -63,6 +63,7 @@
 #include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "menu.h"
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "plrdlg.h"
@@ -150,7 +151,8 @@ void popdown_all_game_dialogs(void)
   popdown_advanced_terrain_dialog();
   popdown_terrain_info_dialog();
   popdown_newcity_dialog();
-  popdown_optiondlg();
+  popdown_optiondlg(TRUE);
+  undraw_order_widgets();
   popdown_diplomat_dialog();
   popdown_pillage_dialog();
   popdown_incite_dialog();
