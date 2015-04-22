@@ -239,16 +239,16 @@ static int back_callback(struct widget *pWidget)
   }
 
   if (ODM_MAIN == option_dialog->mode) {
-    popdown_optiondlg();
-
     if (client.conn.established) {
       /* Back to game. */
+      popdown_optiondlg(FALSE);
       enable_options_button();
       widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
       flush_dirty();
     } else {
       /* Back to main page. */
+      popdown_optiondlg(TRUE);
       set_client_page(PAGE_MAIN);
     }
     return -1;
@@ -367,7 +367,7 @@ static int save_game_callback(struct widget *pWidget)
 static int disconnect_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_optiondlg();
+    popdown_optiondlg(TRUE);
     enable_options_button();
     disconnect_from_server();
   }
@@ -380,7 +380,7 @@ static int disconnect_callback(struct widget *pWidget)
 static int exit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_optiondlg();
+    popdown_optiondlg(TRUE);
     force_exit_from_event_loop();
   }
   return 0;
@@ -1380,9 +1380,9 @@ void popup_optiondlg(void)
 }
 
 /**************************************************************************
-  ...
+  Close option dialog.
 **************************************************************************/
-void popdown_optiondlg(void)
+void popdown_optiondlg(bool leave_game)
 {
   if (NULL == option_dialog) {
     return;
@@ -1390,7 +1390,10 @@ void popdown_optiondlg(void)
 
   option_dialog_destroy(option_dialog);
   option_dialog = NULL;
-  enable_main_widgets();
+
+  if (!leave_game) {
+    enable_main_widgets();
+  }
 
   if (restore_meswin_dialog) {
     meswin_dialog_popup(TRUE);
