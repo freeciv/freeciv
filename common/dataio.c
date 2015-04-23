@@ -1029,3 +1029,17 @@ void dio_put_requirement_raw(struct raw_data_out *dout,
   dio_put_bool8_raw(dout, survives);
   dio_put_bool8_raw(dout, present);
 }
+
+/**************************************************************************
+ Create a new address of the location of a field inside a packet.
+**************************************************************************/
+struct plocation *plocation_field_new(char *name)
+{
+  struct plocation *out = fc_malloc(sizeof(*out));
+
+  out->kind = PADR_FIELD;
+  out->name = name;
+  out->sub_location = NULL;
+
+  return out;
+}

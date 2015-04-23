@@ -74,6 +74,8 @@ struct plocation {
   struct plocation *sub_location;
 };
 
+struct plocation *plocation_field_new(char *name);
+
 #ifdef FREECIV_JSON_CONNECTION
 #include "dataio_json.h"
 #endif

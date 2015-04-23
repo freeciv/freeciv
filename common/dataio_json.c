@@ -110,6 +110,109 @@ static bool get_conv(char *dst, size_t ndst, const char *src,
   return ret;
 }
 
+static void plocation_write_data(json_t *item,
+                                 const struct plocation *location,
+                                 json_t *data);
+
+/**************************************************************************
+  Helper for plocation_write_data(). Use it in stead of this.
+**************************************************************************/
+static void plocation_write_field(json_t *item,
+                                  const struct plocation *location,
+                                  json_t *data)
+{
+  if (location->sub_location == NULL) {
+    json_object_set_new(item, location->name, data);
+  } else {
+    plocation_write_data(json_object_get(item, location->name),
+                         location->sub_location, data);
+  }
+}
+
+/**************************************************************************
+  Helper for plocation_write_data(). Use it in stead of this.
+**************************************************************************/
+static void plocation_write_elem(json_t *item,
+                                 const struct plocation *location,
+                                 json_t *data)
+{
+  if (location->sub_location == NULL) {
+    json_array_set_new(item, location->number, data);
+  } else {
+    plocation_write_data(json_array_get(item, location->number),
+                         location->sub_location, data);
+  }
+}
+
+/**************************************************************************
+  Write the specified JSON data to the given location in the provided
+  JSON item.
+**************************************************************************/
+static void plocation_write_data(json_t *item,
+                                 const struct plocation *location,
+                                 json_t *data)
+{
+  switch (location->kind) {
+  case PADR_FIELD:
+    plocation_write_field(item, location, data);
+    return;
+  case PADR_ELEMENT:
+    plocation_write_elem(item, location, data);
+    return;
+  default:
+    log_error("Unknown packet part location kind.");
+    return;
+  }
+}
+
+static json_t *plocation_read_data(json_t *item,
+                                   const struct plocation *location);
+
+/**************************************************************************
+  Helper for plocation_read_data(). Use it in stead of this.
+**************************************************************************/
+static json_t *plocation_read_field(json_t *item,
+                                    const struct plocation *location)
+{
+  if (location->sub_location == NULL) {
+    return json_object_get(item, location->name);
+  } else {
+    return plocation_read_data(json_object_get(item, location->name),
+                               location->sub_location);
+  }
+}
+
+/**************************************************************************
+  Helper for plocation_read_data(). Use it in stead of this.
+**************************************************************************/
+static json_t *plocation_read_elem(json_t *item,
+                                   const struct plocation *location)
+{
+  if (location->sub_location == NULL) {
+    return json_array_get(item, location->number);
+  } else {
+    return plocation_read_data(json_array_get(item, location->number),
+                               location->sub_location);
+  }
+}
+
+/**************************************************************************
+  Read JSON data from the given location in the provided JSON item.
+**************************************************************************/
+static json_t *plocation_read_data(json_t *item,
+                                   const struct plocation *location)
+{
+  switch (location->kind) {
+  case PADR_FIELD:
+    return plocation_read_field(item, location);
+  case PADR_ELEMENT:
+    return plocation_read_elem(item, location);
+  default:
+    log_error("Unknown packet part location kind.");
+    return NULL;
+  }
+}
+
 /**************************************************************************
   Insert 8 bit value with json.
 **************************************************************************/
@@ -117,7 +220,7 @@ void dio_put_uint8_json(struct json_data_out *dout,
                         char *key, const struct plocation* location,
                         int value)
 {
-  json_object_set_new(dout->json, key, json_integer(value));
+  plocation_write_data(dout->json, location, json_integer(value));
 }
 
 /**************************************************************************
@@ -126,7 +229,7 @@ void dio_put_uint8_json(struct json_data_out *dout,
 void dio_put_uint16_json(struct json_data_out *dout, char *key,
                          const struct plocation* location, int value)
 {
-  json_object_set_new(dout->json, key, json_integer(value));
+  plocation_write_data(dout->json, location, json_integer(value));
 }
 
 /**************************************************************************
@@ -167,7 +270,7 @@ void dio_put_worklist_json(struct json_data_out *dout, char *key,
 bool dio_get_uint8_json(json_t *json_packet, char *key,
                         const struct plocation* location, int *dest)
 {
-  json_t *pint = json_object_get(json_packet, key);
+  json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
     log_error("ERROR: Unable to get uint8 with key: %s", key);
@@ -189,7 +292,7 @@ bool dio_get_uint8_json(json_t *json_packet, char *key,
 bool dio_get_uint16_json(json_t *json_packet, char *key,
                          const struct plocation* location, int *dest)
 {
-  json_t *pint = json_object_get(json_packet, key);
+  json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
     log_error("ERROR: Unable to get uint16 with key: %s", key);
@@ -211,7 +314,7 @@ bool dio_get_uint16_json(json_t *json_packet, char *key,
 bool dio_get_uint32_json(json_t *json_packet, char *key,
                          const struct plocation* location, int *dest)
 {
-  json_t *pint = json_object_get(json_packet, key);
+  json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
     log_error("ERROR: Unable to get uint32 with key: %s", key);
@@ -302,39 +405,46 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
   int kind, range, value;
   bool survives, present;
 
+  struct plocation req_field;
+
   /* Find the requirement object. */
-  json_t *requirement = json_object_get(json_packet, key);
+  json_t *requirement = plocation_read_data(json_packet, location);
   if (!requirement) {
     log_error("ERROR: Unable to get requirement with key: %s", key);
     return FALSE;
   }
 
   /* Find the requirement object fields and translate their values. */
-  if (!dio_get_uint8_json(requirement, "kind", NULL, &kind)) {
+  req_field = *plocation_field_new("kind");
+  if (!dio_get_uint8_json(requirement, "kind", &req_field, &kind)) {
     log_error("ERROR: Unable to get part of requirement with key: %s",
               key);
     return FALSE;
   }
 
-  if (!dio_get_sint32_json(requirement, "value", NULL, &value)) {
+  req_field.name = "value";
+  if (!dio_get_sint32_json(requirement, "value", &req_field, &value)) {
     log_error("ERROR: Unable to get part of requirement with key: %s",
               key);
     return FALSE;
   }
 
-  if (!dio_get_uint8_json(requirement, "range", NULL, &range)) {
+  req_field.name = "range";
+  if (!dio_get_uint8_json(requirement, "range", &req_field, &range)) {
     log_error("ERROR: Unable to get part of requirement with key: %s",
               key);
     return FALSE;
   }
 
-  if (!dio_get_bool8_json(requirement, "survives", NULL, &survives)) {
+  req_field.name = "survives";
+  if (!dio_get_bool8_json(requirement, "survives", &req_field, &survives)) {
     log_error("ERROR: Unable to get part of requirement with key: %s",
               key);
     return FALSE;
   }
 
-  if (!dio_get_bool8_json(requirement, "present", NULL, &present)) {
+  req_field.name = "present";
+  if (!dio_get_bool8_json(requirement, "present", &req_field, &present)) {
     log_error("ERROR: Unable to get part of requirement with key: %s",
               key);
     return FALSE;
@@ -352,7 +462,7 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
 void dio_put_uint32_json(struct json_data_out *dout, char *key,
                          const struct plocation* location, int value)
 {
-  json_object_set_new(dout->json, key, json_integer(value));
+  plocation_write_data(dout->json, location, json_integer(value));
 }
 
 /**************************************************************************
@@ -361,7 +471,7 @@ void dio_put_uint32_json(struct json_data_out *dout, char *key,
 void dio_put_bool8_json(struct json_data_out *dout, char *key,
                         const struct plocation* location, bool value)
 {
-  json_object_set_new(dout->json, key, value ? json_true() : json_false());
+  plocation_write_data(dout->json, location, value ? json_true() : json_false());
 }
 
 /**************************************************************************
@@ -370,7 +480,7 @@ void dio_put_bool8_json(struct json_data_out *dout, char *key,
 void dio_put_bool32_json(struct json_data_out *dout, char *key,
                          const struct plocation* location, bool value)
 {
-  json_object_set_new(dout->json, key, value ? json_true() : json_false());
+  plocation_write_data(dout->json, location, value ? json_true() : json_false());
 }
 
 /**************************************************************************
@@ -380,7 +490,7 @@ void dio_put_ufloat_json(struct json_data_out *dout, char *key,
                          const struct plocation* location,
                          float value, int float_factor)
 {
-  json_object_set_new(dout->json, key, json_real(value));
+  plocation_write_data(dout->json, location, json_real(value));
 }
 
 /**************************************************************************
@@ -390,7 +500,7 @@ void dio_put_sfloat_json(struct json_data_out *dout, char *key,
                          const struct plocation* location,
                          float value, int float_factor)
 {
-  json_object_set_new(dout->json, key, json_real(value));
+  plocation_write_data(dout->json, location, json_real(value));
 }
 
 /**************************************************************************
@@ -423,11 +533,16 @@ void dio_put_memory_json(struct json_data_out *dout, char *key,
 {
   int i;
   char fullkey[512];
+  struct plocation ploc;
+
+  /* TODO: Should probably be a JSON array. */
+  ploc = *plocation_field_new(NULL);
 
   for (i = 0; i < size; i++) {
     fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
+    ploc.name = fullkey;
 
-    dio_put_uint8_json(dout, fullkey, NULL, ((unsigned char *)value)[i]);
+    dio_put_uint8_json(dout, fullkey, &ploc, ((unsigned char *)value)[i]);
   }
 }
 
@@ -438,7 +553,7 @@ void dio_put_string_json(struct json_data_out *dout, char *key,
                          const struct plocation* location,
                          const char *value)
 {
-  json_object_set_new(dout->json, key, json_string(value));
+  plocation_write_data(dout->json, location, json_string(value));
 }
 
 /**************************************************************************
@@ -478,7 +593,7 @@ void dio_put_requirement_json(struct json_data_out *dout, char *key,
   json_object_set(requirement, "present", json_boolean(present));
 
   /* Put the requirement object in the packet. */
-  json_object_set_new(dout->json, key, requirement);
+  plocation_write_data(dout->json, location, requirement);
 }
 
 /**************************************************************************
@@ -487,7 +602,7 @@ void dio_put_requirement_json(struct json_data_out *dout, char *key,
 bool dio_get_bool8_json(json_t *json_packet, char *key,
                         const struct plocation* location, bool *dest)
 {
-  json_t *pbool = json_object_get(json_packet, key);
+  json_t *pbool = plocation_read_data(json_packet, location);
 
   if (!pbool) {
     log_error("ERROR: Unable to get bool8 with key: %s", key);
@@ -509,7 +624,7 @@ bool dio_get_bool8_json(json_t *json_packet, char *key,
 bool dio_get_bool32_json(json_t *json_packet, char *key,
                          const struct plocation* location, bool *dest)
 {
-  json_t *pbool = json_object_get(json_packet, key);
+  json_t *pbool = plocation_read_data(json_packet, location);
 
   if (!pbool) {
     log_error("ERROR: Unable to get bool32 with key: %s", key);
@@ -532,7 +647,7 @@ bool dio_get_ufloat_json(json_t *json_packet, char *key,
                          const struct plocation* location,
                          float *dest, int float_factor)
 {
-  json_t *preal = json_object_get(json_packet, key);
+  json_t *preal = plocation_read_data(json_packet, location);
 
   if (!preal) {
     log_error("ERROR: Unable to get real with key: %s", key);
@@ -550,7 +665,7 @@ bool dio_get_sfloat_json(json_t *json_packet, char *key,
                          const struct plocation* location,
                          float *dest, int float_factor)
 {
-  json_t *preal = json_object_get(json_packet, key);
+  json_t *preal = plocation_read_data(json_packet, location);
 
   if (!preal) {
     log_error("ERROR: Unable to get real with key: %s", key);
@@ -567,7 +682,7 @@ bool dio_get_sfloat_json(json_t *json_packet, char *key,
 bool dio_get_sint8_json(json_t *json_packet, char *key,
                         const struct plocation* location, int *dest)
 {
-  json_t *pint = json_object_get(json_packet, key);
+  json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
     log_error("ERROR: Unable to get sint8 with key: %s", key);
@@ -589,7 +704,7 @@ bool dio_get_sint8_json(json_t *json_packet, char *key,
 bool dio_get_sint16_json(json_t *json_packet, char *key,
                          const struct plocation* location, int *dest)
 {
-  json_t *pint = json_object_get(json_packet, key);
+  json_t *pint = plocation_read_data(json_packet, location);
 
   if (!pint) {
     log_error("ERROR: Unable to get sint16 with key: %s", key);
@@ -614,13 +729,18 @@ bool dio_get_memory_json(json_t *json_packet, char *key,
 {
    int i;
   char fullkey[512];
+  struct plocation ploc;
+
+  /* TODO: Should probably be a JSON array. */
+  ploc = *plocation_field_new(NULL);
 
   for (i = 0; i < dest_size; i++) {
     int val;
 
     fc_snprintf(fullkey, sizeof(fullkey), "%s_%d", key, i);
+    ploc.name = fullkey;
 
-    if (!dio_get_uint8_json(json_packet, fullkey, NULL, &val)) {
+    if (!dio_get_uint8_json(json_packet, fullkey, &ploc, &val)) {
       return FALSE;
     }
     ((unsigned char *)dest)[i] = val;
@@ -636,7 +756,7 @@ bool dio_get_string_json(json_t *json_packet, char *key,
                          const struct plocation* location,
                          char *dest, size_t max_dest_size)
 {
-  json_t *pstring = json_object_get(json_packet, key);
+  json_t *pstring = plocation_read_data(json_packet, location);
 
   if (!pstring) {
     log_error("ERROR: Unable to get string with key: %s", key);

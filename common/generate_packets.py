@@ -347,42 +347,50 @@ class Field:
 
     # Returns code which put this field.
     def get_put(self):
+        return '''  #ifdef FREECIV_JSON_CONNECTION
+  field_addr.name = \"%(name)s\";
+  #endif /* FREECIV_JSON_CONNECTION */
+'''%self.__dict__ \
+               + self.get_put_real();
+
+    # The code which put this field before it is wrapped in address adding.
+    def get_put_real(self):
         if self.dataio_type=="bitvector":
-            return "DIO_BV_PUT(&dout, \"%(name)s\", NULL, packet->%(name)s);"%self.__dict__
+            return "DIO_BV_PUT(&dout, \"%(name)s\", &field_addr, packet->%(name)s);"%self.__dict__
 
         if self.struct_type=="float" and not self.is_array:
-            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", NULL, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &field_addr, real_packet->%(name)s, %(float_factor)d);"%self.__dict__
 
         if self.dataio_type in ["worklist"]:
-            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", NULL, &real_packet->%(name)s);"%self.__dict__
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &field_addr, &real_packet->%(name)s);"%self.__dict__
 
         if self.dataio_type in ["memory"]:
-            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", NULL, &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &field_addr, &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
 
         arr_types=["string","city_map","tech_list",
                    "unit_list","building_list"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
-            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", NULL, real_packet->%(name)s);"%self.__dict__
+            return "  DIO_PUT(%(dataio_type)s, &dout, \"%(name)s\", &field_addr, real_packet->%(name)s);"%self.__dict__
         if self.is_struct:
             if self.is_array==2:
-                c="DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, &real_packet->%(name)s[i][j]);"%self.__dict__
+                c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, &real_packet->%(name)s[i][j]);"%self.__dict__
             else:
-                c="DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, &real_packet->%(name)s[i]);"%self.__dict__
+                c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, &real_packet->%(name)s[i]);"%self.__dict__
         elif self.dataio_type=="string":
-            c="DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, real_packet->%(name)s[i]);"%self.__dict__
+            c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
             array_size_u=self.array_size1_u
 
         elif self.struct_type=="float":
             if self.is_array==2:
-                c="  DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
+                c="  DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i][j], %(float_factor)d);"%self.__dict__
             else:
-                c="  DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
+                c="  DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i], %(float_factor)d);"%self.__dict__
         else:
             if self.is_array==2:
-                c="DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, real_packet->%(name)s[i][j]);"%self.__dict__
+                c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i][j]);"%self.__dict__
             else:
-                c="DIO_PUT(%(dataio_type)s, &dout, namestr, NULL, real_packet->%(name)s[i]);"%self.__dict__
+                c="DIO_PUT(%(dataio_type)s, &dout, namestr, &field_addr, real_packet->%(name)s[i]);"%self.__dict__
 
         if not self.diff:
             if self.is_array==2 and self.dataio_type!="string":
@@ -395,6 +403,9 @@ class Field:
           char namestr[512];
 
           fc_snprintf(namestr, sizeof(namestr), \"%(name)s_%%%%d_%%%%d\", i, j);
+          #ifdef FREECIV_JSON_CONNECTION
+          field_addr.name = namestr;
+          #endif /* FREECIV_JSON_CONNECTION */
           %(c)s
         }
       }
@@ -403,11 +414,13 @@ class Field:
                 return '''
     {
       int i;
-
       for (i = 0; i < %(array_size_u)s; i++) {
         char namestr[512];
 
         fc_snprintf(namestr, sizeof(namestr), \"%(name)s_%%%%d\", i);
+        #ifdef FREECIV_JSON_CONNECTION
+        field_addr.name = namestr;
+        #endif /* FREECIV_JSON_CONNECTION */
         %(c)s
       }
     } '''%self.get_dict(vars())
@@ -423,12 +436,18 @@ class Field:
       for (i = 0; i < %(array_size_u)s; i++) {
         if (old->%(name)s[i] != real_packet->%(name)s[i]) {
           fc_snprintf(namestr, sizeof(namestr), "index_%%%%d", count++);
-          DIO_PUT(uint8, &dout, namestr, NULL, i);
+          #ifdef FREECIV_JSON_CONNECTION
+          field_addr.name = namestr;
+          #endif /* FREECIV_JSON_CONNECTION */
+          DIO_PUT(uint8, &dout, namestr, &field_addr, i);
           %(c)s
         }
       }
       fc_snprintf(namestr, sizeof(namestr), "index_%%%%d", count++);
-      DIO_PUT(uint8, &dout, namestr, NULL, 255);
+      #ifdef FREECIV_JSON_CONNECTION
+      field_addr.name = namestr;
+      #endif /* FREECIV_JSON_CONNECTION */
+      DIO_PUT(uint8, &dout, namestr, &field_addr, 255);
     } '''%self.get_dict(vars())
 
     # Returns a code fragement which will get the field if the
@@ -451,37 +470,45 @@ class Field:
 
     # Returns code which get this field.
     def get_get(self):
+        return '''#ifdef FREECIV_JSON_CONNECTION
+field_addr.name = \"%(name)s\";
+#endif /* FREECIV_JSON_CONNECTION */
+'''%self.__dict__ \
+               + self.get_get_real();
+
+    # The code which get this field before it is wrapped in address adding.
+    def get_get_real(self):
         if self.struct_type=="float" and not self.is_array:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, &real_packet->%(name)s, %(float_factor)d)) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, &real_packet->%(name)s, %(float_factor)d)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type=="bitvector":
-            return '''if (!DIO_BV_GET(&din, \"%(name)s\", NULL, real_packet->%(name)s)) {
+            return '''if (!DIO_BV_GET(&din, \"%(name)s\", &field_addr, real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type in ["string","city_map"] and \
            self.is_array!=2:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, real_packet->%(name)s, sizeof(real_packet->%(name)s))) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.is_struct and self.is_array==0:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, &real_packet->%(name)s)) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, &real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if self.dataio_type in ["tech_list","unit_list","building_list"]:
-            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, real_packet->%(name)s)) {
+            return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
         if not self.is_array:
             if self.struct_type in ["int","bool"]:
-                return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, &real_packet->%(name)s)) {
+                return '''if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, &real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
             else:
                 return '''{
   int readin;
   
-  if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, &readin)) {
+  if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, &readin)) {
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }
   real_packet->%(name)s = readin;
@@ -489,49 +516,49 @@ class Field:
 
         if self.is_struct:
             if self.is_array==2:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &real_packet->%(name)s[i][j])) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i][j])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &real_packet->%(name)s[i])) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.dataio_type=="string":
-            c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]))) {
+            c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]))) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.struct_type=="float":
             if self.is_array==2:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &real_packet->%(name)s[i][j], %(float_factor)d)) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i][j], %(float_factor)d)) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &real_packet->%(name)s[i], %(float_factor)d)) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i], %(float_factor)d)) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         elif self.is_array==2:
             if self.struct_type in ["int","bool"]:
-                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &real_packet->%(name)s[i][j])) {
+                c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i][j])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
             else:
                 c='''{
       int readin;
   
-      if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, &readin)) {
+      if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, &readin)) {
         RECEIVE_PACKET_FIELD_ERROR(%(name)s);
       }
       real_packet->%(name)s[i][j] = readin;
     }'''%self.__dict__
         elif self.struct_type in ["int","bool"]:
-            c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &real_packet->%(name)s[i])) {
+            c='''if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &real_packet->%(name)s[i])) {
       RECEIVE_PACKET_FIELD_ERROR(%(name)s);
     }'''%self.__dict__
         else:
             c='''{
       int readin;
   
-      if (!DIO_GET(%(dataio_type)s, &din, namestr, NULL, &readin)) {
+      if (!DIO_GET(%(dataio_type)s, &din, namestr, &field_addr, &readin)) {
         RECEIVE_PACKET_FIELD_ERROR(%(name)s);
       }
       real_packet->%(name)s[i] = readin;
@@ -554,7 +581,7 @@ class Field:
                 extra=""
             if self.dataio_type=="memory":
                 return '''%(extra)s
-  if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", NULL, real_packet->%(name)s, %(array_size_u)s)){
+  if (!DIO_GET(%(dataio_type)s, &din, \"%(name)s\", &field_addr, real_packet->%(name)s, %(array_size_u)s)){
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }'''%self.get_dict(vars())
             elif self.is_array==2 and self.dataio_type!="string":
@@ -567,6 +594,9 @@ class Field:
       char namestr[512];
 
       fc_snprintf(namestr, sizeof(namestr), \"%(name)s_%%%%d_%%%%d\", i, j);
+      #ifdef FREECIV_JSON_CONNECTION
+      field_addr.name = namestr;
+      #endif /* FREECIV_JSON_CONNECTION */
       %(c)s
     }
   }
@@ -580,6 +610,9 @@ class Field:
     char namestr[512];
 
     fc_snprintf(namestr, sizeof(namestr), \"%(name)s_%%%%d\", i);
+    #ifdef FREECIV_JSON_CONNECTION
+    field_addr.name = namestr;
+    #endif /* FREECIV_JSON_CONNECTION */
     %(c)s
   }
 }'''%self.get_dict(vars())
@@ -588,7 +621,7 @@ class Field:
 for (;;) {
   int i;
 
-  if (!DIO_GET(uint8, &din, \"%(name)s\", NULL, &i)) {
+  if (!DIO_GET(uint8, &din, \"%(name)s\", &field_addr, &i)) {
     RECEIVE_PACKET_FIELD_ERROR(%(name)s);
   }
   if (i == 255) {
@@ -603,6 +636,9 @@ for (;;) {
     char namestr[512];
 
     fc_snprintf(namestr, sizeof(namestr), \"%(name)s_%%%%d\", i);
+    #ifdef FREECIV_JSON_CONNECTION
+    field_addr.name = namestr;
+    #endif /* FREECIV_JSON_CONNECTION */
     %(c)s
   }
 }'''%self.get_dict(vars())
@@ -792,7 +828,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         temp='''%(send_prototype)s
 {
 <real_packet1><delta_header>  SEND_PACKET_START(%(type)s);
-<log><report><pre1><body><pre2><post>  SEND_PACKET_END(%(type)s);
+<faddr><log><report><pre1><body><pre2><post>  SEND_PACKET_END(%(type)s);
 }
 
 '''
@@ -862,6 +898,14 @@ static char *stats_%(name)s_names[] = {%(names)s};
         else:
             post=""
 
+        if len(self.fields) != 0:
+            faddr = '''  #ifdef FREECIV_JSON_CONNECTION
+  struct plocation field_addr = *plocation_field_new(NULL);
+  #endif /* FREECIV_JSON_CONNECTION */
+'''
+        else:
+            faddr = ""
+
         for i in range(2):
             for k,v in vars().items():
                 if type(v)==type(""):
@@ -909,7 +953,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
 '''%self.get_dict(vars())
 
         body=body+'''
-  DIO_BV_PUT(&dout, \"fields\", NULL, fields);
+  DIO_BV_PUT(&dout, \"fields\", &field_addr, fields);
 '''
 
         for field in self.key_fields:
@@ -941,7 +985,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         temp='''%(receive_prototype)s
 {
 <delta_header>  RECEIVE_PACKET_START(%(packet_name)s, real_packet);
-<delta_body1><body1><log><body2><post>  RECEIVE_PACKET_END(real_packet);
+<faddr><delta_body1><body1><log><body2><post>  RECEIVE_PACKET_END(real_packet);
 }
 
 '''
@@ -950,7 +994,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   struct %(packet_name)s *old;
   struct genhash **hash = pc->phs.received + %(type)s;
 '''
-            delta_body1="\n  DIO_BV_GET(&din, \"fields\", NULL, fields);\n"
+            delta_body1="\n  DIO_BV_GET(&din, \"fields\", &field_addr, fields);\n"
             body1=""
             for field in self.key_fields:
                 body1=body1+prefix("  ",field.get_get())+"\n"
@@ -976,6 +1020,14 @@ static char *stats_%(name)s_names[] = {%(names)s};
             post="  post_receive_%(packet_name)s(pc, real_packet);\n"
         else:
             post=""
+
+        if len(self.fields) != 0:
+            faddr = '''  #ifdef FREECIV_JSON_CONNECTION
+  struct plocation field_addr = *plocation_field_new(NULL);
+  #endif /* FREECIV_JSON_CONNECTION */
+'''
+        else:
+            faddr = ""
 
         for i in range(2):
             for k,v in vars().items():
