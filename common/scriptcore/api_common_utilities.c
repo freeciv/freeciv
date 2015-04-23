@@ -17,12 +17,13 @@
 
 #include <math.h>
 
-/* common */
-#include "version.h"
-
 /* utilities */
 #include "log.h"
 #include "rand.h"
+
+/* common */
+#include "map.h"
+#include "version.h"
 
 /* common/scriptcore */
 #include "luascript.h"

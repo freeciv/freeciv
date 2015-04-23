@@ -22,6 +22,7 @@
 /* common */
 #include "base.h"
 #include "game.h"
+#include "map.h"
 #include "road.h"
 
 #include "extras.h"

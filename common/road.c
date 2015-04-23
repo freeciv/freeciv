@@ -19,6 +19,7 @@
 #include "extras.h"
 #include "fc_types.h"
 #include "game.h"
+#include "map.h"
 #include "movement.h"
 #include "name_translation.h"
 #include "unittype.h"

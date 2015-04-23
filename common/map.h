@@ -26,8 +26,8 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
-
 #include "tile.h"
+#include "packets.h"
 
 /****************************************************************
 miscellaneous terrain information

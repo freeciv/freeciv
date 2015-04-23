@@ -23,6 +23,7 @@
 #include "achievements.h"
 #include "game.h"
 #include "government.h"
+#include "map.h"
 #include "movement.h"
 #include "multipliers.h"
 #include "specialist.h"

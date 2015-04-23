@@ -18,6 +18,7 @@
 #include <stdarg.h>
 
 /* common */
+#include "map.h"
 #include "player.h"
 #include "research.h"
 

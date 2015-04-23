@@ -25,12 +25,12 @@ struct data_in;
 #include "effects.h"
 #include "events.h"
 #include "improvement.h"	/* bv_imprs */
-#include "map.h"
 #include "player.h"
 #include "requirements.h"
 #include "shared.h"		/* MAX_LEN_ADDR */
 #include "spaceship.h"
 #include "team.h"
+#include "tile.h"
 #include "traderoutes.h"
 #include "unittype.h"
 #include "worklist.h"

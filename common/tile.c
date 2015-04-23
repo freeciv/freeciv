@@ -23,6 +23,7 @@
 /* common */
 #include "fc_interface.h"
 #include "game.h"
+#include "map.h"
 #include "movement.h"
 #include "road.h"
 #include "unit.h"
