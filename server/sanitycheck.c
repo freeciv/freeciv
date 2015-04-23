@@ -223,6 +223,7 @@ static bool check_city_good(struct city *pcity, const char *file,
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *pcenter = city_tile(pcity);
+  int i;
 
   if (NULL == pcenter) {
     /* Editor! */
@@ -263,6 +264,36 @@ static bool check_city_good(struct city *pcity, const char *file,
       SANITY_CITY(pcity, city_from_great_wonder(pimprove) == pcity);
     }
   } city_built_iterate_end;
+
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+    struct city *partner = game_city_by_number(pcity->trade[i]);
+
+    if (partner != NULL) {
+      int j;
+
+      for (j = 0; j < MAX_TRADE_ROUTES; j++) {
+        if (game_city_by_number(partner->trade[j]) == pcity) {
+          break;
+        }
+      }
+
+      SANITY_CITY(pcity, j < MAX_TRADE_ROUTES);
+
+      if (j < MAX_TRADE_ROUTES) {
+        switch (partner->trade_direction[j]) {
+        case RDIR_TO:
+          SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_FROM);
+          break;
+        case RDIR_FROM:
+          SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_TO);
+          break;
+        case RDIR_BIDIRECTIONAL:
+          SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_BIDIRECTIONAL);
+          break;
+        }
+      }
+    }
+  }
 
   return TRUE;
 }
