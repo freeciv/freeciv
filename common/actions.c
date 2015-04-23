@@ -22,6 +22,7 @@
 #include "actions.h"
 #include "city.h"
 #include "game.h"
+#include "map.h"
 #include "unit.h"
 #include "research.h"
 #include "tile.h"

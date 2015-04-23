@@ -26,6 +26,7 @@
 #include "city.h"
 #include "culture.h"
 #include "game.h"
+#include "map.h"
 #include "player.h"
 #include "spaceship.h"
 

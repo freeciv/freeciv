@@ -18,6 +18,7 @@
 /* common */
 #include "extras.h"
 #include "game.h"
+#include "map.h"
 #include "tile.h"
 #include "unit.h"
 

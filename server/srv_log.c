@@ -28,6 +28,7 @@
 #include "ai.h"
 #include "city.h"
 #include "game.h"
+#include "map.h"
 #include "unit.h"
 
 /* server */

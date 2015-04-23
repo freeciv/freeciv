@@ -55,6 +55,7 @@
 #include "connection.h"
 #include "dataio.h"
 #include "game.h"
+#include "map.h"
 #include "version.h"
 
 /* server */
