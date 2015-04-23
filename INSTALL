@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 09-Jan-15.
+Last minor update was 21-Apr-15.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -73,6 +73,19 @@ out whether your system is suitable.  If in doubt, just try it.
     % make -v                   [and if this doesn't work, try "gmake -v"]
 
    The output should include "GNU Make" somewhere.
+
+ - libcurl
+
+   Libcurl takes care of http communication with the metaserver, and
+   file transfers of modpack installers
+
+   http://curl.haxx.se/
+
+ - libicu
+
+   Libicu helps handling UTF-8 texts
+
+   http://site.icu-project.org/
 
 The svn version has additional requirements. A release version
 contains the generated files.
