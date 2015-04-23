@@ -360,7 +360,7 @@ void popup_input_line(void)
 {
   struct widget *pInput_Edit;
 
-  pInput_Edit = create_edit_from_chars(NULL, Main.gui, NULL, adj_font(12),
+  pInput_Edit = create_edit_from_chars(NULL, Main.gui, "", adj_font(12),
                                        adj_size(400), 0);
 
   pInput_Edit->size.x = (main_window_width() - pInput_Edit->size.w) / 2;
