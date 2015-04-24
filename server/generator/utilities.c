@@ -239,9 +239,9 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
  * The _sizes arrays give the sizes (in tiles) of each continent and
  * ocean.
  */
-static Continent_id *lake_surrounders;
-static int *continent_sizes, *ocean_sizes;
-
+static Continent_id *lake_surrounders = NULL;
+static int *continent_sizes = NULL;
+static int *ocean_sizes = NULL;
 
 /**************************************************************************
   Calculate lake_surrounders[] array
@@ -252,7 +252,7 @@ static void recalculate_lake_surrounders(void)
 
   lake_surrounders = fc_realloc(lake_surrounders, size);
   memset(lake_surrounders, 0, size);
-  
+
   whole_map_iterate(ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
     Continent_id cont = tile_continent(ptile);
@@ -601,4 +601,23 @@ void smooth_water_depth(void)
       tile_set_terrain(ptile, ocean);
     }
   } whole_map_iterate_end;
+}
+
+/**************************************************************************
+  Free resources allocated by the generator.
+**************************************************************************/
+void generator_free(void)
+{
+  if (lake_surrounders != NULL) {
+    free(lake_surrounders);
+    lake_surrounders = NULL;
+  }
+  if (continent_sizes != NULL) {
+    free(continent_sizes);
+    continent_sizes = NULL;
+  }
+  if (ocean_sizes != NULL) {
+    free(ocean_sizes);
+    ocean_sizes = NULL;
+  }
 }
