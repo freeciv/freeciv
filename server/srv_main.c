@@ -82,6 +82,7 @@
 
 /* generator */
 #include "mapgen.h"
+#include "utilities.h"
 
 /* server/scripting */
 #include "script_server.h"
@@ -1418,6 +1419,7 @@ void server_quit(void)
   stdinhand_free();
   edithand_free();
   voting_free();
+  generator_free();
   close_connections_and_socket();
   rulesets_deinit();
   timing_log_free();
