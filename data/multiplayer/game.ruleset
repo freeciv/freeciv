@@ -173,7 +173,7 @@ slow_invasions = TRUE
 ; 2/3 move points will have attack power 2/3 of normal.
 ; If this is set to FALSE units will attack with full strength even if they
 ; have only fractional moves left.
-tired_attack = FALSE
+tired_attack = TRUE
 
 [actions]
 ; What each action should be called when showing them to the player.

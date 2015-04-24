@@ -25,6 +25,12 @@ an alternative way to increase trade; see below.)
 The cost of inciting a city to change hands has been greatly
 increased.
 
+Units attacking with less than a full movement point get penalized because
+of their tiredness. Only the fragment of their normal attack strength
+equivalent to their movement point fragment is considered. If they have 2/3
+movement points, they will attack with 2/3 strength. If they have 1/3 movement
+points, they will attack with 1/3 strength.
+
 Wonder changes
 --------------
 
