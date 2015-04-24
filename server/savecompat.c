@@ -761,6 +761,7 @@ static void compat_load_020600(struct loaddata *loading)
     bool got_first_city;
     int old_barb_type;
     enum barbarian_type new_barb_type;
+    int i;
 
     /* Renamed 'capital' to 'got_first_city'. */
     if (secfile_lookup_bool(loading->file, &got_first_city, 
@@ -775,6 +776,21 @@ static void compat_load_020600(struct loaddata *loading)
     new_barb_type = barb_type_convert(old_barb_type);
     secfile_insert_str(loading->file, barbarian_type_name(new_barb_type),
                        "player%d.ai.barb_type", plrno);
+
+    for (i = 0; i < loading->trait.size; i++) {
+      int val;
+
+      val = secfile_lookup_int_default(loading->file, -1, "pĺr%d.trait.val%d",
+                                       plrno, i);
+      if (val != -1) {
+        secfile_insert_int(loading->file, val, "plr%d.trait%d.val", plrno, i);
+      }
+
+      if (secfile_lookup_int(loading->file, &val, "plr%d.trait.mod%d", plrno, i)) {
+        log_sg("Trait mod: %s", secfile_error());
+      }
+      secfile_insert_int(loading->file, val, "plr%d.trait%d.mod", plrno, i);
+    }
   }
 
   /* Units orders. */
