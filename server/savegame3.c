@@ -4523,10 +4523,17 @@ static void sg_save_player_cities(struct savedata *saving,
     for (j = 0; j < MAX_TRADE_ROUTES; j++) {
       secfile_insert_int(saving->file, pcity->trade[j], "%s.traderoute%d",
                          buf, j);
-      secfile_insert_str(saving->file, route_direction_name(pcity->trade_direction[i]),
-                         "%s.route_direction%d", buf, j);
-      secfile_insert_str(saving->file, goods_rule_name(pcity->trade_goods[i]),
-                         "%s.route_good%d", buf, j);
+      if (pcity->trade[j] != 0) {
+        secfile_insert_str(saving->file, route_direction_name(pcity->trade_direction[i]),
+                           "%s.route_direction%d", buf, j);
+        secfile_insert_str(saving->file, goods_rule_name(pcity->trade_goods[i]),
+                           "%s.route_good%d", buf, j);
+      } else {
+        secfile_insert_str(saving->file, route_direction_name(RDIR_BIDIRECTIONAL),
+                           "%s.route_direction%d", buf, j);
+        secfile_insert_str(saving->file, goods_rule_name(goods_by_number(0)),
+                           "%s.route_good%d", buf, j);
+      }
     }
 
     secfile_insert_int(saving->file, pcity->food_stock, "%s.food_stock",
