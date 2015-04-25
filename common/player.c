@@ -1566,6 +1566,17 @@ static bv_diplrel_all_reqs *diplrel_mess_get(void)
 }
 
 /**************************************************************************
+  Free diplrel_mess
+**************************************************************************/
+void diplrel_mess_close(void)
+{
+  if (diplrel_mess != NULL) {
+    free(diplrel_mess);
+    diplrel_mess = NULL;
+  }
+}
+
+/**************************************************************************
   Get the DiplRel requirements that are known to contradict the specified
   DiplRel requirement.
 

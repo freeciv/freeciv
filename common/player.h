@@ -432,6 +432,7 @@ bool is_barbarian(const struct player *pplayer);
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
+void diplrel_mess_close(void);
 bool is_diplrel_between(const struct player *player1,
                         const struct player *player2,
                         int diplrel);
