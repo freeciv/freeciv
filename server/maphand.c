@@ -1679,6 +1679,7 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
   Continent_id cont1 = tile_continent(source);
   Continent_id cont2;
   int ocean_tiles;
+  bool other_continent;
 
   if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE
       && get_lake_surrounders(cont) == cont1) {
@@ -1691,21 +1692,25 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
   }
 
   ocean_tiles = 0;
+  other_continent = FALSE;
   adjc_iterate(ptile, tile2) {
     cont2 = tile_continent(tile2);
     if (tile2 == source) {
+      /* Water next to border source is always claimable */
       return TRUE;
     }
     if (cont2 == cont) {
       ocean_tiles++;
     } else if (cont1 <= 0) {
-      /* First adjacent land */
+      /* First adjacent land (only if border source is not on land) */
       cont1 = cont2;
     } else if (cont2 != cont1) {
-      return FALSE; /* two land continents adjacent, punt! */
+      /* This water has two land continents adjacent, or land adjacent
+       * that is of a different continent from the border source */
+      other_continent = TRUE;
     }
   } adjc_iterate_end;
-  if (ocean_tiles <= 2) {
+  if (!other_continent && ocean_tiles <= 2) {
     return TRUE;
   } else {
     return FALSE;
@@ -1876,16 +1881,19 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
       if (strength_new <= strength_old) {
         /* Stronger shall prevail,
-         * in case of equel strength older shall prevail */
+         * in case of equal strength older shall prevail */
         continue;
       }
     }
 
     if (is_ocean_tile(dtile)) {
+      /* Only certain water tiles are claimable */
       if (is_claimable_ocean(dtile, ptile)) {
         map_claim_ownership(dtile, owner, ptile);
       }
     } else {
+      /* Only land tiles on the same island as the border source
+       * are claimable */
       if (tile_continent(dtile) == tile_continent(ptile)) {
         map_claim_ownership(dtile, owner, ptile);
       }
