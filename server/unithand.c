@@ -2451,6 +2451,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   struct city_list *cities_out_of_home, *cities_out_of_dest;
   enum traderoute_bonus_type bonus_type;
   const char *bonus_str;
+  struct goods_type *goods;
   const char *goods_str;
 
   if (NULL == punit) {
@@ -2594,8 +2595,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   conn_list_do_buffer(pplayer->connections);
 
-  /* Get name from the first (and currently only) goods type there is */
-  goods_str = goods_name_translation(goods_for_new_route(pcity_homecity, pcity_dest));
+  goods = goods_for_new_route(pcity_homecity, pcity_dest);
+  goods_str = goods_name_translation(goods);
 
   if (bonus_str != NULL) {
     notify_player(pplayer, city_tile(pcity_dest),
@@ -2674,6 +2675,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     for (i = 0; i < MAX_TRADE_ROUTES; i++) {
       if (pcity_homecity->trade[i] == 0) {
         pcity_homecity->trade[i] = pcity_dest->id;
+        pcity_homecity->trade_goods[i] = goods;
         break;
       }
     }
@@ -2682,6 +2684,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     for (i = 0; i < MAX_TRADE_ROUTES; i++) {
       if (pcity_dest->trade[i] == 0) {
         pcity_dest->trade[i] = pcity_homecity->id;
+        pcity_dest->trade_goods[i] = goods;
         break;
       }
     }

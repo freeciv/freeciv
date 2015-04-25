@@ -291,6 +291,8 @@ static bool check_city_good(struct city *pcity, const char *file,
           SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_BIDIRECTIONAL);
           break;
         }
+
+        SANITY_CITY(pcity, pcity->trade_goods[i] == partner->trade_goods[j]);
       }
     }
   }

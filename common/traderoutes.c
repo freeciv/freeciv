@@ -482,6 +482,29 @@ const char *goods_rule_name(struct goods_type *pgood)
   return rule_name(&pgood->name);
 }
 
+/**************************************************************************
+  Returns goods type matching rule name or NULL if there is no goods type
+  with such name.
+**************************************************************************/
+struct goods_type *goods_by_rule_name(const char *name)
+{
+  const char *qs;
+
+  if (name == NULL) {
+    return NULL;
+  }
+
+  qs = Qn_(name);
+
+  goods_type_iterate(pgood) {
+    if (!fc_strcasecmp(goods_rule_name(pgood), qs)) {
+      return pgood;
+    }
+  } goods_type_iterate_end;
+
+  return NULL;
+}
+
 /****************************************************************************
   Return goods type for the new traderoute between given cities.
 ****************************************************************************/

@@ -325,6 +325,7 @@ struct city {
   /* trade routes */
   int trade[MAX_TRADE_ROUTES], trade_value[MAX_TRADE_ROUTES];
   enum route_direction trade_direction[MAX_TRADE_ROUTES];
+  struct goods_type *trade_goods[MAX_TRADE_ROUTES];
 
   /* Tile output, regardless of if the tile is actually worked. It is used
    * as cache for the output of the tiles within the city map.

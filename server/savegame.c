@@ -2306,6 +2306,7 @@ static void player_load_cities(struct player *plr, int plrno,
                                                    "player%d.c%d.traderoute%d",
                                                    plrno, i, j);
       pcity->trade_direction[j] = RDIR_BIDIRECTIONAL;
+      pcity->trade_goods[j] = goods_by_number(0); /* First good */
     }
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->food_stock,
