@@ -1043,3 +1043,17 @@ struct plocation *plocation_field_new(char *name)
 
   return out;
 }
+
+/**************************************************************************
+ Create a new address of the location of an array element inside a packet.
+**************************************************************************/
+struct plocation *plocation_elem_new(int number)
+{
+  struct plocation *out = fc_malloc(sizeof(*out));
+
+  out->kind = PADR_ELEMENT;
+  out->number = number;
+  out->sub_location = NULL;
+
+  return out;
+}

@@ -107,6 +107,9 @@ bool dio_get_uint16_vec8_json(json_t *json_packet, char *key,
   dio_get_##f##_json(pc->json_packet, k, l, ## __VA_ARGS__)
 
 /* puts */
+void dio_put_farray_json(struct json_data_out *dout, char *key,
+                         const struct plocation* location, int size);
+
 void dio_put_type_json(struct json_data_out *dout, enum data_type type,
                        char *key, const struct plocation* location,
                        int value);

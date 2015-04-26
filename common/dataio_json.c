@@ -457,6 +457,24 @@ bool dio_get_requirement_json(json_t *json_packet, char *key,
 }
 
 /**************************************************************************
+  Create an empthy field array.
+**************************************************************************/
+void dio_put_farray_json(struct json_data_out *dout, char *key,
+                         const struct plocation* location, int size)
+{
+  int i;
+  json_t *farray = json_array();
+
+  /* Jansson's json_array_set_new() refuses to create array elements so
+   * they must be created with the array. */
+  for (i = 0; i < size; i++) {
+    json_array_append_new(farray, json_null());
+  }
+
+  plocation_write_data(dout->json, location, farray);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void dio_put_uint32_json(struct json_data_out *dout, char *key,
