@@ -263,9 +263,6 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
-/* Fake action representing any action at all. */
-#define ACTION_ANY ACTION_COUNT
-
 /* Fake action representing any hostile action. */
 #define ACTION_HOSTILE ACTION_COUNT + 1
 
