@@ -1,0 +1,255 @@
+
+[tilespec]
+
+; Format and options of this tilespec file:
+options = "+Freeciv-tilespec-Devel-2013.Oct.19"
+
+; A simple name for the tileset specified by this file:
+name = "alio"
+; Tileset meant to be used with alien ruleset.
+; Started as copy of toonhex
+
+priority = 3
+
+; TODO: add more overall information fields on tiles, 
+; eg, description, authors, colors, etc.
+
+; Basic tile sizes:
+normal_tile_width  = 126
+normal_tile_height = 64
+small_tile_width   = 15
+small_tile_height  = 20
+
+; Basic tile style.
+hex_side = 16
+is_hex = TRUE
+type = "isometric"
+
+; Use old iso style
+fog_style      = "Auto"
+
+; Was darkness style "IsoRect" (single-sprite)
+darkness_style = "CardinalSingle"
+
+; Which terrain layer darkness is drawn top of (0-2)
+darkness_layer = 0
+
+; offset the flags by this amount when drawing units
+unit_flag_offset_x = 46
+unit_flag_offset_y = 39
+city_flag_offset_x = 42
+city_flag_offset_y = 10
+
+; offset the units by this amount
+unit_offset_x = 34
+unit_offset_y = 38
+
+; offset of the normal activity icons
+activity_offset_x = 0
+activity_offset_y = 0
+
+; offset the cities by this amount
+city_offset_x = 0
+city_offset_y = 20
+
+; offset the city bar text by this amount (from the city tile origin)
+citybar_offset_y = 40
+
+; offset the tile label text by this amount
+tilelabel_offset_y = 20
+
+; Font to use to draw city names:
+city_names_font = "9x15bold"
+
+; Font to use to draw city productions:
+city_productions_font = "6x13"
+
+; Should flags be drawn as transparent:  (else opaque)
+flags_are_transparent = 1
+
+; Font size (points) to use to draw city names and productions:
+city_names_font_size = 10
+city_productions_font_size = 10
+
+; These are special because they get freed and reloaded
+; as required:
+main_intro_file    = "misc/intro"
+minimap_intro_file = "misc/radar"
+
+; Below, the graphics spec files; must be somewhere (anywhere) in 
+; the data path. Order may be important for color allocation on 
+; low-color systems, and if there are any duplicate tags (lattermost
+; tag is used).
+
+files =
+  "misc/overlays.spec",
+  "misc/citybar.spec",
+  "misc/small.spec",
+  "misc/governments.spec",
+  "misc/specialists.spec",
+  "misc/events.spec",
+  "misc/buildings-large.spec",
+  "misc/wonders-large.spec",
+  "misc/flags-large.spec",
+  "misc/shields-large.spec",
+  "misc/cursors.spec",
+  "misc/space.spec",
+  "misc/techs.spec",
+  "misc/treaty.spec",
+  "misc/icons.spec",
+  "misc/editor.spec",
+  "cimpletoon/orient_units.spec",
+  "amplio2/nuke.spec",
+  "amplio2/explosions.spec",
+  "amplio2/ancientcities.spec",
+  "amplio2/medievalcities.spec",
+  "amplio2/moderncities.spec",
+  "hexemplio/terrain1.spec",
+  "hexemplio/terrain2.spec",
+  "hexemplio/tiles.spec",
+  "hexemplio/grid.spec",
+  "hexemplio/rivers.spec",
+  "hexemplio/roads.spec",
+  "hexemplio/unitextras.spec",
+  "hexemplio/unitcost.spec",
+  "hexemplio/select.spec",
+  "hexemplio/water1.spec",
+  "hexemplio/water2.spec",
+  "hexemplio/water3.spec"
+
+
+; Include color definitions
+*include "misc/colors.tilespec"
+
+; Terrain info - see README.graphics
+
+[layer0]
+match_types = "floor", "coast", "lake"
+
+[layer1]
+match_types = "water", "land"
+
+[layer2]
+match_types = "hills", "foliage"
+
+; Water graphics referenced by terrain.ruleset
+;
+
+[tile_lake]
+blend_layer = 2
+num_layers = 2
+layer0_match_type = "lake"
+layer0_match_with = "lake"
+layer0_sprite_type = "corner"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer1_sprite_type = "corner"
+
+[tile_coast]
+blend_layer = 2
+num_layers = 2
+layer0_match_type = "coast"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer1_sprite_type = "corner"
+
+[tile_floor]
+blend_layer = 2
+num_layers = 2
+layer0_match_type = "floor"
+layer0_match_with = "floor"
+layer0_sprite_type = "corner"
+layer1_match_type = "water"
+layer1_match_with = "water"
+layer1_sprite_type = "corner"
+
+[tile_inaccessible]
+blend_layer = 0
+num_layers = 2
+layer0_match_type = "floor"
+layer1_match_type = "land"
+
+; Land graphics referenced by terrain.ruleset
+;
+
+[tile_arctic]
+blend_layer = 0
+num_layers = 2
+layer0_match_type = "lake"
+layer1_match_type = "water"
+
+[tile_desert]
+blend_layer = 1
+num_layers = 2
+layer1_match_type = "land"
+
+[tile_forest]
+blend_layer = 1
+num_layers = 3
+layer1_match_type = "land"
+layer2_match_type = "foliage"
+layer2_match_with = "foliage"
+
+[tile_grassland]
+blend_layer = 1
+num_layers = 2
+layer1_match_type = "land"
+
+[tile_hills]
+blend_layer = 1
+num_layers = 3
+layer1_match_type = "land"
+layer2_match_type = "hills"
+layer2_match_with = "hills"
+
+[tile_jungle]
+blend_layer = 1
+num_layers = 3
+layer1_match_type = "land"
+layer2_match_type = "foliage"
+layer2_match_with = "foliage"
+
+[tile_mountains]
+blend_layer = 1
+num_layers = 3
+layer1_match_type = "land"
+layer2_match_type = "hills"
+layer2_match_with = "hills"
+
+[tile_plains]
+blend_layer = 1
+num_layers = 2
+layer1_match_type = "land"
+
+[tile_swamp]
+blend_layer = 1
+num_layers = 2
+layer1_match_type = "land"
+
+[tile_tundra]
+blend_layer = 1
+num_layers = 2
+layer1_match_type = "land"
+
+[extras]
+styles =
+    { "name",          "style"
+      "road.road",     "RoadAllSeparate"
+      "road.rail",     "RoadAllCombined"
+      "road.maglev",   "RoadAllCombined"
+      "road.pave",     "RoadAllSeparate"
+      "road.river",    "River"
+      "tx.irrigation", "Cardinals"
+      "tx.farmland",   "Cardinals"
+      "tx.mine",       "Single1"
+      "tx.oil_mine",   "Single1"
+      "tx.pollution",  "Single2"
+      "tx.fallout",    "Single2"
+      "tx.village",    "Single1"
+      "base.outpost",  "3Layer"
+      "base.fortress", "3Layer"
+      "base.airfield", "3Layer"
+      "base.airbase",  "3layer"
+      "base.buoy",     "3layer"
+      "base.ruins",    "3layer"
+    }
