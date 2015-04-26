@@ -1284,15 +1284,17 @@ reqs           =
       "UnitFlag", "Settlers", "Local", TRUE
       "UnitClass", "Sea", "Local", FALSE
       "CityTile", "Center", "Local", FALSE
+      "Extra", "River", "Local", FALSE
     }
 build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
+hidden_by      = "Fortress"
 flags          = "NativeTile"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
-once the underlying fort is complete.\
+once the underlying fort is complete; and cannot be built on River tiles.\
 "), _("\
 Compared to a fort, units in a fortress receive extra defense against \
 land units and boats (in total, their defense is doubled), must be \
@@ -1321,11 +1323,13 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
+      "Extra", "River", "Local", FALSE
     }
 build_time     = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
+hidden_by      = "Airbase"
 flags          = "Refuel"
 helptext       = _("\
 Airstrips are rapidly-built runways allowing air units to land, refuel, \
@@ -1368,7 +1372,8 @@ conflicts      = "Fort", "Fortress"
 flags          = "Refuel"
 helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
-begin once the underlying airstrip is complete.\
+begin once the underlying airstrip is complete; and cannot be built on \
+River tiles.\
 "), _("\
 Compared to an airstrip, units in an airbase receive extra defense \
 against enemy air units (in total, their defense is doubled), must be \
@@ -1563,7 +1568,8 @@ Land units may move along rivers for faster travel (but not diagonally),\
  (although later boats cannot).\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
- civilization has learned Bridge Building technology.\
+ civilization has learned Bridge Building technology. Fortresses and\
+ Airbases cannot be built on River tiles.\
 "), _("\
 Cities built on or next to rivers incur a small risk of flooding,\
  which will destroy stored food.\
