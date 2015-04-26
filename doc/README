@@ -205,7 +205,7 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with 8 main tilesets:
+  distribution comes with 9 main tilesets:
   - amplio2: An isometric tileset with larger and more detailed tiles.
   - isotrident: An isometric tileset similar in shape to the one in Civ 2.
   - cimpletoon: amplio2 with alternative units that display direction they
@@ -216,6 +216,8 @@ Client:
   - toonhex: tileset combining hexemplio tiles with cimpletoon units
   - isophex: an isometric hexagonal tileset
   - hex2t: an overhead hexagonal tileset
+  - alio: an isometric hexagonal tileset with suitable graphics for alien
+          ruleset
 
   In this release the amplio2 tileset is the default tileset.
   To try another one, for instance the trident tileset, start the
