@@ -547,6 +547,10 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
       v += amount; /* AI wants migration into its cities! */
     } iterate_outward_end;
     break;
+  case EFT_TRADE_REVENUE_PCT:
+    trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
+    v += trait * amount * c / (20 * TRAIT_DEFAULT_VALUE);
+    break;
   case EFT_MAX_TRADE_ROUTES:
     trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
     v += amount

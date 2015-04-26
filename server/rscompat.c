@@ -269,6 +269,16 @@ void rscompat_postprocess(struct rscompat_info *info)
     action_enabler_add(enabler);
   }
 
+  if (info->ver_effects < 10) {
+    /* The reduced one time trade bonus of Enter Marketplace (compared to
+     * Establish Trade Route) has moved to the ruleset. */
+    struct effect *peffect = effect_new(EFT_TRADE_REVENUE_PCT, -67);
+
+    /* The reduction only applies to Enter Marketplace. */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            "Enter Marketplace"));
+  }
+
   iterate_effect_cache(effect_list_compat_cb, NULL);
 }
 

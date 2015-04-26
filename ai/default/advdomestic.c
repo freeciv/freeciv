@@ -187,6 +187,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   int pct = 0;
   int trader_trait;
   bool need_boat = FALSE;
+  bool trade_action;
 
   if (city_list_size(pplayer->cities) < 5) {
     /* Consider trade routes only if enough destination cities.
@@ -325,10 +326,19 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   bonus = get_city_bonus(pcity, EFT_TRADE_REVENUE_BONUS);
   income = (float)income * pow(2.0, (double)bonus / 1000.0);
 
-  if (!utype_can_do_action(unit_type, ACTION_TRADE_ROUTE)) {
-    /* Enter Marketplace has less initial income. */
-    income = (income + 2) / 3;
-  }
+  /* A ruleset may use the Trade_Revenue_Pct effect to reduce the one time
+   * bonus if no trade route is established. Make sure it gets the correct
+   * action. */
+  trade_action = utype_can_do_action(unit_type, ACTION_TRADE_ROUTE) ?
+        ACTION_TRADE_ROUTE : ACTION_MARKETPLACE;
+  income += get_target_bonus_effects(NULL,
+                                     pplayer, NULL,
+                                     pcity, NULL,
+                                     city_tile(pcity),
+                                     NULL, NULL,
+                                     NULL, NULL,
+                                     action_by_number(trade_action),
+                                     EFT_TRADE_REVENUE_PCT) * income / 100;
 
   if (dest_city_nat_same_cont) {
     pct = trade_route_type_trade_pct(TRT_NATIONAL);

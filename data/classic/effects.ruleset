@@ -2381,3 +2381,11 @@ reqs	=
       "Action", "Found City", "Local", FALSE
       "Action", "Join City", "Local", FALSE
     }
+
+[effect_enter_marketplace_bonus_reduction]
+type	= "Trade_Revenue_Pct"
+value	= -67
+reqs	=
+    { "type", "name", "range"
+      "Action", "Enter Marketplace", "Local"
+    }
