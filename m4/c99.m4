@@ -83,3 +83,19 @@ AC_DEFUN([AC_C99_STDINT_H],
     AC_MSG_ERROR([A compiler supporting C99's stdint.h is required])
   fi
 ])
+
+# Check that token concenation works as we expect
+#
+AC_DEFUN([FC_C99_TOKEN_CONCENATION],
+[
+AC_CACHE_CHECK([whether preprocessor token concenation works],
+  [ac_cv_c99_token_concenation],
+  [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#define COMBINE(a, b) a ## b
+  #define CALLER(...) COMBINE(, __VA_ARGS__)]],
+    [[CALLER();
+    char *text = CALLER("string");]])],
+  [ac_cv_c99_token_concenation=yes],[ac_cv_c99_token_concenation=no])])
+  if test "x${ac_cv_c99_token_concenation}" != "xyes" ; then
+    AC_MSG_ERROR([A preprocessor supporting token concenation is required])
+  fi
+])
