@@ -80,8 +80,12 @@ extern "C" {
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
-/* Used to signal that the unit should move in stead of trying to act. */
+/* Used in the network protocol to signal that the unit should move in
+ * stead of trying to act. */
 #define ACTION_MOVE ACTION_COUNT
+
+/* Used in searches to signal that any action at all is OK. */
+#define ACTION_ANY ACTION_COUNT
 
 /*
  * Action probability
