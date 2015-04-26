@@ -3846,6 +3846,7 @@ static bool load_ruleset_nations(struct section_file *file)
       char tmp[200] = "\0";
       const char *barb_type;
       const char *sec_name = section_name(section_list_get(sec, i));
+      const char *legend;
 
       /* Nation sets and groups. */
       if (default_set >= 0) {
@@ -4240,8 +4241,8 @@ static bool load_ruleset_nations(struct section_file *file)
         break;
       }
 
-      pnation->legend = fc_strdup(secfile_lookup_str(file, "%s.legend",
-                                                     sec_name));
+      legend = secfile_lookup_str_default(file, "", "%s.legend", sec_name);
+      pnation->legend = fc_strdup(legend);
       if (check_strlen(pnation->legend, MAX_LEN_MSG, NULL)) {
         ruleset_error(LOG_ERROR,
                       "Nation %s: legend \"%s\" is too long.",
