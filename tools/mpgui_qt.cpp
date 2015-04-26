@@ -211,7 +211,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   main_layout->addWidget(version_label);
 
   mplist_table = new QTableWidget();
-  mplist_table->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+  mplist_table->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
   mplist_table->setColumnCount(ML_COL_COUNT);
   headers << QString::fromUtf8(_("Name")) << QString::fromUtf8(_("Version"));
   headers << QString::fromUtf8(_("Installed")) << QString::fromUtf8(Q_("?modpack:Type"));
