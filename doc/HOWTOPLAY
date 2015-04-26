@@ -200,6 +200,8 @@ coders installed the generator option.
   /load /dir/savegame.sav.gz in the input field at the bottom of the
   screen, in this way it is possible to change the settings of a game.
   Use the map editor to change a map.)
+- FAIR is the most fair of all generators for the multiplayer games.
+  It gives all users or teams identical islands.
 
 Below the generator option there is the startpos option. This setting
 determines how many players are placed on the same continent. Each
