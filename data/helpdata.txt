@@ -455,11 +455,7 @@ section on Happiness). Borders also come into play when there is a \
 diplomatic pact between nations (see the section on Diplomacy).\
 "), _("\
 Founding a city establishes a claim on an area of land around the \
-city. Once claimed, a tile that can be directly worked by a city can \
-not change ownership unless the city does (or is destroyed). However, \
-the ownership of land that is out of range of any city can change \
-depending on factors such as the relative size of nearby nations' \
-cities.\
+city.\
 "), _("\
 Borders can only extend into water for tiles adjacent to a city; other \
 water tiles remain unclaimed territory.\

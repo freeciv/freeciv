@@ -1860,21 +1860,13 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
     /* Always claim source itself (distance, dr, to it 0) */
     if (dr != 0 && NULL != dclaimer && dclaimer != ptile) {
-      struct city *ccity = tile_city(dclaimer);
       int strength_old, strength_new;
 
-      if (ccity != NULL) {
-        /* Previously claimed by city */
-        int city_x, city_y;
-
-        map_distance_vector(&city_x, &city_y, ccity->tile, dtile);
-
-        if (is_valid_city_coords(city_map_radius_sq_get(ccity),
-            CITY_ABS2REL(city_x), CITY_ABS2REL(city_y))) {
-          /* Tile is within squared city radius */
-          continue;
-        }
-      }
+      /* There used to be an attempt here to prevent stealing tiles within
+       * a city's workable radius. However, it had been mostly ineffective
+       * since 2.3. Since this was discovered late in the 2.4 cycle, it
+       * has been removed entirely from 2.4 in order not to change gameplay.
+       * It will return in later versions. */
 
       strength_old = tile_border_strength(dtile, dclaimer);
       strength_new = tile_border_strength(dtile, ptile);
