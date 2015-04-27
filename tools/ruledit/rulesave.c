@@ -862,6 +862,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.border_size_effect,
                    RS_DEFAULT_BORDER_SIZE_EFFECT,
                    "borders.size_effect", NULL);
+  save_default_int(sfile, game.info.border_city_permanent_radius_sq,
+                   RS_DEFAULT_BORDER_RADIUS_SQ_CITY_PERMANENT,
+                   "borders.radius_sq_city_permanent", NULL);
   secfile_insert_str(sfile, tech_cost_style_name(game.info.tech_cost_style),
                      "research.tech_cost_style");
   save_default_int(sfile, game.info.base_tech_cost,

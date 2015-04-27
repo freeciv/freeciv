@@ -434,6 +434,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 base_tech_cost;
   UINT16 border_city_radius_sq;
   UINT8 border_size_effect;
+  SINT16 border_city_permanent_radius_sq;
   BORDERS_MODE borders;
   UINT32 base_bribe_cost;
   UINT32 culture_vic_points;
