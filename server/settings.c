@@ -576,7 +576,11 @@ static void scorelog_action(const struct setting *pset)
 *************************************************************************/
 static void aifill_action(const struct setting *pset)
 {
-  aifill(*pset->integer.pvalue);
+  const char *msg = aifill(*pset->integer.pvalue);
+  if (msg) {
+    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+                _("Warning: aifill not met: %s."), msg);
+  }
 }
 
 /*************************************************************************
@@ -594,7 +598,7 @@ static void nationset_action(const struct setting *pset)
     }
   } players_iterate_end;
   count_playable_nations();
-  aifill(game.info.aifill);
+  (void) aifill(game.info.aifill);
 
   /* There might now be too many players for the available nations.
    * Rather than getting rid of some players arbitrarily, we let the

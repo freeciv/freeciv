@@ -111,7 +111,7 @@ void identity_number_reserve(int id);
 int identity_number(void);
 void server_game_init(void);
 void server_game_free(void);
-void aifill(int amount);
+const char *aifill(int amount);
 
 extern struct server_arguments srvarg;
 

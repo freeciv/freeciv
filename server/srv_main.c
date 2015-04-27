@@ -2081,16 +2081,32 @@ void handle_player_ready(struct player *requestor,
 
 /****************************************************************************
   Fill or remove players to meet the given aifill.
+  If return is non-NULL, points to a translated string explaining why
+  the total number of players is less than 'amount'.
 ****************************************************************************/
-void aifill(int amount)
+const char *aifill(int amount)
 {
-  int limit = MIN(amount, game.server.max_players);
+  char *limitreason = NULL;
+  int limit;
+ 
+  if (game_was_started()) {
+    return NULL;
+  }
+
+  limit = MIN(amount, game.server.max_players);
+  if (limit < amount) {
+    limitreason = _("requested more than 'maxplayers' setting");
+  }
 
   /* Limit to nations provided by ruleset */
-  limit = MIN(limit, server.playable_nations);
-
-  if (game_was_started()) {
-    return;
+  if (limit > server.playable_nations) {
+    limit = server.playable_nations;
+    if (nation_set_count() > 1) {
+      limitreason = _("not enough playable nations in this nationset "
+                      "(see 'nationset' setting)");
+    } else {
+      limitreason = _("not enough playable nations");
+    }
   }
 
   if (limit < player_count()) {
@@ -2110,7 +2126,7 @@ void aifill(int amount)
 
     /* 'limit' can be different from 'player_count()' at this point if
      * there are more human or created players than the 'limit'. */
-    return;
+    return limitreason;
   }
 
   while (limit > player_count()) {
@@ -2152,6 +2168,8 @@ void aifill(int amount)
 
     send_player_info_c(pplayer, NULL);
   }
+
+  return limitreason;
 }
 
 /****************************************************************************
@@ -3042,7 +3060,7 @@ void srv_main(void)
       (void) read_init_script(NULL, srvarg.script_filename, TRUE, FALSE);
     }
 
-    aifill(game.info.aifill);
+    (void) aifill(game.info.aifill);
     if (!game_was_started()) {
       event_cache_clear();
     }

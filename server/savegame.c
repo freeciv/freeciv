@@ -3237,7 +3237,7 @@ static void game_load_internal(struct section_file *file)
   if (game.scenario.is_scenario) {
     /* Remove all defined players. They are recreated with the skill level
      * defined by the scenario. */
-    aifill(0);
+    (void) aifill(0);
   }
 
   {
