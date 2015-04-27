@@ -35,6 +35,7 @@
 #include "actions.h"
 #include "game.h"
 #include "improvement.h"
+#include "map.h"
 #include "movement.h"
 #include "research.h"
 #include "tech.h"
