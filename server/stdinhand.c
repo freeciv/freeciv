@@ -886,7 +886,7 @@ enum rfc_status create_command_newcomer(const char *name,
   }
 
   /* We have a player; now initialise all needed data. */
-  aifill(game.info.aifill);
+  (void) aifill(game.info.aifill);
 
   /* Initialise player. */
   server_player_init(pplayer, TRUE, TRUE);
@@ -1038,7 +1038,7 @@ enum rfc_status create_command_pregame(const char *name,
   CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
   send_player_info_c(pplayer, game.est_connections);
 
-  aifill(game.info.aifill);
+  (void) aifill(game.info.aifill);
   reset_all_start_commands(TRUE);
   (void) send_server_info_to_metaserver(META_INFO);
 
@@ -1081,7 +1081,7 @@ static bool remove_player_command(struct connection *caller, char *arg,
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
   }
-  aifill(game.info.aifill);
+  (void) aifill(game.info.aifill);
   return TRUE;
 }
 
@@ -3694,7 +3694,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   } conn_list_iterate_end;
   conn_list_destroy(global_observers);
 
-  aifill(game.info.aifill);
+  (void) aifill(game.info.aifill);
 
   achievements_iterate(pach) {
     players_iterate(pplayer) {

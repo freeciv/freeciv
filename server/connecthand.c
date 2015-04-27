@@ -605,7 +605,7 @@ static bool connection_attach_real(struct connection *pconn,
         /* Temporarily set player_name() to username. */
         server_player_set_name(pplayer, pconn->username);
       }
-      aifill(game.info.aifill);
+      (void) aifill(game.info.aifill);
     }
 
     if (game.server.auto_ai_toggle && pplayer->ai_controlled) {
@@ -764,7 +764,7 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
 
         /* Actually do the removal. */
         server_remove_player(pplayer);
-        aifill(game.info.aifill);
+        (void) aifill(game.info.aifill);
         reset_all_start_commands(TRUE);
       } else {
         /* Aitoggle the player if no longer connected. */
