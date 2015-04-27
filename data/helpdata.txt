@@ -449,8 +449,9 @@ the ownership of land that is out of range of any city can change \
 depending on factors such as the relative size of nearby nations' \
 cities.\
 "), _("\
-Borders can only extend into water for tiles adjacent to a city; other \
-water tiles remain unclaimed territory.\
+Normally borders extend into water only for tiles adjacent to a city; \
+beyond that, only narrow inlets and inland lakes can be claimed. \
+Border claims can never extend to remote islands.\
 "), _("\
 Bases can also extend national borders. See the help on Terrain \
 Alterations for more details.\
