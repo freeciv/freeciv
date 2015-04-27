@@ -1539,6 +1539,8 @@ static void sg_load_savefile(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_savefile(struct savedata *saving)
 {
+  int i;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -1600,8 +1602,9 @@ static void sg_save_savefile(struct savedata *saving)
                      "savefile.activities_size");
   if (ACTIVITY_LAST > 0) {
     const char **modname;
-    int i = 0;
     int j;
+
+    i = 0;
 
     modname = fc_calloc(ACTIVITY_LAST, sizeof(*modname));
 
@@ -1620,8 +1623,8 @@ static void sg_save_savefile(struct savedata *saving)
                      "savefile.specialists_size");
   {
     const char **modname;
-    int i = 0;
 
+    i = 0;
     modname = fc_calloc(specialist_count(), sizeof(*modname));
 
     specialist_type_iterate(sp) {
@@ -1658,8 +1661,8 @@ static void sg_save_savefile(struct savedata *saving)
                      "savefile.extras_size");
   if (game.control.num_extra_types > 0) {
     const char **modname;
-    int i = 0;
 
+    i = 0;
     modname = fc_calloc(game.control.num_extra_types, sizeof(*modname));
 
     extra_type_iterate(pextra) {
@@ -1677,9 +1680,9 @@ static void sg_save_savefile(struct savedata *saving)
                      "savefile.diplstate_type_size");
   if (DS_LAST > 0) {
     const char **modname;
-    int i = 0;
     int j;
 
+    i = 0;
     modname = fc_calloc(DS_LAST, sizeof(*modname));
 
     for (j = 0; j < DS_LAST; j++) {
@@ -1697,9 +1700,9 @@ static void sg_save_savefile(struct savedata *saving)
                      "savefile.city_options_size");
   if (CITYO_LAST > 0) {
     const char **modname;
-    int i = 0;
     int j;
 
+    i = 0;
     modname = fc_calloc(CITYO_LAST, sizeof(*modname));
 
     for (j = 0; j < CITYO_LAST; j++) {
@@ -1711,6 +1714,17 @@ static void sg_save_savefile(struct savedata *saving)
                            "savefile.city_options_vector");
     free(modname);
   }
+
+  /* Save terrain character mapping in the savegame. */
+  i = 0;
+  terrain_type_iterate(pterr) {
+    char buf[2];
+
+    secfile_insert_str(saving->file, terrain_rule_name(pterr), "savefile.terrident%d.name", i);
+    buf[0] = terrain_identifier(pterr);
+    buf[1] = '\0';
+    secfile_insert_str(saving->file, buf, "savefile.terrident%d.identifier", i++);
+  } terrain_type_iterate_end;
 }
 
 /****************************************************************************
