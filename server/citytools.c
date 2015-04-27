@@ -3043,8 +3043,12 @@ bool city_map_update_radius_sq(struct city *pcity)
 void clear_worker_task(struct city *pcity)
 {
   struct packet_worker_task packet;
+  struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
-  worker_task_init(&pcity->task_req);
+  if (ptask != NULL) {
+    worker_task_list_remove(pcity->task_reqs, ptask);
+    free(ptask);
+  }
 
   packet.city_id = pcity->id;
   packet.tile_id = -1;
@@ -3062,20 +3066,24 @@ void clear_worker_task(struct city *pcity)
 void package_and_send_worker_task(struct city *pcity)
 {
   struct packet_worker_task packet;
+  struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
   packet.city_id = pcity->id;
-  if (pcity->task_req.ptile == NULL) {
+  if (ptask != NULL) {
+    packet.tile_id = tile_index(ptask->ptile);
+    packet.activity = ptask->act;
+    if (ptask->tgt == NULL) {
+      packet.tgt = -1;
+    } else {
+      packet.tgt = extra_number(ptask->tgt);
+    }
+    packet.want = ptask->want;
+  } else {
     packet.tile_id = -1;
-  } else {
-    packet.tile_id = tile_index(pcity->task_req.ptile);
+    packet.activity = ACTIVITY_IDLE;
+    packet.tgt = 0;
+    packet.want = 0;
   }
-  packet.activity = pcity->task_req.act;
-  if (pcity->task_req.tgt == NULL) {
-    packet.tgt = -1;
-  } else {
-    packet.tgt = extra_number(pcity->task_req.tgt);
-  }
-  packet.want = pcity->task_req.want;
 
   lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
   lsend_packet_worker_task(game.glob_observers, &packet);

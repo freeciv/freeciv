@@ -376,13 +376,20 @@ void tai_req_worker_task_rcv(struct tai_req *req)
 
   if (pcity != NULL && city_owner(pcity) == req->plr) {
     /* City has not been lost meanwhile */
+    struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
+
+    if (ptask == NULL) {
+      ptask = fc_malloc(sizeof(struct worker_task));
+      worker_task_init(ptask);
+      worker_task_list_append(pcity->task_reqs, ptask);
+    }
 
     log_debug("%s storing req for act %d at (%d,%d)",
               pcity->name, data->task.act, TILE_XY(data->task.ptile));
-    pcity->task_req.ptile = data->task.ptile;
-    pcity->task_req.act   = data->task.act;
-    pcity->task_req.tgt   = data->task.tgt;
-    pcity->task_req.want  = data->task.want;
+    ptask->ptile = data->task.ptile;
+    ptask->act   = data->task.act;
+    ptask->tgt   = data->task.tgt;
+    ptask->want  = data->task.want;
 
     /* Send info to observers */
     package_and_send_worker_task(pcity);

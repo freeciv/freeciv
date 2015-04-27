@@ -2909,6 +2909,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
+  bool tasks_handled;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -3151,31 +3152,39 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     }
   }
 
-  nat_x = secfile_lookup_int_default(loading->file, -1, "%s.task1.x", citystr);
-  nat_y = secfile_lookup_int_default(loading->file, -1, "%s.task1.y", citystr);
+  tasks_handled = FALSE;
+  for (i = 0; !tasks_handled; i++) {
+    nat_x = secfile_lookup_int_default(loading->file, -1, "%s.task%d.x", citystr, i);
+    nat_y = secfile_lookup_int_default(loading->file, -1, "%s.task%d.y", citystr, i);
 
-  if (nat_x >= 0 && nat_y >= 0) {
-    const char *str;
+    if (nat_x >= 0 && nat_y >= 0) {
+      const char *str;
+      struct worker_task *ptask = fc_malloc(sizeof(struct worker_task));
 
-    pcity->task_req.ptile = native_pos_to_tile(nat_x, nat_y);
+      ptask->ptile = native_pos_to_tile(nat_x, nat_y);
 
-    str = secfile_lookup_str(loading->file, "%s.task1.activity", citystr);
-    pcity->task_req.act = unit_activity_by_name(str, fc_strcasecmp);
+      str = secfile_lookup_str(loading->file, "%s.task%d.activity", citystr, i);
+      ptask->act = unit_activity_by_name(str, fc_strcasecmp);
 
-    sg_failure_ret_val(unit_activity_is_valid(pcity->task_req.act), FALSE,
-                       "Unknown workertask activity %s", str);
+      sg_failure_ret_val(unit_activity_is_valid(ptask->act), FALSE,
+                         "Unknown workertask activity %s", str);
 
-    str = secfile_lookup_str(loading->file, "%s.task1.target", citystr);
+      str = secfile_lookup_str(loading->file, "%s.task%d.target", citystr, i);
 
-    if (strcmp("-", str)) {
-      pcity->task_req.tgt = extra_type_by_rule_name(str);
+      if (strcmp("-", str)) {
+        ptask->tgt = extra_type_by_rule_name(str);
 
-      sg_failure_ret_val(pcity->task_req.tgt != NULL, FALSE,
-                         "Unknown workertask target %s", str);
+        sg_failure_ret_val(ptask->tgt != NULL, FALSE,
+                           "Unknown workertask target %s", str);
+      }
+
+      ptask->want = secfile_lookup_int_default(loading->file, 1,
+                                               "%s.task%d.want", citystr, i);
+
+      worker_task_list_append(pcity->task_reqs, ptask);
+    } else {
+      tasks_handled = TRUE;
     }
-
-    pcity->task_req.want = secfile_lookup_int_default(loading->file, 1,
-                                                      "%s.task1.want", citystr);
   }
 
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);

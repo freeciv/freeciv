@@ -3077,8 +3077,7 @@ struct city *create_city_virtual(struct player *pplayer,
   worklist_init(&pcity->worklist);
 
   pcity->units_supported = unit_list_new();
-
-  worker_task_init(&pcity->task_req);
+  pcity->task_reqs = worker_task_list_new();
 
   if (is_server()) {
     pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
@@ -3105,6 +3104,8 @@ void destroy_city_virtual(struct city *pcity)
   CALL_FUNC_EACH_AI(city_free, pcity);
 
   citizens_free(pcity);
+
+  worker_task_list_destroy(pcity->task_reqs);
 
   unit_list_destroy(pcity->units_supported);
   if (pcity->tile_cache != NULL) {
