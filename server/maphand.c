@@ -2091,7 +2091,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
         map_distance_vector(&city_x, &city_y, ccity->tile, dtile);
 
         if (is_valid_city_coords(city_map_radius_sq_get(ccity),
-            CITY_ABS2REL(city_x), CITY_ABS2REL(city_y))) {
+            CITY_REL2ABS(city_x), CITY_REL2ABS(city_y))) {
           /* Tile is within squared city radius */
           continue;
         }
