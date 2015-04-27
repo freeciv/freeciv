@@ -4366,6 +4366,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
+  bool tasks_handled;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -4606,31 +4607,39 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     }
   }
 
-  nat_x = secfile_lookup_int_default(loading->file, -1, "%s.task1.x", citystr);
-  nat_y = secfile_lookup_int_default(loading->file, -1, "%s.task1.y", citystr);
+  tasks_handled = FALSE;
+  for (i = 0; !tasks_handled; i++) {
+    nat_x = secfile_lookup_int_default(loading->file, -1, "%s.task%d.x", citystr, i);
+    nat_y = secfile_lookup_int_default(loading->file, -1, "%s.task%d.y", citystr, i);
 
-  if (nat_x >= 0 && nat_y >= 0) {
-    const char *str;
+    if (nat_x >= 0 && nat_y >= 0) {
+      const char *str;
+      struct worker_task *ptask = fc_malloc(sizeof(struct worker_task));
 
-    pcity->task_req.ptile = native_pos_to_tile(nat_x, nat_y);
+      ptask->ptile = native_pos_to_tile(nat_x, nat_y);
 
-    str = secfile_lookup_str(loading->file, "%s.task1.activity", citystr);
-    pcity->task_req.act = unit_activity_by_name(str, fc_strcasecmp);
+      str = secfile_lookup_str(loading->file, "%s.task%d.activity", citystr, i);
+      ptask->act = unit_activity_by_name(str, fc_strcasecmp);
 
-    sg_failure_ret_val(unit_activity_is_valid(pcity->task_req.act), FALSE,
-                       "Unknown workertask activity %s", str);
+      sg_failure_ret_val(unit_activity_is_valid(ptask->act), FALSE,
+                         "Unknown workertask activity %s", str);
 
-    str = secfile_lookup_str(loading->file, "%s.task1.target", citystr);
+      str = secfile_lookup_str(loading->file, "%s.task%d.target", citystr, i);
 
-    if (strcmp("-", str)) {
-      pcity->task_req.tgt = extra_type_by_rule_name(str);
+      if (strcmp("-", str)) {
+        ptask->tgt = extra_type_by_rule_name(str);
 
-      sg_failure_ret_val(pcity->task_req.tgt != NULL, FALSE,
-                         "Unknown workertask target %s", str);
+        sg_failure_ret_val(ptask->tgt != NULL, FALSE,
+                           "Unknown workertask target %s", str);
+      }
+
+      ptask->want = secfile_lookup_int_default(loading->file, 1,
+                                               "%s.task%d.want", citystr, i);
+
+      worker_task_list_append(pcity->task_reqs, ptask);
+    } else {
+      tasks_handled = TRUE;
     }
-
-    pcity->task_req.want = secfile_lookup_int_default(loading->file, 1,
-                                                      "%s.task1.want", citystr);
   }
 
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
@@ -4859,28 +4868,22 @@ static void sg_save_player_cities(struct savedata *saving,
       } players_iterate_end;
     }
 
-    if (pcity->task_req.ptile != NULL) {
-      index_to_native_pos(&nat_x, &nat_y, tile_index(pcity->task_req.ptile));
-      secfile_insert_int(saving->file, nat_y, "%s.task1.y", buf);
-      secfile_insert_int(saving->file, nat_x, "%s.task1.x", buf);
-      secfile_insert_str(saving->file, unit_activity_name(pcity->task_req.act), "%s.task1.activity",
-                         buf);
-      if (pcity->task_req.tgt != NULL) {
-        secfile_insert_str(saving->file, extra_rule_name(pcity->task_req.tgt), "%s.task1.target",
-                           buf);
+    i = 0;
+    worker_task_list_iterate(pcity->task_reqs, ptask) {
+      index_to_native_pos(&nat_x, &nat_y, tile_index(ptask->ptile));
+      secfile_insert_int(saving->file, nat_y, "%s.task%d.y", buf, i);
+      secfile_insert_int(saving->file, nat_x, "%s.task%d.x", buf, i);
+      secfile_insert_str(saving->file, unit_activity_name(ptask->act), "%s.task%d.activity",
+                         buf, i);
+      if (ptask->tgt != NULL) {
+        secfile_insert_str(saving->file, extra_rule_name(ptask->tgt), "%s.task%d.target",
+                           buf, i);
       } else {
-        secfile_insert_str(saving->file, "-", "%s.task1.target",
-                           buf);
+        secfile_insert_str(saving->file, "-", "%s.task%d.target",
+                           buf, i);
       }
-      secfile_insert_int(saving->file, pcity->task_req.want, "%s.task1.want", buf);
-    } else {
-      /* Dummy data to keep tabular format happy */
-      secfile_insert_int(saving->file, -1, "%s.task1.y", buf);
-      secfile_insert_int(saving->file, -1, "%s.task1.x", buf);
-      secfile_insert_str(saving->file, "-", "%s.task1.activity", buf);
-      secfile_insert_str(saving->file, "-", "%s.task1.target", buf);
-      secfile_insert_int(saving->file, 0, "%s.task1.want", buf);
-    }
+      secfile_insert_int(saving->file, ptask->want, "%s.task%d.want", buf, i);
+    } worker_task_list_iterate_end;
 
     i++;
   } city_list_iterate_end;

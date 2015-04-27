@@ -385,7 +385,7 @@ struct city {
 
   int history;                 /* Cumulative culture */
 
-  struct worker_task task_req;
+  struct worker_task_list *task_reqs;
 
   union {
     struct {

@@ -5381,24 +5381,26 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_WORKERTASK:
     if (citymode != NULL && ptile != NULL) {
-      if (citymode->task_req.ptile == ptile) {
-        switch (citymode->task_req.act) {
+      struct worker_task *ptask = worker_task_list_get(citymode->task_reqs, 0);
+
+      if (ptask != NULL && ptask->ptile == ptile) {
+        switch (ptask->act) {
         case ACTIVITY_MINE:
-          if (citymode->task_req.tgt == NULL) {
+          if (ptask->tgt == NULL) {
             ADD_SPRITE_SIMPLE(t->sprites.unit.mine);
           } else {
-            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
+            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
           }
           break;
         case ACTIVITY_IRRIGATE:
-          if (citymode->task_req.tgt == NULL) {
+          if (ptask->tgt == NULL) {
             ADD_SPRITE_SIMPLE(t->sprites.unit.irrigate);
           } else {
-            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
+            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
           }
           break;
         case ACTIVITY_GEN_ROAD:
-          ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(citymode->task_req.tgt)].activity);
+          ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
           break;
         case ACTIVITY_TRANSFORM:
           ADD_SPRITE_SIMPLE(t->sprites.unit.transform);

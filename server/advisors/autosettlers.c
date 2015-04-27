@@ -762,9 +762,9 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
 
   /* Have nearby cities requests? */
   city_list_iterate(pplayer->cities, pcity) {
-    struct worker_task *ptask = &pcity->task_req;
+    struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
-    if (ptask->ptile != NULL) {
+    if (ptask != NULL) {
       bool consider = TRUE;
 
       /* Do not go to tiles that already have workers there. */

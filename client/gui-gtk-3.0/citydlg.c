@@ -2805,6 +2805,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     struct terrain *pterr = tile_terrain(ptile);
     struct universal for_terr = { .kind = VUT_TERRAIN,
                                   .value = { .terrain = pterr }};
+    struct worker_task *ptask;
 
     is_showing_workertask_dialog = TRUE;
     workertask_req.owner = pcity;
@@ -2813,7 +2814,9 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     shl = choice_dialog_start(GTK_WINDOW(toplevel),
 			       _("What Action to Request"),
 			       _("Select autosettler activity:"));
-    if (pcity->task_req.ptile != NULL) {
+
+    ptask = worker_task_list_get(pcity->task_reqs, 0);
+    if (ptask != NULL) {
       choice_dialog_add(shl, _("Clear request"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_IDLE), NULL);

@@ -3037,25 +3037,34 @@ void handle_worker_task(struct player *pplayer,
                         const struct packet_worker_task *packet)
 {
   struct city *pcity = game_city_by_number(packet->city_id);
+  struct worker_task *ptask;
 
   if (pcity == NULL || pcity->owner != pplayer) {
     return;
   }
 
-  /* It's ok for the tile to be NULL. That means clearing
-   * existing worker task. */
-  if (packet->tile_id >= 0) {
-    pcity->task_req.ptile = index_to_tile(packet->tile_id);
-  } else {
-    pcity->task_req.ptile = NULL;
+  ptask = worker_task_list_get(pcity->task_reqs, 0);
+
+  if (ptask == NULL && packet->tile_id >= 0) {
+    ptask = fc_malloc(sizeof(struct worker_task));
+    worker_task_init(ptask);
+    worker_task_list_append(pcity->task_reqs, ptask);
+  } else if (ptask != NULL && packet->tile_id < 0) {
+    worker_task_list_remove(pcity->task_reqs, ptask);
+    free(ptask);
+    ptask = NULL;
   }
-  pcity->task_req.act = packet->activity;
-  if (packet->tgt >= 0) {
-    pcity->task_req.tgt = extra_by_number(packet->tgt);
-  } else {
-    pcity->task_req.tgt = NULL;
+
+  if (ptask != NULL) {
+    ptask->ptile = index_to_tile(packet->tile_id);
+    ptask->act = packet->activity;
+    if (packet->tgt >= 0) {
+      ptask->tgt = extra_by_number(packet->tgt);
+    } else {
+      ptask->tgt = NULL;
+    }
+    ptask->want = packet->want;
   }
-  pcity->task_req.want = packet->want;
 
   lsend_packet_worker_task(pplayer->connections, packet);
 }
