@@ -289,7 +289,13 @@ static int one_city_trade_benefit(const struct city *pcity,
     if (countloser) {
       city_list_iterate(would_remove, losercity) {
         if (city_owner(losercity) == pplayer) {
-          losttrade += oldtrade;
+          int i;
+
+          for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+            if (losercity->trade[i] == pcity->id) {
+              losttrade += losercity->trade_value[i];
+            }
+          }
         }
       } city_list_iterate_end;
       city_list_destroy(would_remove);
