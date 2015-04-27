@@ -835,7 +835,7 @@ int terrain_extra_removal_time(const struct terrain *pterrain,
   if (tgt == NULL) {
     factor = 1;
   } else {
-    factor = tgt->build_time_factor;
+    factor = tgt->removal_time_factor;
   }
 
   /* Terrain and activity specific removal time */
