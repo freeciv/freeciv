@@ -385,12 +385,11 @@ suitable vessel, and if necessary and possible, they will move to \
 safe neighboring tiles when the conversion is complete.\
 "), _("\
 Many units -- in the classic rules, all land units -- also have the \
-ability to destroy terrain alterations, by pillaging. Pillaging removes \
-one terrain alteration per turn per unit. Terrain conversions cannot \
-be undone by pillaging; for example, in the classic ruleset, if a Forest \
-tile has been irrigated to convert it into a Plain, you cannot convert it \
-back into a Forest by pillaging -- to do so, you would have to convert \
-the tile again with a Settler, Worker, or Engineer.\
+ability to destroy terrain alterations, by pillaging. Terrain conversions \
+cannot be undone by pillaging; for example, in the classic ruleset, if a \
+Forest tile has been irrigated to convert it into a Plain, you cannot \
+convert it back into a Forest by pillaging -- to do so, you would have \
+to convert the tile again with a Settler, Worker, or Engineer.\
 "), _("\
 The time it takes a unit to alter terrain depends on its movement rate. \
 The following table shows the number of turns required for a unit \
