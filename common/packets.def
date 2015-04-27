@@ -432,7 +432,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 angrycitizen;
   SINT16 base_pollution;
   UINT8 base_tech_cost;
-  UINT8 border_city_radius_sq;
+  UINT16 border_city_radius_sq;
   UINT8 border_size_effect;
   BORDERS_MODE borders;
   UINT32 base_bribe_cost;
