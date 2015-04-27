@@ -5294,6 +5294,13 @@ static bool load_ruleset_game(struct section_file *file, bool act)
                                            RS_MAX_BORDER_SIZE_EFFECT,
                                            "borders.size_effect");
 
+    game.info.border_city_permanent_radius_sq
+      = secfile_lookup_int_default_min_max(file,
+                                           RS_DEFAULT_BORDER_RADIUS_SQ_CITY_PERMANENT,
+                                           RS_MIN_BORDER_RADIUS_SQ_CITY_PERMANENT,
+                                           RS_MAX_BORDER_RADIUS_SQ_CITY_PERMANENT,
+                                           "borders.radius_sq_city_permanent");
+
     /* section: research */
     tus_text = secfile_lookup_str_default(file, RS_DEFAULT_TECH_COST_STYLE,
                                           "research.tech_cost_style");

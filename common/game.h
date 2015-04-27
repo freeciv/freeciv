@@ -668,6 +668,10 @@ extern struct civ_game game;
 #define RS_MIN_BORDER_SIZE_EFFECT                0
 #define RS_MAX_BORDER_SIZE_EFFECT                100
 
+#define RS_DEFAULT_BORDER_RADIUS_SQ_CITY_PERMANENT 0
+#define RS_MIN_BORDER_RADIUS_SQ_CITY_PERMANENT   (-CITY_MAP_MAX_RADIUS_SQ)
+#define RS_MAX_BORDER_RADIUS_SQ_CITY_PERMANENT   401 /* city radius 20 */
+
 #define RS_DEFAULT_INCITE_BASE_COST              1000
 #define RS_MIN_INCITE_BASE_COST                  0
 #define RS_MAX_INCITE_BASE_COST                  RS_MAX_VALUE

@@ -2009,9 +2009,10 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 
         map_distance_vector(&city_x, &city_y, ccity->tile, dtile);
 
-        if (is_valid_city_coords(city_map_radius_sq_get(ccity),
-            CITY_REL2ABS(city_x), CITY_REL2ABS(city_y))) {
-          /* Tile is within squared city radius */
+        if (map_vector_to_sq_distance(city_x, city_y)
+            <= city_map_radius_sq_get(ccity)
+               + game.info.border_city_permanent_radius_sq) {
+          /* Tile is within region permanently claimed by city */
           continue;
         }
       }
