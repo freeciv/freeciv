@@ -2675,6 +2675,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     for (i = 0; i < MAX_TRADE_ROUTES; i++) {
       if (pcity_homecity->trade[i] == 0) {
         pcity_homecity->trade[i] = pcity_dest->id;
+        pcity_homecity->trade_direction[i] = RDIR_FROM;
         pcity_homecity->trade_goods[i] = goods;
         break;
       }
@@ -2684,6 +2685,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     for (i = 0; i < MAX_TRADE_ROUTES; i++) {
       if (pcity_dest->trade[i] == 0) {
         pcity_dest->trade[i] = pcity_homecity->id;
+        pcity_dest->trade_direction[i] = RDIR_TO;
         pcity_dest->trade_goods[i] = goods;
         break;
       }
