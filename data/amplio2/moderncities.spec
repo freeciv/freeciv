@@ -51,18 +51,9 @@ tiles = { "row", "column", "tag"
 ; used by all city styles
 
  0,  0, "city.disorder"
- 0,  1, "base.airbase_mg"
- 0,  2, "tx.airbase_full"
- 0,  4, "base.fortress_fg"
- 0,  5, "base.fortress_bg"
  0,  6, "city.electricage_occupied_0"
  0,  6, "city.modern_occupied_0"
  0,  6, "city.postmodern_occupied_0"
- 0,  8, "base.buoy_mg"
- 0,  9, "base.ruins_mg"
- 1,  1, "base.airstrip_mg"
- 1,  4, "base.outpost_fg"
- 1,  5, "base.outpost_bg"
 ;
 ; city tiles
 ;

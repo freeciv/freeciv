@@ -93,6 +93,7 @@ files =
   "amplio2/ancientcities.spec",
   "amplio2/medievalcities.spec",
   "amplio2/moderncities.spec",
+  "amplio2/bases.spec",
   "amplio2/select.spec",
   "amplio2/grid.spec",
   "misc/cursors.spec",
