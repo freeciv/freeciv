@@ -17,11 +17,13 @@
 
 // Qt
 #include <QApplication>
+#include <QCloseEvent>
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QTableWidget>
@@ -106,15 +108,15 @@ int main(int argc, char **argv)
 
   if (ui_options != -1) {
     QApplication *qapp;
-    QMainWindow *main_window;
+    mpgui_main *main_window;
     QWidget *central;
     const char *errmsg;
 
     load_install_info_lists(&fcmp);
 
     qapp = new QApplication(ui_options, argv);
-    main_window = new QMainWindow;
     central = new QWidget;
+    main_window = new mpgui_main(qapp, central);
 
     main_window->setGeometry(0, 30, 640, 60);
     main_window->setWindowTitle(QString::fromUtf8(_("Freeciv modpack installer (Qt)")));
@@ -454,4 +456,50 @@ void mpgui::row_download(const QModelIndex &index)
   URLedit->setText(URL);
 
   URL_given();
+}
+
+/**************************************************************************
+  Main window constructor
+**************************************************************************/
+mpgui_main::mpgui_main(QApplication *qapp_in, QWidget *central_in) : QMainWindow()
+{
+  qapp = qapp_in;
+  central = central_in;
+}
+
+/**************************************************************************
+  Open dialog to confirm that user wants to quit modpack installer.
+**************************************************************************/
+void mpgui_main::popup_quit_dialog()
+{
+  QMessageBox ask(central);
+  int ret;
+
+  ask.setText(_("Are you sure you want to quit?"));
+  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+  ask.setDefaultButton(QMessageBox::Cancel);
+  ask.setIcon(QMessageBox::Warning);
+  ask.setWindowTitle(_("Quit?"));
+  ret = ask.exec();
+
+  switch (ret) {
+  case QMessageBox::Cancel:
+    return;
+    break;
+  case QMessageBox::Ok:
+    qapp->quit();
+    break;
+  }
+}
+
+/**************************************************************************
+  User clicked windows close button.
+**************************************************************************/
+void mpgui_main::closeEvent(QCloseEvent *event)
+{
+  if (worker != nullptr && worker->isRunning()) {
+    // Download in progress. Confirm quit from user.
+    popup_quit_dialog();
+    event->ignore();
+  }
 }

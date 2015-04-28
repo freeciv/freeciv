@@ -19,6 +19,7 @@
 #endif
 
 // Qt
+#include <QMainWindow>
 #include <QObject>
 
 // tools
@@ -28,6 +29,22 @@ class QLabel;
 class QLineEdit;
 class QProgressBar;
 class QTableWidget;
+
+class mpgui_main : public QMainWindow
+{
+  Q_OBJECT
+
+public:
+  mpgui_main(QApplication *qapp_in, QWidget *central_in);
+
+private:
+  void popup_quit_dialog();
+  QApplication *qapp;
+  QWidget *central;
+
+protected:
+  void closeEvent(QCloseEvent *event);
+};
 
 class mpgui : public QObject
 {
