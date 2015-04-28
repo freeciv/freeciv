@@ -104,6 +104,10 @@ void real_meswin_dialog_update(void)
   bool create;
   int label_width;
 
+  if (pMsg_Dlg == NULL) {
+    meswin_dialog_popup(TRUE);
+  }
+
   msg_count = meswin_get_num_messages();
   current_count = pMsg_Dlg->pScroll->count;
   
