@@ -201,7 +201,7 @@ TERRAIN:
   (was 0 and +3).
 
 - Mountains give extra vision range. Cities can not be placed over
-  Mountains. Land units starting the turn over a Mountain receive a -1
+  Mountains. Land units starting the turn on unroaded Mountains receive a -1
   penalty to movement (this way it is not so good for cavalry to end the
   turn on Mountains).
 

@@ -424,6 +424,7 @@ reqs    =
       "UnitClass", "Helicopter", "Local", FALSE
       "UnitClass", "Air", "Local", FALSE
       "UnitClass", "Missile", "Local", FALSE
+      "Extra", "Road", "Local", FALSE
     }
 
 ; Nuclear power gives +1 moves to sea units
