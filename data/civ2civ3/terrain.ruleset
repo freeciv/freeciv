@@ -671,9 +671,9 @@ Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
 "), _("\
 Land units that move into mountains can see an extra space, but a\
- fast land unit ending its turn in mountains will start its next turn\
- with one fewer movement point. Big Land units may not move into\
- mountains without a road.\
+ fast land unit ending its turn in mountains without a road will start\
+ its next turn with one fewer movement point. Big Land units may not\
+ move into mountains without a road.\
 ")
 
 [terrain_plains]
