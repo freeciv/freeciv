@@ -345,6 +345,7 @@ nreqs   =
       "UnitClass", "Helicopter", "Local"
       "UnitClass", "Air", "Local"
       "UnitClass", "Missile", "Local"
+      "Road", "Road", "Local"
     }
 
 ; Nuclear power gives +1 moves to sea units
