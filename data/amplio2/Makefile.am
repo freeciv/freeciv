@@ -8,6 +8,8 @@ pkgdata_DATA =          	\
 	activities.spec		\
 	ancientcities.png	\
 	ancientcities.spec	\
+	bases.png		\
+	bases.spec		\
 	explosions.png		\
 	explosions.spec		\
 	fog.png			\
