@@ -177,11 +177,15 @@ bool rscompat_names(struct rscompat_info *info)
 **************************************************************************/
 static bool effect_list_compat_cb(struct effect *peffect, void *data)
 {
-  if (peffect->type == EFT_HAVE_EMBASSIES) {
-    /* Create "Have_Contacts" effect matching each "Have_Embassies" */
-    struct effect *contacts = effect_copy(peffect);
+  struct rscompat_info *info = (struct rscompat_info *)data;
 
-    contacts->type = EFT_HAVE_CONTACTS;
+  if (info->ver_effects < 10) {
+    if (peffect->type == EFT_HAVE_EMBASSIES) {
+      /* Create "Have_Contacts" effect matching each "Have_Embassies" */
+      struct effect *contacts = effect_copy(peffect);
+
+      contacts->type = EFT_HAVE_CONTACTS;
+    }
   }
 
   /* Go to the next effect. */
@@ -280,7 +284,8 @@ void rscompat_postprocess(struct rscompat_info *info)
                                             "Enter Marketplace"));
   }
 
-  iterate_effect_cache(effect_list_compat_cb, NULL);
+  /* Upgrade existing effects. */
+  iterate_effect_cache(effect_list_compat_cb, info);
 }
 
 /**************************************************************************
