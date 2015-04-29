@@ -650,12 +650,13 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
   end out of a city or airbase.
 
 - Helicopters can carry 1 infantry unit, and can only be attacked by
-  Fighters (with no extra attack bonuses).
+  Fighters (with no extra attack bonuses), and by Missiles.
+
+- Cruise Missile no longer cause unhappiness, range increased to 16,
+  and allowed to attack Air units.
 
 - Nuclear weapons can be built with Nuclear Fission, but you need
   Advanced Flight to move them, and Rocketry to get max movement.
-  Increased range of Cruise Missiles to 16, and they no longer cause
-  unhappiness.
 
 - Readjusted many costs so units with better stats are always more
   expensive. At the same time, modern units always get better ratio
@@ -945,8 +946,8 @@ Units:
   attacked by Fighters (with no extra attack bonuses).
 - Increased fuel of all Air units by one, in order to allow battles for
   air control. All Air unit lose 10% of HPs, like helicopters, when they
-  end out of city or airbase. Increased range of Cruise Missile to 16,
-  so it is greater than movement of Stealth Fighters.
+  end out of city or airbase. Cruise Missile allowed to attack Air units,
+  and increased range to 16.
 - Zones of Control are not imposed by non-military units (Small Land and
   Merchant classes) nor by Air units or Missiles, so they do not affect
   the movements of enemy units.
