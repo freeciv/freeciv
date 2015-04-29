@@ -1394,6 +1394,7 @@ AC_CONFIG_FILES([Makefile
 	  data/hex2t/Makefile
           data/hexemplio/Makefile
 	  data/amplio2/Makefile
+          data/alio/Makefile
 	  data/buildings/Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile
