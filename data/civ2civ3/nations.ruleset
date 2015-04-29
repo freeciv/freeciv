@@ -38,6 +38,6 @@ default_government = "Despotism"
 
 ; Please keep [ruledit] section in sync with these includes
 *include "default/nationlist.ruleset"
-; This ruleset uses model of two separate barbarian nations
+; Two barbarian nations, Land and Sea barbarians, needed
 *include "nation/barbarian.ruleset"
 *include "nation/pirate.ruleset"
