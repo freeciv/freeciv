@@ -320,7 +320,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
       if (mp_subtype == NULL) {
         mp_subtype = "-";
       }
-      cb(mp_name, mpURL, mpver, mplic, type, mp_subtype, mp_notes);
+      cb(mp_name, mpURL, mpver, mplic, type, _(mp_subtype), mp_notes);
     }
     modpack_count++;
   } while (mp_name != NULL);
