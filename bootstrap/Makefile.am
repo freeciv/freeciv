@@ -4,7 +4,8 @@
 ## versions probably do. We still support versions that do not, so
 ## it's in the list below.
 ## It should also install it automatically when running autogen.sh.
-EXTRA_DIST =    fcgui.in		\
+EXTRA_DIST =	freeciv.project		\
+		fcgui.in		\
 		fcser.in		\
 		fcruledit.in		\
 		fc_svnrev_gen.h.tmpl	\
