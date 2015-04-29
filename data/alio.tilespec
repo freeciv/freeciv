@@ -116,7 +116,10 @@ files =
   "hexemplio/select.spec",
   "hexemplio/water1.spec",
   "hexemplio/water2.spec",
-  "hexemplio/water3.spec"
+  "hexemplio/water3.spec",
+  "alio/riversbrown.spec",
+  "alio/riversgreen.spec",
+  "alio/tunnels.spec"
 
 
 ; Include color definitions
