@@ -186,6 +186,16 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 
       contacts->type = EFT_HAVE_CONTACTS;
     }
+
+    if (peffect->type == EFT_ILLEGAL_ACTION_MOVE_COST) {
+      /* Founding and joining a city became action enabler controlled in
+       * Freeciv 3.0. Old hard coded rules had no punishment for trying to
+       * do those when it is illegal according to the rules. */
+      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                              FALSE, "Found City"));
+      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                              FALSE, "Join City"));
+    }
   }
 
   /* Go to the next effect. */
