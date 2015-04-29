@@ -16,6 +16,7 @@
 
 // Qt
 #include <QApplication>
+#include <QMainWindow>
 #include <QObject>
 #include <QLabel>
 #include <QTabWidget>
@@ -32,6 +33,22 @@ class tab_misc;
 class tab_tech;
 class tab_unit;
 class tab_nation;
+
+class ruledit_main : public QMainWindow
+{
+  Q_OBJECT
+
+public:
+  ruledit_main(QApplication *qapp_in, QWidget *central_in);
+
+private:
+  void popup_quit_dialog();
+  QApplication *qapp;
+  QWidget *central;
+
+protected:
+  void closeEvent(QCloseEvent *event);
+};
 
 class ruledit_gui : public QObject
 {
