@@ -22,3 +22,15 @@ Generated version header
 /* TRANS: part of revision based version number string
           "(modified r25000)" */
 _("modified ")
+
+
+Typical Modpack subtypes
+
+/* TRANS: Modpack subtype, "isometric" */
+_("iso")
+/* TRANS: Modpack subtype */
+_("hex")
+/* TRANS: Modpack subtype, isometric hex */
+_("hex & iso")
+/* TRANS: Modpack subtype, overhead tileset */
+_("overhead")
