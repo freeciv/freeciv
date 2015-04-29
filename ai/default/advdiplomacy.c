@@ -901,7 +901,8 @@ void dai_diplomacy_first_contact(struct player *pplayer,
 				 struct player *aplayer)
 {
   if (pplayer->ai_controlled && !ai_handicap(pplayer, H_AWAY)
-      && player_diplstate_get(pplayer, aplayer)->type == DS_WAR) {
+      && player_diplstate_get(pplayer, aplayer)->type == DS_WAR
+      && could_meet_with_player(pplayer, aplayer)) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
            "while we get to know each other better?"),
            player_name(pplayer),
