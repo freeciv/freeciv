@@ -184,7 +184,8 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
     contacts->type = EFT_HAVE_CONTACTS;
   }
 
-  return FALSE;
+  /* Go to the next effect. */
+  return TRUE;
 }
 
 /**************************************************************************
