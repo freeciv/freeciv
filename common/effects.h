@@ -275,8 +275,6 @@ extern "C" {
 #define SPECENUM_VALUE106NAME "Illegal_Action_Move_Cost"
 #define SPECENUM_VALUE107 EFT_HAVE_CONTACTS
 #define SPECENUM_VALUE107NAME "Have_Contacts"
-#define SPECENUM_VALUE108 EFT_TRADE_REVENUE_PCT
-#define SPECENUM_VALUE108NAME "Trade_Revenue_Pct"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

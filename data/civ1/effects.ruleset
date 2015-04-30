@@ -1226,6 +1226,14 @@ reqs    =
       "Tech", "Railroad", "Player"
     }
 
+[effect_enter_marketplace_bonus_reduction]
+type	= "Trade_Revenue_Bonus"
+value	= -1585
+reqs	=
+    { "type", "name", "range"
+      "Action", "Enter Marketplace", "Local"
+    }
+
 ; FIXME: Calendar effects are copied from default rulesets and are
 ; probably wrong for civ1 ruleset.
 [effect_calendar_base]
@@ -1434,12 +1442,4 @@ reqs	=
     { "type", "name", "range", "present"
       "Action", "Found City", "Local", FALSE
       "Action", "Join City", "Local", FALSE
-    }
-
-[effect_enter_marketplace_bonus_reduction]
-type	= "Trade_Revenue_Pct"
-value	= -67
-reqs	=
-    { "type", "name", "range"
-      "Action", "Enter Marketplace", "Local"
     }

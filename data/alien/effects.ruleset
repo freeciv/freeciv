@@ -985,6 +985,14 @@ reqs    =
       "Tech", "Thermal Module", "Player"
     }
 
+[effect_enter_marketplace_bonus_reduction]
+type	= "Trade_Revenue_Bonus"
+value	= -1585
+reqs	=
+    { "type", "name", "range"
+      "Action", "Enter Marketplace", "Local"
+    }
+
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
 value   = 4
@@ -1012,12 +1020,4 @@ reqs	=
     { "type", "name", "range", "present"
       "Action", "Found City", "Local", FALSE
       "Action", "Join City", "Local", FALSE
-    }
-
-[effect_enter_marketplace_bonus_reduction]
-type	= "Trade_Revenue_Pct"
-value	= -67
-reqs	=
-    { "type", "name", "range"
-      "Action", "Enter Marketplace", "Local"
     }

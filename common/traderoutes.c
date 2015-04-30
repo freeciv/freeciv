@@ -386,28 +386,24 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   tb *= 3;
   
   /* Trade_revenue_bonus increases revenue by power of 2 in milimes */
-  bonus = get_city_bonus(pc1, EFT_TRADE_REVENUE_BONUS);
-  
-  tb = (float)tb * pow(2.0, (double)bonus / 1000.0);
+  bonus = get_target_bonus_effects(NULL,
+                                   city_owner(pc1), city_owner(pc2),
+                                   pc1, NULL, city_tile(pc1),
+                                   /* TODO: Should unit requirements be
+                                    * allowed so stuff like moves left and
+                                    * unit type can modify the bonus? */
+                                   NULL, NULL,
+                                   NULL, NULL,
+                                   /* Could be used to reduce the one time
+                                    * bonus if no trade route is
+                                    * established. */
+                                   action_by_number(establish_trade ?
+                                                      ACTION_TRADE_ROUTE :
+                                                      ACTION_MARKETPLACE),
+                                   EFT_TRADE_REVENUE_BONUS);
 
-  /* Trade_Revenue_Pct allows the ruleset to modify the final bonus.
-   * Example: reduce the one time bonus when no trade route is
-   * established. */
-  tb += get_target_bonus_effects(NULL,
-                                 city_owner(pc1),
-                                 city_owner(pc2),
-                                 pc1,
-                                 NULL,
-                                 city_tile(pc1),
-                                 /* TODO: Should unit requirements be
-                                  * allowed so stuff like moves left and
-                                  * unit type can modify the bonus? */
-                                 NULL, NULL,
-                                 NULL, NULL,
-                                 action_by_number(establish_trade ?
-                                   ACTION_TRADE_ROUTE :
-                                   ACTION_MARKETPLACE),
-                                 EFT_TRADE_REVENUE_PCT) * tb / 100;
+  /* Be mercy full to players with small amounts. Round up. */
+  tb = ceil((float)tb * pow(2.0, (double)bonus / 1000.0));
 
   return tb;
 }
