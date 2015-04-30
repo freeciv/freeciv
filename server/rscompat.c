@@ -292,6 +292,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The reduction only applies to Enter Marketplace. */
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             "Enter Marketplace"));
+
+    /* The fudge factor to more closely approximate Civ2 behavior has
+     * moved to the ruleset. */
+     peffect = effect_new(EFT_TRADE_REVENUE_BONUS, 1585);
   }
 
   /* Upgrade existing effects. */

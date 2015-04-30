@@ -1234,6 +1234,12 @@ reqs	=
       "Action", "Enter Marketplace", "Local"
     }
 
+; Fudge factor to more closely approximate Civ2 behavior. (Civ2 is
+; really very different -- this just fakes it a little better)
+[effect_bonus_fudge_factor]
+type	= "Trade_Revenue_Bonus"
+value	= 1585
+
 ; FIXME: Calendar effects are copied from default rulesets and are
 ; probably wrong for civ1 ruleset.
 [effect_calendar_base]

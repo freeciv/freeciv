@@ -380,10 +380,6 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   /* Should this be real_map_distance? */
   tb = map_distance(pc1->tile, pc2->tile) + 10;
   tb = (tb * (pc1->surplus[O_TRADE] + pc2->surplus[O_TRADE])) / 24;
-
-  /*  fudge factor to more closely approximate Civ2 behavior (Civ2 is
-   * really very different -- this just fakes it a little better) */
-  tb *= 3;
   
   /* Trade_revenue_bonus increases revenue by power of 2 in milimes */
   bonus = get_target_bonus_effects(NULL,

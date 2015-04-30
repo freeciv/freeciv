@@ -2107,6 +2107,12 @@ reqs	=
       "Action", "Enter Marketplace", "Local"
     }
 
+; Fudge factor to more closely approximate Civ2 behavior. (Civ2 is
+; really very different -- this just fakes it a little better)
+[effect_bonus_fudge_factor]
+type	= "Trade_Revenue_Bonus"
+value	= 1585
+
 [effect_tithes_fundamentalism]
 type    = "Happiness_To_Gold" 
 value   = 1 

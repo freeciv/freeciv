@@ -322,7 +322,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
 
   /* We assume that we are creating trade route to city with 75% of
    * pcitys trade 10 squares away. */
-  income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24 * 3;
+  income = (10 + 10) * (1.75 * pcity->surplus[O_TRADE]) / 24;
 
   /* A ruleset may use the Trade_Revenue_Bonus effect to reduce the one
    * time bonus if no trade route is established. Make sure it gets the
