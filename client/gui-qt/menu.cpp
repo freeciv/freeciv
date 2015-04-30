@@ -747,6 +747,10 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("b")));
   menu_list.insertMulti(BUILD_WONDER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
+  act = menu->addAction(_("Establish Trade Route"));
+  act->setShortcut(QKeySequence(tr("r")));
+  menu_list.insertMulti(ORDER_TRADEROUTE, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
 
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
