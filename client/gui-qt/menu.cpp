@@ -934,7 +934,7 @@ void mr_menu::menus_sensitive()
   struct road_type *proad;
   struct extra_type *tgt;
   bool any_cities = false;
-  bool city_on_tile;
+  bool city_on_tile = false;
   bool units_all_same_tile = true;
   const struct tile *ptile = NULL;
   struct terrain *pterrain;
