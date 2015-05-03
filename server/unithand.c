@@ -855,6 +855,68 @@ void handle_unit_get_actions(struct connection *pc,
 }
 
 /**************************************************************************
+  Try to explain to the player why an action is illegal.
+
+  Event type should be E_BAD_COMMAND if the player should know that the
+  action is illegal or E_UNIT_ILLEGAL_ACTION if the player potentially new
+  information is being revealed.
+**************************************************************************/
+static void illegal_action_msg(struct player *pplayer,
+                               const enum event_type event,
+                               struct unit *actor,
+                               const int stopped_action,
+                               const struct tile *target_tile,
+                               const struct city *target_city,
+                               const struct unit *target_unit)
+{
+  struct ane_expl expl;
+
+  /* Explain why the action was illegal. */
+  expl = *expl_act_not_enabl(actor, stopped_action,
+                             target_tile, target_city, target_unit);
+  switch (expl.kind) {
+  case ANEK_BAD_TERRAIN:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s from %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action),
+                  terrain_name_translation(expl.cant_act_from));
+    break;
+  case ANEK_IS_TRANSPORTED:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s while being transported."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action));
+    break;
+  case ANEK_IS_NOT_TRANSPORTED:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s while not being transported."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action));
+    break;
+  case ANEK_NO_WAR:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s while you"
+                    " aren't at war with %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action),
+                  player_name(expl.no_war_with));
+    break;
+  case ANEK_UNKNOWN:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s was unable to %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action));
+    break;
+  }
+}
+
+/**************************************************************************
   Tell the client that the action it requested is illegal. This can be
   caused by the player (and therefore the client) not knowing that some
   condition of an action no longer is true.
@@ -867,8 +929,6 @@ static void illegal_action(struct player *pplayer,
                            const struct city *target_city,
                            const struct unit *target_unit)
 {
-  struct ane_expl expl;
-
   /* The mistake may have a cost. */
   actor->moves_left = MAX(0, actor->moves_left
       - get_target_bonus_effects(NULL,
@@ -886,49 +946,9 @@ static void illegal_action(struct player *pplayer,
 
   send_unit_info(NULL, actor);
 
-  /* Explain why the action was illegal. */
-  expl = *expl_act_not_enabl(actor, stopped_action,
-                             target_tile, target_city, target_unit);
-  switch (expl.kind) {
-  case ANEK_BAD_TERRAIN:
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  _("Your %s can't do %s from %s."),
-                  unit_name_translation(actor),
-                  gen_action_translated_name(stopped_action),
-                  terrain_name_translation(expl.cant_act_from));
-    break;
-  case ANEK_IS_TRANSPORTED:
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  _("Your %s can't do %s while being transported."),
-                  unit_name_translation(actor),
-                  gen_action_translated_name(stopped_action));
-    break;
-  case ANEK_IS_NOT_TRANSPORTED:
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  _("Your %s can't do %s while not being transported."),
-                  unit_name_translation(actor),
-                  gen_action_translated_name(stopped_action));
-    break;
-  case ANEK_NO_WAR:
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  _("Your %s can't do %s while you"
-                    " aren't at war with %s."),
-                  unit_name_translation(actor),
-                  gen_action_translated_name(stopped_action),
-                  player_name(expl.no_war_with));
-    break;
-  case ANEK_UNKNOWN:
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  _("Your %s was unable to %s."),
-                  unit_name_translation(actor),
-                  gen_action_translated_name(stopped_action));
-    break;
-  }
+  illegal_action_msg(pplayer, E_UNIT_ILLEGAL_ACTION,
+                     actor, stopped_action,
+                     target_tile, target_city, target_unit);
 }
 
 /**************************************************************************
@@ -1606,9 +1626,9 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     /* No action enabler allowed building the city. Happens when called
      * from handle_city_name_suggestion_req() because no enabler allowed
      * city founding. */
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("%s can't found city because of the rules."),
-                  unit_link(punit));
+    illegal_action_msg(pplayer, E_BAD_COMMAND,
+                       punit, ACTION_FOUND_CITY,
+                       unit_tile(punit), NULL, NULL);
     break;
   case UAB_ADD_OK:
     /* Shouldn't happen */
