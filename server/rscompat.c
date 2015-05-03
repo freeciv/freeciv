@@ -281,6 +281,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "AddToCity"));
 
+    /* The target city must be domestic. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, "Is foreign"));
+
     action_enabler_add(enabler);
   }
 

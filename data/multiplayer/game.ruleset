@@ -390,6 +390,7 @@ action = "Join City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "AddToCity", "Local", TRUE
+      "DiplRel", "Is foreign", "Local", FALSE
     }
 
 [borders]

@@ -1662,10 +1662,23 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   citizens_update(pcity, unit_nationality(punit));
   /* Refresh the city data. */
   city_refresh(pcity);
+
+  /* Notify the unit owner that the unit successfully joined the city. */
   notify_player(pplayer, city_tile(pcity), E_CITY_BUILD, ftc_server,
                 _("%s added to aid %s in growing."),
                 unit_tile_link(punit),
                 city_link(pcity));
+  if (pplayer != city_owner(pcity)) {
+    /* Notify the city owner when a foreign unit joins a city. */
+    notify_player(city_owner(pcity), city_tile(pcity), E_CITY_BUILD,
+                  ftc_server,
+                  /* TRANS: another player had his unit joint your city. */
+                  _("%s adds %s to your city %s."),
+                  player_name(unit_owner(punit)),
+                  unit_tile_link(punit),
+                  city_link(pcity));;
+  }
+
   action_consequence_success(ACTION_JOIN_CITY, pplayer, city_owner(pcity),
                              city_tile(pcity), city_link(pcity));
   wipe_unit(punit, ULR_USED, NULL);

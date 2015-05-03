@@ -428,7 +428,12 @@ unit_add_or_build_city_test(const struct unit *punit)
   if (new_pop > game.info.add_to_size_limit) {
     return UAB_TOO_BIG;
   }
-  if (city_owner(pcity) != unit_owner(punit)) {
+  if (city_owner(pcity) != unit_owner(punit)
+      /* TODO: Remove UAB_NOT_OWNER when doing so is safe. */
+      /* The ruleset may allow joining foreign cities. */
+      && !can_utype_do_act_if_tgt_diplrel(unit_type(punit),
+                                          ACTION_JOIN_CITY,
+                                          DRO_FOREIGN, TRUE)) {
     return UAB_NOT_OWNER;
   }
   if (!city_can_grow_to(pcity, new_pop)) {
