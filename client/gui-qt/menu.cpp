@@ -1271,12 +1271,14 @@ void mr_menu::menus_sensitive()
         break;
 
       case BUILD_WONDER:
+        i.value()->setText(action_get_ui_name(ACTION_HELP_WONDER));
         if (can_units_do(punits, unit_can_help_build_wonder_here)) {
           i.value()->setEnabled(true);
         }
         break;
 
       case ORDER_TRADEROUTE:
+        i.value()->setText(action_get_ui_name(ACTION_TRADE_ROUTE));
         if (can_units_do(punits, unit_can_est_trade_route_here)) {
           i.value()->setEnabled(true);
         }
