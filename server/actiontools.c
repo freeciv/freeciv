@@ -30,6 +30,11 @@ static void maybe_cause_incident(const enum gen_action action,
                                  const struct tile *victim_tile,
                                  const char *victim_link)
 {
+  if (offender == victim_player) {
+    /* The player is more than willing to forgive him self. */
+    return;
+  }
+
   if (!pplayers_at_war(offender, victim_player)) {
     switch (action) {
     case ACTION_SPY_BRIBE_UNIT:
