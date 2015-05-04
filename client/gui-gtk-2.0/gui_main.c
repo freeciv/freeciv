@@ -874,6 +874,8 @@ static void populate_unit_pixmap_table(void)
     g_object_ref(more_arrow_pixmap);
     more_arrow_pixmap_button = gtk_event_box_new();
     g_object_ref(more_arrow_pixmap_button);
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(more_arrow_pixmap_button),
+                                     FALSE);
     gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_button),
                       more_arrow_pixmap);
     g_signal_connect(more_arrow_pixmap_button,
