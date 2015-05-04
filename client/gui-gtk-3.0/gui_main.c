@@ -168,6 +168,7 @@ static GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
 static GtkWidget *unit_below_pixmap_button[MAX_NUM_UNITS_BELOW];
 static GtkWidget *more_arrow_pixmap;
 static GtkWidget *more_arrow_pixmap_button;
+static GtkWidget *more_arrow_pixmap_container;
 
 static int unit_id_top;
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
@@ -868,24 +869,33 @@ static void populate_unit_pixmap_table(void)
   /* create arrow (popup for all units on the selected tile) */
   pix = sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT));
   more_arrow_pixmap = gtk_image_new_from_pixbuf(pix);
-  g_object_unref(G_OBJECT(pix));
   g_object_ref(more_arrow_pixmap);
   more_arrow_pixmap_button = gtk_event_box_new();
   g_object_ref(more_arrow_pixmap_button);
-  gtk_event_box_set_visible_window(GTK_EVENT_BOX(more_arrow_pixmap_button), FALSE);
+  gtk_event_box_set_visible_window(GTK_EVENT_BOX(more_arrow_pixmap_button),
+                                   FALSE);
   gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_button),
                     more_arrow_pixmap);
   g_signal_connect(more_arrow_pixmap_button,
                    "button_press_event",
                    G_CALLBACK(select_more_arrow_pixmap_callback), NULL);
+  /* An extra layer so that we can hide the clickable button but keep
+   * an explicit size request to avoid the layout jumping around */
+  more_arrow_pixmap_container = gtk_alignment_new(0.5, 0.5, 0, 0);
+  g_object_ref(more_arrow_pixmap_container);
+  gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_container),
+                    more_arrow_pixmap_button);
+  gtk_widget_set_size_request(more_arrow_pixmap_container,
+                              gdk_pixbuf_get_width(pix), -1);
+  g_object_unref(G_OBJECT(pix));
 
   if (!gui_gtk3_small_display_layout) {
     /* Display on bottom row. */
-    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_button,
+    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_container,
                     MAX_NUM_UNITS_BELOW, 1, 1, 1);
   } else {
     /* Display on top row (there is no bottom row). */
-    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_button,
+    gtk_grid_attach(GTK_GRID(table), more_arrow_pixmap_container,
                     MAX_NUM_UNITS_BELOW, 0, 1, 1);
   }
 
@@ -917,9 +927,10 @@ void reset_unit_table(void)
       }
     }
     gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-                         more_arrow_pixmap_button);
+                         more_arrow_pixmap_container);
     g_object_unref(more_arrow_pixmap);
     g_object_unref(more_arrow_pixmap_button);
+    g_object_unref(more_arrow_pixmap_container);
   }
 
   populate_unit_pixmap_table();
