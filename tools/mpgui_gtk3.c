@@ -103,7 +103,7 @@ static gboolean quit_dialog_callback(void)
                                       0,
                                       GTK_MESSAGE_WARNING,
                                       GTK_BUTTONS_YES_NO,
-                                      _("Are you sure you want to quit?"));
+      _("Modpack installation in progress.\nAre you sure you want to quit?"));
 
       gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
