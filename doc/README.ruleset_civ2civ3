@@ -439,6 +439,9 @@ TECHS:
   switched, because compass was already used by historical Caravels,
   while sextants were not invented until the age of Galleons/Frigates.
 
+- Construction requires Iron Working instead of Currency. This way,
+  Iron Working is a prerequisite to build Frigates and Ironclads.
+
 - Bridge Building merged to old Engineering in the tech tree. Added
   modern "Engineering" in the Industrial Ages that allows Destroyers
   (was Electricity) and Transports (was Industrialization), and it is
@@ -891,6 +894,8 @@ Changes:
 - Tribal government increases by half the chance of land units getting
   the next veteran level after a battle (instead of the extra movement),
   and increases the effect of martial law to 2.
+- Construction requires Iron Working instead of Currency. This way,
+  Iron Working is a prerequisite to build Frigates and Ironclads.
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations
