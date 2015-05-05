@@ -5159,7 +5159,9 @@ int fill_sprite_array(struct tileset *t,
         }
 
         if (spr != NULL) {
-          ADD_SPRITE_FULL(spr);
+          ADD_SPRITE(spr, TRUE,
+                     FULL_TILE_X_OFFSET + t->city_offset_x,
+                     FULL_TILE_Y_OFFSET + t->city_offset_y);
         }
       }
       if (!options.draw_full_citybar && pcity->client.occupied) {
