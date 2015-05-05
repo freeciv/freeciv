@@ -141,7 +141,7 @@ req2     = "Construction"
 flags    = "Bridge"
 graphic     = "a.bridge_building"
 graphic_alt = "-"
-cost     = 70
+cost     = 80
 helptext = _("Allows roads to be built on river tiles.")
 
 [advance_bronze_working]
@@ -238,7 +238,7 @@ cost     = 260
 [advance_construction]
 name     = _("Construction")
 req1     = "Masonry"
-req2     = "Currency"
+req2     = "Iron Working"
 flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
@@ -246,7 +246,7 @@ helptext = _("\
 Allows Settlers, Migrants, Workers and Engineers to build forts and \
 fortresses.\
 ")
-cost     = 40
+cost     = 50
 
 [advance_currency]
 name     = _("Currency")
@@ -264,7 +264,7 @@ req2     = "Invention"
 flags    = ""
 graphic     = "a.democracy"
 graphic_alt = "-"
-cost     = 170
+cost     = 190
 
 [advance_economics]
 name     = _("Economics")
@@ -286,7 +286,7 @@ helptext = _("\
 Allows irrigation without an adjacent water source, improves the \
 effect of Amphitheaters, and increases city vision radius.\
 ")
-cost     = 310
+cost     = 300
 
 [advance_electronics]
 name     = _("Electronics")
@@ -385,7 +385,7 @@ req1     = "Invention"
 req2     = "Feudalism"
 graphic     = "a.gunpowder"
 graphic_alt = "-"
-cost     = 180
+cost     = 170
 
 [advance_horseback_riding]
 name     = _("Horseback Riding")
@@ -412,7 +412,7 @@ flags    = ""
 graphic     = "a.invention"
 graphic_alt = "-"
 helptext = _("Halves the upgrade cost of your units.")
-cost     = 120
+cost     = 130
 
 [advance_iron_working]
 name     = _("Iron Working")
@@ -448,7 +448,7 @@ req2     = "Gunpowder"
 flags    = ""
 graphic     = "a.leadership"
 graphic_alt = "-"
-cost     = 200
+cost     = 190
 
 [advance_literacy]
 name     = _("Literacy")
@@ -534,7 +534,7 @@ req2     = "Mathematics"
 flags    = ""
 graphic     = "a.metallurgy"
 graphic_alt = "-"
-cost     = 200
+cost     = 190
 
 [advance_miniaturization]
 name     = _("Miniaturization")
@@ -589,7 +589,7 @@ req2     = "Physics"
 flags    = ""
 graphic     = "a.navigation"
 graphic_alt = "-"
-cost     = 220
+cost     = 230
 
 [advance_nuclear_fission]
 name     = _("Nuclear Fission")
@@ -745,7 +745,7 @@ req2     = "Medicine"
 flags    = ""
 graphic     = "a.sanitation"
 graphic_alt = "-"
-cost     = 180
+cost     = 200
 
 [advance_seafaring]
 name     = _("Seafaring")
@@ -781,7 +781,7 @@ req2     = "Navigation"
 flags    = ""
 graphic     = "a.steam_engine"
 graphic_alt = "-"
-cost     = 280
+cost     = 300
 
 [advance_steel]
 name     = _("Steel")
