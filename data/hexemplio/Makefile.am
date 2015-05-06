@@ -4,6 +4,8 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/hexemplio
 
 pkgdata_DATA =          \
+	bases.png	\
+	bases.spec	\
 	grid.png	\
 	grid.spec	\
 	rivers.png	\
