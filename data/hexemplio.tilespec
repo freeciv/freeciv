@@ -103,7 +103,7 @@ files =
   "amplio2/ancientcities.spec",
   "amplio2/medievalcities.spec",
   "amplio2/moderncities.spec",
-  "amplio2/bases.spec",
+  "hexemplio/bases.spec",
   "hexemplio/terrain1.spec",
   "hexemplio/terrain2.spec",
   "hexemplio/tiles.spec",
