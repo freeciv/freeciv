@@ -546,23 +546,26 @@ void update_city_activities(struct player *pplayer)
     int i = 0, r;
 
     city_list_iterate(pplayer->cities, pcity) {
-      int ci;
 
       citizens_convert(pcity);
 
       /* Cancel traderoutes that cannot exist any more */
-      for (ci = 0; ci < MAX_TRADE_ROUTES; ci++) {
-        struct city *tcity = game_city_by_number(pcity->trade[ci]);
+      trade_routes_iterate_safe(pcity, proute) {
+        struct city *tcity = game_city_by_number(proute->partner);
 
         if (tcity != NULL && !can_cities_trade(pcity, tcity)) {
           enum trade_route_type type = cities_trade_route_type(pcity, tcity);
           struct trade_route_settings *settings = trade_route_settings_by_type(type);
 
           if (settings->cancelling == TRI_CANCEL) {
-            remove_trade_route(pcity, tcity, TRUE, FALSE);
+            struct trade_route *back;
+
+            back = remove_trade_route(pcity, proute, TRUE, FALSE);
+            free(proute);
+            free(back);
           }
         }
-      }
+      } trade_routes_iterate_safe_end;
 
       /* Add cities to array for later random order handling */
       cities[i++] = pcity;
@@ -727,13 +730,13 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
                         city_name(pcity), city_size_get(pcity));
 
   /* Update cities that have trade routes with us */
-  trade_routes_iterate(pcity, pcity2) {
+  trade_partners_iterate(pcity, pcity2) {
     if (city_refresh(pcity2)) {
       /* This should never happen, but if it does, make sure not to
        * leave workers outside city radius. */
       auto_arrange_workers(pcity2);
     }
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 
   sanity_check_city(pcity);
   return TRUE;
@@ -865,13 +868,13 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   auto_arrange_workers(pcity);
 
   /* Update cities that have trade routes with us */
-  trade_routes_iterate(pcity, pcity2) {
+  trade_partners_iterate(pcity, pcity2) {
     if (city_refresh(pcity2)) {
       /* This should never happen, but if it does, make sure not to
        * leave workers outside city radius. */
       auto_arrange_workers(pcity2);
     }
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 
   notify_player(powner, city_tile(pcity), E_CITY_GROWTH, ftc_server,
                 _("%s grows to size %d."),

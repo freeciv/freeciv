@@ -2468,14 +2468,14 @@ static int get_trade_illness(const struct city *pcity)
 {
   float illness_trade = 0.0;
 
-  trade_routes_iterate(pcity, trade_city) {
+  trade_partners_iterate(pcity, trade_city) {
     if (trade_city->turn_plague != -1
         && game.info.turn - trade_city->turn_plague < 5) {
       illness_trade += (float)game.info.illness_trade_infection
                        * sqrt(1.0 * city_size_get(pcity)
                               * city_size_get(trade_city)) / 100.0;
     }
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 
   return (int)illness_trade;
 }
@@ -2586,8 +2586,6 @@ int city_airlift_max(const struct city *pcity)
 **************************************************************************/
 inline void set_city_production(struct city *pcity)
 {
-  int i;
-
   /* Calculate city production!
    *
    * This is a rather complicated process if we allow rules to become
@@ -2606,31 +2604,28 @@ inline void set_city_production(struct city *pcity)
   } output_type_iterate_end;
 
   /* Add on special extra incomes: trade routes and tithes. */
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    struct city *tcity = game_city_by_number(pcity->trade[i]);
+  trade_routes_iterate(pcity, proute) {
+    struct city *tcity = game_city_by_number(proute->partner);
+    bool can_trade = can_cities_trade(pcity, tcity);
 
-    if (tcity != NULL) {
-      bool can_trade = can_cities_trade(pcity, tcity);
+    if (!can_trade) {
+      enum trade_route_type type = cities_trade_route_type(pcity, tcity);
+      struct trade_route_settings *settings = trade_route_settings_by_type(type);
 
-      if (!can_trade) {
-        enum trade_route_type type = cities_trade_route_type(pcity, tcity);
-        struct trade_route_settings *settings = trade_route_settings_by_type(type);
-
-         if (settings->cancelling == TRI_ACTIVE) {
-           can_trade = TRUE;
-         }
-      } 
-
-      if (can_trade) {
-        pcity->trade_value[i] =
-          trade_between_cities(pcity, game_city_by_number(pcity->trade[i]));
-        pcity->prod[O_TRADE] += pcity->trade_value[i]
-          * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
-      } else {
-        pcity->trade_value[i] = 0;
+      if (settings->cancelling == TRI_ACTIVE) {
+        can_trade = TRUE;
       }
+    } 
+
+    if (can_trade) {
+      proute->value =
+        trade_between_cities(pcity, game_city_by_number(proute->partner));
+      pcity->prod[O_TRADE] += proute->value
+        * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
+    } else {
+      proute->value = 0;
     }
-  }
+  } trade_routes_iterate_end;
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
 
   /* Account for waste.  Note that waste is calculated before tax income is
@@ -3077,6 +3072,7 @@ struct city *create_city_virtual(struct player *pplayer,
   worklist_init(&pcity->worklist);
 
   pcity->units_supported = unit_list_new();
+  pcity->routes = trade_route_list_new();
   pcity->task_reqs = worker_task_list_new();
 
   if (is_server()) {
@@ -3108,6 +3104,7 @@ void destroy_city_virtual(struct city *pcity)
   worker_task_list_destroy(pcity->task_reqs);
 
   unit_list_destroy(pcity->units_supported);
+  trade_route_list_destroy(pcity->routes);
   if (pcity->tile_cache != NULL) {
     free(pcity->tile_cache);
   }

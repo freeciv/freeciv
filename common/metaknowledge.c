@@ -136,11 +136,11 @@ static bool is_tile_seen_traderoute(const struct player *pow_player,
   }
 
   /* A tile of a trade parter is unseen */
-  trade_routes_iterate(target_city, trade_partner) {
+  trade_partners_iterate(target_city, trade_partner) {
     if (!is_tile_seen_city(pow_player, trade_partner)) {
       return FALSE;
     }
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 
   /* They are all seen. */
   return TRUE;
@@ -401,11 +401,11 @@ static bool is_req_knowable(const struct player *pow_player,
       }
 
       /* Can see visible improvements in cities traded with. */
-      trade_routes_iterate(target_city, trade_city) {
+      trade_partners_iterate(target_city, trade_city) {
         if (city_owner(trade_city) == pow_player) {
           return TRUE;
         }
-      } trade_routes_iterate_end;
+      } trade_partners_iterate_end;
 
       /* No way to know if a city has an improvement */
       return FALSE;

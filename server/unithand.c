@@ -2619,7 +2619,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
 {
   char homecity_link[MAX_LEN_LINK], destcity_link[MAX_LEN_LINK];
   char punit_link[MAX_LEN_LINK];
-  int revenue, i;
+  int revenue;
   bool can_establish;
   int home_overbooked = 0;
   int dest_overbooked = 0;
@@ -2627,7 +2627,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
   int dest_max;
   struct city *pcity_homecity;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  struct city_list *cities_out_of_home, *cities_out_of_dest;
+  struct trade_route_list *routes_out_of_dest;
+  struct trade_route_list *routes_out_of_home;
   enum traderoute_bonus_type bonus_type;
   const char *bonus_str;
   struct goods_type *goods;
@@ -2680,8 +2681,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   sz_strlcpy(punit_link, unit_tile_link(punit));
-  cities_out_of_home = city_list_new();
-  cities_out_of_dest = city_list_new();
+  routes_out_of_home = trade_route_list_new();
+  routes_out_of_dest = trade_route_list_new();
 
   /* This part of code works like can_establish_trade_route, except
    * that we actually do the action of making the trade route. */
@@ -2703,7 +2704,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* See if there's a trade route we can cancel at the home city. */
     if (home_overbooked >= 0) {
       if (home_max <= 0
-          || (city_trade_removable(pcity_homecity, cities_out_of_home)
+          || (city_trade_removable(pcity_homecity, routes_out_of_home)
               >= trade)) {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,
@@ -2727,7 +2728,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_overbooked >= 0) {
       if (dest_max <= 0
-          || (city_trade_removable(pcity_dest, cities_out_of_dest)
+          || (city_trade_removable(pcity_dest, routes_out_of_dest)
               >= trade)) {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,
@@ -2819,6 +2820,9 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   if (can_establish) {
+    struct trade_route *proute;
+    struct city_list *cities_out_of_home;
+    struct city_list *cities_out_of_dest;
 
     /* Announce creation of trade route (it's not actually created until
      * later in this function, as we have to cancel existing routes, but
@@ -2840,36 +2844,43 @@ static bool do_unit_establish_trade(struct player *pplayer,
                     destcity_link);
     }
 
+    cities_out_of_home = city_list_new();
+    cities_out_of_dest = city_list_new();
+
     /* Now cancel any less profitable trade route from the home city. */
-    city_list_iterate(cities_out_of_home, pcity) {
-      remove_trade_route(pcity_homecity, pcity, TRUE, FALSE);
-    } city_list_iterate_end;
+    trade_route_list_iterate(routes_out_of_home, premove) {
+      struct trade_route *pback;
+
+      city_list_append(cities_out_of_home, game_city_by_number(premove->partner));
+
+      pback = remove_trade_route(pcity_homecity, premove, TRUE, FALSE);
+      free(premove);
+      free(pback);
+    } trade_route_list_iterate_end;
 
     /* And the same for the dest city. */
-    city_list_iterate(cities_out_of_dest, pcity) {
-      remove_trade_route(pcity_dest, pcity, TRUE, FALSE);
-    } city_list_iterate_end;
+    trade_route_list_iterate(routes_out_of_dest, premove) {
+      struct trade_route *pback;
+
+      city_list_append(cities_out_of_dest, game_city_by_number(premove->partner));
+
+      pback = remove_trade_route(pcity_dest, premove, TRUE, FALSE);
+      free(premove);
+      free(pback);
+    } trade_route_list_iterate_end;
 
     /* Actually create the new trade route */
-    for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-      if (pcity_homecity->trade[i] == 0) {
-        pcity_homecity->trade[i] = pcity_dest->id;
-        pcity_homecity->trade_direction[i] = RDIR_FROM;
-        pcity_homecity->trade_goods[i] = goods;
-        break;
-      }
-    }
-    fc_assert(i < MAX_TRADE_ROUTES);
+    proute = fc_malloc(sizeof(struct trade_route));
+    proute->partner = pcity_dest->id;
+    proute->dir = RDIR_FROM;
+    proute->goods = goods;
+    trade_route_list_append(pcity_homecity->routes, proute);
 
-    for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-      if (pcity_dest->trade[i] == 0) {
-        pcity_dest->trade[i] = pcity_homecity->id;
-        pcity_dest->trade_direction[i] = RDIR_TO;
-        pcity_dest->trade_goods[i] = goods;
-        break;
-      }
-    }
-    fc_assert(i < MAX_TRADE_ROUTES);
+    proute = fc_malloc(sizeof(struct trade_route));
+    proute->partner = pcity_homecity->id;
+    proute->dir = RDIR_TO;
+    proute->goods = goods;
+    trade_route_list_append(pcity_dest->routes, proute);
 
     /* Refresh the cities. */
     city_refresh(pcity_homecity);
@@ -2919,6 +2930,9 @@ static bool do_unit_establish_trade(struct player *pplayer,
         send_city_info(city_owner(pcity), pcity_homecity);
       }
     } city_list_iterate_end;
+
+    city_list_destroy(cities_out_of_home);
+    city_list_destroy(cities_out_of_dest);
   }
 
   /* May cause an incident */
@@ -2932,8 +2946,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
   conn_list_do_unbuffer(pplayer->connections);
 
   /* Free data. */
-  city_list_destroy(cities_out_of_home);
-  city_list_destroy(cities_out_of_dest);
+  trade_route_list_destroy(routes_out_of_home);
+  trade_route_list_destroy(routes_out_of_dest);
 
   return TRUE;
 }

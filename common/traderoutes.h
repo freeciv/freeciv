@@ -72,6 +72,24 @@ struct trade_route_settings {
   enum traderoute_bonus_type bonus_type;
 };
 
+struct goods_type;
+
+struct trade_route {
+  int partner;
+  int value;
+  enum route_direction dir;
+  struct goods_type *goods;
+};
+
+/* get 'struct trade_route_list' and related functions: */
+#define SPECLIST_TAG trade_route
+#define SPECLIST_TYPE struct trade_route
+#include "speclist.h"
+
+#define trade_route_list_iterate(trade_route_list, proute) \
+  TYPED_LIST_ITERATE(struct trade_route, trade_route_list, proute)
+#define trade_route_list_iterate_end LIST_ITERATE_END
+
 int max_trade_routes(const struct city *pcity);
 enum trade_route_type cities_trade_route_type(const struct city *pcity1,
                                               const struct city *pcity2);
@@ -96,19 +114,43 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct city *pc2,
                                        const bool establish_trade);
 int city_trade_removable(const struct city *pcity,
-                         struct city_list *would_remove);
+                         struct trade_route_list *would_remove);
 
-#define trade_routes_iterate(c, t)                          \
+#define trade_routes_iterate(c, proute)                     \
 do {                                                        \
-  int _i##t;                                                \
-  for (_i##t = 0 ; _i##t < MAX_TRADE_ROUTES ; _i##t++) {    \
-    struct city *t = game_city_by_number(c->trade[_i##t]);  \
-    if (t != NULL) {
+  trade_route_list_iterate(c->routes, proute) {
 
 #define trade_routes_iterate_end                            \
+  } trade_route_list_iterate_end;                           \
+} while(FALSE)
+
+#define trade_routes_iterate_safe(c, proute)                \
+{                                                           \
+  int _routes##_size = trade_route_list_size(c->routes);    \
+  if (_routes##_size > 0) {                                 \
+    struct trade_route *_routes##_saved[_routes##_size];    \
+    int _routes##_index = 0;                                \
+    trade_routes_iterate(c, _proute) {                      \
+      _routes##_saved[_routes##_index++] = _proute;         \
+    } trade_routes_iterate_end;                             \
+    for (_routes##_index = 0;                               \
+         _routes##_index < _routes##_size;                  \
+         _routes##_index++) {                               \
+      struct trade_route *proute = _routes##_saved[_routes##_index];
+
+#define trade_routes_iterate_safe_end                       \
     }                                                       \
   }                                                         \
-} while(FALSE)
+}
+
+#define trade_partners_iterate(c, p)                        \
+do {                                                        \
+  trade_routes_iterate(c, _proute_) {                       \
+    struct city *p = game_city_by_number(_proute_->partner);
+
+#define trade_partners_iterate_end                          \
+  } trade_routes_iterate_end;                               \
+} while (FALSE);
 
 struct goods_type
 {

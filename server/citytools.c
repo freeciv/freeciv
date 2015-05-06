@@ -857,18 +857,20 @@ static void raze_city(struct city *pcity)
 ***************************************************************************/
 static void reestablish_city_trade_routes(struct city *pcity) 
 {
-  trade_routes_iterate(pcity, ptrade_city) {
+  trade_routes_iterate_safe(pcity, proute) {
     bool keep_route;
+    struct trade_route *back;
+    struct city *partner = game_city_by_number(proute->partner);
 
     /* Remove the city's trade routes (old owner).
      * Do not announce removal as we might restore the route immediately below */
-    remove_trade_route(ptrade_city, pcity, FALSE, FALSE);
+    back = remove_trade_route(pcity, proute, FALSE, FALSE);
 
-    keep_route = can_cities_trade(pcity, ptrade_city)
-      && can_establish_trade_route(pcity, ptrade_city);
+    keep_route = can_cities_trade(pcity, partner)
+      && can_establish_trade_route(pcity, partner);
 
     if (!keep_route) {
-      enum trade_route_type type = cities_trade_route_type(pcity, ptrade_city);
+      enum trade_route_type type = cities_trade_route_type(pcity, partner);
       struct trade_route_settings *settings = trade_route_settings_by_type(type);
 
       if (settings->cancelling != TRI_CANCEL) {
@@ -878,23 +880,27 @@ static void reestablish_city_trade_routes(struct city *pcity)
 
     /* Readd the city's trade route (new owner) */
     if (keep_route) {
-      establish_trade_route(pcity, ptrade_city);
+      trade_route_list_append(pcity->routes, proute);
+      trade_route_list_append(partner->routes, back);
     } else {
+      free(proute);
+      free(back);
+
       /* Now announce the traderoute removal */
-      announce_trade_route_removal(pcity, ptrade_city, FALSE);
+      announce_trade_route_removal(pcity, partner, FALSE);
     }
 
     /* refresh regardless; either it lost a trade route or the trade
      * route revenue changed. */
-    city_refresh(ptrade_city);
-    send_city_info(city_owner(ptrade_city), ptrade_city);
+    city_refresh(partner);
+    send_city_info(city_owner(partner), partner);
 
     /* Give the new owner infos about the city which has a trade route
      * with the transferred city. */
-    reality_check_city(city_owner(pcity), ptrade_city->tile);
-    update_dumb_city(city_owner(pcity), ptrade_city);
-    send_city_info(city_owner(pcity), ptrade_city);
-  } trade_routes_iterate_end;
+    reality_check_city(city_owner(pcity), partner->tile);
+    update_dumb_city(city_owner(pcity), partner);
+    send_city_info(city_owner(pcity), partner);
+  } trade_routes_iterate_safe_end;
 }
 
 /**************************************************************************
@@ -1891,11 +1897,11 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 static bool player_has_trade_route_with_city(struct player *pplayer,
                                              struct city *pcity)
 {
-  trade_routes_iterate(pcity, other) {
+  trade_partners_iterate(pcity, other) {
     if (city_owner(other) == pplayer) {
       return TRUE;
     }
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 
   return FALSE;
 }
@@ -2256,10 +2262,17 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->city_radius_sq = pcity->city_radius_sq;
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    packet->trade[i] = pcity->trade[i];
-    packet->trade_value[i] = pcity->trade_value[i];
-    packet->trade_direction[i] = pcity->trade_direction[i];
+  i = 0;
+  trade_routes_iterate(pcity, proute) {
+    packet->trade[i] = proute->partner;
+    packet->trade_value[i] = proute->value;
+    packet->trade_direction[i] = proute->dir;
+
+    i++;
+  } trade_routes_iterate_end;
+
+  for (; i < MAX_TRADE_ROUTES; i++) {
+    packet->trade[i] = 0;
   }
 
   output_type_iterate(o) {
@@ -2476,26 +2489,37 @@ static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
   Remove the trade route between pc1 and pc2 (if one exists).
   source_gone should be TRUE if the reason for removal is the imminent
   removal of the source city (pc1) from the game.
+
+  Does not free the trade route structures, only removes them from the
+  cities.
 **************************************************************************/
-void remove_trade_route(struct city *pc1, struct city *pc2,
-                        bool announce, bool source_gone)
+struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *proute,
+                                       bool announce, bool source_gone)
 {
-  int i;
+  struct city *pc2 = game_city_by_number(proute->partner);
+  struct trade_route *back_route = NULL;
 
-  fc_assert_ret(pc1 && pc2);
+  fc_assert_ret_val(pc1 && proute, NULL);
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pc1->trade[i] == pc2->id) {
-      pc1->trade[i] = 0;
-    }
-    if (pc2->trade[i] == pc1->id) {
-      pc2->trade[i] = 0;
+  trade_route_list_remove(pc1->routes, proute);
+
+  if (pc2 != NULL) {
+    trade_routes_iterate(pc2, pback) {
+      if (pc1->id == pback->partner) {
+        back_route = pback;
+      }
+    } trade_routes_iterate_end;
+
+    if (back_route != NULL) {
+      trade_route_list_remove(pc2->routes, back_route);
     }
   }
 
   if (announce) {
     announce_trade_route_removal(pc1, pc2, source_gone);
   }
+
+  return back_route;
 }
 
 /****************************************************************************
@@ -2503,22 +2527,25 @@ void remove_trade_route(struct city *pc1, struct city *pc2,
 ****************************************************************************/
 static void remove_smallest_trade_routes(struct city *pcity)
 {
-  struct city_list *remove = city_list_new();
+  struct trade_route_list *remove = trade_route_list_new();
 
   (void) city_trade_removable(pcity, remove);
-  city_list_iterate(remove, pother_city) {
-    remove_trade_route(pcity, pother_city, TRUE, FALSE);
-  } city_list_iterate_end;
-  city_list_destroy(remove);
+  trade_route_list_iterate(remove, proute) {
+    struct trade_route *back;
+
+    back = remove_trade_route(pcity, proute, TRUE, FALSE);
+    free(proute);
+    free(back);
+  } trade_route_list_iterate_end;
+  trade_route_list_destroy(remove);
 }
 
 /**************************************************************************
-  Establish a trade route.  Notice that there has to be space for them, 
-  so you should check can_establish_trade_route first.
+  Establish a trade route.
 **************************************************************************/
 void establish_trade_route(struct city *pc1, struct city *pc2)
 {
-  int i;
+  struct trade_route *proute;
 
   if (city_num_trade_routes(pc1) >= max_trade_routes(pc1)) {
     remove_smallest_trade_routes(pc1);
@@ -2528,22 +2555,15 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
     remove_smallest_trade_routes(pc2);
   }
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pc1->trade[i] == 0) {
-      pc1->trade[i] = pc2->id;
-      pc1->trade_direction[i] = RDIR_FROM;
-      break;
-    }
-  }
-  fc_assert(i < MAX_TRADE_ROUTES);
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pc2->trade[i] == 0) {
-      pc2->trade[i] = pc1->id;
-      pc2->trade_direction[i] = RDIR_TO;
-      break;
-    }
-  }
-  fc_assert(i < MAX_TRADE_ROUTES);
+  proute = fc_malloc(sizeof(struct trade_route));
+  proute->partner = pc2->id;
+  proute->dir = RDIR_FROM;
+  trade_route_list_append(pc1->routes, proute);
+
+  proute = fc_malloc(sizeof(struct trade_route));
+  proute->partner = pc1->id;
+  proute->dir = RDIR_TO;
+  trade_route_list_append(pc2->routes, proute);
 
   /* recalculate illness due to trade */
   if (game.info.illness_on) {

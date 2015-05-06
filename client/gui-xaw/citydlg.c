@@ -1455,8 +1455,7 @@ static void trade_message_dialog_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  int i;
-  int x=0,total=0;
+  int total = 0;
   char buf[512], *bptr=buf;
   int nleft = sizeof(buf);
   struct city_dialog *pdialog;
@@ -1467,35 +1466,34 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	      _("These trade routes have been established with %s:\n"),
 	      city_name(pdialog->pcity));
   bptr = end_of_strn(bptr, &nleft);
-  
-  for (i = 0; i < MAX_TRADE_ROUTES; i++)
-    if(pdialog->pcity->trade[i]) {
-      struct city *pcity;
-      x=1;
-      total+=pdialog->pcity->trade_value[i];
-      if ((pcity = game_city_by_number(pdialog->pcity->trade[i]))) {
-	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
-		    city_name(pcity), pdialog->pcity->trade_value[i]);
-	bptr = end_of_strn(bptr, &nleft);
-      } else {	
-	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
-		    pdialog->pcity->trade_value[i]);
-	bptr = end_of_strn(bptr, &nleft);
-      }
+
+  trade_routes_iterate(pdialog->pcity, proute) {
+    struct city *pcity;
+
+    total += proute->value;
+    if ((pcity = game_city_by_number(proute->partner))) {
+      fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
+                  city_name(pcity), proute->value);
+      bptr = end_of_strn(bptr, &nleft);
+    } else {
+      fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
+                  proute->value);
+      bptr = end_of_strn(bptr, &nleft);
     }
-  if (!x) {
+  } trade_routes_iterate_end;
+
+  if (trade_route_list_size(pdialog->pcity->routes) == 0) {
     fc_strlcpy(bptr, _("No trade routes exist.\n"), nleft);
   } else {
     fc_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Year\n"), total);
   }
-  
+
   popup_message_dialog(pdialog->shell, 
 		       "citytradedialog", 
 		       buf, 
 		       trade_message_dialog_callback, 0, 0,
 		       NULL);
 }
-
 
 /****************************************************************
 ...

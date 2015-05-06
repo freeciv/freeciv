@@ -224,33 +224,24 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
 
 /****************************************************************************
   Return the minimum value of the sum of trade routes which could be
-  replaced by a new one. The target cities of the concerned trade routes
-  are will be put into 'would_remove', if set.
+  replaced by a new one. The target routes to be removed
+  will be put into 'would_remove', if set.
 ****************************************************************************/
 int city_trade_removable(const struct city *pcity,
-                         struct city_list *would_remove)
+                         struct trade_route_list *would_remove)
 {
-  int sorted[MAX_TRADE_ROUTES];
+  struct trade_route *sorted[MAX_TRADE_ROUTES];
   int num, i, j;
-
-  FC_STATIC_ASSERT(ARRAY_SIZE(sorted) == ARRAY_SIZE(pcity->trade),
-                   incompatible_trade_array_size);
-  FC_STATIC_ASSERT(ARRAY_SIZE(sorted) == ARRAY_SIZE(pcity->trade_value),
-                   incompatible_trade_value_array_size);
 
   /* Sort trade route values. */
   num = 0;
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (0 == pcity->trade[i]) {
-      continue;
-    }
-    for (j = num; j > 0 && (pcity->trade_value[i]
-                            < pcity->trade_value[sorted[j - 1]]); j--) {
+  trade_routes_iterate(pcity, proute) {
+    for (j = num; j > 0 && (proute->value < sorted[j - 1]->value) ; j--) {
       sorted[j] = sorted[j - 1];
     }
-    sorted[j] = i;
+    sorted[j] = proute;
     num++;
-  }
+  } trade_routes_iterate_end;
 
   /* No trade routes at all. */
   if (0 == num) {
@@ -265,14 +256,12 @@ int city_trade_removable(const struct city *pcity,
 
   /* Return values. */
   for (i = j = 0; i < num; i++) {
-    j += pcity->trade_value[sorted[i]];
+    j += sorted[i]->value;
     if (NULL != would_remove) {
-      struct city *pother = game_city_by_number(pcity->trade[sorted[i]]);
-
-      fc_assert(NULL != pother);
-      city_list_append(would_remove, pother);
+      trade_route_list_append(would_remove, sorted[i]);
     }
   }
+
   return j;
 }
 
@@ -352,15 +341,7 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
 **************************************************************************/
 int city_num_trade_routes(const struct city *pcity)
 {
-  int i, n = 0;
-
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pcity->trade[i] != 0) {
-      n++;
-    }
-  }
-  
-  return n;
+  return trade_route_list_size(pcity->routes);
 }
 
 /**************************************************************************
@@ -409,11 +390,11 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
 **************************************************************************/
 bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 {
-  trade_routes_iterate(pc1, route_to) {
+  trade_partners_iterate(pc1, route_to) {
     if (route_to->id == pc2->id) {
       return TRUE;
     }
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 
   return FALSE;
 }

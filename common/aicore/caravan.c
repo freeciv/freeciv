@@ -275,7 +275,7 @@ static int one_city_trade_benefit(const struct city *pcity,
     /* if the city can handle this route, we don't break any old routes */
     losttrade = 0;
   } else {
-    struct city_list *would_remove = (countloser ? city_list_new() : NULL);
+    struct trade_route_list *would_remove = (countloser ? trade_route_list_new() : NULL);
     int oldtrade = city_trade_removable(pcity, would_remove);
 
     /* if we own the city, the trade benefit is only by how much
@@ -287,18 +287,18 @@ static int one_city_trade_benefit(const struct city *pcity,
     /* if the cities that lost a trade route is one of ours, and if we
        care about accounting for the lost trade, count it. */
     if (countloser) {
-      city_list_iterate(would_remove, losercity) {
-        if (city_owner(losercity) == pplayer) {
-          int i;
+      trade_route_list_iterate(would_remove, plost) {
+        struct city *losercity = game_city_by_number(plost->partner);
 
-          for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-            if (losercity->trade[i] == pcity->id) {
-              losttrade += losercity->trade_value[i];
+        if (city_owner(losercity) == pplayer) {
+          trade_routes_iterate(losercity, pback) {
+            if (pback->partner == pcity->id) {
+              losttrade += pback->value;
             }
-          }
+          } trade_routes_iterate_end;
         }
-      } city_list_iterate_end;
-      city_list_destroy(would_remove);
+      } trade_route_list_iterate_end;
+      trade_route_list_destroy(would_remove);
     }
   }
 

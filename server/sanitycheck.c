@@ -223,7 +223,6 @@ static bool check_city_good(struct city *pcity, const char *file,
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *pcenter = city_tile(pcity);
-  int i;
 
   if (NULL == pcenter) {
     /* Editor! */
@@ -265,37 +264,38 @@ static bool check_city_good(struct city *pcity, const char *file,
     }
   } city_built_iterate_end;
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    struct city *partner = game_city_by_number(pcity->trade[i]);
+  trade_routes_iterate(pcity, proute) {
+    struct city *partner = game_city_by_number(proute->partner);
 
     if (partner != NULL) {
-      int j;
+      struct trade_route *back_route = NULL;
 
-      for (j = 0; j < MAX_TRADE_ROUTES; j++) {
-        if (game_city_by_number(partner->trade[j]) == pcity) {
+      trade_routes_iterate(partner, pback) {
+        if (pback->partner == pcity->id) {
+          back_route = pback;
           break;
         }
-      }
+      } trade_routes_iterate_end;
 
-      SANITY_CITY(pcity, j < MAX_TRADE_ROUTES);
+      SANITY_CITY(pcity, back_route != NULL);
 
-      if (j < MAX_TRADE_ROUTES) {
-        switch (partner->trade_direction[j]) {
+      if (back_route != NULL) {
+        switch (back_route->dir) {
         case RDIR_TO:
-          SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_FROM);
+          SANITY_CITY(pcity, proute->dir == RDIR_FROM);
           break;
         case RDIR_FROM:
-          SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_TO);
+          SANITY_CITY(pcity, proute->dir == RDIR_TO);
           break;
         case RDIR_BIDIRECTIONAL:
-          SANITY_CITY(pcity, pcity->trade_direction[i] == RDIR_BIDIRECTIONAL);
+          SANITY_CITY(pcity, proute->dir == RDIR_BIDIRECTIONAL);
           break;
         }
 
-        SANITY_CITY(pcity, pcity->trade_goods[i] == partner->trade_goods[j]);
+        SANITY_CITY(pcity, proute->goods == back_route->goods);
       }
     }
-  }
+  } trade_routes_iterate_end;
 
   return TRUE;
 }

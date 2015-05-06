@@ -1181,7 +1181,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
 int dai_city_want(struct player *pplayer, struct city *acity, 
                   struct adv_data *adv, struct impr_type *pimprove)
 {
-  int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST], i;
+  int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST];
 
   memset(prod, 0, O_LAST * sizeof(*prod));
   if (NULL != pimprove
@@ -1206,9 +1206,9 @@ int dai_city_want(struct player *pplayer, struct city *acity,
     memcpy(prod, acity->citizen_base, O_LAST * sizeof(*prod));
   }
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    prod[O_TRADE] += acity->trade_value[i];
-  }
+  trade_routes_iterate(acity, proute) {
+    prod[O_TRADE] += proute->value;
+  } trade_routes_iterate_end;
   prod[O_GOLD] += get_city_tithes_bonus(acity);
   output_type_iterate(o) {
     bonus[o] = get_final_city_output_bonus(acity, o);

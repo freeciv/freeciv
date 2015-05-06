@@ -4127,6 +4127,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   citizens size;
   const char *stylename;
   bool tasks_handled;
+  int partner = 1;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -4169,25 +4170,31 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     specialists += value;
   }
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    pcity->trade[i] = secfile_lookup_int_default(loading->file, 0,
-                                                 "%s.traderoute%d", citystr, i);
+  for (i = 0; partner != 0; i++) {
+    partner = secfile_lookup_int_default(loading->file, 0,
+                                         "%s.traderoute%d", citystr, i);
 
-    if (pcity->trade[i] != 0) {
+    if (partner != 0) {
+      struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
       const char *dir;
       const char *good_str;
 
+      /* Append to routes list immediately, so the pointer can be found for freeing
+       * even if we abort */
+      trade_route_list_append(pcity->routes, proute);
+
+      proute->partner = partner;
       dir = secfile_lookup_str(loading->file, "%s.route_direction%d", citystr, i);
       sg_warn_ret_val(dir != NULL, FALSE,
                       "No traderoute direction found for %s", citystr);
-      pcity->trade_direction[i] = route_direction_by_name(dir, fc_strcasecmp);
-      sg_warn_ret_val(route_direction_is_valid(pcity->trade_direction[i]), FALSE,
+      proute->dir = route_direction_by_name(dir, fc_strcasecmp);
+      sg_warn_ret_val(route_direction_is_valid(proute->dir), FALSE,
                       "Illegal route direction %s", dir);
       good_str = secfile_lookup_str(loading->file, "%s.route_good%d", citystr, i);
       sg_warn_ret_val(dir != NULL, FALSE,
                       "No good found for %s", citystr);
-      pcity->trade_goods[i] = goods_by_rule_name(good_str);
-      sg_warn_ret_val(pcity->trade_goods[i] != NULL, FALSE,
+      proute->goods = goods_by_rule_name(good_str);
+      sg_warn_ret_val(proute->goods != NULL, FALSE,
                       "Illegal good %s", good_str);
     }
   }
@@ -4543,20 +4550,24 @@ static void sg_save_player_cities(struct savedata *saving,
                          buf, j++);
     } specialist_type_iterate_end;
 
-    for (j = 0; j < MAX_TRADE_ROUTES; j++) {
-      secfile_insert_int(saving->file, pcity->trade[j], "%s.traderoute%d",
+    j = 0;
+    trade_routes_iterate(pcity, proute) {
+      secfile_insert_int(saving->file, proute->partner, "%s.traderoute%d",
                          buf, j);
-      if (pcity->trade[j] != 0) {
-        secfile_insert_str(saving->file, route_direction_name(pcity->trade_direction[i]),
-                           "%s.route_direction%d", buf, j);
-        secfile_insert_str(saving->file, goods_rule_name(pcity->trade_goods[i]),
+      secfile_insert_str(saving->file, route_direction_name(proute->dir),
+                         "%s.route_direction%d", buf, j);
+      secfile_insert_str(saving->file, goods_rule_name(proute->goods),
                            "%s.route_good%d", buf, j);
-      } else {
-        secfile_insert_str(saving->file, route_direction_name(RDIR_BIDIRECTIONAL),
-                           "%s.route_direction%d", buf, j);
-        secfile_insert_str(saving->file, goods_rule_name(goods_by_number(0)),
-                           "%s.route_good%d", buf, j);
-      }
+      j++;
+    } trade_routes_iterate_end;
+
+    /* Save dummy values to keep tabular format happy */
+    for (; j < MAX_TRADE_ROUTES; j++) {
+      secfile_insert_int(saving->file, 0, "%s.traderoute%d", buf, j);
+      secfile_insert_str(saving->file, route_direction_name(RDIR_BIDIRECTIONAL),
+                         "%s.route_direction%d", buf, j);
+      secfile_insert_str(saving->file, goods_rule_name(goods_by_number(0)),
+                         "%s.route_good%d", buf, j);
     }
 
     secfile_insert_int(saving->file, pcity->food_stock, "%s.food_stock",

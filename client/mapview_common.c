@@ -1272,10 +1272,10 @@ static void draw_trade_routes_for_city(const struct city *pcity_src)
     return;
   }
 
-  trade_routes_iterate(pcity_src, pcity_dest) {
+  trade_partners_iterate(pcity_src, pcity_dest) {
     draw_trade_route_line(city_tile(pcity_src), city_tile(pcity_dest),
                           COLOR_MAPVIEW_TRADE_ROUTE_LINE);
-  } trade_routes_iterate_end;
+  } trade_partners_iterate_end;
 }
 
 /**************************************************************************
@@ -2444,7 +2444,7 @@ void get_city_mapview_trade_routes(struct city *pcity,
                                    size_t trade_routes_buffer_len,
                                    enum color_std *pcolor)
 {
-  int num_trade_routes = 0, i;
+  int num_trade_routes;
   int max_routes;
 
   if (!trade_routes_buffer || trade_routes_buffer_len <= 0) {
@@ -2459,14 +2459,7 @@ void get_city_mapview_trade_routes(struct city *pcity,
     return;
   }
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pcity->trade[i] <= 0) {
-      /* NB: pcity->trade_value[i] == 0 is a valid case. */
-      continue;
-    }
-    num_trade_routes++;
-  }
-
+  num_trade_routes = trade_route_list_size(pcity->routes);
   max_routes = max_trade_routes(pcity);
 
   fc_snprintf(trade_routes_buffer, trade_routes_buffer_len,

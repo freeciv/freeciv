@@ -1971,37 +1971,34 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   step = 0;
   dest.x = pCityWindow->size.x + adj_size(10);
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (pCity->trade[i]) {
-      step += pCity->trade_value[i];
+  trade_routes_iterate(pCity, proute) {
+    step += proute->value;
 
-      if ((pTradeCity = game_city_by_number(pCity->trade[i]))) {
-	fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name(pTradeCity),
-		    pCity->trade_value[i]);
-      } else {
-	fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
-		    pCity->trade_value[i]);
-      }
-
-
-      copy_chars_to_string16(pStr, cBuf);
-
-      pSurf = create_text_surf_from_str16(pStr);
-
-      alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
-
-      /* blit trade icon */
-      dest.x += pSurf->w + adj_size(3);
-      dest.y += adj_size(4);
-      alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest);
-      dest.x = pCityWindow->size.x + adj_size(10);
-      dest.y -= adj_size(4);
-
-      dest.y += pSurf->h;
-
-      FREESURFACE(pSurf);
+    if ((pTradeCity = game_city_by_number(proute->partner))) {
+      fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name(pTradeCity),
+                  proute->value);
+    } else {
+      fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
+                  proute->value);
     }
-  }
+
+    copy_chars_to_string16(pStr, cBuf);
+
+    pSurf = create_text_surf_from_str16(pStr);
+
+    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest);
+
+    /* blit trade icon */
+    dest.x += pSurf->w + adj_size(3);
+    dest.y += adj_size(4);
+    alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest);
+    dest.x = pCityWindow->size.x + adj_size(10);
+    dest.y -= adj_size(4);
+
+    dest.y += pSurf->h;
+
+    FREESURFACE(pSurf);
+  } trade_routes_iterate_end;
 
   if (step) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Trade: +%d"), step);

@@ -2953,10 +2953,18 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   }
 
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    pcity->trade[i] = secfile_lookup_int_default(loading->file, 0,
-                                                 "%s.traderoute%d", citystr, i);
-    pcity->trade_direction[i] = RDIR_BIDIRECTIONAL;
-    pcity->trade_goods[i] = goods_by_number(0); /* First good */
+    int partner = secfile_lookup_int_default(loading->file, 0,
+                                             "%s.traderoute%d", citystr, i);
+
+    if (partner != 0) {
+      struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
+
+      proute->partner = partner;
+      proute->dir = RDIR_BIDIRECTIONAL;
+      proute->goods = goods_by_number(0); /* First good */
+
+      trade_route_list_append(pcity->routes, proute);
+    }
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->food_stock,

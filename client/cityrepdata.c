@@ -478,14 +478,12 @@ static const char *cr_entry_trade_routes(const struct city *pcity,
                                          const void *data)
 {
   static char buf[16];
-  int num = 0, value = 0, i;
+  int num = 0, value = 0;
 
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (0 != pcity->trade[i]) {
-      num++;
-      value += pcity->trade_value[i];
-    }
-  }
+  trade_routes_iterate(pcity, proute) {
+    num++;
+    value += proute->value;
+  } trade_routes_iterate_end;
 
   if (0 == num) {
     sz_strlcpy(buf, "0");

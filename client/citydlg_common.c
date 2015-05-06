@@ -462,28 +462,24 @@ void get_city_dialog_output_text(const struct city *pcity,
   /* Special cases for "bonus" production.  See set_city_production in
    * city.c. */
   if (otype == O_TRADE) {
-    int i;
+    trade_routes_iterate(pcity, proute) {
+      /* There have been bugs causing the trade city to not be sent
+       * properly to the client.  If this happens we trust the
+       * trade_value[] array and simply don't give the name of the
+       * city.
+       *
+       * NB: (proute->value == 0) is valid case.  The trade route
+       * is established but doesn't give trade surplus. */
+      struct city *trade_city = game_city_by_number(proute->partner);
+      /* TRANS: "unknown" location */
+      const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 
-    for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-      if (pcity->trade[i] != 0) {
-        /* There have been bugs causing the trade city to not be sent
-         * properly to the client.  If this happens we trust the
-         * trade_value[] array and simply don't give the name of the
-         * city.
-         *
-         * NB: (pcity->trade_value[i] == 0) is valid case.  The trade route
-         * is established but doesn't give trade surplus. */
-        struct city *trade_city = game_city_by_number(pcity->trade[i]);
-        /* TRANS: "unknown" location */
-        const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
-
-        cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
-                     pcity->trade_value[i]
-                     * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
-                     name);
-        total += pcity->trade_value[i];
-      }
-    }
+      cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
+                   proute->value
+                   * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
+                   name);
+      total += proute->value;
+    } trade_routes_iterate_end;
   } else if (otype == O_GOLD) {
     int tithes = get_city_tithes_bonus(pcity);
 
