@@ -4990,7 +4990,7 @@ static bool delegate_command(struct connection *caller, char *arg,
 
     /* Forbid delegation to player's original owner
      * (from above test we know that dplayer->username is the original now) */
-    if (strcmp(dplayer->username, username) == 0) {
+    if (fc_strcasecmp(dplayer->username, username) == 0) {
       if (player_specified) {
         /* Probably admin or console. */
         cmd_reply(CMD_DELEGATE, caller, C_FAIL,
@@ -5120,7 +5120,7 @@ static bool delegate_command(struct connection *caller, char *arg,
     }
 
     if (!player_delegation_get(dplayer)
-        || strcmp(player_delegation_get(dplayer), caller->username) != 0) {
+        || fc_strcasecmp(player_delegation_get(dplayer), caller->username) != 0) {
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
                 _("Control of player '%s' has not been delegated to you."),
                 player_name(dplayer));
