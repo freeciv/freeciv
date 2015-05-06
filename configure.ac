@@ -762,6 +762,9 @@ if test "x$client" != "xno"; then
   dnl Gtk-2.0-specific overrides
   FC_GTK2_CLIENT
 
+  dnl QT-specific overrides
+  FC_QT_CLIENT
+
   dnl SDL-specific overrides
   FC_SDL_CLIENT
 
@@ -770,9 +773,6 @@ if test "x$client" != "xno"; then
 
   dnl Xaw-specific overrides
   FC_XAW_CLIENT
-
-  dnl QT-specific overrides
-  FC_QT_CLIENT
 
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
