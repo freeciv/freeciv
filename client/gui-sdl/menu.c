@@ -1020,7 +1020,7 @@ void real_menus_update(void)
   if ((C_S_RUNNING != client_state()) ||
       (get_client_page() != PAGE_GAME)) {
 
-    SDL_Client_Flags |= CF_GANE_JUST_STARTED;
+    SDL_Client_Flags |= CF_GAME_JUST_STARTED;
 	
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
       set_wflag(pOptions_Button, WF_HIDDEN);
@@ -1032,50 +1032,48 @@ void real_menus_update(void)
       hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
     }
 
-  } else if (NULL == client.conn.playing) {
-    
-    /* running state, but AI is playing */
-    
+  } else {
+    /* Running state */
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
       /* show options button */
       clear_wflag(pOptions_Button, WF_HIDDEN);
       widget_redraw(pOptions_Button);
       widget_mark_dirty(pOptions_Button);
-      /* show minimap buttons and unitinfo buttons */ 
-      show_minimap_window_buttons();
-      show_unitinfo_window_buttons();      
-      /* disable minimap buttons and unitinfo buttons */
-      disable_minimap_window_buttons();
-      disable_unitinfo_window_buttons();
     }
 
-    return;
+    if (NULL == client.conn.playing) {
+      /* Global observer */
+      if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+        /* show minimap buttons and unitinfo buttons */ 
+        show_minimap_window_buttons();
+        show_unitinfo_window_buttons();      
+        /* disable minimap buttons and unitinfo buttons */
+        disable_minimap_window_buttons();
+        disable_unitinfo_window_buttons();
+      }
 
-  } else {
-      
-    /* running state with human player */
+      return;
+
+    } else {
+      /* running state with player */
+
+      if (get_wstate(pEndOrderWidgetList) == FC_WS_DISABLED) {
+        enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+      }
     
-    if (get_wstate(pEndOrderWidgetList) == FC_WS_DISABLED) {
-      enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
-    }
-    
-    if (counter) {
-      undraw_order_widgets();
-    }
+      if (counter) {
+        undraw_order_widgets();
+      }
 
-    if (SDL_Client_Flags & CF_GANE_JUST_STARTED) {
-      SDL_Client_Flags &= ~CF_GANE_JUST_STARTED;
-
-      /* show options button */
-      clear_wflag(pOptions_Button, WF_HIDDEN);
-      widget_redraw(pOptions_Button);
-      widget_mark_dirty(pOptions_Button);
+      if (SDL_Client_Flags & CF_GAME_JUST_STARTED) {
+        SDL_Client_Flags &= ~CF_GAME_JUST_STARTED;
       
-      /* show minimap buttons and unitinfo buttons */
-      show_minimap_window_buttons();      
-      show_unitinfo_window_buttons();
+        /* show minimap buttons and unitinfo buttons */
+        show_minimap_window_buttons();      
+        show_unitinfo_window_buttons();
 
-      counter = 0;
+        counter = 0;
+      }
     }
 
     punits = get_units_in_focus();
