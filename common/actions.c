@@ -363,7 +363,10 @@ void action_enabler_append_hard(struct action_enabler *enabler)
   if (enabler->action != ACTION_TRADE_ROUTE
       && enabler->action != ACTION_MARKETPLACE
       && enabler->action != ACTION_HELP_WONDER
-      && enabler->action != ACTION_SPY_POISON) {
+      && enabler->action != ACTION_SPY_POISON
+      && enabler->action != ACTION_SPY_SABOTAGE_CITY
+      && enabler->action != ACTION_SPY_TARGETED_SABOTAGE_CITY
+      && enabler->action != ACTION_SPY_SABOTAGE_UNIT) {
     /* The Freeciv code assumes that all spy actions have foreign targets.
      * TODO: Move this restriction to the ruleset to prepare for false flag
      * operations. */
