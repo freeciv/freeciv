@@ -47,9 +47,7 @@ int settler_evaluate_improvements(struct unit *punit,
                                   struct settlermap *state);
 
 struct city *settler_evaluate_city_requests(struct unit *punit,
-                                            enum unit_activity *best_act,
-                                            struct extra_type **best_target,
-                                            struct tile **best_tile,
+                                            struct worker_task **best_task,
                                             struct pf_path **path,
                                             struct settlermap *state);
 

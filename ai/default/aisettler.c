@@ -1070,16 +1070,20 @@ BUILD_CITY:
   /*** Try find some work ***/
 
   if (unit_has_type_flag(punit, UTYF_SETTLERS)) {
+    struct worker_task *best_task;
+
     TIMING_LOG(AIT_WORKERS, TIMER_START);
 
     /* Have nearby cities requests? */
-    pcity = settler_evaluate_city_requests(punit, &best_act, &best_target,
-                                           &best_tile, &path, state);
+    pcity = settler_evaluate_city_requests(punit, &best_task, &path, state);
 
     if (pcity != NULL) {
       if (path != NULL) {
         completion_time = pf_path_last_position(path)->turn;
         best_impr = 1;
+        best_act = best_task->act;
+        best_target = best_task->tgt;
+        best_tile = best_task->ptile;
       } else {
         pcity = NULL;
       }
@@ -1155,7 +1159,7 @@ BUILD_CITY:
                               best_tile, best_act, &best_target,
                               completion_time)) {
     if (pcity != NULL) {
-      clear_worker_task(pcity);
+      clear_worker_tasks(pcity);
     }
   }
 

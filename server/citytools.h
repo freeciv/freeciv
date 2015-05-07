@@ -99,7 +99,8 @@ void refresh_player_cities_vision(struct player *pplayer);
 
 void sync_cities(void);
 
-void clear_worker_task(struct city *pcity);
+void clear_worker_task(struct city *pcity, struct worker_task *ptask);
+void clear_worker_tasks(struct city *pcity);
 void package_and_send_worker_task(struct city *pcity);
 
 #endif  /* FC__CITYTOOLS_H */

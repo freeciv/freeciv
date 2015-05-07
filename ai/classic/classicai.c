@@ -123,7 +123,7 @@ static void cai_gained_control(struct player *pplayer)
 
   /* Clear worker tasks, classic AI does not use those */
   city_list_iterate(pplayer->cities, pcity) {
-    clear_worker_task(pcity);
+    clear_worker_tasks(pcity);
   } city_list_iterate_end;
 
   dai_gained_control(deftype, pplayer);
