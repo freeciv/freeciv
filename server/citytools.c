@@ -1003,7 +1003,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
 
   /* Forget old tasks */
-  clear_worker_task(pcity);
+  clear_worker_tasks(pcity);
 
   /* Activate AI control of the new owner. */
   CALL_PLR_AI_FUNC(city_got, ptaker, ptaker, pcity);
@@ -3037,10 +3037,9 @@ bool city_map_update_radius_sq(struct city *pcity)
 /**************************************************************************
   Clear worker task from the city and inform owner
 **************************************************************************/
-void clear_worker_task(struct city *pcity)
+void clear_worker_task(struct city *pcity, struct worker_task *ptask)
 {
   struct packet_worker_task packet;
-  struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
 
   if (ptask != NULL) {
     worker_task_list_remove(pcity->task_reqs, ptask);
@@ -3055,6 +3054,14 @@ void clear_worker_task(struct city *pcity)
 
   lsend_packet_worker_task(city_owner(pcity)->connections, &packet);
   lsend_packet_worker_task(game.glob_observers, &packet);
+}
+
+/**************************************************************************
+  Clear all worker tasks from the city and inform owner
+**************************************************************************/
+void clear_worker_tasks(struct city *pcity)
+{
+  clear_worker_task(pcity, worker_task_list_get(pcity->task_reqs, 0));
 }
 
 /**************************************************************************

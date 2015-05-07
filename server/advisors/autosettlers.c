@@ -740,9 +740,7 @@ int settler_evaluate_improvements(struct unit *punit,
   Return best city request to fulfill.
 ****************************************************************************/
 struct city *settler_evaluate_city_requests(struct unit *punit,
-                                            enum unit_activity *best_act,
-                                            struct extra_type **best_target,
-                                            struct tile **best_tile,
+                                            struct worker_task **best_task,
                                             struct pf_path **path,
                                             struct settlermap *state)
 {
@@ -762,9 +760,7 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
 
   /* Have nearby cities requests? */
   city_list_iterate(pplayer->cities, pcity) {
-    struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
-
-    if (ptask != NULL) {
+    worker_task_list_iterate(pcity->task_reqs, ptask) {
       bool consider = TRUE;
 
       /* Do not go to tiles that already have workers there. */
@@ -814,14 +810,10 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
           }
         }
       }
-    }
+    } worker_task_list_iterate_end;
   } city_list_iterate_end;
 
-  if (best != NULL) {
-    *best_act = best->act;
-    *best_target = best->tgt;
-    *best_tile = best->ptile;
-  }
+  *best_task = best;
 
   if (path != NULL) {
     *path = best ? pf_map_path(pfm, best->ptile) : NULL;
@@ -841,6 +833,7 @@ void auto_settler_findwork(struct player *pplayer,
                            struct settlermap *state,
                            int recursion)
 {
+  struct worker_task *best_task;
   enum unit_activity best_act;
   struct tile *best_tile = NULL;
   struct extra_type *best_target;
@@ -866,8 +859,7 @@ void auto_settler_findwork(struct player *pplayer,
 
   /* Have nearby cities requests? */
 
-  taskcity = settler_evaluate_city_requests(punit, &best_act, &best_target,
-                                            &best_tile, &path, state);
+  taskcity = settler_evaluate_city_requests(punit, &best_task, &path, state);
 
   if (taskcity != NULL) {
     if (path != NULL) {
@@ -876,10 +868,12 @@ void auto_settler_findwork(struct player *pplayer,
 
     adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
 
+    best_target = best_task->tgt;
+
     if (auto_settler_setup_work(pplayer, punit, state, recursion,
-                                path, best_tile, best_act,
+                                path, best_task->ptile, best_task->act,
                                 &best_target, completion_time)) {
-      clear_worker_task(taskcity);
+      clear_worker_task(taskcity, best_task);
     }
 
     if (path != NULL) {
