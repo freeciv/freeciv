@@ -154,7 +154,6 @@ Actions done by a unit against a city
 "Poison City" - Kill a citizen in the target city.
  * UI name can be set using ui_name_poison_city
  * actor must be on the same tile as the target or on the tile next to it.
- * target must be foreign.
 
 "Steal Tech" - Steal a random tech from the targets owner.
  * UI name can be set using ui_name_steal_tech
