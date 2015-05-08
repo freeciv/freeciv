@@ -881,24 +881,52 @@ bool are_requirements_opposites(const struct requirement *req1,
 bool are_requirements_contradictions(const struct requirement *req1,
                                      const struct requirement *req2)
 {
-  if (req1->source.kind == VUT_DIPLREL
-      && req2->source.kind == VUT_DIPLREL) {
-    /* Use the special knowledge about DiplRel requirements to find
-     * contradictions. */
+  switch (req1->source.kind) {
+  case VUT_DIPLREL:
+    if (req2->source.kind != VUT_DIPLREL) {
+      /* Finding contradictions across requirement kinds aren't supported
+       * for DiplRel requirements. */
+      return FALSE;
+    } else {
+      /* Use the special knowledge about DiplRel requirements to find
+       * contradictions. */
 
-    bv_diplrel_all_reqs req1_contra;
-    int req2_pos;
+      bv_diplrel_all_reqs req1_contra;
+      int req2_pos;
 
-    req1_contra = diplrel_req_contradicts(req1);
-    req2_pos = requirement_diplrel_ereq(req2->source.value.diplrel,
-                                        req2->range,
-                                        req2->present);
+      req1_contra = diplrel_req_contradicts(req1);
+      req2_pos = requirement_diplrel_ereq(req2->source.value.diplrel,
+                                          req2->range,
+                                          req2->present);
 
-    return BV_ISSET(req1_contra, req2_pos);
-  } else {
+      return BV_ISSET(req1_contra, req2_pos);
+    }
+    break;
+  case VUT_MINMOVES:
+    if (req2->source.kind != VUT_MINMOVES) {
+      /* Finding contradictions across requirement kinds aren't supported
+       * for MinMoveFrags requirements. */
+      return FALSE;
+    } else if (req1->present == req2->present) {
+      /* No contradiction possible. */
+      return FALSE;
+    } else {
+      /* Number of move fragments left can't be larger than the number
+       * required to be present and smaller than the number required to not
+       * be present when the number required to be present is smaller than
+       * the number required to not be present. */
+      if (req1->present) {
+        return req1->source.value.minmoves > req2->source.value.minmoves;
+      } else {
+        return req1->source.value.minmoves < req2->source.value.minmoves;
+      }
+    }
+    break;
+  default:
     /* No special knowledge exists. All that can be done is to detect if
      * the requirements are opposite to each other. */
     return are_requirements_opposites(req1, req2);
+    break;
   }
 }
 
