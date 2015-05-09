@@ -1252,6 +1252,7 @@ build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
+hidden_by      = "Fortress"
 flags          = "NativeTile"
 ; /* xgettext:no-c-format */
 helptext       = _("\
@@ -1285,7 +1286,6 @@ build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
-hidden_by      = "Fortress"
 flags          = "NativeTile"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
