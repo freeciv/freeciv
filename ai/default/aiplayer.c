@@ -20,6 +20,9 @@
 #include "city.h"
 #include "unit.h"
 
+/* server */
+#include "citytools.h"
+
 /* ai/default */
 #include "aidata.h"
 #include "advmilitary.h"
@@ -143,6 +146,11 @@ void dai_gained_control(struct ai_type *ait, struct player *pplayer)
       pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
     } multipliers_iterate_end;
   }
+
+  /* Clear worker tasks, classic AI does not use those */
+  city_list_iterate(pplayer->cities, pcity) {
+    clear_worker_tasks(pcity);
+  } city_list_iterate_end;
 
   dai_assess_danger_player(ait, pplayer);
 }
