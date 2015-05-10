@@ -475,7 +475,7 @@ void mpgui_main::popup_quit_dialog()
   QMessageBox ask(central);
   int ret;
 
-  ask.setText(("Modpack installation in progress.\nAre you sure you want to quit?"));
+  ask.setText(_("Modpack installation in progress.\nAre you sure you want to quit?"));
   ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask.setDefaultButton(QMessageBox::Cancel);
   ask.setIcon(QMessageBox::Warning);
