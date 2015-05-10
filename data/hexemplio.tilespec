@@ -48,7 +48,7 @@ activity_offset_x = 0
 activity_offset_y = 0
 
 ; offset the cities by this amount
-city_offset_x = 0
+city_offset_x = 15
 city_offset_y = 20
 
 ; offset the city bar text by this amount (from the city tile origin)
