@@ -122,6 +122,8 @@ options include:
   unit_flag_offset_y     draw flags behind units or cities. With isometric
   city_flag_offset_x     tilesets this should be non-zero so that the flag
   city_flag_offset_y     is placed correctly behind the unit/city.
+  occupied_offset_x    : Gives an offset form the tile origin at which to
+  occupied_offset_y      draw city occupied icon (in many tilesets placed above the flag)
   unit_offset_x        : Gives an offset from the tile origin at which to
   unit_offset_y          draw units.
   activity_offset_x    : Gives an offset from the tile origin at which to

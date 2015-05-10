@@ -40,6 +40,10 @@ unit_flag_offset_y = 39
 city_flag_offset_x = 42
 city_flag_offset_y = 10
 
+; offset the city occupied sprite by this amount
+occupied_offset_x = 40
+occupied_offset_y = 1
+
 ; offset the units by this amount
 unit_offset_x = 34
 unit_offset_y = 38

@@ -482,6 +482,8 @@ struct tileset {
   int tilelabel_offset_y;
   int activity_offset_x;
   int activity_offset_y;
+  int occupied_offset_x;
+  int occupied_offset_y;
 
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
@@ -1716,6 +1718,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                              "tilespec.citybar_offset_y")
       || !secfile_lookup_int(file, &t->tilelabel_offset_y,
                              "tilespec.tilelabel_offset_y")
+      || !secfile_lookup_int(file, &t->occupied_offset_x,
+                             "tilespec.occupied_offset_x")
+      || !secfile_lookup_int(file, &t->occupied_offset_y,
+                             "tilespec.occupied_offset_y")
       || !secfile_lookup_int(file, &t->city_names_font_size,
                              "tilespec.city_names_font_size")
       || !secfile_lookup_int(file, &t->city_productions_font_size,
@@ -5165,7 +5171,9 @@ int fill_sprite_array(struct tileset *t,
         }
       }
       if (!options.draw_full_citybar && pcity->client.occupied) {
-	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.occupied, pcity));
+	ADD_SPRITE(get_city_sprite(t->sprites.city.occupied, pcity), TRUE,
+                   FULL_TILE_X_OFFSET + t->occupied_offset_x,
+                   FULL_TILE_Y_OFFSET + t->occupied_offset_y);
       }
       if (t->type == TS_OVERHEAD && pcity->client.walls > 0) {
         struct city_sprite *cspr = t->sprites.city.wall[pcity->client.walls - 1];
