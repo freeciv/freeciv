@@ -203,6 +203,10 @@ AC_ARG_WITH([project-definition],
 
 AC_DEFINE_UNQUOTED([FREECIV_META_URL], ["$META_URL"], [Metaserver URL])
 
+if test "x$MODPACK_LIST_URL" != "x" ; then
+  AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${MODPACK_LIST_URL}"], [Default modpack list URL])
+fi
+
 AC_ARG_WITH([readline],
   AS_HELP_STRING([--with-readline], [support fancy command line editing]),
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
@@ -214,13 +218,6 @@ AC_ARG_WITH([followtag],
   AS_HELP_STRING([--with-followtag], [version tag to follow]),
 [FOLLOWTAG=${withval}])
 AC_DEFINE_UNQUOTED([FOLLOWTAG], ["${FOLLOWTAG}"], [Version tag to follow])
-
-AC_ARG_WITH([modlist],
-  AS_HELP_STRING([--with-modlist], [default modlist URL]),
-[modlist_url=${withval}])
-if test "x$modlist_url" != "x" ; then
-  AC_DEFINE_UNQUOTED([MODPACK_LIST_URL], ["${modlist_url}"], [Default modpack list URL])
-fi
 
 AC_ARG_WITH([desktopdir],
   AS_HELP_STRING([--with-desktopdir], [install desktop files to given dir]),
