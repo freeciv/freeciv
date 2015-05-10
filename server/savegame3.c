@@ -611,12 +611,6 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->trait.size = -1;
   loading->extra.order = NULL;
   loading->extra.size = -1;
-  loading->special.order = NULL;
-  loading->special.size = -1;
-  loading->base.order = NULL;
-  loading->base.size = -1;
-  loading->road.order = NULL;
-  loading->road.size = -1;
   loading->specialist.order = NULL;
   loading->specialist.size = -1;
 
@@ -646,18 +640,6 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->extra.order != NULL) {
     free(loading->extra.order);
-  }
-
-  if (loading->special.order != NULL) {
-    free(loading->special.order);
-  }
-
-  if (loading->base.order != NULL) {
-    free(loading->base.order);
-  }
-
-  if (loading->road.order != NULL) {
-    free(loading->road.order);
   }
 
   if (loading->specialist.order != NULL) {
@@ -1395,111 +1377,6 @@ static void sg_load_savefile(struct loaddata *loading)
     }
   }
 
-  /* Load specials. */
-  loading->special.size
-    = secfile_lookup_int_default(loading->file, 0,
-                                 "savefile.specials_size");
-  if (loading->special.size) {
-    const char **modname;
-    size_t nmod;
-    enum tile_special_type j;
-
-    modname = secfile_lookup_str_vec(loading->file, &loading->special.size,
-                                     "savefile.specials_vector");
-    sg_failure_ret(loading->special.size != 0,
-                   "Failed to load specials order: %s",
-                   secfile_error());
-    /* make sure that the size of the array is divisible by 4 */
-    /* Allocating extra 4 slots, just a couple of bytes,
-     * in case of special.size being divisible by 4 already is intentional.
-     * Added complexity would cost those couple of bytes in code size alone,
-     * and we actually need at least one slot immediately after last valid
-     * one. That's where S_LAST is (or was in version that saved the game)
-     * and in some cases S_LAST gets written to savegame, at least as
-     * activity target special when activity targets some base or road
-     * instead. By having current S_LAST in that index allows us to map
-     * that old S_LAST to current S_LAST, just like any real special within
-     * special.size gets mapped. */
-    nmod = loading->special.size + (4 - (loading->special.size % 4));
-    loading->special.order = fc_calloc(nmod,
-                                       sizeof(*loading->special.order));
-    for (j = 0; j < loading->special.size; j++) {
-      if (!strcasecmp("Road", modname[j])) {
-        loading->special.order[j] = S_OLD_ROAD;
-      } else if (!strcasecmp("Railroad", modname[j])) {
-        loading->special.order[j] = S_OLD_RAILROAD;
-      } else if (!strcasecmp("River", modname[j])) {
-        loading->special.order[j] = S_OLD_RIVER;
-      } else {
-        loading->special.order[j] = special_by_rule_name(modname[j]);
-      }
-    }
-    free(modname);
-    for (; j < nmod; j++) {
-      loading->special.order[j] = S_LAST;
-    }
-  }
-
-  /* Load bases. */
-  loading->base.size
-    = secfile_lookup_int_default(loading->file, 0,
-                                 "savefile.bases_size");
-  if (loading->base.size) {
-    const char **modname;
-    size_t nmod;
-    int j;
-
-    modname = secfile_lookup_str_vec(loading->file, &loading->base.size,
-                                     "savefile.bases_vector");
-    sg_failure_ret(loading->base.size != 0,
-                   "Failed to load bases order: %s",
-                   secfile_error());
-    sg_failure_ret(!(game.control.num_base_types < loading->base.size),
-                   "Number of bases defined by the ruleset (= %d) are "
-                   "lower than the number in the savefile (= %d).",
-                   game.control.num_base_types, (int)loading->base.size);
-    /* make sure that the size of the array is divisible by 4 */
-    nmod = 4 * ((loading->base.size + 3) / 4);
-    loading->base.order = fc_calloc(nmod, sizeof(*loading->base.order));
-    for (j = 0; j < loading->base.size; j++) {
-      loading->base.order[j] = base_type_by_rule_name(modname[j]);
-    }
-    free(modname);
-    for (; j < nmod; j++) {
-      loading->base.order[j] = NULL;
-    }
-  }
-
-  /* Load roads. */
-  loading->road.size
-    = secfile_lookup_int_default(loading->file, 0,
-                                 "savefile.roads_size");
-  if (loading->road.size) {
-    const char **modname;
-    size_t nmod;
-    int j;
-
-    modname = secfile_lookup_str_vec(loading->file, &loading->road.size,
-                                     "savefile.roads_vector");
-    sg_failure_ret(loading->road.size != 0,
-                   "Failed to load roads order: %s",
-                   secfile_error());
-    sg_failure_ret(!(game.control.num_road_types < loading->road.size),
-                   "Number of roads defined by the ruleset (= %d) are "
-                   "lower than the number in the savefile (= %d).",
-                   game.control.num_road_types, (int)loading->road.size);
-    /* make sure that the size of the array is divisible by 4 */
-    nmod = 4 * ((loading->road.size + 3) / 4);
-    loading->road.order = fc_calloc(nmod, sizeof(*loading->road.order));
-    for (j = 0; j < loading->road.size; j++) {
-      loading->road.order[j] = road_type_by_rule_name(modname[j]);
-    }
-    free(modname);
-    for (; j < nmod; j++) {
-      loading->road.order[j] = NULL;
-    }
-  }
-
   /* Load specialists. */
   loading->specialist.size
     = secfile_lookup_int_default(loading->file, 0,
@@ -1787,9 +1664,9 @@ static void sg_load_game(struct loaddata *loading)
   /* Load version. */
   game_version
     = secfile_lookup_int_default(loading->file, 0, "game.version");
-  /* We require at least version 2.2.99 */
-  sg_failure_ret(20299 <= game_version, "Saved game is too old, at least "
-                                        "version 2.2.99 required.");
+  /* We require at least version 2.90.99 */
+  sg_failure_ret(29099 <= game_version, "Saved game is too old, at least "
+                                        "version 2.90.99 required.");
 
   /* Load server state. */
   string = secfile_lookup_str_default(loading->file, "S_S_INITIAL",
@@ -3607,12 +3484,6 @@ static void sg_load_player_main(struct loaddata *loading,
 
     string = secfile_lookup_str(loading->file, "player%d.style_by_name", plrno);
 
-    /* Handle pre-2.6 savegames */
-    if (string == NULL) {
-      string = secfile_lookup_str(loading->file, "player%d.city_style_by_name",
-                                  plrno);
-    }
-
     sg_failure_ret(string != NULL, "%s", secfile_error());
     style = style_by_rule_name(string);
     if (style == NULL) {
@@ -3629,11 +3500,9 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->is_alive,
                                      "player%d.is_alive", plrno),
                  "%s", secfile_error());
-  /* Pre-2.6 didn't record when a player was created or died, so we have
-   * to assume they lived from the start of the game until last turn */
-  plr->turns_alive = secfile_lookup_int_default(loading->file,
-                                                game.info.turn,
-                                                "player%d.turns_alive", plrno);
+  sg_failure_ret(secfile_lookup_int(loading->file, &plr->turns_alive,
+                                    "player%d.turns_alive", plrno),
+                 "%s", secfile_error());
   plr->last_war_action = secfile_lookup_int_default(loading->file, -1,
                                                     "player%d.last_war", plrno);
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.gold,
@@ -4770,14 +4639,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int j;
   enum unit_activity activity;
   int nat_x, nat_y;
-  enum tile_special_type target;
   struct extra_type *pextra = NULL;
-  struct base_type *pbase = NULL;
-  struct road_type *proad = NULL;
   struct tile *ptile;
   int extra_id;
-  int base_id;
-  int road_id;
   int ei;
   const char *facing_str;
   enum tile_special_type cfspe;
@@ -4882,109 +4746,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       set_unit_activity(punit, activity);
     }
   } else {
-    /* extra_id == -2 -> activity_tgt not set */
-    base_id = secfile_lookup_int_default(loading->file, -1,
-                                      "%s.activity_base", unitstr);
-    if (base_id >= 0 && base_id < loading->base.size) {
-      pbase = loading->base.order[base_id];
-    }
-    road_id = secfile_lookup_int_default(loading->file, -1,
-                                      "%s.activity_road", unitstr);
-    if (road_id >= 0 && road_id < loading->road.size) {
-      proad = loading->road.order[road_id];
-    }
-
-    {
-      int tgt_no = secfile_lookup_int_default(loading->file,
-                                              loading->special.size /* S_LAST */,
-                                              "%s.activity_target", unitstr);
-      if (tgt_no >= 0 && tgt_no < loading->special.size) {
-        target = loading->special.order[tgt_no];
-      } else {
-        target = S_LAST;
-      }
-    }
-
-    /* We need changed_from == ACTIVITY_IDLE by now so that
-     * set_unit_activity() and friends don't spuriously restore activity
-     * points -- unit should have been created this way */
-    fc_assert(punit->changed_from == ACTIVITY_IDLE);
-
-    if (activity == ACTIVITY_BASE) {
-      if (pbase) {
-        set_unit_activity_base(punit, base_number(pbase));
-      } else {
-        log_sg("Cannot find base %d for %s to build",
-               base_id, unit_rule_name(punit));
-        set_unit_activity(punit, ACTIVITY_IDLE);
-      }
-    } else if (activity == ACTIVITY_GEN_ROAD) {
-      if (proad) {
-        set_unit_activity_road(punit, road_number(proad));
-      } else {
-        log_sg("Cannot find road %d for %s to build",
-               road_id, unit_rule_name(punit));
-        set_unit_activity(punit, ACTIVITY_IDLE);
-      }
-    } else if (activity == ACTIVITY_PILLAGE) {
-      struct extra_type *a_target;
-
-      if (target != S_LAST) {
-        a_target = special_extra_get(target);
-      } else if (pbase != NULL) {
-        a_target = base_extra_get(pbase);
-      } else if (proad != NULL) {
-        a_target = road_extra_get(proad);
-      } else {
-        a_target = NULL;
-      }
-      /* An out-of-range base number is seen with old savegames. We take
-       * it as indicating undirected pillaging. We will assign pillage
-       * targets before play starts. */
-      set_unit_activity_targeted(punit, activity, a_target);
-    } else if (activity == ACTIVITY_IRRIGATE) {
-      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                   EC_IRRIGATION,
-                                                   unit_owner(punit),
-                                                   punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
-      }
-    } else if (activity == ACTIVITY_MINE) {
-      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                   EC_MINE,
-                                                   unit_owner(punit),
-                                                   punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
-      }
-    } else if (activity == ACTIVITY_POLLUTION) {
-      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANPOLLUTION,
-                                                  unit_owner(punit),
-                                                  punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_POLLUTION, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_POLLUTION, NULL);
-      }
-    } else if (activity == ACTIVITY_FALLOUT) {
-      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANFALLOUT,
-                                                  unit_owner(punit),
-                                                  punit);
-      if (tgt != NULL) {
-        set_unit_activity_targeted(punit, ACTIVITY_FALLOUT, tgt);
-      } else {
-        set_unit_activity_targeted(punit, ACTIVITY_FALLOUT, NULL);
-      }
-    } else {
-      set_unit_activity_targeted(punit, activity, NULL);
-    }
+    set_unit_activity_targeted(punit, activity, NULL);
   } /* activity_tgt == NULL */
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->activity_count,
@@ -5010,18 +4772,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
     cfspe =
       secfile_lookup_int_default(loading->file, S_LAST,
                                  "%s.changed_from_target", unitstr);
-    base_id =
-      secfile_lookup_int_default(loading->file, -1,
-                                 "%s.changed_from_base", unitstr);
-    road_id =
-      secfile_lookup_int_default(loading->file, -1,
-                                 "%s.changed_from_road", unitstr);
 
-    if (base_id >= 0 && base_id < loading->base.size) {
-      punit->changed_from_target = base_extra_get(loading->base.order[base_id]);
-    } else if (road_id >= 0 && road_id < loading->road.size) {
-      punit->changed_from_target = road_extra_get(loading->road.order[road_id]);
-    } else if (cfspe != S_LAST) {
+    if (cfspe != S_LAST) {
       punit->changed_from_target = special_extra_get(cfspe);
     } else {
       punit->changed_from_target = NULL;
@@ -5165,8 +4917,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr;
       const char *tgt_unitstr;
-      const char *base_unitstr = NULL;
-      const char *road_unitstr = NULL;
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -5191,13 +4941,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                      "%s.activity_list", unitstr);
       tgt_unitstr
         = secfile_lookup_str_default(loading->file, NULL, "%s.tgt_list", unitstr);
-
-      if (tgt_unitstr == NULL) {
-        base_unitstr
-          = secfile_lookup_str(loading->file, "%s.base_list", unitstr);
-        road_unitstr
-          = secfile_lookup_str_default(loading->file, NULL, "%s.road_list", unitstr);
-      }
 
       punit->has_orders = TRUE;
       for (j = 0; j < len; j++) {
@@ -5234,37 +4977,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
             } else {
               order->target = extra_id;
             }
-          } else {
-            order->target = EXTRA_NONE;
-          }
-        } else {
-          /* In pre-2.6 savegames, base_list and road_list were only saved
-           * for those activities (and not e.g. pillaging) */
-          if (base_unitstr && base_unitstr[j] != '?'
-              && order->activity == ACTIVITY_BASE) {
-            base_id = char2num(base_unitstr[j]);
-
-            if (base_id < 0 || base_id >= loading->base.size) {
-              log_sg("Cannot find base %d for %s to build",
-                     base_id, unit_rule_name(punit));
-              base_id = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS,
-                                                         NULL, NULL));
-            }
-
-            order->target
-              = extra_number(base_extra_get(base_by_number(base_id)));
-          } else if (road_unitstr && road_unitstr[j] != '?'
-                     && order->activity == ACTIVITY_GEN_ROAD) {
-            road_id = char2num(road_unitstr[j]);
-
-            if (road_id < 0 || road_id >= loading->road.size) {
-              log_sg("Cannot find road %d for %s to build",
-                     road_id, unit_rule_name(punit));
-              road_id = 0;
-            }
-
-            order->target
-              = extra_number(road_extra_get(road_by_number(road_id)));
           } else {
             order->target = EXTRA_NONE;
           }

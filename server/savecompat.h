@@ -67,17 +67,20 @@ struct loaddata {
     struct extra_type **order;
     size_t size;
   } extra;
-  /* loaded in sg_load_savefile(); needed in sg_load_map(), ... */
+  /* loaded in sg_load_savefile(); needed in sg_load_map(), ...
+   * Deprecated in 3.0 (savegame3.c) */
   struct {
     enum tile_special_type *order;
     size_t size;
   } special;
-  /* loaded in sg_load_savefile(); needed in sg_load_map(), ... */
+  /* loaded in sg_load_savefile(); needed in sg_load_map(), ...
+   * Deprecated in 3.0 (savegame3.c) */
   struct {
     struct base_type **order;
     size_t size;
   } base;
-  /* loaded in sg_load_savefile(); needed in sg_load_map(), ... */
+  /* loaded in sg_load_savefile(); needed in sg_load_map(), ...
+   * Deprecated in 3.0 (savegame3.c) */
   struct {
     struct road_type **order;
     size_t size;
