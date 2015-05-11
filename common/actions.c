@@ -351,18 +351,6 @@ void action_enabler_add(struct action_enabler *enabler)
 }
 
 /**************************************************************************
-  Some actions have hard requirements that can be expressed as normal
-  requirement vectors. Append those to the action enabler so the action
-  struct won't need those fields.
-
-  Reconsider this choice if many enablers for each action should become
-  common.
-**************************************************************************/
-void action_enabler_append_hard(struct action_enabler *enabler)
-{
-}
-
-/**************************************************************************
   Get all enablers for an action.
 **************************************************************************/
 struct action_enabler_list *
