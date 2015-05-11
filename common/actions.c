@@ -411,22 +411,6 @@ void action_enabler_add(struct action_enabler *enabler)
 **************************************************************************/
 void action_enabler_append_hard(struct action_enabler *enabler)
 {
-  if (enabler->action != ACTION_TRADE_ROUTE
-      && enabler->action != ACTION_MARKETPLACE
-      && enabler->action != ACTION_HELP_WONDER
-      && enabler->action != ACTION_SPY_POISON
-      && enabler->action != ACTION_SPY_SABOTAGE_CITY
-      && enabler->action != ACTION_SPY_TARGETED_SABOTAGE_CITY
-      && enabler->action != ACTION_SPY_SABOTAGE_UNIT
-      && enabler->action != ACTION_JOIN_CITY
-      && enabler->action != ACTION_FOUND_CITY) {
-    /* The Freeciv code assumes that all spy actions have foreign targets.
-     * TODO: Move this restriction to the ruleset to prepare for false flag
-     * operations. */
-    requirement_vector_append(&enabler->actor_reqs,
-                              req_from_str("DiplRel", "Local", FALSE,
-                                           TRUE, "Is foreign"));
-  }
 }
 
 /**************************************************************************
@@ -498,6 +482,26 @@ static bool is_action_possible(const enum gen_action wanted_action,
      * a tile that is controlled by action enablers assumes that the acting
      * player can see the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_ESTABLISH_EMBASSY
+      || wanted_action == ACTION_SPY_INVESTIGATE_CITY
+      || wanted_action == ACTION_SPY_STEAL_GOLD
+      || wanted_action == ACTION_SPY_STEAL_TECH
+      || wanted_action == ACTION_SPY_TARGETED_STEAL_TECH
+      || wanted_action == ACTION_SPY_INCITE_CITY
+      || wanted_action == ACTION_SPY_BRIBE_UNIT
+      || wanted_action == ACTION_CAPTURE_UNITS) {
+    /* Why this is a hard requirement: There is currently no point in
+     * allowing the listed actions against domestic targets.
+     * (Possible counter argument: crazy hack involving the Lua callback
+     * action_started_callback() to use an action to do something else. */
+    /* Info leak: The actor player knows what targets he owns. */
+    /* TODO: Move this restriction to the ruleset as a part of false flag
+     * operation support. */
+    if (actor_player == target_player) {
       return FALSE;
     }
   }
