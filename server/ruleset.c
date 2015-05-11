@@ -5323,12 +5323,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
           requirement_vector_copy(&enabler->target_reqs, target_reqs);
 
-          /* Append the actions hard requirements when the rules are loaded
-           * to play the game. */
-          if (act) {
-            action_enabler_append_hard(enabler);
-          }
-
           action_enabler_add(enabler);
         } section_list_iterate_end;
         section_list_destroy(sec);
