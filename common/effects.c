@@ -919,6 +919,10 @@ void get_effect_req_text(const struct effect *peffect,
 {
   buf[0] = '\0';
 
+  if (peffect->multiplier) {
+    fc_strlcat(buf, multiplier_name_translation(peffect->multiplier), buf_len);
+  }
+
   /* FIXME: should we do something for present==FALSE reqs?
    * Currently we just ignore them. */
   requirement_vector_iterate(&peffect->reqs, preq) {
