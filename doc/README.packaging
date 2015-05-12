@@ -21,6 +21,7 @@ Updating from 2.6 to 3.0
 * Tinycthreads can be used as threading implementation. Copy of tinycthreads
   can be compiled in to freeciv by configuring with --with-tinycthread.
 * libicu is a new hard requirement
+* Minimum gettext version is now 0.15
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
