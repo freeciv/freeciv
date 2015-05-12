@@ -265,7 +265,7 @@ struct player {
 
   struct rgbcolor *rgb;
 
-  int multipliers[MAX_MULTIPLIERS_COUNT];
+  int multipliers[MAX_NUM_MULTIPLIERS];
 
   int culture; /* National level culture - does not include culture of individual
                 * cities. */

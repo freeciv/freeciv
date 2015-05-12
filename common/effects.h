@@ -306,7 +306,8 @@ struct effect {
   TYPED_LIST_ITERATE(struct effect, effect_list, peffect)
 #define effect_list_iterate_end LIST_ITERATE_END
 
-struct effect *effect_new(enum effect_type type, int value);
+struct effect *effect_new(enum effect_type type, int value,
+                          struct multiplier *pmul);
 struct effect *effect_copy(struct effect *old);
 void effect_req_append(struct effect *peffect, struct requirement req);
 

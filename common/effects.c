@@ -168,7 +168,8 @@ struct effect_list *get_req_source_effects(struct universal *psource)
 /**************************************************************************
   Add effect to ruleset cache.
 **************************************************************************/
-struct effect *effect_new(enum effect_type type, int value)
+struct effect *effect_new(enum effect_type type, int value,
+                          struct multiplier *pmul)
 {
   struct effect *peffect;
 
@@ -176,7 +177,7 @@ struct effect *effect_new(enum effect_type type, int value)
   peffect = fc_malloc(sizeof(*peffect));
   peffect->type = type;
   peffect->value = value;
-  peffect->multiplier = NULL;
+  peffect->multiplier = pmul;
 
   requirement_vector_init(&peffect->reqs);
 
@@ -192,9 +193,8 @@ struct effect *effect_new(enum effect_type type, int value)
 **************************************************************************/
 struct effect *effect_copy(struct effect *old)
 {
-  struct effect *new_eff = effect_new(old->type, old->value);
-
-  new_eff->multiplier = old->multiplier;
+  struct effect *new_eff = effect_new(old->type, old->value,
+                                      old->multiplier);
 
   requirement_vector_iterate(&old->reqs, preq) {
     effect_req_append(new_eff, *preq);
@@ -362,7 +362,7 @@ void recv_ruleset_effect(const struct packet_ruleset_effect *packet)
   struct effect *peffect;
   int i;
 
-  peffect = effect_new(packet->effect_type, packet->effect_value);
+  peffect = effect_new(packet->effect_type, packet->effect_value, NULL);
 
   for (i = 0; i < packet->reqs_count; i++) {
     effect_req_append(peffect, packet->reqs[i]);

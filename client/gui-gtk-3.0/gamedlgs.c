@@ -56,7 +56,7 @@ static GtkWidget *rates_tax_label, *rates_lux_label, *rates_sci_label;
 static GtkWidget *rates_tax_scale, *rates_lux_scale, *rates_sci_scale;
 
 GtkWidget *multiplier_dialog_shell;
-GtkWidget *multipliers_scale[MAX_MULTIPLIERS_COUNT];
+GtkWidget *multipliers_scale[MAX_NUM_MULTIPLIERS];
 
 static gulong     rates_tax_sig, rates_lux_sig, rates_sci_sig;
 /******************************************************************/
@@ -226,14 +226,14 @@ static void multipliers_command_callback(GtkWidget *w, gint response_id)
   int value, rvalue;
 
   if (response_id == GTK_RESPONSE_OK) {
-    for (; i < get_multiplier_count(); ++i) {
+    for (; i < multiplier_count(); ++i) {
       value  = gtk_range_get_value(GTK_RANGE(multipliers_scale[i]));
       m = multiplier_by_number(i);
       rvalue = (value - m->start)  / m->step * m->step + m->start;
       pplayer->multipliers[i] = rvalue;
       mul.multipliers[i] = rvalue;
     }
-    mul.count = get_multiplier_count();
+    mul.count = multiplier_count();
     send_packet_player_multiplier(&client.conn, &mul);
   }
   gtk_widget_destroy(multiplier_dialog_shell);

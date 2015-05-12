@@ -292,7 +292,7 @@ void rscompat_postprocess(struct rscompat_info *info)
   if (info->ver_effects < 10) {
     /* The reduced one time trade bonus of Enter Marketplace (compared to
      * Establish Trade Route) has moved to the ruleset. */
-    struct effect *peffect = effect_new(EFT_TRADE_REVENUE_BONUS, -1585);
+    struct effect *peffect = effect_new(EFT_TRADE_REVENUE_BONUS, -1585, NULL);
 
     /* The reduction only applies to Enter Marketplace. */
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
@@ -300,7 +300,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     /* The fudge factor to more closely approximate Civ2 behavior has
      * moved to the ruleset. */
-     peffect = effect_new(EFT_TRADE_REVENUE_BONUS, 1585);
+     peffect = effect_new(EFT_TRADE_REVENUE_BONUS, 1585, NULL);
   }
 
   /* Upgrade existing effects. */

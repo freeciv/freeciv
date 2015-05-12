@@ -2194,7 +2194,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     rgbcolor_destroy(prgbcolor);
 
     /* multipliers (policies) */
-    i = get_multiplier_count();
+    i = multiplier_count();
 
     for (k = 0; k < i; k++) {
       pplayer->multipliers[k] = secfile_lookup_int_default(loading->file,

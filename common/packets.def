@@ -276,6 +276,7 @@ type CONNECTION         = SINT16
 type CONTINENT          = sint16(Continent_id)
 type GOVERNMENT         = UINT8
 type IMPROVEMENT        = uint8(Impr_type_id)
+type MULTIPLIER         = uint8(Multiplier_type_id)
 type NATION             = sint16(Nation_type_id)
 type PLAYER             = UINT8
 type RESEARCH           = UINT8
@@ -797,7 +798,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
 
   CITYSPE wonders[B_LAST]; diff
   
-  UINT32 multiplier[MAX_MULTIPLIERS_COUNT];
+  SINT32 multiplier[MAX_NUM_MULTIPLIERS];
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend
@@ -834,8 +835,8 @@ PACKET_PLAYER_DIPLSTATE = 59; sc
 end
 
 PACKET_PLAYER_MULTIPLIER = 242; cs
-  SINT32 multipliers[MAX_MULTIPLIERS_COUNT];
-  UINT32 count;
+  UINT16 count;
+  SINT32 multipliers[MAX_NUM_MULTIPLIERS:count];
 end
 
 /************** Research packets **********************/
@@ -1655,6 +1656,7 @@ PACKET_RULESET_MUSIC = 240; sc, lsend
 end
 
 PACKET_RULESET_MULTIPLIER = 243; sc, dsend, lsend
+  MULTIPLIER id;
   SINT32 start;
   SINT32 stop;
   UINT32 step;
@@ -1681,6 +1683,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_goods_types;
   UINT16 num_disaster_types;
   UINT16 num_achievement_types;
+  UINT16 num_multipliers;
   UINT16 num_styles;
   UINT16 num_music_styles;
   UINT16 government_count;

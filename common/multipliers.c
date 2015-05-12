@@ -16,78 +16,114 @@
 #endif
 
 /* common */
+#include "game.h"
+
 #include "multipliers.h"
 
-static struct multiplier multipliers[MAX_MULTIPLIERS_COUNT];
-static int multiplier_count;
-static int multiplier_used;
+static struct multiplier multipliers[MAX_NUM_MULTIPLIERS];
 
-/***************************************************************
- Returns multiplier associated to given number
-***************************************************************/
-struct multiplier *multiplier_by_number(int id)
+/****************************************************************************
+  Initialize all multipliers
+****************************************************************************/
+void multipliers_init(void)
 {
-  fc_assert_ret_val(id >= 0 && id < multiplier_count, NULL);
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(multipliers); i++) {
+    name_init(&multipliers[i].name);
+    multipliers[i].helptext = NULL;
+  }
+}
+
+/****************************************************************************
+  Free all multipliers
+****************************************************************************/
+void multipliers_free(void)
+{
+  multipliers_iterate(pmul) {
+    if (pmul->helptext) {
+      strvec_destroy(pmul->helptext);
+      pmul->helptext = NULL;
+    }
+  } multipliers_iterate_end;
+}
+
+/****************************************************************************
+  Returns multiplier associated to given number
+****************************************************************************/
+struct multiplier *multiplier_by_number(Multiplier_type_id id)
+{
+  fc_assert_ret_val(id >= 0 && id < game.control.num_multipliers, NULL);
 
   return &multipliers[id];
 }
 
-/***************************************************************
- Returns array index(multipliers array) of given multiplier
-***************************************************************/
-int multiplier_index(const struct multiplier *pmul)
+/****************************************************************************
+  Returns multiplier number.
+****************************************************************************/
+Multiplier_type_id multiplier_number(const struct multiplier *pmul)
 {
   fc_assert_ret_val(NULL != pmul, -1);
 
   return pmul - multipliers;
 }
 
-/***************************************************************
- Initializes first free multiplier in multipliers array
- and returns pointer to it.
-***************************************************************/
-struct multiplier *multiplier_new(void)
+/****************************************************************************
+  Returns multiplier index.
+
+  Currently same as multiplier_number(), paired with multiplier_count()
+  indicates use as an array index.
+****************************************************************************/
+Multiplier_type_id multiplier_index(const struct multiplier *pmul)
 {
-  struct multiplier *mul = &multipliers[multiplier_used];
-
-  multiplier_used++;
-
-  mul->start = 0;
-  mul->stop  = 0;
-  mul->step  = 0;
-  mul->def   = 0;
-
-  return mul;
+  return multiplier_number(pmul);
 }
 
-/***************************************************************
- Initialize all multipliers
-***************************************************************/
-void multipliers_init(void)
+/****************************************************************************
+  Return number of loaded multipliers in the ruleset.
+****************************************************************************/
+Multiplier_type_id multiplier_count(void)
 {
-  multiplier_count = 0;
-  multiplier_used = 0;
+  return game.control.num_multipliers;
 }
 
-/***************************************************************
- Free all multipliers
-***************************************************************/
-void multipliers_free(void)
+/**************************************************************************
+  Return the (translated) name of the multiplier.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *multiplier_name_translation(const struct multiplier *pmul)
 {
+  return name_translation(&pmul->name);
 }
 
-/***************************************************************
- Set number of loaded multipliers.
-***************************************************************/
-void set_multiplier_count(int count)
+/**************************************************************************
+  Return the (untranslated) rule name of the multiplier.
+  You don't have to free the return pointer.
+**************************************************************************/
+const char *multiplier_rule_name(const struct multiplier *pmul)
 {
-  multiplier_count = count;
+  return rule_name(&pmul->name);
 }
 
-/***************************************************************
- Returns number of loaded multipliers.
-***************************************************************/
-int get_multiplier_count(void)
+/**************************************************************************
+  Returns multiplier matching rule name, or NULL if there is no multiplier
+  with such a name.
+**************************************************************************/
+struct multiplier *multiplier_by_rule_name(const char *name)
 {
-  return multiplier_count;
+  const char *qs;
+
+  if (name == NULL) {
+    return NULL;
+  }
+
+  qs = Qn_(name);
+
+  multipliers_iterate(pmul) {
+    if (!fc_strcasecmp(multiplier_rule_name(pmul), qs)) {
+      return pmul;
+    }
+  } multipliers_iterate_end;
+
+  return NULL;
 }
