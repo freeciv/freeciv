@@ -1753,6 +1753,11 @@ static void player_load_main(struct player *plr, int plrno,
     plr->target_government = government_of_player(plr);
   }
 
+  /* Multipliers: post-date version 1 savefiles, so use ruleset defaults */
+  multipliers_iterate(pmul) {
+    plr->multipliers[multiplier_index(pmul)] = pmul->def;
+  } multipliers_iterate_end;
+
   p = secfile_lookup_str(file, "player%d.city_style_by_name", plrno);
   if (!p) {
     char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
