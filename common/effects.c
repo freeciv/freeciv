@@ -344,9 +344,12 @@ int effect_cumulative_min(enum effect_type type, struct universal *for_uni)
 void recv_ruleset_effect(const struct packet_ruleset_effect *packet)
 {
   struct effect *peffect;
+  struct multiplier *pmul;
   int i;
 
-  peffect = effect_new(packet->effect_type, packet->effect_value, NULL);
+  pmul = packet->has_multiplier ? multiplier_by_number(packet->multiplier)
+                                : NULL;
+  peffect = effect_new(packet->effect_type, packet->effect_value, pmul);
 
   for (i = 0; i < packet->reqs_count; i++) {
     effect_req_append(peffect, packet->reqs[i]);
@@ -365,6 +368,13 @@ void send_ruleset_cache(struct conn_list *dest)
 
     effect_packet.effect_type = peffect->type;
     effect_packet.effect_value = peffect->value;
+    if (peffect->multiplier) {
+      effect_packet.has_multiplier = TRUE;
+      effect_packet.multiplier = multiplier_number(peffect->multiplier);
+    } else {
+      effect_packet.has_multiplier = FALSE;
+      effect_packet.multiplier = 0; /* arbitrary */
+    }
 
     counter = 0;
     requirement_vector_iterate(&(peffect->reqs), req) {
