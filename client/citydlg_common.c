@@ -508,7 +508,8 @@ void get_city_dialog_output_text(const struct city *pcity,
 	bonus += peffect->value;
 	new_total = bonus * base / 100;
 	cat_snprintf(buf, bufsz,
-		     _("%+4d : Bonus from %s (%+d%%)\n"),
+                     (peffect->value > 0) ? _("%+4d : Bonus from %s (%+d%%)\n")
+                                          : _("%+4d : Loss from %s (%+d%%)\n"),
 		     (new_total - total), buf2,
 		     peffect->value);
 	total = new_total;
@@ -622,7 +623,8 @@ void get_city_dialog_illness_text(const struct city *pcity,
     get_effect_req_text(peffect, buf2, sizeof(buf2));
 
     cat_snprintf(buf, bufsz,
-                 _("%+5.1f : Bonus from %s\n"),
+                 (peffect->value > 0) ? _("%+5.1f : Bonus from %s\n")
+                                      : _("%+5.1f : Risk from %s\n"),
                  -(0.1 * ill_base * peffect->value / 100), buf2);
   } effect_list_iterate_end;
   effect_list_destroy(plist);
