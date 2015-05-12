@@ -1078,10 +1078,13 @@ static void package_player_info(struct player *plr,
     multipliers_iterate(pmul) {
       packet->multiplier[multiplier_index(pmul)] =
         plr->multipliers[multiplier_index(pmul)];
+      packet->multiplier_target[multiplier_index(pmul)] =
+        plr->multipliers_target[multiplier_index(pmul)];
     } multipliers_iterate_end;
   } else {
     multipliers_iterate(pmul) {
       packet->multiplier[multiplier_index(pmul)] = 0;
+      packet->multiplier_target[multiplier_index(pmul)] = 0;
     } multipliers_iterate_end;
   }
 
@@ -3001,7 +3004,7 @@ void handle_player_multiplier(struct player *pplayer, int count,
   }
 
   for (i = 0; i < count; i++) {
-    pplayer->multipliers[i] = multipliers[i];
+    pplayer->multipliers_target[i] = multipliers[i];
   }
 
   send_player_info_c(pplayer, NULL);

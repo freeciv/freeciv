@@ -278,7 +278,7 @@ void real_multipliers_dialog_update(void)
 
   multipliers_iterate(pmul) {
     Multiplier_type_id multiplier = multiplier_index(pmul);
-    int val = client_player()->multipliers[multiplier];
+    int val = player_multiplier_target_value(client_player(), pmul);
 
     gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
                         mult_to_scale(pmul, val));
@@ -328,12 +328,13 @@ static GtkWidget *create_multiplier_dialog(void)
     multipliers_scale[multiplier] = scale;
     gtk_range_set_increments(GTK_RANGE(multipliers_scale[multiplier]),
                              1, MAX(2, mult_to_scale(pmul, pmul->stop) / 10));
-    fc_assert(scale_to_mult(pmul,
-                            mult_to_scale(pmul,
-                                          pplayer->multipliers[multiplier]))
-              == pplayer->multipliers[multiplier]);
-    gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
-                        mult_to_scale(pmul, pplayer->multipliers[multiplier]));
+    {
+      int val = player_multiplier_target_value(pplayer, pmul);
+
+      fc_assert(scale_to_mult(pmul, mult_to_scale(pmul, val)) == val);
+      gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
+                          mult_to_scale(pmul, val));
+    }
     g_signal_connect(multipliers_scale[multiplier], "format-value",
                      G_CALLBACK(multiplier_value_callback), pmul);
     g_signal_connect(multipliers_scale[multiplier], "destroy",

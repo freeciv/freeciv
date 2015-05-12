@@ -143,7 +143,7 @@ void dai_gained_control(struct ai_type *ait, struct player *pplayer)
 {
   if (pplayer->ai_common.skill_level != AI_LEVEL_AWAY) {
     multipliers_iterate(pmul) {
-      pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+      pplayer->multipliers_target[multiplier_index(pmul)] = pmul->def;
     } multipliers_iterate_end;
   }
 

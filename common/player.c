@@ -1702,3 +1702,23 @@ void player_set_ai_data(struct player *pplayer, const struct ai_type *ai,
 {
   pplayer->server.ais[ai_type_number(ai)] = data;
 }
+
+/**************************************************************************
+  Return the multiplier value currently in effect for pplayer.
+**************************************************************************/
+int player_multiplier_value(const struct player *pplayer,
+                            const struct multiplier *pmul)
+{
+  return pplayer->multipliers[multiplier_index(pmul)];
+}
+
+/**************************************************************************
+  Return the player's target value for a multiplier (which may be
+  different from the value currently in force; it will take effect
+  next turn).
+**************************************************************************/
+int player_multiplier_target_value(const struct player *pplayer,
+                                   const struct multiplier *pmul)
+{
+  return pplayer->multipliers_target[multiplier_index(pmul)];
+}

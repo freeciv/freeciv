@@ -265,7 +265,10 @@ struct player {
 
   struct rgbcolor *rgb;
 
+  /* Values currently in force. */
   int multipliers[MAX_NUM_MULTIPLIERS];
+  /* Values to be used next turn. */
+  int multipliers_target[MAX_NUM_MULTIPLIERS];
 
   int culture; /* National level culture - does not include culture of individual
                 * cities. */
@@ -442,6 +445,11 @@ const char *diplrel_rule_name(int value);
 const char *diplrel_name_translation(int value);
 
 bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req);
+
+int player_multiplier_value(const struct player *pplayer,
+                            const struct multiplier *pmul);
+int player_multiplier_target_value(const struct player *pplayer,
+                                   const struct multiplier *pmul);
 
 /* iterate over all player slots */
 #define player_slots_iterate(_pslot)                                        \
