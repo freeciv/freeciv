@@ -262,7 +262,34 @@ static void multipliers_command_callback(GtkWidget *w, gint response_id)
 }
 
 /**************************************************************************
-  Update multipliers dialog (for player observers)
+  Update values in multipliers dialog
+**************************************************************************/
+static void multiplier_dialog_update_values(bool set_positions)
+{
+  multipliers_iterate(pmul) {
+    Multiplier_type_id multiplier = multiplier_index(pmul);
+    int val = player_multiplier_value(client_player(), pmul);
+    int target = player_multiplier_target_value(client_player(), pmul);
+
+    fc_assert(multiplier < ARRAY_SIZE(multipliers_scale));
+    fc_assert(scale_to_mult(pmul, mult_to_scale(pmul, val)) == val);
+    fc_assert(scale_to_mult(pmul, mult_to_scale(pmul, target)) == target);
+
+    gtk_scale_clear_marks(GTK_SCALE(multipliers_scale[multiplier]));
+    gtk_scale_add_mark(GTK_SCALE(multipliers_scale[multiplier]),
+                       mult_to_scale(pmul, val), GTK_POS_BOTTOM,
+                       /* TRANS: current value of policy in force */
+                       Q_("?multiplier:Cur"));
+
+    if (set_positions) {
+      gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
+                          mult_to_scale(pmul, target));
+    }
+  } multipliers_iterate_end;
+}
+
+/**************************************************************************
+  Callback when server indicates multiplier values have changed
 **************************************************************************/
 void real_multipliers_dialog_update(void)
 {
@@ -270,19 +297,10 @@ void real_multipliers_dialog_update(void)
     return;
   }
 
-  if (can_client_issue_orders()) {
-    /* We don't want to lose the player's local changes. This dialog
-     * should be the only way the values can change, anyway. */
-    return;
-  }
-
-  multipliers_iterate(pmul) {
-    Multiplier_type_id multiplier = multiplier_index(pmul);
-    int val = player_multiplier_target_value(client_player(), pmul);
-
-    gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
-                        mult_to_scale(pmul, val));
-  } multipliers_iterate_end;
+  /* If dialog belongs to a player rather than an observer, we don't
+   * want to lose any local changes made by the player.
+   * This dialog should be the only way the values can change, anyway. */
+  multiplier_dialog_update_values(!can_client_issue_orders());
 }
 
 /****************************************************************
@@ -292,7 +310,6 @@ static GtkWidget *create_multiplier_dialog(void)
 {
   GtkWidget     *shell, *content;
   GtkWidget     *label, *scale;
-  struct player *pplayer = client_player();
 
   if (can_client_issue_orders()) {
     shell = gtk_dialog_new_with_buttons(_("Change policies"),
@@ -315,6 +332,11 @@ static GtkWidget *create_multiplier_dialog(void)
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
 
+  if (can_client_issue_orders()) {
+    label = gtk_label_new(_("Changes will not take effect until next turn."));
+    gtk_box_pack_start( GTK_BOX( content ), label, FALSE, FALSE, 0);
+  }
+
   multipliers_iterate(pmul) {
     Multiplier_type_id multiplier = multiplier_index(pmul);
 
@@ -328,13 +350,6 @@ static GtkWidget *create_multiplier_dialog(void)
     multipliers_scale[multiplier] = scale;
     gtk_range_set_increments(GTK_RANGE(multipliers_scale[multiplier]),
                              1, MAX(2, mult_to_scale(pmul, pmul->stop) / 10));
-    {
-      int val = player_multiplier_target_value(pplayer, pmul);
-
-      fc_assert(scale_to_mult(pmul, mult_to_scale(pmul, val)) == val);
-      gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
-                          mult_to_scale(pmul, val));
-    }
     g_signal_connect(multipliers_scale[multiplier], "format-value",
                      G_CALLBACK(multiplier_value_callback), pmul);
     g_signal_connect(multipliers_scale[multiplier], "destroy",
@@ -345,6 +360,8 @@ static GtkWidget *create_multiplier_dialog(void)
     gtk_widget_set_sensitive(multipliers_scale[multiplier],
                              can_client_issue_orders());
   } multipliers_iterate_end;
+
+  multiplier_dialog_update_values(TRUE);
 
   g_signal_connect(shell, "destroy",
                    G_CALLBACK(gtk_widget_destroyed), &multiplier_dialog_shell);
