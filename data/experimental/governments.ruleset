@@ -205,3 +205,16 @@ Under Democracy, citizens govern directly by voting on issues.\
 ;                           newlines so that xgettext parsing works
 ;
 ; */ <-- avoid gettext warnings
+
+[multiplier_personal_freedom]
+name      = _("Personal Freedom")
+start     = 0
+stop      = 5
+step      = 1
+default   = 0
+; /* xgettext:no-c-format */
+helptext  = _("\
+Each step of personal freedom you allow your citizens yields a 10% \
+increase in science output, but makes an additional citizen unhappy \
+for every aggressively deployed military unit.\
+")
