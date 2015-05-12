@@ -3168,7 +3168,7 @@ static bool load_ruleset_terrain(struct section_file *file)
 
 /**************************************************************************
   Load names of governments so other rulesets can refer to governments with
-  their name.
+  their name. Also load multiplier names/count from governments.ruleset.
 **************************************************************************/
 static bool load_government_names(struct section_file *file)
 {
@@ -3215,21 +3215,23 @@ static bool load_government_names(struct section_file *file)
     sec = secfile_sections_by_name_prefix(file, MULTIPLIER_SECTION_PREFIX);
     nval = (NULL != sec ? section_list_size(sec) : 0);
 
-    if (nval > MAX_MULTIPLIERS_COUNT) {
+    if (nval > MAX_NUM_MULTIPLIERS) {
       ruleset_error(LOG_ERROR, "\"%s\": Too many multipliers (%d, max %d)",
-                    filename, nval, MAX_MULTIPLIERS_COUNT);
+                    filename, nval, MAX_NUM_MULTIPLIERS);
 
       ok = FALSE;
+    } else {
+      game.control.num_multipliers = nval;
     }
 
     if (ok) {
-      set_multiplier_count(nval);
       multipliers_iterate(pmul) {
         const char *sec_name =
           section_name(section_list_get(sec, multiplier_index(pmul)));
 
         if (!ruleset_load_names(&pmul->name, NULL, file, sec_name)) {
-          ruleset_error(LOG_ERROR, "\"%s\": Cannot load multiplier names", filename);
+          ruleset_error(LOG_ERROR, "\"%s\": Cannot load multiplier names",
+                        filename);
           ok = FALSE;
           break;
         }
@@ -3333,36 +3335,63 @@ static bool load_ruleset_governments(struct section_file *file)
 
   if (ok) {
     sec = secfile_sections_by_name_prefix(file, MULTIPLIER_SECTION_PREFIX);
-    if (sec != NULL) {
-      section_list_iterate(sec, psection) {
-        const char *sec_name = section_name(psection);
-        struct multiplier *pmul = multiplier_new();
+    multipliers_iterate(pmul) {
+      int id = multiplier_index(pmul);
+      const char *sec_name = section_name(section_list_get(sec, id));
 
-        if (!secfile_lookup_int(file, &pmul->start, "%s.start", sec_name)) {
-          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-          ok = FALSE;
-          break;
-        }
-        if (!secfile_lookup_int(file, &pmul->stop,   "%s.stop", sec_name)) {
-          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-          ok = FALSE;
-          break;
-        }
-        if (!secfile_lookup_int(file, &pmul->step, "%s.step", sec_name)) {
-          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-          ok = FALSE;
-          break;
-        }
-        if (!secfile_lookup_int(file, &pmul->def, "%s.default", sec_name)) {
-          ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
-          ok = FALSE;
-          break;
-        }
+      if (!secfile_lookup_int(file, &pmul->start, "%s.start", sec_name)) {
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      if (!secfile_lookup_int(file, &pmul->stop, "%s.stop", sec_name)) {
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      if (pmul->stop <= pmul->start) {
+        ruleset_error(LOG_ERROR, "Multiplier \"%s\" stop (%d) must be greater "
+                      "than start (%d)", multiplier_rule_name(pmul),
+                      pmul->stop, pmul->start);
+        ok = FALSE;
+        break;
+      }
+      if (!secfile_lookup_int(file, &pmul->step, "%s.step", sec_name)) {
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      if (((pmul->stop - pmul->start) % pmul->step) != 0) {
+        ruleset_error(LOG_ERROR, "Multiplier \"%s\" step (%d) does not fit "
+                      "exactly into interval start-stop (%d to %d)",
+                      multiplier_rule_name(pmul), pmul->step,
+                      pmul->start, pmul->stop);
+        ok = FALSE;
+        break;
+      }
+      if (!secfile_lookup_int(file, &pmul->def, "%s.default", sec_name)) {
+        ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
+        ok = FALSE;
+        break;
+      }
+      if (pmul->def < pmul->start || pmul->def > pmul->stop) {
+        ruleset_error(LOG_ERROR, "Multiplier \"%s\" default (%d) not within "
+                      "legal range (%d to %d)", multiplier_rule_name(pmul),
+                      pmul->def, pmul->start, pmul->stop);
+        ok = FALSE;
+        break;
+      }
+      if (((pmul->def - pmul->start) % pmul->step) != 0) {
+        ruleset_error(LOG_ERROR, "Multiplier \"%s\" default (%d) not legal "
+                      "with respect to step size %d",
+                      multiplier_rule_name(pmul), pmul->def, pmul->step);
+        ok = FALSE;
+        break;
+      }
 
-        pmul->helptext = lookup_strvec(file, sec_name, "helptext");   
-      } section_list_iterate_end;
-      section_list_destroy(sec);
-    }
+      pmul->helptext = lookup_strvec(file, sec_name, "helptext");   
+    } multipliers_iterate_end;
+    section_list_destroy(sec);
   }
 
   if (ok) {
@@ -4625,7 +4654,6 @@ static bool load_ruleset_effects(struct section_file *file)
 {
   struct section_list *sec;
   const char *type;
-  const char *multiplier_name;
   const char *filename;
   bool ok = TRUE;
 
@@ -4641,6 +4669,7 @@ static bool load_ruleset_effects(struct section_file *file)
   section_list_iterate(sec, psection) {
     enum effect_type eff;
     int value;
+    struct multiplier *pmul;
     struct effect *peffect;
     const char *sec_name = section_name(psection);
     struct requirement_vector *reqs;
@@ -4666,25 +4695,24 @@ static bool load_ruleset_effects(struct section_file *file)
 
     value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
 
-    peffect = effect_new(eff, value);
+    {
+      const char *multiplier_name
+        = secfile_lookup_str(file, "%s.multiplier", sec_name);
 
-    multiplier_name = secfile_lookup_str(file, "%s.multiplier", sec_name);
-    if (multiplier_name == NULL) {
-      peffect->multiplier = NULL;
-    } else {
-      multipliers_iterate(pmul) {
-        if (!strcmp(multiplier_name, rule_name(&pmul->name))) {
-          peffect->multiplier = pmul;
+      if (multiplier_name) {
+        pmul = multiplier_by_rule_name(multiplier_name);
+        if (!pmul) {
+          ruleset_error(LOG_ERROR, "\"%s\" [%s] has unknown multiplier \"%s\".",
+                        filename, sec_name, multiplier_name);
+          ok = FALSE;
           break;
         }
-      } multipliers_iterate_end;
-
-      if (peffect->multiplier == 0) {
-        ruleset_error(LOG_ERROR, "There's no such(%s) name for multiplier", multiplier_name);
-        ok = FALSE;
-        break;
+      } else {
+        pmul = NULL;
       }
     }
+
+    peffect = effect_new(eff, value, pmul);
 
     reqs = lookup_req_list(file, sec_name, "reqs", type);
     if (reqs == NULL) {
@@ -6419,7 +6447,8 @@ static void send_ruleset_multipliers(struct conn_list *dest)
   multipliers_iterate(pmul) {
     PACKET_STRVEC_COMPUTE(helptext, pmul->helptext);
 
-    dlsend_packet_ruleset_multiplier(dest, pmul->start, pmul->stop,
+    dlsend_packet_ruleset_multiplier(dest, multiplier_number(pmul),
+                                     pmul->start, pmul->stop,
                                      pmul->step, pmul->def,
                                      untranslated_name(&pmul->name),
                                      rule_name(&pmul->name), 

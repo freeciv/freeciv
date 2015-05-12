@@ -2969,15 +2969,15 @@ int playercolor_count(void)
 /****************************************************************************
   Sets player's multipliers.
 ****************************************************************************/
-void handle_player_multiplier(struct player *pplayer, const int *multipliers,
-                              int count)
+void handle_player_multiplier(struct player *pplayer, int count,
+                              const int *multipliers)
 {
   int rval;
   int i;
 
-  if (count != get_multiplier_count()) {
-    log_error("Bad number of multipliers");
-
+  if (count != multiplier_count()) {
+    log_error("Bad number of multipliers %d from client for %s",
+              count, player_name(pplayer));
     return;
   }
 
@@ -2985,11 +2985,17 @@ void handle_player_multiplier(struct player *pplayer, const int *multipliers,
     struct multiplier *pmul = multiplier_by_number(i);
 
     if (multipliers[i] < pmul->start || multipliers[i] > pmul->stop) {
+      log_error("Multiplier value %d for %s out of range for %s",
+                multipliers[i], multiplier_rule_name(pmul),
+                player_name(pplayer));
       return;
     }
 
     rval = (multipliers[i] - pmul->start) / pmul->step * pmul->step + pmul->start;
     if (rval != multipliers[i]) {
+      log_error("Multiplier value %d between valid values for %s for %s",
+                multipliers[i], multiplier_rule_name(pmul),
+                player_name(pplayer));
       return;
     }
   }

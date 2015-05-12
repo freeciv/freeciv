@@ -3378,7 +3378,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     rgbcolor_destroy(prgbcolor);
 
     /* multipliers (policies) */
-    i = get_multiplier_count();
+    i = multiplier_count();
 
     for (k = 0; k < i; k++) {
       pplayer->multipliers[k] = secfile_lookup_int_default(loading->file,
@@ -4165,7 +4165,7 @@ static void sg_save_player_main(struct savedata *saving,
   CALL_FUNC_EACH_AI(player_save, plr, saving->file, plrno);
 
   /* Multipliers (policies) */
-  i = get_multiplier_count();
+  i = multiplier_count();
 
   for (k = 0; k < i; k++) {
     secfile_insert_int(saving->file, plr->multipliers[k], "player%d.multiplier_%d", plrno, k);

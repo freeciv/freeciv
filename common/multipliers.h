@@ -20,16 +20,15 @@ extern "C" {
 
 /* utility */
 #include "bitvector.h"
+#include "string_vector.h"
 
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
   
-#define MAX_MULTIPLIERS_COUNT 15
-  
 struct multiplier
 {
-  int id;
+  Multiplier_type_id id;
   struct name_translation name;
   int start;
   int stop;
@@ -38,18 +37,23 @@ struct multiplier
   struct strvec *helptext;
 };
 
-struct multiplier *multiplier_by_number(int id);
-int multiplier_index(const struct multiplier *pmul);
-struct multiplier *multiplier_new(void);
 void multipliers_init(void);
 void multipliers_free(void);
-void set_multiplier_count(int);
-int  get_multiplier_count(void);
+
+Multiplier_type_id multiplier_count(void);
+Multiplier_type_id multiplier_index(const struct multiplier *pmul);
+Multiplier_type_id multiplier_number(const struct multiplier *pmul);
+
+struct multiplier *multiplier_by_number(Multiplier_type_id id);
+
+const char *multiplier_name_translation(const struct multiplier *pmul);
+const char *multiplier_rule_name(const struct multiplier *pmul);
+struct multiplier *multiplier_by_rule_name(const char *name);
 
 #define multipliers_iterate(_mul_) \
 {      \
-     int _i; \
-       for (_i = 0; _i < get_multiplier_count(); _i++) { \
+    Multiplier_type_id _i; \
+       for (_i = 0; _i < multiplier_count(); _i++) { \
         struct multiplier *_mul_ = multiplier_by_number(_i);
 
 #define multipliers_iterate_end \
