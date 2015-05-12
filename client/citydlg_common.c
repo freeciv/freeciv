@@ -506,8 +506,8 @@ void get_city_dialog_output_text(const struct city *pcity,
 	get_effect_req_text(peffect, buf2, sizeof(buf2));
 
         if (peffect->multiplier) {
-          Multiplier_type_id index = multiplier_index(peffect->multiplier);
-          int mul = city_owner(pcity)->multipliers[index];
+          int mul = player_multiplier_value(city_owner(pcity),
+                                            peffect->multiplier);
           
           if (mul == 0) {
             /* Suppress text when multiplier setting suppresses effect
@@ -637,8 +637,8 @@ void get_city_dialog_illness_text(const struct city *pcity,
     get_effect_req_text(peffect, buf2, sizeof(buf2));
 
     if (peffect->multiplier) {
-      Multiplier_type_id index = multiplier_index(peffect->multiplier);
-      int mul = city_owner(pcity)->multipliers[index];
+      int mul = player_multiplier_value(city_owner(pcity),
+                                        peffect->multiplier);
       
       if (mul == 0) {
         /* Suppress text when multiplier setting suppresses effect
@@ -711,8 +711,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
     get_effect_req_text(peffect, buf2, sizeof(buf2));
 
     if (peffect->multiplier) {
-      Multiplier_type_id index = multiplier_index(peffect->multiplier);
-      mul = city_owner(pcity)->multipliers[index];
+      mul = player_multiplier_value(city_owner(pcity), peffect->multiplier);
       
       if (mul == 0) {
         /* Suppress text when multiplier setting suppresses effect

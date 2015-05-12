@@ -2184,7 +2184,9 @@ void handle_player_info(const struct packet_player_info *pinfo)
 
   multipliers_iterate(pmul) {
     pplayer->multipliers[multiplier_index(pmul)] =
-      pinfo->multiplier[multiplier_index(pmul)];
+        pinfo->multiplier[multiplier_index(pmul)];
+    pplayer->multipliers_target[multiplier_index(pmul)] =
+        pinfo->multiplier_target[multiplier_index(pmul)];
   } multipliers_iterate_end;
 
   /* if the server requests that the client reset, then information about

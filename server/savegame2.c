@@ -2231,7 +2231,8 @@ static void sg_load_players_basic(struct loaddata *loading)
     /* First initialise player values with ruleset defaults; this will
      * cover any in the ruleset not known when the savefile was created. */
     multipliers_iterate(pmul) {
-      pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+      pplayer->multipliers[multiplier_index(pmul)]
+        = pplayer->multipliers_target[multiplier_index(pmul)] = pmul->def;
     } multipliers_iterate_end;
 
     /* Now override with any values from the savefile. */
@@ -2239,6 +2240,7 @@ static void sg_load_players_basic(struct loaddata *loading)
       const struct multiplier *pmul = loading->multiplier.order[k];
 
       if (pmul) {
+        Multiplier_type_id index = multiplier_index(pmul);
         int val =
           secfile_lookup_int_default(loading->file, pmul->def,
                                      "player%d.multiplier%d.val",
@@ -2251,7 +2253,22 @@ static void sg_load_players_basic(struct loaddata *loading)
                       "was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers[multiplier_index(pmul)] = rval;
+        pplayer->multipliers[index] = rval;
+
+        val =
+          secfile_lookup_int_default(loading->file,
+                                     pplayer->multipliers[index],
+                                     "player%d.multiplier%d.target",
+                                     player_slot_index(pslot), k);
+        rval = (((CLIP(pmul->start, val, pmul->stop)
+                  - pmul->start) / pmul->step) * pmul->step) + pmul->start;
+
+        if (rval != val) {
+          log_verbose("Player %d had illegal value for multiplier_target "
+                      "\"%s\": was %d, clamped to %d", pslot_id,
+                      multiplier_rule_name(pmul), val, rval);
+        }
+        pplayer->multipliers_target[index] = rval;
       } /* else silently discard multiplier not in current ruleset */
     }
   } player_slots_iterate_end;

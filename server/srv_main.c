@@ -1087,6 +1087,16 @@ static void end_phase(void)
     lsend_packet_end_phase(pplayer->connections);
   } phase_players_iterate_end;
 
+  /* Enact any policy changes.
+   * Do this first so that following end-phase activities take the
+   * change into account. */
+  phase_players_iterate(pplayer) {
+    multipliers_iterate(pmul) {
+      pplayer->multipliers[multiplier_index(pmul)] =
+        pplayer->multipliers_target[multiplier_index(pmul)];
+    } multipliers_iterate_end;
+  } phase_players_iterate_end;
+
   phase_players_iterate(pplayer) {
     struct research *presearch = research_get(pplayer);
 
@@ -2738,7 +2748,9 @@ static void final_ruleset_adjustments(void)
     }
 
     multipliers_iterate(pmul) {
-      pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+      pplayer->multipliers[multiplier_index(pmul)]
+        = pplayer->multipliers_target[multiplier_index(pmul)]
+          = pmul->def;
     } multipliers_iterate_end;
   } players_iterate_end;
 }

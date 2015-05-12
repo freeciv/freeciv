@@ -543,7 +543,8 @@ int get_target_bonus_effects(struct effect_list *plist,
        * by player's multiplier factor. */
       if (peffect->multiplier) {
         if (target_player) {
-          bonus += peffect->value * target_player->multipliers[multiplier_index(peffect->multiplier)];
+          bonus += peffect->value
+            * player_multiplier_value(target_player, peffect->multiplier);
         }
       } else {
         bonus += peffect->value;
