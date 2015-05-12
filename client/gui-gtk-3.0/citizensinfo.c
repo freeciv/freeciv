@@ -55,7 +55,7 @@ static const char *col_citizens(const struct city *pcity,
 static struct citizens_column {
   bool show;
   enum player_dlg_column_type type;
-  const char *title;                   /* already translated */
+  const char *title;
   const char *(*func)(const struct city *, const struct player_slot *);
                                        /* if type = COL_*TEXT */
   const char *tagname;                 /* for save_options */
@@ -199,14 +199,14 @@ static struct citizens_dialog
     switch (pcol->type) {
     case COL_FLAG:
       renderer = gtk_cell_renderer_pixbuf_new();
-      col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
+      col = gtk_tree_view_column_new_with_attributes(_(pcol->title), renderer,
               "pixbuf", i, NULL);
       break;
     case COL_TEXT:
       renderer = gtk_cell_renderer_text_new();
       g_object_set(renderer, "style-set", TRUE, "weight-set", TRUE, NULL);
 
-      col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
+      col = gtk_tree_view_column_new_with_attributes(_(pcol->title), renderer,
               "text", i,
               "style", CITIZENS_DLG_COL_STYLE,
               "weight", CITIZENS_DLG_COL_WEIGHT,
@@ -217,7 +217,7 @@ static struct citizens_dialog
       renderer = gtk_cell_renderer_text_new();
       g_object_set(renderer, "style-set", TRUE, "weight-set", TRUE, NULL);
 
-      col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
+      col = gtk_tree_view_column_new_with_attributes(_(pcol->title), renderer,
               "text", i,
               "style", CITIZENS_DLG_COL_STYLE,
               "weight", CITIZENS_DLG_COL_WEIGHT,
