@@ -490,6 +490,7 @@ struct player *player_new(struct player_slot *pslot)
 
 /****************************************************************************
   Set player structure to its default values.
+  No initialisation to ruleset-dependent values should be done here.
 ****************************************************************************/
 static void player_defaults(struct player *pplayer)
 {
@@ -565,10 +566,6 @@ static void player_defaults(struct player *pplayer)
   pplayer->tile_known.bits = 0;
 
   pplayer->rgb = NULL;
-
-  multipliers_iterate(pmul) {
-    pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
-  } multipliers_iterate_end;
 
   /* pplayer->server is initialised in
       ./server/plrhand.c:server_player_init()

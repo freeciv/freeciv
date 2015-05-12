@@ -2736,6 +2736,10 @@ static void final_ruleset_adjustments(void)
        * select a valid government on game start. */
       pplayer->revolution_finishes = 0;
     }
+
+    multipliers_iterate(pmul) {
+      pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+    } multipliers_iterate_end;
   } players_iterate_end;
 }
 
