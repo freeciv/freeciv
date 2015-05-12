@@ -67,6 +67,11 @@ struct loaddata {
     struct extra_type **order;
     size_t size;
   } extra;
+  /* loaded in sg_load_savefile(); needed in sg_load_players_basic() */
+  struct {
+    struct multiplier **order;
+    size_t size;
+  } multiplier;
   /* loaded in sg_load_savefile(); needed in sg_load_map(), ...
    * Deprecated in 3.0 (savegame3.c) */
   struct {

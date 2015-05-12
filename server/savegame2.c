@@ -486,6 +486,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->trait.size = -1;
   loading->extra.order = NULL;
   loading->extra.size = -1;
+  loading->multiplier.order = NULL;
+  loading->multiplier.size = -1;
   loading->special.order = NULL;
   loading->special.size = -1;
   loading->base.order = NULL;
@@ -521,6 +523,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->extra.order != NULL) {
     free(loading->extra.order);
+  }
+
+  if (loading->multiplier.order != NULL) {
+    free(loading->multiplier.order);
   }
 
   if (loading->special.order != NULL) {
@@ -1127,6 +1133,33 @@ static void sg_load_savefile(struct loaddata *loading)
     for (; j < nmod; j++) {
       loading->extra.order[j] = NULL;
     }
+  }
+
+  /* Load multipliers. */
+  loading->multiplier.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.multipliers_size");
+  if (loading->multiplier.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->multiplier.size,
+                                     "savefile.multipliers_vector");
+    sg_failure_ret(loading->multiplier.size != 0,
+                   "Failed to load multipliers order: %s",
+                   secfile_error());
+    /* It's OK for the set of multipliers in the savefile to differ
+     * from those in the ruleset. */
+    loading->multiplier.order = fc_calloc(loading->multiplier.size,
+                                          sizeof(*loading->multiplier.order));
+    for (j = 0; j < loading->multiplier.size; j++) {
+      loading->multiplier.order[j] = multiplier_by_rule_name(modname[j]);
+      if (!loading->multiplier.order[j]) {
+        log_verbose("Multiplier \"%s\" in savegame but not in ruleset, "
+                    "discarding", modname[j]);
+      }
+    }
+    free(modname);
   }
 
   /* Load specials. */
@@ -2193,14 +2226,33 @@ static void sg_load_players_basic(struct loaddata *loading)
     /* Free the color definition. */
     rgbcolor_destroy(prgbcolor);
 
-    /* multipliers (policies) */
-    i = multiplier_count();
+    /* Multipliers (policies) */
 
-    for (k = 0; k < i; k++) {
-      pplayer->multipliers[k] = secfile_lookup_int_default(loading->file,
-                                                           multiplier_by_number(k)->def,
-                                                           "player%d.multiplier%d.val",
-                                                           player_slot_index(pslot), k);
+    /* First initialise player values with ruleset defaults; this will
+     * cover any in the ruleset not known when the savefile was created. */
+    multipliers_iterate(pmul) {
+      pplayer->multipliers[multiplier_index(pmul)] = pmul->def;
+    } multipliers_iterate_end;
+
+    /* Now override with any values from the savefile. */
+    for (k = 0; k < loading->multiplier.size; k++) {
+      const struct multiplier *pmul = loading->multiplier.order[k];
+
+      if (pmul) {
+        int val =
+          secfile_lookup_int_default(loading->file, pmul->def,
+                                     "player%d.multiplier%d.val",
+                                     player_slot_index(pslot), k);
+        int rval = (((CLIP(pmul->start, val, pmul->stop)
+                      - pmul->start) / pmul->step) * pmul->step) + pmul->start;
+
+        if (rval != val) {
+          log_verbose("Player %d had illegal value for multiplier \"%s\": "
+                      "was %d, clamped to %d", pslot_id,
+                      multiplier_rule_name(pmul), val, rval);
+        }
+        pplayer->multipliers[multiplier_index(pmul)] = rval;
+      } /* else silently discard multiplier not in current ruleset */
     }
   } player_slots_iterate_end;
 
