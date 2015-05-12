@@ -3036,9 +3036,14 @@ void boot_help_texts(struct player *pplayer)
               fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                           name_translation(&pmul->name));
               pitem->topic = fc_strdup(name);
-              strvec_iterate(pmul->helptext, text) {
-                cat_snprintf(help_text_buffer, MAX_LEN_PACKET, "%s\n\n", text);
-              } strvec_iterate_end;
+              if (pmul->helptext) {
+                const char *sep = "";
+                strvec_iterate(pmul->helptext, text) {
+                  cat_snprintf(help_text_buffer, sizeof(help_text_buffer),
+                               "%s%s", sep, text);
+                  sep = "\n\n";
+                } strvec_iterate_end;
+              }
               pitem->text = fc_strdup(help_text_buffer);
               help_list_append(help_nodes, pitem);
             } multipliers_iterate_end;

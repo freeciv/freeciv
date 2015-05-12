@@ -57,8 +57,8 @@ static GtkWidget *rates_tax_toggle, *rates_lux_toggle, *rates_sci_toggle;
 static GtkWidget *rates_tax_label, *rates_lux_label, *rates_sci_label;
 static GtkObject *rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
 
-GtkWidget *multiplier_dialog_shell;
-GtkWidget *multipliers_scale[MAX_NUM_MULTIPLIERS];
+static GtkWidget *multiplier_dialog_shell;
+static GtkWidget *multipliers_scale[MAX_NUM_MULTIPLIERS];
 
 static gulong     rates_tax_sig, rates_lux_sig, rates_sci_sig;
 /******************************************************************/
@@ -217,29 +217,50 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
 }
 
 /**************************************************************************
+  Convert real multiplier value to scale value
+**************************************************************************/
+static int mult_to_scale(const struct multiplier *pmul, int val)
+{
+  return (val - pmul->start) / pmul->step;
+}
+
+/**************************************************************************
+  Convert scale units to real multiplier value
+**************************************************************************/
+static int scale_to_mult(const struct multiplier *pmul, int scale)
+{
+  return scale * pmul->step + pmul->start;
+}
+
+/**************************************************************************
+  Format value for multiplier scales
+**************************************************************************/
+static gchar *multiplier_value_callback(GtkScale *scale, gdouble value,
+                                        void *udata)
+{
+  const struct multiplier *pmul = udata;
+
+  return g_strdup_printf("%d", scale_to_mult(pmul, value));
+}
+
+/**************************************************************************
   User has responded to multipliers dialog
 **************************************************************************/
 static void multipliers_command_callback(GtkWidget *w, gint response_id)
 {
   struct packet_player_multiplier mul;
-  struct multiplier *m;
-  struct player *pplayer = client_player();
-  int i = 0;
-  int value, rvalue;
 
   if (response_id == GTK_RESPONSE_OK) {
-    for (; i < multiplier_count(); ++i) {
-      value  = gtk_range_get_value(GTK_RANGE(multipliers_scale[i]));
-      m = multiplier_by_number(i);
-      rvalue = (value - m->start) / m->step * m->step + m->start;
-      pplayer->multipliers[i] = rvalue;
-      mul.multipliers[i] = rvalue;
-    }
+    multipliers_iterate(m) {
+      Multiplier_type_id i = multiplier_index(m);
+      int value = gtk_range_get_value(GTK_RANGE(multipliers_scale[i]));
+
+      mul.multipliers[i] = scale_to_mult(m, value);
+    } multipliers_iterate_end;
     mul.count = multiplier_count();
     send_packet_player_multiplier(&client.conn, &mul);
   }
   gtk_widget_destroy(multiplier_dialog_shell);
-  multiplier_dialog_shell = NULL;
 }
 
 /****************************************************************
@@ -249,14 +270,13 @@ static GtkWidget *create_multiplier_dialog(void)
 {
   GtkWidget     *shell, *content;
   GtkWidget     *label, *scale;
-  int            multiplier = 0;
   struct player *pplayer = client_player();
 
   if (!can_client_issue_orders()) {
     return NULL;
   }
 
-  shell = gtk_dialog_new_with_buttons(_("Change governments modifiers"),
+  shell = gtk_dialog_new_with_buttons(_("Change policies"),
                                       NULL,
                                       0,
                                       GTK_STOCK_CANCEL,
@@ -269,11 +289,28 @@ static GtkWidget *create_multiplier_dialog(void)
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
 
   multipliers_iterate(pmul) {
-    label = gtk_label_new(rule_name(&pmul->name));
-    scale = gtk_hscale_new_with_range(pmul->start, pmul->stop, pmul->step);
+    Multiplier_type_id multiplier = multiplier_index(pmul);
+
+    fc_assert(multiplier < ARRAY_SIZE(multipliers_scale));
+    label = gtk_label_new(multiplier_name_translation(pmul));
+    /* Map each multiplier step to a single step on the UI, to enforce
+     * the step size. */
+    scale = gtk_hscale_new_with_range(mult_to_scale(pmul, pmul->start),
+                                      mult_to_scale(pmul, pmul->stop), 1);
     multipliers_scale[multiplier] = scale;
-    gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]), pplayer->multipliers[multiplier]);
-    multiplier++;
+    gtk_range_set_increments(GTK_RANGE(multipliers_scale[multiplier]),
+                             1, MAX(2, mult_to_scale(pmul, pmul->stop) / 10));
+    fc_assert(scale_to_mult(pmul,
+                            mult_to_scale(pmul,
+                                          pplayer->multipliers[multiplier]))
+              == pplayer->multipliers[multiplier]);
+    gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
+                        mult_to_scale(pmul, pplayer->multipliers[multiplier]));
+    g_signal_connect(multipliers_scale[multiplier], "format-value",
+                     G_CALLBACK(multiplier_value_callback), pmul);
+    g_signal_connect(multipliers_scale[multiplier], "destroy",
+                     G_CALLBACK(gtk_widget_destroyed),
+                     &multipliers_scale[multiplier]);
     gtk_box_pack_start( GTK_BOX( content ), label, TRUE, TRUE, 5 );
     gtk_box_pack_start( GTK_BOX( content ), scale, TRUE, TRUE, 5 );
   } multipliers_iterate_end;

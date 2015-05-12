@@ -1750,8 +1750,8 @@ static GtkActionGroup *get_playing_group(void)
       /* Civilization menu. */
       {"TAX_RATE", NULL, _("_Tax Rates..."),
        "<Control>t", NULL, G_CALLBACK(tax_rate_callback)},
-       {"POLICIES", NULL, _("Policies"),
-       NULL, NULL, G_CALLBACK(multiplier_callback)},
+      {"POLICIES", NULL, _("Policies..."),
+       "<Shift><Control>p", NULL, G_CALLBACK(multiplier_callback)},
       /* Civilization/Government menu. */
       {"START_REVOLUTION", NULL, _("_Revolution..."),
        "<Shift><Control>r", NULL, G_CALLBACK(government_callback)},
@@ -2596,6 +2596,8 @@ void real_menus_init(void)
   menus_set_sensitive(playing_group, "TAX_RATE",
                       game.info.changable_tax
                       && can_client_issue_orders());
+  menus_set_sensitive(playing_group, "POLICIES",
+                      multiplier_count() > 0);
 
   menus_set_active(safe_group, "SHOW_CITY_OUTLINES", options.draw_city_outlines);
   menus_set_active(safe_group, "SHOW_CITY_OUTPUT", options.draw_city_output);
