@@ -167,7 +167,6 @@
     <menu action="MENU_HELP">
       <menuitem action="HELP_OVERVIEW" />
       <menuitem action="HELP_PLAYING" />
-      <menuitem action="HELP_POLICIES" />
       <menuitem action="HELP_TERRAIN" />
       <menuitem action="HELP_ECONOMY" />
       <menuitem action="HELP_CITIES" />
@@ -177,6 +176,7 @@
       <menuitem action="HELP_COMBAT" />
       <menuitem action="HELP_ZOC" />
       <menuitem action="HELP_GOVERNMENT" />
+      <menuitem action="HELP_POLICIES" />
       <menuitem action="HELP_DIPLOMACY" />
       <menuitem action="HELP_TECH" />
       <menuitem action="HELP_SPACE_RACE" />
