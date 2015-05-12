@@ -282,3 +282,11 @@ void popup_rates_dialog(void)
   tax_rates_dialog* trd = new tax_rates_dialog(gui()->central_wdg);
   trd->show();
 }
+
+/**************************************************************************
+  Update multipliers (policies) dialog.
+**************************************************************************/
+void real_multipliers_dialog_update(void)
+{
+  /* PORTME */
+}

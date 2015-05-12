@@ -32,6 +32,7 @@
 #include "menu_g.h"
 #include "pages_g.h"
 #include "plrdlg_g.h"
+#include "ratesdlg_g.h"
 #include "repodlgs_g.h"
 
 /* client */
@@ -543,6 +544,12 @@ void menus_update(void)
   }
 }
 
+/****************************************************************************
+  Update multipliers/policy dialog.
+****************************************************************************/
+void multipliers_dialog_update(void) {
+  update_queue_add(UQ_CALLBACK(real_multipliers_dialog_update), NULL);
+}
 
 /****************************************************************************
   Update cities gui.
