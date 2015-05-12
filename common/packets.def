@@ -1801,6 +1801,8 @@ end
 PACKET_RULESET_EFFECT = 175; sc, lsend
   EFFECT_TYPE effect_type;
   SINT32 effect_value;
+  BOOL has_multiplier;
+  MULTIPLIER multiplier;
 
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
