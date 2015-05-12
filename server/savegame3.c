@@ -3006,7 +3006,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     for (k = 0; k < i; k++) {
       pplayer->multipliers[k] = secfile_lookup_int_default(loading->file,
                                                            multiplier_by_number(k)->def,
-                                                           "player%d.multiplier_%d",
+                                                           "player%d.multiplier%d.val",
                                                            player_slot_index(pslot), k);
     }
   } player_slots_iterate_end;
@@ -3783,7 +3783,8 @@ static void sg_save_player_main(struct savedata *saving,
   i = multiplier_count();
 
   for (k = 0; k < i; k++) {
-    secfile_insert_int(saving->file, plr->multipliers[k], "player%d.multiplier_%d", plrno, k);
+    secfile_insert_int(saving->file, plr->multipliers[k],
+                       "player%d.multiplier%d.val", plrno, k);
   }
 
   secfile_insert_str(saving->file, ai_level_name(plr->ai_common.skill_level),

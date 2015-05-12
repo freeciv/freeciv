@@ -2199,7 +2199,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     for (k = 0; k < i; k++) {
       pplayer->multipliers[k] = secfile_lookup_int_default(loading->file,
                                                            multiplier_by_number(k)->def,
-                                                           "player%d.multiplier_%d",
+                                                           "player%d.multiplier%d.val",
                                                            player_slot_index(pslot), k);
     }
   } player_slots_iterate_end;
