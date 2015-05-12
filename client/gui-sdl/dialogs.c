@@ -68,6 +68,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "plrdlg.h"
+#include "ratesdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"
 #include "themespec.h"
@@ -3747,4 +3748,12 @@ bool handmade_scenario_warning(void)
 {
   /* Just tell the client common code to handle this. */
   return FALSE;
+}
+
+/****************************************************************
+  Update multipliers (policies) dialog.
+*****************************************************************/
+void real_multipliers_dialog_update(void)
+{ 
+  /* PORTME */
 }

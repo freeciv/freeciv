@@ -70,6 +70,7 @@
 #include "messagewin_g.h"
 #include "pages_g.h"
 #include "plrdlg_g.h"
+#include "ratesdlg_g.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
 #include "voteinfo_bar_g.h"
@@ -2181,6 +2182,11 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->revolution_finishes = pinfo->revolution_finishes;
   pplayer->ai_common.skill_level = pinfo->ai_skill_level;
 
+  multipliers_iterate(pmul) {
+    pplayer->multipliers[multiplier_index(pmul)] =
+      pinfo->multiplier[multiplier_index(pmul)];
+  } multipliers_iterate_end;
+
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the
    * correct conn back into the player->connections list */
@@ -2208,6 +2214,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     economy_report_dialog_update();
     units_report_dialog_update();
     city_report_dialog_update();
+    multipliers_dialog_update();
     update_info_label();
   }
 
@@ -2230,11 +2237,6 @@ void handle_player_info(const struct packet_player_info *pinfo)
     update_intel_dialog(pplayer);
   }
 
-  multipliers_iterate(pmul) {
-    pplayer->multipliers[multiplier_index(pmul)] =
-        pinfo->multiplier[multiplier_index(pmul)];
-  } multipliers_iterate_end;
-  
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
                                 FALSE);

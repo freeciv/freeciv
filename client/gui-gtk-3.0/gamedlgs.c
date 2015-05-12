@@ -248,7 +248,7 @@ static void multipliers_command_callback(GtkWidget *w, gint response_id)
 {
   struct packet_player_multiplier mul;
 
-  if (response_id == GTK_RESPONSE_OK) {
+  if (response_id == GTK_RESPONSE_OK && can_client_issue_orders()) {
     multipliers_iterate(m) {
       Multiplier_type_id i = multiplier_index(m);
       int value = gtk_range_get_value(GTK_RANGE(multipliers_scale[i]));
@@ -261,6 +261,30 @@ static void multipliers_command_callback(GtkWidget *w, gint response_id)
   gtk_widget_destroy(multiplier_dialog_shell);
 }
 
+/**************************************************************************
+  Update multipliers dialog (for player observers)
+**************************************************************************/
+void real_multipliers_dialog_update(void)
+{
+  if (!multiplier_dialog_shell) {
+    return;
+  }
+
+  if (can_client_issue_orders()) {
+    /* We don't want to lose the player's local changes. This dialog
+     * should be the only way the values can change, anyway. */
+    return;
+  }
+
+  multipliers_iterate(pmul) {
+    Multiplier_type_id multiplier = multiplier_index(pmul);
+    int val = client_player()->multipliers[multiplier];
+
+    gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
+                        mult_to_scale(pmul, val));
+  } multipliers_iterate_end;
+}
+
 /****************************************************************
   Create multipliers dialog
 ****************************************************************/
@@ -270,18 +294,23 @@ static GtkWidget *create_multiplier_dialog(void)
   GtkWidget     *label, *scale;
   struct player *pplayer = client_player();
 
-  if (!can_client_issue_orders()) {
-    return NULL;
+  if (can_client_issue_orders()) {
+    shell = gtk_dialog_new_with_buttons(_("Change policies"),
+                                        NULL,
+                                        0,
+                                        GTK_STOCK_CANCEL,
+                                        GTK_RESPONSE_CANCEL,
+                                        GTK_STOCK_OK,
+                                        GTK_RESPONSE_OK,
+                                        NULL);
+  } else {
+    shell = gtk_dialog_new_with_buttons(_("Policies"),
+                                        NULL,
+                                        0,
+                                        GTK_STOCK_CLOSE,
+                                        GTK_RESPONSE_CLOSE,
+                                        NULL);
   }
-
-  shell = gtk_dialog_new_with_buttons(_("Change policies"),
-                                      NULL,
-                                      0,
-                                      GTK_STOCK_CANCEL,
-                                      GTK_RESPONSE_CANCEL,
-                                      GTK_STOCK_OK,
-                                      GTK_RESPONSE_OK,
-                                      NULL);
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
@@ -312,6 +341,8 @@ static GtkWidget *create_multiplier_dialog(void)
                      &multipliers_scale[multiplier]);
     gtk_box_pack_start( GTK_BOX( content ), label, TRUE, TRUE, 5 );
     gtk_box_pack_start( GTK_BOX( content ), scale, TRUE, TRUE, 5 );
+    gtk_widget_set_sensitive(multipliers_scale[multiplier],
+                             can_client_issue_orders());
   } multipliers_iterate_end;
 
   g_signal_connect(shell, "destroy",
@@ -330,10 +361,6 @@ static GtkWidget *create_multiplier_dialog(void)
 *****************************************************************/
 void popup_multiplier_dialog(void)
 {
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
   if (!multiplier_dialog_shell) {
     multiplier_dialog_shell = create_multiplier_dialog();
   }
