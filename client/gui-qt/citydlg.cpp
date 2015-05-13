@@ -1587,7 +1587,7 @@ void city_dialog::update_buy_button()
 
   if (!client_is_observer() && client.conn.playing != NULL) {
     value = city_production_buy_gold_cost(pcity);
-    str = QString(_("Buy (%1 gold)")).arg(QString::number(value));
+    str = QString(PL_("Buy (%1 gold)", "Buy (%1 gold)", value)).arg(QString::number(value));
     if (client.conn.playing->economic.gold >= value && value != 0) {
       buy_button->setEnabled(true);
       buy_button_p->setEnabled(true);
