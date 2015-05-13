@@ -266,6 +266,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitState", "Local", FALSE,
                                            TRUE, "OnLivableTile"));
 
+    /* The actor unit must have moves left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, "1"));
+
     action_enabler_add(enabler);
 
     /* City joining is now action enabler controlled. Add the old rule

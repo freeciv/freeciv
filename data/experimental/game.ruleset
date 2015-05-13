@@ -417,6 +417,7 @@ actor_reqs    =
     { "type",   "name", "range"
       "Unitflag", "Cities", "Local"
       "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_join_city]

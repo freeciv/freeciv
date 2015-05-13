@@ -234,7 +234,6 @@ Actions done by a unit against a tile
  * city name must be legal
  * the scenario setting prevent_new_cities must be false.
  * actor must be on the same tile as the target.
- * actor must have movement left.
  * target must not have the NoCities terrain flag.
  * target must not be owned by a foreign player.
  * target must not be closer than citymindist to nearest city.
