@@ -418,7 +418,12 @@ unit_add_or_build_city_test(const struct unit *punit)
   if (!is_add) {
     return UAB_NOT_ADDABLE_UNIT;
   }
-  if (punit->moves_left == 0) {
+  if (punit->moves_left == 0
+      /* TODO: Remove UAB_NO_MOVES_ADD when doing so is safe. */
+      /* The ruleset may allow joining cities when out of move
+       * fragments. */
+      && !utype_may_act_move_frags(unit_type(punit),
+                                   ACTION_JOIN_CITY, 0)) {
     return UAB_NO_MOVES_ADD;
   }
 
