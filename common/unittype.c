@@ -482,6 +482,37 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
   }
 }
 
+struct range {
+  int min;
+  int max;
+};
+
+#define MOVES_LEFT_INFINITY -1
+
+/**************************************************************************
+  Get the legal range of move fragments left of the specified requirement
+  vector.
+**************************************************************************/
+static struct range *moves_left_range(struct requirement_vector *reqs)
+{
+  struct range *prange = fc_malloc(sizeof(prange));
+
+  prange->min = 0;
+  prange->max = MOVES_LEFT_INFINITY;
+
+  requirement_vector_iterate(reqs, preq) {
+    if (preq->source.kind == VUT_MINMOVES) {
+      if (preq->present) {
+        prange->min = preq->source.value.minmoves;
+      } else {
+        prange->max = preq->source.value.minmoves;
+      }
+    }
+  } requirement_vector_iterate_end;
+
+  return prange;
+}
+
 /**************************************************************************
   Cache if any action may be possible for a unit of the type putype given
   the property tested for. Since a it could be ignored both present and
@@ -549,6 +580,52 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
 
   return BV_ISSET(dipl_rel_action_cache[utype_id][action_id],
       requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
+}
+
+/**************************************************************************
+  Return TRUE iff the given (action enabler controlled) action may be
+  performed by a unit of the given type that has the given number of move
+  fragments left.
+
+  Note: Values aren't cached. If a performance critical user appears it
+  would be a good idea to cache the (merged) ranges of move fragments
+  where a unit of the given type can perform the specified action.
+**************************************************************************/
+bool utype_may_act_move_frags(struct unit_type *punit_type,
+                              const int action_id,
+                              const int move_fragments)
+{
+  struct range *ml_range;
+
+  if (action_get_actor_kind(action_id) != AAK_UNIT) {
+    /* This action isn't performed by any unit at all so this unit type
+     * can't do it. */
+    return FALSE;
+  }
+
+  action_enabler_list_iterate(action_enablers_for_action(action_id),
+                              enabler) {
+    if (!requirement_fulfilled_by_unit_type(punit_type,
+                                            &(enabler->actor_reqs))) {
+      /* This action can't be performed by this unit type at all. */
+      continue;
+    }
+
+    ml_range = moves_left_range(&(enabler->actor_reqs));
+    if (ml_range->min <= move_fragments
+        && (ml_range->max == MOVES_LEFT_INFINITY
+            || ml_range->max > move_fragments)) {
+      /* The number of move fragments is in range of the action enabler. */
+
+      free(ml_range);
+
+      return TRUE;
+    }
+
+    free(ml_range);
+  } action_enabler_list_iterate_end;
+
+  return FALSE;
 }
 
 /****************************************************************************
