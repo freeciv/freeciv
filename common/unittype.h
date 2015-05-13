@@ -538,6 +538,10 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
                                      const int prop,
                                      const bool is_there);
 
+bool utype_may_act_move_frags(struct unit_type *punit_type,
+                              const int action_id,
+                              const int move_fragments);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 
