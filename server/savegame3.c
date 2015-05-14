@@ -4006,6 +4006,7 @@ static void sg_load_player_cities(struct loaddata *loading,
                                   struct player *plr)
 {
   int ncities, i, plrno = player_number(plr);
+  bool tasks_handled;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -4063,14 +4064,59 @@ static void sg_load_player_cities(struct loaddata *loading,
     city_refresh(pcity);
 
     city_list_append(plr->cities, pcity);
+  }
 
-    CALL_PLR_AI_FUNC(city_got, plr, plr, pcity);
+  tasks_handled = FALSE;
+  for (i = 0; !tasks_handled; i++) {
+    int city_id;
+    struct city *pcity = NULL;
+
+    city_id = secfile_lookup_int_default(loading->file, -1, "player%d.task%d.city",
+                                         plrno, i);
+
+    if (city_id != -1) {
+      pcity = player_city_by_number(plr, city_id);
+    }
+
+    if (pcity != NULL) {
+      const char *str;
+      int nat_x, nat_y;
+      struct worker_task *ptask = fc_malloc(sizeof(struct worker_task));
+
+      nat_x = secfile_lookup_int_default(loading->file, -1, "player%d.task%d.x", plrno, i);
+      nat_y = secfile_lookup_int_default(loading->file, -1, "player%d.task%d.y", plrno, i);
+
+      ptask->ptile = native_pos_to_tile(nat_x, nat_y);
+
+      str = secfile_lookup_str(loading->file, "player%d.task%d.activity", plrno, i);
+      ptask->act = unit_activity_by_name(str, fc_strcasecmp);
+
+      sg_failure_ret(unit_activity_is_valid(ptask->act),
+                     "Unknown workertask activity %s", str);
+
+      str = secfile_lookup_str(loading->file, "player%d.task%d.target", plrno, i);
+
+      if (strcmp("-", str)) {
+        ptask->tgt = extra_type_by_rule_name(str);
+
+        sg_failure_ret(ptask->tgt != NULL,
+                       "Unknown workertask target %s", str);
+      }
+
+      ptask->want = secfile_lookup_int_default(loading->file, 1,
+                                               "player%d.task%d.want", plrno, i);
+
+      worker_task_list_append(pcity->task_reqs, ptask);
+    } else {
+      tasks_handled = TRUE;
+    }
   }
 
   /* Check the sanity of the cities. */
   city_list_iterate(plr->cities, pcity) {
     city_refresh(pcity);
     sanity_check_city(pcity);
+    CALL_PLR_AI_FUNC(city_got, plr, plr, pcity);
   } city_list_iterate_end;
 }
 
@@ -4086,7 +4132,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
-  bool tasks_handled;
   int partner = 1;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
@@ -4352,41 +4397,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     }
   }
 
-  tasks_handled = FALSE;
-  for (i = 0; !tasks_handled; i++) {
-    nat_x = secfile_lookup_int_default(loading->file, -1, "%s.task%d.x", citystr, i);
-    nat_y = secfile_lookup_int_default(loading->file, -1, "%s.task%d.y", citystr, i);
-
-    if (nat_x >= 0 && nat_y >= 0) {
-      const char *str;
-      struct worker_task *ptask = fc_malloc(sizeof(struct worker_task));
-
-      ptask->ptile = native_pos_to_tile(nat_x, nat_y);
-
-      str = secfile_lookup_str(loading->file, "%s.task%d.activity", citystr, i);
-      ptask->act = unit_activity_by_name(str, fc_strcasecmp);
-
-      sg_failure_ret_val(unit_activity_is_valid(ptask->act), FALSE,
-                         "Unknown workertask activity %s", str);
-
-      str = secfile_lookup_str(loading->file, "%s.task%d.target", citystr, i);
-
-      if (strcmp("-", str)) {
-        ptask->tgt = extra_type_by_rule_name(str);
-
-        sg_failure_ret_val(ptask->tgt != NULL, FALSE,
-                           "Unknown workertask target %s", str);
-      }
-
-      ptask->want = secfile_lookup_int_default(loading->file, 1,
-                                               "%s.task%d.want", citystr, i);
-
-      worker_task_list_append(pcity->task_reqs, ptask);
-    } else {
-      tasks_handled = TRUE;
-    }
-  }
-
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 
   return TRUE;
@@ -4628,24 +4638,35 @@ static void sg_save_player_cities(struct savedata *saving,
       } players_iterate_end;
     }
 
-    i = 0;
-    worker_task_list_iterate(pcity->task_reqs, ptask) {
-      index_to_native_pos(&nat_x, &nat_y, tile_index(ptask->ptile));
-      secfile_insert_int(saving->file, nat_y, "%s.task%d.y", buf, i);
-      secfile_insert_int(saving->file, nat_x, "%s.task%d.x", buf, i);
-      secfile_insert_str(saving->file, unit_activity_name(ptask->act), "%s.task%d.activity",
-                         buf, i);
-      if (ptask->tgt != NULL) {
-        secfile_insert_str(saving->file, extra_rule_name(ptask->tgt), "%s.task%d.target",
-                           buf, i);
-      } else {
-        secfile_insert_str(saving->file, "-", "%s.task%d.target",
-                           buf, i);
-      }
-      secfile_insert_int(saving->file, ptask->want, "%s.task%d.want", buf, i);
-    } worker_task_list_iterate_end;
-
     i++;
+  } city_list_iterate_end;
+
+  i = 0;
+  city_list_iterate(plr->cities, pcity) {
+    worker_task_list_iterate(pcity->task_reqs, ptask) {
+      int nat_x, nat_y;
+
+      index_to_native_pos(&nat_x, &nat_y, tile_index(ptask->ptile));
+      secfile_insert_int(saving->file, pcity->id, "player%d.task%d.city",
+                         plrno, i);
+      secfile_insert_int(saving->file, nat_y, "player%d.task%d.y", plrno, i);
+      secfile_insert_int(saving->file, nat_x, "player%d.task%d.x", plrno, i);
+      secfile_insert_str(saving->file, unit_activity_name(ptask->act),
+                         "player%d.task%d.activity",
+                         plrno, i);
+      if (ptask->tgt != NULL) {
+        secfile_insert_str(saving->file, extra_rule_name(ptask->tgt),
+                           "player%d.task%d.target",
+                           plrno, i);
+      } else {
+        secfile_insert_str(saving->file, "-",
+                           "player%d.task%d.target",
+                           plrno, i);
+      }
+      secfile_insert_int(saving->file, ptask->want, "player%d.task%d.want", plrno, i);
+
+      i++;
+    } worker_task_list_iterate_end;
   } city_list_iterate_end;
 }
 
