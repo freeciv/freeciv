@@ -3912,7 +3912,7 @@ static void sg_load_player_main(struct loaddata *loading,
       if (trait_is_valid(tr)) {
         plr->ai_common.traits[tr].mod =
             secfile_lookup_int_default(loading->file, 0,
-                                       "plr%d.trait.mod%d", plrno, i);
+                                       "player%d.trait.mod%d", plrno, i);
       }
     }
   }
