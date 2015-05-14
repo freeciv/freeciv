@@ -262,6 +262,8 @@ dnl checks for MagickWand mapimg support
 dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
 FC_MAPIMG_MAGICKWAND
 
+FC_WEB_OPTIONS
+
 AC_ARG_ENABLE([fcweb],
   AS_HELP_STRING([--enable-fcweb], [build fcweb version of server [false]]),
 [case "${enableval}" in
