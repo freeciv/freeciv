@@ -299,8 +299,6 @@ void auto_arrange_workers(struct city *pcity)
   }
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_START);
 
-  cmr = cm_result_new(pcity);
-
   /* Freeze the workers and make sure all the tiles around the city
    * are up to date.  Then thaw, but hackishly make sure that thaw
    * doesn't call us recursively, which would waste time. */
@@ -351,6 +349,9 @@ void auto_arrange_workers(struct city *pcity)
   cmp.minimal_surplus[O_LUXURY] = 0;
   cmp.minimal_surplus[O_SCIENCE] = 0;
 
+  /* This must be after city_refresh() so that the result gets created for the right
+   * city radius */
+  cmr = cm_result_new(pcity);
   cm_query_result(pcity, &cmp, cmr);
 
   if (!cmr->found_a_valid) {
