@@ -363,14 +363,15 @@ static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_COUNT];
 static void unit_state_action_cache_set(struct unit_type *putype)
 {
   struct requirement req;
+  int uidx = utype_index(putype);
 
   /* The unit is not yet known to be allowed to perform any actions no
    * matter what its unit state is. */
   action_iterate(action_id) {
-    BV_CLR_ALL(ustate_act_cache[utype_index(putype)][action_id]);
+    BV_CLR_ALL(ustate_act_cache[uidx][action_id]);
   } action_iterate_end;
-  BV_CLR_ALL(ustate_act_cache[utype_index(putype)][ACTION_ANY]);
-  BV_CLR_ALL(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE]);
+  BV_CLR_ALL(ustate_act_cache[uidx][ACTION_ANY]);
+  BV_CLR_ALL(ustate_act_cache[uidx][ACTION_HOSTILE]);
 
   if (!is_actor_unit_type(putype)) {
     /* Not an actor unit. */
