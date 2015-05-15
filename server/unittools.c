@@ -3712,6 +3712,51 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   return cancel;
 }
 
+/**************************************************************************
+  Returns TRUE iff punit currently don't have enough move fragments to
+  perform the specified action but will have it next turn.
+**************************************************************************/
+static bool should_wait_for_mp(struct unit *punit, int action_id)
+{
+  return !utype_may_act_move_frags(unit_type(punit),
+                                   action_id,
+                                   punit->moves_left)
+      && utype_may_act_move_frags(unit_type(punit),
+                                  action_id,
+                                  unit_move_rate(punit));
+}
+
+/**************************************************************************
+  Returns the action id corresponding to the specified order id.
+**************************************************************************/
+static int order_to_action(struct unit *punit, enum unit_orders order)
+{
+  switch (order) {
+  case ORDER_BUILD_CITY:
+    if (tile_city(unit_tile(punit))) {
+      return ACTION_JOIN_CITY;
+    } else {
+      return ACTION_FOUND_CITY;
+    }
+  case ORDER_BUILD_WONDER:
+    return ACTION_HELP_WONDER;
+  case ORDER_TRADE_ROUTE:
+    return ACTION_TRADE_ROUTE;
+  case ORDER_MOVE:
+  case ORDER_ACTION_MOVE:
+  case ORDER_FULL_MP:
+  case ORDER_ACTIVITY:
+  case ORDER_DISBAND:
+  case ORDER_HOMECITY:
+  case ORDER_LAST:
+    /* Not action enabler controlled. */
+    break;
+  }
+
+  fc_assert_msg(FALSE, "No action to map order to.");
+  return ACTION_COUNT;
+}
+
 /****************************************************************************
   Executes a unit's orders stored in punit->orders.  The unit is put on idle
   if an action fails or if "patrol" is set and an enemy unit is encountered.
@@ -3776,23 +3821,30 @@ bool execute_orders(struct unit *punit)
     moves_made++;
 
     order = punit->orders.list[punit->orders.index];
-    if (0 == punit->moves_left) {
-      switch (order.order) {
-      case ORDER_MOVE:
-      case ORDER_ACTION_MOVE:
-      case ORDER_FULL_MP:
-      case ORDER_BUILD_CITY:
+
+    switch (order.order) {
+    case ORDER_MOVE:
+    case ORDER_ACTION_MOVE:
+    case ORDER_FULL_MP:
+      if (0 == punit->moves_left) {
         log_debug("  stopping because of no more move points");
         return TRUE;
-      case ORDER_ACTIVITY:
-      case ORDER_DISBAND:
-      case ORDER_BUILD_WONDER:
-      case ORDER_TRADE_ROUTE:
-      case ORDER_HOMECITY:
-      case ORDER_LAST:
-        /* Those actions don't require moves left. */
-        break;
       }
+      break;
+    case ORDER_BUILD_CITY:
+    case ORDER_BUILD_WONDER:
+    case ORDER_TRADE_ROUTE:
+      if (should_wait_for_mp(punit, order_to_action(punit, order.order))) {
+        log_debug("  stopping. Not enough move points this turn");
+        return TRUE;
+      }
+      break;
+    case ORDER_ACTIVITY:
+    case ORDER_DISBAND:
+    case ORDER_HOMECITY:
+    case ORDER_LAST:
+      /* Those actions don't require moves left. */
+      break;
     }
 
     last_order = (!punit->orders.repeat
