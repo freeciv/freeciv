@@ -96,6 +96,9 @@
 #include <zlib.h>
 #endif
 
+/* ICU */
+#include "unicode/ustring.h"
+
 /* utility */
 #include "fciconv.h"
 #include "fcintl.h"
@@ -105,29 +108,91 @@
 
 #include "support.h"
 
+static int cmp_buffer_size = 0;
+static UChar *cmp_buffer0 = NULL;
+static UChar *cmp_buffer1 = NULL;
+
+/***************************************************************
+  Initial allocation of string comparison buffers.
+***************************************************************/
+static void cmp_buffers_initial(void)
+{
+  if (cmp_buffer0 == NULL) {
+    cmp_buffer_size = 255;
+    cmp_buffer0 = fc_malloc(cmp_buffer_size + 1);
+    cmp_buffer1 = fc_malloc(cmp_buffer_size + 1);
+
+    /* Make sure there's zero after the buffer published with cmp_buffer_size */
+    cmp_buffer0[cmp_buffer_size] = '\0';
+    cmp_buffer1[cmp_buffer_size] = '\0';
+  }
+}
+
+/***************************************************************
+  Make string comparison buffers bigger
+***************************************************************/
+static void cmp_buffers_increase(void)
+{
+  cmp_buffer_size *= 1.5;
+  cmp_buffer0 = fc_realloc(cmp_buffer0, cmp_buffer_size + 1);
+  cmp_buffer1 = fc_realloc(cmp_buffer1, cmp_buffer_size + 1);
+
+  /* Make sure there's zero after the buffer published with cmp_buffer_size */
+  cmp_buffer0[cmp_buffer_size] = '\0';
+  cmp_buffer1[cmp_buffer_size] = '\0';
+}
+
+/***************************************************************
+  Free string comparison buffers.
+***************************************************************/
+void cmp_buffers_free(void)
+{
+  if (cmp_buffer0 != NULL) {
+    free(cmp_buffer0);
+    cmp_buffer0 = NULL;
+    free(cmp_buffer1);
+    cmp_buffer1 = NULL;
+    cmp_buffer_size = 0;
+  }
+}
+
 /***************************************************************
   Compare strings like strcmp(), but ignoring case.
 ***************************************************************/
 int fc_strcasecmp(const char *str0, const char *str1)
 {
+  UErrorCode err_code = U_ZERO_ERROR;
+  int len0;
+  int len1;
+  bool enough_mem = FALSE;
+
   if (str0 == NULL) {
     return -1;
   }
   if (str1 == NULL) {
     return 1;
   }
-#ifdef HAVE_STRCASECMP
-  return strcasecmp (str0, str1);
-#else
-  for (; fc_tolower(*str0) == fc_tolower(*str1); str0++, str1++) {
-    if (*str0 == '\0') {
-      return 0;
+
+  cmp_buffers_initial();
+
+  while (!enough_mem) {
+    UErrorCode err_code0 = U_ZERO_ERROR;
+    UErrorCode err_code1 = U_ZERO_ERROR;
+
+    u_strFromUTF8(cmp_buffer0, cmp_buffer_size, &len0, str0, -1, &err_code0);
+    u_strFromUTF8(cmp_buffer1, cmp_buffer_size, &len1, str1, -1, &err_code1);
+
+    /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
+     * the buffers we were using */
+    if (err_code0 == U_BUFFER_OVERFLOW_ERROR || err_code1 == U_BUFFER_OVERFLOW_ERROR) {
+      cmp_buffers_increase();
+    } else {
+      enough_mem = TRUE;
     }
   }
 
-  return ((int) (unsigned char) fc_tolower(*str0))
-    - ((int) (unsigned char) fc_tolower(*str1));
-#endif /* HAVE_STRCASECMP */
+  return u_strCaseCompare(cmp_buffer0, -1, cmp_buffer1, -1,
+                          0, &err_code);
 }
 
 /***************************************************************
@@ -136,30 +201,45 @@ int fc_strcasecmp(const char *str0, const char *str1)
 ***************************************************************/
 int fc_strncasecmp(const char *str0, const char *str1, size_t n)
 {
+  UErrorCode err_code = U_ZERO_ERROR;
+  int len0;
+  int len1;
+  bool enough_mem = FALSE;
+
   if (str0 == NULL) {
     return -1;
   }
   if (str1 == NULL) {
     return 1;
   }
-#ifdef HAVE_STRNCASECMP
-  return strncasecmp (str0, str1, n);
-#else
-  size_t i;
-  
-  for (i = 0; i < n && fc_tolower(*str0) == fc_tolower(*str1);
-       i++, str0++, str1++) {
-    if (*str0 == '\0') {
-      return 0;
+
+  cmp_buffers_initial();
+
+  while (!enough_mem) {
+    UErrorCode err_code0 = U_ZERO_ERROR;
+    UErrorCode err_code1 = U_ZERO_ERROR;
+
+    u_strFromUTF8(cmp_buffer0, cmp_buffer_size, &len0, str0, -1, &err_code0);
+    u_strFromUTF8(cmp_buffer1, cmp_buffer_size, &len1, str1, -1, &err_code1);
+
+    /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
+     * the buffers we were using */
+    if (err_code0 == U_BUFFER_OVERFLOW_ERROR || err_code1 == U_BUFFER_OVERFLOW_ERROR) {
+      cmp_buffers_increase();
+    } else {
+      enough_mem = TRUE;
     }
   }
 
-  if (i == n)
-    return 0;
-  else
-    return ((int) (unsigned char) fc_tolower(*str0))
-      - ((int) (unsigned char) fc_tolower(*str1));
-#endif /* HAVE_STRNCASECMP */
+  if (len0 > n) {
+    len0 = n;
+  }
+  if (len1 > n) {
+    len1 = n;
+  }
+
+  return u_strCaseCompare(cmp_buffer0, len0, cmp_buffer1, len1,
+                          0, &err_code);
 }
 
 /***************************************************************

@@ -72,4 +72,5 @@ void free_libfreeciv(void)
   diplrel_mess_close();
   free_data_dir_names();
   free_multicast_group();
+  cmp_buffers_free();
 }

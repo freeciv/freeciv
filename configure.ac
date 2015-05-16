@@ -1181,8 +1181,8 @@ AC_CHECK_FUNCS([vsnprintf])
 fi
 
 AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
-		getpwuid inet_aton select snooze strcasecmp strcasestr \
-		strerror strlcat strlcpy strncasecmp strstr uname usleep \
+		getpwuid inet_aton select snooze strcasestr \
+		strerror strlcat strlcpy strstr uname usleep \
                 getline _strcoll stricoll _stricoll strcasecoll getaddrinfo \
                 backtrace])
 
