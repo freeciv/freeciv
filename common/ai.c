@@ -70,7 +70,7 @@ void ai_timer_init(void)
 }
 
 /*****************************************************************************
-  Allocate memory for Start the timer for the AI of a player.
+  Free resources allocated for the AI timers.
 *****************************************************************************/
 void ai_timer_free(void)
 {
