@@ -1,6 +1,19 @@
 # Detect Qt5 headers and libraries and set flag variables
 
+AC_ARG_VAR([MOCCMD], [QT 5 moc command (autodetected it if not set)])
+
 AC_DEFUN([FC_QT5],
+[
+  if test "x$fc_qt5_usable" = "x" ; then
+    case $host_os in 
+    darwin*) FC_QT5_DARWIN;;
+    *) FC_QT5_GENERIC;;
+    esac
+  fi
+])
+ 
+
+AC_DEFUN([FC_QT5_GENERIC],
 [
   AC_LANG_PUSH([C++])
 
@@ -127,7 +140,6 @@ dnl Set MOCCMD to $1 if it is the Qt 5 "moc". If not run $2 parameter.
 AC_DEFUN([FC_QT5_TRY_MOC],
   [FC_QT5_IF_QT5_MOC([$1], [MOCCMD="$1"], [$2])])
 
-AC_ARG_VAR([MOCCMD], [QT 5 moc command (autodetected it if not set)])
 
 dnl If a usable moc command is found do $1 else do $2
 AC_DEFUN([FC_QT5_VALIDATE_MOC], [
