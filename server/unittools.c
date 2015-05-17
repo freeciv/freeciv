@@ -3425,7 +3425,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   /* Move magic. */
   punit->moved = TRUE;
   punit->moves_left = MAX(0, punit->moves_left - move_cost);
-  if (punit->moves_left == 0) {
+  if (punit->moves_left == 0 && !unit_has_orders(punit)) {
+    /* The next order may not require any remaining move fragments. */
     punit->done_moving = TRUE;
   }
 
