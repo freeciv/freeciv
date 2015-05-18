@@ -1388,19 +1388,19 @@ void save_game(const char *orig_filename, const char *save_reason,
 
   if (game.server.save_compress_level > 0) {
     switch (game.server.save_compress_type) {
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
     case FZ_ZLIB:
       /* Append ".gz" to filename. */
       sz_strlcat(filepath, ".gz");
       break;
 #endif
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
     case FZ_BZIP2:
       /* Append ".bz2" to filename. */
       sz_strlcat(filepath, ".bz2");
       break;
 #endif
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
    case FZ_XZ:
       /* Append ".xz" to filename. */
       sz_strlcat(filepath, ".xz");

@@ -25,6 +25,8 @@ extern "C" {
 
 #include <stdio.h>		/* FILE */
 
+#include <freeciv_config.h>
+
 #include "shared.h"		/* fc__attribute */
 
 struct fz_FILE_s;		  /* opaque */
@@ -33,13 +35,13 @@ typedef struct fz_FILE_s fz_FILE;
 /* (Possibly) supported methods (depending on fc_config.h). */
 enum fz_method {
   FZ_PLAIN = 0,
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
   FZ_ZLIB,
 #endif
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
   FZ_BZIP2,
 #endif
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   FZ_XZ,
 #endif
 };
