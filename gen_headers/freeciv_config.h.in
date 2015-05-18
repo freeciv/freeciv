@@ -62,4 +62,13 @@
 /* No freeciv specific debugging support at all */
 #undef FREECIV_NDEBUG
 
+/* zlib is available */
+#undef FREECIV_HAVE_LIBZ
+
+/* libbzip2 is available */
+#undef FREECIV_HAVE_LIBBZ2
+
+/* liblzma is available */
+#undef FREECIV_HAVE_LIBLZMA
+
 #endif /* FC__FREECIV_CONFIG_H */

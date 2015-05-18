@@ -74,7 +74,7 @@
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
 #endif
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
 #ifdef WIN32_NATIVE
@@ -92,7 +92,7 @@
 #  include <libgen.h>
 #endif
 
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
 
@@ -410,7 +410,7 @@ FILE *fc_fopen(const char *filename, const char *opentype)
   Wrapper function for gzopen() with filename conversion to local
   encoding on Windows.
 *****************************************************************/
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
 gzFile fc_gzopen(const char *filename, const char *opentype)
 {
 #ifdef WIN32_NATIVE
@@ -424,7 +424,7 @@ gzFile fc_gzopen(const char *filename, const char *opentype)
 	return gzopen(filename, opentype);
 #endif /* WIN32_NATIVE */
 }
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
 
 /******************************************************************
   Wrapper function for opendir() with filename conversion to local

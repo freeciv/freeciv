@@ -595,9 +595,9 @@ extern struct civ_game game;
 #define GAME_MIN_COMPRESS_LEVEL     1
 #define GAME_MAX_COMPRESS_LEVEL     9
 
-#if defined(HAVE_LIBLZMA)
+#if defined(FREECIV_HAVE_LIBLZMA)
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_XZ
-#elif defined(HAVE_LIBZ)
+#elif defined(FREECIV_HAVE_LIBZ)
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_ZLIB
 #else
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_PLAIN

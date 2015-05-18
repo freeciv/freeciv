@@ -423,26 +423,26 @@ static inline enum fz_method int2fz_method(int magic)
   case 0:               /* Was FZ_PLAIN. */
     return FZ_PLAIN;
   case 1:               /* Was FZ_ZLIB. */
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
     return FZ_ZLIB;
 #else
     log_verbose("Not compiled with zlib support, reverting to default.");
     break;
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case 2:               /* Was FZ_BZIP2. */
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
     return FZ_BZIP2;
 #else
     log_verbose("Not compiled with bzib2 support, reverting to default.");
     break;
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case 3:
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
     return FZ_XZ;
 #else
     log_verbose("Not compiled with xz support, reverting to default.");
     break;
-#endif /* HAVE_LIBLZMA */
+#endif /* FREECIV_HAVE_LIBLZMA */
   }
   return GAME_DEFAULT_COMPRESS_TYPE;
 }

@@ -120,7 +120,7 @@ int fc_strcoll(const char *str0, const char *str1);
 int fc_stricoll(const char *str0, const char *str1);
 
 FILE *fc_fopen(const char *filename, const char *opentype);
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 gzFile fc_gzopen(const char *filename, const char *opentype);
 #endif

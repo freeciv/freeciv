@@ -674,8 +674,8 @@ CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
 COMMON_LIBS=-lm
 
 dnl Check for zlib
-AC_CHECK_LIB(z, gzgets,
-  [AC_DEFINE([HAVE_LIBZ], [1], [zlib is available])
+AC_CHECK_LIB([z], [gzgets],
+  [AC_DEFINE([FREECIV_HAVE_LIBZ], [1], [zlib is available])
 UTILITY_LIBS="${UTILITY_LIBS} -lz"
 COMMON_LIBS="$COMMON_LIBS -lz"], 
   AC_MSG_ERROR([Could not find zlib library.]))
@@ -692,7 +692,7 @@ fi
 dnl Check for bzip2 compression
 AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
   [AC_CHECK_HEADERS([bzlib.h],
-   [AC_DEFINE([HAVE_LIBBZ2], [1], [libbzip2 is available])
+   [AC_DEFINE([FREECIV_HAVE_LIBBZ2], [1], [libbzip2 is available])
 UTILITY_LIBS="${UTILITY_LIBS} -lbz2"
 libbz2_available=true])])
 if test "x$libbz2_available" != "xtrue" ; then
@@ -702,7 +702,7 @@ fi
 dnl Check for xz compression
 AC_CHECK_LIB(lzma, lzma_code,
   [AC_CHECK_HEADERS([lzma.h],
-   [AC_DEFINE([HAVE_LIBLZMA], [1], [liblzma is available])
+   [AC_DEFINE([FREECIV_HAVE_LIBLZMA], [1], [liblzma is available])
 UTILITY_LIBS="${UTILITY_LIBS} -llzma"
 libxz_available=true])])
 if test "x$libxz_available" != "xtrue" ; then

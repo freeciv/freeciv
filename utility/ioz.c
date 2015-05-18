@@ -38,7 +38,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
 #include <zlib.h>
 #endif
 
@@ -58,7 +58,7 @@
 
 #include "ioz.h"
 
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
 struct bzip2_struct {
   BZFILE *file;
   FILE *plain;
@@ -66,9 +66,9 @@ struct bzip2_struct {
   int firstbyte;
   bool eof;
 };
-#endif /* HAVE_LIBBZ2 */
+#endif /* FREECIV_HAVE_LIBBZ2 */
 
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
 
 #define PLAIN_FILE_BUF_SIZE (250*1024)     /* 250kb */
 #define XZ_DECODER_TEST_SIZE (4*1024)      /* 4kb */
@@ -105,7 +105,7 @@ struct xz_struct {
 
 static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action);
 
-#endif /* HAVE_LIBLZMA */
+#endif /* FREECIV_HAVE_LIBLZMA */
 
 struct mem_fzFILE {
   bool control;
@@ -121,13 +121,13 @@ struct fz_FILE_s {
   union {
     struct mem_fzFILE mem;
     FILE *plain;		/* FZ_PLAIN */
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
     gzFile zlib;                 /* FZ_ZLIB */
 #endif
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
     struct bzip2_struct bz2;
 #endif
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
     struct xz_struct xz;
 #endif
   } u;
@@ -140,13 +140,13 @@ static inline bool fz_method_is_valid(enum fz_method method)
 {
   switch (method) {
   case FZ_PLAIN:
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
 #endif
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
 #endif
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
 #endif
     return TRUE;
@@ -207,16 +207,16 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     /* Writing: */
     fp->mode = 'w';
   } else {
-#if defined(HAVE_LIBBZ2) || defined(HAVE_LIBLZMA)
+#if defined(FREECIV_HAVE_LIBBZ2) || defined(FREECIV_HAVE_LIBLZMA)
     char test_mode[4];
     sz_strlcpy(test_mode, mode);
     sz_strlcat(test_mode, "b");
-#endif /* HAVE_LIBBZ2 || HAVE_LIBLZMA */
+#endif /* FREECIV_HAVE_LIBBZ2 || FREECIV_HAVE_LIBLZMA */
 
     /* Reading: ignore specified method and try each: */
     fp->mode = 'r';
 
-#ifdef HAVE_LIBBZ2
+#ifdef FREECIV_HAVE_LIBBZ2
     /* Try to open as bzip2 file
        This is simplest test, so do it first. */
     method = FZ_BZIP2;
@@ -274,9 +274,9 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       BZ2_bzReadClose(&tmp_err, fp->u.bz2.file);
       fclose(fp->u.bz2.plain);
     }
-#endif /* HAVE_LIBBZ2 */
+#endif /* FREECIV_HAVE_LIBBZ2 */
 
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
     /* Try to open as xz file */
     memset(&fp->u.xz.stream, 0, sizeof(lzma_stream));
     fp->u.xz.error = lzma_stream_decoder(&fp->u.xz.stream,
@@ -328,9 +328,9 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       free(fp);
       return NULL;
     }
-#endif /* HAVE_LIBLZMA */
+#endif /* FREECIV_HAVE_LIBLZMA */
 
-#ifdef HAVE_LIBZ
+#ifdef FREECIV_HAVE_LIBZ
     method = FZ_ZLIB;
 #else
     method = FZ_PLAIN;
@@ -340,7 +340,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
   fp->method = fz_method_validate(method);
 
   switch (fp->method) {
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     {
       lzma_ret ret;
@@ -364,8 +364,8 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp->u.xz.plain = fc_fopen(filename, mode);
     }
     return fp;
-#endif /* HAVE_LIBLZMA */
-#ifdef HAVE_LIBBZ2
+#endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     /*  bz2 files are binary files, so we should add "b" to mode! */
     sz_strlcat(mode,"b");
@@ -390,8 +390,8 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp = NULL;
     }
     return fp;
-#endif /* HAVE_LIBBZ2 */
-#ifdef HAVE_LIBZ
+#endif /* FREECIV_HAVE_LIBBZ2 */
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     /*  gz files are binary files, so we should add "b" to mode! */
     sz_strlcat(mode,"b");
@@ -404,7 +404,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp = NULL;
     }
     return fp;
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case FZ_PLAIN:
     fp->u.plain = fc_fopen(filename, mode);
     if (!fp->u.plain) {
@@ -463,7 +463,7 @@ int fz_fclose(fz_FILE *fp)
   }
 
   switch (fz_method_validate(fp->method)) {
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     if (fp->mode == 'w' && !xz_outbuffer_to_file(fp, LZMA_FINISH)) {
       error = 1;
@@ -474,8 +474,8 @@ int fz_fclose(fz_FILE *fp)
     fclose(fp->u.xz.plain);
     free(fp);
     return error;
-#endif /* HAVE_LIBLZMA */
-#ifdef HAVE_LIBBZ2
+#endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     if ('w' == fp->mode) {
       BZ2_bzWriteClose(&fp->u.bz2.error, fp->u.bz2.file, 0, NULL, NULL);
@@ -486,13 +486,13 @@ int fz_fclose(fz_FILE *fp)
     fclose(fp->u.bz2.plain);
     free(fp);
     return BZ_OK == error ? 0 : 1;
-#endif /* HAVE_LIBBZ2 */
-#ifdef HAVE_LIBZ
+#endif /* FREECIV_HAVE_LIBBZ2 */
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     error = gzclose(fp->u.zlib);
     free(fp);
     return 0 > error ? error : 0; /* Only negative Z values are errors. */
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case FZ_PLAIN:
     error = fclose(fp->u.plain);
     free(fp);
@@ -552,7 +552,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
   }
 
   switch (fz_method_validate(fp->method)) {
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     {
       int i, j;
@@ -639,8 +639,8 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
       return buffer;
     }
     break;
-#endif /* HAVE_LIBLZMA */
-#ifdef HAVE_LIBBZ2
+#endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {
       char *retval = NULL;
@@ -681,11 +681,11 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
       buffer[i] = '\0';
       return retval;
     }
-#endif /* HAVE_LIBBZ2 */
-#ifdef HAVE_LIBZ
+#endif /* FREECIV_HAVE_LIBBZ2 */
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     return gzgets(fp->u.zlib, buffer, size);
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case FZ_PLAIN:
     return fgets(buffer, size, fp->u.plain);
   }
@@ -696,7 +696,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
   return NULL;
 }
 
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
 
 /***************************************************************
   Helper function to do given compression action and writing
@@ -729,7 +729,7 @@ static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
 
   return TRUE;
 }
-#endif /* HAVE_LIBLZMA */
+#endif /* FREECIV_HAVE_LIBLZMA */
 
 /***************************************************************
   Print formated, like fprintf.
@@ -751,7 +751,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
   fc_assert_ret_val(!fp->memory, 0);
 
   switch (fz_method_validate(fp->method)) {
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     {
       int num;
@@ -775,8 +775,8 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
       }
     }
     break;
-#endif /* HAVE_LIBLZMA */
-#ifdef HAVE_LIBBZ2
+#endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {
       char buffer[65536];
@@ -795,8 +795,8 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
         return strlen(buffer);
       }
     }
-#endif /* HAVE_LIBBZ2 */
-#ifdef HAVE_LIBZ
+#endif /* FREECIV_HAVE_LIBBZ2 */
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     {
       char buffer[65536];
@@ -810,7 +810,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
       }
       return gzwrite(fp->u.zlib, buffer, (unsigned int)strlen(buffer));
     }
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case FZ_PLAIN:
     va_start(ap, format);
     num = vfprintf(fp->u.plain, format, ap);
@@ -837,7 +837,7 @@ int fz_ferror(fz_FILE *fp)
   }
 
   switch (fz_method_validate(fp->method)) {
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     if (fp->u.xz.error != LZMA_OK
         && fp->u.xz.error != LZMA_STREAM_END) {
@@ -846,13 +846,13 @@ int fz_ferror(fz_FILE *fp)
       return 0;
     }
     break;
-#endif /* HAVE_LZMA */
-#ifdef HAVE_LIBBZ2
+#endif /* FREECIV_HAVE_LZMA */
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     return (BZ_OK != fp->u.bz2.error
             && BZ_STREAM_END != fp->u.bz2.error);
-#endif /* HAVE_LIBBZ2 */
-#ifdef HAVE_LIBZ
+#endif /* FREECIV_HAVE_LIBBZ2 */
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     {
       int error;
@@ -860,7 +860,7 @@ int fz_ferror(fz_FILE *fp)
       (void) gzerror(fp->u.zlib, &error); /* Ignore string result here. */
       return 0 > error ? error : 0; /* Only negative Z values are errors. */
     }
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case FZ_PLAIN:
     return ferror(fp->u.plain);
     break;
@@ -886,7 +886,7 @@ const char *fz_strerror(fz_FILE *fp)
   fc_assert_ret_val(!fp->memory, NULL);
 
   switch (fz_method_validate(fp->method)) {
-#ifdef HAVE_LIBLZMA
+#ifdef FREECIV_HAVE_LIBLZMA
   case FZ_XZ:
     {
       static char xzerror[50];
@@ -937,8 +937,8 @@ const char *fz_strerror(fz_FILE *fp)
       return xzerror;
     }
     break;
-#endif /* HAVE_LIBLZMA */
-#ifdef HAVE_LIBBZ2
+#endif /* FREECIV_HAVE_LIBLZMA */
+#ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     {
       static char bzip2error[50];
@@ -1004,8 +1004,8 @@ const char *fz_strerror(fz_FILE *fp)
       }
       return bzip2error;
     }
-#endif /* HAVE_LIBBZ2 */
-#ifdef HAVE_LIBZ
+#endif /* FREECIV_HAVE_LIBBZ2 */
+#ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     {
       int errnum;
@@ -1013,7 +1013,7 @@ const char *fz_strerror(fz_FILE *fp)
 
       return Z_ERRNO == errnum ? fc_strerror(fc_get_errno()) : estr;
     }
-#endif /* HAVE_LIBZ */
+#endif /* FREECIV_HAVE_LIBZ */
   case FZ_PLAIN:
     return fc_strerror(fc_get_errno());
   }
