@@ -520,6 +520,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 timeout;
   BOOL tired_attack;
   UINT16 trademindist;
+  BOOL force_trade_route;
   BOOL trading_city;
   BOOL trading_gold;
   BOOL trading_tech;
