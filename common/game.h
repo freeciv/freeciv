@@ -748,6 +748,8 @@ extern struct civ_game game;
 #define RS_MIN_BASE_TECH_COST                    0
 #define RS_MAX_BASE_TECH_COST                    200
 
+#define RS_DEFAULT_FORCE_TRADE_ROUTE             FALSE
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -543,6 +543,15 @@ static bool is_action_possible(const enum gen_action wanted_action,
       return FALSE;
     }
 
+    /* Allow a ruleset to forbid units from entering the marketplace if a
+     * trade route can be established in stead. */
+    if (wanted_action == ACTION_MARKETPLACE
+        && game.info.force_trade_route
+        && is_action_enabled_unit_on_city(ACTION_TRADE_ROUTE,
+                                          actor_unit, target_city)) {
+      return FALSE;
+    }
+
     /* There are more restrictions on establishing a trade route than on
      * entering the market place. */
     if (wanted_action == ACTION_TRADE_ROUTE &&

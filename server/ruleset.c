@@ -5180,6 +5180,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     if (ok) {
       const char *text;
 
+      /* Forbid entering the marketplace when a trade route can be
+       * established. */
+      game.info.force_trade_route
+        = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
+                                      "actions.force_trade_route");
+
       text = secfile_lookup_str_default(file,
           /* TRANS: _Poison City (3% chance of success). */
           N_("%sPoison City%s"),

@@ -179,6 +179,11 @@ slow_invasions = TRUE
 tired_attack = FALSE
 
 [actions]
+; If force_trade_route is set to TRUE it is illegal for an actor unit to
+; enter the marketplace of a city if it can establish a trade route to it
+; in stead.
+force_trade_route = FALSE
+
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action.
 ; The second %s marks were extra details should be insterted.

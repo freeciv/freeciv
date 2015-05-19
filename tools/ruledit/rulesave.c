@@ -788,6 +788,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_SLOW_INVASIONS,
                     "global_unit_options.slow_invasions", NULL);
 
+  save_default_bool(sfile, game.info.force_trade_route,
+                    RS_DEFAULT_FORCE_TRADE_ROUTE,
+                    "actions.force_trade_route", NULL);
+
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_POISON)->ui_name,
                      "actions.ui_name_poison_city");
