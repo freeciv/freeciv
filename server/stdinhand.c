@@ -3597,7 +3597,9 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
   check_for_full_turn_done();
 
-  end:;
+  end:
+  fc_assert_ret_val(ntokens <= 1, FALSE);
+
   /* free our args */
   for (i = 0; i < ntokens; i++) {
     free(arg[i]);
