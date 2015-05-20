@@ -541,7 +541,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            const struct unit *target_unit)
 {
   struct player *must_war_player;
-  struct ane_expl* expl = fc_malloc(sizeof(expl));
+  struct ane_expl *expl = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
 
   if ((!can_exist
@@ -584,15 +584,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
                                           const struct unit *target_unit)
 {
   struct player *pplayer = unit_owner(punit);
-  struct ane_expl expl = *expl_act_not_enabl(punit, ACTION_ANY,
+  struct ane_expl *expl = expl_act_not_enabl(punit, ACTION_ANY,
                                              target_tile,
                                              target_city, target_unit);
 
-  switch (expl.kind) {
+  switch (expl->kind) {
   case ANEK_BAD_TERRAIN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
-                  terrain_name_translation(expl.cant_act_from));
+                  terrain_name_translation(expl->cant_act_from));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -608,13 +608,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
-                  player_name(expl.no_war_with));
+                  player_name(expl->no_war_with));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("No action possible."));
     break;
   }
+
+  free(expl);
 }
 
 /**************************************************************************
@@ -768,7 +770,7 @@ static void illegal_action(struct player *pplayer,
                            const struct city *target_city,
                            const struct unit *target_unit)
 {
-  struct ane_expl expl;
+  struct ane_expl *expl;
 
   /* The mistake may have a cost. */
   actor->moves_left = MAX(0, actor->moves_left
@@ -787,16 +789,16 @@ static void illegal_action(struct player *pplayer,
   send_unit_info(NULL, actor);
 
   /* Explain why the action was illegal. */
-  expl = *expl_act_not_enabl(actor, stopped_action,
-                             target_tile, target_city, target_unit);
-  switch (expl.kind) {
+  expl = expl_act_not_enabl(actor, stopped_action,
+                            target_tile, target_city, target_unit);
+  switch (expl->kind) {
   case ANEK_BAD_TERRAIN:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   _("Your %s can't do %s from %s."),
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action),
-                  terrain_name_translation(expl.cant_act_from));
+                  terrain_name_translation(expl->cant_act_from));
     break;
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
@@ -819,7 +821,7 @@ static void illegal_action(struct player *pplayer,
                     " aren't at war with %s."),
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action),
-                  player_name(expl.no_war_with));
+                  player_name(expl->no_war_with));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
@@ -829,6 +831,8 @@ static void illegal_action(struct player *pplayer,
                   gen_action_translated_name(stopped_action));
     break;
   }
+
+  free(expl);
 }
 
 /**************************************************************************
