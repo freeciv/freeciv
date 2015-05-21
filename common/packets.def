@@ -1655,6 +1655,8 @@ PACKET_RULESET_MULTIPLIER = 243; sc, dsend, lsend
   SINT32 stop;
   UINT32 step;
   SINT32 def;
+  SINT32 offset;
+  SINT32 factor;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];

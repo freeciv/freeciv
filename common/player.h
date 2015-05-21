@@ -448,6 +448,8 @@ bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req);
 
 int player_multiplier_value(const struct player *pplayer,
                             const struct multiplier *pmul);
+int player_multiplier_effect_value(const struct player *pplayer,
+                                   const struct multiplier *pmul);
 int player_multiplier_target_value(const struct player *pplayer,
                                    const struct multiplier *pmul);
 

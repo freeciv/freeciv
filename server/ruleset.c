@@ -3388,6 +3388,16 @@ static bool load_ruleset_governments(struct section_file *file)
         ok = FALSE;
         break;
       }
+      pmul->offset = secfile_lookup_int_default(file, 0,
+                                                "%s.offset", sec_name);
+      pmul->factor = secfile_lookup_int_default(file, 100,
+                                                "%s.factor", sec_name);
+      if (pmul->factor == 0) {
+        ruleset_error(LOG_ERROR, "Multiplier \"%s\" scaling factor must "
+                      "not be zero", multiplier_rule_name(pmul));
+        ok = FALSE;
+        break;
+      }
 
       pmul->helptext = lookup_strvec(file, sec_name, "helptext");   
     } multipliers_iterate_end;
@@ -6456,6 +6466,7 @@ static void send_ruleset_multipliers(struct conn_list *dest)
     dlsend_packet_ruleset_multiplier(dest, multiplier_number(pmul),
                                      pmul->start, pmul->stop,
                                      pmul->step, pmul->def,
+                                     pmul->offset, pmul->factor,
                                      untranslated_name(&pmul->name),
                                      rule_name(&pmul->name), 
                                      helptext);

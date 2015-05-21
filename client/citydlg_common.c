@@ -510,8 +510,8 @@ void get_city_dialog_output_text(const struct city *pcity,
 	get_effect_req_text(peffect, buf2, sizeof(buf2));
 
         if (peffect->multiplier) {
-          int mul = player_multiplier_value(city_owner(pcity),
-                                            peffect->multiplier);
+          int mul = player_multiplier_effect_value(city_owner(pcity),
+                                                   peffect->multiplier);
           
           if (mul == 0) {
             /* Suppress text when multiplier setting suppresses effect
@@ -519,7 +519,7 @@ void get_city_dialog_output_text(const struct city *pcity,
              * settings are not known to us) */
             continue;
           }
-          delta = peffect->value * mul;
+          delta = (peffect->value * mul) / 100;
         } else {
           delta = peffect->value;
         }
@@ -641,8 +641,8 @@ void get_city_dialog_illness_text(const struct city *pcity,
     get_effect_req_text(peffect, buf2, sizeof(buf2));
 
     if (peffect->multiplier) {
-      int mul = player_multiplier_value(city_owner(pcity),
-                                        peffect->multiplier);
+      int mul = player_multiplier_effect_value(city_owner(pcity),
+                                               peffect->multiplier);
       
       if (mul == 0) {
         /* Suppress text when multiplier setting suppresses effect
@@ -650,7 +650,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
          * settings are not known to us) */
         continue;
       }
-      delta = peffect->value * mul;
+      delta = (peffect->value * mul) / 100;
     } else {
       delta = peffect->value;
     }
@@ -710,12 +710,13 @@ void get_city_dialog_culture_text(const struct city *pcity,
 
   effect_list_iterate(plist, peffect) {
     char buf2[512];
-    int mul = 1;
+    int mul = 100;
 
     get_effect_req_text(peffect, buf2, sizeof(buf2));
 
     if (peffect->multiplier) {
-      mul = player_multiplier_value(city_owner(pcity), peffect->multiplier);
+      mul = player_multiplier_effect_value(city_owner(pcity),
+                                           peffect->multiplier);
       
       if (mul == 0) {
         /* Suppress text when multiplier setting suppresses effect
@@ -726,7 +727,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
     }
 
     cat_snprintf(buf, bufsz,
-                 _("%4d : %s\n"), peffect->value * mul, buf2);
+                 _("%4d : %s\n"), (peffect->value * mul) / 100, buf2);
   } effect_list_iterate_end;
   effect_list_destroy(plist);
 

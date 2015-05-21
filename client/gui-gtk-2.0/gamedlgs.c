@@ -217,7 +217,7 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
 }
 
 /**************************************************************************
-  Convert real multiplier value to scale value
+  Convert real multiplier display value to scale value
 **************************************************************************/
 static int mult_to_scale(const struct multiplier *pmul, int val)
 {
@@ -225,7 +225,7 @@ static int mult_to_scale(const struct multiplier *pmul, int val)
 }
 
 /**************************************************************************
-  Convert scale units to real multiplier value
+  Convert scale units to real multiplier display value
 **************************************************************************/
 static int scale_to_mult(const struct multiplier *pmul, int scale)
 {

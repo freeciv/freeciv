@@ -1704,7 +1704,8 @@ void player_set_ai_data(struct player *pplayer, const struct ai_type *ai,
 }
 
 /**************************************************************************
-  Return the multiplier value currently in effect for pplayer.
+  Return the multiplier value currently in effect for pplayer (in display
+  units).
 **************************************************************************/
 int player_multiplier_value(const struct player *pplayer,
                             const struct multiplier *pmul)
@@ -1713,9 +1714,21 @@ int player_multiplier_value(const struct player *pplayer,
 }
 
 /**************************************************************************
+  Return the multiplier value currently in effect for pplayer, scaled
+  from display units to the units used in the effect system (if different).
+  Result is multiplied by 100 (caller should divide down).
+**************************************************************************/
+int player_multiplier_effect_value(const struct player *pplayer,
+                                   const struct multiplier *pmul)
+{
+  return (player_multiplier_value(pplayer, pmul) + pmul->offset)
+    * pmul->factor;
+}
+
+/**************************************************************************
   Return the player's target value for a multiplier (which may be
   different from the value currently in force; it will take effect
-  next turn).
+  next turn). Result is in display units.
 **************************************************************************/
 int player_multiplier_target_value(const struct player *pplayer,
                                    const struct multiplier *pmul)
