@@ -147,7 +147,8 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
 
   if (peffect->multiplier) {
     if (pplayer) {
-      amount = player_multiplier_value(pplayer, peffect->multiplier) * amount;
+      amount = (player_multiplier_effect_value(pplayer, peffect->multiplier)
+                * amount) / 100;
     } else {
       amount = 0;
     }

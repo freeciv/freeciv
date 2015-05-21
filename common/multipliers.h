@@ -30,10 +30,12 @@ struct multiplier
 {
   Multiplier_type_id id;
   struct name_translation name;
-  int start;
-  int stop;
-  int step;
-  int def; /* default value */
+  int start; /* display units */
+  int stop;  /* display units */
+  int step;  /* display units */
+  int def;   /* default value, in display units */
+  int offset;
+  int factor;
   struct strvec *helptext;
 };
 

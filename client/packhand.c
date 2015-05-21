@@ -3242,10 +3242,12 @@ void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
 
   fc_assert_ret_msg(NULL != pmul, "Bad multiplier %d.", p->id);
 
-  pmul->start = p->start;
-  pmul->stop  = p->stop;
-  pmul->step  = p->step;
-  pmul->def   = p->def;
+  pmul->start  = p->start;
+  pmul->stop   = p->stop;
+  pmul->step   = p->step;
+  pmul->def    = p->def;
+  pmul->offset = p->offset;
+  pmul->factor = p->factor;
 
   names_set(&pmul->name, NULL, p->name, p->rule_name);
 
