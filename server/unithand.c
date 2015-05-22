@@ -82,6 +82,8 @@ enum ane_kind {
   ANEK_IS_NOT_TRANSPORTED,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
+  /* Explanation: not enough MP left. */
+  ANEK_LOW_MP,
   /* Explanation not detected. */
   ANEK_UNKNOWN,
 };
@@ -620,6 +622,34 @@ static struct player *need_war_player(const struct unit *actor,
 }
 
 /**************************************************************************
+  Returns TRUE if the specified action can't be done now but would have
+  been legal if the unit had full movement.
+**************************************************************************/
+static bool need_full_mp(const struct unit *actor, const int action_id)
+{
+  if (action_id == ACTION_ANY) {
+    /* Any action at all will do. */
+    action_iterate(act) {
+      if (need_full_mp(actor, action_id)) {
+        /* Full movement points may enable this action. */
+        return TRUE;
+      }
+    } action_iterate_end;
+
+    /* No action at all may be enabled by full MP. */
+    return FALSE;
+  } else {
+    /* Check if full movement points may enable the specified action. */
+    return !utype_may_act_move_frags(unit_type(actor),
+                                     action_id,
+                                     actor->moves_left)
+        && utype_may_act_move_frags(unit_type(actor),
+                                    action_id,
+                                    unit_move_rate(actor));
+  }
+}
+
+/**************************************************************************
   Returns an explaination why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
@@ -656,6 +686,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                 target_unit))) {
     expl->kind = ANEK_NO_WAR;
     expl->no_war_with = must_war_player;
+  } else if (need_full_mp(punit, action_id)) {
+    expl->kind = ANEK_LOW_MP;
   } else {
     expl->kind = ANEK_UNKNOWN;
   }
@@ -698,6 +730,10 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
                   player_name(expl->no_war_with));
+    break;
+  case ANEK_LOW_MP:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit has too few moves left to act."));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -907,6 +943,13 @@ static void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action),
                   player_name(expl->no_war_with));
+    break;
+  case ANEK_LOW_MP:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s has too few moves left to %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action));
     break;
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
