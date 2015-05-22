@@ -395,14 +395,6 @@ unit_add_or_build_city_test(const struct unit *punit)
     if (!is_build) {
       return UAB_NOT_BUILD_UNIT;
     }
-    if (punit->moves_left == 0
-        /* TODO: Remove UAB_NO_MOVES_BUILD when doing so is safe. */
-        /* The ruleset may allow founding cities when out of move
-         * fragments. */
-        && !utype_may_act_move_frags(unit_type(punit),
-                                     ACTION_FOUND_CITY, 0)) {
-      return UAB_NO_MOVES_BUILD;
-    }
     switch (city_build_here_test(ptile, punit)) {
     case CB_OK:
       return UAB_BUILD_OK;
@@ -416,20 +408,12 @@ unit_add_or_build_city_test(const struct unit *punit)
       return UAB_NO_MIN_DIST;
     }
     log_error("%s(): Internal error.", __FUNCTION__);
-    return UAB_NO_MOVES_BUILD; /* Returns something prohibitive. */
+    return UAB_BAD_CITY_TERRAIN; /* Returns something prohibitive. */
   }
 
   /* Test if we can add. */
   if (!is_add) {
     return UAB_NOT_ADDABLE_UNIT;
-  }
-  if (punit->moves_left == 0
-      /* TODO: Remove UAB_NO_MOVES_ADD when doing so is safe. */
-      /* The ruleset may allow joining cities when out of move
-       * fragments. */
-      && !utype_may_act_move_frags(unit_type(punit),
-                                   ACTION_JOIN_CITY, 0)) {
-    return UAB_NO_MOVES_ADD;
   }
 
   fc_assert(unit_pop_value(punit) > 0);

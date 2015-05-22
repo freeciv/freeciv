@@ -1640,16 +1640,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       }
     }
     break;
-  case UAB_NO_MOVES_ADD:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("%s unit has no moves left to add to %s."),
-                  unit_link(punit), city_link(pcity));
-    break;
-  case UAB_NO_MOVES_BUILD:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("%s unit has no moves left to build city."),
-                  unit_link(punit));
-    break;
   case UAB_NOT_OWNER:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   /* TRANS: <city> is owned by <nation>, cannot add <unit>. */
