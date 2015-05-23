@@ -1112,6 +1112,8 @@ static void setup_widgets(void)
 
   /* overview canvas */
   ahbox = detached_widget_new();
+  gtk_widget_set_hexpand(ahbox, FALSE);
+  gtk_widget_set_vexpand(ahbox, FALSE);
   gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
   avbox = detached_widget_fill(ahbox);
 
@@ -1127,6 +1129,8 @@ static void setup_widgets(void)
 		              overview_canvas_store_height);
   gtk_widget_set_size_request(overview_scrolled_window, overview_canvas_store_width,
 		              overview_canvas_store_height);
+  gtk_widget_set_hexpand(overview_canvas, TRUE);
+  gtk_widget_set_vexpand(overview_canvas, TRUE);
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			        |GDK_BUTTON_PRESS_MASK
