@@ -237,6 +237,11 @@ Illegal_Action_Move_Cost
     The number of move fragments lost when the player tries to do an action
 that turns out to be illegal.
 
+Casus_Belli_Caught
+    When a player is caught trying to do an action to another player it
+causes an incident. This gives the victim a casus belli against the player
+that was caught.
+
 Size_Adj
     Increase maximum size of a city by amount.
 

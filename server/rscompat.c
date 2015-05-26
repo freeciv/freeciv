@@ -311,6 +311,32 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The fudge factor to more closely approximate Civ2 behavior has
      * moved to the ruleset. */
      peffect = effect_new(EFT_TRADE_REVENUE_BONUS, 1585, NULL);
+
+     /* Diplomatic incident from getting caught stealing tech has moved to
+      * the ruleset. */
+
+     /* Start with the targeted steal tech. */
+     peffect = effect_new(EFT_CASUS_BELLI_CAUGHT, 1, NULL);
+
+     /* Should only apply to the targeted steal tech action. */
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Targeted Steal Tech"));
+
+     /* No incident if stolen during war. */
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Getting caught trying to do the untargeted steal tech action would
+      * also cause an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_CAUGHT, 1, NULL);
+
+     /* Should only apply to the untargeted steal tech action. */
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Steal Tech"));
+
+     /* No incident if stolen during war. */
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
   }
 
   /* Upgrade existing effects. */

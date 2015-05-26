@@ -1449,3 +1449,12 @@ reqs	=
       "Action", "Found City", "Local", FALSE
       "Action", "Join City", "Local", FALSE
     }
+
+[effect_incident_caught_steal_tech]
+type	= "Casus_Belli_Caught"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Tech", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
