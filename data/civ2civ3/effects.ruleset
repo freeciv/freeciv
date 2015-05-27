@@ -2871,6 +2871,7 @@ reqs    =
       "OutputType", "Luxury", "Local"
     }
 
+; Tiles with farmland don't get Super Highways trade bonus
 [effect_super_highways]
 type    = "Output_Inc_Tile"
 value   = 1
@@ -2883,7 +2884,67 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "Special", "Farmland", "Local"
+      "CityTile", "Center", "Local"
     }
+
+; City center tiles only get the trade bonus if they aren't benefiting from
+; 'automatic' farmland (the following clauses duplicate terms from
+; Supermarket rules)
+
+; City without Supermarket doesn't get farmland bonus => can get trade bonus
+[effect_super_highways_city_center_1]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Road", "Road", "Local"
+      "Building", "Super Highways", "City"
+      "OutputType", "Trade", "Local"
+      "CityTile", "Center", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Supermarket", "City"
+      "Special", "Farmland", "Local"
+    }
+
+; Otherwise, city has Supermarket
+; ...but if it has a mine, it still can't get farmland bonus
+[effect_super_highways_city_center_2]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Road", "Road", "Local"
+      "Building", "Super Highways", "City"
+      "OutputType", "Trade", "Local"
+      "CityTile", "Center", "Local"
+      "Building", "Supermarket", "City"
+      "Special", "Mine", "Local"
+    }
+; Can't have farmland with mine, so no need for farmland in nreqs
+
+; Otherwise, it can't get farmland bonus if terrain can't be irrigated
+[effect_super_highways_city_center_3]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Road", "Road", "Local"
+      "Building", "Super Highways", "City"
+      "OutputType", "Trade", "Local"
+      "CityTile", "Center", "Local"
+      "Building", "Supermarket", "City"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Special", "Mine", "Local"
+      "TerrainAlter", "CanIrrigate", "Local"
+      "Special", "Farmland", "Local"
+    }
+
+; Otherwise, city center tile is benefiting from farmland bonus (or has
+; explicit farmland special) so doesn't get trade bonus
 
 [effect_super_highways_1]
 type    = "Output_Bonus"
@@ -2927,6 +2988,8 @@ nreqs   =
       "CityTile", "Center", "Local"
     }
 
+; Automatic farmland on city center
+; Note, terms are duplicated in Super Highways rules
 [effect_supermarket_2]
 type    = "Output_Per_Tile"
 value   = 50
