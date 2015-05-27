@@ -2749,7 +2749,7 @@ reqs    =
 
 ; City center tiles only get the trade bonus if they aren't benefiting from
 ; 'automatic' farmland (the following clauses duplicate terms from
-; Supermarket rules)
+; Supermarket and Irrig_Possible rules)
 
 ; City without Supermarket doesn't get farmland bonus => can get trade bonus
 [effect_super_highways_city_center_1]
@@ -2796,6 +2796,7 @@ reqs    =
     }
 
 ; Otherwise, it can't get farmland bonus if terrain can't be irrigated
+; (desert terrain can be irrigated so will not match this clause)
 [effect_super_highways_city_center_4]
 type    = "Output_Inc_Tile"
 value   = 1
@@ -2809,6 +2810,26 @@ reqs    =
       "Extra", "Mine", "Local", FALSE
       "Extra", "Oil Well", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", FALSE
+      "Extra", "Farmland", "Local", FALSE
+    }
+
+; Otherwise, it can't get farmland bonus if underlying terrain is bare
+; desert on which building farmland is prohibited (see Irrig_Possible rules)
+[effect_super_highways_city_center_5]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Extra", "Road", "Local", TRUE
+      "Building", "Super Highways", "City", TRUE
+      "OutputType", "Trade", "Local", TRUE
+      "CityTile", "Center", "Local", TRUE
+      "Building", "Supermarket", "City", TRUE
+      "Terrain", "Desert", "Local", TRUE
+      "Resource", "Oasis", "Local", FALSE
+      "Extra", "River", "Local", FALSE
+      ; Desert cannot have mine, only oil well
+      "Extra", "Oil Well", "Local", FALSE
       "Extra", "Farmland", "Local", FALSE
     }
 
@@ -3714,6 +3735,24 @@ reqs    =
     { "type", "name", "range", "present"
       "Extra", "Irrigation", "CAdjacent", TRUE
       "UnitClass", "Sea", "Local", FALSE
+    }
+
+; Prevent building farmland on bare deserts. It does not yield any bonus
+; over irrigation, and prevents any Super Highways trade bonus, so it
+; would be a waste of time.
+; (Note that it is still possible to end up with farmland on such terrain
+; through climate change.)
+; Deserts with food bonuses _are_ allowed farmland (hence exceptions).
+; -4 counterbalances all the above positive Irrig_Possible effects
+[effect_no_desert_farmland_1]
+type    = "Irrig_Possible"
+value   = -4
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Desert", "Local", TRUE
+      "Extra", "Irrigation", "Local", TRUE
+      "Resource", "Oasis", "Local", FALSE
+      "Extra", "River", "Local", FALSE
     }
 
 [effect_mining]
