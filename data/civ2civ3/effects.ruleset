@@ -2889,7 +2889,7 @@ nreqs   =
 
 ; City center tiles only get the trade bonus if they aren't benefiting from
 ; 'automatic' farmland (the following clauses duplicate terms from
-; Supermarket rules)
+; Supermarket and Irrig_Possible rules)
 
 ; City without Supermarket doesn't get farmland bonus => can get trade bonus
 [effect_super_highways_city_center_1]
@@ -2925,6 +2925,7 @@ reqs    =
 ; Can't have farmland with mine, so no need for farmland in nreqs
 
 ; Otherwise, it can't get farmland bonus if terrain can't be irrigated
+; (desert terrain can be irrigated so will not match this clause)
 [effect_super_highways_city_center_3]
 type    = "Output_Inc_Tile"
 value   = 1
@@ -2940,6 +2941,28 @@ nreqs   =
     { "type", "name", "range"
       "Special", "Mine", "Local"
       "TerrainAlter", "CanIrrigate", "Local"
+      "Special", "Farmland", "Local"
+    }
+
+; Otherwise, it can't get farmland bonus if underlying terrain is bare
+; desert on which building farmland is prohibited (see Irrig_Possible rules)
+[effect_super_highways_city_center_4]
+type    = "Output_Inc_Tile"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Road", "Road", "Local"
+      "Building", "Super Highways", "City"
+      "OutputType", "Trade", "Local"
+      "CityTile", "Center", "Local"
+      "Building", "Supermarket", "City"
+      "Terrain", "Desert", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Resource", "Oasis", "Local"
+      "Road", "River", "Local"
+      "Special", "Mine", "Local"
       "Special", "Farmland", "Local"
     }
 
@@ -3870,6 +3893,27 @@ reqs    =
 nreqs   =
     { "type", "name", "range"
       "UnitClass", "Sea", "Local"
+    }
+
+; Prevent building farmland on bare deserts. It does not yield any bonus
+; over irrigation, and prevents any Super Highways trade bonus, so it
+; would be a waste of time.
+; (Note that it is still possible to end up with farmland on such terrain
+; through climate change.)
+; Deserts with food bonuses _are_ allowed farmland (hence nreqs).
+; -4 counterbalances all the above positive Irrig_Possible effects
+[effect_no_desert_farmland_1]
+type    = "Irrig_Possible"
+value   = -4
+reqs    =
+    { "type", "name", "range"
+      "Terrain", "Desert", "Local"
+      "Special", "Irrigation", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Resource", "Oasis", "Local"
+      "Road", "River", "Local"
     }
 
 [effect_mining]
