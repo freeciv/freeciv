@@ -1117,10 +1117,16 @@ static void help_update_terrain(const struct help_item *pitem,
   create_help_page(HELP_TERRAIN);
 
   if (pterrain) {
-    sprintf(buf, "%d/%d.%d",
-	    pterrain->movement_cost,
-	    (int)((pterrain->defense_bonus + 100) / 100),
-	    (pterrain->defense_bonus + 100) % 100 / 10);
+    {
+      /* 25 => "1.25"; 50 => "1.5"; 100 => "2.0" */
+      int defbonus = pterrain->defense_bonus + 100;
+      int frac = defbonus % 100;
+      if ((frac % 10) == 0) {
+        frac /= 10;
+      }
+      sprintf(buf, "%d/%d.%d",
+              pterrain->movement_cost, defbonus / 100, frac);
+    }
     gtk_label_set_text(GTK_LABEL(help_tlabel[0][1]), buf);
 
     sprintf(buf, "%d/%d/%d",
