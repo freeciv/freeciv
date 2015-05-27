@@ -365,6 +365,8 @@ bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
 const char *diplstate_text(const enum diplstate_type type);
 const char *love_text(const int love);
 
+enum diplstate_type cancel_pact_result(enum diplstate_type oldstate);
+
 struct player_diplstate *player_diplstate_get(const struct player *plr1,
                                               const struct player *plr2);
 bool are_diplstates_equal(const struct player_diplstate *pds1,

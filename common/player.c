@@ -69,6 +69,29 @@ static const char *ai_level_names[] = {
 };
 
 /***************************************************************
+  Return the diplomatic state that cancelling a pact will
+  end up in.
+***************************************************************/
+enum diplstate_type cancel_pact_result(enum diplstate_type oldstate)
+{
+  switch(oldstate) {
+  case DS_NO_CONTACT: /* possible if someone declares war on our ally */
+  case DS_WAR: /* no change */
+  case DS_ARMISTICE:
+  case DS_CEASEFIRE:
+  case DS_PEACE:
+    return DS_WAR;
+  case DS_ALLIANCE:
+    return DS_ARMISTICE;
+  case DS_TEAM: /* no change */
+    return DS_TEAM;
+  default:
+    log_error("non-pact diplstate %d in cancel_pact_result", oldstate);
+    return DS_WAR; /* arbitrary */
+  }
+}
+
+/***************************************************************
   Returns true iff p1 can cancel treaty on p2.
 
   The senate may not allow you to break the treaty.  In this 

@@ -23,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "support.h"
 
@@ -759,7 +760,31 @@ void players_meet_callback(GtkMenuItem *item, gpointer data)
 }
 
 /**************************************************************************
-  Pact cancelled
+  Confirm pact/treaty cancellation.
+  Frees strings passed in.
+**************************************************************************/
+static void confirm_cancel_pact(enum clause_type clause, int plrno,
+                                char *title, char *question)
+{
+  GtkWidget *shell;
+
+  shell = gtk_message_dialog_new(NULL, 0,
+                                 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+                                 "%s", question);
+  gtk_window_set_title(GTK_WINDOW(shell), title);
+  setup_dialog(shell, toplevel);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
+
+  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
+    dsend_packet_diplomacy_cancel_pact(&client.conn, plrno, clause);
+  }
+  gtk_widget_destroy(shell);
+  FC_FREE(title);
+  FC_FREE(question);
+}
+
+/**************************************************************************
+  Pact cancellation requested
 **************************************************************************/
 void players_war_callback(GtkMenuItem *item, gpointer data)
 {
@@ -767,13 +792,35 @@ void players_war_callback(GtkMenuItem *item, gpointer data)
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    struct astring title = ASTRING_INIT, question = ASTRING_INIT;
     gint plrno;
+    struct player *aplayer;
+    enum diplstate_type oldstate, newstate;
 
     gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &plrno, -1);
+    aplayer = player_by_number(plrno);
+    fc_assert_ret(aplayer != NULL);
+
+    oldstate = player_diplstate_get(client_player(), aplayer)->type;
+    newstate = cancel_pact_result(oldstate);
+
+    /* TRANS: %s is a diplomatic state: "Cancel Cease-fire" */
+    astr_set(&title, _("Cancel %s"), diplstate_text(oldstate));
+
+    if (newstate == DS_WAR) {
+      astr_set(&question, _("Really declare war on the %s?"),
+               nation_plural_for_player(aplayer));
+    } else {
+      /* TRANS: "Cancel Belgian Alliance? ... will be Armistice." */
+      astr_set(&question, _("Cancel %s %s? New diplomatic state will be %s."),
+               nation_adjective_for_player(aplayer),
+               diplstate_text(oldstate),
+               diplstate_text(newstate));
+    }
 
     /* can be any pact clause */
-    dsend_packet_diplomacy_cancel_pact(&client.conn, plrno,
-				       CLAUSE_CEASEFIRE);
+    confirm_cancel_pact(CLAUSE_CEASEFIRE, plrno,
+                        astr_to_str(&title), astr_to_str(&question));
   }
 }
 
@@ -786,15 +833,26 @@ void players_vision_callback(GtkMenuItem *item, gpointer data)
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    struct astring question = ASTRING_INIT;
     gint plrno;
+    struct player *aplayer;
 
     gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &plrno, -1);
-    dsend_packet_diplomacy_cancel_pact(&client.conn, plrno, CLAUSE_VISION);
+    aplayer = player_by_number(plrno);
+    fc_assert_ret(aplayer != NULL);
+
+    /* TRANS: "...from the Belgians?" */
+    astr_set(&question, _("Withdraw shared vision from the %s?"),
+             nation_plural_for_player(aplayer));
+
+    confirm_cancel_pact(CLAUSE_VISION, plrno,
+                        fc_strdup(_("Withdraw Shared Vision")),
+                        astr_to_str(&question));
   }
 }
 
 /**************************************************************************
-  Intelligenze report query
+  Intelligence report query
 **************************************************************************/
 void players_intel_callback(GtkMenuItem *item, gpointer data)
 {
@@ -877,4 +935,4 @@ static void update_views(void)
     col = gtk_tree_view_get_column(GTK_TREE_VIEW(players_list), i);
     gtk_tree_view_column_set_visible(col, player_dlg_columns[i].show);
   }
-};
+}
