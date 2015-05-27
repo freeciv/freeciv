@@ -694,20 +694,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   /* else, breaking a treaty */
 
   /* check what the new status will be */
-  switch(old_type) {
-  case DS_NO_CONTACT: /* possible if someone declares war on our ally */
-  case DS_ARMISTICE:
-  case DS_CEASEFIRE:
-  case DS_PEACE:
-    new_type = DS_WAR;
-    break;
-  case DS_ALLIANCE:
-    new_type = DS_ARMISTICE;
-    break;
-  default:
-    log_error("non-pact diplstate in handle_player_cancel_pact");
-    return;
-  }
+  new_type = cancel_pact_result(old_type);
 
   ds_plrplr2 = player_diplstate_get(pplayer, pplayer2);
   ds_plr2plr = player_diplstate_get(pplayer2, pplayer);
