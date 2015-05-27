@@ -763,6 +763,11 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   nation_adjective_for_player(pplayer),
                   unit_tile_link(pdiplomat),
                   clink);
+
+    /* This may cause a diplomatic incident */
+    action_consequence_caught(ACTION_SPY_INCITE_CITY, pplayer,
+                              cplayer, ctile, clink);
+
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return;
   }
@@ -878,6 +883,11 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                   nation_adjective_for_player(pplayer),
                   unit_tile_link(pdiplomat),
                   city_link(pcity));
+
+    /* This may cause a diplomatic incident */
+    action_consequence_caught(action_id, pplayer, cplayer,
+                              city_tile(pcity), city_link(pcity));
+
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return;
   }
@@ -1038,6 +1048,11 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                     unit_tile_link(pdiplomat),
                     improvement_name_translation(ptarget),
                     city_link(pcity));
+
+      /* This may cause a diplomatic incident */
+      action_consequence_caught(action_id, pplayer, cplayer,
+                                city_tile(pcity), city_link(pcity));
+
       wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
       log_debug("sabotage: caught in capital or on city walls");
       return;
@@ -1144,6 +1159,10 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
                   nation_adjective_for_player(act_player),
                   unit_tile_link(act_unit),
                   tgt_city_link);
+
+    /* This may cause a diplomatic incident */
+    action_consequence_caught(ACTION_SPY_STEAL_GOLD, act_player,
+                              tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught thief. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
