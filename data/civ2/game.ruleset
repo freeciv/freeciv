@@ -217,7 +217,6 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
       "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 
@@ -227,7 +226,6 @@ actor_reqs    =
     { "type",   "name", "range"
       "DiplRel", "War", "Local"
       "UnitFlag", "Spy", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 
@@ -236,7 +234,6 @@ action       = "Establish Embassy"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 
@@ -245,7 +242,6 @@ action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 
@@ -255,7 +251,6 @@ actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
       "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 target_reqs    =
@@ -268,7 +263,6 @@ action = "Steal Tech"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
@@ -281,7 +275,6 @@ action = "Targeted Steal Tech"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
@@ -296,7 +289,6 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local", TRUE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
-      "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
@@ -312,7 +304,6 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local", TRUE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
-      "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
@@ -328,7 +319,6 @@ actor_reqs    =
     { "type",   "name", "range"
       "Unitflag", "Spy", "Local"
       "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
 target_reqs    =
