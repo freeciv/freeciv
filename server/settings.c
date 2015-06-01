@@ -578,6 +578,7 @@ static void aifill_action(const struct setting *pset)
 {
   const char *msg = aifill(*pset->integer.pvalue);
   if (msg) {
+    log_normal(_("Warning: aifill not met: %s."), msg);
     notify_conn(NULL, NULL, E_SETTING, ftc_server,
                 _("Warning: aifill not met: %s."), msg);
   }
