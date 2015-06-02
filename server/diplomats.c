@@ -56,12 +56,8 @@ static bool diplomat_success_vs_defender(struct unit *patt, struct unit *pdef,
 static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct player *cplayer,
                                      struct unit *pdiplomat,
+                                     struct unit *pvictim,
                                      struct tile *ptile);
-static bool diplomat_infiltrate_tile_victim(struct player *pplayer,
-                                            struct player *cplayer,
-                                            struct unit *pdiplomat,
-                                            struct unit *pvictim,
-                                            struct tile *ptile);
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                             const struct city *pcity);
 static void diplomat_escape_full(struct player *pplayer,
@@ -109,7 +105,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   log_debug("poison: unit: %d", pdiplomat->id);
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, ctile)) {
+  if (!diplomat_infiltrate_tile(pplayer, cplayer,
+                                pdiplomat, NULL, ctile)) {
     return;
   }
 
@@ -355,7 +352,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   sz_strlcpy(victim_link, unit_link(pvictim));
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, uplayer, pdiplomat, 
+  if (!diplomat_infiltrate_tile(pplayer, uplayer, pdiplomat, NULL,
                                 unit_tile(pvictim))) {
     return;
   }
@@ -462,9 +459,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Diplomatic battle against any diplomatic defender except the one that
    * will get the bribe. */
-  if (!diplomat_infiltrate_tile_victim(pplayer, uplayer,
-                                       pdiplomat, pvictim,
-                                       pvictim->tile)) {
+  if (!diplomat_infiltrate_tile(pplayer, uplayer,
+                                pdiplomat, pvictim,
+                                pvictim->tile)) {
     return;
   }
 
@@ -602,7 +599,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   log_debug("steal-tech: unit: %d", pdiplomat->id);
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
+  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, NULL,
                                 pcity->tile)) {
     return;
   }
@@ -744,7 +741,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
+  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, NULL,
                                 pcity->tile)) {
     return;
   }
@@ -858,7 +855,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                   : game.server.diplchance / 2); 
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
+  if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, NULL,
                                 pcity->tile)) {
     return;
   }
@@ -1125,7 +1122,7 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Battle all units capable of diplomatic defence. */
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
-                                act_unit, tgt_tile)) {
+                                act_unit, NULL, tgt_tile)) {
     return;
   }
 
@@ -1270,6 +1267,7 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   This determines if a diplomat/spy succeeds in infiltrating a tile.
 
   - The infiltrator must go up against each defender.
+  - The victim unit won't defend. (NULL if everyone should defend)
   - One or the other is eliminated in each contest.
 
   - Return TRUE if the infiltrator succeeds.
@@ -1280,30 +1278,8 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
 static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct player *cplayer,
                                      struct unit *pdiplomat,
+                                     struct unit *pvictim,
                                      struct tile *ptile)
-{
-  return diplomat_infiltrate_tile_victim(pplayer, cplayer,
-                                         pdiplomat, NULL,
-                                         ptile);
-}
-
-/**************************************************************************
-  This determines if a diplomat/spy succeeds in infiltrating a tile.
-
-  - The infiltrator must go up against each defender.
-  - The victim unit won't defend.
-  - One or the other is eliminated in each contest.
-
-  - Return TRUE if the infiltrator succeeds.
-
-  'pplayer' is the player who tries to do a spy/diplomat action on 'ptile'
-  with the unit 'pdiplomat' against 'cplayer'.
-**************************************************************************/
-static bool diplomat_infiltrate_tile_victim(struct player *pplayer,
-                                            struct player *cplayer,
-                                            struct unit *pdiplomat,
-                                            struct unit *pvictim,
-                                            struct tile *ptile)
 {
   char link_city[MAX_LEN_LINK] = "";
   char link_diplomat[MAX_LEN_LINK];
