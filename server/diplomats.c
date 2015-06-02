@@ -351,8 +351,9 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(victim_link, unit_link(pvictim));
 
-  /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
-  if (!diplomat_infiltrate_tile(pplayer, uplayer, pdiplomat, NULL,
+  /* Diplomatic battle against any diplomatic defender except the intended
+   * victim of the sabotage. */
+  if (!diplomat_infiltrate_tile(pplayer, uplayer, pdiplomat, pvictim,
                                 unit_tile(pvictim))) {
     return;
   }
