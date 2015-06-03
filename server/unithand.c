@@ -541,7 +541,7 @@ static bool need_full_mp(const struct unit *actor, const int action_id)
   if (action_id == ACTION_ANY) {
     /* Any action at all will do. */
     action_iterate(act) {
-      if (need_full_mp(actor, action_id)) {
+      if (need_full_mp(actor, act)) {
         /* Full movement points may enable this action. */
         return TRUE;
       }
