@@ -242,6 +242,10 @@ Casus_Belli_Caught
 causes an incident. This gives the victim a casus belli against the player
 that was caught.
 
+Casus_Belli_Success
+    When does an action to another player it causes an incident. This gives
+the victim a casus belli against the player that was caught.
+
 Size_Adj
     Increase maximum size of a city by amount.
 

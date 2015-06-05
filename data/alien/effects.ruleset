@@ -1028,11 +1028,47 @@ reqs	=
       "Action", "Join City", "Local", FALSE
     }
 
+[effect_incident_success_steal_tech]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Tech", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
 [effect_incident_caught_steal_tech]
 type	= "Casus_Belli_Caught"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Steal Tech", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_incident_success_bribe_unit]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Bribe Unit", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_incident_success_incite]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Incite City", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_incident_success_sabotage_city]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Sabotage City", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }

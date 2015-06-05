@@ -337,6 +337,73 @@ void rscompat_postprocess(struct rscompat_info *info)
      /* No incident if stolen during war. */
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                             FALSE, "War"));
+
+     /* Diplomatic incident from successfully performing an action. */
+
+     /* Stealing a specified tech during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Targeted Steal Tech"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Stealing a random tech during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Steal Tech"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Bribe unit during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Bribe Unit"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Sabotage unit during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Sabotage Unit"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Inciting a city during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Incite City"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Poisoning a city during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Poison City"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Sabotaging a random improvement in a city during peace causes an
+      * incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Sabotage City"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Sabotaging a specific improvement in a city during peace causes
+      * an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+         TRUE, "Targeted Sabotage City"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
+
+     /* Stealing gold during peace causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Steal Gold"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                            FALSE, "War"));
   }
 
   /* Upgrade existing effects. */
