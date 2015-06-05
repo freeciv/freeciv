@@ -1080,6 +1080,7 @@ static int action_target_neg_util(int action_id,
   /* Good for the ciy owner in most cases. */
   case ACTION_TRADE_ROUTE:
   case ACTION_HELP_WONDER:
+  case ACTION_JOIN_CITY:
     /* TODO: Individual and well balanced values */
     return -1;
   }
