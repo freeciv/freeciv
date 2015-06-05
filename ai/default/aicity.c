@@ -1045,10 +1045,7 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
 static int action_target_neg_util(int action_id,
                                   const struct city *pcity)
 {
-  fc_assert_ret_val_msg(action_get_target_kind(action_id) == ATK_CITY,
-                        0, "Action not aimed at cities");
-
-  switch (action_id) {
+  switch ((enum gen_action)action_id) {
   case ACTION_SPY_INCITE_CITY:
     /* Copied from the evaluation of the No_Incite effect */
     return MAX((game.server.diplchance * 2
@@ -1082,8 +1079,19 @@ static int action_target_neg_util(int action_id,
   case ACTION_HELP_WONDER:
     /* TODO: Individual and well balanced values */
     return -1;
+
+  /* Shouldn't happen. */
+  case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_COUNT:
+    fc_assert_msg(action_get_target_kind(action_id) == ATK_CITY,
+                  "Action not aimed at cities");
   }
 
+  fc_assert_msg(gen_action_is_valid(action_id),
+                "Action %d don't exist.", action_id);
+
+  /* Wrong action. Ignore it. */
   return 0;
 }
 
