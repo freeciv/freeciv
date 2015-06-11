@@ -1407,6 +1407,10 @@ void server_quit(void)
   voting_free();
   adv_settlers_free();
   ai_timer_free();
+  if (game.server.phase_timer != NULL) {
+    timer_destroy(game.server.phase_timer);
+    game.server.phase_timer = NULL;
+  }
 
 #ifdef HAVE_FCDB
   if (srvarg.fcdb_enabled) {
