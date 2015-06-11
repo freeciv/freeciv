@@ -62,10 +62,11 @@
  * All compressed packets this size or greater are sent as a jumbo packet.
  */
 #define JUMBO_BORDER 		(64*1024-COMPRESSION_BORDER-1)
-#endif
 
 #define log_compress    log_debug
 #define log_compress2   log_debug
+
+#endif /* USE_COMPRESSION */
 
 /* 
  * Valid values are 0, 1 and 2. For 2 you have to set generate_stats
