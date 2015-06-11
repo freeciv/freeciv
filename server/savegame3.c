@@ -3257,9 +3257,9 @@ static void sg_load_players(struct loaddata *loading)
       /* TRANS: Minor error message: <Leader> ... <Poles>. */
       log_sg(_("%s had invalid nation; changing to %s."),
              player_name(pplayer), nation_plural_for_player(pplayer));
-    }
 
-    ai_traits_init(pplayer);
+      ai_traits_init(pplayer);
+    }
   } players_iterate_end;
 
   /* Sanity check alliances, prevent allied-with-ally-of-enemy. */
@@ -3441,6 +3441,9 @@ static void sg_load_player_main(struct loaddata *loading,
   /* Nation */
   string = secfile_lookup_str(loading->file, "player%d.nation", plrno);
   player_set_nation(plr, nation_by_rule_name(string));
+  if (plr->nation != NULL) {
+    ai_traits_init(plr);
+  }
 
   /* Government */
   string = secfile_lookup_str(loading->file, "player%d.government_name",
@@ -3610,22 +3613,22 @@ static void sg_load_player_main(struct loaddata *loading,
                                "player%d.research.bulbs_last_turn", plrno);
 
   /* Traits */
-  {
+  if (plr->nation) {
     for (i = 0; i < loading->trait.size; i++) {
       enum trait tr = trait_by_name(loading->trait.order[i], fc_strcasecmp);
 
       if (trait_is_valid(tr)) {
-        int val = secfile_lookup_int_default(loading->file, -1, "plr%d.trait%d.val",
-                                             plrno, i);
+        int val;
 
-        if (val != -1) {
-          plr->ai_common.traits[tr].val = val;
-        }
+        sg_failure_ret(secfile_lookup_int(loading->file, &val, "player%d.trait%d.val",
+                                          plrno, i),
+                       "%s", secfile_error());
+        plr->ai_common.traits[tr].val = val;
 
-        if (secfile_lookup_int(loading->file, &val,
-                               "plr%d.trait%d.mod", plrno, i)) {
-          plr->ai_common.traits[tr].mod = val;
-        }
+        sg_failure_ret(secfile_lookup_int(loading->file, &val,
+                                          "player%d.trait%d.mod", plrno, i),
+                       "%s", secfile_error());
+        plr->ai_common.traits[tr].mod = val;
       }
     }
   }
