@@ -2570,7 +2570,7 @@ reqs    =
 ; City radius 4 - radius is sqrt(2+3+5+7) = 4.12
 [effect_city_radius_3]
 type    = "City_Radius_Sq"
-value   = 7
+value   = 8
 reqs    =
     { "type", "name", "range"
       "MinSize", "30", "City"
@@ -2593,7 +2593,7 @@ reqs    =
 ; City radius 4 - radius of vision is sqrt(2+3+5+7) = 4.12
 [effect_city_vision_3]
 type    = "City_Vision_Radius_Sq"
-value   = 7
+value   = 8
 reqs    =
     { "type", "name", "range"
       "MinSize", "30", "City"
