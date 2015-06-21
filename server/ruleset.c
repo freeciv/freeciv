@@ -3847,6 +3847,8 @@ static bool load_ruleset_nations(struct section_file *file,
     for (j = 0; j < game.server.ruledit.embedded_nations_count; j++) {
       game.server.ruledit.embedded_nations[j] = fc_strdup(vec[j]);
     }
+
+    free(vec);
   }
 
   game.server.default_government = NULL;
