@@ -1154,6 +1154,7 @@ static void setup_widgets(void)
 
   ahbox = detached_widget_new();
   gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
+  gtk_widget_set_hexpand(ahbox, FALSE);
   avbox = detached_widget_fill(ahbox);
 
   /* Info on player's civilization, when game is running. */
@@ -1164,6 +1165,7 @@ static void setup_widgets(void)
 
   vgrid = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(frame), vgrid);
+  gtk_widget_set_hexpand(vgrid, TRUE);
 
   ebox = gtk_event_box_new();
   gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
