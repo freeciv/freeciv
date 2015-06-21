@@ -1,3 +1,4 @@
+# Default metaserver URL
 META_URL="http://meta.freeciv.org/metaserver.php"
 
 # We want default MODPACK_LIST_URL constructed compile time, so not giving

@@ -22,6 +22,9 @@ Updating from 2.6 to 3.0
   can be compiled in to freeciv by configuring with --with-tinycthread.
 * libicu is a new hard requirement
 * Minimum gettext version is now 0.15
+* Support for project definition file added for freeciv forks to define for
+  themselves. This has obsoleted old --with-modlist configure option.
+  See chapter "Project definition file" below.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
@@ -43,6 +46,17 @@ one network compatible with upstream, you should change also
 FREECIV_DISTRIBUTOR in fc_version to match. This information is sent
 by client to (public) server so in case there's any problems with certain
 clients, we know a bit more what kind of code they are using.
+
+----------------------------------------------------------------------
+Project definition file
+-----------------------
+Project definition file contains information about the project
+infrastructure, needed at freeciv build time. The default project
+file of the freeciv project itself is bootstrap/freeciv.project.
+Comments on that default file document the contents of such a
+project definition file. Once you have made definition file for a
+freeciv fork project, you can build freeciv using it by giving
+configure option --with-project-definition=<file.project>
 
 ----------------------------------------------------------------------
 Announcement of new versions
