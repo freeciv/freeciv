@@ -1183,8 +1183,8 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Decide the upper limit on how much can be taken. */
   gold_take = (tgt_player->economic.gold
-               * get_city_bonus(tgt_city, EFT_MAX_STOLEN_GOLD_PCT))
-              / 100;
+               * get_city_bonus(tgt_city, EFT_MAX_STOLEN_GOLD_PM))
+              / 1000;
 
   /* Decide how much to actually take. */
   gold_take = fc_rand(gold_take) + 1;
@@ -1196,8 +1196,8 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Some gold are lost during transfer. */
   gold_give = gold_take
-            - (gold_take * get_unit_bonus(act_unit, EFT_THIEFS_SHARE_PCT))
-              / 100;
+            - (gold_take * get_unit_bonus(act_unit, EFT_THIEFS_SHARE_PM))
+              / 1000;
 
   log_debug("steal gold: will give %d gold", gold_give);
 

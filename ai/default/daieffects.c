@@ -583,11 +583,11 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
       }
     }
     break;
-  case EFT_MAX_STOLEN_GOLD_PCT:
-    v -= amount / 4;
+  case EFT_MAX_STOLEN_GOLD_PM:
+    v -= amount / 40;
     break;
-  case EFT_THIEFS_SHARE_PCT:
-    v -= amount / 8;
+  case EFT_THIEFS_SHARE_PM:
+    v -= amount / 80;
     break;
   case EFT_RETIRE_PCT:
     num = num_affected_units(peffect, ai);
