@@ -838,11 +838,12 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
   int chance;
 
   /* Superspy always win */
+  if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
+    /* In UTYF_SUPERSPY vs UTYF_SUPERSPY the attacker always dies. */
+    return ACTPROB_IMPOSSIBLE;
+  }
   if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
     return 200;
-  }
-  if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
-    return ACTPROB_IMPOSSIBLE;
   }
 
   /* This target is defenseless */
