@@ -1229,8 +1229,8 @@ static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile
 
 /**************************************************************************
   This determines if a diplomat/spy succeeds against some defender,
-  who is also a diplomat or spy. Note: a superspy attacker always
-  succeeds, otherwise a superspy defender always wins.
+  who is also a diplomat or spy. Note: a superspy defender always
+  succeeds, otherwise a superspy attacker always wins.
 
   Return TRUE if the "attacker" succeeds.
 **************************************************************************/
@@ -1240,11 +1240,14 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
 {
   int chance = 50; /* Base 50% chance */
 
-  if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
-    return TRUE;
-  }
   if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
+    /* A defending UTYF_SUPERSPY will defeat every possible attacker. */
     return FALSE;
+  }
+  if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
+    /* An attacking UTYF_SUPERSPY will defeat every possible defender
+     * except another UTYF_SUPERSPY. */
+    return TRUE;
   }
 
   /* Add or remove 25% if spy flag. */
@@ -1330,12 +1333,10 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         || unit_has_type_flag(punit, UTYF_SUPERSPY)) {
       /* A UTYF_SUPERSPY unit may not actually be a spy, but a superboss
        * which we cannot allow puny diplomats from getting the better
-       * of. Note that diplomat_success_vs_defender() is always TRUE
-       * if the attacker is UTYF_SUPERSPY. Hence UTYF_SUPERSPY vs UTYF_SUPERSPY
-       * in a diplomatic contest always kills the attacker. */
+       * of. UTYF_SUPERSPY vs UTYF_SUPERSPY in a diplomatic contest always
+       * kills the attacker. */
 
-      if (diplomat_success_vs_defender(pdiplomat, punit, ptile) 
-          && !unit_has_type_flag(punit, UTYF_SUPERSPY)) {
+      if (diplomat_success_vs_defender(pdiplomat, punit, ptile)) {
         /* Defending Spy/Diplomat dies. */
 
         /* N.B.: *_link() always returns the same pointer. */
