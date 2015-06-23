@@ -47,6 +47,9 @@
 /* stdint.h available */
 #undef FREECIV_HAVE_STDINT_H
 
+/* sys/types.h available */
+#undef FREECIV_HAVE_SYS_TYPES_H
+
 /* Have standard compliant stdbool.h */
 #undef FREECIV_HAVE_STDBOOL_H
 
