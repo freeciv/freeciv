@@ -116,6 +116,8 @@ static char *terrain_sections = NULL;
 static char *base_sections = NULL;
 static char *road_sections = NULL;
 
+static struct requirement_vector reqs_list;
+
 static bool load_rulesetdir(const char *rsdir, bool act);
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
@@ -330,11 +332,10 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
   const char *type, *name;
   int j;
   const char *filename;
-  static struct requirement_vector list;
 
   filename = secfile_name(file);
 
-  requirement_vector_reserve(&list, 0);
+  requirement_vector_reserve(&reqs_list, 0);
 
   for (j = 0; (type = secfile_lookup_str_default(file, NULL, "%s.%s%d.type",
                                                  sec, sub, j)); j++) {
@@ -416,7 +417,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       return NULL;
     }
 
-    requirement_vector_append(&list, req);
+    requirement_vector_append(&reqs_list, req);
   }
 
   if (j > MAX_NUM_REQS) {
@@ -426,7 +427,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
     return NULL;
   }
 
-  return &list;
+  return &reqs_list;
 }
 
 /**************************************************************************
@@ -6065,6 +6066,7 @@ static void nullcheck_secfile_destroy(struct section_file *file)
 void rulesets_deinit(void)
 {
   script_server_free();
+  requirement_vector_free(&reqs_list);
 }
 
 /**************************************************************************
