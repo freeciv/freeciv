@@ -24,7 +24,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <windows.h>
 #endif
 
-#ifdef HAVE_SYS_TYPES_H
+#ifdef FREECIV_HAVE_SYS_TYPES_H
 #include <sys/types.h>		/* fchmod */
 #endif
 

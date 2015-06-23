@@ -1129,9 +1129,10 @@ AC_CHECK_LIB(nls,main)
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([fcntl.h sys/time.h sys/types.h unistd.h sys/utsname.h \
+AC_CHECK_HEADERS([fcntl.h sys/time.h unistd.h sys/utsname.h \
                   sys/file.h signal.h strings.h execinfo.h \
                   libgen.h])
+AC_CHECK_HEADERS([sys/types.h], [AC_DEFINE([FREECIV_HAVE_SYS_TYPES_H], [1], [sys/types.h available])])
 AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
 AC_CHECK_HEADERS([libintl.h], [AC_DEFINE([FREECIV_HAVE_LIBINTL_H], [1], [libint.h available])])
 AC_HEADER_STDBOOL
