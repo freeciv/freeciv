@@ -2291,6 +2291,8 @@ static void initworld(struct gen234_state *pstate)
     tile_set_continent(ptile, 0);
     map_set_placed(ptile); /* not a land tile */
     tile_clear_all_specials(ptile);
+    BV_CLR_ALL(ptile->bases);
+    BV_CLR_ALL(ptile->roads);
     tile_set_owner(ptile, NULL, NULL);
   } whole_map_iterate_end;
 
@@ -3526,6 +3528,8 @@ static bool map_generate_fair_islands(void)
     tile_set_resource(ptile, NULL);
     tile_set_continent(ptile, 0);
     tile_clear_all_specials(ptile);
+    BV_CLR_ALL(ptile->bases);
+    BV_CLR_ALL(ptile->roads);
     tile_set_owner(ptile, NULL, NULL);
   } whole_map_iterate_end;
 
