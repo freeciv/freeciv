@@ -108,7 +108,7 @@
 
 #include "support.h"
 
-static int cmp_buffer_size = 0;
+static int cmp_buffer_uchars = 0;
 static UChar *cmp_buffer0 = NULL;
 static UChar *cmp_buffer1 = NULL;
 
@@ -118,13 +118,13 @@ static UChar *cmp_buffer1 = NULL;
 static void cmp_buffers_initial(void)
 {
   if (cmp_buffer0 == NULL) {
-    cmp_buffer_size = 255;
-    cmp_buffer0 = fc_malloc(cmp_buffer_size + 1);
-    cmp_buffer1 = fc_malloc(cmp_buffer_size + 1);
+    cmp_buffer_uchars = 255;
+    cmp_buffer0 = fc_malloc((cmp_buffer_uchars + 1) * sizeof(UChar));
+    cmp_buffer1 = fc_malloc((cmp_buffer_uchars + 1) * sizeof(UChar));
 
-    /* Make sure there's zero after the buffer published with cmp_buffer_size */
-    cmp_buffer0[cmp_buffer_size] = '\0';
-    cmp_buffer1[cmp_buffer_size] = '\0';
+    /* Make sure there's zero after the buffer published with cmp_buffer_uchars */
+    memset(cmp_buffer0 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
+    memset(cmp_buffer1 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
   }
 }
 
@@ -133,13 +133,13 @@ static void cmp_buffers_initial(void)
 ***************************************************************/
 static void cmp_buffers_increase(void)
 {
-  cmp_buffer_size *= 1.5;
-  cmp_buffer0 = fc_realloc(cmp_buffer0, cmp_buffer_size + 1);
-  cmp_buffer1 = fc_realloc(cmp_buffer1, cmp_buffer_size + 1);
+  cmp_buffer_uchars *= 1.5;
+  cmp_buffer0 = fc_realloc(cmp_buffer0, (cmp_buffer_uchars + 1) * sizeof(UChar));
+  cmp_buffer1 = fc_realloc(cmp_buffer1, (cmp_buffer_uchars + 1) * sizeof(UChar));
 
-  /* Make sure there's zero after the buffer published with cmp_buffer_size */
-  cmp_buffer0[cmp_buffer_size] = '\0';
-  cmp_buffer1[cmp_buffer_size] = '\0';
+  /* Make sure there's zero after the buffer published with cmp_buffer_uchars */
+  memset(cmp_buffer0 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
+  memset(cmp_buffer1 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
 }
 
 /***************************************************************
@@ -152,7 +152,7 @@ void cmp_buffers_free(void)
     cmp_buffer0 = NULL;
     free(cmp_buffer1);
     cmp_buffer1 = NULL;
-    cmp_buffer_size = 0;
+    cmp_buffer_uchars = 0;
   }
 }
 
@@ -179,8 +179,8 @@ int fc_strcasecmp(const char *str0, const char *str1)
     UErrorCode err_code0 = U_ZERO_ERROR;
     UErrorCode err_code1 = U_ZERO_ERROR;
 
-    u_strFromUTF8(cmp_buffer0, cmp_buffer_size, &len0, str0, -1, &err_code0);
-    u_strFromUTF8(cmp_buffer1, cmp_buffer_size, &len1, str1, -1, &err_code1);
+    u_strFromUTF8(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
+    u_strFromUTF8(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
 
     /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
      * the buffers we were using */
@@ -219,8 +219,8 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     UErrorCode err_code0 = U_ZERO_ERROR;
     UErrorCode err_code1 = U_ZERO_ERROR;
 
-    u_strFromUTF8(cmp_buffer0, cmp_buffer_size, &len0, str0, -1, &err_code0);
-    u_strFromUTF8(cmp_buffer1, cmp_buffer_size, &len1, str1, -1, &err_code1);
+    u_strFromUTF8(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
+    u_strFromUTF8(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
 
     /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
      * the buffers we were using */
