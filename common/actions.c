@@ -999,11 +999,12 @@ tech_can_be_stolen(const struct player *actor_player,
 /**************************************************************************
   The action probability that pattacker will win a diplomatic battle.
 
-  It is assumed that pattacker and pdefender have different owners.
+  It is assumed that pattacker and pdefender have different owners and that
+  the defender can defend in a diplomatic battle.
 
-  See diplomat_infiltrate_tile() in server/diplomats.c
+  See diplomat_success_vs_defender() in server/diplomats.c
 **************************************************************************/
-static action_probability ap_diplomat_battle(const struct unit *pattacker,
+static action_probability ap_dipl_battle_win(const struct unit *pattacker,
                                              const struct unit *pdefender)
 {
   struct city *pcity;
@@ -1013,15 +1014,12 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
 
   /* Superspy always win */
   if (unit_has_type_flag(pdefender, UTYF_SUPERSPY)) {
-    /* In UTYF_SUPERSPY vs UTYF_SUPERSPY the attacker always dies. */
+    /* A defending UTYF_SUPERSPY will defeat every possible attacker. */
     return ACTPROB_IMPOSSIBLE;
   }
   if (unit_has_type_flag(pattacker, UTYF_SUPERSPY)) {
-    return 200;
-  }
-
-  /* This target is defenseless */
-  if (!unit_has_type_flag(pdefender, UTYF_DIPLOMAT)) {
+    /* An attacking UTYF_SUPERSPY will defeat every possible defender
+     * except another UTYF_SUPERSPY. */
     return 200;
   }
 
@@ -1068,6 +1066,39 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
 
   /* Convert to action probability */
   return chance * 2;
+}
+
+/**************************************************************************
+  The action probability that pattacker will win a diplomatic battle.
+
+  See diplomat_infiltrate_tile() in server/diplomats.c
+**************************************************************************/
+static action_probability ap_diplomat_battle(const struct unit *pattacker,
+                                             const struct unit *pvictim)
+{
+  unit_list_iterate(unit_tile(pvictim)->units, punit) {
+    if (unit_owner(punit) == unit_owner(pattacker)) {
+      /* Won't defend against its owner. */
+      continue;
+    }
+
+    if (punit == pvictim) {
+      /* A victim unit is defenseless. */
+      continue;
+    }
+
+    if (!(unit_has_type_flag(punit, UTYF_DIPLOMAT)
+        || unit_has_type_flag(punit, UTYF_SUPERSPY))) {
+      /* The unit can't defend. */
+      continue;
+    }
+
+    /* There will be a diplomatic battle in stead of an action. */
+    return ap_dipl_battle_win(pattacker, punit);
+  } unit_list_iterate_end;
+
+  /* No diplomatic battle will occur. */
+  return 200;
 }
 
 /**************************************************************************
@@ -1145,13 +1176,12 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
-    /* Hard coded limit: The victim unit is alone at the tile */
+    /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, target_unit);
     break;
   case ACTION_SPY_BRIBE_UNIT:
-    /* Hard coded limit: The target unit is alone at its tile.
-     * It won't fight a diplomatic battle. */
-    chance = 200;
+    /* All uncertainty comes from potential diplomatic battles. */
+    chance = ap_diplomat_battle(actor_unit, target_unit);;
     break;
   case ACTION_SPY_SABOTAGE_CITY:
     /* TODO */
