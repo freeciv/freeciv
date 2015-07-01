@@ -968,6 +968,9 @@ enum client_states client_state(void)
 **************************************************************************/
 void client_remove_cli_conn(struct connection *pconn)
 {
+  fc_assert_msg(pconn != NULL,
+                "Trying to remove a non existing connection");
+
   if (NULL != pconn->playing) {
     conn_list_remove(pconn->playing->connections, pconn);
   }
@@ -983,6 +986,9 @@ void client_remove_cli_conn(struct connection *pconn)
 **************************************************************************/
 void client_remove_all_cli_conn(void)
 {
+  fc_assert_msg(game.all_connections != NULL,
+                "Connection list missing");
+
   while (conn_list_size(game.all_connections) > 0) {
     struct connection *pconn = conn_list_get(game.all_connections, 0);
     client_remove_cli_conn(pconn);

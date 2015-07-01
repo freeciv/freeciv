@@ -413,6 +413,9 @@ struct connection *conn_by_user_prefix(const char *user_name,
 struct connection *conn_by_number(int id)
 {
   conn_list_iterate(game.all_connections, pconn) {
+    fc_assert_msg(pconn != NULL,
+                  "Trying to look at the id of a non existing connection");
+
     if (pconn->id == id) {
       return pconn;
     }
