@@ -908,8 +908,12 @@ static action_probability ap_diplomat_battle(const struct unit *pattacker,
       continue;
     }
 
-    if (punit == pvictim) {
-      /* A victim unit is defenseless. */
+    if (punit == pvictim
+        && !unit_has_type_flag(punit, UTYF_SUPERSPY)) {
+      /* The victim unit is defenseless unless it's a SuperSpy.
+       * Rationalization: A regular diplomat don't mind being bribed. A
+       * SuperSpy is high enough up the chain that accepting a bribe is
+       * against his own interests. */
       continue;
     }
 
