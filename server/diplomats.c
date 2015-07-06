@@ -1103,7 +1103,7 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
     return;
   }
 
-  /* Find who to steal from. */
+  /* Who to steal from. */
   tgt_player = city_owner(tgt_city);
 
   /* Sanity check: The target player still exists. */
@@ -1129,7 +1129,7 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   log_debug("steal gold: infiltrated");
 
-  /* Try to steal the gold. */
+  /* The thief may get caught while trying to steal the gold. */
   if (fc_rand (100) >= game.server.diplchance) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in an attempt"
@@ -1151,20 +1151,22 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   log_debug("steal gold: succeeded");
 
-  /* Decide the upper limit on how much can be taken. */
+  /* The upper limit on how much gold the thief can steal. */
   gold_take = (tgt_player->economic.gold
                * get_city_bonus(tgt_city, EFT_MAX_STOLEN_GOLD_PM))
               / 1000;
 
-  /* Decide how much to actually take. */
+  /* How much to actually take. 1 gold is the smallest amount that can be
+   * stolen. The victim player has at least 1 gold. If he didn't the
+   * something to steal sanity check would have aborted the theft. */
   gold_take = fc_rand(gold_take) + 1;
 
   log_debug("steal gold: will take %d gold", gold_take);
 
-  /* Steal it. */
+  /* Steal the gold. */
   tgt_player->economic.gold -= gold_take;
 
-  /* Some gold are lost during transfer. */
+  /* Some gold may be lost during transfer. */
   gold_give = gold_take
             - (gold_take * get_unit_bonus(act_unit, EFT_THIEFS_SHARE_PM))
               / 1000;
