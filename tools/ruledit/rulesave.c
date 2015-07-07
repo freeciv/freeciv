@@ -826,6 +826,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      action_by_number(ACTION_SPY_STEAL_GOLD)->ui_name,
                      "actions.ui_name_steal_gold");
   secfile_insert_str(sfile,
+                     action_by_number(ACTION_STEAL_MAPS)->ui_name,
+                     "actions.ui_name_steal_maps");
+  secfile_insert_str(sfile,
                      action_by_number(ACTION_TRADE_ROUTE)->ui_name,
                      "actions.ui_name_establish_trade_route");
   secfile_insert_str(sfile,

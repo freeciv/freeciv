@@ -1064,6 +1064,7 @@ static int action_target_neg_util(int action_id,
   /* Good for an enemy */
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_STEAL_MAPS:
     /* TODO: Individual and well balanced values */
     return 8;
 

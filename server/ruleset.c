@@ -5278,6 +5278,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: Steal _Maps (100% chance of success). */
+          N_("Steal %sMaps%s"),
+          "actions.ui_name_steal_maps");
+      sz_strlcpy(action_by_number(ACTION_STEAL_MAPS)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: Establish Trade _Route (100% chance of success). */
           N_("Establish Trade %sRoute%s"),
           "actions.ui_name_establish_trade_route");

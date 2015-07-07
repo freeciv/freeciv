@@ -1307,6 +1307,19 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_STEAL_MAPS:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        spy_steal_some_maps(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL);
+      }
+    }
+    break;
   case ACTION_TRADE_ROUTE:
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type,

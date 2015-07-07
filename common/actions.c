@@ -108,6 +108,9 @@ void actions_init(void)
   actions[ACTION_JOIN_CITY] =
       action_new(ACTION_JOIN_CITY, ATK_CITY,
                  FALSE);
+  actions[ACTION_STEAL_MAPS] =
+      action_new(ACTION_STEAL_MAPS, ATK_CITY,
+                 TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -477,6 +480,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
   if (wanted_action == ACTION_ESTABLISH_EMBASSY
       || wanted_action == ACTION_SPY_INVESTIGATE_CITY
       || wanted_action == ACTION_SPY_STEAL_GOLD
+      || wanted_action == ACTION_STEAL_MAPS
       || wanted_action == ACTION_SPY_STEAL_TECH
       || wanted_action == ACTION_SPY_TARGETED_STEAL_TECH
       || wanted_action == ACTION_SPY_INCITE_CITY
@@ -1177,6 +1181,9 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_STEAL_GOLD:
+    /* TODO */
+    break;
+  case ACTION_STEAL_MAPS:
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
