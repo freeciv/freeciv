@@ -243,6 +243,28 @@ static int spy_steal_gold_callback(struct widget *pWidget)
   return -1;
 }
 
+/********************************************************************
+  User clicked "Steal Maps"
+********************************************************************/
+static int spy_steal_maps_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_STEAL_MAPS,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
 /****************************************************************
  Requests up-to-date list of improvements, the return of
  which will trigger the popup_sabotage_dialog() function.
@@ -784,6 +806,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_SPY_INVESTIGATE_CITY] = diplomat_investigate_callback,
   [ACTION_SPY_POISON] = spy_poison_callback,
   [ACTION_SPY_STEAL_GOLD] = spy_steal_gold_callback,
+  [ACTION_STEAL_MAPS] = spy_steal_maps_callback,
   [ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage_callback,
   [ACTION_SPY_TARGETED_SABOTAGE_CITY] = spy_sabotage_request,
   [ACTION_SPY_STEAL_TECH] = diplomat_steal_callback,
