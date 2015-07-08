@@ -82,6 +82,8 @@ enum ane_kind {
   ANEK_IS_NOT_TRANSPORTED,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
+  /* Explanation: can't be done to domestic targets. */
+  ANEK_DOMESTIC,
   /* Explanation: can't be done to foreign targets. */
   ANEK_FOREIGN,
   /* Explanation: not enough MP left. */
@@ -736,6 +738,13 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  DRO_FOREIGN,
                                                  TRUE)) {
     expl->kind = ANEK_FOREIGN;
+  } else if (tgt_player
+             && unit_owner(punit) == tgt_player
+             && !can_utype_do_act_if_tgt_diplrel(unit_type(punit),
+                                                 action_id,
+                                                 DRO_FOREIGN,
+                                                 FALSE)) {
+    expl->kind = ANEK_DOMESTIC;
   } else {
     expl->kind = ANEK_UNKNOWN;
   }
@@ -778,6 +787,10 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
                   player_name(expl->no_war_with));
+    break;
+  case ANEK_DOMESTIC:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act against domestic targets."));
     break;
   case ANEK_FOREIGN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -995,6 +1008,15 @@ static void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action),
                   player_name(expl->no_war_with));
+    break;
+  case ANEK_DOMESTIC:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s to domestic %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action),
+                  action_target_kind_translated_name(
+                    action_get_target_kind(stopped_action)));
     break;
   case ANEK_FOREIGN:
     notify_player(pplayer, unit_tile(actor),
