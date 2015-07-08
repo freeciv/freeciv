@@ -1736,14 +1736,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       }
     }
     break;
-  case UAB_NOT_OWNER:
-    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  /* TRANS: <city> is owned by <nation>, cannot add <unit>. */
-                  _("%s is owned by %s, cannot add %s."),
-                  city_link(pcity),
-                  nation_plural_for_player(city_owner(pcity)),
-                  unit_link(punit));
-    break;
   case UAB_TOO_BIG:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s is too big to add %s."),
