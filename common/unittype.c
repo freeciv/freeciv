@@ -353,7 +353,7 @@ BV_DEFINE(bv_ustate_act_cache, ((USP_COUNT - 1) * 2));
 
 /* Caches for each unit type */
 static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
-static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_COUNT];
+static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_AND_FAKES];
 
 /**************************************************************************
   Cache if any action may be possible for a unit of the type putype for
@@ -440,6 +440,8 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
   action_iterate(action_id) {
     BV_CLR_ALL(dipl_rel_action_cache[putype_id][action_id]);
   } action_iterate_end;
+  BV_CLR_ALL(dipl_rel_action_cache[putype_id][ACTION_ANY]);
+  BV_CLR_ALL(dipl_rel_action_cache[putype_id][ACTION_HOSTILE]);
 
   if (!is_actor_unit_type(putype)) {
     /* Not an actor unit. */
@@ -470,11 +472,23 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
                  requirement_diplrel_ereq(req.source.value.diplrel,
                                           REQ_RANGE_LOCAL, TRUE));
+          BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
+                 requirement_diplrel_ereq(req.source.value.diplrel,
+                                          REQ_RANGE_LOCAL, TRUE));
+          BV_SET(dipl_rel_action_cache[putype_id][ACTION_ANY],
+                 requirement_diplrel_ereq(req.source.value.diplrel,
+                                          REQ_RANGE_LOCAL, TRUE));
         }
 
         req.present = FALSE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
+              requirement_diplrel_ereq(req.source.value.diplrel,
+                                       REQ_RANGE_LOCAL, FALSE));
+          BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
+              requirement_diplrel_ereq(req.source.value.diplrel,
+                                       REQ_RANGE_LOCAL, FALSE));
+          BV_SET(dipl_rel_action_cache[putype_id][ACTION_ANY],
               requirement_diplrel_ereq(req.source.value.diplrel,
                                        REQ_RANGE_LOCAL, FALSE));
         }
