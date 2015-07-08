@@ -468,14 +468,14 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
         req.present = TRUE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
-                 requirement_diplrel_ereq(req.source.value.unit_state,
+                 requirement_diplrel_ereq(req.source.value.diplrel,
                                           REQ_RANGE_LOCAL, TRUE));
         }
 
         req.present = FALSE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
-              requirement_diplrel_ereq(req.source.value.unit_state,
+              requirement_diplrel_ereq(req.source.value.diplrel,
                                        REQ_RANGE_LOCAL, FALSE));
         }
       }
