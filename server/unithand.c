@@ -82,6 +82,8 @@ enum ane_kind {
   ANEK_IS_NOT_TRANSPORTED,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
+  /* Explanation: can't be done to foreign targets. */
+  ANEK_FOREIGN,
   /* Explanation: not enough MP left. */
   ANEK_LOW_MP,
   /* Explanation not detected. */
@@ -660,8 +662,47 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            const struct unit *target_unit)
 {
   struct player *must_war_player;
+  struct player *tgt_player = NULL;
   struct ane_expl *expl = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
+
+  if (action_id == ACTION_ANY) {
+    /* Find the target player of some actions. */
+    if (target_city) {
+      /* Individual city targets have the highest priority. */
+      tgt_player = city_owner(target_city);
+    } else if (target_unit) {
+      /* Individual unit targets have the next priority. */
+      tgt_player = unit_owner(target_unit);
+    } else if (target_tile) {
+      /* Tile targets have the lowest priority. */
+      tgt_player = tile_owner(target_tile);
+    }
+  } else {
+    /* Find the target player of this action. */
+    switch (action_get_target_kind(action_id)) {
+    case ATK_CITY:
+      tgt_player = city_owner(target_city);
+      break;
+    case ATK_UNIT:
+      tgt_player = unit_owner(target_unit);
+      break;
+    case ATK_TILE:
+      tgt_player = tile_owner(target_tile);
+      break;
+    case ATK_UNITS:
+      /* A unit stack may contain units with multiple owners. Pick the
+       * first one. */
+      if (target_tile
+          && unit_list_size(target_tile->units) > 0) {
+        tgt_player = unit_owner(unit_list_get(target_tile->units, 0));
+      }
+      break;
+    case ATK_COUNT:
+      fc_assert(action_get_target_kind(action_id) != ATK_COUNT);
+      break;
+    }
+  }
 
   if ((!can_exist
        && !utype_can_do_act_when_ustate(unit_type(punit), action_id,
@@ -688,6 +729,13 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     expl->no_war_with = must_war_player;
   } else if (need_full_mp(punit, action_id)) {
     expl->kind = ANEK_LOW_MP;
+  } else if (tgt_player
+             && unit_owner(punit) != tgt_player
+             && !can_utype_do_act_if_tgt_diplrel(unit_type(punit),
+                                                 action_id,
+                                                 DRO_FOREIGN,
+                                                 TRUE)) {
+    expl->kind = ANEK_FOREIGN;
   } else {
     expl->kind = ANEK_UNKNOWN;
   }
@@ -730,6 +778,10 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("You must declare war on %s first.  Try using "
                     "the Nations report (F3)."),
                   player_name(expl->no_war_with));
+    break;
+  case ANEK_FOREIGN:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit cannot act against foreign targets."));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -943,6 +995,15 @@ static void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   gen_action_translated_name(stopped_action),
                   player_name(expl->no_war_with));
+    break;
+  case ANEK_FOREIGN:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  _("Your %s can't do %s to foreign %s."),
+                  unit_name_translation(actor),
+                  gen_action_translated_name(stopped_action),
+                  action_target_kind_translated_name(
+                    action_get_target_kind(stopped_action)));
     break;
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(actor),
