@@ -2275,12 +2275,12 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
   }
 }
 
-/****************************************************************************
+/**************************************************************************
   Give player pto the map of pfrom, but do some random damage; good to bad
   is the ratio of tiles revealed to tiles not revealed, e.g., calling
-  give_distorted_map(pfrom, pto, 1, 1) reveals half the map on average. 
-  If reveal_cities is TRUE tiles with cities are always revealed.
-****************************************************************************/
+  give_distorted_map(pfrom, pto, 1, 1, TRUE) reveals half the map on
+  average. If reveal_cities is TRUE tiles with cities are always revealed.
+**************************************************************************/
 void give_distorted_map(struct player *pfrom, struct player *pto,
                         int good, int bad, bool reveal_cities)
 {
