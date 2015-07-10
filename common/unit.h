@@ -202,6 +202,9 @@ struct unit {
       time_t action_timestamp;
       int action_turn;
       struct unit_move_data *moving;
+
+      /* The unit is in the process of dying. */
+      bool dying;
     } server;
   };
 };
