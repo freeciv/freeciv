@@ -150,7 +150,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile);
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans);
 void unit_transport_unload_send(struct unit *punit);
 bool unit_move(struct unit *punit, struct tile *ptile, int move_cost);
-bool execute_orders(struct unit *punit);
+bool execute_orders(struct unit *punit, const bool fresh);
 
 bool unit_can_do_action_now(const struct unit *punit);
 void unit_did_action(struct unit *punit);

@@ -603,7 +603,7 @@ void execute_unit_orders(struct player *pplayer)
 {
   unit_list_iterate_safe(pplayer->units, punit) {
     if (unit_has_orders(punit)) {
-      execute_orders(punit);
+      execute_orders(punit, FALSE);
     }
   } unit_list_iterate_safe_end;
 }
@@ -3773,8 +3773,11 @@ static int order_to_action(struct unit *punit, enum unit_orders order)
   turn when the unit is back where it started, even if it have moves left.
 
   A unit will attack under orders only on its final action.
+
+  The fresh parameter is true if the order execution happens because the
+  orders just were received.
 ****************************************************************************/
-bool execute_orders(struct unit *punit)
+bool execute_orders(struct unit *punit, const bool fresh)
 {
   struct tile *dst_tile;
   bool res, last_order;
@@ -3797,6 +3800,7 @@ bool execute_orders(struct unit *punit)
 
   while (TRUE) {
     struct unit_order order;
+    bool player_is_watching;
 
     if (punit->done_moving) {
       log_debug("  stopping because we're done this turn");
@@ -3847,6 +3851,12 @@ bool execute_orders(struct unit *punit)
       /* Those actions don't require moves left. */
       break;
     }
+
+    /* The player just sent the orders. The unit has moves left. It is
+     * therefore safe to assume that the player is paying attention.
+     * There is no need to inform the player about what he just watched.
+     * Explaining why it happened may still be necessary. */
+    player_is_watching = fresh && punit->moves_left > 0;
 
     last_order = (!punit->orders.repeat
 		  && punit->orders.index + 1 == punit->orders.length);
@@ -4017,11 +4027,18 @@ bool execute_orders(struct unit *punit)
 
       if (!res) {
         fc_assert(0 <= punit->moves_left);
+
         /* Movement failed (ZOC, etc.) */
         cancel_orders(punit, "  attempt to move failed.");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Orders for %s aborted because of failed move."),
-                      unit_link(punit));
+
+        if (!player_is_watching) {
+          /* The player may have missed this. Inform him. */
+          notify_player(pplayer, unit_tile(punit),
+                        E_UNIT_ORDERS, ftc_server,
+                        _("Orders for %s aborted because of failed move."),
+                        unit_link(punit));
+        }
+
         return TRUE;
       }
       break;
