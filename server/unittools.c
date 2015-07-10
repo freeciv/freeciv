@@ -1579,6 +1579,9 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
   struct unit *ptrans;
   struct player *pplayer = unit_owner(punit);
 
+  /* The unit is doomed. */
+  punit->server.dying = TRUE;
+
 #ifdef DEBUG
   unit_list_iterate(ptile->units, pcargo) {
     fc_assert(unit_transport_get(pcargo) != punit);
@@ -1711,6 +1714,9 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   struct unit_list *imperiled = unit_list_new();
   struct unit_list *unsaved = unit_list_new();
   struct unit *ptrans = unit_transport_get(punit);
+
+  /* The unit is doomed. */
+  punit->server.dying = TRUE;
 
   /* Remove unit itself from its transport */
   if (ptrans != NULL) {
@@ -1969,6 +1975,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
+
+  /* The unit is doomed. */
+  punit->server.dying = TRUE;
 
   if ((game.info.gameloss_style & GAMELOSS_STYLE_LOOT) 
       && unit_has_type_flag(punit, UTYF_GAMELOSS)) {
