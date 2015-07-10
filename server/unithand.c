@@ -3217,7 +3217,7 @@ void handle_unit_orders(struct player *pplayer,
 #endif
 
   if (!is_player_phase(unit_owner(punit), game.info.phase)
-      || execute_orders(punit)) {
+      || execute_orders(punit, TRUE)) {
     /* Looks like the unit survived. */
     send_unit_info(NULL, punit);
   }
