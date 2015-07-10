@@ -219,6 +219,9 @@ struct unit {
       struct unit_move_data *moving;
 
       bool last_order_move_is_safe;
+
+      /* The unit is in the process of dying. */
+      bool dying;
     } server;
   };
 };

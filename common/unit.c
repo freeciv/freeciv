@@ -1901,6 +1901,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
     punit->server.debug = FALSE;
     punit->server.birth_turn = game.info.turn;
 
+    punit->server.dying = FALSE;
+
     punit->server.ord_map = 0;
     punit->server.ord_city = 0;
 

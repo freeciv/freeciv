@@ -577,6 +577,12 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
   struct player *from_player = unit_owner(punit);
   struct player *to_player = city_owner(tocity);
 
+  /* Transfering a dying GameLoss unit as part of the loot for
+   * killing it caused gna bug #23676. */
+  fc_assert_ret_msg(!punit->server.dying,
+                    "Tried to transfer the dying unit %d.",
+                    punit->id);
+
   if (from_player == to_player) {
     log_verbose("Changed homecity of %s %s to %s",
                 nation_rule_name(nation_of_player(from_player)),
@@ -675,6 +681,15 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
    * Only relevant if we are transferring to another player. */
   if (pplayer != pvictim) {
     unit_list_iterate_safe((ptile)->units, vunit)  {
+      if (vunit->server.dying) {
+        /* Don't transfer or bounce a dying unit. It will soon be gone
+         * anyway.
+         *
+         * Transfering a dying GameLoss unit as part of the loot for
+         * killing it caused gna bug #23676. */
+        continue;
+      }
+
       /* Don't transfer units already owned by new city-owner --wegge */
       if (unit_owner(vunit) == pvictim) {
         /* vunit may die during transfer_unit().
@@ -700,6 +715,16 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
     struct city *new_home_city = tile_city(unit_tile(vunit));
+
+    if (vunit->server.dying) {
+      /* Don't transfer or destroy a dying unit. It will soon be gone
+       * anyway.
+       *
+       * Transfering a dying GameLoss unit as part of the loot for
+       * killing it caused gna bug #23676. */
+      continue;
+    }
+
     if (new_home_city && new_home_city != exclude_city
 	&& city_owner(new_home_city) == unit_owner(vunit)) {
       /* unit is in another city: make that the new homecity,
@@ -732,6 +757,11 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 
 #ifdef DEBUG
   unit_list_iterate(pcity->units_supported, punit) {
+    if (punit->server.dying) {
+      /* Leave the dying alone. */
+      continue;
+    }
+
     fc_assert(punit->homecity == pcity->id);
     fc_assert(unit_owner(punit) == pplayer);
   } unit_list_iterate_end;
@@ -1550,7 +1580,8 @@ void remove_city(struct city *pcity)
 
     if (new_home_city
 	&& new_home_city != pcity
-	&& city_owner(new_home_city) == powner) {
+        && city_owner(new_home_city) == powner
+        && !punit->server.dying) {
       transfer_unit(punit, new_home_city, TRUE);
     }
   } unit_list_iterate_safe_end;
