@@ -685,6 +685,13 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
         /* Don't transfer or bounce a dying unit. It will soon be gone
          * anyway.
          *
+         * Bouncing a dying unit isn't a good idea.
+         * Remaining death handling may do things meant for its current
+         * location to the new location. (Example: Stack death)
+         * bounce_unit() will wipe the unit if it can't be bounced. Wiping
+         * the dying unit isn't a good idea. The remaining death handling
+         * code will try to read from it.
+         *
          * Transfering a dying GameLoss unit as part of the loot for
          * killing it caused gna bug #23676. */
         continue;
