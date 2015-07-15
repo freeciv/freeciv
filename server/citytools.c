@@ -1113,7 +1113,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   unit_list_iterate(pcenter->units, aunit) {
     players_iterate(aplayer) {
       if (can_player_see_unit(aplayer, aunit)) {
-        if (!BV_ISSET(could_see_unit[i], player_index(aplayer))) {
+        if (!BV_ISSET(could_see_unit[i], player_index(aplayer))
+            && !aunit->server.dying) {
           /* Reveal 'aunit'. */
           send_unit_info(aplayer->connections, aunit);
         }
