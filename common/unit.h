@@ -260,7 +260,6 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans);
 bool can_unit_load(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_unload(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_paradrop(const struct unit *punit);
-bool can_unit_bombard(const struct unit *punit);
 bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity);
 bool can_unit_change_homecity(const struct unit *punit);

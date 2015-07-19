@@ -213,6 +213,9 @@ ui_name_found_city = _("%sBuild City%s")
 ; /* TRANS: _Add to City (100% chance of success). */
 ui_name_join_city = _("%sAdd to City%s")
 
+; /* TRANS: _Bombard (100% chance of success). */
+ui_name_bombard = _("%sBombard%s")
+
 ; /* <-- avoid gettext warnings
 ;
 ; Action enablers:
@@ -327,6 +330,13 @@ target_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "Capturable", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
+    }
+
+[actionenabler_bombard]
+action = "Bombard"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "Unitflag", "Bombarder", "Local", TRUE
     }
 
 [actionenabler_build_city]

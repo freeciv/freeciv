@@ -3917,16 +3917,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("* Gets double firepower when attacking cities.\n"));
   }
-  if (utype_has_flag(utype, UTYF_BOMBARDER)) {
-    /* FIXME: also they only happen against land units. We leave the
-     * ruleset author to document this. */
-    cat_snprintf(buf, bufsz,
-		 _("* Does bombard attacks (%d per turn). These attacks will"
-		   " only damage (never kill) defenders, but damage all"
-                   " defenders on a tile, and have no risk for the"
-                   " attacker.\n"),
-		 utype->bombard_rate);
-  }
   if (utype_has_flag(utype, UTYF_IGTER)) {
     cat_snprintf(buf, bufsz,
                  /* TRANS: "MP" = movement points. %s may have a 
@@ -4084,6 +4074,20 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        /* Custom information. */
                        game.info.add_to_size_limit - utype_pop_value(utype),
                        utype_pop_value(utype));
+          break;
+        case ACTION_BOMBARD:
+            /* FIXME: also they only happen against land units. We leave the
+             * ruleset author to document this. */
+            cat_snprintf(buf, bufsz,
+                         _("* Can do the action \'%s\' (%d per turn)."
+                           " These attacks will only damage (never kill)"
+                           " defenders, but damage all"
+                           " defenders on a tile, and have no risk for the"
+                           " attacker.\n"),
+                         /* The action may have a ruleset defined UI
+                          * name. */
+                         action_get_ui_name(act),
+                         utype->bombard_rate);
           break;
         default:
           /* Generic action information. */

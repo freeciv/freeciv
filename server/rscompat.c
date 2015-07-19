@@ -166,6 +166,12 @@ bool rscompat_names(struct rscompat_info *info)
                                  N_("AddToCity"),
                                  N_("Can join cities."));
     unit_flag_position++;
+
+    /* The unit type flag Bombarder is no longer hard coded. */
+    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
+                                 N_("Bombarder"),
+                                 N_("Can do bombard attacks."));
+    unit_flag_position++;
   }
 
   /* No errors encountered. */
@@ -295,6 +301,19 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->actor_reqs,
                               req_from_str("DiplRel", "Local", FALSE,
                                            FALSE, "Is foreign"));
+
+    action_enabler_add(enabler);
+
+    /* The bombard attack is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_BOMBARD;
+
+    /* The actor unit must have the unit type flag Bombarder. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, "Bombarder"));
 
     action_enabler_add(enabler);
   }

@@ -671,10 +671,10 @@ bool sanity_check_ruleset_data(void)
     }
 
     /* The ability to bombard requires a bombard_rate. */
-    if (utype_has_flag(putype, UTYF_BOMBARDER)
+    if (utype_can_do_action(putype, ACTION_BOMBARD)
         && putype->bombard_rate <= 0) {
       ruleset_error(LOG_ERROR,
-                    "The unit type '%s' has the 'Bombarder' unit type flag"
+                    "The unit type '%s' can do the 'Bombard' action"
                     " but no bombard_rate is set.",
                     utype_rule_name(putype));
       ok = FALSE;

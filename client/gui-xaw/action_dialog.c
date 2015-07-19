@@ -1058,8 +1058,7 @@ void popup_action_selection(struct unit *actor_unit,
                act_probs);
 
   if (!(unit_can_move_to_tile(actor_unit, target_tile, FALSE)
-      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
-      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile)))) {
+      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit)))) {
     XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button18"), FALSE);
   }
 

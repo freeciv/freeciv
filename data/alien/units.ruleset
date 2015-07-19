@@ -16,6 +16,7 @@ flags =
     _("HelpWonder")
     _("Capturer"),   _("Can capture some enemy units.")
     _("Capturable"), _("Can be captured by some enemy units.")
+    _("Bombarder")
     _("Cities")
     _("AddToCity")
   }
@@ -297,9 +298,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
 ;                 (as if both raise_chance and work_raise_chance were zero);
 ;                 it can still gain veterancy through Veteran_Build, etc
-; "Bombarder"   = this unit cannot kill other units, only damage them, but
-;                 also is not harmed by return fire when attacking; the field
-;                 bombard_rate regulates its number of shots
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built
 ; "BadWallAttacker"	= the firepower of this unit is set to 1 if
@@ -318,7 +316,8 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
-;  "Bombarder"
+; Following actions require extra fields:
+;  "Bombard"
 ;   bombard_rate = the number of shots fired at enemy units when attacking
 ;
 ; ** Roles **

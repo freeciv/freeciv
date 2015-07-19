@@ -361,6 +361,20 @@ static void capture_units_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected bombard from choice dialog
+*****************************************************************/
+static void bombard_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_BOMBARD, args->actor_unit_id,
+                    args->target_tile_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected embassy establishing from choice dialog
 *****************************************************************/
 static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
@@ -1020,6 +1034,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback,
+  [ACTION_BOMBARD] = (GCallback)bombard_callback,
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
@@ -1227,8 +1242,7 @@ void popup_action_selection(struct unit *actor_unit,
   } action_iterate_end;
 
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE)
-      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
-      || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile))) {
+      || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))) {
     action_button_map[BUTTON_MOVE] =
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),

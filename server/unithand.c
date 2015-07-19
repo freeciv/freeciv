@@ -333,11 +333,6 @@ static bool may_non_act_move(struct unit *actor_unit,
     return TRUE;
   }
 
-  if (!is_ocean_tile(target_tile) && can_unit_bombard(actor_unit)) {
-    /* Bombard. May be possible even if regular attack isn't. */
-    return TRUE;
-  }
-
   return FALSE;
 }
 
@@ -1476,6 +1471,19 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_BOMBARD:
+    if (target_tile) {
+      if (is_action_enabled_unit_on_units(action_type,
+                                          actor_unit, target_tile)) {
+        ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile);
+
+        unit_bombard(actor_unit, target_tile);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       NULL, target_tile, NULL, NULL);
+      }
+    }
+    break;
   case ACTION_FOUND_CITY:
     if (target_tile) {
       if (is_action_enabled_unit_on_tile(action_type,
@@ -2095,6 +2103,12 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       send_combat(punit, pdefender, 0, 1);
   
       send_unit_info(NULL, pdefender);
+
+      /* May cause an incident */
+      action_consequence_success(ACTION_BOMBARD, unit_owner(punit),
+                                 unit_owner(pdefender),
+                                 unit_tile(pdefender),
+                                 unit_link(pdefender));
     }
 
   } unit_list_iterate_safe_end;
@@ -2539,23 +2553,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                     ? player_name(city_owner(pcity))
                     : player_name(unit_owner(victim)));
       return FALSE;
-    }
-
-    /* Are we a bombarder? */
-    if (unit_has_type_flag(punit, UTYF_BOMBARDER)) {
-      /* Only land can be bombarded; if the target is on ocean (or is
-       * an empty city), fall through to attack/conquer. */
-      if (!is_ocean_tile(pdesttile) && unit_list_size(pdesttile->units) > 0) {
-	if (can_unit_bombard(punit)) {
-	  unit_bombard(punit, pdesttile);
-	  return TRUE;
-	} else {
-          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                        _("This unit is being transported, and"
-                          " so cannot bombard."));
-	  return FALSE;
-	}
-      }
     }
 
     /* Depending on 'unreachableprotects' setting, must be physically able

@@ -111,6 +111,11 @@ void actions_init(void)
   actions[ACTION_STEAL_MAPS] =
       action_new(ACTION_STEAL_MAPS, ATK_CITY,
                  TRUE);
+  actions[ACTION_BOMBARD] =
+      action_new(ACTION_BOMBARD,
+                 /* FIXME: Target is actually Units + City */
+                 ATK_UNITS,
+                 TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -468,7 +473,8 @@ static bool is_action_possible(const enum gen_action wanted_action,
   }
 
   if (action_get_target_kind(wanted_action) == ATK_UNIT
-      || action_get_target_kind(wanted_action) == ATK_UNITS) {
+      || (action_get_target_kind(wanted_action) == ATK_UNITS
+          && wanted_action != ACTION_BOMBARD)) {
     /* The Freeciv code for all actions that targets a unit or all units at
      * a tile that is controlled by action enablers assumes that the acting
      * player can see the target unit. */
@@ -613,6 +619,41 @@ static bool is_action_possible(const enum gen_action wanted_action,
 
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_add_to_city(actor_unit)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_BOMBARD) {
+    if (actor_unittype->bombard_rate <= 0) {
+      /* Reason: Can't bombard if it never fires. */
+      /* Info leak: This is about unit type so it is safe. */
+      return FALSE;
+    }
+
+    /* TODO: Move to the ruleset. */
+    if (unit_transported(actor_unit)) {
+      return FALSE;
+    }
+
+    /* TODO: Move to the ruleset. */
+    if (is_ocean_tile(target_tile)) {
+      return FALSE;
+    }
+
+    /* TODO: Move to the ruleset. */
+    if (!pplayers_at_war(unit_owner(target_unit), actor_player)) {
+      return FALSE;
+    }
+
+    /* TODO: Move to the ruleset. */
+    if (actor_unit->moves_left <= 0) {
+      return FALSE;
+    }
+
+    /* FIXME: Target of Bombard should be city and units. */
+    if (tile_city(target_tile)
+        && !pplayers_at_war(city_owner(tile_city(target_tile)),
+                            actor_player)) {
       return FALSE;
     }
   }
@@ -1238,6 +1279,10 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_CAPTURE_UNITS:
+    /* No battle is fought first. */
+    chance = 200;
+    break;
+  case ACTION_BOMBARD:
     /* No battle is fought first. */
     chance = 200;
     break;

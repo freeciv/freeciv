@@ -5325,6 +5325,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_name_join_city");
       sz_strlcpy(action_by_number(ACTION_JOIN_CITY)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: B_ombard (100% chance of success). */
+          N_("B%sombard%s"),
+          "actions.ui_name_bombard");
+      sz_strlcpy(action_by_number(ACTION_BOMBARD)->ui_name,
+                 text);
     }
 
     if (ok) {

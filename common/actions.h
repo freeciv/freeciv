@@ -79,6 +79,8 @@ extern "C" {
 #define SPECENUM_VALUE16NAME N_("Join City")
 #define SPECENUM_VALUE17 ACTION_STEAL_MAPS
 #define SPECENUM_VALUE17NAME N_("Steal Maps")
+#define SPECENUM_VALUE18 ACTION_BOMBARD
+#define SPECENUM_VALUE18NAME N_("Bombard")
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 

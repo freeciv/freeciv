@@ -794,24 +794,6 @@ bool can_unit_paradrop(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return whether the unit can bombard.
-  Basically if it is a bombarder, isn't being transported, and hasn't 
-  moved this turn.
-**************************************************************************/
-bool can_unit_bombard(const struct unit *punit)
-{
-  if (!unit_has_type_flag(punit, UTYF_BOMBARDER)) {
-    return FALSE;
-  }
-
-  if (unit_transported(punit)) {
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
   Check if the unit's current activity is actually legal.
 **************************************************************************/
 bool can_unit_continue_current_activity(struct unit *punit)
