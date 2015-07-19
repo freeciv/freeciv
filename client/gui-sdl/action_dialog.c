@@ -729,6 +729,25 @@ static int capture_units_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Bombard"
+*****************************************************************/
+static int bombard_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = tile_index(pWidget->data.tile);
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_BOMBARD,
+                      actor_id, target_id, 0, "");
+
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   User clicked "Join City"
 *****************************************************************/
 static int join_city_callback(struct widget *pWidget)
@@ -823,6 +842,7 @@ static const act_func af_map[ACTION_COUNT] = {
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = capture_units_callback,
+  [ACTION_BOMBARD] = bombard_callback,
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = found_city_callback,
