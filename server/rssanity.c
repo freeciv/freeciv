@@ -655,7 +655,8 @@ bool sanity_check_ruleset_data(void)
     }
   } unit_type_iterate_end;
 
-  /* Some unit type flags depend on other flags to work properly. */
+  /* Some unit type properties depend on other unit type properties to work
+   * properly. */
   unit_type_iterate(putype) {
     /* "Spy" is a better "Diplomat". Until all the places that assume that
      * "Diplomat" is set if "Spy" is set is changed this limitation must be
@@ -665,6 +666,16 @@ bool sanity_check_ruleset_data(void)
       ruleset_error(LOG_ERROR,
                     "The unit type '%s' has the 'Spy' unit type flag but "
                     "not the 'Diplomat' unit type flag.",
+                    utype_rule_name(putype));
+      ok = FALSE;
+    }
+
+    /* The ability to bombard requires a bombard_rate. */
+    if (utype_has_flag(putype, UTYF_BOMBARDER)
+        && putype->bombard_rate <= 0) {
+      ruleset_error(LOG_ERROR,
+                    "The unit type '%s' has the 'Bombarder' unit type flag"
+                    " but no bombard_rate is set.",
                     utype_rule_name(putype));
       ok = FALSE;
     }
