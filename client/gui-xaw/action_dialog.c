@@ -345,6 +345,24 @@ static void spy_steal_gold_callback(Widget w, XtPointer client_data,
   choose_action_queue_next();
 }
 
+/********************************************************************
+  The player selected "Steal Maps"
+********************************************************************/
+static void spy_steal_maps_callback(Widget w, XtPointer client_data,
+                                    XtPointer call_data)
+{
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
+    request_do_action(ACTION_STEAL_MAPS, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0, "");
+  }
+
+  choose_action_queue_next();
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -962,6 +980,7 @@ void popup_action_selection(struct unit *actor_unit,
                            capture_units_callback, 0, 0,
                            found_city_callback, 0, 0,
                            join_city_callback, 0, 0,
+                           spy_steal_maps_callback, 0, 0,
                            diplomat_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
@@ -1034,10 +1053,14 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_JOIN_CITY,
                act_probs);
 
+  action_entry(XtNameToWidget(diplomat_dialog, "*button17"),
+               ACTION_STEAL_MAPS,
+               act_probs);
+
   if (!(unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit))
       || (can_unit_bombard(actor_unit) && !is_ocean_tile(target_tile)))) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button17"), FALSE);
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button18"), FALSE);
   }
 
   astr_free(&text);
