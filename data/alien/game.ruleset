@@ -338,6 +338,10 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "Bombarder", "Local", TRUE
     }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainClass", "Oceanic", "Local", FALSE
+    }
 
 [actionenabler_build_city]
 action = "Found City"

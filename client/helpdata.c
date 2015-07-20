@@ -4076,8 +4076,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        utype_pop_value(utype));
           break;
         case ACTION_BOMBARD:
-            /* FIXME: also they only happen against land units. We leave the
-             * ruleset author to document this. */
             cat_snprintf(buf, bufsz,
                          _("* Can do the action \'%s\' (%d per turn)."
                            " These attacks will only damage (never kill)"

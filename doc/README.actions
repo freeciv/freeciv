@@ -240,7 +240,6 @@ Actions done by a unit against all units at a tile
  * actor can't be transported.
  * actor must have at least 1 move fragment left.
  * target can't be in a city the actor player isn't at war with.
- * target can't be on an ocean tile.
  * target must be foreign.
  * target owner must be at war with actor.
 

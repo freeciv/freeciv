@@ -315,6 +315,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Bombarder"));
 
+    /* The target can't be on an ocean tile. */
+    requirement_vector_append(&enabler->target_reqs,
+                              req_from_str("TerrainClass", "Local", FALSE,
+                                           FALSE, "Oceanic"));
+
     action_enabler_add(enabler);
   }
 
