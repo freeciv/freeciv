@@ -631,11 +631,6 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
 
     /* TODO: Move to the ruleset. */
-    if (unit_transported(actor_unit)) {
-      return FALSE;
-    }
-
-    /* TODO: Move to the ruleset. */
     if (!pplayers_at_war(unit_owner(target_unit), actor_player)) {
       return FALSE;
     }

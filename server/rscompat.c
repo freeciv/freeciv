@@ -315,6 +315,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitFlag", "Local", FALSE,
                                            TRUE, "Bombarder"));
 
+    /* The actor unit can't be transported. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitState", "Local", FALSE,
+                                           FALSE, "Transported"));
+
     /* The target can't be on an ocean tile. */
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("TerrainClass", "Local", FALSE,

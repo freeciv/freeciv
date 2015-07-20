@@ -337,6 +337,7 @@ action = "Bombard"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "Bombarder", "Local", TRUE
+      "UnitState", "Transported", "Local", FALSE
     }
 target_reqs    =
     { "type",   "name", "range", "present"

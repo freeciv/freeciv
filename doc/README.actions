@@ -237,7 +237,6 @@ Actions done by a unit against all units at a tile
  * UI name can be set using ui_name_bombard
  * actor must have a bombard_rate > 0
  * actor must be on the same tile as the target or on the tile next to it.
- * actor can't be transported.
  * actor must have at least 1 move fragment left.
  * target can't be in a city the actor player isn't at war with.
  * target must be foreign.
