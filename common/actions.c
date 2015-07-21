@@ -1427,12 +1427,14 @@ action_probability action_prob_vs_units(struct unit* actor_unit,
     case ACTPROB_NOT_IMPLEMENTED:
       /* Not implemented domiantes all except impossible. */
       prob_all = ACTPROB_NOT_IMPLEMENTED;
+      break;
     case ACTPROB_NOT_KNOWN:
       if (prob_all != ACTPROB_NOT_IMPLEMENTED) {
         /* Not known dominates all except not implemented and
          * impossible. */
         prob_all = ACTPROB_NOT_KNOWN;
       }
+      break;
     default:
       fc_assert_msg(prob_unit <= 200, "Invalid probability %d", prob_unit);
 
@@ -1444,6 +1446,7 @@ action_probability action_prob_vs_units(struct unit* actor_unit,
       /* Probability against all target units considered until this moment
        * and the probability against this target unit. */
       prob_all = (prob_all * prob_unit) / 200;
+      break;
     }
   } unit_list_iterate_end;
 
