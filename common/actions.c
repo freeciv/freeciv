@@ -472,11 +472,9 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  if (action_get_target_kind(wanted_action) == ATK_UNIT
-      || (action_get_target_kind(wanted_action) == ATK_UNITS
-          && wanted_action != ACTION_BOMBARD)) {
-    /* The Freeciv code for all actions that targets a unit or all units at
-     * a tile that is controlled by action enablers assumes that the acting
+  if (action_get_target_kind(wanted_action) == ATK_UNIT) {
+    /* The Freeciv code for all actions that is controlled by action
+     * enablers and targets a unit assumes that the acting
      * player can see the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
       return FALSE;
