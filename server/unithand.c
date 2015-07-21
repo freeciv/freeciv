@@ -1439,6 +1439,19 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_SPY_NUKE:
+    if (pcity) {
+      if (is_action_enabled_unit_on_city(action_type,
+                                         actor_unit, pcity)) {
+        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
+
+        spy_nuke_city(pplayer, actor_unit, pcity);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       city_owner(pcity), NULL, pcity, NULL);
+      }
+    }
+    break;
   case ACTION_JOIN_CITY:
     if (pcity) {
       if (is_action_enabled_unit_on_city(action_type,

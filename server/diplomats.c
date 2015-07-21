@@ -1327,6 +1327,105 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 }
 
 /**************************************************************************
+  Hide a suitcase nuke in a city and detonate it.
+
+  - Check for infiltration success. Our thief may not survive this.
+  - Check for basic success.  Again, our thief may not survive this.
+**************************************************************************/
+void spy_nuke_city(struct player *act_player, struct unit *act_unit,
+                   struct city *tgt_city)
+{
+  struct player *tgt_player;
+  struct tile *tgt_tile;
+
+  const char *tgt_city_link;
+
+  /* Sanity check: The actor still exists. */
+  if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
+    return;
+  }
+
+  /* Sanity check: The target city still exists. */
+  if (!tgt_city) {
+    return;
+  }
+
+  /* The victim. */
+  tgt_player = city_owner(tgt_city);
+
+  /* Sanity check: The target player still exists. */
+  if (!tgt_player) {
+    return;
+  }
+
+  tgt_tile = city_tile(tgt_city);
+  tgt_city_link = city_link(tgt_city);
+
+  log_debug("suitcase nuke: unit: %d", act_unit->id);
+
+  /* Battle all units capable of diplomatic defense. */
+  if (!diplomat_infiltrate_tile(act_player, tgt_player,
+                                ACTION_SPY_NUKE,
+                                act_unit, NULL, tgt_tile)) {
+    return;
+  }
+
+  log_debug("suitcase nuke: infiltrated");
+
+  /* Try to hide the nuke. */
+  if (fc_rand (100) >= game.server.diplchance) {
+    notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("Your %s was caught in an attempt of"
+                    " hiding a nuke in %s!"),
+                  unit_tile_link(act_unit),
+                  tgt_city_link);
+    notify_player(tgt_player, tgt_tile, E_ENEMY_DIPLOMAT_FAILED,
+                  ftc_server,
+                  _("You caught %s %s attempting to hide a nuke in %s!"),
+                  nation_adjective_for_player(act_player),
+                  unit_tile_link(act_unit),
+                  tgt_city_link);
+
+    /* This may cause a diplomatic incident. */
+    action_consequence_caught(ACTION_SPY_NUKE, act_player,
+                              tgt_player, tgt_tile, tgt_city_link);
+
+    /* Execute the caught terrorist. */
+    wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
+
+    return;
+  }
+
+  log_debug("suitcase nuke: succeeded");
+
+  /* Notify everyone involved. */
+  notify_player(act_player, tgt_tile, E_MY_SPY_NUKE, ftc_server,
+                _("Your %s hid a nuke in %s."),
+                unit_link(act_unit),
+                tgt_city_link);
+  notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_NUKE, ftc_server,
+                _("The %s are suspect of hiding a nuke in %s."),
+                nation_plural_for_player(act_player),
+                tgt_city_link);
+
+  /* Try to escape before the blast. */
+  diplomat_escape_full(act_player, act_unit, TRUE,
+                       tgt_tile, tgt_city_link);
+
+  /* TODO: In real life a suitcase nuke is way less powerful than an ICBM.
+   * Maybe the size of the suitcase nuke explosion should be ruleset
+   * configurable? */
+
+  /* Detonate the nuke. */
+  dlsend_packet_nuke_tile_info(game.est_connections, tile_index(tgt_tile));
+  do_nuclear_explosion(act_player, tgt_tile);
+
+  /* This may cause a diplomatic incident. */
+  action_consequence_success(ACTION_SPY_NUKE, act_player,
+                             tgt_player, tgt_tile, tgt_city_link);
+}
+
+/**************************************************************************
   This subtracts the destination movement cost from a diplomat/spy.
 **************************************************************************/
 static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile)

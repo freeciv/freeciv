@@ -116,6 +116,9 @@ void actions_init(void)
                  /* FIXME: Target is actually Units + City */
                  ATK_UNITS,
                  TRUE);
+  actions[ACTION_SPY_NUKE] =
+      action_new(ACTION_SPY_NUKE, ATK_CITY,
+                 TRUE);
 
   /* Initialize the action enabler list */
   action_iterate(act) {
@@ -1281,6 +1284,9 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_JOIN_CITY:
     /* Possible when not blocked by is_action_possible() */
     chance = 200;
+    break;
+  case ACTION_SPY_NUKE:
+    /* TODO */
     break;
   case ACTION_COUNT:
     fc_assert(FALSE);

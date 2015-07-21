@@ -1053,6 +1053,10 @@ static int action_target_neg_util(int action_id,
                - game.server.incite_improvement_factor * 5
                - game.server.incite_unit_factor * 5, 0);
 
+  /* Really bad for the city owner. */
+  case ACTION_SPY_NUKE:
+    return 20;
+
   /* Bad for the city owner. */
   case ACTION_SPY_POISON:
   case ACTION_SPY_SABOTAGE_CITY:

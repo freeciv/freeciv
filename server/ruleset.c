@@ -5332,6 +5332,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.ui_name_bombard");
       sz_strlcpy(action_by_number(ACTION_BOMBARD)->ui_name,
                  text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Suitcase _Nuke (100% chance of success). */
+          N_("Suitcase %sNuke%s"),
+          "actions.ui_name_suitcase_nuke");
+      sz_strlcpy(action_by_number(ACTION_SPY_NUKE)->ui_name,
+                 text);
     }
 
     if (ok) {

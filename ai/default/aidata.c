@@ -215,7 +215,8 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
          || unit_can_do_action(punit, ACTION_SPY_TARGETED_STEAL_TECH)
          || unit_can_do_action(punit, ACTION_SPY_INVESTIGATE_CITY)
          || unit_can_do_action(punit, ACTION_SPY_STEAL_GOLD)
-         || unit_can_do_action(punit, ACTION_STEAL_MAPS))
+         || unit_can_do_action(punit, ACTION_STEAL_MAPS)
+         || unit_can_do_action(punit, ACTION_SPY_NUKE))
         && def_ai_unit_data(punit, ait)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
 
