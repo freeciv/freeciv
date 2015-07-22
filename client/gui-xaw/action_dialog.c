@@ -340,6 +340,24 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
   choose_action_queue_next();
 }
 
+/****************************************************************
+  The player selected "Suitcase Nuke"
+*****************************************************************/
+static void spy_nuke_callback(Widget w, XtPointer client_data,
+                              XtPointer call_data)
+{
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id[ATK_CITY])) {
+    request_do_action(ACTION_SPY_NUKE, diplomat_id,
+                      diplomat_target_id[ATK_CITY], 0, "");
+  }
+
+  choose_action_queue_next();
+}
+
 /********************************************************************
   The player selected "Steal Gold"
 ********************************************************************/
@@ -995,6 +1013,7 @@ void popup_action_selection(struct unit *actor_unit,
                            join_city_callback, 0, 0,
                            spy_steal_maps_callback, 0, 0,
                            bombard_callback, 0, 0,
+                           spy_nuke_callback, 0, 0,
                            diplomat_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
@@ -1075,9 +1094,13 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_BOMBARD,
                act_probs);
 
+  action_entry(XtNameToWidget(diplomat_dialog, "*button19"),
+               ACTION_SPY_NUKE,
+               act_probs);
+
   if (!(unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit)))) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button19"), FALSE);
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button20"), FALSE);
   }
 
   astr_free(&text);
