@@ -1790,9 +1790,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
                           "peace or cease-fire at (%d, %d).",
                           TILE_XY(unit_tile(pdefender)));
     fc_assert_ret_val_msg(!pplayers_allied(unit_owner(punit),
-                                           unit_owner(pdefender))
-                          || (unit_has_type_flag(punit, UTYF_NUCLEAR)
-                              && punit == pdefender), TRUE,
+                                           unit_owner(pdefender)), TRUE,
                           "Trying to attack a unit with which you have "
                           "alliance at (%d, %d).",
                           TILE_XY(unit_tile(pdefender)));
