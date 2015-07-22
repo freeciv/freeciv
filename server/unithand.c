@@ -124,6 +124,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
 static void do_unit_help_build_wonder(struct player *pplayer,
                                       int unit_id, int city_id);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
+static void unit_nuke(struct player *pplayer, struct unit *punit,
+                      struct tile *def_tile);
 
 /**************************************************************************
   Handle airlift request.
@@ -2145,6 +2147,44 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
 }
 
 /**************************************************************************
+  Do a "regular" nuclear attack.
+
+  Can be stopped by an EFT_NUKE_PROOF (SDI defended) city.
+
+  This function assumes the attack is legal. The calling function should
+  have already made all necessary checks.
+**************************************************************************/
+static void unit_nuke(struct player *pplayer, struct unit *punit,
+                      struct tile *def_tile)
+{
+  struct city *pcity;
+
+  log_debug("Start nuclear attack: %s %s against (%d, %d).",
+            nation_rule_name(nation_of_player(pplayer)),
+            unit_rule_name(punit),
+            TILE_XY(def_tile));
+
+  if ((pcity = sdi_try_defend(pplayer, def_tile))) {
+    /* FIXME: Remove the hard coded reference to SDI defense. */
+    notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
+                  _("Your %s was shot down by "
+                    "SDI defenses, what a waste."), unit_tile_link(punit));
+    notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
+                  _("The nuclear attack on %s was avoided by"
+                    " your SDI defense."), city_link(pcity));
+    wipe_unit(punit, ULR_SDI, city_owner(pcity));
+    return;
+  }
+
+  dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
+
+  wipe_unit(punit, ULR_DETONATED, NULL);
+  do_nuclear_explosion(pplayer, def_tile);
+
+  return;
+}
+
+/**************************************************************************
 This function assumes the attack is legal. The calling function should have
 already made all necessary checks.
 **************************************************************************/
@@ -2172,31 +2212,10 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   fc_assert_ret_msg(!pplayers_non_attack(pplayer, unit_owner(pdefender)),
                     "Trying to attack a unit with which you have peace "
                     "or cease-fire at (%d, %d).", TILE_XY(def_tile));
-  fc_assert_ret_msg(!pplayers_allied(pplayer, unit_owner(pdefender))
-                    || (unit_has_type_flag(punit, UTYF_NUCLEAR)
-                        && punit == pdefender),
+  fc_assert_ret_msg(!pplayers_allied(pplayer, unit_owner(pdefender)),
                     "Trying to attack a unit with which you have alliance "
                     "at (%d, %d).", TILE_XY(def_tile));
 
-  if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
-    if ((pcity = sdi_try_defend(pplayer, def_tile))) {
-      /* FIXME: Remove the hard coded reference to SDI defense. */
-      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
-                    _("Your %s was shot down by "
-                      "SDI defenses, what a waste."), unit_tile_link(punit));
-      notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
-                    _("The nuclear attack on %s was avoided by"
-                      " your SDI defense."), city_link(pcity));
-      wipe_unit(punit, ULR_SDI, city_owner(pcity));
-      return;
-    } 
-
-    dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
-
-    wipe_unit(punit, ULR_DETONATED, NULL);
-    do_nuclear_explosion(pplayer, def_tile);
-    return;
-  }
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
 
@@ -2608,7 +2627,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     victim = get_defender(punit, pdesttile);
 
     if (victim) {
-      unit_attack_handling(punit, victim);
+      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
+        unit_nuke(pplayer, punit, unit_tile(victim));
+      } else {
+        unit_attack_handling(punit, victim);
+      }
       return TRUE;
     } else {
       fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
@@ -2617,7 +2640,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
         if (unit_move(punit, pcity->tile, 0)) {
           /* Survived dangers of moving */
-          unit_attack_handling(punit, punit); /* Boom! */
+          unit_nuke(pplayer, punit, pcity->tile); /* Boom! */
         }
         return TRUE;
       }
@@ -3318,7 +3341,7 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
     return;
   }
 
-  unit_attack_handling(punit, punit);
+  unit_nuke(pplayer, punit, unit_tile(punit));
 }
 
 /**************************************************************************
