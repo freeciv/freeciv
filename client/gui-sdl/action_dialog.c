@@ -908,6 +908,7 @@ static void action_entry(const enum gen_action act,
   case ATK_TILE:
   case ATK_UNITS:
     pBuf->data.tile = tgt_tile;
+    break;
   case ATK_COUNT:
     fc_assert_msg(FALSE, "Unsupported target kind");
   }
