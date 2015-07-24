@@ -206,7 +206,6 @@ flags         = ""
 ; "Diplomat"	= can do diplomat actions (see diplchance server option)
 ; "Spy"		= enhanced diplomat actions. _Must_ be "Diplomat" also
 ; "Trireme"	= (sea only) cannot leave shoreline
-; "Nuclear"	= nuke!
 ; "Paratroopers"= can paradrop
 ; "Only_Native_Attack" = cannot attack targets on non-native tiles even if
 ;                 unit class can

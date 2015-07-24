@@ -255,3 +255,13 @@ Actions done by a unit against a tile
  * target must not have the NoCities terrain flag.
  * target must not be owned by a foreign player.
  * target must not be closer than citymindist to nearest city.
+
+"Explode Nuclear" - Detonate at the target tile. Cause a nuclear explosion.
+ * UI name can be set using ui_name_explode_nuclear
+ * actor must be on the same tile as the target or on the tile next to it.
+ * if the actor unit isn't on the target tile
+   - the actor must have movement left
+   - the target tile must have a city or a unit
+   - the actor must be at war with any city on the target tile
+   - the actor must be at war with each unit on the target tile
+   - a unit at the target tile must be reachable unless it has a city

@@ -30,6 +30,7 @@ flags =
     _("HelpWonder")
     _("Cities")
     _("AddToCity")
+    _("Nuclear")
   }
 
 [veteran_system]

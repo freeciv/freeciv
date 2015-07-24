@@ -498,7 +498,7 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG,
                            can_units_act_against_own_tile(punits));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
-                           units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
+                           units_can_do_action(punits, ACTION_NUKE, TRUE));
 
       /* FiXME: very odd, iterating for the first entry! */
       unit_list_iterate(punits, punit) {

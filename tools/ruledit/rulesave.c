@@ -852,6 +852,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_NUKE)->ui_name,
                      "actions.ui_name_suitcase_nuke");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_NUKE)->ui_name,
+                     "actions.ui_name_explode_nuclear");
 
   sect_idx = 0;
   action_enablers_iterate(pae) {

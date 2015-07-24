@@ -1729,7 +1729,7 @@ void request_unit_nuke(struct unit_list *punits)
   }
 
   unit_list_iterate(punits, punit) {
-    if (!unit_has_type_flag(punit, UTYF_NUCLEAR)) {
+    if (!unit_can_do_action(punit, ACTION_NUKE)) {
       create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
                    _("Only nuclear units can do this."));
       return;
@@ -2572,7 +2572,7 @@ static void do_real_unit_nuke(void *p)
     /* Ensure we have reached destination. */
     punit = player_unit_by_number(client_player(), data->units_id[i]);
     if (punit != NULL && unit_tile(punit) == ptile) {
-      dsend_packet_unit_nuke(&client.conn, punit->id);
+      request_do_action(ACTION_NUKE, punit->id, data->tile_idx, 0, "");
     }
   }
 }

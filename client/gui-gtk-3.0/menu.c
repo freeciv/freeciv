@@ -2273,7 +2273,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "DIPLOMAT_ACTION",
                       can_units_act_against_own_tile(punits));
   menus_set_sensitive(unit_group, "EXPLODE_NUKE",
-                      units_have_type_flag(punits, UTYF_NUCLEAR, TRUE));
+                      units_can_do_action(punits, ACTION_NUKE, TRUE));
 
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename(unit_group, "BUILD_CITY",

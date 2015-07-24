@@ -136,6 +136,23 @@ static void found_city_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected "Explode Nuclear" from the choice dialog
+*****************************************************************/
+static void nuke_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(args->target_tile_id)) {
+    request_do_action(ACTION_NUKE, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected join city from caravan dialog
 *****************************************************************/
 static void join_city_callback(GtkWidget *w, gpointer data)
@@ -1056,6 +1073,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
+  [ACTION_NUKE] = (GCallback)nuke_callback,
 };
 
 /******************************************************************

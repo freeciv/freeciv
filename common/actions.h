@@ -83,6 +83,8 @@ extern "C" {
 #define SPECENUM_VALUE18NAME N_("Bombard")
 #define SPECENUM_VALUE19 ACTION_SPY_NUKE
 #define SPECENUM_VALUE19NAME N_("Suitcase Nuke")
+#define SPECENUM_VALUE20 ACTION_NUKE
+#define SPECENUM_VALUE20NAME N_("Explode Nuclear")
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 

@@ -603,7 +603,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
         vulnerability /= move_time;
       }
 
-      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
+      if (unit_can_do_action(punit, ACTION_NUKE)) {
         defender = dai_find_source_building(pcity, EFT_NUKE_PROOF,
                                             unit_type(punit));
         if (defender != B_LAST) {

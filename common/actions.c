@@ -21,6 +21,7 @@
 /* common */
 #include "actions.h"
 #include "city.h"
+#include "combat.h"
 #include "game.h"
 #include "map.h"
 #include "unit.h"
@@ -118,6 +119,11 @@ void actions_init(void)
                  TRUE);
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
+                 TRUE);
+  actions[ACTION_NUKE] =
+      action_new(ACTION_NUKE,
+                 /* FIXME: Target is actually Tile + Units + City */
+                 ATK_TILE,
                  TRUE);
 
   /* Initialize the action enabler list */
@@ -645,6 +651,36 @@ static bool is_action_possible(const enum gen_action wanted_action,
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
                             actor_player)) {
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_NUKE
+      && actor_tile != target_tile) {
+    /* The old rules only restricted other tiles. Keep them for now. */
+
+    struct city *tcity;
+
+    if (actor_unit->moves_left <= 0) {
+      return FALSE;
+    }
+
+    if (!(tcity = tile_city(target_tile))
+        && !unit_list_size(target_tile->units)) {
+      return FALSE;
+    }
+
+    if (tcity && !pplayers_at_war(city_owner(tcity), actor_player)) {
+      return FALSE;
+    }
+
+    if (is_non_attack_unit_tile(target_tile, actor_player)) {
+      return FALSE;
+    }
+
+    if (!tcity
+        && (unit_attack_units_at_tile_result(actor_unit, target_tile)
+            != ATT_OK)) {
       return FALSE;
     }
   }
@@ -1286,6 +1322,9 @@ action_prob(const enum gen_action wanted_action,
     chance = 200;
     break;
   case ACTION_SPY_NUKE:
+    /* TODO */
+    break;
+  case ACTION_NUKE:
     /* TODO */
     break;
   case ACTION_COUNT:

@@ -1024,7 +1024,7 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  if (utype_has_flag(punittype, UTYF_NUCLEAR)
+  if (utype_can_do_action(punittype, ACTION_NUKE)
       && get_player_bonus(p, EFT_ENABLE_NUKE) <= 0) {
     return FALSE;
   }

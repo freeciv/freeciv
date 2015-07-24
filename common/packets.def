@@ -980,10 +980,6 @@ PACKET_UNIT_UPGRADE = 77; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_NUKE = 79; cs, dsend
-  UNIT unit_id;
-end
-
 PACKET_UNIT_PARADROP_TO = 80; cs, dsend
   UNIT unit_id;
   TILE tile;

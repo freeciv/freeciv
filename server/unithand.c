@@ -1518,6 +1518,19 @@ void handle_unit_do_action(struct player *pplayer,
       }
     }
     break;
+  case ACTION_NUKE:
+    if (target_tile) {
+      if (is_action_enabled_unit_on_tile(action_type,
+                                          actor_unit, target_tile)) {
+        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
+
+        unit_nuke(pplayer, actor_unit, target_tile);
+      } else {
+        illegal_action(pplayer, actor_unit, action_type,
+                       NULL, target_tile, NULL, NULL);
+      }
+    }
+    break;
   case ACTION_MOVE:
     if (target_tile
         && may_non_act_move(actor_unit, pcity, target_tile, FALSE)) {
@@ -2170,7 +2183,15 @@ static void unit_nuke(struct player *pplayer, struct unit *punit,
     notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
                   _("The nuclear attack on %s was avoided by"
                     " your SDI defense."), city_link(pcity));
+
+    /* Trying to nuke something this close can be... unpopular. */
+    action_consequence_caught(ACTION_NUKE, pplayer,
+                              city_owner(pcity),
+                              def_tile, unit_tile_link(punit));
+
+    /* Remove the destroyed nuke. */
     wipe_unit(punit, ULR_SDI, city_owner(pcity));
+
     return;
   }
 
@@ -2178,6 +2199,14 @@ static void unit_nuke(struct player *pplayer, struct unit *punit,
 
   wipe_unit(punit, ULR_DETONATED, NULL);
   do_nuclear_explosion(pplayer, def_tile);
+
+  if (tile_owner(def_tile)) {
+    /* May cause an incident */
+    action_consequence_success(ACTION_NUKE, pplayer,
+                               tile_owner(def_tile),
+                               def_tile,
+                               tile_link(def_tile));
+  }
 
   return;
 }
@@ -2625,23 +2654,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     victim = get_defender(punit, pdesttile);
 
     if (victim) {
-      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
-        unit_nuke(pplayer, punit, unit_tile(victim));
-      } else {
-        unit_attack_handling(punit, victim);
-      }
+      unit_attack_handling(punit, victim);
       return TRUE;
     } else {
       fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
                         TRUE);
-
-      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
-        if (unit_move(punit, pcity->tile, 0)) {
-          /* Survived dangers of moving */
-          unit_nuke(pplayer, punit, pcity->tile); /* Boom! */
-        }
-        return TRUE;
-      }
 
       taking_over_city = TRUE;
       /* Taking over a city is considered a move, so fall through */
@@ -3319,27 +3336,6 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 
   /* Unload the unit and send out info to clients. */
   unit_transport_unload_send(pcargo);
-}
-
-/**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-void handle_unit_nuke(struct player *pplayer, int unit_id)
-{
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_nuke() invalid unit %d", unit_id);
-    return;
-  }
-
-  if (!unit_can_do_action_now(punit)) {
-    /* Exploding nuke not possible due to unitwaittime setting. */
-    return;
-  }
-
-  unit_nuke(pplayer, punit, unit_tile(punit));
 }
 
 /**************************************************************************

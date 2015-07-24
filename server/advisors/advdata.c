@@ -270,7 +270,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   TIMING_LOG(AIT_AIDATA, TIMER_START);
 
-  nuke_units = num_role_units(UTYF_NUCLEAR);
+  nuke_units = num_role_units(action_get_role(ACTION_NUKE));
   danger_of_nukes = FALSE;
 
   /*** Threats ***/
@@ -348,14 +348,14 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If he builds nukes, worry a lot. */
-      if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
+      if (unit_can_do_action(punit, ACTION_NUKE)) {
         danger_of_nukes = TRUE;
       }
     } unit_list_iterate_end;
 
     /* Check for nuke capability */
     for (i = 0; i < nuke_units; i++) {
-      struct unit_type *nuke = get_role_unit(UTYF_NUCLEAR, i);
+      struct unit_type *nuke = get_role_unit(action_get_role(ACTION_NUKE), i);
 
       if (can_player_build_unit_direct(aplayer, nuke)) { 
         adv->threats.nuclear = 1;

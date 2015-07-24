@@ -305,6 +305,19 @@ static void found_city_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
+  "Explode Nuclear" action was chosen
+*****************************************************************/
+static void nuke_callback(Widget w, XtPointer client_data,
+                          XtPointer call_data)
+{
+  request_do_action(ACTION_NUKE, diplomat_id,
+                    diplomat_target_id[ATK_TILE], 0, "");
+
+  destroy_message_dialog(w);
+  diplomat_dialog = NULL;
+}
+
+/****************************************************************
   Join city action was chosen
 *****************************************************************/
 static void join_city_callback(Widget w, XtPointer client_data,
@@ -1014,6 +1027,7 @@ void popup_action_selection(struct unit *actor_unit,
                            spy_steal_maps_callback, 0, 0,
                            bombard_callback, 0, 0,
                            spy_nuke_callback, 0, 0,
+                           nuke_callback, 0, 0,
                            diplomat_keep_moving_callback, target_tile, 1,
                            diplomat_cancel_callback, 0, 0,
                            NULL);
@@ -1098,9 +1112,13 @@ void popup_action_selection(struct unit *actor_unit,
                ACTION_SPY_NUKE,
                act_probs);
 
+  action_entry(XtNameToWidget(diplomat_dialog, "*button20"),
+               ACTION_NUKE,
+               act_probs);
+
   if (!(unit_can_move_to_tile(actor_unit, target_tile, FALSE)
       || (is_military_unit(actor_unit) || is_attack_unit(actor_unit)))) {
-    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button20"), FALSE);
+    XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button21"), FALSE);
   }
 
   astr_free(&text);

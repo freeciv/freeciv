@@ -2936,7 +2936,7 @@ static int compare_units(const struct unit *const *p1,
 *****************************************************************/
 static bool is_suitable_autoattack_unit(struct unit *punit)
 {
-  if (unit_has_type_flag(punit, UTYF_NUCLEAR)) {
+  if (unit_can_do_action(punit, ACTION_NUKE)) {
     /* Not a good idea to nuke our own area */
     return FALSE;
   }

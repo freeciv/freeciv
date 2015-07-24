@@ -83,6 +83,7 @@ static void caravan_help_build(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
+static void nuke(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
@@ -139,6 +140,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 
   /* Unit acting against a tile. */
   action_function[ACTION_FOUND_CITY] = found_city;
+  action_function[ACTION_NUKE] = nuke;
 
   return action_function;
 }
@@ -1555,6 +1557,21 @@ static void found_city(QVariant data1, QVariant data2)
 
   dsend_packet_city_name_suggestion_req(&client.conn,
                                         actor_id);
+}
+
+/**************************************************************************
+  Action "Explode Nuclear" for choice dialog
+**************************************************************************/
+static void nuke(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != index_to_tile(diplomat_target_id)) {
+    request_do_action(ACTION_NUKE,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
 }
 
 /**************************************************************************

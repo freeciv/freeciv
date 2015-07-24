@@ -1291,7 +1291,7 @@ void mr_menu::menus_sensitive()
         break;
 
       case NUKE:
-        if (units_have_type_flag(punits, UTYF_NUCLEAR, true)) {
+        if (units_can_do_action(punits, ACTION_NUKE, TRUE)) {
           i.value()->setEnabled(true);
         }
         break;

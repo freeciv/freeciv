@@ -3311,8 +3311,8 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
    * uniqueness, so we don't mention it here.) */
 
   if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
-      && num_role_units(UTYF_NUCLEAR) > 0) {
-    struct unit_type *u = get_role_unit(UTYF_NUCLEAR, 0);
+      && num_role_units(action_get_role(ACTION_NUKE)) > 0) {
+    struct unit_type *u = get_role_unit(action_get_role(ACTION_NUKE), 0);
 
     cat_snprintf(buf, bufsz,
 		 /* TRANS: 'Allows all players with knowledge of atomic
@@ -3909,10 +3909,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("* Making an attack ends this unit's turn.\n"));
   }
-  if (utype_has_flag(utype, UTYF_NUCLEAR)) {
-    CATLSTR(buf, bufsz,
-	    _("* This unit's attack causes a nuclear explosion!\n"));
-  }
   if (utype_has_flag(utype, UTYF_CITYBUSTER)) {
     CATLSTR(buf, bufsz,
 	    _("* Gets double firepower when attacking cities.\n"));
@@ -4157,7 +4153,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
      * UTYF_NO_VETERAN when writing this text. (Gna patch #4794) */
     CATLSTR(buf, bufsz, _("* May acquire veteran status.\n"));
     if (utype_veteran_has_power_bonus(utype)) {
-      if ((!utype_has_flag(utype, UTYF_NUCLEAR) && utype->attack_strength > 0)
+      if ((!utype_can_do_action(utype, ACTION_NUKE)
+           && utype->attack_strength > 0)
           || utype->defense_strength > 0) {
         CATLSTR(buf, bufsz,
                 _("  * Veterans have increased strength in combat.\n"));

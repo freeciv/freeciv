@@ -1398,7 +1398,7 @@ void real_menus_update(void)
        local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
       }
 
-      if (unit_has_type_flag(pUnit, UTYF_NUCLEAR)) {
+      if (unit_can_do_action(pUnit, ACTION_NUKE)) {
         local_show(ID_UNIT_ORDER_NUKE);
       } else {
         local_hide(ID_UNIT_ORDER_NUKE);

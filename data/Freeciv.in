@@ -2335,12 +2335,14 @@ Freeciv*diplomatdialog.*.button18.fromVert:  button16
 Freeciv*diplomatdialog.*.button19.fromVert:  button17
 Freeciv*diplomatdialog.*.button19.fromHoriz: button18
 
-Freeciv*diplomatdialog.*.button20.label:     _("Keep moving")
 Freeciv*diplomatdialog.*.button20.fromVert:  button18
 
-Freeciv*diplomatdialog.*.button21.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button21.label:     _("Keep moving")
 Freeciv*diplomatdialog.*.button21.fromVert:  button19
 Freeciv*diplomatdialog.*.button21.fromHoriz: button20
+
+Freeciv*diplomatdialog.*.button22.label:     _("Cancel")
+Freeciv*diplomatdialog.*.button22.fromVert:  button20
 
 !
 ! Spy Steal Tech Dialog

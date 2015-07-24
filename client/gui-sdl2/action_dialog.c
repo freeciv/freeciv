@@ -812,6 +812,25 @@ static int found_city_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Explode Nuclear"
+*****************************************************************/
+static int nuke_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_NUKE,
+                      actor_id, target_id, 0, "");
+
+    choose_action_queue_next();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   Close diplomat dialog.
 *****************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
@@ -871,6 +890,7 @@ static const act_func af_map[ACTION_COUNT] = {
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = found_city_callback,
+  [ACTION_NUKE] = nuke_callback,
 };
 
 /**************************************************************************

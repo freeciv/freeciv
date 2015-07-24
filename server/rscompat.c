@@ -172,6 +172,13 @@ bool rscompat_names(struct rscompat_info *info)
                                  N_("Bombarder"),
                                  N_("Can do bombard attacks."));
     unit_flag_position++;
+
+    /* The unit type flag Nuclear is no longer hard coded. */
+    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
+                                 N_("Nuclear"),
+                                 N_("This unit's attack causes a nuclear"
+                                    " explosion!"));
+    unit_flag_position++;
   }
 
   /* No errors encountered. */
@@ -324,6 +331,19 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("TerrainClass", "Local", FALSE,
                                            FALSE, "Oceanic"));
+
+    action_enabler_add(enabler);
+
+    /* The nuclear attack is now action enabler controlled. */
+
+    enabler = action_enabler_new();
+
+    enabler->action = ACTION_NUKE;
+
+    /* The actor unit must have the unit type flag Nuclear. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("UnitFlag", "Local", FALSE,
+                                           TRUE, "Nuclear"));
 
     action_enabler_add(enabler);
   }
