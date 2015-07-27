@@ -149,8 +149,9 @@ struct fileinfo {
 #define fileinfo_list_iterate_end LIST_ITERATE_END
 
 char *user_home_dir(void);
+void free_user_home_dir(void);
 char *user_username(char *buf, size_t bufsz);
-  
+
 const struct strvec *get_data_dirs(void);
 const struct strvec *get_save_dirs(void);
 const struct strvec *get_scenario_dirs(void);
