@@ -211,6 +211,7 @@ common/game.h
 common/government.c
 common/mapimg.c
 common/packets.c
+common/packets_json.c
 common/player.c
 common/player.h
 common/research.c
