@@ -1468,7 +1468,7 @@ action_probability action_prob_vs_units(struct unit* actor_unit,
       /* One unit makes it impossible for all units. */
       return ACTPROB_IMPOSSIBLE;
     case ACTPROB_NOT_IMPLEMENTED:
-      /* Not implemented domiantes all except impossible. */
+      /* Not implemented dominates all except impossible. */
       prob_all = ACTPROB_NOT_IMPLEMENTED;
       break;
     case ACTPROB_NOT_KNOWN:
