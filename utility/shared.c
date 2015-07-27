@@ -117,6 +117,7 @@ static struct strvec *save_dir_names = NULL;
 static struct strvec *scenario_dir_names = NULL;
 
 static char *mc_group = NULL;
+static char *home_dir = NULL;
 
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
@@ -743,12 +744,11 @@ char *user_home_dir(void)
   return "PROGDIR:";
 #else  /* AMIGA */
   static bool init = FALSE;
-  static char *home_dir = NULL;
 
   if (!init) {
     char *env = getenv("HOME");
     if (env) {
-      home_dir = fc_strdup(env);        /* never free()d */
+      home_dir = fc_strdup(env);
       log_verbose("HOME is %s", home_dir);
     } else {
 
@@ -804,6 +804,17 @@ char *user_home_dir(void)
 
   return home_dir;
 #endif /* AMIGA */
+}
+
+/***************************************************************************
+  Free user home directory information
+***************************************************************************/
+void free_user_home_dir(void)
+{
+  if (home_dir != NULL) {
+    free(home_dir);
+    home_dir = NULL;
+  }
 }
 
 /***************************************************************************
