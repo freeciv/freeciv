@@ -212,8 +212,7 @@ ui_name_help_wonder = _("Help %sbuild Wonder%s")
 ; target_reqs          = requirements that apply to the target.
 ;
 ; README.actions lists the possible actions and their hard coded
-; requirements. Note that an action may append some of its hard
-; requirements to actor_reqs and target_reqs.
+; requirements.
 ;
 ; An action enabler is active when its actor_reqs AND its target_reqs are
 ; satisfied.
