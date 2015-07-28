@@ -2200,13 +2200,11 @@ static void unit_nuke(struct player *pplayer, struct unit *punit,
   wipe_unit(punit, ULR_DETONATED, NULL);
   do_nuclear_explosion(pplayer, def_tile);
 
-  if (tile_owner(def_tile)) {
-    /* May cause an incident */
-    action_consequence_success(ACTION_NUKE, pplayer,
-                               tile_owner(def_tile),
-                               def_tile,
-                               tile_link(def_tile));
-  }
+  /* May cause an incident */
+  action_consequence_success(ACTION_NUKE, pplayer,
+                             tile_owner(def_tile),
+                             def_tile,
+                             tile_link(def_tile));
 
   return;
 }

@@ -453,6 +453,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                                              TRUE, "Steal Gold"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                             FALSE, "War"));
+
+     /* Nuking someone causes an incident. */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, "Explode Nuclear"));
   }
 
   /* Upgrade existing effects. */
