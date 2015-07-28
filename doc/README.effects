@@ -248,7 +248,8 @@ the victim a casus belli against the player that was caught.
 
 Action_Odds_Pct
     Modifies the odds of an action being successful. Currently supports the
-    actions "Incite City", "Steal Gold", "Steal Maps" and "Suitcase Nuke".
+    actions "Incite City", "Steal Gold", "Steal Maps", "Suitcase Nuke",
+    "Sabotage City" and "Targeted Sabotage City".
 
 Size_Adj
     Increase maximum size of a city by amount.

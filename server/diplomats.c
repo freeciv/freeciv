@@ -852,7 +852,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   struct impr_type *ptarget;
   int count, which;
-  int success_prob;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity) {
@@ -871,10 +870,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("sabotage: unit: %d", pdiplomat->id);
 
-  /* Twice as difficult if target is specified. */
-  success_prob = (improvement >= B_LAST ? game.server.diplchance 
-                  : game.server.diplchance / 2); 
-
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer,
                                 action_id,
@@ -886,7 +881,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: infiltrated");
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
-  if (fc_rand (100) >= success_prob) {
+  if (diplomat_was_caught(pplayer, pdiplomat, pcity, cplayer,
+                          action_by_number(action_id))) {
     notify_player(pplayer, city_tile(pcity),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"

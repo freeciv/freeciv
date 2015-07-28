@@ -458,6 +458,12 @@ void rscompat_postprocess(struct rscompat_info *info)
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                              TRUE, "Explode Nuclear"));
+
+     /* City sabotage is twice as difficult if target is specified. */
+     peffect = effect_new(EFT_ACTION_ODDS_PCT, -50, NULL);
+     effect_req_append(peffect,
+                       req_from_str("Action", "Local", FALSE,
+                                    TRUE, "Targeted Sabotage City"));
   }
 
   /* Upgrade existing effects. */
