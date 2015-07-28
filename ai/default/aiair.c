@@ -405,6 +405,12 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
           handle_unit_do_action(unit_owner(punit),
                                 punit->id, tile_index(dst_tile),
                                 0, "", ACTION_BOMBARD);
+        } else if (is_action_enabled_unit_on_tile(ACTION_NUKE,
+                                                  punit, dst_tile)) {
+          /* Choose explode nuclear. */
+          handle_unit_do_action(unit_owner(punit),
+                                punit->id, tile_index(dst_tile),
+                                0, "", ACTION_NUKE);
         } else {
           (void) unit_move_handling(punit, dst_tile, TRUE, FALSE);
         }

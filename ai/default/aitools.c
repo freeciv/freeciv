@@ -853,6 +853,11 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose bombard. */
     handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                           0, "", ACTION_BOMBARD);
+  } if (is_action_enabled_unit_on_tile(ACTION_NUKE,
+                                       punit, ptile)) {
+    /* Choose explode nuclear. */
+    handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                          0, "", ACTION_NUKE);
   } else {
     /* Regular attack. */
     (void) unit_move_handling(punit, ptile, FALSE, FALSE);
