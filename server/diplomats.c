@@ -60,6 +60,11 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct unit *pdiplomat,
                                      struct unit *pvictim,
                                      struct tile *ptile);
+static bool diplomat_was_caught(struct player *act_player,
+                                struct unit *act_unit,
+                                struct city *tgt_city,
+                                struct player *tgt_player,
+                                struct action *act);
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                             const struct city *pcity);
 static void diplomat_escape_full(struct player *pplayer,
@@ -759,7 +764,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   log_debug("incite: infiltrated");
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
-  if (fc_rand (100) >= game.server.diplchance) {
+  if (diplomat_was_caught(pplayer, pdiplomat, pcity, cplayer,
+                          action_by_number(ACTION_SPY_INCITE_CITY))) {
     notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of inciting a revolt!"),
@@ -1157,7 +1163,8 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
   log_debug("steal gold: infiltrated");
 
   /* The thief may get caught while trying to steal the gold. */
-  if (fc_rand (100) >= game.server.diplchance) {
+  if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
+                          action_by_number(ACTION_SPY_STEAL_GOLD))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in an attempt"
                     " of stealing gold!"),
@@ -1276,7 +1283,8 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   log_debug("steal some maps: infiltrated");
 
   /* Try to steal the map. */
-  if (fc_rand (100) >= game.server.diplchance) {
+  if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
+                          action_by_number(ACTION_STEAL_MAPS))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in an attempt of"
                     " stealing parts of the %s world map!"),
@@ -1373,7 +1381,8 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
   log_debug("suitcase nuke: infiltrated");
 
   /* Try to hide the nuke. */
-  if (fc_rand (100) >= game.server.diplchance) {
+  if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
+                          action_by_number(ACTION_SPY_NUKE))) {
     notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in an attempt of"
                     " hiding a nuke in %s!"),
@@ -1423,6 +1432,37 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
   /* This may cause a diplomatic incident. */
   action_consequence_success(ACTION_SPY_NUKE, act_player,
                              tgt_player, tgt_tile, tgt_city_link);
+}
+
+/**************************************************************************
+  Returns TRUE iff the spy/diplomat was caught outside of a diplomatic
+  battle.
+**************************************************************************/
+static bool diplomat_was_caught(struct player *act_player,
+                                struct unit *act_unit,
+                                struct city *tgt_city,
+                                struct player *tgt_player,
+                                struct action *act)
+{
+  int odds;
+
+  /* Take the odds from the diplchance setting. */
+  odds = game.server.diplchance;
+
+  /* Let the Action_Odds_Pct effect modify the odds. The advantage of doing
+   * it this way in stead of rolling twice is that Action_Odds_Pct can
+   * increase the odds. */
+  odds += ((odds
+            * get_target_bonus_effects(NULL,
+                                       act_player, tgt_player,
+                                       tgt_city, NULL, NULL,
+                                       act_unit, unit_type(act_unit),
+                                       NULL, NULL, act,
+                                       EFT_ACTION_ODDS_PCT))
+           / 100);
+
+  /* Roll the dice. */
+  return fc_rand (100) >= odds;
 }
 
 /**************************************************************************

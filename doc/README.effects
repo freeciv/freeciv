@@ -246,6 +246,10 @@ Casus_Belli_Success
     When does an action to another player it causes an incident. This gives
 the victim a casus belli against the player that was caught.
 
+Action_Odds_Pct
+    Modifies the odds of an action being successful. Currently supports the
+    actions "Incite City", "Steal Gold", "Steal Maps" and "Suitcase Nuke".
+
 Size_Adj
     Increase maximum size of a city by amount.
 

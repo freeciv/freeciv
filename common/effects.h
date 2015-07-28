@@ -279,6 +279,8 @@ extern "C" {
 #define SPECENUM_VALUE108NAME "Casus_Belli_Caught"
 #define SPECENUM_VALUE109 EFT_CASUS_BELLI_SUCCESS
 #define SPECENUM_VALUE109NAME "Casus_Belli_Success"
+#define SPECENUM_VALUE110 EFT_ACTION_ODDS_PCT
+#define SPECENUM_VALUE110NAME "Action_Odds_Pct"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
