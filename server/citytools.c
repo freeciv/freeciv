@@ -2044,6 +2044,7 @@ static void broadcast_city_info(struct city *pcity)
     } else {
       if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)
           || player_has_trade_route_with_city(pplayer, pcity)) {
+        reality_check_city(pplayer, pcity->tile);
 	update_dumb_city(pplayer, pcity);
 	package_dumb_city(pplayer, pcity->tile, &sc_pack);
 	lsend_packet_city_short_info(pplayer->connections, &sc_pack);
@@ -2436,7 +2437,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 /**************************************************************************
   Removes outdated (nonexistant) cities from a player
 **************************************************************************/
-void reality_check_city(struct player *pplayer,struct tile *ptile)
+void reality_check_city(struct player *pplayer, struct tile *ptile)
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
 
