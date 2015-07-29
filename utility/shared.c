@@ -291,27 +291,19 @@ static size_t fc_strcspn(const char *s, const char *reject)
  **tokens using free_tokens().
 ***************************************************************/
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
-	       const char *delimiterset)
+               const char *delimiterset)
 {
-  int token = 0;
+  int token;
 
   fc_assert_ret_val(NULL != str, -1);
 
-  for(;;) {
+  for (token = 0; token <= num_tokens && *str != '\0'; token++) {
     size_t len, padlength = 0;
 
     /* skip leading delimiters */
     str += strspn(str, delimiterset);
 
-    if (*str == '\0') {
-      break;
-    }
-
     len = fc_strcspn(str, delimiterset);
-
-    if (token >= num_tokens) {
-      break;
-    }
 
     /* strip start/end quotes if they exist */
     if (len >= 2) {
@@ -325,8 +317,6 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 
     tokens[token] = fc_malloc(len + 1);
     (void) fc_strlcpy(tokens[token], str, len + 1);     /* adds the '\0' */
-
-    token++;
 
     str += len + padlength;
   }
