@@ -45,6 +45,7 @@
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
+#include "movement.h"
 #include "player.h"
 #include "version.h"
 
@@ -76,6 +77,7 @@ enum manuals {
   MANUAL_BUILDINGS,
   MANUAL_WONDERS,
   MANUAL_GOVS,
+  MANUAL_UNITS,
   MANUAL_COUNT
 };
 
@@ -481,6 +483,38 @@ static bool manual_command(void)
         helptext_government(buf, sizeof(buf), NULL, NULL, pgov);
         fprintf(doc, "%s\n\n", buf);
       } governments_iterate_end;
+      break;
+
+    case MANUAL_UNITS:
+      /* FIXME: this doesn't resemble the wiki manual at all. */
+      fprintf(doc, _("<h1>Freeciv %s unit types help</h1>\n\n"),
+              VERSION_STRING);
+      unit_type_iterate(putype) {
+        char buf[64000];
+        fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN,
+                utype_name_translation(putype), SECTION_END);
+        fprintf(doc,
+                PL_("Cost: %d shield\n",
+                    "Cost: %d shields\n",
+                    utype_build_shield_cost(putype)),
+                utype_build_shield_cost(putype));
+        fprintf(doc, _("Upkeep: %s\n"),
+                helptext_unit_upkeep_str(putype));
+        fprintf(doc, _("Moves: %s\n"),
+                move_points_text(putype->move_rate, TRUE));
+        fprintf(doc, _("Vision: %d\n"),
+                (int)sqrt((double)putype->vision_radius_sq));
+        fprintf(doc, _("Attack: %d\n"),
+                putype->attack_strength);
+        fprintf(doc, _("Defense: %d\n"),
+                putype->defense_strength);
+        fprintf(doc, _("Firepower: %d\n"),
+                putype->firepower);
+        fprintf(doc, _("Hitpoints: %d\n"),
+                putype->hp);
+        helptext_unit(buf, sizeof(buf), NULL, "", putype);
+        fprintf(doc, "%s\n\n", buf);
+      } unit_type_iterate_end;
       break;
 
     case MANUAL_COUNT:

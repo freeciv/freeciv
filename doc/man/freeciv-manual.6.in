@@ -23,7 +23,7 @@ Print the version number
 \fBfreeciv-manual\fR generates a subset of documentation for
 .IR freeciv-server(6)
 and the game rules of a selected ruleset that it runs. Currently it
-generates 6 files:
+generates 7 files:
 .TP
 .BI "manual1.html"
 Server options
@@ -47,6 +47,10 @@ Wonders
 .TP
 .BI "manual6.html"
 Governments
+
+.TP
+.BI "manual7.html"
+Unit types
 
 .SH BUGS
 This tool is currently only really of use to the Freeciv maintainers,
