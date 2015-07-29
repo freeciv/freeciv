@@ -165,7 +165,6 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   layout->addWidget(cancel_treaty, 17, 6);
   setLayout(layout);
   update_wdg();
-
 }
 
 /****************************************************************************
@@ -706,13 +705,13 @@ void diplo_dlg::make_active(int party)
 /****************************************************************************
   Initializes some data for diplomacy dialog
 ****************************************************************************/
-void diplo_dlg::init(bool raise)
+bool diplo_dlg::init(bool raise)
 {
   if (!can_client_issue_orders()) {
-    return;
+    return false;
   }
   if (client.conn.playing->ai_controlled) {
-    return;
+    return false;
   }
   setAttribute(Qt::WA_DeleteOnClose);
   gui()->gimme_place(this, "DDI");
@@ -723,6 +722,8 @@ void diplo_dlg::init(bool raise)
   } else {
     gui()->game_tab_widget->setCurrentIndex(index);
   }
+
+  return true;
 }
 /****************************************************************************
   Destructor for diplomacy dialog
@@ -732,12 +733,12 @@ diplo_dlg::~diplo_dlg()
   QMapIterator<int, diplo_wdg *>i(treaty_list);
   diplo_wdg *dw;
 
-   while (i.hasNext()) {
-     i.next();
-      dw = i.value();
-      removeTab(dw->get_index());
-      dw->deleteLater();
-   }
+  while (i.hasNext()) {
+    i.next();
+    dw = i.value();
+    removeTab(dw->get_index());
+    dw->deleteLater();
+  }
   gui()->remove_repo_dlg("DDI");
 }
 
@@ -822,7 +823,11 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   }
   if (!gui()->is_repo_dlg_open("DDI")) {
     diplo_dlg *dd = new diplo_dlg(counterpart, initiated_from);
-    dd->init(false);
+
+    if (!dd->init(false)) {
+      delete dd;
+      return;
+    }
     dd->update_dlg();
     dd->make_active(counterpart);
   }

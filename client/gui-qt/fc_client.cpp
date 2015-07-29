@@ -486,15 +486,16 @@ void fc_client::show_children(const QLayout* layout, bool show)
 /****************************************************************************
   Finds not used index on game_view_tab and returns it
 ****************************************************************************/
-void fc_client::gimme_place(QWidget* widget, QString str)
+void fc_client::gimme_place(QWidget *widget, QString str)
 {
   QString x;
+
   x = opened_repo_dlgs.key(widget);
 
-      if (x.isEmpty()) {
-        opened_repo_dlgs.insert(str, widget);
-        return;
-    }
+  if (x.isEmpty()) {
+    opened_repo_dlgs.insert(str, widget);
+    return;
+  }
   log_error("Failed to find place for new tab widget");
   return;
 }
