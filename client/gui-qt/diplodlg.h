@@ -107,7 +107,7 @@ public:
   diplo_dlg(int counterpart, int initiated_from);
   ~diplo_dlg();
   void update_dlg();
-  void init(bool raise);
+  bool init(bool raise);
   diplo_wdg *find_widget(int counterpart);
   void close_widget(int counterpart);
   void add_widget(int counterpart, int initiated_from);
