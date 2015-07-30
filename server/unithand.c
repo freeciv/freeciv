@@ -74,6 +74,8 @@
 
 /* A category of reasons why an action isn't enabled. */
 enum ane_kind {
+  /* Explanation: wrong actor unit. */
+  ANEK_ACTOR_UNIT,
   /* Explanation: bad terrain. */
   ANEK_BAD_TERRAIN,
   /* Explanation: being transported. */
@@ -703,7 +705,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     }
   }
 
-  if ((!can_exist
+  if (!unit_can_do_action(punit, action_id)) {
+    expl->kind = ANEK_ACTOR_UNIT;
+  } else if ((!can_exist
        && !utype_can_do_act_when_ustate(unit_type(punit), action_id,
                                         USP_LIVABLE_TILE, FALSE))
       || (can_exist
@@ -764,6 +768,15 @@ static void explain_why_no_action_enabled(struct unit *punit,
                                              target_city, target_unit);
 
   switch (expl->kind) {
+  case ANEK_ACTOR_UNIT:
+    /* This shouldn't happen unless the client is buggy given the current
+     * users. */
+    fc_assert_msg(expl->kind != ANEK_ACTOR_UNIT,
+                  "Asked to explain why a non actor can't act.");
+
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Unit cannot do anything."));
+    break;
   case ANEK_BAD_TERRAIN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot act from %s."),
@@ -975,6 +988,37 @@ static void illegal_action_msg(struct player *pplayer,
   expl = expl_act_not_enabl(actor, stopped_action,
                             target_tile, target_city, target_unit);
   switch (expl->kind) {
+  case ANEK_ACTOR_UNIT:
+    {
+      struct astring astr = ASTRING_INIT;
+
+      /* This shouldn't happen with the current users unless the client is
+       * buggy. */
+      fc_assert_msg(expl->kind != ANEK_ACTOR_UNIT,
+                    "Asked why a %s can't do %s. It never can.",
+                    unit_name_translation(actor),
+                    gen_action_translated_name(stopped_action));
+
+      if (role_units_translations(&astr,
+                                  action_get_role(stopped_action),
+                                  TRUE)) {
+        notify_player(pplayer, unit_tile(actor),
+                      event, ftc_server,
+                      /* TRANS: Only Diplomat or Spy can do Steal Gold. */
+                      _("Only %s can do %s."),
+                      astr_str(&astr),
+                      gen_action_translated_name(stopped_action));
+        astr_free(&astr);
+      } else {
+        notify_player(pplayer, unit_tile(actor),
+                      event, ftc_server,
+                      /* TRANS: Spy can't do Capture Units. */
+                      _("%s can't do %s."),
+                      unit_name_translation(actor),
+                      gen_action_translated_name(stopped_action));
+      }
+    }
+    break;
   case ANEK_BAD_TERRAIN:
     notify_player(pplayer, unit_tile(actor),
                   event, ftc_server,
