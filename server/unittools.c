@@ -3890,8 +3890,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       if (tile_city(unit_tile(punit))) {
         handle_unit_do_action(pplayer, unitid,
                               tile_city(unit_tile(punit))->id,
-                              0, city_name_suggestion(pplayer,
-                                                      unit_tile(punit)),
+                              0, "",
                               ACTION_JOIN_CITY);
         log_debug("  joining city");
       } else {
