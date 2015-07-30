@@ -3442,6 +3442,11 @@ void handle_unit_orders(struct player *pplayer,
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
       if (!is_valid_dir(packet->dir[i])) {
+        log_error("handle_unit_orders() %d isn't a valid move direction. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  packet->dir[i], i,
+                  player_name(pplayer), packet->unit_id);
+
 	return;
       }
       break;
@@ -3460,16 +3465,32 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_SENTRY:
         if (i != length - 1) {
           /* Only allowed as the last order. */
+          log_error("handle_unit_orders() activity %d is only allowed in "
+                    "the last order. "
+                    "Sent in order number %d from %s to unit number %d.",
+                    packet->activity[i], i,
+                    player_name(pplayer), packet->unit_id);
+
           return;
         }
         break;
       case ACTIVITY_BASE:
         if (!is_extra_caused_by(extra_by_number(packet->target[i]), EC_BASE)) {
+          log_error("handle_unit_orders() %s isn't a base. "
+                    "Sent in order number %d from %s to unit number %d.",
+                    extra_rule_name(extra_by_number(packet->target[i])), i,
+                    player_name(pplayer), packet->unit_id);
+
           return;
         }
         break;
       case ACTIVITY_GEN_ROAD:
         if (!is_extra_caused_by(extra_by_number(packet->target[i]), EC_ROAD)) {
+          log_error("handle_unit_orders() %s isn't a road. "
+                    "Sent in order number %d from %s to unit number %d.",
+                    extra_rule_name(extra_by_number(packet->target[i])), i,
+                    player_name(pplayer), packet->unit_id);
+
           return;
         }
         break;
@@ -3488,6 +3509,11 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_PATROL_UNUSED:
       case ACTIVITY_LAST:
       case ACTIVITY_UNKNOWN:
+        log_error("handle_unit_orders() unsupported activity %d. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  packet->activity[i], i,
+                  player_name(pplayer), packet->unit_id);
+
         return;
       }
 
@@ -3495,6 +3521,11 @@ void handle_unit_orders(struct player *pplayer,
           && unit_activity_needs_target_from_client(packet->activity[i])) {
         /* The orders system can't do server side target assignment for
          * this activity. */
+        log_error("handle_unit_orders() can't assign target for %d. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  packet->activity[i], i,
+                  player_name(pplayer), packet->unit_id);
+
         return;
       }
 
