@@ -4044,7 +4044,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                            action_get_target_kind(act))),
                        /* Custom information. */
                        utype->city_size,
-                       !utype_is_cityfounder(utype) ?
+                       game.scenario.prevent_new_cities ?
                          _(" (Disabled in the current game)") :
                          "");
           break;
