@@ -1800,22 +1800,6 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       }
     }
     break;
-  case UAB_NOT_ADDABLE_UNIT:
-    {
-      struct astring astr = ASTRING_INIT;
-
-      if (role_units_translations(&astr, action_get_role(ACTION_JOIN_CITY),
-                                  TRUE)) {
-        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                      /* TRANS: %s is list of units separated by "or". */
-                      _("Only %s can add to a city."), astr_str(&astr));
-        astr_free(&astr);
-      } else {
-        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                      _("Can't add to a city."));
-      }
-    }
-    break;
   case UAB_TOO_BIG:
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s is too big to add %s."),

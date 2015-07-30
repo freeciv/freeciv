@@ -60,7 +60,6 @@ enum unit_add_build_city_result {
   UAB_BAD_UNIT_TERRAIN, /* Equivalent to 'CB_BAD_UNIT_TERRAIN'. */
   UAB_BAD_BORDERS,      /* Equivalent to 'CB_BAD_BORDERS'. */
   UAB_NO_MIN_DIST,      /* Equivalent to 'CB_NO_MIN_DIST'. */
-  UAB_NOT_ADDABLE_UNIT, /* Unit is not one that can be added to cities. */
   UAB_NOT_BUILD_UNIT,   /* Unit is not one that can build cities. */
   UAB_TOO_BIG,          /* City is too big to be added to. */
   UAB_NO_SPACE          /* Adding takes city past limit. */
