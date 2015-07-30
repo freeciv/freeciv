@@ -3753,6 +3753,22 @@ static int order_to_action(struct unit *punit, enum unit_orders order)
   return ACTION_COUNT;
 }
 
+/**************************************************************************
+  Returns TRUE iff it is reasonable to assume that the player is wathing
+  the unit.
+
+  Since the player is watching the unit there is no need to inform him
+  about things he could see happening. Remember that it still may
+  be necessary to explain why something happened.
+**************************************************************************/
+static inline bool player_is_watching(struct unit *punit, const bool fresh)
+{
+  /* The player just sent the orders to the unit. The unit has moves left.
+   * It is therefore safe to assume that the player already is paying
+   * attention to the unit. */
+  return fresh && punit->moves_left > 0;
+}
+
 /****************************************************************************
   Executes a unit's orders stored in punit->orders.  The unit is put on idle
   if an action fails or if "patrol" is set and an enemy unit is encountered.
@@ -3795,7 +3811,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
   while (TRUE) {
     struct unit_order order;
-    bool player_is_watching;
 
     if (punit->done_moving) {
       log_debug("  stopping because we're done this turn");
@@ -3846,12 +3861,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
       /* Those actions don't require moves left. */
       break;
     }
-
-    /* The player just sent the orders. The unit has moves left. It is
-     * therefore safe to assume that the player is paying attention.
-     * There is no need to inform the player about what he just watched.
-     * Explaining why it happened may still be necessary. */
-    player_is_watching = fresh && punit->moves_left > 0;
 
     last_order = (!punit->orders.repeat
 		  && punit->orders.index + 1 == punit->orders.length);
@@ -4014,7 +4023,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         /* Movement failed (ZOC, etc.) */
         cancel_orders(punit, "  attempt to move failed.");
 
-        if (!player_is_watching) {
+        if (!player_is_watching(punit, fresh)) {
           /* The player may have missed this. Inform him. */
           notify_player(pplayer, unit_tile(punit),
                         E_UNIT_ORDERS, ftc_server,
