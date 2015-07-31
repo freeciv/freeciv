@@ -1463,7 +1463,7 @@ const char *get_timeout_label_text(void)
 
   astr_clear(&str);
 
-  if (game.info.timeout <= 0) {
+  if (current_turn_timeout() <= 0) {
     astr_add(&str, "%s", Q_("?timeout:off"));
   } else {
     astr_add(&str, "%s", format_duration(get_seconds_to_turndone()));

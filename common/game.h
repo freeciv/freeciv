@@ -246,8 +246,6 @@ struct civ_game {
         fc_mutex city_list;
       } mutexes;
 
-      int first_timeout;
-
       struct trait_limits default_traits[TRAIT_COUNT];
       struct government *default_government;
 
@@ -296,6 +294,8 @@ int generate_save_name(const char *format, char *buf, int buflen,
 
 void user_flag_init(struct user_flag *flag);
 void user_flag_free(struct user_flag *flag);
+
+int current_turn_timeout(void);
 
 extern struct civ_game game;
 

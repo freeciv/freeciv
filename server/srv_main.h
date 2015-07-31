@@ -118,4 +118,5 @@ extern struct server_arguments srvarg;
 extern bool force_end_of_sniff;
 
 void update_nations_with_startpos(void);
+
 #endif /* FC__SRV_MAIN_H */

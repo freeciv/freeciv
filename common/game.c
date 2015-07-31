@@ -764,3 +764,15 @@ void user_flag_free(struct user_flag *flag)
     flag->helptxt = NULL;
   }
 }
+
+/****************************************************************************
+  Return timeout value for the current turn.
+****************************************************************************/
+int current_turn_timeout(void)
+{
+  if (game.info.turn == 0 && game.info.first_timeout != -1) {
+    return game.info.first_timeout;
+  } else {
+    return game.info.timeout;
+  }
+}
