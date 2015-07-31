@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 247
+Max id: 248
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -619,9 +619,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   SINT16 usage[O_LAST];
   UINT16 food_stock, shield_stock;
 
-  UINT16 trade[MAX_TRADE_ROUTES];
-  UINT8 trade_value[MAX_TRADE_ROUTES];
-  RDIR trade_direction[MAX_TRADE_ROUTES];
+  UINT8 traderoute_count;
 
   UINT16 pollution;
   UINT16 illness_trade;
@@ -670,6 +668,14 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
 
   BV_IMPRS improvements;
   STRING name[MAX_LEN_NAME];
+end
+
+PACKET_TRADEROUTE_INFO = 248; sc, lsend, handle-via-packet
+  CITY city;
+  UINT8 index;
+  CITY partner;
+  UINT8 value;
+  RDIR direction;
 end
 
 PACKET_CITY_SELL = 33; cs, dsend

@@ -18,6 +18,13 @@
 #include "packets.h"
 #include "unitlist.h"
 
+#define SPECLIST_TAG traderoute_packet
+#define SPECLIST_TYPE struct packet_traderoute_info
+#include "speclist.h"
+#define traderoute_packet_list_iterate(ptrlist, ptr) \
+    TYPED_LIST_ITERATE(struct packet_traderoute_info, ptrlist, ptr)
+#define traderoute_packet_list_iterate_end LIST_ITERATE_END
+
 int build_points_left(struct city *pcity);
 int do_make_unit_veteran(struct city *pcity,
 			 const struct unit_type *punittype);
@@ -44,6 +51,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 void send_all_known_cities(struct conn_list *dest);
 void send_player_cities(struct player *pplayer);
 void package_city(struct city *pcity, struct packet_city_info *packet,
+                  struct traderoute_packet_list *routes,
 		  bool dipl_invest);
 
 void reality_check_city(struct player *pplayer, struct tile *ptile);

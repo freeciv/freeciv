@@ -168,6 +168,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   struct packet_unit_short_info unit_packet;
   struct packet_city_info city_packet;
+  struct traderoute_packet_list *routes;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity) {
@@ -208,10 +209,16 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   } unit_list_iterate_end;
   /* Send city info to investigator's player.
      As this is a special case we bypass send_city_info. */
-  package_city(pcity, &city_packet, TRUE);
+  routes = traderoute_packet_list_new();
+  package_city(pcity, &city_packet, routes, TRUE);
   /* We need to force to send the packet to ensure the client will receive
    * something and popup the city dialog. */
   lsend_packet_city_info(pplayer->connections, &city_packet, TRUE);
+  traderoute_packet_list_iterate(routes, route_packet) {
+    lsend_packet_traderoute_info(pplayer->connections, route_packet);
+    FC_FREE(route_packet);
+  } traderoute_packet_list_iterate_end;
+  traderoute_packet_list_destroy(routes);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;

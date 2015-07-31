@@ -614,42 +614,13 @@ void handle_city_info(const struct packet_city_info *packet)
   } else {
     name_changed = (0 != strncmp(packet->name, pcity->name,
                                  sizeof(pcity->name)));
-    if (options.draw_city_trade_routes) {
-      bool old_still_present[MAX_TRADE_ROUTES];
 
-      for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-        if (packet->trade[i] == 0) {
-          old_still_present[i] = TRUE; /* Not present, but not 'old' either */
-        } else {
-          old_still_present[i] = FALSE;
-        }
-      }
+    while (trade_route_list_size(pcity->routes) > packet->traderoute_count) {
+      struct trade_route *proute = trade_route_list_get(pcity->routes, -1);
 
-      trade_routes_iterate(pcity, proute) {
-        bool found = FALSE;
-
-        for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-          if (packet->trade[i] == proute->partner) {
-            old_still_present[i] = TRUE;
-            found = TRUE;
-            break;
-          }
-        }
-
-        if (!found) {
-          trade_routes_changed = TRUE;
-          break;
-        }
-      } trade_routes_iterate_end;
-
-      if (!trade_routes_changed) {
-        for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-          if (!old_still_present[i]) {
-            trade_routes_changed = TRUE;
-            break;
-          }
-        }
-      }
+      trade_route_list_remove(pcity->routes, proute);
+      FC_FREE(proute);
+      trade_routes_changed = TRUE;
     }
 
     /* Descriptions should probably be updated if the
@@ -709,24 +680,6 @@ void handle_city_info(const struct packet_city_info *packet)
   pcity->city_radius_sq = packet->city_radius_sq;
 
   pcity->city_options = packet->city_options;
-
-  /* Rebuild trade routes */
-  trade_routes_iterate_safe(pcity, pold) {
-    trade_route_list_remove(pcity->routes, pold);
-    free(pold);
-  } trade_routes_iterate_safe_end;
-
-  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
-    if (packet->trade[i] != 0) {
-      struct trade_route *proute = fc_malloc(sizeof(struct trade_route));
-
-      proute->partner = packet->trade[i];
-      proute->value = packet->trade_value[i];
-      proute->dir = packet->trade_direction[i];
-
-      trade_route_list_append(pcity->routes, proute);
-    }
-  }
 
   if (pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
       || pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
@@ -1005,6 +958,38 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   }
 
   editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, FALSE);
+}
+
+/****************************************************************************
+  A traderoute-info packet contains information about one end of a traderoute
+****************************************************************************/
+void handle_traderoute_info(const struct packet_traderoute_info *packet)
+{
+  struct city *pcity = game_city_by_number(packet->city);
+  struct trade_route *proute;
+  bool city_changed = FALSE;
+
+  if (pcity == NULL) {
+    return;
+  }
+
+  proute = trade_route_list_get(pcity->routes, packet->index);
+  if (proute == NULL) {
+    fc_assert(trade_route_list_size(pcity->routes) == packet->index);
+
+    proute = fc_malloc(sizeof(struct trade_route));
+    trade_route_list_append(pcity->routes, proute);
+    city_changed = TRUE;
+  }
+
+  proute->partner = packet->partner;
+  proute->value = packet->value;
+  proute->dir = packet->direction;
+
+  if (options.draw_city_trade_routes && city_changed) {
+    update_city_description(pcity);
+    update_map_canvas_visible();
+  }
 }
 
 /****************************************************************************
