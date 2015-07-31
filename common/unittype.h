@@ -256,9 +256,12 @@ struct unit_class {
 #define SPECENUM_VALUE62 UTYF_USER_FLAG_35
 #define SPECENUM_VALUE63 UTYF_USER_FLAG_36
 #define SPECENUM_VALUE64 UTYF_USER_FLAG_37
+#define SPECENUM_VALUE65 UTYF_USER_FLAG_38
+#define SPECENUM_VALUE66 UTYF_USER_FLAG_39
+#define SPECENUM_VALUE67 UTYF_USER_FLAG_40
 /* Note that first role must have value next to last flag */
 
-#define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_37
+#define UTYF_LAST_USER_FLAG UTYF_USER_FLAG_40
 #define MAX_NUM_USER_UNIT_FLAGS (UTYF_LAST_USER_FLAG - UTYF_USER_FLAG_1 + 1)
 #define SPECENUM_NAMEOVERRIDE
 #define SPECENUM_BITVECTOR bv_unit_type_flags
@@ -280,74 +283,74 @@ struct unit_class {
 
 #define SPECENUM_NAME unit_role_id
 /* is built first when city established */
-#define SPECENUM_VALUE65 L_FIRSTBUILD
-#define SPECENUM_VALUE65NAME N_("?unitflag:FirstBuild")
+#define SPECENUM_VALUE68 L_FIRSTBUILD
+#define SPECENUM_VALUE68NAME N_("?unitflag:FirstBuild")
 /* initial explorer unit */
-#define SPECENUM_VALUE66 L_EXPLORER
-#define SPECENUM_VALUE66NAME N_("?unitflag:Explorer")
+#define SPECENUM_VALUE69 L_EXPLORER
+#define SPECENUM_VALUE69NAME N_("?unitflag:Explorer")
 /* can be found in hut */
-#define SPECENUM_VALUE67 L_HUT
-#define SPECENUM_VALUE67NAME N_("?unitflag:Hut")
+#define SPECENUM_VALUE70 L_HUT
+#define SPECENUM_VALUE70NAME N_("?unitflag:Hut")
 /* can be found in hut, global tech required */
-#define SPECENUM_VALUE68 L_HUT_TECH
-#define SPECENUM_VALUE68NAME N_("?unitflag:HutTech")
+#define SPECENUM_VALUE71 L_HUT_TECH
+#define SPECENUM_VALUE71NAME N_("?unitflag:HutTech")
 /* is created in Partisan circumstances */
-#define SPECENUM_VALUE69 L_PARTISAN
-#define SPECENUM_VALUE69NAME N_("?unitflag:Partisan")
+#define SPECENUM_VALUE72 L_PARTISAN
+#define SPECENUM_VALUE72NAME N_("?unitflag:Partisan")
 /* ok on defense (AI) */
-#define SPECENUM_VALUE70 L_DEFEND_OK
-#define SPECENUM_VALUE70NAME N_("?unitflag:DefendOk")
+#define SPECENUM_VALUE73 L_DEFEND_OK
+#define SPECENUM_VALUE73NAME N_("?unitflag:DefendOk")
 /* primary purpose is defense (AI) */
-#define SPECENUM_VALUE71 L_DEFEND_GOOD
-#define SPECENUM_VALUE71NAME N_("?unitflag:DefendGood")
+#define SPECENUM_VALUE74 L_DEFEND_GOOD
+#define SPECENUM_VALUE74NAME N_("?unitflag:DefendGood")
 /* quick attacking unit (Horse..Armor) (unused)*/
-#define SPECENUM_VALUE72 L_ATTACK_FAST
-#define SPECENUM_VALUE72NAME N_("?unitflag:AttackFast")
+#define SPECENUM_VALUE75 L_ATTACK_FAST
+#define SPECENUM_VALUE75NAME N_("?unitflag:AttackFast")
 /* powerful attacking unit (Catapult..) (unused) */
-#define SPECENUM_VALUE73 L_ATTACK_STRONG
-#define SPECENUM_VALUE73NAME N_("?unitflag:AttackStrong")
+#define SPECENUM_VALUE76 L_ATTACK_STRONG
+#define SPECENUM_VALUE76NAME N_("?unitflag:AttackStrong")
 /* is useful for ferrying (AI) */
-#define SPECENUM_VALUE74 L_FERRYBOAT
-#define SPECENUM_VALUE74NAME N_("?unitflag:FerryBoat")
+#define SPECENUM_VALUE77 L_FERRYBOAT
+#define SPECENUM_VALUE77NAME N_("?unitflag:FerryBoat")
 /* barbarians unit, land only */
-#define SPECENUM_VALUE75 L_BARBARIAN
-#define SPECENUM_VALUE75NAME N_("?unitflag:Barbarian")
+#define SPECENUM_VALUE78 L_BARBARIAN
+#define SPECENUM_VALUE78NAME N_("?unitflag:Barbarian")
 /* barbarians unit, global tech required */
-#define SPECENUM_VALUE76 L_BARBARIAN_TECH
-#define SPECENUM_VALUE76NAME N_("?unitflag:BarbarianTech")
+#define SPECENUM_VALUE79 L_BARBARIAN_TECH
+#define SPECENUM_VALUE79NAME N_("?unitflag:BarbarianTech")
 /* barbarian boat */
-#define SPECENUM_VALUE77 L_BARBARIAN_BOAT
-#define SPECENUM_VALUE77NAME N_("?unitflag:BarbarianBoat")
+#define SPECENUM_VALUE80 L_BARBARIAN_BOAT
+#define SPECENUM_VALUE80NAME N_("?unitflag:BarbarianBoat")
 /* what barbarians should build */
-#define SPECENUM_VALUE78 L_BARBARIAN_BUILD
-#define SPECENUM_VALUE78NAME N_("BarbarianBuild")
+#define SPECENUM_VALUE81 L_BARBARIAN_BUILD
+#define SPECENUM_VALUE81NAME N_("BarbarianBuild")
 /* barbarians build when global tech */
-#define SPECENUM_VALUE79 L_BARBARIAN_BUILD_TECH
-#define SPECENUM_VALUE79NAME N_("?unitflag:BarbarianBuildTech")
+#define SPECENUM_VALUE82 L_BARBARIAN_BUILD_TECH
+#define SPECENUM_VALUE82NAME N_("?unitflag:BarbarianBuildTech")
 /* barbarian leader */
-#define SPECENUM_VALUE80 L_BARBARIAN_LEADER
-#define SPECENUM_VALUE80NAME N_("?unitflag:BarbarianLeader")
+#define SPECENUM_VALUE83 L_BARBARIAN_LEADER
+#define SPECENUM_VALUE83NAME N_("?unitflag:BarbarianLeader")
 /* sea raider unit */
-#define SPECENUM_VALUE81 L_BARBARIAN_SEA
-#define SPECENUM_VALUE81NAME N_("?unitflag:BarbarianSea")
+#define SPECENUM_VALUE84 L_BARBARIAN_SEA
+#define SPECENUM_VALUE84NAME N_("?unitflag:BarbarianSea")
 /* sea raider unit, global tech required */
-#define SPECENUM_VALUE82 L_BARBARIAN_SEA_TECH
-#define SPECENUM_VALUE82NAME N_("?unitflag:BarbarianSeaTech")
+#define SPECENUM_VALUE85 L_BARBARIAN_SEA_TECH
+#define SPECENUM_VALUE85NAME N_("?unitflag:BarbarianSeaTech")
 /* can found cities */
-#define SPECENUM_VALUE83 L_CITIES
-#define SPECENUM_VALUE83NAME N_("?unitflag:Cities")
+#define SPECENUM_VALUE86 L_CITIES
+#define SPECENUM_VALUE86NAME N_("?unitflag:Cities")
 /* can improve terrain */
-#define SPECENUM_VALUE84 L_SETTLERS
-#define SPECENUM_VALUE84NAME N_("?unitflag:Settlers")
+#define SPECENUM_VALUE87 L_SETTLERS
+#define SPECENUM_VALUE87NAME N_("?unitflag:Settlers")
 /* loss results in loss of game */
-#define SPECENUM_VALUE85 L_GAMELOSS
-#define SPECENUM_VALUE85NAME N_("?unitflag:GameLoss")
+#define SPECENUM_VALUE88 L_GAMELOSS
+#define SPECENUM_VALUE88NAME N_("?unitflag:GameLoss")
 /* can do diplomat actions */
-#define SPECENUM_VALUE86 L_DIPLOMAT
-#define SPECENUM_VALUE86NAME N_("?unitflag:Diplomat")
+#define SPECENUM_VALUE89 L_DIPLOMAT
+#define SPECENUM_VALUE89NAME N_("?unitflag:Diplomat")
 /* AI hunter type unit */
-#define SPECENUM_VALUE87 L_HUNTER
-#define SPECENUM_VALUE87NAME N_("?unitflag:Hunter")
+#define SPECENUM_VALUE90 L_HUNTER
+#define SPECENUM_VALUE90NAME N_("?unitflag:Hunter")
 #define L_LAST (L_HUNTER+1)
 
 #include "specenum_gen.h"

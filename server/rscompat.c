@@ -134,7 +134,7 @@ bool rscompat_names(struct rscompat_info *info)
 
     int unit_flag_position = first_free_unit_type_user_flag();
 
-    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 4) {
+    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 6) {
       /* Can't add the user unit type flags. */
       log_error("Can't upgrade the ruleset. Not enough free unit type "
                 "user flags to add user flags for the unit type flags "
@@ -179,6 +179,11 @@ bool rscompat_names(struct rscompat_info *info)
                                  N_("This unit's attack causes a nuclear"
                                     " explosion!"));
     unit_flag_position++;
+
+    /* If you add more new flags, update also the (sanity) check about
+     * free slots in the beginning. Preferably make number of slots big
+     * enough by making UTYF_LAST_USER_FLAG in unittype.h big enough
+     * (S2_6 had 32 user unit flags) */
   }
 
   /* No errors encountered. */
