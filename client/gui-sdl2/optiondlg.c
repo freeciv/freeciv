@@ -217,7 +217,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
 }
 
 /****************************************************************************
-  ...
+  User interacted with the option dialog window.
 ****************************************************************************/
 static int main_optiondlg_callback(struct widget *pWindow)
 {
@@ -1295,15 +1295,15 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
 }
 
 /**************************************************************************
-  ...
+  User interacted with the option dialog button.
 **************************************************************************/
-int optiondlg_callback(struct widget *pButton)
+int optiondlg_callback(struct widget *pbutton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    set_wstate(pButton, FC_WS_DISABLED);
-    clear_surface(pButton->dst->surface, &pButton->size);
-    widget_redraw(pButton);
-    widget_flush(pButton);
+    set_wstate(pbutton, FC_WS_DISABLED);
+    clear_surface(pbutton->dst->surface, &pbutton->size);
+    widget_redraw(pbutton);
+    widget_flush(pbutton);
 
     popup_optiondlg();
   }
@@ -1315,16 +1315,25 @@ int optiondlg_callback(struct widget *pButton)
 /* =================================== Public ========================== */
 /* ===================================================================== */
 
+/**************************************************************************
+  Enable button to open option dialog.
+**************************************************************************/
 void enable_options_button(void)
 {
   set_wstate(pOptions_Button, FC_WS_NORMAL);
 }
 
+/**************************************************************************
+  Disable button to open option dialog.
+**************************************************************************/
 void disable_options_button(void)
 {
   set_wstate(pOptions_Button, FC_WS_DISABLED);
 }
 
+/**************************************************************************
+  Create button to open option dialog.
+**************************************************************************/
 void init_options_button(void)
 {
   char buf[256];

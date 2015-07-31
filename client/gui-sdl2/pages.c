@@ -53,7 +53,7 @@ static struct SMALL_DLG *pStartMenu = NULL;
 static void popdown_start_menu(void);
 
 /**************************************************************************
-  ...
+  User interacted with the Start New Game button.
 **************************************************************************/
 static int start_new_game_callback(struct widget *pWidget)
 {
@@ -68,7 +68,7 @@ static int start_new_game_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with the Load Game button.
 **************************************************************************/
 static int load_game_callback(struct widget *pWidget)
 {
@@ -80,7 +80,7 @@ static int load_game_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with the Join Game button.
 **************************************************************************/
 static int join_game_callback(struct widget *pWidget)
 {
@@ -92,7 +92,7 @@ static int join_game_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with the Join Pubserver button - open connection dialog.
 **************************************************************************/
 static int servers_callback(struct widget *pWidget)
 {
@@ -107,7 +107,7 @@ static int servers_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with the Options button - open options dialog.
 **************************************************************************/
 static int options_callback(struct widget *pWidget)
 {
@@ -121,7 +121,7 @@ static int options_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with the Quit button.
 **************************************************************************/
 static int quit_callback(struct widget *pWidget)
 {
@@ -133,7 +133,7 @@ static int quit_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Update view to show main page.
 **************************************************************************/
 static void show_main_page(void)
 {
