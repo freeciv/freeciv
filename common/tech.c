@@ -47,7 +47,7 @@ struct advance_req_iter {
  * server/ruleset.c (for the server)
  * client/packhand.c (for the client)
  */
-struct advance advances[A_LAST];
+struct advance advances[A_LAST_EXISTING];
 
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 
@@ -96,10 +96,12 @@ Tech_type_id advance_number(const struct advance *padvance)
 **************************************************************************/
 struct advance *advance_by_number(const Tech_type_id atype)
 {
-  if (atype < 0 || atype >= game.control.num_tech_types) {
+  if (atype != A_FUTURE
+      && (atype < 0 || atype >= game.control.num_tech_types)) {
     /* This isn't an error; some callers depend on it. */
     return NULL;
   }
+
   return &advances[atype];
 }
 
@@ -368,6 +370,7 @@ bool techs_have_fixed_costs()
 void techs_init(void)
 {
   struct advance *a_none = &advances[A_NONE];
+  struct advance *a_future = &advances[A_FUTURE];
   int i;
 
   memset(advances, 0, sizeof(advances));
@@ -382,6 +385,11 @@ void techs_init(void)
   a_none->require[AR_ONE] = a_none;
   a_none->require[AR_TWO] = a_none;
   a_none->require[AR_ROOT] = A_NEVER;
+
+  name_set(&a_future->name, NULL, "Future");
+  a_future->require[AR_ONE] = A_NEVER;
+  a_future->require[AR_TWO] = A_NEVER;
+  a_future->require[AR_ROOT] = A_NEVER;
 }
 
 /***************************************************************

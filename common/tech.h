@@ -42,8 +42,9 @@ typedef int Tech_type_id;
 #define A_NONE 0
 #define A_FIRST 1
 #define A_LAST MAX_NUM_ITEMS /* Used in the network protocol. */
-#define A_UNSET (A_LAST + 1)
-#define A_FUTURE (A_LAST + 2)
+#define A_FUTURE (A_LAST + 1)
+#define A_LAST_EXISTING A_FUTURE
+#define A_UNSET (A_LAST + 2)
 #define A_UNKNOWN (A_LAST + 3)
 
 #define A_NEVER (NULL)
