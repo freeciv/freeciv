@@ -2363,7 +2363,7 @@ static struct setting settings[] = {
           timeout_callback, timeout_action,
           GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
-  GEN_INT("first_timeout", game.server.first_timeout,
+  GEN_INT("first_timeout", game.info.first_timeout,
           SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
           N_("First turn timeout"),
           /* TRANS: The strings between single quotes are setting names and

@@ -99,7 +99,7 @@ void update_timeout_label(void)
 {
   gtk_label_set_text(GTK_LABEL(timeout_label), get_timeout_label_text());
 
-  if (game.info.timeout > 0) {
+  if (current_turn_timeout() > 0) {
     gtk_widget_set_tooltip_text(timeout_label, _("Time to forced turn change"));
   } else {
     gtk_widget_set_tooltip_text(timeout_label, _("Turn timeout disabled"));

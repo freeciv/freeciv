@@ -1184,7 +1184,7 @@ void handle_new_year(int year, int fragments, int turn)
   update_unit_info_label(get_units_in_focus());
   menus_update();
 
-  set_seconds_to_turndone(game.info.timeout);
+  set_seconds_to_turndone(current_turn_timeout());
 
 #if 0
   /* This information shouldn't be needed, but if it is this is the only
@@ -1946,7 +1946,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 **************************************************************************/
 void handle_timeout_info(float seconds_to_phasedone)
 {
-  if (game.info.timeout != 0 && seconds_to_phasedone >= 0) {
+  if (current_turn_timeout() != 0 && seconds_to_phasedone >= 0) {
     /* If this packet is received in the middle of a turn, this value
      * represents the number of seconds from now to the end of the turn
      * (not from the start of the turn). So we need to restart our

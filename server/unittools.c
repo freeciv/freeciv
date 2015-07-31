@@ -3486,7 +3486,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
   } unit_move_data_list_iterate_end;
 
   /* Check timeout settings. */
-  if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
+  if (current_turn_timeout() != 0 && game.server.timeoutaddenemymove > 0) {
     bool new_information_for_enemy = FALSE;
 
     phase_players_iterate(penemy) {
