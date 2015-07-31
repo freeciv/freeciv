@@ -1016,11 +1016,17 @@ void update_unit_info_label(struct unit_list *punitlist)
   }
 }
 
+/**************************************************************************
+  Refresh timeout label.
+**************************************************************************/
 void update_timeout_label(void)
 {
   log_debug("MAPVIEW: update_timeout_label : PORT ME");
 }
 
+/**************************************************************************
+  Refresh turn done button.
+**************************************************************************/
 void update_turn_done_button(bool do_restore)
 {
   log_debug("MAPVIEW: update_turn_done_button : PORT ME");
@@ -1045,7 +1051,7 @@ void update_city_descriptions(void)
 /* ===================================================================== */
 
 /**************************************************************************
-...
+  Toggle between overview modes.
 **************************************************************************/
 void toggle_overview_mode(void)
 {
@@ -1164,7 +1170,10 @@ void tileset_changed(void)
 				City MAP
    ===================================================================== */
 
-SDL_Surface *create_city_map(struct city *pCity)
+/**************************************************************************
+  Create new city map surface.
+**************************************************************************/
+SDL_Surface *create_city_map(struct city *pcity)
 {
   /* city map dimensions might have changed, so create a new canvas each time */
 
@@ -1175,7 +1184,7 @@ SDL_Surface *create_city_map(struct city *pCity)
   city_map_canvas = canvas_create(get_citydlg_canvas_width(), 
                                   get_citydlg_canvas_height());
 
-  city_dialog_redraw_map(pCity, city_map_canvas);  
+  city_dialog_redraw_map(pcity, city_map_canvas);  
 
   return city_map_canvas->surf;
 }

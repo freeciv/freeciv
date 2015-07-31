@@ -79,7 +79,7 @@ static struct widget *pOrder_Trade_Button;
 
 
 /**************************************************************************
-  ...
+  User interacted with some unit order widget.
 **************************************************************************/
 static int unit_order_callback(struct widget *pOrder_Widget)
 {
@@ -258,23 +258,25 @@ static int unit_order_callback(struct widget *pOrder_Widget)
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
 #if 0
-static bool has_city_airport(struct city *pCity)
+/**************************************************************************
+   Does city has airport kind of building?
+**************************************************************************/
+static bool has_city_airport(struct city *pcity)
 {
-  return (pCity && (get_city_bonus(pCity, EFT_AIR_VETERAN) > 0));
+  return (pcity != NULL && (get_city_bonus(pcity, EFT_AIR_VETERAN) > 0));
 }
-#endif
+#endif /* 0 */
 
+/**************************************************************************
+   Refresh order widgets.
+**************************************************************************/
 static Uint16 redraw_order_widgets(void)
 {
   Uint16 count = 0;
   struct widget *pTmpWidget = pBeginOrderWidgetList;
 
   while (TRUE) {
-
     if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
       if (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND) {
         refresh_widget_background(pTmpWidget);
@@ -295,7 +297,7 @@ static Uint16 redraw_order_widgets(void)
 }
 
 /**************************************************************************
-  ...
+   Reposition order widgets as they fit.
 **************************************************************************/
 static void set_new_order_widget_start_pos(void)
 {
@@ -392,7 +394,7 @@ static void set_new_order_widget_start_pos(void)
 /* ================================ PUBLIC ================================ */
 
 /**************************************************************************
-  ...
+   Create units order widgets.
 **************************************************************************/
 void create_units_order_widgets(void)
 {
@@ -908,7 +910,7 @@ void create_units_order_widgets(void)
 }
 
 /**************************************************************************
-  ...
+   Free resources allocated for unit order widgets.
 **************************************************************************/
 void delete_units_order_widgets(void)
 {
@@ -920,7 +922,7 @@ void delete_units_order_widgets(void)
 }
 
 /**************************************************************************
-  ...
+   Draw order widgets to their currently correct place.
 **************************************************************************/
 void update_order_widgets(void)
 {
@@ -929,7 +931,7 @@ void update_order_widgets(void)
 }
 
 /**************************************************************************
-  ...
+   Clear unit order widgets from view.
 **************************************************************************/
 void undraw_order_widgets(void)
 {
@@ -954,7 +956,8 @@ void undraw_order_widgets(void)
 }
 
 /**************************************************************************
-  ...
+  Free surfaces of the unit order widgets.
+  TODO: Unused -> Remove
 **************************************************************************/
 void free_bcgd_order_widgets(void)
 {
@@ -1437,6 +1440,9 @@ void real_menus_update(void)
   }
 }
 
+/**************************************************************************
+  Disable all unit order buttons.
+**************************************************************************/
 void disable_order_buttons(void)
 {
   undraw_order_widgets();
@@ -1444,6 +1450,9 @@ void disable_order_buttons(void)
   redraw_order_widgets();
 }
 
+/**************************************************************************
+  Enable all unit order buttons.
+**************************************************************************/
 void enable_order_buttons(void)
 {
   if (can_client_issue_orders()) {
