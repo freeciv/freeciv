@@ -683,7 +683,7 @@ enum server_events server_sniff_all_input(void)
       /* timeout */
       call_ai_refresh();
       (void) send_server_info_to_metaserver(META_REFRESH);
-      if (game.info.timeout > 0
+      if (current_turn_timeout() > 0
 	  && S_S_RUNNING == server_state()
 	  && game.server.phase_timer
 	  && (timer_read_seconds(game.server.phase_timer)
@@ -876,7 +876,7 @@ enum server_events server_sniff_all_input(void)
 
   call_ai_refresh();
 
-  if (game.info.timeout > 0
+  if (current_turn_timeout() > 0
       && S_S_RUNNING == server_state()
       && game.server.phase_timer
       && (timer_read_seconds(game.server.phase_timer)

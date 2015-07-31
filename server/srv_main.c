@@ -975,11 +975,7 @@ static void begin_phase(bool is_new_phase)
 
   sanity_check();
 
-  if (game.info.turn == 0 && game.server.first_timeout != -1) {
-    game.info.seconds_to_phasedone = (double)game.server.first_timeout;
-  } else {
-    game.info.seconds_to_phasedone = (double)game.info.timeout;
-  }
+  game.info.seconds_to_phasedone = (double)current_turn_timeout();
   game.server.phase_timer = timer_renew(game.server.phase_timer,
                                         TIMER_USER, TIMER_ACTIVE);
   timer_start(game.server.phase_timer);
@@ -1701,7 +1697,7 @@ void check_for_full_turn_done(void)
   }
 
   /* fixedlength is only applicable if we have a timeout set */
-  if (game.server.fixedlength && game.info.timeout != 0) {
+  if (game.server.fixedlength && current_turn_timeout() != 0) {
     return;
   }
 
@@ -3053,4 +3049,16 @@ static int mapimg_server_plrcolor_count(void)
 static struct rgbcolor *mapimg_server_plrcolor_get(int i)
 {
   return playercolor_get(i);
+}
+
+/****************************************************************************
+  Return timeout value for the current turn.
+****************************************************************************/
+int current_turn_timeout(void)
+{
+  if (game.info.turn == 0 && game.server.first_timeout != -1) {
+    return game.server.first_timeout;
+  } else {
+    return game.info.timeout;
+  }
 }

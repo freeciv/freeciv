@@ -871,7 +871,7 @@ void send_game_info(struct conn_list *dest)
 
   /* Sometimes this function is called before the phase_timer is
    * initialized.  In that case we want to send the dummy value. */
-  if (game.info.timeout > 0 && game.server.phase_timer) {
+  if (current_turn_timeout() > 0 && game.server.phase_timer) {
     /* Whenever the client sees this packet, it starts a new timer at 0;
      * but the server's timer is only ever reset at the start of a phase
      * (and game.info.seconds_to_phasedone is relative to this).
@@ -970,7 +970,7 @@ int update_timeout(void)
 **************************************************************************/
 void increase_timeout_because_unit_moved(void)
 {
-  if (game.info.timeout > 0 && game.server.timeoutaddenemymove > 0) {
+  if (current_turn_timeout() > 0 && game.server.timeoutaddenemymove > 0) {
     double maxsec = (timer_read_seconds(game.server.phase_timer)
 		     + (double) game.server.timeoutaddenemymove);
 

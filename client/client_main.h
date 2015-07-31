@@ -109,6 +109,8 @@ bool can_intel_with_player(const struct player *pplayer);
 
 void client_exit(void);
 
+int client_current_turn_timeout(void);
+
 /* Set in GUI code. */
 extern const char * const gui_character_encoding;
 extern const bool gui_use_transliteration;
