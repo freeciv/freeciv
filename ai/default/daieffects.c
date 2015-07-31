@@ -318,8 +318,18 @@ int dai_effect_value(struct player *pplayer, struct government *gov,
     }
     break;
   case EFT_HAVE_CONTACTS:
-    v += 3 * nplayers;
-    break; 
+    {
+      int new_contacts = 0;
+      
+      players_iterate_alive(theother) {
+        if (player_diplstate_get(pplayer, theother)->contact_turns_left <= 0) {
+          new_contacts++;
+        }
+      } players_iterate_alive_end;
+
+      v += 30 * new_contacts;
+    }
+    break;
   case EFT_HAVE_EMBASSIES:
     v += 2 * nplayers;
     break;
