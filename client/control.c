@@ -1347,6 +1347,7 @@ void request_unit_return(struct unit *punit)
       order.dir = -1;
       order.activity = ACTIVITY_SENTRY;
       order.target = EXTRA_NONE;
+      order.action = ACTION_COUNT;
       send_goto_path(punit, path, &order);
     } else {
       send_goto_path(punit, path, NULL);
@@ -1563,6 +1564,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
   p.target[0] = EXTRA_NONE;
+  p.action[0] = ACTION_COUNT;
 
   send_packet_unit_orders(&client.conn, &p);
 }

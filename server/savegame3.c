@@ -723,6 +723,9 @@ static enum unit_orders char2order(char order)
   case 'x':
   case 'X':
     return ORDER_ACTION_MOVE;
+  case 'p':
+  case 'P':
+    return ORDER_PERFORM_ACTION;
   }
 
   /* This can happen if the savegame is invalid. */
@@ -753,6 +756,8 @@ static char order2char(enum unit_orders order)
     return 'h';
   case ORDER_ACTION_MOVE:
     return 'x';
+  case ORDER_PERFORM_ACTION:
+    return 'p';
   case ORDER_LAST:
     break;
   }
@@ -1641,6 +1646,26 @@ static void sg_save_savefile(struct savedata *saving)
     secfile_insert_str_vec(saving->file, modname,
                            CITYO_LAST,
                            "savefile.city_options_vector");
+    free(modname);
+  }
+
+  /* Save action order in the savegame. */
+  secfile_insert_int(saving->file, ACTION_COUNT,
+                     "savefile.action_size");
+  if (ACTION_COUNT > 0) {
+    const char **modname;
+    int j;
+
+    i = 0;
+    modname = fc_calloc(ACTION_COUNT, sizeof(*modname));
+
+    for (j = 0; j < ACTION_COUNT; j++) {
+      modname[i++] = gen_action_name(j);
+    }
+
+    secfile_insert_str_vec(saving->file, modname,
+                           ACTION_COUNT,
+                           "savefile.action_vector");
     free(modname);
   }
 
@@ -5032,6 +5057,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr;
       const char *tgt_unitstr;
+      const char *action_unitstr;
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -5057,12 +5083,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
       tgt_unitstr
         = secfile_lookup_str_default(loading->file, NULL, "%s.tgt_list", unitstr);
 
+      action_unitstr
+        = secfile_lookup_str_default(loading->file, "",
+                                     "%s.action_list", unitstr);
       punit->has_orders = TRUE;
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
-            || act_unitstr[j] == '\0') {
+            || act_unitstr[j] == '\0' || action_unitstr == '\0') {
           log_sg("Invalid unit orders.");
           free_unit_orders(punit);
           break;
@@ -5070,6 +5099,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->order = char2order(orders_unitstr[j]);
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
+
+        order->action = (action_unitstr[j] == '?'
+                         ? ACTION_COUNT
+                         : char2num(action_unitstr[j]));
+
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
             || (order->order == ORDER_ACTIVITY
@@ -5258,6 +5292,7 @@ static void sg_save_player_units(struct savedata *saving,
       int len = punit->orders.length, j;
       char orders_buf[len + 1], dir_buf[len + 1];
       char act_buf[len + 1], tgt_buf[len + 1];
+      char action_buf[len + 1];
 
       secfile_insert_int(saving->file, len, "%s.orders_length", buf);
       secfile_insert_int(saving->file, punit->orders.index,
@@ -5272,6 +5307,7 @@ static void sg_save_player_units(struct savedata *saving,
         dir_buf[j] = '?';
         act_buf[j] = '?';
         tgt_buf[j] = '?';
+        action_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
@@ -5279,6 +5315,9 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_ACTIVITY:
           tgt_buf[j] = num2char(punit->orders.list[j].target);
           act_buf[j] = activity2char(punit->orders.list[j].activity);
+          break;
+        case ORDER_PERFORM_ACTION:
+          action_buf[j] = num2char(punit->orders.list[j].action);
           break;
         case ORDER_FULL_MP:
         case ORDER_BUILD_CITY:
@@ -5292,11 +5331,13 @@ static void sg_save_player_units(struct savedata *saving,
         }
       }
       orders_buf[len] = dir_buf[len] = act_buf[len] = tgt_buf[len] = '\0';
+      action_buf[len] = '\0';
 
       secfile_insert_str(saving->file, orders_buf, "%s.orders_list", buf);
       secfile_insert_str(saving->file, dir_buf, "%s.dir_list", buf);
       secfile_insert_str(saving->file, act_buf, "%s.activity_list", buf);
       secfile_insert_str(saving->file, tgt_buf, "%s.tgt_list", buf);
+      secfile_insert_str(saving->file, action_buf, "%s.action_list", buf);
     } else {
       /* Put all the same fields into the savegame - otherwise the
        * registry code can't correctly use a tabular format and the
@@ -5309,6 +5350,7 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_str(saving->file, "-", "%s.dir_list", buf);
       secfile_insert_str(saving->file, "-", "%s.activity_list", buf);
       secfile_insert_str(saving->file, "-", "%s.tgt_list", buf);
+      secfile_insert_str(saving->file, "-", "%s.action_list", buf);
     }
 
     i++;

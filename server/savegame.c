@@ -1495,6 +1495,7 @@ static void player_load_units(struct player *plr, int plrno,
 	  order->order = char2order(orders_buf[j]);
 	  order->dir = char2dir(dir_buf[j]);
 	  order->activity = char2activity(act_buf[j]);
+          order->action = ACTION_COUNT;
 	  if (order->order == ORDER_LAST
 	      || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
 	      || (order->order == ORDER_ACTIVITY

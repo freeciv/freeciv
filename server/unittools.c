@@ -2306,6 +2306,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
       packet->orders_targets[i] = punit->orders.list[i].target;
+      packet->orders_actions[i] = punit->orders.list[i].action;
     }
   } else {
     packet->orders_length = packet->orders_index = 0;
@@ -3740,6 +3741,7 @@ static int order_to_action(struct unit *punit, enum unit_orders order)
   case ORDER_ACTIVITY:
   case ORDER_DISBAND:
   case ORDER_HOMECITY:
+  case ORDER_PERFORM_ACTION:
   case ORDER_LAST:
     /* Not action enabler controlled. */
     break;
@@ -3846,6 +3848,12 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_BUILD_WONDER:
     case ORDER_TRADE_ROUTE:
       if (should_wait_for_mp(punit, order_to_action(punit, order.order))) {
+        log_debug("  stopping. Not enough move points this turn");
+        return TRUE;
+      }
+      break;
+    case ORDER_PERFORM_ACTION:
+      if (should_wait_for_mp(punit, order.action)) {
         log_debug("  stopping. Not enough move points this turn");
         return TRUE;
       }
@@ -4113,6 +4121,23 @@ bool execute_orders(struct unit *punit, const bool fresh)
       } else {
 	return FALSE;
       }
+    case ORDER_PERFORM_ACTION:
+      log_debug("  orders: doing action %d", order.action);
+
+      fc_assert_msg(
+            action_get_target_kind(order.action) == ATK_TILE,
+            "Only tile targets are currently supported");
+
+      dst_tile = unit_tile(punit);
+
+      fc_assert_ret_val_msg(dst_tile, FALSE, "No target tile for action");
+
+      handle_unit_do_action(pplayer,
+                            unitid,
+                            dst_tile->index,
+                            0, "", order.action);
+
+      return player_unit_by_number(pplayer, unitid);
     case ORDER_LAST:
       cancel_orders(punit, "  client sent invalid order!");
       notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,

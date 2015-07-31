@@ -232,6 +232,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
       punit->orders.list[i].dir = packet->orders_dirs[i];
       punit->orders.list[i].activity = packet->orders_activities[i];
       punit->orders.list[i].target = packet->orders_targets[i];
+      punit->orders.list[i].action = packet->orders_actions[i];
     }
   }
 

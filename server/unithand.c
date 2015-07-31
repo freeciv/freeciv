@@ -3530,6 +3530,35 @@ void handle_unit_orders(struct player *pplayer,
       }
 
       break;
+    case ORDER_PERFORM_ACTION:
+      switch ((enum gen_action) packet->action[i]) {
+      case ACTION_NUKE:
+        break;
+      default:
+        log_error("handle_unit_orders() the action %s isn't allowed in "
+                  "orders. "
+                  "Sent in order number %d from %s to unit number %d.",
+                  action_get_rule_name(packet->action[i]), i,
+                  player_name(pplayer), packet->unit_id);
+
+        return;
+      }
+
+      switch (action_get_target_kind(packet->action[i])) {
+      case ATK_CITY:
+        break;
+      case ATK_UNIT:
+        break;
+      case ATK_UNITS:
+        break;
+      case ATK_TILE:
+        break;
+      case ATK_COUNT:
+        fc_assert(action_get_target_kind(packet->action[i]) != ATK_COUNT);
+        break;
+      }
+
+      break;
     case ORDER_FULL_MP:
     case ORDER_BUILD_CITY:
     case ORDER_DISBAND:
@@ -3575,6 +3604,7 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
     punit->orders.list[i].target = packet->target[i];
+    punit->orders.list[i].action = packet->action[i];
   }
 
   if (!packet->repeat) {

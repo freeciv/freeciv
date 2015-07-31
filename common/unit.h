@@ -41,6 +41,7 @@ enum unit_orders {
   ORDER_TRADE_ROUTE = 6,
   ORDER_HOMECITY = 7,
   ORDER_ACTION_MOVE = 8,
+  ORDER_PERFORM_ACTION = 9,
   /* and plenty more for later... */
   ORDER_LAST
 };
@@ -99,6 +100,8 @@ struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
   int target;
+  /* Only valid for ORDER_PERFORM_ACTION */
+  int action;
   enum direction8 dir;          /* Only valid for ORDER_MOVE. */
 };
 

@@ -1384,12 +1384,14 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
       p.dir[i] = -1;
       p.activity[i] = ACTIVITY_LAST;
       p.target[i] = EXTRA_NONE;
+      p.action[i] = ACTION_COUNT;
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
       p.orders[i] = ORDER_MOVE;
       p.dir[i] = get_direction_for_step(old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
       p.target[i] = EXTRA_NONE;
+      p.action[i] = ACTION_COUNT;
       log_goto_packet("  packet[%d] = move %s: %d,%d => %d,%d",
                       i, dir_get_name(p.dir[i]),
                       TILE_XY(old_tile), TILE_XY(new_tile));
@@ -1409,6 +1411,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     p.activity[i] = (final_order->order == ORDER_ACTIVITY)
       ? final_order->activity : ACTIVITY_LAST;
     p.target[i] = final_order->target;
+    p.action[i] = ACTION_COUNT;
     p.length++;
   }
 
@@ -1504,6 +1507,7 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
   p->dir[p->length] = -1;
   p->activity[p->length] = ACTIVITY_GEN_ROAD;
   p->target[p->length] = extra_index(pextra);
+  p->action[p->length] = ACTION_COUNT;
   p->length++;
 
   return TRUE;
@@ -1552,6 +1556,7 @@ void send_connect_route(enum unit_activity activity,
           p.dir[p.length] = -1;
 	  p.activity[p.length] = ACTIVITY_IRRIGATE;
           p.target[p.length] = extra_index(tgt);
+          p.action[p.length] = ACTION_COUNT;
 	  p.length++;
 	}
 	break;
@@ -1572,6 +1577,7 @@ void send_connect_route(enum unit_activity activity,
 	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
         p.activity[p.length] = ACTIVITY_LAST;
         p.target[p.length] = EXTRA_NONE;
+        p.action[p.length] = ACTION_COUNT;
 	p.length++;
 
 	old_tile = new_tile;
@@ -1616,6 +1622,7 @@ void send_goto_route(void)
       order.dir = -1;
       order.activity = ACTIVITY_LAST;
       order.target = EXTRA_NONE;
+      order.action = ACTION_COUNT;
 
       /* ORDER_MOVE would require real direction,
        * ORDER_ACTIVITY would require real activity */
