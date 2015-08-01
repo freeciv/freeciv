@@ -624,6 +624,12 @@ static bool is_action_possible(const enum gen_action wanted_action,
       return FALSE;
     }
 
+    if (unit_pop_value(actor_unit) <= 0) {
+      /* Reason: Must have population to add. */
+      /* Info leak: The actor player knows the type of his unit. */
+      return FALSE;
+    }
+
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_add_to_city(actor_unit)) {
       return FALSE;
