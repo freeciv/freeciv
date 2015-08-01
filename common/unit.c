@@ -353,7 +353,8 @@ bool kills_citizen_after_attack(const struct unit *punit)
 ****************************************************************************/
 bool unit_can_add_to_city(const struct unit *punit)
 {
-  return (UAB_ADD_OK == unit_add_or_build_city_test(punit));
+  return (unit_can_do_action(punit, ACTION_JOIN_CITY)
+          && (UAB_ADD_OK == unit_add_or_build_city_test(punit)));
 }
 
 /****************************************************************************
@@ -362,7 +363,8 @@ bool unit_can_add_to_city(const struct unit *punit)
 ****************************************************************************/
 bool unit_can_build_city(const struct unit *punit)
 {
-  return (UAB_BUILD_OK == unit_add_or_build_city_test(punit));
+  return (unit_can_do_action(punit, ACTION_FOUND_CITY)
+          && (UAB_BUILD_OK == unit_add_or_build_city_test(punit)));
 }
 
 /****************************************************************************
@@ -371,7 +373,16 @@ bool unit_can_build_city(const struct unit *punit)
 ****************************************************************************/
 bool unit_can_add_or_build_city(const struct unit *punit)
 {
-  enum unit_add_build_city_result res = unit_add_or_build_city_test(punit);
+  enum unit_add_build_city_result res;
+
+  if (!unit_can_do_action(punit, ACTION_FOUND_CITY)
+      && !unit_can_do_action(punit, ACTION_JOIN_CITY)) {
+    /* The unit can't ever do any of the actions. The current conditions
+     * don't matter. */
+    return FALSE;
+  }
+
+  res = unit_add_or_build_city_test(punit);
 
   return (UAB_BUILD_OK == res || UAB_ADD_OK == res);
 }

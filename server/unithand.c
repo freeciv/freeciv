@@ -1505,7 +1505,8 @@ void handle_unit_do_action(struct player *pplayer,
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
         city_add_unit(pplayer, actor_unit);
-      } else if (!unit_can_add_to_city(actor_unit)) {
+      } else if (unit_can_do_action(actor_unit, ACTION_JOIN_CITY)
+                 && !unit_can_add_to_city(actor_unit)) {
         /* Keep the rules like they was before action enabler control:
          *  - detailed explanation of why something is illegal. */
         /* TODO: improve explanation about why an action failed. */
@@ -1550,7 +1551,8 @@ void handle_unit_do_action(struct player *pplayer,
         ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
 
         city_build(pplayer, actor_unit, name);
-      } else if (!unit_can_build_city(actor_unit)) {
+      } else if (unit_can_do_action(actor_unit, ACTION_FOUND_CITY)
+                 && !unit_can_build_city(actor_unit)) {
         /* Keep the rules like they was before action enabler control:
          *  - detailed explanation of why something is illegal. */
         /* TODO: improve explanation about why an action failed. */
