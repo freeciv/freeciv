@@ -465,6 +465,7 @@ void player_restore_units(struct player *pplayer)
                 /* Clear activity. Unit info will be sent in the end of
 	         * the function. */
                 unit_activity_handling(punit, ACTIVITY_IDLE);
+                adv_unit_new_task(punit, AUT_NONE, NULL);
                 punit->goto_tile = NULL;
 
                 if (!is_unit_being_refueled(punit)) {

@@ -218,14 +218,16 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
          || unit_can_do_action(punit, ACTION_STEAL_MAPS)
          || unit_can_do_action(punit, ACTION_SPY_NUKE))
         && def_ai_unit_data(punit, ait)->task == AIUNIT_ATTACK) {
-      /* Heading somewhere on a mission, reserve target. */
 
-      fc_assert_msg(punit->goto_tile, "No target city for spy action");
+      fc_assert_msg(punit->goto_tile != NULL, "No target city for spy action");
 
-      struct city *pcity = tile_city(punit->goto_tile);
+      if (punit->goto_tile != NULL) {
+        struct city *pcity = tile_city(punit->goto_tile);
 
-      if (pcity) {
-        BV_SET(ai->stats.diplomat_reservations, pcity->id);
+        if (pcity != NULL) {
+          /* Heading somewhere on a mission, reserve target. */
+          BV_SET(ai->stats.diplomat_reservations, pcity->id);
+        }
       }
     }
   } unit_list_iterate_end;
