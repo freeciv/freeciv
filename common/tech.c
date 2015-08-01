@@ -417,11 +417,16 @@ static void tech_free(Tech_type_id tech)
 ***************************************************************/
 void techs_free(void)
 {
+  int i;
+
   advance_index_iterate(A_FIRST, i) {
     tech_free(i);
   } advance_index_iterate_end;
-}
 
+  for (i = 0; i < ARRAY_SIZE(advances); i++) {
+    requirement_vector_free(&(advances[i].research_reqs));
+  }
+}
 
 /****************************************************************************
   Return the size of the advance requirements iterator.
