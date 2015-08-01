@@ -1064,7 +1064,7 @@ static void build_city_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void go_build_city_callback(GtkAction *action, gpointer data)
 {
-  request_unit_goto(ORDER_BUILD_CITY);
+  request_unit_goto(ORDER_BUILD_CITY, ACTION_COUNT);
 }
 
 /****************************************************************

@@ -25,7 +25,6 @@ extern "C" {
 enum cursor_hover_state {
   HOVER_NONE = 0,
   HOVER_GOTO,
-  HOVER_NUKE,
   HOVER_PARADROP,
   HOVER_CONNECT,
   HOVER_PATROL
@@ -46,6 +45,7 @@ void unit_register_battlegroup(struct unit *punit);
 extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
 extern struct extra_type *connect_tgt;
+extern int goto_last_action;
 extern enum unit_orders goto_last_order;
 extern bool non_ai_unit_focus;
 
@@ -58,7 +58,6 @@ int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pe
 
 void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(struct tile *ptile);
-void do_unit_nuke(struct tile *ptile);
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile);
 void do_unit_patrol_to(struct tile *ptile);
 void do_unit_connect(struct tile *ptile,
@@ -68,9 +67,10 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype);
 void control_mouse_cursor(struct tile *ptile);
 
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
-		     enum unit_activity connect_activity,
+                     enum unit_activity connect_activity,
                      struct extra_type *tgt,
-		     enum unit_orders goto_last_order);
+                     int goto_last_action,
+                     enum unit_orders goto_last_order);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
@@ -87,9 +87,8 @@ void request_unit_connect(enum unit_activity activity,
                           struct extra_type *tgt);
 void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
-void request_unit_goto(enum unit_orders last_order);
+void request_unit_goto(enum unit_orders last_order, int action_id);
 void request_unit_move_done(void);
-void request_unit_nuke(struct unit_list *punits);
 void request_unit_paradrop(struct unit_list *punits);
 void request_unit_patrol(void);
 void request_unit_pillage(struct unit *punit);

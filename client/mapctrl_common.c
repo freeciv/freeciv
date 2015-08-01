@@ -485,7 +485,8 @@ void release_goto_button(int canvas_x, int canvas_y)
 
   if (keyboardless_goto_active && hover_state == HOVER_GOTO && ptile) {
     do_unit_goto(ptile);
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
+    set_hover_state(NULL, HOVER_NONE,
+                    ACTIVITY_LAST, NULL, ACTION_COUNT, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
   keyboardless_goto_active = FALSE;
@@ -505,7 +506,7 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
       && !same_pos(keyboardless_goto_start_tile, ptile)
       && can_client_issue_orders()) {
     keyboardless_goto_active = TRUE;
-    request_unit_goto(ORDER_LAST);
+    request_unit_goto(ORDER_LAST, ACTION_COUNT);
   }
 }
 
@@ -645,7 +646,6 @@ void update_line(int canvas_x, int canvas_y)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
-  case HOVER_NUKE:
     ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
     is_valid_goto_draw_line(ptile);
@@ -667,7 +667,6 @@ void overview_update_line(int overview_x, int overview_y)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
-  case HOVER_NUKE:
     overview_to_map_pos(&x, &y, overview_x, overview_y);
     ptile = map_pos_to_tile(x, y);
 

@@ -584,7 +584,6 @@ static void base_set_mapview_origin(float gui_x0, float gui_y0)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
-  case HOVER_NUKE:
     create_line_at_mouse_pos();
   case HOVER_NONE:
   case HOVER_PARADROP:

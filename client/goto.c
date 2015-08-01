@@ -953,16 +953,17 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
       }
     }
     break;
-  case HOVER_NUKE:
-    /* We only want targets reachable immediatly... */
-    parameter->move_rate = 0;
-    /* ...then we don't need to deal with dangers or refuel points. */
-    parameter->is_pos_dangerous = NULL;
-    parameter->get_moves_left_req = NULL;
-    break;
   case HOVER_GOTO:
   case HOVER_PATROL:
-    goto_map->patrol.return_path = NULL;
+    if (goto_last_action == ACTION_NUKE) {
+      /* We only want targets reachable immediatly... */
+      parameter->move_rate = 0;
+      /* ...then we don't need to deal with dangers or refuel points. */
+      parameter->is_pos_dangerous = NULL;
+      parameter->get_moves_left_req = NULL;
+    } else {
+      goto_map->patrol.return_path = NULL;
+    }
     break;
   case HOVER_NONE:
   case HOVER_PARADROP:
@@ -1411,7 +1412,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     p.activity[i] = (final_order->order == ORDER_ACTIVITY)
       ? final_order->activity : ACTIVITY_LAST;
     p.target[i] = final_order->target;
-    p.action[i] = ACTION_COUNT;
+    p.action[i] = final_order->action;
     p.length++;
   }
 
@@ -1622,7 +1623,7 @@ void send_goto_route(void)
       order.dir = -1;
       order.activity = ACTIVITY_LAST;
       order.target = EXTRA_NONE;
-      order.action = ACTION_COUNT;
+      order.action = goto_last_action;
 
       /* ORDER_MOVE would require real direction,
        * ORDER_ACTIVITY would require real activity */

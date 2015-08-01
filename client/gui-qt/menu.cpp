@@ -1488,7 +1488,7 @@ void mr_menu::slot_conn_road()
 ***************************************************************************/
 void mr_menu::slot_go_build_city()
 {
-  request_unit_goto(ORDER_BUILD_CITY);
+  request_unit_goto(ORDER_BUILD_CITY, ACTION_COUNT);
 }
 
 /***************************************************************************

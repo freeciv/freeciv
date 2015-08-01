@@ -235,10 +235,8 @@ void update_unit_info_label(struct unit_list *punitlist)
       break;
     case HOVER_GOTO:
     case HOVER_CONNECT:
+      /* FIXME: Display the nuke cursor when the last action is Nuke. */
       XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_GOTO]);
-      break;
-    case HOVER_NUKE:
-      XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_NUKE]);
       break;
     case HOVER_PARADROP:
       XDefineCursor(display, XtWindow(map_canvas), cursors[CURSOR_PARADROP]);
