@@ -26,6 +26,7 @@ flags =
     _("Cities")
     _("AddToCity")
     _("Nuclear")
+    _("Infra"), _("Can build infrastructure.")
   }
 
 [veteran_system]
@@ -284,7 +285,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "Cant_Fortify", "NonMil", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "AddToCity", "Cities", "NoVeteran"
 roles         = "Settlers", "Cities"
 helptext      = _("\
 Settlers are one of the key units in the game, as they are your main \

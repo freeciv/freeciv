@@ -19,6 +19,7 @@ flags =
     _("Bombarder")
     _("Cities")
     _("AddToCity")
+    _("Infra"), _("Can build infrastructure.")
   }
 
 [veteran_system]
@@ -441,7 +442,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "Cant_Fortify", "NonMil"
+flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil"
 roles         = "Settlers"
 helptext      = _("\
 This is Earth technology engineer.\
@@ -472,7 +473,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "Cant_Fortify", "NonMil"
+flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil"
 roles         = "Settlers"
 helptext      = _("\
 Native version of the Engineer unit.\
@@ -504,7 +505,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 city_size     = 2
-flags         = "Cities", "Settlers", "Cant_Fortify", "NonMil"
+flags         = "Cities", "Settlers", "Infra", "Cant_Fortify", "NonMil"
 roles         = "Cities", "Settlers"
 helptext      = _("\
 Amphibious Engineer that can also establish new cities on Ocean. \
@@ -850,7 +851,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 targets       = "Antigravity", "Burrowing"
-flags         = "Settlers", "Capturer"
+flags         = "Settlers", "Infra", "Capturer"
 roles         = "Hunter"
 helptext      = _("\
 Burrowing unit that also has capability to attack Antigravity units with \

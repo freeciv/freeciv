@@ -134,7 +134,7 @@ bool rscompat_names(struct rscompat_info *info)
 
     int unit_flag_position = first_free_unit_type_user_flag();
 
-    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 6) {
+    if (MAX_NUM_USER_UNIT_FLAGS <= unit_flag_position + 7) {
       /* Can't add the user unit type flags. */
       log_error("Can't upgrade the ruleset. Not enough free unit type "
                 "user flags to add user flags for the unit type flags "
@@ -178,6 +178,11 @@ bool rscompat_names(struct rscompat_info *info)
                                  N_("Nuclear"),
                                  N_("This unit's attack causes a nuclear"
                                     " explosion!"));
+    unit_flag_position++;
+
+    set_user_unit_type_flag_name(unit_flag_position + UTYF_USER_FLAG_1,
+                                 N_("Infra"),
+                                 N_("Can build infrastructure."));
     unit_flag_position++;
 
     /* If you add more new flags, update also the (sanity) check about
@@ -229,6 +234,18 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* There isn't anything here yet that should be done outside of compat
      * mode. */
     return;
+  }
+
+  if (info->ver_units < 10) {
+    unit_type_iterate(ptype) {
+      if (utype_has_flag(ptype, UTYF_SETTLERS)) {
+        int flag;
+
+        flag = unit_type_flag_id_by_name("Infra", fc_strcasecmp);
+        fc_assert(unit_type_flag_id_is_valid(flag));
+        BV_SET(ptype->flags, flag);
+      }
+    } unit_type_iterate_end;
   }
 
   if (info->ver_game < 10) {
