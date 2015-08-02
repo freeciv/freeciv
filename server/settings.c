@@ -655,8 +655,32 @@ static void timeout_action(const struct setting *pset)
 {
   if (S_S_RUNNING == server_state()) {
     int timeout = *pset->integer.pvalue;
-    /* This may cause the current turn to end immediately. */
-    game.tinfo.seconds_to_phasedone = timeout;
+
+    if (game.info.turn != 0 || game.info.first_timeout == -1) {
+      /* This may cause the current turn to end immediately. */
+      game.tinfo.seconds_to_phasedone = timeout;
+    }
+    send_game_info(NULL);
+  }
+}
+
+/*************************************************************************
+  Enact a change in the 'first_timeout' server setting immediately, if the game
+  is afoot.
+*************************************************************************/
+static void first_timeout_action(const struct setting *pset)
+{
+  if (S_S_RUNNING == server_state()) {
+    int timeout = *pset->integer.pvalue;
+
+    if (game.info.turn == 0) {
+      /* This may cause the current turn to end immediately. */
+      if (timeout != -1) {
+        game.tinfo.seconds_to_phasedone = timeout;
+      } else {
+        game.tinfo.seconds_to_phasedone = game.info.timeout;
+      }
+    }
     send_game_info(NULL);
   }
 }
@@ -967,6 +991,23 @@ static bool timeout_callback(int value, struct connection *caller,
                       _("'timeout' can not be lower than 3/2 of the "
                         "'unitwaittime' setting (= %d). Please change "
                         "'unitwaittime' first."), game.server.unitwaittime);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Validate the 'first_timeout' server setting.
+*************************************************************************/
+static bool first_timeout_callback(int value, struct connection *caller,
+                                   char *reject_msg, size_t reject_msg_len)
+{
+  /* Disallow low timeout values for non-hack connections. */
+  if (caller && caller->access_level < ALLOW_HACK && value < 30) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("You are not allowed to set timeout values less "
+                        "than 30 seconds."));
     return FALSE;
   }
 
@@ -2372,8 +2413,8 @@ static struct setting settings[] = {
              "If set to 0, T0 will not have a timeout.\n"
              "If set to -1, the special treatment of T0 will be disabled.\n"
              "See also 'timeout'."),
-          NULL, NULL, GAME_MIN_FIRST_TIMEOUT, GAME_MAX_FIRST_TIMEOUT,
-          GAME_DEFAULT_FIRST_TIMEOUT)
+          first_timeout_callback, first_timeout_action, GAME_MIN_FIRST_TIMEOUT,
+          GAME_MAX_FIRST_TIMEOUT, GAME_DEFAULT_FIRST_TIMEOUT)
 
   GEN_INT("timeaddenemymove", game.server.timeoutaddenemymove,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
