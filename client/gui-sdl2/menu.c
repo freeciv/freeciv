@@ -258,16 +258,6 @@ static int unit_order_callback(struct widget *pOrder_Widget)
   return -1;
 }
 
-#if 0
-/**************************************************************************
-   Does city has airport kind of building?
-**************************************************************************/
-static bool has_city_airport(struct city *pcity)
-{
-  return (pcity != NULL && (get_city_bonus(pcity, EFT_AIR_VETERAN) > 0));
-}
-#endif /* 0 */
-
 /**************************************************************************
    Refresh order widgets.
 **************************************************************************/
