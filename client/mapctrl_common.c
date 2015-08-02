@@ -517,6 +517,7 @@ bool get_turn_done_button_state(void)
   return (can_client_issue_orders()
           && !client.conn.playing->ai_controlled
           && !client.conn.playing->phase_done
+          && is_player_phase(client.conn.playing, game.info.phase)
           && !agents_busy());
 }
 
