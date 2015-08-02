@@ -1,50 +1,18 @@
-# German Translation for Freeciv
+# German Translation for Freeciv, extended nation set.
 # Copyright (C) 1999-2009 Free Software Foundation, Inc.
 # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002.
 # Christian Knoke <chrisk@cknoke.de>, 2003-2009.
 # Marvin Gülker <quintus@quintilianus.eu>, 2012-2013
 #
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.           +
-# + '# NN' markiert Kommentare des Übersetzers mit den Initialen NN.    +
-# + Hinweis: Diese Markierungen müssen direkt über die mit '#:'         +
-# +          beginnenden Adressverweise gesetzt werden.                 +
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#
-# ÄNDERUNGEN / ERGÄNZUNGEN / KORREKTUREN / MITARBEIT
-#
-# Sollten Sie Rechtschreibfehler oder andere offensichtliche Fehler in der
-# Übersetzung finden, senden Sie bitte einen mit 'diff -u' erstellten Patch
-# an den Übersetzer. 
-#
-# Einige Texte sind aus unterschiedlichen Gründen nicht übersetzt:
-#
-# - Einige landessprachliche Bezeichnungen, vor allem Herrschertitel.
-#   Dort findet sich ein Übersetzerkommentar (EH:, CK: oder MG:).
-#
-# - Technische Fehlermeldungen sind nicht übersetzt. Diese Meldungen
-#   sind in erster Linie für Entwickler bestimmt, und die können in der
-#   Regel kein Deutsch. Soweit diesen Meldungen nicht bereits ein
-#   Entwicklerkommentar (TRANS:) migegeben wurde, findet sich dort ein
-#   Übersetzerkomentar (CK: TECHNICAL, EH: oder MG:).
-#
-# - In Deutschland ist bekanntlicherweise alles genormt, so auch
-#   Staaten- und Staatsangehörigenbezeichnungen. Hierzulande übernimmt
-#   diese Aufgabe der Ständige Ausschuss für Geographische Namen
-#   (StAGN), der jährlich eine Liste mit den offiziellen
-#   Staatenbezeichnungen und Bezeichnungen der Einwohner dieser
-#   Staaten herausgibt, die unter http://www.stagn.de abgerufen
-#   werden kann. Für Völkerbezeichnungen in Freeciv sind die dort
-#   gelisteten Bezeichnungen daher verpflichtend. Für dort nicht
-#   gelistete Völker (das betrifft vornehmlich ausgestorbene
-#   Völker) hat sich eine Kombination aus englischer und deutscher
-#   Wikipedia als nützlich erwiesen.
+# Es gelten die in der Hauptübersetzungsdatei beschriebenen
+# Übersetzungshinweise, insbesondere sei hier die Relevanz
+# des StAGN noch einmal besonders betont.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2014-08-12 15:00+0200\n"
+"POT-Creation-Date: 2015-08-02 11:33+0100\n"
+"PO-Revision-Date: 2015-06-30 23:26+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
 "Language: de\n"
@@ -3081,14 +3049,12 @@ msgid "?female:Chancellor %s"
 msgstr "Bundeskanzlerin %s"
 
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
-msgstr "burgundisch"
+msgstr "burgundenisch"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
-msgstr "Burgunder"
+msgstr "Burgunden"
 
 #: data/nation/burgundic.ruleset:6
 msgid ""
@@ -3389,14 +3355,12 @@ msgid "?female:Admiral %s"
 msgstr "Admirälin %s"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "karthagisch"
+msgstr "karantanisch"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "Karthager"
+msgstr "Karantanen"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -4656,14 +4620,12 @@ msgid "Prophetess %s"
 msgstr "Prophetin %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "thrakisch"
+msgstr "dakisch"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "Thraker"
+msgstr "Daker"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -5383,12 +5345,11 @@ msgstr "Kapitänin %s"
 
 #: data/nation/formosan.ruleset:3
 msgid "Formosan"
-msgstr ""
+msgstr "formosisch"
 
 #: data/nation/formosan.ruleset:4
-#, fuzzy
 msgid "?plural:Formosans"
-msgstr "Normannen"
+msgstr "Formosa"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -5743,12 +5704,11 @@ msgstr ""
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Gepiden"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "Nepalesen"
+msgstr "gepidisch"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5863,6 +5823,10 @@ msgid ""
 "19th century Ghana became a British colony. In 1957 Kwame Nkrumah proclaimed "
 "Ghana's independence."
 msgstr ""
+"Ghana leitet seinen Namen vom alten ghanischen Reich ab, die Europäischer "
+"bezeichneten das Land als Goldene Küste. Portugiesen, Niederländer und "
+"Schweden gründeten Außenposten, dennoch wurde Ghana im 19. Jh. britische "
+"Kolonie. 1957 proklamierte Kwame Nkrumah die Unabhängigkeit des Landes."
 
 #: data/nation/ghana.ruleset:3
 msgid "Ghana"
@@ -5881,6 +5845,13 @@ msgid ""
 "its name from the Ghana Empire, even though the empire was located in what "
 "is now Mali and Mauretania."
 msgstr ""
+"Das Reich Ghana bzw. Wagadou existierte in Westafrika vom 9. bis zum 13. Jh "
+"u.Z. Es leitet seinen Namen vom König ab, dessen Titel „Ghana“ "
+"gleichbedeutend ist mit „großer Krieger“; sein Reichtum rührte vom "
+"florierenden transsaharischen Handel und von den Goldminen im eigenen "
+"Territorium. Die moderne Republik Ghana leitet ihren Namen von Ghana-Reich "
+"ab, obwohl das Reich sich in der Gegend des heutigen Mali und Mauretanien "
+"befand."
 
 #: data/nation/ghana.ruleset:25
 #, c-format
@@ -5906,6 +5877,10 @@ msgid ""
 "977 to 1186 CE in Afghanistan and Northern India, and at the peak of their "
 "power also in eastern Iran and Central Asia."
 msgstr ""
+"Die Ghaznawiden waren eine muslimische Sunniten-Dynastie türkischen "
+"Ursprungs, die von 977 bis 1186 u.Z. im Raum zwischen Afghanistan und "
+"Nordinden existierte und die auf dem Höhepunkt ihrer Macht sogar bis in den "
+"östlichen Iran und nach Zentralasien hineinreichte."
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
@@ -5974,6 +5949,12 @@ msgid ""
 "sacking Rome itself in 410 CE. The Visigoths conquered Roman Iberia while "
 "the Ostrogoths founded a kingdom in Italy."
 msgstr ""
+"Die Goten waren ein ostgermanisches Volk, dessen Ursprünge sich im heutigen "
+"Polen, möglicherweise auch in Skandinavien, befinden. Im vierten Jahrhundert "
+"u.Z. beherrschten sie weite Teile Südosteuropas und spielten eine zentrale "
+"Rolle im Niedergang des römischen Imperiums, 410 u.Z. standen sie sogar vor "
+"Rom selbst. Die Westgoten unterwarfen das unter römischer Kontrolle stehende "
+"Iberien, wohingegen die Ostgoten ein Königreich in Italien errichteten."
 
 #: data/nation/greaterpolish.ruleset:3
 msgid "Greater Polish"
@@ -6022,6 +6003,9 @@ msgid ""
 "the United Kingdom in 1974. The main island was known as Camahogne by the "
 "indigenous Caribs."
 msgstr ""
+"Grenada ist ein Inselstaat in der Karibik, der seine Unabhängigkeit vom "
+"Vereinigten Königreich 1974 erlangte. Die indigenen Karaiben bezeichneten "
+"die Hauptinsel mit dem Namen „Camahogne“."
 
 #: data/nation/guanche.ruleset:3
 msgid "Guanche"
@@ -6037,6 +6021,9 @@ msgid ""
 "known of their origins, but it appears that they were related to the "
 "Berbers. In the 15th century they were subjugated by Castile."
 msgstr ""
+"Die Guanchen sind die Ureinwohner der Kanarischen Inseln. Über ihre "
+"Ursprünge ist fast nichts bekannt, aber es scheint, dass sie mit den Berbern "
+"verwandt waren. Im 15. Jh. wurden sie von den Kastilianern unterjocht."
 
 #: data/nation/guarani.ruleset:3
 msgid "Guarani"
@@ -6071,6 +6058,12 @@ msgid ""
 "brutal civil wars of the 20th century until a peace agreement was signed in "
 "1996."
 msgstr ""
+"Das antike Herzland der Maya, Guatemala, wurde im 16. Jh. von den Spaniern "
+"erobert. 1821 wurde es unabhängig, war aber bis 1840 Teil der Vereinigten "
+"Staaten von Zentralamerika. Den größten Teil seiner Geschichte ertrug das "
+"Land politische Unruhen und durchlebte einen der brutalsten Bürgerkriege des "
+"20. Jahrhunderts, bis 1996 schließlich ein Friedensvertrag geschlossen "
+"werden konnte."
 
 #: data/nation/guinean.ruleset:3
 msgid "Guinean"
@@ -6089,6 +6082,10 @@ msgid ""
 "Sekou Toure continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
+"Guinea verkündete 1958 seine Unabhängigkeit von Frankreich. Der erste "
+"Präsident, Ahmed Sékou Touré, regierte das Land jedoch weiterhin bis zu "
+"seinem Tode 1984. Guinea sollte nicht mit dem benachbarten Guinea-Bissau "
+"verwechselt werden."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -6103,6 +6100,8 @@ msgid ""
 "The Gupta Empire was one of the great classical empires. It ruled northern "
 "India from around 240 to 550 CE."
 msgstr ""
+"Das Gupta-Reich war eines der großen klassischen Imperien. Es beherrschte "
+"Nordindien in der Zeit von etwa 240 bis 550 u.Z."
 
 #: data/nation/guyanese.ruleset:3
 msgid "Guyanese"
@@ -6290,6 +6289,10 @@ msgid ""
 "Abolished in 1893, and subsequently annexed to the United States, the former "
 "kingdom became the 50th state of the United States on August 21, 1959."
 msgstr ""
+"Die Königreich Hawai’i wurde 1810 von König Kamehameha dem Großen gegründet. "
+"Nachdem es 1893 abgeschafft und in der Folge von den Vereinigten Staaten "
+"annektiert worden war, wurde des frühere Königreich am 21. August 1959 der "
+"50. Staat der Vereinigten Staaten."
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -6326,6 +6329,15 @@ msgid ""
 "Helvetians succumbed to the Romans and became Romanized during the following "
 "centuries."
 msgstr ""
+"Die Helvetier (Latein: Helvetii) waren ein antikes keltisches Volk, welches "
+"in der Gegend der heutigen Schweiz und anliegender Teile Frankreichs und "
+"Deutschlands lebte. Von Zeit zu Zeit kam es vor, dass Helvetier bei der "
+"Behebung innerrömischer Konflikte behilflich waren, etwa auf Seiten Ciceros. "
+"Es handelte sich um einen großen, expansiven Stamm, dessen Ziel die "
+"Herrschaft auch über die Stämme Galliens war. Die Schlachtpläne ihres "
+"Oberhäuptlings Orgetorix dienten Caesar als Blaupause für die Eroberung "
+"Helvetiens und des übrigen Galliens. Die Helvetier unterwarfen sich den "
+"Römern und wurden im Laufe der folgenden Jahrhunderte romanisiert."
 
 #: data/nation/hephthalite.ruleset:3
 msgid "Hephthalite"
@@ -6362,6 +6374,11 @@ msgid ""
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
 msgstr ""
+"Hessen wurde im 13. Jahrhundert Provinz des Heiligen Römischen Reiches. Im "
+"16. Jahrhundert spaltete es es sich in eine Anzahl kleinerer Territorien; "
+"viele Hessen kämpften während des Amerikanischen Bürgerkrieges als Söldner "
+"auf beiden Seiten. Heute ist Hessen einer der Staaten der Bundesrepublik "
+"Deutschland."
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
 #, c-format
@@ -6415,6 +6432,15 @@ msgid ""
 "imperial free cities and other territories. In 1806 it was dissolved by "
 "Napoleon and replaced by the Confederation of the Rhine."
 msgstr ""
+"Das Heilige Römische Reich wurde allgemein als der Nachfolgestaat des "
+"römischen Imperiums angesehen, jedoch war es einer Aussage Voltairs zufolge "
+"weder heilig, noch römisch, und noch viel weniger ein Reich. "
+"Nichtsdestotrotz erwies das Land sich als ausgesprochen ausdauernd und "
+"verlor Territorium nur sehr langsam. Für den größten Teil seiner Lebenszeit "
+"handelte es sich um einen komplizierten Flickenteppich unzähliger "
+"Grafschaften, Herzogtümer, Elektorate, freier Reichsstädte und anderer "
+"Gebiete. 1806 wurde es von Napoléon aufgelöst und durch den Rheinischen Bund "
+"ersetzt."
 
 #: data/nation/holysee.ruleset:3
 msgid "Papal"
@@ -6475,6 +6501,10 @@ msgid ""
 "periods of dictatorship and of more or less democratic rule have followed "
 "each other. Its current constitution was adopted in 1982."
 msgstr ""
+"Honduras ist seit der Auflösung der Zentralamerikanischen Föderation 1840 "
+"eine unabhängig Republik. Während der archetypischen Zeit der "
+"„Bananenrepublik“ wechselten sich Diktatur und mehr oder weniger "
+"demokratische Regierungsformen ab. Seine heutige Verfassung datiert von 1982."
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
@@ -6730,16 +6760,20 @@ msgstr "Richter %s"
 msgid "?female:Judge %s"
 msgstr "Richterin %s"
 
+# MG: Wikipedia schreibt spezielle Sprachregeln für diese Bevölkerungsgruppe
+# vor, siehe https://de.wikipedia.org/wiki/Magna_Graecia
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "italienisch"
+msgstr "Westgriechen"
 
+# MG: Wikipedia schreibt spezielle Sprachregeln für diese Bevölkerungsgruppe
+# vor, siehe https://de.wikipedia.org/wiki/Magna_Graecia
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "Italiener"
+msgstr "westgriechisch"
 
+# MG: Wikipedia schreibt spezielle Sprachregeln für diese Bevölkerungsgruppe
+# vor, siehe https://de.wikipedia.org/wiki/Magna_Graecia
 #: data/nation/italiangreek.ruleset:6
 msgid ""
 "Ancient Magna Graecia was a complex of Greek cities-colonies on the coasts "
@@ -6753,11 +6787,22 @@ msgid ""
 "Catepanate of Italia. A Greek-speaking population has survived in these "
 "areas to modern times."
 msgstr ""
+"Das antike Magna Graecia (Großgriechenland) war ein Komplex griechischer "
+"Stadtkolonien an den Küsten Italiens und Siziliens, welche während der "
+"griechischen Kolonisierung gegründet wurden. Sie spielten eine erhebliche "
+"Rolle in der Entwicklung der etruskischen und römischen Kulturen; im 5. "
+"Jahrhundert v.u.Z. wurde Großgriechenland vom Stadtstaat Syrakus beherrscht, "
+"einem wichtigen Zentrum der griechsichen Kultur. Andere große urbane Zentren "
+"waren Taranto, Croton, Sybaris und Messana, bevor Großgriechenland nach und "
+"nach von den Römern in einem Feldzug erobert wurde, der 272 v.u.Z. endete. "
+"Nach dem Untergang des weströmischen Reiches wurde Süditalien als Katapenat "
+"von Italien kurzzeitig Teil des byzantinischen Reichs. Bis heute gibt es in "
+"diesem Gebiet eine griechisch sprechende Bevölkerungsgruppe."
 
 #: data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyranne %s"
-msgstr "Tyrant %s"
+msgstr "Tyrann %s"
 
 #: data/nation/ivoirian.ruleset:3
 msgid "Ivoirian"
@@ -7077,12 +7122,11 @@ msgstr "Tarkhan %s"
 
 #: data/nation/khoisan.ruleset:3
 msgid "Khoisan"
-msgstr ""
+msgstr "khoisanisch"
 
 #: data/nation/khoisan.ruleset:4
-#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "Koreaner"
+msgstr "Khoisan"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -7162,14 +7206,15 @@ msgid ""
 "and English colonization attempts in the New World."
 msgstr ""
 
+# MG: Korrekt wäre wohl „komisch“, aber das kann man
+# niemandem zumuten.
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "komianisch"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "Boii"
+msgstr "Komi"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -7255,14 +7300,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kushan.ruleset:3
-#, fuzzy
 msgid "Kushan"
-msgstr "ashantisch"
+msgstr "kuschanisch"
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "Kuna"
+msgstr "Kuschana"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7326,12 +7369,11 @@ msgstr ""
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "langobardisch"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "Savoyarden"
+msgstr "Langobarden"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -7578,14 +7620,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "liberianisch"
+msgstr "ligurisch"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "Liburner"
+msgstr "Liguren"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -7727,12 +7767,11 @@ msgstr ""
 
 #: data/nation/lycian.ruleset:3
 msgid "Lycian"
-msgstr ""
+msgstr "lykisch"
 
 #: data/nation/lycian.ruleset:4
-#, fuzzy
 msgid "?plural:Lycians"
-msgstr "Luwier"
+msgstr "Lykier"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -8078,15 +8117,15 @@ msgstr "Hoher Brahmane %s"
 msgid "?female:High Brahmin %s"
 msgstr "Hohe Brahmanin %s"
 
+# MG: StAGN
 #: data/nation/marshallese.ruleset:3
-#, fuzzy
 msgid "Marshallese"
-msgstr "singhalesisch"
+msgstr "marshallisch"
 
+# MG: StAGN
 #: data/nation/marshallese.ruleset:4
-#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "Maltesen"
+msgstr "Marshaller"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -8963,12 +9002,11 @@ msgstr ""
 
 #: data/nation/novgorodian.ruleset:3
 msgid "Novgorodian"
-msgstr ""
+msgstr "nowgorodisch"
 
 #: data/nation/novgorodian.ruleset:4
-#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "Nigerier"
+msgstr "Nowgoroder"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -9907,12 +9945,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr ""
+msgstr "russinisch"
 
 #: data/nation/rusyn.ruleset:4
-#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "Russen"
+msgstr "Russinen"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -9924,14 +9961,17 @@ msgid ""
 "states after World War I: the Lemko-Rusyn Republic and the Komancza Republic."
 msgstr ""
 
+# MG: Das ist unübersetzbar...
+# https://de.wikipedia.org/wiki/Kiewer_Rus
 #: data/nation/ruthenian.ruleset:3
 msgid "Kievan Rus'"
-msgstr ""
+msgstr "kiewer-rus’isch"
 
+# MG: Das ist unübersetzbar...
+# https://de.wikipedia.org/wiki/Kiewer_Rus
 #: data/nation/ruthenian.ruleset:4
-#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "Kenianer"
+msgstr "Kiewer Rus’en"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -9940,6 +9980,10 @@ msgid ""
 "Rus' succumbed to a Mongol invasion. The Rus' were the precursors of the "
 "modern East Slavic nations."
 msgstr ""
+"Die Kiewer Rus war eine mittelalterliche slawische Monarchie mit Zentrum in "
+"Kiew, nachdem die Stadt durch Oleg von Nowgorod erobert worden war. Im 13. "
+"Jh. ergab sich die Rus der mongolischen Invasion; sie war Vorgänger der "
+"heutigen ostslawischen Nationen."
 
 #: data/nation/rwandan.ruleset:3
 msgid "Rwandan"
@@ -11847,14 +11891,12 @@ msgid "?female:Secretary-General %s"
 msgstr "Generalsekräterin %s"
 
 #: data/nation/urartian.ruleset:3
-#, fuzzy
 msgid "Urartian"
-msgstr "marsianisch"
+msgstr "urartäisch"
 
 #: data/nation/urartian.ruleset:4
-#, fuzzy
 msgid "?plural:Urartians"
-msgstr "Marsianer"
+msgstr "Urartäer"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
