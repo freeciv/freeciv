@@ -256,15 +256,8 @@ static int unit_order_callback(struct widget *pOrder_Widget)
 }
 
 /**************************************************************************
-  ...
+  Refresh order widgets.
 **************************************************************************/
-#if 0
-static bool has_city_airport(struct city *pCity)
-{
-  return (pCity && (get_city_bonus(pCity, EFT_AIR_VETERAN) > 0));
-}
-#endif
-
 static Uint16 redraw_order_widgets(void)
 {
   Uint16 count = 0;
@@ -1430,7 +1423,6 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_NUKE);
       }
 
-/*      if (pCity && has_city_airport(pCity) && pCity->airlift) {*/
       if (pCity && pCity->airlift) {      
 	local_show(ID_UNIT_ORDER_AIRLIFT);
 	hide(ID_UNIT_ORDER_GOTO_CITY);
