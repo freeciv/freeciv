@@ -1403,10 +1403,23 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   if (p.orders[i - 1] == ORDER_MOVE
       && (is_non_allied_city_tile(old_tile, client_player()) != NULL
           || is_non_allied_unit_tile(old_tile, client_player()) != NULL)) {
-    p.orders[i - 1] = ORDER_ACTION_MOVE;
-  }
-
-  if (final_order) {
+    /* Won't be able to perform a regular move to the target tile... */
+    if (!final_order) {
+      /* ...and no final order exists. Choose what to do when the unit gets
+       * there. */
+      p.orders[i - 1] = ORDER_ACTION_MOVE;
+    } else {
+      /* ...but a final order exist. Try performing it from the neigbor
+       * tile in the unit's path. */
+      p.orders[i - 1] = final_order->order;
+      /* (the direction from the final move is kept) */
+      p.activity[i - 1] = (final_order->order == ORDER_ACTIVITY)
+        ? final_order->activity : ACTIVITY_LAST;
+      p.target[i - 1] = final_order->target;
+      p.action[i - 1] = final_order->action;
+    }
+  } else if (final_order) {
+    /* Append the final order after moving to the target tile. */
     p.orders[i] = final_order->order;
     p.dir[i] = (final_order->order == ORDER_MOVE) ? final_order->dir : -1;
     p.activity[i] = (final_order->order == ORDER_ACTIVITY)

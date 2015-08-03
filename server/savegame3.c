@@ -5318,6 +5318,10 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         case ORDER_PERFORM_ACTION:
           action_buf[j] = num2char(punit->orders.list[j].action);
+          if (punit->orders.list[j].dir != -1) {
+            /* The action target is on another tile. */
+            dir_buf[j] = dir2char(punit->orders.list[j].dir);
+          }
           break;
         case ORDER_FULL_MP:
         case ORDER_BUILD_CITY:

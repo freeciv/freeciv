@@ -4129,7 +4129,13 @@ bool execute_orders(struct unit *punit, const bool fresh)
             action_get_target_kind(order.action) == ATK_TILE,
             "Only tile targets are currently supported");
 
-      dst_tile = unit_tile(punit);
+      if (!is_valid_dir(order.dir)) {
+        /* The target of the action is on the actor's tile. */
+        dst_tile = unit_tile(punit);
+      } else {
+        /* The target of the action is on a tile next to the actor. */
+        dst_tile = mapstep(unit_tile(punit), order.dir);
+      }
 
       fc_assert_ret_val_msg(dst_tile, FALSE, "No target tile for action");
 
