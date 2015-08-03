@@ -470,6 +470,7 @@ static void compat_load_020500(struct loaddata *loading)
   log_debug("Upgrading data from savegame to version 2.5.0");
 
   secfile_insert_int(loading->file, 2, "savefile.roads_size");
+  secfile_insert_int(loading->file, 0, "savefile.trait_size");
 
   secfile_insert_str_vec(loading->file, modname, 2,
                          "savefile.roads_vector");
@@ -563,6 +564,7 @@ static void compat_load_020600(struct loaddata *loading)
   int nplayers;
   int plrno;
   bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
+  int tsize;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -757,6 +759,9 @@ static void compat_load_020600(struct loaddata *loading)
 
   nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
 
+  sg_failure_ret(secfile_lookup_int(loading->file, &tsize, "savefile.trait_size"),
+                 "Trait size: %s", secfile_error());
+
   for (plrno = 0; plrno < nplayers; plrno++) {
     bool got_first_city;
     int old_barb_type;
@@ -777,19 +782,19 @@ static void compat_load_020600(struct loaddata *loading)
     secfile_insert_str(loading->file, barbarian_type_name(new_barb_type),
                        "player%d.ai.barb_type", plrno);
 
-    for (i = 0; i < loading->trait.size; i++) {
+    for (i = 0; i < tsize; i++) {
       int val;
 
-      val = secfile_lookup_int_default(loading->file, -1, "pĺr%d.trait.val%d",
+      val = secfile_lookup_int_default(loading->file, -1, "player%d.trait.val%d",
                                        plrno, i);
       if (val != -1) {
-        secfile_insert_int(loading->file, val, "plr%d.trait%d.val", plrno, i);
+        secfile_insert_int(loading->file, val, "player%d.trait%d.val", plrno, i);
       }
 
-      if (secfile_lookup_int(loading->file, &val, "plr%d.trait.mod%d", plrno, i)) {
-        log_sg("Trait mod: %s", secfile_error());
-      }
-      secfile_insert_int(loading->file, val, "plr%d.trait%d.mod", plrno, i);
+      sg_failure_ret(secfile_lookup_int(loading->file, &val,
+                                        "player%d.trait.mod%d", plrno, i),
+                     "Trait mod: %s", secfile_error());
+      secfile_insert_int(loading->file, val, "player%d.trait%d.mod", plrno, i);
     }
   }
 
