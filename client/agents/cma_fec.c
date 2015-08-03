@@ -390,7 +390,7 @@ void create_default_cma_presets(void)
      .factor = {10, 5, 0, 4, 0, 4},
      .happy_factor = 25
    },
-   { /* max food */
+   { /* prefer food */
      .minimal_surplus = {-20, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
@@ -398,7 +398,7 @@ void create_default_cma_presets(void)
      .factor = {25, 5, 0, 4, 0, 4},
      .happy_factor = 0
    },
-   { /* max prod */
+   { /* prefer prod */
      .minimal_surplus = {0, -20, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
@@ -406,7 +406,7 @@ void create_default_cma_presets(void)
      .factor = {10, 25, 0, 4, 0, 4},
      .happy_factor = 0
    },
-   { /* max gold */
+   { /* prefer gold */
      .minimal_surplus = {0, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
@@ -414,7 +414,7 @@ void create_default_cma_presets(void)
      .factor = {10, 5, 0, 25, 0, 4},
      .happy_factor = 0
    },
-   { /* max science */
+   { /* prefer science */
      .minimal_surplus = {0, 0, 0, -20, 0, 0},
      .require_happy = FALSE,
      .allow_disorder = FALSE,
@@ -425,10 +425,10 @@ void create_default_cma_presets(void)
  };
  const char* names[ARRAY_SIZE(parameters)] = {
    N_("?cma:Very happy"),
-   N_("?cma:Max food"),
-   N_("?cma:Max production"),
-   N_("?cma:Max gold"),
-   N_("?cma:Max science")
+   N_("?cma:Prefer food"),
+   N_("?cma:Prefer production"),
+   N_("?cma:Prefer gold"),
+   N_("?cma:Prefer science")
  };
 
  for (i = ARRAY_SIZE(parameters) - 1; i >= 0; i--) {
