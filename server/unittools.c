@@ -4139,6 +4139,22 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       fc_assert_ret_val_msg(dst_tile, FALSE, "No target tile for action");
 
+      if (!action_prob_possible(action_prob_vs_tile(punit, order.action,
+                                                    dst_tile))) {
+        /* The player has enough information to know that this action is
+         * against the rules. Don't risk any punishment by trying to
+         * perform it. */
+
+        cancel_orders(punit, "  illegal action");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("%s could not do %s to %s."),
+                      unit_link(punit),
+                      action_get_ui_name(order.action),
+                      tile_link(dst_tile));
+
+        return TRUE;
+      }
+
       handle_unit_do_action(pplayer,
                             unitid,
                             dst_tile->index,
