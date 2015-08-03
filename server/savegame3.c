@@ -5091,7 +5091,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
         struct unit_order *order = &punit->orders.list[j];
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
-            || act_unitstr[j] == '\0' || action_unitstr == '\0') {
+            || act_unitstr[j] == '\0' || action_unitstr[j] == '\0') {
           log_sg("Invalid unit orders.");
           free_unit_orders(punit);
           break;
