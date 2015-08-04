@@ -3790,6 +3790,7 @@ static inline bool player_is_watching(struct unit *punit, const bool fresh)
 bool execute_orders(struct unit *punit, const bool fresh)
 {
   struct tile *dst_tile;
+  action_probability prob;
   bool res, last_order;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -4125,10 +4126,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_PERFORM_ACTION:
       log_debug("  orders: doing action %d", order.action);
 
-      fc_assert_msg(
-            action_get_target_kind(order.action) == ATK_TILE,
-            "Only tile targets are currently supported");
-
       if (!is_valid_dir(order.dir)) {
         /* The target of the action is on the actor's tile. */
         dst_tile = unit_tile(punit);
@@ -4139,8 +4136,28 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       fc_assert_ret_val_msg(dst_tile, FALSE, "No target tile for action");
 
-      if (!action_prob_possible(action_prob_vs_tile(punit, order.action,
-                                                    dst_tile))) {
+      /* Assume impossible until told otherwise. */
+      prob = 0;
+
+      switch (action_get_target_kind(order.action)) {
+      case ATK_UNITS:
+        prob = action_prob_vs_units(punit, order.action,
+                                    dst_tile);
+        break;
+      case ATK_TILE:
+        prob = action_prob_vs_tile(punit, order.action,
+                                   dst_tile);
+        break;
+      case ATK_CITY:
+      case ATK_UNIT:
+        log_error("Unsupported action target kind");
+        return TRUE;
+      case ATK_COUNT:
+        log_error("Invalid action target kind");
+        return TRUE;
+      }
+
+      if (!action_prob_possible(prob)) {
         /* The player has enough information to know that this action is
          * against the rules. Don't risk any punishment by trying to
          * perform it. */
