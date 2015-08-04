@@ -248,6 +248,10 @@ action_probability action_prob_vs_tile(struct unit* actor, int action_id,
 
 bool action_prob_possible(action_probability probability);
 
+bool
+action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
+                                const struct unit_type *actor_unittype);
+
 /* Reasoning about actions */
 bool action_immune_government(struct government *gov, int act);
 

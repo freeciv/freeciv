@@ -4003,8 +4003,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (requirement_fulfilled_by_unit_type(utype,
-                                             &(enabler->actor_reqs))) {
+      if (action_actor_utype_hard_reqs_ok(act, utype)
+          && requirement_fulfilled_by_unit_type(utype,
+                                                &(enabler->actor_reqs))) {
         switch (act) {
         case ACTION_HELP_WONDER:
           cat_snprintf(buf, bufsz,

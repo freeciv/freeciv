@@ -428,6 +428,41 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns TRUE if the specified unit type can perform the wanted action
+  given that an action enabler later will enable it.
+
+  This is done by checking the action's hard requirements. Hard
+  requirements must be TRUE before an action can be done. The reason why
+  is usually that code dealing with the action assumes that the
+  requirements are true. A requirement may also end up here if it can't be
+  expressed in a requirement vector or if its absence makes the action
+  pointless.
+
+  When adding a new hard requirement here:
+   * explain why it is a hard requirement in a comment.
+**************************************************************************/
+bool
+action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
+                                const struct unit_type *actor_unittype)
+{
+  if (wanted_action == ACTION_JOIN_CITY) {
+    if (utype_pop_value(actor_unittype) <= 0) {
+      /* Reason: Must have population to add. */
+      return FALSE;
+    }
+  }
+
+  if (wanted_action == ACTION_BOMBARD) {
+    if (actor_unittype->bombard_rate <= 0) {
+      /* Reason: Can't bombard if it never fires. */
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns TRUE if the wanted action is possible given that an action
   enabler later will enable it.
 
@@ -471,6 +506,13 @@ static bool is_action_possible(const enum gen_action wanted_action,
                     /* At this level each individual unit is tested. */
                     && target_unit != NULL),
                 "Missing target!");
+
+  if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
+    /* Info leak: The actor player knows the type of his unit. */
+    /* The actor unit type can't perform the action because of hard
+     * unit type requirements. */
+    return FALSE;
+  }
 
   if (action_get_actor_kind(wanted_action) == AAK_UNIT) {
     /* The Freeciv code for all actions controlled by enablers assumes that
@@ -624,12 +666,6 @@ static bool is_action_possible(const enum gen_action wanted_action,
       return FALSE;
     }
 
-    if (unit_pop_value(actor_unit) <= 0) {
-      /* Reason: Must have population to add. */
-      /* Info leak: The actor player knows the type of his unit. */
-      return FALSE;
-    }
-
     /* TODO: Move more individual requirements to the action enabler. */
     if (!unit_can_add_to_city(actor_unit)) {
       return FALSE;
@@ -637,12 +673,6 @@ static bool is_action_possible(const enum gen_action wanted_action,
   }
 
   if (wanted_action == ACTION_BOMBARD) {
-    if (actor_unittype->bombard_rate <= 0) {
-      /* Reason: Can't bombard if it never fires. */
-      /* Info leak: This is about unit type so it is safe. */
-      return FALSE;
-    }
-
     /* TODO: Move to the ruleset. */
     if (!pplayers_at_war(unit_owner(target_unit), actor_player)) {
       return FALSE;
