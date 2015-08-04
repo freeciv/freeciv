@@ -47,7 +47,7 @@ struct advance_req_iter {
  * server/ruleset.c (for the server)
  * client/packhand.c (for the client)
  */
-struct advance advances[A_LAST_EXISTING];
+struct advance advances[A_ARRAY_SIZE];
 
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 
