@@ -340,16 +340,26 @@ const char *popup_info_text(struct tile *ptile)
     if (!client_player() || owner == client_player()) {
       struct city *pcity = player_city_by_number(owner, punit->homecity);
 
-      if (pcity) {
-        /* TRANS: "Unit: <unit type> | <username>
-         * (<nation + team>, <homecity>)" */
-        astr_add_line(&str, _("Unit: %s | %s (%s, %s)"),
-                      utype_name_translation(ptype), username,
-                      nation, city_name(pcity));
-      } else {
-        /* TRANS: "Unit: <unit type> | <username> (<nation + team>)" */
-        astr_add_line(&str, _("Unit: %s | %s (%s)"),
-                      utype_name_translation(ptype), username, nation);
+      /* TRANS: "Unit: <unit type> | <username> (<nation + team>)" */
+      astr_add_line(&str, _("Unit: %s | %s (%s)"),
+                    utype_name_translation(ptype), username, nation);
+
+      if (game.info.citizen_nationality
+          && unit_nationality(punit) != unit_owner(punit)) {
+        if (pcity) {
+          /* TRANS: on own line immediately following \n, "from <city> |
+           * <nationality> people" */
+          astr_add_line(&str, _("from %s | %s people"), city_name(pcity),
+                        nation_adjective_for_player(unit_nationality(punit)));
+        } else {
+          /* TRANS: Nationality of the people comprising a unit, if
+           * different from owner. */
+          astr_add_line(&str, _("%s people"),
+                        nation_adjective_for_player(unit_nationality(punit)));
+        }
+      } else if (pcity) {
+        /* TRANS: on own line immediately following \n, ... <city> */
+        astr_add_line(&str, _("from %s"), city_name(pcity));
       }
     } else if (NULL != owner) {
       struct player_diplstate *ds = player_diplstate_get(client_player(),
@@ -476,6 +486,7 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
 
 /****************************************************************************
   Returns the unit description.
+  Used in e.g. city report tooltips.
 
   FIXME: This function is not re-entrant because it returns a pointer to
   static data.
@@ -506,8 +517,9 @@ const char *unit_description(struct unit *punit)
 
   if (pplayer == owner) {
     unit_upkeep_astr(punit, &str);
+  } else {
+    astr_add(&str, "\n");
   }
-  astr_add(&str, "\n");
   unit_activity_astr(punit, &str);
 
   if (pcity) {
@@ -518,8 +530,10 @@ const char *unit_description(struct unit *punit)
   }
   if (game.info.citizen_nationality) {
     if (nationality != NULL && owner != nationality) {
-      /* TRANS: Nationality of the soldiers in unit, can be different from owner. */
-      astr_add(&str, _("%s people"), nation_adjective_for_player(nationality));
+      /* TRANS: Nationality of the people comprising a unit, if
+       * different from owner. */
+      astr_add_line(&str, _("%s people"),
+                    nation_adjective_for_player(nationality));
     } else {
       astr_add(&str, "\n");
     }
@@ -1075,9 +1089,12 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
 
       /* Line 5, nationality text */
       if (nationality != NULL && owner != nationality) {
-        astr_add(&str, _("%s people"), nation_adjective_for_player(nationality));
+        /* TRANS: Nationality of the people comprising a unit, if
+         * different from owner. */
+        astr_add_line(&str, _("%s people"),
+                      nation_adjective_for_player(nationality));
       } else {
-        astr_add(&str, " ");
+        astr_add_line(&str, " ");
       }
     }
 
