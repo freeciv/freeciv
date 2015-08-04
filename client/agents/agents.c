@@ -800,7 +800,11 @@ bool agents_busy(void)
 {
   int i;
 
-  if (!initialized || call_list_size(agents.calls) > 0 || frozen_level > 0
+  if (!initialized) {
+    return FALSE;
+  }
+
+  if (call_list_size(agents.calls) > 0 || frozen_level > 0
       || currently_running) {
     return TRUE;
   }
