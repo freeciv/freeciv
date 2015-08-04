@@ -437,6 +437,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "Unitflag", "Bombarder", "Local", TRUE
       "UnitState", "Transported", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"

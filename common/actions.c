@@ -678,11 +678,6 @@ static bool is_action_possible(const enum gen_action wanted_action,
       return FALSE;
     }
 
-    /* TODO: Move to the ruleset. */
-    if (actor_unit->moves_left <= 0) {
-      return FALSE;
-    }
-
     /* FIXME: Target of Bombard should be city and units. */
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),

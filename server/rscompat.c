@@ -349,6 +349,11 @@ void rscompat_postprocess(struct rscompat_info *info)
                               req_from_str("UnitState", "Local", FALSE,
                                            FALSE, "Transported"));
 
+    /* The actor unit must have a move fragment left. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("MinMoveFrags", "Local", FALSE,
+                                           TRUE, "1"));
+
     /* The target can't be on an ocean tile. */
     requirement_vector_append(&enabler->target_reqs,
                               req_from_str("TerrainClass", "Local", FALSE,
