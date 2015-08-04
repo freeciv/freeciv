@@ -298,6 +298,9 @@ void disconnect_from_server(void)
   const bool force = !client.conn.used;
 
   attribute_flush();
+
+  stop_turn_change_wait();
+
   /* If it's internal server - kill him 
    * We assume that we are always connected to the internal server  */
   if (!force) {

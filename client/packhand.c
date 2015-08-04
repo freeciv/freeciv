@@ -1288,6 +1288,8 @@ void handle_begin_turn(void)
 
   /* Possibly replace wait cursor with something else */
   set_server_busy(FALSE);
+
+  stop_turn_change_wait();
 }
 
 /**************************************************************************
@@ -1300,6 +1302,8 @@ void handle_end_turn(void)
 
   /* Make sure wait cursor is in use */
   set_server_busy(TRUE);
+
+  start_turn_change_wait();
 }
 
 /**************************************************************************
@@ -1945,7 +1949,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 /**************************************************************************
   Sets the remaining turn time.
 **************************************************************************/
-void handle_timeout_info(float seconds_to_phasedone)
+void handle_timeout_info(float seconds_to_phasedone, float last_turn_change_time)
 {
   if (current_turn_timeout() != 0 && seconds_to_phasedone >= 0) {
     /* If this packet is received in the middle of a turn, this value
@@ -1954,6 +1958,8 @@ void handle_timeout_info(float seconds_to_phasedone)
      * timer. */
     set_seconds_to_turndone(seconds_to_phasedone);
   }
+
+  game.tinfo.last_turn_change_time = last_turn_change_time;
 }
 
 /**************************************************************************

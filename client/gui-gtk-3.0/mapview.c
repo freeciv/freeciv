@@ -102,9 +102,13 @@ void update_timeout_label(void)
   gtk_label_set_text(GTK_LABEL(timeout_label), get_timeout_label_text());
 
   if (current_turn_timeout() > 0) {
-    gtk_widget_set_tooltip_text(timeout_label, _("Time to forced turn change"));
+    gtk_widget_set_tooltip_text(timeout_label,
+                                _("Time to forced turn change,\n"
+                                  "or eta to finish of turn change processing."));
   } else {
-    gtk_widget_set_tooltip_text(timeout_label, _("Turn timeout disabled"));
+    gtk_widget_set_tooltip_text(timeout_label,
+                                _("Turn timeout disabled.\nBetween turns eta to "
+                                  "finish of turn change processing."));
   }
 }
 

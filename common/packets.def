@@ -541,6 +541,7 @@ end
 # while has passed means a completely reset timeout.
 PACKET_TIMEOUT_INFO = 244; sc
   SFLOAT10x3 seconds_to_phasedone;
+  SFLOAT10x3 last_turn_change_time;
 end
 
 PACKET_MAP_INFO = 17; sc, lsend

@@ -198,6 +198,7 @@ struct civ_game {
        * take effect until the next turn. */
       int phase_mode_stored;
       struct timer *save_timer;
+      float turn_change_time;
       char connectmsg[MAX_LEN_MSG];
       char save_name[MAX_LEN_NAME];
       bool scorelog;

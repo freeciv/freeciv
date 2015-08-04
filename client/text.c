@@ -1480,10 +1480,20 @@ const char *get_timeout_label_text(void)
 
   astr_clear(&str);
 
-  if (current_turn_timeout() <= 0) {
-    astr_add(&str, "%s", Q_("?timeout:off"));
+  if (is_waiting_turn_change()) {
+    double wt = get_seconds_to_new_turn();
+
+    if (wt < 0.01) {
+      astr_add(&str, "%s", Q_("?timeout:wait"));
+    } else {
+      astr_add(&str, "%s: %s", Q_("?timeout:eta"), format_duration(wt)); 
+    }
   } else {
-    astr_add(&str, "%s", format_duration(get_seconds_to_turndone()));
+    if (current_turn_timeout() <= 0) {
+      astr_add(&str, "%s", Q_("?timeout:off"));
+    } else {
+      astr_add(&str, "%s", format_duration(get_seconds_to_turndone()));
+    }
   }
 
   return astr_str(&str);

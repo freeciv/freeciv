@@ -1049,6 +1049,7 @@ static void begin_phase(bool is_new_phase)
 
   sanity_check();
 
+  game.tinfo.last_turn_change_time = (float)game.server.turn_change_time;
   game.tinfo.seconds_to_phasedone = (double)current_turn_timeout();
   game.server.phase_timer = timer_renew(game.server.phase_timer,
                                         TIMER_USER, TIMER_ACTIVE);
@@ -2464,6 +2465,7 @@ static void announce_player(struct player *pplayer)
 static void srv_running(void)
 {
   struct timer *eot_timer;	/* time server processing at end-of-turn */
+  struct timer *between_turns = NULL;
   int save_counter = 0, i;
   bool is_new_turn = game.info.is_new_game;
   bool skip_mapimg = !game.info.is_new_game; /* Do not overwrite start-of-turn image */
@@ -2522,6 +2524,7 @@ static void srv_running(void)
         } conn_list_iterate_end;
         need_send_pending_events = FALSE;
       }
+
       is_new_turn = TRUE;
 
       force_end_of_sniff = FALSE;
@@ -2568,9 +2571,18 @@ static void srv_running(void)
 
       log_debug("sniffingpackets");
       check_for_full_turn_done(); /* HACK: don't wait during AI phases */
+
+      if (between_turns != NULL) {
+        game.server.turn_change_time = timer_read_seconds(between_turns);
+        log_debug("Inresponsive between turns %g seconds", game.server.turn_change_time);
+      }
+      
       while (server_sniff_all_input() == S_E_OTHERWISE) {
         /* nothing */
       }
+
+      between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE);
+      timer_start(between_turns);
 
       /* After sniff, re-zero the timer: (read-out above on next loop) */
       timer_clear(eot_timer);
@@ -3011,6 +3023,8 @@ void server_game_init(void)
   /* game_init() set game.server.plr_colors to NULL. So we need to
    * initialize the colors after. */
   playercolor_init();
+
+  game.server.turn_change_time = 0;
 }
 
 /**************************************************************************
