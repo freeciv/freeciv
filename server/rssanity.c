@@ -669,16 +669,6 @@ bool sanity_check_ruleset_data(void)
                     utype_rule_name(putype));
       ok = FALSE;
     }
-
-    /* The ability to bombard requires a bombard_rate. */
-    if (utype_can_do_action(putype, ACTION_BOMBARD)
-        && putype->bombard_rate <= 0) {
-      ruleset_error(LOG_ERROR,
-                    "The unit type '%s' can do the 'Bombard' action"
-                    " but no bombard_rate is set.",
-                    utype_rule_name(putype));
-      ok = FALSE;
-    }
   } unit_type_iterate_end;
 
   /* Check requirement sets against conflicting requirements.
