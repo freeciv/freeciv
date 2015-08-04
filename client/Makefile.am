@@ -37,9 +37,6 @@ desktopfile_DATA += \
 appdatafile_DATA += \
 	freeciv-gtk3.appdata.xml
 endif
-if CLIENT_GUI_XAW
-GUI_SUBDIRS += gui-xaw
-endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
@@ -247,21 +244,6 @@ freeciv_sdl2_LDADD = \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_sdl2_libs)
-endif
-
-if CLIENT_GUI_XAW
-bin_PROGRAMS += freeciv-xaw
-noinst_LTLIBRARIES += libfcgui-xaw.la
-libfcgui_xaw_la_SOURCES = $(freeciv_client_src)
-libfcgui_xaw_la_LIBADD = gui-xaw/libgui-xaw.la $(clientlibs)
-freeciv_xaw_SOURCES = dummy.c
-freeciv_xaw_LDFLAGS = $(gui_xaw_ldflags)
-freeciv_xaw_LDADD = \
- libfcgui-xaw.la \
- $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_xaw_libs)
 endif
 
 if CLIENT_GUI_QT

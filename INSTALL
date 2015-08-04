@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 29-Apr-15.
+Last minor update was 31-Jul-15.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -16,8 +16,7 @@ This document contains sections and subsections as follows:
           1b. Prerequisites for the Gtk3 client:
           1c. Prerequisites for the SDL client:
           1d. Prerequisites for the SDL2 client:
-          1e. Prerequisites for the Xaw client:
-          1f. Prerequisites for the Qt client:
+          1e. Prerequisites for the Qt client:
      2. Generating Makefiles
           2a. Generating the Makefile for svn versions:
           2b. Generating the Makefile for release versions:
@@ -110,7 +109,6 @@ contains the generated files.
 The Freeciv client comes in the following forms:
 * Gtk+ 2.0 widget library ("Gtk+ 2.0").
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
-* X Athena Widgets library ("Xaw").
 * SDL
 * Qt
 
@@ -341,78 +339,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    http://download.savannah.gnu.org/releases/freetype/freetype-2.5.4.tar.bz2
 
-1e. Prerequisites for the Xaw client:
-=====================================
-
- - X-Windows.
-
-   The Freeciv Xaw client is an X-Windows program, so you'll need 
-   some way of running X-Windows programs.  (Most Unixes can...)
-
-   If the Freeciv configuration program can't find X Windows on
-   your system, you may need to use the --x-includes=DIR
-   and --x-libraries=DIR options.
-
- - The "Athena" widget library.
-
-   This library (also known as "Xaw") is usually supplied standard
-   with the rest of X Windows, but some platforms (HP-UX 10 for
-   example) only provide it in a limited form.
-
-   To compile the client using the "Xaw" library add "--enable-client=xaw"
-   to the Freeciv configure script.  See the section below for more 
-   information about the configure script.
-
-   Many modern Unix systems (such as Linux) ship with a variant called
-   "Xaw3d", which has a more modern "3D" look.  If you'd like to try
-   compiling with Xaw3d, then add "--with-xaw3d" to the Freeciv
-   configure script.
-
-   There are also other variants of Xaw, such as Nextaw.  Freeciv
-   does not work with these, although it should be possible to modify
-   it in the same fashion as for Xaw3d.  Another tool which may help
-   is called "xaw_wrappers", although how to use it is beyond the
-   scope of this file.
-
- - The "Xpm" library.
-
-   This library is essential for icon and bitmap handling.  It is in
-   wide use, and is supplied standard on most modern Unix machines,
-   although it may be missing on traditional or older Unixes, eg,
-   Solaris.
-
-   When you run the Freeciv configure script, it may be necessary for
-   you to use the "--with-xpm-prefix=DIR" command-line option, where
-   DIR is the name of the directory containing the "include" and "lib"
-   subdirectories where Xpm may be found.
-
-   If the Freeciv configure process tells you that you don't have the
-   Xpm library installed, then it may be obtained from here:
-
-     ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
-     ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
-
-   Install it as you would any other package.  If you can't install
-   it in a standard system directory, then use the --with-xpm-prefix
-   option, as described above.
-
-   If you have problems installing libXpm on Solaris, or don't want to
-   install it as root, see Reinier's libXpm Solaris Installation Notes
-   section near the end of this file.
-
- - A suitable font.
-
-   To run the Xaw client a suitable font is required. The X fonts should do.
-   If the Xaw client complains about not being able to open a font your X
-   installation probably don't have them. X fonts can be obtained from:
-
-     http://xorg.freedesktop.org/releases/individual/font/
-
-   If you use Debian you can install the package named xfonts-base in stead.
-   After installing a suitable font and restarting X the problem should go
-   away.
-
-1f. Prerequisites for the Qt client:
+1e. Prerequisites for the Qt client:
 ====================================
 
  - C++ compiler.
@@ -465,7 +392,7 @@ script, try the --help option, like this:
 
 By default the configure script will choose the Gtk+ client if the 
 required libraries are found. If you prefer to override this default,
-you can give configure the "--enable-client=xaw" option.
+you can give configure the "--enable-client=sdl2" option.
 
 If you want to change the compiler options, set the CFLAGS environment
 variable in your shell before running "configure".  For example:
@@ -490,13 +417,6 @@ If for some reason using "configure" gives you trouble, follow these steps:
 
   - Read the prerequisites section carefully, to determine if your
     system meets all the requirements.
-
-  - If you are compiling the Xaw version of the client: Ensure that
-    you have both the Xpm and Xaw libraries installed on your system.
-    Make sure that the configure script can find them, either by
-    installing them in the standard places on your system, or by
-    instructing the configure script with the appropriate command-line
-    options.  (See ./configure --help).
 
   - If the problem is with "gettext", please read the Native Language
     Support section, below, for possible work-arounds.
@@ -572,11 +492,6 @@ For example:
 Also, note that you generally must install Freeciv if you wish to use
 its Native Language Support.  See the README file for more information.
 
-Finally, if you've chosen to use the Xaw client and you have permission
-to log in as the 'root' user, you should consider copying the resource
-file data/Freeciv into your app-defaults directory. (Usually this is
-/usr/lib/X11/app-defaults).
-
 
 5. Native Language Support:
 ===========================
@@ -637,29 +552,13 @@ a reminder to the folks who distribute readline. :)
 Solaris (2.5 and up) has its own version of X in /usr/openwin, its own
 version of make in /usr/ccs/bin/make, and its own compiler (to be purchased
 separately) which, if you have it, is available in /opt/SUNWspro/bin.
-Solaris does not provide the XPM library, which is required for the Xaw
-client; it doesn't provide any of the stuff required for imlib, gdk and gtk,
+Solaris does not provide any of the stuff required for imlib, gdk and gtk,
 either, which is required to build the GTK+ client.  However, with some
 patience, everything can be compiled without problems.
-
-For information on how to install XPM on Solaris, see the next section.
-
-Many Solaris installations also have MIT X (usually, in /usr/X11), GNU make,
-the gcc compiler, and the XPM library installed somewhere.  The standard
-command "./configure && make" may not be able to find your XPM library and
-it is likely to confuse the different versions.
 
 Make sure your environment variables, especially $PATH and $LD_LIBRARY_PATH,
 and the ./configure options do not point to an inconsistent set of software,
 and compiling will be fine.
-
-A simple recipe to compile with Sun X, Sun make and Sun cc, assuming the xpm
-libraries are on their own in the nonstandard location /path/to/xpm:
-
-  % setenv PATH /opt/SUNWspro/bin:/usr/ccs/bin:/bin
-  % unsetenv LD_LIBRARY_PATH
-  % ./configure --with-xpm-prefix=/path/to/xpm
-  % make
 
 You can set up your $PATH and ./configure to use only GNU
 tools.  Furthermore, Freeciv is known to compile with MIT X, and with
@@ -750,15 +649,6 @@ To compile freeciv on a debian system you need the following packages:
    libreadline4-dev
    zlib1g-dev
    xlib6g-dev
-
- For the xaw client:
-   xaw3dg-dev
-   libxpm4-dev
-
-If you want to compile the xaw client you should give configure the
-argument --with-xaw3d, ie
-
-  % ./configure --with-xaw3d
 
 If you need to run aclocal (if you don't know what aclocal is then you
 don't need it) you also need to install imlib-dev to get the

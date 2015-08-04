@@ -281,7 +281,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/sdl2/xaw/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/sdl2/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -298,7 +298,6 @@ gui_gtk2=no
 gui_gtk3=no
 gui_sdl=no
 gui_sdl2=no
-gui_xaw=no
 gui_qt=no
 gui_stub=no
 
@@ -332,20 +331,6 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
     client=yes
   fi
 done
-
-AC_ARG_WITH([xaw],
-  AS_HELP_STRING([--with-xaw], [use the Xaw widget set for the xaw client]),
-WITH_XAW=1
-)
-
-AC_ARG_WITH([xaw3d],
-  AS_HELP_STRING([--with-xaw3d], [use the Xaw3d widget set for the xaw client]),
-WITH_XAW3D=1
-)
-
-if test "x$WITH_XAW" != "x" && test "x$WITH_XAW3D" != "x" ; then
-  AC_MSG_ERROR(Cannot use both --with-xaw and --with-xaw3d at the same time)
-fi
 
 AC_ARG_ENABLE([svnrev],
   AS_HELP_STRING([--enable-svnrev], [get svn revision to version information]),
@@ -791,16 +776,6 @@ if test "x$client" != "xno"; then
   dnl Client gui checks need to know which mixer version this has selected
   FC_CHECK_SOUND()
 
-  dnl if specified --with-xaw or --with-xaw3d, assume --enable-client=xaw
-  if test -n "$WITH_XAW" || test -n "$WITH_XAW3D"; then
-    if test "x$client" = "xauto" ; then
-      gui_xaw=yes
-      client=yes
-    elif test "x$client" = "xall" ; then
-      gui_xaw=yes
-    fi
-  fi
-
   dnl if need to guess client, announce checking
   if test "x$client" = "xauto"; then
     AS_MESSAGE([checking for which client to compile:...])
@@ -823,9 +798,6 @@ if test "x$client" != "xno"; then
   dnl SDL-specific overrides
   FC_SDL_CLIENT
 
-  dnl Xaw-specific overrides
-  FC_XAW_CLIENT
-
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
     gui_stub=yes
@@ -846,7 +818,6 @@ if test "x$client" = "xall" ; then
      test "x$gui_gtk3" = "xyes" ||
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
-     test "x$gui_xaw" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
     client=yes
@@ -1064,9 +1035,6 @@ AC_SUBST([gui_sdl_ldflags])
 AC_SUBST([gui_sdl2_cflags])
 AC_SUBST([gui_sdl2_libs])
 AC_SUBST([gui_sdl2_ldflags])
-AC_SUBST([gui_xaw_cflags])
-AC_SUBST([gui_xaw_libs])
-AC_SUBST([gui_xaw_ldflags])
 AC_SUBST([gui_qt_cppflags])
 AC_SUBST([gui_qt_cflags])
 AC_SUBST([gui_qt_cxxflags])
@@ -1100,7 +1068,6 @@ AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
@@ -1145,14 +1112,6 @@ if test "x$MINGW32" != "xyes"; then
   AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
                    sys/select.h sys/signal.h sys/socket.h sys/termio.h \
                    sys/uio.h termios.h)
-fi
-if test "x$gui_xaw" = "xyes" ; then
-  dnl Want to get appropriate -I flags:
-  fc_save_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS $gui_xaw_cflags"
-  AC_CHECK_HEADER(X11/xpm.h, ,
-    AC_MSG_ERROR(need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
-  CPPFLAGS="$fc_save_CPPFLAGS"
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
@@ -1503,7 +1462,6 @@ AC_CONFIG_FILES([Makefile
           client/gui-sdl2/Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-gtk-3.0/Makefile
-	  client/gui-xaw/Makefile
           client/gui-qt/Makefile
 	  client/gui-stub/Makefile
           client/luascript/Makefile
@@ -1534,7 +1492,6 @@ AC_CONFIG_FILES([Makefile
 	  doc/sv/Makefile
           bootstrap/Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
-	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
           client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
           client/freeciv-sdl.desktop:bootstrap/freeciv-sdl.desktop.in
@@ -1588,9 +1545,6 @@ AC_MSG_NOTICE([
   In-development client frontends:
   (these are not yet ready for general use)
     SDL2:    $gui_sdl2
-
-  Not maintained client frontends:
-    Xaw:     $gui_xaw
 
   == Server ==
   Build freeciv server:  $server

@@ -100,11 +100,6 @@ freeciv-sdl:  This uses Simple DirectMedia Layer libraries version 1.2.
 freeciv-sdl2: This uses Simple DirectMedia Layer libraries version 2.
   This client is going to replace freeciv-sdl in the future.
 
-freeciv-xaw:  This uses the X Window System along with its Athena Widget
-  interface.
-  This client, somewhat minimalistic compared to the others, is currently
-  unmaintained.
-
 
 Starting a game:
 ================
@@ -469,9 +464,8 @@ messages to a file instead of the screen with the "--log filename",
 or "-l filename" command line options.
 
 You can change the level of log messages displayed with "--debug
-level" or "-d level" (or instead "-de level" for the Xaw client, since
-"-d" is ambiguous between "-debug" and "-display"), where "level" is
-0, 1, 2, or 3.  0 means show fatal messages only, 1 means show fatal
+level" or "-d level", where "level" is 0, 1, 2, or 3.
+0 means show fatal messages only, 1 means show fatal
 and error messages, 2 means fatal, error and normal messages (the
 default), and 3 means show all fatal, error, normal, and verbose
 messages.

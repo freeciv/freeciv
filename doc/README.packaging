@@ -25,6 +25,7 @@ Updating from 2.6 to 3.0
 * Support for project definition file added for freeciv forks to define for
   themselves. This has obsoleted old --with-modlist configure option.
   See chapter "Project definition file" below.
+* Xaw-client has been dropped completely
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

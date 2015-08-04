@@ -16,9 +16,6 @@ CLIENT_FILES =				\
 	stdmusic.musicspec		\
 	stdsounds.soundspec		\
 	helpdata.txt
-if CLIENT_GUI_XAW
-CLIENT_FILES += Freeciv
-endif
 if CLIENT_GUI_GTK_2_0
 CLIENT_FILES += \
 	freeciv.rc-2.0	\

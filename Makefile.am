@@ -77,8 +77,6 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\
 		m4/web-client.m4		\
-		m4/xaw-client.m4		\
-		m4/x.m4				\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore

@@ -40,7 +40,7 @@ Here's what to do:
 
    - Describe the problem, including any messages that were displayed.
 
-   - Indicate which client(s) you are using (gtk2, gtk3, SDL, SDL2, Xaw, or Qt).
+   - Indicate which client(s) you are using (gtk2, gtk3, SDL, SDL2, or Qt).
 
    - Tell us the name and version of:
 
@@ -64,11 +64,6 @@ Here's what to do:
        - If you are using the SDL2 client, the version numbers (if you
          know them) of the SDL2, SDL2_image, SDL2_gfx, and SDL2_ttf
          libraries.
-
-       - If you are using the Xaw client, the version numbers (if you
-         know them) of the X libraries, the PNG library, the Z library,
-         and the Xaw library, and particularly whether it is standard
-         Xaw, or a variant such as Xaw3d, Xaw95, or Nextaw.
 
        - If you're compiling from source code, the name
          and version number of the compiler.

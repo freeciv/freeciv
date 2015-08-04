@@ -11,10 +11,10 @@
 .\"
 .TH FREECIV 6 "December 10th 2011"
 .SH NAME
-freeciv-gtk2, freeciv-gtk3, freeciv-sdl, freeciv-sdl2, freeciv-qt, freeciv-xaw \
+freeciv-gtk2, freeciv-gtk3, freeciv-sdl, freeciv-sdl2, freeciv-qt \
 \- The clients for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-gtk2|freeciv-gtk3|freeciv-sdl|freeciv-sdl2|freeciv-qt|freeciv-xaw \
+.B freeciv-gtk2|freeciv-gtk3|freeciv-sdl|freeciv-sdl2|freeciv-qt \
 [ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
@@ -58,12 +58,6 @@ accepts the following parameters following \fB\-\-\fP:
 [ \-h|\-\-help ] \
 [ \-t|\-\-theme \fIstring\fP ]
 
-.B freeciv-xaw
-accepts the standard X11 toolkit parameters following \fB\-\-\fP; see
-.IR X (7)
-\&. It also accepts
-.B [ \-h|\-\-help ]
-
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -83,7 +77,7 @@ can also spawn their own local server for single-player games.
 
 This manual page only lists the command line arguments. For more details
 about using \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-sdl\fP,
-\fBfreeciv-sdl2\fP, \fBfreeciv-qt\fP, or \fBfreeciv-xaw\fP,
+\fBfreeciv-sdl2\fP, or \fBfreeciv-qt\fP,
 see the Client Manual which can be found at
 .UR @WIKI_URL@
 the Freeciv website
