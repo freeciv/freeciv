@@ -2146,6 +2146,9 @@ static void sg_load_game(struct loaddata *loading)
 
   game.info.is_new_game
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
+
+  game.server.turn_change_time
+    = secfile_lookup_int_default(loading->file, 0, "game.last_turn_change_time") / 100;
 }
 
 /****************************************************************************
@@ -2259,10 +2262,14 @@ static void sg_save_game(struct savedata *saving)
 
   if (!game_was_started()) {
     saving->save_players = FALSE;
-  } else if (saving->scenario) {
-    saving->save_players = game.scenario.players;
   } else {
-    saving->save_players = TRUE;
+    if (saving->scenario) {
+      saving->save_players = game.scenario.players;
+    } else {
+      saving->save_players = TRUE;
+    }
+    secfile_insert_int(saving->file, game.server.turn_change_time * 100,
+                       "game.last_turn_change_time");
   }
   secfile_insert_bool(saving->file, saving->save_players,
                       "game.save_players");

@@ -1026,9 +1026,15 @@ bool client_is_observer(void)
 static double seconds_to_turndone = 0.0;
 static struct timer *turndone_timer;
 
+/* The timer tells how long since server informed us about starting
+ * turn-change activities. */
+static struct timer *between_turns = NULL;
+static bool waiting_turn_change = FALSE;
+
 /* This value shows what value the timeout label is currently showing for
  * the seconds-to-turndone. */
 static int seconds_shown_to_turndone;
+static int seconds_shown_to_new_turn;
 
 /**************************************************************************
   Reset the number of seconds to turndone from an "authentic" source.
@@ -1050,6 +1056,35 @@ void set_seconds_to_turndone(double seconds)
 }
 
 /**************************************************************************
+  Are we in turn-change wait state?
+**************************************************************************/
+bool is_waiting_turn_change(void)
+{
+  return waiting_turn_change;
+}
+
+/**************************************************************************
+  Start waiting of the server turn change activities.
+**************************************************************************/
+void start_turn_change_wait(void)
+{
+  seconds_shown_to_new_turn = ceil(game.tinfo.last_turn_change_time) + 0.1;
+  between_turns = timer_renew(between_turns, TIMER_USER, TIMER_ACTIVE);
+  timer_start(between_turns);
+
+  waiting_turn_change = TRUE;
+}
+
+/**************************************************************************
+  Server is responsive again
+**************************************************************************/
+void stop_turn_change_wait(void)
+{
+  waiting_turn_change = FALSE;
+  update_timeout_label();
+}
+
+/**************************************************************************
   Return the number of seconds until turn-done. Don't call this unless
   current_turn_timeout() != 0.
 **************************************************************************/
@@ -1061,6 +1096,15 @@ int get_seconds_to_turndone(void)
     /* This shouldn't happen. */
     return FC_INFINITY;
   }
+}
+
+/**************************************************************************
+  Return the number of seconds until turn-done.  Don't call this unless
+  game.info.timeout != 0.
+**************************************************************************/
+int get_seconds_to_new_turn(void)
+{
+  return seconds_shown_to_new_turn;
 }
 
 /**************************************************************************
@@ -1108,6 +1152,15 @@ double real_timer_callback(void)
 
     time_until_next_call = MIN(time_until_next_call,
 			       seconds - floor(seconds) + 0.001);
+  }
+  if (waiting_turn_change) {
+    double seconds = game.tinfo.last_turn_change_time - timer_read_seconds(between_turns);
+    int iseconds = ceil(seconds) + 0.1; /* Turn should end right on 0. */
+
+    if (iseconds < game.tinfo.last_turn_change_time) {
+      seconds_shown_to_new_turn = iseconds;
+      update_timeout_label();
+    }
   }
 
   /* Make sure we wait at least 50 ms, otherwise we may not give any other
