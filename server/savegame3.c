@@ -5098,7 +5098,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
         struct unit_order *order = &punit->orders.list[j];
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
-            || act_unitstr[j] == '\0' || action_unitstr[j] == '\0') {
+#ifndef FREECIV_DEV_SAVE_COMPAT
+            || action_unitstr[j] == '\0'
+#endif /* FREECIV_DEV_SAVE_COMPAT */
+            || act_unitstr[j] == '\0') {
           log_sg("Invalid unit orders.");
           free_unit_orders(punit);
           break;
@@ -5107,7 +5110,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
 
-        order->action = (action_unitstr[j] == '?'
+        order->action = (
+#ifdef FREECIV_DEV_SAVE_COMPAT
+                         action_unitstr[0] == '\0'
+                         ||
+#endif /* FREECIV_DEV_SAVE_COMPAT */
+                         action_unitstr[j] == '?'
                          ? ACTION_COUNT
                          : char2num(action_unitstr[j]));
 
