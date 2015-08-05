@@ -6342,6 +6342,11 @@ void tileset_ruleset_reset(struct tileset *t)
       t->style_lists[i] = extra_type_list_new();
     }
   }
+
+  if (t->flagged_bases_list != NULL) {
+    extra_type_list_destroy(t->flagged_bases_list);
+    t->flagged_bases_list = extra_type_list_new();
+  }
 }
 
 /****************************************************************************
