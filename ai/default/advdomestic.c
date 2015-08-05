@@ -497,7 +497,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     }
 
     /* Adjust founder want by traits */
-    founder_want *= ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer)
+    founder_want *= (double)ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer)
       / TRAIT_DEFAULT_VALUE;
 
     if (founder_type
