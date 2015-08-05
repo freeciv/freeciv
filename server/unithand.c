@@ -3535,6 +3535,7 @@ void handle_unit_orders(struct player *pplayer,
     case ORDER_PERFORM_ACTION:
       switch ((enum gen_action) packet->action[i]) {
       case ACTION_NUKE:
+      case ACTION_CAPTURE_UNITS:
       case ACTION_BOMBARD:
         break;
       default:
