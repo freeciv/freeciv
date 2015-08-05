@@ -229,6 +229,20 @@ AC_ARG_WITH([appdatadir],
 [ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/appdata" ])
 AC_SUBST([APPDATADIR])
 
+dnl try to support this development version's previous save games formats
+AC_ARG_ENABLE([dev-save-compat],
+  AS_HELP_STRING([--enable-dev-save-compat=yes/no],
+                 [enable development version save game compatibility]),
+  [case "${enableval}" in
+    yes) dev_save_compat=1 ;;
+    no) dev_save_compat=0 ;;
+    *) AC_MSG_ERROR([bad value ${enableval} for --enable-dev-save-compat]) ;;
+  esac],
+  [dev_save_compat=$IS_DEVEL_VERSION])
+AS_IF([test $dev_save_compat != 0],
+      [AC_DEFINE([FREECIV_DEV_SAVE_COMPAT], [1],
+                 [Development version save game compatibility])])
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no
