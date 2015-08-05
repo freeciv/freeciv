@@ -123,8 +123,8 @@ static void cmp_buffers_initial(void)
     cmp_buffer1 = fc_malloc((cmp_buffer_uchars + 1) * sizeof(UChar));
 
     /* Make sure there's zero after the buffer published with cmp_buffer_uchars */
-    memset(cmp_buffer0 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
-    memset(cmp_buffer1 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
+    cmp_buffer0[cmp_buffer_uchars] = 0;
+    cmp_buffer1[cmp_buffer_uchars] = 0;
   }
 }
 
@@ -138,8 +138,8 @@ static void cmp_buffers_increase(void)
   cmp_buffer1 = fc_realloc(cmp_buffer1, (cmp_buffer_uchars + 1) * sizeof(UChar));
 
   /* Make sure there's zero after the buffer published with cmp_buffer_uchars */
-  memset(cmp_buffer0 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
-  memset(cmp_buffer1 + cmp_buffer_uchars * sizeof(UChar), 0, sizeof(UChar));
+  cmp_buffer0[cmp_buffer_uchars] = 0;
+  cmp_buffer1[cmp_buffer_uchars] = 0;
 }
 
 /***************************************************************
