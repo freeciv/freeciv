@@ -618,9 +618,6 @@ int settler_evaluate_improvements(struct unit *punit,
 
                 extra = adv_settlers_road_bonus(ptile, proad) * mc_multiplier / mc_divisor;
 
-                if (removing) {
-                  extra = -extra;
-                }
               } else {
                 extra = 0;
               }
