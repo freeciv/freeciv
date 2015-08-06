@@ -692,7 +692,7 @@ void mr_menu::setup_menus()
 
   /* Work Menu */
   menu = this->addMenu(_("Work"));
-  act = menu->addAction(_("Build City"));
+  act = menu->addAction(action_get_ui_name(ACTION_FOUND_CITY));
   act->setShortcut(QKeySequence(tr("b")));
   menu_list.insertMulti(BUILD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
@@ -743,11 +743,11 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(FALLOUT, act);
   act->setShortcut(QKeySequence(tr("n")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clean_fallout()));
-  act = menu->addAction(_("Help build Wonder"));
+  act = menu->addAction(action_get_ui_name(ACTION_HELP_WONDER));
   act->setShortcut(QKeySequence(tr("b")));
   menu_list.insertMulti(BUILD_WONDER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_city()));
-  act = menu->addAction(_("Establish Trade Route"));
+  act = menu->addAction(action_get_ui_name(ACTION_TRADE_ROUTE));
   act->setShortcut(QKeySequence(tr("r")));
   menu_list.insertMulti(ORDER_TRADEROUTE, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_build_road()));
@@ -1125,8 +1125,6 @@ void mr_menu::menus_sensitive()
       case BUILD:
         if (can_units_do(punits, unit_can_add_or_build_city)) {
           i.value()->setEnabled(true);
-        } else {
-          break;
         }
         if (city_on_tile
             && units_can_do_action(punits, ACTION_JOIN_CITY, true)) {
