@@ -3791,6 +3791,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 {
   struct tile *dst_tile;
   action_probability prob;
+  bool performed;
   bool res, last_order;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -4151,10 +4152,18 @@ bool execute_orders(struct unit *punit, const bool fresh)
       case ATK_CITY:
       case ATK_UNIT:
         log_error("Unsupported action target kind");
-        return TRUE;
+
+        /* Makes the check below abort and cancel the orders */
+        prob = 0;
+
+        break;
       case ATK_COUNT:
         log_error("Invalid action target kind");
-        return TRUE;
+
+        /* Makes the check below abort and cancel the orders */
+        prob = 0;
+
+        break;
       }
 
       if (!action_prob_possible(prob)) {
@@ -4172,12 +4181,31 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
-      handle_unit_do_action(pplayer,
-                            unitid,
-                            dst_tile->index,
-                            0, "", order.action);
+      performed = unit_perform_action(pplayer,
+                                      unitid,
+                                      dst_tile->index,
+                                      0, "", order.action);
 
-      return player_unit_by_number(pplayer, unitid);
+      if (!player_unit_by_number(pplayer, unitid)) {
+        /* The unit "died" while performing the action. */
+        return FALSE;
+      }
+
+      if (!performed) {
+        /* The action wasn't performed as ordered. */
+
+        cancel_orders(punit, "  failed action");
+        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+                      _("Orders for %s aborted because "
+                        "doing %s to %s failed."),
+                      unit_link(punit),
+                      action_get_ui_name(order.action),
+                      tile_link(dst_tile));
+
+        return TRUE;
+      }
+
+      break;
     case ORDER_LAST:
       cancel_orders(punit, "  client sent invalid order!");
       notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
