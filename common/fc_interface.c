@@ -73,5 +73,6 @@ void free_libfreeciv(void)
   free_data_dir_names();
   free_multicast_group();
   free_user_home_dir();
+  free_fileinfo_data();
   cmp_buffers_free();
 }
