@@ -1887,9 +1887,11 @@ int city_granary_size(int city_size)
 }
 
 /****************************************************************************
-  Give base number of content citizens in any city owner by pplayer.
+  Give base happiness in any city owned by pplayer.
+  A positive number is a number of content citizens. A negative number is
+  a number of angry citizens (a city never starts with both).
 ****************************************************************************/
-citizens player_content_citizens(const struct player *pplayer)
+static int player_base_citizen_happiness(const struct player *pplayer)
 {
   int cities = city_list_size(pplayer->cities);
   int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
@@ -1898,7 +1900,7 @@ citizens player_content_citizens(const struct player *pplayer)
 
   if (basis + step <= 0) {
     /* Value of zero means effect is inactive */
-    return CLIP(0, content, MAX_CITY_SIZE);
+    return content;
   }
 
   if (cities > basis) {
@@ -1909,7 +1911,33 @@ citizens player_content_citizens(const struct player *pplayer)
       content -= (cities - basis - 1) / step;
     }
   }
+  return content;
+}
+
+/****************************************************************************
+  Give base number of content citizens in any city owned by pplayer.
+****************************************************************************/
+citizens player_content_citizens(const struct player *pplayer)
+{
+  int content = player_base_citizen_happiness(pplayer);
+
   return CLIP(0, content, MAX_CITY_SIZE);
+}
+
+/****************************************************************************
+  Give base number of angry citizens in any city owned by pplayer.
+****************************************************************************/
+citizens player_angry_citizens(const struct player *pplayer)
+{
+  if (!game.info.angrycitizen) {
+    return 0;
+  } else {
+    /* Create angry citizens only if we have a negative number of possible
+     * content citizens. This can happen when empires grow really big. */
+    int content = player_base_citizen_happiness(pplayer);
+
+    return CLIP(0, -content, MAX_CITY_SIZE);
+  }
 }
 
 /**************************************************************************
@@ -2148,22 +2176,21 @@ static void citizen_base_mood(struct city *pcity)
    * on empire size and game's city unhappysize. This may be bigger than
    * the size of the city, since this is a potential. */
   citizens base_content = player_content_citizens(pplayer);
+  /* Similarly, this is the potential number of angry citizens. */
+  citizens base_angry = player_angry_citizens(pplayer);
 
   /* Create content citizens. Take specialists from their ranks. */
   *content = MAX(0, MIN(size, base_content) - specialists);
 
-  /* Create angry citizens only if we have a negative number of possible
-   * content citizens. This happens when empires grow really big. */
-  if (game.info.angrycitizen == FALSE) {
-    *angry = 0;
-  } else {
-    *angry = MIN(MAX(0, -base_content), size - specialists);
-  }
+  /* Create angry citizens. Specialists never become angry. */
+  fc_assert_action(base_content == 0 || base_angry == 0, *content = 0);
+  *angry = MIN(base_angry, size - specialists);
 
   /* Create unhappy citizens. In the beginning, all who are not content,
    * specialists or angry are unhappy. This is changed by luxuries and 
    * buildings later. */
   *unhappy = (size - specialists - *content - *angry);
+  fc_assert_action(*unhappy >= 0, *unhappy = 0);
 
   /* No one is born happy. */
   *happy = 0;

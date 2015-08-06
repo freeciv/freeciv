@@ -755,8 +755,17 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
 
   /* if this solution is not content, we have an estimate on min. luxuries */
   if (disorder) {
-    /* we have to consider the influence of specialists making one unhappy 
-       citizen content (because all other citizens are already unhappy) */
+    /* We have to consider the influence of each specialist in this
+       solution possibly 'hiding' a potential unhappy citizen who
+       could require luxuries.
+       Since we know the city is in disorder, we can discount most
+       effects that make citizens content, since they clearly weren't
+       sufficient.
+       This may not be sufficient luxury to make the city content (due
+       to military unhappiness etc), but certainly no less will do.
+       (Specialists may also be making angry citizens content, requiring
+       additional luxuries, but we don't try to consider that here; this
+       just means we might explore some solutions unnecessarily.) */
     state->min_luxury = surplus[O_LUXURY] 
        + game.info.happy_cost*MAX( city_specialists(pcity) - player_content_citizens(city_owner(pcity)), 0)
        + 1;
@@ -1619,9 +1628,16 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
     }
   } output_type_iterate_end;
  
- /* if we don't get the city content, we assume using every idle worker 
-     as specialist and the maximum producible luxury already computed 
-     see also evaluate_solution, where min_luxury is set */
+  /* If we don't get the city content, we assume using every idle worker 
+     as specialist and the maximum producible luxury already computed.
+     If this is less than the amount of luxury we calculated in
+     evaluate_solution() (where min_luxury is set), when we observed the
+     city in disorder, then this is clearly not worth pursuing.
+     (Since we're comparing to evaluate_solution()'s calculation, we
+     don't need to take effects, angry citizens etc into account here
+     either.)
+     FIXME: this heuristic will break in rulesets where specialists can
+     influence happiness other than by direct production of luxury. */
   int max_luxury = production[O_LUXURY]
         + game.info.happy_cost*MAX( specialists_in_solution(state, &state->current) + state->current.idle - player_content_citizens(city_owner(state->pcity)), 0);
  
