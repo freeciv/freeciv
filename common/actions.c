@@ -289,6 +289,28 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
   /* Text representation of the probability. */
   const char* probtxt;
 
+  if (actions[action_id] == NULL) {
+    /* Could be a client who haven't gotten the ruleset yet */
+
+    /* so there shouldn't be any action probability to show */
+    fc_assert(prob == ACTPROB_NA);
+
+    /* but the action should be valid */
+    fc_assert_ret_val_msg(gen_action_is_valid(action_id),
+                          "Invalid action",
+                          "Invalid action %d", action_id);
+
+    /* and no custom text will be insterted */
+    fc_assert(custom == NULL || custom[0] == '\0');
+
+    /* Make the best of what is known */
+    astr_set(&str, _("%s%s (name may be wrong)"),
+             mnemonic, gen_action_name(action_id));
+
+    /* Return the guess. */
+    return astr_str(&str);
+  }
+
   /* How to interpret action probabilities like prob is documented in
    * actions.h */
   switch (prob) {
