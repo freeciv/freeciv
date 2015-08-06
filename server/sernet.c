@@ -255,6 +255,9 @@ void close_connections_and_socket(void)
   if (history_file) {
     write_history(history_file);
     history_truncate_file(history_file, HISTORY_LENGTH);
+    free(history_file);
+    history_file = NULL;
+    clear_history();
   }
 #endif
 
