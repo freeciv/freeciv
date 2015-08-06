@@ -257,6 +257,9 @@ void close_connections_and_socket(void)
   if (history_file) {
     write_history(history_file);
     history_truncate_file(history_file, HISTORY_LENGTH);
+    free(history_file);
+    history_file = NULL;
+    clear_history();
   }
 #endif
 
@@ -506,7 +509,7 @@ enum server_events server_sniff_all_input(void)
 
         if (fc_dir != NULL) {
           fc_snprintf(fc_dir, fcdl, "%s/.freeciv", home_dir);
-          
+
           if (make_dir(fc_dir)) {
             history_file
               = fc_malloc(strlen(fc_dir) + 1 + strlen(HISTORY_FILENAME) + 1);
