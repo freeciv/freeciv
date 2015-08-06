@@ -422,7 +422,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Explode Nuclear */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Explode Nuclear"), "Shift+N");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)",
+              action_get_ui_name(ACTION_NUKE), "Shift+N");
   pBuf = create_themeicon(pTheme->ONuke_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);

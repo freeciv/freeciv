@@ -1718,7 +1718,7 @@ static GtkActionGroup *get_unit_group(void)
        "<Shift>p", NULL, G_CALLBACK(do_pillage_callback)},
       {"DIPLOMAT_ACTION", NULL, _("_Diplomat/Spy Actions"),
        "d", NULL, G_CALLBACK(diplomat_action_callback)},
-      {"EXPLODE_NUKE", NULL, _("Explode _Nuclear"),
+      {"EXPLODE_NUKE", NULL, action_get_ui_name(ACTION_NUKE),
        "<Shift>n", NULL, G_CALLBACK(explode_nuke_callback)},
     };
 
