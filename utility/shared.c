@@ -119,6 +119,8 @@ static struct strvec *scenario_dir_names = NULL;
 static char *mc_group = NULL;
 static char *home_dir = NULL;
 
+static struct astring realfile = ASTRING_INIT;
+
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
 
@@ -1215,11 +1217,11 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
   read-opened.)  The returned pointer points to static memory, so this
   function can only supply one filename at a time.  Don't free that
   pointer.
+
+  TODO: Make this re-entrant
 ***************************************************************************/
 const char *fileinfoname(const struct strvec *dirs, const char *filename)
 {
-  static struct astring realfile = ASTRING_INIT;
-
   if (NULL == dirs) {
     return NULL;
   }
@@ -1236,6 +1238,7 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
         astr_add(&realfile, "%s", dirname);
       }
     } strvec_iterate_end;
+
     return astr_str(&realfile);
   }
 
@@ -1249,7 +1252,16 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
   } strvec_iterate_end;
 
   log_verbose("Could not find readable file \"%s\" in data path.", filename);
+
   return NULL;
+}
+
+/**************************************************************************
+  Free resources allocated for fileinfoname service
+**************************************************************************/
+void free_fileinfo_data(void)
+{
+  astr_free(&realfile);
 }
 
 /**************************************************************************
