@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 19:37+0300\n"
-"PO-Revision-Date: 2015-08-04 19:47+0300\n"
+"POT-Creation-Date: 2015-08-06 19:14+0300\n"
+"PO-Revision-Date: 2015-08-06 21:08+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -528,12 +528,12 @@ msgstr "Asenna SDL_mixer saadaksesi äänet toimimaan."
 
 #: client/audio.c:214
 msgid "To get sound you need to download a sound set!"
-msgstr "Sinun pitää hakea äänisetti saadaksesi äänet toimimaan!"
+msgstr "Sinun pitää hakea äänikokoelma saadaksesi äänet toimimaan!"
 
 #: client/audio.c:215
 #, c-format
 msgid "Get sound sets from <%s>."
-msgstr "Äänisettejä löytyy osoitteesta <%s>."
+msgstr "Äänikokoelmia löytyy osoitteesta <%s>."
 
 #: client/audio.c:222
 #, c-format
@@ -541,7 +541,7 @@ msgid ""
 "Could not load sound spec-file '%s':\n"
 "%s"
 msgstr ""
-"Ääniasetustiedoston '%s' lataaminen epäonnistui:\n"
+"Äänikokoelman määritystiedoston '%s' lataaminen epäonnistui:\n"
 "%s"
 
 #: client/audio.c:262
@@ -1467,7 +1467,7 @@ msgstr "Yhteys palvelimeen katkesi."
 msgid "server disconnected"
 msgstr "yhteys katkesi"
 
-#: client/clinet.c:430 client/clinet.c:479 server/sernet.c:853
+#: client/clinet.c:430 client/clinet.c:479 server/sernet.c:856
 msgid "read error"
 msgstr "yhteysvirhe"
 
@@ -1534,28 +1534,28 @@ msgstr ""
 "Palvelimen hallintaan ottamiseen tarvittavan komentotason saaminen "
 "epäonnistui. Yritän sulkea palvelimen."
 
-#: client/control.c:1315
+#: client/control.c:1317
 msgid "Only transporter units can be unloaded."
 msgstr "Vain kuljetusyksiköt pystyvät purkamaan lastinsa."
 
-#: client/control.c:1680
+#: client/control.c:1682
 msgid "Only settler units can be put into auto mode."
 msgstr "Vain uudisraivaajat voidaan automatisoida."
 
-#: client/control.c:1761
+#: client/control.c:1763
 msgid "Only nuclear units can do this."
 msgstr "Vain ydinaseet pystyvät tähän."
 
-#: client/control.c:1804
+#: client/control.c:1806
 msgid "Only paratrooper units can do this."
 msgstr "Vain laskuvarjojääkärit pystyvät tähän."
 
-#: client/control.c:2598 client/control.c:2673 client/control.c:2695
-#: client/control.c:2712
+#: client/control.c:2600 client/control.c:2675 client/control.c:2697
+#: client/control.c:2714
 msgid "Didn't find a route to the destination!"
 msgstr "Kohteeseen ei löytynyt käyttökelpoista reittiä!"
 
-#: client/control.c:2760
+#: client/control.c:2762
 msgid "Oh my! You seem to have no capital!"
 msgstr "Katsohan mokomaa, sinulla ei näköjään ole pääkaupunkia!"
 
@@ -13615,11 +13615,11 @@ msgstr "?vanhentunut:V"
 msgid "?redundant:*"
 msgstr "*"
 
-#: common/connection.c:195 server/sernet.c:388 server/sernet.c:761
+#: common/connection.c:195 server/sernet.c:391 server/sernet.c:764
 msgid "network exception"
 msgstr "yhteysvirhe"
 
-#: common/connection.c:209 server/sernet.c:334
+#: common/connection.c:209 server/sernet.c:337
 msgid "lagging connection"
 msgstr "pykivä yhteys"
 
@@ -24210,7 +24210,7 @@ msgid "Popup City"
 msgstr "Näytä kaupungin tiedot"
 
 #. TRANS: Game state for local server
-#: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1513
+#: data/Freeciv.in:3381 data/Freeciv.in:3382 server/sernet.c:1516
 msgid "Pregame"
 msgstr "Pelin valmistelu"
 
@@ -35080,7 +35080,7 @@ msgstr "Sääntökokoelmaa ei voitu ladata. Palataan oletuskokoelmaan."
 
 #: server/ruleset.c:6082
 msgid "Loading rulesets."
-msgstr "Lataan sääntökokoelmaa"
+msgstr "Lataan sääntökokoelmaa."
 
 #. TRANS: Minor error message.
 #: server/savegame2.c:300 server/savegame.c:192
@@ -35157,56 +35157,56 @@ msgstr ""
 "Palvelin ei saa luettua STDIN:iä. Sen kautta tulevat komennot jätetään "
 "huomiotta."
 
-#: server/sernet.c:463
+#: server/sernet.c:466
 msgid "rejected"
 msgstr "hylätty"
 
-#: server/sernet.c:549
+#: server/sernet.c:552
 msgid "Shutting down for lack of players."
 msgstr "Sammutetaan pelaajapulan vuoksi."
 
-#: server/sernet.c:552
+#: server/sernet.c:555
 msgid "Restarting for lack of players."
 msgstr "Käynnistetään uudelleen pelaajapulan vuoksi."
 
-#: server/sernet.c:572
+#: server/sernet.c:575
 #, c-format
 msgid "Shutting down in %d seconds for lack of players."
 msgstr "Sammutetaan %d sekunnin päästä pelaajapulan vuoksi."
 
-#: server/sernet.c:575
+#: server/sernet.c:578
 msgid "shutting down soon for lack of players"
 msgstr "Sammutetaan pian pelaajapulan vuoksi"
 
-#: server/sernet.c:577
+#: server/sernet.c:580
 #, c-format
 msgid "Restarting in %d seconds for lack of players."
 msgstr "Käynnistetään %d sekunnin päästä uudelleen pelaajapulan vuoksi"
 
-#: server/sernet.c:580
+#: server/sernet.c:583
 msgid "restarting soon for lack of players"
 msgstr "Käynnistetään pian uudelleen pelaajapulan vuoksi"
 
-#: server/sernet.c:608
+#: server/sernet.c:611
 msgid "ping timeout"
 msgstr "asiakasohjelma ei vastaa pingiin"
 
-#: server/sernet.c:850
+#: server/sernet.c:853
 msgid "client disconnected"
 msgstr "asiakasohjelma purki yhteyden"
 
-#: server/sernet.c:1091
+#: server/sernet.c:1094
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Palvelin: osoite <%s:%d> ei kelpaa."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1517
+#: server/sernet.c:1520
 msgid "Running"
 msgstr "Käynnissä"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1521 server/settings.c:301
+#: server/sernet.c:1524 server/settings.c:301
 msgid "Game over"
 msgstr "Peli loppui"
 
