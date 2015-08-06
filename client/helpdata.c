@@ -5073,20 +5073,18 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_EMPIRE_SIZE_BASE:
         if (playerwide) {
           cat_snprintf(buf, bufsz,
-                       /* TRANS: %d should always be greater than 2. */
-                       PL_("* When you have %d city, the first unhappy "
-                           "citizen will appear in each city due to "
-                           "civilization size.\n",
-                           "* When you have %d cities, the first unhappy "
-                           "citizen will appear in each city due to "
-                           "civilization size.\n", net_value),
+                       PL_("* You can have %d city before an "
+                           "additional unhappy citizen appears in each city "
+                           "due to civilization size.\n",
+                           "* You can have up to %d cities before an "
+                           "additional unhappy citizen appears in each city "
+                           "due to civilization size.\n", net_value),
                        net_value);
         }
         break;
       case EFT_EMPIRE_SIZE_STEP:
         if (playerwide) {
           cat_snprintf(buf, bufsz,
-                       /* TRANS: %d should always be greater than 2. */
                        PL_("* After the first unhappy citizen due to"
                            " civilization size, for each %d additional city"
                            " another unhappy citizen will appear.\n",

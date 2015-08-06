@@ -1723,37 +1723,115 @@ const char *text_happiness_cities(const struct city *pcity)
     /* Special case where penalty is disabled; see
      * player_content_citizens(). */
     astr_add_line(&str,
-                  _("Cities: %d total, but no penalty for empire size."),
-                cities);
+                  PL_("Cities: %d total, but no penalty for empire size.",
+                      "Cities: %d total, but no penalty for empire size.",
+                      cities),
+                  cities);
+    astr_add_line(&str,
+                  /* TRANS: %d is number of citizens */
+                  PL_("%d content per city.",
+                      "%d content per city.", content),
+                  content);
   } else {
-    int excess = cities - basis;
-    int penalty = 0;
+    /* Can have up to and including 'basis' cities without penalty */
+    int excess = MAX(cities - basis, 0);
+    int penalty;
+    int unhappy, angry;
+    int last, next;
 
     if (excess > 0) {
-      if (step > 0)
+      if (step > 0) {
         penalty = 1 + (excess - 1) / step;
-      else
+      } else {
         penalty = 1;
+      }
     } else {
-      excess = 0;
       penalty = 0;
     }
 
+    unhappy = MIN(penalty, content);
+    angry = game.info.angrycitizen ? MAX(penalty-content, 0) : 0;
+    if (penalty >= 1) {
+      /* 'last' is when last actual malcontent appeared, will saturate
+       * if no angry citizens */
+      last = basis + (unhappy+angry-1)*step;
+      if (!game.info.angrycitizen && unhappy == content) {
+        /* Maxed out unhappy citizens, so no more penalties */
+        next = 0;
+      } else {
+        /* Angry citizens can continue appearing indefinitely */
+        next = last + step;
+      }
+    } else {
+      last = 0;
+      next = basis;
+    }
+
     astr_add_line(&str,
-                  _("Cities: %d total, %d over threshold of %d cities."),
-                cities, excess, basis);
-    astr_add_line(&str,
-                  /* TRANS: 0-21 content [citizen(s)] ... */
-                  PL_("%d content before penalty.",
-                      "%d content before penalty.",
-                      content),
-                  content);
-    astr_add_line(&str,
-                  /* TRANS: 0-21 unhappy citizen(s). */
-                  PL_("%d additional unhappy citizen.",
-                      "%d additional unhappy citizens.",
-                      penalty),
-                  penalty);
+                  /* TRANS: sentence fragment, will have text appended */
+                  PL_("Cities: %d total:",
+                      "Cities: %d total:", cities),
+                  cities);
+    if (excess > 0) {
+      astr_add(&str,
+               /* TRANS: appended to "Cities: %d total:"; preserve leading
+                * space. Pluralized in "nearest threshold of %d cities". */
+               PL_(" %d over nearest threshold of %d city.",
+                   " %d over nearest threshold of %d cities.", last),
+               cities - last, last);
+      astr_add_line(&str,
+                    /* TRANS: Number of content [citizen(s)] ... */
+                    PL_("%d content before penalty.",
+                        "%d content before penalty.", content),
+                    content);
+      astr_add_line(&str,
+                    PL_("%d additional unhappy citizen.",
+                        "%d additional unhappy citizens.", unhappy),
+                    unhappy);
+      if (angry > 0) {
+        astr_add_line(&str,
+                      PL_("%d angry citizen.",
+                          "%d angry citizens.", angry),
+                      angry);
+      }
+    } else {
+      astr_add(&str,
+               /* TRANS: appended to "Cities: %d total:"; preserve leading
+                * space. */
+               PL_(" not more than %d, so no empire size penalty.",
+                   " not more than %d, so no empire size penalty.", next),
+               next);
+      astr_add_line(&str,
+                    /* TRANS: %d is number of citizens */
+                    PL_("%d content per city.",
+                        "%d content per city.", content),
+                    content);
+    }
+    if (next >= cities && penalty < content) {
+      astr_add_line(&str,
+                    PL_("With %d more city, another citizen will become "
+                        "unhappy.",
+                        "With %d more cities, another citizen will become "
+                        "unhappy.",
+                        next + 1 - cities),
+                    next + 1 - cities);
+    } else if (next >= cities) {
+      /* We maxed out the number of unhappy citizens, but they can get
+       * angry instead. */
+      fc_assert(game.info.angrycitizen);
+      astr_add_line(&str,
+                    PL_("With %d more city, another citizen will become "
+                        "angry.",
+                        "With %d more cities, another citizen will become "
+                        "angry.",
+                        next + 1 - cities),
+                    next + 1 - cities);
+    } else {
+      /* Either no Empire_Size_Step, or we maxed out on unhappy citizens
+       * and ruleset doesn't allow angry ones. */
+      astr_add_line(&str,
+                    _("More cities will not cause more unhappy citizens."));
+    }
   }
 
   return astr_str(&str);
