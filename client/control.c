@@ -785,7 +785,8 @@ double blink_turn_done_button(void)
 
   if (NULL != client.conn.playing
       && client.conn.playing->is_alive
-      && !client.conn.playing->phase_done) {
+      && !client.conn.playing->phase_done
+      && is_player_phase(client.conn.playing, game.info.phase)) {
     if (!blink_timer || timer_read_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;
       bool blocking_mode;
@@ -799,7 +800,8 @@ double blink_turn_done_button(void)
       }
 
       players_iterate_alive(pplayer) {
-        if (pplayer->is_connected || blocking_mode) {
+        if ((pplayer->is_connected || blocking_mode)
+            && is_player_phase(pplayer, game.info.phase)) {
           if (pplayer->phase_done) {
             is_waiting++;
           } else {
