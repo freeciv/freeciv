@@ -1012,6 +1012,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   bool had_great_wonders = FALSE;
   const citizens old_taker_content_citizens = player_content_citizens(ptaker);
   const citizens old_giver_content_citizens = player_content_citizens(pgiver);
+  const citizens old_taker_angry_citizens = player_angry_citizens(ptaker);
+  const citizens old_giver_angry_citizens = player_angry_citizens(pgiver);
   bool taker_had_no_cities = (city_list_size(ptaker->cities) == 0);
   bool new_extras;
   const int units_num = unit_list_size(pcenter->units);
@@ -1287,10 +1289,12 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   /* We may cross the EFT_EMPIRE_SIZE_* effects, then we will have to
    * refresh all cities for the player. */
-  if (old_taker_content_citizens != player_content_citizens(ptaker)) {
+  if (old_taker_content_citizens != player_content_citizens(ptaker)
+      || old_taker_angry_citizens != player_angry_citizens(ptaker)) {
     city_refresh_for_player(ptaker);
   }
-  if (old_giver_content_citizens != player_content_citizens(pgiver)) {
+  if (old_giver_content_citizens != player_content_citizens(pgiver)
+      || old_giver_angry_citizens != player_angry_citizens(pgiver)) {
     city_refresh_for_player(pgiver);
   }
 
@@ -1393,6 +1397,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct city *pwork = tile_worked(ptile);
   struct city *pcity;
   const citizens old_content_citizens = player_content_citizens(pplayer);
+  const citizens old_angry_citizens = player_angry_citizens(pplayer);
 
   log_debug("create_city() %s", name);
 
@@ -1492,7 +1497,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   update_tile_knowledge(ptile);
 
-  if (old_content_citizens != player_content_citizens(pplayer)) {
+  if (old_content_citizens != player_content_citizens(pplayer)
+      || old_angry_citizens != player_angry_citizens(pplayer)) {
     /* We crossed the EFT_EMPIRE_SIZE_* effects, we have to refresh all
      * cities for the player. */
     city_refresh_for_player(pplayer);
@@ -1546,6 +1552,7 @@ void remove_city(struct city *pcity)
   int id = pcity->id; /* We need this even after memory has been freed */
   bool had_great_wonders = FALSE;
   const citizens old_content_citizens = player_content_citizens(powner);
+  const citizens old_angry_citizens = player_angry_citizens(powner);
   struct dbv tile_processed;
   struct tile_list *process_queue;
 
@@ -1753,7 +1760,8 @@ dbv_free(&tile_processed);
     send_player_info_c(powner, NULL);
   }
 
-  if (old_content_citizens != player_content_citizens(powner)) {
+  if (old_content_citizens != player_content_citizens(powner)
+      || old_angry_citizens != player_angry_citizens(powner)) {
     /* We crossed the EFT_EMPIRE_SIZE_* effects, we have to refresh all
      * cities for the player. */
     city_refresh_for_player(powner);
