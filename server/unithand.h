@@ -30,4 +30,11 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                              enum unit_add_build_city_result res);
 
+bool unit_perform_action(struct player *pplayer,
+                         const int actor_id,
+                         const int target_id,
+                         const int value,
+                         const char *name,
+                         const enum gen_action action_type);
+
 #endif  /* FC__UNITHAND_H */

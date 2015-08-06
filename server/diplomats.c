@@ -83,8 +83,11 @@ static void diplomat_escape_full(struct player *pplayer,
 
   'pplayer' is the player who tries to poison 'pcity' with its unit
   'pdiplomat'.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-void spy_poison(struct player *pplayer, struct unit *pdiplomat,
+bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
 		struct city *pcity)
 {
   struct player *cplayer;
@@ -93,17 +96,17 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity) {
-    return;
+    return FALSE;
   }
 
   cplayer = city_owner(pcity);
   if (!cplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   ctile = city_tile(pcity);
@@ -114,7 +117,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer, ACTION_SPY_POISON,
                                 pdiplomat, NULL, ctile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("poison: infiltrated");
@@ -152,6 +155,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   /* Now lets see if the spy survives. */
   diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink);
+
+  return TRUE;
 }
 
 /******************************************************************************
@@ -161,8 +166,11 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   - Diplomats die after investigation.
   - Spies always survive.  There is no risk.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
+bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity)
 {
   struct player *cplayer;
@@ -172,16 +180,16 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity) {
-    return;
+    return FALSE;
   }
 
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || !cplayer)
-    return;
+    return FALSE;
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   log_debug("investigate: unit: %d", pdiplomat->id);
@@ -236,6 +244,8 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   } else {
     send_unit_info(NULL, pdiplomat);
   }
+
+  return TRUE;
 }
 
 /******************************************************************************
@@ -273,25 +283,28 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
 
   - Diplomats are consumed in creation of embassy.
   - Spies always survive.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
+bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 		      struct city *pcity)
 {
   struct player *cplayer;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity) {
-    return;
+    return FALSE;
   }
 
   cplayer = city_owner(pcity);
   if ((cplayer == pplayer) || !cplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   log_debug("embassy: unit: %d", pdiplomat->id);
@@ -327,6 +340,8 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   } else {
     send_unit_info(NULL, pdiplomat);
   }
+
+  return TRUE;
 }
 
 /******************************************************************************
@@ -338,8 +353,11 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   - If successful, reduces hit points by half of those remaining.
 
   - The saboteur may be captured and executed, or escape to its home town.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
+bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 		       struct unit *pvictim)
 {
   char victim_link[MAX_LEN_LINK];
@@ -347,17 +365,17 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim || !unit_alive(pvictim->id)) {
-    return;
+    return FALSE;
   }
 
   uplayer = unit_owner(pvictim);
   if (!uplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   log_debug("sabotage-unit: unit: %d", pdiplomat->id);
@@ -371,7 +389,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
                                 ACTION_SPY_SABOTAGE_UNIT,
                                 pdiplomat, pvictim,
                                 unit_tile(pvictim))) {
-    return;
+    return FALSE;
   }
 
   log_debug("sabotage-unit: succeeded");
@@ -419,6 +437,8 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Now lets see if the spy survives. */
   diplomat_escape(pplayer, pdiplomat, NULL);
+
+  return TRUE;
 }
 
 /******************************************************************************
@@ -431,8 +451,11 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   - Otherwise, the unit will be bribed.
 
   - A successful briber will try to move onto the victim's square.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
+bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 		    struct unit *pvictim)
 {
   char victim_link[MAX_LEN_LINK];
@@ -444,16 +467,16 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim || !unit_alive(pvictim->id)) {
-    return;
+    return FALSE;
   }
   uplayer = unit_owner(pvictim);
   if (!uplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   log_debug("bribe-unit: unit: %d", pdiplomat->id);
@@ -469,7 +492,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                   nation_adjective_for_player(uplayer),
                   unit_link(pvictim));
     log_debug("bribe-unit: not enough gold");
-    return;
+    return FALSE;
   }
 
   log_debug("bribe-unit: enough gold");
@@ -480,7 +503,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                                 ACTION_SPY_BRIBE_UNIT,
                                 pdiplomat, pvictim,
                                 pvictim->tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("bribe-unit: succeeded");
@@ -523,7 +546,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                              victim_tile, victim_link);
 
   if (!unit_alive(diplomat_id)) {
-    return;
+    return TRUE;
   }
 
   /* Try to move the briber onto the victim's square unless its a city or
@@ -540,6 +563,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Update clients. */
   send_player_all_c(pplayer, NULL);
+
+  return TRUE;
 }
 
 /****************************************************************************
@@ -559,8 +584,11 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   FIXME: It should give a loss of reputation to steal from a player you are
   not at war with
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 ****************************************************************************/
-void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
+bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                        struct city  *pcity, Tech_type_id technology,
                        const enum gen_action action_id)
 {
@@ -572,17 +600,17 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* We have to check arguments. They are sent to us by a client,
      so we cannot trust them */
   if (!pcity) {
-    return;
+    return FALSE;
   }
   
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || !cplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
   
   /* Targeted technology should be a ruleset defined tech,
@@ -591,7 +619,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       || (technology != A_FUTURE
           && technology != A_UNSET
           && !valid_advance_by_number(technology))) {
-    return;
+    return FALSE;
   }
 
   presearch = research_get(pplayer);
@@ -599,18 +627,18 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   if (technology == A_FUTURE) {
     if (presearch->future_tech >= cresearch->future_tech) {
-      return;
+      return FALSE;
     }
   } else if (technology != A_UNSET) {
     if (research_invention_state(presearch, technology) == TECH_KNOWN) {
-      return;
+      return FALSE;
     }
     if (research_invention_state(cresearch, technology) != TECH_KNOWN) {
-      return;
+      return FALSE;
     }
     if (!research_invention_gettable(presearch, technology,
                                      game.info.tech_steal_allow_holes)) {
-      return;
+      return FALSE;
     }
   }
 
@@ -621,7 +649,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                                 action_id,
                                 pdiplomat, NULL,
                                 pcity->tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("steal-tech: infiltrated");
@@ -676,7 +704,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     action_consequence_caught(action_id, pplayer, cplayer,
                               city_tile(pcity), city_link(pcity));
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
-    return;
+    return FALSE;
   } 
 
   tech_stolen = steal_a_tech(pplayer, cplayer, technology);
@@ -688,7 +716,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                   city_link(pcity));
     diplomat_charge_movement (pdiplomat, pcity->tile);
     send_unit_info(NULL, pdiplomat);
-    return;
+    return FALSE;
   }
 
   /* Update stealing player's science progress and research fields */
@@ -703,6 +731,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape(pplayer, pdiplomat, pcity);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -718,9 +748,13 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     - Player gets certain of the city's present/supported units.
     - Player gets a technology advance, if any were unknown.
 
-  - The provocateur may be captured and executed, or escape to its home town.
+  - The provocateur may be captured and executed, or escape to its home
+    town.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
+bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		     struct city *pcity)
 {
   struct player *cplayer;
@@ -730,17 +764,17 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Fetch target civilization's player.  Sanity checks. */
   if (!pcity) {
-    return;
+    return FALSE;
   }
 
   cplayer = city_owner (pcity);
   if (!cplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   ctile = city_tile(pcity);
@@ -757,7 +791,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   _("You don't have enough gold to subvert %s."),
                   clink);
     log_debug("incite: not enough gold");
-    return;
+    return FALSE;
   }
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
@@ -765,7 +799,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                                 ACTION_SPY_INCITE_CITY,
                                 pdiplomat, NULL,
                                 pcity->tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("incite: infiltrated");
@@ -789,7 +823,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                               cplayer, ctile, clink);
 
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
-    return;
+    return FALSE;
   }
 
   log_debug("incite: succeeded");
@@ -836,6 +870,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* Update the players gold in the client */
   send_player_info_c(pplayer, pplayer->connections);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -851,8 +887,11 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   - Do sabotage!
 
   - The saboteur may be captured and executed, or escape to its home town.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
+bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        struct city *pcity, Impr_type_id improvement,
                        const enum gen_action action_id)
 {
@@ -862,17 +901,17 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity) {
-    return;
+    return FALSE;
   }
 
   cplayer = city_owner (pcity);
   if (!cplayer) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The actor still exists. */
   if (!pplayer || !pdiplomat || !unit_alive(pdiplomat->id)) {
-    return;
+    return FALSE;
   }
 
   log_debug("sabotage: unit: %d", pdiplomat->id);
@@ -882,7 +921,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                                 action_id,
                                 pdiplomat, NULL,
                                 pcity->tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("sabotage: infiltrated");
@@ -907,7 +946,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                               city_tile(pcity), city_link(pcity));
 
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
-    return;
+    return FALSE;
   }
 
   log_debug("sabotage: succeeded");
@@ -943,7 +982,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       diplomat_charge_movement(pdiplomat, pcity->tile);
       send_unit_info(NULL, pdiplomat);
       log_debug("sabotage: random: nothing to do");
-      return;
+      return FALSE;
     }
     if (count == 0 || fc_rand (2) == 1) {
       ptarget = NULL;
@@ -975,7 +1014,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     struct impr_type *pimprove = improvement_by_number(improvement);
     if (pimprove == NULL) {
       log_error("sabotage: requested for invalid improvement %d", improvement);
-      return;
+      return FALSE;
     }
     /*
      * Told which improvement to pick:
@@ -996,7 +1035,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
         send_unit_info(NULL, pdiplomat);
         log_debug("sabotage: disallowed target improvement: %d (%s)",
                   improvement, improvement_rule_name(pimprove));
-        return;
+        return FALSE;
       }
     } else {
       notify_player(pplayer, city_tile(pcity),
@@ -1009,7 +1048,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       send_unit_info(NULL, pdiplomat);
       log_debug("sabotage: target improvement not found: %d (%s)",
                 improvement, improvement_rule_name(pimprove));
-      return;
+      return FALSE;
     }
   }
 
@@ -1073,7 +1112,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
       wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
       log_debug("sabotage: caught in capital or on city walls");
-      return;
+      return FALSE;
     }
 
     /* Report it. */
@@ -1106,6 +1145,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape(pplayer, pdiplomat, pcity);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1116,8 +1157,11 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   - Check for infiltration success.  Our thief may not survive this.
   - Check for basic success.  Again, our thief may not survive this.
   - Can't steal if there is no money to take.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void spy_steal_gold(struct player *act_player, struct unit *act_unit,
+bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                     struct city *tgt_city)
 {
   struct player *tgt_player;
@@ -1130,12 +1174,12 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The actor still exists. */
   if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The target city still exists. */
   if (!tgt_city) {
-    return;
+    return FALSE;
   }
 
   /* Who to steal from. */
@@ -1143,12 +1187,12 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The target player still exists. */
   if (!tgt_player) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: There is something to steal. */
   if (tgt_player->economic.gold <= 0) {
-    return;
+    return FALSE;
   }
 
   tgt_tile = city_tile(tgt_city);
@@ -1160,7 +1204,7 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
                                 ACTION_SPY_STEAL_GOLD,
                                 act_unit, NULL, tgt_tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("steal gold: infiltrated");
@@ -1187,7 +1231,7 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
     /* Execute the caught thief. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
 
-    return;
+    return FALSE;
   }
 
   log_debug("steal gold: succeeded");
@@ -1237,6 +1281,8 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
   /* Update the players' gold in the client */
   send_player_info_c(act_player, act_player->connections);
   send_player_info_c(tgt_player, tgt_player->connections);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1244,8 +1290,11 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   - Check for infiltration success. Our thief may not survive this.
   - Check for basic success.  Again, our thief may not survive this.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
+bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                          struct city *tgt_city)
 {
   struct player *tgt_player;
@@ -1255,12 +1304,12 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The actor still exists. */
   if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The target city still exists. */
   if (!tgt_city) {
-    return;
+    return FALSE;
   }
 
   /* Who to steal from. */
@@ -1268,7 +1317,7 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The target player still exists. */
   if (!tgt_player) {
-    return;
+    return FALSE;
   }
 
   tgt_tile = city_tile(tgt_city);
@@ -1280,7 +1329,7 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
                                 ACTION_STEAL_MAPS,
                                 act_unit, NULL, tgt_tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("steal some maps: infiltrated");
@@ -1308,7 +1357,7 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
     /* Execute the caught thief. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
 
-    return;
+    return FALSE;
   }
 
   log_debug("steal some maps: succeeded");
@@ -1335,6 +1384,8 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   /* Try to escape. */
   diplomat_escape_full(act_player, act_unit, TRUE,
                        tgt_tile, tgt_city_link);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1342,8 +1393,11 @@ void spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   - Check for infiltration success. Our thief may not survive this.
   - Check for basic success.  Again, our thief may not survive this.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
 **************************************************************************/
-void spy_nuke_city(struct player *act_player, struct unit *act_unit,
+bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                    struct city *tgt_city)
 {
   struct player *tgt_player;
@@ -1353,12 +1407,12 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The actor still exists. */
   if (!act_player || !act_unit || !unit_alive(act_unit->id)) {
-    return;
+    return FALSE;
   }
 
   /* Sanity check: The target city still exists. */
   if (!tgt_city) {
-    return;
+    return FALSE;
   }
 
   /* The victim. */
@@ -1366,7 +1420,7 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
 
   /* Sanity check: The target player still exists. */
   if (!tgt_player) {
-    return;
+    return FALSE;
   }
 
   tgt_tile = city_tile(tgt_city);
@@ -1378,7 +1432,7 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
   if (!diplomat_infiltrate_tile(act_player, tgt_player,
                                 ACTION_SPY_NUKE,
                                 act_unit, NULL, tgt_tile)) {
-    return;
+    return FALSE;
   }
 
   log_debug("suitcase nuke: infiltrated");
@@ -1405,7 +1459,7 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
     /* Execute the caught terrorist. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
 
-    return;
+    return FALSE;
   }
 
   log_debug("suitcase nuke: succeeded");
@@ -1435,6 +1489,8 @@ void spy_nuke_city(struct player *act_player, struct unit *act_unit,
   /* This may cause a diplomatic incident. */
   action_consequence_success(ACTION_SPY_NUKE, act_player,
                              tgt_player, tgt_tile, tgt_city_link);
+
+  return TRUE;
 }
 
 /**************************************************************************
