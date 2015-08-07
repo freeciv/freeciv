@@ -364,7 +364,7 @@ target_reqs    =
 action = "Sabotage Unit"
 actor_reqs    =
     { "type",   "name", "range"
-      "Unitflag", "Spy", "Local"
+      "UnitFlag", "Spy", "Local"
       "DiplRel", "War", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
@@ -380,7 +380,7 @@ target_reqs    =
 action = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "HelpWonder", "Local", TRUE
+      "UnitFlag", "HelpWonder", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
     }
 
@@ -388,7 +388,7 @@ actor_reqs    =
 action = "Found City"
 actor_reqs    =
     { "type",   "name", "range"
-      "Unitflag", "Cities", "Local"
+      "UnitFlag", "Cities", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
@@ -397,7 +397,7 @@ actor_reqs    =
 action = "Join City"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "AddToCity", "Local", TRUE
+      "UnitFlag", "AddToCity", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
     }
@@ -406,7 +406,7 @@ actor_reqs    =
 action = "Explode Nuclear"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "Nuclear", "Local", TRUE
+      "UnitFlag", "Nuclear", "Local", TRUE
     }
 
 [borders]
