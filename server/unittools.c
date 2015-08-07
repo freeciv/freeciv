@@ -3792,6 +3792,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
   struct tile *dst_tile;
   action_probability prob;
   bool performed;
+  const char *name;
   bool res, last_order;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -4181,10 +4182,19 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
+      if (order.action == ACTION_FOUND_CITY) {
+        /* This action needs a name. */
+        name = city_name_suggestion(pplayer, unit_tile(punit));
+      } else {
+        /* This action doesn't need a name. */
+        name = "";
+      }
+
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       dst_tile->index,
-                                      0, "", order.action);
+                                      0, name,
+                                      order.action);
 
       if (!player_unit_by_number(pplayer, unitid)) {
         /* The unit "died" while performing the action. */
