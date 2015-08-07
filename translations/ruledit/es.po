@@ -8,18 +8,18 @@
 # autores del juego, escribiendo *en inglés* a <freeciv-dev@freeciv.org>.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
-# Jordi Negrevernis i Font <jorneg@retemail.es>, 2005.
+# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>, 2009, 2010, 2011, 2012, 2013, 2014.
+# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-01-02 00:08+0200\n"
-"PO-Revision-Date: 2014-02-02 00:15+0100\n"
-"Last-Translator: \n"
-"Language-Team: American English <kde-i18n-doc@kde.org>\n"
-"Language: es\n"
+"PO-Revision-Date: 2015-08-07 13:28+0200\n"
+"Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
+"Language-Team: Spanish <>\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
@@ -61,6 +61,8 @@ msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
+"%s%s\n"
+"commit: %s"
 
 #: tools/ruledit/ruledit_qt.cpp:142
 msgid "Give ruleset to use as starting point."
@@ -82,19 +84,20 @@ msgstr "_Tecno"
 
 #: tools/ruledit/ruledit_qt.cpp:162 tools/ruledit/tab_misc.cpp:106
 msgid "Buildings"
-msgstr ""
+msgstr "Instalaciones"
 
 #: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
-msgstr ""
+msgstr "Unidades"
 
 #: tools/ruledit/ruledit_qt.cpp:166 tools/ruledit/tab_misc.cpp:110
 msgid "Nations"
-msgstr ""
+msgstr "Naciones"
 
 #: tools/ruledit/ruledit_qt.cpp:175
+#, fuzzy
 msgid "Welcome to freeciv-ruledit"
-msgstr ""
+msgstr "Bienvenido a Freeciv"
 
 #: tools/ruledit/ruledit_qt.cpp:195
 #, fuzzy
@@ -117,8 +120,9 @@ msgid "Rule Name"
 msgstr "Nombre del jugador:"
 
 #: tools/ruledit/tab_building.cpp:78
+#, fuzzy
 msgid "Add Building"
-msgstr ""
+msgstr "Instalaciones"
 
 #: tools/ruledit/tab_building.cpp:83
 #, fuzzy
@@ -150,12 +154,13 @@ msgid "Save now"
 msgstr "Guardar el Escenario"
 
 #: tools/ruledit/tab_misc.cpp:86
+#, fuzzy
 msgid "Terrains"
-msgstr ""
+msgstr "Terreno"
 
 #: tools/ruledit/tab_misc.cpp:90
 msgid "Resources"
-msgstr ""
+msgstr "Recursos"
 
 #: tools/ruledit/tab_misc.cpp:94
 #, fuzzy
@@ -163,28 +168,34 @@ msgid "Techs"
 msgstr "_Tecno"
 
 #: tools/ruledit/tab_misc.cpp:98
+#, fuzzy
 msgid "Unit Classes"
-msgstr ""
+msgstr "Unidad Perdidas\n"
 
 #: tools/ruledit/tab_misc.cpp:102
+#, fuzzy
 msgid "Unit Types"
-msgstr ""
+msgstr "Tipo de unidad"
 
 #: tools/ruledit/tab_misc.cpp:114
+#, fuzzy
 msgid "Styles"
-msgstr ""
+msgstr "Estilo de las ciudade_s:"
 
 #: tools/ruledit/tab_misc.cpp:118
+#, fuzzy
 msgid "Specialists"
-msgstr ""
+msgstr " Especialistas"
 
 #: tools/ruledit/tab_misc.cpp:122
+#, fuzzy
 msgid "Governments"
-msgstr ""
+msgstr "Gobiernos"
 
 #: tools/ruledit/tab_misc.cpp:126
+#, fuzzy
 msgid "Disasters"
-msgstr ""
+msgstr "Desastre"
 
 #: tools/ruledit/tab_misc.cpp:130
 msgid "Achievements"
@@ -196,15 +207,16 @@ msgstr ""
 
 #: tools/ruledit/tab_misc.cpp:138
 msgid "Bases"
-msgstr ""
+msgstr "Bases"
 
 #: tools/ruledit/tab_misc.cpp:142
 msgid "Roads"
-msgstr ""
+msgstr "Caminos"
 
 #: tools/ruledit/tab_misc.cpp:150
+#, fuzzy
 msgid "Refresh Stats"
-msgstr ""
+msgstr "Refrescar"
 
 #: tools/ruledit/tab_misc.cpp:206
 #, fuzzy
@@ -212,12 +224,14 @@ msgid "Ruleset saved"
 msgstr "Ruleset"
 
 #: tools/ruledit/tab_nation.cpp:49
+#, fuzzy
 msgid "Use nationlist"
-msgstr ""
+msgstr "%d enemigo nacionalista"
 
 #: tools/ruledit/tab_nation.cpp:53
+#, fuzzy
 msgid "Nationlist"
-msgstr ""
+msgstr "Conjunto de Naciones"
 
 #: tools/ruledit/tab_tech.cpp:78
 msgid "Req1"
@@ -232,8 +246,9 @@ msgid "Root Req"
 msgstr ""
 
 #: tools/ruledit/tab_tech.cpp:104
+#, fuzzy
 msgid "Add tech"
-msgstr ""
+msgstr "Añadir último"
 
 #: tools/ruledit/tab_tech.cpp:109
 #, fuzzy
@@ -245,12 +260,14 @@ msgid "Never"
 msgstr "Nunca"
 
 #: tools/ruledit/tab_tech.cpp:311
+#, fuzzy
 msgid "Tech with that rule name already exist!"
-msgstr ""
+msgstr "Ya existe una ciudad llamada %s."
 
 #: tools/ruledit/tab_unit.cpp:78
+#, fuzzy
 msgid "Add Unit"
-msgstr ""
+msgstr "Añadir siguiente"
 
 #: tools/ruledit/tab_unit.cpp:83
 #, fuzzy
@@ -266,8 +283,9 @@ msgid "Effect"
 msgstr ""
 
 #: tools/ruledit/validity.c:125
+#, fuzzy
 msgid "Action Enabler"
-msgstr ""
+msgstr "Habilitado"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"

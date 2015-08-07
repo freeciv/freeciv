@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-04 12:51+0100\n"
-"PO-Revision-Date: 2015-03-28 01:40+0100\n"
+"PO-Revision-Date: 2015-08-07 13:28+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
 "Language: es_ES\n"
@@ -485,20 +485,24 @@ msgid "?cma:Very happy"
 msgstr "Muy contento"
 
 #: client/agents/cma_fec.c:428
+#, fuzzy
 msgid "?cma:Max food"
-msgstr "Max Comida"
+msgstr "Pref. Comida"
 
 #: client/agents/cma_fec.c:429
+#, fuzzy
 msgid "?cma:Max production"
-msgstr "Max Producción"
+msgstr "Pref. Producción"
 
 #: client/agents/cma_fec.c:430
+#, fuzzy
 msgid "?cma:Max gold"
-msgstr "Max Dinero"
+msgstr "Pref. Dinero"
 
 #: client/agents/cma_fec.c:431
+#, fuzzy
 msgid "?cma:Max science"
-msgstr "Max Ciencia"
+msgstr "Pref. Ciencia"
 
 #: client/attribute.c:368
 msgid ""
@@ -3850,8 +3854,9 @@ msgstr "Bonus (A/P/C):"
 #: client/gui-xaw/helpdlg.c:883 client/gui-xaw/helpdlg.c:902
 #: common/research.c:83 common/tech.c:381 tools/civmanual.c:453
 #: tools/civmanual.c:467 server/settings.h:63
+#, fuzzy
 msgid "None"
-msgstr "Ninguna"
+msgstr "Ninguna."
 
 #: client/gui-gtk-2.0/helpdlg.c:132 client/gui-gtk-3.0/helpdlg.c:132
 #: client/gui-xaw/helpdlg.c:774 client/gui-xaw/helpdlg.c:828
@@ -5912,6 +5917,7 @@ msgid "Insert worklist"
 msgstr "insertar en la lista de tareas"
 
 #: client/gui-qt/citydlg.cpp:1590
+#, fuzzy
 msgid "Buy (%1 gold)"
 msgstr "Comprar (%1 moneda de oro)"
 
@@ -6270,10 +6276,11 @@ msgstr[0] "Regadío: %1 en %2 turno"
 msgstr[1] "Regadío: %1 en %2 turnos"
 
 #: client/gui-qt/helpdlg.cpp:877
+#, fuzzy
 msgid "Mining: +%1 food in %2 turn"
 msgid_plural "Mining: +%1 food in %2 turns"
-msgstr[0] "Minería: +%1 alimento en %2 turno"
-msgstr[1] "Minería: +%1 alimento en %2 turnos"
+msgstr[0] "Minería: %1 en %2 turno"
+msgstr[1] "Minería: %1 en %2 turnos"
 
 #: client/gui-qt/helpdlg.cpp:889
 msgid "Mining: %1 in %2 turn"
@@ -10233,9 +10240,9 @@ msgid "Does not apply to %s or adjacent tiles.\n"
 msgstr "Sólo se aplica a los centros de las ciudades.\n"
 
 #: client/helpdata.c:2654
-#, c-format
+#, fuzzy, c-format
 msgid "Allows %s (with %s but no %s)."
-msgstr "Permite %s (con %s pero no %s)."
+msgstr "* Permite %s (con %s pero no %s)."
 
 #: client/helpdata.c:2659
 #, c-format
@@ -10243,9 +10250,9 @@ msgid "Allows %s (with %s)."
 msgstr "Permite %s (con %s)."
 
 #: client/helpdata.c:2665
-#, c-format
+#, fuzzy, c-format
 msgid "Allows %s (absent %s)."
-msgstr "Permite %s (ausente %s)."
+msgstr "* Permite %s (ausente %s)."
 
 #: client/helpdata.c:2669
 #, c-format
@@ -10253,9 +10260,9 @@ msgid "Allows %s."
 msgstr "Permite %s."
 
 #: client/helpdata.c:2675
-#, c-format
+#, fuzzy, c-format
 msgid "Prevents %s."
-msgstr "Previene %s."
+msgstr "* Previene %s."
 
 #: client/helpdata.c:2944
 msgid "Current ruleset contains no description."
@@ -13969,7 +13976,7 @@ msgstr ""
 #: client/tilespec.c:1597
 #, fuzzy, c-format
 msgid "Client does not support %s tilesets."
-msgstr "El cliente no soporta aspectos (tileset) isométricos."
+msgstr "El cliente no soporta conjuntos de gráficos (tileset) isométricos."
 
 #: client/tilespec.c:1599
 msgid "Using default tileset instead."
@@ -13983,7 +13990,7 @@ msgstr "[layer%d] match_types: \"%s\" inicial ('%c') no es único."
 #: client/tilespec.c:1763
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
-msgstr "El tileset \"%s\" no soporta las secciones [%s]."
+msgstr "El tileset \"%2$s\" no soporta las secciones [%1$s]."
 
 #: client/tilespec.c:2103
 #, c-format
@@ -13996,14 +14003,15 @@ msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "El icono '%s' del fichero \"%s\" no está en la imagen!"
 
 #: client/tilespec.c:2182
-#, c-format
+#, fuzzy, c-format
 msgid "Sprite tag '%s' missing."
-msgstr "La etiqueta icono '%s' no se encuentra."
+msgstr "No se encuentra el icono de la etiqueta '%s'."
 
 #: client/tilespec.c:2194 client/tilespec.c:3092
-#, c-format
+#, fuzzy, c-format
 msgid "Sprite tag '%s' and alternate '%s' are both missing."
-msgstr "La etiqueta icono '%s' y la alternativa '%s' no se encuentran."
+msgstr ""
+"No se encuentran los iconos de la etiqueta '%s' y su alternativa '%s' ."
 
 #: client/tilespec.c:2244
 #, c-format
@@ -14030,13 +14038,15 @@ msgstr "No se encuentra el icono tx.darkness."
 #: client/tilespec.c:2896
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
-msgstr "No se tiene las etiquetas gráficas \"%s\" o \"%s\" para %s \"%s\"."
+msgstr ""
+"No se tiene los gráficos para las etiquetas \"%s\" o \"%s\" para %s \"%s\"."
 
 #: client/tilespec.c:2971
-#, c-format
+#, fuzzy, c-format
 msgid "Missing %s unit tag \"%s\" and alternative \"%s\"."
 msgstr ""
-"No se encuentra la etiqueta para unidad %s \"%s\" y la alternativa \"%s\"."
+"No se encuentra el icono de la unidad %s para la etiqueta \"%s\" y su "
+"alternativa \"%s\"."
 
 #: client/tilespec.c:3038
 #, fuzzy, c-format
@@ -14044,18 +14054,18 @@ msgid "No extrastyle for \"%s\" or \"%s\"."
 msgstr "No se encontró roadstyle para \"%s\" o \"%s\"."
 
 #: client/tilespec.c:3110
-#, c-format
+#, fuzzy, c-format
 msgid "Missing %s building activity tag \"%s\" and alternative \"%s\"."
 msgstr ""
-"No se encuentra la etiqueta de actividad constructiva %s \"%s\" y la "
-"alternativa \"%s\"."
+"No se encuentra el icono de actividad constructiva %s para la etiqueta \"%s"
+"\" y su alternativa \"%s\"."
 
 #: client/tilespec.c:3123
 #, fuzzy, c-format
 msgid "Missing %s removal activity tag \"%s\" and alternative \"%s\"."
 msgstr ""
-"No se encuentra la etiqueta de actividad constructiva %s \"%s\" y la "
-"alternativa \"%s\"."
+"No se encuentra el icono de actividad constructiva %s para la etiqueta \"%s"
+"\" y su alternativa \"%s\"."
 
 #: client/tilespec.c:3224
 #, c-format
@@ -14070,13 +14080,13 @@ msgstr "No hay gráficos para la base \"%s\" definitivamente!"
 #: client/tilespec.c:3326
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
-msgstr "Terreno \"%s\": no hay casilla de gráficos \"%s\" o \"%s\"."
+msgstr "Terreno \"%s\": no hay gráficos para casillas \"%s\" o \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
 #: client/tilespec.c:3361
-#, c-format
+#, fuzzy, c-format
 msgid "Missing base sprite tag \"%s\"."
-msgstr "No se encuentra la etiqueta de icono base \"%s\"."
+msgstr "No se encuentra el icono base para la etiqueta \"%s\"."
 
 #: client/tilespec.c:3615
 #, c-format
@@ -14223,7 +14233,7 @@ msgstr "Sabotear la ciudad"
 #: common/ai.c:300
 #, c-format
 msgid "Too many AI modules. Max is %d."
-msgstr "Demasiados módulos de Ordenador(IA). Máx es%d."
+msgstr "Demasiados módulos de Ordenador(IA). Máx es %d."
 
 #: common/clientutils.c:151
 #, fuzzy, c-format
@@ -15624,268 +15634,220 @@ msgstr "%s y unidades similares"
 #. TRANS: this and following strings are 'unit type flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/unittype.h:144
+#, fuzzy
 msgid "?unitflag:Cant_Fortify"
-msgstr ""
+msgstr "Fanática"
 
 #: common/unittype.h:147
+#, fuzzy
 msgid "?unitflag:HasNoZOC"
-msgstr ""
+msgstr "IgnoraZOC"
 
 #. TRANS: unit type flag (rarely shown): "ignore zones of control"
 #: common/unittype.h:150
 msgid "?unitflag:IgZOC"
-msgstr ""
+msgstr "IgnoraZOC"
 
 #: common/unittype.h:152
-#, fuzzy
 msgid "?unitflag:NonMil"
-msgstr "Misil"
+msgstr "NoMilitar"
 
 #. TRANS: unit type flag (rarely shown): "ignore terrain"
 #: common/unittype.h:155
-#, fuzzy
 msgid "?unitflag:IgTer"
-msgstr "Marítima"
+msgstr "IgnoraTerreno"
 
 #: common/unittype.h:157
-#, fuzzy
 msgid "?unitflag:OneAttack"
 msgstr "UnAtaque"
 
 #: common/unittype.h:159
-#, fuzzy
 msgid "?unitflag:FieldUnit"
 msgstr "UnidadDeCampo"
 
 #: common/unittype.h:161
-#, fuzzy
 msgid "?unitflag:Marines"
-msgstr "Misil"
+msgstr "Marines"
 
 #: common/unittype.h:164
-#, fuzzy
 msgid "?unitflag:Partial_Invis"
 msgstr "Invis_Parcial"
 
 #: common/unittype.h:167 common/unittype.h:354
-#, fuzzy
 msgid "?unitflag:Settlers"
-msgstr "Marítima"
+msgstr "Colonos"
 
 #: common/unittype.h:169 common/unittype.h:360
-#, fuzzy
 msgid "?unitflag:Diplomat"
 msgstr "Diplomático"
 
 #: common/unittype.h:172
-#, fuzzy
 msgid "?unitflag:Trireme"
 msgstr "Trirreme"
 
 #: common/unittype.h:175
-#, fuzzy
 msgid "?unitflag:Nuclear"
-msgstr "Marítima"
+msgstr "Nuclear"
 
 #: common/unittype.h:178
-#, fuzzy
 msgid "?unitflag:Spy"
-msgstr "Marítima"
+msgstr "Espía"
 
 #: common/unittype.h:180
-#, fuzzy
 msgid "?unitflag:Paratroopers"
 msgstr "Paracaidistas"
 
 #: common/unittype.h:183 common/unittype.h:351
-#, fuzzy
 msgid "?unitflag:Cities"
-msgstr "unidades \"%s\""
+msgstr "Ciudades"
 
 #: common/unittype.h:186
-#, fuzzy
 msgid "?unitflag:Only_Native_Attack"
 msgstr "Solo_Ataque_Nativo"
 
 #: common/unittype.h:189
-#, fuzzy
 msgid "?unitflag:AddToCity"
 msgstr "Añadirse_A_Ciudad"
 
 #: common/unittype.h:192
-#, fuzzy
 msgid "?unitflag:Fanatic"
-msgstr "Terrestre"
+msgstr "Fanática"
 
 #: common/unittype.h:195 common/unittype.h:357
-#, fuzzy
 msgid "?unitflag:GameLoss"
 msgstr "PerderPartida"
 
 #: common/unittype.h:198
-#, fuzzy
 msgid "?unitflag:Unique"
-msgstr "Marítima"
+msgstr "Única"
 
 #: common/unittype.h:201
-#, fuzzy
 msgid "?unitflag:Undisbandable"
 msgstr "NoDesarticulable"
 
 #: common/unittype.h:204
-#, fuzzy
 msgid "?unitflag:SuperSpy"
-msgstr "Marítima"
+msgstr "SuperEspía"
 
 #: common/unittype.h:207
-#, fuzzy
 msgid "?unitflag:NoHome"
-msgstr "Marítima"
+msgstr "NoEstablecida"
 
 #: common/unittype.h:210
-#, fuzzy
 msgid "?unitflag:NoVeteran"
 msgstr "NoVeterano"
 
 #: common/unittype.h:213
-#, fuzzy
 msgid "?unitflag:Bombarder"
-msgstr "Líder"
+msgstr "Bombardero"
 
 #: common/unittype.h:216
-#, fuzzy
 msgid "?unitflag:CityBuster"
 msgstr "RompedorCiudades"
 
 #: common/unittype.h:219
-#, fuzzy
 msgid "?unitflag:NoBuild"
-msgstr "Terrestre Grande"
+msgstr "NoContruir"
 
 #: common/unittype.h:223
-#, fuzzy
 msgid "?unitflag:BadWallAttacker"
 msgstr "MalAtacanteMurallas"
 
 #: common/unittype.h:226
-#, fuzzy
 msgid "?unitflag:BadCityDefender"
 msgstr "MalDefensorCiudad"
 
 #: common/unittype.h:229
-#, fuzzy
 msgid "?unitflag:BarbarianOnly"
 msgstr "SoloBárbaro"
 
 #: common/unittype.h:232
-#, fuzzy
 msgid "?unitflag:Shield2Gold"
 msgstr "ProducciónAMonedas"
 
 #: common/unittype.h:235
-#, fuzzy
 msgid "?unitflag:Capturable"
 msgstr "Capturable"
 
 #: common/unittype.h:238
-#, fuzzy
 msgid "?unitflag:Capturer"
 msgstr "Capturador"
 
 #: common/unittype.h:297
-#, fuzzy
 msgid "?unitflag:FirstBuild"
 msgstr "PrimeroAConstruir"
 
 #: common/unittype.h:300
-#, fuzzy
 msgid "?unitflag:Explorer"
-msgstr "Obreros"
+msgstr "Explorador"
 
 #: common/unittype.h:303
-#, fuzzy
 msgid "?unitflag:Hut"
-msgstr "unidades \"%s\""
+msgstr "Choza"
 
 #: common/unittype.h:306
-#, fuzzy
 msgid "?unitflag:HutTech"
-msgstr "Mercante"
+msgstr "ChozaTecno"
 
 #: common/unittype.h:309
-#, fuzzy
 msgid "?unitflag:Partisan"
-msgstr "Partos"
+msgstr "Partisano"
 
 #: common/unittype.h:312
-#, fuzzy
 msgid "?unitflag:DefendOk"
-msgstr "OkDefensor"
+msgstr "DefensorCorrecto"
 
 #: common/unittype.h:315
-#, fuzzy
 msgid "?unitflag:DefendGood"
 msgstr "BuenDefensor"
 
 #: common/unittype.h:318
-#, fuzzy
 msgid "?unitflag:AttackFast"
 msgstr "AtaqueRapido"
 
 #: common/unittype.h:321
-#, fuzzy
 msgid "?unitflag:AttackStrong"
 msgstr "AtaqueFuerte"
 
 #: common/unittype.h:324
-#, fuzzy
 msgid "?unitflag:FerryBoat"
 msgstr "Transbordador"
 
 #: common/unittype.h:327
-#, fuzzy
 msgid "?unitflag:Barbarian"
 msgstr "Bárbaros"
 
 #: common/unittype.h:330
-#, fuzzy
 msgid "?unitflag:BarbarianTech"
 msgstr "BárbaroTecno"
 
 #: common/unittype.h:333
-#, fuzzy
 msgid "?unitflag:BarbarianBoat"
 msgstr "BárbaroTransbordador"
 
 #: common/unittype.h:336
-#, fuzzy
 msgid "?unitflag:BarbarianBuild"
 msgstr "BárbaroProducir"
 
 #: common/unittype.h:339
-#, fuzzy
 msgid "?unitflag:BarbarianBuildTech"
 msgstr "BárbaroProducirTecno"
 
 #: common/unittype.h:342
-#, fuzzy
 msgid "?unitflag:BarbarianLeader"
 msgstr "JefeBárbaro"
 
 #: common/unittype.h:345
-#, fuzzy
 msgid "?unitflag:BarbarianSea"
 msgstr "BárbaroMar"
 
 #: common/unittype.h:348
-#, fuzzy
 msgid "?unitflag:BarbarianSeaTech"
 msgstr "BárbaroMarTecno"
 
 #: common/unittype.h:363
-#, fuzzy
 msgid "?unitflag:Hunter"
-msgstr "Helicóptero"
+msgstr "Cazador"
 
 #: common/version.c:44
 #, c-format
@@ -16659,7 +16621,7 @@ msgid ""
 msgstr ""
 "Opera como si tuvieras una Central Hidroeléctrica en cada ciudad del mismo "
 "continente donde está la maravilla.  (Esto reduce la contaminación e "
-"incrementa los efectos de las Fábricas y las Plantas de Fabricación)."
+"incrementa los efectos de las Fábricas y las Plantas Industriales)."
 
 #: data/civ1/buildings.ruleset:929 data/civ2/buildings.ruleset:1297
 #: data/classic/buildings.ruleset:1372
@@ -18885,8 +18847,9 @@ msgstr ""
 #: data/civ1/units.ruleset:23 data/civ2/units.ruleset:28
 #: data/classic/units.ruleset:33 data/experimental/units.ruleset:36
 #: data/civ2civ3/units.ruleset:32
+#, fuzzy
 msgid "TradeRoute"
-msgstr "RutaComercio"
+msgstr "Comercio"
 
 #: data/civ1/units.ruleset:23 data/civ2/units.ruleset:28
 #: data/classic/units.ruleset:33 data/experimental/units.ruleset:36
@@ -20203,7 +20166,7 @@ msgid ""
 msgstr ""
 "Opera como si tuvieras una Central Hidroeléctrica en cada ciudad.  (Esto "
 "reduce la contaminación e incrementa los efectos de las Fábricas y las "
-"Plantas de Fabricación)."
+"Plantas Industriales)."
 
 #: data/civ2/buildings.ruleset:1335 data/classic/buildings.ruleset:1411
 #: data/experimental/buildings.ruleset:1476
@@ -23439,7 +23402,7 @@ msgstr ""
 "conformes siempre que no estén descontentos por agresión militar."
 
 #: data/civ2civ3/buildings.ruleset:834
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "A Power Plant increases the shield production effects of any Factory or Mfg. "
 "Plant in its city by 25% each. Thus, a Power Plant in combination with "
@@ -23448,13 +23411,13 @@ msgid ""
 "together give a 100% production bonus. The extra production may lead to the "
 "city generating more pollution."
 msgstr ""
-"Una Central Térmica aumenta el efecto en la producción de una Fábrica o una "
-"Planta Industrial en su ciudad en un 25% cada una. Por lo tanto, una Central "
-"Térmica junto con una Factoría o Planta Industrial incrementan la producción "
-"en un 50% sobre el nivel que tendría sin esta instalación; una Central "
-"Térmica, una Fábrica y una Planta Industrial incrementan conjuntamente la "
-"producción en un 100%. La producción extra puede causar a  la ciudad que "
-"genere más contaminación."
+"Cualquier tipo de central eléctrica aumenta el efecto en la producción de "
+"una Fábrica o una Planta Industrial en tu ciudad en un 25% cada una. Por lo "
+"tanto, una central eléctrica junto con una Fábrica o Planta Industrial "
+"incrementan la producción en un 50% sobre el nivel que tendría sin esta "
+"instalación; una central eléctrica, una Fábrica y una Planta Industrial "
+"incrementan conjuntamente la producción en un 100%. La producción extra "
+"puede causar a la ciudad que genere más contaminación."
 
 #: data/civ2civ3/buildings.ruleset:865
 #, no-c-format
@@ -24513,6 +24476,7 @@ msgstr ""
 "Unidades Terrestres Grandes no pueden moverse en la selva sin un camino."
 
 #: data/civ2civ3/terrain.ruleset:670
+#, fuzzy
 msgid ""
 "Land units that move into mountains can see an extra space, but a fast land "
 "unit ending its turn in mountains will start its next turn with one fewer "
@@ -25051,6 +25015,7 @@ msgstr ""
 "aumentan esta 16."
 
 #: data/civ2civ3/units.ruleset:2128
+#, fuzzy
 msgid ""
 "Similar to pollution and global warming, the risk of global nuclear winter "
 "increases with fallout. If nuclear winter occurs, terrain across the globe "
@@ -25060,10 +25025,11 @@ msgstr ""
 "Al igual que la contaminación y el calentamiento global, el riesgo de "
 "invierno nuclear aumenta con la contaminación radioactiva. Si el invierno "
 "nuclear se produce, terreno alrededor del mundo cambiará a desierto, tundra "
-"y hielo. Los Colonos, los Migrantes, los Obreros, y los Ingenieros pueden "
-"limpiar la contaminación radiactiva."
+"y hielo. Los colonos, los obreros, y los ingenieros pueden limpiar la "
+"contaminación radiactiva."
 
 #: data/civ2civ3/units.ruleset:2137
+#, fuzzy
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -25071,9 +25037,9 @@ msgid ""
 "them ready to fix the fallout on the same turn it occurs! This minimizes the "
 "chance of nuclear winter. Eco-friendly nukes!"
 msgstr ""
-"CONSEJO 2: Tu puedes verte involucrado en una situación en la que ha "
-"invadido un país enemigo en masa, pero las ciudades enemigas son demasiado "
-"fuertes. Antes de utilizar una unidad nuclear, monta una banda de unidades "
+"CONSEJO: Tu puedes verte involucrado en una situación en la que ha invadido "
+"un país enemigo en masa, pero las ciudades enemigas son demasiado fuertes. "
+"Antes de utilizar una unidad nuclear, monta una banda de unidades "
 "limpiadoras junto a la ciudad y tenlas listas para solucionar las "
 "consecuencias en el mismo turno que ocurre! Esto reduce al mínimo la "
 "posibilidad del invierno nuclear. Armas nucleares ecológicas!"
@@ -26890,6 +26856,7 @@ msgstr ""
 "hacer las casillas de las ciudades enemigas menos productivas."
 
 #: data/helpdata.txt:656
+#, fuzzy
 msgid ""
 "The section on Terrain describes how the output of each tile is affected by "
 "the terrain, the presence of special resources such as game or minerals, and "
@@ -26914,9 +26881,10 @@ msgstr ""
 "gana todas las ventajas del terreno con un sistema de riego (porque las "
 "ciudades cuentan con sistemas de irrigación por defecto), aunque esto no "
 "puede ser utilizado como base para el riego de otras fichas; y se equipan de "
-"forma automática con carreteras y, cuando la tecnología lo ha puesto a tu "
-"disposición, ferrocarriles (porque las ciudades cuentan con transporte "
-"integrado). Los otros conjuntos de reglas pueden diferir en los detalles."
+"forma automática con carreteras (a menos que este en un río y tu todavía no "
+"hayas desarrollado la Construcción de Puentes; al enterarse de ello, las "
+"ciudades fluviales también adquirirán carreteras). Los otros conjuntos de "
+"reglas pueden diferir en los detalles."
 
 #: data/helpdata.txt:669
 msgid ""
@@ -28028,17 +27996,16 @@ msgstr ""
 "vida pierde."
 
 #: data/helpdata.txt:1198
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of being promoted a veteran "
 "level. In the classic ruleset, if the winner's civilization has the Sun "
 "Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
 "half."
 msgstr ""
-"La unidad que sobrevive el enfrentamiento puede ser promocionada en un nivel "
-"de veteranía. En el conjunto de reglas clásicas, si la civilización de la "
-"unidad ganadora tiene la Academia Militar de Sun Tzu (y no está obsoleta), "
-"la probabilidad es incrementa en una mitad."
+"La unidad que sobrevive puede ser promocionada en un nivel de veteranía. Si "
+"la civilización de la unidad tiene la Academia Militar de Sun Tzu (y no está "
+"obsoleta), la probabilidad es incrementa en una mitad."
 
 #: data/helpdata.txt:1203
 msgid ""
@@ -36945,12 +36912,13 @@ msgstr "%s tenía una meta tecnológica inválida."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:3073
+#, fuzzy
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
 "supported."
 msgstr ""
-"La partida grabada usa las reglas antiguas \"clásicas\" para el terreno, que "
-"ya no están soportadas."
+"La partida grabada usa las reglas \"clásicas\" para el terreno, que ya no "
+"están soportadas."
 
 #: server/savegame.c:3081
 #, c-format
@@ -43379,8 +43347,8 @@ msgstr "error %d (se ha compilado sin strerror)"
 
 #~ msgid "Client does not support overhead view tilesets."
 #~ msgstr ""
-#~ "El cliente no soporta los aspectos de vista superior (overhead view "
-#~ "tileset)."
+#~ "El cliente no soporta los conjuntos de gráficos de vista superior "
+#~ "(overhead view tileset)."
 
 #~ msgid "City style \"%s\": no wall graphics."
 #~ msgstr "Estilo de ciudad \"%s\": no hay gráficos de murallas."
@@ -43472,6 +43440,7 @@ msgstr "error %d (se ha compilado sin strerror)"
 #~ msgid "Unique"
 #~ msgstr "Única"
 
+#, fuzzy
 #~ msgid "Unbribable"
 #~ msgstr "NoSobornable"
 
@@ -55929,8 +55898,9 @@ msgstr "error %d (se ha compilado sin strerror)"
 #~ "Los obreros se reúnen espontáneamente e instalan vías férreas en todas "
 #~ "las ciudades."
 
+#, fuzzy
 #~ msgid "Reducing aifill because there are not enough playable nations."
-#~ msgstr "Reduciendo aifill porque no hay suficientes naciones jugables."
+#~ msgstr "no hay suficientes naciones jugables"
 
 #~ msgid "current version"
 #~ msgstr "versión actual"
@@ -57064,3 +57034,179 @@ msgstr "error %d (se ha compilado sin strerror)"
 
 #~ msgid "Pass"
 #~ msgstr "Pasar"
+
+#~ msgid "%+4d : Loss from %s (%+d%%)\n"
+#~ msgstr "%+4d : Pérdida de %s (%+d%%)\n"
+
+#~ msgid "%+5.1f : Risk from %s\n"
+#~ msgstr "%+5.1f : Riesgo de %s\n"
+
+#~ msgid "?tech:None"
+#~ msgstr "Ninguna"
+
+#~ msgid "?bonus:None"
+#~ msgstr "Ninguna."
+
+#~ msgid "Cancel %s"
+#~ msgstr "Cancelar %s"
+
+#~ msgid "Really declare war on the %s?"
+#~ msgstr "¿Les declaramos la GUERRA a los %s?"
+
+#~ msgid "Cancel %s %s? New diplomatic state will be %s."
+#~ msgstr "Cancelar %2$s %1$s? El nuevo estado diplomático será %3$s."
+
+#~ msgid "Withdraw shared vision from the %s?"
+#~ msgstr "Retirar visión compartida de los %s?"
+
+#~ msgid "Withdraw Shared Vision"
+#~ msgstr "Retirar visión compartida"
+
+#~ msgid "Citymap"
+#~ msgstr "Mapa de la ciudad"
+
+#~ msgid "Mining: +%1 shields in %2 turn"
+#~ msgid_plural "Mining: +%1 shields in %2 turns"
+#~ msgstr[0] "Minería: +%1 de prod. en %2 turno"
+#~ msgstr[1] "Minería: +%1 de prod. en %2 turnos"
+
+#~ msgid "Load Scenario"
+#~ msgstr "Cargar un Escenario"
+
+#~ msgid "?homecity:None"
+#~ msgstr "Ninguna"
+
+#~ msgid "?req:None"
+#~ msgstr "Ninguno"
+
+#~ msgid "?utype:None"
+#~ msgstr "Ninguno"
+
+#~ msgid "?gov:None"
+#~ msgstr "Ninguno"
+
+#~ msgid "?gov:* Allows %s (with %s)."
+#~ msgstr "* Permite %s (con %s)."
+
+#~ msgid "?gov:* Allows %s."
+#~ msgstr "* Permite %s."
+
+#~ msgid "?improvement:* Allows %s (with %s but no %s)."
+#~ msgstr "* Permite %s (con %s pero no %s)."
+
+#~ msgid "?improvement:* Allows %s (with %s)."
+#~ msgstr "* Permite %s (con %s)."
+
+#~ msgid "?improvement:* Allows %s (absent %s)."
+#~ msgstr "* Permite %s (ausente %s)."
+
+#~ msgid "?improvement:* Allows %s."
+#~ msgstr "* Permite %s."
+
+#~ msgid "?improvement:* Prevents %s."
+#~ msgstr "* Previene %s."
+
+#~ msgid "* Can transform terrain to another type.\n"
+#~ msgstr "* Puede convertir un terreno a otro tipo.\n"
+
+#~ msgid "from %s | %s people"
+#~ msgstr "de %s |  gente %s"
+
+#~ msgid "?utflag:\"%s\" units"
+#~ msgstr "unidades \"%s\""
+
+#~ msgid "?unitflag:TradeRoute"
+#~ msgstr "RutaComercio"
+
+#~ msgid "?unitflag:HelpWonder"
+#~ msgstr "AyudaMaravilla"
+
+#~ msgid "?unitflag:IgWall"
+#~ msgstr "IgnoraMurallas"
+
+#~ msgid ""
+#~ "Similar to pollution and global warming, the risk of global nuclear "
+#~ "winter increases with fallout. If nuclear winter occurs, terrain across "
+#~ "the globe changes into desert, tundra, and ice. Settlers, Migrants, "
+#~ "Workers, and Engineers and (for fallout on water) Transports can clean up "
+#~ "nuclear fallout."
+#~ msgstr ""
+#~ "Al igual que la contaminación y el calentamiento global, el riesgo de "
+#~ "invierno nuclear aumenta con la contaminación radioactiva. Si el invierno "
+#~ "nuclear se produce, el terreno a lo largo y ancho del mundo cambiará a "
+#~ "desierto, tundra y hielo. Los Colonos, los Migrantes, los Obreros, y los "
+#~ "Ingenieros y (para la radioactividad en el mar) los Transportes pueden "
+#~ "limpiar la contaminación radiactiva."
+
+#~ msgid ""
+#~ "Normally borders extend into water only for tiles adjacent to a city; "
+#~ "beyond that, only narrow inlets and inland lakes can be claimed. Border "
+#~ "claims can never extend to remote islands."
+#~ msgstr ""
+#~ "Normalmente las fronteras se extienden por el agua sólo para las casillas "
+#~ "adyacentes a una ciudad; aparte de eso, sólo las entradas estrechas y "
+#~ "lagos interiores pueden ser reclamados. Los reclamos fronterizos no "
+#~ "pueden extenderse a islas remotas."
+
+#~ msgid ""
+#~ "Whichever unit survives the fight has a chance of being promoted a "
+#~ "veteran level. In the classic ruleset, if the winner's civilization has "
+#~ "the Sun Tzu's War Academy (and if it isn't obsolete), the chance is "
+#~ "increased by half in case of land units."
+#~ msgstr ""
+#~ "La unidad que sobrevive el enfrentamiento puede ser promocionada en un "
+#~ "nivel de veteranía. En el conjunto de reglas clásicas, si la civilización "
+#~ "de la unidad ganadora tiene la Academia Militar de Sun Tzu (y no está "
+#~ "obsoleta), la probabilidad es incrementa en una mitad para las unidades "
+#~ "terrestres."
+
+#~ msgid "iso"
+#~ msgstr "iso"
+
+#~ msgid "hex"
+#~ msgstr "hex"
+
+#~ msgid "hex & iso"
+#~ msgstr "hex y iso"
+
+#~ msgid "overhead"
+#~ msgstr "overhead"
+
+#~ msgid ""
+#~ "Modpack installation in progress.\n"
+#~ "Are you sure you want to quit?"
+#~ msgstr ""
+#~ "Se está instalando un modpack.\n"
+#~ "Seguro que quiere salir?"
+
+#~ msgid ""
+#~ "Saved game uses the ancient format terrain ruleset, and is no longer "
+#~ "supported."
+#~ msgstr ""
+#~ "La partida grabada usa el conjunto de reglas de terreno antiguas, que ya "
+#~ "no están soportadas."
+
+#~ msgid ""
+#~ "This setting controls whether players may make moves at the same time "
+#~ "during a turn. Change in setting takes effect next turn. Currently, at "
+#~ "least to the end of this turn, mode is \"%s\"."
+#~ msgstr ""
+#~ "Esta opción controla si los jugadores pueden hacer movimientos "
+#~ "simultáneamente durante un turno. El cambio del ajuste será efectivo el "
+#~ "próximo turno. Actualmente, al menos hasta el final de este turno, el "
+#~ "modo es \"%s\"."
+
+#~ msgid "Warning: aifill not met: %s."
+#~ msgstr "Aviso: aifill no se consiguió: %s."
+
+#~ msgid "?ssetlevel:None"
+#~ msgstr "Ninguno"
+
+#~ msgid "requested more than 'maxplayers' setting"
+#~ msgstr "se ha solicitado más que el ajuste 'maxplayers'"
+
+#~ msgid ""
+#~ "not enough playable nations in this nationset (see 'nationset' setting)"
+#~ msgstr ""
+#~ "no hay suficientes naciones jugables en este nationset (consulta ajuste "
+#~ "'nationset')"
