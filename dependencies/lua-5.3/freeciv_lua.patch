@@ -1,6 +1,6 @@
 diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
---- lua-5.3/src/ldo.c	2015-01-30 22:34:26.329033992 +0200
-+++ lua-5.3/src/ldo.c	2015-02-14 22:51:25.740710930 +0200
+--- lua-5.3/src/ldo.c	2015-08-05 01:16:36.823491105 +0300
++++ lua-5.3/src/ldo.c	2015-08-05 01:02:57.653012740 +0300
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -11,8 +11,8 @@ diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
  /* in POSIX, try _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
 diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
---- lua-5.3/src/liolib.c	2015-01-30 22:34:26.329033992 +0200
-+++ lua-5.3/src/liolib.c	2015-02-14 22:33:35.100734420 +0200
+--- lua-5.3/src/liolib.c	2015-08-05 01:16:36.823491105 +0300
++++ lua-5.3/src/liolib.c	2015-08-05 01:02:57.653012740 +0300
 @@ -47,7 +47,7 @@
  
  #if !defined(l_popen)		/* { */
@@ -23,20 +23,29 @@ diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
  #define l_popen(L,c,m)		(fflush(NULL), popen(c,m))
  #define l_pclose(L,file)	(pclose(file))
 diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
---- lua-5.3/src/loslib.c	2015-02-14 22:33:05.196735076 +0200
-+++ lua-5.3/src/loslib.c	2015-02-14 22:32:40.800735611 +0200
-@@ -58,7 +58,7 @@
- ** uses mkstemp.
+--- lua-5.3/src/loslib.c	2015-08-05 01:16:36.823491105 +0300
++++ lua-5.3/src/loslib.c	2015-08-05 01:23:04.578681552 +0300
+@@ -65,7 +65,7 @@
+ ** where it uses gmtime_r/localtime_r
  */
  
 -#if defined(LUA_USE_POSIX)	/* { */
-+#if defined(LUA_USE_MKSTEMP)	/* { */
++#if defined(LUA_USE_GMTIME_R) /* { */
+ 
+ #define l_gmtime(t,r)		gmtime_r(t,r)
+ #define l_localtime(t,r)	localtime_r(t,r)
+@@ -92,7 +92,7 @@
+ */
+ #if !defined(lua_tmpnam)	/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_MKSTEMP) /* { */
  
  #include <unistd.h>
  
 diff -Nurd lua-5.3/src/luaconf.h lua-5.3/src/luaconf.h
---- lua-5.3/src/luaconf.h	2015-02-14 22:33:05.196735076 +0200
-+++ lua-5.3/src/luaconf.h	2015-02-14 22:32:40.800735611 +0200
+--- lua-5.3/src/luaconf.h	2015-08-05 01:16:36.823491105 +0300
++++ lua-5.3/src/luaconf.h	2015-08-05 01:02:57.657012735 +0300
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>

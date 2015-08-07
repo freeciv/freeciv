@@ -65,7 +65,7 @@
 ** where it uses gmtime_r/localtime_r
 */
 
-#if defined(LUA_USE_MKSTEMP)	/* { */
+#if defined(LUA_USE_GMTIME_R) /* { */
 
 #define l_gmtime(t,r)		gmtime_r(t,r)
 #define l_localtime(t,r)	localtime_r(t,r)
@@ -92,7 +92,7 @@
 */
 #if !defined(lua_tmpnam)	/* { */
 
-#if defined(LUA_USE_POSIX)	/* { */
+#if defined(LUA_USE_MKSTEMP) /* { */
 
 #include <unistd.h>
 
