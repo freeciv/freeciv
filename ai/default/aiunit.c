@@ -2707,7 +2707,8 @@ void dai_manage_units(struct ai_type *ait, struct player *pplayer)
   dai_set_defenders(ait, pplayer);
 
   unit_list_iterate_safe(pplayer->units, punit) {
-    if (!unit_transported(punit) && !def_ai_unit_data(punit, ait)->done) {
+    if ((!unit_transported(punit) || unit_owner(unit_transport_get(punit)) != pplayer)
+         && !def_ai_unit_data(punit, ait)->done) {
       /* Though it is usually the passenger who drives the transport,
        * the transporter is responsible for managing its passengers. */
       dai_manage_unit(ait, pplayer, punit);
