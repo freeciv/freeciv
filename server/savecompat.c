@@ -1027,3 +1027,14 @@ enum barbarian_type barb_type_convert(int old_type)
 
   return barbarian_type_invalid();
 }
+
+/**************************************************************************
+  Returns the action id corresponding to the specified order id. If no
+  corresponding action is found ACTION_COUNT is returned.
+**************************************************************************/
+int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
+                       struct tile *tgt_tile)
+{
+  /* The order hasn't been replaced by an action. */
+  return ACTION_COUNT;
+}

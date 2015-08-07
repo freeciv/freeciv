@@ -1495,7 +1495,7 @@ static void player_load_units(struct player *plr, int plrno,
 	  order->order = char2order(orders_buf[j]);
 	  order->dir = char2dir(dir_buf[j]);
 	  order->activity = char2activity(act_buf[j]);
-          order->action = ACTION_COUNT;
+
 	  if (order->order == ORDER_LAST
 	      || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
 	      || (order->order == ORDER_ACTIVITY
@@ -1506,6 +1506,14 @@ static void player_load_units(struct player *plr, int plrno,
 	    punit->has_orders = FALSE;
 	    break;
 	  }
+
+          /* The order may have been replaced by the perform action order */
+          order->action = sg_order_to_action(order->order, punit,
+                                             punit->goto_tile);
+          if (order->action != ACTION_COUNT) {
+            /* The order was converted by order_to_action */
+            order->order = ORDER_PERFORM_ACTION;
+          }
 
           /* Pre 2.2 savegames had activities ACTIVITY_FORTRESS and ACTIVITY_AIRBASE */
           if (order->activity == ACTIVITY_FORTRESS) {

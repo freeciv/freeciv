@@ -3888,7 +3888,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->order = char2order(orders_unitstr[j]);
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
-        order->action = ACTION_COUNT;
+
         if (order->order == ORDER_LAST
             || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
             || (order->order == ORDER_ACTIVITY
@@ -3898,6 +3898,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
           punit->orders.list = NULL;
           punit->has_orders = FALSE;
           break;
+        }
+
+        /* The order may have been replaced by the perform action order */
+        order->action = sg_order_to_action(order->order, punit,
+                                           punit->goto_tile);
+        if (order->action != ACTION_COUNT) {
+          /* The order was converted by order_to_action */
+          order->order = ORDER_PERFORM_ACTION;
         }
 
         if (tgt_unitstr) {

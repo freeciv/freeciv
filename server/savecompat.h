@@ -159,4 +159,7 @@ const char *special_rule_name(enum tile_special_type type);
 enum ai_level ai_level_convert(int old_level);
 enum barbarian_type barb_type_convert(int old_type);
 
+int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
+                       struct tile *tgt_tile);
+
 #endif /* FC__SAVECOMPAT_H */
