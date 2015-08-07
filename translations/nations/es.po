@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-04 13:04+0100\n"
-"PO-Revision-Date: 2015-03-17 01:44+0100\n"
+"PO-Revision-Date: 2015-08-07 13:28+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
 "Language: es_ES\n"
@@ -833,7 +833,7 @@ msgid ""
 "California and Ft. Elizabeth in Hawai'i."
 msgstr ""
 "Los Unangan o aleutianos, vivían en casas permanentes subterráneas que "
-"utilizaban durante su caza y en pueblos de pescadores. Ellos vivían en las "
+"utilizavan durante su caza y en pueblos de pescadores. Ellos vivían en las "
 "islas Aleutianas durante miles de años antes del contacto europeo. Algunas "
 "personas Unangan han desarrollado lazos con los misioneros y comerciantes de "
 "Rusia y muchos se han convertido el cristianismo ortodoxo ruso y se han "
@@ -1065,11 +1065,11 @@ msgid ""
 msgstr ""
 "La civilización amazigh es una de las más antiguas de la cuenca del "
 "Mediterráneo, coexistente con el antiguo Egipto. La gente amazigh, que "
-"significa \"hombres libres\", son robustos y fuertes, pero alegres y "
-"generosos con una gran consideración para la familia y la tribu. Cada tribu "
+"significa \"hombres libres\",son robustos y fuertes, pero alegres y "
+"generosos con una gran consideraciónpara la familia y la tribu. Cada tribu "
 "tiene sus propias tradiciones y cultura, que es una de las razones de la "
-"diversidad de tradiciones en el Marruecos moderno, Argelia y Túnez. Los "
-"amazighs hablan lenguas antiguas como Tamazirt, Tachelhit o Tarifit, "
+"diversidad de tradiciones en el Marruecos moderno,Argelia y Túnez. Los "
+"amazighs hablan lenguas antiguas como Tamazirt,Tachelhit o Tarifit, "
 "conocidas colectivamente como lenguas bereberes, con una antiguo sistema de "
 "escritura llamada Tifinagh."
 
@@ -1328,7 +1328,7 @@ msgstr ""
 "Las islas de Aruba, Bonaire, Curazao, Saba, San Martín y San Eustaquio "
 "fueron colonizadas por los holandeses en el siglo 17. Su población es la "
 "mezcla de orígenes latinoamericanos, europeos y africanos. Las Antillas "
-"Holandesas tuvieron auto-gobierno interno desde 1954 y fueron disueltas en "
+"Holandesas tuvieron auto-gobierno interno desde 1954m y fueron disueltas en "
 "2010. Aruba, Curazao y San Martín son países dentro del Reino de los Países "
 "Bajos; las otras tres islas han sido directamente integradas en los Países "
 "Bajos como municipios especiales."
@@ -1371,7 +1371,7 @@ msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
 msgstr ""
-"Según cuenta la leyenda, los Arameos son descendientes de Aram, el nieto de "
+"Según cuenta la leyenda, los Arameos son desdencientes de Aram, el nieto de "
 "Noah."
 
 #: data/nation/argentine.ruleset:3
@@ -1469,7 +1469,7 @@ msgid ""
 "independence from the Soviet Union in 1991."
 msgstr ""
 "Según cuenta la leyenda, los Armenios son descendientes de Haik - el "
-"tataranieto de Noah. La moderna República de Armenia ganó su Independencia "
+"tátaranieto de Noah. La moderna República de Armenia ganó su Independencia "
 "de los Soviéticos en 1991."
 
 #: data/nation/armenian.ruleset:24 data/nation/assyrian.ruleset:21
@@ -1784,7 +1784,7 @@ msgstr ""
 "moderno fue el escenario de subidas y bajadas de los diferentes estados "
 "antiguos de la región del Cáucaso. En 1813, Azerbaiyán se convirtió en parte "
 "del Imperio Ruso, seguido por un breve período de independencia en 1918-1920 "
-"- como la primera república islámica en la historia. Entonces, Azerbaiyán se "
+"- como la primerarepública islámica en la historia. Entonces, Azerbaiyán se "
 "convirtió en parte de la Unión Soviética hasta su disolución en 1991."
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
@@ -2031,7 +2031,7 @@ msgstr ""
 "occidentales de los Pirineos. El Reino de Navarra fue el último estado "
 "independiente vasco, que pasó a Aragón en el siglo 16. Hoy en día, el País "
 "Vasco, o \"Euskal Herria\", está ubicado en la zona fronteriza entre España "
-"y Francia, dividida en siete provincias históricas. Su lengua, el euskera, "
+"y Francia, dividida en siete provincias históricas. Su lengua, el euskara, "
 "no tiene idiomas relacionados y sus orígenes son desconocidos."
 
 #: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
@@ -2118,7 +2118,7 @@ msgid ""
 "Union."
 msgstr ""
 "Belarús fue parte del  antiguo estado eslavo de Rus de Kiev, y a "
-"continuación, Lituania, Polonia, el Imperio Ruso y la Unión Soviética. "
+"continuación,Lituania, Polonia, el Imperio Ruso y la Unión Soviética. "
 "Belarús se independizó en 1991 con la disolución de la Unión Soviética."
 
 #: data/nation/belarusian.ruleset:33 data/nation/bulgarian.ruleset:30
@@ -2383,8 +2383,8 @@ msgstr ""
 "alcanzando su apogeo en el siglo 16. Eweka fundó el Uzama, o los Consejeros "
 "del Estado, para ayudar en la ascensión de un nuevo Oba, o Rey. Su fortuna "
 "se desvaneció como los europeos eligieron otros reinos con quien negociar "
-"después de que el principal puerto de Benin quedase obstruido. El Reino "
-"finalmente terminó en 1897 cuando los británicos asumieron el control."
+"despúes de que el principal puerto de Benin quedase obstruido. El Reino "
+"finalmente terminó en 1897 cuando el control británico asumió."
 
 #: data/nation/bhutanese.ruleset:3
 msgid "Bhutanese"
@@ -2448,7 +2448,7 @@ msgid ""
 msgstr ""
 "Biafra declaró su independencia de Nigeria en 1967 después de años de "
 "tensiones étnicas, religiosas y económicas en la recientemente independiente "
-"Nigeria. La guerra entre Nigeria y Biafra siguió y se cobró hasta dos "
+"Nigeria. La guerra entre Nigeria y Biafra seguió y se cobró hasta dos "
 "millones de vidas, sobre todo a causa de la hambruna y las enfermedades "
 "causadas por el bloqueo de los puertos de Biafra. Biafra se rindió en 1970."
 
@@ -3023,10 +3023,12 @@ msgid "?female:Chancellor %s"
 msgstr "Cancillera %s"
 
 #: data/nation/burgundic.ruleset:3
+#, fuzzy
 msgid "Burgundic"
 msgstr "Burgundio"
 
 #: data/nation/burgundic.ruleset:4
+#, fuzzy
 msgid "?plural:Burgunds"
 msgstr "Burgundios"
 
@@ -3336,12 +3338,14 @@ msgid "?female:Admiral %s"
 msgstr "Almirante %s"
 
 #: data/nation/carantanian.ruleset:3
+#, fuzzy
 msgid "Carantanian"
-msgstr "Carintiano"
+msgstr "Cartaginés"
 
 #: data/nation/carantanian.ruleset:4
+#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "Carintianos"
+msgstr "Cartagineses"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3473,12 +3477,12 @@ msgid ""
 msgstr ""
 "Durante la época colonial de Centroamérica formó la Capitanía General de "
 "Guatemala. Centroamérica declaró su independencia de España en 1821, se unió "
-"por poco tiempo a México, y luego formó una república federal. Las luchas "
+"por poco timepo a México, y luego formó una república federal. Las luchas "
 "entre Guatemala y las otras provincias y entre los liberales y los "
 "conservadores llevaron a la desaparición de la federación. En 1840 la "
-"federación había dejado de existir. Todos los intentos posteriores de "
+"federación había dejado de existir. Todos los intentos posteriores de la "
 "reunificación fallaron, aunque desde 1993 las repúblicas centroamericanas "
-"cooperan en el Sistema de Integración Centroamericana (SICA)."
+"cooperar en el Sistema de Integración Centroamericana (SICA)."
 
 #: data/nation/centralamerican.ruleset:29
 #, c-format
@@ -4111,8 +4115,9 @@ msgid "Chairwoman %s"
 msgstr "Directora %s"
 
 #: data/nation/confederate.ruleset:3
+#, fuzzy
 msgid "Confederate"
-msgstr "Confederado"
+msgstr "Confederados"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
@@ -4444,7 +4449,7 @@ msgid ""
 "and coffee in the world. Cuba was granted nominal independence in 1902."
 msgstr ""
 "Cuba se puso bajo control Español en el siglo XVI. En los siglos "
-"posteriores, la isla se puso al frente de la producción tabaquera, de azúcar "
+"posteriores, la isla se puso al frente de la producción tabacera, de azúcar "
 "y de café en todo el mundo. Cuba recibió su independencia en 1902."
 
 #: data/nation/curonian.ruleset:3
@@ -4580,12 +4585,14 @@ msgid "Prophetess %s"
 msgstr "Profetisa %s"
 
 #: data/nation/dacian.ruleset:3
+#, fuzzy
 msgid "Dacian"
-msgstr "Dacio"
+msgstr "Tracio"
 
 #: data/nation/dacian.ruleset:4
+#, fuzzy
 msgid "?plural:Dacians"
-msgstr "Dacios"
+msgstr "Tracios"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -5053,10 +5060,10 @@ msgid ""
 "fledgeling super state. But the question remains: Does such a thing as a "
 "common European identity and nation actually exist?"
 msgstr ""
-"La fundación de la Unión Europea fue iniciada en 1957 con el Tratado de "
-"Roma. El proyecto de la UE se ha desarrollado desde entonces y está "
-"empezando a parecerse a un Super Estado. Pero la pregunta sigue siendo: "
-"¿Realmente existen la identidad europea común y la nación en sí?"
+"La fundación de la Unión Europea fue iniciada en 1957 con el Tratado deRoma. "
+"El proyecto de la UE se ha desarrollado desde entonces y está empezando a "
+"parecerse a un Super Estado. Pero la pregunta sigue siendo: ¿Realmente "
+"existen la identidad europea común y la nación en sí?"
 
 #: data/nation/european.ruleset:23 data/nation/frankish.ruleset:42
 #: data/nation/holyroman.ruleset:34 data/nation/holysee.ruleset:31
@@ -5303,8 +5310,9 @@ msgid "Formosan"
 msgstr "Formosano"
 
 #: data/nation/formosan.ruleset:4
+#, fuzzy
 msgid "?plural:Formosans"
-msgstr "Formosano"
+msgstr "Normandos"
 
 #: data/nation/formosan.ruleset:7
 #, no-c-format
@@ -5428,11 +5436,11 @@ msgid ""
 msgstr ""
 "Los romanos ya mencionavan a los Frisones pero los historiadores no están "
 "seguros si eran los antepasados de frisones de hoy o no. En la Baja Edad "
-"Media los frisones controlaban un reino que se extendía desde el río Escalda "
+"Media los frisones controlavan un reino que se extendía desde el río Escalda "
 "a la península de Jutlandia. Aunque finalmente fueron derrotados por los "
 "francos, siguieron disfrutando de la famosa libertad de Frisia, negándose a "
 "reconocer la autoridad de cualquier señor feudal. En el siglo 15 y 16 el "
-"territorio frisón fue paulatinamente controlado y su núcleo se convirtió en "
+"territorio frisón fue paulatinamente controlado y su núcleo se convertió en "
 "una provincia de los Países Bajos Unidos. En 1782 los Estados de Frisia "
 "fueron el primer gobierno extranjero en reconocer la independencia de los "
 "Estados Unidos de América."
@@ -5670,8 +5678,9 @@ msgid "Gepid"
 msgstr "Gépido"
 
 #: data/nation/gepid.ruleset:4
+#, fuzzy
 msgid "?plural:Gepids"
-msgstr "Gépidos"
+msgstr "Nepalíes"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5893,7 +5902,7 @@ msgstr ""
 "El Göktürk o Khaganate viejo turco fue gobernado por la dinastía Ashina que "
 "deriva su origen legendario de la loba roja. Los köktürks fueron antepasados "
 "de los pueblos modernos turcos en Asia y Europa del Este. Ellos fueron los "
-"creadores de un vasto imperio militar, que abarcaba desde el oeste las "
+"creadores de un vasto imperio militar, que abarcava desde el oeste las "
 "estepas del río Kuban hasta Corea en el este."
 
 #: data/nation/goldenhorde.ruleset:3
@@ -5944,7 +5953,7 @@ msgstr ""
 "es Polonia o, posiblemente, en Escandinavia. Dominaron el sureste de Europa "
 "en el siglo IV EC. Los godos jugado un papel importante en la caída del "
 "Imperio romano, saqueando la propia Roma en el año 410 CE. Los visigodos "
-"conquistaron Iberia romana, mientras que los ostrogodos fundaron un reino en "
+"conquistaron Iberia romana, mientras que los ostrogodos fundó un reino en "
 "Italia."
 
 #: data/nation/greaterpolish.ruleset:3
@@ -6472,7 +6481,7 @@ msgstr ""
 "menos un imperio. Sin embargo, resultó ser extremadamente durable, y la "
 "pérdida de territorio fue muy lenta. Durante la mayor parte de su existencia "
 "fue un mosaico complejo que constaba de un incontable número de condados, "
-"ducados, electorados, ciudades imperiales libres y otros territorios. En "
+"ducados, electoradados, ciudades imperiales libres y otros territorios. En "
 "1806 fue disuelta por Napoleón y sustituida por la Confederación del Rhin."
 
 #: data/nation/holysee.ruleset:3
@@ -6742,9 +6751,9 @@ msgid ""
 "North of Ireland was settled in the 17th century by Scottish and English "
 "planters and is now part of the United Kingdom."
 msgstr ""
-"Irlanda resistió la conquista de los Romanos y los Vikingos pero fue "
+"Irlanda resistío la conquista de los Romanos y los Vikingos pero fue "
 "conquistada por los Normandos en el 1171. Fue gobernada por los Ingleses "
-"hasta en 1922 cuando se les concedió una limitada autonomía en casi todo el "
+"hasta en 1922 cuando se les concedio una limitada autonomía en casi todo el "
 "país, y es refundó en república en el 1949. El Irlanda del Norte fue "
 "colonizada en el siglo XVII por colonos Escoceses y Ingleses y ahora es "
 "parte del Reino Unido."
@@ -6822,12 +6831,14 @@ msgid "?female:Judge %s"
 msgstr "Jueza %s"
 
 #: data/nation/italiangreek.ruleset:3
+#, fuzzy
 msgid "Italian Greek"
-msgstr "Griego Italiano"
+msgstr "Italiano"
 
 #: data/nation/italiangreek.ruleset:4
+#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "Griegos Italianos"
+msgstr "Italianos"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -6855,7 +6866,7 @@ msgstr ""
 "modernos."
 
 #: data/nation/italiangreek.ruleset:48
-#, c-format
+#, fuzzy, c-format
 msgid "Tyranne %s"
 msgstr "Tirano %s"
 
@@ -6956,7 +6967,7 @@ msgstr ""
 "el siglo 14. El Rey, o Jolof Burba, estaba en deuda con un puñado de "
 "poderosos nobles de la región que reconocieron al rey pero sin renunciar a "
 "fuertes cotas de poder personales. A principios de 1500, el Jolof Burba "
-"podía movilizar hasta 100.000 hombre de infantería y 10.000 jinetes. Las "
+"podía mobilizar hasta 100.000 hombre de infantería y 10.000 jinetes. Las "
 "incursiones Fulanis y Bereberes, junto con una debilidad política fueron "
 "erosionando el poder del Jolof Burba. Varios estados de habla wolof fueron "
 "estableciendo uniones entre sí, con sus jefes asumiendo las competencias de "
@@ -7236,8 +7247,9 @@ msgid "Khoisan"
 msgstr "Joisán"
 
 #: data/nation/khoisan.ruleset:4
+#, fuzzy
 msgid "?plural:Khoisan"
-msgstr "Joisanes"
+msgstr "Coreanos"
 
 #: data/nation/khoisan.ruleset:6
 msgid ""
@@ -7350,8 +7362,9 @@ msgid "Komi"
 msgstr "Komi"
 
 #: data/nation/komi.ruleset:4
+#, fuzzy
 msgid "?plural:Komi"
-msgstr "Komi"
+msgstr "Boyos"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -7463,12 +7476,14 @@ msgstr ""
 "mundo."
 
 #: data/nation/kushan.ruleset:3
+#, fuzzy
 msgid "Kushan"
-msgstr "kushán"
+msgstr "Ashanti"
 
 #: data/nation/kushan.ruleset:4
+#, fuzzy
 msgid "?plural:Kushans"
-msgstr "kushán"
+msgstr "Kunas"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7550,8 +7565,9 @@ msgid "Langobardic"
 msgstr "Langobárdico"
 
 #: data/nation/langobardic.ruleset:4
+#, fuzzy
 msgid "?plural:Langobards"
-msgstr "Langobárdicos"
+msgstr "Savoyeses"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -7850,12 +7866,14 @@ msgstr ""
 "se formó por la fusión de Vaduz y Schellenberg en 1719."
 
 #: data/nation/ligurian.ruleset:3
+#, fuzzy
 msgid "Ligurian"
-msgstr "Ligur"
+msgstr "Liberiano"
 
 #: data/nation/ligurian.ruleset:4
+#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "Ligures"
+msgstr "Liburneses"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -8022,8 +8040,9 @@ msgid "Lycian"
 msgstr "Licio"
 
 #: data/nation/lycian.ruleset:4
+#, fuzzy
 msgid "?plural:Lycians"
-msgstr "Licios"
+msgstr "Luvitas"
 
 #: data/nation/lycian.ruleset:6
 msgid ""
@@ -8429,12 +8448,14 @@ msgid "?female:High Brahmin %s"
 msgstr "La Alta Brahmin %s"
 
 #: data/nation/marshallese.ruleset:3
+#, fuzzy
 msgid "Marshallese"
-msgstr "Marshalés"
+msgstr "Cingalés"
 
 #: data/nation/marshallese.ruleset:4
+#, fuzzy
 msgid "?plural:Marshallese"
-msgstr "Marshaleses"
+msgstr "Malteses"
 
 #: data/nation/marshallese.ruleset:6
 msgid ""
@@ -8725,7 +8746,7 @@ msgid ""
 msgstr ""
 "Hoy en día con un población aproximadamente de 25.000, los Micmacs habitaban "
 "(y en gran medida siguen en) Nueva Escocia. El primer Micmaq que se "
-"convirtió al cristianismo lo hizo en 1610 bajo la soberanía francesa. El "
+"convertió al cristianismo lo hizo en 1610 bajo la soberanía francesa. El "
 "gobierno francés dio paso al Inglés, y el Inglés al Canadadiense."
 
 #: data/nation/milanese.ruleset:3
@@ -8992,7 +9013,7 @@ msgid ""
 "of the Russian Federation."
 msgstr ""
 "El mordvinos son un pueblo finés que consiste en dos subgrupos: los Erzya y "
-"los Moksha. Los Mordvinos viven principalmente en la República de Mordovia, "
+"losMoksha. Los Mordvinos viven principalmente en la República de Mordovia, "
 "una subdivisión de la Federación Rusia."
 
 #: data/nation/moroccan.ruleset:3
@@ -9112,7 +9133,7 @@ msgid ""
 "after 1541 and the language went extinct in the 18th century."
 msgstr ""
 "Constando de cinco estados, descritos como cacicazgos y reinos, los Muiscas "
-"(también conocidos como Mwiskas) probablemente tenían una población de entre "
+"(también conocidos como Mwiskas) probablemente tenian una población de entre "
 "medio millón y un millón de personas en el momento de la conquista española. "
 "Los dos más grandes de los Estados Muiscas, Zipa y Zaque, se encontraban en "
 "conflicto entre sí cuando los españoles llegaron a la escena, siendo el "
@@ -9287,11 +9308,11 @@ msgid ""
 "Europeans hoped Prester John would be a valuable ally in their quest to end "
 "Muslim rule of the Holy Land."
 msgstr ""
-"Leyendas del Sacerdote Juan circularon en Europa des del siglo 12 al 17. Las "
+"Leyendas del Sacerdote Juan circularon en Europa desdel siglo 12 al 17. Las "
 "historias contaban de una nación cristiana nestoriana más allá de los "
 "límites del mundo europeo; con el tiempo la ubicación del reino se trasladó "
 "desde la India hasta Asia Central y a Etiopía. Esa tierra contenía riquezas "
-"increíbles y criaturas fantásticas, y limitaba con el Paraíso Terrenal. "
+"increíbles y criaturas fantásticas, y limitava con el Paraíso Terrenal. "
 "Debido a que el país se creía que estaba en el otro lado del mundo musulmán, "
 "muchos europeos esperaban que el Sacerdote Juan fuese un valioso aliado en "
 "su búsqueda para poner fin a la dominación musulmana de Tierra Santa."
@@ -9435,7 +9456,7 @@ msgid ""
 "tribal affairs."
 msgstr ""
 "El Nimíipuu, o la 'Gente Real', en su propio idioma, son más conocidos como "
-"el 'Nez Percé'. Esta nación nativa americana cubrió partes de Washington, "
+"el'Nez Percé'. Esta nación nativa americana cubrió partes de Washington, "
 "Oregón, Montana y Idaho y constaba de más de 70 aldeas permanentes en 1800. "
 "En este momento la población era de unas 6.000 personas. Después de una "
 "derrota por la caballería americana el 5 de octubre de 1877, los Nimíipuu "
@@ -9547,8 +9568,9 @@ msgid "Novgorodian"
 msgstr "Novgorodiano"
 
 #: data/nation/novgorodian.ruleset:4
+#, fuzzy
 msgid "?plural:Novgorodians"
-msgstr "Novgorodianos"
+msgstr "Nigerianos"
 
 #: data/nation/novgorodian.ruleset:6
 msgid ""
@@ -9785,7 +9807,7 @@ msgid ""
 "Order."
 msgstr ""
 "Los prusianos eran pueblos bálticos que habitan en la zona comprendida entre "
-"el Pomerania, Mazovia, Lituania, y el Mar Báltico (la costa báltica entre "
+"el Pomerania, Mazovia, Lituania, y el Mar Báltico (la costa bàltica entre "
 "las partes bajas de los ríos Vistula y Nemen). Ellos fueron conquistados y "
 "alemanizados por la Orden Teutónica."
 
@@ -10227,8 +10249,9 @@ msgid "Parthian"
 msgstr "Parto"
 
 #: data/nation/parthian.ruleset:4
+#, fuzzy
 msgid "?plural:Parthians"
-msgstr "Partos"
+msgstr "Marcianos"
 
 #: data/nation/parthian.ruleset:6
 msgid ""
@@ -10746,8 +10769,9 @@ msgid "Rusyn"
 msgstr "Rusino"
 
 #: data/nation/rusyn.ruleset:4
+#, fuzzy
 msgid "?plural:Rusyns"
-msgstr "Rusinos"
+msgstr "Rusos"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""
@@ -10771,8 +10795,9 @@ msgid "Kievan Rus'"
 msgstr "Ruso de Kiev"
 
 #: data/nation/ruthenian.ruleset:4
+#, fuzzy
 msgid "?plural:Kievan Rus'"
-msgstr "Rusos de Kiev"
+msgstr "Coreanos"
 
 #: data/nation/ruthenian.ruleset:7
 msgid ""
@@ -10781,8 +10806,8 @@ msgid ""
 "Rus' succumbed to a Mongol invasion. The Rus' were the precursors of the "
 "modern East Slavic nations."
 msgstr ""
-"La Rus de Kiev fue una monarquía medieval eslava. El epicentro fue ubicado "
-"en Kiev después de que la ciudad fue conquistada por Oleg de Novgorod. En el "
+"La Rus de Kiev se una monarquía medieval eslava. El epicentro fue ubicado en "
+"Kiev después de que la ciudad fue conquistada por Oleg de Novgorod. En el "
 "siglo 13 el estado sucumbió a una invasión de los mongoles. Los pobladores "
 "del estado fueron los precursores de las modernas naciones eslavas."
 
@@ -10989,7 +11014,7 @@ msgid ""
 "northernmost regions of the Scandinavian countries and northwestern Russia."
 msgstr ""
 "Los Saamis son gente que viven al norte de Escandinavia. Su nación se "
-"extiende en las regiones al norte de los países escandinavos y la nordeste "
+"extiende en las regiones al norte de los paises escandinavos y la nordeste "
 "de Rusia."
 
 #: data/nation/sammarinese.ruleset:3
@@ -11285,7 +11310,7 @@ msgid ""
 msgstr ""
 "Durante gran parte de su historia, Alemania y Dinamarca se han disputado los "
 "ducados de Schleswig y Holstein. Los territorios se unieron en una unión "
-"personal en 1375. En el siglo 19, el confuso estado de Schleswig-Holstein "
+"personal en 1375. En el siglo 19, el confusó estado de Schleswig-Holstein "
 "llevó a dos guerras entre Dinamarca y Prusia, y en 1866 Schleswig-Holstein "
 "se convirtió en una provincia de Prusia. Después de la Primera Guerra "
 "Mundial, el norte de Schleswig-fue anexado por Dinamarca. Actualmente "
@@ -11509,8 +11534,8 @@ msgid ""
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
 "20th century it was part of the Yugoslav Federation."
 msgstr ""
-"Serbia forma parte de las tierras eslavas del sur que fueron conquistadas "
-"por los otomanos tras el colapso del Imperio Bizantino. Durante la mayor "
+"Serbia formate parte de las tierras eslavas del sur que fueron conquistadas "
+"por los otomanos tras el colapso del Imperio Bizantino.  Durante la mayor "
 "parte del siglo XX ha formado parte de la Federación Yugoslava."
 
 #: data/nation/seychellois.ruleset:3
@@ -11868,7 +11893,7 @@ msgstr ""
 "Somalia, muy parecido a la Somalilandia británica. Se declaró la "
 "independencia en el colapso de Somalia en 1991. A pesar de que goza de una "
 "mayor estabilidad y un nivel de vida un poco más alto que el resto de "
-"Somalia sigue estando no reconocido internacionalmente."
+"Somalia sigue siendo no  reconocido internacionalmente."
 
 #: data/nation/somali.ruleset:3
 msgid "Somali"
@@ -12367,8 +12392,8 @@ msgstr ""
 "Imperio Qing, poniendo fin a más de dos milenios de dominación imperial en "
 "China. Cuando los nacionalistas chinos, que gobernaban la República "
 "perdieron una guerra civil contra los comunistas chinos en 1949, el gobierno "
-"nacionalista fue evacuado a la isla de Taiwán, estableciendo Taipei como la "
-"capital provisional de la República de China."
+"nacionalista fue evacuado a la isla de Taiwán, establecediendo Taipei como "
+"la capital provisional de la República de China."
 
 #: data/nation/tajik.ruleset:3
 msgid "Tajik"
@@ -13089,12 +13114,14 @@ msgid "?female:Secretary-General %s"
 msgstr "Secretaria-General %s"
 
 #: data/nation/urartian.ruleset:3
+#, fuzzy
 msgid "Urartian"
-msgstr "Urartio"
+msgstr "Marciano"
 
 #: data/nation/urartian.ruleset:4
+#, fuzzy
 msgid "?plural:Urartians"
-msgstr "Urartios"
+msgstr "Marcianos"
 
 #: data/nation/urartian.ruleset:6
 msgid ""
@@ -13329,7 +13356,7 @@ msgstr ""
 "los refugiados de los bárbaros se reunieron buscando seguridad en las islas "
 "de una laguna en el noreste de Italia. Originalmente un leal súbdito del "
 "Imperio Romano de Oriente, poco a poco adquirió su independencia y se situó "
-"entre las superpotencias de la Edad Media. Sus comerciantes se enriquecieron "
+"entre las superpotencias de la Edad Media. Sus comerciantes se enriqueeron "
 "con el comercio y su marina de guerra se hizo respetar por todo el mar "
 "Mediterráneo. Después de un largo declive, finalmente fue derrotada por los "
 "ejércitos de Bonaparte en 1796."
@@ -13355,7 +13382,7 @@ msgstr ""
 "menos coincidiendo con la región italiana del Veneto moderna. Su lengua es "
 "de origen desconocido, pero probablemente de Europa Central, ya que comparte "
 "algunas características con el lenguas celtas y germánicas. Los Venéticos se "
-"aliaron con los romanos durante las Guerras Púnicas. Por el siglo 1 AEC "
+"aliaron con los romanos durante las Guerras Púnicas. Por el siglo 1 aC "
 "habían sido absorbidos en la República Romana y la región se romanizó "
 "gradualmente."
 
@@ -13584,8 +13611,9 @@ msgstr ""
 "principalmente a Kazajstán y Siberia."
 
 #: data/nation/walloon.ruleset:3
+#, fuzzy
 msgid "Walloon"
-msgstr "Valón"
+msgstr "IgMurallas"
 
 #: data/nation/walloon.ruleset:4
 msgid "?plural:Walloons"
@@ -13828,7 +13856,7 @@ msgid ""
 "Russia's Far Eastern district."
 msgstr ""
 "La tradición oral indica que los yakutos - Sajá o como ellos se llaman - "
-"emigraron des del norte de las estepas de Asia Central a las costas del lago "
+"emigraron desdel norte de las estepas de Asia Central a las costas del lago "
 "Baikal, en el siglo 10. Ellos se mezclaron con la población nativa y "
 "establecieron una nación a lo largo del río Lena, que tenía relaciones "
 "diplomáticas por lo menos con los chinos, los mongoles, y los diversos "
@@ -14035,9 +14063,3 @@ msgstr ""
 "a poner fin al régimen de minoría blanca en 1979. Desde 1980 el país ha sido "
 "gobernado por Robert Mugabe, que ha recibido una reputación igualmente pobre "
 "a nivel internacional como el régimen anterior."
-
-#~ msgid "?female:Mother Superior %s"
-#~ msgstr "La Madre Superiora %s"
-
-#~ msgid "?female:Shaykha %s"
-#~ msgstr "Shaykha %s"
