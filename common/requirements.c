@@ -595,7 +595,7 @@ const char *req_to_fstring(const struct requirement *req)
 }
 
 /****************************************************************************
-  Parse a requirement type and value string into a requrement structure.
+  Parse a requirement type and value string into a requirement structure.
   Returns the invalid element for enum universal_n on error. Passing in a
   NULL type is considered VUT_NONE (not an error).
 
