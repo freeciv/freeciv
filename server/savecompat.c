@@ -1035,6 +1035,36 @@ enum barbarian_type barb_type_convert(int old_type)
 int sg_order_to_action(enum unit_orders order, struct unit *act_unit,
                        struct tile *tgt_tile)
 {
+  switch (order) {
+  case ORDER_BUILD_CITY:
+    if (tile_city(tgt_tile)
+        && city_owner(tile_city(tgt_tile)) == unit_owner(act_unit)) {
+      /* The player's cities are loaded right before his units. It wasn't
+       * possible for rulesets to allow joining foreign cities before 3.0.
+       * This means that a converted build city order only can be a Join
+       * City order if it targets a domestic city. */
+      /* TODO: Support ACTION_JOIN_CITY orders. */
+      return ACTION_COUNT;
+    } else {
+      return ACTION_FOUND_CITY;
+    }
+  case ORDER_BUILD_WONDER:
+    /* TODO: Support ACTION_HELP_WONDER orders. */
+    return ACTION_COUNT;
+  case ORDER_TRADE_ROUTE:
+    /* TODO: Support ACTION_TRADE_ROUTE orders. */
+    return ACTION_COUNT;
+  case ORDER_MOVE:
+  case ORDER_ACTION_MOVE:
+  case ORDER_FULL_MP:
+  case ORDER_ACTIVITY:
+  case ORDER_DISBAND:
+  case ORDER_HOMECITY:
+  case ORDER_PERFORM_ACTION:
+  case ORDER_LAST:
+    break;
+  }
+
   /* The order hasn't been replaced by an action. */
   return ACTION_COUNT;
 }
