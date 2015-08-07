@@ -412,7 +412,7 @@ int universal_number(const struct universal *source)
 }
 
 /****************************************************************************
-  Parse a requirement type and value string into a requrement structure.
+  Parse a requirement type and value string into a requirement structure.
   Returns the invalid element for enum universal_n on error. Passing in a
   NULL type is considered VUT_NONE (not an error).
 
