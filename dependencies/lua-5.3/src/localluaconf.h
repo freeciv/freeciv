@@ -20,7 +20,7 @@
 /* Lua headers want to define VERSION to lua version */
 #undef VERSION
 
-#ifdef HAVE_MKSTEMP
+#if defined(HAVE_MKSTEMP) && defined(HAVE_UNISTD_H)
 #define LUA_USE_MKSTEMP
 #endif
 #if defined(HAVE_POPEN) && defined(HAVE_PCLOSE)
@@ -28,6 +28,9 @@
 #endif
 #if defined(HAVE__LONGJMP) && defined(HAVE__SETJMP)
 #define LUA_USE_ULONGJMP
+#endif
+#if defined(HAVE_GMTIME_R) && defined(HAVE_LOCALTIME_R)
+#define LUA_USE_GMTIME_R
 #endif
 
 #ifdef HAVE_LIBREADLINE
