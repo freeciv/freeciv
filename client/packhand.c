@@ -2803,7 +2803,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
                 unit_rule_name(punit), TILE_XY(unit_tile(punit)),
                 player_name(unit_owner(punit)));
     } unit_list_iterate_end;
-    fc_assert(0 == unit_list_size(ptile->units));
+    fc_assert_msg(0 == unit_list_size(ptile->units), "Ghost units seen");
     /* Repairing... */
     unit_list_clear(ptile->units);
   }
