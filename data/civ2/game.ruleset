@@ -316,7 +316,7 @@ target_reqs    =
 action = "Sabotage Unit"
 actor_reqs    =
     { "type",   "name", "range"
-      "Unitflag", "Spy", "Local"
+      "UnitFlag", "Spy", "Local"
       "DiplRel", "War", "Local"
       "MinMoveFrags", "1", "Local"
     }
@@ -331,21 +331,21 @@ target_reqs    =
 action = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "TradeRoute", "Local", TRUE
+      "UnitFlag", "TradeRoute", "Local", TRUE
     }
 
 [actionenabler_marketplace]
 action = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "TradeRoute", "Local", TRUE
+      "UnitFlag", "TradeRoute", "Local", TRUE
     }
 
 [actionenabler_help_build_wonder]
 action = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "Unitflag", "HelpWonder", "Local", TRUE
+      "UnitFlag", "HelpWonder", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
     }
 
