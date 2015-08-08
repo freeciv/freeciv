@@ -110,15 +110,15 @@ struct adv_data {
   int pollution_priority;
 
   /* Government data */
-  int *government_want;
+  adv_want *government_want;
   short govt_reeval;
 
   /* Goals */
   struct {
     struct {
       struct government *gov;        /* The ideal government */
-      int val;        /* Its value (relative to the current gov) */
-      int req;        /* The tech requirement for the ideal gov */
+      adv_want val;                  /* Its value (relative to the current gov) */
+      int req;                       /* The tech requirement for the ideal gov */
     } govt;
     struct government *revolution;   /* The best gov of the now available */
   } goal;

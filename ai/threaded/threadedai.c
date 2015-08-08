@@ -242,7 +242,7 @@ static void twai_build_adv_adjust(struct player *pplayer, struct city *wonder_ci
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_gov_value(struct player *pplayer, struct government *gov,
-                          int *val, bool *override)
+                           adv_want *val, bool *override)
 {
   TAI_AIT;
   TAI_DFUNC(dai_gov_value, pplayer, gov, val, override);

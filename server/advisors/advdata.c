@@ -796,7 +796,7 @@ void adv_best_government(struct player *pplayer)
     const struct research *presearch = research_get(pplayer);
 
     governments_iterate(gov) {
-      int val = 0;
+      adv_want val = 0;
       bool override = FALSE;
 
       if (gov == game.government_during_revolution) {
