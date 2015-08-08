@@ -1396,7 +1396,7 @@ void military_advisor_choose_build(struct ai_type *ait,
   struct tile *ptile = pcity->tile;
   struct unit *virtualunit;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
-  int martial_value = 0;
+  adv_want martial_value = 0;
   bool martial_need = FALSE;
 
   init_choice(choice);

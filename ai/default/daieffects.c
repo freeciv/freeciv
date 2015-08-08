@@ -73,13 +73,13 @@ static int get_entertainers(const struct city *pcity)
   How desirable particular effect making people content is for a
   particular city?
 **************************************************************************/
-int dai_content_effect_value(const struct player *pplayer,
-                             const struct city *pcity,
-                             int amount,
-                             int num_cities,
-                             int happiness_step)
+adv_want dai_content_effect_value(const struct player *pplayer,
+                                  const struct city *pcity,
+                                  int amount,
+                                  int num_cities,
+                                  int happiness_step)
 {
-  int v = 0;
+  adv_want v = 0;
 
   if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
     int i;
@@ -132,18 +132,18 @@ static int num_affected_units(const struct effect *peffect,
   How desirable is a particular effect for a particular city,
   given the number of cities in range (c).
 **************************************************************************/
-int dai_effect_value(struct player *pplayer, struct government *gov,
-                     const struct adv_data *ai, const struct city *pcity,
-                     const bool capital, int turns,
-                     const struct effect *peffect, const int c,
-                     const int nplayers)
+adv_want dai_effect_value(struct player *pplayer, struct government *gov,
+                          const struct adv_data *ai, const struct city *pcity,
+                          const bool capital, int turns,
+                          const struct effect *peffect, const int c,
+                          const int nplayers)
 {
   int amount = peffect->value;
   bool affects_sea_capable_units = FALSE;
   bool affects_land_capable_units = FALSE;
   int num;
   int trait;
-  int v = 0;
+  adv_want v = 0;
 
   if (peffect->multiplier) {
     if (pplayer) {

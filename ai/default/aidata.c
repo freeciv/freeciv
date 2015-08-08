@@ -420,7 +420,7 @@ static void dai_diplomacy_destroy(struct ai_type *ait,
   Set value of the government.
 ****************************************************************************/
 void dai_gov_value(struct ai_type *ait, struct player *pplayer,
-                   struct government *gov, int *val, bool *override)
+                   struct government *gov, adv_want *val, bool *override)
 {
   int dist;
   int bonus = 0; /* in percentage */
@@ -476,7 +476,7 @@ void dai_gov_value(struct ai_type *ait, struct player *pplayer,
       } requirement_vector_iterate_end;
 
       if (active) {
-        int v1;
+        adv_want v1;
 
         v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
                               turns, peffect, 1,

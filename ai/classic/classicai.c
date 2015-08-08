@@ -249,7 +249,7 @@ static void cai_build_adv_adjust(struct player *pplayer, struct city *wonder_cit
   Call default ai with classic ai type as parameter.
 **************************************************************************/
 static void cai_gov_value(struct player *pplayer, struct government *gov,
-                          int *val, bool *override)
+                          adv_want *val, bool *override)
 {
   struct ai_type *deftype = classic_ai_get_self();
 

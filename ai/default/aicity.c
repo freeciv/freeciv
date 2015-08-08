@@ -147,13 +147,13 @@ static void want_tech_for_improvement_effect(struct ai_type *ait,
                                              const struct city *pcity,
                                              const struct impr_type *pimprove,
                                              const struct advance *tech,
-                                             int building_want)
+                                             adv_want building_want)
 {
   /* The conversion factor was determined by experiment,
    * and might need adjustment. See also dai_tech_effect_values()
    */
-  const int tech_want = building_want * def_ai_city_data(pcity, ait)->building_wait
-                        * 14 / 8;
+  const adv_want tech_want = building_want * def_ai_city_data(pcity, ait)->building_wait
+                             * 14 / 8;
 #if 0
   /* This logging is relatively expensive,
    * so activate it only while necessary. */
@@ -176,7 +176,7 @@ void want_techs_for_improvement_effect(struct ai_type *ait,
                                        const struct city *pcity,
                                        const struct impr_type *pimprove,
                                        struct tech_vector *needed_techs,
-                                       int building_want)
+                                       adv_want building_want)
 {
   int t;
   int n_needed_techs = tech_vector_size(needed_techs);
@@ -196,7 +196,7 @@ void dont_want_tech_obsoleting_impr(struct ai_type *ait,
                                     struct player *pplayer,
                                     const struct city *pcity,
                                     const struct impr_type *pimprove,
-                                    int building_want)
+                                    adv_want building_want)
 {
   requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
     if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
@@ -1108,7 +1108,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
                                   struct player *pplayer,
                                   struct city *pcity,
                                   struct impr_type *pimprove,
-                                  const int v)
+                                  const adv_want v)
 {
   bool all_met = TRUE;
   int n_needed_techs = 0;
@@ -1144,7 +1144,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   if (0 < v && 0 < n_needed_techs) {
     /* Tell AI module how much we want this improvement and what techs are
      * required to get it. */
-    const int dv = v / n_needed_techs;
+    const adv_want dv = v / n_needed_techs;
 
     want_techs_for_improvement_effect(ait, pplayer, pcity, pimprove,
                                       &needed_techs, dv);
@@ -1158,7 +1158,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   if (0 < v && 0 < n_needed_improvements) {
     /* Because we want this improvement,
      * we want the improvements that will make it possible */
-    const int dv = v / (n_needed_improvements * 4); /* WAG */
+    const adv_want dv = v / (n_needed_improvements * 4); /* WAG */
     int i;
 
     for (i = 0; i < n_needed_improvements; i++) {
@@ -1185,14 +1185,16 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   nothing in the city has changed, and you just want to know the
   base want of a city.
 **************************************************************************/
-int dai_city_want(struct player *pplayer, struct city *acity, 
-                  struct adv_data *adv, struct impr_type *pimprove)
+adv_want dai_city_want(struct player *pplayer, struct city *acity, 
+                       struct adv_data *adv, struct impr_type *pimprove)
 {
-  int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST], i;
+  adv_want want = 0;
+  int prod[O_LAST], bonus[O_LAST], waste[O_LAST];
+  int i;
 
   memset(prod, 0, O_LAST * sizeof(*prod));
   if (NULL != pimprove
-   && adv->impr_calc[improvement_index(pimprove)] == ADV_IMPR_CALCULATE_FULL) {
+      && adv->impr_calc[improvement_index(pimprove)] == ADV_IMPR_CALCULATE_FULL) {
     struct tile *acenter = city_tile(acity);
     bool celebrating = base_city_celebrating(acity);
 
@@ -1250,11 +1252,11 @@ int dai_city_want(struct player *pplayer, struct city *acity,
   Calculates want for some buildings by actually adding the building and
   measuring the effect.
 **************************************************************************/
-static int base_want(struct ai_type *ait, struct player *pplayer,
-                     struct city *pcity, struct impr_type *pimprove)
+static adv_want base_want(struct ai_type *ait, struct player *pplayer,
+                          struct city *pcity, struct impr_type *pimprove)
 {
   struct adv_data *adv = adv_data_get(pplayer, NULL);
-  int final_want = 0;
+  adv_want final_want = 0;
   int wonder_player_id = WONDER_NOT_OWNED;
   int wonder_city_id = WONDER_NOT_BUILT;
 
@@ -1334,7 +1336,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
                                                 struct impr_type *pimprove,
                                                 const bool already)
 {
-  int v = 0;
+  adv_want v = 0;
   int cities[REQ_RANGE_COUNT];
   int nplayers = normal_player_count();
   struct adv_data *ai = adv_data_get(pplayer, NULL);
@@ -1370,7 +1372,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     /* Base want is calculated above using a more direct approach. */
     v += base_want(ait, pplayer, pcity, pimprove);
     if (v != 0) {
-      CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d)", 
+      CITY_LOG(LOG_DEBUG, pcity, "%s base_want is " ADV_WANT_PRINTF " (range=%d)", 
                improvement_rule_name(pimprove),
                v,
                ai->impr_range[improvement_index(pimprove)]);
@@ -1456,9 +1458,9 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 
     n_needed_techs = tech_vector_size(&needed_techs);
     if ((active || n_needed_techs) && !impossible_to_get) {
-      int v1 = dai_effect_value(pplayer, gov, ai, pcity, capital, 
-                                turns, peffect, cities[mypreq->range],
-                                nplayers);
+      adv_want v1 = dai_effect_value(pplayer, gov, ai, pcity, capital, 
+                                     turns, peffect, cities[mypreq->range],
+                                     nplayers);
       /* v1 could be negative (the effect could be undesirable),
        * although it is usually positive.
        * For example, in the default ruleset, Communism decreases the
@@ -1484,7 +1486,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
 	 * buildings we already have.
 	 */
         const int a = already? 5: 4; /* WAG */
-        const int dv = v1 * a / (4 * n_needed_techs);
+        const adv_want dv = v1 * a / (4 * n_needed_techs);
 
         want_techs_for_improvement_effect(ait, pplayer, pcity, pimprove,
                                           &needed_techs, dv);

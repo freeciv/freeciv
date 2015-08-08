@@ -32,7 +32,7 @@ struct ai_invasion {
 };
 
 struct ai_city {
-  int worth; /* Cache city worth here, sum of all weighted incomes */
+  adv_want worth; /* Cache city worth here, sum of all weighted incomes */
 
   int building_turn;            /* only recalculate every Nth turn */
   int building_wait;            /* for weighting values */
@@ -86,13 +86,13 @@ void want_techs_for_improvement_effect(struct ai_type *ait,
                                        const struct city *pcity,
                                        const struct impr_type *pimprove,
                                        struct tech_vector *needed_techs,
-                                       int building_want);
+                                       adv_want building_want);
 
 void dont_want_tech_obsoleting_impr(struct ai_type *ait,
                                     struct player *pplayer,
                                     const struct city *pcity,
                                     const struct impr_type *pimprove,
-                                    int building_want);
+                                    adv_want building_want);
 
 void dai_build_adv_init(struct ai_type *ait, struct player *pplayer);
 void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
@@ -104,7 +104,7 @@ Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
                                       struct unit_type *utype);
 
-int dai_city_want(struct player *pplayer, struct city *acity, 
-                  struct adv_data *adv, struct impr_type *pimprove);
+adv_want dai_city_want(struct player *pplayer, struct city *acity, 
+                       struct adv_data *adv, struct impr_type *pimprove);
 
 #endif  /* FC__AICITY_H */

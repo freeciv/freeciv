@@ -201,15 +201,15 @@ static void dai_select_tech(struct ai_type *ait,
   Calculates want for some techs by actually adding the tech and
   measuring the effect.
 **************************************************************************/
-static int dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
-                              struct city *pcity, struct advance *padv)
+static adv_want dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
+                                   struct city *pcity, struct advance *padv)
 {
   struct research *pres = research_get(pplayer);
   Tech_type_id tech = advance_number(padv);
   enum tech_state old_state = research_invention_state(pres, tech);
   struct adv_data *adv = adv_data_get(pplayer, NULL);
-  int orig_want = dai_city_want(pplayer, pcity, adv, NULL);
-  int final_want;
+  adv_want orig_want = dai_city_want(pplayer, pcity, adv, NULL);
+  adv_want final_want;
   bool world_knew = game.info.global_advances[tech];
 
   research_invention_set(pres, tech, TECH_KNOWN);
@@ -250,8 +250,8 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
       struct universal source = { .kind = VUT_ADVANCE, .value.advance = padv };
 
       city_list_iterate(pplayer->cities, pcity) {
-        int v;
-        int tech_want;
+        adv_want v;
+        adv_want tech_want;
         bool capital;
 
         v = dai_tech_base_want(ait, pplayer, pcity, padv);
@@ -279,7 +279,7 @@ static void dai_tech_effect_values(struct ai_type *ait, struct player *pplayer)
           } requirement_vector_iterate_end;
 
           if (active) {
-            int v1;
+            adv_want v1;
 
             v1 = dai_effect_value(pplayer, gov, adv, pcity, capital,
                                   turns, peffect, 1,

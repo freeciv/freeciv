@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2014.Oct.09"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2015.Aug.03"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -129,7 +129,7 @@ struct ai_type
 
     /* Called for player AI when evaluating governments. */
     void (*gov_value)(struct player *pplayer, struct government *gov,
-                      int *val, bool *override);
+                      adv_want *val, bool *override);
 
     /* Called for every AI type when unit ruleset has been loaded. */
     void (*units_ruleset_init)(void);

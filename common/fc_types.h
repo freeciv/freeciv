@@ -727,4 +727,7 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE2NAME "Nation"
 #include "specenum_gen.h"
 
+typedef int adv_want;
+#define ADV_WANT_PRINTF "%d"
+
 #endif /* FC__FC_TYPES_H */
