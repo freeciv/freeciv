@@ -64,7 +64,6 @@ city_productions_font_size = 10
 ; These are special because they get freed and reloaded
 ; as required:
 main_intro_file    = "misc/intro"
-minimap_intro_file = "misc/radar"
 
 ; Below, the graphics spec files; must be somewhere (anywhere) in 
 ; the data path. Order may be important for color allocation on 

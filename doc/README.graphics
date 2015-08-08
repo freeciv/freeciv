@@ -77,7 +77,6 @@ options include:
   city_names_font       : an X font string
   city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
-  minimap_intro_file    : GFX file for the radar screen intro graphics
 
   String vectors
   --------------

@@ -465,7 +465,6 @@ struct tileset {
   int small_sprite_width, small_sprite_height;
 
   char *main_intro_filename;
-  char *minimap_intro_filename;
 
   int city_names_font_size, city_productions_font_size;
 
@@ -775,16 +774,6 @@ const char *tileset_main_intro_filename(const struct tileset *t)
 }
 
 /****************************************************************************
-  Return the path within the data directories where the mini intro graphics
-  file can be found.  (It is left up to the GUI code to load and unload this
-  file.)
-****************************************************************************/
-const char *tileset_mini_intro_filename(const struct tileset *t)
-{
-  return t->minimap_intro_filename;
-}
-
-/****************************************************************************
   Return the number of possible colors for city overlays.
 ****************************************************************************/
 int tileset_num_city_colors(const struct tileset *t)
@@ -976,10 +965,6 @@ static void tileset_free_toplevel(struct tileset *t)
   if (t->main_intro_filename) {
     free(t->main_intro_filename);
     t->main_intro_filename = NULL;
-  }
-  if (t->minimap_intro_filename) {
-    free(t->minimap_intro_filename);
-    t->minimap_intro_filename = NULL;
   }
   
   if (t->prefered_themes) {
@@ -1736,14 +1721,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   t->main_intro_filename = tilespec_gfx_filename(c);
   log_debug("intro file %s", t->main_intro_filename);
-
-  c = secfile_lookup_str_default(file, NULL, "tilespec.minimap_intro_file");
-  if (c == NULL) {
-    t->minimap_intro_filename = NULL;
-  } else {
-    t->minimap_intro_filename = tilespec_gfx_filename(c);
-    log_debug("radar file %s", t->minimap_intro_filename);
-  }
 
   /* Terrain layer info. */
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
