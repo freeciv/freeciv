@@ -125,7 +125,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int ut1 = MAX_ID - pWidget->ID;
     
-    /* popdown sell dlg */
+    /* popdown upgrade dlg */
     popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
                                 pUnits_Upg_Dlg->pEndWidgetList);
     FC_FREE(pUnits_Upg_Dlg);
