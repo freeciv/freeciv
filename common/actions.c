@@ -575,6 +575,22 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
+  if (wanted_action == ACTION_CAPTURE_UNITS
+      || wanted_action == ACTION_SPY_BRIBE_UNIT) {
+    /* Why this is a hard requirement: Can't transfer a unique unit if the
+     * actor player already has one. */
+    /* Info leak: The actor player may not see all targets of Capture
+     * Units. */
+    if (utype_player_already_has_this_unique(actor_player,
+                                             target_unittype)) {
+      return FALSE;
+    }
+
+    /* FIXME: Capture Unit may want to look for more than one unique unit
+     * of the same kind at the target tile. Currently caught by sanity
+     * check in do_capture_units(). */
+  }
+
   if (wanted_action == ACTION_ESTABLISH_EMBASSY) {
     /* Why this is a hard requirement: There is currently no point in
      * establishing an embassy when a real embassy already exists.
