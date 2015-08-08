@@ -612,18 +612,23 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
                 unit_rule_name(punit),
                 nation_rule_name(nation_of_player(from_player)));
 
-      if (verbose) {
-        notify_player(from_player, unit_tile(punit),
-                      E_UNIT_LOST_MISC, ftc_server,
-                      /* TRANS: Americans ... Leader */
-                      _("The %s already have a %s. Can't transfer yours."),
-                      nation_plural_for_player(to_player),
-                      unit_tile_link(punit));
-      }
+      if (utype_has_flag(unit_type(punit), UTYF_GAMELOSS)) {
+        /* Try to save game loss units. */
+        bounce_unit(punit, verbose);
+      } else {
+        /* Kill the unique unit. */
 
-      /* TODO: What should be done when the unit is a game loss unit? Maybe
-       * it should be bounced rather than killed? */
-      wipe_unit(punit, ULR_CITY_LOST, NULL);
+        if (verbose) {
+          notify_player(from_player, unit_tile(punit),
+                        E_UNIT_LOST_MISC, ftc_server,
+                        /* TRANS: Americans ... Leader */
+                        _("The %s already have a %s. Can't transfer yours."),
+                        nation_plural_for_player(to_player),
+                        unit_tile_link(punit));
+        }
+
+        wipe_unit(punit, ULR_CITY_LOST, NULL);
+      }
 
       return;
     }
