@@ -394,8 +394,8 @@ action_enablers_for_action(enum gen_action action)
   When adding a new hard requirement here:
    * explain why it is a hard requirment in a comment.
    * remember that this is called from action_prob(). Should information
-     the player don't have access to be used in a test the way this
-     function is used must change.
+     the player don't have access to be used in a test it must check if
+     this evaluation is omniscient.
 **************************************************************************/
 static bool is_action_possible(const enum gen_action wanted_action,
 			       const struct player *actor_player,
@@ -413,7 +413,8 @@ static bool is_action_possible(const enum gen_action wanted_action,
 			       const struct unit *target_unit,
 			       const struct unit_type *target_unittype,
 			       const struct output_type *target_output,
-			       const struct specialist *target_specialist)
+                               const struct specialist *target_specialist,
+                               const bool omniscient)
 {
   fc_assert_msg((action_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
@@ -626,7 +627,8 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                           target_player, target_city,
                           target_building, target_tile,
                           target_unit, target_unittype,
-                          target_output, target_specialist)) {
+                          target_output, target_specialist,
+                          TRUE)) {
     /* The action enablers are irrelevant since the action it self is
      * impossible. */
     return FALSE;
@@ -1013,7 +1015,8 @@ action_prob(const enum gen_action wanted_action,
                           target_player, target_city,
                           target_building, target_tile,
                           target_unit, target_unittype,
-                          target_output, target_specialist)) {
+                          target_output, target_specialist,
+                          FALSE)) {
     /* The action enablers are irrelevant since the action it self is
      * impossible. */
     return ACTPROB_IMPOSSIBLE;
