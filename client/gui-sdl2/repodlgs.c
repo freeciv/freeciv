@@ -68,7 +68,9 @@ struct units_entry {
   int soonest_completions;
 };
 
-
+/**************************************************************************
+  Fill unit types specific report data + totals.
+**************************************************************************/
 static void get_units_report_data(struct units_entry *entries,
                                   struct units_entry *total)
 {
@@ -112,7 +114,9 @@ static void get_units_report_data(struct units_entry *entries,
   } city_list_iterate_end;
 }
 
-
+/**************************************************************************
+  User interacted with Units Report button.
+**************************************************************************/
 static int units_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -123,12 +127,16 @@ static int units_dialog_callback(struct widget *pWindow)
 }
 
 /* --------------------------------------------------------------- */
+
+/**************************************************************************
+  User interacted with accept button of the unit upgrade dialog.
+**************************************************************************/
 static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int ut1 = MAX_ID - pWidget->ID;
 
-    /* popdown sell dlg */
+    /* popdown upgrade dlg */
     popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
                                 pUnits_Upg_Dlg->pEndWidgetList);
     FC_FREE(pUnits_Upg_Dlg);
@@ -139,6 +147,9 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with Upgrade Obsolete button of the unit upgrade dialog.
+**************************************************************************/
 static int upgrade_unit_window_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -148,6 +159,9 @@ static int upgrade_unit_window_callback(struct widget *pWindow)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with Cancel button of the unit upgrade dialog.
+**************************************************************************/
 static int cancel_upgrade_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -162,6 +176,9 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  Open dialog for upgrading units.
+**************************************************************************/
 static int popup_upgrade_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -307,6 +324,9 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with units dialog Close Dialog button.
+**************************************************************************/
 static int exit_units_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -326,7 +346,6 @@ static int exit_units_dlg_callback(struct widget *pWidget)
 
   return -1;
 }
-
 
 /**************************************************************************
   Rebuild the units report.
@@ -1087,6 +1106,9 @@ struct rates_move {
   struct widget *pLabel_Src, *pLabel_Dst;
 };
 
+/**************************************************************************
+  User interacted with Economy Report window.
+**************************************************************************/
 static int economy_dialog_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1096,6 +1118,9 @@ static int economy_dialog_callback(struct widget *pWindow)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with Economy dialog Close Dialog button.
+**************************************************************************/
 static int exit_economy_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1120,7 +1145,7 @@ static int exit_economy_dialog_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Toggle Rates dialog locking checkbox.
 **************************************************************************/
 static int toggle_block_callback(struct widget *pCheckBox)
 {
@@ -1143,7 +1168,7 @@ static int toggle_block_callback(struct widget *pCheckBox)
 }
 
 /**************************************************************************
-  ...
+  User released mouse button while adjusting rates.
 **************************************************************************/
 static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
                                             void *pData)
@@ -1152,7 +1177,7 @@ static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
 }
 
 /**************************************************************************
-  ...
+  User moved a mouse while adjusting rates.
 **************************************************************************/
 static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
                                                  void *pData)
@@ -1269,7 +1294,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
 
 
 /**************************************************************************
-  ...
+  Handle Rates sliders.
 **************************************************************************/
 static int horiz_taxrate_callback(struct widget *pHoriz_Src)
 {
@@ -1357,7 +1382,7 @@ END:
 }
 
 /**************************************************************************
-  ...
+  User interacted with Update button of the Rates.
 **************************************************************************/
 static int apply_taxrates_callback(struct widget *pButton)
 {
@@ -1393,6 +1418,9 @@ static int apply_taxrates_callback(struct widget *pButton)
   return -1;
 }
 
+/**************************************************************************
+  Set economy dialog widgets enabled.
+**************************************************************************/
 static void enable_economy_dlg(void)
 {
   /* lux lock */
@@ -1429,6 +1457,9 @@ static void enable_economy_dlg(void)
   }
 }
 
+/**************************************************************************
+  Set economy dialog widgets disabled.
+**************************************************************************/
 static void disable_economy_dlg(void)
 {
   /* lux lock */
@@ -1466,7 +1497,11 @@ static void disable_economy_dlg(void)
 }
 
 /* --------------------------------------------------------------- */
-static int ok_sell_impv_callback(struct widget *pWidget)
+
+/**************************************************************************
+  User interacted with Yes button of the improvement selling dialog.
+**************************************************************************/
+static int ok_sell_impr_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int imp, total_count, count = 0;
@@ -1498,7 +1533,10 @@ static int ok_sell_impv_callback(struct widget *pWidget)
   return -1;
 }
 
-static int sell_impv_window_callback(struct widget *pWindow)
+/**************************************************************************
+  User interacted with the improvement selling window.
+**************************************************************************/
+static int sell_impr_window_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     move_window_group(pEconomy_Sell_Dlg->pBeginWidgetList, pWindow);
@@ -1507,7 +1545,10 @@ static int sell_impv_window_callback(struct widget *pWindow)
   return -1;
 }
 
-static int cancel_sell_impv_callback(struct widget *pWidget)
+/**************************************************************************
+  User interacted with Cancel button of the improvement selling dialog.
+**************************************************************************/
+static int cancel_sell_impr_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (pEconomy_Sell_Dlg) {
@@ -1522,8 +1563,10 @@ static int cancel_sell_impv_callback(struct widget *pWidget)
   return -1;
 }
 
-
-static int popup_sell_impv_callback(struct widget *pWidget)
+/**************************************************************************
+  Open improvement selling dialog.
+**************************************************************************/
+static int popup_sell_impr_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int imp, total_count ,count = 0, gold = 0;
@@ -1575,7 +1618,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
 
     pWindow = create_window_skeleton(NULL, pstr, 0);
 
-    pWindow->action = sell_impv_window_callback;
+    pWindow->action = sell_impr_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
 
     pEconomy_Sell_Dlg->pEndWidgetList = pWindow;
@@ -1602,7 +1645,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
                                               pWindow->dst, _("No"),
                                               adj_font(12), 0);
 
-    pBuf->action = cancel_sell_impv_callback;
+    pBuf->action = cancel_sell_impr_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
 
     area.h += (pBuf->size.h + adj_size(20));
@@ -1613,7 +1656,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
       pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
                                                 _("Sell"), adj_font(12), 0);
 
-      pBuf->action = ok_sell_impv_callback;
+      pBuf->action = ok_sell_impr_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->data.ptr = (void *)pWidget;
 
@@ -2116,7 +2159,7 @@ void economy_report_dialog_popup(bool make_modal)
       pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
       pBuf->data.cont->id0 = improvement_number(p->type);
       pBuf->data.cont->id1 = p->count;
-      pBuf->action = popup_sell_impv_callback;
+      pBuf->action = popup_sell_impr_callback;
 
       add_to_gui_list(MAX_ID - i, pBuf);
 
@@ -2344,6 +2387,9 @@ static struct SMALL_DLG *pScienceDlg = NULL;
 
 static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 
+/**************************************************************************
+  Create icon surface for a tech.
+**************************************************************************/
 SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                                      enum tech_info_mode mode)
 {
@@ -2788,7 +2834,7 @@ void real_science_report_dialog_update(void)
 }
 
 /**************************************************************************
-  ...
+  Close science report dialog.
 **************************************************************************/
 static void science_report_dialog_popdown(void)
 {
@@ -2804,7 +2850,7 @@ static void science_report_dialog_popdown(void)
 }
 
 /**************************************************************************
-  ...
+  Close research target changing dialog.
 **************************************************************************/
 static int exit_change_tech_dlg_callback(struct widget *pWidget)
 {
@@ -2825,7 +2871,7 @@ static int exit_change_tech_dlg_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with button of specific Tech.
 **************************************************************************/
 static int change_research_callback(struct widget *pWidget)
 {
@@ -3020,7 +3066,7 @@ static void popup_change_research_dialog(void)
 }
 
 /**************************************************************************
-  ...
+  User chose spesic tech as research goal.
 **************************************************************************/
 static int change_research_goal_callback(struct widget *pWidget)
 {
@@ -3232,6 +3278,9 @@ static int science_dialog_callback(struct widget *pWindow)
   return -1;
 }
 
+/**************************************************************************
+  Open research target changing dialog.
+**************************************************************************/
 static int popup_change_research_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -3245,6 +3294,9 @@ static int popup_change_research_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  Open research goal changing dialog.
+**************************************************************************/
 static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -3258,6 +3310,9 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  Close science dialog.
+**************************************************************************/
 static int popdown_science_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {

@@ -22,8 +22,6 @@
 #include "astring.h"
 #include "fcintl.h"
 
-/* common */
-
 /* client */
 #include "client_main.h"
 #include "climisc.h"
@@ -52,6 +50,9 @@
 
 static struct SMALL_DLG  *pPlayers_Dlg = NULL;
 
+/**************************************************************************
+  User interacted with player dialog close button.
+**************************************************************************/
 static int exit_players_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -62,6 +63,9 @@ static int exit_players_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with player widget.
+**************************************************************************/
 static int player_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
@@ -92,6 +96,9 @@ static int player_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with player dialog window.
+**************************************************************************/
 static int players_window_dlg_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -108,6 +115,9 @@ static int players_window_dlg_callback(struct widget *pWindow)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with 'draw war status' toggle.
+**************************************************************************/
 static int toggle_draw_war_status_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -126,6 +136,9 @@ static int toggle_draw_war_status_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with 'draw cease-fire status' toggle.
+**************************************************************************/
 static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -144,7 +157,10 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
   return -1;
 }
 
-static int toggle_draw_pease_status_callback(struct widget *pWidget)
+/**************************************************************************
+  User interacted with 'draw peace status' toggle.
+**************************************************************************/
+static int toggle_draw_peace_status_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
@@ -162,6 +178,9 @@ static int toggle_draw_pease_status_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with 'draw alliance status' toggle.
+**************************************************************************/
 static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -180,6 +199,9 @@ static int toggle_draw_alliance_status_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with 'draw neutral status' toggle.
+**************************************************************************/
 static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -198,7 +220,9 @@ static int toggle_draw_neutral_status_callback(struct widget *pWidget)
   return -1;
 }
 
-
+/**************************************************************************
+  Does the attached player have embassy-level information about the player.
+**************************************************************************/
 static bool have_diplomat_info_about(struct player *pPlayer)
 {
   return (pPlayer == client.conn.playing
@@ -404,7 +428,7 @@ void popup_players_dialog(bool raise)
 	pBuf = create_checkbox(pWindow->dst,
                                (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS),
                                WF_RESTORE_BACKGROUND);
-	pBuf->action = toggle_draw_pease_status_callback;
+	pBuf->action = toggle_draw_peace_status_callback;
 	pBuf->key = SDLK_p;
       break;
       case DS_ALLIANCE:
@@ -571,11 +595,17 @@ void popdown_players_dialog(void)
 /* ============================== SHORT =============================== */
 static struct ADVANCED_DLG  *pShort_Players_Dlg = NULL;
 
+/**************************************************************************
+  User interacted with nations window.
+**************************************************************************/
 static int players_nations_window_dlg_callback(struct widget *pWindow)
 {
   return -1;
 }
 
+/**************************************************************************
+  User interacted with nations window close button.
+**************************************************************************/
 static int exit_players_nations_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -586,6 +616,9 @@ static int exit_players_nations_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with widget of a single nation/player.
+**************************************************************************/
 static int player_nation_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
