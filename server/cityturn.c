@@ -3453,7 +3453,8 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     struct impr_type *imprs[B_LAST];
 
     city_built_iterate(pcity, pimprove) {
-      if (is_improvement(pimprove)) {
+      if (is_improvement(pimprove)
+          && !improvement_has_flag(pimprove, IF_DISASTER_PROOF)) {
         imprs[total++] = pimprove;
       }
     } city_built_iterate_end;
